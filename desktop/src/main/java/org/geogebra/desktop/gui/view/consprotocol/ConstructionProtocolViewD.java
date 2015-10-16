@@ -77,6 +77,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.export.PrintPreview;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -352,7 +353,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	private void initActions() {
 
 		exportHtmlAction = new AbstractAction(app.getPlain("ExportAsWebpage")
-				+ " (" + AppD.FILE_EXT_HTML + ") ...") {
+				+ " (" + FileExtensions.HTML + ") ...") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

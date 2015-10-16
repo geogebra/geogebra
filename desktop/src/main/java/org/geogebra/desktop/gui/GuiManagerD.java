@@ -1868,7 +1868,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				}
 
 				// remove all special characters from HTML filename
-				if (fileExtension.equals(AppD.FILE_EXT_HTML)) {
+				if (fileExtension.equals(FileExtensions.HTML)) {
 					file = removeExtension(file);
 					file = new File(file.getParent(),
 							Util.keepOnlyLettersAndDigits(file.getName()));
@@ -1999,12 +1999,16 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				}
 				fd.setFilenameFilter(new FilenameFilter() {
 					public boolean accept(File dir, String name) {
-						return (name.endsWith("." + AppD.FILE_EXT_GEOGEBRA)
-								|| name.endsWith("."
-										+ AppD.FILE_EXT_GEOGEBRA_TOOL)
-								|| name.endsWith("." + FileExtensions.HTM.ext)
-								|| name.endsWith("." + FileExtensions.HTML.ext)
-								|| name.endsWith("." + AppD.FILE_EXT_OFF));
+
+						FileExtensions ext = StringUtil
+								.getFileExtensionEnum(name);
+
+						return ext.equals(FileExtensions.GEOGEBRA)
+								|| ext.equals(FileExtensions.GEOGEBRA_TOOL)
+								|| ext.equals(FileExtensions.HTML)
+								|| ext.equals(FileExtensions.HTM)
+								|| ext.equals(FileExtensions.OFF);
+
 					}
 				});
 				fd.setTitle(app.getMenu("Load"));
@@ -2067,12 +2071,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			fileChooser.addChoosableFileFilter(offFilter);
 
 			if (oldCurrentFile == null
-					|| StringUtil.getFileExtension(oldCurrentFile.getName())
+					|| StringUtil.getFileExtensionEnum(oldCurrentFile.getName())
 							.equals(
-							AppD.FILE_EXT_GEOGEBRA)
-					|| StringUtil.getFileExtension(oldCurrentFile.getName())
+FileExtensions.GEOGEBRA)
+					|| StringUtil.getFileExtensionEnum(oldCurrentFile.getName())
 							.equals(
-							AppD.FILE_EXT_GEOGEBRA_TOOL)) {
+FileExtensions.GEOGEBRA_TOOL)) {
 				fileChooser.setFileFilter(fileFilter);
 			}
 
@@ -2175,18 +2179,18 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						file = addExtension(removeExtension(file),
 								FileExtensions.GEOGEBRA_TOOL);
 					}
-					if (extension.equals(AppD.FILE_EXT_GEOGEBRA)
+					if (extension.equals(FileExtensions.GEOGEBRA)
 							&& !file.exists()) {
 						file = addExtension(removeExtension(file),
 								FileExtensions.HTML);
 					}
-					if (extension.equals(AppD.FILE_EXT_GEOGEBRA)
+					if (extension.equals(FileExtensions.GEOGEBRA)
 							&& !file.exists()) {
 						file = addExtension(removeExtension(file),
 								FileExtensions.HTM);
 					}
 
-					if (extension.equals(AppD.FILE_EXT_GEOGEBRA)
+					if (extension.equals(FileExtensions.GEOGEBRA)
 							&& !file.exists()) {
 						file = addExtension(removeExtension(file),
 								FileExtensions.OFF);
@@ -2208,19 +2212,20 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					}
 				}
 
-				String ext = StringUtil.getFileExtension(file.getName());
+				FileExtensions ext = StringUtil
+						.getFileExtensionEnum(file.getName());
 
 				if (file.exists()) {
-					if (AppD.FILE_EXT_GEOGEBRA_TOOL.equals(ext)) {
+					if (FileExtensions.GEOGEBRA_TOOL.equals(ext)) {
 						// load macro file
 						loadFile(file, true);
-					} else if (AppD.FILE_EXT_HTML.equals(ext)
-							|| AppD.FILE_EXT_HTM.equals(ext)) {
+					} else if (FileExtensions.HTML.equals(ext)
+							|| FileExtensions.HTM.equals(ext)) {
 						// load HTML file with applet param ggbBase64
 						// if we loaded from GGB, we don't want to overwrite old
 						// file
 						htmlLoaded = loadBase64File(file);
-					} else if (AppD.FILE_EXT_OFF.equals(ext)) {
+					} else if (FileExtensions.OFF.equals(ext)) {
 						loadOffFile(file);
 					} else {
 						// standard GeoGebra file

@@ -15,6 +15,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
@@ -359,8 +360,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		 */
 
 		exportGraphicAction = new AbstractAction(
-				app.getPlain("DrawingPadAsPicture") + " (" + AppD.FILE_EXT_PNG
-						+ ", " + AppD.FILE_EXT_EPS + ") ...",
+				app.getPlain("DrawingPadAsPicture") + " (" + FileExtensions.PNG
+						+ ", " + FileExtensions.EPS + ") ...",
 				app.getMenuIcon("image-x-generic.png")) {
 			private static final long serialVersionUID = 1L;
 
@@ -472,7 +473,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		exportWorksheet = new AbstractAction(
 				app.getPlain("DynamicWorksheetAsWebpage") + " ("
-						+ AppD.FILE_EXT_HTML + ") ...",
+						+ FileExtensions.HTML + ") ...",
 				app.getMenuIcon("text-html.png")) {
 			private static final long serialVersionUID = 1L;
 

@@ -27,6 +27,7 @@ import java.util.ListIterator;
 import java.util.StringTokenizer;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.main.AppD;
 
@@ -124,9 +125,8 @@ public class FileDropTargetListener implements DropTargetListener {
 	 * @return
 	 */
 	private static boolean isGGBFile(String fileName) {
-		int mid = fileName.lastIndexOf(".");
-		String ext = fileName.substring(mid + 1, fileName.length());
-		return StringUtil.toLowerCase(ext).equals(AppD.FILE_EXT_GEOGEBRA);
+		return StringUtil.getFileExtensionEnum(fileName)
+				.equals(FileExtensions.GEOGEBRA);
 	}
 
 	/**
@@ -136,9 +136,8 @@ public class FileDropTargetListener implements DropTargetListener {
 	 * @return
 	 */
 	private static boolean isGGTFile(String fileName) {
-		int mid = fileName.lastIndexOf(".");
-		String ext = fileName.substring(mid + 1, fileName.length());
-		return StringUtil.toLowerCase(ext).equals(AppD.FILE_EXT_GEOGEBRA_TOOL);
+		FileExtensions ext = StringUtil.getFileExtensionEnum(fileName);
+		return ext.equals(FileExtensions.GEOGEBRA_TOOL);
 	}
 
 	private ArrayList<File> getGGBfiles(Transferable transferable) {

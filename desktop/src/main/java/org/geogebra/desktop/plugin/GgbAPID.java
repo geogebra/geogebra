@@ -33,6 +33,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.kernel.EvalCommandQueue;
@@ -283,7 +284,7 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 			String lowerCase = StringUtil.toLowerCase(strURL);
 			URL url = new URL(strURL);
 			((AppD) app).loadXML(url,
-					lowerCase.endsWith(AppD.FILE_EXT_GEOGEBRA_TOOL));
+					lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL.ext));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

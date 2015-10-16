@@ -171,14 +171,14 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		
 		if (((EuclidianView) getEuclidianView()).isEuclidianView3D()){
 			formats = new String[] {
-					app.getPlain("png") + " (" + AppD.FILE_EXT_PNG + ")"};
+					app.getPlain("png") + " (" + FileExtensions.PNG + ")" };
 		}else{
 			formats = new String[] {
-					app.getPlain("png") + " (" + AppD.FILE_EXT_PNG + ")",
-					app.getPlain("pdf") + " (" + AppD.FILE_EXT_PDF + ")",
-					app.getPlain("eps") + " (" + AppD.FILE_EXT_EPS + ")",
-					app.getPlain("svg") + " (" + AppD.FILE_EXT_SVG + ")",
-					app.getPlain("emf") + " (" + AppD.FILE_EXT_EMF + ")" };
+					app.getPlain("png") + " (" + FileExtensions.PNG + ")",
+					app.getPlain("pdf") + " (" + FileExtensions.PDF + ")",
+					app.getPlain("eps") + " (" + FileExtensions.EPS + ")",
+					app.getPlain("svg") + " (" + FileExtensions.SVG + ")",
+					app.getPlain("emf") + " (" + FileExtensions.EMF + ")" };
 		}
 
 		cbFormat = new JComboBox(formats);

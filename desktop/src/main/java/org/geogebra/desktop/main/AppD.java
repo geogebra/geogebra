@@ -259,31 +259,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	/** maximum number of files to (save &) show in File -> Recent submenu */
 	public static final int MAX_RECENT_FILES = 8;
 
-	// file extension string
-	/** extension of GeoGebra files */
-	public static final String FILE_EXT_GEOGEBRA = "ggb";
-	/** extension of GeoGebra tool files */
-	public static final String FILE_EXT_GEOGEBRA_TOOL = "ggt";
-	/** extension of PNG files */
-	public static final String FILE_EXT_PNG = "png";
-	/** extension of encapsualted postscript files */
-	public static final String FILE_EXT_EPS = "eps";
-	/** extension of PDF files */
-	public static final String FILE_EXT_PDF = "pdf";
-	/** extension of EMF files */
-	public static final String FILE_EXT_EMF = "emf";
-	/** extension of SVG files */
-	public static final String FILE_EXT_SVG = "svg";
-	/** extension of HTML files */
-	public static final String FILE_EXT_HTML = "html";
-	/** extension of HTM files */
-	public static final String FILE_EXT_HTM = "htm";
-	/** extension of TeX files */
-	public static final String FILE_EXT_TEX = "tex";
-	/** extension of Asymptote files */
-	public static final String FILE_EXT_ASY = "asy";
-	/** extension of OFF file */
-	public static final String FILE_EXT_OFF = "off";
 	// ==============================================================
 	// RESOURCE fields
 	// ==============================================================
@@ -1536,7 +1511,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		String fileArgument = args.getStringValue("file0");
 		String lowerCase = StringUtil.toLowerCase(fileArgument);
-		return lowerCase.endsWith(FILE_EXT_GEOGEBRA_TOOL);
+		return lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL.ext);
 	}
 
 	/**
@@ -1569,9 +1544,11 @@ public class AppD extends App implements KeyEventDispatcher {
 				try {
 					boolean success;
 					String lowerCase = StringUtil.toLowerCase(fileArgument);
-					String ext = StringUtil.getFileExtension(lowerCase);
+					FileExtensions ext = StringUtil
+							.getFileExtensionEnum(lowerCase);
 
-					boolean isMacroFile = ext.equals(FILE_EXT_GEOGEBRA_TOOL);
+					boolean isMacroFile = ext
+							.equals(FileExtensions.GEOGEBRA_TOOL);
 
 					if (lowerCase.startsWith("http:")
 							|| lowerCase.startsWith("https:")

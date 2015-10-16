@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.main;
 
-import geogebra.GeoGebraAppletPreloader;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -37,12 +35,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import netscape.javascript.JSObject;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.AppletImplementationInterface;
 import org.geogebra.desktop.CommandLineArguments;
@@ -50,6 +47,9 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.Util;
+
+import geogebra.GeoGebraAppletPreloader;
+import netscape.javascript.JSObject;
 
 /**
  * GeoGebra applet implementation operating on a given JApplet object.
@@ -840,8 +840,9 @@ public class AppletImplementation implements AppletImplementationInterface {
 					app.setWaitCursor();
 					try {
 						URL ggbURL = new URL(fileStr);
-						app.loadXML(ggbURL, StringUtil.toLowerCase(fileStr)
-								.endsWith(AppD.FILE_EXT_GEOGEBRA_TOOL));
+						app.loadXML(ggbURL,
+								StringUtil.getFileExtensionEnum(fileStr)
+										.equals(FileExtensions.GEOGEBRA_TOOL));
 						reinitGUI();
 						applet.validate();
 					} catch (Exception e) {
@@ -906,7 +907,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 					}
 					URL ggbURL = new URL(myStrURL);
 					app.loadXML(ggbURL,
-							lowerCase.endsWith(AppD.FILE_EXT_GEOGEBRA_TOOL));
+							StringUtil.getFileExtensionEnum(lowerCase)
+									.equals(FileExtensions.GEOGEBRA_TOOL));
 					reinitGUI();
 				} catch (Exception e) {
 					e.printStackTrace();

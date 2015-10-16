@@ -68,7 +68,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		setResizable(true);
 		setTitle(app.getMenu("Export") + ": "
 				+ app.getPlain("ConstructionProtocol") + " ("
-				+ AppD.FILE_EXT_HTML + ")");
+				+ FileExtensions.HTML + ")");
 
 		JPanel cp = new JPanel(new BorderLayout(5, 5));
 		cp.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
