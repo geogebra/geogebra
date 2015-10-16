@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Vector;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -143,6 +144,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	private GeoText commentText;
 	private boolean nativeOutput;
 
+	private ArrayList<Vector<String>> substList;
+
 	/**
 	 * Creates new CAS cell
 	 * 
@@ -165,6 +168,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		commentText = new GeoText(c, "");
 		twinGeo = null;
 		// setGeoText(commentText);
+		substList = new ArrayList<Vector<String>>();
 	}
 
 	/**
@@ -1347,6 +1351,13 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 */
 	final public void setEvalComment(final String comment) {
 		if (comment != null) {
+			if (!comment.equals("")) {
+				setSubstList(getSubstListFromSubstComment(comment));
+			}
+			if (evalComment != null && !evalComment.equals("")
+					&& comment.equals("")) {
+				setSubstList(getSubstListFromSubstComment(evalComment));
+			}
 			evalComment = comment;
 		}
 	}
@@ -2904,4 +2915,36 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		return inputVE != null ? inputVE.getValueType() : ValueType.UNKNOWN;
 	}
 
+	/**
+	 * transforms evalComment into set of substitutions in case of Substitution
+	 * command
+	 * 
+	 * @return set of substitutions
+	 */
+	private ArrayList<Vector<String>> getSubstListFromSubstComment(
+			String evalCommentStr) {
+		substList = new ArrayList<Vector<String>>();
+
+			String[] splitComment = evalCommentStr.split(",");
+			for (int i = 0; i < splitComment.length; i++) {
+				String[] currSubstPair = splitComment[i].split("=");
+				Vector<String> substRow = new Vector<String>(2);
+				substRow.add(currSubstPair[0]);
+				substRow.add(currSubstPair[1]);
+				substList.add(substRow);
+			}
+
+		return substList;
+	}
+
+	/**
+	 * @return substitution list
+	 */
+	public ArrayList<Vector<String>> getSubstList() {
+		return substList;
+	}
+
+	public void setSubstList(ArrayList<Vector<String>> list) {
+		this.substList = list;
+	}
 }

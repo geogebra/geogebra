@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.event.CellEditorListener;
@@ -51,6 +52,15 @@ public class CASTableCellEditorD extends CASTableCell implements
 		if (value instanceof GeoCasCell) {
 			editing = true;
 			editingRow = row;
+
+			// make sure we keep the substitution list
+			// needed for TRAC-5522
+			if (cellValue != null) {
+				ArrayList<Vector<String>> substList = cellValue.getSubstList();
+				if (!substList.isEmpty()) {
+					((GeoCasCell) value).setSubstList(cellValue.getSubstList());
+				}
+			}
 
 			// set CASTableCell value
 			this.cellValue = (GeoCasCell) value;

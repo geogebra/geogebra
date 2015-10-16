@@ -1,8 +1,5 @@
 package org.geogebra.common.cas.view;
 
-import java.util.ArrayList;
-import java.util.Vector;
-
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
@@ -33,8 +30,6 @@ public abstract class CASView implements View, SetLabels {
 	protected Kernel kernel;
 	/** input handler */
 	protected CASInputHandler casInputHandler;
-	// list of last substitutions
-	private ArrayList<Vector<Vector<String>>> substData = null;
 
 	/**
 	 * @return CAS table
@@ -45,14 +40,6 @@ public abstract class CASView implements View, SetLabels {
 	 * @return application
 	 */
 	public abstract App getApp();
-
-	// list of last substitutions
-	public final ArrayList<Vector<Vector<String>>> getSubstData() {
-		if (substData == null) {
-			substData = new ArrayList<Vector<Vector<String>>>();
-		}
-		return substData;
-	}
 
 	/**
 	 * Shows dialog for substitution tool
@@ -239,8 +226,6 @@ public abstract class CASView implements View, SetLabels {
 				|| getConsoleTable().getGeoCasCell(rows - 1)
 						.isInConstructionList()) {
 			GeoCasCell casCell = new GeoCasCell(kernel.getConstruction());
-			// for new cell add new empty substitution data
-			getSubstData().add(null);
 			getConsoleTable().insertRow(rows, casCell, false);
 		}
 	}
@@ -374,8 +359,6 @@ public abstract class CASView implements View, SetLabels {
 			GeoCasCell casCell = getConsoleTable().getGeoCasCell(selRows[i]);
 			if (casCell != null) {
 				casCell.remove();
-				// remove the last substitution if cell is deleted
-				removeCellsSubstDialog(i);
 				undoNeeded = true;
 			}
 		}
@@ -491,16 +474,6 @@ public abstract class CASView implements View, SetLabels {
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 
-	}
-
-	/**
-	 * @param i
-	 *            - nr of cell in table
-	 */
-	public final void removeCellsSubstDialog(int i) {
-		if (substData != null) {
-			substData.remove(i);
-		}
 	}
 
 }
