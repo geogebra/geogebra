@@ -561,7 +561,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		evalVE = getInputVE();
 		postfix = "";
 		setEvalCommand("");
-		evalComment = "";
+		setEvalComment("");
 		setError(null);
 
 		// update input and output variables
@@ -661,7 +661,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		String postfix1 = postfix;
 		String prefix1 = prefix;
 		setEvalCommand("");
-		evalComment = "";
+		setEvalComment("");
 		if (prefix1 == null) {
 			prefix1 = "";
 		}
