@@ -389,10 +389,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (!(optionsVisible && optionsRect.contains(x, y))) {
 			return;
 		}
-		App.debug("OPTIONOVEEEEEEEEEEEEEER");
 
 		int idx = getOptionAt(x, y);
-		if (idx != selectedOptionIndex) {
+		if (idx != -1 && idx != selectedOptionIndex) {
 			selectedOptionIndex = idx;
 			geoList.updateRepaint();
 		}
@@ -617,7 +616,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private void drawOptions(GGraphics2D g2) {
 
 		g2.setPaint(geoList.getBackgroundColor());
-		int optHeight = optionsHeight + OPTIONBOX_TEXT_MARGIN_BOTTOM;
+		int optHeight = optionsHeight;
 		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
 		optionsRect.setBounds(boxLeft, optTop, boxWidth, optHeight);
 		g2.fillRect(boxLeft, optTop, boxWidth, optHeight);
@@ -628,7 +627,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		g2.setPaint(geo.getObjectColor());
 
 		int textLeft = boxLeft + OPTIONBOX_TEXT_MARGIN_LEFT;
-		int rowTop = optTop + OPTIONBOX_TEXT_MARGIN_TOP;
+		int rowTop = optTop;
 		drawOptionLines(g2, textLeft, rowTop);
 	}
 
@@ -710,6 +709,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			boolean latex = isLatexString(text);
 			boolean hovered = i == selectedOptionIndex;
 
+			if (i == 0 && !latex) {
+				rowTop += OPTIONBOX_TEXT_MARGIN_TOP;
+			}
 			int h = drawTextLine(g2, TEXT_CENTER, rowTop, text, latex, true,
 					hovered);
 			if (hovered && optionItems.size() > i) {
