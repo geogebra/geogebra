@@ -732,7 +732,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (ctrlRect.contains(x, y)) {
 			optionsVisible = !optionsVisible;
 			geo.updateRepaint();
-		} else if (optionsRect.contains(x, y)) {
+		}
+	}
+
+	public void onOptionDown(int x, int y) {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+		if (optionsRect.contains(x, y)) {
 			App.debug("Options is hit!");
 			int idx = getOptionAt(x, y);
 			if (idx == -1) {

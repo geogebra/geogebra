@@ -23,6 +23,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
+import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -8818,6 +8819,10 @@ public abstract class EuclidianController {
 			return;
 		}
 
+		if (hitComboBox(event.getX(), event.getY())) {
+			return;
+		}
+
 		if (app.isRightClick(event)) {
 			// ggb3D - for 3D rotation
 			processRightPressFor3D(event);
@@ -9511,6 +9516,19 @@ public abstract class EuclidianController {
 				&& view.getHits().size() > 0
 				&& (view.getHits().getTopHits().get(0) instanceof GeoTextField || view
 						.getHits().getTopHits().get(0) instanceof GeoList);
+	}
+
+	private boolean hitComboBox(int x, int y) {
+		Hits hits = view.getHits();
+		if (hits != null && hits.size() > 0) {
+			GeoList list;
+			if (hits.getTopHits().get(0) instanceof GeoList) {
+				list = (GeoList) (hits.getTopHits().get(0));
+				((DrawList) view.getDrawable(list)).onOptionDown(x, y);
+			}
+
+		}
+		return false;
 	}
 
 	private static boolean modeCreatesHelperPoints(int mode2) {
