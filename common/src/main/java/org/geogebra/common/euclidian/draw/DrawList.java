@@ -78,6 +78,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private GRectangle ctrlRect;
 	private GRectangle optionsRect;
 	private GBox optionsBox;
+	private int optionsItemHeight;
 	/**
 	 * Creates new drawable list
 	 * 
@@ -547,7 +548,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		// Draw the selected line
 		if (isLatexString(selectedText)) {
-			textBottom = boxTop + COMBO_TEXT_MARGIN;
+			textBottom = boxTop + (boxHeight - selectedHeight) / 2;
 		}
 		drawTextLine(g2, textLeft, textBottom, selectedText);
 
@@ -573,7 +574,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				? yLabel + (labelSize.y - getPreferredSize().getHeight()) / 2
 				: yLabel;
 		boxWidth = getPreferredSize().getWidth();
-		boxHeight = selectedHeight + 2 * COMBO_TEXT_MARGIN;
+		boxHeight = optionsItemHeight + 2 * COMBO_TEXT_MARGIN;
 	}
 
 	@Override
@@ -647,12 +648,18 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (w > optionsWidth) {
 			optionsWidth = w;
 		}
+
+		if (h > optionsItemHeight) {
+			optionsItemHeight = h;
+		}
 		return h;
 	}
 
 	private void drawOptionLines(GGraphics2D g2, int left, int top) {
 		optionsWidth = 0;
 		optionsHeight = 0;
+		optionsItemHeight = 0;
+
 		optionItems.clear();
 		int rowTop = top;
 		for (int i = 0; i < geoList.size(); i++) {
