@@ -22,13 +22,13 @@ DEVELOPERS
   * Zbynek Konecny (Czech Republic 2010-)
   * Zoltan Kovacs (Hungary 2010-)
   * Thomas Krismayer (Austria 2012-)
+  * Wolfgang Kuellinger (Austria 2014-)
   * Stefan Lizelfelner (Austria 2013-)
   * Bernard Parisse (France 2013-)
   * Peter Rathgeb (Austria 2015-)
   * Csilla Solyom-Gecse (Austria 2015-)
   * Christoph Stadlbauer (Austria 2011-)
   * Melanie Tomaschko (Austria 2011-)
-  * Wolfgang Kuellinger (Austria 2015-)
 
 CONTRIBUTORS
   * Shamshad Alam (GSoC 2015)
