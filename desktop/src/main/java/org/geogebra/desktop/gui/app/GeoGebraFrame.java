@@ -60,6 +60,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.AppId;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
@@ -799,9 +800,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			final EuclidianView ev = app.getActiveEuclidianView();
 			final String filename0 = args.getStringValue("exportAnimation");
 
-			final String extension = AppD.getExtension(filename0);
+			final String extension = StringUtil.getFileExtension(filename0);
 
-			final String filename = AppD.removeExtension(filename0);
+			final String filename = StringUtil.removeFileExtension(filename0);
 
 			if ("gif".equals(extension)) {
 				// maximize window
@@ -956,7 +957,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 		if (args != null && args.containsArg("export")) {
 			final String filename = args.getStringValue("export");
-			final String extension = AppD.getExtension(filename);
+			final String extension = StringUtil.getFileExtension(filename);
 			String dpiStr = args.getStringValue("dpi");
 
 			final int dpi = Integer

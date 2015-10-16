@@ -1458,4 +1458,51 @@ public class StringUtil {
 		}
 		return sb.toString();
 	}
+
+	/**
+	 * @param fileName
+	 *            eg "file.png"
+	 * @return file extension in lower case eg "png" or "" if there isn't one
+	 */
+	public static String getFileExtension(String fileName) {
+		int dotPos = fileName.lastIndexOf('.');
+
+		if ((dotPos <= 0) || (dotPos == (fileName.length() - 1))) {
+			return "";
+		}
+		return toLowerCase(fileName.substring(dotPos + 1));
+	}
+
+	/**
+	 * @param fileName
+	 *            eg "file.gif"
+	 * @return changes eg "file.gif" to "file"
+	 */
+	public static String removeFileExtension(String fileName) {
+		if (fileName == null) {
+			return null;
+		}
+		int dotPos = fileName.lastIndexOf('.');
+
+		if (dotPos <= 0) {
+			return fileName;
+		}
+		return fileName.substring(0, dotPos);
+	}
+
+	/**
+	 * @param fileName
+	 *            eg "file.gif"
+	 * @param ext
+	 *            eg ".png"
+	 * @return changes eg "file.gif" to "file.png"
+	 */
+	public static String changeFileExtension(String fileName, String ext) {
+		if (fileName == null) {
+			return null;
+		}
+
+		return removeFileExtension(fileName) + "." + ext;
+	}
+
 }

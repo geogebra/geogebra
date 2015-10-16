@@ -1824,7 +1824,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		// set selected file
 		if (selectedFile != null) {
-			fileExtension = AppD.getExtension(selectedFile);
+			fileExtension = StringUtil.getFileExtension(selectedFile.getName());
 			int i = 0;
 			while (i < fileExtensions.length
 					&& !fileExtension.equals(fileExtensions[i])) {
@@ -1923,7 +1923,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public static File addExtension(File file, String fileExtension) {
 		if (file == null)
 			return null;
-		if (AppD.getExtension(file).equals(fileExtension))
+		if (StringUtil.getFileExtension(file.getName()).equals(fileExtension))
 			return file;
 		return new File(file.getParentFile(), // path
 				file.getName() + '.' + fileExtension); // filename
@@ -2058,9 +2058,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			fileChooser.addChoosableFileFilter(offFilter);
 
 			if (oldCurrentFile == null
-					|| AppD.getExtension(oldCurrentFile).equals(
+					|| StringUtil.getFileExtension(oldCurrentFile.getName())
+							.equals(
 							AppD.FILE_EXT_GEOGEBRA)
-					|| AppD.getExtension(oldCurrentFile).equals(
+					|| StringUtil.getFileExtension(oldCurrentFile.getName())
+							.equals(
 							AppD.FILE_EXT_GEOGEBRA_TOOL)) {
 				fileChooser.setFileFilter(fileFilter);
 			}
@@ -2197,7 +2199,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					}
 				}
 
-				String ext = AppD.getExtension(file).toLowerCase(Locale.US);
+				String ext = StringUtil.getFileExtension(file.getName());
 
 				if (file.exists()) {
 					if (AppD.FILE_EXT_GEOGEBRA_TOOL.equals(ext)) {

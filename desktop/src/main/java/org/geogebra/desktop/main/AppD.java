@@ -1453,57 +1453,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return fileList.size();
 	}
 
-	public static String getExtension(File file) {
-		String fileName = file.getName();
-		return getExtension(fileName);
-	}
-
-	public static String getExtension(String fileName) {
-		int dotPos = fileName.lastIndexOf('.');
-
-		if ((dotPos <= 0) || (dotPos == (fileName.length() - 1))) {
-			return "";
-		}
-		return fileName.substring(dotPos + 1).toLowerCase(Locale.US); // Michael
-	}
-
-	public static File addExtension(File file, String fileExtension) {
-		if (file == null) {
-			return null;
-		}
-		if (getExtension(file).equals(fileExtension)) {
-			return file;
-		}
-		return new File(file.getParentFile(), // path
-				file.getName() + '.' + fileExtension); // filename
-	}
-
-	public static File removeExtension(File file) {
-		if (file == null) {
-			return null;
-		}
-		String fileName = file.getName();
-		int dotPos = fileName.indexOf('.');
-
-		if (dotPos <= 0) {
-			return file;
-		}
-		return new File(file.getParentFile(), // path
-				fileName.substring(0, dotPos));
-	}
-
-	public static String removeExtension(String fileName) {
-		if (fileName == null) {
-			return null;
-		}
-		int dotPos = fileName.indexOf('.');
-
-		if (dotPos <= 0) {
-			return fileName;
-		}
-		return fileName.substring(0, dotPos);
-	}
-
 	@Override
 	public void createNewWindow() {
 		GeoGebraFrame.createNewWindow(args.getGlobalArguments());
@@ -1619,7 +1568,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				try {
 					boolean success;
 					String lowerCase = StringUtil.toLowerCase(fileArgument);
-					String ext = getExtension(lowerCase);
+					String ext = StringUtil.getFileExtension(lowerCase);
 
 					boolean isMacroFile = ext.equals(FILE_EXT_GEOGEBRA_TOOL);
 

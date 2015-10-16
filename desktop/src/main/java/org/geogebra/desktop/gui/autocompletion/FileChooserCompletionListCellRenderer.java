@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * A simple list cell renderer derived from {@link DefaultListCellRenderer}.
@@ -63,7 +63,7 @@ public class FileChooserCompletionListCellRenderer extends
 		}
 
 		// inclusive toLower, default is ""
-		String fileExt = AppD.getExtension(file);
+		String fileExt = StringUtil.getFileExtension(file.getName());
 		Icon icon = FILE_EXT_ICONS.get(fileExt);
 		if (icon == null) {
 			icon = UNKNOWN_FILE_ICON;
