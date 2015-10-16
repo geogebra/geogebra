@@ -80,6 +80,10 @@ public abstract class CASgiac implements CASGenericInterface {
 			"fractionalPart(x):=sign(x)*(abs(x)-floor(abs(x)));"
 			+
 
+	// eg Integral[x ln(5x)^2]
+	// DOESN'T WORK eg Integral[sec(x)] gives x
+	// "regroupAndNormalIfShorter(x):=[[[ggbevalans:=regroup(normal(x))],[ggbevalans2:=regroup(x)]],when(length(\"\"+ggbevalans)<=length(\"\"+ggbevalans2),ggbevalans,ggbevalans2)][1];"
+
 			// these both give 3
 			// @size(point(1,2,3)[1]) gives 3
 			// @size(point((-(5))+(ggbtmpvark),(-(5))+(ggbtmpvark))[1]) gives 3
