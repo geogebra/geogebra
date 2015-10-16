@@ -19,6 +19,8 @@ import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
+import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -633,8 +635,9 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 				String url = ((ImageManagerW) app.getImageManager())
 						.getExternalImageSrc(fileName);
 				if (url != null) {
-					String ext = fileName.substring(
-							fileName.lastIndexOf('.') + 1).toLowerCase();
+					FileExtensions ext = StringUtil
+							.getFileExtensionEnum(fileName);
+
 					MyImageW img = new MyImageW(
 							ImageElement.as((new Image(url)).getElement()),
 							"svg".equals(ext));
@@ -697,8 +700,8 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 			if (fileName != "") {
 				String url = ((ImageManagerW) app.getImageManager())
 						.getExternalImageSrc(fileName);
-				String ext = fileName.substring(fileName.lastIndexOf('.') + 1)
-						.toLowerCase();
+				FileExtensions ext = StringUtil.getFileExtensionEnum(fileName);
+
 				MyImageW img = (MyImageW) geo.getFillImage();
 
 				App.debug("filename = " + fileName);
@@ -708,9 +711,9 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		}
 	}
 
-	private void addImageToArchive(String filePath, String fileName,
-			String url, String ext, MyImageW img, Map<String, String> archive) {
-		if ("svg".equals(ext)) {
+	private void addImageToArchive(String filePath, String fileName, String url,
+			FileExtensions ext, MyImageW img, Map<String, String> archive) {
+		if (ext.equals(FileExtensions.SVG)) {
 			addSvgToArchive(fileName, img, archive);
 			return;
 		}
@@ -722,13 +725,14 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 			dataURL = url;
 		}
 		if (dataURL != null) {
-			if ("png".equals(ext)) {
+			if (ext.isAllowedImage()) {
+				// png, jpg, jpeg
+				// NOT SVG (filtered earlier)
 				addImageToZip(filePath + fileName, dataURL, archive);
-			} else if (!"svg".equals(ext)) {
-				addImageToZip(
-						filePath
-								+ fileName.substring(0,
-										fileName.lastIndexOf('.')) + ".png",
+			} else {
+				// not supported, so saved as PNG
+				addImageToZip(filePath + StringUtil
+						.changeFileExtension(fileName, FileExtensions.PNG),
 						dataURL, archive);
 			}
 		}
