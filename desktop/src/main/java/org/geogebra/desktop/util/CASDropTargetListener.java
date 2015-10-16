@@ -96,25 +96,6 @@ public class CASDropTargetListener implements DropTargetListener {
 				// dont use the same cell as source and destination
 				if (cell.getRowNumber() == source.getRowNumber())
 					return;
-				// check if in the variables in the source cell appears also in
-				// the destination
-				// if not, do not substitute!
-				/*
-				 * HashSet<GeoElement> varsDest =
-				 * cell.getInputVE().getVariables(); HashSet<GeoElement>
-				 * varsSource = source.getInputVE().getVariables(); boolean
-				 * match = false; if (varsDest != null && varsSource != null) {
-				 * //data = new Vector<Vector<String>>(vars.size() + 1);
-				 * Iterator<GeoElement> iterD = varsDest.iterator();
-				 * Iterator<GeoElement> iterS = varsSource.iterator(); while
-				 * (iterS.hasNext()) { GeoElement varS = iterS.next(); String
-				 * labelS = varS.getLabel(StringTemplate.defaultTemplate); while
-				 * (iterD.hasNext()){ GeoElement varD = iterD.next(); String
-				 * labelD = varD.getLabel(StringTemplate.defaultTemplate);
-				 * if(labelS.equals(labelD)){ //match!!! match = true; break; }
-				 * } } } else { return; } if(!match) //no match => nothing to
-				 * substitute return;
-				 */
 
 				// view.ensureOneEmptyRow();
 				GeoCasCell newcell = new GeoCasCell(cell.getConstruction());
@@ -131,24 +112,12 @@ public class CASDropTargetListener implements DropTargetListener {
 				newcell.setProcessingInformation(cell.getPrefix(), subCmd,
 						cell.getPostfix());
 				newcell.setEvalCommand("Substitute");
-
+				if (substitution.startsWith("{") && substitution.endsWith("}")) {
+					substitution = substitution.substring(1,
+							substitution.length() - 1);
+				}
 				newcell.setEvalComment(substitution);
 				view.processRowThenEdit(newcell.getRowNumber(), true);
-
-				// ToDo: dynamic!!!
-				// String subCmd = "Substitute[" + cell.getEvalText() + ", {" +
-				// tableRef + "}]";
-				// cell.setInput(subCmd);
-				// cell.addInVar(tableRef);
-				// cell.getGeoElementVariables(); //update geoelements from
-				// invars
-				// table.startEditingRow(row);
-				// String[] params = {tableRef};
-				// view.getInputHandler().processCurrentRow("Substitute",
-				// params);
-				// updateEvalVariables(evalVE);
-				// view.setMode(EuclidianConstants.MODE_CAS_EVALUATE);
-				// view.getInputHandler().processCurrentRow("", params);
 
 				app.storeUndoInfo();
 				return;
