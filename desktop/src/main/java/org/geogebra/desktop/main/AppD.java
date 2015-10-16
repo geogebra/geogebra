@@ -182,7 +182,7 @@ import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.kernel.AnimationManagerD;
 import org.geogebra.desktop.kernel.UndoManagerD;
-import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterDesktop;
+import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
@@ -4734,7 +4734,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
-		return new GeoElementGraphicsAdapterDesktop(this);
+		return new GeoElementGraphicsAdapterD(this);
 	}
 
 	@Override

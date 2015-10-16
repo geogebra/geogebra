@@ -9,11 +9,11 @@ import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageManagerD;
 
-public class GeoElementGraphicsAdapterDesktop extends GeoElementGraphicsAdapter {
+public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 
 	protected AppD app;
 
-	public GeoElementGraphicsAdapterDesktop(App appl) {
+	public GeoElementGraphicsAdapterD(App appl) {
 		app = (AppD) appl;
 	}
 
