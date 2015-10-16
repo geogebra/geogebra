@@ -3473,6 +3473,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public GImageIcon wrapGetModeIcon(int mode) {
+		if (this.getToolbar() == null) {
+			return null;
+		}
 		return new GImageIconW(this.getToolbar().getImageURL(mode));
 	}
 
