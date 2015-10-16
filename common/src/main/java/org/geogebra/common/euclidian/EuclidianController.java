@@ -6582,6 +6582,11 @@ public abstract class EuclidianController {
 		hits = hits.getTopHits();
 		if (hits.size() == 1) {
 			GeoElement hit = hits.get(0);
+			if (hit.isGeoList()) {
+				((DrawList) view.getDrawableFor(hit)).onOptionOver(event.getX(),
+						event.getY());
+				return;
+			}
 			int labelMode = hit.getLabelMode();
 			if (hit.isGeoNumeric()
 					&& ((GeoNumeric) hit).isSlider()
@@ -6602,6 +6607,7 @@ public abstract class EuclidianController {
 					// hit.getLabelMode() == GeoElement.LABEL_VALUE);
 
 				}
+
 			}
 		}
 

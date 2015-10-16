@@ -562,14 +562,17 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		
 		// Draw the selected line
-		if (isLatexString(selectedText)) {
+		boolean latex = isLatexString(selectedText);
+		if (latex) {
 			textBottom = boxTop + (boxHeight - selectedHeight) / 2;
 		} else {
-			textBottom += (boxHeight - getMultipliedFontSize()) / 2;
+			textBottom += (boxHeight - getMultipliedFontSize()) / 2
+					- COMBO_TEXT_MARGIN;
 
 		}
 
-		drawTextLine(g2, textLeft, textBottom, selectedText, false, false);
+		drawTextLine(g2, textLeft, textBottom, selectedText, latex, false,
+				false);
 
 		drawControl(g2);
 		if (optionsVisible) {
@@ -631,6 +634,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private int drawTextLine(GGraphics2D g2, int textLeft, int top,
  String text,
+			boolean latex,
 			boolean optionLine, boolean selected) {
 		int w = 0;
 		int h = 0;
@@ -639,7 +643,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		GBox b = geo.getKernel().getApplication().getSwingFactory()
 				.createHorizontalBox(view.getEuclidianController());
 		GRectangle rect = b.getBounds();
-		if (isLatexString(text)) {
+		if (latex) {
 			GDimension d = null;
 			if (left == TEXT_CENTER) {
 				g2.setPaint(GColor.WHITE);
@@ -671,7 +675,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			h = fontHeight;
 
 			if (optionLine) {
-				rect.setBounds(boxLeft, top - h, boxWidth, h);
+				rect.setBounds(boxLeft, top - h, boxWidth, h + 5);
 			}
 
 
@@ -679,12 +683,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		if (optionLine) {
 			optionItems.add(rect);
-
-			if (selected) {
-				g2.drawRoundRect((int) (rect.getX()), (int) (rect.getY()),
-						(int) (rect.getWidth()), (int) (rect.getHeight()), 4,
-						4);
-			}
 		}
 
 		if (w > optionsWidth) {
@@ -709,17 +707,37 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			String text = geoList.get(i)
 					.toValueString(StringTemplate.defaultTemplate);
 
+			boolean latex = isLatexString(text);
+			boolean hovered = i == selectedOptionIndex;
 
-			int h = drawTextLine(g2, TEXT_CENTER, rowTop, text, true,
-					i == selectedOptionIndex);
+			int h = drawTextLine(g2, TEXT_CENTER, rowTop, text, latex, true,
+					hovered);
+			if (hovered && optionItems.size() > i) {
+				GRectangle rect = optionItems.get(i);
+				g2.setPaint(GColor.LIGHT_GRAY);
+				g2.fillRoundRect((int) (rect.getX()), (int) (rect.getY()),
+						(int) (rect.getWidth()), (int) (rect.getHeight()), 4,
+						4);
+
+				g2.setPaint(GColor.GRAY);
+
+				g2.drawRoundRect((int) (rect.getX()), (int) (rect.getY()),
+						(int) (rect.getWidth()), (int) (rect.getHeight()), 4,
+						4);
+
+				g2.setPaint(geoList.getObjectColor());
+				drawTextLine(g2, TEXT_CENTER, rowTop, text, latex, true,
+						hovered);
+			}
 
 			if (i == geoList.getSelectedIndex()) {
 				selectedText = text;
 				selectedHeight = h;
 			}
 
-			optionsHeight += h + OPTIONSBOX_ITEM_GAP;
-			rowTop += h + OPTIONSBOX_ITEM_GAP;
+			int gap = latex ? 0 : OPTIONSBOX_ITEM_GAP;
+			optionsHeight += h + gap;
+			rowTop += h + gap;
 
 		}
 		optionsWidth += 2 * COMBO_TEXT_MARGIN + getTriangleControlWidth();
