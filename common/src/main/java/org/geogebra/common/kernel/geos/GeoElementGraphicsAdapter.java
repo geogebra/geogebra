@@ -44,7 +44,7 @@ public abstract class GeoElementGraphicsAdapter {
 		String ext = StringUtil.toLowerCase(fn.substring(pos + 1));
 
 		if (!ext.equals("png") && !ext.equals("jpg") && !ext.equals("jpeg")
-				&& !ext.equals("svg")) {
+				&& !ext.equals("svg") && !ext.equals("gif")) {
 
 			// all bitmaps (except JPG) saved as PNG
 			// eg .TIFF
