@@ -48,6 +48,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -108,6 +109,7 @@ AngleProperties {
 		geoList = new ArrayList<GeoElement>(size);
 		cacheList = new ArrayList<GeoElement>(size);
 		setEuclidianVisible(false);
+		setBackgroundColor(GColor.WHITE);
 	}
 
 	@Override
@@ -2981,7 +2983,13 @@ AngleProperties {
 
 	public ValueType getValueType() {
 		return ValueType.LIST;
+
 	}
 
+	@Override
+	public boolean hasBackgroundColor() {
+		return (kernel.getApplication()
+				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS) && drawAsComboBox);
+	}
 
 }

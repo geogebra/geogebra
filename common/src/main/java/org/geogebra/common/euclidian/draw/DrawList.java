@@ -616,7 +616,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private void drawOptions(GGraphics2D g2) {
 
-		g2.setPaint(GColor.WHITE);
+		g2.setPaint(geoList.getBackgroundColor());
 		int optHeight = optionsHeight + OPTIONBOX_TEXT_MARGIN_BOTTOM;
 		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
 		optionsRect.setBounds(boxLeft, optTop, boxWidth, optHeight);
