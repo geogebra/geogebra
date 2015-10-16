@@ -79,6 +79,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private GRectangle optionsRect;
 	private GBox optionsBox;
 	private int optionsItemHeight;
+	private int selectedOptionIndex;
 	/**
 	 * Creates new drawable list
 	 * 
@@ -370,7 +371,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (geoList.drawAsComboBox()) {
 			return isDrawingOnCanvas()
 					? super.hit(x, y, hitThreshold) || ctrlRect.contains(x, y)
-							|| (optionsVisible && optionsRect.contains(x, y))
+							|| optionsVisible && optionsRect.contains(x, y)
 					: box.getBounds().contains(x, y);
 		}
 
@@ -384,6 +385,19 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
+	public void onOptionOver(int x, int y) {
+		if (!(optionsVisible && optionsRect.contains(x, y))) {
+			return;
+		}
+		App.debug("OPTIONOVEEEEEEEEEEEEEER");
+
+		int idx = getOptionAt(x, y);
+		if (idx != selectedOptionIndex) {
+			selectedOptionIndex = idx;
+			geoList.updateRepaint();
+		}
+
+	}
 	@Override
 	public boolean isInside(GRectangle rect) {
 
@@ -546,11 +560,16 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			drawLabel(g2, geoList, labelText);
 		}
 
+		
 		// Draw the selected line
 		if (isLatexString(selectedText)) {
 			textBottom = boxTop + (boxHeight - selectedHeight) / 2;
+		} else {
+			textBottom += (boxHeight - getMultipliedFontSize()) / 2;
+
 		}
-		drawTextLine(g2, textLeft, textBottom, selectedText);
+
+		drawTextLine(g2, textLeft, textBottom, selectedText, false, false);
 
 		drawControl(g2);
 		if (optionsVisible) {
@@ -611,11 +630,15 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private int drawTextLine(GGraphics2D g2, int textLeft, int top,
-			String text) {
+ String text,
+			boolean optionLine, boolean selected) {
 		int w = 0;
 		int h = 0;
 		int left = textLeft;
 		int fontHeight = getMultipliedFontSize();
+		GBox b = geo.getKernel().getApplication().getSwingFactory()
+				.createHorizontalBox(view.getEuclidianController());
+		GRectangle rect = b.getBounds();
 		if (isLatexString(text)) {
 			GDimension d = null;
 			if (left == TEXT_CENTER) {
@@ -632,6 +655,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			w = d.getWidth();
 			h = d.getHeight();
 
+			if (optionLine) {
+				rect.setBounds(boxLeft, top, boxWidth, h);
+			}
+
 		} else {
 			w = g2.getFontRenderContext().measureTextWidth(text,
 					getLabelFont());
@@ -643,6 +670,21 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			h = fontHeight;
 
+			if (optionLine) {
+				rect.setBounds(boxLeft, top - h, boxWidth, h);
+			}
+
+
+		}
+
+		if (optionLine) {
+			optionItems.add(rect);
+
+			if (selected) {
+				g2.drawRoundRect((int) (rect.getX()), (int) (rect.getY()),
+						(int) (rect.getWidth()), (int) (rect.getHeight()), 4,
+						4);
+			}
 		}
 
 		if (w > optionsWidth) {
@@ -652,6 +694,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (h > optionsItemHeight) {
 			optionsItemHeight = h;
 		}
+
 		return h;
 	}
 
@@ -667,17 +710,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					.toValueString(StringTemplate.defaultTemplate);
 
 
-			int h = drawTextLine(g2, TEXT_CENTER, rowTop, text);
+			int h = drawTextLine(g2, TEXT_CENTER, rowTop, text, true,
+					i == selectedOptionIndex);
 
 			if (i == geoList.getSelectedIndex()) {
 				selectedText = text;
 				selectedHeight = h;
 			}
-			GBox b = geo.getKernel().getApplication().getSwingFactory()
-					.createHorizontalBox(view.getEuclidianController());
-			GRectangle rect = b.getBounds();
-			rect.setBounds(boxLeft, rowTop, boxWidth, h);
-			optionItems.add(rect);
+
 			optionsHeight += h + OPTIONSBOX_ITEM_GAP;
 			rowTop += h + OPTIONSBOX_ITEM_GAP;
 
@@ -724,7 +764,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int getOptionAt(int x, int y) {
 		int idx = 0;
 		for (GRectangle rect : optionItems) {
-			if (rect.contains(x, y)) {
+			if (rect != null && rect.contains(x, y)) {
 				return idx;
 			}
 			idx++;
