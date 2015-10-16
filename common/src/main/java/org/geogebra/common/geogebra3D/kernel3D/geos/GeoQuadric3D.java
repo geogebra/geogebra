@@ -830,19 +830,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		eigenval[1] = val1;
 		eigenval[2] = val2;
 
-		// for (int i = 0; i < 3; i++) {
-		// App.debug("eigenval[" + i + "]=" + eigenval[i]);
-		// }
+
+		setHyperboloidEigenvectors();
 
 		mu[0] = -eigenval[0] / beta;
 		mu[1] = -eigenval[1] / beta;
 		mu[2] = -eigenval[2] / beta;
 
-		setHyperboloidEigenvectors();
-
-		// for (int i = 0; i < 3; i++) {
-		// App.debug("\neigenvecND[" + i + "]=\n" + eigenvecND[i]);
-		// }
 
 		// set halfAxes = radius
 		halfAxes[0] = Math.sqrt(1.0d / mu[0]);
@@ -874,15 +868,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		eigenval[1] = val2;
 		eigenval[2] = val0;
 
-		// for (int i = 0; i < 3; i++) {
-		// App.debug("eigenval[" + i + "]=" + eigenval[i]);
-		// }
+		setHyperboloidEigenvectors();
 
 		mu[0] = -eigenval[0] / beta;
 		mu[1] = -eigenval[1] / beta;
 		mu[2] = -eigenval[2] / beta;
 
-		setHyperboloidEigenvectors();
 
 		// set halfAxes = radius
 		halfAxes[0] = Math.sqrt(-1.0d / mu[0]);
@@ -942,6 +933,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				tmpCoords.setValues(eigenvecND[0], 3);
 				eigenvecND[0].setValues(eigenvecND[1], 3);
 				eigenvecND[1].setValues(tmpCoords, 3);
+				double tmp = eigenval[0];
+				eigenval[0] = eigenval[1];
+				eigenval[1] = tmp;
 				if (dot1 < 0) { // reverse
 					eigenvecND[0].mulInside3(-1);
 				} else {
