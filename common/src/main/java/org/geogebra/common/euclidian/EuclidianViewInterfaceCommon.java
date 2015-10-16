@@ -995,4 +995,5 @@ public interface EuclidianViewInterfaceCommon extends
 
 	public boolean getYaxisLog();
 
+	void closeComboBoxes();
 }

@@ -2542,6 +2542,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
 			getAlgebraView().resetItems(false);
 		}
+
+		getActiveEuclidianView().closeComboBoxes();
 	}
 
 	public boolean wasPopupJustClosed() {
@@ -3486,4 +3488,5 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public DropDownList newDropDownList() {
 		return new DropDownListW();
 	};
+
 }

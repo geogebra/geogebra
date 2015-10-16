@@ -805,19 +805,20 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return;
 		}
 		if (optionsRect.contains(x, y)) {
-			App.debug("Options is hit!");
 			int idx = getOptionAt(x, y);
 			if (idx == -1) {
-				App.debug("Option not found");
 				return;
 			}
 			String text = geoList.get(idx)
 					.toValueString(StringTemplate.defaultTemplate);
-			App.debug("Option selected: " + text);
-			optionsVisible = false;
+			closeOptions();
 			geoList.setSelectedIndex(idx, true);
 
 		}
+	}
+
+	public void closeOptions() {
+		optionsVisible = false;
 	}
 
 }

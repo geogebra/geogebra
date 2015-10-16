@@ -1799,6 +1799,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return null;
 	}
 
+
 	/**
 	 * returns GeoElement whose label is at screen coords (x,y).
 	 */
@@ -5004,4 +5005,17 @@ sb.toString(), getFontAxes(),
 	public void setPixelRatio(float pixelRatio) {
 		// TODO Auto-generated method stub
 	}
+
+	public void closeComboBoxes() {
+
+		DrawableIterator it = allDrawableList.getIterator();
+		while (it.hasNext()) {
+			Drawable d = it.next();
+
+			if (d instanceof DrawList) {
+				((DrawList) d).closeOptions();
+			}
+		}
+	}
+
 }
