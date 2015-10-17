@@ -10370,6 +10370,11 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     }
     if (debug_infolevel>2)
       CERR << CLOCK() << " mod end Groebner interreduce " << endl;
+    for (unsigned i=0;i<C.size();++i){
+      if (!res[C[i]].coord.empty() && tdeg_t_all_greater(h0,res[C[i]].ldeg,order)){
+	swap(C,G); return;
+      }
+    }
     C.push_back(pos);
     swap(C,G);
   }
