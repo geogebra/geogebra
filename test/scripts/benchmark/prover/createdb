@@ -1,0 +1,2 @@
+#!/bin/sh
+echo ".read db.sql" | sqlite3 sqlite3db

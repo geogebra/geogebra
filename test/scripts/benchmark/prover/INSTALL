@@ -17,6 +17,8 @@ Prerequisites
     the minimum requirement) if you are interested in testing the web version also (by default it is
     included)
 
+  * sqlite3 (for SQL based testing, yet under construction)
+
 Start Jenkins
 -------------
 
