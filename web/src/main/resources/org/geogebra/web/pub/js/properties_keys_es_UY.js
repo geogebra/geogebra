@@ -1771,7 +1771,7 @@ __GGB__keysVar.es_UY.menu = {
     "Power": "Potencia",
     "Preview": "Vista previa",
     "Print": "Imprime",
-    "PrintPreview": "Previsualiza impresi\xf3n",
+    "PrintPreview": "Imprimir...",
     "Prism": "Prisma",
     "Prism.Help": "Selecci\xf3n o creaci\xf3n de un pol\xedgono como base y luego el primer punto de la otra base.",
     "Private": "Privado",

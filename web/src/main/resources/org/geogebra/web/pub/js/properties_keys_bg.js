@@ -1425,7 +1425,7 @@ __GGB__keysVar.bg.menu = {
     "EndProbabilityOf": ")",
     "English": "\u0410\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u0438",
     "EnterAppletAddress": "\u0412\u044a\u0432\u0435\u0434\u0438 Web \u0410\u0434\u0440\u0435\u0441 \u043d\u0430 GeoGebra Applet",
-    "EnterExamMode": "Enter \"Exam Mode\"",
+    "EnterExamMode": "\u0412\u043b\u0438\u0437\u0430\u043d\u0435 \u0432 \"\u0420\u0435\u0436\u0438\u043c \u0418\u0437\u043f\u0438\u0442\"",
     "EnterWebAddress": "\u0412\u044a\u0432\u0435\u0434\u0438 Web \u0410\u0434\u0440\u0435\u0441",
     "EqualVariance": "\u0420\u0430\u0432\u043d\u0430 \u0434\u0438\u0441\u043f\u0435\u0440\u0441\u0438\u044f",
     "Equation": "\u0423\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435",
