@@ -358,6 +358,12 @@ for i in `find -name '*.ggb' | sort`; do
     cp $MYDIR/tmp/.test.stderr $MYDIR/tmp/.test.stderr-$TEST-$j
     fi
    fi # No timeout
+  if [ "$TIME" = "" ]; then
+   # Probably running the process was unsuccessful (maybe killed for another reason than 124).
+   # In this case we assume "timeout" and clean $RESULT (which should have been cleaned up earlier, actually, FIXME):
+   RESULT=""
+   TIME=timeout
+   fi
   echo -n "$RESULT;$TIME;"
   RESULTCLASS=" class=\"o6\""
   CELLCOLOR="green!10"
