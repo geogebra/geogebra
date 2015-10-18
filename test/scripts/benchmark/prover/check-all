@@ -28,7 +28,7 @@ if ((a < 143)); then r "$t: Auto"; fi
 t=ndg
 read b bg ow a < tmp/$t.summary.out
 if ((b < 156)); then r "$t: Botana"; fi
-if ((bg < 156)); then r "$t: BotanaGiac"; fi
+if ((bg < 155)); then r "$t: BotanaGiac"; fi
 if ((ow < 85)); then r "$t: OpenGeoProver Wu"; fi
 if ((a < 155)); then r "$t: Auto"; fi
 
