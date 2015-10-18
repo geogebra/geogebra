@@ -427,16 +427,19 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private void twoZeroEigenvalues(double value) {
 
 		// get main eigenvector
+		tmpCoords.setValues(eigenvecND[2], 3);
 		findEigenvector(value, eigenvecND[2]);
 		eigenvecND[2].normalize();
+		if (tmpCoords.dotproduct3(eigenvecND[2]) < 0) {
+			eigenvecND[2].mulInside3(-1);
+		}
 
 		// compute other eigenvectors
-		eigenvecND[2].completeOrthonormal(eigenvecND[0], eigenvecND[1]);
+		completeOrthonormalRatioEqualTo1(eigenvecND[0], eigenvecND[1],
+				eigenvecND[2]);
 
 		// compute semi-diagonalized matrix
 		setSemiDiagonalizedMatrix();
-
-		// App.debug("\n" + tmpMatrix4x4bis);
 
 		// check degree 1 coeffs
 		if (!Kernel.isZero(semiDiagMatrix.get(1, 4))
@@ -899,7 +902,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	
 	private void completeOrthonormalRatioEqualTo1(Coords ev0, Coords ev1,
 			Coords ev2) {
-		// try to keep ev2
+		// try to keep ev0
 		tmpCoords.setCrossProduct(ev2, ev0);
 		if (!tmpCoords.isZero()) {
 			ev1.setValues(tmpCoords, 3);
