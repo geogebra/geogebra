@@ -235,6 +235,10 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLabelStyle(Ljava/lang/String;I)(objName,style);
 		};
 
+		api.getLabelStyle = function(objName) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLabelStyle(Ljava/lang/String;)(objName);
+		};
+
 		api.setColor = function(objName, red, green, blue) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setColor(Ljava/lang/String;III)(objName,red,green,blue);
 		};
