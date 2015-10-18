@@ -42,8 +42,7 @@ public abstract class CanvasDrawable extends Drawable {
 			String text, int x, int y) {
 		App app = view.getApplication();
 		return app.getDrawEquation().drawEquation(app, geo0, g2, x, y, text,
-				font,
- false, geo.getObjectColor(), geo.getBackgroundColor(),
+				font, false, geo.getObjectColor(), geo.getBackgroundColor(),
 				false,
 				false, null);
 	};
@@ -55,15 +54,14 @@ public abstract class CanvasDrawable extends Drawable {
 			latex = isLatexString(text);
 			// no drawing, just measuring.
 			if (latex) {
-				GDimension d = drawLatex(g2, geo0, getLabelFont(), text,
-						NO_DRAW, NO_DRAW);
+				GDimension d = drawLatex(g2, geo0, getLabelFont(), text, xLabel,
+						yLabel);
 				labelSize.x = d.getWidth();
 				labelSize.y = d.getHeight();
 			} else {
-				setLabelSize(EuclidianStatic
-
-				.drawIndexedString(view.getApplication(), g2, text, NO_DRAW,
-						NO_DRAW,
+				setLabelSize(
+						EuclidianStatic.drawIndexedString(view.getApplication(),
+								g2, text, 0, 0,
 						false, false, false));
 			}
 			calculateBoxBounds(latex);
@@ -117,8 +115,7 @@ public abstract class CanvasDrawable extends Drawable {
 		} else {
 			g2.setPaint(geo.getObjectColor());
 
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
- text,
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					xLabel, yLabel + getTextBottom(), false, false);
 		}
 
