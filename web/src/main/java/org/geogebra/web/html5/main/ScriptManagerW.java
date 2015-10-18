@@ -107,6 +107,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAlgorithmXML(Ljava/lang/String;)(objName);
 		};
 
+		api.getPerspectiveXML = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPerspectiveXML()();
+		};
+
 		api.getBase64 = function(param1, param2) {
 			if (param2 === false) {
 				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getBase64(Z)(false);
@@ -348,6 +352,10 @@ public class ScriptManagerW extends ScriptManager {
 
 		api.getCommandString = function(objName, localize) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCommandString(Ljava/lang/String;Z)(objName, typeof localize === 'undefined' ? true : localize);
+		};
+
+		api.getCaption = function(objName, subst) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCaption(Ljava/lang/String;Z)(objName, !!subst);
 		};
 
 		api.getXcoord = function(objName) {

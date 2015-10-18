@@ -3632,12 +3632,6 @@ public class Kernel {
 		}
 	}
 
-	public void notifyPerspectiveChanged(String perspectiveId) {
-		for (UserAwarenessListener listener : this.userAwarenessListeners) {
-			listener.perspectiveChanged(perspectiveId);
-		}
-	}
-
 	public void notifyPaste() {
 		if (notifyViewsActive) {
 			for (View view : views) {

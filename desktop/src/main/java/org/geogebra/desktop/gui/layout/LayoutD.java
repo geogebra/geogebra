@@ -31,6 +31,8 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.main.AppD;
@@ -124,7 +126,7 @@ public class LayoutD extends Layout implements SettingListener {
 			app.updateContentPane();
 		}
 
-		app.getKernel().notifyPerspectiveChanged(perspective.getId());
+		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
 		return changed;
 	}
 
@@ -300,57 +302,7 @@ public class LayoutD extends Layout implements SettingListener {
 		}
 	}
 
-	/**
-	 * Return the layout as XML.
-	 * 
-	 * @param sb
-	 * 
-	 * @param asPreference
-	 *            If the collected data is used for the preferences
-	 */
-	public void getXml(StringBuilder sb, boolean asPreference) {
-		/**
-		 * Create a temporary perspective which is used to store the layout of
-		 * the document at the moment. This perspective isn't accessible through
-		 * the menu and will be removed as soon as the document was saved with
-		 * another perspective.
-		 */
-		Perspective tmpPerspective = createPerspective("tmp");
 
-		sb.append("\t<perspectives>\n");
-
-		// save the current perspective
-		if (tmpPerspective != null)
-			sb.append(tmpPerspective.getXml());
-
-		// save all custom perspectives as well
-		for (Perspective perspective : perspectives) {
-			// skip old temporary perspectives
-			if (perspective.getId().equals("tmp")) {
-				continue;
-			}
-
-			sb.append(perspective.getXml());
-		}
-
-		sb.append("\t</perspectives>\n");
-
-		/**
-		 * Certain user elements should be just saved as preferences and not if
-		 * a document is saved normally as they just depend on the preferences
-		 * of the user.
-		 */
-		if (asPreference) {
-			sb.append("\t<settings ignoreDocument=\"");
-			sb.append(settings.isIgnoringDocumentLayout());
-			sb.append("\" showTitleBar=\"");
-			sb.append(settings.showTitleBar());
-			sb.append("\" allowStyleBar=\"");
-			sb.append(settings.isAllowingStyleBar());
-			sb.append("\" />\n");
-		}
-
-	}
 
 	/**
 	 * Checks if the given component is in an external window. Used for key

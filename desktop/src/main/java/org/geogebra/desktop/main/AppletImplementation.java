@@ -1554,4 +1554,16 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return ggbApi.getGridVisible();
 	}
 
+	public int getLabelStyle(String objName) {
+		return ggbApi.getLabelStyle(objName);
+	}
+
+	public String getCaption(String objName, boolean subst) {
+		return ggbApi.getCaption(objName, subst);
+	}
+
+	public String getPerspectiveXML() {
+		return ggbApi.getPerspectiveXML();
+	}
+
 }

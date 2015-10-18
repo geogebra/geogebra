@@ -755,4 +755,16 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getAppletImplementation().getGridVisible();
 	}
 
+	public int getLabelStyle(String objName) {
+		return getAppletImplementation().getLabelStyle(objName);
+	}
+
+	public String getCaption(String objName, boolean subst) {
+		return getAppletImplementation().getCaption(objName, subst);
+	}
+
+	public String getPerspectiveXML() {
+		return getAppletImplementation().getPerspectiveXML();
+	}
+
 }

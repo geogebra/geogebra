@@ -75,6 +75,8 @@ public abstract class ScriptManager implements EventListener {
 		case LOGIN:
 		case SET_MODE:
 		case SHOW_NAVIGATION_BAR:
+		case SHOW_STYLE_BAR:
+		case PERSPECTIVE_CHANGE:
 			callClientListeners(clientListeners, evt);
 			break;
 		// TODO case CLEAR

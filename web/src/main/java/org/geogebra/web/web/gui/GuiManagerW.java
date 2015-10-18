@@ -36,6 +36,8 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -510,7 +512,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			}
 		}
 		((AppW) app).closePopups();
-
+		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
 		// toolbarPanel.validate();
 		// toolbarPanel.updateHelpText();
 	}

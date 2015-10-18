@@ -381,9 +381,67 @@ public abstract class Layout {
 		return changed;
 	}
 
-	public abstract boolean applyPerspective(Perspective perspective);
+	public void getCurrentPerspectiveXML(StringBuilder sb) {
+		/**
+		 * Create a temporary perspective which is used to store the layout of
+		 * the document at the moment. This perspective isn't accessible through
+		 * the menu and will be removed as soon as the document was saved with
+		 * another perspective.
+		 */
+		Perspective tmpPerspective = createPerspective("tmp");
+		// save the current perspective
+		if (tmpPerspective != null)
+			sb.append(tmpPerspective.getXml());
 
-	public abstract void getXml(StringBuilder sb, boolean asPreference);
+	}
+
+	/**
+	 * Return the layout as XML.
+	 * 
+	 * @param sb
+	 *            string builder
+	 * @param asPreference
+	 *            If the collected data is used for the preferences
+	 */
+	public final void getXml(StringBuilder sb, boolean asPreference) {
+
+		sb.append("\t<perspectives>\n");
+
+		// save the current perspective
+		getCurrentPerspectiveXML(sb);
+
+		// save all custom perspectives as well
+		for (Perspective perspective : perspectives) {
+			// skip old temporary perspectives
+			if (perspective.getId().equals("tmp")) {
+				continue;
+			}
+
+			sb.append(perspective.getXml());
+		}
+
+		sb.append("\t</perspectives>\n");
+
+		/**
+		 * Certain user elements should be just saved as preferences and not if
+		 * a document is saved normally as they just depend on the preferences
+		 * of the user.
+		 */
+		if (asPreference) {
+			sb.append("\t<settings ignoreDocument=\"");
+			sb.append(settings.isIgnoringDocumentLayout());
+			sb.append("\" showTitleBar=\"");
+			sb.append(settings.showTitleBar());
+			sb.append("\" allowStyleBar=\"");
+			sb.append(settings.isAllowingStyleBar());
+			sb.append("\" />\n");
+		}
+
+	}
+
+	protected abstract Perspective createPerspective(String string);
+
+	public abstract boolean applyPerspective(Perspective perspective);
 
 	public abstract boolean isOnlyVisible(int viewEuclidian);
 

@@ -32,6 +32,4 @@ public interface UserAwarenessListener {
 
 	public void fileLoadComplete(boolean success);
 
-	// Perspective Methods
-	public void perspectiveChanged(String perspectiveId);
 }

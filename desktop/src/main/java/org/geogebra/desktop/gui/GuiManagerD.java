@@ -77,6 +77,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.KeyboardSettings;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.FileExtensions;
@@ -767,6 +769,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		toolbarPanel.validate();
 		toolbarPanel.updateHelpText();
+		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
 	}
 
 	public boolean showView(int viewId) {

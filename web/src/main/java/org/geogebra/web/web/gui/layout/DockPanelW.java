@@ -6,6 +6,8 @@ import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
@@ -889,6 +891,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	public void setShowStyleBar(boolean showStyleBar) {
 		this.showStyleBar = showStyleBar;
+		if (app != null) {
+			app.dispatchEvent(new Event(EventType.SHOW_STYLE_BAR, null, "["
+				+ showStyleBar + "," + getViewId() + "]"));
+		}
 //		if (this.toggleStyleBarButton != null) {
 //			this.toggleStyleBarButton.getElement().removeAllChildren();
 //			this.toggleStyleBarButton.getElement().appendChild(getToggleImage(showStyleBar).getElement());

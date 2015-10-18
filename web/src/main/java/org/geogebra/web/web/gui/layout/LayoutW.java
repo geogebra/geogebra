@@ -12,6 +12,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 
@@ -122,6 +124,7 @@ public class LayoutW extends Layout implements SettingListener {
 		        && app.getInputPosition() != InputPositon.algebraView) {
 			app.updateContentPane();
 		}
+		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
 		return changed;
 		// old behaviour: just updating center, instead of updateContentPane
 		// app.refreshSplitLayoutPanel();
@@ -297,52 +300,6 @@ public class LayoutW extends Layout implements SettingListener {
 		//perspective.setDockBarEast(app.isDockBarEast());
 
 		return perspective;
-	}
-	
-	
-	@Override
-    public void getXml(StringBuilder sb, boolean asPreference) {
-		/**
-		 * Create a temporary perspective which is used to store the layout
-		 * of the document at the moment. This perspective isn't accessible
-		 * through the menu and will be removed as soon as the document was 
-		 * saved with another perspective. 
-		 */ 
-		Perspective tmpPerspective = createPerspective("tmp");
-
-		sb.append("\t<perspectives>\n");
-		
-		// save the current perspective
-		if(tmpPerspective != null)
-			sb.append(tmpPerspective.getXml());
-		
-		// save all custom perspectives as well
-		for(Perspective perspective : perspectives) {
-			// skip old temporary perspectives
-			if(perspective.getId().equals("tmp")) {
-				continue;
-			}
-			
-			sb.append(perspective.getXml());
-		}
-		
-		sb.append("\t</perspectives>\n");
-
-		/**
-		 * Certain user elements should be just saved as preferences and not
-		 * if a document is saved normally as they just depend on the
-		 * preferences of the user.
-		 */
-		if(asPreference) {
-			sb.append("\t<settings ignoreDocument=\"");
-			sb.append(settings.isIgnoringDocumentLayout());
-			sb.append("\" showTitleBar=\"");
-			sb.append(settings.showTitleBar());
-			sb.append("\" allowStyleBar=\"");
-			sb.append(settings.isAllowingStyleBar());
-			sb.append("\" />\n");
-		}
-
 	}
 
 	/**

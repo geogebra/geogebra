@@ -410,6 +410,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		geo.updateRepaint();
 	}
 
+	public synchronized int getLabelStyle(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null)
+			return 0;
+		return geo.getLabelMode();
+	}
+
 	/**
 	 * Sets the color of the object with the given name.
 	 */
@@ -871,6 +878,24 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return geo
 				.getCommandDescription(localize ? StringTemplate.defaultTemplate
 						: StringTemplate.noLocalDefault);
+	}
+
+	public synchronized String getCaption(String objName, boolean substituteVars) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null)
+			return "";
+		return substituteVars ? geo.getCaption(StringTemplate.defaultTemplate)
+				: geo.getRawCaption();
+	}
+
+	public synchronized String getPerspectiveXML() {
+		if (app.getGuiManager() == null
+				|| app.getGuiManager().getLayout() == null) {
+			return "";
+		}
+		StringBuilder layoutSB = new StringBuilder();
+		app.getGuiManager().getLayout().getCurrentPerspectiveXML(layoutSB);
+		return layoutSB.toString();
 	}
 
 	/**

@@ -19,6 +19,8 @@ public interface JavaScriptAPI {
 	 */
 	public String getXML();
 
+	public String getPerspectiveXML();
+
 	public String getBase64();
 
 	public String getBase64(boolean includeThumbnail);
@@ -188,6 +190,15 @@ public interface JavaScriptAPI {
 	 * window. Possible label styles are NAME = 0, NAME_VALUE = 1 and VALUE = 2.
 	 */
 	public void setLabelStyle(String objName, int style);
+
+	/**
+	 * Returns labeling style of the object
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return labeling style
+	 */
+	public int getLabelStyle(String objName);
 
 	/**
 	 * Sets the line thickness of the object with the given name.
@@ -372,6 +383,8 @@ public interface JavaScriptAPI {
 	 * Returns the command of the object with the given name as a string.
 	 */
 	public String getCommandString(String objName, boolean localize);
+
+	public String getCaption(String objName, boolean substituteVars);
 
 	/**
 	 * Returns the x-coord of the object with the given name. Note: returns 0 if
