@@ -1314,10 +1314,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	private boolean isPossibleU(double u) {
 
-		if (u < uMinMax[0]) {
+		if (uMinMax == null || u < uMinMax[0]) {
 			return false;
 		}
-		if (u > uMinMax[1]) {
+		if (uMinMax == null || u > uMinMax[1]) {
 			return false;
 		}
 		return true;
@@ -1325,10 +1325,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	private boolean isPossibleV(double v) {
 
-		if (v < vMinMax[0]) {
+		if (vMinMax == null || v < vMinMax[0]) {
 			return false;
 		}
-		if (v > vMinMax[1]) {
+		if (vMinMax == null || v > vMinMax[1]) {
 			return false;
 		}
 		return true;
