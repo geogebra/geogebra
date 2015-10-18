@@ -1,7 +1,8 @@
 package org.geogebra.common.plugin;
 
 public enum EventType {
-	CLICK("click"), UPDATE("update"), ADD("add"), STOREUNDO("add"), REMOVE(
+	CLICK("click"), UPDATE("update"), UPDATE_STYLE("updateStyle"), ADD("add"), STOREUNDO(
+			"add"), REMOVE(
 			"remove"), RENAME("rename"), RENAME_COMPLETE("renameComplete"), ADD_POLYGON(
 			"addPolygon"), ADD_POLYGON_COMPLETE("addPolygonComplete"), MOVING_GEOS(
 			"movingGeos"), MOVED_GEOS("movedGeos"), PASTE_ELMS("pasteElms"), PASTE_ELMS_COMPLETE(

@@ -74,6 +74,7 @@ public abstract class ScriptManager implements EventListener {
 		case DELETE_GEOS:
 		case LOGIN:
 		case SET_MODE:
+		case UPDATE_STYLE:
 		case SHOW_NAVIGATION_BAR:
 		case SHOW_STYLE_BAR:
 		case PERSPECTIVE_CHANGE:

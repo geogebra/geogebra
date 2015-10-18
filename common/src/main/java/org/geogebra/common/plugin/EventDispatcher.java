@@ -125,7 +125,7 @@ public class EventDispatcher implements ClientView {
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
-		// Ignore
+		dispatchEvent(EventType.UPDATE_STYLE, geo);
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
