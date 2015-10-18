@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.main;
 
+import geogebra.GeoGebraAppletPreloader;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -35,6 +37,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import netscape.javascript.JSObject;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
@@ -47,9 +51,6 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.Util;
-
-import geogebra.GeoGebraAppletPreloader;
-import netscape.javascript.JSObject;
 
 /**
  * GeoGebra applet implementation operating on a given JApplet object.
@@ -994,6 +995,9 @@ public class AppletImplementation implements AppletImplementationInterface {
 		ggbApi.setLabelVisible(objName, visible);
 	}
 
+	public synchronized boolean getLabelVisible(String objName) {
+		return ggbApi.getLabelVisible(objName);
+	}
 	/**
 	 * Sets the label style of the object with the given name in the geometry
 	 * window. Possible label styles are NAME = 0, NAME_VALUE = 1 and VALUE = 2.

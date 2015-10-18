@@ -591,6 +591,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getAppletImplementation().setLabelVisible(objName, visible);
 	}
 
+	public synchronized boolean getLabelVisible(String objName) {
+		return getAppletImplementation().getLabelVisible(objName);
+	}
+
 	public synchronized void setLayer(String objName, int layer) {
 		getAppletImplementation().setLayer(objName, layer);
 	}

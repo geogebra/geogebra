@@ -398,6 +398,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		geo.updateRepaint();
 	}
 
+	public synchronized boolean getLabelVisible(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null)
+			return false;
+		return geo.isLabelVisible();
+	}
+
 	/**
 	 * Sets the label style of the object with the given name in the geometry
 	 * window. Possible label styles are NAME = 0, NAME_VALUE = 1 and VALUE = 2.

@@ -185,6 +185,8 @@ public interface JavaScriptAPI {
 	 */
 	public void setLabelVisible(String objName, boolean visible);
 
+	public boolean getLabelVisible(String objName);
+
 	/**
 	 * Sets the label style of the object with the given name in the geometry
 	 * window. Possible label styles are NAME = 0, NAME_VALUE = 1 and VALUE = 2.
