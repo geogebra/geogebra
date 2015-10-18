@@ -486,6 +486,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			ev0 = quadric.getEigenvec3D(0);
 			ev1 = quadric.getEigenvec3D(1);
 			ev2 = quadric.getEigenvec3D(2);
+			if (uMinMax == null) {
+				uMinMax = new double[2];
+			}
+			uMinMax[0] = Double.POSITIVE_INFINITY;
+			uMinMax[1] = Double.NEGATIVE_INFINITY;
 			if (vMinMax == null) {
 				vMinMax = new double[2];
 			}
@@ -504,11 +509,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 					vMinMax[0] = Math.sqrt(vMinMax[0]);
 				}
 				vMinMax[1] = Math.sqrt(vMinMax[1]);
-				if (uMinMax == null) {
-					uMinMax = new double[2];
-				}
-				uMinMax[0] = Double.POSITIVE_INFINITY;
-				uMinMax[1] = Double.NEGATIVE_INFINITY;
 				getView3D().getMinIntervalOutsideClipping(uMinMax, center, ev1);
 				surface.drawParabolicCylinder(center, ev0, ev1, ev2, r2,
 						vMinMax[0], vMinMax[1], uMinMax[0], uMinMax[1],
