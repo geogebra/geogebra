@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.gui.view.functioninspector;
 
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspectorModel.IFunctionInspectorListener;
@@ -43,6 +44,7 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	private boolean isChangingValue;
 
 	private App app;
+	private GeoElementSelectionListener sl;
 
 	/***************************************************************
 	 * Constructs a FunctionInspecor
@@ -177,6 +179,7 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 			} else {
 			App.debug("setInspectorVisible(false)");
 			getApp().getKernel().detach(this);
+			getApp().getSelectionManager().removeSelectionListener(sl);
 			getModel().clearGeoList();
 		}
 	}
@@ -226,12 +229,14 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	// ====================================================
 
 	private void createGeoElementSlectionListener() {
-		GeoElementSelectionListener sl = new GeoElementSelectionListener() {
-			public void geoElementSelected(GeoElement geo,
-					boolean addToSelection) {
-				insertGeoElement(geo);
-			}
-		};
+		if (sl == null) {
+			GeoElementSelectionListener sl = new GeoElementSelectionListener() {
+				public void geoElementSelected(GeoElement geo,
+						boolean addToSelection) {
+					insertGeoElement(geo);
+				}
+			};
+		}
 		app.getSelectionManager().addSelectionListener(sl);
 	}
 
