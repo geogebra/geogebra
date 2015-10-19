@@ -3029,13 +3029,10 @@ kernel, left,
 
 		case XCOORD:
 			if (stringType != StringType.GIAC && valueForm
-					&& (leftEval = left.evaluate(tpl)) instanceof VectorValue) {
-				sb.append(kernel.format(((VectorValue) leftEval).getVector()
+					&& !left.wrap().containsFunctionVariable()
+					&& (leftEval = left.evaluate(tpl)) instanceof VectorNDValue) {
+				sb.append(kernel.format(((VectorNDValue) leftEval).getVector()
 						.getX(), tpl));
-			} else if (stringType != StringType.GIAC && valueForm
-					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
-				sb.append(kernel.format(
-						((Vector3DValue) leftEval).getPointAsDouble()[0], tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getX(), tpl));
@@ -3065,14 +3062,11 @@ kernel, left,
 			break;
 
 		case YCOORD:
-			leftEval = left.evaluate(tpl);
-			if (stringType != StringType.GIAC && valueForm && leftEval instanceof VectorValue) {
-				sb.append(kernel.format(((VectorValue) leftEval).getVector()
+			if (stringType != StringType.GIAC && valueForm
+					&& !left.wrap().containsFunctionVariable()
+					&& (leftEval = left.evaluate(tpl)) instanceof VectorNDValue) {
+				sb.append(kernel.format(((VectorNDValue) leftEval).getVector()
 						.getY(), tpl));
-			} else if (stringType != StringType.GIAC && valueForm
-					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
-				sb.append(kernel.format(
-						((Vector3DValue) leftEval).getPointAsDouble()[1], tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getY(), tpl));
@@ -3103,6 +3097,7 @@ kernel, left,
 
 		case ZCOORD:
 			if (stringType != StringType.GIAC && valueForm
+					&& !left.wrap().containsFunctionVariable()
 					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
 				sb.append(kernel.format(
 						((Vector3DValue) leftEval).getPointAsDouble()[2], tpl));
