@@ -119,7 +119,6 @@ public class EventDispatcher implements ClientView {
 	}
 
 	public void update(GeoElement geo) {
-		App.printStacktrace("");
 		long start = System.currentTimeMillis();
 		dispatchEvent(EventType.UPDATE, geo);
 		GeoGebraProfiler.addEvent(System.currentTimeMillis() - start);
