@@ -1753,6 +1753,7 @@ var __giac = [ {},
 { cat: "Evaluate", cmd:"Solutions[(4-x^2)/(x^2-3x+2)<=0]", result:"{x \u2264 -2, 1  <  x \u2264 2, x \u2265 2}", notes:"GGB-166" },
 { cat: "Evaluate", cmd:"Evaluate[sqrt(abs(x))", result:"", notes:"GGB-201" },
 { cat: "Evaluate", cmd:"Evaluate[abs(sqrt(x))", result:"", notes:"GGB-201" },
+{ cat: "Solve", cmd:"Solve[abs(sqrt(x))", result:"", notes:"GGB-201" },
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
