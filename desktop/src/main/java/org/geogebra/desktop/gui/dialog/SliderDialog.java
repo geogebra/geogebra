@@ -47,7 +47,7 @@ public class SliderDialog extends JDialog implements ActionListener,
 	 *  
 	 */
 	private static final long serialVersionUID = 1L;
-	private JButton btApply, btCancel;
+	private JButton btOK, btCancel;
 	private JRadioButton rbNumber, rbAngle, rbInteger;
 	private InputPanelD tfLabel;
 	private JPanel optionPane;
@@ -149,14 +149,14 @@ public class SliderDialog extends JDialog implements ActionListener,
 		slPanel.add(sliderPanel.updatePanel(geos), BorderLayout.CENTER);
 
 		// buttons
-		btApply = new JButton(app.getPlain("Apply"));
-		btApply.setActionCommand("Apply");
-		btApply.addActionListener(this);
+		btOK = new JButton(app.getPlain("OK"));
+		btOK.setActionCommand("OK");
+		btOK.addActionListener(this);
 		btCancel = new JButton(app.getPlain("Cancel"));
 		btCancel.setActionCommand("Cancel");
 		btCancel.addActionListener(this);
 		JPanel btPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		btPanel.add(btApply);
+		btPanel.add(btOK);
 		btPanel.add(btCancel);
 
 		// Create the JOptionPane.
@@ -216,7 +216,7 @@ public class SliderDialog extends JDialog implements ActionListener,
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		if (source == btApply) {
+		if (source == btOK) {
 			geoResult = rbAngle.isSelected() ? angle : number;
 			getResult();
 			geoResult.setLabelMode(GeoElement.LABEL_NAME_VALUE);
@@ -260,7 +260,7 @@ public class SliderDialog extends JDialog implements ActionListener,
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_ENTER:
-			btApply.doClick();
+			btOK.doClick();
 			break;
 
 		case KeyEvent.VK_ESCAPE:
