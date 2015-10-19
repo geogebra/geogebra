@@ -126,6 +126,7 @@ public class AlgebraProcessor {
 	protected final Kernel kernel;
 	/** construction */
 	protected final Construction cons;
+	/** app */
 	protected final App app;
 	private final Localization loc;
 	private final ParserInterface parser;
@@ -187,6 +188,15 @@ public class AlgebraProcessor {
 		return cmdDispatcher.processCommand(c, labelOutput);
 	}
 
+	/**
+	 * @param c
+	 *            command
+	 * @param labelOutput
+	 *            whether output should get a label
+	 * @return simplified expression
+	 * @throws MyError
+	 *             error
+	 */
 	final public ExpressionValue simplifyCommand(Command c,
 			boolean labelOutput)
 			throws MyError {
@@ -319,6 +329,13 @@ public class AlgebraProcessor {
 		}
 	}
 
+	/**
+	 * @param ve
+	 *            expression that might be RHS of parametric equation, eg (t,t)
+	 * @param fallback
+	 *            what to return if ve is not parametric equation
+	 * @return parametric curve (or line, conic) or fallback
+	 */
 	public ValidExpression checkParametricEquationF(ValidExpression ve,
 			ValidExpression fallback) {
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
@@ -569,7 +586,23 @@ public class AlgebraProcessor {
 		}
 	}
 
-	public GeoElement[] processAlgebraCommandNoExceptionHandling(String cmd,
+	/**
+	 * @param cmd
+	 *            command
+	 * @param storeUndo
+	 *            whether to make undo point
+	 * @param allowErrorDialog
+	 *            whether error dialog might pop up
+	 * @param throwMyError
+	 *            whether myError may be thrown
+	 * @param autoCreateSliders
+	 *            whether sliders may be created
+	 * @return resulting elements
+	 * @throws Exception
+	 *             exception
+	 */
+	public final GeoElement[] processAlgebraCommandNoExceptionHandling(
+			String cmd,
 			boolean storeUndo, boolean allowErrorDialog, boolean throwMyError,
 			boolean autoCreateSliders) throws Exception {
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
@@ -593,6 +626,8 @@ public class AlgebraProcessor {
 	 *            true to throw MyErrors (if dialogs are not allowed)
 	 * @param autoCreateSliders
 	 *            whether to show a popup for undefined variables
+	 * @param callback0
+	 *            callback after the geos are created
 	 * @return resulting geos
 	 * @throws Exception
 	 *             e.g. circular definition or parse exception
@@ -607,7 +642,7 @@ public class AlgebraProcessor {
 		GeoElement[] rett;
 
 		if (cmd.length() > 0 && cmd.charAt(0) == '<' && cmd.startsWith("<math")) {
-			rett = parseMathml(cmd, storeUndo, allowErrorDialog, throwMyError,
+			rett = parseMathml(cmd, storeUndo, throwMyError,
 					autoCreateSliders, callback0);
 			if (rett != null && callback0 != null) {
 				callback0.callback(rett);
@@ -892,13 +927,19 @@ public class AlgebraProcessor {
 		try {
 			ret = this.processValidExpression(ve2);
 		} catch (Throwable t) {
-
+			// invalid user input, ignore
 		}
 		return ret;
 	}
 
+	/**
+	 * TODO figure out how to handle sliders here
+	 * 
+	 * @param autoCreateSliders
+	 *            whether sliders should be autocreated
+	 */
 	private GeoElement[] parseMathml(String cmd, final boolean storeUndo,
-			final boolean allowErrorDialog, final boolean throwMyError,
+			final boolean throwMyError,
 			boolean autoCreateSliders, final AsyncOperation callback0) {
 		if (mathmlParserGGB == null) {
 			mathmlParserGGB = new MathMLParser(true);
@@ -930,6 +971,19 @@ public class AlgebraProcessor {
 		return new GeoElement[] { texAlgo.getOutput(0) };
 	}
 
+	/**
+	 * @param storeUndo
+	 *            whether to create an undo point
+	 * @param allowErrorDialog
+	 *            whether to allow error dialogs
+	 * @param throwMyError
+	 *            whethe my error may be thrown
+	 * @param ve
+	 *            input expression
+	 * @return processed expression
+	 * @throws Exception
+	 *             when circular definition or eg. parse exception happens
+	 */
 	public GeoElement[] processValidExpression(boolean storeUndo,
 			boolean allowErrorDialog, boolean throwMyError, ValidExpression ve)
 			throws Exception {
@@ -966,6 +1020,12 @@ public class AlgebraProcessor {
 		return geoElements;
 	}
 
+	/**
+	 * Replaces undefined variables inside of expression
+	 * 
+	 * @param ve
+	 *            expression
+	 */
 	public void replaceUndefinedVariables(ValidExpression ve) {
 		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(
 				this.kernel);
@@ -1027,6 +1087,8 @@ public class AlgebraProcessor {
 	 * 
 	 * @param str
 	 *            string to process
+	 * @param showError
+	 *            whether to show error dialog
 	 * @return resulting boolean
 	 */
 	public GeoBoolean evaluateToBoolean(String str, boolean showError) {
@@ -1733,19 +1795,30 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * @param exp
+	 *            expression
+	 * @param ev
+	 *            evaluated exp
+	 * @param fv
+	 *            function variable
+	 * @param label
+	 *            label for output
+	 * @return paramteric curve (or line, conic)
+	 */
 	protected GeoElement[] processParametricFunction(ExpressionNode exp,
 			ExpressionValue ev, FunctionVariable fv, String label) {
 		if (ev instanceof VectorValue && ((VectorValue)ev).getMode() != Kernel.COORD_COMPLEX) {
-			GeoNumeric loc = new GeoNumeric(cons);
-			loc.setLocalVariableLabel(fv.getSetVarString());
-			exp.replace(fv, loc);
+			GeoNumeric locVar = new GeoNumeric(cons);
+			locVar.setLocalVariableLabel(fv.getSetVarString());
+			exp.replace(fv, locVar);
 
 			ExpressionNode cx = computeCoord(exp, 0);
 			ExpressionNode cy = computeCoord(exp, 1);
 			ExpressionValue[] coefX = new ExpressionValue[5], coefY = new ExpressionValue[5];
-			if (getTrigCoeffs(cx, coefX, new ExpressionNode(kernel, 1.0), loc)
+			if (getTrigCoeffs(cx, coefX, new ExpressionNode(kernel, 1.0), locVar)
 					&& getTrigCoeffs(cy, coefY,
-							new ExpressionNode(kernel, 1.0), loc)) {
+							new ExpressionNode(kernel, 1.0), locVar)) {
 
 				ExpressionNode a, b, c, d, xx, xy, yy;
 
@@ -1795,9 +1868,9 @@ public class AlgebraProcessor {
 			coefY = arrayOfZeros(coefY.length);
 
 			int degX = getPolyCoeffs(cx, coefX,
-					new ExpressionNode(kernel, 1.0), loc);
+					new ExpressionNode(kernel, 1.0), locVar);
 			int degY = getPolyCoeffs(cy, coefY,
-					new ExpressionNode(kernel, 1.0), loc);
+					new ExpressionNode(kernel, 1.0), locVar);
 
 			// line
 			if ((degX >= 0 && degY >= 0) && (degX < 2 && degY < 2)) {
@@ -1862,7 +1935,7 @@ public class AlgebraProcessor {
 			GeoNumeric from = new GeoNumeric(cons, -10);
 			GeoNumeric to = new GeoNumeric(cons, 10);
 			AlgoCurveCartesian ac = new AlgoCurveCartesian(cons, label,
-					new NumberValue[] { nx.getNumber(), ny.getNumber() }, loc,
+					new NumberValue[] { nx.getNumber(), ny.getNumber() }, locVar,
 					from, to);
 			return ac.getOutput();
 		}
@@ -1873,6 +1946,11 @@ public class AlgebraProcessor {
 
 	}
 
+	/**
+	 * @param length
+	 *            length
+	 * @return array of zeros with given length
+	 */
 	protected ExpressionValue[] arrayOfZeros(int length) {
 		ExpressionValue[] ret = new ExpressionValue[length];
 		for (int i = 0; i < length; i++) {
@@ -1881,6 +1959,17 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * @param cx
+	 *            expression
+	 * @param coefX
+	 *            output array for coeffs
+	 * @param mult
+	 *            multiplicator
+	 * @param loc2
+	 *            variable
+	 * @return degree if successful, -1 otherwise
+	 */
 	protected int getPolyCoeffs(ExpressionNode cx, ExpressionValue[] coefX,
 			ExpressionNode mult, GeoNumeric loc2) {
 		if (!cx.containsDeep(loc2)) {
@@ -1946,6 +2035,11 @@ public class AlgebraProcessor {
 		return -1;
 	}
 
+	/**
+	 * @param ev
+	 *            expression
+	 * @return input expression or zero expression if input is null
+	 */
 	protected ExpressionNode expr(ExpressionValue ev) {
 		if (ev == null) {
 			return new ExpressionNode(kernel, 0);
@@ -1953,6 +2047,19 @@ public class AlgebraProcessor {
 		return ev.wrap();
 	}
 
+	/**
+	 * @param cx
+	 *            expression
+	 * @param coefX
+	 *            output array for coefficients
+	 * @param scale
+	 *            multiplicator
+	 * 
+	 * @param var
+	 *            variable
+	 * @return cx is in one of the forms a+b sin(var)+c*cos(var), a+b
+	 *         sinh(var)+c*cosh(var)
+	 */
 	protected boolean getTrigCoeffs(ExpressionNode cx, ExpressionValue[] coefX,
 			ExpressionNode scale, GeoElement var) {
 		boolean childrenOK = true;
@@ -2006,7 +2113,7 @@ public class AlgebraProcessor {
 				&& ((coefX[1] == null && coefX[2] == null) || (coefX[3] == null && coefX[4] == null));
 	}
 
-	private void add(ExpressionValue[] coefX, int i, ExpressionNode scale) {
+	private static void add(ExpressionValue[] coefX, int i, ExpressionNode scale) {
 		if (coefX[i] == null) {
 			coefX[i] = scale;
 		} else {
@@ -2014,6 +2121,13 @@ public class AlgebraProcessor {
 		}
 	}
 
+	/**
+	 * @param exp
+	 *            expression
+	 * @param i
+	 *            0 for x, 1 for y, 2 for z
+	 * @return given coordinate of expression
+	 */
 	protected ExpressionNode computeCoord(ExpressionNode exp, int i) {
 		Operation[] ops = new Operation[] { Operation.XCOORD, Operation.YCOORD,
 				Operation.ZCOORD };
@@ -2157,6 +2271,16 @@ public class AlgebraProcessor {
 		if (lhs instanceof FunctionVariable
 				&& !equ.getRHS().containsFreeFunctionVariable(null)
 				&& !equ.getRHS().evaluatesToNumber(true)) {
+			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
+			try {
+				return processValidExpression(equ.getRHS());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		// s = t^2
+		if (lhs instanceof Variable
+				&& kernel.lookupLabel(((Variable) lhs).getName()) == null) {
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
 				return processValidExpression(equ.getRHS());
@@ -2380,6 +2504,11 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * @param equ
+	 *            equation
+	 * @return implicit curve wrapped in array
+	 */
 	protected GeoElement[] processImplicitCurve(Equation equ) {
 		GeoElement[] ret = new GeoElement[1];
 		String label = equ.getLabel();
@@ -2828,6 +2957,12 @@ public class AlgebraProcessor {
 		cmdDispatcher.initCASCommands();
 	}
 
+	/**
+	 * Show error dialog
+	 * 
+	 * @param key
+	 *            key for error.properties
+	 */
 	public void showError(String key) {
 		app.showError(loc.getError(key));
 	}
@@ -2899,10 +3034,17 @@ public class AlgebraProcessor {
 		return closeBracket;
 	}
 
+	/**
+	 * @return flag for disabled GCD when parsing lines from CAS
+	 */
 	public boolean getDisableGcd() {
 		return disableGcd;
 	}
 
+	/**
+	 * @param disableGcd
+	 *            flag for disabled GCD when parsing lines from CAS
+	 */
 	public void setDisableGcd(boolean disableGcd) {
 		this.disableGcd = disableGcd;
 	}
