@@ -37,9 +37,11 @@ public class ConstructionProtocolView {
 		String name, algebra, definition, command, caption;
 		boolean includesIndex;
 		Boolean consProtocolVisible;
+		private boolean wrapHTML;
 
-		public RowData(GeoElement geo) {
+		public RowData(GeoElement geo, boolean wrapHTML) {
 			this.geo = geo;
+			this.wrapHTML = wrapHTML;
 			updateAll();
 		}
 
@@ -58,7 +60,7 @@ public class ConstructionProtocolView {
 		}
 
 		public void updateCaption() {
-			caption = geo.getCaptionDescriptionHTML(true,
+			caption = geo.getCaptionDescriptionHTML(wrapHTML,
 					StringTemplate.defaultTemplate);
 		}
 		
@@ -522,7 +524,7 @@ public class ConstructionProtocolView {
 								.getConstructionIndex())
 					pos++;
 		
-				row = new RowData(geo);
+				row = new RowData(geo, !app.isHTML5Applet());
 				if (pos < size) {
 					rowList.add(pos, row);
 				} else {
