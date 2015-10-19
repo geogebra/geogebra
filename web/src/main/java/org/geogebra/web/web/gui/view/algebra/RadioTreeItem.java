@@ -1081,8 +1081,7 @@ GuiResourcesSimple.INSTANCE
 	public void setFirst(boolean first) {
 		super.setFirst(first);
 		if (buttonPanel != null) {
-			buttonPanel.getElement().getStyle()
-.setRight(first ? 46 : 0,
+			buttonPanel.getElement().getStyle().setRight(first ? 46 : 0,
 					Unit.PX);
 		}
 	}

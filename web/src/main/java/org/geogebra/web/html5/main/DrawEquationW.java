@@ -5,7 +5,6 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GWTKeycodes;
@@ -223,44 +222,6 @@ public class DrawEquationW extends DrawEquation {
 		}
 	}
 
-	public static native double getScaledWidth(Element el, boolean inside) /*-{
-		var ell = el;
-		if (el.lastChild) {//elSecond
-			ell = el.lastChild;
-			if (ell.lastChild && inside) {//elSecondInside 
-				ell = ell.lastChild;
-			}
-		}
-		if (ell.getBoundingClientRect) {
-			var cr = ell.getBoundingClientRect();
-			if (cr.width) {
-				return cr.width;
-			} else if (cr.right) {
-				return cr.right - cr.left;
-			}
-		}
-		return el.offsetWidth || 0;
-	}-*/;
-
-	public static native double getScaledHeight(Element el, boolean inside) /*-{
-		var ell = el;
-		if (el.lastChild) {//elSecond
-			ell = el.lastChild;
-			if (ell.lastChild && inside) {//elSecondInside 
-				ell = ell.lastChild;
-			}
-		}
-		if (ell.getBoundingClientRect) {
-			var cr = ell.getBoundingClientRect();
-			if (cr.height) {
-				return cr.height;
-			} else if (cr.bottom) {
-				return cr.bottom - cr.top;
-			}
-		}
-		return el.offsetHeight || 0;
-	}-*/;
-
 	/**
 	 * The JavaScript/$ggbQuery bit of drawing an equation with MathQuillGGB
 	 * More could go into GWT, but it was easier with JSNI
@@ -274,7 +235,7 @@ public class DrawEquationW extends DrawEquation {
 	 * @param addOverlay
 	 *            true to add an overlay div
 	 * @param noEqnArray
-	 *            true = normal LaTeX, flase = LaTeX with \begin{eqnarray} in
+	 *            true = normal LaTeX, false = LaTeX with \begin{eqnarray} in
 	 *            the beginning
 	 */
 	public static native void drawEquationMathQuillGGB(Element el,
@@ -1344,8 +1305,7 @@ public class DrawEquationW extends DrawEquation {
 		return rbti.stopNewFormulaCreation(input, latex, callback);
 	}
 
-	private static native void escEditingEquationMathQuillGGB(
-GeoContainer rbti,
+	private static native void escEditingEquationMathQuillGGB(GeoContainer rbti,
 	        Element parentElement) /*-{
 		var elSecond = parentElement.firstChild.firstChild.nextSibling;
 
@@ -1358,8 +1318,7 @@ GeoContainer rbti,
 		thisjq.mathquillggb('revert').mathquillggb();
 	}-*/;
 
-	public static native void endEditingEquationMathQuillGGB(
-GeoContainer rbti,
+	public static native void endEditingEquationMathQuillGGB(GeoContainer rbti,
 	        Element parentElement) /*-{
 		var elSecond = parentElement.firstChild.firstChild.nextSibling;
 		var elSecondInside = elSecond.lastChild;
@@ -1374,19 +1333,6 @@ GeoContainer rbti,
 		}
 	}-*/;
 
-	public static native String getMathQuillContent(Element parentElement) /*-{
-		var elSecond = parentElement.firstChild.firstChild.nextSibling;
-		var elSecondInside = elSecond.lastChild;
-
-		var thisjq = $wnd.$ggbQuery(elSecondInside);
-		var latexq = thisjq.mathquillggb('text');
-		elSecond.previousSibling.style.display = "block";
-
-		thisjq.mathquillggb('revert').mathquillggb();
-		return latexq;
-
-	}-*/;
-
 	public static boolean endEditingEquationMathQuillGGB(GeoContainer rbti,
 			String latex) {
 		currentWidget = null;
@@ -1394,39 +1340,6 @@ GeoContainer rbti,
 		return rbti.stopEditing(latex);
 	}
 
-	/**
-	 * Updates a MathQuillGGB equation which was created by
-	 * drawEquationMathQuillGGB
-	 * 
-	 * @param parentElement
-	 *            the same element as in drawEquationMathQuillGGB
-	 */
-	public static native void updateEquationMathQuillGGB(String htmlt,
-	        Element parentElement, boolean noEqnArray) /*-{
-
-		var elSecond = parentElement.firstChild.firstChild.nextSibling;
-		var elSecondInside = elSecond.lastChild.firstChild;
-
-		if (noEqnArray) {
-			$wnd.$ggbQuery(elSecondInside).mathquillggb('revert').html(htmlt)
-					.mathquillggb();
-
-			// Make sure the length of brackets and square roots are OK
-			elSecondInside.timeoutId2 = $wnd.setTimeout(function() {
-				$wnd.$ggbQuery(elSecondInside).mathquillggb('latex', htmlt);
-			});
-		} else {
-			$wnd.$ggbQuery(elSecondInside).mathquillggb('revert').html(htmlt)
-					.mathquillggb('eqnarray');
-
-			// Make sure the length of brackets and square roots are OK
-			//			$wnd.setTimeout(function() {
-			//				// TODO: needs testing
-			//				//$wnd.$ggbQuery(elSecond).mathquillggb('latex', htmlt);
-			//				$wnd.$ggbQuery(elSecond).mathquillggb('eqnarray');
-			//			});
-		}
-	}-*/;
 
 	public static native JavaScriptObject grabCursorForScrollIntoView(
 	        Element parentElement) /*-{
@@ -1578,115 +1491,9 @@ GeoContainer rbti,
 		return htmlt;
 	}
 
-	public static GDimension computeCorrection(GDimension dim,
-	        GDimension dimSmall, double rotateDegree) {
-
-		int dimWidth = dim.getWidth();
-		if (dimWidth <= 0)
-			dimWidth = 1;
-
-		int dimHeight = dim.getHeight();
-		if (dimHeight <= 0)
-			dimHeight = 1;
-
-		double dimTopCorr = 0;
-		double dimLeftCorr = 0;
-
-		if (rotateDegree != 0) {
-			double rotateDegreeForTrig = rotateDegree;
-
-			while (rotateDegreeForTrig < 0)
-				rotateDegreeForTrig += 360;
-
-			if (rotateDegreeForTrig > 180)
-				rotateDegreeForTrig -= 180;
-
-			if (rotateDegreeForTrig > 90)
-				rotateDegreeForTrig = 180 - rotateDegreeForTrig;
-
-			// Now rotateDegreeForTrig is between 0 and 90 degrees
-
-			rotateDegreeForTrig *= Math.PI / 180;
-
-			// Now rotateDegreeForTrig is between 0 and PI/2, it is in radians
-			// actually!
-			// INPUT for algorithm got: rotateDegreeForTrig, dimWidth, dimHeight
-
-			// dimWidth and dimHeight are the scaled and rotated dims...
-			// only the scaled, but not rotated versions should be computed from
-			// them:
-
-			double helper = Math.cos(2 * rotateDegreeForTrig);
-
-			double dimWidth0;
-			double dimHeight0;
-			if (Kernel.isZero(helper)) {
-				// PI/4, PI/4
-				dimWidth0 = dimHeight0 = Math.sqrt(2) * dimHeight / 2;
-				dimWidth0 = dimSmall.getWidth();
-				if (dimWidth0 <= 0)
-					dimWidth0 = 1;
-
-				dimHeight0 = dimSmall.getHeight();
-				if (dimHeight0 <= 0)
-					dimHeight0 = 1;
-
-				helper = (dimHeight + dimWidth) / 2.0 * Math.sqrt(2);
-
-				dimWidth0 *= helper / (dimHeight0 + dimWidth0);
-				dimHeight0 = helper - dimWidth0;
-			} else {
-				dimHeight0 = (dimHeight * Math.cos(rotateDegreeForTrig) - dimWidth
-				        * Math.sin(rotateDegreeForTrig))
-				        / helper;
-				dimWidth0 = (dimWidth * Math.cos(rotateDegreeForTrig) - dimHeight
-				        * Math.sin(rotateDegreeForTrig))
-				        / helper;
-			}
-
-			// dimHeight0 and dimWidth0 are the values this algorithm needs
-
-			double dimHalfDiag = Math.sqrt(dimWidth0 * dimWidth0 + dimHeight0
-			        * dimHeight0) / 2.0;
-
-			// We also have to compute the bigger and lesser degrees at the
-			// diagonals
-			// Tangents will be positive, as they take positive numbers (and in
-			// radians)
-			// between 0 and Math.PI / 2
-
-			double diagDegreeWidth = Math.atan(dimHeight0 / dimWidth0);
-			double diagDegreeHeight = Math.atan(dimWidth0 / dimHeight0);
-
-			diagDegreeWidth += rotateDegreeForTrig;
-			diagDegreeHeight += rotateDegreeForTrig;
-
-			// diagDegreeWidth might slide through the other part, so substract
-			// it from Math.PI, if necessary
-			if (diagDegreeWidth > Math.PI / 2)
-				diagDegreeWidth = Math.PI - diagDegreeWidth;
-
-			// doing the same for diagDegreeHeight
-			if (diagDegreeHeight > Math.PI / 2)
-				diagDegreeHeight = Math.PI - diagDegreeHeight;
-
-			// half-height of new formula: dimHalfDiag * sin(diagDegreeWidth)
-			dimTopCorr = dimHalfDiag * Math.sin(diagDegreeWidth);
-			dimTopCorr = dimHeight0 / 2.0 - dimTopCorr;
-
-			// half-width of new formula: dimHalfDiag * sin(diagDegreeHeight)
-			dimLeftCorr = dimHalfDiag * Math.sin(diagDegreeHeight);
-			dimLeftCorr = dimWidth0 / 2.0 - dimLeftCorr;
-		}
-
-		return new GDimensionW((int) dimLeftCorr, (int) dimTopCorr);
-	}
-
-
 	public static DrawEquationW getNonStaticCopy(GeoContainer rbti) {
 		return (DrawEquationW) rbti.getApplication().getDrawEquation();
 	}
-
 
 	public static Canvas paintOnCanvas(GeoElement geo, String text0, Canvas c,
 			int fontSize) {
