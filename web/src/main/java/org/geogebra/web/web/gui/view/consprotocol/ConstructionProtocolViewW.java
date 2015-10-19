@@ -60,7 +60,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	/** contains a scrollPanel with the {@link #table constructionstep-table} **/
 	public FlowPanel cpPanel;
 	/** table with constructionsteps **/
-	protected static CellTable<RowData> table;
+	protected CellTable<RowData> table;
 	private StyleBarW styleBar;
 	/** possible drop index **/
 	int minIndex;
@@ -578,7 +578,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	}
 
 
-	private static Column<RowData, String> getColumnCaption2() {
+	private Column<RowData, String> getColumnCaption2() {
 
 		final EditTextCell editCell = new EditTextCell() {
 
