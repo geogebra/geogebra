@@ -286,7 +286,7 @@ __GGB__keysVar.it.command = {
     "Element": "Elemento",
     "Element.Syntax": "[ <Lista>, <Posizione dell'elemento> ]\n[ <Matrice>, <Riga>, <Colonna> ]\n[ <Lista>, <Indice1>, <Indice2>, ... ]",
     "Element.SyntaxCAS": "[ <Lista>, <Posizione dell'elemento> ]\n[ <Matrice>, <Riga>, <Colonna> ]",
-    "Eliminate": "Eliminazione",
+    "Eliminate": "Riduzione",
     "Eliminate.Syntax": "[ <Lista di polinomi>, <Lista di variabili> ]",
     "Ellipse": "Ellisse",
     "Ellipse.Syntax": "[ <Fuoco>, <Fuoco>, <Lunghezza semiasse maggiore> ]\n[ <Fuoco>, <Fuoco>, <Segmento> ]\n[ <Fuoco>, <Fuoco>, <Punto> ]",
