@@ -22,12 +22,18 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.cell.client.TextInputCell;
+import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEndEvent;
@@ -54,7 +60,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	/** contains a scrollPanel with the {@link #table constructionstep-table} **/
 	public FlowPanel cpPanel;
 	/** table with constructionsteps **/
-	protected CellTable<RowData> table;
+	protected static CellTable<RowData> table;
 	private StyleBarW styleBar;
 	/** possible drop index **/
 	int minIndex;
@@ -217,9 +223,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		int lastVisibleColData = data.getColumnCount() - 1;
 		
 		if (app.has(Feature.CP_NEW_COLUMNS)) {
-			while (!data.columns[lastVisibleColData].isVisible()
-					|| "Caption".equals(data.columns[lastVisibleColData]
-							.getTitle())) {
+			while (!data.columns[lastVisibleColData].isVisible()) {
 				lastVisibleColData--;
 			}
 		} else {
@@ -299,7 +303,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 							.has(Feature.CP_NEW_COLUMNS))
 					&& (!"Command".equals(colData.getTitle()) || app
 							.has(Feature.CP_NEW_COLUMNS))
-					&& !"Caption".equals(colData.getTitle())
+					&& (!"Caption".equals(colData.getTitle()) || app
+							.has(Feature.CP_NEW_COLUMNS))
 					&& (!"Breakpoint".equals(colData.getTitle()) || app
 							.has(Feature.CP_NEW_COLUMNS))) {
 				if (!colData.isVisible()) {
@@ -387,7 +392,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		} else if ("Value".equals(title)) {
 			col = getColumnValue();
 		} else if ("Caption".equals(title)) {
-			// TODO
+			if (app.has(Feature.CP_NEW_COLUMNS)) {
+				col = getColumnCaption2();
+			}
 		} else { // if ("Breakpoint".equals(title)) {
 			if (app.has(Feature.CP_NEW_COLUMNS)) {
 				col = getColumnBreakpoint();
@@ -509,6 +516,104 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 
 		};
 		return commandColumn;
+	}
+
+	/*
+	 * Add a column to show end edit the caption.
+	 */
+	private static Column<RowData, String> getColumnCaption() {
+		Column<RowData, String> col = new Column<RowData, String>(
+				new TextInputCell() {
+					private int focusedRow;
+
+					public int getFocusedRow() {
+						return focusedRow;
+					}
+
+					@Override
+					public void render(Context context, String value,
+							SafeHtmlBuilder sb) {
+						if (this.focusedRow == context.getIndex()) {
+							super.render(context, value, sb);
+						} else {
+							sb.appendHtmlConstant(value);
+						}
+
+					}
+
+					@Override
+					public void onBrowserEvent(Context context, Element parent,
+							String value, NativeEvent event,
+							ValueUpdater<String> valueUpdater) {
+						super.onBrowserEvent(context, parent, value, event,
+								valueUpdater);
+
+						// Ignore events that don't target the input.
+						// Element target = event.getEventTarget().cast();
+						// if (!getInputElement(parent).isOrHasChild(target)) {
+						// return;
+						// }
+
+						String eventType = event.getType();
+						if (BrowserEvents.FOCUS.equals(eventType)) {
+							focusedRow = context.getSubIndex();
+						} else if (BrowserEvents.BLUR.equals(eventType)) {
+							focusedRow = -1;
+						}
+					}
+
+				}) {
+
+			@Override
+			public String getValue(RowData object) {
+				//temp - just for testing the different values
+				if (object.getIndex() % 2 == 0) {
+					return object.getGeo().getCaptionSimple();
+				}
+				return object.getCaption();
+			}
+
+		};
+		return col;
+	}
+
+
+	private static Column<RowData, String> getColumnCaption2() {
+
+		final EditTextCell editCell = new EditTextCell() {
+
+			@Override
+			public void render(Context context, String value, SafeHtmlBuilder sb) {
+				if (isEditing(context, null, null)) {
+					super.render(context, value, sb);
+				} else {
+					sb.appendHtmlConstant(value);
+				}
+			
+			}
+			
+			
+		};
+
+		
+		Column<RowData, String> col = new Column<RowData, String>(editCell) {
+
+			@Override
+			public String getValue(RowData object) {
+				// ???
+				Context context = new Context(object.getIndex(),
+						table.getColumnIndex(this), table.getValueKey(object));
+				boolean isEditing = editCell.isEditing(context, null, null);
+				
+				if (isEditing) {
+					return object.getGeo().getCaptionSimple();
+				}
+				return object.getCaption();
+			}
+
+
+		};
+		return col;
 	}
 
 	/*
