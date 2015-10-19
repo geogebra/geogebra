@@ -1287,6 +1287,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	private boolean arePossibleParameters(double u, double v) {
+
+		if (getGeoElement() instanceof GeoQuadric3DPart) {
+			return true; // no limitation in parameters
+		}
+
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_PARABOLOID:
 			return isPossibleU(u) && isPossibleV(v);
@@ -1314,10 +1319,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	private boolean isPossibleU(double u) {
 
-		if (uMinMax == null || u < uMinMax[0]) {
+		if (u < uMinMax[0]) {
 			return false;
 		}
-		if (uMinMax == null || u > uMinMax[1]) {
+		if (u > uMinMax[1]) {
 			return false;
 		}
 		return true;
@@ -1325,10 +1330,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	private boolean isPossibleV(double v) {
 
-		if (vMinMax == null || v < vMinMax[0]) {
+		if (v < vMinMax[0]) {
 			return false;
 		}
-		if (vMinMax == null || v > vMinMax[1]) {
+		if (v > vMinMax[1]) {
 			return false;
 		}
 		return true;
