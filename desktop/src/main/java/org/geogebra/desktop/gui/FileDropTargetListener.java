@@ -125,7 +125,7 @@ public class FileDropTargetListener implements DropTargetListener {
 	 * @return
 	 */
 	private static boolean isGGBFile(String fileName) {
-		return StringUtil.getFileExtensionEnum(fileName)
+		return StringUtil.getFileExtension(fileName)
 				.equals(FileExtensions.GEOGEBRA);
 	}
 
@@ -136,7 +136,7 @@ public class FileDropTargetListener implements DropTargetListener {
 	 * @return
 	 */
 	private static boolean isGGTFile(String fileName) {
-		FileExtensions ext = StringUtil.getFileExtensionEnum(fileName);
+		FileExtensions ext = StringUtil.getFileExtension(fileName);
 		return ext.equals(FileExtensions.GEOGEBRA_TOOL);
 	}
 

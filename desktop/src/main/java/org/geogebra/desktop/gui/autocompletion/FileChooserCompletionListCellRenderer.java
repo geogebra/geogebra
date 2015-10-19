@@ -63,7 +63,7 @@ public class FileChooserCompletionListCellRenderer extends
 		}
 
 		// inclusive toLower, default is ""
-		String fileExt = StringUtil.getFileExtension(file.getName());
+		String fileExt = StringUtil.getFileExtensionStr(file.getName());
 		Icon icon = FILE_EXT_ICONS.get(fileExt);
 		if (icon == null) {
 			icon = UNKNOWN_FILE_ICON;

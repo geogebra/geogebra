@@ -842,7 +842,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 					try {
 						URL ggbURL = new URL(fileStr);
 						app.loadXML(ggbURL,
-								StringUtil.getFileExtensionEnum(fileStr)
+								StringUtil.getFileExtension(fileStr)
 										.equals(FileExtensions.GEOGEBRA_TOOL));
 						reinitGUI();
 						applet.validate();
@@ -908,7 +908,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 					}
 					URL ggbURL = new URL(myStrURL);
 					app.loadXML(ggbURL,
-							StringUtil.getFileExtensionEnum(lowerCase)
+							StringUtil.getFileExtension(lowerCase)
 									.equals(FileExtensions.GEOGEBRA_TOOL));
 					reinitGUI();
 				} catch (Exception e) {

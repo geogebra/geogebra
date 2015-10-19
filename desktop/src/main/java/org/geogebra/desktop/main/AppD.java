@@ -1545,7 +1545,7 @@ public class AppD extends App implements KeyEventDispatcher {
 					boolean success;
 					String lowerCase = StringUtil.toLowerCase(fileArgument);
 					FileExtensions ext = StringUtil
-							.getFileExtensionEnum(lowerCase);
+							.getFileExtension(lowerCase);
 
 					boolean isMacroFile = ext
 							.equals(FileExtensions.GEOGEBRA_TOOL);

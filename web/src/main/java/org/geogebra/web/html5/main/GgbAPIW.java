@@ -636,7 +636,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 						.getExternalImageSrc(fileName);
 				if (url != null) {
 					FileExtensions ext = StringUtil
-							.getFileExtensionEnum(fileName);
+							.getFileExtension(fileName);
 
 					MyImageW img = new MyImageW(
 							ImageElement.as((new Image(url)).getElement()),
@@ -700,7 +700,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 			if (fileName != "") {
 				String url = ((ImageManagerW) app.getImageManager())
 						.getExternalImageSrc(fileName);
-				FileExtensions ext = StringUtil.getFileExtensionEnum(fileName);
+				FileExtensions ext = StringUtil.getFileExtension(fileName);
 
 				MyImageW img = (MyImageW) geo.getFillImage();
 

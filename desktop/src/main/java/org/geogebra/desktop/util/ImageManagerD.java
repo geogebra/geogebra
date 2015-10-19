@@ -139,7 +139,7 @@ public class ImageManagerD extends ImageManager {
 		if (fileName != null && img != null) {
 
 			// GIF saved as PNG in .ggb files so need to change extension
-			FileExtensions ext = StringUtil.getFileExtensionEnum(fileName);
+			FileExtensions ext = StringUtil.getFileExtension(fileName);
 			if (!ext.isAllowedImage()) {
 				fileName = StringUtil.changeFileExtension(fileName,
 						FileExtensions.PNG);
@@ -154,7 +154,7 @@ public class ImageManagerD extends ImageManager {
 	public static MyImageD getExternalImage(String fileName) {
 
 		// GIF saved as PNG in .ggb files so need to change extension
-		FileExtensions ext = StringUtil.getFileExtensionEnum(fileName);
+		FileExtensions ext = StringUtil.getFileExtension(fileName);
 		if (!ext.isAllowedImage()) {
 			fileName = StringUtil.changeFileExtension(fileName,
 					FileExtensions.PNG);

@@ -1464,7 +1464,7 @@ public class StringUtil {
 	 *            eg "file.png"
 	 * @return file extension in lower case eg "png" or "" if there isn't one
 	 */
-	public static String getFileExtension(String fileName) {
+	public static String getFileExtensionStr(String fileName) {
 		int dotPos = fileName.lastIndexOf('.');
 
 		if ((dotPos <= 0) || (dotPos == (fileName.length() - 1))) {
@@ -1473,8 +1473,8 @@ public class StringUtil {
 		return toLowerCase(fileName.substring(dotPos + 1));
 	}
 
-	public static FileExtensions getFileExtensionEnum(String fileName) {
-		String ext = getFileExtension(fileName);
+	public static FileExtensions getFileExtension(String fileName) {
+		String ext = getFileExtensionStr(fileName);
 
 		return FileExtensions.get(ext);
 	}

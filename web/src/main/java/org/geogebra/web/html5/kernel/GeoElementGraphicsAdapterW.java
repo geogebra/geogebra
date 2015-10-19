@@ -64,7 +64,7 @@ public class GeoElementGraphicsAdapterW extends
 			return;
 		}
 
-		FileExtensions ext = StringUtil.getFileExtensionEnum(imageFileName);
+		FileExtensions ext = StringUtil.getFileExtension(imageFileName);
 
 		if (ext.isAllowedImage()) {
 			return;

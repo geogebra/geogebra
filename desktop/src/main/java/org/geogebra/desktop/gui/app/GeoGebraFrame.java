@@ -800,7 +800,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			final EuclidianView ev = app.getActiveEuclidianView();
 			final String filename0 = args.getStringValue("exportAnimation");
 
-			final String extension = StringUtil.getFileExtension(filename0);
+			final String extension = StringUtil.getFileExtensionStr(filename0);
 
 			final String filename = StringUtil.removeFileExtension(filename0);
 
@@ -957,7 +957,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 		if (args != null && args.containsArg("export")) {
 			final String filename = args.getStringValue("export");
-			final String extension = StringUtil.getFileExtension(filename);
+			final String extension = StringUtil.getFileExtensionStr(filename);
 			String dpiStr = args.getStringValue("dpi");
 
 			final int dpi = Integer

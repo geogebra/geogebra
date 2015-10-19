@@ -34,7 +34,7 @@ public abstract class GeoElementGraphicsAdapter {
 	 */
 	public void setImageFileNameOnly(String fn) {
 
-		FileExtensions ext = StringUtil.getFileExtensionEnum(fn);
+		FileExtensions ext = StringUtil.getFileExtension(fn);
 
 		if (!ext.isAllowedImage()) {
 
