@@ -12,11 +12,11 @@ import com.google.gwt.i18n.client.NumberFormat;
  *         </p>
  *
  */
-public class NumberFormatWeb extends Format implements NumberFormatAdapter {
+public class NumberFormatW extends Format implements NumberFormatAdapter {
 
 	private int maximumFractionDigits;
 
-	public NumberFormatWeb(String s, int digits) {
+	public NumberFormatW(String s, int digits) {
 		maximumFractionDigits = digits;
 
 		Boolean forcedLatinDigits = NumberFormat.forcedLatinDigits();
