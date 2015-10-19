@@ -13,7 +13,6 @@ import org.geogebra.common.main.App;
 
 public abstract class CanvasDrawable extends Drawable {
 	private static final int HIGHLIGHT_MARGIN = 2;
-	public static final int NO_DRAW = Integer.MIN_VALUE;
 
 	private boolean drawingOnCanvas;
 	private GFont labelFont;
@@ -38,6 +37,11 @@ public abstract class CanvasDrawable extends Drawable {
 		return text.startsWith("$") && text.trim().endsWith("$");
 	}
 
+	protected GDimension measureLatex(GGraphics2D g2, GeoElement geo0,
+			GFont font, String text) {
+		return drawLatex(g2, geo0, font, text, Integer.MIN_VALUE,
+				Integer.MIN_VALUE);
+	}
 	protected GDimension drawLatex(GGraphics2D g2, GeoElement geo0, GFont font,
 			String text, int x, int y) {
 		App app = view.getApplication();

@@ -519,7 +519,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	protected void drawWidget(GGraphics2D g2) {
 		// just measuring
 		g2.setPaint(GColor.WHITE);
-		drawOptionLines(g2, NO_DRAW, NO_DRAW);
+		drawOptionLines(g2, 0, 0, false);
 
 		String labelText = getLabelText();
 		boolean latexLabel = measureLabel(g2, geoList, labelText);
@@ -559,7 +559,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		drawTextLine(g2, textLeft, textBottom, selectedText, latex, false,
-				false);
+				true);
 
 		drawControl(g2);
 		if (optionsVisible) {
@@ -574,6 +574,22 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		ctrlRect.setBounds(left, boxTop, width, boxHeight);
 		g2.drawRect(left, boxTop, width, boxHeight);
+		int margin = width / 3;
+
+		if (optionsVisible) {
+			margin += 2;
+
+		}
+		// g2.drawLine(left + (width / 2), boxTop + boxHeight - margin,
+		// left + margin, boxTop + margin);
+		// g2.drawLine(left + width - margin, boxTop + margin, left + (width /
+		// 2),
+		// boxTop + boxHeight - margin);
+		//
+		// g2.drawLine(left + margin, boxTop + margin,
+		// left + width - margin,
+		// boxTop + margin);
+
 	}
 
 	@Override
@@ -616,13 +632,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		int textLeft = boxLeft + OPTIONBOX_TEXT_MARGIN_LEFT;
 		int rowTop = optTop;
-		drawOptionLines(g2, textLeft, rowTop);
+		drawOptionLines(g2, textLeft, rowTop, true);
 	}
 
 	private int drawTextLine(GGraphics2D g2, int textLeft, int top,
  String text,
-			boolean latex,
-			boolean optionLine, boolean selected) {
+			boolean latex, boolean selected, boolean draw) {
 		int w = 0;
 		int h = 0;
 		int left = textLeft;
@@ -631,36 +646,30 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			GDimension d = null;
 			if (left == TEXT_CENTER) {
 				g2.setPaint(GColor.WHITE);
-				d = drawLatex(g2, geoList, getLabelFont(), text, NO_DRAW,
-						NO_DRAW);
+				d = measureLatex(g2, geoList, getLabelFont(), text);
 				left = boxLeft + (boxWidth - d.getWidth()) / 2;
 				g2.setPaint(geo.getObjectColor());
 
 			}
 
-			d = drawLatex(g2, geoList, getLabelFont(), text, left, top);
+			d = draw ? drawLatex(g2, geoList, getLabelFont(), text, left, top)
+					: measureLatex(g2, geoList, getLabelFont(), text);
 
 			w = d.getWidth();
 			h = d.getHeight();
-
-			if (optionLine) {
-			}
-
 		} else {
 			w = g2.getFontRenderContext().measureTextWidth(text,
 					getLabelFont());
 			if (left == TEXT_CENTER) {
 				left = boxLeft + (boxWidth - w) / 2;
 			}
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
-					left, top, false, false);
 
-			h = fontHeight;
-
-			if (optionLine) {
+			if (draw) {
+				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+						text, left, top, false, false);
 			}
 
-
+			h = fontHeight;
 		}
 
 		if (w > optionsWidth) {
@@ -674,7 +683,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		return h;
 	}
 
-	private void drawOptionLines(GGraphics2D g2, int left, int top) {
+	private void drawOptionLines(GGraphics2D g2, int left, int top,
+			boolean draw) {
 		optionsWidth = 0;
 		optionsHeight = 0;
 		optionsItemHeight = 0;
@@ -696,7 +706,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				rowTop += OPTIONBOX_TEXT_MARGIN_TOP;
 			}
 			int h = drawTextLine(g2, TEXT_CENTER, rowTop, text, latex, true,
-					hovered);
+					draw);
 
 			if (latex) {
 				itemRect.setBounds(boxLeft, rowTop, boxWidth, h);
@@ -706,7 +716,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			}
 			optionItems.add(itemRect);
 
-			if (hovered && optionItems.size() > i) {
+			if (draw && hovered && optionItems.size() > i) {
 				g2.setPaint(GColor.LIGHT_GRAY);
 				int rx = (int) (itemRect.getX());
 				int ry = (int) (itemRect.getY());
@@ -721,7 +731,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 				g2.setPaint(geoList.getObjectColor());
 				drawTextLine(g2, TEXT_CENTER, rowTop, text, latex, true,
-						hovered);
+ draw);
 			}
 
 			if (i == geoList.getSelectedIndex()) {
@@ -774,6 +784,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	@Override
 	protected void hideWidget() {
 	}
+
 
 	//
 	// private void debugOptionItems() {
