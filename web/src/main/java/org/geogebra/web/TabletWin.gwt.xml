@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module rename-to='tablet'>
+<module rename-to='tabletWin'>
   <inherits name='org.geogebra.web.Tablet3D'/>
   
   <replace-with class="org.geogebra.web.tablet.main.TabletDeviceWin">
