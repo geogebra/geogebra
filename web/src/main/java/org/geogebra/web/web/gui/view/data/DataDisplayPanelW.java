@@ -692,8 +692,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		btnOptions.setVisible(false);
 		btnExport.setVisible(false);
 		
-		String latexStr = DrawEquationW.inputLatexCosmetics(latex);
-		DrawEquationW.paintOnCanvas(sample, latexStr, latexCanvas,
+		DrawEquationW.paintOnCanvas(sample, latex, latexCanvas,
 				app.getFontSizeWeb());
 
 		if (hasControlPanel) {

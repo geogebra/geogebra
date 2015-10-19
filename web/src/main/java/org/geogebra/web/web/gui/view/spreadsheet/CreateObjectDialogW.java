@@ -332,9 +332,8 @@ public class CreateObjectDialogW extends InputDialogW implements
 	public void updatePreview(String latexStr, boolean isLatexDrawable) {
 		if (latexStr != null && isLatexDrawable) {
 			lblPreview.setText("");
-			String latex = DrawEquationW.inputLatexCosmetics(latexStr);
-			DrawEquationW.drawEquationAlgebraView(lblPreview.getElement(), "\\mathrm {" + latex
- + "}", true);
+			DrawEquationW.drawEquationAlgebraView(lblPreview.getElement(),
+					"\\mathrm {" + latexStr + "}", true);
 		} else {
 			lblPreview.setText(coModel.getNonLatexText());
 		}

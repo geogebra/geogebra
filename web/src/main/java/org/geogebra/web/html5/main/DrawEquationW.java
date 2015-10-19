@@ -35,8 +35,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
@@ -67,123 +65,6 @@ public class DrawEquationW extends DrawEquation {
 	protected native void cvmBoxInit(String moduleBaseURL) /*-{
 		$wnd.cvm.box.init(moduleBaseURL);
 	}-*/;
-
-	public static String inputLatexCosmetics(String eqstringin) {
-
-		if (eqstringin == null) {
-			// at least to avoid possible exception in case
-			// of wrong usage... but this looks buggy as well,
-			// which is good, for the bug shall be fixed elsewhere
-			return "";
-		}
-
-		String eqstring = eqstringin;
-
-		eqstring = eqstring.replace('\n', ' ');
-
-		eqstring = eqstring.replace("\\%", "%");
-
-		if (eqstring.indexOf("{\\it ") > -1) {
-
-			// replace {\it A} by A
-			// (not \italic{A} )
-
-			RegExp italic = RegExp.compile("(.*)\\{\\\\it (.*?)\\}(.*)");
-
-			MatchResult matcher;
-
-			while ((matcher = italic.exec(eqstring)) != null) {
-
-				eqstring = matcher.getGroup(1) + " " + matcher.getGroup(2)
-				        + matcher.getGroup(3);
-			}
-		}
-
-		// make sure eg FractionText[] works (surrounds with {} which doesn't
-		// draw well in MathQuillGGB)
-		if (eqstring.length() >= 2)
-			if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
-				eqstring = eqstring.substring(1, eqstring.length() - 1);
-			}
-
-		// remove $s
-		eqstring = eqstring.trim();
-		if (eqstring.length() > 2) {
-			while (eqstring.startsWith("$"))
-				eqstring = eqstring.substring(1).trim();
-			while (eqstring.endsWith("$"))
-				eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
-		} else if ("$$".equals(eqstring)) {
-			eqstring = "";
-			// the rest cases: do not remove single $
-		} else if ("\\$".equals(eqstring)) {
-			eqstring = "\\text{$}";
-		}
-
-		eqstring = eqstring.replace("\\\\", "\\cr ");
-
-		// remove all \; and \,
-		// doesn't work inside \text eg \text{some\;text}
-		eqstring = eqstring.replace("\\;", "\\space ");
-		eqstring = eqstring.replace("\\:", "\\space ");
-		eqstring = eqstring.replace("\\,", "\\space ");
-		eqstring = eqstring.replace("\\ ", "\\space ");
-
-		// negative space is not implemented, let it be positive space
-		// the following code might avoid e.g. x\\!1
-		eqstring = eqstring.replace("\\! ", " ");
-		eqstring = eqstring.replace(" \\!", " ");
-		eqstring = eqstring.replace("\\!", " ");
-
-		// substitute every \$ with $
-		eqstring = eqstring.replace("\\$", "$");
-
-		// eqstring = eqstring.replace("\\left\\{", "\\lbrace ");
-		// eqstring = eqstring.replace("\\right\\}", "\\rbrace ");
-
-		// this might remove necessary space
-		// eqstring = eqstring.replace(" ", "");
-
-		// this does not work
-		// eqstring = eqstring.replace("\\sqrt[ \\t]+\\[", "\\sqrt[");
-
-		// that's why this programmatically slower solution:
-		while ((eqstring.indexOf("\\sqrt ") != -1)
-		        || (eqstring.indexOf("\\sqrt\t") != -1)) {
-			eqstring = eqstring.replace("\\sqrt ", "\\sqrt");
-			eqstring = eqstring.replace("\\sqrt\t", "\\sqrt");
-		}
-
-		// exchange \\sqrt[x]{y} with \\nthroot{x}{y}
-		int index1 = 0, index2 = 0;
-		while ((index1 = eqstring.indexOf("\\sqrt[")) != -1) {
-			index2 = eqstring.indexOf("]", index1);
-			eqstring = eqstring.substring(0, index1) + "\\nthroot{"
-			        + eqstring.substring(index1 + 6, index2) + "}"
-			        + eqstring.substring(index2 + 1);
-		}
-
-		// avoid grey rectangle
-		if (eqstring.trim().equals("")) {
-			eqstring = "\\text{}";
-		}
-
-		// and now, only for presentational purposes (blue highlighting)
-		// we can make every ( to \left( and every ) to \right), etc.
-		// eqstring = eqstring.replace("(", "\\left(");
-		// eqstring = eqstring.replace("\\left\\left(", "\\left(");
-		// in case of typo
-		// eqstring = eqstring.replace("\\right\\left(", "\\right(");
-		// eqstring = eqstring.replace(")", "\\right)");
-		// eqstring = eqstring.replace("\\right\\right)", "\\right)");
-		// in case of typo
-		// eqstring = eqstring.replace("\\left\\right)", "\\left)");
-		// but we do not do it as editing x in f(x)=x+1 gives error anyway
-		// so not having \\left there seems to be a feature, not a bug
-		// otherwise, Line[A,B] and {1,2,3,4} are working, so probably Okay
-
-		return eqstring;
-	}
 
 	/**
 	 * This should make all the LaTeXes temporarily disappear

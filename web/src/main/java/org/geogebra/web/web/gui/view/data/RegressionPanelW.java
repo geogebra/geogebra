@@ -289,8 +289,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 			eqn = "\\text{" + app.getPlain("NotAvailable") + "}";
 
 		}
-		String latexStr = DrawEquationW.inputLatexCosmetics(eqn);
-		DrawEquationW.paintOnCanvas(sample, latexStr, latexCanvas,
+		DrawEquationW.paintOnCanvas(sample, eqn, latexCanvas,
 				app.getFontSizeWeb());
 		
 		updateGUI();

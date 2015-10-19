@@ -13,9 +13,7 @@ import org.geogebra.web.web.cas.view.InputPanel.InputPanelLabel;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -99,20 +97,6 @@ public class CASTableCellW extends VerticalPanel {
 		// #5119
 		outputLabel.setText(casCell.getOutput(StringTemplate.numericDefault));
 		return outputLabel;
-	}
-
-	private void renderOld(Label outputLabel, String latex) {
-		SpanElement outputSpan = DOM.createSpan().cast();
-
-		String eqstring = DrawEquationW.inputLatexCosmetics(DrawEquationW
-				.stripEqnArray(latex));
-		DrawEquationW.drawEquationMathQuillGGB(outputSpan, eqstring, 0, 0,
-				outputLabel.getElement(), false, false, true,
-				0, true);
-		outputSpan.getStyle().setColor(
-				GColor.getColorString(casCell.getAlgebraColor()));
-		outputLabel.getElement().appendChild(outputSpan);
-
 	}
 
 	/**

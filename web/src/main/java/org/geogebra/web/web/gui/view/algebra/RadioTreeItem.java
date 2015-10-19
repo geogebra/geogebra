@@ -1506,7 +1506,7 @@ GuiResourcesSimple.INSTANCE
 			if (text0 == null) {
 				text = "";
 			}
-			text = DrawEquationW.inputLatexCosmetics(text);
+
 			seMayLatex = se;
 			if (newCreationMode) {
 				// in editing mode, we shall avoid letting an invisible, but
