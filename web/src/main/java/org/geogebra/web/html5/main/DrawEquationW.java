@@ -12,7 +12,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.scilab.forge.jlatexmath.DrawingFinishedCallback;
 import org.scilab.forge.jlatexmath.FactoryProviderGWT;
@@ -50,70 +49,12 @@ public class DrawEquationW extends DrawEquation {
 
 	private static Object initJLaTeXMath = null;
 
-	// private HashMap<String, SpanElement> equations = new HashMap<String,
-	// SpanElement>();
-	// private HashMap<String, Integer> equationAges = new HashMap<String,
-	// Integer>();
-
-	private DrawElementManager elementManager;
-
 	public DrawEquationW() {
-		elementManager = new DrawElementManager();
 	}
 
 	protected native void cvmBoxInit(String moduleBaseURL) /*-{
 		$wnd.cvm.box.init(moduleBaseURL);
 	}-*/;
-
-	/**
-	 * This should make all the LaTeXes temporarily disappear
-	 * 
-	 * @param ev
-	 *            latexes of only this EuclidianView - TODO: implement
-	 */
-	public void clearLaTeXes(EuclidianViewW ev) {
-
-		elementManager.clearLaTeXes(ev);
-
-		/*
-		 * Iterator<String> eei = equations.keySet().iterator();
-		 * ArrayList<String> dead = new ArrayList<String>(); while
-		 * (eei.hasNext()) { String eqID = eei.next();
-		 * 
-		 * if (eqID.length() < 1) continue; else if (!eqID.substring(0,
-		 * 1).equals("0") && !eqID.substring(0,
-		 * 1).equals(""+ev.getEuclidianViewNo())) continue;
-		 * 
-		 * Integer age = equationAges.get(eqID); if (age == null) age = 0; if
-		 * (age > 5) {// clearLaTeXes can be called this much until redraw
-		 * Element toclear = equations.get(eqID); Element tcparent =
-		 * toclear.getParentElement(); tcparent.removeChild(toclear);
-		 * dead.add(eqID);// avoid concurrent modification exception } else {
-		 * equationAges.put(eqID, ++age);
-		 * equations.get(eqID).getStyle().setDisplay(Style.Display.NONE); } }
-		 * for (int i = dead.size() - 1; i >= 0; i--) {
-		 * equations.remove(dead.get(i)); equationAges.remove(dead.get(i)); }
-		 */
-	}
-
-	/**
-	 * Does not only clear the latexes, but also deletes them (on special
-	 * occasions)
-	 * 
-	 * @param ev
-	 *            latexes of only this EuclidianView - TODO: implement
-	 */
-	public void deleteLaTeXes(EuclidianViewW ev) {
-
-		elementManager.deleteLaTeXes(ev);
-
-		/*
-		 * Iterator<SpanElement> eei = equations.values().iterator(); while
-		 * (eei.hasNext()) { Element toclear = eei.next(); Element tcparent =
-		 * toclear.getParentElement(); tcparent.removeChild(toclear); }
-		 * equations.clear(); equationAges.clear();
-		 */
-	}
 
 	/**
 	 * Draws an equation on the algebra view in display mode (not editing).

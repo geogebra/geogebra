@@ -644,8 +644,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	private void prepareReloadGgbFile() {
-		((DrawEquationW) getDrawEquation())
-		        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
 		getImageManager().reset();
 	}
 
@@ -909,11 +907,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		setCurrentFile(null);
 		setMoveMode();
 
-		DrawEquationW dew = (DrawEquationW) getDrawEquation();
-		dew.deleteLaTeXes(getEuclidianView1());
-		if (hasEuclidianView2EitherShowingOrNot(1)) {
-			dew.deleteLaTeXes(getEuclidianView2(1));
-		}
 		return true;
 
 		// }

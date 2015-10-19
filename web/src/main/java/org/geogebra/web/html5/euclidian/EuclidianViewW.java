@@ -40,7 +40,6 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
@@ -270,7 +269,6 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	public final void doRepaint2() {
 		long time = System.currentTimeMillis();
-		((DrawEquationW) this.app.getDrawEquation()).clearLaTeXes(this);
 		this.updateBackgroundIfNecessary();
 		paint(this.g2p);
 		getEuclidianController().setCollectedRepaints(false);
