@@ -324,8 +324,7 @@ public class RadioTreeItem extends AVTreeItem
 			Integer w = getAV().getOriginalWidth();
 			if (w != null) {
 				AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
-				avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel,
- w);
+				avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
 				avDockPanel.deferredOnResize();
 				getAV().setOriginalWidth(null);
 			}
@@ -481,8 +480,8 @@ public class RadioTreeItem extends AVTreeItem
 			btnPlay.getUpHoveringFace().setImage(
 					new Image(GuiResourcesSimple.INSTANCE
 							.icons_play_circle_hover()));
-			btnPlay.getDownHoveringFace().setImage(new Image(
-GuiResourcesSimple.INSTANCE
+			btnPlay.getDownHoveringFace()
+					.setImage(new Image(GuiResourcesSimple.INSTANCE
 							.icons_play_pause_circle_hover()));
 			btnPlay.setStyleName("avPlayButton");
 
