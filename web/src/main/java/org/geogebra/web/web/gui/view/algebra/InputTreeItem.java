@@ -19,7 +19,7 @@ import org.geogebra.web.html5.gui.util.BasicIcons;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
@@ -100,7 +100,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			// but maybe it's not that important here
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				DrawEquationWeb.stornoFormulaMathQuillGGB(
+				DrawEquationW.stornoFormulaMathQuillGGB(
 				        InputTreeItem.this, seMayLatex);
 				InputTreeItem.this.setFocus(true);
 				event.stopPropagation();
@@ -112,7 +112,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			// but maybe it's not that important here
 			@Override
 			public void onTouchStart(TouchStartEvent event) {
-				DrawEquationWeb.stornoFormulaMathQuillGGB(
+				DrawEquationW.stornoFormulaMathQuillGGB(
 						InputTreeItem.this, seMayLatex);
 				InputTreeItem.this.setFocus(true);
 				event.stopPropagation();
@@ -434,7 +434,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	@Override
 	public void showOrHideSuggestions() {
 		if ((seMayLatex != null) && seMayLatex.hasParentElement()) {
-			DrawEquationWeb.showOrHideSuggestions(this, seMayLatex);
+			DrawEquationW.showOrHideSuggestions(this, seMayLatex);
 		}
 	}
 
@@ -529,12 +529,12 @@ public class InputTreeItem extends RadioTreeItem implements
 					false, true, false);
 
 			if (setFocusAllowed || !setFocusScheduled) {
-				DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
+				DrawEquationW.focusEquationMathQuillGGB(seMayLatex, b);
 			}
 
 			app.getGuiManager().focusScheduled(true, false, true);
 		} else {
-			DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
+			DrawEquationW.focusEquationMathQuillGGB(seMayLatex, b);
 		}
 	}
 
@@ -669,7 +669,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			app.getGuiManager().focusScheduled(true, true, false);
 		}
 
-		if (!DrawEquationWeb.targetHasFeature(getElement(),
+		if (!DrawEquationW.targetHasFeature(getElement(),
 				"BlurDoesntUpdateGUIFeature", true)) {
 
 			if (isEmpty() && app.has(Feature.INPUT_SHOWN_IN_INPUTBAR))

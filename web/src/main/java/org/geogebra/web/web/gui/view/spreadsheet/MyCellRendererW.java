@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.MyImageW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -373,7 +373,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		if (c == null) {
 			table.setText(row, column, text);
 		} else {
-			DrawEquationWeb.paintOnCanvas(geo, latex, c, app.getFontSizeWeb());
+			DrawEquationW.paintOnCanvas(geo, latex, c, app.getFontSizeWeb());
 		}
 	}
 

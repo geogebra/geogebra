@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.web.html5.gui.util.CancelEvents;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
 
 import com.google.gwt.core.client.Scheduler;
@@ -99,7 +99,7 @@ public class CondFunctionTreeItem extends RadioTreeItem {
 				if (!commonEditingCheck())
 					ensureEditing();
 
-				DrawEquationWeb.addNewRowToMatrix(seMayLatex);
+				DrawEquationW.addNewRowToMatrix(seMayLatex);
 			}
 		});
 	}

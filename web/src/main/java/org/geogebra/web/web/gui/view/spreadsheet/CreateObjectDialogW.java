@@ -8,7 +8,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CardPanel;
 import org.geogebra.web.html5.gui.util.LayoutUtil;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.gui.dialog.InputDialogW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
@@ -332,8 +332,8 @@ public class CreateObjectDialogW extends InputDialogW implements
 	public void updatePreview(String latexStr, boolean isLatexDrawable) {
 		if (latexStr != null && isLatexDrawable) {
 			lblPreview.setText("");
-			String latex = DrawEquationWeb.inputLatexCosmetics(latexStr);
-			DrawEquationWeb.drawEquationAlgebraView(lblPreview.getElement(), "\\mathrm {" + latex
+			String latex = DrawEquationW.inputLatexCosmetics(latexStr);
+			DrawEquationW.drawEquationAlgebraView(lblPreview.getElement(), "\\mathrm {" + latex
  + "}", true);
 		} else {
 			lblPreview.setText(coModel.getNonLatexText());

@@ -41,7 +41,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
-public class DrawEquationWeb extends DrawEquation {
+public class DrawEquationW extends DrawEquation {
 
 	static boolean scriptloaded = false;
  
@@ -60,7 +60,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 	private DrawElementManager elementManager;
 
-	public DrawEquationWeb() {
+	public DrawEquationW() {
 		elementManager = new DrawElementManager();
 	}
 
@@ -646,7 +646,7 @@ public class DrawEquationWeb extends DrawEquation {
 			}
 
 			// in this case, escape
-			DrawEquationWeb.escEditingEquationMathQuillGGB(currentWidget,
+			DrawEquationW.escEditingEquationMathQuillGGB(currentWidget,
 					currentElement);
 			// the above method will do these too
 			// currentWidget = null;
@@ -704,7 +704,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public static void escEditing() {
 		if (currentWidget != null) {
-			DrawEquationWeb.escEditingEquationMathQuillGGB(currentWidget,
+			DrawEquationW.escEditingEquationMathQuillGGB(currentWidget,
 			        currentElement);
 			// the above method will do these too
 			// currentWidget = null;
@@ -723,7 +723,7 @@ public class DrawEquationWeb extends DrawEquation {
 	private static void setCurrentWidget(GeoContainer rbti,
 	        Element parentElement) {
 		if (currentWidget != rbti) {
-			DrawEquationWeb.escEditing();
+			DrawEquationW.escEditing();
 		}
 		currentWidget = rbti;
 		currentElement = parentElement;
@@ -744,9 +744,9 @@ public class DrawEquationWeb extends DrawEquation {
 			// or we should not hide the old... e.g. up/down arrows should not hide...
 			// is there any other case? (up/down will unset later here)
 			if (querr.GeoGebraSuggestionPopupCanShow === true) {
-				@org.geogebra.web.html5.main.DrawEquationWeb::popupSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
+				@org.geogebra.web.html5.main.DrawEquationW::popupSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
 			} else {
-				@org.geogebra.web.html5.main.DrawEquationWeb::hideSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
+				@org.geogebra.web.html5.main.DrawEquationW::hideSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
 			}
 		}
 	}-*/;
@@ -764,7 +764,7 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void editEquationMathQuillGGB(GeoContainer rbti,
 			Element parentElement, boolean newCreationMode) /*-{
 
-		var DrawEquation = @org.geogebra.web.html5.main.DrawEquationWeb::getNonStaticCopy(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
+		var DrawEquation = @org.geogebra.web.html5.main.DrawEquationW::getNonStaticCopy(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
 
 		var elfirst = parentElement.firstChild.firstChild;
 
@@ -792,7 +792,7 @@ public class DrawEquationWeb extends DrawEquation {
 				return;
 			}
 		} else {
-			@org.geogebra.web.html5.main.DrawEquationWeb::setCurrentWidget(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+			@org.geogebra.web.html5.main.DrawEquationW::setCurrentWidget(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 		}
 
 		$wnd
@@ -822,15 +822,15 @@ public class DrawEquationWeb extends DrawEquation {
 							}
 							if (code == 13) {//enter
 								if (newCreationMode) {
-									@org.geogebra.web.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@org.geogebra.web.html5.main.DrawEquationW::newFormulaCreatedMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								} else {
-									@org.geogebra.web.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@org.geogebra.web.html5.main.DrawEquationW::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							} else if (code == 27) {//esc
 								if (newCreationMode) {
-									@org.geogebra.web.html5.main.DrawEquationWeb::stornoFormulaMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@org.geogebra.web.html5.main.DrawEquationW::stornoFormulaMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								} else {
-									@org.geogebra.web.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@org.geogebra.web.html5.main.DrawEquationW::escEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							} else {
 								if ((code == 8) || (code == 32) || (code == 9)) { // backspace
@@ -845,11 +845,11 @@ public class DrawEquationWeb extends DrawEquation {
 								// but still better to put this in keypress later,
 								// just it should be assigned in the bubbling phase of keypress
 								// after MathQuillGGB has executed its own code, just it is not easy...
-								@org.geogebra.web.html5.main.DrawEquationWeb::scrollCursorIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
+								@org.geogebra.web.html5.main.DrawEquationW::scrollCursorIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 
 								if (newCreationMode) {
 									// the same method can be called from the on-screen keyboard!
-									@org.geogebra.web.html5.main.DrawEquationWeb::showOrHideSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@org.geogebra.web.html5.main.DrawEquationW::showOrHideSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							}
 
@@ -869,7 +869,7 @@ public class DrawEquationWeb extends DrawEquation {
 				})
 				.select(
 						function(event7) {
-							@org.geogebra.web.html5.main.DrawEquationWeb::scrollSelectionIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
+							@org.geogebra.web.html5.main.DrawEquationW::scrollSelectionIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 						});
 
 		if (!newCreationMode) {
@@ -899,7 +899,7 @@ public class DrawEquationWeb extends DrawEquation {
 					// so let's change it:
 					delete elSecondInside.GeoGebraSuggestionPopupCanShow;
 
-					@org.geogebra.web.html5.main.DrawEquationWeb::shuffleSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Z)(rbti, false);
+					@org.geogebra.web.html5.main.DrawEquationW::shuffleSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Z)(rbti, false);
 					event.stopPropagation();
 					event.preventDefault();
 					return false;
@@ -908,12 +908,12 @@ public class DrawEquationWeb extends DrawEquation {
 					// so let's change it:
 					delete elSecondInside.GeoGebraSuggestionPopupCanShow;
 
-					@org.geogebra.web.html5.main.DrawEquationWeb::shuffleSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Z)(rbti, true);
+					@org.geogebra.web.html5.main.DrawEquationW::shuffleSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Z)(rbti, true);
 					event.stopPropagation();
 					event.preventDefault();
 					return false;
 				}
-				var captureSuccess = @org.geogebra.web.html5.main.DrawEquationWeb::specKeyDown(IZZZLcom/google/gwt/dom/client/Element;)(code, event.altKey, event.ctrlKey, event.shiftKey, parentElement);
+				var captureSuccess = @org.geogebra.web.html5.main.DrawEquationW::specKeyDown(IZZZLcom/google/gwt/dom/client/Element;)(code, event.altKey, event.ctrlKey, event.shiftKey, parentElement);
 				if (captureSuccess) {
 					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
 					// so let's change it: (it should not be true for pi, o and i!)
@@ -1309,7 +1309,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 		//elSecond.previousSibling.style.display = "block"; // this does not apply here!!
 
-		@org.geogebra.web.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Ljava/lang/String;Ljava/lang/String;)(rbti,parentElement,latexq,latexx);
+		@org.geogebra.web.html5.main.DrawEquationW::newFormulaCreatedMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Ljava/lang/String;Ljava/lang/String;)(rbti,parentElement,latexq,latexx);
 
 		// this method also takes care of calling more JSNI code in a callback,
 		// that originally belonged here: newFormulaCreatedMathQuillGGBCallback
@@ -1473,7 +1473,7 @@ GeoContainer rbti,
 
 		var latexq = null;
 		elSecond.previousSibling.style.display = "block";
-		@org.geogebra.web.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
+		@org.geogebra.web.html5.main.DrawEquationW::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
 		thisjq.mathquillggb('revert').mathquillggb();
 	}-*/;
 
@@ -1486,7 +1486,7 @@ GeoContainer rbti,
 		var thisjq = $wnd.$ggbQuery(elSecondInside);
 		var latexq = thisjq.mathquillggb('text');
 		elSecond.previousSibling.style.display = "block";
-		var rett = @org.geogebra.web.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
+		var rett = @org.geogebra.web.html5.main.DrawEquationW::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
 		if (!rett) {
 			// redefinition did not succeed
 			thisjq.mathquillggb('revert').mathquillggb();
@@ -1802,8 +1802,8 @@ GeoContainer rbti,
 	}
 
 
-	public static DrawEquationWeb getNonStaticCopy(GeoContainer rbti) {
-		return (DrawEquationWeb) rbti.getApplication().getDrawEquation();
+	public static DrawEquationW getNonStaticCopy(GeoContainer rbti) {
+		return (DrawEquationW) rbti.getApplication().getDrawEquation();
 	}
 
 
@@ -1820,7 +1820,7 @@ GeoContainer rbti,
 					c.getCoordinateSpaceHeight());
 		}
 		Context2d ctx = c.getContext2d();
-		TeXIcon icon = DrawEquationWeb.createIcon("\\mathsf{\\mathrm {" + text0
+		TeXIcon icon = DrawEquationW.createIcon("\\mathsf{\\mathrm {" + text0
 				+ "}}", fontSize, GFont.PLAIN, false);
 		Graphics2DInterface g3 = new Graphics2DW(ctx);
 		double ratio = ((AppW) geo.getKernel().getApplication())

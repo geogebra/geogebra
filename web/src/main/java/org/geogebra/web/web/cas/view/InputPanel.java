@@ -2,7 +2,7 @@ package org.geogebra.web.web.cas.view;
 
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
@@ -78,7 +78,7 @@ public interface InputPanel extends IsWidget {
 				c.setCoordinateSpaceWidth(1);
 				return;
 			}
-			DrawEquationWeb.paintOnCanvas(new GeoNumeric(app.getKernel()
+			DrawEquationW.paintOnCanvas(new GeoNumeric(app.getKernel()
 					.getConstruction()), laTeX, c, app.getFontSizeWeb());
 
 		}

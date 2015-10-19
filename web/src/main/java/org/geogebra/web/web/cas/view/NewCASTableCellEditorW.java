@@ -13,7 +13,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.gui.view.algebra.EquationEditor;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.ScrollableSuggestionDisplay;
@@ -50,9 +50,9 @@ public class NewCASTableCellEditorW extends Label implements
 		this.ml = ml;
 		this.editor = new EquationEditor(app, this);
 		this.seMayLaTeX = DOM.createSpan().cast();
-		DrawEquationWeb.drawEquationAlgebraView(seMayLaTeX, "", true);
+		DrawEquationW.drawEquationAlgebraView(seMayLaTeX, "", true);
 		EquationEditor.updateNewStatic(seMayLaTeX);
-		DrawEquationWeb.editEquationMathQuillGGB(this, seMayLaTeX, true);
+		DrawEquationW.editEquationMathQuillGGB(this, seMayLaTeX, true);
 		this.getElement().appendChild(seMayLaTeX);
 		this.getElement().addClassName("hasCursorPermanent");
 		this.addDomHandler(new MouseUpHandler() {
@@ -119,7 +119,7 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public String getInput() {
-		return DrawEquationWeb.getActualEditedValue(seMayLaTeX, false);
+		return DrawEquationW.getActualEditedValue(seMayLaTeX, false);
 	}
 
 	public void setInputSelectionStart(int selStart) {
@@ -176,7 +176,7 @@ public class NewCASTableCellEditorW extends Label implements
 	public void insertString(String text) {
 		// "this" can be null, it only calls the typing method
 		// which is empty now...
-		DrawEquationWeb.writeLatexInPlaceOfCurrentWord(this, seMayLaTeX, text,
+		DrawEquationW.writeLatexInPlaceOfCurrentWord(this, seMayLaTeX, text,
 				"",
 				false);
 	}
@@ -286,7 +286,7 @@ public class NewCASTableCellEditorW extends Label implements
 		// but then probably this is the call,
 		// (almost) the same as in NewRadioButtonTreeItem:
 		if ((seMayLaTeX != null) && seMayLaTeX.hasParentElement()) {
-			DrawEquationWeb.showOrHideSuggestions(this, seMayLaTeX);
+			DrawEquationW.showOrHideSuggestions(this, seMayLaTeX);
 		}
 	}
 
@@ -306,19 +306,19 @@ public class NewCASTableCellEditorW extends Label implements
 
 	public void keypress(char character, boolean alt, boolean ctrl,
 			boolean shift, boolean more) {
-		DrawEquationWeb.triggerKeypress(this, this.seMayLaTeX, character, alt,
+		DrawEquationW.triggerKeypress(this, this.seMayLaTeX, character, alt,
 				ctrl,
 				shift, more);
 
 	}
 
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		DrawEquationWeb.triggerKeydown(this, seMayLaTeX, key, alt, ctrl, shift);
+		DrawEquationW.triggerKeydown(this, seMayLaTeX, key, alt, ctrl, shift);
 
 	}
 
 	public void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
-		DrawEquationWeb.triggerKeyUp(seMayLaTeX, key, alt, ctrl, shift);
+		DrawEquationW.triggerKeyUp(seMayLaTeX, key, alt, ctrl, shift);
 
 	}
 
@@ -330,7 +330,7 @@ public class NewCASTableCellEditorW extends Label implements
 	public void ensureEditing() {
 		if (!thisIsEdited) {
 			thisIsEdited = true;
-			DrawEquationWeb.editEquationMathQuillGGB(this, seMayLaTeX, true);
+			DrawEquationW.editEquationMathQuillGGB(this, seMayLaTeX, true);
 		}
 		// TODO Auto-generated method stub
 
@@ -354,7 +354,7 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public String getLaTeX() {
-		return dollarFix(DrawEquationWeb.getActualEditedValue(seMayLaTeX, true));
+		return dollarFix(DrawEquationW.getActualEditedValue(seMayLaTeX, true));
 	}
 
 	private String dollarFix(String actualEditedValue) {

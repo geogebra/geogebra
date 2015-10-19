@@ -140,7 +140,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 
 
-	private DrawEquationWeb drawEquation;
+	private DrawEquationW drawEquation;
 
 	private NormalizerMinimal normalizerMinimal;
 	private GgbAPIW ggbapi;
@@ -251,7 +251,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public final DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
-			drawEquation = new DrawEquationWeb();
+			drawEquation = new DrawEquationW();
 		}
 
 		return drawEquation;
@@ -644,7 +644,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	private void prepareReloadGgbFile() {
-		((DrawEquationWeb) getDrawEquation())
+		((DrawEquationW) getDrawEquation())
 		        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
 		getImageManager().reset();
 	}
@@ -909,7 +909,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		setCurrentFile(null);
 		setMoveMode();
 
-		DrawEquationWeb dew = (DrawEquationWeb) getDrawEquation();
+		DrawEquationW dew = (DrawEquationW) getDrawEquation();
 		dew.deleteLaTeXes(getEuclidianView1());
 		if (hasEuclidianView2EitherShowingOrNot(1)) {
 			dew.deleteLaTeXes(getEuclidianView2(1));

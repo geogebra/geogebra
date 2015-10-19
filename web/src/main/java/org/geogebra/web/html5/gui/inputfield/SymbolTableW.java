@@ -2,7 +2,7 @@ package org.geogebra.web.html5.gui.inputfield;
 
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -76,7 +76,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	}
 
 	private Widget getLatexHTML(String text, App app) {
-		Canvas c = DrawEquationWeb.paintOnCanvas(sample, text, null,
+		Canvas c = DrawEquationW.paintOnCanvas(sample, text, null,
 					app.getFontSizeWeb());
 		return c;
 	}

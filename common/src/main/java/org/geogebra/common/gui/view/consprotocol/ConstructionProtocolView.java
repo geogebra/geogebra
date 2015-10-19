@@ -144,10 +144,11 @@ public class ConstructionProtocolView {
 			else
 				m = geo.getRelatedModeID();
 
-			if (m != -1 && index != prevIndex)
+			if (m != -1 && index != prevIndex) {
 				toolbarIcon = getModeIcon(m); //app.wrapGetModeIcon(m);
-			else
+			} else {
 				toolbarIcon = null;
+			}
 
 			// name = geo.getNameDescriptionHTML(true, true);
 			name = geo.getNameDescriptionTextOrHTML();

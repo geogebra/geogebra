@@ -22,7 +22,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtil;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.css.GuiResources;
@@ -692,8 +692,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		btnOptions.setVisible(false);
 		btnExport.setVisible(false);
 		
-		String latexStr = DrawEquationWeb.inputLatexCosmetics(latex);
-		DrawEquationWeb.paintOnCanvas(sample, latexStr, latexCanvas,
+		String latexStr = DrawEquationW.inputLatexCosmetics(latex);
+		DrawEquationW.paintOnCanvas(sample, latexStr, latexCanvas,
 				app.getFontSizeWeb());
 
 		if (hasControlPanel) {

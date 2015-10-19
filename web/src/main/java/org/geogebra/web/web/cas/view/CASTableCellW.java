@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.cas.view.InputPanel.InputPanelCanvas;
 import org.geogebra.web.web.cas.view.InputPanel.InputPanelLabel;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
@@ -64,7 +64,7 @@ public class CASTableCellW extends VerticalPanel {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				String eqstring = casCell.getLaTeXOutput();
 
-				c = DrawEquationWeb.paintOnCanvas(casCell, eqstring, null,
+				c = DrawEquationW.paintOnCanvas(casCell, eqstring, null,
 						casCell.getKernel().getApplication().getFontSize() + 1);
 
 			} else {
@@ -104,9 +104,9 @@ public class CASTableCellW extends VerticalPanel {
 	private void renderOld(Label outputLabel, String latex) {
 		SpanElement outputSpan = DOM.createSpan().cast();
 
-		String eqstring = DrawEquationWeb.inputLatexCosmetics(DrawEquationWeb
+		String eqstring = DrawEquationW.inputLatexCosmetics(DrawEquationW
 				.stripEqnArray(latex));
-		DrawEquationWeb.drawEquationMathQuillGGB(outputSpan, eqstring, 0, 0,
+		DrawEquationW.drawEquationMathQuillGGB(outputSpan, eqstring, 0, 0,
 				outputLabel.getElement(), false, false, true,
 				0, true);
 		outputSpan.getStyle().setColor(
@@ -233,7 +233,7 @@ public class CASTableCellW extends VerticalPanel {
 										.getFontSizeWeb(), Unit.PX);
 					this.outputPanel.add(this.commentLabel);
 				}
-				this.outputPanel.add(DrawEquationWeb.paintOnCanvas(casCell,
+				this.outputPanel.add(DrawEquationW.paintOnCanvas(casCell,
 						eqstring, null, casCell.getKernel().getApplication()
 								.getFontSizeWeb() + 1));
 			}

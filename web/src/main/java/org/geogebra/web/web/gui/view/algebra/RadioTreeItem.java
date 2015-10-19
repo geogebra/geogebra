@@ -63,7 +63,7 @@ import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
@@ -1254,7 +1254,7 @@ GuiResourcesSimple.INSTANCE
 			return;
 		}
 		if (commonEditingCheck()) {
-			DrawEquationWeb.triggerKeydown(this, seMayLatex, key, alt, ctrl,
+			DrawEquationW.triggerKeydown(this, seMayLatex, key, alt, ctrl,
 					shift);
 		}
 	}
@@ -1285,7 +1285,7 @@ GuiResourcesSimple.INSTANCE
 		}
 
 		if (commonEditingCheck()) {
-			DrawEquationWeb.triggerKeypress(this, seMayLatex, character, alt,
+			DrawEquationW.triggerKeypress(this, seMayLatex, character, alt,
 					ctrl, shift, more);
 		}
 	}
@@ -1311,7 +1311,7 @@ GuiResourcesSimple.INSTANCE
 		}
 
 		if (commonEditingCheck()) {
-			DrawEquationWeb.triggerKeyUp(seMayLatex, key, alt, ctrl, shift);
+			DrawEquationW.triggerKeyUp(seMayLatex, key, alt, ctrl, shift);
 		}
 	}
 
@@ -1493,7 +1493,7 @@ GuiResourcesSimple.INSTANCE
 
 	private void renderLatex(String text0, Element old, boolean forceMQ) {
 		if (!forceMQ) {
-			c = DrawEquationWeb.paintOnCanvas(geo, text0, c, getFontSize());
+			c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
 			if (c != null && ihtml.getElement().isOrHasChild(old)) {
 				ihtml.getElement().replaceChild(c.getCanvasElement(), old);
 			}
@@ -1506,15 +1506,15 @@ GuiResourcesSimple.INSTANCE
 			if (text0 == null) {
 				text = "";
 			}
-			text = DrawEquationWeb.inputLatexCosmetics(text);
+			text = DrawEquationW.inputLatexCosmetics(text);
 			seMayLatex = se;
 			if (newCreationMode) {
 				// in editing mode, we shall avoid letting an invisible, but
 				// harmful element!
-				DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "",
+				DrawEquationW.drawEquationAlgebraView(seMayLatex, "",
 						newCreationMode);
 			} else {
-				DrawEquationWeb.drawEquationAlgebraView(seMayLatex,
+				DrawEquationW.drawEquationAlgebraView(seMayLatex,
 						"\\mathrm {" + text + "}", newCreationMode);
 			}
 		}
@@ -1522,7 +1522,7 @@ GuiResourcesSimple.INSTANCE
 	}
 
 	private void updateLaTeX(String text0) {
-		c = DrawEquationWeb.paintOnCanvas(geo, text0, c, getFontSize());
+		c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
 	}
 
 	/**
@@ -1554,7 +1554,7 @@ GuiResourcesSimple.INSTANCE
 		// we can put an if check here safely for the present time
 		if (!newCreationMode) {
 			// if (LaTeX) {
-			DrawEquationWeb.endEditingEquationMathQuillGGB(this, seMayLatex);
+			DrawEquationW.endEditingEquationMathQuillGGB(this, seMayLatex);
 			if (!this.newCreationMode && c != null) {
 				this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 						seMayLatex);
@@ -1580,7 +1580,7 @@ GuiResourcesSimple.INSTANCE
 
 		thisIsEdited = true;
 		if (newCreationMode) {
-			DrawEquationWeb.editEquationMathQuillGGB(this, seMayLatex, true);
+			DrawEquationW.editEquationMathQuillGGB(this, seMayLatex, true);
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
 			CancelEventTimer.keyboardSetVisible();
@@ -1606,7 +1606,7 @@ GuiResourcesSimple.INSTANCE
 			}
 			renderLatex(text, old, true);
 
-			DrawEquationWeb.editEquationMathQuillGGB(this, seMayLatex, false);
+			DrawEquationW.editEquationMathQuillGGB(this, seMayLatex, false);
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
 			CancelEventTimer.keyboardSetVisible();
@@ -2308,7 +2308,7 @@ marblePanel, evt))) {
 
 	@Override
 	public void setFocus(boolean b, boolean sv) {
-		DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
+		DrawEquationW.focusEquationMathQuillGGB(seMayLatex, b);
 	}
 
 	@Override
@@ -2318,7 +2318,7 @@ marblePanel, evt))) {
 		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
 		// seMayLatex, "" + text.charAt(i), "", false);
 
-		DrawEquationWeb.writeLatexInPlaceOfCurrentWord(this, seMayLatex, text,
+		DrawEquationW.writeLatexInPlaceOfCurrentWord(this, seMayLatex, text,
 				"", false);
 	}
 
@@ -2327,7 +2327,7 @@ marblePanel, evt))) {
 		if (seMayLatex == null)
 			return "";
 
-		String ret = DrawEquationWeb.getActualEditedValue(seMayLatex, false);
+		String ret = DrawEquationW.getActualEditedValue(seMayLatex, false);
 
 		if (ret == null)
 			return "";
@@ -2338,7 +2338,7 @@ marblePanel, evt))) {
 	@Override
 	public void scrollCursorIntoView() {
 		if (seMayLatex != null) {
-			DrawEquationWeb.scrollCursorIntoView(this, seMayLatex,
+			DrawEquationW.scrollCursorIntoView(this, seMayLatex,
 					newCreationMode);
 		}
 	}

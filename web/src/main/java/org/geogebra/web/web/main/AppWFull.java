@@ -223,7 +223,7 @@ public abstract class AppWFull extends AppW {
 	public final void uploadToGeoGebraTube() {
 
 		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
-		final GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
+		final GeoGebraTubeExportW ggbtube = new GeoGebraTubeExportW(this);
 		getGgbApi().getBase64(true, new StringHandler() {
 
 			@Override

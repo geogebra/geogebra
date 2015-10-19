@@ -483,9 +483,8 @@ public abstract class EuclidianStatic {
 	 *            true to draw, false to measure only.
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static org.geogebra.common.awt.GPoint drawIndexedString(
-			App app, org.geogebra.common.awt.GGraphics2D g3, String str,
- float xPos,
+	public static org.geogebra.common.awt.GPoint drawIndexedString(App app,
+			org.geogebra.common.awt.GGraphics2D g3, String str, float xPos,
 			float yPos, boolean serif, boolean precise, boolean doDraw) {
 
 		org.geogebra.common.awt.GFont g2font = g3.getFont();

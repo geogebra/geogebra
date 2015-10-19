@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
@@ -216,12 +216,12 @@ public class MatrixTreeItem extends RadioTreeItem {
 				if (!wasEditing)
 					ensureEditing();
 
-				DrawEquationWeb.addNewRowToMatrix(seMayLatex);
+				DrawEquationW.addNewRowToMatrix(seMayLatex);
 
 				// it is a good question whether shall we save the result
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
-				DrawEquationWeb.endEditingEquationMathQuillGGB(
+				DrawEquationW.endEditingEquationMathQuillGGB(
 						MatrixTreeItem.this, seMayLatex);
 
 				if (wasEditing) {
@@ -239,12 +239,12 @@ public class MatrixTreeItem extends RadioTreeItem {
 				if (!wasEditing)
 					ensureEditing();
 
-				DrawEquationWeb.addNewColToMatrix(seMayLatex);
+				DrawEquationW.addNewColToMatrix(seMayLatex);
 
 				// it is a good question whether shall we save the result
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
-				DrawEquationWeb.endEditingEquationMathQuillGGB(
+				DrawEquationW.endEditingEquationMathQuillGGB(
 						MatrixTreeItem.this, seMayLatex);
 
 				if (wasEditing) {
@@ -262,12 +262,12 @@ public class MatrixTreeItem extends RadioTreeItem {
 				if (!wasEditing)
 					ensureEditing();
 
-				DrawEquationWeb.removeColFromMatrix(seMayLatex);
+				DrawEquationW.removeColFromMatrix(seMayLatex);
 
 				// it is a good question whether shall we save the result
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
-				DrawEquationWeb.endEditingEquationMathQuillGGB(
+				DrawEquationW.endEditingEquationMathQuillGGB(
 						MatrixTreeItem.this, seMayLatex);
 
 				if (wasEditing) {
@@ -285,12 +285,12 @@ public class MatrixTreeItem extends RadioTreeItem {
 				if (!wasEditing)
 					ensureEditing();
 
-				DrawEquationWeb.removeRowFromMatrix(seMayLatex);
+				DrawEquationW.removeRowFromMatrix(seMayLatex);
 
 				// it is a good question whether shall we save the result
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
-				DrawEquationWeb.endEditingEquationMathQuillGGB(
+				DrawEquationW.endEditingEquationMathQuillGGB(
 						MatrixTreeItem.this, seMayLatex);
 
 				if (wasEditing) {

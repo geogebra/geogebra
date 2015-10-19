@@ -9,7 +9,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.cas.giac.PNaCl;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CustomElements;
 import org.geogebra.web.html5.util.Dom;
@@ -96,13 +96,13 @@ public class Web implements EntryPoint {
 				// mouse event or touch event, but not both, I think)
 				case Event.ONTOUCHSTART:
 					if (event.getNativeEvent() != null) {
-						DrawEquationWeb.escEditingHoverTapWhenElsewhere(
+						DrawEquationW.escEditingHoverTapWhenElsewhere(
 								event.getNativeEvent(), true);
 					}
 					break;
 				case Event.ONMOUSEDOWN:
 					if (event.getNativeEvent() != null) {
-						DrawEquationWeb.escEditingHoverTapWhenElsewhere(
+						DrawEquationW.escEditingHoverTapWhenElsewhere(
 								event.getNativeEvent(), false);
 					}
 					break;

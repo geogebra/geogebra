@@ -24,10 +24,10 @@ import com.google.gwt.http.client.URL;
  * 
  * @author Florian Sonner
  */
-public class GeoGebraTubeExportWeb extends
+public class GeoGebraTubeExportW extends
         org.geogebra.common.export.GeoGebraTubeExport {
 
-	public GeoGebraTubeExportWeb(App app) {
+	public GeoGebraTubeExportW(App app) {
 		super(app);
 	}
 
