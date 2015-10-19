@@ -385,18 +385,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
-	public void onOptionOver(int x, int y) {
-		if (!(optionsVisible && optionsRect.contains(x, y))) {
-			return;
-		}
-
-		int idx = getOptionAt(x, y);
-		if (idx != -1 && idx != selectedOptionIndex) {
-			selectedOptionIndex = idx;
-			geoList.updateRepaint();
-		}
-
-	}
 	@Override
 	public boolean isInside(GRectangle rect) {
 
@@ -639,9 +627,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int h = 0;
 		int left = textLeft;
 		int fontHeight = getMultipliedFontSize();
-		GBox b = geo.getKernel().getApplication().getSwingFactory()
-				.createHorizontalBox(view.getEuclidianController());
-		GRectangle rect = b.getBounds();
 		if (latex) {
 			GDimension d = null;
 			if (left == TEXT_CENTER) {
@@ -659,7 +644,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			h = d.getHeight();
 
 			if (optionLine) {
-				rect.setBounds(boxLeft, top, boxWidth, h);
 			}
 
 		} else {
@@ -674,14 +658,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			h = fontHeight;
 
 			if (optionLine) {
-				rect.setBounds(boxLeft, top - h, boxWidth, h + 5);
 			}
 
 
-		}
-
-		if (optionLine) {
-			optionItems.add(rect);
 		}
 
 		if (w > optionsWidth) {
@@ -703,6 +682,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		optionItems.clear();
 		int rowTop = top;
 		for (int i = 0; i < geoList.size(); i++) {
+			GBox b = geo.getKernel().getApplication().getSwingFactory()
+					.createHorizontalBox(view.getEuclidianController());
+			GRectangle itemRect = b.getBounds();
+
 			String text = geoList.get(i)
 					.toValueString(StringTemplate.defaultTemplate);
 
@@ -714,18 +697,27 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			}
 			int h = drawTextLine(g2, TEXT_CENTER, rowTop, text, latex, true,
 					hovered);
+
+			if (latex) {
+				itemRect.setBounds(boxLeft, rowTop, boxWidth, h);
+			} else {
+				itemRect.setBounds(boxLeft, rowTop - h, boxWidth, h + 5);
+
+			}
+			optionItems.add(itemRect);
+
 			if (hovered && optionItems.size() > i) {
-				GRectangle rect = optionItems.get(i);
 				g2.setPaint(GColor.LIGHT_GRAY);
-				g2.fillRoundRect((int) (rect.getX()), (int) (rect.getY()),
-						(int) (rect.getWidth()), (int) (rect.getHeight()), 4,
-						4);
+				int rx = (int) (itemRect.getX());
+				int ry = (int) (itemRect.getY());
+				int rw = (int) (itemRect.getWidth());
+				int rh = (int) (itemRect.getHeight());
+
+				g2.fillRoundRect(rx, ry, rw, rh, 4, 4);
 
 				g2.setPaint(GColor.GRAY);
 
-				g2.drawRoundRect((int) (rect.getX()), (int) (rect.getY()),
-						(int) (rect.getWidth()), (int) (rect.getHeight()), 4,
-						4);
+				g2.drawRoundRect(rx, ry, rw, rh, 4, 4);
 
 				g2.setPaint(geoList.getObjectColor());
 				drawTextLine(g2, TEXT_CENTER, rowTop, text, latex, true,
@@ -737,12 +729,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				selectedHeight = h;
 			}
 
+
 			int gap = latex ? 0 : OPTIONSBOX_ITEM_GAP;
 			optionsHeight += h + gap;
 			rowTop += h + gap;
 
 		}
 		optionsWidth += 2 * COMBO_TEXT_MARGIN + getTriangleControlWidth();
+		// debugOptionItems();
 	}
 
 	private int getTriangleControlWidth() {
@@ -781,13 +775,25 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	protected void hideWidget() {
 	}
 
+	//
+	// private void debugOptionItems() {
+	// App.debug("[OPTRECT] optionItems size: " + optionItems.size());
+	// for (GRectangle rect : optionItems) {
+	// App.debug("[OPTRECT] (" + rect.getX() + ", " + rect.getY() + ", "
+	// + (rect.getX() + rect.getWidth()) + ", "
+	// + (rect.getY() + rect.getHeight()) + ")");
+	// }
+	//
+	// }
 	private int getOptionAt(int x, int y) {
 		int idx = 0;
 		for (GRectangle rect : optionItems) {
-			if (rect != null && rect.contains(x, y)) {
+			boolean inside = rect != null && rect.contains(x, y);
+			if (inside) {
 				return idx;
 			}
 			idx++;
+
 		}
 		return -1;
 	}
@@ -802,11 +808,29 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
+	public void onOptionOver(int x, int y) {
+		if (!((optionsVisible) && optionsRect.contains(x, y))) {
+			return;
+		}
+
+		int idx = getOptionAt(x, y);
+
+		if (idx == selectedOptionIndex + 2) {
+			App.debug("AAAAA ha!");
+		}
+		if (idx != -1 && idx != selectedOptionIndex) {
+			selectedOptionIndex = idx;
+			geoList.updateRepaint();
+		}
+
+	}
+
 	public void onOptionDown(int x, int y) {
 		if (!isDrawingOnCanvas()) {
 			return;
 		}
-		if (optionsRect.contains(x, y)) {
+		if (optionsRect.contains(x, y)
+				|| optionsRect.getBounds().contains(x, y)) {
 			int idx = getOptionAt(x, y);
 			if (idx == -1) {
 				return;
