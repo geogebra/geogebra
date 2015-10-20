@@ -8,6 +8,7 @@ import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExamEnvironment;
+import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
@@ -52,13 +53,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    // TODO Auto-generated method stub
 	    
     }
-	
-	native void nativeShare(String base64, String title)/*-{
-		if ($wnd.android) {
-			$wnd.android.share(base64, title, 'ggb');
-
-		}
-	}-*/;
 	
 	native boolean nativeShareSupported()/*-{
 		if ($wnd.android && $wnd.android.share) {
@@ -159,13 +153,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    		if(!nativeShareSupported()){
 	    			app.uploadToGeoGebraTube();
 	    		} else {
-	    			app.getGgbApi().getBase64(true, new StringHandler(){
-
-	    				@Override
-	    				public void handle(String s) {
-	    					String title = app.getKernel().getConstruction().getTitle();
-	    					nativeShare(s, "".equals(title) ? "construction" : title);
-	    				}}); 
+							app.getGgbApi().getBase64(true,
+									getShareStringHandler());
 	    		}
 	    	}
 	    });
@@ -197,6 +186,17 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    if (!app.getNetworkOperation().isOnline()) {
 	    	render(false);    	
 	    }
+	}
+
+	protected StringHandler getShareStringHandler() {
+		return new StringHandler(){
+			@Override
+			public void handle(String s) {
+				String title = app.getKernel().getConstruction().getTitle();
+				FileManagerI fm = app.getFileManager();
+				fm.nativeShare(s, "".equals(title) ? "construction" : title);
+			}
+		};
 	}
 
 	Runnable getExamCallback() {

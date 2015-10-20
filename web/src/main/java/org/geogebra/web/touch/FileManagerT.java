@@ -9,6 +9,7 @@ import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ggtapi.JSONparserGGT;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.main.FileManager;
@@ -1046,8 +1047,15 @@ public class FileManagerT extends FileManager {
 		}
 	}
 	
-	public void export(AppW app) {
-		//TODO maybe share?
+	public void export(final AppW app) {
+		app.getGgbApi().getBase64(true, new StringHandler() {
+
+			@Override
+			public void handle(String s) {
+				String title = app.getKernel().getConstruction().getTitle();
+				nativeShare(s, "".equals(title) ? "construction" : title);
+			}
+		});
 	}
 
 	@Override

@@ -47,4 +47,6 @@ public interface FileManagerI {
 	void exportImage(String url, String string);
 
 	boolean hasBase64(Material material);
+
+	void nativeShare(String s, String string);
 }
