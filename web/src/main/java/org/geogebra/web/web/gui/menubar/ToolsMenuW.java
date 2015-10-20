@@ -30,6 +30,9 @@ public class ToolsMenuW extends GMenuBar {
 		initActions();
 	}
 
+	/**
+	 * Initialize the menu items
+	 */
 	protected void initActions() {
 
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools_customize().getSafeUri().asString(),

@@ -166,39 +166,41 @@ public class ViewMenuW extends GMenuBar {
 		update();
 	}
 
-	private GCheckBoxMenuItem newItem;
 
 	private void addToMenu(final ViewType e) {
-		newItem = new GCheckBoxMenuItem(
+
+		final GCheckBoxMenuItem newItem = new GCheckBoxMenuItem(
 				MainMenu.getMenuBarHtml(GGWToolBar.safeURI(e.getIcon()),
-						app.getPlain(e.getKey()), true), new MenuCommand(app) {
+						app.getPlain(e.getKey()), true), true);
+		newItem.setCommand(new MenuCommand(app) {
 
+			@Override
+			public void doExecute() {
+				boolean shown = app.getGuiManager().showView(e.getID());
+
+				if (e.getID() == App.VIEW_ALGEBRA && shown == false) {
+					app.setInputPositon(InputPositon.algebraView, true);
+				}
+				app.getGuiManager().setShowView(!shown, e.getID());
+				newItem.setSelected(app.getGuiManager().showView(e.getID()));
+
+				Timer timer = new Timer() {
 					@Override
-					public void doExecute() {
-						boolean shown = app.getGuiManager().showView(e.getID());
-
-						if (e.getID() == App.VIEW_ALGEBRA && shown == false) {
-							app.setInputPositon(InputPositon.algebraView, true);
-						}
-						app.getGuiManager().setShowView(!shown, e.getID());
-						newItem.setSelected(app.getGuiManager().showView(
-								e.getID()));
-
-						Timer timer = new Timer() {
-							@Override
-							public void run() {
-								// false, because we have just closed the menu
-								app.getGuiManager().updateStyleBarPositions(
-										false);
-							}
-						};
-						timer.schedule(0);
+					public void run() {
+						// false, because we have just closed the menu
+						app.getGuiManager().updateStyleBarPositions(false);
 					}
-				}, true);
+				};
+				timer.schedule(0);
+			}
+		});
 		items.put(e.getID(), newItem);
 		addItem(newItem.getMenuItem());
 	}
 
+	/**
+	 * Update menu items
+	 */
 	public void update() {
 		for (int viewID : this.items.keySet()) {
 			this.items.get(viewID).setSelected(

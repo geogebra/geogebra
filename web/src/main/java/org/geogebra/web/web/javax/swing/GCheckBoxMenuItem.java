@@ -22,8 +22,7 @@ public class GCheckBoxMenuItem {
 	// }});
 	// setHTML(checkBox.toString());
 	// }
-
-	public GCheckBoxMenuItem(String text, final ScheduledCommand cmd,
+	public GCheckBoxMenuItem(String text,
 			boolean isHtml) {
 
 		// It's didn't work, becase when I clicked on the label of the checkbox,
@@ -41,10 +40,18 @@ public class GCheckBoxMenuItem {
 			itemPanel.add(new Label(text));
 		}
 
-
-		menuItem = new MenuItem(itemPanel.toString(), true, cmd);
 	}
 
+	public GCheckBoxMenuItem(String text, final ScheduledCommand cmd,
+			boolean isHtml) {
+		this(text, isHtml);
+		setCommand(cmd);
+	}
+
+	public void setCommand(ScheduledCommand cmd) {
+		menuItem = new MenuItem(itemPanel.toString(), true, cmd);
+
+	}
 	public void setSelected(boolean sel) {
 		checkBox.setValue(sel);
 		menuItem.setHTML(itemPanel.toString());

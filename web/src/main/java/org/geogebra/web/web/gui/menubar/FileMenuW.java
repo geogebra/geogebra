@@ -23,17 +23,15 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	/** Application */
 	AppW app;
 	private MenuItem uploadToGGT;
-	Runnable onFileOpen;
+	/** clear construction and reset GUI */
 	Runnable newConstruction;
 	
 	/**
 	 * @param app application
-	 * @param onFileOpen Runnable
 	 */
-	public FileMenuW(final AppW app, Runnable onFileOpen) {
+	public FileMenuW(final AppW app) {
 	    super(true);
 	    this.app = app;
-	    this.onFileOpen = onFileOpen;
 	    this.newConstruction = new Runnable() {
 			
 			@Override
@@ -64,7 +62,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 	
 
-	private void exitAndResetExam() {
+	/**
+	 * Exit exam and restore normal mode
+	 */
+	protected void exitAndResetExam() {
 		if (!ExamEnvironment.toggleFullscreen(false)) {
 			app.getExam().exit();
 			app.showMessage(app.getExam().getLog());
@@ -127,9 +128,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				@Override
 				public void doExecute() {
 			        app.openSearch(null);
-					if(FileMenuW.this.onFileOpen!=null){
-						FileMenuW.this.onFileOpen.run();
-					}
 				}
 			});	
 		

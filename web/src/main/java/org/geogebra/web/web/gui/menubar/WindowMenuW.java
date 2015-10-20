@@ -16,6 +16,9 @@ public class WindowMenuW extends MenuBar{
 
 	/**
 	 * Constructs the "Window" menu
+	 * 
+	 * @param application
+	 *            app
 	 */
 	public WindowMenuW(App application) {
 

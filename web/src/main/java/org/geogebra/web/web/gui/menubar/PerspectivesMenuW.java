@@ -55,19 +55,13 @@ public class PerspectivesMenuW extends GMenuBar {
 				continue;
 			}
 			final int index = i;
-			addItem(MainMenu.getMenuBarHtml(GGWToolBar.safeURI(icons.get(i)), 
+			addItem(MainMenu.getMenuBarHtml(GGWToolBar.safeURI(icons.get(i)),
 					app.getMenu(defaultPerspectives[i].getId()), true),true,new MenuCommand(app) {
 						
-				@Override
-				public void doExecute() {
-					app.persistWidthAndHeight();
-					boolean changed = layout.applyPerspective(org.geogebra.common.gui.Layout.defaultPerspectives[index]);
-					app.updateViewSizes();
-					app.getGuiManager().updateMenubar();
-					if(changed){
-						app.storeUndoInfo();
-					}
-				}
+						@Override
+						public void doExecute() {
+							setPerspective(index);
+						}
 			});			
 		}
 			
@@ -78,6 +72,20 @@ public class PerspectivesMenuW extends GMenuBar {
 
 	}
 	
+	/**
+	 * @param index
+	 *            perspective index
+	 */
+	void setPerspective(int index) {
+		app.persistWidthAndHeight();
+		boolean changed = layout
+				.applyPerspective(org.geogebra.common.gui.Layout.defaultPerspectives[index]);
+		app.updateViewSizes();
+		app.getGuiManager().updateMenubar();
+		if (changed) {
+			app.storeUndoInfo();
+		}
+	}
 	
 
 }

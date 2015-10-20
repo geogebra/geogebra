@@ -244,7 +244,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	}
 	
 	private void createFileMenu() {
-		fileMenu = new FileMenuW(app, null);
+		fileMenu = new FileMenuW(app);
 	}
 
 	private void createPerspectivesMenu() {
