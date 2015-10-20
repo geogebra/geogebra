@@ -40,6 +40,7 @@ import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
+import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
@@ -532,6 +533,11 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public final boolean isOffline() {
 		return getDevice().isOffline(this);
+	}
+
+	public DockGlassPaneW getGlassPane() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

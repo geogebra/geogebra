@@ -12,6 +12,7 @@ import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
+import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.move.ggtapi.models.AuthenticationModelW;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 
@@ -330,7 +331,7 @@ public class AppWapplication extends AppWFull {
 	}
 
 	@Override
-	public Object getGlassPane() {
+	public DockGlassPaneW getGlassPane() {
 		return getAppFrame().getGlassPane();
 	}
 

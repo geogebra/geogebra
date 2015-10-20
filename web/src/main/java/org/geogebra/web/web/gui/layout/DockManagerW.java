@@ -25,6 +25,7 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.panels.Euclidian2DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -527,8 +528,13 @@ public class DockManagerW extends DockManager {
 		}
 
 		if (App.isFullAppGui() || app.getArticleElement().getDataParamShowMenuBar(false)){
-			((DockGlassPaneW)app.getGlassPane()).attach(this);
-			((DockGlassPaneW)app.getGlassPane()).startDrag(new DnDState(panel));
+			DockGlassPaneW glassPane = ((AppWFull) app).getGlassPane();
+			if (glassPane.getArticleElement() == null) {
+				glassPane.setArticleElement(app
+						.getArticleElement());
+			}
+			glassPane.attach(this);
+			glassPane.startDrag(new DnDState(panel));
 		}
 	}
 	

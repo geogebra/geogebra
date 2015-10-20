@@ -68,7 +68,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 
 		dockPanel = new MyDockPanelLayout(Style.Unit.PX);
 		ggwGraphicView = new EuclidianDockPanelW(true);
-		glassPane = new DockGlassPaneW();
+		glassPane = new DockGlassPaneW(null);
 		mainPanel = new MyDockPanelLayout(Style.Unit.PX);
 		spaceForKeyboard = new SimplePanel();
 		mainPanel.addSouth(spaceForKeyboard, 0);

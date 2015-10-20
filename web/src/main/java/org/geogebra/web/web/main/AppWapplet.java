@@ -22,6 +22,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.app.GGWCommandLine;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
+import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
@@ -587,7 +588,7 @@ public class AppWapplet extends AppWFull {
 	}
 
 	@Override
-	public Object getGlassPane() {
+	public DockGlassPaneW getGlassPane() {
 		return frame.getGlassPane();
 	}
 

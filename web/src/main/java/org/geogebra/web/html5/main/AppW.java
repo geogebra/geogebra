@@ -2688,9 +2688,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return 0;
 	}
 
-	public Object getGlassPane() {
-		return null;
-	}
 
 	public void doOnResize() {
 	}

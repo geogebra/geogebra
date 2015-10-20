@@ -2,11 +2,14 @@ package org.geogebra.web.web.gui.layout;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.util.ArticleElement;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -49,10 +52,16 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 	/**********************************************
 	 * Constructs a DockGlassPane
 	 */
-	public DockGlassPaneW() {
+	public DockGlassPaneW(GDimension size) {
 		setVisible(false);
 		setStyleName("DockGlassPane");
-
+		if (size != null) {
+			this.getElement().getStyle().setPosition(Position.ABSOLUTE);
+			this.setWidth(size.getWidth() + "px");
+			this.setHeight(size.getHeight() + "px");
+			this.getElement().getStyle().setTop(0, Unit.PX);
+			this.getElement().getStyle().setLeft(0, Unit.PX);
+		}
 		previewPanel = new SimplePanel();
 		previewPanel.getElement().getStyle()
 		        .setBorderWidth(BORDER_WIDTH, Style.Unit.PX);
@@ -60,9 +69,6 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 		        .setBorderStyle(Style.BorderStyle.SOLID);
 		previewPanel.getElement().getStyle().setBorderColor("gray");
 
-		// use previewLabel for debugging
-		// previewLabel = new Label(" ");
-		// previewPanel.add(previewLabel);
 
 		previewPanel.setVisible(false);
 		add(previewPanel);
@@ -95,7 +101,6 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 		reg2 = addDomHandler(this, MouseUpEvent.getType());
 		
 		// this.getElement().getStyle().setZIndex(50);
-		//App.debug(this.getOffsetWidth()+","+this.getOffsetHeight()+","+dragInProgress);
 		if (dragInProgress)
 			return;
 
@@ -124,9 +129,6 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 			dockPanelsList.add(dockPanels[i]);
 			bounds.add(tmpRect);
-			// App.debug("left: " + tmpRect.getX() + "  top: " + tmpRect.getY()
-			// + "  width: " + tmpRect.getWidth() + "  height: "
-			// + tmpRect.getHeight());
 		}
 
 		dockPanelsBounds = new Rectangle[bounds.size()];
@@ -187,7 +189,6 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 			                + dockPanelsBounds[i].getHeight()) {
 				update = true;
 				dndState.setTarget(dockPanels[i]);
-				// App.debug("intersects with panel :" + i);
 				break;
 			}
 		}
@@ -339,7 +340,9 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 			w -= 2 * BORDER_WIDTH;
 			h -= 2 * BORDER_WIDTH;
 
-			setWidgetPosition(previewPanel, x2, y2);
+			setWidgetPosition(previewPanel, x2
+					- (int) (this.getAbsoluteLeft() / ae.getScaleX()), y2
+					- (int) (this.getAbsoluteTop() / ae.getScaleY()));
 			previewPanel.setPixelSize(w, h);
 			previewPanel.getElement().getStyle().setBackgroundColor(color);
 			previewPanel.getElement().getStyle().setOpacity(0.6f);
@@ -367,6 +370,10 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 		if (dragInProgress) {
 			stopDrag();
 		}
+	}
+
+	public ArticleElement getArticleElement() {
+		return ae;
 	}
 
 }

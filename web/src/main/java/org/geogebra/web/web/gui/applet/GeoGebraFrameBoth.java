@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -49,7 +50,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	@Override
 	protected AppW createApplication(ArticleElement ae, GLookAndFeelI laf) {
 		AppW app = factory.getApplet(ae, this, laf);
-		this.glass = new DockGlassPaneW();
+		this.glass = new DockGlassPaneW(new GDimensionW(ae.getDataParamWidth(),
+				ae.getDataParamHeight()));
 		this.add(glass);
 		return app;
 	}
@@ -103,7 +105,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	@Override
-	public Object getGlassPane() {
+	public DockGlassPaneW getGlassPane() {
 		return this.glass;
 	}
 

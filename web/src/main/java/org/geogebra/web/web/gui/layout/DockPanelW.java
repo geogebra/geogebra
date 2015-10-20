@@ -1270,7 +1270,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		// No, we don't need this, but do nothing instead if building GUI is
 		// necessary
 		// buildGUIIfNecessary();
-
+		App.debug("PANEL MOUSE DOWN" + (componentPanel == null));
 		if (componentPanel == null)
 			return;
 
