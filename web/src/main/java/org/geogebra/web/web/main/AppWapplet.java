@@ -534,6 +534,7 @@ public class AppWapplet extends AppWFull {
 
 		if (!this.menuShowing) {
 			this.menuShowing = true;
+			boolean needsUpdate = menuInited;
 			if (!menuInited) {
 				frame.getMenuBar(this).init(this);
 				this.menuInited = true;
@@ -545,6 +546,9 @@ public class AppWapplet extends AppWFull {
 					this.oldSplitLayoutPanel.getOffsetHeight());
 			frame.getMenuBar(this).setPixelSize(GLookAndFeel.MENUBAR_WIDTH,
 					this.oldSplitLayoutPanel.getOffsetHeight());
+			if (needsUpdate) {
+				frame.getMenuBar(this).getMenubar().updateMenubar();
+			}
 			this.getGuiManager().refreshDraggingViews();
 			oldSplitLayoutPanel.getElement().getStyle()
 					.setOverflow(Overflow.HIDDEN);

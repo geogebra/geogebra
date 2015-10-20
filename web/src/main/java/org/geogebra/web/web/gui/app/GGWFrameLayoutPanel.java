@@ -449,6 +449,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	}
 	
 	public boolean toggleMenu() {
+		boolean needsUpdate = menuContainer != null;
 		if(menuContainer == null){
 			createMenuContainer();
 		}
@@ -457,7 +458,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			this.menuClosed = false;
 			this.add(this.menuContainer);
 			this.menuContainer.setVisible(true);
-			guiManagerW.updateMenubar();
+			if (needsUpdate) {
+				guiManagerW.updateMenubar();
+			}
 			updateSize();
 			guiManagerW.updateStyleBarPositions(true);
 		} else {

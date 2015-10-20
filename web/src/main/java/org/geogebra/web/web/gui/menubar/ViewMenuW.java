@@ -24,9 +24,13 @@ public class ViewMenuW extends GMenuBar {
 	 * Menuitem with checkbox for show algebra view
 	 */
 	HashMap<Integer, GCheckBoxMenuItem> items = new HashMap<Integer, GCheckBoxMenuItem>();
+	/** app */
 	AppW app;
+	/** item for input */
 	GCheckBoxMenuItem inputBarItem;
-	private GCheckBoxMenuItem dataCollection;
+	/** item for sensor app */
+	GCheckBoxMenuItem dataCollection;
+	/** item for navigation bar */
 	GCheckBoxMenuItem consProtNav;
 
 	/**
@@ -43,6 +47,9 @@ public class ViewMenuW extends GMenuBar {
 		initActions();
 	}
 
+	/**
+	 * Init actions for Refresh views, recompute objects
+	 */
 	protected void initRefreshActions() {
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
@@ -66,6 +73,9 @@ public class ViewMenuW extends GMenuBar {
 		});
 	}
 
+	/**
+	 * Initialize menu items
+	 */
 	protected void initActions() {
 		for (final ViewType e : Views.getViews()) {
 			if (!app.supportsView(e.getID())) {
@@ -125,8 +135,6 @@ public class ViewMenuW extends GMenuBar {
 							.updateCheckBoxesForShowConstructinProtocolNavigation(
 									id);
 				}
-
-
 			}
 		}, true);
 		addItem(consProtNav.getMenuItem());
@@ -196,9 +204,9 @@ public class ViewMenuW extends GMenuBar {
 			this.items.get(viewID).setSelected(
 					app.getGuiManager().showView(viewID));
 		}
-		inputBarItem
-.setSelected(app.showAlgebraInput()
-				&& app.getInputPosition() != InputPositon.algebraView);
+		boolean linearInput = app.showAlgebraInput()
+				&& app.getInputPosition() != InputPositon.algebraView;
+		inputBarItem.setSelected(linearInput);
 		consProtNav.setSelected(app.showConsProtNavigation());
 		if (app.has(Feature.DATA_COLLECTION)) {
 			dataCollection.setSelected(app.getGuiManager().showView(

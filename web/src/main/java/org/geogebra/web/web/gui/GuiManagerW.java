@@ -1521,7 +1521,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return;
 		}
 		generalToolbarDefinition = toolBarDefinition;
-		App.printStacktrace("TBD SET GENERAL " + toolBarDefinition);
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 

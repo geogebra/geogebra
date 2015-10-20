@@ -43,7 +43,10 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	@Override
     public void onResize(){
 		super.onResize();
-		((ProbabilityCalculatorViewW) app.getGuiManager().getProbabilityCalculator()).onResize();
+		if (app.getGuiManager().hasProbabilityCalculator()) {
+			((ProbabilityCalculatorViewW) app.getGuiManager()
+					.getProbabilityCalculator()).onResize();
+		}
 	}
 	@Override
 	protected Widget loadComponent() {

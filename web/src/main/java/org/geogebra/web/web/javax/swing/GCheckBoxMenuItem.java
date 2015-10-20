@@ -1,7 +1,5 @@
 package org.geogebra.web.web.javax.swing;
 
-import org.geogebra.common.main.App;
-
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
