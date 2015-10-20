@@ -12,13 +12,11 @@ import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
@@ -68,7 +66,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	
 	private FlowPanel rightButtonPanel;
 	private StandardButton openSearchButton;
-	private MyToggleButton2 openMenuButton;
+	private StandardButton openMenuButton;
 	// private PushButton openSearchButton, openMenuButton;
 	StandardButton undoButton;
 	private StandardButton redoButton;
@@ -155,11 +153,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		// });
 
 		redoButton = new StandardButton(
-				GuiResources.INSTANCE.menu_header_redo());
-		redoButton.getUpFace().setImage(
-				new Image(GuiResources.INSTANCE.menu_header_redo()));
+pr.menu_header_redo(), null, 32);
 		redoButton.getUpHoveringFace().setImage(
-				new Image(GuiResources.INSTANCE.menu_header_redo_hover()));
+				getImage(pr.menu_header_redo_hover(), 32));
 
 		redoButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -186,11 +182,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		// });
 
 		undoButton = new StandardButton(
-				GuiResources.INSTANCE.menu_header_undo());
-		undoButton.getUpFace().setImage(
-				new Image(GuiResources.INSTANCE.menu_header_undo()));
+pr.menu_header_undo(), null, 32);
 		undoButton.getUpHoveringFace().setImage(
-				new Image(GuiResources.INSTANCE.menu_header_undo_hover()));
+				getImage(pr.menu_header_undo_hover(), 32));
 
 		undoButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -343,6 +337,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		}
 		if(app.getArticleElement().getDataParamShowMenuBar(false) || 
 				app.getArticleElement().getDataParamApp()){
+			PerspectiveResources pr = ((ImageFactory) GWT
+					.create(ImageFactory.class)).getPerspectiveResources();
 		this.menuBarShowing = true;
 			// openMenuButton = new StandardButton(pr.button_open_menu(), null,
 			// 32);
@@ -355,17 +351,15 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			// GGWToolBar.this.app.toggleMenu();
 			// }
 
-			openMenuButton = new MyToggleButton2(
-					GuiResources.INSTANCE.menu_header_open_menu(),
-					GuiResources.INSTANCE.menu_header_open_menu_hover());
+			openMenuButton = new StandardButton(pr.menu_header_open_menu(),
+					null, 32);
 
 			openMenuButton.getUpHoveringFace().setImage(
-					new Image(GuiResources.INSTANCE
-							.menu_header_open_menu_hover()));
+					getImage(pr.menu_header_open_menu_hover(), 32));
 
-			openMenuButton.addClickHandler(new ClickHandler() {
+			openMenuButton.addFastClickHandler(new FastClickHandler() {
 				@Override
-				public void onClick(ClickEvent event) {
+				public void onClick(Widget source) {
 					app.hideKeyboard();
 					app.closePopups();
 					GGWToolBar.this.app.toggleMenu();
@@ -398,13 +392,11 @@ public class GGWToolBar extends Composite implements RequiresResize,
 				// });
 
 				openSearchButton = new StandardButton(
-						GuiResources.INSTANCE.menu_header_open_search());
+						pr.menu_header_open_search(), null, 32);
 				openSearchButton.getUpFace().setImage(
-						new Image(GuiResources.INSTANCE
-								.menu_header_open_search()));
+						getImage(pr.menu_header_open_search(), 32));
 				openSearchButton.getUpHoveringFace().setImage(
-						new Image(GuiResources.INSTANCE
-								.menu_header_open_search_hover()));
+						getImage(pr.menu_header_open_search_hover(), 32));
 
 				openSearchButton.addFastClickHandler(new FastClickHandler() {
 					@Override
@@ -432,6 +424,10 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		this.rightButtonPanel.add(openMenuButton);
 		}
 
+	}
+
+	public NoDragImage getImage(ResourcePrototype uri, int width) {
+		return new NoDragImage(GGWToolBar.safeURI(uri), width);
 	}
 
 	/**

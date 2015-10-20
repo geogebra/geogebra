@@ -3,6 +3,8 @@ package org.geogebra.web.html5.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.App;
+
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -127,6 +129,7 @@ public abstract class FastButton extends CustomButton {
 
 	@Override
 	public void onBrowserEvent(Event event) {
+
 		if (!this.isEnabled()) {
 			event.stopPropagation();
 			return;
@@ -148,6 +151,7 @@ public abstract class FastButton extends CustomButton {
 			break;
 		}
 		case Event.ONMOUSEUP: {
+			App.debug("touch up");
 			// because Event.ONCLICK always came twice on desktop browsers oO
 			onClick(event);
 			event.stopPropagation();
@@ -159,7 +163,11 @@ public abstract class FastButton extends CustomButton {
 		}
 		default: {
 			// Let parent handle event if not one of the above (?)
+			try {
 			super.onBrowserEvent(event);
+			} catch (Throwable t) {
+				App.debug(DOM.eventGetType(event) + "event failed");
+			}
 		}
 		}
 	}

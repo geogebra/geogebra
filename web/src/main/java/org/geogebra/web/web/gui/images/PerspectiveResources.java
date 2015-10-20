@@ -43,12 +43,19 @@ public interface PerspectiveResources {
 
 	ResourcePrototype styleBar_spreadsheetView();
 		
-	ResourcePrototype button_open_search();
-		
-	ResourcePrototype button_open_menu();
-	
-	//REDO UNDO
-	ResourcePrototype button_undo();
-		
-	ResourcePrototype button_redo();
+	ResourcePrototype menu_header_redo();
+
+	ResourcePrototype menu_header_redo_hover();
+
+	ResourcePrototype menu_header_undo();
+
+	ResourcePrototype menu_header_undo_hover();
+
+	ResourcePrototype menu_header_open_search();
+
+	ResourcePrototype menu_header_open_search_hover();
+
+	ResourcePrototype menu_header_open_menu();
+
+	ResourcePrototype menu_header_open_menu_hover();
 }

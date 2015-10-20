@@ -64,16 +64,28 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 		@Source("org/geogebra/common/icons/png24x24/stylebar_icon_spreadsheet.png")
 		ImageResource styleBar_spreadsheetView();
 		
-		@Source("org/geogebra/common/icons/png/web/menu-button-open-search.png")
-		ImageResource button_open_search();
-		
-		@Source("org/geogebra/common/icons/png/web/menu-button-open-menu.png")
-		ImageResource button_open_menu();
-		
-		//REDO UNDO
-		@Source("org/geogebra/common/icons/png/web/menu_edit_undo.png")
-		ImageResource button_undo();
-		
-		@Source("org/geogebra/common/icons/png/web/menu_edit_redo.png")
-		ImageResource button_redo();
+	@Source("org/geogebra/common/menu_header/p32/menu_edit_redo.png")
+	ImageResource menu_header_redo();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_edit_redo_hover.png")
+	ImageResource menu_header_redo_hover();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_edit_undo.png")
+	ImageResource menu_header_undo();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_edit_undo_hover.png")
+	ImageResource menu_header_undo_hover();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_open_search.png")
+	ImageResource menu_header_open_search();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_open_search_hover.png")
+	ImageResource menu_header_open_search_hover();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_open_menu.png")
+	ImageResource menu_header_open_menu();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_open_menu_hover.png")
+	ImageResource menu_header_open_menu_hover();
+
 }
