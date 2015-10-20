@@ -25,7 +25,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 	private AutoCompleteTextFieldW tfCaption; 
 	private FlowPanel btPanel;
 	private ButtonDialogModel model;
-	private Button btApply, btCancel;
+	private Button btOK, btCancel;
 	private FlowPanel optionPane;
 	private AppW app;
 	private GeoButton button = null;
@@ -139,16 +139,16 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 		linkedPanel.add(cbAdd);
 		
 		// buttons
-		btApply = new Button(app.getPlain("Apply"));
-		btApply.getElement().setAttribute("action","Apply");
-		btApply.addClickHandler(this);
+		btOK = new Button(app.getPlain("OK"));
+		btOK.getElement().setAttribute("action", "OK");
+		btOK.addClickHandler(this);
 		btCancel = new Button(app.getPlain("Cancel"));
 		btCancel.getElement().setAttribute("action","Cancel");
 		btCancel.addClickHandler(this);
 		btCancel.addStyleName("cancelBtn");
 		btPanel = new FlowPanel();
 		btPanel.add(btCancel);
-		btPanel.add(btApply);
+		btPanel.add(btOK);
 		btPanel.addStyleName("DialogButtonPanel");
 			
 		optionPane = new FlowPanel();
@@ -174,7 +174,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 //	    AbstractApplication.debug(((Widget) event.getSource()).getElement().getAttribute("action"));
 	
 		Object source = event.getSource();				
-		if (source == btApply) {	
+		if (source == btOK) {
 			model.apply(tfCaption.getText(), tfScript.getText());
 			hide();
 			app.getActiveEuclidianView().requestFocusInWindow();

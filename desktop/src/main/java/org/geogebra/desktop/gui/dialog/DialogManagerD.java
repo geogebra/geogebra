@@ -502,7 +502,7 @@ public class DialogManagerD extends org.geogebra.common.main.DialogManager {
 	 */
 	@Override
 	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
-		ButtonDialog dialog = new ButtonDialog(((AppD) app), x, y, textfield);
+		ButtonDialogD dialog = new ButtonDialogD(((AppD) app), x, y, textfield);
 		dialog.setVisible(true);
 		return true;
 	}

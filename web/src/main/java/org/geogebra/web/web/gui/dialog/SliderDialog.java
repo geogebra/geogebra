@@ -46,7 +46,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	 *  
 	 */
 	private static final long serialVersionUID = 1L;
-	private Button btApply, btCancel;
+	private Button btOK, btCancel;
 	private Label nameLabel;
 	private AutoCompleteTextFieldW tfLabel;
 	private RadioButton rbNumber, rbAngle, rbInteger;
@@ -160,8 +160,8 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 
 
 		// buttons
-		btApply = new Button(app.getPlain("Apply"));
-		btApply.addClickHandler(this);
+		btOK = new Button(app.getPlain("OK"));
+		btOK.addClickHandler(this);
 		// btApply.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
 		btCancel = new Button(app.getPlain("Cancel"));
@@ -169,8 +169,8 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		btCancel.addClickHandler(this);
 		// btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
+		bottomWidget.add(btOK);
 		bottomWidget.add(btCancel);
-		bottomWidget.add(btApply);
 	}
 
 	private void updateLabelField(GeoElement geo, boolean isInteger) {
@@ -230,7 +230,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 
 	public void onClick(ClickEvent e) {
 		Element target = e.getNativeEvent().getEventTarget().cast();
-		if (target == btApply.getElement()) {
+		if (target == btOK.getElement()) {
 			geoResult = rbAngle.getValue() ? angle : number; 		
 			getResult();
 			geoResult.setLabelMode(GeoElement.LABEL_NAME_VALUE);

@@ -44,7 +44,7 @@ import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.gui.view.algebra.MyComboBoxListener;
 import org.geogebra.desktop.main.AppD;
 
-public class ButtonDialog extends JDialog implements ActionListener,
+public class ButtonDialogD extends JDialog implements ActionListener,
 		KeyListener, WindowListener {
 
 	/**
@@ -57,7 +57,7 @@ public class ButtonDialog extends JDialog implements ActionListener,
 	private ButtonDialogModel model;
 	private DefaultComboBoxModel comboModel;
 
-	private JButton btApply, btCancel;
+	private JButton btOK, btCancel;
 	private InputPanelD tfLabel;
 	private JPanel optionPane;
 
@@ -73,7 +73,7 @@ public class ButtonDialog extends JDialog implements ActionListener,
 	 * @param y
 	 *            location of slider in screen coords
 	 */
-	public ButtonDialog(AppD app, int x, int y, boolean textField) {
+	public ButtonDialogD(AppD app, int x, int y, boolean textField) {
 		super(app.getFrame(), false);
 		this.app = app;
 		// this.textField = textField;
@@ -201,14 +201,14 @@ public class ButtonDialog extends JDialog implements ActionListener,
 		linkedPanel.add(cbAdd);
 
 		// buttons
-		btApply = new JButton(app.getPlain("Apply"));
-		btApply.setActionCommand("Apply");
-		btApply.addActionListener(this);
+		btOK = new JButton(app.getPlain("OK"));
+		btOK.setActionCommand("OK");
+		btOK.addActionListener(this);
 		btCancel = new JButton(app.getPlain("Cancel"));
 		btCancel.setActionCommand("Cancel");
 		btCancel.addActionListener(this);
 		btPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		btPanel.add(btApply);
+		btPanel.add(btOK);
 		btPanel.add(btCancel);
 
 		// Create the JOptionPane.
@@ -251,7 +251,7 @@ public class ButtonDialog extends JDialog implements ActionListener,
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		App.debug(tfScript.getText());
-		if (source == btApply) {
+		if (source == btOK) {
 			model.apply(tfCaption.getText(), tfScript.getText());
 			setVisible(false);
 		} else if (source == btCancel) {
@@ -268,7 +268,7 @@ public class ButtonDialog extends JDialog implements ActionListener,
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_ENTER:
-			btApply.doClick();
+			btOK.doClick();
 			break;
 
 		case KeyEvent.VK_ESCAPE:
