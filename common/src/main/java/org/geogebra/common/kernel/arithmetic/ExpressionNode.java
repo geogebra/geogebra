@@ -543,6 +543,13 @@ public class ExpressionNode extends ValidExpression implements
 		// resolve left wing
 		if (left.isVariable()) {
 			left = ((Variable) left).resolveAsExpressionValue();
+			if (operation == Operation.POWER
+					|| operation == Operation.FACTORIAL) {
+				fixPowerFactorial(Operation.MULTIPLY);
+			}
+			if (operation == Operation.SQRT_SHORT) {
+				fixSqrtShort(Operation.MULTIPLY);
+			}
 		} else {
 			left.resolveVariables();
 		}
@@ -835,40 +842,41 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			break;
 		case POWER:
-			if (left.isExpressionNode()
-					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION
-					&& !((ExpressionNode) left).hasBrackets()) {
-				right = new ExpressionNode(kernel,
-						((ExpressionNode) left).getRight(), Operation.POWER,
-						right);
-				left = ((ExpressionNode) left).getLeft();
-				operation = Operation.MULTIPLY;
-			}
-			break;
 		case FACTORIAL:
-			if (left.isExpressionNode()
-					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION
-					&& !((ExpressionNode) left).hasBrackets()) {
-				right = new ExpressionNode(kernel,
-						((ExpressionNode) left).getRight(),
-						Operation.FACTORIAL, null);
-				left = ((ExpressionNode) left).getLeft();
-				operation = Operation.MULTIPLY;
-			}
+			fixPowerFactorial(Operation.MULTIPLY_OR_FUNCTION);
+			break;
 		case SQRT_SHORT:
-			if (left.isExpressionNode()
-					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION
-					&& !((ExpressionNode) left).hasBrackets()) {
-				right = ((ExpressionNode) left).getRight();
-				left = new ExpressionNode(kernel,
-						((ExpressionNode) left).getLeft(), Operation.SQRT, null);
-				operation = Operation.MULTIPLY;
-			}
+			fixSqrtShort(Operation.MULTIPLY_OR_FUNCTION);
+			break;
 		default:
 			break;
 		}
 
 		return undecided.size();
+	}
+
+	private void fixSqrtShort(Operation multiplicativeOperation) {
+		if (left.isExpressionNode()
+				&& ((ExpressionNode) left).operation == multiplicativeOperation
+				&& !((ExpressionNode) left).hasBrackets()) {
+			right = ((ExpressionNode) left).getRight();
+			left = new ExpressionNode(kernel,
+					((ExpressionNode) left).getLeft(), Operation.SQRT, null);
+			operation = Operation.MULTIPLY;
+		}
+
+	}
+
+	private void fixPowerFactorial(Operation multiplicativeOperation) {
+		if (left.isExpressionNode()
+				&& ((ExpressionNode) left).operation == multiplicativeOperation
+				&& !((ExpressionNode) left).hasBrackets()) {
+			right = new ExpressionNode(kernel,
+					((ExpressionNode) left).getRight(), operation, right);
+			left = ((ExpressionNode) left).getLeft();
+			operation = Operation.MULTIPLY;
+		}
+
 	}
 
 	@Override
