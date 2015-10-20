@@ -76,4 +76,46 @@ public class BasicIcons {
 
 		return g2.getImageData(0, 0, w, h);
 	}
+
+	public static ImageData createDropDownIcon(boolean isRollOver, int w,
+ int h,
+			GColor bgColor) {
+
+		Canvas icon = getTmpCanvas(w, h);
+		GGraphics2DW g2 = new GGraphics2DW(icon);
+
+		if (bgColor.getRGB() != GColor.WHITE.getRGB()) {
+			g2.setPaint(bgColor);
+			g2.fillRect(0, 0, w, h);
+		}
+
+		g2.setColor(GColor.GRAY);
+
+		// if (isRollOver)
+		// g2.setColor(GColor.BLACK);
+		// else
+
+		g2.setColor(GColor.DARK_GRAY);
+
+		int midx = w / 2;
+		int midy = 0;
+
+		int tW = w / 2;
+		int tH = w / 3;
+
+		Polygon p = new Polygon();
+		p.addPoint(midx - tW, midy + tH);
+		p.addPoint(midx + tW, midy + tH);
+		p.addPoint(midx, midy + 2 * tW);
+
+		g2.fill(p);
+
+		/*
+		 * g2.drawLine(x, y, x+6, y); g2.drawLine(x+1, y+1, x+5, y+1);
+		 * g2.drawLine(x+2, y+2, x+4, y+2); g2.drawLine(x+3, y+3, x+3, y+3);
+		 */
+
+		return g2.getImageData(0, 0, w, h);
+	}
+
 }

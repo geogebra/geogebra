@@ -13,4 +13,10 @@ public class DropDownListD implements DropDownList {
 
 	}
 
+	public void drawControl(GGraphics2D g2, int left, int top, int width,
+			int height, GColor bgColor, boolean pressed) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

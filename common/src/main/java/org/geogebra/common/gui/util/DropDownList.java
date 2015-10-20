@@ -7,4 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public interface DropDownList {
 	void drawSelected(GeoElement geo, GGraphics2D g2, GColor bgColor, int left,
 			int top, int width, int height);
+
+	void drawControl(GGraphics2D g2, int left, int top, int width, int height,
+			GColor bgColor, boolean pressed);
 }

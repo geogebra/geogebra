@@ -25,6 +25,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -233,6 +234,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		if (geoList.drawAsComboBox()) {
 				updateWidgets();
+
 		} else {
 			isVisible = geoList.isEuclidianVisible();
 			if (!isVisible)
@@ -567,29 +569,38 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
+	protected void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
+
+		int textBottom = boxTop + getTextBottom();
+		boolean latex = isLatexString(text);
+		if (latex) {
+			// drawLatex(g2, geo0, getLabelFont(), text, xLabel,
+			// yLabel + (labelSize.y / 2));
+
+		} else {
+			textBottom += (boxHeight - getMultipliedFontSize()) / 2
+					- COMBO_TEXT_MARGIN;
+			g2.setPaint(geo.getObjectColor());
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
+					xLabel, textBottom, false, false);
+		}
+
+	}
+
 	private void drawControl(GGraphics2D g2) {
 		g2.setPaint(GColor.BLACK);
 		int width = boxHeight;
 		int left = boxLeft + boxWidth - boxHeight;
 
 		ctrlRect.setBounds(left, boxTop, width, boxHeight);
-		g2.drawRect(left, boxTop, width, boxHeight);
-		int margin = width / 3;
+		// g2.drawRect(left, boxTop, width, boxHeight);
+		GColor bgColor = geo.getBackgroundColor();// != null
+		// ? geo.getBackgroundColor() : view.getBackgroundCommon();
 
-		if (optionsVisible) {
-			margin += 2;
-
-		}
-		// g2.drawLine(left + (width / 2), boxTop + boxHeight - margin,
-		// left + margin, boxTop + margin);
-		// g2.drawLine(left + width - margin, boxTop + margin, left + (width /
-		// 2),
-		// boxTop + boxHeight - margin);
-		//
-		// g2.drawLine(left + margin, boxTop + margin,
-		// left + width - margin,
-		// boxTop + margin);
-
+		int margin = width / 4;
+		dropDown.drawControl(g2, left + margin, boxTop + margin, width / 2,
+				width / 2, bgColor,
+				optionsVisible);
 	}
 
 	@Override
@@ -620,13 +631,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private void drawOptions(GGraphics2D g2) {
 
 		g2.setPaint(geoList.getBackgroundColor());
-		int optHeight = optionsHeight;
 		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
-		optionsRect.setBounds(boxLeft, optTop, boxWidth, optHeight);
-		g2.fillRect(boxLeft, optTop, boxWidth, optHeight);
+		optionsRect.setBounds(boxLeft, optTop, boxWidth, optionsHeight);
+		g2.fillRect(boxLeft, optTop, boxWidth, optionsHeight);
 
 		g2.setPaint(GColor.LIGHT_GRAY);
-		g2.drawRect(boxLeft, optTop, boxWidth, optHeight);
+		g2.drawRect(boxLeft, optTop, boxWidth, optionsHeight);
 
 		g2.setPaint(geo.getObjectColor());
 
@@ -658,8 +668,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			w = d.getWidth();
 			h = d.getHeight();
 		} else {
-			w = g2.getFontRenderContext().measureTextWidth(text,
+			GTextLayout layout = g2.getFontRenderContext().getTextLayout(text,
 					getLabelFont());
+			w = (int) layout.getBounds().getWidth();
+			h = (int) layout.getBounds().getHeight() + OPTIONSBOX_ITEM_GAP;
+
 			if (left == TEXT_CENTER) {
 				left = boxLeft + (boxWidth - w) / 2;
 			}
@@ -668,8 +681,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 						text, left, top, false, false);
 			}
-
-			h = fontHeight;
 		}
 
 		if (w > optionsWidth) {
