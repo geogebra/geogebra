@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.ui.Label;
 
 public class StandardButton extends FastButton {
 
@@ -34,16 +33,15 @@ public class StandardButton extends FastButton {
 		this.width = width;
 		this.icon = image;
 		this.label = label;
-		this.getElement().removeAllChildren();
+		// this.getElement().removeAllChildren();
 
 		if (image != null) {
 			NoDragImage im = new NoDragImage(GGWToolBar.safeURI(image),width);
-			this.getElement().appendChild(im.getElement());
+			getUpFace().setImage(im);
 		}
 
 		if (label != null) {
-			Label l = new Label(label);
-			this.getElement().appendChild(l.getElement());
+			getUpFace().setText(label);
 		}
 	}
 	

@@ -143,6 +143,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					//if we are offline, the last item is actually Help
 					if (app.getNetworkOperation().isOnline() &&
  !app.getLoginOperation().isLoggedIn()
+							&& index >= 0
 							&& this.getWidget(index) == signInMenu) {
 						((SignInButton)app.getLAF().getSignInButton(app)).login();
 						app.toggleMenu();
