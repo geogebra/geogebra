@@ -1737,7 +1737,11 @@ namespace giac {
       lv=lvarx(expr,x);
       s=int(lv.size());
       if (s>1){
-	gen tmp=_texpand(expr,contextptr);
+	gen tmp;
+	if (lv.size()==2 && lv[0].type==_SYMB && lv[1].type==_SYMB && lv[0]._SYMBptr->feuille==lv[1]._SYMBptr->feuille)
+	  tmp=expr;
+	else
+	  tmp=_texpand(expr,contextptr);
 	vecteur tmplv=lvarx(tmp,x);
 	if (tmplv.size()==2 && tmplv[0].type==_SYMB && tmplv[1].type==_SYMB && tmplv[0]._SYMBptr->feuille==tmplv[1]._SYMBptr->feuille){
 	  gen a,b,c,d;
@@ -1783,6 +1787,11 @@ namespace giac {
 	    if (int(lvarx(tmp,x).size())<s){
 	      // Note: we are checking solutions numerically later
 	      *logptr(contextptr) << gettext("Warning: solving in ") << x << gettext(" equation ") << tmp << "=0" << endl;
+	      expr=tmp;
+	    }
+	    // code added 11 october 2015 for solve(2^(3*x-1)+2^(6*x-2)-2^(3*x+3)-(4^(3*x-2))=0);
+	    tmp=_tsimplify(tmps<s?tmp:expr,contextptr);
+	    if (int(lvarx(tmp,x).size())<s){
 	      expr=tmp;
 	    }
 	  }
