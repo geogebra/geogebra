@@ -3426,10 +3426,11 @@ FromMeta
 
 		RegionParameters rp = PI.getRegionParameters();
 
-		if (!isInRegion(PI)){
+		Coords coords = PI.getCoordsInD2(getCoordSys());
+
+		if (!isInRegion(coords.getX(), coords.getY())) {
 			moveBackToRegion(PI,rp);
 		}else{
-			Coords coords = PI.getCoordsInD2(getCoordSys());	
 			rp.setIsOnPath(false);
 				
 			coordsRWtoEV(coords);
