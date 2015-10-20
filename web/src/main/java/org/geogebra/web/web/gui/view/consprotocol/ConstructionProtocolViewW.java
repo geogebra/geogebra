@@ -6,6 +6,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -33,6 +34,7 @@ import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -60,7 +62,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	/** contains a scrollPanel with the {@link #table constructionstep-table} **/
 	public FlowPanel cpPanel;
 	/** table with constructionsteps **/
-	protected CellTable<RowData> table;
+	protected static CellTable<RowData> table;
 	private StyleBarW styleBar;
 	/** possible drop index **/
 	int minIndex;
@@ -393,7 +395,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			col = getColumnValue();
 		} else if ("Caption".equals(title)) {
 			if (app.has(Feature.CP_NEW_COLUMNS)) {
-				col = getColumnCaption2();
+				col = getColumnCaption();
 			}
 		} else { // if ("Breakpoint".equals(title)) {
 			if (app.has(Feature.CP_NEW_COLUMNS)) {
@@ -522,78 +524,108 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	 * Add a column to show end edit the caption.
 	 */
 	private static Column<RowData, String> getColumnCaption() {
-		Column<RowData, String> col = new Column<RowData, String>(
-				new TextInputCell() {
-					private int focusedRow;
 
-					public int getFocusedRow() {
-						return focusedRow;
-					}
+		class MyTextInputCell extends TextInputCell {
+			private int focusedRow = -1;
 
-					@Override
-					public void render(Context context, String value,
-							SafeHtmlBuilder sb) {
-						if (this.focusedRow == context.getIndex()) {
-							super.render(context, value, sb);
-						} else {
-							sb.appendHtmlConstant(value);
-						}
+			public MyTextInputCell() {
+				super();
+			}
 
-					}
+			public int getFocusedRow() {
+				return focusedRow;
+			}
 
-					@Override
-					public void onBrowserEvent(Context context, Element parent,
-							String value, NativeEvent event,
-							ValueUpdater<String> valueUpdater) {
+			@Override
+			public void render(Context context, String value, SafeHtmlBuilder sb) {
+				if (this.focusedRow == context.getIndex()) {
+					super.render(context, value, sb);
+				} else {
+					sb.appendHtmlConstant(value);
+				}
+
+			}
+
+			@Override
+			public void onBrowserEvent(Context context, Element parent,
+					String value, NativeEvent event,
+					ValueUpdater<String> valueUpdater) {
+
+				App.debug("eventType: " + event.getType());
+
+				InputElement input = getInputElement(parent);
+				if (input != null) {
+					Element target = event.getEventTarget().cast();
+					if (input.isOrHasChild(target)) {
 						super.onBrowserEvent(context, parent, value, event,
 								valueUpdater);
-
-						// Ignore events that don't target the input.
-						// Element target = event.getEventTarget().cast();
-						// if (!getInputElement(parent).isOrHasChild(target)) {
-						// return;
-						// }
-
-						String eventType = event.getType();
-						if (BrowserEvents.FOCUS.equals(eventType)) {
-							focusedRow = context.getSubIndex();
-						} else if (BrowserEvents.BLUR.equals(eventType)) {
-							focusedRow = -1;
-						}
+						return;
 					}
+				}
 
-				}) {
+				String eventType = event.getType();
+				if (BrowserEvents.FOCUS.equals(eventType)) {
+					focusedRow = context.getIndex();
+				}
+
+			}
+
+		}
+
+		final MyTextInputCell myCell = new MyTextInputCell();
+
+		Column<RowData, String> col = new Column<RowData, String>(
+myCell) {
 
 			@Override
 			public String getValue(RowData object) {
-				//temp - just for testing the different values
-				if (object.getIndex() % 2 == 0) {
+				if (object.getIndex() == myCell.getFocusedRow() + 1) {
 					return object.getGeo().getCaptionSimple();
 				}
 				return object.getCaption();
 			}
+
 
 		};
 		return col;
 	}
 
 
+	public class MyEditCell extends EditTextCell {
+		private int focusedRow;
+
+		public int getFocusedRow() {
+			return focusedRow;
+		}
+
+		@Override
+		public void render(Context context, String value, SafeHtmlBuilder sb) {
+			if (isEditing(context, null, null)) {
+				super.render(context, value, sb);
+			} else {
+				sb.appendHtmlConstant(value);
+			}
+		}
+
+		@Override
+		public void onBrowserEvent(Context context, Element parent,
+				String value, NativeEvent event,
+				ValueUpdater<String> valueUpdater) {
+			App.debug("event type: " + event.getType());
+
+			String eventType = event.getType();
+			if (BrowserEvents.CLICK.equals(eventType)) {
+				focusedRow = context.getIndex();
+			}
+
+			super.onBrowserEvent(context, parent, value, event, valueUpdater);
+
+		}
+	}
+
 	private Column<RowData, String> getColumnCaption2() {
 
-		final EditTextCell editCell = new EditTextCell() {
-
-			@Override
-			public void render(Context context, String value, SafeHtmlBuilder sb) {
-				if (isEditing(context, null, null)) {
-					super.render(context, value, sb);
-				} else {
-					sb.appendHtmlConstant(value);
-				}
-			
-			}
-			
-			
-		};
+		final MyEditCell editCell = new MyEditCell();
 
 		
 		Column<RowData, String> col = new Column<RowData, String>(editCell) {
@@ -604,13 +636,17 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				Context context = new Context(object.getIndex(),
 						table.getColumnIndex(this), table.getValueKey(object));
 				boolean isEditing = editCell.isEditing(context, null, null);
-				
+
+				// isEditing = (object.getIndex() == editCell.getFocusedRow() +
+				// 1);
+				// App.debug(object.getIndex() + " == "
+				// + (editCell.getFocusedRow() + 1));
+
 				if (isEditing) {
 					return object.getGeo().getCaptionSimple();
 				}
 				return object.getCaption();
 			}
-
 
 		};
 		return col;
