@@ -76,7 +76,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public final void getConsProtocolXML(StringBuilder sb) {
 		if (this.isUsingConstructionProtocol())
 			sb.append(getConstructionProtocolView().getConsProtocolXML());
-		if ((app).showConsProtNavigation()) {
+		if (app.showConsProtNavigation()) {
 			sb.append("\t<consProtNavigationBar ");
 			sb.append("id=\"");
 			app.getConsProtNavigationIds(sb);
@@ -720,7 +720,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		app.setWaitCursor();
 		kernel.redo();
 		updateActions();
-		(app).resetPen();
+		app.resetPen();
 		app.setDefaultCursor();
 	}
 
@@ -728,7 +728,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		app.setWaitCursor();
 		kernel.undo();
 		updateActions();
-		(app).resetPen();
+		app.resetPen();
 		app.setDefaultCursor();
 	}
 
