@@ -37,11 +37,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/menu_view_graphics.png")
 	ImageResource graphicsView();
 
-	@Source("org/geogebra/common/icons/png/web/menu-button-open-search.png")
-	ImageResource browseView();
 
-	@Source("org/geogebra/common/icons/png/web/menu-button-open-menu.png")
-	ImageResource options();
 
 	// end PHONE GUI
 

@@ -5,8 +5,9 @@ import org.geogebra.web.phone.gui.view.AbstractView;
 import org.geogebra.web.phone.gui.view.HeaderPanel;
 import org.geogebra.web.phone.gui.view.StyleBar;
 import org.geogebra.web.phone.gui.view.ViewPanel;
-import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.images.PerspectiveResources;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
 
 public class MenuView extends AbstractView {
@@ -25,7 +26,8 @@ public class MenuView extends AbstractView {
 
 	@Override
 	protected ImageResource createViewIcon() {
-		return GuiResources.INSTANCE.options();
+		return (ImageResource) ((PerspectiveResources) GWT
+				.create(PerspectiveResources.class)).menu_header_open_menu();
 	}
 
 	@Override
