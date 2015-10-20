@@ -50,6 +50,7 @@ public class NewCASTableCellEditorW extends Label implements
 		this.ml = ml;
 		this.editor = new EquationEditor(app, this);
 		this.seMayLaTeX = DOM.createSpan().cast();
+		DrawEquationW.drawEquationAlgebraView(seMayLaTeX, "", true);
 		EquationEditor.updateNewStatic(seMayLaTeX);
 		DrawEquationW.editEquationMathQuillGGB(this, seMayLaTeX, true);
 		this.getElement().appendChild(seMayLaTeX);
