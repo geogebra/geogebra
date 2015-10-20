@@ -1316,19 +1316,35 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Returns labeling style for newly created geos
 	 * 
-	 * @return labeling style; AUTOMATIC is resovled either to US_DEFAULTS or
-	 *         OFF depending on visibility of AV
+	 * @return labeling style; AUTOMATIC is resolved either to
+	 *         USE_DEFAULTS/POINTS_ONLY (for 3D) or OFF depending on visibility
+	 *         of AV
 	 */
 	public int getCurrentLabelingStyle() {
 		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
 			if (isUsingFullGui()) {
 				if ((getGuiManager() != null)
 						&& getGuiManager().hasAlgebraViewShowing()) {
-					return getAlgebraView().isVisible() ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
-							: ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+					if( getAlgebraView().isVisible()){
+						if (isView3D(getGuiManager().getLayout()
+								.getDockManager().getFocusedViewId())) {
+							// only points (and sliders and angles) are labeled
+							// for 3D
+							return ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
+						}
+						// default behaviour for other views
+						return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
+					}
+					// no AV: no label
+					return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
 				}
 				return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
 			}
+			if (isEuclidianView3Dinited() && getEuclidianView3D().isShowing()) {
+				// only points (and sliders and angles) are labeled for 3D
+				return ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
+			}
+			// default behaviour for other views
 			return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
 		}
 		return getLabelingStyle();
