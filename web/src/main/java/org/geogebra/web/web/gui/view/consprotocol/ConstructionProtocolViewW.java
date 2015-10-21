@@ -523,7 +523,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	/*
 	 * Add a column to show end edit the caption.
 	 */
-	private static Column<RowData, String> getColumnCaption() {
+	private Column<RowData, String> getColumnCaption() {
 
 		class MyTextInputCell extends TextInputCell {
 			private int focusedRow = -1;
@@ -587,6 +587,18 @@ myCell) {
 
 
 		};
+
+		col.setFieldUpdater(new FieldUpdater<RowData, String>() {
+
+			public void update(int index, RowData object, String value) {
+				object.getGeo().setCaption(value);
+				data.initView();
+				tableInit();
+
+			}
+
+		});
+
 		return col;
 	}
 
