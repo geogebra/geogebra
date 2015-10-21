@@ -2765,8 +2765,7 @@ public class Construction {
 	 * construction state to the undo info list.
 	 */
 	public void initUndoInfo() {
-		if (undoManager == null)
-			undoManager = kernel.getApplication().getUndoManager(this);
+		ensureUndoManagerExists();
 		undoManager.initUndoInfo();
 	}
 
@@ -2776,8 +2775,7 @@ public class Construction {
 	private void buildConstruction(StringBuilder consXML) throws Exception {
 		// try to process the new construction
 		try {
-			if (undoManager == null)
-				undoManager = kernel.getApplication().getUndoManager(this);
+			ensureUndoManagerExists();
 			undoManager.processXML(consXML.toString());
 			kernel.notifyReset();
 			// Update construction is done during parsing XML
@@ -2797,7 +2795,14 @@ public class Construction {
 	 * @return UndoManager
 	 */
 	public UndoManager getUndoManager() {
+		ensureUndoManagerExists();
 		return undoManager;
+	}
+
+	private void ensureUndoManagerExists() {
+		if (undoManager == null) {
+			undoManager = kernel.getApplication().getUndoManager(this);
+		}
 	}
 
 	/**
