@@ -814,7 +814,7 @@ __GGB__keysVar.am.command = {
     "Semicircle": "Semicircle",
     "Semicircle.Syntax": "[ <Point>, <Point> ]",
     "Sequence": "Sequence",
-    "Sequence.Syntax": "[ <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value>, <Increment> ]",
+    "Sequence.Syntax": "[ <End Value> ]\n[ <Start Value>, <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value>, <Increment> ]",
     "SetActiveView": "SetActiveView",
     "SetActiveView.Syntax": "[ <View> ]",
     "SetAxesRatio": "SetAxesRatio",

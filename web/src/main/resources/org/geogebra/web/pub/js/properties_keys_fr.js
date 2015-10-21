@@ -865,7 +865,7 @@ __GGB__keysVar.fr.command = {
     "SetViewDirection": "SoitDirectionVue",
     "SetViewDirection.Syntax": "[ <Direction> ]",
     "SetVisibleInView": "SoitVisibleDansVue",
-    "SetVisibleInView.Syntax": "[ <Objet>, <Num\xe9ro 1|2>, <Bool\xe9en> ]",
+    "SetVisibleInView.Syntax": "[ <Objet>, <Num\xe9ro 1|2|-1>, <Bool\xe9en> ]",
     "Shear": "Transvection",
     "Shear.Syntax": "[ <Objet>, <Ligne>, <Rapport> ]",
     "ShortestDistance": "PlusCourteDistance",

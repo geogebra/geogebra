@@ -814,7 +814,7 @@ __GGB__keysVar.ta.command = {
     "Semicircle": "\u0b85\u0bb0\u0bc8\u0bb5\u0b9f\u0bcd\u0b9f\u0bae\u0bcd",
     "Semicircle.Syntax": "[ <Point>, <Point> ]",
     "Sequence": "\u0ba4\u0bca\u0b9f\u0bb0\u0bbf",
-    "Sequence.Syntax": "[ <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value>, <Increment> ]",
+    "Sequence.Syntax": "[ <End Value> ]\n[ <Start Value>, <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value>, <Increment> ]",
     "SetActiveView": "SetActiveView",
     "SetActiveView.Syntax": "[ <View> ]",
     "SetAxesRatio": "SetAxesRatio",
