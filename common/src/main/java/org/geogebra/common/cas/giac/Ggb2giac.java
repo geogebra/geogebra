@@ -36,6 +36,11 @@ public class Ggb2giac {
 		p("Append.2", "append(%0,%1)");
 		// simplify() to make sure Binomial[n,1] gives n
 		p("Binomial.2", "simplify(binomial(%0,%1))");
+
+		p("BinomialDist.3",
+				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=%2]],"
+						+ "when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg0,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]");
+
 		p("BinomialDist.4",
 				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=%2]],"
 						+ "if %3=true then binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2) else binomial(ggbbinarg0,ggbbinarg2,ggbbinarg1) fi][1]");
