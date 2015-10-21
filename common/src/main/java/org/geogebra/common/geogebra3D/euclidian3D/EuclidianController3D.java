@@ -4096,5 +4096,19 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return geo == kernel.getXOYPlane();
 	}
 
+	@Override
+	protected boolean hitComboBox(int x, int y) {
+		return false;
+	}
+
+	@Override
+	protected boolean overComboBox(AbstractEvent event, GeoElement hit) {
+		return false;
+	}
+
+	@Override
+	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
+		return false;
+	}
 
 }

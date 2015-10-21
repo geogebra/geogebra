@@ -4253,4 +4253,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public boolean handleSpaceKey() {
 		return false;
 	}
+
+	@Override
+	public void closeComboBoxes() {
+		// no combo box in 3D for now
+	}
 }

@@ -6601,9 +6601,7 @@ public abstract class EuclidianController {
 		hits = hits.getTopHits();
 		if (hits.size() == 1) {
 			GeoElement hit = hits.get(0);
-			if (hit.isGeoList()) {
-				((DrawList) view.getDrawableFor(hit)).onOptionOver(event.getX(),
-						event.getY());
+			if (overComboBox(event, hit)) {
 				return;
 			}
 			int labelMode = hit.getLabelMode();
@@ -6677,6 +6675,15 @@ public abstract class EuclidianController {
 			view.repaintView();
 		}
 		stopCollectingMinorRepaints();
+	}
+
+	protected boolean overComboBox(AbstractEvent event, GeoElement hit) {
+		if (hit.isGeoList()) {
+			((DrawList) view.getDrawableFor(hit)).onOptionOver(event.getX(),
+					event.getY());
+			return true;
+		}
+		return false;
 	}
 
 	public void wrapMouseMoved(AbstractEvent event) {
@@ -9544,7 +9551,7 @@ public abstract class EuclidianController {
 						.getHits().getTopHits().get(0) instanceof GeoList);
 	}
 
-	private boolean hitComboBox(int x, int y) {
+	protected boolean hitComboBox(int x, int y) {
 		Hits hits = view.getHits();
 		if (hits != null && hits.size() > 0) {
 			GeoList list;

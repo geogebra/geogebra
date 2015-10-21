@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -104,6 +103,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		tempNum = new MyDouble(kernel);
 	}
 
+	@Override
 	public void handleLongTouch(int x, int y) {
 		mtg.handleLongTouch(x, y);
 	}
@@ -170,6 +170,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	}
 
+	@Override
 	public void onPointerEventStart(AbstractEvent event) {
 		if (app.getGuiManager() != null) {
 			((GuiManagerW) app.getGuiManager())
@@ -244,20 +245,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	@Override
 	protected boolean hitResetIcon() {
 		return mtg.hitResetIcon();
-	}
-
-
-	@Override
-	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
-		return view.textfieldClicked(x, y, type);
-	}
-
-	public boolean isComboboxFocused() {
-		return mtg.isComboboxFocused();
-	}
-
-	public void setComboboxFocused(boolean flag) {
-		mtg.setComboboxFocused(flag);
 	}
 
 
@@ -399,10 +386,12 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	}
 
+	@Override
 	public LongTouchManager getLongTouchManager() {
 		return mtg.getLongTouchManager();
 	}
 
+	@Override
 	public void setActualSticky(boolean b) {
 		// TODO Auto-generated method stub
 
