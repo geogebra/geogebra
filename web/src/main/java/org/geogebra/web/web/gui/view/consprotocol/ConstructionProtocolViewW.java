@@ -292,7 +292,21 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		popupMenu = new GPopupMenuW((AppW) app);
 		ScheduledCommand com;
 
-		popupMenu.addVerticalSeparator();
+		if (app.getGuiManager().getLayout().getDockManager()
+				.getNumberOfOpenViews() > 1) {
+			popupMenu.addItem("close view", new ScheduledCommand() {
+
+				public void execute() {
+					app.getGuiManager().setShowView(false,
+							App.VIEW_CONSTRUCTION_PROTOCOL);
+					app.updateMenubar();
+					((AppW) app).fireViewsChangedEvent();
+				}
+
+			});
+
+			popupMenu.addVerticalSeparator();
+		}
 
 		boolean hasColInPopup = false;
 		for (int k = 0; k < data.getColumnCount(); k++) {
