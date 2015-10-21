@@ -581,6 +581,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (firstPoint == getMovedGeoPoint()) {
 				return firstPoint;
 			}
+			resetMovedGeoPoint();
 			return null;
 		case EuclidianView3D.PREVIEW_POINT_NONE:
 		default:
