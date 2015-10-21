@@ -1480,7 +1480,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		imgFileName = zip_directory + '/' + fn;
 
 		doDropHappened(imgFileName, url, null, 0, 0);
-		this.insertImageCallback.run();
+		if (insertImageCallback != null) {
+			this.insertImageCallback.run();
+		}
 	}
 
 	/**
