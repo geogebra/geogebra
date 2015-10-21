@@ -3583,11 +3583,11 @@ kernel, left,
 			break;
 		case SEQUENCE:
 			if (tpl.hasCASType()) {
-				sb.append("seq(");
+				sb.append("seq(round(");
 				sb.append(leftStr);
-				sb.append(",");
+				sb.append("),round(");
 				sb.append(rightStr);
-				sb.append(",1)");
+				sb.append("),1)");
 
 			} else {
 			sb.append(leftStr);

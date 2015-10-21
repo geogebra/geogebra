@@ -324,8 +324,8 @@ public class AlgoSequence extends AlgoElement {
 	}
 
 	private void computeRange() {
-		int from = (int) Math.floor(var_from.getDouble());
-		int to = (int) Math.floor(var_to.getDouble());
+		int from = (int) Math.round(var_from.getDouble());
+		int to = (int) Math.round(var_to.getDouble());
 
 		list.clear();
 
@@ -335,7 +335,7 @@ public class AlgoSequence extends AlgoElement {
 	}
 
 	private void computeSimple() {
-		int to = (int) Math.floor(var_to.getDouble());
+		int to = (int) Math.round(var_to.getDouble());
 
 		if (last_to < to) {
 			for (int k = (int) last_to; k < to; k++) {

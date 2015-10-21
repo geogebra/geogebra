@@ -277,8 +277,8 @@ public class CommandsTest extends Assert{
 	@Test
 	public void cmdSequence() {
 		t("Sequence[ 4 ]", "{1, 2, 3, 4}");
-		t("Sequence[ 3.2, 7.999 ]", "{3, 4, 5, 6, 7}");
-		t("Sequence[ -3.2, 3.2 ]", "{-4, -3, -2, -1, 0, 1, 2, 3}");
+		t("Sequence[ 3.2, 7.999 ]", "{3, 4, 5, 6, 7, 8}");
+		t("Sequence[ -3.2, 3.2 ]", "{-3, -2, -1, 0, 1, 2, 3}");
 		t("Sequence[ 3.2, -2 ]", "{}");
 		t("Sequence[ t^2, t, 1, 4 ]", "{1, 4, 9, 16}");
 		t("Sequence[ t^2, t, 1, 4, 2 ]", "{1, 9}");
