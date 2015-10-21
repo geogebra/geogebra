@@ -3582,9 +3582,19 @@ kernel, left,
 
 			break;
 		case SEQUENCE:
+			if (tpl.hasCASType()) {
+				sb.append("seq(");
+				sb.append(leftStr);
+				sb.append(",");
+				sb.append(rightStr);
+				sb.append(",1)");
+
+			} else {
 			sb.append(leftStr);
 			sb.append(Unicode.ellipsis);
 			sb.append(rightStr);
+			}
+
 			break;
 		default:
 			sb.append("unhandled operation " + operation);
