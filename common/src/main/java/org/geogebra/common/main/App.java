@@ -3904,7 +3904,6 @@ public abstract class App implements UpdateSelection {
 		case INTEL_REALSENSE:
 		case ALL_QUADRICS:
 		case SURFACE_IS_REGION:
-		case SHADERS_IN_DESKTOP:
 		case CP_POPUP:
 		case CP_NEW_COLUMNS:
 		case EXAM:
@@ -3922,6 +3921,7 @@ public abstract class App implements UpdateSelection {
 		case GL_ELEMENTS:
 		case AUTOMATIC_FONTSIZE:
 		case RETINA:
+		case SHADERS_IN_DESKTOP:
 			return true;
 		default:
 			return false;
