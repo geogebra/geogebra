@@ -948,16 +948,10 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 			return;
 		try {
 			if (bi.hasCanvas()) {
-				context.drawImage(
-						bi.getCanvas().getCanvasElement(),
-						0,
-						0,
-						bi
-						.getCanvas().getCoordinateSpaceWidth(), bi.getCanvas()
-.getCoordinateSpaceHeight(),
-						x,
-						y,
- this
+				context.drawImage(bi.getCanvas().getCanvasElement(), 0, 0,
+						bi.getCanvas().getCoordinateSpaceWidth(),
+						bi.getCanvas().getCoordinateSpaceHeight(), x, y,
+						this
 						.getOffsetWidth(), this.getOffsetHeight());
 
 			} else {
