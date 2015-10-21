@@ -16,7 +16,7 @@ public class GeoGebraTubeUser extends BaseModel {
 	private String token = null;
 	private int userId = -1;
 	private String identifier = null;
-
+	private String profileURL;
 	private String realName = null;
 	private String cookie;
 	private String image;
@@ -102,6 +102,20 @@ public class GeoGebraTubeUser extends BaseModel {
 	 */
 	public String getRealName() {
 		return realName;
+	}
+
+	/**
+	 * @return URl to profile page
+	 */
+	public String getProfileURL() {
+		return this.profileURL;
+	}
+
+	/**
+	 * @param URL of the profile page
+	 */
+	public void setProfileURL(String URL) {
+		this.profileURL = URL;
 	}
 
 
