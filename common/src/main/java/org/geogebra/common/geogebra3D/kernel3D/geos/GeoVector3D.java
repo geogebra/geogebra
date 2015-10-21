@@ -607,7 +607,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	}
 
 	public void updateLocation() {
-		updateGeo();
+		updateGeo(false);
 		kernel.notifyUpdateLocation(this);
 	}
 

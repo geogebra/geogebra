@@ -3822,7 +3822,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	@Override
 	public void update() {
 
-		updateGeo();
+		updateGeo(!cons.isUpdateConstructionRunning());
 
 		kernel.notifyUpdate(this);
 	}
@@ -3830,7 +3830,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * Same as update(), but do not notify kernel
 	 */
-	protected final void updateGeo() {
+	protected final void updateGeo(boolean mayUpdateCas) {
 
 		if (labelWanted && !labelSet) {
 			// check if this object's label needs to be set
@@ -3839,7 +3839,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			}
 		}
 
-		if (!cons.isUpdateConstructionRunning() && correspondingCasCell != null) {
+		if (mayUpdateCas && correspondingCasCell != null) {
 			correspondingCasCell.setInputFromTwinGeo(false);
 		}
 

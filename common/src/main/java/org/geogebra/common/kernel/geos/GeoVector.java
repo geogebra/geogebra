@@ -988,7 +988,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 	
 	public void updateLocation() {
-		updateGeo();
+		updateGeo(false);
 		kernel.notifyUpdateLocation(this);	
 	}
 	

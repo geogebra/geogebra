@@ -1186,7 +1186,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			updateCascade();
 		}else{
 			//we want to make the slider visible again if it was not
-			update();
+			// do what GeoElement.update does (no need to call listeners)
+			// also don't update the CAS
+			updateGeo(false);
+			kernel.notifyUpdate(this);
 		}
 	}
 
