@@ -58,8 +58,7 @@ public abstract class CanvasDrawable extends Drawable {
 			latex = isLatexString(text);
 			// no drawing, just measuring.
 			if (latex) {
-				GDimension d = drawLatex(g2, geo0, getLabelFont(), text, xLabel,
-						yLabel);
+				GDimension d = measureLatex(g2, geo0, getLabelFont(), text);
 				labelSize.x = d.getWidth();
 				labelSize.y = d.getHeight();
 			} else {

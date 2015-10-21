@@ -453,29 +453,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
-	// /**
-	// * Returns false
-	// */
-	// @Override
-	// public boolean hitLabel(int x, int y) {
-	// if (geoList.drawAsComboBox()) {
-	// return false;
-	// }
-	//
-	// return super.hitLabel(x, y);
-	//
-	// }
-	//
-	// @Override
-	// final public GeoElement getGeoElement() {
-	// return geo;
-	// }
-	//
-	// @Override
-	// final public void setGeoElement(GeoElement geo) {
-	// this.geo = geo;
-	// }
-
 	/**
 	 * Listens to events in this combobox
 	 * 
@@ -579,7 +556,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					boxTop + (boxHeight - labelSize.y) / 2);
 
 		} else {
-			textBottom = boxTop + (boxHeight + getMultipliedFontSize()) / 2;
+			textBottom = boxTop
+					+ (boxHeight + getMultipliedFontSize() - COMBO_TEXT_MARGIN)
+							/ 2;
 			g2.setPaint(geo.getObjectColor());
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					xLabel, textBottom, false, false);
@@ -595,6 +574,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		} else {
 			super.highlightLabel(g2, latex);
 		}
+
 	}
 
 	private void drawControl(GGraphics2D g2) {
