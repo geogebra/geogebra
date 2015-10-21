@@ -29,14 +29,15 @@ public class CmdSequence extends CommandProcessor {
 
 		// avoid
 		// "Command Sequence not known eg Sequence[If[Element[list1,i]=="b",0,1]]
-		if (n != 4 && n != 5 && n != 1)
+		if (n != 4 && n != 5 && n != 1 && n != 2) {
 			throw argNumErr(app, c.getName(), n);
+		}
 
 		boolean[] ok = new boolean[n];
 
 		// create local variable at position 1 and resolve arguments
 		GeoElement[] arg;
-		if (n > 1)
+		if (n > 2)
 			arg = resArgsLocalNumVar(c, 1, 2);
 		else
 			arg = resArgs(c);
@@ -49,6 +50,15 @@ public class CmdSequence extends CommandProcessor {
 				return algo.getOutput();
 			}
 			throw argErr(app, c.getName(), arg[0]);
+		case 2:
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+
+				AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+				return algo.getOutput();
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 		case 4:
 
 			// make sure Sequence[i,i,i,i] gives an error

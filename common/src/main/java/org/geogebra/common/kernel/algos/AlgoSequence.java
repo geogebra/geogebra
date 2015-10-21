@@ -38,13 +38,17 @@ import org.geogebra.common.util.StringUtil;
  */
 public class AlgoSequence extends AlgoElement {
 
+	private enum SequenceType {
+		SIMPLE, RANGE, FULL
+	};
+
 	private GeoElement expression; // input expression dependent on var
 	private GeoNumeric var; // input: local variable
 	private NumberValue var_from, var_to, var_step;
 	private GeoElement var_from_geo, var_to_geo, var_step_geo;
 	private GeoList list; // output
 
-	private boolean isSimple;
+	private SequenceType type;
 
 	private double last_from = Double.MIN_VALUE, last_to = Double.MIN_VALUE,
 			last_step = Double.MIN_VALUE;
@@ -114,7 +118,7 @@ public class AlgoSequence extends AlgoElement {
 
 		expressionParentAlgo = expression.getParentAlgorithm();
 		expIsFunctionOrCurve = expression instanceof CasEvaluableFunction;
-		isSimple = false;
+		type = SequenceType.FULL;
 		// Application.debug("expression: " + expression);
 		// Application.debug("  parent algo: " +
 		// expression.getParentAlgorithm());
@@ -130,6 +134,30 @@ public class AlgoSequence extends AlgoElement {
 	}
 
 	/**
+	 * Creates simple sequence start..upTo
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param upTo
+	 *            upper bound
+	 */
+	public AlgoSequence(Construction cons, String label, GeoNumberValue from,
+			GeoNumberValue upTo) {
+		super(cons);
+		type = SequenceType.RANGE;
+		var_from = from;
+		var_from_geo = var_from.toGeoElement();
+		var_to = upTo;
+		var_to_geo = var_to.toGeoElement();
+		list = new GeoList(cons);
+		setInputOutput();
+		compute();
+		list.setLabel(label);
+	}
+
+	/**
 	 * Creates simple sequence 1..upTo
 	 * 
 	 * @param cons
@@ -141,7 +169,10 @@ public class AlgoSequence extends AlgoElement {
 	 */
 	public AlgoSequence(Construction cons, String label, GeoNumberValue upTo) {
 		super(cons);
-		isSimple = true;
+		type = SequenceType.SIMPLE;
+		var_from = new GeoNumeric(cons, 1);
+		var_from_geo = (GeoElement) var_from;
+
 		var_to = upTo;
 		var_to_geo = var_to.toGeoElement();
 		list = new GeoList(cons);
@@ -159,12 +190,21 @@ public class AlgoSequence extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 
-		if (isSimple) {
+		switch (type) {
+		case SIMPLE:
 			input = new GeoElement[1];
 			input[0] = var_to_geo;
+			list.setTypeStringForXML(StringUtil
+					.toLowerCase(var_to_geo.getGeoClassType().xmlName));
+			break;
+		case RANGE:
+			input = new GeoElement[2];
+			input[0] = var_from_geo;
+			input[1] = var_to_geo;
 			list.setTypeStringForXML(StringUtil.toLowerCase(var_to_geo
 					.getGeoClassType().xmlName));
-		} else {
+			break;
+		default:
 			// make sure that x(Element[list,1]) will work even if the output
 			// list's length is zero
 			list.setTypeStringForXML(expression.getXMLtypeString());
@@ -174,9 +214,13 @@ public class AlgoSequence extends AlgoElement {
 			input[1] = var;
 			input[2] = var_from_geo;
 			input[3] = var_to_geo;
-			if (len == 5)
+			if (len == 5) {
 				input[4] = var_step_geo;
+			}
+			break;
+
 		}
+
 		setOutputLength(1);
 		setOutput(0, list);
 
@@ -193,8 +237,9 @@ public class AlgoSequence extends AlgoElement {
 	 */
 	@Override
 	public GeoElement[] getInputForUpdateSetPropagation() {
-		if (isSimple)
+		if (!type.equals(SequenceType.FULL)) {
 			return input;
+		}
 		GeoElement[] realInput = new GeoElement[input.length - 1];
 		realInput[0] = expression;
 		realInput[1] = var_from_geo;
@@ -217,12 +262,21 @@ public class AlgoSequence extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (isSimple) {
+
+		switch (type) {
+		case SIMPLE:
 			computeSimple();
 			return;
-		}
-		if (updateRunning)
+		case RANGE:
+			computeRange();
 			return;
+
+		}
+
+		if (updateRunning) {
+			return;
+		}
+
 		updateRunning = true;
 		for (int i = 1; i < input.length; i++) {
 			if (input[i] != var && !input[i].isDefined()) { // don't check the
@@ -269,20 +323,36 @@ public class AlgoSequence extends AlgoElement {
 		updateRunning = false;
 	}
 
-	private void computeSimple() {
-		double to = Math.floor(var_to.getDouble());
+	private void computeRange() {
+		int from = (int) Math.floor(var_from.getDouble());
+		int to = (int) Math.floor(var_to.getDouble());
 
-		if (last_to < to)
-			for (int k = (int) last_to; k < to; k++)
-				if (k >= 0)
+		list.clear();
+
+		for (int k = from; k <= to; k++) {
+			list.addNumber(k, null);
+		}
+	}
+
+	private void computeSimple() {
+		int to = (int) Math.floor(var_to.getDouble());
+
+		if (last_to < to) {
+			for (int k = (int) last_to; k < to; k++) {
+				if (k >= 0) {
 					list.addNumber(k + 1, null);
-		if (last_to > to)
-			for (int k = (int) last_to; k > to; k--)
+				}
+			}
+		}
+		if (last_to > to) {
+			for (int k = (int) last_to; k > to; k--) {
 				if (k >= 1) {
 					GeoElement ge = list.get(k - 1);
 					ge.remove();
 					list.remove(k - 1);
 				}
+			}
+		}
 		last_to = to;
 
 	}
