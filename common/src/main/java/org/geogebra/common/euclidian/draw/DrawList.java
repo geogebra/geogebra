@@ -575,8 +575,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int textBottom = boxTop + getTextBottom();
 		boolean latex = isLatexString(text);
 		if (latex) {
-			// drawLatex(g2, geo0, getLabelFont(), text, xLabel,
-			// yLabel + (labelSize.y / 2));
+			drawLatex(g2, geo0, getLabelFont(), text, xLabel,
+					boxTop + (boxHeight - labelSize.y) / 2);
 
 		} else {
 			textBottom = boxTop + (boxHeight + getMultipliedFontSize()) / 2;
@@ -585,6 +585,16 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					xLabel, textBottom, false, false);
 		}
 
+	}
+
+	protected void highlightLabel(GGraphics2D g2, boolean latex) {
+		if (geo.isLabelVisible() && geo.doHighlighting() && latex) {
+			g2.fillRect(xLabel, boxTop + (boxHeight - labelSize.y) / 2,
+					labelSize.x, labelSize.y);
+
+		} else {
+			super.highlightLabel(g2, latex);
+		}
 	}
 
 	private void drawControl(GGraphics2D g2) {
