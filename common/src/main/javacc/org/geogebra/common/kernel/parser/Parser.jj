@@ -247,6 +247,7 @@ TOKEN :  {
   | < OR:    ("||" | "\u2228" ) >
   | < AND:    ("&&" | "\u2227" ) >
   | < IMPLICATION:    ("->" | "\u2192") >
+  | < SEQUENCE_OPERATOR:    ("\u2026") >
   | < EQUAL_BOOLEAN: ("==" | "\u225f" ) >
   | < NOT_EQUAL: ("!=" | "\u2260" | "<>" ) >
   | < IS_ELEMENT_OF: "\u2208" >
@@ -1244,14 +1245,32 @@ ExpressionValue plusminusnode():
     }
 }
 
-ExpressionValue setdifferencenode():
+ExpressionValue sequencenode():
 {
     ExpressionValue ret, f;
     Token x;
 }
 {
     ret = plusminusnode()                 
-    (<SET_DIFFERENCE> f = plusminusnode()
+    (<SEQUENCE_OPERATOR> f = plusminusnode()
+        {                       
+            ret = new ExpressionNode(kernel, ret, Operation.SEQUENCE, f);  
+        }
+    )*
+    { 
+      //ret.simplifyLeafs();
+      return ret; 
+    }
+}
+
+ExpressionValue setdifferencenode():
+{
+    ExpressionValue ret, f;
+    Token x;
+}
+{
+    ret = sequencenode()                 
+    (<SET_DIFFERENCE> f = sequencenode()
         {                       
             ret = new ExpressionNode(kernel, ret, Operation.SET_DIFFERENCE, f);  
         }

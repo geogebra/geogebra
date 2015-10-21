@@ -1697,6 +1697,28 @@ public enum Operation {
 			return new MyVecNode(ev.getKernel(), MyList.getCell(list, 0, 0),
 					MyList.getCell(list, 0, 1));
 		}
+	},
+	SEQUENCE {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if ((lt.unwrap() instanceof NumberValue)
+					&& (rt.unwrap() instanceof NumberValue)) {
+				MyList list = new MyList(ev.getKernel());
+				for (int i = (int) Math.round(lt.evaluateDouble()); i <= Math
+						.round(rt.evaluateDouble()); i++) {
+					list.addListElement(new MyDouble(ev.getKernel(), i));
+				}
+				return list;
+			}
+			if (!(lt.unwrap() instanceof NumberValue)) {
+				ev.illegalArgument(lt);
+			}
+
+			return ev.illegalArgument(rt);
+
+		}
 	};
 
 	public static boolean isSimpleFunction(Operation op) {

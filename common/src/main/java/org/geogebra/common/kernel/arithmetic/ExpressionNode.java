@@ -3581,7 +3581,11 @@ kernel, left,
 					.rightSquareBracket());
 
 			break;
-
+		case SEQUENCE:
+			sb.append(leftStr);
+			sb.append(Unicode.ellipsis);
+			sb.append(rightStr);
+			break;
 		default:
 			sb.append("unhandled operation " + operation);
 		}

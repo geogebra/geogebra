@@ -2741,7 +2741,7 @@ public class AlgebraProcessor {
 
 			int size = evalList.size();
 			for (int i = 0; i < size; i++) {
-				ExpressionNode en = (ExpressionNode) evalList.getListElement(i);
+				ExpressionNode en = evalList.getListElement(i).wrap();
 				// we only take one resulting object
 				GeoElement[] results = processExpressionNode(en);
 				GeoElement geo = results[0];
