@@ -171,7 +171,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 */
 	public double getFreqMax() {
 
-		freqMax = 0.0;
+		freqMax = 0;
 		for (int k = 0; k < yval.length; ++k) {
 			freqMax = Math.max(yval[k], freqMax);
 		}
@@ -1071,8 +1071,12 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			}// if d parameter for rectanglesum
 
 			fun = f.getRealRootFunctionY();
+
+			// lower bound
 			ad = a.getDouble();
+			// upper bound
 			bd = b.getDouble();
+
 			if (!onlyZoom) {
 				isDefined = functionDefined(ad, bd);
 			} else {
@@ -1103,8 +1107,13 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				/* Extra treatment for RectangleSum */
 				if (type == SumType.RECTANGLESUM) {
 					double dd = d.getDouble();
-					if ((0.0 <= dd) && (dd <= 1.0)) {
-						yval[i] = fun.evaluate(leftBorder[i] + dd * STEP); // divider
+					if ((dd >= 0) && (dd <= 1)) {
+
+						// make sure we don't get an overflow
+						// eg sqrt(1-1.00000000000001)
+						double xVal = Math.min(bd, leftBorder[i] + dd * STEP);
+
+						yval[i] = fun.evaluate(xVal); // divider
 																			// into
 																			// step-interval
 					} else {
@@ -1396,7 +1405,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 						&& ((GeoBoolean) isCumulative).getBoolean()) {
 					sum.setValue(Double.POSITIVE_INFINITY);
 				} else
-					sum.setValue(1.0);
+					sum.setValue(1);
 				sum.updateCascade();
 			}
 
@@ -1429,7 +1438,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 					&& ((GeoBoolean) isCumulative).getBoolean()) {
 				sum.setValue(Double.POSITIVE_INFINITY);
 			} else {
-				sum.setValue(1.0);
+				sum.setValue(1);
 			}
 			sum.updateCascade();
 
