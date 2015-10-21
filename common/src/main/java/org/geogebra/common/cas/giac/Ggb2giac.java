@@ -617,7 +617,9 @@ public class Ggb2giac {
 		p("SampleVariance.1",
 				" [[ggbsvans:=%0],[ggbsvans:=normal(variance(ggbsvans)*size(ggbsvans)/(size(ggbsvans)-1))],ggbsvans][2]");
 		p("SampleSD.1", "normal(stddevp(%0))");
-		p("Sequence.1", "seq(j,j,1,%0)");
+		p("Sequence.1", "when(round(%0)<1,{},seq(j,j,1,round(%0)))");
+		p("Sequence.2",
+				"when(round(%0)>round(%1),{},seq(j,j,round(%0),round(%1))");
 		p("Sequence.4", "seq(%0,%1,%2,%3)");
 		p("Sequence.5", "seq(%0,%1,%2,%3,%4)");
 
