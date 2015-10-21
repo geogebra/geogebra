@@ -1766,15 +1766,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdSequence() {
-		t("Sequence[ n4 ]");
-
-		t("Sequence[ t^2, t, n1, n4 ]");
-		t("Sequence[ t^2, t, n1, n4, n2 ]");
-
-	}
-
-	@Test
 	public void cmdSetActiveView() {
 		t("SetActiveView[ gv ]");
 	}

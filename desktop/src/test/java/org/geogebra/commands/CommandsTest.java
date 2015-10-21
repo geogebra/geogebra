@@ -275,6 +275,19 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdSequence() {
+		t("Sequence[ 4 ]", "{1, 2, 3, 4}");
+		t("Sequence[ 3.2, 7.999 ]", "{3, 4, 5, 6, 7}");
+		t("Sequence[ -3.2, 3.2 ]", "{-4, -3, -2, -1, 0, 1, 2, 3}");
+		t("Sequence[ 3.2, -2 ]", "{}");
+		t("Sequence[ t^2, t, 1, 4 ]", "{1, 4, 9, 16}");
+		t("Sequence[ t^2, t, 1, 4, 2 ]", "{1, 9}");
+		t("Sequence[ t^2, t, 1, 4, -2 ]", "{}");
+		t("Length[Unique[Sequence[ random(), t, 1, 10]]]", "10");
+
+	}
+
+	@Test
 	public void cmdDifference() {
 		t("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
 				new String[] { "3", "(2, 1)", "(1, 1)", "(1, 2)", "(0, 2)",
