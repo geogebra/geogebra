@@ -1547,7 +1547,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 						}
 
 					}
-					switchPointMoveMode();
+					if (mode == EuclidianConstants.MODE_MOVE
+							|| mode == EuclidianConstants.MODE_POINT) {
+						switchPointMoveMode();
+					} else {
+						Hits hits = view3D.getHits();
+						if (!hits.isEmpty() && hits.get(0) == movedGeoPoint) {
+							switchPointMoveMode();
+						}
+					}
 					((EuclidianView3D) view).getCursor3D().setMoveMode(
 							movedGeoPoint.getMoveMode());
 					((EuclidianView3D) view).setDefaultCursorWillBeHitCursor();
