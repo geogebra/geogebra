@@ -567,4 +567,8 @@ final public class Geo3DVec extends ValidExpression implements Vector3DValue,
 		return ValueType.VECTOR3D;
 	}
 
+	public int getDimension() {
+		return 3;
+	}
+
 }

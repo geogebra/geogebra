@@ -48,7 +48,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 	private ExpressionNode[] exp;
 
 	/** Creates new AlgoJoinPoints */
-	public AlgoCurveCartesian(Construction cons, String label,
+	public AlgoCurveCartesian(Construction cons,
 			NumberValue[] coords, GeoNumeric localVar, NumberValue from,
 			NumberValue to) {
 		super(cons);
@@ -83,7 +83,6 @@ public class AlgoCurveCartesian extends AlgoElement {
 
 		// compute value of dependent number
 		compute();
-		curve.setLabel(label);
 	}
 
 	/**

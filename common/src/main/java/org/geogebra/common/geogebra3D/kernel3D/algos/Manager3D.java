@@ -1024,10 +1024,10 @@ public class Manager3D implements Manager3DInterface {
 	 * 3D Cartesian curve command: Curve[ <expression x-coord>, <expression
 	 * y-coord>, <expression z-coord>, <number-var>, <from>, <to> ]
 	 */
-	final public GeoCurveCartesian3D CurveCartesian3D(String label,
-			NumberValue xcoord, NumberValue ycoord, NumberValue zcoord,
+	final public GeoCurveCartesian3D CurveCartesian3D(NumberValue xcoord,
+			NumberValue ycoord, NumberValue zcoord,
 			GeoNumeric localVar, NumberValue from, NumberValue to) {
-		AlgoCurveCartesian3D algo = new AlgoCurveCartesian3D(cons, label,
+		AlgoCurveCartesian3D algo = new AlgoCurveCartesian3D(cons,
 				new NumberValue[] { xcoord, ycoord, zcoord }, localVar, from,
 				to);
 		return (GeoCurveCartesian3D) algo.getCurve();

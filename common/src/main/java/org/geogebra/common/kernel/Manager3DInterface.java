@@ -509,7 +509,7 @@ public interface Manager3DInterface {
 	 * 3D Cartesian curve command: Curve[ <expression x-coord>, <expression
 	 * y-coord>, <expression z-coord>, <number-var>, <from>, <to> ]
 	 */
-	public GeoElement CurveCartesian3D(String label, NumberValue xcoord,
+	public GeoElement CurveCartesian3D(NumberValue xcoord,
 			NumberValue ycoord, NumberValue zcoord, GeoNumeric localVar,
 			NumberValue from, NumberValue to);
 

@@ -1447,4 +1447,8 @@ final public class GeoVec2D extends ValidExpression implements
 		return new ExpressionNode(kernel, this);
 	}
 
+	public int getDimension() {
+		return 2;
+	}
+
 }

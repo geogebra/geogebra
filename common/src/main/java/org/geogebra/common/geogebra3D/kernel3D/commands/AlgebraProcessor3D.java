@@ -318,9 +318,10 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			cons.removeFromConstructionList(nz);
 			GeoNumeric from = new GeoNumeric(cons, -10);
 			GeoNumeric to = new GeoNumeric(cons, 10);
-			AlgoCurveCartesian ac = new AlgoCurveCartesian3D(cons, label,
+			AlgoCurveCartesian ac = new AlgoCurveCartesian3D(cons,
 					new NumberValue[] { nx.getNumber(), ny.getNumber(),
 							nz.getNumber() }, loc, from, to);
+			ac.getCurve().setLabel(label);
 			return ac.getOutput();
 		}
 		return super.processParametricFunction(exp, ev, fv, label);

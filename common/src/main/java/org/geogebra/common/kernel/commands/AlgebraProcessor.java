@@ -1934,9 +1934,10 @@ public class AlgebraProcessor {
 			
 			GeoNumeric from = new GeoNumeric(cons, -10);
 			GeoNumeric to = new GeoNumeric(cons, 10);
-			AlgoCurveCartesian ac = new AlgoCurveCartesian(cons, label,
+			AlgoCurveCartesian ac = new AlgoCurveCartesian(cons,
 					new NumberValue[] { nx.getNumber(), ny.getNumber() }, locVar,
 					from, to);
+			ac.getCurve().setLabel(label);
 			return ac.getOutput();
 		}
 		App.debug("InvalidFunction:"

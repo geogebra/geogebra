@@ -1008,4 +1008,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		return true;
 	}
 
+	public int getDimension() {
+		return 2;
+	}
+
 }

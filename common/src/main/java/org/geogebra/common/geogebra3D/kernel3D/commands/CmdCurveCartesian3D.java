@@ -1,7 +1,10 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoCurveCartesian3D;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -43,10 +46,11 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 					&& (ok[4] = arg[4] instanceof GeoNumberValue)
 					&& (ok[5] = arg[5] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
-				ret[0] = kernelA.getManager3D().CurveCartesian3D(c.getLabel(),
+				ret[0] = kernelA.getManager3D().CurveCartesian3D(
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2], (GeoNumeric) arg[3],
 						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5]);
+				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
 			for (int i = 0; i < n; i++) {
@@ -57,6 +61,12 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 		}
 
 		return super.process(c);
+	}
+
+	protected AlgoCurveCartesian getCurveAlgo(NumberValue[] coords,
+			GeoElement[] arg) {
+		return new AlgoCurveCartesian3D(cons, coords, (GeoNumeric) arg[1],
+				(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
 	}
 
 }

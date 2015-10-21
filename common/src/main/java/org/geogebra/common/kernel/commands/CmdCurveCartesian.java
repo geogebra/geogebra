@@ -2,8 +2,11 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
+import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -33,9 +36,33 @@ public class CmdCurveCartesian extends CommandProcessor {
 		// Curve[ <x-coord expression>, <y-coord expression>, <number-var>,
 		// <from>, <to> ]
 		// Note: x and y coords are numbers dependent on number-var
+		// Curve[t*(1-t)*A+t*t*B+(1-t)*(1-t)*C,t,0,1]
+		case 4:
+			GeoElement[] arg = resArgsLocalNumVar(c, 1, 2);
+			if ((ok[0] = arg[0] instanceof VectorNDValue)
+					&& (ok[1] = arg[1].isGeoNumeric())
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)
+					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
+				ExpressionNode exp = c.getArgument(0);
+				int dim = ((VectorNDValue)arg[0]).getDimension();
+				NumberValue[] coords = new NumberValue[dim];
+				for (int i = 0; i < dim; i++) {
+				ExpressionNode cx = kernelA.getAlgebraProcessor().computeCoord(
+exp, i);
+				AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx,
+						false);
+					coords[i] = nx.getNumber();
+				}
+
+				AlgoCurveCartesian algo = getCurveAlgo(coords, arg);
+				algo.getCurve().setLabel(c.getLabel());
+				GeoElement[] ret = { algo.getCurve() };
+
+				return ret;
+			}
 		case 5:
 			// create local variable at position 2 and resolve arguments
-			GeoElement[] arg = resArgsLocalNumVar(c, 2, 3);
+			arg = resArgsLocalNumVar(c, 2, 3);
 
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -48,10 +75,11 @@ public class CmdCurveCartesian extends CommandProcessor {
 				checkDependency(arg, c.getName(), 4, 2);
 
 				AlgoCurveCartesian algo = new AlgoCurveCartesian(cons,
-						c.getLabel(), new NumberValue[] {
+						new NumberValue[] {
 								(GeoNumberValue) arg[0],
 								(GeoNumberValue) arg[1] }, (GeoNumeric) arg[2],
 						(GeoNumberValue) arg[3], (GeoNumberValue) arg[4]);
+				algo.getCurve().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getCurve() };
 
 				return ret;
@@ -64,5 +92,11 @@ public class CmdCurveCartesian extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	protected AlgoCurveCartesian getCurveAlgo(NumberValue[] coords,
+			GeoElement[] arg) {
+		return new AlgoCurveCartesian(cons, coords, (GeoNumeric) arg[1],
+				(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
 	}
 }

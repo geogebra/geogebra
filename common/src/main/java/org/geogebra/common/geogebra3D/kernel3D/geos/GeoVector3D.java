@@ -788,4 +788,8 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	public ValueType getValueType() {
 		return ValueType.VECTOR3D;
 	}
+
+	public int getDimension() {
+		return 3;
+	}
 }

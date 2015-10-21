@@ -10,10 +10,10 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 
 public class AlgoCurveCartesian3D extends AlgoCurveCartesian {
 
-	public AlgoCurveCartesian3D(Construction cons, String label,
+	public AlgoCurveCartesian3D(Construction cons,
 			NumberValue[] coords, GeoNumeric localVar, NumberValue from,
 			NumberValue to) {
-		super(cons, label, coords, localVar, from, to);
+		super(cons, coords, localVar, from, to);
 	}
 
 	@Override
