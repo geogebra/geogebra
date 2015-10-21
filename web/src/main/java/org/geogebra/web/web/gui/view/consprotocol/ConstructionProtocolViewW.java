@@ -670,11 +670,8 @@ myCell) {
 
 			public void update(int index, RowData object, Boolean value) {
 				object.getGeo().setConsProtocolBreakpoint(value);
-				// TODO if value is false, it's needed to remove the clicked
-				// row.
-				// This don't work:
-				// if (!value) initGUI();
-				// Don't forget update the navbar too.
+				data.initView();
+				tableInit();
 			}
 
 		});
