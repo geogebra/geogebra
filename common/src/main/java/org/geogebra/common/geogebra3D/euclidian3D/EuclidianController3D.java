@@ -574,17 +574,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return point3D;
 
 		case EuclidianView3D.PREVIEW_POINT_ALREADY:
-			// Application.debug(hits);
-			// if (mode==EuclidianView3D.MODE_POINT ||
-			// mode==EuclidianView3D.MODE_POINT_ON_OBJECT)
+			// current mode is not MOVE
+			// we return current moved point if first hitted
 			GeoPointND firstPoint = (GeoPointND) hits
 					.getFirstHit(Test.GEOPOINTND);
-			if (firstPoint == null)
-				firstPoint = (GeoPointND) getMovedGeoPoint(); // keep current
-																// point
-			// view3D.getCursor3D().setRegionParameters(firstPoint.getRegionParameters());
-			// Application.debug(view3D.getCursor3D().getRegionParameters().getNormal());
-			return firstPoint;
+			if (firstPoint == getMovedGeoPoint()) {
+				return firstPoint;
+			}
+			return null;
 		case EuclidianView3D.PREVIEW_POINT_NONE:
 		default:
 			pointCreated = super.getNewPoint(hits, onPathPossible,
@@ -1352,9 +1349,20 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return null;
 	}
 
+
+	@Override
+	protected boolean draggingOccurredBeforeRelease(boolean notAlreadyStarted) {
+		if (notAlreadyStarted && draggingOccurredBeforeRelease) {
+			// don't select a first point on dragging
+			return true;
+		}
+		return super.draggingOccurredBeforeRelease(notAlreadyStarted);
+	}
+
 	private GeoPointND[] pyramidBasis = null;
 
 	private boolean polygonForPyramidBasis = false;
+
 
 	/**
 	 * get basis and top point; create pyramid
@@ -1371,7 +1379,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (hits.isEmpty())
 			return null;
 
-		if (draggingOccuredBeforeRelease && (pyramidBasis == null)
+		if (draggingOccurredBeforeRelease && (pyramidBasis == null)
 				&& selPoints() == 0 && selPolygons() == 0) {
 			// don't select a first point on dragging
 			return null;
@@ -1569,7 +1577,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	private void cancelSwitchPointMoveModeIfNeeded() {
-		if (!draggingOccuredBeforeRelease && movedGeoPoint != null
+		if (!draggingOccurredBeforeRelease && movedGeoPoint != null
 				&& movedGeoPoint.isIndependent()) {
 			switchPointMoveMode();
 		}
@@ -3264,7 +3272,26 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		if (cursorType == EuclidianView3D.PREVIEW_POINT_ALREADY) {
 			// cross arrows for moving point
-			return isModeForMovingPoint(mode);
+			switch (mode) {
+			// modes in which the result could be a dependent point
+			case EuclidianConstants.MODE_MOVE:
+			case EuclidianConstants.MODE_POINT:
+				return true;
+			default:
+				if (isModeForMovingPoint(mode)) {
+					// can only move the last created point
+					GeoElement movedPoint = getMovedGeoPoint();
+					if (movedPoint == null) {
+						return false;
+					}
+					Hits hits = view3D.getHits();
+					if (!hits.isEmpty() && hits.get(0) == movedPoint) {
+						return true;
+					}
+					return false;
+				}
+				return false;
+			}
 		} else if (cursorType == EuclidianView3D.PREVIEW_POINT_DEPENDENT) {
 			switch (mode) {
 			// modes in which the result could be a dependent point

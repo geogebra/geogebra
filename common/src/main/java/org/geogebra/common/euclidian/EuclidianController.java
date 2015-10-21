@@ -274,7 +274,7 @@ public abstract class EuclidianController {
 
 	protected boolean draggingOccured = false;
 
-	protected boolean draggingOccuredBeforeRelease = false;
+	protected boolean draggingOccurredBeforeRelease = false;
 
 	public boolean draggingBeyondThreshold = false;
 
@@ -1834,6 +1834,10 @@ public abstract class EuclidianController {
 			return null;
 		}
 
+		if (draggingOccurredBeforeRelease(selPoints() == 0)) {
+			return null;
+		}
+
 		// points needed
 		addSelectedPoint(hits, 2, false);
 		if (selPoints() == 2) {
@@ -1841,6 +1845,17 @@ public abstract class EuclidianController {
 			return join();
 		}
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @param notAlreadyStarted
+	 *            true current created geo is not already started
+	 * @return true if dragging occurred before release, so maybe we don't want
+	 *         to start new geo
+	 */
+	protected boolean draggingOccurredBeforeRelease(boolean notAlreadyStarted) {
+		return false;
 	}
 
 	protected GeoElement[] join() {
@@ -2000,6 +2015,10 @@ public abstract class EuclidianController {
 				return ret;
 
 			}
+		}
+
+		if (draggingOccurredBeforeRelease(selPoints() == 0)) {
+			return null;
 		}
 
 		// if the first point is clicked again, we are finished
@@ -9179,7 +9198,8 @@ public abstract class EuclidianController {
 				complex);
 
 		GeoElement point = this.view.getHits().getFirstHit(Test.GEOPOINT);
-		if (!newPointCreated
+		if (point != null
+				&& !newPointCreated
 				&& this.selPoints() == 1
 				&& (this.mode == EuclidianConstants.MODE_JOIN
 						|| this.mode == EuclidianConstants.MODE_SEGMENT
@@ -9412,7 +9432,7 @@ public abstract class EuclidianController {
 		boolean changedKernel = false;
 		if (draggingOccured) {
 			
-			draggingOccuredBeforeRelease = true;
+			draggingOccurredBeforeRelease = true;
 			draggingOccured = false;
 			// // copy value into input bar
 			// if (mode == EuclidianView.MODE_MOVE && movedGeoElement != null) {
@@ -9513,7 +9533,7 @@ public abstract class EuclidianController {
 
 		endOfWrapMouseReleased(hits, event);
 
-		draggingOccuredBeforeRelease = false;
+		draggingOccurredBeforeRelease = false;
 
 	}
 
@@ -10090,6 +10110,7 @@ public abstract class EuclidianController {
 		} else {
 			if (!temporaryMode) {
 				selection.clearSelectedGeos(false);
+				resetMovedGeoPoint();
 			}
 			initNewMode(newMode);
 		}
