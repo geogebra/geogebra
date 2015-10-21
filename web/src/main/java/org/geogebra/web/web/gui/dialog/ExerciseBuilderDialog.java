@@ -187,6 +187,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 		addList = new UnorderedList();
 		addDomHandlers(addList);
+		addList.setStyleName("submenuContent");
 		// addIcon = new ListItem();
 		Image addIcon = new Image(GuiResources.INSTANCE.menu_icon_file_new());
 		ListItem addListItem = new ListItem();
@@ -195,12 +196,12 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		addList.add(addListItem);
 
 		userAddModes = new ToolbarSubemuW(app, 1);
-		userAddModes.addStyleName("toolbar_item");
 		userAddModes.setVisible(false);
 		for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
 			if (!exercise.usesMacro(i)) {
 				ListItem item = userAddModes.addItem(i
 						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
+				item.addStyleName("toolbar_item");
 				addDomHandlers(item);
 			}
 		}
@@ -383,6 +384,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				assignment.getTool())
 				+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
 		addDomHandlers(item);
+		item.addStyleName("toolbar_item");
 		exercise.remove(assignment);
 		assignmentsTable.removeRow(assignmentsTable.getCellForEvent(event)
 				.getRowIndex());
@@ -417,6 +419,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			} else {
 				assignmentsTable.setVisible(true);
 				checkAssignmentsTable.setVisible(false);
+				addList.setVisible(true);
 				btTest.setText(app.getPlain("Test"));
 				btApply.setText(app.getPlain("OK"));
 				hide();
@@ -427,6 +430,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			if (isEditing) {
 				assignmentsTable.setVisible(false);
 				checkAssignmentsTable.setVisible(true);
+				addList.setVisible(false);
 				check();
 				btTest.setText(app.getPlain("Check"));
 				btApply.setText(app.getPlain("Back"));

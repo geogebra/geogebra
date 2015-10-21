@@ -4133,7 +4133,7 @@ public class Kernel {
 			getApplication().removeMacroCommands();
 			macroManager.removeAllMacros();
 		}
-		// Also remove Assignments using this macro from Exercise
+		// Also remove all Assignments
 		getExercise().removeAllAssignments();
 
 		for (UserAwarenessListener listener : this.userAwarenessListeners) {
