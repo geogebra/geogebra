@@ -545,10 +545,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		g2.setPaint(geo.getObjectColor());
 
-		if (geo.isLabelVisible()) {
-			drawLabel(g2, geoList, labelText);
-		}
-
 		
 		// Draw the selected line
 		boolean latex = isLatexString(selectedText);
@@ -567,6 +563,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (optionsVisible) {
 			drawOptions(g2);
 		}
+
+		if (geo.isLabelVisible()) {
+			drawLabel(g2, geoList, labelText);
+		}
+
 	}
 
 	protected void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
@@ -578,8 +579,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			// yLabel + (labelSize.y / 2));
 
 		} else {
-			textBottom += (boxHeight - getMultipliedFontSize()) / 2
-					- COMBO_TEXT_MARGIN;
+			textBottom = boxTop + (boxHeight + getMultipliedFontSize()) / 2;
 			g2.setPaint(geo.getObjectColor());
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					xLabel, textBottom, false, false);
