@@ -112,7 +112,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public String evaluateGeoGebraCAS(ValidExpression casInput,
 			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell, Kernel kernel)
 			throws CASException {
-
+		if (app.isExam() && !app.getExam().isCASAllowed()) {
+			return "?";
+		}
 		String result = null;
 		CASException exception = null;
 		try {
@@ -166,7 +168,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	final public String evaluateRaw(String exp) throws Throwable {
-		return getCurrentCAS().evaluateRaw(exp);
+		if (!app.isExam() || app.getExam().isCASAllowed()) {
+			return getCurrentCAS().evaluateRaw(exp);
+		}
+		return "?";
 	}
 
 	/**
@@ -179,7 +184,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 *             if there is a timeout or the expression cannot be evaluated
 	 * */
 	final public String evaluate(String exp) throws CASException {
-		return getCurrentCAS().evaluateCAS(exp);
+		if (!app.isExam() || app.getExam().isCASAllowed()) {
+			return getCurrentCAS().evaluateCAS(exp);
+		}
+		return "?";
 	}
 
 	// these variables are cached to gain some speed in getPolynomialCoeffs
@@ -762,7 +770,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c) {
-		getCurrentCAS().evaluateGeoGebraCASAsync(c);
+		if (!app.isExam() || app.getExam().isCASAllowed()) {
+			getCurrentCAS().evaluateGeoGebraCASAsync(c);
+		}
 	}
 
 	public Set<String> getAvailableCommandNames() {

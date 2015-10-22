@@ -781,7 +781,9 @@ public abstract class CommandDispatcher {
 			case ImplicitDerivative:
 			case NextPrime:
 			case PreviousPrime:
-				return getCASDispatcher().dispatch(command, kernel);
+				return app.isExam() && !app.getExam().isCASAllowed() ? null
+						: getCASDispatcher().dispatch(
+						command, kernel);
 			default:
 				Log.error("missing case in CommandDispatcher " + cmdName);
 				return null;

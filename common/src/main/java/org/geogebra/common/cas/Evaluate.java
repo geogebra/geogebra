@@ -9,15 +9,6 @@ public interface Evaluate {
 	/**
 	 * @param exp
 	 *            MPReduce input
-	 * @return CAS output
-	 * @throws Throwable
-	 *             if computation fails
-	 */
-	public String evaluate(String exp) throws Throwable;
-
-	/**
-	 * @param exp
-	 *            MPReduce input
 	 * @param timeoutMilliseconds
 	 *            maximal time for computation in ms
 	 * @return CAS output

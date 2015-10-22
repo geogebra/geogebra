@@ -3,11 +3,12 @@ package org.geogebra.web.web.gui.menubar;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.ExamEnvironment;
+import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.GuiResources;
@@ -66,9 +67,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * Exit exam and restore normal mode
 	 */
 	protected void exitAndResetExam() {
-		if (!ExamEnvironment.toggleFullscreen(false)) {
+		if (!ExamUtil.toggleFullscreen(false)) {
 			app.getExam().exit();
-			app.showMessage(app.getExam().getLog());
+			app.showMessage(app.getExam().getLog(app.getLocalization()));
 			app.setExam(null);
 			Layout.initializeDefaultPerspectives(app, 0.2);
 			app.getLAF().addWindowClosingHandler(app);
@@ -202,7 +203,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		return new Runnable() {
 
 			public void run() {
-				ExamEnvironment.toggleFullscreen(true);
+				ExamUtil.toggleFullscreen(true);
 				app.setExam(new ExamEnvironment());
 				Layout.initializeDefaultPerspectives(app, 0.2);
 				app.fileNew();

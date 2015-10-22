@@ -1,11 +1,11 @@
-package org.geogebra.web.html5.main;
+package org.geogebra.common.main;
 
 import java.util.Date;
 import java.util.LinkedList;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.kernel.commands.CmdGetTime;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
+//import com.google.gwt.i18n.client.DateTimeFormat;
 
 public class ExamEnvironment {
 	private boolean supports3D, supportsCAS;
@@ -76,12 +76,12 @@ public class ExamEnvironment {
 		return cheatingTimes != null;
 	}
 
-	public String getLog() {
+	public String getLog(Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Exam started");
 		sb.append(' ');
-		sb.append(DateTimeFormat.getFormat("dd. MM. yyyy, HH:mm:ss").format(
-				new Date(examStartTime)));
+		sb.append(CmdGetTime.buildLocalizedDate("dd. MM. yyyy, HH:mm:ss",
+				new Date(examStartTime), loc));
 		sb.append("\n");
 		if(cheatingTimes != null){
 			for(int i = 0; i < cheatingTimes.size(); i++){
@@ -95,8 +95,8 @@ public class ExamEnvironment {
 		if (closed > 0) {
 			sb.append("Exam finished");
 			sb.append(' ');
-			sb.append(DateTimeFormat.getFormat("dd. MM. yyyy, HH:mm:ss")
-					.format(new Date(examStartTime)));
+			sb.append(CmdGetTime.buildLocalizedDate("dd. MM. yyyy, HH:mm:ss",
+					new Date(closed), loc));
 		}
 		return sb.toString();
 	}
@@ -119,12 +119,5 @@ public class ExamEnvironment {
 		this.closed = System.currentTimeMillis();
 	}
 
-	public native static boolean toggleFullscreen(boolean full) /*-{
-		if ($wnd.ggbExamMode) {
-			$wnd.ggbExamMode(full);
-			return true;
-		}
-		$wnd.toggleFullScreen(full);
-		return false;
-	}-*/;
+
 }

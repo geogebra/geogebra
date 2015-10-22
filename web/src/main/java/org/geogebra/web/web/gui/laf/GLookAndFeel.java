@@ -1,12 +1,12 @@
 package org.geogebra.web.web.gui.laf;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.ExamEnvironment;
 import org.geogebra.web.web.gui.browser.MaterialListElement;
 import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.menubar.MainMenu;

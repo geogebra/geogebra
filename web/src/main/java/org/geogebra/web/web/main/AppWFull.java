@@ -27,7 +27,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.ExamEnvironment;
+import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -363,7 +363,7 @@ public abstract class AppWFull extends AppW {
 			btnOk.addClickHandler(new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
-					ExamEnvironment.toggleFullscreen(true);
+					ExamUtil.toggleFullscreen(true);
 					Date date = new Date();
 					getExam().setStart(date.getTime());
 					getGuiManager().updateToolbarActions();

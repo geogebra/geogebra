@@ -238,7 +238,7 @@ pr.menu_header_undo(), null, 32);
 		fp.addDomHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				app.showMessage(app.getExam().getLog());
+				app.showMessage(app.getExam().getLog(app.getLocalization()));
 
 			}
 		}, ClickEvent.getType());

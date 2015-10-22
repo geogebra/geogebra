@@ -3,6 +3,10 @@ package org.geogebra.desktop.cas.giac;
 import java.util.LinkedList;
 import java.util.List;
 
+import javagiac.context;
+import javagiac.gen;
+import javagiac.giac;
+
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.cas.Evaluate;
@@ -17,10 +21,6 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
-
-import javagiac.context;
-import javagiac.gen;
-import javagiac.giac;
 
 /**
  * @author michael
@@ -113,11 +113,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	// whether to use thread (JNI only)
 	final private static boolean useThread = !AppD.LINUX;
 
-	public String evaluate(String input) throws Throwable {
-
-		return evaluate(input, timeoutMillis);
-
-	}
 
 	@Override
 	public String evaluate(String input, long timeoutMillis0) throws Throwable {
@@ -234,7 +229,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	@Override
 	public String evaluateCAS(String exp) {
 		try {
-			return evaluate(exp);
+			return evaluate(exp, timeoutMillis);
 		} catch (TimeoutException te) {
 			throw te;
 		} catch (Throwable e) {

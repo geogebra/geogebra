@@ -264,6 +264,7 @@ public abstract class App implements UpdateSelection {
 
 	/** XML input / output handler */
 	protected MyXMLio myXMLio;
+	private ExamEnvironment exam;
 
 	/* Font settings */
 	/** minimal font size */
@@ -2645,10 +2646,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public abstract boolean isHTML5Applet();
 
-	public boolean isExam() {
-		return false;
-	}
-
 	/**
 	 * @param isOnTheFlyPointCreationActive
 	 *            Whether points can be created on the fly
@@ -4088,5 +4085,18 @@ public abstract class App implements UpdateSelection {
 	 */
 	public boolean showAutoCreatedSlidersInEV() {
 		return true;
+	}
+
+	public ExamEnvironment getExam() {
+		return exam;
+	}
+
+	public void setExam(ExamEnvironment exam) {
+		this.exam = exam;
+
+	}
+
+	public boolean isExam() {
+		return exam != null;
 	}
 }

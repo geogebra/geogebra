@@ -45,6 +45,7 @@ import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
@@ -196,7 +197,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		super();
 		setPrerelease(ae.getDataParamPrerelease());
 		if (ae.getDataParamPerspective().startsWith("exam")) {
-			exam = new ExamEnvironment();
+			setExam(new ExamEnvironment());
 			ae.setAttribute("data-param-perspective", "");
 		}
 		this.loc = new LocalizationW(dimension);
@@ -2458,7 +2459,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	};
 	private Runnable closeBroserCallback;
 	private Runnable insertImageCallback;
-	private ExamEnvironment exam;
+
 
 	@Override
 	public void createNewWindow() {
@@ -3283,11 +3284,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		this.toolLoadedFromStorage = toolLoadedFromStorage;
 	}
 
-	@Override
-	public boolean isExam() {
-		return exam != null;
-	}
-
 	public void setCloseBrowserCallback(Runnable runnable) {
 		this.closeBroserCallback = runnable;
 
@@ -3476,14 +3472,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return new GImageIconW(this.getToolbar().getImageURL(mode));
 	}
 
-	public ExamEnvironment getExam() {
-		return exam;
-	}
 
-	public void setExam(ExamEnvironment exam) {
-		this.exam = exam;
-
-	}
 
 	public DropDownList newDropDownList() {
 		return new DropDownListW();
