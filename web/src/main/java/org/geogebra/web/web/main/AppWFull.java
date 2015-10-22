@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
@@ -366,6 +367,7 @@ public abstract class AppWFull extends AppW {
 					Date date = new Date();
 					getExam().setStart(date.getTime());
 					getGuiManager().updateToolbarActions();
+					Layout.initializeDefaultPerspectives(AppWFull.this, 0.2);
 					getGuiManager().updateMenubar();
 					DockPanelW dp = ((DockManagerW) getGuiManager().getLayout()
 							.getDockManager()).getPanelForKeyboard();
