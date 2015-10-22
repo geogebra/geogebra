@@ -21,8 +21,6 @@ public class DropDownListW implements DropDownList {
 
 	public void drawControl(GGraphics2D g2, int left, int top, int width,
 			int height, GColor bgColor, boolean pressed) {
-
-		g2.setColor(GColor.GRAY);
 		g2.setColor(GColor.DARK_GRAY);
 		int midx = left + width / 2;
 		int midy = top;
