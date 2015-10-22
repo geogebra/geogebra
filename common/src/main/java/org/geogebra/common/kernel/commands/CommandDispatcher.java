@@ -36,7 +36,6 @@ public abstract class CommandDispatcher {
 	private Construction cons;
 	private App app;
 
-	private boolean isCasActive = false;
 
 	/**
 	 * stores public (String name, CommandProcessor cmdProc) pairs
@@ -109,7 +108,6 @@ public abstract class CommandDispatcher {
 	}
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
-	protected HashMap<String, CommandProcessor> internalCmdTable;
 	private MacroProcessor macroProc;
 
 	/**
@@ -220,10 +218,6 @@ public abstract class CommandDispatcher {
 				}
 			}
 
-			if (cmdProc == null && internalCmdTable != null) {
-				// try internal command
-				cmdProc = internalCmdTable.get(cmdName);
-			}
 		}
 		return cmdProc;
 	}
@@ -248,44 +242,9 @@ public abstract class CommandDispatcher {
 		// a ggb equivalent
 		// =============================================================
 
-		if (GeoGebraConstants.CAS_VIEW_ENABLED && app.isUsingFullGui()
-				&& isCasActive)
-			initCASCommands();
-
 	}
 
-	/**
-	 * Loads CAS commands into the cmdSubTable.
-	 */
-	public void initCASCommands() {
 
-		if (!GeoGebraConstants.CAS_VIEW_ENABLED)
-			return;
-
-		isCasActive = true;
-
-		// this method might get called during initialization. In that case
-		// this method will be called again during the normal initCmdTable
-		// since isCasActive is now true.
-		if (cmdTable == null)
-			return;
-
-		fillInternalCmdTable();
-	}
-
-	/**
-	 * Fills internal command table (table for commands that should not be
-	 * visible to the user but are returned by CAS)
-	 */
-	protected void fillInternalCmdTable() {
-		internalCmdTable = new HashMap<String, CommandProcessor>();
-		// support parsing diff() results back from Maxima
-		internalCmdTable.put("diff", new CmdDerivative(kernel));
-
-		// if there will be more commands here, it could be refactored
-		// in the same manner as cmdTable initialization was refactored
-
-	}
 
 	/**
 	 * This method returns a CommandProcessor Object for a corresponding command
@@ -895,6 +854,15 @@ public abstract class CommandDispatcher {
 		return basicDispatcher;
 	}
 
+	/**
+	 * A way to process a command to an expression value rather than GeoELement
+	 * 
+	 * @param c
+	 *            command
+	 * @param labelOutput
+	 *            whether output needs label
+	 * @return command result
+	 */
 	public ExpressionValue simplifyCommand(Command c, boolean labelOutput) {
 		CommandProcessor cmdProc = getProcessor(c);
 		if (cmdProc != null) {

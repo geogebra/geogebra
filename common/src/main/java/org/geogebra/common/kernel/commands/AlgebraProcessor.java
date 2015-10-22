@@ -2953,9 +2953,8 @@ public class AlgebraProcessor {
 		return algo.getGeo();
 	}
 
-	/** Enables CAS specific behaviour */
 	public void enableCAS() {
-		cmdDispatcher.initCASCommands();
+		// initialize input help
 	}
 
 	/**

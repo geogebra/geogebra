@@ -1018,7 +1018,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			return StringUtil.parseDouble(sb.toString());
 		} catch (Exception e) {
 			// eg try to parse "1.2.3", "1..2"
-			throw new MyError(app, "InvalidInput");
+			throw new MyError(app, new String[] { "InvalidInput", str });
 		}
 		/*
 		 * "\u0030"-"\u0039", "\u0660"-"\u0669", "\u06f0"-"\u06f9",

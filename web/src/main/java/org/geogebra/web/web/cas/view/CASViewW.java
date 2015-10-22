@@ -8,6 +8,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.GuiManagerW;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -24,7 +25,7 @@ public class CASViewW extends CASView {
 	private CASStylebarW styleBar;
 	private CASSubDialogW subDialog;
 
-	public CASViewW(AppW app) {
+	public CASViewW(final AppW app) {
 		component = new CASComponentW();
 		kernel = app.getKernel();
 		this.app = app;
@@ -50,8 +51,17 @@ public class CASViewW extends CASView {
 		component.addDomHandler(ml, TouchMoveEvent.getType());
 		component.addDomHandler(ml, TouchEndEvent.getType());
 
-		getCAS().initCurrentCAS();
-		getCAS().getCurrentCAS().reset();
+		app.getGuiManager().invokeLater(new Runnable() {
+
+			public void run() {
+				getCAS().initCurrentCAS();
+				getCAS().getCurrentCAS().reset();
+				GuiManagerW gm = (GuiManagerW) app.getGuiManager();
+				if (gm != null) {
+					gm.reInitHelpPanel(true);
+				}
+			}
+		});
 
 	}
 

@@ -807,9 +807,23 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public InputBarHelpPanelW getInputHelpPanel() {
-		if (inputHelpPanel == null)
+		if (inputHelpPanel == null) {
+			if (app.showView(App.VIEW_CAS)) {
+				app.getCommandDictionaryCAS();
+			}
 			inputHelpPanel = new InputBarHelpPanelW((AppW) app);
+		}
 		return inputHelpPanel;
+	}
+
+	public void reInitHelpPanel(boolean forCAS) {
+
+		if (inputHelpPanel != null) {
+			if (forCAS) {
+				app.getCommandDictionaryCAS();
+			}
+			inputHelpPanel.setLabels();
+		}
 	}
 
 	@Override

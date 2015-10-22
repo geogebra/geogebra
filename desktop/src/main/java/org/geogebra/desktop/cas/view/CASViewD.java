@@ -132,8 +132,8 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 			public void run() {
 				getCAS().initCurrentCAS();
 				GuiManagerD gm = (GuiManagerD) app.getGuiManager();
-				if (gm != null && gm.hasInputHelpPanel()) {
-					gm.reInitHelpPanel();
+				if (gm != null) {
+					gm.reInitHelpPanel(true);
 				}
 
 			}

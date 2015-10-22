@@ -8,6 +8,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.main.AppD;
@@ -133,6 +135,12 @@ public class CommandsTest extends Assert{
 		t("matrix1(2,-1)", "6");
 		t("Delete[list1]", new String[] {});
 		t("Delete[matrix1]", new String[] {});
+	}
+
+	@Test
+	public void operationSequence() {
+		Assert.assertEquals(StringUtil.fixVerticalBars("1..2"), "1"
+				+ Unicode.ellipsis + "2");
 	}
 	@Test
 	public void cmdMidpoint(){

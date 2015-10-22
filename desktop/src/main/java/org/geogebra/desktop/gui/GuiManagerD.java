@@ -2908,19 +2908,24 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		return true;
 	}
 
-	public void reInitHelpPanel() {
+	public void reInitHelpPanel(boolean forCAS) {
 
-		if (inputHelpPanel == null)
-			inputHelpPanel = new InputBarHelpPanel((AppD) app);
-		else {
+		if (inputHelpPanel != null) {
+			if (forCAS) {
+				app.getCommandDictionaryCAS();
+			}
 			inputHelpPanel.setLabels();
 		}
 	}
 
 	public Component getInputHelpPanel() {
 
-		if (inputHelpPanel == null)
+		if (inputHelpPanel == null) {
+			if (app.showView(App.VIEW_CAS)) {
+				app.getCommandDictionaryCAS();
+			}
 			inputHelpPanel = new InputBarHelpPanel((AppD) app);
+		}
 		return inputHelpPanel;
 	}
 
