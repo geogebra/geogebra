@@ -22,11 +22,13 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  *
@@ -35,27 +37,37 @@ import org.geogebra.common.kernel.geos.GeoVec2D;
  */
 public class AlgoAxisFirst extends AlgoElement {
 
-	private GeoConic c; // input
+	private GeoConicND c; // input
 	private GeoLine axis; // output
 
 	private GeoVec2D[] eigenvec;
 	private GeoVec2D b;
-	private GeoPoint P;
+	protected GeoPointND P;
 
-	public AlgoAxisFirst(Construction cons, String label, GeoConic c) {
+	protected AlgoAxisFirst(Construction cons, GeoConicND c) {
 		super(cons);
 		this.c = c;
+
+	}
+
+	public AlgoAxisFirst(Construction cons, String label, GeoConicND c) {
+		this(cons, c);
 
 		eigenvec = c.eigenvec;
 		b = c.b;
 
 		axis = new GeoLine(cons);
+		finishSetup(label);
+	}
+
+	protected void finishSetup(String label) {
 		P = new GeoPoint(cons);
-		axis.setStartPoint(P);
+		getAxis().setStartPoint(P);
 
 		setInputOutput(); // for AlgoElement
 		compute();
-		axis.setLabel(label);
+		getAxis().setLabel(label);
+
 	}
 
 	@Override
@@ -70,21 +82,21 @@ public class AlgoAxisFirst extends AlgoElement {
 		input[0] = c;
 
 		setOutputLength(1);
-		setOutput(0, axis);
+		setOutput(0, getAxis().toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoLine getAxis() {
+	public GeoLineND getAxis() {
 		return axis;
 	}
 
-	GeoConic getConic() {
+	protected GeoConicND getConic() {
 		return c;
 	}
 
 	// calc axes
 	@Override
-	public final void compute() {
+	public void compute() {
 		// axes are lines with directions of eigenvectors
 		// through midpoint b
 

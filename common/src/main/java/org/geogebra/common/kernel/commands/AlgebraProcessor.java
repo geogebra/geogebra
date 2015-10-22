@@ -1832,8 +1832,6 @@ public class AlgebraProcessor {
 					b = expr(coefX[2]);
 					c = expr(coefY[1]);
 					d = expr(coefY[2]);
-					Log.debug(a);
-					Log.debug(b);
 					xx = c.power(2).plus(d.power(2)).multiply(x).multiply(x);
 					xy = c.multiply(a).plus(d.multiply(b)).multiply(-2)
 							.multiply(x).multiply(y);
@@ -1860,6 +1858,7 @@ public class AlgebraProcessor {
 										.multiply(2));
 				Equation eq = new Equation(kernel, xx.plus(xy).plus(yy).wrap(),
 						den);
+				eq.setLabel(label);
 				eq.initEquation();
 				return this.processConic(eq);
 			}

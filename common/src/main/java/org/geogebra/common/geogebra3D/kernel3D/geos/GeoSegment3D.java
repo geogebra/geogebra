@@ -542,4 +542,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
 	}
+
+	public final void setStartPoint(GeoPointND P) {
+		startPoint = P;
+	}
 }

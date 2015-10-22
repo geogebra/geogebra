@@ -33,8 +33,8 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.MyMath;
 
 public class AlgebraProcessor3D extends AlgebraProcessor {
 
@@ -246,18 +246,31 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 				double wx = coefX[2].evaluateDouble(), wy = coefY[2]
 						.evaluateDouble(), wz = coefZ[2].evaluateDouble();
 
-				double major = MyMath.length(vx, vy, vz);
-				double minor = MyMath.length(wx, wy, wz);
-				if (constant && Kernel.isEqual(major, minor)
-						&& Kernel.isZero(vx * wx + wy * vy + wz * vz)) {
+				if (constant) {
 					cs.resetCoordSys();
 					cs.addPoint(new Coords(mx, my, mz, 1));
-					cs.addVector(new Coords(vx, vy, vz).normalize());
-					cs.addVector(new Coords(wx, wy, wz).normalize());
+					cs.addVector(new Coords(vx, vy, vz));
+					cs.addVector(new Coords(wx, wy, wz));
 					cs.makeOrthoMatrix(false, false);
 					GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
 					conic.setCoordSys(cs);
-					conic.setSphereND(new Coords(0, 0), major);
+
+					double xx = vx * vx + vy * vy + vz * vz;
+					double yy = wx * wx + wy * wy + wz * wz;
+					double xy = vx * wx + vy * wy + wz * vz;
+					// return P.x * (matrix[0] * P.x + matrix[3] * P.y +
+					// matrix[4] * P.z)
+					// + P.y * (matrix[3] * P.x + matrix[1] * P.y + matrix[5] *
+					// P.z)
+					// + P.z * (matrix[4] * P.x + matrix[5] * P.y + matrix[2] *
+					// P.z);
+					double n = new Coords(vy * vz - wz * vy, wz * vx - wx * vz,
+							wx * vy - wy * vx).norm();
+					conic.setMatrix(new double[] { xx, yy, -n * n,
+ -xy, 0,
+							0 });
+					conic.setLabel(label);
+					App.debug(xx + "," + xy + "," + yy);
 
 					return new GeoElement[] { conic };
 				}

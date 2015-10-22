@@ -523,6 +523,16 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			P.addIncidence(this, true);
 	}
 
+	public final void setStartPoint(GeoPointND P) {
+		if (P instanceof GeoPoint) {
+			setStartPoint((GeoPoint) P);
+		}
+		if (startPoint == null) {
+			startPoint = new GeoPoint(cons);
+		}
+		startPoint.set(P);
+	}
+
 	/**
 	 * @param Q end point
 	 */

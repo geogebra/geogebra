@@ -158,5 +158,6 @@ public interface GeoLineND extends GeoDirectionND{
 	public boolean isEqual(GeoElement geo);
 	public void setStandardStartPoint();
 	
+	public void setStartPoint(GeoPointND point);
 
 }
