@@ -49,9 +49,7 @@ import org.geogebra.common.util.Unicode;
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int OPTIONSBOX_ITEM_GAP = 5;
-	private static final int TRIANGLE_CONTROL_WIDTH = 20;
 	private static final int COMBO_TEXT_MARGIN = 5;
-	private static final int OPTIONBOX_TEXT_MARGIN_BOTTOM = 10;
 	private static final int OPTIONBOX_TEXT_MARGIN_TOP = 15;
 	private static final int OPTIONBOX_TEXT_MARGIN_LEFT = 5;
 	private static final int OPTIONBOX_COMBO_GAP = 0;
@@ -583,13 +581,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int left = boxLeft + boxWidth - boxHeight;
 
 		ctrlRect.setBounds(left, boxTop, width, boxHeight);
-		// g2.drawRect(left, boxTop, width, boxHeight);
-		GColor bgColor = geo.getBackgroundColor();// != null
-		// ? geo.getBackgroundColor() : view.getBackgroundCommon();
-
-		int margin = width / 4;
-		dropDown.drawControl(g2, left + margin, boxTop + margin, width / 2,
-				width / 2, bgColor,
+		dropDown.drawControl(g2, left, boxTop, boxHeight, boxHeight,
+				geo.getBackgroundColor(),
 				isOptionsVisible());
 	}
 
