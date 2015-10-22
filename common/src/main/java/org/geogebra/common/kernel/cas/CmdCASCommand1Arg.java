@@ -9,10 +9,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * Factor[ &lt;Function> ]
+ * used by TrigSimplify:, Expand, Factor, IFactor
  * 
  */
-public class CmdCASCommand1Arg extends CommandProcessor {
+public class CmdCASCommand1Arg extends CommandProcessor implements UsesCAS {
 	private Commands cmd;
 
 	/**
