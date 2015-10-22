@@ -982,7 +982,7 @@ public class StringUtil {
 
 	public static String fixVerticalBars(String parseString) {
 		String ignoredIndices = ignoreIndices(parseString);
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sbFix = new StringBuilder();
 
 		// When we have <splitter> || , we know that we should separate
 		// these bars (i. e., we want absolute value, not OR)
@@ -998,9 +998,9 @@ public class StringUtil {
 			Character lastNonWhitespace = ' ';
 
 			if (dir == 1) {
-				parseString = sb.reverse().toString();
+				parseString = sbFix.reverse().toString();
 				ignoredIndices = ignoreIndices(parseString);
-				sb = new StringBuilder();
+				sbFix = new StringBuilder();
 				splitters = new TreeSet<Character>(
 						Arrays.asList(new Character[] { '*', '/', '^', '=',
 								Unicode.Superscript_0, Unicode.Superscript_1,
@@ -1014,7 +1014,17 @@ public class StringUtil {
 			int len = ignoredIndices.length();
 			for (int i = 0; i < len; i++) {
 				Character ch = ignoredIndices.charAt(i);
-				sb.append(parseString.charAt(i));
+				if (!comment
+						&& dir == 0
+						&& sbFix.length() > 0
+						&& ch.equals('.')
+						&& (sbFix.charAt(sbFix.length() - 1) == '.' || sbFix.charAt(sbFix
+								.length() - 1) == Unicode.ellipsis)) {
+					sbFix.setLength(sbFix.length() - 1);
+					sbFix.append(Unicode.ellipsis);
+				} else {
+					sbFix.append(parseString.charAt(i));
+				}
 
 				if (StringUtil.isWhitespace(ch) || (comment && !ch.equals('"'))) {
 					continue;
@@ -1034,7 +1044,7 @@ public class StringUtil {
 							|| (i < len - 1
 									&& ignoredIndices.charAt(i + 1) == '|' && splitters
 										.contains(lastNonWhitespace))) {
-						sb.append(' ');
+						sbFix.append(' ');
 					}
 					bars++;
 				}
@@ -1043,7 +1053,7 @@ public class StringUtil {
 			}
 		}
 
-		return sb.reverse().toString();
+		return sbFix.reverse().toString();
 	}
 
 	/**
