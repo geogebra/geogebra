@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -23,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * 
  * @author Markus Hohenwarter
  */
-public abstract class AlgoCasBase extends AlgoElement {
+public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 	/** Input function */
 	protected CasEvaluableFunction f;
 	/** Output function */

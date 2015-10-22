@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  * Algorithm for NextPrime and PreviousPrime
  */
-public class AlgoNextPreviousPrime extends AlgoElement {
+public class AlgoNextPreviousPrime extends AlgoElement implements UsesCAS {
 
 	private NumberValue init;
 	private GeoNumeric result;

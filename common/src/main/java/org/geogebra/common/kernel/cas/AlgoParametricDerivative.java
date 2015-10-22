@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoParametricDerivative extends AlgoElement {
+public class AlgoParametricDerivative extends AlgoElement implements UsesCAS {
 
 	private GeoCurveCartesian curve, paramDeriv;
 
