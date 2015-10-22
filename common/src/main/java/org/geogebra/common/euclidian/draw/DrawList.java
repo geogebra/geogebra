@@ -54,7 +54,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int OPTIONBOX_TEXT_MARGIN_BOTTOM = 10;
 	private static final int OPTIONBOX_TEXT_MARGIN_TOP = 15;
 	private static final int OPTIONBOX_TEXT_MARGIN_LEFT = 5;
-	private static final int OPTIONBOX_COMBO_GAP = 5;
+	private static final int OPTIONBOX_COMBO_GAP = 0;
 	private static final double MUL_FONT_HEIGHT = 1.6;
 	private static final int LABEL_COMBO_GAP = 10;
 	private static final int TEXT_CENTER = -1;

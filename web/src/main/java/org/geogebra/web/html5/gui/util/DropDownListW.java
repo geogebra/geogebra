@@ -4,9 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.web.html5.awt.GGraphics2DW;
-
-import com.google.gwt.canvas.dom.client.ImageData;
+import org.geogebra.ggbjdk.java.awt.geom.Polygon;
 
 public class DropDownListW implements DropDownList {
 	private static final int BOX_ROUND = 8;
@@ -24,10 +22,18 @@ public class DropDownListW implements DropDownList {
 	public void drawControl(GGraphics2D g2, int left, int top, int width,
 			int height, GColor bgColor, boolean pressed) {
 
-		GGraphics2DW g2w = (GGraphics2DW) g2;
-		ImageData triangle = BasicIcons.createDropDownIcon(pressed, width,
-				height, bgColor);
-		g2w.getCanvas().getContext2d().putImageData(triangle, left, top);
+		g2.setColor(GColor.GRAY);
+		g2.setColor(GColor.DARK_GRAY);
+		int midx = left + width / 2;
+		int midy = top;
+		int tW = width / 2;
+		int tH = width / 3;
+		Polygon p = new Polygon();
+		p.addPoint(midx - tW, midy + tH);
+		p.addPoint(midx + tW, midy + tH);
+		p.addPoint(midx, midy + 2 * tW);
+		g2.fill(p);
+
 	}
 
 }
