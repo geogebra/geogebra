@@ -12,7 +12,7 @@ import org.geogebra.common.main.MyError;
  * used by TrigSimplify:, Expand, Factor, IFactor
  * 
  */
-public class CmdCASCommand1Arg extends CommandProcessor implements UsesCAS {
+public class CmdCASCommand1Arg extends CommandProcessor {
 	private Commands cmd;
 
 	/**
