@@ -1640,9 +1640,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
 					((CanvasDrawable) d).setWidgetVisible(true);
-					if (d instanceof DrawList) {
-						((DrawList) d).onControlClick(x, y);
-					}
+					// if (d instanceof DrawList) {
+					// ((DrawList) d).onControlClick(x, y);
+					// }
 					return true;
 				}
 
@@ -5005,16 +5005,20 @@ sb.toString(), getFontAxes(),
 		// TODO Auto-generated method stub
 	}
 
-	public void closeComboBoxes() {
+	public void closeDropDowns(int x, int y) {
 
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
 
 			if (d instanceof DrawList) {
-				((DrawList) d).closeOptions();
-			}
+				DrawList dl = (DrawList) d;
+				if (!dl.isControlHit(x, y)) {
+					dl.closeOptions();
+				}
+
 		}
+	}
 	}
 
 }

@@ -4255,7 +4255,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	public void closeComboBoxes() {
+	public void closeDropdowns() {
 		// no combo box in 3D for now
 	}
 }

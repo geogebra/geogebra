@@ -995,5 +995,10 @@ public interface EuclidianViewInterfaceCommon extends
 
 	public boolean getYaxisLog();
 
-	void closeComboBoxes();
+	void closeDropdowns();
+
+	/*
+	 * Close all the dropdowns but the one was hit at
+	 */
+	void closeDropDowns(int x, int y);
 }

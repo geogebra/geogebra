@@ -373,7 +373,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (geoList.drawAsComboBox()) {
 			return isDrawingOnCanvas()
 					? super.hit(x, y, hitThreshold) || ctrlRect.contains(x, y)
-							|| optionsVisible && optionsRect.contains(x, y)
+							|| isOptionsVisible() && optionsRect.contains(x, y)
 					: box.getBounds().contains(x, y);
 		}
 
@@ -537,7 +537,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				true);
 
 		drawControl(g2);
-		if (optionsVisible) {
+		if (isOptionsVisible()) {
 			drawOptions(g2);
 		}
 
@@ -590,7 +590,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int margin = width / 4;
 		dropDown.drawControl(g2, left + margin, boxTop + margin, width / 2,
 				width / 2, bgColor,
-				optionsVisible);
+				isOptionsVisible());
 	}
 
 	@Override
@@ -814,14 +814,16 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return;
 		}
 
-		if (ctrlRect.contains(x, y)) {
-			optionsVisible = !optionsVisible;
+		if (isControlHit(x, y)) {
+			setOptionsVisible(!isOptionsVisible());
 			geo.updateRepaint();
+		} else {
+			onOptionDown(x, y);
 		}
 	}
 
 	public void onOptionOver(int x, int y) {
-		if (!((optionsVisible) && optionsRect.contains(x, y))) {
+		if (!((isOptionsVisible()) && optionsRect.contains(x, y))) {
 			return;
 		}
 
@@ -856,7 +858,19 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	public void closeOptions() {
-		optionsVisible = false;
+		setOptionsVisible(false);
+	}
+
+	public boolean isControlHit(int x, int y) {
+		return ctrlRect.contains(x, y);
+	}
+
+	public boolean isOptionsVisible() {
+		return optionsVisible;
+	}
+
+	public void setOptionsVisible(boolean optionsVisible) {
+		this.optionsVisible = optionsVisible;
 	}
 
 }

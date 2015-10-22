@@ -9557,7 +9557,7 @@ public abstract class EuclidianController {
 			GeoList list;
 			if (hits.getTopHits().get(0) instanceof GeoList) {
 				list = (GeoList) (hits.getTopHits().get(0));
-				((DrawList) view.getDrawable(list)).onOptionDown(x, y);
+				((DrawList) view.getDrawable(list)).onControlClick(x, y);
 			}
 
 		}

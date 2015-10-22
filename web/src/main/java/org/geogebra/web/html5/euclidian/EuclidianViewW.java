@@ -143,7 +143,7 @@ public class EuclidianViewW extends EuclidianView implements
 		ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				app.closePopups();
+				app.closePopups(x, y);
 			}
 		});
 	}
@@ -186,7 +186,7 @@ public class EuclidianViewW extends EuclidianView implements
 		ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				app.closePopups();
+				app.closePopups(x, y);
 			}
 		});
 	}
@@ -1231,6 +1231,11 @@ public class EuclidianViewW extends EuclidianView implements
 			String altStr = ((GeoText) alt).getTextString();
 			g2p.setAltText(altStr);
 		}
+
+	}
+
+	public void closeDropdowns() {
+		// TODO Auto-generated method stub
 
 	}
 
