@@ -6775,7 +6775,10 @@ public abstract class EuclidianController {
 				} else if (!geo0.isFixed()
 						&& !(geo0.isGeoBoolean() && geo0.isIndependent())
 						&& !(geo0.isGeoImage() && geo0.isIndependent())
-						&& !geo0.isGeoButton()) {
+						&& !geo0.isGeoButton()
+						&& !(app.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS)
+								&& geo0.isGeoList()
+								&& ((GeoList) geo0).drawAsComboBox())) {
 					getDialogManager().showRedefineDialog(hits.get(0), true);
 				}
 				// }
