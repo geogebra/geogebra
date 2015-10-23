@@ -426,6 +426,7 @@ public interface Traversing {
 	 */
 	public class ReplaceUndefinedVariables implements Traversing {
 		private final Kernel kernel;
+		private TreeSet<String> undefined;
 
 		/**
 		 * Replaces undefined variables by sliders
@@ -434,8 +435,10 @@ public interface Traversing {
 		 *            kernel
 		 * 
 		 */
-		public ReplaceUndefinedVariables(Kernel kernel) {
+		public ReplaceUndefinedVariables(Kernel kernel,
+				TreeSet<String> undefined) {
 			this.kernel = kernel;
+			this.undefined = undefined;
 		}
 
 		public ExpressionValue process(ExpressionValue ev) {
@@ -449,9 +452,11 @@ public interface Traversing {
 				}
 				if (replace instanceof Variable
 						&& !name.equals(kernel.getConstruction()
-								.getRegisteredFunctionVariable())) {
+								.getRegisteredFunctionVariable())
+						&& !"t".equals(name)) {
 					name = ((Variable) replace)
 							.getName(StringTemplate.defaultTemplate);
+					undefined.remove(name);
 					GeoNumeric slider = new GeoNumeric(
 							kernel.getConstruction(), name, 1);
 					boolean visible = !kernel.getApplication().has(

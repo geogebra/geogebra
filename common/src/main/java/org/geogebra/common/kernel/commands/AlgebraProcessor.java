@@ -658,6 +658,7 @@ public class AlgebraProcessor {
 			ve.traverse(collecter);
 			final TreeSet<String> undefinedVariables = collecter.getResult();
 
+
 			// check if there's already an "x" in expression. Create one if not.
 			// eg sinx + x -> sin(x) + x
 			CollectFunctionVariables fvCollecter = new Traversing.CollectFunctionVariables();
@@ -730,7 +731,7 @@ public class AlgebraProcessor {
 				Iterator<String> it = undefinedVariables.iterator();
 				while (it.hasNext()) {
 					String label = it.next();
-					if (kernel.lookupLabel(label) == null) {
+					if (!"t".equals(label) && kernel.lookupLabel(label) == null) {
 						Log.debug("not found" + label);
 						sb.append(label);
 						sb.append(", ");
@@ -783,7 +784,8 @@ public class AlgebraProcessor {
 									if (CREATE_SLIDER.equals(dialogResult[0])) {
 										// insertStarIfNeeded(undefinedVariables,
 										// ve2, fvX2);
-										replaceUndefinedVariables(ve2);
+										replaceUndefinedVariables(ve2,
+												undefinedVariables);
 										try {
 											geos = processValidExpression(
 													storeUndo,
@@ -814,7 +816,12 @@ public class AlgebraProcessor {
 				// ==========================
 				// step5: replace undefined variables
 				// ==========================
-				replaceUndefinedVariables(ve);
+				replaceUndefinedVariables(ve, undefinedVariables);
+				GeoElement[] param2 = checkParametricEquation(ve,
+						undefinedVariables);
+				if (param2 != null) {
+					return param2;
+				}
 			}
 
 		} catch (Exception e) {
@@ -852,9 +859,12 @@ public class AlgebraProcessor {
 
 	private GeoElement[] checkParametricEquation(ValidExpression ve,
 			TreeSet<String> undefinedVariables) {
-		if (undefinedVariables.size() == 1 && "X".equals(ve.getLabel())) {
+		if (undefinedVariables.size() == 1
+				&& ("X".equals(ve.getLabel()) || undefinedVariables
+						.contains("t"))) {
 			try {
-				String varName = undefinedVariables.first();
+				String varName = undefinedVariables.contains("t") ? "t"
+						: undefinedVariables.first();
 				FunctionVariable fv = new FunctionVariable(kernel, varName);
 				ExpressionNode exp = ve
 						.deepCopy(kernel)
@@ -879,6 +889,9 @@ public class AlgebraProcessor {
 				Iterator<String> t = undefinedVariables.iterator();
 
 				String varName = t.next();
+				if (undefinedVariables.contains("t")) {
+					varName = "t";
+				}
 				if ("X".equals(varName)) {
 					varName = t.next();
 				}
@@ -1026,9 +1039,10 @@ public class AlgebraProcessor {
 	 * @param ve
 	 *            expression
 	 */
-	public void replaceUndefinedVariables(ValidExpression ve) {
+	public void replaceUndefinedVariables(ValidExpression ve,
+			TreeSet<String> undefined) {
 		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(
-				this.kernel);
+				this.kernel, undefined);
 		ve.traverse(replacer);
 
 	}
