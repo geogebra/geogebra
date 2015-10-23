@@ -1634,7 +1634,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			if ((d instanceof CanvasDrawable)
+			if ((d.isCanvasDrawable())
 					&& (d.hit(x, y, app.getCapturingThreshold(type)) || d
 							.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();

@@ -30,8 +30,11 @@ import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.draw.CanvasDrawable;
+import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -703,5 +706,23 @@ public abstract class Drawable extends DrawableND {
 					color.getGreen(), color.getBlue(), geo.getLineOpacity());
 		}
 		return color;
+	}
+
+	/**
+	 * @return true for InputBoxes and Drop-down lists
+	 */
+	public boolean isCanvasDrawable() {
+
+		if (!(this instanceof CanvasDrawable)) {
+			return false;
+		}
+		
+		if (this instanceof DrawList) {
+			if (!((GeoList) this.getGeoElement()).drawAsComboBox()) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }
