@@ -3062,4 +3062,11 @@ public class AlgebraProcessor {
 		this.disableGcd = disableGcd;
 	}
 
+	public void reinitCommands() {
+		if (this.cmdDispatcher != null) {
+			cmdDispatcher.initCmdTable();
+		}
+
+	}
+
 }

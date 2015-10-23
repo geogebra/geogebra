@@ -365,6 +365,7 @@ public abstract class AppWFull extends AppW {
 				public void onClick(ClickEvent event) {
 					ExamUtil.toggleFullscreen(true);
 					Date date = new Date();
+					kernel.getAlgebraProcessor().reinitCommands();
 					getExam().setStart(date.getTime());
 					getGuiManager().updateToolbarActions();
 					Layout.initializeDefaultPerspectives(AppWFull.this, 0.2);

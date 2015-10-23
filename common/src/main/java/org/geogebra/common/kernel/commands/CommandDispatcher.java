@@ -46,7 +46,6 @@ public abstract class CommandDispatcher {
 	 **/
 	protected HashMap<String, CommandProcessor> cmdTable;
 	/** Similar to cmdTable, but for CAS */
-	protected HashMap<String, CommandProcessor> casTable;
 
 	/** number of visible tables */
 	public static final int tableCount = GeoGebraConstants.CAS_VIEW_ENABLED ? 20
@@ -230,7 +229,6 @@ public abstract class CommandDispatcher {
 
 		// external commands: visible to users
 		cmdTable = new HashMap<String, CommandProcessor>(500);
-		casTable = new HashMap<String, CommandProcessor>(500);
 
 		for (Commands comm : Commands.values()) {
 			cmdTable.put(comm.name(), null);
