@@ -185,9 +185,12 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		 */
 		public void focusLost(FocusEvent e) {
 			getView().getEuclidianController().textfieldHasFocus(false);
-			if (isDrawingOnCanvas()) {
-				hideWidget();
-			}
+
+			// GGB-22 revert r43455
+			// stops alpha popup working
+			// if (isDrawingOnCanvas()) {
+			// hideWidget();
+			// }
 
 			// make sure (expensive) update doesn't happen unless needed
 			// also caused problems when Object Properties opened
