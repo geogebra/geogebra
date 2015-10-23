@@ -229,55 +229,78 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 									new ExpressionNode(kernel, 1.0), loc)) {
 				boolean constant = true;
 				for (int i = 0; i < coefX.length; i++) {
-					coefX[i] = expr(coefX[i]);
-					coefY[i] = expr(coefY[i]);
-					coefZ[i] = expr(coefZ[i]);
-					constant = constant && coefX[i].isConstant()
-							&& coefY[i].isConstant() && coefZ[i].isConstant();
+					// coefX[i] = expr(coefX[i]);
+					// coefY[i] = expr(coefY[i]);
+					// coefZ[i] = expr(coefZ[i]);
+					constant = constant && expr(coefX[i]).isConstant()
+							&& expr(coefY[i]).isConstant()
+							&& expr(coefZ[i]).isConstant();
 				}
+				constant = true;
 				CoordSys cs = new CoordSys(2);
 
-				double mx = coefX[0].evaluateDouble(), my = coefY[0]
-						.evaluateDouble(), mz = coefZ[0].evaluateDouble();
+				double mx = expr(coefX[0]).evaluateDouble(), my = expr(coefY[0])
+						.evaluateDouble(), mz = expr(coefZ[0]).evaluateDouble();
+				App.debug(coefX[2] + "," + coefX[1]);
 
-				double vx = coefX[1].evaluateDouble(), vy = coefY[1]
-						.evaluateDouble(), vz = coefZ[1].evaluateDouble();
+				double xx = 0, xy = 0, yy = 0, det = 0;
+				if (constant && (coefX[1] != null || coefX[2] != null)) {
+					double vx = expr(coefX[1]).evaluateDouble(), vy = expr(
+							coefY[1])
+							.evaluateDouble(), vz = expr(coefZ[1])
+							.evaluateDouble();
 
-				double wx = coefX[2].evaluateDouble(), wy = coefY[2]
-						.evaluateDouble(), wz = coefZ[2].evaluateDouble();
-
-				if (constant) {
+					double wx = expr(coefX[2]).evaluateDouble(), wy = expr(
+							coefY[2])
+							.evaluateDouble(), wz = expr(coefZ[2])
+							.evaluateDouble();
 					cs.resetCoordSys();
 					cs.addPoint(new Coords(mx, my, mz, 1));
 					cs.addVector(new Coords(vx, vy, vz));
 					cs.addVector(new Coords(wx, wy, wz));
 					cs.makeOrthoMatrix(false, false);
-					GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
-					conic.setCoordSys(cs);
+
 					Coords v = cs
 							.getNormalProjection(new Coords(vx, vy, vz, 0))[1];
 					Coords w = cs
 							.getNormalProjection(new Coords(wx, wy, wz, 0))[1];
-					double yy = v.getX() * v.getX() + w.getX() * w.getX();
-					double xx = v.getY() * v.getY() + w.getY() * w.getY();
-					double xy = v.getX() * v.getY() + w.getX() * w.getY();
+					yy = v.getX() * v.getX() + w.getX() * w.getX();
+					xx = v.getY() * v.getY() + w.getY() * w.getY();
+					xy = v.getX() * v.getY() + w.getX() * w.getY();
+					det = v.getX() * w.getY() - w.getX() * v.getY();
 
-					// return P.x * (matrix[0] * P.x + matrix[3] * P.y +
-					// matrix[4] * P.z)
-					// + P.y * (matrix[3] * P.x + matrix[1] * P.y + matrix[5] *
-					// P.z)
-					// + P.z * (matrix[4] * P.x + matrix[5] * P.y + matrix[2] *
-					// P.z);
-					double det = v.getX() * w.getY() - w.getX() * v.getY();
-					conic.setMatrix(new double[] { xx, yy, -det * det, -xy, 0,
-							0 });
-					conic.setLabel(label);
-					App.debug(v.getX() + "," + v.getY() + " AND " + w.getX()
-							+ "," + w.getY());
-					App.debug(xx + "," + xy + "," + yy + "," + det);
+				} else if (constant && (coefX[3] != null || coefX[4] != null)) {
+					double vx = expr(coefX[3]).evaluateDouble(), vy = expr(
+							coefY[3])
+							.evaluateDouble(), vz = expr(coefZ[3])
+							.evaluateDouble();
 
-					return new GeoElement[] { conic };
+					double wx = expr(coefX[4]).evaluateDouble(), wy = expr(
+							coefY[4])
+							.evaluateDouble(), wz = expr(coefZ[4])
+							.evaluateDouble();
+					cs.resetCoordSys();
+					cs.addPoint(new Coords(mx, my, mz, 1));
+					cs.addVector(new Coords(vx, vy, vz));
+					cs.addVector(new Coords(wx, wy, wz));
+					cs.makeOrthoMatrix(false, false);
+
+					Coords v = cs
+							.getNormalProjection(new Coords(vx, vy, vz, 0))[1];
+					Coords w = cs
+							.getNormalProjection(new Coords(wx, wy, wz, 0))[1];
+					yy = v.getX() * v.getX() - w.getX() * w.getX();
+					xx = v.getY() * v.getY() - w.getY() * w.getY();
+					xy = v.getX() * v.getY() - w.getX() * w.getY();
+					det = v.getX() * w.getY() - w.getX() * v.getY();
+
 				}
+				GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
+				conic.setCoordSys(cs);
+				conic.setMatrix(new double[] { xx, yy, -det * det, -xy, 0, 0 });
+				conic.setLabel(label);
+
+				return new GeoElement[] { conic };
 			}
 			for (int i = 0; i < coefX.length; i++) {
 				coefX[i] = new ExpressionNode(kernel, 0);
