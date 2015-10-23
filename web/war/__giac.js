@@ -1751,13 +1751,31 @@ var __giac = [ {},
 { cat: "Evaluate", cmd:"Evaluate[tan(pi/24)]", result:"1 / 2 (-sqrt(2) sqrt(6) + 2sqrt(2) + 2sqrt(6) - 4)", notes:"GGB-158" },
 { cat: "Evaluate", cmd:"Solutions[x/(x-1)+2/(x-2)<=(2x^2-6)/(x^2-3x+2)]", result:"{x \u2264 -2, x > 1}", notes:"GGB-166" },
 { cat: "Evaluate", cmd:"Solutions[(4-x^2)/(x^2-3x+2)<=0]", result:"{x \u2264 -2, 1  <  x \u2264 2, x \u2265 2}", notes:"GGB-166" },
-{ cat: "Evaluate", cmd:"Evaluate[sqrt(abs(x))", result:"", notes:"GGB-201" },
-{ cat: "Evaluate", cmd:"Evaluate[abs(sqrt(x))", result:"", notes:"GGB-201" },
-{ cat: "Solve", cmd:"Solve[abs(sqrt(x))", result:"", notes:"GGB-201" },
+{ cat: "Evaluate", cmd:"Evaluate[sqrt(abs(x))]", result:"sqrt(abs(x))", notes:"GGB-201" },
+{ cat: "Evaluate", cmd:"Evaluate[abs(sqrt(x))]", result:"sqrt(x)", notes:"GGB-201" },
+{ cat: "Solve", cmd:"Solve[abs(sqrt(x))", result:"{x = arbint(85) \u03C0 + 5 / 24 \u03C0, x = arbint(85) \u03C0 + 11 / 24 \u03C0}", notes:"GGB-201" },
+{ cat: "Solve", cmd:"Solve[sqrt(3)*sin(2x)-cos(2x)=sqrt(2)]", result:"{x = arbint(85) \u03C0 + 5 / 24 \u03C0, x = arbint(85) \u03C0 + 11 / 24 \u03C0}", notes:"GGB-207" },
+{ cat: "BinomialDist", cmd:"BinomialDist[10, 0.2, {2,3,4,5}]", result:"6033408 / 9765625", notes:"GGB-212" },
+{ cat: "BinomialDist", cmd:"BinomialDist[10, 0.2, Sequence[2,5]]", result:"6033408 / 9765625", notes:"GGB-213" },
+{ cat: "BinomialDist", cmd:"BinomialDist[10, 0.2, 2\u20265]", result:"6033408 / 9765625", notes:"GGB-213" },
+{ cat: "Sequence", cmd:"Sequence[-1]", result:"{}", notes:"GGB-212" },
+{ cat: "Sequence", cmd:"Sequence[0]", result:"{}", notes:"GGB-212" },
+{ cat: "Sequence", cmd:"Sequence[0.6]", result:"{1}", notes:"GGB-212" },
+{ cat: "Sequence", cmd:"Sequence[1]", result:"{1}", notes:"GGB-212" },
+{ cat: "Sequence", cmd:"Sequence[4]", result:"{1,2,3,4}", notes:"GGB-212" },
+{ cat: "Sequence", cmd:"Sequence[ 3.2, 7.999 ]", result:"{3, 4, 5, 6, 7, 8}", notes:"GGB-212" },
+{ cat: "Sequence", cmd:"Sequence[ -3.2, 3.2 ]", result:"{-3, -2, -1, 0, 1, 2, 3}", notes:"GGB-212" },
+{ cat: "Sequence", cmd:"Sequence[ 3.2, -2 ]", result:"{3, 2, 1, 0, -1, -2}", notes:"GGB-212" },
+{ cat: "Evaluate", cmd:"Evaluate[2..5]", result:"{2,3,4,5}", notes:"GGB-210" },
+{ cat: "Evaluate", cmd:"Evaluate[2...5]", result:"{2,3,4,5}", notes:"GGB-210" },
+{ cat: "Evaluate", cmd:"Evaluate[2..........5]", result:"{2,3,4,5}", notes:"GGB-210" },
+
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
-//  
+// { cat: "Evaluate", cmd:"Evaluate[{}=={}]", result:"", notes:"GGB-218" },
+// { cat: "Evaluate", cmd:"Evaluate[{}!={}]", result:"", notes:"GGB-218" },
+
 
 
 ];
