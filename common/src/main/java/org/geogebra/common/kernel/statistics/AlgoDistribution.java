@@ -222,6 +222,19 @@ public abstract class AlgoDistribution extends AlgoElement {
 		num.setLabel(label);
 	}
 
+	public AlgoDistribution(Construction cons, String label, NumberValue a,
+			GeoList list) {
+		super(cons);
+		this.a = a;
+		this.list = list;
+
+		num = new GeoNumeric(cons);
+
+		setInputOutput();
+		compute();
+		num.setLabel(label);
+	}
+
 	@Override
 	protected void setInputOutput() {
 
