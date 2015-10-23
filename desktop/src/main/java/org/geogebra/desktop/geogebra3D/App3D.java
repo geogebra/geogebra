@@ -136,7 +136,8 @@ public class App3D extends AppD {
 						panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 						JLabel label = new JLabel(
-								"Congratulations, your Intel\u00AE RealSense\u2122 Camera can be used with GeoGebra!");
+								getMenu("RealSense.DetectedMessage"));
+						// "Congratulations, your Intel\u00AE RealSense\u2122 Camera can be used with GeoGebra!"
 						JPanel labelPanel = new JPanel(new FlowLayout(
 								FlowLayout.LEFT));
 						labelPanel.setBackground(Color.WHITE);
@@ -144,9 +145,9 @@ public class App3D extends AppD {
 						panel.add(labelPanel);
 						
 						JLabel website = new JLabel();
-						String tutorialText = "Click here to get a tutorial";
+						// String tutorialText = "Click here to get a tutorial";
 						website.setText("<html><a href=\"\">"
-								+ tutorialText + "</a></html>");
+								+ getMenu("OpenTutorial") + "</a></html>");
 				        website.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				        website.addMouseListener(new MouseAdapter() {
 				            @Override
