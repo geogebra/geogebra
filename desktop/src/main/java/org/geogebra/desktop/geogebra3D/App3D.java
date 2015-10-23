@@ -265,7 +265,7 @@ public class App3D extends AppD {
 					setInput3DType(Input3DFactory.PREFS_NONE);
 				}
 				input3D = null;
-				Log.debug("Problem initializing RealSense " + e.toString());
+				Log.debug("Problem initializing " + e.getMessage());
 			}
 		} else {
 			input3D = null;
