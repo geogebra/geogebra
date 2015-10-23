@@ -136,7 +136,7 @@ public class App3D extends AppD {
 						panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 						JLabel label = new JLabel(
-								"Congratulations, your Intel RealSense Camera can be used with GeoGebra!");
+								"Congratulations, your Intel\u00AE RealSense\u2122 Camera can be used with GeoGebra!");
 						JPanel labelPanel = new JPanel(new FlowLayout(
 								FlowLayout.LEFT));
 						labelPanel.setBackground(Color.WHITE);
@@ -159,7 +159,7 @@ public class App3D extends AppD {
 									}
 									Desktop.getDesktop()
 											.browse(new URI(
-													"http://tube-beta.geogebra.org/b/zGBeL6tl"));
+													"https://tube-beta.geogebra.org/b/OaGmb7LE"));
 								} catch (IOException e1) {
 									// not working
 								} catch (URISyntaxException e1) {
@@ -173,7 +173,7 @@ public class App3D extends AppD {
 						websitePanel.add(website);
 						panel.add(websitePanel);
 						
-						JLabel closeLabel = new JLabel("Close this message");
+						JLabel closeLabel = new JLabel("OK");
 						closeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 						closeLabel.addMouseListener(new MouseAdapter() {
 							@Override
