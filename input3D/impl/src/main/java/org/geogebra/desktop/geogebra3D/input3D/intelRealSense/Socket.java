@@ -427,16 +427,13 @@ public class Socket {
 	/**
 	 * Create a "Socket" for realsense camera
 	 * 
-	 * @param forceCreateSession
-	 *            will try to force session creation (when realsense has been
-	 *            detected before)
 	 * 
 	 * @throws Exception
 	 *             when fails
 	 */
-	public Socket(boolean forceCreateSession) throws Input3DException {
+	public Socket() throws Input3DException {
 
-		if (forceCreateSession && SESSION == null) {
+		if (SESSION == null) {
 			createSession();
 		}
 

@@ -34,14 +34,27 @@ public class Input3DFactory {
 	 * create a 3D input
 	 * 
 	 * @param type
+	 *            3D input type
 	 * @return 3D input
 	 * @throws Input3DException
 	 *             if fails
 	 */
 	static public Input3D createInput3D(String type) throws Input3DException {
 
-		// check for realsense
-		return new InputIntelRealsense3D(type.equals(PREFS_REALSENSE));
+		if (type == null || type.length() == 0) {
+			return null;
+		}
+
+		switch (type.charAt(0)) {
+		case 'r':
+			if (type.equals(PREFS_REALSENSE)) {
+				// check for realsense
+				return new InputIntelRealsense3D();
+			}
+			return null;
+		}
+
+		return null;
 
 		// return new InputZSpace3D(); // use this for zspace
 	}

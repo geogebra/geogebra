@@ -36,12 +36,10 @@ public class InputIntelRealsense3D implements Input3D {
 	/**
 	 * constructor
 	 * 
-	 * @param realsenseInPrefs
-	 *            says we have realsense detected saved in prefs
 	 * 
 	 * @throws Exception
 	 */
-	public InputIntelRealsense3D(boolean realsenseInPrefs)
+	public InputIntelRealsense3D()
 			throws Input3DException {
 		
 		// 3D mouse position
@@ -62,7 +60,7 @@ public class InputIntelRealsense3D implements Input3D {
 		
 		outOfField = OutOfField.YES;
 
-		socket = new Socket(realsenseInPrefs);
+		socket = new Socket();
 	}
 	
 	
