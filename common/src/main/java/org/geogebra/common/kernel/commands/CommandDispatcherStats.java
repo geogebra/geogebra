@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.statistics.*;
 
 /**
@@ -9,7 +10,8 @@ import org.geogebra.common.kernel.statistics.*;
  *
  */
 public class CommandDispatcherStats implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
+	public CommandProcessor dispatch(Commands c, Kernel kernel,
+			Command command) {
 		switch (c) {
 		case RandomElement:
 			return new CmdRandomElement(kernel);

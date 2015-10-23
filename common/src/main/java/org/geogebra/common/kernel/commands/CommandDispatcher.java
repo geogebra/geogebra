@@ -212,7 +212,7 @@ public abstract class CommandDispatcher {
 			cmdProc = cmdTable.get(cmdName);
 
 			if (cmdProc == null) {
-				cmdProc = commandTableSwitch(cmdName);
+				cmdProc = commandTableSwitch(c);
 				if (cmdProc != null) {
 					cmdTable.put(cmdName, cmdProc);
 				}
@@ -255,7 +255,8 @@ public abstract class CommandDispatcher {
 	 *            String command name
 	 * @return Processor for given command
 	 */
-	public CommandProcessor commandTableSwitch(String cmdName) {
+	public CommandProcessor commandTableSwitch(Command c) {
+		String cmdName = c.getName();
 		try {
 
 			Commands command = Commands.valueOf(cmdName);
@@ -328,7 +329,7 @@ public abstract class CommandDispatcher {
 			case RunClickScript:
 			case RunUpdateScript:
 				// case DensityPlot:
-				return getScriptingDispatcher().dispatch(command, kernel);
+				return getScriptingDispatcher().dispatch(command, kernel, c);
 
 				// advanced
 			case ContourPlot:
@@ -447,7 +448,7 @@ public abstract class CommandDispatcher {
 			case FutureValue:
 			case PresentValue:
 			case SVD:
-				return getAdvancedDispatcher().dispatch(command, kernel);
+				return getAdvancedDispatcher().dispatch(command, kernel, c);
 
 				// basic
 
@@ -590,7 +591,7 @@ public abstract class CommandDispatcher {
 			case LaTeX:
 
 			case Normalize:
-				return getBasicDispatcher().dispatch(command, kernel);
+				return getBasicDispatcher().dispatch(command, kernel, c);
 
 			case CFactor:
 			case CIFactor:
@@ -739,7 +740,7 @@ public abstract class CommandDispatcher {
 			case ZProportionEstimate:
 			case ZProportionTest:
 			case Zipf:
-				return getStatsDispatcher().dispatch(command, kernel);
+				return getStatsDispatcher().dispatch(command, kernel, c);
 
 			case TriangleCenter:
 			case Barycenter:
@@ -754,7 +755,7 @@ public abstract class CommandDispatcher {
 			case DelauneyTriangulation:
 			case TravelingSalesman:
 			case ShortestDistance:
-				return getDiscreteDispatcher().dispatch(command, kernel);
+				return getDiscreteDispatcher().dispatch(command, kernel, c);
 
 			case LocusEquation:
 			case Envelope:
@@ -781,9 +782,7 @@ public abstract class CommandDispatcher {
 			case ImplicitDerivative:
 			case NextPrime:
 			case PreviousPrime:
-				return app.isExam() && !app.getExam().isCASAllowed() ? null
-						: getCASDispatcher().dispatch(
-						command, kernel);
+				return getCASDispatcher().dispatch(command, kernel, c);
 			default:
 				Log.error("missing case in CommandDispatcher " + cmdName);
 				return null;

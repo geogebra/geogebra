@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetSpinSpeed;
 import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetViewDirection;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
@@ -27,7 +28,8 @@ public class CommandDispatcher3D extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandProcessor commandTableSwitch(String cmdName) {
+	public CommandProcessor commandTableSwitch(Command c) {
+		String cmdName = c.getName();
 		try {
 			switch (Commands.valueOf(cmdName)) {
 
@@ -279,7 +281,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdUnion3D(kernel);
 
 			default:
-				return super.commandTableSwitch(cmdName);
+				return super.commandTableSwitch(c);
 			}
 		} catch (Exception e) {
 			App.debug("command not found / CAS command called");
