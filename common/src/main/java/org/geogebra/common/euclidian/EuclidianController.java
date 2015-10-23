@@ -183,7 +183,7 @@ public abstract class EuclidianController {
 
 	protected GeoLineND movedGeoLine;
 
-	protected GeoConic movedGeoConic;
+	protected GeoConicND movedGeoConic;
 
 	protected GeoImplicitPoly movedGeoImplicitPoly;
 
@@ -7185,7 +7185,7 @@ public abstract class EuclidianController {
 		// free conic
 		else if (movedGeoElement.isGeoConic()) {
 			moveMode = MOVE_CONIC;
-			movedGeoConic = (GeoConic) movedGeoElement;
+			movedGeoConic = (GeoConicND) movedGeoElement;
 			view.setShowMouseCoords(false);
 			view.setDragCursor();
 

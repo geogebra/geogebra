@@ -254,23 +254,27 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 					cs.makeOrthoMatrix(false, false);
 					GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
 					conic.setCoordSys(cs);
+					Coords v = cs
+							.getNormalProjection(new Coords(vx, vy, vz, 0))[1];
+					Coords w = cs
+							.getNormalProjection(new Coords(wx, wy, wz, 0))[1];
+					double yy = v.getX() * v.getX() + w.getX() * w.getX();
+					double xx = v.getY() * v.getY() + w.getY() * w.getY();
+					double xy = v.getX() * v.getY() + w.getX() * w.getY();
 
-					double xx = vx * vx + vy * vy + vz * vz;
-					double yy = wx * wx + wy * wy + wz * wz;
-					double xy = vx * wx + vy * wy + wz * vz;
 					// return P.x * (matrix[0] * P.x + matrix[3] * P.y +
 					// matrix[4] * P.z)
 					// + P.y * (matrix[3] * P.x + matrix[1] * P.y + matrix[5] *
 					// P.z)
 					// + P.z * (matrix[4] * P.x + matrix[5] * P.y + matrix[2] *
 					// P.z);
-					double n = new Coords(vy * vz - wz * vy, wz * vx - wx * vz,
-							wx * vy - wy * vx).norm();
-					conic.setMatrix(new double[] { xx, yy, -n * n,
- -xy, 0,
+					double det = v.getX() * w.getY() - w.getX() * v.getY();
+					conic.setMatrix(new double[] { xx, yy, -det * det, -xy, 0,
 							0 });
 					conic.setLabel(label);
-					App.debug(xx + "," + xy + "," + yy);
+					App.debug(v.getX() + "," + v.getY() + " AND " + w.getX()
+							+ "," + w.getY());
+					App.debug(xx + "," + xy + "," + yy + "," + det);
 
 					return new GeoElement[] { conic };
 				}

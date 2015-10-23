@@ -2071,12 +2071,12 @@ public class AlgebraProcessor {
 					&& getTrigCoeffs(cx.getRightTree(), coefX,
 							scale.multiply(-1), var);
 		} else if (cx.getOperation() == Operation.MULTIPLY) {
-			if (cx.getLeft().unwrap() instanceof MyDouble
-					&& cx.getLeft().isConstant()) {
+			if (cx.getLeft().evaluatesToNumber(false)
+					&& !cx.getLeft().wrap().containsDeep(var)) {
 				return getTrigCoeffs(cx.getRightTree(), coefX,
 						scale.multiply(cx.getLeft().unwrap()), var);
-			} else if (cx.getRight().unwrap() instanceof MyDouble
-					&& cx.getRight().isConstant()) {
+			} else if (cx.getRight().evaluatesToNumber(false)
+					&& !cx.getRight().wrap().containsDeep(var)) {
 				return getTrigCoeffs(cx.getLeftTree(), coefX,
 						scale.multiply(cx.getRight().unwrap()), var);
 			}
