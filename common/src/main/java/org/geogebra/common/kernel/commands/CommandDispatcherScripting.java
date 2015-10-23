@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.scripting.CmdButton;
 import org.geogebra.common.kernel.scripting.CmdCenterView;
 import org.geogebra.common.kernel.scripting.CmdCheckbox;
@@ -69,8 +68,7 @@ import org.geogebra.common.kernel.scripting.CmdZoomOut;
  *
  */
 public class CommandDispatcherScripting implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel,
-			Command command) {
+	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {
 		// scripting
 		case RigidPolygon:

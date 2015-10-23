@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LocusEquation;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.cas.CmdCASCommand1Arg;
 import org.geogebra.common.kernel.cas.CmdCoefficients;
 import org.geogebra.common.kernel.cas.CmdDegree;
@@ -27,8 +26,7 @@ import org.geogebra.common.main.App;
  *
  */
 public class CommandDispatcherCAS implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel,
-			Command command) {
+	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		App.printStacktrace("");
 		App app = kernel.getApplication();
 
@@ -36,12 +34,6 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 		case Integral:
 		case IntegralBetween:
 		case NIntegral:
-
-			if (command.getArgumentNumber() < 3 && app.isExam()
-					&& !app.getExam().isCASAllowed()) {
-				return null;
-			}
-
 			return new CmdIntegral(kernel, c);
 
 		}

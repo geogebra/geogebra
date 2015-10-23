@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.barycentric.CmdBarycenter;
 import org.geogebra.common.kernel.barycentric.CmdCubic;
 import org.geogebra.common.kernel.barycentric.CmdKimberling;
@@ -21,8 +20,7 @@ import org.geogebra.common.kernel.discrete.CmdVoronoi;
  *
  */
 public class CommandDispatcherDiscrete implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel,
-			Command command) {
+	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {
 
 		case TriangleCenter:

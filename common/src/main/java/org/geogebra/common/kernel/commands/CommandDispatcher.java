@@ -329,7 +329,7 @@ public abstract class CommandDispatcher {
 			case RunClickScript:
 			case RunUpdateScript:
 				// case DensityPlot:
-				return getScriptingDispatcher().dispatch(command, kernel, c);
+				return getScriptingDispatcher().dispatch(command, kernel);
 
 				// advanced
 			case ContourPlot:
@@ -448,7 +448,7 @@ public abstract class CommandDispatcher {
 			case FutureValue:
 			case PresentValue:
 			case SVD:
-				return getAdvancedDispatcher().dispatch(command, kernel, c);
+				return getAdvancedDispatcher().dispatch(command, kernel);
 
 				// basic
 
@@ -591,7 +591,7 @@ public abstract class CommandDispatcher {
 			case LaTeX:
 
 			case Normalize:
-				return getBasicDispatcher().dispatch(command, kernel, c);
+				return getBasicDispatcher().dispatch(command, kernel);
 
 			case CFactor:
 			case CIFactor:
@@ -740,7 +740,7 @@ public abstract class CommandDispatcher {
 			case ZProportionEstimate:
 			case ZProportionTest:
 			case Zipf:
-				return getStatsDispatcher().dispatch(command, kernel, c);
+				return getStatsDispatcher().dispatch(command, kernel);
 
 			case TriangleCenter:
 			case Barycenter:
@@ -755,7 +755,7 @@ public abstract class CommandDispatcher {
 			case DelauneyTriangulation:
 			case TravelingSalesman:
 			case ShortestDistance:
-				return getDiscreteDispatcher().dispatch(command, kernel, c);
+				return getDiscreteDispatcher().dispatch(command, kernel);
 
 			case LocusEquation:
 			case Envelope:
@@ -782,7 +782,7 @@ public abstract class CommandDispatcher {
 			case ImplicitDerivative:
 			case NextPrime:
 			case PreviousPrime:
-				return getCASDispatcher().dispatch(command, kernel, c);
+				return getCASDispatcher().dispatch(command, kernel);
 			default:
 				Log.error("missing case in CommandDispatcher " + cmdName);
 				return null;

@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.Command;
 
 /**
  * @author gabor
@@ -16,10 +15,8 @@ public interface CommandDispatcherInterface {
 	 *            Command
 	 * @param kernel
 	 *            Kernel
-	 * @param command
 	 * @return CommandProcessor
 	 */
-	public CommandProcessor dispatch(Commands c, Kernel kernel,
-			Command command);
+	public CommandProcessor dispatch(Commands c, Kernel kernel);
 
 }

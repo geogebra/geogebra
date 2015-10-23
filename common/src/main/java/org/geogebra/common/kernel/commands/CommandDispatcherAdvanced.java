@@ -91,7 +91,6 @@ import org.geogebra.common.kernel.advanced.CmdUnion;
 import org.geogebra.common.kernel.advanced.CmdUnique;
 import org.geogebra.common.kernel.advanced.CmdVerticalText;
 import org.geogebra.common.kernel.advanced.CmdZip;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.main.Feature;
 
 /**
@@ -100,8 +99,7 @@ import org.geogebra.common.main.Feature;
  *
  */
 public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel,
-			Command command) {
+	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {
 		// advanced
 

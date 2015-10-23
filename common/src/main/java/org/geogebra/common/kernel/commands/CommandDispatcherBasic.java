@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.CmdUnitOrthogonalVector;
 import org.geogebra.common.kernel.algos.CmdUnitVector;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.plugin.Operation;
 
@@ -13,8 +12,7 @@ import org.geogebra.common.plugin.Operation;
  *
  */
 public class CommandDispatcherBasic implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel,
-			Command command) {
+	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {
 		// basic
 
