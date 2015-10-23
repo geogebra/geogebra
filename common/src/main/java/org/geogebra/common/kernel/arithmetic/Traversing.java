@@ -426,6 +426,7 @@ public interface Traversing {
 	 */
 	public class ReplaceUndefinedVariables implements Traversing {
 		private final Kernel kernel;
+		private boolean replaceT;
 		private TreeSet<String> undefined;
 
 		/**
@@ -433,12 +434,17 @@ public interface Traversing {
 		 * 
 		 * @param kernel
 		 *            kernel
+		 * @param undefined
+		 *            list of undefined vars (write only)
+		 * @param replaceT
+		 *            whether to replace "t" or not
 		 * 
 		 */
 		public ReplaceUndefinedVariables(Kernel kernel,
-				TreeSet<String> undefined) {
+				TreeSet<String> undefined, boolean replaceT) {
 			this.kernel = kernel;
 			this.undefined = undefined;
+			this.replaceT = replaceT;
 		}
 
 		public ExpressionValue process(ExpressionValue ev) {
@@ -453,7 +459,7 @@ public interface Traversing {
 				if (replace instanceof Variable
 						&& !name.equals(kernel.getConstruction()
 								.getRegisteredFunctionVariable())
-						&& !"t".equals(name)) {
+						&& (this.replaceT || !"t".equals(name))) {
 					name = ((Variable) replace)
 							.getName(StringTemplate.defaultTemplate);
 					undefined.remove(name);

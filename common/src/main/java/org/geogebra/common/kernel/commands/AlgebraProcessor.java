@@ -786,8 +786,12 @@ public class AlgebraProcessor {
 									if (CREATE_SLIDER.equals(dialogResult[0])) {
 										// insertStarIfNeeded(undefinedVariables,
 										// ve2, fvX2);
-										replaceUndefinedVariables(ve2,
-												undefinedVariables);
+										GeoElement[] param2 = checkParametricAfterUndefinedChanged(
+												ve2, undefinedVariables);
+										if (param2 != null) {
+											callback0.callback(param2);
+											return;
+										}
 										try {
 											geos = processValidExpression(
 													storeUndo,
@@ -818,9 +822,7 @@ public class AlgebraProcessor {
 				// ==========================
 				// step5: replace undefined variables
 				// ==========================
-				replaceUndefinedVariables(ve, undefinedVariables);
-				GeoElement[] param2 = getParamProcessor()
-						.checkParametricEquation(ve,
+				GeoElement[] param2 = checkParametricAfterUndefinedChanged(ve,
 						undefinedVariables);
 				if (param2 != null) {
 					return param2;
@@ -861,6 +863,27 @@ public class AlgebraProcessor {
 	}
 
 
+
+	/**
+	 * @param ve
+	 *            expression to check for parametrics
+	 * @param undefinedVariables
+	 *            set of undefined variables
+	 * @return result of parametric evaluation if successfull
+	 */
+	GeoElement[] checkParametricAfterUndefinedChanged(
+			ValidExpression ve, TreeSet<String> undefinedVariables) {
+		replaceUndefinedVariables(ve, undefinedVariables, false);
+		GeoElement[] param2 = getParamProcessor().checkParametricEquation(ve,
+				undefinedVariables);
+		if (param2 != null) {
+			return param2;
+		}
+		if (!undefinedVariables.isEmpty()) {
+			replaceUndefinedVariables(ve, undefinedVariables, true);
+		}
+		return null;
+	}
 
 	private GeoElement[] tryReplacingProducts(ValidExpression ve) {
 		ValidExpression ve2 = (ValidExpression) ve.traverse(new Traversing() {
@@ -988,9 +1011,9 @@ public class AlgebraProcessor {
 	 *            it as we go
 	 */
 	public void replaceUndefinedVariables(ValidExpression ve,
-			TreeSet<String> undefined) {
+			TreeSet<String> undefined, boolean replaceT) {
 		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(
-				this.kernel, undefined);
+				this.kernel, undefined, replaceT);
 		ve.traverse(replacer);
 
 	}
