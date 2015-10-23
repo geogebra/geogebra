@@ -3590,9 +3590,27 @@ kernel, left,
 				sb.append("),1)");
 
 			} else {
-			sb.append(leftStr);
-			sb.append(Unicode.ellipsis);
-			sb.append(rightStr);
+				if (!left.isLeaf()) {
+					sb.append(tpl.leftBracket());
+				}
+
+				sb.append(leftStr);
+
+				if (!left.isLeaf()) {
+					sb.append(tpl.rightBracket());
+				}
+
+				sb.append(Unicode.ellipsis);
+
+				if (!right.isLeaf()) {
+					sb.append(tpl.leftBracket());
+				}
+
+				sb.append(rightStr);
+
+				if (!right.isLeaf()) {
+					sb.append(tpl.rightBracket());
+				}
 			}
 
 			break;
