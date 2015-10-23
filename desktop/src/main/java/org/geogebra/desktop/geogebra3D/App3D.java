@@ -179,7 +179,9 @@ public class App3D extends AppD {
 							@Override
 							public void mouseClicked(MouseEvent e) {
 								frame.setVisible(false);
-								superShowPerspectivePopup();
+								if (perspectivePopupHasToBeShown) {
+									superShowPerspectivePopup();
+								}
 							}
 						});
 						JPanel closePanel = new JPanel(new FlowLayout(
@@ -208,15 +210,19 @@ public class App3D extends AppD {
 	}
 	
 	boolean input3DPopupShowing = false;
+	boolean perspectivePopupHasToBeShown = false;
 
 	@Override
 	protected void showPerspectivePopup() {
-		if (!input3DPopupShowing){
+		if (input3DPopupShowing) {
+			perspectivePopupHasToBeShown = true;
+		} else {
 			superShowPerspectivePopup();
 		}
 	}
 
 	void superShowPerspectivePopup() {
+		perspectivePopupHasToBeShown = false;
 		super.showPerspectivePopup();
 	}
 
