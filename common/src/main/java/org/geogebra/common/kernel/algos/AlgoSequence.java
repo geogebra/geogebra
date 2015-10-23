@@ -329,8 +329,20 @@ public class AlgoSequence extends AlgoElement {
 
 		list.clear();
 
-		for (int k = from; k <= to; k++) {
-			list.addNumber(k, null);
+		if (from < to) {
+
+			// increasing list
+			for (int k = from; k <= to; k++) {
+				list.addNumber(k, null);
+			}
+
+		} else {
+
+			// decreasing list
+			for (int k = from; k >= to; k--) {
+				list.addNumber(k, null);
+			}
+
 		}
 	}
 
