@@ -84,6 +84,7 @@ public class Socket {
 	public boolean gotMessage = false;      
 
 	static private PXCMSenseManager SENSE_MANAGER;
+	static private PXCMCaptureManager CAPTURE_MANAGER;
 	private pxcmStatus sts;
 	private PXCMHandData handData;
 	private PXCMHandData.IHand hand;
@@ -456,8 +457,8 @@ public class Socket {
 					"RealSense: Failed to create a SenseManager instance");
 		}
 
-		PXCMCaptureManager captureMgr = SENSE_MANAGER.QueryCaptureManager();
-		captureMgr.FilterByDeviceInfo("RealSense", null, 0);
+		CAPTURE_MANAGER = SENSE_MANAGER.QueryCaptureManager();
+		CAPTURE_MANAGER.FilterByDeviceInfo("RealSense", null, 0);
 
 		sts = SENSE_MANAGER.EnableHand(null);
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)<0) {
@@ -611,6 +612,16 @@ public class Socket {
 		leftButton = flag;	
 	}
 
+	/**
+	 * exit and close manager
+	 */
+	public void exit() {
+		CAPTURE_MANAGER.CloseStreams();
+		SENSE_MANAGER.Close();
+		SENSE_MANAGER = null;
+		SESSION.close();
+		SESSION = null;
+	}
 
 
 

@@ -289,4 +289,8 @@ public class InputLeo3D implements Input3D {
 		return OutOfField.NEVER;
 	}
 
+	public void exit() {
+		// not used here
+	}
+
 }

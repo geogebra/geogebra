@@ -305,4 +305,8 @@ public class InputIntelRealsense3D implements Input3D {
 		return outOfField;
 	}
 
+	public void exit() {
+		// socket.exit();
+	}
+
 }

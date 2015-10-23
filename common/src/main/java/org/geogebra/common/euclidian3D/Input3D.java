@@ -267,4 +267,9 @@ public interface Input3D {
 	 */
 	public OutOfField getOutOfField();
 
+	/**
+	 * exit
+	 */
+	public void exit();
+
 }

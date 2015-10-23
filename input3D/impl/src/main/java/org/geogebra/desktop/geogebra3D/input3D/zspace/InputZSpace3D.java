@@ -265,4 +265,8 @@ public class InputZSpace3D implements Input3D {
 		return OutOfField.NEVER;
 	}
 
+	public void exit() {
+		// not used here
+	}
+
 }

@@ -811,4 +811,9 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 				.releaseGrabbing();
 	}
 
+	@Override
+	public void exitInput3D() {
+		input3D.exit();
+	}
+
 }

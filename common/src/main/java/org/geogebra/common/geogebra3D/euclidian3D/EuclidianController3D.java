@@ -4120,4 +4120,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return false;
 	}
 
+	/**
+	 * exit use of 3D input
+	 */
+	public void exitInput3D() {
+		// use for 3D input
+	}
+
 }

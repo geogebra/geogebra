@@ -289,6 +289,12 @@ public class App3D extends AppD {
 	}
 
 	@Override
+	protected void exitFrame() {
+		super.exitFrame();
+		euclidianController3D.exitInput3D();
+	}
+
+	@Override
 	public boolean isRightClick(AbstractEvent e) {
 		if (e instanceof MouseEventD) {
 			return isRightClick(org.geogebra.desktop.euclidian.event.MouseEventD
