@@ -154,6 +154,10 @@ public abstract class Renderer {
 	 */
 	public void drawScene() {
 
+//		if (!view3D.isShowing()) {
+//			return;
+//		}
+
 		// update 3D controller
 		((EuclidianController3D) view3D.getEuclidianController())
 				.updateInput3D();
@@ -1976,6 +1980,12 @@ public abstract class Renderer {
 	 * @return true if it uses logical picking instead of GL picking
 	 */
 	abstract public boolean useLogicalPicking();
+
+	/**
+	 * 
+	 * @return true if it uses shaders
+	 */
+	abstract public boolean useShaders();
 
 	/**
 	 * 

@@ -555,4 +555,9 @@ public abstract class RendererGL2 extends RendererD {
 //		clearDepthBuffer(); 
 //		clearColorBuffer();
 //	}
+
+	@Override
+	public boolean useShaders() {
+		return false;
+	}
 }

@@ -1517,4 +1517,9 @@ public class RendererShaders extends RendererD implements
 	protected void initCulling() {
 		// no need for shaders
 	}
+
+	@Override
+	public boolean useShaders() {
+		return true;
+	}
 }

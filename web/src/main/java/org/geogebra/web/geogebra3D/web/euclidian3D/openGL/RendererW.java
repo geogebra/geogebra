@@ -1842,4 +1842,9 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		this.createGLContext(b);
 	}
 
+	@Override
+	public boolean useShaders() {
+		return true;
+	}
+
 }

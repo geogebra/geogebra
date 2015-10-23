@@ -104,7 +104,7 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 	@Override
 	protected void doRemoveGeometryIndex(int index) {
 		// for shaders: use Manager templates -- no remove for points
-		if (getView3D().getApplication().useShaders()) {
+		if (!getView3D().getRenderer().useShaders()) {
 			super.doRemoveGeometryIndex(index);
 		}
 	}
