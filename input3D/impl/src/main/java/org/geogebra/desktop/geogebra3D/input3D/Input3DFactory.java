@@ -14,7 +14,9 @@ public class Input3DFactory {
 	static public String PREFS_REALSENSE = "realsense";
 	static public String PREFS_NONE = "none";
 	
-	public enum Input3DExceptionType{INSTALL, RUN};
+	public enum Input3DExceptionType {
+		INSTALL, RUN, ALREADY_USED
+	};
 	
 	static public class Input3DException extends Exception {
 

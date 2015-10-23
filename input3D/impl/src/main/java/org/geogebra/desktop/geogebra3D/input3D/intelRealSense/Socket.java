@@ -83,7 +83,7 @@ public class Socket {
 	/** says if it has got a message from realsense */
 	public boolean gotMessage = false;      
 
-	private PXCMSenseManager senseMgr;
+	static private PXCMSenseManager SENSE_MANAGER;
 	private pxcmStatus sts;
 	private PXCMHandData handData;
 	private PXCMHandData.IHand hand;
@@ -407,6 +407,9 @@ public class Socket {
 			return;
 		}
 
+		// reset sense manager
+		SENSE_MANAGER = null;
+
 		try {
 			// Create session
 			SESSION = PXCMSession.CreateInstance();
@@ -442,16 +445,21 @@ public class Socket {
 					"RealSense: no session created");
 		}
 
-		senseMgr = SESSION.CreateSenseManager();
-		if (senseMgr == null) {
+		if (SENSE_MANAGER != null) {
+			throw new Input3DException(Input3DExceptionType.ALREADY_USED,
+					"RealSense: already in use");
+		}
+
+		SENSE_MANAGER = SESSION.CreateSenseManager();
+		if (SENSE_MANAGER == null) {
 			throw new Input3DException(Input3DExceptionType.RUN,
 					"RealSense: Failed to create a SenseManager instance");
 		}
 
-		PXCMCaptureManager captureMgr = senseMgr.QueryCaptureManager();
+		PXCMCaptureManager captureMgr = SENSE_MANAGER.QueryCaptureManager();
 		captureMgr.FilterByDeviceInfo("RealSense", null, 0);
 
-		sts = senseMgr.EnableHand(null);
+		sts = SENSE_MANAGER.EnableHand(null);
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)<0) {
 			throw new Input3DException(Input3DExceptionType.RUN,
 					"RealSense: Failed to enable HandAnalysis");
@@ -459,9 +467,9 @@ public class Socket {
 
 		dataSampler = new DataAverage(SAMPLES);
 
-		sts = senseMgr.Init();
+		sts = SENSE_MANAGER.Init();
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)>=0) {
-			PXCMHandModule handModule = senseMgr.QueryHand(); 
+			PXCMHandModule handModule = SENSE_MANAGER.QueryHand(); 
 			PXCMHandConfiguration handConfig = handModule.CreateActiveConfiguration(); 
 
 
@@ -514,10 +522,10 @@ public class Socket {
 		if (!connected)
 			return false;
 
-		sts = senseMgr.AcquireFrame(true);
+		sts = SENSE_MANAGER.AcquireFrame(true);
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)<0){
 			gotMessage = false;
-			senseMgr.ReleaseFrame();
+			SENSE_MANAGER.ReleaseFrame();
 			return false;
 		}
 
@@ -568,7 +576,7 @@ public class Socket {
 			gotMessage = false;
 		}
 
-		senseMgr.ReleaseFrame();
+		SENSE_MANAGER.ReleaseFrame();
 
 		return true;
 	}
