@@ -76,12 +76,17 @@ public class ExamEnvironment {
 		return cheatingTimes != null;
 	}
 
+	private String getLocalizedTime(Localization loc, long time) {
+		// eg "Fri 23rd October 2015 14:08:48"
+		return CmdGetTime.buildLocalizedDate("\\D \\j\\S \\F \\Y \\H:\\i:\\s",
+				new Date(time), loc);
+	}
+
 	public String getLog(Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Exam started");
 		sb.append(' ');
-		sb.append(CmdGetTime.buildLocalizedDate("dd. MM. yyyy, HH:mm:ss",
-				new Date(examStartTime), loc));
+		sb.append(getLocalizedTime(loc, examStartTime));
 		sb.append("\n");
 		if(cheatingTimes != null){
 			for(int i = 0; i < cheatingTimes.size(); i++){
@@ -95,8 +100,7 @@ public class ExamEnvironment {
 		if (closed > 0) {
 			sb.append("Exam finished");
 			sb.append(' ');
-			sb.append(CmdGetTime.buildLocalizedDate("dd. MM. yyyy, HH:mm:ss",
-					new Date(closed), loc));
+			sb.append(getLocalizedTime(loc, closed));
 		}
 		return sb.toString();
 	}
