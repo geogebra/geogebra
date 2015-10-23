@@ -5325,27 +5325,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 						LoginOperationD signIn = (LoginOperationD) getLoginOperation();
 						if (signIn.isTubeAvailable() && !signIn.isLoggedIn()) {
-
-							// for debugging only
-							// force sign-in popup if not logged in
-							// GeoGebraPreferencesD.getPref().savePreference(
-							// GeoGebraPreferencesD.USER_LOGIN_SKIP,
-							// "false");
-
-							String skipLogin = GeoGebraPreferencesD
-									.getPref()
-									.loadPreference(
-											GeoGebraPreferencesD.USER_LOGIN_SKIP,
-											"false");
-
-							if (!"true".equals(skipLogin)) {
-								showDockPopup = false;
-								GeoGebraPreferencesD.getPref().savePreference(
-										GeoGebraPreferencesD.USER_LOGIN_SKIP,
-										"true");
-
-								getGuiManager().login();
-							}
+							showDockPopup = showTubeLogin();
 						}
 
 						if (showDockPopup && isShowDockBar()) {
@@ -5355,6 +5335,29 @@ public class AppD extends App implements KeyEventDispatcher {
 				});
 			}
 		}
+	}
+
+	protected boolean showTubeLogin() {
+		// for debugging only
+		// force sign-in popup if not logged in
+		// GeoGebraPreferencesD.getPref().savePreference(
+		// GeoGebraPreferencesD.USER_LOGIN_SKIP,
+		// "false");
+
+		boolean showDockPopup = true;
+
+		String skipLogin = GeoGebraPreferencesD.getPref().loadPreference(
+				GeoGebraPreferencesD.USER_LOGIN_SKIP, "false");
+
+		if (!"true".equals(skipLogin)) {
+			showDockPopup = false;
+			GeoGebraPreferencesD.getPref().savePreference(
+					GeoGebraPreferencesD.USER_LOGIN_SKIP, "true");
+
+			getGuiManager().login();
+		}
+
+		return showDockPopup;
 	}
 
 	protected void showPerspectivePopup() {
