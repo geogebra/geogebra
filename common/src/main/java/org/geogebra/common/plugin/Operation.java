@@ -1706,10 +1706,27 @@ public enum Operation {
 			if ((lt.unwrap() instanceof NumberValue)
 					&& (rt.unwrap() instanceof NumberValue)) {
 				MyList list = new MyList(ev.getKernel());
-				for (int i = (int) Math.round(lt.evaluateDouble()); i <= Math
-						.round(rt.evaluateDouble()); i++) {
-					list.addListElement(new MyDouble(ev.getKernel(), i));
+
+				int from = (int) Math.round(lt.evaluateDouble());
+				int to = (int) Math.round(rt.evaluateDouble());
+
+				// also see AlgoSequence.computeRange()
+				if (from < to) {
+
+					// increasing list
+					for (int k = from; k <= to; k++) {
+						list.addListElement(new MyDouble(ev.getKernel(), k));
+					}
+
+				} else {
+
+					// decreasing list
+					for (int k = from; k >= to; k--) {
+						list.addListElement(new MyDouble(ev.getKernel(), k));
+					}
+
 				}
+
 				return list;
 			}
 			if (!(lt.unwrap() instanceof NumberValue)) {

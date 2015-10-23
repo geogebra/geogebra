@@ -329,6 +329,7 @@ public class AlgoSequence extends AlgoElement {
 
 		list.clear();
 
+		// also see Operation.java case Sequence:
 		if (from < to) {
 
 			// increasing list
