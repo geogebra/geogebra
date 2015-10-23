@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
@@ -60,12 +61,24 @@ public class CmdBinomialDist extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
-			} else if (!ok[0])
+			} else if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2].isGeoList())) {
+				AlgoBinomialDistList algo = new AlgoBinomialDistList(cons,
+						c.getLabel(),
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoList) arg[2]);
+
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+
+			} else if (!ok[0]) {
 				throw argErr(app, c.getName(), arg[0]);
-			else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c.getName(), arg[1]);
-			else
+			} else {
 				throw argErr(app, c.getName(), arg[2]);
+			}
 
 		case 4:
 			arg = resArgs(c);

@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -79,6 +80,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	private ZipfDistribution zipf = null;
 	private NormalDistribution normal = null;
 	private PoissonDistribution poisson = null;
+	protected GeoList list;
 
 	/**
 	 * @param cons
@@ -204,6 +206,20 @@ public abstract class AlgoDistribution extends AlgoElement {
 
 		setInputOutput();
 		compute();
+	}
+
+	public AlgoDistribution(Construction cons, String label, NumberValue a,
+			NumberValue b, GeoList list) {
+		super(cons);
+		this.a = a;
+		this.b = b;
+		this.list = list;
+
+		num = new GeoNumeric(cons);
+
+		setInputOutput();
+		compute();
+		num.setLabel(label);
 	}
 
 	@Override
