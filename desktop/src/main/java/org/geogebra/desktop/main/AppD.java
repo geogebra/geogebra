@@ -5345,12 +5345,16 @@ public class AppD extends App implements KeyEventDispatcher {
 						}
 
 						if (showDockPopup && isShowDockBar()) {
-							getDockBar().showPopup();
+							showPerspectivePopup();
 						}
 					}
 				});
 			}
 		}
+	}
+
+	protected void showPerspectivePopup() {
+		getDockBar().showPopup();
 	}
 
 	/**

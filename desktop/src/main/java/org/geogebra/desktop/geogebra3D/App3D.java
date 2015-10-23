@@ -17,13 +17,25 @@ the Free Software Foundation.
  */
 package org.geogebra.desktop.geogebra3D;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianController;
@@ -41,6 +53,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
@@ -56,12 +69,15 @@ import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianViewInput3D;
 import org.geogebra.desktop.geogebra3D.gui.GuiManager3D;
 import org.geogebra.desktop.geogebra3D.gui.layout.panels.EuclidianDockPanel3DD;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory;
+import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
+import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
 import org.geogebra.desktop.geogebra3D.util.ImageManager3D;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.AppletImplementation;
+import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.FrameCollector;
 
@@ -84,15 +100,142 @@ public class App3D extends AppD {
 
 		super(args, frame, applet, null, undoActive, new LocalizationD(3));
 
-		// euclidianView3D.initAxisAndPlane();
-
-		// TODO remove 3D test : just comment following line
-		// new Test3D(kernel3D,euclidianView,euclidianView3D,this);
-
+		runThreadForCheckInput3D();
 	}
 
 	public App3D(CommandLineArguments args, Container comp, boolean undoActive) {
 		super(args, null, null, comp, undoActive, new LocalizationD(3));
+
+		runThreadForCheckInput3D();
+	}
+
+	private void runThreadForCheckInput3D() {
+		if (AppD.WINDOWS && !isApplet() && has(Feature.INTEL_REALSENSE)
+				&& getInput3DType().equals(Input3DFactory.PREFS_NONE)) {
+			App.debug("============ runThreadToCheckInput3D ");
+			Thread t = new Thread() {
+				@Override
+				public void run() {
+					try {
+						// try to init realsense
+						Input3DFactory.initRealsense();
+						Log.debug("RealSense: Session successfully created");
+
+						// save in prefs
+						setInput3DType(Input3DFactory.PREFS_REALSENSE);
+
+						// popup help dialog
+						input3DPopupShowing = true;
+						final JFrame frame = new JFrame();
+						Container c = frame.getContentPane();
+						JPanel panel = new JPanel();
+						c.add(panel);
+
+						panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+						panel.setBackground(Color.WHITE);
+						panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+						JLabel label = new JLabel(
+								"Congratulations, your Intel RealSense Camera can be used with GeoGebra!");
+						JPanel labelPanel = new JPanel(new FlowLayout(
+								FlowLayout.LEFT));
+						labelPanel.setBackground(Color.WHITE);
+						labelPanel.add(label);
+						panel.add(labelPanel);
+						
+						JLabel website = new JLabel();
+						String tutorialText = "Click here to get a tutorial";
+						website.setText("<html><a href=\"\">"
+								+ tutorialText + "</a></html>");
+				        website.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				        website.addMouseListener(new MouseAdapter() {
+				            @Override
+				            public void mouseClicked(MouseEvent e) {
+								try {
+									try {
+										frame.setAlwaysOnTop(false);
+									} catch (SecurityException se) {
+										// failed to unset on top
+									}
+									Desktop.getDesktop()
+											.browse(new URI(
+													"http://tube-beta.geogebra.org/b/zGBeL6tl"));
+								} catch (IOException e1) {
+									// not working
+								} catch (URISyntaxException e1) {
+									// not working
+								}
+				            }
+				        });
+						JPanel websitePanel = new JPanel(new FlowLayout(
+								FlowLayout.LEFT));
+						websitePanel.setBackground(Color.WHITE);
+						websitePanel.add(website);
+						panel.add(websitePanel);
+						
+						JLabel closeLabel = new JLabel("Close this message");
+						closeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+						closeLabel.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								frame.setVisible(false);
+								superShowPerspectivePopup();
+							}
+						});
+						JPanel closePanel = new JPanel(new FlowLayout(
+								FlowLayout.RIGHT));
+						closePanel.setBackground(Color.WHITE);
+						closePanel.add(closeLabel);
+						panel.add(closePanel);
+
+						frame.setUndecorated(true);
+
+						frame.pack();
+						frame.setLocationRelativeTo(null);
+						frame.setVisible(true);
+						try {
+							frame.setAlwaysOnTop(true);
+						} catch (SecurityException e) {
+							// failed to set on top
+						}
+					} catch (Exception e) {
+						Log.debug(e.getMessage());
+					}
+				}
+			};
+			t.start();
+		}
+	}
+	
+	boolean input3DPopupShowing = false;
+
+	@Override
+	protected void showPerspectivePopup() {
+		if (!input3DPopupShowing){
+			superShowPerspectivePopup();
+		}
+	}
+
+	void superShowPerspectivePopup() {
+		super.showPerspectivePopup();
+	}
+
+	/**
+	 * set 3D input
+	 * 
+	 * @param type
+	 *            type
+	 */
+	public static void setInput3DType(String type) {
+		GeoGebraPreferencesD.getPref().setInput3DType(type);
+	}
+
+	/**
+	 * 
+	 * @return 3D input type currently used, "none" if none
+	 */
+	public static String getInput3DType() {
+		return GeoGebraPreferencesD.getPref().getInput3DType();
 	}
 
 	@Override
@@ -103,15 +246,23 @@ public class App3D extends AppD {
 
 	private void initEuclidianController3D() {
 
-		Input3D input3D = null;
+		Input3D input3D;
 
 		if (AppD.WINDOWS && !isApplet() && has(Feature.INTEL_REALSENSE)) {
 			// init the 3D euclidian view (with perhaps a specific 3D input)
 			try {
-				input3D = Input3DFactory.createInput3D();
-			} catch (Throwable t) {
-				App.debug("Problem initializing RealSense " + t.toString());
+				input3D = Input3DFactory.createInput3D(getInput3DType());
+			} catch (Input3DException e) {
+				if (e.getType() == Input3DExceptionType.INSTALL) {
+					// reset 3D input type, guessing realsense camera has been
+					// uninstalled
+					setInput3DType(Input3DFactory.PREFS_NONE);
+				}
+				input3D = null;
+				Log.debug("Problem initializing RealSense " + e.toString());
 			}
+		} else {
+			input3D = null;
 		}
 
 		if (input3D != null) {

@@ -16,6 +16,8 @@ import intel.rssdk.pxcmStatus;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.euclidian3D.Input3D.OutOfField;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
+import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
 
 
 /**
@@ -393,33 +395,59 @@ public class Socket {
 		
 	}
 	
+	/**
+	 * Create a session to use realsense camera
+	 * 
+	 * @throws Exception
+	 *             if no camera installed
+	 */
+	public static void createSession() throws Input3DException {
+
+		if (SESSION != null) {
+			return;
+		}
+
+		try {
+			// Create session
+			SESSION = PXCMSession.CreateInstance();
+		} catch (Throwable e) {
+			throw new Input3DException(
+					Input3DExceptionType.INSTALL,
+					"RealSense: Failed to start session instance creation, maybe unsupported platform?");
+		}
+		if (SESSION == null) {
+			throw new Input3DException(Input3DExceptionType.INSTALL,
+					"RealSense: Failed to create a session instance");
+		}
+
+	}
+
+	static private PXCMSession SESSION = null;
 
 	/**
 	 * Create a "Socket" for realsense camera
 	 * 
+	 * @param forceCreateSession
+	 *            will try to force session creation (when realsense has been
+	 *            detected before)
+	 * 
 	 * @throws Exception
 	 *             when fails
 	 */
-	public Socket() throws Exception {
+	public Socket(boolean forceCreateSession) throws Input3DException {
 
-		Log.debug("Try to connect realsense...");
-		
-		// Create session
-		PXCMSession session = null;
-		try {
-			session = PXCMSession.CreateInstance();
-		} catch (Throwable e) {
-			throw new Exception(
-					"RealSense: Failed to start session instance creation, maybe unsupported platform?");
-		}
-		if (session == null) {
-			throw new Exception(
-					"RealSense: Failed to create a session instance");
+		if (forceCreateSession && SESSION == null) {
+			createSession();
 		}
 
-		senseMgr = session.CreateSenseManager();
+		if (SESSION == null) {
+			throw new Input3DException(Input3DExceptionType.INSTALL,
+					"RealSense: no session created");
+		}
+
+		senseMgr = SESSION.CreateSenseManager();
 		if (senseMgr == null) {
-			throw new Exception(
+			throw new Input3DException(Input3DExceptionType.RUN,
 					"RealSense: Failed to create a SenseManager instance");
 		}
 
@@ -428,7 +456,8 @@ public class Socket {
 
 		sts = senseMgr.EnableHand(null);
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)<0) {
-			throw new Exception("RealSense: Failed to enable HandAnalysis");
+			throw new Input3DException(Input3DExceptionType.RUN,
+					"RealSense: Failed to enable HandAnalysis");
 		}
 
 		dataSampler = new DataAverage(SAMPLES);
@@ -461,7 +490,8 @@ public class Socket {
 		}
 
 		if (!connected) {
-			throw new Exception("RealSense: not connected");
+			throw new Input3DException(Input3DExceptionType.RUN,
+					"RealSense: not connected");
 		}
 		
 		Log.debug("RealSense: connected");

@@ -1,9 +1,8 @@
 package org.geogebra.desktop.geogebra3D.input3D;
 
 import org.geogebra.common.euclidian3D.Input3D;
-import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.InputIntelRealsense3D;
+import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.Socket;
 
 /**
  * Factory to create the proper 3D input
@@ -12,35 +11,49 @@ import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.InputIntelRealsens
  */
 public class Input3DFactory {
 
-	/**
-	 * create a 3D input
-	 * @return 3D input
-	 */
-	static public Input3D createInput3D(){
+	static public String PREFS_REALSENSE = "realsense";
+	static public String PREFS_NONE = "none";
+	
+	public enum Input3DExceptionType{INSTALL, RUN};
+	
+	static public class Input3DException extends Exception {
 
-		Input3D ret = null;
+		private Input3DExceptionType type;
 
-		// return null; // use this to switch off 3D input
-		//return new InputLeo3D(); //use this for Leonar3do input
-
-		long time = System.currentTimeMillis();
-
-		// check for realsense
-		try {
-			ret = new InputIntelRealsense3D();
-		} catch (Exception e) {
-			// no realsense camera
-			ret = null;
-			Log.debug(e.getMessage());
+		public Input3DException(Input3DExceptionType type, String message) {
+			super(message);
+			this.type = type;
 		}
 
-		App.debug("============ checking 3D input time: "
-				+ (System.currentTimeMillis() - time) + " ms");
+		public Input3DExceptionType getType() {
+			return type;
+		}
+	}
 
-		return ret;
+	/**
+	 * create a 3D input
+	 * 
+	 * @param type
+	 * @return 3D input
+	 * @throws Input3DException
+	 *             if fails
+	 */
+	static public Input3D createInput3D(String type) throws Input3DException {
 
-		// use this for intel realsense
-		// input
+		// check for realsense
+		return new InputIntelRealsense3D(type.equals(PREFS_REALSENSE));
+
 		// return new InputZSpace3D(); // use this for zspace
 	}
+
+	/**
+	 * try to init realsense
+	 * 
+	 * @throws Exception
+	 *             if none
+	 */
+	public static void initRealsense() throws Exception {
+		Socket.createSession();
+	}
+
 }
