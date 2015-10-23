@@ -892,19 +892,21 @@ public class PlotterSurface {
 		manager.endGeometry();
 	}
 
+	private Coords n1, n2, n3, n4, v1, v2, v3, v4;
+
 	public void drawSphere(int size, Coords center, double radius) {
 		manager.startGeometry(Manager.Type.TRIANGLES);
 
-		/*
-		 * drawNV(Coords.VZ,Coords.O); drawNV(Coords.VZ,new Coords(1,0,0,0));
-		 * drawNV(Coords.VZ,new Coords(1,1,0,0));
-		 * 
-		 * 
-		 * drawNV(Coords.VZ,Coords.O); drawNV(Coords.VZ,new Coords(1,1,0,0));
-		 * drawNV(Coords.VZ,new Coords(0,1,0,0));
-		 */
-
-		Coords n1, n2, n3, n4, v1, v2, v3, v4;
+		if (n1 == null) {
+			n1 = new Coords(4);
+			n2 = new Coords(4);
+			n3 = new Coords(4);
+			n4 = new Coords(4);
+			v1 = Coords.createInhomCoorsInD3();
+			v2 = Coords.createInhomCoorsInD3();
+			v3 = Coords.createInhomCoorsInD3();
+			v4 = Coords.createInhomCoorsInD3();
+		}
 
 		int longitude = 6;
 		size += 3;
@@ -926,14 +928,18 @@ public class PlotterSurface {
 
 			for (int vi = -latitude; vi < latitude; vi++) {
 
-				n1 = sphericalCoords(ui, vi, longitude, latitude);
-				n2 = sphericalCoords(ui + 1, vi, longitude, latitude);
-				n3 = sphericalCoords(ui + 1, vi + 1, longitude, latitude);
-				n4 = sphericalCoords(ui, vi + 1, longitude, latitude);
-				v1 = center.add(n1.mul(radius));
-				v2 = center.add(n2.mul(radius));
-				v3 = center.add(n3.mul(radius));
-				v4 = center.add(n4.mul(radius));
+				sphericalCoords(ui, vi, longitude, latitude, n1);
+				sphericalCoords(ui + 1, vi, longitude, latitude, n2);
+				sphericalCoords(ui + 1, vi + 1, longitude, latitude, n3);
+				sphericalCoords(ui, vi + 1, longitude, latitude, n4);
+				v1.setMul(n1, radius);
+				v2.setMul(n2, radius);
+				v3.setMul(n3, radius);
+				v4.setMul(n4, radius);
+				v1.setAdd(center, v1);
+				v2.setAdd(center, v2);
+				v3.setAdd(center, v3);
+				v4.setAdd(center, v4);
 
 				drawNV(n1, v1);
 				drawNV(n2, v2);
@@ -943,14 +949,6 @@ public class PlotterSurface {
 				drawNV(n3, v3);
 				drawNV(n4, v4);
 
-				/*
-				 * drawNV(Coords.VZ,Coords.O); drawNV(Coords.VZ,new
-				 * Coords(1,0,0,0)); drawNV(Coords.VZ,new Coords(1,1,0,0));
-				 * 
-				 * 
-				 * drawNV(Coords.VZ,Coords.O); drawNV(Coords.VZ,new
-				 * Coords(1,1,0,0)); drawNV(Coords.VZ,new Coords(0,1,0,0));
-				 */
 
 			}
 
@@ -976,14 +974,15 @@ public class PlotterSurface {
 
 	}
 
-	private static Coords sphericalCoords(int ui, int vi, int longitude,
-			int latitude) {
+	private static final void sphericalCoords(int ui, int vi, int longitude,
+			int latitude, Coords n) {
 
 		double u = ((double) ui / longitude) * 2 * Math.PI;
 		double v = ((double) vi / latitude) * Math.PI / 2;
 
-		return new Coords(Math.cos(u) * Math.cos(v), Math.sin(u) * Math.cos(v),
-				Math.sin(v), 0);
+		n.setX(Math.cos(u) * Math.cos(v));
+		n.setY(Math.sin(u) * Math.cos(v));
+		n.setZ(Math.sin(v));
 
 	}
 
