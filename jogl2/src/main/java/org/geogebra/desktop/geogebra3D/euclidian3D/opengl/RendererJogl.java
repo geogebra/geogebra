@@ -6,14 +6,11 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLCapabilitiesImmutable;
 import javax.media.opengl.GLProfile;
-
-
-
-import javax.media.opengl.GL2; 
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.awt.GLJPanel;
 
@@ -117,21 +114,27 @@ public class RendererJogl {
 
 	}
 	
-	final public static String getGLInfos(GLAutoDrawable drawable){
+	final public static String[] getGLInfos(GLAutoDrawable drawable) {
 		
 		GL gl = drawable.getGL(); 
 
 		GLCapabilitiesImmutable c = drawable.getChosenGLCapabilities();
 		
-		return "Init on "+Thread.currentThread()
-				+"\nChosen GLCapabilities: " + c
-				+"\ndouble buffered: " + c.getDoubleBuffered()
-				+"\nstereo: " + c.getStereo()
-				+"\nstencil: " + c.getStencilBits()
-				+"\nINIT GL IS: " + gl.getClass().getName()
-				+"\nGL_VENDOR: " + gl.glGetString(GL.GL_VENDOR)
-				+"\nGL_RENDERER: " + gl.glGetString(GL.GL_RENDERER)
-				+"\nGL_VERSION: " + gl.glGetString(GL.GL_VERSION);
+		String[] ret = { c + "", c.getDoubleBuffered() + "", c.getStereo() + "",
+				c.getStencilBits() + "", gl.getClass().getName(),
+				gl.glGetString(GL.GL_VENDOR), gl.glGetString(GL.GL_RENDERER),
+				gl.glGetString(GL.GL_VERSION) };
+
+		return ret;
+		// return "Init on "+Thread.currentThread()
+		// +"\nChosen GLCapabilities: " + ret[0]
+		// +"\ndouble buffered: " + ret[1]
+		// +"\nstereo: " + ret[2]
+		// +"\nstencil: " + ret[3]
+		// +"\nINIT GL IS: " + ret[4]
+		// +"\nGL_VENDOR: " + ret[5]
+		// +"\nGL_RENDERER: " + ret[6]
+		// +"\nGL_VERSION: " + ret[7];
 		
 	}
 	
