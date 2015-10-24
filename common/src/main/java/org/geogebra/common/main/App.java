@@ -3905,6 +3905,7 @@ public abstract class App implements UpdateSelection {
 		case CP_NEW_COLUMNS:
 		case EXAM:
 		case FREE_3DCONICS:
+		case SHADERS_IN_DESKTOP:
 			return prerelease;
 		case DRAW_DROPDOWNLISTS_TO_CANVAS:
 			return canary;
@@ -3919,7 +3920,6 @@ public abstract class App implements UpdateSelection {
 		case GL_ELEMENTS:
 		case AUTOMATIC_FONTSIZE:
 		case RETINA:
-		case SHADERS_IN_DESKTOP:
 			return true;
 		default:
 			return false;
