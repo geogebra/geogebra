@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.print.PageFormat;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
@@ -43,7 +41,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.DialogManagerD;
@@ -516,6 +513,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		}
 	}
 
+	public static String glVersion = null;
+	public static String glCard = null;
+
 	/**
 	 * Show the "About" dialog.
 	 * 
@@ -533,17 +533,17 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append(", ");
 
 		// needed by the user for logging
-		if (!app.isApplet()) {
-			sb.append("IP: ");
-			try {
-				sb.append(InetAddress.getLocalHost().getHostAddress());
-				sb.append(':');
-				sb.append(SensorLogger.port);
-			} catch (UnknownHostException e) {
-				sb.append("<unknown>");
-			}
-			sb.append(", ");
-		}
+		// if (!app.isApplet()) {
+		// sb.append("IP: ");
+		// try {
+		// sb.append(InetAddress.getLocalHost().getHostAddress());
+		// sb.append(':');
+		// sb.append(SensorLogger.port);
+		// } catch (UnknownHostException e) {
+		// sb.append("<unknown>");
+		// }
+		// sb.append(", ");
+		// }
 
 		sb.append(app.getHeapSize() / 1024 / 1024);
 		sb.append("MB, ");
@@ -639,6 +639,12 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append(app.getHeapSize() / 1024 / 1024);
 		sb.append("MB\nCAS: ");
 		sb.append(App.getCASVersionString());
+		if (glCard != null) {
+			sb.append("\nGraphics Card: " + glCard);
+		}
+		if (glVersion != null) {
+			sb.append("\nGL Version: " + glVersion);
+		}
 		sb.append("\n\n");
 
 		if (Log.logger != null) {

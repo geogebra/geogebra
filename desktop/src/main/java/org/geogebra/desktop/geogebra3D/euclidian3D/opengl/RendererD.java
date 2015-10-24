@@ -19,6 +19,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
+import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.FrameCollector;
 
@@ -227,7 +228,17 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		oldGeoToPickSize = -1;
 
 		// start init
-		App.debug("\n" + RendererJogl.getGLInfos(drawable));
+		String glInfo[] = RendererJogl.getGLInfos(drawable);
+		
+		App.debug("Init on "+Thread.currentThread()
+				+ "\nChosen GLCapabilities: " + glInfo[0]
+				+ "\ndouble buffered: " + glInfo[1] + "\nstereo: " + glInfo[2]
+				+ "\nstencil: " + glInfo[3] + "\nINIT GL IS: " + glInfo[4]
+				+ "\nGL_VENDOR: " + glInfo[5] + "\nGL_RENDERER: " + glInfo[6]
+				+ "\nGL_VERSION: " + glInfo[7]);
+
+		GeoGebraMenuBar.glCard = glInfo[6];
+		GeoGebraMenuBar.glVersion = glInfo[7];
 
 		setGL(drawable);
 
