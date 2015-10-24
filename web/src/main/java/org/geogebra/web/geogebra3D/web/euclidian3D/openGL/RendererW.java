@@ -787,10 +787,6 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	}
 
-	@Override
-	protected void multProjectionMatrixForExportImage() {
-		// TODO
-	}
 
 	private CoordMatrix4x4 projectionMatrix = new CoordMatrix4x4();
 	private CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4(),
@@ -997,6 +993,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 			this.renderer = renderer;
 		}
 
+		@Override
 		public void onLoad() {
 
 			// image ready : create the texture
@@ -1143,10 +1140,12 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	}
 
+	@Override
 	public void createArrayBuffer(GPUBuffer buffer) {
 		createBuffer(buffer, removedBuffers);
 	}
 
+	@Override
 	public void createElementBuffer(GPUBuffer buffer) {
 		createBuffer(buffer, removedElementBuffers);
 	}
@@ -1159,10 +1158,12 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		stack.push(((GPUBufferW) buffer).get());
 	}
 
+	@Override
 	public void removeArrayBuffer(GPUBuffer buffer) {
 		removeBuffer(buffer, removedBuffers);
 	}
 
+	@Override
 	public void removeElementBuffer(GPUBuffer buffer) {
 		removeBuffer(buffer, removedElementBuffers);
 	}
@@ -1316,6 +1317,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		glContext.enableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 	}
 
+	@Override
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
 
 		if (fbColors == null || fbColors.isEmpty()) {
@@ -1353,6 +1355,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	private float[] tmpNormal3 = new float[3];
 
+	@Override
 	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
 
 		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
@@ -1429,6 +1432,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
 	}
 
+	@Override
 	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
 
 		if (fbTextures == null || fbTextures.isEmpty()) {
@@ -1466,6 +1470,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	final static private int GL_TYPE_DRAW_TO_BUFFER = WebGLRenderingContext.STREAM_DRAW;
 
+	@Override
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
 
 		// ///////////////////////////////////
@@ -1504,6 +1509,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	}
 
+	@Override
 	public void draw(Type type, int length) {
 		glContext.drawArrays(getGLType(type), 0, length);
 
@@ -1625,6 +1631,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	/**
 	 * enable text textures
 	 */
+	@Override
 	final public void enableTexturesForText() {
 		super.enableTexturesForText();
 		setCurrentTextureType(TEXTURE_TYPE_TEXT);
@@ -1801,6 +1808,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		return hitting;
 	}
 
+	@Override
 	public void setCenter(Coords center) {
 		float[] c = center.get4ForGL();
 		// set radius info
@@ -1845,6 +1853,11 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	@Override
 	public boolean useShaders() {
 		return true;
+	}
+
+	@Override
+	protected void needExportImage(double scale, int w, int h) {
+		// TODO
 	}
 
 }

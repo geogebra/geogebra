@@ -944,11 +944,6 @@ public class RendererShaders extends RendererD implements
 		setModelViewIdentity();
 	}
 
-	@Override
-	protected void setExportImage() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	protected void setColor(float r, float g, float b, float a) {
@@ -1097,12 +1092,10 @@ public class RendererShaders extends RendererD implements
 
 		setProjectionMatrix();
 
+		jogl.getGL2ES2().glViewport(0, 0, getWidth(), getHeight());
+
 	}
 	
-	@Override
-	protected void multProjectionMatrixForExportImage() {
-		// TODO
-	}
 
 	private CoordMatrix4x4 projectionMatrix = new CoordMatrix4x4();
 

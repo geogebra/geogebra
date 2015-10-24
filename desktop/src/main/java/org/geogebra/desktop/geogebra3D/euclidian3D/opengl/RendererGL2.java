@@ -257,15 +257,6 @@ public abstract class RendererGL2 extends RendererD {
 		jogl.getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);
 	}
 	
-	@Override
-	protected void multProjectionMatrixForExportImage() {
-		jogl.getGL2().glMultMatrixf(new float[] {
-				fboScale, 0f, 0f, 0f,  
-				0f, fboScale, 0f, 0f,  
-				0f, 0f, fboScale, 0f,  
-				0f, 0f, 0f, 1f
-		}, 0); 
-	}
 
 	@Override
 	protected void setStencilLines() {
@@ -351,16 +342,24 @@ public abstract class RendererGL2 extends RendererD {
 
 	}
 
+	private int orthoLeft, orthoRight, orthoBottom, orthoTop, orthoNear,
+			orthoFar;
+
 	@Override
 	final public void updateOrthoValues() {
-		// nothing to do here
+		orthoLeft = getLeft();
+		orthoRight = getRight();
+		orthoBottom = getBottom();
+		orthoTop = getTop();
+		orthoFar = getVisibleDepth() / 2;
+		orthoNear = -orthoFar;
 	}
 
 	@Override
 	protected void viewOrtho() {
 
-		jogl.getGL2().glOrtho(getLeft(), getRight(), getBottom(), getTop(),
-				-getVisibleDepth() / 2, getVisibleDepth() / 2);
+		jogl.getGL2().glOrtho(orthoLeft, orthoRight, orthoBottom, orthoTop,
+				orthoNear, orthoFar);
 	}
 
 	@Override

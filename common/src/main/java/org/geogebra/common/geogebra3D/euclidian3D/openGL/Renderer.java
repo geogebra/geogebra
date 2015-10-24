@@ -229,17 +229,18 @@ public abstract class Renderer {
 			draw();
 		}
 
-		if (needExportImage) {
-			unselectFBO();
-		}
-
 		// App.debug("======= DRAW : "+(System.currentTimeMillis() - time));
 
 		// prepare correct color mask for next clear
 		setColorMask(true, true, true, true);
 
+		boolean nei = needExportImage;
+
 		exportImage();
 		
+		if (nei) {
+			unselectFBO();
+		}
 
 	}
 	
@@ -272,12 +273,17 @@ public abstract class Renderer {
 				(int) (getHeight() * scale));
 	}
 
-	protected void needExportImage(double scale, int w, int h) {
-
-		needExportImage = true;
-		display();
-
-	}
+	/**
+	 * says that we need an export image with scale, width and height
+	 * 
+	 * @param scale
+	 *            scale factor
+	 * @param w
+	 *            width
+	 * @param h
+	 *            height
+	 */
+	abstract protected void needExportImage(double scale, int w, int h);
 
 	protected void selectFBO() {
 
@@ -1546,15 +1552,8 @@ public abstract class Renderer {
 			break;
 		}
 
-		if (needExportImage) {
-			multProjectionMatrixForExportImage();
-		}
 	}
 
-	/**
-	 * scale needed for export image
-	 */
-	abstract protected void multProjectionMatrixForExportImage();
 
 	/**
 	 * for shaders : update projection matrix
@@ -1742,6 +1741,10 @@ public abstract class Renderer {
 		bottom = y - h / 2;
 		right = left + w;
 		top = bottom + h;
+
+		if (needExportImage) {
+			return;
+		}
 
 		switch (view3D.getProjection()) {
 		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:

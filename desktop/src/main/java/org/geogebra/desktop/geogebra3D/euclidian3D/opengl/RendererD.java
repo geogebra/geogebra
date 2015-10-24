@@ -123,7 +123,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	}
 
 	@Override
-	protected void exportImage() {
+	final protected void exportImage() {
 
 
 		switch (exportType) {
@@ -627,7 +627,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	
 	
 	@Override
-	protected void selectFBO(){
+	final protected void selectFBO() {
 		
 		if (fboID < 0){
 			fboScale = 1f;
@@ -638,8 +638,9 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		updateFBOBuffers();
 		
 		// bind the buffer
-		jogl.getGL2().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
-		
+		getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
+
+
 		// store view values
 		oldRight = right; oldLeft = left; oldTop = top; oldBottom = bottom;
 		
@@ -649,7 +650,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	}
 
 	@Override
-	protected void unselectFBO(){
+	final protected void unselectFBO() {
 		
 		if (fboID < 0){
 			return;
@@ -659,12 +660,12 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		setView(0, 0, oldRight - oldLeft, oldTop - oldBottom);
 		
 		//unbind the framebuffer ...
-		jogl.getGL2().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
+		getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
 	}
 	
 	
 	@Override
-	protected void needExportImage(double scale, int w, int h) {
+	final protected void needExportImage(double scale, int w, int h) {
 		
 		fboScale = (float) scale;
 		view3D.setFontScale(scale);
@@ -686,20 +687,24 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	private void updateFBOBuffers(){
 
 		// image texture
-		jogl.getGL2().glBindTexture(GLlocal.GL_TEXTURE_2D, fboColorTextureID);
-        jogl.getGL2().glTexParameterf(GLlocal.GL_TEXTURE_2D, GLlocal.GL_TEXTURE_MAG_FILTER, GLlocal.GL_NEAREST);
-        jogl.getGL2().glTexParameterf(GLlocal.GL_TEXTURE_2D, GLlocal.GL_TEXTURE_MIN_FILTER, GLlocal.GL_NEAREST);
-        jogl.getGL2().glTexImage2D(GLlocal.GL_TEXTURE_2D, 0, GLlocal.GL_RGBA, 
-        		fboWidth, fboHeight, 0, GLlocal.GL_RGBA, GLlocal.GL_UNSIGNED_BYTE, null);
-        
-        jogl.getGL2().glBindTexture(GLlocal.GL_TEXTURE_2D, 0);
+		getGL().glBindTexture(GLlocal.GL_TEXTURE_2D, fboColorTextureID);
+		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
+				GLlocal.GL_TEXTURE_MAG_FILTER, GLlocal.GL_NEAREST);
+		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
+				GLlocal.GL_TEXTURE_MIN_FILTER, GLlocal.GL_NEAREST);
+		getGL().glTexImage2D(GLlocal.GL_TEXTURE_2D, 0, GLlocal.GL_RGBA,
+				fboWidth, fboHeight, 0, GLlocal.GL_RGBA,
+				GLlocal.GL_UNSIGNED_BYTE, null);
+
+		getGL().glBindTexture(GLlocal.GL_TEXTURE_2D, 0);
         
         
         // depth buffer
-        jogl.getGL2().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, fboDepthTextureID);
-        jogl.getGL2().glRenderbufferStorage(GLlocal.GL_RENDERBUFFER, GLlocal.GL_DEPTH_COMPONENT, fboWidth, fboHeight);
+		getGL().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, fboDepthTextureID);
+		getGL().glRenderbufferStorage(GLlocal.GL_RENDERBUFFER,
+				GLlocal.GL_DEPTH_COMPONENT, fboWidth, fboHeight);
         
-        jogl.getGL2().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, 0);
+		getGL().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, 0);
         
         
 	}
@@ -707,37 +712,37 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	/**
 	 * init frame buffer object for save image
 	 */
-	protected void initFBO(){
+	final protected void initFBO() {
 
 		try{
 			int[] result = new int[1];
 
 			//allocate the colour texture ...
-			jogl.getGL2().glGenTextures(1, result, 0);
+			getGL().glGenTextures(1, result, 0);
 			fboColorTextureID = result[0];
 
 			//allocate the depth texture ...
-			jogl.getGL2().glGenRenderbuffers(1, result, 0);
+			getGL().glGenRenderbuffers(1, result, 0);
 			fboDepthTextureID = result[0];
 
 			updateFBOBuffers();
 
 
 			//allocate the framebuffer object ...
-			jogl.getGL2().glGenFramebuffers(1, result, 0);
+			getGL().glGenFramebuffers(1, result, 0);
 			fboID = result[0];
-			jogl.getGL2().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
+			getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
 
 			//attach the textures to the framebuffer
-			jogl.getGL2().glFramebufferTexture2D(GLlocal.GL_FRAMEBUFFER,
+			getGL().glFramebufferTexture2D(GLlocal.GL_FRAMEBUFFER,
 					GLlocal.GL_COLOR_ATTACHMENT0,GLlocal.GL_TEXTURE_2D,fboColorTextureID,0);
-			jogl.getGL2().glFramebufferRenderbuffer(GLlocal.GL_FRAMEBUFFER,
+			getGL().glFramebufferRenderbuffer(GLlocal.GL_FRAMEBUFFER,
 					GLlocal.GL_DEPTH_ATTACHMENT,GLlocal.GL_RENDERBUFFER,fboDepthTextureID);
 
-			jogl.getGL2().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
+			getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
 			
 			// check if frame buffer is complete
-			if(jogl.getGL2().glCheckFramebufferStatus(GLlocal.GL_FRAMEBUFFER) != GLlocal.GL_FRAMEBUFFER_COMPLETE){
+			if (getGL().glCheckFramebufferStatus(GLlocal.GL_FRAMEBUFFER) != GLlocal.GL_FRAMEBUFFER_COMPLETE) {
 				App.error("Frame buffer is not complete");
 				fboID = -1;
 			}
@@ -762,63 +767,41 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	/**
 	 * creates an export image (and store it in BufferedImage bi)
 	 */
-	protected void setExportImage() {
-		
+	final protected void setExportImage() {
+
 		bi = null;
-		try{
-			if (fboID < 0){ // use screen buffer
-				jogl.getGL2().glReadBuffer(GLlocal.GL_FRONT); 
-				int width = right - left; 
-				int height = top - bottom; 
-				FloatBuffer buffer = FloatBuffer.allocate(3 * width * height); 
-				jogl.getGL2().glReadPixels(0, 0, width, height, GLlocal.GL_RGB, 
-						GLlocal.GL_FLOAT, buffer); 
-				float[] pixels = buffer.array(); 
+		try {
+			// will use screen buffer or offscreen buffer, depending
+			// which is currently selected
+			int width = right - left;
+			int height = top - bottom;
+			FloatBuffer buffer = FloatBuffer.allocate(3 * width * height);
+			getGL().glReadPixels(0, 0, width, height, GLlocal.GL_RGB,
+					GLlocal.GL_FLOAT, buffer);
+			float[] pixels = buffer.array();
 
-				bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
+			bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-				int i = 0; 
-				for (int y = height - 1; y >= 0; y--) 
-					for (int x = 0; x < width; x++) { 
-						int r = (int) (pixels[i] * 255); 
-						int g = (int) (pixels[i + 1] * 255); 
-						int b = (int) (pixels[i + 2] * 255); 
-						bi.setRGB(x, y, ((r << 16) | (g << 8) | b)); 
-						i += 3; 
-					} 
-				bi.flush(); 
-
-			}else{ // use offscreen buffer
-
-				ByteBuffer buffer = ByteBuffer.allocate(4 * fboWidth * fboHeight);
-				jogl.getGL2().glBindTexture(GLlocal.GL_TEXTURE_2D, fboColorTextureID);
-				jogl.getGL2().glGetTexImage(GLlocal.GL_TEXTURE_2D, 0, 
-						GLlocal.GL_RGBA, GLlocal.GL_UNSIGNED_BYTE, buffer);
-
-				bi = new BufferedImage(fboWidth, fboHeight, BufferedImage.TYPE_INT_RGB);
-
-				buffer.rewind();
-				for (int y = fboHeight - 1; y >= 0; y--)
-					for (int x = 0; x < fboWidth; x++) {
-						int r = getUnsigned(buffer.get());
-						int g = getUnsigned(buffer.get());
-						int b = getUnsigned(buffer.get());
-						bi.setRGB(x, y, ((r << 16) | (g << 8) | b));
-						buffer.get(); // ignore alpha
-					}
-				bi.flush();
-			}
-		}catch (Exception e){
-			App.error("setExportImage: "+e.getMessage());
+			int i = 0;
+			for (int y = height - 1; y >= 0; y--)
+				for (int x = 0; x < width; x++) {
+					int r = (int) (pixels[i] * 255);
+					int g = (int) (pixels[i + 1] * 255);
+					int b = (int) (pixels[i + 2] * 255);
+					bi.setRGB(x, y, ((r << 16) | (g << 8) | b));
+					i += 3;
+				}
+			bi.flush();
+		} catch (Exception e) {
+			App.error("setExportImage: " + e.getMessage());
 		}
-		
-		jogl.getGL2().glBindTexture(GLlocal.GL_TEXTURE_2D, 0);
+
 	}
 
 	/**
 	 * @return a BufferedImage containing last export image created
 	 */
-	public BufferedImage getExportImage() {
+	final public BufferedImage getExportImage() {
 		return bi;
 	}
 
