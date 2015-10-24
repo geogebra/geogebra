@@ -1414,7 +1414,7 @@ __GGB__keysVar.it.menu = {
     "DotPlot": "Diagramma a punti",
     "Download": "Download",
     "DownloadAsGgbFile": "Scarica come file .ggb",
-    "DrawingPadToClipboard": "Esporta la vista Grafici negli Appunti",
+    "DrawingPadToClipboard": "Vista Grafici negli Appunti",
     "DynamicColors": "Colori dinamici",
     "EMFPlus": "EMF+",
     "Edit": "Modifica",
