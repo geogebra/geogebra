@@ -2950,7 +2950,7 @@ __GGB__keysVar.zh_CN.plain = {
     "pdf": "\u4fbf\u643a\u5f0f\u6587\u6863\u683c\u5f0f",
     "png": "\u4fbf\u643a\u5f0f\u7f51\u7edc\u56fe\u5f62",
     "polar": "\u6781\u5750\u6807",
-    "resetConstruction": "\u91cd\u65b0\u6784\u9020",
+    "resetConstruction": "\u91cd\u7f6e\u6784\u9020",
     "space": "space",
     "stylebar.Align": "\u6c34\u5e73\u6392\u5217",
     "stylebar.AlignCenter": "\u5c45\u4e2d",
