@@ -259,6 +259,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		}
 		else if (source == btNext) {
 			prot.nextStep();
+			return;
 		}
 		else if (source == btPlay){
 			if (isPlaying){

@@ -283,7 +283,7 @@ public class ConstructionProtocolView {
 		if (isViewAttached)
 			kernel.attach(data);
 		updateNavigationBars();
-		repaint();
+		scrollToConstructionStep();
 	}
 
 	public void previousStep() {
