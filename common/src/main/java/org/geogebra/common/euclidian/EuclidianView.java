@@ -5017,8 +5017,8 @@ sb.toString(), getFontAxes(),
 					dl.closeOptions();
 				}
 
+			}
 		}
-	}
 	}
 
 }

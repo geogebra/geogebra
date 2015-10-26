@@ -528,9 +528,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			textBottom = boxTop
 					+ (boxHeight - selectedDimension.getHeight()) / 2;
 		} else {
-			textBottom += (boxHeight - getMultipliedFontSize()) / 2
-					- COMBO_TEXT_MARGIN;
-
+			textBottom = boxTop
+					+ (boxHeight + getMultipliedFontSize() - COMBO_TEXT_MARGIN)
+							/ 2;
 		}
 
 		drawTextLine(g2, textLeft, textBottom, selectedText, latex, false,
@@ -586,6 +586,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		dropDown.drawControl(g2, left, boxTop, boxHeight, boxHeight,
 				geo.getBackgroundColor(),
 				isOptionsVisible());
+
 	}
 
 	@Override
@@ -606,11 +607,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		boxHeight = getPreferredSize().getHeight();
 	}
 
+	@Override
 	protected int getTextBottom() {
 
 		return isLatexString(selectedText) ? boxHeight - selectedHeight / 2
-				: (getPreferredSize().getHeight() / 2)
-						+ (int) (getLabelFontSize() * 0.4);
+				: (getPreferredSize().getHeight() + getMultipliedFontSize())
+						/ 2;
 	}
 
 	private void drawOptions(GGraphics2D g2) {
@@ -757,7 +759,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private int getTriangleControlWidth() {
-		return (int) ctrlRect.getWidth();
+		return selectedDimension.getHeight();
 	}
 
 	int getMultipliedFontSize() {
@@ -774,6 +776,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			public int getWidth() {
 				return isOptionsVisible() ? optionsWidth
 						: selectedDimension.getWidth()
+								+ (isLatexString(selectedText) ? 0
+										: 2 * COMBO_TEXT_MARGIN)
 								+ getTriangleControlWidth();
 			}
 
@@ -889,8 +893,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			if (idx == -1) {
 				return;
 			}
-			closeOptions();
 			geoList.setSelectedIndex(idx, false);
+			closeOptions();
+
 		}
 	}
 
