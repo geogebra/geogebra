@@ -4706,6 +4706,13 @@ kernel, left,
 
 	@Override
 	public ExpressionNode derivative(FunctionVariable fv, Kernel kernel0) {
+
+		// symbolic derivatives disabled in exam mode
+		if (kernel0.getApplication().isExam()
+				&& !kernel.getApplication().getExam().isCASAllowed()) {
+			return wrap(Double.NaN);
+		}
+
 		switch (operation) {
 
 		// for eg (x < x1) * (a1 x^2 + b1 x + c1)
@@ -5094,6 +5101,13 @@ kernel, left,
 
 	@Override
 	public ExpressionNode integral(FunctionVariable fv, Kernel kernel0) {
+
+		// symbolic integrals disabled in exam mode
+		if (kernel0.getApplication().isExam()
+				&& !kernel.getApplication().getExam().isCASAllowed()) {
+			return wrap(Double.NaN);
+		}
+
 		switch (operation) {
 
 		case XCOORD:
