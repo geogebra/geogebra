@@ -411,6 +411,10 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 
 		g2.setPaint(geo.getObjectColor());
 
+		GFont font = g2.getFont();
+
+		g2.setFont(getLabelFont().deriveFont(GFont.PLAIN));
+
 		if (geo.isLabelVisible()) {
 			drawLabel(g2, geoTextField, labelDesc);
 		}
@@ -420,8 +424,8 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		// ? (int) (boxWidth / (g2.getFont().getSize() * 0.5)) + 1
 		// : Math.min(text.length(), geoTextField.getLength());
 
-		GFont font = g2.getFont();
 		g2.setFont(textFont.deriveFont(GFont.PLAIN));
+
 		GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 				text.substring(0, getTruncIndex(text, g2)), textLeft,
 				textBottom, false,
