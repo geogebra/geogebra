@@ -461,77 +461,164 @@ public class AlgoMirror extends AlgoTransformation implements
 
 		if (getRelatedModeID() == EuclidianConstants.MODE_MIRROR_AT_LINE) {
 
-			GeoPoint P;
-			// if we want to mirror a line
-			// then get the startpoint of the line
+			GeoPoint P, Q;
+			// if we want to mirror a line to a line
 			if (inGeo instanceof GeoLine) {
 				P = ((GeoLine) inGeo).startPoint;
-			} else {
-				P = (GeoPoint) inGeo;
-			}
-			GeoLine l = (GeoLine) mirrorLine;
+				Q = ((GeoLine) inGeo).endPoint;
+				GeoLine l = (GeoLine) mirrorLine;
 
-			if (P != null && l != null) {
-				Variable[] vP = P.getBotanaVars(P);
-				Variable[] vL = l.getBotanaVars(l);
+				if (P != null && Q != null && l != null) {
+					Variable[] vP = P.getBotanaVars(P);
+					Variable[] vQ = Q.getBotanaVars(Q);
+					Variable[] vL = l.getBotanaVars(l);
 
-				if (botanaVars == null) {
-					botanaVars = new Variable[6];
-					// C'
-					botanaVars[0] = new Variable();
-					botanaVars[1] = new Variable();
-					// V
-					botanaVars[2] = new Variable();
-					botanaVars[3] = new Variable();
-					// N
-					botanaVars[4] = new Variable();
-					botanaVars[5] = new Variable();
+					if (botanaVars == null) {
+						botanaVars = new Variable[8];
+						// P' - mirror of P
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+						// Q' - mirror of Q
+						botanaVars[2] = new Variable();
+						botanaVars[3] = new Variable();
+						// V1 - auxiliary point
+						botanaVars[4] = new Variable();
+						botanaVars[5] = new Variable();
+						// V2 - auxiliary point
+						botanaVars[6] = new Variable();
+						botanaVars[7] = new Variable();
+					}
+
+					botanaPolynomials = new Polynomial[8];
+
+					// first we want to mirror P to line l
+
+					Polynomial p1 = new Polynomial(vP[0]);
+					Polynomial p2 = new Polynomial(vP[1]);
+					Polynomial v1_1 = new Polynomial(botanaVars[4]);
+					Polynomial v1_2 = new Polynomial(botanaVars[5]);
+					Polynomial p_1 = new Polynomial(botanaVars[0]);
+					Polynomial p_2 = new Polynomial(botanaVars[1]);
+
+					// PV1 = V1P'
+					botanaPolynomials[0] = v1_1.multiply(new Polynomial(2))
+							.subtract(p1).subtract(p_1);
+					botanaPolynomials[1] = v1_2.multiply(new Polynomial(2))
+							.subtract(p2).subtract(p_2);
+
+					Variable[] A = new Variable[2];
+					// A - start point of mirrorLine
+					A[0] = vL[0];
+					A[1] = vL[1];
+					Variable[] B = new Variable[2];
+					// B - end point of mirrorLine
+					B[0] = vL[2];
+					B[1] = vL[3];
+
+					// A, V1, B collinear
+					botanaPolynomials[2] = Polynomial.collinear(A[0], A[1],
+							botanaVars[4], botanaVars[5], B[0], B[1]);
+
+					// PV1 orthogonal AB
+					botanaPolynomials[3] = Polynomial.perpendicular(vP[0],
+							vP[1], botanaVars[4], botanaVars[5], A[0], A[1],
+							B[0], B[1]);
+
+					// second we want to mirror Q to line l
+
+					Polynomial q1 = new Polynomial(vQ[0]);
+					Polynomial q2 = new Polynomial(vQ[1]);
+					Polynomial v2_1 = new Polynomial(botanaVars[6]);
+					Polynomial v2_2 = new Polynomial(botanaVars[7]);
+					Polynomial q_1 = new Polynomial(botanaVars[2]);
+					Polynomial q_2 = new Polynomial(botanaVars[3]);
+
+					// QV2 = V2Q'
+					botanaPolynomials[4] = v2_1.multiply(new Polynomial(2))
+							.subtract(q1).subtract(q_1);
+					botanaPolynomials[5] = v2_2.multiply(new Polynomial(2))
+							.subtract(q2).subtract(q_2);
+
+					// A, V2, B collinear
+					botanaPolynomials[6] = Polynomial.collinear(A[0], A[1],
+							botanaVars[6], botanaVars[7], B[0], B[1]);
+
+					// QV2 orthogonal AB
+					botanaPolynomials[7] = Polynomial.perpendicular(vQ[0],
+							vQ[1], botanaVars[6], botanaVars[7], A[0], A[1],
+							B[0], B[1]);
+
+					return botanaPolynomials;
 				}
+			}
+			// we want to mirror a point to a line
+			else {
+				P = (GeoPoint) inGeo;
+				GeoLine l = (GeoLine) mirrorLine;
 
-				botanaPolynomials = new Polynomial[6];
+				if (P != null && l != null) {
+					Variable[] vP = P.getBotanaVars(P);
+					Variable[] vL = l.getBotanaVars(l);
 
-				Polynomial v1 = new Polynomial(botanaVars[2]);
-				Polynomial v2 = new Polynomial(botanaVars[3]);
-				Polynomial c1 = new Polynomial(vP[0]);
-				Polynomial c2 = new Polynomial(vP[1]);
-				Polynomial c_1 = new Polynomial(botanaVars[0]);
-				Polynomial c_2 = new Polynomial(botanaVars[1]);
+					if (botanaVars == null) {
+						botanaVars = new Variable[6];
+						// C'
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+						// V
+						botanaVars[2] = new Variable();
+						botanaVars[3] = new Variable();
+						// N
+						botanaVars[4] = new Variable();
+						botanaVars[5] = new Variable();
+					}
 
-				// CV = VC'
-				botanaPolynomials[0] = v1.multiply(new Polynomial(2))
+					botanaPolynomials = new Polynomial[6];
+
+					Polynomial v1 = new Polynomial(botanaVars[2]);
+					Polynomial v2 = new Polynomial(botanaVars[3]);
+					Polynomial c1 = new Polynomial(vP[0]);
+					Polynomial c2 = new Polynomial(vP[1]);
+					Polynomial c_1 = new Polynomial(botanaVars[0]);
+					Polynomial c_2 = new Polynomial(botanaVars[1]);
+
+					// CV = VC'
+					botanaPolynomials[0] = v1.multiply(new Polynomial(2))
 						.subtract(c_1).subtract(c1);
-				botanaPolynomials[1] = v2.multiply(new Polynomial(2))
+					botanaPolynomials[1] = v2.multiply(new Polynomial(2))
 						.subtract(c_2).subtract(c2);
 
-				//
-				Variable[] A = new Variable[2];
-				A[0] = vL[0];
-				A[1] = vL[1];
-				Variable[] B = new Variable[2];
-				B[0] = vL[2];
-				B[1] = vL[3];
+					// points of mirrorLine
+					Variable[] A = new Variable[2];
+					A[0] = vL[0];
+					A[1] = vL[1];
+					Variable[] B = new Variable[2];
+					B[0] = vL[2];
+					B[1] = vL[3];
 
-				// A,V,B collinear
-				botanaPolynomials[2] = Polynomial.collinear(A[0], A[1], B[0],
+					// A,V,B collinear
+					botanaPolynomials[2] = Polynomial.collinear(A[0], A[1],
+							B[0],
 						B[1], botanaVars[2], botanaVars[3]);
 
-				Polynomial a1 = new Polynomial(A[0]);
-				Polynomial a2 = new Polynomial(A[1]);
-				Polynomial b1 = new Polynomial(B[0]);
-				Polynomial b2 = new Polynomial(B[1]);
-				Polynomial n1 = new Polynomial(botanaVars[4]);
-				Polynomial n2 = new Polynomial(botanaVars[5]);
+					Polynomial a1 = new Polynomial(A[0]);
+					Polynomial a2 = new Polynomial(A[1]);
+					Polynomial b1 = new Polynomial(B[0]);
+					Polynomial b2 = new Polynomial(B[1]);
+					Polynomial n1 = new Polynomial(botanaVars[4]);
+					Polynomial n2 = new Polynomial(botanaVars[5]);
 
-				// CV orthogonal AB
-				botanaPolynomials[3] = b1.subtract(a1).add(c2).subtract(n2);
-				botanaPolynomials[4] = c1.subtract(b2).add(a2).subtract(n1);
+					// CV orthogonal AB
+					botanaPolynomials[3] = b1.subtract(a1).add(c2).subtract(n2);
+					botanaPolynomials[4] = c1.subtract(b2).add(a2).subtract(n1);
 
-				// C',N,V collinear
-				botanaPolynomials[5] = Polynomial.collinear(botanaVars[0],
+					// C',N,V collinear
+					botanaPolynomials[5] = Polynomial.collinear(botanaVars[0],
 						botanaVars[1], botanaVars[2], botanaVars[3],
 						botanaVars[4], botanaVars[5]);
 
-				return botanaPolynomials;
+					return botanaPolynomials;
+				}
 
 			}throw new NoSymbolicParametersException();
 			
