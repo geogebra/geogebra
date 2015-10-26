@@ -420,9 +420,6 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		String text = geoTextField.getText();
-		// int truncIdx = geoTextField.getLinkedGeo() != null
-		// ? (int) (boxWidth / (g2.getFont().getSize() * 0.5)) + 1
-		// : Math.min(text.length(), geoTextField.getLength());
 
 		g2.setFont(textFont.deriveFont(GFont.PLAIN));
 

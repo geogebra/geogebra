@@ -5013,7 +5013,7 @@ sb.toString(), getFontAxes(),
 
 			if (d instanceof DrawList) {
 				DrawList dl = (DrawList) d;
-				if (!dl.isControlHit(x, y)) {
+				if (!(dl.isControlHit(x, y) || dl.isOptionsHit(x, y))) {
 					dl.closeOptions();
 				}
 
