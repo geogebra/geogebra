@@ -2,11 +2,17 @@ package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDrawingPadCorner;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * SlowPlot
@@ -46,6 +52,26 @@ public class CmdSlowPlot extends CommandProcessor {
 				var.setAnimationStep(0.01);
 				var.setAnimationType(GeoElement.ANIMATION_INCREASING);
 				var.update();
+				FunctionVariable x = new FunctionVariable(cons.getKernel());
+				GeoElement corner1 = new AlgoDrawingPadCorner(cons,
+						new GeoNumeric(cons, 1), null,
+ 5).getOutput(0);
+				GeoElement corner2 = new AlgoDrawingPadCorner(cons,
+						new GeoNumeric(cons, 2), null, 5).getOutput(0);
+				ExpressionNode exp = x
+						.wrap()
+						.lessThan(
+								var.wrap()
+										.multiply(
+												corner2.wrap()
+														.subtract(corner1)
+														.apply(Operation.XCOORD))
+										.plus(corner1.wrap().apply(
+												Operation.XCOORD)))
+						.apply(Operation.IF,
+								arg[0].wrap().apply(Operation.FUNCTION, x));
+				GeoFunction g = cons.getKernel().getAlgoDispatcher()
+						.DependentFunction(c.getLabel(), new Function(exp, x));
 				StringTemplate tpl = StringTemplate.maxPrecision;
 				StringBuilder sb = new StringBuilder();
 				sb.append("Function[");
@@ -57,17 +83,7 @@ public class CmdSlowPlot extends CommandProcessor {
 				sb.append("]");
 
 				kernelA.getAnimatonManager().startAnimation();
-				try {
-					return kernelA.getAlgebraProcessor()
-							.processAlgebraCommandNoExceptionHandling(
-									sb.toString(), true, false, true, false);
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw argErr(app, c.getName(), arg[0]);
-				} catch (MyError e) {
-					e.printStackTrace();
-					throw argErr(app, c.getName(), arg[0]);
-				}
+				return new GeoElement[] { g };
 			}
 			throw argErr(app, c.getName(), arg[0]);
 

@@ -427,7 +427,7 @@ public interface Traversing {
 	public class ReplaceUndefinedVariables implements Traversing {
 		private final Kernel kernel;
 		private boolean replaceT;
-		private TreeSet<String> undefined;
+		private TreeSet<GeoNumeric> undefined;
 
 		/**
 		 * Replaces undefined variables by sliders
@@ -441,7 +441,7 @@ public interface Traversing {
 		 * 
 		 */
 		public ReplaceUndefinedVariables(Kernel kernel,
-				TreeSet<String> undefined, boolean replaceT) {
+				TreeSet<GeoNumeric> undefined, boolean replaceT) {
 			this.kernel = kernel;
 			this.undefined = undefined;
 			this.replaceT = replaceT;
@@ -462,16 +462,17 @@ public interface Traversing {
 						&& (this.replaceT || !"t".equals(name))) {
 					name = ((Variable) replace)
 							.getName(StringTemplate.defaultTemplate);
-					undefined.remove(name);
+
 					GeoNumeric slider = new GeoNumeric(
 							kernel.getConstruction(), name, 1);
+					undefined.add(slider);
 					boolean visible = !kernel.getApplication().has(
 							Feature.AV_EXTENSIONS)
 							|| !kernel.getApplication().showView(
 									App.VIEW_ALGEBRA)
 							|| kernel.getApplication().showAutoCreatedSlidersInEV();
 					GeoNumeric.setSliderFromDefault(slider, false, visible);
-
+					return slider;
 				}
 			}
 

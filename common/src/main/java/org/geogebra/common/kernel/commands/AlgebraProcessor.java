@@ -733,7 +733,7 @@ public class AlgebraProcessor {
 				Iterator<String> it = undefinedVariables.iterator();
 				while (it.hasNext()) {
 					String label = it.next();
-					if (!"t".equals(label) && kernel.lookupLabel(label) == null) {
+					if (kernel.lookupLabel(label) == null) {
 						Log.debug("not found" + label);
 						sb.append(label);
 						sb.append(", ");
@@ -786,12 +786,8 @@ public class AlgebraProcessor {
 									if (CREATE_SLIDER.equals(dialogResult[0])) {
 										// insertStarIfNeeded(undefinedVariables,
 										// ve2, fvX2);
-										GeoElement[] param2 = checkParametricAfterUndefinedChanged(
-												ve2, undefinedVariables);
-										if (param2 != null) {
-											callback0.callback(param2);
-											return;
-										}
+										replaceUndefinedVariables(ve2,
+												new TreeSet<GeoNumeric>(), true);
 										try {
 											geos = processValidExpression(
 													storeUndo,
@@ -822,11 +818,7 @@ public class AlgebraProcessor {
 				// ==========================
 				// step5: replace undefined variables
 				// ==========================
-				GeoElement[] param2 = checkParametricAfterUndefinedChanged(ve,
-						undefinedVariables);
-				if (param2 != null) {
-					return param2;
-				}
+				replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), true);
 			}
 
 		} catch (Exception e) {
@@ -871,19 +863,14 @@ public class AlgebraProcessor {
 	 *            set of undefined variables
 	 * @return result of parametric evaluation if successfull
 	 */
-	GeoElement[] checkParametricAfterUndefinedChanged(
-			ValidExpression ve, TreeSet<String> undefinedVariables) {
-		replaceUndefinedVariables(ve, undefinedVariables, false);
-		GeoElement[] param2 = getParamProcessor().checkParametricEquation(ve,
-				undefinedVariables);
-		if (param2 != null) {
-			return param2;
-		}
-		if (!undefinedVariables.isEmpty()) {
-			replaceUndefinedVariables(ve, undefinedVariables, true);
-		}
-		return null;
-	}
+	/*
+	 * GeoElement[] checkParametricAfterUndefinedChanged( ValidExpression ve,
+	 * TreeSet<String> undefinedVariables) { replaceUndefinedVariables(ve,
+	 * undefinedVariables, false); GeoElement[] param2 =
+	 * getParamProcessor().checkParametricEquation(ve, undefinedVariables); if
+	 * (param2 != null) { return param2; } if (!undefinedVariables.isEmpty()) {
+	 * replaceUndefinedVariables(ve, undefinedVariables, true); } return null; }
+	 */
 
 	private GeoElement[] tryReplacingProducts(ValidExpression ve) {
 		ValidExpression ve2 = (ValidExpression) ve.traverse(new Traversing() {
@@ -1011,7 +998,7 @@ public class AlgebraProcessor {
 	 *            it as we go
 	 */
 	public void replaceUndefinedVariables(ValidExpression ve,
-			TreeSet<String> undefined, boolean replaceT) {
+			TreeSet<GeoNumeric> undefined, boolean replaceT) {
 		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(
 				this.kernel, undefined, replaceT);
 		ve.traverse(replacer);

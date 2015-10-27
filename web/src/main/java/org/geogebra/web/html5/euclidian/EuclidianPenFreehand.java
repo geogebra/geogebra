@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianPen;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -137,16 +136,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					// use the equation of the generated circle and process it
 					// as command. required to ensure that the circle is based
 					// on the equation and not on the points
-					String equation = lastCreated
-					        .getAlgebraDescription(StringTemplate.defaultTemplate);
-					try {
-						app.getKernel()
-						        .getAlgebraProcessor()
-						        .processAlgebraCommandNoExceptionHandling(
-						                equation, true, false, true, true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					GeoElement freeCopy = lastCreated.copy();
+					freeCopy.setLabel(null);
 
 					for (GeoPointND p : list) {
 						// the circle is made of three points that have to be

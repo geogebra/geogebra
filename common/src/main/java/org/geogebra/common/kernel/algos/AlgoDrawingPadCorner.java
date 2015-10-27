@@ -49,6 +49,24 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 
 	}
 
+	public AlgoDrawingPadCorner(Construction cons, NumberValue number,
+			NumberValue evNum, double absCorner) {
+		super(cons);
+		this.number = number;
+		this.evNum = evNum; // can be null
+
+		corner = newGeoPoint(cons);
+		setInputOutput(); // for AlgoElement
+		compute();
+		corner.setEuclidianVisible(false); // hidden by default
+
+		cons.registerEuclidianViewCE(this);
+		if (Kernel.isEqual(number.getDouble(), absCorner)) {
+			cons.registerCorner5(this);
+		}
+
+	}
+
 	public AlgoDrawingPadCorner(Construction cons, String label,
 			NumberValue number, NumberValue evNum) {
 		this(cons, label, number, evNum, 5);
