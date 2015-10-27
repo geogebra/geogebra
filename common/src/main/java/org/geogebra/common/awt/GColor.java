@@ -153,7 +153,7 @@ public abstract class GColor implements GPaint {
 	 * @param factory used to create the new color
 	 * @return a darker version of the input color that can be read on white background
 	 */
-	public static GColor udateForWhiteBackground(GColor color, AwtFactory factory){
+	public static GColor updateForWhiteBackground(GColor color, AwtFactory factory){
 
 		GColor fontColor = factory.newColor(color.getRed(), color.getGreen(), color.getBlue());
 
