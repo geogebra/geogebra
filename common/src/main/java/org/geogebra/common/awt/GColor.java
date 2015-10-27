@@ -142,4 +142,56 @@ public abstract class GColor implements GPaint {
 	public double getGrayScale() {
 		return 0.2989 * getRed() + 0.5870 * getGreen() + 0.1140 * getBlue();
 	}
+
+	/**
+	 * Create a more readable (=darker) version of a color, to make it readable on white background.
+	 * Does not change the color, if it already fulfills the requirements.
+	 *
+	 * Uses the W3C standard for contrast and brightness.
+	 *
+	 * @param color the base color
+	 * @param factory used to create the new color
+	 * @return a darker version of the input color that can be read on white background
+	 */
+	public static GColor udateForWhiteBackground(GColor color, AwtFactory factory){
+
+		GColor fontColor = factory.newColor(color.getRed(), color.getGreen(), color.getBlue());
+
+		// prevent endless loop
+		int loopCounter = 0;
+		int difference = 5;
+		while (!checkColorRatio(fontColor, GColor.WHITE) && loopCounter < 50) {
+			// create a slightly darker version of the color
+			fontColor = factory.newColor(Math.max(fontColor.getRed() - difference, 0),
+					Math.max(fontColor.getGreen() - difference, 0),
+					Math.max(fontColor.getBlue() - difference, 0));
+			loopCounter++;
+		}
+
+		if (!checkColorRatio(fontColor, GColor.WHITE)) {
+			// If the color could not be set correctly, the font color is set to black.
+			fontColor = GColor.BLACK;
+		}
+
+		return fontColor;
+	}
+
+	/**
+	 * uses the color contrast ratio of the W3C, which can be found at:
+	 * http://www.w3.org/TR/WCAG20-TECHS/G18.html
+	 * http://web.mst.edu/~rhall/web_design/color_readability.html
+	 *
+	 * @param foreground the text color
+	 * @param background the background color
+	 * @return if the contrast ration sufficient (true) or not (false)
+	 */
+	private static boolean checkColorRatio(GColor foreground, GColor background) {
+		int diff_hue = Math.max((foreground.getRed() - background.getRed()), (background.getRed() - foreground.getRed()))
+				+ Math.max((foreground.getGreen() - background.getGreen()), (background.getGreen() - foreground.getGreen()))
+				+ Math.max((foreground.getBlue() - background.getBlue()), (background.getBlue() - foreground.getBlue()));
+
+		double diff_brightness = Math.abs(foreground.getGrayScale() - background.getGrayScale());
+
+		return diff_brightness > 125 && diff_hue > 500;
+	}
 }
