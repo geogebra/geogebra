@@ -82,4 +82,11 @@ public class APITest {
 		Assert.assertEquals(app.showView(App.VIEW_ALGEBRA), false);
 		Assert.assertEquals(app.showView(App.VIEW_EUCLIDIAN), true);
 	}
+
+	@Test
+	public void casEvalTest() {
+		String solveResult = api
+				.evalGeoGebraCAS("Solve[{ a=2, 12*sqrt(3)* a* b^2*exp(-3* b)-6*sqrt(3)* a* b*exp(-3* b)=0},{ a, b}]");
+		Assert.assertEquals("?", solveResult);
+	}
 }
