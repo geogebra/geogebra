@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
@@ -75,10 +76,14 @@ public class CASInputHandler {
 			try {
 				String s = kernel.getGeoGebraCAS().evaluateRaw(
 						selRowInput.substring(1));
-				kernel.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(
-								"casOutput=\"" + s + "\"", false, false, false,
-								false);
+				GeoText text = kernel.lookupLabel("casOutput") instanceof GeoText ? (GeoText) kernel
+						.lookupLabel("casOutput") : new GeoText(
+						kernel.getConstruction());
+				if (!text.isLabelSet()) {
+					text.setLabel("casOutput");
+				}
+				text.setTextString(s);
+
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
