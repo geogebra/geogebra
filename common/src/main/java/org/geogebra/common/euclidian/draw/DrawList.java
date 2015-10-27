@@ -49,11 +49,11 @@ import org.geogebra.common.util.Unicode;
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int OPTIONSBOX_ITEM_GAP = 5;
+	private static final int OPTIONSBOX_LATEX_PLAIN_GAP = 12;
 	private static final int COMBO_TEXT_MARGIN = 5;
-	private static final int OPTIONBOX_TEXT_MARGIN_TOP = 15;
+	private static final int OPTIONBOX_TEXT_MARGIN_TOP = 18;
 	private static final int OPTIONBOX_TEXT_MARGIN_LEFT = 5;
 	private static final int OPTIONBOX_COMBO_GAP = 0;
-	private static final double MUL_FONT_HEIGHT = 1.6;
 	private static final int LABEL_COMBO_GAP = 10;
 	private static final int TEXT_CENTER = -1;
 	/** coresponding list as geo */
@@ -692,8 +692,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		optionsItemHeight = 0;
 		selectedDimension = null;
 		optionItems.clear();
+		int size = geoList.size();
 		int rowTop = top;
-		for (int i = 0; i < geoList.size(); i++) {
+		boolean allLatex = true;
+		for (int i = 0; i < size; i++) {
 			GBox b = geo.getKernel().getApplication().getSwingFactory()
 					.createHorizontalBox(view.getEuclidianController());
 			GRectangle itemRect = b.getBounds();
@@ -701,7 +703,18 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			String text = geoList.get(i)
 					.toValueString(StringTemplate.defaultTemplate);
 
+			if ("delta".equals(text)) {
+				App.debug("THAT'S IT!");
+			}
 			boolean latex = isLatexString(text);
+
+			allLatex = allLatex && latex;
+
+			boolean latexNext = i < size - 1
+					? isLatexString(geoList.get(i + 1)
+							.toValueString(StringTemplate.defaultTemplate))
+					: allLatex;
+
 			boolean hovered = i == selectedOptionIndex;
 
 			if (i == 0 && !latex) {
@@ -750,12 +763,21 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			}
 
 			int gap = latex ? 0 : OPTIONSBOX_ITEM_GAP;
+
+			// If the neighbors are of different kinds (LaTeX-Plain),
+			// more gap is needed.
+
+			// LaTeX - Plain
+			if (latex && !latexNext) {
+				gap += OPTIONSBOX_LATEX_PLAIN_GAP;
+			}
+
+
 			optionsHeight += h + gap;
 			rowTop += h + gap;
 
 		}
 		optionsWidth += 2 * COMBO_TEXT_MARGIN + getTriangleControlWidth();
-		// debugOptionItems();
 	}
 
 	private int getTriangleControlWidth() {
