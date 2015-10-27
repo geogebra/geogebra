@@ -112,7 +112,9 @@ public abstract class CASgiac implements CASGenericInterface {
 			+
 			// subtype 27 is ggbvect[]
 			"ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x));"
-			+ "ggb_is_zero(x):=when(x==0,true,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,when(type(x)=='DOM_LIST',max(x)==min(x)&&min(x)==0,false)));";
+			// check list befor equation to avoid out of bounds. flatten helps
+			// for {} and {{{0}}}
+			+ "ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,false)));";
 	/**
 	 * whether Giac has been set to GeoGebra mode yet
 	 */
