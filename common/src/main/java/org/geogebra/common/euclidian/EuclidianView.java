@@ -5021,4 +5021,16 @@ sb.toString(), getFontAxes(),
 		}
 	}
 
+	public void closeAllDropDowns() {
+
+		DrawableIterator it = allDrawableList.getIterator();
+		while (it.hasNext()) {
+			Drawable d = it.next();
+
+			if (d instanceof DrawList) {
+				DrawList dl = (DrawList) d;
+				dl.closeOptions();
+			}
+		}
+	}
 }
