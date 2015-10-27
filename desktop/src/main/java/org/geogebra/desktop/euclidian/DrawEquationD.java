@@ -142,9 +142,7 @@ public class DrawEquationD extends DrawEquation {
 		}
 
 		// if we're exporting, we want to draw it full resolution
-		// if it's a \jlmDynamic text, we don't want to add it to the cache
-		if (app.isExporting() || (text.indexOf("\\jlmDynamic") > -1)
-				|| !useCache) {
+		if (app.isExporting() || !useCache) {
 
 			// Application.debug("creating new icon for: "+text);
 			TeXFormula formula;
