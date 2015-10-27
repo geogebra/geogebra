@@ -3725,42 +3725,6 @@ sb.toString(), getFontAxes(),
 	private double xminTemp, xmaxTemp, yminTemp, ymaxTemp;
 
 	/**
-	 * Stores current coord system to temp variables and sets new coord system
-	 * for export
-	 */
-	final public void setTemporaryCoordSystemForExport() {
-		widthTemp = getWidth();
-		heightTemp = getHeight();
-		xminTemp = getXmin();
-		xmaxTemp = getXmax();
-		yminTemp = getYmin();
-		ymaxTemp = getYmax();
-
-		try {
-			GeoPoint export1 = (GeoPoint) getApplication().getKernel()
-					.lookupLabel(EuclidianView.EXPORT1);
-			GeoPoint export2 = (GeoPoint) getApplication().getKernel()
-					.lookupLabel(EuclidianView.EXPORT2);
-
-			if ((export1 == null) || (export2 == null)) {
-				return;
-			}
-
-			double[] xy1 = new double[2];
-			double[] xy2 = new double[2];
-			export1.getInhomCoords(xy1);
-			export2.getInhomCoords(xy2);
-
-			setRealWorldCoordSystem(Math.min(xy1[0], xy2[0]),
-					Math.max(xy1[0], xy2[0]), Math.min(xy1[1], xy2[1]),
-					Math.max(xy1[1], xy2[1]));
-
-		} catch (Exception e) {
-			restoreOldCoordSystem();
-		}
-	}
-
-	/**
 	 * Finds maximum pixel width and height needed to draw current x and y axis
 	 * labels. return[0] = max width, return[1] = max height
 	 * 

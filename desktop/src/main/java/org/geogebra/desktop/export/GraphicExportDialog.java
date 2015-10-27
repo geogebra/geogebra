@@ -735,8 +735,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (file == null) {
 			return false;
 		}
-		ev.setTemporaryCoordSystemForExport(); // allow clipping with Export_1
-												// and 2 Points
+
 		try {
 			exportSVG(app, (EuclidianViewD) ev, file, textAsShapes, pixelWidth,
 					pixelHeight, cmWidth, cmHeight,
