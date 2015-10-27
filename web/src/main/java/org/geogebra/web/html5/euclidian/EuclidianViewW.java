@@ -1235,7 +1235,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public void closeDropdowns() {
-		// closeAllDropDowns();
+		closeAllDropDowns();
 	}
 
 }
