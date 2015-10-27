@@ -390,7 +390,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	public boolean isInside(GRectangle rect) {
 
 		if (geoList.drawAsComboBox()) {
-			return super.isInside(labelRectangle);
+			return super.isInside(rect);
 		}
 
 		int size = drawables.size();
