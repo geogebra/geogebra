@@ -43,6 +43,9 @@ public abstract class CASgiac implements CASGenericInterface {
 	/** parser tools */
 	protected CasParserTools parserTools;
 
+	/**
+	 * Random number generator
+	 */
 	protected static Random rand = new Random();
 
 	/**
@@ -309,6 +312,8 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * @param tpl
 	 *            template that should be used for serialization. Should be
 	 *            casCellTemplate for CAS and defaultTemplate for input bar
+	 * @param kernel
+	 *            kernel
 	 * @return String in Geogebra syntax.
 	 * @throws CASException
 	 *             Throws if the underlying CAS produces an error
@@ -328,8 +333,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		return geogebraString;
 	}
 
-	private static ExpressionValue replaceRoots(ExpressionValue ve,
+	private static ExpressionValue replaceRoots(ExpressionValue ve0,
 			MyArbitraryConstant arbconst, Kernel kernel) {
+		ExpressionValue ve = ve0;
 		if (ve != null) {
 			boolean toRoot = kernel.getApplication().getSettings()
 					.getCasSettings().getShowExpAsRoots();
@@ -389,6 +395,8 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *            command that called the CAS asynchronously
 	 * @param input
 	 *            input string (for caching)
+	 * @param cell
+	 *            cas cell
 	 */
 	public void CASAsyncFinished(ValidExpression exp, String result2,
 			Throwable exception, AsynchronousCommand c, String input, GeoCasCell cell) {
@@ -639,7 +647,12 @@ public abstract class CASgiac implements CASGenericInterface {
 	// private final static RegExp inequality =
 	// RegExp.compile("(.*)\\((ggbtmpvar[^,}\\(\\)]+)>(=*)(.+)\\) && \\((.+)>(=*)(ggbtmpvar[^,}\\(\\)]+)\\)(.*)");
 	// works only for variables in form [A-Za-z]+
+	/** expression with at most 3 levels of brackets */
 	public final static String expression = "(([^\\(\\)]|\\([^\\(\\)]+\\)|\\(([^\\(\\)]|\\([^\\(\\)]+\\))+\\))+)";
+	/**
+	 * inequality a >=? ex1 && ex1 >=? b where a,b are literals and ex1, ex2 are
+	 * expressions with at most 3 brackets
+	 */
 	public final static RegExp inequality = RegExp
 .compile(
 			"^(.*)\\(([A-Za-z]+)>(=*)" + expression + "\\) && \\("
