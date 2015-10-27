@@ -2,8 +2,10 @@ package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.KeyCodes;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
@@ -292,6 +294,18 @@ public class GlobalKeyDispatcherW extends
 
 	@Override
 	protected boolean handleEnter() {
+		App.debug("ENTOJ!");
+
+		if (app.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS)
+				&& selection.getSelectedGeos().size() == 1) {
+			GeoElement geo = selection.getSelectedGeos().get(0);
+			if (geo.isGeoList()) {
+				DrawList.asDrawable(app, geo).selectCurrentItem();
+				return true;
+			}
+
+		}
+
 		if (((AppW) app).isUsingFullGui()
 		        && ((GuiManagerInterfaceW) app.getGuiManager()).noMenusOpen()) {
 			if (app.showAlgebraInput()) {
@@ -304,6 +318,7 @@ public class GlobalKeyDispatcherW extends
 				return true;
 			}
 		}
+
 
 		return false;
 	}

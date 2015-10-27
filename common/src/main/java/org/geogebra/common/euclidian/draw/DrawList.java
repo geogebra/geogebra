@@ -79,6 +79,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int optionsItemHeight;
 	private int selectedOptionIndex;
 	private GDimension selectedDimension;
+	private int currentIdx;
 	/**
 	 * Creates new drawable list
 	 * 
@@ -703,9 +704,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			String text = geoList.get(i)
 					.toValueString(StringTemplate.defaultTemplate);
 
-			if ("delta".equals(text)) {
-				App.debug("THAT'S IT!");
-			}
 			boolean latex = isLatexString(text);
 
 			allLatex = allLatex && latex;
@@ -868,10 +866,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return;
 		}
 
-		int idx = getOptionAt(x, y);
+		currentIdx = getOptionAt(x, y);
 
-		if (idx != -1 && idx != selectedOptionIndex) {
-			selectedOptionIndex = idx;
+		if (currentIdx != -1 && currentIdx != selectedOptionIndex) {
+			selectedOptionIndex = currentIdx;
 			geoList.updateRepaint();
 		}
 
@@ -911,14 +909,20 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 		if (optionsRect.contains(x, y)
 				|| optionsRect.getBounds().contains(x, y)) {
-			int idx = getOptionAt(x, y);
-			if (idx == -1) {
-				return;
-			}
-			geoList.setSelectedIndex(idx, false);
-			closeOptions();
+			currentIdx = getOptionAt(x, y);
 
+
+			selectItem();
 		}
+	}
+
+	private void selectItem() {
+		if (currentIdx == -1) {
+			return;
+		}
+
+		geoList.setSelectedIndex(currentIdx, false);
+		closeOptions();
 	}
 
 	public void closeOptions() {
@@ -935,6 +939,49 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	public void setOptionsVisible(boolean optionsVisible) {
 		this.optionsVisible = optionsVisible;
+		if (optionsVisible) {
+			currentIdx = 0;
+		}
+	}
+
+	public void toggleOptions() {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+		App.debug("[DROPDOWN] toggle");
+		optionsVisible = !optionsVisible;
+		geo.updateRepaint();
+	}
+
+	public void selectCurrentItem() {
+		if (!isOptionsVisible()) {
+			return;
+		}
+		App.debug("[DROPDOWN] select");
+		selectItem();
+		geo.updateRepaint();
+	}
+
+	/**
+	 * Gets DrawList for geo.
+	 * 
+	 */
+	public static DrawList asDrawable(App app, GeoElement geo) {
+		return (DrawList) app.getActiveEuclidianView().getDrawableFor(geo);
+	}
+
+	public void moveSelection(boolean down) {
+		if (down) {
+			if (currentIdx < optionItems.size() - 1) {
+				currentIdx++;
+			}
+		} else {
+			if (currentIdx > 0) {
+				currentIdx--;
+			}
+
+		}
+		geo.updateRepaint();
 	}
 
 }
