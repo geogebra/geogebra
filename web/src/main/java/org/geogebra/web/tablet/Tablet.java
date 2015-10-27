@@ -2,7 +2,6 @@ package org.geogebra.web.tablet;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
@@ -45,10 +44,6 @@ public class Tablet implements EntryPoint {
 	// zum testen von private zu public
 	public static GeoGebraAppFrame appFrame;
 
-	public void t(final String s, final AlgebraProcessor ap) throws Exception {
-		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true,
-		        false);
-	}
 
 	/**
 	 * set true if Google Api Js loaded
