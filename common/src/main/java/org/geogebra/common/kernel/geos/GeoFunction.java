@@ -114,6 +114,12 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param setDefaults
+	 *            true to set defaults
+	 */
 	public GeoFunction(Construction c, boolean setDefaults) {
 		super(c);
 
@@ -292,6 +298,12 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		set(f);
 	}
 
+	/**
+	 * @param en
+	 *            expression
+	 * @param fv
+	 *            variable
+	 */
 	public GeoFunction(ExpressionNode en, FunctionVariable fv) {
 		this(en.getKernel().getConstruction(), new Function(en, fv));
 	}
@@ -2186,6 +2198,9 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		return getVarString(StringTemplate.defaultTemplate).equals("y");
 	}
 
+	/**
+	 * @return tru for functuins of z
+	 */
 	public boolean isFunctionOfZ() {
 		return getVarString(StringTemplate.defaultTemplate).equals("z");
 	}
@@ -2566,7 +2581,8 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			b.upperSharp = upperSharp;
 			b.condition = condition;//If[x==1,1,If[x==2,3,4]]
 			ExpressionValue lt = e.getLeft().unwrap();
-			ExpressionValue rt = e.getRight().unwrap();
+			ExpressionValue rt = e.getRight() == null ? null : e.getRight()
+					.unwrap();
 
 			boolean simple = e.getOperation() == Operation.GREATER
 					|| e.getOperation() == Operation.GREATER_EQUAL
