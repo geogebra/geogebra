@@ -2553,7 +2553,8 @@ kernel, left,
 
 			case GEOGEBRA_XML:
 			case GEOGEBRA:
-				if (tpl.isPrintLocalizedCommandNames()) {
+				if (tpl.isPrintLocalizedCommandNames()
+						&& tpl != StringTemplate.editorTemplate) {
 					sb.append(loc.getFunction("nroot"));
 				} else {
 					sb.append("nroot");
