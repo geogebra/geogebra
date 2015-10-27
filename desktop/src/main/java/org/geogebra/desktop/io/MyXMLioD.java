@@ -43,6 +43,7 @@ import java.util.zip.ZipOutputStream;
 import javax.imageio.ImageIO;
 
 import org.geogebra.common.io.DocHandler;
+import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.QDParser;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -68,7 +69,8 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 	// Use the default (non-validating) parser
 	// private static XMLReaderFactory factory;
 
-	private DocHandler handler, ggbDocHandler;
+	private DocHandler handler;
+	private MyXMLHandler ggbDocHandler;
 	private QDParser xmlParser;
 
 	public MyXMLioD(Kernel kernel, Construction cons) {
@@ -80,7 +82,7 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 		handler = getGGBHandler();
 	}
 
-	private DocHandler getGGBHandler() {
+	private MyXMLHandler getGGBHandler() {
 		if (ggbDocHandler == null)
 			// ggb3D : to create also a MyXMLHandler3D
 			// ggbDocHandler = new MyXMLHandler(kernel, cons);
@@ -292,6 +294,17 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 		bs.close();
 	}
 
+	public void parsePerspectiveXML(String perspectiveXML) {
+		StringReader ir = new StringReader(perspectiveXML);
+		try {
+			MyXMLHandler h = getGGBHandler();
+
+			xmlParser.parse(h, ir);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 	private void doParseXML(Reader ir, boolean clearConstruction,
 			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch)
 			throws Exception {

@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 
@@ -1055,11 +1056,26 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		app.getEuclidianView1().setRealWorldCoordSystem(xmin, xmax, ymin, ymax);
 	}
 
+	/**
+	 * @param xmin
+	 *            min of x axis range
+	 * @param xmax
+	 *            max of x axis range
+	 * @param ymin
+	 *            min of y axis range
+	 * @param ymax
+	 *            max of y axis range
+	 * @param zmin
+	 *            min of z axis range
+	 * @param zmax
+	 *            max of z axis range
+	 * @param verticalY
+	 *            true to set yAxis in vertical direction
+	 */
 	public synchronized void setCoordSystem(double xmin, double xmax,
 			double ymin, double ymax, double zmin, double zmax,
 			boolean verticalY) {
-		EuclidianView3DInterface e3d = (EuclidianView3DInterface) app
-				.getEuclidianView3D();
+		EuclidianView3DInterface e3d = app.getEuclidianView3D();
 		e3d.setYAxisVertical(verticalY);
 		Coords boundsMin = new Coords(xmin, ymin, zmin);
 		Coords boundsMax = new Coords(xmax, ymax, zmax);
@@ -1218,6 +1234,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * Cast undo
+	 * 
+	 * @param repaint
+	 *            true to repaint the views afterwards
 	 */
 	public void undo(boolean repaint) {
 		app.getKernel().undo();
@@ -1228,6 +1247,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * Cast redo
+	 * 
+	 * @param repaint
+	 *            true to repaint the views afterwards
 	 */
 	public void redo(boolean repaint) {
 		app.getKernel().redo();
@@ -1250,6 +1272,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		app.fileNew();
 	}
 
+	/**
+	 * @param view
+	 *            view number
+	 * @return JSON string describing the view
+	 */
 	public String getViewProperties(int view) {
 		EuclidianView ev = view == 2 ? app.getEuclidianView2(1) : app
 				.getEuclidianView1();
@@ -1274,6 +1301,18 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return sb.toString();
 	}
 
+	/**
+	 * @param label
+	 *            object
+	 * @param size
+	 *            font size
+	 * @param bold
+	 *            true for bold
+	 * @param italic
+	 *            true for italic
+	 * @param serif
+	 *            true for serif
+	 */
 	public void setFont(String label, int size, boolean bold, boolean italic,
 			boolean serif) {
 		GeoElement geo = kernel.lookupLabel(label);
@@ -1344,6 +1383,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 	}
 
+	/**
+	 * Log current user out
+	 */
 	public void logout() {
 		if (app.getLoginOperation() != null
 				&& app.getLoginOperation().getModel() != null) {
@@ -1363,6 +1405,20 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		// the exam setting is certainly false
+		if (code.startsWith("<")) {
+			try {
+				app.getXMLio()
+						.parsePerspectiveXML(
+						"<geogebra format=\"5.0\"><gui><perspectives>"
+										+ code
+								+ "</perspectives></gui></geogebra>");
+				app.getGuiManager().updateGUIafterLoadFile(true, false);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
+		}
 		Perspective ps = PerspectiveDecoder.decode(code, kernel.getParser(),
 				ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), app.isExam()));
 		try {
@@ -1433,5 +1489,57 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		Exercise ex = kernel.getExercise();
 		ex.checkExercise();
 		return ex.getFraction();
+	}
+
+	/**
+	 * Check whether this applet is an Exercise
+	 * 
+	 * @return true if the Exercise has assignments, this will happen when
+	 *         either {@link #getExerciseResult()} or
+	 *         {@link #getExerciseFraction()} are called with user defined Tools
+	 *         present in the applet or if the ExerciseBuilderDialog was used to
+	 *         create the Exercise.
+	 */
+	public boolean isExercise() {
+		Exercise ex = kernel.getExercise();
+		return !ex.isEmpty();
+	}
+
+	/**
+	 * @param localeStr
+	 *            language or language_country
+	 */
+	public void setLanguage(String localeStr) {
+		app.setLanguage(localeStr);
+	}
+
+	/**
+	 * If there are Macros or an Exercise present in the current file this can
+	 * be used to check if parts of the construction are equivalent to the
+	 * Macros in the file. <br />
+	 * If you don't want that a Standard Exercise (using all the Macros in the
+	 * Construction and setting each fraction to 100) will be created, check if
+	 * this is a Exercise with {@link #isExercise()} first. <br>
+	 * Hint will be empty unless specified otherwise with the ExerciseBuilder. <br />
+	 * Fraction will be 0 or 1 unless specified otherwise with the
+	 * ExerciseBuilder. <br />
+	 * Result will be in {@link Result},i.e: <br />
+	 * CORRECT, The assignment is CORRECT <br />
+	 * WRONG, if the assignment is WRONG and we can't tell why <br />
+	 * NOT_ENOUGH_INPUTS if there are not enough input geos, so we cannot check <br />
+	 * WRONG_INPUT_TYPES, if there are enough input geos, but one or more are of
+	 * the wrong type <br />
+	 * WRONG_OUTPUT_TYPE, if there is no output geo matching our macro <br />
+	 * WRONG_AFTER_RANDOMIZE, if the assignment was correct in the first place
+	 * but wrong after randomization <br />
+	 * UNKNOWN, if the assignment could not be checked
+	 * 
+	 * @return JavaScriptObject representation of the exercise result. For
+	 *         Example: "{"Tool1":{ "result":"CORRECT", "hint":"",
+	 *         "fraction":1}}", will be empty if now Macros or Assignments have
+	 *         been found.
+	 */
+	public Object getExerciseResult() {
+		return "";
 	}
 }

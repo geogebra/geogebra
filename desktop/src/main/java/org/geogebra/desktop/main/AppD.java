@@ -2540,6 +2540,20 @@ public class AppD extends App implements KeyEventDispatcher {
 				.parseInt(MyXMLHandler.tooltipTimeouts[MyXMLHandler.tooltipTimeouts.length - 2]);
 	}
 
+	public void setLanguage(String s) {
+		String[] parts = s.split("_");
+		String language = parts[0];
+		String country = parts.length > 1 ? parts[1] : null;
+		Locale loc = null;
+		if (language != null) {
+			if (country != null) {
+				loc = new Locale(language, country);
+			} else {
+				loc = new Locale(language);
+			}
+		}
+		setLocale(loc);
+	}
 	/**
 	 * set language via iso language string
 	 */

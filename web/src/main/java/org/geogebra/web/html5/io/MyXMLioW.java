@@ -1,14 +1,25 @@
 package org.geogebra.web.html5.io;
 
 import org.geogebra.common.io.DocHandler;
+import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 
+/**
+ * Web implementation of XML parser
+ *
+ */
 public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 
 	private DocHandler handler, ggbDocHandler;
 	private XmlParser xmlParser;
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param cons
+	 *            construction
+	 */
 	public MyXMLioW(Kernel kernel, Construction cons) {
 		this.kernel = kernel;
 		this.cons = cons;
@@ -100,6 +111,18 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 
 		}
 		// App.debug("navigation done" + System.currentTimeMillis());
+	}
+
+	@Override
+	public void parsePerspectiveXML(String perspectiveXML) {
+		try {
+			MyXMLHandler h = (MyXMLHandler) getGGBHandler();
+
+			xmlParser.parse(h, perspectiveXML);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

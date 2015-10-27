@@ -274,5 +274,9 @@ public abstract class MyXMLio {
 		cons.getConstructionRegressionOut(sb);
 		return sb.toString();
 	}
+	
+	public void parsePerspectiveXML(String perspectiveXML) {
+
+	}
 
 }

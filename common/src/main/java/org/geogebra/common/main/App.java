@@ -4106,4 +4106,8 @@ public abstract class App implements UpdateSelection {
 	public boolean isExam() {
 		return exam != null;
 	}
+
+	public void setLanguage(String s) {
+		// overridden in subtypes
+	}
 }

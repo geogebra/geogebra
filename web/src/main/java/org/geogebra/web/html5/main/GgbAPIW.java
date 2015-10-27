@@ -29,7 +29,6 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.View;
-import org.geogebra.web.web.gui.dialog.ExerciseBuilderDialog;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -904,10 +903,6 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		((AppW) app).recalculateEnvironments();
 	}
 
-	public void setLanguage(String s) {
-		((AppW) app).setLanguage(s);
-	}
-
 	/**
 	 * remove applet from the page, and free memory. If applet is the last one,
 	 * it remove the style elements injected by the applet too.
@@ -964,19 +959,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		return result.getJavaScriptObject();
 	}
 
-	/**
-	 * Check whether this applet is an Exercise
-	 * 
-	 * @return true if the Exercise has assignments, this will happen when
-	 *         either {@link #getExerciseResult()} or
-	 *         {@link #getExerciseFraction()} are called with user defined Tools
-	 *         present in the applet or if the {@link ExerciseBuilderDialog} was
-	 *         used to create the Exercise.
-	 */
-	public boolean isExercise() {
-		Exercise ex = kernel.getExercise();
-		return !ex.isEmpty();
-	}
+
 
 	public void setExternalPath(String s) {
 		((AppW) app).setExternalPath(s);
