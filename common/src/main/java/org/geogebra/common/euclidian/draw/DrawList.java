@@ -957,7 +957,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (!isOptionsVisible()) {
 			return;
 		}
-		App.debug("[DROPDOWN] select");
 		selectItem();
 		geo.updateRepaint();
 	}
@@ -981,6 +980,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			}
 
 		}
+		selectedOptionIndex = currentIdx;
 		geo.updateRepaint();
 	}
 

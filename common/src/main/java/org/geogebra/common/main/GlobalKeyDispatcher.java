@@ -118,7 +118,7 @@ public abstract class GlobalKeyDispatcher {
 		GeoElement geo = geos.get(0);
 
 		if (geos.size() == 1 && geo.isGeoList() && ydiff != 0) {
-			DrawList.asDrawable(app, geo).moveSelection(ydiff > 0);
+			DrawList.asDrawable(app, geo).moveSelection(ydiff < 0);
 		}
 		boolean allSliders = true;
 		for (int i = 0; i < geos.size(); i++) {

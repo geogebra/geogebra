@@ -294,8 +294,6 @@ public class GlobalKeyDispatcherW extends
 
 	@Override
 	protected boolean handleEnter() {
-		App.debug("ENTOJ!");
-
 		if (app.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS)
 				&& selection.getSelectedGeos().size() == 1) {
 			GeoElement geo = selection.getSelectedGeos().get(0);
