@@ -25,7 +25,6 @@ import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
 import org.scilab.forge.jlatexmath.WebStartAlphabetRegistration;
 import org.scilab.forge.jlatexmath.cache.JLaTeXMathCache;
-import org.scilab.forge.jlatexmath.dynamic.DynamicAtom;
 
 public class DrawEquationD extends DrawEquation {
 	private final JLabel jl = new JLabel();
@@ -128,9 +127,6 @@ public class DrawEquationD extends DrawEquation {
 			} catch (final Exception e) {
 				e.printStackTrace();
 			}
-			final LatexConvertorFactory factory = new LatexConvertorFactory(
-					app.getKernel());
-			DynamicAtom.setExternalConverterFactory(factory);
 
 		}
 
