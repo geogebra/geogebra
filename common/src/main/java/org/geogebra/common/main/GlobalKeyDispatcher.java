@@ -98,6 +98,15 @@ public abstract class GlobalKeyDispatcher {
 		return false;
 	}
 
+	private boolean handleArrowsForDropdown(ArrayList<GeoElement> geos,
+			boolean down) {
+		if (geos.size() == 1 && geos.get(0).isGeoList()) {
+			DrawList.asDrawable(app, geos.get(0)).moveSelection(down);
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Tries to move the given objects after pressing an arrow key on the
 	 * keyboard.
@@ -117,9 +126,6 @@ public abstract class GlobalKeyDispatcher {
 			double xdiff, double ydiff, double zdiff) {
 		GeoElement geo = geos.get(0);
 
-		if (geos.size() == 1 && geo.isGeoList() && ydiff != 0) {
-			DrawList.asDrawable(app, geo).moveSelection(ydiff < 0);
-		}
 		boolean allSliders = true;
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geoi = geos.get(i);
@@ -1137,6 +1143,9 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
+			if (!fromSpreadsheet && handleArrowsForDropdown(geos, false)) {
+				return true;
+			}
 			changeValY = base;
 			break;
 
@@ -1147,7 +1156,9 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-
+			if (!fromSpreadsheet && handleArrowsForDropdown(geos, true)) {
+				return true;
+			}
 			changeValY = -base;
 			break;
 

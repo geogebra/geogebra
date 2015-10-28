@@ -500,6 +500,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		drawOptionLines(g2, 0, 0, false);
 		setPreferredSize(getPreferredSize());
 
+		g2.setFont(getLabelFont());
 		String labelText = getLabelText();
 		boolean latexLabel = measureLabel(g2, geoList, labelText);
 		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
@@ -561,6 +562,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					+ (boxHeight + getMultipliedFontSize() - COMBO_TEXT_MARGIN)
 							/ 2;
 			g2.setPaint(geo.getObjectColor());
+			g2.setFont(getLabelFont());
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					xLabel, textBottom, false, false);
 		}
@@ -659,13 +661,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			return d;
 		} 
-		
+		g2.setFont(getLabelFont());
 		GTextLayout layout = g2.getFontRenderContext().getTextLayout(text,
 				getLabelFont());
 		final int w = (int) layout.getBounds().getWidth();
 		final int h = (int) layout.getBounds().getHeight()
 				+ OPTIONSBOX_ITEM_GAP;
-
 		if (left == TEXT_CENTER) {
 			left = boxLeft + (boxWidth - w) / 2;
 		}
