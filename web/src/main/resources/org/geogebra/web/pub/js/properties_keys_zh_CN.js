@@ -2247,7 +2247,7 @@ __GGB__keysVar.zh_CN.plain = {
     "AreaOfA": "%0 \u7684\u9762\u79ef",
     "AsymptoteToA": "%0 \u7684\u6e10\u8fd1\u7ebf",
     "Ath": "\u7b2c %0",
-    "Author": "\u4f5c\u8005",
+    "Author": "\u521b\u4f5c\u8005",
     "Automatic": "\u81ea\u52a8",
     "AuxiliaryObject": "\u8f85\u52a9\u5bf9\u8c61",
     "AuxiliaryObjects": "\u8f85\u52a9\u5bf9\u8c61",
