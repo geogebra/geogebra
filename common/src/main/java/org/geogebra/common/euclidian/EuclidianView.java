@@ -1069,7 +1069,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private ArrayList<GeoPointND> stickyPointList = new ArrayList<GeoPointND>();
 
-	private DrawableList allDrawableList = new DrawableList();
+	protected DrawableList allDrawableList = new DrawableList();
 	/** lists of geos on different layers */
 	public DrawableList drawLayers[];
 
@@ -1623,7 +1623,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param p
 	 *            event coords
 	 * @return whether textfield was clicked
 	 */
@@ -3400,14 +3399,6 @@ sb.toString(), getFontAxes(),
 	double getYAxisCrossingPixel() {
 		return this.getyZero() - (axisCross[0] * getYscale());
 	}
-
-	/**
-	 * Draws axes
-	 * 
-	 * @param g2
-	 *            graphics
-	 */
-
 
 	boolean xAxisOnscreen() {
 		return showAxes[0] && (getYmin() < axisCross[0])
