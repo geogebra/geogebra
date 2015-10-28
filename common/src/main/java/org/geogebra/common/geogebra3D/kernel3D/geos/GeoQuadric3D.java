@@ -98,7 +98,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			matrix[i] = coeffs[i];
 		}
 
-		if (!kernel.getConstruction().isFileLoading()) {
+		if (kernel.getConstruction() != null
+				&& !kernel.getConstruction().isFileLoading()) {
 			// will be done at XML end, by setMatrixFromXML()
 			classifyQuadric();
 		}
