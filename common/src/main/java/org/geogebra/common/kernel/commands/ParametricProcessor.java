@@ -38,6 +38,9 @@ public class ParametricProcessor {
 	GeoElement[] checkParametricEquation(ValidExpression ve,
 			TreeSet<String> undefinedVariables, boolean autocreateSliders,
 			AsyncOperation callback) {
+		if (undefinedVariables.isEmpty()) {
+			return null;
+		}
 		boolean parametricExpression = ("X".equals(ve.getLabel()) || undefinedVariables
 				.contains("t"));
 		boolean parametricEquation = ve.unwrap() instanceof Equation
