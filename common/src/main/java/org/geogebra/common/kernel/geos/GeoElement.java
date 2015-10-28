@@ -7993,4 +7993,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		return toString(tpl.getTemplate());
 	}
 
+	public void setLabelWanted(boolean b) {
+		this.labelWanted = b;
+	}
+
 }

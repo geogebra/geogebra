@@ -507,4 +507,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		return true;
 	}
 
+	public ExpressionNode getPointExpression() {
+		return point;
+	}
+
 }

@@ -97,7 +97,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 			input[i] = listItems.get(i);
 
 			if (!input[i].isLabelSet()) {
-				input[i].labelWanted = false;
+				input[i].setLabelWanted(false);
 			}
 		}
 

@@ -267,4 +267,6 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	void setAuxiliaryObject(boolean auxilliary);
 
 	void setFixed(boolean fix);
+
+	void setLabelWanted(boolean b);
 }
