@@ -3985,6 +3985,7 @@ public class Kernel {
 	}
 
 	public boolean kernelHas3DObjects() {
+
 		Iterator<GeoClass> it = cons.usedGeos.iterator();
 
 		boolean kernelHas3DObjects = false;
@@ -4012,6 +4013,11 @@ public class Kernel {
 
 		// is 3D?
 		if (kernelHas3DObjects()) {
+			// DO NOT REMOVE
+			// it's important we pick up errors involving this quickly
+			App.error("************************************");
+			App.error("****** file has 3D objects *********");
+			App.error("************************************");
 			sb.append("\t<uses3D val=\"true\"/>\n");
 		}
 
