@@ -5506,9 +5506,11 @@ public class MyXMLHandler implements DocHandler {
 							&& "X".equals(((Equation) ve).getLHS().toString(
 									StringTemplate.defaultTemplate))) {
 						App.debug("PARAM");
-						ve = kernel.getAlgebraProcessor()
+						ve = kernel
+								.getAlgebraProcessor()
+								.getParamProcessor()
 								.checkParametricEquationF(
-										((Equation) ve).getRHS(), ve);
+										((Equation) ve).getRHS(), ve, cons);
 					} else if (type.equals("line")) {
 						((Equation) ve).setForceLine();
 					} else if (type.equals("plane")) {

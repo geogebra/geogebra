@@ -59,7 +59,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CollectFunctionVariables
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
-import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
@@ -327,44 +326,7 @@ public class AlgebraProcessor {
 		}
 	}
 
-	/**
-	 * @param ve
-	 *            expression that might be RHS of parametric equation, eg (t,t)
-	 * @param fallback
-	 *            what to return if ve is not parametric equation
-	 * @return parametric curve (or line, conic) or fallback
-	 */
-	public ValidExpression checkParametricEquationF(ValidExpression ve,
-			ValidExpression fallback) {
-		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
-		ve.traverse(collecter);
-		final TreeSet<String> undefinedVariables = collecter.getResult();
-		if (undefinedVariables.size() == 1) {
-			try {
-				String varName = undefinedVariables.first();
-				FunctionVariable fv = new FunctionVariable(kernel, varName);
-				ExpressionNode exp = ve
-						.deepCopy(kernel)
-						.traverse(
-								VariableReplacer.getReplacer(varName, fv,
-										kernel)).wrap();
-				exp.resolveVariables();
-				boolean flag = cons.isSuppressLabelsActive();
-				cons.setSuppressLabelCreation(true);
-				GeoElement[] ret = getParamProcessor()
-						.processParametricFunction(exp,
-						exp.evaluate(StringTemplate.defaultTemplate), fv, null);
-				cons.setSuppressLabelCreation(flag);
-				if (ret != null) {
-					return ret[0].wrap();
-				}
-			} catch (Throwable t) {
-				t.printStackTrace();
-				Log.debug("X is not parametric");
-			}
-		}
-		return fallback;
-	}
+
 
 	/**
 	 * for AlgebraView changes in the tree selection and redefine dialog
@@ -395,15 +357,16 @@ public class AlgebraProcessor {
 					&& "X".equals(((Equation) ve).getLHS().unwrap()
 							.toString(StringTemplate.defaultTemplate))
 					&& kernel.lookupLabel("X") == null) {
-				ValidExpression ve2 = checkParametricEquationF(
-						((Equation) ve).getRHS(), null);
+				ValidExpression ve2 = getParamProcessor()
+						.checkParametricEquationF(((Equation) ve).getRHS(),
+								null, cons);
 				if (ve2 != null) {
 					ve2.setLabel(ve.getLabel());
 					ve = ve2;
 				}
 
 			} else if ("X".equals(ve.getLabel())) {
-				ve = checkParametricEquationF(ve, ve);
+				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons);
 			}
 			return changeGeoElementNoExceptionHandling(geo, ve,
 					redefineIndependent, storeUndoInfo);
@@ -611,6 +574,9 @@ public class AlgebraProcessor {
 	private MathMLParser mathmlParserGGB;
 	private MathMLParser mathmlParserLaTeX;
 
+	/**
+	 * Parametric processor (shared with 3D)
+	 */
 	protected ParametricProcessor paramProcessor;
 
 	// G.Sturr 2010-7-5
@@ -678,11 +644,8 @@ public class AlgebraProcessor {
 				fvX = new FunctionVariable(kernel, "x");
 			}
 			GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
-					undefinedVariables);
+					undefinedVariables, autoCreateSliders, callback0);
 			if (ret != null) {
-				if (callback0 != null) {
-					callback0.callback(ret);
-				}
 				return ret;
 			}
 			if (undefinedVariables.size() > 0) {
@@ -716,20 +679,12 @@ public class AlgebraProcessor {
 
 				StringBuilder sb = new StringBuilder();
 
-				ArrayList<String> toRemove = new ArrayList<String>();
-
-				// ==========================
-				// step2: remove what we've done so far
-				// ==========================
-				Iterator<String> it2 = toRemove.iterator();
-				while (it2.hasNext()) {
-					undefinedVariables.remove(it2.next());
-				}
 
 				// ==========================
 				// step3: make a list of undefined variables so we can ask the
 				// user
 				// ==========================
+				App.debug("PT3" + undefinedVariables.size());
 				Iterator<String> it = undefinedVariables.iterator();
 				while (it.hasNext()) {
 					String label = it.next();
@@ -787,7 +742,7 @@ public class AlgebraProcessor {
 										// insertStarIfNeeded(undefinedVariables,
 										// ve2, fvX2);
 										replaceUndefinedVariables(ve2,
-												new TreeSet<GeoNumeric>(), true);
+												new TreeSet<GeoNumeric>(), null);
 										try {
 											geos = processValidExpression(
 													storeUndo,
@@ -818,7 +773,7 @@ public class AlgebraProcessor {
 				// ==========================
 				// step5: replace undefined variables
 				// ==========================
-				replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), true);
+				replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null);
 			}
 
 		} catch (Exception e) {
@@ -996,11 +951,14 @@ public class AlgebraProcessor {
 	 * @param undefined
 	 *            list of variables undefined so far; items will be removed from
 	 *            it as we go
+	 * @param except
+	 *            list of variable names that should not be replaced, null means
+	 *            replace everything
 	 */
 	public void replaceUndefinedVariables(ValidExpression ve,
-			TreeSet<GeoNumeric> undefined, boolean replaceT) {
+			TreeSet<GeoNumeric> undefined, String[] except) {
 		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(
-				this.kernel, undefined, replaceT);
+				this.kernel, undefined, except);
 		ve.traverse(replacer);
 
 	}
@@ -1771,7 +1729,10 @@ public class AlgebraProcessor {
 
 
 
-	protected ParametricProcessor getParamProcessor() {
+	/**
+	 * @return parametric processor
+	 */
+	public ParametricProcessor getParamProcessor() {
 		if (this.paramProcessor == null) {
 			paramProcessor = new ParametricProcessor(kernel, this);
 		}
@@ -2101,15 +2062,13 @@ public class AlgebraProcessor {
 			}
 		}
 		// s = t^2
-		if (lhs instanceof Variable
-				&& kernel.lookupLabel(((Variable) lhs).getName()) == null) {
-			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
-			try {
-				return processValidExpression(equ.getRHS());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		/*
+		 * if (lhs instanceof Variable && kernel.lookupLabel(((Variable)
+		 * lhs).getName()) == null) {
+		 * equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
+		 * try { return processValidExpression(equ.getRHS()); } catch (Exception
+		 * e) { e.printStackTrace(); } }
+		 */
 		// z(x) = sin(x), see #5484
 		if (lhs instanceof ExpressionNode
 				&& ((ExpressionNode)lhs).getOperation() == Operation.ZCOORD

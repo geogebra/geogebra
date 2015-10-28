@@ -426,7 +426,7 @@ public interface Traversing {
 	 */
 	public class ReplaceUndefinedVariables implements Traversing {
 		private final Kernel kernel;
-		private boolean replaceT;
+		private String[] except;
 		private TreeSet<GeoNumeric> undefined;
 
 		/**
@@ -441,10 +441,10 @@ public interface Traversing {
 		 * 
 		 */
 		public ReplaceUndefinedVariables(Kernel kernel,
-				TreeSet<GeoNumeric> undefined, boolean replaceT) {
+				TreeSet<GeoNumeric> undefined, String[] except) {
 			this.kernel = kernel;
 			this.undefined = undefined;
-			this.replaceT = replaceT;
+			this.except = except;
 		}
 
 		public ExpressionValue process(ExpressionValue ev) {
@@ -459,7 +459,7 @@ public interface Traversing {
 				if (replace instanceof Variable
 						&& !name.equals(kernel.getConstruction()
 								.getRegisteredFunctionVariable())
-						&& (this.replaceT || !"t".equals(name))) {
+						&& !isException(name)) {
 					name = ((Variable) replace)
 							.getName(StringTemplate.defaultTemplate);
 
@@ -472,11 +472,23 @@ public interface Traversing {
 									App.VIEW_ALGEBRA)
 							|| kernel.getApplication().showAutoCreatedSlidersInEV();
 					GeoNumeric.setSliderFromDefault(slider, false, visible);
-					return slider;
+					return ev;
 				}
 			}
 
 			return ev;
+		}
+
+		private boolean isException(String name) {
+			if (except == null) {
+				return false;
+			}
+			for (int i = 0; i < except.length; i++) {
+				if (except[i].equals(name)) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 	}
@@ -497,7 +509,9 @@ public interface Traversing {
 		 * @return list of undefined variables (repeats removed)
 		 */
 		public TreeSet<String> getResult() {
+			App.debug("UNDEFINED" + tree.size() + "," + localTree.size());
 			tree.removeAll(localTree);
+			App.debug("UNDEFINED after" + tree.size());
 			return tree;
 		}
 
@@ -532,14 +546,26 @@ public interface Traversing {
 					tree.add(((Variable) ret)
 							.getName(StringTemplate.defaultTemplate));
 				}
-			} else if (ev instanceof Command) {
+			} else if (ev instanceof Command) {// Iteration[a+1, a, {1},4]
+
 				Command com = (Command) ev;
+				App.debug("ITERATION?" + com.getName());
 				if (("Sequence".equals(com.getName()) && com
-						.getArgumentNumber() > 1)
+						.getArgumentNumber() > 2)
 						|| "KeepIf".equals(com.getName())
 						|| "CountIf".equals(com.getName())) {
 					localTree.add(com.getArgument(1).toString(
 							StringTemplate.defaultTemplate));
+				} else if (("IterationList".equals(com.getName()) || "Iteration"
+						.equals(com.getName())) && com.getArgumentNumber() > 3) {
+
+					for (int i = 1; i < com.getArgumentNumber() - 2; i++) {
+						App.debug("ITERATION:"
+								+ com.getArgument(i).toString(
+										StringTemplate.defaultTemplate));
+						localTree.add(com.getArgument(i).toString(
+								StringTemplate.defaultTemplate));
+					}
 				} else if ("Zip".equals(com.getName())) {
 					for (int i = 1; i < com.getArgumentNumber(); i += 2) {
 						localTree.add(com.getArgument(i).toString(

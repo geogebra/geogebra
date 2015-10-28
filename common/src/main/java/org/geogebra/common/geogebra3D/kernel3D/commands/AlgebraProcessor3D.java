@@ -194,7 +194,8 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		return ret;
 	}
 
-	protected ParametricProcessor getParamProcessor() {
+	@Override
+	public ParametricProcessor getParamProcessor() {
 		if (this.paramProcessor == null) {
 			paramProcessor = new ParametricProcessor3D(kernel, this);
 		}

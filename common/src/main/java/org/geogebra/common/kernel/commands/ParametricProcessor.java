@@ -13,6 +13,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
@@ -21,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
 public class ParametricProcessor {
@@ -33,13 +36,36 @@ public class ParametricProcessor {
 	}
 
 	GeoElement[] checkParametricEquation(ValidExpression ve,
-			TreeSet<String> undefinedVariables) {
-		if (undefinedVariables.size() == 1
-				&& ("X".equals(ve.getLabel()) || undefinedVariables
-						.contains("t"))) {
+			TreeSet<String> undefinedVariables, boolean autocreateSliders,
+			AsyncOperation callback) {
+		boolean parametricExpression = ("X".equals(ve.getLabel()) || undefinedVariables
+				.contains("t"));
+		boolean parametricEquation = ve.unwrap() instanceof Equation
+				&& "X".equals(((Equation) ve.unwrap()).getLHS().toString(
+						StringTemplate.defaultTemplate));
+		if (!parametricEquation && !parametricExpression) {
+			return null;
+		}
+
+		Iterator<String> t = undefinedVariables.iterator();
+
+		String varName = t.next();
+		if (undefinedVariables.contains("t")) {
+			varName = "t";
+		}
+		if ("X".equals(varName)) {
+			varName = t.next();
+		}
+		TreeSet<GeoNumeric> num = new TreeSet<GeoNumeric>();
+		ap.replaceUndefinedVariables(ve, num, new String[] { varName, "X" });// Iteration[a+1,
+																		// a,
+																		// {1},4]
+		for (GeoNumeric slider : num) {
+			undefinedVariables.remove(slider.getLabelSimple());
+		}
+		if (parametricExpression) {
 			try {
-				String varName = undefinedVariables.contains("t") ? "t"
-						: undefinedVariables.first();
+
 				FunctionVariable fv = new FunctionVariable(kernel, varName);
 				ExpressionNode exp = ve
 						.deepCopy(kernel)
@@ -49,27 +75,20 @@ public class ParametricProcessor {
 				exp.resolveVariables();
 				GeoElement[] ret = processParametricFunction(exp,
 						exp.evaluate(StringTemplate.defaultTemplate), fv, null);
-				if (ret != null) {
+				App.debug("AUTOCREATE" + autocreateSliders);
+				if (ret != null && (num.isEmpty() || autocreateSliders)) {
 					return ret;
 				}
-			} catch (Throwable t) {
-				t.printStackTrace();
+			} catch (Throwable tt) {
+				tt.printStackTrace();
 				Log.debug("X is not parametric");
 			}
-		} else if (undefinedVariables.size() == 2
-				&& ve.unwrap() instanceof Equation
-				&& "X".equals(((Equation) ve.unwrap()).getLHS().toString(
-						StringTemplate.defaultTemplate))) {
-			try {
-				Iterator<String> t = undefinedVariables.iterator();
+			removeSliders(num, undefinedVariables);
 
-				String varName = t.next();
-				if (undefinedVariables.contains("t")) {
-					varName = "t";
-				}
-				if ("X".equals(varName)) {
-					varName = t.next();
-				}
+		} else if (parametricEquation) {
+			App.printStacktrace("EQUATION");
+			try {
+
 				FunctionVariable fv = new FunctionVariable(kernel, varName);
 				ExpressionNode exp = ((Equation) ve.unwrap())
 						.getRHS()
@@ -81,17 +100,28 @@ public class ParametricProcessor {
 				GeoElement[] ret = processParametricFunction(exp,
 						exp.evaluate(StringTemplate.defaultTemplate), fv,
 						ve.getLabel());
-				if (ret != null) {
+				if (ret != null && (num.isEmpty() || autocreateSliders)) {
 					return ret;
 				}
-			} catch (Throwable t) {
-				t.printStackTrace();
+			} catch (Throwable tt) {
+				tt.printStackTrace();
 				Log.debug("X is not parametric");
 			}
+			removeSliders(num, undefinedVariables);
 		}
+		removeSliders(num, undefinedVariables);
 		return null;
 	}
 	
+	private void removeSliders(TreeSet<GeoNumeric> num,
+			TreeSet<String> undefined) {
+		for (GeoNumeric slider : num) {
+			slider.remove();
+			undefined.add(slider.getLabelSimple());
+		}
+
+	}
+
 	/**
 	 * @param ev
 	 *            expression
@@ -256,5 +286,43 @@ public class ParametricProcessor {
 		throw new MyError(kernel.getApplication().getLocalization(),
 				"InvalidFunction");
 
+	}
+
+	/**
+	 * @param ve
+	 *            expression that might be RHS of parametric equation, eg (t,t)
+	 * @param fallback
+	 *            what to return if ve is not parametric equation
+	 * @return parametric curve (or line, conic) or fallback
+	 */
+	public ValidExpression checkParametricEquationF(ValidExpression ve,
+			ValidExpression fallback, Construction cons) {
+		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
+		ve.traverse(collecter);
+		final TreeSet<String> undefinedVariables = collecter.getResult();
+		if (undefinedVariables.size() == 1) {
+			try {
+				String varName = undefinedVariables.first();
+				FunctionVariable fv = new FunctionVariable(kernel, varName);
+				ExpressionNode exp = ve
+						.deepCopy(kernel)
+						.traverse(
+								VariableReplacer.getReplacer(varName, fv,
+										kernel)).wrap();
+				exp.resolveVariables();
+				boolean flag = cons.isSuppressLabelsActive();
+				cons.setSuppressLabelCreation(true);
+				GeoElement[] ret = processParametricFunction(exp,
+						exp.evaluate(StringTemplate.defaultTemplate), fv, null);
+				cons.setSuppressLabelCreation(flag);
+				if (ret != null) {
+					return ret[0].wrap();
+				}
+			} catch (Throwable t) {
+				t.printStackTrace();
+				Log.debug("X is not parametric");
+			}
+		}
+		return fallback;
 	}
 }
