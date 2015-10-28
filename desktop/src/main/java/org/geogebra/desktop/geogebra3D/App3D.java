@@ -394,14 +394,12 @@ public class App3D extends AppD {
 	}
 
 	@Override
-	public boolean saveGeoGebraFile(File file) {
-		// TODO generate it before
+	public void needThumbnailFor3D() {
 		if (euclidianView3D != null) {
 			((RendererD) getEuclidianView3D().getRenderer()).needExportImage();
 		}
-
-		return super.saveGeoGebraFile(file);
 	}
+
 
 	// ///////////////////////////////
 	// GUI

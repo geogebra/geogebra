@@ -1722,6 +1722,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		fileExtensions = new FileExtensions[] { FileExtensions.GEOGEBRA };
 		fileDescriptions = new String[] { GeoGebraConstants.APPLICATION_NAME
 				+ " " + app.getMenu("Files") };
+		((AppD) app).needThumbnailFor3D();
 		File file = showSaveDialog(fileExtensions,
 				((AppD) app).getCurrentFile(), fileDescriptions, true, false);
 		if (file == null)

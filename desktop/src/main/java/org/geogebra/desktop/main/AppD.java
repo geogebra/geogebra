@@ -5415,6 +5415,10 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public DropDownList newDropDownList() {
 		return new DropDownListD();
-	};
+	}
+
+	public void needThumbnailFor3D() {
+		// nothing to do here
+	}
 
 }
