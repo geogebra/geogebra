@@ -58,7 +58,13 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	@Override
 	protected void computeRoots() {
 		if (f.isDefined()) {
-			if (intervalFun == null) {
+			ExpressionNode polyExpression = (ExpressionNode) f
+					.getFunctionExpression().getRight();
+			ExpressionNode condExpression = (ExpressionNode) f
+					.getFunctionExpression().getLeft();
+			if (intervalFun == null
+					|| intervalFun.getFunctionExpression() != polyExpression
+					|| interval.getExpression() != condExpression) {
 				FunctionVariable fVar = f.getFunction().getFunctionVariable();
 				// extract poly from If[0<x<10, poly]
 				intervalFun = new Function((ExpressionNode) f
