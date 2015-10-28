@@ -308,8 +308,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			popupMenu.addVerticalSeparator();
 		}
 
-		boolean hasColInPopup = false;
-		for (int k = 0; k < data.getColumnCount(); k++) {
+		// boolean hasColInPopup = false;
+		for (int k = 1; k < data.getColumnCount(); k++) {
 			ColumnData colData = data.getColumns()[k];
 			// On web there is no all columns yet, so temporary must hide
 			// some
@@ -323,24 +323,23 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 							.has(Feature.CP_NEW_COLUMNS))
 					&& (!"Breakpoint".equals(colData.getTitle()) || app
 							.has(Feature.CP_NEW_COLUMNS))) {
-				if (!colData.isVisible()) {
-					final int j = k;
-					com = new ScheduledCommand() {
-						public void execute() {
-							data.columns[j].setVisible(true);
-							initGUI();
-						}
-					};
-					popupMenu
-							.addItem(data.columns[j].getTranslatedTitle(), com);
-					hasColInPopup = true;
-				}
+				final int j = k;
+				com = new ScheduledCommand() {
+					public void execute() {
+						data.columns[j]
+								.setVisible(!data.columns[j].isVisible());
+						initGUI();
+					}
+				};
+
+				GCheckBoxMenuItem columnItem = new GCheckBoxMenuItem(
+						data.columns[j].getTranslatedTitle(), com, true);
+				columnItem.setSelected(data.columns[j].isVisible());
+				popupMenu.addItem(columnItem);
 			}
 		}
 
-		if (hasColInPopup) {
-			popupMenu.addVerticalSeparator();
-		}
+		popupMenu.addVerticalSeparator();
 
 		miShowOnlyBreakpoints = new GCheckBoxMenuItem(
 				app
