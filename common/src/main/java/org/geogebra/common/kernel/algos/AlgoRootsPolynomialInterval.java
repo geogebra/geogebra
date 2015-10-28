@@ -67,12 +67,10 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 					|| interval.getExpression() != condExpression) {
 				FunctionVariable fVar = f.getFunction().getFunctionVariable();
 				// extract poly from If[0<x<10, poly]
-				intervalFun = new Function((ExpressionNode) f
-						.getFunctionExpression().getRight(), fVar);
+				intervalFun = new Function(polyExpression, fVar);
 
 				// extract interval
-				interval = new Function((ExpressionNode) f
-						.getFunctionExpression().getLeft(), fVar);
+				interval = new Function(condExpression, fVar);
 
 			}
 			// get polynomial factors and calc roots
