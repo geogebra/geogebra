@@ -620,6 +620,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		g2.setPaint(geoList.getBackgroundColor());
 		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
+		int viewBottom = view.getViewHeight();
+		if (optTop + optionsHeight > viewBottom) {
+			App.debug("[DROPDOWN] offscreen: adjusting.");
+			optTop = viewBottom - optionsHeight;
+		}
 		optionsRect.setBounds(boxLeft, optTop, boxWidth, optionsHeight);
 		g2.fillRect(boxLeft, optTop, boxWidth, optionsHeight);
 
