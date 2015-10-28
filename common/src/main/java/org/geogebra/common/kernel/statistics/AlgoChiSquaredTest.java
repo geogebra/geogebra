@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Performs a chi square Goodness of Fit test or Test of Independence.
@@ -240,8 +239,8 @@ public class AlgoChiSquaredTest extends AlgoElement {
 
 		// put results into the output list
 		result.clear();
-		result.add(new GeoNumeric(cons, p));
-		result.add(new GeoNumeric(cons, testStat));
+		result.addNumber(p, null);
+		result.addNumber(testStat, null);
 
 	}
 

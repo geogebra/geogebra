@@ -291,16 +291,15 @@ public class AlgoTMean2Estimate extends AlgoElement {
 			// error, df }
 			difference = mean1 - mean2;
 			result.clear();
-			boolean oldSuppress = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
-			result.add(new GeoNumeric(cons, difference - me));
-			result.add(new GeoNumeric(cons, difference + me));
+
+			result.addNumber(difference - me, null);
+			result.addNumber(difference + me, null);
 			// result.add(new GeoNumeric(cons, difference));
 			// result.add(new GeoNumeric(cons, me));
 			// result.add(new GeoNumeric(cons, getDegreeOfFreedom(var1, var2,
 			// n1, n2, pooled)));
 
-			cons.setSuppressLabelCreation(oldSuppress);
+
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

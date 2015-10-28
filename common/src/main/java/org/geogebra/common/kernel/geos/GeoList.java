@@ -73,7 +73,7 @@ AngleProperties {
 
 	// lists will often grow and shrink dynamically,
 	// so we keep a cacheList of all old list elements
-	private final ArrayList<GeoElement> cacheList;
+	private final ArrayList<GeoElementND> cacheList;
 
 	private boolean isDefined = true;
 	private boolean isDrawable = true;
@@ -107,7 +107,7 @@ AngleProperties {
 		setConstructionDefaults(); // init visual settings
 
 		geoList = new ArrayList<GeoElement>(size);
-		cacheList = new ArrayList<GeoElement>(size);
+		cacheList = new ArrayList<GeoElementND>(size);
 		setEuclidianVisible(false);
 		setBackgroundColor(GColor.WHITE);
 	}
@@ -201,11 +201,11 @@ AngleProperties {
 
 		for (int i = 0; i < otherListSize; i++) {
 			final GeoElement otherElement = otherList.get(i);
-			GeoElement thisElement = null;
+			GeoElementND thisElement = null;
 
 			// try to reuse cached GeoElement
 			if (i < cacheList.size()) {
-				final GeoElement cachedGeo = cacheList.get(i);
+				final GeoElementND cachedGeo = cacheList.get(i);
 				if (!cachedGeo.isLabelSet()
 						&& (cachedGeo.getGeoClassType() == otherElement
 						.getGeoClassType())) {
@@ -514,7 +514,7 @@ AngleProperties {
 			
 			//set also cached geos to undefined (for lists of lists)
 			for (int i = size; i < cacheList.size(); i++) {
-				final GeoElement geo = cacheList.get(i);
+				final GeoElementND geo = cacheList.get(i);
 				if (!geo.isLabelSet()) {
 					geo.setUndefined();
 				}
@@ -559,7 +559,7 @@ AngleProperties {
 	public final void clearCache() {
 		if (cacheList.size() > 0) {
 			for (int i = 0; i < cacheList.size(); i++) {
-				final GeoElement geo = cacheList.get(i);
+				final GeoElementND geo = cacheList.get(i);
 				if ((geo != null) && !geo.isLabelSet()) {
 					geo.remove();
 				}
@@ -573,9 +573,9 @@ AngleProperties {
 	 * Adds a geo to this list
 	 * @param geo geo to be added
 	 */
-	public final void add(final GeoElement geo) {
+	public final void add(final GeoElementND geo) {
 		// add geo to end of list
-		geoList.add(geo);
+		geoList.add(geo.toGeoElement());
 		
 		if (geoList.size() == 1) {
 			setTypeStringForXML(geo.getXMLtypeString());
@@ -607,11 +607,13 @@ AngleProperties {
 		else if (elementType != geo.getGeoClassType()) {
 			elementType = ELEMENT_TYPE_MIXED;
 		}
-		isDrawable = isDrawable && geo.isDrawable() && !geo.isGeoBoolean()
+		isDrawable = isDrawable
+				&& geo.isDrawable()
+				&& !geo.isGeoButton()
 				&& !(geo instanceof GeoNumeric && ((GeoNumeric)geo).isSlider());
 
 		// set visual style of this list
-		applyVisualStyle(geo);
+		applyVisualStyle(geo.toGeoElement());
 		if (!geo.isLabelSet()) {
 			geo.setViewFlags(getViewSet());
 			geo.setVisibleInView3D(this);
@@ -733,7 +735,7 @@ AngleProperties {
 	 * @return cached element at given position
 	 */
 	final public GeoElement getCached(final int index) {
-		return cacheList.get(index);
+		return cacheList.get(index).toGeoElement();
 	}
 
 	@Override

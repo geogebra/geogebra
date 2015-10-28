@@ -53,8 +53,6 @@ public class AlgoFirstLocus extends AlgoFirst {
 		}
 
 		// avoid label creation
-		boolean oldSuppressLabels = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
 
 		for (int i = 0; i < outsize; i++) {
 			MyPoint mp = points.get(i);
@@ -67,12 +65,10 @@ public class AlgoFirstLocus extends AlgoFirst {
 				p.setCoords(mp.x, mp.y, 1.0);
 				p.updateRepaint();
 			} else {
-				GeoPoint p = new GeoPoint(cons, null, mp.x, mp.y, 1.0);
-				outputList.add(p);
+				outputList.addPoint(mp.x, mp.y, 1.0, null);
 			}
 		}
 
-		cons.setSuppressLabelCreation(oldSuppressLabels);
 
 	}
 

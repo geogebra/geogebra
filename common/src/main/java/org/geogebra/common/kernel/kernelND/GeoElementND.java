@@ -20,7 +20,9 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ToGeoElement;
+import org.geogebra.common.plugin.GeoClass;
 /**
  * Common interface for all interfaces that represent GeoElements
  * @author Zbynek
@@ -262,11 +264,27 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 
 	boolean isGeoVector();
 
-	Object getGeoClassType();
+	GeoClass getGeoClassType();
 
 	void setAuxiliaryObject(boolean auxilliary);
 
 	void setFixed(boolean fix);
 
 	void setLabelWanted(boolean b);
+
+	void setColorSpace(int colorSpace);
+
+	void setColorFunction(GeoList colorFunction);
+
+	void setHatchingDistance(int hatchingDistance);
+
+	String getXMLtypeString();
+
+	void setVisibleInView3D(GeoElement geoList);
+
+	void setViewFlags(List<Integer> viewSet);
+
+	void setVisibleInViewForPlane(GeoElement geoList);
+
+	boolean isDrawable();
 }

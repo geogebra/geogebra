@@ -152,8 +152,8 @@ public class AlgoZProportion2Test extends AlgoElement {
 
 		// put these results into the output list
 		result.clear();
-		result.add(new GeoNumeric(cons, P));
-		result.add(new GeoNumeric(cons, testStatistic));
+		result.addNumber(P, null);
+		result.addNumber(testStatistic, null);
 
 	}
 

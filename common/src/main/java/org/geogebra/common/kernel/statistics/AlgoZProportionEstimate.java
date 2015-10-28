@@ -119,8 +119,8 @@ public class AlgoZProportionEstimate extends AlgoElement {
 
 		// put these results into the output list
 		result.clear();
-		result.add(new GeoNumeric(cons, phat - me));
-		result.add(new GeoNumeric(cons, phat + me));
+		result.addNumber(phat - me, null);
+		result.addNumber(phat + me, null);
 
 	}
 

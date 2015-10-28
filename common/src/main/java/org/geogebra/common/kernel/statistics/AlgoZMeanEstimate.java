@@ -178,8 +178,8 @@ public class AlgoZMeanEstimate extends AlgoElement {
 
 		// put these results into the output list
 		result.clear();
-		result.add(new GeoNumeric(cons, mean1 - me));
-		result.add(new GeoNumeric(cons, mean1 + me));
+		result.addNumber(mean1 - me, null);
+		result.addNumber(mean1 + me, null);
 
 	}
 

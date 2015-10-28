@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Ranks of a list. Adapted from AlgoSort
@@ -114,7 +113,7 @@ public class AlgoOrdinalRank extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 		for (i = 0; i < size; i++) {
-			outputList.add(new GeoNumeric(cons, list[i]));
+			outputList.addNumber(list[i], null);
 		}
 
 	}

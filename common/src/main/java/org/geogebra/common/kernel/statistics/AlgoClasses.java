@@ -150,9 +150,9 @@ public class AlgoClasses extends AlgoElement {
 
 			double width = (maxGeoValue - minGeoValue) / n;
 			for (int i = 0; i < n; i++) {
-				classList.add(new GeoNumeric(cons, minGeoValue + i * width));
+				classList.addNumber(minGeoValue + i * width, null);
 			}
-			classList.add(new GeoNumeric(cons, maxGeoValue));
+			classList.addNumber(maxGeoValue, null);
 
 		}
 
@@ -160,12 +160,12 @@ public class AlgoClasses extends AlgoElement {
 		// =======================================================
 		if (input.length == 3) {
 			double value = start.getDouble();
-			classList.add(new GeoNumeric(cons, value));
+			classList.addNumber(value, null);
 			while (value < maxGeoValue) {
 				value = value + width.getDouble();
 				// System.out.println("value: " + value + "max: " +
 				// maxGeoValue);
-				classList.add(new GeoNumeric(cons, value));
+				classList.addNumber(value, null);
 			}
 			if (classList.size() < 2)
 				classList.setUndefined();

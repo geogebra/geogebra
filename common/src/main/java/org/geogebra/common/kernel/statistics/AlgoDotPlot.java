@@ -174,8 +174,7 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 
 		// ========================================
 		// create dot plot points
-		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
+
 
 		int index = 0;
 		for (int i = 0; i < list1.size(); i++) {
@@ -195,14 +194,13 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 					((GeoPoint) outputList.get(index)).setCoords(x, scaledY,
 							1.0);
 				} else {
-					outputList.add(new GeoPoint(cons, null, x, scaledY, 1.0));
+					outputList.addPoint(x, scaledY, 1.0, null);
 				}
 				index++;
 			}
 
 		}
 
-		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
 
 	/**

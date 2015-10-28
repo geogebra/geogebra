@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
 
@@ -137,8 +136,8 @@ public class AlgoTTestPaired extends AlgoElement {
 
 			// put these results into the output list
 			result.clear();
-			result.add(new GeoNumeric(cons, p));
-			result.add(new GeoNumeric(cons, testStat));
+			result.addNumber(p, null);
+			result.addNumber(testStat, null);
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

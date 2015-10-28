@@ -91,8 +91,6 @@ public class AlgoResidualPlot extends AlgoElement {
 
 		outputList.setDefined(true);
 		outputList.clear();
-		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
 
 		GeoFunction funGeo = function.getGeoFunction();
 
@@ -109,13 +107,12 @@ public class AlgoResidualPlot extends AlgoElement {
 				r = y - funGeo.evaluate(x);
 				min = Math.min(r, min);
 				max = Math.max(r, max);
-				outputList.add(new GeoPoint(cons, null, x, r, 1.0));
+				outputList.addPoint(x, r, 1.0, null);
 			} else {
 				outputList.setUndefined();
 				return;
 			}
 		}
-		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
 
 	// TODO Consider locusequability

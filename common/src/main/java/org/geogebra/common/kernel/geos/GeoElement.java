@@ -3829,6 +3829,9 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	/**
 	 * Same as update(), but do not notify kernel
+	 * 
+	 * @param mayUpdateCas
+	 *            whether update migt be sent to CAS
 	 */
 	protected final void updateGeo(boolean mayUpdateCas) {
 
@@ -6179,6 +6182,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isGeoButton() {
 		return false;
 	}
+
 	/**
 	 * @return true if this is using visual defaults
 	 */
@@ -6187,7 +6191,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * @param useVisualDefaults true to use visual defaults
+	 * @param useVisualDefaults
+	 *            true to use visual defaults
 	 */
 	public final void setUseVisualDefaults(final boolean useVisualDefaults) {
 		this.useVisualDefaults = useVisualDefaults;

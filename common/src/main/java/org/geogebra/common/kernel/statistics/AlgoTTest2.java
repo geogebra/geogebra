@@ -202,8 +202,8 @@ public class AlgoTTest2 extends AlgoElement {
 
 				// put these results into the output list
 				result.clear();
-				result.add(new GeoNumeric(cons, p));
-				result.add(new GeoNumeric(cons, testStat));
+				result.addNumber(p, null);
+				result.addNumber(testStat, null);
 
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
@@ -246,8 +246,8 @@ public class AlgoTTest2 extends AlgoElement {
 
 				// put these results into the output list
 				result.clear();
-				result.add(new GeoNumeric(cons, p));
-				result.add(new GeoNumeric(cons, testStat));
+				result.addNumber(p, null);
+				result.addNumber(testStat, null);
 
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();

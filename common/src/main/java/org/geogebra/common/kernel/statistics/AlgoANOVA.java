@@ -137,8 +137,8 @@ public class AlgoANOVA extends AlgoElement {
 
 			// put these results into the output list
 			result.clear();
-			result.add(new GeoNumeric(cons, p));
-			result.add(new GeoNumeric(cons, testStat));
+			result.addNumber(p, null);
+			result.addNumber(testStat, null);
 
 		} catch (Exception e) {
 			result.setUndefined();

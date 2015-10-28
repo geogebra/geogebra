@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Mode of a list. Adapted from AlgoSort
@@ -123,7 +122,7 @@ public class AlgoMode extends AlgoElement {
 			if (sortList[i] == val) {
 				run++;
 				if (run == maxRun)
-					setListElement(modeNo++, val);
+					outputList.addNumber(val, null);
 			} else {
 				run = 1;
 				val = sortList[i];
@@ -132,24 +131,6 @@ public class AlgoMode extends AlgoElement {
 
 	}
 
-	// copied from AlgoInterationList.java
-	// TODO should it be centralised?
-	private void setListElement(int index, double value) {
-		GeoNumeric listElement;
-		if (index < outputList.getCacheSize()) {
-			// use existing list element
-			listElement = (GeoNumeric) outputList.getCached(index);
-		} else {
-			// create a new list element
-			listElement = new GeoNumeric(cons);
-			listElement.setParentAlgorithm(this);
-			listElement.setConstructionDefaults();
-			listElement.setUseVisualDefaults(false);
-		}
-
-		outputList.add(listElement);
-		listElement.setValue(value);
-	}
 
 	// TODO Consider locusequability
 
