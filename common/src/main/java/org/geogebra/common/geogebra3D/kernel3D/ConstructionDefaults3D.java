@@ -154,10 +154,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 		// quadric
 		GeoQuadric3D quadric = new GeoQuadric3D(cons);
-		// make sure non-zero so extra GeoPlanes aren't made when it's
-		// classified
-		double[] m = { 0, 1, -2, 3, -2, 12, 2, 2, 2, 2 };
-		quadric.setMatrix(m);
 		quadric.setLocalVariableLabel("Quadric");
 		quadric.setObjColor(colQuadric);
 		quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA);

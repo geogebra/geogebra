@@ -496,6 +496,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	protected void handleMatrixConicOrQuadric(
 			LinkedHashMap<String, String> attrs) throws Exception {
 		if (geo.isGeoQuadric()) {
+			if (geo.isDefaultGeo()) { // avoid setting for default geo
+				return;
+			}
 			GeoQuadric3D quadric = (GeoQuadric3D) geo;
 			// set matrix and classify conic now
 			// <eigenvectors> should have been set earlier
