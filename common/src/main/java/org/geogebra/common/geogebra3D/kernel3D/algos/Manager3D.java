@@ -1027,7 +1027,7 @@ public class Manager3D implements Manager3DInterface {
 	final public GeoCurveCartesian3D CurveCartesian3D(NumberValue xcoord,
 			NumberValue ycoord, NumberValue zcoord,
 			GeoNumeric localVar, NumberValue from, NumberValue to) {
-		AlgoCurveCartesian3D algo = new AlgoCurveCartesian3D(cons,
+		AlgoCurveCartesian3D algo = new AlgoCurveCartesian3D(cons, null,
 				new NumberValue[] { xcoord, ycoord, zcoord }, localVar, from,
 				to);
 		return (GeoCurveCartesian3D) algo.getCurve();

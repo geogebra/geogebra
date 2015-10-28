@@ -276,6 +276,8 @@ public class ParametricProcessor {
 			GeoNumeric from = new GeoNumeric(cons, -10);
 			GeoNumeric to = new GeoNumeric(cons, 10);
 			AlgoCurveCartesian ac = new AlgoCurveCartesian(cons,
+ exp.deepCopy(
+					kernel).wrap(),
 					new NumberValue[] { nx.getNumber(), ny.getNumber() },
 					locVar, from, to);
 			ac.getCurve().setLabel(label);

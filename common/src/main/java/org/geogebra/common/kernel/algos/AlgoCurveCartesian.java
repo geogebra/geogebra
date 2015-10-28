@@ -48,7 +48,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 	private ExpressionNode[] exp;
 
 	/** Creates new AlgoJoinPoints */
-	public AlgoCurveCartesian(Construction cons,
+	public AlgoCurveCartesian(Construction cons, ExpressionNode point,
 			NumberValue[] coords, GeoNumeric localVar, NumberValue from,
 			NumberValue to) {
 		super(cons);
@@ -77,7 +77,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 		}
 
 		// create the curve
-		curve = createCurve(cons, fun);
+		curve = createCurve(cons, fun, point);
 
 		setInputOutput(); // for AlgoElement
 
@@ -92,8 +92,9 @@ public class AlgoCurveCartesian extends AlgoElement {
 	 * @param fun
 	 * @return a curve
 	 */
-	protected GeoCurveCartesianND createCurve(Construction cons, Function[] fun) {
-		return new GeoCurveCartesian(cons, fun[0], fun[1]);
+	protected GeoCurveCartesianND createCurve(Construction cons,
+			Function[] fun, ExpressionNode point) {
+		return new GeoCurveCartesian(cons, fun[0], fun[1], point);
 	}
 
 	@Override

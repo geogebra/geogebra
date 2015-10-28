@@ -4,6 +4,7 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoCurveCartesian3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -63,12 +64,14 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 		return super.process(c);
 	}
 
-	protected AlgoCurveCartesian getCurveAlgo(NumberValue[] coords,
+	protected AlgoCurveCartesian getCurveAlgo(ExpressionNode point,
+			NumberValue[] coords,
 			GeoElement[] arg) {
 		if (coords.length == 2) {
-			return super.getCurveAlgo(coords, arg);
+			return super.getCurveAlgo(point, coords, arg);
 		}
-		return new AlgoCurveCartesian3D(cons, coords, (GeoNumeric) arg[1],
+		return new AlgoCurveCartesian3D(cons, point, coords,
+				(GeoNumeric) arg[1],
 				(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
 	}
 

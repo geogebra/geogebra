@@ -45,15 +45,23 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	protected boolean isDefined = true;
 	protected DistanceFunction distFun;
 
-	/** common constructor
-	 * @param c construction
-	 * @param dimension 
+	private ExpressionNode point;
+
+	/**
+	 * common constructor
+	 * 
+	 * @param c
+	 *            construction
+	 * @param dimension
+	 *            dimension 2 or 3
 	 */
-	public GeoCurveCartesianND(Construction c, int dimension) {
+	public GeoCurveCartesianND(Construction c, int dimension,
+			ExpressionNode point) {
 		super(c);
 		this.fun = new Function[dimension];
 		this.funExpanded = new Function[dimension];
 		this.containsFunctions = new boolean[dimension];
+		this.point = point;
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
 		//http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
@@ -65,12 +73,14 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	 * @param c construction
 	 * @param fun functions of parameter
 	 */
-	public GeoCurveCartesianND(Construction c, Function[] fun) {
+	public GeoCurveCartesianND(Construction c, Function[] fun,
+			ExpressionNode point) {
 		super(c);
 
 		this.fun = fun;
 		this.funExpanded = new Function[fun.length];
 		this.containsFunctions = new boolean[fun.length];
+		this.point = point;
 		setConstructionDefaults();
 	}	
 
@@ -430,30 +440,43 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 				sbTemp.append("}");
 			} else {
 
-				if (!hideRangeInFormula) {
+				if (!hideRangeInFormula && point == null) {
 					sbTemp.append("\\left.");
 				}
-				sbTemp.append("\\begin{array}{lll}");
+				if (point == null) {
+					sbTemp.append("\\begin{array}{lll}");
 
-				for (int i = 0 ; i < getDimension() ; i++) {
+					for (int i = 0; i < getDimension(); i++) {
 
-					if (i > 0) {
-						sbTemp.append("\\\\ ");
+						if (i > 0) {
+							sbTemp.append("\\\\ ");
+						}
+						sbTemp.append(getVariable(i));
+						sbTemp.append(" = ");
+						sbTemp.append(getFun(i).toLaTeXString(symbolic, tpl));
+
 					}
-					sbTemp.append(getVariable(i));
-					sbTemp.append(" = ");
-					sbTemp.append(getFun(i).toLaTeXString(symbolic, tpl));
-
+					sbTemp.append(" \\end{array}");
+				} else {
+					sbTemp.append(point.toLaTeXString(true, tpl));
 				}
 
-				sbTemp.append(" \\end{array}");
 				if (!hideRangeInFormula) {
-					sbTemp.append("\\right\\} \\; ");
+					if (point == null) {
+						sbTemp.append("\\right\\} \\; ");
+					} else {
+						sbTemp.append(" \\;\\;\\;\\; \\left(");
+					}
 					sbTemp.append(this.kernel.format(this.startParam, tpl));
 					sbTemp.append(" \\le ");
 					sbTemp.append(param);
 					sbTemp.append(" \\le ");
 					sbTemp.append(this.kernel.format(this.endParam, tpl));
+					if (point == null) {
+						// nothing to do here
+					} else {
+						sbTemp.append("\\right)");
+					}
 				}
 			}
 			return sbTemp.toString();

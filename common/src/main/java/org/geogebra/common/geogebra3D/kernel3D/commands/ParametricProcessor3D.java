@@ -180,7 +180,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			cons.removeFromConstructionList(nz);
 			GeoNumeric from = new GeoNumeric(cons, -10);
 			GeoNumeric to = new GeoNumeric(cons, 10);
-			AlgoCurveCartesian ac = new AlgoCurveCartesian3D(cons,
+			AlgoCurveCartesian ac = new AlgoCurveCartesian3D(cons, exp,
 					new NumberValue[] { nx.getNumber(), ny.getNumber(),
 							nz.getNumber() }, loc, from, to);
 			ac.getCurve().setLabel(label);

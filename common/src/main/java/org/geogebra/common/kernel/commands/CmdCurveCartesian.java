@@ -47,14 +47,14 @@ public class CmdCurveCartesian extends CommandProcessor {
 				int dim = ((VectorNDValue)arg[0]).getDimension();
 				NumberValue[] coords = new NumberValue[dim];
 				for (int i = 0; i < dim; i++) {
-				ExpressionNode cx = kernelA.getAlgebraProcessor().computeCoord(
-exp, i);
-				AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx,
+					ExpressionNode cx = kernelA.getAlgebraProcessor()
+							.computeCoord(exp, i);
+					AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx,
 						false);
 					coords[i] = nx.getNumber();
 				}
 
-				AlgoCurveCartesian algo = getCurveAlgo(coords, arg);
+				AlgoCurveCartesian algo = getCurveAlgo(exp, coords, arg);
 				algo.getCurve().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getCurve() };
 
@@ -74,7 +74,7 @@ exp, i);
 				checkDependency(arg, c.getName(), 3, 2);
 				checkDependency(arg, c.getName(), 4, 2);
 
-				AlgoCurveCartesian algo = new AlgoCurveCartesian(cons,
+				AlgoCurveCartesian algo = new AlgoCurveCartesian(cons, null,
 						new NumberValue[] {
 								(GeoNumberValue) arg[0],
 								(GeoNumberValue) arg[1] }, (GeoNumeric) arg[2],
@@ -94,9 +94,10 @@ exp, i);
 		}
 	}
 
-	protected AlgoCurveCartesian getCurveAlgo(NumberValue[] coords,
+	protected AlgoCurveCartesian getCurveAlgo(ExpressionNode point,
+			NumberValue[] coords,
 			GeoElement[] arg) {
-		return new AlgoCurveCartesian(cons, coords, (GeoNumeric) arg[1],
+		return new AlgoCurveCartesian(cons, point, coords, (GeoNumeric) arg[1],
 				(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
 	}
 }

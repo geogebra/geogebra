@@ -66,7 +66,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * 
 	 */
 	public GeoCurveCartesian(Construction c) {
-		super(c, 2);
+		super(c, 2, null);
 	}
 
 	/**
@@ -79,8 +79,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * @param fy
 	 *            y-coord function
 	 */
-	public GeoCurveCartesian(Construction c, Function fx, Function fy) {
-		super(c, 2);
+	public GeoCurveCartesian(Construction c, Function fx, Function fy,
+			ExpressionNode point) {
+		super(c, 2, point);
 		setFunctionX(fx);
 		setFunctionY(fy);
 	}
@@ -102,7 +103,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 *            Curve to copy
 	 */
 	public GeoCurveCartesian(GeoCurveCartesian f) {
-		super(f.cons, 2);
+		super(f.cons, 2, null);
 		set(f);
 	}
 

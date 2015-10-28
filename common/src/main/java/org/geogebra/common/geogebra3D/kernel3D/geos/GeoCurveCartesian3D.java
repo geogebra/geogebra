@@ -51,7 +51,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * @param c
 	 */
 	public GeoCurveCartesian3D(Construction c) {
-		super(c, 3);
+		super(c, 3, null);
 	}
 
 	/**
@@ -60,8 +60,9 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * @param c
 	 * @param fun
 	 */
-	public GeoCurveCartesian3D(Construction c, Function fun[]) {
-		super(c, fun);
+	public GeoCurveCartesian3D(Construction c, Function fun[],
+			ExpressionNode point) {
+		super(c, fun, point);
 	}
 
 	/**
@@ -69,7 +70,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * @param curve
 	 */
 	public GeoCurveCartesian3D(GeoCurveCartesian3D curve) {
-		super(curve.cons, 3);
+		super(curve.cons, 3, null);
 		set(curve);
 	}
 
