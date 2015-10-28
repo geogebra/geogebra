@@ -255,8 +255,9 @@ public abstract class Renderer {
 		double scale = Math.min(MyXMLio.THUMBNAIL_PIXELS_X / getWidth(),
 				MyXMLio.THUMBNAIL_PIXELS_Y / getHeight());
 
-		needExportImage(scale, (int) MyXMLio.THUMBNAIL_PIXELS_X,
-				(int) MyXMLio.THUMBNAIL_PIXELS_Y);
+		needExportImage(scale, (int) (getWidth() * scale),
+				(int) (getHeight() * scale));
+
 
 	}
 
