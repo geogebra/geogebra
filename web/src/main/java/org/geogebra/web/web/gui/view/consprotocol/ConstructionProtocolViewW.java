@@ -242,13 +242,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			}
 		}
 
-		// (k==3) if there are at least 3 columns in the CP.
-		int k = 0;
-		for (int i = 0; i <= lastVisibleColData && k < 3; i++) {
-			if (data.columns[i].isVisible()) {
-				k++;
-			}
-		}
 
 		initPopupMenu();
 		
@@ -258,27 +251,22 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				Column<RowData, ?> col = getColumn(title);
 				if (col != null) {
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
-					String headerTitle = ("ToolbarIcon".equals(title)) ? "Icon"
-							: title;
-					sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
-							+ app.getPlain(headerTitle) + "</div>"));
-					if (i != 0 && k == 3) {
+					if (i == 0) {
 						sb.append(SafeHtmlUtils
-								.fromSafeConstant("<div title = " + title + ">"));
-						sb.append(AbstractImagePrototype.create(
-								GuiResources.INSTANCE.dockbar_close())
-								.getSafeHtml());
-						sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
-					}
-					if (i == lastVisibleColData) {
-						sb.append(SafeHtmlUtils.fromSafeConstant("<div id = \"CP_popupImage\">"));
+								.fromSafeConstant("<div id = \"CP_popupImage\">"));
 						sb.append(AbstractImagePrototype.create(
 								GuiResources.INSTANCE.menu_dots())
 								.getSafeHtml());
 						sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
 
+					} else {
+
+						String headerTitle = ("ToolbarIcon".equals(title)) ? "Icon"
+								: title;
+						sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
+								+ app.getPlain(headerTitle) + "</div>"));
 					}
-					col.setDataStoreName(title);
+
 					table.addColumn(col, sb.toSafeHtml());
 				}
 			}
@@ -372,16 +360,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 					popupMenu.show(new GPoint(el.getAbsoluteLeft(), el
 							.getAbsoluteBottom()));
 
-					// X image for closing the columns
-				} else if ("img".equals(el.getTagName().toLowerCase())) {
-					String colTitle = el.getParentElement().getAttribute(
-							"title");
-					if (colTitle != null) {
-						data.columns[data.getColumnNumberByTitle(colTitle)]
-								.setVisible(false);
-						table.removeColumn(getColumnByTitle(colTitle));
-						initGUI();
-					}
 				}
 			}
 
@@ -879,20 +857,6 @@ myCell) {
 				row.updateAll();
 			}
 		}
-	}
-
-	public Column<RowData, ?> getColumnByTitle(String t) {
-		if (t == null){
-			return null;
-		}
-		Column<RowData, ?> col;
-		for (int i = 0; i < table.getColumnCount(); i++) {
-			col = table.getColumn(i);
-			if (t.equals(col.getDataStoreName())) {
-				return col;
-			}
-		}
-		return null;
 	}
 
 	/**
