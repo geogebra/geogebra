@@ -16,6 +16,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -152,13 +153,15 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		polyhedronNet.setDefaultGeoType(DEFAULT_NET);
 		defaultGeoElements.put(DEFAULT_NET, polyhedronNet);
 
-		// quadric
-		GeoQuadric3D quadric = new GeoQuadric3D(cons);
-		quadric.setLocalVariableLabel("Quadric");
-		quadric.setObjColor(colQuadric);
-		quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
-		quadric.setDefaultGeoType(DEFAULT_QUADRIC);
-		defaultGeoElements.put(DEFAULT_QUADRIC, quadric);
+		if (cons.getKernel().getApplication().has(Feature.ALL_QUADRICS)) {
+			// quadric
+			GeoQuadric3D quadric = new GeoQuadric3D(cons);
+			quadric.setLocalVariableLabel("Quadric");
+			quadric.setObjColor(colQuadric);
+			quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
+			quadric.setDefaultGeoType(DEFAULT_QUADRIC);
+			defaultGeoElements.put(DEFAULT_QUADRIC, quadric);
+		}
 
 		// surface
 		GeoSurfaceCartesian3D surface = new GeoSurfaceCartesian3D(cons);
