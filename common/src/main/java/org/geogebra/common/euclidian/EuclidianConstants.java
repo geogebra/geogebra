@@ -371,18 +371,19 @@ public final class EuclidianConstants {
 
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
-
+	/** max delay between taps of a doublecklick */
 	public static final long DOUBLE_CLICK_DELAY = 300;
-
+	/** ignore drag until this many miliseconds after drag start */
 	public static final long DRAGGING_DELAY = 100;
-
+	/** default size of delete tool rectangle in pixels */
 	public static final int DEFAULT_ERASER_SIZE = 20;
-
+	/** min length of input box that allows display of symbol button */
 	public static final int SHOW_SYMBOLBUTTON_MINLENGTH = 8;
 
 	/**
 	 * @param mode
-	 * @return
+	 *            mode number
+	 * @return key of the mode description
 	 */
 	public static String getModeText(int mode) {
 		switch (mode) {

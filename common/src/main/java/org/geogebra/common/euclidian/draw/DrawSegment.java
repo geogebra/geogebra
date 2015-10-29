@@ -470,8 +470,9 @@ public class DrawSegment extends Drawable implements Previewable {
 				endPoint.setX(xRW);
 				endPoint.setY(yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
-			} else
+			} else {
 				view.getEuclidianController().setLineEndPoint(null);
+			}
 			line.setLine(coordsA[0], coordsA[1], mx, my);
 		}
 	}

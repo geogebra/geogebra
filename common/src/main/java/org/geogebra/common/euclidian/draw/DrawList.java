@@ -549,6 +549,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
+	@Override
 	protected void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
 
 		int textBottom = boxTop + getTextBottom();
@@ -788,11 +789,19 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		return selectedDimension.getHeight();
 	}
 
-	int getMultipliedFontSize() {
+	private int getMultipliedFontSize() {
 		return (int) Math.round(((view.getApplication().getFontSize()
 				* geoList.getFontSizeMultiplier())));
 	}
 
+	/**
+	 * @return preferred width of dropdown
+	 */
+	int getPreferredWidth() {
+		return isOptionsVisible() ? optionsWidth : selectedDimension.getWidth()
+				+ (isLatexString(selectedText) ? 0 : 2 * COMBO_TEXT_MARGIN)
+				+ getTriangleControlWidth();
+	}
 	@Override
 	public GDimension getPreferredSize() {
 		// TODO: eliminate magic numbers
@@ -800,11 +809,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			@Override
 			public int getWidth() {
-				return isOptionsVisible() ? optionsWidth
-						: selectedDimension.getWidth()
-								+ (isLatexString(selectedText) ? 0
-										: 2 * COMBO_TEXT_MARGIN)
-								+ getTriangleControlWidth();
+				return getPreferredWidth();
 			}
 
 			@Override
@@ -819,11 +824,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void showWidget() {
-
+		// no widget
 	}
 
 	@Override
 	protected void hideWidget() {
+		// no widget
 	}
 
 
@@ -854,7 +860,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * Returns if mouse is hit the options or not.
 	 * 
 	 * @param x
+	 *            mouse x-coord
 	 * @param y
+	 *            mouse y-coord
 	 * @return true if options rectangle hit by mouse.
 	 */
 	public boolean isOptionsHit(int x, int y) {
@@ -865,7 +873,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * Called when mouse is over options to highlight item.
 	 * 
 	 * @param x
+	 *            mouse x-coord
 	 * @param y
+	 *            mouse y-coord
 	 */
 	public void onOptionOver(int x, int y) {
 		if (!isOptionsHit(x, y)) {
@@ -931,25 +941,45 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		closeOptions();
 	}
 
+	/**
+	 * Close dropdown
+	 */
 	public void closeOptions() {
 		setOptionsVisible(false);
 	}
 
+	/**
+	 * @param x
+	 *            mouse x-coord
+	 * @param y
+	 *            mouse y-coord
+	 * @return whether control rectangle was hit
+	 */
 	public boolean isControlHit(int x, int y) {
 		return ctrlRect != null && ctrlRect.contains(x, y);
 	}
 
+	/**
+	 * @return whether dropdown is visible
+	 */
 	public boolean isOptionsVisible() {
 		return optionsVisible;
 	}
 
-	public void setOptionsVisible(boolean optionsVisible) {
+	/**
+	 * @param optionsVisible
+	 *            change visibility of dropdown items
+	 */
+	private void setOptionsVisible(boolean optionsVisible) {
 		this.optionsVisible = optionsVisible;
 		if (optionsVisible) {
 			currentIdx = 0;
 		}
 	}
 
+	/**
+	 * toggle visibility of dropdown items
+	 */
 	public void toggleOptions() {
 		if (!isDrawingOnCanvas()) {
 			return;
@@ -959,6 +989,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		geo.updateRepaint();
 	}
 
+	/**
+	 * Sync selected index to GeoList
+	 */
 	public void selectCurrentItem() {
 		if (!isOptionsVisible()) {
 			return;

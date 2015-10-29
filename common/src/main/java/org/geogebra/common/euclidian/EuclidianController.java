@@ -1374,9 +1374,9 @@ public abstract class EuclidianController {
 					// changed from highest so that tessellation works
 					// eg two points like (a + x(A), b + y(A))
 					// we want to drag the older one
-					int index = geo.getConstructionIndex();
-					if (index < minIndex) {
-						minIndex = index;
+					int consIndex = geo.getConstructionIndex();
+					if (consIndex < minIndex) {
+						minIndex = consIndex;
 						retIndex = geo;
 					}
 
@@ -1971,7 +1971,7 @@ public abstract class EuclidianController {
 			if (selPolygons() == 1) {
 				GeoPolygon[] poly = getSelectedPolygons();
 
-				GeoPointND[] points = (GeoPointND[]) poly[0].getPoints();
+				GeoPointND[] points = poly[0].getPoints();
 
 				GeoPointND[] pointsCopy = new GeoPointND[points.length];
 
@@ -8455,7 +8455,12 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	/** right-press the mouse makes start 3D rotation */
+	/**
+	 * right-press the mouse makes start 3D rotation
+	 * 
+	 * @param event
+	 *            used by actual 3D controller
+	 * */
 	protected void processRightPressFor3D(AbstractEvent event) {
 		// 3D only
 	}
@@ -10474,6 +10479,10 @@ public abstract class EuclidianController {
 		// not used in common, overwritten for other projects
 	}
 
+	/**
+	 * @param e
+	 *            touch start / mouse down event
+	 */
 	public void onPointerEventStart(AbstractEvent e) {
 		// not used in common, overwritten for other projects
 		

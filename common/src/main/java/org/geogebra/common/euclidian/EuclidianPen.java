@@ -43,7 +43,13 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
  */
 public class EuclidianPen {
 
+	/**
+	 * app
+	 */
 	protected App app;
+	/**
+	 * view
+	 */
 	protected EuclidianView view;
 
 	/**
@@ -80,10 +86,11 @@ public class EuclidianPen {
 	 * decrease to allow lines that are not so straight
 	 */
 	public double LINE_MAX_DET = 0.015;
-
+	/** Polyline that conects stylebar to pen settings */
 	public final GeoPolyLine DEFAULT_PEN_LINE;
 
 	private AlgoElement lastAlgo = null;
+	/** points created by pen */
 	protected ArrayList<GPoint> penPoints = new ArrayList<GPoint>();
 	private ArrayList<GPoint> temp = null;
 	private int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
@@ -391,10 +398,10 @@ public class EuclidianPen {
 		if (penPoints.size() == 0) {
 			if(initialPoint != null){
 				// also add the coordinates of the initialPoint to the penPoints
-				Coords c = initialPoint.getCoords();
+				Coords coords = initialPoint.getCoords();
 				// calculate the screen coordinates
-				int locationX = (int) (view.getXZero() + (c.getX() / view.getInvXscale()));
-				int locationY = (int) (view.getYZero() - (c.getY() / view.getInvYscale()));
+				int locationX = (int) (view.getXZero() + (coords.getX() / view.getInvXscale()));
+				int locationY = (int) (view.getYZero() - (coords.getY() / view.getInvYscale()));
 
 				GPoint p = new GPoint(locationX, locationY);
 				penPoints.add(p);
@@ -445,7 +452,7 @@ public class EuclidianPen {
 		}
 	}
 
-	private void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
+	private static void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
 			GPoint point2) {
 		GLine2D line = org.geogebra.common.factories.AwtFactory.prototype
 				.newLine2D();
@@ -461,8 +468,13 @@ public class EuclidianPen {
 	/**
 	 * Clean up the pen mode stuff, add points.
 	 * 
-	 * @param e
-	 *            event
+	 * @param right
+	 *            true for right click
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * 
 	 */
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y) {
 		if (right && !freehand) {
@@ -497,6 +509,13 @@ public class EuclidianPen {
 		penPoints.clear();
 	}
 
+	/**
+	 * @param x
+	 *            x-coord of new point
+	 * @param y
+	 *            y-coord of new point
+	 * @return geo that fits current points + new point
+	 */
 	protected GeoElement checkShapes(int x, int y) {
 
 		count = 0;

@@ -19,8 +19,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawList;
+import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -4037,7 +4037,7 @@ public abstract class App implements UpdateSelection {
 			} else if (geo.isGeoTextField()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
-				((CanvasDrawable) d).setWidgetVisible(true);
+				((DrawTextField) d).setWidgetVisible(true);
 			} else if (geo.isGeoList()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
