@@ -8,7 +8,7 @@ import org.geogebra.ggbjdk.java.awt.geom.Polygon;
 
 public class DropDownListW implements DropDownList {
 	private static final int BOX_ROUND = 8;
-	private static final GColor FOCUS_COLOR = GColor.LIGHT_GRAY;
+	private static final GColor FOCUS_COLOR = GColor.BLUE;
 	private static final GColor NORMAL_COLOR = GColor.LIGHT_GRAY;
 	private static final int MAX_WIDTH = 40;
 

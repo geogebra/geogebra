@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.awt.GGraphics2DD;
 
 public class DropDownListD implements DropDownList {
-	private static final GColor FOCUS_COLOR = GColor.LIGHT_GRAY;
+	private static final GColor FOCUS_COLOR = GColor.BLUE;
 	private static final GColor NORMAL_COLOR = GColor.LIGHT_GRAY;
 	private static final int MAX_WIDTH = 40;
 
