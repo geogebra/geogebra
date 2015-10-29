@@ -386,7 +386,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			col = getColumnValue();
 		} else if ("Caption".equals(title)) {
 			if (app.has(Feature.CP_NEW_COLUMNS)) {
-				col = getColumnCaption();
+				col = getColumnCaption2();
 			}
 		} else { // if ("Breakpoint".equals(title)) {
 			if (app.has(Feature.CP_NEW_COLUMNS)) {
@@ -519,10 +519,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		class MyTextInputCell extends TextInputCell {
 			private int focusedRow = -1;
 
-			public MyTextInputCell() {
-				super();
-			}
-
 			public int getFocusedRow() {
 				return focusedRow;
 			}
@@ -557,6 +553,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				String eventType = event.getType();
 				if (BrowserEvents.FOCUS.equals(eventType)) {
 					focusedRow = context.getIndex();
+					// tableInit();
+				} else if (BrowserEvents.BLUR.equals(eventType)) {
+					focusedRow = -1;
 				}
 
 			}
@@ -595,7 +594,7 @@ myCell) {
 
 
 	public class MyEditCell extends EditTextCell {
-		private int focusedRow;
+		private int focusedRow = -1;
 
 		public int getFocusedRow() {
 			return focusedRow;
@@ -604,7 +603,14 @@ myCell) {
 		@Override
 		public void render(Context context, String value, SafeHtmlBuilder sb) {
 			if (isEditing(context, null, null)) {
-				super.render(context, value, sb);
+				// Doesn't matter if it super.render(...) gets the right value
+				// in parameter "value", because this won't write this value
+				// into the textfield, but this will use
+				// EditTextCell.viewData.getText().
+				super.render(
+						context,
+						(String) table.getColumn(context.getColumn()).getValue(
+								data.getRow(context.getIndex())), sb);
 			} else {
 				sb.appendHtmlConstant(value);
 			}
@@ -619,9 +625,17 @@ myCell) {
 			String eventType = event.getType();
 			if (BrowserEvents.CLICK.equals(eventType)) {
 				focusedRow = context.getIndex();
+			} else if (BrowserEvents.BLUR.equals(eventType)) {
+				focusedRow = -1;
+
 			}
 
-			super.onBrowserEvent(context, parent, value, event, valueUpdater);
+			super.onBrowserEvent(
+					context,
+					parent,
+					(String) table.getColumn(context.getColumn()).getValue(
+							data.getRow(context.getIndex())), event,
+					valueUpdater);
 
 		}
 	}
@@ -645,13 +659,28 @@ myCell) {
 				// App.debug(object.getIndex() + " == "
 				// + (editCell.getFocusedRow() + 1));
 
-				if (isEditing) {
+				// if (isEditing) {
+
+				if (object.getIndex() == ((MyEditCell) getCell())
+						.getFocusedRow() + 1) {
 					return object.getGeo().getCaptionSimple();
 				}
 				return object.getCaption();
 			}
 
 		};
+
+		col.setFieldUpdater(new FieldUpdater<RowData, String>() {
+
+			public void update(int index, RowData object, String value) {
+				object.getGeo().setCaption(value);
+				data.initView();
+				tableInit();
+
+			}
+
+		});
+
 		return col;
 	}
 
