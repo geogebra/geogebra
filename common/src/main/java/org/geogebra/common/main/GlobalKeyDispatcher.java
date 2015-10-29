@@ -99,9 +99,14 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private boolean handleArrowsForDropdown(ArrayList<GeoElement> geos,
-			boolean down) {
+			boolean down, boolean canOpenDropDown) {
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
-			DrawList.asDrawable(app, geos.get(0)).moveSelection(down);
+			DrawList dl = DrawList.asDrawable(app, geos.get(0));
+			if (down && canOpenDropDown && !dl.isOptionsVisible()) {
+				dl.toggleOptions();
+			} else {
+				dl.moveSelection(down);
+			}
 			return true;
 		}
 		return false;
@@ -687,6 +692,17 @@ public abstract class GlobalKeyDispatcher {
 		return consumed;
 	}
 
+	private void handleEscForDropdown() {
+		App.debug("handleEscForDropdown");
+		ArrayList<GeoElement> geos = selection.getSelectedGeos();
+		if (geos.size() == 1 && geos.get(0).isGeoList()) {
+			DrawList dl = DrawList.asDrawable(app, geos.get(0));
+			if (dl.isOptionsVisible()) {
+				dl.toggleOptions();
+			}
+		}
+	}
+
 	/**
 	 * Creates new GGB window
 	 */
@@ -1143,7 +1159,8 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			if (!fromSpreadsheet && handleArrowsForDropdown(geos, false)) {
+			if (!fromSpreadsheet
+					&& handleArrowsForDropdown(geos, false, false)) {
 				return true;
 			}
 			changeValY = base;
@@ -1156,7 +1173,7 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			if (!fromSpreadsheet && handleArrowsForDropdown(geos, true)) {
+			if (!fromSpreadsheet && handleArrowsForDropdown(geos, true, true)) {
 				return true;
 			}
 			changeValY = -base;
@@ -1169,7 +1186,10 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-
+			if (!fromSpreadsheet
+					&& handleArrowsForDropdown(geos, true, false)) {
+				return true;
+			}
 			changeValX = base;
 			break;
 
@@ -1179,6 +1199,10 @@ public abstract class GlobalKeyDispatcher {
 			if (app.getGuiManager() != null && app.isUsingFullGui()
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
+			}
+			if (!fromSpreadsheet
+					&& handleArrowsForDropdown(geos, false, false)) {
+				return true;
 			}
 
 			changeValX = -base;
@@ -1239,8 +1263,12 @@ public abstract class GlobalKeyDispatcher {
 			changeVal = -base;
 			vertical = false;
 			break;
+		case ESCAPE:
+			if (!fromSpreadsheet) {
+				handleEscForDropdown();
+			}
+			break;
 		}
-
 		/*
 		 * if (changeVal == 0) { char keyChar = event.getKeyChar(); if (keyChar
 		 * == '+') changeVal = base; else if (keyChar == '-') changeVal = -base;

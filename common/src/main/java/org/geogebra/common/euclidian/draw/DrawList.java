@@ -942,6 +942,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	/**
+	 * Open dropdown
+	 */
+	public void openOptions() {
+		setOptionsVisible(false);
+	}
+
+	/**
 	 * Close dropdown
 	 */
 	public void closeOptions() {
