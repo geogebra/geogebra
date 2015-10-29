@@ -322,7 +322,6 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 		}
 
 		try {
-			App.debug("MACRO" + kernel.isMacroKernel());
 			kernel.setLoadingMode(true);
 			if (settingsBatch && !isGGTOrDefaults) {
 				app.getSettings().beginBatch();
