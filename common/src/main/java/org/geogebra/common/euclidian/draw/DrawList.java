@@ -936,7 +936,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	public boolean isControlHit(int x, int y) {
-		return ctrlRect.contains(x, y);
+		return ctrlRect != null && ctrlRect.contains(x, y);
 	}
 
 	public boolean isOptionsVisible() {

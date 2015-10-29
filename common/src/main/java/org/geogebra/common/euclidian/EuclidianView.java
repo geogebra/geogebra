@@ -4966,7 +4966,7 @@ sb.toString(), getFontAxes(),
 		while (it.hasNext()) {
 			Drawable d = it.next();
 
-			if (d instanceof DrawList) {
+			if (d instanceof DrawList && d.isCanvasDrawable()) {
 				DrawList dl = (DrawList) d;
 				if (!(dl.isControlHit(x, y) || dl.isOptionsHit(x, y))) {
 					dl.closeOptions();
