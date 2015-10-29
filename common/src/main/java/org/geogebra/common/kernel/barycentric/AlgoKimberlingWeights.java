@@ -146,8 +146,20 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 		if (k < 2000) {
 			return weight1900to1999(k, a, b, c);
 		}
+		if (k < 2100) {
+			return weight2000to2099(k, a, b, c);
+		}
+		if (k < 2200) {
+			return weight2100to2199(k, a, b, c);
+		}
+		if (k < 2300) {
+			return weight2200to2299(k, a, b, c);
+		}
+		if (k < 2400) {
+			return weight2300to2399(k, a, b, c);
+		}
 		if (k < 2500) {
-			return weight2000to2500(k, a, b, c);
+			return weight2400to2499(k, a, b, c);
 		}
 		if (k < 2600) {
 			return weight2500to2599(k, a, b, c);
@@ -7767,7 +7779,7 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 		}
 	}
 
-	private double weight2000to2500(int k, double a, double b, double c) {
+	private double weight2000to2099(int k, double a, double b, double c) {
 
 		switch (k) {
 		case 2000:
@@ -8348,6 +8360,13 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 			return a * (a - b - c) * (a2 - 2 * p(b - c, 2) - a * (b + c));
 		case 2099:
 			return a * (a + b - c) * (a - b + c) * (a - 2 * (b + c));
+		default:
+			return Double.NaN;
+		}
+	}
+
+	private double weight2100to2199(int k, double a, double b, double c) {
+		switch (k) {
 		case 2100:
 			return -2
 					* a
@@ -9070,6 +9089,13 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 					* (a - b + c)
 					* (a3 + a2 * (b + c) - p(b - c, 2) * (b + c) - a
 							* p(b + c, 2));
+		default:
+			return Double.NaN;
+		}
+	}
+
+	private double weight2200to2299(int k, double a, double b, double c) {
+		switch (k) {
 		case 2200:
 			return a4 * (b + c) * T;
 		case 2201:
@@ -9351,6 +9377,13 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 			return a * (a2 + a * c + b * (b + c)) * (a2 + a * b + c * (b + c));
 		case 2299:
 			return a2 * (a + b) * (a - b - c) * (a + c) * U * V;
+		default:
+			return Double.NaN;
+		}
+	}
+
+	private double weight2300to2399(int k, double a, double b, double c) {
+		switch (k) {
 		case 2300:
 			return a3 * (b2 + c2 + a * (b + c));
 		case 2301:
@@ -9752,6 +9785,13 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 							* c2 + b * c3 - 2 * c4 + a2
 							* (-2 * b2 + b * c + c2));
 
+		default:
+			return Double.NaN;
+		}
+	}
+
+	private double weight2400to2499(int k, double a, double b, double c) {
+		switch (k) {
 		case 2400:
 			return -((b - c)
 					* (-a3 - a * b2 + 2 * b3 + a2 * c - b2 * c + a * c2 - c3) * (a3
