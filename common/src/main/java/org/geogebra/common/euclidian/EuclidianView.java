@@ -1520,8 +1520,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		if (d != null) {
 			if (d instanceof DrawImage) {
-				this.updateBackgroundOnNextRepaint |= ((DrawImage) d)
-						.checkInBackground();
+				this.updateBackgroundOnNextRepaint = ((DrawImage) d)
+						.checkInBackground()
+						|| this.updateBackgroundOnNextRepaint;
 				return;
 			}
 			// Keep update of input boxes synchronous #4416

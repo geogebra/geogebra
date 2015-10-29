@@ -222,6 +222,12 @@ public final class DrawImage extends Drawable {
 			view.updateBackgroundImage();
 	}
 
+	/**
+	 * If background flag changed, do immediate update. Otherwise mark for
+	 * update after next repaint.
+	 * 
+	 * @return whether it was in background for the whole time
+	 */
 	public boolean checkInBackground() {
 		if (isInBackground != geoImage.isInBackground()) {
 			update();

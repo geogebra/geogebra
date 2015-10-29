@@ -574,6 +574,9 @@ public class DrawConic extends Drawable implements Previewable {
 		return false;
 	}
 
+	/**
+	 * Update method for circles
+	 */
 	protected void updateCircle() {
 		setShape(null);
 		boolean fullAngle = false;
@@ -618,8 +621,9 @@ public class DrawConic extends Drawable implements Previewable {
 				}
 				// check if eigen vec are in view
 				for (int j = 0; j < 2; j++) {
-					Coords ev = view.getCoordsForView(conic.getEigenvec3D(j));
-					if (!Kernel.isZero(ev.getZ())) {// check if in view
+					Coords evCoords = view.getCoordsForView(conic
+							.getEigenvec3D(j));
+					if (!Kernel.isZero(evCoords.getZ())) {// check if in view
 						isVisible = false;
 						return;
 					}
@@ -640,8 +644,8 @@ public class DrawConic extends Drawable implements Previewable {
 			}
 			// check if eigen vec are in view
 			for (int j = 0; j < 2; j++) {
-				Coords ev = view.getCoordsForView(conic.getEigenvec3D(j));
-				if (!Kernel.isZero(ev.getZ())) {// check if in view
+				Coords evCoords = view.getCoordsForView(conic.getEigenvec3D(j));
+				if (!Kernel.isZero(evCoords.getZ())) {// check if in view
 					isVisible = false;
 					return;
 				}
@@ -817,6 +821,9 @@ public class DrawConic extends Drawable implements Previewable {
 		yLabel = (int) (my - yradius * 0.85) + 20;
 	}
 
+	/**
+	 * 
+	 */
 	protected Coords[] ev;
 
 	/**
@@ -905,6 +912,9 @@ public class DrawConic extends Drawable implements Previewable {
 		isVisible = false;
 	}
 
+	/**
+	 * Update method for hyperbolas
+	 */
 	protected void updateHyperbola() {
 
 		// check if in view
@@ -1111,6 +1121,9 @@ public class DrawConic extends Drawable implements Previewable {
 		isVisible = false;
 	}
 
+	/**
+	 * Update method for parabolas
+	 */
 	protected void updateParabola() {
 		if (conic.p > DrawConic.HUGE_RADIUS) {
 			isVisible = false;
