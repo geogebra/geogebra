@@ -6647,9 +6647,8 @@ public abstract class EuclidianController {
 			// }
 		}
 
-		// update previewable
+		// previewable will be updated in refreshHighlighting
 		if (view.getPreviewDrawable() != null) {
-			view.updatePreviewable();
 			repaintNeeded = true;
 		}
 
@@ -6679,9 +6678,10 @@ public abstract class EuclidianController {
 
 	protected boolean overComboBox(AbstractEvent event, GeoElement hit) {
 		if (hit.isGeoList()) {
-			((DrawList) view.getDrawableFor(hit)).onOptionOver(event.getX(),
+			DrawList dl = (DrawList) view.getDrawableFor(hit);
+			dl.onOptionOver(event.getX(),
 					event.getY());
-			return true;
+			return dl.isCanvasDrawable();
 		}
 		return false;
 	}
