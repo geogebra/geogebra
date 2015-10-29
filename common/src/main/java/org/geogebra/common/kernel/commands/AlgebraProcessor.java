@@ -2062,13 +2062,17 @@ public class AlgebraProcessor {
 			}
 		}
 		// s = t^2
-		/*
-		 * if (lhs instanceof Variable && kernel.lookupLabel(((Variable)
-		 * lhs).getName()) == null) {
-		 * equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
-		 * try { return processValidExpression(equ.getRHS()); } catch (Exception
-		 * e) { e.printStackTrace(); } }
-		 */
+
+		if (lhs instanceof Variable
+				&& kernel.lookupLabel(((Variable) lhs).getName()) == null) {
+			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
+			try {
+				return processValidExpression(equ.getRHS());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 		// z(x) = sin(x), see #5484
 		if (lhs instanceof ExpressionNode
 				&& ((ExpressionNode)lhs).getOperation() == Operation.ZCOORD
