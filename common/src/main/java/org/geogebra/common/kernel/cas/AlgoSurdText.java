@@ -271,7 +271,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 
 		if (denom == 1) { // integer
-			DrawEquation.appendNumber(sb, tpl, kernel.format(numer, tpl));
+			sb.append(kernel.format(numer, tpl));
 		} else if (denom == 0) { // 1 / 0 or -1 / 0
 			if (numer < 0) {
 				DrawEquation.appendMinusInfinity(sb, tpl);
@@ -279,7 +279,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				DrawEquation.appendInfinity(sb, tpl);
 			}
 		} else {
-			DrawEquation.appendFormulaStart(sb, tpl);
 			boolean negative = numer < 0;
 			if (negative) {
 				numer = -numer;
@@ -524,8 +523,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			double num1) {
 
 		// eg SurdText[1.23456789012345] returns 1.23456789012345
-		DrawEquation.appendNumber(sb1, tpl,
-				kernel.format(num1, StringTemplate.maxPrecision));
+		sb1.append(kernel.format(num1, StringTemplate.maxPrecision));
 	}
 
 	/**
@@ -679,7 +677,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			StringTemplate tpl) {
 
 		if (Kernel.isZero(num1)) {
-			DrawEquation.appendNumber(sb, tpl, "0");
+			sb.append("0");
 			return;
 		}
 

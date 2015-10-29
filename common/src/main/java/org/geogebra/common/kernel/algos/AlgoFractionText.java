@@ -188,7 +188,7 @@ public class AlgoFractionText extends AlgoElement {
 	public static void appendFormula(StringBuilder sb, double[] frac,
 			StringTemplate tpl, Kernel kernel) {
 		if (frac[1] == 1) { // integer
-			DrawEquation.appendNumber(sb, tpl, kernel.format(frac[0], tpl));
+			sb.append(kernel.format(frac[0], tpl));
 		} else if (frac[1] == 0) { // 1 / 0 or -1 / 0
 			if (frac[0] < 0) {
 				DrawEquation.appendMinusInfinity(sb, tpl);
