@@ -306,7 +306,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// set halfAxes = radius
 		halfAxes[0] = Math.sqrt(Math.abs(2 * z / eigenval[0]));
 		halfAxes[1] = Math.sqrt(Math.abs(2 * z / eigenval[1]));
-		if (z < 0) {
+		if (z * eigenval[0] < 0) {
 			halfAxes[2] = 1;
 		} else {
 			halfAxes[2] = -1;
@@ -2190,20 +2190,21 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		case QUADRIC_HYPERBOLOID_ONE_SHEET: // eigenMatrix is dilated with half
 											// axes
 			parameters[0] = Math.atan2(y, x);
-			r = Math.sqrt(x * x + y * y);
 			parameters[1] = z;
 			break;
 
 		case QUADRIC_HYPERBOLOID_TWO_SHEETS: // eigenMatrix is dilated with half
 			// axes
 			parameters[0] = Math.atan2(y, x);
-			r = Math.sqrt(x * x + y * y);
 			parameters[1] = z;
 			break;
 
 		case QUADRIC_PARABOLOID: // eigenMatrix is dilated with half axes
-			parameters[0] = Math.atan2(y, x);
-			r = Math.sqrt(x * x + y * y);
+			double a = Math.atan2(y, x);
+			if (a < 0) {
+				a += 2 * Math.PI;
+			}
+			parameters[0] = a;
 			if (z < 0) {
 				parameters[1] = 0;
 			} else {
@@ -2370,8 +2371,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (Delta >= 0) {
 			double t1 = (-b - Math.sqrt(Delta)) / a;
 			double t2 = (-b + Math.sqrt(Delta)) / a;
-			return getProjection(willingCoords, willingDirection, t1, t2);
-
+			if (a > 0) {
+				return getProjection(willingCoords, willingDirection, t1, t2);
+			}
+			return getProjection(willingCoords, willingDirection, t2, t1);
 		}
 
 		// get closer point (in some "eigen coord sys")
@@ -2504,12 +2507,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return tmpCoords;
 		case QUADRIC_HYPERBOLOID_ONE_SHEET:
 		case QUADRIC_HYPERBOLOID_TWO_SHEETS:
+		case QUADRIC_PARABOLOID:
 			p.projectLine(getMidpoint3D(), getEigenvec3D(2), tmpCoords);
 			tmpCoords.setSub(tmpCoords, p);
 			return tmpCoords;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
-		case QUADRIC_PARABOLOID:
 			eigenMatrix.pivotDegenerate(tmpCoords, p);
 			// project on eigen xOy plane
 			// when we are already on axis, pick a direction "at random"
@@ -2549,6 +2552,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		GeoPoint3D p = (GeoPoint3D) P;
 
+		RegionParameters rp = P.getRegionParameters();
+		rp.setRegionType(type);
+
 		if (type == QUADRIC_SINGLE_POINT) {
 			p.setCoords(getMidpoint3D(), false);
 			p.updateCoords();
@@ -2558,7 +2564,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (type == QUADRIC_PLANE) {
 			p.updateCoords2D(planes[0], true);
 			P.updateCoordsFrom2D(false, planes[0].getCoordSys());
-			RegionParameters rp = P.getRegionParameters();
 			rp.setT1(PathNormalizer.inverseInfFunction(rp.getT1()));
 			return;
 		}
@@ -2576,7 +2581,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		if (hasLastHitParameters()) {
 			// use last hitted parameters
-			RegionParameters rp = p.getRegionParameters();
 			rp.setT1(lastHitParameters[0]);
 			rp.setT2(lastHitParameters[1]);
 			rp.setNormal(evaluateNormal(rp.getT1(), rp.getT2()));
@@ -2632,7 +2636,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 				p.setCoords(plane.getPoint(tmpCoords.getX(), tmpCoords.getY()),
 						false);
-				RegionParameters rp = P.getRegionParameters();
 				rp.setT1(PathNormalizer.inverseInfFunction(tmpCoords.getX())
 						+ t1Shift);
 				rp.setT2(tmpCoords.getY());
@@ -2663,7 +2666,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			Coords[] coords = getProjection(null, willingCoords,
 					willingDirection);
 
-			RegionParameters rp = p.getRegionParameters();
 			rp.setT1(coords[1].get(1));
 			rp.setT2(coords[1].get(2));
 			rp.setNormal(evaluateNormal(coords[1].get(1), coords[1].get(2)));
@@ -2683,6 +2685,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return;
 		}
 
+		RegionParameters rp = P.getRegionParameters();
+
+		// if type of region changed (other quadric) then we
+		// have to recalc the parameter with pointChangedForRegion()
+		if (P.isDefined() && !compatibleType(rp.getRegionType())) {
+			pointChangedForRegion(P);
+			return;
+		}
+
 		GeoPoint3D p = (GeoPoint3D) P;
 
 		if (type == QUADRIC_SINGLE_POINT) {
@@ -2691,16 +2702,18 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return;
 		}
 
-		// App.debug("before=\n" + P.getCoordsInD3());
-
-		RegionParameters rp = p.getRegionParameters();
-		// App.debug("parameters=" + rp.getT1() + "," + rp.getT2());
 		Coords coords = getPointInRegion(rp.getT1(), rp.getT2());
 		p.setCoords(coords, false);
 		p.updateCoords();
 
-		// App.debug("after=\n" + P.getCoordsInD3());
 
+	}
+
+
+	private boolean compatibleType(int regionType) {
+		return type == GeoQuadricNDConstants.QUADRIC_EMPTY
+				|| regionType == GeoQuadricNDConstants.QUADRIC_EMPTY
+				|| type == regionType;
 	}
 
 	// ///////////////////////////////////

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
 /**
  * @author Mathieu Blossier
@@ -49,6 +50,8 @@ public class RegionParameters {
 		this.t1 = t1;
 		this.t2 = t2;
 
+		regionType = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+
 		normal = new Coords(0, 0, 1, 0); // z-direction by default
 
 	}
@@ -60,6 +63,7 @@ public class RegionParameters {
 	final public void set(RegionParameters rp) {
 		setT1(rp.t1);
 		setT2(rp.t2);
+		this.regionType = rp.regionType;
 	}
 
 	/*
@@ -155,6 +159,23 @@ public class RegionParameters {
 	 */
 	public boolean isNaN() {
 		return isNaN(t1) || isNaN(t2);
+	}
+
+	private int regionType = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+
+	/**
+	 * @return region type (for quadrics)
+	 */
+	public final int getRegionType() {
+		return regionType;
+	}
+
+	/**
+	 * @param regionType
+	 *            new region type (for quadrics)
+	 */
+	public final void setRegionType(int regionType) {
+		this.regionType = regionType;
 	}
 
 }
