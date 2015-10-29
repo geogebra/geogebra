@@ -13,10 +13,15 @@ import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 
 public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 
+	private double a2, a3, a4, a5, a6, a7, a8, a9, a10;
+	private double b2, b3, b4, b5, b6, b7, b8, b9, b10;
+	private double c2, c3, c4, c5, c6, c7, c8, c9, c10;
+	private double Q, R, S, T, U, V, angleA, angleB, angleC;
+
 	public AlgoKimberlingWeights() {
 		/**
 		 * This class is instantiated for only technical reasons i.e. to be able
-		 * to run this part of code async
+		 * to run this part of code async in web
 		 */
 	}
 
@@ -40,6 +45,47 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 	}
 
 	public double weight(int k, double a, double b, double c) {
+
+		a2 = a * a;
+		a3 = a * a2;
+		a4 = a * a3;
+		a5 = a * a4;
+		a6 = a * a5;
+		a7 = a * a6;
+		a8 = a * a7;
+		a9 = a * a8;
+		a10 = a * a9;
+
+		b2 = b * b;
+		b3 = b * b2;
+		b4 = b * b3;
+		b5 = b * b4;
+		b6 = b * b5;
+		b7 = b * b6;
+		b8 = b * b7;
+		b9 = b * b8;
+		b10 = b * b9;
+
+		c2 = c * c;
+		c3 = c * c2;
+		c4 = c * c3;
+		c5 = c * c4;
+		c6 = c * c5;
+		c7 = c * c6;
+		c8 = c * c7;
+		c9 = c * c8;
+		c10 = c * c9;
+
+		R = b2 + c2;
+		Q = (b2 - c2) * (b2 - c2);
+		angleA = Math.acos(0.5 * (b2 + c2 - a2) / b / c);
+		angleB = Math.acos(0.5 * (-b2 + c2 + a2) / a / c);
+		angleC = Math.acos(0.5 * (b2 - c2 + a2) / b / a);
+		T = (a2 - b2 - c2);
+		U = (a2 + b2 - c2);
+		V = (a2 - b2 + c2);
+		S = u((a + b + c) * (-a + b + c) * (a - b + c) * (a + b - c));
+
 		if (k < 1000)
 			return weight0to1000(k, a, b, c);
 		if (k < 1500)
@@ -48,23 +94,16 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 			return weight1500to1999(k, a, b, c);
 		if (k < 2500)
 			return weight2000to2500(k, a, b, c);
+		if (k < 2600)
+			return weight2500to2599(k, a, b, c);
+		if (k < 2700)
+			return weight2600to2699(k, a, b, c);
 		if (k < 2800)
-			return weight2500to2799(k, a, b, c);
+			return weight2700to2799(k, a, b, c);
 		return weight2800plus(k, a, b, c);
 	}
 
 	private double weight0to1000(int k, double a, double b, double c) {
-		double a2 = a * a, a3 = a * a2, a4 = a * a3, a5 = a * a4, a6 = a * a5, a7 = a
-				* a6, a8 = a * a7, a9 = a * a8, a10 = a * a9, b2 = b * b, b3 = b
-				* b2, b4 = b * b3, b5 = b * b4, b6 = b * b5, b7 = b * b6, b8 = b
-				* b7, b9 = b * b8, b10 = b * b9, c2 = c * c, c3 = c * c2, c4 = c
-				* c3, c5 = c * c4, c6 = c * c5, c7 = c * c6, c8 = c * c7, c9 = c
-				* c8, c10 = c * c9, R = b2 + c2, Q = (b2 - c2) * (b2 - c2), angleA = Math
-				.acos(0.5 * (b2 + c2 - a2) / b / c), angleB = Math.acos(0.5
-				* (-b2 + c2 + a2) / a / c), angleC = Math.acos(0.5
-				* (b2 - c2 + a2) / b / a), T = (a2 - b2 - c2), U = (a2 + b2 - c2), V = (a2
-				- b2 + c2), S = u((a + b + c) * (-a + b + c) * (a - b + c)
-				* (a + b - c));
 		switch (k) {
 		case 1:
 			return a;
@@ -3265,16 +3304,7 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 	}
 
 	private double weight1000to1499(int k, double a, double b, double c) {
-		double a2 = a * a, a3 = a * a2, a4 = a * a3, a5 = a * a4, a6 = a * a5, a7 = a
-				* a6, a8 = a * a7, a9 = a * a8, a10 = a * a9, b2 = b * b, b3 = b
-				* b2, b4 = b * b3, b5 = b * b4, b6 = b * b5, b7 = b * b6, b8 = b
-				* b7, c2 = c * c, c3 = c * c2, c4 = c * c3, c5 = c * c4, c6 = c
-				* c5, c7 = c * c6, c8 = c * c7, R = b2 + c2, Q = (b2 - c2)
-				* (b2 - c2), angleA = Math.acos(0.5 * (b2 + c2 - a2) / b / c), angleB = Math
-				.acos(0.5 * (-b2 + c2 + a2) / a / c), angleC = Math.acos(0.5
-				* (b2 - c2 + a2) / b / a), T = (a2 - b2 - c2), U = (a2 + b2 - c2), V = (a2
-				- b2 + c2), S = u((a + b + c) * (-a + b + c) * (a - b + c)
-				* (a + b - c));
+
 		switch (k) {
 		case 1000:
 			return -((a2 - 4 * a * b + b2 - c2) * (a2 - b2 - 4 * a * c + c2));
@@ -5155,17 +5185,7 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 	}
 
 	private double weight1500to1999(int k, double a, double b, double c) {
-		double a2 = a * a, a3 = a * a2, a4 = a * a3, a5 = a * a4, a6 = a * a5, a7 = a
-				* a6, a8 = a * a7, a9 = a * a8, a10 = a * a9, b2 = b * b, b3 = b
-				* b2, b4 = b * b3, b5 = b * b4, b6 = b * b5, b7 = b * b6, b8 = b
-				* b7, b9 = b * b8, b10 = b * b9, c2 = c * c, c3 = c * c2, c4 = c
-				* c3, c5 = c * c4, c6 = c * c5, c7 = c * c6, c8 = c * c7, c9 = c
-				* c8, c10 = c * c9, R = b2 + c2, Q = (b2 - c2) * (b2 - c2), angleA = Math
-				.acos(0.5 * (b2 + c2 - a2) / b / c), angleB = Math.acos(0.5
-				* (-b2 + c2 + a2) / a / c), angleC = Math.acos(0.5
-				* (b2 - c2 + a2) / b / a), T = (a2 - b2 - c2), U = (a2 + b2 - c2), V = (a2
-				- b2 + c2), S = u((a + b + c) * (-a + b + c) * (a - b + c)
-				* (a + b - c));
+
 		switch (k) {
 		case 1500:
 			return a2 * p(b + c, 2);
@@ -7553,15 +7573,7 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 	}
 
 	private double weight2000to2500(int k, double a, double b, double c) {
-		double a2 = a * a, a3 = a * a2, a4 = a * a3, a5 = a * a4, a6 = a * a5, a7 = a
-				* a6, a8 = a * a7, a9 = a * a8, a10 = a * a9, b2 = b * b, b3 = b
-				* b2, b4 = b * b3, b5 = b * b4, b6 = b * b5, b7 = b * b6, b8 = b
-				* b7, b9 = b * b8, b10 = b * b9, c2 = c * c, c3 = c * c2, c4 = c
-				* c3, c5 = c * c4, c6 = c * c5, c7 = c * c6, c8 = c * c7, c9 = c
-				* c8, c10 = c * c9, R = b2 + c2, Q = (b2 - c2) * (b2 - c2), T = (a2
-				- b2 - c2), U = (a2 + b2 - c2), V = (a2 - b2 + c2), S = u((a
-				+ b + c)
-				* (-a + b + c) * (a - b + c) * (a + b - c));
+
 		switch (k) {
 		case 2000:
 			return a
@@ -10203,16 +10215,8 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 		}
 	}
 
-	private double weight2500to2799(int k, double a, double b, double c) {
-		double a2 = a * a, a3 = a * a2, a4 = a * a3, a5 = a * a4, a6 = a * a5, a7 = a
-				* a6, a8 = a * a7, a9 = a * a8, a10 = a * a9, b2 = b * b, b3 = b
-				* b2, b4 = b * b3, b5 = b * b4, b6 = b * b5, b7 = b * b6, b8 = b
-				* b7, b9 = b * b8, b10 = b * b9, c2 = c * c, c3 = c * c2, c4 = c
-				* c3, c5 = c * c4, c6 = c * c5, c7 = c * c6, c8 = c * c7, c9 = c
-				* c8, c10 = c * c9, R = b2 + c2, Q = (b2 - c2) * (b2 - c2), T = (a2
-				- b2 - c2), U = (a2 + b2 - c2), V = (a2 - b2 + c2), S = u((a
-				+ b + c)
-				* (-a + b + c) * (a - b + c) * (a + b - c));
+	private double weight2500to2599(int k, double a, double b, double c) {
+
 		switch (k) {
 		case 2500:
 			return a
@@ -10793,6 +10797,13 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 		case 2599:
 			return -(a * (a + b - c) * (a - b + c) * (b + c)
 					* (a2 - b2 - b * c - c2) * (-Q + a2 * R));
+		default:
+			return Double.NaN;
+		}
+	}
+
+	private double weight2600to2699(int k, double a, double b, double c) {
+		switch (k) {
 		case 2600:
 			return a * (a - b - c) * (b - c) * (a2 - b2 + b * c - c2)
 					* (-Q + a2 * R);
@@ -11798,6 +11809,13 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 							* c - a2 * b3 * c + a * b4 * c + a3 * b * c2 + a
 							* b3 * c2 - a3 * c3 - b3 * c3 - 2 * a * b * c4 + a
 							* c5 + b * c5);
+		default:
+			return Double.NaN;
+		}
+	}
+
+	private double weight2700to2799(int k, double a, double b, double c) {
+		switch (k) {
 		case 2700:
 			return a2
 					* (-a5 + a4 * b - a2 * b3 - a * b4 + 2 * b5 + a2 * b2 * c
@@ -12851,17 +12869,7 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 	}
 
 	private double weight2800plus(int k, double a, double b, double c) {
-		double a2 = a * a, a3 = a * a2, a4 = a * a3, a5 = a * a4, a6 = a * a5, a7 = a
-				* a6, a8 = a * a7, a9 = a * a8, a10 = a * a9, b2 = b * b, b3 = b
-				* b2, b4 = b * b3, b5 = b * b4, b6 = b * b5, b7 = b * b6, b8 = b
-				* b7, b9 = b * b8, b10 = b * b9, c2 = c * c, c3 = c * c2, c4 = c
-				* c3, c5 = c * c4, c6 = c * c5, c7 = c * c6, c8 = c * c7, c9 = c
-				* c8, c10 = c * c9, R = b2 + c2, angleA = Math.acos(0.5
-				* (b2 + c2 - a2) / b / c), angleB = Math.acos(0.5
-				* (-b2 + c2 + a2) / a / c), angleC = Math.acos(0.5
-				* (b2 - c2 + a2) / b / a), T = (a2 - b2 - c2), U = (a2 + b2 - c2), V = (a2
-				- b2 + c2), S = u((a + b + c) * (-a + b + c) * (a - b + c)
-				* (a + b - c));
+
 		switch (k) {
 		case 2800:
 			return a
