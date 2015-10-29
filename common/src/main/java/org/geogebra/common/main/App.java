@@ -4110,4 +4110,9 @@ public abstract class App implements UpdateSelection {
 	public void setLanguage(String s) {
 		// overridden in subtypes
 	}
+
+	public void isShowingLogInDialog() {
+		// TODO Auto-generated method stub
+
+	}
 }

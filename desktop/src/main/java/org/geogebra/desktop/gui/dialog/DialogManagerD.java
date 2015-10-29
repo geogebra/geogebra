@@ -466,7 +466,10 @@ public class DialogManagerD extends org.geogebra.common.main.DialogManager {
 		app.setWaitCursor();
 
 		SignInDialogD dialog = new SignInDialogD((AppD) app);
+		app.isShowingLogInDialog();
 		dialog.setVisible(true);
+
+
 
 		app.setDefaultCursor();
 	}

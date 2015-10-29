@@ -110,7 +110,8 @@ public class App3D extends AppD {
 	}
 
 	private void runThreadForCheckInput3D() {
-		if (AppD.WINDOWS && !isApplet() && has(Feature.INTEL_REALSENSE)
+		if (!tubeLoginIsShowing && AppD.WINDOWS && !isApplet()
+				&& has(Feature.INTEL_REALSENSE)
 				&& getInput3DType().equals(Input3DFactory.PREFS_NONE)) {
 			App.debug("============ runThreadToCheckInput3D ");
 			Thread t = new Thread() {
@@ -180,9 +181,12 @@ public class App3D extends AppD {
 							@Override
 							public void mouseClicked(MouseEvent e) {
 								frame.setVisible(false);
+								if (tubeLoginHasToBeShown) {
+									perspectivePopupHasToBeShown = perspectivePopupHasToBeShown
+											&& superShowTubeLogin();
+								}
 								if (perspectivePopupHasToBeShown) {
-									boolean show = superShowTubeLogin();
-									superShowPerspectivePopup(show);
+									superShowPerspectivePopup();
 								}
 							}
 						});
@@ -213,6 +217,7 @@ public class App3D extends AppD {
 	
 	boolean input3DPopupShowing = false;
 	boolean tubeLoginHasToBeShown = false;
+	private boolean tubeLoginIsShowing = false;
 	boolean perspectivePopupHasToBeShown = false;
 
 	@Override
@@ -226,7 +231,15 @@ public class App3D extends AppD {
 
 	boolean superShowTubeLogin() {
 		tubeLoginHasToBeShown = false;
-		return super.showTubeLogin();
+		boolean ret = super.showTubeLogin();
+		tubeLoginIsShowing = false;
+		return ret;
+	}
+
+	@Override
+	public void isShowingLogInDialog() {
+		tubeLoginIsShowing = true;
+		runThreadForCheckInput3D();
 	}
 
 	@Override
@@ -234,15 +247,13 @@ public class App3D extends AppD {
 		if (input3DPopupShowing) {
 			perspectivePopupHasToBeShown = true;
 		} else {
-			superShowPerspectivePopup(true);
+			superShowPerspectivePopup();
 		}
 	}
 
-	void superShowPerspectivePopup(boolean show) {
+	void superShowPerspectivePopup() {
 		perspectivePopupHasToBeShown = false;
-		if (show) {
-			super.showPerspectivePopup();
-		}
+		super.showPerspectivePopup();
 	}
 
 	/**
