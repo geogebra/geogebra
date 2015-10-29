@@ -12,13 +12,13 @@ import org.geogebra.common.move.ggtapi.models.json.JSONString;
  * @author Matthias Meisinger
  * 
  */
-public class Material implements Comparable<Material>
-{
-	
+public class Material implements Comparable<Material> {
 
-	public enum Provider {TUBE, GOOGLE, ONE, LOCAL};
-	public enum MaterialType
-	{
+	public enum Provider {
+		TUBE, GOOGLE, ONE, LOCAL
+	};
+
+	public enum MaterialType {
 		ggb, ggt, link, book, ws, csv;
 	}
 
@@ -47,8 +47,8 @@ public class Material implements Comparable<Material>
 	private String url;
 
 	/**
-	 * URL to the material itself (link to student page for materials of type ggb,
-	 * download link for ggt, or external link for link).
+	 * URL to the material itself (link to student page for materials of type
+	 * ggb, download link for ggt, or external link for link).
 	 */
 	private String url_direct;
 
@@ -76,7 +76,8 @@ public class Material implements Comparable<Material>
 	private int height;
 	private String instructionsPre;
 	private String instructionsPost;
-	private boolean showMenu, showToolbar, showInputbar, showResetIcon, shiftDragZoom;
+	private boolean showMenu, showToolbar, showInputbar, showResetIcon,
+			shiftDragZoom;
 	private String base64;
 	private String googleID;
 	private long syncStamp;
@@ -87,6 +88,17 @@ public class Material implements Comparable<Material>
 	private boolean fromAnotherDevice;
 	private boolean favorite;
 	
+	private boolean is3d;
+	private boolean spreadsheet;
+	private boolean cas;
+	private boolean graphics2;
+	private boolean constprot;
+	private boolean propcalc;
+	private boolean dataanalysis;
+	private boolean funcinsp;
+	private boolean python;
+	private boolean macro;
+
 	public boolean isDeleted() {
 		return deleted;
 	}
@@ -95,8 +107,7 @@ public class Material implements Comparable<Material>
 		this.deleted = deleted;
 	}
 
-	public Material(int id, MaterialType type)
-	{
+	public Material(int id, MaterialType type) {
 		this.id = id;
 		this.type = type;
 
@@ -146,144 +157,119 @@ public class Material implements Comparable<Material>
 		this.shiftDragZoom = shiftDragZoom;
 	}
 
-	public int getId()
-	{
+	public int getId() {
 		return this.id;
 	}
 
-	public String getTitle()
-	{
+	public String getTitle() {
 		return this.title;
 	}
 
-	public MaterialType getType()
-	{
+	public MaterialType getType() {
 		return this.type;
 	}
 
-	public String getDescription()
-	{
+	public String getDescription() {
 		return this.description;
 	}
 
-	public String getAuthor()
-	{
+	public String getAuthor() {
 		return this.author;
 	}
 
-	public String getAuthorURL()
-	{
+	public String getAuthorURL() {
 		return "//tube.geogebra.org/user/profile/id/" + this.author_id;
 	}
 
 	/**
 	 * @return the URL to the overview page of the material as a String
 	 */
-	public String getURL()
-	{
+	public String getURL() {
 		return this.url;
 	}
 
 	/**
-	 * @return the URL to the material itself (link to student page for materials
-	 *         of type ggb, download link for ggt, or external link for link).
+	 * @return the URL to the material itself (link to student page for
+	 *         materials of type ggb, download link for ggt, or external link
+	 *         for link).
 	 */
-	public String getURLdirect()
-	{
+	public String getURLdirect() {
 		return this.url_direct;
 	}
 
-	public String getLanguage()
-	{
+	public String getLanguage() {
 		return this.language;
 	}
 
-	public String getThumbnail()
-	{
+	public String getThumbnail() {
 		return this.thumbnail;
 	}
 
-	public boolean isFeatured()
-	{
+	public boolean isFeatured() {
 		return this.featured;
 	}
 
-	public int getLikes()
-	{
+	public int getLikes() {
 		return this.likes;
 	}
 
-	public Date getDate()
-	{
+	public Date getDate() {
 		// JAVA USES MILLISECONDS, UNIX USES SECONDS
 		return new Date(timestamp * 1000);
 	}
 
-	public void setId(int id)
-	{
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public void setTitle(String title)
-	{
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public void setType(MaterialType type)
-	{
+	public void setType(MaterialType type) {
 		this.type = type;
 	}
 
-	public void setDescription(String description)
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public void setTimestamp(long timestamp)
-	{
+	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
 
-	public void setAuthor(String author)
-	{
+	public void setAuthor(String author) {
 		this.author = author;
 	}
 
-	public void setAuthorId(int author_id)
-	{
+	public void setAuthorId(int author_id) {
 		this.author_id = author_id;
 	}
 
-	public void setURL(String url)
-	{
+	public void setURL(String url) {
 		this.url = url;
 	}
 
-	public void setURLdirect(String url_direct)
-	{
+	public void setURLdirect(String url_direct) {
 		this.url_direct = url_direct;
 	}
 
-	public void setLanguage(String language)
-	{
+	public void setLanguage(String language) {
 		this.language = language;
 	}
 
-	public void setThumbnail(String thumbnail)
-	{
+	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
 	}
 
-	public void setFeatured(boolean featured)
-	{
+	public void setFeatured(boolean featured) {
 		this.featured = featured;
 	}
 
-	public void setLikes(int likes)
-	{
+	public void setLikes(int likes) {
 		this.likes = likes;
 	}
-	
+
 	public void setSyncStamp(long stamp) {
 		this.syncStamp = stamp;
 	}
@@ -291,25 +277,23 @@ public class Material implements Comparable<Material>
 	public long getSyncStamp() {
 		return this.syncStamp;
 	}
-	
+
 	public void setVisibility(String v) {
 		this.visibility = v;
 	}
-	
+
 	public String getVisibility() {
 		return this.visibility;
 	}
-	
-	public int compareTo(Material another)
-	{
+
+	public int compareTo(Material another) {
 		if (another == null)
 			return 1;
 		return this.id - another.id;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("ID: " + this.id + ": (" + this.type + ") ");
 		sb.append("Title: " + this.title + " ");
@@ -324,49 +308,49 @@ public class Material implements Comparable<Material>
 		sb.append("Likes: " + this.likes);
 		return sb.toString();
 	}
-	
-	public JSONObject toJson(){
+
+	public JSONObject toJson() {
 		JSONObject ret = new JSONObject();
-		putString(ret,"thumbnail", thumbnail);
-	//	putString(ret,"-type", TODO);
+		putString(ret, "thumbnail", thumbnail);
+		// putString(ret,"-type", TODO);
 		putString(ret, "author_id", author_id + "");
-		putString(ret,"language", language);
-		putString(ret,"author", author);
-		putString(ret,"description", description);
-		putString(ret,"url_direct", url_direct);
-		putString(ret,"featured", featured+"");
-		putString(ret,"timestamp", timestamp+"");
-		putString(ret,"url", url);
-		putString(ret,"type", type.name());
-		putString(ret,"title", title);
-		putString(ret,"visibility", visibility);
-		putString(ret,"id", id+"");
-		putString(ret,"likes", likes+"");
-		putString(ret,"ggbBase64", base64);
+		putString(ret, "language", language);
+		putString(ret, "author", author);
+		putString(ret, "description", description);
+		putString(ret, "url_direct", url_direct);
+		putString(ret, "featured", featured + "");
+		putString(ret, "timestamp", timestamp + "");
+		putString(ret, "url", url);
+		putString(ret, "type", type.name());
+		putString(ret, "title", title);
+		putString(ret, "visibility", visibility);
+		putString(ret, "id", id + "");
+		putString(ret, "likes", likes + "");
+		putString(ret, "ggbBase64", base64);
 		putBoolean(ret, "deleted", deleted);
 		putBoolean(ret, "favorite", favorite);
-		putString(ret,"height", height+"");
-		putString(ret,"width", width+"");
-		putString(ret,"instructions_pre", this.instructionsPre);
-		putString(ret,"instructions_post", this.instructionsPost);
-		putString(ret,"syncstamp", syncStamp+"");
+		putString(ret, "height", height + "");
+		putString(ret, "width", width + "");
+		putString(ret, "instructions_pre", this.instructionsPre);
+		putString(ret, "instructions_post", this.instructionsPost);
+		putString(ret, "syncstamp", syncStamp + "");
 		putString(ret, "modified", this.modified + "");
-		putBoolean(ret,"toolbar", this.showToolbar);
-		putBoolean(ret,"menubar", this.showMenu);
-		putBoolean(ret,"inputbar", this.showInputbar);
+		putBoolean(ret, "toolbar", this.showToolbar);
+		putBoolean(ret, "menubar", this.showMenu);
+		putBoolean(ret, "inputbar", this.showInputbar);
 		putBoolean(ret, "from_another_device", this.fromAnotherDevice);
 		return ret;
 	}
 
 	private void putBoolean(JSONObject ret, String key, boolean val) {
-		if(val){
+		if (val) {
 			ret.put(key, JSONBoolean.getInstance(val));
 		}
-		
+
 	}
 
 	private void putString(JSONObject ret, String key, String value) {
-		if(value!=null){
+		if (value != null) {
 			ret.put(key, new JSONString(value));
 		}
 	}
@@ -378,27 +362,27 @@ public class Material implements Comparable<Material>
 	public int getWidth() {
 		return width;
 	}
-	
+
 	public int getHeight() {
 		return height;
 	}
-	
-	public String getInstructionsPre(){
+
+	public String getInstructionsPre() {
 		return instructionsPre;
 	}
-	
-	public String getInstructionsPost(){
+
+	public String getInstructionsPost() {
 		return instructionsPost;
 	}
 
 	public void setHeight(int height) {
-		if(height > 0){
+		if (height > 0) {
 			this.height = height;
 		}
 	}
 
 	public void setWidth(int width) {
-		if(width > 0){
+		if (width > 0) {
 			this.width = width;
 		}
 	}
@@ -422,7 +406,7 @@ public class Material implements Comparable<Material>
 	public boolean getShowToolbar() {
 		return this.showToolbar;
 	}
-	
+
 	public boolean getShowInputbar() {
 		return this.showInputbar;
 	}
@@ -430,8 +414,8 @@ public class Material implements Comparable<Material>
 	public boolean getShowResetIcon() {
 		return this.showResetIcon;
 	}
-	
-	public void setBase64(String base64){
+
+	public void setBase64(String base64) {
 		this.base64 = base64;
 	}
 
@@ -450,12 +434,10 @@ public class Material implements Comparable<Material>
 	public void setModified(long parseLong) {
 		this.modified = parseLong;
 	}
-	
+
 	public long getModified() {
 		return this.modified;
 	}
-
-
 
 	public void setLocalID(int localID) {
 		this.localID = localID;
@@ -485,4 +467,85 @@ public class Material implements Comparable<Material>
 	public void setFavorite(boolean favorite) {
 		this.favorite = favorite;
 	}
+
+	public boolean has3d() {
+		return is3d;
+	}
+
+	public void setIs3d(boolean is3d) {
+		this.is3d = is3d;
+	}
+
+	public boolean hasSpreadsheet() {
+		return spreadsheet;
+	}
+
+	public void setSpreadsheet(boolean spreadsheet) {
+		this.spreadsheet = spreadsheet;
+	}
+
+	public boolean hasCas() {
+		return cas;
+	}
+
+	public void setCas(boolean cas) {
+		this.cas = cas;
+	}
+
+	public boolean hasGraphics2() {
+		return graphics2;
+	}
+
+	public void setGraphics2(boolean graphics2) {
+		this.graphics2 = graphics2;
+	}
+
+	public boolean hasConstprot() {
+		return constprot;
+	}
+
+	public void setConstprot(boolean constprot) {
+		this.constprot = constprot;
+	}
+
+	public boolean hasPropcalc() {
+		return propcalc;
+	}
+
+	public void setPropcalc(boolean propcalc) {
+		this.propcalc = propcalc;
+	}
+
+	public boolean hasDataanalysis() {
+		return dataanalysis;
+	}
+
+	public void setDataanalysis(boolean dataanalysis) {
+		this.dataanalysis = dataanalysis;
+	}
+
+	public boolean hasFuncinsp() {
+		return funcinsp;
+	}
+
+	public void setFuncinsp(boolean funcinsp) {
+		this.funcinsp = funcinsp;
+	}
+
+	public boolean hasPython() {
+		return python;
+	}
+
+	public void setPython(boolean python) {
+		this.python = python;
+	}
+
+	public boolean hasMacro() {
+		return macro;
+	}
+
+	public void setMacro(boolean macro) {
+		this.macro = macro;
+	}
+
 }
