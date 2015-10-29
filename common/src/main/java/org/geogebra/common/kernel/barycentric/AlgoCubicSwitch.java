@@ -19,20 +19,25 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 
 	}
 
-	private static double r3 = Math.sqrt(3);
+	private final static double r3 = Math.sqrt(3);
+
+	private double a2, a3, a4, a5, a6, a7, a8, a9, a10, a12, a14, a16, a18, a20;
+	private double b2, b3, b4, b5, b6, b7, b8, b9, b10, b12, b14, b16, b18, b20;
+	private double c2, c3, c4, c5, c6, c7, c8, c9, c10, c12, c14, c16, c18, c20;
+	private double S, cA3, cB3, cC3;
 
 	public String getEquation(AlgoCubicSwitchParams cp) {
 		return getEquation(cp.n, cp.a, cp.b, cp.c);
 	}
 
-	private static double[] b(double p, double q, double r) {
+	private double[] b(double p, double q, double r) {
 		return new double[] { p, q, r };
 	}
 
 	/**
 	 * Returns equation in case cubic is symmetric or antisymmetric
 	 */
-	private static String symetricOrAntisymetric(int n, double a, double b,
+	private String symetricOrAntisymetric(int n, double a, double b,
 			double c) {
 
 		String equation = "0=0";
@@ -40,15 +45,11 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 			int q = (p + 1) % 3;
 			int r = (q + 1) % 3;
 			double[] sides = { a, b, c };
-			double[] coeff = Math.abs(n) < 400 ? getCoeff(n, sides[p],
-					sides[q], sides[r]) : getCoeff400(n, sides[p], sides[q],
-					sides[r]);
+			double[] coeff = getCoeff(n, sides[p], sides[q], sides[r]);
 			if (coeff.length < 4) {
 				return null;
 			}
-			double[] coeffR = Math.abs(n) < 400 ? getCoeff(n, sides[q],
-					sides[p], sides[r]) : getCoeff400(n, sides[q], sides[p],
-					sides[r]);
+			double[] coeffR = getCoeff(n, sides[q], sides[p], sides[r]);
 			char A = "ABC".charAt(p), B = "ABC".charAt(q);
 			equation += "+(" + coeff[0] + ")*" + A + "^3";
 			equation += "+(" + coeff[1] + ")*" + A + "^2*" + B;
@@ -60,33 +61,93 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 		return equation;
 	}
 
-	private static double[] a(double p, double q, double r) {
+	private double[] a(double p, double q, double r) {
 		return new double[] { p, q, -q, r };
 	}
 
-	private static double[] s(double p, double q, double r) {
+	private double[] s(double p, double q, double r) {
 		return new double[] { p, q, q, r };
 	}
 
-	private static double[] getCoeff(int n, double a, double b, double c) {
-		double b2 = b * b, b3 = b * b2, b4 = b2 * b2, b5 = b2 * b3, b6 = b3
-				* b3, b7 = b3 * b4, b8 = b4 * b4, b9 = b4 * b5, b10 = b6 * b4;
-		double a2 = a * a, a3 = a * a2, a4 = a2 * a2, a5 = a2 * a3, a6 = a3
-				* a3, a7 = a3 * a4, a8 = a4 * a4, a9 = a4 * a5, a10 = a6 * a4;
-		double c2 = c * c, c3 = c * c2, c4 = c2 * c2, c5 = c2 * c3, c6 = c3
-				* c3, c7 = c3 * c4, c8 = c4 * c4, c9 = c4 * c5, c10 = c6 * c4;
+	private double[] getCoeff(int n, double a, double b, double c) {
+		// x
+		b2 = b * b;
+		b3 = b * b2;
+		b4 = b2 * b2;
+		b5 = b2 * b3;
+		b6 = b3 * b3;
+		b7 = b3 * b4;
+		b8 = b4 * b4;
+		b9 = b4 * b5;
+		b10 = b6 * b4;
+		a2 = a * a;
+		a3 = a * a2;
+		a4 = a2 * a2;
+		a5 = a2 * a3;
+		a6 = a3 * a3;
+		a7 = a3 * a4;
+		a8 = a4 * a4;
+		a9 = a4 * a5;
+		a10 = a6 * a4;
+		c2 = c * c;
+		c3 = c * c2;
+		c4 = c2 * c2;
+		c5 = c2 * c3;
+		c6 = c3 * c3;
+		c7 = c3 * c4;
+		c8 = c4 * c4;
+		c9 = c4 * c5;
+		c10 = c6 * c4;
 
-		double a12 = a6 * a6, a14 = a6 * a8, a16 = a8 * a8, a18 = a10 * a8, a20 = a10
-				* a10;
-		double b12 = b6 * b6, b14 = b6 * b8, b16 = b8 * b8, b18 = b10 * b8, b20 = b10
-				* b10;
-		double c12 = c6 * c6, c14 = c6 * c8, c16 = c8 * c8, c18 = c10 * c8, c20 = c10
-				* c10;
-		double pi = Math.PI;
-		double S = Math.sqrt((a + b - c) * (a - b + c) * (-a + b + c)
+		a12 = a6 * a6;
+		a14 = a6 * a8;
+		a16 = a8 * a8;
+		a18 = a10 * a8;
+		a20 = a10 * a10;
+		b12 = b6 * b6;
+		b14 = b6 * b8;
+		b16 = b8 * b8;
+		b18 = b10 * b8;
+		b20 = b10 * b10;
+		c12 = c6 * c6;
+		c14 = c6 * c8;
+		c16 = c8 * c8;
+		c18 = c10 * c8;
+		c20 = c10 * c10;
+		S = Math.sqrt((a + b - c) * (a - b + c) * (-a + b + c)
 				* (a + b + c));
 
+		cA3 = Math.cos(Math.acos((b2 + c2 - a2) / 2 / b / c) / 3);
+		cB3 = Math.cos(Math.acos((a2 + c2 - b2) / 2 / a / c) / 3);
+		cC3 = Math.cos(Math.acos((b2 + a2 - c2) / 2 / a / b) / 3);
+
+		int absN = Math.abs(n);
+
+		if (absN < 100) {
+			return getCoeff1to99(n, a, b, c);
+		}
+		if (absN < 200) {
+			return getCoeff100to199(n, a, b, c);
+		}
+		if (absN < 300) {
+			return getCoeff200to299(n, a, b, c);
+		}
+		if (absN < 400) {
+			return getCoeff300to399(n, a, b, c);
+		}
+		if (absN < 500) {
+			return getCoeff400to499(n, a, b, c);
+		}
+		if (absN < 600) {
+			return getCoeff500to599(n, a, b, c);
+		}
+
+		return getCoeff600plus(n, a, b, c);
+	}
+
+	private double[] getCoeff1to99(int n, double a, double b, double c) {
 		switch (n) {
+
 		case 1:
 			return a(0, a4 * c2 - 2 * a2 * c4 + a2 * c2 * b2 + c6 + c4 * b2 - 2
 					* c2 * b4, 0);
@@ -174,33 +235,44 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 					* b4);
 		case 29:
 			return a(0, 2 * b * c2
-					* Cos(1 / 3 * ArcCos((a2 + b2 - c2) / (2 * a * b)))
-					* Cos(1 / 3 * ArcCos((-a2 + b2 + c2) / (2 * b * c))) + b
-					* c2 * Cos(1 / 3 * ArcCos((a2 - b2 + c2) / (2 * a * c))), 0);
+							* Math.cos(1 / 3
+									* Math.acos((a2 + b2 - c2) / (2 * a * b)))
+					* Math.cos(1 / 3 * Math.acos((-a2 + b2 + c2) / (2 * b * c)))
+					+ b * c2 * Math.cos(
+							1 / 3 * Math.acos((a2 - b2 + c2) / (2 * a * c))),
+					0);
 		case 30:
 			return a(0,
 					2
 							* b
 							* c2
-							* Cos(1 / 3 * (2 * pi + ArcCos((a2 + b2 - c2)
+							* Math.cos(1 / 3
+									* (2 * Math.PI + Math.acos(
+											(a2 + b2 - c2)
 									/ (2 * a * b))))
-							* Cos(1 / 3 * (2 * pi + ArcCos((-a2 + b2 + c2)
+					* Math.cos(1 / 3
+							* (2 * Math.PI
+									+ Math.acos((-a2 + b2 + c2)
 									/ (2 * b * c))))
-							+ b
-							* c2
-							* Cos(1 / 3 * (2 * pi + ArcCos((a2 - b2 + c2)
+					+ b * c2 * Math.cos(1 / 3
+							* (2 * Math.PI
+									+ Math.acos((a2 - b2 + c2)
 									/ (2 * a * c)))), 0);
 		case 31:
 			return a(0, 2
 					* b
 					* c2
-					* Cos(1 / 3 * (-2 * pi + ArcCos((a2 + b2 - c2)
+							* Math.cos(1 / 3
+									* (-2 * Math.PI + Math.acos(
+											(a2 + b2 - c2)
 							/ (2 * a * b))))
-					* Cos(1 / 3 * (-2 * pi + ArcCos((-a2 + b2 + c2)
+					* Math.cos(1 / 3
+							* (-2 * Math.PI
+									+ Math.acos((-a2 + b2 + c2)
 							/ (2 * b * c))))
-					+ b
-					* c2
-					* Cos(1 / 3 * (-2 * pi + ArcCos((a2 - b2 + c2)
+					+ b * c2 * Math.cos(1 / 3
+							* (-2 * Math.PI
+									+ Math.acos((a2 - b2 + c2)
 							/ (2 * a * c)))), 0);
 		case 32:
 			return a(0, a6 - 3 * a4 * b2 + 3 * a4 * c2 + 3 * a2 * b4 + 6 * a2
@@ -525,6 +597,14 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 			return a(0, a6 * c2 - a4 * c4 + a4 * c2 * b2 - a2 * c6 + 2 * a2
 					* c4 * b2 - a2 * c2 * b4 + c8 - 3 * c6 * b2 + 3 * c4 * b4
 					- c2 * b6, 0);
+		default:
+			return new double[0];
+		}
+	}
+
+	private double[] getCoeff100to199(int n, double a, double b, double c) {
+		switch (n) {
+
 		case 100:
 			return a(b4 * c2 - b2 * c4, b2 * c2 * a2, 0);
 		case 101:
@@ -856,6 +936,13 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 			return s(0, a2 * c2, 2 * a2 * c2 + 2 * a2 * b2 + 2 * c2 * b2);
 		case 199:
 			return a(0, a2 * c - c3 + 2 * c2 * b - c * b2, 0);
+		default:
+			return new double[0];
+		}
+	}
+
+	private double[] getCoeff200to299(int n, double a, double b, double c) {
+		switch (n) {
 		case 200:
 			return a(0, a - b + c, 0);
 		case 201:
@@ -1350,6 +1437,13 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 					* c3 - 2 * a * b3 * c + a * b2 * c2 + a * c4 + 3 * b3 * c2
 					- 3 * b2 * c3 + b * c4 - c5, 2 * a3 * b2 - 2 * a3 * c2 - 2
 					* a2 * b3 + 2 * a2 * c3 + 2 * b3 * c2 - 2 * b2 * c3);
+		default:
+			return new double[0];
+		}
+	}
+
+	private double[] getCoeff300to399(int n, double a, double b, double c) {
+		switch (n) {
 		case 300:
 			return a(0, 2 * a6 * c2 - 3 * a4 * c4 - 4 * a4 * c2 * b2 + a2 * c6
 					+ 4 * a2 * c2 * b4 + 2 * c6 * b2 - 2 * c2 * b6, a6 * c2
@@ -1817,33 +1911,19 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 					* c2 + 2 * a * b3 - 12 * a * b2 * c + 12 * a * b * c2 + 2
 					* a * c3 - 2 * b4 + 6 * b3 * c - 3 * b2 * c2 - 2 * b * c3,
 					0);
-		case 400:
-			return a(0, -b2 + c2 - (S), 0);
-		case -400:
-			return a(0, -b2 + c2 + S, 0);
 
 		default:
 			return new double[0];
 		}
 	}
 
-	private static double[] getCoeff400(int n, double a, double b, double c) {
-		double b2 = b * b, b3 = b * b2, b4 = b2 * b2, b5 = b2 * b3, b6 = b3
-				* b3, b7 = b3 * b4, b8 = b4 * b4, b9 = b4 * b5, b10 = b6 * b4;
-		double a2 = a * a, a3 = a * a2, a4 = a2 * a2, a5 = a2 * a3, a6 = a3
-				* a3, a7 = a3 * a4, a8 = a4 * a4, a9 = a4 * a5, a10 = a6 * a4;
-		double c2 = c * c, c3 = c * c2, c4 = c2 * c2, c5 = c2 * c3, c6 = c3
-				* c3, c7 = c3 * c4, c8 = c4 * c4, c9 = c4 * c5, c10 = c6 * c4;
+	private double[] getCoeff400to499(int n, double a, double b, double c) {
 
-		double a12 = a6 * a6, a14 = a6 * a8, a16 = a8 * a8, a18 = a10 * a8;
-		double b12 = b6 * b6, b14 = b6 * b8, b16 = b8 * b8, b18 = b10 * b8;
-		double c12 = c6 * c6, c14 = c6 * c8, c16 = c8 * c8, c18 = c10 * c8;
-		double cA3 = Cos(ArcCos((b2 + c2 - a2) / 2 / b / c) / 3), cB3 = Cos(ArcCos((a2
-				+ c2 - b2)
-				/ 2 / a / c) / 3), cC3 = Cos(ArcCos((b2 + a2 - c2) / 2 / a / b) / 3);
-		double S = Math.sqrt((a + b - c) * (a - b + c) * (-a + b + c)
-				* (a + b + c));
 		switch (n) {
+		case 400:
+			return a(0, -b2 + c2 - (S), 0);
+		case -400:
+			return a(0, -b2 + c2 + S, 0);
 		case 401:
 			return a(a10 * b2 - a10 * c2 - a8 * b4 + a8 * c4 - 2 * a6 * b6 + 6
 					* a6 * b4 * c2 - 6 * a6 * b2 * c4 + 2 * a6 * c6 + 2 * a4
@@ -2423,6 +2503,13 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 		case 499:
 			return a(0, a6 * c2 - a4 * c4 - a2 * c6 + a2 * c4 * b2 + c8 - 3
 					* c6 * b2 + 3 * c4 * b4 - c2 * b6, 0);
+		default:
+			return new double[0];
+		}
+	}
+
+	private double[] getCoeff500to599(int n, double a, double b, double c) {
+		switch (n) {
 		case 500:
 			return a(0, -a8 * b2 * c4 + a6 * b4 * c4 + 2 * a6 * b2 * c6 - 2
 					* a4 * b2 * c8 + a2 * b8 * c4 - 3 * a2 * b4 * c8 + 2 * a2
@@ -3220,6 +3307,13 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 			return a(0, a4 * c2 - 3 * a2 * c4 - 2 * a2 * c2 * b2 + 2 * c6 + c4
 					* b2 + c2 * b4, 2 * a4 * c2 - 2 * a4 * b2 - 2 * a2 * c4 + 2
 					* a2 * b4 + 2 * c4 * b2 - 2 * c2 * b4);
+		default:
+			return new double[0];
+		}
+	}
+
+	private double[] getCoeff600plus(int n, double a, double b, double c) {
+		switch (n) {
 		case 600:
 			return s(a6 - 2 * a4 * b2 - 2 * a4 * c2 + a2 * b4 + 2 * a2 * b2
 					* c2 + a2 * c4, -a6 + 3 * a4 * c2 - 3 * a2 * c4 - 2 * a2
@@ -3562,14 +3656,6 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 		default:
 			return new double[0];
 		}
-	}
-
-	private static double Cos(double d) {
-		return Math.cos(d);
-	}
-
-	private static double ArcCos(double d) {
-		return Math.acos(d);
 	}
 
 	public String getEquation(double n, double a, double b, double c) {
