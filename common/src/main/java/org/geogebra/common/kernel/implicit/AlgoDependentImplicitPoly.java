@@ -89,6 +89,10 @@ public class AlgoDependentImplicitPoly extends AlgoElement implements
 	public AlgoDependentImplicitPoly(Construction c,String label, Equation equ, boolean simplify) {
 		this(c,equ, simplify);
 		geoElement.setLabel(label);
+		if (!equation.isPolynomial()) {
+			geoElement.setUndefined();
+			return;
+		}
     }
 	
 	@Override
