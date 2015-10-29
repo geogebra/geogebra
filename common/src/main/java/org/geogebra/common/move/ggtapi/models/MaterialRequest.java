@@ -69,7 +69,7 @@ public class MaterialRequest implements Request
 	private JSONObject limitJSON = new JSONObject();
 	private final AuthenticationModel model;
 	private final ClientInfo client;
-	private TreeSet<Filters> negFilters = new TreeSet<Filters>();
+	public TreeSet<Filters> negFilters = new TreeSet<Filters>();
 	/**
 	 * Constructor for a Featured Materials Request
 	 */
