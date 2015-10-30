@@ -6,6 +6,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.cas.giac.PNaCl;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
@@ -23,8 +24,6 @@ import org.geogebra.web.web.main.BrowserDevice;
 import org.geogebra.web.web.main.GDevice;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
-import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
@@ -74,7 +73,7 @@ public class Web implements EntryPoint {
 		allowRerun();
 		// just debug for now
 		PNaCl.exportPNaCltoConsole();
-		Web.registerSuperdevExceptionHandler();
+		WebSimple.registerSuperdevExceptionHandler();
 	}
 
 	private static void run() {
@@ -146,29 +145,7 @@ public class Web implements EntryPoint {
 		}
 	}-*/;
 
-	/**
-	 * Registers handler for UnhandledExceptions that are wrapped by GWT by
-	 * default
-	 */
-	public static void registerSuperdevExceptionHandler() {
-		com.google.gwt.core.client.GWT
-				.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-					public void onUncaughtException(Throwable t) {
-						Throwable cause = t;
-						while (cause.getCause() != null) {
-							cause = cause.getCause();
-						}
-						log(cause instanceof JavaScriptException
-								&& ((JavaScriptException) cause).getThrown() != null ? ((JavaScriptException) cause)
-								.getThrown() : cause);
-					};
 
-					public native void log(Object t) /*-{
-		console && console.log && console.log(t);
-	}-*/;
-
-				});
-	}
 
 	private static void loadExtensionAsync() {
 		// GWT.runAsync(new RunAsyncCallback() {

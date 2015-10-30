@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.cas.giac.PNaCl;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -12,7 +13,6 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CustomElements;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
-import org.geogebra.web.web.Web;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.applet.AppletFactory;
@@ -82,7 +82,7 @@ public class Tablet implements EntryPoint {
 		PNaCl.exportPNaCltoConsole();
 
 		// phoneGap.initializePhoneGap();
-		Web.registerSuperdevExceptionHandler();
+		WebSimple.registerSuperdevExceptionHandler();
 	}
 
 	private void run() {

@@ -8,6 +8,8 @@ import org.geogebra.web.html5.util.ArticleElement;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -47,6 +49,7 @@ public class WebSimple implements EntryPoint {
 		// loadAppletAsync();
 		// instead, load it immediately
 		startGeoGebra(ArticleElement.getGeoGebraMobileTags());
+		WebSimple.registerSuperdevExceptionHandler();
 	}
 
 	public static void loadAppletAsync() {
@@ -63,6 +66,30 @@ public class WebSimple implements EntryPoint {
 		});
 	}
 
+	/**
+	 * Registers handler for UnhandledExceptions that are wrapped by GWT by
+	 * default
+	 */
+	public static void registerSuperdevExceptionHandler() {
+		com.google.gwt.core.client.GWT
+				.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+					public void onUncaughtException(Throwable t) {
+						Throwable cause = t;
+						while (cause.getCause() != null) {
+							cause = cause.getCause();
+						}
+						Object nativeCause = cause instanceof JavaScriptException
+								&& ((JavaScriptException) cause).getThrown() != null ? ((JavaScriptException) cause)
+								.getThrown() : cause;
+						log(nativeCause);
+					};
+
+					public native void log(Object t) /*-{
+		console && console.log && console.log(t);
+	}-*/;
+
+				});
+	}
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 
 		org.geogebra.web.html5.gui.GeoGebraFrameSimple.main(geoGebraMobileTags);
