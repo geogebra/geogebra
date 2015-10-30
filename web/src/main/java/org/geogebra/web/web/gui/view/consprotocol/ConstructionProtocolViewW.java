@@ -663,7 +663,11 @@ myCell) {
 
 				if (object.getIndex() == ((MyEditCell) getCell())
 						.getFocusedRow() + 1) {
-					return object.getGeo().getCaptionSimple();
+					String caption = object.getGeo().getCaptionSimple();
+					if (caption == null) {
+						caption = "";
+					}
+					return caption;
 				}
 				return object.getCaption();
 			}
