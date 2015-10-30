@@ -102,7 +102,7 @@ public abstract class GlobalKeyDispatcher {
 			boolean down, boolean canOpenDropDown) {
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawList dl = DrawList.asDrawable(app, geos.get(0));
-			if (down && canOpenDropDown && !dl.isOptionsVisible()) {
+			if (canOpenDropDown && !dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			} else {
 				dl.moveSelection(down);
@@ -1160,7 +1160,7 @@ public abstract class GlobalKeyDispatcher {
 				return false;
 			}
 			if (!fromSpreadsheet
-					&& handleArrowsForDropdown(geos, false, false)) {
+					&& handleArrowsForDropdown(geos, false, true)) {
 				return true;
 			}
 			changeValY = base;
