@@ -355,6 +355,7 @@ public class MyXMLHandler implements DocHandler {
 		mode = MODE_INVALID;
 		constMode = MODE_CONSTRUCTION;
 		hasGuiElement = false;
+		sliderTagProcessed = false;
 
 		initKernelVars();
 
@@ -1219,6 +1220,8 @@ public class MyXMLHandler implements DocHandler {
 			ymin = new HashMap<EuclidianSettings, String>(),
 			ymax = new HashMap<EuclidianSettings, String>();
 
+	private boolean sliderTagProcessed;
+
 	private boolean handleCoordSystem(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
 
@@ -1262,6 +1265,15 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	/**
+	 * Basic ev settings like grid / axes visible
+	 * 
+	 * @param ev
+	 *            settings
+	 * @param attrs
+	 *            tag attributes
+	 * @return success
+	 */
 	protected boolean handleEvSettings(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
 		try {
@@ -1555,7 +1567,15 @@ public class MyXMLHandler implements DocHandler {
 	// return false;
 	// }
 	// }
-
+	/**
+	 * Background color handlig for view
+	 * 
+	 * @param evSet
+	 *            settings
+	 * @param attrs
+	 *            tag attributes
+	 * @return success
+	 */
 	protected static boolean handleBgColor(EuclidianSettings evSet,
 			LinkedHashMap<String, String> attrs) {
 		org.geogebra.common.awt.GColor col = handleColorAttrs(attrs);
@@ -1594,6 +1614,15 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	/**
+	 * Label style for axes
+	 * 
+	 * @param ev
+	 *            euclidian settings
+	 * @param attrs
+	 *            tag attributes
+	 * @return success
+	 */
 	protected static boolean handleLabelStyle(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
 		try {
@@ -3147,6 +3176,7 @@ public class MyXMLHandler implements DocHandler {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_GEO_ELEMENT;
 				geo = getGeoElement(attrs);
+				sliderTagProcessed = false;
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_COMMAND;
@@ -3212,8 +3242,13 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_CONST_GEO_ELEMENT:
-			if ("element".equals(eName))
+			if ("element".equals(eName)) {
+				if (!sliderTagProcessed && geo.isGeoNumeric()) {
+					((GeoNumeric) geo).setShowExtendedAV(false);
+				}
 				constMode = MODE_CONSTRUCTION;
+			}
+
 			break;
 
 		case MODE_CONST_COMMAND:
@@ -4245,6 +4280,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		try {
+			sliderTagProcessed = true;
 			// don't create sliders in macro construction
 			if (geo.getKernel().isMacroKernel())
 				return true;
@@ -4270,6 +4306,8 @@ public class MyXMLHandler implements DocHandler {
 			num.setSliderLocation(x, y, true);
 			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")));
 			num.setSliderFixed(parseBoolean(attrs.get("fixed")));
+			num.setShowExtendedAV(parseBoolean(attrs.get("showAlgebra")));
+			
 			num.setSliderHorizontal(parseBoolean(attrs.get("horizontal")));
 
 			return true;

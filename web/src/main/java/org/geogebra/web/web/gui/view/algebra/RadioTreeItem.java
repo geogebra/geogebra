@@ -980,13 +980,7 @@ public class RadioTreeItem extends AVTreeItem
 		final GeoNumeric num = (GeoNumeric) geo;
 
 		if (!geo.isEuclidianVisible()) {
-			// // number inserted via input bar
-			// // -> initialize min/max etc.
-			geo.setEuclidianVisible(true);
-			geo.setEuclidianVisible(false);
-
-			// GGB-55
-			num.setSliderLocation(0, 0, true);
+			num.initAlgebraSlider();
 		}
 
 		// if the geo still has no min/max, it should not be displayed with

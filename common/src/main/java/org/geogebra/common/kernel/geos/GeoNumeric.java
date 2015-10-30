@@ -183,8 +183,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 */
 	public GeoNumeric(Construction c, String label, double x, boolean extendedAV) {
 		this(c, x);
-		setLabel(label);
 		setShowExtendedAV(extendedAV);
+		setLabel(label);
 	}
 
 	/**
@@ -764,6 +764,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		sb.append(sliderFixed);
 		sb.append("\" horizontal=\"");
 		sb.append(sliderHorizontal);
+		sb.append("\" showAlgebra=\"");
+		sb.append(isShowingExtendedAV());
 		sb.append("\"/>\n");
 	}
 
@@ -1557,7 +1559,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
-		this.updateRepaint();
 	}
 	
 	
@@ -1664,6 +1665,18 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
+	}
+
+	public void initAlgebraSlider() {
+		if (!showExtendedAV) {
+			return;
+		}
+		setEuclidianVisible(true);
+		setEuclidianVisible(false);
+
+		// GGB-55
+		setSliderLocation(0, 0, true);
+
 	}
 
 }
