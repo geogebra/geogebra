@@ -282,7 +282,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 
 		if (app.getGuiManager().getLayout().getDockManager()
 				.getNumberOfOpenViews() > 1) {
-			popupMenu.addItem("close view", new ScheduledCommand() {
+			popupMenu.addItem(app.getMenu("Close"), new ScheduledCommand() {
 
 				public void execute() {
 					app.getGuiManager().setShowView(false,
