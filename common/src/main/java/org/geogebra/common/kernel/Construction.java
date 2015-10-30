@@ -19,9 +19,11 @@ import org.geogebra.common.kernel.algos.AlgoDistancePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -593,6 +595,30 @@ public class Construction {
 	public GeoElement geoTableVarLookup(String label) {
 		GeoElement ret = geoTable.get(label);
 		return ret;
+	}
+
+	/**
+	 * Looks for equation with given label
+	 * 
+	 * @param label
+	 *            - label of the searched geo
+	 * @return returns the equation defined by label in CAS
+	 */
+	public ValidExpression geoCeListLookup(String label) {
+		for (int i = 0;i<ceList.size();i++) {
+			// get current cell
+			GeoCasCell currCell = (GeoCasCell) ceList.get(i);
+			// we found the equation
+			if (currCell.getInput(StringTemplate.defaultTemplate).startsWith(
+					label + "=")
+					&& ((ExpressionNode) currCell.getInputVE()).getLeft() instanceof Equation) {
+				// return the equation
+				return (ValidExpression) ((ExpressionNode) currCell
+						.getInputVE())
+						.getLeft();
+			}
+		}
+		return null;
 	}
 
 	/**
