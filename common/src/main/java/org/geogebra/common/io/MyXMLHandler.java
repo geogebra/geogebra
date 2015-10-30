@@ -4065,9 +4065,13 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleValue(LinkedHashMap<String, String> attrs) {
 		boolean isBoolean = geo.isGeoBoolean();
 		boolean isNumber = geo.isGeoNumeric();
-		boolean isButton = geo.isGeoButton();
-
-		if (!(isNumber || isBoolean || isButton)) {
+		// GGB-244 something that was formerly just a number is now a segment:
+		// hide it!
+		if (geo.isNumberValue() && !isNumber) {
+			geo.setEuclidianVisible(false);
+			return true;
+		}
+		if (!(isNumber || isBoolean || geo.isGeoButton())) {
 			App.debug("wrong element type for <value>: " + geo.getClass());
 			return false;
 		}
@@ -4084,7 +4088,7 @@ public class MyXMLHandler implements DocHandler {
 			} else if (isBoolean) {
 				GeoBoolean bool = (GeoBoolean) geo;
 				bool.setValue(parseBoolean(strVal));
-			} else if (isButton) {
+			} else if (geo.isGeoButton()) {
 				// XXX What's this javascript doing here? (Arnaud)
 				GeoButton button = (GeoButton) geo;
 				Script script = app.createScript(ScriptType.JAVASCRIPT, strVal,

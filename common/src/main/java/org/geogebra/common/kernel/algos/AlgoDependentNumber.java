@@ -72,7 +72,8 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 			// fix error with a=7, b = a renaming a instead of creating b
 			number = (GeoNumberValue) ((GeoNumberValue) evaluate)
 					.copyInternal(cons);
-			if (!number.isGeoNumeric()) {
+			// just a copy of segment / polygon / arc, not eg. list1(1)
+			if (!number.isGeoNumeric() && root.unwrap().isGeoElement()) {
 				number.setEuclidianVisible(false);
 			}
 		} else if (isAngle) {
