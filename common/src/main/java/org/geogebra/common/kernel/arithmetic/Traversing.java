@@ -509,9 +509,7 @@ public interface Traversing {
 		 * @return list of undefined variables (repeats removed)
 		 */
 		public TreeSet<String> getResult() {
-			App.debug("UNDEFINED" + tree.size() + "," + localTree.size());
 			tree.removeAll(localTree);
-			App.debug("UNDEFINED after" + tree.size());
 			return tree;
 		}
 
@@ -549,7 +547,6 @@ public interface Traversing {
 			} else if (ev instanceof Command) {// Iteration[a+1, a, {1},4]
 
 				Command com = (Command) ev;
-				App.debug("ITERATION?" + com.getName());
 				if (("Sequence".equals(com.getName()) && com
 						.getArgumentNumber() > 2)
 						|| "KeepIf".equals(com.getName())
@@ -560,9 +557,6 @@ public interface Traversing {
 						.equals(com.getName())) && com.getArgumentNumber() > 3) {
 
 					for (int i = 1; i < com.getArgumentNumber() - 2; i++) {
-						App.debug("ITERATION:"
-								+ com.getArgument(i).toString(
-										StringTemplate.defaultTemplate));
 						localTree.add(com.getArgument(i).toString(
 								StringTemplate.defaultTemplate));
 					}

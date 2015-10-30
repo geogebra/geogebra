@@ -72,6 +72,9 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 			// fix error with a=7, b = a renaming a instead of creating b
 			number = (GeoNumberValue) ((GeoNumberValue) evaluate)
 					.copyInternal(cons);
+			if (!number.isGeoNumeric()) {
+				number.setEuclidianVisible(false);
+			}
 		} else if (isAngle) {
 			number = new GeoAngle(cons);
 

@@ -684,7 +684,6 @@ public class AlgebraProcessor {
 				// step3: make a list of undefined variables so we can ask the
 				// user
 				// ==========================
-				App.debug("PT3" + undefinedVariables.size());
 				Iterator<String> it = undefinedVariables.iterator();
 				while (it.hasNext()) {
 					String label = it.next();
