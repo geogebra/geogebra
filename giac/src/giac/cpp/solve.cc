@@ -1107,8 +1107,12 @@ namespace giac {
 	  return vecteur(1,gensizeerr(gettext("Unable to check test at x=")+test.print()));
       }
       if (test!=1){
-	if (!equalposcomp(already_added,l) && equalposcomp(veq_not_singu,l))
-	  add_eq.push_back(l);
+	if (!equalposcomp(already_added,l) && equalposcomp(veq_not_singu,l)){
+	  gen a=e0._SYMBptr->feuille[0];
+	  a=subst(a,x,l,false,contextptr);
+	  if (!has_i(a))
+	    add_eq.push_back(l);
+	}
 	continue;
       }
       already_added.push_back(m);
