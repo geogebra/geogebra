@@ -4102,7 +4102,7 @@ public class MyXMLHandler implements DocHandler {
 		boolean isNumber = geo.isGeoNumeric();
 		// GGB-244 something that was formerly just a number is now a segment:
 		// hide it!
-		if (geo.isNumberValue() && !isNumber) {
+		if (geo.isNumberValue() && !isNumber && !isBoolean) {
 			geo.setEuclidianVisible(false);
 			return true;
 		}
