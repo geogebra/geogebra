@@ -1235,9 +1235,14 @@ ExpressionValue plusminusnode():
         {                       
             if (x.kind == PLUS) 
                 ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);  
-            else
-                ret = new ExpressionNode(kernel, ret, Operation.MINUS, f);  
-        }
+            else            {              if(ret.isExpressionNode() && ( (ExpressionNode)ret).getOperation() == Operation.PLUS && ( (ExpressionNode)ret).getLeft() instanceof TextValue )              {                ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
+							((ExpressionNode) ret).getRight(), Operation.MINUS,
+							f));
+              }
+              else              {
+                 ret = new ExpressionNode(kernel, ret, Operation.MINUS, f);              }
+        	}
+      }          
     )*
     { 
       //ret.simplifyLeafs();
