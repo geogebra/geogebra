@@ -956,6 +956,11 @@ public class CAStestJSON {
 	}
 
 	@Test
+	public void testEvaluateLogic() {
+		testCat("EvaluateLogic");
+	}
+
+	@Test
 	public void testAbs(){
 		testCat("Abs");
 	}
