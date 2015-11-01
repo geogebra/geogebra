@@ -20,7 +20,7 @@ public abstract class DrawEquation {
 	}
 
 	public static void appendFractionEnd(StringBuilder sb, StringTemplate tpl) {
-			sb.append(")");
+		sb.append(" } ");
 	}
 
 	public static void appendInfinity(StringBuilder sb, StringTemplate tpl) {
