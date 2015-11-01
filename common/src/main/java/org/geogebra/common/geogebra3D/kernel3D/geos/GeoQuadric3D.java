@@ -505,7 +505,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		eigenvecND[0].setMul(eigenvecND[0], a / norm);
 		tmpCoords.setMul(eigenvecND[1], b / norm);
 		eigenvecND[0].setAdd(eigenvecND[0], tmpCoords);
+		double valSgn = 1;
 		if (value > 0) {
+			valSgn = -1;
 			eigenvecND[0].mulInside3(-1);
 		}
 		eigenvecND[1].setCrossProduct(eigenvecND[2], eigenvecND[0]);
@@ -521,7 +523,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// set midpoint
 		midpoint.set(Coords.O);
-		midpoint.addInside(tmpCoords.setMul(eigenvecND[0], (d - c * c / value)
+		midpoint.addInside(tmpCoords.setMul(eigenvecND[0], -valSgn
+				* (d - c * c / value)
 				/ (2 * norm)));
 		midpoint.addInside(tmpCoords.setMul(eigenvecND[2], -c / value));
 
