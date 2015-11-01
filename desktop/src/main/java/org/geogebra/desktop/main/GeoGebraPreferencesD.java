@@ -368,8 +368,11 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		{
 			String xmlDef = app.getKernel().getConstruction()
 					.getConstructionDefaults().getCDXML();
-
+			try {
 			ggbPrefs.put(XML_DEFAULT_OBJECT_PREFERENCES, xmlDef);
+			} catch (Exception e) {
+				App.error("object defaults too long");
+			}
 		}
 
 		// store current tools including icon images as ggt file (byte array)
