@@ -811,7 +811,11 @@ myCell) {
 	 */
 	void makeTableRowsDragable() {
 	    for (int i = 0; i < table.getRowCount(); i++) {
+			try {
 	    		table.getRowElement(i).setDraggable(Element.DRAGGABLE_TRUE);
+			} catch (Exception e) {
+				App.debug("Out of bounds");
+			}
 	    }
     }	
 	
