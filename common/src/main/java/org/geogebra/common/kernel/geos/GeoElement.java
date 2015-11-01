@@ -1302,8 +1302,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return drawing priority (lower = drawn first)
 	 */
-	// Michael Borcherds 2008-02-23
-	
 	private int typePriority(){
 		switch (getGeoClassType()) {
 		case AXIS:
@@ -1315,6 +1313,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		case BOOLEAN:
 			return 20;
 		case LIST:
+
+			if (((GeoList) this).drawAsComboBox()) {
+				return 160;
+			}
+
 			return 40;
 		case POLYGON:
 		case POLYGON3D:
