@@ -1040,7 +1040,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				node.setFirst(true);
 			}
 
-			if (pos == parent.getChildCount()) {
+			if (pos >= parent.getChildCount()) {
 				parent.addItem(node);
 				if (parent.equals(rootOrder))
 					addItem(node);
