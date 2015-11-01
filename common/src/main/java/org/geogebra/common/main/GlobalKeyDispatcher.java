@@ -1186,8 +1186,7 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			if (!fromSpreadsheet
-					&& handleArrowsForDropdown(geos, true, false)) {
+			if (!fromSpreadsheet && handleArrowsForDropdown(geos, true, true)) {
 				return true;
 			}
 			changeValX = base;
@@ -1200,8 +1199,7 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			if (!fromSpreadsheet
-					&& handleArrowsForDropdown(geos, false, false)) {
+			if (!fromSpreadsheet && handleArrowsForDropdown(geos, false, true)) {
 				return true;
 			}
 
