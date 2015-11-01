@@ -313,9 +313,6 @@ public class ConstructionProtocolView {
 		updateNavigationBars();
 	}
 
-	protected void repaint() {
-		//overridden (at least on desktop and web)
-	}
 
 	public org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData getData() {
 		return data;
@@ -563,8 +560,8 @@ public class ConstructionProtocolView {
 			updateNavigationBars();
 		}
 
-		public final void repaintView() {
-			repaint();
+		public void repaintView() {
+			// overridden in subclasses
 		}
 
 
@@ -574,9 +571,35 @@ public class ConstructionProtocolView {
 			updateAll();
 		}
 		
-		public void update(GeoElement geo) {
-			// TODO Auto-generated method stub
+		public final void update(GeoElement geo) {
+			RowData row = geoMap.get(geo);
+			if (row != null) {
+				// remove row if only breakpoints
+				// are shown and this is no longer a breakpoint (while loading a
+				// construction)
+				if (!geo.isConsProtocolBreakpoint()
+						&& kernel.getConstruction().showOnlyBreakpoints())
+					remove(geo);
+				else {
+					row.updateAlgebraAndName();
+					row.updateCaption();
+					fireTableRowsUpdated(row.getRowNumber(),
+							row.getRowNumber());
+				}
+			} else {
+				// missing row: should be added if only breakpoints
+				// are shown and this became a breakpoint (while loading a
+				// construction)
+				if (kernel.getConstruction().showOnlyBreakpoints()
+						&& geo.isConsProtocolBreakpoint())
+					add(geo);
+			}
 			
+		}
+
+		protected void fireTableRowsUpdated(int rowNumber, int rowNumber2) {
+			// TODO Auto-generated method stub
+
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
@@ -678,7 +701,7 @@ public class ConstructionProtocolView {
 		
 			scrollToConstructionStep();
 		}
-		
+
 	}
 
 	public final String getConsProtocolXML() {
@@ -718,7 +741,7 @@ public class ConstructionProtocolView {
 						!app.getKernel().getConstruction()
 								.showOnlyBreakpoints());
 		getData().initView();
-		repaint();
+		getData().repaintView();
 	}
 	
 }

@@ -15,6 +15,7 @@ import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolStyleBarW;
 import org.geogebra.web.web.gui.util.StyleBarW;
@@ -761,13 +762,14 @@ myCell) {
 					break;
 			}
 			final int row2 = row;
-			app.getGuiManager().invokeLater(new Runnable(){
+			app.getGuiManager().invokeLater(new Runnable() {
 
 				@Override
-                public void run() {
+				public void run() {
 					markRowsActive(row2);
-	                
-                }});
+
+				}
+			});
 			
 			
 		}
@@ -779,11 +781,19 @@ myCell) {
 	 */
 	void markRowsActive(int index) {
 		for (int i = 0; i < table.getRowCount(); i++) {
-			if (i <= index) {
-				GColorW color = (GColorW) data.getRow(i).getGeo().getAlgebraColor();
-				table.getRowElement(i).setAttribute("style", "color:"+ GColor.getColorString(color));
-			} else {
-				table.getRowElement(i).setAttribute("style", "opacity:0.5");
+			try {
+				if (i <= index) {
+					GColorW color = (GColorW) data.getRow(i).getGeo()
+							.getAlgebraColor();
+					table.getRowElement(i).setAttribute(
+							"style", "color:" + GColor.getColorString(color));
+				} else {
+					table.getRowElement(i).setAttribute(
+							"style", "opacity:0.5");
+				}
+			} catch (IndexOutOfBoundsException e) {
+				App.debug("OutOfBounds:" + i + "," + table.getRowCount() + ","
+						+ table.getPageStart());
 			}
 		}
 	}
@@ -794,11 +804,7 @@ myCell) {
 	public FlowPanel getCpPanel(){
 		return cpPanel;
 	}
-	
-	@Override
-    public void repaint(){
-		tableInit();
-	}
+
 	
 	/**
 	 * Make all currrent rows draggable
@@ -834,6 +840,10 @@ myCell) {
 	 */
 	class ConstructionTableDataW extends ConstructionTableData{
 
+		private boolean rowsChanged;
+		private boolean needsUpdate;
+		private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+
 		/**
 		 * @param gui gui element on which we delegate setLabels
 		 */
@@ -841,7 +851,32 @@ myCell) {
 			super(gui);
 //			ctDataImpl = new MyGAbstractTableModel();
 		}
-		
+
+		@Override
+		public void repaintView() {
+			app.ensureTimerRunning();
+			if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
+				waitForRepaint = TimerSystemW.ALGEBRA_LOOPS;
+			}
+		}
+
+		/**
+		 * If there are some updates since last repaint, update the table
+		 */
+		public void repaintIfNeeded() {
+			if (this.rowsChanged) {
+				rowsChanged = false;
+				needsUpdate = false;
+				if (table != null) {
+					table.setRowCount(0);
+					tableInit();
+					rowCountChanged();
+				}
+			} else if (needsUpdate) {
+				needsUpdate = false;
+				tableInit();
+			}
+		}
 		/**
 		 * 
 		 * @param fromIndex from
@@ -863,22 +898,23 @@ myCell) {
 		
 		@Override
 		public void fireTableRowsInserted(int firstRow, int lastRow){
-			//TODO: maybe it's not necessary to reinit the all table
-			if(table != null){
-				table.setRowCount(0);
-				tableInit();
-				rowCountChanged();
-			}
+			rowsChanged = true;
+			needsUpdate = true;
+			repaintView();
 		}
 		
 		@Override
+		public void fireTableRowsUpdated(int firstRow, int lastRow) {
+			// TODO: maybe it's not necessary to reinit the all table
+			needsUpdate = true;
+			repaintView();
+		}
+
+		@Override
 		public void fireTableRowsDeleted(int firstRow, int lastRow){
-			//TODO: maybe it's not necessary to reinit the all table
-			if(table != null){
-				table.setRowCount(0);
-				tableInit();
-				rowCountChanged();
-			}
+			rowsChanged = true;
+			needsUpdate = true;
+			repaintView();
 		}
 
 		@Override
@@ -889,6 +925,25 @@ myCell) {
 				RowData row = rowList.get(i);
 				row.updateAll();
 			}
+		}
+
+		@Override
+		public boolean suggestRepaint() {
+			if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
+				return false;
+			}
+
+			if (waitForRepaint == TimerSystemW.REPAINT_FLAG) {
+				if (app.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+					repaintIfNeeded();
+					waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+				}
+				return true;
+			}
+
+			waitForRepaint--;
+			return true;
+
 		}
 	}
 

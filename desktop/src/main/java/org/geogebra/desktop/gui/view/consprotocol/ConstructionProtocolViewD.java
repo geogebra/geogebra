@@ -224,8 +224,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	}
 
 
-	@Override
-	protected void repaint() {
+	protected void repaintScrollpane() {
 		scrollPane.repaint();
 	}
 
@@ -356,6 +355,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				+ " (" + FileExtensions.HTML + ") ...") {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 
@@ -377,6 +377,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				((AppD) app).getScaledIcon("document-print-preview.png")) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 
@@ -477,6 +478,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		// smallest and larges possible construction index for dragging
 		private int minIndex, maxIndex;
 
+		@Override
 		public void mouseClicked(MouseEvent e) {
 			Object ob = e.getSource();
 			if (ob == table) {
@@ -552,6 +554,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			}
 		}
 
+		@Override
 		public void mousePressed(MouseEvent e) {
 			if (e.getSource() != table)
 				return;
@@ -565,6 +568,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			}
 		}
 
+		@Override
 		public void mouseReleased(MouseEvent e) {
 			if (e.getSource() != table)
 				return;
@@ -589,6 +593,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			table.repaint();
 		}
 
+		@Override
 		public void mouseDragged(MouseEvent e) {
 			if (e.getSource() != table || dragIndex == -1)
 				return;
@@ -611,14 +616,17 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			}
 		}
 
+		@Override
 		public void mouseMoved(MouseEvent e) {
 			// do nothing
 		}
 
+		@Override
 		public void mouseEntered(MouseEvent e) {
 			// do nothing
 		}
 
+		@Override
 		public void mouseExited(MouseEvent arg0) {
 			// do nothing
 		}
@@ -637,6 +645,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			isBreakPointColumn = colData.getTitle().equals("Breakpoint");
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			// JCheckBoxMenuItem item = (JCheckBoxMenuItem) e.getSource();
 			TableColumnModel model = table.getColumnModel();
@@ -689,10 +698,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			return true;
 		}
 
+		@Override
 		public Object getCellEditorValue() {
 			return inputPanel.getText();
 		}
 
+		@Override
 		public Component getTableCellEditorComponent(JTable table1,
 				Object value, boolean isSelected, int rowIndex, int columnIndex) {
 
@@ -822,6 +833,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		}
 
+		@Override
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
@@ -906,6 +918,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				// side effect: go to last construction step
 				setConstructionStep(kernel.getLastConstructionStep());
 			}
+		}
+
+		@Override
+		public void repaintView() {
+			repaintScrollpane();
 		}
 
 		private Color getColorAt(int nRow, int nCol) {
@@ -1155,29 +1172,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 
 		@Override
-		final public void update(GeoElement geo) {
-			RowData row = geoMap.get(geo);
-			if (row != null) {
-				// remove row if only breakpoints
-				// are shown and this is no longer a breakpoint (while loading a
-				// construction)
-				if (!geo.isConsProtocolBreakpoint()
-						&& kernel.getConstruction().showOnlyBreakpoints())
-					remove(geo);
-				else {
-					row.updateAlgebraAndName();
-					row.updateCaption();
-					ctDataImpl.fireTableRowsUpdated(row.getRowNumber(),
-							row.getRowNumber());
-				}
-			} else {
-				// missing row: should be added if only breakpoints
-				// are shown and this became a breakpoint (while loading a
-				// construction)
-				if (kernel.getConstruction().showOnlyBreakpoints()
-						&& geo.isConsProtocolBreakpoint())
-					add(geo);
-			}
+		protected void fireTableRowsUpdated(int rowNumber, int rowNumber2) {
+			ctDataImpl.fireTableRowsUpdated(rowNumber, rowNumber2);
 		}
 
 		@Override
@@ -1193,20 +1189,25 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		private class ColumnMovementListener implements
 				TableColumnModelListener {
 
+			@Override
 			public void columnAdded(TableColumnModelEvent e) {
 				columnsCount++;
 			}
 
+			@Override
 			public void columnRemoved(TableColumnModelEvent e) {
 				columnsCount--;
 			}
 
+			@Override
 			public void columnMarginChanged(ChangeEvent e) {
 			}
 
+			@Override
 			public void columnMoved(TableColumnModelEvent e) {
 			}
 
+			@Override
 			public void columnSelectionChanged(ListSelectionEvent e) {
 			}
 		}
@@ -1288,6 +1289,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 * PRINTING *
 	 ************/
 
+	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
 			throws PrinterException {
 		
@@ -1579,13 +1581,15 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 * kernel.attach(this); }
 	 */
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		kernel.getConstruction().setShowOnlyBreakpoints(
 				!kernel.getConstruction().showOnlyBreakpoints());
 		((ConstructionTableData) getData()).initView();
-		repaint();
+		repaintScrollpane();
 	}
 
+	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		ConstructionProtocolSettings cps = (ConstructionProtocolSettings) settings;
 
@@ -1596,7 +1600,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		update();
 		((ConstructionTableData) getData()).initView();
-		repaint();
+		repaintScrollpane();
 
 	}
 
