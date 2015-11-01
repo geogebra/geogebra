@@ -107,8 +107,14 @@ public class CommandsTest extends Assert{
 	    // Setting the general timeout to 11 seconds. Feel free to change this.
 		app.getKernel().getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(11000);
 	}
-	
 
+	@Test
+	public void testQuadricExpr() {
+		t("-y^2=z-1", "-y" + Unicode.Superscript_2 + " + 0z"
+				+ Unicode.Superscript_2 + " - z = -1");
+		t("y^2=1-z", "y" + Unicode.Superscript_2 + " + 0z"
+				+ Unicode.Superscript_2 + " + z = 1");
+	}
 
 	@Test
 	public void listArithmetic() {
@@ -141,6 +147,9 @@ public class CommandsTest extends Assert{
 	public void operationSequence() {
 		Assert.assertEquals(StringUtil.fixVerticalBars("1..2"), "1"
 				+ Unicode.ellipsis + "2");
+		t("3.2..7.999", "{3, 4, 5, 6, 7, 8}");
+		t("-3.2..3.2", "{-3, -2, -1, 0, 1, 2, 3}");
+		t("3.2..-2", "{3, 2, 1, 0, -1, -2}");
 	}
 	@Test
 	public void cmdMidpoint(){
@@ -287,7 +296,7 @@ public class CommandsTest extends Assert{
 		t("Sequence[ 4 ]", "{1, 2, 3, 4}");
 		t("Sequence[ 3.2, 7.999 ]", "{3, 4, 5, 6, 7, 8}");
 		t("Sequence[ -3.2, 3.2 ]", "{-3, -2, -1, 0, 1, 2, 3}");
-		t("Sequence[ 3.2, -2 ]", "{}");
+		t("Sequence[ 3.2, -2 ]", "{3, 2, 1, 0, -1, -2}");
 		t("Sequence[ t^2, t, 1, 4 ]", "{1, 4, 9, 16}");
 		t("Sequence[ t^2, t, 1, 4, 2 ]", "{1, 9}");
 		t("Sequence[ t^2, t, 1, 4, -2 ]", "{}");
