@@ -34,7 +34,8 @@ import org.geogebra.common.plugin.GeoClass;
  * @param <T>
  *            2D or 3D point type
  */
-public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implements Path, Traceable {
+public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
+		implements Path, Traceable, GeoLocusNDInterface {
 
 	/** maximal number of runs through the path when computing */
 	public static final int MAX_PATH_RUNS = 10;
@@ -417,5 +418,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 	@Override
 	public boolean hasDrawable3D() {
 		return true;
+	}
+
+	public GeoLocusND<? extends MyPoint> getLocus() {
+		return this;
 	}
 }

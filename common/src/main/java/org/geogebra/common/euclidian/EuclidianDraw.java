@@ -53,7 +53,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoLocusND;
+import org.geogebra.common.kernel.geos.GeoLocusNDInterface;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -289,7 +289,7 @@ public class EuclidianDraw {
 			break;
 
 		case LOCUS:
-			d = new DrawLocus(ev, (GeoLocusND) geo);
+			d = new DrawLocus(ev, ((GeoLocusNDInterface) geo).getLocus());
 			break;
 
 		case CURVE_CARTESIAN:
