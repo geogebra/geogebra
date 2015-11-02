@@ -955,6 +955,11 @@ public abstract class Renderer {
 	abstract public void initMatrix();
 
 	/**
+	 * set the matrix for face to screen part
+	 */
+	abstract public void initMatrixForFaceToScreen();
+
+	/**
 	 * turn off the last drawing matrix set in openGLlocal.
 	 */
 	abstract public void resetMatrix();
@@ -1019,7 +1024,17 @@ public abstract class Renderer {
 	/**
 	 * draws mouse cursor
 	 */
-	abstract public void drawMouseCursor();
+	final public void drawMouseCursor() {
+
+		initMatrixForFaceToScreen();
+		disableBlending();
+		disableCulling();
+		geometryManager.draw(geometryManager.getMouseCursor().getIndex());
+		enableCulling();
+		enableBlending();
+		resetMatrix();
+	}
+
 
 	public int startPolygons(int old) {
 

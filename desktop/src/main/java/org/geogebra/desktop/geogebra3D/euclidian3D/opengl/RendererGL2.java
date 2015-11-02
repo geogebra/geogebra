@@ -88,28 +88,16 @@ public abstract class RendererGL2 extends RendererD {
 	}
 
 	@Override
+	public void initMatrixForFaceToScreen() {
+		initMatrix();
+	}
+
+	@Override
 	public void resetMatrix() {
 		jogl.getGL2().glPopMatrix();
 	}
 
-	@Override
-	public void drawMouseCursor() {
-		// Application.debug("ici");
 
-		initMatrix();
-		disableBlending();
-		jogl.getGL2().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_POINT);
-		jogl.getGL2().glColor4f(0, 0, 0, 1);
-		geometryManager.draw(geometryManager.getMouseCursor().getIndex());
-		jogl.getGL2().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);
-		jogl.getGL2().glColor4f(0, 0, 0, 1);
-		geometryManager.draw(geometryManager.getMouseCursor().getIndex());
-		jogl.getGL2().glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_FILL);
-		jogl.getGL2().glColor4f(1, 1, 1, 1);
-		geometryManager.draw(geometryManager.getMouseCursor().getIndex());
-		enableBlending();
-		resetMatrix();
-	}
 
 	@Override
 	protected void setGLForPicking() {

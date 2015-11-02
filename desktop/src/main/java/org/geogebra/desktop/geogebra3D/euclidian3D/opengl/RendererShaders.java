@@ -964,15 +964,20 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
+	public void initMatrixForFaceToScreen() {
+
+		tmpMatrix1.setMul(projectionMatrix, getMatrix());
+		tmpMatrix1.getForGL(tmpFloat16);
+
+		jogl.getGL2ES2().glUniformMatrix4fv(matrixLocation, 1, false,
+				tmpFloat16, 0);
+	}
+
+	@Override
 	public void resetMatrix() {
 		setMatrixView();
 	}
 
-	@Override
-	public void drawMouseCursor() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	protected void setGLForPicking() {

@@ -649,15 +649,21 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	}
 
 	@Override
+	public void initMatrixForFaceToScreen() {
+
+		tmpMatrix1.setMul(projectionMatrix, getMatrix());
+		tmpMatrix1.getForGL(tmpFloat16);
+
+		glContext.uniformMatrix4fv(matrixLocation, false, tmpFloat16);
+	}
+
+
+
+	@Override
 	public void resetMatrix() {
 		setMatrixView();
 	}
 
-	@Override
-	public void drawMouseCursor() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	protected void setGLForPicking() {
