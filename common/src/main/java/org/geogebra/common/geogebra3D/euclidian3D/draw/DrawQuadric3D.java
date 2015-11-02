@@ -1053,6 +1053,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		return false;
 	}
 
+	private int surfaceDrawTypeAdded;
+
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
@@ -1062,9 +1064,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET:
 			addToDrawable3DLists(lists, DRAW_TYPE_CLOSED_SURFACES_CURVED);
+			surfaceDrawTypeAdded = DRAW_TYPE_CLOSED_SURFACES_CURVED;
 			break;
 		default:
 			addToDrawable3DLists(lists, DRAW_TYPE_SURFACES);
+			surfaceDrawTypeAdded = DRAW_TYPE_SURFACES;
 			break;
 		}
 		addToDrawable3DLists(lists, DRAW_TYPE_CURVES);
@@ -1072,18 +1076,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
-		switch (((GeoQuadric3D) getGeoElement()).getType()) {
-		case GeoQuadricNDConstants.QUADRIC_SPHERE:
-		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
-		case GeoQuadricNDConstants.QUADRIC_CONE:
-		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET:
-			removeFromDrawable3DLists(lists, DRAW_TYPE_CLOSED_SURFACES_CURVED);
-			break;
-		default:
-			removeFromDrawable3DLists(lists, DRAW_TYPE_SURFACES);
-			break;
-		}
+		removeFromDrawable3DLists(lists, surfaceDrawTypeAdded);
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CURVES);
 	}
 

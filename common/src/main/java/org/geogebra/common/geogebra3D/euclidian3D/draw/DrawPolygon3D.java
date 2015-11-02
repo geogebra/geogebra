@@ -115,34 +115,34 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		 */
 	}
 
+	private int surfaceDrawTypeAdded;
+	private boolean curvesAdded;
+
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
-		if (((GeoPolygon) getGeoElement()).isPartOfClosedSurface())
-			addToDrawable3DLists(lists, DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED);
-		else
-			addToDrawable3DLists(lists, DRAW_TYPE_SURFACES);
+		if (((GeoPolygon) getGeoElement()).isPartOfClosedSurface()) {
+			surfaceDrawTypeAdded = DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED;
+		} else {
+			surfaceDrawTypeAdded = DRAW_TYPE_SURFACES;
+		}
+		addToDrawable3DLists(lists, surfaceDrawTypeAdded);
 
 		if (!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()) { // no
 																		// labels
 																		// for
 																		// segments
 			addToDrawable3DLists(lists, DRAW_TYPE_CURVES);
+			curvesAdded = true;
+		} else {
+			curvesAdded = false;
 		}
 
 	}
 
 	@Override
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
-		if (((GeoPolygon) getGeoElement()).isPartOfClosedSurface())
-			removeFromDrawable3DLists(lists,
-					DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED);
-		else
-			removeFromDrawable3DLists(lists, DRAW_TYPE_SURFACES);
-
-		if (!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()) { // no
-																		// labels
-																		// for
-																		// segments
+		removeFromDrawable3DLists(lists, surfaceDrawTypeAdded);
+		if (curvesAdded) {
 			removeFromDrawable3DLists(lists, DRAW_TYPE_CURVES);
 		}
 

@@ -503,23 +503,24 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 		return DRAW_PICK_ORDER_SURFACE;
 	}
 
+	private int drawTypeAdded;
+
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		super.addToDrawable3DLists(lists);
-		if (((GeoConicND) getGeoElement()).isEndOfQuadric())
-			addToDrawable3DLists(lists, DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED);
-		else
-			addToDrawable3DLists(lists, DRAW_TYPE_SURFACES);
+		if (((GeoConicND) getGeoElement()).isEndOfQuadric()) {
+			drawTypeAdded = DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED;
+		} else {
+			drawTypeAdded = DRAW_TYPE_SURFACES;
+		}
+
+		addToDrawable3DLists(lists, drawTypeAdded);
 	}
 
 	@Override
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		super.removeFromDrawable3DLists(lists);
-		if (((GeoConicND) getGeoElement()).isEndOfQuadric())
-			removeFromDrawable3DLists(lists,
-					DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED);
-		else
-			removeFromDrawable3DLists(lists, DRAW_TYPE_SURFACES);
+		removeFromDrawable3DLists(lists, drawTypeAdded);
 
 	}
 
