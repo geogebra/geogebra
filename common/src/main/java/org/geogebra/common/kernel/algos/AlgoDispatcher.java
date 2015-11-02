@@ -754,7 +754,6 @@ public class AlgoDispatcher {
 			double y, boolean addToConstruction, boolean complex,
 			boolean coords2D) {
 
-		App.printStacktrace("");
 		boolean oldMacroMode = false;
 		if (!addToConstruction) {
 			oldMacroMode = cons.isSuppressLabelsActive();
