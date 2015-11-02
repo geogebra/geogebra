@@ -75,9 +75,6 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		listSelModel = new DefaultListSelectionModel();
 		getCAS();
 
-		// init commands subtable for cas-commands in inputbar-help
-		kernel.getAlgebraProcessor().enableCAS();
-
 		// CAS input/output cells
 		createCASTable();
 		// row header

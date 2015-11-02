@@ -504,7 +504,12 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			if (isCASInput) {
 				syntaxString = loc.getCommandSyntaxCAS(cmdInt);
 			} else {
-				syntaxString = loc.getCommandSyntax(cmdInt);
+				syntaxString = app.getExam() == null ? loc
+						.getCommandSyntax(cmdInt) : app.getExam().getSyntax(
+						cmdInt, loc);
+			}
+			if (syntaxString == null) {
+				continue;
 			}
 			if (syntaxString.endsWith(isCASInput ? Localization.syntaxCAS
 			        : Localization.syntaxStr)) {

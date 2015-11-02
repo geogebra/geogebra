@@ -32,9 +32,6 @@ public class CASViewW extends CASView {
 
 		getCAS();
 
-		// init commands subtable for cas-commands in inputbar-help
-		kernel.getAlgebraProcessor().enableCAS();
-
 		// CAS input/output cells
 		CASTableControllerW ml = new CASTableControllerW(this, app);
 		consoleTable = new CASTableW(app, ml, this);

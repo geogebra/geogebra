@@ -2752,10 +2752,6 @@ public class AlgebraProcessor {
 		return algo.getGeo();
 	}
 
-	public void enableCAS() {
-		// initialize input help
-	}
-
 	/**
 	 * Show error dialog
 	 * 

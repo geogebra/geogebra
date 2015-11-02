@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import org.geogebra.common.kernel.commands.CmdGetTime;
+import org.geogebra.common.kernel.commands.Commands;
 
 //import com.google.gwt.i18n.client.DateTimeFormat;
 
@@ -123,5 +124,53 @@ public class ExamEnvironment {
 		this.closed = System.currentTimeMillis();
 	}
 
+	public String getSyntax(String cmdInt, Localization loc) {
+		if(supportsCAS){
+			return loc.getCommandSyntax(cmdInt);
+		}
+		Commands cmd = null;
+		try {
+			cmd = Commands.valueOf(cmdInt);
+
+		} catch (Exception e) {
+			// macro or error
+		}
+		if (cmd == null) {
+			return loc.getCommandSyntax(cmdInt);
+		}
+		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral
+		// gives suggestions for NIntegral
+		switch (cmd) {
+		case Integral:
+		case NIntegral:
+			return loc.getCommandSyntaxCAS("NIntegral");
+		case LocusEquation:
+		case Envelope:
+		case TrigSimplify:
+		case Expand:
+		case Factor:
+		case IFactor:
+		case Simplify:
+		case SurdText:
+		case ParametricDerivative:
+		case Derivative:
+		case TrigExpand:
+		case TrigCombine:
+		case Limit:
+		case LimitBelow:
+		case LimitAbove:
+		case Degree:
+		case Coefficients:
+		case PartialFractions:
+		case SolveODE:
+		case ImplicitDerivative:
+		case NextPrime:
+		case PreviousPrime:
+			return null;
+		default:
+			return loc.getCommandSyntax(cmdInt);
+		}
+
+	}
 
 }

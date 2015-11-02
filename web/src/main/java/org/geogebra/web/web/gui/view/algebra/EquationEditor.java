@@ -265,13 +265,15 @@ public class EquationEditor {
 		for (String cmd : commands) {
 
 			String cmdInt = app.getInternalCommand(cmd);
-
+			Localization loc = app.getLocalization();
 			String syntaxString;
 			if (component.isForCAS()) {
 				syntaxString = app.getLocalization()
 						.getCommandSyntaxCAS(cmdInt);
 			} else {
-				syntaxString = app.getLocalization().getCommandSyntax(cmdInt);
+				syntaxString = app.getExam() == null ? loc
+						.getCommandSyntax(cmdInt) : app.getExam().getSyntax(
+						cmdInt, loc);
 			}
 			if (syntaxString
 					.endsWith(component.isForCAS() ? Localization.syntaxCAS

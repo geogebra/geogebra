@@ -27,7 +27,6 @@ import org.geogebra.common.main.App;
  */
 public class CommandDispatcherCAS implements CommandDispatcherInterface {
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
-		App.printStacktrace("");
 		App app = kernel.getApplication();
 
 		switch (c) {
