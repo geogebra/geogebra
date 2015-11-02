@@ -468,7 +468,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	protected void setDefault2DCursor() {
-		// TODO Auto-generated method stub
+		setCursorClass("cursor_hit");
 
 	}
 
@@ -585,9 +585,20 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			EVPanel.getAbsolutePanel().remove(GBoxW.getImpl(box));
 	}
 
+	private void setCursorClass(String className) {
+		// IMPORTANT: do nothing if we already have the classname,
+		// app.resetCursor is VERY expensive in IE
+		Canvas canvas = ((RendererW) this.getRenderer()).getGLCanvas();
+		if (!canvas.getElement().hasClassName(className)) {
+			((AppW) this.app).resetCursor();
+			canvas.setStyleName("");
+			canvas.addStyleName(className);
+		}
+	}
+
 	@Override
 	public void setTransparentCursor() {
-		// TODO Auto-generated method stub
+		setCursorClass("cursor_transparent");
 
 	}
 

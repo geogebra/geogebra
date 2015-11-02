@@ -1016,6 +1016,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void setCursorClass(String className) {
+
 		// IMPORTANT: do nothing if we already have the classname,
 		// app.resetCursor is VERY expensive in IE
 		if (!g2p.getCanvas().getElement().hasClassName(className)) {

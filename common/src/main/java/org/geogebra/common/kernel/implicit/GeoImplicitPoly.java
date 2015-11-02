@@ -1565,9 +1565,10 @@ Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
 				}
 				if(w > grid.length || h > grid[w].length || grid[w][h] == null){
 					if(w > grid.length || h > grid[w].length){
-						App.printStacktrace("GRID"+grid.length+","+w+","+h);
+					App.trace("GRID" + grid.length + "," + w + "," + h);
 					}else{
-						App.printStacktrace("GRID NULL"+grid.length+","+w+","+h+","+gridWidth+","+gridHeight);
+					App.trace("GRID NULL" + grid.length + "," + w + "," + h
+							+ "," + gridWidth + "," + gridHeight);
 					}
 				}
 				while (sx<grid[w][h].x){
