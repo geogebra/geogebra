@@ -1065,6 +1065,11 @@ public class FileManagerT extends FileManager {
 		}
 	}-*/;
 
+	public void showExportAsPictureDialog(String url, AppW app) {
+		exportImage(url, "export.png");
+
+	}
+
 	public boolean hasBase64(Material material) {
 		return true;
 	}

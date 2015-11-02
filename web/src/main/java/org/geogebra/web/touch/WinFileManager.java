@@ -329,4 +329,9 @@ public class WinFileManager extends FileManager {
 		return true;
 	}
 
+	public void showExportAsPictureDialog(String url, AppW app) {
+		exportImage(url, "export.png");
+
+	}
+
 }

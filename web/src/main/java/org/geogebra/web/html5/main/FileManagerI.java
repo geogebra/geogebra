@@ -49,4 +49,6 @@ public interface FileManagerI {
 	boolean hasBase64(Material material);
 
 	void nativeShare(String s, String string);
+
+	void showExportAsPictureDialog(String url, AppW app);
 }
