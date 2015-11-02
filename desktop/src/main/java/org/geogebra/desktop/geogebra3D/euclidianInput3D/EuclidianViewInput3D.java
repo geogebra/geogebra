@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererLogicalPickingGL2;
 
 /**
@@ -652,7 +653,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	@Override
 	protected Renderer createRenderer() {
-
+		RendererJogl.setDefaultProfile();
 		return new RendererLogicalPickingGL2(this, !app.isApplet());
 
 	}

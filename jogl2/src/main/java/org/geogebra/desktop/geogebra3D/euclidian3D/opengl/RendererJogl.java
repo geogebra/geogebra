@@ -80,6 +80,24 @@ public class RendererJogl {
 		}
 	}
 
+	static private GLProfile profile;
+
+	static private boolean hasGLSL;
+
+	/**
+	 * set the default profile to current profile
+	 * 
+	 * @return true if default profile supports shader language
+	 */
+	final static public boolean setDefaultProfile() {
+		if (profile == null) {
+			profile = GLProfile.getDefault();
+			hasGLSL = profile.hasGLSL();
+		}
+
+		return hasGLSL;
+	}
+
 
 	final static public void initCaps(boolean stereo){
 		
@@ -87,7 +105,6 @@ public class RendererJogl {
 			return;
 		}
 						
-		GLProfile profile = GLProfile.getDefault();
 		//System.out.println("profile -- is GL2 = " + profile.isGL2()+" -- isHardwareRasterizer = "+ profile.isHardwareRasterizer());
 		caps = new GLCapabilities(profile);
 		
@@ -126,15 +143,6 @@ public class RendererJogl {
 				gl.glGetString(GL.GL_VERSION) };
 
 		return ret;
-		// return "Init on "+Thread.currentThread()
-		// +"\nChosen GLCapabilities: " + ret[0]
-		// +"\ndouble buffered: " + ret[1]
-		// +"\nstereo: " + ret[2]
-		// +"\nstencil: " + ret[3]
-		// +"\nINIT GL IS: " + ret[4]
-		// +"\nGL_VENDOR: " + ret[5]
-		// +"\nGL_RENDERER: " + ret[6]
-		// +"\nGL_VERSION: " + ret[7];
 		
 	}
 	

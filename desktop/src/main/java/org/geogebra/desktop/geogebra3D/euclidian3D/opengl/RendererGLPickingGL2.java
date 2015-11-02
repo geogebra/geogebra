@@ -5,21 +5,21 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 public class RendererGLPickingGL2 extends RendererGL2 {
 
 	public RendererGLPickingGL2(EuclidianView3D view, boolean useCanvas) {
 		super(view, useCanvas);
-		// TODO Auto-generated constructor stub
+		App.debug("Renderer with old GL, GL picking created");
 	}
 
 	@Override

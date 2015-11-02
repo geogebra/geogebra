@@ -10,12 +10,15 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.HittingSphere;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 
 public class RendererLogicalPickingGL2 extends RendererGL2 {
 
 	public RendererLogicalPickingGL2(EuclidianView3D view, boolean useCanvas) {
 
 		super(view, useCanvas);
+
+		App.debug("Renderer with old GL, logical picking created");
 
 		if (((EuclidianController3D) view3D.getEuclidianController())
 				.useInputDepthForHitting()) {
