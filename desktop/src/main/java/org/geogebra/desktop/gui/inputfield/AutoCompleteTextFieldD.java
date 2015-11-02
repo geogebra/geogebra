@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoComplete;
+import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1072,5 +1073,10 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 
 		g2.drawRect(left - 1, top - 1, width - 1, height - 4);
 
+	}
+
+	public void hideDeferred(final GBox box) {
+		setVisible(false);
+		box.setVisible(false);
 	}
 }

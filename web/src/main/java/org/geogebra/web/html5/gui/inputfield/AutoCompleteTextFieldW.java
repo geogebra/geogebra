@@ -16,6 +16,7 @@ import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.MyTextField;
+import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -41,6 +42,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -266,6 +268,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 			@Override
 			public void onClick(ClickEvent event) {
+				CancelEventTimer.disableBlurEvent();
 				if (showSymbolButton.isDown()) {
 					// when it is still down, it will be changed to up
 					// when it is still up, it will be changed to down
@@ -1495,6 +1498,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			textField.setFocus(true);
 		}
 	};
+
+
 	@Override
 	public void requestFocus() {
 		// if (app.isPrerelease()) {
@@ -1709,5 +1714,22 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		g2.setPaint(GColor.LIGHT_GRAY);
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
+	}
+
+	public void hideDeferred(final GBox box) {
+		CancelEventTimer.blurEventOccured();
+		Scheduler.get().scheduleEntry(new RepeatingCommand() {
+
+			public boolean execute() {
+				if (CancelEventTimer.cancelBlurEvent()) {
+					return true;
+				}
+
+				setVisible(false);
+				box.setVisible(false);
+				App.debug("REAL HIDE!");
+				return false;
+			}
+		});
 	}
 }

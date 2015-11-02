@@ -188,9 +188,9 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 
 			// GGB-22 revert r43455
 			// stops alpha popup working
-			// if (isDrawingOnCanvas()) {
-			// hideWidget();
-			// }
+			if (isDrawingOnCanvas()) {
+				hideWidget();
+			}
 
 			// make sure (expensive) update doesn't happen unless needed
 			// also caused problems when Object Properties opened
@@ -485,8 +485,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void hideWidget() {
-		// App.debug("[CandvasDrawable] TextField hide");
-		textField.setVisible(false);
-		box.setVisible(false);
+		textField.hideDeferred(box);
+
 	}
 }
