@@ -40,7 +40,8 @@ Traceable{
 	// types    
 	
 	/** quadric type*/
-	public int type = GeoQuadricNDConstants.QUADRIC_NOT_SET; // of quadric
+	public int type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED; // of
+																	// quadric
 
 
 

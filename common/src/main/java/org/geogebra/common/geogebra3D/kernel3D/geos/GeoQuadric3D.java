@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -117,8 +116,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			matrix[i] = coeffs[i];
 		}
 
-		if (type == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED
-				|| type == GeoQuadricNDConstants.QUADRIC_NOT_SET) {
+		if (type == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED) {
 			classifyQuadric();
 		}
 	}
@@ -322,11 +320,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
 
 		// set type
-		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
-			type = QUADRIC_PARABOLOID;
-		} else {
-			type = QUADRIC_NOT_CLASSIFIED;
-		}
+		type = QUADRIC_PARABOLOID;
 	}
 
 	private void singleLine(double x, double y) {
@@ -543,11 +537,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
 
 		// set type
-		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
-			type = QUADRIC_PARABOLIC_CYLINDER;
-		} else {
-			type = QUADRIC_NOT_CLASSIFIED;
-		}
+		type = QUADRIC_PARABOLIC_CYLINDER;
 
 	}
 
@@ -598,11 +588,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], 1);
 
 		// set type
-		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
-			type = QUADRIC_HYPERBOLIC_CYLINDER;
-		} else {
-			type = QUADRIC_NOT_CLASSIFIED;
-		}
+		type = QUADRIC_HYPERBOLIC_CYLINDER;
 
 	}
 
@@ -629,11 +615,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(1, 1, 1);
 
 		// set type
-		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
-			type = QUADRIC_HYPERBOLIC_PARABOLOID;
-		} else {
-			type = QUADRIC_NOT_CLASSIFIED;
-		}
+		type = QUADRIC_HYPERBOLIC_PARABOLOID;
 
 	}
 
@@ -851,11 +833,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
 
 		// set type
-		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
-			type = QUADRIC_HYPERBOLOID_ONE_SHEET;
-		} else {
-			type = QUADRIC_NOT_CLASSIFIED;
-		}
+		type = QUADRIC_HYPERBOLOID_ONE_SHEET;
 
 	}
 
@@ -888,11 +866,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
 
 		// set type
-		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
-			type = QUADRIC_HYPERBOLOID_TWO_SHEETS;
-		} else {
-			type = QUADRIC_NOT_CLASSIFIED;
-		}
+		type = QUADRIC_HYPERBOLOID_TWO_SHEETS;
 	}
 
 	private void completeOrthonormalRatioEqualTo1(Coords ev0, Coords ev1,
@@ -1250,11 +1224,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
 
 			// set type
-			if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
-				type = QUADRIC_ELLIPSOID;
-			} else {
-				type = QUADRIC_NOT_CLASSIFIED;
-			}
+			type = QUADRIC_ELLIPSOID;
 
 		}
 

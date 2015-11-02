@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.main.App;
 
 /**
@@ -2004,6 +2005,22 @@ public abstract class Renderer {
 	 */
 	public void resetCenter() {
 		// only used with shaders
+	}
+
+	/**
+	 * 
+	 * @param type
+	 *            quadric type
+	 * @return true if draw this quadric type
+	 */
+	public boolean drawQuadric(int type) {
+		return type != GeoQuadricNDConstants.QUADRIC_ELLIPSOID
+				&& type != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER
+				&& type != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_PARABOLOID
+				&& type != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET
+				&& type != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS
+				&& type != GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER
+				&& type != GeoQuadricNDConstants.QUADRIC_PARABOLOID;
 	}
 
 }

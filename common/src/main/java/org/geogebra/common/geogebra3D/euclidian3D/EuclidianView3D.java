@@ -623,7 +623,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	final private DrawSurface3D newDrawSurface3D(SurfaceEvaluable surface) {
-		if (app.useShaders() && app.has(Feature.GL_ELEMENTS)) {
+		if (renderer.useShaders() && app.has(Feature.GL_ELEMENTS)) {
 			return new DrawSurface3DElements(this, surface);
 		}
 		return new DrawSurface3D(this, surface);
@@ -4257,5 +4257,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	public void closeDropdowns() {
 		// no combo box in 3D for now
+	}
+
+	/**
+	 * 
+	 * @param type
+	 *            quadric type
+	 * @return true if draw this quadric type
+	 */
+	final public boolean drawQuadric(int type) {
+		return renderer.drawQuadric(type);
 	}
 }

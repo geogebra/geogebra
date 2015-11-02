@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
@@ -1858,6 +1859,15 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	@Override
 	protected void needExportImage(double scale, int w, int h) {
 		// TODO
+	}
+
+	@Override
+	public boolean drawQuadric(int type) {
+		if (view3D.getApplication().has(Feature.ALL_QUADRICS)) {
+			return true;
+		}
+
+		return super.drawQuadric(type);
 	}
 
 }
