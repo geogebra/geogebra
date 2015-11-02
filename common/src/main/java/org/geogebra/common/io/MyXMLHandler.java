@@ -3350,7 +3350,14 @@ public class MyXMLHandler implements DocHandler {
 		if (defaultset == null || !kernel.getElementDefaultAllowed()) {
 			// does a geo element with this label exist?
 			geo1 = kernel.lookupLabel(label);
+
 			// Application.debug(label+", geo="+geo);
+			// needed for TRAC-2719
+			// if geo wasn't found in construction list
+			// look in cas
+			if (geo1 == null) {
+				geo1 = kernel.lookupCasCellLabel(label);
+			}
 			if (geo1 == null) {
 
 				// try to find an algo on which this label depends
