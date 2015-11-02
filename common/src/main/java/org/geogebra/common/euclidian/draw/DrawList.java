@@ -619,16 +619,22 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 						/ 2;
 	}
 
+	private int getFontDiff() {
+		return (view.getApplication().getFontSize() / 24) * 5;
+	}
+
 	private void drawOptions(GGraphics2D g2) {
 
 		g2.setPaint(geoList.getBackgroundColor());
 		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
+
 		int viewBottom = view.getViewHeight();
 		if (optTop + optionsHeight > viewBottom) {
 			App.debug("[DROPDOWN] offscreen: adjusting.");
 			optTop = viewBottom - optionsHeight;
 		}
-		optionsRect.setBounds(boxLeft, optTop, boxWidth, optionsHeight);
+		optionsRect.setBounds(boxLeft, optTop, boxWidth,
+ optionsHeight);
 		g2.fillRect(boxLeft, optTop, boxWidth, optionsHeight);
 
 		g2.setPaint(GColor.LIGHT_GRAY);
@@ -723,7 +729,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			boolean hovered = i == selectedOptionIndex;
 
 			if (i == 0 && !latex) {
-				rowTop += OPTIONBOX_TEXT_MARGIN_TOP;
+				rowTop += OPTIONBOX_TEXT_MARGIN_TOP + getPlainItemGap()
+						+ getFontDiff();
 			}
 
 			GDimension d = drawTextLine(g2, TEXT_CENTER, rowTop, text, latex,
@@ -735,7 +742,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			if (latex) {
 				itemRect.setBounds(boxLeft, rowTop, boxWidth, h);
 			} else {
-				itemRect.setBounds(boxLeft, rowTop - h, boxWidth, h + 5);
+				itemRect.setBounds(boxLeft, rowTop - h, boxWidth,
+						h + getPlainItemGap());
 
 			}
 			optionItems.add(itemRect);
@@ -767,7 +775,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				optionsWidth = d.getWidth();
 			}
 
-			int gap = latex ? 0 : OPTIONSBOX_ITEM_GAP;
+			int gap = latex ? 0 : OPTIONSBOX_ITEM_GAP + getFontDiff();
 
 			// If the neighbors are of different kinds (LaTeX-Plain),
 			// more gap is needed.
@@ -782,7 +790,27 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			rowTop += h + gap;
 
 		}
+		optionsHeight += getPlainItemGap();
 		optionsWidth += 2 * COMBO_TEXT_MARGIN + getTriangleControlWidth();
+	}
+
+	private int getPlainItemGap() {
+
+		switch (view.getApplication().getFontSize()) {
+		case 12:
+		case 16:
+		case 18:
+			return 5;
+		case 20:
+		case 24:
+		case 28:
+			return 10;
+		case 32:
+		case 48:
+			return 12;
+
+		}
+		return 5;
 	}
 
 	private int getTriangleControlWidth() {
