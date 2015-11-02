@@ -553,6 +553,7 @@ public class AppWapplet extends AppWFull {
 			this.getGuiManager().refreshDraggingViews();
 			oldSplitLayoutPanel.getElement().getStyle()
 					.setOverflow(Overflow.HIDDEN);
+			getGuiManager().updateStyleBarPositions(true);
 		} else {
 			hideMenu();
 		}
@@ -561,6 +562,9 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public void hideMenu() {
 		if (!menuInited || !menuShowing) {
+			if (this.getGuiManager() != null) {
+				this.getGuiManager().updateStyleBarPositions(false);
+			}
 			return;
 		}
 		this.menuShowing = false;
@@ -579,6 +583,7 @@ public class AppWapplet extends AppWFull {
 
 		if (this.getGuiManager() != null) {
 			this.getGuiManager().setDraggingViews(false, true);
+			this.getGuiManager().updateStyleBarPositions(false);
 		}
 	}
 

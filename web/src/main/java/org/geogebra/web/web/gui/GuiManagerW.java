@@ -1873,18 +1873,24 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void updateStyleBarPositions(boolean menuOpen) {
 		for (DockPanelW panel : this.layout.getDockManager().getPanels()) {
-			int right = (int) (app.getWidth() - (panel.getAbsoluteLeft()
-			        / ((AppW) app).getArticleElement().getScaleX() + panel
-			        .getOffsetWidth()));
-
+			double panelLeftToAppRight = app.getWidth()
+					- (panel.getAbsoluteLeft() - ((AppW) app)
+					.getAbsLeft())
+					/ ((AppW) app).getArticleElement().getScaleX();
+			double panelRightToAppRight = panelLeftToAppRight
+					- panel.getOffsetWidth();
+			if (panel.isVisible()) {
+				App.debug("PANEL" + panelRightToAppRight + ","
+					+ panelLeftToAppRight + "," + panel.getViewId());
+			}
 			if (menuOpen && panel.isVisible()
-			        && right < GLookAndFeel.MENUBAR_WIDTH) {
-				if (app.getWidth() - panel.getAbsoluteLeft() > GLookAndFeel.MENUBAR_WIDTH) {
+					&& panelRightToAppRight < GLookAndFeel.MENUBAR_WIDTH) {
+				if (panelLeftToAppRight > GLookAndFeel.MENUBAR_WIDTH) {
 					// -2 necessary because of style-settings for the StyleBar
 					// and the Menu
 					panel.showStyleBarPanel(true);
 					panel.setStyleBarRightOffset(GLookAndFeel.MENUBAR_WIDTH
-					        - right - 2);
+							- (int) panelRightToAppRight - 2);
 				} else {
 					panel.showStyleBarPanel(false);
 				}
