@@ -119,6 +119,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		if (type == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED) {
 			classifyQuadric();
+			if (!setEigenvectorsCalled) {
+				// old file: avoid new quadrics to be shown
+				if (type != QUADRIC_SPHERE) {
+					setEuclidianVisible(false);
+				}
+			}
 		}
 	}
 
@@ -3106,8 +3112,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
+	private boolean setEigenvectorsCalled = false;
+
 	final public void setEigenvectors(double x0, double y0, double z0,
 			double x1, double y1, double z1, double x2, double y2, double z2) {
+
+		setEigenvectorsCalled = true;
 
 		eigenvecND[0].set(x0, y0, z0);
 		eigenvecND[1].set(x1, y1, z1);
