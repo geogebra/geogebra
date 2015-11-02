@@ -1917,7 +1917,23 @@ public class AlgebraProcessor {
 			if (exp.getLeft() instanceof MyVecNode
 					&& ((MyVecNode) exp.getLeft()).getMode() == Kernel.COORD_CARTESIAN) {
 				return i == 0 ? ((MyVecNode) exp.getLeft()).getX().wrap()
-						: ((MyVecNode) exp.getLeft()).getY().wrap();
+						: (i == 1 ? ((MyVecNode) exp.getLeft()).getY().wrap()
+								: new ExpressionNode(kernel, 0));
+			}
+			if (exp.getLeft() instanceof MyVecNode
+					&& ((MyVecNode) exp.getLeft()).getMode() == Kernel.COORD_POLAR) {
+				if (i == 2) {
+					return new ExpressionNode(kernel, 0);
+				}
+				return ((MyVecNode) exp.getLeft())
+						.getX()
+						.wrap()
+						.multiply(
+								((MyVecNode) exp.getLeft())
+										.getY()
+										.wrap()
+										.apply(i == 0 ? Operation.COS
+												: Operation.SIN));
 			}
 			if (exp.getLeft() instanceof MyVec3DNode
 					&& (((MyVec3DNode) exp.getLeft()).getMode() == Kernel.COORD_CARTESIAN || ((MyVec3DNode) exp

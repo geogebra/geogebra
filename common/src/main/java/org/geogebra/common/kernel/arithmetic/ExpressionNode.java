@@ -1146,40 +1146,7 @@ kernel, left,
 		return res;
 	}
 
-	final public boolean evaluatesToNonComplex2DVectorX() {
-		if (operation == Operation.RANDOM || operation == Operation.XCOORD
-				|| operation == Operation.YCOORD
-				|| operation == Operation.ZCOORD || operation == Operation.ABS
-				|| operation == Operation.ARG || operation == Operation.ALT) {
-			return false;
-		}
 
-		if (isLeaf()) {
-			return left.evaluatesToNonComplex2DVector();
-		}
-		// sin(vector), conjugate(vector), ... are complex numbers
-		if (Operation.isSimpleFunction(operation)
-				|| operation == Operation.CONJUGATE) {
-			return false;
-		}
-		boolean leftVector;
-		if (operation == Operation.IF_ELSE) {
-			leftVector = ((MyNumberPair) left).getY()
-					.evaluatesToNonComplex2DVector();
-		} else {
-			leftVector = left.evaluatesToNonComplex2DVector();
-		}
-		boolean rightVector = right.evaluatesToNonComplex2DVector();
-		boolean ret = leftVector || rightVector;
-
-		if (leftVector
-				&& rightVector
-				&& (operation == Operation.MULTIPLY || operation == Operation.VECTORPRODUCT)) {
-			ret = false;
-		}
-
-		return ret;
-	}
 
 	@Override
 	final public boolean evaluatesToVectorNotPoint() {
@@ -1210,26 +1177,7 @@ kernel, left,
 		return ret;
 	}
 
-	final public boolean evaluatesTo3DVectorX() {
-		if (operation == Operation.RANDOM || operation == Operation.XCOORD
-				|| operation == Operation.YCOORD
-				|| operation == Operation.ZCOORD) {
-			return false;
-		}
-		if (isLeaf()) {
-			return left.evaluatesTo3DVector();
-		}
 
-		boolean leftVector = left.evaluatesTo3DVector();
-		boolean rightVector = right.evaluatesTo3DVector();
-		boolean ret = leftVector || rightVector;
-
-		if (leftVector && rightVector && operation == Operation.MULTIPLY) {
-			ret = false;
-		}
-
-		return ret;
-	}
 
 	/**
 	 * Force this to evaluate to vector
@@ -3799,61 +3747,9 @@ kernel, left,
 		return evaluate(StringTemplate.defaultTemplate).isNumberValue();
 	}
 
-	public boolean evaluatesToListX() {
-
-		if (isLeaf()) {
-			return left.evaluatesToList();
-		}
-		// eg. sin(list), f(list)
-		if (Operation.isSimpleFunction(operation)
-				|| operation == Operation.FUNCTION) {
-			return left.evaluatesToList();
-		}
-		if (operation == Operation.IS_ELEMENT_OF
-				|| operation == Operation.IS_SUBSET_OF
-				|| operation == Operation.IS_SUBSET_OF_STRICT
-				|| operation == Operation.EQUAL_BOOLEAN
-				|| operation == Operation.NOT_EQUAL
-				|| operation == Operation.FREEHAND
-				|| operation == Operation.DATA
-				|| operation == Operation.ELEMENT_OF
-				|| operation == Operation.FUNCTION_NVAR) {
-			return false;
-		}
-		if (left.evaluatesToList()
-				|| (right != null && right.evaluatesToList())) {
-			return true;
-		}
-		return false;
-	}
 
 
-	public boolean evaluatesToMatrixX() {
-		if (isLeaf()) {
-			return left.wrap().evaluatesToMatrixX();
-		}
-		// eg. sin(list), f(list)
-		if (Operation.isSimpleFunction(operation)
-				|| operation == Operation.FUNCTION) {
-			return left.wrap().evaluatesToMatrixX();
-		}
-		if (operation == Operation.IS_ELEMENT_OF
-				|| operation == Operation.IS_SUBSET_OF
-				|| operation == Operation.IS_SUBSET_OF_STRICT
-				|| operation == Operation.EQUAL_BOOLEAN
-				|| operation == Operation.NOT_EQUAL
-				|| operation == Operation.FREEHAND
-				|| operation == Operation.DATA
-				|| operation == Operation.ELEMENT_OF
-				|| operation == Operation.FUNCTION_NVAR) {
-			return false;
-		}
-		if (left.wrap().evaluatesToMatrix()
-				|| (right != null && right.wrap().evaluatesToMatrix())) {
-			return true;
-		}
-		return false;
-	}
+	
 
 	@Override
 	public boolean evaluatesToText() {
@@ -3863,15 +3759,7 @@ kernel, left,
 		return resolve.evaluatesToText();
 	}
 
-	public boolean evaluatesToTextX() {
-		// should be efficient as it is used in operationToString()
-		if (leaf) {
-			return left.evaluatesToText();
-		}
-		return (operation.equals(Operation.PLUS) || operation
-				.equals(Operation.MULTIPLY))
-				&& (left.evaluatesToText() || right.evaluatesToText());
-	}
+
 
 	@Override
 	final public boolean isExpressionNode() {
@@ -5785,43 +5673,6 @@ kernel, left,
 		return false;
 	}
 
-	public boolean evaluatesToNumberX(boolean def) {
-
-		if (operation == Operation.RANDOM || operation == Operation.XCOORD
-				|| operation == Operation.YCOORD
-				|| operation == Operation.ZCOORD || operation == Operation.ABS
-				|| operation == Operation.ARG || operation == Operation.ALT) {
-			return true;
-		}
-		if (this.isLeaf() || Operation.isSimpleFunction(this.operation)) {
-			return left.evaluatesToNumber(def);
-		}
-		// both numbers
-		if (right != null && left.evaluatesToNumber(def)
-				&& right.evaluatesToNumber(def)) {
-			return true;
-		}
-		// number (*) NaN
-		if (right != null && left.evaluatesToNumber(def)
-				&& !right.evaluatesToNumber(def)) {
-			return false;
-		}
-		// NaN (*) number
-		if (right != null && left.evaluatesToNumber(def)
-				&& !right.evaluatesToNumber(def)) {
-			return this.operation == Operation.POWER;
-		}
-		// NaN (*) NaN
-		if (right != null && !left.evaluatesToNumber(def)
-				&& !right.evaluatesToNumber(def)) {
-			if (operation == Operation.PLUS || operation == Operation.MINUS) {
-				return false;
-			}
-		}
-
-		return def;
-	}
-
 	/**
 	 * @return variables that must be defined in order for the result to be
 	 *         defined eg. d+If[a>0,b,c] has unconditional variable d
@@ -6060,11 +5911,33 @@ kernel, left,
 		return ((Resolution) resolve).getValueType();
 	}
 
+	@Override
 	public int getListDepth() {
 		if (resolve == null) {
 			resolve = computeResolve();
 		}
 		return ((Resolution) resolve).getListDepth();
+	}
+
+	/**
+	 * @return whether this expression has trigonometric operations
+	 */
+	public boolean has2piPeriodicOperations() {
+		return this.inspect(new Inspecting(){
+
+			public boolean check(ExpressionValue v) {
+				return v.isExpressionNode()
+						&& is2piPeriodicOperation(((ExpressionNode) v)
+								.getOperation());
+			}
+
+			private boolean is2piPeriodicOperation(Operation op) {
+				return op == Operation.SIN || op == Operation.COS
+						|| op == Operation.TAN || op == Operation.COT
+						|| op == Operation.SEC || op == Operation.CSC;
+
+			}});
+
 	}
 
 }

@@ -276,8 +276,9 @@ public class ParametricProcessor {
 			AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);
 			cons.removeFromConstructionList(ny);
 
-			GeoNumeric from = new GeoNumeric(cons, -10);
-			GeoNumeric to = new GeoNumeric(cons, 10);
+			boolean trig = cx.has2piPeriodicOperations();
+			GeoNumeric from = new GeoNumeric(cons, trig ? 0 : -10);
+			GeoNumeric to = new GeoNumeric(cons, trig ? 2 * Math.PI : 10);
 			AlgoCurveCartesian ac = new AlgoCurveCartesian(cons,
  exp.deepCopy(
 					kernel).wrap(),

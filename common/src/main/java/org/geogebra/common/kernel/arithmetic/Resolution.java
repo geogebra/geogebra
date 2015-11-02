@@ -123,7 +123,7 @@ public class Resolution implements ExpressionValue {
 	}
 
 	public void resolveVariables() {
-
+		// has no variables
 	}
 
 	public String toString(StringTemplate tpl) {

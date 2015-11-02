@@ -249,5 +249,8 @@ public interface ExpressionValue {
 	 */
 	public String getAssignmentOperator();
 
+	/**
+	 * @return type of this value after evaluation
+	 */
 	public ValueType getValueType();
 }
