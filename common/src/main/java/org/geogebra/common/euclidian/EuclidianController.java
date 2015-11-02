@@ -3340,7 +3340,7 @@ public abstract class EuclidianController {
 		}
 
 		// got location
-		if (loc != null) {
+		if (loc != null && getDialogManager() != null) {
 			getDialogManager().showTextCreationDialog(loc, rw);
 			return true;
 		}
@@ -3357,7 +3357,8 @@ public abstract class EuclidianController {
 	}
 
 	protected final boolean slider() {
-		if (!selectionPreview && (mouseLoc != null)) {
+		if (!selectionPreview && (mouseLoc != null)
+				&& getDialogManager() != null) {
 			getDialogManager().showSliderCreationDialog(mouseLoc.x, mouseLoc.y);
 		}
 		return false;
