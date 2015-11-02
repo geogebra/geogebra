@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
@@ -995,6 +996,11 @@ public abstract class Drawable3D extends DrawableND {
 	 *         highlighted
 	 */
 	public boolean doHighlighting() {
+
+		// no highlighting if we're moving something
+		if (getView3D().getEuclidianController().getMoveMode() != EuclidianController.MOVE_NONE) {
+			return false;
+		}
 
 		if (getGeoElement().doHighlighting())
 			return true;
