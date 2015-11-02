@@ -1510,6 +1510,13 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return new ExpressionNode(kernel0, this, Operation.MULTIPLY, fv);
 	}
 	
+	/**
+	 * @param num
+	 *            number to update
+	 * @param isAngle
+	 *            whether it's angle
+	 * @return num
+	 */
 	public static GeoNumeric setSliderFromDefault(GeoNumeric num, boolean isAngle) {
 		return setSliderFromDefault(num, isAngle, true);
 
@@ -1633,6 +1640,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return null; // Here maybe an exception should be thrown...?
 	}
 
+	/**
+	 * @param geoElement
+	 *            make sure min/max interval is big enough to contain the value
+	 */
 	public void extendMinMax(GeoElement geoElement) {
 		if (geoElement instanceof GeoNumeric) {
 			value = geoElement.evaluateDouble();
@@ -1667,6 +1678,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return ValueType.NUMBER;
 	}
 
+	/**
+	 * Update min and max for slider in Algebra
+	 */
 	public void initAlgebraSlider() {
 		if (!showExtendedAV) {
 			return;

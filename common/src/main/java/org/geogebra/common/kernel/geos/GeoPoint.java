@@ -133,12 +133,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		this(c, false);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param coordMode
+	 *            cartesian / polar / ... ; see Kernel.COORD_* constants
+	 */
 	public GeoPoint(Construction c, int coordMode) {
 		this(c, false, coordMode);
-	}
-
-	public GeoPoint(Construction c, boolean isHelpere) {
-		this(c, isHelpere, Kernel.COORD_CARTESIAN);
 	}
 
 	/**
@@ -146,6 +148,18 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            construction
 	 * @param isHelper
 	 *            if is helper point, then don't set construction defaults, etc.
+	 */
+	public GeoPoint(Construction c, boolean isHelper) {
+		this(c, isHelper, Kernel.COORD_CARTESIAN);
+	}
+
+	/**
+	 * @param c
+	 *            construction
+	 * @param isHelper
+	 *            if is helper point, then don't set construction defaults, etc.
+	 * @param coordMode
+	 *            cartesian / polar / ... ; see Kernel.COORD_* constants
 	 */
 	public GeoPoint(Construction c, boolean isHelper, int coordMode) {
 		super(c);
@@ -276,12 +290,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public GeoPoint(GeoPoint point) {
 		super(point.cons);
 		setConstructionDefaults();
-		set((GeoElement) point);
+		set(point);
 	}
 
-	public void set(GeoPointND p) {
-		set((GeoElement) p);
-	}
 
 	@Override
 	public void set(GeoElementND geo) {
@@ -763,6 +774,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Sets homogeneous coordinates and updates inhomogeneous coordinates
+	 * 
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param z
+	 *            z-coord
+	 * @param macroFeedback
+	 *            whether parent macro may be notified
 	 */
 
 	final public void setCoords(double x, double y, double z,
@@ -1036,14 +1056,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * 
-	 * @param x
+	 * @param x2
 	 *            x coord
-	 * @param y
+	 * @param y2
 	 *            y coord
 	 * @return distance between this and (x,y)
 	 */
-	final public double distance(double x, double y) {
-		return MyMath.length(x - inhomX, y - inhomY);
+	final public double distance(double x2, double y2) {
+		return MyMath.length(x2 - inhomX, y2 - inhomY);
 	}
 
 	/**
@@ -1435,7 +1455,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * @param kernel
+	 *            kernel
 	 * @param tpl
+	 *            output template
 	 * @return separator for cartesian coords
 	 */
 	public static final String buildValueStringSeparator(Kernel kernel,
@@ -2071,8 +2093,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * @param frameRate
+	 *            frames per second
 	 * @param p
+	 *            animated point
 	 * @param path
+	 *            animation path
 	 * @return whether the value of this number was changed
 	 */
 	static public boolean doAnimationStep(double frameRate, GeoPointND p,

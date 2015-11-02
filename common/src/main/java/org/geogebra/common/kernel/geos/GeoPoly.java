@@ -49,6 +49,9 @@ public interface GeoPoly extends GeoElementND{
 	 */
 	public GeoPointND[] getPointsND();
 
+	/**
+	 * @return number of vertices
+	 */
 	public int getNumPoints();
 
 }

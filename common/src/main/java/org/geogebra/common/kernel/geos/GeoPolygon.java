@@ -122,7 +122,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		setPoints(points, cs, createSegments);
 		setLabelVisible(false);
 	}
-	
+
+	/** true for polygons created by area intersection methods */
 	protected boolean isIntersection;
 
 	/**
@@ -169,8 +170,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	/**
 	 * for 3D stuff (unused here)
 	 * 
-	 * @param p polygon
-	 * 			
+	 * @param poly
+	 *            polygon
+	 * 
 	 */
 	public void setCoordSys(GeoPolygon poly) {
 		//3D only
@@ -636,7 +638,11 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	/**
 	 * set points length to arbitrary value (create new points)
-	 * @param polyLength length
+	 * 
+	 * @param polyLength
+	 *            length
+	 * @param template
+	 *            points to be reused
 	 */
 	protected void setPointsLength(int polyLength, GeoPointND[] template){
 		
@@ -758,6 +764,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	/**
 	 * Sets this polygon's area . This method should only be called by its
 	 * parent algorithm of type AlgoPolygon
+	 * 
+	 * @param area
+	 *            area
 	 */
 	final public void setArea(double area) {
 		this.area = area;
@@ -877,6 +886,11 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	/**
 	 * Yields true if the area of this polygon is equal to the area of polygon
 	 * p.
+	 * 
+	 * @param geo
+	 *            other geo (type check for polygon included)
+	 * 
+	 * @return whether the two polygons have the same area
 	 */
 	// this method is the original isEqual, modified 2014-01
 	public boolean hasSameArea(GeoElement geo) {
@@ -1485,6 +1499,14 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		return false;
 	}
 	
+	/**
+	 * @param coords
+	 *            coordiantes
+	 * @param eps
+	 *            precision
+	 * @return whether given point is on boundary of the polygon within given
+	 *         precision
+	 */
 	public boolean isOnPath(Coords coords, double eps) {
 
 
@@ -1873,6 +1895,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}
@@ -2319,6 +2342,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	}
 
+	/**
+	 * Update area from vertices
+	 */
 	public void calcArea() {
 		
 		
@@ -2348,6 +2374,12 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	
 	private double[] tmp3;
 
+	/**
+	 * Updates given point's coordinates to centroid of this
+	 * 
+	 * @param p
+	 *            centroid
+	 */
 	public void calcCentroid(GeoPointND p) {
 		
 		if (algoParent instanceof PolygonAlgo) {
@@ -2546,11 +2578,12 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	
 	/**
 	 * 
-	 * @param cons construction
+	 * @param cons1
+	 *            construction
 	 * @return 2D point if 2D polygon, 3D point if 3D polygon
 	 */
-	public GeoPointND newGeoPoint(Construction cons){
-		return new GeoPoint(cons);
+	public GeoPointND newGeoPoint(Construction cons1) {
+		return new GeoPoint(cons1);
 	}
 
 	@Override
