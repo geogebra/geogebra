@@ -1796,7 +1796,7 @@ __GGB__keysVar.es_ES.menu = {
     "RawData": "Datos brutos",
     "Ray": "Semirrecta",
     "Ray.Help": "Punto extremo; luego, otro punto de la semirrecta",
-    "RealSense.DetectedMessage": "Felicitaciones, su c\xe1mara Intel\xae RealSense\u2122 est\xe1 lista para ser usada con GeoGebra.",
+    "RealSense.DetectedMessage": "Felicidades, su c\xe1mara Intel\xae RealSense\u2122 est\xe1 lista para ser usada con GeoGebra.",
     "ReceivedData": "Datos recibidos",
     "Recent": "Abrir reciente",
     "RecentColor": "Reciente",
