@@ -2596,5 +2596,9 @@ marblePanel, evt))) {
 	private boolean isGeoASlider() {
 		return slider != null;
 	}
+
+	public Element getScrollElement() {
+		return getWidget().getElement();
+	}
 }
 

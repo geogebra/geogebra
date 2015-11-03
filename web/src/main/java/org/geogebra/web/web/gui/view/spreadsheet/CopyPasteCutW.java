@@ -102,7 +102,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 			// is not crucial, and redundant/harmful in IE...
 			setInternalClipboardContents(new String(cellBufferStr));
 		} else {
-			setClipboardContents(new String(cellBufferStr));
+			setClipboardContents(new String(cellBufferStr), getFocusCallback());
 		}
 
 		// store copies of the actual geos in the internal buffer
@@ -113,15 +113,26 @@ public class CopyPasteCutW extends CopyPasteCut {
 					row2);
 		}
 	}
-	
 
+
+	private Runnable getFocusCallback() {
+		return new Runnable() {
+			public void run() {
+				getTable().editCellAt(sourceColumn1, sourceRow1);
+			}
+		};
+	}
 
 	@Override
 	/** Paste data from the clipboard */
 	public boolean paste(int column1, int row1, int column2, int row2) {
 		/*Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		Transferable contents = clipboard.getContents(null);*/
-		String contents = getClipboardContents();
+		String contents = getClipboardContents(new Runnable() {
+			public void run() {
+				getTable().editCellAt(sourceColumn1, sourceRow1); // reset focus
+			}
+		});
 		return paste( column1,  row1,  column2,  row2,  contents);
 	}
 
@@ -224,11 +235,13 @@ public class CopyPasteCutW extends CopyPasteCut {
 	 * 
 	 * @return String
 	 */
-	private String getClipboardContents() {
+	public static String getClipboardContents(Runnable onFocusChange) {
 		String clipboard = null;
 		if (isChromeWebapp()) { // use chrome web app paste API
 			clipboard = getSystemClipboardChromeWebapp();
-			getTable().editCellAt(sourceColumn1, sourceRow1); // reset focus
+			if (onFocusChange != null) {
+				onFocusChange.run();
+			}
 		} else if (Browser.isInternetExplorer()) {
 			clipboard = getSystemClipboardIE();
 		} else { // use internal clipboard
@@ -253,10 +266,12 @@ public class CopyPasteCutW extends CopyPasteCut {
 	 * 
 	 * @param value String
 	 */
-	private void setClipboardContents(String value) {
+	public static void setClipboardContents(String value, Runnable onFocusChange) {
 		if (isChromeWebapp()) { // use chrome web app copy API
 			copyToSystemClipboardChromeWebapp(value);
-			getTable().editCellAt(sourceColumn1, sourceRow1); // reset focus
+			if (onFocusChange != null) {
+				onFocusChange.run();
+			}
 		} else if (Browser.isInternetExplorer()) {
 			//App.debug("is IE");
 			copyToSystemClipboardIE(value);

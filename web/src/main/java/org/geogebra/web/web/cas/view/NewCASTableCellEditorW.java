@@ -18,6 +18,7 @@ import org.geogebra.web.web.gui.view.algebra.EquationEditor;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.ScrollableSuggestionDisplay;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -383,5 +384,9 @@ public class NewCASTableCellEditorW extends Label implements
 			return table.getGeoCasCell(index);
 		}
 		return null;
+	}
+
+	public Element getScrollElement() {
+		return getElement();
 	}
 }

@@ -34,8 +34,6 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.Widget;
 
 public class DrawEquationW extends DrawEquation {
 
@@ -1378,7 +1376,7 @@ public class DrawEquationW extends DrawEquation {
 
 		Element joel = Element.as(jo);
 		joel.scrollIntoView();
-		Widget w = ((TreeItem) rbti).getWidget();
+		Element el = rbti.getScrollElement();
 		// Note: the following hacks should only be made in
 		// new creation mode! so boolean introduced...
 		if (newCreationMode) {
@@ -1389,28 +1387,25 @@ public class DrawEquationW extends DrawEquation {
 			// scroll to the left/right!
 			if (joel.getAbsoluteLeft() - parentElement.getAbsoluteLeft() < 50) {
 				// InputTreeItem class in theory
-				w.getElement().setScrollLeft(0);
+				el.setScrollLeft(0);
 			} else if (parentElement.getAbsoluteRight()
 			        - joel.getAbsoluteRight() < 50) {
 				// InputTreeItem class in theory
-				w.getElement().setScrollLeft(w.getElement().getScrollWidth()
-						- w.getElement().getClientWidth());
+				el.setScrollLeft(el.getScrollWidth() - el.getClientWidth());
 			} else if (joel.getAbsoluteLeft()
-					- w.getElement().getAbsoluteLeft() < 50) {
+ - el.getAbsoluteLeft() < 50) {
 				// we cannot show the "X" sign all the time anyway!
 				// but it would be good not to keep the cursor on the
 				// edge...
 				// so if it is around the edge by now, scroll!
-				w.getElement()
-						.setScrollLeft(w.getElement().getScrollLeft() - 50
+				el.setScrollLeft(el.getScrollLeft() - 50
 				                + joel.getAbsoluteLeft()
-								- w.getElement().getAbsoluteLeft());
-			} else if (w.getElement().getAbsoluteRight()
+ - el.getAbsoluteLeft());
+			} else if (el.getAbsoluteRight()
 			        - joel.getAbsoluteRight() < 50) {
 				// similarly
-				w.getElement()
-						.setScrollLeft(w.getElement().getScrollLeft() + 50
-								- w.getElement().getAbsoluteRight()
+				el.setScrollLeft(el.getScrollLeft() + 50
+						- el.getAbsoluteRight()
 				                + joel.getAbsoluteRight());
 			}
 		}

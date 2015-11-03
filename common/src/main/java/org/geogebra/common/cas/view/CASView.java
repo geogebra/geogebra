@@ -195,6 +195,10 @@ public abstract class CASView implements View, SetLabels {
 		}
 	}
 
+	/**
+	 * @param mode
+	 *            show tooltip for given mode
+	 */
 	protected void showTooltip(int mode) {
 		// only in web
 
@@ -495,6 +499,19 @@ public abstract class CASView implements View, SetLabels {
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 
+	}
+	/**
+	 * @param i
+	 *            cell index
+	 * @return input
+	 */
+	public String getCellInput(int i) {
+		App.debug("Input of cell" + i);
+		GeoCasCell casCell = getConsoleTable().getGeoCasCell(i);
+		if (casCell != null) {
+			return casCell.getInput(StringTemplate.xmlTemplate);
+		}
+		return null;
 	}
 
 }

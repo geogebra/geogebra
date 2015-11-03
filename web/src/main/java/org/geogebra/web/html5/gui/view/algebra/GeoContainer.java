@@ -41,4 +41,7 @@ public interface GeoContainer {
 	public void onBlur(BlurEvent be);
 
 	public void onFocus(FocusEvent fe);
+
+	public Element getScrollElement();
+
 }

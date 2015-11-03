@@ -103,12 +103,12 @@ public class CASTableCellW extends VerticalPanel {
 	 * @param editor
 	 *            field for editing
 	 */
-	public void startEditing(AutoCompleteW editor) {
+	public void startEditing(AutoCompleteW editor, String newText) {
 		clear();
 		add(editor.toWidget());
 		textField = editor;
 		textBeforeEdit = inputPanel.getText();
-		editor.setText(textBeforeEdit);
+		editor.setText(newText == null ? textBeforeEdit : newText);
 		add(outputPanel);
 		if(getCASCell() != null && getCASCell().isError()){
 			outputPanel.clear();

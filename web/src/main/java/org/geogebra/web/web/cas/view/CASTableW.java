@@ -125,23 +125,31 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	public void startEditingRow(int n) {
+		startEditingRow(n, null);
+
+	}
+
+	private void startEditingRow(int n, String newText) {
 		if (n == 0) {
 			setFirstRowFront(true);
 		}
 		Widget w = getWidget(n, COL_CAS_CELLS_WEB);
 
-		if (w == editing)
+		if (w == editing && newText == null) {
 			return;
+		}
 		setSelectedRows(n, n);
 		// cancelEditing();
 		stopEditing();
 		if (w instanceof CASTableCellW) {
+			App.debug("cell found");
 			editing = (CASTableCellW) w;
 			((CASEditorW) getEditor()).resetInput();
 			((CASEditorW) getEditor())
 					.setAutocomplete(editing.getCASCell() == null
 							|| !editing.getCASCell().isUseAsText());
-			editing.startEditing(((CASEditorW) getEditor()).getWidget());
+			editing.startEditing(((CASEditorW) getEditor()).getWidget(),
+					newText);
 		}
 
 	}
@@ -331,5 +339,15 @@ public class CASTableW extends Grid implements CASTable {
 		        .getSectionRowIndex();
 		int column = TableCellElement.as(td).getCellIndex();
 		return new Cell(row, column);
+	}
+
+	public void setCellInput(int i, String cellInput) {
+		GeoCasCell casCell = getGeoCasCell(i);
+		if (casCell != null && cellInput != null && cellInput.length() > 0) {
+			// casCell.setInput(toBeCopied);
+			// casCell.setLaTeXInput(null);
+			startEditingRow(i, cellInput);
+		}
+
 	}
 }
