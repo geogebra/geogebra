@@ -13,6 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -445,11 +447,48 @@ AngleProperties {
 			return;
 		}
 
+		if (visible && drawAsComboBox && labelOffsetX == 0
+				&& labelOffsetY == 0) {
+			initScreenLocation();
+		}
 		final int size = geoList.size();
 		for (int i = 0; i < size; i++) {
 			final GeoElement geo = get(i);
 			setElementEuclidianVisible(geo, visible);
 		}
+	}
+
+	private void initScreenLocation() {
+		int count = countComboBoxes();
+		labelOffsetX = 5;
+		EuclidianViewInterfaceSlim ev = kernel.getApplication()
+				.getActiveEuclidianView();
+		if (ev != null) {
+			labelOffsetY = ev.getComboOffsetY() - 45 + 30 * count;
+		} else {
+			labelOffsetY = 5 + 30 * count;
+		}
+		// make sure combobox is visible on screen
+		labelOffsetY = labelOffsetY / 400 * 10 + labelOffsetY % 400;
+	}
+
+	private int countComboBoxes() {
+		int count = 0;
+
+		// get all number and angle sliders
+		TreeSet<GeoElement> lists = cons.getGeoSetLabelOrder(GeoClass.LIST);
+
+		if (lists != null) {
+			Iterator<GeoElement> it = lists.iterator();
+			while (it.hasNext()) {
+				GeoList list = (GeoList) it.next();
+				if (list.isEuclidianVisible() && list.drawAsComboBox()) {
+					count++;
+				}
+			}
+		}
+
+		return count;
 	}
 
 	private static void setElementEuclidianVisible(final GeoElement geo,

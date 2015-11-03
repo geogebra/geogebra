@@ -4803,6 +4803,10 @@ sb.toString(), getFontAxes(),
 		return 50;
 	}
 
+	public int getComboOffsetY() {
+		return 70;
+	}
+
 	public double getMinSamplePoints() {
 		return MIN_SAMPLE_POINTS;
 	}

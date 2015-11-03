@@ -209,4 +209,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	public double getMinPixelDistance();
 
 	public EuclidianSettings getSettings();
+
+	public int getComboOffsetY();
+
 }
