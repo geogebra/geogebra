@@ -3157,4 +3157,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				|| type == GeoQuadricNDConstants.QUADRIC_SINGLE_POINT;
 	}
 
+	@Override
+	protected void getXMLanimationTags(final StringBuilder sb) {
+		// no need for quadrics
+	}
+
 }
