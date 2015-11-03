@@ -154,4 +154,13 @@ public class EquationScope implements EquationScopeInterface {
     public Set<EquationAuxiliarSymbolicPoint> getAuxiliarSymbolicPoints() {
         return new HashSet<EquationAuxiliarSymbolicPoint>(this.auxiliarPoints);
     }
+
+	/**
+	 * Retrieves the current point map for the given scope.
+	 * 
+	 * @return the point map.
+	 */
+	public EquationPointMap getPointMap() {
+		return pointMap;
+	}
 }

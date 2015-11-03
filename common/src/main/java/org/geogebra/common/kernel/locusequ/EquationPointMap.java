@@ -221,4 +221,21 @@ public class EquationPointMap {
     public boolean isLocusPoint(GeoPoint p) {
         return this.locusPoint == p; // Yes, it has to be the exact same point.
     }
+
+	/**
+	 * Returns current variable index, e.g. 4 if x4 is the last used variable.
+	 * 
+	 * @return current index
+	 */
+	public int getCurInd() {
+		return curInd;
+	}
+
+	/**
+	 * Increases current variable index by 1.
+	 */
+	public void increaseCurInd() {
+		curInd++;
+	}
+
 }
