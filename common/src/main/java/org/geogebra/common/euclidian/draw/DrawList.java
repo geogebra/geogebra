@@ -509,7 +509,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		// TF Bounds
 
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
-				boxHeight - 3);
+ boxHeight);
 		box.setBounds(labelRectangle);
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor() : view.getBackgroundCommon();
@@ -531,8 +531,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					+ (boxHeight - selectedDimension.getHeight()) / 2;
 		} else {
 			textBottom = boxTop
-					+ (boxHeight + getMultipliedFontSize() - COMBO_TEXT_MARGIN)
-							/ 2;
+ + (boxHeight + selectedDimension.getHeight()
+					- COMBO_TEXT_MARGIN) / 2;
+			if (view.getFontSize() > 28) {
+				textBottom -= 4;
+			}
 		}
 
 		drawTextLine(g2, textLeft, textBottom, selectedText, latex, false,
@@ -842,7 +845,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			@Override
 			public int getHeight() {
-				return selectedDimension.getHeight();// (int)
+				return selectedDimension.getHeight() + COMBO_TEXT_MARGIN;// (int)
 														// (getMultipliedFontSize()
 														// * MUL_FONT_HEIGHT);
 
