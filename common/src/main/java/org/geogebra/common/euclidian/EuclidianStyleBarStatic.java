@@ -436,7 +436,7 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
-	public static boolean applyTextColor(ArrayList<GeoElement> geos,
+	public static boolean applyTextColor(List<GeoElement> geos,
 			GColor color) {
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
