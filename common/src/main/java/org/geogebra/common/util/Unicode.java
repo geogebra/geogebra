@@ -52,6 +52,7 @@ public class Unicode {
 	public static final char zeta = '\u03B6';
 	public static final char eta = '\u03B7';
 	public static final char theta = '\u03B8';
+	public static final String thetaStr = "\u03B8";
 	public static final char iota = '\u03B9';
 	public static final char kappa = '\u03BA';
 	public static final char lambda = '\u03BB';

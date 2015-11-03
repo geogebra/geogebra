@@ -12,11 +12,13 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -24,6 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
 public class ParametricProcessor {
@@ -35,16 +38,18 @@ public class ParametricProcessor {
 		this.ap = ap;
 	}
 
-	GeoElement[] checkParametricEquation(ValidExpression ve,
+	GeoElement[] checkParametricEquation(ValidExpression ve0,
 			TreeSet<String> undefinedVariables, boolean autocreateSliders,
 			AsyncOperation callback) {
 		if (undefinedVariables.isEmpty()) {
 			return null;
 		}
-		boolean parametricExpression = ("X".equals(ve.getLabel()) || undefinedVariables
-				.contains("t"));
-		boolean parametricEquation = ve.unwrap() instanceof Equation
-				&& "X".equals(((Equation) ve.unwrap()).getLHS().toString(
+		boolean parametricExpression = ("X".equals(ve0.getLabel())
+				|| undefinedVariables
+.contains("t") || undefinedVariables
+				.contains(Unicode.thetaStr));
+		boolean parametricEquation = ve0.unwrap() instanceof Equation
+				&& "X".equals(((Equation) ve0.unwrap()).getLHS().toString(
 						StringTemplate.defaultTemplate));
 		if (!parametricEquation && !parametricExpression) {
 			return null;
@@ -56,9 +61,14 @@ public class ParametricProcessor {
 		if (undefinedVariables.contains("t")) {
 			varName = "t";
 		}
+		if (undefinedVariables.contains(Unicode.thetaStr)) {
+			varName = Unicode.thetaStr;
+		}
 		if ("X".equals(varName)) {
 			varName = t.next();
 		}
+		ValidExpression ve = ve0;
+
 		TreeSet<GeoNumeric> num = new TreeSet<GeoNumeric>();
 		ap.replaceUndefinedVariables(ve, num, new String[] { varName, "X" });// Iteration[a+1,
 																		// a,
@@ -68,7 +78,12 @@ public class ParametricProcessor {
 		}
 		if (parametricExpression) {
 			try {
-
+				if (varName.equals(Unicode.thetaStr)
+						&& ve0.evaluatesToNumber(true)) {
+					ve = new MyVecNode(kernel, ve0, new Variable(kernel,
+							Unicode.thetaStr));
+					((MyVecNode) ve).setMode(Kernel.COORD_POLAR);
+				}
 				FunctionVariable fv = new FunctionVariable(kernel, varName);
 				ExpressionNode exp = ve
 						.deepCopy(kernel)
