@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.web.html5.AttachedToDOM;
 //import org.geogebra.web.html5.gui.util.ImageSelection;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
@@ -120,39 +121,11 @@ public class RowContentPopupMenuW extends GPopupMenuW implements AttachedToDOM {
 
 		// HOW to put the data toBeCopied to Web clipboard?
 		if (toBeCopied != null) {
-			copyToSystemClipboard(toBeCopied);
+			CopyPasteCutW.copyToSystemClipboard(toBeCopied);
 		}
 	}
 
-	/**
-	 * The code for this method is the same as:
-	 * CopyPasteCutW.copyToSystemClipboardChromeWebapp ... so its name suggests
-	 * that there is still some limitation to its use, even if it will work in
-	 * Firefox 41 ... problem is that it's harder to feature-detect
-	 * 
-	 * @param value
-	 *            String to copy to clipboard
-	 * @return whether the method returns successfully or fails
-	 */
-	public static native boolean copyToSystemClipboard(String value) /*-{
-		var copyFrom = $doc.getElementById('hiddenCopyPasteTextArea');
-		if (!copyFrom) {
-			copyFrom = $doc.createElement("textarea");
-			copyFrom.id = 'hiddenCopyPasteTextArea';
-			copyFrom.style.position = 'absolute';
-			copyFrom.style.zIndex = '100';
-			copyFrom.style.left = '-1000px';
-			$doc.getElementsByTagName('body')[0].appendChild(copyFrom);
-		}
-		copyFrom.value = value;
-		copyFrom.select();
-		try {
-			$doc.execCommand('copy');
-		} catch (ex) {
-			return false;
-		}
-		return true;
-	}-*/;
+
 
 	/*private void handlePaste(ActionEvent e) {
 		String ac = e.getActionCommand();

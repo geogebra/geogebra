@@ -34,6 +34,7 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -133,31 +134,25 @@ public class CASTableControllerW extends CASTableCellController implements
 			}
 		} else if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
 			// in theory, checkHeaderClick(event) is already false here...
-			if (!checkQuestionClick(event)) {
+
 				// only do this action when supported
-				if (checkClipboardSupported()
-						&& RowContentPopupMenuW
-								.copyToSystemClipboard("Copying to clipboard. Please wait... ")) {
 
 					// only makes sense for mouse events yet
 					// TODO: add this functionality to touch events,
 					// maybe override onPointerUp??
 					CASTableW table = view.getConsoleTable();
 					GPoint point = table.getPointForEvent(event);
-					CASTableCellEditor tableCellEditor = table.getEditor();
-					RowContentPopupMenuW popupMenu = new RowContentPopupMenuW(
-							app,
-							(GeoCasCell) tableCellEditor
-									.getCellEditorValue(point.getY()),
-							tableCellEditor, table,
-							RowContentPopupMenuW.Panel.OUTPUT);
+					// CASTableCellEditor tableCellEditor = table.getEditor();
+					Widget wid = table.getWidget(point.y, 0);
+					RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app
+							.getGuiManager()).getCASContextMenu(
+							((RowHeaderWidget) wid),
+							table);
+					popupMenu.show(new GPoint(event.getClientX()
+							+ Window.getScrollLeft(), event.getClientY()
+							+ Window.getScrollTop()));
 
-					// event.getX() and event.getY() are really not good here!
-					// GUI is ready! just commented out while not doing anything
-					popupMenu.show(new GPoint(event.getClientX(), event
-							.getClientY()));
-				}
-			}
+
 		} else {
 			onPointerUp(event);
 		}

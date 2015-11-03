@@ -17,6 +17,10 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 
+/**
+ * Web implementation of the CAS view
+ *
+ */
 public class CASViewW extends CASView {
 
 	private CASComponentW component;
@@ -25,6 +29,10 @@ public class CASViewW extends CASView {
 	private CASStylebarW styleBar;
 	private CASSubDialogW subDialog;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public CASViewW(final AppW app) {
 		component = new CASComponentW();
 		kernel = app.getKernel();
@@ -108,10 +116,16 @@ public class CASViewW extends CASView {
 
 	}
 
+	/**
+	 * @return widget
+	 */
 	public CASComponentW getComponent() {
 		return component;
 	}
 
+	/**
+	 * @return style bar
+	 */
 	public CASStylebarW getCASStyleBar() {
 		if (styleBar == null) {
 			styleBar = newCASStyleBar();
@@ -136,6 +150,9 @@ public class CASViewW extends CASView {
 		}
 	}
 
+	/**
+	 * @return CAS input editor
+	 */
 	public MathKeyboardListener getEditor() {
 		if (app.has(Feature.CAS_EDITOR)) {
 			return (MathKeyboardListener) consoleTable.getEditor();
@@ -143,6 +160,10 @@ public class CASViewW extends CASView {
 		return null;
 	}
 
+	/**
+	 * @param force
+	 *            make keyboard immediately visible
+	 */
 	public void maybeOpenKeyboard(final boolean force) {
 		if (!app.has(Feature.CAS_EDITOR)
 				|| app.getArticleElement()
@@ -150,10 +171,11 @@ public class CASViewW extends CASView {
 				|| app.showView(App.VIEW_ALGEBRA)) {
 			return;
 		}
+		final AppW app1 = app;
 		app.getGuiManager().invokeLater(new Runnable() {
 
 			public void run() {
-				app.showKeyboard(getEditor(), force);
+				app1.showKeyboard(getEditor(), force);
 				getConsoleTable().startEditingRow(
 						getConsoleTable().getRowCount() - 1);
 			}
@@ -164,6 +186,12 @@ public class CASViewW extends CASView {
 		
 	}
 
+	/**
+	 * Update inputs and outputs on zoom
+	 * 
+	 * @param ratio
+	 *            CSS pixel ratio
+	 */
 	public void setPixelRatio(double ratio) {
 		if (this.consoleTable != null) {
 			for (int row = 0; row < this.getRowCount(); row++) {
@@ -176,6 +204,7 @@ public class CASViewW extends CASView {
 
 	}
 	
+	@Override
 	protected void showTooltip(int mode) {
 		if (getApp().showToolBarHelp()) {
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(

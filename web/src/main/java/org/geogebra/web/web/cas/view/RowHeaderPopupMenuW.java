@@ -3,6 +3,7 @@ package org.geogebra.web.web.cas.view;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.web.html5.AttachedToDOM;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
@@ -69,8 +70,17 @@ public class RowHeaderPopupMenuW extends
 
 
 		if (CASTableControllerW.checkClipboardSupported()
-				&& RowContentPopupMenuW
+				&& CopyPasteCutW
 						.copyToSystemClipboard("Copying to clipboard. Please wait... ")) {
+
+			MenuItem copyItem = new MenuItem(app.getMenu("Copy"),
+					new ScheduledCommand() {
+						public void execute() {
+							actionPerformed("copyAsLaTeX");
+						}
+					});
+			rowHeaderPopupMenu.addItem(copyItem);
+			copyItem.addStyleName("mi_no_image");
 
 			MenuItem latexItem = new MenuItem(app.getMenu("CopyAsLaTeX"),
 				new ScheduledCommand() {
@@ -126,7 +136,15 @@ public class RowHeaderPopupMenuW extends
 					toBeCopied = toBeCopied.substring(0,
 							toBeCopied.length() - 13);
 				}
-				RowContentPopupMenuW.copyToSystemClipboard(toBeCopied);
+				CopyPasteCutW.copyToSystemClipboard(toBeCopied);
+			}
+		} else if (ac.equals("copy")) {
+			String toBeCopied = table.getCASView().getTextFromCells(selRows);
+			// it's possible that the last row is the input bar,
+			// and if this is the case, the formula ends by:
+			// \\ undefined \\
+			if (toBeCopied != null) {
+				CopyPasteCutW.copyToSystemClipboard(toBeCopied);
 			}
 		}
 

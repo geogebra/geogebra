@@ -394,6 +394,27 @@ public abstract class CASView implements View, SetLabels {
 		return ret.toString();
 	}
 
+	public final String getTextFromCells(int[] selRows) {
+
+		StringBuilder ret = new StringBuilder();
+
+		for (int i = 0; i < selRows.length; i++) {
+			GeoCasCell casCell = getConsoleTable().getGeoCasCell(selRows[i]);
+			if (casCell != null) {
+				ret.append(casCell.getOutput(
+						StringTemplate.xmlTemplate));
+
+				// LaTeX linebreak
+				if (i != selRows.length - 1) {
+					ret.append("\n ");
+				}
+
+			}
+		}
+
+		return ret.toString();
+	}
+
 	/**
 	 * @return input handler
 	 */
