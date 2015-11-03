@@ -429,7 +429,8 @@ public class Equation extends ValidExpression {
 	}
 
 	public void resolveVariables() {
-		if ("X".equals(lhs.toString(StringTemplate.defaultTemplate))) {
+		if ("X".equals(lhs.toString(StringTemplate.defaultTemplate))
+				&& kernel.lookupLabel("X") == null) {
 			return;
 		}
 		lhs.resolveVariables();

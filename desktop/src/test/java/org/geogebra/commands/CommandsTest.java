@@ -320,6 +320,7 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void parametricSyntaxes() {
-		t("Intersect[X=(s,s),x+y=2]", "(1,1)");
+		t("X=(s,2s)", "X = (0, 0) + s (1, 2)");
+		t("Intersect[X=(s,s),x+y=2]", "(1, 1)");
 	}
 }
