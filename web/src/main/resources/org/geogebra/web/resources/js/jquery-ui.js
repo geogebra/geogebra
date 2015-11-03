@@ -6,7 +6,7 @@
 (function( factory ) {
 	
 		// Browser globals
-	factory( $ggbQuery || jQuery  );
+	factory( window.$ggbQuery || window.jQuery  );
 	
 }(function( $ ) {
 /*!
@@ -1784,4 +1784,4 @@ var slider = $.widget( "ui.slider", $.ui.mouse, {
 	b._touchMove=function(a){e&&(this._touchMoved=!0,f(a,"mousemove"))},
 	b._touchEnd=function(a){e&&(f(a,"mouseup"),f(a,"mouseout"),this._touchMoved||f(a,"click"),e=!1)},
 	b._mouseInit=function(){var b=this;b.element.bind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),c.call(b)},
-	b._mouseDestroy=function(){var b=this;b.element.unbind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),d.call(b)}}}(jQuery || $ggbQuery);
+	b._mouseDestroy=function(){var b=this;b.element.unbind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),d.call(b)}}}(window.$ggbQuery || window.jQuery);
