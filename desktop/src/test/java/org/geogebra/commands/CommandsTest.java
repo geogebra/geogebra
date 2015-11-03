@@ -317,4 +317,9 @@ public class CommandsTest extends Assert{
 						"1", "1", "2", "1", "1", "1", "2", "2", "1" },
 				StringTemplate.defaultTemplate);
 	}
+
+	@Test
+	public void parametricSyntaxes() {
+		t("Intersect[X=(s,s),x+y=2]", "(1,1)");
+	}
 }

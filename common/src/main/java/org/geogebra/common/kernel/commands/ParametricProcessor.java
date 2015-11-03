@@ -54,19 +54,8 @@ public class ParametricProcessor {
 		if (!parametricEquation && !parametricExpression) {
 			return null;
 		}
+		String varName = getPreferredName(undefinedVariables);
 
-		Iterator<String> t = undefinedVariables.iterator();
-
-		String varName = t.next();
-		if (undefinedVariables.contains("t")) {
-			varName = "t";
-		}
-		if (undefinedVariables.contains(Unicode.thetaStr)) {
-			varName = Unicode.thetaStr;
-		}
-		if ("X".equals(varName)) {
-			varName = t.next();
-		}
 		ValidExpression ve = ve0;
 
 		TreeSet<GeoNumeric> num = new TreeSet<GeoNumeric>();
@@ -131,6 +120,22 @@ public class ParametricProcessor {
 		return null;
 	}
 	
+	private String getPreferredName(TreeSet<String> undefinedVariables) {
+		Iterator<String> t = undefinedVariables.iterator();
+
+		String varName = t.next();
+		if (undefinedVariables.contains("t")) {
+			varName = "t";
+		}
+		if (undefinedVariables.contains(Unicode.thetaStr)) {
+			varName = Unicode.thetaStr;
+		}
+		if ("X".equals(varName)) {
+			varName = t.next();
+		}
+		return varName;
+	}
+
 	private void removeSliders(TreeSet<GeoNumeric> num,
 			TreeSet<String> undefined) {
 		for (GeoNumeric slider : num) {
@@ -345,5 +350,21 @@ public class ParametricProcessor {
 			}
 		}
 		return fallback;
+	}
+
+	public GeoElement[] processXEquation(Equation equ) {
+		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
+		equ.traverse(collecter);
+		final TreeSet<String> undefinedVariables = collecter.getResult();
+		String varName = this.getPreferredName(undefinedVariables);
+		FunctionVariable fv = new FunctionVariable(kernel, varName);
+		ExpressionNode exp = equ.getRHS().deepCopy(kernel)
+				.traverse(VariableReplacer.getReplacer(varName, fv, kernel))
+				.wrap();
+		exp.resolveVariables();
+		GeoElement[] ret = processParametricFunction(exp,
+				exp.evaluate(StringTemplate.defaultTemplate), fv,
+				equ.getLabel());
+		return ret;
 	}
 }

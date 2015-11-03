@@ -429,6 +429,9 @@ public class Equation extends ValidExpression {
 	}
 
 	public void resolveVariables() {
+		if ("X".equals(lhs.toString(StringTemplate.defaultTemplate))) {
+			return;
+		}
 		lhs.resolveVariables();
 		rhs.resolveVariables();
 	}

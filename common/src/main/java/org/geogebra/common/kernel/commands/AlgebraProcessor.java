@@ -2077,7 +2077,11 @@ public class AlgebraProcessor {
 			}
 		}
 		// s = t^2
-
+		if (lhs instanceof Variable
+				&& "X".equals(lhs.toString(StringTemplate.defaultTemplate))) {
+			App.debug("parametric...");
+			return getParamProcessor().processXEquation(equ);
+		}
 		if (lhs instanceof Variable
 				&& kernel.lookupLabel(((Variable) lhs).getName()) == null) {
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
@@ -2087,6 +2091,8 @@ public class AlgebraProcessor {
 				e.printStackTrace();
 			}
 		}
+
+
 
 		// z(x) = sin(x), see #5484
 		if (lhs instanceof ExpressionNode
