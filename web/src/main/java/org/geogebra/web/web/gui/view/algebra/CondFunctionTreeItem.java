@@ -104,12 +104,6 @@ public class CondFunctionTreeItem extends RadioTreeItem {
 		});
 	}
 
-	@Override
-	protected boolean shouldEditLaTeX() {
-		// only allow editing for piecewise functions of variable "x"
-		return super.shouldEditLaTeX() && hasXVar();
-	}
-
 	protected boolean hasXVar() {
 		GeoFunction fun = (GeoFunction) geo;
 		if (fun.getFunctionVariables().length == 0) {

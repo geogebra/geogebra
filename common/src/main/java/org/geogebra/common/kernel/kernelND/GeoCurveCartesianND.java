@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -403,7 +404,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	}
 
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-
+		App.printStacktrace("CURVE LATEX");
 		if (this.isDefined) {
 			StringBuilder sbTemp =
 					new StringBuilder(80);
@@ -416,14 +417,19 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 					sbTemp.append("\\parametric{ ");
 				}
 				sbTemp.append("\\prtable{");
+				if (point == null) {
+					for (int i = 0; i < getDimension(); i++) {
+						sbTemp.append("\\ggbtr{ \\ggbtdL{  ");
+						sbTemp.append(getVariable(i));
+						sbTemp.append(" = ");
+						sbTemp.append(getFun(i).toLaTeXString(symbolic, tpl));
+						sbTemp.append("} }");
 
-				for (int i = 0 ; i < getDimension() ; i++) {
+					}
+				} else {
 					sbTemp.append("\\ggbtr{ \\ggbtdL{  ");
-					sbTemp.append(getVariable(i));
-					sbTemp.append(" = ");
-					sbTemp.append(getFun(i).toLaTeXString(symbolic, tpl));
+					sbTemp.append(point.toLaTeXString(true, tpl));
 					sbTemp.append("} }");
-
 				}
 
 				sbTemp.append("}");

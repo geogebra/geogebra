@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -1498,7 +1497,7 @@ public class RadioTreeItem extends AVTreeItem
 			if (text0 == null) {
 				text = "";
 			}
-
+			text = DrawEquationW.inputLatexCosmetics(text);
 			seMayLatex = se;
 			if (newCreationMode) {
 				// in editing mode, we shall avoid letting an invisible, but
@@ -1593,6 +1592,7 @@ public class RadioTreeItem extends AVTreeItem
 			String text = geo.getLaTeXAlgebraDescriptionWithFallback(
 					substituteNumbers, StringTemplate.latexTemplateMQedit,
 					true);
+			App.debug("RENDERING" + text);
 			if (text == null) {
 				return false;
 			}
@@ -1885,15 +1885,6 @@ marblePanel, evt))) {
 			app.showKeyboard(this);
 			this.setFocus(true);
 		}
-	}
-
-	protected boolean shouldEditLaTeX() {
-		return (LaTeX || geo.isGeoPoint() || geo.isGeoNumeric())
-				// && !(geo.isGeoVector() && geo.isGeoElement3D())
-				&& (geo.isIndependent()
-						|| (geo.getParentAlgorithm() instanceof AlgoCurveCartesian) || geo
-.isPointOnPath());
-		// AlgoCurveCartesian3D is an instance of AlgoCurveCartesian too
 	}
 
 	private static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {

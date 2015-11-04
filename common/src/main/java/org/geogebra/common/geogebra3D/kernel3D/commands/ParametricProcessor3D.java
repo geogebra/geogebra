@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 
 public class ParametricProcessor3D extends ParametricProcessor {
 
@@ -208,8 +207,6 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		cons.removeFromConstructionList(ny);
 		AlgoDependentNumber nz = new AlgoDependentNumber(cons, cz, false);
 		cons.removeFromConstructionList(nz);
-		Log.debug("VAR" + loc1);
-		Log.debug("VAR" + loc0);
 		AlgoSurfaceCartesian3D algo = new AlgoSurfaceCartesian3D(cons, label,
 				exp, new NumberValue[] { nx.getNumber(), ny.getNumber(),
 						nz.getNumber() }, new GeoNumeric[] { loc0,
