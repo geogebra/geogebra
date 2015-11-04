@@ -1036,12 +1036,14 @@ public class Manager3D implements Manager3DInterface {
 	// //////////////////////////////////////////////
 	// 3D SURFACE (2 VARS)
 
-	public GeoElement SurfaceCartesian3D(String label, NumberValue xcoord,
+	public GeoElement SurfaceCartesian3D(String label, ExpressionNode point,
+			NumberValue xcoord,
 			NumberValue ycoord, NumberValue zcoord, GeoNumeric uVar,
 			NumberValue uFrom, NumberValue uTo, GeoNumeric vVar,
 			NumberValue vFrom, NumberValue vTo) {
 
 		AlgoSurfaceCartesian3D algo = new AlgoSurfaceCartesian3D(cons, label,
+				point,
 				new NumberValue[] { xcoord, ycoord, zcoord }, new GeoNumeric[] {
 						uVar, vVar }, new NumberValue[] { uFrom, vFrom },
 				new NumberValue[] { uTo, vTo });

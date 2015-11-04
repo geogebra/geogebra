@@ -21,8 +21,10 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -48,6 +50,7 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 
 	/** Creates new AlgoJoinPoints */
 	public AlgoSurfaceCartesian3D(Construction cons, String label,
+			ExpressionNode point,
 			NumberValue[] coords, GeoNumeric[] localVar, NumberValue[] from,
 			NumberValue[] to) {
 		super(cons);
@@ -81,7 +84,7 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 
 
 		// create the curve
-		surface = createCurve(cons, fun);
+		surface = createCurve(cons, point, fun);
 
 		setInputOutput(); // for AlgoElement
 
@@ -97,8 +100,9 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	 * @param fun
 	 * @return a curve
 	 */
-	protected GeoSurfaceCartesianND createCurve(Construction cons, FunctionNVar[] fun) {
-		return new GeoSurfaceCartesian3D(cons, fun);
+	protected GeoSurfaceCartesianND createCurve(Construction cons,
+			ExpressionNode point, FunctionNVar[] fun) {
+		return new GeoSurfaceCartesian3D(cons, point, fun);
 	}
 
 	@Override
@@ -109,14 +113,28 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[coords.length + 3 * localVar.length];
+		int offset = coords.length;
+		if (surface.getPointExpression() != null) {
+			input = new GeoElement[1 + 3 * localVar.length];
+			offset = 1;
+			input[0] = new AlgoDependentFunction(cons, new Function(
+					surface.getPointExpression(), new FunctionVariable(kernel)))
+					.getFunction();
+			cons.removeFromConstructionList(input[0].getParentAlgorithm());
+			for (int i = 0; i < offset; i++) {
+				coords[i].toGeoElement().addAlgorithm(this);
+			}
+		} else {
+			input = new GeoElement[coords.length + 3 * localVar.length];
+			for (int i = 0; i < coords.length; i++)
+				input[i] = coords[i].toGeoElement();
+		}
 
-		for (int i = 0; i < coords.length; i++)
-			input[i] = coords[i].toGeoElement();
+
 		for (int i = 0; i < localVar.length; i++) {
-			input[coords.length + 3 * i] = localVar[i];
-			input[coords.length + 3 * i + 1] = from[i].toGeoElement();
-			input[coords.length + 3 * i + 2] = to[i].toGeoElement();
+			input[offset + 3 * i] = localVar[i];
+			input[offset + 3 * i + 1] = from[i].toGeoElement();
+			input[offset + 3 * i + 2] = to[i].toGeoElement();
 		}
 
 		setOnlyOutput(surface);

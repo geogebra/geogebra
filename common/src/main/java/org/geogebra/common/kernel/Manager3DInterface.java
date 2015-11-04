@@ -521,7 +521,8 @@ public interface Manager3DInterface {
 	 * y-coord>, <expression z-coord>, <u-var>, <u-from>, <u-to>, <v-var>,
 	 * <v-from>, <v-to> ]
 	 */
-	public GeoElement SurfaceCartesian3D(String label, NumberValue xcoord,
+	public GeoElement SurfaceCartesian3D(String label, ExpressionNode point,
+			NumberValue xcoord,
 			NumberValue ycoord, NumberValue zcoord, GeoNumeric uVar,
 			NumberValue uFrom, NumberValue uTo, GeoNumeric vVar,
 			NumberValue vFrom, NumberValue vTo);

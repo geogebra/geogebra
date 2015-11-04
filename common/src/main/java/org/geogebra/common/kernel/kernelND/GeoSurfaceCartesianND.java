@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -27,6 +28,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	
 	/** flag for isDefined() */
 	protected boolean isDefined = true;
+	private ExpressionNode point;
 
 
 	/** common constructor
@@ -50,9 +52,11 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	 * @param fun
 	 *            functions
 	 */
-	public GeoSurfaceCartesianND(Construction c, FunctionNVar[] fun) {
+	public GeoSurfaceCartesianND(Construction c, ExpressionNode point,
+			FunctionNVar[] fun) {
 		this(c);
 		this.fun = fun;
+		this.point = point;
 	}	
 	
 	/**
@@ -270,6 +274,10 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	@Override
 	public boolean isGeoSurfaceCartesian() {
 		return true;
+	}
+
+	public ExpressionNode getPointExpression() {
+		return point;
 	}
 	
 }

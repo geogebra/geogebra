@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
 import org.geogebra.common.kernel.algos.AlgoMacro;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
@@ -44,8 +45,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 * @param c
 	 * @param fun
 	 */
-	public GeoSurfaceCartesian3D(Construction c, FunctionNVar fun[]) {
-		super(c, fun);
+	public GeoSurfaceCartesian3D(Construction c, ExpressionNode point,
+			FunctionNVar fun[]) {
+		super(c, point, fun);
 	}
 
 	/**
