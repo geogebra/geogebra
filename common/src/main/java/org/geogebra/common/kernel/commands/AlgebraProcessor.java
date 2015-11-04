@@ -352,20 +352,7 @@ public class AlgebraProcessor {
 
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(newValue);
-			if (ve instanceof Equation
-					&& ((Equation) ve).getLHS().unwrap() instanceof Variable
-					&& "X".equals(((Equation) ve).getLHS().unwrap()
-							.toString(StringTemplate.defaultTemplate))
-					&& kernel.lookupLabel("X") == null) {
-				ValidExpression ve2 = getParamProcessor()
-						.checkParametricEquationF(((Equation) ve).getRHS(),
-								null, cons);
-				if (ve2 != null) {
-					ve2.setLabel(ve.getLabel());
-					ve = ve2;
-				}
-
-			} else if ("X".equals(ve.getLabel())) {
+			if ("X".equals(ve.getLabel())) {
 				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons);
 			}
 			return changeGeoElementNoExceptionHandling(geo, ve,
@@ -1651,7 +1638,8 @@ public class AlgebraProcessor {
 					fun.getExpression(),
 					fun
 					.getExpression().evaluate(StringTemplate.defaultTemplate),
-					fun.getFunctionVariable(), fun.getLabel());
+					new FunctionVariable[] { fun.getFunctionVariable() },
+					fun.getLabel());
 		}
 
 		String label = fun.getLabel();
@@ -2019,12 +2007,13 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processFunctionNVar(FunctionNVar fun) {
 		if (!fun.initFunction()) {
-			App.debug("InvalidFunction:"
-					+ fun.getExpression().toString(
-							StringTemplate.defaultTemplate));
-			throw new MyError(kernel.getApplication().getLocalization(),
-					"InvalidFunction");
+			return getParamProcessor().processParametricFunction(
+					fun.getExpression(),
+					fun.getExpression()
+							.evaluate(StringTemplate.defaultTemplate),
+					fun.getFunctionVariables(), fun.getLabel());
 		}
+
 
 		String label = fun.getLabel();
 		GeoElement[] ret = new GeoElement[1];

@@ -81,7 +81,8 @@ public class ParametricProcessor {
 										kernel)).wrap();
 				exp.resolveVariables();
 				GeoElement[] ret = processParametricFunction(exp,
-						exp.evaluate(StringTemplate.defaultTemplate), fv, null);
+						exp.evaluate(StringTemplate.defaultTemplate),
+						new FunctionVariable[] { fv }, null);
 				App.debug("AUTOCREATE" + autocreateSliders);
 				if (ret != null && (num.isEmpty() || autocreateSliders)) {
 					return ret;
@@ -105,7 +106,8 @@ public class ParametricProcessor {
 										kernel)).wrap();
 				exp.resolveVariables();
 				GeoElement[] ret = processParametricFunction(exp,
-						exp.evaluate(StringTemplate.defaultTemplate), fv,
+						exp.evaluate(StringTemplate.defaultTemplate),
+						new FunctionVariable[] { fv },
 						ve.getLabel());
 				if (ret != null && (num.isEmpty() || autocreateSliders)) {
 					return ret;
@@ -169,13 +171,11 @@ public class ParametricProcessor {
 	 * @return paramteric curve (or line, conic)
 	 */
 	protected GeoElement[] processParametricFunction(ExpressionNode exp,
-			ExpressionValue ev, FunctionVariable fv, String label) {
+			ExpressionValue ev, FunctionVariable[] fv, String label) {
 		Construction cons = kernel.getConstruction();
-		if (ev instanceof VectorValue
+		if (fv.length < 2 && ev instanceof VectorValue
 				&& ((VectorValue) ev).getMode() != Kernel.COORD_COMPLEX) {
-			GeoNumeric locVar = new GeoNumeric(cons);
-			locVar.setLocalVariableLabel(fv.getSetVarString());
-			exp.replace(fv, locVar);
+			GeoNumeric locVar = getLocalVar(exp, fv[0]);
 
 			ExpressionNode cx = ap.computeCoord(exp, 0);
 			ExpressionNode cy = ap.computeCoord(exp, 1);
@@ -183,7 +183,8 @@ public class ParametricProcessor {
 			if (ap.getTrigCoeffs(cx, coefX, new ExpressionNode(kernel, 1.0),
 					locVar)
 					&& ap.getTrigCoeffs(cy, coefY,
-							new ExpressionNode(kernel, 1.0), locVar)) {
+ new ExpressionNode(kernel,
+							1.0), locVar)) {
 
 				ExpressionNode a, b, c, d, xx, xy, yy;
 
@@ -231,10 +232,10 @@ public class ParametricProcessor {
 			coefX = ap.arrayOfZeros(coefX.length);
 			coefY = ap.arrayOfZeros(coefY.length);
 
-			int degX = ap.getPolyCoeffs(cx, coefX,
-					new ExpressionNode(kernel, 1.0), locVar);
-			int degY = ap.getPolyCoeffs(cy, coefY,
-					new ExpressionNode(kernel, 1.0), locVar);
+			int degX = ap.getPolyCoeffs(cx, coefX, new ExpressionNode(kernel,
+					1.0), locVar);
+			int degY = ap.getPolyCoeffs(cy, coefY, new ExpressionNode(kernel,
+					1.0), locVar);
 
 			// line
 			if ((degX >= 0 && degY >= 0) && (degX < 2 && degY < 2)) {
@@ -248,7 +249,7 @@ public class ParametricProcessor {
 				eq.initEquation();
 				eq.setLabel(label);
 				GeoElement[] line = ap.processLine(eq);
-				((GeoLineND) line[0]).setToParametric(fv.getSetVarString());
+				((GeoLineND) line[0]).setToParametric(fv[0].getSetVarString());
 				line[0].update();
 				return line;
 				// parabola
@@ -303,7 +304,7 @@ public class ParametricProcessor {
  exp.deepCopy(
 					kernel).wrap(),
 					new NumberValue[] { nx.getNumber(), ny.getNumber() },
-					locVar, from, to);
+ locVar, from, to);
 			ac.getCurve().setLabel(label);
 			return ac.getOutput();
 		}
@@ -312,6 +313,13 @@ public class ParametricProcessor {
 		throw new MyError(kernel.getApplication().getLocalization(),
 				"InvalidFunction");
 
+	}
+
+	protected GeoNumeric getLocalVar(ExpressionNode exp, FunctionVariable fv) {
+		GeoNumeric locVar = new GeoNumeric(kernel.getConstruction());
+		locVar.setLocalVariableLabel(fv.getSetVarString());
+		exp.replace(fv, locVar);
+		return locVar;
 	}
 
 	/**
@@ -339,7 +347,8 @@ public class ParametricProcessor {
 				boolean flag = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
 				GeoElement[] ret = processParametricFunction(exp,
-						exp.evaluate(StringTemplate.defaultTemplate), fv, null);
+						exp.evaluate(StringTemplate.defaultTemplate),
+						new FunctionVariable[] { fv }, null);
 				cons.setSuppressLabelCreation(flag);
 				if (ret != null) {
 					return ret[0].wrap();
@@ -363,7 +372,8 @@ public class ParametricProcessor {
 				.wrap();
 		exp.resolveVariables();
 		GeoElement[] ret = processParametricFunction(exp,
-				exp.evaluate(StringTemplate.defaultTemplate), fv,
+				exp.evaluate(StringTemplate.defaultTemplate),
+				new FunctionVariable[] { fv },
 				equ.getLabel());
 		return ret;
 	}

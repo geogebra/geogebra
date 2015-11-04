@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoCurveCartesian3D;
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoSurfaceCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.kernel.Construction;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 
 public class ParametricProcessor3D extends ParametricProcessor {
 
@@ -27,13 +29,15 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		super(kernel, ap);
 	}
 
+	@Override
 	protected GeoElement[] processParametricFunction(ExpressionNode exp,
-			ExpressionValue ev, FunctionVariable fv, String label) {
+			ExpressionValue ev, FunctionVariable[] fv, String label) {
 		Construction cons = kernel.getConstruction();
 		if (ev instanceof Vector3DValue) {
-			GeoNumeric loc = new GeoNumeric(cons);
-			loc.setLocalVariableLabel(fv.getSetVarString());
-			exp.replace(fv, loc);
+			if (fv.length == 2) {
+				return processSurface(exp, fv, label);
+			}
+			GeoNumeric loc = getLocalVar(exp, fv[0]);
 
 			ExpressionNode cx = ap.computeCoord(exp, 0);
 			ExpressionNode cy = ap.computeCoord(exp, 1);
@@ -161,14 +165,14 @@ public class ParametricProcessor3D extends ParametricProcessor {
 							coefY[1].evaluateDouble(),
 							coefZ[1].evaluateDouble() });
 					line.setCoord(start, v);
-					line.setToParametric(fv.getSetVarString());
+					line.setToParametric(fv[0].getSetVarString());
 					line.setLabel(label);
 				} else {
 					line = (GeoLine3D) kernel.getManager3D().Line3D(label,
 							coefX, coefY, coefZ);
 
 				}
-				line.setToParametric(fv.getSetVarString());
+				line.setToParametric(fv[0].getSetVarString());
 				return new GeoElement[] { line };
 
 			}
@@ -188,6 +192,35 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		}
 		return super.processParametricFunction(exp, ev, fv, label);
 
+	}
+
+	private GeoElement[] processSurface(ExpressionNode exp,
+			FunctionVariable[] fv, String label) {
+		GeoNumeric loc0 = getLocalVar(exp, fv[0]);
+		GeoNumeric loc1 = getLocalVar(exp, fv[1]);
+		Construction cons = kernel.getConstruction();
+		ExpressionNode cx = ap.computeCoord(exp, 0);
+		ExpressionNode cy = ap.computeCoord(exp, 1);
+		ExpressionNode cz = ap.computeCoord(exp, 2);
+		AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
+		cons.removeFromConstructionList(nx);
+		AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);
+		cons.removeFromConstructionList(ny);
+		AlgoDependentNumber nz = new AlgoDependentNumber(cons, cz, false);
+		cons.removeFromConstructionList(nz);
+		Log.debug("VAR" + loc1);
+		Log.debug("VAR" + loc0);
+		AlgoSurfaceCartesian3D algo = new AlgoSurfaceCartesian3D(cons, label,
+				exp, new NumberValue[] { nx.getNumber(), ny.getNumber(),
+						nz.getNumber() }, new GeoNumeric[] { loc0,
+						loc1 }, new NumberValue[] {
+						num(-10), num(-10) }, new NumberValue[] { num(10),
+						num(10) });
+		return algo.getOutput();
+	}
+
+	private NumberValue num(double d) {
+		return new GeoNumeric(kernel.getConstruction(), d);
 	}
 
 }
