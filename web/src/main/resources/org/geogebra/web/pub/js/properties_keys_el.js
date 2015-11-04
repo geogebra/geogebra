@@ -2266,6 +2266,7 @@ __GGB__keysVar.el.plain = {
     "BoxSize.medium": "\u039c\u03b5\u03c3\u03b1\u03af\u03bf",
     "BoxSize.small": "\u039c\u03b9\u03ba\u03c1\u03cc",
     "Breakpoint": "\u03a3\u03b7\u03bc\u03b5\u03af\u03bf \u03c0\u03b1\u03cd\u03c3\u03b7\u03c2",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(\u03b4\u03b5\u03bd \u03b9\u03c3\u03c7\u03cd\u03b5\u03b9 \u03b3\u03b5\u03bd\u03b9\u03ba\u03ac)",
     "Button": "\u039a\u03bf\u03c5\u03bc\u03c0\u03af",
     "ButtonSize": "\u039c\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u039a\u03bf\u03c5\u03bc\u03c0\u03b9\u03bf\u03cd",

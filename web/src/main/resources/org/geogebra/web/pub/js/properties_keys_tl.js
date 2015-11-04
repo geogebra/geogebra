@@ -2266,6 +2266,7 @@ __GGB__keysVar.tl.plain = {
     "BoxSize.medium": "Medium",
     "BoxSize.small": "Small",
     "Breakpoint": "Punto ng pagkabreyk",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(but not generally true)",
     "Button": "Pindutan",
     "ButtonSize": "Button Size",

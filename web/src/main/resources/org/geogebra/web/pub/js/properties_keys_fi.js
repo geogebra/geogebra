@@ -2266,6 +2266,7 @@ __GGB__keysVar.fi.plain = {
     "BoxSize.medium": "Keskikokoinen",
     "BoxSize.small": "Pieni",
     "Breakpoint": "Katkoskohta",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(mutta ei yleisesti tosi)",
     "Button": "Painike",
     "ButtonSize": "Painikkeen koko",

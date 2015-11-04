@@ -2266,6 +2266,7 @@ __GGB__keysVar.da.plain = {
     "BoxSize.medium": "Medium",
     "BoxSize.small": "Lille",
     "Breakpoint": "stoppunkt",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(men ikke generelt sandt)",
     "Button": "Knap",
     "ButtonSize": "Knap st\xf8rrelse",

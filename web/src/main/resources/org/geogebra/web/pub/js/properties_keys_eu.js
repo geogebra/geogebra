@@ -2266,6 +2266,7 @@ __GGB__keysVar.eu.plain = {
     "BoxSize.medium": "Ertaina",
     "BoxSize.small": "Txikia",
     "Breakpoint": "Eten-puntua",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(baina ez da egia normalean)",
     "Button": "Botoia",
     "ButtonSize": "Botoiaren tamaina",

@@ -2266,6 +2266,7 @@ __GGB__keysVar.xh.plain = {
     "BoxSize.medium": "iMedium",
     "BoxSize.small": "Ncinane",
     "Breakpoint": "iBreakpoint",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(kodwa akuhlali kunjalo)",
     "Button": "iQhosha",
     "ButtonSize": "uBukhulu beQhosha",

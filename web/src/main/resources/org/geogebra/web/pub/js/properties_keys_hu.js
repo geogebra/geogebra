@@ -2266,6 +2266,7 @@ __GGB__keysVar.hu.plain = {
     "BoxSize.medium": "K\xf6zepes",
     "BoxSize.small": "Kicsi",
     "Breakpoint": "T\xf6r\xe9spont",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(de nem \xe1ltal\xe1ban igaz)",
     "Button": "Gomb",
     "ButtonSize": "Gomb m\xe9ret",

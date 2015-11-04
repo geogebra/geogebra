@@ -2266,6 +2266,7 @@ __GGB__keysVar.cy.plain = {
     "BoxSize.medium": "Medium",
     "BoxSize.small": "Small",
     "Breakpoint": "Torbwynt",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(but not generally true)",
     "Button": "Botwm",
     "ButtonSize": "Button Size",

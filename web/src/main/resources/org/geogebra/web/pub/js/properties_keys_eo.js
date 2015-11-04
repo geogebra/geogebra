@@ -2266,6 +2266,7 @@ __GGB__keysVar.eo.plain = {
     "BoxSize.medium": "Mezgranda",
     "BoxSize.small": "Malgranda",
     "Breakpoint": "Haltopunkto",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(but not generally true)",
     "Button": "Butono",
     "ButtonSize": "Button Size",

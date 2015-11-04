@@ -2266,6 +2266,7 @@ __GGB__keysVar.ko.plain = {
     "BoxSize.medium": "\ubcf4\ud1b5",
     "BoxSize.small": "\uc791\uac8c",
     "Breakpoint": "\uc911\ub2e8\uc810",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(\uc77c\ubc18\uc801\uc73c\ub85c \ucc38\uc740 \uc544\ub2d8)",
     "Button": "\ubc84\ud2bc",
     "ButtonSize": "\ubc84\ud2bc \ud06c\uae30",

@@ -2266,6 +2266,7 @@ __GGB__keysVar.no_NN.plain = {
     "BoxSize.medium": "Middels",
     "BoxSize.small": "Liten",
     "Breakpoint": "Etappepunkt",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(men ikkje generelt sant)",
     "Button": "Knapp",
     "ButtonSize": "Knappestorleik",

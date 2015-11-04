@@ -2266,6 +2266,7 @@ __GGB__keysVar.sr.plain = {
     "BoxSize.medium": "Srednja",
     "BoxSize.small": "Mala",
     "Breakpoint": "Kontrolna ta\u010dka",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(ali neta\u010dno u op\u0161tem slu\u010daju)",
     "Button": "Dugme",
     "ButtonSize": "Veli\u010dina dugmeta",

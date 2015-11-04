@@ -2266,6 +2266,7 @@ __GGB__keysVar.gl.plain = {
     "BoxSize.medium": "Mediano",
     "BoxSize.small": "Pequeno",
     "Breakpoint": "Punto de pausa",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(pero non certo en xeral)",
     "Button": "Bot\xf3n",
     "ButtonSize": "Medida del Bot\xf3n",

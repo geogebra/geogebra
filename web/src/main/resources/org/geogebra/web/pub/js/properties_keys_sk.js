@@ -2266,6 +2266,7 @@ __GGB__keysVar.sk.plain = {
     "BoxSize.medium": "stredn\xfd",
     "BoxSize.small": "mal\xfd",
     "Breakpoint": "Bod lomu",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(ale vo v\u0161eobecnosti nemus\xed by\u0165 pravdiv\xe9)",
     "Button": "Tla\u010didlo",
     "ButtonSize": "Ve\u013ekos\u0165 tla\u010didla",

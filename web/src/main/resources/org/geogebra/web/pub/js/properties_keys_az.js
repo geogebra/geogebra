@@ -2266,6 +2266,7 @@ __GGB__keysVar.az.plain = {
     "BoxSize.medium": "Medium",
     "BoxSize.small": "Small",
     "Breakpoint": "Breakpoint",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(but not generally true)",
     "Button": "D\xfcym\u0259",
     "ButtonSize": "Button Size",

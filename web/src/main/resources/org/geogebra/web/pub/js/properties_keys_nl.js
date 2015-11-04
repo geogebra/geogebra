@@ -2266,6 +2266,7 @@ __GGB__keysVar.nl.plain = {
     "BoxSize.medium": "Medium",
     "BoxSize.small": "Small",
     "Breakpoint": "Stoppunt",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(but not generally true)",
     "Button": "Actieknop",
     "ButtonSize": "Button Size",

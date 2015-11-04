@@ -2266,6 +2266,7 @@ __GGB__keysVar.it.plain = {
     "BoxSize.medium": "Medio",
     "BoxSize.small": "Piccolo",
     "Breakpoint": "Punto di interruzione",
+    "Breakpoint.short": "INT",
     "ButNotGenerallyTrue": "(ma non generalmente vero)",
     "Button": "Pulsante",
     "ButtonSize": "Dimensione pulsante",

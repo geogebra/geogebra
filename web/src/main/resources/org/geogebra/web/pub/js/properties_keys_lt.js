@@ -2266,6 +2266,7 @@ __GGB__keysVar.lt.plain = {
     "BoxSize.medium": "Vidutinis",
     "BoxSize.small": "Ma\u017eas",
     "Breakpoint": "Tr\u016bkio ta\u0161kas",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(bendruoju atveju ne visuomet tiesa)",
     "Button": "Mygtukas",
     "ButtonSize": "Mygtuko dydis",

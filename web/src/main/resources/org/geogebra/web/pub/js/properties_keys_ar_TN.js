@@ -2266,6 +2266,7 @@ __GGB__keysVar.ar_TN.plain = {
     "BoxSize.medium": "\u0645\u062a\u0648\u0633\u0637",
     "BoxSize.small": "\u0635\u063a\u064a\u0631",
     "Breakpoint": "\u0646\u0642\u0637\u0629 \u0627\u0644\u062a\u0648\u0642\u0641",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(but not generally true)",
     "Button": "\u0632\u0631",
     "ButtonSize": "Button Size",

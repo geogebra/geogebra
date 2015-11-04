@@ -2266,6 +2266,7 @@ __GGB__keysVar.sq.plain = {
     "BoxSize.medium": "Medium",
     "BoxSize.small": "Small",
     "Breakpoint": "Pike Shkeputje",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(but not generally true)",
     "Button": "Buton",
     "ButtonSize": "Button Size",

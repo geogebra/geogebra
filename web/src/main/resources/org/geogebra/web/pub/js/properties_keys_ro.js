@@ -2266,6 +2266,7 @@ __GGB__keysVar.ro.plain = {
     "BoxSize.medium": "Mediu",
     "BoxSize.small": "Mic",
     "Breakpoint": "Breakpoint",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(dar nu \xeen totdeauna adev\u0103rat)",
     "Button": "Buton",
     "ButtonSize": "M\u0103rime buton",

@@ -2266,6 +2266,7 @@ __GGB__keysVar.cs.plain = {
     "BoxSize.medium": "St\u0159edn\xed",
     "BoxSize.small": "Mal\xfd",
     "Breakpoint": "Bod zastaven\xed",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(ale obecn\u011b nemus\xed b\xfdt pravdiv\xe9)",
     "Button": "Tla\u010d\xedtko",
     "ButtonSize": "Velikost tla\u010d\xedtka",

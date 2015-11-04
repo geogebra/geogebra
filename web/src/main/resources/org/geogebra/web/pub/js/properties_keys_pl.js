@@ -2266,6 +2266,7 @@ __GGB__keysVar.pl.plain = {
     "BoxSize.medium": "\u015aredni",
     "BoxSize.small": "Ma\u0142y",
     "Breakpoint": "Punkt przerwania",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(ale na og\xf3\u0142 nie prawda)",
     "Button": "Przycisk",
     "ButtonSize": "Rozmiar Przycisku",

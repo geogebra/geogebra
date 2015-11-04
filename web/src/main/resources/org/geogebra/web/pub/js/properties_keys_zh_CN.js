@@ -2266,6 +2266,7 @@ __GGB__keysVar.zh_CN.plain = {
     "BoxSize.medium": "\u4e2d",
     "BoxSize.small": "\u5c0f",
     "Breakpoint": "\u65ad\u70b9",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(\u4f46\u4e00\u822c\u4e0d\u662f\u771f\u7684)",
     "Button": "\u6309\u94ae",
     "ButtonSize": "\u6309\u94ae\u5927\u5c0f",

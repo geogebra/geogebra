@@ -2266,6 +2266,7 @@ __GGB__keysVar.pt.plain = {
     "BoxSize.medium": "M\xe9dio",
     "BoxSize.small": "Pequeno",
     "Breakpoint": "Ponto de Parada",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(mas n\xe3o verdadeiro em geral)",
     "Button": "Bot\xe3o",
     "ButtonSize": "Tamanho do Bot\xe3o",

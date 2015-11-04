@@ -2266,6 +2266,7 @@ __GGB__keysVar.et.plain = {
     "BoxSize.medium": "Keskmine",
     "BoxSize.small": "V\xe4ike",
     "Breakpoint": "Katkestuspunkt",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(aga \xfcldjuhul mitte t\xf5ene)",
     "Button": "Nupp",
     "ButtonSize": "Nupu suurus",

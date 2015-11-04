@@ -2266,6 +2266,7 @@ __GGB__keysVar.kn.plain = {
     "BoxSize.medium": "Medium",
     "BoxSize.small": "Small",
     "Breakpoint": "\u0ca4\u0ca1\u0cc6\u0cac\u0cbf\u0c82\u0ca6\u0cc1",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(but not generally true)",
     "Button": "Button",
     "ButtonSize": "Button Size",

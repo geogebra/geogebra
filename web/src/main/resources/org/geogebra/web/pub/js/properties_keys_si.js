@@ -2266,6 +2266,7 @@ __GGB__keysVar.si.plain = {
     "BoxSize.medium": "\u0db8\u0db0\u0dca\u200d\u0dba\u0db8",
     "BoxSize.small": "\u0d9a\u0dd4\u0da9\u0dcf",
     "Breakpoint": "\u0db6\u0dd2\u0db3\u0dd4\u0db8\u0dca \u0d89\u0db8\u0dca \u0dbd\u0d9a\u0dca\u0dc2\u0dca\u0dba\u0dba",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(but not generally true)",
     "Button": "\u0db6\u0ddc\u0dad\u0dca\u0dad\u0db8",
     "ButtonSize": "\u0db6\u0dd2\u0dad\u0dca\u0dad\u0db8\u0dda \u0db4\u0dca\u200d\u0dbb\u0db8\u0dcf\u0dab\u0dba",

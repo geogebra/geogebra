@@ -2266,6 +2266,7 @@ __GGB__keysVar.tr.plain = {
     "BoxSize.medium": "Orta boy",
     "BoxSize.small": "K\xfc\xe7\xfck",
     "Breakpoint": "Duraklama Noktas\u0131",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(ancak genellikle do\u011fru de\u011fil)",
     "Button": "D\xfc\u011fme",
     "ButtonSize": "D\xfc\u011fme boyu",

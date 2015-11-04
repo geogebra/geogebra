@@ -2266,6 +2266,7 @@ __GGB__keysVar.sv.plain = {
     "BoxSize.medium": "Medium",
     "BoxSize.small": "Liten",
     "Breakpoint": "Brytpunkt",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(men inte generellt sant)",
     "Button": "Kommandoknapp",
     "ButtonSize": "Knappstorlek",

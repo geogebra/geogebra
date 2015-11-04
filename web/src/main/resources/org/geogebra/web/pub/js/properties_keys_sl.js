@@ -2266,6 +2266,7 @@ __GGB__keysVar.sl.plain = {
     "BoxSize.medium": "Srednje",
     "BoxSize.small": "Majhno",
     "Breakpoint": "Prekinitvena to\u010dka",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(ba ne vedno res)",
     "Button": "Gumb",
     "ButtonSize": "Velikost gumba",

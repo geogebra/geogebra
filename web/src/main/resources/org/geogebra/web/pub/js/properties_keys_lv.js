@@ -2266,6 +2266,7 @@ __GGB__keysVar.lv.plain = {
     "BoxSize.medium": "Medium",
     "BoxSize.small": "Small",
     "Breakpoint": "L\u016bzuma punkts",
+    "Breakpoint.short": "BP",
     "ButNotGenerallyTrue": "(but not generally true)",
     "Button": "Poga",
     "ButtonSize": "Button Size",
