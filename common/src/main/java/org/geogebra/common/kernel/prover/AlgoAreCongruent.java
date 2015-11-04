@@ -100,6 +100,7 @@ public class AlgoAreCongruent extends AlgoElement implements
 
 	@Override
 	public final void compute() {
+		outputBoolean.setDefined();
 		// Segments are congruent if they are of equal length:
 		if (inputElement1 instanceof GeoSegment && inputElement2 instanceof GeoSegment) {
 			outputBoolean.setValue(ExpressionNodeEvaluator.evalEquals(kernel,
@@ -130,8 +131,6 @@ public class AlgoAreCongruent extends AlgoElement implements
 			return;
 		}
 		outputBoolean.setUndefinedProverOnly(); // Don't use this.
-		// FIXME: It seems once outputBoolean is changing to undefined,
-		// it remains undefined even if meanwhile it shouldn't.
 		// FIXME: Implement all missing cases.
 	}
 

@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.prover.AlgoAreCongruent;
-import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.main.App;
 
 /**
@@ -99,7 +98,6 @@ public class Assignment {
 
 	private Construction cons;
 
-	private AlgoAreEqual algoEqual;
 
 	private AlgoAreCongruent algoCongruent;
 
@@ -258,9 +256,7 @@ public class Assignment {
 					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
 					: Result.WRONG);
 		} else if (checkOp.equals("AreEqual")) {
-			algoEqual = new AlgoAreEqual(cons, macroOutput,
-					possibleOutput[i]);
-			partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
+			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
 					: Result.WRONG);
 		} else if (checkOp.equals("AreCongruent")) {
 			algoCongruent = new AlgoAreCongruent(cons, macroOutput,
@@ -312,7 +308,7 @@ public class Assignment {
 					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
 					: Result.WRONG_AFTER_RANDOMIZE);
 		} else if (checkOp.equals("AreEqual")) {
-			partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
+			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
 					: Result.WRONG);
 		} else if (checkOp.equals("AreCongruent")) {
 			partRes.add(algoCongruent.getResult().getBoolean() ? Result.CORRECT
