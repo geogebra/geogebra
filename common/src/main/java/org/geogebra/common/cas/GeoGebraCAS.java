@@ -364,7 +364,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					ValidExpression node = app.getKernel().getConstruction()
 							.geoCeListLookup(str);
 					// get variables of obtained equation
-					HashSet<GeoElement> varsFromEquOfCurrVars = node
+					HashSet<GeoElement> varsFromEquOfCurrVars = node == null ? new HashSet<GeoElement>()
+							: node
 							.getVariables();
 					HashSet<String> stringVarsFromEquOfCurrVars = new HashSet<String>(
 							varsFromEquOfCurrVars.size());

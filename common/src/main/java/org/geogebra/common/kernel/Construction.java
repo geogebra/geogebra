@@ -606,16 +606,17 @@ public class Construction {
 	 */
 	public ValidExpression geoCeListLookup(String label) {
 		for (int i = 0;i<ceList.size();i++) {
-			// get current cell
-			GeoCasCell currCell = (GeoCasCell) ceList.get(i);
-			// we found the equation
-			if (currCell.getInput(StringTemplate.defaultTemplate).startsWith(
-					label + "=")
-					&& ((ExpressionNode) currCell.getInputVE()).getLeft() instanceof Equation) {
-				// return the equation
-				return (ValidExpression) ((ExpressionNode) currCell
-						.getInputVE())
-						.getLeft();
+			if (ceList.get(i) instanceof GeoCasCell) {
+				// get current cell
+				GeoCasCell currCell = (GeoCasCell) ceList.get(i);
+				// we found the equation
+				if (currCell.getInput(StringTemplate.defaultTemplate)
+						.startsWith(label + "=")
+						&& ((ExpressionNode) currCell.getInputVE()).getLeft() instanceof Equation) {
+					// return the equation
+					return (ValidExpression) ((ExpressionNode) currCell
+							.getInputVE()).getLeft();
+				}
 			}
 		}
 		return null;
