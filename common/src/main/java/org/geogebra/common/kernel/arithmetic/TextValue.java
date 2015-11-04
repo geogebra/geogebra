@@ -21,5 +21,8 @@ public interface TextValue extends ExpressionValue {
 	 */
 	public MyStringBuffer getText();
 
+	/**
+	 * @return string value of this
+	 */
 	public String getTextString();
 }

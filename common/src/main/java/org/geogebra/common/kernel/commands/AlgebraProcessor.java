@@ -2839,6 +2839,10 @@ public class AlgebraProcessor {
 		this.disableGcd = disableGcd;
 	}
 
+	/**
+	 * Reinitialize the set of commands that can be handled after some commands
+	 * were disabled
+	 */
 	public void reinitCommands() {
 		if (this.cmdDispatcher != null) {
 			cmdDispatcher.initCmdTable();

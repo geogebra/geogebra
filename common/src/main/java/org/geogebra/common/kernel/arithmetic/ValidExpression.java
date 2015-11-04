@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Common class for objects obtained from the parser that are not yet processed
@@ -400,6 +401,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	protected static String print(ExpressionValue x2, boolean values,
 			StringTemplate tpl) {
 		if (values) {
+			Log.debug(x2);
+			Log.debug(x2.toValueString(tpl));
 			return x2.toValueString(tpl);
 		}
 		return x2.isGeoElement() ? ((GeoElement) x2).getLabel(tpl) : x2
@@ -461,12 +464,16 @@ public abstract class ValidExpression implements ExpressionValue {
 		});
 	}
 
+	/**
+	 * @param tpl
+	 *            template
+	 * @return string representation of this node
+	 */
 	public final String toString(GTemplate tpl) {
 		return toString(tpl.getTemplate());
 	}
 
 	public final boolean evaluatesToNonComplex2DVector() {
-		// TODO Auto-generated method stub
 		return getValueType() == ValueType.NONCOMPLEX2D;
 	}
 
@@ -475,17 +482,11 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	public final boolean evaluatesTo3DVector() {
-		// TODO Auto-generated method stub
 		return getValueType() == ValueType.VECTOR3D;
 	}
 
 	public final boolean evaluatesToList() {
-		// TODO Auto-generated method stub
 		return getValueType() == ValueType.LIST;
-	}
-
-	public final boolean evaluatesToMatrix() {
-		return getValueType() == ValueType.LIST && getListDepth() == 2;
 	}
 
 	public int getListDepth() {
@@ -493,7 +494,6 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	public boolean evaluatesToText() {
-		// TODO Auto-generated method stub
 		return getValueType() == ValueType.TEXT;
 	}
 

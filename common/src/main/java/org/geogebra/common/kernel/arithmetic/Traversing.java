@@ -436,15 +436,15 @@ public interface Traversing {
 		 *            kernel
 		 * @param undefined
 		 *            list of undefined vars (write only)
-		 * @param replaceT
-		 *            whether to replace "t" or not
+		 * @param skip
+		 *            list of labels to skip
 		 * 
 		 */
 		public ReplaceUndefinedVariables(Kernel kernel,
-				TreeSet<GeoNumeric> undefined, String[] except) {
+				TreeSet<GeoNumeric> undefined, String[] skip) {
 			this.kernel = kernel;
 			this.undefined = undefined;
-			this.except = except;
+			this.except = skip;
 		}
 
 		public ExpressionValue process(ExpressionValue ev) {

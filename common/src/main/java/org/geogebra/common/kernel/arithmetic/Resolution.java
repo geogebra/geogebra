@@ -6,19 +6,34 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Fake expression value for storing the result type in expression node
+ *
+ */
 public class Resolution implements ExpressionValue {
 
 	private ValueType type;
 	private int listDepth = 0;
 
+	/**
+	 * New resolution
+	 */
 	public Resolution() {
 
 	}
 
+	/**
+	 * @param listDepth
+	 *            depth of nested lists
+	 */
 	public void setListDepth(int listDepth) {
 		this.listDepth = listDepth;
 	}
 
+	/**
+	 * @param type
+	 *            result type
+	 */
 	public void setType(ValueType type) {
 		this.type = type;
 	}

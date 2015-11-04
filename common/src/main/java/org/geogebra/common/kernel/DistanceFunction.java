@@ -7,6 +7,10 @@ public interface DistanceFunction extends RealRootFunction {
 
 	double evaluate(double pathParam);
 
+	/**
+	 * @param p
+	 *            distant point
+	 */
 	void setDistantPoint(GeoPointND p);
 
 }

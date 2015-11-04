@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.Traceable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -31,7 +30,9 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 
 	/** coordinates  functions */
 	protected final Function[] fun;
+	/** coordinates with expanded function references */
 	protected final Function[] funExpanded;
+	/** flag for each coordinate whether it depends on a function */
 	protected final boolean[] containsFunctions;
 	/** derivative  functions */
 	protected Function[] funD1;
@@ -44,6 +45,10 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 
 	/** flag for isDefined()*/
 	protected boolean isDefined = true;
+	/**
+	 * distFun(t) evaluates distance this(t) to a distant point (attribute of
+	 * the distFun)
+	 */
 	protected DistanceFunction distFun;
 
 	private ExpressionNode point;
@@ -404,7 +409,6 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	}
 
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		App.printStacktrace("CURVE LATEX");
 		if (this.isDefined) {
 			StringBuilder sbTemp =
 					new StringBuilder(80);

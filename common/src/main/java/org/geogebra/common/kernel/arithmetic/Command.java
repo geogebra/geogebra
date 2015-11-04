@@ -544,20 +544,6 @@ public class Command extends ValidExpression implements
 		return lastType;
 	}
 
-	public boolean evaluatesToNonComplex2DVectorX() {
-		if (!allowEvaluationForTypeCheck) {
-			return false;
-		}
-		try {
-			return evaluate(StringTemplate.defaultTemplate) instanceof VectorValue;
-		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
-					.evaluateToExpression(this, null, kernel);
-			if (ev != null)
-				return ev.unwrap().evaluatesToNonComplex2DVector();
-			throw ex;
-		}
-	}
 
 	@Override
 	public boolean evaluatesToVectorNotPoint() {
@@ -629,26 +615,6 @@ public class Command extends ValidExpression implements
 	@Override
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
-	}
-
-	public boolean evaluatesToListX() {
-		if ("x".equals(getName()) || "y".equals(getName())
-				|| "z".equals(getName()) || "If".equals(getName())) {
-			return this.getArgument(0).evaluatesToList();
-		}
-		if (!allowEvaluationForTypeCheck) {
-			return false;
-		}
-		try {
-			return evaluate(StringTemplate.defaultTemplate) instanceof ListValue;
-		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
-					.evaluateToExpression(this, null, kernel);
-			if (ev != null)
-				return ev.unwrap() instanceof ListValue;
-			throw ex;
-		}
-
 	}
 
 	@Override

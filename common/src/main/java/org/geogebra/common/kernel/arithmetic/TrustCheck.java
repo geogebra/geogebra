@@ -1,5 +1,10 @@
 package org.geogebra.common.kernel.arithmetic;
 
+/**
+ * Result of trust check on an expression node, see AlgoDependentBoolean
+ * 
+ * @author Csilla, Zbynek
+ */
 public class TrustCheck {
 	/** true if the expression contains only segments in even power */
 	private boolean trustable = false;

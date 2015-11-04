@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -29,15 +28,45 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Processing
+ * 
+ * f(a)=(a,a) X=(a,a) (t,t)
+ *
+ */
 public class ParametricProcessor {
+	/**
+	 * kernel
+	 */
 	protected Kernel kernel;
+	/**
+	 * Algebra processor
+	 */
 	protected AlgebraProcessor ap;
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param ap
+	 *            algebra processor
+	 */
 	public ParametricProcessor(Kernel kernel, AlgebraProcessor ap) {
 		this.kernel = kernel;
 		this.ap = ap;
 	}
 
+	/**
+	 * @param ve0
+	 *            expression; should have label X or contain t, theta (also
+	 *            equations X=... handled here for some reason)
+	 * @param undefinedVariables
+	 *            list of names of undefined variables
+	 * @param autocreateSliders
+	 *            whether to create sliders
+	 * @param callback
+	 *            call this after sliders are created
+	 * @return resulting elements
+	 */
 	GeoElement[] checkParametricEquation(ValidExpression ve0,
 			TreeSet<String> undefinedVariables, boolean autocreateSliders,
 			AsyncOperation callback) {
@@ -67,13 +96,12 @@ public class ParametricProcessor {
 		}
 		if (parametricExpression) {
 			try {
+				FunctionVariable fv = new FunctionVariable(kernel, varName);
 				if (varName.equals(Unicode.thetaStr)
 						&& ve0.evaluatesToNumber(true)) {
-					ve = new MyVecNode(kernel, ve0, new Variable(kernel,
-							Unicode.thetaStr));
+					ve = new MyVecNode(kernel, ve0, fv.wrap());
 					((MyVecNode) ve).setMode(Kernel.COORD_POLAR);
 				}
-				FunctionVariable fv = new FunctionVariable(kernel, varName);
 				ExpressionNode exp = ve
 						.deepCopy(kernel)
 						.traverse(
@@ -83,7 +111,6 @@ public class ParametricProcessor {
 				GeoElement[] ret = processParametricFunction(exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
 						new FunctionVariable[] { fv }, null);
-				App.debug("AUTOCREATE" + autocreateSliders);
 				if (ret != null && (num.isEmpty() || autocreateSliders)) {
 					return ret;
 				}
@@ -94,7 +121,7 @@ public class ParametricProcessor {
 			removeSliders(num, undefinedVariables);
 
 		} else if (parametricEquation) {
-			App.printStacktrace("EQUATION");
+			App.debug("EQUATION");
 			try {
 
 				FunctionVariable fv = new FunctionVariable(kernel, varName);
@@ -122,7 +149,7 @@ public class ParametricProcessor {
 		return null;
 	}
 	
-	private String getPreferredName(TreeSet<String> undefinedVariables) {
+	private static String getPreferredName(TreeSet<String> undefinedVariables) {
 		Iterator<String> t = undefinedVariables.iterator();
 
 		String varName = t.next();
@@ -138,7 +165,7 @@ public class ParametricProcessor {
 		return varName;
 	}
 
-	private void removeSliders(TreeSet<GeoNumeric> num,
+	private static void removeSliders(TreeSet<GeoNumeric> num,
 			TreeSet<String> undefined) {
 		for (GeoNumeric slider : num) {
 			slider.remove();
@@ -315,6 +342,15 @@ public class ParametricProcessor {
 
 	}
 
+	/**
+	 * Creates a number and replaces all occurences of the variable with it
+	 * 
+	 * @param exp
+	 *            expression
+	 * @param fv
+	 *            function variable
+	 * @return numeric that replaces the variable
+	 */
 	protected GeoNumeric getLocalVar(ExpressionNode exp, FunctionVariable fv) {
 		GeoNumeric locVar = new GeoNumeric(kernel.getConstruction());
 		locVar.setLocalVariableLabel(fv.getSetVarString());
@@ -327,6 +363,8 @@ public class ParametricProcessor {
 	 *            expression that might be RHS of parametric equation, eg (t,t)
 	 * @param fallback
 	 *            what to return if ve is not parametric equation
+	 * @param cons
+	 *            construction
 	 * @return parametric curve (or line, conic) or fallback
 	 */
 	public ValidExpression checkParametricEquationF(ValidExpression ve,
@@ -361,11 +399,16 @@ public class ParametricProcessor {
 		return fallback;
 	}
 
+	/**
+	 * @param equ
+	 *            aquation with X on LHS
+	 * @return parametric curve if possible
+	 */
 	public GeoElement[] processXEquation(Equation equ) {
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		equ.traverse(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
-		String varName = this.getPreferredName(undefinedVariables);
+		String varName = getPreferredName(undefinedVariables);
 		FunctionVariable fv = new FunctionVariable(kernel, varName);
 		ExpressionNode exp = equ.getRHS().deepCopy(kernel)
 				.traverse(VariableReplacer.getReplacer(varName, fv, kernel))
