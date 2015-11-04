@@ -48,12 +48,12 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
-	private static final int OPTIONSBOX_ITEM_GAP = 5;
+	private static final int OPTIONSBOX_ITEM_GAP = 10;
 	private static final int OPTIONSBOX_LATEX_PLAIN_GAP = 12;
 	private static final int COMBO_TEXT_MARGIN = 5;
 	private static final int OPTIONBOX_TEXT_MARGIN_TOP = 18;
 	private static final int OPTIONBOX_TEXT_MARGIN_LEFT = 5;
-	private static final int OPTIONBOX_COMBO_GAP = 0;
+	private static final int OPTIONBOX_COMBO_GAP = 5;
 	private static final int LABEL_COMBO_GAP = 10;
 	private static final int TEXT_CENTER = -1;
 	/** coresponding list as geo */
@@ -629,8 +629,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private void drawOptions(GGraphics2D g2) {
 
 		g2.setPaint(geoList.getBackgroundColor());
-		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
-
+		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP
+				+ (int) optionItems.get(0).getBounds().getY();
 		int viewBottom = view.getViewHeight();
 		if (optTop + optionsHeight > viewBottom) {
 			App.debug("[DROPDOWN] offscreen: adjusting.");
@@ -746,7 +746,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				itemRect.setBounds(boxLeft, rowTop, boxWidth, h);
 			} else {
 				itemRect.setBounds(boxLeft, rowTop - h, boxWidth,
-						h + getPlainItemGap());
+						h + getPlainItemGap() + OPTIONSBOX_ITEM_GAP);
 
 			}
 			optionItems.add(itemRect);
