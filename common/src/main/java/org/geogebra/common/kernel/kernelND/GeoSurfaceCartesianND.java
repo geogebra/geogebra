@@ -256,7 +256,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 		if (isDefined) {
 			StringBuilder	sbTemp = new StringBuilder(80);
 			
-			sbTemp.setLength(0);
+			if (point == null) {
 			sbTemp.append("\\left(\\begin{array}{c}");
 			
 			for (int i=0; i< fun.length;i++){
@@ -266,6 +266,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 				}
 			
 			sbTemp.append("\\end{array}\\right)");
+			} else {
+				sbTemp.append(point.toLaTeXString(symbolic, tpl));
+			}
 			return sbTemp.toString();
 		}
 		return "?";
@@ -273,6 +276,11 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	
 	@Override
 	public boolean isGeoSurfaceCartesian() {
+		return true;
+	}
+
+	@Override
+	public boolean isLaTeXDrawableGeo() {
 		return true;
 	}
 

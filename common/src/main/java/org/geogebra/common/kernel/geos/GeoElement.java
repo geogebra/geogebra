@@ -5019,6 +5019,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		else if ((algebraDesc.indexOf("=") > -1) && !geo.isGeoText()) {
 			sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
+			App.debug("ALGEBRA TEX" + sb.toString());
 		} else if(geo.isGeoVector()) {
 			sb.append(label);
 			sb.append("\\, = \\,");
@@ -6754,6 +6755,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		else if (isGeoCurveCartesian()
 				&& tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers,tpl);
+		} else if (isGeoSurfaceCartesian() && tpl.hasType(StringType.LATEX)) {
+			ret = toLaTeXString(!substituteNumbers, tpl);
 		} else {
 			ret = substituteNumbers ? toValueString(tpl) : getCommandDescription(tpl);
 		}

@@ -918,11 +918,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		this.setInterval(0, nonzeroSegments);
 	}
 
-	@Override
-	public boolean isLaTeXDrawableGeo() {
-		return true;
-	}
-
 	/**
 	 * @return x-function
 	 */
