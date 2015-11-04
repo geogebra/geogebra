@@ -3,6 +3,7 @@ package org.geogebra.desktop.geogebra3D.input3D;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.InputIntelRealsense3D;
 import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.Socket;
+import org.geogebra.desktop.geogebra3D.input3D.zspace.InputZSpace3D;
 
 /**
  * Factory to create the proper 3D input
@@ -58,7 +59,14 @@ public class Input3DFactory {
 
 		return null;
 
-		// return new InputZSpace3D(); // use this for zspace
+	}
+
+	/**
+	 * 
+	 * @return input 3D instance for zspace
+	 */
+	static public Input3D createInputZSpace3D() {
+		return new InputZSpace3D(); // use this for zspace
 	}
 
 	/**
