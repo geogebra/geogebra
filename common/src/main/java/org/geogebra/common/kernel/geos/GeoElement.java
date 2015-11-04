@@ -5019,7 +5019,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		else if ((algebraDesc.indexOf("=") > -1) && !geo.isGeoText()) {
 			sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
-			App.debug("ALGEBRA TEX" + sb.toString());
 		} else if(geo.isGeoVector()) {
 			sb.append(label);
 			sb.append("\\, = \\,");
