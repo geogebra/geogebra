@@ -146,8 +146,18 @@ model {
         icas(NativeExecutableSpec) {
             binaries.all {
                 lib library: 'giac', linkage: 'static'
-                linker.args '-lgmp', '-lpthread'
+                linker.args '-lgmp', '-lmpfr', '-lpthread'
+                cppCompiler.define 'IN_GIAC'
+                cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
+        	cppCompiler.define 'HAVE_CONFIG_H'
+                cppCompiler.define 'HAVE_UNISTD_H'
         	}
+            sources.all {
+                source {
+                    srcDirs 'src/giac/cpp', 'src/icas/cpp'
+            	    }
+		}
+
         }
 
         javagiac(NativeLibrarySpec) {
@@ -162,8 +172,6 @@ model {
             sources.cpp {
                 source {
                     srcDirs 'src/giac/cpp', 'src/jni/cpp'
-                    exclude '**/first.cc', '**/firstcc.cc', '**/hello.cc', // consider removing them from SVN
-                        '**/freeglut*.c*', '**/opengl.cc'
             	}
                 exportedHeaders {
                     srcDirs 'src/giac/headers', 'src/jni/jdkHeaders'
@@ -350,7 +358,7 @@ task emccCompile {
     def list = []
     FileTree files = fileTree(dir: 'src/giac/cpp')
     files.visit { f ->
-	if (f.name.endsWith('.cc') && !f.name.startsWith("first") && !f.name.startsWith("hello") && !f.name.startsWith("opengl")) {
+	if (f.name.endsWith('.cc')) {
     	    def emccCompileTask = 'emccCompile_' + f.name - '.cc' + 'Cc'
 	    list << emccCompileTask
 	    }
@@ -365,13 +373,11 @@ task emccGiacJs (dependsOn: 'emccCompile') {
     def inputInclude = []
     FileTree files = fileTree(dir: 'build/objs/giac.js')
     files.visit { f ->
-	if (!f.name.startsWith("first") && !f.name.startsWith("hello") && !f.name.startsWith("opengl")) { // consider completely removing first*.cc and hello.cc
-    	    def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
-	    inputInclude << f.name
-	    inputInclude << ('src/giac/cpp/' + f.name - '.o' + '.cc')
-	    list << emccCompileTask
-	    linkerArgs << "build/objs/giac.js/${f.name}"
-	    }
+    	def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
+	inputInclude << f.name
+	inputInclude << ('src/giac/cpp/' + f.name - '.o' + '.cc')
+	list << emccCompileTask
+	linkerArgs << "build/objs/giac.js/${f.name}"
 	}
     def output = "build/binaries/giacggb.js/giacggb.js"
     inputs.files inputInclude

@@ -1,0 +1,18 @@
+This tutorial explains how to create a command line driven Linux version
+of Giac. The steps have been tested under Linux Mint 17.2.
+
+Prerequisites
+-------------
+
+1. Install packages build-essential, libgmp-dev and libmpfr-dev.
+
+2. Enter
+
+   $ ../gradlew run
+
+3. After a successful compilation you should see something like
+
+   Enter 0 to stop
+   > Building 85% > :run
+
+   Here you can type some examples. Typing 0 and pressing ENTER will quit.
