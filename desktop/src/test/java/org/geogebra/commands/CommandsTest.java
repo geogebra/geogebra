@@ -91,6 +91,7 @@ public class CommandsTest extends Assert{
 	@Before
 	public void resetSyntaxes(){
 		syntaxes = -1000;
+		app.getKernel().clearConstruction(true);
 	}
 	@After
 	public void checkSyntaxes(){
