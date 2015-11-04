@@ -12,8 +12,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * Arbitrary constant comming from reduce
- *
+ * Arbitrary constant comming from native CAS
+ * 
+ * Each scope (cas cell or CAS using algo) should have an own instance of this
+ * class
  */
 public class MyArbitraryConstant {
 	/** arbitrary integer */
@@ -75,9 +77,30 @@ public class MyArbitraryConstant {
 				"c", myDouble);
 	}
 
-	private ExpressionValue nextConst(ArrayList<GeoNumeric> consts2,
-			Map<Integer, GeoNumeric> map, String prefix, double myDouble) {
-		Integer index = new Integer((int) Math.round(myDouble));
+	/**
+	 * Returns a number for this scope that corresponds to given native index
+	 * 
+	 * @param consts2
+	 *            all constants of given type (integer / real / complex) in this
+	 *            scope cached from last computation
+	 * 
+	 * @param map
+	 *            maps geo labels to constants in the whole construction
+	 * @param prefix
+	 *            prefix fro this constant type: c for real / complex, k for
+	 *            integer
+	 * @param index
+	 *            index we got from native CAS, we assume it's getting bigger
+	 *            with each computation but two constants with the same name
+	 *            always refer to the same number eg
+	 *            {x+arbonst(10),2x+arbconst(10)+arbconst(9)}
+	 * @return element of consts2; if one with a given index already exists in
+	 *         map take that one, otherwise pick the next one from consts2 (or
+	 *         create one if there are not enough)
+	 */
+	protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
+			Map<Integer, GeoNumeric> map, String prefix, double index) {
+		Integer indexInt = new Integer((int) Math.round(index));
 		GeoNumeric found = map.get(index);
 		if (found != null)
 			return found;
@@ -94,11 +117,11 @@ public class MyArbitraryConstant {
 			c.removeFromConstructionList(algo);
 			consts2.add(position, add);
 			position++;
-			map.put(index, add);
+			map.put(indexInt, add);
 			return add;
 		}
 		GeoNumeric ret = consts2.get(position);
-		map.put(index, ret);
+		map.put(indexInt, ret);
 		position++;
 		return ret;
 	}
