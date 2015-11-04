@@ -286,12 +286,10 @@ public abstract class EuclidianStatic {
 		// use latex by default just if there is just a single element
 		boolean isLaTeX = (elements.length == 1);
 
+
 		// calculate the required space of every element
 		for (int i = 0, currentLine = 0; i < elements.length; ++i) {
-			// in web some blocks may be null due to the replacement of split
-			if (elements[i] == null) {
-				continue;
-			}
+
 			if (isLaTeX) {
 				// save the height of this element by drawing it to a temporary
 				// buffer
@@ -308,8 +306,9 @@ public abstract class EuclidianStatic {
 				elementHeights.add(new Integer(height));
 
 				// check if this element is taller than every else in the line
-				if (height > (lineHeights.get(currentLine)).intValue())
+				if (height > (lineHeights.get(currentLine)).intValue()) {
 					lineHeights.set(currentLine, new Integer(height));
+				}
 			} else {
 				elements[i] = elements[i].replaceAll("\\\\\\$", "\\$");
 				String[] lines = elements[i].split("\\n", -1);
@@ -406,8 +405,14 @@ public abstract class EuclidianStatic {
 
 	}
 
-	protected String[] blockSplit(String labelDesc) {
-		String[] ret = labelDesc.split("\\$", -1);
+	/**
+	 * 
+	 * @param str
+	 *            String to split
+	 * @return str split on $ but not \$
+	 */
+	private String[] blockSplit(String str) {
+		String[] ret = str.split("\\$", -1);
 		for (int i = 0; i < ret.length; i++) {
 			int slashes = 0;
 			while (ret[i].length() > slashes
@@ -424,6 +429,27 @@ public abstract class EuclidianStatic {
 				}
 			}
 		}
+
+		ArrayList<String> retAl = new ArrayList<String>();
+
+		// make sure we don't return any null values
+		// eg FormulaText["\text{Price (\$)}"]
+		for (int i = 0; i < ret.length; i++) {
+			if (ret[i] != null) {
+				retAl.add(ret[i]);
+			}
+		}
+
+		// same length, no need to remove nulls
+		if (ret.length == retAl.size()) {
+			return ret;
+		}
+
+		ret = new String[retAl.size()];
+		for (int i = 0; i < retAl.size(); i++) {
+			ret[i] = retAl.get(i);
+		}
+
 		return ret;
 	}
 
