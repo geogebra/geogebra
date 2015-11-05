@@ -15,38 +15,70 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.Unicode;
 
+/**
+ * 3D line
+ */
 public class GeoLine3D extends GeoCoordSys1D {
 
 	private String parameter = Unicode.lambda + "";
 
-	/** creates a line joining O and I */
+	/**
+	 * creates a line joining O and I
+	 * 
+	 * @param c
+	 *            construction
+	 * @param O
+	 *            start point
+	 * @param I
+	 *            end point
+	 */
 	public GeoLine3D(Construction c, GeoPointND O, GeoPointND I) {
 		super(c, O, I);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public GeoLine3D(Construction c) {
 		this(c, false);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param isIntersection
+	 *            flag for intersection lines
+	 */
 	public GeoLine3D(Construction c, boolean isIntersection) {
 		super(c, isIntersection);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param o
+	 *            start point
+	 * @param v
+	 *            diection
+	 */
 	public GeoLine3D(Construction c, Coords o, Coords v) {
 		super(c, o, v);
 	}
 
+	@Override
 	public void setToParametric(String s) {
 		this.parameter = s;
 	}
 
+	@Override
 	public final void setStartPoint(GeoPointND P) {
 		startPoint = P;
 	}
 
 	@Override
-	protected GeoCoordSys1D create(Construction cons) {
-		return new GeoLine3D(cons);
+	protected GeoCoordSys1D create(Construction cons1) {
+		return new GeoLine3D(cons1);
 	}
 
 	@Override
@@ -208,18 +240,22 @@ public class GeoLine3D extends GeoCoordSys1D {
 
 	// Path3D interface
 
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
 
+	@Override
 	public double getMaxParameter() {
 		return Double.POSITIVE_INFINITY;
 	}
 
+	@Override
 	public double getMinParameter() {
 		return Double.NEGATIVE_INFINITY;
 	}
 
+	@Override
 	public boolean isClosedPath() {
 		// TODO Auto-generated method stub
 		return false;
@@ -230,11 +266,13 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return true;
 	}
 
+	@Override
 	public final void removePointOnLine(GeoPointND p) {
 		// TODO
 	}
 
-	public boolean respectLimitedPath(double parameter) {
+	@Override
+	public boolean respectLimitedPath(double param) {
 		return true;
 	}
 
@@ -363,11 +401,18 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return HitType.ON_BOUNDARY;
 	}
 
+	@Override
 	public boolean isParametric() {
 		return true;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC3D;
+	}
+
+	@Override
+	public Boolean isCongruent(GeoElement geo) {
+		return geo.isGeoLine();
 	}
 }

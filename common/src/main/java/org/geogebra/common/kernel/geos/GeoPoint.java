@@ -2609,4 +2609,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return getMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX
 				: ValueType.NONCOMPLEX2D;
 	}
+
+	@Override
+	public Boolean isCongruent(GeoElement geo) {
+		return geo.isGeoPoint();
+	}
 }

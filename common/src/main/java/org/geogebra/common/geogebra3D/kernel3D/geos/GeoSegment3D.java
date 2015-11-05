@@ -546,4 +546,11 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	public final void setStartPoint(GeoPointND P) {
 		startPoint = P;
 	}
+
+	@Override
+	public Boolean isCongruent(GeoElement geo) {
+		return geo.isGeoSegment()
+				&& Kernel
+						.isEqual(getLength(), ((GeoSegmentND) geo).getLength());
+	}
 }

@@ -1707,4 +1707,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return getMode() == GeoLine.PARAMETRIC ? ValueType.PARAMETRIC2D
 				: ValueType.EQUATION;
 	}
+
+	@Override
+	public Boolean isCongruent(GeoElement geo) {
+		return geo.isGeoLine();
+	}
 }

@@ -36,7 +36,8 @@ public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 		update();
 	}
 
-	AlgoAnglePolygon(Construction cons, GeoPolygon p, GeoDirectionND orientation) {
+	public AlgoAnglePolygon(Construction cons, GeoPolygon p,
+			GeoDirectionND orientation) {
 		super(cons);
 		setPolyAndOrientation(p, orientation);
 		algoAngle = newAlgoAnglePoints(cons);

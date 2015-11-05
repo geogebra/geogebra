@@ -971,11 +971,13 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	}
 
 	/**
-	 * @param polygon
+	 * @param geo
 	 *            input
 	 * @return true - if input is congruent with this polygon false - otherwise
 	 */
-	public boolean isCongruent(GeoPolygon polygon) {
+	@Override
+	public Boolean isCongruent(GeoElement geo) {
+		GeoPolygon polygon = (GeoPolygon) geo;
 		// Polygons:
 		// two polygon are congruent if the corresponding sides has same length
 		// and corresponding angles has same size
@@ -986,8 +988,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		if (nrSidesPoly1 == nrSidesPoly2 && (this).hasSameArea(polygon)) {
 			GeoSegmentND[] segmentsPoly1 = this.getSegments();
 			GeoSegmentND[] segmentsPoly2 = polygon.getSegments();
-			AlgoAnglePolygonND algo1 = new AlgoAnglePolygon(cons, null, this);
-			AlgoAnglePolygonND algo2 = new AlgoAnglePolygon(cons, null, polygon);
+			AlgoAnglePolygonND algo1 = new AlgoAnglePolygon(cons, this, null);
+			AlgoAnglePolygonND algo2 = new AlgoAnglePolygon(cons, polygon, null);
 			GeoElement[] anglesPoly1 = algo1.getAngles();
 			GeoElement[] anglesPoly2 = algo2.getAngles();
 			int nrOfShifts = 0;

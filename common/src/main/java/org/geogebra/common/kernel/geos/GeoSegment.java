@@ -823,7 +823,12 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		return algo.getSegment();
 	}
 	
-
+	@Override
+	public Boolean isCongruent(GeoElement geo) {
+		return geo.isGeoSegment()
+				&& Kernel
+						.isEqual(getLength(), ((GeoSegmentND) geo).getLength());
+	}
 
 
 }

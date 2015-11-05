@@ -78,6 +78,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 *            x-coord function
 	 * @param fy
 	 *            y-coord function
+	 * @param point
+	 *            point expression
 	 */
 	public GeoCurveCartesian(Construction c, Function fx, Function fy,
 			ExpressionNode point) {

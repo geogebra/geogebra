@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.Test;
-import org.geogebra.common.kernel.prover.AlgoAreCongruent;
 import org.geogebra.common.main.App;
 
 /**
@@ -99,7 +98,6 @@ public class Assignment {
 	private Construction cons;
 
 
-	private AlgoAreCongruent algoCongruent;
 
 	/**
 	 * @param macro
@@ -259,9 +257,7 @@ public class Assignment {
 			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
 					: Result.WRONG);
 		} else if (checkOp.equals("AreCongruent")) {
-			algoCongruent = new AlgoAreCongruent(cons, macroOutput,
-					possibleOutput[i]);
-			partRes.add(algoCongruent.getResult().getBoolean() ? Result.CORRECT
+			partRes.add(boolVal(macroOutput.isCongruent(possibleOutput[i])) ? Result.CORRECT
 					: Result.WRONG);
 		}
 		callsToEqual++;
@@ -288,6 +284,10 @@ public class Assignment {
 		}
 	}
 
+	private static boolean boolVal(Boolean congruent) {
+		return congruent != null && congruent;
+	}
+
 	private boolean doProbabilisticChecking(GeoElement geoToRandomize,
 			GeoElement macroOutput, GeoElement[] possibleOutput, int i,
 			TreeSet<Result> partRes, boolean mayAdjustMoveableOutputs) {
@@ -311,7 +311,7 @@ public class Assignment {
 			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
 					: Result.WRONG);
 		} else if (checkOp.equals("AreCongruent")) {
-			partRes.add(algoCongruent.getResult().getBoolean() ? Result.CORRECT
+			partRes.add(macroOutput.isCongruent(possibleOutput[i]) ? Result.CORRECT
 					: Result.WRONG);
 		}
 		callsToEqual++;

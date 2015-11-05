@@ -4241,6 +4241,14 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 	}
 
+	/**
+	 * only add predecessors that satisfy a condition
+	 * 
+	 * @param set
+	 *            output set
+	 * @param check
+	 *            condition
+	 */
 	final public void addPredecessorsToSet(final TreeSet<GeoElement> set,
 			final Inspecting check) {
 		if (algoParent == null) {
@@ -6168,9 +6176,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
-	public final boolean isPolynomialInstance() {
-		return false;
-	}
 
 	public boolean evaluatesToText() {
 		return false;
@@ -6300,11 +6305,16 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Translates all GeoElement objects in geos by a vector in real world
 	 * coordinates or by (xPixel, yPixel) in screen coordinates.
 	 * 
-	 * @param geosToMove geos to be moved
-	 * @param rwTransVec translation vector
+	 * @param geosToMove
+	 *            geos to be moved
+	 * @param rwTransVec
+	 *            translation vector
 	 * @param endPosition
 	 *            end position; may be null
-	 * @param viewDirection direction of view
+	 * @param viewDirection
+	 *            direction of view
+	 * @param view
+	 *            euclidian view
 	 * @return true if something was moved
 	 */
 	public static boolean moveObjects(ArrayList<GeoElement> geosToMove,
@@ -7195,12 +7205,17 @@ public abstract class GeoElement extends ConstructionElement implements
 		
 	}
 
+	/**
+	 * For 3D / plane view visiblity where we need a default value
+	 *
+	 */
 	protected enum VisibleInView {
 		NOT_SET, TRUE, FALSE
 	}
 
+	/** Flag for visibility in 3D view(s) */
 	protected VisibleInView visibleInView3D = VisibleInView.NOT_SET;
-
+	/** Flag for visibility in plane view(s) */
 	private VisibleInView visibleInViewForPlane = VisibleInView.NOT_SET;
 
 	/**
@@ -8007,4 +8022,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		this.labelWanted = b;
 	}
 
+	/**
+	 * 
+	 * @param geo
+	 *            other geo
+	 * @return wheter this and geo are congruent
+	 */
+	public Boolean isCongruent(GeoElement geo) {
+		return isEqual(geo) ? true : null;
+	}
 }

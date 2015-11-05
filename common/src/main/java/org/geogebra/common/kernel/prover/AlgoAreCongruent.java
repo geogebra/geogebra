@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -18,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
@@ -100,38 +98,14 @@ public class AlgoAreCongruent extends AlgoElement implements
 
 	@Override
 	public final void compute() {
-		outputBoolean.setDefined();
-		// Segments are congruent if they are of equal length:
-		if (inputElement1 instanceof GeoSegment && inputElement2 instanceof GeoSegment) {
-			outputBoolean.setValue(ExpressionNodeEvaluator.evalEquals(kernel,
-				inputElement1, inputElement2).getBoolean());
-			return;
-		}
-		// Lines/points are always congruent:
-		if ((inputElement1 instanceof GeoLine && inputElement2 instanceof GeoLine) ||
-				(inputElement1 instanceof GeoPoint && inputElement2 instanceof GeoPoint)) {
-			outputBoolean.setValue(true);
-			return;
-		}
-		// Conics: 
-		if (inputElement1 instanceof GeoConic && inputElement2 instanceof GeoConic) {
-			outputBoolean.setValue(((GeoConic) inputElement1)
-					.isCongruent((GeoConic) inputElement2));
-			return;
-		}
-		// Polygons:
-		if (inputElement1.isGeoPolygon() && inputElement2.isGeoPolygon()) {
-			outputBoolean.setValue(((GeoPolygon) inputElement1)
-					.isCongruent((GeoPolygon) inputElement2));
-			return;
-		}
 
-		if (inputElement1.isEqual(inputElement2)) {
-			outputBoolean.setValue(true);
-			return;
+		Boolean congruent = inputElement1.isCongruent(inputElement2);
+		if (congruent != null) {
+			outputBoolean.setDefined();
+			outputBoolean.setValue(congruent);
+		} else {
+			outputBoolean.setUndefinedProverOnly();
 		}
-		outputBoolean.setUndefinedProverOnly(); // Don't use this.
-		// FIXME: Implement all missing cases.
 	}
 
 	public SymbolicParameters getSymbolicParameters() {
