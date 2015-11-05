@@ -531,8 +531,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			textBottom = boxTop
 					+ (boxHeight - selectedDimension.getHeight()) / 2;
 		} else {
-			int base = (boxHeight + getTextDescent(g2, selectedText)) / 2;
-			textBottom = boxTop + base + (boxHeight - base) / 2;
+			textBottom = alignTextToBottom(g2, boxTop, boxHeight, selectedText);
 		}
 
 		drawTextLine(g2, textLeft, textBottom, selectedText, latex, false,
@@ -549,9 +548,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
-	private static int getTextDescent(GGraphics2D g2, String string) {
-		return (int) AwtFactory.prototype.newTextLayout(string, g2.getFont(),
-				g2.getFontRenderContext()).getDescent();
+	private int alignTextToBottom(GGraphics2D g2, int top, int height,
+			String text) {
+		int base = (height + getTextDescent(g2, selectedText)) / 2;
+		return top + base + (height - base) / 2;
+
 	}
 
 	@Override
@@ -741,6 +742,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			if (i == 0 && !latex) {
 				rowTop += OPTIONBOX_TEXT_MARGIN_TOP + getPlainItemGap()
 						+ getFontDiff();
+
 			}
 			GDimension d = drawTextLine(g2, TEXT_CENTER, rowTop, text, latex,
 					true,

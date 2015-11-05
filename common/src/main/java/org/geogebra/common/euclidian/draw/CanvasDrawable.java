@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.javax.swing.GBox;
@@ -144,6 +145,18 @@ public abstract class CanvasDrawable extends Drawable {
 
 		}
 
+	}
+
+	protected int getFullTextHeight(GGraphics2D g2, String text) {
+		GTextLayout layout = g2.getFontRenderContext().getTextLayout(text,
+				labelFont);
+		return (int) (layout.getBounds().getHeight() + layout.getDescent());
+	}
+
+	protected int getTextDescent(GGraphics2D g2, String text) {
+		GTextLayout layout = g2.getFontRenderContext().getTextLayout(text,
+				labelFont);
+		return (int) (layout.getDescent());
 	}
 
 	protected abstract void drawWidget(GGraphics2D g2);
