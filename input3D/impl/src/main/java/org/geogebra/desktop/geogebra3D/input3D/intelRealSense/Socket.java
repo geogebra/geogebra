@@ -497,7 +497,8 @@ public class Socket {
 
 		if (!connected) {
 			throw new Input3DException(Input3DExceptionType.RUN,
-					"RealSense: not connected");
+					"RealSense: not connected ("
+							+ (sts == null ? "no state" : sts.name() + ")"));
 		}
 		
 		Log.debug("RealSense: connected");
