@@ -105,7 +105,8 @@ public class SliderModel extends OptionsModel {
 				listener.setMinText(kernel.formatAngle(num0.getIntervalMin(),
 						highPrecision, true).toString());
 			} else
-				listener.setMinText(min0.getLabel(highPrecision));
+				listener.setMinText(num0.getIntervalMinObject().getLabel(
+						highPrecision));
 		} else {
 			listener.setMinText("");
 		}
@@ -118,7 +119,8 @@ public class SliderModel extends OptionsModel {
 				listener.setMaxText(kernel.formatAngle(num0.getIntervalMax(),
 						highPrecision, true).toString());
 			else
-				listener.setMaxText(max0.getLabel(highPrecision));
+				listener.setMaxText(num0.getIntervalMaxObject().getLabel(
+						highPrecision));
 		} else {
 			listener.setMaxText("");
 		}

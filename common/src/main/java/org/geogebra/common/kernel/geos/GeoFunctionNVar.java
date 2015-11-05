@@ -222,7 +222,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		if (functionExpander == null) {
 			functionExpander = new FunctionExpander();
 		}
-		ValidExpression ve = (ValidExpression) fun.deepCopy(getKernel());
+		ValidExpression ve = fun.deepCopy(getKernel());
 		ve = (ValidExpression) ve.traverse(functionExpander);
 		for (int i = 0; i < vars.length; i++) {
 			fun1[i] = new FunctionNVar(ve.derivative(vars[i], kernel).wrap(), vars);
@@ -895,7 +895,12 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		return hasLastHitParameters;
 	}
 
-	public static int DICHO_FIRST = 0, DICHO_LAST = 1, DICHO_MID = 2;
+	/** helper for pointin region dichotomy */
+	public static int DICHO_FIRST = 0;
+	/** helper for pointin region dichotomy */
+	public static int DICHO_LAST = 1;
+	/** helper for pointin region dichotomy */
+	public static int DICHO_MID = 2;
 
 	static private int DICHO_MAX_STEP = 20;
 
@@ -948,13 +953,13 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		// + (xyzf[DICHO_MID][3] - xyzf[DICHO_MID][2]));
 
 		if (isLessZ(xyzf[DICHO_MID])) {
-			double[] tmp = xyzf[DICHO_FIRST];
+			double[] swap = xyzf[DICHO_FIRST];
 			xyzf[DICHO_FIRST] = xyzf[DICHO_MID];
-			xyzf[DICHO_MID] = tmp;
+			xyzf[DICHO_MID] = swap;
 		} else {
-			double[] tmp = xyzf[DICHO_LAST];
+			double[] swap = xyzf[DICHO_LAST];
 			xyzf[DICHO_LAST] = xyzf[DICHO_MID];
-			xyzf[DICHO_MID] = tmp;
+			xyzf[DICHO_MID] = swap;
 
 		}
 	}

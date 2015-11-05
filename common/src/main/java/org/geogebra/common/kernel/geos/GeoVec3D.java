@@ -193,6 +193,7 @@ implements Traceable, CoordStyle {
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}
@@ -431,10 +432,17 @@ implements Traceable, CoordStyle {
 							 ux * vy - uy * vx );                                 
     }
     
-    /** Calculates the cross product of vectors u and v.
-     * The result is stored in w.
-     * @param w vector to store u*v
-     */
+    /**
+	 * Calculates the cross product of vectors u and v. The result is stored in
+	 * w.
+	 * 
+	 * @param u
+	 *            first input
+	 * @param v
+	 *            second input
+	 * @param w
+	 *            vector to store u*v
+	 */
     final public static void cross(double [] u, double[] v, double[] w) {
 		w[0] = u[1] * v[2] - u[2] * v[1];
 		w[1] = u[2] * v[0] - u[0] * v[2];

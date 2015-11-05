@@ -738,6 +738,25 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		return buildLatexString(kernel, sb, symbolic, tpl, toStringMode, x, y, this);
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param sb
+	 *            builder
+	 * @param symbolic
+	 *            whether to replace variables
+	 * @param tpl
+	 *            template
+	 * @param toStringMode
+	 *            COORD_POLAR / COORD_CARTESIAN etc.
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param vector
+	 *            vector coresponding to x,y (result depends on parent algo)
+	 * @return content of string builder
+	 */
 	static final public String buildLatexString(Kernel kernel, StringBuilder sb, boolean symbolic, StringTemplate tpl, int toStringMode, double x, double y, GeoVectorND vector){
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:                	
@@ -1004,6 +1023,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 				: ValueType.NONCOMPLEX2D;
 	}
 
+	@Override
 	public boolean hasLineOpacity() {
 		return true;
 	}

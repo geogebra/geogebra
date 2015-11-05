@@ -40,6 +40,9 @@ import org.geogebra.desktop.gui.properties.SliderPanel;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
 
+/**
+ * Dialog for slider creation
+ */
 public class SliderDialogD extends JDialog implements ActionListener,
 		KeyListener, WindowListener {
 
@@ -68,6 +71,7 @@ public class SliderDialogD extends JDialog implements ActionListener,
 	 * @param y
 	 *            x-coordinate of slider in screen coords
 	 * @param app
+	 *            application
 	 */
 	public SliderDialogD(AppD app, int x, int y) {
 		super(app.getFrame(), false);
@@ -175,6 +179,9 @@ public class SliderDialogD extends JDialog implements ActionListener,
 		setLocationRelativeTo(app.getFrame());
 	}
 
+	/**
+	 * @return resulting slider
+	 */
 	public GeoElement getResult() {
 		if (geoResult != null) {
 			// set label of geoResult
@@ -233,13 +240,14 @@ public class SliderDialogD extends JDialog implements ActionListener,
 				|| source == rbInteger) {
 			GeoElement selGeo = rbAngle.isSelected() ? angle : number;
 			if (source == rbInteger) {
+				number.setAutoStep(false);
 				number.setAnimationStep(1);
 				number.setIntervalMin(1);
 				number.setIntervalMax(30);
 			} else if (source == rbNumber) {
 				GeoNumeric num = app.getKernel().getAlgoDispatcher()
 						.getDefaultNumber(false);
-				number.setAutoStep(false);
+				number.setAutoStep(num.isAutoStep());
 				number.setAnimationStep(num.getAnimationStep());
 
 				number.setIntervalMin(num.getIntervalMin());
@@ -273,27 +281,35 @@ public class SliderDialogD extends JDialog implements ActionListener,
 	}
 
 	public void keyReleased(KeyEvent arg0) {
+		// only key press is important
 	}
 
 	public void keyTyped(KeyEvent arg0) {
+		// only key press is important
 	}
 
 	public void windowActivated(WindowEvent arg0) {
+		// only window opened is important
 	}
 
 	public void windowClosed(WindowEvent arg0) {
+		// only window opened is important
 	}
 
 	public void windowClosing(WindowEvent arg0) {
+		// only window opened is important
 	}
 
 	public void windowDeactivated(WindowEvent arg0) {
+		// only window opened is important
 	}
 
 	public void windowDeiconified(WindowEvent arg0) {
+		// only window opened is important
 	}
 
 	public void windowIconified(WindowEvent arg0) {
+		// only window opened is important
 	}
 
 	public void windowOpened(WindowEvent arg0) {

@@ -39,13 +39,12 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 
+/**
+ * Web dialog for slider creation
+ */
 public class SliderDialog extends DialogBoxW
 implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 {
-	/**
-	 *  
-	 */
-	private static final long serialVersionUID = 1L;
 	private Button btOK, btCancel;
 	private Label nameLabel;
 	private AutoCompleteTextFieldW tfLabel;
@@ -67,9 +66,13 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 			
 	/**
 	 * Creates a dialog to create a new GeoNumeric for a slider.
-	 * @param x x-coordinate of slider in screen coords
-	 * @param y x-coordinate of slider in screen coords
+	 * 
+	 * @param x
+	 *            x-coordinate of slider in screen coords
+	 * @param y
+	 *            x-coordinate of slider in screen coords
 	 * @param app
+	 *            application
 	 */
 	public SliderDialog(AppW app, int x, int y) {
 		super(false, true, null, app.getPanel());
@@ -132,7 +135,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		String id = DOM.createUniqueId();
 		rbNumber = new RadioButton(id, app.getPlain("Numeric"));
 		rbNumber.addValueChangeHandler(this);
-		rbNumber.setChecked(true);
+		rbNumber.setValue(true);
 		rbAngle = new RadioButton(id, app.getPlain("Angle"));
 		rbAngle.addValueChangeHandler(this);
 		rbInteger = new RadioButton(id, app.getPlain("Integer"));
@@ -253,12 +256,14 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	public void onValueChange(ValueChangeEvent<Boolean> vc) {
 		GeoElement selGeo = rbAngle.getValue() ? angle : number;			
 		if (vc.getSource() == rbInteger) {
+			number.setAutoStep(false);
 			number.setAnimationStep(1);
 			number.setIntervalMin(1);
 			number.setIntervalMax(30);
 			updateLabelField(number, true);
 		} else if (vc.getSource() == rbNumber) {
 			GeoNumeric num = app.getKernel().getAlgoDispatcher().getDefaultNumber(false);
+			number.setAutoStep(num.isAutoStep());
 			number.setAnimationStep(num.getAnimationStep());
 			number.setIntervalMin(num.getIntervalMin());
 			number.setIntervalMax(num.getIntervalMax());
@@ -271,9 +276,8 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		sliderPanelUpdate(geos);
 	}
 
-	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
 
-	public void sliderPanelUpdate(Object[] geos) {
+	private void sliderPanelUpdate(Object[] geos) {
 		sliderPanel.updatePanel(geos);
 	}
 

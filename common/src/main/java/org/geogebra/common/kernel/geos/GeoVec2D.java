@@ -1409,6 +1409,9 @@ final public class GeoVec2D extends ValidExpression implements
 
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -1443,6 +1446,7 @@ final public class GeoVec2D extends ValidExpression implements
 		return new GeoVec2D(kernel, Math.ceil(x), Math.ceil(y));
 	}
 	
+	@Override
 	public ExpressionNode wrap(){
 		return new ExpressionNode(kernel, this);
 	}

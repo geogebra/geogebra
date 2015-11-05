@@ -934,6 +934,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		return getDefinitionForInputBar(StringTemplate.editTemplate);
 	}
 
+	/**
+	 * @return definition for LaTeX editor
+	 */
 	public String getDefinitionForEditor() {
 		return getDefinitionForInputBar(StringTemplate.editorTemplate);
 	}
@@ -7210,7 +7213,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *
 	 */
 	protected enum VisibleInView {
-		NOT_SET, TRUE, FALSE
+		/** default */
+		NOT_SET,
+		/** force visible */
+		TRUE,
+		/** force hidden */
+		FALSE
+
 	}
 
 	/** Flag for visibility in 3D view(s) */
@@ -7812,7 +7821,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return new MyDouble(kernel, 0);
 	}
 	
-	public ExpressionValue integral(FunctionVariable fv, Kernel kernel) {
+	public ExpressionValue integral(FunctionVariable fv, Kernel kernel0) {
 		return null;
 	}
 
@@ -8002,6 +8011,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		return ":=";
 	}
 
+	/**
+	 * @return whether this geo can be parametrized
+	 */
 	public boolean isParametric() {
 		return false;
 	}
@@ -8010,10 +8022,16 @@ public abstract class GeoElement extends ConstructionElement implements
 		return 0;
 	}
 
+	/**
+	 * @param val
+	 *            number
+	 * @return val as geoelement or null for MyDouble / MyBoolean
+	 */
 	public static GeoElement as(NumberValue val) {
-		return val == null ? null : val.toGeoElement();
+		return val.isGeoElement() ? val.toGeoElement() : null;
 	}
 
+	@Override
 	public String toString(GTemplate tpl) {
 		return toString(tpl.getTemplate());
 	}

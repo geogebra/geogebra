@@ -463,7 +463,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 
 		if (getAnimationStepObject() == null) {
-
 			GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(isGeoAngle());
 			setAnimationStep(num.getAnimationStep());
 		}
