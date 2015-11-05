@@ -94,6 +94,10 @@ public class RendererJogl {
 			profile = GLProfile.getDefault();
 			hasGLSL = profile.hasGLSL();
 		}
+		
+		System.out.println("============= GLProfile ===============\n"
+				+ profile.getImplName() + "\n"
+				+ profile.getName() + "\n" + profile.toString());
 
 		return hasGLSL;
 	}
