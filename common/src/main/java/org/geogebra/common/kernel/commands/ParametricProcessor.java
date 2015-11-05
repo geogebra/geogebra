@@ -253,6 +253,7 @@ public class ParametricProcessor {
 						den);
 				eq.setLabel(label);
 				eq.initEquation();
+				eq.setForceConic();
 				return ap.processConic(eq);
 			}
 
@@ -317,6 +318,7 @@ public class ParametricProcessor {
 										.plus(coefX[0].wrap()
 												.multiply(coefX[2])))));
 				eq.initEquation();
+				eq.setForceConic();
 				return ap.processConic(eq);
 			}
 			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);

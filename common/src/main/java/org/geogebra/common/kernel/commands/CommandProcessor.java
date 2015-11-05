@@ -115,6 +115,16 @@ public abstract class CommandProcessor {
 		return result;
 	}
 
+	/**
+	 * @param c
+	 *            command
+	 * @param keepCAScells
+	 *            false = replace CAS cells by twin geos, true = keep cells
+	 * @return processed arguments
+	 * @throws MyError
+	 *             when arguments contain errors, eg. invalid operation in exp
+	 *             node
+	 */
 	protected final GeoElement[] resArgs(Command c, boolean keepCAScells)
 			throws MyError {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -314,7 +324,6 @@ kernelA.getEulerNumber(), localVar));
 	}
 
 	/**
-<<<<<<< .working
 	 * Resolve argument for Iteration command
 	 * 
 	 * @param c
@@ -325,7 +334,7 @@ kernelA.getEulerNumber(), localVar));
 	 *            list from which the variables should be taken
 	 * @param number
 	 *            number of iterations
-	 * @return
+	 * @return arguments for Iteration(List)
 	 */
 	protected final GeoElement resArgsForIteration(Command c,
 			GeoElement[] vars, GeoList[] over, GeoNumeric[] number) {
@@ -395,90 +404,8 @@ kernelA.getEulerNumber(), localVar));
 		return arg[0];
 	}
 
-	/**
-=======
-	 * Resolve argument for Iteration command
-	 * 
-	 * @param c
-	 *            command to use in the iteration
-	 * @param vars
-	 *            variables
-	 * @param over
-	 *            list from which the variables should be taken
-	 * @param number
-	 *            number of iterations
-	 * @return
-	 */
-	protected final GeoElement resArgsForIteration(Command c,
-			GeoElement[] vars, GeoList[] over, GeoNumeric number) {
-		// check if there is a local variable in arguments
-		int numArgs = c.getArgumentNumber();
-
-		Construction cmdCons = c.getKernel().getConstruction();
-
-		for (int varPos = 1; varPos < numArgs - 1; varPos += 2) {
-			String localVarName = c.getVariableName(varPos);
-
-			if (localVarName == null
-					&& c.getArgument(varPos).isTopLevelCommand()) {
-				localVarName = c.getArgument(varPos).getTopLevelCommand()
-						.getVariableName(0);
-			}
-
-			if (localVarName == null) {
-				throw argErr(app, c.getName(), c.getArgument(varPos));
-			}
-
-			// add local variable name to construction
-
-			GeoElement num = null;
-
-			// initialize first value of local numeric variable from initPos
-
-			GeoList gl = null;
-			if (c.getArgumentNumber() > varPos + 1) {
-				gl = (GeoList) resArg(c.getArgument(varPos + 1))[0];
-			}
-
-			if (gl == null) {
-				num = new GeoNumeric(cons);
-			} else if (gl.size() == 0) {
-				if (gl.getTypeStringForXML() != null) {
-					num = kernelA.createGeoElement(cons,
-							gl.getTypeStringForXML());
-				} else {
-					// guess
-					num = new GeoNumeric(cons);
-				}
-			} else {
-				// list not zero length
-				num = gl.get(0).copyInternal(cons);
-			}
-
-			cmdCons.addLocalVariable(localVarName, num);
-			replaceZvarIfNeeded(localVarName, c);
-			// set local variable as our varPos argument
-			c.setArgument(varPos, new ExpressionNode(c.getKernel(), num));
-			vars[varPos / 2] = num.toGeoElement();
-			if (gl != null) {
-				over[varPos / 2] = gl;
-			}
-
-			// resolve all command arguments including the local variable just
-			// created
-
-			// remove local variable name from kernel again
-
-		}
-
-		number.set(resArg(c.getArgument(numArgs - 1))[0]);
-		GeoElement[] arg = resArg(c.getArgument(0));
-
-		return arg[0];
-	}
 
 	/**
->>>>>>> .merge-right.r42055
 	 * Resolve arguments of a command that has a several local numeric variable
 	 * at the position varPos. Initializes the variable with the NumberValue at
 	 * initPos.
@@ -842,7 +769,8 @@ kernelA.getEulerNumber(),
 	 * Reduces the command to expression node or gives null if not possible
 	 * 
 	 * @param c
-	 * @return
+	 *            command
+	 * @return command output
 	 */
 	public ExpressionValue simplify(Command c) {
 		return null;

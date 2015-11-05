@@ -249,8 +249,8 @@ public abstract class CommandDispatcher {
 	 * name. This should be called only if that CommandProcessor object is not
 	 * there already in the command table.
 	 * 
-	 * @param cmdName
-	 *            String command name
+	 * @param c
+	 *            Command to be processed
 	 * @return Processor for given command
 	 */
 	public CommandProcessor commandTableSwitch(Command c) {
