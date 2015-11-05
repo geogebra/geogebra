@@ -531,12 +531,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			textBottom = boxTop
 					+ (boxHeight - selectedDimension.getHeight()) / 2;
 		} else {
-			textBottom = boxTop
- + (boxHeight + selectedDimension.getHeight()
-					- COMBO_TEXT_MARGIN) / 2;
-			if (view.getFontSize() > 28) {
-				textBottom -= 4;
-			}
+			int base = (boxHeight + getTextDescent(g2, selectedText)) / 2;
+			textBottom = boxTop + base + (boxHeight - base) / 2;
 		}
 
 		drawTextLine(g2, textLeft, textBottom, selectedText, latex, false,
