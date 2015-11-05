@@ -3900,7 +3900,6 @@ public abstract class App implements UpdateSelection {
 		case TUBE_BETA:
 		case LOG_AXES:
 		case INTEL_REALSENSE:
-		case SHADERS_IN_DESKTOP:
 		case ALL_QUADRICS:
 		case SURFACE_IS_REGION:
 		case CP_POPUP:
@@ -3921,6 +3920,7 @@ public abstract class App implements UpdateSelection {
 		case GL_ELEMENTS:
 		case AUTOMATIC_FONTSIZE:
 		case RETINA:
+		case SHADERS_IN_DESKTOP:
 			return true;
 		default:
 			return false;
