@@ -120,6 +120,14 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 
 	@Override
 	public final void compute() {
+
+		// needed for eg http://tube.geogebra.org/m/mfafi40w
+		if (!startPoint.isDefined() || !endPoint.isDefined()
+				|| !center.isDefined()) {
+			conicPart.setUndefined();
+			return;
+		}
+
 		// the temp points P and Q should lie on the conic
 		P.setCoords(startPoint);
 		conic.pointChanged(P);
