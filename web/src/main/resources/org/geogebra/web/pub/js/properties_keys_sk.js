@@ -1204,7 +1204,7 @@ __GGB__keysVar.sk.menu = {
     "Area": "Obsah",
     "Area.Help": "Vyzna\u010d mnohouholn\xedk, kru\u017enicu alebo ku\u017ee\u013eose\u010dku!",
     "Ascending": "Vzostupne",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Pripoji\u0165 / Odpoji\u0165 bod",
     "AttachDetachPoint.Help": "Klikn\xfa\u0165 na bod (a potom na objekt, na ktor\xfd prip\xe1ja)",
     "AutoDimension": "Automatick\xe9 dimenzie",

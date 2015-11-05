@@ -1204,7 +1204,7 @@ __GGB__keysVar.lt.menu = {
     "Area": "Plotas",
     "Area.Help": "Pasirinkite daugiakamp\u012f, apskritim\u0105 ar antros eil\u0117s kreiv\u0119",
     "Ascending": "Did\u0117jan\u010dia tvarka",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Prisegti / Atsegti ta\u0161k\u0105",
     "AttachDetachPoint.Help": "Spauskite ant ta\u0161ko ir ant objekto prie kurio norite prisegti",
     "AutoDimension": "Automatin\u0117s dimencijos",

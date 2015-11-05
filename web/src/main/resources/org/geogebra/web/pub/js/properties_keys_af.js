@@ -1204,7 +1204,7 @@ __GGB__keysVar.af.menu = {
     "Area": "Oppervlakte",
     "Area.Help": "Kies poligoon, sirkel of keel",
     "Ascending": "Dalend",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Plaas Punt op / Haal Punt af",
     "AttachDetachPoint.Help": "Click on a Point (and an Object to attach)",
     "AutoDimension": "Automatic Dimensions",

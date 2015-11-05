@@ -1204,7 +1204,7 @@ __GGB__keysVar.bs.menu = {
     "Area": "Povr\u0161ina",
     "Area.Help": "Ozna\u010dite mnogougao, krug ili koniku",
     "Ascending": "Rastu\u0107i",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Spoji/Odvoji ta\u010dku",
     "AttachDetachPoint.Help": "Kliknite na ta\u010dku(i na figuru da ih spojite)",
     "AutoDimension": "Auto-Dimenzije",

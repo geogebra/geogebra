@@ -1204,7 +1204,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Area": "\u9762\u7a4d",
     "Area.Help": "\u8acb\u9078\u64c7\u591a\u908a\u5f62\uff0c\u6216(\u6a62)\u5713",
     "Ascending": "\u905e\u589e",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "\u9644\u8457\u2571\u812b\u96e2\u9ede",
     "AttachDetachPoint.Help": "\u9078\u9ede\u8207\u8981\u9644\u8457\u7684\u7269\u4ef6\u3002\u8981\u812b\u96e2\uff0c\u9078\u9ede\u5373\u53ef\u3002",
     "AutoDimension": "\u81ea\u52d5\u8abf\u6574\u5927\u5c0f",

@@ -1204,7 +1204,7 @@ __GGB__keysVar.eo.menu = {
     "Area": "Areo",
     "Area.Help": "Elektu plurlateron, cirklo a\u016d konikon.",
     "Ascending": "Kreska",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Attach / Detach Point",
     "AttachDetachPoint.Help": "Click on a Point (and an Object to attach)",
     "AutoDimension": "A\u016dtomataj dimensioj",

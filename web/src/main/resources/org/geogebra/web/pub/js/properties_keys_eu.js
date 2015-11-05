@@ -1204,7 +1204,7 @@ __GGB__keysVar.eu.menu = {
     "Area": "Azalera",
     "Area.Help": "Poligonoa, zirkulua edo konika",
     "Ascending": "Goranzkoa",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Atxiki / Askatu Puntua",
     "AttachDetachPoint.Help": "Klik Puntu batean (eta Objektu batean atxikitzeko)",
     "AutoDimension": "Dimentsio Automatikoak",

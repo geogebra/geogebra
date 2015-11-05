@@ -1204,7 +1204,7 @@ __GGB__keysVar.tl.menu = {
     "Area": "Area",
     "Area.Help": "Pumili ng polygon,circle o conic",
     "Ascending": "Ascending",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Attach / Detach Point",
     "AttachDetachPoint.Help": "Pumili ng Point (at ng Object na ia-attach)",
     "AutoDimension": "Automatic Dimensions",

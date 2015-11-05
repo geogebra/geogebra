@@ -1204,7 +1204,7 @@ __GGB__keysVar.sq.menu = {
     "Area": "Syrprine",
     "Area.Help": "Zgjidh poligon, rreth ose konike(elips, parabole, hiperbole)",
     "Ascending": "Rrites",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Lidh / Pike Lidhese",
     "AttachDetachPoint.Help": "Kliko ne nje Pike (dhe ne nje Objekt per te lidhur)",
     "AutoDimension": "Dimensione Automatike",

@@ -1204,7 +1204,7 @@ __GGB__keysVar.bn.menu = {
     "Area": "\u0995\u09cd\u09b7\u09c7\u09a4\u09cd\u09b0\u09ab\u09b2",
     "Area.Help": "Select polygon, circle, or conic",
     "Ascending": "Ascending",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Attach / Detach Point",
     "AttachDetachPoint.Help": "Click on a Point (and an Object to attach)",
     "AutoDimension": "Automatic Dimensions",

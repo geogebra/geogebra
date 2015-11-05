@@ -1204,7 +1204,7 @@ __GGB__keysVar.in.menu = {
     "Area": "Luas",
     "Area.Help": "Pilih poligon, lingkaran atau irisan kerucut",
     "Ascending": "Menanjak",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Gunakan / Lepaskan Titik",
     "AttachDetachPoint.Help": "Klik suatu Titik (dan sebuah objek untuk digunakan)",
     "AutoDimension": "Dimensi Otomatis",

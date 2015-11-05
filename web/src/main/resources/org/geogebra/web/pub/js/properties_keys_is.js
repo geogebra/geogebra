@@ -1204,7 +1204,7 @@ __GGB__keysVar.is.menu = {
     "Area": "Flatarm\xe1l",
     "Area.Help": "Velji\xf0 marghyrning, hring e\xf0a keilusni\xf0",
     "Ascending": "Vaxandi",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Festa / Losa punkt",
     "AttachDetachPoint.Help": "Smelli\xf0 \xe1 punkt (og hlut sem \xe1 a\xf0 festa hann vi\xf0)",
     "AutoDimension": "Sj\xe1lfvirkar v\xedddir",

@@ -1204,7 +1204,7 @@ __GGB__keysVar.ja.menu = {
     "Area": "\u9762\u7a4d",
     "Area.Help": "\u591a\u89d2\u5f62\u3001\u5186\u307e\u305f\u306f\uff12\u6b21\u66f2\u7dda\u3092\u9078\u629e",
     "Ascending": "\u4e0a\u6607",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "\u70b9\u3092\u4ed8\u3051\u308b\uff0f\u5916\u3059",
     "AttachDetachPoint.Help": "\u70b9\uff08\u3068\u4ed8\u3051\u308b\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\uff09\u3092\u30af\u30ea\u30c3\u30af",
     "AutoDimension": "\u81ea\u52d5\u7684\u306a\u7e26\u6a2a\u30b5\u30a4\u30ba",

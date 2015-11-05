@@ -1204,7 +1204,7 @@ __GGB__keysVar.lv.menu = {
     "Area": "Laukums",
     "Area.Help": "Izv\u0113lies daudst\u016bri, ri\u0146\u0137i vai elipsi",
     "Ascending": "Augo\u0161s",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Pievienot / No\u0146emt Punktu",
     "AttachDetachPoint.Help": "Uzspied uz Punkta (un Objekta, lai pievienotu)",
     "AutoDimension": "Autom\u0101tisks dimensju skaits",

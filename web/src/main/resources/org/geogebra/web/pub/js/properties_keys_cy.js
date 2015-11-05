@@ -1204,7 +1204,7 @@ __GGB__keysVar.cy.menu = {
     "Area": "Arwynebedd",
     "Area.Help": "Dewis polygon, cylch neu gonig",
     "Ascending": "Esgynnol",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Cysylltu/Datgysylltu Pwynt",
     "AttachDetachPoint.Help": "Cliciwch ar Bwynt (a Gwrthrych i'w gysylltu)",
     "AutoDimension": "AwtoDdimensiwn",

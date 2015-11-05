@@ -1204,7 +1204,7 @@ __GGB__keysVar.pl.menu = {
     "Area": "Pole",
     "Area.Help": "Wybierz wielok\u0105t, okr\u0105g lub krzyw\u0105 sto\u017ckow\u0105",
     "Ascending": "Zwi\u0119kszanie",
-    "Assignment.Edit": "Edit Assignment",
+    "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Przymocuj/Od\u0142\u0105cz Punkt",
     "AttachDetachPoint.Help": "Kliknij punkt oraz obiekt, do kt\xf3rego chcesz go przymocowa\u0107.",
     "AutoDimension": "Automatyczne wymiary",
