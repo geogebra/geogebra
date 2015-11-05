@@ -80,6 +80,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int selectedOptionIndex;
 	private GDimension selectedDimension;
 	private int currentIdx;
+	private float lastDescent;
 	/**
 	 * Creates new drawable list
 	 * 
@@ -675,8 +676,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		GTextLayout layout = g2.getFontRenderContext().getTextLayout(text,
 				getLabelFont());
 		final int w = (int) layout.getBounds().getWidth();
-		final int h = (int) layout.getBounds().getHeight()
-				+ OPTIONSBOX_ITEM_GAP;
+		final int h = (int) (layout.getBounds().getHeight()
+				+ layout.getDescent());
+
 		if (left == TEXT_CENTER) {
 			left = boxLeft + (boxWidth - w) / 2;
 		}
@@ -684,6 +686,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (draw) {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					left, top, false, false);
+			lastDescent = layout.getDescent();
+			// g2.drawLine(boxLeft, top, left + optionsWidth, top);
+			// g2.drawLine(boxLeft, top - h, left + optionsWidth, top - h);
+
 		}
 
 		return new GDimension() {
@@ -735,7 +741,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				rowTop += OPTIONBOX_TEXT_MARGIN_TOP + getPlainItemGap()
 						+ getFontDiff();
 			}
-
 			GDimension d = drawTextLine(g2, TEXT_CENTER, rowTop, text, latex,
 					true,
 					draw);
@@ -745,8 +750,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			if (latex) {
 				itemRect.setBounds(boxLeft, rowTop, boxWidth, h);
 			} else {
-				itemRect.setBounds(boxLeft, rowTop - h, boxWidth,
-						h + getPlainItemGap() + OPTIONSBOX_ITEM_GAP);
+				itemRect.setBounds(boxLeft, rowTop - h,
+ boxWidth,
+						(int) (h + 2 * lastDescent));
 
 			}
 			optionItems.add(itemRect);
