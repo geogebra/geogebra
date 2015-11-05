@@ -267,7 +267,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	public boolean showSliderCreationDialog(int x, int y) {
 		app.setWaitCursor();
 
-		SliderDialog dialog = new SliderDialog(((AppW) app), x, y);
+		SliderDialogW dialog = new SliderDialogW(((AppW) app), x, y);
 		dialog.center();
 
 		app.setDefaultCursor();

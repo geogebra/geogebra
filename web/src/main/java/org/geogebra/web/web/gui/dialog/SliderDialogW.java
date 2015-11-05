@@ -42,7 +42,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * Web dialog for slider creation
  */
-public class SliderDialog extends DialogBoxW
+public class SliderDialogW extends DialogBoxW
 implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 {
 	private Button btOK, btCancel;
@@ -74,7 +74,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	 * @param app
 	 *            application
 	 */
-	public SliderDialog(AppW app, int x, int y) {
+	public SliderDialogW(AppW app, int x, int y) {
 		super(false, true, null, app.getPanel());
 		//super(app.getFrame(), false);
 		this.app = app;
