@@ -589,7 +589,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int width = boxHeight;
 		int left = boxLeft + boxWidth - boxHeight;
 
-		ctrlRect.setBounds(left, boxTop, width, boxHeight);
+		ctrlRect.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
 		dropDown.drawControl(g2, left, boxTop, boxHeight, boxHeight,
 				geo.getBackgroundColor(),
 				isOptionsVisible());
