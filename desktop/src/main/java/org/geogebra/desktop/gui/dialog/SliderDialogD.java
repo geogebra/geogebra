@@ -40,7 +40,7 @@ import org.geogebra.desktop.gui.properties.SliderPanel;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
 
-public class SliderDialog extends JDialog implements ActionListener,
+public class SliderDialogD extends JDialog implements ActionListener,
 		KeyListener, WindowListener {
 
 	/**
@@ -69,7 +69,7 @@ public class SliderDialog extends JDialog implements ActionListener,
 	 *            x-coordinate of slider in screen coords
 	 * @param app
 	 */
-	public SliderDialog(AppD app, int x, int y) {
+	public SliderDialogD(AppD app, int x, int y) {
 		super(app.getFrame(), false);
 		this.app = app;
 		addWindowListener(this);
@@ -239,7 +239,9 @@ public class SliderDialog extends JDialog implements ActionListener,
 			} else if (source == rbNumber) {
 				GeoNumeric num = app.getKernel().getAlgoDispatcher()
 						.getDefaultNumber(false);
+				number.setAutoStep(false);
 				number.setAnimationStep(num.getAnimationStep());
+
 				number.setIntervalMin(num.getIntervalMin());
 				number.setIntervalMax(num.getIntervalMax());
 			}

@@ -453,7 +453,7 @@ public class DialogManagerD extends org.geogebra.common.main.DialogManager {
 	public boolean showSliderCreationDialog(int x, int y) {
 		app.setWaitCursor();
 
-		SliderDialog dialog = new SliderDialog(((AppD) app), x, y);
+		SliderDialogD dialog = new SliderDialogD(((AppD) app), x, y);
 		dialog.setVisible(true);
 
 		app.setDefaultCursor();
