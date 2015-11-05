@@ -191,6 +191,7 @@ public class AlgoIterationList extends AlgoElement {
 			if (!input[i].isDefined()) {
 				list.setUndefined();
 				updateRunning = false;
+				iterationsOld = -1;
 				return;
 			}
 		}
@@ -200,12 +201,13 @@ public class AlgoIterationList extends AlgoElement {
 		if (iterations < 0 || varCount > over[0].size()) {
 			list.setUndefined();
 			updateRunning = false;
+			iterationsOld = -1;
 			return;
 		}
 
 		isEmpty = over[0].size() == 0;
 
-		boolean setValuesOnly = iterations == iterationsOld - 1;
+		boolean setValuesOnly = iterations == iterationsOld;
 		setValuesOnly = setValuesOnly && !expIsFunctionOrCurve;
 
 		boolean oldSuppressLabels = cons.isSuppressLabelsActive();
@@ -261,7 +263,7 @@ public class AlgoIterationList extends AlgoElement {
 				// set local var value
 				updateLocalVar(i, list.get(i - 1));
 				addElement(i);
-
+				App.debug(i + " of " + listSize + ":" + list.size());
 				i++;
 			}
 		}
