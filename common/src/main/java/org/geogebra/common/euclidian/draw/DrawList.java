@@ -549,6 +549,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
+	private static int getTextDescent(GGraphics2D g2, String string) {
+		return (int) AwtFactory.prototype.newTextLayout(string, g2.getFont(),
+				g2.getFontRenderContext()).getDescent();
+	}
+
 	@Override
 	protected void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
 
