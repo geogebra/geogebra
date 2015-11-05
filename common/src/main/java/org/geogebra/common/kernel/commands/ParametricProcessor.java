@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
@@ -251,10 +252,7 @@ public class ParametricProcessor {
 										.multiply(2));
 				Equation eq = new Equation(kernel, xx.plus(xy).plus(yy).wrap(),
 						den);
-				eq.setLabel(label);
-				eq.initEquation();
-				eq.setForceConic();
-				return ap.processConic(eq);
+				return paramConic(eq, label);
 			}
 
 			coefX = ap.arrayOfZeros(coefX.length);
@@ -317,9 +315,8 @@ public class ParametricProcessor {
 										.multiply(coefY[2])
 										.plus(coefX[0].wrap()
 												.multiply(coefX[2])))));
-				eq.initEquation();
-				eq.setForceConic();
-				return ap.processConic(eq);
+
+				return paramConic(eq, label);
 			}
 			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
 			cons.removeFromConstructionList(nx);
@@ -342,6 +339,15 @@ public class ParametricProcessor {
 		throw new MyError(kernel.getApplication().getLocalization(),
 				"InvalidFunction");
 
+	}
+
+	private GeoElement[] paramConic(Equation eq, String label) {
+		eq.initEquation();
+		eq.setForceConic();
+		GeoElement[] ret = ap.processConic(eq);
+		((GeoConicND) ret[0]).setToStringMode(GeoConicND.EQUATION_PARAMETRIC);
+		((GeoConicND) ret[0]).update();
+		return ret;
 	}
 
 	/**

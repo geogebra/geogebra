@@ -57,6 +57,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.Unicode;
 
 /** Class for conic in any dimension.
  * 
@@ -80,6 +81,8 @@ FromMeta
 	public static final int EQUATION_EXPLICIT = 1;
 	/** mode for equations like (x-m)^2/a^2+(y-n)^2/b^2=1 */
 	public static final int EQUATION_SPECIFIC = 2;
+	/** X=(1,1)+(sin(t),cos(t)) */
+	public static final int EQUATION_PARAMETRIC = 3;
 	/** variable strings for default output */
 	protected static String[] vars = { "x\u00b2", "x y", "y\u00b2", "x", "y" };
 	/** variable strings for LaTeX output */
@@ -1206,6 +1209,10 @@ FromMeta
 				this.toStringMode = EQUATION_EXPLICIT;
 				break;
 
+		case EQUATION_PARAMETRIC:
+			this.toStringMode = EQUATION_PARAMETRIC;
+			break;
+
 			default :
 				this.toStringMode = EQUATION_IMPLICIT;
 		}						
@@ -1497,7 +1504,8 @@ FromMeta
 	 * @param matrix1 matrix
 	 * @return the value string regarding the given matrix (used for views)
 	 */
-	protected StringBuilder buildValueString(StringTemplate tpl,double[] matrix1) {
+	protected StringBuilder buildValueString(StringTemplate tpl,
+			double[] matrix1) {
 		StringBuilder sbToValueString = new StringBuilder();
 	       if (!isDefined()) {
 	    	   sbToValueString.append("?");
@@ -1540,8 +1548,9 @@ FromMeta
 			sb.append(kernel.format(-coeffs[5],tpl));
 			return sb;
 		}
-						
-		
+		if (toStringMode == GeoConicND.EQUATION_PARAMETRIC) {
+			return this.buildParametricValueString(tpl, 2);
+		}
 		if (type == CONIC_LINE) {
 			lines[0].toStringLHS(sbToValueString,tpl);
 			sbToValueString.append(" = 0");
@@ -4018,6 +4027,173 @@ FromMeta
 		}
 
 		return false;
+	}
+
+	protected StringBuilder buildParametricValueString(StringTemplate tpl,
+			int dim) {
+		StringBuilder sbBuildValueString = new StringBuilder();
+		if (!isDefined()) {
+			sbBuildValueString.append("?");
+			return sbBuildValueString;
+		}
+		sbBuildValueString.append("X = ");
+		switch (getType()) {
+		case CONIC_CIRCLE:
+		case CONIC_ELLIPSE:
+			buildValueStringMidpointConic(false, "cos(t)", "sin(t)", tpl,
+					sbBuildValueString, dim);
+			break;
+
+		case CONIC_HYPERBOLA:
+			buildValueStringMidpointConic(true, "cosh(t)", "sinh(t)", tpl,
+					sbBuildValueString, dim);
+			break;
+
+		case CONIC_PARABOLA:
+			buildValueString(false, "t\u00b2", "t", linearEccentricity,
+					2 * linearEccentricity, tpl, sbBuildValueString, dim);
+			break;
+
+		case CONIC_SINGLE_POINT:
+			Coords center = getMidpoint3D();
+			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl,
+					center.getX(), center.getY(), center.getZ(),
+					sbBuildValueString);
+			break;
+
+		case CONIC_INTERSECTING_LINES:
+			center = getMidpoint3D();
+			Coords d1 = getDirection3D(0);
+			Coords d2 = getDirection3D(1);
+			Coords e1 = d1.add(d2).mul(0.5);
+			Coords e2 = d2.sub(d1).mul(0.5);
+			e2.checkReverseForFirstValuePositive();
+			sbBuildValueString.append("X = (");
+			sbBuildValueString.append(kernel.format(center.getX(), tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(center.getY(), tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(center.getZ(), tpl));
+			sbBuildValueString.append(") + ");
+			sbBuildValueString.append(Unicode.lambda);
+			sbBuildValueString.append(" (");
+			kernel.appendTwoCoeffs(e1.getX(), e2.getX(), tpl,
+					sbBuildValueString);
+			sbBuildValueString.append(", ");
+			kernel.appendTwoCoeffs(e1.getY(), e2.getY(), tpl,
+					sbBuildValueString);
+			sbBuildValueString.append(", ");
+			kernel.appendTwoCoeffs(e1.getZ(), e2.getZ(), tpl,
+					sbBuildValueString);
+			sbBuildValueString.append(")");
+			break;
+
+		case CONIC_PARALLEL_LINES:
+			Coords c1 = getOrigin3D(0);
+			Coords c2 = getOrigin3D(1);
+			Coords d = getDirection3D(0);
+			e1 = c1.add(c2).mul(0.5);
+			e2 = c2.sub(c1).mul(0.5);
+			e2.checkReverseForFirstValuePositive();
+			sbBuildValueString.append("X = (");
+			kernel.appendTwoCoeffs(e1.getX(), e2.getX(), tpl,
+					sbBuildValueString);
+			sbBuildValueString.append(", ");
+			kernel.appendTwoCoeffs(e1.getY(), e2.getY(), tpl,
+					sbBuildValueString);
+			sbBuildValueString.append(", ");
+			kernel.appendTwoCoeffs(e1.getZ(), e2.getZ(), tpl,
+					sbBuildValueString);
+			sbBuildValueString.append(") + ");
+			sbBuildValueString.append(Unicode.lambda);
+			sbBuildValueString.append(" (");
+			sbBuildValueString.append(kernel.format(d.getX(), tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(d.getY(), tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(d.getZ(), tpl));
+
+			sbBuildValueString.append(")");
+			break;
+
+		case CONIC_DOUBLE_LINE:
+			center = getMidpoint3D();
+			d = getDirection3D(0);
+			sbBuildValueString.append("X = (");
+			sbBuildValueString.append(kernel.format(center.getX(), tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(center.getY(), tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(center.getZ(), tpl));
+			sbBuildValueString.append(") + ");
+			sbBuildValueString.append(Unicode.lambda);
+			sbBuildValueString.append(" (");
+			sbBuildValueString.append(kernel.format(d.getX(), tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(d.getY(), tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(kernel.format(d.getZ(), tpl));
+
+			sbBuildValueString.append(")");
+			break;
+
+		case CONIC_EMPTY:
+			sbBuildValueString.append("?");
+			break;
+
+		default:
+			App.debug("unknown conic type");
+			sbBuildValueString.append("?");
+			break;
+		}
+
+		return sbBuildValueString;
+	}
+
+	private void buildValueStringMidpointConic(boolean plusMinusX, String s1,
+			String s2, StringTemplate tpl, StringBuilder sbBuildValueString,
+			int dim) {
+		buildValueString(plusMinusX, s1, s2, getHalfAxis(0), getHalfAxis(1),
+				tpl, sbBuildValueString, dim);
+	}
+
+	private void buildValueString(boolean plusMinusX, String s1, String s2,
+			double r1, double r2, StringTemplate tpl,
+			StringBuilder sbBuildValueString, int dim) {
+		if (dim < 3) {
+			Coords center = getMidpoint();
+			GeoPoint.buildValueString(kernel, tpl, Kernel.COORD_CARTESIAN,
+					center.getX(), center.getY(), sbBuildValueString);
+		} else {
+			Coords center = getMidpoint3D();
+			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl,
+					center.getX(),
+				center.getY(), center.getZ(), sbBuildValueString);
+		}
+
+		Coords ev1 = getEigenvec3D(0);
+		Coords ev2 = getEigenvec3D(1);
+
+		String separator = GeoPoint.buildValueStringSeparator(kernel, tpl);
+
+		sbBuildValueString.append(" + (");
+
+		kernel.appendTwoCoeffs(plusMinusX, r1 * ev1.getX(), r2 * ev2.getX(),
+				s1, s2, tpl, sbBuildValueString);
+
+		sbBuildValueString.append(separator);
+		sbBuildValueString.append(" ");
+
+		kernel.appendTwoCoeffs(plusMinusX, r1 * ev1.getY(), r2 * ev2.getY(),
+				s1, s2, tpl, sbBuildValueString);
+		if (dim > 2) {
+		sbBuildValueString.append(separator);
+		sbBuildValueString.append(" ");
+
+		kernel.appendTwoCoeffs(plusMinusX, r1 * ev1.getZ(), r2 * ev2.getZ(),
+				s1, s2, tpl, sbBuildValueString);
+		}
+		sbBuildValueString.append(')');
 	}
 
 }
