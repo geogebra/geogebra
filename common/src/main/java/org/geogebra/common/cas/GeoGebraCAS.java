@@ -325,6 +325,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			if (args.get(0).getLeft() instanceof MyList
 					&& (args.get(1).getLeft() instanceof MyList || args.get(1)
 							.getLeft() instanceof GeoDummyVariable)) {
+				// fix for GGB-134
+				app.getKernel().setResolveUnkownVarsAsDummyGeos(true);
 				// set of variables in list of equations
 				Set<String> varsInEqus = new HashSet<String>();
 				// set of variables in list of variables
