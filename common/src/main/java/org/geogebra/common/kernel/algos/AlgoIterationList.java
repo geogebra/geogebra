@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Iteration[ f(x), x0, n ]
@@ -230,7 +229,6 @@ public class AlgoIterationList extends AlgoElement {
 		int iterations = (int) Math.round(n.getDouble());
 		int i = Math.min(over[0].size(), iterations);
 		int oldListSize = list.size();
-		Log.debug(over[0]);
 		list.clear();
 		for (int j = 0; j < over[0].size()
  && j < iterations + 1; j++) {
@@ -263,7 +261,6 @@ public class AlgoIterationList extends AlgoElement {
 				// set local var value
 				updateLocalVar(i, list.get(i - 1));
 				addElement(i);
-				App.debug(i + " of " + listSize + ":" + list.size());
 				i++;
 			}
 		}
@@ -319,7 +316,6 @@ public class AlgoIterationList extends AlgoElement {
 			AlgoElement drawAlgo = expression.getDrawAlgorithm();
 			if (listElement instanceof GeoNumeric
 					&& drawAlgo instanceof DrawInformationAlgo) {
-				App.debug(expression.getDrawAlgorithm().getClass().getName());
 				listElement.setDrawAlgorithm(((DrawInformationAlgo) drawAlgo)
 						.copy());
 				listElement.setEuclidianVisible(true);
@@ -366,15 +362,10 @@ public class AlgoIterationList extends AlgoElement {
 				vars[j + 1].set(over[0].get(j));
 			}
 		}
-		App.debug("VC" + varCount);
 		if (over[0].size() >= (int) Math.round(n.getDouble())) {
 			return;
 		}
 
-		for (int p = 0; p < varCount; p++) {
-			Log.debug(p + ":");
-			Log.debug(vars[p]);
-		}
 		while (i < listSize) {
 			GeoElement listElement = list.get(i);
 

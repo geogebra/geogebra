@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.Traversing.CommandFunctionReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
@@ -385,7 +386,13 @@ kernelA.getEulerNumber(), localVar));
 			// set local variable as our varPos argument
 			c.setArgument(varPos, new ExpressionNode(c.getKernel(), num));
 			vars[varPos - 1] = num.toGeoElement();
-
+			// replace for Iteration[f(1/(1-x)),f,{x},21]
+			if (!isCmdName(localVarName)) {
+				c.getArgument(0)
+					.traverse(
+							CommandFunctionReplacer.getReplacer(app,
+									localVarName, num));
+			}
 			if (varPos < numArgs - 3) {
 				num = num.copy();
 			}
@@ -399,11 +406,27 @@ kernelA.getEulerNumber(), localVar));
 
 
 		number[0] = (GeoNumeric) resArg(c.getArgument(numArgs - 1))[0];
+
 		GeoElement[] arg = resArg(c.getArgument(0));
 
 		return arg[0];
 	}
 
+
+	/**
+	 * @param cmdName
+	 *            command name
+	 * @return whether such command exists
+	 */
+	public static boolean isCmdName(String cmdName) {
+		Throwable t = null;
+		try {
+			Commands.valueOf(cmdName);
+		} catch (Throwable t1) {
+			t = t1;
+		}
+		return t != null;
+	}
 
 	/**
 	 * Resolve arguments of a command that has a several local numeric variable

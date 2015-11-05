@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
-import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
@@ -81,14 +81,9 @@ public interface Traversing {
 			if (ev instanceof Command) {
 				Command c = (Command) ev;
 				String cmdName = app.getReverseCommand(c.getName());
-				Throwable t = null;
-				try {
-					Commands.valueOf(cmdName);
-				} catch (Throwable t1) {
-					t = t1;
-				}
-				if (t == null)
+				if (CommandProcessor.isCmdName(cmdName)) {
 					return ev;
+				}
 				MyList argList = new MyList(c.getKernel());
 				for (int i = 0; i < c.getArgumentNumber(); i++) {
 					argList.addListElement(c.getItem(i).traverse(this));
@@ -109,6 +104,48 @@ public interface Traversing {
 		 */
 		public static CommandReplacer getReplacer(App app) {
 			replacer.app = app;
+			return replacer;
+		}
+	}
+
+	/**
+	 * Replaces dummy variable with given name
+	 *
+	 */
+	public class CommandFunctionReplacer implements Traversing {
+		private App app;
+		private String fn;
+		private GeoElement function;
+
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof Command && fn.equals(((Command) ev).getName())) {
+				Command c = (Command) ev;
+
+				MyList argList = new MyList(c.getKernel());
+				for (int i = 0; i < c.getArgumentNumber(); i++) {
+					argList.addListElement(c.getItem(i).traverse(this));
+				}
+				return new ExpressionNode(c.getKernel(), function,
+						Operation.FUNCTION_NVAR, argList);
+			}
+			return ev;
+		}
+
+
+
+		/**
+		 * @param app
+		 *            application (needed to check which commands are valid)
+		 * @param fn
+		 *            functionName
+		 * @return replacer
+		 */
+		public static CommandFunctionReplacer getReplacer(App app, String fn,
+				GeoElement function) {
+			CommandFunctionReplacer replacer = new CommandFunctionReplacer();
+			replacer.app = app;
+			replacer.fn = fn;
+			replacer.function = function;
 			return replacer;
 		}
 	}
