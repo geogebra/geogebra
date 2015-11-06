@@ -294,6 +294,7 @@ public abstract class DataAnalysisController {
 		if (isValidData) {
 			if (getModel().isRegressionMode()) {
 				setRegressionGeo();
+				updateRegressionPanel();
 			}
 
 			// update the panels
@@ -345,9 +346,8 @@ public abstract class DataAnalysisController {
 		removeRegressionGeo();
 
 		geoRegression = statGeo.createRegressionPlot(dataSelected,
-				getModel().getRegressionMode(), getModel().getRegressionOrder(), false);
-
-		updateRegressionPanel();
+ getModel()
+				.getRegressionMode(), getModel().getRegressionOrder(), false);
 	}
 
 	public void removeRegressionGeo() {

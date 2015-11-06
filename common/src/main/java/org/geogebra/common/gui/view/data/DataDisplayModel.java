@@ -624,6 +624,7 @@ public class DataDisplayModel {
 			daModel.getController().loadDataLists(true);
 			statGeo.setRemoveFromConstruction(true);
 			daModel.getController().setRegressionGeo();
+			daModel.getController().updateRegressionPanel();
 			updatePlot(true);
 
 		} catch (Exception e) {

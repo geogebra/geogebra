@@ -303,12 +303,14 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		else if (source == cbRegression) {
 			cbRegression.removeActionListener(this);
 			daModel.setRegressionMode(cbRegression.getSelectedIndex());
+			updateRegressionPanel();
 			cbRegression.addActionListener(this);
 		}
 
 		else if (source == cbPolyOrder) {
 			daModel.setRegressionOrder(cbPolyOrder.getSelectedIndex() + 2);
 			statDialog.getController().setRegressionGeo();
+			statDialog.getController().updateRegressionPanel();
 			setRegressionEquationLabel();
 
 			// force update

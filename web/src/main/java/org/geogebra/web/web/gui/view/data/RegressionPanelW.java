@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -270,11 +269,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 			// linear
 			else if (daModel.getRegressionMode().equals(Regression.LINEAR)) {
-				if (!statDialog.getRegressionModel().isGeoLine()) {
-					// inconsistent state -- just leave
-					return;
-				}
-				((GeoLine) statDialog.getRegressionModel()).setToExplicit();
+
 				eqn = statDialog.getRegressionModel().getFormulaString(
 						highPrecision, true);
 			}
@@ -328,6 +323,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		else if (source == lbPolyOrder) {
 			daModel.setRegressionOrder(lbPolyOrder.getSelectedIndex() + 2);
 			statDialog.getController().setRegressionGeo();
+			statDialog.getController().updateRegressionPanel();
 			setRegressionEquationLabel();
 
 			// force update
