@@ -82,7 +82,9 @@ public class CASInputHandler {
 				if (!text.isLabelSet()) {
 					text.setLabel("casOutput");
 				}
+				App.debug(s);
 				text.setTextString(s);
+				text.update();
 
 			} catch (Throwable e) {
 				e.printStackTrace();
