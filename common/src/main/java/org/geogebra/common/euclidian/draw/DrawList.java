@@ -48,8 +48,9 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
-	private static final int OPTIONSBOX_ITEM_GAP = 20;
-	private static final int OPTIONSBOX_LATEX_PLAIN_GAP = 12;
+	private static final int OPTIONSBOX_ITEM_GAP_SMALL = 10;
+	private static final int OPTIONSBOX_ITEM_GAP_MEDIUM = 15;
+	private static final int OPTIONSBOX_ITEM_GAP_BIG = 20;
 	private static final int COMBO_TEXT_MARGIN = 5;
 	private static final int OPTIONBOX_TEXT_MARGIN_LEFT = 5;
 	private static final int OPTIONBOX_COMBO_GAP = 5;
@@ -739,9 +740,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					: allLatex;
 
 			boolean hovered = i == selectedOptionIndex;
+			int standardGap = getOptionsItemGap();
 
 			if (i == 0 && !latex) {
-				rowTop += getFullTextHeight(g2, text) + OPTIONSBOX_ITEM_GAP / 2;
+				rowTop += getFullTextHeight(g2, text) + standardGap / 2;
 			}
 
 			GDimension d = drawTextLine(g2, TEXT_CENTER, rowTop, text, latex,
@@ -753,10 +755,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			if (latex) {
 				itemRect.setBounds(boxLeft, rowTop, boxWidth, h);
 			} else {
-				itemRect.setBounds(boxLeft,
-						rowTop - h - OPTIONSBOX_ITEM_GAP / 2,
- boxWidth,
-						(int) (h + lastDescent + OPTIONSBOX_ITEM_GAP));
+				itemRect.setBounds(boxLeft, rowTop - h - standardGap / 2,
+						boxWidth, (int) (h + lastDescent + standardGap));
 
 			}
 			optionItems.add(itemRect);
@@ -788,11 +788,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				optionsWidth = d.getWidth();
 			}
 
-			int gap = OPTIONSBOX_ITEM_GAP;
-			if (latex) {
+			int gap = standardGap;
+			if (latex || latexNext) {
 				gap = 0;
 			} else if (i == size - 1) {
-				gap = getTextDescent(g2, text) + OPTIONSBOX_ITEM_GAP;
+				gap = getTextDescent(g2, text) + standardGap;
 			}
 
 			// If the neighbors are of different kinds (LaTeX-Plain),
@@ -800,7 +800,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			// LaTeX - Plain
 			if (latex && !latexNext) {
-				gap += OPTIONSBOX_LATEX_PLAIN_GAP;
+				gap += 2 * standardGap;
 			}
 
 
@@ -812,23 +812,23 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		optionsWidth += 2 * COMBO_TEXT_MARGIN + getTriangleControlWidth();
 	}
 
-	private int getPlainItemGap() {
+	private int getOptionsItemGap() {
 
 		switch (view.getApplication().getFontSize()) {
 		case 12:
 		case 16:
 		case 18:
-			return 5;
+			return OPTIONSBOX_ITEM_GAP_SMALL;
 		case 20:
 		case 24:
 		case 28:
-			return 10;
+			return OPTIONSBOX_ITEM_GAP_MEDIUM;
 		case 32:
 		case 48:
-			return 12;
+			return OPTIONSBOX_ITEM_GAP_BIG;
 
 		}
-		return 5;
+		return OPTIONSBOX_ITEM_GAP_SMALL;
 	}
 
 	private int getTriangleControlWidth() {
