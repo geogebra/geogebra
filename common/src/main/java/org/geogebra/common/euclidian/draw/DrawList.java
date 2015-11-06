@@ -48,9 +48,9 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
-	private static final int OPTIONSBOX_ITEM_GAP_SMALL = 10;
-	private static final int OPTIONSBOX_ITEM_GAP_MEDIUM = 15;
-	private static final int OPTIONSBOX_ITEM_GAP_BIG = 20;
+	private static final int OPTIONSBOX_ITEM_GAP_SMALL = 20;
+	private static final int OPTIONSBOX_ITEM_GAP_MEDIUM = 25;
+	private static final int OPTIONSBOX_ITEM_GAP_BIG = 30;
 	private static final int COMBO_TEXT_MARGIN = 5;
 	private static final int OPTIONBOX_TEXT_MARGIN_LEFT = 5;
 	private static final int OPTIONBOX_COMBO_GAP = 5;
@@ -204,6 +204,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
 				prefSize.getHeight());
 		box.setBounds(labelRectangle);
+		geo.updateRepaint();
 
 	}
 
