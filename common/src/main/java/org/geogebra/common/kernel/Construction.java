@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
@@ -178,6 +179,8 @@ public class Construction {
 	// set with all labeled GeoElements in alphabetical order
 	private TreeSet<GeoElement> geoSetLabelOrder;
 	private TreeSet<GeoElement> geoSetWithCasCells;
+	// table of arbitraryConstants with assignmentVar key
+	private HashMap<String, MyArbitraryConstant> arbitraryConsTable = new HashMap<String, MyArbitraryConstant>();
 
 	// list of random numbers or lists
 	private TreeSet<GeoElement> randomElements;
@@ -318,6 +321,22 @@ public class Construction {
 	 */
 	final public ConstructionDefaults getConstructionDefaults() {
 		return consDefaults;
+	}
+
+	/**
+	 * @return table of arbitraryConstants from CAS with assigmentVar key
+	 */
+	public HashMap<String, MyArbitraryConstant> getArbitraryConsTable() {
+		return arbitraryConsTable;
+	}
+
+	/**
+	 * @param arbitraryConsTable
+	 *            - table of arbitraryConstants from CAS with assigmentVar key
+	 */
+	public void setArbitraryConsTable(
+			HashMap<String, MyArbitraryConstant> arbitraryConsTable) {
+		this.arbitraryConsTable = arbitraryConsTable;
 	}
 
 	/**

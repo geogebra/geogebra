@@ -1765,9 +1765,29 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap().getCopy(kernel).traverse(fex);
 					expandedEvalVE = processSolveCommand(expandedEvalVE);
 				}
+
+				if (!cons.getArbitraryConsTable().isEmpty()) {
+					// get abritraryConstant for this cell from construction
+					MyArbitraryConstant myArbconst = cons
+							.getArbitraryConsTable().get(
+							this.assignmentVar);
+					// case we found an arbconst
+					if (myArbconst != null && arbconst.getPosition() == 0) {
+						// replace it
+						arbconst = myArbconst;
+					}
+				}
 				// compute the result using CAS
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE, arbconst, StringTemplate.numericNoLocal,
 						this, kernel);
+
+				// if we had constants in expression
+				// store arbconst in construction
+				if (arbconst.getPosition() != 0) {
+					cons.getArbitraryConsTable().put(this.assignmentVar,
+							arbconst);
+				}
+
 				// switch back the variable exchanges in result to command
 				// SolveODE
 				ArrayList<String> varSwaps = ((GeoGebraCAS) (kernel

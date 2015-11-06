@@ -213,4 +213,7 @@ public class MyArbitraryConstant {
 		return ce instanceof GeoCasCell;
 	}
 
+	public int getPosition() {
+		return position;
+	}
 }
