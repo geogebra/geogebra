@@ -118,7 +118,12 @@ public interface Traversing {
 		private GeoElement function;
 
 		public ExpressionValue process(ExpressionValue ev) {
+			if (ev.isGeoElement()
+					&& fn.equalsIgnoreCase(((GeoElement) ev).getLabelSimple())) {
+				return function;
+			}
 			if (ev instanceof Command && fn.equals(((Command) ev).getName())) {
+
 				Command c = (Command) ev;
 
 				MyList argList = new MyList(c.getKernel());

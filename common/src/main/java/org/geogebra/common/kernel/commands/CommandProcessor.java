@@ -425,7 +425,7 @@ kernelA.getEulerNumber(), localVar));
 		} catch (Throwable t1) {
 			t = t1;
 		}
-		return t != null;
+		return t == null;
 	}
 
 	/**
