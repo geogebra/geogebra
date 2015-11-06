@@ -62,8 +62,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// toolbar manager
 	SpreadsheetToolbarManagerW toolbarManager;
 
-	// file browser defaults
-	public static final String DEFAULT_URL = "http://www.geogebra.org/static/data/data.xml";
 
 	// current toolbar mode
 	private int mode = -1;

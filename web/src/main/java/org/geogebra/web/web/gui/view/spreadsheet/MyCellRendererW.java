@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.MyImageW;
@@ -215,7 +214,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		Byte border = (Byte) formatHandler.getCellFormat(column, row,
 				CellFormat.FORMAT_BORDER);
 		if ((row == -1) || (column == -1)) {
-			App.debug("border for row/column not implemented yet");
 			return;
 		}
 		Style s = table.getCellFormatter().getElement(row, column).getStyle();
