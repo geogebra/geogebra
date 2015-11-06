@@ -740,10 +740,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			boolean hovered = i == selectedOptionIndex;
 
 			if (i == 0 && !latex) {
-				rowTop += OPTIONBOX_TEXT_MARGIN_TOP + getPlainItemGap()
-						+ getFontDiff();
-
+				rowTop += getFullTextHeight(g2, text);
 			}
+
 			GDimension d = drawTextLine(g2, TEXT_CENTER, rowTop, text, latex,
 					true,
 					draw);
@@ -802,7 +801,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			rowTop += h + gap;
 
 		}
-		optionsHeight += getPlainItemGap();
+		// optionsHeight += getPlainItemGap();
 		optionsWidth += 2 * COMBO_TEXT_MARGIN + getTriangleControlWidth();
 	}
 
