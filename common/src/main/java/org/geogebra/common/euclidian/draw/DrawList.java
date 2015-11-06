@@ -48,7 +48,7 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
-	private static final int OPTIONSBOX_ITEM_GAP = 10;
+	private static final int OPTIONSBOX_ITEM_GAP = 40;
 	private static final int OPTIONSBOX_LATEX_PLAIN_GAP = 12;
 	private static final int COMBO_TEXT_MARGIN = 5;
 	private static final int OPTIONBOX_TEXT_MARGIN_TOP = 18;
@@ -81,6 +81,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private GDimension selectedDimension;
 	private int currentIdx;
 	private float lastDescent;
+	private float lastAscent;
 	/**
 	 * Creates new drawable list
 	 * 
@@ -689,6 +690,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					left, top, false, false);
 			lastDescent = layout.getDescent();
+			lastAscent = layout.getAscent();
 			// g2.drawLine(boxLeft, top, left + optionsWidth, top);
 			// g2.drawLine(boxLeft, top - h, left + optionsWidth, top - h);
 
@@ -705,7 +707,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			@Override
 			public int getHeight() {
 				// TODO Auto-generated method stub
-				return h;
+				return (int) Math.round(lastAscent + lastDescent);
 			}
 		};
 	}
@@ -786,7 +788,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				optionsWidth = d.getWidth();
 			}
 
-			int gap = latex ? 0 : OPTIONSBOX_ITEM_GAP + getFontDiff();
+			int gap = OPTIONSBOX_ITEM_GAP;
+			if (latex) {
+				gap = 0;
+			} else if (i == size - 1) {
+				gap = getTextDescent(g2, text);
+			}
 
 			// If the neighbors are of different kinds (LaTeX-Plain),
 			// more gap is needed.
