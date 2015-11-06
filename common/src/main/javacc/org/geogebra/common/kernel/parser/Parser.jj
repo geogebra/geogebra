@@ -2049,16 +2049,17 @@ ExpressionNode numberFunction():
             return new ExpressionNode(kernel, derivative, Operation.FUNCTION, myList.getListElement(0)); 
             
         }
+        boolean list = geo!=null && geo.isGeoList();
         //f(t):=(t,t) produces line, we do not want CAS to use that line
         //Perhaps we should prefer cell over geo in all cases ?
-        if(cell!=null && (geo==null || geo.isGeoLine() || geo.isGeoConic()))  {
+        if(cell!=null && (geo==null || geo.isGeoLine() || geo.isGeoConic() || list))  {
           if(((GeoCasCell)cell).getFunctionVariables().length <2)
           {
             
-            return new ExpressionNode(kernel, cell, Operation.FUNCTION, myList.getListElement(0));
+            return new ExpressionNode(kernel, cell, list ? Operation.ELEMENT_OF:Operation.FUNCTION, list ? myList : myList.getListElement(0));
         }else
         {
-        return new ExpressionNode(kernel, cell, Operation.FUNCTION_NVAR, myList);
+        return new ExpressionNode(kernel, cell, list ? Operation.ELEMENT_OF:Operation.FUNCTION_NVAR, myList);
         } 
             
         }
@@ -2097,7 +2098,7 @@ ExpressionNode numberFunction():
 
         // disabled, see #1115
         // doesn't work properly, creates spurious geos
-            else if (geo.isGeoList()) // list1(1) to get first element of list1
+            else if (list) // list1(1) to get first element of list1
             {
           return new ExpressionNode(kernel, geoExp, Operation.ELEMENT_OF, myList); 
           //    String [] str = { "FunctionExpected", funcName };
