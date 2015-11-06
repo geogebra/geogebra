@@ -48,10 +48,9 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
-	private static final int OPTIONSBOX_ITEM_GAP = 40;
+	private static final int OPTIONSBOX_ITEM_GAP = 20;
 	private static final int OPTIONSBOX_LATEX_PLAIN_GAP = 12;
 	private static final int COMBO_TEXT_MARGIN = 5;
-	private static final int OPTIONBOX_TEXT_MARGIN_TOP = 18;
 	private static final int OPTIONBOX_TEXT_MARGIN_LEFT = 5;
 	private static final int OPTIONBOX_COMBO_GAP = 5;
 	private static final int LABEL_COMBO_GAP = 10;
@@ -742,7 +741,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			boolean hovered = i == selectedOptionIndex;
 
 			if (i == 0 && !latex) {
-				rowTop += getFullTextHeight(g2, text);
+				rowTop += getFullTextHeight(g2, text) + OPTIONSBOX_ITEM_GAP / 2;
 			}
 
 			GDimension d = drawTextLine(g2, TEXT_CENTER, rowTop, text, latex,
@@ -754,9 +753,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			if (latex) {
 				itemRect.setBounds(boxLeft, rowTop, boxWidth, h);
 			} else {
-				itemRect.setBounds(boxLeft, rowTop - h,
+				itemRect.setBounds(boxLeft,
+						rowTop - h - OPTIONSBOX_ITEM_GAP / 2,
  boxWidth,
-						(int) (h + 2 * lastDescent));
+						(int) (h + lastDescent + OPTIONSBOX_ITEM_GAP));
 
 			}
 			optionItems.add(itemRect);
@@ -792,7 +792,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			if (latex) {
 				gap = 0;
 			} else if (i == size - 1) {
-				gap = getTextDescent(g2, text);
+				gap = getTextDescent(g2, text) + OPTIONSBOX_ITEM_GAP;
 			}
 
 			// If the neighbors are of different kinds (LaTeX-Plain),
