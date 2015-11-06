@@ -261,9 +261,14 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 						sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
 
 					} else {
-
-						String headerTitle = ("ToolbarIcon".equals(title)) ? "Icon"
-								: title;
+						String headerTitle;
+						if ("ToolbarIcon".equals(title)) {
+							headerTitle = "Icon";
+						} else if ("Breakpoint".equals(title)) {
+							headerTitle = "Breakpoint.short";
+						} else {
+							headerTitle = title;
+						}
 						sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
 								+ app.getPlain(headerTitle) + "</div>"));
 					}
@@ -387,7 +392,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			col = getColumnValue();
 		} else if ("Caption".equals(title)) {
 			if (app.has(Feature.CP_NEW_COLUMNS)) {
-				col = getColumnCaption2();
+				col = getColumnCaptionSimple();
 			}
 		} else { // if ("Breakpoint".equals(title)) {
 			if (app.has(Feature.CP_NEW_COLUMNS)) {
@@ -511,6 +516,33 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		};
 		return commandColumn;
 	}
+	
+	private Column<RowData, String> getColumnCaptionSimple() {
+
+		Column<RowData, String> col = new Column<RowData, String>(
+				new TextInputCell()) {
+
+			@Override
+			public String getValue(RowData object) {
+				return object.getGeo().getCaptionSimple();
+			}
+
+		};
+
+		col.setFieldUpdater(new FieldUpdater<RowData, String>() {
+
+			public void update(int index, RowData object, String value) {
+				object.getGeo().setCaption(value);
+				data.initView();
+				object.getGeo().updateVisualStyleRepaint();
+			}
+
+		});
+
+		return col;
+		
+	}	
+
 
 	/*
 	 * Add a column to show end edit the caption.
@@ -608,10 +640,12 @@ myCell) {
 				// in parameter "value", because this won't write this value
 				// into the textfield, but this will use
 				// EditTextCell.viewData.getText().
-				super.render(
-						context,
-						(String) table.getColumn(context.getColumn()).getValue(
-								data.getRow(context.getIndex())), sb);
+				// super.render(
+				// context,
+				// (String) table.getColumn(context.getColumn()).getValue(
+				// data.getRow(context.getIndex())), sb);
+				super.render(context, value, sb);
+
 			} else {
 				sb.appendHtmlConstant(value);
 			}
@@ -681,6 +715,7 @@ myCell) {
 				object.getGeo().setCaption(value);
 				data.initView();
 				tableInit();
+				object.getGeo().updateVisualStyleRepaint();
 
 			}
 
