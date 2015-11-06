@@ -266,7 +266,9 @@ public class View {
 	      return tmp_arr.join('');
       }		
       
-      var imageRegex = /\.(png|jpg|jpeg|gif|bmp)$/i;
+      // see GGB-63
+      var imageRegex = /\.(png|jpg|jpeg|gif|bmp|tif|tiff)$/i;
+      
       if (workerUrls === "false") {
       	$wnd.zip.useWebWorkers = false;
       } else {
