@@ -510,6 +510,11 @@ public class CAStestJSON {
 	}
 
 	@Test
+	public void testInflectionPoint() {
+		testCat("InflectionPoint");
+	}
+
+	@Test
 	public void testIsPrime(){
 		testCat("IsPrime");
 	}

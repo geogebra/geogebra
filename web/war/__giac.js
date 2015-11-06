@@ -1775,6 +1775,8 @@ var __giac = [ {},
 { cat: "Evaluate", cmd:"Evaluate[2..5]", result:"{2,3,4,5}", notes:"GGB-210" },
 { cat: "Evaluate", cmd:"Evaluate[2...5]", result:"{2,3,4,5}", notes:"GGB-210" },
 { cat: "Evaluate", cmd:"Evaluate[2..........5]", result:"{2,3,4,5}", notes:"GGB-210" },
+{ cat:"InflectionPoint", cmd:"TurningPoint[(x+2)^3+5]",result:"{(-2, 5)}"},
+{ cat:"InflectionPoint",cmd:"TurningPoint[(x+1/2)^3+5]",result:"{((-1) / 2, 5)}"}
 
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
