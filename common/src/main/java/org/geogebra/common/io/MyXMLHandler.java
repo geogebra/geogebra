@@ -3846,15 +3846,8 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		alpha = attrs.get("alpha");
-		if (alpha != null && (!geo.isGeoList() || ggbFileFormat > 3.19)) // ignore
-																			// alpha
-																			// value
-																			// for
-																			// lists
-																			// prior
-																			// to
-																			// GeoGebra
-																			// 3.2
+		// ignore alpha value for lists prior to GeoGebra 3.2
+		if (alpha != null && (!geo.isGeoList() || ggbFileFormat > 3.19))
 			geo.setAlphaValue(Float.parseFloat(alpha));
 		return true;
 	}
@@ -3864,7 +3857,6 @@ public class MyXMLHandler implements DocHandler {
 		if (col == null)
 			return false;
 		geo.setBackgroundColor(col);
-		geo.updateRepaint();
 
 		return true;
 	}
@@ -5110,6 +5102,11 @@ public class MyXMLHandler implements DocHandler {
 	 * e.toString()); } dynamicCoordinatesList.clear(); }
 	 */
 
+	/**
+	 * @param attrs
+	 *            attributes
+	 * @return success
+	 */
 	protected boolean handleEigenvectors(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoConic())) {
 			App.error(
