@@ -204,7 +204,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
 				prefSize.getHeight());
 		box.setBounds(labelRectangle);
-		geo.updateRepaint();
+		// geo.updateRepaint();
 
 	}
 
