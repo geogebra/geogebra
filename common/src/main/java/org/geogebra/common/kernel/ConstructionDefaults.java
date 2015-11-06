@@ -501,6 +501,8 @@ public class ConstructionDefaults {
 								// element in the list
 								// see GeoList.setAlphaValue() and
 								// getAlphaValue()
+		// GGB-22
+		list.setBackgroundColor(GColor.WHITE);
 		list.setDefaultGeoType(DEFAULT_LIST);
 		defaultGeoElements.put(DEFAULT_LIST, list);
 	}

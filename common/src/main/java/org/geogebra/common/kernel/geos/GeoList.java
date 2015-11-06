@@ -111,6 +111,7 @@ AngleProperties {
 		geoList = new ArrayList<GeoElement>(size);
 		cacheList = new ArrayList<GeoElementND>(size);
 		setEuclidianVisible(false);
+		// don't add here, see GGB-264
 		// setBackgroundColor(GColor.WHITE);
 	}
 
