@@ -270,6 +270,10 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 			// linear
 			else if (daModel.getRegressionMode().equals(Regression.LINEAR)) {
+				if (!statDialog.getRegressionModel().isGeoLine()) {
+					// inconsistent state -- just leave
+					return;
+				}
 				((GeoLine) statDialog.getRegressionModel()).setToExplicit();
 				eqn = statDialog.getRegressionModel().getFormulaString(
 						highPrecision, true);
