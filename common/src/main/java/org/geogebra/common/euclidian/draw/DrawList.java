@@ -49,8 +49,8 @@ import org.geogebra.common.util.Unicode;
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int OPTIONSBOX_ITEM_GAP_SMALL = 20;
-	private static final int OPTIONSBOX_ITEM_GAP_MEDIUM = 25;
-	private static final int OPTIONSBOX_ITEM_GAP_BIG = 30;
+	private static final int OPTIONSBOX_ITEM_GAP_MEDIUM = 40;
+	private static final int OPTIONSBOX_ITEM_GAP_BIG = 55;
 	private static final int COMBO_TEXT_MARGIN = 5;
 	private static final int OPTIONBOX_TEXT_MARGIN_LEFT = 5;
 	private static final int OPTIONBOX_COMBO_GAP = 5;
@@ -801,7 +801,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			// LaTeX - Plain
 			if (latex && !latexNext) {
-				gap += 2 * standardGap;
+				if (i < size - 1) {
+					gap += h;
+				} else {
+					gap += standardGap;
+				}
 			}
 
 
