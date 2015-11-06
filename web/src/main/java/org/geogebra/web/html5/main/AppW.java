@@ -69,6 +69,7 @@ import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -806,44 +807,30 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
-	private static final ArrayList<String> IMAGE_EXTENSIONS = new ArrayList<String>();
-	static {
-		// you might get png files saved with a tif, bmp, gif extension in old
-		// files
-		// after http://dev.geogebra.org/trac/changeset/42849 they should
-		// have the correct extension
-		IMAGE_EXTENSIONS.add("tif");
-		IMAGE_EXTENSIONS.add("tiff");
-		IMAGE_EXTENSIONS.add("bmp");
-		IMAGE_EXTENSIONS.add("gif");
-
-		IMAGE_EXTENSIONS.add("jpg");
-		IMAGE_EXTENSIONS.add("jpeg");
-		IMAGE_EXTENSIONS.add("png");
-		IMAGE_EXTENSIONS.add("svg");
-	}
-
 	private void maybeProcessImage(String filename, String content) {
 		String fn = filename.toLowerCase();
 		if (fn.equals(MyXMLio.XML_FILE_THUMBNAIL)) {
 			return; // Ignore thumbnail
 		}
 
-		int index = fn.lastIndexOf('.');
-		if (index == -1) {
-			return; // Ignore files without extension
+		FileExtensions ext = StringUtil.getFileExtension(fn);
+
+		// Ignore non image files
+		if (!ext.isImage()) {
+			return;
 		}
 
-		String ext = fn.substring(index + 1).toLowerCase();
-		if (!IMAGE_EXTENSIONS.contains(ext)) {
-			return; // Ignore non image files
+		// bug in old versions (PNG saved with wrong extension)
+		// change BMP, TIFF, TIF -> PNG
+		if (!ext.isAllowedImage()) {
+			fn = StringUtil.changeFileExtension(fn, FileExtensions.PNG);
 		}
 
 		// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
 		// App.debug("filename2 = " + filename);
 		// App.debug("ext2 = " + ext);
 
-		if ("svg".equals(ext)) {
+		if (ext.equals(FileExtensions.SVG)) {
 			// IE11/12 seems to require SVG to be base64 encoded
 			addExternalImage(filename, "data:image/svg+xml;base64,"
 			        + encodeBase64String(content));
