@@ -298,6 +298,31 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// evaluate in Giac
 		String plainResult = evaluateCAS(giacInput);
+		// get initial nr of vars
+		int nrOfVars = casParser.getNrOfVars();
+		StringBuilder newPlainResult = new StringBuilder();
+		// case we need to process the result
+		if (nrOfVars > 0) {
+			// get array of potential results
+			String[] partsOfResult = plainResult.split("},");
+			for (int i = 0; i < partsOfResult.length; i++) {
+				// get array of solutions
+				String[] partsOfCurrSol = partsOfResult[i].split(",");
+				// append only asked solutions
+				for (int j = 0; j < nrOfVars; j++) {
+					if (j == nrOfVars - 1) {
+						newPlainResult.append(partsOfCurrSol[j] + "},");
+					} else {
+						newPlainResult.append(partsOfCurrSol[j] + ",");
+					}
+				}
+			}
+			newPlainResult.setLength(newPlainResult.length() - 1);
+			newPlainResult.append("}");
+			// reset nrOfVars
+			casParser.setNrOfVars(0);
+			return newPlainResult.toString();
+		}
 		return plainResult;
 	}
 

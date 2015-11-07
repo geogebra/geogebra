@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -316,86 +317,98 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// build command key as name + "." + args.size()
 		// remove 'N'
 		sbCASCommand.setLength(sbCASCommand.length() - 1);
-		// add eg '3'
 
+		// check if completion of variable list is needed
+		boolean paramEquExists = checkForParamEquExistance(args, name);
 		// check if list of vars needs completion
 		boolean varComplNeeded = false;
 		String complOfVarsStr = "";
-		if (name.equals("Solve") && args.size() == 2) {
-			if (args.get(0).getLeft() instanceof MyList
-					&& (args.get(1).getLeft() instanceof MyList || args.get(1)
-							.getLeft() instanceof GeoDummyVariable)) {
-				// fix for GGB-134
-				app.getKernel().setResolveUnkownVarsAsDummyGeos(true);
-				// set of variables in list of equations
-				Set<String> varsInEqus = new HashSet<String>();
-				// set of variables in list of variables
-				Set<String> vars = new HashSet<String>();
-				// get list of equations
-				MyList listOfEqus = (MyList) args.get(0).getLeft();
-				for (int i = 0; i < listOfEqus.size(); i++) {
-					// get variables of current equation
-					HashSet<GeoElement> varsInCurrEqu = listOfEqus
+		if (paramEquExists) {
+			// store nr of variables from input
+			if (args.get(1).getLeft() instanceof MyList) {
+				casParser.setNrOfVars(((MyList) args.get(1).getLeft()).size());
+			} else {
+				casParser.setNrOfVars(1);
+			}
+			// fix for GGB-134
+			app.getKernel().setResolveUnkownVarsAsDummyGeos(true);
+			// set of variables in list of equations
+			Set<String> varsInEqus = new HashSet<String>();
+			// set of variables in list of variables
+			Set<String> vars = new HashSet<String>();
+			// get list of equations
+			MyList listOfEqus = (MyList) args.get(0).getLeft();
+			for (int i = 0; i < listOfEqus.size(); i++) {
+				// get variables of current equation
+				HashSet<GeoElement> varsInCurrEqu = listOfEqus
 							.getListElement(i).getVariables();
-					// add to set of vars form equations
-					for (GeoElement geo : varsInCurrEqu) {
-						varsInEqus.add(geo
+				// add to set of vars form equations
+				for (GeoElement geo : varsInCurrEqu) {
+					varsInEqus
+							.add(geo
 								.toString(StringTemplate.defaultTemplate));
-					}
 				}
-				// case we have list of vars in input as second argument
-				if (args.get(1).getLeft() instanceof MyList) {
-					MyList listOfVars = (MyList) args.get(1).getLeft();
-					// collect vars from input list of vars
-					for (int i = 0; i < listOfVars.size(); i++) {
-						vars.add(listOfVars.getItem(i).toString(
+			}
+			// case we have list of vars in input as second argument
+			if (args.get(1).getLeft() instanceof MyList) {
+				MyList listOfVars = (MyList) args.get(1).getLeft();
+				// collect vars from input list of vars
+				for (int i = 0; i < listOfVars.size(); i++) {
+					vars.add(listOfVars.getItem(i).toString(
 								StringTemplate.defaultTemplate));
-					}
 				}
-				// case input list of vars was one variable
-				else {
-					vars.add(args.get(1).getLeft()
+			}
+			// case input list of vars was one variable
+			else {
+				vars.add(args.get(1).getLeft()
 							.toString(StringTemplate.defaultTemplate));
-				}
-				// set of vars from equations, but unknown from list of vars
-				varsInEqus.removeAll(vars);
-				for (String str : varsInEqus) {
+			}
+			// set of vars from equations, but unknown from list of vars
+			varsInEqus.removeAll(vars);
+			// case the nr of variables was already nr of vars in equations
+			if (varsInEqus.isEmpty()) {
+				casParser.setNrOfVars(0);
+			}
+			for (String str : varsInEqus) {
+				if (!str.equals("x") && !str.equals("y")
+							&& !str.equals("z")) {
 					// add current variable to the completion string
-					complOfVarsStr += "," + str;
-					// get equation of current variable
-					ValidExpression node = app.getKernel().getConstruction()
+					complOfVarsStr += ",ggbtmpvar" + str;
+				} else {
+					complOfVarsStr += ", " + str;
+				}
+				// get equation of current variable
+				ValidExpression node = app.getKernel().getConstruction()
 							.geoCeListLookup(str);
-					// get variables of obtained equation
-					HashSet<GeoElement> varsFromEquOfCurrVars = node == null ? new HashSet<GeoElement>()
+				// get variables of obtained equation
+				HashSet<GeoElement> varsFromEquOfCurrVars = node == null ? new HashSet<GeoElement>()
 							: node
 							.getVariables();
-					HashSet<String> stringVarsFromEquOfCurrVars = new HashSet<String>(
+				HashSet<String> stringVarsFromEquOfCurrVars = new HashSet<String>(
 							varsFromEquOfCurrVars.size());
-					// collect labels of variables from obtained equation
-					for (GeoElement geo : varsFromEquOfCurrVars) {
-						String geoStr = geo
+				// collect labels of variables from obtained equation
+				for (GeoElement geo : varsFromEquOfCurrVars) {
+					String geoStr = geo
 								.toString(StringTemplate.defaultTemplate);
-						if (!geoStr.equals(str)) {
+					if (!geoStr.equals(str)) {
 							stringVarsFromEquOfCurrVars.add(geo
 									.toString(StringTemplate.defaultTemplate));
-						}
-					}
-					// we need only the dependent variables of the current
-					// equation
-					stringVarsFromEquOfCurrVars.removeAll(vars);
-					// the current equation depends only on the input variable
-					// list
-					if (stringVarsFromEquOfCurrVars.isEmpty()) {
-						varComplNeeded = true;
-					}
-					// we found unknown variable
-					else {
-						varComplNeeded = false;
-						App.debug(str + " contains unknown variable");
-						break;
 					}
 				}
-
+				// we need only the dependent variables of the current
+				// equation
+				stringVarsFromEquOfCurrVars.removeAll(vars);
+				// the current equation depends only on the input variable
+				// list
+				if (stringVarsFromEquOfCurrVars.isEmpty()) {
+					varComplNeeded = true;
+				}
+				// we found unknown variable
+				else {
+					varComplNeeded = false;
+					App.debug(str + " contains unknown variable");
+					break;
+				}
 			}
 		}
 
@@ -496,7 +509,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					}
 				}
 			}
-		} else {
+		}
+		// add eg '3'
+		else {
 			sbCASCommand.append(args.size());
 		}
 
@@ -759,6 +774,32 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	// method to check if we should make completion of variable list
+	private static boolean checkForParamEquExistance(
+			ArrayList<ExpressionNode> args, String name) {
+		// case we have command Solve[<Equation list>, <Variable list>]
+		if (name.equals("Solve") && args.size() == 2) {
+			if (args.get(0).getLeft() instanceof MyList
+					&& (args.get(1).getLeft() instanceof MyList || args.get(1)
+							.getLeft() instanceof GeoDummyVariable)) {
+				// list of equations
+				MyList listOfEquations = (MyList) args.get(0).getLeft();
+				// analyze if first equation is a parametric equation
+				if (listOfEquations.getItem(0).isExpressionNode()
+						&& ((ExpressionNode) listOfEquations.getItem(0))
+								.getLeft() instanceof Equation) {
+					Equation equation = (Equation) ((ExpressionNode) listOfEquations
+							.getItem(0)).getLeft();
+					if (equation.getLHS().evaluatesTo3DVector()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+
 	}
 
 	private static boolean isEquation(ExpressionValue listElement,

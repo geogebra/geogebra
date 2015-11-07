@@ -50,6 +50,8 @@ import org.geogebra.common.util.Unicode;
 public class CASparser implements CASParserInterface {
 	private Parser parser;
 	private ParserFunctions parserFunctions;
+	// it's defined only for command Solve with parametric equation
+	private int nrOfVars = 0;
 
 	/**
 	 * Creates new CAS parser
@@ -370,6 +372,21 @@ public class CASparser implements CASParserInterface {
 	 */
 	public ParserFunctions getParserFunctions() {
 		return parserFunctions;
+	}
+
+	/**
+	 * @return number of variables in Solve command before completion
+	 */
+	public int getNrOfVars() {
+		return nrOfVars;
+	}
+
+	/**
+	 * @param nrOfVars
+	 *            - number of variables in Solve command before completion
+	 */
+	public void setNrOfVars(int nrOfVars) {
+		this.nrOfVars = nrOfVars;
 	}
 
 	/**
