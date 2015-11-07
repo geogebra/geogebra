@@ -81,7 +81,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private GDimension selectedDimension;
 	private int currentIdx;
 	private float lastDescent;
-	private float lastAscent;
+	float lastAscent;
+	private boolean latexLabel;
 	/**
 	 * Creates new drawable list
 	 * 
@@ -204,8 +205,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
 				prefSize.getHeight());
 		box.setBounds(labelRectangle);
-		// geo.updateRepaint();
-
 	}
 
 	private String getLabelText() {
@@ -386,6 +385,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				return true;
 		}
 		return false;
+		
 
 	}
 
@@ -496,24 +496,29 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		update();
 	}
 
-	@Override
-	protected void drawWidget(GGraphics2D g2) {
+	private void updateMetrics(GGraphics2D g2) {
 		// just measuring
 		g2.setPaint(GColor.WHITE);
 		drawOptionLines(g2, 0, 0, false);
 		setPreferredSize(getPreferredSize());
 
 		g2.setFont(getLabelFont());
-		String labelText = getLabelText();
-		boolean latexLabel = measureLabel(g2, geoList, labelText);
-		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
-		int textBottom = boxTop + getTextBottom();
-
+		latexLabel = measureLabel(g2, geoList, getLabelText());
+//		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
+//		int textBottom = boxTop + getTextBottom();
+//
 		// TF Bounds
 
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
  boxHeight);
-		box.setBounds(labelRectangle);
+		
+	}
+	@Override
+	protected void drawWidget(GGraphics2D g2) {
+		updateMetrics(g2);
+		String labelText = getLabelText();
+		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
+		int textBottom = boxTop + getTextBottom();
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor() : view.getBackgroundCommon();
 
@@ -627,15 +632,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 						/ 2;
 	}
 
-	private int getFontDiff() {
-		return (view.getApplication().getFontSize() / 24) * 5;
-	}
-
 	private void drawOptions(GGraphics2D g2) {
 
 		g2.setPaint(geoList.getBackgroundColor());
-		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP
-				+ (int) optionItems.get(0).getBounds().getY();
+		int itemY = (int) optionItems.get(0).getBounds().getY();
+		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
+		App.debug("[OPTTOP] boxTop: " + boxTop + " boxHeight: " + boxHeight
+				+ " itemY: " + itemY + " gap: " + OPTIONBOX_COMBO_GAP
+				+ " total: " + optTop);
 		int viewBottom = view.getViewHeight();
 		if (optTop + optionsHeight > viewBottom) {
 			App.debug("[DROPDOWN] offscreen: adjusting.");
@@ -708,7 +712,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			@Override
 			public int getHeight() {
 				// TODO Auto-generated method stub
-				return (int) Math.round(lastAscent + lastDescent);
+				return Math.round(lastAscent + lastDescent);
 			}
 		};
 	}
@@ -813,7 +817,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			rowTop += h + gap;
 
 		}
-		// optionsHeight += getPlainItemGap();
+
 		optionsWidth += 2 * COMBO_TEXT_MARGIN + getTriangleControlWidth();
 	}
 
