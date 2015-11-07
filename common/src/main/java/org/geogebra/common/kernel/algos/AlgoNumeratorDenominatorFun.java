@@ -60,7 +60,7 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.Numerator;
+		return type;
 	}
 
 	// for AlgoElement
