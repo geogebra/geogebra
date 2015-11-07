@@ -681,9 +681,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (draw) {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					left, top, false, false);
-			lastDescent = layout.getDescent();
-			lastAscent = layout.getAscent();
 		}
+		lastDescent = layout.getDescent();
+		lastAscent = layout.getAscent();
 
 		return AwtFactory.prototype.newDimension(w,
 				Math.round(lastAscent + lastDescent));
