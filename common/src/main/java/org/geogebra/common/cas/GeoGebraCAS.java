@@ -323,6 +323,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// check if list of vars needs completion
 		boolean varComplNeeded = false;
 		String complOfVarsStr = "";
+		// fix for GGB-134
+		app.getKernel().setResolveUnkownVarsAsDummyGeos(true);
 		if (paramEquExists) {
 			// store nr of variables from input
 			if (args.get(1).getLeft() instanceof MyList) {
@@ -330,8 +332,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			} else {
 				casParser.setNrOfVars(1);
 			}
-			// fix for GGB-134
-			app.getKernel().setResolveUnkownVarsAsDummyGeos(true);
 			// set of variables in list of equations
 			Set<String> varsInEqus = new HashSet<String>();
 			// set of variables in list of variables
