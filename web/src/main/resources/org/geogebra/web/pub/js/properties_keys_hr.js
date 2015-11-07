@@ -2266,7 +2266,7 @@ __GGB__keysVar.hr.plain = {
     "BoxSize.medium": "Srednje",
     "BoxSize.small": "Malo",
     "Breakpoint": "Kontrolna to\u010dka",
-    "Breakpoint.short": "BP",
+    "Breakpoint.short": "PT",
     "ButNotGenerallyTrue": "(ali op\u0107enito nije istina)",
     "Button": "Gumb",
     "ButtonSize": "Veli\u010dina gumba",
