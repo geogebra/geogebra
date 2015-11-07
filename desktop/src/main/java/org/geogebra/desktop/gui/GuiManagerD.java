@@ -2680,7 +2680,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 	public void updateFrameSize() {
 		JFrame fr = ((AppD) app).getFrame();
-		if (fr != null) {
+		if (fr instanceof GeoGebraFrame) {
 			((GeoGebraFrame) fr).updateSize();
 			((AppD) app).validateComponent();
 		}
