@@ -52,7 +52,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int OPTIONSBOX_ITEM_GAP_MEDIUM = 40;
 	private static final int OPTIONSBOX_ITEM_GAP_BIG = 55;
 	private static final int COMBO_TEXT_MARGIN = 5;
-	private static final int OPTIONBOX_TEXT_MARGIN_LEFT = 5;
 	private static final int OPTIONBOX_COMBO_GAP = 5;
 	private static final int LABEL_COMBO_GAP = 10;
 	private static final int TEXT_CENTER = -1;
@@ -497,16 +496,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private void updateMetrics(GGraphics2D g2) {
 		// just measuring
 		g2.setPaint(GColor.WHITE);
-		drawOptionLines(g2, 0, 0, false);
+		drawOptionLines(g2, 0, false);
 		setPreferredSize(getPreferredSize());
 
 		g2.setFont(getLabelFont());
 		latexLabel = measureLabel(g2, geoList, getLabelText());
-//		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
-//		int textBottom = boxTop + getTextBottom();
-//
-		// TF Bounds
-
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
  boxHeight);
 		
@@ -539,7 +533,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			textBottom = alignTextToBottom(g2, boxTop, boxHeight, selectedText);
 		}
 
-		drawTextLine(g2, textLeft, textBottom, selectedText, latex, false,
+		drawTextLine(g2, textLeft, textBottom, selectedText, latex,
 				true);
 
 		drawControl(g2);
@@ -555,7 +549,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private int alignTextToBottom(GGraphics2D g2, int top, int height,
 			String text) {
-		int base = (height + getTextDescent(g2, selectedText)) / 2;
+		int base = (height + getTextDescent(g2, text)) / 2;
 		return top + base + (height - base) / 2;
 
 	}
@@ -581,6 +575,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
+	@Override
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
 		if (geo.isLabelVisible() && geo.doHighlighting() && latex) {
 			g2.fillRect(xLabel, boxTop + (boxHeight - labelSize.y) / 2,
@@ -594,7 +589,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private void drawControl(GGraphics2D g2) {
 		g2.setPaint(GColor.BLACK);
-		int width = boxHeight;
 		int left = boxLeft + boxWidth - boxHeight;
 
 		ctrlRect.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
@@ -652,14 +646,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		g2.setPaint(geo.getObjectColor());
 
-		int textLeft = boxLeft + OPTIONBOX_TEXT_MARGIN_LEFT;
 		int rowTop = optTop;
-		drawOptionLines(g2, textLeft, rowTop, true);
+		drawOptionLines(g2, rowTop, true);
 	}
 
 	private GDimension drawTextLine(GGraphics2D g2, int textLeft, int top,
- String text,
- boolean latex, boolean selected, boolean draw) {
+			String text, boolean latex, boolean draw) {
 
 		int left = textLeft;
 
@@ -682,9 +674,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		GTextLayout layout = g2.getFontRenderContext().getTextLayout(text,
 				getLabelFont());
 		final int w = (int) layout.getBounds().getWidth();
-		final int h = (int) (layout.getBounds().getHeight()
-				+ layout.getDescent());
-
 		if (left == TEXT_CENTER) {
 			left = boxLeft + (boxWidth - w) / 2;
 		}
@@ -700,7 +689,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				Math.round(lastAscent + lastDescent));
 	}
 
-	private void drawOptionLines(GGraphics2D g2, int left, int top,
+	private void drawOptionLines(GGraphics2D g2, int top,
 			boolean draw) {
 		optionsWidth = 0;
 		optionsHeight = 0;
@@ -734,7 +723,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			}
 
 			GDimension d = drawTextLine(g2, TEXT_CENTER, rowTop, text, latex,
-					true,
 					draw);
 
 			int h = d.getHeight();
@@ -762,7 +750,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				g2.drawRoundRect(rx, ry, rw, rh, 4, 4);
 
 				g2.setPaint(geoList.getObjectColor());
-				drawTextLine(g2, TEXT_CENTER, rowTop, text, latex, true,
+				drawTextLine(g2, TEXT_CENTER, rowTop, text, latex, 
  draw);
 			}
 
@@ -1041,13 +1029,25 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	/**
-	 * Gets DrawList for geo.
+	 * Gets DrawList for geo. No type check.
+	 * 
+	 * @param app
+	 *            The current application.
+	 * @param geo
+	 *            The geo we like to get the DrawList for.
+	 * @return The DrawList for the geo element;
 	 * 
 	 */
 	public static DrawList asDrawable(App app, GeoElement geo) {
 		return (DrawList) app.getActiveEuclidianView().getDrawableFor(geo);
 	}
 
+	/**
+	 * Moves dropdown selection indicator up or down by one item.
+	 * 
+	 * @param down
+	 *            Sets if selection indicator should move down or up.
+	 */
 	public void moveSelection(boolean down) {
 		if (down) {
 			if (currentIdx < optionItems.size() - 1) {
