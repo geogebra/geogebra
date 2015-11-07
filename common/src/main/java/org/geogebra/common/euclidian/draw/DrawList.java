@@ -698,6 +698,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int size = geoList.size();
 		int rowTop = top;
 		boolean allLatex = true;
+		int standardGap = getOptionsItemGap();
 		for (int i = 0; i < size; i++) {
 			GBox b = geo.getKernel().getApplication().getSwingFactory()
 					.createHorizontalBox(view.getEuclidianController());
@@ -716,7 +717,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					: allLatex;
 
 			boolean hovered = i == selectedOptionIndex;
-			int standardGap = getOptionsItemGap();
 
 			if (i == 0 && !latex) {
 				rowTop += getFullTextHeight(g2, text) + standardGap / 2;
@@ -763,31 +763,21 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				optionsWidth = d.getWidth();
 			}
 
-			int gap = standardGap;
-			if (latex || latexNext) {
-				gap = 0;
-			} else if (i == size - 1) {
-				gap = getTextDescent(g2, text) + standardGap;
+
+			if (!latex && latexNext) {
+				rowTop += standardGap;
+				optionsHeight += standardGap;
+
+			} else if (latex && !latexNext) {
+				rowTop += itemRect.getHeight() + 1.5 * standardGap;
+			} else {
+				rowTop += itemRect.getHeight();
 			}
-
-			// If the neighbors are of different kinds (LaTeX-Plain),
-			// more gap is needed.
-
-			// LaTeX - Plain
-			if (latex && !latexNext) {
-				if (i < size - 1) {
-					gap += h;
-				} else {
-					gap += standardGap;
-				}
-			}
-
-
-			optionsHeight += h + gap;
-			rowTop += h + gap;
 
 		}
-
+		GRectangle lastRect = optionItems.get(optionItems.size() - 1);
+		optionsHeight = (int) ((lastRect.getY() + lastRect.getHeight())
+				- optionItems.get(0).getY());
 		optionsWidth += 2 * COMBO_TEXT_MARGIN + getTriangleControlWidth();
 	}
 
