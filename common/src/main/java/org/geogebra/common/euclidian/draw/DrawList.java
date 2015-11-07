@@ -946,6 +946,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
+	@Override
+	public void updateFontSize() {
+		geo.updateRepaint();
+	}
+
 	/**
 	 * Called when user presses down the mouse on the widget.
 	 * 
