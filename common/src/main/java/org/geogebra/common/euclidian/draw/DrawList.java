@@ -66,7 +66,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	/** combobox */
 	org.geogebra.common.javax.swing.AbstractJComboBox comboBox;
 	private org.geogebra.common.javax.swing.GLabel label;
-	private org.geogebra.common.javax.swing.GBox box;
 	private DropDownList dropDown = null;
 	private int optionsHeight;
 	private int optionsWidth;
@@ -76,12 +75,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private GRectangle ctrlRect;
 	private GRectangle optionsRect;
 	private GBox optionsBox;
-	private int optionsItemHeight;
 	private int selectedOptionIndex;
 	private GDimension selectedDimension;
 	private int currentIdx;
 	private float lastDescent;
-	float lastAscent;
+	private float lastAscent;
 	private boolean latexLabel;
 	/**
 	 * Creates new drawable list
@@ -696,32 +694,16 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					left, top, false, false);
 			lastDescent = layout.getDescent();
 			lastAscent = layout.getAscent();
-			// g2.drawLine(boxLeft, top, left + optionsWidth, top);
-			// g2.drawLine(boxLeft, top - h, left + optionsWidth, top - h);
-
 		}
 
-		return new GDimension() {
-
-			@Override
-			public int getWidth() {
-				// TODO Auto-generated method stub
-				return w;
-			}
-
-			@Override
-			public int getHeight() {
-				// TODO Auto-generated method stub
-				return Math.round(lastAscent + lastDescent);
-			}
-		};
+		return AwtFactory.prototype.newDimension(w,
+				Math.round(lastAscent + lastDescent));
 	}
 
 	private void drawOptionLines(GGraphics2D g2, int left, int top,
 			boolean draw) {
 		optionsWidth = 0;
 		optionsHeight = 0;
-		optionsItemHeight = 0;
 		selectedDimension = null;
 		optionItems.clear();
 		int size = geoList.size();
@@ -859,22 +841,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	}
 	@Override
 	public GDimension getPreferredSize() {
-		// TODO: eliminate magic numbers
-		return new GDimension() {
+		if (selectedDimension == null) {
+			return AwtFactory.prototype.newDimension(0, 0);
+		}
 
-			@Override
-			public int getWidth() {
-				return getPreferredWidth();
-			}
+		return AwtFactory.prototype.newDimension(getPreferredWidth(),
+				selectedDimension.getHeight() + COMBO_TEXT_MARGIN);
 
-			@Override
-			public int getHeight() {
-				return selectedDimension.getHeight() + COMBO_TEXT_MARGIN;// (int)
-														// (getMultipliedFontSize()
-														// * MUL_FONT_HEIGHT);
-
-			}
-		};
 	}
 
 	@Override
