@@ -8028,7 +8028,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return val as geoelement or null for MyDouble / MyBoolean
 	 */
 	public static GeoElement as(NumberValue val) {
-		return val.isGeoElement() ? val.toGeoElement() : null;
+		return val instanceof GeoElement ? val.toGeoElement() : null;
 	}
 
 	@Override
