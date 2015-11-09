@@ -791,7 +791,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		this.x = x;
 		this.y = y;
 		this.z = z;
-
+		setDefinition(null);
 		// update point on path: this may change coords
 		// so updateCoords() is called afterwards
 		if (path != null) {

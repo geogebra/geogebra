@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -287,4 +288,8 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	void setVisibleInViewForPlane(GeoElement geoList);
 
 	boolean isDrawable();
+
+	ExpressionNode getDefinition();
+
+	void setDefinition(ExpressionNode def);
 }

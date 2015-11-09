@@ -2487,10 +2487,12 @@ public class AlgebraProcessor {
 		double value = val.getDouble();
 
 		if (isIndependent) {
-			if (isAngle)
+			if (isAngle) {
 				ret[0] = new GeoAngle(cons, label, value, AngleStyle.UNBOUNDED);
-			else
+			} else {
 				ret[0] = new GeoNumeric(cons, label, value);
+			}
+			ret[0].setDefinition(n);
 		} else {
 			ret[0] = DependentNumber(label, n, isAngle, evaluate)
 					.toGeoElement();
@@ -2670,10 +2672,12 @@ public class AlgebraProcessor {
 			// get coords
 			double x = p.getX();
 			double y = p.getY();
-			if (isVector)
+			if (isVector) {
 				ret[0] = kernel.getAlgoDispatcher().Vector(label, x, y);
-			else
+			} else {
 				ret[0] = kernel.getAlgoDispatcher().Point(label, x, y, complex);
+			}
+			ret[0].setDefinition(n);
 		} else {
 			if (isVector)
 				ret[0] = DependentVector(label, n);

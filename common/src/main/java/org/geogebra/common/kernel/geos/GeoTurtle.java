@@ -120,7 +120,7 @@ public class GeoTurtle extends GeoPoint{
 	public GeoElement copyInternal(Construction cons1) {
 		GeoTurtle ret = new GeoTurtle(cons1, null);
 		// ret.points = GeoElement.copyPoints(cons1, points);
-		ret.set((GeoElement)this);
+		ret.set(this);
 
 		return ret;
 	}
@@ -585,14 +585,17 @@ public class GeoTurtle extends GeoPoint{
 			time = Math.abs(l);
 		}
 		
+		@Override
 		public CmdType getType() {
 			return CmdType.FORWARD;
 		}
 		
+		@Override
 		public double getTime() {
 			return time;
 		}
 		
+		@Override
 		public void perform() {
 			position[0] += length*cosAngle;
 			position[1] += length*sinAngle;
@@ -601,10 +604,12 @@ public class GeoTurtle extends GeoPoint{
 			setCoords(position[0], position[1], 1d);
 		}
 		
+		@Override
 		public void draw(DrawState ds) {
 			ds.move(destination);
 		}
 		
+		@Override
 		public void partialDraw(DrawState ds, double progress) {
 			ds.partialMove(destination, progress);
 		}
@@ -620,8 +625,11 @@ public class GeoTurtle extends GeoPoint{
 	 * Set turtle position immediately
 	 */
 	public class CmdSetCoords implements Command {
+		/** x-coord */
 		protected double destX;
+		/** y-coord */
 		protected double destY;
+		/** destination point */
 		protected GeoPoint destination;
 		
 		/**
@@ -633,6 +641,7 @@ public class GeoTurtle extends GeoPoint{
 			destY = y;
 		}
 		
+		@Override
 		public CmdType getType() {
 			//TODO or CmdType.SET_COORDS ?
 			//I don't know what this enum must do,
@@ -640,10 +649,12 @@ public class GeoTurtle extends GeoPoint{
 			return CmdType.SET_POSITION;
 		}
 
+		@Override
 		public double getTime() {
 			return 0;
 		}
 
+		@Override
 		public void perform() {
 			position[0] = destX;
 			position[1] = destY;
@@ -656,10 +667,12 @@ public class GeoTurtle extends GeoPoint{
 			
 		}
 
+		@Override
 		public void draw(DrawState ds) {
 			ds.move(destination);
 		}
 
+		@Override
 		public void partialDraw(DrawState ds, double progress) {
 			ds.partialMove(destination, progress);
 		}
@@ -681,10 +694,12 @@ public class GeoTurtle extends GeoPoint{
 			time = Math.hypot(x - position[0], y - position[1]);
 		}
 		
+		@Override
 		public CmdType getType() {
 			return CmdType.SET_POSITION;
 		}
 
+		@Override
 		public double getTime() {
 			return time;
 		}
@@ -707,24 +722,30 @@ public class GeoTurtle extends GeoPoint{
 			angle = a * Math.PI / 180;
 			time = Math.abs(a) / 90;
 		}
+
+		@Override
 		public CmdType getType() {
 			return CmdType.TURN;
 		}
 		
+		@Override
 		public double getTime() {
 			return time;
 		}
 		
+		@Override
 		public void perform() {
 			turnAngle += angle;
 			sinAngle = Math.sin(turnAngle);
 			cosAngle = Math.cos(turnAngle);
 		}
 		
+		@Override
 		public void draw(DrawState ds) {
 			ds.turn(angle);
 		}
 		
+		@Override
 		public void partialDraw(DrawState ds, double progress) {
 			ds.partialTurn(angle, progress);
 		}
@@ -752,22 +773,27 @@ public class GeoTurtle extends GeoPoint{
 			color = c;
 		}
 		
+		@Override
 		public CmdType getType() {
 			return CmdType.SET_COLOR;
 		}
 		
+		@Override
 		public double getTime() {
 			return 0d;
 		}
 		
+		@Override
 		public void perform() {
 			penColor = color;
 		}
 		
+		@Override
 		public void draw(DrawState ds) {
 			ds.setColor(color);
 		}
 		
+		@Override
 		public void partialDraw(DrawState ds, double progress) {
 			// nothing to do
 		}
@@ -792,22 +818,27 @@ public class GeoTurtle extends GeoPoint{
 			down = d;
 		}
 		
+		@Override
 		public CmdType getType() {
 			return CmdType.SET_PEN;
 		}
 		
+		@Override
 		public double getTime() {
 			return 0d;
 		}
 		
+		@Override
 		public void perform() {
 			penDown = down;
 		}
 		
+		@Override
 		public void draw(DrawState ds) {
 			ds.setPen(down);
 		}
 		
+		@Override
 		public void partialDraw(DrawState ds, double progress) {
 			// nothing to do
 		}
@@ -832,22 +863,27 @@ public class GeoTurtle extends GeoPoint{
 			thickness = th;
 		}
 		
+		@Override
 		public CmdType getType() {
 			return CmdType.SET_THICKNESS;
 		}
 		
+		@Override
 		public double getTime() {
 			return 0d;
 		}
 		
+		@Override
 		public void perform() {
 			penThickness = thickness;
 		}
 		
+		@Override
 		public void draw(DrawState ds) {
 			ds.setThickness(thickness);
 		}
 		
+		@Override
 		public void partialDraw(DrawState ds, double progress) {
 			// nothing to do
 		}

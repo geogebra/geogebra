@@ -37,7 +37,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 
-	private ExpressionNode root; // input
+
 	private GeoNumberValue number; // output
 
 	/**
@@ -64,7 +64,6 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 	public AlgoDependentNumber(Construction cons, ExpressionNode root,
 			boolean isAngle, ExpressionValue evaluate) {
 		super(cons);
-		this.root = root;
 
 		// simplify constant integers, e.g. -1 * 300 becomes -300
 		root.simplifyConstantIntegers();
@@ -89,6 +88,7 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 		} else {
 			number = new GeoNumeric(cons);
 		}
+		number.toGeoElement().setDefinition(root);
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
@@ -103,7 +103,7 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = root.getGeoElementVariables();
+		input = number.getDefinition().getGeoElementVariables();
 		if (input == null) {
 			input = new GeoElement[0];
 		}
@@ -117,20 +117,22 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 	}
 
 	public ExpressionNode getExpression() {
-		return root;
+		return number.getDefinition();
 	}
 
 	// calc the current value of the arithmetic tree
 	@Override
 	public final void compute() {
 		try {
-			NumberValue nv = (NumberValue) root
+			NumberValue nv = (NumberValue) number.getDefinition()
 					.evaluate(StringTemplate.defaultTemplate);
+			ExpressionNode def = number.getDefinition();
 			if (number instanceof GeoNumeric) {
 				((GeoNumeric) number).setValue(nv.getDouble());
 			} else {
 				number.set(nv.toGeoElement());
 			}
+			number.setDefinition(def);
 		} catch (Throwable e) {
 			number.setUndefined();
 		}
@@ -140,7 +142,7 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 	final public String toString(StringTemplate tpl) {
 		// was defined as e.g. r = 5a - 3b
 		// return 5a - 3b
-		return root.toString(tpl);
+		return number.getDefinition().toString(tpl);
 	}
 
 	// TODO Consider locusequability

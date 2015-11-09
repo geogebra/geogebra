@@ -162,7 +162,9 @@ public class CmdSetValue extends CmdScripting {
 				ExpressionNode en = al.getExpression();
 				if (en.getOperation().equals(Operation.RANDOM)) {
 					GeoNumeric num = ((GeoNumeric) al.getOutput()[0]);
+					ExpressionNode def = num.getDefinition();
 					num.setValue(val);
+					num.setDefinition(def);
 					num.updateRepaint();
 				}
 			}

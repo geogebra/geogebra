@@ -540,6 +540,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 *            visibility again
 	 */
 	public void setValue(double x, boolean changeAnimationValue) {
+		setDefinition(null);
 		if (Double.isNaN(x))
 			value = Double.NaN;
 		else if (isIntervalMinActive() && x < getIntervalMin()){
@@ -1366,7 +1367,12 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		// set random value (for numbers used in trees using random())
 		setValue(kernel.getApplication().getRandomNumber());
 
-		super.updateRandomGeo();
+		final AlgoElement algo = getParentAlgorithm();
+		if (algo != null) {
+			algo.compute(); // eg AlgoRandom etc
+		} else {
+			updateRandom();
+		}
 	}
 
 	/**

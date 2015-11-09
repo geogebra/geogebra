@@ -567,10 +567,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getLabel(StringTemplate tpl) {
 		if (!tpl.isUseRealLabels() || (realLabel == null) || realLabel.equals("")) {
 			if (!labelSet && !localVarLabelSet) {
-				if (algoParent == null) {
-					return toOutputValueString(tpl);
+				if (algoParent != null) {
+					return algoParent.getCommandDescription(tpl);
 				}
-				return algoParent.getCommandDescription(tpl);
+				if (definition != null) {
+					return definition.toString(tpl);
+				}
+				return toOutputValueString(tpl);
 			}
 			return tpl.printVariableName(label);
 		}
@@ -4451,10 +4454,15 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	@Override
 	final public String getCommandDescription(StringTemplate tpl) {
-		if (algoParent == null) {
-			return "";
+		if (algoParent != null) {
+			return algoParent.getCommandDescription(tpl);
+
 		}
-		return algoParent.getCommandDescription(tpl);
+		if (definition != null) {
+			return definition.toString(tpl);
+		}
+		return "";
+
 	}
 
 	/**
@@ -7030,8 +7038,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		final AlgoElement algo = getParentAlgorithm();
 		if (algo != null) {
 			algo.compute(); // eg AlgoRandom etc
-		} else if (isGeoNumeric()) {
-			((GeoNumeric) this).updateRandom();
 		}
 	}
 
@@ -7943,6 +7949,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	private boolean canBeRemovedAsInput = true;
 
 
+	private ExpressionNode definition;
 	
 	/**
 	 * set this can (not) be removed when input of algo
@@ -8048,5 +8055,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public Boolean isCongruent(GeoElement geo) {
 		return isEqual(geo) ? true : null;
+	}
+
+	public void setDefinition(ExpressionNode root) {
+		this.definition = root;
+	}
+
+	public ExpressionNode getDefinition() {
+		return definition;
 	}
 }

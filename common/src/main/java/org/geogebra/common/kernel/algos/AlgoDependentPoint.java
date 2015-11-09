@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
 		SymbolicParametersBotanaAlgo {
 
-	private ExpressionNode root; // input
 	private GeoPoint P; // output
 
 	private Variable[] botanaVars;
@@ -63,8 +62,9 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
 	public AlgoDependentPoint(Construction cons, ExpressionNode root,
 			boolean complex) {
 		super(cons);
-		this.root = root;
+
 		P = new GeoPoint(cons);
+		P.setDefinition(root);
 
 		setInputOutput(); // for AlgoElement
 
@@ -83,7 +83,7 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = root.getGeoElementVariables();
+		input = P.getDefinition().getGeoElementVariables();
 
 		setOutputLength(1);
 		setOutput(0, P);
@@ -95,14 +95,15 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
 	}
 
 	public ExpressionNode getExpressionNode() {
-		return root;
+		return P.getDefinition();
 	}
 
 	// calc the current value of the arithmetic tree
 	@Override
 	public final void compute() {
 		try {
-			temp = ((VectorValue) root.evaluate(StringTemplate.defaultTemplate))
+			temp = ((VectorValue) P.getDefinition().evaluate(
+					StringTemplate.defaultTemplate))
 					.getVector();
 			if (Double.isInfinite(temp.getX())
 					|| Double.isInfinite(temp.getY())) {
@@ -120,11 +121,11 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return root.toString(tpl);
+		return P.getDefinition().toString(tpl);
 	}
 
 	public Variable[] getBotanaVars(GeoElement geo) {
-		GeoElement left = (GeoElement) root.getLeft();
+		GeoElement left = (GeoElement) P.getDefinition().getLeft();
 		// GeoElement right = (GeoElement) root.getRight();
 		if (left != null) {
 			botanaVars = ((SymbolicParametersBotanaAlgo) left)
