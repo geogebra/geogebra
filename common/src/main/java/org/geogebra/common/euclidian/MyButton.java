@@ -229,16 +229,17 @@ public class MyButton implements Observer {
 
 		// draw image
 		if (geoButton.getFillImage() != null) {
-			
-					geoButton.getFillImage().drawSubimage(startX, startY,
-							imgWidth, imgHeight,g,
+
+			geoButton.getFillImage().drawSubimage(startX, startY, imgWidth,
+					imgHeight, g,
 					x + (geoButton.getWidth() - imgWidth) / 2, (int) (y
 							+ marginTopMultiplier * margin + imgStart));
 		}
 
 		// draw the text center-aligned to the button
 		if (hasText) {
-			int xPos = latex ? x
+			int xPos = latex
+					? (int) (x + (geoButton.getWidth() - textWidth) / 2)
 					: (int) (x + (geoButton.getWidth() - t.getAdvance() + add)
 							/ 2);
 			// int yPos = (int) (y + marginTopMultiplier * margin + imgHeight +
@@ -250,14 +251,15 @@ public class MyButton implements Observer {
 						* margin - textHeight) / 2;
 			}
 
-			int yPos = latex ? y
+			int yPos = latex
+					? (int) (y + (geoButton.getHeight() - textHeight) / 2)
 					: (int) (y + marginTopMultiplier * margin + imgHeight
-					+ imgGap + t.getAscent() + imgStart);
+							+ imgGap + t.getAscent() + imgStart);
 
 			if (geoButton.getFillImage() != null) {
 				yPos = latex ? 0
 						: (int) (y + marginTopMultiplier * margin + imgHeight
-						+ imgGap + t.getAscent() + imgStart);
+								+ imgGap + t.getAscent() + imgStart);
 			}
 
 			if (latex) {
@@ -269,8 +271,8 @@ public class MyButton implements Observer {
 								geoButton.getCaption(
 										StringTemplate.defaultTemplate),
 								font, false, geoButton.getObjectColor(),
-								geoButton.getBackgroundColor(), false,
-								false, null);
+								geoButton.getBackgroundColor(), false, false,
+								null);
 			} else {
 				g.drawString(
 						geoButton.getCaption(StringTemplate.defaultTemplate),
@@ -281,37 +283,60 @@ public class MyButton implements Observer {
 	}
 
 	private void resize(org.geogebra.common.awt.GGraphics2D g, int imgGap) {
+		boolean latex = hasLatex && CanvasDrawable.isLatexString(getCaption());
+
 		// Reduces the font for attempts
 		GTextLayout t = null;
 		int i = GeoText.getFontSizeIndex(((TextProperties) geoButton)
 				.getFontSizeMultiplier());
 		while (i > 0
 				&& (int) textHeight + imgGap
-						+ (marginTopMultiplier + marginBottomMultiplier)
+				+ (marginTopMultiplier + marginBottomMultiplier)
 						* margin > geoButton.getHeight()) {
 			i--;
 			font = font.deriveFont(font.getStyle(),
 					(int) (GeoText.getRelativeFontSize(i) * 12));
-			t = org.geogebra.common.factories.AwtFactory.prototype.newTextLayout(
-					getCaption(), font, g.getFontRenderContext());
-			textHeight = t.getAscent() + t.getDescent();
-			textWidth = t.getAdvance();
+			if (latex) {
+				GDimension d = CanvasDrawable.measureLatex(
+						view.getApplication(), g, geoButton, font,
+						getCaption());
+				textHeight = d.getHeight();
+				textWidth = d.getWidth();
+
+			} else {
+				t = org.geogebra.common.factories.AwtFactory.prototype
+						.newTextLayout(getCaption(), font,
+								g.getFontRenderContext());
+				textHeight = t.getAscent() + t.getDescent();
+				textWidth = t.getAdvance();
+			}
 		}
 
 		while (i > 0
 				&& (int) textWidth
-						+ (marginLeftMultiplier + marginRightMultiplier)
+				+ (marginLeftMultiplier + marginRightMultiplier)
 						* margin > geoButton.getWidth()) {
 			i--;
 			font = font.deriveFont(font.getStyle(),
 					(int) (GeoText.getRelativeFontSize(i) * 12));
-			t = org.geogebra.common.factories.AwtFactory.prototype.newTextLayout(
-					getCaption(), font, g.getFontRenderContext());
-			textHeight = t.getAscent() + t.getDescent();
-			textWidth = t.getAdvance();
+			if (latex) {
+				GDimension d = CanvasDrawable.measureLatex(
+						view.getApplication(), g, geoButton, font,
+						getCaption());
+				textHeight = d.getHeight();
+				textWidth = d.getWidth();
+
+			} else {
+				t = org.geogebra.common.factories.AwtFactory.prototype
+						.newTextLayout(getCaption(), font,
+								g.getFontRenderContext());
+				textHeight = t.getAscent() + t.getDescent();
+				textWidth = t.getAdvance();
+			}
 		}
 		geoButton.setFontSizeMultiplier(GeoText.getRelativeFontSize(i));
 		setFont(font);
+
 	}
 
 	/**
