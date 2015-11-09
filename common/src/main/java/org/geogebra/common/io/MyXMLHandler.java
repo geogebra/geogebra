@@ -4105,6 +4105,9 @@ public class MyXMLHandler implements DocHandler {
 			geo.setEuclidianVisible(false);
 			return true;
 		}
+		if (geo.getDefinition() != null) {
+			return true;
+		}
 		if (!(isNumber || isBoolean || geo.isGeoButton())) {
 			App.debug("wrong element type for <value>: " + geo.getClass());
 			return false;

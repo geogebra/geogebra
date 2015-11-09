@@ -549,7 +549,9 @@ public class Kernel {
 	 */
 	public boolean handleCoords(GeoElement geo,
 			LinkedHashMap<String, String> attrs) {
-
+		if (geo.getDefinition() != null) {
+			return true;
+		}
 		if (!(geo instanceof GeoVec3D)) {
 			App.debug("wrong element type for <coords>: " + geo.getClass());
 			return false;

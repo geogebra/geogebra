@@ -5293,6 +5293,16 @@ public abstract class GeoElement extends ConstructionElement implements
 		// make sure numbers are not put in XML in eg Arabic
 		//final boolean oldI8NValue = Kernel.internationalizeDigits;
 		//Kernel.internationalizeDigits = false;
+		if (isIndependent() && definition != null && getDefaultGeoType() < 0) {
+			sb.append("<expression");
+			sb.append(" label =\"");
+			sb.append(label);
+			sb.append("\" exp=\"");
+			StringUtil.encodeXML(sb,
+					definition.toString(StringTemplate.xmlTemplate));
+			// expression
+			sb.append("\"/>\n");
+		}
 
 		getElementOpenTagXML(sb);
 
