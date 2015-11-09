@@ -8855,14 +8855,15 @@ public abstract class EuclidianController {
 			// ggb3D - for 3D rotation
 			processRightPressFor3D(event);
 			return;
-		} else if (shallMoveView(event)) {
+		}
+		setViewHits(event.getType());
+		if (hitComboBox(event.getX(), event.getY())) {
+			return;
+		}
+		if (shallMoveView(event)) {
 			// Michael Borcherds 2007-12-08 BEGIN
 			// bugfix: couldn't select multiple objects with Ctrl
 
-			setViewHits(event.getType());
-			if (hitComboBox(event.getX(), event.getY())) {
-				return;
-			}
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 			dontClearSelection = !hits.isEmpty();
@@ -8873,14 +8874,13 @@ public abstract class EuclidianController {
 				if (mayPaste()) { // #5246 make sure we don't switch to
 									// translation if we have geos to paste
 					view.setMode(getModeForShallMoveView(event));
-				}
 			}
+		}
 			// if over an axis, force the correct cursor to be displayed
 			if (view.getHits().hasXAxis() || view.getHits().hasYAxis()) {
 				processMouseMoved(event);
 			}
 		}
-
 		switchModeForMousePressed(event);
 	}
 	
