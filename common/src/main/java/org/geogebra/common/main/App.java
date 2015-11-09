@@ -3907,6 +3907,7 @@ public abstract class App implements UpdateSelection {
 		case EXAM:
 		case FREE_3DCONICS:
 		case SHADERS_IN_DESKTOP:
+		case LATEX_ON_BUTTON:
 			return prerelease;
 		// return canary;
 		case AV_EXTENSIONS:

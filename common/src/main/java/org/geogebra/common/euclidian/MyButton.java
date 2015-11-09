@@ -1,14 +1,19 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
+import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoButton.Observer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 //import java.awt.Color;
 
@@ -35,6 +40,7 @@ public class MyButton implements Observer {
 	private static float marginBottomMultiplier = 0.5f;
 	private static float marginLeftMultiplier = 1f;
 	private static float marginRightMultiplier = 1f;
+	private boolean hasLatex = false;
 
 	/**
 	 * @param button
@@ -47,6 +53,7 @@ public class MyButton implements Observer {
 		this.view = view;
 		this.x = 20;
 		this.y = 20;
+		hasLatex = view.getApplication().has(Feature.LATEX_ON_BUTTON);
 		geoButton.setObserver(this);
 	}
 
@@ -64,6 +71,8 @@ public class MyButton implements Observer {
 	 *            graphics
 	 */
 	public void paintComponent(org.geogebra.common.awt.GGraphics2D g) {
+
+		boolean latex = hasLatex && CanvasDrawable.isLatexString(getCaption());
 
 		view.setAntialiasing(g);
 
@@ -88,10 +97,19 @@ public class MyButton implements Observer {
 		GTextLayout t = null;
 		// get dimensions
 		if (hasText) {
-			t = org.geogebra.common.factories.AwtFactory.prototype.newTextLayout(
-					getCaption(), font, g.getFontRenderContext());
-			textHeight = t.getAscent() + t.getDescent();
-			textWidth = t.getAdvance();
+			if (latex) {
+				GDimension d = CanvasDrawable.measureLatex(
+						view.getApplication(), g, geoButton, font,
+						getCaption());
+				textHeight = d.getHeight();
+				textWidth = d.getWidth();
+			} else {
+				t = org.geogebra.common.factories.AwtFactory.prototype
+						.newTextLayout(getCaption(), font,
+								g.getFontRenderContext());
+				textHeight = t.getAscent() + t.getDescent();
+				textWidth = t.getAdvance();
+			}
 		}
 		// With fixed size the font are resized if is too big
 		if (geoButton.isFixedSize()
@@ -220,7 +238,9 @@ public class MyButton implements Observer {
 
 		// draw the text center-aligned to the button
 		if (hasText) {
-			int xPos = (int) (x + (geoButton.getWidth() - t.getAdvance() + add) / 2);
+			int xPos = latex ? x
+					: (int) (x + (geoButton.getWidth() - t.getAdvance() + add)
+							/ 2);
 			// int yPos = (int) (y + marginTopMultiplier * margin + imgHeight +
 			// imgGap + t.getAscent() + imgStart);
 
@@ -230,16 +250,33 @@ public class MyButton implements Observer {
 						* margin - textHeight) / 2;
 			}
 
-			int yPos = (int) (y + marginTopMultiplier * margin + imgHeight
+			int yPos = latex ? y
+					: (int) (y + marginTopMultiplier * margin + imgHeight
 					+ imgGap + t.getAscent() + imgStart);
 
 			if (geoButton.getFillImage() != null) {
-				yPos = (int) (y + marginTopMultiplier * margin + imgHeight
+				yPos = latex ? 0
+						: (int) (y + marginTopMultiplier * margin + imgHeight
 						+ imgGap + t.getAscent() + imgStart);
 			}
 
-			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
-					xPos, yPos);
+			if (latex) {
+				App app = view.getApplication();
+				g.setPaint(GColor.BLACK);
+
+				app.getDrawEquation()
+						.drawEquation(app, geoButton, g, xPos, yPos,
+								geoButton.getCaption(
+										StringTemplate.defaultTemplate),
+								font, false, geoButton.getObjectColor(),
+								geoButton.getBackgroundColor(), false,
+								false, null);
+			} else {
+				g.drawString(
+						geoButton.getCaption(StringTemplate.defaultTemplate),
+						xPos, yPos);
+
+			}
 		}
 	}
 

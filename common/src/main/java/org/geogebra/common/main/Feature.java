@@ -59,5 +59,7 @@ public enum Feature {
 
 	EXAM,
 
-	FREE_3DCONICS
+	FREE_3DCONICS,
+
+	LATEX_ON_BUTTON
 }
