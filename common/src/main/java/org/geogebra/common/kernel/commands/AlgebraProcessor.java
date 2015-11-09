@@ -1513,6 +1513,7 @@ public class AlgebraProcessor {
 							((GeoNumeric) replaceable).extendMinMax(ret[0]);
 						}
 						replaceable.set(ret[0]);
+						replaceable.setDefinition(ret[0].getDefinition());
 						replaceable.updateRepaint();
 						ret[0] = replaceable;
 					}
@@ -2130,7 +2131,7 @@ public class AlgebraProcessor {
 		switch (deg) {
 		// linear equation -> LINE
 		case 1:
-			return processLine(equ);
+			return processLine(equ, equ.wrap());
 
 			// quadratic equation -> CONIC
 		case 2:
@@ -2178,9 +2179,11 @@ public class AlgebraProcessor {
 	/**
 	 * @param equ
 	 *            equation
+	 * @param def
+	 *            definition expression (equation without any simplifications)
 	 * @return resulting line
 	 */
-	protected GeoElement[] processLine(Equation equ) {
+	protected GeoElement[] processLine(Equation equ, ExpressionNode def) {
 		double a = 0, b = 0, c = 0;
 		GeoLine line;
 		GeoElement[] ret = new GeoElement[1];
@@ -2194,9 +2197,10 @@ public class AlgebraProcessor {
 			b = lhs.getCoeffValue("y");
 			c = lhs.getCoeffValue("");
 			line = new GeoLine(cons, label, a, b, c);
-		} else
+		} else {
 			line = DependentLine(label, equ);
-
+		}
+		line.setDefinition(def);
 		if (isExplicit) {
 			line.setToExplicit();
 			line.updateRepaint();

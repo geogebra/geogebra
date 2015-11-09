@@ -127,6 +127,9 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint,
 
 	@Override
 	final public String toString(StringTemplate tpl) {
+		if (g.getDefinition() != null) {
+			return g.getDefinition().toString(tpl);
+		}
 		return equation.toString(tpl);
 	}
 

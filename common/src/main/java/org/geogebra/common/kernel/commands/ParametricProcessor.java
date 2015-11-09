@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -274,7 +275,8 @@ public class ParametricProcessor {
 				eq.setForceLine();
 				eq.initEquation();
 				eq.setLabel(label);
-				GeoElement[] line = ap.processLine(eq);
+				GeoElement[] line = ap.processLine(eq, new Equation(kernel,
+						new Variable(kernel, "X"), exp).wrap());
 				((GeoLineND) line[0]).setToParametric(fv[0].getSetVarString());
 				line[0].update();
 				return line;

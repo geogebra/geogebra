@@ -103,16 +103,16 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	}
 
 	@Override
-	protected GeoElement[] processLine(Equation equ) {
+	protected GeoElement[] processLine(Equation equ, ExpressionNode def) {
 
 		if (equ.isForcedLine())
-			return super.processLine(equ);
+			return super.processLine(equ, def);
 
 		// check if the equ is forced plane or if the 3D view has the focus
 		if (equ.isForcedPlane() || kernel.isParsingFor3D()) {
-			return processPlane(equ);
+			return processPlane(equ, def);
 		}
-		return super.processLine(equ);
+		return super.processLine(equ, def);
 
 	}
 
@@ -169,7 +169,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	 *            equation to process
 	 * @return resulting plane
 	 */
-	private GeoElement[] processPlane(Equation equ) {
+	private GeoElement[] processPlane(Equation equ, ExpressionNode def) {
 		double a = 0, b = 0, c = 0, d = 0;
 		GeoPlane3D plane = null;
 		GeoElement[] ret = new GeoElement[1];
@@ -186,6 +186,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			d = lhs.getCoeffValue("");
 			plane = (GeoPlane3D) kernel.getManager3D().Plane3D(label, a, b, c,
 					d);
+			plane.setDefinition(def);
 		} else
 			plane = (GeoPlane3D) kernel.getManager3D().DependentPlane3D(label,
 					equ);

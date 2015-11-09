@@ -152,7 +152,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		this.x = x;
 		this.y = y;
 		this.z = z;
-
+		setDefinition(null);
 		// Application.debug("x="+x+", y="+y+", z="+z);
 	}
 	
@@ -1711,5 +1711,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	public Boolean isCongruent(GeoElement geo) {
 		return geo.isGeoLine();
+	}
+
+	@Override
+	protected char getLabelDelimiter() {
+		return ':';
 	}
 }

@@ -109,7 +109,9 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
 					|| Double.isInfinite(temp.getY())) {
 				P.setUndefined();
 			} else {
+				ExpressionNode def = P.getDefinition();
 				P.setCoords(temp.getX(), temp.getY(), 1.0);
+				P.setDefinition(def);
 			}
 
 			// P.setMode(temp.getMode());
