@@ -6,7 +6,9 @@ import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.KeyCodes;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -338,5 +340,122 @@ public class GlobalKeyDispatcherW extends
 	@Override
 	protected void showPrintPreview(App app2) {
 		App.debug("unimplemented");
+	}
+
+	/**
+	 * @param keyCode
+	 *            GWT / JavaScript keycode
+	 * @return ug superscript 2 for Alt-2
+	 */
+	public static String processAltCode(int keyCode) {
+		switch (keyCode) {
+
+		case GWTKeycodes.KEY_O:
+			return Unicode.DEGREE;
+
+		case GWTKeycodes.KEY_P:
+			if (shiftDown) {
+				return Unicode.Pi + "";
+			} else {
+				return Unicode.pi + "";
+			}
+
+		case GWTKeycodes.KEY_I:
+			return Unicode.IMAGINARY;
+
+		case GWTKeycodes.KEY_A:
+			if (shiftDown) {
+				return Unicode.Alpha + "";
+			} else {
+				return Unicode.alpha + "";
+			}
+
+		case GWTKeycodes.KEY_B:
+			if (shiftDown) {
+				return Unicode.Beta + "";
+			} else {
+				return Unicode.beta + "";
+			}
+
+		case GWTKeycodes.KEY_G:
+			if (shiftDown) {
+				return Unicode.Gamma + "";
+			} else {
+				return Unicode.gamma + "";
+			}
+
+		case GWTKeycodes.KEY_T:
+			if (shiftDown) {
+				return Unicode.Theta + "";
+			} else {
+				return Unicode.theta + "";
+			}
+
+		case GWTKeycodes.KEY_U:
+			// U, euro sign is shown on HU
+			return Unicode.INFINITY + "";
+
+		case GWTKeycodes.KEY_L:
+			// L, \u0141 sign is shown on HU
+			if (shiftDown) {
+				return Unicode.Lambda + "";
+			} else {
+				return Unicode.lambda + "";
+			}
+
+		case GWTKeycodes.KEY_M:
+			if (shiftDown) {
+				return Unicode.Mu + "";
+			} else {
+				return Unicode.mu + "";
+			}
+
+		case GWTKeycodes.KEY_W:
+			// Alt-W is | needed for abs()
+			if (shiftDown) {
+				return Unicode.Omega + "";
+			} else {
+				return Unicode.omega + "";
+			}
+
+		case GWTKeycodes.KEY_R:
+			return Unicode.SQUARE_ROOT + "";
+
+		case GWTKeycodes.KEY_1:
+			return Unicode.Superscript_1 + "";
+
+		case GWTKeycodes.KEY_2:
+			return Unicode.Superscript_2 + "";
+
+		case GWTKeycodes.KEY_3:
+			return Unicode.Superscript_3 + "";
+
+		case GWTKeycodes.KEY_4:
+			return Unicode.Superscript_4 + "";
+
+		case GWTKeycodes.KEY_5:
+			return Unicode.Superscript_5 + "";
+
+		case GWTKeycodes.KEY_6:
+			return Unicode.Superscript_6 + "";
+
+		case GWTKeycodes.KEY_7:
+			return Unicode.Superscript_7 + "";
+
+		case GWTKeycodes.KEY_8:
+			return Unicode.Superscript_8 + "";
+
+		case GWTKeycodes.KEY_9:
+			return Unicode.Superscript_9 + "";
+
+		case GWTKeycodes.KEY_0:
+			return Unicode.Superscript_0 + "";
+
+		case GWTKeycodes.KEY_MINUS:
+			return Unicode.Superscript_Minus + "";
+
+		default:
+			return null;
+		}
 	}
 }

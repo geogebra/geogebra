@@ -7,9 +7,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
@@ -774,119 +772,10 @@ public class DrawEquationW extends DrawEquation {
 		// !ctrlDown so we know it's not AltGr
 		if (altDown && !ctrlDown) {
 
-			// char c = (char) keyCode;
 
-			String s = "";
-
-			switch (keyCode) {
-
-			case GWTKeycodes.KEY_O:
-				s += Unicode.DEGREE;
-				break;
-			case GWTKeycodes.KEY_P:
-				if (shiftDown) {
-					s += Unicode.Pi;
-				} else {
-					s += Unicode.pi;
-				}
-				break;
-			case GWTKeycodes.KEY_I:
-				s += Unicode.IMAGINARY;
-				break;
-			case GWTKeycodes.KEY_A:
-				if (shiftDown) {
-					s += Unicode.Alpha;
-				} else {
-					s += Unicode.alpha;
-				}
-				break;
-			case GWTKeycodes.KEY_B:
-				if (shiftDown) {
-					s += Unicode.Beta;
-				} else {
-					s += Unicode.beta;
-				}
-				break;
-			case GWTKeycodes.KEY_G:
-				if (shiftDown) {
-					s += Unicode.Gamma;
-				} else {
-					s += Unicode.gamma;
-				}
-				break;
-			case GWTKeycodes.KEY_T:
-				if (shiftDown) {
-					s += Unicode.Theta;
-				} else {
-					s += Unicode.theta;
-				}
-				break;
-			case GWTKeycodes.KEY_U:
-				// U, euro sign is shown on HU
-				s += Unicode.INFINITY;
-				break;
-			case GWTKeycodes.KEY_L:
-				// L, \u0141 sign is shown on HU
-				if (shiftDown) {
-					s += Unicode.Lambda;
-				} else {
-					s += Unicode.lambda;
-				}
-				break;
-			case GWTKeycodes.KEY_M:
-				if (shiftDown) {
-					s += Unicode.Mu;
-				} else {
-					s += Unicode.mu;
-				}
-				break;
-			case GWTKeycodes.KEY_W:
-				// Alt-W is | needed for abs()
-				if (shiftDown) {
-					s += Unicode.Omega;
-				} else {
-					s += Unicode.omega;
-				}
-				break;
-			case GWTKeycodes.KEY_R:
-				s += Unicode.SQUARE_ROOT;
-				break;
-			case GWTKeycodes.KEY_1:
-				s += Unicode.Superscript_1;
-				break;
-			case GWTKeycodes.KEY_2:
-				s += Unicode.Superscript_2;
-				break;
-			case GWTKeycodes.KEY_3:
-				s += Unicode.Superscript_3;
-				break;
-			case GWTKeycodes.KEY_4:
-				s += Unicode.Superscript_4;
-				break;
-			case GWTKeycodes.KEY_5:
-				s += Unicode.Superscript_5;
-				break;
-			case GWTKeycodes.KEY_6:
-				s += Unicode.Superscript_6;
-				break;
-			case GWTKeycodes.KEY_7:
-				s += Unicode.Superscript_7;
-				break;
-			case GWTKeycodes.KEY_8:
-				s += Unicode.Superscript_8;
-				break;
-			case GWTKeycodes.KEY_9:
-				s += Unicode.Superscript_9;
-				break;
-			case GWTKeycodes.KEY_0:
-				s += Unicode.Superscript_0;
-				break;
-			case GWTKeycodes.KEY_MINUS:
-				s += Unicode.Superscript_Minus;
-				break;
-			default:
-				return false;
-			}
+			// eg alt-2 -> power of 2
+			String s = GlobalKeyDispatcherW.processAltCode(keyCode);
+			;
 
 			if (s != null && !"".equals(s)) {
 				for (int i = 0; i < s.length(); i++) {
