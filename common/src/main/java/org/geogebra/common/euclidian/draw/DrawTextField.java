@@ -393,6 +393,9 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
+		GFont font = g2.getFont();
+		g2.setFont(getLabelFont().deriveFont(GFont.PLAIN));
+
 		boolean latexLabel = measureLabel(g2, geoTextField, labelDesc);
 		int textLeft = boxLeft + 2;
 		int textBottom = boxTop + getTextBottom();
@@ -410,10 +413,6 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		highlightLabel(g2, latexLabel);
 
 		g2.setPaint(geo.getObjectColor());
-
-		GFont font = g2.getFont();
-
-		g2.setFont(getLabelFont().deriveFont(GFont.PLAIN));
 
 		if (geo.isLabelVisible()) {
 			drawLabel(g2, geoTextField, labelDesc);
