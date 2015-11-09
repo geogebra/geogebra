@@ -277,6 +277,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			isDefined = !(Double.isNaN(v.get(1)) || Double.isNaN(v.get(2)) || Double
 					.isNaN(v.get(3)));
 			inhom.setX(Double.NaN);
+			inhom.setY(Double.NaN);
+			inhom.setZ(Double.NaN);
 		}
 		// finite point
 		else {
@@ -305,6 +307,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 				}
 			} else {
 				inhom.setX(Double.NaN);
+				inhom.setY(Double.NaN);
+				inhom.setZ(Double.NaN);
 			}
 		}
 
