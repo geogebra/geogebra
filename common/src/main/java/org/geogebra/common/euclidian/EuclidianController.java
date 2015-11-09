@@ -8860,9 +8860,7 @@ public abstract class EuclidianController {
 			return;
 		}
 
-		if (hitComboBox(event.getX(), event.getY())) {
-			return;
-		}
+
 
 		if (app.isRightClick(event)) {
 			// ggb3D - for 3D rotation
@@ -8873,6 +8871,9 @@ public abstract class EuclidianController {
 			// bugfix: couldn't select multiple objects with Ctrl
 
 			setViewHits(event.getType());
+			if (hitComboBox(event.getX(), event.getY())) {
+				return;
+			}
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 			dontClearSelection = !hits.isEmpty();
