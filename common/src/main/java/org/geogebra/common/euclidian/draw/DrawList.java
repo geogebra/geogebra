@@ -367,8 +367,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 */
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-
 		if (geoList.drawAsComboBox()) {
+			DrawList dl = view.getOpenedComboBox();
+			if (dl != null && dl != this) {
+				return false;
+			}
+
 			return isDrawingOnCanvas()
 					? super.hit(x, y, hitThreshold) || isControlHit(x, y)
 							|| isOptionsHit(x, y)
@@ -388,7 +392,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	public boolean isInside(GRectangle rect) {
-
 		if (geoList.drawAsComboBox()) {
 			return super.isInside(rect);
 		}
@@ -987,6 +990,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		this.optionsVisible = optionsVisible;
 		if (optionsVisible) {
 			currentIdx = 0;
+			view.setOpenedComboBox(this);
+		} else {
+			view.setOpenedComboBox(null);
 		}
 	}
 

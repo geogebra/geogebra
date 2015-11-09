@@ -4734,7 +4734,7 @@ sb.toString(), getFontAxes(),
 	}
 
 	private OptionsEuclidian optionPanel = null;
-
+	private DrawList openedComboBox = null;
 	/**
 	 * sets the option panel for gui update
 	 * 
@@ -4992,5 +4992,13 @@ sb.toString(), getFontAxes(),
 				dl.closeOptions();
 			}
 		}
+	}
+
+	public DrawList getOpenedComboBox() {
+		return openedComboBox;
+	}
+
+	public void setOpenedComboBox(DrawList openedComboBox) {
+		this.openedComboBox = openedComboBox;
 	}
 }
