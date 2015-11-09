@@ -35,6 +35,7 @@ public abstract class CmdScripting extends CommandProcessor {
 	 * 
 	 * @param c
 	 *            command
+	 * @return elements that may be removed after this action
 	 */
 	protected abstract GeoElement[] perform(Command c);
 

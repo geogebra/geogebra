@@ -245,6 +245,11 @@ FromMeta
 	
 	/**
 	 * makes this conic a circle with midpoint M through Point P
+	 * 
+	 * @param M
+	 *            center
+	 * @param P
+	 *            point
 	 */
 	final public void setCircle(GeoPoint M, GeoPoint P) {
 		defined = M.isDefined() && P.isDefined() && !P.isInfinite();
@@ -1058,7 +1063,7 @@ FromMeta
 	 */
 	@Override
 	final public void setMatrix(CoordMatrix m) {
-				
+		setDefinition(null);
 		matrix[0] = m.get(1,1);
 		matrix[1] = m.get(2,2);
 		matrix[2] = m.get(3,3);
@@ -1162,7 +1167,7 @@ FromMeta
 				}
 			}
 			for (int i=0; i < 2; i++) {
-				startPoints[i].set((GeoElement) co.startPoints[i]);
+				startPoints[i].set(co.startPoints[i]);
 			}
 		}
 		defined = co.defined;	
@@ -1454,6 +1459,7 @@ FromMeta
 		double d,
 		double e,
 		double f) {
+		setDefinition(null);
 		matrix[0] = a; // x\u00b2
 		matrix[1] = c; // y\u00b2
 		matrix[2] = f; // constant
@@ -1852,6 +1858,7 @@ FromMeta
 	 * @param matrix array from which the flat matrix should be read
 	 */
 	final public void setMatrix(double[] matrix) {
+		setDefinition(null);
 		for (int i = 0; i < 6; i++) {
 			this.matrix[i] = matrix[i];
 		}
@@ -2018,7 +2025,7 @@ FromMeta
 		matrix[3] = 0;
 		matrix[4] = 0;
 		matrix[5] = y0;
-				
+
 		classifyConic();
 	}
 
@@ -2036,9 +2043,8 @@ FromMeta
 		if (B.isInfinite() || C.isInfinite() || a < -Kernel.STANDARD_PRECISION) {
 			defined = false;
 			return;
-		} else {
-			defined = true;
 		}
+		defined = true;
 
 		// set conics's matrix
 		double b1 = B.inhomX;
@@ -3158,11 +3164,27 @@ FromMeta
 		polarPoint(line.x, line.y, line.z, polar);
 	}
 	
+	/**
+	 * @param equation
+	 *            line coefficients
+	 * @param polar
+	 *            output point
+	 */
 	final public void polarPoint(Coords equation, GeoPoint polar) {
 		polarPoint(equation.getX(), equation.getY(), equation.getZ(), polar);
 	}
 	
 	
+	/**
+	 * @param x
+	 *            line x coefficient
+	 * @param y
+	 *            line y coefficient
+	 * @param z
+	 *            line z coefficient
+	 * @param polar
+	 *            output point
+	 */
 	final public void polarPoint(double x, double y, double z, GeoPoint polar) {
 		if(!isDefined()){
 			polar.setUndefined();
@@ -3360,6 +3382,7 @@ FromMeta
 	 /**
 	 * @return :
 	 */
+	@Override
 	public String getAssignmentOperator() {
 		 return ": ";
 	 }
@@ -4029,6 +4052,13 @@ FromMeta
 		return false;
 	}
 
+	/**
+	 * @param tpl
+	 *            demplate
+	 * @param dim
+	 *            dimension
+	 * @return parametric description of this conic in given dimension
+	 */
 	protected StringBuilder buildParametricValueString(StringTemplate tpl,
 			int dim) {
 		StringBuilder sbBuildValueString = new StringBuilder();

@@ -38,14 +38,9 @@ import org.geogebra.common.plugin.Operation;
  */
 public class AlgoDependentPlane3D extends AlgoElement3D {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private Equation equation;
 	private NumberValue num;
 	private ExpressionValue[] ev = new ExpressionValue[4]; // input
-	private ExpressionNode root;
 	private GeoPlane3D p; // output
 
 	/** Creates new AlgoDependentPlane */
@@ -109,8 +104,10 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 	public final void compute() {
 
 		try {
+			ExpressionNode exp = p.getDefinition();
 			p.setEquation(ev[0].evaluateDouble(), ev[1].evaluateDouble(),
 					ev[2].evaluateDouble(), ev[3].evaluateDouble());
+			p.setDefinition(exp);
 		} catch (Throwable e) {
 			p.setUndefined();
 		}
@@ -118,7 +115,9 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-
+		if (p.getDefinition() != null) {
+			return p.getDefinition().toString(tpl);
+		}
 		if (p.isLabelSet() || equation.containsZ()) {
 			return equation.toString(tpl);
 		}

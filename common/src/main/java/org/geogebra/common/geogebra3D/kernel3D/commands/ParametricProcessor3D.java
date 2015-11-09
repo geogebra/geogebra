@@ -120,6 +120,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
 				conic.setCoordSys(cs);
 				conic.setMatrix(new double[] { xx, yy, -det * det, -xy, 0, 0 });
+				conic.setDefinition(exp);
 				conic.setLabel(label);
 
 				return new GeoElement[] { conic };

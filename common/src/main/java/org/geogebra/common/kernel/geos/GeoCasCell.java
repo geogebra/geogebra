@@ -2359,6 +2359,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		return getLabel(tpl);
 	}
 
+	@Override
 	public String getAlgebraDescriptionDefault() {
 
 		if (isDefined()) {
@@ -2964,6 +2965,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		return substList;
 	}
 
+	/**
+	 * @param list
+	 *            substitution list for this cell
+	 */
 	public void setSubstList(ArrayList<Vector<String>> list) {
 		this.substList = list;
 	}

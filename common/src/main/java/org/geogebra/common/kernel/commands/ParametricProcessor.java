@@ -253,7 +253,7 @@ public class ParametricProcessor {
 										.multiply(2));
 				Equation eq = new Equation(kernel, xx.plus(xy).plus(yy).wrap(),
 						den);
-				return paramConic(eq, label);
+				return paramConic(eq, exp, label);
 			}
 
 			coefX = ap.arrayOfZeros(coefX.length);
@@ -275,8 +275,7 @@ public class ParametricProcessor {
 				eq.setForceLine();
 				eq.initEquation();
 				eq.setLabel(label);
-				GeoElement[] line = ap.processLine(eq, new Equation(kernel,
-						new Variable(kernel, "X"), exp).wrap());
+				GeoElement[] line = ap.processLine(eq, buildParamEq(exp));
 				((GeoLineND) line[0]).setToParametric(fv[0].getSetVarString());
 				line[0].update();
 				return line;
@@ -318,7 +317,7 @@ public class ParametricProcessor {
 										.plus(coefX[0].wrap()
 												.multiply(coefX[2])))));
 
-				return paramConic(eq, label);
+				return paramConic(eq, exp, label);
 			}
 			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
 			cons.removeFromConstructionList(nx);
@@ -343,10 +342,16 @@ public class ParametricProcessor {
 
 	}
 
-	private GeoElement[] paramConic(Equation eq, String label) {
+	private ExpressionNode buildParamEq(ExpressionNode exp) {
+		return new Equation(kernel, new Variable(kernel, "X"), exp).wrap();
+	}
+
+	private GeoElement[] paramConic(Equation eq, ExpressionNode exp,
+			String label) {
 		eq.initEquation();
 		eq.setForceConic();
-		GeoElement[] ret = ap.processConic(eq);
+		eq.setLabel(label);
+		GeoElement[] ret = ap.processConic(eq, buildParamEq(exp));
 		((GeoConicND) ret[0]).setToStringMode(GeoConicND.EQUATION_PARAMETRIC);
 		((GeoConicND) ret[0]).update();
 		return ret;

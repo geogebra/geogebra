@@ -25,8 +25,18 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * 3D expression processor
+ *
+ */
 public class AlgebraProcessor3D extends AlgebraProcessor {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param cd
+	 *            commands dispatcher
+	 */
 	public AlgebraProcessor3D(Kernel kernel, CommandDispatcher cd) {
 		super(kernel, cd);
 	}
@@ -35,7 +45,9 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	 * creates 3D point or 3D vector
 	 * 
 	 * @param n
+	 *            point expression
 	 * @param evaluate
+	 *            evaluated expression
 	 * @return 3D point or 3D vector
 	 */
 	@Override
@@ -117,22 +129,22 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	}
 
 	@Override
-	protected GeoElement[] processConic(Equation equ) {
+	protected GeoElement[] processConic(Equation equ, ExpressionNode def) {
 
 		if (equ.isForcedConic())
-			return super.processConic(equ);
+			return super.processConic(equ, def);
 
 		// check if the equ is forced plane or if the 3D view has the focus
 		if (equ.isForcedQuadric()
 				|| kernel.getApplication().getActiveEuclidianView()
 						.isEuclidianView3D()) {
-			return processQuadric(equ);
+			return processQuadric(equ, def);
 		}
-		return super.processConic(equ);
+		return super.processConic(equ, def);
 
 	}
 
-	private GeoElement[] processQuadric(Equation equ) {
+	private GeoElement[] processQuadric(Equation equ, ExpressionNode def) {
 		double xx = 0, yy = 0, zz = 0, xy = 0, xz = 0, yz = 0, x = 0, y = 0, z = 0, c = 0;
 		GeoElement[] ret = new GeoElement[1];
 		GeoQuadric3D quadric;
@@ -159,7 +171,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			quadric = (GeoQuadric3D) kernel.getManager3D().DependentQuadric3D(
 					label, equ);
 		}
-
+		quadric.setDefinition(def);
 		ret[0] = quadric;
 		return ret;
 	}

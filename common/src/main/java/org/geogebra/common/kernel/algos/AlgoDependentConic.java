@@ -21,6 +21,7 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -100,9 +101,11 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint,
 	@Override
 	public final void compute() {
 		try {
+			ExpressionNode def = conic.getDefinition();
 			conic.setCoeffs(ev[0].evaluateDouble(), ev[1].evaluateDouble(),
 					ev[2].evaluateDouble(), ev[3].evaluateDouble(),
 					ev[4].evaluateDouble(), ev[5].evaluateDouble());
+			conic.setDefinition(def);
 		} catch (Throwable e) {
 			conic.setUndefined();
 		}
@@ -122,6 +125,9 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint,
 
 	@Override
 	public final String toString(StringTemplate tpl) {
+		if (conic.getDefinition() != null) {
+			return conic.getDefinition().toString(tpl);
+		}
 		return equation.toString(tpl);
 	}
 	// TODO Consider locusequability

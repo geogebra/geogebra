@@ -142,6 +142,15 @@ public class CmdTangent extends CommandProcessor {
 		}
 	}
 
+	/**
+	 * @param label
+	 *            output label
+	 * @param point
+	 *            point
+	 * @param curve
+	 *            curve
+	 * @return tangent
+	 */
 	protected GeoElement tangentToCurve(String label, GeoPointND point,
 			GeoCurveCartesianND curve) {
 		return kernelA.Tangent(label, point, (GeoCurveCartesian) curve);

@@ -2135,7 +2135,7 @@ public class AlgebraProcessor {
 
 			// quadratic equation -> CONIC
 		case 2:
-			return processConic(equ);
+			return processConic(equ, equ.wrap());
 			// pi = 3 is not an equation, #1391
 		case 0:
 			if (!allowConstant) {
@@ -2224,7 +2224,7 @@ public class AlgebraProcessor {
 	 *            equation
 	 * @return resulting conic
 	 */
-	protected GeoElement[] processConic(Equation equ) {
+	protected GeoElement[] processConic(Equation equ, ExpressionNode def) {
 		double a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
 		GeoElement[] ret = new GeoElement[1];
 		GeoConic conic;
@@ -2246,8 +2246,10 @@ public class AlgebraProcessor {
 
 			double[] coeffs = { a, b, c, d, e, f };
 			conic = new GeoConic(cons, label, coeffs);
-		} else
+		} else {
 			conic = DependentConic(label, equ);
+		}
+
 		if (isExplicit) {
 			conic.setToExplicit();
 			conic.updateRepaint();
@@ -2256,6 +2258,7 @@ public class AlgebraProcessor {
 			conic.setToSpecific();
 			conic.updateRepaint();
 		}
+		conic.setDefinition(def);
 		ret[0] = conic;
 		return ret;
 	}

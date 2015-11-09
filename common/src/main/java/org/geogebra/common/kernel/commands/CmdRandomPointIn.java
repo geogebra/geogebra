@@ -13,8 +13,16 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Processor for random points
+ *
+ */
 public class CmdRandomPointIn extends CommandProcessor {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdRandomPointIn(Kernel kernel) {
 		super(kernel);
 	}
@@ -73,10 +81,15 @@ public class CmdRandomPointIn extends CommandProcessor {
 
 	/**
 	 * @param label
+	 *            label
 	 * @param a
+	 *            x-min
 	 * @param b
+	 *            x-max
 	 * @param c
+	 *            y-min
 	 * @param d
+	 *            y-max
 	 * @return random point (p,q) where p is between a & b and q is between c &
 	 *         d
 	 */

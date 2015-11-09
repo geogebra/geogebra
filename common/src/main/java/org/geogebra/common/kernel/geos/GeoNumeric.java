@@ -398,6 +398,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public void set(GeoElementND geo) {
 		NumberValue num = (NumberValue) geo;
 		setValue(num.getDouble());
+		setDefinition(geo.getDefinition());
 	}
 
 	@Override

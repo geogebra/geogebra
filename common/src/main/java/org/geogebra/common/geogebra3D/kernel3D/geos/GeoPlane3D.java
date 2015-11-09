@@ -111,6 +111,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	private void setEquation(double[] v, boolean makeCoordSys) {
 
 		if (makeCoordSys || !getCoordSys().isDefined()) {
+			setDefinition(null);
 			getCoordSys().makeCoordSys(v);
 			getCoordSys().makeOrthoMatrix(true, true);
 		}
@@ -368,7 +369,10 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		if (geo instanceof GeoPlane3D) {
 			GeoPlane3D plane = (GeoPlane3D) geo;
 			getCoordSys().set(plane.getCoordSys());
+			setDefinition(geo.getDefinition());
+			return;
 		}
+		setDefinition(null);
 		if (geo instanceof GeoLine) {
 			GeoLine line = (GeoLine) geo;
 			setEquation(line.getX(), line.getY(), 0, line.getZ());
@@ -818,6 +822,11 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	@Override
 	protected void getXMLanimationTags(final StringBuilder sb) {
 		// no need for planes
+	}
+
+	@Override
+	protected char getLabelDelimiter() {
+		return ':';
 	}
 
 }
