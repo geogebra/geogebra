@@ -8264,22 +8264,11 @@ public abstract class EuclidianController {
 				// set zoom rectangle's size
 				// right-drag: zoom
 				// Shift-right-drag: zoom without preserving aspect ratio
-				if (app.has(Feature.SF_DRAG)) {
-					updateSelectionRectangle(event.isShiftDown()
-							|| mode == EuclidianConstants.MODE_ZOOM_IN
-							|| mode == EuclidianConstants.MODE_ZOOM_OUT);
-				} else {
-					updateSelectionRectangle((app.isRightClick(event) && !event
-							.isShiftDown())
-							// MACOS:
-							// Cmd-left-drag: zoom
-							// Cmd-shift-left-drag: zoom without preserving
-							// aspect ratio
-							|| (app.isMacOS() && app.isControlDown(event)
-									&& !event.isShiftDown() && !app
-										.isRightClick(event))
-							|| view.isLockedAxesRatio());
-				}
+
+				updateSelectionRectangle(event.isShiftDown()
+						|| mode == EuclidianConstants.MODE_ZOOM_IN
+						|| mode == EuclidianConstants.MODE_ZOOM_OUT);
+
 				view.repaintView();
 				return;
 			}
@@ -8878,8 +8867,7 @@ public abstract class EuclidianController {
 			switchModeForRemovePolygons(hits);
 			dontClearSelection = !hits.isEmpty();
 			if (hasNoHitsDisablingModeForShallMoveView(hits)
-					|| needsAxisZoom(hits, event)
-					|| !app.has(Feature.SF_DRAG) || specialMoveEvent(event)) {
+					|| needsAxisZoom(hits, event) || specialMoveEvent(event)) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
 				if (mayPaste()) { // #5246 make sure we don't switch to
@@ -8916,9 +8904,6 @@ public abstract class EuclidianController {
 	}
 
 	private boolean shallMoveView(AbstractEvent event) {
-		if (!app.has(Feature.SF_DRAG)) {
-			return specialMoveEvent(event);
-		}
 		return app.isShiftDragZoomEnabled()
 				&& (!doubleClickStarted && (mode == EuclidianConstants.MODE_MOVE || specialMoveEvent(event)));
 	}
@@ -9676,17 +9661,13 @@ public abstract class EuclidianController {
 		if (!app.isRightClickEnabled()) {
 			return;
 		}
-		if (!app.has(Feature.SF_DRAG) && type != PointerEventType.TOUCH
-				&& processZoomRectangle()) {
-			return;
-			// Michael Borcherds 2007-10-08
-		}
+
 		// make sure cmd-click selects multiple points (not open
 		// properties)
 		if ((app.isMacOS() && control) || !right) {
 			return;
 		}
-		if (draggingOccured && app.has(Feature.SF_DRAG)) {
+		if (draggingOccured) {
 			if (allowSelectionRectangle()) {
 				processSelectionRectangle(alt, control, shift);
 				return;

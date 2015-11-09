@@ -3916,7 +3916,6 @@ public abstract class App implements UpdateSelection {
 		case INPUT_SHOWN_IN_INPUTBAR:
 		case ADD_NEW_OBJECT_BUTTON:
 		case CAS_EDITOR:
-		case SF_DRAG:
 		case GL_ELEMENTS:
 		case AUTOMATIC_FONTSIZE:
 		case RETINA:
