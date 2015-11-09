@@ -454,6 +454,12 @@ public class GlobalKeyDispatcherW extends
 		case GWTKeycodes.KEY_MINUS:
 			return Unicode.Superscript_Minus + "";
 
+		case GWTKeycodes.KEY_X:
+			return "^x";
+
+		case GWTKeycodes.KEY_Y:
+			return "^y";
+
 		default:
 			return null;
 		}
