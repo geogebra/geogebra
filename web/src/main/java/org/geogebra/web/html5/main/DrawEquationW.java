@@ -771,100 +771,120 @@ public class DrawEquationW extends DrawEquation {
 			boolean ctrlDown, boolean shiftDown, Element parentElement) {
 
 
+		// !ctrlDown so we know it's not AltGr
 		if (altDown && !ctrlDown) {
 
 			// char c = (char) keyCode;
 
 			String s = "";
 
-			if (keyCode == GWTKeycodes.KEY_O) {
+			switch (keyCode) {
+
+			case GWTKeycodes.KEY_O:
 				s += Unicode.DEGREE;
-			} else if (keyCode == GWTKeycodes.KEY_P) {
+				break;
+			case GWTKeycodes.KEY_P:
 				if (shiftDown) {
 					s += Unicode.Pi;
 				} else {
 					s += Unicode.pi;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_I) {
+				break;
+			case GWTKeycodes.KEY_I:
 				s += Unicode.IMAGINARY;
-			} else if (keyCode == GWTKeycodes.KEY_A) {
-				// A, OK in Hungarian, although invisibly a different one
+				break;
+			case GWTKeycodes.KEY_A:
 				if (shiftDown) {
 					s += Unicode.Alpha;
 				} else {
 					s += Unicode.alpha;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_B) {
-				// B, not OK in Hungarian
+				break;
+			case GWTKeycodes.KEY_B:
 				if (shiftDown) {
 					s += Unicode.Beta;
 				} else {
 					s += Unicode.beta;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_G) {
-				// G, not OK in Hungarian
+				break;
+			case GWTKeycodes.KEY_G:
 				if (shiftDown) {
 					s += Unicode.Gamma;
 				} else {
 					s += Unicode.gamma;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_T) {
+				break;
+			case GWTKeycodes.KEY_T:
 				if (shiftDown) {
 					s += Unicode.Theta;
 				} else {
 					s += Unicode.theta;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_U) {
+				break;
+			case GWTKeycodes.KEY_U:
 				// U, euro sign is shown on HU
 				s += Unicode.INFINITY;
-			} else if (keyCode == GWTKeycodes.KEY_L) {
+				break;
+			case GWTKeycodes.KEY_L:
 				// L, \u0141 sign is shown on HU
 				if (shiftDown) {
 					s += Unicode.Lambda;
 				} else {
 					s += Unicode.lambda;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_M) {
-				// M: Although Alt-\u00CD the same as Alt-M,
-				// not sure \u00CD is present on all kinds of Hungarian keyboard
+				break;
+			case GWTKeycodes.KEY_M:
 				if (shiftDown) {
 					s += Unicode.Mu;
 				} else {
 					s += Unicode.mu;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_W) {
+				break;
+			case GWTKeycodes.KEY_W:
 				// Alt-W is | needed for abs()
 				if (shiftDown) {
 					s += Unicode.Omega;
 				} else {
 					s += Unicode.omega;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_R) {// OK in Hungarian
+				break;
+			case GWTKeycodes.KEY_R:
 				s += Unicode.SQUARE_ROOT;
-			} else if (keyCode == GWTKeycodes.KEY_1) {
+				break;
+			case GWTKeycodes.KEY_1:
 				s += Unicode.Superscript_1;
-			} else if (keyCode == GWTKeycodes.KEY_2) {
+				break;
+			case GWTKeycodes.KEY_2:
 				s += Unicode.Superscript_2;
-			} else if (keyCode == GWTKeycodes.KEY_3) {
-				// in the Hungarian case Alt-3 triggers one "^"
+				break;
+			case GWTKeycodes.KEY_3:
 				s += Unicode.Superscript_3;
-			} else if (keyCode == GWTKeycodes.KEY_4) {
+				break;
+			case GWTKeycodes.KEY_4:
 				s += Unicode.Superscript_4;
-			} else if (keyCode == GWTKeycodes.KEY_5) {
+				break;
+			case GWTKeycodes.KEY_5:
 				s += Unicode.Superscript_5;
-			} else if (keyCode == GWTKeycodes.KEY_6) {
+				break;
+			case GWTKeycodes.KEY_6:
 				s += Unicode.Superscript_6;
-			} else if (keyCode == GWTKeycodes.KEY_7) {
+				break;
+			case GWTKeycodes.KEY_7:
 				s += Unicode.Superscript_7;
-			} else if (keyCode == GWTKeycodes.KEY_8) {
+				break;
+			case GWTKeycodes.KEY_8:
 				s += Unicode.Superscript_8;
-			} else if (keyCode == GWTKeycodes.KEY_9) {
+				break;
+			case GWTKeycodes.KEY_9:
 				s += Unicode.Superscript_9;
-			} else if (keyCode == GWTKeycodes.KEY_0) {
+				break;
+			case GWTKeycodes.KEY_0:
 				s += Unicode.Superscript_0;
-			} else if (keyCode == GWTKeycodes.KEY_MINUS) {
+				break;
+			case GWTKeycodes.KEY_MINUS:
 				s += Unicode.Superscript_Minus;
-			} else {
+				break;
+			default:
 				return false;
 			}
 
