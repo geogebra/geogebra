@@ -1596,7 +1596,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			editing = true;
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
-				RadioTreeItem.as(node).startEditing(true);
+				RadioTreeItem.as(node).startEditing(
+						geo.isPointOnPath() || geo.isPointInRegion());
 			}
 		}
 	}

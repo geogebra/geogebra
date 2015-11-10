@@ -34,11 +34,6 @@ import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 public class AlgoDependentVector3D extends AlgoElement3D implements
 		DependentAlgo {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private ExpressionNode root; // input
 	private GeoVector3D vec; // output
 
 	private double[] temp;
@@ -55,9 +50,10 @@ public class AlgoDependentVector3D extends AlgoElement3D implements
 	/** Creates new AlgoDependentVector */
 	public AlgoDependentVector3D(Construction cons, ExpressionNode root) {
 		super(cons);
-		this.root = root;
+
 
 		vec = new GeoVector3D(cons);
+		vec.setDefinition(root);
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
@@ -73,7 +69,7 @@ public class AlgoDependentVector3D extends AlgoElement3D implements
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = root.getGeoElementVariables();
+		input = vec.getDefinition().getGeoElementVariables();
 
 		setOnlyOutput(vec);
 		setDependencies(); // done by AlgoElement
@@ -87,7 +83,7 @@ public class AlgoDependentVector3D extends AlgoElement3D implements
 	@Override
 	public final void compute() {
 		try {
-			temp = ((Vector3DValue) root
+			temp = ((Vector3DValue) vec.getDefinition()
 					.evaluate(StringTemplate.defaultTemplate))
 					.getPointAsDouble();
 			vec.setCoords(temp);
@@ -98,7 +94,7 @@ public class AlgoDependentVector3D extends AlgoElement3D implements
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return root.toString(tpl);
+		return vec.getDefinition().toString(tpl);
 	}
 
 	// TODO Consider locusequability

@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.geos.GeoVector;
  */
 public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 
-	private ExpressionNode root; // input
 	private GeoVector v; // output
 
 	private GeoVec2D temp;
@@ -46,9 +45,10 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 
 	public AlgoDependentVector(Construction cons, ExpressionNode root) {
 		super(cons);
-		this.root = root;
+
 
 		v = new GeoVector(cons);
+		v.setDefinition(root);
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
@@ -64,7 +64,7 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = root.getGeoElementVariables();
+		input = v.getDefinition().getGeoElementVariables();
 
 		super.setOutputLength(1);
 		super.setOutput(0, v);
@@ -79,7 +79,8 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 	@Override
 	public final void compute() {
 		try {
-			temp = ((VectorValue) root.evaluate(StringTemplate.defaultTemplate))
+			temp = ((VectorValue) v.getDefinition().evaluate(
+					StringTemplate.defaultTemplate))
 					.getVector();
 			v.x = temp.getX();
 			v.y = temp.getY();
@@ -90,11 +91,11 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return root.toString(tpl);
+		return v.getDefinition().toString(tpl);
 	}
 
 	public ExpressionNode getExpression() {
-		return root;
+		return v.getDefinition();
 	}
 
 	// TODO Consider locusequability

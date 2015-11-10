@@ -83,6 +83,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 				ret[0] = kernel.getManager3D().Vector3D(label, x, y, z);
 			else
 				ret[0] = kernel.getManager3D().Point3D(label, x, y, z, false);
+			ret[0].setDefinition(n);
 		} else {
 			if (isVector)
 				ret[0] = kernel.getManager3D().DependentVector3D(label, n);

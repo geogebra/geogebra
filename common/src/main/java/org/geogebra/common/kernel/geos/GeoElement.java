@@ -908,11 +908,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		String ret = "";
 		final boolean isIndependent = !isPointOnPath() && useChangeable ? isChangeable()
 				: isIndependent();
-		if (isIndependent) {
+		if (isIndependent && getDefinition() == null) {
 			ret = useOutputValueString ? toOutputValueString(tpl)
 					: toValueString(tpl);
 		} else if(getParentAlgorithm() != null){
 			ret = getParentAlgorithm().getCommandDescription(tpl);
+		} else if (getDefinition() != null) {
+			ret = getDefinition().toString(tpl);
 		}
 
 		return ret;
@@ -4976,6 +4978,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		String ret = null;
 		if (!substituteNumbers) {
 			ret = getCommandDescription(tpl);
+
 		}
 		if (ret != null && ret.length() > 0) {
 			final char delimiter = getLabelDelimiter();

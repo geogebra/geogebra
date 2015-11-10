@@ -57,7 +57,6 @@ import org.geogebra.desktop.main.AppD;
  * AlgebraView with tree for free and dependent objects.
  * 
  * @author Markus
- * @version
  */
 public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 		org.geogebra.common.gui.view.algebra.AlgebraView, SettingListener {

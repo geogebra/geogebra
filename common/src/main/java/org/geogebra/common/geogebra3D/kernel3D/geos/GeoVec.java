@@ -61,11 +61,13 @@ public abstract class GeoVec extends GeoElement3D {
 	 */
 
 	public void setCoords(Coords vals) {
+		setDefinition(null);
 		v.set(vals);
 
 	}
 
 	public void setCoords(double[] vals) {
+		setDefinition(null);
 		v.set(vals);
 		// Application.debug("v="+v.toString());
 

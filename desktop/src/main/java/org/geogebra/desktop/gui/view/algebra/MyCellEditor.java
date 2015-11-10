@@ -16,11 +16,20 @@ import org.geogebra.desktop.main.AppD;
 
 //this is needed to distinguish between the editing
 // of independent and dependent objects
+/**
+ * Editor for AV
+ */
 public class MyCellEditor extends DefaultCellEditor {  
     
     private static final long serialVersionUID = 1L;
     private AppD app;
     
+	/**
+	 * @param textField
+	 *            text field
+	 * @param app
+	 *            application
+	 */
     public MyCellEditor(final JTextField textField, AppD app) {
         super(textField);           
         this.app = app;
@@ -41,7 +50,7 @@ public class MyCellEditor extends DefaultCellEditor {
                 GeoElement geo = (GeoElement) ob;
                 StringTemplate tpl = StringTemplate.defaultTemplate;
                 if (geo.isChangeable()) {
-                    str = geo.toString(tpl);
+					str = geo.getDefinitionForInputBar();
                 } else {
                     str = geo.getCommandDescription(tpl);
                 } 
