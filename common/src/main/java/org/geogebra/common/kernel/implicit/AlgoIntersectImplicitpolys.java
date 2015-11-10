@@ -42,8 +42,8 @@ import org.geogebra.common.util.Cloner;
  */
 public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	
-	private GeoImplicitPoly p1;
-	private GeoImplicitPoly p2;
+	private GeoImplicit p1;
+	private GeoImplicit p2;
 	
 	private GeoConic c1;
 	private List<double[]> valPairs;
@@ -61,7 +61,8 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 * @param p1 polynomial
 	 * @param c1 conic
 	 */
-	public AlgoIntersectImplicitpolys(Construction c, GeoImplicitPoly p1,GeoConic c1) {
+	public AlgoIntersectImplicitpolys(Construction c, GeoImplicit p1,
+			GeoConic c1) {
 		this(c,null,false,p1,c1);
 	}
 	/**
@@ -73,8 +74,8 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 * @param c1 conic
 	 */
 	public AlgoIntersectImplicitpolys(Construction c, String[] labels, boolean setLabels,
-			GeoImplicitPoly p1, GeoConic c1) {
-		super(c,p1,c1);
+ GeoImplicit p1, GeoConic c1) {
+		super(c, p1.toGeoElement(), c1);
 		this.p1=p1;
 		this.c1=c1;
         initForNearToRelationship();
@@ -87,7 +88,8 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 * @param p1 first polynomial
 	 * @param p2 second polynomial
 	 */
-	public AlgoIntersectImplicitpolys(Construction c, GeoImplicitPoly p1,GeoImplicitPoly p2) {
+	public AlgoIntersectImplicitpolys(Construction c, GeoImplicit p1,
+			GeoImplicit p2) {
 		this(c,null,false,p1,p2);
 	}
 
@@ -101,8 +103,8 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 * @param p2 second polynomial
 	 */
 	public AlgoIntersectImplicitpolys(Construction c, String[] labels,
-			boolean setLabels,GeoImplicitPoly p1,GeoImplicitPoly p2) {
-		super(c, p1,p2);
+			boolean setLabels, GeoImplicit p1, GeoImplicit p2) {
+		super(c, p1.toGeoElement(), p2.toGeoElement());
 		this.p1=p1;
 		this.p2=p2;
         initForNearToRelationship();
@@ -165,7 +167,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 //		Application.debug("p1="+p1);
 //		Application.debug("p2="+p2);
 		
-		GeoImplicitPoly a=p1,b=p2;
+		GeoImplicit a = p1, b = p2;
 		if (p1.getDegX()<p2.getDegX()){
 			a=p2;
 			b=p1;
@@ -423,7 +425,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 * @param b
 	 *            implicit polynomial with y terms only
 	 */
-	private void computeY(GeoImplicitPoly a, GeoImplicitPoly b) {
+	private void computeY(GeoImplicit a, GeoImplicit b) {
 		if (a.getDegX() == 0) {
 			valPairs.add(new double[] { Double.NaN, Double.NaN });
 			setPoints(valPairs);

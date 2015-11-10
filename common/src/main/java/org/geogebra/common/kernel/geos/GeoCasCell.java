@@ -48,7 +48,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
@@ -1506,8 +1506,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 		if (newTwinGeo != null && !dependsOnDummy(newTwinGeo)) {
 			setTwinGeo(newTwinGeo);
-			if(twinGeo instanceof GeoImplicitPoly){
-				((GeoImplicitPoly)twinGeo).setInputForm();
+			if (twinGeo instanceof GeoImplicit) {
+				((GeoImplicit) twinGeo).setInputForm();
 			}
 			if (newTwinGeo instanceof GeoNumeric) {
 				newTwinGeo.setLabelVisible(true);

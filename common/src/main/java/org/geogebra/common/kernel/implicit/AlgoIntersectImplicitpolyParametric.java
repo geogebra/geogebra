@@ -40,7 +40,7 @@ public class AlgoIntersectImplicitpolyParametric extends
 	
 	private PolynomialFunction tx;
 	private PolynomialFunction ty;
-	private GeoImplicitPoly p;
+	private GeoImplicit p;
 	private GeoLine l;
 	private GeoFunction f;
 	private GeoPoint[] tangentPoints;
@@ -51,7 +51,8 @@ public class AlgoIntersectImplicitpolyParametric extends
 	 * @param p polynomial
 	 * @param l line
 	 */
-	public AlgoIntersectImplicitpolyParametric(Construction c,GeoImplicitPoly p,GeoLine l) {
+	public AlgoIntersectImplicitpolyParametric(Construction c, GeoImplicit p,
+			GeoLine l) {
 		this(c,null,false,p,l);
 	}
 	
@@ -61,7 +62,8 @@ public class AlgoIntersectImplicitpolyParametric extends
 	 * @param p polynomial
 	 * @param f function
 	 */
-	public AlgoIntersectImplicitpolyParametric(Construction c,GeoImplicitPoly p,GeoFunction f) {
+	public AlgoIntersectImplicitpolyParametric(Construction c, GeoImplicit p,
+			GeoFunction f) {
 		this(c,null,false,p,f);
 	}
 
@@ -74,8 +76,8 @@ public class AlgoIntersectImplicitpolyParametric extends
 	 * @param l line
 	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, String[] labels,
-			boolean setLabels, GeoImplicitPoly p, GeoLine l) {
-		super(c,p,l);
+			boolean setLabels, GeoImplicit p, GeoLine l) {
+		super(c, p.toGeoElement(), l);
 		this.p=p;
 		this.l=l;
 		compute();
@@ -90,8 +92,8 @@ public class AlgoIntersectImplicitpolyParametric extends
 	 * @param f function
 	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, String[] labels,
-			boolean setLabels, GeoImplicitPoly p, GeoFunction f) {
-		super(c,p,f);
+			boolean setLabels, GeoImplicit p, GeoFunction f) {
+		super(c, p.toGeoElement(), f);
 		this.p=p;
 		this.f=f;
 		compute();

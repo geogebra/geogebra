@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusND;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 
@@ -635,7 +635,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 	private static boolean isPathIterable(GeoElement geoElement) {
 		if (geoElement.isGeoImplicitPoly())
-			return ((GeoImplicitPoly) geoElement).isOnScreen();
+			return ((GeoImplicit) geoElement).isOnScreen();
 		return geoElement.isDefined();
 	}
 

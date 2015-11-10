@@ -27,7 +27,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	/**
 	 * input implicit polynomial
 	 */
-	protected GeoImplicitPoly implicitPolynomial;
+	protected GeoImplicit implicitPolynomial;
 	/**
 	 * inpupt polyline/polygon
 	 */
@@ -62,7 +62,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 *            states whether the input geoPOyl is a polyline or polygon
 	 */
 	public AlgoIntersectImplicitpolyPolyLine(Construction cons,
-			String[] labels, GeoImplicitPoly implicitPolynomial,GeoPoly poly,
+			String[] labels, GeoImplicit implicitPolynomial, GeoPoly poly,
 			boolean polyClosed) {
 		this(cons, implicitPolynomial, poly, polyClosed);
 
@@ -87,7 +87,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 *            states whether the input geoPOyl is a polyline or polygon
 	 */
 	public AlgoIntersectImplicitpolyPolyLine(Construction cons,
-			GeoImplicitPoly implicitPolynomial, GeoPoly poly, boolean polyClosed) {
+			GeoImplicit implicitPolynomial, GeoPoly poly, boolean polyClosed) {
 		super(cons);
 		this.implicitPolynomial = implicitPolynomial;
 		this.poly = poly;
@@ -114,7 +114,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = getImplicitPolynomial();
+		input[0] = getImplicitPolynomial().toGeoElement();
 		input[1] = (GeoElement) getPoly();
 
 	}
@@ -314,7 +314,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 * 
 	 * @return input implicit polynomial
 	 */
-	public GeoImplicitPoly getImplicitPolynomial() {
+	public GeoImplicit getImplicitPolynomial() {
 		return implicitPolynomial;
 	}
 

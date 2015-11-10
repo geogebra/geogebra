@@ -47,7 +47,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.arithmetic.ValueType;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
@@ -165,7 +165,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		initFunction();
 	}
 	/** implicit poly for composite function */
-	GeoImplicitPoly iPoly;
+	GeoImplicit iPoly;
 	/** substitute functions for composite function */
 	GeoFunction[] substituteFunctions;
 	/** direct function */
@@ -184,7 +184,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	 * @param f function for x
 	 * @param g function for y
 	 */
-	public GeoFunction(Construction c, GeoImplicitPoly iPoly, GeoFunction f,
+	public GeoFunction(Construction c, GeoImplicit iPoly, GeoFunction f,
 			GeoFunction g) {  
 		this(c);
 		this.iPoly = iPoly;

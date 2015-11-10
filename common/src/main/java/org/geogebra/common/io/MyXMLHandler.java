@@ -68,7 +68,7 @@ import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -5246,7 +5246,7 @@ public class MyXMLHandler implements DocHandler {
 						coeff[i][j] = row.get(j);
 					}
 				}
-				((GeoImplicitPoly) geo).setCoeff(coeff);
+				((GeoImplicit) geo).setCoeff(coeff);
 				return true;
 			}
 		} catch (Exception e) {

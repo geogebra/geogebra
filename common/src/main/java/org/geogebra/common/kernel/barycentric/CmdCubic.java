@@ -44,7 +44,7 @@ public class CmdCubic extends CommandProcessor {
 						(GeoPoint) arg[0], (GeoPoint) arg[1],
 						(GeoPoint) arg[2], (GeoNumberValue) arg[3]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = { algo.getResult().toGeoElement() };
 				return ret;
 
 			}

@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	
-	private GeoImplicitPoly poly;
+	private GeoImplicit poly;
 	private GeoPointND point;
 	
 	private GeoImplicitPoly tangentPoly;
@@ -25,7 +25,9 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	 * @param addToConstructionList true to add this to construction list
 	 * @param calcPath true to calculate path
 	 */
-	public AlgoImplicitPolyTangentCurve(Construction c,GeoImplicitPoly poly,GeoPointND point,String label,boolean addToConstructionList,boolean calcPath) {
+	public AlgoImplicitPolyTangentCurve(Construction c, GeoImplicit poly,
+			GeoPointND point, String label, boolean addToConstructionList,
+			boolean calcPath) {
 		super(c,addToConstructionList);
 		this.poly=poly;
 		this.point=point;
@@ -75,7 +77,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input=new GeoElement[]{poly,(GeoElement) point};
+		input = new GeoElement[] { poly.toGeoElement(), (GeoElement) point };
 		setOutputLength(1);
 		setOutput(0, tangentPoly);
 		setDependencies();

@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo {
 	
-	private GeoImplicitPoly p;
+	private GeoImplicit p;
 	private GeoPointND R;
 	private GeoLineND g;
 	
@@ -48,7 +48,8 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 	 * @param labels labels for output
 	 * @param p implicit polynomial
 	 */
-	protected AlgoTangentImplicitpoly(Construction c, String[] labels,GeoImplicitPoly p) {
+	protected AlgoTangentImplicitpoly(Construction c, String[] labels,
+			GeoImplicit p) {
 		super(c);
 		this.labels=labels;
 		this.p=p;
@@ -63,7 +64,8 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 	 * @param p implicit polynomial
 	 * @param R point on tangent
 	 */
-	public AlgoTangentImplicitpoly(Construction c,String[] labels,GeoImplicitPoly p,GeoPointND R) {
+	public AlgoTangentImplicitpoly(Construction c, String[] labels,
+			GeoImplicit p, GeoPointND R) {
 		this(c,labels,p);
 		this.R=R;
 		
@@ -112,7 +114,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 	@Override
 	protected void setInputOutput() {
 		input=new GeoElement[2];
-		input[1]=p;
+		input[1] = p.toGeoElement();
 		if (g!=null)
 			input[0]=(GeoElement) g;
 		else 

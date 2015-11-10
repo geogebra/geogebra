@@ -85,6 +85,7 @@ import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
@@ -169,7 +170,7 @@ public abstract class EuclidianController {
 
 	protected GeoConic tempConic;
 
-	protected GeoImplicitPoly tempImplicitPoly;
+	protected GeoImplicit tempImplicitPoly;
 
 	protected GeoImplicitCurve tempImplicitCurve;
 
@@ -185,7 +186,7 @@ public abstract class EuclidianController {
 
 	protected GeoConicND movedGeoConic;
 
-	protected GeoImplicitPoly movedGeoImplicitPoly;
+	protected GeoImplicit movedGeoImplicitPoly;
 
 	protected GeoImplicitCurve movedGeoImplicitCurve;
 
@@ -243,7 +244,7 @@ public abstract class EuclidianController {
 
 	protected final ArrayList<GeoConicND> selectedConicsND = new ArrayList<GeoConicND>();
 
-	protected final ArrayList<GeoImplicitPoly> selectedImplicitpoly = new ArrayList<GeoImplicitPoly>();
+	protected final ArrayList<GeoImplicit> selectedImplicitpoly = new ArrayList<GeoImplicit>();
 
 	protected final ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
 
@@ -1011,11 +1012,11 @@ public abstract class EuclidianController {
 		return paths;
 	}
 
-	protected final GeoImplicitPoly[] getSelectedImplicitpoly() {
-		GeoImplicitPoly[] implicitPoly = new GeoImplicitPoly[selectedImplicitpoly
+	protected final GeoImplicit[] getSelectedImplicitpoly() {
+		GeoImplicit[] implicitPoly = new GeoImplicit[selectedImplicitpoly
 				.size()];
 		int i = 0;
-		Iterator<GeoImplicitPoly> it = selectedImplicitpoly.iterator();
+		Iterator<GeoImplicit> it = selectedImplicitpoly.iterator();
 		while (it.hasNext()) {
 			implicitPoly[i] = it.next();
 			i++;
@@ -2393,7 +2394,7 @@ public abstract class EuclidianController {
 			// }
 		} else if (selImplicitpoly() >= 1) {
 			if (selFunctions() >= 1) {
-				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
+				GeoImplicit p = getSelectedImplicitpoly()[0];
 				GeoFunction fun = getSelectedFunctions()[0];
 				// if (fun.isPolynomialFunction(false)){
 				checkZooming();
@@ -2408,7 +2409,7 @@ public abstract class EuclidianController {
 				// }else
 				// return null;
 			} else if (selLines() >= 1) {
-				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
+				GeoImplicit p = getSelectedImplicitpoly()[0];
 				GeoLine l = getSelectedLines()[0];
 				checkZooming();
 
@@ -2420,7 +2421,7 @@ public abstract class EuclidianController {
 				return getAlgoDispatcher()
 						.IntersectImplicitpolyLine(null, p, l);
 			} else if (selConics() >= 1) {
-				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
+				GeoImplicit p = getSelectedImplicitpoly()[0];
 				GeoConic c = getSelectedConics()[0];
 				checkZooming();
 
@@ -2432,7 +2433,7 @@ public abstract class EuclidianController {
 				return getAlgoDispatcher().IntersectImplicitpolyConic(null, p,
 						c);
 			} else if (selImplicitpoly() >= 2) {
-				GeoImplicitPoly[] p = getSelectedImplicitpoly();
+				GeoImplicit[] p = getSelectedImplicitpoly();
 				checkZooming();
 
 				if (singlePointWanted) {
@@ -2446,7 +2447,7 @@ public abstract class EuclidianController {
 
 			// intersect implicitPoly and polyLine
 			else if (selPolyLines() >= 1) {
-				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
+				GeoImplicit p = getSelectedImplicitpoly()[0];
 				GeoPolyLine pl = getSelectedPolyLines()[0];
 				checkZooming();
 				return getAlgoDispatcher().IntersectImplicitpolyPolyLine(null,
@@ -2455,7 +2456,7 @@ public abstract class EuclidianController {
 
 			// intersect implicitPoly and polygon
 			else if (selPolygons() >= 1) {
-				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
+				GeoImplicit p = getSelectedImplicitpoly()[0];
 				GeoPolygon pl = getSelectedPolygons()[0];
 				checkZooming();
 				return getAlgoDispatcher().IntersectImplicitpolyPolygon(null,
@@ -2969,7 +2970,7 @@ public abstract class EuclidianController {
 			}
 		} else if (selImplicitpoly() == 1) {
 			if (selPoints() == 1) {
-				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
+				GeoImplicit implicitPoly = getSelectedImplicitpoly()[0];
 				GeoPointND[] points = getSelectedPointsND();
 				// create new tangents
 				checkZooming();
@@ -2978,7 +2979,7 @@ public abstract class EuclidianController {
 						implicitPoly);
 
 			} /*
-			 * else if (selLines() == 1) { GeoImplicitPoly implicitPoly =
+			 * else if (selLines() == 1) { GeoImplicit implicitPoly =
 			 * getSelectedImplicitpoly()[0]; GeoLineND[] lines =
 			 * getSelectedLinesND(); // create new line checkZooming();
 			 * 
@@ -7220,7 +7221,7 @@ public abstract class EuclidianController {
 
 		} else if (movedGeoElement.isGeoImplicitPoly()) {
 			moveMode = MOVE_IMPLICITPOLY;
-			movedGeoImplicitPoly = (GeoImplicitPoly) movedGeoElement;
+			movedGeoImplicitPoly = (GeoImplicit) movedGeoElement;
 			view.setShowMouseCoords(false);
 			view.setDragCursor();
 

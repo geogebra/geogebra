@@ -18,14 +18,14 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 
 /**
  * Draw GeoImplicitPoly on euclidian view
  */
 public class DrawImplicitPoly extends DrawLocus {
 
-	private GeoImplicitPoly implicitPoly;
+	private GeoImplicit implicitPoly;
 
 	// private int fillSign; //0=>no filling, only curve -1=>fill the negativ
 	// part, 1=>fill positiv part
@@ -38,11 +38,11 @@ public class DrawImplicitPoly extends DrawLocus {
 	 * @param implicitPoly
 	 *            implicit polynomial
 	 */
-	public DrawImplicitPoly(EuclidianView view, GeoImplicitPoly implicitPoly) {
+	public DrawImplicitPoly(EuclidianView view, GeoImplicit implicitPoly) {
 		super(view, implicitPoly.getLocus());
 		this.view = view;
 		this.implicitPoly = implicitPoly;
-		this.geo = implicitPoly;
+		this.geo = implicitPoly.toGeoElement();
 		update();
 	}
 
@@ -57,7 +57,7 @@ public class DrawImplicitPoly extends DrawLocus {
 	 * 
 	 * @return poly
 	 */
-	public GeoImplicitPoly getPoly() {
+	public GeoImplicit getPoly() {
 		return implicitPoly;
 	}
 

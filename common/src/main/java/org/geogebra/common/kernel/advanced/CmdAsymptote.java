@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.implicit.AlgoAsymptoteImplicitPoly;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -52,7 +52,7 @@ public class CmdAsymptote extends CommandProcessor {
 			} else if (arg[0].isGeoImplicitPoly()) {
 
 				AlgoAsymptoteImplicitPoly algo = new AlgoAsymptoteImplicitPoly(
-						cons, c.getLabel(), (GeoImplicitPoly) arg[0]);
+						cons, c.getLabel(), (GeoImplicit) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

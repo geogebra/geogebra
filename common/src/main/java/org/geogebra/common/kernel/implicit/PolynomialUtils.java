@@ -180,7 +180,8 @@ public class PolynomialUtils {
 	 * @param line defined by line[0]+x*line[1]+y*line[2]=0
 	 * @return whether a common root of the polynomial and the line was found
 	 */
-	public static boolean rootPolishing(double[] pair,GeoImplicitPoly p1,double[] line){
+	public static boolean rootPolishing(double[] pair, GeoImplicit p1,
+			double[] line) {
 		return rootPolishing(pair, p1,null,line);
 	}
 	/**
@@ -190,11 +191,13 @@ public class PolynomialUtils {
 	 * @param p2 other polynomial
 	 * @return whether a common root of the polynomials was found
 	 */
-	public static boolean rootPolishing(double[] pair,GeoImplicitPoly p1,GeoImplicitPoly p2){
+	public static boolean rootPolishing(double[] pair, GeoImplicit p1,
+			GeoImplicit p2) {
 		return rootPolishing(pair, p1, p2,null);
 	}
 	
-	private static boolean rootPolishing(double[] pair,GeoImplicitPoly p1,GeoImplicitPoly p2,double[] line){
+	private static boolean rootPolishing(double[] pair, GeoImplicit p1,
+			GeoImplicit p2, double[] line) {
 		double x=pair[0],y=pair[1];
 		double p,q;
 		if (p1==null){

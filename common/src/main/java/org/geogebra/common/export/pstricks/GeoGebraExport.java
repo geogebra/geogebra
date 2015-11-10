@@ -56,7 +56,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.statistics.AlgoHistogram;
 import org.geogebra.common.main.App;
@@ -308,8 +308,8 @@ public abstract class GeoGebraExport {
 					// label="$"+Util.toLaTeXString(g.getLabelDescription(),true)+"$";
 					drawLabel(g, euclidianView.getDrawableFor(g));
 				}
-			} else if (g instanceof GeoImplicitPoly) {
-				drawImplicitPoly((GeoImplicitPoly) g);
+			} else if (g instanceof GeoImplicit) {
+				drawImplicitPoly((GeoImplicit) g);
 			}
 			// To draw Inequalities
 			else if (g.getTypeString().equals("Inequality")) {
@@ -638,7 +638,7 @@ public abstract class GeoGebraExport {
 	 * @param geo
 	 *            The function to export
 	 */
-	abstract protected void drawImplicitPoly(GeoImplicitPoly geo);
+	abstract protected void drawImplicitPoly(GeoImplicit geo);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ parametric functions
@@ -1306,7 +1306,7 @@ public abstract class GeoGebraExport {
 		}
 	}
 
-	protected String getImplicitExpr(GeoImplicitPoly geo) {
+	protected String getImplicitExpr(GeoImplicit geo) {
 		StringBuilder sb = new StringBuilder();
 		double[][] coeff = geo.getCoeff();
 		boolean first = true;

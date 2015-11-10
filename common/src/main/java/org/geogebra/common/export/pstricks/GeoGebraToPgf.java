@@ -48,7 +48,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -3126,7 +3126,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	 * Export Implicit plot for polynom degree greater than 2
 	 */
 	@Override
-	protected void drawImplicitPoly(GeoImplicitPoly geo) {
+	protected void drawImplicitPoly(GeoImplicit geo) {
 		code.append("\n%WARNING: PGF/Tikz and Gnuplot don't support implicit curves\n");
 		code.append("%Rather try PSTricks export\n");
 		code.append("%Cannot draw ");

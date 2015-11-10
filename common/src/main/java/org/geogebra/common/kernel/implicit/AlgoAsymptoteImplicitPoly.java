@@ -31,7 +31,7 @@ import org.geogebra.common.util.Cloner;
  */
 public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 
-	private GeoImplicitPoly ip; // input
+	private GeoImplicit ip; // input
 //	private OutputHandler<GeoLine> lines;
     private GeoList g; // output
     private EquationSolverInterface solver;
@@ -42,7 +42,8 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
      * @param label label for output
      * @param ip implicit polynomial
      */
-    public AlgoAsymptoteImplicitPoly(Construction c, String label, GeoImplicitPoly ip) {
+	public AlgoAsymptoteImplicitPoly(Construction c, String label,
+			GeoImplicit ip) {
     	super(c);
         this.ip = ip;            
         solver = getKernel().getEquationSolver();
@@ -76,7 +77,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[1];
-        input[0] = ip;
+		input[0] = ip.toGeoElement();
 
         setOutputLength(1);
         setOutput(0, g);

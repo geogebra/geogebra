@@ -46,7 +46,7 @@ public class CmdFitImplicit extends CommandProcessor {
 				AlgoFitImplicit algo = new AlgoFitImplicit(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getFit() };
+				GeoElement[] ret = { algo.getFit().toGeoElement() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

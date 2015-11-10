@@ -51,8 +51,8 @@ import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.GgbMat;
@@ -3651,7 +3651,7 @@ FromMeta
 	 * Sets implicit poly to this conic
 	 * @param implicitPoly implicitPoly for storing this conic
 	 */
-	public void toGeoImplicitPoly(GeoImplicitPoly implicitPoly) 
+	public void toGeoImplicitPoly(GeoImplicit implicitPoly)
 	{
 		double coeff[][] =new double[3][3];
 		coeff[0][0]= matrix[2];

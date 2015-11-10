@@ -62,8 +62,8 @@ import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.geos.ParametricCurve;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -265,7 +265,7 @@ public class EuclidianDraw {
 			break;
 
 		case IMPLICIT_POLY:
-			d = new DrawImplicitPoly(ev, (GeoImplicitPoly) geo);
+			d = new DrawImplicitPoly(ev, (GeoImplicit) geo);
 			break;
 		case IMPLICIT_CURVE:
 			d = new DrawImplicitCurve(ev, (GeoImplicitCurve) geo);

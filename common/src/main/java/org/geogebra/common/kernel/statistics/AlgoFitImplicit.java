@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -32,7 +33,7 @@ public class AlgoFitImplicit extends AlgoElement {
 
 	private GeoList pointlist; // input
 	private GeoElement orderGeo = new GeoNumeric(cons, 2);
-	private GeoImplicitPoly fitfunction; // output
+	private GeoImplicit fitfunction; // output
 
 	// variables:
 	private int datasize = 0; // rows in M and Y
@@ -78,7 +79,7 @@ public class AlgoFitImplicit extends AlgoElement {
 	/**
 	 * @return resulting Fit function
 	 */
-	public GeoImplicitPoly getFit() {
+	public GeoImplicit getFit() {
 		return fitfunction;
 	}
 

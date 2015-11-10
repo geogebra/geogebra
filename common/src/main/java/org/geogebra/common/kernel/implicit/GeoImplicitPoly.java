@@ -66,7 +66,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * Represents implicit bivariat polynomial equations, with degree greater than 2.
+ * Represents implicit bivariate polynomial equations, with degree greater than
+ * 2.
+ * 
  * @author ?
  */
 public class GeoImplicitPoly extends GeoUserInputElement implements Path,
@@ -170,8 +172,8 @@ Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
 	 * Copy constructor
 	 * @param g implicit poly to copy
 	 */
-	public GeoImplicitPoly(GeoImplicitPoly g){
-		this(g.cons);
+	public GeoImplicitPoly(GeoImplicit g) {
+		this(g.getConstruction());
 		set(g);
 	}
 	

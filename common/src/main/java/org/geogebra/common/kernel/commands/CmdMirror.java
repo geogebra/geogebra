@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.Transformable;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.main.MyError;
 
@@ -88,7 +88,7 @@ public class CmdMirror extends CommandProcessor {
 					|| arg[0] instanceof GeoLine || arg[0] instanceof GeoPoly
 					|| arg[0] instanceof GeoFunction
 					|| arg[0] instanceof GeoList
-					|| arg[0] instanceof GeoImplicitPoly) {
+					|| arg[0] instanceof GeoImplicit) {
 				ret = getAlgoDispatcher().Mirror(label, arg[0], conic1);
 				return ret;
 			}

@@ -292,4 +292,12 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	ExpressionNode getDefinition();
 
 	void setDefinition(ExpressionNode def);
+	
+	/**
+	 * Returns whether geo depends on this object.
+	 * 
+	 * @param geo other geo
+	 * @return true if geo depends on this object.
+	 */
+	public boolean isParentOf(final GeoElementND geo);
 }

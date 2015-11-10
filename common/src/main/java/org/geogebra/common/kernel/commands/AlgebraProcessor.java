@@ -87,6 +87,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitCurve;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -2286,12 +2287,12 @@ public class AlgebraProcessor {
 		Polynomial lhs = equ.getNormalForm();
 		boolean isIndependent = !equ.isFunctionDependent() && lhs.isConstant()
 				&& !equ.hasVariableDegree();
-		GeoImplicitPoly poly;
+		GeoImplicit poly;
 		GeoElement geo = null;
 		if (isIndependent) {
 			poly = new GeoImplicitPoly(cons, label, lhs);
 			poly.setDefinition(equ.wrap());
-			geo = poly;
+			geo = poly.toGeoElement();
 		} else {
 			AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly(
 					cons, label, equ, true);

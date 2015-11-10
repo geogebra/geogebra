@@ -1792,4 +1792,54 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return ValueType.EQUATION;
 	}
 
+	public double[][] getCoeff() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setCoeff(double[][] coeff) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public int getDeg() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public boolean isOnScreen() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public double evalPolyAt(double evaluate, double x) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getDegX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getDegY() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setInputForm() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public double evalDiffXPolyAt(double inhomX, double inhomY) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public double evalDiffYPolyAt(double inhomX, double inhomY) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

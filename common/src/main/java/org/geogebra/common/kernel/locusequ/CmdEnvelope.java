@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.main.MyError;
 
 
@@ -47,18 +47,20 @@ public class CmdEnvelope extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 		
-		return new GeoElement[] { Envelope(c.getLabel(), linear, movingPoint) };
+		return new GeoElement[] { Envelope(c.getLabel(), linear, movingPoint)
+				.toGeoElement() };
 	}
 	
 	/**
 	 * locus equation for Q dependent on P.
 	 */
-	final public GeoImplicitPoly Envelope(String label, GeoElement linear, GeoPoint movingPoint) {
+	final public GeoImplicit Envelope(String label, GeoElement linear,
+			GeoPoint movingPoint) {
 		// TODO: add check here if linear is a correct input
 		if (movingPoint.getPath() == null || !movingPoint.isParentOf(linear))
 			return null;
 		AlgoEnvelope algo = new AlgoEnvelope(cons, linear, movingPoint);
-		GeoImplicitPoly poly = algo.getPoly();
+		GeoImplicit poly = algo.getPoly();
 		
 		poly.setLabel(label);
 		return poly;

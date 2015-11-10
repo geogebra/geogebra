@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.locusequ.arith.Equation;
 import org.geogebra.common.kernel.locusequ.arith.EquationSymbolicValue;
@@ -38,7 +39,7 @@ public class AlgoEnvelope extends AlgoElement {
      * class name
      */
     public static final String CLASS_NAME = "AlgoEnvelope";
-    private GeoImplicitPoly geoPoly;
+	private GeoImplicit geoPoly;
     private GeoElement[] efficientInput, standardInput;
     
 	/**
@@ -65,7 +66,7 @@ public class AlgoEnvelope extends AlgoElement {
         this.movingPoint = movingPoint;
         this.path  = path;
         
-        this.geoPoly = new GeoImplicitPoly(cons);
+		this.geoPoly = new GeoImplicitPoly(cons);
         
         setInputOutput();
         compute();
@@ -111,7 +112,7 @@ public class AlgoEnvelope extends AlgoElement {
         standardInput[1] = this.movingPoint;
         
         setOutputLength(1);
-        setOutput(0, this.geoPoly);
+		setOutput(0, this.geoPoly.toGeoElement());
         
         setEfficientDependencies(standardInput, efficientInput);
 	}
@@ -119,7 +120,9 @@ public class AlgoEnvelope extends AlgoElement {
     /**
      * @return the result.
      */
-    public GeoImplicitPoly getPoly() { return this.geoPoly; }
+	public GeoImplicit getPoly() {
+		return this.geoPoly;
+	}
 
 	/* (non-Javadoc)
 	 * @see geogebra.common.kernel.algos.AlgoElement#compute()

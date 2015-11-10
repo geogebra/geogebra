@@ -54,7 +54,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -2355,12 +2355,12 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	 * Export PSTricks code for implicit polynom (degree greater than 2)
 	 */
 	@Override
-	protected void drawImplicitPoly(GeoImplicitPoly geo) {
+	protected void drawImplicitPoly(GeoImplicit geo) {
 		if (codePreamble.indexOf("pst-func") == -1) {
 			codePreamble.append("\\usepackage{pst-func}\n");
 		}
 		code.append("\\psplotImp");
-		code.append(LineOptionCode(geo, true));
+		code.append(LineOptionCode(geo.toGeoElement(), true));
 		code.append("(");
 		code.append(Math.floor(xmin) - 1);
 		code.append(",");

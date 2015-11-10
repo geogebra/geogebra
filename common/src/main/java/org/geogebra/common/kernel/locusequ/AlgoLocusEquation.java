@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.locusequ.arith.Equation;
 import org.geogebra.common.main.App;
@@ -28,7 +29,7 @@ public class AlgoLocusEquation extends AlgoElement {
 
     private GeoPoint movingPoint, locusPoint;
     public static final String CLASS_NAME = "AlgoLocusEqu";
-    private GeoImplicitPoly geoPoly;
+	private GeoImplicit geoPoly;
     private GeoElement[] efficientInput, standardInput;
     private EquationSystem old_system = null; // for caching
     
@@ -43,7 +44,7 @@ public class AlgoLocusEquation extends AlgoElement {
         this.movingPoint = movingPoint;
         this.locusPoint  = locusPoint;
         
-        this.geoPoly = new GeoImplicitPoly(cons);
+		this.geoPoly = new GeoImplicitPoly(cons);
         
         setInputOutput();
         compute();
@@ -80,7 +81,7 @@ public class AlgoLocusEquation extends AlgoElement {
         standardInput[1] = this.movingPoint;
         
         setOutputLength(1);
-        setOutput(0, this.geoPoly);
+		setOutput(0, this.geoPoly.toGeoElement());
         
         setEfficientDependencies(standardInput, efficientInput);
 	}
@@ -88,7 +89,9 @@ public class AlgoLocusEquation extends AlgoElement {
     /**
      * @return the result.
      */
-    public GeoImplicitPoly getPoly() { return this.geoPoly; }
+	public GeoImplicit getPoly() {
+		return this.geoPoly;
+	}
 
 	/* (non-Javadoc)
 	 * @see geogebra.common.kernel.algos.AlgoElement#compute()

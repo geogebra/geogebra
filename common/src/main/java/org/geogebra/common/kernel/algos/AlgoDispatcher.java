@@ -48,13 +48,13 @@ import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyPolyLine;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolys;
 import org.geogebra.common.kernel.implicit.AlgoTangentImplicitCurve;
 import org.geogebra.common.kernel.implicit.AlgoTangentImplicitpoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.main.App;
 
 public class AlgoDispatcher {
 
@@ -731,10 +731,10 @@ public class AlgoDispatcher {
 		return num;
 	}
 
-	final public GeoImplicitPoly ImplicitPoly(String label, GeoFunctionNVar func) {
+	final public GeoImplicit ImplicitPoly(String label, GeoFunctionNVar func) {
 		AlgoImplicitPolyFunction algo = new AlgoImplicitPolyFunction(cons,
 				label, func);
-		GeoImplicitPoly implicitPoly = algo.getImplicitPoly();
+		GeoImplicit implicitPoly = algo.getImplicitPoly();
 		return implicitPoly;
 	}
 
@@ -1344,7 +1344,7 @@ public class AlgoDispatcher {
 	 * get intersection points of a implicitPoly and a line
 	 */
 	final public GeoPoint[] IntersectImplicitpolyLine(String[] labels,
-			GeoImplicitPoly p, GeoLine l) {
+			GeoImplicit p, GeoLine l) {
 		AlgoIntersectImplicitpolyParametric algo = getIntersectionAlgorithm(p,
 				l);
 		algo.setPrintedInXML(true);
@@ -1357,7 +1357,7 @@ public class AlgoDispatcher {
 	 * get intersection points of a implicitPoly and a polyline
 	 */
 	final public GeoPoint[] IntersectImplicitpolyPolyLine(String[] labels,
-			GeoImplicitPoly p, GeoPolyLine l) {
+			GeoImplicit p, GeoPolyLine l) {
 		AlgoIntersectImplicitpolyPolyLine algo = getIntersectionAlgorithm(p, l);
 		algo.setPrintedInXML(true);
 		GeoPoint[] points = algo.getIntersectionPoints();
@@ -1369,7 +1369,7 @@ public class AlgoDispatcher {
 	 * get intersection points of a implicitPoly and a polygon
 	 */
 	final public GeoPoint[] IntersectImplicitpolyPolygon(String[] labels,
-			GeoImplicitPoly p, GeoPolygon l) {
+			GeoImplicit p, GeoPolygon l) {
 		AlgoIntersectImplicitpolyPolyLine algo = getIntersectionAlgorithm(p, l);
 		algo.setPrintedInXML(true);
 		GeoPoint[] points = algo.getIntersectionPoints();
@@ -1381,7 +1381,7 @@ public class AlgoDispatcher {
 	 * get intersection points of a implicitPoly and a polynomial
 	 */
 	final public GeoPoint[] IntersectImplicitpolyPolynomial(String[] labels,
-			GeoImplicitPoly p, GeoFunction f) {
+			GeoImplicit p, GeoFunction f) {
 		// if (!f.isPolynomialFunction(false))
 		// return null;
 		AlgoIntersectImplicitpolyParametric algo = getIntersectionAlgorithm(p,
@@ -1396,7 +1396,7 @@ public class AlgoDispatcher {
 	 * get intersection points of two implicitPolys
 	 */
 	final public GeoPoint[] IntersectImplicitpolys(String[] labels,
-			GeoImplicitPoly p1, GeoImplicitPoly p2) {
+			GeoImplicit p1, GeoImplicit p2) {
 		AlgoIntersectImplicitpolys algo = getIntersectionAlgorithm(p1, p2);
 		algo.setPrintedInXML(true);
 		GeoPoint[] points = algo.getIntersectionPoints();
@@ -1408,7 +1408,7 @@ public class AlgoDispatcher {
 	 * get intersection points of implicitPoly and conic
 	 */
 	final public GeoPoint[] IntersectImplicitpolyConic(String[] labels,
-			GeoImplicitPoly p1, GeoConic c1) {
+			GeoImplicit p1, GeoConic c1) {
 		AlgoIntersectImplicitpolys algo = getIntersectionAlgorithm(p1, c1);
 		algo.setPrintedInXML(true);
 		GeoPoint[] points = algo.getIntersectionPoints();
@@ -1555,7 +1555,7 @@ public class AlgoDispatcher {
 
 	// intersection of GeoImplicitPoly, GeoLine
 	public AlgoIntersectImplicitpolyParametric getIntersectionAlgorithm(
-			GeoImplicitPoly p, GeoLine l) {
+			GeoImplicit p, GeoLine l) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p, l);
 		if (existingAlgo != null)
 			return (AlgoIntersectImplicitpolyParametric) existingAlgo;
@@ -1570,7 +1570,7 @@ public class AlgoDispatcher {
 
 	// intersection of GeoImplicitPoly, GeoPolyLine
 	public AlgoIntersectImplicitpolyPolyLine getIntersectionAlgorithm(
-			GeoImplicitPoly p, GeoPolyLine l) {
+			GeoImplicit p, GeoPolyLine l) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p, l);
 		if (existingAlgo != null)
 			return (AlgoIntersectImplicitpolyPolyLine) existingAlgo;
@@ -1585,7 +1585,7 @@ public class AlgoDispatcher {
 
 	// intersection of GeoImplicitPoly, GeoPolygon
 	public AlgoIntersectImplicitpolyPolyLine getIntersectionAlgorithm(
-			GeoImplicitPoly p, GeoPolygon l) {
+			GeoImplicit p, GeoPolygon l) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p, l);
 		if (existingAlgo != null)
 			return (AlgoIntersectImplicitpolyPolyLine) existingAlgo;
@@ -1600,7 +1600,7 @@ public class AlgoDispatcher {
 
 	// intersection of GeoImplicitPoly, polynomial
 	public AlgoIntersectImplicitpolyParametric getIntersectionAlgorithm(
-			GeoImplicitPoly p, GeoFunction f) {
+			GeoImplicit p, GeoFunction f) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p, f);
 		if (existingAlgo != null)
 			return (AlgoIntersectImplicitpolyParametric) existingAlgo;
@@ -1615,7 +1615,8 @@ public class AlgoDispatcher {
 
 	// intersection of two GeoImplicitPoly
 	public AlgoIntersectImplicitpolys getIntersectionAlgorithm(
-			GeoImplicitPoly p1, GeoImplicitPoly p2) {
+GeoImplicit p1,
+			GeoImplicit p2) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p1, p2);
 		if (existingAlgo != null)
 			return (AlgoIntersectImplicitpolys) existingAlgo;
@@ -1629,7 +1630,8 @@ public class AlgoDispatcher {
 	}
 
 	public AlgoIntersectImplicitpolys getIntersectionAlgorithm(
-			GeoImplicitPoly p1, GeoConic c1) {
+GeoImplicit p1,
+			GeoConic c1) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p1, c1);
 		if (existingAlgo != null)
 			return (AlgoIntersectImplicitpolys) existingAlgo;
@@ -1642,8 +1644,8 @@ public class AlgoDispatcher {
 		return algo;
 	}
 
-	public AlgoElement findExistingIntersectionAlgorithm(GeoElement a,
-			GeoElement b) {
+	public AlgoElement findExistingIntersectionAlgorithm(GeoElementND a,
+			GeoElementND b) {
 		int size = intersectionAlgos.size();
 		AlgoElement algo;
 		for (int i = 0; i < size; i++) {
@@ -1695,7 +1697,7 @@ public class AlgoDispatcher {
 	 * tangents to p through P
 	 */
 	final public GeoLine[] Tangent(String[] labels, GeoPointND R,
-			GeoImplicitPoly p) {
+ GeoImplicit p) {
 		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(cons,
 				labels, p, R);
 		algo.setLabels(labels);
@@ -1716,7 +1718,7 @@ public class AlgoDispatcher {
 	 * tangents to p parallel to g
 	 *
 	 * #4380 final public GeoLine[] Tangent(String[] labels, GeoLineND g,
-	 * GeoImplicitPoly p) { AlgoTangentImplicitpoly algo = new
+	 * GeoImplicit p) { AlgoTangentImplicitpoly algo = new
 	 * AlgoTangentImplicitpoly(cons, labels, p, g); algo.setLabels(labels);
 	 * GeoLine[] tangents = algo.getTangents(); return tangents; }
 	 */
@@ -2006,7 +2008,7 @@ public class AlgoDispatcher {
 	 * get single intersection points of a implicitPoly and a line
 	 */
 	final public GeoPoint IntersectImplicitpolyLineSingle(String label,
-			GeoImplicitPoly p, GeoLine l, double x, double y) {
+			GeoImplicit p, GeoLine l, double x, double y) {
 		AlgoIntersect algo = getIntersectionAlgorithm(p, l);
 		int idx = algo.getClosestPointIndex(x, y);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
@@ -2018,7 +2020,7 @@ public class AlgoDispatcher {
 	 * get single intersection points of a implicitPoly and a line
 	 */
 	final public GeoPoint IntersectImplicitpolyPolynomialSingle(String label,
-			GeoImplicitPoly p, GeoFunction f, double x, double y) {
+			GeoImplicit p, GeoFunction f, double x, double y) {
 		if (!f.getConstruction().isFileLoading()
 				&& !f.isPolynomialFunction(false))
 			return null;
@@ -2037,7 +2039,7 @@ public class AlgoDispatcher {
 	 * @param y
 	 */
 	final public GeoPoint IntersectImplicitpolyConicSingle(String label,
-			GeoImplicitPoly p1, GeoConic c1, double x, double y) {
+			GeoImplicit p1, GeoConic c1, double x, double y) {
 		AlgoIntersectImplicitpolys algo = getIntersectionAlgorithm(p1, c1);
 		int idx = algo.getClosestPointIndex(x, y);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
@@ -2053,7 +2055,7 @@ public class AlgoDispatcher {
 	 * @param y
 	 */
 	final public GeoPoint IntersectImplicitpolysSingle(String label,
-			GeoImplicitPoly p1, GeoImplicitPoly p2, double x, double y) {
+			GeoImplicit p1, GeoImplicit p2, double x, double y) {
 		AlgoIntersectImplicitpolys algo = getIntersectionAlgorithm(p1, p2);
 		int idx = algo.getClosestPointIndex(x, y);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);

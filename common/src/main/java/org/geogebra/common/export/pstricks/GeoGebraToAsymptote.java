@@ -57,7 +57,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -2030,7 +2030,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawImplicitPoly(GeoImplicitPoly geo) {
+	protected void drawImplicitPoly(GeoImplicit geo) {
 		// credit: help from Art of Problem Solving user fedja
 		importpackage.add("contour"); // importContour = true; flag for preamble
 										// to import contour package
@@ -2071,7 +2071,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		code.append(implicitFuncName);
 		packSpaceBetween(code, ",", "(xmin,ymin),", "(xmax,ymax),",
 				"new real[]{0},", "500)");
-		endDraw(geo);
+		endDraw(geo.toGeoElement());
 	}
 
 	@Override

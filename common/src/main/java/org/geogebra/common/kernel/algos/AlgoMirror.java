@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.Mirrorable;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -298,8 +299,8 @@ public class AlgoMirror extends AlgoTransformation implements
 		 * ((GeoConic)geoIn).toGeoCurveCartesian((GeoCurveCartesian)geoOut); }
 		 */
 		else if (mirror instanceof GeoConic && inGeo instanceof GeoConic
-				&& outGeo instanceof GeoImplicitPoly) {
-			((GeoConic) inGeo).toGeoImplicitPoly((GeoImplicitPoly) outGeo);
+				&& outGeo instanceof GeoImplicit) {
+			((GeoConic) inGeo).toGeoImplicitPoly((GeoImplicit) outGeo);
 		} else if (inGeo instanceof GeoFunction && mirror != mirrorPoint) {
 			((GeoFunction) inGeo)
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);

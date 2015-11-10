@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
@@ -28,7 +29,7 @@ public class AlgoCubic extends AlgoElement {
 
 	private GeoPoint A, B, C; // input
 	private NumberValue n; // number of curve
-	private GeoImplicitPoly poly; // output
+	private GeoImplicit poly; // output
 
 	/**
 	 * Creates new triangle cubic algo
@@ -75,7 +76,7 @@ public class AlgoCubic extends AlgoElement {
 		input[3] = n.toGeoElement();
 
 		setOutputLength(1);
-		setOutput(0, poly);
+		setOutput(0, poly.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -84,7 +85,7 @@ public class AlgoCubic extends AlgoElement {
 	 * 
 	 * @return the resulting curve
 	 */
-	public GeoImplicitPoly getResult() {
+	public GeoImplicit getResult() {
 		return poly;
 	}
 
@@ -142,7 +143,7 @@ public class AlgoCubic extends AlgoElement {
 		ValidExpression ve = null;
 		try {
 			ve = parser.parseGeoGebraExpression(equation);
-			GeoImplicitPoly result = (GeoImplicitPoly) (algebraProcessor
+			GeoImplicit result = (GeoImplicit) (algebraProcessor
 					.processEquation((Equation) ve, true)[0]);
 			result.remove();
 			poly.setCoeff(result.getCoeff());

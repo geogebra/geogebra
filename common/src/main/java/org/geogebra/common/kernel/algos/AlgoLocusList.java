@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.main.App;
 
 /**
@@ -312,7 +312,7 @@ public class AlgoLocusList extends AlgoElement {
 
 	private static boolean isPathIterable(GeoElement geoElement) {
 		if (geoElement.isGeoImplicitPoly())
-			return ((GeoImplicitPoly) geoElement).isOnScreen();
+			return ((GeoImplicit) geoElement).isOnScreen();
 		return geoElement.isDefined();
 	}
 

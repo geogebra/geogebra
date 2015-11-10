@@ -8,8 +8,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -101,12 +101,12 @@ public class CmdTangent extends CommandProcessor {
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))) {
 				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
-						(GeoPointND) arg[0], (GeoImplicitPoly) arg[1]);
+						(GeoPointND) arg[0], (GeoImplicit) arg[1]);
 				return ret;
 			} else if ((ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[0] = (arg[0].isGeoImplicitPoly()))) {
 				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
-						(GeoPointND) arg[1], (GeoImplicitPoly) arg[0]);
+						(GeoPointND) arg[1], (GeoImplicit) arg[0]);
 				return ret;
 				/*
 				 * } else if ((ok[0] = (arg[0].isGeoLine())) && (ok[1] =
