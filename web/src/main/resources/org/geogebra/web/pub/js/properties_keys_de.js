@@ -2266,7 +2266,7 @@ __GGB__keysVar.de.plain = {
     "BoxSize.medium": "Mittel",
     "BoxSize.small": "Klein",
     "Breakpoint": "Haltepunkt",
-    "Breakpoint.short": "BP",
+    "Breakpoint.short": "HP",
     "ButNotGenerallyTrue": "(aber im Allgmeinen nicht wahr)",
     "Button": "Schaltfl\xe4che",
     "ButtonSize": "Gr\xf6\xdfe Schaltfl\xe4che",
