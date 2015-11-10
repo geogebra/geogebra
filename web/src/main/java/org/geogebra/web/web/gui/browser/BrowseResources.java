@@ -18,7 +18,8 @@ public interface BrowseResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/arrow_go_previous_grey.png")
 	ImageResource back();
 	
-	@Source("org/geogebra/common/icons/png/web/document_view.png")
+	// @Source("org/geogebra/common/icons/png/web/document_view.png")
+	@Source("org/geogebra/common/menu_icons/p20/menu-edit-view.png")
 	ImageResource document_view();
 	
 	@Source("org/geogebra/common/icons/png/web/document_edit.png")
