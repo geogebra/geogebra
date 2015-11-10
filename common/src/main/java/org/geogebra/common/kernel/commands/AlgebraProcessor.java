@@ -2222,6 +2222,8 @@ public class AlgebraProcessor {
 	/**
 	 * @param equ
 	 *            equation
+	 * @param def
+	 *            definition expression
 	 * @return resulting conic
 	 */
 	protected GeoElement[] processConic(Equation equ, ExpressionNode def) {
@@ -2288,7 +2290,7 @@ public class AlgebraProcessor {
 		GeoElement geo = null;
 		if (isIndependent) {
 			poly = new GeoImplicitPoly(cons, label, lhs);
-			poly.setUserInput(equ);
+			poly.setDefinition(equ.wrap());
 			geo = poly;
 		} else {
 			AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly(
@@ -2296,9 +2298,7 @@ public class AlgebraProcessor {
 
 			geo = algo.getGeo(); // might also return
 			// Line or Conic
-			if (geo instanceof GeoUserInputElement) {
-				((GeoUserInputElement) geo).setUserInput(equ);
-			}
+			((GeoUserInputElement) geo).setDefinition(equ.wrap());
 		}
 		ret[0] = geo;
 		// AbstractApplication.debug("User Input: "+equ);

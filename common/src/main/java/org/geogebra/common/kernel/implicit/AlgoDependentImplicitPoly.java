@@ -27,7 +27,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement implements
 		AlgoDependentImplicit {
 
 
-	private Equation equation;
 	private ExpressionValue[][] coeff;  // input
 	private GeoElement geoElement;     // output (will be a implicitPoly, line or conic)
 //	private FunctionNVar[] dependentFromFunctions;
@@ -41,7 +40,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement implements
 	 */
 	public AlgoDependentImplicitPoly(Construction c, Equation equ, boolean simplify) {
 		super(c, false);
-		equation=equ;
 		Polynomial lhs = equ.getNormalForm();
 		coeff=lhs.getCoeff();
 		for (int i=0;i<coeff.length;i++){
@@ -79,6 +77,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement implements
 					geoElement=new GeoImplicitPoly(c);
 	    	}
     	}
+		geoElement.setDefinition(equ.wrap());
     	setInputOutput(); // for AlgoElement    
     	
     	compute(true); 
@@ -89,7 +88,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement implements
 	public AlgoDependentImplicitPoly(Construction c,String label, Equation equ, boolean simplify) {
 		this(c,equ, simplify);
 		geoElement.setLabel(label);
-		if (!equation.isPolynomial()) {
+		if (!getEquation().isPolynomial()) {
 			geoElement.setUndefined();
 			return;
 		}
@@ -116,10 +115,11 @@ public class AlgoDependentImplicitPoly extends AlgoElement implements
 	 * @return equation
 	 */
 	public Equation getEquation(){
-		return equation;
+		return (Equation) geoElement.getDefinition().unwrap();
 	}
 
 	private void compute(boolean first) {
+		Equation equation = (Equation) geoElement.getDefinition().unwrap();
 		if (!first){
 
 				if (equation.isFunctionDependent()){
@@ -292,7 +292,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement implements
 	@Override
 	protected void setInputOutput() {
 		if (input==null){
-			input = equation.getGeoElementVariables();
+			input = geoElement.getDefinition().getGeoElementVariables();
 			dependentFromFunctions=new HashSet<FunctionNVar>();
 			addAllFunctionalDescendents(this, dependentFromFunctions, new TreeSet<AlgoElement>());
 		}
@@ -320,12 +320,13 @@ public class AlgoDependentImplicitPoly extends AlgoElement implements
 	
 	@Override
 	public final String toString(StringTemplate tpl) {
-        return equation.toString(tpl);
+		return geoElement.getDefinition().toString(tpl);
     }
 
 	@Override
 	protected String toExpString(StringTemplate tpl) {
-		return geoElement.getLabel(tpl)+": "+equation.toString(tpl);
+		return geoElement.getLabel(tpl) + ": "
+				+ geoElement.getDefinition().toString(tpl);
 	}
 
 	// TODO Consider locusequability

@@ -5267,7 +5267,7 @@ public class MyXMLHandler implements DocHandler {
 				if (value == null)
 					return false;
 				ValidExpression ve = parser.parseGeoGebraExpression(value);
-				((GeoUserInputElement) geo).setUserInput(ve);
+				geo.setDefinition(ve.wrap());
 			}
 			if (attrs.get("show") != null && attrs.get("show").equals("true"))
 				((GeoUserInputElement) geo).setInputForm();

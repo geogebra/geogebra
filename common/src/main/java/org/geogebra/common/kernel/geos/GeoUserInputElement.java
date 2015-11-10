@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  */
 public abstract class GeoUserInputElement extends GeoElement {
 	
-	private ValidExpression userInput;
 	private boolean inputForm;
 	private boolean validInputForm;
 
@@ -51,7 +50,7 @@ public abstract class GeoUserInputElement extends GeoElement {
 	 */
 	public GeoUserInputElement(Construction c,ValidExpression userInput) {
 		this(c);
-		this.userInput=userInput;
+		setDefinition(userInput.wrap());
 	}
 	
 	/**
@@ -75,12 +74,7 @@ public abstract class GeoUserInputElement extends GeoElement {
 		return inputForm;
 	}
 	
-	/**
-	 * @param input user input
-	 */
-	public void setUserInput(ValidExpression input){
-		userInput=input;
-	}
+
 
 	@Override
 	public String toString(StringTemplate tpl){
@@ -89,8 +83,8 @@ public abstract class GeoUserInputElement extends GeoElement {
 	
 	@Override
 	public String toValueString(StringTemplate tpl){
-		if (validInputForm&&inputForm&&userInput!=null)
-			return userInput.toValueString(tpl);
+		if (validInputForm && inputForm && getDefinition() != null)
+			return getDefinition().toValueString(tpl);
 		
 		return toRawValueString(tpl);
 		
@@ -100,23 +94,11 @@ public abstract class GeoUserInputElement extends GeoElement {
 	public void set(GeoElementND geo) {
 		if (!(geo instanceof GeoUserInputElement))
 			return;
-		userInput=((GeoUserInputElement)geo).userInput;
+		setDefinition(geo.getDefinition());
 	}
 
-	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-		sb.append("\t<userinput show=\"");
-		sb.append(inputForm);
-		if (isIndependent()){ //if dependent we save the expression somewhere else anyway
-			sb.append("\" value=\"");
-			sb.append(userInput);
-		}
-		sb.append("\" valid=\"");
-		sb.append(validInputForm);
-		sb.append("\" />\n");
-	}
 	
+
 	/**
 	 * @param tpl string template
 	 * @return raw string
