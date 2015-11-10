@@ -253,11 +253,12 @@ public class MyButton implements Observer {
 
 			int yPos = latex
 					? (int) (y + (geoButton.getHeight() - textHeight) / 2)
+							+ imgHeight + imgGap + imgStart
 					: (int) (y + marginTopMultiplier * margin + imgHeight
 							+ imgGap + t.getAscent() + imgStart);
 
 			if (geoButton.getFillImage() != null) {
-				yPos = latex ? 0
+				yPos = latex ? y + imgHeight + imgGap + imgStart
 						: (int) (y + marginTopMultiplier * margin + imgHeight
 								+ imgGap + t.getAscent() + imgStart);
 			}
