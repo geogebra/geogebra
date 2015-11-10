@@ -512,7 +512,7 @@ public class Command extends ValidExpression implements
 		if ("Surface".equals(name) || ("Curve".equals(name) && args.size() > 5)) {
 			return ValueType.PARAMETRIC3D;
 		}
-		if ("Curve".equals(name)) {
+		if ("CurveCartesian".equals(name)) {
 			return ValueType.PARAMETRIC2D;
 		}
 		if ("Vector".equals(name) && (args.size() > 0)

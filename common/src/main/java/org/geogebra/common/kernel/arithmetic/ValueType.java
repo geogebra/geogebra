@@ -17,9 +17,17 @@ public enum ValueType {
 	 */
 	public static ValueType resolve(Operation op, ExpressionValue left,
 			ExpressionValue right, Resolution res) {
-		if (left != null) {
+		ValueType ret = doResolve(op, left, right, res);
+		if (ret == ValueType.LIST && left != null) {
 			res.setListDepth(left.getListDepth());
+
 		}
+		return ret;
+	}
+
+	private static ValueType doResolve(Operation op, ExpressionValue left,
+			ExpressionValue right, Resolution res) {
+
 		switch (op) {
 		case PLUS:
 			if (right.evaluatesToText()) {

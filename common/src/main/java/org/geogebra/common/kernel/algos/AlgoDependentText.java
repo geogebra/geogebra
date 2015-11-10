@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.geos.GeoText;
  */
 public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
-	private ExpressionNode root; // input
 	private GeoText text; // output
 
 	/**
@@ -48,9 +47,9 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	public AlgoDependentText(Construction cons, String label,
 			ExpressionNode root) {
 		super(cons);
-		this.root = root;
 
 		text = new GeoText(cons);
+		text.setDefinition(root);
 		setInputOutput(); // for AlgoElement
 
 		text.initSpreadsheetTraceableCase();
@@ -68,9 +67,9 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	 */
 	public AlgoDependentText(Construction cons, ExpressionNode root) {
 		super(cons);
-		this.root = root;
 
 		text = new GeoText(cons);
+		text.setDefinition(root);
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
@@ -91,13 +90,13 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	 * @return root expression
 	 */
 	public ExpressionNode getRoot() {
-		return root;
+		return text.getDefinition();
 	}
 
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = root.getGeoElementVariables();
+		input = text.getDefinition().getGeoElementVariables();
 		for (int i = 0; i < input.length; i++)
 			if (input[i].isGeoText())
 				((GeoText) input[i]).addTextDescendant(text);
@@ -130,7 +129,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 			}
 		}
 
-		nodeToGeoText(root, text, tpl);
+		nodeToGeoText(text.getDefinition(), text, tpl);
 
 	}
 
@@ -166,9 +165,9 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	@Override
 	final public String toString(StringTemplate tpl) {
 		// was defined as e.g. text0 = "Radius: " + r
-		if (root == null)
+		if (text.getDefinition() == null)
 			return "";
-		return root.toString(tpl);
+		return text.getDefinition().toString(tpl);
 	}
 
 	public void setSpreadsheetTraceableText() {
@@ -182,7 +181,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
 		// find first NumberValue in expression and replace
 		numToTraceSet = false;
-		ExpressionNode copy = getSpecialCopy(root);
+		ExpressionNode copy = getSpecialCopy(text.getDefinition());
 
 		// AbstractApplication.printStacktrace("XXX"+copy.evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
 
