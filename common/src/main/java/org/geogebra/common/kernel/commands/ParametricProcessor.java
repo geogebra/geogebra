@@ -342,7 +342,7 @@ public class ParametricProcessor {
 
 	}
 
-	private ExpressionNode buildParamEq(ExpressionNode exp) {
+	protected ExpressionNode buildParamEq(ExpressionNode exp) {
 		return new Equation(kernel, new Variable(kernel, "X"), exp).wrap();
 	}
 
