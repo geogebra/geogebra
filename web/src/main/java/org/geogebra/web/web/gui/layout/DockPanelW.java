@@ -24,6 +24,7 @@ import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.util.StyleBarW;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
@@ -769,7 +770,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 			setStyleBar();
 			styleBar.setVisible(showStyleBar && !app.getGuiManager().isDraggingViews());
 		}
-		if (styleBar instanceof SpreadsheetStyleBarW || styleBar instanceof CASStylebarW) {
+		if (styleBar instanceof SpreadsheetStyleBarW
+				|| styleBar instanceof CASStylebarW
+				|| styleBar instanceof AlgebraStyleBarW) {
 			setStyleBarLongVisibility(isStyleBarVisible());
 		}
 	}
