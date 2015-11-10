@@ -75,6 +75,13 @@ public class CmdPolyLine extends CommandProcessor {
 		}
 	}
 
+	/**
+	 * @param labels
+	 *            labels
+	 * @param pointList
+	 *            input points
+	 * @return polyline
+	 */
 	protected GeoElement[] PolyLine(String[] labels, GeoList pointList) {
 		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, pointList);
 		return algo.getOutput();
@@ -92,6 +99,17 @@ public class CmdPolyLine extends CommandProcessor {
 		return false; // check only in 3D mode
 	}
 
+	/**
+	 * @param labels
+	 *            output labels
+	 * @param points
+	 *            polyline
+	 * @param penStroke
+	 *            whether it's a pen stroke
+	 * @param is3D
+	 *            whether it's a 3D object
+	 * @return polyline
+	 */
 	protected GeoElement[] PolyLine(String[] labels, GeoPointND[] points,
 			boolean penStroke, boolean is3D) {
 		return kernelA.PolyLine(labels, points, penStroke);

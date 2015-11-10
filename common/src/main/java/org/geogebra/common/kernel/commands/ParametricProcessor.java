@@ -342,6 +342,11 @@ public class ParametricProcessor {
 
 	}
 
+	/**
+	 * @param exp
+	 *            RHS of parametric equation
+	 * @return equation X = exp
+	 */
 	protected ExpressionNode buildParamEq(ExpressionNode exp) {
 		return new Equation(kernel, new Variable(kernel, "X"), exp).wrap();
 	}

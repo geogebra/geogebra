@@ -5298,6 +5298,8 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append(" label =\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
+			sb.append(label);
+			sb.append(":");
 			StringUtil.encodeXML(sb,
 					definition.toString(StringTemplate.xmlTemplate));
 			// expression

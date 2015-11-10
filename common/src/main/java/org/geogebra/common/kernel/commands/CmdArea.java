@@ -83,7 +83,7 @@ public class CmdArea extends CommandProcessor {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @param label
 	 *            label
@@ -93,8 +93,9 @@ public class CmdArea extends CommandProcessor {
 	 *            if there is a 3D point
 	 * @return algo
 	 */
-	protected AlgoAreaPoints getAlgoAreaPoints(Construction cons, String label,
+	protected AlgoAreaPoints getAlgoAreaPoints(Construction cons1,
+			String label,
 			GeoPointND[] points, boolean is3D) {
-		return new AlgoAreaPoints(cons, label, points);
+		return new AlgoAreaPoints(cons1, label, points);
 	}
 }

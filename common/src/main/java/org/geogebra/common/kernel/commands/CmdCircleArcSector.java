@@ -23,6 +23,8 @@ public class CmdCircleArcSector extends CommandProcessor {
 	 * 
 	 * @param kernel
 	 *            kernel
+	 * @param type
+	 *            arc type
 	 */
 	public CmdCircleArcSector(Kernel kernel, int type) {
 		super(kernel);

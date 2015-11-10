@@ -9,18 +9,23 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * 3D processor for AngularBisector
+ */
 public class CmdAngularBisector3D extends CmdAngularBisector {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdAngularBisector3D(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	protected GeoElement[] process(Command c, int n, boolean ok[])
+	protected GeoElement[] process4(GeoElement[] arg, boolean[] ok, Command c)
 			throws MyError {
 
-		if (n == 4) {
-			GeoElement[] arg = resArgs(c);
 
 			// angular bisector of three points
 			if ((ok[0] = (arg[0].isGeoPoint()))
@@ -34,9 +39,7 @@ public class CmdAngularBisector3D extends CmdAngularBisector {
 			}
 
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
-		}
 
-		return super.process(c, n, ok);
 
 	}
 

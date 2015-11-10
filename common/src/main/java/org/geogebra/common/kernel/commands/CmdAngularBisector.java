@@ -30,17 +30,12 @@ public class CmdAngularBisector extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 
-		return process(c, n, ok);
-	}
 
-	protected GeoElement[] process(Command c, int n, boolean[] ok)
-			throws MyError {
 
-		GeoElement[] arg;
+		GeoElement[] arg = resArgs(c);
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
 
 			// angular bisector of 2 lines
 			if ((ok[0] = (arg[0].isGeoLine()))
@@ -54,7 +49,6 @@ public class CmdAngularBisector extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[1]);
 
 		case 3:
-			arg = resArgs(c);
 
 			// angular bisector of three points
 			if ((ok[0] = (arg[0].isGeoPoint()))
@@ -72,10 +66,25 @@ public class CmdAngularBisector extends CommandProcessor {
 			} else {
 				throw argErr(app, c.getName(), arg[2]);
 			}
+		case 4:
+			return process4(arg, ok, c);
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	/**
+	 * @param arg
+	 *            processed arguments
+	 * @param ok
+	 *            helper array for validation
+	 * @param c
+	 *            command
+	 * @return bisector
+	 */
+	protected GeoElement[] process4(GeoElement[] arg, boolean[] ok, Command c) {
+		throw argNumErr(app, c.getName(), 4);
 	}
 
 	/**

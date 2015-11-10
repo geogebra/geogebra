@@ -88,7 +88,7 @@ public class CmdCircle extends CommandProcessor {
 	 * @return circle (center, radius)
 	 */
 	protected GeoElement circle(String label, GeoPointND a, GeoNumberValue v) {
-		return getAlgoDispatcher().Circle(label, (GeoPoint) a, v);
+		return getAlgoDispatcher().Circle(label, a, v);
 	}
 
 	/**

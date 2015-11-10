@@ -143,6 +143,14 @@ public class CmdVertex extends CommandProcessor {
 
 	/**
 	 * Corner of Drawing Pad Michael Borcherds 2008-05-10
+	 * 
+	 * @param label
+	 *            label
+	 * @param number
+	 *            corner index
+	 * @param ev
+	 *            view index
+	 * @return view corner
 	 */
 	protected GeoPointND cornerOfDrawingPad(String label, NumberValue number,
 			NumberValue ev) {
@@ -152,26 +160,33 @@ public class CmdVertex extends CommandProcessor {
 	}
 
 	/**
-	 * @param cons
+	 * @param cons1
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param p
+	 *            polygon
 	 * @param v
+	 *            vertex index
 	 * @return algo for one of the corners of a polygon/polyline
 	 */
-	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons,
+	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons1,
 			String label, GeoPoly p, GeoNumberValue v) {
-		return new AlgoVertexPolygon(cons, label, p, v);
+		return new AlgoVertexPolygon(cons1, label, p, v);
 	}
 
 	/**
-	 * @param cons
+	 * @param cons1
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param conic
+	 *            conic
 	 * @return algo for "corners" of a conic
 	 */
-	protected AlgoVertexConic newAlgoVertexConic(Construction cons,
+	protected AlgoVertexConic newAlgoVertexConic(Construction cons1,
 			String[] labels, GeoConicND conic) {
-		return new AlgoVertexConic(cons, labels, conic);
+		return new AlgoVertexConic(cons1, labels, conic);
 	}
 
 }
