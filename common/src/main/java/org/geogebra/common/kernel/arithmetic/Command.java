@@ -37,6 +37,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -142,9 +143,10 @@ public class Command extends ValidExpression implements
 			// so we may end up having a GeoElement object here
 			// return its name to use as local variable name
 			GeoElement geo = ((GeoElement) ev);
-			if (geo.isLabelSet()) {
+			if (geo.isLabelSet() || geo.isLocalVariable()) {
 				return ((GeoElement) ev).getLabelSimple();
 			}
+
 		} else if (ev instanceof FunctionVariable) {
 			return ((FunctionVariable) ev).getSetVarString();
 		} else if (ev instanceof Function) {
@@ -159,6 +161,9 @@ public class Command extends ValidExpression implements
 			if (((MySpecialDouble) ev).isEulerConstant()) {
 				return Unicode.EULER_STRING;
 			}
+		}else if(ev instanceof ValidExpression){
+			Log.debug(((ValidExpression) ev).getLabel()
+					+ " valid expression label");
 		}
 
 		return null;
