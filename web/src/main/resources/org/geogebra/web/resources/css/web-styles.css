@@ -5853,7 +5853,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	float:left;
 }
 
-.noDots .mathquillggb-rendered-math .binop-dot{
+.GeoGebraFrame .binop-dot{
 	visibility:hidden;
 	padding:0px;
 }

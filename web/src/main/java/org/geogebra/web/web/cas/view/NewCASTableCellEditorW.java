@@ -363,11 +363,6 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public void setAutocomplete(boolean autocomplete) {
-		if (!autocomplete) {
-			this.getElement().addClassName("noDots");
-		} else {
-			this.getElement().removeClassName("noDots");
-		}
 		this.autocomplete = autocomplete;
 	}
 

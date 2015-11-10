@@ -3368,7 +3368,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       }
       this.cursor.write(ch);
 	} else if (ch === ' ') {
-      this.cursor.write('*');
+      this.cursor.write('\u00d7');
 	} else {
       // now look back 3 characters, and check whether they are Korean
       // characters that can be merged...
@@ -5793,9 +5793,11 @@ LatexCmds.mp = LatexCmds.mnplus = LatexCmds.minusplus =
 //CharCmds['*'] = LatexCmds.sdot = LatexCmds.cdot =
 //	  bind(BinaryOperator, '\\cdot ', '&middot;', '*');
 
-CharCmds['\u00d7'] = CharCmds['*'] = LatexCmds.sdot = LatexCmds.cdot =
-  bind(BinaryOperatorDot, '\\cdot ', '&middot;', ' ');
+CharCmds['*'] = LatexCmds.sdot = LatexCmds.cdot =
+  bind(BinaryOperator, '\\cdot ', '&middot;', ' ');
 
+CharCmds['\u00d7'] = 
+	  bind(BinaryOperatorDot, '\\cdot ', '&middot;', ' ');
 //semantically should be &sdot;, but &middot; looks better
 
 LatexCmds['='] = bind(BinaryOperator, '=', '=');
