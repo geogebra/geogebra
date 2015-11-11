@@ -93,7 +93,7 @@ public class Korean {
 
 	// from 0xac00 to 0xd788, every 28th character is a combination of 2
 	// characters not 3
-	private static boolean isKoreanLeadPlusVowelChar(char c) {
+	static boolean isKoreanLeadPlusVowelChar(char c) {
 		if (c >= 0xac00 && c <= 0xd7af) {
 
 			int ch = c - 0xac00;
