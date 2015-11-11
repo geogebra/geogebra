@@ -188,6 +188,7 @@ model {
                 // Additional settings can be defined in config.h.
                 // They are automatically loaded if HAVE_CONFIG_H is defined below:
                 cppCompiler.define 'HAVE_CONFIG_H'
+                cppCompiler.define 'GIAC_GGB'
 
                 cppCompiler.args '-fexceptions'
                 // cppCompiler.args '-Os' // size optimization
