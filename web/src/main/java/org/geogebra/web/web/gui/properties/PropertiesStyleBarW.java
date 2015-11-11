@@ -31,7 +31,7 @@ public class PropertiesStyleBarW extends
 		// Implemented types of the web
 			OptionType.OBJECTS, OptionType.EUCLIDIAN, OptionType.EUCLIDIAN2,
 			OptionType.EUCLIDIAN_FOR_PLANE, OptionType.EUCLIDIAN3D,
-			OptionType.SPREADSHEET, OptionType.CAS
+			OptionType.SPREADSHEET, OptionType.CAS, OptionType.ALGEBRA
 	};
 	
 	private PropertiesViewW propertiesView;
@@ -196,6 +196,9 @@ public class PropertiesStyleBarW extends
 			AppResourcesConverter.setIcon(pr.menu_icon_cas(), btn);
 		case ADVANCED:
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_advanced24(), btn);
+		case ALGEBRA:
+			AppResourcesConverter
+					.setIcon(AppResources.INSTANCE.options_advanced24(), btn);
 		case OBJECTS:
 			//AppResourcesConverter.setIcon(AppResources.INSTANCE.options_objects24(), btn);
 			AppResourcesConverter.setIcon(GuiResources.INSTANCE.properties_object(), btn);
@@ -221,6 +224,9 @@ public class PropertiesStyleBarW extends
 			return GGWToolBar.safeURI(pr.menu_icon_cas());
 		case ADVANCED:
 			return AppResources.INSTANCE.options_advanced24().getSafeUri().asString();
+		case ALGEBRA:
+			return AppResources.INSTANCE.options_advanced24().getSafeUri()
+					.asString();
 		case OBJECTS:
 			//return AppResources.INSTANCE.options_objects24().getSafeUri().asString();
 			return GuiResources.INSTANCE.properties_object().getSafeUri().asString();

@@ -10,6 +10,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAdvancedW;
+import org.geogebra.web.web.gui.dialog.options.OptionsAlgebraW;
 import org.geogebra.web.web.gui.dialog.options.OptionsCASW;
 import org.geogebra.web.web.gui.dialog.options.OptionsDefaultsW;
 import org.geogebra.web.web.gui.dialog.options.OptionsEuclidianW;
@@ -41,6 +42,7 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 	private OptionsCASW casPanel;
 	private OptionsAdvancedW advancedPanel;
 	private OptionsLayoutW layoutPanel;
+	private OptionsAlgebraW algebraPanel;
 	
 	// current OptionPanel
 	private OptionPanelW optionPanel;
@@ -58,6 +60,7 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 	private boolean auxWasVisible;
 
 	private boolean isObjectOptionsVisible;
+
 
 	public PropertiesViewW(AppW app, OptionType ot) {
 		super(app);
@@ -185,6 +188,12 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 				advancedPanel = new OptionsAdvancedW((AppW) app);
 			}
 			return advancedPanel;
+
+		case ALGEBRA:
+			if (algebraPanel == null) {
+				algebraPanel = new OptionsAlgebraW((AppW) app);
+			}
+			return algebraPanel;
 
 		case LAYOUT:
 			if (layoutPanel == null) {
@@ -507,6 +516,10 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 		}
 		if (casPanel != null) {
 			casPanel.setLabels();
+		}
+
+		if (algebraPanel != null) {
+			algebraPanel.setLabels();
 		}
     }
 

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -19,7 +20,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.util.PopupMenuButton;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StyleBarW2;
@@ -35,8 +35,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 public class AlgebraStyleBarW extends StyleBarW2 implements
 		ValueChangeHandler<Boolean>, SettingListener {
 
-	/** button to show hide auxiliary objects */
-	private MyToggleButton2 auxiliary;
 	/** button to open the popup with the supported tree-modes */
 	PopupMenuButton treeModeButton;
 	/** list of all supported {@link SortMode modes} */
@@ -55,8 +53,8 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		if (app.has(Feature.AV_EXTENSIONS)) {
 			update(null);
 		} else {
-			addAuxiliaryButton();
 			addTreeModeButton();
+			addMenuButton();
 			addViewButton();
 			setLabels();
 		}
@@ -73,6 +71,8 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 				// nothing to do here
 			}
 		});
+		optionType = OptionType.ALGEBRA;
+
 	}
 
 	private void createColorBtn() {
@@ -149,8 +149,8 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		clear();
 
 		if (selectedItem == null) {
-			addAuxiliaryButton();
 			addTreeModeButton();
+			addMenuButton();
 		} else {
 			add(btnColor);
 			btnColor.update(new Object[] { selectedItem });
@@ -160,7 +160,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			btnPointStyle.update(new Object[] { selectedItem });
 			addMenuButton();
 		}
-		//addViewButton is too expensive
+		// addViewButton is too expensive
 		if(getViewButton() == null){
 			addViewButton();
 		}else{
@@ -169,15 +169,6 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		setToolTips();
 	}
 
-	/**
-	 * @param app
-	 */
-	private void addAuxiliaryButton() {
-		auxiliary = new MyToggleButton2(StyleBarResources.INSTANCE.auxiliary());
-		auxiliary.setDown(app.showAuxiliaryObjects());
-		auxiliary.addValueChangeHandler(this);
-		add(auxiliary);
-	}
 
 	private void addTreeModeButton() {
 		supportedModes.clear();
@@ -233,17 +224,12 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
     }
 
 	private void setToolTips() {
-		auxiliary.setToolTipText(app.getLocalization().getPlain(
-		        "AuxiliaryObjects"));
 		treeModeButton.setToolTipText(app.getLocalization().getPlainTooltip(
 		        "SortBy"));
 	}
 
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		if (event.getSource() == auxiliary) {
-			app.setShowAuxiliaryObjects(auxiliary.isDown());
-		}
 	}
 
 	@Override
@@ -254,7 +240,6 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		AlgebraSettings as = (AlgebraSettings) settings;
-		auxiliary.setDown(as.getShowAuxiliaryObjects());
 	}
 
 	@Override
