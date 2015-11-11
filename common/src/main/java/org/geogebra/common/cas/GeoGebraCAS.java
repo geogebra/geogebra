@@ -331,8 +331,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			} else {
 				casParser.setNrOfVars(1);
 			}
-			// fix for GGB-134
-			app.getKernel().setResolveUnkownVarsAsDummyGeos(true);
+
 			// set of variables in list of equations
 			Set<String> varsInEqus = new HashSet<String>();
 			// set of variables in list of variables
@@ -807,7 +806,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			MyList listOfVars) {
 		// TODO Auto-generated method stub
 		boolean contains = true;
+		// fix for GGB-134
+		boolean oldFlag = listOfVars.getKernel()
+				.isResolveUnkownVarsAsDummyGeos();
+		listOfVars.getKernel().setResolveUnkownVarsAsDummyGeos(true);
 		HashSet<GeoElement> varsInEqu = listElement.getVariables();
+		listOfVars.getKernel().setResolveUnkownVarsAsDummyGeos(oldFlag);
 		if (varsInEqu != null) {
 			contains = false;
 			Iterator<GeoElement> it = varsInEqu.iterator();
