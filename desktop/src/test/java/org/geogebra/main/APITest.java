@@ -88,5 +88,7 @@ public class APITest {
 		String solveResult = api
 				.evalGeoGebraCAS("Solve[{ a=2, 12*sqrt(3)* a* b^2*exp(-3* b)-6*sqrt(3)* a* b*exp(-3* b)=0},{ a, b}]");
 		Assert.assertEquals("{{a = 2, b = 0}, {a = 2, b = 1 / 2}}", solveResult);
+		String solveResult2 = api.evalGeoGebraCAS("Solutions[t^2 = 4t]");
+		Assert.assertEquals("{0, 4}", solveResult2);
 	}
 }
