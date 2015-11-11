@@ -268,6 +268,8 @@ public class PropertiesStyleBarD extends
 			return app.getScaledIcon("menu_view_spreadsheet.png");
 		case EUCLIDIAN:
 			return app.getScaledIcon("menu_view_graphics.png");
+		case ALGEBRA:
+			return app.getScaledIcon("menu_view_algebra.png");
 		case EUCLIDIAN2:
 			return app.getScaledIcon("menu_view_graphics2.png");
 		case EUCLIDIAN_FOR_PLANE:
