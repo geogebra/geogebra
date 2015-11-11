@@ -65,7 +65,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	private boolean eyeSepIsNotSet = true;
 
 	protected Robot robot;
-	protected int robotX, robotY;
+	protected int robotX, robotY, onScreenX, onScreenY;
 	protected double[] inputPosition, inputPositionOnScreen, inputDirection;
 
 	/**
@@ -147,6 +147,42 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 				panelDimension.width, panelDimension.height);
 	}
 
+	private void updateOnScreenPosition() {
+		if (input3D.hasMouseDirection()) { // project position on
+			// screen
+			double dz = input3D.getMouse3DDirection()[2];
+			if (dz < 0) {
+				double t = -inputPosition[2] / dz;
+				inputPositionOnScreen[0] = inputPosition[0] + t
+						* input3D.getMouse3DDirection()[0];
+				inputPositionOnScreen[1] = inputPosition[1] + t
+						* input3D.getMouse3DDirection()[1];
+			}
+		} else {
+			inputPositionOnScreen[0] = inputPosition[0];
+			inputPositionOnScreen[1] = inputPosition[1];
+		}
+
+		// init to center panel
+		onScreenX = (int) (panelPosition.x + panelDimension.getWidth() / 2);
+		onScreenY = (int) (panelPosition.y + panelDimension.getHeight() / 2);
+
+		// check if pointer is on screen
+		int x1 = onScreenX + (int) (inputPositionOnScreen[0]);
+		int y1 = onScreenY - (int) (inputPositionOnScreen[1]);
+		if (x1 >= 0 && x1 <= screenHalfWidth * 2 && y1 >= 0
+				&& y1 <= screenHalfHeight * 2) {
+			onScreenX = x1;
+			onScreenY = y1;
+			input3D.setPositionOnScreen();
+			// App.debug("onS: " + x1 + "," + y1);
+		} else {
+			input3D.setPositionOffScreen();
+			// App.debug("NOT onS: " + x1 + "," + y1);
+		}
+
+	}
+
 	@Override
 	public void updateInput3D() {
 		
@@ -188,45 +224,28 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			// input position
 			inputPosition = input3D.getMouse3DPosition();
 
+			// update on screen position to check if we allow to use regular
+			// mouse
+			if (robot != null
+					&& (moveMode == MOVE_NONE || !input3D.hasMouseDirection())) {
+				updateOnScreenPosition();
+			}
+
+			// regular 2D mouse is used? then return
+			if (input3D.currentlyUseMouse2D()) {
+				return;
+			}
+
 
 			// 2D cursor pos
 			if (robot != null) {
 				if (moveMode == MOVE_NONE || !input3D.hasMouseDirection()) {
-					if (input3D.hasMouseDirection()) { // project position on
-														// screen
-						double dz = input3D.getMouse3DDirection()[2];
-						if (dz < 0) {
-							double t = -inputPosition[2] / dz;
-							inputPositionOnScreen[0] = inputPosition[0] + t
-									* input3D.getMouse3DDirection()[0];
-							inputPositionOnScreen[1] = inputPosition[1] + t
-									* input3D.getMouse3DDirection()[1];
-						}
-					} else {
-						inputPositionOnScreen[0] = inputPosition[0];
-						inputPositionOnScreen[1] = inputPosition[1];
-					}
-
-					// init to center panel
-					int x = (int) (panelPosition.x + panelDimension.getWidth() / 2);
-					int y = (int) (panelPosition.y + panelDimension.getHeight() / 2);
-
-					// check if pointer is on screen
-					int x1 = x + (int) (inputPositionOnScreen[0]);
-					if (x1 >= 0 && x1 <= screenHalfWidth * 2) {
-						int y1 = y - (int) (inputPositionOnScreen[1]);
-						if (y1 >= 0 && y1 <= screenHalfHeight * 2) {
-							x = x1;
-							y = y1;
-						}
-					}
-
 					// process mouse
-					if (robotX != x || robotY != y) {
+					if (robotX != onScreenX || robotY != onScreenY) {
 						// App.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
 						// App.debug(x+","+y);
-						robotX = x;
-						robotY = y;
+						robotX = onScreenX;
+						robotY = onScreenY;
 						robot.mouseMove(robotX, robotY);
 					}
 
@@ -263,18 +282,20 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 					// App.debug("\nstart: "+startMouse3DOrientation+"\ncurrent: "+mouse3DOrientation);
 
-					if (input3D.isThirdButtonPressed()) { // process 3rd button
+					if (input3D.isThirdButtonPressed()) { // process 3rd
+						// button
 						processThirdButtonPress();
 						wasThirdButtonReleased = false;
 						wasRightReleased = true;
 						wasLeftReleased = true;
 					} else if (input3D.isRightPressed()) { // process right
-															// press
+						// press
 						processRightPress();
 						wasRightReleased = false;
 						wasLeftReleased = true;
 						wasThirdButtonReleased = true;
-					} else if (input3D.isLeftPressed()) { // process left press
+					} else if (input3D.isLeftPressed()) { // process left
+						// press
 						if (wasLeftReleased) {
 							startMouse3DPosition.set(mouse3DPosition);
 							storeOrientation();
@@ -287,8 +308,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 						wasLeftReleased = false;
 						wasThirdButtonReleased = true;
 					} else if (input3D.hasCompletedGrabbingDelay()) { // use
-																		// hand
-																		// dragging
+						// hand
+						// dragging
 						if (wasLeftReleased) {
 							startMouse3DPosition.set(mouse3DPosition);
 							storeOrientation();
@@ -343,8 +364,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 				}
 
 			}
-
 		}
+
 
 	}
 
@@ -774,7 +795,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	@Override
 	protected void setMouseOrigin(GeoPoint3D point) {
 
-		if (input3D.hasMouseDirection()) {
+		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
 			point.setWillingCoords(getMouse3DScenePosition());
 		} else {
 			super.setMouseOrigin(point);

@@ -2471,18 +2471,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			Coords eye = renderer1.getPerspEye();
 			double z = getToScreenMatrix().mul(getCursor3D().getCoords())
 					.getZ() + 20; // to be over
-			// App.debug("\n"+eye);
-			double eyeSep = 0;
-			if (getProjection() == PROJECTION_GLASSES) {
-				eyeSep = renderer1.getEyeSep(); // TODO eye lateralization
-			}
+			double eyeSep = renderer1.getEyeSep(); // TODO eye lateralization
 
-			double x = mouseLoc.x + renderer1.getLeft() + eyeSep;
-			double y = -mouseLoc.y + renderer1.getTop();
+			double x = mouseLoc.x + renderer1.getLeft() + eyeSep - eye.getX();
+			double y = -mouseLoc.y + renderer1.getTop() - eye.getY();
 			double dz = eye.getZ() - z;
 			double coeff = dz / eye.getZ();
 
-			v = new Coords(x * coeff - eyeSep, y * coeff, z, 1);
+			v = new Coords(x * coeff - eyeSep + eye.getX(), y * coeff
+					+ eye.getY(), z, 1);
 		}
 
 		drawMouseCursor(renderer1, v);

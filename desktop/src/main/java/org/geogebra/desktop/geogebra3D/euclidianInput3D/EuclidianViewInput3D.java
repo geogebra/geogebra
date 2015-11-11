@@ -73,12 +73,12 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	public void drawMouseCursor(Renderer renderer1) {
 
-		if (input3D.hasMouseDirection()) {
+		if (input3D.currentlyUseMouse2D()) {
+			super.drawMouseCursor(renderer1);
 			return;
 		}
 
-		if (input3D.currentlyUseMouse2D()) {
-			super.drawMouseCursor(renderer1);
+		if (input3D.hasMouseDirection()) {
 			return;
 		}
 
@@ -708,7 +708,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	@Override
 	public Coords getHittingDirection() {
-		if (input3D.hasMouseDirection()) {
+		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
 			return ((EuclidianControllerInput3D) euclidianController)
 					.getMouse3DDirection();
 		}
@@ -717,7 +717,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	@Override
 	public Coords getHittingOrigin(GPoint mouse) {
-		if (input3D.hasMouseDirection()) {
+		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
 			return ((EuclidianControllerInput3D) euclidianController)
 					.getMouse3DScenePosition();
 		}
@@ -792,7 +792,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 
 	private void updateStylusBeam() {
-		if (input3D.hasMouseDirection()) {
+		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
 			stylusBeam.setCoord(
 					((EuclidianControllerInput3D) euclidianController)
 							.getMouse3DScenePosition(),
@@ -865,19 +865,21 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	}
 
 	private boolean drawStylusBeam() {
-		return input3D.hasMouseDirection() && !input3D.isRightPressed()
+		return input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()
+				&& !input3D.isRightPressed()
 				&& !input3D.isThirdButtonPressed()
 				&& hasMouse();
 	}
 
 	@Override
 	protected boolean decorationVisible() {
-		return !input3D.hasMouseDirection() && super.decorationVisible();
+		return (!input3D.hasMouseDirection() || input3D.currentlyUseMouse2D())
+				&& super.decorationVisible();
 	}
 
 	@Override
 	protected boolean drawCrossForFreePoint() {
-		return !input3D.hasMouseDirection();
+		return !input3D.hasMouseDirection() || input3D.currentlyUseMouse2D();
 	}
 
 	@Override

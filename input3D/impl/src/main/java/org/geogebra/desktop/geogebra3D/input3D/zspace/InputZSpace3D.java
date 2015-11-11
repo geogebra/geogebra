@@ -67,6 +67,9 @@ public class InputZSpace3D implements Input3D {
 		// check if new message
 		if (socket.getData() || viewPortChanged){
 			
+			// stylus detected
+			stylusDetected = socket.stylusDetected;
+
 			// mouse position
 			mousePosition[0] = socket.stylusX;
 			mousePosition[1] = socket.stylusY;
@@ -156,20 +159,6 @@ public class InputZSpace3D implements Input3D {
 		return true;
 	}
 	
-//	@Override
-//	public float getMouse2DX(){
-//		return 0f;
-//	}
-//	
-//	@Override
-//	public float getMouse2DY(){
-//		return 0f;
-//	}
-//	
-//	@Override
-//	public float getMouse2DFactor(){
-//		return 1f;
-//	}
 	
 	public DeviceType getDeviceType(){
 		return DeviceType.PEN;
@@ -184,7 +173,7 @@ public class InputZSpace3D implements Input3D {
 	}
 
 	public boolean currentlyUseMouse2D(){
-		return false;
+		return hasStylusNotIntersectingPhysicalScreen || !stylusDetected;
 	}
 	
 	public void setHasCompletedGrabbingDelay(boolean flag){
@@ -268,5 +257,16 @@ public class InputZSpace3D implements Input3D {
 	public void exit() {
 		// not used here
 	}
+
+	public void setPositionOnScreen() {
+		hasStylusNotIntersectingPhysicalScreen = false;
+	}
+
+	public void setPositionOffScreen() {
+		hasStylusNotIntersectingPhysicalScreen = true;
+	}
+
+	private boolean hasStylusNotIntersectingPhysicalScreen = true,
+			stylusDetected = false;
 
 }

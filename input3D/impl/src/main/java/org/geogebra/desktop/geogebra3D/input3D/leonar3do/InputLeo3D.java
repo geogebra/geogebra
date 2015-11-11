@@ -293,4 +293,12 @@ public class InputLeo3D implements Input3D {
 		// not used here
 	}
 
+	public void setPositionOnScreen() {
+		// nothing to do
+	}
+
+	public void setPositionOffScreen() {
+		// nothing to do
+	}
+
 }

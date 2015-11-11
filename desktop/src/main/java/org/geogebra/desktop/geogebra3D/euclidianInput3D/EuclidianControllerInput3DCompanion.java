@@ -292,7 +292,9 @@ public class EuclidianControllerInput3DCompanion extends
 			super.movePlane(repaint, event);
 		} else {
 			Coords v = new Coords(4);
-			if (((EuclidianControllerInput3D) ec).input3D.hasMouseDirection()) {
+			if (((EuclidianControllerInput3D) ec).input3D.hasMouseDirection()
+					&& !((EuclidianControllerInput3D) ec).input3D
+							.currentlyUseMouse2D()) {
 				((EuclidianViewInput3D) ec.view).getStylusBeamEnd(v,
 						((EuclidianControllerInput3D) ec).startZNearest);
 				v.setSub(

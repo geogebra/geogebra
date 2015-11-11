@@ -38,7 +38,7 @@ public class Socket {
     public double glassesCenterX, glassesCenterY, glassesCenterZ;
     public double glassesOrientationX, glassesOrientationY, glassesOrientationZ, glassesOrientationW;
 
-	public boolean wantsStereo;
+	public boolean wantsStereo, stylusDetected = false;
 
 	public boolean buttonLeft, buttonRight, button3;
     
@@ -74,7 +74,8 @@ public class Socket {
     		stylusX = zsggb.getStylusX();
     		stylusY = zsggb.getStylusY();
     		stylusZ = zsggb.getStylusZ();
-//    		App.debug("\nstylus: "+stylusX+","+stylusY+","+stylusZ);
+			// App.debug("\nstylus: " + stylusX + "," + stylusY + "," +
+			// stylusZ);
     		
 			stylusDX = zsggb.getStylusDX();
 			stylusDY = zsggb.getStylusDY();
@@ -88,6 +89,8 @@ public class Socket {
     		stylusOrientationW = zsggb.getStylusQW();
 			// App.debug("\n" + zsggb.getStylusMatrix());
     		
+			stylusDetected = zsggb.stylusDetected();
+			// App.debug("" + stylusDetected);
     		
     		leftEyeX = zsggb.getLeftEyeX();
     		leftEyeY = zsggb.getLeftEyeY();

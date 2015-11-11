@@ -272,4 +272,14 @@ public interface Input3D {
 	 */
 	public void exit();
 
+	/**
+	 * says that 3D input position leads to mouse cursor on physical screen
+	 */
+	public void setPositionOnScreen();
+
+	/**
+	 * says that 3D input position leads to mouse cursor off physical screen
+	 */
+	public void setPositionOffScreen();
+
 }
