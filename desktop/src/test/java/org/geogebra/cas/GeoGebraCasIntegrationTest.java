@@ -4843,15 +4843,16 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void QuickStart () {
-    t("f(x) := x^2 - 3/2 * x + 2", "(2* x^(2) - 3 * x + 4) / 2", "x^(2) - 3 / 2 * x + 2");
-    t("g(x) := 1/2 * x + 2", "(x + 4) / 2", "1 / 2 * x + 2");
-    t("h(x):=f(x)-g(x)", "x^(2) - 2 * x");
-    t("Factor[h(x)]", "(x - 2) * x", "x * (x - 2)");
-    t("Solve[h(x) = 0, x]", "{x = 0, x = 2}", "{x = 2, x = 0}");
-    t("S:=Intersect[f(x),g(x)]", "{(2, 3), (0, 2)}");
-    t("Delete[f]", "true");
-    t("Delete[g]", "true");
-    t("Delete[h]", "true");
+		t("f(x) := x^2 - 3/2 * x + 2", "(2* x^(2) - 3 * x + 4) / 2",
+				"x^(2) - 3 / 2 * x + 2");
+		t("g(x) := 1/2 * x + 2", "(x + 4) / 2", "1 / 2 * x + 2");
+		t("h(x):=f(x)-g(x)", "x^(2) - 2 * x");
+		t("Factor[h(x)]", "(x - 2) * x", "x * (x - 2)");
+		t("Solve[h(x) = 0, x]", "{x = 0, x = 2}", "{x = 2, x = 0}");
+		t("S:=Intersect[f(x),g(x)]", "{(2, 3), (0, 2)}", "{(0, 2), (2, 3)}");
+		t("Delete[f]", "true");
+		t("Delete[g]", "true");
+		t("Delete[h]", "true");
   }
   @Test
   public void SolveArbconst(){
