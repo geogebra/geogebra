@@ -662,6 +662,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	public void setProcessingInformation(final String prefix,
 			final String evaluate, final String postfix) {
 		String eval = evaluate;
+		// needed for TRAC-3081
+		if (eval.contains("CLIPBOARDmagicSTRING")) {
+			eval = eval.replaceAll("CLIPBOARDmagicSTRING", "");
+		}
 		String postfix1 = postfix;
 		String prefix1 = prefix;
 		setEvalCommand("");
@@ -1769,8 +1773,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				if (!cons.getArbitraryConsTable().isEmpty()) {
 					// get abritraryConstant for this cell from construction
 					MyArbitraryConstant myArbconst = cons
-							.getArbitraryConsTable().get(
-							this.assignmentVar);
+							.getArbitraryConsTable().get(this.input);
 					// case we found an arbconst
 					if (myArbconst != null && arbconst.getPosition() == 0) {
 						// replace it
@@ -1784,7 +1787,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				// if we had constants in expression
 				// store arbconst in construction
 				if (arbconst.getPosition() != 0) {
-					cons.getArbitraryConsTable().put(this.assignmentVar,
+					cons.getArbitraryConsTable().put(this.input,
 							arbconst);
 				}
 
