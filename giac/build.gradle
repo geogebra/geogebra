@@ -151,6 +151,7 @@ model {
                 cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
         	cppCompiler.define 'HAVE_CONFIG_H'
                 cppCompiler.define 'HAVE_UNISTD_H'
+                cppCompiler.define 'GIAC_GGB'
         	}
             sources.all {
                 source {
