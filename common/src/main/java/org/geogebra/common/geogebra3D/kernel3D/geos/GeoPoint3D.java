@@ -897,7 +897,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (isInfinite()) {
 			return "?";
 		}
-
+		if (tpl.hasCASType() && getDefinition() != null) {
+			return getDefinition().toValueString(tpl);
+		}
 		StringBuilder sbToString = getSbBuildValueString();
 
 		// boolean isVisibleInView2D = false;

@@ -882,6 +882,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		if(tpl.hasType(StringType.GIAC)){
+			if (getDefinition() != null) {
+				StringBuilder sb = getSbBuildValueString();
+				sb.append(getDefinition().toValueString(tpl));
+				return sb;
+			}
 			double[] numbers = new double[3];
 			numbers[0] = x;
 			numbers[1] = y;

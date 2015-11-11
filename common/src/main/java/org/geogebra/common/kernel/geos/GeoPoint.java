@@ -1369,7 +1369,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		switch (tpl.getStringType()) {
 		case GIAC:
-
+			if (getDefinition() != null) {
+				sbBuildValueString.append(getDefinition().toValueString(tpl));
+				return sbBuildValueString;
+			}
 			String xStr = kernel.format(getInhomX(), tpl);
 			String yStr = kernel.format(getInhomY(), tpl);
 

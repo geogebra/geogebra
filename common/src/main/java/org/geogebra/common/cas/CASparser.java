@@ -149,7 +149,7 @@ public class CASparser implements CASParserInterface {
 				.getCollector(nonFunctions);
 		NonFunctionReplacer r = NonFunctionReplacer.getCollector(nonFunctions);
 		ev.traverse(c);
-		ev = ev.traverse(r);
+		ExpressionValue ret = ev.traverse(r);
 		// remove local variables
 		if (isFunction) {
 			Construction cmdCons = kernel.getConstruction();
@@ -158,7 +158,7 @@ public class CASparser implements CASParserInterface {
 						.toString(StringTemplate.defaultTemplate));
 			}
 		}
-		return ev;
+		return ret;
 	}
 
 	/**

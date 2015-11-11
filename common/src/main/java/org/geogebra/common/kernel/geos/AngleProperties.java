@@ -33,25 +33,58 @@ public interface AngleProperties extends GeoElementND{
 	 */
 	public void setAngleStyle(AngleStyle angleStyle);
 
-	public void setAllowReflexAngle(boolean parseBoolean);
+	/**
+	 * @param allowReflex
+	 *            whether reflex angle is allowed
+	 */
+	public void setAllowReflexAngle(boolean allowReflex);
 
-	public void setEmphasizeRightAngle(boolean parseBoolean);
+	/**
+	 * @param emRightAngle
+	 *            whether to use special EV drawing when this angle is right
+	 */
+	public void setEmphasizeRightAngle(boolean emRightAngle);
 
-	public void setForceReflexAngle(boolean parseBoolean);
+	/**
+	 * @param forceReflex
+	 *            whether angle is forced to (180,360)
+	 */
+	public void setForceReflexAngle(boolean forceReflex);
 
-	public void setArcSize(int parseInt);
+	/**
+	 * @param arcSize
+	 *            arc size
+	 */
+	public void setArcSize(int arcSize);
 
+	/**
+	 * @return arc radius
+	 */
 	public int getArcSize();
 
 	public boolean isDrawable();
 
+	/**
+	 * @return decoration
+	 */
 	public int getDecorationType();
 
+	/**
+	 * @param type
+	 *            decoration
+	 */
 	public void setDecorationType(int type);
 
+	/**
+	 * @return whether right angle is drawn differently
+	 */
 	public boolean isEmphasizeRightAngle();
 
-	public void setAngleStyle(int parseInt);
+	/**
+	 * @param angleStyle
+	 *            see AngleStyle enum in GeoAngle.
+	 */
+	public void setAngleStyle(int angleStyle);
 
 
 }
