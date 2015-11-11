@@ -353,16 +353,15 @@ public class AlgoIterationList extends AlgoElement {
 			return;
 
 		// int currentVal = 0;
-		int listSize = (int) Math.round(n.getDouble());
+		int listSize = (int) Math.round(n.getDouble()) + 1;
 		int i = over[0].size();
-		for (int j = 0; j < over[0].size()
-				&& j < (int) Math.round(n.getDouble()); j++) {
+		for (int j = 0; j < over[0].size() && j < listSize; j++) {
 			list.get(j).set(over[0].get(j));
 			if (j + 1 < vars.length) {
 				vars[j + 1].set(over[0].get(j));
 			}
 		}
-		if (over[0].size() >= (int) Math.round(n.getDouble())) {
+		if (over[0].size() >= listSize) {
 			return;
 		}
 
@@ -381,8 +380,8 @@ public class AlgoIterationList extends AlgoElement {
 
 			// set local var value
 			// updateLocalVar(currentVal);
-			updateLocalVar(i, listElement);
-
+			updateLocalVar(i, list.get(i - 1));
+			App.debug(expression + "");
 			// copy expression value to listElement
 			// if it's undefined, just copy the undefined property
 			if (expression.isDefined()) {
