@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.DrawableList.Link;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * adds support for grouping objects in SVG files
@@ -88,13 +89,13 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 
 		if (title != null) {
 			sb.append("\n<title>");
-			sb.append(title);
+			sb.append(StringUtil.encodeXML(title));
 			sb.append("</title>");
 		}
 
 		if (desc != null) {
 			sb.append("\n<desc>");
-			sb.append(desc);
+			sb.append(StringUtil.encodeXML(desc));
 			sb.append("</desc>\n");
 		}
 
