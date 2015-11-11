@@ -1248,6 +1248,7 @@ var __giac = [ {},
 { cat:"EvaluateLogic", cmd:"Evaluate[{a,b,c}!={a,b,c}]", result:"false", notes:"#3385" },
 { cat:"EvaluateLogic", cmd:"Evaluate[{a,c,b}=={a,b,c}]", result:"false", notes:"#3385" },
 { cat:"EvaluateLogic", cmd:"Evaluate[{}=={}]", result:"true", notes:"GGB-218" },
+{ cat:"EvaluateLogic", cmd:"Evaluate[{}!={}]", result:"true", notes:"GGB-218" },
 { cat:"EvaluateLogic", cmd:"Evaluate[{1}=={1}]", result:"true", notes:"GGB-218" },
 { cat:"EvaluateLogic", cmd:"Evaluate[{{1}}=={{1}}]", result:"true", notes:"GGB-218" },
 { cat:"EvaluateLogic", cmd:"Evaluate[{{{1,2}}}=={{{1,2}}}]", result:"true", notes:"GGB-218" },
@@ -1775,15 +1776,15 @@ var __giac = [ {},
 { cat: "Evaluate", cmd:"Evaluate[2..5]", result:"{2,3,4,5}", notes:"GGB-210" },
 { cat: "Evaluate", cmd:"Evaluate[2...5]", result:"{2,3,4,5}", notes:"GGB-210" },
 { cat: "Evaluate", cmd:"Evaluate[2..........5]", result:"{2,3,4,5}", notes:"GGB-210" },
-{ cat:"InflectionPoint", cmd:"TurningPoint[(x+2)^3+5]",result:"{(-2, 5)}"},
-{ cat:"InflectionPoint",cmd:"TurningPoint[(x+1/2)^3+5]",result:"{((-1) / 2, 5)}"}
+{ cat: "Solve", cmd:"Solve[ln(x^2)+6ln(x)+8=0]", result:"{x = 1 / \u212F}", notes:"GGB-234" },
+{ cat: "Solve", cmd:"Solve[sqrt(x-4)<=sqrt(2x+1)]", result:"{x \u2265 4}", notes:"GGB-236" },
+{ cat: "Solve", cmd:"Solve[{-x+y-z+1,t x + (t-2)y*y+z-1},{x,z}]", result:"", notes:"GGB-255" },
+{ cat: "InflectionPoint", cmd:"TurningPoint[(x+2)^3+5]",result:"{(-2, 5)}"},
+{ cat: "InflectionPoint", cmd:"TurningPoint[(x+1/2)^3+5]",result:"{((-1) / 2, 5)}"}
 
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
-// { cat: "Evaluate", cmd:"Evaluate[{}=={}]", result:"", notes:"GGB-218" },
-// { cat: "Evaluate", cmd:"Evaluate[{}!={}]", result:"", notes:"GGB-218" },
-
 
 
 ];
