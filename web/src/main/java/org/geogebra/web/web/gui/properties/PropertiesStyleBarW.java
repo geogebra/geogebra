@@ -198,7 +198,7 @@ public class PropertiesStyleBarW extends
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_advanced24(), btn);
 		case ALGEBRA:
 			AppResourcesConverter
-					.setIcon(AppResources.INSTANCE.options_advanced24(), btn);
+					.setIcon(AppResources.INSTANCE.options_algebra24(), btn);
 		case OBJECTS:
 			//AppResourcesConverter.setIcon(AppResources.INSTANCE.options_objects24(), btn);
 			AppResourcesConverter.setIcon(GuiResources.INSTANCE.properties_object(), btn);
@@ -225,7 +225,7 @@ public class PropertiesStyleBarW extends
 		case ADVANCED:
 			return AppResources.INSTANCE.options_advanced24().getSafeUri().asString();
 		case ALGEBRA:
-			return AppResources.INSTANCE.options_advanced24().getSafeUri()
+			return AppResources.INSTANCE.options_algebra24().getSafeUri()
 					.asString();
 		case OBJECTS:
 			//return AppResources.INSTANCE.options_objects24().getSafeUri().asString();

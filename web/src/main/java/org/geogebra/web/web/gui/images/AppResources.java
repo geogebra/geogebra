@@ -611,5 +611,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylebar_angle_interval.png")
 	ImageResource stylingbar_angle_interval();
 
+	@Source("org/geogebra/common/icons_view_perspectives/p24/menu_view_algebra.png")
+	ImageResource options_algebra24();
 	
 }
