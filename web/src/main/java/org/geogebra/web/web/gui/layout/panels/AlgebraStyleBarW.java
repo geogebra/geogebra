@@ -203,6 +203,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 					app.getSettings().getAlgebra()
 							.setTreeMode(supportedModes.get(i).ordinal());
 					app.closePopups();
+					app.clearJustClosedPopup();
 				}
 			});
 		}

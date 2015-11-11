@@ -2538,6 +2538,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return justClosedPopup;
 	}
 
+	public void clearJustClosedPopup() {
+		justClosedPopup = false;
+	}
 	public void unregisterPopup(Widget widget) {
 		popups.remove(widget);
 	}
