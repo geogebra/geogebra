@@ -226,7 +226,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 				// special case: urlString is actually a base64 encoded ggb file
 			} else if (processedUrlString.startsWith("UEs")) {
-				success = loadURL_base64(processedUrlString);
+				success = loadURL_base64(processedUrlString.replace("\\/", "/"));
 
 				// special case: urlString is actually a GeoGebra XML file
 			} else if (processedUrlString.startsWith("<?xml ")

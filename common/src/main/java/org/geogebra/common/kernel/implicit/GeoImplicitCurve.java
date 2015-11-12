@@ -1808,8 +1808,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	public boolean isOnScreen() {
-		// TODO Auto-generated method stub
-		return false;
+		return defined && locus.isDefined() && locus.getPoints().size() > 0;
 	}
 
 	public double evalPolyAt(double evaluate, double x) {
