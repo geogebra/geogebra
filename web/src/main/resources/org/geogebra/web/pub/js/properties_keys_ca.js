@@ -1733,7 +1733,6 @@ __GGB__keysVar.ca.menu = {
     "PerformToolOn": "Aplica l'eina a...",
     "Perspective.3DGraphics": "Gr\xe0fics 3D i finestra algebraica",
     "Perspective.AlgebraAndGraphics": "Finestra algebraica i gr\xe0fics",
-    "Perspective.BasicGeometry": "Geometria B\xe0sica",
     "Perspective.CAS": "CAS i gr\xe0fics",
     "Perspective.CASAndGraphics": "CAS i gr\xe0fics",
     "Perspective.Geometry": "Geometria",

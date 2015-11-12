@@ -1733,7 +1733,6 @@ __GGB__keysVar.eo.menu = {
     "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Algebro & Grafika\u0135o",
-    "Perspective.BasicGeometry": "Basic Geometry",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & Graphics",
     "Perspective.Geometry": "Geometrio",

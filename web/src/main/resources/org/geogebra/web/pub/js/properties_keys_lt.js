@@ -1733,7 +1733,6 @@ __GGB__keysVar.lt.menu = {
     "PerformToolOn": "Taikyti \u012frank\u012f",
     "Perspective.3DGraphics": "3D vaizdas",
     "Perspective.AlgebraAndGraphics": "Algebra",
-    "Perspective.BasicGeometry": "Elementari geometrija",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & Grafika",
     "Perspective.Geometry": "Geometrija",

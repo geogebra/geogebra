@@ -1733,7 +1733,6 @@ __GGB__keysVar.ca_XV.menu = {
     "PerformToolOn": "Aplica l'eina a...",
     "Perspective.3DGraphics": "Gr\xe0fics 3D",
     "Perspective.AlgebraAndGraphics": "\xc0lgebra i gr\xe0fics",
-    "Perspective.BasicGeometry": "Geometria b\xe0sica",
     "Perspective.CAS": "CAS i gr\xe0fics",
     "Perspective.CASAndGraphics": "CAS i gr\xe0fics",
     "Perspective.Geometry": "Geometria",

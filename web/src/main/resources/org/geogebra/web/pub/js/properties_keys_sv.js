@@ -1733,7 +1733,6 @@ __GGB__keysVar.sv.menu = {
     "PerformToolOn": "Anv\xe4nd verktyget p\xe5",
     "Perspective.3DGraphics": "3D-Grafik",
     "Perspective.AlgebraAndGraphics": "Algebra",
-    "Perspective.BasicGeometry": "Grundl\xe4ggande geometri",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & Grafik",
     "Perspective.Geometry": "Geometri",

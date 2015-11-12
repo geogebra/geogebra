@@ -1733,7 +1733,6 @@ __GGB__keysVar.ro.menu = {
     "PerformToolOn": "Efectua\u021bi instrumentul pe",
     "Perspective.3DGraphics": "Grafic\u0103 3D",
     "Perspective.AlgebraAndGraphics": "Algebr\u0103",
-    "Perspective.BasicGeometry": "Geometrie elementar\u0103",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & Grafic\u0103",
     "Perspective.Geometry": "Geometrie",

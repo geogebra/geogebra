@@ -1733,7 +1733,6 @@ __GGB__keysVar.sq.menu = {
     "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Algjeber dhe Grafike",
-    "Perspective.BasicGeometry": "Gjeometri Themelore",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & Grafike",
     "Perspective.Geometry": "Gjeometri",

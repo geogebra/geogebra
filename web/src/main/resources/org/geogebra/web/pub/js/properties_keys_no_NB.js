@@ -1733,7 +1733,6 @@ __GGB__keysVar.no_NB.menu = {
     "PerformToolOn": "Bruk verkt\xf8yet p\xe5",
     "Perspective.3DGraphics": "3D-grafikk",
     "Perspective.AlgebraAndGraphics": "Algebra",
-    "Perspective.BasicGeometry": "Grunnleggende geometri",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS og grafikk",
     "Perspective.Geometry": "Geometri",

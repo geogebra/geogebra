@@ -1733,7 +1733,6 @@ __GGB__keysVar.sl.menu = {
     "PerformToolOn": "Preoblikuj orodje na",
     "Perspective.3DGraphics": "3D Grafika",
     "Perspective.AlgebraAndGraphics": "Algebra",
-    "Perspective.BasicGeometry": "Risalna povr\u0161ina",
     "Perspective.CAS": "SSR",
     "Perspective.CASAndGraphics": "Simbolno ra\u010dunanje in grafi\u010dni prikaz",
     "Perspective.Geometry": "Risalna povr\u0161ina",

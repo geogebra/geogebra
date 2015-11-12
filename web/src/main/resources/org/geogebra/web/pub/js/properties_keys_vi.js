@@ -1733,7 +1733,6 @@ __GGB__keysVar.vi.menu = {
     "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "V\u1ebd \u0111\u1ed3 h\u1ecda 3D",
     "Perspective.AlgebraAndGraphics": "\u0110\u1ea1i s\u1ed1 & \u0111\u1ed3 th\u1ecb",
-    "Perspective.BasicGeometry": "H\xecnh h\u1ecdc c\u01a1 b\u1ea3n",
     "Perspective.CAS": "complex adaptive system",
     "Perspective.CASAndGraphics": "CAS & \u0111\u1ed3 th\u1ecb",
     "Perspective.Geometry": "H\xecnh h\u1ecdc",

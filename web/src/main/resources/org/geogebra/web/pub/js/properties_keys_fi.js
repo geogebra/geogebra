@@ -1733,7 +1733,6 @@ __GGB__keysVar.fi.menu = {
     "PerformToolOn": "K\xe4yt\xe4 ty\xf6kalua objektiin",
     "Perspective.3DGraphics": "3D-grafiikka",
     "Perspective.AlgebraAndGraphics": "Algebra",
-    "Perspective.BasicGeometry": "Perusgeometria",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & Piirtoalue",
     "Perspective.Geometry": "Geometria",

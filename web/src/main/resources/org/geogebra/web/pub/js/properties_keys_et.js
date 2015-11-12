@@ -1733,7 +1733,6 @@ __GGB__keysVar.et.menu = {
     "PerformToolOn": "Rakenda t\xf6\xf6riista",
     "Perspective.3DGraphics": "3D Graafika",
     "Perspective.AlgebraAndGraphics": "Algebra",
-    "Perspective.BasicGeometry": "P\xf5hiline geomeetria",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS ja graafika",
     "Perspective.Geometry": "Geomeetria",

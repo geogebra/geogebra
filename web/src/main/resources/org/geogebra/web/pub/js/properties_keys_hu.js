@@ -1733,7 +1733,6 @@ __GGB__keysVar.hu.menu = {
     "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D-s grafika",
     "Perspective.AlgebraAndGraphics": "Algebra",
-    "Perspective.BasicGeometry": "Alap geometria",
     "Perspective.CAS": "CAS-komputeralgebra",
     "Perspective.CASAndGraphics": "CAS \xe9s grafika",
     "Perspective.Geometry": "Geometria",

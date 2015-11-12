@@ -1733,7 +1733,6 @@ __GGB__keysVar.ja.menu = {
     "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D \u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9",
     "Perspective.AlgebraAndGraphics": "\u6570\u5f0f",
-    "Perspective.BasicGeometry": "\u57fa\u672c\u7684\u306a\u5e7e\u4f55",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS\u3068\u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9",
     "Perspective.Geometry": "\u5e7e\u4f55",

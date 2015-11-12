@@ -1733,7 +1733,6 @@ __GGB__keysVar.cy.menu = {
     "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Algebra a graffeg",
-    "Perspective.BasicGeometry": "Geometreg sylfaenol",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & Graffeg",
     "Perspective.Geometry": "Geometreg",

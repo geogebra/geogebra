@@ -1733,7 +1733,6 @@ __GGB__keysVar.xh.menu = {
     "PerformToolOn": "Sebenzisa isixhobo ku",
     "Perspective.3DGraphics": "Imifanekiso ye3D",
     "Perspective.AlgebraAndGraphics": "iAljibra",
-    "Perspective.BasicGeometry": "isiSeko seJometri",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & imiZobo",
     "Perspective.Geometry": "iJometri",

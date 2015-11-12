@@ -1733,7 +1733,6 @@ __GGB__keysVar.tr.menu = {
     "PerformToolOn": "Arac\u0131 \xfczerinde uygula",
     "Perspective.3DGraphics": "3D Grafik",
     "Perspective.AlgebraAndGraphics": "Cebir",
-    "Perspective.BasicGeometry": "Basit Geometri",
     "Perspective.CAS": "Bilgisayar Cebir Sistemi(CAS)",
     "Perspective.CASAndGraphics": "CAS & Grafik",
     "Perspective.Geometry": "Geometri",

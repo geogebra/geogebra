@@ -1733,7 +1733,6 @@ __GGB__keysVar.gl.menu = {
     "PerformToolOn": "Aplicar ferramenta a",
     "Perspective.3DGraphics": "Gr\xe1ficos 3D",
     "Perspective.AlgebraAndGraphics": "\xc1lxebra e Gr\xe1ficos",
-    "Perspective.BasicGeometry": "Xeometr\xeda b\xe1sica",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS e gr\xe1ficos",
     "Perspective.Geometry": "Xeometr\xeda",

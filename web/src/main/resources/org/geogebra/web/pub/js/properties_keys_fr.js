@@ -1733,7 +1733,6 @@ __GGB__keysVar.fr.menu = {
     "PerformToolOn": "Utiliser Outil sur",
     "Perspective.3DGraphics": "Graphique 3D",
     "Perspective.AlgebraAndGraphics": "Alg\xe8bre",
-    "Perspective.BasicGeometry": "G\xe9om\xe9trie de base",
     "Perspective.CAS": "Calcul formel",
     "Perspective.CASAndGraphics": "CAS & Graphique",
     "Perspective.Geometry": "G\xe9om\xe9trie",

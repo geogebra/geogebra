@@ -1733,7 +1733,6 @@ __GGB__keysVar.ms.menu = {
     "PerformToolOn": "Laksanakan Alat ke atas",
     "Perspective.3DGraphics": "Grafik 3D",
     "Perspective.AlgebraAndGraphics": "Algebra",
-    "Perspective.BasicGeometry": "Geometri Asas",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & Grafik",
     "Perspective.Geometry": "Geometri",

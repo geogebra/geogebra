@@ -1733,7 +1733,6 @@ __GGB__keysVar.pt.menu = {
     "PerformToolOn": "Aplicar Ferramenta A",
     "Perspective.3DGraphics": "Janela 3D",
     "Perspective.AlgebraAndGraphics": "\xc1lgebra",
-    "Perspective.BasicGeometry": "Geometria B\xe1sica",
     "Perspective.CAS": "Janela CAS",
     "Perspective.CASAndGraphics": "CAS e Gr\xe1ficos",
     "Perspective.Geometry": "Geometria",

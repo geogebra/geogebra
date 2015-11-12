@@ -1733,7 +1733,6 @@ __GGB__keysVar.nl_BE.menu = {
     "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D-venster",
     "Perspective.AlgebraAndGraphics": "Algebravenster en tekenvenster",
-    "Perspective.BasicGeometry": "Basistekenvenster",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & Tekenvenster",
     "Perspective.Geometry": "Meetkundevenster",

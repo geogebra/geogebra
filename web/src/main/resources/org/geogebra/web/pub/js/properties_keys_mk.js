@@ -1733,7 +1733,6 @@ __GGB__keysVar.mk.menu = {
     "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "\u0410\u043b\u0433\u0435\u0431\u0430\u0440\u0441\u043a\u0438 \u0438 \u041f\u043e\u0432\u0440\u0448\u0438\u043d\u0430 \u0437\u0430 \u0446\u0440\u0442\u0430\u045a\u0435",
-    "Perspective.BasicGeometry": "\u041e\u0441\u043d\u043e\u0432\u043d\u0430 \u0433\u0435\u043e\u043c\u0435\u0442\u0440\u0438\u0458\u0430",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS \u0438 \u041f\u043e\u0432\u0440\u0448\u0438\u043d\u0430 \u0437\u0430 \u0446\u0440\u0442\u0430\u045a\u0435",
     "Perspective.Geometry": "\u0413\u0435\u043e\u043c\u0435\u0442\u0440\u0438\u0458\u0430",

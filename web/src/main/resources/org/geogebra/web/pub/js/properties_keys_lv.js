@@ -1733,7 +1733,6 @@ __GGB__keysVar.lv.menu = {
     "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Grafiks",
     "Perspective.AlgebraAndGraphics": "Algebra",
-    "Perspective.BasicGeometry": "\u0122eomerijas pamati",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS & Grafiks",
     "Perspective.Geometry": "\u0122eometrija",

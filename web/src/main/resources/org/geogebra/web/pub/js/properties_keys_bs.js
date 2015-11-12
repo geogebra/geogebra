@@ -1733,7 +1733,6 @@ __GGB__keysVar.bs.menu = {
     "PerformToolOn": "Perform Alat na",
     "Perspective.3DGraphics": "3D Radne povr\u0161i",
     "Perspective.AlgebraAndGraphics": "Algebra",
-    "Perspective.BasicGeometry": "Elementarna geometrija",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS&Grafika",
     "Perspective.Geometry": "Geometrija",

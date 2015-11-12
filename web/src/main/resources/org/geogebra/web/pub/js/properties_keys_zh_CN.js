@@ -1733,7 +1733,6 @@ __GGB__keysVar.zh_CN.menu = {
     "PerformToolOn": "\u6267\u884c\u5de5\u5177",
     "Perspective.3DGraphics": "3D\u7ed8\u56fe\u533a",
     "Perspective.AlgebraAndGraphics": "\u4ee3\u6570\u533a",
-    "Perspective.BasicGeometry": "\u57fa\u7840\u51e0\u4f55\u7ed8\u56fe\u533a",
     "Perspective.CAS": "\u8fd0\u7b97\u533a",
     "Perspective.CASAndGraphics": "\u8fd0\u7b97\u533a\u4e0e\u7ed8\u56fe\u533a",
     "Perspective.Geometry": "\u7ed8\u56fe\u533a",

@@ -1733,7 +1733,6 @@ __GGB__keysVar.hr.menu = {
     "PerformToolOn": "Izvr\u0161i alat na",
     "Perspective.3DGraphics": "3D grafika",
     "Perspective.AlgebraAndGraphics": "Algebarski",
-    "Perspective.BasicGeometry": "Osnovna geometrija",
     "Perspective.CAS": "CAS",
     "Perspective.CASAndGraphics": "CAS i grafi\u010dki",
     "Perspective.Geometry": "Geometrija",

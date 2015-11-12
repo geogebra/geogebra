@@ -1733,7 +1733,6 @@ __GGB__keysVar.is.menu = {
     "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Algebrugluggi og myndagluggi",
-    "Perspective.BasicGeometry": "Einfaldur r\xfamfr\xe6\xf0igluggi",
     "Perspective.CAS": "T\xe1kns\xfdn",
     "Perspective.CASAndGraphics": "CAS og myndagluggi",
     "Perspective.Geometry": "R\xfamfr\xe6\xf0i",
