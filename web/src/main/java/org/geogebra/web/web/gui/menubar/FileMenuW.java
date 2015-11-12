@@ -12,6 +12,7 @@ import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.export.PrintPreviewW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 
 import com.google.gwt.user.client.ui.MenuItem;
@@ -180,6 +181,23 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						}
 					});
 		}
+
+		if (app.has(Feature.PRINT_MENU)) {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+					.menu_icons_file_export().getSafeUri().asString(),
+					app.getMenu("PrintPreview"), true), true, new MenuCommand(
+					app) {
+
+				@Override
+				public void doExecute() {
+					new PrintPreviewW(app);
+					// Window.print();
+
+				}
+			});
+
+		}
+
 	    app.getNetworkOperation().getView().add(this);
 	    
 	    if (!app.getNetworkOperation().isOnline()) {

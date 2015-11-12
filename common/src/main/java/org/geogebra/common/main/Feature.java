@@ -61,5 +61,7 @@ public enum Feature {
 
 	FREE_3DCONICS,
 
+	PRINT_MENU,
+
 	LATEX_ON_BUTTON
 }

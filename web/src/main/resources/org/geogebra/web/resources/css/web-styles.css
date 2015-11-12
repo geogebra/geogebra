@@ -6050,3 +6050,18 @@ body.application[dir=rtl] .deleteAlgebra {
 .GeoGebraFrame .cpScrollPanel td{
 	color:inherit;
 }
+
+
+/*
+   ########################################
+   ###       Printing                   ###
+   ######################################## */
+ 
+
+
+@media print {
+	
+	.GeoGebraFrame{
+		display: none;
+	}
+}
