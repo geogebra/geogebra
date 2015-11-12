@@ -1442,7 +1442,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo instanceof GeoAxisND) {
 			EuclidianSettings evs = app.getSettings().getEuclidian(
 					view < 0 ? 3 : view);
-			return evs.getShowAxis(((GeoAxisND) geo).getType());
+			int type = ((GeoAxisND) geo).getType();
+			if (type == 2 && view > 0) {
+				return false;
+			}
+			return evs.getShowAxis(type);
 		}
 		if (geo == null) {
 			return false;
