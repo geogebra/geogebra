@@ -208,11 +208,6 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public final void drawActionObjects(GGraphics2D g) {
-		// not part of canvas, not needed
-	}
-
-	@Override
 	protected final void setAntialiasing(GGraphics2D g2) {
 		// always on
 	}

@@ -1054,4 +1054,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		geo.updateRepaint();
 	}
 
+	/**
+	 * 
+	 * @return if list when draw as combo, is selected.
+	 */
+	public boolean isSelected() {
+		return geo.doHighlighting();
+	}
+
 }

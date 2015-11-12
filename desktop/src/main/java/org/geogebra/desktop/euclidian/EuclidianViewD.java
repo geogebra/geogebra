@@ -1058,6 +1058,7 @@ public class EuclidianViewD extends EuclidianView implements
 																				// Buttons
 																				// and
 																				// Textfields
+		super.drawActionObjects(g2);
 	}
 
 	public void clearView() {

@@ -3468,12 +3468,34 @@ sb.toString(), getFontAxes(),
 	protected abstract void drawResetIcon(GGraphics2D g);
 
 	/**
-	 * Draw textfields
+	 * Draw combos
 	 * 
 	 * @param g
 	 *            graphics
 	 */
-	public abstract void drawActionObjects(GGraphics2D g);
+	public void drawActionObjects(GGraphics2D g) {
+		DrawableIterator it = allDrawableList.getIterator();
+		it.reset();
+		DrawList selected = null;
+		while (it.hasNext()) {
+			Drawable d = it.next();
+			if (d instanceof DrawList) {
+				DrawList dl = (DrawList) d;
+				if (dl.needsUpdate()) {
+					dl.setNeedsUpdate(false);
+					dl.update();
+				}
+
+				if (dl.isSelected()) {
+					selected = dl;
+				}
+				dl.draw(g);
+			}
+		}
+		if (selected != null) {
+			selected.draw(g);
+		}
+	}
 
 	/**
 	 * @param g2

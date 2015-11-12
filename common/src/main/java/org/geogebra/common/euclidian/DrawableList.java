@@ -16,6 +16,7 @@ package org.geogebra.common.euclidian;
 import java.util.Iterator;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * List to store Drawable objects for fast drawing.
@@ -179,7 +180,10 @@ public class DrawableList {
 		Link cur = head;
 		while (cur != null) {
 			// defined check needed in case the GeoList changed its size
-			if (cur.d.getGeoElement().isDefined()) {
+			// don't draw GeoList as combos here
+			GeoElement geo = cur.d.getGeoElement();
+			if (geo.isDefined()
+					&& !(geo.isGeoList() && ((GeoList) geo).drawAsComboBox())) {
 				if (cur.d.needsUpdate()) {
 					cur.d.setNeedsUpdate(false);
 					cur.d.update();
