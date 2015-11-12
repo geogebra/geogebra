@@ -4,6 +4,7 @@ import org.geogebra.common.io.DocHandler;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Web implementation of XML parser
@@ -70,10 +71,15 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 			// xmlParser.reset();
 			kernel.setLoadingMode(false);
 		} catch (Error e) {
-			// e.printStackTrace();
-			throw e;
+			Log.error(e.getMessage());
+			if (!isGGTorDefaults) {
+				throw e;
+			}
 		} catch (Exception e) {
-			throw e;
+			Log.error(e.getMessage());
+			if (!isGGTorDefaults) {
+				throw e;
+			}
 		} finally {
 			kernel.setUseInternalCommandNames(oldVal2);
 			if (!isGGTorDefaults && mayZoom) {

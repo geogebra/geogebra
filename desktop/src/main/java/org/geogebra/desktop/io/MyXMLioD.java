@@ -332,10 +332,15 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 			xmlParser.reset();
 			kernel.setLoadingMode(false);
 		} catch (Error e) {
-			// e.printStackTrace();
-			throw e;
+			Log.error(e.getMessage());
+			if (!isGGTOrDefaults) {
+				throw e;
+			}
 		} catch (Exception e) {
-			throw e;
+			Log.error(e.getMessage());
+			if (!isGGTOrDefaults) {
+				throw e;
+			}
 		} finally {
 			kernel.setUseInternalCommandNames(oldVal2);
 			if (!isGGTOrDefaults && mayZoom) {
