@@ -75,9 +75,10 @@ public abstract class StyleBarW extends HorizontalPanel implements
 				public void onClick(ClickEvent event) {
 					if(app.getGuiManager().showView(App.VIEW_PROPERTIES)){
 						app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
-					} else if (!app.getSelectionManager().getSelectedGeos()
-							.isEmpty() || optionType == null
-							|| optionType != OptionType.ALGEBRA) {
+					} else if ((!app.getSelectionManager().getSelectedGeos()
+							.isEmpty() && optionType != OptionType.ALGEBRA)
+							|| optionType == null
+							) {
 						app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
 					} else{
 						app.getDialogManager().showPropertiesDialog(optionType, null);
