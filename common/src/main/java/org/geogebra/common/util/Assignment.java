@@ -112,7 +112,7 @@ public class Assignment {
 
 		fractionForResult = new HashMap<Result, Float>();
 		hintForResult = new HashMap<Result, String>();
-		checkOp = "==";
+		checkOp = "AreEqual";
 
 		geoInspector = new Inspecting() {
 
@@ -249,12 +249,12 @@ public class Assignment {
 		// possibleOutputs ie.the array
 		boolean mayAdjustMoveableOutputs = adjustMoveableOutputs(macroOutput,
 				possibleOutput);
-		if (checkOp.equals("==")) {
+		if (checkOp.equals("AreEqual")) {
+			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
+					: Result.WRONG);
+		} else if (checkOp.equals("==")) {
 			partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
 					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
-					: Result.WRONG);
-		} else if (checkOp.equals("AreEqual")) {
-			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
 					: Result.WRONG);
 		} else if (checkOp.equals("AreCongruent")) {
 			partRes.add(boolVal(macroOutput.isCongruent(possibleOutput[i])) ? Result.CORRECT
@@ -262,7 +262,7 @@ public class Assignment {
 		}
 		callsToEqual++;
 		int j = 0;
-		if (!partRes.contains(Result.WRONG)) {
+		if (partRes.contains(Result.CORRECT)) {
 			while (j < input.length
 					&& !partRes.contains(Result.WRONG_AFTER_RANDOMIZE)) {
 				if (input[j].isRandomizable()) {
@@ -303,16 +303,16 @@ public class Assignment {
 		// partRes.add(algoEqual.getResult().getBoolean() ?
 		// Result.CORRECT
 		// : Result.WRONG_AFTER_RANDOMIZE);
-		if (checkOp.equals("==")) {
+		if (checkOp.equals("AreEqual")) {
+			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
+					: Result.WRONG_AFTER_RANDOMIZE);
+		} else if (checkOp.equals("==")) {
 			partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
 					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
 					: Result.WRONG_AFTER_RANDOMIZE);
-		} else if (checkOp.equals("AreEqual")) {
-			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
-					: Result.WRONG);
 		} else if (checkOp.equals("AreCongruent")) {
 			partRes.add(macroOutput.isCongruent(possibleOutput[i]) ? Result.CORRECT
-					: Result.WRONG);
+					: Result.WRONG_AFTER_RANDOMIZE);
 		}
 		callsToEqual++;
 		geoToRandomize.set(saveInput);
