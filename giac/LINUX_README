@@ -5,13 +5,16 @@ Linux 14.04.
 Prerequisites
 -------------
 
-1. Install packages build-essential, libgmp-dev and libmpfr-dev.
+Install packages build-essential, libgmp-dev and libmpfr-dev.
 
-2. Enter
+Compilation and running
+-----------------------
+
+1. Enter
 
    $ ../gradlew run
 
-3. After a successful compilation you should see something like
+2. After a successful compilation you should see something like
 
    Enter 0 to stop
    > Building 85% > :run
