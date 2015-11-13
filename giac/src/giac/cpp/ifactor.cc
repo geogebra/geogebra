@@ -1166,7 +1166,7 @@ namespace giac {
   }
 #endif
 
-#if (defined __i386__ || defined __x86_64__) && !defined PIC && !defined _I386_ && !defined __APPLE__ && !defined VISUALC
+#if (defined __i386__ || defined __x86_64__) && !defined PIC && !defined _I386_ && !defined __APPLE__ && !defined VISUALC && !defined(FIR_LINUX)
   #define _I386_
 #endif
 
@@ -3036,6 +3036,20 @@ namespace giac {
 	if (m > maxiter ){
 	  if (debug_infolevel)	  
 	    *logptr(contextptr) << clock() << gettext(" Pollard-rho failure, ntries ") << m << endl;
+	  mpz_clear(alloc5);
+	  mpz_clear(alloc4);
+	  mpz_clear(alloc3);
+	  mpz_clear(alloc2);
+	  mpz_clear(alloc1);
+	  mpz_clear(tmpq);
+	  mpz_clear(x);
+	  mpz_clear(x1);
+	  mpz_clear(x2);
+	  mpz_clear(x2k);
+	  mpz_clear(y);
+	  mpz_clear(y1);
+	  mpz_clear(p);
+	  mpz_clear(q);
 	  return -1;
 	}
 	// p=irem(p*(x1-x),n,q);
@@ -3134,8 +3148,23 @@ namespace giac {
 	mpz_tdiv_r(x,x2k,*n._ZINTptr);
 #endif
 	m += 1;
-	if (m > maxiter )
+	if (m > maxiter ){
+	  mpz_clear(alloc5);
+	  mpz_clear(alloc4);
+	  mpz_clear(alloc3);
+	  mpz_clear(alloc2);
+	  mpz_clear(alloc1);
+	  mpz_clear(tmpq);
+	  mpz_clear(x);
+	  mpz_clear(x1);
+	  mpz_clear(x2);
+	  mpz_clear(x2k);
+	  mpz_clear(y);
+	  mpz_clear(y1);
+	  mpz_clear(p);
+	  mpz_clear(q);
 	  return -1;
+	}
 	// p=irem(x1-x,n,q);
 	mpz_sub(q,x1,x);
 #if 0 // def USE_GMP_REPLACEMENTS

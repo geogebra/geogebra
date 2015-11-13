@@ -865,7 +865,7 @@ namespace giac {
   // open a file, returns a FD
   gen _open(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if defined(VISUALC) || defined(__MINGW_H) || defined (BESTA_OS) || defined(NSPIRE) || defined(__ANDROID__) || defined(NSPIRE_NEWLIB) || defined(OSX) || defined(IOS)
+#if defined(VISUALC) || defined(__MINGW_H) || defined (FIR) || defined(NSPIRE) || defined(__ANDROID__) || defined(NSPIRE_NEWLIB) 
     return gensizeerr(gettext("not implemented"));
 #else
     gen tmp=check_secure();

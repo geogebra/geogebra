@@ -19,6 +19,7 @@
 #define _GIAC_SOLVE_H
 #include "first.h"
 
+// GIAC_64VARS is currently compatible with GROEBNER_VARS 15 only
 #define GIAC_64VARS 
 // comment if you don't want the modular algorithm for gbasis with >15 var
 //#define GIAC_CHARDEGTYPE 

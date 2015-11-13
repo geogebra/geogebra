@@ -468,12 +468,12 @@ namespace giac {
     // special handling for systems
     if (solution_generale.type==_VECT && v.size()==2){
       gen init=v[1],point=0;
-      if (init.is_symb_of_sommet(at_equal)){
-	point=init._SYMBptr->feuille[0];
-	init=init._SYMBptr->feuille[1];
-	if (!point.is_symb_of_sommet(at_of) || point._SYMBptr->feuille[0]!=y)
+      if (init.is_symb_of_sommet(at_equal) && init._SYMBptr->feuille.type==_VECT&& init._SYMBptr->feuille._VECTptr->size()>=2){
+	point=(*init._SYMBptr->feuille._VECTptr)[0];
+	init=(*init._SYMBptr->feuille._VECTptr)[1];
+	if (!point.is_symb_of_sommet(at_of) || point._SYMBptr->feuille.type!=_VECT || point._SYMBptr->feuille._VECTptr->size()<2 || point._SYMBptr->feuille._VECTptr->front()!=y)
 	  return gensizeerr("Bad initial condition");
-	point=point._SYMBptr->feuille[1];
+	point=(*point._SYMBptr->feuille._VECTptr)[1];
       }
       gen systeme=subst(solution_generale,x,point,false,contextptr)-init;
       gen s=_solve(makesequence(systeme,parameters),contextptr);
@@ -581,12 +581,14 @@ namespace giac {
     gen solution_generale(desolve_f(v.front(),x,y,ordre,parameters,f,contextptr));
     if (solution_generale.type!=_VECT) 
       return in_desolve_with_conditions(v,x,y,solution_generale,parameters,f,contextptr);
+    solution_generale.subtype=0; // otherwise desolve([y'=[[1,2],[2,1]]*y+[x,x+1],y(0)=[1,2]]) fails on the Prime (?)
     if (parameters.empty())
       return solution_generale;
-    const_iterateur it=solution_generale._VECTptr->begin(),itend=solution_generale._VECTptr->end();
+    iterateur it=solution_generale._VECTptr->begin(),itend=solution_generale._VECTptr->end();
     vecteur res;
     res.reserve(itend-it);
     for (;it!=itend;++it){
+      if (it->type==_VECT) it->subtype=0;
       gen tmp=in_desolve_with_conditions(v,x,y,*it,parameters,f,contextptr);
       if (is_undef(tmp))
 	return tmp;

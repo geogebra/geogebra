@@ -285,7 +285,9 @@ namespace giac {
       if (e.type!=_SYMB){
 	if (i)
 	  s += '*';
-	if ( e.type==_CPLX || e.type==_MOD )
+	if ( (e.type==_CPLX 
+	      && need_parenthesis(e) 
+	      ) || e.type==_MOD )
 	  s += "("+e.print(contextptr)+")";
 	else 
 	  add_print(s,e,contextptr); // s +=e.print(contextptr);
@@ -387,8 +389,11 @@ namespace giac {
       return s;
     }
     if (arg.type==_IDNT || (arg.type==_SYMB && arg._SYMBptr->sommet!=at_neg && (arg._SYMBptr->sommet!=at_exp || calc_mode(contextptr)!=1) && !arg._SYMBptr->sommet.ptr()->printsommet)){
+      argpar=(arg.is_symb_of_sommet(at_exp) && abs_calc_mode(contextptr)==38);
+      if (argpar) s +='(';
       if (pui.type==_SYMB || pui.type==_FRAC){
 	add_print(s,arg,contextptr);
+	if (argpar) s +=')';
 #ifdef GIAC_HAS_STO_38
 	s += '^';
 #else
@@ -401,6 +406,7 @@ namespace giac {
       }
       else {
 	add_print(s,arg,contextptr);
+	if (argpar) s +=')';
 #ifdef GIAC_HAS_STO_38
 	s += '^';
 #else

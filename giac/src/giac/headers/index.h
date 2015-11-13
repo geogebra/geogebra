@@ -50,7 +50,7 @@
 #define hash_map unordered_map
 #else // UNORDERED_MAP
 
-#if (defined(VISUALC) || defined(BESTA_OS) || defined(__ANDROID__) || defined(OSX) || defined(IOS))
+#if (defined(VISUALC) || defined(FIR) || defined(__ANDROID__) // || defined(OSX) || defined(IOS))
 #undef HASH_MAP
 #undef EXT_HASH_MAP
 #endif

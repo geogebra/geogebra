@@ -69,7 +69,7 @@ using namespace std;
 #endif
 
 #ifdef BESTA_OS
-unsigned int PrimeGetNow(); 
+//unsigned int PrimeGetNow(); 
 #endif
 
 #ifdef RTOS_THREADX 
@@ -3103,20 +3103,24 @@ namespace giac {
   static gen symb_char(const gen & args){
     return symbolic(at_char,args);
   }
-  gen _char(const gen & args,GIAC_CONTEXT){
-    if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+  gen _char(const gen & args_,GIAC_CONTEXT){
+    if ( args_.type==_STRNG &&  args_.subtype==-1) return  args_;
     string s;
-    if (args.type==_INT_){
+    gen args(args_);
+    if (is_integral(args)){
       s += char(args.val) ;
     }
     else {
       if (args.type==_VECT){
-	const_iterateur it=args._VECTptr->begin(),itend=args._VECTptr->end();
+	vecteur v=*args._VECTptr;
+	iterateur it=v.begin(),itend=v.end();
 	for (;it!=itend;++it){
-	  s += char(it->val);
+	  if (is_integral(*it))
+	    s += char(it->val);
+	  else return gensizeerr(contextptr);
 	}
       }
-      else return symb_char(args);
+      else return gensizeerr(contextptr);
     }
     gen tmp=string2gen(s,false);
     return tmp;
@@ -3135,6 +3139,8 @@ namespace giac {
       vecteur v(l);
       for (int i=0;i<l;++i)
 	v[i]=int( (unsigned char) ((*args._STRNGptr)[i]));
+      if (abs_calc_mode(contextptr)==38)
+	return gen(v,_LIST__VECT);
       return v;
     }
     if (args.type==_VECT){
@@ -7168,8 +7174,9 @@ namespace giac {
       return apply1st(a,b,contextptr,pointdivision);
     if (a.type!=_VECT && b.type==_VECT)
       return apply2nd(a,b,contextptr,pointdivision);
-    return a/b;
-    // return matrix_apply(a,b,contextptr,rdiv);
+    //return a/b;
+    // reactivated 22 oct 15 for [[1,2],[3,4]] ./ [[3,4],[5,6]]
+    return matrix_apply(a,b,contextptr,rdiv);
   }
   gen _pointdivision(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
@@ -8802,7 +8809,7 @@ namespace giac {
 
   
   static string printaspiecewise(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
-    if ( feuille.type!=_VECT || feuille._VECTptr->empty() || abs_calc_mode(contextptr)!=38)
+    // if ( feuille.type!=_VECT || feuille._VECTptr->empty() || abs_calc_mode(contextptr)!=38)
       return string(sommetstr)+('('+feuille.print(contextptr)+')');
     vecteur & v = *feuille._VECTptr;
     string res("CASE");

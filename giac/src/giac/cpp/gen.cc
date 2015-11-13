@@ -3680,7 +3680,7 @@ namespace giac {
       if (!has_i(s)){
 	if (u==at_exp || u==at_sqrt)
 	  return s;
-	if (u==at_pow && f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->back()==plus_one_half)
+	if (calc_mode(contextptr)==1 && u==at_pow && f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->back()==plus_one_half)
 	  return s;
       }
     }
@@ -6064,7 +6064,7 @@ namespace giac {
 	if (exponent.type!=_INT_ || !res.is_symb_of_sommet(at_exp))
 	  return res;
       }
-      if (u==at_inv && base._SYMBptr->feuille.type==_SYMB && (base._SYMBptr->feuille._SYMBptr->sommet==at_exp ||base._SYMBptr->feuille._SYMBptr->sommet==at_pow))
+      if (u==at_inv && base._SYMBptr->feuille.type==_SYMB && (base._SYMBptr->feuille._SYMBptr->sommet==at_exp ||base._SYMBptr->feuille._SYMBptr->sommet==at_pow)) 
 	return inv(pow(base._SYMBptr->feuille,exponent,contextptr),contextptr);
       if (u==at_pow && !has_i(base)){
 	vecteur & v=*base._SYMBptr->feuille._VECTptr;
@@ -11063,7 +11063,7 @@ namespace giac {
 	form += "g";
       break;
     case 1: 
-      form += "e";
+      form += "e"; // or "f" ??
       break;
     case 3:
       form += "a";

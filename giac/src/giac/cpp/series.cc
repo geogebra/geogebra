@@ -2062,6 +2062,16 @@ namespace giac {
   gen limit_symbolic_preprocess(const gen & e0,const identificateur & x,const gen & lim_point,int direction,GIAC_CONTEXT){
     // FIXME: add support for int and sum
     gen e=factorial2gamma(e0,contextptr);
+    gen first_try=subst(e,x,lim_point,false,contextptr);
+    first_try=simplifier(first_try,contextptr);
+    if (!contains(lidnt(first_try),unsigned_inf)){
+      gen chknum;
+      bool hasnum=has_evalf(first_try,chknum,1,contextptr);
+      first_try=recursive_ratnormal(first_try,contextptr);
+      gen chk=recursive_normal(first_try,contextptr);
+      if (hasnum && !is_undef(chk) && abs(chk-chknum,contextptr)>1e-10 && abs(1-chk/chknum,contextptr)>1e-10)
+	e=_simplify(e,contextptr);
+    }
     // Find functions depending of x in e which are in the list
     // If their argument tends to +/-infinity, replace these functions
     vecteur v=rlvarx(e,x);
@@ -2278,15 +2288,23 @@ namespace giac {
       if (!contains(lidnt(first_try),unsigned_inf)){
 	if (has_num_coeff(first_try))
 	  return first_try;
+	gen chknum;
+	bool hasnum=has_evalf(first_try,chknum,1,contextptr);
 	first_try=recursive_ratnormal(first_try,contextptr);
 	gen chk=recursive_normal(first_try,contextptr);
-	/*
-	if (!lop(chk,at_rootof).empty())
-	  chk=ratnormal(first_try);
-	*/
-	if (!is_undef(chk) && !contains(lidnt(chk),unsigned_inf)){
-	  chk=first_try;
-	  return taille(chk,100)<taille(first_try,100)?chk:first_try;
+	if (hasnum && !is_undef(chk) && abs(chk-chknum,contextptr)>1e-10 && abs(1-chk/chknum,contextptr)>1e-10){
+	  chk=undef;
+	  e=_simplify(e,contextptr);
+	}
+	if (!is_undef(chk)){
+	  /*
+	    if (!lop(chk,at_rootof).empty())
+	    chk=ratnormal(first_try);
+	  */
+	  if (!is_undef(chk) && !contains(lidnt(chk),unsigned_inf)){
+	    chk=first_try;
+	    return taille(chk,100)<taille(first_try,100)?chk:first_try;
+	  }
 	}
       }
       if (lim_point==unsigned_inf){
@@ -3016,7 +3034,7 @@ namespace giac {
     if (x.type==_VECT && l.type==_VECT){
       vecteur &v=*x._VECTptr;
       gen h(identificateur(" h"));
-      vecteur w=addvecteur(*l._VECTptr,multvecteur(h,subvecteur(v,*l._VECTptr)));
+      vecteur w=addvecteur(*l._VECTptr,multvecteur(h,v));
       gen newe=subst(e,v,w,false,contextptr);
       sparse_poly1 res=series__SPOL1(newe,*h._IDNTptr,zero,ordre,direction,contextptr);
       poly_truncate(res,ordre,contextptr);
@@ -3024,7 +3042,8 @@ namespace giac {
 	res.pop_back();
       // order term has been removed
       gen remains;
-      return sparse_poly12gen(res,1,remains,false);
+      gen r=sparse_poly12gen(res,1,remains,false);
+      return subst(r,v,subvecteur(v,*l._VECTptr),false,contextptr);
     }
     if (x.type!=_IDNT){
       identificateur xx("x");

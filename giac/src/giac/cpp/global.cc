@@ -90,7 +90,6 @@ using namespace std;
 #ifdef BESTA_WIN32_TARGET
 #include <Windows.h>
 #else
-#include <bestafir.h>
 #include <stdlib.h>
 #endif // besta_win32_target
 #endif // besta_os
@@ -1545,7 +1544,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int HENSEL_QUADRATIC_POWER=25;
   int KARAMUL_SIZE=17;
   int INT_KARAMUL_SIZE=300;
-  int FFTMUL_SIZE=1500; 
+  int FFTMUL_SIZE=10000; 
   int MAX_ALG_EXT_ORDER_SIZE = 4;
   int MAX_COMMON_ALG_EXT_ORDER_SIZE = 16;
   int TRY_FU_UPRIME=5;
@@ -1574,7 +1573,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int HENSEL_QUADRATIC_POWER=25;
   int KARAMUL_SIZE=17;
   int INT_KARAMUL_SIZE=300;
-  int FFTMUL_SIZE=1500; 
+  int FFTMUL_SIZE=10000; 
   int MAX_ALG_EXT_ORDER_SIZE = 6;
 #ifdef EMCC
   int MAX_COMMON_ALG_EXT_ORDER_SIZE = 16;
@@ -3792,7 +3791,7 @@ _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_ma
   double giac_floor(double d){
     double maxdouble=longlong(1)<<30;
     if (d>=maxdouble || d<=-maxdouble)
-      return d;
+      return std::floor(d);
     if (d>0)
       return int(d);
     double k=int(d);
@@ -4126,8 +4125,8 @@ unsigned int ConvertUTF8toUTF16 (
     }
 
     unsigned int j = ConvertUTF8toUTF16 (
-      (const UTF8*) line,((line + n) < line) ? (const UTF8*)~0u : (const UTF8*)(line + n),
-      (UTF16*)wline, (UTF16*)~0u,
+      (const UTF8*) line,((line + n) < line) ? (const UTF8*)~0 : (const UTF8*)(line + n),
+      (UTF16*)wline, (UTF16*)~0,
       lenientConversion);
 
     if (wline) wline[j] = 0;
@@ -4239,7 +4238,7 @@ unsigned int ConvertUTF8toUTF16 (
     }
 
     unsigned int j = ConvertUTF16toUTF8(
-      (UTF16*)wline, ((wline + n) < wline) ? (const UTF16*)~0u : (const UTF16*)(wline + n),
+      (UTF16*)wline, ((wline + n) < wline) ? (const UTF16*)~0 : (const UTF16*)(wline + n),
       (UTF8*)line, (UTF8*)-1,
       lenientConversion);
 
@@ -4725,6 +4724,10 @@ unsigned int ConvertUTF8toUTF16 (
     "normal",
     "op",
     "partfrac",
+    "plotfield",
+    "plotfunc",
+    "plotparam",
+    "plotpolar",
     "pow2exp",
     "powexpand",
     "propfrac",

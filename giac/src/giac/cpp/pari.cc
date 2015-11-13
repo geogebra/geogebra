@@ -157,7 +157,8 @@ namespace giac {
       res=res*pow2sizeof_long+longlong(unsigned(G[i]));
 #endif
     }
-    res=res*evalf(pow(plus_two,int(expo(G)+1-bit_accuracy(n))),1,0);
+    res=res*pow(plus_two,int(expo(G)+1-bit_accuracy(n)));
+    res=_evalf(makesequence(res,int(n/3.3)),context0);
     return Gs<0?-res:res;
   }
 
@@ -427,6 +428,7 @@ namespace giac {
       res=gmul(res,Gstep);
       res=gadd(res,utoi(v[i]));
     }
+    setsigne(res,sgn);
     return res;
   }
 
@@ -488,15 +490,19 @@ namespace giac {
       e=-e;
       neg=true;
     }
-    const char * s=e.print(contextptr).c_str();
     int prec=53;
 #ifdef HAVE_LIBMPFR
     if (e.type==_REAL)
       prec=mpfr_get_prec(e._REALptr->inf);
 #endif
-    GEN g=strtor((char *)s,prec);
+    const char * s=e.print(contextptr).c_str();
+    GEN g=strtor(s,prec);
     if (neg)
       g=gneg(g);
+    if (debug_infolevel)
+      CERR << "real converted to pari " << GEN2gen(g,vecteur(0)) << endl;
+    else e=GEN2gen(g,vecteur(0));
+    // for some strange reason, converting g to a gen fixes a bug in conversion
     return g;
   }
 
@@ -995,6 +1001,8 @@ namespace giac {
     pthread_cleanup_push(pari_cleanup, (void *) pari_mutex_ptr);
     long av=avma;
     GEN G=gen2GEN(change_subtype(p,_POLY1__VECT),vecteur(0),contextptr);
+    if (debug_infolevel)
+      CERR << "pari_polroots " << GEN2gen(G,vecteur(1,vx_var)) << endl;
     G=roots(G,prec);
     tmp=GEN2gen(G,vecteur(0));
     avma=av;

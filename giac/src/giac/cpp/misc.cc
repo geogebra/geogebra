@@ -3258,8 +3258,10 @@ static define_unary_function_eval (__power_regression_plot,&_power_regression_pl
       if (v[0].type==_VECT && v[1].type==_VECT && v[0]._VECTptr->size()==v[1]._VECTptr->size())
 	return polynomial_regression(makevecteur(mtran(makevecteur(v[0],v[1])),v[2]),xmin,xmax,contextptr);
     }
+    if (g.type!=_VECT || g._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
     gen last=_floor(g._VECTptr->back(),contextptr);
-    if (g.type!=_VECT || g._VECTptr->size()!=2 || last.type!=_INT_)
+    if (last.type!=_INT_)
       return gensizeerr(contextptr);
     return polynomial_regression(g._VECTptr->front(),absint(last.val),zero,zero,xmin,xmax,contextptr);
   }

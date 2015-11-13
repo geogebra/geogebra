@@ -1169,12 +1169,14 @@ namespace giac {
       i.localvalue->back() += value;
   }
 
+  double max_nstep=2e4;
+
   gen plotfunc(const gen & f,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_zmin, double function_zmax,int nstep,int jstep,bool showeq,const context * contextptr){
     double step=(function_xmax-function_xmin)/nstep;
     if (debug_infolevel)
       CERR << "plot " << f << " x=" << function_xmin << ".." << function_xmax << " " << step << endl;
-    if (step<=0 || (function_xmax-function_xmin)/step>1e5)
-      return gensizeerr(gettext("Plotfunc: unable to discretize: xmin, xmax, step=")+print_DOUBLE_(function_xmin,12)+","+print_DOUBLE_(function_xmax,12)+","+print_DOUBLE_(step,12));
+    if (step<=0 || (function_xmax-function_xmin)/step>max_nstep)
+      return gensizeerr(gettext("Plotfunc: unable to discretize: xmin, xmax, step=")+print_DOUBLE_(function_xmin,12)+","+print_DOUBLE_(function_xmax,12)+","+print_DOUBLE_(step,12)+gettext("\nTry a larger value for xstep"));
     vecteur res;
     int color=default_color(contextptr);
     gen attribut=attributs.empty()?color:attributs[0];
@@ -7461,8 +7463,8 @@ namespace giac {
 
 
   gen plotparam(const gen & f,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_tmin, double function_tmax,double function_tstep,const gen & equation,const gen & parameq,const context * contextptr){
-    if (function_tstep<=0 || (function_tmax-function_tmin)/function_tstep>1e5)
-      return gensizeerr(gettext("Plotparam: unable to discretize: tmin, tmax, tstep=")+print_DOUBLE_(function_tmin,12)+","+print_DOUBLE_(function_tmax,12)+","+print_DOUBLE_(function_tstep,12));
+    if (function_tstep<=0 || (function_tmax-function_tmin)/function_tstep>max_nstep)
+      return gensizeerr(gettext("Plotparam: unable to discretize: tmin, tmax, tstep=")+print_DOUBLE_(function_tmin,12)+","+print_DOUBLE_(function_tmax,12)+","+print_DOUBLE_(function_tstep,12)+gettext("\nTry a larger value for tstep"));
     gen fC(f);
     if (f.type==_VECT && f._VECTptr->size()==2)
       fC=f._VECTptr->front()+cst_i*f._VECTptr->back();
@@ -9126,6 +9128,7 @@ namespace giac {
 #else
     gen theta=identificateur("t"); // t__IDNT_e;
 #endif
+    gen theta_orig=theta;
     if(!angle_radian(contextptr))
       {
 	//grad
@@ -9154,7 +9157,7 @@ namespace giac {
 #if 0 // def GIAC_HAS_STO_38
     return _paramplot(gen(makevecteur(res,symb_equal(vx_var,symb_interval(0,2*cst_pi)),symb_equal(nstep,60),symb_equal(ustep,M_PI/30),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
 #else
-    return _paramplot(gen(makevecteur(res,symb_equal(theta,symb_interval(0,2*cst_pi)),symb_equal(nstep,120),symb_equal(ustep,M_PI/60),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
+    return _paramplot(gen(makevecteur(res,symb_equal(theta_orig,symb_interval(0,2*cst_pi)),symb_equal(nstep,120),symb_equal(ustep,M_PI/60),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
 #endif
   }
   static const char _ellipse_s []="ellipse";
@@ -10004,10 +10007,15 @@ namespace giac {
     vecteur res;
     res.reserve(itend-it);
     for (;it!=itend;++it){
+      if (it->type!=_VECT || it->_VECTptr->empty() || it->_VECTptr->back().type!=_VECT) 
+	continue;
+      vecteur tmp=*it->_VECTptr->back()._VECTptr;
+      if (tmp.size()!=2 || is_undef(tmp.front()) || is_undef(tmp.back()))
+	continue;
       if (dim3)
-	res.push_back(gen(makevecteur(it->_VECTptr->front(),it->_VECTptr->back()._VECTptr->front(),it->_VECTptr->back()._VECTptr->back()),_POINT__VECT));
+	res.push_back(gen(makevecteur(it->_VECTptr->front(),tmp.front(),tmp.back()),_POINT__VECT));
       else
-	res.push_back(it->_VECTptr->back()._VECTptr->front()+cst_i*it->_VECTptr->back()._VECTptr->back());
+	res.push_back(tmp.front()+cst_i*tmp.back());
     }
     return symb_pnt(gen(res,_GROUP__VECT),contextptr);
   }

@@ -153,25 +153,25 @@ namespace giac {
     gen asine=asin(e,contextptr);
     if (!(isolate_mode & 2))
       return makevecteur(asine,one_half_tour(contextptr)-asine);
-    identificateur * x=new identificateur(string("n_")+print_intvar_counter(contextptr));
+    identificateur x(string("n_")+print_intvar_counter(contextptr));
     if (is_zero(e,contextptr))
-      return asine+(*x)*one_half_tour(contextptr);
-    return makevecteur(asine+(*x)*one_tour(contextptr),one_half_tour(contextptr)-asine+(*x)*one_tour(contextptr));
+      return asine+(x)*one_half_tour(contextptr);
+    return makevecteur(asine+(x)*one_tour(contextptr),one_half_tour(contextptr)-asine+(x)*one_tour(contextptr));
   }
   static gen isolate_cos(const gen & e,int isolate_mode,GIAC_CONTEXT){
     gen acose=acos(e,contextptr);
     if (!(isolate_mode & 2))
       return makevecteur(acose,-acose);
-    identificateur * x=new identificateur(string("n_")+print_intvar_counter(contextptr));
+    identificateur x(string("n_")+print_intvar_counter(contextptr));
     if (is_zero(e,contextptr))
-      return acose+(*x)*one_half_tour(contextptr);
-    return makevecteur(acose+(*x)*one_tour(contextptr),-acose+(*x)*one_tour(contextptr));
+      return acose+(x)*one_half_tour(contextptr);
+    return makevecteur(acose+(x)*one_tour(contextptr),-acose+(x)*one_tour(contextptr));
   }
   static gen isolate_tan(const gen & e,int isolate_mode,GIAC_CONTEXT){
     if (!(isolate_mode & 2))
       return atan(e,contextptr);
-    identificateur * x=new identificateur(string("n_")+print_intvar_counter(contextptr));
-    return atan(e,contextptr)+(*x)*one_half_tour(contextptr);
+    identificateur x(string("n_")+print_intvar_counter(contextptr));
+    return atan(e,contextptr)+(x)*one_half_tour(contextptr);
   }
   static gen isolate_asin(const gen & e,int isolate_mode,GIAC_CONTEXT){
     return sin(e,contextptr);
@@ -1157,9 +1157,10 @@ namespace giac {
       }
       else
 	test=eval(subst(e0,x,m,false,contextptr),eval_level(contextptr),contextptr);
+      lf=evalf_double(m,1,contextptr);
       testeq=abs(evalf(subst(e,x,m,false,contextptr),eval_level(contextptr),contextptr),contextptr);
       eps=epsilon(contextptr);
-      lf=evalf_double(m,1,contextptr);
+      // if ( (lf.type!=_DOUBLE_ && lf.type!=_CPLX) || (testeq.type!=_DOUBLE_ || testeq.type != _CPLX && !is_undef(testeq) && !is_inf(testeq)) ) return vecteur(1,gensizeerr("Unable to solve inequation"));
       if (lf.type==_DOUBLE_){
 	double lfd=fabs(lf._DOUBLE_val);
 	if (lfd>1)
@@ -5604,7 +5605,7 @@ namespace giac {
       return true;
     }
 #endif
-#ifdef BESTA_OS 
+#if 0 // def BESTA_OS 
     bool notfound=true;
     for (;notfound && !interrupted;){
       if (debug_infolevel>6)
@@ -6023,8 +6024,9 @@ namespace giac {
 		++nbits;
 		deuxn=plus_two*deuxn;
 	      }
-	      for (;;){
-		den=horner_interval(denp,l,r);
+	      for (bool stopnextiter=false;;){
+		if (!stopnextiter)
+		  den=horner_interval(denp,l,r);
 		gen den0=den[0],den1=den[1];
 		bool lpos=is_positive(den0,contextptr),rpos=is_positive(den1,contextptr);
 		if ( !(lpos ^ rpos) && is_greater(Eps/3,abs(den[1]/den[0]-1,contextptr),contextptr)){
@@ -6033,7 +6035,7 @@ namespace giac {
 		  vecteur Hs;
 		  for (;pos<numv.size();++pos){
 		    vecteur num=horner_interval(numv[pos],l,r);
-		    if (is_greater(abs(num[1]/num[0]-1,contextptr),Eps/3,contextptr))
+		    if (!stopnextiter && is_greater(abs(num[1]/num[0]-1,contextptr),Eps/3,contextptr))
 		      break;
 		    gen num0=num[0],num1=num[1],a=makesequence(num0/den0,num0/den1,num1/den0,num1/den1);
 #ifdef HAVE_LIBMPFI
@@ -6049,7 +6051,7 @@ namespace giac {
 		    res.push_back(Hs);
 		    break;
 		  }
-		}
+		} // end if
 		s=(l+r)/2;
 		in_round2(s,deuxn,nbits);
 		s=s-horner(minp,s,0,false)/horner(minp1,s,0,false);
@@ -6057,12 +6059,17 @@ namespace giac {
 		deuxn=deuxn*deuxn;
 		in_round2(s,deuxn,nbits);
 		lr=int(minp.size()-1)*abs(horner(minp,s,0,false)/horner(minp1,s,0,false),contextptr); // warranted bounds
-		if (is_greater(lr,1e-300,contextptr))
-		  lr=pow(plus_two,int(std::log(evalf_double(lr,1,contextptr)._DOUBLE_val)/std::log(2.))+1);
-		l=s-lr;
-		r=s+lr;
-		lr=2*lr;
-	      }
+		double lrd=evalf_double(lr,1,contextptr)._DOUBLE_val;
+		if (is_greater(lrd,1e-300,contextptr))
+		  lr=pow(plus_two,int(std::log(lrd)/std::log(2.))+1);
+		if (lrd==0)
+		  stopnextiter=true;
+		else {
+		  l=s-lr;
+		  r=s+lr;
+		  lr=2*lr;
+		}
+	      } // end for(;;)
 	      continue;
 #else
 	      s=(s._VECTptr->front()+s._VECTptr->back())/2;
@@ -6504,10 +6511,12 @@ namespace giac {
     if (eqp.empty()) return vecteur(0);
     // add fake polynomials for fake variables added by revlex_parametrize
     int dim=eqp.front().dim;
+#if 1
     for (;faken<lsize;++faken){
       polynome fakep(dim,vector< monomial<gen> >(1,monomial<gen>(1,faken+1,dim)));
       eqp.push_back(fakep);
     }
+#endif
     gen coeff;
     environment env ;
     if (modular){

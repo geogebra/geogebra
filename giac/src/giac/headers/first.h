@@ -177,6 +177,9 @@ int my_sprintf(char * s, const char * format, ...);
 #endif
 #endif
 
+#ifdef GIAC_HAS_STO_38
+#define GIAC_GENERIC_CONSTANTS
+#endif
 
 #ifdef __VISUALC__ 
 #define GIAC_GENERIC_CONSTANTS
@@ -213,7 +216,8 @@ typedef unsigned long long ulonglong;
 // #define PSEUDO_MOD accelerates cyclic* gbasis computation significantly
 // from int_multilinear_combination in vecteur.cc (from rref?)
 #ifdef FIR
-#if !(defined(IOS) || defined(__ANDROID__)) && !defined(OSX) 
+#if !(defined(BESTA_OS) || defined(WINDOWS))
+// #if !(defined(IOS) || defined(__ANDROID__)) && !defined(OSX) && !defined(LINUX)
 #define PSEUDO_MOD 
 #endif
 #else
@@ -429,7 +433,7 @@ inline float ffloor(float f1){
 #endif
 }
 inline float finv(float f1){ return 1/f1; }
-#if defined __APPLE__ || defined EMCC || defined NO_BSD
+#if defined __APPLE__ || defined EMCC
 inline float fgamma(float f1){ return tgammaf(f1); }
 #else
 #if defined(__MINGW_H) || defined(VISUALC) // FIXME gamma, not used

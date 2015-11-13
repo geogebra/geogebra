@@ -4326,8 +4326,10 @@ namespace giac {
 	}
 	if (is_zero(vptr->v.back(),contextptr))
 	  vptr->v.pop_back();
-	if (vptr->v.size()==1)
+	if (vptr->v.size()==1){
 	  sum=vptr->v.front();
+	  delete vptr;
+	}
 	else
 	  sum=symbolic(at_plus,gen(vptr,_SEQ__VECT));
 	if (it==itend)

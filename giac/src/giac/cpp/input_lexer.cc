@@ -2943,7 +2943,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
 case 206:
 YY_RULE_SETUP
 #line 505 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return (calc_mode(yyextra)==38)?T_MOINS38:T_MOINS;
+index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_MOINS; // return (calc_mode(yyextra)==38)?T_MOINS38:T_MOINS;
 	YY_BREAK
 case 207:
 YY_RULE_SETUP
@@ -5310,6 +5310,10 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	    for (;i<l;++i){
 	      if (s[i]=='/' && s[i-1]=='*')
 		break;
+	    }
+	    if (i==l){
+	      s = s.substr(0,l-1)+"*/"+s[l-1];
+	      CERR << "unfinished comment, adding */" << endl << s << endl;
 	    }
 	    continue;
 	  }

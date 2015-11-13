@@ -502,7 +502,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
   /* "','"                   index_status(yyextra)=0; (*yylval)=gen(at_makevector,2); return T_QUOTED_BINARY; commented because of f('a','b') */
 "'+'"                   index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
 "_plus"                   index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
-"-"                     index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return (calc_mode(yyextra)==38)?T_MOINS38:T_MOINS;
+"-"                     index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_MOINS; // return (calc_mode(yyextra)==38)?T_MOINS38:T_MOINS;
 "−"                     index_status(yyextra)=0; if (calc_mode(yyextra)==38){ (*yylval)=gen(at_neg,2); return T_NEG38; } else { CERR << 1 << endl; (*yylval)=gen(at_binary_minus,2); return T_MOINS;}
 ".-"                     index_status(yyextra)=0; (*yylval)=gen(at_pointminus,2); return T_PLUS;
 "'-'"                   index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_QUOTED_BINARY;
@@ -972,6 +972,10 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	    for (;i<l;++i){
 	      if (s[i]=='/' && s[i-1]=='*')
 		break;
+	    }
+	    if (i==l){
+	      s = s.substr(0,l-1)+"*/"+s[l-1];
+	      CERR << "unfinished comment, adding */" << endl << s << endl;
 	    }
 	    continue;
 	  }

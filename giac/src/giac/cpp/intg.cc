@@ -347,6 +347,8 @@ namespace giac {
     }
     if (is_zero(b))
       return undef;
+    if (is_inf(a))
+      return pow(a,inv(b,contextptr),contextptr);
     c=_floor(b,contextptr);
     if (c.type==_FLOAT_)
       c=get_int(c._FLOAT_val);
@@ -4937,7 +4939,11 @@ namespace giac {
     }
     if (tstep>abs(t1_e-t0_e,contextptr)._DOUBLE_val)
       tstep=abs(t1_e-t0_e,contextptr)._DOUBLE_val;
+#if 1
+    double * y =(double *)alloca(dim*sizeof(double));
+#else
     double * y=new double[dim];
+#endif
     for (int i=0;i<dim;i++){
       if (y0v[i].type!=_DOUBLE_ && y0v[i].type!=_CPLX)
 	return gensizeerr(contextptr);

@@ -89,6 +89,8 @@ namespace giac {
       }
       else
 	v.front()=eval(v.front(),eval_level(contextptr),contextptr);
+      if (v.size()==2 && is_integral(v[1]) && v[1].val>=0)
+	return vecteur(v[1].val,v[0]);
       g1=gen(v,_SEQ__VECT);
     }
     return seqprod(g1,0,contextptr);
