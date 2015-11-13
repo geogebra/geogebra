@@ -9551,9 +9551,12 @@ public abstract class EuclidianController {
 		Hits hits = view.getHits();
 		if (hits != null && hits.size() > 0) {
 			GeoList list;
-			if (hits.getTopHits().get(0) instanceof GeoList) {
-				list = (GeoList) (hits.getTopHits().get(0));
-				((DrawList) view.getDrawable(list)).onMouseDown(x, y);
+			for (GeoElement geo : hits.getTopHits()) {
+				if (geo instanceof GeoList) {
+					list = (GeoList) geo;
+					((DrawList) view.getDrawable(list)).onMouseDown(x, y);
+
+				}
 			}
 
 		}
