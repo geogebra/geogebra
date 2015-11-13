@@ -141,8 +141,8 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 	}
 
 	@Override
-	protected MyPoint[] createQCopyCache() {
-		return new MyPoint[paramCache.length];
+	protected MyPoint[] createQCopyCache(int length) {
+		return new MyPoint[length];
 	}
 
 	@Override

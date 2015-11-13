@@ -203,8 +203,8 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	}
 
 	@Override
-	protected MyPoint3D[] createQCopyCache() {
-		return new MyPoint3D[paramCache.length];
+	protected MyPoint3D[] createQCopyCache(int length) {
+		return new MyPoint3D[length];
 	}
 
 	@Override

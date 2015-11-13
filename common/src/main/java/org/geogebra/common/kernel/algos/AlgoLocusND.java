@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -458,7 +457,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		if (continuous) {
 			// continous constructions may need several parameter run throughs
 			// to draw all parts of the locus
-			max_runs = GeoLocus.MAX_PATH_RUNS;
+			max_runs = GeoLocusND.MAX_PATH_RUNS;
 		} else {
 			max_runs = 1;
 		}
@@ -574,7 +573,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			}
 			// make sure that Pcopy is back at startPos now
 			// look at Qcopy at startPos
-			((GeoElement) Pcopy).set((GeoElement) PstartPos);
+			((GeoElement) Pcopy).set(PstartPos);
 			pcopyUpdateCascade();
 			if (differentFromLast(Qcopy))
 				insertPoint(Qcopy, distanceSmall(Qcopy, true));
@@ -695,8 +694,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		// check found defined
 		if (!foundDefined && Qcopy.isDefined() && !Qcopy.isInfinite()) {
 			pathMover.init(Pcopy, MIN_STEPS_INSTANCE);
-			((GeoElement) PstartPos).set((GeoElement) Pcopy);
-			((GeoElement) QstartPos).set((GeoElement) Qcopy);
+			((GeoElement) PstartPos).set(Pcopy);
+			((GeoElement) QstartPos).set(Qcopy);
 			foundDefined = true;
 
 			// insert first point
@@ -722,25 +721,27 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		return null;
 	}
 
-	private void putCachedPoint(double param, GeoPointND Qcopy) {
+	private void putCachedPoint(double param, GeoPointND Qcopy0) {
 		cacheIndex++;
 		if (cacheIndex >= paramCache.length)
 			cacheIndex = 0;
 
 		paramCache[cacheIndex] = param;
-		setQCopyCache(qcopyCache[cacheIndex], Qcopy);
+		setQCopyCache(qcopyCache[cacheIndex], Qcopy0);
 	}
 
 	// small cache of 3 last parameters and Qcopy positions
-	protected double[] paramCache = new double[3];
-	private T[] qcopyCache = createQCopyCache();
+	private double[] paramCache = new double[3];
+	private T[] qcopyCache = createQCopyCache(3);
 	private int cacheIndex = 0;
 
 	/**
 	 * 
+	 * @param length
+	 *            number of elements
 	 * @return new q copy cache
 	 */
-	abstract protected T[] createQCopyCache();
+	abstract protected T[] createQCopyCache(int length);
 
 	/**
 	 * set point's coords to copy
@@ -818,6 +819,11 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 	protected boolean[] visibleEV = { false, false, false };
 
+	/**
+	 * @param i
+	 *            1 for EV1, 2 for EV2, 3 for 3D
+	 * @return whether the locus is visible
+	 */
 	boolean isVisibleInEV(int i) {
 		switch (i) {
 		case 1:
