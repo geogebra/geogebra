@@ -20,7 +20,7 @@ public class ManagerGLList extends ManagerD {
 	// GL
 	private GLUtessellator tesselator;
 
-	protected RendererGL2 renderer;
+	protected RendererD renderer;
 
 	/**
 	 * common constructor
@@ -35,11 +35,11 @@ public class ManagerGLList extends ManagerD {
 
 	@Override
 	protected void setRenderer(Renderer renderer) {
-		this.renderer = (RendererGL2) renderer;
+		this.renderer = (RendererD) renderer;
 	}
 
 	@Override
-	protected RendererGL2 getRenderer() {
+	protected RendererD getRenderer() {
 		return renderer;
 	}
 

@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
-import javax.media.opengl.glu.GLU;
-
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
@@ -23,8 +21,6 @@ import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
  */
 public abstract class RendererGL2 extends RendererD {
 
-	// openGL variables
-	protected GLU glu = new GLU();
 
 	protected IntBuffer selectBuffer;
 

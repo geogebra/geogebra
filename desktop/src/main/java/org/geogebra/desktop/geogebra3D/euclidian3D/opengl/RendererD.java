@@ -8,6 +8,7 @@ import java.nio.FloatBuffer;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
+import javax.media.opengl.glu.GLU;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -32,6 +33,9 @@ import org.geogebra.desktop.util.FrameCollector;
 public abstract class RendererD extends Renderer implements GLEventListener {
 
 	protected RendererJogl jogl;
+
+	// openGL variables
+	protected GLU glu = new GLU();
 
 	private Animator animator;
 

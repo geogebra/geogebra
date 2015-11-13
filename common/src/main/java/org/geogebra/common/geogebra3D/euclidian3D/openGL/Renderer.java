@@ -41,7 +41,7 @@ public abstract class Renderer {
 	protected int pickingLoop;
 
 	// other
-	protected Drawable3DListsForView drawable3DLists;
+	public Drawable3DListsForView drawable3DLists;
 
 	protected EuclidianView3D view3D;
 
@@ -581,7 +581,7 @@ public abstract class Renderer {
 
 	}
 
-	protected boolean enableClipPlanes;
+	public boolean enableClipPlanes;
 	protected boolean waitForUpdateClipPlanes = false;
 
 	/**
@@ -1301,7 +1301,7 @@ public abstract class Renderer {
 	static final private float SQRT2_DIV2 = (float) Math.sqrt(2) / 2;
 	static final protected float[] LIGHT_POSITION_W = { SQRT2_DIV2, 0f,
 			SQRT2_DIV2 };
-	static final protected float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f,
+	static final public float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f,
 			SQRT2_DIV2, 0f };
 
 	protected void setLightPosition() {
@@ -1525,7 +1525,7 @@ public abstract class Renderer {
 
 	abstract protected void disableStencilLines();
 
-	protected boolean waitForSetStencilLines = false;
+	public boolean waitForSetStencilLines = false;
 
 	public void setWaitForSetStencilLines() {
 		waitForSetStencilLines = true;
@@ -1552,7 +1552,7 @@ public abstract class Renderer {
 
 	}
 
-	final protected void setProjectionMatrix() {
+	public final void setProjectionMatrix() {
 
 		switch (view3D.getProjection()) {
 		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
@@ -1594,15 +1594,15 @@ public abstract class Renderer {
 
 	/** distance camera-near plane */
 	private final static double PERSP_NEAR_MIN = 10;
-	protected double[] perspNear = {PERSP_NEAR_MIN, PERSP_NEAR_MIN};
-	protected double[] perspLeft = new double[2];
-	protected double[] perspRight = new double[2];
-	protected double[] perspBottom = new double[2];
-	protected double[] perspTop = new double[2];
-	protected double[] perspFar = new double[2];
-	protected double[] perspDistratio = new double[2];
-	protected double[] perspFocus = new double[2];
-	protected Coords perspEye;
+	public double[] perspNear = { PERSP_NEAR_MIN, PERSP_NEAR_MIN };
+	public double[] perspLeft = new double[2];
+	public double[] perspRight = new double[2];
+	public double[] perspBottom = new double[2];
+	public double[] perspTop = new double[2];
+	public double[] perspFar = new double[2];
+	public double[] perspDistratio = new double[2];
+	public double[] perspFocus = new double[2];
+	public Coords perspEye;
 
 	protected void updatePerspValues() {
 
@@ -1652,10 +1652,10 @@ public abstract class Renderer {
 
 	abstract protected void viewPersp();
 
-	protected double[] glassesEyeX = new double[2];
-	protected double[] glassesEyeX1 = new double[2];
-	protected double[] glassesEyeY = new double[2];
-	protected double[] glassesEyeY1 = new double[2];
+	public double[] glassesEyeX = new double[2];
+	public double[] glassesEyeX1 = new double[2];
+	public double[] glassesEyeY = new double[2];
+	public double[] glassesEyeY1 = new double[2];
 
 	public void updateGlassesValues() {
 		for (int i = 0 ; i < 2 ; i++){
@@ -1670,9 +1670,9 @@ public abstract class Renderer {
 
 	abstract protected void viewGlasses();
 
-	protected static final int EYE_LEFT = 0;
-	protected static final int EYE_RIGHT = 1;
-	protected int eye = EYE_LEFT;
+	public static final int EYE_LEFT = 0;
+	public static final int EYE_RIGHT = 1;
+	public int eye = EYE_LEFT;
 
 	protected void setColorMask() {
 
@@ -1698,8 +1698,8 @@ public abstract class Renderer {
 		NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD, UPLOAD_TO_GEOGEBRATUBE
 	};
 
-	protected double obliqueX;
-	protected double obliqueY;
+	public double obliqueX;
+	public double obliqueY;
 	private Coords obliqueOrthoDirection; // direction "orthogonal" to the
 											// screen (i.e. not visible)
 	protected ExportType exportType = ExportType.NONE;

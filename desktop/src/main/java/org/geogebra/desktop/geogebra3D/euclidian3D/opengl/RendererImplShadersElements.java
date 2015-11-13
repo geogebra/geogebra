@@ -4,32 +4,25 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ShortBuffer;
-import java.util.ArrayList;
 import java.util.Stack;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.fixedfunc.GLLightingFunc;
 
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersWithTemplates;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
+import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -38,8 +31,8 @@ import org.geogebra.desktop.main.AppD;
  * @author mathieu
  *
  */
-public class RendererShaders extends RendererD implements
-		RendererShadersInterface {
+public class RendererImplShadersElements implements
+		RendererImpl {
 
 	final static public int GLSL_ATTRIB_POSITION = 0;
 	final static public int GLSL_ATTRIB_COLOR = 1;
@@ -47,23 +40,33 @@ public class RendererShaders extends RendererD implements
 	final static public int GLSL_ATTRIB_TEXTURE = 3;
 	final static public int GLSL_ATTRIB_INDEX = 4;
 
+	private EuclidianView3D view3D;
+
+	private RendererJogl jogl;
+
+	private RendererD renderer;
+
 	/**
-	 * constructor
+	 * Constructor
+	 * 
+	 * @param renderer
+	 *            GL renderer
 	 * 
 	 * @param view
-	 *            3D view
-	 * @param useCanvas
-	 *            says if we want a canvas
+	 *            view
+	 * @param jogl
+	 *            java openGL implementation
 	 */
-	public RendererShaders(EuclidianView3D view, boolean useCanvas) {
-		super(view, useCanvas);
-		hitting = new Hitting(view3D);
-
-		App.debug("Renderer with shaders created");
+	public RendererImplShadersElements(RendererD renderer,
+			EuclidianView3D view,
+			RendererJogl jogl) {
+		App.debug("============== Renderer with shaders created (shaders checked ok)");
+		this.renderer = renderer;
+		this.view3D = view;
+		this.jogl = jogl;
 	}
 
-	@Override
-	public GL getGL() {
+	private GL getGL() {
 
 		return jogl.getGL2ES2();
 	}
@@ -107,8 +110,7 @@ public class RendererShaders extends RendererD implements
 						+ ".txt");
 	}
 
-	@Override
-	protected void initShaders() {
+	public void initShaders() {
 
 		/*
 		 * The initialization below will use the OpenGL ES 2 API directly to
@@ -148,8 +150,10 @@ public class RendererShaders extends RendererD implements
 
 		// Create GPU shader handles
 		// OpenGL ES retuns a index id to be stored for future reference.
-		vertShader = jogl.getGL2ES2().glCreateShader(GL2ES2.GL_VERTEX_SHADER);
-		fragShader = jogl.getGL2ES2().glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
+		vertShader = jogl.getGL2ES2().glCreateShader(
+				javax.media.opengl.GL2ES2.GL_VERTEX_SHADER);
+		fragShader = jogl.getGL2ES2().glCreateShader(
+				javax.media.opengl.GL2ES2.GL_FRAGMENT_SHADER);
 
 		// Compile the vertexShader String into a program.
 		String[] vlines = new String[] { vertexShaderString };
@@ -164,14 +168,15 @@ public class RendererShaders extends RendererD implements
 
 		// Check compile status.
 		int[] compiled = new int[1];
-		jogl.getGL2ES2().glGetShaderiv(vertShader, GL2ES2.GL_COMPILE_STATUS,
+		jogl.getGL2ES2().glGetShaderiv(vertShader,
+				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS,
 				compiled, 0);
 		if (compiled[0] != 0) {
 			System.out.println("Horray! vertex shader compiled");
 		} else {
 			int[] logLength = new int[1];
 			jogl.getGL2ES2().glGetShaderiv(vertShader,
-					GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
+					javax.media.opengl.GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
 			jogl.getGL2ES2().glGetShaderInfoLog(vertShader, logLength[0],
@@ -190,14 +195,15 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glCompileShader(fragShader);
 
 		// Check compile status.
-		jogl.getGL2ES2().glGetShaderiv(fragShader, GL2ES2.GL_COMPILE_STATUS,
+		jogl.getGL2ES2().glGetShaderiv(fragShader,
+				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS,
 				compiled, 0);
 		if (compiled[0] != 0) {
 			System.out.println("Horray! fragment shader compiled");
 		} else {
 			int[] logLength = new int[1];
 			jogl.getGL2ES2().glGetShaderiv(fragShader,
-					GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
+					javax.media.opengl.GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
 			jogl.getGL2ES2().glGetShaderInfoLog(fragShader, logLength[0],
@@ -302,59 +308,6 @@ public class RendererShaders extends RendererD implements
 
 	}
 
-	/*
-	 * private void drawTriangle(float[] vertices, float[] normals, float[]
-	 * colors, float[] textureCoords){
-	 * 
-	 * //jogl.getGL2ES2().glUniform1i(jogl.getGL2ES2().glGetUniformLocation(
-	 * shaderProgram, "Texture0"), 0);
-	 * //getGL().glActiveTexture(GLlocal.GL_TEXTURE0);
-	 * 
-	 * 
-	 * 
-	 * byte[] bytes = new byte[]{ (byte) 255, (byte) 255, (byte) 255, (byte) 0,
-	 * (byte) 0, (byte) 0 };
-	 * 
-	 * int texture = getTextures().createAlphaTexture(2, 2, bytes);
-	 * 
-	 * 
-	 * getGL().glEnable(GLlocal.GL_TEXTURE_2D);
-	 * getTextures().setTextureLinear(texture);
-	 * //getGL().glActiveTexture(GLlocal.GL_TEXTURE0);
-	 * //getGL().glBindTexture(GLlocal.GL_TEXTURE_2D, texture);
-	 * 
-	 * 
-	 * //enableTextures(); //enableFading();
-	 * 
-	 * ArrayList<Float> array = new ArrayList<Float>();
-	 * 
-	 * for (int i = 0; i < 3 * 3; i++){ array.add(vertices[i]); }
-	 * loadVertexBuffer(ManagerShaders.floatBuffer(array), 3);
-	 * 
-	 * array.clear(); for (int i = 0; i < 3 * 3; i++){ array.add(normals[i]); }
-	 * loadNormalBuffer(ManagerShaders.floatBuffer(array), 3);
-	 * 
-	 * array.clear(); for (int i = 0; i < 3 * 2; i++){
-	 * array.add(textureCoords[i]); }
-	 * loadTextureBuffer(ManagerShaders.floatBuffer(array), 3);
-	 * 
-	 * draw(Manager.Type.TRIANGLES, 3);
-	 * 
-	 * getGL().glBindTexture(GLlocal.GL_TEXTURE_2D, 0);
-	 * getTextures().removeTexture(texture);
-	 * 
-	 * }
-	 */
-
-	// @Override
-	// public void createBuffers(GPUBuffer... buffers) {
-	// final int length = buffers.length;
-	// int[] b = new int[length];
-	// jogl.getGL2ES2().glGenBuffers(b.length, b, 0);
-	// for (int i = 0; i < length; i++) {
-	// ((GPUBufferD) buffers[i]).set(b[i]);
-	// }
-	// }
 
 	private void createBuffer(GPUBuffer buffer, Stack<Integer> stack) {
 		if (stack.isEmpty()) {
@@ -419,13 +372,12 @@ public class RendererShaders extends RendererD implements
 	@Override
 	public void bindBufferForIndices(GPUBuffer buffer) {
 		// Select the VBO, GPU memory data
-		jogl.getGL2ES2().glBindBuffer(
-				GL2ES2.GL_ELEMENT_ARRAY_BUFFER,
+		jogl.getGL2ES2().glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER,
 				((GPUBufferD) buffer).get());
 	}
 
 	final private void bindBuffer(GPUBuffer buffer) {
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER,
+		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER,
 				((GPUBufferD) buffer).get());
 	}
 
@@ -458,7 +410,7 @@ public class RendererShaders extends RendererD implements
 	 *            size
 	 */
 	private void vertexAttribPointer(int attrib, int size) {
-		jogl.getGL2ES2().glVertexAttribPointer(attrib, size, GL2ES2.GL_FLOAT,
+		jogl.getGL2ES2().glVertexAttribPointer(attrib, size, GL.GL_FLOAT,
 				false, 0, 0);
 	}
 
@@ -592,9 +544,9 @@ public class RendererShaders extends RendererD implements
 
 	}
 
-	protected boolean oneNormalForAllVertices;
+	private boolean oneNormalForAllVertices;
 
-	protected void resetOneNormalForAllVertices() {
+	private void resetOneNormalForAllVertices() {
 		oneNormalForAllVertices = false;
 		jogl.getGL2ES2().glUniform3f(normalLocation, 2, 2, 2);
 	}
@@ -637,7 +589,7 @@ public class RendererShaders extends RendererD implements
 		}
 
 		// Select the VBO, GPU memory data, to use for normals
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
+		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboNormals);
 		int numBytes = length * 12; // 4 bytes per float * * 3 coords per normal
 		glBufferData(numBytes, fbNormals);
 
@@ -711,27 +663,46 @@ public class RendererShaders extends RendererD implements
 	@Override
 	public void draw(Manager.Type type, int length) {
 
-		// ///////////////////////
-		// draw
-
-		jogl.getGL2ES2().glDrawArrays(ManagerD.getGLType(type), 0, length);
+		jogl.getGL2().glDrawElements(getGLType(type), length,
+				GL.GL_UNSIGNED_SHORT, 0);
 	}
 
-	protected final void setModelViewIdentity() {
+	/**
+	 * 
+	 * @param type
+	 *            Manager type
+	 * @return GL type
+	 */
+	protected static int getGLType(Type type) {
+		switch (type) {
+		case TRIANGLE_STRIP:
+			return GL.GL_TRIANGLE_STRIP;
+		case TRIANGLE_FAN:
+			return GL.GL_TRIANGLE_STRIP;
+		case TRIANGLES:
+			return GL.GL_TRIANGLES;
+		case LINE_LOOP:
+			return GL.GL_LINE_LOOP;
+		case LINE_STRIP:
+			return GL.GL_LINE_STRIP;
+		}
+
+		return 0;
+	}
+
+	private final void setModelViewIdentity() {
 		projectionMatrix.getForGL(tmpFloat16);
 		jogl.getGL2ES2().glUniformMatrix4fv(matrixLocation, 1, false,
 				tmpFloat16, 0);
 	}
 
-	@Override
-	protected void draw() {
+	public void draw() {
 
 		resetOneNormalForAllVertices();
 		disableTextures();
 
 		setModelViewIdentity();
 
-		super.draw();
 	}
 
 	private boolean objDone = false;
@@ -742,10 +713,11 @@ public class RendererShaders extends RendererD implements
 					"geogebra3D/test.obj"));
 			writer.write("######## CREATED WITH GEOGEBRA ########");
 
-			((ManagerShadersObj) getGeometryManager()).startObjFile(writer);
+			((ManagerShadersObj) renderer.getGeometryManager())
+					.startObjFile(writer);
 
 			App.debug("=== Creating .OBJ === ");
-			drawable3DLists.drawInObjFormat(this);
+			renderer.drawable3DLists.drawInObjFormat(renderer);
 
 			writer.close();
 		} catch (IOException e) {
@@ -754,133 +726,11 @@ public class RendererShaders extends RendererD implements
 		}
 	}
 
-	/*
-	 * @Override public void display(GLAutoDrawable drawable) { //protected void
-	 * draw(){
-	 * 
-	 * //update 3D controller view3D.getEuclidianController().update();
-	 * 
-	 * view3D.updateAnimation();
-	 * 
-	 * // say that 3D view changed has been performed view3D.resetViewChanged();
-	 * 
-	 * 
-	 * // Update variables used in animation double t1 =
-	 * System.currentTimeMillis(); theta += (t1-t0)*0.005f; t0 = t1; s =
-	 * Math.sin(theta);
-	 * 
-	 * // Get gl setGL(drawable);
-	 * 
-	 * 
-	 * 
-	 * // Clear screen jogl.getGL2ES2().glClearColor(0, 0, 0, 1f); // Purple
-	 * jogl.getGL2ES2().glClear(GL2ES2.GL_STENCIL_BUFFER_BIT |
-	 * GL2ES2.GL_COLOR_BUFFER_BIT | GL2ES2.GL_DEPTH_BUFFER_BIT );
-	 * 
-	 * 
-	 * useShaderProgram();
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * setView(); setMatrixView();
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * //float[] normalMatrix = view3D.getRotationMatrix().get3x3ForGL();
-	 * //jogl.getGL2ES2().glUniformMatrix3fv(normalMatrixLocation, 1, false,
-	 * normalMatrix, 0);
-	 * 
-	 * 
-	 * 
-	 * // light
-	 * 
-	 * setLightPosition(); setLight(GLlocal.GL_LIGHT0);
-	 * 
-	 * 
-	 * 
-	 * 
-	 * drawSample();
-	 * 
-	 * 
-	 * releaseVBOs();
-	 * 
-	 * 
-	 * }
-	 */
 
-	@Override
-	protected void useShaderProgram() {
+	public void useShaderProgram() {
 		jogl.getGL2ES2().glUseProgram(shaderProgram);
 	}
 
-	/*
-	 * private void drawSample(){
-	 * 
-	 * // texture
-	 * 
-	 * //jogl.getGL2ES2().glUniform1i(fadingLocation, 0);
-	 * 
-	 * 
-	 * float[] textureCoords = { 0, 0, 0, 1f, 1f, 1f };
-	 * 
-	 * 
-	 * // draw
-	 * 
-	 * 
-	 * float l = 1f;
-	 * 
-	 * float[] vertices = { 0.0f, 0f, 0.0f, 0, l, 0, 0, 0, l };
-	 * 
-	 * float[] normals = { 1, 0, 0, 1, 0, 0, 1, 0, 0 };
-	 * 
-	 * float alpha = 1f;
-	 * 
-	 * 
-	 * float[] color = {1,0,1,1}; jogl.getGL2ES2().glUniform4fv(colorLocation,
-	 * 1, color, 0); //loadVertexBuffer(vertices);//, normals, textureCoords);
-	 * //draw(Manager.TRIANGLES, 3);
-	 * 
-	 * jogl.getGL2ES2().glUniform4fv(colorLocation, 1, PER_VERTEX_COLOR, 0);
-	 * 
-	 * float[] vertices2 = { 0.0f, 0f, 0f, l, 0, 0f, 0, 0, l };
-	 * 
-	 * float[] normals2 = { 0, 1, 0, 0, 1, 0, 0, 1, 0 };
-	 * 
-	 * float[] colors2 = { 0.0f, 1.0f, 0.0f, alpha, //Top color (red) 0.0f,
-	 * 1.0f, 0.0f, alpha, //Bottom Left color (black) 0.0f, 1.0f, 0.0f, alpha
-	 * //Bottom Right color (yellow) with 10% transparence };
-	 * 
-	 * 
-	 * drawTriangle(vertices2, normals2, colors2, textureCoords);
-	 * 
-	 * 
-	 * 
-	 * float[] vertices4 ={ 0, -l, l, l, 0, 0f, 0, 0, l };
-	 * 
-	 * float[] normals4 = { 0, 0, 1, 0, 0, 1, 0, 0, 1 };
-	 * 
-	 * drawTriangle(vertices4, normals4, colors2, textureCoords);
-	 * 
-	 * 
-	 * float z = 0f;
-	 * 
-	 * float[] vertices3 = { 0.0f, 0f, z, 0, l, z, l, 0, z }; float[] colors3 =
-	 * { 0.0f, 0.0f, 1.0f, alpha, //Top color (red) 0.0f, 0.0f, 1.0f, alpha,
-	 * //Bottom Left color (black) 0.0f, 0.0f, 1.0f, alpha //Bottom Right color
-	 * (yellow) with 10% transparence };
-	 * 
-	 * drawTriangle(vertices3, normals4, colors3, textureCoords);
-	 * 
-	 * }
-	 */
 
 	private void releaseVBOs() {
 		jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_POSITION); // Allow
@@ -914,11 +764,7 @@ public class RendererShaders extends RendererD implements
 															// GPU memory.
 	}
 
-	@Override
-	public void dispose(GLAutoDrawable drawable) {
-		System.out.println("cleanup, remember to release shaders");
-
-		setGL(drawable);
+	public void dispose() {
 
 		jogl.getGL2ES2().glUseProgram(0);
 		jogl.getGL2ES2().glDetachShader(shaderProgram, vertShader);
@@ -930,7 +776,7 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	protected void setMatrixView() {
+	public void setMatrixView() {
 
 		tmpMatrix1.setMul(projectionMatrix, view3D.getToScreenMatrix());
 		tmpMatrix1.getForGL(tmpFloat16);
@@ -940,13 +786,13 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	protected void unsetMatrixView() {
+	public void unsetMatrixView() {
 		setModelViewIdentity();
 	}
 
 
 	@Override
-	protected void setColor(float r, float g, float b, float a) {
+	public void setColor(float r, float g, float b, float a) {
 		jogl.getGL2ES2().glUniform4f(colorLocation, r, g, b, a);
 	}
 
@@ -956,7 +802,8 @@ public class RendererShaders extends RendererD implements
 	public void initMatrix() {
 
 		tmpMatrix1.setMul(projectionMatrix,
-				tmpMatrix2.setMul(view3D.getToScreenMatrix(), getMatrix()));
+				tmpMatrix2.setMul(view3D.getToScreenMatrix(),
+						renderer.getMatrix()));
 		tmpMatrix1.getForGL(tmpFloat16);
 
 		jogl.getGL2ES2().glUniformMatrix4fv(matrixLocation, 1, false,
@@ -966,7 +813,7 @@ public class RendererShaders extends RendererD implements
 	@Override
 	public void initMatrixForFaceToScreen() {
 
-		tmpMatrix1.setMul(projectionMatrix, getMatrix());
+		tmpMatrix1.setMul(projectionMatrix, renderer.getMatrix());
 		tmpMatrix1.getForGL(tmpFloat16);
 
 		jogl.getGL2ES2().glUniformMatrix4fv(matrixLocation, 1, false,
@@ -979,52 +826,14 @@ public class RendererShaders extends RendererD implements
 	}
 
 
+
 	@Override
-	protected void setGLForPicking() {
+	public void pushSceneMatrix() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
-	protected void pushSceneMatrix() {
-		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	protected void doPick() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void pickIntersectionCurves() {
-
-		ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D
-				.getEuclidianController()).getIntersectionCurves();
-
-		// picking objects
-		for (IntersectionCurve intersectionCurve : curves) {
-			Drawable3D d = intersectionCurve.drawable;
-			d.updateForHitting(); // we may need an update
-			if (!d.hit(hitting)
-					|| d.getPickingType() != PickingType.POINT_OR_CURVE) { // we
-																			// assume
-																			// that
-																			// hitting
-																			// infos
-																			// are
-																			// updated
-																			// from
-																			// last
-																			// mouse
-																			// move
-				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
-			}
-
-		}
-
-	}
 
 	@Override
 	public void glLoadName(int loop) {
@@ -1033,7 +842,7 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	protected void setLightPosition(float[] values) {
+	public void setLightPosition(float[] values) {
 		jogl.getGL2ES2().glUniform3fv(lightPositionLocation, 1, values, 0);
 		if (view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE
 				|| view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE) {
@@ -1048,7 +857,7 @@ public class RendererShaders extends RendererD implements
 	private float[][] ambiantDiffuse;
 
 	@Override
-	protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
+	public void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
 			float ambiant1, float diffuse1) {
 
 		float coeff = 1.414f;
@@ -1060,44 +869,40 @@ public class RendererShaders extends RendererD implements
 
 		ambiantDiffuse = new float[][] { { a0, d0 }, { a1, d1 } };
 
-		// ambiantDiffuse = new float[][] {
-		// {ambiant0, diffuse0},
-		// {ambiant1, diffuse1}
-		// };
-
 	}
 
 	@Override
-	protected void setLight(int light) {
+	public void setLight(int light) {
 
 		jogl.getGL2ES2().glUniform2fv(ambiantDiffuseLocation, 1,
 				ambiantDiffuse[light], 0);
 	}
 
 	@Override
-	protected void setColorMaterial() {
-		getGL().glEnable(GLlocal.GL_COLOR_MATERIAL);
+	public void setColorMaterial() {
+		getGL().glEnable(GLLightingFunc.GL_COLOR_MATERIAL);
 
 	}
 
 	@Override
-	protected void setLightModel() {
+	public void setLightModel() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected void setAlphaFunc() {
+	public void setAlphaFunc() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected void setView() {
+	public void setView() {
 
-		setProjectionMatrix();
+		renderer.setProjectionMatrix();
 
-		jogl.getGL2ES2().glViewport(0, 0, getWidth(), getHeight());
+		jogl.getGL2ES2().glViewport(0, 0, renderer.getWidth(),
+				renderer.getHeight());
 
 	}
 	
@@ -1108,16 +913,16 @@ public class RendererShaders extends RendererD implements
 			tmpMatrix2 = new CoordMatrix4x4();
 
 	@Override
-	protected void viewOrtho() {
+	public void viewOrtho() {
 		// the projection matrix is updated in updateOrthoValues()
 	}
 
 	@Override
-	public void updateOrthoValues() {
+	final public void updateOrthoValues() {
 
-		projectionMatrix.set(1, 1, 2.0 / getWidth());
-		projectionMatrix.set(2, 2, 2.0 / getHeight());
-		projectionMatrix.set(3, 3, -2.0 / getVisibleDepth());
+		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
+		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
+		projectionMatrix.set(3, 3, -2.0 / renderer.getVisibleDepth());
 		projectionMatrix.set(4, 4, 1);
 
 		projectionMatrix.set(2, 1, 0);
@@ -1139,56 +944,67 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	protected void viewPersp() {
+	public void viewPersp() {
 		// the projection matrix is updated in updatePerspValues()
 
 	}
 
-	@Override
-	protected void updatePerspValues() {
+	public void updatePerspValues() {
 
-		super.updatePerspValues();
-
-		projectionMatrix.set(1, 1, 2 * perspNear[eye] / (perspRight[eye] - perspLeft[eye]));
+		projectionMatrix
+				.set(1,
+						1,
+						2
+								* renderer.perspNear[renderer.eye]
+								/ (renderer.perspRight[renderer.eye] - renderer.perspLeft[renderer.eye]));
 		projectionMatrix.set(2, 1, 0);
 		projectionMatrix.set(3, 1, 0);
 		projectionMatrix.set(4, 1, 0);
 
 		projectionMatrix.set(1, 2, 0);
-		projectionMatrix.set(2, 2, 2 * perspNear[eye] / (perspTop[eye] - perspBottom[eye]));
+		projectionMatrix
+				.set(2,
+						2,
+						2
+								* renderer.perspNear[renderer.eye]
+								/ (renderer.perspTop[renderer.eye] - renderer.perspBottom[renderer.eye]));
 		projectionMatrix.set(3, 2, 0);
 		projectionMatrix.set(4, 2, 0);
 
-		perspXZ = (perspRight[eye] + perspLeft[eye]) / (perspRight[eye] - perspLeft[eye]);
+		perspXZ = (renderer.perspRight[renderer.eye] + renderer.perspLeft[renderer.eye])
+				/ (renderer.perspRight[renderer.eye] - renderer.perspLeft[renderer.eye]);
 
 		projectionMatrix.set(1, 3, perspXZ);
-		projectionMatrix.set(2, 3, (perspTop[eye] + perspBottom[eye])
-				/ (perspTop[eye] - perspBottom[eye]));
-		projectionMatrix.set(3, 3, 2 * perspFocus[eye] / getVisibleDepth());
+		projectionMatrix
+				.set(2,
+						3,
+						(renderer.perspTop[renderer.eye] + renderer.perspBottom[renderer.eye])
+								/ (renderer.perspTop[renderer.eye] - renderer.perspBottom[renderer.eye]));
+		projectionMatrix.set(3, 3, 2 * renderer.perspFocus[renderer.eye]
+				/ renderer.getVisibleDepth());
 		projectionMatrix.set(4, 3, -1);
 
 		projectionMatrix.set(1, 4, 0);// (perspRight+perspLeft)/(perspRight-perspLeft)
 										// * perspFocus);
 		projectionMatrix.set(2, 4, 0);// (perspTop+perspBottom)/(perspTop-perspBottom)
 										// * perspFocus);
-		projectionMatrix.set(3, 4, getVisibleDepth() / 2);
-		projectionMatrix.set(4, 4, -perspFocus[eye]);
+		projectionMatrix.set(3, 4, renderer.getVisibleDepth() / 2);
+		projectionMatrix.set(4, 4, -renderer.perspFocus[renderer.eye]);
 
 	}
 
 	private double perspXZ, glassesXZ;
 
-	@Override
 	public void updateGlassesValues() {
-		super.updateGlassesValues();
-		glassesXZ = (perspNear[eye] * (glassesEyeX[EYE_LEFT] - glassesEyeX[EYE_RIGHT]) / perspFocus[eye])
-				/ (perspRight[eye] - perspLeft[eye]);
+		glassesXZ = (renderer.perspNear[renderer.eye]
+				* (renderer.glassesEyeX[Renderer.EYE_LEFT] - renderer.glassesEyeX[Renderer.EYE_RIGHT]) / renderer.perspFocus[renderer.eye])
+				/ (renderer.perspRight[renderer.eye] - renderer.perspLeft[renderer.eye]);
 	}
 
 	@Override
-	protected void viewGlasses() {
+	public void viewGlasses() {
 
-		if (eye == EYE_LEFT) {
+		if (renderer.eye == Renderer.EYE_LEFT) {
 			projectionMatrix.set(1, 3, perspXZ + glassesXZ);
 		} else {
 			projectionMatrix.set(1, 3, perspXZ - glassesXZ);
@@ -1197,27 +1013,27 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	protected void viewOblique() {
+	public void viewOblique() {
 		// the projection matrix is updated in updateProjectionObliqueValues()
 	}
 
-	@Override
 	public void updateProjectionObliqueValues() {
-		super.updateProjectionObliqueValues();
 
-		projectionMatrix.set(1, 1, 2.0 / getWidth());
+		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
 		projectionMatrix.set(2, 1, 0);
 		projectionMatrix.set(3, 1, 0);
 		projectionMatrix.set(4, 1, 0);
 
 		projectionMatrix.set(1, 2, 0);
-		projectionMatrix.set(2, 2, 2.0 / getHeight());
+		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
 		projectionMatrix.set(3, 2, 0);
 		projectionMatrix.set(4, 2, 0);
 
-		projectionMatrix.set(1, 3, obliqueX * 2.0 / getWidth());
-		projectionMatrix.set(2, 3, obliqueY * 2.0 / getHeight());
-		projectionMatrix.set(3, 3, -2.0 / getVisibleDepth());
+		projectionMatrix.set(1, 3,
+				renderer.obliqueX * 2.0 / renderer.getWidth());
+		projectionMatrix.set(2, 3,
+				renderer.obliqueY * 2.0 / renderer.getHeight());
+		projectionMatrix.set(3, 3, -2.0 / renderer.getVisibleDepth());
 		projectionMatrix.set(4, 3, 0);
 
 		projectionMatrix.set(1, 4, 0);
@@ -1228,26 +1044,26 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	protected void setStencilLines() {
+	public void setStencilLines() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected Manager createManager() {
-		return new ManagerShadersWithTemplates(this, view3D);
+	public Manager createManager() {
+		return new ManagerShadersElementsGlobalBuffer(renderer, view3D);
 	}
 
 	private boolean texturesEnabled;
 
 	@Override
-	public void enableTextures() {
+	final public void enableTextures() {
 		texturesEnabled = true;
 		setCurrentGeometryHasNoTexture(); // let first geometry init textures
 	}
 
 	@Override
-	public void disableTextures() {
+	final public void disableTextures() {
 		texturesEnabled = false;
 		setCurrentTextureType(TEXTURE_TYPE_NONE);
 	}
@@ -1291,8 +1107,7 @@ public class RendererShaders extends RendererD implements
 	 * enable text textures
 	 */
 	@Override
-	public void enableTexturesForText() {
-		super.enableTexturesForText();
+	final public void enableTexturesForText() {
 		setCurrentTextureType(TEXTURE_TYPE_TEXT);
 	}
 
@@ -1315,8 +1130,8 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	protected float[] getLightPosition() {
-		return LIGHT_POSITION_D;
+	public float[] getLightPosition() {
+		return Renderer.LIGHT_POSITION_D;
 	}
 
 	@Override
@@ -1337,19 +1152,19 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	protected void drawSurfacesOutline() {
+	public void drawSurfacesOutline() {
 
 		// TODO
 
 	}
 
 	@Override
-	protected void enableClipPlanes() {
+	public void enableClipPlanes() {
 		jogl.getGL2ES2().glUniform1i(enableClipPlanesLocation, 1);
 	}
 
 	@Override
-	protected void disableClipPlanes() {
+	public void disableClipPlanes() {
 		jogl.getGL2ES2().glUniform1i(enableClipPlanesLocation, 0);
 	}
 
@@ -1375,27 +1190,20 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	protected void initRenderingValues() {
-
-		super.initRenderingValues();
+	public void initRenderingValues() {
 
 		// clip planes
 		setClipPlanesToShader();
 	}
 
 	@Override
-	protected void drawFaceToScreen() {
+	public void drawFaceToScreenAbove() {
 		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 1);
 		resetCenter();
-		super.drawFaceToScreen();
-		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 0);
 	}
 	
 	@Override
-	protected void drawFaceToScreenEnd() {
-		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 1);
-		resetCenter();
-		super.drawFaceToScreenEnd();
+	public void drawFaceToScreenBelow() {
 		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 0);
 	}
 
@@ -1405,28 +1213,6 @@ public class RendererShaders extends RendererD implements
 				origin.get3ForGL(), 0);
 	}
 
-	private Hitting hitting;
-
-	@Override
-	public void setHits(GPoint mouseLoc, int threshold) {
-
-		if (mouseLoc == null) {
-			return;
-		}
-
-		hitting.setHits(mouseLoc, threshold);
-
-	}
-
-	@Override
-	public GeoElement getLabelHit(GPoint mouseLoc) {
-
-		if (mouseLoc == null) {
-			return null;
-		}
-
-		return hitting.getLabelHit(mouseLoc);
-	}
 
 	@Override
 	public void enableLighting() {
@@ -1451,15 +1237,7 @@ public class RendererShaders extends RendererD implements
 		}
 	}
 
-	@Override
-	public boolean useLogicalPicking() {
-		return true;
-	}
 
-	@Override
-	public Hitting getHitting() {
-		return hitting;
-	}
 
 	@Override
 	public void setCenter(Coords center) {
@@ -1478,41 +1256,38 @@ public class RendererShaders extends RendererD implements
 
 	@Override
 	public void disableCulling() {
-		super.disableCulling();
 		jogl.getGL2ES2().glUniform1i(cullingLocation, 1);
 	}
 
 	@Override
 	public void setCullFaceFront() {
-		super.setCullFaceFront();
 		jogl.getGL2ES2().glUniform1i(cullingLocation, -1);
 	}
 
 	@Override
 	public void setCullFaceBack() {
-		super.setCullFaceBack();
 		jogl.getGL2ES2().glUniform1i(cullingLocation, 1);
 	}
 
 	@Override
-	protected void drawTranspNotCurved() {
-		enableCulling();
-		setCullFaceFront();
-		drawable3DLists.drawTransp(this);
-		drawable3DLists.drawTranspClosedNotCurved(this);
-		setCullFaceBack();
-		drawable3DLists.drawTransp(this);
-		drawable3DLists.drawTranspClosedNotCurved(this);
+	public void drawTranspNotCurved() {
+		renderer.enableCulling();
+		renderer.setCullFaceFront();
+		renderer.drawable3DLists.drawTransp(renderer);
+		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
+		renderer.setCullFaceBack();
+		renderer.drawable3DLists.drawTransp(renderer);
+		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
 
 	}
 
 	@Override
-	protected void enableLightingOnInit() {
+	public void enableLightingOnInit() {
 		// no need for shaders
 	}
 
 	@Override
-	protected void initCulling() {
+	public void initCulling() {
 		// no need for shaders
 	}
 
@@ -1520,4 +1295,14 @@ public class RendererShaders extends RendererD implements
 	public boolean useShaders() {
 		return true;
 	}
+
+	@Override
+	public boolean drawQuadric(int type) {
+		if (view3D.getApplication().has(Feature.ALL_QUADRICS)) {
+			return true;
+		}
+
+		return false;
+	}
+
 }

@@ -5,9 +5,9 @@ import javax.media.opengl.glu.GLUtessellatorCallback;
 import org.geogebra.desktop.main.AppD;
 
 public class RendererTesselCallBack implements GLUtessellatorCallback {
-	private RendererGL2 renderer;
+	private RendererD renderer;
 
-	public RendererTesselCallBack(RendererGL2 renderer) {
+	public RendererTesselCallBack(RendererD renderer) {
 		this.renderer = renderer;
 	}
 
