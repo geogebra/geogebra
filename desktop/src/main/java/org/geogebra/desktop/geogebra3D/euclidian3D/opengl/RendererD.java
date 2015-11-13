@@ -218,6 +218,32 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	}
 
 	/**
+	 * init and check if shaders can be used
+	 * 
+	 * @param drawable
+	 *            GL drawable
+	 */
+	protected void initCheckShaders(GLAutoDrawable drawable) {
+		// reset picking
+		oldGeoToPickSize = -1;
+
+		// start init
+		String glInfo[] = RendererJogl.getGLInfos(drawable);
+
+		App.debug("Init on " + Thread.currentThread()
+				+ "\nChosen GLCapabilities: " + glInfo[0]
+				+ "\ndouble buffered: " + glInfo[1] + "\nstereo: " + glInfo[2]
+				+ "\nstencil: " + glInfo[3] + "\nINIT GL IS: " + glInfo[4]
+				+ "\nGL_VENDOR: " + glInfo[5] + "\nGL_RENDERER: " + glInfo[6]
+				+ "\nGL_VERSION: " + glInfo[7]);
+
+		GeoGebraMenuBar.glCard = glInfo[6];
+		GeoGebraMenuBar.glVersion = glInfo[7];
+
+		// this is abstract method: don't create old GL / shaders here
+	}
+
+	/**
 	 * Called by the drawable immediately after the OpenGL context is
 	 * initialized for the first time. Can be used to perform one-time OpenGL
 	 * initialization such as setup of lights and display lists.
@@ -228,21 +254,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	@Override
 	public void init(GLAutoDrawable drawable) {
 
-		// reset picking
-		oldGeoToPickSize = -1;
-
-		// start init
-		String glInfo[] = RendererJogl.getGLInfos(drawable);
-		
-		App.debug("Init on "+Thread.currentThread()
-				+ "\nChosen GLCapabilities: " + glInfo[0]
-				+ "\ndouble buffered: " + glInfo[1] + "\nstereo: " + glInfo[2]
-				+ "\nstencil: " + glInfo[3] + "\nINIT GL IS: " + glInfo[4]
-				+ "\nGL_VENDOR: " + glInfo[5] + "\nGL_RENDERER: " + glInfo[6]
-				+ "\nGL_VERSION: " + glInfo[7]);
-
-		GeoGebraMenuBar.glCard = glInfo[6];
-		GeoGebraMenuBar.glVersion = glInfo[7];
+		initCheckShaders(drawable);
 
 		setGL(drawable);
 

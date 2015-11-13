@@ -19,7 +19,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
+import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 
 /**
  * Renderer checking if we can use shaders or not
@@ -50,8 +52,31 @@ public class RendererCheckGLVersionD extends RendererD implements
 			hitting = new Hitting(view3D);
 		}
 
-		// rendererImpl = new RendererImplGL2(this, view, jogl);
-		rendererImpl = new RendererImplShadersElements(this, view, jogl);
+	}
+
+	@Override
+	protected void initCheckShaders(GLAutoDrawable drawable) {
+		super.initCheckShaders(drawable);
+
+		try {
+			// retrieving version, which should be first char, e.g. "4.0 etc."
+			String[] version = GeoGebraMenuBar.glVersion.split("\\.");
+			int versionInt = Integer.parseInt(version[0]);
+			App.debug("==== GL version is " + GeoGebraMenuBar.glVersion
+					+ " which means GL>=" + versionInt);
+			if (versionInt < 2) {
+				// GL 1.x: can't use shaders
+				rendererImpl = new RendererImplGL2(this, view3D, jogl);
+			} else {
+				// GL 2.x or above: can use shaders
+				rendererImpl = new RendererImplShadersElements(this, view3D,
+						jogl);
+			}
+		} catch (Exception e) {
+			// exception: don't use shaders
+			rendererImpl = new RendererImplGL2(this, view3D, jogl);
+		}
+
 	}
 
 	@Override
@@ -152,10 +177,6 @@ public class RendererCheckGLVersionD extends RendererD implements
 		rendererImpl.setStencilLines();
 	}
 
-	@Override
-	final public void updateOrthoValues() {
-		rendererImpl.updateOrthoValues();
-	}
 
 	@Override
 	protected void viewOrtho() {
@@ -356,7 +377,9 @@ public class RendererCheckGLVersionD extends RendererD implements
 	protected void updatePerspValues() {
 
 		super.updatePerspValues();
-		rendererImpl.updatePerspValues();
+		if (rendererImpl != null) {
+			rendererImpl.updatePerspValues();
+		}
 
 	}
 
@@ -364,15 +387,26 @@ public class RendererCheckGLVersionD extends RendererD implements
 	public void updateGlassesValues() {
 		super.updateGlassesValues();
 
-		rendererImpl.updateGlassesValues();
+		if (rendererImpl != null) {
+			rendererImpl.updateGlassesValues();
+		}
 
 	}
 
 	@Override
 	public void updateProjectionObliqueValues() {
 		super.updateProjectionObliqueValues();
-		rendererImpl.updateProjectionObliqueValues();
+		if (rendererImpl != null) {
+			rendererImpl.updateProjectionObliqueValues();
+		}
 
+	}
+
+	@Override
+	final public void updateOrthoValues() {
+		if (rendererImpl != null) {
+			rendererImpl.updateOrthoValues();
+		}
 	}
 
 	@Override

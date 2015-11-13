@@ -39,10 +39,9 @@ import org.geogebra.desktop.euclidian.MyZoomerD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.App3D;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersionD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererGLPickingGL2;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererLogicalPickingGL2;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererShaders;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererShadersElements;
 import org.geogebra.desktop.io.MyImageIO;
@@ -107,16 +106,16 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	@Override
 	protected Renderer createRenderer() {
-		boolean isShaderCapable = RendererJogl.setDefaultProfile();
+
+		if (app.has(Feature.SHADERS_IN_DESKTOP) && !app.isApplet()) {
+			return new RendererCheckGLVersionD(this, !app.isApplet());
+		}
+
 		if (app.useShaders()) {
-			if (isShaderCapable) {
-				if (app.has(Feature.GL_ELEMENTS)) {
-					return new RendererShadersElements(this, !app.isApplet());
-				}
-				return new RendererShaders(this, !app.isApplet());
+			if (app.has(Feature.GL_ELEMENTS)) {
+				return new RendererShadersElements(this, !app.isApplet());
 			}
-			// no shader: use old GL with logical picking
-			return new RendererLogicalPickingGL2(this, !app.isApplet());
+			return new RendererShaders(this, !app.isApplet());
 		}
 		return new RendererGLPickingGL2(this, !app.isApplet());
 
