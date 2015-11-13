@@ -282,7 +282,9 @@ public class Kernel3D extends Kernel {
 	@Override
 	public boolean handleCoords(GeoElement geo,
 			LinkedHashMap<String, String> attrs) {
-
+		if (geo.getDefinition() != null) {
+			return true;
+		}
 		if (geo instanceof GeoLine3D) {
 			try {
 				// origin

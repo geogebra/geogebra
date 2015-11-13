@@ -45,7 +45,6 @@ import org.geogebra.common.main.App;
 public class AlgoDependentListExpression extends AlgoElement implements
 		DependentAlgo {
 
-	private ExpressionNode root; // input
 	private GeoList list; // output
 
 	/**
@@ -66,9 +65,9 @@ public class AlgoDependentListExpression extends AlgoElement implements
 
 	public AlgoDependentListExpression(Construction cons, ExpressionNode root) {
 		super(cons);
-		this.root = root;
 
 		list = new GeoList(cons);
+		list.setDefinition(root);
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent list
@@ -83,7 +82,7 @@ public class AlgoDependentListExpression extends AlgoElement implements
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = root.getGeoElementVariables();
+		input = list.getDefinition().getGeoElementVariables();
 
 		setOutputLength(1);
 		setOutput(0, list);
@@ -105,14 +104,15 @@ public class AlgoDependentListExpression extends AlgoElement implements
 	 * @return input expression
 	 */
 	ExpressionNode getExpression() {
-		return root;
+		return list.getDefinition();
 	}
 
 	// evaluate the current value of the arithmetic tree
 	@Override
 	public final void compute() {
 		// get resulting list of ExpressionNodes
-		ExpressionValue evlist = root.evaluate(StringTemplate.defaultTemplate);
+		ExpressionValue evlist = list.getDefinition().evaluate(
+				StringTemplate.defaultTemplate);
 		MyList myList = (evlist instanceof MyList) ? (MyList) evlist
 				: ((GeoList) evlist).getMyList();
 
@@ -328,7 +328,7 @@ public class AlgoDependentListExpression extends AlgoElement implements
 	@Override
 	final public String toString(StringTemplate tpl) {
 		// was defined as e.g. L = 3 * {a, b, c}
-		return root.toString(tpl);
+		return list.getDefinition().toString(tpl);
 	}
 
 	// TODO Consider locusequability

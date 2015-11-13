@@ -5156,7 +5156,7 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	protected void handleMatrixConicOrQuadric(
 			LinkedHashMap<String, String> attrs) throws Exception {
-		if (geo.isGeoConic()) {
+		if (geo.isGeoConic() && geo.getDefinition() == null) {
 			GeoConicND conic = (GeoConicND) geo;
 			// set matrix and classify conic now
 			// <eigenvectors> should have been set earlier

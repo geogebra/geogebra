@@ -2160,6 +2160,7 @@ FromMeta
 	 * @param vy translation in vertical direction
 	 */
 	protected void translateMatrix(double[] mat, double vx, double vy){
+		setDefinition(null);
 		mat[2] =
 			mat[2]
 				+ vx * (mat[0] * vx - 2.0 * mat[4])

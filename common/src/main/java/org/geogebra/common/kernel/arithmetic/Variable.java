@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
@@ -108,6 +109,11 @@ public class Variable extends ValidExpression {
 
 		// if we get here we couldn't resolve this variable name as a GeoElement
 		String[] str = { "UndefinedVariable", name };
+		String[] exists = kernel.getApplication().getGgbApi()
+				.getAllObjectNames();
+		for (String label : exists) {
+			App.debug(label);
+		}
 		throw new MyParseError(kernel.getApplication().getLocalization(), str);
 	}
 

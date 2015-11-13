@@ -2560,6 +2560,7 @@ public class AlgebraProcessor {
 			// Create GeoList object
 			ret[0] = kernel.getAlgoDispatcher().List(label, geoElements,
 					isIndependent);
+			ret[0].setDefinition(n);
 		}
 
 		// operations and variables are present
