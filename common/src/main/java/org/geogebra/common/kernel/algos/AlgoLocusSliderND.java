@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.SliderMover;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocus;
@@ -360,7 +361,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 							.getLabelSimple());
 					if (geoCopy != null) {
 						try {
+							ExpressionNode def = geoCopy.getDefinition();
 							geoCopy.set(geoOrig);
+							geoCopy.setDefinition(def);
 							geoCopy.update();
 						} catch (Exception e) {
 							App.debug("AlgoLocusSlider: error in resetMacroConstruction(): "
@@ -635,7 +638,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 				putCachedPoint(param, Qcopy);
 			} else {
 				// use cached result to set Qcopy
+				ExpressionNode qDef = Qcopy.getDefinition();
 				Qcopy.setCoords(cachedPoint.getX(), cachedPoint.getY(), 1.0);
+				Qcopy.setDefinition(qDef);
 			}
 		}
 
