@@ -63,5 +63,7 @@ public enum Feature {
 
 	PRINT_MENU,
 
-	LATEX_ON_BUTTON
+	LATEX_ON_BUTTON,
+
+	LATEX_ON_CHECKBOX
 }

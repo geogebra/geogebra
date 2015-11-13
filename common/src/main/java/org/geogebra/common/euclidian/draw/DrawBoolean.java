@@ -25,6 +25,8 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /**
  * Checkbox for free GeoBoolean object.
@@ -36,16 +38,12 @@ public final class DrawBoolean extends Drawable {
 	private GeoBoolean geoBool;
 
 	private boolean isVisible;
-
-	// private JCheckBox checkBox;
-	// private boolean hit = false;
 	private String oldCaption;
-	// private BooleanCheckBoxListener cbl;
 
 	private GPoint textSize = new GPoint(0, 0);
 
 	private CheckBoxIcon checkBoxIcon;
-
+	private boolean latexEnabled;
 	/**
 	 * Creates new DrawText
 	 * 
@@ -58,26 +56,18 @@ public final class DrawBoolean extends Drawable {
 		this.view = view;
 		this.geoBool = geoBool;
 		geo = geoBool;
-
+		latexEnabled = view.getApplication().has(Feature.LATEX_ON_CHECKBOX);
 		checkBoxIcon = new CheckBoxIcon(view);
-
-		// action listener for checkBox
-		// cbl = new BooleanCheckBoxListener();
-		// checkBox = new JCheckBox();
-		// checkBox.addItemListener(cbl);
-		// checkBox.addMouseListener(cbl);
-		// checkBox.addMouseMotionListener(cbl);
-		// checkBox.setFocusable(false);
-		// checkBox.setVisible(false);
-		// view.add(checkBox);
-
 		update();
 	}
 
+	private boolean isLatexLabel() {
+		return latexEnabled && CanvasDrawable.isLatexString(labelDesc);
+	}
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		// checkBox.setVisible(isVisible);
+
 		// return here, object is invisible, not just offscreen
 		if (!isVisible) {
 			return;
@@ -97,25 +87,9 @@ public final class DrawBoolean extends Drawable {
 			// don't show label
 			oldCaption = "";
 			labelDesc = "";
-			// Michael Borcherds 2007-10-18 BEGIN changed so that vertical
-			// position of checkbox doesn't change when label is shown/hidden
-			// checkBox.setText("");
-			// checkBox.setText(" ");
-			// Michael Borcherds 2007-10-18 END
 		}
 
-		// checkBox.setOpaque(false);
-		// checkBox.setFont(view.fontPoint);
-		// checkBox.setForeground(geoBool.getObjectColor());
-
-		// set checkbox state
-		// checkBox.removeItemListener(cbl);
-		// checkBox.setSelected(geoBool.getBoolean());
-		// checkBox.addItemListener(cbl);
-
 		updateLabel();
-
-		// checkBox.
 
 	}
 
@@ -145,10 +119,39 @@ public final class DrawBoolean extends Drawable {
 					geoBool.doHighlighting(), g2, geoBool.labelOffsetX + 5,
 					geoBool.labelOffsetY + 5);
 
-			g2.setPaint(geo.getObjectColor());
-			textSize = EuclidianStatic.drawIndexedString(view.getApplication(),
-					g2, labelDesc, geoBool.labelOffsetX + size + 9,
-					geoBool.labelOffsetY + (size + 9) / 2 + 5, false, false);
+
+			if (isLatexLabel()) {
+				GDimension d = CanvasDrawable.measureLatex(
+						view.getApplication(), g2, geoBool, view.getFont(),
+						labelDesc);
+
+				textSize.x = d.getWidth();
+				textSize.y = d.getHeight();
+
+				int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth()
+						+ 5;
+				int posY = geoBool.labelOffsetY;
+				if (checkBoxIcon.getIconHeight() < d.getHeight()) {
+					posY -= (d.getHeight() - checkBoxIcon.getIconHeight()) / 2;
+				} else {
+					posY += checkBoxIcon.getIconHeight() - (d.getHeight() / 2);
+
+				}
+				App app = view.getApplication();
+				g2.setPaint(geo.getObjectColor());
+
+				app.getDrawEquation().drawEquation(app, geoBool, g2,
+ posX, posY,
+						geoBool.getCaption(StringTemplate.defaultTemplate),
+						view.getFont(), false, geoBool.getObjectColor(),
+						geoBool.getBackgroundColor(), false, false, null);
+			} else {
+				textSize = EuclidianStatic.drawIndexedString(
+						view.getApplication(), g2, labelDesc,
+						geoBool.labelOffsetX + size + 9,
+						geoBool.labelOffsetY + (size + 9) / 2 + 5, false,
+						false);
+			}
 
 			updateLabel();
 		}
