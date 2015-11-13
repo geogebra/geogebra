@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://tube.geogebra.org/scripts/deployggb.js"></script>
+
+</head>
+<body>
+<div id="ggbApplet"></div>
+
+<button onclick="buttonOK()">OK</button>
+<button onclick="buttonBug()">Bug</button>
+<button onclick="resetURL()">Reset</button>
+<div id = "message"></div>
+<div id = "url1"></div>
+<div id = "url2"></div>
+<div id = "url3"></div>
+<div id = "url4"></div>
+
+<script>
+
+//if (cb) {
+//    if (cb == "jenkins") {
+//        cb = "https://autotest.geogebra.org/job/GeoGebra-autotest/lastSuccessfulBuild/artifact/web/war/web3d/";
+//    } else if (cb.startsWith("jenkins")) {
+//        var version = cb.substring(7);
+//        cb = "https://autotest.geogebra.org/job/GeoGebra-autotest/" + version + "/artifact/web/war/web3d/";
+//    } else if (cb == "deploy50") {
+//        cb = "http://deploy.geogebra.org/build-jenkins/test/GeoGebraWeb/web/";
+//    } else if (cb == "local") {
+//        cb = "./web3d/"
+//    }
+//    console.log("injecting with cb = " + cb);
+//    applet.setHTML5Codebase(cb, 'true');
+//}
+
+
+var maxRevision = undefined;//2732;
+var minRevision = undefined;//2000;
+
+var revision = maxRevision;
+//var cb = "https://autotest.geogebra.org/job/GeoGebra-autotest/lastSuccessfulBuild/artifact/web/war/web3d/";
+var minInterval = NaN;
+var maxInterval = NaN;
+var width = 800;
+var height = 600;
+var id = undefined;
+var lang = "en";
+
+
+var getVars = [];
+var locvartemp = ( window.location.href.indexOf( "?" ) + 1 ) ? window.location.href.substr( window.location.href.indexOf( "?" ) + 1 ) : "";
+locvartemp=unescape(locvartemp);
+locvartemp = locvartemp.split( "&" );
+for( var x = 0; x < locvartemp.length; x++ ) {
+    var lvTempVar = locvartemp[x].split( "=" );
+    getVars[ unescape( lvTempVar[0] ) ] = unescape( lvTempVar[1] );
+	try {
+	console.log(locvartemp[x]);
+	eval(locvartemp[x]);
+	}
+	catch (err) { 
+		console.log(err);
+		// eg cb="deploy50"
+		eval(lvTempVar[0] + "='" + lvTempVar[1] + "'");
+	} 
+}
+
+if (id === undefined) {
+	id = prompt("Enter material id eg\n123456\nor\nBKPCy2aY");
+}
+if (minRevision === undefined) {
+	minRevision = parseInt(prompt("Enter min build to test, eg 2500"));
+}
+if (maxRevision === undefined) {
+	maxRevision = parseInt(prompt("Enter max build to test, eg 2700"));
+}
+if (revision === undefined) {
+	revision = maxRevision;
+}
+var cb = "https://autotest.geogebra.org/job/GeoGebra-autotest/" + revision + "/artifact/web/war/web3d/";
+
+
+function addParam(s, addAmpersand) {
+
+// eg 'width=200&'
+// eg 'lang="en"'
+
+var sEval = eval(s);
+
+
+var ret = s + "=";
+if (typeof sEval === "string") {
+	ret += '"';
+}
+ret += escape(eval(s));
+if (typeof sEval === "string") {
+	ret += '"';
+}
+if (addAmpersand) {
+	ret += "&";
+}
+
+return ret;
+
+return s + "=" + escape(eval(s)) + (addAmpersand ? "&" : "");
+
+}
+
+function resetURL() {
+window.history.replaceState('Object', 'Title', window.location.pathname);
+location.reload();
+}
+
+function updateURL() {
+
+var url = window.location.pathname + "?";
+url += addParam("id", true);
+url += addParam("minRevision", true);
+url += addParam("maxRevision", true);
+url += addParam("revision", true);
+url += addParam("minInterval", true);
+url += addParam("maxInterval", true);
+url += addParam("width", true);
+url += addParam("height", true);
+url += addParam("lang", false);
+
+
+window.history.replaceState('Object', 'Title', url);
+location.reload();
+
+}
+
+function buttonOK() {
+
+minInterval = revision;
+
+if (isNaN(maxInterval)) {
+	revision = maxRevision;
+} else {
+	revision = Math.floor((maxInterval+minInterval)/2);
+}
+
+updateURL();
+
+
+}
+
+function buttonBug() {
+
+maxInterval = revision;
+
+if (isNaN(minInterval)) {
+	revision = minRevision;
+} else {
+	revision = Math.floor((maxInterval+minInterval)/2);
+}
+
+updateURL();
+
+
+}
+
+if (Math.abs(maxInterval-minInterval) === 1) {
+// finished
+alert("finished!");
+document.getElementById("url1").innerHTML = "<a target='_blank' href='https://tube.geogebra.org/m/"+id+"?cb=jenkins" + minInterval +"'>OK</a>";
+console.log(document.getElementById("url1"))
+document.getElementById("url2").innerHTML = "<a target='_blank' href='https://tube.geogebra.org/m/"+id+"?cb=jenkins" + maxInterval +"'>bug</a>";
+// eg https://autotest.geogebra.org/job/GeoGebra-autotest/2730/
+document.getElementById("url3").innerHTML = "<a target='_blank' href='https://autotest.geogebra.org/job/GeoGebra-autotest/"+minInterval+"'/>build "+minInterval+"</a>";
+document.getElementById("url4").innerHTML = "<a target='_blank' href='https://autotest.geogebra.org/job/GeoGebra-autotest/"+maxInterval+"'/>build "+maxInterval+"</a>";
+
+} else {
+
+
+var parameters = {
+"id": "ggbApplet",
+"width":width,
+"height":height,
+"showMenuBar":false,
+"showAlgebraInput":true,
+"showToolBar":true,
+"customToolBar":"0 39 | 1 501 67 , 5 19 , 72 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71 | 30 29 54 32 31 33 | 17 26 62 73 , 14 68 | 25 52 60 61 | 40 41 42 , 27 28 35 , 6",
+"showToolBarHelp":false,
+"showResetIcon":false,
+"enableLabelDrags":false,
+"enableShiftDragZoom":true,
+"enableRightClick":false,
+"errorDialogsActive":false,
+"useBrowserForJS":false,
+"preventFocus":false,
+"language":lang,
+"material_id":id,
+};
+// is3D=is 3D applet using 3D view, AV=Algebra View, SV=Spreadsheet View, CV=CAS View, EV2=Graphics View 2, CP=Construction Protocol, PC=Probability Calculator, DA=Data Analysis, FI=Function Inspector, PV=Python, macro=Macro View
+var views = {'is3D': 0,'AV': 1,'SV': 0,'CV': 0,'EV2': 0,'CP': 0,'PC': 0,'DA': 0,'FI': 0,'PV': 0,'macro': 0};
+var applet = new GGBApplet(parameters, '5.0', views);
+applet.setHTML5Codebase(cb, 'true');
+window.onload = function() {applet.inject('ggbApplet')};
+
+}
+
+
+</script>
+
+
+</body>
+</html>
