@@ -21,6 +21,7 @@ import java.util.Vector;
 
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -355,9 +356,18 @@ public abstract class ValidExpression implements ExpressionValue {
 			sb.append(')');
 			return sb.toString();
 		}
+		if (s.isGeoElement()) {
+			return (((GeoElement) s).getConstruction() instanceof MacroConstruction ? "Macro"
+					: "")
+					+ s.getClass()
+							.getName()
+							.replaceAll("org.geogebra.common.kernel.geos.Geo",
+									"G")
+					+ "("
+					+ s.toString(StringTemplate.defaultTemplate) + ")";
+		}
 		return s.getClass().getName()
-				.replaceAll("geogebra.common.kernel.arithmetic.", "")
-				.replaceAll("geogebra.common.kernel.geos.Geo", "G")
+				.replaceAll("org.geogebra.common.kernel.arithmetic.", "")
 				+ "(" + s.toString(StringTemplate.defaultTemplate) + ")";
 	}
 
