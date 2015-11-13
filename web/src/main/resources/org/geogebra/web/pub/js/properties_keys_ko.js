@@ -1926,7 +1926,7 @@ __GGB__keysVar.ko.menu = {
     "SignIn": "\ub85c\uadf8\uc778",
     "SignIn.Help": "\uc9c0\uc624\uc9c0\ube0c\ub77c\ud29c\ube0c\uc5d0 \ub85c\uadf8\uc778",
     "SignInError": "\ub85c\uadf8\uc778 \uc2e4\ud328 - \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc2ed\uc2dc\uc624.",
-    "SignInProgress": "\ub85c\uadf8\uc778 \uc9c4\ud589",
+    "SignInProgress": "\ub85c\uadf8\uc778 \uc911",
     "SignOut": "\ub85c\uadf8\uc544\uc6c3",
     "Sin": "Sin",
     "SingleFile": "\ub2e8\uc77c \ud30c\uc77c",
