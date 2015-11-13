@@ -21,6 +21,7 @@ public class GeoGebraTubeUser extends BaseModel {
 	private String cookie;
 	private String image;
 	private String language;
+	private String gender;
 	
 	/**
 	 * Creates a new user with the specified login token
@@ -120,6 +121,21 @@ public class GeoGebraTubeUser extends BaseModel {
 
 
 	/**
+	 * @param gender {@code F} for female {@code M} for male {@code O} for not specified
+	 */
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	/**
+	 * @return gender of user
+	 * @see #setGender(String)
+	 */
+	public String getGender() {
+		return this.gender;
+	}
+
+	/**
 	 * @return The login identifier of this user
 	 */
 	public String getIdentifier() {
@@ -164,5 +180,4 @@ public class GeoGebraTubeUser extends BaseModel {
 	public void setLanguage(String language){
 		this.language = language;
 	}
-
 }
