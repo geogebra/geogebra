@@ -197,17 +197,15 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	/**
 	 * Creates labeled angle of given size
 	 * @param c Construction
-	 * @param label Name for angle
 	 * @param x Size of the angle
 	 * @param style eg UNBOUNDED
 	 */
-	public GeoAngle(Construction c, String label, double x, AngleStyle style) {
+	public GeoAngle(Construction c, double x, AngleStyle style) {
 		this(c);
 		
 		// must set style before value
 		setAngleStyle(style);
 		setValue(x);
-		setLabel(label);
 	}
 
 	@Override

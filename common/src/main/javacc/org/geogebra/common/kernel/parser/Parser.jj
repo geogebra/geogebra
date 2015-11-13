@@ -1393,7 +1393,7 @@ ExpressionValue enunary():
 {
     <MINUS> e = enpower()
         { // -e  = -1*e
-          return new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, e);              
+          return ExpressionNode.unaryMinus(kernel, e);              
         }
 |
    <PLUS> e = enpower()
@@ -1438,7 +1438,7 @@ ExpressionValue enpower():
             // -f  = -1*f
       if (c != null && c.kind == MINUS)
       {                
-             f = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, f);
+             f = ExpressionNode.unaryMinus(kernel, f);
              c = null; // make sure we forget minus for next exponent
             }
           

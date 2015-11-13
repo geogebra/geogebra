@@ -2496,11 +2496,12 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			if (isAngle) {
-				ret[0] = new GeoAngle(cons, label, value, AngleStyle.UNBOUNDED);
+				ret[0] = new GeoAngle(cons, value, AngleStyle.UNBOUNDED);
 			} else {
-				ret[0] = new GeoNumeric(cons, label, value);
+				ret[0] = new GeoNumeric(cons, value);
 			}
 			ret[0].setDefinition(n);
+			ret[0].setLabel(label);
 		} else {
 			ret[0] = DependentNumber(label, n, isAngle, evaluate)
 					.toGeoElement();

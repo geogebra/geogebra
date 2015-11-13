@@ -6,7 +6,6 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -177,7 +176,6 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 			return;
 		}
 		// event.stopPropagation();
-		App.debug("mouseDown");
 		// event.preventDefault();
 		mousePressed(PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
 	}

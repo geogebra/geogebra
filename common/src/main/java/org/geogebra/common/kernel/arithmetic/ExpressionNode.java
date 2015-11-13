@@ -92,7 +92,6 @@ public class ExpressionNode extends ValidExpression implements
 	 * */
 	public ExpressionNode(Kernel kernel, ExpressionValue left,
 			Operation operation, ExpressionValue right) {
-
 		this.kernel = kernel;
 		loc = kernel.getLocalization();
 
@@ -5938,6 +5937,23 @@ kernel, left,
 
 			}});
 
+	}
+
+	/**
+	 * Wraps in unary minus node, for constant MyDouble return just MyDouble
+	 * 
+	 * @param kernel2
+	 *            kernel for result
+	 * @param f
+	 *            value
+	 * @return -f
+	 */
+	public static ExpressionValue unaryMinus(Kernel kernel2, ExpressionValue f) {
+		if (f instanceof MyDouble && f.isConstant()) {
+			return new MyDouble(kernel2, -f.evaluateDouble());
+		}
+		return new ExpressionNode(kernel2, new MyDouble(kernel2, -1),
+				Operation.MULTIPLY, f);
 	}
 
 }

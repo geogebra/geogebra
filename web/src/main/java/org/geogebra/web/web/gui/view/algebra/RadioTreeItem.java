@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -583,7 +584,6 @@ public class RadioTreeItem extends AVTreeItem
 
 		public void update() {
 			if (geo.isAnimating() != play) {
-				App.debug("UPDATE PLAY: " + geo.isAnimating());
 				boolean v = geo.isAnimating();
 				setPlay(v);
 				btnPlay.setDown(v);
@@ -968,7 +968,12 @@ public class RadioTreeItem extends AVTreeItem
 		return avExtension && geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV()
 				&& geo.isIndependent()
+ && isSimple(geo.getDefinition())
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
+	}
+
+	private static boolean isSimple(ExpressionNode definition) {
+		return definition == null || definition.unwrap() instanceof NumberValue;
 	}
 
 	private void initSlider() {
@@ -1906,7 +1911,6 @@ marblePanel, evt))) {
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
-		App.debug("[AVMOUSE] over");
 		if (geo == null || (avExtension && isGeoASlider())) {
 			return;
 		}
@@ -1949,7 +1953,6 @@ marblePanel, evt))) {
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
-		App.debug("[AVMOUSE] up");
 		event.stopPropagation();
 	}
 
@@ -1962,7 +1965,6 @@ marblePanel, evt))) {
 
 	@Override
 	public void onClick(ClickEvent evt) {
-		App.debug("[AVMOUSE] click");
 		evt.stopPropagation();
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -2059,7 +2061,6 @@ marblePanel, evt))) {
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
-		App.debug("[AVMOUSE] touchEnd");
 		if (sliderPanel != null) {
 			return;
 		}
@@ -2090,7 +2091,6 @@ marblePanel, evt))) {
 
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
-		App.debug("[AVMOUSE] touchMove");
 		event.stopPropagation();
 		if (sliderPanel != null) {
 			return;
@@ -2108,7 +2108,6 @@ marblePanel, evt))) {
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
-		App.debug("[AVMOUSE] touchStart");
 		if (sliderPanel != null) {
 			return;
 		}

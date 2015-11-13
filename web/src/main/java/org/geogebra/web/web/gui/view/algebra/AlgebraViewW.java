@@ -25,6 +25,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
@@ -943,22 +944,16 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 	}
 
-	public final AVTreeItem createAVItem(final Object ob) {
+	public final AVTreeItem createAVItem(final GeoElement ob) {
 		AVTreeItem ti = null;
-		if (ob instanceof GeoElement) {
-			ti = RadioTreeItem.create((GeoElement) ob,
+
+		ti = RadioTreeItem.create(ob,
 					AppResources.INSTANCE.shown().getSafeUri(),
 					AppResources.INSTANCE.hidden().getSafeUri());
-			ti.setUserObject(ob);
-			ti.addStyleName("avItem");
+		ti.setUserObject(ob);
+		ti.addStyleName("avItem");
 
-		} else {
-			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti,
-					ob.toString(),
-					GuiResources.INSTANCE.algebra_tree_open().getSafeUri(),
-					GuiResources.INSTANCE.algebra_tree_closed().getSafeUri(),
-					hasAvex()));
-		}
+
 		return ti;
 	}
 	/**
@@ -1030,7 +1025,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				return;
 			}
 
-
+			Log.debug(geo.getDefinition());
 			TreeItem parent = getParentNode(geo, forceLayer);
 			AVTreeItem node = createAVItem(geo);
 
@@ -1474,7 +1469,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	public void setActiveTreeItem(RadioTreeItem item) {
 
 		if (hasAvex() && item == null) {
-			App.debug("[AVEX] setActiveItem(null)");
 			getSelectionCtrl().clear();
 		}
 
