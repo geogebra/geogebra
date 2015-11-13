@@ -188,12 +188,25 @@ public class AlgoSort extends AlgoElement {
 		Iterator<GeoElement> iterator = sortedSet.iterator();
 		if (valueList == null) {
 			while (iterator.hasNext()) {
-				outputList.add((iterator.next()));
+				// need to copy elements like eg {(1,1)} so the properties can
+				// be set independently
+				GeoElement geo = iterator.next();
+				if (!geo.isLabelSet()) {
+					geo = geo.copyInternal(cons);
+				}
+
+				outputList.add(geo);
 			}
 		} else {
 			while (iterator.hasNext()) {
 				int pos = inputList.find(iterator.next());
-				outputList.add(valueList.get(pos));
+				// need to copy elements like eg {(1,1)} so the properties can
+				// be set independently
+				GeoElement geo = valueList.get(pos);
+				if (!geo.isLabelSet()) {
+					geo = geo.copyInternal(cons);
+				}
+				outputList.add(geo);
 			}
 		}
 	}
