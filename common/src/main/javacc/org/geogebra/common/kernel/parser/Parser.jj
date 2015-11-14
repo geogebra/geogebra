@@ -286,7 +286,7 @@ TOKEN :  {
   | < #INDEXDIGIT:                                     // unicode digits
        [ "\u2070","\u2074"-"\u2079","\u00b9","\u00b2","\u00b3"] >
   | < PI:       ( "pi" | "Pi" | "\u03c0" ) >
-  | < EULER_GAMMA:       ( "euler_gamma" | "\u212F_\u03B3" ) > // Euler–Mascheroni constant
+  | < EULER_GAMMA:       ( "euler_gamma" | "\u212F_\u03B3" ) > // Eulerï¿½Mascheroni constant
   | < E:        ("\u212f") > // Euler constant
   | < IMAGINARY: ("\u03af") > // imaginary constant
   // 02da is "Ring Above", Alt-k in iPad
@@ -2052,7 +2052,7 @@ ExpressionNode numberFunction():
         boolean list = geo!=null && geo.isGeoList();
         //f(t):=(t,t) produces line, we do not want CAS to use that line
         //Perhaps we should prefer cell over geo in all cases ?
-        if(cell!=null && (geo==null || geo.isGeoLine() || geo.isGeoConic() || list))  {
+        if(cell!=null && (geo==null || geo.isGeoLine() || geo.isGeoConic() || geo.isGeoSurfaceCartesian() || list))  {
           if(((GeoCasCell)cell).getFunctionVariables().length <2)
           {
             
@@ -2080,7 +2080,7 @@ ExpressionNode numberFunction():
             }
             else if (geo.isGeoCurveCartesian()) {// Cartesian curve 
               return new ExpressionNode(kernel, derivative, Operation.VEC_FUNCTION, myList.getListElement(0)); 
-            }           
+            }
             else {
                   String [] str = { "FunctionExpected", funcName };
                   throw new MyParseError(loc, str);
@@ -2092,10 +2092,15 @@ ExpressionNode numberFunction():
         else if (geo instanceof GeoFunctionNVar) {
           return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR, myList);
         }
-            else if (geo.isGeoCurveCartesian()) // vector function
+            else if (geo.isGeoCurveCartesian())            {               // vector function
             // at this point we have eg myList={{1,2}}, so we need first element of myList                    
               return new ExpressionNode(kernel, geoExp, Operation.VEC_FUNCTION, myList.getListElement(0)); 
-
+}else if (geo.isGeoSurfaceCartesian())
+            {
+               // vector function
+            // at this point we have eg myList={{1,2}}, so we need first element of myList                    
+              return new ExpressionNode(kernel, geoExp, Operation.VEC_FUNCTION, myList);
+            }
         // disabled, see #1115
         // doesn't work properly, creates spurious geos
             else if (list) // list1(1) to get first element of list1

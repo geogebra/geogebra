@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.Geo3DVec;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.util.MyMath;
 
@@ -1421,6 +1422,16 @@ public enum Operation {
 				}
 
 				return ((ParametricCurve) lt).evaluateCurve(arg.getDouble());
+			}
+			if (rt instanceof ListValue) {
+				ListValue arg = (ListValue) rt;
+
+				if (lt instanceof GeoCurveCartesianND) {
+					return ((GeoSurfaceCartesianND) lt).evaluateSurface(arg
+							.getListElement(0).evaluateDouble(), arg
+							.getListElement(1).evaluateDouble());
+				}
+				return ev.illegalArgument(lt);
 			}
 			return ev.illegalArgument(rt);
 		}

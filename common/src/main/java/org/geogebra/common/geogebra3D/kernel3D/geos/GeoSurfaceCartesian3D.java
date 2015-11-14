@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
@@ -61,6 +62,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	private double[] tmp = new double[2];
 
+	@Override
 	public void evaluatePoint(double u, double v, Coords3 p) {
 		tmp[0] = u;
 		tmp[1] = v;
@@ -94,6 +96,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return true;
 	}
 
+	@Override
 	public boolean evaluateNormal(Coords3 p, double u, double v, Coords3 n) {
 		tmp[0] = u;
 		tmp[1] = v;
@@ -207,6 +210,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	// /////////////////////////
 	// FUNCTIONAL2VAR
 
+	@Override
 	public Coords evaluatePoint(double u, double v) {
 		Coords p = new Coords(3);
 		tmp[0] = u;
@@ -217,6 +221,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return p;
 	}
 
+	@Override
 	public Coords evaluateNormal(double u, double v) {
 		return new Coords(0, 0, 1, 0); // TODO
 	}
@@ -240,10 +245,12 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
 
+	@Override
 	public LevelOfDetail getLevelOfDetail() {
 		return levelOfDetail;
 	}
 
+	@Override
 	public void setLevelOfDetail(LevelOfDetail lod) {
 		levelOfDetail = lod;			
 	}
@@ -264,10 +271,12 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return true;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}
@@ -316,8 +325,17 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		}
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC3D;
+	}
+
+	@Override
+	public ExpressionValue evaluateSurface(double u, double v) {
+		tmp[0] = u;
+		tmp[1] = v;
+		return new Geo3DVec(kernel, fun[0].evaluate(tmp), fun[1].evaluate(tmp),
+				0);
 	}
 
 

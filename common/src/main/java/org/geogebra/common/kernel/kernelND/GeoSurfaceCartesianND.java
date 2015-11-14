@@ -287,5 +287,11 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	public ExpressionNode getPointExpression() {
 		return point;
 	}
+
+	public ExpressionValue evaluateSurface(double evaluateDouble,
+			double evaluateDouble2) {
+		// override this in the 3D version
+		return null;
+	}
 	
 }
