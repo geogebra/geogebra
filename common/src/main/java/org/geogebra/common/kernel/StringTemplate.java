@@ -1567,7 +1567,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(leftStr);
 				sb.append("[1])-(");
 				sb.append(rightStr);
-				sb.append("),real(");
+				sb.append("),im(");
 				sb.append(leftStr);
 				sb.append("[1])-(");
 				sb.append(rightStr);
