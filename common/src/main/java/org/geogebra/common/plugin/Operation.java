@@ -1426,7 +1426,7 @@ public enum Operation {
 			if (rt instanceof ListValue) {
 				ListValue arg = (ListValue) rt;
 
-				if (lt instanceof GeoCurveCartesianND) {
+				if (lt instanceof GeoSurfaceCartesianND) {
 					return ((GeoSurfaceCartesianND) lt).evaluateSurface(arg
 							.getListElement(0).evaluateDouble(), arg
 							.getListElement(1).evaluateDouble());

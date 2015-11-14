@@ -94,7 +94,6 @@ public class ExpressionNode extends ValidExpression implements
 			Operation operation, ExpressionValue right) {
 		this.kernel = kernel;
 		loc = kernel.getLocalization();
-		App.printStacktrace("");
 		this.operation = operation;
 
 		setLeft(left);

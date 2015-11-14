@@ -335,7 +335,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		tmp[0] = u;
 		tmp[1] = v;
 		return new Geo3DVec(kernel, fun[0].evaluate(tmp), fun[1].evaluate(tmp),
-				0);
+				fun[2].evaluate(tmp));
 	}
 
 
