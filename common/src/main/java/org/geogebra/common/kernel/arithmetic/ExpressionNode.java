@@ -5949,7 +5949,8 @@ kernel, left,
 	 * @return -f
 	 */
 	public static ExpressionValue unaryMinus(Kernel kernel2, ExpressionValue f) {
-		if (f instanceof MyDouble && f.isConstant()) {
+		if (f instanceof MyDouble && f.isConstant()
+				&& !(f instanceof MySpecialDouble)) {
 			return new MyDouble(kernel2, -f.evaluateDouble());
 		}
 		return new ExpressionNode(kernel2, new MyDouble(kernel2, -1),
