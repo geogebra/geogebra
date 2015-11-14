@@ -197,6 +197,7 @@ public class Assignment {
 	private void checkPermutationsOfInputs(
 			GeoElement[] possibleOutputPermutation, TreeSet<Result> partRes,
 			TreeSet<GeoElement> possibleInputGeos) {
+		boolean isTypeCheckNeeded = uniqueInputTypes.size() > 1;
 		GeoElement[] input;
 		PermutationOfGeOElementsUtil inputPermutationUtil = new PermutationOfGeOElementsUtil(
 				possibleInputGeos.toArray(new GeoElement[0]),
@@ -206,7 +207,7 @@ public class Assignment {
 		boolean solutionFound = false;
 		while (input != null && !solutionFound) {
 			partRes.clear();
-			if (areTypesOK(input)) {
+			if (!isTypeCheckNeeded || areTypesOK(input)) {
 				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro, input);
 				GeoElement[] macroOutput = algoMacro.getOutput();
 				for (int i = 0; i < possibleOutputPermutation.length
@@ -241,6 +242,7 @@ public class Assignment {
 
 		}
 	}
+
 
 	private void checkEqualityOfGeos(GeoElement[] input,
 			GeoElement macroOutput, GeoElement possibleOutput[], int i,
