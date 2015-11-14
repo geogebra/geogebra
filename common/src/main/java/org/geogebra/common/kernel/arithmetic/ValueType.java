@@ -201,7 +201,8 @@ public enum ValueType {
 		case POLYGAMMA:
 			break;
 		case POWER:
-			if (left.getValueType() == ValueType.NONCOMPLEX2D
+			if ((left.getValueType() == ValueType.NONCOMPLEX2D || left
+					.getValueType() == ValueType.VECTOR3D)
 					&& Kernel.isEqual(2, right.evaluateDouble())) {
 				return ValueType.NUMBER;
 			}
