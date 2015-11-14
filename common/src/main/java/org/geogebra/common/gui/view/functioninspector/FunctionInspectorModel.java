@@ -31,12 +31,12 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoLengthFunction;
@@ -741,8 +741,8 @@ public class FunctionInspectorModel {
 		cons.removeFromConstructionList(pointAlgo);
 
 		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons, testPoint,
-				(GeoPoint) pointAlgo.getGeoElements()[0], null);
-		cons.removeFromConstructionList(seg1);
+				(GeoPoint) pointAlgo.getGeoElements()[0], null, false);
+		// cons.removeFromConstructionList(seg1);
 		xSegment = seg1.getGeoElements()[0];
 		xSegment.setSelectionAllowed(false);
 		xSegment.setObjColor(listener.getColor(Colors.GEO));
@@ -765,8 +765,8 @@ public class FunctionInspectorModel {
 		cons.removeFromConstructionList(pointAlgoy);
 
 		AlgoJoinPointsSegment seg2 = new AlgoJoinPointsSegment(cons, testPoint,
-				(GeoPoint) pointAlgoy.getGeoElements()[0], null);
-		cons.removeFromConstructionList(seg2);
+				(GeoPoint) pointAlgoy.getGeoElements()[0], null, false);
+		// cons.removeFromConstructionList(seg2);
 
 		ySegment = seg2.getGeoElements()[0];
 		ySegment.setSelectionAllowed(false);

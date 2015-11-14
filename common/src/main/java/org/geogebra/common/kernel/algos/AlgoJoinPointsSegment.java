@@ -57,13 +57,13 @@ public class AlgoJoinPointsSegment extends AlgoElement implements
 	/** Creates new AlgoJoinPoints */
 	public AlgoJoinPointsSegment(Construction cons, String label, GeoPoint P,
 			GeoPoint Q) {
-		this(cons, P, Q, null);
+		this(cons, P, Q, null, true);
 		s.setLabel(label);
 	}
 
 	public AlgoJoinPointsSegment(Construction cons, GeoPoint P, GeoPoint Q,
-			GeoPolygon poly) {
-		super(cons);
+			GeoPolygon poly, boolean addToConstructionList) {
+		super(cons, addToConstructionList);
 
 		// make sure that this helper algorithm is updated right after its
 		// parent polygon

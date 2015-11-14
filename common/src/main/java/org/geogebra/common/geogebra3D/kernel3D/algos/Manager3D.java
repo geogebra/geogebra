@@ -1584,8 +1584,8 @@ public class Manager3D implements Manager3DInterface {
 			segAB = (GeoSegmentND) algoSegment.getCS();
 		} else {
 			AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons,
-					(GeoPoint) A, (GeoPoint) B, null);
-			cons.removeFromConstructionList(algoSegment);
+					(GeoPoint) A, (GeoPoint) B, null, false);
+			// cons.removeFromConstructionList(algoSegment);
 			segAB = algoSegment.getSegment();
 		}
 

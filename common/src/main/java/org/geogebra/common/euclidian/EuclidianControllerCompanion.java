@@ -293,7 +293,7 @@ public class EuclidianControllerCompanion {
 	protected AlgoElement segmentAlgo(Construction cons, GeoPointND p1,
 			GeoPointND p2) {
 		return new AlgoJoinPointsSegment(cons, (GeoPoint) p1, (GeoPoint) p2,
-				null);
+				null, true);
 	}
 
 	protected GeoElement[] createCircle2(GeoPointND p0, GeoPointND p1) {

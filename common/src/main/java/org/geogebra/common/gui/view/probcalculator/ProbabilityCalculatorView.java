@@ -619,8 +619,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 				AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons,
 						curvePoint, (GeoPoint) pointAlgo.getGeoElements()[0],
-						null);
-				cons.removeFromConstructionList(seg1);
+						null, false);
+				// cons.removeFromConstructionList(seg1);
 				xSegment = seg1.getGeoElements()[0];
 				xSegment.setObjColor(GColor.BLUE);
 				xSegment.setLineThickness(3);

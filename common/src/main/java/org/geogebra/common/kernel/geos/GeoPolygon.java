@@ -495,8 +495,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			GeoPointND endPoint, boolean euclidianVisible) {
 
 		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons,
-				(GeoPoint) startPoint, (GeoPoint) endPoint, this);
-		cons.removeFromConstructionList(algoSegment);
+				(GeoPoint) startPoint, (GeoPoint) endPoint, this, false);
+		// cons.removeFromConstructionList(algoSegment);
 
 		return createSegment(algoSegment.getSegment(), euclidianVisible);
 	}
