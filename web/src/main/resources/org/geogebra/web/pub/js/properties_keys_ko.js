@@ -2478,7 +2478,7 @@ __GGB__keysVar.ko.plain = {
     "FunctionAonIntervalBC": "\uad6c\uac04[ %1, %2 ] \uc5d0\uc11c \ud568\uc218 %0",
     "FunctionNVar": "\ud568\uc218",
     "General": "\uc77c\ubc18",
-    "GenerallyTrue": "(\uc77c\ubc18\uc801\uc73c\ub85c \ucc38\uc784)",
+    "GenerallyTrue": "(\uc77c\ubc18\uc801\uc73c\ub85c \ucc38)",
     "GenerallyTrueAcondB": "\uc870\uac74 %1 \uc5d0 \ub300\ud558\uc5ec %0 \uc740 \uc77c\ubc18\uc801\uc73c\ub85c \ucc38\uc784",
     "GeneratePgf": "PGF/TikZ \ucf54\ub4dc \ub9cc\ub4e4\uae30",
     "GeneratePstricks": "PSTricks \ucf54\ub4dc \uc0dd\uc131",
