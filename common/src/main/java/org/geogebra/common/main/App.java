@@ -3909,6 +3909,7 @@ public abstract class App implements UpdateSelection {
 		case SHADERS_IN_DESKTOP:
 		case PRINT_MENU:
 		case LATEX_ON_CHECKBOX:
+		case DRAW_DROPDOWNLISTS_TO_CANVAS:
 			return prerelease;
 		// return canary;
 		case AV_EXTENSIONS:
@@ -3921,7 +3922,6 @@ public abstract class App implements UpdateSelection {
 		case GL_ELEMENTS:
 		case AUTOMATIC_FONTSIZE:
 		case RETINA:
-		case DRAW_DROPDOWNLISTS_TO_CANVAS:
 		case LATEX_ON_BUTTON:
 			return true;
 		default:
