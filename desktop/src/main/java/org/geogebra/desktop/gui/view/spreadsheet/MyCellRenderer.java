@@ -275,9 +275,18 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// Set icons for LaTeX and images
 		// ===============================================
 		if (geo.isGeoImage()) {
-			Image im = ((MyImageD) ((GeoImage) geo).getFillImage()).getImage();
-			latexIcon.setImage(im);
-			setIcon(latexIcon);
+
+			if (((MyImageD) ((GeoImage) geo).getFillImage()).isSVG()) {
+				App.error(
+						"SVG not supported in the spreadsheet in desktop yet");
+			} else {
+
+				Image im = ((MyImageD) ((GeoImage) geo).getFillImage())
+						.getImage();
+
+				latexIcon.setImage(im);
+				setIcon(latexIcon);
+			}
 			setHorizontalAlignment(SwingConstants.CENTER);
 			setText("");
 
