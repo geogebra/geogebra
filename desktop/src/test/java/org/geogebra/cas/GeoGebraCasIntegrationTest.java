@@ -2,7 +2,6 @@ package org.geogebra.cas;
 
 import static org.geogebra.test.util.IsEqualPolynomialEquation.equalToPolynomialEquation;
 import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
@@ -3098,9 +3097,10 @@ public class GeoGebraCasIntegrationTest {
     t("Solve[{a + b = 0}, {a, b}]", "{{a = -b, b = b}}");
   }
 
+	// solves wrt {a,b}
   @Test
   public void Solve_Several_16 () {
-    t("Solve[{c = 0, a + b = 0}]", "{{c = 0, a = -b}}");
+		t("Solve[{c = 0, a + b = 0}]", "{{a = -b, b = b}}");
   }
 
   @Test
@@ -3809,20 +3809,14 @@ public class GeoGebraCasIntegrationTest {
 
   /* Point not on the Conic */
 
-  // TODO Ensure the result is correct.
   @Test
   public void Tangent_PointOffConic_0 () {
 	  t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
-			  "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 * sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
-			  "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
+				"c: ((8 * x^(2)) * sqrt(10)) + (12 * x^(2)) - ((32 * x) * sqrt(10)) - ((16 * x) * y) - (24 * x) + ((8 * sqrt(10)) * y^(2)) - ((24 * sqrt(10)) * y) + (32 * sqrt(10)) + (24 * y^(2)) - (40 * y) = 0");
 	  t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
-			  "(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)","(0, (-sqrt(10) * sqrt(31) * 3 * sqrt(224 * sqrt(10) + 687) - sqrt(31) * 11 * sqrt(224 * sqrt(10) + 687) + sqrt(10) * 672 + 2061) / (sqrt(10) * 448 + 1374))");
-	  /*t("Tangent[P, c]",
-			  // neither of these are correct, they are coordinates!
-			  //"y = (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
-			  // "(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)"
-			  "TODO");*/
-	  assertNotNull(null);
+				"P:=(0, ((-sqrt((2 * sqrt(10)) + 3)) + 3) / 2)");
+		t("Tangent[P, c]",
+				"{y = ((-sqrt((2 * sqrt(10)) + 3)) + 3) / 2, y = (5.558213948645 * x) - 0.02680674287353}");
   }
 
   // TODO Add tests for other conics.
@@ -4885,9 +4879,7 @@ public class GeoGebraCasIntegrationTest {
 		t("Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]",
 				"{x = (-log(11) - log(5)) / (log(13) - log(5))}");
 		t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {c, a}]",
-				// "{{c = 900000000 / 67 * ((67 / 3)^(1 / 1057))^(107), a = (67
-				// / 3)^(1 / 1057)}}",
-				"{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = (67 / 3)^(1 / 1057)}}");
+				"{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = 67 / (3 * ((67 / 3)^(1 / 1057))^(1056))}}");
 		t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {a, c}]",
 				"{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = 67 / (3 * ((67 / 3)^(1 / 1057))^(1056))}}");
 		// This may have no effect.
