@@ -170,7 +170,7 @@ public abstract class UndoManager {
 	/**
 	 * Clears all undo information
 	 */
-	protected synchronized void clearUndoInfo() {
+	public synchronized void clearUndoInfo() {
 		undoInfoList.clear();
 		iterator = undoInfoList.listIterator();
 	}
