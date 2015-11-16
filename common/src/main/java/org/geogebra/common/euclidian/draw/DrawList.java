@@ -504,6 +504,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private void updateMetrics(GGraphics2D g2) {
 		// just measuring
+		selectedText = geoList.get(selectedOptionIndex)
+				.toValueString(StringTemplate.defaultTemplate);
+		selectedDimension = drawTextLine(g2, 0, 0, selectedText, getLabelFont(),
+				isLatexString(selectedText), false);
 		g2.setPaint(GColor.WHITE);
 		GFont font = optionFont;
 		int minFontSize = 10;
@@ -515,6 +519,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			font = font.deriveFont(GFont.PLAIN, fontSize);
 			optionFont = font;
 		}
+
+
 		setPreferredSize(getPreferredSize());
 
 		latexLabel = measureLabel(g2, geoList, getLabelText());
@@ -712,7 +718,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			boolean draw) {
 		optionsWidth = 0;
 		optionsHeight = 0;
-		selectedDimension = null;
 		optionItems.clear();
 		int size = geoList.size();
 		int rowTop = top;
@@ -781,7 +786,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			if (i == geoList.getSelectedIndex()) {
 				selectedText = text;
-				selectedDimension = d;
 			}
 
 			if (optionsWidth < d.getWidth()) {
