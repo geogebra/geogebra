@@ -6547,6 +6547,12 @@ public abstract class EuclidianController {
 			return;
 		}
 
+		for (GeoElement hit : view.getHits().getTopHits()) {
+			if (overComboBox(event, hit)) {
+				return;
+			}
+		}
+
 		// standard handling
 		Hits hits = new Hits();
 		boolean noHighlighting = false;
@@ -6601,11 +6607,9 @@ public abstract class EuclidianController {
 		// hits = view.getTopHits(hits);
 
 		hits = hits.getTopHits();
+
 		if (hits.size() == 1) {
 			GeoElement hit = hits.get(0);
-			if (overComboBox(event, hit)) {
-				return;
-			}
 			int labelMode = hit.getLabelMode();
 			if (hit.isGeoNumeric()
 					&& ((GeoNumeric) hit).isSlider()
@@ -8833,6 +8837,9 @@ public abstract class EuclidianController {
 				runScriptsIfNeeded(pressedButton.getButton());
 			}
 		}
+
+		if (hitComboBox(event.getX(), event.getY())) {
+		}
 		// TODO:repaint?
 
 		// GeoElement geo;
@@ -8858,9 +8865,7 @@ public abstract class EuclidianController {
 			return;
 		}
 		setViewHits(event.getType());
-		if (hitComboBox(event.getX(), event.getY())) {
-			return;
-		}
+
 		if (shallMoveView(event)) {
 			// Michael Borcherds 2007-12-08 BEGIN
 			// bugfix: couldn't select multiple objects with Ctrl
@@ -9555,7 +9560,7 @@ public abstract class EuclidianController {
 				if (geo instanceof GeoList) {
 					list = (GeoList) geo;
 					((DrawList) view.getDrawable(list)).onMouseDown(x, y);
-
+					return true;
 				}
 			}
 
