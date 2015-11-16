@@ -13,10 +13,12 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
@@ -67,6 +69,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private boolean defined = true;
 	private boolean trace;
 	private boolean hasDerivatives;
+	private boolean isConstant;
+	private int degX;
+	private int degY;
+	private double[][] coeff;
+	private double[][] coeffSquarefree;
 
 	/**
 	 * Construct an empty Implicit Curve Object
@@ -146,6 +153,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public void fromEquation(Equation eqn) {
 		this.equation = eqn;
+		eqn.initEquation();
+		Polynomial lhs = eqn.getNormalForm();
+		if (eqn.mayBePolynomial()) {
+			setCoeff(lhs.getCoeff());
+		} else {
+			resetCoeff();
+		}
 		ExpressionNode leftHandSide = eqn.getLHS();
 		ExpressionNode rightHandSide = eqn.getRHS();
 
@@ -165,6 +179,42 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		setDerivatives(x, y);
 		defined = expression.isDefined();
 		euclidianViewUpdate();
+	}
+
+	private void setCoeff(ExpressionValue[][] ev) {
+
+		resetCoeff();
+		degX = ev.length - 1;
+		coeff = new double[ev.length][];
+		for (int i = 0; i < ev.length; i++) {
+			coeff[i] = new double[ev[i].length];
+			if (ev[i].length > degY + 1)
+				degY = ev[i].length - 1;
+			for (int j = 0; j < ev[i].length; j++) {
+				if (ev[i][j] == null)
+					coeff[i][j] = 0;
+				else
+					coeff[i][j] = ev[i][j].evaluateDouble();
+				if (Double.isInfinite(coeff[i][j])) {
+					setUndefined();
+				}
+				isConstant = isConstant
+						&& (Kernel.isZero(coeff[i][j]) || (i == 0 && j == 0));
+			}
+		}
+		// getFactors();
+		// if (calcPath&&this.calcPath)
+		// updatePath();
+
+	}
+
+	private void resetCoeff() {
+		isConstant = true;
+		degX = -1;
+		degY = -1;
+		coeff = null;
+		coeffSquarefree = null;
+
 	}
 
 	private void setDerivatives(FunctionVariable x, FunctionVariable y) {
@@ -1793,37 +1843,48 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	public double[][] getCoeff() {
-		// TODO Auto-generated method stub
-		return null;
+		return coeff;
 	}
 
 	public void setCoeff(double[][] coeff) {
 		// TODO Auto-generated method stub
-
+		this.coeff = coeff;
 	}
 
 	public int getDeg() {
-		// TODO Auto-generated method stub
-		return 0;
+		if (coeff == null) {
+			return -1;
+		}
+		int deg = 0;
+		for (int d = degX + degY; d >= 0; d--) {
+			for (int x = 0; x <= degX; x++) {
+				int y = d - x;
+				if (y >= 0 && y < coeff[x].length) {
+					if (Math.abs(coeff[x][y]) > Kernel.STANDARD_PRECISION) {
+						deg = d;
+						d = 0;
+						break;
+					}
+				}
+			}
+		}
+		return deg;
 	}
 
 	public boolean isOnScreen() {
 		return defined && locus.isDefined() && locus.getPoints().size() > 0;
 	}
 
-	public double evalPolyAt(double evaluate, double x) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double evalPolyAt(double x, double y) {
+		return this.expression.evaluate(x, y, 0);
 	}
 
 	public int getDegX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return degX;
 	}
 
 	public int getDegY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return degY;
 	}
 
 	public void setInputForm() {
@@ -1839,6 +1900,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	public double evalDiffYPolyAt(double inhomX, double inhomY) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	/**
+	 * @return squarefree coefficients
+	 */
+	public double[][] getCoeffSquarefree() {
+		return coeffSquarefree;
 	}
 
 }

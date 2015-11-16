@@ -49,7 +49,7 @@ public class CmdAsymptote extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else if (arg[0].isGeoImplicitPoly()) {
+			} else if (arg[0].isGeoImplicitCurve()) {
 
 				AlgoAsymptoteImplicitPoly algo = new AlgoAsymptoteImplicitPoly(
 						cons, c.getLabel(), (GeoImplicit) arg[0]);

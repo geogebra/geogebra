@@ -124,7 +124,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 
     @Override
 	public final void compute() {       
-        if (!ip.isDefined()) {
+		if (!ip.isDefined() || ip.getCoeff() == null) {
 //        	lines.adjustOutputSize(0);
         	g.setUndefined();
         	return;
