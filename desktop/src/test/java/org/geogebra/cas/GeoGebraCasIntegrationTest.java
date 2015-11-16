@@ -4478,27 +4478,27 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Ticket_Ticket3563_1 () {
-		t("Solve[{b + a = 0, c^2 - 1 = 0}]", "{}");
+		t("Solve[{b + a = 0, c^2 - 1 = 0}]", "{{a = -b, b = b}}");
   }
 
   @Test
   public void Ticket_Ticket3563_2 () {
-		t("Solve[{c^2 - 1 = 0, b + a = 0}]", "{}");
+		t("Solve[{c^2 - 1 = 0, b + a = 0}]", "{{a = -b, b = b}}");
   }
 
   @Test
   public void Ticket_Ticket3563_3 () {
-		t("Solve[{c^2 - 1 = 0, b + a = 0, x = 0}]", "{}");
+		t("Solve[{c^2 - 1 = 0, b + a = 0, x = 0}]", "{{x = 0, a = -b, b = b}}");
   }
 
   @Test
   public void Ticket_Ticket3563_4 () {
-		t("Solve[{c^2 - 1 = 0, b + a = 0, x = 0}, b]", "{}");
+		t("Solve[{c^2 - 1 = 0, b + a = 0, x = 0}, b]", "{b = -a}");
   }
 
   @Test
   public void Ticket_Ticket3563_5 () {
-		t("Solve[{c^2 - 1 = 0, b + a = 0, x = 0}, c]", "{}");
+		t("Solve[{c^2 - 1 = 0, b + a = 0, x = 0}, c]", "{c = -1, c = 1}");
   }
 
   /* Ticket 3579: Keepinput Being Kept */
