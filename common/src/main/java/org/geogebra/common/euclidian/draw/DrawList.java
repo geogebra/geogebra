@@ -49,6 +49,8 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
+	private static final int OPTIONSBOX_ITEM_GAP_EXTRA_SMALL = 8;
+	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL = 10;
 	private static final int OPTIONSBOX_ITEM_GAP_SMALL = 20;
 	private static final int OPTIONSBOX_ITEM_GAP_MEDIUM = 40;
 	private static final int OPTIONSBOX_ITEM_GAP_BIG = 55;
@@ -804,16 +806,30 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		// switch (view.getApplication().getFontSize()) {
 		switch (getLabelFont().getSize()) {
 		case 10:
+			return OPTIONSBOX_ITEM_GAP_EXTRA_SMALL;
 		case 11:
 		case 12:
-			return 5;
+		case 13:
+		case 14:
+			return OPTIONSBOX_ITEM_GAP_VERY_SMALL;
+		case 15:
 		case 16:
+		case 17:
 		case 18:
 			return OPTIONSBOX_ITEM_GAP_SMALL;
 		case 20:
+		case 21:
+		case 22:
+		case 23:
 		case 24:
+		case 25:
+		case 26:
+		case 27:
 		case 28:
 			return OPTIONSBOX_ITEM_GAP_MEDIUM;
+		case 29:
+		case 30:
+		case 31:
 		case 32:
 		case 48:
 			return OPTIONSBOX_ITEM_GAP_BIG;
