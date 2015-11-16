@@ -1755,7 +1755,7 @@ public abstract class EuclidianController {
 	protected final int addSelectedImplicitpoly(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedImplicitpoly, Test.GEOIMPLICITPOLY);
+				selectedImplicitpoly, Test.GEOIMPLICIT);
 	}
 
 	protected final int addSelectedPolygon(Hits hits, int max,
@@ -2921,7 +2921,7 @@ public abstract class EuclidianController {
 				addSelectedLine(hits, 1, false);
 			}
 		}
-
+		App.debug("tangent" + selImplicitpoly() + "," + selPoints());
 		if (selConics() == 1) {
 			if (selPoints() == 1) {
 				GeoConicND[] conics = getSelectedConicsND();

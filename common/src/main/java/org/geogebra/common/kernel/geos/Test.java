@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -353,10 +353,10 @@ Test {
 	},
 
 	/** Test for GEOIMPLICITPOLY */
-	GEOIMPLICITPOLY {
+	GEOIMPLICIT {
 		@Override
 		public boolean check(Object ob) {
-			return ob instanceof GeoImplicitPoly;
+			return ob instanceof GeoImplicit;
 		}
 	},
 
@@ -559,7 +559,7 @@ Test {
 				return gen(GEOFUNCTION,second);
 			case GEOCONIC:
 				return gen(GEOLINE,second);
-			case GEOIMPLICITPOLY:
+		case GEOIMPLICIT:
 				return gen(GEOCONIC,second);
 			case GEOPLANEND:
 				return gen(GEOLINE,second);

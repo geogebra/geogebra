@@ -1893,13 +1893,21 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	public double evalDiffXPolyAt(double inhomX, double inhomY) {
-		// TODO Auto-generated method stub
-		return 0;
+
+		return evallDiff(0, inhomX, inhomY);
+	}
+
+	private double evallDiff(int i, double inhomX, double inhomY) {
+		ExpressionNode diffEx = expression.getFunctionExpression().derivative(
+				expression.getFunctionVariables()[i], kernel);
+		expression.getFunctionVariables()[0].set(inhomX);
+		expression.getFunctionVariables()[1].set(inhomY);
+		return diffEx.evaluateDouble();
+
 	}
 
 	public double evalDiffYPolyAt(double inhomX, double inhomY) {
-		// TODO Auto-generated method stub
-		return 0;
+		return evallDiff(1, inhomX, inhomY);
 	}
 
 	/**

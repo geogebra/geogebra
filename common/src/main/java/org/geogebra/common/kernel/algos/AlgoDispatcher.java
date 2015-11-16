@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitCurve;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyParametric;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyPolyLine;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolys;
-import org.geogebra.common.kernel.implicit.AlgoTangentImplicitCurve;
 import org.geogebra.common.kernel.implicit.AlgoTangentImplicitpoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
@@ -1705,14 +1704,6 @@ GeoImplicit p1,
 		return tangents;
 	}
 
-	final public GeoLine[] Tangent(String[] labels, GeoPointND R,
-			GeoImplicitCurve p) {
-		AlgoTangentImplicitCurve algo = new AlgoTangentImplicitCurve(cons,
-				labels, R, p);
-		algo.setLabels(labels);
-		GeoLine[] tangents = algo.getTangents();
-		return tangents;
-	}
 
 	/**
 	 * tangents to p parallel to g
