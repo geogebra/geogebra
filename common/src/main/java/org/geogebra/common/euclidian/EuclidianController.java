@@ -8781,6 +8781,8 @@ public abstract class EuclidianController {
 			this.doubleClickStarted = true;
 			// return;
 		}
+		if (hitComboBox(event.getX(), event.getY())) {
+		}
 
 		lastMousePressedTime = System.currentTimeMillis();
 
@@ -8790,6 +8792,7 @@ public abstract class EuclidianController {
 		scriptsHaveRun = false;
 
 		penDragged = false;
+
 
 		if (app.isUsingFullGui() && app.getGuiManager() != null) {
 			// determine parent panel to change focus
@@ -8838,8 +8841,6 @@ public abstract class EuclidianController {
 			}
 		}
 
-		if (hitComboBox(event.getX(), event.getY())) {
-		}
 		// TODO:repaint?
 
 		// GeoElement geo;

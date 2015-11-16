@@ -965,10 +965,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return;
 		}
 
-		if (isControlHit(x, y)) {
+		boolean optionHandled = false;
+		if (isOptionsVisible()) {
+			optionHandled = onOptionDown(x, y);
+		}
+
+		if (!optionHandled && isControlHit(x, y)) {
 			setOptionsVisible(!isOptionsVisible());
-		} else {
-			onOptionDown(x, y);
 		}
 	}
 
@@ -980,26 +983,26 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * @param y
 	 *            Mouse y coordinate.
 	 */
-	public void onOptionDown(int x, int y) {
+	public boolean onOptionDown(int x, int y) {
 		if (!isDrawingOnCanvas()) {
-			return;
+			return false;
 		}
 		if (optionsRect.contains(x, y)
 				|| optionsRect.getBounds().contains(x, y)) {
 			currentIdx = getOptionAt(x, y);
-
-
 			selectItem();
+			return true;
 		}
+		return false;
 	}
 
 	private void selectItem() {
-		if (currentIdx == -1) {
-			return;
-		}
+		if (currentIdx != -1) {
+			geoList.setSelectedIndex(currentIdx, false);
 
-		geoList.setSelectedIndex(currentIdx, false);
+		}
 		closeOptions();
+
 	}
 
 	/**
