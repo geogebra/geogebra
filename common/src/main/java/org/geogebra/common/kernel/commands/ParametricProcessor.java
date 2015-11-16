@@ -117,8 +117,7 @@ public class ParametricProcessor {
 					return ret;
 				}
 			} catch (Throwable tt) {
-				tt.printStackTrace();
-				Log.debug("X is not parametric");
+				Log.debug("X is not parametric:" + tt.getMessage());
 			}
 			removeSliders(num, undefinedVariables);
 
@@ -152,17 +151,21 @@ public class ParametricProcessor {
 	}
 	
 	private static String getPreferredName(TreeSet<String> undefinedVariables) {
+
+		if (undefinedVariables.contains("t")) {
+			return "t";
+		}
+		if (undefinedVariables.contains(Unicode.thetaStr)) {
+			return Unicode.thetaStr;
+		}
 		Iterator<String> t = undefinedVariables.iterator();
 
 		String varName = t.next();
-		if (undefinedVariables.contains("t")) {
-			varName = "t";
-		}
-		if (undefinedVariables.contains(Unicode.thetaStr)) {
-			varName = Unicode.thetaStr;
-		}
 		if ("X".equals(varName)) {
-			varName = t.next();
+			if (t.hasNext()) {
+				return t.next();
+			}
+			return "t";
 		}
 		return varName;
 	}
