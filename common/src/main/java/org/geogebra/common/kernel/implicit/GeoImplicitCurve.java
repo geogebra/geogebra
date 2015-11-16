@@ -167,7 +167,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				leftHandSide, Operation.MINUS, rightHandSide);
 		FunctionVariable x = new FunctionVariable(kernel, "x");
 		FunctionVariable y = new FunctionVariable(kernel, "y");
-		VariableReplacer repl = VariableReplacer.getReplacer();
+		VariableReplacer repl = VariableReplacer.getReplacer(kernel);
 		VariableReplacer.addVars("x", x);
 		VariableReplacer.addVars("y", y);
 		functionExpression.traverse(repl);
@@ -517,6 +517,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	private double[] eval = new double[2];
+	private boolean calcPath = true;
 
 	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
@@ -1849,6 +1850,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	public void setCoeff(double[][] coeff) {
 		// TODO Auto-generated method stub
 		this.coeff = coeff;
+		this.degX = coeff.length - 1;
+		this.degY = coeff[0].length - 1;
 	}
 
 	public int getDeg() {
@@ -1876,6 +1879,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	public double evalPolyAt(double x, double y) {
+		if (coeff != null) {
+			return GeoImplicitPoly.evalPolyCoeffAt(x, y, coeff);
+		}
 		return this.expression.evaluate(x, y, 0);
 	}
 
@@ -1892,9 +1898,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	}
 
-	public double evalDiffXPolyAt(double inhomX, double inhomY) {
-
-		return evallDiff(0, inhomX, inhomY);
+	public double evalDiffXPolyAt(double x, double y) {
+		if (coeff != null) {
+			return GeoImplicitPoly.evalDiffXPolyAt(x, y, coeff);
+		}
+		return evallDiff(0, x, y);
 	}
 
 	private double evallDiff(int i, double inhomX, double inhomY) {
@@ -1906,8 +1914,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	}
 
-	public double evalDiffYPolyAt(double inhomX, double inhomY) {
-		return evallDiff(1, inhomX, inhomY);
+	public double evalDiffYPolyAt(double x, double y) {
+		if (coeff != null) {
+			return GeoImplicitPoly.evalDiffYPolyAt(x, y, coeff);
+		}
+		return evallDiff(1, x, y);
 	}
 
 	/**
@@ -1915,6 +1926,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public double[][] getCoeffSquarefree() {
 		return coeffSquarefree;
+	}
+
+	public void preventPathCreation() {
+		calcPath = false;
+
 	}
 
 }

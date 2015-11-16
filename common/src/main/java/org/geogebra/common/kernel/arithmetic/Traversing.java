@@ -372,7 +372,8 @@ public interface Traversing {
 		 * 
 		 * @return replacer
 		 */
-		public static VariableReplacer getReplacer() {
+		public static VariableReplacer getReplacer(Kernel kernel1) {
+			replacer.kernel = kernel1;
 			replacer.vars.clear();
 			replacer.newObjs.clear();
 
@@ -1162,7 +1163,8 @@ public interface Traversing {
 								.getCopy(en.getKernel()).traverse(this)
 								.unwrap();
 						ExpressionValue ithArg = argument;
-						VariableReplacer vr = VariableReplacer.getReplacer();
+						VariableReplacer vr = VariableReplacer.getReplacer(en
+								.getKernel());
 
 						// variables have to be replaced with one traversing
 						// or else replacing f(x,y) with f(y,x)

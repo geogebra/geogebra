@@ -118,7 +118,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 		FunctionVariable x = new FunctionVariable(kernel, "x");
 		FunctionVariable y = new FunctionVariable(kernel, "y");
 		FunctionVariable z = new FunctionVariable(kernel, "z");
-		VariableReplacer repl = VariableReplacer.getReplacer();
+		VariableReplacer repl = VariableReplacer.getReplacer(kernel);
 
 		VariableReplacer.addVars("x", x);
 		VariableReplacer.addVars("y", y);

@@ -175,7 +175,10 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		
 		int m=a.getDegX();
 		int n=b.getDegX();
-		
+		if (n < 0 || m < 0) {
+			points.adjustOutputSize(0);
+			return;
+		}
 		if (n == 0) {
 			computeY(a, b);
 			return;

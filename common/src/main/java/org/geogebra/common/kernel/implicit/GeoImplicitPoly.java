@@ -611,7 +611,7 @@ Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
 	 * @return value of dthis/dx at (x,y)
 	 */
 	public double evalDiffXPolyAt(double x,double y){
-		return evalDiffXPolyAt(x, y,false);
+		return evalDiffXPolyAt(x, y, getCoeff(false));
 	}
 	
 	/**
@@ -620,10 +620,9 @@ Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
 	 * @param squarefree TODO -- seems it doesn't do anything
 	 * @return value of dthis/dx at (x,y)
 	 */
-	public double evalDiffXPolyAt(double x,double y,boolean squarefree){
+	public static double evalDiffXPolyAt(double x, double y, double[][] coeff1) {
 		double sum=0;
 		double zs=0;
-		double[][] coeff1=getCoeff(squarefree);
 		//Evaluating Poly via the Horner-scheme
 		if (coeff1!=null)
 			for (int i=coeff1.length-1;i>=1;i--){
@@ -642,7 +641,7 @@ Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
 	 * @return value of dthis/dy at (x,y)
 	 */
 	public double evalDiffYPolyAt(double x,double y){
-		return evalDiffYPolyAt(x, y,false);
+		return evalDiffYPolyAt(x, y, getCoeff(false));
 	}
 	
 	/**
@@ -651,10 +650,9 @@ Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
 	 * @param squarefree TODO -- seems it doesn't do anything
 	 * @return value of dthis/dy at (x,y)
 	 */
-	public double evalDiffYPolyAt(double x,double y,boolean squarefree){
+	public static double evalDiffYPolyAt(double x, double y, double[][] coeff1) {
 		double sum=0;
 		double zs=0;
-		double[][] coeff1=getCoeff(squarefree);
 		//Evaluating Poly via the Horner-scheme
 		if (coeff1!=null)
 			for (int i=coeff1.length-1;i>=0;i--){
@@ -1623,8 +1621,8 @@ Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
 				double gradX=0;
 				double gradY=0;
 				if (!reachedEnd){
-					gradX=evalDiffXPolyAt(sx, sy,true);
-					gradY=evalDiffYPolyAt(sx, sy,true);
+				gradX = evalDiffXPolyAt(sx, sy, getCoeff(true));
+				gradY = evalDiffYPolyAt(sx, sy, getCoeff(true));
 					
 					/*
 					 * Dealing with singularities: tries to reach the singularity but stops there.
@@ -1692,8 +1690,8 @@ Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
 							stepSize*=2;
 						break;
 					}
-					gradX=evalDiffXPolyAt(sx, sy,true);
-					gradY=evalDiffYPolyAt(sx, sy,true);
+				gradX = evalDiffXPolyAt(sx, sy, getCoeff(true));
+				gradY = evalDiffYPolyAt(sx, sy, getCoeff(true));
 					if (Math.abs(gradX)<MIN_GRAD&&Math.abs(gradY)<MIN_GRAD){ //singularity
 						stepSize/=2;
 						if (stepSize>MIN_STEP_SIZE*Math.max(scaleX, scaleY))

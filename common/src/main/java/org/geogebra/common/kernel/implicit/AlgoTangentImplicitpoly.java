@@ -82,9 +82,9 @@ public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo 
 		
 		if (!pointOnPath){
 			AlgoImplicitPolyTangentCurve algoTangentPoly=
-				new AlgoImplicitPolyTangentCurve(c, p, R, null,false,false);
+				new AlgoImplicitPolyTangentCurve(c, p, R);
 			
-			GeoImplicitPoly tangentCurve=algoTangentPoly.getTangentCurve();
+			GeoImplicit tangentCurve=algoTangentPoly.getTangentCurve();
 			algoIntersect = new AlgoIntersectImplicitpolys(cons, p,tangentCurve);
 			cons.removeFromConstructionList(algoIntersect);
 			ip = algoIntersect.getIntersectionPoints();
