@@ -38,7 +38,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		SettingListener, SetLabels {
 
-	private static final long serialVersionUID = 1L;
 
 	// ggb fields
 	protected AppW app;
@@ -49,14 +48,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	protected SpreadsheetTableModelW tableModel;
 	public Canvas bluedot;
 
-	private static int DEFAULT_COLUMN_WIDTH = 70;
 	public static final int ROW_HEADER_WIDTH = 35; // wide enough for "9999"
 
 	// TODO: should traceDialog belong to the SpreadsheetTraceManager?
 	// private TraceDialog traceDialog;
 
 	protected AdvancedFocusPanel spreadsheetWrapper;
-	private int defaultDividerLocation = 150;
 	private SpreadsheetStyleBarW styleBar;
 
 	// toolbar manager
@@ -66,7 +63,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// current toolbar mode
 	private int mode = -1;
 
-	private boolean repaintScheduled = false;// to repaint less often, make it
+	boolean repaintScheduled = false;// to repaint less often, make it
 	                                         // quicker
 
 	// panel that contains the spreadsheet table and headers
@@ -288,7 +285,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	public void repaintView() {
-		repaint();
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
+			getApplication().ensureTimerRunning();
+			waitForRepaint = TimerSystemW.SPREADSHEET_LOOPS;
+		}
 	}
 
 	public void clearView() {
@@ -480,7 +480,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		sb.append(table.preferredColumnWidth);
 		sb.append("\"");
 		sb.append(" height=\"");
-		sb.append(table.minimumRowHeight
+		sb.append(MyTableW.minimumRowHeight
 		// FIXME: temporarily, otherwise:
 		// table.getRowHeight()
 		);
@@ -502,7 +502,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			for (int row = 1; row < table.getRowCount(); row++) {
 				int rowHeight = table.getGrid().getRowFormatter()
 				        .getElement(row).getOffsetHeight();
-				if (rowHeight != table.minimumRowHeight
+				if (rowHeight != MyTableW.minimumRowHeight
 				// FIXME: temporarily, otherwise
 				// table.getRowHeight()
 				)
@@ -861,7 +861,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	public void setAllowSpecialEditor(boolean allowSpecialEditor) {
-		repaint();
+		repaintView();
 	}
 
 	public boolean allowSpecialEditor() {
@@ -1111,7 +1111,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// this may be important if the view is added/removed from the DOM
 		// TODO: is this needed with stand alone spreadsheetView?
 		// super.onLoad();
-		repaint();
+		repaintView();
 	}
 
 	/**
@@ -1120,14 +1120,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 */
 	public void doRepaint() {
 		table.repaint();
-	}
-
-	public final void repaint() {
-
-		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
-			getApplication().ensureTimerRunning();
-			waitForRepaint = TimerSystemW.SPREADSHEET_LOOPS;
-		}
 	}
 
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
@@ -1167,7 +1159,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	Scheduler.ScheduledCommand scheduleRepaintCommand = new Scheduler.ScheduledCommand() {
 		public void execute() {
 			repaintScheduled = false;
-			repaint();
+			repaintView();
 		}
 	};
 
