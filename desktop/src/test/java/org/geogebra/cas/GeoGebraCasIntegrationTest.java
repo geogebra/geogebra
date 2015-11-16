@@ -3814,7 +3814,7 @@ public class GeoGebraCasIntegrationTest {
 	  t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
 				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
 	  t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
-				"P:=(0, ((-sqrt((2 * sqrt(10)) + 3)) + 3) / 2)");
+				"(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)");
 		t("Tangent[P, c]",
 				"{y = ((-sqrt((2 * sqrt(10)) + 3)) + 3) / 2, y = (5.558213948645 * x) - 0.02680674287353}");
   }
