@@ -1414,7 +1414,7 @@ __GGB__keysVar.zh_CN.menu = {
     "DotPlot": "\u70b9\u9635\u56fe",
     "Download": "\u4e0b\u8f7d",
     "DownloadAsGgbFile": "\u4e0b\u8f7d\u4e3a *.ggb \u6587\u4ef6",
-    "DrawingPadToClipboard": "\u590d\u5236\u7ed8\u56fe\u533a",
+    "DrawingPadToClipboard": "\u622a\u56fe",
     "DynamicColors": "\u52a8\u6001\u989c\u8272",
     "EMFPlus": "EMF+",
     "Edit": "\u7f16\u8f91",

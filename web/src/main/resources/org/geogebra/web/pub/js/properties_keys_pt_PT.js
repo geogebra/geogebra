@@ -1457,7 +1457,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Filling": "Preencher",
     "Filling.Brick": "Tijolo",
     "Filling.Chessboard": "Tabuleiro_de_xadrez",
-    "Filling.Crosshatch": "Cross-hatch",
+    "Filling.Crosshatch": "Quadriculado",
     "Filling.CurrentSymbol": "S\xedmbolo Corrente",
     "Filling.Dotted": "Ponteado",
     "Filling.Hatch": "Tracejado",
