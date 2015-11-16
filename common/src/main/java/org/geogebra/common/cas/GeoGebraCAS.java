@@ -414,6 +414,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		boolean argIsList = false;
 		boolean isAssumeInEqus = false;
+		boolean skipEqu = false;
 		MyList equsForArgs = new MyList(this.app.getKernel());
 		StringBuilder assumesForArgs = new StringBuilder();
 		if (args.size() == 1 && args.get(0).isExpressionNode()
@@ -444,10 +445,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					// 2 = 2 should be handled as equation, not assumption
 					boolean contains = isEquation(listOfEqus.getListElement(k),
 							listOfVars);
+					boolean linear = false;
+					// check if equation can be used with assume
+					if (!contains) {
+						linear = isLinear(listOfEqus.getListElement(k));
+					}
 
 					// if contains other vars as parameters
 					// that means that the current equation is an assumption
-					if (!contains) {
+					if (!contains && linear) {
 						if (!isAssumeInEqus) {
 							isAssumeInEqus = true;
 							// call Solve.3
@@ -459,11 +465,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 								+ "),assume(");
 					}
 					// we found an equation which should be solved
-					else {
+					else if (contains) {
 						// add current equation to list of equations
 						ExpressionValue ev = listOfEqus.getListElement(k);
 						equsForArgs.addListElement(ev);
 					}
+				}
+				if (!isAssumeInEqus && listOfEqus.size() != equsForArgs.size()) {
+					skipEqu = true;
 				}
 			}
 			// case Solve[ <List of Equations>, <Variable> ]
@@ -488,8 +497,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 							break;
 						}
 					}
-					// the current equation is an assumption
+					boolean linear = false;
+					// check if we could use equation with assume
 					if (!contains) {
+						linear = isLinear(listOfEqus.getItem(k));
+					}
+					// the current equation is an assumption
+					if (!contains && linear) {
 						if (!isAssumeInEqus) {
 							isAssumeInEqus = true;
 							// call Solve.3
@@ -502,11 +516,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					}
 					// the current equation is an equation which should be
 					// solved
-					else {
+					else if (contains) {
 						// add current equation to the list of equations
 						ExpressionValue ev = listOfEqus.getListElement(k);
 						equsForArgs.addListElement(ev);
 					}
+				}
+				if (!isAssumeInEqus && listOfEqus.size() != equsForArgs.size()) {
+					skipEqu = true;
 				}
 			}
 		}
@@ -684,7 +701,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						}
 						sbCASCommand.setLength(sbCASCommand.length() - 9);
 						} else if (pos >= 0 && pos < args.size()) {
-							ev = args.get(pos);
+							if (skipEqu && pos == 0) {
+								ev = equsForArgs;
+							} else {
+								ev = args.get(pos);
+							}
 							// we need completion of variable list
 							if (varComplNeeded && pos == 1) {
 								String listOfVars = toString(ev, symbolic, tpl);
@@ -774,6 +795,21 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	private static boolean isLinear(ExpressionValue listElement) {
+		if (listElement.isExpressionNode()
+				&& ((ExpressionNode) listElement).getLeft() instanceof Equation) {
+			Equation equation = (Equation) ((ExpressionNode) listElement)
+					.getLeft();
+			HashSet<GeoElement> vars = equation.getVariables();
+			equation.initEquation();
+			// assume can accept only equation in first degree and with one
+			// variable
+			if (equation.degree() == 1 && vars.size() == 1)
+				return true;
+		}
+		return false;
 	}
 
 	// method to check if we should make completion of variable list
