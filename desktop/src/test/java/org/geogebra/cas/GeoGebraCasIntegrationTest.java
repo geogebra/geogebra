@@ -3816,7 +3816,7 @@ public class GeoGebraCasIntegrationTest {
 	  t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
 				"(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)");
 		t("Tangent[P, c]",
-				"{y = ((-sqrt((2 * sqrt(10)) + 3)) + 3) / 2, y = (5.558213948645 * x) - 0.02680674287353}");
+				"{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2, y = 5.558213948645 * x - 0.02680674287353}");
   }
 
   // TODO Add tests for other conics.
