@@ -4,6 +4,8 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolViewW;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -38,16 +40,33 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler {
 		btCancel.addClickHandler(this);
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
+		buttonPanel.setStyleName("printPopupButtonPanel");
 		buttonPanel.add(btPrint);
 		buttonPanel.add(btCancel);
 		centerPanel.add(buttonPanel);
 
-		centerPanel.add(((ConstructionProtocolViewW) app.getGuiManager()
-				.getConstructionProtocolView()).getCpPanel());
+		VerticalPanel printPanel = new VerticalPanel();
+		printPanel.setStyleName("printPanel");
 
+		app.getGgbApi().getScreenshotURL(
+				((ConstructionProtocolViewW) app.getGuiManager()
+						.getConstructionProtocolView()).getCpPanel()
+						.getElement(),
+				getScreenshotCallback(printPanel.getElement()));
+
+		centerPanel.add(printPanel);
 
 		setWidget(centerPanel);
 	}
+
+	private native JavaScriptObject getScreenshotCallback(Element el)/*-{
+		return function(pngBase64) {
+			var previewImg = document.createElement("img");
+			previewImg
+					.setAttribute("src", "data:image/png;base64," + pngBase64);
+			el.appendChild(previewImg);
+		};
+	}-*/;
 
 	public void onClick(ClickEvent event) {
 		if (event.getSource() == btPrint) {

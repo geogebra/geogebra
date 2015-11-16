@@ -6064,4 +6064,8 @@ body.application[dir=rtl] .deleteAlgebra {
 	.GeoGebraFrame{
 		display: none;
 	}
+	
+	.printPopupButtonPanel{
+		display: none;
+	}
 }
