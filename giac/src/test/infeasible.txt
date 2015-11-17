@@ -11,6 +11,7 @@
 ./eliminate/circle-ray-ex106.in
 ./eliminate/circles-are-parallel-ex90.in
 ./eliminate/circumcircle-3-parabola-tangent.in
+./eliminate/ellipse-circle3.in
 ./eliminate/inversion-line-circle.in
 ./eliminate/incenter1.in
 ./eliminate/incenter2.in

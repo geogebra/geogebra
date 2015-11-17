@@ -5,7 +5,7 @@
 ICAS=../../build/binaries/icasExecutable/icas
 
 OVERWRITE=0
-TIMEOUT=300
+TIMEOUT=480
 HEAVY=0
 INFEASIBLE=0
 REGRESSION=0
@@ -24,7 +24,7 @@ usage() {
  exit 0
  }
 
-while getopts "t:rfh" OPT; do
+while getopts "t:rfhHI" OPT; do
  case $OPT in
   r)
    REGRESSION=1
@@ -81,7 +81,10 @@ find -name '*.in' | while read IN; do
    if [ "$REGRESSION" = 1 ]; then
     mkdir -p `dirname $SAVEDIR/$OUT`
     fi
-   timeout $TIMEOUT $ICAS -m < $IN > $SAVEDIR/$OUT # FIXME: handle stderr also
+   timeout $TIMEOUT $ICAS -m < $IN > $SAVEDIR/$OUT 2> $SAVEDIR/.stderr
+   if [ $? != 0 ]; then
+    cat $SAVEDIR/.stderr > /dev/stderr
+    fi
    if [ "$REGRESSION" = 1 ]; then
     mkdir -p `dirname $SAVEDIR/$OUT`
     fi

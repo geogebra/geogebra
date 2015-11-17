@@ -9,6 +9,7 @@
 ./eliminate/inversion-line-circle2.in 312
 ./eliminate/inversion-line-circle3.in 107
 ./eliminate/orthocenter-isoscel-ex70.in 88
+./eliminate/perpendicular-to-altitudes-feetpoint-equid-ex186.in 25
 ./eliminate/quadrangle-midpoints-are-collinear-ex261.in 57
 ./eliminate/simsons-line-bisector-ex293.in 410
 ./eliminate/tangents-circle-intersections.in 35
@@ -19,4 +20,5 @@
 ./gbasis/circle-ray-ex106.in 71
 ./gbasis/circles-are-parallel-ex90.in 173
 ./gbasis/simsons-line-bisector-ex293.in 24
+./gbasis/symmedians.in 66
 ./gbasis/tangents-circle-intersections.in 11
