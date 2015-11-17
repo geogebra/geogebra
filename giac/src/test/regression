@@ -1,0 +1,114 @@
+#!/bin/sh
+# Creates *.out files from *.in files or runs a regression test.
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+ICAS=../../build/binaries/icasExecutable/icas
+
+OVERWRITE=0
+TIMEOUT=300
+HEAVY=0
+INFEASIBLE=0
+REGRESSION=0
+
+usage() {
+ echo "$0 - creates .out files from .in files or runs a regression test."
+ echo "Usage:"
+ echo " $0 [options]"
+ echo "  where options can be as follows (defaults in parentheses):"
+ echo "   -r           run a regression test (if not specified, it creates the remaining .out files)"
+ echo "   -f           overwrite existing .out files (on creation only)"
+ echo "   -H           run heavy tests also"
+ echo "   -I           run infeasible tests also"
+ echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
+ echo "   -h           show this help"
+ exit 0
+ }
+
+while getopts "t:rfh" OPT; do
+ case $OPT in
+  r)
+   REGRESSION=1
+   ;;
+  f)
+   OVERWRITE=1
+   ;;
+  H)
+   HEAVY=1
+   ;;
+  I)
+   INFEASIBLE=1
+   ;;
+  t)
+   TIMEOUT="$OPTARG"
+   ;;
+  h)
+   usage
+   ;;
+
+ esac
+done
+
+# Put name of the filters into $@
+shift $((OPTIND-1))
+
+test -x $ICAS || {
+ echo "Cannot find $ICAS"
+ exit 2
+ }
+
+SAVEDIR=.
+
+if [ "$REGRESSION" = 1 ]; then
+ SAVEDIR=`date +%Y%m%d%H%M%S`
+ mkdir -p $SAVEDIR
+ echo 0 > $SAVEDIR/.good
+ echo 0 > $SAVEDIR/.bad
+ fi
+
+find -name '*.in' | while read IN; do
+ OUT=`dirname $IN`/`basename $IN .in`.out
+ if [ "$REGRESSION" = 1 -o "$OVERWRITE" = 1 -o ! -f $OUT ]; then
+  IGNORE=0
+  if [ "$INFEASIBLE" = 0 ]; then
+   grep --silent ^$IN infeasible.txt && IGNORE=1
+   fi
+  if [ "$HEAVY" = 0 ]; then
+   grep --silent ^$IN heavy.txt && IGNORE=1
+   fi
+  if [ "$IGNORE" = 0 ]; then
+   DATE=`date +%T`
+   echo "$DATE Processing $IN"
+   if [ "$REGRESSION" = 1 ]; then
+    mkdir -p `dirname $SAVEDIR/$OUT`
+    fi
+   timeout $TIMEOUT $ICAS -m < $IN > $SAVEDIR/$OUT # FIXME: handle stderr also
+   if [ "$REGRESSION" = 1 ]; then
+    mkdir -p `dirname $SAVEDIR/$OUT`
+    fi
+   if [ "$REGRESSION" = 1 ]; then
+    diff $OUT $SAVEDIR/$OUT > $SAVEDIR/$OUT.diff
+    if [ -s $SAVEDIR/$OUT.diff ]; then
+     BAD=`cat $SAVEDIR/.bad`
+     BAD=$((BAD+1))
+     echo $BAD > $SAVEDIR/.bad
+     echo " regression found"
+    else
+     GOOD=`cat $SAVEDIR/.good`
+     GOOD=$((GOOD+1))
+     echo $GOOD > $SAVEDIR/.good
+     fi
+    fi
+   fi
+  fi
+ done
+
+if [ "$REGRESSION" = 1 ]; then
+ BAD=`cat $SAVEDIR/.bad`
+ GOOD=`cat $SAVEDIR/.good`
+ echo "Summary: $GOOD good and $BAD bad results"
+ if [ "$BAD" != 0 ]; then
+  exit 1
+  fi
+ fi
+
+exit 0
