@@ -2921,7 +2921,6 @@ public abstract class EuclidianController {
 				addSelectedLine(hits, 1, false);
 			}
 		}
-		App.debug("tangent" + selImplicitpoly() + "," + selPoints());
 		if (selConics() == 1) {
 			if (selPoints() == 1) {
 				GeoConicND[] conics = getSelectedConicsND();
