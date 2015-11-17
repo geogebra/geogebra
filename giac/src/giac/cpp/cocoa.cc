@@ -7061,6 +7061,8 @@ namespace giac {
       typename std::vector< T_unsigned<modint,tdeg_t> >::const_iterator j=jt+(jtend-jt)/2;
       if (j==jt)
 	return j->u==u;
+      //PREFETCH(&*(j+step/2));
+      //PREFETCH(&*(jt+step/2));
       if (int res=tdeg_t_greater(j->u,u,order)){
 	jt=j;
 	if (res==2)
@@ -10175,6 +10177,8 @@ namespace giac {
       typename std::vector<tdeg_t>::const_iterator j=jt+(jtend-jt)/2;
       if (j==jt)
 	return *j==u;
+      //PREFETCH(&*(j+step/2));
+      //PREFETCH(&*(jt+step/2));
       if (int res=tdeg_t_greater(*j,u,order)){
 	jt=j;
 	if (res==2)
@@ -11458,7 +11462,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	return false;
       if (debug_infolevel>1)
 	CERR << CLOCK() << " begin new iteration " << age << " zmod, " << env << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
-      vector<bool> clean(G.back()+1,true); 
+      vector<bool> clean(res.size(),true); 
       for (unsigned i=0;i<G.size();++i){
 	clean[G[i]]=false;
       }
