@@ -6057,7 +6057,15 @@ body.application[dir=rtl] .deleteAlgebra {
    ###       Printing                   ###
    ######################################## */
  
+.printPanel {
+	border: solid 1px;
+	width: 497px;
+	height: 620px;
+}
 
+@media screen {
+
+}
 
 @media print {
 	
@@ -6067,5 +6075,13 @@ body.application[dir=rtl] .deleteAlgebra {
 	
 	.printPopupButtonPanel{
 		display: none;
+	}
+	
+	.GeoGebraPopup{
+		width: 95%;
+		height: 95%;
+		position: absolute;
+		top: 0px;
+		left: 0px;
 	}
 }

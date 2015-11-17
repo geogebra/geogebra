@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class PrintPreviewW extends GPopupPanel implements ClickHandler {
@@ -45,7 +46,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler {
 		buttonPanel.add(btCancel);
 		centerPanel.add(buttonPanel);
 
-		VerticalPanel printPanel = new VerticalPanel();
+		SimplePanel printPanel = new SimplePanel();
 		printPanel.setStyleName("printPanel");
 
 		app.getGgbApi().getScreenshotURL(
