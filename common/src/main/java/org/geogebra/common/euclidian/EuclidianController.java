@@ -8783,7 +8783,6 @@ public abstract class EuclidianController {
 		}
 		if (hitComboBox(event.getX(), event.getY())) {
 		}
-
 		lastMousePressedTime = System.currentTimeMillis();
 
 		app.storeUndoInfoIfSetCoordSystemOccured();

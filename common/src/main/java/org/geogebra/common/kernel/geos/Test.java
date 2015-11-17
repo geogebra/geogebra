@@ -288,6 +288,14 @@ Test {
 		}
 	},
 
+	/** Test for GEOLIST as combo box */
+	GEOLIST_AS_COMBO {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoList && ((GeoList) ob).drawAsComboBox();
+		}
+	},
+
 	/** Test for GEOLOCUS */
 	GEOLOCUS {
 		@Override
