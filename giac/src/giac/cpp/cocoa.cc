@@ -5846,6 +5846,41 @@ namespace giac {
   typedef char used_t;
   // typedef bool used_t;
 
+  void f4_innerloop(modint2 * wt,const modint * jt,const modint * jtend,modint c,const shifttype* it){
+    jtend -= 8;
+    for (;jt<=jtend;){
+      wt += *it; ++it;
+      *wt-=modint2(c)*(*jt);
+      ++jt;
+      wt += *it; ++it;
+      *wt-=modint2(c)*(*jt);
+      ++jt;
+      wt += *it; ++it;
+      *wt-=modint2(c)*(*jt);
+      ++jt;
+      wt += *it; ++it;
+      *wt-=modint2(c)*(*jt);
+      ++jt;
+      wt += *it; ++it;
+      *wt-=modint2(c)*(*jt);
+      ++jt;
+      wt += *it; ++it;
+      *wt-=modint2(c)*(*jt);
+      ++jt;
+      wt += *it; ++it;
+      *wt-=modint2(c)*(*jt);
+      ++jt;
+      wt += *it; ++it;
+      *wt-=modint2(c)*(*jt);
+      ++jt;
+    }
+    jtend+=8;
+    for (;jt!=jtend;++jt){
+      wt += *it; ++it;
+      *wt-=modint2(c)*(*jt);
+    }
+  }
+
   unsigned reducef4buchbergersplit(vector<modint2> &v64,const vector< vector<shifttype> > & M,const vector<unsigned> & firstpos,const vector< vector<modint> > & coeffs,const vector<coeffindex_t> & coeffindex,vector<modint> & lescoeffs,unsigned * bitmap,vector<used_t> & used,modint env){
     vector<unsigned>::const_iterator fit=firstpos.begin(),fit0=fit,fitend=firstpos.end();
     vector<modint2>::iterator wt=v64.begin(),wt0=wt,wt1,wtend=v64.end();
@@ -5888,36 +5923,7 @@ namespace giac {
 	++jt;
 #ifdef GIAC_SHORTSHIFTTYPE
 	if (shortshifts){
-	  for (;jt<jt_;){
-	    wt += *it; ++it;
-	    *wt-=modint2(c)*(*jt);
-	    ++jt;
-	    wt += *it; ++it;
-	    *wt-=modint2(c)*(*jt);
-	    ++jt;
-	    wt += *it; ++it;
-	    *wt-=modint2(c)*(*jt);
-	    ++jt;
-	    wt += *it; ++it;
-	    *wt-=modint2(c)*(*jt);
-	    ++jt;
-	    wt += *it; ++it;
-	    *wt-=modint2(c)*(*jt);
-	    ++jt;
-	    wt += *it; ++it;
-	    *wt-=modint2(c)*(*jt);
-	    ++jt;
-	    wt += *it; ++it;
-	    *wt-=modint2(c)*(*jt);
-	    ++jt;
-	    wt += *it; ++it;
-	    *wt-=modint2(c)*(*jt);
-	    ++jt;
-	  }
-	  for (;jt!=jtend;++jt){
-	    wt += *it; ++it;
-	    *wt-=modint2(c)*(*jt);
-	  }
+	  f4_innerloop(&*wt,jt,jtend,c,it);
 	}
 	else {
 	  for (;jt<jt_;){

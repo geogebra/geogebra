@@ -1840,7 +1840,7 @@ namespace giac {
 	return vecteur(1,expr1);
       vecteur fullres;
       solve_fracpow(expr1,x,equations,listvars,fullres,isolate_mode,contextptr);
-      // Check that expr at x=fullres is 0
+      // Check that e_check at x=fullres is 0
       // Only if expr1 does not depend on other variables than x
       vecteur othervar(1,x),res;
       lidnt(expr1,othervar,false);
@@ -1855,9 +1855,9 @@ namespace giac {
 	    res.push_back(*it);
 	  else {
 #ifdef HAVE_LIBMPFR
-	    gen tmp=abs(_evalf(makesequence(subst(expr,x,*it,false,contextptr),100),contextptr),contextptr);
+	    gen tmp=abs(_evalf(makesequence(subst(e_check,x,*it,false,contextptr),100),contextptr),contextptr);
 #else
-	    gen tmp=evalf(subst(expr,x,*it,false,contextptr),1,contextptr);
+	    gen tmp=evalf(subst(e_check,x,*it,false,contextptr),1,contextptr);
 #endif
 	    if ( (tmp.type==_DOUBLE_ || tmp.type==_REAL || tmp.type==_FLOAT_) && is_greater(1e-8,abs(tmp,contextptr),contextptr)){
 	      if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && has_op(*it,*at_rootof))
@@ -1867,7 +1867,7 @@ namespace giac {
 	      continue;
 	    }
 	    if (is_undef(tmp))
-	      tmp=limit(expr,x,*it,0,contextptr);
+	      tmp=limit(e_check,x,*it,0,contextptr);
 	    if (is_zero(tmp,contextptr))
 	      res.push_back(*it);
 	  }

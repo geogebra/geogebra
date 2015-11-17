@@ -1,5 +1,6 @@
 // -*- mode:C++ ; compile-command: "emcc opengl.cc -I. -I.. -DHAVE_CONFIG_H -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -DNO_STDEXCEPT -Os -s ALLOW_MEMORY_GROWTH=1 -s LEGACY_GL_EMULATION=1" -*-
 #ifndef GIAC_GGB
+
 #include "opengl.h"
 /*
  *  Copyright (C) 2006,2014 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
@@ -4361,4 +4362,5 @@ void freeglutStrokeCharacter( int character )
 #ifdef EMCC
 const char * gettext(const char * s) { return s; }
 #endif
+
 #endif // ndef GIAC_GGB

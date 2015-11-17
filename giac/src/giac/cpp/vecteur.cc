@@ -1816,7 +1816,7 @@ namespace giac {
 	eps=eps1;
       v=vt;
     }
-#if 1 // longfloat conversion does not work correctly or vect2GEN in pari.cc
+#if 0 // longfloat conversion does not work correctly or vect2GEN in pari.cc
     if (eps<1e-14 && pari_polroots(v,res,14,contextptr)){
       for (unsigned i=0;i<res.size();++i)
 	res[i] += shift;

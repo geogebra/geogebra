@@ -68,9 +68,9 @@ using namespace std;
 #undef HAVE_LIBPARI
 #endif
 
-#ifdef BESTA_OS
+//#ifdef BESTA_OS
 //unsigned int PrimeGetNow(); 
-#endif
+//#endif
 
 #ifdef RTOS_THREADX 
 u32 PrimeGetNow();
