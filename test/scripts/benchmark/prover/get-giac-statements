@@ -1,0 +1,83 @@
+#!/bin/sh
+# Obtains Giac statements from the logfile column from the test database.
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+PROVEDETAILS=0
+REMOVE=0
+OUTDIR=../../../../giac/src/test
+
+usage() {
+ echo "$0 - obtains Giac statements from a saved build"
+ echo "Usage:"
+ echo " $0 [options]"
+ echo "  where options can be as follows:"
+ echo "   -D           obtain ProveDetails"
+ echo "   -r           remove non-heavy computations"
+ echo "   -b <number>  use build number instead of the latest one"
+ echo "   -h           show this help"
+ exit 0
+ }
+
+while getopts "b:Drh" OPT; do
+ case $OPT in
+  D)
+   PROVEDETAILS=1
+   ;;
+  r)
+   REMOVE=1
+   ;;
+  h)
+   usage
+   ;;
+  b)
+   BUILD_NUMBER="$OPTARG"
+   ;;
+
+ esac
+done
+
+# Put name of the filters into $@
+shift $((OPTIND-1))
+
+if [ "$BUILD_NUMBER" = "" ]; then
+ BUILD_NUMBER=`sqlite3 sqlite3db "select max(build_number) from builds"`
+ fi
+
+if [ "$PROVEDETAILS" = 0 ]; then
+ NDGCLAUSE=" and ndg=0 "
+ FOLDERNAME=gbasis
+ fi
+if [ "$PROVEDETAILS" = 1 ]; then
+ NDGCLAUSE=" and ndg=1 "
+ FOLDERNAME=eliminate
+ fi
+
+mkdir -p $OUTDIR/$FOLDERNAME
+
+sqlite3 sqlite3db "select testcase from tests where prover='BotanaGiac' $NDGCLAUSE and build_number=$BUILD_NUMBER" | while read TEST; do
+
+ echo "Processing $TEST"
+
+ sqlite3 sqlite3db "select logfile from tests where testcase='$TEST' and prover='BotanaGiac' $NDGCLAUSE and build_number=$BUILD_NUMBER" |\
+  grep "giac input: " |\
+  grep $FOLDERNAME | grep -v ggbtmpvar |\
+  awk '{i=index($0,"giac input: ")
+   print substr($0,i+12) # length of "giac input:"
+   }' > $OUTDIR/$FOLDERNAME/$TEST.in
+
+  if [ "$REMOVE" = 1 ]; then
+   if [ "$PROVEDETAILS" = 0 ]; then
+    # [[ii:=gbasis(subst([-1*v9*v8+v10*v7+v9*v2+-1*v7*v2+-1*v10*v1+v8*v1,-1*v9*v6+v10*v5+v9*v4+-1*v5*v4+-1*v10*v3+v6*v3,-1*v11*v8+v12*v7+v11*v4+-1*v7*v4+-1*v12*v3+v8*v3,v11*v6+-1*v12*v5+-1*v11*v2+v5*v2+v12*v1+-1*v6*v1,-1*v13*v4+v14*v3+v13*v2+-1*v3*v2+-1*v14*v1+v4*v1,-1*v13*v8+v14*v7+v13*v6+-1*v7*v6+-1*v14*v5+v8*v5,-1+-1*v21*v5*v4+v21*v6*v3+v21*v5*v2+-1*v21*v3*v2+-1*v21*v6*v1+v21*v4*v1,-1+-1*v22*v7*v4+v22*v8*v3+v22*v7*v2+-1*v22*v3*v2+-1*v22*v8*v1+v22*v4*v1,-1+-1*v23*v7*v6+v23*v8*v5+v23*v7*v2+-1*v23*v5*v2+-1*v23*v8*v1+v23*v6*v1,-1+-1*v24*v7*v6+v24*v8*v5+v24*v7*v4+-1*v24*v5*v4+-1*v24*v8*v3+v24*v6*v3,v15^2+-1*v12^2+-1*v11^2+2*v12*v6+-1*v6^2+2*v11*v5+-1*v5^2,v16^2+-1*v10^2+-1*v9^2+2*v10*v6+-1*v6^2+2*v9*v5+-1*v5^2,v17^2+-1*v12^2+-1*v11^2+2*v12*v2+-1*v2^2+2*v11*v1+-1*v1^2,v18^2+-1*v10^2+-1*v9^2+2*v10*v4+-1*v4^2+2*v9*v3+-1*v3^2,v19^2+-1*v14^2+-1*v13^2+2*v14*v2+-1*v2^2+2*v13*v1+-1*v1^2,v20^2+-1*v14^2+-1*v13^2+2*v14*v4+-1*v4^2+2*v13*v3+-1*v3^2,-1+v25*v20^2*v17^2*v16^2+-1*v25*v19^2*v18^2*v15^2],[v1=0,v2=0,v3=0,v4=1]),[v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15,v17,v16,v19,v18,v21,v20,v23,v22,v25,v24],revlex)],(ii[0]!=1)&&(ii[0]!=-1)][1]
+    cat $OUTDIR/$FOLDERNAME/$TEST.in | awk '{i=index($0,"revlex")
+     print substr($0,7,i)}' > $OUTDIR/$FOLDERNAME/$TEST.in-r
+    mv $OUTDIR/$FOLDERNAME/$TEST.in-r $OUTDIR/$FOLDERNAME/$TEST.in
+   else
+    # [[ff:=""],[aa:=eliminate([-1*v6+v3,-1*v5+-1*v4,v7*v6+-1*v8*v5,v9^2+-1*v4^2+-1*v3^2,v10^2+-1*v8^2+-1*v7^2+2*v8*v4+-1*v4^2+2*v7*v3+-1*v3^2,v11^2+-1*v8^2+-1*v7^2,-1+v12*v11^2+v12*v10^2+-1*v12*v9^2],revlist([v5,v6,v8,v9,v10,v11,v12]))],[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=("["+(ii+1)+"]: [1]:  unicode95uunicode91u1]=1");cc:=factors(aa[ii]);dd:=size(cc);for jj from 0 to dd-1 by 2 do ff+=("  unicode95uunicode91u"+(jj/2+2)+"]="+cc[jj]); od; ff+=(" [2]: "+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(","+cc[kk]);od;od],[if(ff=="") begin ff:=[0] end],ff][5]
+    cat $OUTDIR/$FOLDERNAME/$TEST.in | awk '{i=index($0,"]))]")
+     print substr($0,16,i-12)}' > $OUTDIR/$FOLDERNAME/$TEST.in-r
+    mv $OUTDIR/$FOLDERNAME/$TEST.in-r $OUTDIR/$FOLDERNAME/$TEST.in
+    fi
+   fi
+
+ done
+
