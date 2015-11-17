@@ -369,20 +369,20 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            XCOORD or REAL
 	 * @return x coordinate
 	 */
-	public ExpressionValue handleXcoord(ExpressionValue arg, Operation op) {
+	public double handleXcoord(ExpressionValue arg, Operation op) {
 		if (arg instanceof VectorValue) {
-			return new MyDouble(kernel, ((VectorValue) arg).getVector().getX());
+			return ((VectorValue) arg).getVector().getX();
 		} else if (arg instanceof Vector3DValue) {
-			return new MyDouble(kernel,
-					((Vector3DValue) arg).getPointAsDouble()[0]);
+			return ((Vector3DValue) arg).getPointAsDouble()[0];
 		} else if (arg instanceof GeoLine) {
-			return new MyDouble(kernel, ((GeoLine) arg).x);
+			return ((GeoLine) arg).x;
 		} else if (op == Operation.REAL && arg instanceof NumberValue) {
 			// real(3) should return 3
-			return new MyDouble(kernel, arg.evaluateDouble());
+			return arg.evaluateDouble();
 		} else {
-			return polynomialOrDie(arg, op, op == Operation.XCOORD ? "x("
+			polynomialOrDie(arg, op, op == Operation.XCOORD ? "x("
 					: "real(");
+			return Double.NaN;
 		}
 
 	}
@@ -394,23 +394,43 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            YCOORD or IMAGINARY
 	 * @return y coordinate
 	 */
-	public ExpressionValue handleYcoord(ExpressionValue arg, Operation op) {
+	public double handleYcoord(ExpressionValue arg, Operation op) {
 
 		// y(vector)
 		if (arg instanceof VectorValue) {
-			return new MyDouble(kernel, ((VectorValue) arg).getVector().getY());
+			return ((VectorValue) arg).getVector().getY();
 		} else if (arg instanceof Vector3DValue) {
-			return new MyDouble(kernel,
-					((Vector3DValue) arg).getPointAsDouble()[1]);
+			return 
+ ((Vector3DValue) arg).getPointAsDouble()[1];
 		} else if (arg instanceof GeoLine) {
-			return new MyDouble(kernel, ((GeoLine) arg).y);
+			return  ((GeoLine) arg).y;
 		} else if (op == Operation.IMAGINARY && arg instanceof NumberValue) {
 			// imaginary(3) should return 0
-			return new MyDouble(kernel, 0);
+			return  0;
 		} else {
-			return polynomialOrDie(arg, op, op == Operation.YCOORD ? "y("
+			polynomialOrDie(arg, op, op == Operation.YCOORD ? "y("
 					: "imaginary(");
+			return Double.NaN;
 		}
+	}
+	
+	/**
+	 * @param arg
+	 *            vector or line
+	 * @param op
+	 *            YCOORD or IMAGINARY
+	 * @return y coordinate
+	 */
+	public double handleZcoord(ExpressionValue lt) {
+		if (lt instanceof VectorValue) {
+			return 0;
+		} else if (lt instanceof Vector3DValue) {
+			return ((Vector3DValue) lt).getPointAsDouble()[2];
+		} else if (lt instanceof GeoLine) {
+			return ((GeoLine) lt).z;
+		}
+		polynomialOrDie(lt, Operation.YCOORD, "z(");
+		return Double.NaN;
 	}
 
 	/**

@@ -1180,20 +1180,17 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return ggbApi.getCommandString(objName);
 	}
 
-	/**
-	 * Returns the x-coord of the object with the given name. Note: returns 0 if
-	 * the object is not a point or a vector.
-	 */
+
 	public synchronized double getXcoord(String objName) {
 		return ggbApi.getXcoord(objName);
 	}
 
-	/**
-	 * Returns the y-coord of the object with the given name. Note: returns 0 if
-	 * the object is not a point or a vector.
-	 */
 	public synchronized double getYcoord(String objName) {
-		return ggbApi.getYcoord(objName);
+		return ggbApi.getXcoord(objName);
+	}
+
+	public synchronized double getZcoord(String objName) {
+		return ggbApi.getZcoord(objName);
 	}
 
 	/**
@@ -1202,6 +1199,11 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 */
 	public synchronized void setCoords(String objName, double x, double y) {
 		ggbApi.setCoords(objName, x, y);
+	}
+
+	public synchronized void setCoords(String objName, double x, double y,
+			double z) {
+		ggbApi.setCoords(objName, x, y, z);
 	}
 
 	/**
@@ -1564,6 +1566,10 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 	public String getCaption(String objName, boolean subst) {
 		return ggbApi.getCaption(objName, subst);
+	}
+
+	public void setCaption(String objName, String caption) {
+		ggbApi.setCaption(objName, caption);
 	}
 
 	public String getPerspectiveXML() {

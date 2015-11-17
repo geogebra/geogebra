@@ -366,6 +366,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCaption(Ljava/lang/String;Z)(objName, !!subst);
 		};
 
+		api.setCaption = function(objName, caption) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCaption(Ljava/lang/String;Ljava/lang/String;)(objName, caption);
+		};
+
 		api.getXcoord = function(objName) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getXcoord(Ljava/lang/String;)(objName);
 		};
@@ -374,8 +378,16 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getYcoord(Ljava/lang/String;)(objName);
 		};
 
-		api.setCoords = function(objName, x, y) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoords(Ljava/lang/String;DD)(objName,x,y);
+		api.getZcoord = function(objName) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getZcoord(Ljava/lang/String;)(objName);
+		};
+
+		api.setCoords = function(objName, x, y, z) {
+			if (typeof z === 'undefined') {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoords(Ljava/lang/String;DDD)(objName,x,y);
+			} else {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoords(Ljava/lang/String;DD)(objName,x,y,z);
+			}
 		};
 
 		api.getValue = function(objName) {

@@ -1032,4 +1032,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		return 2;
 	}
 
+	public void setCoords(double x, double y, double z, double w) {
+		setCoords(x, y, w);
+	}
+
 }

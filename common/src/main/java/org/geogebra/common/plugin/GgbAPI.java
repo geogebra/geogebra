@@ -33,11 +33,11 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
+import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -896,6 +896,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				: geo.getRawCaption();
 	}
 
+	public synchronized void setCaption(String objName, String caption) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null)
+			return;
+		geo.setCaption(caption);
+		geo.updateRepaint();
+	}
+
 	public synchronized String getPerspectiveXML() {
 		if (app.getGuiManager() == null
 				|| app.getGuiManager().getLayout() == null) {
@@ -914,13 +922,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return 0;
+		return kernel.getExpressionNodeEvaluator().handleXcoord(geo,
+				Operation.XCOORD);
 
-		if (geo.isGeoPoint())
-			return ((GeoPoint) geo).inhomX;
-		else if (geo.isGeoVector())
-			return ((GeoVector) geo).x;
-		else
-			return 0;
 	}
 
 	/**
@@ -932,12 +936,16 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null)
 			return 0;
 
-		if (geo.isGeoPoint())
-			return ((GeoPoint) geo).inhomY;
-		else if (geo.isGeoVector())
-			return ((GeoVector) geo).y;
-		else
+		return kernel.getExpressionNodeEvaluator().handleYcoord(geo,
+				Operation.YCOORD);
+	}
+
+	public synchronized double getZcoord(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null)
 			return 0;
+
+		return kernel.getExpressionNodeEvaluator().handleZcoord(geo);
 	}
 
 	/**
@@ -949,24 +957,17 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null)
 			return;
 
-		if (geo.isGeoPoint()) {
-			((GeoPoint) geo).setCoords(x, y, 1);
-		} else if (geo.isGeoVector()) {
-			((GeoVector) geo).setCoords(x, y, 0);
-		} else if (geo instanceof AbsoluteScreenLocateable) {
-			AbsoluteScreenLocateable asl = (AbsoluteScreenLocateable) geo;
+		CmdSetCoords.setCoords(geo, x, y);
 
-			if (asl.isAbsoluteScreenLocActive()) {
-				asl.setAbsoluteScreenLoc((int) x, (int) y);
-			} else {
-				asl.setRealWorldLoc(x, y);
-			}
+	}
 
-		} else {
+	public synchronized void setCoords(String objName, double x, double y,
+			double z) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null)
 			return;
-		}
 
-		geo.updateRepaint();
+		CmdSetCoords.setCoords(geo, x, y, z);
 
 	}
 

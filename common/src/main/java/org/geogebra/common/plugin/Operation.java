@@ -760,7 +760,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return ev.handleXcoord(lt, this);
+			return new MyDouble(ev.getKernel(), ev.handleXcoord(lt, this));
 
 		}
 	},
@@ -769,7 +769,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return ev.handleYcoord(lt, this);
+			return new MyDouble(ev.getKernel(), ev.handleYcoord(lt, this));
 
 		}
 	},
@@ -778,18 +778,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			Kernel kernel = ev.getKernel();
+			return new MyDouble(ev.getKernel(), ev.handleZcoord(lt));
 
-			// z(vector)
-			if (lt instanceof VectorValue) {
-				return new MyDouble(kernel, 0);
-			} else if (lt instanceof Vector3DValue) {
-				return new MyDouble(kernel,
-						((Vector3DValue) lt).getPointAsDouble()[2]);
-			} else if (lt instanceof GeoLine) {
-				return new MyDouble(kernel, ((GeoLine) lt).z);
-			}
-			return ev.polynomialOrDie(lt, Operation.YCOORD, "z(");
 		}
 	},
 	IMAGINARY {
@@ -797,7 +787,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return ev.handleYcoord(lt, this);
+			return new MyDouble(ev.getKernel(), ev.handleYcoord(lt, this));
 
 		}
 	},
@@ -806,7 +796,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return ev.handleXcoord(lt, this);
+			return new MyDouble(ev.getKernel(), ev.handleXcoord(lt, this));
 
 		}
 	},

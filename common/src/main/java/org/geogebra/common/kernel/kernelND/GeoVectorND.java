@@ -65,6 +65,8 @@ public interface GeoVectorND extends GeoDirectionND, Locateable, HasCoordsMode {
 	 */
 	public void setCoords(double x, double y, double w);
 
+	public void setCoords(double x, double y, double z, double w);
+
 	/**
 	 * @return mode (complex / polar / cartesian / etc.)
 	 */

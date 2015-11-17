@@ -16,13 +16,26 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Returns current construction in XML format. May be used for saving.
+	 * 
+	 * @return XML representation of construction
 	 */
 	public String getXML();
 
+	/**
+	 * @return XML representation of perspective
+	 */
 	public String getPerspectiveXML();
 
+	/**
+	 * @return base64 representation of current file
+	 */
 	public String getBase64();
 
+	/**
+	 * @param includeThumbnail
+	 *            whether thumbnail should be included
+	 * @return base64 representation of current file
+	 */
 	public String getBase64(boolean includeThumbnail);
 
 	public abstract void uploadToGeoGebraTube();
@@ -57,6 +70,10 @@ public interface JavaScriptAPI {
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra's input
 	 * text field.
+	 * 
+	 * @param cmdString
+	 *            command
+	 * @return whether execution was successful
 	 */
 	public boolean evalCommand(String cmdString);
 
@@ -161,11 +178,20 @@ public interface JavaScriptAPI {
 	 * Returns the layer of the object with the given name in the geometry
 	 * window. returns layer, or -1 if object doesn't exist Michael Borcherds
 	 * 2008-02-27
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return layer index or -1
 	 */
 	public int getLayer(String objName);
 
 	/**
 	 * Shows or hides a complete layer Michael Borcherds 2008-02-27
+	 * 
+	 * @param layer
+	 *            layer index
+	 * @param visible
+	 *            visibility flag
 	 */
 	public void setLayerVisible(int layer, boolean visible);
 
@@ -231,33 +257,65 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Returns the filling of the object as an int (or -1 for no filling)
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return the filling of the object as an int (or -1 for no filling)
 	 */
 	public double getFilling(String objName);
 
 	/**
 	 * Returns the point style of the object as an int (or -1 for default, or
 	 * not a point)
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return the point style of the object as an int (or -1 for default, or
+	 *         not a point)
 	 */
 	public int getPointStyle(String objName);
 
 	/**
 	 * Sets the point style of the object (-1 for default)
+	 * 
+	 * @param objName
+	 *            object label
+	 * @param style
+	 *            point style
 	 */
 	public void setPointSize(String objName, int style);
 
 	/**
 	 * Returns the point style of the object as an int (or -1 for default, or
 	 * not a point)
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return point size
 	 */
 	public int getPointSize(String objName);
 
 	/**
 	 * Sets the point style of the object (-1 for default)
+	 * 
+	 * @param objName
+	 *            object label
+	 * @param style
+	 *            point style
 	 */
 	public void setPointStyle(String objName, int style);
 
 	/**
 	 * Sets the color of the object with the given name.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @param red
+	 *            red part (0-255)
+	 * @param green
+	 *            green part (0-255)
+	 * @param blue
+	 *            blue part (0-255)
 	 */
 	public void setColor(String objName, int red, int green, int blue);
 
@@ -383,10 +441,31 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Returns the command of the object with the given name as a string.
+	 * 
+	 * @param objName
+	 *            object name
+	 * @param localize
+	 *            whether local or English command should be used
+	 * @return command description of given object
 	 */
 	public String getCommandString(String objName, boolean localize);
 
+	/**
+	 * @param objName
+	 *            object name
+	 * @param substituteVars
+	 *            whether %n, %v, ... should be replaced by name, value, ...
+	 * @return caption
+	 */
 	public String getCaption(String objName, boolean substituteVars);
+
+	/**
+	 * @param objName
+	 *            object name
+	 * @param caption
+	 *            new caption
+	 */
+	public void setCaption(String objName, String caption);
 
 	/**
 	 * Returns the x-coord of the object with the given name. Note: returns 0 if
@@ -401,10 +480,18 @@ public interface JavaScriptAPI {
 	public double getYcoord(String objName);
 
 	/**
+	 * Returns the z-coord of the object with the given name. Note: returns 0 if
+	 * the object is not a point or a vector.
+	 */
+	public double getZcoord(String objName);
+
+	/**
 	 * Sets the coordinates of the object with the given name. Note: if the
 	 * specified object is not a point or a vector, nothing happens.
 	 */
 	public void setCoords(String objName, double x, double y);
+
+	public void setCoords(String objName, double x, double y, double z);
 
 	/**
 	 * Returns the double value of the object with the given name. Note: returns

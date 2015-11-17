@@ -424,6 +424,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getAppletImplementation().getYcoord(objName);
 	}
 
+	public synchronized double getZcoord(String objName) {
+		return getAppletImplementation().getYcoord(objName);
+	}
+
 	public synchronized boolean isDefined(String objName) {
 		return getAppletImplementation().isDefined(objName);
 	}
@@ -569,6 +573,11 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 
 	public synchronized void setCoords(String objName, double x, double y) {
 		getAppletImplementation().setCoords(objName, x, y);
+	}
+
+	public synchronized void setCoords(String objName, double x, double y,
+			double z) {
+		getAppletImplementation().setCoords(objName, x, y, z);
 	}
 
 	public synchronized void setErrorDialogsActive(boolean flag) {
@@ -765,6 +774,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 
 	public String getCaption(String objName, boolean subst) {
 		return getAppletImplementation().getCaption(objName, subst);
+	}
+
+	public void setCaption(String objName, String caption) {
+		getAppletImplementation().setCaption(objName, caption);
 	}
 
 	public String getPerspectiveXML() {
