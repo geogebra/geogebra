@@ -516,12 +516,6 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// new elements become breakpoints if only breakpoints are shown
 		// isConsProtBreakpoint = cons.showOnlyBreakpoints();
-
-		// ensure all new objects are in the top layer
-		if (kernel.getApplication() != null) {
-			layer = kernel.getApplication().getMaxLayerUsed();
-		}
-
 		
 		EuclidianViewInterfaceSlim ev;
 		if ((kernel.getApplication() != null) && ((ev = kernel.getApplication().getActiveEuclidianView()) != null)

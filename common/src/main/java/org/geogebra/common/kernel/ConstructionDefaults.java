@@ -698,9 +698,22 @@ public class ConstructionDefaults {
 		return type;
 	}
 
+	/**
+	 * 
+	 * set geo to max layer used or max layer-1 if all layers used (layer 9
+	 * reserved so that it's always over new objects)
+	 * 
+	 * @param geo
+	 *            geo
+	 * @param app
+	 *            app
+	 */
 	private static void setMaxLayerUsed(GeoElement geo, App app) {
 		if (app != null) {
-			geo.setLayer(app.getMaxLayerUsed());
+			int layer = Math.min(EuclidianStyleConstants.MAX_LAYERS - 1,
+					app.getMaxLayerUsed());
+
+			geo.setLayer(layer);
 		}
 	}
 
