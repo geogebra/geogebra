@@ -439,9 +439,9 @@ public class EuclidianViewW extends EuclidianView implements
 			getEuclidianController().setCollectedRepaints(true);
 			return;
 		}
-
+		getApplication().ensureTimerRunning();
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
-			getApplication().ensureTimerRunning();
+
 			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
 		}
 	}
@@ -460,7 +460,6 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public boolean suggestRepaint() {
-
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
 			return false;
 		}

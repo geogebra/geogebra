@@ -33,6 +33,7 @@ public class TimerSystemW {
 	private Timer repaintTimer;
 
 	private int idle;
+	private long browserSkipped = 0;
 
 	public TimerSystemW(AppW app) {
 		this.app = app;
@@ -41,6 +42,7 @@ public class TimerSystemW {
 		repaintTimer = new Timer() {
 			@Override
 			public void run() {
+				browserSkipped = 0;
 				if (!suggestRepaint()) {
 					idle++;
 				}
@@ -67,6 +69,14 @@ public class TimerSystemW {
 	public void ensureRunning() {
 		if (!this.repaintTimer.isRunning()) {
 			repaintTimer.scheduleRepeating(MAIN_LOOP_DELAY);
+		} else {
+			long time = System.currentTimeMillis();
+			if (browserSkipped > 0 && time - browserSkipped > 50) {
+				repaintTimer.run();
+			} else if (browserSkipped == 0) {
+				browserSkipped = time;
+			}
+
 		}
 	}
 
