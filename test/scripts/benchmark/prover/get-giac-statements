@@ -74,10 +74,11 @@ sqlite3 sqlite3db "select testcase from tests where prover='BotanaGiac' $NDGCLAU
    else
     # [[ff:=""],[aa:=eliminate([-1*v6+v3,-1*v5+-1*v4,v7*v6+-1*v8*v5,v9^2+-1*v4^2+-1*v3^2,v10^2+-1*v8^2+-1*v7^2+2*v8*v4+-1*v4^2+2*v7*v3+-1*v3^2,v11^2+-1*v8^2+-1*v7^2,-1+v12*v11^2+v12*v10^2+-1*v12*v9^2],revlist([v5,v6,v8,v9,v10,v11,v12]))],[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=("["+(ii+1)+"]: [1]:  unicode95uunicode91u1]=1");cc:=factors(aa[ii]);dd:=size(cc);for jj from 0 to dd-1 by 2 do ff+=("  unicode95uunicode91u"+(jj/2+2)+"]="+cc[jj]); od; ff+=(" [2]: "+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(","+cc[kk]);od;od],[if(ff=="") begin ff:=[0] end],ff][5]
     cat $OUTDIR/$FOLDERNAME/$TEST.in | awk '{i=index($0,"]))]")
-     print substr($0,16,i-12)}' > $OUTDIR/$FOLDERNAME/$TEST.in-r
+     print substr($0,16,i-13)}' > $OUTDIR/$FOLDERNAME/$TEST.in-r
     mv $OUTDIR/$FOLDERNAME/$TEST.in-r $OUTDIR/$FOLDERNAME/$TEST.in
     fi
    fi
+ # FIXME: Don't create .in file if it is empty. This means that the test is not fully implemented for BotanaGiac.
 
  done
 
