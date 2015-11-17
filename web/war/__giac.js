@@ -1710,10 +1710,9 @@ var __giac = [ {},
 { cat: "Evaluate", cmd:"SolveODE[y' = k*y*a]", result:"y = c_0 \u212F^(a k x)", notes:"same as SolveODE[y' = k*y*a,y,x] #5099" },
 { cat: "SolveODE2", cmd:"SolveODE[y''+y'+ a y=0]", result:"y = c_0 \u212F^((x sqrt(-4 a + 1) - x) / 2) + c_1 \u212F^((-x sqrt(-4 a + 1) - x) / 2)", notes:"#5099" },
 { cat: "SolveODE2", cmd:"SolveODE[y''+y'+ a y=0,y,x]", result:"y = c_0 \u212F^((x sqrt(-4 a + 1) - x) / 2) + c_1 \u212F^((-x sqrt(-4 a + 1) - x) / 2)", notes:"#5099" },
-{ cat: "Solve", cmd:"Solve[{t^2<=p},{p}]", result:"{p ≥ t²}", notes:"#5521" },
-{ cat: "SolveIneq", cmd:"Solve[{t^2<=p^2},{p}]", result:"", notes:"#5521" },
-{ cat: "SolveIneq", cmd:"Solve[{t^2+p^2<=0},{p,t}]", result:"{{p = p, t = t}}", notes:"#5521" },
-{ cat: "SolveIneq", cmd:"Solve[{-5 b⁵ sqrt(-a² + b²) abs(b) abs(a² - b²) / (b⁸ - 2a² b⁶ + 2a⁴ b⁴ + b² (2a² b⁴ - 2a⁴ b²))<0, a>0, b>0}, {a, b}]", result:"", notes:"#5521" },
+{ cat: "Solve", cmd:"Solve[{t^2<=p},{p}]", result:"{p ≥ t²}", notes:"#5521, TRAC-4161" },
+{ cat: "SolveIneq", cmd:"Solve[{t^2<=p^2},{p}]", result:"", notes:"#5521, TRAC-4161" },
+{ cat: "SolveIneq", cmd:"Solve[{-5 b⁵ sqrt(-a² + b²) abs(b) abs(a² - b²) / (b⁸ - 2a² b⁶ + 2a⁴ b⁴ + b² (2a² b⁴ - 2a⁴ b²))<0, a>0, b>0}, {a, b}]", result:"", notes:"#5521, TRAC-4161" },
 { cat: "SolveODE", cmd:"SolveODE[y''=0,{(0,1)},(1,3)]", result:"y = 3x + 1", notes:"#5064" },
 { cat: "SolveODE", cmd:"SolveODE[y''=0,(0,1),{(1,3)}]", result:"y = 3x + 1", notes:"#5064" },
 { cat: "SolveODE", cmd:"SolveODE[y''=0,{(5,5)},(1,3)]", result:"y = 3x - 10", notes:"#5064" },
@@ -1884,6 +1883,7 @@ var notSupported = [
 { cat:"Solve", cmd:"Solve[(n^2*(x/n)^lg(x))=(x^2),x]", result:"{x = 100, x = n}", notes:"#4330" },
 { cat:"NSolve", cmd:"NSolve[-0.15x^2+48x-2000>0]", result:"{49.24501516109  <  x < 270.7549848389}", notes:"not supported in Giac" },
 { cat:"Solve", cmd:"Solve[log(n^2*(x/n)^lg(x))=log(x^2),x]", result:"{x = 100, x = n}", notes:"#4330 Giac will not solve the equation without additional assumptions, here assume(x>0) and assume(n>0)" },
+{ cat: "SolveIneq", cmd:"Solve[{t^2+p^2<=0},{p,t}]", result:"{{p = 0, t = 0}}", notes:"#5521, TRAC-4161, GGB-296" },
 
 ];
 
