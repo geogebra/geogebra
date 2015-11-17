@@ -514,17 +514,23 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				isLatexString(selectedText), false);
 		g2.setPaint(GColor.WHITE);
 		GFont font = optionFont;
-		int minFontSize = 10;
+		int origFontSize = optionFont.getSize();
+		int minFontSize = origFontSize - 4;
 		g2.setFont(font);
+		colCount = 1;
+
 		int fontSize = font.getSize();
 		while (drawOptionLines(g2, 0, false) > view.getHeight()
 				&& fontSize >= minFontSize) {
 			fontSize -= 1;
 			font = font.deriveFont(GFont.PLAIN, fontSize);
 			optionFont = font;
+			if (fontSize < minFontSize) {
+				fontSize = origFontSize;
+				// optionFont = font.deriveFont(GFont.PLAIN, origFontSize);
+				colCount++;// = (geoList.size() % 2) + 1;
+			}
 		}
-
-		colCount = (geoList.size() / 5) + 1;
 
 		setPreferredSize(getPreferredSize());
 
@@ -658,14 +664,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private void drawOptions(GGraphics2D g2) {
 
 		g2.setPaint(geoList.getBackgroundColor());
-		int itemY = (int) optionItems.get(0).getBounds().getY();
 		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
-		App.debug("[OPTTOP] boxTop: " + boxTop + " boxHeight: " + boxHeight
-				+ " itemY: " + itemY + " gap: " + OPTIONBOX_COMBO_GAP
-				+ " total: " + optTop);
+
 		int viewBottom = view.getViewHeight();
+
 		if (optTop + optionsHeight > viewBottom) {
-			App.debug("[DROPDOWN] offscreen: adjusting.");
 			optTop = viewBottom - optionsHeight;
 		}
 		int w = colCount * colWidth;
