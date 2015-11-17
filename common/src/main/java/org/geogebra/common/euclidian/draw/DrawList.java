@@ -527,7 +527,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			optionFont = font;
 			if (fontSize < minFontSize) {
 				fontSize = origFontSize;
-				// optionFont = font.deriveFont(GFont.PLAIN, origFontSize);
+				optionFont = font.deriveFont(GFont.PLAIN, origFontSize);
 				colCount++;// = (geoList.size() % 2) + 1;
 			}
 		}
