@@ -225,9 +225,24 @@ public abstract class Renderer {
 			draw();
 
 		} else {
-			clearDepthBuffer();
-			setView();
-			draw();
+			if (view3D.isStereoBuffered()) {
+				// we draw the same image on both left/right buffers
+				setBufferLeft();
+				clearColorBuffer();
+				clearDepthBuffer();
+				setView();
+				draw();
+
+				setBufferRight();
+				clearColorBuffer();
+				clearDepthBuffer();
+				setView();
+				draw();
+			} else {
+				clearDepthBuffer();
+				setView();
+				draw();
+			}
 		}
 
 		// App.debug("======= DRAW : "+(System.currentTimeMillis() - time));
