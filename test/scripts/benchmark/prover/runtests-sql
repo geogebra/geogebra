@@ -4,19 +4,15 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Setting defaults.
-MY_VERSION=1.3
+MY_VERSION=2.0
 
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 TIMEOUT=20
-IMGHEIGHT=25
-HTML=html/index.html
-TEX=html/index.tex
 PROVERS="Recio PureSymbolic Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
 GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=https://dev.geogebra.org/trac/export
 GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
-USEENGINES=0
 PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1
 
 GEOGEBRADIR=../../../../
@@ -35,12 +31,9 @@ usage() {
  echo "   -d           put some debugging logs into tmp/"
  echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
  echo "   -H <number>  image height: show .ggb thumbnails in the given number of pixels ($IMGHEIGHT)"
- echo "   -o <file>    set name for output .html file ($HTML)"
- echo "   -T <file>    set name for output .tex file ($TEX)"
  echo "   -p <list>    space separated list of prover engines to test ($PROVERS)"
  echo "   -g <url>     use 'url' for putting links on test cases ($TESTGGBURLBASE_GGBDIR)"
  echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
- echo "   -e           add introduction and use engine numbers in table headers"
  echo "   -r           run GeoGebra desktop version from the current sources"
  echo "   -P <path>    use path to run PhantomJS ($PHANTOMJS)"
  echo "   -h           show this help"
@@ -61,7 +54,7 @@ version() {
  exit 0
  }
 
-while getopts "t:dH:o:T:p:P:S:eDhvr" OPT; do
+while getopts "t:dH:p:P:S:Dhvr" OPT; do
  case $OPT in
   t)
    TIMEOUT="$OPTARG"
@@ -76,15 +69,6 @@ while getopts "t:dH:o:T:p:P:S:eDhvr" OPT; do
   d)
    DEBUG=1
    ;;
-  H)
-   IMGHEIGHT="$OPTARG"
-   ;;
-  o)
-   HTML="$OPTARG"
-   ;;
-  T)
-   TEX="$OPTARG"
-   ;;
   p)
    PROVERS="$OPTARG"
    ;;
@@ -92,7 +76,6 @@ while getopts "t:dH:o:T:p:P:S:eDhvr" OPT; do
    case "$OPTARG" in
     jar-paper)
      PROVERS="Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto"
-     USEENGINES=1
      ;;
     giac-test)
      PROVERS="Botana BotanaGiac"
@@ -103,14 +86,11 @@ while getopts "t:dH:o:T:p:P:S:eDhvr" OPT; do
      ;;
    esac # -S
    ;;
-  e)
-   USEENGINES=1
-   ;;
   g)
    TESTGGBURLBASE_GGBDIR="$OPTARG"
    ;;
   s)
-   SINGULARWSREMOTEURL="$OPTARG"
+   SINGULARWSREMOTEURL="$OPTARGS"
    ;;
   D)
    PROVEDETAILS=1
@@ -137,11 +117,10 @@ shift $((OPTIND-1))
 PROVERSNO=`echo $PROVERS | wc -w`
 THISDIR=`dirname $0`
 MYDIR=`cd $THISDIR; pwd`
-mkdir -p $MYDIR/tmp $MYDIR/html
+mkdir -p $MYDIR/tmp
 LOGFILE=$MYDIR/tmp/.test.log
 REGRESSIONFILE=$MYDIR/tmp/.regression.out
 JSFILE=$MYDIR/tmp/settings.js # this is hardcoded in jstest.html
-rm -f $HTML $TEX
 
 # Testing prerequisites:
 prereq () {
@@ -170,106 +149,48 @@ VERSION=`cat $GEOGEBRADIR/common/src/main/java/org/geogebra/common/GeoGebraConst
 grep " VERSION_STRING =" | awk '{print $7}' | sed s/\"//g | sed s/";"//`
 
 # Title
-TITLE="Prover benchmark for GeoGebra $VERSION$REVISION"
 DATE=`date "+%Y-%m-%d %H:%M"`
 HOST=`hostname`
-echo "<!DOCTYPE html><html><head>
-<title>$TITLE</title>
-</head><body><h1>$TITLE</h1>
-<h2>on $DATE at $HOST</h2><pre>" >> $HTML
 HWINFO=`which hwinfo 2>&1 >/dev/null`
 if [ "$HWINFO" = "" ]; then
  INFO=`lshw -quiet -class processor 2>/dev/null | grep product | cut -d: -f2`
 else
  INFO=`hwinfo --short --cpu 2>&1 | grep CPU`
  fi
-echo $INFO | sed 's/^[ \t]*//' >> $HTML
-echo -n "</pre>" >> $HTML
-echo "% http://tex.stackexchange.com/questions/50349/color-only-a-cell-of-a-table
-\documentclass{article}
-\usepackage[table]{xcolor}% http://ctan.org/pkg/xcolor
-\usepackage{multirow}
-\usepackage{longtable}
-\usepackage{array}
-\begin{document}
-\scriptsize{" >> $TEX
+
+machine="$HOST, $INFO"
+
+if [ "$BUILD_NUMBER" = "" ]; then
+ BUILD_NUMBER=`date +%Y%m%d%H%M%S`
+ fi
+if [ "$SVN_REVISION" = "" ]; then
+ SVN_REVISION=null
+ fi
+if [ "$BUILD_URL" = "" ]; then
+ BUILD_URL=null
+ fi
+
+sqlite3 sqlite3db "insert into builds (build_number, svn_revision, build_url, machine)
+values ($BUILD_NUMBER, $SVN_REVISION, $BUILD_URL, '$machine')"
 
 # Header
 echo -n "Test file;"
-if [ "$USEENGINES" = 1 ]; then
- cat intro.html >> $MYDIR/$HTML
- fi
-cat style.html >> $MYDIR/$HTML
-echo "<table><tr><th rowspan=\"2\" colspan=\"2\">Test file</th>" >> $MYDIR/$HTML
-RESULTCOLUMN=c
-if [ $PROVEDETAILS = 1 ]; then
- RESULTCOLUMN="m{1cm}"
- fi
-echo "\begin{longtable}{|l|*{$PROVERSNO}{${RESULTCOLUMN}r|}}
-\hline
-{\multirow{2}{*}{\bf Test}}" >> $MYDIR/$TEX
-echo 
-for j in $PROVERS; do
- if [ "$USEENGINES" = 1 ]; then
-  case $j in
-   Recio)
-    TOPRINT="Engine 1"
-    ;;
-   Botana)
-    TOPRINT="Engine 2"
-    ;;
-   BotanaGiac)
-    TOPRINT="Engine 2, Giac"
-    ;;
-   OpenGeoProver_Wu)
-    TOPRINT="Engine 3a"
-    ;;
-   OpenGeoProver_Area)
-    TOPRINT="Engine 3b"
-    ;;
-   *)
-    TOPRINT="$j"
-    ;;
-   esac
-else
- TOPRINT=`echo $j | sed s/"_"/" "/`
-  fi
- echo -n "$TOPRINT result;Speed;"
- echo "<th colspan=\"2\">$TOPRINT</th>" >> $MYDIR/$HTML
- echo "& \multicolumn{2}{c|}{\bf $TOPRINT}" | sed s/OpenGeoProver/OGP/g |\
-  sed s/BotanaGiac/Giac/ | sed s/Botana/Singular/ >> $MYDIR/$TEX
- done
-echo "</tr><tr>" >> $MYDIR/$HTML
-echo "\\\\" >> $MYDIR/$TEX
-
-for j in $PROVERS; do
- echo "<th>Result</th><th>Speed</th>" >> $MYDIR/$HTML
- echo "&R.&S." >> $MYDIR/$TEX
- rm -f $MYDIR/tmp/rinput-$j
- done
-
-echo "</tr>" >> $MYDIR/$HTML
-echo "\\\\ \hline" >> $MYDIR/$TEX
 echo
+for j in $PROVERS; do
+ rm -f $MYDIR/tmp/rinput-$j-$PROVEDETAILS
+ done
 
 # Content
 TESTS=0
 for i in `find -name '*.ggb' | sort`; do
- TESTS=`expr $TESTS + 1`
+ TESTS=$((TESTS+1))
  # Creating thumbnail:
  cd $MYDIR
  DIRNAME=`dirname $i | sed s/"^\.\/tests\/"/""/`
  TEST=`basename $i`
- unzip $i geogebra_thumbnail.png >/dev/null 2>&1
- mv geogebra_thumbnail.png html/$TEST.png
  echo -n "$TEST;"
- # TODO: change "latest" to current revision:
- echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"${GEOGEBRAWEB_URL1}/latest/${GEOGEBRAWEB_URL2}/$i#\"><img src=\"$TEST.png\" style=\"height:${IMGHEIGHT}px;width:auto;\"></a></td>" >> $MYDIR/$HTML
  TEST=`echo $TEST | sed s/".ggb"//`
- if [ `expr ${#TEST} '>' 15` = 1 ]; then
-  TEST=${TEST:0:10}\$\\ldots\$${TEST:(-2)}
-  fi
- echo "\cellcolor{blue!10}$TEST " | sed s/".ggb"// >> $MYDIR/$TEX
+ sqlite3 sqlite3db "insert into testcases (name) values ('$TEST')" 2>/dev/null # ignore error
 
  declare -A RESULTDATA
  declare -A RESULTCLASSDATA
@@ -309,6 +230,7 @@ for i in `find -name '*.ggb' | sort`; do
    fi
 
   # Testing:
+  start_unixtime=`date +%s`
   if [ "$ENGINE" = "Web" ]; then
    which $PHANTOMJS >/dev/null || {
     echo "FATAL: PhantomJS is not found in $PHANTOMJS (>= 2.0.0 needed)"
@@ -345,17 +267,24 @@ for i in `find -name '*.ggb' | sort`; do
    RETVAL=$?
    fi
 
+  # Being optimistic
+  RESULTCLASS="ok"
+  accepted=1
+  errortype=0
+
   if [ $RETVAL = 124 ]; then
    RESULT=""
    TIME=timeout
+   errortype=1
+   accepted=0
   else
    RESULT=`cat $REGRESSIONFILE | grep Prove | sed s/" null ="//g | sed s/'"'//g | sed 's/\(.*\) == \(.*\)/\2/' | sed 's/\(.*\) = \(.*\)/\2/'`
    TIME=`cat $LOGFILE | grep Benchmarking | awk '{s=s+$5; print s}' | tail -1` # collecting all entries
    if [ $DEBUG = 1 ]; then
-    cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j
-    cp $LOGFILE $LOGFILE-$TEST-$j
-    cp $MYDIR/tmp/.test.stdout $MYDIR/tmp/.test.stdout-$TEST-$j
-    cp $MYDIR/tmp/.test.stderr $MYDIR/tmp/.test.stderr-$TEST-$j
+    cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j-$PROVEDETAILS
+    cp $LOGFILE $LOGFILE-$TEST-$j-$PROVEDETAILS
+    cp $MYDIR/tmp/.test.stdout $MYDIR/tmp/.test.stdout-$TEST-$j-$PROVEDETAILS
+    cp $MYDIR/tmp/.test.stderr $MYDIR/tmp/.test.stderr-$TEST-$j-$PROVEDETAILS
     fi
    fi # No timeout
   if [ "$TIME" = "" ]; then
@@ -363,137 +292,48 @@ for i in `find -name '*.ggb' | sort`; do
    # In this case we assume "timeout" and clean $RESULT (which should have been cleaned up earlier, actually, FIXME):
    RESULT=""
    TIME=timeout
+   errortype=3
+   accepted=0
    fi
   echo -n "$RESULT;$TIME;"
-  RESULTCLASS=" class=\"o6\""
-  CELLCOLOR="green!10"
   DIRNAMELENGTH=${#DIRNAME}
   if [ "${RESULT:0:$DIRNAMELENGTH}" != "$DIRNAME" ]; then
    if [ "$RESULT" = "undefined" -o "$RESULT" = "" -o "$RESULT" = "?" ]; then
-    RESULTCLASS=" class=\"undefined\""
-    CELLCOLOR="yellow!25"
+    RESULTCLASS="undefined"
+    accepted=null
    else
-    RESULTCLASS=" class=\"error\""
-    CELLCOLOR="red!25"
+    RESULTCLASS="error"
+    accepted=0
+    errortype=2
     fi
   else
-   echo "$TIME" >> $MYDIR/tmp/rinput-$j
+   echo "$TIME" >> $MYDIR/tmp/rinput-$j-$PROVEDETAILS
    VARNAME=$`echo $j`
    VALUE=`eval echo $VARNAME`
    eval $j=`expr $VALUE + 1`
-   if [ $TIME -lt 1000 ]; then
-    RESULTCLASS=" class=\"o5\""
-    CELLCOLOR="green!20"
-    fi
-   if [ $TIME -lt 300 ]; then
-    RESULTCLASS=" class=\"o4\""
-    CELLCOLOR="green!30"
-    fi
-   if [ $TIME -lt 150 ]; then
-    RESULTCLASS=" class=\"o3\""
-    CELLCOLOR="green!40"
-    fi
-   if [ $TIME -lt 50 ]; then
-    RESULTCLASS=" class=\"o2\""
-    CELLCOLOR="green!50"
-    fi
-   if [ $TIME -lt 20 ]; then
-    RESULTCLASS=" class=\"o1\""
-    CELLCOLOR="green!60"
-    fi
    fi
-  RESULTCLASSDATA[$j]=$RESULTCLASS
-  CELLCOLORDATA[$j]="$CELLCOLOR"
-  RESULTDATA[$j]=$RESULT
-  TIMEDATA[$j]=$TIME
 
-  # Storing best and worst results
-  if [ "$TIME" != "" -a "$RESULT" = "$DIRNAME" -a $j != Auto ]; then
-   # First time result
-   if [ "$BESTTIME" = "" ]; then
-    BESTTIME=$TIME
-    BESTPROVER=$j
-   else
-    # At least second time result
-    if [ $TIME -lt $BESTTIME ]; then
-     BESTTIME=$TIME
-     BESTPROVER=$j
-    else
-     if [ "$WORSTTIME" = "" ]; then
-      # Exactly the second time result
-      WORSTTIME=$TIME 
-      WORSTPROVER=$j
-     else
-      if [ $WORSTTIME -lt $TIME ]; then
-       # More than second time result with worst current time
-       WORSTTIME=$TIME
-       WORSTPROVER=$j
-       fi # end of >2, worst current
-      fi # end of >2, not worst current
-     fi # end of >=2
-    fi # end of >=1, not best time current
-   fi # end of >=1 (all cases)
-  # echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS>$TIME</td>" >> $MYDIR/$HTML
+ speed="$TIME"
+ if [ "$TIME" = timeout ]; then
+  speed=null
+  fi
+
+  echo -n "insert into tests (testcase, prover, ndg, build_number, start_unixtime,
+  osresult, timeout_setting, accepted, errortype, speed, regressionfile, logfile, stdout, stderr) values
+  ('$TEST', '$j', $PROVEDETAILS, '$BUILD_NUMBER', $start_unixtime, $RETVAL, $TIMEOUT, $accepted,
+  $errortype, $speed, '" > $MYDIR/tmp/testcmd.sql
+  cat $REGRESSIONFILE | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql
+  echo -n "', '" >> $MYDIR/tmp/testcmd.sql
+  cat $LOGFILE | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql
+  echo -n "', '" >> $MYDIR/tmp/testcmd.sql
+  cat $MYDIR/tmp/.test.stdout | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql
+  echo -n "', '" >> $MYDIR/tmp/testcmd.sql
+  cat $MYDIR/tmp/.test.stderr | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql
+  echo "');" >> $MYDIR/tmp/testcmd.sql
+  cat $MYDIR/tmp/testcmd.sql | sqlite3 $MYDIR/sqlite3db
+
   done # All provers done for this tests
 
- for j in $PROVERS; do
-  RESULTCLASS=${RESULTCLASSDATA[$j]}
-  CELLCOLOR=${CELLCOLORDATA[$j]}
-  RESULT=${RESULTDATA[$j]}
-  if [ "$RESULT" = undefined -o "$RESULT" = "?" ]; then
-   RESULT=""
-   fi
-  TIME=${TIMEDATA[$j]}
-  SUMCLASS=""
-  SUMCLASSTEX=""
-  if [ "$WORSTPROVER" = "$j" ]; then
-   SUMCLASS="worst"
-   SUMCLASSTEX="\sl"
-   fi
-  if [ "$BESTPROVER" = "$j" ]; then
-   SUMCLASS="best"
-   SUMCLASSTEX="\bf"
-   fi
-  echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS><p class=\"$SUMCLASS\">$TIME</p></td>" >> $MYDIR/$HTML
-  # TeX related changes
-  TRUE=t
-  if [ $PROVEDETAILS = 1 ]; then
-   TRUE=""
-   fi
-  RESULT=`echo $RESULT | sed s/true/$TRUE/g | sed s/false/f/g`
-  RESULT=`echo $RESULT | sed s/"AreEqual\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1=\\2\$"/g |\
-   sed s/"AreParallel\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\\\\\parallel \\2\$"/g |\
-   sed s/"ArePerpendicular\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\perp \\2\$"/g |\
-   sed s/"AreCollinear\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\\\\\\\overline{\\1\\2\\3}\$"/g |\
-   sed s/"\\\\$ \\\\$"/"\$\\\\\\\\hfill\\\\\\\\newline\$"/g |\
-   sed s/"\.\.\."/"\$\\\\\\\\ldots\$"/g`
-  if [ "$TIME" = timeout ]; then
-   TIME="t/o"
-   fi
-  echo "& \cellcolor{$CELLCOLOR}$RESULT & \cellcolor{$CELLCOLOR}{$SUMCLASSTEX $TIME} " >> $MYDIR/$TEX
-  done
-
  echo
- echo "</tr>" >> $MYDIR/$HTML
- echo "\\\\ \\hline" >> $MYDIR/$TEX
  done # All tests done
 
-# Summary
-echo -n "Summary;"
-echo "<tr><td class=\"summary\" colspan=\"2\"><b>Summary (of $TESTS)</b></td>" >> $MYDIR/$HTML
-echo "{\bf Total (of $TESTS)}" >> $MYDIR/$TEX
-for j in $PROVERS; do
- VARNAME=$`echo $j`
- VALUE=`eval echo $VARNAME`
- echo -n "$VALUE;;"
- echo "<td class=\"summary\" colspan=\"2\"><b>$VALUE</b></td>" >> $MYDIR/$HTML
- echo "&\multicolumn{2}{c|}{\bf $VALUE}" >> $MYDIR/$TEX
- done
-echo "</tr>" >> $MYDIR/$HTML
-echo "\\\\ \\hline" >> $MYDIR/$TEX
-echo
-
-echo "</tr></table></body></html>" >> $MYDIR/$HTML
-echo "\end{longtable}
-}
-\end{document}" >> $MYDIR/$TEX
