@@ -515,7 +515,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		g2.setPaint(GColor.WHITE);
 		GFont font = optionFont;
 		int origFontSize = optionFont.getSize();
-		int minFontSize = origFontSize - 4;
+		int minFontSize = 12;
 		g2.setFont(font);
 		colCount = 1;
 
