@@ -113,7 +113,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	private ValidExpression inputVE, evalVE, outputVE;
 	private String input, prefix, postfix, error, latex, latexInput;
 	private String localizedInput;
-	private String currentLanguage;
+	private String currentLocaleStr;
 	private boolean suppressOutput = false;
 
 	// input variables of this cell
@@ -192,9 +192,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	public String getInput(final StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
 			// input with localized command names
-			if (currentLanguage == null
-					|| !currentLanguage.equals(getLoc()
-							.getLanguage())) {
+			if (currentLocaleStr == null
+					|| !currentLocaleStr.equals(getLoc().getLocaleStr())) {
 				updateLocalizedInput(tpl, input);
 			}
 			return localizedInput;
@@ -591,7 +590,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 	private void updateLocalizedInput(final StringTemplate tpl, final String input1) {
 		// for efficiency: localized input with local command names
-		currentLanguage = getLoc().getLanguage();
+		currentLocaleStr = getLoc().getLocaleStr();
 		localizedInput = localizeInput(input1, tpl);
 	}
 
