@@ -285,6 +285,12 @@ model {
     }
 }
 
+task testIcasExecutable (dependsOn: 'icasExecutable', type: Exec) {
+    description 'Tests the icas executable.'
+    workingDir 'src/test'
+    commandLine './regression', '-r'
+    }
+
 task androidCopyCrystaxSo (type: Exec) {
     description 'Copies Crystax .so files to the src/android folder.'
     workingDir 'android'
