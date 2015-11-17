@@ -3906,7 +3906,6 @@ public abstract class App implements UpdateSelection {
 		case CP_NEW_COLUMNS:
 		case EXAM:
 		case FREE_3DCONICS:
-		case SHADERS_IN_DESKTOP:
 		case PRINT_MENU:
 			return prerelease;
 		// return canary;
@@ -3923,6 +3922,7 @@ public abstract class App implements UpdateSelection {
 		case LATEX_ON_BUTTON:
 		case LATEX_ON_CHECKBOX:
 		case DRAW_DROPDOWNLISTS_TO_CANVAS:
+		case SHADERS_IN_DESKTOP:
 			return true;
 		default:
 			return false;
