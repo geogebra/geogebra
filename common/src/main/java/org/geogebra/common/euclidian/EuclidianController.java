@@ -6882,7 +6882,7 @@ public abstract class EuclidianController {
 
 			// get vector for first point
 			AlgoElement algo = null;
-			if (pts[0] != null) {
+			if (pts != null && pts[0] != null) {
 				algo = ((GeoElement) pts[0]).getParentAlgorithm();
 			}
 			if (algo instanceof AlgoTranslate) {
