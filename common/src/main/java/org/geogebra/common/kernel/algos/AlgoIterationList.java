@@ -85,8 +85,6 @@ public class AlgoIterationList extends AlgoElement {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for the list
 	 * @param expression
 	 *            expression first argument of IterationList
 	 * @param vars
@@ -96,7 +94,7 @@ public class AlgoIterationList extends AlgoElement {
 	 * @param n
 	 *            number of iterations
 	 */
-	public AlgoIterationList(Construction cons, String label,
+	public AlgoIterationList(Construction cons,
 			GeoElement expression, GeoElement[] vars, GeoList[] over,
 			GeoNumberValue n) {
 		super(cons);
@@ -171,6 +169,9 @@ public class AlgoIterationList extends AlgoElement {
 		return realInput;
 	}
 
+	/**
+	 * @return resulting list
+	 */
 	public GeoList getResult() {
 		return list;
 	}
@@ -339,9 +340,9 @@ public class AlgoIterationList extends AlgoElement {
 		if (expIsFunctionOrCurve) {
 			// GeoFunction
 			if (listElement instanceof CasEvaluableFunction) {
-				CasEvaluableFunction f = (CasEvaluableFunction) listElement;
+				CasEvaluableFunction fun = (CasEvaluableFunction) listElement;
 				for (int i = 0; i < varCount; i++)
-					f.replaceChildrenByValues(vars[i]);
+					fun.replaceChildrenByValues(vars[i]);
 			}
 		}
 
