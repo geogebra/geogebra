@@ -879,27 +879,7 @@ public class RadioTreeItem extends AVTreeItem
 		ihtml.getElement().appendChild(se2);
 
 		// String text = "";
-		if (geo.isIndependent() || (avExtension && geo instanceof GeoBoolean)) {
-			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
-		} else {
-			switch (kernel.getAlgebraStyle()) {
-			case Kernel.ALGEBRA_STYLE_VALUE:
-				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
-				break;
-
-			case Kernel.ALGEBRA_STYLE_DEFINITION:
-				geo.addLabelTextOrHTML(
-						geo.getDefinitionDescription(StringTemplate.defaultTemplate),
-						getBuilder(seNoLatex));
-				break;
-
-			case Kernel.ALGEBRA_STYLE_COMMAND:
-				geo.addLabelTextOrHTML(geo
-						.getCommandDescription(StringTemplate.defaultTemplate),
-						getBuilder(seNoLatex));
-				break;
-			}
-		}
+		buildNoLatexString();
 		// if enabled, render with LaTeX
 		if (av.isRenderLaTeX()
 				&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
@@ -957,6 +937,30 @@ public class RadioTreeItem extends AVTreeItem
 
 		deferredResizeSlider();
 
+	}
+
+	private void buildNoLatexString() {
+		if (geo.isIndependent() && geo.getDefinition() == null) {
+			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
+		} else {
+			switch (kernel.getAlgebraStyle()) {
+			case Kernel.ALGEBRA_STYLE_VALUE:
+				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
+				break;
+
+			case Kernel.ALGEBRA_STYLE_DEFINITION:
+				geo.addLabelTextOrHTML(
+						geo.getDefinitionDescription(StringTemplate.defaultTemplate),
+						getBuilder(seNoLatex));
+				break;
+
+			case Kernel.ALGEBRA_STYLE_COMMAND:
+				geo.addLabelTextOrHTML(geo
+						.getCommandDescription(StringTemplate.defaultTemplate),
+						getBuilder(seNoLatex));
+				break;
+			}
+		}
 	}
 
 	private void updateFont(Element seNoLatex2) {
@@ -1395,27 +1399,7 @@ public class RadioTreeItem extends AVTreeItem
 		// check for new text
 		if (!newLaTeX) {
 
-			if (geo.isIndependent()) {
-				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
-			} else {
-				switch (kernel.getAlgebraStyle()) {
-				case Kernel.ALGEBRA_STYLE_VALUE:
-					geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
-					break;
-
-				case Kernel.ALGEBRA_STYLE_DEFINITION:
-					geo.addLabelTextOrHTML(
-							geo.getDefinitionDescription(StringTemplate.defaultTemplate),
-							getBuilder(seNoLatex));
-					break;
-
-				case Kernel.ALGEBRA_STYLE_COMMAND:
-					geo.addLabelTextOrHTML(
-							geo.getCommandDescription(StringTemplate.defaultTemplate),
-							getBuilder(seNoLatex));
-					break;
-				}
-			}
+			buildNoLatexString();
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (!LaTeX) {
 				updateColor(seNoLatex);

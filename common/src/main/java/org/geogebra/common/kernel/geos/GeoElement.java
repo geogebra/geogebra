@@ -4429,6 +4429,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	@Override
 	public String getDefinitionDescription(StringTemplate tpl) {
 		if (algoParent == null) {
+			if (getDefinition() != null) {
+				return getDefinition().toString(tpl);
+			}
 			return "";
 		}
 		return algoParent.toString(tpl);

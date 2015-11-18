@@ -33,7 +33,7 @@ public class MyRendererForAlgebraView extends MyRendererForAlgebraTree {
 	protected String getDescription(GeoElement geo) {
 
 		String text = null;
-		if (geo.isIndependent()) {
+		if (geo.isIndependent() && geo.getDefinition() == null) {
 			text = getAlgebraDescriptionTextOrHTML(geo);
 		} else {
 			switch (kernel.getAlgebraStyle()) {

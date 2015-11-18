@@ -14,6 +14,7 @@ import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.export.PrintPreviewW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
+import org.geogebra.web.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -83,7 +84,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	}
 
 	private void initActions() {
-
+		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
 		if (app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(),app.getMenu("Close"), true),true,new MenuCommand(app) {
 
@@ -166,8 +167,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		}
 		if (app.has(Feature.EXAM)) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-					.menu_icons_file_export().getSafeUri().asString(),
+			addItem(MainMenu.getMenuBarHtml(noIcon,
 							app.getMenu("EnterExamMode"), true),
 					true,
 					new MenuCommand(app) {
@@ -183,8 +183,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
 
 		if (app.has(Feature.PRINT_MENU)) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-					.menu_icons_file_export().getSafeUri().asString(),
+			addItem(MainMenu.getMenuBarHtml(noIcon,
 					app.getMenu("PrintPreview"), true), true, new MenuCommand(
 					app) {
 
