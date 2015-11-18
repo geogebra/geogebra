@@ -388,20 +388,17 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	}
 
 	private void setBorderButtonVisible(int i, boolean b) {
-		App.debug("setBorderVisible() implementation needed"); // TODO
-		                                                       // Auto-generated
+		//
 	}
 
 	private void setBorderButton(int i, ImageData createUpDownTriangleIcon,
 	        ClickHandler al) {
-		App.debug("setBorderButton() implementation needed"); // TODO
-		                                                      // Auto-generated
+		//
 	}
 
 	@Override
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-		App.debug("geoElementSelected() implementation needed"); // TODO
-		                                                         // Auto-generated
+		//
 	}
 
 	@Override
@@ -538,15 +535,12 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void enableColoring(boolean b) {
-		App.debug("enableColoring() implementation needed"); // TODO
-		                                                     // Auto-generated
-
+		//
 	}
 
 	@Override
 	public void setOpaque(boolean b) {
-		App.debug("setOpaque() implementation needed"); // TODO Auto-generated
-
+		//
 	}
 
 	@Override
@@ -580,9 +574,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void setFocusable(boolean b) {
-		App.debug("setFocusable() implementation needed"); // TODO
-		                                                   // Auto-generated
-
+		//
 	}
 
 	@Override
@@ -592,8 +584,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void setLabel(GLabel label) {
-		App.debug("setLabel() implementation needed"); // TODO Auto-generated
-
+		//
 	}
 
 	@Override
@@ -686,8 +677,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void wrapSetText(String s) {
-		App.debug("wrapSetText() implementation needed"); // TODO Auto-generated
-
+		//
 	}
 
 	@Override
