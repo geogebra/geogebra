@@ -4408,12 +4408,14 @@ public class GeoGebraCasIntegrationTest {
 				"{x = (-sqrt(2 * sqrt(10) - 3) * sqrt(31) + 62) / 31}");
 		t("g(x) := f'(x)",
 				"(x^(2) * (sqrt(10) * 30 + 358) + (x * (-sqrt(10) * 39 - 81) + sqrt(10) * 78 + 162) * sqrt(x^(2) * (-sqrt(10) * 26 - 54) + x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) + x * (-sqrt(10) * 120 - 1432) - sqrt(10) * 104 + 745) / (x^(2) * (sqrt(10) * 448 + 1374) + x * (-sqrt(10) * 1792 - 5496) + sqrt(10) * 433 + 1195)");
-		// Solve[((xï¿½ (sqrt(10) 30 + 358) + (x (-sqrt(10) 39 - 81) + sqrt(10) 78
-		// + 162) sqrt(xï¿½ (-sqrt(10) 26 - 54) + x (sqrt(10) 104 + 216) -
+		// Solve[((x^2 (sqrt(10) 30 + 358) + (x (-sqrt(10) 39 - 81) + sqrt(10)
+		// 78
+		// + 162) sqrt(x^2 (-sqrt(10) 26 - 54) + x (sqrt(10) 104 + 216) -
 		// sqrt(10) 38 - 5) + x (-sqrt(10) 120 - 1432) - sqrt(10) 104 + 745) /
-		// (xï¿½ (sqrt(10) 448 + 1374) + x (-sqrt(10) 1792 - 5496) + sqrt(10) 433
+		// (x^2 (sqrt(10) 448 + 1374) + x (-sqrt(10) 1792 - 5496) + sqrt(10) 433
 		// + 1195)),x]
 		// just one correct answer not 3
+		// test commit with degree sign °
 		t("Solve[g(x) = 0, x]",
 				"{x = (-sqrt(2 * sqrt(10) - 3) * sqrt(31) + 62) / 31}");
 
