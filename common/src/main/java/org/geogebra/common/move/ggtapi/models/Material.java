@@ -1,5 +1,6 @@
 package org.geogebra.common.move.ggtapi.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONBoolean;
@@ -12,7 +13,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONString;
  * @author Matthias Meisinger
  * 
  */
-public class Material implements Comparable<Material> {
+public class Material implements Comparable<Material>, Serializable {
 
 	public enum Provider {
 		TUBE, GOOGLE, ONE, LOCAL
