@@ -533,6 +533,8 @@ public class Socket {
 				String filenameDCM = null;
 				String filenameCAM = null;
 
+				File destDCM = null, destCAM = null;
+
 				try {
 					String updateDir = System.getenv("APPDATA")
 							+ GeoGebraConstants.GEOGEBRA_THIRD_PARTY_UPDATE_DIR;
@@ -541,18 +543,18 @@ public class Socket {
 
 					// Downloading dcm installer
 					filenameDCM = updateDir + File.separator + REALSENSE_DCM_EXE;
-					File dest = new File(filenameDCM);
+					destDCM = new File(filenameDCM);
 					URL url = new URL(REALSENSE_ONLINE_ARCHIVE_DCM);
 					App.debug("Downloading " + REALSENSE_ONLINE_ARCHIVE_DCM);
-					DownloadManager.copyURLToFile(url, dest);
+					DownloadManager.copyURLToFile(url, destDCM);
 					App.debug("=== done");
 
 					// Downloading camera installer
 					filenameCAM = updateDir + File.separator + REALSENSE_CAMERA_EXE;
-					dest = new File(filenameCAM);
+					destCAM = new File(filenameCAM);
 					url = new URL(REALSENSE_ONLINE_ARCHIVE_CAMERA);
 					App.debug("Downloading " + REALSENSE_ONLINE_ARCHIVE_CAMERA);
-					DownloadManager.copyURLToFile(url, dest);
+					DownloadManager.copyURLToFile(url, destCAM);
 					App.debug("=== done");
 
 				} catch (Exception e) {
@@ -573,6 +575,8 @@ public class Socket {
 					App.debug("Successful update");
 					showMessage("RealSense is now up to date.",
 							"Please restart GeoGebra to use Intel RealSense camera.");
+					destDCM.delete();
+					destCAM.delete();
 				}
 			}
 		};
