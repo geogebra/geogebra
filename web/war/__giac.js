@@ -1779,8 +1779,8 @@ var __giac = [ {},
 { cat: "Solve", cmd:"Solve[sqrt(x-4)<=sqrt(2x+1)]", result:"{x \u2265 4}", notes:"GGB-236, TRAC-4258" },
 { cat: "Solve", cmd:"Solve[{-x+y-z+1,t x + (t-2)y*y+z-1},{x,z}]", result:"{{x = (-t y\u00B2 + 2y\u00B2 - y) / (t - 1), z = (t y\u00B2 + t y + t - 2y\u00B2 - 1) / (t - 1)}}", notes:"GGB-255" },
 { cat: "InflectionPoint", cmd:"InflectionPoint[(x+2)^3+5]",result:"{(-2, 5)}"},
-{ cat: "InflectionPoint", cmd:"InflectionPoint[(x+1/2)^3+5]",result:"{((-1) / 2, 5)}"}
-{ cat: "Evaluate", cmd:"Evaluate[(1,2)-10]", result:"(-9, -8)" },
+{ cat: "InflectionPoint", cmd:"InflectionPoint[(x+1/2)^3+5]",result:"{((-1) / 2, 5)}"},
+{ cat: "Evaluate", cmd:"Evaluate[(1,2)-10]", result:"(-9, -8)" }
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
