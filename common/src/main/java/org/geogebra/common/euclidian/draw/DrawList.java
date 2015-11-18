@@ -1069,7 +1069,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private void selectItem() {
 		if (currentIdx != -1) {
-			geoList.setSelectedIndex(currentIdx, false);
+			geoList.setSelectedIndex(currentIdx, true);
 
 		}
 		closeOptions();
