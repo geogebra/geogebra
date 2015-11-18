@@ -76,6 +76,8 @@ public interface GeoGebraConstants {
 			+ "geogebra-jars.zip";
 	/** update directory, typically on Windows */
 	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.0\\jars\\update";
+	/** update directory, typically on Windows */
+	public static final String GEOGEBRA_THIRD_PARTY_UPDATE_DIR = "\\GeoGebra 5.0\\thirdparty\\update";
 
 	/** GeoGebra URL */
 	public final static String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";

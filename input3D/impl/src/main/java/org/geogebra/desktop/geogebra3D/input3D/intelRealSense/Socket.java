@@ -13,8 +13,29 @@ import intel.rssdk.PXCMSenseManager;
 import intel.rssdk.PXCMSession;
 import intel.rssdk.pxcmStatus;
 
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.euclidian3D.Input3D.OutOfField;
+import org.geogebra.common.main.App;
+import org.geogebra.common.util.DownloadManager;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
@@ -28,6 +49,9 @@ import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionTy
  */
 public class Socket {
 
+	private static final String QUERY_REGISTERY_KEY_FRONT_CAM = "reg query HKLM\\Software\\Intel\\RSSDK\\Components\\ivcam";
+
+	private static final String VERSION = "1.4.27.41944";
 
 	/**
 	 * factor screen / real world
@@ -399,7 +423,7 @@ public class Socket {
 	/**
 	 * Create a session to use realsense camera
 	 * 
-	 * @throws Exception
+	 * @throws Input3DException
 	 *             if no camera installed
 	 */
 	public static void createSession() throws Input3DException {
@@ -410,6 +434,9 @@ public class Socket {
 
 		// reset sense manager
 		SENSE_MANAGER = null;
+
+		// query registry to get installed version
+		queryRegistry();
 
 		try {
 			// Create session
@@ -425,11 +452,210 @@ public class Socket {
 		}
 
 	}
+	
+
+	/**
+	 * Query windows registry to check version
+	 * 
+	 * @throws Input3DException
+	 *             if no key in registry
+	 */
+	static public void queryRegistry() throws Input3DException {
+		int registeryQueryResult = 1; // inited to bad value (correct value = 0)
+		try {
+			Runtime runtime = Runtime.getRuntime();
+			Process p = runtime.exec(QUERY_REGISTERY_KEY_FRONT_CAM);
+			p.waitFor();
+			registeryQueryResult = p.exitValue();
+			App.debug(QUERY_REGISTERY_KEY_FRONT_CAM + " : "
+					+ registeryQueryResult);
+			// get query result -- so we can check version
+			try {
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(p.getInputStream()));
+				String line = "";
+				try {
+					// get version
+					while ((line = reader.readLine()) != null) {
+						// App.debug(line);
+						String[] items = line.split(" ");
+						int index = 0;
+						while (index < items.length
+								&& items[index].length() == 0) {
+							index++;
+						}
+						if (index < items.length) {
+							// App.debug(">>>>> " + index + " : " +
+							// items[index]);
+							if (items[index].equals("Version")) {
+								String version = items[items.length - 1];
+								App.debug(">>>>> " + version + " , "
+										+ version.equals(VERSION));
+								if (!version.equals(VERSION)) {
+									updateVersion();
+								}
+
+							}
+						}
+					}
+				} finally {
+					reader.close();
+				}
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+		} catch (Throwable e) {
+			throw new Input3DException(Input3DExceptionType.INSTALL,
+					"RealSense: No key for camera in registery");
+		}
+
+	}
+	
+	private final static String REALSENSE_ONLINE_ARCHIVE_BASE = "http://dev.geogebra.org/realsense/latest/";
+	private final static String REALSENSE_DCM_EXE = "intel_rs_dcm_f200_1.4.27.41944.exe";
+	private final static String REALSENSE_ONLINE_ARCHIVE_DCM = REALSENSE_ONLINE_ARCHIVE_BASE
+			+ REALSENSE_DCM_EXE;
+	private final static String REALSENSE_CAMERA_EXE = "intel_rs_sdk_runtime_6.0.21.6598.exe";
+	private final static String REALSENSE_ONLINE_ARCHIVE_CAMERA = REALSENSE_ONLINE_ARCHIVE_BASE
+			+ REALSENSE_CAMERA_EXE;
+
+	private static void updateVersion() {
+		
+		Thread t = new Thread(){
+			@Override
+			public void run() {
+				App.debug("\n>>>>>>>>>>>>>> update version");
+
+				showMessage(
+						"RealSense not up to date, we'll download and install new version.",
+						"This may take several minutes, you will be notified when achieved.");
+
+				String filenameDCM = null;
+				String filenameCAM = null;
+
+				try {
+					String updateDir = System.getenv("APPDATA")
+							+ GeoGebraConstants.GEOGEBRA_THIRD_PARTY_UPDATE_DIR;
+					App.debug("Creating " + updateDir);
+					new File(updateDir).mkdirs();
+
+					// Downloading dcm installer
+					filenameDCM = updateDir + File.separator + REALSENSE_DCM_EXE;
+					File dest = new File(filenameDCM);
+					URL url = new URL(REALSENSE_ONLINE_ARCHIVE_DCM);
+					App.debug("Downloading " + REALSENSE_ONLINE_ARCHIVE_DCM);
+					DownloadManager.copyURLToFile(url, dest);
+					App.debug("=== done");
+
+					// Downloading camera installer
+					filenameCAM = updateDir + File.separator + REALSENSE_CAMERA_EXE;
+					dest = new File(filenameCAM);
+					url = new URL(REALSENSE_ONLINE_ARCHIVE_CAMERA);
+					App.debug("Downloading " + REALSENSE_ONLINE_ARCHIVE_CAMERA);
+					DownloadManager.copyURLToFile(url, dest);
+					App.debug("=== done");
+
+				} catch (Exception e) {
+					App.error("Unsuccessful update");
+				}
+
+				boolean installOK = false;
+
+				if (filenameDCM != null) {
+					installOK = install(filenameDCM);
+				}
+
+				if (installOK && filenameCAM != null) {
+					installOK = install(filenameCAM);
+				}
+				
+				if (installOK) {
+					App.debug("Successful update");
+					showMessage("RealSense is now up to date.",
+							"Please restart GeoGebra to use Intel RealSense camera.");
+				}
+			}
+		};
+		
+		t.start();
+
+	}
+
+	static boolean install(String filename) {
+		App.debug("installing " + filename);
+		Runtime runtime = Runtime.getRuntime();
+		Process p;
+		try {
+			p = runtime.exec(filename
+					+ " --silent --no-progress --acceptlicense=yes");
+			p.waitFor();
+			return p.exitValue() == 0; // all is good
+		} catch (IOException e) {
+			App.debug("Unsuccesfull install of " + filename + " : "
+					+ e.getMessage());
+		} catch (InterruptedException e) {
+			App.debug("Unsuccesfull wait for install of " + filename + " : "
+					+ e.getMessage());
+		}
+
+		return false;
+
+	}
+
+	static void showMessage(String message1, String message2) {
+		final JFrame frame = new JFrame();
+		Container c = frame.getContentPane();
+		JPanel panel = new JPanel();
+		c.add(panel);
+
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBackground(Color.WHITE);
+		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		JLabel label = new JLabel(message1);
+		JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		labelPanel.setBackground(Color.WHITE);
+		labelPanel.add(label);
+		panel.add(labelPanel);
+
+		label = new JLabel(message2);
+		labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		labelPanel.setBackground(Color.WHITE);
+		labelPanel.add(label);
+		panel.add(labelPanel);
+
+		JLabel closeLabel = new JLabel("OK");
+		closeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		closeLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.setVisible(false);
+			}
+		});
+		JPanel closePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		closePanel.setBackground(Color.WHITE);
+		closePanel.add(closeLabel);
+		panel.add(closePanel);
+
+		frame.setUndecorated(true);
+
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		try {
+			frame.setAlwaysOnTop(true);
+		} catch (SecurityException e) {
+			// failed to set on top
+		}
+	}
 
 	static private PXCMSession SESSION = null;
 
+
 	/**
 	 * Create a "Socket" for realsense camera
+	 * 
+	 * @throws Input3DException
 	 * 
 	 * 
 	 * @throws Exception

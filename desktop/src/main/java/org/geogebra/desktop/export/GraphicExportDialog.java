@@ -51,6 +51,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.util.DownloadManager;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.awt.GGraphics2DD;
@@ -60,7 +61,6 @@ import org.geogebra.desktop.export.epsgraphics.ColorMode;
 import org.geogebra.desktop.gui.util.FileTransferable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
-import org.geogebra.desktop.util.DownloadManager;
 import org.geogebra.desktop.util.Util;
 
 

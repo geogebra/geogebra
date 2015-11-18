@@ -72,10 +72,10 @@ public class Input3DFactory {
 	/**
 	 * try to init realsense
 	 * 
-	 * @throws Exception
+	 * @throws Input3DException
 	 *             if none
 	 */
-	public static void initRealsense() throws Exception {
+	public static void initRealsense() throws Input3DException {
 		Socket.createSession();
 	}
 

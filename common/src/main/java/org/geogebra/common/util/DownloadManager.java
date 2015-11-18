@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package org.geogebra.desktop.util;
+package org.geogebra.common.util;
 
 import java.io.BufferedInputStream;
 import java.io.File;

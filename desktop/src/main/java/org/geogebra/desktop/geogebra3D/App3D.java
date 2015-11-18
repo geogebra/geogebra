@@ -109,112 +109,127 @@ public class App3D extends AppD {
 		runThreadForCheckInput3D();
 	}
 
+	private class ThreadForCheckInput3D extends Thread {
+
+		@Override
+		public void run() {
+			try {
+				// try to init realsense
+				Input3DFactory.initRealsense();
+				Log.debug("RealSense: Session successfully created");
+
+				// save in prefs
+				setInput3DType(Input3DFactory.PREFS_REALSENSE);
+
+				// show message
+				showRealSenseCongratulations();
+
+			} catch (Input3DException e) {
+				Log.debug(e.getMessage());
+			}
+		}
+	}
+
 	private void runThreadForCheckInput3D() {
 		if (!tubeLoginIsShowing && AppD.WINDOWS && !isApplet()
 				&& has(Feature.INTEL_REALSENSE)
 				&& getInput3DType().equals(Input3DFactory.PREFS_NONE)) {
 			App.debug("============ runThreadToCheckInput3D ");
-			Thread t = new Thread() {
-				@Override
-				public void run() {
-					try {
-						// try to init realsense
-						Input3DFactory.initRealsense();
-						Log.debug("RealSense: Session successfully created");
-
-						// save in prefs
-						setInput3DType(Input3DFactory.PREFS_REALSENSE);
-
-						// popup help dialog
-						input3DPopupShowing = true;
-						final JFrame frame = new JFrame();
-						Container c = frame.getContentPane();
-						JPanel panel = new JPanel();
-						c.add(panel);
-
-						panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-						panel.setBackground(Color.WHITE);
-						panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-						JLabel label = new JLabel(
-								getMenu("RealSense.DetectedMessage"));
-						// "Congratulations, your Intel\u00AE RealSense\u2122 Camera can be used with GeoGebra!"
-						JPanel labelPanel = new JPanel(new FlowLayout(
-								FlowLayout.LEFT));
-						labelPanel.setBackground(Color.WHITE);
-						labelPanel.add(label);
-						panel.add(labelPanel);
-						
-						JLabel website = new JLabel();
-						// String tutorialText = "Click here to get a tutorial";
-						website.setText("<html><a href=\"\">"
-								+ getMenu("OpenTutorial") + "</a></html>");
-				        website.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				        website.addMouseListener(new MouseAdapter() {
-				            @Override
-				            public void mouseClicked(MouseEvent e) {
-								try {
-									try {
-										frame.setAlwaysOnTop(false);
-									} catch (SecurityException se) {
-										// failed to unset on top
-									}
-									Desktop.getDesktop()
-											.browse(new URI(
-													"https://tube-beta.geogebra.org/b/OaGmb7LE"));
-								} catch (IOException e1) {
-									// not working
-								} catch (URISyntaxException e1) {
-									// not working
-								}
-				            }
-				        });
-						JPanel websitePanel = new JPanel(new FlowLayout(
-								FlowLayout.LEFT));
-						websitePanel.setBackground(Color.WHITE);
-						websitePanel.add(website);
-						panel.add(websitePanel);
-						
-						JLabel closeLabel = new JLabel("OK");
-						closeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-						closeLabel.addMouseListener(new MouseAdapter() {
-							@Override
-							public void mouseClicked(MouseEvent e) {
-								frame.setVisible(false);
-								if (tubeLoginHasToBeShown) {
-									perspectivePopupHasToBeShown = perspectivePopupHasToBeShown
-											&& superShowTubeLogin();
-								}
-								if (perspectivePopupHasToBeShown) {
-									superShowPerspectivePopup();
-								}
-							}
-						});
-						JPanel closePanel = new JPanel(new FlowLayout(
-								FlowLayout.RIGHT));
-						closePanel.setBackground(Color.WHITE);
-						closePanel.add(closeLabel);
-						panel.add(closePanel);
-
-						frame.setUndecorated(true);
-
-						frame.pack();
-						frame.setLocationRelativeTo(null);
-						frame.setVisible(true);
-						try {
-							frame.setAlwaysOnTop(true);
-						} catch (SecurityException e) {
-							// failed to set on top
-						}
-					} catch (Exception e) {
-						Log.debug(e.getMessage());
-					}
-				}
-			};
+			Thread t = new ThreadForCheckInput3D();
 			t.start();
 		}
 	}
 	
+	/**
+	 * shows congratulations message for using realsense
+	 */
+	void showRealSenseCongratulations() {
+		// popup help dialog
+		input3DPopupShowing = true;
+		final JFrame frame = new JFrame();
+		Container c = frame.getContentPane();
+		JPanel panel = new JPanel();
+		c.add(panel);
+
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBackground(Color.WHITE);
+		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		JLabel label = new JLabel(getMenu("RealSense.DetectedMessage"));
+		// "Congratulations, your Intel\u00AE RealSense\u2122 Camera can be used with GeoGebra!"
+		JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		labelPanel.setBackground(Color.WHITE);
+		labelPanel.add(label);
+		panel.add(labelPanel);
+
+		JLabel website = new JLabel();
+		// String tutorialText = "Click here to get a tutorial";
+		website.setText("<html><a href=\"\">" + getMenu("OpenTutorial")
+				+ "</a></html>");
+		website.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		website.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					try {
+						frame.setAlwaysOnTop(false);
+					} catch (SecurityException se) {
+						// failed to unset on top
+					}
+					Desktop.getDesktop()
+							.browse(new URI(
+									"https://tube-beta.geogebra.org/b/OaGmb7LE"));
+				} catch (IOException e1) {
+					// not working
+				} catch (URISyntaxException e1) {
+					// not working
+				}
+			}
+		});
+		JPanel websitePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		websitePanel.setBackground(Color.WHITE);
+		websitePanel.add(website);
+		panel.add(websitePanel);
+
+		JLabel closeLabel = new JLabel("OK");
+		closeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		closeLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.setVisible(false);
+				if (tubeLoginHasToBeShown) {
+					perspectivePopupHasToBeShown = perspectivePopupHasToBeShown
+							&& superShowTubeLogin();
+				}
+				if (perspectivePopupHasToBeShown) {
+					superShowPerspectivePopup();
+				}
+			}
+		});
+		JPanel closePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		closePanel.setBackground(Color.WHITE);
+		closePanel.add(closeLabel);
+		panel.add(closePanel);
+
+		frame.setUndecorated(true);
+
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		try {
+			frame.setAlwaysOnTop(true);
+		} catch (SecurityException e) {
+			// failed to set on top
+		}
+	}
+
+	/**
+	 * download and update realsense
+	 */
+	void updateRealSense() {
+		App.debug("\n========== updating RealSense");
+	}
+
 	boolean input3DPopupShowing = false;
 	boolean tubeLoginHasToBeShown = false;
 	private boolean tubeLoginIsShowing = false;
