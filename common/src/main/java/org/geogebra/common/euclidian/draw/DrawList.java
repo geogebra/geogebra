@@ -522,6 +522,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		int fontSize = font.getSize();
 		while (drawOptionLines(g2, 0, false) > view.getHeight()
+				- OPTIONBOX_COMBO_GAP
 				&& fontSize >= minFontSize && colCount < MAX_COL_COUNT) {
 			fontSize -= 1;
 			font = font.deriveFont(GFont.PLAIN, fontSize);
@@ -670,7 +671,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int viewBottom = view.getViewHeight();
 
 		if (optTop + optionsHeight > viewBottom) {
-			optTop = viewBottom - optionsHeight;
+			optTop = viewBottom - optionsHeight - OPTIONBOX_COMBO_GAP;
 		}
 		int w = colCount * colWidth;
 		optionsRect.setBounds(boxLeft, optTop, w,
