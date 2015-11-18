@@ -520,7 +520,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				URL url = new URL(GeoGebraConstants.GEOGEBRA_ONLINE_JARS_ZIP);
 				App.debug("Downloading "
 						+ GeoGebraConstants.GEOGEBRA_ONLINE_JARS_ZIP);
-				DownloadManager.copyURLToFile(url, dest, app);
+				DownloadManager.copyURLToFile(url, dest);
 
 				// Unzipping:
 				// Borrowed from
