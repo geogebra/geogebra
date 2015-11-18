@@ -708,9 +708,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return d;
 		} 
 		g2.setFont(font);
-		GTextLayout layout = g2.getFontRenderContext().getTextLayout(text,
+
+		// make sure layout won't be null ("" makes it null).
+		GTextLayout layout = g2.getFontRenderContext()
+				.getTextLayout("".equals(text) ? "A" : text,
 				font);
-		final int w = layout != null ? (int) layout.getBounds().getWidth() : 0;
+
+		final int w = (int) layout.getBounds().getWidth();
 		if (center) {
 			left += (colWidth - w) / 2;
 		}
@@ -719,8 +723,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					left, top, false, false);
 		}
-		lastDescent = layout != null ? layout.getDescent() : 0;
-		lastAscent = layout != null ? layout.getAscent() : 0;
+
+		lastDescent = layout.getDescent();
+		lastAscent = layout.getAscent();
 
 		return AwtFactory.prototype.newDimension(w,
 				Math.round(lastAscent + lastDescent));

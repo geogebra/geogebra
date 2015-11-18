@@ -156,13 +156,20 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	protected int getFullTextHeight(GGraphics2D g2, String text) {
-		GTextLayout layout = g2.getFontRenderContext().getTextLayout(text,
+		// make sure layout won't be null ("" makes it null).
+
+		GTextLayout layout = g2.getFontRenderContext()
+				.getTextLayout("".equals(text) ? "A" : text,
 				getLabelFont());
+
 		return (int) (layout.getBounds().getHeight() + layout.getDescent());
 	}
 
 	protected int getTextDescent(GGraphics2D g2, String text) {
-		GTextLayout layout = g2.getFontRenderContext().getTextLayout(text,
+		// make sure layout won't be null ("" makes it null).
+
+		GTextLayout layout = g2.getFontRenderContext().getTextLayout(
+"".equals(text) ? "A" : text,
 				getLabelFont());
 		return (int) (layout.getDescent());
 	}
