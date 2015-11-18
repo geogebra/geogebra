@@ -60,6 +60,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int OPTIONBOX_COMBO_GAP = 5;
 	private static final int LABEL_COMBO_GAP = 10;
 	private static final int TEXT_CENTER = -1;
+	private static final int MAX_COL_COUNT = 4;
 	/** coresponding list as geo */
 	GeoList geoList;
 	private List<GRectangle> optionItems = new ArrayList<GRectangle>();
@@ -521,14 +522,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		int fontSize = font.getSize();
 		while (drawOptionLines(g2, 0, false) > view.getHeight()
-				&& fontSize >= minFontSize) {
+				&& fontSize >= minFontSize && colCount < MAX_COL_COUNT) {
 			fontSize -= 1;
 			font = font.deriveFont(GFont.PLAIN, fontSize);
 			optionFont = font;
 			if (fontSize < minFontSize) {
 				fontSize = origFontSize;
 				optionFont = font.deriveFont(GFont.PLAIN, origFontSize);
-				colCount++;// = (geoList.size() % 2) + 1;
+				colCount++;
 			}
 		}
 
@@ -709,7 +710,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		g2.setFont(font);
 		GTextLayout layout = g2.getFontRenderContext().getTextLayout(text,
 				font);
-		final int w = (int) layout.getBounds().getWidth();
+		final int w = layout != null ? (int) layout.getBounds().getWidth() : 0;
 		if (center) {
 			left += (colWidth - w) / 2;
 		}
@@ -718,8 +719,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					left, top, false, false);
 		}
-		lastDescent = layout.getDescent();
-		lastAscent = layout.getAscent();
+		lastDescent = layout != null ? layout.getDescent() : 0;
+		lastAscent = layout != null ? layout.getAscent() : 0;
 
 		return AwtFactory.prototype.newDimension(w,
 				Math.round(lastAscent + lastDescent));
@@ -749,10 +750,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			colWidth = boxWidth / colCount;
 
-		for (int col = 0; col < colCount; col++) {
+			for (int col = 0; col < colCount; col++) {
 			itemTo += chunk;
 			if (itemTo > itemCount) {
-				itemTo = itemCount;
+					itemTo = itemCount + 1;
 			}
 				GDimension d = drawOptionColumn(g2, top, left, itemFrom, itemTo,
 						draw);
