@@ -235,7 +235,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 
 		// standard case
-		if (result.isEmpty()) {
+		if (result == null || result.isEmpty()) {
 			return null;
 		}
 		return toGeoGebraString(result, arbconst, tpl, kernel);
