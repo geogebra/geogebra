@@ -6881,7 +6881,10 @@ public abstract class EuclidianController {
 			GeoPointND[] pts = poly.getPoints();
 
 			// get vector for first point
-			AlgoElement algo = ((GeoElement) pts[0]).getParentAlgorithm();
+			AlgoElement algo = null;
+			if (pts[0] != null) {
+				algo = ((GeoElement) pts[0]).getParentAlgorithm();
+			}
 			if (algo instanceof AlgoTranslate) {
 				GeoElement[] input = algo.getInput();
 
