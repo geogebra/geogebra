@@ -74,7 +74,7 @@ public class AlgoZProportion2Test extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.ZProportionTest;
+		return Commands.ZProportion2Test;
 	}
 
 	@Override
