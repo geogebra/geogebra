@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Common class for objects obtained from the parser that are not yet processed
@@ -411,8 +410,6 @@ public abstract class ValidExpression implements ExpressionValue {
 	protected static String print(ExpressionValue x2, boolean values,
 			StringTemplate tpl) {
 		if (values) {
-			Log.debug(x2);
-			Log.debug(x2.toValueString(tpl));
 			return x2.toValueString(tpl);
 		}
 		return x2.isGeoElement() ? ((GeoElement) x2).getLabel(tpl) : x2
