@@ -4415,7 +4415,6 @@ public class GeoGebraCasIntegrationTest {
 		// (x^2 (sqrt(10) 448 + 1374) + x (-sqrt(10) 1792 - 5496) + sqrt(10) 433
 		// + 1195)),x]
 		// just one correct answer not 3
-		// test commit with degree sign °
 		t("Solve[g(x) = 0, x]",
 				"{x = (-sqrt(2 * sqrt(10) - 3) * sqrt(31) + 62) / 31}");
 
