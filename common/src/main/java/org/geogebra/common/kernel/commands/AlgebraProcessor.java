@@ -81,7 +81,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoUserInputElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -2299,7 +2298,7 @@ public class AlgebraProcessor {
 
 			geo = algo.getGeo(); // might also return
 			// Line or Conic
-			((GeoUserInputElement) geo).setDefinition(equ.wrap());
+			geo.setDefinition(equ.wrap());
 		}
 		ret[0] = geo;
 		// AbstractApplication.debug("User Input: "+equ);
