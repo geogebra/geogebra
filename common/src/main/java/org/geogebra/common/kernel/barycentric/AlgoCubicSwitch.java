@@ -138,8 +138,11 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 		if (absN < 500) {
 			return getCoeff400to499(n, a, b, c);
 		}
+		if (absN < 550) {
+			return getCoeff500to549(n, a, b, c);
+		}
 		if (absN < 600) {
-			return getCoeff500to599(n, a, b, c);
+			return getCoeff550to599(n, a, b, c);
 		}
 
 		return getCoeff600plus(n, a, b, c);
@@ -2508,7 +2511,7 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 		}
 	}
 
-	private double[] getCoeff500to599(int n, double a, double b, double c) {
+	private double[] getCoeff500to549(int n, double a, double b, double c) {
 		switch (n) {
 		case 500:
 			return a(0, -a8 * b2 * c4 + a6 * b4 * c4 + 2 * a6 * b2 * c6 - 2
@@ -2821,6 +2824,13 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 					* c6 + 2 * a4 * b4 * c8 - 2 * a4 * b2 * c10 - 2 * a2 * b10
 					* c4 + a2 * b8 * c6 - 2 * a2 * b6 * c8 + a2 * b4 * c10
 					+ b10 * c6, 0);
+		default:
+			return new double[0];
+		}
+	}
+
+	private double[] getCoeff550to599(int n, double a, double b, double c) {
+		switch (n) {
 		case 550:
 			return a(0, a4 * b2 - 2 * a2 * b2 * c2 + a2 * c4 + b4 * c2, -2 * a4
 					* b2 + 2 * a4 * c2 + 2 * a2 * b4 - 2 * a2 * c4 - 2 * b4

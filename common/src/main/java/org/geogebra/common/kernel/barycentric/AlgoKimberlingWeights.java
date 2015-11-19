@@ -167,11 +167,17 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 		if (k < 2700) {
 			return weight2600to2699(k, a, b, c);
 		}
+		if (k < 2750) {
+			return weight2700to2749(k, a, b, c);
+		}
 		if (k < 2800) {
-			return weight2700to2799(k, a, b, c);
+			return weight2750to2799(k, a, b, c);
+		}
+		if (k < 2850) {
+			return weight2800to2849(k, a, b, c);
 		}
 
-		return weight2800plus(k, a, b, c);
+		return weight2850plus(k, a, b, c);
 	}
 
 	private double weight0to99(int k, double a, double b, double c) {
@@ -12049,7 +12055,7 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 		}
 	}
 
-	private double weight2700to2799(int k, double a, double b, double c) {
+	private double weight2700to2749(int k, double a, double b, double c) {
 		switch (k) {
 		case 2700:
 			return a2
@@ -12679,6 +12685,13 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 							- 2 * a2 * b2 * c5 + 2 * b4 * c5 - 2 * a3 * c6 + a2
 							* b * c6 + a * b2 * c6 - 2 * b3 * c6 - a2 * c7 - b2
 							* c7 + a * c8 + b * c8);
+		default:
+			return Double.NaN;
+		}
+	}
+
+	private double weight2750to2799(int k, double a, double b, double c) {
+		switch (k) {
 		case 2750:
 			return a2
 					* (-a6 - 2 * a4 * b2 + 2 * a3 * b3 + a2 * b4 - 2 * a * b5
@@ -13103,7 +13116,7 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 		}
 	}
 
-	private double weight2800plus(int k, double a, double b, double c) {
+	private double weight2800to2849(int k, double a, double b, double c) {
 
 		switch (k) {
 		case 2800:
@@ -13485,6 +13498,13 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 							* b * c2 + 6 * a2 * b2 * c2 - 2 * a * b3 * c2 - b4
 							* c2 - 2 * a * b2 * c3 + 2 * b3 * c3 - a2 * c4 + 2
 							* a * b * c4 - b2 * c4 - b * c5 + c6);
+		default:
+			return Double.NaN;
+		}
+	}
+
+	private double weight2850plus(int k, double a, double b, double c) {
+		switch (k) {
 		case 2850:
 			return a
 					* (b - c)
