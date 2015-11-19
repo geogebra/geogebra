@@ -679,7 +679,7 @@ public class App3D extends AppD {
 
 	@Override
 	public boolean useShaders() {
-		return (useShaders || has(Feature.SHADERS_IN_DESKTOP)) && !isApplet();
+		return useShaders && !isApplet();
 	}
 
 	
