@@ -5303,7 +5303,25 @@ public abstract class GeoElement extends ConstructionElement implements
 			StringUtil.encodeXML(sb,
 					definition.toString(StringTemplate.xmlTemplate));
 			// expression
-			sb.append("\"/>\n");
+			sb.append("\"");
+
+			// add type (e.g. for plane/line)
+			if (isGeoPoint()) {
+				sb.append(" type=\"point\"");
+			} else if (isGeoVector()) {
+				sb.append(" type=\"vector\"");
+			} else if (isGeoLine()) {
+				sb.append(" type=\"line\"");
+			} else if (isGeoPlane()) {
+				sb.append(" type=\"plane\"");
+			} else if (isGeoConic()) {
+				sb.append(" type=\"conic\"");
+			} else if (isGeoQuadric()) {
+				sb.append(" type=\"quadric\"");
+			} else if (isGeoImplicitPoly()) {
+				sb.append(" type=\"implicitPoly\"");
+			}
+			sb.append("/>\n");
 		}
 
 		getElementOpenTagXML(sb);
