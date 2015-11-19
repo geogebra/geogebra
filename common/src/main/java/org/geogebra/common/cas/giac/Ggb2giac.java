@@ -981,7 +981,13 @@ public class Ggb2giac {
 						+ " when ( xcoord(ggbangarg0) == string(y) && type(xcoord(ggbangarg1)) == DOM_INT,"
 						+ "normal(regroup(angle(point(0,0,0),"
 						+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
-						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))) , ? ) ) ) ) ][1]");
+						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))) , "
+						// case 3D line from inputBar and plane with linear
+						// equation
+						+ "when ( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT ,"
+						+ "normal(regroup(angle(point(0,0,0),"
+						+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
+						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))  )))  , ? ) ) ) ) ) ][1]");
 
 		p("Angle.3",
 				"[[[ggbangarg0:=%0], [ggbangarg1:=%1], [ggbangarg2:=%2]], normal(regroup(angle(point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg2),ycoord(ggbangarg2),zcoord(ggbangarg2)))))][1]");
