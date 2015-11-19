@@ -172,7 +172,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			labelCenter.addInside(center);
 
 			// 90degrees
-			show90degrees = getView3D().getApplication().rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
+			show90degrees = getView3D().getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
 					&& angle.isEmphasizeRightAngle()
 					&& Kernel.isEqual(angleValue, Kernel.PI_HALF);
 

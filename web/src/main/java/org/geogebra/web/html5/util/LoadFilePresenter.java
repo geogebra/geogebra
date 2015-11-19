@@ -7,6 +7,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
+import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -189,29 +190,41 @@ public class LoadFilePresenter {
 		Storage stockStore = null;
 
 		stockStore = Storage.getLocalStorageIfSupported();
-		if (stockStore != null) {
-			String xml = stockStore
+		// if (stockStore != null) {
+		String xml = stockStore == null ? null : stockStore
 			        .getItem(GeoGebraPreferences.XML_USER_PREFERENCES);
-			if (xml != null)
+		if (xml != null) {
 				app.setXML(xml, false);
-			String xmlDef = stockStore
-			        .getItem(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES);
-			// String xmlDef = ggbPrefs.get(XML_DEFAULT_OBJECT_PREFERENCES,
-			// factoryDefaultXml);
-			// if (!xmlDef.equals(factoryDefaultXml)) {
-			boolean eda = app.getKernel().getElementDefaultAllowed();
-			app.getKernel().setElementDefaultAllowed(true);
-			if (xmlDef != null)
-				app.setXML(xmlDef, false);
-			app.getKernel().setElementDefaultAllowed(eda);
-			if (app.has(Feature.AV_EXTENSIONS)) {
-				app.getSettings().getAlgebra().setTreeMode(SortMode.ORDER.ordinal());
-			}
-			// }
+		} else {
+			app.setXML(GeoGebraPreferencesXML.getXML(), false);
 		}
+
+		readObjectDefaults(app, stockStore);
+
+		if (app.has(Feature.AV_EXTENSIONS)) {
+			app.getSettings().getAlgebra()
+					.setTreeMode(SortMode.ORDER.ordinal());
+		}
+			// }
+		// }
 		app.updateToolBar();
 		app.focusLost(null, null);
 		app.showStartTooltip();
+	}
+
+	private static void readObjectDefaults(App app, Storage stockStore) {
+		if (stockStore == null) {
+			return;
+		}
+		String xmlDef = stockStore
+				.getItem(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES);
+		boolean eda = app.getKernel().getElementDefaultAllowed();
+		app.getKernel().setElementDefaultAllowed(true);
+		if (xmlDef != null) {
+			app.setXML(xmlDef, false);
+		}
+		app.getKernel().setElementDefaultAllowed(eda);
+
 	}
 
 	private boolean isReloadDataInStorage() {
