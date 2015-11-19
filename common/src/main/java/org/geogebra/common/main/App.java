@@ -3914,7 +3914,6 @@ public abstract class App implements UpdateSelection {
 		case CP_POPUP:
 		case CP_NEW_COLUMNS:
 		case EXAM:
-		case FREE_3DCONICS:
 		case PRINT_MENU:
 			return prerelease;
 		// return canary;

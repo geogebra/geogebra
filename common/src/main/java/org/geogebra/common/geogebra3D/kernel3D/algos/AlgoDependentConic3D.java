@@ -18,41 +18,50 @@ the Free Software Foundation.
 
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import org.geogebra.common.geogebra3D.kernel3D.commands.ParametricProcessor3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 
 /**
  *
  * @author Markus
  * @version
  */
-public class AlgoDependentPoint3D extends AlgoElement3D {
+public class AlgoDependentConic3D extends AlgoElement3D {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private GeoPoint3D P; // output
+	private ExpressionNode root; // input
+	private GeoConic3D P; // output
 
-	private double[] temp;
+	private ExpressionValue[] coeffX, coeffY, coeffZ;
 
-	public AlgoDependentPoint3D(Construction cons, String label,
-			ExpressionNode root) {
-		this(cons, root);
+	public AlgoDependentConic3D(Construction cons, String label,
+			ExpressionNode root, ExpressionValue[] coeffX,
+			ExpressionValue[] coeffY, ExpressionValue[] coeffZ) {
+		this(cons, root, coeffX, coeffY, coeffZ);
 
 		P.setLabel(label);
+
 	}
 
-	/** Creates new AlgoJoinPoints */
-	public AlgoDependentPoint3D(Construction cons, ExpressionNode root) {
+	/** Creates new dependent conic */
+	public AlgoDependentConic3D(Construction cons, ExpressionNode root,
+			ExpressionValue[] coeffX, ExpressionValue[] coeffY,
+			ExpressionValue[] coeffZ) {
 		super(cons);
-
-		P = new GeoPoint3D(cons);
-		P.setDefinition(root);
+		this.root = root;
+		this.coeffX = coeffX;
+		this.coeffY = coeffY;
+		this.coeffZ = coeffZ;
+		P = new GeoConic3D(cons);
 
 		setInputOutput(); // for AlgoElement
 
@@ -69,46 +78,38 @@ public class AlgoDependentPoint3D extends AlgoElement3D {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = P.getDefinition().getGeoElementVariables();
+		input = ((Equation) root.unwrap()).getRHS().getGeoElementVariables();
 
 		setOnlyOutput(P);
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoPoint3D getPoint3D() {
+	public GeoConic3D getConic3D() {
 		return P;
 	}
 
 	public ExpressionNode getExpressionNode() {
-		return P.getDefinition();
+		return root;
 	}
 
 	// calc the current value of the arithmetic tree
 	@Override
 	public final void compute() {
 		try {
-			temp = ((Vector3DValue) P.getDefinition()
-					.evaluate(StringTemplate.defaultTemplate))
-					.getPointAsDouble();
-			if (Double.isInfinite(temp[0]) || Double.isInfinite(temp[1])
-					|| Double.isInfinite(temp[2])) {
-				P.setUndefined();
-			} else {
-				ExpressionNode def = P.getDefinition();
-				P.setCoords(temp[0], temp[1], temp[2], 1.0);
-				P.setDefinition(def);
-			}
+
+			ParametricProcessor3D.updateParabola(P, coeffX, coeffY, coeffZ);
 
 			// P.setMode(temp.getMode());
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			P.setUndefined();
 		}
 	}
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return P.getDefinition().toString(tpl);
+		return root.toString(tpl);
 	}
 
 	// TODO Consider locusequability

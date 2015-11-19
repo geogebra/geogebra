@@ -2226,7 +2226,7 @@ public class AlgebraProcessor {
 	 *            definition expression
 	 * @return resulting conic
 	 */
-	protected GeoElement[] processConic(Equation equ, ExpressionNode def) {
+	public GeoElement[] processConic(Equation equ, ExpressionNode def) {
 		double a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
 		GeoElement[] ret = new GeoElement[1];
 		GeoConic conic;

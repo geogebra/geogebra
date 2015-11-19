@@ -59,8 +59,6 @@ public enum Feature {
 
 	EXAM,
 
-	FREE_3DCONICS,
-
 	PRINT_MENU,
 
 	LATEX_ON_BUTTON,

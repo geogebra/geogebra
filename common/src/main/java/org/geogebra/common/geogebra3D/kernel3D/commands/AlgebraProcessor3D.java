@@ -130,7 +130,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	}
 
 	@Override
-	protected GeoElement[] processConic(Equation equ, ExpressionNode def) {
+	public GeoElement[] processConic(Equation equ, ExpressionNode def) {
 
 		if (equ.isForcedConic())
 			return super.processConic(equ, def);

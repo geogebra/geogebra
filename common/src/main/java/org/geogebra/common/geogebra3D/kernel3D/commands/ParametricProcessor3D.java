@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoCurveCartesian3D;
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoSurfaceCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
@@ -10,17 +11,18 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 public class ParametricProcessor3D extends ParametricProcessor {
 
@@ -46,8 +48,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			ExpressionValue[] coefY = new ExpressionValue[5];
 			ExpressionValue[] coefZ = new ExpressionValue[5];
 
-			if (kernel.getApplication().has(Feature.FREE_3DCONICS)
-					&& ap.getTrigCoeffs(cx, coefX,
+			if (ap.getTrigCoeffs(cx, coefX,
 							new ExpressionNode(kernel, 1.0), loc)
 					&& ap.getTrigCoeffs(cy, coefY,
 							new ExpressionNode(kernel, 1.0), loc)
@@ -151,11 +152,11 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				 * { line = Line(par, (GeoPoint) P, (GeoVector) v, isConstant);
 				 * }
 				 */
-				GeoLine3D line = new GeoLine3D(cons);
+				GeoLine3D line;
 				if (coefX[0].isConstant() && coefY[0].isConstant()
 						&& coefZ[0].isConstant() && coefX[1].isConstant()
 						&& coefY[1].isConstant() && coefZ[1].isConstant()) {
-
+					line = new GeoLine3D(cons);
 					Coords start = new Coords(new double[] {
 							coefX[0].evaluateDouble(),
 							coefY[0].evaluateDouble(),
@@ -176,6 +177,32 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				return new GeoElement[] { line };
 
 			}
+			if ((degX >= 0 && degY >= 0 && degZ >= 0)
+					&& (degX < 3 && degY < 3 && degZ < 3)) {
+
+				boolean constant = true;
+				for (int i = 0; i < coefX.length; i++) {
+					// coefX[i] = expr(coefX[i]);
+					// coefY[i] = expr(coefY[i]);
+					// coefZ[i] = expr(coefZ[i]);
+					constant = constant && expr(coefX[i]).isConstant()
+							&& expr(coefY[i]).isConstant()
+							&& expr(coefZ[i]).isConstant();
+				}
+				if (constant) {
+					GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
+					updateParabola(conic, coefX, coefY, coefZ);
+					conic.setDefinition(buildParamEq(exp));
+					conic.setLabel(label);
+					return new GeoElement[] { conic };
+				}
+				//
+				AlgoDependentConic3D paraAlgo = new AlgoDependentConic3D(cons,
+						buildParamEq(exp), coefX, coefY, coefZ);
+				paraAlgo.getConic3D().setLabel(label);
+				return new GeoElement[] { paraAlgo.getConic3D() };
+
+			}
 			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
 			cons.removeFromConstructionList(nx);
 			AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);
@@ -191,6 +218,73 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			return ac.getOutput();
 		}
 		return super.processParametricFunction(exp, ev, fv, label);
+
+	}
+
+	private static double eval(ExpressionValue ev) {
+		if (ev == null) {
+			return 0;
+		}
+		return ev.evaluateDouble();
+
+	}
+
+	public static void updateParabola(GeoConic3D conic,
+			ExpressionValue[] coefX,
+			ExpressionValue[] coefY, ExpressionValue[] coefZ) {
+		Kernel kernel = conic.getKernel();
+		double mx = eval(coefX[0]), my = eval(coefY[0]), mz = eval(coefZ[0]);
+		double vx = eval(coefX[1]), vy = eval(coefY[1]), vz = eval(coefZ[1]);
+
+		double wx = eval(coefX[2]), wy = eval(coefY[2]), wz = eval(coefZ[2]);
+		CoordSys cs = new CoordSys(2);
+		cs.resetCoordSys();
+		cs.addPoint(new Coords(mx, my, mz, 1));
+		cs.addVector(new Coords(vx, vy, vz));
+		cs.addVector(new Coords(wx, wy, wz));
+		cs.makeOrthoMatrix(false, false);
+		Coords v = cs.getNormalProjection(new Coords(vx, vy, vz, 0))[1];
+		Coords w = cs.getNormalProjection(new Coords(wx, wy, wz, 0))[1];
+
+		FunctionVariable px = new FunctionVariable(kernel, "x");
+		FunctionVariable py = new FunctionVariable(kernel, "y");
+		App.debug(v.getX() + "," + v.getY());
+		App.debug(w.getX() + "," + w.getY());
+		ExpressionNode t = px.wrap().multiply(w.getY())
+				.subtract(py.wrap().multiply(w.getX()));
+
+		double d = w.getY() * v.getX() - w.getX() * v.getY();
+
+		Equation eq;
+
+		// Numerically unstable
+		eq = new Equation(kernel, px.wrap().multiply(d * d * w.getX())
+				.plus(py.wrap().multiply(d * d * w.getY())), t.power(2)
+				.multiply(w.getX() * w.getX() + w.getY() * w.getY())
+				.plus(t.multiply(
+
+				w.getY() * v.getY() + v.getX() * w.getX()).multiply(d))
+
+		);
+		eq.setForceConic();
+		App.debug("3D proc");
+
+		eq.initEquation();
+		Polynomial lhs = eq.getNormalForm();
+		double xx = lhs.getCoeffValue("xx");
+		double xy = lhs.getCoeffValue("xy");
+		double yy = lhs.getCoeffValue("yy");
+		double x = lhs.getCoeffValue("x");
+		double y = lhs.getCoeffValue("y");
+		double cst = lhs.getCoeffValue("");
+
+		App.debug("3D proc done");
+
+		conic.setCoordSys(cs);
+		// conic.setMatrix(new double[] { xx, yy, -det * det, -xy, 0,
+		// 0
+		// });
+		conic.setMatrix(new double[] { xx, yy, cst, xy / 2, x / 2, y / 2 });
 
 	}
 
