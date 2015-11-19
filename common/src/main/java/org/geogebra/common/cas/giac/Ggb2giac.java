@@ -962,11 +962,19 @@ public class Ggb2giac {
 		// point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0))
 		// so we can mix 2d and 3d points
 		p("Angle.2",
-				"[[[ggbangarg0:=%0], [ggbangarg1:=%1]], when( type(xcoord(ggbangarg0)) == DOM_INT ,"
+				"[[[ggbangarg0:=%0], [ggbangarg1:=%1]], "
+						// case linear line
+						+ "when( type(xcoord(ggbangarg0)) == DOM_INT && type(xcoord(ggbangarg1)) == DOM_INT,"
 						+ "normal(regroup(angle(point(0,0,0),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))) ,"
+						// case 3D lines defined in this command
+						+ "when ( xcoord(ggbangarg0) == string(y) && xcoord(ggbangarg1) == string(y) ,"
 						+ "normal(regroup(angle(point(0,0,0),"
 						+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
-						+ "point( coeff(expr(ggbangarg1)[0][2],\u03BB,1) , coeff(expr(ggbangarg1)[1][2],\u03BB,1) , coeff(expr(ggbangarg1)[2][2],\u03BB,1) ) ))) )][1]");
+						+ "point( coeff(expr(ggbangarg1)[0][2],\u03BB,1) , coeff(expr(ggbangarg1)[1][2],\u03BB,1) , coeff(expr(ggbangarg1)[2][2],\u03BB,1) ) ))) ,"
+						// case 3D lines defined from inputBar
+						+ "normal(regroup(angle(point(0,0,0),"
+						+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
+						+ "point( ggbangarg1[2][2][2][0] , ggbangarg1[2][2][2][1] , ggbangarg1[2][2][2][2] ) ))) ) )][1]");
 
 		p("Angle.3",
 				"[[[ggbangarg0:=%0], [ggbangarg1:=%1], [ggbangarg2:=%2]], normal(regroup(angle(point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg2),ycoord(ggbangarg2),zcoord(ggbangarg2)))))][1]");
