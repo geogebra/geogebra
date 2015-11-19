@@ -31,6 +31,7 @@ import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.OptionsMenu;
+import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
