@@ -20,7 +20,6 @@ import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.MenuInterface;
-import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
@@ -45,7 +44,6 @@ import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
@@ -69,7 +67,6 @@ import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
-import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -88,12 +85,10 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.util.DropDownListW;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
-import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
 import org.geogebra.web.html5.kernel.AnimationManagerW;
@@ -2474,22 +2469,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	@Override
 	public String getToolTooltipHTML(int mode) {
-
-		// TODO: fix this code copied from desktop
-		// if getLocalization().getTooltipLocale() != null) {
-		// getLocalization().setTooltipFlag();
-		// }
-
-		StringBuilder sbTooltip = new StringBuilder();
-		sbTooltip.append("<html><b>");
-		sbTooltip.append(StringUtil.toHTMLString(getToolName(mode)));
-		sbTooltip.append("</b><br>");
-		sbTooltip.append(StringUtil.toHTMLString(getToolHelp(mode)));
-		sbTooltip.append("</html>");
-
+		String toolTipHtml = super.getToolTooltipHTML(mode);
 		getLocalization().clearTooltipFlag();
-
-		return sbTooltip.toString();
+		return toolTipHtml;
 
 	}
 

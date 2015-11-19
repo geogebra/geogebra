@@ -31,7 +31,6 @@ import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.OptionsMenu;
-import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
@@ -3361,7 +3360,15 @@ public abstract class App implements UpdateSelection {
 	 * @param mode
 	 *            : tool ID
 	 */
-	public abstract String getToolTooltipHTML(int mode);
+	public String getToolTooltipHTML(int mode) {
+		StringBuilder sbTooltip = new StringBuilder();
+		sbTooltip.append("<html><b>");
+		sbTooltip.append(StringUtil.toHTMLString(getToolName(mode)));
+		sbTooltip.append("</b><br>");
+		sbTooltip.append(StringUtil.toHTMLString(getToolHelp(mode)));
+		sbTooltip.append("</html>");
+		return sbTooltip.toString();
+	}
 
 	public void resetPen() {
 
