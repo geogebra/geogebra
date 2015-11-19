@@ -963,6 +963,28 @@ public class Ggb2giac {
 		// so we can mix 2d and 3d points
 		p("Angle.2",
 				"[[[ggbangarg0:=%0], [ggbangarg1:=%1]], "
+						// case angle between planes
+						+ "when( string(xcoord(ggbangarg0[1])) == string(hyperplan) && string(xcoord(ggbangarg1[1])) == string(hyperplan) , "
+						+ "normal(regroup(angle(point(0,0,0),"
+						+ "point( ggbangarg0[1][1][0] , ggbangarg0[1][1][1] , ggbangarg0[1][1][2]),"
+						+ "point( ggbangarg1[1][1][0] , ggbangarg1[1][1][1] , ggbangarg1[1][1][2]) ))),"
+						// line defined with command and plane defined with
+						// command
+						+ "when ( xcoord(ggbangarg0) == string(y) && string(xcoord(ggbangarg1[1])) == string(hyperplan) ,"
+						+ "normal(regroup(angle(point(0,0,0),"
+						+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
+						+ "point( ggbangarg1[1][1][0] , ggbangarg1[1][1][1] , ggbangarg1[1][1][2]) ))) ,"
+						// line defined from inputBar and plane defined with
+						// command
+						+ "when( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && string(xcoord(ggbangarg1[1])) == string(hyperplan),"
+						+ "normal(regroup(angle(point(0,0,0),"
+						+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
+						+ "point( ggbangarg1[1][1][0] , ggbangarg1[1][1][1] , ggbangarg1[1][1][2]) ))), "
+						// case line from inputBar and plane by lin. equation
+						+ "when( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT,"
+						+ "normal(regroup(angle(point(0,0,0),"
+						+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
+						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))), "
 						// case line or plane defined by linear equation
 						+ "when( type(xcoord(ggbangarg0)) == DOM_INT && type(xcoord(ggbangarg1)) == DOM_INT,"
 						+ "normal(regroup(angle(point(0,0,0),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))) ,"
@@ -987,7 +1009,7 @@ public class Ggb2giac {
 						+ "when ( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT ,"
 						+ "normal(regroup(angle(point(0,0,0),"
 						+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
-						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))  )))  , ? ) ) ) ) ) ][1]");
+						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))  )))  , ? ) ) ) ) ) ) ) ) )][1]");
 
 		p("Angle.3",
 				"[[[ggbangarg0:=%0], [ggbangarg1:=%1], [ggbangarg2:=%2]], normal(regroup(angle(point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg2),ycoord(ggbangarg2),zcoord(ggbangarg2)))))][1]");
