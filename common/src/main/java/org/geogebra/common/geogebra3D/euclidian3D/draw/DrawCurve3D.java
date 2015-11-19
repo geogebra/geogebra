@@ -6,11 +6,11 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
-import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 
 /**
  * @author ggb3D
@@ -120,11 +120,10 @@ public class DrawCurve3D extends Drawable3DCurves {
 		if (waitForReset) { // prevent NPE
 			return false;
 		}
-		
-		GeoCurveCartesianND curveND = (GeoCurveCartesianND) getGeoElement();
 
-		if (hittingPoint == null){
-			hittingPoint = new GeoPoint3D(curveND.cons);
+
+		if (hittingPoint == null) {
+			hittingPoint = new GeoPoint3D(getGeoElement().getConstruction());
 			project = new Coords(4);
 			lineCoords = new double[2];
 		}
@@ -132,20 +131,14 @@ public class DrawCurve3D extends Drawable3DCurves {
 		hittingPoint.setWillingCoords(hitting.origin);
 		hittingPoint.setWillingDirection(hitting.direction);
 
-		double t = curveND.getClosestParameter(hittingPoint, hittingPoint
-				.getPathParameter().getT());
-		
-		// App.debug("" + t);
-		
-		hittingPoint.getPathParameter().setT(t);
-
-		curveND.pathChanged(hittingPoint);
+		((Path) curve).pointChanged(hittingPoint);
 
 		Coords closestPoint = hittingPoint.getInhomCoordsInD3();
 		closestPoint.projectLine(hitting.origin, hitting.direction, project,
 				lineCoords);
 
-		// App.debug("\n" + hitting.origin + "\nclosest point:\n" + closestPoint
+		// App.debug("\n" + hitting.origin + "\nclosest point:\n" +
+		// closestPoint
 		// + "\nclosest point on line:\n" + project);
 
 		double d = project.distance(closestPoint);
