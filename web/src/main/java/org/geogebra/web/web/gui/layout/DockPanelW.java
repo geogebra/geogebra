@@ -642,6 +642,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 		}
 	};
 
+	private boolean longStyleBar = false;
+
 	/**
 	 * Update all elements in the title bar.
 	 */
@@ -789,6 +791,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 				.getArticleElement().getDataParamAllowStyleBar(false))) {
 			dockPanel.setWidgetSize(titleBarPanel, value ? 44 : 0);
 			titleBarPanel.setStyleName("TitleBarPanel-open", value);
+			setLongStyleBar(value);
 			deferredOnResize();
 		}
 	}
@@ -1444,5 +1447,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	public int navHeight() {
 		return 0;
+	}
+
+	public boolean hasLongStyleBar() {
+		return longStyleBar;
+	}
+
+	public void setLongStyleBar(boolean longStyleBar) {
+		this.longStyleBar = longStyleBar;
 	}
 }

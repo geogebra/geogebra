@@ -271,13 +271,7 @@ public class RadioTreeItem extends AVTreeItem
 			lblStep.setText(app.getPlain("Step"));
 		}
 
-		private AlgebraDockPanelW getAlgebraDockPanel() {
-			return (AlgebraDockPanelW) app
-					.getGuiManager()
-					.getLayout()
-					.getDockManager().getPanel(App.VIEW_ALGEBRA);
 
-		}
 
 		public void show() {
 			setAnimating(false);
@@ -1082,7 +1076,8 @@ public class RadioTreeItem extends AVTreeItem
 	public void setFirst(boolean first) {
 		super.setFirst(first);
 		if (buttonPanel != null) {
-			buttonPanel.getElement().getStyle().setRight(first ? 46 : 0,
+			buttonPanel.getElement().getStyle().setRight(
+					first && !getAlgebraDockPanel().hasLongStyleBar() ? 46 : 0,
 					Unit.PX);
 		}
 	}
@@ -2201,6 +2196,10 @@ marblePanel, evt))) {
 		}
 
 		if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
+			buttonPanel.getElement().getStyle().setRight(
+					first && !getAlgebraDockPanel().hasLongStyleBar() ? 46 : 0,
+					Unit.PX);
+
 			buttonPanel.setVisible(true);
 
 			if (!isThisEdited()) {
@@ -2492,6 +2491,9 @@ marblePanel, evt))) {
 	public void onResize() {
 		if (avExtension) {
 			deferredResizeSlider();
+			if (first && isSelected()) {
+				addDeleteButton();
+			}
 		}
 	}
 
@@ -2573,6 +2575,12 @@ marblePanel, evt))) {
 
 	public Element getScrollElement() {
 		return getWidget().getElement();
+	}
+
+	private AlgebraDockPanelW getAlgebraDockPanel() {
+		return (AlgebraDockPanelW) app.getGuiManager().getLayout()
+				.getDockManager().getPanel(App.VIEW_ALGEBRA);
+
 	}
 }
 
