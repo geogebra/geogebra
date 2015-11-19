@@ -34,34 +34,24 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
  */
 public class AlgoDependentConic3D extends AlgoElement3D {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private ExpressionNode root; // input
-	private GeoConic3D P; // output
+	private GeoConic3D conic; // output
 
 	private ExpressionValue[] coeffX, coeffY, coeffZ;
 
-	public AlgoDependentConic3D(Construction cons, String label,
-			ExpressionNode root, ExpressionValue[] coeffX,
-			ExpressionValue[] coeffY, ExpressionValue[] coeffZ) {
-		this(cons, root, coeffX, coeffY, coeffZ);
-
-		P.setLabel(label);
-
-	}
+	private boolean trig;
 
 	/** Creates new dependent conic */
 	public AlgoDependentConic3D(Construction cons, ExpressionNode root,
 			ExpressionValue[] coeffX, ExpressionValue[] coeffY,
-			ExpressionValue[] coeffZ) {
+			ExpressionValue[] coeffZ, boolean trig) {
 		super(cons);
-		this.root = root;
+		conic = new GeoConic3D(cons);
+		conic.setDefinition(root);
 		this.coeffX = coeffX;
 		this.coeffY = coeffY;
 		this.coeffZ = coeffZ;
-		P = new GeoConic3D(cons);
+		this.trig = trig;
+
 
 		setInputOutput(); // for AlgoElement
 
@@ -78,38 +68,45 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = ((Equation) root.unwrap()).getRHS().getGeoElementVariables();
+		input = ((Equation) conic.getDefinition().unwrap()).getRHS()
+				.getGeoElementVariables();
 
-		setOnlyOutput(P);
+		setOnlyOutput(conic);
 		setDependencies(); // done by AlgoElement
 	}
 
 	public GeoConic3D getConic3D() {
-		return P;
+		return conic;
 	}
 
 	public ExpressionNode getExpressionNode() {
-		return root;
+		return conic.getDefinition();
 	}
 
 	// calc the current value of the arithmetic tree
 	@Override
 	public final void compute() {
 		try {
-
-			ParametricProcessor3D.updateParabola(P, coeffX, coeffY, coeffZ);
-
+			ExpressionNode def = conic.getDefinition();
+			if (trig) {
+				ParametricProcessor3D.updateTrigConic(conic, coeffX, coeffY,
+						coeffZ);
+			} else {
+				ParametricProcessor3D.updateParabola(conic, coeffX, coeffY,
+						coeffZ);
+			}
+			conic.setDefinition(def);
 			// P.setMode(temp.getMode());
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			P.setUndefined();
+			conic.setUndefined();
 		}
 	}
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return root.toString(tpl);
+		return conic.getDefinition().toString(tpl);
 	}
 
 	// TODO Consider locusequability

@@ -5536,8 +5536,12 @@ public class MyXMLHandler implements DocHandler {
 		// parse expression and process it
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(exp);
-			if (label != null)
+			if (label != null) {
+				if ("X".equals(ve.getLabel())) {
+					ve = new Equation(kernel, new Variable(kernel, "X"), ve);
+				}
 				ve.setLabel(label);
+			}
 
 			// enforce point or vector or line or plane type if it was given in
 			// attribute type
@@ -5550,17 +5554,7 @@ public class MyXMLHandler implements DocHandler {
 					// we must check that we have Equation here as xAxis
 					// has also type "line" but is parsed as ExpressionNode
 				} else if (ve instanceof Equation) {
-					App.debug("EQUATION");
-					if (((Equation) ve).getLHS().unwrap() instanceof Variable
-							&& "X".equals(((Equation) ve).getLHS().toString(
-									StringTemplate.defaultTemplate))) {
-						App.debug("PARAM");
-						ve = kernel
-								.getAlgebraProcessor()
-								.getParamProcessor()
-								.checkParametricEquationF(
-										((Equation) ve).getRHS(), ve, cons);
-					} else if (type.equals("line")) {
+					if (type.equals("line")) {
 						((Equation) ve).setForceLine();
 					} else if (type.equals("plane")) {
 						((Equation) ve).setForcePlane();

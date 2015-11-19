@@ -63,68 +63,18 @@ public class ParametricProcessor3D extends ParametricProcessor {
 							&& expr(coefY[i]).isConstant()
 							&& expr(coefZ[i]).isConstant();
 				}
-				constant = true;
-				CoordSys cs = new CoordSys(2);
-
-				double mx = expr(coefX[0]).evaluateDouble(), my = expr(coefY[0])
-						.evaluateDouble(), mz = expr(coefZ[0]).evaluateDouble();
-				App.debug(coefX[2] + "," + coefX[1]);
-
-				double xx = 0, xy = 0, yy = 0, det = 0;
-				if (constant && (coefX[1] != null || coefX[2] != null)) {
-					double vx = expr(coefX[1]).evaluateDouble(), vy = expr(
-							coefY[1]).evaluateDouble(), vz = expr(coefZ[1])
-							.evaluateDouble();
-
-					double wx = expr(coefX[2]).evaluateDouble(), wy = expr(
-							coefY[2]).evaluateDouble(), wz = expr(coefZ[2])
-							.evaluateDouble();
-					cs.resetCoordSys();
-					cs.addPoint(new Coords(mx, my, mz, 1));
-					cs.addVector(new Coords(vx, vy, vz));
-					cs.addVector(new Coords(wx, wy, wz));
-					cs.makeOrthoMatrix(false, false);
-
-					Coords v = cs
-							.getNormalProjection(new Coords(vx, vy, vz, 0))[1];
-					Coords w = cs
-							.getNormalProjection(new Coords(wx, wy, wz, 0))[1];
-					yy = v.getX() * v.getX() + w.getX() * w.getX();
-					xx = v.getY() * v.getY() + w.getY() * w.getY();
-					xy = v.getX() * v.getY() + w.getX() * w.getY();
-					det = v.getX() * w.getY() - w.getX() * v.getY();
-
-				} else if (constant && (coefX[3] != null || coefX[4] != null)) {
-					double vx = expr(coefX[3]).evaluateDouble(), vy = expr(
-							coefY[3]).evaluateDouble(), vz = expr(coefZ[3])
-							.evaluateDouble();
-
-					double wx = expr(coefX[4]).evaluateDouble(), wy = expr(
-							coefY[4]).evaluateDouble(), wz = expr(coefZ[4])
-							.evaluateDouble();
-					cs.resetCoordSys();
-					cs.addPoint(new Coords(mx, my, mz, 1));
-					cs.addVector(new Coords(vx, vy, vz));
-					cs.addVector(new Coords(wx, wy, wz));
-					cs.makeOrthoMatrix(false, false);
-
-					Coords v = cs
-							.getNormalProjection(new Coords(vx, vy, vz, 0))[1];
-					Coords w = cs
-							.getNormalProjection(new Coords(wx, wy, wz, 0))[1];
-					yy = v.getX() * v.getX() - w.getX() * w.getX();
-					xx = v.getY() * v.getY() - w.getY() * w.getY();
-					xy = v.getX() * v.getY() - w.getX() * w.getY();
-					det = v.getX() * w.getY() - w.getX() * v.getY();
-
-				}
+				if (constant) {
 				GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
-				conic.setCoordSys(cs);
-				conic.setMatrix(new double[] { xx, yy, -det * det, -xy, 0, 0 });
+				updateTrigConic(conic, coefX, coefY, coefZ);
 				conic.setDefinition(buildParamEq(exp));
 				conic.setLabel(label);
 
 				return new GeoElement[] { conic };
+				}
+				AlgoDependentConic3D ellipseHyperbolaAlgo = new AlgoDependentConic3D(
+						cons, buildParamEq(exp), coefX, coefY, coefZ, true);
+				ellipseHyperbolaAlgo.getConic3D().setLabel(label);
+				return new GeoElement[] { ellipseHyperbolaAlgo.getConic3D() };
 			}
 			for (int i = 0; i < coefX.length; i++) {
 				coefX[i] = new ExpressionNode(kernel, 0);
@@ -198,7 +148,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				}
 				//
 				AlgoDependentConic3D paraAlgo = new AlgoDependentConic3D(cons,
-						buildParamEq(exp), coefX, coefY, coefZ);
+						buildParamEq(exp), coefX, coefY, coefZ, false);
 				paraAlgo.getConic3D().setLabel(label);
 				return new GeoElement[] { paraAlgo.getConic3D() };
 
@@ -218,6 +168,56 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			return ac.getOutput();
 		}
 		return super.processParametricFunction(exp, ev, fv, label);
+
+	}
+
+	public static void updateTrigConic(GeoConic3D conic,
+			ExpressionValue[] coefX,
+			ExpressionValue[] coefY, ExpressionValue[] coefZ) {
+		CoordSys cs = new CoordSys(2);
+
+		double mx = eval(coefX[0]), my = eval(coefY[0]), mz = eval(coefZ[0]);
+
+		double xx = 0, xy = 0, yy = 0, det = 0;
+
+		if (coefX[1] != null || coefX[2] != null) {
+			double vx = eval(coefX[1]), vy = eval(coefY[1]), vz = eval(coefZ[1]);
+
+			double wx = eval(coefX[2]), wy = eval(coefY[2]), wz = eval(coefZ[2]);
+			cs.resetCoordSys();
+			cs.addPoint(new Coords(mx, my, mz, 1));
+			cs.addVector(new Coords(vx, vy, vz));
+			cs.addVector(new Coords(wx, wy, wz));
+			cs.makeOrthoMatrix(false, false);
+
+			Coords v = cs.getNormalProjection(new Coords(vx, vy, vz, 0))[1];
+			Coords w = cs.getNormalProjection(new Coords(wx, wy, wz, 0))[1];
+			yy = v.getX() * v.getX() + w.getX() * w.getX();
+			xx = v.getY() * v.getY() + w.getY() * w.getY();
+			xy = v.getX() * v.getY() + w.getX() * w.getY();
+			det = v.getX() * w.getY() - w.getX() * v.getY();
+
+		} else if (coefX[3] != null || coefX[4] != null) {
+			double vx = eval(coefX[3]), vy = eval(coefY[3]), vz = eval(coefZ[3]);
+
+			double wx = eval(coefX[4]), wy = eval(coefY[4]), wz = eval(coefZ[4]);
+			cs.resetCoordSys();
+			cs.addPoint(new Coords(mx, my, mz, 1));
+			cs.addVector(new Coords(vx, vy, vz));
+			cs.addVector(new Coords(wx, wy, wz));
+			cs.makeOrthoMatrix(false, false);
+
+			Coords v = cs.getNormalProjection(new Coords(vx, vy, vz, 0))[1];
+			Coords w = cs.getNormalProjection(new Coords(wx, wy, wz, 0))[1];
+			yy = v.getX() * v.getX() - w.getX() * w.getX();
+			xx = v.getY() * v.getY() - w.getY() * w.getY();
+			xy = v.getX() * v.getY() - w.getX() * w.getY();
+			det = v.getX() * w.getY() - w.getX() * v.getY();
+
+		}
+
+		conic.setCoordSys(cs);
+		conic.setMatrix(new double[] { xx, yy, -det * det, -xy, 0, 0 });
 
 	}
 
