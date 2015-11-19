@@ -2474,23 +2474,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	@Override
 	public String getToolTooltipHTML(int mode) {
-
-		// TODO: fix this code copied from desktop
-		// if getLocalization().getTooltipLocale() != null) {
-		// getLocalization().setTooltipFlag();
-		// }
-
-		StringBuilder sbTooltip = new StringBuilder();
-		sbTooltip.append("<html><b>");
-		sbTooltip.append(StringUtil.toHTMLString(getToolName(mode)));
-		sbTooltip.append("</b><br>");
-		sbTooltip.append(StringUtil.toHTMLString(getToolHelp(mode)));
-		sbTooltip.append("</html>");
-
+		String toolTipHtml = super.getToolTooltipHTML(mode);
 		getLocalization().clearTooltipFlag();
-
-		return sbTooltip.toString();
-
+		return toolTipHtml;
 	}
 
 	public void recalculateEnvironments() {
