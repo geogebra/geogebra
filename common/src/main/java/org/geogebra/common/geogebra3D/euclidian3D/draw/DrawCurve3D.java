@@ -141,6 +141,11 @@ public class DrawCurve3D extends Drawable3DCurves {
 		// closestPoint
 		// + "\nclosest point on line:\n" + project);
 
+		// check if point on line is visible
+		if (!hitting.isInsideClipping(project)) {
+			return false;
+		}
+
 		double d = project.distance(closestPoint);
 		if (d * getView3D().getScale() <= getGeoElement().getLineThickness() + 2) {
 			double z = -lineCoords[0];
