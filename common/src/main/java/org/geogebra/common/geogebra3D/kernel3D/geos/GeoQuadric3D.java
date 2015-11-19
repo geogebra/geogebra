@@ -884,9 +884,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (!tmpCoords.isZero()) {
 			ev1.setValues(tmpCoords, 3);
 			ev1.normalize();
-		} // else ev1 and ev2 are already orthogonal
-		ev0.setCrossProduct(ev1, ev2);
-		ev0.normalize();
+		} else if (!ev1.isZero()) { // ev1 and ev2 are already orthogonal
+			ev0.setCrossProduct(ev1, ev2);
+			ev0.normalize();
+		} else {
+			ev2.completeOrthonormal3(ev0, ev1);
+		}
 	}
 
 	private void setHyperboloidEigenvectors() {
