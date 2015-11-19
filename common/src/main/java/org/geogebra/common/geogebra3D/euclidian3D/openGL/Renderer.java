@@ -2044,6 +2044,16 @@ public abstract class Renderer {
 	 * @return true if draw this quadric type
 	 */
 	public boolean drawQuadric(int type) {
+		return drawQuadricDefault(type);
+	}
+
+	/**
+	 * 
+	 * @param type
+	 *            quadric type
+	 * @return true if draw this quadric type (by default)
+	 */
+	static public boolean drawQuadricDefault(int type) {
 		return type != GeoQuadricNDConstants.QUADRIC_ELLIPSOID
 				&& type != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER
 				&& type != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_PARABOLOID
