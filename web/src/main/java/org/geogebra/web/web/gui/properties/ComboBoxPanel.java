@@ -92,5 +92,9 @@ public class ComboBoxPanel extends OptionPanel implements IComboListener {
 	    this.comboBox = comboBox;
     }
 
+	public void clearItems() {
+		comboBox.getModel().clear();
+
+	}
 	
 }

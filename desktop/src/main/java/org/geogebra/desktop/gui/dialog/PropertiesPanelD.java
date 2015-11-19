@@ -987,6 +987,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			comboBox.setSelectedItem(item);
 		}
 
+		public void clearItems() {
+			comboBox.removeAllItems();
+
+		}
+
 	}
 
 	private class TabPanel extends JPanel {
@@ -1548,6 +1553,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		}
 
+		public void clearItems() {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	/**
@@ -1722,6 +1732,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setSelectedItem(String item) {
 			cbLocation.setSelectedItem(item);
+
+		}
+
+		public void clearItems() {
+			// TODO Auto-generated method stub
 
 		}
 	}
@@ -2331,6 +2346,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setSelectedItem(String item) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void clearItems() {
 			// TODO Auto-generated method stub
 
 		}
@@ -3617,6 +3637,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public int getAngleValue() {
 			return angleSlider.getValue();
 		}
+
+		public void clearItems() {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	/**
@@ -4170,6 +4195,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			}
 			
 		}
+
+		public void clearItems() {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	/**
@@ -4350,6 +4380,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void setSelectedItem(String item) {
 
 		}
+
+		public void clearItems() {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	private class DecoAnglePanel extends JPanel implements ActionListener,
@@ -4432,6 +4467,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setArcSizeMinValue() {
 			setSliderMinValue();
+
+		}
+
+		public void clearItems() {
+			// TODO Auto-generated method stub
 
 		}
 	}

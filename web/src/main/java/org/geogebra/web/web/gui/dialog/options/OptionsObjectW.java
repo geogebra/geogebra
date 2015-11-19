@@ -771,6 +771,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		}
 
+		public void clearItems() {
+			// TODO Auto-generated method stub
+
+		}
 
 	}
 

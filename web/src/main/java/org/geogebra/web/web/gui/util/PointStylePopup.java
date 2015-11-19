@@ -148,4 +148,9 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 		euclidian3D = euclidian3d;
 	}
 
+	public void clearItems() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

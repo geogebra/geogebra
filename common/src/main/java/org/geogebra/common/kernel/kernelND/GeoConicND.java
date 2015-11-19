@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.MyMath;
@@ -83,6 +84,8 @@ FromMeta
 	public static final int EQUATION_SPECIFIC = 2;
 	/** X=(1,1)+(sin(t),cos(t)) */
 	public static final int EQUATION_PARAMETRIC = 3;
+	
+	public static final int EQUATION_USER = 4;
 	/** variable strings for default output */
 	protected static String[] vars = { "x\u00b2", "x y", "y\u00b2", "x", "y" };
 	/** variable strings for LaTeX output */
@@ -1206,20 +1209,15 @@ FromMeta
 	 */
 	final public void setToStringMode(int mode) {
 		switch (mode) {
-			case EQUATION_SPECIFIC :				
-				this.toStringMode = EQUATION_SPECIFIC;
-				break;
-				
-			case EQUATION_EXPLICIT:				
-				this.toStringMode = EQUATION_EXPLICIT;
-				break;
-
+		case EQUATION_SPECIFIC:
+		case EQUATION_EXPLICIT:
+		case EQUATION_USER:
 		case EQUATION_PARAMETRIC:
-			this.toStringMode = EQUATION_PARAMETRIC;
+			this.toStringMode = mode;
 			break;
 
-			default :
-				this.toStringMode = EQUATION_IMPLICIT;
+		default:
+			this.toStringMode = EQUATION_IMPLICIT;
 		}						
 	}
 
@@ -1290,6 +1288,16 @@ FromMeta
 	/** Changes equation mode to Explicit */
 	final public void setToExplicit() {
 		setToStringMode(EQUATION_EXPLICIT);
+	}
+
+	/** Changes equation mode to Explicit */
+	final public void setToParametric() {
+		setToStringMode(EQUATION_PARAMETRIC);
+	}
+
+	/** Changes equation mode to Explicit */
+	final public void setToUser() {
+		setToStringMode(EQUATION_USER);
 	}
 
 	/**
@@ -1556,6 +1564,11 @@ FromMeta
 		}
 		if (toStringMode == GeoConicND.EQUATION_PARAMETRIC) {
 			return this.buildParametricValueString(tpl, 2);
+		}
+		ExamEnvironment exam = kernel.getApplication().getExam();
+		if (getDefinition() != null
+				&& ((exam != null && !exam.isCASAllowed()) || toStringMode == GeoConicND.EQUATION_USER)) {
+			return sbToValueString.append(getDefinition().toString(tpl));
 		}
 		if (type == CONIC_LINE) {
 			lines[0].toStringLHS(sbToValueString,tpl);

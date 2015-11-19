@@ -88,5 +88,9 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 	    
     }
 
+	public void clearItems() {
+		getListBox().clear();
+
+	}
 	
 }

@@ -506,6 +506,11 @@ class OptionsTab extends FlowPanel {
 			// deco change
 		}
 
+		public void clearItems() {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	private class DecoSegmentPanel extends OptionPanel implements
@@ -564,6 +569,11 @@ class OptionsTab extends FlowPanel {
 		@Override
 		public void setLabels() {
 			decoLabel.setText(app.getPlain("Decoration") + ":");
+
+		}
+
+		public void clearItems() {
+			// TODO Auto-generated method stub
 
 		}
 
@@ -662,6 +672,11 @@ class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setSelectedItem(String item) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void clearItems() {
 			// TODO Auto-generated method stub
 
 		}
@@ -1150,7 +1165,6 @@ class OptionsTab extends FlowPanel {
 			combo.setSelectedIndex(idx);
 		}
 
-		@Override
 		public void addItem(String item) {
 			combo.addItem(item);
 		}
@@ -1163,6 +1177,11 @@ class OptionsTab extends FlowPanel {
 		@Override
 		public void setSelectedItem(String item) {
 			// nothing to do here
+
+		}
+
+		public void clearItems() {
+			// TODO Auto-generated method stub
 
 		}
 

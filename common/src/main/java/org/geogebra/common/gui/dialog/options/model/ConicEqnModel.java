@@ -10,7 +10,8 @@ public class ConicEqnModel extends MultipleOptionsModel {
 
 
 	private Localization loc;
-	int implicitIndex, explicitIndex, specificIndex;
+	int implicitIndex, explicitIndex, specificIndex, parametricIndex,
+			userIndex;
 
 	public ConicEqnModel(Localization loc) {
 		this.loc = loc;
@@ -21,19 +22,20 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		return (getObjectAt(index) instanceof GeoConic);
 	}
 
-	private GeoConic getConicAt(int index) {
-		return (GeoConic)getObjectAt(index);
+	private GeoConicND getConicAt(int index) {
+		return (GeoConicND) getObjectAt(index);
 	}
 
 	@Override
 	public void updateProperties() {
 		// check if all conics have same type and mode
 		// and if specific, explicit is possible
-		GeoConic temp, geo0 = getConicAt(0);
+		GeoConicND temp, geo0 = getConicAt(0);
 		boolean equalType = true;
 		boolean equalMode = true;
 		boolean specificPossible = geo0.isSpecificPossible();
 		boolean explicitPossible = geo0.isExplicitPossible();
+		boolean userPossible = geo0.getDefinition() != null;
 		for (int i = 1; i < getGeosLength(); i++) {
 			temp = getConicAt(i);
 			// same type?
@@ -48,6 +50,9 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			// explicit equation possible?
 			if (!temp.isExplicitPossible())
 				explicitPossible = false;
+			if (temp.getDefinition() == null) {
+				userPossible = false;
+			}
 		}
 
 		// specific can't be shown because there are different types
@@ -57,17 +62,28 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		specificIndex = -1;
 		explicitIndex = -1;
 		implicitIndex = -1;
+		userIndex = -1;
+		parametricIndex = -1;
 		int counter = -1;
+		getListener().clearItems();
 		if (specificPossible) {
-			getListener().addItem(geo0.getSpecificEquation());
+			getListener().addItem(geo0
+					.getSpecificEquation());
 			specificIndex = ++counter;
 		}
 		if (explicitPossible) {
-			getListener().addItem(loc.getPlain("ExplicitConicEquation"));
+			getListener().addItem(loc
+					.getPlain("ExplicitConicEquation"));
 			explicitIndex = ++counter;
 		}
+		if (userPossible) {
+			getListener().addItem(loc
+					.getPlain("InputForm"));
+			userIndex = ++counter;
+		}
 		implicitIndex = ++counter;
-		getListener().addItem(loc.getPlain("ImplicitConicEquation"));
+		getListener().addItem(loc
+				.getPlain("ImplicitConicEquation"));
 
 		int mode;
 		if (equalMode)
@@ -88,6 +104,12 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		case GeoConicND.EQUATION_IMPLICIT:
 			getListener().setSelectedIndex(implicitIndex);
 			break;
+		case GeoConicND.EQUATION_PARAMETRIC:
+			getListener().setSelectedIndex(parametricIndex);
+			break;
+		case GeoConicND.EQUATION_USER:
+			getListener().setSelectedIndex(userIndex);
+			break;
 
 		default:
 			getListener().setSelectedIndex(-1);
@@ -102,14 +124,19 @@ public class ConicEqnModel extends MultipleOptionsModel {
 
 	@Override
 	protected void apply(int index, int value) {
-		GeoConic geo = getConicAt(index);
+		GeoConicND geo = getConicAt(index);
 		if (value == specificIndex) {
 			geo.setToSpecific();
 		} else if (value == explicitIndex) {
 			geo.setToExplicit();
 		} else if (value == implicitIndex) {
 			geo.setToImplicit();
+		} else if (value == userIndex) {
+			geo.setToUser();
+		} else if (value == parametricIndex) {
+			geo.setToParametric();
 		}
+
 		geo.updateRepaint();
 	}
 

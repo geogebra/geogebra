@@ -3951,6 +3951,10 @@ public class MyXMLHandler implements DocHandler {
 				conic.setToSpecific();
 			} else if (style.equals("explicit")) {
 				conic.setToExplicit();
+			} else if (style.equals("parametric")) {
+				conic.setToParametric();
+			} else if (style.equals("user")) {
+				conic.setToUser();
 			} else {
 				App.error("unknown style for conic in <eqnStyle>: " + style);
 				return false;

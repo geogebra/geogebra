@@ -714,4 +714,9 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	public void setFillInverseSelected(boolean value) {
 		cbFillInverse.setValue(value);
 	}
+
+	public void clearItems() {
+		// TODO Auto-generated method stub
+
+	}
 }
