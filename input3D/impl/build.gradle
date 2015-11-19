@@ -22,7 +22,8 @@ dependencies {
 		'intel.rssdk:libpxcclr:20150901',
 		'com.zspace:zspace:20150615'
 	runtime 'intel.rssdk:libpxcclr:20150901:natives-windows-amd64',
-        'intel.rssdk:libpxcclr:20150901:natives-windows-i586'
+        'intel.rssdk:libpxcclr:20150901:natives-windows-i586',
+	'com.zspace:zspace:20150615:natives-windows-amd64'
 }
 
 eclipse.classpath.file.whenMerged { classpath ->
@@ -48,5 +49,29 @@ eclipse.classpath.file.whenMerged { classpath ->
 
     // Remove the former native .jar files as direct dependencies:
     classpath.entries.removeAll { entry -> entry.kind == 'lib' && entry.path.contains('libpxcclr') \
+        && entry.path.contains('-natives-') }
+
+    // Search for the zspace.jar library (we are doing the same as for libpxcclr above, maybe there is a way to unify):
+    def zspace = classpath.entries.findResult { entry ->
+        if (entry.kind == 'lib' && entry.path.contains('zspace')) {
+            return entry
+            }
+        }
+
+    // Unzip the native .jar files (which contain a .dll file):
+    def zspace_java = project.configurations.compile.find { it.name.startsWith("zspace") } 
+    def zspace_natives = project.configurations.runtime.findAll { it.name.startsWith("zspace") && \
+        it.name.contains('-natives-')} 
+    def zspace_dir = zspace_java.getParent() 
+    for (i in zspace_natives) {
+        def zspace_native_path = i.getPath()
+        ant.unzip(src: zspace_native_path, dest: zspace_dir)
+        } 
+
+    // Set zspace.jar folder as native library location:
+    zspace.setNativeLibraryLocation(zspace_dir)
+
+    // Remove the former native .jar files as direct dependencies:
+    classpath.entries.removeAll { entry -> entry.kind == 'lib' && entry.path.contains('zspace') \
         && entry.path.contains('-natives-') }
 }
