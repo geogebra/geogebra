@@ -102,7 +102,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			+ "ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])));"
 			+
 			// make sure z((1,2)) = 0
-			"zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][2],0),when(length(a)<3,0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))));"
+			"zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))));"
 			+
 			// unicode0176u passes unaltered through Giac
 			// then gets decoded to degree sign in GeoGebra
