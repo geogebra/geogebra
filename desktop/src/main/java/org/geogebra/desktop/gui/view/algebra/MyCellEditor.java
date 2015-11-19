@@ -49,7 +49,10 @@ public class MyCellEditor extends DefaultCellEditor {
             if (ob instanceof GeoElement) {
                 GeoElement geo = (GeoElement) ob;
                 StringTemplate tpl = StringTemplate.defaultTemplate;
-                if (geo.isChangeable()) {
+				if ((geo.isPointOnPath() || geo.isPointInRegion())
+						&& geo.isChangeable()) {
+					str = geo.toString(tpl);
+				} else if (geo.isChangeable()) {
 					str = geo.getDefinitionForInputBar();
                 } else {
                     str = geo.getCommandDescription(tpl);
