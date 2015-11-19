@@ -440,7 +440,7 @@ namespace giac {
   // coded on 2 bytes -> FIXME segfault for cyclic9
 
 #define GIAC_SHORTSHIFTTYPE 16
-#define GIAC_GBASIS_DELAYPAIRS
+  //#define GIAC_GBASIS_DELAYPAIRS
 
   void swap_indices(short * tab){
     swap(tab[1],tab[3]);
@@ -5846,7 +5846,7 @@ namespace giac {
   typedef char used_t;
   // typedef bool used_t;
 
-  void f4_innerloop(modint2 * wt,const modint * jt,const modint * jtend,modint c,const shifttype* it){
+  void f4_innerloop_(modint2 * wt,const modint * jt,const modint * jtend,modint c,const shifttype* it){
     jtend -= 8;
     for (;jt<=jtend;){
       wt += *it; ++it;
@@ -5878,6 +5878,101 @@ namespace giac {
     for (;jt!=jtend;++jt){
       wt += *it; ++it;
       *wt-=modint2(c)*(*jt);
+    }
+  }
+
+  void f4_innerloop(modint2 * wt,const modint * jt,const modint * jtend,modint C,const shifttype* it){
+    jtend -= 16;
+    for (;jt<=jtend;){
+#if 1
+      wt += it[0]; int b=it[1];
+      *wt -= modint2(C)*jt[0];
+      wt[b] -= modint2(C)*jt[1];
+      wt += b+it[2]; b=it[3];
+      *wt -= modint2(C)*jt[2];
+      wt[b] -= modint2(C)*jt[3];
+      wt += b+it[4]; b=it[5];
+      *wt -= modint2(C)*jt[4];
+      wt[b] -= modint2(C)*jt[5];
+      wt += b+it[6]; b=it[7];
+      *wt -= modint2(C)*jt[6];
+      wt[b] -= modint2(C)*jt[7];
+      wt += b+it[8]; b=it[9];
+      *wt -= modint2(C)*jt[8];
+      wt[b] -= modint2(C)*jt[9];
+      wt += b+it[10]; b=it[11];
+      *wt -= modint2(C)*jt[10];
+      wt[b] -= modint2(C)*jt[11];
+      wt += b+it[12]; b=it[13];
+      *wt -= modint2(C)*jt[12];
+      wt[b] -= modint2(C)*jt[13];
+      wt += b+it[14]; b=it[15];
+      *wt -= modint2(C)*jt[14];
+      wt[b] -= modint2(C)*jt[15];
+      wt += b;
+      it += 16; jt+=16;
+#else
+      wt += it[0]; *wt -= modint2(C)*jt[0];
+      wt += it[1]; *wt -= modint2(C)*jt[1];
+      wt += it[2]; *wt -= modint2(C)*jt[2];
+      wt += it[3]; *wt -= modint2(C)*jt[3];
+      wt += it[4]; *wt -= modint2(C)*jt[4];
+      wt += it[5]; *wt -= modint2(C)*jt[5];
+      wt += it[6]; *wt -= modint2(C)*jt[6];
+      wt += it[7]; *wt -= modint2(C)*jt[7];
+      wt += it[8]; *wt -= modint2(C)*jt[8];
+      wt += it[9]; *wt -= modint2(C)*jt[9];
+      wt += it[10]; *wt -= modint2(C)*jt[10];
+      wt += it[11]; *wt -= modint2(C)*jt[11];
+      wt += it[12]; *wt -= modint2(C)*jt[12];
+      wt += it[13]; *wt -= modint2(C)*jt[13];
+      wt += it[14]; *wt -= modint2(C)*jt[14];
+      wt += it[15]; *wt -= modint2(C)*jt[15];
+      it += 16; jt+=16;
+#endif
+    }
+    jtend += 16;
+    for (;jt!=jtend;++jt){
+      wt += *it; ++it;
+      *wt-=modint2(C)*(*jt);
+    }
+  }
+
+  void f4_innerloop_special_mod(modint2 * wt,const modint * jt,const modint * jtend,modint C,const shifttype* it,modint env){
+    modint2 env2=modint2(env)*env;
+    jtend -= 16;
+    for (;jt<=jtend;){
+      wt += it[0]; int b=it[1];
+      special_mod(*wt,C,*jt,env,env2); 
+      special_mod(wt[b],C,jt[1],env,env2); 
+      wt += b+it[2]; b=it[3];
+      special_mod(*wt,C,jt[2],env,env2); 
+      special_mod(wt[b],C,jt[3],env,env2); 
+      wt += b+it[4]; b=it[5];
+      special_mod(*wt,C,jt[4],env,env2); 
+      special_mod(wt[b],C,jt[5],env,env2); 
+      wt += b+it[6]; b=it[7];
+      special_mod(*wt,C,jt[6],env,env2); 
+      special_mod(wt[b],C,jt[7],env,env2); 
+      wt += b+it[8]; b=it[9];
+      special_mod(*wt,C,jt[8],env,env2); 
+      special_mod(wt[b],C,jt[9],env,env2); 
+      wt += b+it[10]; b=it[11];
+      special_mod(*wt,C,jt[10],env,env2); 
+      special_mod(wt[b],C,jt[11],env,env2); 
+      wt += b+it[12]; b=it[13];
+      special_mod(*wt,C,jt[12],env,env2); 
+      special_mod(wt[b],C,jt[13],env,env2); 
+      wt += b+it[14]; b=it[15];
+      special_mod(*wt,C,jt[14],env,env2); 
+      special_mod(wt[b],C,jt[15],env,env2); 
+      wt += b;
+      it += 16; jt+=16;
+    }
+    jtend += 16;
+    for (;jt!=jtend;++jt){
+      wt += *it; ++it;
+      special_mod(*wt,C,*jt,env,env2); 
     }
   }
 
@@ -6011,36 +6106,7 @@ namespace giac {
 	++jt;
 #ifdef GIAC_SHORTSHIFTTYPE
 	if (shortshifts){
-	  for (;jt<jt_;){
-	    wt += *it; ++it;
-	    special_mod(*wt,c,*jt,env,env2); // 	    *wt-=modint2(c)*(*jt);
-	    ++jt;
-	    wt += *it; ++it;
-	    special_mod(*wt,c,*jt,env,env2);
-	    ++jt;
-	    wt += *it; ++it;
-	    special_mod(*wt,c,*jt,env,env2);
-	    ++jt;
-	    wt += *it; ++it;
-	    special_mod(*wt,c,*jt,env,env2);
-	    ++jt;
-	    wt += *it; ++it;
-	    special_mod(*wt,c,*jt,env,env2);
-	    ++jt;
-	    wt += *it; ++it;
-	    special_mod(*wt,c,*jt,env,env2);
-	    ++jt;
-	    wt += *it; ++it;
-	    special_mod(*wt,c,*jt,env,env2);
-	    ++jt;
-	    wt += *it; ++it;
-	    special_mod(*wt,c,*jt,env,env2);
-	    ++jt;
-	  }
-	  for (;jt!=jtend;++jt){
-	    wt += *it; ++it;
-	    special_mod(*wt,c,*jt,env,env2);
-	  }
+	  f4_innerloop_special_mod(&*wt,jt,jtend,c,it,env);
 	}
 	else {
 	  for (;jt<jt_;){
@@ -7058,7 +7124,8 @@ namespace giac {
   bool dicho(typename std::vector< T_unsigned<modint,tdeg_t> >::const_iterator & jt,typename std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jtend,const tdeg_t & u,order_t order){
     if (jt->u==u) return true;
     for (;;){
-      typename std::vector< T_unsigned<modint,tdeg_t> >::const_iterator j=jt+(jtend-jt)/2;
+      int step=(jtend-jt)/2;
+      typename std::vector< T_unsigned<modint,tdeg_t> >::const_iterator j=jt+step;
       if (j==jt)
 	return j->u==u;
       //PREFETCH(&*(j+step/2));
@@ -10102,7 +10169,6 @@ namespace giac {
 	rem.push_back(m); // add to remainder
 	continue;
       }
-      finish=true;
       unsigned ii;
       for (ii=0;ii<G.size();++ii){
 #ifdef GIAC_GBASIS_PERMUTATION
@@ -10113,18 +10179,23 @@ namespace giac {
 	if (i==excluded)
 	  continue;
 	const tdeg_t & deg=g[G[i]].ldeg;
-	if (tdeg_t_greater(m,deg,order)){
-	  finish=false;
-	  if (tdeg_t_all_greater(m,deg,order))
-	    break;
-	}
-#ifdef GIAC_DEG_FIRST
-	else 
-	  ii=G.size()-1;
-#endif
+	if (tdeg_t_all_greater(m,deg,order))
+	  break;
       }
       if (ii==G.size()){
 	rem.push_back(m); // add to remainder
+	// no monomial divide m, check if m is greater than one of the monomial of G
+	// if not we can push all remaining monomials in rem
+	finish=true;
+	for (ii=0;ii<G.size();++ii){
+	  if (ii==excluded)
+	    continue;
+	  const tdeg_t & deg=g[G[ii]].ldeg;
+	  if (tdeg_t_greater(m,deg,order)){
+	    finish=false;
+	    break;
+	  }
+	}
 	continue;
       }
       // add m/leading monomial of g[G[i]] to q[i]
@@ -10174,7 +10245,8 @@ namespace giac {
     if (*jt==u) return true;
     if (jtend-jt<=6){ ++jt; return false; }// == test faster
     for (;;){
-      typename std::vector<tdeg_t>::const_iterator j=jt+(jtend-jt)/2;
+      int step=(jtend-jt)/2;
+      typename std::vector<tdeg_t>::const_iterator j=jt+step;
       if (j==jt)
 	return *j==u;
       //PREFETCH(&*(j+step/2));
@@ -11199,14 +11271,13 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (interrupted || ctrl_c)
 	return;
       if (disjoint(h0,res[G[i]].ldeg,order,dim)){
+#ifdef GIAC_GBASIS_DELAYPAIRS
 	Ccancel.push_back(G[i]);
-	cancellables.push_back(tmp[i]);
+#endif
+	//cancellables.push_back(tmp[i]);
 	continue;
       }
-      if (equalposcomp(cancellables,tmp[i])){
-	CERR << "cancelled!" << endl;
-	continue;
-      }
+      //if (equalposcomp(cancellables,tmp[i])){ CERR << "cancelled!" << endl; continue; }
       // h0 and G[i] leading monomial not prime together
 #if 1
       tdeg_t * tmp1=&tmp[i]; 

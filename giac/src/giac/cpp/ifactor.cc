@@ -4,16 +4,6 @@
 #define GIAC_MPQS // define if you want to use giac for sieving 
 #endif
 
-// Thanks to Jason Papadopoulos, author of msieve
-#ifdef BESTA_OS
-#define PREFETCH(addr) /* nothing */
-#elif defined(__GNUC__) && __GNUC__ >= 3
-	#define PREFETCH(addr) __builtin_prefetch(addr) 
-#elif defined(_MSC_VER) && _MSC_VER >= 1400
-	#define PREFETCH(addr) PreFetchCacheLine(PF_TEMPORAL_LEVEL_1, addr)
-#else
-	#define PREFETCH(addr) /* nothing */
-#endif
 
 
 #include "path.h"

@@ -4797,11 +4797,11 @@ namespace giac {
   // v1 += c1*w % p, v2 += c2*w %p, v3 += c3*w % p, v4 += c4*w % p; 
   void int_multilinear_combination(std::vector<int> & v1,int c1,std::vector<int> & v2,int c2,std::vector<int> & v3,int c3,std::vector<int> & v4,int c4,const std::vector<int> & w,int p,int cstart,int cend){
     c1 %=p; c2 %=p; c3 %=p; c4 %=p;
-    std::vector<int>::iterator it1=v1.begin()+cstart,it1end=v1.end(),it2=v2.begin()+cstart,it3=v3.begin()+cstart,it4=v4.begin()+cstart,it1_;
-    if (cend && cend>=cstart && cend<it1end-v1.begin())
-      it1end=v1.begin()+cend;
+    int * it1=&*(v1.begin()+cstart),*it1end=&*(v1.end()),*it2=&*(v2.begin()+cstart),*it3=&*(v3.begin()+cstart),*it4=&*(v4.begin()+cstart),*it1_;
+    if (cend && cend>=cstart && cend<it1end-&v1.front())
+      it1end=&*(v1.begin()+cend);
     it1_=it1-4;
-    std::vector<int>::const_iterator jt=w.begin()+cstart;
+    const int * jt=&*(w.begin()+cstart);
 #ifdef PSEUDO_MOD
     if (p<(1<<29) 
 	// && p>=(1<<16)
@@ -4814,25 +4814,22 @@ namespace giac {
 	pseudo_mod(*it2,c2,tmp,p,invp,nbits);
 	pseudo_mod(*it3,c3,tmp,p,invp,nbits);
 	pseudo_mod(*it4,c4,tmp,p,invp,nbits);
-	++jt;++it4;++it3;++it2;++it1;
-	tmp=*jt;
-	pseudo_mod(*it1,c1,tmp,p,invp,nbits);
-	pseudo_mod(*it2,c2,tmp,p,invp,nbits);
-	pseudo_mod(*it3,c3,tmp,p,invp,nbits);
-	pseudo_mod(*it4,c4,tmp,p,invp,nbits);
-	++jt;++it4;++it3;++it2;++it1;
-	tmp=*jt;
-	pseudo_mod(*it1,c1,tmp,p,invp,nbits);
-	pseudo_mod(*it2,c2,tmp,p,invp,nbits);
-	pseudo_mod(*it3,c3,tmp,p,invp,nbits);
-	pseudo_mod(*it4,c4,tmp,p,invp,nbits);
-	++jt;++it4;++it3;++it2;++it1;
-	tmp=*jt;
-	pseudo_mod(*it1,c1,tmp,p,invp,nbits);
-	pseudo_mod(*it2,c2,tmp,p,invp,nbits);
-	pseudo_mod(*it3,c3,tmp,p,invp,nbits);
-	pseudo_mod(*it4,c4,tmp,p,invp,nbits);
-	++jt;++it4;++it3;++it2;++it1;
+	tmp=jt[1];
+	pseudo_mod(it1[1],c1,tmp,p,invp,nbits);
+	pseudo_mod(it2[1],c2,tmp,p,invp,nbits);
+	pseudo_mod(it3[1],c3,tmp,p,invp,nbits);
+	pseudo_mod(it4[1],c4,tmp,p,invp,nbits);
+	tmp=jt[2];
+	pseudo_mod(it1[2],c1,tmp,p,invp,nbits);
+	pseudo_mod(it2[2],c2,tmp,p,invp,nbits);
+	pseudo_mod(it3[2],c3,tmp,p,invp,nbits);
+	pseudo_mod(it4[2],c4,tmp,p,invp,nbits);
+	tmp=jt[3];
+	pseudo_mod(it1[3],c1,tmp,p,invp,nbits);
+	pseudo_mod(it2[3],c2,tmp,p,invp,nbits);
+	pseudo_mod(it3[3],c3,tmp,p,invp,nbits);
+	pseudo_mod(it4[3],c4,tmp,p,invp,nbits);
+	jt+=4;it4+=4;it3+=4;it2+=4;it1+=4;
       }
       for (;it1!=it1end;++jt,++it4,++it3,++it2,++it1){
 	int tmp=*jt;
@@ -7053,7 +7050,21 @@ namespace giac {
 	buffer[col]=0;
 	if (convertpos){
 	  int C=col+1;
-	  for (;C<cmax;++C){
+	  longlong * buf=&buffer[C];
+	  longlong * bufend=&buffer[cmax]-8;
+	  const int * nline=&Nline[C];
+	  for (;buf<=bufend;buf+=8,nline+=8){
+	    longlong x,y;
+	    x=buf[0]; x -= coeff*nline[0]; x -= (x>>63)*modulo2; buf[0]=x; 
+	    y=buf[1]; y -= coeff*nline[1]; y -= (y>>63)*modulo2; buf[1]=y; 
+	    x=buf[2]; x -= coeff*nline[2]; x -= (x>>63)*modulo2; buf[2]=x; 
+	    y=buf[3]; y -= coeff*nline[3]; y -= (y>>63)*modulo2; buf[3]=y; 
+	    x=buf[4]; x -= coeff*nline[4]; x -= (x>>63)*modulo2; buf[4]=x; 
+	    y=buf[5]; y -= coeff*nline[5]; y -= (y>>63)*modulo2; buf[5]=y; 
+	    x=buf[6]; x -= coeff*nline[6]; x -= (x>>63)*modulo2; buf[6]=x; 
+	    y=buf[7]; y -= coeff*nline[7]; y -= (y>>63)*modulo2; buf[7]=y; 
+	  }
+	  for (C+=(buf-&buffer[C]);C<cmax;++C){
 	    longlong & b=buffer[C] ;
 	    longlong x = b;
 	    x -= coeff*Nline[C];   
@@ -7063,7 +7074,20 @@ namespace giac {
 	}
 	else {
 	  int C=col+1;
-	  for (;C<cmax;++C){
+	  longlong * buf=&buffer[C];
+	  longlong * bufend=&buffer[cmax]-8;
+	  const int * nline=&Nline[C];
+	  for (;buf<=bufend;buf+=8,nline+=8){
+	    buf[0] -= coeff*nline[0];
+	    buf[1] -= coeff*nline[1];
+	    buf[2] -= coeff*nline[2];
+	    buf[3] -= coeff*nline[3];
+	    buf[4] -= coeff*nline[4];
+	    buf[5] -= coeff*nline[5];
+	    buf[6] -= coeff*nline[6];
+	    buf[7] -= coeff*nline[7];
+	  }
+	  for (C+=(buf-&buffer[C]);C<cmax;++C){
 	    buffer[C] -= coeff*Nline[C];   
 	  }
 	}
