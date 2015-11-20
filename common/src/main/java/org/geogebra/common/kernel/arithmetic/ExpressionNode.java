@@ -3730,9 +3730,6 @@ kernel, left,
 	 */
 	static public int opID(ExpressionValue ev) {
 		if (ev.isExpressionNode()) {
-			if (((ExpressionNode) ev).hasBrackets()) {
-				return -1;
-			}
 			Operation op = ((ExpressionNode) ev).operation;
 			// input (x>y)==(x+y>3) must be kept
 			if (op.equals(Operation.GREATER) || op.equals(Operation.LESS)

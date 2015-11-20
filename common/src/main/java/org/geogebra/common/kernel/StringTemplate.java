@@ -1408,8 +1408,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 			}
 
-			if ((left.isExpressionNode() && ((ExpressionNode) left)
-					.hasBrackets()) || left instanceof Equation) {
+			if (left instanceof Equation) {
 				sb.append(leftBracket());
 				sb.append(leftStr);
 				sb.append(rightBracket());
