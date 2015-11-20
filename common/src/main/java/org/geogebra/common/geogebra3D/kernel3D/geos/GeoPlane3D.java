@@ -82,12 +82,11 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
-	public GeoPlane3D(Construction cons, String label, double a, double b,
+	public GeoPlane3D(Construction cons, double a, double b,
 			double c, double d) {
 		this(cons);
 
 		setEquation(a, b, c, d);
-		setLabel(label);
 
 	}
 

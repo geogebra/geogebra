@@ -167,12 +167,13 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			z = lhs.getCoeffValue("z") / 2;
 
 			double[] coeffs = { xx, yy, zz, c, xy, xz, yz, x, y, z };
-			quadric = new GeoQuadric3D(cons, label, coeffs);
+			quadric = new GeoQuadric3D(cons, coeffs);
 		} else {
 			quadric = (GeoQuadric3D) kernel.getManager3D().DependentQuadric3D(
-					label, equ);
+					equ);
 		}
 		quadric.setDefinition(def);
+		quadric.setLabel(label);
 		ret[0] = quadric;
 		return ret;
 	}
@@ -197,13 +198,14 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			b = lhs.getCoeffValue("y");
 			c = lhs.getCoeffValue("z");
 			d = lhs.getCoeffValue("");
-			plane = (GeoPlane3D) kernel.getManager3D().Plane3D(label, a, b, c,
+			plane = (GeoPlane3D) kernel.getManager3D().Plane3D(a, b, c,
 					d);
 			plane.setDefinition(def);
-		} else
-			plane = (GeoPlane3D) kernel.getManager3D().DependentPlane3D(label,
+		} else {
+			plane = (GeoPlane3D) kernel.getManager3D().DependentPlane3D(
 					equ);
-
+		}
+		plane.setLabel(label);
 		ret[0] = plane;
 		return ret;
 	}

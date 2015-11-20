@@ -44,7 +44,7 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 	private GeoPlane3D p; // output
 
 	/** Creates new AlgoDependentPlane */
-	public AlgoDependentPlane3D(Construction cons, String label, Equation equ) {
+	public AlgoDependentPlane3D(Construction cons, Equation equ) {
 		super(cons, false); // don't add to construction list yet
 		equation = equ;
 		Polynomial lhs = equ.getNormalForm();
@@ -75,7 +75,6 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 
 		// compute value of dependent number
 		compute();
-		p.setLabel(label);
 	}
 
 	@Override

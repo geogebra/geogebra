@@ -80,11 +80,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 * @param coeffs
 	 *            coefficients
 	 */
-	public GeoQuadric3D(Construction c, String label, double[] coeffs) {
+	public GeoQuadric3D(Construction c, double[] coeffs) {
 
 		this(c);
 		setMatrix(coeffs);
-		setLabel(label);
 	}
 
 	/**

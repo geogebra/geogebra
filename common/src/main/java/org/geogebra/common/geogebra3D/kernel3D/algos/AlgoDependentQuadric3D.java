@@ -36,10 +36,6 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
  */
 public class AlgoDependentQuadric3D extends AlgoElement3D {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private Equation equation;
 	private NumberValue num;
 	private ExpressionValue[] ev = new ExpressionValue[10]; // input
@@ -49,7 +45,7 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 	private double[] coeffs;
 
 	/** Creates new AlgoDependentPlane */
-	public AlgoDependentQuadric3D(Construction cons, String label, Equation equ) {
+	public AlgoDependentQuadric3D(Construction cons, Equation equ) {
 		super(cons, false); // don't add to construction list yet
 		equation = equ;
 		Polynomial lhs = equ.getNormalForm();
@@ -90,7 +86,7 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 
 		// compute value of dependent number
 		compute();
-		quadric.setLabel(label);
+
 	}
 
 	@Override

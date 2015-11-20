@@ -271,21 +271,21 @@ public interface Manager3DInterface {
 	public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
 			NumberValue height);
 
-	/** Line a x + b y + c z + d = 0 named label */
-	public GeoPlaneND Plane3D(String label, double a, double b, double c,
+	/** Plane a x + b y + c z + d = 0 */
+	public GeoPlaneND Plane3D(double a, double b, double c,
 			double d);
 
 	/**
 	 * Plane dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees.
 	 */
-	public GeoPlaneND DependentPlane3D(String label, Equation equ);
+	public GeoPlaneND DependentPlane3D(Equation equ);
 
 	/**
 	 * Quadric dependent on coefficients of arithmetic expressions with
 	 * variables, represented by trees.
 	 */
-	public GeoQuadricND DependentQuadric3D(String label, Equation equ);
+	public GeoQuadricND DependentQuadric3D(Equation equ);
 
 	/**
 	 * Plane named label through point and line

@@ -527,19 +527,19 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getOutput();
 	}
 
-	final public GeoPlane3D Plane3D(String label, double a, double b, double c,
+	final public GeoPlane3D Plane3D(double a, double b, double c,
 			double d) {
-		GeoPlane3D plane = new GeoPlane3D(cons, label, a, b, c, d);
+		GeoPlane3D plane = new GeoPlane3D(cons, a, b, c, d);
 		return plane;
 	}
 
-	final public GeoPlane3D DependentPlane3D(String label, Equation equ) {
-		AlgoDependentPlane3D algo = new AlgoDependentPlane3D(cons, label, equ);
+	final public GeoPlane3D DependentPlane3D(Equation equ) {
+		AlgoDependentPlane3D algo = new AlgoDependentPlane3D(cons, equ);
 		return algo.getPlane();
 	}
 
-	final public GeoQuadric3D DependentQuadric3D(String label, Equation equ) {
-		AlgoDependentQuadric3D algo = new AlgoDependentQuadric3D(cons, label,
+	final public GeoQuadric3D DependentQuadric3D(Equation equ) {
+		AlgoDependentQuadric3D algo = new AlgoDependentQuadric3D(cons,
 				equ);
 		return algo.getQuadric();
 	}
