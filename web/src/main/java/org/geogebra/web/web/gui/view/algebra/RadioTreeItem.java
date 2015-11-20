@@ -1574,7 +1574,7 @@ public class RadioTreeItem extends AVTreeItem
 			Element old = LaTeX ? (c != null ? c.getCanvasElement()
 					: seMayLatex) : seNoLatex;
 			String text = geo.getLaTeXAlgebraDescriptionWithFallback(
-					substituteNumbers && !sliderNeeded(),
+					substituteNumbers || sliderNeeded(),
 					StringTemplate.latexTemplateMQedit,
 					true);
 			App.debug("RENDERING" + text);
