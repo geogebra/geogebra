@@ -764,19 +764,24 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			GDimension d = drawOptionColumn(g2, top, left, startIdx, endIdx,
 					draw);
 			if (width < d.getWidth()) {
-				width = d.getWidth() + COMBO_TEXT_MARGIN;
+				width = d.getWidth();
 			}
 			if (height < d.getHeight()) {
 				height = d.getHeight();
 			}
 
 			startIdx = endIdx;
-			left += width;
+			// TODO: gap must be font specific, like getOptionsItemGap().
+			left += width + COMBO_TEXT_MARGIN;
 		}
 
 		colWidth = width;
-		optionsWidth = width * (colCount);
+		optionsWidth = width * colCount + 2 * COMBO_TEXT_MARGIN;
 		optionsHeight = height;
+		if (colCount != size) {
+			// no gap needed at the end if all elements in one row.
+			optionsHeight += getOptionsItemGap();
+		}
 
 	}
 
