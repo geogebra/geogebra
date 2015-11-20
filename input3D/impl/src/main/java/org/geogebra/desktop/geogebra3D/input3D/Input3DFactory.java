@@ -1,6 +1,7 @@
 package org.geogebra.desktop.geogebra3D.input3D;
 
 import org.geogebra.common.euclidian3D.Input3D;
+import org.geogebra.common.main.App;
 import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.InputIntelRealsense3D;
 import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.Socket;
 import org.geogebra.desktop.geogebra3D.input3D.zspace.InputZSpace3D;
@@ -42,7 +43,8 @@ public class Input3DFactory {
 	 * @throws Input3DException
 	 *             if fails
 	 */
-	static public Input3D createInput3D(String type) throws Input3DException {
+	static public Input3D createInput3D(final App app, String type)
+			throws Input3DException {
 
 		if (type == null || type.length() == 0) {
 			return null;
@@ -52,7 +54,7 @@ public class Input3DFactory {
 		case 'r':
 			if (type.equals(PREFS_REALSENSE)) {
 				// check for realsense
-				return new InputIntelRealsense3D();
+				return new InputIntelRealsense3D(app);
 			}
 			return null;
 		}
@@ -75,8 +77,8 @@ public class Input3DFactory {
 	 * @throws Input3DException
 	 *             if none
 	 */
-	public static void initRealsense() throws Input3DException {
-		Socket.createSession();
+	public static void initRealsense(final App app) throws Input3DException {
+		Socket.createSession(app);
 	}
 
 }

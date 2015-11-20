@@ -426,7 +426,7 @@ public class Socket {
 	 * @throws Input3DException
 	 *             if no camera installed
 	 */
-	public static void createSession() throws Input3DException {
+	public static void createSession(final App app) throws Input3DException {
 
 		if (SESSION != null) {
 			return;
@@ -436,7 +436,7 @@ public class Socket {
 		SENSE_MANAGER = null;
 
 		// query registry to get installed version
-		queryRegistry();
+		queryRegistry(app);
 
 		try {
 			// Create session
@@ -460,7 +460,7 @@ public class Socket {
 	 * @throws Input3DException
 	 *             if no key in registry
 	 */
-	static public void queryRegistry() throws Input3DException {
+	static public void queryRegistry(final App app) throws Input3DException {
 		int registeryQueryResult = 1; // inited to bad value (correct value = 0)
 		try {
 			Runtime runtime = Runtime.getRuntime();
@@ -492,7 +492,7 @@ public class Socket {
 								App.debug(">>>>> " + version + " , "
 										+ version.equals(VERSION));
 								if (!version.equals(VERSION)) {
-									updateVersion();
+									updateVersion(app);
 								}
 
 							}
@@ -519,16 +519,15 @@ public class Socket {
 	private final static String REALSENSE_ONLINE_ARCHIVE_CAMERA = REALSENSE_ONLINE_ARCHIVE_BASE
 			+ REALSENSE_CAMERA_EXE;
 
-	private static void updateVersion() {
+	private static void updateVersion(final App app) {
 		
 		Thread t = new Thread(){
 			@Override
 			public void run() {
 				App.debug("\n>>>>>>>>>>>>>> update version");
 
-				showMessage(
-						"RealSense not up to date, we'll download and install new version.",
-						"This may take several minutes, you will be notified when achieved.");
+				showMessage(app.getPlain("RealSenseNotUpToDate1"),
+						app.getPlain("RealSenseNotUpToDate2"));
 
 				String filenameDCM = null;
 				String filenameCAM = null;
@@ -573,8 +572,8 @@ public class Socket {
 				
 				if (installOK) {
 					App.debug("Successful update");
-					showMessage("RealSense is now up to date.",
-							"Please restart GeoGebra to use Intel RealSense camera.");
+					showMessage(app.getPlain("RealSenseUpdated1"),
+							app.getPlain("RealSenseUpdated2"));
 					destDCM.delete();
 					destCAM.delete();
 				}
@@ -665,10 +664,10 @@ public class Socket {
 	 * @throws Exception
 	 *             when fails
 	 */
-	public Socket() throws Input3DException {
+	public Socket(final App app) throws Input3DException {
 
 		if (SESSION == null) {
-			createSession();
+			createSession(app);
 		}
 
 		if (SESSION == null) {

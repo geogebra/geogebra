@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.App;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
 
 
@@ -39,7 +40,7 @@ public class InputIntelRealsense3D implements Input3D {
 	 * 
 	 * @throws Exception
 	 */
-	public InputIntelRealsense3D()
+	public InputIntelRealsense3D(final App app)
 			throws Input3DException {
 		
 		// 3D mouse position
@@ -60,7 +61,7 @@ public class InputIntelRealsense3D implements Input3D {
 		
 		outOfField = OutOfField.YES;
 
-		socket = new Socket();
+		socket = new Socket(app);
 	}
 	
 	
