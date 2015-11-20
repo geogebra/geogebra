@@ -1363,14 +1363,16 @@ public class MyXMLHandler implements DocHandler {
 			ev.setAllowShowMouseCoords(asm);
 
 			String att = attrs.get("allowToolTips");
-			if (att != null)
+			if (att != null) {
 				ev.setAllowToolTips(Integer.parseInt(att));
-			else
+			} else {
 				ev.setAllowToolTips(EuclidianStyleConstants.TOOLTIPS_AUTOMATIC);
+			}
 
 			String del = attrs.get("deleteToolSize");
-			if (del != null)
+			if (del != null) {
 				ev.setDeleteToolSize(Integer.parseInt(del));
+			}
 
 			// v3.0: appearance of right angle
 			String strRightAngleStyle = attrs.get("rightAngleStyle");
@@ -1380,7 +1382,8 @@ public class MyXMLHandler implements DocHandler {
 				if (!ev.is3D()) {
 					app.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
 				} else {
-					app.setRightAngleStyleLocalDefault();
+					app.setRightAngleStyle(
+							app.getLocalization().getRightAngleStyle());
 				}
 			} else {
 				if (!ev.isViewForPlane()) {

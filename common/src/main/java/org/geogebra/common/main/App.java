@@ -1011,15 +1011,6 @@ public abstract class App implements UpdateSelection {
 	StringBuilder sbOrdinal;
 
 	/**
-	 * Update right angle style to match current locale
-	 */
-	public void updateRightAngleStyle() {
-		if (rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE) {
-			setRightAngleStyleLocalDefault();
-		}
-	}
-
-	/**
 	 * set right angle style
 	 * 
 	 * @param style
@@ -1027,18 +1018,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void setRightAngleStyle(int style) {
 		rightAngleStyle = style;
-	}
-
-	/**
-	 * set right angle style to local default
-	 */
-	public void setRightAngleStyleLocalDefault() {
-		if (getLocalization().getLanguage().equals("de")
-				|| getLocalization().getLanguage().equals("hu")) {
-			rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
-		} else {
-			rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
-		}
 	}
 
 	/**

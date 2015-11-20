@@ -241,7 +241,7 @@ public enum Language {
 			"Hindi / \u092E\u093E\u0928\u0915 \u0939\u093F\u0928\u094D\u0926\u0940",
 			Country.India),
 
-	Hungarian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+	Hungarian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
 			Unicode.CURRENCY_EURO, null, true, "hu", "hu",
 			"Hungarian / Magyar", Country.Hungary),
 
