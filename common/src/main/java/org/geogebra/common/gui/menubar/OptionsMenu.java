@@ -13,7 +13,7 @@ public class OptionsMenu {
 	private RadioButtonMenuBar menuDecimalPlaces;
 	private RadioButtonMenuBar menuLabeling;
 	private App app;
-	private Kernel kernel;
+	Kernel kernel;
 	private MenuFactory menuFactory;
 
 	public OptionsMenu(App app, MenuFactory menuFactory) {
@@ -92,6 +92,9 @@ public class OptionsMenu {
 		}
 	}
 
+	/**
+	 * @return newSubmenu
+	 */
 	public RadioButtonMenuBar newSubmenu() {
 		return this.menuFactory.newSubmenu();
 	}
@@ -103,6 +106,11 @@ public class OptionsMenu {
 	 *            "Algebra description menu will be added for this
 	 */
 	public void addAlgebraDescriptionMenu(MenuInterface menu) {
+
+		if (app.isExam()) {
+			return;
+		}
+
 		menuAlgebraStyle = newSubmenu();
 
 		String[] strDescription = { app.getPlain("Value"),

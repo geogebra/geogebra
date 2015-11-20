@@ -126,7 +126,12 @@ public class Kernel {
 	final public static int ALGEBRA_STYLE_DEFINITION = 1;
 	/** Algebra view style: command */
 	final public static int ALGEBRA_STYLE_COMMAND = 2;
+	
+	// critical for exam mode
+	// must use getter
 	private int algebraStyle = Kernel.ALGEBRA_STYLE_VALUE;
+	
+	
 	// end G.Sturr
 	private MacroManager macroManager;
 
@@ -2626,6 +2631,12 @@ public class Kernel {
 	 * @return algebra style, one of ALGEBRA_STYLE_*
 	 */
 	final public int getAlgebraStyle() {
+		
+		if (app.isExam()) {
+			// make sure simplified expressions aren't shown
+			return Kernel.ALGEBRA_STYLE_DEFINITION;
+		}
+		
 		return algebraStyle;
 	}
 
@@ -4051,7 +4062,7 @@ public class Kernel {
 
 		// algebra style
 		sb.append("\t<algebraStyle val=\"");
-		sb.append(algebraStyle);
+		sb.append(getAlgebraStyle());
 		sb.append("\"/>\n");
 
 		// coord style
