@@ -42,7 +42,7 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint,
 	private GeoConic conic; // output
 
 	/** Creates new AlgoJoinPoints */
-	public AlgoDependentConic(Construction cons, String label, Equation equ) {
+	public AlgoDependentConic(Construction cons, Equation equ) {
 		super(cons, false); // don't add to construction list yet
 		equation = equ;
 		Polynomial lhs = equ.getNormalForm();
@@ -75,7 +75,6 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint,
 
 		// compute value of dependent number
 		compute();
-		conic.setLabel(label);
 	}
 
 	@Override

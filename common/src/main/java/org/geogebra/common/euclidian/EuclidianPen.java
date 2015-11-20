@@ -1335,7 +1335,7 @@ public class EuclidianPen {
 		}
 
 		GeoConic conic = new GeoConic(this.app.getKernel().getConstruction(),
-				null, coeffs);
+				coeffs);
 
 		GeoPoint point = new GeoPoint(this.app.getKernel().getConstruction(),
 				0, 0, 1);

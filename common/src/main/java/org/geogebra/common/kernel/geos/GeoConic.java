@@ -69,11 +69,11 @@ public class GeoConic extends GeoConicND implements
 	 * @param coeffs
 	 *            coefficients
 	 */
-	public GeoConic(Construction c, String label, double[] coeffs) {
+	public GeoConic(Construction c, double[] coeffs) {
 
 		this(c);
 		setCoeffs(coeffs);
-		setLabel(label);
+
 	}
 
 	/**

@@ -2196,15 +2196,15 @@ public class AlgebraProcessor {
 			a = lhs.getCoeffValue("x");
 			b = lhs.getCoeffValue("y");
 			c = lhs.getCoeffValue("");
-			line = new GeoLine(cons, label, a, b, c);
+			line = new GeoLine(cons, a, b, c);
 		} else {
-			line = DependentLine(label, equ);
+			line = DependentLine(equ);
 		}
 		line.setDefinition(def);
 		if (isExplicit) {
 			line.setToExplicit();
-			line.updateRepaint();
 		}
+		line.setLabel(label);
 		ret[0] = line;
 		return ret;
 	}
@@ -2213,8 +2213,8 @@ public class AlgebraProcessor {
 	 * Line dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees. e.g. y = k x + d
 	 */
-	final private GeoLine DependentLine(String label, Equation equ) {
-		AlgoDependentLine algo = new AlgoDependentLine(cons, label, equ);
+	final private GeoLine DependentLine(Equation equ) {
+		AlgoDependentLine algo = new AlgoDependentLine(cons, equ);
 		GeoLine line = algo.getLine();
 		return line;
 	}
@@ -2247,20 +2247,20 @@ public class AlgebraProcessor {
 			f = lhs.getCoeffValue("");
 
 			double[] coeffs = { a, b, c, d, e, f };
-			conic = new GeoConic(cons, label, coeffs);
+			conic = new GeoConic(cons, coeffs);
+
 		} else {
-			conic = DependentConic(label, equ);
+			conic = DependentConic(equ);
 		}
 
 		if (isExplicit) {
 			conic.setToExplicit();
-			conic.updateRepaint();
 		} else if (isSpecific
 				|| conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
 			conic.setToSpecific();
-			conic.updateRepaint();
 		}
 		conic.setDefinition(def);
+		conic.setLabel(label);
 		ret[0] = conic;
 		return ret;
 	}
@@ -2269,8 +2269,8 @@ public class AlgebraProcessor {
 	 * Conic dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees.
 	 */
-	final private GeoConic DependentConic(String label, Equation equ) {
-		AlgoDependentConic algo = new AlgoDependentConic(cons, label, equ);
+	final private GeoConic DependentConic(Equation equ) {
+		AlgoDependentConic algo = new AlgoDependentConic(cons, equ);
 		GeoConic conic = algo.getConic();
 		return conic;
 	}

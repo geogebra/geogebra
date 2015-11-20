@@ -47,10 +47,9 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint,
 	 * Creates new AlgoDependentLine
 	 * 
 	 * @param cons
-	 * @param label
 	 * @param equ
 	 */
-	public AlgoDependentLine(Construction cons, String label, Equation equ) {
+	public AlgoDependentLine(Construction cons, Equation equ) {
 		super(cons, false); // don't add to construction list yet
 		equation = equ;
 		equation.initEquation();
@@ -86,7 +85,6 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint,
 
 		// compute value of dependent number
 		compute();
-		g.setLabel(label);
 	}
 
 	@Override
