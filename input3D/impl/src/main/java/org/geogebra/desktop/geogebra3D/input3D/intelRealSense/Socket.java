@@ -51,7 +51,9 @@ public class Socket {
 
 	private static final String QUERY_REGISTERY_KEY_FRONT_CAM = "reg query HKLM\\Software\\Intel\\RSSDK\\Components\\ivcam";
 
-	private static final String VERSION = "1.4.27.41944";
+	// version embedded in ggb is 1.4.27.41944
+	private static final int VERSION_MAJOR = 1;
+	private static final int VERSION_MINOR = 4;
 
 	/**
 	 * factor screen / real world
@@ -436,16 +438,17 @@ public class Socket {
 		SENSE_MANAGER = null;
 
 		// query registry to get installed version
-		queryRegistry(app);
-
-		try {
-			// Create session
-			SESSION = PXCMSession.CreateInstance();
-		} catch (Throwable e) {
-			throw new Input3DException(
-					Input3DExceptionType.INSTALL,
-					"RealSense: Failed to start session instance creation, maybe unsupported platform?");
+		if (queryRegistry(app)) {
+			try {
+				// Create session
+				SESSION = PXCMSession.CreateInstance();
+			} catch (Throwable e) {
+				throw new Input3DException(
+						Input3DExceptionType.INSTALL,
+						"RealSense: Failed to start session instance creation, maybe unsupported platform?");
+			}
 		}
+
 		if (SESSION == null) {
 			throw new Input3DException(Input3DExceptionType.INSTALL,
 					"RealSense: Failed to create a session instance");
@@ -457,11 +460,16 @@ public class Socket {
 	/**
 	 * Query windows registry to check version
 	 * 
+	 * @param app
+	 *            application
+	 * @return true if up-to-date
+	 * 
 	 * @throws Input3DException
 	 *             if no key in registry
 	 */
-	static public void queryRegistry(final App app) throws Input3DException {
+	static public boolean queryRegistry(final App app) throws Input3DException {
 		int registeryQueryResult = 1; // inited to bad value (correct value = 0)
+		boolean upToDate = false;
 		try {
 			Runtime runtime = Runtime.getRuntime();
 			Process p = runtime.exec(QUERY_REGISTERY_KEY_FRONT_CAM);
@@ -489,10 +497,10 @@ public class Socket {
 							// items[index]);
 							if (items[index].equals("Version")) {
 								String version = items[items.length - 1];
-								App.debug(">>>>> " + version + " , "
-										+ version.equals(VERSION));
-								if (!version.equals(VERSION)) {
+								if (!isUpToDate(version)) {
 									updateVersion(app);
+								} else {
+									upToDate = true;
 								}
 
 							}
@@ -509,8 +517,35 @@ public class Socket {
 					"RealSense: No key for camera in registery");
 		}
 
+		return upToDate;
+
 	}
 	
+	private static boolean isUpToDate(String version) {
+		App.debug(">>>>> version installed: " + version);
+		String[] versionSplit = version.split("\\.");
+
+		if (versionSplit.length == 0) {
+			return false;
+		}
+		int major = Integer.parseInt(versionSplit[0]);
+		App.debug(">>>>> major: " + major);
+		if (major > VERSION_MAJOR) {
+			return true;
+		}
+
+		if (versionSplit.length <= 1) {
+			return false;
+		}
+		int minor = Integer.parseInt(versionSplit[1]);
+		App.debug(">>>>> minor: " + minor);
+		if (minor >= VERSION_MINOR) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private final static String REALSENSE_ONLINE_ARCHIVE_BASE = "http://dev.geogebra.org/realsense/latest/";
 	private final static String REALSENSE_DCM_EXE = "intel_rs_dcm_f200_1.4.27.41944.exe";
 	private final static String REALSENSE_ONLINE_ARCHIVE_DCM = REALSENSE_ONLINE_ARCHIVE_BASE
