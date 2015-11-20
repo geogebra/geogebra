@@ -1379,6 +1379,7 @@ namespace giac {
 	b=it2[13];
 	if (a!=b)
 	  return a<=b?1:0;
+      case _48VAR_ORDER:
 	a=it1[12]; 
 	b=it2[12];
 	if (a!=b)
@@ -11291,12 +11292,15 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	if (tdeg_t_all_greater(*tmp1,*tmp2,order))
 	  break; // found another pair, keep the smallest, or the first if equal
       }
-      if (tmp2!=tmp1)
+      if (tmp2!=tmp1){
+	tmp1->tab[0]=-1; // desactivate tmp1 since it is >=tmp2
 	continue;
+      }
       for (++tmp2;tmp2<tmpend;++tmp2){
 	if (tmp2->tab[0]==-1)
 	  continue;
 	if (tdeg_t_all_greater(*tmp1,*tmp2,order) && *tmp1!=*tmp2){
+	  tmp1->tab[0]=-1; // desactivate tmp1 since it is >tmp2
 	  break; 
 	}
       }
@@ -11816,6 +11820,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     if (order.o==_11VAR_ORDER) return 11;
     if (order.o==_16VAR_ORDER) return 16;
     if (order.o==_32VAR_ORDER) return 32;
+    if (order.o==_48VAR_ORDER) return 48;
     if (order.o==_64VAR_ORDER) return 64;
     return dim;
   }
@@ -12367,7 +12372,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  return false;
       }
     }
-    if (order.o!=_REVLEX_ORDER && order.o!=_3VAR_ORDER && order.o!=_7VAR_ORDER && order.o!=_11VAR_ORDER && order.o!=_16VAR_ORDER && order.o!=_32VAR_ORDER && order.o!=_64VAR_ORDER)
+    if (order.o!=_REVLEX_ORDER && order.o!=_3VAR_ORDER && order.o!=_7VAR_ORDER && order.o!=_11VAR_ORDER && order.o!=_16VAR_ORDER && order.o!=_32VAR_ORDER && order.o!=_48VAR_ORDER && order.o!=_64VAR_ORDER)
       return false;
     // if (order!=_REVLEX_ORDER) zdata=false;
     vectpoly8<tdeg_t> current,vtmp,afewpolys;

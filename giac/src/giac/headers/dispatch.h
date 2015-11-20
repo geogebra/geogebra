@@ -415,6 +415,7 @@ namespace giac {
     // use negative values for RUR
     _16VAR_ORDER=16, // 16 variables to eliminate
     _32VAR_ORDER=32, // 32 variables to eliminate
+    _48VAR_ORDER=48, // 48 variables to eliminate // not implemented currently
     _64VAR_ORDER=64, // 64 variables to eliminate
     _RUR_REVLEX=-4,
     _RUR_3VAR=-3,
@@ -422,6 +423,7 @@ namespace giac {
     _RUR_11VAR=-11,
     _RUR_16VAR=-16,
     _RUR_32VAR=-32,
+    _RUR_48VAR=-48,
     _RUR_64VAR=-64,
   };
 
