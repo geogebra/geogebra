@@ -59,8 +59,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int COMBO_TEXT_MARGIN = 5;
 	private static final int OPTIONBOX_COMBO_GAP = 5;
 	private static final int LABEL_COMBO_GAP = 10;
-	private static final int TEXT_CENTER = -1;
-	private static final int MAX_COL_COUNT = 4;
+	private static final int MAX_COL_COUNT = 100;
 	/** coresponding list as geo */
 	GeoList geoList;
 	private List<GRectangle> optionItems = new ArrayList<GRectangle>();
@@ -519,11 +518,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int minFontSize = 12;
 		g2.setFont(font);
 		colCount = 1;
-
 		int fontSize = font.getSize();
 		while (drawOptionLines(g2, 0, false) > view.getHeight()
-				- OPTIONBOX_COMBO_GAP
-				&& fontSize >= minFontSize && colCount < MAX_COL_COUNT) {
+				- OPTIONBOX_COMBO_GAP && colCount < geoList.size()) {
 			fontSize -= 1;
 			font = font.deriveFont(GFont.PLAIN, fontSize);
 			optionFont = font;
@@ -673,7 +670,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (optTop + optionsHeight > viewBottom) {
 			optTop = viewBottom - optionsHeight - OPTIONBOX_COMBO_GAP;
 		}
-		int w = colCount * colWidth;
+		int w = optionsWidth;// colCount * colWidth;
 		optionsRect.setBounds(boxLeft, optTop, w,
  optionsHeight);
 		g2.fillRect(boxLeft, optTop, w, optionsHeight);
@@ -735,8 +732,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int drawOptionLines(GGraphics2D g2, int top,
 			boolean draw) {
 		optionItems.clear();
-		int height = 0;
-
 		int itemCount = geoList.size();
 
 		if (colCount == 1) {
@@ -747,42 +742,42 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					+ getTriangleControlWidth();
 			optionsHeight = d.getHeight();
 		} else {
-
-		int width = 0;
-		int itemFrom = 0;
-		int itemTo = 0;
-		int left = boxLeft;
-		int chunk = itemCount / colCount;
-
-			colWidth = boxWidth / colCount;
-
-			for (int col = 0; col < colCount; col++) {
-			itemTo += chunk;
-			if (itemTo > itemCount) {
-					itemTo = itemCount + 1;
-			}
-				GDimension d = drawOptionColumn(g2, top, left, itemFrom, itemTo,
-						draw);
-				if (d.getHeight() > height) {
-					height = d.getHeight();
-				}
-
-				if (d.getWidth() > width) {
-					width = d.getWidth();
-			}
-
-			itemFrom = itemTo;
-				left += colWidth;
-		}
-			if (width > colWidth) {
-				colWidth = width;
-			}
-			optionsWidth = (colCount + 1) * width;
-			// + getTriangleControlWidth();
-			optionsHeight = height;
+			drawOptionsMultiColumn(g2, top, draw);
 		}
 
 		return optionsHeight;
+	}
+
+	private void drawOptionsMultiColumn(GGraphics2D g2, int top, boolean draw) {
+		int startIdx = 0;
+		int size = geoList.size();
+		int itemsInRow = (size / colCount) + (size % colCount == 0 ? 0 : 1);
+		int left = boxLeft;
+		int width = 0;
+		int height = 0;
+		while (startIdx < geoList.size()) {
+			int endIdx = startIdx + itemsInRow;
+			if (endIdx > size) {
+				endIdx = size;
+			}
+
+			GDimension d = drawOptionColumn(g2, top, left, startIdx, endIdx,
+					draw);
+			if (width < d.getWidth()) {
+				width = d.getWidth() + COMBO_TEXT_MARGIN;
+			}
+			if (height < d.getHeight()) {
+				height = d.getHeight();
+			}
+
+			startIdx = endIdx;
+			left += width;
+		}
+
+		colWidth = width;
+		optionsWidth = width * (colCount);
+		optionsHeight = height;
+
 	}
 
 	private GDimension drawOptionColumn(GGraphics2D g2, int top, int left,
