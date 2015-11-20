@@ -1721,7 +1721,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 				setVisible(false);
 				box.setVisible(false);
-				App.debug("REAL HIDE!");
 				return false;
 			}
 		});

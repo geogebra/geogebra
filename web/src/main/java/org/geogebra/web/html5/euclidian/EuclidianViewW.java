@@ -38,6 +38,7 @@ import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
@@ -1237,6 +1238,10 @@ public class EuclidianViewW extends EuclidianView implements
 
 	public Widget getPrintable() {
 		return new Label("Euclidian View");
+	}
+
+	public void cancelBlur() {
+		CancelEventTimer.disableBlurEvent();
 	}
 
 }

@@ -5023,4 +5023,9 @@ sb.toString(), getFontAxes(),
 	public void setOpenedComboBox(DrawList openedComboBox) {
 		this.openedComboBox = openedComboBox;
 	}
+
+	public void cancelBlur() {
+		// TODO Auto-generated method stub
+
+	}
 }
