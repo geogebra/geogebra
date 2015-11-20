@@ -1235,7 +1235,7 @@ ExpressionValue plusminusnode():
         {                       
             if (x.kind == PLUS) 
                 ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);  
-            else            {              if(ret.isExpressionNode() && ( (ExpressionNode)ret).getOperation() == Operation.PLUS && ( (ExpressionNode)ret).getLeft() instanceof TextValue )              {                ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
+            else            {              if(ret.isExpressionNode() && ( (ExpressionNode)ret).isStringAddition() )              {                ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
 							((ExpressionNode) ret).getRight(), Operation.MINUS,
 							f));
               }

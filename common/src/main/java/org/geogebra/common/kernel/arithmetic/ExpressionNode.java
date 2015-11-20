@@ -5956,4 +5956,22 @@ kernel, left,
 				Operation.MULTIPLY, f);
 	}
 
+	public boolean isStringAddition() {
+		if (getOperation() != Operation.PLUS) {
+			return false;
+		}
+		if (left instanceof TextValue || right instanceof TextValue) {
+			return true;
+		}
+		if (left instanceof ExpressionNode
+				&& ((ExpressionNode) left).isStringAddition()) {
+			return true;
+		}
+		if (right instanceof ExpressionNode
+				&& ((ExpressionNode) right).isStringAddition()) {
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -821,7 +821,11 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 
 		// left tree
 		if (left == fVars[varNo]) {
-			try { // is there a constant number to the right?
+			if (right instanceof MyDouble && right.isConstant()) { // is there a
+																	// constant
+																	// number to
+																	// the
+																	// right?
 				MyDouble num = (MyDouble) right;
 				double temp;
 				switch (en.getOperation()) {
@@ -854,7 +858,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 				default:
 					en.setLeft(shiftXnode(vx, varNo));
 				}
-			} catch (Exception e) {
+			} else {
 				en.setLeft(shiftXnode(vx, varNo));
 			}
 		} else if (left instanceof ExpressionNode) {

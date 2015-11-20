@@ -233,10 +233,10 @@ public class Function extends FunctionNVar implements
 	final private void translateX(ExpressionNode en, double vx) {
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
-
+		App.debug(left + "             " + right + " ->" + vx);
 		// left tree
 		if (left == fVars[0]) {
-			try { // is there a constant number to the right?
+			if(right instanceof MyDouble && right.isConstant()) { // is there a constant number to the right?
 				MyDouble num = (MyDouble) right;
 				double temp;
 				switch (en.getOperation()) {
@@ -267,7 +267,7 @@ public class Function extends FunctionNVar implements
 				default:
 					en.setLeft(shiftXnode(vx));
 				}
-			} catch (Exception e) {
+			} else {
 				en.setLeft(shiftXnode(vx));
 			}
 		} else if (left instanceof ExpressionNode) {
