@@ -1479,6 +1479,7 @@ public class Construction {
 			} else if (oldGeo.isIndependent() && oldGeo instanceof GeoPoint) {
 
 				((GeoPoint) oldGeo).set(newGeo);
+				oldGeo.setDefinition(null);
 				oldGeo.updateRepaint();
 				newGeo.remove();
 				return;
@@ -1486,6 +1487,7 @@ public class Construction {
 			} else if (oldGeo.isIndependent() && oldGeo instanceof GeoVector) {
 
 				((GeoVector) oldGeo).set(newGeo);
+				oldGeo.setDefinition(null);
 				oldGeo.updateRepaint();
 				newGeo.remove();
 				return;
@@ -1493,6 +1495,7 @@ public class Construction {
 			} else if (oldGeo.isIndependent() && oldGeo instanceof GeoBoolean) {
 
 				((GeoBoolean) oldGeo).set(newGeo);
+				oldGeo.setDefinition(null);
 				oldGeo.updateRepaint();
 				newGeo.remove();
 				return;
@@ -1501,6 +1504,7 @@ public class Construction {
 					&& oldGeo.isGeoElement3D()) {// GeoPoint3D
 
 				oldGeo.set(newGeo);
+				oldGeo.setDefinition(null);
 				oldGeo.updateRepaint();
 				newGeo.remove();
 				return;
