@@ -1673,7 +1673,6 @@ var __giac = [ {},
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, b = b, c = 0}, {a, b, c}]", result:"{{a = -b, b = b, c = 0}}", notes:"#3563" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0}, {a, b}]", result:"{{a = -b, b = b}}", notes:"#3563" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{c = 0, a + b = 0}]", result:"{{c = 0, a = -b, b = b}}", notes:"#3563" },
-{ cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, b}]", result:"{{a = (-b), b = b}}", notes:"#3563" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, c}]", result:"{{a = -b, c = 0}}", notes:"#3563" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, b, c}]", result:"{{a = -b, b = b, c = 0}}", notes:"#3563" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, c, b}]", result:"{{a = -b, c = 0, b = b}}", notes:"#3563" },
@@ -1780,7 +1779,11 @@ var __giac = [ {},
 { cat: "Solve", cmd:"Solve[{-x+y-z+1,t x + (t-2)y*y+z-1},{x,z}]", result:"{{x = (-t y\u00B2 + 2y\u00B2 - y) / (t - 1), z = (t y\u00B2 + t y + t - 2y\u00B2 - 1) / (t - 1)}}", notes:"GGB-255" },
 { cat: "InflectionPoint", cmd:"InflectionPoint[(x+2)^3+5]",result:"{(-2, 5)}"},
 { cat: "InflectionPoint", cmd:"InflectionPoint[(x+1/2)^3+5]",result:"{((-1) / 2, 5)}"},
-{ cat: "Evaluate", cmd:"Evaluate[(1,2)-10]", result:"(-9, -8)" }
+{ cat: "Evaluate", cmd:"Evaluate[(1,2)-10]", result:"(-9, -8)" },
+{ cat:"Solve", cmd:"Solve[2^(x+3)+2^(x+2)+2^x<=52]", result:"{x \u2264 2}" },
+{ cat: "Evaluate", cmd:"Evaluate[sqrt(7+2sqrt(11))+sqrt(7-2sqrt(11))]", result:"(sqrt(2) * sqrt(sqrt(5) + 7))", notes:"DOI 10.1007/s00165-009-0136-5" },
+{ cat: "NSolve", cmd:"", result:"NSolve[700 = 0.06 x^1.093]", notes:"" },
+
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
@@ -1889,12 +1892,11 @@ var notSupported = [
 
 // answers different between giac.js and JNI
 var differentJNI = [
-{ cat:"Evaluate", cmd:"Evaluate[((a + b)^2) / c^2]", result:"(a\u00B2 + b\u00B2 + 2a b) / c\u00B2", notes:"Variable ordering OK in JNI" },
+{ cat:"Evaluate", cmd:"Evaluate[((a + b)^2) / c^2]", result:"(a\u00B2 + b\u00B2 + 2a b) / c\u00B2", notes:"Variable ordering, OK in JNI" },
 { cat:"Evaluate", cmd:"Evaluate[((a + b) / (c + d))^2]", result:"(a\u00B2 + b\u00B2 + 2a b) / (c\u00B2 + d\u00B2 + 2c d)", notes:"Variable ordering OK in JNI" },
 { cat:"Evaluate", cmd:"Evaluate[(a - 7 x)^2 = b - 56 x y + c]", result:"a\u00B2 - 14a x + 49x\u00B2 = b + c - 56x y", notes:"variable ordering different in JNI"},
 { cat:"FitLog", cmd:"FitLog[{(\u212f,1), (\u212f^2, 4)}]", result:"3ln(x) - 2" },
 { cat:"Solve", cmd:"Solve[ x^1.23=2 ]", result:"{x = 2^(100/123}|OR|{x = 1267650600228229401496703205376^(1 / 123)}", notes:"x^(123/100) is automatically rewritten as x*(x^(1/100))^23 which causes trouble. NSolve[] is better" },
-{ cat:"Solve", cmd:"Solve[2^(x+3)+2^(x+2)+2^x<=52]", result:"{x \u2264 2}" },
 { cat:"Integral", cmd:"Integral[x*ln(x),1,\u212f]", result:"1 / 4 \u212f\u00B2 + 1 / 4", notes:"#3617 OK in JNI" },
 { cat:"sqrt", cmd:"sqrt(1+\u03AF)", result:"(sqrt(2) sqrt(2 (sqrt(2) + 1)) + (1 + \u03AF) sqrt(2 (sqrt(2) + 1))) / (2sqrt(2) + 2)", notes:"JNI gives exact answer, giac.js gives numeric (deliberate: explicit evalf for sqrt of complexes for EMCC)" },
 { cat:"SolveODE", cmd:"SolveODE[(y+x^2*y)*y'+x+x*y^2=0]", result:"y = sqrt(((-c_1^(2)) * x^(4)) - ((2 * c_1^(2)) * x^(2)) - c_1^(2) + (c_1 * x^(2)) + c_1) / ((c_1 * x^(2)) + c_1)", notes:"OK in JNI" },
@@ -1906,6 +1908,7 @@ var differentJNI = [
 { cat:"CFactor", cmd:"CFactor[a^2 + x^2, a]", result:"(\u03af * x + a) * (- \u03af * x + a)|OR|(a + \u03AF x) (a - \u03AF x)", notes:"was OK in giac.js before July 30th 2015 (also OK when compiled with newer emscripten). OK in JNI" },
 { cat:"CFactor", cmd:"CFactor[a^2 + x^2, x]", result:"(x + a * \u03af) * (x - a * \u03af)|OR|(x + \u03AF a) (x - \u03AF a)", notes:"was OK in giac.js before July 30th 2015 (also OK when compiled with newer emscripten). OK in JNI" },
 { cat: "Integral", cmd:"Integral[1 / (σ sqrt(2\u03C0)) \u212f^((-(x - μ)\u00B2) / (2σ\u00B2)), x]", result:"doesn't work in giac.js" },
+{ cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, b}]", result:"{{a = (-b), b = b}}", notes:"#3563" },
 
 ];
 
