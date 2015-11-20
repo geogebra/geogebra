@@ -4124,4 +4124,33 @@ public abstract class App implements UpdateSelection {
 		// TODO Auto-generated method stub
 
 	}
+
+	public interface ViewCallback {
+		public void run(int viewID, String viewName);
+	}
+
+	public void forEachView(ViewCallback c) {
+		if (getGuiManager().showView(App.VIEW_ALGEBRA)) {
+			c.run(App.VIEW_ALGEBRA, "AlgebraWindow");
+		}
+		if (getGuiManager().showView(App.VIEW_CAS)) {
+			c.run(App.VIEW_CAS, "CAS");
+		}
+		if (getGuiManager().showView(App.VIEW_SPREADSHEET)) {
+			c.run(App.VIEW_SPREADSHEET, "Spreadsheet");
+		}
+		if (getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
+			c.run(App.VIEW_EUCLIDIAN, "DrawingPad");
+		}
+		if (getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
+			c.run(App.VIEW_EUCLIDIAN2, "DrawingPad2");
+		}
+		if (getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+			c.run(App.VIEW_CONSTRUCTION_PROTOCOL, "ConstructionProtocol");
+		}
+		if (getGuiManager().showView(App.VIEW_DATA_ANALYSIS)) {
+			c.run(App.VIEW_DATA_ANALYSIS, "DataAnalysis");
+		}
+
+	}
 }

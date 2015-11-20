@@ -43,6 +43,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
+import org.geogebra.web.web.export.PrintableW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
@@ -70,10 +71,11 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewW extends EuclidianView implements
-        EuclidianViewWInterface {
+		EuclidianViewWInterface, PrintableW {
 
 	public static int DELAY_UNTIL_MOVE_FINISH = 150;
 
@@ -1231,6 +1233,10 @@ public class EuclidianViewW extends EuclidianView implements
 
 	public void closeDropdowns() {
 		closeAllDropDowns();
+	}
+
+	public Widget getPrintable() {
+		return new Label("Euclidian View");
 	}
 
 }

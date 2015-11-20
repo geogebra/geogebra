@@ -17,16 +17,19 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.export.PrintableW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DataAnalysisViewW extends FlowPanel implements View, 
-ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
+		ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener,
+		PrintableW {
 
 	private static final long serialVersionUID = 1L;
 
@@ -680,5 +683,9 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 			;
 		}
 
+	}
+
+	public Widget getPrintable() {
+		return new Label("Data analysis View");
 	}
 }

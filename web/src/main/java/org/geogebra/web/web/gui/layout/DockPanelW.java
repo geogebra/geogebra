@@ -1107,6 +1107,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	/**
+	 * @return The title of this view.
+	 */
+	public String getViewTitle() {
+		return title;
+	}
+
+	/**
 	 * @return The order of this panel in the view menu, with 0 being "highest".
 	 *         Will be -1 if this view does not appear in the menu at all.
 	 */

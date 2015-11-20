@@ -8,6 +8,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.export.PrintableW;
 import org.geogebra.web.web.gui.GuiManagerW;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -16,12 +17,14 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Web implementation of the CAS view
  *
  */
-public class CASViewW extends CASView {
+public class CASViewW extends CASView implements PrintableW {
 
 	private CASComponentW component;
 	private AppW app;
@@ -212,6 +215,10 @@ public class CASViewW extends CASView {
 					app.getGuiManager().getTooltipURL(mode),
 					ToolTipLinkType.Help, app);
 		}
+	}
+
+	public Widget getPrintable() {
+		return new Label("CAS View");
 	}
 
 }

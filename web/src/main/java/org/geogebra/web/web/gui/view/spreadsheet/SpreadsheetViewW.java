@@ -19,6 +19,7 @@ import org.geogebra.web.html5.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
+import org.geogebra.web.web.export.PrintableW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -31,12 +32,13 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 //import geogebra.web.gui.inputfield.MyTextField;
 //import geogebra.web.gui.view.Gridable;
 
 public class SpreadsheetViewW implements SpreadsheetViewInterface,
-		SettingListener, SetLabels {
+		SettingListener, SetLabels, PrintableW {
 
 
 	// ggb fields
@@ -1217,5 +1219,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			table.setPixelRatio(ratio);
 		}
 
+	}
+
+	public Widget getPrintable() {
+		return new Label("Spreadsheet View");
 	}
 }

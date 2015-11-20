@@ -31,6 +31,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.export.PrintableW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
@@ -51,13 +52,15 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.Widget;
 
 public class AlgebraViewW extends Tree implements LayerView,
  AlgebraView,
-OpenHandler<TreeItem>, SettingListener, ProvidesResize {
+OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * Flag for LaTeX rendering
 	 */
@@ -1814,6 +1817,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 	public void setOriginalWidth(Integer oldWidth) {
 		this.originalWidth = oldWidth;
+	}
+
+
+
+	public Widget getPrintable() {
+		return new Label("Algebra View");
 	}
 
 }

@@ -17,6 +17,7 @@ import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.export.PrintableW;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolStyleBarW;
 import org.geogebra.web.web.gui.util.StyleBarW;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
@@ -37,6 +38,7 @@ import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEndEvent;
@@ -52,13 +54,16 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Web implementation of ConstructionProtocol
  *
  */
-public class ConstructionProtocolViewW extends ConstructionProtocolView implements SetLabels, SettingListener{
+public class ConstructionProtocolViewW extends ConstructionProtocolView
+		implements SetLabels, SettingListener, PrintableW {
 
 	/** contains a scrollPanel with the {@link #table constructionstep-table} **/
 	public FlowPanel cpPanel;
@@ -721,6 +726,8 @@ myCell) {
 
 		});
 
+		table.setColumnWidth(col, 100, Unit.PX);
+
 		return col;
 	}
 
@@ -995,4 +1002,8 @@ myCell) {
 	    }
 	    return styleBar;
     }
+
+	public Widget getPrintable() {
+		return new Label("Construction Protocol View");
+	}
 }
