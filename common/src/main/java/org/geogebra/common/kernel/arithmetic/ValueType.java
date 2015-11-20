@@ -3,8 +3,53 @@ package org.geogebra.common.kernel.arithmetic;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Possible value types of expression after evaluation
+ *
+ */
 public enum ValueType {
-	VOID, UNKNOWN, BOOLEAN, NUMBER, NONCOMPLEX2D, COMPLEX, VECTOR3D, EQUATION, TEXT, LIST, FUNCTION, PARAMETRIC2D, PARAMETRIC3D;
+	/**
+	 * Has no algebraic properties, eg a button
+	 */
+	VOID, /**
+	 * cannot be determined (eg a variable)
+	 */
+	UNKNOWN, /**
+	 * Bool
+	 */
+	BOOLEAN, /**
+	 * Number
+	 */
+	NUMBER, /**
+	 * 2D point or vector (cartesian or polar)
+	 */
+	NONCOMPLEX2D, /**
+	 * Complex point or vector
+	 */
+	COMPLEX, /**
+	 * 3D point or vector
+	 */
+	VECTOR3D, /**
+	 * Equation
+	 */
+	EQUATION, /**
+	 * Text
+	 */
+	TEXT, /**
+	 * List of objects
+	 */
+	LIST, /**
+	 * Function R^n -> R
+	 */
+	FUNCTION,
+	/**
+	 * Function R^n -> R^2
+	 */
+	PARAMETRIC2D,
+	/**
+	 * Function R^n -> R^3
+	 */
+	PARAMETRIC3D;
 
 	/**
 	 * @param op
@@ -13,11 +58,13 @@ public enum ValueType {
 	 *            left argument
 	 * @param right
 	 *            right argument
+	 * @param res
+	 *            resulution to keep list depth if we have a list
 	 * @return expected type
 	 */
 	public static ValueType resolve(Operation op, ExpressionValue left,
 			ExpressionValue right, Resolution res) {
-		ValueType ret = doResolve(op, left, right, res);
+		ValueType ret = doResolve(op, left, right);
 		if (ret == ValueType.LIST && left != null) {
 			res.setListDepth(left.getListDepth());
 
@@ -26,7 +73,7 @@ public enum ValueType {
 	}
 
 	private static ValueType doResolve(Operation op, ExpressionValue left,
-			ExpressionValue right, Resolution res) {
+			ExpressionValue right) {
 
 		switch (op) {
 		case PLUS:

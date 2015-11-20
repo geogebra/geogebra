@@ -1408,7 +1408,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 			}
 
-			if (left instanceof Equation) {
+			if ((left.isExpressionNode() && ((ExpressionNode) left)
+					.hasBrackets()) || left instanceof Equation) {
 				sb.append(leftBracket());
 				sb.append(leftStr);
 				sb.append(rightBracket());
@@ -1420,6 +1421,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// if right is not a leaf expression or
 			// it is a leaf GeoElement without a label (i.e. it is
 			// calculated somehow)
+			App.debug(left + "," + left.evaluatesToText());
 			if (left.evaluatesToText()
 					&& (!right.isLeaf() || (right.isGeoElement() && !((GeoElement) right)
 							.isLabelSet()))) {

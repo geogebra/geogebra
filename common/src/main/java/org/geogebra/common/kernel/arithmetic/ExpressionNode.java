@@ -280,6 +280,7 @@ public class ExpressionNode extends ValidExpression implements
 		newNode.forceVector = forceVector;
 		newNode.forcePoint = forcePoint;
 		newNode.forceFunction = forceFunction;
+		newNode.brackets = brackets;
 		// Application.debug("getCopy() output: " + newNode);
 		return newNode;
 	}
@@ -3729,6 +3730,9 @@ kernel, left,
 	 */
 	static public int opID(ExpressionValue ev) {
 		if (ev.isExpressionNode()) {
+			if (((ExpressionNode) ev).hasBrackets()) {
+				return -1;
+			}
 			Operation op = ((ExpressionNode) ev).operation;
 			// input (x>y)==(x+y>3) must be kept
 			if (op.equals(Operation.GREATER) || op.equals(Operation.LESS)
@@ -3743,18 +3747,6 @@ kernel, left,
 
 	public boolean isNumberValue() {
 		return evaluate(StringTemplate.defaultTemplate).isNumberValue();
-	}
-
-
-
-	
-
-	@Override
-	public boolean evaluatesToText() {
-		if (resolve == null) {
-			resolve = computeResolve();
-		}
-		return resolve.evaluatesToText();
 	}
 
 
@@ -5956,6 +5948,10 @@ kernel, left,
 				Operation.MULTIPLY, f);
 	}
 
+	/**
+	 * @return faster but less accurate version of evaluatesToString: detects
+	 *         only a+b+c as TextValue if one of a,b,c is TextValue
+	 */
 	public boolean isStringAddition() {
 		if (getOperation() != Operation.PLUS) {
 			return false;

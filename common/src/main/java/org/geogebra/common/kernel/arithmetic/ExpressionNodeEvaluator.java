@@ -415,11 +415,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 	
 	/**
-	 * @param arg
+	 * @param lt
 	 *            vector or line
-	 * @param op
-	 *            YCOORD or IMAGINARY
-	 * @return y coordinate
+	 * @return z coordinate
 	 */
 	public double handleZcoord(ExpressionValue lt) {
 		if (lt instanceof VectorValue) {
