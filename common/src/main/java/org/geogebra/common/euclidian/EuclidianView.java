@@ -3479,7 +3479,7 @@ sb.toString(), getFontAxes(),
 		DrawList selected = null;
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			if (d instanceof DrawList) {
+			if (d instanceof DrawList && ((DrawList) d).isCanvasDrawable()) {
 				DrawList dl = (DrawList) d;
 				if (dl.needsUpdate()) {
 					dl.setNeedsUpdate(false);
