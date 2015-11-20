@@ -15,11 +15,11 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
-import org.geogebra.web.web.export.PrintableW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 
 import com.google.gwt.canvas.client.Canvas;

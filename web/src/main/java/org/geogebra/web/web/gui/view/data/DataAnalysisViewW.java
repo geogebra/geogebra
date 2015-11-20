@@ -16,8 +16,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.awt.GColorW;
+import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.export.PrintableW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.FlowPanel;

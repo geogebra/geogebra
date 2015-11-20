@@ -1,6 +1,7 @@
 package org.geogebra.web.web.export;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;

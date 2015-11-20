@@ -4,11 +4,11 @@ import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.export.PrintableW;
 import org.geogebra.web.web.gui.GuiManagerW;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;

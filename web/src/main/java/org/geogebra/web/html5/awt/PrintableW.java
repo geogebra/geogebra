@@ -1,4 +1,4 @@
-package org.geogebra.web.web.export;
+package org.geogebra.web.html5.awt;
 
 import com.google.gwt.user.client.ui.Widget;
 
