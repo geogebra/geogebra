@@ -102,7 +102,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	private List<String> completions;
 	private String cmdPrefix;
-	private static CompletionsPopup completionsPopup;
 
 	HistoryPopupW historyPopup;
 	protected ScrollableSuggestBox textField = null;
@@ -164,8 +163,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		this.forCAS = forCAS;
 		// AG not MathTextField and Mytextfield exists yet super(app);
 		// allow dynamic width with columns = -1
-		textField = new ScrollableSuggestBox(
-		        completionsPopup = new CompletionsPopup(), this) {
+		CompletionsPopup completionsPopup = new CompletionsPopup();
+		textField = new ScrollableSuggestBox(completionsPopup, this) {
 			@Override
 			public void setText(String s) {
 				String oldText = getText();
