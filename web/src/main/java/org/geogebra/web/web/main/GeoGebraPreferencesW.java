@@ -29,7 +29,7 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 
 	public void loadXMLPreferences(final App app) {
 
-		app.setXML(GeoGebraPreferencesXML.getXML(), false);
+		app.setXML(GeoGebraPreferencesXML.getXML(app.getLocalization()), false);
 	}
 
 	public void saveXMLPreferences(App app) {

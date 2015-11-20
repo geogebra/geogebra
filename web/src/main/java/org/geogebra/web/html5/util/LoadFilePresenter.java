@@ -196,7 +196,8 @@ public class LoadFilePresenter {
 		if (xml != null) {
 				app.setXML(xml, false);
 		} else {
-			app.setXML(GeoGebraPreferencesXML.getXML(), false);
+			app.setXML(GeoGebraPreferencesXML.getXML(app.getLocalization()),
+					false);
 		}
 
 		readObjectDefaults(app, stockStore);

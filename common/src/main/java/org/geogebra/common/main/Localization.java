@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.util.Language;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -1029,5 +1030,9 @@ public abstract class Localization {
 	}
 
 	public abstract String getLocaleStr();
+
+	public int getRightAngleStyle() {
+		return Language.getRightAngleStyle(getLanguage());
+	}
 
 }

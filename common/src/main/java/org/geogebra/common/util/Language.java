@@ -1,6 +1,7 @@
 package org.geogebra.common.util;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Collection of which languages are official in which countries (only includes
@@ -16,14 +17,18 @@ public enum Language {
 	// need to be in Alphabetical order so they appear in the menu in the right
 	// order
 	// Afrikaans(null, false, "af","af", "Afrikaans", Country.SouthAfrica),
-	Armenian(null, "\u0570", true, "hy", "hy",
+	Armenian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u0570",
+			true, "hy", "hy",
 			"Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576",
 			Country.Armenia),
 
-	Albanian(null, null, true, "sq", "sq", "Albanian / Gjuha Shqipe",
+	Albanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"sq", "sq", "Albanian / Gjuha Shqipe",
 			Country.Albania),
 
-	Arabic(null, null, true, "ar", "ar", Unicode.LeftToRightMark + "Arabic"
+	Arabic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"ar", "ar",
+			Unicode.LeftToRightMark + "Arabic"
 			+ Unicode.LeftToRightMark + " / " + Unicode.RightToLeftMark
 			+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629"
 			+ Unicode.RightToLeftMark, Country.Egypt, Country.Algeria,
@@ -34,7 +39,7 @@ public enum Language {
 			Country.Somalia, Country.Sudan, Country.Syria,
 			Country.UnitedArabEmirates, Country.WesternSahara, Country.Yemen),
 
-	Arabic_Morocco(
+	Arabic_Morocco(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			null,
 			null,
 			true,
@@ -49,7 +54,7 @@ public enum Language {
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u0627\u0644\u0645\u063A\u0631\u0628)"
 					+ Unicode.RightToLeftMark, null, Country.Morocco),
 
-	Arabic_Tunisia(
+	Arabic_Tunisia(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			null,
 			null,
 			true,
@@ -67,16 +72,18 @@ public enum Language {
 	// Azerbaijani(null, null, false, "az", "az", "Azerbaijani",
 	// Country.Azerbaijan),
 
-	Basque(Unicode.CURRENCY_EURO, null, true, "eu", "eu", "eu",
+	Basque(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "eu", "eu", "eu",
 			"Basque / Euskara",
 			"basque"),
 	// fudge to get right flag
 
-	Bosnian(Unicode.CURRENCY_EURO, null, true, "bs", "bs",
+	Bosnian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "bs", "bs",
 			"Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438",
 			Country.BosniaandHerzegovina),
 
-	Bulgarian(
+	Bulgarian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO,
 			null,
 			true,
@@ -85,43 +92,53 @@ public enum Language {
 			"Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A",
 			Country.Bulgaria),
 
-	Catalan(Unicode.CURRENCY_EURO, null, true, "ca", "ca", "ca",
+	Catalan(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "ca", "ca", "ca",
 			"Catalan / Catal\u00E0", "catalonia"),
 	// fudge to get right flag
 
-	Valencian(Unicode.CURRENCY_EURO, null, true, "caXV", "ca_XV", "ca",
+	Valencian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "caXV", "ca_XV", "ca",
 			"Catalan (Valencia) / Catal\u00E0 (Valenci\u00E0)", "valencia"),
 	// fudge to get right flag
 
-	Chinese_Simplified(null, "\u984F", true, "zhCN", "zh_CN", "zh",
+	Chinese_Simplified(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
+			"\u984F", true, "zhCN", "zh_CN", "zh",
 			"Chinese Simplified / \u7B80\u4F53\u4E2D\u6587", null,
 			Country.China,
 			Country.Singapore),
 			
-	Chinese_Traditional(null, "\u984F", true, "zhTW", "zh_TW", "zh",
+	Chinese_Traditional(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
+			"\u984F", true, "zhTW", "zh_TW", "zh",
 			"Chinese Traditional / \u7E41\u9AD4\u4E2D\u6587", null,
 			Country.TaiwanProvinceofChina),
 
-	Croatian(Unicode.CURRENCY_EURO, null, true, "hr", "hr",
+	Croatian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "hr", "hr",
 			"Croatian / Hrvatska", Country.Croatia,
 			Country.BosniaandHerzegovina),
 
-	Czech(Unicode.CURRENCY_EURO, null, true, "cs", "cs",
+	Czech(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "cs", "cs",
 			"Czech / \u010Ce\u0161tina",
 			Country.CzechRepublic),
 
-	Danish(null, null, true, "da", "da", "Danish / Dansk",
+	Danish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"da", "da", "Danish / Dansk",
 			Country.Denmark),
 
-	Dutch(Unicode.CURRENCY_EURO, null, true, "nl", "nl",
+	Dutch(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "nl", "nl",
 			"Dutch / Nederlands (The Netherlands)",
 			Country.Netherlands, Country.Suriname),
 
-	Dutch_Belgium(Unicode.CURRENCY_EURO, null, true, "nlBE", "nl_BE", "nl",
+	Dutch_Belgium(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "nlBE", "nl_BE", "nl",
 			"Dutch / Nederlands (Belgium)", null,
 			Country.Belgium),
 
-	English_US(Unicode.CURRENCY_DOLLAR, null, true, "en", "en", "English (US)",
+	English_US(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_DOLLAR, null, true, "en", "en", "English (US)",
 			Country.UnitedStatesofAmerica, Country.AntiguaBarbuda,
 			Country.Bahamas, Country.Barbados, Country.Belize,
 			Country.Botswana, Country.Cameroon, Country.Canada,
@@ -141,27 +158,33 @@ public enum Language {
 			Country.TrinidadTobago, Country.Tuvalu, Country.Uganda,
 			Country.Vanuatu, Country.Zambia, Country.Zimbabwe),
 
-	English_UK(Unicode.CURRENCY_POUND, null, true, "enGB", "en_GB", "en",
+	English_UK(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_POUND, null, true, "enGB", "en_GB", "en",
 			"English (UK)", null,
 			Country.UnitedKingdom),
 
-	English_Australia(Unicode.CURRENCY_DOLLAR, null, true, "enAU", "en_AU",
+	English_Australia(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_DOLLAR, null, true, "enAU", "en_AU",
 			"en", "English (Australia)", null,
 			Country.Australia),
 
 	// could have esperanto.png for flag (but we don't)
 	// Esperanto(null, false, "eo","eo", "Esperanto", "esperanto"),
 
-	Estonian(Unicode.CURRENCY_EURO, null, true, "et", "et",
+	Estonian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "et", "et",
 			"Estonian / Eesti keel", Country.Estonia),
 
-	Filipino(null, null, true, "tl", "tl", "fil", "Filipino", null,
+	Filipino(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"tl", "tl", "fil", "Filipino", null,
 			Country.Philippines),
 
-	Finnish(Unicode.CURRENCY_EURO, null, true, "fi", "fi", "Finnish / Suomi",
+	Finnish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "fi", "fi", "Finnish / Suomi",
 			Country.Finland),
 
-	French(Unicode.CURRENCY_EURO, null, true, "fr", "fr",
+	French(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "fr", "fr",
 			"French / Fran\u00E7ais", Country.France,
 			Country.CongoDemocraticRepublicOf, Country.Canada,
 			Country.Madagascar, Country.Cameroon, Country.CoteDivoire,
@@ -173,11 +196,12 @@ public enum Language {
 			Country.Djibouti, Country.Luxembourg, Country.Vanuatu,
 			Country.Seychelles, Country.Monaco),
 
-	Galician(Unicode.CURRENCY_EURO, null, true, "gl", "gl", "gl",
+	Galician(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "gl", "gl", "gl",
 			"Galician / Galego", "Galician"),
 	// fudge to get right flag
 
-	Georgian(null,
+	Georgian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			"\u10d8",
 			true,
 			"ka",
@@ -186,24 +210,29 @@ public enum Language {
 			Country.Georgia),
 
 	// German must be before German_Austria
-	German(Unicode.CURRENCY_EURO, null, true, "de", "de", "German / Deutsch",
+			German(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
+					Unicode.CURRENCY_EURO, null, true, "de", "de",
+					"German / Deutsch",
 			Country.Germany,
 			Country.Liechtenstein, Country.Luxembourg, Country.Switzerland,
 			Country.Belgium),
 
-	German_Austria(Unicode.CURRENCY_EURO, null, true, "deAT", "de_AT", "de",
+	German_Austria(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
+			Unicode.CURRENCY_EURO, null, true, "deAT", "de_AT", "de",
 			"German (Austria) / Deutsch (\u00D6sterreich)", null,
 			Country.Austria),
 
-	Greek(Unicode.CURRENCY_EURO, null, true, "el", "el",
+	Greek(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "el", "el",
 			"Greek / \u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC",
 			Country.Greece, Country.Cyprus),
 
-	Hebrew(Unicode.CURRENCY_SHEKEL, "\u05d9", true, "iw", "iw", "he",
+	Hebrew(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_SHEKEL, "\u05d9", true, "iw", "iw", "he",
 			"Hebrew / \u05E2\u05B4\u05D1\u05B0\u05E8\u05B4\u05D9\u05EA", null,
 			Country.Israel),
 
-	Hindi(
+	Hindi(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_INDIAN_RUPEE,
 			"\u0be7",
 			true,
@@ -212,51 +241,61 @@ public enum Language {
 			"Hindi / \u092E\u093E\u0928\u0915 \u0939\u093F\u0928\u094D\u0926\u0940",
 			Country.India),
 
-	Hungarian(Unicode.CURRENCY_EURO, null, true, "hu", "hu",
+	Hungarian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "hu", "hu",
 			"Hungarian / Magyar", Country.Hungary),
 
-	Icelandic(null, null, true, "is", "is", "Icelandic / \u00CDslenska",
+	Icelandic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
+			true, "is", "is", "Icelandic / \u00CDslenska",
 			Country.Iceland),
 
-	Indonesian(null, null, true, "in", "in", "id",
+	Indonesian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
+			true, "in", "in", "id",
 			"Indonesian / Bahasa Indonesia", null,
 			Country.Indonesia),
 
-	Italian(Unicode.CURRENCY_EURO, null, true, "it", "it",
+	Italian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "it", "it",
 			"Italian / Italiano", Country.Italy,
 			Country.Switzerland, Country.SanMarino, Country.VaticanCityState),
 
 	// Irish(null, false, "ga", "ga", "Irish / Gaeilge", Country.Ireland),
 
-	Japanese(Unicode.CURRENCY_YEN, "\uff9d", true, "ja", "ja",
+	Japanese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_YEN, "\uff9d", true, "ja", "ja",
 			"Japanese / \u65E5\u672C\u8A9E",
 			Country.Japan),
 
 	// Kannada("\u1103", false, "kn","kn", "Kannada", Country.India),
 
-	Kazakh(null, null, true, "kk", "kk",
+	Kazakh(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"kk", "kk",
 			"Kazakh / \u049A\u0430\u0437\u0430\u049B \u0442\u0456\u043B\u0456",
 			Country.Kazakhstan),
 
-	Korean(Unicode.CURRENCY_WON, "\u1103", true, "ko", "ko",
+	Korean(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_WON, "\u1103", true, "ko", "ko",
 			"Korean / \uD55C\uAD6D\uB9D0",
 			Country.KoreaRepublicof, Country.KoreaDemocraticPeoplesRepublicof),
 
-	Latvian(Unicode.CURRENCY_EURO, null, true, "lv", "lv",
+	Latvian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "lv", "lv",
 			"Latvian / Latvie\u0161u valoda",
 			Country.Latvia),
 
-	Lithuanian(Unicode.CURRENCY_EURO, null, true, "lt", "lt",
+	Lithuanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "lt", "lt",
 			"Lithuanian / Lietuvi\u0173 kalba",
 			Country.Lithuania),
 
-	Malay(null, null, true, "ms", "ms", "Malay / Bahasa Malaysia", Country.Malaysia,
+	Malay(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"ms", "ms", "Malay / Bahasa Malaysia", Country.Malaysia,
 			Country.Singapore, Country.Indonesia, Country.BruneiDarussalam),
 
 	// Malayalam("\u0D2E", false, "ml","ml",
 	// "Malayalam / \u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02", Country.India),
 
-	Macedonian(
+	Macedonian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO,
 			null,
 			true,
@@ -268,7 +307,7 @@ public enum Language {
 	// Marathi("\u092e", false, "mr","mr",
 	// "Marathi / \u092E\u0930\u093E\u0920\u0940", Country.India),
 
-	Mongolian(
+	Mongolian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_TUGHRIK,
 			null,
 			true,
@@ -277,38 +316,47 @@ public enum Language {
 			"Mongolian / \u041C\u043E\u043D\u0433\u043E\u043B \u0445\u044D\u043B",
 			Country.Mongolia),
 
-	Nepalese(Unicode.CURRENCY_RUPEE, "\u0947", true, "ne", "ne",
+	Nepalese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_RUPEE, "\u0947", true, "ne", "ne",
 			"Nepalese / \u0928\u0947\u092A\u093E\u0932\u0940", Country.Nepal),
 
-	Norwegian_Bokmal(null, null, true, "noNO", "no_NB", "nb",
+	Norwegian_Bokmal(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
+			null, true, "noNO", "no_NB", "nb",
 			"Norwegian / Bokm\u00e5l", null,
 			Country.Norway),
 
-	Norwegian_Nynorsk(null, null, true, "noNONY", "no_NN", "nn",
+	Norwegian_Nynorsk(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
+			null, true, "noNONY", "no_NN", "nn",
 			"Norwegian / Nynorsk", null,
 			Country.Norway),
 
-	Persian(null, null, true, "fa", "fa", "Persian / \u0641\u0627\u0631\u0633\u06CC",
+	Persian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"fa", "fa", "Persian / \u0641\u0627\u0631\u0633\u06CC",
 			Country.IranIslamicRepublicof, Country.Afghanistan,
 			Country.Tajikistan),
 
-	Polish(Unicode.CURRENCY_EURO, null, true, "pl", "pl",
+	Polish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
+			Unicode.CURRENCY_EURO, null, true, "pl", "pl",
 			"Polish / J\u0119zyk polski", Country.Poland),
 
 	// use Brazilian as the root (ie not ptBR) as there are more speakers
-	Portuguese_Brazil(null, null, true, "pt", "pt",
+			Portuguese_Brazil(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+					null, null, true, "pt", "pt",
 			"Portuguese (Brazil) / Portugu\u00EAs (Brasil)", Country.Brazil),
 
-	Portuguese_Portugal(Unicode.CURRENCY_EURO, null, true, "ptPT", "pt_PT",
+	Portuguese_Portugal(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "ptPT", "pt_PT",
 			"pt", "Portuguese (Portugal) / Portugu\u00EAs (Portugal)", null,
 			Country.Portugal, Country.Mozambique, Country.Angola,
 			Country.CapeVerde, Country.GuineaBissau, Country.SaoTomePrincipe,
 			Country.Macau, Country.EastTimor),
 
-	Romanian(Unicode.CURRENCY_EURO, null, true, "ro", "ro", "Romanian /  Rom\u00E2n\u0103",
+	Romanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "ro", "ro",
+			"Romanian /  Rom\u00E2n\u0103",
 			Country.Romania, Country.MoldovaRepublicof),
 
-	Russian(null,
+	Russian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			"\u0439",
 			true,
 			"ru",
@@ -317,22 +365,27 @@ public enum Language {
 			Country.RussianFederation, Country.Kazakhstan, Country.Belarus,
 			Country.Kyrgyzstan, Country.Tajikistan),
 
-	Sinhala(Unicode.CURRENCY_RUPEE, "\u0d9a", true, "si", "si",
+	Sinhala(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_RUPEE, "\u0d9a", true, "si", "si",
 			"Sinhala / \u0DC3\u0DD2\u0D82\u0DC4\u0DBD", Country.SriLanka),
 
-	Serbian(Unicode.CURRENCY_EURO, null, true, "sr", "sr",
+	Serbian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "sr", "sr",
 			"Serbian / \u0441\u0440\u043F\u0441\u043A\u0438", Country.Serbia,
 			Country.BosniaandHerzegovina),
 
-	Slovak(Unicode.CURRENCY_EURO, null, true, "sk", "sk",
+	Slovak(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "sk", "sk",
 			"Slovak / Slovensk\u00FD jazyk",
 			Country.Slovakia),
 
-	Slovenian(Unicode.CURRENCY_EURO, null, true, "sl", "sl",
+	Slovenian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "sl", "sl",
 			"Slovenian / Sloven\u0161\u010Dina",
 			Country.Slovenia),
 
-	Spanish(Unicode.CURRENCY_DOLLAR, null, true, "es", "es",
+	Spanish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_DOLLAR, null, true, "es", "es",
 			"Spanish / Espa\u00F1ol",
 			Country.EquatorialGuinea, Country.Argentina, Country.Bolivia,
 			Country.Chile, Country.Colombia, Country.CostaRica, Country.Cuba,
@@ -341,18 +394,22 @@ public enum Language {
 			Country.Panama, Country.Paraguay, Country.Ecuador, Country.Peru,
 			Country.Venezuela, Country.PuertoRico),
 
-	Spanish_UY(Unicode.CURRENCY_DOLLAR, null, true, "esUY", "es_UY", "es",
+	Spanish_UY(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_DOLLAR, null, true, "esUY", "es_UY", "es",
 			"Spanish / Espa\u00F1ol (Uruguay)", null,
 			Country.Uruguay),
 
-	Spanish_ES(Unicode.CURRENCY_EURO, null, true, "esES", "es_ES", "es",
+	Spanish_ES(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "esES", "es_ES", "es",
 			"Spanish / Espa\u00F1ol (Espa\u00F1a)", null, Country.Spain),
 
-	Swedish(Unicode.CURRENCY_EURO, null, true, "sv", "sv", "Swedish / Svenska",
+	Swedish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "sv", "sv", "Swedish / Svenska",
 			Country.Sweden,
 			Country.Finland),
 
-	Tamil(Unicode.CURRENCY_RUPEE, "\u0be7", true, "ta", "ta",
+	Tamil(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_RUPEE, "\u0be7", true, "ta", "ta",
 			"Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD", Country.India,
 			Country.SriLanka, Country.Singapore),
 
@@ -361,14 +418,17 @@ public enum Language {
 	// Telugu("\u0C24", false, "te","te",
 	// "Telugu / \u0C24\u0C46\u0C32\u0C41\u0C17\u0C41", Country.India),
 
-	Thai(Unicode.CURRENCY_BAHT, null, true, "th", "th",
+	Thai(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_BAHT, null, true, "th", "th",
 			"Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22",
 			Country.Thailand),
 
-	Turkish(Unicode.CURRENCY_EURO, null, true, "tr", "tr", "Turkish / T\u00FCrk\u00E7e",
+	Turkish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "tr", "tr",
+			"Turkish / T\u00FCrk\u00E7e",
 			Country.Turkey, Country.Cyprus),
 
-	Ukrainian(null, 
+	Ukrainian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, 
 			null,
 			true,
 			"uk",
@@ -376,17 +436,21 @@ public enum Language {
 			"Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 \u043C\u043E\u0432\u0430",
 			Country.Ukraine),
 
-	Uyghur(null, null, true, "ug", "ug", "Uyghur", Country.China),
+	Uyghur(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"ug", "ug", "Uyghur", Country.China),
 
-	Vietnamese(Unicode.CURRENCY_DONG, null, true, "vi", "vi",
+	Vietnamese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_DONG, null, true, "vi", "vi",
 			"Vietnamese / Ti\u1EBFng Vi\u1EC7t",
 			Country.VietNam),
 
-	Welsh(null, null, true, "cy", "cy", "cy", "Welsh / Cymraeg",
+	Welsh(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"cy", "cy", "cy", "Welsh / Cymraeg",
 			"wales"), 
 			// fudge to get right flag
 
-	Yiddish(Unicode.CURRENCY_SHEKEL, "\u05d9\u05b4", true, "ji", "ji", "yi",
+	Yiddish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_SHEKEL, "\u05d9\u05b4", true, "ji", "ji", "yi",
 			"Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9", null,
 			Country.Israel);
 
@@ -410,13 +474,18 @@ public enum Language {
 	public String testChar;
 	private String currency;
 
+	// https://en.wikipedia.org/wiki/Right_angle
+	private int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
+
 	/**
 	 * @param enableInGWT
 	 *            currently not used
 	 */
-	Language(String currency, String testChar, boolean fullyTranslated,
+	Language(int rightAngleStyle, String currency, String testChar,
+			boolean fullyTranslated,
 			String locale, String localeGWT, String localeISO6391, String name,
 			String flagName, Country... countries) {
+		this.rightAngleStyle = rightAngleStyle;
 		this.currency = currency == null ? "$" : currency;
 		this.locale = locale;
 		this.localeGWT = localeGWT;
@@ -428,9 +497,11 @@ public enum Language {
 		this.testChar = testChar;
 	}
 
-	Language(String currency, String testChar, boolean fullyTranslated,
+	Language(int rightAngleStyle, String currency, String testChar,
+			boolean fullyTranslated,
 			String locale, String localeGWT, String name, Country... countries) {
-		this(currency, testChar, fullyTranslated, locale, localeGWT, locale,
+		this(rightAngleStyle, currency, testChar, fullyTranslated, locale,
+				localeGWT, locale,
 				name, null, countries);
 	}
 
@@ -574,4 +645,13 @@ public enum Language {
 		}
 		return Unicode.CURRENCY_DOLLAR;
 	}
+
+	public static int getRightAngleStyle(String language) {
+		return getLanguage(language).getRightAngleStyle();
+	}
+
+	public int getRightAngleStyle() {
+		return this.rightAngleStyle;
+	}
+
 }
