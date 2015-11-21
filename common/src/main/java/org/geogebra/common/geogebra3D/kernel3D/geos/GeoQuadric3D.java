@@ -1636,7 +1636,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// copy everything
 		toStringMode = quadric.toStringMode;
+		App.debug(quadric.type + " quadric type");
+		boolean typeChanged = type != quadric.type;
 		type = quadric.type;
+
 		for (int i = 0; i < 10; i++)
 			matrix[i] = quadric.matrix[i]; // flat matrix A
 
@@ -1669,8 +1672,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (type == GeoQuadricNDConstants.QUADRIC_LINE) {
 			getLine().set(quadric.line);
 		}
-
 		super.set(geo);
+		if (typeChanged) {
+			kernel.notifyTypeChanged(this);
+		}
 
 	}
 

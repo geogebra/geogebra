@@ -3637,6 +3637,16 @@ public class Kernel {
 		notifyRenameListenerAlgos();
 	}
 
+	public final void notifyTypeChanged(GeoElement geo) {
+		if (notifyViewsActive) {
+			for (View view : views) {
+				if (view.getViewID() == App.VIEW_ALGEBRA) {
+					view.rename(geo);
+				}
+			}
+		}
+	}
+
 	public final void notifyRenameUpdatesComplete() {
 		if (notifyViewsActive) {
 			for (View view : views) {
