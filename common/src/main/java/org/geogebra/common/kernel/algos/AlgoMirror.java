@@ -551,6 +551,7 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					return botanaPolynomials;
 				}
+				throw new NoSymbolicParametersException();
 			}
 			// we want to mirror a point to a line
 			else if (inGeo.isGeoPoint()) {
@@ -619,6 +620,7 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					return botanaPolynomials;
 				}
+				throw new NoSymbolicParametersException();
 			}
 			// mirror circle to line
 			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isCircle()) {
@@ -722,9 +724,10 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					return botanaPolynomials;
 				}
+				throw new NoSymbolicParametersException();
 			}
-			
-		throw new NoSymbolicParametersException();
+			// invalid object to reflect about line
+			throw new NoSymbolicParametersException();
 			
 		}
 		// case mirroring GeoElement about point
@@ -763,6 +766,7 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					return botanaPolynomials;
 				}
+				throw new NoSymbolicParametersException();
 			}
 			// mirror line about point
 			else if (inGeo.isGeoLine()) {
@@ -810,6 +814,7 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					return botanaPolynomials;
 				}
+				throw new NoSymbolicParametersException();
 			} 
 			// mirror circle about point
 			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isCircle()) {
@@ -857,8 +862,9 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					return botanaPolynomials;
 				}
-
+				throw new NoSymbolicParametersException();
 			}
+			// invalid object to reflect about point
 			throw new NoSymbolicParametersException();
 
 		} else if (getRelatedModeID() == EuclidianConstants.MODE_MIRROR_AT_CIRCLE) {
@@ -914,7 +920,6 @@ public class AlgoMirror extends AlgoTransformation implements
 						(o2.subtract(b_2)).multiply(denominator));
 
 				return botanaPolynomials;
-
 			}
 			throw new NoSymbolicParametersException();
 
