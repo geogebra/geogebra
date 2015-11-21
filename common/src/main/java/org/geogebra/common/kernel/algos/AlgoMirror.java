@@ -623,37 +623,90 @@ public class AlgoMirror extends AlgoTransformation implements
 
 			}throw new NoSymbolicParametersException();
 			
-		} else if (getRelatedModeID() == EuclidianConstants.MODE_MIRROR_AT_POINT) {
-			GeoPoint P1 = (GeoPoint) inGeo;
-			GeoPoint P2 = (GeoPoint) mirrorPoint;
+		}
+		// case mirroring GeoElement about point
+		else if (getRelatedModeID() == EuclidianConstants.MODE_MIRROR_AT_POINT) {
 
-			if (P1 != null && P2 != null) {
-				Variable[] vP1 = P1.getBotanaVars(P1);
-				Variable[] vP2 = P2.getBotanaVars(P2);
+			// mirror point about point
+			if (inGeo.isGeoPoint() && mirror.isGeoPoint()) {
+				GeoPoint P1 = (GeoPoint) inGeo;
+				GeoPoint P2 = (GeoPoint) mirrorPoint;
 
-				if (botanaVars == null) {
-					botanaVars = new Variable[2];
-					// P1'
-					botanaVars[0] = new Variable();
-					botanaVars[1] = new Variable();
-				}
+				if (P1 != null && P2 != null) {
+					Variable[] vP1 = P1.getBotanaVars(P1);
+					Variable[] vP2 = P2.getBotanaVars(P2);
 
-				botanaPolynomials = new Polynomial[2];
+					if (botanaVars == null) {
+						botanaVars = new Variable[2];
+						// P1'
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+					}
+
+					botanaPolynomials = new Polynomial[2];
 				
-				Polynomial a1 = new Polynomial(vP1[0]);
-				Polynomial a2 = new Polynomial(vP1[1]);
-				Polynomial b1 = new Polynomial(vP2[0]);
-				Polynomial b2 = new Polynomial(vP2[1]);
-				Polynomial a_1 = new Polynomial(botanaVars[0]);
-				Polynomial a_2 = new Polynomial(botanaVars[1]);
+					Polynomial a1 = new Polynomial(vP1[0]);
+					Polynomial a2 = new Polynomial(vP1[1]);
+					Polynomial b1 = new Polynomial(vP2[0]);
+					Polynomial b2 = new Polynomial(vP2[1]);
+					Polynomial a_1 = new Polynomial(botanaVars[0]);
+					Polynomial a_2 = new Polynomial(botanaVars[1]);
 
-				// AB = BA'
-				botanaPolynomials[0] = b1.multiply(new Polynomial(2))
+					// AB = BA'
+					botanaPolynomials[0] = b1.multiply(new Polynomial(2))
 						.subtract(a1).subtract(a_1);
-				botanaPolynomials[1] = b2.multiply(new Polynomial(2))
+					botanaPolynomials[1] = b2.multiply(new Polynomial(2))
 						.subtract(a2).subtract(a_2);
 
-				return botanaPolynomials;
+					return botanaPolynomials;
+				}
+			}
+			// mirror line about point
+			else if (inGeo.isGeoLine() && mirror.isGeoPoint()) {
+				GeoLine l = (GeoLine) inGeo;
+				GeoPoint P = (GeoPoint) mirrorPoint;
+
+				if (l != null && P != null) {
+					Variable[] vl = l.getBotanaVars(l);
+					Variable[] vP = P.getBotanaVars(P);
+
+					if (botanaVars == null) {
+						botanaVars = new Variable[4];
+						// mirror of start point
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+						// mirror of end point
+						botanaVars[2] = new Variable();
+						botanaVars[3] = new Variable();
+					}
+
+					botanaPolynomials = new Polynomial[4];
+
+					Polynomial p1 = new Polynomial(vP[0]);
+					Polynomial p2 = new Polynomial(vP[1]);
+					Polynomial a1 = new Polynomial(vl[0]);
+					Polynomial a2 = new Polynomial(vl[1]);
+					Polynomial a_1 = new Polynomial(botanaVars[0]);
+					Polynomial a_2 = new Polynomial(botanaVars[1]);
+					Polynomial b1 = new Polynomial(vl[2]);
+					Polynomial b2 = new Polynomial(vl[3]);
+					Polynomial b_1 = new Polynomial(botanaVars[2]);
+					Polynomial b_2 = new Polynomial(botanaVars[3]);
+
+					// AP vector = PA' vector
+					botanaPolynomials[0] = p1.subtract(a1).subtract(
+							a_1.subtract(p1));
+					botanaPolynomials[1] = p2.subtract(a2).subtract(
+							a_2.subtract(p2));
+
+					// BP vector = PB' vector
+					botanaPolynomials[2] = p1.subtract(b1).subtract(
+							b_1.subtract(p1));
+					botanaPolynomials[3] = p2.subtract(b2).subtract(
+							b_2.subtract(p2));
+
+					return botanaPolynomials;
+				}
 			}
 			throw new NoSymbolicParametersException();
 
