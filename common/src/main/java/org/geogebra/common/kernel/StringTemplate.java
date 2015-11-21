@@ -1420,7 +1420,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// if right is not a leaf expression or
 			// it is a leaf GeoElement without a label (i.e. it is
 			// calculated somehow)
-			App.debug(left + "," + left.evaluatesToText());
 			if (left.evaluatesToText()
 					&& (!right.isLeaf() || (right.isGeoElement() && !((GeoElement) right)
 							.isLabelSet()))) {

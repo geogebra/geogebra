@@ -97,9 +97,9 @@ public class CmdPoint3D extends CmdPoint {
 			GeoVectorND vector) {
 
 		if (point.isGeoElement3D() || vector.isGeoElement3D()) {
-			AlgoPointVector3D algo = new AlgoPointVector3D(cons, label, point,
+			AlgoPointVector3D algo = new AlgoPointVector3D(cons, point,
 					vector);
-
+			algo.getQ().setLabel(label);
 			return algo.getQ();
 		}
 

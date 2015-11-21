@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIf;
 import org.geogebra.common.kernel.algos.AlgoMacro;
+import org.geogebra.common.kernel.algos.AlgoPointVector;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.ConstructionElement;
@@ -80,6 +81,7 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
@@ -5082,6 +5084,12 @@ public class Kernel {
 		AlgoVectorPoint algo = new AlgoVectorPoint(cons, pt);
 		cons.removeFromConstructionList(algo);
 		return (GeoElement) algo.getVector();
+	}
+
+	public GeoPointND wrapInPoint(GeoVectorND pt) {
+		AlgoPointVector algo = new AlgoPointVector(cons, cons.getOrigin(), pt);
+		cons.removeFromConstructionList(algo);
+		return algo.getQ();
 	}
 
 	// for compatibility/interfacing with 3D

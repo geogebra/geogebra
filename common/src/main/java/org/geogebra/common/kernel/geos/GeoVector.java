@@ -122,6 +122,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		setDefinition(null);
 	}     
 
 	final public void setCoords(double[] c) {
@@ -133,6 +134,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		x = v.x;
 		y = v.y;
 		z = v.z;
+		setDefinition(null);
 	} 
 
 	@Override

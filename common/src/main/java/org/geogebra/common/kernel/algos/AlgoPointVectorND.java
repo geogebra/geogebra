@@ -26,7 +26,7 @@ public abstract class AlgoPointVectorND extends AlgoElement {
 	protected GeoVectorND v; // input
 	protected GeoPointND Q; // output
 
-	public AlgoPointVectorND(Construction cons, String label, GeoPointND P,
+	public AlgoPointVectorND(Construction cons, GeoPointND P,
 			GeoVectorND v) {
 		super(cons);
 		this.P = P;
@@ -37,7 +37,6 @@ public abstract class AlgoPointVectorND extends AlgoElement {
 
 		// compute line through P, Q
 		compute();
-		Q.setLabel(label);
 	}
 
 	/**

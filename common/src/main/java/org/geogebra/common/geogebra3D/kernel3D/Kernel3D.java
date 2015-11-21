@@ -19,6 +19,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.geogebra3D.io.MyXMLHandler3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDispatcher3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoElement3D;
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPointVector3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoVectorPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.Manager3D;
 import org.geogebra.common.geogebra3D.kernel3D.arithmetic.ExpressionNodeEvaluator3D;
@@ -54,6 +55,7 @@ import org.geogebra.common.kernel.Manager3DInterface;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
+import org.geogebra.common.kernel.algos.AlgoPointVector;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -69,6 +71,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
@@ -609,6 +612,23 @@ public class Kernel3D extends Kernel {
 		AlgoVectorPoint algo = new AlgoVectorPoint(cons, pt);
 		cons.removeFromConstructionList(algo);
 		return (GeoElement) algo.getVector();
+	}
+
+	/**
+	 * 
+	 * @param vec
+	 * @return
+	 */
+	public GeoPointND wrapInPoint(GeoVectorND vec) {
+		if (vec instanceof GeoVector3D) {
+			AlgoPointVector3D algo = new AlgoPointVector3D(cons,
+					cons.getOrigin(), vec);
+			cons.removeFromConstructionList(algo);
+			return algo.getQ();
+		}
+		AlgoPointVector algo = new AlgoPointVector(cons, cons.getOrigin(), vec);
+		cons.removeFromConstructionList(algo);
+		return algo.getQ();
 	}
 
 }

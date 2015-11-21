@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 
 /**
  * Simple common interface for GeoVector and GeoVector3D
@@ -9,12 +10,9 @@ import org.geogebra.common.kernel.Matrix.Coords;
  * @author ggb3D
  *
  */
-public interface GeoVectorND extends GeoDirectionND, Locateable, HasCoordsMode {
+public interface GeoVectorND extends GeoDirectionND, Locateable, HasCoordsMode,
+		VectorNDValue {
 
-	void setLabel(String label);
-
-	void setUndefined();
-	
 	/**
 	 * @param c coordinates as array
 	 */
@@ -67,9 +65,5 @@ public interface GeoVectorND extends GeoDirectionND, Locateable, HasCoordsMode {
 
 	public void setCoords(double x, double y, double z, double w);
 
-	/**
-	 * @return mode (complex / polar / cartesian / etc.)
-	 */
-	public int getMode();
 	
 }

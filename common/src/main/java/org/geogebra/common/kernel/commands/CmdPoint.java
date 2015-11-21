@@ -110,7 +110,8 @@ public class CmdPoint extends CommandProcessor {
 	 */
 	protected GeoPointND point(String label, GeoPointND point,
 			GeoVectorND vector) {
-		AlgoPointVector algo = new AlgoPointVector(cons, label, point, vector);
+		AlgoPointVector algo = new AlgoPointVector(cons, point, vector);
+		algo.getQ().setLabel(label);
 
 		return algo.getQ();
 	}

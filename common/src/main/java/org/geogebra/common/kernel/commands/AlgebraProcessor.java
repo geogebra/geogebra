@@ -91,6 +91,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.main.App;
@@ -1272,7 +1273,11 @@ public class AlgebraProcessor {
 			}
 
 			temp = processValidExpression(ve);
-			p = (GeoPointND) temp[0];
+			if (temp[0] instanceof GeoVectorND) {
+				p = kernel.wrapInPoint((GeoVectorND) temp[0]);
+			} else {
+				p = (GeoPointND) temp[0];
+			}
 		} catch (CircularDefinitionException e) {
 			if (showErrors) {
 				App.debug("CircularDefinition");
