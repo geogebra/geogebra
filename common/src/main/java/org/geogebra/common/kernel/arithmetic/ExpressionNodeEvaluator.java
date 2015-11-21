@@ -861,6 +861,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			GeoVec2D.sub(vec, ((ListValue) rt), vec, true);
 			return vec;
 		}
+ else if (lt instanceof TextValue) {
+
+			return handlePlus(
+					lt,
+					rt.wrap().multiply(-1)
+							.evaluate(StringTemplate.defaultTemplate),
+					StringTemplate.defaultTemplate, false);
+		}
 		// polynomial - polynomial
 		else {
 			str = new String[] { "IllegalSubtraction",
