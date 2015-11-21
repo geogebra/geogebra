@@ -2734,7 +2734,7 @@ __GGB__keysVar.fr.plain = {
     "RayThroughAB": "Demi-droite [%0%1)",
     "RayThroughAWithDirectionB": "Demi-droite passant par %0 de direction %1",
     "RealSenseNotUpToDate1": "Les pilotes de votre Cam\xe9ra Intel\xae RealSense\u2122 ne sont pas \xe0 jour, nous allons en t\xe9l\xe9charger et installer des nouveaux.",
-    "RealSenseNotUpToDate2": "Cela peut prendre quelques minutes, vous serez pr\xe9venus lorsque ce sera termin\xe9.",
+    "RealSenseNotUpToDate2": "Cela peut prendre quelques minutes, vous serez pr\xe9venu lorsque ce sera termin\xe9.",
     "RealSenseUpdated1": "Les pilotes de votre Cam\xe9ra Intel\xae RealSense\u2122 sont \xe0 jour maintenant.",
     "RealSenseUpdated2": "Merci de red\xe9marrer GeoGebra pour utiliser la Cam\xe9ra.",
     "ReallySignOut": "Se d\xe9connecter vraiment ?",
