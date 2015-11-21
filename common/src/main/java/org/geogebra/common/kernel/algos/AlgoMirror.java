@@ -464,7 +464,7 @@ public class AlgoMirror extends AlgoTransformation implements
 
 			GeoPoint P, Q;
 			// if we want to mirror a line to a line
-			if (inGeo instanceof GeoLine) {
+			if (inGeo.isGeoLine()) {
 				P = ((GeoLine) inGeo).startPoint;
 				Q = ((GeoLine) inGeo).endPoint;
 				GeoLine l = (GeoLine) mirrorLine;
@@ -553,7 +553,7 @@ public class AlgoMirror extends AlgoTransformation implements
 				}
 			}
 			// we want to mirror a point to a line
-			else {
+			else if (inGeo.isGeoPoint()) {
 				P = (GeoPoint) inGeo;
 				GeoLine l = (GeoLine) mirrorLine;
 
@@ -619,16 +619,17 @@ public class AlgoMirror extends AlgoTransformation implements
 						botanaVars[4], botanaVars[5]);
 
 					return botanaPolynomials;
-				}
-
-			}throw new NoSymbolicParametersException();
+					}
+			}
+			
+		throw new NoSymbolicParametersException();
 			
 		}
 		// case mirroring GeoElement about point
 		else if (getRelatedModeID() == EuclidianConstants.MODE_MIRROR_AT_POINT) {
 
 			// mirror point about point
-			if (inGeo.isGeoPoint() && mirror.isGeoPoint()) {
+			if (inGeo.isGeoPoint()) {
 				GeoPoint P1 = (GeoPoint) inGeo;
 				GeoPoint P2 = (GeoPoint) mirrorPoint;
 
@@ -662,7 +663,7 @@ public class AlgoMirror extends AlgoTransformation implements
 				}
 			}
 			// mirror line about point
-			else if (inGeo.isGeoLine() && mirror.isGeoPoint()) {
+			else if (inGeo.isGeoLine()) {
 				GeoLine l = (GeoLine) inGeo;
 				GeoPoint P = (GeoPoint) mirrorPoint;
 
@@ -707,6 +708,54 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					return botanaPolynomials;
 				}
+			} 
+			// mirror circle about point
+			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isCircle()) {
+				GeoConic circle = (GeoConic) inGeo;
+				GeoPoint P = (GeoPoint) mirrorPoint;
+
+				if (circle != null && P != null) {
+					Variable[] vCircle = circle.getBotanaVars(circle);
+					Variable[] vP = P.getBotanaVars(P);
+
+					if (botanaVars == null) {
+						botanaVars = new Variable[4];
+						// mirror of center
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+						// mirror of point on the circle
+						botanaVars[2] = new Variable();
+						botanaVars[3] = new Variable();
+					}
+
+					botanaPolynomials = new Polynomial[4];
+
+					Polynomial p1 = new Polynomial(vP[0]);
+					Polynomial p2 = new Polynomial(vP[1]);
+					Polynomial a1 = new Polynomial(vCircle[0]);
+					Polynomial a2 = new Polynomial(vCircle[1]);
+					Polynomial a_1 = new Polynomial(botanaVars[0]);
+					Polynomial a_2 = new Polynomial(botanaVars[1]);
+					Polynomial b1 = new Polynomial(vCircle[2]);
+					Polynomial b2 = new Polynomial(vCircle[3]);
+					Polynomial b_1 = new Polynomial(botanaVars[2]);
+					Polynomial b_2 = new Polynomial(botanaVars[3]);
+
+					// AP vector = PA' vector
+					botanaPolynomials[0] = p1.subtract(a1).subtract(
+							a_1.subtract(p1));
+					botanaPolynomials[1] = p2.subtract(a2).subtract(
+							a_2.subtract(p2));
+
+					// BP vector = PB' vector
+					botanaPolynomials[2] = p1.subtract(b1).subtract(
+							b_1.subtract(p1));
+					botanaPolynomials[3] = p2.subtract(b2).subtract(
+							b_2.subtract(p2));
+
+					return botanaPolynomials;
+				}
+
 			}
 			throw new NoSymbolicParametersException();
 
