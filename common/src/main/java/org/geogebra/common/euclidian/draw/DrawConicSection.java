@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GLine2D;
@@ -424,7 +425,7 @@ public class DrawConicSection extends DrawConic {
 	}
 
 	@Override
-	protected void updateParabolaX0Y0() {
+	protected void updateParabolaX0Y0(GAffineTransform trans) {
 		// TODO consider not symmetric parabola
 		y0 = getEnd(0) * conic.p;
 		x0 = y0 * y0 / (conic.p * 2);

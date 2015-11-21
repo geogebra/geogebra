@@ -1162,12 +1162,13 @@ public class DrawConic extends Drawable implements Previewable {
 			firstParabola = false;
 			parabola = AwtFactory.prototype.newGeneralPath();
 		}
-
-		updateParabolaX0Y0();
+		GAffineTransform conicTransform = view.getCompanion().getTransform(
+				conic, M, ev);
+		updateParabolaX0Y0(conicTransform);
 
 		// set transform
 		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
+		transform.concatenate(conicTransform);
 
 		// setCurve(P0, P1, P2)
 		// parabola.setCurve(x0, y0, -x0, 0.0, x0, -y0);
@@ -1207,31 +1208,58 @@ public class DrawConic extends Drawable implements Previewable {
 
 	}
 
-	/** calc control points coords of parabola y^2 = 2 p x */
-	protected void updateParabolaX0Y0() {
+	/**
+	 * calc control points coords of parabola y^2 = 2 p x
+	 * 
+	 * @param conicTransform
+	 *            transform from eigenvector CS to RW
+	 */
+	protected void updateParabolaX0Y0(GAffineTransform conicTransform) {
+		GAffineTransform inverse = null;
+		try {
+			inverse = conicTransform.createInverse();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (inverse == null) {
+			return;
+		}
+		double[] corners = new double[10];
+		inverse.transform(
+				new double[] { vertex.getX(), vertex.getY(), view.getXmin(),
+						view.getYmin(), view.getXmin(), view.getYmax(),
+						view.getXmax(), view.getYmin(), view.getXmax(),
+						view.getYmax() }, 0, corners, 0, 5);
+		x0 = Math.max(Math.abs(corners[0] - corners[2]),
+				Math.abs(corners[0] - corners[4]));
+		x0 = Math.max(x0, Math.abs(corners[0] - corners[6]));
+		x0 = Math.max(x0, Math.abs(corners[0] - corners[8]));
 
-		x0 = Math.max(Math.abs(vertex.getX() - view.getXmin()),
-				Math.abs(vertex.getX() - view.getXmax()));
-		x0 = Math.max(x0, Math.abs(vertex.getY() - view.getYmin()));
-		x0 = Math.max(x0, Math.abs(vertex.getY() - view.getYmax()));
-
-		/*
-		 * x0 *= 2.0d; // y^2 = 2px y0 = Math.sqrt(2*c.p*x0);
-		 */
+		y0 = Math.max(Math.abs(corners[1] - corners[3]),
+				Math.abs(corners[1] - corners[5]));
+		y0 = Math.max(y0, Math.abs(corners[1] - corners[7]));
+		y0 = Math.max(y0, Math.abs(corners[1] - corners[9]));
+		// we want to return either (y0^2/2/p,y0) or (x0,sqrt(2p*x0))
+		double xForY0 = y0 * y0 / 2 / conic.p;
+		if (x0 > xForY0) {
+			x0 = xForY0;
+			return;
+		}
+		x0 = 2 * x0 / conic.p;
 
 		// avoid sqrt by choosing x = k*p with
 		// i = 2*k is quadratic number
 		// make parabola big enough: k*p >= 2*x0 -> 2*k >= 4*x0/p
-		x0 = 4 * x0 / conic.p;
+
 
 		// changed these to doubles, see #654 y=x^2+100000x+1
-		double i = 4;
-		k2 = 16;
+		double i = 2;
+		k2 = 4;
 
-		while (k2 < x0) {
+		do {
 			i += 2;
 			k2 = i * i;
-		}
+		} while (k2 < x0);
 		x0 = k2 / 2 * conic.p; // x = k*p
 		y0 = i * conic.p; // y = sqrt(2k p^2) = i p
 	}
