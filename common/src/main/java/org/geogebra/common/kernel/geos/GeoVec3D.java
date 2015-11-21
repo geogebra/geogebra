@@ -95,7 +95,7 @@ implements Traceable, CoordStyle {
     @Override
 	public void set(GeoElementND geo) {
         GeoVec3D v = (GeoVec3D) geo;        
-        setCoords(v.x, v.y, v.z);        
+		setCoords(v.x, v.y, v.z);
     }         
     
 	/**

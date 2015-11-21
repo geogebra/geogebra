@@ -322,7 +322,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			App.error(geo.getGeoClassType() + " invalid as point");
 			throw new IllegalArgumentException();
 		}
-		setDefinition(geo.getDefinition());
+		setDefinition(!geo.isIndependent() ? null : geo.getDefinition());
 	}
 
 	@Override
@@ -452,14 +452,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		// cartesian coords (xvar + constant, yvar + constant)
 		else {
 
-			double newXval = xvar.getDouble() - inhomX + endPosition.getX();
-			double newYval = yvar.getDouble() - inhomY + endPosition.getY();
+
 			// only change if GeoNumeric
 			if (xvar instanceof GeoNumeric) {
+				double newXval = xvar.getDouble() - inhomX + endPosition.getX();
 				((GeoNumeric) xvar).setValue(newXval);
 			}
 
-			if (yvar instanceof GeoNumeric) {
+			if (xvar != yvar && yvar instanceof GeoNumeric) {
+				double newYval = yvar.getDouble() - inhomY + endPosition.getY();
 				((GeoNumeric) yvar).setValue(newYval);
 			}
 		}
@@ -495,7 +496,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		NumberValue num1 = coords.get(0);
 		NumberValue num2 = coords.get(1);
 
-		if (num1 == null || num2 == null)
+		if (num1 == null && num2 == null)
 			return false;
 
 		if (num1 instanceof GeoNumeric && num2 instanceof GeoNumeric) {
@@ -517,9 +518,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				return false;
 		}
 
-		boolean ret = (num1 instanceof MyDouble || ((GeoNumeric) num1)
+		boolean ret = (num1 instanceof GeoNumeric && ((GeoNumeric) num1)
 				.isChangeable())
-				&& (num2 instanceof MyDouble || ((GeoNumeric) num2)
+				|| (num2 instanceof GeoNumeric && ((GeoNumeric) num2)
 						.isChangeable());
 
 		return ret;
@@ -564,25 +565,16 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 								!hasPolarParentNumbers);
 						NumberValue yNum = getCoordNumber(ycoord,
 								!hasPolarParentNumbers);
-
-						if (xNum instanceof GeoNumeric
-								&& yNum instanceof GeoNumeric) {
-							GeoNumeric xvar = (GeoNumeric) xNum;
-							GeoNumeric yvar = (GeoNumeric) yNum;
-							if (!xcoord.contains(yvar)
-									&& !ycoord.contains(xvar)) { // avoid
-								// (a,a)
-								changeableCoordNumbers.add(xvar);
-								changeableCoordNumbers.add(yvar);
-							}
-
-						} else if ((xNum instanceof GeoNumeric && yNum instanceof MyDouble)
-								|| (yNum instanceof GeoNumeric && xNum instanceof MyDouble)) {
-							// eg (a,3)
+						if (xNum instanceof GeoNumeric) {
 							changeableCoordNumbers.add(xNum);
-							changeableCoordNumbers.add(yNum);
+						} else {
+							changeableCoordNumbers.add(null);
 						}
-
+						if (yNum instanceof GeoNumeric) {
+							changeableCoordNumbers.add(yNum);
+						} else {
+							changeableCoordNumbers.add(null);
+						}
 					} catch (Throwable e) {
 						changeableCoordNumbers.clear();
 						e.printStackTrace();
@@ -611,7 +603,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * throws an Exception.
 	 */
 	private NumberValue getCoordNumber(ExpressionValue ev, boolean allowPlusNode)
-			throws Throwable {
+ {
 		// simple variable "a"
 		if (ev.isLeaf()) {
 
@@ -658,7 +650,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				while (it.hasNext()) {
 					GeoElement var = it.next();
 					if (var.isChildOrEqual(coordNumeric))
-						throw new Exception("dependent var: " + var);
+						return null;
 				}
 			}
 		}

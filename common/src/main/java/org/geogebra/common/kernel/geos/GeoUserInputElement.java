@@ -94,7 +94,7 @@ public abstract class GeoUserInputElement extends GeoElement {
 	public void set(GeoElementND geo) {
 		if (!(geo instanceof GeoUserInputElement))
 			return;
-		setDefinition(geo.getDefinition());
+		setDefinition(geo.isIndependent() ? null : geo.getDefinition());
 	}
 
 	
