@@ -599,8 +599,7 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					// A,V,B collinear
 					botanaPolynomials[2] = Polynomial.collinear(A[0], A[1],
-							B[0],
-						B[1], botanaVars[2], botanaVars[3]);
+							B[0], B[1], botanaVars[2], botanaVars[3]);
 
 					Polynomial a1 = new Polynomial(A[0]);
 					Polynomial a2 = new Polynomial(A[1]);
@@ -619,7 +618,110 @@ public class AlgoMirror extends AlgoTransformation implements
 						botanaVars[4], botanaVars[5]);
 
 					return botanaPolynomials;
+				}
+			}
+			// mirror circle to line
+			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isCircle()) {
+				GeoConic circle = (GeoConic) inGeo;
+				GeoLine l = (GeoLine) mirrorLine;
+
+				if (circle != null && l != null) {
+					Variable[] vCircle = circle.getBotanaVars(circle);
+					Variable[] vl = l.getBotanaVars(l);
+
+					if (botanaVars == null) {
+						botanaVars = new Variable[12];
+						// mirror of circle
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+						// mirror of point on circle
+						botanaVars[2] = new Variable();
+						botanaVars[3] = new Variable();
+						// V - midpoint of center and mirror of center
+						botanaVars[4] = new Variable();
+						botanaVars[5] = new Variable();
+						// T - midpoint of point on circle and mirror of point
+						// on circle
+						botanaVars[6] = new Variable();
+						botanaVars[7] = new Variable();
+						// N1 - AN1 orthogonal CD
+						botanaVars[8] = new Variable();
+						botanaVars[9] = new Variable();
+						// N2 - BN2 orthogonal CD
+						botanaVars[10] = new Variable();
+						botanaVars[11] = new Variable();
 					}
+
+					botanaPolynomials = new Polynomial[12];
+
+					Polynomial v1 = new Polynomial(botanaVars[4]);
+					Polynomial v2 = new Polynomial(botanaVars[5]);
+					Polynomial a1 = new Polynomial(vCircle[0]);
+					Polynomial a2 = new Polynomial(vCircle[1]);
+					Polynomial a_1 = new Polynomial(botanaVars[0]);
+					Polynomial a_2 = new Polynomial(botanaVars[1]);
+
+					// AV = VA'
+					botanaPolynomials[0] = v1.multiply(new Polynomial(2))
+							.subtract(a_1).subtract(a1);
+					botanaPolynomials[1] = v2.multiply(new Polynomial(2))
+							.subtract(a_2).subtract(a2);
+
+					// C, V, D collinear
+					botanaPolynomials[2] = Polynomial.collinear(vl[0], vl[1],
+							botanaVars[4], botanaVars[5], vl[2], vl[3]);
+
+					Polynomial c1 = new Polynomial(vl[0]);
+					Polynomial c2 = new Polynomial(vl[1]);
+					Polynomial d1 = new Polynomial(vl[2]);
+					Polynomial d2 = new Polynomial(vl[3]);
+					Polynomial n1_1 = new Polynomial(botanaVars[8]);
+					Polynomial n1_2 = new Polynomial(botanaVars[9]);
+
+					// AV orthogonal CD
+					botanaPolynomials[3] = d1.subtract(c1).add(a2)
+							.subtract(n1_2);
+					botanaPolynomials[4] = a1.subtract(d2).add(c2)
+							.subtract(n1_1);
+
+					// A', V, N1 collinear
+					botanaPolynomials[5] = Polynomial.collinear(botanaVars[0],
+							botanaVars[1], botanaVars[4], botanaVars[5],
+							botanaVars[8], botanaVars[9]);
+
+					Polynomial t1 = new Polynomial(botanaVars[6]);
+					Polynomial t2 = new Polynomial(botanaVars[7]);
+					Polynomial b1 = new Polynomial(vCircle[2]);
+					Polynomial b2 = new Polynomial(vCircle[3]);
+					Polynomial b_1 = new Polynomial(botanaVars[2]);
+					Polynomial b_2 = new Polynomial(botanaVars[3]);
+
+					// BT = TB'
+					botanaPolynomials[6] = t1.multiply(new Polynomial(2))
+							.subtract(b_1).subtract(b1);
+					botanaPolynomials[7] = t2.multiply(new Polynomial(2))
+							.subtract(b_2).subtract(b2);
+
+					// C, T, D collinear
+					botanaPolynomials[8] = Polynomial.collinear(vl[0], vl[1],
+							botanaVars[6], botanaVars[7], vl[2], vl[3]);
+
+					Polynomial n2_1 = new Polynomial(botanaVars[10]);
+					Polynomial n2_2 = new Polynomial(botanaVars[11]);
+
+					// BT orthogonal CD
+					botanaPolynomials[9] = d1.subtract(c1).add(b2)
+							.subtract(n2_2);
+					botanaPolynomials[10] = b1.subtract(d2).add(c2)
+							.subtract(n2_1);
+
+					// B', T, N2 collinear
+					botanaPolynomials[11] = Polynomial.collinear(botanaVars[1],
+							botanaVars[2], botanaVars[6], botanaVars[7],
+							botanaVars[10], botanaVars[11]);
+
+					return botanaPolynomials;
+				}
 			}
 			
 		throw new NoSymbolicParametersException();
