@@ -8088,8 +8088,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	public void setDefinition(ExpressionNode root) {
-		if (definition != null && root == null) {
-			// App.printStacktrace("UNDEFINING");
+		if (definition != null && root == null && algoParent != null) {
+			return;
 		}
 		this.definition = root;
 	}
