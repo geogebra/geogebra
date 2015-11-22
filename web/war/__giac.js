@@ -1759,7 +1759,7 @@ var __giac = [ {},
 { cat: "Evaluate", cmd:"Evaluate[sqrt(abs(x))]", result:"sqrt(abs(x))", notes:"GGB-201" },
 { cat: "Evaluate", cmd:"Evaluate[abs(sqrt(x))]", result:"sqrt(x)", notes:"GGB-201" },
 { cat: "Solve", cmd:"Solve[abs(sqrt(x))]", result:"{x = 0}", notes:"GGB-201" },
-{ cat: "Solve", cmd:"Solve[sqrt(3)*sin(2x)-cos(2x)=sqrt(2)]", result:"{x = n_0 \u03C0 + 5 / 24 \u03C0, x = n_0 \u03C0 + 11 / 24 \u03C0}", notes:"GGB-207" },
+{ cat: "Solve", cmd:"Solve[sqrt(3)*sin(2x)-cos(2x)=sqrt(2)]", result:"{x = n_10 \u03C0 + 5 / 24 \u03C0, x = n_10 \u03C0 + 11 / 24 \u03C0}", notes:"GGB-207" },
 { cat: "BinomialDist", cmd:"BinomialDist[10, 0.2, {2,3,4,5}]", result:"6033408 / 9765625", notes:"GGB-212" },
 { cat: "BinomialDist", cmd:"BinomialDist[10, 0.2, Sequence[2,5]]", result:"6033408 / 9765625", notes:"GGB-213" },
 { cat: "BinomialDist", cmd:"BinomialDist[10, 0.2, 2\u20265]", result:"6033408 / 9765625", notes:"GGB-213" },
@@ -1907,7 +1907,7 @@ var differentJNI = [
 { cat:"SLOW", cmd:"AngularBisector[(a,b),(c,d),(e,f)]", result:"y = (-(a - c) e - (-b + d) f + a c - b d - c\u00B2 + d\u00B2 + sqrt(a\u00B2 - 2a c + b\u00B2 - 2b d + c\u00B2 + d\u00B2) sqrt(e\u00B2 - 2 c e + f\u00B2 - 2 d f + c\u00B2 + d\u00B2)) / ((b - d) e + (a - c) f - a d - b c + 2c d) x + ((a c + b d - c\u00B2 - d\u00B2) e + (a d - b c) f - a c\u00B2 - a d\u00B2 + c\u00B3 + c d\u00B2 - c sqrt(a\u00B2 - 2a c + b\u00B2 - 2b d + c\u00B2 + d\u00B2) sqrt(e\u00B2 - 2 c e + f\u00B2 - 2 d f + c\u00B2 + d\u00B2)) / ((b - d) e + (a - c) f - a d - b c + 2c d)", notes:"was OK in giac.js before July 30th 2015 (also OK when compiled with newer emscripten). OK in JNI" },
 { cat:"CFactor", cmd:"CFactor[a^2 + x^2, a]", result:"(\u03af * x + a) * (- \u03af * x + a)|OR|(a + \u03AF x) (a - \u03AF x)", notes:"was OK in giac.js before July 30th 2015 (also OK when compiled with newer emscripten). OK in JNI" },
 { cat:"CFactor", cmd:"CFactor[a^2 + x^2, x]", result:"(x + a * \u03af) * (x - a * \u03af)|OR|(x + \u03AF a) (x - \u03AF a)", notes:"was OK in giac.js before July 30th 2015 (also OK when compiled with newer emscripten). OK in JNI" },
-{ cat: "Integral", cmd:"Integral[1 / (σ sqrt(2\u03C0)) \u212f^((-(x - μ)\u00B2) / (2σ\u00B2)), x]", result:"doesn't work in giac.js" },
+{ cat: "Integral", cmd:"Integral[1 / (\u03C3 sqrt(2\u03C0)) \u212f^((-(x - μ)\u00B2) / (2\u03C3\u00B2)), x]", result:"((((-1)) / 2 * \u03C3^(2)) * erf((((-sqrt(2)) * ((((((-1)) / 2 * \u03BC) * 2) * \u03C3^(2) / \u03C3^(2)) + x)) * abs(\u03C3) / ((2 * \u03C3^(2))))) / ((\u03C3 * abs(\u03C3)))) + c_1", notes:"doesn't work in giac.js" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, b}]", result:"{{a = (-b), b = b}}", notes:"#3563" },
 
 ];
