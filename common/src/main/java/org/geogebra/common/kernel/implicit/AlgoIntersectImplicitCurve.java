@@ -29,7 +29,7 @@ import org.geogebra.common.plugin.Operation;
  *
  */
 public class AlgoIntersectImplicitCurve extends AlgoIntersect {
-	
+
 	/**
 	 * Default sampling interval
 	 */
@@ -74,6 +74,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 * Point counts
 	 */
 	private int outputLen;
+
 	/**
 	 * Find the intersection between {@link GeoImplicitCurve} and line y = 0,
 	 * i.e. find roots of the {@link GeoImplicitCurve}
@@ -233,8 +234,8 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	}
 
 	private void intersectCurves() {
-		double[][] roots = findIntersections(curve,
-				(GeoImplicitCurve) equation, SAMPLE_SIZE_2D, OUTPUT_SIZE);
+		double[][] roots = findIntersections(curve, (GeoImplicitCurve) equation,
+				SAMPLE_SIZE_2D, OUTPUT_SIZE);
 		if (roots == null || roots.length == 0) {
 			return;
 		}
@@ -323,7 +324,8 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		}
 	}
 
-	private void intersect(FunctionNVar func, ExpressionNode repl, boolean replY) {
+	private void intersect(FunctionNVar func, ExpressionNode repl,
+			boolean replY) {
 		if (!replY) {
 			intersectRepX(func, repl);
 			return;
@@ -416,7 +418,8 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 
 		double[] params = new double[] { xMin, yMin, xMax, yMax };
 
-		List<Coords> guess = GeoImplicitCurve.probableInitialPoints(c1, c2, samples);
+		List<Coords> guess = GeoImplicitCurve.probableInitialPoints(c1, c2,
+				samples);
 
 		if (c1.hasDerivative() && c2.hasDerivative()) {
 			FunctionNVar[] f = new FunctionNVar[6];
@@ -465,7 +468,8 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 
 		double[] params = new double[] { xMin, yMin, xMax, yMax };
 
-		List<Coords> guess = GeoImplicitCurve.probableInitialPoints(fun1, fun2, params, samples);
+		List<Coords> guess = GeoImplicitCurve.probableInitialPoints(fun1, fun2,
+				params, samples);
 		boolean derivative = false;
 		try {
 			FunctionVariable x = fun1.getFunctionVariables()[0];
@@ -481,7 +485,8 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 			return intersections(f, params, guess, outputs);
 		} catch (Exception ex) {
 			if (derivative) {
-				// App.debug("Derivative exists, but failed to find intersection using Newton's method");
+				// App.debug("Derivative exists, but failed to find intersection
+				// using Newton's method");
 				return null;
 			}
 			// App.debug("Some functions are not differentiable");
@@ -516,16 +521,16 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		int maxStep = 8, n = 0;
 		for (int i = 0; i < guess.size() && n < outputs; i++) {
 			evals = guess.get(i).val;
-			
+
 			if (!MyDouble.isFinite(evals[0]) || !MyDouble.isFinite(evals[1])) {
 				continue;
 			}
-			
+
 			f1 = f[0].evaluate(evals);
 			f2 = f[1].evaluate(evals);
 			// More efficient but less accurate way to find sqrt(f1^2+f2^2)
 			delta1 = Math.abs(f1) + Math.abs(f2);
-			
+
 			for (int j = 0; j < maxStep && !Kernel.isZero(delta1, EPS); j++) {
 				x = evals[0];
 				y = evals[1];
@@ -561,7 +566,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 					// the function in not converging even for lamda ~ 0.5
 					break;
 				}
-				
+
 				delta1 = delta2;
 			}
 
@@ -569,7 +574,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 				// unfortunately our guess was very bad, repeat with other guess
 				continue;
 			}
-			
+
 			// check whether root is within view bound
 			add = (evals[0] >= params[0]) && (evals[0] <= params[2])
 					&& (evals[1] >= params[1] && evals[1] <= params[3]);
@@ -580,7 +585,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 						|| !Kernel.isEqual(out[j][1], evals[1], EPS);
 			}
 
-			if(add) {
+			if (add) {
 				out[n][0] = evals[0];
 				out[n][1] = evals[1];
 				n++;

@@ -24,8 +24,8 @@ import org.geogebra.common.main.App;
 /**
  * Dependent implicit polynomial (or line / conic)
  */
-public class AlgoDependentImplicitPoly extends AlgoElement implements
-		AlgoDependentImplicit {
+public class AlgoDependentImplicitPoly extends AlgoElement
+		implements AlgoDependentImplicit {
 
 	private ExpressionValue[][] coeff; // input
 	private GeoElement geoElement; // output (will be a implicitPoly, line or
@@ -53,9 +53,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement implements
 			for (int j = 0; j < coeff[i].length; j++) {
 				if (coeff[i][j] != null) {
 					// find constant parts of input and evaluate them right now
-					if (simplify
-							&& !coeff[i][j]
-									.inspect(Inspecting.dynamicGeosFinder)) {
+					if (simplify && !coeff[i][j]
+							.inspect(Inspecting.dynamicGeosFinder)) {
 						coeff[i][j] = coeff[i][j]
 								.evaluate(StringTemplate.defaultTemplate);
 					}
@@ -96,8 +95,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement implements
 
 	}
 
-	public AlgoDependentImplicitPoly(Construction c, String label,
-			Equation equ, boolean simplify) {
+	public AlgoDependentImplicitPoly(Construction c, String label, Equation equ,
+			boolean simplify) {
 		this(c, equ, simplify);
 		geoElement.setLabel(label);
 		if (!getEquation().isPolynomial()) {
@@ -174,8 +173,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement implements
 		}
 		ExpressionNode def = geoElement.getDefinition();
 		// use the forced behavior here
-		int degree = equation.isForcedImplicitPoly() ? 3 : (equation
-				.isForcedConic() ? 2 : equation.degree());
+		int degree = equation.isForcedImplicitPoly() ? 3
+				: (equation.isForcedConic() ? 2 : equation.degree());
 		switch (degree) {
 		// linear equation -> LINE
 		case 1:

@@ -22,8 +22,8 @@ import org.geogebra.common.plugin.Operation;
  * @author GSoCImplicitCurve2015
  *
  */
-public class AlgoTangentImplicitCurve extends AlgoElement implements
-		TangentAlgo {
+public class AlgoTangentImplicitCurve extends AlgoElement
+		implements TangentAlgo {
 	/**
 	 * Maximum number of line in output
 	 */
@@ -129,7 +129,6 @@ public class AlgoTangentImplicitCurve extends AlgoElement implements
 		tangents.getElement(0).setCoords(-m, 1.0, m * x - y);
 	}
 
-
 	private void computeTangentFromPoint() {
 		// Find the intersection between curve and following equation:
 		// f'(x, y) = (y - y1) / (x - x1), where (x1, y1): given point
@@ -150,8 +149,8 @@ public class AlgoTangentImplicitCurve extends AlgoElement implements
 		x1 = x1.multiply(inputCurve.getDerivativeX().getExpression());
 		y1 = y1.multiply(inputCurve.getDerivativeY().getExpression());
 
-		FunctionNVar f2 = new FunctionNVar(x1.plus(y1), new FunctionVariable[] {
-				x, y });
+		FunctionNVar f2 = new FunctionNVar(x1.plus(y1),
+				new FunctionVariable[] { x, y });
 
 		double[] params = kernel.getViewBoundsForGeo(inputCurve);
 

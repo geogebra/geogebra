@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+
 public interface GeoImplicit extends GeoElementND {
 
 	double[][] getCoeff();
@@ -26,7 +27,6 @@ public interface GeoImplicit extends GeoElementND {
 	double evalPolyAt(double evaluate, double x);
 
 	int getDegX();
-
 
 	int getDegY();
 

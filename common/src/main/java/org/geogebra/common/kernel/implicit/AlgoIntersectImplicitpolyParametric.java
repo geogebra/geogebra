@@ -35,9 +35,9 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 /**
  * Algorithm to intersect Implicit polynomials with either lines or polynomials
  */
-public class AlgoIntersectImplicitpolyParametric extends
-		AlgoSimpleRootsPolynomial {
-	
+public class AlgoIntersectImplicitpolyParametric
+		extends AlgoSimpleRootsPolynomial {
+
 	private PolynomialFunction tx;
 	private PolynomialFunction ty;
 	private GeoImplicit p;
@@ -47,55 +47,75 @@ public class AlgoIntersectImplicitpolyParametric extends
 
 	/**
 	 * To compute intersection of polynomial and line
-	 * @param c construction
-	 * @param p polynomial
-	 * @param l line
+	 * 
+	 * @param c
+	 *            construction
+	 * @param p
+	 *            polynomial
+	 * @param l
+	 *            line
 	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, GeoImplicit p,
 			GeoLine l) {
-		this(c,null,false,p,l);
+		this(c, null, false, p, l);
 	}
-	
+
 	/**
 	 * To compute intersection of polynomial and function
-	 * @param c construction
-	 * @param p polynomial
-	 * @param f function
+	 * 
+	 * @param c
+	 *            construction
+	 * @param p
+	 *            polynomial
+	 * @param f
+	 *            function
 	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, GeoImplicit p,
 			GeoFunction f) {
-		this(c,null,false,p,f);
+		this(c, null, false, p, f);
 	}
 
 	/**
 	 * To compute intersection of polynomial and line
-	 * @param c construction
-	 * @param labels labels for output
-	 * @param setLabels true to set labels
-	 * @param p polynomial
-	 * @param l line
+	 * 
+	 * @param c
+	 *            construction
+	 * @param labels
+	 *            labels for output
+	 * @param setLabels
+	 *            true to set labels
+	 * @param p
+	 *            polynomial
+	 * @param l
+	 *            line
 	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, String[] labels,
 			boolean setLabels, GeoImplicit p, GeoLine l) {
 		super(c, p.toGeoElement(), l);
-		this.p=p;
-		this.l=l;
+		this.p = p;
+		this.l = l;
 		compute();
 	}
 
 	/**
 	 * To compute intersection of polynomial and function
-	 * @param c construction
-	 * @param labels labels for output
-	 * @param setLabels true to set labels
-	 * @param p polynomial
-	 * @param f function
+	 * 
+	 * @param c
+	 *            construction
+	 * @param labels
+	 *            labels for output
+	 * @param setLabels
+	 *            true to set labels
+	 * @param p
+	 *            polynomial
+	 * @param f
+	 *            function
 	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, String[] labels,
 			boolean setLabels, GeoImplicit p, GeoFunction f) {
 		super(c, p.toGeoElement(), f);
-		this.p=p;
-		this.f=f;
+		this.p = p;
+		this.f = f;
 		compute();
 	}
 
@@ -103,7 +123,6 @@ public class AlgoIntersectImplicitpolyParametric extends
 	protected double getYValue(double t) {
 		return ty.value(t);
 	}
-	
 
 	@Override
 	protected double getXValue(double t) {
@@ -113,107 +132,110 @@ public class AlgoIntersectImplicitpolyParametric extends
 	@Override
 	public void compute() {
 
-		if (!p.isDefined()){
+		if (!p.isDefined()) {
 			return;
 		}
-		
+
 		double maxT;
 		double minT;
-		if (f!=null){
-			if (!f.isDefined()){
+		if (f != null) {
+			if (!f.isDefined()) {
 				return;
 			}
-			
+
 			if (!f.isPolynomialFunction(false)) {
-				
-				
+
 				Kernel ker = cons.getKernel();
-				
+
 				ker.setSilentMode(true);
-				
+
 				GeoFunction paramEquation = new GeoFunction(cons, p, null, f);
-				
-				AlgoRoots algo = new AlgoRoots(cons, paramEquation, 
+
+				AlgoRoots algo = new AlgoRoots(cons, paramEquation,
 						new GeoNumeric(cons, f.getMinParameter()),
 						new GeoNumeric(cons, f.getMaxParameter()));
-				
+
 				GeoPoint[] rootPoints = algo.getRootPoints();
-				List<double[]> valPairs=new ArrayList<double[]>();
-				for (int i=0;i<rootPoints.length;i++){
+				List<double[]> valPairs = new ArrayList<double[]>();
+				for (int i = 0; i < rootPoints.length; i++) {
 					double t = rootPoints[i].getX();
-					valPairs.add(new double[]{t,f.evaluate(t)});
+					valPairs.add(new double[] { t, f.evaluate(t) });
 				}
-				
+
 				ker.setSilentMode(false);
 				setPoints(valPairs);
 				return;
 			}
-			tx=new PolynomialFunction(new double[]{0,1}); //x=t
-			ty=new PolynomialFunction(f.getFunction().getNumericPolynomialDerivative(0,false).getCoeffs()); //y=f(t)
+			tx = new PolynomialFunction(new double[] { 0, 1 }); // x=t
+			ty = new PolynomialFunction(f.getFunction()
+					.getNumericPolynomialDerivative(0, false).getCoeffs()); // y=f(t)
 			maxT = f.getMaxParameter();
 			minT = f.getMinParameter();
-		}else if (l!=null){
-			if (!l.isDefined()){
+		} else if (l != null) {
+			if (!l.isDefined()) {
 				points.adjustOutputSize(0);
 				return;
 			}
-			//get parametrisation of line
-			double startP[]=new double[2];
+			// get parametrisation of line
+			double startP[] = new double[2];
 			l.getInhomPointOnLine(startP);
-			tx=new PolynomialFunction(new double[]{startP[0],l.getY()}); //x=p1+t*r1
-			ty=new PolynomialFunction(new double[]{startP[1],-l.getX()}); //y=p2+t*r2
+			tx = new PolynomialFunction(new double[] { startP[0], l.getY() }); // x=p1+t*r1
+			ty = new PolynomialFunction(new double[] { startP[1], -l.getX() }); // y=p2+t*r2
 			maxT = l.getMaxParameter();
 			minT = l.getMinParameter();
-			
+
 			if (l.getParentAlgorithm() instanceof AlgoTangentImplicitpoly) {
-				tangentPoints = ((AlgoTangentImplicitpoly)l.getParentAlgorithm()).getTangentPoints();
+				tangentPoints = ((AlgoTangentImplicitpoly) l
+						.getParentAlgorithm()).getTangentPoints();
 			}
-		}else{
+		} else {
 			return;
 		}
-		PolynomialFunction sum=null;
-		PolynomialFunction zs=null;
-		//Insert x and y (univariat)polynomials via the Horner-scheme
-		double[][] coeff=p.getCoeff();
-		if (coeff!=null)
-			for (int i=coeff.length-1;i>=0;i--){
-				zs=new PolynomialFunction(new double[]{coeff[i][coeff[i].length-1]});
-				for (int j=coeff[i].length-2;j>=0;j--){
-					zs=zs.multiply(ty).add(new PolynomialFunction(new double[]{coeff[i][j]}));//y*zs+coeff[i][j];
+		PolynomialFunction sum = null;
+		PolynomialFunction zs = null;
+		// Insert x and y (univariat)polynomials via the Horner-scheme
+		double[][] coeff = p.getCoeff();
+		if (coeff != null)
+			for (int i = coeff.length - 1; i >= 0; i--) {
+				zs = new PolynomialFunction(
+						new double[] { coeff[i][coeff[i].length - 1] });
+				for (int j = coeff[i].length - 2; j >= 0; j--) {
+					zs = zs.multiply(ty).add(new PolynomialFunction(
+							new double[] { coeff[i][j] }));// y*zs+coeff[i][j];
 				}
-				if (sum==null)
-					sum=zs;
+				if (sum == null)
+					sum = zs;
 				else
-					sum=sum.multiply(tx).add(zs);//sum*x+zs;
+					sum = sum.multiply(tx).add(zs);// sum*x+zs;
 			}
-		
-		setRootsPolynomialWithinRange(sum,minT,maxT);
+
+		setRootsPolynomialWithinRange(sum, minT, maxT);
 		mergeWithTangentPoints();
 	}
-	
+
 	private void mergeWithTangentPoints() {
-		
-		if (tangentPoints == null
-				|| tangentPoints.length == 0)
+
+		if (tangentPoints == null || tangentPoints.length == 0)
 			return;
-		
-		
-		
-		//assumption: tangent points are far apart from each other such that dist(tangent1,tangent2) > epsilon.
+
+		// assumption: tangent points are far apart from each other such that
+		// dist(tangent1,tangent2) > epsilon.
 		boolean addTangent[] = new boolean[tangentPoints.length];
 		int orgSize = points.size();
-		while (!points.getElement(orgSize-1).isDefined())
+		while (!points.getElement(orgSize - 1).isDefined())
 			--orgSize;
-		
+
 		int newSize = orgSize;
-		double EPS2 = Kernel.STANDARD_PRECISION;  //TODO: have a better guess of the error
-		
-		for (int i = 0; i<tangentPoints.length; ++i) {
-			if (tangentPoints[i].getIncidenceList()!=null
+		double EPS2 = Kernel.STANDARD_PRECISION; // TODO: have a better guess of
+													// the error
+
+		for (int i = 0; i < tangentPoints.length; ++i) {
+			if (tangentPoints[i].getIncidenceList() != null
 					&& tangentPoints[i].getIncidenceList().contains(l)) {
 				addTangent[i] = true;
-				for (int j = 0; j<orgSize; ++j) {
-					if (points.getElement(j).distanceSqr(tangentPoints[i])<EPS2) {
+				for (int j = 0; j < orgSize; ++j) {
+					if (points.getElement(j)
+							.distanceSqr(tangentPoints[i]) < EPS2) {
 						if (addTangent[i]) {
 							points.getElement(j).setUndefined();
 							--newSize;
@@ -221,50 +243,48 @@ public class AlgoIntersectImplicitpolyParametric extends
 							addTangent[i] = false;
 							points.getElement(i).setCoords(tangentPoints[j]);
 						}
-						
+
 					}
 				}
 				if (addTangent[i])
 					++newSize;
-				
+
 			} else {
 				addTangent[i] = false;
 			}
 		}
-		
-		
+
 		int definedCount = 0;
-		for (int i=0; i<orgSize; ++i) {
+		for (int i = 0; i < orgSize; ++i) {
 			if (points.getElement(i).isDefined()) {
-				if (definedCount!=i)
-					points.getElement(definedCount).setCoords(points.getElement(i));
+				if (definedCount != i)
+					points.getElement(definedCount)
+							.setCoords(points.getElement(i));
 				++definedCount;
 			}
 		}
-		
+
 		points.adjustOutputSize(newSize);
-		
-		for (int i=0; i<tangentPoints.length; ++i) {
+
+		for (int i = 0; i < tangentPoints.length; ++i) {
 			if (addTangent[i]) {
 				points.getElement(definedCount++).setCoords(tangentPoints[i]);
 			}
 		}
-		
+
 		if (setLabels)
 			points.updateLabels();
-		
+
 	}
 
 	@Override
 	public Commands getClassName() {
 		return Commands.Intersect;
 	}
-	
+
 	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_INTERSECT;
-    }
-    
-	
-	
+		return EuclidianConstants.MODE_INTERSECT;
+	}
+
 }
