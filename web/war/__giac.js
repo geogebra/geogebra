@@ -1672,7 +1672,7 @@ var __giac = [ {},
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, b = b, c = 0}]", result:"{{a = -b, b = b, c = 0}}", notes:"#3563" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, b = b, c = 0}, {a, b, c}]", result:"{{a = -b, b = b, c = 0}}", notes:"#3563" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0}, {a, b}]", result:"{{a = -b, b = b}}", notes:"#3563" },
-{ cat: "SolveUnderdetermined", cmd:"Solve[{c = 0, a + b = 0}]", result:"{{c = 0, a = -b}}", notes:"#3563" },
+{ cat: "SolveUnderdetermined", cmd:"Solve[{c = 0, a + b = 0}]", result:"{{a = -b, b = b}}", notes:"#3563" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, c}]", result:"{{a = -b, c = 0}}", notes:"#3563" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, b, c}]", result:"{{a = -b, b = b, c = 0}}", notes:"#3563" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, c, b}]", result:"{{a = -b, c = 0, b = b}}", notes:"#3563" },
@@ -1783,7 +1783,9 @@ var __giac = [ {},
 { cat:"Solve", cmd:"Solve[2^(x+3)+2^(x+2)+2^x<=52]", result:"{x \u2264 2}" },
 { cat: "Evaluate", cmd:"Evaluate[sqrt(7+2sqrt(11))+sqrt(7-2sqrt(11))]", result:"sqrt(2) sqrt(sqrt(5) + 7)", notes:"DOI 10.1007/s00165-009-0136-5" },
 { cat: "NSolve", cmd:"NSolve[700 = 0.06 x^1.093]", result:"{x = 5258.995833557}", rounding:"{x = 5259}", notes:"" },
-
+{ cat:"Solve", cmd:"Solve[5lg(x)+2>3lg(x)+4]", result:"{x>10}" },
+{ cat:"SolveAssume", cmd:"Solve[u *x < a,x, u>0]",result:"{x < a / u}"},
+{ cat:"SolveAssume", cmd:"Solve[u *x < a,x, {u>0, a>0}]",result:"{x < a / u}"},
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
@@ -1927,9 +1929,11 @@ var problems = [
 { cat:"Evaluate", cmd:"Evaluate[(4*x*y)^(1/2)/(2*x^(1/2))]", result:"sqrt(x) sqrt(4x y) / (2x)", notes:"works better with sqrt() rather than ^(1/2) freezes?" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt(4*x*y)/(2*x^(1/2))]", result:"", notes:"freezes?" },
 
-// freezes / too slow
+// no starting point, so answers a bit random
 { cat:"NSolutions", cmd:"NSolutions[{\u03C0 / x = cos(x - 2y), 2 y - \u03C0 = sin(x)}]", result:"", notes:"x=0, y=0 doesn't work as initial starting point" },
 { cat:"NSolve", cmd:"NSolve[{\u03C0 / x = cos(x - 2y), 2 y - \u03C0 = sin(x)}]", result:"", notes:"x=0, y=0 doesn't work as initial starting point" },
+
+//freezes / too slow
 { cat:"Solve", cmd:"Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c,a}]", result:"{{c = (300000000 (3^(950 / 1057))) / 67^(950 / 1057), a = 67^(1 / 1057) / 3^(1 / 1057)}}" },
 
 // leaves Giac in a bad state so (some) subsequent commands fail
@@ -1948,17 +1952,13 @@ var problems = [
 { cat:"CFactor", cmd:"CFactor[sqrt(21) - 2sqrt(7) x \u03AF + 3sqrt(3) x\u00B2 \u03AF + 6x\u00B3]", result:"168 (x + \u03AF sqrt(3) / 2) (x\u00B2 - \u03AF sqrt(7) / 3) / 28", notes:"kills giac.js, #3057, Reduce gives (3x\u00B2 - \u03AF sqrt(7)) (2x + \u03AF sqrt(3)), Giac/JNI gives 168 (x + \u03AF sqrt(3) / 2) (x\u00B2 - \u03AF sqrt(7) / 3) / 28" },
 
 { cat:"Evaluate", cmd:"Evaluate[sqrt((1355050424792466287485561)/(981647716744573948433529))]", result:"(1 / 990781366773 * sqrt(1355050424792466287485561))", notes:"#4008, too slow in JS" },
+{ cat:"Evaluate", cmd:"Evaluate[sqrt((26188440946629826703822309)/(26942840480072343408400))]", result:"(1 / 26942840480072343408400 * sqrt(705590986846842175569890001809124163141017995600))", notes:"#4611" },
 
 
-{ cat:"Solve", cmd:"Solve[5lg(x)+2>3lg(x)+4]", result:"{x>10}" },
-{ cat:"SolveAssume", cmd:"Solve[u *x < a,x, u>0]",result:"{x < a / u}"},
-{ cat:"SolveAssume", cmd:"Solve[u *x < a,x, {u>0, a>0}]",result:"{x < a / u}"},
 ];
 
-//TangentThroughPoint
 
 
-//1505: { cat:"Evaluate", cmd:"Evaluate[sqrt((26188440946629826703822309)/(26942840480072343408400))]", result:"(1 / 26942840480072343408400 * sqrt(705590986846842175569890001809124163141017995600))", notes:"#4611" },
 
 
 
