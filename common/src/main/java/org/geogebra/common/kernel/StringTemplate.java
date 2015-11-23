@@ -2648,7 +2648,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 						&& ((ExpressionNode) right).getOperation() == Operation.DIVIDE) {
 					ExpressionNode enR = (ExpressionNode) right;
 
-					sb.append("simplify(surd(");
+					// was simplify(surd, causes problems
+					// GGB-321
+					sb.append("surd(");
 					sb.append(leftStr);
 					sb.append(',');
 					// #4186: make sure we send value string to CAS
@@ -2656,7 +2658,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					sb.append(")");
 					sb.append("^(");
 					sb.append(expToString(enR.getLeft(), valueForm));
-					sb.append("))");
+					sb.append(")");
 
 				} else {
 
