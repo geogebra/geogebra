@@ -71,9 +71,8 @@ public class GeoClippingCube3D extends GeoElement3D {
 	}
 
 	@Override
-	public boolean isEqual(GeoElement Geo) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isEqual(GeoElement geo) {
+		return geo == this;
 	}
 
 	// cube reduction

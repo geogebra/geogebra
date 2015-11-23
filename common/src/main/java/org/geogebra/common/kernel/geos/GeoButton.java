@@ -184,7 +184,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
     // Michael Borcherds 2008-04-30
 	@Override
 	final public boolean isEqual(GeoElement geo) {
-		return false;
+		return geo == this;
 	}
 	
 	/**

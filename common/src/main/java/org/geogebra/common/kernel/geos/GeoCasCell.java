@@ -2321,8 +2321,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	}
 
 	@Override
-	public boolean isEqual(final GeoElement Geo) {
-		return false;
+	public boolean isEqual(final GeoElement geo) {
+		return geo == this;
 	}
 
 	/**
