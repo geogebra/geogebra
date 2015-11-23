@@ -3,6 +3,8 @@ package org.geogebra.desktop.gui.menubar;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
@@ -12,12 +14,16 @@ import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.OptionType;
@@ -287,6 +293,34 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 				public static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
+
+					// set checkbox size to new default
+					app.getEuclidianView1().setBooleanSize(
+							EuclidianConstants.DEFAULT_CHECKBOX_SIZE);
+					if (app.hasEuclidianView2(1)) {
+						app.getEuclidianView2(1).setBooleanSize(
+								EuclidianConstants.DEFAULT_CHECKBOX_SIZE);
+					}
+
+					// set sliders to new styling
+					TreeSet<GeoElement> geos = app.getKernel().getConstruction()
+							.getGeoSetConstructionOrder();
+					Iterator<GeoElement> it = geos.iterator();
+					while (it.hasNext()) {
+						GeoElement geo = it.next();
+						if (geo instanceof GeoNumeric
+								&& ((GeoNumeric) geo).isSlider()) {
+							GeoNumeric slider = (GeoNumeric) geo;
+							slider.setAlphaValue(
+									ConstructionDefaults.DEFAULT_NUMBER_ALPHA);
+							slider.setLineThickness(
+									GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+							slider.setSliderWidth(
+									GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL);
+							slider.updateRepaint();
+						}
+					}
+
 					GeoGebraPreferencesD.getPref().clearPreferences();
 					boolean oldAxisX = app.getSettings().getEuclidian(1)
 							.getShowAxis(0);

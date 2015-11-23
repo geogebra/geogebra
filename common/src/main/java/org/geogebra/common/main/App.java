@@ -286,7 +286,7 @@ public abstract class App implements UpdateSelection {
 	 * size of checkboxes, default in GeoGebraPreferencesXML.java
 	 * checkboxSize="26"
 	 */
-	private int booleanSize = 26;
+	private int booleanSize = EuclidianConstants.DEFAULT_CHECKBOX_SIZE;
 
 	/**
 	 * 
