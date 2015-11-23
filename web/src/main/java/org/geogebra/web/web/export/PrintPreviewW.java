@@ -92,16 +92,19 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		// getScreenshotCallback(printPanel.getElement()));
 
 		centerPanel.add(printPanel);
-		createPreview(m_cbView);
+		createPreview(m_cbView.getSelectedValue());
 
 		setWidget(centerPanel);
 	}
 
-	private native JavaScriptObject getScreenshotCallback(Element el)/*-{
+	native JavaScriptObject getScreenshotCallback(Element el)/*-{
 		return function(pngBase64) {
 			var previewImg = document.createElement("img");
 			previewImg
 					.setAttribute("src", "data:image/png;base64," + pngBase64);
+			//			if (el.hasChildNodes()) {
+			//				el.removeChild(el.lastChild);
+			//			}
 			el.appendChild(previewImg);
 		};
 	}-*/;
@@ -118,18 +121,37 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 	public void onChange(ChangeEvent event) {
 		if (event.getSource() == m_cbView) {
-			createPreview(m_cbView);
+			createPreview(m_cbView.getSelectedValue());
 		}
 	}
 
-	public void createPreview(final ListBox list) {
+	public void createPreview(final String printableView) {
+
+		App.debug("create preview from : " + printableView);
+
 		app.forEachView(new App.ViewCallback() {
 
 			public void run(int viewID, String viewName) {
-				if (app.getPlain(viewName).equals(list.getSelectedValue())) {
+				if (app.getPlain(viewName).equals(printableView)) {
 					printPanel.clear();
-					printPanel.add(((PrintableW) app.getView(viewID))
-							.getPrintable());
+					// printPanel.add(((PrintableW) app.getView(viewID))
+					// .getPrintable());
+
+					App.debug("add element: "
+							+ ((PrintableW) app.getView(viewID)).getPrintable()
+							.getElement().toString());
+
+					app.getGgbApi().getScreenshotURL(
+							((PrintableW) app.getView(viewID)).getPrintable()
+									.getElement(),
+							getScreenshotCallback(printPanel.getElement()));
+
+					// app.getGgbApi().getScreenshotURL(
+					// ((ConstructionProtocolViewW) app.getGuiManager()
+					// .getConstructionProtocolView())
+					// .getCpPanel().getElement(),
+					// getScreenshotCallback(printPanel.getElement()));
+
 				}
 			}
 
