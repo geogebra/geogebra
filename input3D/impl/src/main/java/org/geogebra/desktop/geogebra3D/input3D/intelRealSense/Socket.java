@@ -554,11 +554,26 @@ public class Socket {
 	private final static String REALSENSE_ONLINE_ARCHIVE_CAMERA = REALSENSE_ONLINE_ARCHIVE_BASE
 			+ REALSENSE_CAMERA_EXE;
 
+	private final static String REALSENSE_DCM_LICENSE = "intel_rs_dcm_f200_1.4.27.41944_license.txt";
+	private final static String REALSENSE_ONLINE_LICENSE_DCM = REALSENSE_ONLINE_ARCHIVE_BASE
+			+ REALSENSE_DCM_LICENSE;
+	private final static String REALSENSE_CAMERA_LICENSE = "intel_rs_sdk_runtime_6.0.21.6598_license.txt";
+	private final static String REALSENSE_ONLINE_LICENSE_CAMERA = REALSENSE_ONLINE_ARCHIVE_BASE
+			+ REALSENSE_CAMERA_LICENSE;
+
+	private static boolean updating = false;
+
 	private static void updateVersion(final App app) {
 		
+		if (updating) {
+			return;
+		}
+
 		Thread t = new Thread(){
 			@Override
 			public void run() {
+				updating = true;
+
 				App.debug("\n>>>>>>>>>>>>>> update version");
 
 				showMessage(app.getPlain("RealSenseNotUpToDate1"),
@@ -575,10 +590,28 @@ public class Socket {
 					App.debug("Creating " + updateDir);
 					new File(updateDir).mkdirs();
 
+					// Downloading dcm and runtime licenses
+					String filename = updateDir + File.separator
+							+ REALSENSE_DCM_LICENSE;
+					File dest = new File(filename);
+					URL url = new URL(REALSENSE_ONLINE_LICENSE_DCM);
+					App.debug("Downloading " + REALSENSE_ONLINE_LICENSE_DCM);
+					DownloadManager.copyURLToFile(url, dest);
+					App.debug("=== done");
+
+					filename = updateDir + File.separator
+							+ REALSENSE_CAMERA_LICENSE;
+					dest = new File(filename);
+					url = new URL(REALSENSE_ONLINE_LICENSE_CAMERA);
+					App.debug("Downloading " + REALSENSE_ONLINE_LICENSE_CAMERA);
+					DownloadManager.copyURLToFile(url, dest);
+					App.debug("=== done");
+
+
 					// Downloading dcm installer
 					filenameDCM = updateDir + File.separator + REALSENSE_DCM_EXE;
 					destDCM = new File(filenameDCM);
-					URL url = new URL(REALSENSE_ONLINE_ARCHIVE_DCM);
+					url = new URL(REALSENSE_ONLINE_ARCHIVE_DCM);
 					App.debug("Downloading " + REALSENSE_ONLINE_ARCHIVE_DCM);
 					DownloadManager.copyURLToFile(url, destDCM);
 					App.debug("=== done");
@@ -593,6 +626,7 @@ public class Socket {
 
 				} catch (Exception e) {
 					App.error("Unsuccessful update");
+					updating = false;
 				}
 
 				boolean installOK = false;
@@ -612,6 +646,8 @@ public class Socket {
 					destDCM.delete();
 					destCAM.delete();
 				}
+
+				updating = false;
 			}
 		};
 		
