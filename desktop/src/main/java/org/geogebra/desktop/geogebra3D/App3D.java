@@ -119,6 +119,12 @@ public class App3D extends AppD {
 
 		@Override
 		public void run() {
+			if (!initRealsense()) {
+				initZspace();
+			}
+		}
+
+		private boolean initRealsense() {
 			try {
 				// try to init realsense
 				Input3DFactory.initRealsense(app);
@@ -130,15 +136,38 @@ public class App3D extends AppD {
 				// show message
 				showRealSenseCongratulations();
 
+				return true;
 			} catch (Input3DException e) {
 				Log.debug(e.getMessage());
 			}
+
+			return false;
+		}
+
+		private boolean initZspace() {
+			try {
+				// try to init zSpace
+				Input3DFactory.initZSpace(app);
+				Log.debug("zSpace: successfully detected");
+
+				// save in prefs
+				setInput3DType(Input3DFactory.PREFS_ZSPACE);
+
+				// show message
+				showZSpaceCongratulations();
+
+				return true;
+			} catch (Input3DException e) {
+				Log.debug(e.getMessage());
+			}
+
+			return false;
 		}
 	}
 
 	private void runThreadForCheckInput3D() {
 		if (!tubeLoginIsShowing && AppD.WINDOWS && !isApplet()
-				&& has(Feature.INTEL_REALSENSE)
+				&& has(Feature.INPUT3D)
 				&& getInput3DType().equals(Input3DFactory.PREFS_NONE)) {
 			App.debug("============ runThreadToCheckInput3D ");
 			Thread t = new ThreadForCheckInput3D(this);
@@ -150,6 +179,22 @@ public class App3D extends AppD {
 	 * shows congratulations message for using realsense
 	 */
 	void showRealSenseCongratulations() {
+		showInput3DCongratulations("RealSense.DetectedMessage",
+				"https://tube-beta.geogebra.org/b/OaGmb7LE");
+	}
+
+	/**
+	 * shows congratulations message for using zspace
+	 */
+	void showZSpaceCongratulations() {
+		showInput3DCongratulations("ZSpace.DetectedMessage",
+				"https://tube-beta.geogebra.org/b/mTvZVHwm");
+
+	}
+
+
+	private void showInput3DCongratulations(final String message,
+			final String tutorialURL) {
 		// popup help dialog
 		input3DPopupShowing = true;
 		final JFrame frame = new JFrame();
@@ -161,8 +206,7 @@ public class App3D extends AppD {
 		panel.setBackground(Color.WHITE);
 		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		JLabel label = new JLabel(getMenu("RealSense.DetectedMessage"));
-		// "Congratulations, your Intel\u00AE RealSense\u2122 Camera can be used with GeoGebra!"
+		JLabel label = new JLabel(getMenu(message));
 		JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		labelPanel.setBackground(Color.WHITE);
 		labelPanel.add(label);
@@ -182,9 +226,7 @@ public class App3D extends AppD {
 					} catch (SecurityException se) {
 						// failed to unset on top
 					}
-					Desktop.getDesktop()
-							.browse(new URI(
-									"https://tube-beta.geogebra.org/b/OaGmb7LE"));
+					Desktop.getDesktop().browse(new URI(tutorialURL));
 				} catch (IOException e1) {
 					// not working
 				} catch (URISyntaxException e1) {
@@ -305,13 +347,13 @@ public class App3D extends AppD {
 
 		Input3D input3D;
 
-		if (AppD.WINDOWS && !isApplet() && has(Feature.INTEL_REALSENSE)) {
+		if (AppD.WINDOWS && !isApplet() && has(Feature.INPUT3D)) {
 			// init the 3D euclidian view (with perhaps a specific 3D input)
 			try {
 				input3D = Input3DFactory.createInput3D(this, getInput3DType());
 			} catch (Input3DException e) {
 				if (e.getType() == Input3DExceptionType.INSTALL) {
-					// reset 3D input type, guessing realsense camera has been
+					// reset 3D input type, guessing 3d input has been
 					// uninstalled
 					setInput3DType(Input3DFactory.PREFS_NONE);
 				}
