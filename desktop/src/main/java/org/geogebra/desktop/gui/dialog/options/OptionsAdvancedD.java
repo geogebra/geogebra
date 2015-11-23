@@ -90,8 +90,8 @@ public class OptionsAdvancedD extends
 
 	/** */
 	private ButtonGroup angleUnitButtonGroup, continuityButtonGroup,
-			usePathAndRegionParametersButtonGroup, checkboxSizeButtonGroup,
-			rightAngleButtonGroup, coordinatesButtonGroup;
+			usePathAndRegionParametersButtonGroup, rightAngleButtonGroup,
+			coordinatesButtonGroup;
 
 	/** */
 	private JTextField tfKeyboardWidth, tfKeyboardHeight;
@@ -693,6 +693,7 @@ public class OptionsAdvancedD extends
 	 * Not implemented.
 	 */
 	public void focusGained(FocusEvent e) {
+		//
 	}
 
 	/**
@@ -811,15 +812,12 @@ public class OptionsAdvancedD extends
 		String[] languages = new String[KeyboardSettings.supportedLocales
 				.size() + 1];
 		languages[0] = app.getPlain("Default");
-		String ggbLangCode;
 
 		for (int i = 0; i < KeyboardSettings.supportedLocales.size(); i++) {
-			Locale loc = new Locale(KeyboardSettings.supportedLocales.get(i));
-			ggbLangCode = loc.getLanguage() + loc.getCountry()
-					+ loc.getVariant();
+			Locale loc1 = new Locale(KeyboardSettings.supportedLocales.get(i));
 
 			// eg want "Norwegian", not "Norwegian (Bokmal)" etc
-			languages[i + 1] = loc.getDisplayLanguage(Locale.ENGLISH);
+			languages[i + 1] = loc1.getDisplayLanguage(Locale.ENGLISH);
 			App.debug(languages[i + 1]);
 			if (languages[i + 1] == "engb") {
 				languages[i + 1] = Language.getDisplayName("enGB");
