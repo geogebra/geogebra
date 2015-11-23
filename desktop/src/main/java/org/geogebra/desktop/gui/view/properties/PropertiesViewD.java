@@ -699,10 +699,9 @@ public class PropertiesViewD extends
 		ArrayList<GeoElement> geos = app.getSelectionManager()
 				.getSelectedGeos();
 
-		if (geos.size() == 0)
-			setObjectPanel(geos);
-		else
+		if (geos.size() > 0) {
 			updateSelection(removeAllConstants(geos));
+		}
 	}
 
 	@Override
