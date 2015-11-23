@@ -1838,7 +1838,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 				// GeoElement evalGeo = silentEvalInGeoGebra(evalVE);
 				if (geos != null) {
-					if (geos.length == 0 && evalVE.isTopLevelCommand() && "Delete".equals(evalVE.getTopLevelCommand().getName())) {
+					if (geos.length == 0
+							&& evalVE.isTopLevelCommand()
+							&& isScriptingCommand(evalVE.getTopLevelCommand()
+									.getName())) {
 						geos = new GeoElement[] {new GeoBoolean(cons, true)};
 					}
 					success = true;
@@ -1867,6 +1870,13 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		// set Output
 		finalizeComputation(success, result, ce, doTwinGeoUpdate,allowFunction);
 	}
+
+	private static boolean isScriptingCommand(String name) {
+		return "Delete".equals(name) || "StartAnimation".equals(name)
+				|| (name != null && name.startsWith("Set"))
+				|| (name != null && name.startsWith("Show"));
+	}
+
 	/**
 	 * Wraps an expression in PointList command and copies the assignment
 	 * @param arg expression to be wrapped
