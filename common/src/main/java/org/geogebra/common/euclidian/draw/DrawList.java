@@ -707,10 +707,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		} 
 		g2.setFont(font);
 
-		// make sure layout won't be null ("" makes it null).
-		GTextLayout layout = g2.getFontRenderContext()
-				.getTextLayout("".equals(text) ? "A" : text,
-				font);
+		GTextLayout layout = getLayout(g2, text, font);
 
 		final int w = (int) layout.getBounds().getWidth();
 		if (center) {
@@ -728,6 +725,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		return AwtFactory.prototype.newDimension(w,
 				Math.round(lastAscent + lastDescent));
 	}
+
+
 
 	private int drawOptionLines(GGraphics2D g2, int top,
 			boolean draw) {
