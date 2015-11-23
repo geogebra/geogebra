@@ -3886,7 +3886,7 @@ public abstract class App implements UpdateSelection {
 		case TOOL_EDITOR:
 		case TUBE_BETA:
 		case LOG_AXES:
-		case INTEL_REALSENSE:
+		case INPUT3D:
 		case ALL_QUADRICS:
 		case SURFACE_IS_REGION:
 		case SHADERS_IN_DESKTOP:

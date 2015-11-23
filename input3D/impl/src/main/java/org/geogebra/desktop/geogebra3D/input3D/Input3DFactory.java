@@ -3,7 +3,6 @@ package org.geogebra.desktop.geogebra3D.input3D;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.InputIntelRealsense3D;
-import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.Socket;
 import org.geogebra.desktop.geogebra3D.input3D.zspace.InputZSpace3D;
 
 /**
@@ -14,6 +13,7 @@ import org.geogebra.desktop.geogebra3D.input3D.zspace.InputZSpace3D;
 public class Input3DFactory {
 
 	static public String PREFS_REALSENSE = "realsense";
+	static public String PREFS_ZSPACE = "zspace";
 	static public String PREFS_NONE = "none";
 	
 	public enum Input3DExceptionType {
@@ -57,6 +57,12 @@ public class Input3DFactory {
 				return new InputIntelRealsense3D(app);
 			}
 			return null;
+		case 'z':
+			if (type.equals(PREFS_ZSPACE)) {
+				// check for zSpace
+				return new InputZSpace3D();
+			}
+			return null;
 		}
 
 		return null;
@@ -66,19 +72,33 @@ public class Input3DFactory {
 	/**
 	 * 
 	 * @return input 3D instance for zspace
+	 * @throws Input3DException
 	 */
-	static public Input3D createInputZSpace3D() {
+	static public Input3D createInputZSpace3D() throws Input3DException {
 		return new InputZSpace3D(); // use this for zspace
 	}
 
 	/**
 	 * try to init realsense
 	 * 
+	 * @param app
+	 *            application
+	 * 
 	 * @throws Input3DException
 	 *             if none
 	 */
 	public static void initRealsense(final App app) throws Input3DException {
-		Socket.createSession(app);
+		InputIntelRealsense3D.createSession(app);
+	}
+
+	/**
+	 * try to detect zSpace
+	 * 
+	 * @throws Input3DException
+	 *             if none
+	 */
+	public static void initZSpace(final App app) throws Input3DException {
+		InputZSpace3D.initZSpace();
 	}
 
 }

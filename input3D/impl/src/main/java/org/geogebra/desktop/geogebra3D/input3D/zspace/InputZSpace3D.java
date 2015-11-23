@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
 
 
 /**
@@ -32,10 +33,16 @@ public class InputZSpace3D implements Input3D {
 	
 	private double eyeSeparation;
 	
+	public static void initZSpace() throws Input3DException {
+		Socket.initZSpace();
+	}
+
 	/**
 	 * constructor
+	 * 
+	 * @throws Input3DException
 	 */
-	public InputZSpace3D() {
+	public InputZSpace3D() throws Input3DException {
 		
 		// 3D mouse position
 		mousePosition = new double[3];

@@ -1,6 +1,9 @@
 package org.geogebra.desktop.geogebra3D.input3D.zspace;
 import java.text.DecimalFormat;
 
+import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
+import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
+
 import com.zspace.Sdk3;
 import com.zspace.ZSCoordinateSpace;
 import com.zspace.ZSDisplayType;
@@ -29,16 +32,34 @@ public class ZSpaceGeoGebra {
 	private static int TRACKER_NOT_DETECTED_MAX_DELAY = 3000;
 
 //	@BeforeClass
-	public static void RunOnce() 
+	public static void RunOnce() throws Input3DException
 	{
 		try {
 			System.loadLibrary("Sdk3");
 		} catch (UnsatisfiedLinkError e) {
-		  System.err.println("zspace library failed to load" + e.getMessage());
-		  System.exit(1);
+			// System.err
+			// .println("zspace library failed to load" + e.getMessage());
+			throw new Input3DException(Input3DExceptionType.INSTALL,
+					"zSpace: Failed to load library");
 		}
 	}
 	
+	/**
+	 * try to initialize zSpace context
+	 * 
+	 * @throws Input3DException
+	 *             exception
+	 */
+	public static void Initialize() throws Input3DException {
+
+		Sdk3.ZSPrintErrorsOn();
+
+		// initialize context
+		zContext = Sdk3.ZSInitialize();
+
+		System.out.println("ZZZZZZZZZZZZZZZZZZ ZSpace inited (zContext: "
+				+ zContext + " )");
+	}
 	
 	
 	private abstract class ZJEventListener extends ZSEventListener{
@@ -285,8 +306,8 @@ public class ZSpaceGeoGebra {
 	
 	
 	
-	
-	private long zContext, zViewport, zHead, zStylus;
+	static private long zContext;
+	private long zViewport, zHead, zStylus;
 	private long zBuffer;
 	
 	private boolean[] button;
@@ -311,14 +332,9 @@ public class ZSpaceGeoGebra {
     
     
     private void init(){
-    	Sdk3.ZSPrintErrorsOn();
-		
     	
     	// buttons
     	button = new boolean[3];
-    	
-		// initialize context 		
-		zContext = Sdk3.ZSInitialize();
 		
 		// get display size
 		int numDisplays = Sdk3.ZSGetNumDisplays(zContext);

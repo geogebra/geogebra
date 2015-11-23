@@ -3,6 +3,7 @@ package org.geogebra.desktop.geogebra3D.input3D.zspace;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
 
 
 public class Socket {
@@ -48,10 +49,28 @@ public class Socket {
     
    private ZSpaceGeoGebra zsggb;
 
+	private static boolean LIBRARY_LOADED = false;
+	private static boolean ZSPACE_INITED = false;
+
+	public static void initZSpace() throws Input3DException {
+
+		if (!LIBRARY_LOADED) {
+			ZSpaceGeoGebra.RunOnce();
+			LIBRARY_LOADED = true;
+		}
+
+		
+		if (!ZSPACE_INITED) {
+			ZSpaceGeoGebra.Initialize();
+			ZSPACE_INITED = true;
+		}
+
+	}
+
  
-    public Socket() {
+	public Socket() throws Input3DException {
      
-    	ZSpaceGeoGebra.RunOnce();
+		initZSpace();
     	zsggb = new ZSpaceGeoGebra();
         
 		
