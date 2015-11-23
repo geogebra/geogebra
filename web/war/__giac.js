@@ -247,7 +247,6 @@ var __giac = [ {},
 { cat:"Trig", cmd:"TrigCombine[sin(x) cos(x)]", result:"1 / 2 sin(2x)" },
 { cat:"Solutions", cmd:"Solutions[x^2 = 4x,x]", result:"{0,4}" },
 { cat:"Solutions", cmd:"Solutions[y^2 = 4y,y]", result:"{0,4}" },
-{ cat:"Solutions", cmd:"Solutions[t^2 = 4t]", result:"{0,4}" },
 { cat:"Solutions", cmd:"Solutions[{4x-y=1,x+y=3},{x,y}]", result:"{{4 / 5, 11 / 5}}" },
 { cat:"Solve", cmd:"Solve[x^2=4x]", result:"{x=0, x=4}" },
 { cat:"Solve", cmd:"Solve[{4x-y=1,x+y=3},{x,y}]", result:"{{x = 4 / 5, y = 11 / 5}}" },
@@ -1710,8 +1709,6 @@ var __giac = [ {},
 { cat: "SolveODE2", cmd:"SolveODE[y''+y'+ a y=0]", result:"y = c_0 \u212F^((x sqrt(-4 a + 1) - x) / 2) + c_1 \u212F^((-x sqrt(-4 a + 1) - x) / 2)", notes:"#5099" },
 { cat: "SolveODE2", cmd:"SolveODE[y''+y'+ a y=0,y,x]", result:"y = c_0 \u212F^((x sqrt(-4 a + 1) - x) / 2) + c_1 \u212F^((-x sqrt(-4 a + 1) - x) / 2)", notes:"#5099" },
 { cat: "Solve", cmd:"Solve[{t^2<=p},{p}]", result:"{p \u2265 t\u00B2}", notes:"#5521, TRAC-4161" },
-{ cat: "SolveIneq", cmd:"Solve[{t^2<=p^2},{p}]", result:"", notes:"#5521, TRAC-4161" },
-{ cat: "SolveIneq", cmd:"Solve[{-5 b\u2075 sqrt(-a\u00B2 + b\u00B2) abs(b) abs(a\u00B2 - b\u00B2) / (b\u2078 - 2a\u00B2 b\u2076 + 2a\u2074 b\u2074 + b\u00B2 (2a\u00B2 b\u2074 - 2a\u2074 b\u00B2))<0, a>0, b>0}, {a, b}]", result:"", notes:"#5521, TRAC-4161" },
 { cat: "SolveODE", cmd:"SolveODE[y''=0,{(0,1)},(1,3)]", result:"y = 3x + 1", notes:"#5064" },
 { cat: "SolveODE", cmd:"SolveODE[y''=0,(0,1),{(1,3)}]", result:"y = 3x + 1", notes:"#5064" },
 { cat: "SolveODE", cmd:"SolveODE[y''=0,{(5,5)},(1,3)]", result:"y = 3x - 10", notes:"#5064" },
@@ -1722,7 +1719,6 @@ var __giac = [ {},
 { cat: "Integral", cmd:"Integral[2*exp(0.5x),0,ln(4)]", result:"4", notes:"" },
 { cat: "Evaluate", cmd:"Evaluate[ (x^2 > 9) || (x < 0)]", result:"(x\u00B2 > 9) \u2228 (0 > x)", notes:"#5525" },
 { cat: "Evaluate", cmd:"Evaluate[ (x^2 > 9) && (x < 0)]", result:"(x\u00B2 > 9) \u2227 (0 > x)", notes:"#5525" },
-{ cat: "SolveLogic", cmd:"Solve[ (x^2 > 9) || (x < 0)]", result:"", notes:"#5525" },
 { cat: "SolveLogic", cmd:"Solve[ (x^2 > 9) && (x < 0)]", result:"{x  <  -3}", notes:"#5525" },
 { cat: "SolveTrig", cmd:"Solve[{5sin(x\u00b0)=sqrt(3),x>0,x<360}]", result:"{{x = 180asin(sqrt(3) / 5) / \u03C0}, {x = (180\u03C0 - 180asin(sqrt(3) / 5)) / \u03C0}}", notes:"" },
 { cat: "SVD", cmd:"SVD[ {{8.37465721, -12.01576219, 17.23993441, -2.8939, 4.1521, 1}, {4.24936996, -4.46993976, 4.70195856, -2.0614, 2.1684, 1}, {0.01971216, -0.27748656, 3.90615696, -0.1404, 1.9764, 1}, {7.16739984, 8.11807356, 9.19484329, 2.6772, 3.0323, 1}, {26.77648516, 29.59819454, 32.71725601, 5.1746, 5.7199, 1}, {10.58526225, 26.4171186, 65.92790416, 3.2535, 8.1196, 1}, {0.02972176, -1.17918152, 46.78286404, -0.1724, 6.8398, 1}} ]", result:"{{{0.4558121021376, -0.1057550286536, 0.1983458726676, -0.7401768505186, 0.3924310826526, -0.1432352224882}, {-0.3617972533539, 0.696185731614, -0.02011762042107, -0.3510419946337, 0.1166080659872, -0.04067688753889}, {0.04351881224665, 0.4796474922806, -0.5327638474433, -0.01710918960809, 0.05658617703881, -0.03797517558872}, {0.3610808904495, -0.1925619345336, -0.7475073966208, -0.106765534802, -0.1811678640599, -0.1347979342887}, {-0.334101299422, -0.1496521224836, 0.06277179832646, -0.3930136339568, -0.6667876214662, -0.4756354391402}, {0.3867636645783, 0.2996018855098, 0.2319947668675, 0.3975875893729, 0.02624506929683, -0.7353020162803}, {-0.5175470684196, -0.3533304939632, -0.2447196364821, 0.0684144463544, 0.5925217954742, -0.437399518401}}, {{0.04064054535608, 0, 0, 0, 0, 0}, {0, 1.755120322875, 0, 0, 0, 0}, {0, 0, 2.639868863901, 0, 0, 0}, {0, 0, 0, 17.37554748906, 0, 0}, {0, 0, 0, 0, 33.79518793185, 0}, {0, 0, 0, 0, 0, 97.92603573084}}, {{0.03156002061567, -0.08222785626243, 0.1275310452576, -0.8499832703812, -0.4460459762857, -0.2335589954592}, {-0.04538006830641, 0.2075743767857, 0.02321953644401, 0.4829139427499, -0.783073228647, -0.32848869555}, {0.05891884616863, -0.0687511774112, 0.1024934650808, 0.06300254682519, 0.3995741793942, -0.9042500146759}, {0.1483751661824, -0.8265319768732, -0.5065197925401, 0.1053361580841, -0.1578958857579, -0.04733480846509}, {-0.5316311651884, 0.3387322278991, -0.7465418359727, -0.1579146131351, 0.05612098278091, -0.1312153930586}, {0.8299556002137, 0.3840964753153, -0.3985031519904, -0.06573060034572, 0.009955165972204, -0.02047486328597}}}", round:"{{{0.46, -0.11, 0.2, -0.74, 0.39, -0.14}, {-0.36, 0.7, -0.02, -0.35, 0.12, -0.04}, {0.04, 0.48, -0.53, -0.02, 0.06, -0.04}, {0.36, -0.19, -0.75, -0.11, -0.18, -0.13}, {-0.33, -0.15, 0.06, -0.39, -0.67, -0.48}, {0.39, 0.3, 0.23, 0.4, 0.03, -0.74}, {-0.52, -0.35, -0.24, 0.07, 0.59, -0.44}}, {{0.04, 0, 0, 0, 0, 0}, {0, 1.76, 0, 0, 0, 0}, {0, 0, 2.64, 0, 0, 0}, {0, 0, 0, 17.38, 0, 0}, {0, 0, 0, 0, 33.8, 0}, {0, 0, 0, 0, 0, 97.93}}, {{0.03, -0.08, 0.13, -0.85, -0.45, -0.23}, {-0.05, 0.21, 0.02, 0.48, -0.78, -0.33}, {0.06, -0.07, 0.1, 0.06, 0.4, -0.9}, {0.15, -0.83, -0.51, 0.11, -0.16, -0.05}, {-0.53, 0.34, -0.75, -0.16, 0.06, -0.13}, {0.83, 0.38, -0.4, -0.07, 0.01, -0.02}}}",notes:"#5530" },
@@ -1759,7 +1755,7 @@ var __giac = [ {},
 { cat: "Evaluate", cmd:"Evaluate[sqrt(abs(x))]", result:"sqrt(abs(x))", notes:"GGB-201" },
 { cat: "Evaluate", cmd:"Evaluate[abs(sqrt(x))]", result:"sqrt(x)", notes:"GGB-201" },
 { cat: "Solve", cmd:"Solve[abs(sqrt(x))]", result:"{x = 0}", notes:"GGB-201" },
-{ cat: "Solve", cmd:"Solve[sqrt(3)*sin(2x)-cos(2x)=sqrt(2)]", result:"{x = n_10 \u03C0 + 5 / 24 \u03C0, x = n_10 \u03C0 + 11 / 24 \u03C0}", notes:"GGB-207" },
+{ cat: "SolveTrig", cmd:"Solve[sqrt(3)*sin(2x)-cos(2x)=sqrt(2)]", result:"{x = n_10 \u03C0 + 5 / 24 \u03C0, x = n_10 \u03C0 + 11 / 24 \u03C0}", notes:"GGB-207" },
 { cat: "BinomialDist", cmd:"BinomialDist[10, 0.2, {2,3,4,5}]", result:"6033408 / 9765625", notes:"GGB-212" },
 { cat: "BinomialDist", cmd:"BinomialDist[10, 0.2, Sequence[2,5]]", result:"6033408 / 9765625", notes:"GGB-213" },
 { cat: "BinomialDist", cmd:"BinomialDist[10, 0.2, 2\u20265]", result:"6033408 / 9765625", notes:"GGB-213" },
@@ -1777,8 +1773,8 @@ var __giac = [ {},
 { cat: "Solve", cmd:"Solve[ln(x^2)+6ln(x)+8=0]", result:"{x = 1 / \u212F}", notes:"GGB-234" },
 { cat: "Solve", cmd:"Solve[sqrt(x-4)<=sqrt(2x+1)]", result:"{x \u2265 4}", notes:"GGB-236, TRAC-4258" },
 { cat: "Solve", cmd:"Solve[{-x+y-z+1,t x + (t-2)y*y+z-1},{x,z}]", result:"{{x = (-t y\u00B2 + 2y\u00B2 - y) / (t - 1), z = (t y\u00B2 + t y + t - 2y\u00B2 - 1) / (t - 1)}}", notes:"GGB-255" },
-{ cat: "InflectionPoint", cmd:"InflectionPoint[(x+2)^3+5]",result:"{(-2, 5)}"},
-{ cat: "InflectionPoint", cmd:"InflectionPoint[(x+1/2)^3+5]",result:"{((-1) / 2, 5)}"},
+{ cat: "InflectionPoint", cmd:"TurningPoint[(x+2)^3+5]",result:"{(-2, 5)}", notes:"TurningPoint is internal name, this test won't work with giac.js as that expects correct name"},
+{ cat: "InflectionPoint", cmd:"TurningPoint[(x+1/2)^3+5]",result:"{((-1) / 2, 5)}", notes:"TurningPoint is internal name, this test won't work with giac.js as that expects correct name"},
 { cat: "Evaluate", cmd:"Evaluate[(1,2)-10]", result:"(-9, -8)" },
 { cat:"Solve", cmd:"Solve[2^(x+3)+2^(x+2)+2^x<=52]", result:"{x \u2264 2}" },
 { cat: "Evaluate", cmd:"Evaluate[sqrt(7+2sqrt(11))+sqrt(7-2sqrt(11))]", result:"sqrt(2) sqrt(sqrt(5) + 7)", notes:"DOI 10.1007/s00165-009-0136-5" },
@@ -1789,6 +1785,7 @@ var __giac = [ {},
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
+// Expand[a(b)] GGB-
 
 
 ];
@@ -1826,6 +1823,7 @@ var bugs = [
 { cat:"Evaluate", cmd:"Evaluate[x(x=4)]", result:"1" },
 { cat:"Evaluate", cmd:"Evaluate[y(x=4)]", result:"0" },
 { cat:"Evaluate", cmd:"Evaluate[z(x=4)]", result:"-4" },
+{ cat: "SolveIneq", cmd:"Solve[{t^2<=p^2},{p}]", result:"", notes:"#5521, TRAC-4161" },
 
 ];
 
@@ -1889,6 +1887,11 @@ var notSupported = [
 { cat:"NSolve", cmd:"NSolve[-0.15x^2+48x-2000>0]", result:"{49.24501516109  <  x < 270.7549848389}", notes:"not supported in Giac" },
 { cat:"Solve", cmd:"Solve[log(n^2*(x/n)^lg(x))=log(x^2),x]", result:"{x = 100, x = n}", notes:"#4330 Giac will not solve the equation without additional assumptions, here assume(x>0) and assume(n>0)" },
 { cat: "SolveIneq", cmd:"Solve[{t^2+p^2<=0},{p,t}]", result:"{{p = 0, t = 0}}", notes:"#5521, TRAC-4161, GGB-296" },
+{ cat: "SolveLogic", cmd:"Solve[ (x^2 > 9) || (x < 0)]", result:"", notes:"#5525" },
+{ cat: "SolveIneq", cmd:"Solve[{-5 b\u2075 sqrt(-a\u00B2 + b\u00B2) abs(b) abs(a\u00B2 - b\u00B2) / (b\u2078 - 2a\u00B2 b\u2076 + 2a\u2074 b\u2074 + b\u00B2 (2a\u00B2 b\u2074 - 2a\u2074 b\u00B2))<0, a>0, b>0}, {a, b}]", result:"", notes:"#5521, TRAC-4161" },
+// OK in GUI, causes problems in the tests - sent to Giac as
+// evalfa(ggbsort(normal(zeros((ggbtmpvart)^(2)=(4)*(ggbtmpvart),x))))
+{ cat:"Solutions", cmd:"Solutions[t^2 = 4t]", result:"{0,4}" },
 
 ];
 

@@ -505,7 +505,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_Term_3 () {
-    t("(3, sqrt(2)) + t * (sqrt(5), 1)", "(sqrt(5) * t + 3, t + sqrt(2))", "(t * sqrt(5) + 3, t + sqrt(2))");
+		t("(3, sqrt(2)) + t * (sqrt(5), 1)", "(t * sqrt(5) + 3, t + sqrt(2))",
+				"(sqrt(5) * t + 3, t + sqrt(2))");
   }
 
   @Test
@@ -537,7 +538,9 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_Function_3 () {
-    t("f(t) := (3, sqrt(2)) + t * (sqrt(5), 1)", "(sqrt(5) * t + 3, t + sqrt(2))", "(t* sqrt(5) + 3, t + sqrt(2))");
+		t("f(t) := (3, sqrt(2)) + t * (sqrt(5), 1)",
+				"(t * sqrt(5) + 3, t + sqrt(2))",
+				"(sqrt(5) * t + 3, t + sqrt(2))");
   }
 
   @Test
@@ -569,7 +572,9 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationE_3 () {
-    t("(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)", "(x, y) = (sqrt(5) * t + 3, t + sqrt(2))","(x, y) = (t * sqrt(5) + 3, t + sqrt(2))");
+		t("(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)",
+				"(x, y) = (t * sqrt(5) + 3, t + sqrt(2))",
+				"(x, y) = (sqrt(5) * t + 3, t + sqrt(2))");
   }
 
   @Test
@@ -601,7 +606,9 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationA_3 () {
-    t("X = (3, sqrt(2)) + t * (sqrt(5), 1)", "X = (sqrt(5) * t + 3, t + sqrt(2))", "X = (t * sqrt(5) + 3, t + sqrt(2))");
+		t("X = (3, sqrt(2)) + t * (sqrt(5), 1)",
+				"X = (t * sqrt(5) + 3, t + sqrt(2))",
+				"X = (sqrt(5) * t + 3, t + sqrt(2))");
   }
 
   @Test
@@ -628,12 +635,16 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationL_2 () {
-    t("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)", "(x, y) = (sqrt(5) * t + 3, t + sqrt(2))", "(x, y) = (t * sqrt(5) + 3, t + sqrt(2))");
+		t("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)",
+				"(x, y) = (t * sqrt(5) + 3, t + sqrt(2))",
+				"(x, y) = (sqrt(5) * t + 3, t + sqrt(2))");
   }
 
   @Test
   public void Parametric_EquationL_3 () {
-    t("f: X = (3, sqrt(2)) + t * (sqrt(5), 1)", "X = (sqrt(5) * t + 3, t + sqrt(2))", "X = (t * sqrt(5) + 3, t + sqrt(2))");
+		t("f: X = (3, sqrt(2)) + t * (sqrt(5), 1)",
+				"X = (t * sqrt(5) + 3, t + sqrt(2))",
+				"X = (sqrt(5) * t + 3, t + sqrt(2))");
   }
 
   @Test
@@ -660,12 +671,15 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_TermM_0 () {
-    t("(3, 2) + t * (5, 1) + s * (-1, 7)", "(3, 2) + s * (-1, 7) + t * (5, 1)", "(-s + 5 * t + 3, 7 * s + t + 2)");
+		t("(3, 2) + t * (5, 1) + s * (-1, 7)",
+				"(-s + 5 * t + 3, 7 * s + t + 2)",
+				"(3, 2) + s * (-1, 7) + t * (5, 1)");
   }
 
   @Test
   public void Parametric_TermM_1 () {
-    t("(3, 2) + t * (0, 0) + s * (-1, 7)", "(3, 2) + s * (-1, 7)", "(-s + 3, 7 * s + 2)");
+		t("(3, 2) + t * (0, 0) + s * (-1, 7)", "(-s + 3, 7 * s + 2)",
+				"(3, 2) + s * (-1, 7)");
   }
 
   @Test
@@ -675,7 +689,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_TermM_3 () {
-    t("(0, 0) + t * (5, 1) + s * (-1, 7)", "s * (-1, 7) + t * (5, 1)", "(-s + 5 * t, 7 * s + t)");
+		t("(0, 0) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t, 7 * s + t)",
+				"s * (-1, 7) + t * (5, 1)");
   }
 
   /* Parametric Function Multiple Parameters */
@@ -758,15 +773,16 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationLM_2 () {
-    t("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", "(x, y) = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))",
-    		"(x, y) = (-s + t * sqrt(5) + 3, s * sqrt(7) + t + sqrt(2))");
+		t("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))",
+				"(x, y) = (-s + t * sqrt(5) + 3, s * sqrt(7) + t + sqrt(2))",
+				"(x, y) = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))");
   }
 
   @Test
   public void Parametric_EquationLM_3 () {
-    t("f: X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", 
-    		"X = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))",
-    		"X = (-s + t * sqrt(5) + 3, s * sqrt(7) + t + sqrt(2))");
+		t("f: X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))",
+				"X = (-s + t * sqrt(5) + 3, s * sqrt(7) + t + sqrt(2))",
+				"X = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))");
   }
 
   @Test
@@ -956,17 +972,21 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void CFactor_0 () {
-    t("CFactor[x^2 + 4]", "(x - 2 * \u03af) * (x + 2 * \u03af)", "(x + 2 * \u03af) * (x - 2 * \u03af)");
+		t("CFactor[x^2 + 4]", "(x + 2 * \u03af) * (x - 2 * \u03af)",
+				"(x - 2 * \u03af) * (x + 2 * \u03af)");
   }
 
   @Test
   public void CFactor_1 () {
-    t("CFactor[a^2 + x^2, a]", "(\u03af * x + a) * (- \u03af * x + a)", "(a - x * \u03af) * (a + x * \u03af)", "(a + \u03af * x) * (a - \u03af * x)");
+		t("CFactor[a^2 + x^2, a]", "(a + \u03af * x) * (a - \u03af * x)",
+				"(a - x * \u03af) * (a + x * \u03af)",
+				"(\u03af * x + a) * (- \u03af * x + a)");
   }
 
   @Test
   public void CFactor_2 () {
-    t("CFactor[a^2 + x^2, x]", "(x + a * \u03af) * (x - a * \u03af)", "(x + \u03af * a) * (x - \u03af * a)");
+		t("CFactor[a^2 + x^2, x]", "(x + \u03af * a) * (x - \u03af * a)",
+				"(x + a * \u03af) * (x - a * \u03af)");
   }
 
 
@@ -1113,7 +1133,9 @@ public class GeoGebraCasIntegrationTest {
     } catch (Throwable t) {
 
     }
-    t("Cross[{a, b, c}, {d, e, f}]", "{b * f - c * e, -a * f + c * d, a * e - b * d}", "{b * f - c * e, c * d - a * f, a * e - b * d}");
+		t("Cross[{a, b, c}, {d, e, f}]",
+				"{b * f - c * e, c * d - a * f, a * e - b * d}",
+				"{b * f - c * e, -a * f + c * d, a * e - b * d}");
   }
 
   @Test
@@ -1140,17 +1162,17 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void CSolutions_OneVariable_0 () {
-    t("CSolutions[x^2 = -1]", "{-\u03af, \u03af}", "{\u03af, -\u03af}");
+		t("CSolutions[x^2 = -1]", "{\u03af, -\u03af}", "{-\u03af, \u03af}");
   }
 
   @Test
   public void CSolutions_OneVariable_1 () {
-    t("CSolutions[x^2 + 1 = 0]", "{-\u03af, \u03af}", "{\u03af, -\u03af}");
+		t("CSolutions[x^2 + 1 = 0]", "{\u03af, -\u03af}", "{-\u03af, \u03af}");
   }
 
   @Test
   public void CSolutions_OneVariable_2 () {
-    t("CSolutions[a^2 = -1, a]", "{-\u03af, \u03af}", "{\u03af, -\u03af}");
+		t("CSolutions[a^2 = -1, a]", "{\u03af, -\u03af}", "{-\u03af, \u03af}");
   }
 
   /* Several Equations and Variables */
@@ -1168,17 +1190,20 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void CSolve_OneVariable_0 () {
-    t("CSolve[x^2 = -1]", "{x = -\u03af, x = \u03af}", "{x = \u03af, x = -\u03af}");
+		t("CSolve[x^2 = -1]", "{x = \u03af, x = -\u03af}",
+				"{x = -\u03af, x = \u03af}");
   }
 
   @Test
   public void CSolve_OneVariable_1 () {
-    t("CSolve[x^2 + 1 = 0, x]", "{x = -\u03af, x = \u03af}", "{x = \u03af, x = -\u03af}");
+		t("CSolve[x^2 + 1 = 0, x]", "{x = \u03af, x = -\u03af}",
+				"{x = -\u03af, x = \u03af}");
   }
 
   @Test
   public void CSolve_OneVariable_2 () {
-    t("CSolve[a^2 = -1, a]", "{a = -\u03af, a = \u03af}", "{a = \u03af, a = -\u03af}");
+		t("CSolve[a^2 = -1, a]", "{a = \u03af, a = -\u03af}",
+				"{a = -\u03af, a = \u03af}");
   }
 
   /* Several Equations and Variables */
@@ -1276,7 +1301,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Derivative_3 () {
-    t("Derivative[a x^3, x, 2]", "6 * x * a", "6 * a * x");
+		t("Derivative[a x^3, x, 2]", "6 * a * x", "6 * x * a");
   }
 
 
@@ -1444,7 +1469,9 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Exponential_0 () {
     // TODO not sure if second is acceptable
-    t("Exponential[2, 1]", "("+ Unicode.EULER_STRING +"^(2) - 1) / "+ Unicode.EULER_STRING +"^(2)", "1 - 1 / "+ Unicode.EULER_STRING +"^(2)");
+		t("Exponential[2, 1]", "1 - 1 / " + Unicode.EULER_STRING + "^(2)",
+				"(" + Unicode.EULER_STRING + "^(2) - 1) / "
+						+ Unicode.EULER_STRING + "^(2)");
   }
 
   /* FDistribution */
@@ -1458,7 +1485,8 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void FDistribution_1 () {
     // Giac only supports 13dp
-    t("Numeric[Fdistribution[5, 7, 3], 14]", "0.90775343897945", "0.9077534389794");
+		t("Numeric[Fdistribution[5, 7, 3], 14]", "0.9077534389794",
+				"0.90775343897945");
   }
 
 
@@ -1490,12 +1518,12 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Factor_Variables_0 () {
-    t("Factor[x^2 + x - 6]", "(x + 3) * (x - 2)", "(x - 2) * (x + 3)");
+		t("Factor[x^2 + x - 6]", "(x - 2) * (x + 3)", "(x + 3) * (x - 2)");
   }
 
   @Test
   public void Factor_Variables_1 () {
-    t("Factor[x^2 - y^2]", "(x + y) * (x - y)", "(x - y) * (x + y)");
+		t("Factor[x^2 - y^2]", "(x - y) * (x + y)", "(x + y) * (x - y)");
   }
 
   @Test
@@ -1507,7 +1535,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Factor_Variables_3 () {
-    t("Factor[9 a^2 - 3 a^2 b]", "-3 * (b - 3) * a^(2)", "-3 * a^(2) * (b - 3)");
+		t("Factor[9 a^2 - 3 a^2 b]", "-3 * a^(2) * (b - 3)",
+				"-3 * (b - 3) * a^(2)");
   }
 
   @Test
@@ -1519,7 +1548,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Factor_Variables_5 () {
-    t("Factor[9x^2 - 25 y^2]", "(3 * x + 5 * y) * (3 * x - 5 * y)", "(3 * x - 5 * y) * (3 * x + 5 * y)");
+		t("Factor[9x^2 - 25 y^2]", "(3 * x - 5 * y) * (3 * x + 5 * y)",
+				"(3 * x + 5 * y) * (3 * x - 5 * y)");
   }
 
   @Test
@@ -1536,7 +1566,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Factor_Variables_8 () {
-    t("Factor[15 + 3 b^2 - 10 a - 2 a b^2]", "(-2 * a + 3) * (b^(2) + 5)", "(-b^(2) - 5) * (2 * a - 3)");
+		t("Factor[15 + 3 b^2 - 10 a - 2 a b^2]", "(-b^(2) - 5) * (2 * a - 3)",
+				"(-2 * a + 3) * (b^(2) + 5)");
   }
 
   @Test
@@ -1551,12 +1582,12 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Factor_Variables_11 () {
-    t("Factor[x^2 - y^2, x]", "(x + y) * (x - y)", "(x - y) * (x + y)");
+		t("Factor[x^2 - y^2, x]", "(x - y) * (x + y)", "(x + y) * (x - y)");
   }
 
   @Test
   public void Factor_Variables_12 () {
-    t("Factor[x^2 - y^2, y]", "(-x - y) * (-x + y)", "-(y - x) * (y + x)");
+		t("Factor[x^2 - y^2, y]", "-(y - x) * (y + x)", "(-x - y) * (-x + y)");
   }
 
   /* Factors */
@@ -1589,7 +1620,9 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Factors_Variables_0 () {
-    t("Factors[x^8 - 1]", "{{x^(4) + 1, 1}, {x^(2) + 1, 1}, {x + 1, 1}, {x - 1, 1}}", "{{x - 1, 1}, {x + 1, 1}, {x^(2) + 1, 1}, {x^(4) + 1, 1}}");
+		t("Factors[x^8 - 1]",
+				"{{x - 1, 1}, {x + 1, 1}, {x^(2) + 1, 1}, {x^(4) + 1, 1}}",
+				"{{x^(4) + 1, 1}, {x^(2) + 1, 1}, {x + 1, 1}, {x - 1, 1}}");
   }
 
 
@@ -1625,7 +1658,9 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void FitExp_0 () {
     // Giac only supports 13dp
-    t("Numeric[FitExp[{(0, 1), (2, 4)}], 15]", ""+ Unicode.EULER_STRING +"^(0.693147180559945 * x)", ""+ Unicode.EULER_STRING +"^(0.6931471805599 * x)");
+		t("Numeric[FitExp[{(0, 1), (2, 4)}], 15]",
+				Unicode.EULER_STRING + "^(0.6931471805599 * x)",
+				Unicode.EULER_STRING + "^(0.693147180559945 * x)");
   }
 
 
@@ -1651,7 +1686,9 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void FitPow_0 () {
     // Giac only supports 13dp
-    t("FitPow[{(1, 1), (3, 2), (7, 4)}]", "0.974488577374291 * x^(0.7084753128560123)", "0.9744885773743 * x^(0.708475312856)");
+		t("FitPow[{(1, 1), (3, 2), (7, 4)}]",
+				"0.9744885773743 * x^(0.708475312856)",
+				"0.974488577374291 * x^(0.7084753128560123)");
   }
 
   /* Fit Sin */
@@ -2191,13 +2228,15 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void NIntegral_0 () {
     // Giac only supports 13dp
-    t("NIntegral["+ Unicode.EULER_STRING +"^(-x^2), 0, 1]", "0.746824132812427", "0.7468241328124");
+		t("NIntegral[" + Unicode.EULER_STRING + "^(-x^2), 0, 1]",
+				"0.7468241328124");
   }
 
   @Test
   public void NIntegral_1 () {
     // Giac only supports 13dp
-    t("NIntegral["+ Unicode.EULER_STRING +"^(-a^2), a, 0, 1]", "0.746824132812427", "0.7468241328124");
+		t("NIntegral[" + Unicode.EULER_STRING + "^(-a^2), a, 0, 1]",
+				"0.7468241328124");
   }
 
 
@@ -2231,7 +2270,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Normal_0 () {
-    t("Normal[2, 0.5, 1]", "(-erf(2 / sqrt(2)) + 1) / 2", "(erf(-sqrt(2)) + 1) / 2");
+		t("Normal[2, 0.5, 1]", "(erf(-sqrt(2)) + 1) / 2",
+				"(-erf(2 / sqrt(2)) + 1) / 2");
   }
   
   @Test
@@ -2309,17 +2349,8 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void NumericEvaluation_NumericEvaluation_TwoVariables_1 () {
     t("Numeric[0.2 * (a^2 - 3 b) * (-3 a + 5 b^2)]",
-    		"-0.6 * a^(3) + a^(2) * b^(2) + 1.8 * a * b - 3 * b^(3)",
-    		"a^(2) * b^(2) - 0.6 * a^(3) - 3 * b^(3) + 1.8 * a * b");
-  }
-
-  /* Ordering of Powers */
-
-  @Test
-  public void NumericEvaluation_OrderingOfPowers () {
-    t("Numeric[0.2 * (a^2 - 3 b) * (-3 a + 5 b^2)]",
-    		"-0.6 * a^(3) + a^(2) *  b^(2) + 1.8 * a * b - 3 * b^(3)",
-    		"a^(2) * b^(2) - 0.6 * a^(3) - 3 * b^(3) + 1.8 * a * b");
+				"a^(2) * b^(2) - 0.6 * a^(3) - 3 * b^(3) + 1.8 * a * b",
+				"-0.6 * a^(3) + a^(2) * b^(2) + 1.8 * a * b - 3 * b^(3)");
   }
 
   /* Precision */
@@ -2771,8 +2802,9 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void SampleVariance_0 () {
     // TODO Result unchecked.
-    t("SampleVariance[{x, y, z}]", "(x^(2) - x * y - x * z + y^(2) - y * z + z^(2)) / 3",
-        "1 / 3 * x^(2) - 1 / 3 * x * y - 1 / 3 * x * z + 1 / 3 * y^(2) - 1 / 3 * y * z + 1 / 3 * z^(2)");
+		t("SampleVariance[{x, y, z}]",
+				"1 / 3 * x^(2) - 1 / 3 * x * y - 1 / 3 * x * z + 1 / 3 * y^(2) - 1 / 3 * y * z + 1 / 3 * z^(2)",
+				"(x^(2) - x * y - x * z + y^(2) - y * z + z^(2)) / 3");
 
   }
 
@@ -2809,7 +2841,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Simplify_0 () {
-    t("Simplify[3 * x + 4 * x + a * x]", "x * a + 7 * x", "a * x + 7 * x");
+		t("Simplify[3 * x + 4 * x + a * x]", "a * x + 7 * x", "x * a + 7 * x");
   }
 
 
@@ -2988,7 +3020,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_OneVariableVC_11 () {
-    t("Solve[x^2 = a]", "{x = -sqrt(a), x = sqrt(a)}", "{x = sqrt(a), x = -sqrt(a)}");
+		t("Solve[x^2 = a]", "{x = sqrt(a), x = -sqrt(a)}",
+				"{x = -sqrt(a), x = sqrt(a)}");
   }
 
   @Test
@@ -3296,7 +3329,8 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricFMP_5 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
-    t("Solve[f(t, s) = (13, 4), {t, s}]", "{{t = 2 - 2 * s, s = s}}", "{{t = -2 * s + 2, s = s}}");
+		t("Solve[f(t, s) = (13, 4), {t, s}]", "{{t = -2 * s + 2, s = s}}",
+				"{{t = 2 - 2 * s, s = s}}");
   }
 
   @Test
@@ -3308,7 +3342,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricFMP_7 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
-    t("Solve[f(t, s) = (13, 4), t]", "{t = 2 - 2 * s}", "{t = -2 * s + 2}");
+		t("Solve[f(t, s) = (13, 4), t]", "{t = -2 * s + 2}", "{t = 2 - 2 * s}");
   }
 
   @Test
@@ -3425,7 +3459,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_ParametricMEA_3 () {
-    t("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]", "{{t = 0, s = -1 / 2}}","{{t = 0, s = (-1) / 2}}");
+		t("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]",
+				"{{t = 0, s = (-1) / 2}}", "{{t = 0, s = -1 / 2}}");
   }
 
   @Test
@@ -3627,7 +3662,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricTD_12 () {
 		t("f(t) := (3, 1, 2) + t (-2, 4, -6)",
-				"(-2 * t + 3, 4 * t + 1, -6 * t + 2)",
+				// "(-2 * t + 3, 4 * t + 1, -6 * t + 2)",
 				"(3 - 2 * t, 1 + 4 * t, 2 - 6 * t)");
     t("g(t) := (3, 7, -4) + t (1, 4, -3)", "(t + 3, 4 * t + 7, -3 * t - 4)");
     t("Solve[f(u) = g(v), {u, v}]", "{{u = 1 / 2, v = -1}}");
@@ -3779,19 +3814,25 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Tangent_PointOnConic_0 () {
     t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
-        "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 * sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
+				// "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 *
+				// x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 *
+				// sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("P := (2, 0)", "(2, 0)");
-    t("Tangent[P, c]", "y = (sqrt(10) - 3) x - 2 * sqrt(10) + 6", "y = -2 * sqrt(10) + 6 + (sqrt(10) - 3) * x");
+		t("Tangent[P, c]", "y = -2 * sqrt(10) + 6 + (sqrt(10) - 3) * x",
+				"y = (sqrt(10) - 3) x - 2 * sqrt(10) + 6");
   }
 
   @Test
   public void Tangent_PointOnConic_1 () {
     t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
-        "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 * sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
+				// "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 *
+				// x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 *
+				// sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("P := (2, 3)", "(2, 3)");
-    t("Tangent[P, c]", "y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9", "y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x");
+		t("Tangent[P, c]", "y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x",
+				"y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9");
   }
 
   @Test
@@ -3801,9 +3842,12 @@ public class GeoGebraCasIntegrationTest {
     t("B := (3, 2)", "(3, 2)");
     t("C := (2, 3)", "(2, 3)");
     t("c := Ellipse[A, B, C]",
-        "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 * sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
+				// "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 *
+				// x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 *
+				// sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
-    t("Tangent[C, c]", "y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9", "y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x");
+		t("Tangent[C, c]", "y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x",
+				"y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9");
   }
 
   // TODO Add tests for other conics.
@@ -3838,25 +3882,25 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Mike_1254 () {
 		t("Tangent[(0.2, 10), sqrt(1 - x^2)]",
+				"y = (-sqrt(6)) / 12 * x + 5 * sqrt(6) / 12",
 				"y = (-1) / 5 * sqrt(24 / 25)^(-1) * (x - 1 / 5) + sqrt(24 / 25)",
-				"y = (((-sqrt(6))) / 12 * x) + (5 * sqrt(6) / 12)",
-				"y = (-sqrt(6)) / 12 * x + 5 * sqrt(6) / 12");
+				"y = (((-sqrt(6))) / 12 * x) + (5 * sqrt(6) / 12)");
   }
 
   @Test
   public void Mike_1255 () {
 		t("Tangent[0.2, sqrt(1 - x^2)]",
+				"y = (-sqrt(6)) / 12 * x + 5 * sqrt(6) / 12",
 				"y = (-1) / 5 * sqrt(24 / 25)^(-1) * (x - 1 / 5) + sqrt(24 / 25)",
-				"y = (((-sqrt(6))) / 12 * x) + (5 * sqrt(6) / 12)",
-				"y = (-sqrt(6)) / 12 * x + 5 * sqrt(6) / 12");
+				"y = (((-sqrt(6))) / 12 * x) + (5 * sqrt(6) / 12)");
   }
 
   @Test
   public void Mike_1256 () {
 		t("Tangent[a, sqrt(1 - x^2)]",
+				"y = (a * sqrt(-a^(2) + 1) * x - sqrt(-a^(2) + 1)) / (a^(2) - 1)",
 				"y = -a * sqrt(1 - a^(2))^(-1) * (x - a) + sqrt(1 - a^(2))",
-				"y = (((a * sqrt((-a^(2)) + 1)) * x) - sqrt((-a^(2)) + 1)) / (a^(2) - 1)",
-				"y = (a * sqrt(-a^(2) + 1) * x - sqrt(-a^(2) + 1)) / (a^(2) - 1)");
+				"y = (((a * sqrt((-a^(2)) + 1)) * x) - sqrt((-a^(2)) + 1)) / (a^(2) - 1)");
   }
 
   @Test
@@ -3876,7 +3920,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Mike_1260 () {
-    t("Tangent[(1, 1), x^3 + y^3 = 1]", "{x = 1, y = 1}", "{y = 1, x = 1}");
+		t("Tangent[(1, 1), x^3 + y^3 = 1]", "{y = 1, x = 1}", "{x = 1, y = 1}");
   }
 
   @Test
@@ -3887,8 +3931,8 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Mike_1262 () {
     t("Tangent[(a, cbrt(1 - a^3)), x^3 + y^3 = 1]",
-        "y = (a^(2) * (-a^(3) + 1)^(1/3) / (a^(3) - 1) * x + (-a^(3) + 1) * (-a^(3) + 1)^(1/3) / (a^(6) - 2 * a^(3) + 1))",
-        "y = a^(2) * cbrt(-a^(3) + 1) / (a^(3) - 1) * x + (-a^(3) + 1) * cbrt(-a^(3) + 1) / (a^(6) - 2 * a^(3) + 1)");
+				"y = a^(2) * cbrt(-a^(3) + 1) / (a^(3) - 1) * x + (-a^(3) + 1) * cbrt(-a^(3) + 1) / (a^(6) - 2 * a^(3) + 1)",
+				"y = (a^(2) * (-a^(3) + 1)^(1/3) / (a^(3) - 1) * x + (-a^(3) + 1) * (-a^(3) + 1)^(1/3) / (a^(6) - 2 * a^(3) + 1))");
   }
 
   @Test
@@ -3964,13 +4008,16 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void TaylorPolynomial_VariableSpecified_5 () {
-    t("TaylorPolynomial[x^3 sin(y), y, 3, 1]", "sin(3) * x^(3) + cos(3) * x^(3) * (y-3)", "x^(3) * sin(3) + x^(3) * cos(3) * (y-3)");
+		t("TaylorPolynomial[x^3 sin(y), y, 3, 1]",
+				"x^(3) * sin(3) + x^(3) * cos(3) * (y-3)",
+				"sin(3) * x^(3) + cos(3) * x^(3) * (y-3)");
   }
 
   @Test
   public void TaylorPolynomial_VariableSpecified_6 () {
-    t("TaylorPolynomial[x^3 sin(y), y, 3, 2]", "sin(3) * x^(3) + cos(3) * x^(3) * (y - 3) - (sin(3) * x^(3)) / 2 * (y - 3)^(2)",
-        "x^(3) * sin(3) + x^(3) * cos(3) * (y - 3) - x^(3) * sin(3) / 2 * (y - 3)^(2)");
+		t("TaylorPolynomial[x^3 sin(y), y, 3, 2]",
+				"x^(3) * sin(3) + x^(3) * cos(3) * (y - 3) - x^(3) * sin(3) / 2 * (y - 3)^(2)",
+				"sin(3) * x^(3) + cos(3) * x^(3) * (y - 3) - (sin(3) * x^(3)) / 2 * (y - 3)^(2)");
   }
 
 
@@ -4060,7 +4107,9 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void UnitVector_1 () {
-    t("UnitVector[(a, b)]", "(a / sqrt(a^(2) + b^(2)), b / sqrt(a^(2) + b^(2)))", "(a / sqrt(a * a + b * b), b / sqrt(a * a + b * b))");
+		t("UnitVector[(a, b)]",
+				"(a / sqrt(a * a + b * b), b / sqrt(a * a + b * b))",
+				"(a / sqrt(a^(2) + b^(2)), b / sqrt(a^(2) + b^(2)))");
   }
 
   @Test
@@ -4078,7 +4127,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Variance_1 () {
-    t("Variance[{1, 2, a}]", "(2 * a^(2) - 6 * a + 6) / 9", "2 / 9 * a^(2) - 2 / 3 * a + 2 / 3");
+		t("Variance[{1, 2, a}]", "2 / 9 * a^(2) - 2 / 3 * a + 2 / 3",
+				"(2 * a^(2) - 6 * a + 6) / 9");
   }
 
 
@@ -4192,7 +4242,10 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Ticket_Ticket1274_0 () {
     // TODO the third option is a bit ugly, maybe remove
-    t("Derivative["+ Unicode.EULER_STRING +"^(2 * x)]", "2 * ("+Unicode.EULER_STRING +"^(x))^(2)", "2 * "+ Unicode.EULER_STRING +"^(2 * x)", ""+ Unicode.EULER_STRING +"^(2 * x) * 2");
+		t("Derivative[" + Unicode.EULER_STRING + "^(2 * x)]",
+				"2 * " + Unicode.EULER_STRING + "^(2 * x)",
+				"2 * (" + Unicode.EULER_STRING + "^(x))^(2)",
+				Unicode.EULER_STRING + "^(2 * x) * 2");
   }
 
   /* Ticket 1336: Support for brackets with built-in functions */
@@ -4321,7 +4374,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Ticket_Ticket3377_2 () {
-    t("Factor[a / c + b / d]", "(a * d + b * c) / (c * d)", "(a * d + c * b) / (d * c)");
+		t("Factor[a / c + b / d]", "(a * d + c * b) / (d * c)",
+				"(a * d + b * c) / (c * d)");
   }
 
   /* Ticket 3381: Problem with Solve and exponential function */
@@ -4565,7 +4619,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void CASRundbrief_Figure2_2 () {
-    t("(x - 1 / 2 = 2x + 3) + 1 / 2", "x = (4 * x + 7) / 2", "x = 7 / 2 + 2 * x", "x = 2 * x + 7 / 2");
+		t("(x - 1 / 2 = 2x + 3) + 1 / 2", "x = 2 * x + 7 / 2",
+				"x = (4 * x + 7) / 2", "x = 7 / 2 + 2 * x");
   }
 
   @Test
@@ -4679,7 +4734,7 @@ public class GeoGebraCasIntegrationTest {
     // Depends on CASRundbrief_Figure5_3.
     t("h(x) := f(x) - g(x)", "x^(2) - 2 * x");
 
-    t("Factor[h(x)]", "(x - 2) * x", "x * (x - 2)");
+		t("Factor[h(x)]", "x * (x - 2)", "(x - 2) * x");
   }
 
   @Test
@@ -4841,13 +4896,13 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void QuickStart () {
-		t("f(x) := x^2 - 3/2 * x + 2", "(2* x^(2) - 3 * x + 4) / 2",
-				"x^(2) - 3 / 2 * x + 2");
-		t("g(x) := 1/2 * x + 2", "(x + 4) / 2", "1 / 2 * x + 2");
+		t("f(x) := x^2 - 3/2 * x + 2", "x^(2) - 3 / 2 * x + 2",
+				"(2* x^(2) - 3 * x + 4) / 2");
+		t("g(x) := 1/2 * x + 2", "1 / 2 * x + 2", "(x + 4) / 2");
 		t("h(x):=f(x)-g(x)", "x^(2) - 2 * x");
-		t("Factor[h(x)]", "(x - 2) * x", "x * (x - 2)");
+		t("Factor[h(x)]", "x * (x - 2)", "(x - 2) * x");
 		t("Solve[h(x) = 0, x]", "{x = 0, x = 2}", "{x = 2, x = 0}");
-		t("S:=Intersect[f(x),g(x)]", "{(2, 3), (0, 2)}", "{(0, 2), (2, 3)}");
+		t("S:=Intersect[f(x),g(x)]", "{(0, 2), (2, 3)}", "{(2, 3), (0, 2)}");
 		t("Delete[f]", "true");
 		t("Delete[g]", "true");
 		t("Delete[h]", "true");
@@ -4868,25 +4923,18 @@ public class GeoGebraCasIntegrationTest {
   
   @Test
 	public void ExponentialEqs() {
-	  	/* Setting the timeout here is not a good idea since setting it back will not work.
-	  	 * Maybe it is because of running this test in a thread. Instead, it is better
-	  	 * to set a general timeout in setupCas(). 
-	  	 */
-		long original_timeout = kernel.getApplication().getSettings()
-				.getCasSettings().getTimeoutMilliseconds();
-		kernel.getApplication().getSettings().getCasSettings()
-				.setTimeoutMilliseconds(59000);
 		t("Solve[7^(2 x - 5) 5^x = 9^(x + 1), x]",
 				"{x = (5 * log(7) + log(9)) / (log(5) + 2 * log(7) - log(9))}");
 		t("Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]",
 				"{x = (-log(11) - log(5)) / (log(13) - log(5))}");
-		t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {c, a}]",
-				"{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = 67 / (3 * ((67 / 3)^(1 / 1057))^(1056))}}");
-		t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {a, c}]",
-				"{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = 67 / (3 * ((67 / 3)^(1 / 1057))^(1056))}}");
-		// This may have no effect.
-		kernel.getApplication().getSettings().getCasSettings()
-				.setTimeoutMilliseconds(original_timeout);
+
+		// These take too long (more than 1 minute)
+		// t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {c, a}]",
+		// "{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = 67 / (3 * ((67 /
+		// 3)^(1 / 1057))^(1056))}}");
+		// t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {a, c}]",
+		// "{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = 67 / (3 * ((67 /
+		// 3)^(1 / 1057))^(1056))}}");
 	}
   
   
