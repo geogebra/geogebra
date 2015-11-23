@@ -301,4 +301,8 @@ public class InputLeo3D implements Input3D {
 		// nothing to do
 	}
 
+	public boolean isZSpace() {
+		return false;
+	}
+
 }

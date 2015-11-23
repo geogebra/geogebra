@@ -276,4 +276,7 @@ public class InputZSpace3D implements Input3D {
 	private boolean hasStylusNotIntersectingPhysicalScreen = true,
 			stylusDetected = false;
 
+	public boolean isZSpace() {
+		return true;
+	}
 }

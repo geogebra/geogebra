@@ -837,4 +837,9 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		input3D.exit();
 	}
 
+	@Override
+	public boolean isZSpace() {
+		return input3D.isZSpace();
+	}
+
 }

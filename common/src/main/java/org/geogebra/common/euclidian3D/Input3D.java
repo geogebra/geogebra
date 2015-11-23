@@ -282,4 +282,10 @@ public interface Input3D {
 	 */
 	public void setPositionOffScreen();
 
+	/**
+	 * 
+	 * @return true if zSpace
+	 */
+	public boolean isZSpace();
+
 }

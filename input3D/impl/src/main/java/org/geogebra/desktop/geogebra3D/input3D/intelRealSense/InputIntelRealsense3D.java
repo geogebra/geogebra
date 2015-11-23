@@ -327,4 +327,8 @@ public class InputIntelRealsense3D implements Input3D {
 		// nothing to do
 	}
 
+	public boolean isZSpace() {
+		return false;
+	}
+
 }

@@ -37,8 +37,6 @@ public class ZSpaceGeoGebra {
 		try {
 			System.loadLibrary("Sdk3");
 		} catch (UnsatisfiedLinkError e) {
-			// System.err
-			// .println("zspace library failed to load" + e.getMessage());
 			throw new Input3DException(Input3DExceptionType.INSTALL,
 					"zSpace: Failed to load library");
 		}

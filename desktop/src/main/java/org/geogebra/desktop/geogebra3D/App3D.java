@@ -37,6 +37,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -147,6 +148,7 @@ public class App3D extends AppD {
 		private boolean initZspace() {
 			try {
 				// try to init zSpace
+				Log.debug("zSpace: try to init");
 				Input3DFactory.initZSpace(app);
 				Log.debug("zSpace: successfully detected");
 
@@ -746,6 +748,39 @@ public class App3D extends AppD {
 		}
 
 		return super.handleSpaceKey();
+	}
+
+	@Override
+	public boolean useHugeGuiForInput3D() {
+		return euclidianController3D != null
+				&& euclidianController3D.isZSpace();
+	}
+
+	@Override
+	public int getToolbarPosition() {
+		if (useHugeGuiForInput3D()) {
+			return SwingConstants.WEST;
+		}
+
+		return super.getToolbarPosition();
+	}
+
+	@Override
+	public int getMaxIconSize() {
+		if (useHugeGuiForInput3D()) {
+			return 64;
+		}
+		return super.getMaxIconSize();
+	}
+
+	@Override
+	public int getGUIFontSize() {
+		int size = super.getGUIFontSize();
+		if (size < 24 && useHugeGuiForInput3D()) {
+			return 24;
+		}
+
+		return size;
 	}
 
 }

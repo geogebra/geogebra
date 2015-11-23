@@ -1922,7 +1922,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public String getToolbarIconPath() {
-		if (maxIconSize <= 32) {
+		if (getMaxIconSize() <= 32) {
 			return "/org/geogebra/common/icons_toolbar/p32/";
 		}
 
@@ -1966,7 +1966,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public int getMaxIconSize() {
-		App.debug("fontSize = " + getGUIFontSize());
 		return maxIconSize;
 	}
 
@@ -2118,8 +2117,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// scale icon if necessary
 		icon = ImageManagerD.getScaledIcon(icon,
-				Math.min(icon.getIconWidth(), maxIconSize),
-				Math.min(icon.getIconHeight(), maxIconSize));
+				Math.min(icon.getIconWidth(), getMaxIconSize()),
+				Math.min(icon.getIconHeight(), getMaxIconSize()));
 
 		return icon;
 	}
@@ -5415,5 +5414,16 @@ public class AppD extends App implements KeyEventDispatcher {
 	public void needThumbnailFor3D() {
 		// nothing to do here
 	}
+
+	public boolean useHugeGuiForInput3D() {
+		return false;
+	}
+
+	/**
+	 * huge size for undo/redo/etc. buttons when huge GUI is needed for some 3D
+	 * inputs
+	 * 
+	 */
+	public static final int HUGE_UNDO_BUTTON_SIZE = 36;
 
 }

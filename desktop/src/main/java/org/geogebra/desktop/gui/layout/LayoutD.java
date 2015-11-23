@@ -98,6 +98,7 @@ public class LayoutD extends Layout implements SettingListener {
 	 * @param perspective
 	 */
 	public boolean applyPerspective(Perspective perspective) {
+
 		// ignore axes & grid settings for the document perspective
 
 		app.getGuiManager().setToolBarDefinition(

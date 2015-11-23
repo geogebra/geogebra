@@ -4127,4 +4127,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// use for 3D input
 	}
 
+	/**
+	 * 
+	 * @return true if uses zSpace
+	 */
+	public boolean isZSpace() {
+		return false;
+	}
+
 }
