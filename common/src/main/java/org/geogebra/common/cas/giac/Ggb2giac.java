@@ -1014,7 +1014,15 @@ public class Ggb2giac {
 						+ "? ) ) ) ) ) ) ) ) ) ][1]");
 
 		p("Angle.3",
-				"[[[ggbangarg0:=%0], [ggbangarg1:=%1], [ggbangarg2:=%2]], normal(regroup(angle(point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg2),ycoord(ggbangarg2),zcoord(ggbangarg2)))))][1]");
+				"[[[ggbangarg0:=%0], [ggbangarg1:=%1], [ggbangarg2:=%2]], "
+						// syntax Angle[Point, Apex, Point]
+						+ "when ( (ggbangarg0)[0] == 'pnt' && (ggbangarg1)[0] == 'pnt' && (ggbangarg2)[0] == 'pnt' ,"
+						+ "normal(regroup(angle(point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg2),ycoord(ggbangarg2),zcoord(ggbangarg2))))), "
+						// syntax Angle[Point, Apex, Angle]
+						// third parameter is angle given in degree
+						+ "when ( (ggbangarg0)[0] == 'pnt' && (ggbangarg1)[0] == 'pnt' && (ggbangarg2)[0] == '*' && (ggbangarg2)[2] == pi && (ggbangarg2)[3] == 1/180 , "
+						+ "normal(regroup(rotation(ggbangarg1,ggbangarg2,ggbangarg0))) , "
+						+ "? ) )][1]");
 		// p("Angle.3", "normal(regroup(angle(%1,%0,%2)))");
 
 		// eg distance((4,5),(0,3))
