@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.implicit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
@@ -155,24 +158,25 @@ public class AlgoTangentImplicitCurve extends AlgoElement
 		double[] params = kernel.getViewBoundsForGeo(inputCurve);
 
 		// find roots
-		double[][] roots = AlgoIntersectImplicitCurve.findIntersections(f1, f2,
+		List<double[]> roots = new ArrayList<double[]>();
+		AlgoIntersectImplicitCurve.findIntersections(f1, f2,
 				params[0], params[2], params[1], params[3],
-				AlgoIntersectImplicitCurve.SAMPLE_SIZE_2D, OUTPUT_SIZE);
+				AlgoIntersectImplicitCurve.SAMPLE_SIZE_2D, OUTPUT_SIZE, roots);
 
-		if (roots == null || roots.length == 0) {
+		if (roots.size() == 0) {
 			tangents.adjustOutputSize(0);
 			return;
 		}
 
 		// adjust output size and add lines
-		int n = Math.min(roots.length, 10);
+		int n = Math.min(roots.size(), 10);
 		tangents.adjustOutputSize(n);
 		double px = point.getInhomX(), dx;
 		double py = point.getInhomY(), dy;
 
 		for (int i = 0; i < n; i++) {
-			dx = px - roots[i][0];
-			dy = py - roots[i][1];
+			dx = px - roots.get(i)[0];
+			dy = py - roots.get(i)[1];
 			tangents.getElement(i).setCoords(dy, -dx, dx * py - dy * px);
 		}
 	}

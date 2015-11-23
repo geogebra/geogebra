@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.implicit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm to find intersection of implicit with line, function, conic and
@@ -74,91 +76,6 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 * Point counts
 	 */
 	private int outputLen;
-
-	/**
-	 * Find the intersection between {@link GeoImplicitCurve} and line y = 0,
-	 * i.e. find roots of the {@link GeoImplicitCurve}
-	 * 
-	 * @param cons
-	 *            {@link Construction}
-	 * @param labels
-	 *            Labels
-	 * @param curve
-	 *            {@link GeoImplicitCurve}
-	 */
-	public AlgoIntersectImplicitCurve(Construction cons, String[] labels,
-			GeoImplicitCurve curve) {
-		this(cons, labels, curve, null, EquationType.ROOT);
-	}
-
-	/**
-	 * Find intersection between {@link GeoImplicitCurve} and {@link GeoLine}
-	 * 
-	 * @param cons
-	 *            {@link Construction}
-	 * @param labels
-	 *            labels
-	 * @param curve
-	 *            implicit curve
-	 * @param line
-	 *            line
-	 */
-	public AlgoIntersectImplicitCurve(Construction cons, String[] labels,
-			GeoImplicitCurve curve, GeoLine line) {
-		this(cons, labels, curve, line, EquationType.LINE);
-	}
-
-	/**
-	 * Find intersection between {@link GeoImplicitCurve} and {@link GeoConic}
-	 * 
-	 * @param cons
-	 *            {@link Construction}
-	 * @param labels
-	 *            labels
-	 * @param curve
-	 *            curve
-	 * @param conic
-	 *            {@link GeoConic}
-	 */
-	public AlgoIntersectImplicitCurve(Construction cons, String[] labels,
-			GeoImplicitCurve curve, GeoConic conic) {
-		this(cons, labels, curve, conic, EquationType.CONIC);
-	}
-
-	/**
-	 * Find intersections between {@link GeoImplicitCurve} and
-	 * {@link GeoFunction}
-	 * 
-	 * @param cons
-	 *            {@link Construction}
-	 * @param labels
-	 *            Labels
-	 * @param curve
-	 *            {@link GeoImplicitCurve}
-	 * @param func
-	 *            {@link GeoFunction}
-	 */
-	public AlgoIntersectImplicitCurve(Construction cons, String[] labels,
-			GeoImplicitCurve curve, GeoFunction func) {
-		this(cons, labels, curve, func, EquationType.FUNCTION);
-	}
-
-	/**
-	 * Find intersections between two {@link GeoImplicitCurve}
-	 * 
-	 * @param cons
-	 *            {@link Construction}
-	 * @param labels
-	 *            Labels
-	 * @param curve
-	 *            {@link GeoImplicitCurve}
-	 * @param impCurve
-	 *            {@link GeoImplicitCurve}
-	 */
-	public AlgoIntersectImplicitCurve(Construction cons, String[] labels,
-			GeoImplicitCurve curve, GeoImplicitCurve impCurve) {
-		this(cons, labels, curve, impCurve, EquationType.IMPLICIT_CURVE);
-	}
 
 	private AlgoIntersectImplicitCurve(Construction cons, String[] labels,
 			GeoImplicitCurve curve, GeoElement eqn, EquationType equationType) {
@@ -234,15 +151,18 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	}
 
 	private void intersectCurves() {
-		double[][] roots = findIntersections(curve, (GeoImplicitCurve) equation,
-				SAMPLE_SIZE_2D, OUTPUT_SIZE);
-		if (roots == null || roots.length == 0) {
+		List<double[]> roots = new ArrayList<double[]>();
+		findIntersections(curve, (GeoImplicitCurve) equation, SAMPLE_SIZE_2D,
+				OUTPUT_SIZE, roots);
+		if (roots == null || roots.size() == 0) {
+			outputs.adjustOutputSize(0);
 			return;
 		}
-		outputLen = roots.length;
+		outputLen = roots.size();
 		outputs.adjustOutputSize(outputLen);
 		for (int i = 0; i < outputLen; i++) {
-			outputs.getElement(i).setCoords(roots[i][0], roots[i][1], 1.0);
+			outputs.getElement(i).setCoords(roots.get(i)[0], roots.get(i)[1],
+					1.0);
 		}
 	}
 
@@ -405,8 +325,8 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 *            maximum size of output
 	 * @return points at which two implicit curves intersects
 	 */
-	public static double[][] findIntersections(GeoImplicitCurve c1,
-			GeoImplicitCurve c2, int samples, int outputs) {
+	public static void findIntersections(GeoImplicitCurve c1,
+			GeoImplicitCurve c2, int samples, int outputs, List<double[]> vals) {
 
 		double[] b1 = c1.getKernel().getViewBoundsForGeo(c1);
 		double[] b2 = c2.getKernel().getViewBoundsForGeo(c2);
@@ -431,13 +351,13 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 			f[3] = c1.getDerivativeY();
 			f[4] = c2.getDerivativeX();
 			f[5] = c2.getDerivativeY();
-			return intersections(f, params, guess, outputs);
+			intersections(f, params, guess, outputs, vals);
 		}
 
 		FunctionNVar fn1 = c1.getExpression();
 		FunctionNVar fn2 = c2.getExpression();
 
-		return intersects(fn1, fn2, params, guess, outputs);
+		intersects(fn1, fn2, params, guess, outputs, vals);
 	}
 
 	/**
@@ -458,13 +378,14 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 *            maximum number of samples for initial points
 	 * @param outputs
 	 *            maximum size of output
-	 * @return points at which two functions intersect. The output size is
-	 *         bounded above by parameter samples.
+	 * @param vals
+	 *            points at which two functions intersect. The output size is
+	 *            bounded above by parameter samples.
 	 * 
 	 */
-	public static double[][] findIntersections(FunctionNVar fun1,
+	public static void findIntersections(FunctionNVar fun1,
 			FunctionNVar fun2, double xMin, double yMin, double xMax,
-			double yMax, int samples, int outputs) {
+			double yMax, int samples, int outputs, List<double[]> vals) {
 
 		double[] params = new double[] { xMin, yMin, xMax, yMax };
 
@@ -474,24 +395,34 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		try {
 			FunctionVariable x = fun1.getFunctionVariables()[0];
 			FunctionVariable y = fun1.getFunctionVariables()[1];
+			FunctionVariable x2 = fun2.getFunctionVariables()[0];
+			FunctionVariable y2 = fun2.getFunctionVariables()[1];
 			FunctionNVar[] f = new FunctionNVar[6];
 			f[0] = fun1;
+			Log.debug(f[0]);
 			f[1] = fun2;
+			Log.debug(f[1]);
 			f[2] = fun1.getDerivativeNoCAS(x, 1);
+			Log.debug(f[2]);
 			f[3] = fun1.getDerivativeNoCAS(y, 1);
-			f[4] = fun2.getDerivativeNoCAS(x, 1);
-			f[5] = fun2.getDerivativeNoCAS(y, 1);
+			Log.debug(f[3]);
+			f[4] = fun2.getDerivativeNoCAS(x2, 1);
+			Log.debug(f[4]);
+			f[5] = fun2.getDerivativeNoCAS(y2, 1);
+			Log.debug(f[5]);
 			derivative = true;
-			return intersections(f, params, guess, outputs);
+			intersections(f, params, guess, outputs, vals);
+			return;
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			if (derivative) {
 				// App.debug("Derivative exists, but failed to find intersection
 				// using Newton's method");
-				return null;
+				return;
 			}
 			// App.debug("Some functions are not differentiable");
 			// App.debug("Trying to find intersections using Broyden's method");
-			return intersects(fun1, fun2, params, guess, outputs);
+			intersects(fun1, fun2, params, guess, outputs, vals);
 		}
 	}
 
@@ -506,10 +437,10 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 *            number of samples in output
 	 * @return
 	 */
-	private static double[][] intersections(FunctionNVar[] f, double[] params,
-			List<Coords> guess, int outputs) {
+	private static void intersections(FunctionNVar[] f, double[] params,
+			List<Coords> guess, int outputs, List<double[]> vals) {
 
-		double[][] out = new double[outputs][2];
+		// double[][] out = new double[outputs][2];
 
 		double f1, f2, jx1, jx2, jy1, jy2, det, x, y;
 		double delta1, delta2, lamda, dx, dy, evals[];
@@ -580,21 +511,16 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 					&& (evals[1] >= params[1] && evals[1] <= params[3]);
 
 			// check if we have already calculated the same root
-			for (int j = 0; j < n && add; j++) {
-				add = !Kernel.isEqual(out[j][0], evals[0], EPS)
-						|| !Kernel.isEqual(out[j][1], evals[1], EPS);
+			for (int j = 0; j < n && j < vals.size() && add; j++) {
+				add = !Kernel.isEqual(vals.get(j)[0], evals[0], EPS)
+						|| !Kernel.isEqual(vals.get(j)[1], evals[1], EPS);
 			}
 
 			if (add) {
-				out[n][0] = evals[0];
-				out[n][1] = evals[1];
+				vals.add(new double[] { evals[0], evals[1] });
 				n++;
 			}
 		}
-		double[][] out1 = new double[n][2];
-		System.arraycopy(out, 0, out1, 0, n);
-
-		return out1;
 	}
 
 	/**
@@ -610,16 +536,16 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 *            number of samples in output
 	 * @param guess
 	 *            initial guesses
-	 * @return intersection between functions
+	 * @param vals
+	 *            intersection between functions
 	 */
-	public static double[][] intersects(final FunctionNVar fn1,
+	public static void intersects(final FunctionNVar fn1,
 			final FunctionNVar fn2, double[] params, List<Coords> guess,
-			final int outputs) {
+			final int outputs, List<double[]> vals) {
 
 		boolean add;
 
 		double[] evals;
-		double[][] out = new double[outputs][2];
 		double jx1, jy1, jx2, jy2, delta1, delta2, det, Dx, Dy, dx, dy;
 		double x, y, f1, f2, fPrev1, fPrev2, df1, df2, lamda, norm;
 
@@ -718,22 +644,19 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 					&& (evals[1] >= params[1] && evals[1] <= params[3]);
 
 			// check if we have already calculated the same root
-			for (int j = 0; j < n && add; j++) {
-				add = !Kernel.isEqual(out[j][0], evals[0], EPS)
-						|| !Kernel.isEqual(out[j][1], evals[1], EPS);
+			for (int j = 0; j < n && j < vals.size() && add; j++) {
+				add = !Kernel.isEqual(vals.get(j)[0], evals[0], EPS)
+						|| !Kernel.isEqual(vals.get(j)[1], evals[1], EPS);
 			}
 
 			if (add) {
-				out[n][0] = evals[0];
-				out[n][1] = evals[1];
+				vals.add(new double[] { evals[0], evals[1] });
 				n++;
 			}
 		}
 
-		double[][] out1 = new double[n][2];
-		System.arraycopy(out, 0, out1, 0, n);
 
-		return out1;
+
 	}
 
 	private static double finiteDiffX(FunctionNVar func, double x, double y) {

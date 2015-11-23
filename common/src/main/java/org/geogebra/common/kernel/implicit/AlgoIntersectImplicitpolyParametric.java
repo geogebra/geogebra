@@ -143,27 +143,9 @@ public class AlgoIntersectImplicitpolyParametric
 				return;
 			}
 
-			if (!f.isPolynomialFunction(false)) {
+			if (!f.isPolynomialFunction(false) || p.getCoeff() == null) {
 
-				Kernel ker = cons.getKernel();
-
-				ker.setSilentMode(true);
-
-				GeoFunction paramEquation = new GeoFunction(cons, p, null, f);
-
-				AlgoRoots algo = new AlgoRoots(cons, paramEquation,
-						new GeoNumeric(cons, f.getMinParameter()),
-						new GeoNumeric(cons, f.getMaxParameter()));
-
-				GeoPoint[] rootPoints = algo.getRootPoints();
-				List<double[]> valPairs = new ArrayList<double[]>();
-				for (int i = 0; i < rootPoints.length; i++) {
-					double t = rootPoints[i].getX();
-					valPairs.add(new double[] { t, f.evaluate(t) });
-				}
-
-				ker.setSilentMode(false);
-				setPoints(valPairs);
+				computeNonPoly(f);
 				return;
 			}
 			tx = new PolynomialFunction(new double[] { 0, 1 }); // x=t
@@ -174,6 +156,10 @@ public class AlgoIntersectImplicitpolyParametric
 		} else if (l != null) {
 			if (!l.isDefined()) {
 				points.adjustOutputSize(0);
+				return;
+			}
+			if (p.getCoeff() == null) {
+				computeNonPoly(l.getGeoFunction());
 				return;
 			}
 			// get parametrisation of line
@@ -211,6 +197,29 @@ public class AlgoIntersectImplicitpolyParametric
 
 		setRootsPolynomialWithinRange(sum, minT, maxT);
 		mergeWithTangentPoints();
+	}
+
+	private void computeNonPoly(GeoFunction fun) {
+		Kernel ker = cons.getKernel();
+
+		ker.setSilentMode(true);
+
+		GeoFunction paramEquation = new GeoFunction(cons, p, null, fun);
+
+		AlgoRoots algo = new AlgoRoots(cons, paramEquation, new GeoNumeric(
+				cons, fun.getMinParameter()), new GeoNumeric(cons,
+				fun.getMaxParameter()));
+
+		GeoPoint[] rootPoints = algo.getRootPoints();
+		List<double[]> valPairs = new ArrayList<double[]>();
+		for (int i = 0; i < rootPoints.length; i++) {
+			double t = rootPoints[i].getX();
+			valPairs.add(new double[] { t, fun.evaluate(t) });
+		}
+
+		ker.setSilentMode(false);
+		setPoints(valPairs);
+
 	}
 
 	private void mergeWithTangentPoints() {

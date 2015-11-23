@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -143,6 +144,34 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	public GeoImplicitCurve(GeoImplicitCurve curve) {
 		this(curve.cons);
 		this.set(curve);
+	}
+
+	public GeoImplicitCurve(GeoConicND c) {
+		this(c.getConstruction());
+		coeff = coeffFromConic(c);
+		degX = 2;
+		degY = 2;
+		int mode = c.getToStringMode();
+		c.setToStringMode(GeoConicND.EQUATION_EXPLICIT);
+		String str = c.toValueString(StringTemplate.maxPrecision);
+		c.setToStringMode(mode);
+		String[] sides = str.split("=");
+		String sideStr = sides[0] + "-(" + sides[1] + ")";
+		expression = kernel.getAlgebraProcessor().evaluateToFunctionNVar(
+				sideStr, true);
+	}
+
+	static double[][] coeffFromConic(GeoConicND c) {
+		double[][] mat = new double[3][3];
+		mat[0][0] = c.getMatrix()[2];
+		mat[1][1] = 2 * c.getMatrix()[3];
+		mat[2][2] = 0;
+		mat[1][0] = 2 * c.getMatrix()[4];
+		mat[0][1] = 2 * c.getMatrix()[5];
+		mat[2][0] = c.getMatrix()[0];
+		mat[0][2] = c.getMatrix()[1];
+		mat[2][1] = mat[1][2] = 0;
+		return mat;
 	}
 
 	/**

@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.AlgoImplicitCurveFunction;
 import org.geogebra.common.kernel.implicit.AlgoImplicitPolyFunction;
-import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitCurve;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyParametric;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyPolyLine;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolys;
@@ -1417,8 +1416,8 @@ public class AlgoDispatcher {
 
 	final public GeoPoint[] IntersectImplicitCurveLine(String[] labels,
 			GeoImplicitCurve curve, GeoLine line) {
-		AlgoIntersectImplicitCurve algo = new AlgoIntersectImplicitCurve(cons,
-				labels, curve, line);
+		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
+				cons, labels, false, curve, line);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		algo.setLabels(labels);
 		return points;
@@ -1426,8 +1425,8 @@ public class AlgoDispatcher {
 
 	final public GeoPoint[] IntersectImplicitCurveConic(String[] labels,
 			GeoImplicitCurve curve, GeoConic conic) {
-		AlgoIntersectImplicitCurve algo = new AlgoIntersectImplicitCurve(cons,
-				labels, curve, conic);
+		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(cons,
+				labels, false, curve, conic);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		algo.setLabels(labels);
 		return points;
@@ -1435,17 +1434,17 @@ public class AlgoDispatcher {
 
 	final public GeoPoint[] IntersectImplicitCurveFunction(String[] labels,
 			GeoImplicitCurve curve, GeoFunction func) {
-		AlgoIntersectImplicitCurve algo = new AlgoIntersectImplicitCurve(cons,
-				labels, curve, func);
+		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
+				cons, labels, false, curve, func);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		algo.setLabels(labels);
 		return points;
 	}
 
 	final public GeoPoint[] IntersectImplicitCurveImpCurve(String[] labels,
-			GeoImplicitCurve curve, GeoImplicitCurve impCurve) {
-		AlgoIntersectImplicitCurve algo = new AlgoIntersectImplicitCurve(cons,
-				labels, curve, impCurve);
+			GeoImplicit curve, GeoImplicit impCurve) {
+		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(cons,
+				labels, false, curve, impCurve);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		algo.setLabels(labels);
 		return points;

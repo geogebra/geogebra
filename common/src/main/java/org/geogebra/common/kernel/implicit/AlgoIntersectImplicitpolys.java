@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.Cloner;
 
 /**
@@ -169,7 +170,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	@Override
 	public void compute() {
 		if (c1 != null) {
-			p2 = new GeoImplicitPoly(c1);
+			p2 = new GeoImplicitCurve(c1);
 		}
 
 		if (valPairs == null) {
@@ -188,15 +189,25 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		// Application.debug("p2="+p2);
 
 		GeoImplicit a = p1, b = p2;
-		if (p1.getDegX() < p2.getDegX()) {
+		// make sure degX(a) >= degX(b)
+		if (a.getDegX() < b.getDegX()) {
 			a = p2;
 			b = p1;
 		}
 
 		int m = a.getDegX();
 		int n = b.getDegX();
-		if (n < 0 || m < 0) {
-			points.adjustOutputSize(0);
+		if (n < 0) {
+			double[] params = kernel.getViewBoundsForGeo(c1 == null ? a : c1);
+
+			// find roots
+			AlgoIntersectImplicitCurve.findIntersections(a.getExpression(),
+					b.getExpression(), params[0], params[2], params[1],
+					params[3], AlgoIntersectImplicitCurve.SAMPLE_SIZE_2D, 10,
+					valPairs);
+			setPoints(valPairs);
+			App.debug(params[0] + "," + params[2] + "," + params[1] + ","
+					+ params[3] + "," + valPairs.size());
 			return;
 		}
 		if (n == 0) {

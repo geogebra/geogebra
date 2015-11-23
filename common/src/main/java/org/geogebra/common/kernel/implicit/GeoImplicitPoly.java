@@ -39,8 +39,11 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoClosestPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -194,31 +197,6 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 * ( A[0] A[3] A[4] ) matrix = ( A[3] A[1] A[5] ) ( A[4] A[5] A[2] )
 	 */
 
-	/**
-	 * Construct GeoImplicitPoly from GeoConic
-	 * 
-	 * @param c
-	 *            conic
-	 */
-	public GeoImplicitPoly(GeoConicND c) {
-		this(c.getConstruction());
-		coeff = coeffFromConic(c);
-		degX = 2;
-		degY = 2;
-	}
-
-	private static double[][] coeffFromConic(GeoConicND c) {
-		double[][] mat = new double[3][3];
-		mat[0][0] = c.getMatrix()[2];
-		mat[1][1] = 2 * c.getMatrix()[3];
-		mat[2][2] = 0;
-		mat[1][0] = 2 * c.getMatrix()[4];
-		mat[0][1] = 2 * c.getMatrix()[5];
-		mat[2][0] = c.getMatrix()[0];
-		mat[0][2] = c.getMatrix()[1];
-		mat[2][1] = mat[1][2] = 0;
-		return mat;
-	}
 
 	@Override
 	public GeoElement copy() {
@@ -318,7 +296,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	@Override
 	public void set(GeoElementND geo) {
 		if (geo instanceof GeoConicND) {
-			setCoeff(coeffFromConic((GeoConicND) geo));
+			setCoeff(GeoImplicitCurve.coeffFromConic((GeoConicND) geo));
 			return;
 		} else if (geo instanceof GeoLine) {
 			GeoLine l = (GeoLine) geo;
@@ -1984,6 +1962,16 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 
 	public ValueType getValueType() {
 		return ValueType.EQUATION;
+	}
+
+	public FunctionNVar getExpression() {
+		Equation eq = (Equation) getDefinition().unwrap();
+		FunctionNVar fun = new FunctionNVar(eq.getLHS().wrap()
+				.subtract(eq.getRHS()), new FunctionVariable[] {
+				new FunctionVariable(kernel, "x"),
+				new FunctionVariable(kernel, "y") });
+		fun.initFunction();
+		return fun;
 	}
 
 }

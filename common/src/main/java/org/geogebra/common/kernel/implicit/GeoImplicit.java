@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.implicit;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -39,5 +40,7 @@ public interface GeoImplicit extends GeoElementND {
 	boolean isOnPath(GeoPointND r);
 
 	void translate(double d, double e);
+
+	FunctionNVar getExpression();
 
 }

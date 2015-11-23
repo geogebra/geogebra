@@ -366,8 +366,8 @@ public class CmdIntersect extends CommandProcessor {
 			} else if ((ok[0] = arg[0].isGeoImplicitCurve())
 					&& (ok[1] = arg[1].isGeoImplicitCurve())) {
 				return getAlgoDispatcher().IntersectImplicitCurveImpCurve(
-						c.getLabels(), (GeoImplicitCurve) arg[0],
-						(GeoImplicitCurve) arg[1]);
+						c.getLabels(), (GeoImplicit) arg[0],
+						(GeoImplicit) arg[1]);
 			} else if ((ok[0] = arg[0].isGeoLine())
 					&& (ok[1] = arg[1].isGeoImplicitCurve())) {
 				return getAlgoDispatcher().IntersectImplicitCurveLine(
@@ -522,7 +522,7 @@ public class CmdIntersect extends CommandProcessor {
 			}
 			// ImplicitPoly - Functionable
 			// TODO decide polynomial before CAS loaded
-			else if ((ok[0] = (arg[0].isGeoImplicitPoly()))
+			else if ((ok[0] = (arg[0].isGeoImplicitCurve()))
 					&& (ok[1] = (arg[1].isGeoFunctionable())
 							&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 							// this line uses CAS so check last
@@ -541,7 +541,7 @@ public class CmdIntersect extends CommandProcessor {
 
 				return new GeoElement[] { ret };
 			} else if ((ok[0] = arg[0].isGeoFunctionable())
-					&& (ok[1] = (arg[1].isGeoImplicitPoly()))
+					&& (ok[1] = (arg[1].isGeoImplicitCurve()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					// this line uses CAS so check last
 					&& (ok[0] = ((GeoFunctionable) arg[0]).getGeoFunction()
@@ -567,7 +567,7 @@ public class CmdIntersect extends CommandProcessor {
 						c.getLabel(), (GeoImplicit) arg[0],
 						(GeoImplicit) arg[1], (GeoNumberValue) arg[2]) };
 			// implicitPoly-conic
-			else if ((ok[0] = (arg[0].isGeoImplicitPoly()))
+			else if ((ok[0] = (arg[0].isGeoImplicitCurve()))
 					&& (ok[1] = (arg[1].isGeoConic()))
 					&& (ok[2] = arg[2] instanceof GeoNumberValue))
 				return new GeoElement[] { IntersectImplicitpolyConicSingle(

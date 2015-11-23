@@ -76,6 +76,7 @@ import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -3173,7 +3174,7 @@ public class Kernel {
 	 *         views in which <b>geo</b> is shown.<br />
 	 *         Format: {xMin,xMax,yMin,yMax,xScale,yScale}
 	 */
-	public double[] getViewBoundsForGeo(GeoElement geo) {
+	public double[] getViewBoundsForGeo(GeoElementND geo) {
 		List<Integer> viewSet = geo.getViewSet();
 		double[] viewBounds = new double[6];
 		for (int i = 0; i < 6; i++) {
