@@ -986,7 +986,8 @@ public class Ggb2giac {
 						+ "point((ggbangarg0[2][2][2])[2][0],(ggbangarg0[2][2][2])[2][1],(ggbangarg0[2][2][2])[2][2]),"
 						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))), "
 						// case line or plane defined by linear equation
-						+ "when( type(xcoord(ggbangarg0)) == DOM_INT && type(xcoord(ggbangarg1)) == DOM_INT,"
+						// or points
+						+ "when( ( type(xcoord(ggbangarg0)) == DOM_INT || (ggbangarg0)[0] == 'pnt')  && ( type(xcoord(ggbangarg1)) == DOM_INT || (ggbangarg1)[0] == 'pnt' ),"
 						+ "normal(regroup(angle(point(0,0,0),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))) ,"
 						// case 3D lines defined in this command
 						+ "when ( xcoord(ggbangarg0) == string(y) && xcoord(ggbangarg1) == string(y) ,"
@@ -1009,7 +1010,8 @@ public class Ggb2giac {
 						+ "when ( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT ,"
 						+ "normal(regroup(angle(point(0,0,0),"
 						+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
-						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))  )))  , ? ) ) ) ) ) ) ) ) ) ][1]");
+						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))  )))  , "
+						+ "? ) ) ) ) ) ) ) ) ) ][1]");
 
 		p("Angle.3",
 				"[[[ggbangarg0:=%0], [ggbangarg1:=%1], [ggbangarg2:=%2]], normal(regroup(angle(point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg2),ycoord(ggbangarg2),zcoord(ggbangarg2)))))][1]");
