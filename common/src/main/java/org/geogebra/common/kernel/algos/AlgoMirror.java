@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -869,61 +870,155 @@ public class AlgoMirror extends AlgoTransformation implements
 
 		} else if (getRelatedModeID() == EuclidianConstants.MODE_MIRROR_AT_CIRCLE) {
 
-			GeoPoint P = (GeoPoint) inGeo;
-			GeoConic c = (GeoConic) mirror;
+			// mirror point about circle
+			if (inGeo.isGeoPoint()) {
 
-			if (P != null && c != null) {
-				Variable[] vP = P.getBotanaVars(P);
-				Variable[] vc = c.getBotanaVars(c);
+				GeoPoint P = (GeoPoint) inGeo;
+				GeoConic c = (GeoConic) mirror;
 
-				if (botanaVars == null) {
-					botanaVars = new Variable[8];
-					// B'
-					botanaVars[0] = new Variable();
-					botanaVars[1] = new Variable();
-					// B
-					botanaVars[2] = vP[0];
-					botanaVars[3] = vP[1];
-					// O
-					botanaVars[4] = vc[0];
-					botanaVars[5] = vc[1];
-					// A
-					botanaVars[6] = vc[2];
-					botanaVars[7] = vc[3];
-				}
+				if (P != null && c != null) {
+					Variable[] vP = P.getBotanaVars(P);
+					Variable[] vc = c.getBotanaVars(c);
 
-				botanaPolynomials = new Polynomial[2];
+					if (botanaVars == null) {
+						botanaVars = new Variable[8];
+						// B'
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+						// B
+						botanaVars[2] = vP[0];
+						botanaVars[3] = vP[1];
+						// O
+						botanaVars[4] = vc[0];
+						botanaVars[5] = vc[1];
+						// A
+						botanaVars[6] = vc[2];
+						botanaVars[7] = vc[3];
+					}
 
-				Polynomial o1 = new Polynomial(vc[0]);
-				Polynomial o2 = new Polynomial(vc[1]);
-				Polynomial a1 = new Polynomial(vc[2]);
-				Polynomial a2 = new Polynomial(vc[3]);
-				Polynomial b1 = new Polynomial(vP[0]);
-				Polynomial b2 = new Polynomial(vP[1]);
-				Polynomial b_1 = new Polynomial(botanaVars[0]);
-				Polynomial b_2 = new Polynomial(botanaVars[1]);
+					botanaPolynomials = new Polynomial[2];
 
-				// r^2
-				Polynomial oa = (a1.subtract(o1)).multiply(a1.subtract(o1))
+					Polynomial o1 = new Polynomial(vc[0]);
+					Polynomial o2 = new Polynomial(vc[1]);
+					Polynomial a1 = new Polynomial(vc[2]);
+					Polynomial a2 = new Polynomial(vc[3]);
+					Polynomial b1 = new Polynomial(vP[0]);
+					Polynomial b2 = new Polynomial(vP[1]);
+					Polynomial b_1 = new Polynomial(botanaVars[0]);
+					Polynomial b_2 = new Polynomial(botanaVars[1]);
+
+					// r^2
+					Polynomial oa = (a1.subtract(o1)).multiply(a1.subtract(o1))
 						.add((a2.subtract(o2)).multiply(a2.subtract(o2)));
-				// (x-x_0)^2 + (y-y_0)^2
-				Polynomial denominator = (b1.subtract(o1)).multiply(
+					// (x-x_0)^2 + (y-y_0)^2
+					Polynomial denominator = (b1.subtract(o1)).multiply(
 						b1.subtract(o1)).add(
 						(b2.subtract(o2)).multiply(b2.subtract(o2)));
 
-				// formula for the coordinates of inverse point
-				// from: http://mathworld.wolfram.com/Inversion.html
-				botanaPolynomials[0] = oa.multiply(b1.subtract(o1)).add(
+					// formula for the coordinates of inverse point
+					// from: http://mathworld.wolfram.com/Inversion.html
+					botanaPolynomials[0] = oa.multiply(b1.subtract(o1)).add(
 						(o1.subtract(b_1)).multiply(denominator));
 
-				botanaPolynomials[1] = oa.multiply(b2.subtract(o2)).add(
+					botanaPolynomials[1] = oa.multiply(b2.subtract(o2)).add(
 						(o2.subtract(b_2)).multiply(denominator));
 
-				return botanaPolynomials;
+					return botanaPolynomials;
+				}
+				throw new NoSymbolicParametersException();
 			}
-			throw new NoSymbolicParametersException();
+			// mirror line about circle
+			else if (inGeo.isGeoLine()) {
+				App.debug("mirroring line about circle not implemented");
+				throw new NoSymbolicParametersException();
+			}
+			// mirror circle about circle
+			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isCircle()) {
+
+				GeoConic circle = (GeoConic) inGeo;
+				GeoConic mirrorcircle = (GeoConic) mirror;
+
+				if (circle != null && mirrorcircle != null) {
+					Variable[] vcircle = circle.getBotanaVars(circle);
+					Variable[] vmirrorcircle = mirrorcircle
+							.getBotanaVars(mirrorcircle);
+
+					if (botanaVars == null) {
+						botanaVars = new Variable[4];
+						// A' - center of mirrored circle
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+						// B' - mirror of point of circle (B)
+						botanaVars[2] = new Variable();
+						botanaVars[3] = new Variable();
+					}
+
+					botanaPolynomials = new Polynomial[4];
+
+					// (A,B) - circle to mirror
+					Polynomial a1 = new Polynomial(vcircle[0]);
+					Polynomial a2 = new Polynomial(vcircle[1]);
+					Polynomial b1 = new Polynomial(vcircle[2]);
+					Polynomial b2 = new Polynomial(vcircle[3]);
+
+					// (O,C) - circle to mirror about
+					Polynomial o1 = new Polynomial(vmirrorcircle[0]);
+					Polynomial o2 = new Polynomial(vmirrorcircle[1]);
+					Polynomial c1 = new Polynomial(vmirrorcircle[2]);
+					Polynomial c2 = new Polynomial(vmirrorcircle[3]);
+
+					// (A',B') - mirrored circle
+					Polynomial a_1 = new Polynomial(botanaVars[0]);
+					Polynomial a_2 = new Polynomial(botanaVars[1]);
+					Polynomial b_1 = new Polynomial(botanaVars[2]);
+					Polynomial b_2 = new Polynomial(botanaVars[3]);
+
+					// k^2 - circle power of (O,C) circle
+					Polynomial oc = (c1.subtract(o1)).multiply(c1.subtract(o1))
+							.add((c2.subtract(o2)).multiply(c2.subtract(o2)));
+
+					// a^2 - circle power of (A,B) circle
+					Polynomial ab = (b1.subtract(a1)).multiply(b1.subtract(a1))
+							.add((b2.subtract(a2)).multiply(b2.subtract(a2)));
+
+					// (x-x_0)^2 + (y-y_0)^2 - a^2
+					Polynomial denominator1 = (a1.subtract(o1))
+							.multiply(a1.subtract(o1))
+							.add((a2.subtract(o2)).multiply(a2.subtract(o2)))
+							.subtract(ab);
+
+					// formula for the coordinates of the center of inverse
+					// circle
+					// from: http://mathworld.wolfram.com/Inversion.html
+					botanaPolynomials[0] = oc.multiply(a1.subtract(o1)).add(
+							(o1.subtract(a_1)).multiply(denominator1));
+					botanaPolynomials[1] = oc.multiply(a2.subtract(o2)).add(
+							(o2.subtract(a_2)).multiply(denominator1));
+
+
+					Polynomial denominator2 = (b1.subtract(o1)).multiply(
+							b1.subtract(o1)).add(
+							(b2.subtract(o2)).multiply(b2.subtract(o2)));
+
+					// formula for the coordinates of inverse point
+					// from: http://mathworld.wolfram.com/Inversion.html
+					botanaPolynomials[2] = oc.multiply(b1.subtract(o1)).add(
+							(o1.subtract(b_1)).multiply(denominator2));
+					botanaPolynomials[3] = oc.multiply(b2.subtract(o2)).add(
+							(o2.subtract(b_2)).multiply(denominator2));
+
+					return botanaPolynomials;
+
+				}
+				throw new NoSymbolicParametersException();
+
+			} else {
+				// invalid object to mirror about circle
+				throw new NoSymbolicParametersException();
+			}
 
 		} else {
+			// invalid object to mirror about
 			throw new NoSymbolicParametersException();
 		}
 	}
