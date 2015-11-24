@@ -4574,17 +4574,14 @@ kernel, left,
 
 	@Override
 	public boolean hasCoords() {
-		if (isLeaf())
+		if (isLeaf()) {
 			return left != null && left.hasCoords();
-		if(operation == Operation.FUNCTION_NVAR){
-			App.printStacktrace(left+","+left.getClass()+","+left.hasCoords());
 		}
 		return getLeft().hasCoords() || getRight().hasCoords();
 	}
 
 	@Override
 	public ExpressionNode derivative(FunctionVariable fv, Kernel kernel0) {
-		Log.debug(this);
 		// symbolic derivatives disabled in exam mode
 		if (kernel0.getApplication().isExam()
 				&& !kernel.getApplication().getExam().isCASAllowed()) {
