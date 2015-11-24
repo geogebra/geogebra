@@ -177,9 +177,9 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 				sb.append("))");
 			} else {
 				sb.append(isCASVector() ? "ggbvect[" : "point(");
-				printReGiac(sb, x, values, tpl);
+				sb.append(print(x, values, tpl));
 				sb.append(",");
-				printReGiac(sb, y, values, tpl);
+				sb.append(print(y, values, tpl));
 				sb.append(isCASVector() ? "]" : ")");
 			}
 			break;
@@ -212,17 +212,7 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return sb.toString();
 	}
 
-	private static void printReGiac(StringBuilder sb, ExpressionValue x2,
-			boolean values, StringTemplate tpl) {
-		if (x2.unwrap() instanceof Command) {
-			sb.append("re(");
-		}
-		sb.append(print(x2, values, tpl));
-		if (x2.unwrap() instanceof Command) {
-			sb.append(")");
-		}
 
-	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
