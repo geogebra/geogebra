@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /**
  * Dependent implicit polynomial (or line / conic)
@@ -73,7 +74,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 		} else if (equ.isForcedConic()) {
 			geoElement = new GeoConic(c);
 		} else if (equ.isForcedImplicitPoly()) {
-			geoElement = new GeoImplicitPoly(c);
+			geoElement = kernel.newImplicitPoly(cons);
 		} else {
 			switch (equ.degree()) {
 			// linear equation -> LINE
@@ -85,7 +86,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 				geoElement = new GeoConic(c);
 				break;
 			default:
-				geoElement = new GeoImplicitPoly(c);
+				geoElement = kernel.newImplicitPoly(c);
 			}
 		}
 		geoElement.setDefinition(equ.wrap());
@@ -99,7 +100,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 			boolean simplify) {
 		this(c, equ, simplify);
 		geoElement.setLabel(label);
-		if (!getEquation().isPolynomial()) {
+		if (!getEquation().isPolynomial()
+				&& !kernel.getApplication().has(Feature.IMPLICIT_CURVES)) {
 			geoElement.setUndefined();
 			return;
 		}
@@ -166,7 +168,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 				equation.initEquation();
 				coeff = equation.getNormalForm().getCoeff();
 			}
-			if (!equation.isPolynomial()) {
+			if (!equation.isPolynomial()
+					&& !kernel.getApplication().has(Feature.IMPLICIT_CURVES)) {
 				geoElement.setUndefined();
 				return;
 			}
@@ -205,17 +208,19 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 			geoElement.setDefinition(def);
 			break;
 		default:
-			if (geoElement instanceof GeoImplicitPoly) {
-				((GeoImplicitPoly) geoElement).setDefined();
-				((GeoImplicitPoly) geoElement).setCoeff(coeff);
+			if (geoElement instanceof GeoImplicit) {
+				((GeoImplicit) geoElement).setDefined();
+				((GeoImplicit) geoElement).fromEquation(equation, null);
+				((GeoImplicit) geoElement).setCoeff(coeff);
 				geoElement.setDefinition(def);
 			} else {
 				if (geoElement.hasChildren())
 					geoElement.setUndefined();
 				else {
-					replaceGeoElement(new GeoImplicitPoly(getConstruction()));
-					((GeoImplicitPoly) geoElement).setDefined();
-					((GeoImplicitPoly) geoElement).setCoeff(coeff);
+					replaceGeoElement(kernel.newImplicitPoly(getConstruction()));
+					((GeoImplicit) geoElement).setDefined();
+					((GeoImplicit) geoElement).fromEquation(equation, null);
+					((GeoImplicit) geoElement).setCoeff(coeff);
 				}
 			}
 		}

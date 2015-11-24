@@ -16,8 +16,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoDependentImplicitSurface;
-import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -84,10 +82,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.implicit.AlgoDependentImplicitCurve;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -2160,11 +2156,9 @@ public class AlgebraProcessor {
 				fun.setLabel(equ.getLabel());
 				return processFunction(fun);
 			}
-			if (app.has(Feature.IMPLICIT_CURVES)) {
-				return processImplicitCurve(equ);
-			} else if (equ.mayBePolynomial()) {
+			if (app.has(Feature.IMPLICIT_CURVES) || equ.mayBePolynomial()) {
 				return processImplicitPoly(equ);
-			} 
+			}
 
 			String[] errors = { "InvalidEquation" };
 			throw new MyError(loc, errors);
@@ -2311,46 +2305,7 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
-	/**
-	 * @param equ
-	 *            equation
-	 * @return implicit curve wrapped in array
-	 */
-	protected GeoElement[] processImplicitCurve(Equation equ) {
-		GeoElement[] ret = new GeoElement[1];
-		String label = equ.getLabel();
-		boolean isIndependent = equ.getVariables() == null
-				|| equ.getVariables().size() == 0;
-		GeoImplicitCurve poly;
-		GeoElement geo = null;
-		if (isIndependent) {
-			if (kernel.getApplication().getActiveEuclidianView()
-					.isEuclidianView3D()) {
-				geo = new GeoImplicitSurface(cons, equ);
-			} else {
-				poly = new GeoImplicitCurve(cons, label, equ);
-				geo = poly;
-			}
-		} else {
-			if (kernel.getApplication().getActiveEuclidianView()
-					.isEuclidianView3D()) {
-				AlgoDependentImplicitSurface algo = new AlgoDependentImplicitSurface(
-						cons, label, equ, true);
 
-				geo = algo.getGeo();
-			} else {
-				AlgoDependentImplicitCurve algo = new AlgoDependentImplicitCurve(
-						cons, equ, true);
-
-				geo = algo.getGeo();
-				geo.setLabel(label);
-			}
-		}
-		ret[0] = geo;
-		// AbstractApplication.debug("User Input: "+equ);
-		ret[0].updateRepaint();
-		return ret;
-	}
 
 	/**
 	 * @param node

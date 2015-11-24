@@ -40,7 +40,7 @@ public class Equation extends ValidExpression {
 
 	private boolean forcePlane = false, forceLine = false;
 	private boolean forceConic = false, forceImplicitPoly = false;
-	private boolean forceQuadric = false;
+	private boolean forceQuadric = false, forceSurface = false;
 	private ArrayList<ExpressionValue> variableDegrees = null;
 	private boolean isPolynomial = true;
 
@@ -141,10 +141,25 @@ public class Equation extends ValidExpression {
 	}
 
 	/**
+	 * Force this to evaluate to quadric
+	 */
+	final public void setForceSurface() {
+		// this expression should be considered as a surface, not implicit poly
+		forceSurface = true;
+	}
+
+	/**
 	 * @return true if this is forced to evaluate to quadric
 	 */
 	final public boolean isForcedQuadric() {
 		return forceQuadric;
+	}
+
+	/**
+	 * @return true if this is forced to evaluate to quadric
+	 */
+	final public boolean isForcedSurface() {
+		return forceSurface;
 	}
 
 	/**

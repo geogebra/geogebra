@@ -4,6 +4,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
@@ -53,5 +54,7 @@ public interface GeoImplicit extends GeoElementND {
 	void fromEquation(Equation equation, double[][] coeff);
 
 	void preventPathCreation();
+
+	void setCoeff(ExpressionValue[][] coeff);
 
 }

@@ -191,7 +191,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		euclidianViewUpdate();
 	}
 
-	private void setCoeff(ExpressionValue[][] ev) {
+	public void setCoeff(ExpressionValue[][] ev) {
 
 		resetCoeff();
 		degX = ev.length - 1;

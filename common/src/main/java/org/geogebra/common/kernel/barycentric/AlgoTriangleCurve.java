@@ -13,10 +13,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicit;
-import org.geogebra.common.kernel.implicit.AlgoDependentImplicitCurve;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -103,11 +101,8 @@ public class AlgoTriangleCurve extends AlgoElement implements
 		eq.setForceImplicitPoly();
 		eq.initEquation();
 		boolean flag = cons.isSuppressLabelsActive();
-		if (kernel.getApplication().has(Feature.IMPLICIT_CURVES)) {
-			dd = new AlgoDependentImplicitCurve(cons, eq, false);
-		} else {
-			dd = new AlgoDependentImplicitPoly(cons, eq, false);
-		}
+		dd = new AlgoDependentImplicitPoly(cons, eq, false);
+
 		cons.removeFromConstructionList((AlgoElement) dd);
 		poly = ((AlgoElement) dd).getOutput()[0];
 

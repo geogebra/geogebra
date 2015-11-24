@@ -71,6 +71,7 @@ import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -86,6 +87,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EventType;
@@ -5121,5 +5123,10 @@ public class Kernel {
 	// for compatibility/interfacing with 3D
 	public GeoElement getClippingCube() {
 		return null;
+	}
+
+	public GeoElement newImplicitPoly(Construction cons2) {
+		return app.has(Feature.IMPLICIT_CURVES) ? new GeoImplicitCurve(cons)
+				: new GeoImplicitPoly(cons);
 	}
 }

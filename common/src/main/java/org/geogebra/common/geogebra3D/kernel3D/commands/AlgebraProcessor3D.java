@@ -14,7 +14,10 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVec4D;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoDependentImplicitSurface;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -24,6 +27,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 
 /**
  * 3D expression processor
@@ -109,6 +113,9 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 				break;
 			case 2:
 				equ.setForceQuadric();
+				break;
+			default:
+				equ.setForceSurface();
 				break;
 			}
 		}
@@ -218,6 +225,27 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		return paramProcessor;
 	}
 
-
+	@Override
+	public GeoElement[] processImplicitPoly(Equation equ) {
+		Polynomial lhs = equ.getNormalForm();
+		boolean isIndependent = !equ.isFunctionDependent() && lhs.isConstant()
+				&& !equ.hasVariableDegree();
+		App.debug("IMPLIT" + equ.isForcedSurface());
+		if (kernel.getApplication().getActiveEuclidianView()
+				.isEuclidianView3D()
+				|| equ.isForcedSurface()) {
+			GeoElement geo = null;
+			if (isIndependent) {
+				geo = new GeoImplicitSurface(cons, equ);
+			} else {
+				AlgoElement surfaceAlgo = new AlgoDependentImplicitSurface(
+						cons, null, equ, true);
+				geo = surfaceAlgo.getOutput(0);
+			}
+			geo.setLabel(equ.getLabel());
+			return new GeoElement[] { geo };
+		}
+		return super.processImplicitPoly(equ);
+	}
 
 }
