@@ -1638,13 +1638,21 @@ public class Manager3D implements Manager3DInterface {
 					Operation.NO_OPERATION, null);
 			ExpressionNode exprPoint = new ExpressionNode(kernel, A,
 					Operation.NO_OPERATION, null);
-			expr = exprPoint.multiply(expr.subtract(exprSqrt5));
+
+			// order important
+			// 2(3,4,5) is a Vector (when re-loaded from XML)
+			// (3,4,5)2 is a Point
+			expr = (expr.subtract(exprSqrt5)).multiply(exprPoint);
 
 			ExpressionNode expr2 = new ExpressionNode(kernel, new MyDouble(
 					kernel, 3), Operation.NO_OPERATION, null);
 			exprPoint = new ExpressionNode(kernel, B, Operation.NO_OPERATION,
 					null);
-			expr2 = exprPoint.multiply(expr2.plus(exprSqrt5));
+
+			// order important
+			// 2(3,4,5) is a Vector (when re-loaded from XML)
+			// (3,4,5)2 is a Point
+			expr2 = (expr2.plus(exprSqrt5)).multiply(exprPoint);
 
 			expr = expr.plus(expr2).divide(4);
 
