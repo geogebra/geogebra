@@ -71,6 +71,7 @@ import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
@@ -4332,7 +4333,7 @@ public class Kernel {
 			else if (type.equals("intersectinglines")) // bug in GeoGebra 2.6c
 				return new GeoConic(cons1);
 			else if (type.equals("implicitpoly"))
-				return new GeoImplicitPoly(cons1);
+				return newImplicitPoly(cons1).toGeoElement();
 			else if (type.equals("interval")) {
 				return new GeoInterval(cons1);
 			}
@@ -5125,7 +5126,7 @@ public class Kernel {
 		return null;
 	}
 
-	public GeoElement newImplicitPoly(Construction cons2) {
+	public GeoImplicit newImplicitPoly(Construction cons2) {
 		return app.has(Feature.IMPLICIT_CURVES) ? new GeoImplicitCurve(cons)
 				: new GeoImplicitPoly(cons);
 	}

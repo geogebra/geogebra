@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.DecompositionSolver;
+import org.apache.commons.math.linear.LUDecompositionImpl;
+import org.apache.commons.math.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
@@ -30,6 +34,7 @@ import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.Mirrorable;
@@ -43,6 +48,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * GeoElement representing an implicit curve.
@@ -160,17 +166,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public void fromEquation(Equation eqn, double[][] coeff) {
 		setDefinition(eqn.wrap());
-		if (coeff != null) {
-			setCoeff(coeff);
-		} else {
-			eqn.initEquation();
-			Polynomial lhs = eqn.getNormalForm();
-			if (eqn.mayBePolynomial()) {
-				setCoeff(lhs.getCoeff());
-			} else {
-				resetCoeff();
-			}
-		}
+
 		ExpressionNode leftHandSide = eqn.getLHS();
 		ExpressionNode rightHandSide = eqn.getRHS();
 
@@ -188,6 +184,18 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		expression = new GeoFunctionNVar(cons, fun);
 		setDerivatives(x, y);
 		defined = expression.isDefined();
+
+		if (coeff != null) {
+			doSetCoeff(coeff);
+		} else {
+			eqn.initEquation();
+			Polynomial lhs = eqn.getNormalForm();
+			if (eqn.mayBePolynomial()) {
+				setCoeff(lhs.getCoeff());
+			} else {
+				resetCoeff();
+			}
+		}
 		euclidianViewUpdate();
 	}
 
@@ -366,7 +374,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return getDefinition().toValueString(tpl);
+		return getDefinition() == null ? "" : getDefinition()
+				.toValueString(tpl);
 	}
 
 	@Override
@@ -2192,10 +2201,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	public void setCoeff(double[][] coeff) {
-		// TODO Auto-generated method stub
-		this.coeff = coeff;
-		this.degX = coeff.length - 1;
-		this.degY = coeff[0].length - 1;
+		setCoeff(coeff, true);
 	}
 
 	public int getDeg() {
@@ -2288,6 +2294,156 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	public void setExtendedForm() {
 		inputForm = false;
 
+	}
+
+	public void throughPoints(GeoList points) {
+		ArrayList<GeoPoint> p = new ArrayList<GeoPoint>();
+		for (int i = 0; i < points.size(); i++)
+			p.add((GeoPoint) points.get(i));
+		throughPoints(p);
+	}
+
+	/**
+	 * make curve through given points
+	 * 
+	 * @param points
+	 *            ArrayList of points
+	 */
+	public void throughPoints(ArrayList<GeoPoint> points) {
+		if ((int) Math.sqrt(9 + 8 * points.size()) != Math.sqrt(9 + 8 * points
+				.size())) {
+			setUndefined();
+			return;
+		}
+
+		int degree = (int) (0.5 * Math.sqrt(8 * (1 + points.size()))) - 1;
+		int realDegree = degree;
+
+		RealMatrix extendMatrix = new Array2DRowRealMatrix(points.size(),
+				points.size() + 1);
+		RealMatrix matrix = new Array2DRowRealMatrix(points.size(),
+				points.size());
+		double[][] coeffMatrix = new double[degree + 1][degree + 1];
+
+		DecompositionSolver solver;
+
+		double[] matrixRow = new double[points.size() + 1];
+		double[] results;
+
+		for (int i = 0; i < points.size(); i++) {
+			double x = points.get(i).x / points.get(i).z;
+			double y = points.get(i).y / points.get(i).z;
+
+			for (int j = 0, m = 0; j < degree + 1; j++)
+				for (int k = 0; j + k != degree + 1; k++)
+					matrixRow[m++] = Math.pow(x, j) * Math.pow(y, k);
+			extendMatrix.setRow(i, matrixRow);
+		}
+
+		int solutionColumn = 0, noPoints = points.size();
+
+		do {
+			if (solutionColumn > noPoints) {
+				noPoints = noPoints - realDegree - 1;
+
+				if (noPoints < 2) {
+					setUndefined();
+					return;
+				}
+
+				extendMatrix = new Array2DRowRealMatrix(noPoints, noPoints + 1);
+				realDegree -= 1;
+				matrixRow = new double[noPoints + 1];
+
+				for (int i = 0; i < noPoints; i++) {
+					double x = points.get(i).x;
+					double y = points.get(i).y;
+
+					for (int j = 0, m = 0; j < realDegree + 1; j++)
+						for (int k = 0; j + k != realDegree + 1; k++)
+							matrixRow[m++] = Math.pow(x, j) * Math.pow(y, k);
+					extendMatrix.setRow(i, matrixRow);
+				}
+
+				matrix = new Array2DRowRealMatrix(noPoints, noPoints);
+				solutionColumn = 0;
+			}
+
+			results = extendMatrix.getColumn(solutionColumn);
+
+			for (int i = 0, j = 0; i < noPoints + 1; i++) {
+				if (i == solutionColumn)
+					continue;
+				matrix.setColumn(j++, extendMatrix.getColumn(i));
+			}
+			solutionColumn++;
+
+			solver = new LUDecompositionImpl(matrix).getSolver();
+		} while (!solver.isNonSingular());
+
+		for (int i = 0; i < results.length; i++)
+			results[i] *= -1;
+
+		double[] partialSolution = solver.solve(results);
+
+		double[] solution = new double[partialSolution.length + 1];
+
+		for (int i = 0, j = 0; i < solution.length; i++)
+			if (i == solutionColumn - 1)
+				solution[i] = 1;
+			else {
+				solution[i] = (Kernel.isZero(partialSolution[j])) ? 0
+						: partialSolution[j];
+				j++;
+			}
+
+		for (int i = 0, k = 0; i < realDegree + 1; i++)
+			for (int j = 0; i + j < realDegree + 1; j++)
+				coeffMatrix[i][j] = solution[k++];
+
+		this.setCoeff(coeffMatrix, true);
+
+		setDefined();
+		for (int i = 0; i < points.size(); i++)
+			if (!this.isOnPath(points.get(i), 1)) {
+				this.setUndefined();
+				return;
+			}
+
+	}
+
+	private void setCoeff(double[][] coeffMatrix, boolean updatePath) {
+		// TODO Auto-generated method stub ImplicitCurve[{A,B,C,D,E,F,G,H,I}]
+		doSetCoeff(coeffMatrix);
+		setDefined();
+		FunctionVariable x = new FunctionVariable(kernel, "x");
+		FunctionVariable y = new FunctionVariable(kernel, "y");
+		ExpressionNode expr = null;
+		for (int i = 0; i <= degX; i++) {
+			for (int j = 0; j <= degY; j++) {
+				if (i == 0 && j == 0) {
+					expr = new ExpressionNode(kernel, coeff[0][0]);
+				} else {
+					expr = expr.plus(x.wrap().power(i)
+							.multiply(y.wrap().power(j)).multiply(coeff[i][j]));
+				}
+			}
+		}
+		Log.debug(expr.toString(StringTemplate.maxPrecision) + "");
+		setDefinition(new Equation(kernel, expr, new MyDouble(kernel, 0))
+				.wrap());
+			expression = new GeoFunctionNVar(cons, new FunctionNVar(expr,
+					new FunctionVariable[] { x, y }));
+		if (updatePath) {
+			updatePath();
+		}
+
+	}
+
+	private void doSetCoeff(double[][] coeffMatrix) {
+		this.coeff = coeffMatrix;
+		this.degX = coeff.length - 1;
+		this.degY = coeff[0].length - 1;
 	}
 
 }

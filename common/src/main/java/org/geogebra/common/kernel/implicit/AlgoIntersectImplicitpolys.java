@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Cloner;
 
 /**
@@ -172,8 +171,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	public void compute() {
 		if (c1 != null) {
 			if (p2 == null) {
-				p2 = kernel.getApplication().has(Feature.IMPLICIT_CURVES) ? new GeoImplicitCurve(
-						cons) : new GeoImplicitPoly(cons);
+				p2 = kernel.newImplicitPoly(cons);
 			}
 			c1.toGeoImplicitCurve(p2);
 		}

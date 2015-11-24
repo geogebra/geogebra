@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -352,7 +351,7 @@ public class AlgoMirror extends AlgoTransformation implements
 				&& geo instanceof GeoConic
 				&& (!((GeoConic) geo).isCircle() || !((GeoConic) geo)
 						.keepsType()))
-			return new GeoImplicitPoly(cons);
+			return kernel.newImplicitPoly(cons).toGeoElement();
 		if (geo instanceof GeoPoly
 				|| (geo.isLimitedPath() && mirror != mirrorConic))
 			return copyInternal(cons, geo);

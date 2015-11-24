@@ -3687,7 +3687,6 @@ FromMeta
 		coeff[2][0] = matrix[0];
 		coeff[0][2] = matrix[1];
 		coeff[2][1] = coeff[1][2] = 0;
-		curve.setCoeff(coeff);
 		curve.fromEquation(new Equation(kernel, lhs, rhs), coeff);
 	}
 

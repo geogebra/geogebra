@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.plugin.GeoClass;
 
 public class AlgoFitImplicit extends AlgoElement {
@@ -55,7 +54,7 @@ public class AlgoFitImplicit extends AlgoElement {
 
 		this.pointlist = pointlist;
 		this.orderGeo = (GeoElement) arg;
-		fitfunction = new GeoImplicitPoly(cons);
+		fitfunction = kernel.newImplicitPoly(cons);
 		setInputOutput();
 		compute();
 		fitfunction.setLabel(label);

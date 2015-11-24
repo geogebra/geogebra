@@ -34,7 +34,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 
 		AlgoImplicitPolyThroughPoints algo = new AlgoImplicitPolyThroughPoints(
 				cons, a, b);
-		GeoElement ret = algo.getImplicitPoly();
+		GeoElement ret = algo.getImplicitPoly().toGeoElement();
 
 		return ret;
 	}

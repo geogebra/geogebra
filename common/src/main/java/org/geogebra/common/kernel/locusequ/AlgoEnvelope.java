@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.locusequ.arith.Equation;
 import org.geogebra.common.kernel.locusequ.arith.EquationSymbolicValue;
 import org.geogebra.common.main.App;
@@ -66,7 +65,7 @@ public class AlgoEnvelope extends AlgoElement {
         this.movingPoint = movingPoint;
         this.path  = path;
         
-		this.geoPoly = new GeoImplicitPoly(cons);
+		this.geoPoly = kernel.newImplicitPoly(cons);
         
         setInputOutput();
         compute();

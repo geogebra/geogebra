@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoList;
  */
 public class AlgoImplicitPolyThroughPoints extends AlgoElement {
 	private GeoList P; // input points
-	private GeoImplicitPoly implicitPoly; // output
+	private GeoImplicit implicitPoly; // output
 
 	/**
 	 * @param cons
@@ -26,7 +26,7 @@ public class AlgoImplicitPolyThroughPoints extends AlgoElement {
 		super(cons);
 		this.P = p;
 
-		implicitPoly = new GeoImplicitPoly(cons);
+		implicitPoly = kernel.newImplicitPoly(cons);
 
 		setInputOutput();
 		compute();
@@ -37,7 +37,7 @@ public class AlgoImplicitPolyThroughPoints extends AlgoElement {
 	/**
 	 * @return resulting polynomial
 	 */
-	public GeoImplicitPoly getImplicitPoly() {
+	public GeoImplicit getImplicitPoly() {
 		return implicitPoly;
 	}
 

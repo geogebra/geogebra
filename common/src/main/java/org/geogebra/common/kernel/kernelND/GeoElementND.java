@@ -302,4 +302,8 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 * @return true if geo depends on this object.
 	 */
 	public boolean isParentOf(final GeoElementND geo);
+
+	void doRemove();
+
+	boolean hasChildren();
 }

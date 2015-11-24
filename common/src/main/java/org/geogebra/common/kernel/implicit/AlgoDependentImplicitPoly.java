@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 
@@ -29,7 +30,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 		implements AlgoDependentImplicit {
 
 	private ExpressionValue[][] coeff; // input
-	private GeoElement geoElement; // output (will be a implicitPoly, line or
+	private GeoElementND geoElement; // output (will be a implicitPoly, line or
 									// conic)
 	// private FunctionNVar[] dependentFromFunctions;
 	private Set<FunctionNVar> dependentFromFunctions;
@@ -96,17 +97,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 
 	}
 
-	public AlgoDependentImplicitPoly(Construction c, String label, Equation equ,
-			boolean simplify) {
-		this(c, equ, simplify);
-		geoElement.setLabel(label);
-		if (!getEquation().isPolynomial()
-				&& !kernel.getApplication().has(Feature.IMPLICIT_CURVES)) {
-			geoElement.setUndefined();
-			return;
-		}
-	}
-
 	@Override
 	public void compute() {
 		compute(false);
@@ -119,7 +109,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 	 * @param newElem
 	 *            replacement element
 	 */
-	protected void replaceGeoElement(GeoElement newElem) {
+	protected void replaceGeoElement(GeoElementND newElem) {
 		String label = geoElement.getLabel(StringTemplate.defaultTemplate);
 		geoElement.doRemove();
 		geoElement = newElem;
@@ -330,7 +320,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 		}
 		if (getOutputLength() == 0)
 			setOutputLength(1);
-		setOutput(0, geoElement);
+		setOutput(0, geoElement.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -343,7 +333,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 	 * @return resulting poly, conic or line
 	 */
 	public GeoElement getGeo() {
-		return geoElement;
+		return geoElement.toGeoElement();
 		// if (type==GeoElement.GEO_CLASS_IMPLICIT_POLY)
 		// return (GeoImplicitPoly)geoElement;
 		// else

@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.AlgoCubicSwitchParams;
@@ -55,7 +54,7 @@ public class AlgoCubic extends AlgoElement {
 		this.B = B;
 		this.C = C;
 		this.n = e;
-		poly = new GeoImplicitPoly(cons);
+		poly = kernel.newImplicitPoly(cons);
 		setInputOutput();
 		compute();
 		poly.setLabel(label);

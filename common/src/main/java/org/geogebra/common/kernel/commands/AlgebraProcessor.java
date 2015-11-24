@@ -84,6 +84,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -2288,12 +2289,13 @@ public class AlgebraProcessor {
 		GeoImplicit poly;
 		GeoElement geo = null;
 		if (isIndependent) {
-			poly = new GeoImplicitPoly(cons, label, lhs);
+			poly = kernel.getApplication().has(Feature.IMPLICIT_CURVES) ? new GeoImplicitCurve(
+					cons, equ) : new GeoImplicitPoly(cons, lhs);
 			poly.setDefinition(equ.wrap());
 			geo = poly.toGeoElement();
 		} else {
 			AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly(
-					cons, label, equ, true);
+					cons, equ, true);
 
 			geo = algo.getGeo(); // might also return
 			// Line or Conic
@@ -2301,7 +2303,7 @@ public class AlgebraProcessor {
 		}
 		ret[0] = geo;
 		// AbstractApplication.debug("User Input: "+equ);
-		ret[0].updateRepaint();
+		ret[0].setLabel(label);
 		return ret;
 	}
 

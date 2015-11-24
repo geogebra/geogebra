@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
@@ -116,7 +115,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			 * e.printStackTrace(); }
 			 */
 
-			GeoImplicit iPoly = new GeoImplicitPoly(cons);
+			GeoImplicit iPoly = kernel.newImplicitPoly(cons);
 			c.toGeoImplicitCurve(iPoly);
 			GeoFunction paramEquation = new GeoFunction(cons, iPoly, null, h);
 

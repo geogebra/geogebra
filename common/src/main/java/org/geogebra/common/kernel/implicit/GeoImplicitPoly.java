@@ -133,10 +133,10 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 		this(c, label, coeff, true);
 	}
 
-	private GeoImplicitPoly(Construction c, String label, Polynomial poly,
+	private GeoImplicitPoly(Construction c, Polynomial poly,
 			boolean calcPath) {
 		this(c);
-		setLabel(label);
+
 		this.calcPath = calcPath;
 		setCoeff(poly.getCoeff(), calcPath);
 		if (!calcPath)
@@ -153,8 +153,8 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 * @param poly
 	 *            polynomial
 	 */
-	public GeoImplicitPoly(Construction c, String label, Polynomial poly) {
-		this(c, label, poly, true);
+	public GeoImplicitPoly(Construction c, Polynomial poly) {
+		this(c, poly, true);
 	}
 
 	/**

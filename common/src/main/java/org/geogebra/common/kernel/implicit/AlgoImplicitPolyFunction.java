@@ -20,7 +20,7 @@ import org.geogebra.common.main.MyError;
 public class AlgoImplicitPolyFunction extends AlgoElement {
 
 	private GeoFunctionNVar function; // input
-	private GeoImplicitPoly implicitPoly; // output
+	private GeoImplicit implicitPoly; // output
 
 	/**
 	 * @param c
@@ -34,7 +34,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 			GeoFunctionNVar func) {
 		super(c);
 		function = func;
-		implicitPoly = new GeoImplicitPoly(cons);
+		implicitPoly = kernel.newImplicitPoly(cons);
 		setInputOutput();
 		compute();
 		implicitPoly.setLabel(label);
@@ -59,6 +59,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 			Equation equ = new Equation(kernel, en, new MyDouble(kernel));
 			equ.initEquation();
 			Polynomial poly = equ.getNormalForm();
+			implicitPoly.fromEquation(equ, null);
 			implicitPoly.setCoeff(poly.getCoeff());
 		} catch (MyError e) {
 			App.debug(e.getMessage());
@@ -70,7 +71,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[] { function };
 		setOutputLength(1);
-		setOutput(0, implicitPoly);
+		setOutput(0, implicitPoly.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -82,7 +83,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 	/**
 	 * @return resulting polynomial
 	 */
-	public GeoImplicitPoly getImplicitPoly() {
+	public GeoImplicit getImplicitPoly() {
 		return implicitPoly;
 	}
 
