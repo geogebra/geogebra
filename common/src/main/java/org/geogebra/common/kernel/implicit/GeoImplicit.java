@@ -43,4 +43,10 @@ public interface GeoImplicit extends GeoElementND {
 
 	FunctionNVar getExpression();
 
+	boolean isValidInputForm();
+
+	boolean isInputForm();
+
+	void setExtendedForm();
+
 }

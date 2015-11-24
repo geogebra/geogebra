@@ -16,9 +16,9 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoUserInputElement;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.HasCoordsMode;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
@@ -226,7 +226,7 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
-	public void extendedFormCmd(final GeoUserInputElement inputElement) {
+	public void extendedFormCmd(final GeoImplicit inputElement) {
 		inputElement.setExtendedForm();
 		inputElement.updateRepaint();
 		app.storeUndoInfo();
@@ -366,7 +366,7 @@ public abstract class ContextMenuGeoElement {
 				checkOneGeo());
 	}
 
-	public void inputFormCmd(final GeoUserInputElement inputElement) {
+	public void inputFormCmd(final GeoImplicit inputElement) {
 		inputElement.setInputForm();
 		inputElement.updateRepaint();
 		app.storeUndoInfo();

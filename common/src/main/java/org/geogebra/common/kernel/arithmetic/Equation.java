@@ -383,7 +383,7 @@ public class Equation extends ValidExpression {
 		return lhs.contains(ev) || rhs.contains(ev);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	public Equation deepCopy(Kernel kernel1) {
 		Equation ret = new Equation(kernel1, lhs.getCopy(kernel1),
 				rhs.getCopy(kernel1));
 		ret.forceConic = forceConic;

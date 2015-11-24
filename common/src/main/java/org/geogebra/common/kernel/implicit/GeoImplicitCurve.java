@@ -75,6 +75,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private double[][] coeff;
 	private double[][] coeffSquarefree;
 
+	private double[] eval = new double[2];
+	private boolean calcPath = true;
+	private boolean inputForm;
+
 	/**
 	 * Construct an empty Implicit Curve Object
 	 * 
@@ -496,6 +500,29 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		super.getXML(listeners, sbxml);
 	}
 
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+		getLineStyleXML(sb);
+		if (coeff != null) {
+			sb.append("\t<coefficients rep=\"array\" data=\"");
+			sb.append("[");
+			for (int i = 0; i < coeff.length; i++) {
+				if (i > 0)
+					sb.append(',');
+				sb.append("[");
+				for (int j = 0; j < coeff[i].length; j++) {
+					if (j > 0)
+						sb.append(',');
+					sb.append(coeff[i][j]);
+				}
+				sb.append("]");
+			}
+			sb.append("]");
+			sb.append("\" />\n");
+		}
+	}
+
 	/**
 	 * set defined
 	 */
@@ -544,8 +571,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return isOnPath(PI, Kernel.STANDARD_PRECISION);
 	}
 
-	private double[] eval = new double[2];
-	private boolean calcPath = true;
+
 
 	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
@@ -1960,6 +1986,19 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	public void preventPathCreation() {
 		calcPath = false;
+
+	}
+
+	public boolean isValidInputForm() {
+		return getDefinition() != null;
+	}
+
+	public boolean isInputForm() {
+		return inputForm;
+	}
+
+	public void setExtendedForm() {
+		inputForm = false;
 
 	}
 

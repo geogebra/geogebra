@@ -95,7 +95,9 @@ public class ExpressionNode extends ValidExpression implements
 		this.kernel = kernel;
 		loc = kernel.getLocalization();
 		this.operation = operation;
-
+		if (operation == Operation.FUNCTION_NVAR) {
+			App.printStacktrace("");
+		}
 		setLeft(left);
 		if (right != null) {
 			setRight(right);
@@ -4582,7 +4584,7 @@ kernel, left,
 
 	@Override
 	public ExpressionNode derivative(FunctionVariable fv, Kernel kernel0) {
-
+		Log.debug(this);
 		// symbolic derivatives disabled in exam mode
 		if (kernel0.getApplication().isExam()
 				&& !kernel.getApplication().getExam().isCASAllowed()) {
