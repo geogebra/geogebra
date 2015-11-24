@@ -1,8 +1,8 @@
 package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.Assignment;
-import org.geogebra.common.util.Assignment.Result;
+import org.geogebra.common.util.GeoAssignment;
+import org.geogebra.common.util.GeoAssignment.Result;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * Dialog for editing an {@link Assignment}
+ * Dialog for editing an {@link GeoAssignment}
  * 
  * @author Christoph
  *
@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 
 	private AppW app;
-	private Assignment assignment;
+	private GeoAssignment assignment;
 	private Button btApply;
 	private FlexTable hintsAndFractiosforResult;
 	private VerticalPanel mainWidget;
@@ -48,7 +48,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 	 *            getHintTextBox and getFractionsLB here and use a callback for
 	 *            retusrning
 	 */
-	public AssignmentEditDialog(App app, Assignment assignment,
+	public AssignmentEditDialog(App app, GeoAssignment assignment,
 			ExerciseBuilderDialog exerciseBuilderDialog) {
 		super(false, false, null, ((AppW) app).getPanel());
 
@@ -100,10 +100,10 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 		bottomWidget.add(btApply);
 	}
 
-	private ListBox getCheckOpLB(final Assignment assignment1) {
+	private ListBox getCheckOpLB(final GeoAssignment assignment1) {
 		final ListBox checkOperation = new ListBox();
 		checkOperation.setMultipleSelect(false);
-		for (String op : Assignment.CHECK_OPERATIONS) {
+		for (String op : GeoAssignment.CHECK_OPERATIONS) {
 			checkOperation.addItem(app.getLocalization().getCommand(op), op);
 		}
 
@@ -119,8 +119,8 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 
 			public void onAttachOrDetach(AttachEvent event) {
 				int index = 0;
-				while (index < Assignment.CHECK_OPERATIONS.length
-						&& Assignment.CHECK_OPERATIONS[index] != assignment1
+				while (index < GeoAssignment.CHECK_OPERATIONS.length
+						&& GeoAssignment.CHECK_OPERATIONS[index] != assignment1
 								.getCheckOperation()) {
 					index++;
 				}

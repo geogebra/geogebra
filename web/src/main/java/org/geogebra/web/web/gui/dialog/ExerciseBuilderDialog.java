@@ -8,7 +8,8 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Assignment;
-import org.geogebra.common.util.Assignment.Result;
+import org.geogebra.common.util.GeoAssignment;
+import org.geogebra.common.util.GeoAssignment.Result;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.web.html5.gui.util.ListItem;
@@ -228,7 +229,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	}
 
 	private void createAssignmentsTable() {
-		for (Assignment assignment : exercise.getParts()) {
+		for (GeoAssignment assignment : exercise.getParts()) {
 			appendAssignmentRow(assignment);
 		}
 	}
@@ -240,12 +241,12 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		w.addDomHandler(this, TouchEndEvent.getType());
 	}
 
-	private void appendAssignmentRow(final Assignment assignment) {
+	private void appendAssignmentRow(final GeoAssignment assignment) {
 		int row = assignmentsTable.getRowCount();
 		addAssignmentRow(assignment, row + 1);
 	}
 
-	private void addAssignmentRow(final Assignment assignment, int insertrow) {
+	private void addAssignmentRow(final GeoAssignment assignment, int insertrow) {
 		int j = 0;
 		int row = (insertrow <= assignmentsTable.getRowCount()) ? assignmentsTable
 				.insertRow(insertrow) : insertrow;
@@ -285,7 +286,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 * @param assignment
 	 *            The Assignment to be edited.
 	 */
-	void handleEditClick(Assignment assignment) {
+	void handleEditClick(GeoAssignment assignment) {
 		new AssignmentEditDialog(app, assignment, ExerciseBuilderDialog.this)
 				.center();
 		hide();
@@ -298,10 +299,10 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 *            the result of the assignment for which the Listbox should set
 	 *            the fraction
 	 * @return a single select ListBox containing all possible fractions as
-	 *         defined in {@link Assignment#FRACTIONS} setting the fraction for
+	 *         defined in {@link GeoAssignment#FRACTIONS} setting the fraction for
 	 *         a result in this assignment when they are changed
 	 */
-	ListBox getFractionsLB(final Assignment assignment, final Result res) {
+	ListBox getFractionsLB(final GeoAssignment assignment, final Result res) {
 		final ListBox fractions = new ListBox();
 		fractions.setMultipleSelect(false);
 		for (int j = 0; j < Assignment.FRACTIONS.length; j++) {
@@ -339,7 +340,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 * @return a TextBox setting the hint for a result in this assignment it is
 	 *         changed
 	 */
-	TextBox getHintTextBox(final Assignment assignment, final Result res) {
+	TextBox getHintTextBox(final GeoAssignment assignment, final Result res) {
 		final TextBox textForResult = new TextBox();
 
 		textForResult.addChangeHandler(new ChangeHandler() {
@@ -359,7 +360,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		return textForResult;
 	}
 
-	private Image getDeleteIcon(final Assignment assignment) {
+	private Image getDeleteIcon(final GeoAssignment assignment) {
 		Image delIcon = new Image(GuiResources.INSTANCE.menu_icon_edit_delete());
 		delIcon.addClickHandler(new ClickHandler() {
 			@Override
@@ -379,7 +380,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 * @param assignment
 	 *            the assignment to remove from the Exercise
 	 */
-	void handleAssignmentDeleteClick(ClickEvent event, Assignment assignment) {
+	void handleAssignmentDeleteClick(ClickEvent event, GeoAssignment assignment) {
 		ListItem item = userAddModes.addItem(app.getKernel().getMacroID(
 				assignment.getTool())
 				+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
@@ -457,9 +458,9 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				new Label(app.getPlain("Fraction")));
 		i++;
 
-		ArrayList<Assignment> parts = exercise.getParts();
+		ArrayList<GeoAssignment> parts = exercise.getParts();
 		for (int j = 0; j < parts.size(); j++, i++) {
-			final Assignment assignment = parts.get(j);
+			final GeoAssignment assignment = parts.get(j);
 			Image icon = new Image();
 			icon.setUrl(getIconFile(assignment.getIconFileName()));
 			k = 0;
@@ -496,7 +497,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 */
 	void addAssignment(Macro macro) {
 		if (!exercise.usesMacro(macro)) {
-			Assignment a = exercise.addAssignment(macro);
+			GeoAssignment a = exercise.addAssignment(macro);
 			appendAssignmentRow(a);
 		}
 		userAddModes.setVisible(false);

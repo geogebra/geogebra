@@ -89,8 +89,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.common.plugin.script.Script;
-import org.geogebra.common.util.Assignment;
-import org.geogebra.common.util.Assignment.Result;
+import org.geogebra.common.util.GeoAssignment;
+import org.geogebra.common.util.GeoAssignment.Result;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
@@ -173,7 +173,7 @@ public class MyXMLHandler implements DocHandler {
 	private Command cmd;
 	private Macro macro;
 	private Exercise exercise;
-	private Assignment assignment;
+	private GeoAssignment assignment;
 	/** application */
 	protected final App app;
 	/** lacalization */

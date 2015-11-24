@@ -15,7 +15,7 @@ import org.geogebra.common.main.App;
  */
 public class Exercise {
 
-	private ArrayList<Assignment> assignments;
+	private ArrayList<GeoAssignment> assignments;
 	private Kernel kernel;
 	private Construction construction;
 	private App app;
@@ -31,14 +31,14 @@ public class Exercise {
 		kernel = app.getKernel();
 		construction = kernel.getConstruction();
 
-		assignments = new ArrayList<Assignment>();
+		assignments = new ArrayList<GeoAssignment>();
 	}
 
 	/**
 	 * Resets the Exercise to contain no user defined tools.
 	 */
 	public void reset() {
-		assignments = new ArrayList<Assignment>();
+		assignments = new ArrayList<GeoAssignment>();
 	}
 
 	/**
@@ -122,10 +122,10 @@ public class Exercise {
 	 *            the user defined Tool corresponding to the Assignment
 	 * @return the newly created Assignment
 	 */
-	public Assignment addAssignment(Macro macro) {
-		Assignment a = getAssignment(macro);
+	public GeoAssignment addAssignment(Macro macro) {
+		GeoAssignment a = getAssignment(macro);
 		if (a == null) {
-			a = new Assignment(macro);
+			a = new GeoAssignment(macro);
 			addAssignment(a);
 		}
 		return a;
@@ -134,7 +134,7 @@ public class Exercise {
 	/**
 	 * @return all assignments contained in the exercise
 	 */
-	public ArrayList<Assignment> getParts() {
+	public ArrayList<GeoAssignment> getParts() {
 		return assignments;
 	}
 
@@ -147,7 +147,7 @@ public class Exercise {
 	 */
 	public boolean usesMacro(Macro macro) {
 		boolean uses = false;
-		for (Assignment assignment : assignments) {
+		for (GeoAssignment assignment : assignments) {
 			uses = uses || assignment.getTool().equals(macro);
 		}
 		return uses;
@@ -239,7 +239,7 @@ public class Exercise {
 	 */
 	public void removeAssignment(Macro macro) {
 		Assignment assignmentToRemove = null;
-		for (Assignment assignment : assignments) {
+		for (GeoAssignment assignment : assignments) {
 			if (assignment.getTool().equals(macro)) {
 				assignmentToRemove = assignment;
 			}
@@ -263,9 +263,9 @@ public class Exercise {
 	 * @return the assignment being used by the macro or null if macro isn't
 	 *         used by the Exercise
 	 */
-	public Assignment getAssignment(Macro macro) {
-		Assignment assignmentToReturn = null;
-		for (Assignment assignment : assignments) {
+	public GeoAssignment getAssignment(Macro macro) {
+		GeoAssignment assignmentToReturn = null;
+		for (GeoAssignment assignment : assignments) {
 			if (assignment.getTool().equals(macro)) {
 				assignmentToReturn = assignment;
 			}
@@ -279,11 +279,11 @@ public class Exercise {
 	 * @param assignment
 	 *            the assignment to add to the Exercise
 	 */
-	public void addAssignment(Assignment assignment) {
+	public void addAssignment(GeoAssignment assignment) {
 		addAssignment(assignments.size(), assignment);
 	}
 
-	private boolean isValid(Assignment assignment) {
+	private boolean isValid(GeoAssignment assignment) {
 		return !assignments.contains(assignment)
 				&& kernel.getMacro(assignment.getTool().getCommandName()) != null;
 	}
@@ -297,7 +297,7 @@ public class Exercise {
 	 * @param assignment
 	 *            the assignment to add to the Exercise
 	 */
-	public void addAssignment(int assignmentIndex, Assignment assignment) {
+	public void addAssignment(int assignmentIndex, GeoAssignment assignment) {
 		if (isValid(assignment)) {
 			assignments.add(assignmentIndex, assignment);
 		}
