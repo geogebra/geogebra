@@ -82,7 +82,6 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 			s.triangle(tri.v1, tri.v2, tri.v3, tri.n1, tri.n2, tri.n3);
 		 }
 		s.endGeometry();
-		setGeometryIndex(s.end());
 		setSurfaceIndex(s.end());
 
 		return true;
