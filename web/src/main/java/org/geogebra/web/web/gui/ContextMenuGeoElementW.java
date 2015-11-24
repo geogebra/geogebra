@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.geos.GeoUserInputElement;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.HasCoordsMode;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
@@ -380,8 +380,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 	}
 
 	private void addUserInputItem() {
-		if (geo instanceof GeoUserInputElement) {
-			final GeoUserInputElement inputElement = (GeoUserInputElement) geo;
+		if (geo instanceof GeoImplicit) {
+			final GeoImplicit inputElement = (GeoImplicit) geo;
 			if (inputElement.isValidInputForm()) {
 				Command action;
 				if (inputElement.isInputForm()) {
