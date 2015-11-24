@@ -135,7 +135,7 @@ public class AlgoContourPlot extends AlgoElement {
 		equ = new Equation(kernel, en, new MyDouble(kernel, value));
 		equ.initEquation();
 		poly = equ.getNormalForm();
-		implicitPoly.fromEquation(equ);
+		implicitPoly.fromEquation(equ, null);
 		list1.add(new GeoImplicitCurve(implicitPoly));
 	}
 
@@ -266,7 +266,7 @@ public class AlgoContourPlot extends AlgoElement {
 			en.replace(fvars[0], xVar);
 			en.replace(fvars[1], yVar);
 			equ = new Equation(kernel, en, new MyDouble(kernel));
-			implicitPoly.fromEquation(equ);
+			implicitPoly.fromEquation(equ, null);
 			for (int i = 0; i < divisionPoints; i++) {
 				for (int j = 0; j < divisionPoints; j++) {
 					double val = checkPolyValue(i, j);

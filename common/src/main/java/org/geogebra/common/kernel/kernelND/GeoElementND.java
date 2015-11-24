@@ -96,6 +96,8 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 */
 	public GeoElement copyInternal(Construction cons);
 
+	public GeoElementND copy();
+
 	/**
 	 * @return true if this is free geo (noparent algo)
 	 */

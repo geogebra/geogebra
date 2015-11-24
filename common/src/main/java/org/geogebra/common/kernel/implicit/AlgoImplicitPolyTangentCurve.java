@@ -21,7 +21,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	private GeoImplicit poly;
 	private GeoPointND point;
 
-	private GeoImplicitCurve tangentPoly;
+	private GeoImplicit tangentPoly;
 
 	/**
 	 * @param c
@@ -36,7 +36,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 		super(c, false);
 		this.poly = poly;
 		this.point = point;
-		tangentPoly = new GeoImplicitCurve(c);
+		tangentPoly = (GeoImplicit) poly.copy();
 
 		tangentPoly.preventPathCreation();
 
@@ -75,8 +75,8 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 
 			FunctionNVar f2 = new FunctionNVar(x1.plus(y1),
 					new FunctionVariable[] { vx, vy });
-			tangentPoly.fromEquation(
-					new Equation(kernel, f2, new MyDouble(kernel, 0)));
+			tangentPoly.fromEquation(new Equation(kernel, f2, new MyDouble(
+					kernel, 0)), null);
 			return;
 
 		}

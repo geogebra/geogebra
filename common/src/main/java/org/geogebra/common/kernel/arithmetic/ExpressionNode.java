@@ -247,7 +247,7 @@ public class ExpressionNode extends ValidExpression implements
 		return new ExpressionNode(kernel, right);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	public ExpressionNode deepCopy(Kernel kernel1) {
 		return getCopy(kernel1);
 	}
 

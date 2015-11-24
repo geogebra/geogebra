@@ -2340,9 +2340,10 @@ public class AlgebraProcessor {
 				geo = algo.getGeo();
 			} else {
 				AlgoDependentImplicitCurve algo = new AlgoDependentImplicitCurve(
-						cons, label, equ, true);
+						cons, equ, true);
 
 				geo = algo.getGeo();
+				geo.setLabel(label);
 			}
 		}
 		ret[0] = geo;

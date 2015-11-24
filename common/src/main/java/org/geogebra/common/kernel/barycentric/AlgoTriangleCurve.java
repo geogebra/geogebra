@@ -13,8 +13,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicit;
+import org.geogebra.common.kernel.implicit.AlgoDependentImplicitCurve;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -33,7 +35,7 @@ public class AlgoTriangleCurve extends AlgoElement implements
 	private GeoElement poly; // output
 	private Equation eq;
 	private GeoNumeric[] xcoef, ycoef, constant;
-	private AlgoDependentImplicitPoly dd;
+	private AlgoDependentImplicit dd;
 
 	/**
 	 * @param cons
@@ -66,10 +68,10 @@ public class AlgoTriangleCurve extends AlgoElement implements
 
 		AlgoElement d = n.getParentAlgorithm();
 		cons.removeFromConstructionList(d);
-		ExpressionNode lhs = (ExpressionNode) ((AlgoDependentImplicit) d)
+		ExpressionNode lhs = ((AlgoDependentImplicit) d)
 				.getEquation().getLHS()
 				.deepCopy(kernel);
-		ExpressionNode rhs = (ExpressionNode) ((AlgoDependentImplicit) d)
+		ExpressionNode rhs = ((AlgoDependentImplicit) d)
 				.getEquation().getRHS()
 				.deepCopy(kernel);
 		ExpressionNode[] abcExp = new ExpressionNode[3];
@@ -101,9 +103,13 @@ public class AlgoTriangleCurve extends AlgoElement implements
 		eq.setForceImplicitPoly();
 		eq.initEquation();
 		boolean flag = cons.isSuppressLabelsActive();
-		dd = new AlgoDependentImplicitPoly(cons, eq, false);
-		cons.removeFromConstructionList(dd);
-		poly = dd.getOutput()[0];
+		if (kernel.getApplication().has(Feature.IMPLICIT_CURVES)) {
+			dd = new AlgoDependentImplicitCurve(cons, eq, false);
+		} else {
+			dd = new AlgoDependentImplicitPoly(cons, eq, false);
+		}
+		cons.removeFromConstructionList((AlgoElement) dd);
+		poly = ((AlgoElement) dd).getOutput()[0];
 
 		setInputOutput();
 		compute();
@@ -162,7 +168,7 @@ public class AlgoTriangleCurve extends AlgoElement implements
 			ycoef[2].setValue((x2 - x1) / det);
 			xcoef[2].setValue((y1 - y2) / det);
 			constant[2].setValue(((x2 - x1) * y2 + (y1 - y2) * x2) / det);
-			dd.update();
+			((AlgoElement) dd).update();
 			poly.update();
 		}
 

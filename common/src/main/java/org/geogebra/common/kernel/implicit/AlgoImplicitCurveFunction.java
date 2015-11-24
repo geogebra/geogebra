@@ -55,7 +55,7 @@ public class AlgoImplicitCurveFunction extends AlgoElement {
 			ExpressionNode lhs = func.getFunctionExpression();
 			ExpressionNode rhs = new ExpressionNode(kernel, 0.0);
 			Equation eqn = new Equation(kernel, lhs, rhs);
-			implicitCurve.fromEquation(eqn);
+			implicitCurve.fromEquation(eqn, null);
 		} catch (Exception ex) {
 			implicitCurve.setUndefined();
 		}

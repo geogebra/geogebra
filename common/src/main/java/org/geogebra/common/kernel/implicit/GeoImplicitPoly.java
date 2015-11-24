@@ -296,7 +296,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	@Override
 	public void set(GeoElementND geo) {
 		if (geo instanceof GeoConicND) {
-			setCoeff(GeoImplicitCurve.coeffFromConic((GeoConicND) geo));
+			((GeoConicND) geo).toGeoImplicitCurve(this);
 			return;
 		} else if (geo instanceof GeoLine) {
 			GeoLine l = (GeoLine) geo;
@@ -590,32 +590,10 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 * @return value of poly at (x,y)
 	 */
 	public double evalPolyAt(double x, double y, boolean squarefree) {
-		return evalPolyCoeffAt(x, y, getCoeff(squarefree));
+		return GeoImplicitCurve.evalPolyCoeffAt(x, y, getCoeff(squarefree));
 	}
 
-	/**
-	 * @param x
-	 *            x
-	 * @param y
-	 *            y
-	 * @param coeff
-	 *            coefficients of evaluated poly P
-	 * @return P(x,y)
-	 */
-	public static double evalPolyCoeffAt(double x, double y, double[][] coeff) {
-		double sum = 0;
-		double zs = 0;
-		// Evaluating Poly via the Horner-scheme
-		if (coeff != null)
-			for (int i = coeff.length - 1; i >= 0; i--) {
-				zs = 0;
-				for (int j = coeff[i].length - 1; j >= 0; j--) {
-					zs = y * zs + coeff[i][j];
-				}
-				sum = sum * x + zs;
-			}
-		return sum;
-	}
+
 
 	/**
 	 * @param x
@@ -792,7 +770,8 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 					if (coeff[x].length > y)
 						tmpCoeff[0][0] += coeff[x][y];
 				} else {
-					polyMult(ratYCoeff, qY, ratYCoeffDegX, ratYCoeffDegY,
+					GeoImplicitCurve.polyMult(ratYCoeff, qY, ratYCoeffDegX,
+							ratYCoeffDegY,
 							degXqY, degYqY); // y^N-i
 					ratYCoeffDegX += degXqY;
 					ratYCoeffDegY += degYqY;
@@ -809,18 +788,21 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 					tmpCoeffDegY = Math.max(tmpCoeffDegY, ratYCoeffDegY);
 				}
 				if (y > 0) {
-					polyMult(tmpCoeff, pY, tmpCoeffDegX, tmpCoeffDegY, degXpY,
+					GeoImplicitCurve.polyMult(tmpCoeff, pY, tmpCoeffDegX,
+							tmpCoeffDegY, degXpY,
 							degYpY);
 					tmpCoeffDegX += degXpY;
 					tmpCoeffDegY += degYpY;
 				}
 			}
 			if (qX != null && x != coeff.length - 1 && !sameDenom) {
-				polyMult(ratXCoeff, qX, ratXCoeffDegX, ratXCoeffDegY, degXqX,
+				GeoImplicitCurve.polyMult(ratXCoeff, qX, ratXCoeffDegX,
+						ratXCoeffDegY, degXqX,
 						degYqX);
 				ratXCoeffDegX += degXqX;
 				ratXCoeffDegY += degYqX;
-				polyMult(tmpCoeff, ratXCoeff, tmpCoeffDegX, tmpCoeffDegY,
+				GeoImplicitCurve.polyMult(tmpCoeff, ratXCoeff, tmpCoeffDegX,
+						tmpCoeffDegY,
 						ratXCoeffDegX, ratXCoeffDegY);
 				tmpCoeffDegX += ratXCoeffDegX;
 				tmpCoeffDegY += ratXCoeffDegY;
@@ -836,7 +818,8 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 			tmpCoeffDegX = 0;
 			tmpCoeffDegY = 0;
 			if (x > 0) {
-				polyMult(newCoeff, pX, newCoeffDegX, newCoeffDegY, degXpX,
+				GeoImplicitCurve.polyMult(newCoeff, pX, newCoeffDegX,
+						newCoeffDegY, degXpX,
 						degYpX);
 				newCoeffDegX += degXpX;
 				newCoeffDegY += degYpX;
@@ -904,8 +887,10 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 								if (!Kernel.isZero(point.getZ())) {
 									double x = point.getX() / point.getZ();
 									double y = point.getY() / point.getZ();
-									double px = evalPolyCoeffAt(x, y, iX);
-									double py = evalPolyCoeffAt(x, y, iY);
+									double px = GeoImplicitCurve
+											.evalPolyCoeffAt(x, y, iX);
+									double py = GeoImplicitCurve
+											.evalPolyCoeffAt(x, y, iY);
 									point.setCoords(px, py, 1);
 									point.updateCoords();
 								}
@@ -929,33 +914,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 		plugInRatPoly(polyX, polyY, null, null);
 	}
 
-	/**
-	 * 
-	 * @param polyDest
-	 * @param polySrc
-	 *            polyDest=polyDest*polySrc;
-	 */
-	private static void polyMult(double[][] polyDest, double[][] polySrc,
-			int degDestX, int degDestY, int degSrcX, int degSrcY) {
-		double[][] result = new double[degDestX + degSrcX + 1][degDestY
-				+ degSrcY + 1];
-		for (int n = 0; n <= degDestX + degSrcX; n++) {
-			for (int m = 0; m <= degDestY + degSrcY; m++) {
-				double sum = 0;
-				for (int k = Math.max(0, n - degSrcX); k <= Math.min(n,
-						degDestX); k++)
-					for (int j = Math.max(0, m - degSrcY); j <= Math.min(m,
-							degDestY); j++)
-						sum += polyDest[k][j] * polySrc[n - k][m - j];
-				result[n][m] = sum;
-			}
-		}
-		for (int n = 0; n <= degDestX + degSrcX; n++) {
-			for (int m = 0; m <= degDestY + degSrcY; m++) {
-				polyDest[n][m] = result[n][m];
-			}
-		}
-	}
+
 
 	@Override
 	public boolean isConstant() {
@@ -1972,6 +1931,12 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 				new FunctionVariable(kernel, "y") });
 		fun.initFunction();
 		return fun;
+	}
+
+	public void fromEquation(Equation equation, double eqnCoeff[][]) {
+		if (eqnCoeff != null) {
+			setCoeff(eqnCoeff);
+		}
 	}
 
 }

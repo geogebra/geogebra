@@ -117,7 +117,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			 */
 
 			GeoImplicit iPoly = new GeoImplicitPoly(cons);
-			c.toGeoImplicitPoly(iPoly);
+			c.toGeoImplicitCurve(iPoly);
 			GeoFunction paramEquation = new GeoFunction(cons, iPoly, null, h);
 
 			// int nroots = 0;

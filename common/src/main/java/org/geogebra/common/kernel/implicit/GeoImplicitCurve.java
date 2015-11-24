@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.implicit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
@@ -11,6 +13,8 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -33,7 +37,6 @@ import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -57,7 +60,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	private GeoLocus locus;
 
-	private Equation equation;
 	/**
 	 * Underlying drawing algorithm
 	 */
@@ -106,7 +108,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public GeoImplicitCurve(Construction c, String label, Equation equation) {
 		this(c);
-		fromEquation(equation);
+		fromEquation(equation, null);
 		setLabel(label);
 	}
 
@@ -121,7 +123,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public GeoImplicitCurve(Construction c, Equation equation) {
 		this(c);
-		fromEquation(equation);
+		fromEquation(equation, null);
 	}
 
 	/**
@@ -136,7 +138,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		this(c);
 		MyDouble rhs = new MyDouble(kernel, 0.0);
 		Equation eqn = new Equation(kernel, func, rhs);
-		fromEquation(eqn);
+		fromEquation(eqn, null);
 	}
 
 	/**
@@ -150,48 +152,24 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		this.set(curve);
 	}
 
-	public GeoImplicitCurve(GeoConicND c) {
-		this(c.getConstruction());
-		coeff = coeffFromConic(c);
-		degX = 2;
-		degY = 2;
-		int mode = c.getToStringMode();
-		c.setToStringMode(GeoConicND.EQUATION_EXPLICIT);
-		String str = c.toValueString(StringTemplate.maxPrecision);
-		c.setToStringMode(mode);
-		String[] sides = str.split("=");
-		String sideStr = sides[0] + "-(" + sides[1] + ")";
-		expression = kernel.getAlgebraProcessor().evaluateToFunctionNVar(
-				sideStr, true);
-	}
-
-	static double[][] coeffFromConic(GeoConicND c) {
-		double[][] mat = new double[3][3];
-		mat[0][0] = c.getMatrix()[2];
-		mat[1][1] = 2 * c.getMatrix()[3];
-		mat[2][2] = 0;
-		mat[1][0] = 2 * c.getMatrix()[4];
-		mat[0][1] = 2 * c.getMatrix()[5];
-		mat[2][0] = c.getMatrix()[0];
-		mat[0][2] = c.getMatrix()[1];
-		mat[2][1] = mat[1][2] = 0;
-		return mat;
-	}
-
 	/**
 	 * Create expression from the equation
 	 * 
 	 * @param eqn
 	 *            equation
 	 */
-	public void fromEquation(Equation eqn) {
-		this.equation = eqn;
-		eqn.initEquation();
-		Polynomial lhs = eqn.getNormalForm();
-		if (eqn.mayBePolynomial()) {
-			setCoeff(lhs.getCoeff());
+	public void fromEquation(Equation eqn, double[][] coeff) {
+		setDefinition(eqn.wrap());
+		if (coeff != null) {
+			setCoeff(coeff);
 		} else {
-			resetCoeff();
+			eqn.initEquation();
+			Polynomial lhs = eqn.getNormalForm();
+			if (eqn.mayBePolynomial()) {
+				setCoeff(lhs.getCoeff());
+			} else {
+				resetCoeff();
+			}
 		}
 		ExpressionNode leftHandSide = eqn.getLHS();
 		ExpressionNode rightHandSide = eqn.getRHS();
@@ -355,9 +333,19 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public void set(GeoElementND geo) {
-		Object equationCopy = ((GeoImplicitCurve) geo).equation
-				.deepCopy(kernel);
-		fromEquation((Equation) equationCopy);
+		if (geo.getDefinition().unwrap() instanceof Equation) {
+			fromEquation((Equation) geo.getDefinition().unwrap()
+.deepCopy(kernel),
+					null);
+		} else if (geo instanceof GeoImplicitCurve) {
+			ExpressionValue lhs = ((GeoImplicitCurve) geo).expression
+					.getFunctionExpression()
+					.deepCopy(kernel);
+			// Object equationCopy = ((GeoImplicitCurve) geo).equation
+			// .deepCopy(kernel);
+			fromEquation(new Equation(kernel, lhs, new MyDouble(kernel, 0)),
+					((GeoImplicitCurve) geo).coeff);
+		}
 
 	}
 
@@ -378,7 +366,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return equation.toValueString(tpl);
+		return getDefinition().toValueString(tpl);
 	}
 
 	@Override
@@ -675,9 +663,309 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	public void mirror(GeoConic c) {
-		// may be conic mirrorable
+		MyDouble r2 = new MyDouble(kernel, c.getHalfAxis(0) * c.getHalfAxis(0));
+		FunctionVariable x = expression.getFunctionVariables()[0];
+		FunctionVariable y = expression.getFunctionVariables()[1];
+		ExpressionNode expr = expression.getFunctionExpression().deepCopy(kernel);
+		FunctionVariable x2 = new FunctionVariable(kernel, "x");
+		FunctionVariable y2 = new FunctionVariable(kernel, "y");
+		ExpressionValue newX = x2.wrap().multiply(r2)
+				.divide(x2.wrap().power(2).plus(y2.wrap().power(2)));
+		ExpressionValue newY = y2.wrap().multiply(r2)
+				.divide(x2.wrap().power(2).plus(y2.wrap().power(2)));
+		expr.replace(x, newX);
+		expr.replace(y, newY);
+		FunctionNVar f2 = new FunctionNVar(expr, new FunctionVariable[] { x2,
+				y2 });
+		expression.setFunction(f2);
+		setDefinition(new Equation(kernel, expr, new MyDouble(kernel, 0))
+				.wrap());
+
+		if (getCoeff() != null) {
+			double cx = c.getMidpoint().getX();
+			double cy = c.getMidpoint().getY();
+			double cr = c.getCircleRadius();
+
+			plugInRatPoly(new double[][] {
+					{ cx * cx * cx + cx * cy * cy - cx * cr * cr, -2 * cx * cy,
+							cx }, { -2 * cx * cx + cr * cr, 0, 0 },
+					{ cx, 0, 0 } }, new double[][] {
+					{ cx * cx * cy + cy * cy * cy - cy * cr * cr,
+							-2 * cy * cy + cr * cr, cy },
+					{ -2 * cx * cy, 0, 0 }, { cy, 0, 0 } }, new double[][] {
+					{ cx * cx + cy * cy, -2 * cy, 1 }, { -2 * cx, 0, 0 },
+					{ 1, 0, 0 } }, new double[][] {
+					{ cx * cx + cy * cy, -2 * cy, 1 }, { -2 * cx, 0, 0 },
+					{ 1, 0, 0 } });
+		} else {
+			// for polynomials pluhIn does that
+			euclidianViewUpdate();
+		}
 	}
 
+	public void plugInRatPoly(double[][] pX, double[][] pY, double[][] qX,
+			double[][] qY) {
+		int degXpX = pX.length - 1;
+		int degYpX = 0;
+		for (int i = 0; i < pX.length; i++) {
+			if (pX[i].length - 1 > degYpX)
+				degYpX = pX[i].length - 1;
+		}
+		int degXqX = -1;
+		int degYqX = -1;
+		if (qX != null) {
+			degXqX = qX.length - 1;
+			for (int i = 0; i < qX.length; i++) {
+				if (qX[i].length - 1 > degYqX)
+					degYqX = qX[i].length - 1;
+			}
+		}
+		int degXpY = pY.length - 1;
+		int degYpY = 0;
+		for (int i = 0; i < pY.length; i++) {
+			if (pY[i].length - 1 > degYpY)
+				degYpY = pY[i].length - 1;
+		}
+		int degXqY = -1;
+		int degYqY = -1;
+		if (qY != null) {
+			degXqY = qY.length - 1;
+			for (int i = 0; i < qY.length; i++) {
+				if (qY[i].length - 1 > degYqY)
+					degYqY = qY[i].length - 1;
+			}
+		}
+		boolean sameDenom = false;
+		if (qX != null && qY != null) {
+			sameDenom = true;
+			if (degXqX == degXqY && degYqX == degYqY) {
+				for (int i = 0; i < qX.length; i++)
+					if (!Arrays.equals(qY[i], qX[i])) {
+						sameDenom = false;
+						break;
+					}
+			}
+		}
+		int commDeg = 0;
+		if (sameDenom) {
+			// find the "common" degree, e.g. x^4+y^4->4, but x^4 y^4->8
+			commDeg = getDeg();
+		}
+		int newDegX = Math.max(degXpX, degXqX) * degX
+				+ Math.max(degXpY, degXqY) * degY;
+		int newDegY = Math.max(degYpX, degYqX) * degX
+				+ Math.max(degYpY, degYqY) * degY;
+
+		double[][] newCoeff = new double[newDegX + 1][newDegY + 1];
+		double[][] tmpCoeff = new double[newDegX + 1][newDegY + 1];
+		double[][] ratXCoeff = new double[newDegX + 1][newDegY + 1];
+		double[][] ratYCoeff = new double[newDegX + 1][newDegY + 1];
+		int tmpCoeffDegX = 0;
+		int tmpCoeffDegY = 0;
+		int newCoeffDegX = 0;
+		int newCoeffDegY = 0;
+		int ratXCoeffDegX = 0;
+		int ratXCoeffDegY = 0;
+		int ratYCoeffDegX = 0;
+		int ratYCoeffDegY = 0;
+
+		for (int i = 0; i < newDegX; i++) {
+			for (int j = 0; j < newDegY; j++) {
+				newCoeff[i][j] = 0;
+				tmpCoeff[i][j] = 0;
+				ratXCoeff[i][j] = 0;
+				ratYCoeff[i][j] = 0;
+			}
+		}
+		ratXCoeff[0][0] = 1;
+		for (int x = coeff.length - 1; x >= 0; x--) {
+			if (qY != null) {
+				ratYCoeff[0][0] = 1;
+				ratYCoeffDegX = 0;
+				ratYCoeffDegY = 0;
+			}
+			int startY = coeff[x].length - 1;
+			if (sameDenom)
+				startY = commDeg - x;
+			for (int y = startY; y >= 0; y--) {
+				if (qY == null || y == startY) {
+					if (coeff[x].length > y)
+						tmpCoeff[0][0] += coeff[x][y];
+				} else {
+					polyMult(ratYCoeff, qY, ratYCoeffDegX, ratYCoeffDegY,
+							degXqY, degYqY); // y^N-i
+					ratYCoeffDegX += degXqY;
+					ratYCoeffDegY += degYqY;
+					if (coeff[x].length > y)
+						for (int i = 0; i <= ratYCoeffDegX; i++) {
+							for (int j = 0; j <= ratYCoeffDegY; j++) {
+								tmpCoeff[i][j] += coeff[x][y] * ratYCoeff[i][j];
+								if (y == 0) {
+									ratYCoeff[i][j] = 0; // clear in last loop
+								}
+							}
+						}
+					tmpCoeffDegX = Math.max(tmpCoeffDegX, ratYCoeffDegX);
+					tmpCoeffDegY = Math.max(tmpCoeffDegY, ratYCoeffDegY);
+				}
+				if (y > 0) {
+					polyMult(tmpCoeff, pY, tmpCoeffDegX, tmpCoeffDegY, degXpY,
+							degYpY);
+					tmpCoeffDegX += degXpY;
+					tmpCoeffDegY += degYpY;
+				}
+			}
+			if (qX != null && x != coeff.length - 1 && !sameDenom) {
+				polyMult(ratXCoeff, qX, ratXCoeffDegX, ratXCoeffDegY, degXqX,
+						degYqX);
+				ratXCoeffDegX += degXqX;
+				ratXCoeffDegY += degYqX;
+				polyMult(tmpCoeff, ratXCoeff, tmpCoeffDegX, tmpCoeffDegY,
+						ratXCoeffDegX, ratXCoeffDegY);
+				tmpCoeffDegX += ratXCoeffDegX;
+				tmpCoeffDegY += ratXCoeffDegY;
+			}
+			for (int i = 0; i <= tmpCoeffDegX; i++) {
+				for (int j = 0; j <= tmpCoeffDegY; j++) {
+					newCoeff[i][j] += tmpCoeff[i][j];
+					tmpCoeff[i][j] = 0;
+				}
+			}
+			newCoeffDegX = Math.max(newCoeffDegX, tmpCoeffDegX);
+			newCoeffDegY = Math.max(newCoeffDegY, tmpCoeffDegY);
+			tmpCoeffDegX = 0;
+			tmpCoeffDegY = 0;
+			if (x > 0) {
+				polyMult(newCoeff, pX, newCoeffDegX, newCoeffDegY, degXpX,
+						degYpX);
+				newCoeffDegX += degXpX;
+				newCoeffDegY += degYpX;
+			}
+		}
+		// maybe we made the degree larger than necessary, so we try to get it
+		// down.
+		coeff = PolynomialUtils.coeffMinDeg(newCoeff);
+		// calculate new degree
+		degX = coeff.length - 1;
+		degY = 0;
+		for (int i = 0; i < coeff.length; i++) {
+			degY = Math.max(degY, coeff[i].length - 1);
+		}
+
+		updatePath();
+		if (algoUpdateSet != null) {
+			double a = 0, ax = 0, ay = 0, b = 0, bx = 0, by = 0;
+			if (qX == null && qY == null && degXpX <= 1 && degYpX <= 1
+					&& degXpY <= 1 && degYpY <= 1) {
+				if ((degXpX != 1 || degYpX != 1 || pX[1].length == 1 || Kernel
+						.isZero(pX[1][1]))
+						&& (degXpY != 1 || degYpY != 1 || pY[1].length == 1 || Kernel
+								.isZero(pY[1][1]))) {
+					if (pX.length > 0) {
+						if (pX[0].length > 0) {
+							a = pX[0][0];
+						}
+						if (pX[0].length > 1) {
+							ay = pX[0][1];
+						}
+					}
+					if (pX.length > 1) {
+						ax = pX[1][0];
+					}
+					if (pY.length > 0) {
+						if (pY[0].length > 0) {
+							b = pY[0][0];
+						}
+						if (pY[0].length > 1) {
+							by = pY[0][1];
+						}
+					}
+					if (pY.length > 1) {
+						bx = pY[1][0];
+					}
+					double det = ax * by - bx * ay;
+					if (!Kernel.isZero(det)) {
+						double[][] iX = new double[][] {
+								{ (b * ay - a * by) / det, -ay / det },
+								{ by / det } };
+						double[][] iY = new double[][] {
+								{ -(b * ax - a * bx) / det, ax / det },
+								{ -bx / det } };
+
+						Iterator<AlgoElement> it = algoUpdateSet.getIterator();
+						while (it != null && it.hasNext()) {
+							AlgoElement elem = it.next();
+							if (elem instanceof AlgoPointOnPath
+									&& isIndependent()) {
+								GeoPoint point = (GeoPoint) ((AlgoPointOnPath) elem)
+										.getP();
+								if (!Kernel.isZero(point.getZ())) {
+									double x = point.getX() / point.getZ();
+									double y = point.getY() / point.getZ();
+									double px = evalPolyCoeffAt(x, y, iX);
+									double py = evalPolyCoeffAt(x, y, iY);
+									point.setCoords(px, py, 1);
+									point.updateCoords();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * @param x
+	 *            x
+	 * @param y
+	 *            y
+	 * @param coeff
+	 *            coefficients of evaluated poly P
+	 * @return P(x,y)
+	 */
+	public static double evalPolyCoeffAt(double x, double y, double[][] coeff) {
+		double sum = 0;
+		double zs = 0;
+		// Evaluating Poly via the Horner-scheme
+		if (coeff != null)
+			for (int i = coeff.length - 1; i >= 0; i--) {
+				zs = 0;
+				for (int j = coeff[i].length - 1; j >= 0; j--) {
+					zs = y * zs + coeff[i][j];
+				}
+				sum = sum * x + zs;
+			}
+		return sum;
+	}
+
+	/**
+	 * 
+	 * @param polyDest
+	 * @param polySrc
+	 *            polyDest=polyDest*polySrc;
+	 */
+	static void polyMult(double[][] polyDest, double[][] polySrc,
+			int degDestX, int degDestY, int degSrcX, int degSrcY) {
+		double[][] result = new double[degDestX + degSrcX + 1][degDestY
+				+ degSrcY + 1];
+		for (int n = 0; n <= degDestX + degSrcX; n++) {
+			for (int m = 0; m <= degDestY + degSrcY; m++) {
+				double sum = 0;
+				for (int k = Math.max(0, n - degSrcX); k <= Math.min(n,
+						degDestX); k++)
+					for (int j = Math.max(0, m - degSrcY); j <= Math.min(m,
+							degDestY); j++)
+						sum += polyDest[k][j] * polySrc[n - k][m - j];
+				result[n][m] = sum;
+			}
+		}
+		for (int n = 0; n <= degDestX + degSrcX; n++) {
+			for (int m = 0; m <= degDestY + degSrcY; m++) {
+				polyDest[n][m] = result[n][m];
+			}
+		}
+	}
 	/**
 	 * 
 	 * @return FunctionNVar
@@ -1936,7 +2224,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	public double evalPolyAt(double x, double y) {
 		if (coeff != null) {
-			return GeoImplicitPoly.evalPolyCoeffAt(x, y, coeff);
+			return GeoImplicitCurve.evalPolyCoeffAt(x, y, coeff);
 		}
 		return this.expression.evaluate(x, y, 0);
 	}
@@ -1950,7 +2238,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	public void setInputForm() {
-		// TODO Auto-generated method stub
+		inputForm = true;
 
 	}
 

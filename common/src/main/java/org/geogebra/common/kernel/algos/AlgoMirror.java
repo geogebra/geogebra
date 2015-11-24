@@ -301,7 +301,7 @@ public class AlgoMirror extends AlgoTransformation implements
 		 */
 		else if (mirror instanceof GeoConic && inGeo instanceof GeoConic
 				&& outGeo instanceof GeoImplicit) {
-			((GeoConic) inGeo).toGeoImplicitPoly((GeoImplicit) outGeo);
+			((GeoConic) inGeo).toGeoImplicitCurve((GeoImplicit) outGeo);
 		} else if (inGeo instanceof GeoFunction && mirror != mirrorPoint) {
 			((GeoFunction) inGeo)
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);

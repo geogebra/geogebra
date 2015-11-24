@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.implicit;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
@@ -48,5 +49,9 @@ public interface GeoImplicit extends GeoElementND {
 	boolean isInputForm();
 
 	void setExtendedForm();
+
+	void fromEquation(Equation equation, double[][] coeff);
+
+	void preventPathCreation();
 
 }

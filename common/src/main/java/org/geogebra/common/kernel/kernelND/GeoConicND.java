@@ -52,7 +52,6 @@ import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.plugin.Operation;
@@ -3660,25 +3659,6 @@ FromMeta
 						new MyDouble(kernel, cY))), Operation.PLUS,
 				new MyDouble(kernel, c1));
 	}
-
-	/**
-	 * Sets implicit poly to this conic
-	 * @param implicitPoly implicitPoly for storing this conic
-	 */
-	public void toGeoImplicitPoly(GeoImplicit implicitPoly)
-	{
-		double coeff[][] =new double[3][3];
-		coeff[0][0]= matrix[2];
-		coeff[1][1]=2*matrix[3];
-		coeff[2][2]=0;
-		coeff[1][0]=2*matrix[4];
-		coeff[0][1]=2*matrix[5];
-		coeff[2][0]=matrix[0];
-		coeff[0][2]=matrix[1];
-		coeff[2][1]=coeff[1][2]=0;
-		implicitPoly.setCoeff(coeff);
-		
-	}
 	
 	/**
 	 * Set implicit curve to this conic
@@ -3686,7 +3666,7 @@ FromMeta
 	 * @param curve
 	 *            Implicit curve to store this conic
 	 */
-	public void toGeoImplicitCurve(GeoImplicitCurve curve) {
+	public void toGeoImplicitCurve(GeoImplicit curve) {
 		FunctionVariable v1 = new FunctionVariable(kernel, "x");
 		FunctionVariable v2 = new FunctionVariable(kernel, "y");
 		MyDouble d = new MyDouble(kernel, 1.0);
@@ -3697,7 +3677,18 @@ FromMeta
 				.plus(x.multiply(y).multiply(matrix[3]))
 				.plus(x.multiply(matrix[4])).plus(y.multiply(matrix[5]));
 		ExpressionNode rhs = new ExpressionNode(kernel, 0.0);
-		curve.fromEquation(new Equation(kernel, lhs, rhs));
+
+		double coeff[][] = new double[3][3];
+		coeff[0][0] = matrix[2];
+		coeff[1][1] = 2 * matrix[3];
+		coeff[2][2] = 0;
+		coeff[1][0] = 2 * matrix[4];
+		coeff[0][1] = 2 * matrix[5];
+		coeff[2][0] = matrix[0];
+		coeff[0][2] = matrix[1];
+		coeff[2][1] = coeff[1][2] = 0;
+		curve.setCoeff(coeff);
+		curve.fromEquation(new Equation(kernel, lhs, rhs), coeff);
 	}
 
 	/**
