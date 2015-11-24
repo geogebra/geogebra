@@ -375,7 +375,7 @@ var __giac = [ {},
 { cat:"Root", cmd:"Root[x^4-x-1]", result:"{x = -0.7244919590005, x = 1.220744084606}",round:"{x = -0.72, x = 1.22}", notes:"{x = (sqrt(sqrt(4sinh(asinh((3sqrt(3)) / 16) / 3)\u00B2 + 3) - sinh(asinh((3sqrt(3)) / 16) / 3)) + sqrt(sinh(asinh((3sqrt(3)) / 16) / 3))) / nroot(3,4), x = (-sqrt(sqrt(4sinh(asinh((3sqrt(3)) / 16) / 3)\u00B2 + 3) - sinh(asinh((3sqrt(3)) / 16) / 3)) + sqrt(sinh(asinh((3sqrt(3)) / 16) / 3))) / nroot(3,4)}" },
 { cat:"assignment", cmd:"a", result:"a" },
 { cat:"assignment", cmd:"a := 1", result:"1" },
-{ cat:"assignment", cmd:"a", result:"a" },
+{ cat:"assignment", cmd:"a", result:"1|OR|a", notes:"1 in JSON test, a in giac.js" },
 { cat:"assignment", cmd:"Delete[a]", result:"true" },
 { cat:"Evaluate", cmd:"Evaluate[((15 + 9) * 3.5 - 2 * 0.5) / 4]", result:"83 / 4|OR|20.75", notes:"answer as fraction?" },
 { cat:"Evaluate", cmd:"Evaluate[x + x]", result:"2 * x|OR|2x", notes:"Evaluate is the same as typing it in ie auto-simplified" },
@@ -848,7 +848,7 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate[0^0]", result:"?", notes:"design decision in GeoGebra" },
 { cat:"Integral", cmd:"Integral[(x+1)^10]", result:"(x + 1)\u00B9\u00B9 / 11 + c_0|OR|1 / 11 (x + 1)\u00B9\u00B9 + c_0", notes:"don't want answer expanded" },
 { cat:"Solve", cmd:"Solve[x^2=2/3]", result:"{x = (-sqrt(6)) / 3, x = sqrt(6) / 3}" },
-{ cat:"Evaluate", cmd:"Evaluate((125/pi)^(1/3))", result:"5 (1 / cbrt(\u03C0)" },
+{ cat:"Evaluate", cmd:"Evaluate((125/pi)^(1/3))", result:"5 (1 / cbrt(\u03C0))", notes:"GGB-321" },
 { cat:"Simplify", cmd:"Simplify(cbrt(125/pi))", result:"5cbrt(\u03C0)\u00B2 / \u03C0" },
 { cat:"Solve", cmd:"Solve[0x=0]", result:"{x=c_1}|OR|{x=x}" },
 { cat:"Solve", cmd:"Solve[0x=1]", result:"{}" },
@@ -1789,10 +1789,11 @@ var __giac = [ {},
 { cat: "Angle", cmd:"Angle[x=0, y=0]", result:"1 / 2 \u03C0", notes:"TRAC-3905" },
 { cat: "Angle", cmd:"Angle[z=0, x+y+z=0]", result:"acos(sqrt(3) / 3)", notes:"TRAC-3905" },
 { cat: "Angle", cmd:"Angle[2x-3y+z=0, 2x-y+7z=0]", result:"acos(sqrt(21) / 9)", notes:"TRAC-3905" },
+{ cat: "Expand", cmd:"Expand[a(b)]", result:"a b", notes:"GGB-315" },
+{ cat: "Numeric", cmd:"Numeric[3^(26778293/2100000)]", result:"1213512.254672", round:"1213512.25", notes:"GGB-321" },
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
-// Expand[a(b)] GGB-
 
 
 ];
