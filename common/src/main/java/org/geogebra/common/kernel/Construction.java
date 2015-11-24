@@ -2582,7 +2582,7 @@ public class Construction {
 			GeoElement geo2 = kernel.lookupLabel(string2);
 			if (geo2 != null && geo2.isGeoPoint()) {
 				AlgoDistancePoints dist = new AlgoDistancePoints(this,
-						null, (GeoPointND) geo1, (GeoPointND) geo2);
+						(GeoPointND) geo1, (GeoPointND) geo2);
 				return dist.getDistance();
 				
 			}
@@ -2591,9 +2591,8 @@ public class Construction {
 			if (geo2 != null && geo2 instanceof NumberValue) {
 				ExpressionNode node = new ExpressionNode(kernel, geo1,
 						Operation.MULTIPLY, geo2);
-				AlgoDependentNumber algo = new AlgoDependentNumber(this,
- null,
-						node, false, null);
+				AlgoDependentNumber algo = new AlgoDependentNumber(this, node,
+						false);
 				return algo.getNumber();				
 			}
 		}

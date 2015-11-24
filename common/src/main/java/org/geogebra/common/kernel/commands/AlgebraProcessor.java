@@ -2505,16 +2505,15 @@ public class AlgebraProcessor {
 				ret[0] = new GeoNumeric(cons, value);
 			}
 			ret[0].setDefinition(n);
-			ret[0].setLabel(label);
+
 		} else {
-			ret[0] = DependentNumber(label, n, isAngle, evaluate)
-					.toGeoElement();
+			ret[0] = DependentNumber(n, isAngle, evaluate).toGeoElement();
 		}
 
 		if (n.isForcedFunction()) {
 			ret[0] = ((GeoFunctionable) (ret[0])).getGeoFunction();
 		}
-
+		ret[0].setLabel(label);
 		return ret;
 	}
 
@@ -2522,10 +2521,10 @@ public class AlgebraProcessor {
 	 * Number dependent on arithmetic expression with variables, represented by
 	 * a tree. e.g. t = 6z - 2
 	 */
-	final private GeoNumberValue DependentNumber(String label,
+	final private GeoNumberValue DependentNumber(
 			ExpressionNode root,
 			boolean isAngle, ExpressionValue evaluate) {
-		AlgoDependentNumber algo = new AlgoDependentNumber(cons, label, root,
+		AlgoDependentNumber algo = new AlgoDependentNumber(cons, root,
 				isAngle, evaluate);
 		GeoNumberValue number = algo.getNumber();
 		return number;

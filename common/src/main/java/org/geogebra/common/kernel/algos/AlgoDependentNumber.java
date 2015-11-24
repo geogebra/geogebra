@@ -44,23 +44,33 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 	 * Creates new AlgoJoinPoints
 	 * 
 	 * @param cons
-	 * @param label
+	 *            construction
+	 * 
 	 * @param root
 	 *            expression defining the result
 	 * @param isAngle
 	 *            true for angles
 	 * */
-	public AlgoDependentNumber(Construction cons, String label,
-			ExpressionNode root, boolean isAngle, ExpressionValue evaluate) {
-		this(cons, root, isAngle, evaluate);
-		number.setLabel(label);
-	}
+
 	public AlgoDependentNumber(Construction cons, ExpressionNode root,
 			boolean isAngle) {
 		this(cons, root, isAngle, null);
 
 	}
 
+	/**
+	 * Creates new AlgoJoinPoints
+	 * 
+	 * @param cons
+	 *            construction
+	 * 
+	 * @param root
+	 *            expression defining the result
+	 * @param isAngle
+	 *            true for angles
+	 * @param evaluate
+	 *            pre-evaluated result
+	 * */
 	public AlgoDependentNumber(Construction cons, ExpressionNode root,
 			boolean isAngle, ExpressionValue evaluate) {
 		super(cons);

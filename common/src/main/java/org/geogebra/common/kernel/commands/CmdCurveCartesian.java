@@ -51,6 +51,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 							.computeCoord(exp, i);
 					AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx,
 						false);
+					cons.removeFromConstructionList(nx);
 					coords[i] = nx.getNumber();
 				}
 
