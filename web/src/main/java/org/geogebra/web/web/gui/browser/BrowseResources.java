@@ -49,9 +49,15 @@ public interface BrowseResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/profile-options-arrow.png")
 	ImageResource arrow_options();
 
-	@Source("org/geogebra/common/icons/png/web/document_favourite_selected.png")
+	@Source("org/geogebra/common/icons_all/p25/icon-heart-filled.png")
 	ImageResource favorite();
 
-	@Source("org/geogebra/common/icons/png/web/document_favourite.png")
+	@Source("org/geogebra/common/icons_all/p25/icon-heart-filled-hover.png")
+	ImageResource favorite_hover();
+
+	@Source("org/geogebra/common/icons_all/p25/icon-heart.png")
 	ImageResource not_favorite();
+
+	@Source("org/geogebra/common/icons_all/p25/icon-heart-hover.png")
+	ImageResource not_favorite_hover();
 }
