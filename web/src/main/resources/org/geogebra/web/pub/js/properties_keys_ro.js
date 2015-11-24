@@ -2154,6 +2154,11 @@ __GGB__keysVar.ro.menu = {
     "insert_worksheet": "Inserare foaie de lucru",
     "off": "Oprit",
     "on": "Pornit",
+    "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
+    "phone_loading_materials_offline": "It seems like you are currently not connected to the Internet. Please check your Internet connection and try again.",
+    "phone_no_materials_found": "No Materials found",
+    "phone_tour_done": "Done",
+    "phone_try_again_loading": "Try again",
     "search_geogebra_materials": "Caut\u0103 \xeen materiale GeoGebra",
 }
 

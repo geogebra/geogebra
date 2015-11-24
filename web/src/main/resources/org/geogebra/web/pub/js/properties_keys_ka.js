@@ -2154,6 +2154,11 @@ __GGB__keysVar.ka.menu = {
     "insert_worksheet": "GeoGebraTube-\u10d8\u10e1 \u10d2\u10d5\u10d4\u10e0\u10d3\u10d8\u10e1 \u10e9\u10d0\u10e1\u10db\u10d0",
     "off": "\u10d2\u10d0\u10db\u10dd\u10e0\u10d7\u10d5\u10d0",
     "on": "\u10e9\u10d0\u10e0\u10d7\u10d5\u10d0",
+    "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
+    "phone_loading_materials_offline": "It seems like you are currently not connected to the Internet. Please check your Internet connection and try again.",
+    "phone_no_materials_found": "No Materials found",
+    "phone_tour_done": "Done",
+    "phone_try_again_loading": "Try again",
     "search_geogebra_materials": "GeoGebra-\u10e1 \u10db\u10d0\u10e1\u10d0\u10da\u10d4\u10d1\u10d8\u10e1 \u10eb\u10d8\u10d4\u10d1\u10d0",
 }
 

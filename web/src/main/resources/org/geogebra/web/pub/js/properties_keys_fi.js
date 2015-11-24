@@ -2154,6 +2154,11 @@ __GGB__keysVar.fi.menu = {
     "insert_worksheet": "Liit\xe4 ty\xf6kirja",
     "off": "pois",
     "on": "k\xe4ytt\xf6\xf6n",
+    "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
+    "phone_loading_materials_offline": "It seems like you are currently not connected to the Internet. Please check your Internet connection and try again.",
+    "phone_no_materials_found": "No Materials found",
+    "phone_tour_done": "Done",
+    "phone_try_again_loading": "Try again",
     "search_geogebra_materials": "Hae GeoGebra-materiaaleista",
 }
 

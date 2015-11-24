@@ -2154,6 +2154,11 @@ __GGB__keysVar.hr.menu = {
     "insert_worksheet": "Umetni radni list",
     "off": "Isklju\u010deno",
     "on": "uklju\u010deno",
+    "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
+    "phone_loading_materials_offline": "It seems like you are currently not connected to the Internet. Please check your Internet connection and try again.",
+    "phone_no_materials_found": "No Materials found",
+    "phone_tour_done": "Done",
+    "phone_try_again_loading": "Try again",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra uratke",
 }
 

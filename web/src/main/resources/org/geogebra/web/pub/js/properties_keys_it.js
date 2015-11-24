@@ -2154,6 +2154,11 @@ __GGB__keysVar.it.menu = {
     "insert_worksheet": "Inserisci il foglio di lavoro",
     "off": "Disattiva",
     "on": "Attiva",
+    "phone_loading_materials_failed": "Spiacente, i materiali non risultano al momento disponibili.",
+    "phone_loading_materials_offline": "Al momento non risulti connesso a Internet. Verifica la connessione e riprova.",
+    "phone_no_materials_found": "No Materials found",
+    "phone_tour_done": "Completato",
+    "phone_try_again_loading": "Riprova",
     "search_geogebra_materials": "Cerca materiali di GeoGebra",
 }
 

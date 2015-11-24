@@ -2154,6 +2154,11 @@ __GGB__keysVar.ug.menu = {
     "insert_worksheet": "\u062e\u0649\u0632\u0645\u06d5\u062a \u062c\u06d5\u062f\u06cb\u0649\u0644\u0649 \u0642\u0648\u0634\u06c7\u0634",
     "off": "\u0626\u06d0\u062a\u0649\u0634",
     "on": "\u0626\u06d0\u0686\u0649\u0634",
+    "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
+    "phone_loading_materials_offline": "It seems like you are currently not connected to the Internet. Please check your Internet connection and try again.",
+    "phone_no_materials_found": "No Materials found",
+    "phone_tour_done": "Done",
+    "phone_try_again_loading": "Try again",
     "search_geogebra_materials": "GeoGebra \u062e\u0627\u0645 \u0645\u0627\u062a\u06d0\u0631\u0649\u064a\u0627\u0644\u0644\u0649\u0631\u0649\u0646\u0649 \u0626\u0649\u0632\u062f\u06d5\u0634",
 }
 

@@ -2154,6 +2154,11 @@ __GGB__keysVar.sk.menu = {
     "insert_worksheet": "Vlo\u017ei\u0165 pracovn\xfd h\xe1rok",
     "off": "vypnut\xe9",
     "on": "zapnut\xe9",
+    "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
+    "phone_loading_materials_offline": "It seems like you are currently not connected to the Internet. Please check your Internet connection and try again.",
+    "phone_no_materials_found": "No Materials found",
+    "phone_tour_done": "Done",
+    "phone_try_again_loading": "Try again",
     "search_geogebra_materials": "Vyh\u013ead\xe1vanie medzi materi\xe1lmi",
 }
 

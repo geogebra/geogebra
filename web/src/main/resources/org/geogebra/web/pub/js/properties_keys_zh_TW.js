@@ -2154,6 +2154,11 @@ __GGB__keysVar.zh_TW.menu = {
     "insert_worksheet": "\u63d2\u5165\u7db2\u9801",
     "off": "\u95dc\u9589",
     "on": "\u555f\u52d5",
+    "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
+    "phone_loading_materials_offline": "It seems like you are currently not connected to the Internet. Please check your Internet connection and try again.",
+    "phone_no_materials_found": "No Materials found",
+    "phone_tour_done": "Done",
+    "phone_try_again_loading": "Try again",
     "search_geogebra_materials": "\u641c\u5c0b\u5716\u6a94",
 }
 
