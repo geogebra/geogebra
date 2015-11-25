@@ -746,6 +746,15 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			latitudeMin = -latitudeMaxBottom;
 		}
 
+		// prevent too close values
+		if (latitudeMin + 1 >= latitudeMax) {
+			if (latitudeMax >= 2) {
+				latitudeMin = latitudeMax - 2;
+			} else {
+				latitudeMax = latitudeMin + 2;
+			}
+		}
+
 		// App.debug(latitudeMin + "," + latitudeMax + "," + latitudeMaxBottom
 		// + "," + latitudeMaxTop + "," + latitude);
 
@@ -861,12 +870,16 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		next = 0;
 		shift = 1;
 
-		while (next < latitudeMax && next >= latitudeMin) {
+		while (next < latitudeMax) {
 			
 			next = Math.min(latitudeMax, latitude - nextJump);
-			debug("latitude : " + latitude + " , latitudeMin : "
-					+ latitudeMin + " , next : " + next + " , latitudeMax : "
-					+ latitudeMax);
+			debug("latitude : " + latitude + " , latitudeMin : " + latitudeMin
+					+ " , next : " + next + " , latitudeMax : " + latitudeMax);
+			while (next < latitudeMin + 2) {
+				nextJump = dse.updateNextJump(nextJump, latitude);
+				next = Math.min(latitudeMax, latitude - nextJump);
+				debug(">> next : " + next);
+			}
 
 			// until next jump
 			while (vi < next) {
@@ -912,7 +925,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			}
 
 			// jump
-			if (next > latitudeMin && next < latitudeMax) {
+			if (next < latitudeMax) {
 
 				shift *= 2;
 				dse.computeRadiusAndZ(vi, latitude, rz);
@@ -1033,12 +1046,17 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				+ (latitude - nextJump));
 		int next = 0;
 
-		while (next < latitudeMax && next >= latitudeMin) {
+		while (next < latitudeMax) {
 
 			next = Math.min(latitudeMax, latitude - nextJump);
 			debug("latitude : " + latitude + " , latitudeMin : "
 					+ latitudeMin + " , next : " + next + " , latitudeMax : "
 					+ latitudeMax);
+			while (next < latitudeMin + 2) {
+				nextJump = dse.updateNextJump(nextJump, latitude);
+				next = Math.min(latitudeMax, latitude - nextJump);
+				debug(">> next : " + next);
+			}
 
 			// until next jump
 			while (vi < next) {
@@ -1162,7 +1180,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			}
 
 			// jump
-			if (next > latitudeMin && next < latitudeMax) {
+			if (next < latitudeMax) {
 
 				lastBoth = both;
 
