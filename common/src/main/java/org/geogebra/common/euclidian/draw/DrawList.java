@@ -670,8 +670,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int viewBottom = view.getViewHeight();
 
 		if (optTop + optionsHeight > viewBottom) {
-			optTop = getOptionsItemGap() / 2;// viewBottom - optionsHeight -
-												// OPTIONBOX_COMBO_GAP;
+			optTop = viewBottom - optionsHeight - OPTIONBOX_COMBO_GAP;
 
 		}
 
