@@ -695,6 +695,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				longitudeLength);
 
 		setIndices(longitude, longitudeLength, drawSphere);
+
 	}
 
 	private void startGeometry() {
@@ -860,7 +861,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		next = 0;
 		shift = 1;
 
-		while (next < latitudeMax) {
+		while (next < latitudeMax && next >= latitudeMin) {
 			
 			next = Math.min(latitudeMax, latitude - nextJump);
 			debug("latitude : " + latitude + " , latitudeMin : "
@@ -1032,7 +1033,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				+ (latitude - nextJump));
 		int next = 0;
 
-		while (next < latitudeMax) {
+		while (next < latitudeMax && next >= latitudeMin) {
 
 			next = Math.min(latitudeMax, latitude - nextJump);
 			debug("latitude : " + latitude + " , latitudeMin : "
