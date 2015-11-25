@@ -5319,7 +5319,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			} else if (isGeoQuadric()) {
 				sb.append(" type=\"quadric\"");
 			} else if (isGeoImplicitPoly()) {
-				sb.append(" type=\"implicitPoly\"");
+				sb.append(" type=\"implicitpoly\"");
 			}
 			sb.append("/>\n");
 		}
