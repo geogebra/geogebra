@@ -89,8 +89,18 @@ public class CmdLocus extends CommandProcessor {
 	protected GeoElement locus(String label, GeoPointND p1, GeoPointND p2) {
 		return getAlgoDispatcher().Locus(label, p1, p2);
 	}
+
+	/**
+	 * @param label
+	 *            label
+	 * @param p
+	 *            point
+	 * @param slider
+	 *            slider
+	 * @return locus
+	 */
 	protected GeoElement locus(String label, GeoPointND p, GeoNumeric slider){
-		return getAlgoDispatcher().Locus(label, (GeoPoint)p, slider);
+		return getAlgoDispatcher().Locus(label, p, slider);
 	}
 
 }

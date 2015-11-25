@@ -47,13 +47,16 @@ public class CmdFocus extends CommandProcessor {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
+	 *            construction
 	 * @param labels
+	 *            labels for loci
 	 * @param c
+	 *            conic
 	 * @return new AlgoFocus
 	 */
-	protected AlgoFocus newAlgoFocus(Construction cons, String[] labels,
+	protected AlgoFocus newAlgoFocus(Construction cons1, String[] labels,
 			GeoConicND c) {
-		return new AlgoFocus(cons, labels, c);
+		return new AlgoFocus(cons1, labels, c);
 	}
 }

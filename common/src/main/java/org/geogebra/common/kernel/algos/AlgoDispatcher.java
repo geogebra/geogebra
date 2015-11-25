@@ -792,8 +792,8 @@ public class AlgoDispatcher {
 	/**
 	 * Midpoint of segment
 	 */
-	final public GeoPoint Midpoint(String label, GeoSegment s) {
-		AlgoMidpointSegment algo = new AlgoMidpointSegment(cons, label, s);
+	final public GeoPoint Midpoint(GeoSegment s) {
+		AlgoMidpointSegment algo = new AlgoMidpointSegment(cons, s);
 		GeoPoint M = algo.getPoint();
 		return M;
 	}

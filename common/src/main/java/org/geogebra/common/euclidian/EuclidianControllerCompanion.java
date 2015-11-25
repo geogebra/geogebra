@@ -231,7 +231,9 @@ public class EuclidianControllerCompanion {
 	 */
 	protected GeoElement midpoint(GeoSegmentND segment) {
 
-		return ec.getAlgoDispatcher().Midpoint(null, (GeoSegment) segment);
+		GeoElement mp = ec.getAlgoDispatcher().Midpoint((GeoSegment) segment);
+		mp.setLabel(null);
+		return mp;
 
 	}
 

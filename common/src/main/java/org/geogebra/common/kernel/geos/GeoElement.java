@@ -2797,7 +2797,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param labelNew new label
 	 */
-	public void setLabel(String labelNew) {
+	public final void setLabel(String labelNew) {
 		String newLabel = labelNew;
 		// Application.printStacktrace(newLabel);
 

@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoMidpointSegment extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
@@ -52,13 +51,14 @@ public class AlgoMidpointSegment extends AlgoElement implements
 	private Variable[] botanaVars;
 	private Polynomial[] botanaPolynomials;
 
-	/** Creates new AlgoVector */
-	public AlgoMidpointSegment(Construction cons, String label,
-			GeoSegment segment) {
-		this(cons, segment);
-		M.setLabel(label);
-	}
-
+	/**
+	 * Creates new AlgoMidpointSegment
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param segment
+	 *            segment
+	 */
 	AlgoMidpointSegment(Construction cons, GeoSegment segment) {
 		super(cons);
 		this.segment = segment;
@@ -67,8 +67,7 @@ public class AlgoMidpointSegment extends AlgoElement implements
 		M = new GeoPoint(cons);
 		setInputOutput();
 
-		P = segment.getStartPoint();
-		Q = segment.getEndPoint();
+
 
 		// compute M = (P + Q)/2
 		compute();
@@ -95,16 +94,27 @@ public class AlgoMidpointSegment extends AlgoElement implements
 		setDependencies(); // done by AlgoElement
 	}
 
-	// Created for LocusEqu
+	/**
+	 * Created for LocusEqu
+	 * 
+	 * @return startpoint
+	 */
 	public GeoPoint getP() {
 		return P;
 	}
 
-	// Created for LocusEqu
+	/**
+	 * Created for LocusEqu
+	 * 
+	 * @return endpoint
+	 */
 	public GeoPoint getQ() {
 		return Q;
 	}
 
+	/**
+	 * @return midpoint
+	 */
 	public GeoPoint getPoint() {
 		return M;
 	}
@@ -117,7 +127,8 @@ public class AlgoMidpointSegment extends AlgoElement implements
 			M.setUndefined();
 			return;
 		}
-
+		P = segment.getStartPoint();
+		Q = segment.getEndPoint();
 		boolean pInf = P.isInfinite();
 		boolean qInf = Q.isInfinite();
 
@@ -232,6 +243,7 @@ public class AlgoMidpointSegment extends AlgoElement implements
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnMidpointSegment(geo, this, scope);

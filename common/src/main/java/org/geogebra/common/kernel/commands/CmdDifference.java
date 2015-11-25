@@ -20,6 +20,7 @@ public class CmdDifference extends CommandProcessor {
 	/**
 	 * 
 	 * @param kernel
+	 *            kernel
 	 */
 	public CmdDifference(Kernel kernel) {
 		super(kernel);

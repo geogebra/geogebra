@@ -173,11 +173,24 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		defined = seg.defined;      
 		keepTypeOnGeometricTransform = seg.keepTypeOnGeometricTransform; 	
 
-		if (defined) {
-			startPoint.set(seg.startPoint);
-			endPoint.set(seg.endPoint);
-		}
+		startPoint = updatePoint(startPoint, seg.startPoint);
+
+		endPoint = updatePoint(endPoint, seg.endPoint);
+
 	}   
+
+	private GeoPoint updatePoint(GeoPoint my, GeoPoint other) {
+		if (my == null) {
+			if (other == null) {
+				return null;
+			}
+			return (GeoPoint) other.copyInternal(cons);
+		}
+		if (other != null) {
+			my.set(other);
+		}
+		return my;
+	}
 
 	/**
 	 * @param s start point

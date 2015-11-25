@@ -12,8 +12,8 @@ import org.geogebra.common.main.MyError;
  * Ellipse[ <GeoPoint>, <GeoPoint>, <NumberValue> ]
  */
 public class CmdEllipseHyperbola extends CommandProcessor {
-
-	final protected int type; // ellipse or hyperbola
+	/** ellipse or hyperbola, eg GeoConicNDConstants.CONIC_HYPERBOLA */
+	final protected int type;
 
 	/**
 	 * Create new command processor

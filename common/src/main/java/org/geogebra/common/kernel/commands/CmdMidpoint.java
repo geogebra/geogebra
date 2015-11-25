@@ -54,12 +54,15 @@ public class CmdMidpoint extends CommandProcessor {
 	/**
 	 * 
 	 * @param label
+	 *            label
 	 * @param segment
+	 *            segment
 	 * @return midpoint for segment
 	 */
 	protected GeoElement[] segment(String label, GeoSegmentND segment) {
-		GeoElement[] ret = { getAlgoDispatcher().Midpoint(label,
-				(GeoSegment) segment) };
+		GeoElement mp = getAlgoDispatcher().Midpoint((GeoSegment) segment);
+		mp.setLabel(label);
+		GeoElement[] ret = { mp };
 		return ret;
 	}
 
@@ -67,9 +70,12 @@ public class CmdMidpoint extends CommandProcessor {
 	 * process when 1 arg
 	 * 
 	 * @param c
+	 *            command
 	 * @param arg
+	 *            single argument
 	 * @return result
 	 * @throws MyError
+	 *             when argument type is wrong
 	 */
 	protected GeoElement[] process1(Command c, GeoElement arg) throws MyError {
 		if (arg.isGeoConic()) {
@@ -89,7 +95,9 @@ public class CmdMidpoint extends CommandProcessor {
 	/**
 	 * 
 	 * @param label
+	 *            label
 	 * @param conic
+	 *            conic
 	 * @return midpoint for conic
 	 */
 	protected GeoElement[] conic(String label, GeoConicND conic) {
@@ -101,8 +109,11 @@ public class CmdMidpoint extends CommandProcessor {
 	/**
 	 * 
 	 * @param label
+	 *            label
 	 * @param p1
+	 *            first point
 	 * @param p2
+	 *            second point
 	 * @return midpoint for two points
 	 */
 	protected GeoElement[] twoPoints(String label, GeoPointND p1, GeoPointND p2) {
