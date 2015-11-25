@@ -102,9 +102,15 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 
 			if (listOut == null || listOut.length() == 0) {
 				g.setUndefined();
+			} else if ("?".equals(listOut)) {
+				GeoList factor = new GeoList(cons);
+				factor.add(f.copy());
+				factor.add(new GeoNumeric(cons, 1));
+				g.add(factor);
 			} else {
 				// read result back into list
 				g.set(kernel.getAlgebraProcessor().evaluateToList(listOut));
+
 				// force first element in each row to be a function, even if
 				// constant
 				for (int i = 0; i < g.size() && g.get(i) instanceof GeoList; i++) {
