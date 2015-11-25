@@ -41,7 +41,7 @@ import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.util.GeoAssignment.Result;
+import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 

@@ -1,7 +1,6 @@
 package org.geogebra.common.util;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -22,42 +21,7 @@ import org.geogebra.common.main.App;
  * @author Christoph
  * 
  */
-public class GeoAssignment implements Assignment {
-
-	/**
-	 * The Result of the Assignment
-	 */
-	public static enum Result {
-		/**
-		 * The assignment is CORRECT
-		 */
-		CORRECT,
-		/**
-		 * The assignment is WRONG and we can't tell why
-		 */
-		WRONG,
-		/**
-		 * There are not enough input geos, so we cannot check
-		 */
-		NOT_ENOUGH_INPUTS,
-		/**
-		 * We have enough input geos, but one or more are of the wrong type
-		 */
-		WRONG_INPUT_TYPES,
-		/**
-		 * There is no output geo matching our macro
-		 */
-		WRONG_OUTPUT_TYPE,
-		/**
-		 * The assignment was correct in the first place but wrong after
-		 * randomization
-		 */
-		WRONG_AFTER_RANDOMIZE,
-		/**
-		 * The assignment could not be checked
-		 */
-		UNKNOWN,
-	}
+public class GeoAssignment extends Assignment {
 
 	/**
 	 * Possible values for CheckOperations
@@ -71,13 +35,7 @@ public class GeoAssignment implements Assignment {
 
 	private Macro macro;
 
-	private HashMap<Result, Float> fractionForResult;
-	/* The hints displayed to the Student */
-	private HashMap<Result, String> hintForResult;
-
 	private GeoElement[] solutionObjects;
-
-	private Result res;
 
 	private int callsToEqual, callsToCheckTypes;
 
@@ -94,14 +52,13 @@ public class GeoAssignment implements Assignment {
 	 *            the macro (user defined tool) corresponding to the assignment
 	 */
 	public GeoAssignment(Macro macro) {
+		super();
 		this.macro = macro;
 		inputTypes = macro.getInputTypes();
 
 		uniqueInputTypes = new HashSet<Test>(Arrays.asList(inputTypes));
 		randomizeablePredecessors = new TreeSet<GeoElement>();
 
-		fractionForResult = new HashMap<Result, Float>();
-		hintForResult = new HashMap<Result, String>();
 		checkOp = "AreEqual";
 
 		geoInspector = new Inspecting() {
@@ -113,7 +70,6 @@ public class GeoAssignment implements Assignment {
 
 		};
 
-		res = Result.UNKNOWN;
 	}
 
 	/* (non-Javadoc)
@@ -379,47 +335,6 @@ public class GeoAssignment implements Assignment {
 		return solObj;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.util.Assignment#getFraction()
-	 */
-	@Override
-	public float getFraction() {
-		float fraction = 0f;
-		if (fractionForResult.containsKey(res)) {
-			fraction = fractionForResult.get(res);
-		} else if (res == Result.CORRECT) {
-			fraction = 1.0f;
-		}
-		return fraction;
-	}
-
-	/**
-	 * @param result
-	 *            the result for which the fraction should be set
-	 * @param f
-	 *            the fraction in the interval [-1,1] which should be used for
-	 *            the result (will do nothing if fraction is not in [-1,1])
-	 */
-	public void setFractionForResult(Result result, float f) {
-		if (-1 <= f && f <= 1) {
-			fractionForResult.put(result, f);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.util.Assignment#getFractionForResult(org.geogebra.common.util.GeoAssignment.Result)
-	 */
-	@Override
-	public float getFractionForResult(Result result) {
-		float frac = 0f;
-		if (fractionForResult.containsKey(result)) {
-			frac = fractionForResult.get(result);
-		} else if (result == Result.CORRECT) {
-			frac = 1.0f;
-		}
-		return frac;
-	}
-
 	/**
 	 * @return the icon file name of the user defined tool corresponding to this
 	 *         assignment
@@ -435,69 +350,11 @@ public class GeoAssignment implements Assignment {
 		return macro.getToolName();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.util.Assignment#getHint()
-	 */
-	@Override
-	public String getHint() {
-		return hintForResult.get(res);
-	}
-
-	/**
-	 * Sets the Hint for a particular Result.
-	 * 
-	 * @param res
-	 *            the {@link Result}
-	 * @param hint
-	 *            the hint which should be shown to the student in case of the
-	 *            {@link Result} res
-	 */
-	public void setHintForResult(Result res, String hint) {
-		this.hintForResult.put(res, hint);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.util.Assignment#getResult()
-	 */
-	@Override
-	public Result getResult() {
-		return res;
-	}
-
-	/**
-	 * @param result
-	 *            the Result for which the hint should be returned
-	 * @return hint corresponding to result
-	 */
-	public String getHintForResult(Result result) {
-		String hint = "";
-		if (hintForResult.containsKey(result)) {
-			hint = hintForResult.get(result);
-		}
-		return hint;
-	}
-
 	/**
 	 * @return the user defined tool corresponding to the assignment
 	 */
 	public Macro getTool() {
 		return macro;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.util.Assignment#hasHint()
-	 */
-	@Override
-	public boolean hasHint() {
-		return !hintForResult.isEmpty();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.util.Assignment#hasFraction()
-	 */
-	@Override
-	public boolean hasFraction() {
-		return !fractionForResult.isEmpty();
 	}
 
 	/* (non-Javadoc)
@@ -514,29 +371,8 @@ public class GeoAssignment implements Assignment {
 		StringUtil.encodeXML(sb, getCheckOperation());
 		sb.append("\">\n");
 
-		if (hasHint() || hasFraction()) {
-			for (Result res1 : Result.values()) {
-				String hint = hintForResult.get(res1);
-				Float fraction = fractionForResult.get(res1);
-				if (hint != null && !hint.isEmpty() || fraction != null) {
-					sb.append("\t\t<result name=\"");
-					StringUtil.encodeXML(sb, res1.toString());
-					sb.append("\" ");
-					if (hint != null && !hint.isEmpty()) {
-						sb.append("hint=\"");
-						StringUtil.encodeXML(sb, hint);
-						sb.append("\" ");
-					}
-					if (fraction != null) {
-						sb.append("fraction=\"");
-						sb.append(fraction.floatValue());
-						sb.append("\" ");
-					}
-					sb.append("/>\n");
-				}
-			}
-		}
-		sb.append("\t</assignment>\n");
+		getAssignmentXML(sb);
+
 		return sb.toString();
 	}
 
@@ -554,6 +390,21 @@ public class GeoAssignment implements Assignment {
 
 	public void setCheckOperation(String checkOp) {
 		this.checkOp = checkOp;
+	}
+
+	@Override
+	public Result[] possibleResults() {
+		return Result.values();
+	}
+
+	@Override
+	public String getDisplayName() {
+		return getToolName();
+	}
+
+	@Override
+	public boolean isValid(App app) {
+		return app.getKernel().getMacro(getTool().getCommandName()) != null;
 	}
 }
 

@@ -8,16 +8,15 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Assignment;
-import org.geogebra.common.util.GeoAssignment;
-import org.geogebra.common.util.GeoAssignment.Result;
+import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Exercise;
+import org.geogebra.common.util.GeoAssignment;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.app.GGWToolBar;
-import org.geogebra.web.web.gui.toolbar.ToolbarSubemuW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -70,7 +69,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 	// private ExerciseBuilderDOMHandler exerciseBuilderHandler;
 	private UnorderedList addList;
-	private ToolbarSubemuW userAddModes;
+	private ListBox userAddModes;
 
 	public void onTouchEnd(TouchEndEvent event) {
 		onEnd(event);
@@ -196,14 +195,15 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		addListItem.add(addIcon);
 		addList.add(addListItem);
 
-		userAddModes = new ToolbarSubemuW(app, 1);
+		userAddModes = new ListBox();
 		userAddModes.setVisible(false);
 		for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
 			if (!exercise.usesMacro(i)) {
-				ListItem item = userAddModes.addItem(i
-						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
-				item.addStyleName("toolbar_item");
-				addDomHandlers(item);
+				userAddModes.addItem(app.getKernel().getMacro(i).getToolName());
+				// ListItem item = userAddModes.addItem(i
+				// + EuclidianConstants.MACRO_MODE_ID_OFFSET);
+				// item.addStyleName("toolbar_item");
+				// addDomHandlers(item);
 			}
 		}
 		addList.add(userAddModes);
@@ -229,7 +229,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	}
 
 	private void createAssignmentsTable() {
-		for (GeoAssignment assignment : exercise.getParts()) {
+		for (Assignment assignment : exercise.getParts()) {
 			appendAssignmentRow(assignment);
 		}
 	}
@@ -241,12 +241,12 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		w.addDomHandler(this, TouchEndEvent.getType());
 	}
 
-	private void appendAssignmentRow(final GeoAssignment assignment) {
+	private void appendAssignmentRow(final Assignment assignment) {
 		int row = assignmentsTable.getRowCount();
 		addAssignmentRow(assignment, row + 1);
 	}
 
-	private void addAssignmentRow(final GeoAssignment assignment, int insertrow) {
+	private void addAssignmentRow(final Assignment assignment, int insertrow) {
 		int j = 0;
 		int row = (insertrow <= assignmentsTable.getRowCount()) ? assignmentsTable
 				.insertRow(insertrow) : insertrow;
@@ -259,7 +259,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		icon.setUrl(getIconFile(assignment.getIconFileName()));
 		assignmentsTable.setWidget(row, j++, icon);
 		assignmentsTable.setWidget(row, j++,
-				new Label(assignment.getToolName()));
+				new Label(assignment.getDisplayName()));
 
 		final TextBox textForSolvedAssignment = getHintTextBox(assignment,
 				Result.CORRECT);
@@ -286,7 +286,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 * @param assignment
 	 *            The Assignment to be edited.
 	 */
-	void handleEditClick(GeoAssignment assignment) {
+	void handleEditClick(Assignment assignment) {
 		new AssignmentEditDialog(app, assignment, ExerciseBuilderDialog.this)
 				.center();
 		hide();
@@ -299,10 +299,10 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 *            the result of the assignment for which the Listbox should set
 	 *            the fraction
 	 * @return a single select ListBox containing all possible fractions as
-	 *         defined in {@link GeoAssignment#FRACTIONS} setting the fraction for
+	 *         defined in {@link Assignment#FRACTIONS} setting the fraction for
 	 *         a result in this assignment when they are changed
 	 */
-	ListBox getFractionsLB(final GeoAssignment assignment, final Result res) {
+	ListBox getFractionsLB(final Assignment assignment, final Result res) {
 		final ListBox fractions = new ListBox();
 		fractions.setMultipleSelect(false);
 		for (int j = 0; j < Assignment.FRACTIONS.length; j++) {
@@ -340,7 +340,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 * @return a TextBox setting the hint for a result in this assignment it is
 	 *         changed
 	 */
-	TextBox getHintTextBox(final GeoAssignment assignment, final Result res) {
+	TextBox getHintTextBox(final Assignment assignment, final Result res) {
 		final TextBox textForResult = new TextBox();
 
 		textForResult.addChangeHandler(new ChangeHandler() {
@@ -360,7 +360,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		return textForResult;
 	}
 
-	private Image getDeleteIcon(final GeoAssignment assignment) {
+	private Image getDeleteIcon(final Assignment assignment) {
 		Image delIcon = new Image(GuiResources.INSTANCE.menu_icon_edit_delete());
 		delIcon.addClickHandler(new ClickHandler() {
 			@Override
@@ -380,12 +380,23 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 * @param assignment
 	 *            the assignment to remove from the Exercise
 	 */
-	void handleAssignmentDeleteClick(ClickEvent event, GeoAssignment assignment) {
-		ListItem item = userAddModes.addItem(app.getKernel().getMacroID(
-				assignment.getTool())
-				+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
-		addDomHandlers(item);
-		item.addStyleName("toolbar_item");
+	void handleAssignmentDeleteClick(ClickEvent event, Assignment assignment) {
+		ListItem item;
+		if (assignment instanceof GeoAssignment) {
+			int id = app.getKernel().getMacroID(
+					((GeoAssignment) assignment).getTool());
+			userAddModes.addItem(app.getKernel().getMacro(id).getToolName());
+			// app.getKernel().getMacroID(
+			// ((GeoAssignment) assignment).getTool()).getToolName());
+			// item = userAddModes.addItem(app.getKernel().getMacroID(
+			// ((GeoAssignment) assignment).getTool())
+			// + EuclidianConstants.MACRO_MODE_ID_OFFSET);
+		} else {
+			item = new ListItem();
+
+		}
+		// addDomHandlers(item);
+		// item.addStyleName("toolbar_item");
 		exercise.remove(assignment);
 		assignmentsTable.removeRow(assignmentsTable.getCellForEvent(event)
 				.getRowIndex());
@@ -403,6 +414,10 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			if (imageURL != null) {
 				return UriUtils.fromString(imageURL);
 			}
+		} else if (fileName.equals("BoolAssignment")) {
+			// TODO: thats a design flaw somehow
+			return ((ImageResource) GGWToolBar.getMyIconResourceBundle()
+					.mode_showcheckbox_32()).getSafeUri();
 		}
 		return ((ImageResource) GGWToolBar.getMyIconResourceBundle()
 				.mode_tool_32()).getSafeUri();
@@ -446,7 +461,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 	private void check() {
 		exercise.checkExercise();
-
+		checkAssignmentsTable.removeAllRows();
 		int k = 1;
 		int i = 0; // keep track of the row we're in
 		checkAssignmentsTable.setWidget(i, k++, new Label(app.getMenu("Tool")));
@@ -458,15 +473,15 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				new Label(app.getPlain("Fraction")));
 		i++;
 
-		ArrayList<GeoAssignment> parts = exercise.getParts();
+		ArrayList<Assignment> parts = exercise.getParts();
 		for (int j = 0; j < parts.size(); j++, i++) {
-			final GeoAssignment assignment = parts.get(j);
+			final Assignment assignment = parts.get(j);
 			Image icon = new Image();
 			icon.setUrl(getIconFile(assignment.getIconFileName()));
 			k = 0;
 			checkAssignmentsTable.setWidget(i, k++, icon);
 			checkAssignmentsTable.setWidget(i, k++,
-					new Label(assignment.getToolName()));
+					new Label(assignment.getDisplayName()));
 			checkAssignmentsTable.setWidget(i, k++, new Label(assignment
 					.getResult().name()));
 			checkAssignmentsTable.setWidget(i, k++,
@@ -497,7 +512,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 */
 	void addAssignment(Macro macro) {
 		if (!exercise.usesMacro(macro)) {
-			GeoAssignment a = exercise.addAssignment(macro);
+			Assignment a = exercise.addAssignment(macro);
 			appendAssignmentRow(a);
 		}
 		userAddModes.setVisible(false);

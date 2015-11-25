@@ -15,7 +15,7 @@ import org.geogebra.common.main.App;
  */
 public class Exercise {
 
-	private ArrayList<GeoAssignment> assignments;
+	private ArrayList<Assignment> assignments;
 	private Kernel kernel;
 	private Construction construction;
 	private App app;
@@ -31,14 +31,14 @@ public class Exercise {
 		kernel = app.getKernel();
 		construction = kernel.getConstruction();
 
-		assignments = new ArrayList<GeoAssignment>();
+		assignments = new ArrayList<Assignment>();
 	}
 
 	/**
 	 * Resets the Exercise to contain no user defined tools.
 	 */
 	public void reset() {
-		assignments = new ArrayList<GeoAssignment>();
+		assignments = new ArrayList<Assignment>();
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class Exercise {
 	/**
 	 * @return all assignments contained in the exercise
 	 */
-	public ArrayList<GeoAssignment> getParts() {
+	public ArrayList<Assignment> getParts() {
 		return assignments;
 	}
 
@@ -147,8 +147,11 @@ public class Exercise {
 	 */
 	public boolean usesMacro(Macro macro) {
 		boolean uses = false;
-		for (GeoAssignment assignment : assignments) {
-			uses = uses || assignment.getTool().equals(macro);
+		for (Assignment assignment : assignments) {
+			if (assignment instanceof GeoAssignment) {
+				uses = uses
+						|| ((GeoAssignment) assignment).getTool().equals(macro);
+			}
 		}
 		return uses;
 	}
@@ -171,13 +174,21 @@ public class Exercise {
 	 * 
 	 */
 	private boolean isStandardExercise() {
-		boolean res = app.getKernel().hasMacros();
+		boolean res = true;
+		if (assignments.size() > 0) {
+			res = !(assignments.size() < app.getKernel().getMacroNumber());
+		}
 		for (int i = 0; i < assignments.size() && res; i++) {
-			res = assignments.get(i).getTool()
-					.equals(app.getKernel().getAllMacros().get(i))
-					&& !(assignments.get(i).hasHint()
-							|| assignments.get(i).hasFraction() || !assignments
-							.get(i).getCheckOperation().equals("=="));
+			if (assignments.get(i) instanceof GeoAssignment) {
+				res = ((GeoAssignment) assignments.get(i)).getTool().equals(
+						app.getKernel().getAllMacros().get(i))
+						&& !(assignments.get(i).hasHint()
+								|| assignments.get(i).hasFraction() || !((GeoAssignment) assignments
+									.get(i)).getCheckOperation().equals(
+								"AreEqual"));
+			} else {
+				res = false;
+			}
 		}
 		return res;
 	}
@@ -239,9 +250,11 @@ public class Exercise {
 	 */
 	public void removeAssignment(Macro macro) {
 		Assignment assignmentToRemove = null;
-		for (GeoAssignment assignment : assignments) {
-			if (assignment.getTool().equals(macro)) {
-				assignmentToRemove = assignment;
+		for (Assignment assignment : assignments) {
+			if (assignment instanceof GeoAssignment) {
+				if (((GeoAssignment) assignment).getTool().equals(macro)) {
+					assignmentToRemove = assignment;
+				}
 			}
 		}
 		if (assignmentToRemove != null) {
@@ -265,9 +278,11 @@ public class Exercise {
 	 */
 	public GeoAssignment getAssignment(Macro macro) {
 		GeoAssignment assignmentToReturn = null;
-		for (GeoAssignment assignment : assignments) {
-			if (assignment.getTool().equals(macro)) {
-				assignmentToReturn = assignment;
+		for (Assignment assignment : assignments) {
+			if (assignment instanceof GeoAssignment) {
+				if (((GeoAssignment) assignment).getTool().equals(macro)) {
+					assignmentToReturn = (GeoAssignment) assignment;
+				}
 			}
 		}
 		return assignmentToReturn;
@@ -279,13 +294,12 @@ public class Exercise {
 	 * @param assignment
 	 *            the assignment to add to the Exercise
 	 */
-	public void addAssignment(GeoAssignment assignment) {
+	public void addAssignment(Assignment assignment) {
 		addAssignment(assignments.size(), assignment);
 	}
 
-	private boolean isValid(GeoAssignment assignment) {
-		return !assignments.contains(assignment)
-				&& kernel.getMacro(assignment.getTool().getCommandName()) != null;
+	private boolean isValid(Assignment assignment) {
+		return !assignments.contains(assignment) && assignment.isValid(app);
 	}
 
 	/**
@@ -297,7 +311,7 @@ public class Exercise {
 	 * @param assignment
 	 *            the assignment to add to the Exercise
 	 */
-	public void addAssignment(int assignmentIndex, GeoAssignment assignment) {
+	public void addAssignment(int assignmentIndex, Assignment assignment) {
 		if (isValid(assignment)) {
 			assignments.add(assignmentIndex, assignment);
 		}

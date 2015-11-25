@@ -16,8 +16,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
-import org.geogebra.common.util.GeoAssignment;
-import org.geogebra.common.util.GeoAssignment.Result;
+import org.geogebra.common.util.Assignment;
+import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
@@ -946,10 +946,10 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		Exercise ex = kernel.getExercise();
 		ex.checkExercise();
 		JSONObject result = new JSONObject();
-		ArrayList<GeoAssignment> parts = ex.getParts();
-		for (GeoAssignment part : parts) {
+		ArrayList<Assignment> parts = ex.getParts();
+		for (Assignment part : parts) {
 			JSONObject partresult = new JSONObject();
-			result.put(part.getToolName(), partresult);
+			result.put(part.getDisplayName(), partresult);
 			partresult.put("result", new JSONString(part.getResult().name()));
 			String hint = part.getHint();
 			hint = hint == null ? "" : hint;

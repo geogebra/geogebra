@@ -1,8 +1,9 @@
 package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Assignment;
+import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.GeoAssignment;
-import org.geogebra.common.util.GeoAssignment.Result;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -31,7 +32,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 
 	private AppW app;
-	private GeoAssignment assignment;
+	private Assignment assignment;
 	private Button btApply;
 	private FlexTable hintsAndFractiosforResult;
 	private VerticalPanel mainWidget;
@@ -46,9 +47,9 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 	 * @param exerciseBuilderDialog
 	 *            the ExercisebuilderDialog opening this dialog //TODO move
 	 *            getHintTextBox and getFractionsLB here and use a callback for
-	 *            retusrning
+	 *            returning
 	 */
-	public AssignmentEditDialog(App app, GeoAssignment assignment,
+	public AssignmentEditDialog(App app, Assignment assignment,
 			ExerciseBuilderDialog exerciseBuilderDialog) {
 		super(false, false, null, ((AppW) app).getPanel());
 
@@ -70,7 +71,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 		icon.setUrl(exerciseBuilderDialog.getIconFile(assignment
 				.getIconFileName()));
 		toolNameIconPanel.add(icon);
-		toolNameIconPanel.add(new Label(assignment.getToolName()));
+		toolNameIconPanel.add(new Label(assignment.getDisplayName()));
 
 		mainWidget.add(toolNameIconPanel);
 
@@ -87,9 +88,11 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 
 		mainWidget.add(hintsAndFractiosforResult);
 
-		mainWidget.add(new Label(app.getLocalization().getCommand("Command")));
-		mainWidget.add(getCheckOpLB(assignment));
-
+		if (assignment instanceof GeoAssignment) {
+			mainWidget.add(new Label(app.getLocalization()
+					.getCommand("Command")));
+			mainWidget.add(getCheckOpLB((GeoAssignment) assignment));
+		}
 		mainWidget.add(bottomWidget = new FlowPanel());
 		bottomWidget.setStyleName("DialogButtonPanel");
 
@@ -134,7 +137,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 	private void createHintsAndFractionsTable() {
 		int i = 1;
 		int k = 0;
-		for (Result res : Result.values()) {
+		for (Result res : assignment.possibleResults()) {
 			hintsAndFractiosforResult.setWidget(i, k++, new Label(res.name()));
 			hintsAndFractiosforResult.setWidget(i, k++,
 					exerciseBuilderDialog.getHintTextBox(assignment, res));

@@ -1,9 +1,50 @@
 package org.geogebra.common.util;
 
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.util.GeoAssignment.Result;
+import java.util.HashMap;
 
-public interface Assignment {
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.main.App;
+
+/**
+ * @author Christoph
+ * 
+ */
+public abstract class Assignment {
+
+	/**
+	 * The Result of the Assignment
+	 */
+	public static enum Result {
+		/**
+		 * The assignment is CORRECT
+		 */
+		CORRECT,
+		/**
+		 * The assignment is WRONG and we can't tell why
+		 */
+		WRONG,
+		/**
+		 * There are not enough input geos, so we cannot check
+		 */
+		NOT_ENOUGH_INPUTS,
+		/**
+		 * We have enough input geos, but one or more are of the wrong type
+		 */
+		WRONG_INPUT_TYPES,
+		/**
+		 * There is no output geo matching our macro
+		 */
+		WRONG_OUTPUT_TYPE,
+		/**
+		 * The assignment was correct in the first place but wrong after
+		 * randomization
+		 */
+		WRONG_AFTER_RANDOMIZE,
+		/**
+		 * The assignment could not be checked
+		 */
+		UNKNOWN,
+	}
 
 	/**
 	 * Possible values for fractions (sorted ascending!)
@@ -14,6 +55,15 @@ public interface Assignment {
 			-0.1f, 0f, 0.1f, 0.125f, (1f / 6), 0.2f, 0.25f, 0.3f, (1f / 3),
 			0.375f, 0.4f, 0.5f, 0.6f, 0.625f, (2f / 3), 0.7f, 0.75f, 0.8f,
 			(5f / 6), 0.875f, 0.9f, 1f };
+	protected HashMap<Result, Float> fractionForResult;
+	protected HashMap<Result, String> hintForResult;
+	protected Result res;
+
+	public Assignment() {
+		fractionForResult = new HashMap<Result, Float>();
+		hintForResult = new HashMap<Result, String>();
+		res = Result.UNKNOWN;
+	}
 
 	/**
 	 * Exhaustive Testing of the Assignment
@@ -23,7 +73,7 @@ public interface Assignment {
 	 * 
 	 * @return {@link Result} of the check
 	 */
-	public Result checkAssignment(Construction construction);
+	public abstract Result checkAssignment(Construction construction);
 
 	/**
 	 * Get the fraction for the current state of the assignment. Don't forget to
@@ -34,7 +84,59 @@ public interface Assignment {
 	 *         if the user specified a fraction it will be returned otherwise 1
 	 *         for Result.CORRECT 0 else
 	 */
-	public float getFraction();
+	public float getFraction() {
+		float fraction = 0f;
+		if (fractionForResult.containsKey(res)) {
+			fraction = fractionForResult.get(res);
+		} else if (res == Result.CORRECT) {
+			fraction = 1.0f;
+		}
+		return fraction;
+	}
+
+	/**
+	 * Gives the hint for the actual state for this {@link GeoAssignment}
+	 * 
+	 * @return the hint for current {@link Result}
+	 */
+	public String getHint() {
+		return hintForResult.get(res);
+	}
+
+	/**
+	 * @return the actual state for this {@link GeoAssignment} as {@link Result}
+	 */
+	public Result getResult() {
+		return res;
+	}
+
+	/**
+	 * @return true if user specified hints for any result in the assignment
+	 */
+	public boolean hasHint() {
+		return !hintForResult.isEmpty();
+	}
+
+	/**
+	 * @return true if user specified fractions for any result result in the
+	 *         assignment
+	 */
+	public boolean hasFraction() {
+		return !fractionForResult.isEmpty();
+	}
+
+	/**
+	 * @param result
+	 *            the result for which the fraction should be set
+	 * @param f
+	 *            the fraction in the interval [-1,1] which should be used for
+	 *            the result (will do nothing if fraction is not in [-1,1])
+	 */
+	public void setFractionForResult(Result result, float f) {
+		if (-1 <= f && f <= 1) {
+			fractionForResult.put(result, f);
+		}
+	}
 
 	/**
 	 * @param result
@@ -43,30 +145,43 @@ public interface Assignment {
 	 *         if the user specified a fraction it will be returned otherwise 1
 	 *         for Result.CORRECT 0 else
 	 */
-	public float getFractionForResult(Result result);
+	public float getFractionForResult(Result result) {
+		float frac = 0f;
+		if (fractionForResult.containsKey(result)) {
+			frac = fractionForResult.get(result);
+		} else if (result == Result.CORRECT) {
+			frac = 1.0f;
+		}
+		return frac;
+	}
 
 	/**
-	 * Gives the hint for the actual state for this {@link GeoAssignment}
+	 * Sets the Hint for a particular Result.
 	 * 
-	 * @return the hint for current {@link Result}
+	 * @param res
+	 *            the {@link Result}
+	 * @param hint
+	 *            the hint which should be shown to the student in case of the
+	 *            {@link Result} res
 	 */
-	public String getHint();
+	public void setHintForResult(Result res, String hint) {
+		this.hintForResult.put(res, hint);
+	}
 
 	/**
-	 * @return the actual state for this {@link GeoAssignment} as {@link Result}
+	 * @param result
+	 *            the Result for which the hint should be returned
+	 * @return hint corresponding to result
 	 */
-	public Result getResult();
+	public String getHintForResult(Result result) {
+		String hint = "";
+		if (hintForResult.containsKey(result)) {
+			hint = hintForResult.get(result);
+		}
+		return hint;
+	}
 
-	/**
-	 * @return true if user specified hints for any result in the assignment
-	 */
-	public boolean hasHint();
-
-	/**
-	 * @return true if user specified fractions for any result result in the
-	 *         assignment
-	 */
-	public boolean hasFraction();
+	public abstract Result[] possibleResults();
 
 	/**
 	 * @return XML describing the Exercise. Will be empty if no changes to the
@@ -88,6 +203,44 @@ public interface Assignment {
 	 * }
 	 * </pre>
 	 */
-	public String getAssignmentXML();
+	public abstract String getAssignmentXML();
 
+	protected StringBuilder getAssignmentXML(StringBuilder sb) {
+
+		if (hasHint() || hasFraction()) {
+			for (Result res1 : Result.values()) {
+				String hint = hintForResult.get(res1);
+				Float fraction = fractionForResult.get(res1);
+				if (hint != null && !hint.isEmpty() || fraction != null) {
+					sb.append("\t\t<result name=\"");
+					StringUtil.encodeXML(sb, res1.toString());
+					sb.append("\" ");
+					if (hint != null && !hint.isEmpty()) {
+						sb.append("hint=\"");
+						StringUtil.encodeXML(sb, hint);
+						sb.append("\" ");
+					}
+					if (fraction != null) {
+						sb.append("fraction=\"");
+						sb.append(fraction.floatValue());
+						sb.append("\" ");
+					}
+					sb.append("/>\n");
+				}
+			}
+		}
+		sb.append("\t</assignment>\n");
+		return sb;
+	}
+
+	public abstract String getIconFileName();
+
+	public abstract String getDisplayName();
+
+	/**
+	 * If construction changes the assignment may become invalid
+	 * 
+	 * @return true if the assignment is valid
+	 */
+	public abstract boolean isValid(App app);
 }

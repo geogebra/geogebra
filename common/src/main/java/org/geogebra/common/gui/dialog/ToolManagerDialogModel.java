@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.GeoAssignment;
+import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Exercise;
 
 public class ToolManagerDialogModel {
@@ -63,9 +63,9 @@ public class ToolManagerDialogModel {
 		// since all Macros are removed and added back, the Assignments have
 		// also be added again so:
 		// keeping "pointers" on the Assignments in the Exercise to put them
-		// in Place afterwards (the Exercise checks if they are still valid
+		// in Place afterwards (the Exercise checks if they are still valid)
 		Exercise ex = app.getKernel().getExercise();
-		ArrayList<GeoAssignment> assignments = new ArrayList<GeoAssignment>(
+		ArrayList<Assignment> assignments = new ArrayList<Assignment>(
 				ex.getParts());
 
 		kernel.removeAllMacros();
@@ -74,7 +74,7 @@ public class ToolManagerDialogModel {
 			kernel.addMacro((Macro) obj);
 		}
 
-		for (GeoAssignment assignment : assignments) {
+		for (Assignment assignment : assignments) {
 			ex.addAssignment(assignment);
 		}
 	}
