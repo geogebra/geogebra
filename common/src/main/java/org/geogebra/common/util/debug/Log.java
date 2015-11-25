@@ -416,6 +416,15 @@ public abstract class Log {
 	 *            object to be printed
 	 */
 	public static void debug(Object s) {
+		if (s instanceof double[]) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < ((double[]) s).length; i++) {
+				sb.append(((double[]) s)[i]);
+				sb.append(',');
+			}
+			debug(sb.toString());
+			return;
+		}
 		if (s instanceof ExpressionValue) {
 			debug(ValidExpression.debugString((ExpressionValue) s), 5);
 			return;
