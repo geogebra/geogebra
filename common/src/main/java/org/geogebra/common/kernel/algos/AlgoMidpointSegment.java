@@ -112,6 +112,12 @@ public class AlgoMidpointSegment extends AlgoElement implements
 	// calc midpoint
 	@Override
 	public final void compute() {
+
+		if (!segment.isDefined()) {
+			M.setUndefined();
+			return;
+		}
+
 		boolean pInf = P.isInfinite();
 		boolean qInf = Q.isInfinite();
 

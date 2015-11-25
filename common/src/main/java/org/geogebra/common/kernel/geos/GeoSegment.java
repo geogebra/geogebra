@@ -147,9 +147,18 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
-		GeoSegment seg = new GeoSegment(cons1, 
+
+		GeoSegment seg;
+
+		if (!this.isDefined()) {
+			seg = new GeoSegment(cons1);
+
+		} else {
+			seg = new GeoSegment(cons1,
 				(GeoPoint) startPoint.copyInternal(cons1), 
 				(GeoPoint) endPoint.copyInternal(cons1));
+		}
+
 		seg.set(this);
 		return seg;
 	}		
@@ -164,8 +173,10 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		defined = seg.defined;      
 		keepTypeOnGeometricTransform = seg.keepTypeOnGeometricTransform; 	
 
-		startPoint.set(seg.startPoint);
-		endPoint.set(seg.endPoint);
+		if (defined) {
+			startPoint.set(seg.startPoint);
+			endPoint.set(seg.endPoint);
+		}
 	}   
 
 	/**
