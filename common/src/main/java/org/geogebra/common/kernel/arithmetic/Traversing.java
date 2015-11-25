@@ -1221,8 +1221,6 @@ public interface Traversing {
 						.getCopy(((GeoCasCell) ev).getKernel());
 			} else if (ev instanceof FunctionNVar) {
 				variables = ((FunctionNVar) ev).fVars;
-			} else if (ev instanceof Command && !((Command) ev).isAvailable()) {
-				return ev.wrap().apply(Operation.REAL);
 			}
 			return ev;
 		}

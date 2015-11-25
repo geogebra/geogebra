@@ -638,6 +638,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 			// standard case: add ggbcasvar prefix to name for CAS
 			if (!handled) {
+				sbCASCommand.append("re(");
 				sbCASCommand.append(tpl.printVariableName(name));
 				sbCASCommand.append('(');
 			}
@@ -647,6 +648,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				sbCASCommand.append(',');
 			}
 			sbCASCommand.setCharAt(sbCASCommand.length() - 1, ')');
+			if (!handled) {
+				sbCASCommand.append(")");
+			}
 		}
 
 		// translation found:
