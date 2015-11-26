@@ -514,27 +514,29 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		selectedDimension = drawTextLine(g2, false, 0, 0, selectedText,
 				getLabelFont(), isLatexString(selectedText), false);
 
-		g2.setPaint(GColor.WHITE);
-		// GFont font = optionFont;
-		int origFontSize = optionFont.getSize();
-		int minFontSize = 12;
-		g2.setFont(optionFont);
-		colCount = 1;
-		int fontSize = optionFont.getSize();
-		while (drawOptionLines(g2, 0, false) > view.getHeight()
-				- OPTIONBOX_COMBO_GAP && colCount < geoList.size()) {
-			fontSize -= 1;
-			optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
-			if (fontSize < minFontSize) {
-				fontSize = origFontSize;
-				optionFont = optionFont.deriveFont(GFont.PLAIN, origFontSize);
-				colCount++;
+		if (isOptionsVisible()) {
+			g2.setPaint(GColor.WHITE);
+			// GFont font = optionFont;
+			int origFontSize = optionFont.getSize();
+			int minFontSize = 12;
+			g2.setFont(optionFont);
+			colCount = 1;
+			int fontSize = optionFont.getSize();
+			while (drawOptionLines(g2, 0, false) > view.getHeight()
+					- OPTIONBOX_COMBO_GAP && colCount < geoList.size()) {
+				fontSize -= 1;
+				optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
+				if (fontSize < minFontSize) {
+					fontSize = origFontSize;
+					optionFont = optionFont.deriveFont(GFont.PLAIN,
+							origFontSize);
+					colCount++;
+				}
 			}
+
+			App.debug("[DROPDOWN] optionFont size: " + fontSize);
+			App.debug("[DROPDOWN] colunms: " + colCount);
 		}
-
-		App.debug("[DROPDOWN] optionFont size: " + fontSize);
-		App.debug("[DROPDOWN] colunms: " + colCount);
-
 		setPreferredSize(getPreferredSize());
 
 		latexLabel = measureLabel(g2, geoList, getLabelText());
