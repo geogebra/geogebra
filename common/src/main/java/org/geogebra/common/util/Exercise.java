@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.main.App;
 
 /**
@@ -132,6 +133,22 @@ public class Exercise {
 	}
 
 	/**
+	 * Creates a new Assignment and adds it to the Exercise.
+	 * 
+	 * @param geo
+	 *            the GeoBoolean which should be used for the check
+	 * @return the newly created Assignment
+	 */
+	public BoolAssignment addAssignment(GeoBoolean geo) {
+		BoolAssignment a = getAssignment(geo);
+		if (a == null) {
+			a = new BoolAssignment(geo);
+			addAssignment(a);
+		}
+		return a;
+	}
+
+	/**
 	 * @return all assignments contained in the exercise
 	 */
 	public ArrayList<Assignment> getParts() {
@@ -165,6 +182,22 @@ public class Exercise {
 	 */
 	public boolean usesMacro(int macroID) {
 		return usesMacro(kernel.getMacro(macroID));
+	}
+
+	/**
+	 * @param geo
+	 *            the GeoBoolean to check for
+	 * @return true if the GeoBoolean is used by the Exercise
+	 */
+	public boolean usesBoolean(GeoBoolean geo) {
+		boolean uses = false;
+		for (Assignment assignment : assignments) {
+			if (assignment instanceof BoolAssignment) {
+				uses = uses
+						|| ((BoolAssignment) assignment).usesGeoBoolean(geo);
+			}
+		}
+		return uses;
 	}
 
 	/**
@@ -289,6 +322,24 @@ public class Exercise {
 	}
 
 	/**
+	 * @param geo
+	 *            the GeoBoolean being used by the assignment which should be
+	 *            retrieved
+	 * @return the assignment which uses the geo or null if not used
+	 */
+	public BoolAssignment getAssignment(GeoBoolean geo) {
+		BoolAssignment assignmentToReturn = null;
+		for (Assignment assignment : assignments) {
+			if (assignment instanceof BoolAssignment) {
+				if (((BoolAssignment) assignment).usesGeoBoolean(geo)) {
+					assignmentToReturn = (BoolAssignment) assignment;
+				}
+			}
+		}
+		return assignmentToReturn;
+	}
+
+	/**
 	 * Adds an assignment to the exercise
 	 * 
 	 * @param assignment
@@ -316,4 +367,5 @@ public class Exercise {
 			assignments.add(assignmentIndex, assignment);
 		}
 	}
+
 }

@@ -52,7 +52,7 @@ public class BoolAssignment extends Assignment {
 
 	@Override
 	public String getDisplayName() {
-		return check.getNameDescriptionHTML(true, false);
+		return check.getNameDescription();
 	}
 
 	@Override
@@ -62,6 +62,21 @@ public class BoolAssignment extends Assignment {
 		// could be useful.
 		return app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder().contains(check);
+	}
+
+	/**
+	 * Test if a GeoBoolean is used by this assignment
+	 * 
+	 * @param geo
+	 *            GeoBoolean to check for
+	 * @return true if geo is used by this assignment
+	 */
+	public boolean usesGeoBoolean(GeoBoolean geo) {
+		return check.equals(geo);
+	}
+
+	public GeoBoolean getGeoBoolean() {
+		return check;
 	}
 
 }

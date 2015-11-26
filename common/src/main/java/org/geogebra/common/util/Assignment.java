@@ -181,6 +181,12 @@ public abstract class Assignment {
 		return hint;
 	}
 
+	/**
+	 * Not all {@link Result}s might be suitable for a specific type of
+	 * Assignment
+	 * 
+	 * @return the the Results which are meaningful for the type of Assignment
+	 */
 	public abstract Result[] possibleResults();
 
 	/**
@@ -205,6 +211,14 @@ public abstract class Assignment {
 	 */
 	public abstract String getAssignmentXML();
 
+	/**
+	 * @param sb
+	 *            the StringBuilder to which to append the XML common to all
+	 *            Assignments
+	 * 
+	 * @return XML including the mapping of possible Results to hints and
+	 *         fractions
+	 */
 	protected StringBuilder getAssignmentXML(StringBuilder sb) {
 
 		if (hasHint() || hasFraction()) {
@@ -239,6 +253,9 @@ public abstract class Assignment {
 
 	/**
 	 * If construction changes the assignment may become invalid
+	 * 
+	 * @param app
+	 *            Application
 	 * 
 	 * @return true if the assignment is valid
 	 */

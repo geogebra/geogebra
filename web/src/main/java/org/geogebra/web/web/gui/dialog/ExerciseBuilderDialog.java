@@ -2,18 +2,20 @@ package org.geogebra.web.web.gui.dialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.TreeSet;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.BoolAssignment;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.GeoAssignment;
-import org.geogebra.web.html5.gui.util.ListItem;
-import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -40,7 +42,6 @@ import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -56,7 +57,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
-		MouseDownHandler, MouseUpHandler, TouchStartHandler, TouchEndHandler {
+		MouseDownHandler, MouseUpHandler, TouchStartHandler, TouchEndHandler,
+		GeoElementSelectionListener {
 
 	private AppW app;
 	private Exercise exercise;
@@ -67,9 +69,10 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	private FlexTable assignmentsTable;
 	private FlexTable checkAssignmentsTable;
 
-	// private ExerciseBuilderDOMHandler exerciseBuilderHandler;
-	private UnorderedList addList;
-	private ListBox userAddModes;
+	private ListBox addList;
+	private ArrayList<Object> addListMappings; // TODO Override add, remove,...
+												// instead of relying on calling
+												// updateAddList each time
 
 	public void onTouchEnd(TouchEndEvent event) {
 		onEnd(event);
@@ -90,41 +93,14 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	}
 
 	private void onEnd(DomEvent<?> event) {
-
-		Element relativeElement = event.getRelativeElement();
-		String modeS = relativeElement.getAttribute("mode");
-		// Element target = event.getNativeEvent().getEventTarget().cast();
-		if (addList.getElement().isOrHasChild(relativeElement)) {
-			if (modeS.isEmpty()) {
-				handleAddClick();
-			} else {
-				int mode = Integer.parseInt(modeS);
-				addAssignment(mode);
-				relativeElement.removeFromParent();
-				userAddModes.setVisible(false);
-			}
-			event.stopPropagation();
-		} else {
-			userAddModes.setVisible(false);
-			event.stopPropagation();
-		}
-	}
-
-	/**
-	 * If add symbol is clicked, <br />
-	 * a ToolCreationDialog will be created, if there are no (more) Macros which
-	 * can be used for the Exercise <br />
-	 * or a SubMenu like chooser of the tools which can be used for the Exercise
-	 * will be shown.
-	 */
-	void handleAddClick() {
-		if (app.getKernel().getMacroNumber() == 0
-				|| app.getKernel().getMacroNumber() <= exercise.getParts()
-						.size()) {
+		int selectedIndex = addList.getSelectedIndex();
+		if (selectedIndex == 1) {
 			newTool();
-		} else {
-			userAddModes.setVisible(true);
+		} else if (selectedIndex > 1) {
+			addAssignment(selectedIndex - 2);
 		}
+		event.stopPropagation();
+		addList.setSelectedIndex(0);
 	}
 
 	private void newTool() {
@@ -154,24 +130,32 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		super(false, false, null, ((AppW) app).getPanel());
 
 		this.app = (AppW) app;
-		// exerciseBuilderHandler = new ExerciseBuilderDOMHandler();
 		exercise = app.getKernel().getExercise();
 		if (exercise.isEmpty()) {
 			exercise.initStandardExercise();
 		}
+		addListMappings = new ArrayList<Object>();
 		createGUI();
 	}
 
-	private void createGUI() {
+	@Override
+	public void setVisible(boolean flag) {
+		super.setVisible(flag);
 
+		if (flag) {
+			app.setMoveMode();
+			app.getSelectionManager().addSelectionListener(this);
+		} else {
+			app.getSelectionManager().removeSelectionListener(this);
+		}
+	}
+
+	private void createGUI() {
 		getCaption().setText(app.getMenu("Exercise.CreateNew"));
 
 		setWidget(mainWidget = new VerticalPanel());
 		addDomHandlers(mainWidget);
 		assignmentsTable = new FlexTable();
-		FlexCellFormatter cellFormatter = assignmentsTable
-				.getFlexCellFormatter();
-		cellFormatter.setColSpan(0, 1, 2);
 
 		assignmentsTable.setWidget(0, 1, new Label(app.getPlain("Tool")));
 		assignmentsTable.setWidget(0, 2,
@@ -185,28 +169,27 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		mainWidget.add(assignmentsTable);
 		mainWidget.add(checkAssignmentsTable);
 
-		addList = new UnorderedList();
-		addDomHandlers(addList);
+		addList = new ListBox();
+		addDomHandlers(addList); // add a change Handler instead
 		addList.setStyleName("submenuContent");
-		// addIcon = new ListItem();
-		Image addIcon = new Image(GuiResources.INSTANCE.menu_icon_file_new());
-		ListItem addListItem = new ListItem();
-		addListItem.addStyleName("toolbar_item");
-		addListItem.add(addIcon);
-		addList.add(addListItem);
 
-		userAddModes = new ListBox();
-		userAddModes.setVisible(false);
 		for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
 			if (!exercise.usesMacro(i)) {
-				userAddModes.addItem(app.getKernel().getMacro(i).getToolName());
-				// ListItem item = userAddModes.addItem(i
-				// + EuclidianConstants.MACRO_MODE_ID_OFFSET);
-				// item.addStyleName("toolbar_item");
-				// addDomHandlers(item);
+				addListMappings.add(app.getKernel().getMacro(i));
+
 			}
 		}
-		addList.add(userAddModes);
+
+		TreeSet<GeoElement> geos = app.getKernel().getConstruction()
+				.getGeoSetConstructionOrder();
+		for (GeoElement geo : geos) {
+			if (geo instanceof GeoBoolean) {
+				if (!exercise.usesBoolean((GeoBoolean) geo)) {
+					addListMappings.add((GeoBoolean) geo);
+				}
+			}
+		}
+		updateAddList();
 		mainWidget.add(addList);
 
 		mainWidget.add(bottomWidget = new FlowPanel());
@@ -224,8 +207,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 		bottomWidget.add(btTest);
 		bottomWidget.add(btApply);
-		// bottomWidget.add(btCancel);
-
 	}
 
 	private void createAssignmentsTable() {
@@ -251,10 +232,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		int row = (insertrow <= assignmentsTable.getRowCount()) ? assignmentsTable
 				.insertRow(insertrow) : insertrow;
 
-		Image delIcon = getDeleteIcon(assignment);
-		// assignment
-		assignmentsTable.setWidget(row, j++, delIcon);
-
 		Image icon = new Image();
 		icon.setUrl(getIconFile(assignment.getIconFileName()));
 		assignmentsTable.setWidget(row, j++, icon);
@@ -268,6 +245,10 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 		final ListBox fractions = getFractionsLB(assignment, Result.CORRECT);
 		assignmentsTable.setWidget(row, j++, fractions);
+
+		Image delIcon = getDeleteIcon(assignment);
+		// assignment
+		assignmentsTable.setWidget(row, j++, delIcon);
 
 		Image editIcon = new Image(GuiResources.INSTANCE.menu_icon_edit());
 		editIcon.addClickHandler(new ClickHandler() {
@@ -381,25 +362,30 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 *            the assignment to remove from the Exercise
 	 */
 	void handleAssignmentDeleteClick(ClickEvent event, Assignment assignment) {
-		ListItem item;
 		if (assignment instanceof GeoAssignment) {
-			int id = app.getKernel().getMacroID(
-					((GeoAssignment) assignment).getTool());
-			userAddModes.addItem(app.getKernel().getMacro(id).getToolName());
-			// app.getKernel().getMacroID(
-			// ((GeoAssignment) assignment).getTool()).getToolName());
-			// item = userAddModes.addItem(app.getKernel().getMacroID(
-			// ((GeoAssignment) assignment).getTool())
-			// + EuclidianConstants.MACRO_MODE_ID_OFFSET);
-		} else {
-			item = new ListItem();
-
+			addListMappings.add(((GeoAssignment) assignment).getTool());
+			updateAddList();
+		} else if (assignment instanceof BoolAssignment) {
+			addListMappings.add(((BoolAssignment) assignment).getGeoBoolean());
+			updateAddList();
 		}
-		// addDomHandlers(item);
-		// item.addStyleName("toolbar_item");
 		exercise.remove(assignment);
 		assignmentsTable.removeRow(assignmentsTable.getCellForEvent(event)
 				.getRowIndex());
+	}
+
+	private void updateAddList() {
+		addList.clear();
+
+		addList.addItem(app.getPlain("AddToolOrBoolean"));
+		addList.addItem(app.getMenu("Tool.CreateNew"));
+		for (Object obj : addListMappings) {
+			if (obj instanceof Macro) {
+				addList.addItem(((Macro) obj).getToolName());
+			} else if (obj instanceof GeoBoolean) {
+				addList.addItem(((GeoBoolean) obj).getNameDescription());
+			}
+		}
 	}
 
 	/**
@@ -439,7 +425,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				btTest.setText(app.getPlain("Test"));
 				btApply.setText(app.getPlain("OK"));
 				hide();
-				setGlassEnabled(true);
 				center();
 			}
 		} else if (target == btTest.getElement()) {
@@ -451,7 +436,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				btTest.setText(app.getPlain("Check"));
 				btApply.setText(app.getPlain("Back"));
 				hide();
-				setGlassEnabled(false);
 				center();
 			} else {
 				check();
@@ -515,19 +499,39 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			Assignment a = exercise.addAssignment(macro);
 			appendAssignmentRow(a);
 		}
-		userAddModes.setVisible(false);
 	}
 
 	/**
-	 * Adds a user defined tool to the exercise as well as the view
+	 * Adds an Assignment to the Exercise
 	 * 
-	 * @param mode
-	 *            the ID of the user defined tool which should be added to the
-	 *            exercise as well as the view
+	 * @param listBoxIndex
+	 *            the index of the Object to check for in addListMappings
 	 */
-	void addAssignment(int mode) {
-		addAssignment(app.getKernel().getMacro(
-				mode - EuclidianConstants.MACRO_MODE_ID_OFFSET));
+	void addAssignment(int listBoxIndex) {
+		Object obj = addListMappings.remove(listBoxIndex);
+		if (obj instanceof Macro) {
+			addAssignment((Macro) obj);
+		} else if (obj instanceof GeoBoolean) {
+			addAssignment((GeoBoolean) obj);
+		}
+		addListMappings.remove(obj);
+		updateAddList();
+	}
+
+	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
+		if (geo instanceof GeoBoolean) {
+			addAssignment(geo);
+		}
+	}
+
+	private void addAssignment(GeoElement geo) {
+		if (geo instanceof GeoBoolean) {
+			GeoBoolean check = (GeoBoolean) geo;
+			if (!exercise.usesBoolean(check)) {
+				Assignment a = exercise.addAssignment(check);
+				appendAssignmentRow(a);
+			}
+		}
 	}
 
 }
