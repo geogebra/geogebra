@@ -217,8 +217,7 @@ pr.menu_header_undo(), null, 32);
 			public void execute(double timestamp) {
 
 				if (app.getExam().isCheating()) {
-					getElement().getStyle().setBackgroundColor("red");
-					getElement().getStyle().setColor("white");
+					makeRed(getElement());
 				}
 
 				timer.setText(app.getExam().timeToString(
@@ -226,6 +225,8 @@ pr.menu_header_undo(), null, 32);
 
 				AnimationScheduler.get().requestAnimationFrame(this);
 			}
+
+
 		});
 		visibilityEventMain();
 
@@ -246,6 +247,15 @@ pr.menu_header_undo(), null, 32);
 
 	}
 
+	/**
+	 * @param element
+	 *            element to be changed to red
+	 */
+	native void makeRed(Element element) /*-{
+		element.style.setProperty("background-color", "red", "important");
+		element.style.setProperty("color", "white", "important");
+
+	}-*/;
 	private void startCheating() {
 		if (app.getExam() != null) {
 			app.getExam().startCheating();

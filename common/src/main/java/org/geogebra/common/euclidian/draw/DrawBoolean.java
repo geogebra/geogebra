@@ -146,6 +146,7 @@ public final class DrawBoolean extends Drawable {
 						view.getFont(), false, geoBool.getObjectColor(),
 						geoBool.getBackgroundColor(), false, false, null);
 			} else {
+				g2.setPaint(geo.getObjectColor());
 				textSize = EuclidianStatic.drawIndexedString(
 						view.getApplication(), g2, labelDesc,
 						geoBool.labelOffsetX + size + 9,
