@@ -115,8 +115,6 @@ public interface RendererImpl extends RendererShadersInterface{
 
 	public abstract void setCullFaceBack();
 
-	public boolean drawQuadric(int type);
-
 	public void initShaders();
 
 }

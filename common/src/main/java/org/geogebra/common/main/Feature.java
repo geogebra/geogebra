@@ -47,8 +47,6 @@ public enum Feature {
 
 	INPUT3D,
 
-	ALL_QUADRICS,
-	
 	SURFACE_IS_REGION,
 
 	SHADERS_IN_DESKTOP,

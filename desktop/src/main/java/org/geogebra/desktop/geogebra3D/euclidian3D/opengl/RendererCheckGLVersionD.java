@@ -571,10 +571,6 @@ public class RendererCheckGLVersionD extends RendererD implements
 
 	}
 
-	@Override
-	public boolean drawQuadric(int type) {
-		return rendererImpl.drawQuadric(type);
-	}
 
 	@Override
 	protected void initShaders() {

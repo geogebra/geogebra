@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
@@ -34,7 +33,6 @@ import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -3088,20 +3086,17 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		getLineStyleXML(sb);
 
-		if (kernel.getApplication().has(Feature.ALL_QUADRICS)
-				|| Renderer.drawQuadricDefault(type)) {
-			sb.append("\t<eigenvectors ");
-			sb.append(" x0=\"" + eigenvecND[0].getX() + "\"");
-			sb.append(" y0=\"" + eigenvecND[0].getY() + "\"");
-			sb.append(" z0=\"" + eigenvecND[0].getZ() + "\"");
-			sb.append(" x1=\"" + eigenvecND[1].getX() + "\"");
-			sb.append(" y1=\"" + eigenvecND[1].getY() + "\"");
-			sb.append(" z1=\"" + eigenvecND[1].getZ() + "\"");
-			sb.append(" x2=\"" + eigenvecND[2].getX() + "\"");
-			sb.append(" y2=\"" + eigenvecND[2].getY() + "\"");
-			sb.append(" z2=\"" + eigenvecND[2].getZ() + "\"");
-			sb.append("/>\n");
-		}
+		sb.append("\t<eigenvectors ");
+		sb.append(" x0=\"" + eigenvecND[0].getX() + "\"");
+		sb.append(" y0=\"" + eigenvecND[0].getY() + "\"");
+		sb.append(" z0=\"" + eigenvecND[0].getZ() + "\"");
+		sb.append(" x1=\"" + eigenvecND[1].getX() + "\"");
+		sb.append(" y1=\"" + eigenvecND[1].getY() + "\"");
+		sb.append(" z1=\"" + eigenvecND[1].getZ() + "\"");
+		sb.append(" x2=\"" + eigenvecND[2].getX() + "\"");
+		sb.append(" y2=\"" + eigenvecND[2].getY() + "\"");
+		sb.append(" z2=\"" + eigenvecND[2].getZ() + "\"");
+		sb.append("/>\n");
 
 		// matrix must be saved after eigenvectors
 		// as only <matrix> will cause a call to classifyConic()

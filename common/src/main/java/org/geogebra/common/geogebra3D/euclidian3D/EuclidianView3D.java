@@ -4256,13 +4256,4 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// no combo box in 3D for now
 	}
 
-	/**
-	 * 
-	 * @param type
-	 *            quadric type
-	 * @return true if draw this quadric type
-	 */
-	final public boolean drawQuadric(int type) {
-		return renderer.drawQuadric(type);
-	}
 }

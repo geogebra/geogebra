@@ -6,7 +6,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
-import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 /**
@@ -64,13 +63,5 @@ public class RendererShadersElements extends RendererShaders {
 		return 0;
 	}
 
-	@Override
-	public boolean drawQuadric(int type) {
-		if (view3D.getApplication().has(Feature.ALL_QUADRICS)) {
-			return true;
-		}
-
-		return super.drawQuadric(type);
-	}
 
 }

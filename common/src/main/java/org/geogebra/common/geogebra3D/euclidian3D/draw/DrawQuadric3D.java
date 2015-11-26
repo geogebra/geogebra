@@ -300,11 +300,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		PlotterSurface surface;
 		int type = quadric.getType();
 		
-		if (!getView3D().drawQuadric(type)) {
-			setSurfaceIndex(-1);
-			return true;
-		}
-
 		double min, max;
 
 		switch (type) {
@@ -1153,10 +1148,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		quadric.resetLastHitParameters();
 
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED) {
-			return false;
-		}
-
-		if (!getView3D().drawQuadric(quadric.getType())) {
 			return false;
 		}
 
