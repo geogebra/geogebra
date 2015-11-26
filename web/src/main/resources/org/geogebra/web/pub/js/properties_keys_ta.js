@@ -2155,7 +2155,7 @@ __GGB__keysVar.ta.menu = {
     "off": "\u0ba8\u0bbf\u0bb1\u0bc1\u0ba4\u0bcd\u0ba4\u0bc1\u0b95",
     "on": "\u0baa\u0bcb\u0b9f\u0bc1\u0b95",
     "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
-    "phone_loading_materials_offline": "It seems like you are currently not connected to the Internet. Please check your Internet connection and try again.",
+    "phone_loading_materials_offline": "Please check your Internet connection.",
     "phone_no_materials_found": "No Materials found",
     "phone_tour_done": "Done",
     "phone_try_again_loading": "Try again",

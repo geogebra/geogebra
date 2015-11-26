@@ -2155,7 +2155,7 @@ __GGB__keysVar.mk.menu = {
     "off": "\u0418\u0441\u043a\u043b\u0443\u0447\u0435\u043d\u043e",
     "on": "\u0412\u043a\u043b\u0443\u0447\u0435\u043d\u043e",
     "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
-    "phone_loading_materials_offline": "It seems like you are currently not connected to the Internet. Please check your Internet connection and try again.",
+    "phone_loading_materials_offline": "Please check your Internet connection.",
     "phone_no_materials_found": "No Materials found",
     "phone_tour_done": "Done",
     "phone_try_again_loading": "Try again",

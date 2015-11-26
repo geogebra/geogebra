@@ -2155,7 +2155,7 @@ __GGB__keysVar.fr.menu = {
     "off": "D\xe9sactiv\xe9e",
     "on": "Activ\xe9e",
     "phone_loading_materials_failed": "D\xe9sol\xe9, mais la ressource n'est pas actuellement accessible.",
-    "phone_loading_materials_offline": "Il semble que vous ne soyez pas actuellement connect\xe9 \xe0 Internet. Merci de v\xe9rifier votre connexion et d'essayer \xe0 nouveau.",
+    "phone_loading_materials_offline": "Merci de v\xe9rifier votre connexion Internet.",
     "phone_no_materials_found": "Aucune ressource trouv\xe9e",
     "phone_tour_done": "Termin\xe9",
     "phone_try_again_loading": "Essayer \xe0 nouveau",
