@@ -86,6 +86,16 @@ abstract public class Manager {
 	}
 
 	/**
+	 * set the 3D view
+	 * 
+	 * @param view3D
+	 *            3D view
+	 */
+	public Manager(EuclidianView3D view3D) {
+		this.view3D = view3D;
+	}
+
+	/**
 	 * 
 	 * @return new plotter brush
 	 */

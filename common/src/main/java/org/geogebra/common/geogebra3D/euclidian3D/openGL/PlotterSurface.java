@@ -423,8 +423,19 @@ public class PlotterSurface {
 	public void drawEllipsoid(Coords center, Coords ev0, Coords ev1,
 			Coords ev2, double r0, double r1, double r2, int longitude) {
 
-		// implemented only with elements
+		if (managerElements == null) {
+			managerElements = new ManagerElementForGLList(
+					manager.getRenderer(), manager.getView3D(), manager);
+			plotterElements = new PlotterSurfaceElements(managerElements);
+		}
+
+		plotterElements.drawEllipsoid(center, ev0, ev1, ev2, r0, r1, r2,
+				longitude);
+
 	}
+
+	private ManagerElementForGLList managerElements;
+	private PlotterSurfaceElements plotterElements;
 
 	/**
 	 * draw an hyperboloid (one sheet)
@@ -457,7 +468,14 @@ public class PlotterSurface {
 			Coords ev2, double r0, double r1, double r2, int longitude,
 			double min, double max, boolean fading) {
 
-		// implemented only with elements
+		if (managerElements == null) {
+			managerElements = new ManagerElementForGLList(
+					manager.getRenderer(), manager.getView3D(), manager);
+			plotterElements = new PlotterSurfaceElements(managerElements);
+		}
+
+		plotterElements.drawHyperboloidOneSheet(center, ev0, ev1, ev2, r0, r1,
+				r2, longitude, min, max, fading);
 	}
 
 	/**
@@ -491,7 +509,14 @@ public class PlotterSurface {
 			Coords ev2, double r0, double r1, double r2, int longitude,
 			double min, double max, boolean fading) {
 
-		// implemented only with elements
+		if (managerElements == null) {
+			managerElements = new ManagerElementForGLList(
+					manager.getRenderer(), manager.getView3D(), manager);
+			plotterElements = new PlotterSurfaceElements(managerElements);
+		}
+
+		plotterElements.drawHyperboloidTwoSheets(center, ev0, ev1, ev2, r0, r1,
+				r2, longitude, min, max, fading);
 	}
 
 	/**
@@ -523,7 +548,14 @@ public class PlotterSurface {
 			Coords ev2, double r0, double r1, int longitude,
 			double min, double max, boolean fading) {
 
-		// implemented only with elements
+		if (managerElements == null) {
+			managerElements = new ManagerElementForGLList(
+					manager.getRenderer(), manager.getView3D(), manager);
+			plotterElements = new PlotterSurfaceElements(managerElements);
+		}
+
+		plotterElements.drawParaboloid(center, ev0, ev1, ev2, r0, r1,
+				longitude, min, max, fading);
 	}
 
 	/**
@@ -557,7 +589,14 @@ public class PlotterSurface {
 			Coords ev2, double r0, double r1, double min0, double max0,
 			double min1, double max1, boolean fading) {
 
-		// implemented only with elements
+		if (managerElements == null) {
+			managerElements = new ManagerElementForGLList(
+					manager.getRenderer(), manager.getView3D(), manager);
+			plotterElements = new PlotterSurfaceElements(managerElements);
+		}
+
+		plotterElements.drawHyperbolicParaboloid(center, ev0, ev1, ev2, r0, r1,
+				min0, max0, min1, max1, fading);
 	}
 
 	/**
@@ -589,7 +628,14 @@ public class PlotterSurface {
 			Coords ev2, double r, double min, double max,
 			double lineMin, double lineMax, boolean fading) {
 
-		// implemented only with elements
+		if (managerElements == null) {
+			managerElements = new ManagerElementForGLList(
+					manager.getRenderer(), manager.getView3D(), manager);
+			plotterElements = new PlotterSurfaceElements(managerElements);
+		}
+
+		plotterElements.drawParabolicCylinder(center, ev0, ev1, ev2, r, min,
+				max, lineMin, lineMax, fading);
 	}
 
 	/**
@@ -623,7 +669,14 @@ public class PlotterSurface {
 			Coords ev2, double r1, double r2, double min, double max,
 			double lineMin, double lineMax, boolean fading) {
 
-		// implemented only with elements
+		if (managerElements == null) {
+			managerElements = new ManagerElementForGLList(
+					manager.getRenderer(), manager.getView3D(), manager);
+			plotterElements = new PlotterSurfaceElements(managerElements);
+		}
+
+		plotterElements.drawHyperbolicCylinder(center, ev0, ev1, ev2, r1, r2,
+				min, max, lineMin, lineMax, fading);
 	}
 
 	private Coords[] coordsArray = new Coords[0];

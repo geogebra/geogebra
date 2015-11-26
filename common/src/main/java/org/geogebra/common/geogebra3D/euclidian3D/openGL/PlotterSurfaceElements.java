@@ -1818,6 +1818,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		// set geometry
 		startGeometry();
 
+		if (!fading) {
+			manager.setDummyTexture();
+		}
+
 		if (min <= 0) {
 			n.setMul(ev0, -1);
 
@@ -2057,6 +2061,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		startGeometry();
 
+		if (!fading) {
+			manager.setDummyTexture();
+		}
+
 		if (n == null) {
 			n = new Coords(4);
 		}
@@ -2119,8 +2127,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			uIndex += latitude + 1;
 
 		}
-
-		arrayI = manager.getCurrentGeometryIndices(arrayIndex);
 
 		arrayI.rewind();
 
