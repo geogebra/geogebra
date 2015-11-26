@@ -91,11 +91,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/** minimal height */
 	protected static final int MIN_HEIGHT = 50;
 	/** corner of export area */
-	protected static final String EXPORT1 = "Export_1"; // Points used to define
+	public static final String EXPORT1 = "Export_1"; // Points used to define
 														// corners for export
 														// (if they exist)
 	/** corner of export area */
-	protected static final String EXPORT2 = "Export_2";
+	public static final String EXPORT2 = "Export_2";
 
 	/** pixel per centimeter (at 72dpi) */
 	protected static final double PRINTER_PIXEL_PER_CM = 72.0 / 2.54;
