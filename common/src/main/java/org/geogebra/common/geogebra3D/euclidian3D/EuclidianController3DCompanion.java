@@ -260,53 +260,6 @@ public class EuclidianController3DCompanion extends
 		return false;
 	}
 
-	/**
-	 * capture coords regarding capture mode
-	 * 
-	 * @param coords
-	 *            (x,y) coords
-	 * @return true if coords have been changed
-	 */
-	public boolean checkPointCapturingXYZ(Coords coords) {
-		// capturing points
-		switch (ec.view.getPointCapturingMode()) {
-		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
-			// TODO
-		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
-			if (!ec.view.isGridOrAxesShown()) {
-				return false;
-			}
-		case EuclidianStyleConstants.POINT_CAPTURING_ON:
-		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
-			double x0 = coords.getX();
-			double y0 = coords.getY();
-			double z0 = coords.getZ();
-			double gx = ec.view.getGridDistances(0);
-			double gy = ec.view.getGridDistances(1);
-			double gz = ec.view.getGridDistances(2);
-			double x = Kernel.roundToScale(x0, gx);
-			double y = Kernel.roundToScale(y0, gy);
-			double z = Kernel.roundToScale(z0, gz);
-			// App.debug("\n"+x+"\n"+y+"\np=\n"+project);
-			if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-					|| (Math.abs(x - x0) < gx
-							* ec.getPointCapturingPercentage()
-							&& Math.abs(y - y0) < gy
-									* ec.getPointCapturingPercentage() && Math
-							.abs(z - z0) < gz
-							* ec.getPointCapturingPercentage())
-
-			) {
-				coords.setX(x);
-				coords.setY(y);
-				coords.setZ(z);
-				return true;
-			}
-			return false;
-		}
-
-		return false;
-	}
 
 	/**
 	 * capture coords regarding capture mode
@@ -322,19 +275,19 @@ public class EuclidianController3DCompanion extends
 			// TODO
 		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
 			if (!ec.view.isGridOrAxesShown()) {
+				if (specificPointCapturingAutomatic()) {
+					return checkPointCapturingZto0(coords);
+				}
 				return false;
 			}
 		case EuclidianStyleConstants.POINT_CAPTURING_ON:
 		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
 			double x0 = coords.getX();
 			double y0 = coords.getY();
-			double z0 = coords.getZ();
 			double gx = ec.view.getGridDistances(0);
 			double gy = ec.view.getGridDistances(1);
-			double gz = ec.view.getGridDistances(2);
 			double x = Kernel.roundToScale(x0, gx);
 			double y = Kernel.roundToScale(y0, gy);
-			double z = Kernel.roundToScale(z0, gz);
 			// App.debug("\nx="+x+"\ny="+y+"\nz=\n"+z);
 			if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
 					|| (Math.abs(x - x0) < gx
@@ -344,20 +297,41 @@ public class EuclidianController3DCompanion extends
 			) {
 				coords.setX(x);
 				coords.setY(y);
-				if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-						|| Math.abs(z - z0) < gz
-								* ec.getPointCapturingPercentage()) {
-					coords.setZ(z);
-				}
-				return true;
-			} else if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-					|| Math.abs(z - z0) < gz * ec.getPointCapturingPercentage()) {
-				coords.setZ(z);
+				checkPointCapturingZ(coords);
 				return true;
 			}
-			return false;
+
+			return checkPointCapturingZ(coords);
 		}
 
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return true e.g. when using stylus
+	 */
+	protected boolean specificPointCapturingAutomatic() {
+		return false;
+	}
+
+	private boolean checkPointCapturingZto0(Coords coords) {
+		return checkPointCapturingZ(coords, 0);
+	}
+
+	private boolean checkPointCapturingZ(Coords coords) {
+		return checkPointCapturingZ(coords, coords.getZ());
+	}
+		
+	private boolean checkPointCapturingZ(Coords coords, double zStick) {
+		double z0 = coords.getZ();
+		double gz = ec.view.getGridDistances(2);
+		double z = Kernel.roundToScale(zStick, gz);
+		if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
+				|| Math.abs(z - z0) < gz * ec.getPointCapturingPercentage()) {
+			coords.setZ(z);
+			return true;
+		}
 		return false;
 	}
 

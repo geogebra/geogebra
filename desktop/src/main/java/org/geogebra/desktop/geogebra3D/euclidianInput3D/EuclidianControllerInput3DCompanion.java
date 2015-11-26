@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DCompanion;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
@@ -468,4 +469,10 @@ public class EuclidianControllerInput3DCompanion extends
 																		// threshold;
 	}
 
+	@Override
+	protected boolean specificPointCapturingAutomatic() {
+		return ((EuclidianController3D) ec).isZSpace()
+				&& !((EuclidianControllerInput3D) ec).input3D
+						.currentlyUseMouse2D();
+	}
 }
