@@ -1335,19 +1335,46 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				botanaVars.put(geo, botanaVarsThis);
 			}
 
+			/*
+			 * If this point is not shown, then force a criterion that the
+			 * symbolic intersection must differ from that point. See below.
+			 */
+			int excludePoint = 0;
+			if (!this.isInConstructionList() && preexistPoints != null
+					&& preexistPoints.size() == 1) {
+				/*
+				 * This case is present if we explicitly point to one
+				 * intersection point of a line and a circle. If the line and
+				 * the circle already have a common point, then the user may
+				 * point to the other intersection point. In this case we
+				 * explicitly claim that the intersection point differs from the
+				 * common point.
+				 */
+				excludePoint = 1;
+			}
+
 			Polynomial[] botanaPolynomialsThis = null;
-			// Force NDG that the two intersection points must differ:
-			// TODO: This is very ugly.
+			/*
+			 * Force a criterion that the two intersection points must differ:
+			 * See page 150 in Zoltan's diss, 1st paragraph. TODO: This is very
+			 * ugly.
+			 */
 			Variable[] botanaVarsOther = new Variable[2];
 			Iterator<GeoElement> it = botanaVars.keySet().iterator();
 			boolean found = false;
 			while (it.hasNext()) {
 				GeoElement otherGeo = it.next();
-				// This should be one element:
+				/*
+				 * This should be at most one element. There is one element if
+				 * we found the second intersection point, otherwise (for the
+				 * first intersection point) there is no otherGeo yet, so we
+				 * will not create any polynomials here (yet).
+				 */
 				if (!otherGeo.equals(geo)) {
-					botanaPolynomialsThis = new Polynomial[3];
+					botanaPolynomialsThis = new Polynomial[3 + excludePoint];
 					botanaVarsOther = botanaVars.get(otherGeo);
-					botanaPolynomialsThis[2] = (Polynomial.sqrDistance(
+					botanaPolynomialsThis[2 + excludePoint] = (Polynomial
+							.sqrDistance(
 							botanaVarsThis[0], botanaVarsThis[1],
 							botanaVarsOther[0], botanaVarsOther[1])
 							.multiply(new Polynomial(new Variable())))
@@ -1356,7 +1383,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				}
 			}
 			if (!found) {
-				botanaPolynomialsThis = new Polynomial[2];
+				botanaPolynomialsThis = new Polynomial[2 + excludePoint];
 			}
 
 			Variable[] vA = A.getBotanaVars(geo); // 4 variables from the first
@@ -1372,7 +1399,28 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			if (botanaPolynomials == null) {
 				botanaPolynomials = new HashMap<GeoElement, Polynomial[]>();
 			}
+
+			/*
+			 * If this point is not shown, then force a criterion that the
+			 * symbolic intersection must differ from that point. See above.
+			 */
+			if (excludePoint > 0) {
+				botanaVarsOther = ((GeoPoint) (preexistPoints.get(0)))
+						.getBotanaVars((GeoPoint) (preexistPoints.get(0)));
+				botanaPolynomialsThis[botanaPolynomialsThis.length - 1] = (Polynomial
+						.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
+								botanaVarsOther[0], botanaVarsOther[1])
+						.multiply(new Polynomial(new Variable())))
+						.subtract(new Polynomial(1));
+			}
+
 			botanaPolynomials.put(geo, botanaPolynomialsThis);
+
+			/*
+			 * TODO: We created the botanaPolynomials by building up an array
+			 * here from at most three parts. It would be nicer to do it in a
+			 * more sophisticated way.
+			 */
 
 			return botanaPolynomialsThis;
 
