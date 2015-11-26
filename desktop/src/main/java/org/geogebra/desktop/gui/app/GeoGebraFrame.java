@@ -822,7 +822,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 					if (slider == null || !slider.isGeoNumeric()
 							|| !((GeoNumeric) slider).isSlider()) {
-						App.error(sliderName + "is not a slider");
+						App.error(sliderName + " is not a slider");
 						System.exit(0);
 					}
 
