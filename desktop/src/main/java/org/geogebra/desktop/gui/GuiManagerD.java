@@ -2382,8 +2382,10 @@ FileExtensions.GEOGEBRA_TOOL)) {
 			((EuclidianView3DInterface) ev).updateAllDrawables();
 		}
 		// force JavaScript ggbOnInit(); to be called
-		if (!app.isApplet())
+		if (!app.isApplet()) {
 			app.getScriptManager().ggbOnInit();
+			((AppD) app).centerFrame();
+		}
 	}
 
 

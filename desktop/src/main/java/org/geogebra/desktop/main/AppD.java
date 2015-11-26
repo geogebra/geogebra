@@ -3722,6 +3722,9 @@ public class AppD extends App implements KeyEventDispatcher {
 				setMoveMode();
 			}
 
+			// store current location of the window
+			storeFrameCenter();
+
 			// make sure objects are displayed in the correct View
 			setActiveView(App.VIEW_EUCLIDIAN);
 
@@ -3782,6 +3785,28 @@ public class AppD extends App implements KeyEventDispatcher {
 			setCurrentFile(null);
 			showError(err);
 			return false;
+		}
+	}
+
+	private int centerX, centerY;
+
+	private void storeFrameCenter() {
+		centerX = getWindowCenterX();
+		centerY = getWindowCenterY();
+	}
+
+	public void centerFrame() {
+		// re-center window
+		if (frame != null) {
+			int x0 = centerX - frame.getWidth() / 2;
+			if (x0 < 0) {
+				x0 = 0;
+			}
+			int y0 = centerY - frame.getHeight() / 2;
+			if (y0 < 0) {
+				y0 = 0;
+			}
+			frame.setLocation(x0, y0);
 		}
 	}
 
@@ -3921,6 +3946,23 @@ public class AppD extends App implements KeyEventDispatcher {
 			return 600;
 		}
 	}
+
+	private int getWindowCenterX() {
+		if (frame != null) {
+			return frame.getX() + frame.getWidth() / 2;
+		} else {
+			return 400;
+		}
+	}
+
+	private int getWindowCenterY() {
+		if (frame != null) {
+			return frame.getY() + frame.getHeight() / 2;
+		} else {
+			return 300;
+		}
+	}
+
 
 	/*
 	 * final public void clearAll() { // load preferences
