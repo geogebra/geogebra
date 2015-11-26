@@ -89,6 +89,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.GeoAssignment;
@@ -173,7 +174,7 @@ public class MyXMLHandler implements DocHandler {
 	private Command cmd;
 	private Macro macro;
 	private Exercise exercise;
-	private GeoAssignment assignment;
+	private Assignment assignment;
 	/** application */
 	protected final App app;
 	/** lacalization */
@@ -2871,20 +2872,28 @@ public class MyXMLHandler implements DocHandler {
 		if (name == null) {
 			name = attrs.get("toolName");
 		}
-		Macro m = kernel.getMacro(name);
-		// this should not be needed but for files saved between 41946 and 42226
-		// fileloading won't work (only files created in beta, probably
-		// only Judith and me, but...)
-		if (m == null) {
-			m = kernel.getMacro(name.replace(" ", ""));
-		}
-		assignment = exercise.addAssignment(m);
-
-		String op = attrs.get("checkOperation");
-		if (op == null) {
-			assignment.setCheckOperation("==");
+		if (name == null) {
+			name = attrs.get("booleanName");
+			if (name != null) {
+				assignment = exercise.addAssignment(name);
+			}
 		} else {
-			assignment.setCheckOperation(op);
+			Macro m = kernel.getMacro(name);
+			// this should not be needed but for files saved between 41946 and
+			// 42226
+			// fileloading won't work (only files created in beta, probably
+			// only Judith and me, but...)
+			if (m == null) {
+				m = kernel.getMacro(name.replace(" ", ""));
+			}
+			assignment = exercise.addAssignment(m);
+
+			String op = attrs.get("checkOperation");
+			if (op == null) {
+				((GeoAssignment) assignment).setCheckOperation("AreEqual");
+			} else {
+				((GeoAssignment) assignment).setCheckOperation(op);
+			}
 		}
 	}
 

@@ -52,7 +52,7 @@ public class GeoAssignment extends Assignment {
 	 *            the macro (user defined tool) corresponding to the assignment
 	 */
 	public GeoAssignment(Macro macro) {
-		super();
+		super(macro.getKernel());
 		this.macro = macro;
 		inputTypes = macro.getInputTypes();
 
@@ -403,8 +403,8 @@ public class GeoAssignment extends Assignment {
 	}
 
 	@Override
-	public boolean isValid(App app) {
-		return app.getKernel().getMacro(getTool().getCommandName()) != null;
+	public boolean isValid() {
+		return kernel.getMacro(getTool().getCommandName()) != null;
 	}
 }
 

@@ -4,31 +4,35 @@
 package org.geogebra.common.util;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.common.main.App;
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * @author Christoph
  */
 public class BoolAssignment extends Assignment {
 
-	private GeoBoolean check;
+	private GeoBoolean geoBoolean;
+	private String geoBooleanName;
 
-	public BoolAssignment(GeoBoolean check) {
-		super();
-		this.check = check;
+	public BoolAssignment(GeoBoolean geoBoolean, Kernel kernel) {
+		super(kernel);
+		this.geoBoolean = geoBoolean;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.geogebra.common.util.Assignment#checkAssignment(org.geogebra.common
-	 * .kernel.Construction)
-	 */
+	public BoolAssignment(String name, Kernel kernel) {
+		super(kernel);
+		geoBooleanName = name;
+	}
+
 	@Override
 	public Result checkAssignment(Construction construction) {
-		res = check.getBoolean() ? Result.CORRECT : Result.WRONG;
+		if (getGeoBoolean() == null) {
+			res = Result.UNKNOWN;
+		} else {
+			res = getGeoBoolean().getBoolean() ? Result.CORRECT : Result.WRONG;
+		}
 		return res;
 	}
 
@@ -45,23 +49,18 @@ public class BoolAssignment extends Assignment {
 	}
 
 	@Override
-	public String getAssignmentXML() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getDisplayName() {
-		return check.getNameDescription();
+		return getGeoBoolean() != null ? getGeoBoolean().getNameDescription()
+				: "";
 	}
 
 	@Override
-	public boolean isValid(App app) {
+	public boolean isValid() {
 		// TODO Not sure at the moment this is needed here,
 		// but if we do lazy removing of BoolAssignments from Exercise this
 		// could be useful.
-		return app.getKernel().getConstruction()
-				.getGeoSetNameDescriptionOrder().contains(check);
+		return kernel.getConstruction()
+				.getGeoSetNameDescriptionOrder().contains(getGeoBoolean());
 	}
 
 	/**
@@ -72,11 +71,28 @@ public class BoolAssignment extends Assignment {
 	 * @return true if geo is used by this assignment
 	 */
 	public boolean usesGeoBoolean(GeoBoolean geo) {
-		return check.equals(geo);
+		return getGeoBoolean() != null && getGeoBoolean().equals(geo);
 	}
 
 	public GeoBoolean getGeoBoolean() {
-		return check;
+		if (geoBoolean == null) {
+			GeoElement geoElem = kernel.lookupLabel(geoBooleanName);
+			if (geoElem instanceof GeoBoolean) {
+				geoBoolean = (GeoBoolean) geoElem;
+			}
+		}
+		return geoBoolean;
 	}
 
+	@Override
+	public String getAssignmentXML() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\t<assignment booleanName=\"");
+		StringUtil.encodeXML(sb, getGeoBoolean().getLabelSimple());
+		sb.append("\">\n");
+
+		getAssignmentXML(sb);
+
+		return sb.toString();
+	}
 }

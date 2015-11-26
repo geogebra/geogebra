@@ -3,7 +3,7 @@ package org.geogebra.common.util;
 import java.util.HashMap;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.main.App;
+import org.geogebra.common.kernel.Kernel;
 
 /**
  * @author Christoph
@@ -58,11 +58,13 @@ public abstract class Assignment {
 	protected HashMap<Result, Float> fractionForResult;
 	protected HashMap<Result, String> hintForResult;
 	protected Result res;
+	protected Kernel kernel;
 
-	public Assignment() {
+	public Assignment(Kernel kernel) {
 		fractionForResult = new HashMap<Result, Float>();
 		hintForResult = new HashMap<Result, String>();
 		res = Result.UNKNOWN;
+		this.kernel = kernel;
 	}
 
 	/**
@@ -254,10 +256,7 @@ public abstract class Assignment {
 	/**
 	 * If construction changes the assignment may become invalid
 	 * 
-	 * @param app
-	 *            Application
-	 * 
 	 * @return true if the assignment is valid
 	 */
-	public abstract boolean isValid(App app);
+	public abstract boolean isValid();
 }

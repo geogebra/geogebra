@@ -64,19 +64,23 @@ public class Exercise {
 		if (assignments.isEmpty()) {
 			initStandardExercise();
 		}
-		ArrayList<String> addListeners = app.getScriptManager()
-				.getAddListeners();
-		ArrayList<String> tmpListeners = new ArrayList<String>();
-		for (String addListener : addListeners) {
-			tmpListeners.add(addListener);
-			app.getScriptManager().unregisterAddListener(addListener);
-		}
+		// ArrayList<String> addListeners = app.getScriptManager()
+		// .getAddListeners();
+		// ArrayList<String> tmpListeners = new ArrayList<String>();
+		// for (String addListener : addListeners) {
+		// tmpListeners.add(addListener);
+		// app.getScriptManager().unregisterAddListener(addListener);
+		// }
+		app.getScriptManager().disableListeners();
 		for (Assignment assignment : assignments) {
-			assignment.checkAssignment(construction);
+			if (assignment.isValid()) {
+				assignment.checkAssignment(construction);
+			}
 		}
-		for (String addListener : tmpListeners) {
-			app.getScriptManager().registerAddListener(addListener);
-		}
+		app.getScriptManager().enableListeners();
+		// for (String addListener : tmpListeners) {
+		// app.getScriptManager().registerAddListener(addListener);
+		// }
 	}
 
 	/**
@@ -142,9 +146,22 @@ public class Exercise {
 	public BoolAssignment addAssignment(GeoBoolean geo) {
 		BoolAssignment a = getAssignment(geo);
 		if (a == null) {
-			a = new BoolAssignment(geo);
+			a = new BoolAssignment(geo, app.getKernel());
 			addAssignment(a);
 		}
+		return a;
+	}
+
+	/**
+	 * Creates a new Assignment and adds it to the Exercise.
+	 * 
+	 * @param geo
+	 *            the GeoBoolean which should be used for the check
+	 * @return the newly created Assignment
+	 */
+	public BoolAssignment addAssignment(String geoBooleanName) {
+		BoolAssignment a = new BoolAssignment(geoBooleanName, app.getKernel());
+		assignments.add(a);
 		return a;
 	}
 
@@ -350,7 +367,7 @@ public class Exercise {
 	}
 
 	private boolean isValid(Assignment assignment) {
-		return !assignments.contains(assignment) && assignment.isValid(app);
+		return !assignments.contains(assignment) && assignment.isValid();
 	}
 
 	/**
