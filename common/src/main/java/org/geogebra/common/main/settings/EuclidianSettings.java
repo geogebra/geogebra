@@ -58,6 +58,8 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
+	private GDimension sizeFromFile;
+
 	// settings for the base EuclidianView (or null if this is the base)
 	//private final EuclidianSettings euclidianSettings1;
 
@@ -66,6 +68,7 @@ public class EuclidianSettings extends AbstractSettings {
 		xZero = EuclidianView.XZERO_STANDARD;
 		yZero = EuclidianView.YZERO_STANDARD;
 		preferredSize = AwtFactory.prototype.newDimension(0, 0);
+		sizeFromFile = AwtFactory.prototype.newDimension(0, 0);
 		resetNoFire();
 	}
 
@@ -972,6 +975,16 @@ public class EuclidianSettings extends AbstractSettings {
 		}
 	}
 
+	public void setSizeFromFile(GDimension newDimension) {
+		this.sizeFromFile = newDimension;
+	}
 
+	public int getFileWidth() {
+		return sizeFromFile.getWidth();
+	}
+
+	public int getFileHeight() {
+		return sizeFromFile.getHeight();
+	}
 
 }

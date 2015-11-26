@@ -1423,6 +1423,9 @@ public class MyXMLHandler implements DocHandler {
 			ev.setPreferredSize(
 					org.geogebra.common.factories.AwtFactory.prototype
 							.newDimension(width, height));
+			ev.setSizeFromFile(org.geogebra.common.factories.AwtFactory.prototype
+					.newDimension(Integer.parseInt(attrs.get("width")),
+							Integer.parseInt(attrs.get("height"))));
 			return true;
 		} catch (Exception e) {
 			return false;

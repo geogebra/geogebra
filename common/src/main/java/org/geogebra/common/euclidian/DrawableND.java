@@ -125,4 +125,9 @@ public abstract class DrawableND {
 
 	public abstract boolean isTracing();
 
+	public void move() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

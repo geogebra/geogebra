@@ -64,6 +64,8 @@ public class DrawSlider extends Drawable {
 
 	private GLine2D line = AwtFactory.prototype.newLine2D();
 
+	private double initX, initY;
+
 	/**
 	 * Creates new drawable for slider
 	 * 
@@ -76,14 +78,23 @@ public class DrawSlider extends Drawable {
 		this.view = view;
 		this.number = number;
 		geo = number;
-
-		// create point for slider
-
+		initX = number.getSliderX();
+		initY = number.getSliderY();
 		update();
 	}
 
 	@Override
 	final public void update() {
+		if (number.isAbsoluteScreenLocActive()
+ && initX >= 0 && initY >= 0) {
+			number.fixPositionHorizontal(initX, view.getSettings()
+					.getFileWidth(),
+					view.getWidth());
+			number.fixPositionVertical(initY, view.getSettings()
+					.getFileHeight(),
+					view.getHeight());
+		}
+
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
 			double widthRW;
@@ -310,6 +321,12 @@ public class DrawSlider extends Drawable {
 			hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 		}
 		this.pointSize = pointSize;
+	}
+
+	@Override
+	public void move() {
+		this.initX = -1;
+		this.initY = -1;
 	}
 
 }

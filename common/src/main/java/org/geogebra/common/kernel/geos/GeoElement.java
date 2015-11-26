@@ -6556,9 +6556,11 @@ public abstract class GeoElement extends ConstructionElement implements
 							* rwTransVec.getY());
 					final int x = screenLoc.getAbsoluteScreenLocX() + vxPixel;
 					final int y = screenLoc.getAbsoluteScreenLocY() + vyPixel;
+					view.getDrawableFor(geo).move();
 					screenLoc.setAbsoluteScreenLoc(x, y);
 					movedGeo = true;
 				} else if (isGeoNumeric()) {
+					view.getDrawableFor(geo).move();
 					if (!((GeoNumeric) geo).isSliderFixed()) {
 						// real world screen position - GeoNumeric
 						((GeoNumeric) geo).setRealWorldLoc(

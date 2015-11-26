@@ -1566,6 +1566,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	private boolean showExtendedAV = true;
 
+	private int sliderAnchorX;
+
+	private int sliderAnchorY;
+
 	@Override
 	public boolean isShowingExtendedAV() {
 		return showExtendedAV;
@@ -1698,6 +1702,26 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 		// GGB-55
 		setSliderLocation(0, 0, true);
+
+	}
+
+	public void fixPositionHorizontal(double wish, int fileWidth, int width) {
+		if (width < fileWidth
+				&& wish + (sliderHorizontal ? sliderWidth : 0) > width) {
+			sliderX = wish + width - fileWidth;
+		} else {
+			sliderX = wish;
+		}
+
+	}
+
+	public void fixPositionVertical(double wish, int fileHeight, int height) {
+		if (height < fileHeight
+				&& wish + (sliderHorizontal ? 0 : sliderWidth) > height) {
+			sliderY = wish + height - fileHeight;
+		} else {
+			sliderY = wish;
+		}
 
 	}
 
