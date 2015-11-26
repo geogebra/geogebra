@@ -87,11 +87,7 @@ using namespace std;
 #endif // visualc || besta_os
 
 #ifdef BESTA_OS
-#ifdef BESTA_WIN32_TARGET
-#include <Windows.h>
-#else
 #include <stdlib.h>
-#endif // besta_win32_target
 #endif // besta_os
 
 #include <stdio.h>

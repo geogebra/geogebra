@@ -872,6 +872,14 @@ namespace giac {
 	    gen tmp=lgcd(Q);
 	    divvecteur(Q,tmp,Q);
 	    gen q=r2sym(Q,lv,contextptr);
+	    if (q.type==_VECT && !q._VECTptr->empty() && !is_one(q._VECTptr->front())){
+	      // make change of variable so that Q becomes monic and solve again
+	      gen q0=q._VECTptr->front();
+	      gen e1=subst(e,x,x/q0,false,contextptr);
+	      in_solve(e1,x,v,isolate_mode,contextptr);
+	      multvecteur(inv(q0,contextptr),v,v);
+	      return;
+	    }
 	    gen D=r2sym(27*alpha2*delta-9*alpha*beta*gamma+2*beta3,lv,contextptr);
 	    vecteur P1=makevecteur(-3*alpha4,0,-15*alpha3*gamma+5*alpha2*beta2,0,-9*alpha2*beta*delta-12*alpha2*gamma2+11*alpha*beta2*gamma-2*beta4);
 	    gen R1=rootof(makevecteur(r2sym(P1,lv,contextptr),q),contextptr)/r2sym(alpha,lv,contextptr)/D;
@@ -1426,7 +1434,7 @@ namespace giac {
   }
 
   // find the arguments of fractional power inside expression e
-  static vecteur lvarfracpow(const gen & e){
+  vecteur lvarfracpow(const gen & e){
     vecteur l0=lvar(e),l;
     iterateur it=l0.begin(),itend=l0.end();
     for (;it!=itend;++it){

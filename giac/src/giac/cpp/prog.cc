@@ -2696,6 +2696,8 @@ namespace giac {
     if (a.type!=_VECT){
       if (a.type==_REAL)
 	return contains(a,b);
+      if (b==cst_i)
+	return has_i(a);
       return gensizeerr(contextptr);
     }
     return equalposcomp(*a._VECTptr,b);

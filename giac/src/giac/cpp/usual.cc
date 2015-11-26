@@ -1225,7 +1225,11 @@ namespace giac {
 	return sqrt(a,contextptr);
       if ( has_i(a) || has_i(b) )
 	return pow(e,plus_one_half,contextptr);
-      gen rho=sqrt(a*a+b*b,contextptr);
+      gen rho=pow(a,2,contextptr)+pow(b,2,contextptr);
+      rho=ratnormal(rho);
+      if (abs_calc_mode(contextptr)==38 && !lvarfracpow(rho).empty())
+	return pow(e,plus_one_half,contextptr);
+      rho=sqrt(rho,contextptr);
       if (abs_calc_mode(contextptr)==38 && rho.type!=_FRAC && rho.type>=_IDNT){
 	rho=evalf(rho,1,contextptr);
 	if (rho.type>=_IDNT)

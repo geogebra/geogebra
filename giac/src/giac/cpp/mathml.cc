@@ -1249,6 +1249,7 @@ namespace giac {
     return gen2mathml(e, svg,contextptr);
   }
 
+#ifdef EMCC
   static string mathml_split(const string & s,int slicesize){
     if (s.size()<=slicesize)
       return s;
@@ -1262,6 +1263,11 @@ namespace giac {
     }
     return res;
   }
+#else
+  static string mathml_split(const string & s,int slicesize){
+    return s;
+  }
+#endif
 
   string gen2mathml(const gen &e, string &svg,GIAC_CONTEXT){
     string part_re="", part_im="<mi>i</mi>";

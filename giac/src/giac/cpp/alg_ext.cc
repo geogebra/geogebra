@@ -158,8 +158,11 @@ namespace giac {
     int maxdigits=1000;
     if (c.size()<w.size()-1)
       maxdigits=50;
+#ifndef HAVE_LIBMPFR
+    maxdigits=14;
+#endif
     gen borne=100;
-    for (int ndigits=14;ndigits<1000;ndigits*=2){
+    for (int ndigits=14;ndigits<=maxdigits;ndigits*=2){
       gen R1=conj(_evalf(makesequence(r1,ndigits),contextptr),contextptr);
       for (int i=0;i<int(c.size());++i){
 	gen r2=c[i];
@@ -776,8 +779,12 @@ namespace giac {
       if (innerdim){
 	gen params;
 	*logptr(contextptr) << gettext("Warning, need to choose a branch for the root of a polynomial with parameters. This might be wrong.") << endl;
-	if (l->size()>=2){
-	  params=(*l)[1];
+	if (l && l->size()>=2){
+	  for (int i=1;i<l->size();++i){
+	    params=(*l)[i];
+	    if (params.type==_VECT && !params._VECTptr->empty())
+	      break;
+	  }
 	  // IMPROVE: using context and *l look for assumptions
 	  if (params.type==_VECT){
 	    vecteur paramv=*params._VECTptr;
@@ -802,8 +809,12 @@ namespace giac {
 		      else {
 			if (b==plus_inf)
 			  vb[j]=a+1;
-			else
-			  vb[j]=(a+b)/2;
+			else {
+			  if (a+b==0)
+			    vb[j]=b/2;
+			  else
+			    vb[j]=(a+b)/2;
+			}
 		      }
 		    }
 		  }
@@ -818,7 +829,7 @@ namespace giac {
 	if (vb==vb0)
 	  *logptr(contextptr) << gettext("The choice was done assuming ") << params << "=" << vb << endl;       
 	else 
-	  *logptr(contextptr) << gettext("Non regular value ") << vb0 << gettext(" was discarded and replaced randomly by ") << params << "=" << endl;
+	  *logptr(contextptr) << gettext("Non regular value ") << vb0 << gettext(" was discarded and replaced randomly by ") << params << "=" << vb << endl;
 	racines=proot(polynome2poly1(pb));
       }
       else

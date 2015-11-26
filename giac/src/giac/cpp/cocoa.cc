@@ -4047,21 +4047,21 @@ namespace giac {
       return z2.pos>z1.pos;
     return false;
   }
+
+  //#define GIAC_DEG_FIRST
   
   template <class tdeg_t>
   bool operator < (const zsymb_data<tdeg_t> & z1,const zsymb_data<tdeg_t> & z2){
-#ifdef GIAC_DEG_FIRST
-    if (z1.deg!=z2.deg)
-      return tdeg_t_greater(z2.deg,z1.deg,z1.o);
-    if (z1.terms!=z2.terms) return z2.terms>z1.terms;
-#else 
     int d1=z1.deg.total_degree(z1.o),d2=z2.deg.total_degree(z2.o);
+#ifdef GIAC_DEG_FIRST
+    if (d1!=d2)
+      return d1<d2;
+#endif
     //double Z1=d1*double(z1.terms)*(z1.age+1); double Z2=d2*double(z2.terms)*(z2.age+1); if (Z1!=Z2) return Z2>Z1;
     double Z1=double(z1.terms)*d1; double Z2=double(z2.terms)*d2; if (Z1!=Z2) return Z2>Z1;
     if (z1.terms!=z2.terms) return z2.terms>z1.terms;
     if (z1.deg!=z2.deg)
       return tdeg_t_greater(z1.deg,z2.deg,z1.o);
-#endif
     if (z1.pos!=z2.pos)
       return z2.pos>z1.pos;
     return false;
@@ -6004,7 +6004,7 @@ namespace giac {
 	next_index(pos,it);
 	skip=pos;
 	wt=wt0+pos;
-	// if (*wt==0) continue;
+	//if (*wt==0) continue; // test already done with v64[*fit]==0
 	const vector<modint> & mcoeff=coeffs[coeffindex[i].u];
 	bool shortshifts=coeffindex[i].b;
 	if (mcoeff.empty())
@@ -10101,6 +10101,10 @@ namespace giac {
     // do not use heap chain
     // ref Monaghan Pearce if g.size()==1
     // R is the list of all monomials
+    if (f.empty() || G.empty())
+      return ;
+    int dim=g[G.front()].dim;
+    order_t order=g[G.front()].order;
 #ifdef GIAC_GBASIS_PERMUTATION
     // First reorder G in order to use the "best" possible reductor
     // This is done using the ldegree of g[G[i]] (should be minmal)
@@ -10112,6 +10116,7 @@ namespace giac {
     }
     sort(GG.begin(),GG.end());
 #endif
+    tdeg_t minldeg(g[G.front()].ldeg);
     R.clear();
     rem.clear();
     // if (G.size()>q.size()) q.clear();
@@ -10120,11 +10125,9 @@ namespace giac {
     for (unsigned i=0;i<G.size();++i){
       q[i].clear();
       guess += unsigned(g[G[i]].coord.size());
+      if (!tdeg_t_greater(g[G[i]].ldeg,minldeg,order))
+	minldeg=g[G[i]].ldeg;
     }
-    if (f.empty() || G.empty())
-      return ;
-    int dim=g[G.front()].dim;
-    order_t order=g[G.front()].order;
     vector<heap_t<tdeg_t> > H_;
     vector<unsigned> H;
     if (debug_infolevel>1)
@@ -10170,6 +10173,9 @@ namespace giac {
 	rem.push_back(m); // add to remainder
 	continue;
       }
+#ifdef GIAC_DEG_FIRST
+      int mtot=m.total_degree(order);
+#endif
       unsigned ii;
       for (ii=0;ii<G.size();++ii){
 #ifdef GIAC_GBASIS_PERMUTATION
@@ -10180,6 +10186,11 @@ namespace giac {
 	if (i==excluded)
 	  continue;
 	const tdeg_t & deg=g[G[i]].ldeg;
+#ifdef GIAC_DEG_FIRST
+	if (deg.total_degree(order)>mtot){
+	  ii=G.size(); break;
+	}
+#endif
 	if (tdeg_t_all_greater(m,deg,order))
 	  break;
       }
@@ -10187,16 +10198,7 @@ namespace giac {
 	rem.push_back(m); // add to remainder
 	// no monomial divide m, check if m is greater than one of the monomial of G
 	// if not we can push all remaining monomials in rem
-	finish=true;
-	for (ii=0;ii<G.size();++ii){
-	  if (ii==excluded)
-	    continue;
-	  const tdeg_t & deg=g[G[ii]].ldeg;
-	  if (tdeg_t_greater(m,deg,order)){
-	    finish=false;
-	    break;
-	  }
-	}
+	finish=!tdeg_t_greater(m,minldeg,order);
 	continue;
       }
       // add m/leading monomial of g[G[i]] to q[i]
@@ -10214,7 +10216,7 @@ namespace giac {
       }
     } // end main heap pseudo-division loop
     if (debug_infolevel>1)
-      CERR << CLOCK() << "Heap actual size was " << H_.size() << endl;
+      CERR << CLOCK() << " Heap actual size was " << H_.size() << endl;
   }
 
   template<class tdeg_t>
