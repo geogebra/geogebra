@@ -278,6 +278,8 @@ public class CopyPasteCutW extends CopyPasteCut {
 		}
 		// use internal clipboard too, every time
 		staticClipboardString = value;
+
+		copyToSystemClipboard(value);
 	}
 
 	/**

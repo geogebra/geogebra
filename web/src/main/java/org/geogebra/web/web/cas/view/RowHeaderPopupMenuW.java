@@ -33,9 +33,7 @@ public class RowHeaderPopupMenuW extends
 
 	private void initMenu() {
 		// "Insert Above" menuitem
-		boolean canSystemCopy = CASTableControllerW.checkClipboardSupported()
-				&& CopyPasteCutW
-.copyToSystemClipboard(" ");
+		boolean canSystemCopy = CASTableControllerW.checkClipboardSupported();
 		MenuItem miCopyInput = new MenuItem(app.getMenu("CopyInput"),
 				new ScheduledCommand() {
 					public void execute() {
@@ -52,6 +50,7 @@ public class RowHeaderPopupMenuW extends
 					}
 				});
 		rowHeaderPopupMenu.addItem(miPaste);
+		rowHeaderPopupMenu.addSeparator();
 		miPaste.addStyleName("mi_no_image");
 
 		MenuItem miInsertAbove = new MenuItem(app.getMenu("InsertAbove"),
