@@ -17,7 +17,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -270,13 +269,14 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-
-		textField.setVisible(isDrawingOnCanvas() ? false : isVisible);
-		if (label != null) {
-			label.setVisible(isDrawingOnCanvas() ? false : isVisible);
+		if (!isDrawingOnCanvas()) {
+			textField.setVisible(isVisible);
+			if (label != null) {
+				label.setVisible(isVisible);
+			}
+			box.setVisible(isVisible);
 		}
 
-		box.setVisible(isDrawingOnCanvas() ? false : isVisible);
 		int length = geoTextField.getLength();
 		if (length != oldLength) {
 			textField.setColumns(length);
@@ -422,7 +422,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 
 		g2.setFont(textFont.deriveFont(GFont.PLAIN));
 
-		GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 				text.substring(0, getTruncIndex(text, g2)), textLeft,
 				textBottom, false,
 				false);

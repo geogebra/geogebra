@@ -241,6 +241,9 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 					if (leftValue.isExpressionNode())
 						return node;
 				}
+				if (!(leftValue instanceof FunctionalNVar)) {
+					return null;
+				}
 				FunctionNVar funN = ((FunctionalNVar) leftValue).getFunction();
 				FunctionVariable[] xy = funN.getFunctionVariables();
 				// don't destroy the function
