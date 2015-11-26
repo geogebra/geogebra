@@ -364,9 +364,9 @@ public class App3D extends AppD {
 			}
 		} else {
 			input3D = null;
-			// input3D = Input3DFactory.createInputZSpace3D();
 		}
 
+		// input3D = null;
 		if (input3D != null) {
 			switch (input3D.getDeviceType()) {
 			case HAND:
@@ -780,6 +780,15 @@ public class App3D extends AppD {
 			return 24;
 		}
 
+		return size;
+	}
+
+	@Override
+	public int getScaledIconSize() {
+		int size = super.getScaledIconSize();
+		if (size < 36 && useHugeGuiForInput3D()) {
+			return 36;
+		}
 		return size;
 	}
 
