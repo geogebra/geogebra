@@ -3,6 +3,8 @@ package org.geogebra.common.euclidian;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -126,4 +128,7 @@ public abstract class DrawEquation {
 		return initJLM;
 	}
 
+	public abstract GDimension measureEquation(App app, GeoElement geo0,
+			int minValue,
+			int minValue2, String text, GFont font, boolean b);
 }

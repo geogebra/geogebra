@@ -1493,4 +1493,12 @@ public class DrawEquationW extends DrawEquation {
 
 		return eqstring;
 	}
+
+	@Override
+	public GDimension measureEquation(App app, GeoElement geo0, int minValue,
+			int minValue2, String text, GFont font, boolean serif) {
+		TeXIcon icon = createIcon(text, font.getSize() + 3, font.getStyle(),
+				serif);
+		return new GDimensionW(icon.getIconWidth(), icon.getIconHeight());
+	}
 }

@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian.draw;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -55,9 +54,8 @@ public abstract class CanvasDrawable extends Drawable {
 	
 	public static GDimension measureLatex(App app, GGraphics2D g2,
 			GeoElement geo0, GFont font, String text) {
-		return app.getDrawEquation().drawEquation(app, geo0, g2,
-				Integer.MIN_VALUE, Integer.MIN_VALUE, text, font, false,
-				GColor.WHITE, GColor.WHITE, false, false, null);
+		return app.getDrawEquation().measureEquation(app, geo0,
+				Integer.MIN_VALUE, Integer.MIN_VALUE, text, font, false);
 	};
 
 	protected boolean measureLabel(GGraphics2D g2, GeoElement geo0,

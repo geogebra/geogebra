@@ -12,11 +12,14 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.Language;
+import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.main.AppD;
 import org.scilab.forge.jlatexmath.AlphabetRegistration;
 import org.scilab.forge.jlatexmath.DefaultTeXFont;
@@ -58,77 +61,7 @@ public class DrawEquationD extends DrawEquation {
 		int height = -1;
 		// int depth = 0;
 
-		if (drawEquationJLaTeXMathFirstCall) { // first call
-
-			drawEquationJLaTeXMathFirstCall = false;
-
-			// initialise definitions
-			if (initJLaTeXMath == null) {
-
-				StringBuilder initJLM = getJLMCommands();
-				initJLaTeXMath = new TeXFormula(initJLM.toString());
-			}
-
-			// make sure cache doesn't get too big
-			JLaTeXMathCache.setMaxCachedObjects(100);
-
-			// disable \magnification{factor} (makes Algebra View not work)
-			DefaultTeXFont.enableMagnification(false);
-
-			for (Language l : Language.values()) {
-
-				if (l.testChar != null) {
-					final Font testFont = app.getFontCanDisplayAwt(l.testChar,
-							true, Font.PLAIN, 12);
-					if (testFont != null) {
-						TeXFormula
-								.registerExternalFont(Character.UnicodeBlock
-										.of(l.testChar.charAt(0)), testFont
-										.getFontName());
-						// Application.debug("LaTeX font registering: "+l.name+" "+testFont.getFontName());
-					}
-
-				}
-			}
-
-			// Arabic is in standard Java fonts, so we don't need to search for
-			// a font
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u0681'), "Sans Serif", "Serif");
-			// Korean is in standard Java fonts, so we don't need to search for
-			// a font
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\uB458'), "Sans Serif", "Serif");
-			// Japanese is in standard Java fonts, so we don't need to search
-			// for
-			// a font
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u30ea'), "Sans Serif", "Serif");
-
-			// Other codeblocks (currency, symbols etc)
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u20a0'), "Sans Serif", "Serif");
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u2600'), "Sans Serif", "Serif");
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u2700'), "Sans Serif", "Serif");
-
-			try {
-				WebStartAlphabetRegistration
-						.register(AlphabetRegistration.JLM_GREEK);
-				WebStartAlphabetRegistration
-						.register(AlphabetRegistration.JLM_CYRILLIC);
-				// URLAlphabetRegistration.register(new
-				// URL(app.getCodeBase()+"jlm_greek.jar"),
-				// "greek",URLAlphabetRegistration.JLM_GREEK);
-				// URLAlphabetRegistration.register(new
-				// URL(app.getCodeBase()+"jlm_cyrillic.jar"),
-				// "cyrillic",URLAlphabetRegistration.JLM_CYRILLIC);
-			} catch (final Exception e) {
-				e.printStackTrace();
-			}
-
-		}
+		checkFirstCall(app);
 
 		int style = 0;
 		if (font.isBold()) {
@@ -251,6 +184,156 @@ public class DrawEquationD extends DrawEquation {
 		return new Dimension(width, height);
 	}
 
+	final public Dimension measureEquationJLaTeXMath(final AppD app,
+			final GeoElement geo, final int x,
+			final int y, final String text,
+			final org.geogebra.common.awt.GFont font, final boolean serif,
+
+			final Integer maxWidth, final Float lineSpace) {
+
+		checkFirstCall(app);
+		Color fgColor = Color.BLACK;
+		int style = 0;
+		if (font.isBold()) {
+			style = style | TeXFormula.BOLD;
+		}
+		if (font.isItalic()) {
+			style = style | TeXFormula.ITALIC;
+		}
+		if (!serif) {
+			style = style | TeXFormula.SANSSERIF;
+		}
+
+		// if we're exporting, we want to draw it full resolution
+		// Application.debug("creating new icon for: "+text);
+		TeXFormula formula;
+		TeXIcon icon;
+
+			try {
+				formula = new TeXFormula(text);
+
+				if (maxWidth == null) {
+					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+							font.getSize() + 3, style, fgColor);
+				} else {
+					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+							font.getSize() + 3, TeXConstants.UNIT_CM,
+							maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
+							TeXConstants.UNIT_CM, lineSpace.floatValue());
+				}
+			} catch (final MyError e) {
+				// e.printStackTrace();
+				// Application.debug("MyError LaTeX parse exception: "+e.getMessage()+"\n"+text);
+				// Write error message to Graphics View
+
+				formula = TeXFormula.getPartialTeXFormula(text);
+				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, style, fgColor);
+
+				formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
+						TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
+						TeXConstants.UNIT_CM, 0.5f);
+
+				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
+				// x, y + g2.getFont().getSize(), g2);
+				// return new Dimension(rec.width, rec.height);
+			} catch (final Exception e) {
+				// e.printStackTrace();
+				// Application.debug("LaTeX parse exception: "+e.getMessage()+"\n"+text);
+				// Write error message to Graphics View
+
+				formula = TeXFormula.getPartialTeXFormula(text);
+				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, style, fgColor);
+
+				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
+				// x, y + g2.getFont().getSize(), g2);
+				// return new Dimension(rec.width, rec.height);
+			}
+			icon.setInsets(new Insets(1, 1, 1, 1));
+
+			return new Dimension(icon.getIconWidth(), icon.getIconHeight());
+
+
+
+		
+	}
+
+	private void checkFirstCall(AppD app) {
+		if (drawEquationJLaTeXMathFirstCall) { // first call
+
+			drawEquationJLaTeXMathFirstCall = false;
+
+			// initialise definitions
+			if (initJLaTeXMath == null) {
+
+				StringBuilder initJLM = getJLMCommands();
+				initJLaTeXMath = new TeXFormula(initJLM.toString());
+			}
+
+			// make sure cache doesn't get too big
+			JLaTeXMathCache.setMaxCachedObjects(100);
+
+			// disable \magnification{factor} (makes Algebra View not work)
+			DefaultTeXFont.enableMagnification(false);
+
+			for (Language l : Language.values()) {
+
+				if (l.testChar != null) {
+					final Font testFont = app.getFontCanDisplayAwt(l.testChar,
+							true, Font.PLAIN, 12);
+					if (testFont != null) {
+						TeXFormula
+								.registerExternalFont(Character.UnicodeBlock
+										.of(l.testChar.charAt(0)), testFont
+										.getFontName());
+						// Application.debug("LaTeX font registering: "+l.name+" "+testFont.getFontName());
+					}
+
+				}
+			}
+
+			// Arabic is in standard Java fonts, so we don't need to search for
+			// a font
+			TeXFormula.registerExternalFont(
+					Character.UnicodeBlock.of('\u0681'), "Sans Serif", "Serif");
+			// Korean is in standard Java fonts, so we don't need to search for
+			// a font
+			TeXFormula.registerExternalFont(
+					Character.UnicodeBlock.of('\uB458'), "Sans Serif", "Serif");
+			// Japanese is in standard Java fonts, so we don't need to search
+			// for
+			// a font
+			TeXFormula.registerExternalFont(
+					Character.UnicodeBlock.of('\u30ea'), "Sans Serif", "Serif");
+
+			// Other codeblocks (currency, symbols etc)
+			TeXFormula.registerExternalFont(
+					Character.UnicodeBlock.of('\u20a0'), "Sans Serif", "Serif");
+			TeXFormula.registerExternalFont(
+					Character.UnicodeBlock.of('\u2600'), "Sans Serif", "Serif");
+			TeXFormula.registerExternalFont(
+					Character.UnicodeBlock.of('\u2700'), "Sans Serif", "Serif");
+
+			try {
+				WebStartAlphabetRegistration
+						.register(AlphabetRegistration.JLM_GREEK);
+				WebStartAlphabetRegistration
+						.register(AlphabetRegistration.JLM_CYRILLIC);
+				// URLAlphabetRegistration.register(new
+				// URL(app.getCodeBase()+"jlm_greek.jar"),
+				// "greek",URLAlphabetRegistration.JLM_GREEK);
+				// URLAlphabetRegistration.register(new
+				// URL(app.getCodeBase()+"jlm_cyrillic.jar"),
+				// "cyrillic",URLAlphabetRegistration.JLM_CYRILLIC);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+
 	final public org.geogebra.common.awt.GDimension drawEquation(final App app,
 			final GeoElement geo, final org.geogebra.common.awt.GGraphics2D g2,
 			final int x, final int y, final String text,
@@ -342,6 +425,15 @@ public class DrawEquationD extends DrawEquation {
 				null);
 
 		latexIcon.setImage(image);
+	}
+
+	@Override
+	public GDimension measureEquation(App app, GeoElement geo0, 
+ int minValue,
+			int minValue2, String text, GFont font, boolean b
+			 ) {
+		return new GDimensionD(this.measureEquationJLaTeXMath((AppD) app, geo0,
+				0, 0, text, font, b, null, null));
 	}
 
 }
