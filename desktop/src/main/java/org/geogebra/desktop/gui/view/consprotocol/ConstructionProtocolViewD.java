@@ -88,7 +88,7 @@ import org.geogebra.desktop.javax.swing.table.GAbstractTableModelD;
 import org.geogebra.desktop.main.AppD;
 
 public class ConstructionProtocolViewD extends ConstructionProtocolView
-		implements Printable, ActionListener, SettingListener, SetLabels {
+		implements Printable, SettingListener, SetLabels {
 
 	static Color COLOR_STEP_HIGHLIGHT = AppD.COLOR_SELECTION;
 	private static Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
@@ -1580,14 +1580,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 * public void attachView() { kernel.notifyAddAll(this);
 	 * kernel.attach(this); }
 	 */
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		kernel.getConstruction().setShowOnlyBreakpoints(
-				!kernel.getConstruction().showOnlyBreakpoints());
-		((ConstructionTableData) getData()).initView();
-		repaintScrollpane();
-	}
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {

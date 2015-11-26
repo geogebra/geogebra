@@ -23,7 +23,6 @@ import javax.swing.table.TableColumn;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ColumnKeeper;
-import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ConstructionTableData;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -216,9 +215,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		
 		if(e.getSource()==btnOptions){
 			if(btnOptions.getSelectedIndex()==0){
-				app.getKernel().getConstruction().setShowOnlyBreakpoints(!app.getKernel().getConstruction().showOnlyBreakpoints());
-				((ConstructionTableData) cpView.getData()).initView();
-				cpView.getCpPanel().repaint();
+				cpView.showOnlyBreakpointsAction();
 			}
 			else if(btnOptions.getSelectedIndex()==1)
 				cpView.setUseColors(!cpView.getUseColors());

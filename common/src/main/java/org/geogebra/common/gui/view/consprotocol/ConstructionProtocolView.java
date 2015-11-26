@@ -742,6 +742,9 @@ public class ConstructionProtocolView {
 								.showOnlyBreakpoints());
 		getData().initView();
 		getData().repaintView();
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().updateNavBars();
+		}
 	}
 	
 }

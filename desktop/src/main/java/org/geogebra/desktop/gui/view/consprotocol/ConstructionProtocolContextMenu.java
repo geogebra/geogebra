@@ -103,7 +103,12 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 				app.getPlain("ShowOnlyBreakpoints"));
 		cbShowOnlyBreakpoints.setSelected(cons.showOnlyBreakpoints());
 		
-		cbShowOnlyBreakpoints.addActionListener(constprotView);
+		cbShowOnlyBreakpoints.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				constprotView.showOnlyBreakpointsAction();
+			}
+		});
 		optionsMenu.add(cbShowOnlyBreakpoints);
 
 		JCheckBoxMenuItem cbUseColors = new JCheckBoxMenuItem(
