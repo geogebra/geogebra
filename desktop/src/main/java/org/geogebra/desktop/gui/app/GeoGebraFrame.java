@@ -820,7 +820,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					String sliderName = args.getStringValue("slider");
 					GeoElement slider = app.getKernel().lookupLabel(sliderName);
 
-					if (!slider.isGeoNumeric()
+					if (slider == null || !slider.isGeoNumeric()
 							|| !((GeoNumeric) slider).isSlider()) {
 						App.error(sliderName + "is not a slider");
 						System.exit(0);
