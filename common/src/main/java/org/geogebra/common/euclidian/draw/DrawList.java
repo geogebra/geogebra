@@ -49,17 +49,18 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
-	private static final int OPTIONSBOX_ITEM_GAP_EXTRA_SMALL = 8;
-	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL1 = 10;
-	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL2 = 15;
-	private static final int OPTIONSBOX_ITEM_GAP_SMALL1 = 20;
-	private static final int OPTIONSBOX_ITEM_GAP_SMALL2 = 30;
+	private static final int OPTIONSBOX_ITEM_GAP_EXTRA_SMALL = 15;
+	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL1 = 20;
+	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL2 = 25;
+	private static final int OPTIONSBOX_ITEM_GAP_SMALL1 = 30;
+	private static final int OPTIONSBOX_ITEM_GAP_SMALL2 = 35;
 	private static final int OPTIONSBOX_ITEM_GAP_MEDIUM = 40;
 	private static final int OPTIONSBOX_ITEM_GAP_BIG = 55;
 	private static final int COMBO_TEXT_MARGIN = 5;
 	private static final int OPTIONBOX_COMBO_GAP = 5;
 	private static final int LABEL_COMBO_GAP = 10;
-	private static final int MAX_COL_COUNT = 100;
+	// private static final int MAX_COL_COUNT = 100;
+	private static final int OPTIONSBOX_ITEM_HGAP = 15;
 	/** coresponding list as geo */
 	GeoList geoList;
 	private List<GRectangle> optionItems = new ArrayList<GRectangle>();
@@ -808,7 +809,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			startIdx = endIdx;
 
 			// TODO: gap must be font specific, like getOptionsItemGap().
-			left += colWidth + 2 * COMBO_TEXT_MARGIN;
+			left += colWidth + 2 * OPTIONSBOX_ITEM_HGAP;
 		}
 
 		if (!draw) {
@@ -871,10 +872,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			int h = d.getHeight();
 
+			int w = OPTIONSBOX_ITEM_HGAP;
 			if (latex) {
-				itemRect.setBounds(left, rowTop, colWidth, h);
+				itemRect.setBounds(left - w, rowTop, colWidth + 2 * w, h);
 			} else {
-				itemRect.setBounds(left, rowTop - h - standardGap / 2, colWidth,
+				itemRect.setBounds(left - w, rowTop - h - standardGap / 2,
+						colWidth + 2 * w,
 						(int) (h + lastDescent + standardGap));
 
 			}
