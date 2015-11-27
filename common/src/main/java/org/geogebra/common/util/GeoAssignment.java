@@ -40,7 +40,10 @@ public class GeoAssignment extends Assignment {
 	private int callsToEqual, callsToCheckTypes;
 
 	private Test[] inputTypes;
-	private HashSet<Test> uniqueInputTypes;
+	/**
+	 * The possible InputTypes for this Assignment
+	 */
+	HashSet<Test> uniqueInputTypes;
 	private TreeSet<GeoElement> randomizeablePredecessors;
 
 	private Construction cons;
@@ -53,6 +56,7 @@ public class GeoAssignment extends Assignment {
 	 */
 	public GeoAssignment(Macro macro) {
 		super(macro.getKernel());
+		cons = kernel.getConstruction();
 		this.macro = macro;
 		inputTypes = macro.getInputTypes();
 
@@ -72,12 +76,8 @@ public class GeoAssignment extends Assignment {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.util.Assignment#checkAssignment(org.geogebra.common.kernel.Construction)
-	 */
 	@Override
-	public Result checkAssignment(Construction construction) {
-		this.cons = construction;
+	public Result checkAssignment() {
 		res = Result.UNKNOWN;
 		callsToEqual = 0;
 		callsToCheckTypes = 0;
@@ -244,9 +244,7 @@ public class GeoAssignment extends Assignment {
 			mayAdjustMoveableOutputsL = adjustMoveableOutputs(macroOutput,
 					possibleOutput);
 		}
-		// partRes.add(algoEqual.getResult().getBoolean() ?
-		// Result.CORRECT
-		// : Result.WRONG_AFTER_RANDOMIZE);
+
 		if (checkOp.equals("AreEqual")) {
 			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
 					: Result.WRONG_AFTER_RANDOMIZE);
@@ -339,6 +337,7 @@ public class GeoAssignment extends Assignment {
 	 * @return the icon file name of the user defined tool corresponding to this
 	 *         assignment
 	 */
+	@Override
 	public String getIconFileName() {
 		return macro.getIconFileName();
 	}
@@ -384,10 +383,19 @@ public class GeoAssignment extends Assignment {
 		macro = newTool;
 	}
 
+	/**
+	 * @return a String representing the operator/method used by this assignment
+	 *         to check correctness. One of "==", "AreEqual", "AreCongruent"
+	 */
 	public String getCheckOperation() {
 		return checkOp;
 	}
 
+	/**
+	 * @param checkOp
+	 *            The operator/method which should be used for checking this
+	 *            Assignment. One of { "==", "AreEqual", "AreCongruent" }
+	 */
 	public void setCheckOperation(String checkOp) {
 		this.checkOp = checkOp;
 	}

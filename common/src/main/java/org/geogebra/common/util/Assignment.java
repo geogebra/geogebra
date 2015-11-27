@@ -2,9 +2,12 @@ package org.geogebra.common.util;
 
 import java.util.HashMap;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 
+/**
+ * @author Christoph
+ *
+ */
 /**
  * @author Christoph
  * 
@@ -55,11 +58,32 @@ public abstract class Assignment {
 			-0.1f, 0f, 0.1f, 0.125f, (1f / 6), 0.2f, 0.25f, 0.3f, (1f / 3),
 			0.375f, 0.4f, 0.5f, 0.6f, 0.625f, (2f / 3), 0.7f, 0.75f, 0.8f,
 			(5f / 6), 0.875f, 0.9f, 1f };
+	/**
+	 * The fractions for the Results. Each Result may have any fraction between
+	 * -100 and 100 (i.e. -1 and 1)
+	 */
 	protected HashMap<Result, Float> fractionForResult;
+	/**
+	 * The hints for the Results. There may or may not be a hint set for a
+	 * particular result.
+	 */
 	protected HashMap<Result, String> hintForResult;
+	/**
+	 * The current state of the Assignment (should only get updated when
+	 * checkAssignment is called)
+	 */
 	protected Result res;
+	/**
+	 * Kernel
+	 */
 	protected Kernel kernel;
 
+	/**
+	 * 
+	 * 
+	 * @param kernel
+	 *            Kernel
+	 */
 	public Assignment(Kernel kernel) {
 		fractionForResult = new HashMap<Result, Float>();
 		hintForResult = new HashMap<Result, String>();
@@ -70,12 +94,9 @@ public abstract class Assignment {
 	/**
 	 * Exhaustive Testing of the Assignment
 	 * 
-	 * @param construction
-	 *            the construction object of the kernel
-	 * 
 	 * @return {@link Result} of the check
 	 */
-	public abstract Result checkAssignment(Construction construction);
+	public abstract Result checkAssignment();
 
 	/**
 	 * Get the fraction for the current state of the assignment. Don't forget to
@@ -249,8 +270,16 @@ public abstract class Assignment {
 		return sb;
 	}
 
+	/**
+	 * @return Filename or String indicating which icon should be used by GUI
+	 *         for this Assignment
+	 */
 	public abstract String getIconFileName();
 
+	/**
+	 * @return A String describing the Assignment (eg. Boolean d for a
+	 *         BoolAssignment or the ToolName for a GeoAssignment)
+	 */
 	public abstract String getDisplayName();
 
 	/**

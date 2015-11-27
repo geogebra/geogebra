@@ -3,7 +3,6 @@
  */
 package org.geogebra.common.util;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -14,21 +13,40 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class BoolAssignment extends Assignment {
 
 	private GeoBoolean geoBoolean;
-	private String geoBooleanName;
+	private String geoBooleanLabel;
 
+	/**
+	 * Create a BoolAssignment
+	 * 
+	 * @param geoBoolean
+	 *            a GeoBoolean if true should give a correct assignment false a
+	 *            WRONG assignment. Meaning can be reversed by setting negative
+	 *            fractions for WRONG and vice versa.
+	 * @param kernel
+	 *            Kernel
+	 */
 	public BoolAssignment(GeoBoolean geoBoolean, Kernel kernel) {
 		super(kernel);
 		this.geoBoolean = geoBoolean;
 	}
 
-	public BoolAssignment(String name, Kernel kernel) {
+	/**
+	 * Constructor to be used during file loading when the GeoBoolean to check
+	 * for is not existing.
+	 * 
+	 * @param label
+	 *            Label of the GeoBoolean to use for checking
+	 * @param kernel
+	 *            Kernel
+	 */
+	public BoolAssignment(String label, Kernel kernel) {
 		super(kernel);
-		geoBooleanName = name;
+		geoBooleanLabel = label;
 	}
 
 	@Override
-	public Result checkAssignment(Construction construction) {
-		if (getGeoBoolean() == null) {
+	public Result checkAssignment() {
+		if (!isValid()) {
 			res = Result.UNKNOWN;
 		} else {
 			res = getGeoBoolean().getBoolean() ? Result.CORRECT : Result.WRONG;
@@ -44,8 +62,7 @@ public class BoolAssignment extends Assignment {
 
 	@Override
 	public String getIconFileName() {
-		// TODO: thats a design flaw somehow
-		return "BoolAssignment";
+		return getClass().getSimpleName();
 	}
 
 	@Override
@@ -56,11 +73,8 @@ public class BoolAssignment extends Assignment {
 
 	@Override
 	public boolean isValid() {
-		// TODO Not sure at the moment this is needed here,
-		// but if we do lazy removing of BoolAssignments from Exercise this
-		// could be useful.
-		return kernel.getConstruction()
-				.getGeoSetNameDescriptionOrder().contains(getGeoBoolean());
+		return kernel.getConstruction().getGeoSetNameDescriptionOrder()
+				.contains(getGeoBoolean());
 	}
 
 	/**
@@ -74,9 +88,12 @@ public class BoolAssignment extends Assignment {
 		return getGeoBoolean() != null && getGeoBoolean().equals(geo);
 	}
 
+	/**
+	 * @return the {@link GeoBoolean} used to check correctness
+	 */
 	public GeoBoolean getGeoBoolean() {
 		if (geoBoolean == null) {
-			GeoElement geoElem = kernel.lookupLabel(geoBooleanName);
+			GeoElement geoElem = kernel.lookupLabel(geoBooleanLabel);
 			if (geoElem instanceof GeoBoolean) {
 				geoBoolean = (GeoBoolean) geoElem;
 			}

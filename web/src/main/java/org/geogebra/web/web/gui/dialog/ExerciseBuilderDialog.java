@@ -26,15 +26,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.AttachEvent.Handler;
 import com.google.gwt.resources.client.ImageResource;
@@ -48,7 +39,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Dialog for editing an {@link Exercise}
@@ -57,8 +47,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
-		MouseDownHandler, MouseUpHandler, TouchStartHandler, TouchEndHandler,
-		GeoElementSelectionListener {
+		GeoElementSelectionListener, ChangeHandler {
 
 	private AppW app;
 	private Exercise exercise;
@@ -70,55 +59,9 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	private FlexTable checkAssignmentsTable;
 
 	private ListBox addList;
-	private ArrayList<Object> addListMappings; // TODO Override add, remove,...
+	private ArrayList<Object> addListMappings; // TODO? Override add, remove,...
 												// instead of relying on calling
 												// updateAddList each time
-
-	public void onTouchEnd(TouchEndEvent event) {
-		onEnd(event);
-	}
-
-	public void onTouchStart(TouchStartEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onMouseUp(MouseUpEvent event) {
-		onEnd(event);
-	}
-
-	public void onMouseDown(MouseDownEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void onEnd(DomEvent<?> event) {
-		int selectedIndex = addList.getSelectedIndex();
-		if (selectedIndex == 1) {
-			newTool();
-		} else if (selectedIndex > 1) {
-			addAssignment(selectedIndex - 2);
-		}
-		event.stopPropagation();
-		addList.setSelectedIndex(0);
-	}
-
-	private void newTool() {
-		this.setVisible(false);
-		ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app,
-				new AsyncOperation() {
-					@Override
-					public void callback(Object obj) {
-						if (obj != null) {
-							Macro macro = (Macro) obj;
-							addAssignment(macro);
-						}
-						ExerciseBuilderDialog.this.setVisible(true);
-					}
-				});
-		toolCreationDialog.center();
-
-	}
 
 	/**
 	 * Brings up a new ExerciseBuilderDialog
@@ -154,7 +97,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		getCaption().setText(app.getMenu("Exercise.CreateNew"));
 
 		setWidget(mainWidget = new VerticalPanel());
-		addDomHandlers(mainWidget);
+		// addDomHandlers(mainWidget);
 		assignmentsTable = new FlexTable();
 
 		assignmentsTable.setWidget(0, 1, new Label(app.getPlain("Tool")));
@@ -170,7 +113,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		mainWidget.add(checkAssignmentsTable);
 
 		addList = new ListBox();
-		addDomHandlers(addList); // add a change Handler instead
+		addList.addChangeHandler(this);
 		addList.setStyleName("submenuContent");
 
 		for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
@@ -185,7 +128,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		for (GeoElement geo : geos) {
 			if (geo instanceof GeoBoolean) {
 				if (!exercise.usesBoolean((GeoBoolean) geo)) {
-					addListMappings.add((GeoBoolean) geo);
+					addListMappings.add(geo);
 				}
 			}
 		}
@@ -213,13 +156,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		for (Assignment assignment : exercise.getParts()) {
 			appendAssignmentRow(assignment);
 		}
-	}
-
-	private void addDomHandlers(Widget w) {
-		w.addDomHandler(this, MouseDownEvent.getType());
-		w.addDomHandler(this, MouseUpEvent.getType());
-		w.addDomHandler(this, TouchStartEvent.getType());
-		w.addDomHandler(this, TouchEndEvent.getType());
 	}
 
 	private void appendAssignmentRow(final Assignment assignment) {
@@ -394,16 +330,15 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 * @return {@link SafeUri} of Icon with fileName
 	 */
 	SafeUri getIconFile(String fileName) {
-		if (!fileName.isEmpty()) {
+		if (BoolAssignment.class.getSimpleName().equals(fileName)) {
+			return ((ImageResource) GGWToolBar.getMyIconResourceBundle()
+					.mode_showcheckbox_32()).getSafeUri();
+		} else if (!fileName.isEmpty()) {
 			String imageURL = app.getImageManager().getExternalImageSrc(
 					fileName);
 			if (imageURL != null) {
 				return UriUtils.fromString(imageURL);
 			}
-		} else if (fileName.equals("BoolAssignment")) {
-			// TODO: thats a design flaw somehow
-			return ((ImageResource) GGWToolBar.getMyIconResourceBundle()
-					.mode_showcheckbox_32()).getSafeUri();
 		}
 		return ((ImageResource) GGWToolBar.getMyIconResourceBundle()
 				.mode_tool_32()).getSafeUri();
@@ -534,4 +469,30 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		}
 	}
 
+	public void onChange(ChangeEvent event) {
+		int selectedIndex = addList.getSelectedIndex();
+		if (selectedIndex == 1) {
+			newTool();
+		} else if (selectedIndex > 1) {
+			addAssignment(selectedIndex - 2);
+		}
+		event.stopPropagation();
+		addList.setSelectedIndex(0);
+	}
+
+	private void newTool() {
+		this.setVisible(false);
+		ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app,
+				new AsyncOperation() {
+					@Override
+					public void callback(Object obj) {
+						if (obj != null) {
+							Macro macro = (Macro) obj;
+							addAssignment(macro);
+						}
+						ExerciseBuilderDialog.this.setVisible(true);
+					}
+				});
+		toolCreationDialog.center();
+	}
 }

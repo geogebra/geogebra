@@ -2,7 +2,6 @@ package org.geogebra.common.util;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -18,7 +17,6 @@ public class Exercise {
 
 	private ArrayList<Assignment> assignments;
 	private Kernel kernel;
-	private Construction construction;
 	private App app;
 
 	/**
@@ -30,8 +28,6 @@ public class Exercise {
 	public Exercise(App app) {
 		this.app = app;
 		kernel = app.getKernel();
-		construction = kernel.getConstruction();
-
 		assignments = new ArrayList<Assignment>();
 	}
 
@@ -74,7 +70,7 @@ public class Exercise {
 		app.getScriptManager().disableListeners();
 		for (Assignment assignment : assignments) {
 			if (assignment.isValid()) {
-				assignment.checkAssignment(construction);
+				assignment.checkAssignment();
 			}
 		}
 		app.getScriptManager().enableListeners();
@@ -155,12 +151,12 @@ public class Exercise {
 	/**
 	 * Creates a new Assignment and adds it to the Exercise.
 	 * 
-	 * @param geo
-	 *            the GeoBoolean which should be used for the check
+	 * @param geoBooleanLabel
+	 *            the label of the geoBoolean which should be used for the check
 	 * @return the newly created Assignment
 	 */
-	public BoolAssignment addAssignment(String geoBooleanName) {
-		BoolAssignment a = new BoolAssignment(geoBooleanName, app.getKernel());
+	public BoolAssignment addAssignment(String geoBooleanLabel) {
+		BoolAssignment a = new BoolAssignment(geoBooleanLabel, app.getKernel());
 		assignments.add(a);
 		return a;
 	}
