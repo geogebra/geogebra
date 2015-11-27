@@ -87,8 +87,9 @@ public class CmdSetCoords extends CmdScripting {
 				((GeoVectorND) geo).setCoords(x, y, 0);
 				geo.updateRepaint();
 				return true;
-			} else
+			} else {
 				return false;
+			}
 
 		} else if (geo.isGeoTurtle()) {
 
@@ -105,6 +106,7 @@ public class CmdSetCoords extends CmdScripting {
 			}
 
 			asl.updateRepaint();
+			return true;
 		}
 		return false;
 	}
