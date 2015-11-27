@@ -971,6 +971,8 @@ public class Polynomial implements Comparable<Polynomial> {
 					App.debug("singular -> " + solvableResult);
 				if ("0".equals(solvableResult))
 					return false; // no solution
+				if ("".equals(solvableResult))
+					return null; // maybe timeout (no answer)
 			} catch (Throwable e) {
 				App.debug("Could not compute solvability with SingularWS");
 				return null;
