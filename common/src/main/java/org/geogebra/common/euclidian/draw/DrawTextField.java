@@ -269,13 +269,13 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isDrawingOnCanvas()) {
-			textField.setVisible(isVisible);
-			if (label != null) {
-				label.setVisible(isVisible);
-			}
-			box.setVisible(isVisible);
-		}
+
+		textField.setVisible(isDrawingOnCanvas() ? false : isVisible);
+		if (label != null) {
+			label.setVisible(isDrawingOnCanvas() ? false : isVisible);
+		} 
+
+		box.setVisible(isDrawingOnCanvas() ? false : isVisible);
 
 		int length = geoTextField.getLength();
 		if (length != oldLength) {
