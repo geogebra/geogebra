@@ -288,17 +288,64 @@ TABLE_GEOMETRY),
 	// 3D
 	// =============================================================
 
-	Bottom(TABLE_3D), Cone(TABLE_3D), Cube(TABLE_3D), Cylinder(TABLE_3D), Dodecahedron(
-			TABLE_3D), Ends(TABLE_3D), Icosahedron(TABLE_3D), InfiniteCone(
-			TABLE_3D), InfiniteCylinder(TABLE_3D), Octahedron(TABLE_3D), Plane(
-			TABLE_3D), QuadricSide(TABLE_3D), Surface(TABLE_3D), Tetrahedron(
-			TABLE_3D), Top(TABLE_3D), CylinderInfinite(TABLE_ENGLISH), Sphere(
-			TABLE_3D), OrthogonalPlane(TABLE_3D), PerpendicularPlane(
-			TABLE_ENGLISH), Prism(TABLE_3D), Pyramid(TABLE_3D), PlaneBisector(
-			TABLE_3D), IntersectionPaths(TABLE_ENGLISH), ConeInfinite(
-			TABLE_ENGLISH), IntersectCircle(TABLE_ENGLISH), IntersectConic(
-			TABLE_3D), Height(TABLE_3D), CornerThreeD(TABLE_ENGLISH), Net(
-			TABLE_3D),
+	Bottom(TABLE_3D),
+
+	Cone(TABLE_3D),
+
+	Cube(TABLE_3D),
+
+	Cylinder(TABLE_3D),
+
+	Dodecahedron(TABLE_3D),
+
+	Ends(TABLE_3D),
+
+	Icosahedron(TABLE_3D),
+
+	Octahedron(TABLE_3D),
+
+	Plane(TABLE_3D),
+
+	QuadricSide(TABLE_3D),
+
+	Surface(TABLE_3D),
+
+	Tetrahedron(TABLE_3D),
+
+	Top(TABLE_3D),
+
+	Sphere(TABLE_3D),
+
+	Prism(TABLE_3D),
+
+	Pyramid(TABLE_3D),
+
+	PlaneBisector(TABLE_3D),
+
+	IntersectionPaths(TABLE_ENGLISH),
+
+	/** internal name */
+	OrthogonalPlane(TABLE_3D),
+	/** English name */
+	PerpendicularPlane(TABLE_ENGLISH),
+
+	/** internal name */
+	ConeInfinite(TABLE_3D),
+	/** English name */
+	InfiniteCone(TABLE_ENGLISH),
+
+	/** internal name */
+	CylinderInfinite(TABLE_3D),
+	/** English name */
+	InfiniteCylinder(TABLE_ENGLISH),
+
+	IntersectCircle(TABLE_ENGLISH),
+
+	IntersectConic(TABLE_3D),
+
+	Height(TABLE_3D),
+
+	CornerThreeD(TABLE_ENGLISH), Net(TABLE_3D),
 
 	// =============================================================
 	// scripting 3D
@@ -398,10 +445,10 @@ TABLE_GEOMETRY),
 			return Random;
 		case TaylorPolynomial:
 			return TaylorSeries;
-		case CylinderInfinite:
-			return InfiniteCylinder;
-		case ConeInfinite:
-			return InfiniteCone;
+		case InfiniteCylinder:
+			return CylinderInfinite;
+		case InfiniteCone:
+			return ConeInfinite;
 		case PerpendicularPlane:
 			return OrthogonalPlane;
 		case InputBox:
