@@ -101,8 +101,14 @@ public class ParametricProcessor {
 				FunctionVariable fv = new FunctionVariable(kernel, varName);
 				if (varName.equals(Unicode.thetaStr)
 						&& ve0.evaluatesToNumber(true)) {
+					String label = ve.getLabel();
 					ve = new MyVecNode(kernel, ve0, fv.wrap());
 					((MyVecNode) ve).setMode(Kernel.COORD_POLAR);
+					// TODO the "r" check is there to allow r=theta in the
+					// future
+					if (!"r".equals(label)) {
+						ve.setLabel(label);
+					}
 				}
 				ExpressionNode exp = ve
 						.deepCopy(kernel)
@@ -112,7 +118,7 @@ public class ParametricProcessor {
 				exp.resolveVariables();
 				GeoElement[] ret = processParametricFunction(exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
-						new FunctionVariable[] { fv }, null);
+						new FunctionVariable[] { fv }, ve.getLabel());
 				if (ret != null && (num.isEmpty() || autocreateSliders)) {
 					return ret;
 				}

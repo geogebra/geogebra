@@ -631,6 +631,12 @@ public class AlgebraProcessor {
 			GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
 					undefinedVariables, autoCreateSliders, callback0);
 			if (ret != null) {
+				if (storeUndo) {
+					app.storeUndoInfo();
+				}
+				if (callback0 != null) {
+					callback0.callback(ret);
+				}
 				return ret;
 			}
 			if (undefinedVariables.size() > 0) {
