@@ -190,8 +190,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				@Override
 				public void doExecute() {
 					new PrintPreviewW(app);
-					// Window.print();
-
 				}
 			});
 

@@ -35,9 +35,12 @@ import com.google.gwt.cell.client.TextInputCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.BrowserEvents;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -54,8 +57,8 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -1004,6 +1007,15 @@ myCell) {
     }
 
 	public Widget getPrintable() {
-		return new Label("Construction Protocol View");
+		SimplePanel panel = new SimplePanel();
+		panel.setWidth("400px");
+		com.google.gwt.dom.client.Node tableClone = table.getElement()
+				.cloneNode(true);
+		panel.getElement().appendChild(tableClone);
+		panel.getElement().getStyle().setDisplay(Display.BLOCK);
+		panel.getElement().getStyle().setPosition(Position.ABSOLUTE);
+		panel.getElement().getStyle().setRight(0, Unit.PX);
+		Document.get().getBody().appendChild(panel.getElement());
+		return panel;
 	}
 }

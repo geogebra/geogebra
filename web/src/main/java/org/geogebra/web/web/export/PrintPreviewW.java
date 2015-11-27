@@ -8,18 +8,19 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		ChangeHandler {
@@ -102,9 +103,9 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 			var previewImg = document.createElement("img");
 			previewImg
 					.setAttribute("src", "data:image/png;base64," + pngBase64);
-			//			if (el.hasChildNodes()) {
-			//				el.removeChild(el.lastChild);
-			//			}
+			if (el.hasChildNodes()) {
+				el.removeChild(el.lastChild);
+			}
 			el.appendChild(previewImg);
 		};
 	}-*/;
@@ -131,32 +132,52 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 		app.forEachView(new App.ViewCallback() {
 
+			@SuppressWarnings("deprecation")
+			// deprecated, because GgbAPIW.getScreenshotURL is waiting for
+			// deprecated Element parameter
 			public void run(int viewID, String viewName) {
 				if (app.getPlain(viewName).equals(printableView)) {
 					printPanel.clear();
 					// printPanel.add(((PrintableW) app.getView(viewID))
 					// .getPrintable());
 
-					App.debug("add element: "
-							+ ((PrintableW) app.getView(viewID)).getPrintable()
-							.getElement().toString());
+					Element printables = getPrintables(
+							viewID, app).getElement();
 
-					app.getGgbApi().getScreenshotURL(
-							((PrintableW) app.getView(viewID)).getPrintable()
-									.getElement(),
+					app.getGgbApi().getScreenshotURL(printables,
 							getScreenshotCallback(printPanel.getElement()));
 
-					// app.getGgbApi().getScreenshotURL(
-					// ((ConstructionProtocolViewW) app.getGuiManager()
-					// .getConstructionProtocolView())
-					// .getCpPanel().getElement(),
-					// getScreenshotCallback(printPanel.getElement()));
-
+					if (printables.hasParentElement()) {
+						printables.removeFromParent();
+					}
 				}
 			}
 
 		});
 
+	}
+
+	static Widget getPrintables(int viewID, AppW app) {
+		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
+		PrintableW view;
+		if (viewID == App.VIEW_CAS) {
+			view = (PrintableW) gui.getCasView();
+		} else if (viewID == App.VIEW_CONSTRUCTION_PROTOCOL) {
+			view = (PrintableW) app.getGuiManager()
+					.getConstructionProtocolView();
+		} else if (viewID == App.VIEW_SPREADSHEET) {
+			view = gui.getSpreadsheetView();
+		} else if (viewID == App.VIEW_EUCLIDIAN2) {
+			view = app.getEuclidianView2(1);
+		} else if (viewID == App.VIEW_ALGEBRA) {
+			view = gui.getAlgebraView();
+		} else if (viewID == App.VIEW_DATA_ANALYSIS) {
+			view = (PrintableW) gui.getDataAnalysisView();
+		} else {
+			view = app.getEuclidianView1();
+		}
+
+		return view.getPrintable();
 	}
 
 }
