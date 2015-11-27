@@ -864,6 +864,111 @@ public class AlgoMirror extends AlgoTransformation implements
 				}
 				throw new NoSymbolicParametersException();
 			}
+			// mirror parabola about point
+			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isParabola()) {
+
+				GeoConic parabola = (GeoConic) inGeo;
+				GeoPoint P = (GeoPoint) mirror;
+
+				if (parabola != null && P != null) {
+					Variable[] vparabola = parabola.getBotanaVars(parabola);
+					Variable[] vP = P.getBotanaVars(P);
+					if (botanaVars == null) {
+						botanaVars = new Variable[10];
+						// P' - mirror of point on parabola
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+						// T' - mirror of projection point of P' at A'B'
+						botanaVars[2] = new Variable();
+						botanaVars[3] = new Variable();
+						// A' - mirror of start point of directrix
+						botanaVars[4] = new Variable();
+						botanaVars[5] = new Variable();
+						// B' - mirror of end point of directrix
+						botanaVars[6] = new Variable();
+						botanaVars[7] = new Variable();
+						// F' - mirror of focus point
+						botanaVars[8] = new Variable();
+						botanaVars[9] = new Variable();
+					}
+
+					botanaPolynomials = new Polynomial[13];
+
+					Polynomial p1 = new Polynomial(vparabola[0]);
+					Polynomial p2 = new Polynomial(vparabola[1]);
+					Polynomial t1 = new Polynomial(vparabola[2]);
+					Polynomial t2 = new Polynomial(vparabola[3]);
+					Polynomial a1 = new Polynomial(vparabola[4]);
+					Polynomial a2 = new Polynomial(vparabola[5]);
+					Polynomial b1 = new Polynomial(vparabola[6]);
+					Polynomial b2 = new Polynomial(vparabola[7]);
+					Polynomial f1 = new Polynomial(vparabola[8]);
+					Polynomial f2 = new Polynomial(vparabola[9]);
+					Polynomial p_1 = new Polynomial(botanaVars[0]);
+					Polynomial p_2 = new Polynomial(botanaVars[1]);
+					Polynomial t_1 = new Polynomial(botanaVars[2]);
+					Polynomial t_2 = new Polynomial(botanaVars[3]);
+					Polynomial a_1 = new Polynomial(botanaVars[4]);
+					Polynomial a_2 = new Polynomial(botanaVars[5]);
+					Polynomial b_1 = new Polynomial(botanaVars[6]);
+					Polynomial b_2 = new Polynomial(botanaVars[7]);
+					Polynomial f_1 = new Polynomial(botanaVars[8]);
+					Polynomial f_2 = new Polynomial(botanaVars[9]);
+					Polynomial m1 = new Polynomial(vP[0]);
+					Polynomial m2 = new Polynomial(vP[1]);
+
+					// 10 equations for coordinates of mirrored points
+					// coordinates of P'
+					botanaPolynomials[0] = new Polynomial(2).multiply(m1)
+							.subtract(p1).subtract(p_1);
+					botanaPolynomials[1] = new Polynomial(2).multiply(m2)
+							.subtract(p2).subtract(p_2);
+
+					// coordinates of T'
+					botanaPolynomials[2] = new Polynomial(2).multiply(m1)
+							.subtract(t1).subtract(t_1);
+					botanaPolynomials[3] = new Polynomial(2).multiply(m2)
+							.subtract(t2).subtract(t_2);
+
+					// coordinates of A'
+					botanaPolynomials[4] = new Polynomial(2).multiply(m1)
+							.subtract(a1).subtract(a_1);
+					botanaPolynomials[5] = new Polynomial(2).multiply(m2)
+							.subtract(a2).subtract(a_2);
+
+					// coordinates of B'
+					botanaPolynomials[6] = new Polynomial(2).multiply(m1)
+							.subtract(b1).subtract(b_1);
+					botanaPolynomials[7] = new Polynomial(2).multiply(m2)
+							.subtract(b2).subtract(b_2);
+
+					// coordinates of F'
+					botanaPolynomials[8] = new Polynomial(2).multiply(m1)
+							.subtract(f1).subtract(f_1);
+					botanaPolynomials[9] = new Polynomial(2).multiply(m2)
+							.subtract(f2).subtract(f_2);
+
+					// 3 equations as definition of mirrored parabola
+					// |F'P'| = |P'T'|
+					botanaPolynomials[10] = Polynomial.equidistant(
+							botanaVars[8], botanaVars[9], botanaVars[0],
+							botanaVars[1], botanaVars[2], botanaVars[3]);
+
+					// A',T',B' collinear
+					botanaPolynomials[11] = Polynomial.collinear(botanaVars[4],
+							botanaVars[5], botanaVars[2], botanaVars[3],
+							botanaVars[6], botanaVars[7]);
+
+					// P'T' orthogonal A'B'
+					botanaPolynomials[12] = Polynomial.perpendicular(
+							botanaVars[0], botanaVars[1], botanaVars[2],
+							botanaVars[3], botanaVars[4], botanaVars[5],
+							botanaVars[6], botanaVars[7]);
+
+					return botanaPolynomials;
+				}
+				throw new NoSymbolicParametersException();
+			}
 			// invalid object to reflect about point
 			throw new NoSymbolicParametersException();
 
