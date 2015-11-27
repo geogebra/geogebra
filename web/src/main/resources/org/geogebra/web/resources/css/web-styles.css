@@ -6050,9 +6050,13 @@ body.application[dir=rtl] .deleteAlgebra {
 .GeoGebraFrame .cpScrollPanel td{
 	color:inherit;
 }
-.GeoGebraFrame .gwt-MenuItemSeparator{
-	background-color: #999999;
-    border-left: 1em white solid;
+/* CAS Context menu */
+td.gwt-MenuItemSeparator{
+	height: 0px;
+    padding: 0px;
+    border: 0px;
+    border-top: 1px solid #dcdcdc;
+    overflow: hidden
 }
 /*
    ########################################
