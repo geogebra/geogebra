@@ -402,8 +402,6 @@ TABLE_GEOMETRY),
 			return InfiniteCylinder;
 		case ConeInfinite:
 			return InfiniteCone;
-		case OrthogonalPlane:
-			return PerpendicularPlane;
 		case InputBox:
 			return Textfield;
 		case IntersectCircle:
