@@ -148,10 +148,12 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 			case Plane:
 				return new CmdPlane(kernel);
+
+			// English for scripting
 			case PerpendicularPlane:
-				return new CmdOrthogonalPlane(kernel);
+				// internal name
 			case OrthogonalPlane:
-				return new CmdOrthogonalPlane(kernel); // old name
+				return new CmdOrthogonalPlane(kernel);
 
 			case PlaneBisector:
 				return new CmdPlaneBisector(kernel);
