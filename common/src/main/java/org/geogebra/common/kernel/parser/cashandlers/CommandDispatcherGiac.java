@@ -235,6 +235,12 @@ public class CommandDispatcherGiac {
 
 				break;
 			case piecewise:
+
+				if (args.getLength() < 3) {
+					// eg Integral[Function[x^2,-2,3]]
+					return new ExpressionNode(kernel, Double.NaN);
+				}
+
 				ret = new ExpressionNode(kernel,
 						new MyNumberPair(kernel,args.getItem(0),args.getItem(1)),
 						Operation.IF_ELSE,
