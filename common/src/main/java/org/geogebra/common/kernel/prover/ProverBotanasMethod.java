@@ -385,10 +385,12 @@ public class ProverBotanasMethod {
 					 * instead of false.
 					 */
 					AlgoElement algo = geo.getParentAlgorithm();
-					if (algo instanceof AlgoAngularBisectorPoints ||
-							algo instanceof AlgoEllipseHyperbolaFociPoint ||
-							algo instanceof AlgoIntersectConics ||
-							algo instanceof AlgoIntersectLineConic) {
+					if (algo instanceof AlgoAngularBisectorPoints
+							|| algo instanceof AlgoEllipseHyperbolaFociPoint
+							|| (algo instanceof AlgoIntersectConics && ((AlgoIntersectConics) algo)
+									.existingIntersections() != 1)
+							|| (algo instanceof AlgoIntersectLineConic && ((AlgoIntersectLineConic) algo)
+									.existingIntersections() != 1)) {
 						interpretFalseAsUndefined = true;
 						App.debug("Due to " + algo + " is not 1-1 algebraic mapping, FALSE will be interpreted as UNKNOWN");
 					}
