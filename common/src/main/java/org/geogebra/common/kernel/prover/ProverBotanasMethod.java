@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
+import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -326,6 +327,7 @@ public class ProverBotanasMethod {
 		// Getting the hypotheses:
 		Polynomial[] hypotheses = null;
 		boolean interpretFalseAsUndefined = false;
+		int maxFixcoords = -1;
 
 		// write construction in readable format
 		// App.debug(getTextFormat(statement));
@@ -389,6 +391,20 @@ public class ProverBotanasMethod {
 							algo instanceof AlgoIntersectLineConic) {
 						interpretFalseAsUndefined = true;
 						App.debug("Due to " + algo + " is not 1-1 algebraic mapping, FALSE will be interpreted as UNKNOWN");
+					}
+
+					/*
+					 * Consider the following case: Let AB a segment and C a
+					 * point on it. Move C to A. Now let's check if Prove[A==C]
+					 * returns false. Since C is on a line and normally A=(0,0),
+					 * B=(0,1), x(C)=0, but this last one should not be
+					 * constrained, otherwise we will get true for a false
+					 * statement! See Example 52 in Zoltan's diss on page
+					 * 176---here we need to generalize B to avoid getting true.
+					 */
+					if (algo instanceof AlgoPointOnPath
+							&& ProverSettings.transcext) {
+						maxFixcoords = 2;
 					}
 				
 					if (geoPolys != null) {
@@ -698,6 +714,9 @@ public class ProverBotanasMethod {
 				fixcoords = ProverSettings.useFixCoordinatesProveDetails;
 			else
 				fixcoords = ProverSettings.useFixCoordinatesProve;
+			if (maxFixcoords >= 0 && maxFixcoords < fixcoords) {
+				fixcoords = maxFixcoords;
+			}
 			if (fixcoords > 0) {
 				substitutions = fixValues(prover, fixcoords);
 				App.debug("substitutions: " + substitutions);
