@@ -78,6 +78,7 @@ public class CmdSetCoords extends CmdScripting {
 	 * @return whether it was successful
 	 */
 	public static boolean setCoords(GeoElement geo, double x, double y) {
+
 		if (geo.isMoveable()) {
 			if (geo.isGeoPoint()) {
 				((GeoPointND) geo).setCoords(x, y, 1);
@@ -87,15 +88,16 @@ public class CmdSetCoords extends CmdScripting {
 				((GeoVectorND) geo).setCoords(x, y, 0);
 				geo.updateRepaint();
 				return true;
-			} else {
-				return false;
 			}
-
-		} else if (geo.isGeoTurtle()) {
-
+			// don't return false, need to fall through
+		}
+		
+		if (geo.isGeoTurtle()) {
 			((GeoTurtle) geo).setCoords(x, y);
 			return true;
-		} else if (geo instanceof AbsoluteScreenLocateable) {
+		}
+
+		if (geo instanceof AbsoluteScreenLocateable) {
 
 			AbsoluteScreenLocateable asl = (AbsoluteScreenLocateable) geo;
 
