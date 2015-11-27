@@ -123,10 +123,16 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		Transferable data = null;
 
 		if (ac.equals("copy")) {
-			data = new StringSelection(
-			// use xmlTemplate so that sin(2x) -> sin(2*x)
-			// so that it can be pasted into other software
-					value.getOutput(StringTemplate.xmlTemplate));
+			// needed for GGB-329
+			if ((value.getInput(StringTemplate.defaultTemplate)).equals("?")) {
+				data = new StringSelection(
+						value.getOutput(StringTemplate.defaultTemplate));
+			} else {
+				data = new StringSelection(
+				// use xmlTemplate so that sin(2x) -> sin(2*x)
+				// so that it can be pasted into other software
+						value.getOutput(StringTemplate.xmlTemplate));
+			}
 		} else if (ac.equals("copyAsLatex")) {
 			String latexOutput = value.getLaTeXOutput();
 			data = new StringSelection(StringUtil.toLaTeXString(latexOutput,
