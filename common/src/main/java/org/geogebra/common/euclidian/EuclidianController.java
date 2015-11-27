@@ -9240,6 +9240,7 @@ public abstract class EuclidianController {
 				kernel.getAlgoDispatcher().Circle(null, firstSelectedPoint,
 						new MyDouble(kernel, distance));
 				firstSelectedPoint = null;
+				app.storeUndoInfo();
 				return;
 			}
 		}
@@ -9278,7 +9279,11 @@ public abstract class EuclidianController {
 				this.view.setHits(new GPoint(event.getX(), event.getY()),
 						event.getType());
 				hits = view.getHits();
-				switchModeForProcessMode(hits, event.isControlDown(), null);
+				boolean kernelChange = switchModeForProcessMode(hits,
+						event.isControlDown(), null);
+				if (kernelChange) {
+					app.storeUndoInfo();
+				}
 			}
 		} else {
 			wrapMouseReleasedND(event, true);
