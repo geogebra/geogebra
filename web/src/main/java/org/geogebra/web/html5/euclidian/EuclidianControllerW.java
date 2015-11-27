@@ -362,15 +362,6 @@ public class EuclidianControllerW extends EuclidianController implements
 			getPen().handleMouseDraggedForPenMode(event);
 		}
 
-		if (firstSelectedPoint != null
-		        && this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
-			// prevent further processing
-			if (!withinPointSelectionDistance(startPosition, event)) {
-				// update the preview circle
-				super.wrapMouseMoved(event);
-			}
-			return;
-		}
 
 		if (!shouldCancelDrag()) {
 			if (shouldSetToFreehandMode()) {
@@ -399,6 +390,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			this.view.updatePreviewableForProcessMode();
 		}
 	}
+
 
 	/**
 	 * selects a GeoElement; no effect, if it is already selected

@@ -8078,7 +8078,6 @@ public abstract class EuclidianController {
 
 	}
 	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
-		
 		// kill view moving when animation button pressed
 		if (shouldCancelDrag() || this.animationButtonPressed) {
 			return;
@@ -8087,6 +8086,9 @@ public abstract class EuclidianController {
 		scriptsHaveRun = false;
 
 		if (isTextfieldHasFocus() && moveMode != MOVE_BUTTON) {
+			return;
+		}
+		if (circleRadiusDrag(event)) {
 			return;
 		}
 		if (pressedButton != null) {
@@ -8488,6 +8490,19 @@ public abstract class EuclidianController {
 
 	protected void createNewPointForModeOther(Hits hits) {
 		createNewPoint(hits, true, false, true, true, false);
+	}
+
+	protected boolean circleRadiusDrag(AbstractEvent event) {
+		if (firstSelectedPoint != null
+				&& this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
+			// prevent further processing
+			if (!withinPointSelectionDistance(startPosition, event)) {
+				// update the preview circle
+				wrapMouseMoved(event);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	protected void handleMousePressedForRotateMode(PointerEventType type) {
