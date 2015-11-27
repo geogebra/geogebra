@@ -330,14 +330,14 @@ TABLE_GEOMETRY),
 	PerpendicularPlane(TABLE_ENGLISH),
 
 	/** internal name */
-	ConeInfinite(TABLE_3D),
+	ConeInfinite(TABLE_ENGLISH),
 	/** English name */
-	InfiniteCone(TABLE_ENGLISH),
+	InfiniteCone(TABLE_3D),
 
 	/** internal name */
-	CylinderInfinite(TABLE_3D),
+	CylinderInfinite(TABLE_ENGLISH),
 	/** English name */
-	InfiniteCylinder(TABLE_ENGLISH),
+	InfiniteCylinder(TABLE_3D),
 
 	IntersectCircle(TABLE_ENGLISH),
 
@@ -445,10 +445,10 @@ TABLE_GEOMETRY),
 			return Random;
 		case TaylorPolynomial:
 			return TaylorSeries;
-		case InfiniteCylinder:
-			return CylinderInfinite;
-		case InfiniteCone:
-			return ConeInfinite;
+		case CylinderInfinite:
+			return InfiniteCylinder;
+		case ConeInfinite:
+			return InfiniteCone;
 		case PerpendicularPlane:
 			return OrthogonalPlane;
 		case InputBox:
