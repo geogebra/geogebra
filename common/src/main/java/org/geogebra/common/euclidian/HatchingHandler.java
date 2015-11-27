@@ -196,7 +196,10 @@ public class HatchingHandler {
 			g2d.setColor(AwtFactory.prototype.newColor(255, 255, 255,
 					(int) (backgroundTransparency * 255f)));
 		} else {
-			g2d.setColor(bgColor);
+			g2d.setColor(AwtFactory.prototype.newColor(bgColor.getRed(),
+					bgColor.getGreen(), bgColor.getBlue(),
+					(int) (backgroundTransparency * 255f)));
+
 		}
 
 		g2d.fillRect(0, 0, xInt * 3, yInt * 3);
@@ -229,9 +232,8 @@ public class HatchingHandler {
 		GPaint tp;
 
 		if (alpha < 1.0f) {
-			GBufferedImage copy = AwtFactory.prototype.newBufferedImage(
-					image.getWidth(), image.getHeight(),
- 1);
+			GBufferedImage copy = AwtFactory.prototype
+					.newBufferedImage(image.getWidth(), image.getHeight(), 1);
 
 			GGraphics2D g2d = copy.createGraphics();
 
@@ -244,10 +246,11 @@ public class HatchingHandler {
 			GColor bgColor = geo.getBackgroundColor();
 
 			// paint background transparent
-			if (bgColor == null)
+			if (bgColor == null) {
 				g2d.setColor(AwtFactory.prototype.newColor(0, 0, 0, 0));
-			else
+			} else {
 				g2d.setColor(bgColor);
+			}
 			g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
 
 			if (alpha > 0.0f) {
