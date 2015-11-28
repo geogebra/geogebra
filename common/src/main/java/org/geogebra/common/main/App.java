@@ -1516,8 +1516,6 @@ public abstract class App implements UpdateSelection {
 		if (!kernel.hasMacros() && kernel.getExercise().isEmpty())
 			return "";
 		ArrayList<Macro> macros = kernel.getAllMacros();
-		if (macros.isEmpty() && kernel.getExercise().isEmpty())
-			return "";
 		return getXMLio().getFullMacroXML(macros);
 	}
 
