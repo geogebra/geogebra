@@ -1509,13 +1509,14 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @return XML for or macros or empty string if there are none
+	 * @return XML for or macros and/or Exercise or empty string if there are
+	 *         none
 	 */
 	public String getMacroXMLorEmpty() {
-		if (!kernel.hasMacros())
+		if (!kernel.hasMacros() && kernel.getExercise().isEmpty())
 			return "";
 		ArrayList<Macro> macros = kernel.getAllMacros();
-		if (macros.isEmpty())
+		if (macros.isEmpty() && kernel.getExercise().isEmpty())
 			return "";
 		return getXMLio().getFullMacroXML(macros);
 	}

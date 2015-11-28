@@ -224,8 +224,8 @@ public abstract class MyXMLio {
 	}
 
 	/**
-	 * Returns XML representation of given macros in the kernel, including
-	 * header.
+	 * Returns XML representation of given macros and/or exercise in the kernel,
+	 * including header.
 	 * 
 	 * @param macros
 	 *            list of macros
