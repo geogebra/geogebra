@@ -725,6 +725,188 @@ public class AlgoMirror extends AlgoTransformation implements
 					return botanaPolynomials;
 				}
 				throw new NoSymbolicParametersException();
+			} else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isParabola()) {
+				GeoConic parabola = (GeoConic) inGeo;
+				GeoLine l = (GeoLine) mirror;
+
+				if (parabola != null && l != null) {
+					Variable[] vparabola = parabola.getBotanaVars(parabola);
+					Variable[] vl = l.getBotanaVars(l);
+
+					if (botanaVars == null) {
+						botanaVars = new Variable[22];
+						// P' - point at parabola
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+						// T' - projection of P' at directirx
+						botanaVars[2] = new Variable();
+						botanaVars[3] = new Variable();
+						// A' - mirror of star point of directrix
+						botanaVars[4] = new Variable();
+						botanaVars[5] = new Variable();
+						// B' - mirror of end point of directrix
+						botanaVars[6] = new Variable();
+						botanaVars[7] = new Variable();
+						// F' - mirror of focus point
+						botanaVars[8] = new Variable();
+						botanaVars[9] = new Variable();
+						// V1 - midpoint of AA'
+						botanaVars[10] = new Variable();
+						botanaVars[11] = new Variable();
+						// V2 - midpoint of BB'
+						botanaVars[12] = new Variable();
+						botanaVars[13] = new Variable();
+						// V3 - midpoint of CC'
+						botanaVars[14] = new Variable();
+						botanaVars[15] = new Variable();
+						// N1 - AN1 orthogonal M1M2 (mirror line)
+						botanaVars[16] = new Variable();
+						botanaVars[17] = new Variable();
+						// N2 - BN2 orthogonal M1M2
+						botanaVars[18] = new Variable();
+						botanaVars[19] = new Variable();
+						// N3 - CN3 orthogonal M1M2
+						botanaVars[20] = new Variable();
+						botanaVars[21] = new Variable();
+					}
+					
+					botanaPolynomials = new Polynomial[21];
+
+					Polynomial a1 = new Polynomial(vparabola[4]);
+					Polynomial a2 = new Polynomial(vparabola[5]);
+					Polynomial v1_1 = new Polynomial(botanaVars[10]);
+					Polynomial v1_2 = new Polynomial(botanaVars[11]);
+					Polynomial a_1 = new Polynomial(botanaVars[4]);
+					Polynomial a_2 = new Polynomial(botanaVars[5]);
+					Polynomial n1_1 = new Polynomial(botanaVars[16]);
+					Polynomial n1_2 = new Polynomial(botanaVars[17]);
+					Polynomial m1_1 = new Polynomial(vl[0]);
+					Polynomial m1_2 = new Polynomial(vl[1]);
+					Polynomial m2_1 = new Polynomial(vl[2]);
+					Polynomial m2_2 = new Polynomial(vl[3]);
+
+					// 6 equations to define A'
+					// AV1 = V1A'
+					botanaPolynomials[0] = new Polynomial(2).multiply(v1_1)
+							.subtract(a1).subtract(a_1);
+					botanaPolynomials[1] = new Polynomial(2).multiply(v1_2)
+							.subtract(a2).subtract(a_2);
+
+					// A', V1, N1 collinear
+					botanaPolynomials[2] = Polynomial.collinear(botanaVars[4],
+							botanaVars[5], botanaVars[10], botanaVars[11],
+							botanaVars[16], botanaVars[17]);
+
+					// M1, V1, M2 collinear
+					botanaPolynomials[3] = Polynomial.collinear(vl[0], vl[1],
+							botanaVars[10], botanaVars[11], vl[2], vl[3]);
+
+					// AN1 orthogonal M1M2
+					botanaPolynomials[4] = m2_1.subtract(m1_1).add(a2)
+							.subtract(n1_2);
+					botanaPolynomials[5] = a1.subtract(m2_2).add(m1_2)
+							.subtract(n1_1);
+
+					Polynomial b1 = new Polynomial(vparabola[6]);
+					Polynomial b2 = new Polynomial(vparabola[7]);
+					Polynomial v2_1 = new Polynomial(botanaVars[12]);
+					Polynomial v2_2 = new Polynomial(botanaVars[13]);
+					Polynomial b_1 = new Polynomial(botanaVars[6]);
+					Polynomial b_2 = new Polynomial(botanaVars[7]);
+					Polynomial n2_1 = new Polynomial(botanaVars[18]);
+					Polynomial n2_2 = new Polynomial(botanaVars[19]);
+
+					// 6 equations to deifne B'
+					// BV2 = V2B'
+					botanaPolynomials[6] = new Polynomial(2).multiply(v2_1)
+							.subtract(b1).subtract(b_1);
+					botanaPolynomials[7] = new Polynomial(2).multiply(v2_2)
+							.subtract(b2).subtract(b_2);
+
+					// B', V2, N2 collinear
+					botanaPolynomials[8] = Polynomial.collinear(botanaVars[6],
+							botanaVars[7], botanaVars[12], botanaVars[13],
+							botanaVars[18], botanaVars[19]);
+
+					// M1, V2, M2 collinear
+					botanaPolynomials[9] = Polynomial.collinear(vl[0], vl[1],
+							botanaVars[12], botanaVars[13], vl[2], vl[3]);
+
+					// BN2 orthogonal M1M2
+					botanaPolynomials[10] = m2_1.subtract(m1_1).add(b2)
+							.subtract(n2_2);
+					botanaPolynomials[11] = b1.subtract(m2_2).add(m1_2)
+							.subtract(n2_1);
+
+					Polynomial f1 = new Polynomial(vparabola[8]);
+					Polynomial f2 = new Polynomial(vparabola[9]);
+					Polynomial v3_1 = new Polynomial(botanaVars[14]);
+					Polynomial v3_2 = new Polynomial(botanaVars[15]);
+					Polynomial f_1 = new Polynomial(botanaVars[8]);
+					Polynomial f_2 = new Polynomial(botanaVars[9]);
+					Polynomial n3_1 = new Polynomial(botanaVars[20]);
+					Polynomial n3_2 = new Polynomial(botanaVars[21]);
+
+					// 6 equations to define F'
+					// FV3 = V3F'
+					botanaPolynomials[12] = new Polynomial(2).multiply(v3_1)
+							.subtract(f1).subtract(f_1);
+					botanaPolynomials[13] = new Polynomial(2).multiply(v3_2)
+							.subtract(f2).subtract(f_2);
+
+					// F', V3, N3 collinear
+					botanaPolynomials[14] = Polynomial.collinear(botanaVars[8],
+							botanaVars[9], botanaVars[14], botanaVars[15],
+							botanaVars[20], botanaVars[21]);
+
+					// M1, V3, M2 collinear
+					botanaPolynomials[15] = Polynomial.collinear(vl[0], vl[1],
+							botanaVars[14], botanaVars[15], vl[2], vl[3]);
+
+					// FN3 orthogonal M1M2
+					botanaPolynomials[16] = m2_1.subtract(m1_1).add(f2)
+							.subtract(n3_2);
+					botanaPolynomials[17] = f1.subtract(m2_2).add(m1_2)
+							.subtract(n3_1);
+
+					// 3 equations to define parabola
+					// |F'P'| = |P'T'|
+					botanaPolynomials[18] = Polynomial.equidistant(
+							botanaVars[8], botanaVars[9], botanaVars[0],
+							botanaVars[1], botanaVars[2], botanaVars[3]);
+
+					// A', T', B' collinear
+					botanaPolynomials[19] = Polynomial.collinear(botanaVars[4],
+							botanaVars[5], botanaVars[2], botanaVars[3],
+							botanaVars[6], botanaVars[7]);
+
+					// P'T' orthogonal A'B'
+					botanaPolynomials[20] = Polynomial.perpendicular(
+							botanaVars[0], botanaVars[1], botanaVars[2],
+							botanaVars[3], botanaVars[4], botanaVars[5],
+							botanaVars[6], botanaVars[7]);
+
+					// 2 more equation for F' and T'
+					// |FP|^2 = |F'P'|^2
+					// botanaPolynomials[21] = Polynomial.sqrDistance(
+					// vparabola[8], vparabola[9], vparabola[0],
+					// vparabola[1]).subtract(
+					// Polynomial
+					// .sqrDistance(botanaVars[8], botanaVars[9],
+					// botanaVars[0], botanaVars[1]));
+
+					// |PT|^2 = |P'T'|^2
+					// botanaPolynomials[22] = Polynomial.sqrDistance(
+					// vparabola[0], vparabola[1], vparabola[2],
+					// vparabola[3]).subtract(
+					// Polynomial
+					// .sqrDistance(botanaVars[0], botanaVars[1],
+					// botanaVars[2], botanaVars[3]));
+
+					return botanaPolynomials;
+
+				}
+				throw new NoSymbolicParametersException();
 			}
 			// invalid object to reflect about line
 			throw new NoSymbolicParametersException();
