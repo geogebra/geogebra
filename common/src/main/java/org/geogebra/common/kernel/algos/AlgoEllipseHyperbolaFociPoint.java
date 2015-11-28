@@ -214,10 +214,9 @@ public class AlgoEllipseHyperbolaFociPoint extends
 					// P - point of hyperbola
 					botanaVars[0] = new Variable();
 					botanaVars[1] = new Variable();
-					// D
+					// auxiliary variables
 					botanaVars[2] = new Variable();
 					botanaVars[3] = new Variable();
-					// E
 					botanaVars[4] = new Variable();
 					botanaVars[5] = new Variable();
 					// A 

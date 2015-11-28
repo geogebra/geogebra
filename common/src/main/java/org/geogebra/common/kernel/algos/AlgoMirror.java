@@ -633,10 +633,10 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					if (botanaVars == null) {
 						botanaVars = new Variable[12];
-						// mirror of circle
+						// A' - mirror of center
 						botanaVars[0] = new Variable();
 						botanaVars[1] = new Variable();
-						// mirror of point on circle
+						// B' - mirror of point on circle
 						botanaVars[2] = new Variable();
 						botanaVars[3] = new Variable();
 						// V - midpoint of center and mirror of center
@@ -744,7 +744,7 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					if (botanaVars == null) {
 						botanaVars = new Variable[2];
-						// P1'
+						// A' - mirror of point
 						botanaVars[0] = new Variable();
 						botanaVars[1] = new Variable();
 					}
@@ -758,7 +758,7 @@ public class AlgoMirror extends AlgoTransformation implements
 					Polynomial a_1 = new Polynomial(botanaVars[0]);
 					Polynomial a_2 = new Polynomial(botanaVars[1]);
 
-					// AB = BA'
+					// AB vector = BA' vector
 					botanaPolynomials[0] = b1.multiply(new Polynomial(2))
 						.subtract(a1).subtract(a_1);
 					botanaPolynomials[1] = b2.multiply(new Polynomial(2))
@@ -779,10 +779,10 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					if (botanaVars == null) {
 						botanaVars = new Variable[4];
-						// mirror of start point
+						// A' - mirror of start point
 						botanaVars[0] = new Variable();
 						botanaVars[1] = new Variable();
-						// mirror of end point
+						// B' - mirror of end point
 						botanaVars[2] = new Variable();
 						botanaVars[3] = new Variable();
 					}
@@ -827,10 +827,10 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					if (botanaVars == null) {
 						botanaVars = new Variable[4];
-						// mirror of center
+						// A' - mirror of center
 						botanaVars[0] = new Variable();
 						botanaVars[1] = new Variable();
-						// mirror of point on the circle
+						// B' - mirror of point on the circle
 						botanaVars[2] = new Variable();
 						botanaVars[3] = new Variable();
 					}
@@ -918,31 +918,31 @@ public class AlgoMirror extends AlgoTransformation implements
 					Polynomial m2 = new Polynomial(vP[1]);
 
 					// 10 equations for coordinates of mirrored points
-					// coordinates of P'
+					// PM vector = MP' vector
 					botanaPolynomials[0] = new Polynomial(2).multiply(m1)
 							.subtract(p1).subtract(p_1);
 					botanaPolynomials[1] = new Polynomial(2).multiply(m2)
 							.subtract(p2).subtract(p_2);
 
-					// coordinates of T'
+					// TM vector = MT' vector
 					botanaPolynomials[2] = new Polynomial(2).multiply(m1)
 							.subtract(t1).subtract(t_1);
 					botanaPolynomials[3] = new Polynomial(2).multiply(m2)
 							.subtract(t2).subtract(t_2);
 
-					// coordinates of A'
+					// AM vector = MA' vector
 					botanaPolynomials[4] = new Polynomial(2).multiply(m1)
 							.subtract(a1).subtract(a_1);
 					botanaPolynomials[5] = new Polynomial(2).multiply(m2)
 							.subtract(a2).subtract(a_2);
 
-					// coordinates of B'
+					// BM vector = MB' vector
 					botanaPolynomials[6] = new Polynomial(2).multiply(m1)
 							.subtract(b1).subtract(b_1);
 					botanaPolynomials[7] = new Polynomial(2).multiply(m2)
 							.subtract(b2).subtract(b_2);
 
-					// coordinates of F'
+					// FM vector = MF' vector
 					botanaPolynomials[8] = new Polynomial(2).multiply(m1)
 							.subtract(f1).subtract(f_1);
 					botanaPolynomials[9] = new Polynomial(2).multiply(m2)
@@ -968,7 +968,9 @@ public class AlgoMirror extends AlgoTransformation implements
 					return botanaPolynomials;
 				}
 				throw new NoSymbolicParametersException();
-			} else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isEllipse()) {
+			}
+			// mirror ellipse about point
+			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isEllipse()) {
 				GeoConic ellipse = (GeoConic) inGeo;
 				GeoPoint P = (GeoPoint) mirror;
 
@@ -1023,25 +1025,25 @@ public class AlgoMirror extends AlgoTransformation implements
 					Polynomial e2 = new Polynomial(botanaVars[5]);
 
 					// 8 equations for coordinates of mirrored points
-					// coordinates of second mirrored point at ellipse
+					// PM vector = MP' vector
 					botanaPolynomials[0] = new Polynomial(2).multiply(m1)
 							.subtract(p1).subtract(p_1);
 					botanaPolynomials[1] = new Polynomial(2).multiply(m2)
 							.subtract(p2).subtract(p_2);
 
-					// coordinates of first mirrored focus point
+					// AM vector = MA' vector
 					botanaPolynomials[2] = new Polynomial(2).multiply(m1)
 							.subtract(a1).subtract(a_1);
 					botanaPolynomials[3] = new Polynomial(2).multiply(m2)
 							.subtract(a2).subtract(a_2);
 
-					// coordinates of second mirrored focus point
+					// BM vector = MB' vector
 					botanaPolynomials[4] = new Polynomial(2).multiply(m1)
 							.subtract(b1).subtract(b_1);
 					botanaPolynomials[5] = new Polynomial(2).multiply(m2)
 							.subtract(b2).subtract(b_2);
 
-					// coordinates of first mirrored point at ellipse
+					// CM vector = MC' vector
 					botanaPolynomials[6] = new Polynomial(2).multiply(m1)
 							.subtract(c1).subtract(c_1);
 					botanaPolynomials[7] = new Polynomial(2).multiply(m2)
@@ -1077,7 +1079,9 @@ public class AlgoMirror extends AlgoTransformation implements
 
 				}
 				throw new NoSymbolicParametersException();
-			} else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isHyperbola()) {
+			}
+			// mirror hyperbola about point
+			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isHyperbola()) {
 				GeoConic hyperbola = (GeoConic) inGeo;
 				GeoPoint P = (GeoPoint) mirror;
 
@@ -1132,25 +1136,25 @@ public class AlgoMirror extends AlgoTransformation implements
 					Polynomial e2 = new Polynomial(botanaVars[5]);
 
 					// 8 equations for mirrored points
-					// coordinates of first mirrored point at hyperbola
+					// PM vector = MP' vector
 					botanaPolynomials[0] = new Polynomial(2).multiply(m1)
 							.subtract(p1).subtract(p_1);
 					botanaPolynomials[1] = new Polynomial(2).multiply(m2)
 							.subtract(p2).subtract(p_2);
 
-					// coordinates of first mirrored focus point
+					// AM vector = MA' vector
 					botanaPolynomials[2] = new Polynomial(2).multiply(m1)
 							.subtract(a1).subtract(a_1);
 					botanaPolynomials[3] = new Polynomial(2).multiply(m2)
 							.subtract(a2).subtract(a_2);
 
-					// coordinates of second mirrored focus point
+					// BM vector = MB' vector
 					botanaPolynomials[4] = new Polynomial(2).multiply(m1)
 							.subtract(b1).subtract(b_1);
 					botanaPolynomials[5] = new Polynomial(2).multiply(m2)
 							.subtract(b2).subtract(b_2);
 
-					// coordinates of second mirrored point at hyperbola
+					// CM vector = MC' vector
 					botanaPolynomials[6] = new Polynomial(2).multiply(m1)
 							.subtract(c1).subtract(c_1);
 					botanaPolynomials[7] = new Polynomial(2).multiply(m2)
@@ -1203,16 +1207,16 @@ public class AlgoMirror extends AlgoTransformation implements
 
 					if (botanaVars == null) {
 						botanaVars = new Variable[8];
-						// B'
+						// B' - mirror of point
 						botanaVars[0] = new Variable();
 						botanaVars[1] = new Variable();
-						// B
+						// B - point to mirror
 						botanaVars[2] = vP[0];
 						botanaVars[3] = vP[1];
-						// O
+						// O - center of circle
 						botanaVars[4] = vc[0];
 						botanaVars[5] = vc[1];
-						// A
+						// A - point on circle
 						botanaVars[6] = vc[2];
 						botanaVars[7] = vc[3];
 					}
