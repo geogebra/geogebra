@@ -968,6 +968,115 @@ public class AlgoMirror extends AlgoTransformation implements
 					return botanaPolynomials;
 				}
 				throw new NoSymbolicParametersException();
+			} else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isEllipse()) {
+				GeoConic ellipse = (GeoConic) inGeo;
+				GeoPoint P = (GeoPoint) mirror;
+
+				if (ellipse != null && P != null) {
+					Variable[] vellipse = ellipse.getBotanaVars(ellipse);
+					Variable[] vP = P.getBotanaVars(P);
+
+					if (botanaVars == null) {
+						botanaVars = new Variable[12];
+						// P' - mirror of second point on ellipse
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+						// auxiliary variables
+						botanaVars[2] = new Variable();
+						botanaVars[3] = new Variable();
+						botanaVars[4] = new Variable();
+						botanaVars[5] = new Variable();
+						// A' - mirror of first focus point
+						botanaVars[6] = new Variable();
+						botanaVars[7] = new Variable();
+						// B' - mirror of second focus point
+						botanaVars[8] = new Variable();
+						botanaVars[9] = new Variable();
+						// C' - mirror of point on ellipse
+						botanaVars[10] = new Variable();
+						botanaVars[11] = new Variable();
+					}
+
+					botanaPolynomials = new Polynomial[13];
+
+					Polynomial p1 = new Polynomial(vellipse[0]);
+					Polynomial p2 = new Polynomial(vellipse[1]);
+					Polynomial a1 = new Polynomial(vellipse[6]);
+					Polynomial a2 = new Polynomial(vellipse[7]);
+					Polynomial b1 = new Polynomial(vellipse[8]);
+					Polynomial b2 = new Polynomial(vellipse[9]);
+					Polynomial c1 = new Polynomial(vellipse[10]);
+					Polynomial c2 = new Polynomial(vellipse[11]);
+					Polynomial m1 = new Polynomial(vP[0]);
+					Polynomial m2 = new Polynomial(vP[1]);
+					Polynomial p_1 = new Polynomial(botanaVars[0]);
+					Polynomial p_2 = new Polynomial(botanaVars[1]);
+					Polynomial a_1 = new Polynomial(botanaVars[6]);
+					Polynomial a_2 = new Polynomial(botanaVars[7]);
+					Polynomial b_1 = new Polynomial(botanaVars[8]);
+					Polynomial b_2 = new Polynomial(botanaVars[9]);
+					Polynomial c_1 = new Polynomial(botanaVars[10]);
+					Polynomial c_2 = new Polynomial(botanaVars[11]);
+					Polynomial d1 = new Polynomial(botanaVars[2]);
+					Polynomial d2 = new Polynomial(botanaVars[3]);
+					Polynomial e1 = new Polynomial(botanaVars[4]);
+					Polynomial e2 = new Polynomial(botanaVars[5]);
+
+					// 8 equations for coordinates of mirrored points
+					// coordinates of second mirrored point at ellipse
+					botanaPolynomials[0] = new Polynomial(2).multiply(m1)
+							.subtract(p1).subtract(p_1);
+					botanaPolynomials[1] = new Polynomial(2).multiply(m2)
+							.subtract(p2).subtract(p_2);
+
+					// coordinates of first mirrored focus point
+					botanaPolynomials[2] = new Polynomial(2).multiply(m1)
+							.subtract(a1).subtract(a_1);
+					botanaPolynomials[3] = new Polynomial(2).multiply(m2)
+							.subtract(a2).subtract(a_2);
+
+					// coordinates of second mirrored focus point
+					botanaPolynomials[4] = new Polynomial(2).multiply(m1)
+							.subtract(b1).subtract(b_1);
+					botanaPolynomials[5] = new Polynomial(2).multiply(m2)
+							.subtract(b2).subtract(b_2);
+
+					// coordinates of first mirrored point at ellipse
+					botanaPolynomials[6] = new Polynomial(2).multiply(m1)
+							.subtract(c1).subtract(c_1);
+					botanaPolynomials[7] = new Polynomial(2).multiply(m2)
+							.subtract(c2).subtract(c_2);
+
+					// 5 equations as definition of ellipse
+					// d1+d2 = e1+e2
+					botanaPolynomials[8] = d1.add(d2).subtract(e1).subtract(e2);
+
+					// d1^2=Polynomial.sqrDistance(a_1,a_2,c_1,c_2)
+					botanaPolynomials[9] = Polynomial.sqrDistance(
+							botanaVars[6], botanaVars[7], botanaVars[8],
+							botanaVars[9]).subtract(d1.multiply(d1));
+
+					// d2^2=Polynomial.sqrDistance(b_1,b_2,c_1,c_2)
+					botanaPolynomials[10] = Polynomial.sqrDistance(
+							botanaVars[6], botanaVars[7], botanaVars[8],
+							botanaVars[9]).subtract(d2.multiply(d2));
+
+					// e1^2=Polynomial.sqrDistance(a_1,a_2,p_1,p_2)
+					botanaPolynomials[11] = Polynomial.sqrDistance(
+							botanaVars[6], botanaVars[7], botanaVars[0],
+							botanaVars[1]).subtract(
+							e1.multiply(e1));
+
+					// e2^2=Polynomial.sqrDistance(b_1,b_2,p_1,p_2)
+					botanaPolynomials[12] = Polynomial.sqrDistance(
+							botanaVars[8], botanaVars[9], botanaVars[0],
+							botanaVars[1]).subtract(
+							e2.multiply(e2));
+
+					return botanaPolynomials;
+
+				}
+				throw new NoSymbolicParametersException();
 			}
 			// invalid object to reflect about point
 			throw new NoSymbolicParametersException();
