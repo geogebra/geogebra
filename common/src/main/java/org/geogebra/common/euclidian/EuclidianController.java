@@ -6257,7 +6257,7 @@ public abstract class EuclidianController {
 			// oldLoc.y + mouseLoc.y-startLoc.y, TEMPORARY_MODE);
 
 			// part of snap to grid code
-			view.getDrawableFor(movedGeoNumeric).move();
+			// view.getDrawableFor(movedGeoNumeric).move();
 			movedGeoNumeric.setAbsoluteScreenLoc(
 					view.toScreenCoordX(xRW - getStartPointX()),
 					view.toScreenCoordY(yRW - getStartPointY()), temporaryMode);

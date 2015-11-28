@@ -5030,7 +5030,7 @@ sb.toString(), getFontAxes(),
 	}
 
 	public boolean shrinkedSinceLoad() {
-		// TODO Auto-generated method stub
+
 		return (getSettings() != null && getWidth() > 2 && (getWidth() < getSettings()
 				.getFileWidth() || getHeight() < getSettings().getFileHeight()));
 	}

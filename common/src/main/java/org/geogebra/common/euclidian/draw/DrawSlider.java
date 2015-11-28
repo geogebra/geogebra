@@ -85,15 +85,14 @@ public class DrawSlider extends Drawable {
 
 	@Override
 	final public void update() {
-		if (number.isAbsoluteScreenLocActive()
- && initX >= 0 && initY >= 0) {
-			number.fixPositionHorizontal(initX, view.getSettings()
-					.getFileWidth(),
-					view.getWidth());
-			number.fixPositionVertical(initY, view.getSettings()
-					.getFileHeight(),
-					view.getHeight());
-		}
+		// if (number.isAbsoluteScreenLocActive() && initX >= 0 && initY >= 0) {
+		// number.fixPositionHorizontal(initX, view.getSettings()
+		// .getFileWidth(),
+		// view.getWidth());
+		// number.fixPositionVertical(initY, view.getSettings()
+		// .getFileHeight(),
+		// view.getHeight());
+		// }
 
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
