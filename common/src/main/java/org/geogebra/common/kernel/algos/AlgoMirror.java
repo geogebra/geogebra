@@ -1077,6 +1077,114 @@ public class AlgoMirror extends AlgoTransformation implements
 
 				}
 				throw new NoSymbolicParametersException();
+			} else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isHyperbola()) {
+				GeoConic hyperbola = (GeoConic) inGeo;
+				GeoPoint P = (GeoPoint) mirror;
+
+				if (hyperbola != null && P != null) {
+					Variable[] vhyperbola = hyperbola.getBotanaVars(hyperbola);
+					Variable[] vP = P.getBotanaVars(P);
+
+					if (botanaVars == null) {
+						botanaVars = new Variable[12];
+						// P' - mirror of second point at hyperbola
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+						// auxiliary variables
+						botanaVars[2] = new Variable();
+						botanaVars[3] = new Variable();
+						botanaVars[4] = new Variable();
+						botanaVars[5] = new Variable();
+						// A' - mirror of first focus point
+						botanaVars[6] = new Variable();
+						botanaVars[7] = new Variable();
+						// B' - mirror of second focus point
+						botanaVars[8] = new Variable();
+						botanaVars[9] = new Variable();
+						// C' - mirror of second point at hyperbola
+						botanaVars[10] = new Variable();
+						botanaVars[11] = new Variable();
+					}
+
+					botanaPolynomials = new Polynomial[13];
+
+					Polynomial p1 = new Polynomial(vhyperbola[0]);
+					Polynomial p2 = new Polynomial(vhyperbola[1]);
+					Polynomial a1 = new Polynomial(vhyperbola[6]);
+					Polynomial a2 = new Polynomial(vhyperbola[7]);
+					Polynomial b1 = new Polynomial(vhyperbola[8]);
+					Polynomial b2 = new Polynomial(vhyperbola[9]);
+					Polynomial c1 = new Polynomial(vhyperbola[10]);
+					Polynomial c2 = new Polynomial(vhyperbola[11]);
+					Polynomial m1 = new Polynomial(vP[0]);
+					Polynomial m2 = new Polynomial(vP[1]);
+					Polynomial p_1 = new Polynomial(botanaVars[0]);
+					Polynomial p_2 = new Polynomial(botanaVars[1]);
+					Polynomial a_1 = new Polynomial(botanaVars[6]);
+					Polynomial a_2 = new Polynomial(botanaVars[7]);
+					Polynomial b_1 = new Polynomial(botanaVars[8]);
+					Polynomial b_2 = new Polynomial(botanaVars[9]);
+					Polynomial c_1 = new Polynomial(botanaVars[10]);
+					Polynomial c_2 = new Polynomial(botanaVars[11]);
+					Polynomial d1 = new Polynomial(botanaVars[2]);
+					Polynomial d2 = new Polynomial(botanaVars[3]);
+					Polynomial e1 = new Polynomial(botanaVars[4]);
+					Polynomial e2 = new Polynomial(botanaVars[5]);
+
+					// 8 equations for mirrored points
+					// coordinates of first mirrored point at hyperbola
+					botanaPolynomials[0] = new Polynomial(2).multiply(m1)
+							.subtract(p1).subtract(p_1);
+					botanaPolynomials[1] = new Polynomial(2).multiply(m2)
+							.subtract(p2).subtract(p_2);
+
+					// coordinates of first mirrored focus point
+					botanaPolynomials[2] = new Polynomial(2).multiply(m1)
+							.subtract(a1).subtract(a_1);
+					botanaPolynomials[3] = new Polynomial(2).multiply(m2)
+							.subtract(a2).subtract(a_2);
+
+					// coordinates of second mirrored focus point
+					botanaPolynomials[4] = new Polynomial(2).multiply(m1)
+							.subtract(b1).subtract(b_1);
+					botanaPolynomials[5] = new Polynomial(2).multiply(m2)
+							.subtract(b2).subtract(b_2);
+
+					// coordinates of second mirrored point at hyperbola
+					botanaPolynomials[6] = new Polynomial(2).multiply(m1)
+							.subtract(c1).subtract(c_1);
+					botanaPolynomials[7] = new Polynomial(2).multiply(m2)
+							.subtract(c2).subtract(c_2);
+
+					// 5 equations as definition of hyperbola
+					// d1-d2 = e1-e2
+					botanaPolynomials[8] = d1.subtract(d2).subtract(e1).add(e2);
+
+					// d1^2=Polynomial.sqrDistance(a_1,a_2,c_1,c_2)
+					botanaPolynomials[9] = Polynomial.sqrDistance(
+							botanaVars[6], botanaVars[7], botanaVars[10],
+							botanaVars[11]).subtract(d1.multiply(d1));
+
+					// d2^2=Polynomial.sqrDistance(b_1,b_2,c_1,c_2)
+					botanaPolynomials[10] = Polynomial.sqrDistance(
+							botanaVars[8], botanaVars[9], botanaVars[10],
+							botanaVars[11]).subtract(d2.multiply(d2));
+
+					// e1^2=Polynomial.sqrDistance(a_1,a_2,p_1,p_2)
+					botanaPolynomials[3] = Polynomial.sqrDistance(
+							botanaVars[6], botanaVars[7], botanaVars[0],
+							botanaVars[1]).subtract(
+							e1.multiply(e1));
+
+					// e2^2=Polynomial.sqrDistance(b_1,b_2,p_1,p_2)
+					botanaPolynomials[4] = Polynomial.sqrDistance(
+							botanaVars[8], botanaVars[9], botanaVars[0],
+							botanaVars[1]).subtract(
+							e2.multiply(e2));
+
+					return botanaPolynomials;
+				}
+				throw new NoSymbolicParametersException();
 			}
 			// invalid object to reflect about point
 			throw new NoSymbolicParametersException();

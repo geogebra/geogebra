@@ -238,7 +238,7 @@ public class AlgoEllipseHyperbolaFociPoint extends
 				Polynomial e1 = new Polynomial(botanaVars[4]);
 				Polynomial e2 = new Polynomial(botanaVars[5]);
 
-				// d1+d2 = e1+e2
+				// d1-d2 = e1-e2
 				botanaPolynomials[0] = d1.subtract(d2).subtract(e1).add(e2);
 
 				// d1^2=Polynomial.sqrDistance(a1,a2,c1,c2)
