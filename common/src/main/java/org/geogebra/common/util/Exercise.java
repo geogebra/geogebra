@@ -1,10 +1,13 @@
 package org.geogebra.common.util;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 
 /**
@@ -379,6 +382,47 @@ public class Exercise {
 		if (isValid(assignment)) {
 			assignments.add(assignmentIndex, assignment);
 		}
+	}
+
+	/**
+	 * @return all GeoNumeric elements on which a BoolAssignment is dependent
+	 *         and stops randomizing all these values.
+	 */
+	public ArrayList<GeoNumeric> stopRandomizeAndGetValuesForBoolAssignments() {
+		// TODO Auto-generated method stub
+		ArrayList<GeoNumeric> geos = new ArrayList<GeoNumeric>();
+		TreeSet<GeoElement> predecessorsOfUsedBooleans = new TreeSet<GeoElement>();
+
+		for (Assignment assignment : assignments) {
+			if (assignment instanceof BoolAssignment) {
+				predecessorsOfUsedBooleans.addAll(((BoolAssignment) assignment)
+						.getGeoBoolean().getAllPredecessors());
+			}
+		}
+		for (GeoElement geo : predecessorsOfUsedBooleans) {
+			if (geo.isRandomGeo()) {
+				if (geo instanceof GeoNumeric) {
+					((GeoNumeric) geo).setRandom(false);
+				}
+			} else if (geo instanceof GeoNumeric && geo.isLabelSet()) {
+				// this is a little bit brute force
+				GeoElement newGeo = app
+						.getKernel()
+						.getAlgebraProcessor()
+						.changeGeoElement(
+								geo,
+								Double.toString(((GeoNumeric) geo).getDouble()),
+								true, true);
+				app.getKernel().clearJustCreatedGeosInViews();
+				if (newGeo != null) {
+					app.doAfterRedefine(newGeo);
+					geo = newGeo;
+				}
+				geos.add((GeoNumeric) geo);
+			}
+
+		}
+		return geos;
 	}
 
 }

@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.util.Assignment;
@@ -634,8 +635,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 				String url = ((ImageManagerW) app.getImageManager())
 						.getExternalImageSrc(fileName);
 				if (url != null) {
-					FileExtensions ext = StringUtil
-							.getFileExtension(fileName);
+					FileExtensions ext = StringUtil.getFileExtension(fileName);
 
 					MyImageW img = new MyImageW(
 							ImageElement.as((new Image(url)).getElement()),
@@ -710,8 +710,9 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		}
 	}
 
-	private void addImageToArchive(String filePath, String fileName, String url,
-			FileExtensions ext, MyImageW img, Map<String, String> archive) {
+	private void addImageToArchive(String filePath, String fileName,
+			String url, FileExtensions ext, MyImageW img,
+			Map<String, String> archive) {
 		if (ext.equals(FileExtensions.SVG)) {
 			addSvgToArchive(fileName, img, archive);
 			return;
@@ -730,9 +731,10 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 				addImageToZip(filePath + fileName, dataURL, archive);
 			} else {
 				// not supported, so saved as PNG
-				addImageToZip(filePath + StringUtil
-						.changeFileExtension(fileName, FileExtensions.PNG),
-						dataURL, archive);
+				addImageToZip(
+						filePath
+								+ StringUtil.changeFileExtension(fileName,
+										FileExtensions.PNG), dataURL, archive);
 			}
 		}
 	}
@@ -942,6 +944,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	 *         "fraction":1}}", will be empty if now Macros or Assignments have
 	 *         been found.
 	 */
+	@Override
 	public JavaScriptObject getExerciseResult() {
 		Exercise ex = kernel.getExercise();
 		ex.checkExercise();
@@ -959,7 +962,25 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		return result.getJavaScriptObject();
 	}
 
+	/**
+	 * @return JavaScriptObject containing all variables and values of which a
+	 *         BoolAssignment is depending and stops randomizing all these
+	 *         values. Example:
+	 *         "Object {level: 1, randNum: 5, a: 1, b: 1, answer: NaN}"
+	 */
+	public JavaScriptObject startExercise() {
+		ArrayList<GeoNumeric> randomizedVars = app.getKernel().getExercise()
+				.stopRandomizeAndGetValuesForBoolAssignments();
+		JSONObject vars = new JSONObject();
 
+		for (GeoNumeric geo : randomizedVars) {
+			JSONNumber var = new JSONNumber(geo.getDouble());
+			vars.put(geo.getLabelSimple(), var);
+			geo.setRandom(false);
+		}
+
+		return vars.getJavaScriptObject();
+	}
 
 	public void setExternalPath(String s) {
 		((AppW) app).setExternalPath(s);
@@ -979,13 +1000,12 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		gm.setGeneralToolBarDefinition(toolbarString);
 		gm.updateToolbar();
 	}
-	
+
 	public void getScreenshotBase64(JavaScriptObject callback) {
 		getScreenshotURL(((AppW) app).getPanel().getElement(), callback);
 	}
-	
-	public native void getScreenshotURL(Element el,
-			JavaScriptObject callback)/*-{
+
+	public native void getScreenshotURL(Element el, JavaScriptObject callback)/*-{
 		var canvas = document.createElement("canvas");
 		canvas.height = el.offsetHeight;
 		canvas.width = el.offsetWidth;
