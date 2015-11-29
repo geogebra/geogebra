@@ -5870,7 +5870,7 @@ namespace giac {
 		}
 		return res;
 	      }
-	      if (eq.size()==2 && var.size()==2){
+	      if (eq.size()==2 && var.size()==2 && is_zero(derive(derive(eq,var[j],contextptr),var[j],contextptr))){
 		// add resultant and solve again
 		gen resu=_resultant(makesequence(eq[0],eq[1],var[j]),contextptr);
 		eq.push_back(resu);
