@@ -16,7 +16,7 @@ Compilation and running
 
 2. After a successful compilation you should see something like
 
-   Enter 0 to stop
+   Press CTRL-D to stop
    > Building 85% > :run
 
-   Here you can type some examples. Typing 0 and pressing ENTER will quit.
+   Here you can type some examples and exit with CTRL-D.
