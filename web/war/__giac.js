@@ -1585,7 +1585,7 @@ var __giac = [ {},
 { cat:"Polynomial", cmd:"Polynomial[(1, 1), (2, 3)]", result:"2x-1" },
 { cat:"Polynomial", cmd:"Polynomial[{(1, 1), (2, 3), (3, 6)}]", result:"1 / 2 x\u00B2 + 1 / 2 x" },
 { cat:"Polynomial", cmd:"Polynomial[(1, 1), (2, 3), (3, 6)]", result:"1 / 2 x\u00B2 + 1 / 2 x" },
-{ cat:"SolveODE", cmd:"SolveODE[y''+2*y'-3*y=exp(2x)]", result:"y = c_0 \u212f^x + c_1 \u212f^(-3 x) + 1 / 5 (\u212f^x)\u00B2" },
+{ cat:"SolveODE", cmd:"SolveODE[y''+2*y'-3*y=exp(2x)]", result:"y = c_0 \u212F^x + c_1 \u212F^(-3 x) + 1 / 5 \u212F^(2x)", notes:"was y = c_0 \u212f^x + c_1 \u212f^(-3 x) + 1 / 5 (\u212f^x)\u00B2" },
 { cat:"Solve", cmd:"NSolve[BC^2=4^2+3^2-2*4*3*cos(50\u00b0)]", result:"{BC = -3.094042237514, BC = 3.094042237514}", round:"{BC = -3.09, BC = 3.09}" },
 { cat:"Integral", cmd:"Integral[x^(-2/3), -1, 1]", result:"6", notes:"#4920" },
 { cat:"Integral", cmd:"Integral[x^(-2/3), 0, 1]", result:"3", notes:"#4920" },
@@ -1692,7 +1692,7 @@ var __giac = [ {},
 { cat: "SolveODE", cmd:"SolveODE[v'=v / w, v, w]", result:"v = c_0 w", notes:"#3607" },
 { cat: "SolveODE", cmd:"SolveODE[v'=v / w, v, w, (1,2)]", result:"v = 2 w", notes:"#3607" },
 { cat: "SolveODE", cmd:"SolveODE[v''-3v'+2=w,v,w,(2,3),(1,2)]", result:"v=(-9w\u00B2\u212f\u00B3+30w\u212f\u00B3-32(\u212f\u00B3)\u00B2+138\u212f\u00B3+32\u212f^(3w))/(54\u212f\u00B3)|OR|v = (-9 w\u00B2 \u212f\u00B3 + 30w \u212f\u00B3 + 32\u212f^(3w) - 32(\u212f\u00B3)\u00B2 + 138\u212f\u00B3) / (54\u212f\u00B3)", notes:"#3607" },
-{ cat: "SolveODE", cmd:"SolveODE[y''+y'+ pi y=0]", result:"y = c_0 \u212f^((x sqrt(-4 \u03C0 + 1) - x) / 2) + c_1 \u212f^((-x sqrt(-4 \u03C0 + 1) - x) / 2)", notes:"#5099" },
+{ cat: "SolveODE", cmd:"SolveODE[y''+y'+ pi y=0]", result:"y = c_0 cos(x sqrt(4\u03C0 - 1) / 2) \u212F^((-x) / 2) + c_1 \u212F^((-x) / 2) sin(x sqrt(4\u03C0 - 1) / 2)", notes:"was this, new result better: y = c_0 \u212f^((x sqrt(-4 \u03C0 + 1) - x) / 2) + c_1 \u212f^((-x sqrt(-4 \u03C0 + 1) - x) / 2), #5099" },
 { cat: "SolveODE", cmd:"SolveODE[y''+y'+3.141 y=0]", result:"y=c_0 cos(7x sqrt(590)/100)\u212f^((-x)/2)+c_1\u212f^((-x)/2)sin(7x sqrt(590)/100)", notes:"#5099" },
 { cat: "SolveODE", cmd:"SolveODE[pi y''=0]", result:"y=c_0 x+c_1", notes:"#5099" },
 { cat: "SolveODE", cmd:"SolveODE[a y''=0]", result:"y=c_0 x+c_1", notes:"#5099" },
@@ -1789,13 +1789,16 @@ var __giac = [ {},
 { cat: "Angle", cmd:"Angle[x=0, y=0]", result:"1 / 2 \u03C0", notes:"TRAC-3905" },
 { cat: "Angle", cmd:"Angle[z=0, x+y+z=0]", result:"acos(sqrt(3) / 3)", notes:"TRAC-3905" },
 { cat: "Angle", cmd:"Angle[2x-3y+z=0, 2x-y+7z=0]", result:"acos(sqrt(21) / 9)", notes:"TRAC-3905" },
-{ cat: "Expand", cmd:"Expand[a(b)]", result:"a b", notes:"GGB-315" },
+{ cat: "Expand", cmd:"Expand[a(b)]", result:"a(b)|OR|a[b]", notes:"GGB-315" },
 { cat: "Numeric", cmd:"Numeric[3^(26778293/2100000)]", result:"1213512.254672", round:"1213512.25", notes:"GGB-321" },
+{ cat:"Solve", cmd:"Solve[{67000=c*a^2007,3=c*a^9},{c,a}]", result:"{{c = 3 / (67000 / 3)^(1 / 222), a = (67000 / 3)^(1 / 1998)}}" },
+{ cat:"Solve", cmd:"Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c,a}]", result:"{{c = 300000000 / ((67 / 3)^(1 / 1057))\u2079\u2075\u2070, a = (67 / 3)^(1 / 1057)}}" },
+
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
-
-
+// Integral[Function[x^2,-2,3]]
+// [op(solve({((67/10))*((10)^(9))=(ggbtmpvarc)*((ggbtmpvara)^(2007)), (3)*((10)^(8))=(ggbtmpvarc)*((ggbtmpvara)^(950))},{ggbtmpvara, ggbtmpvarc}))]
 ];
 
 // giac/ggb bugs
@@ -1944,8 +1947,6 @@ var problems = [
 { cat:"NSolutions", cmd:"NSolutions[{\u03C0 / x = cos(x - 2y), 2 y - \u03C0 = sin(x)}]", result:"", notes:"x=0, y=0 doesn't work as initial starting point" },
 { cat:"NSolve", cmd:"NSolve[{\u03C0 / x = cos(x - 2y), 2 y - \u03C0 = sin(x)}]", result:"", notes:"x=0, y=0 doesn't work as initial starting point" },
 
-//freezes / too slow
-{ cat:"Solve", cmd:"Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c,a}]", result:"{{c = (300000000 (3^(950 / 1057))) / 67^(950 / 1057), a = 67^(1 / 1057) / 3^(1 / 1057)}}" },
 
 // leaves Giac in a bad state so (some) subsequent commands fail
 { cat:"Simplify", cmd:"Simplify[(abs(x)*y)^(1/2)-abs(x)^(1/2)*y^(1/2)]", result:"0" },
