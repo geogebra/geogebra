@@ -963,6 +963,11 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	/**
+	 * If you want to make use of the values of random geo a BoolAssignment
+	 * depends on, this is an easy way to retrieve these values and stop
+	 * randomizing them in order to store the same assignment that was presented
+	 * to the student.
+	 * 
 	 * @return JavaScriptObject containing all variables and values of which a
 	 *         BoolAssignment is depending and stops randomizing all these
 	 *         values. Example:

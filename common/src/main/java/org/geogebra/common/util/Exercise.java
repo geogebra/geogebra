@@ -385,8 +385,19 @@ public class Exercise {
 	}
 
 	/**
-	 * @return all GeoNumeric elements on which a BoolAssignment is dependent
-	 *         and stops randomizing all these values.
+	 * After a student started the Exercise in an CMS/LMS, values on which the
+	 * solution depends should not get changed anymore, when reopening the file.
+	 * If the exercise gets saved so that the teacher can review it or the
+	 * student can work on it later again, the teacher as well as the student
+	 * should see the same values the student saw on the first time. <br>
+	 * If it doesn't get saved, this doesn't do any harm since the Assignment
+	 * will be randomized again on next try.<br>
+	 * The current values for displaying in CMS/LMS are also returned, so that
+	 * the CMS/LMS can display the values and not cluttering up the applet with
+	 * text, which can be shown more pretty in the CMS/LMS (most of the times).
+	 * 
+	 * @return all random geos of type GeoNumeric on which a BoolAssignment is
+	 *         dependent and stops randomizing all of these values.
 	 */
 	public ArrayList<GeoNumeric> stopRandomizeAndGetValuesForBoolAssignments() {
 		// TODO Auto-generated method stub
@@ -399,28 +410,19 @@ public class Exercise {
 						.getGeoBoolean().getAllPredecessors());
 			}
 		}
+
 		for (GeoElement geo : predecessorsOfUsedBooleans) {
 			if (geo.isRandomGeo()) {
 				if (geo instanceof GeoNumeric) {
 					((GeoNumeric) geo).setRandom(false);
+					geos.add((GeoNumeric) geo);
 				}
-			} else if (geo instanceof GeoNumeric && geo.isLabelSet()) {
-				// this is a little bit brute force
-				GeoElement newGeo = app
-						.getKernel()
-						.getAlgebraProcessor()
-						.changeGeoElement(
-								geo,
-								Double.toString(((GeoNumeric) geo).getDouble()),
-								true, true);
-				app.getKernel().clearJustCreatedGeosInViews();
-				if (newGeo != null) {
-					app.doAfterRedefine(newGeo);
-					geo = newGeo;
-				}
-				geos.add((GeoNumeric) geo);
 			}
-
+			// If we also want to stop randomizing other values which were
+			// randomized by some AlgoRandom the user would have to specify the
+			// variables used by the assignment. I think this is not necessary
+			// since if we only stop randomization of
+			// sliders I think it's easier to use for the teacher.
 		}
 		return geos;
 	}
