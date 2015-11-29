@@ -10,6 +10,11 @@ HEAVY=0
 INFEASIBLE=0
 REGRESSION=0
 
+log() {
+ DATE=`date +%T`
+ echo "$DATE $*"
+ }
+
 usage() {
  echo "$0 - creates .out files from .in files or runs a regression test."
  echo "Usage:"
@@ -77,24 +82,26 @@ find -name '*.in' | while read IN; do
    fi
   if [ "$IGNORE" = 0 ]; then
    DATE=`date +%T`
-   echo "$DATE Processing $IN"
+   log "Processing $IN"
    if [ "$REGRESSION" = 1 ]; then
     mkdir -p `dirname $SAVEDIR/$OUT`
     fi
    timeout $TIMEOUT $ICAS -m < $IN > $SAVEDIR/$OUT 2> $SAVEDIR/.stderr
-   if [ $? != 0 ]; then
+   RETVAL=$?
+   if [ $RETVAL != 0 ]; then
     cat $SAVEDIR/.stderr > /dev/stderr
+    log "Process exited with error $RETVAL"
     fi
    if [ "$REGRESSION" = 1 ]; then
     mkdir -p `dirname $SAVEDIR/$OUT`
     fi
    if [ "$REGRESSION" = 1 ]; then
-    diff $OUT $SAVEDIR/$OUT > $SAVEDIR/$OUT.diff
+    diff -u $OUT $SAVEDIR/$OUT > $SAVEDIR/$OUT.diff
     if [ -s $SAVEDIR/$OUT.diff ]; then
      BAD=`cat $SAVEDIR/.bad`
      BAD=$((BAD+1))
      echo $BAD > $SAVEDIR/.bad
-     echo " regression found"
+     log "Regression found"
     else
      GOOD=`cat $SAVEDIR/.good`
      GOOD=$((GOOD+1))
@@ -105,10 +112,12 @@ find -name '*.in' | while read IN; do
   fi
  done
 
+log "All files have been processed"
+
 if [ "$REGRESSION" = 1 ]; then
  BAD=`cat $SAVEDIR/.bad`
  GOOD=`cat $SAVEDIR/.good`
- echo "Summary: $GOOD good and $BAD bad results"
+ log "Summary: $GOOD good and $BAD bad results"
  if [ "$BAD" != 0 ]; then
   exit 1
   fi

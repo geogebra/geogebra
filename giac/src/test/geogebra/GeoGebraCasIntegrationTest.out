@@ -17,14 +17,14 @@
  (x)->when((x==0),true,when(((type(x))==DOM_LIST),(((max(flatten({x,0})))==(min(flatten({x,0}))))) && (((min(flatten({x,0})))==0)),when(((x[0])=='='),(((lhs(x))==0)) && (((rhs(x))==0)),false)))
 ggbtmpvara
 ggbtmpvara
-?
-?
-?
-?
-?
-?
-?
-?
++infinity
++infinity
++infinity
++infinity
++infinity
+0
+0
+0
 x
 7/6*x^2
 x+y
@@ -57,14 +57,14 @@ ggbtmpvarX=((-ggbtmpvars+ggbtmpvart*sqrt(5)+3,ggbtmpvars*sqrt(7)+ggbtmpvart+sqrt
 -9*(x^6+4/9)^2-65/9
 -6*(x^9+3/4)^2+43/8
 -6*(x+3/4)^2+43/8
-?
+undef
 -9*x^10+4
 -3*(x-5/6)^2+121/12
 11
 9/2
-?
-?
-?
+0
+0
+1
 1/1000
 7/250
 271/1000
@@ -80,8 +80,7 @@ sin(ggbtmpvara*ggbtmpvart)/ggbtmpvara+c_2
 '0+6/7'
 (ggbtmpvara^2+2*ggbtmpvara*ggbtmpvarb+ggbtmpvarb^2)/ggbtmpvarc^2
 (ggbtmpvara^2+2*ggbtmpvara*ggbtmpvarb+ggbtmpvarb^2)/(ggbtmpvarc^2+2*ggbtmpvarc*ggbtmpvard+ggbtmpvard^2)
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
+ggbtmpvara*x^2+ggbtmpvarb*x^2
 1/720*x^6+1/120*x^5+1/24*x^4+1/6*x^3+1/2*x^2+x+1
 4*x^2-2*x+4
 ggbtmpvara+ggbtmpvarb
@@ -137,14 +136,10 @@ x^3-x^2+1.0
 (-ggbtmpvars+5*ggbtmpvart,7*ggbtmpvars+ggbtmpvart)
 2
 x^4
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
+-('3*5')
+'3*5'
+'2^10'
+'2*3*7'
 {x=1}
 {x=-1}
 {x=1}
@@ -192,9 +187,9 @@ ggbtmpvarn
 {4,3}
 2*x=(2*x)
 2*x=(3*x)
-2*x+3=13
-3-5/x=(7*x)
-3-5/(x+1)=(7*(x+1))
+6*x+9=13
+3*x-5=(7*x)
+3*x-2=(7*x+7)
 5*x-5
 60
 4*x^2+4*x+1
@@ -335,8 +330,7 @@ ggbtmpvarX=((2*ggbtmpvars+4,-2*ggbtmpvars+1))
 x^2-3/2*x+2
 1/2*x+2
 x^2-2*x
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
+x*(x-2)
 {x=0,x=2}
 {(0,2),(2,3)}
 (-ggbtmpvars+5*ggbtmpvart+3,7*ggbtmpvars+ggbtmpvart+2)
@@ -353,12 +347,9 @@ GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode
 x^2
 2*x
 2*x
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 3, vector size is 1, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 3, vector size is 1, syntax compatibility mode xcas
- Error: Invalid dimension
+x^2-2
+(x-sqrt(2))*(x+sqrt(2))
+(x-sqrt(2))*(x+sqrt(2))
 -5
 -5
 -4
@@ -375,8 +366,8 @@ ggbtmpvarf(x)
 3
 7=7
 7=8
-13/3=13
-5=13
+13=13
+15=13
 {ggbtmpvart=(10/3*ln(2))}
 {x=(sqrt(ggbtmpvara)),x=(-sqrt(ggbtmpvara))}
 {x=(ggbtmpvara-1),x=(ggbtmpvara+1)}
@@ -408,16 +399,13 @@ abs(x)
 {}
 {{x=x,y=y}}
 {}
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
+(x+2*ί)*(x-2*ί)
+(ggbtmpvara+ί*x)*(ggbtmpvara+(-ί)*x)
+(x+ί*ggbtmpvara)*(x+(-ί)*ggbtmpvara)
 -2
 -ggbtmpvara*ggbtmpvarb+4
-{1,2,4,1,4}
-{1,x,x,1,ggbtmpvara}
+{1,2,4}
+{1,x,ggbtmpvara}
 x+2
 {ggbtmpvara^2+ggbtmpvarb^2,x+2}
 ggbtmpvara^2+ggbtmpvarb^2
@@ -458,11 +446,10 @@ y=((ggbtmpvara*sqrt(-ggbtmpvara^2+1)*x-sqrt(-ggbtmpvara^2+1))/(ggbtmpvara^2-1))
 y=(-x+sqrt(2))
 x=1
 x=1
-{x=1,y=1}
+{y=1,x=1}
 y=(ggbtmpvara*sqrt(-ggbtmpvara^2+1)/(ggbtmpvara^2-1)*x-sqrt(-ggbtmpvara^2+1)/(ggbtmpvara^2-1))
 y=(ggbtmpvara^2*(-ggbtmpvara^3+1)^(1/3)/(ggbtmpvara^3-1)*x+(-ggbtmpvara^3+1)*(-ggbtmpvara^3+1)^(1/3)/(ggbtmpvara^6-2*ggbtmpvara^3+1))
 y=0
-GIAC_ERROR: Tangent at a singular point Error: Bad Argument Value
 5
 x+4
 5
@@ -477,7 +464,7 @@ ggbtmpvara+2*ggbtmpvarb
 ggbtmpvara
 14
 ggbtmpvarr^(ggbtmpvarn+1)/(ggbtmpvarr-1)-1/(ggbtmpvarr-1)
-?
+3/2
 3/4
 ?
 ?
@@ -488,9 +475,9 @@ ggbtmpvarr^(ggbtmpvarn+1)/(ggbtmpvarr-1)-1/(ggbtmpvarr-1)
 7
 9973
 x-1/2=(2*x+3)
-x-1/2=(2*x+7/2)
-x-1/2=(2*x+7/2)
-x-0.5=(2.0*x+3.5)
+x=(2*x+7/2)
+x=(2*x+7/2)
+x=(2.0*x+3.5)
 100*(3/2)^ggbtmpvart
 100*(3/2)^ggbtmpvart
 225
@@ -512,8 +499,7 @@ x^2-2*x
 x^2-3/2*x+2
 1/2*x+2
 x^2-2*x
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
+x*(x-2)
 x^2-3/2*x+2
 1/2*x+2
 x^2-2*x
@@ -572,12 +558,9 @@ x^3
 {1}
 {1,4}
 10
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
+(ggbtmpvara-ggbtmpvarb)^4
+(x-y)*(x+y)
+-(y-x)*(y+x)
 ggbtmpvara*x+7*x
 3
 6
@@ -625,26 +608,16 @@ ggbtmpvart^2+3*ggbtmpvart+c_4
 {cunicode95uunicode49u=0}
 -2
 ggbtmpvarf
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
+(x-2)*(x+3)
+(x-y)*(x+y)
+-3*ggbtmpvara*(ggbtmpvarb-3*ggbtmpvara)
+-3*ggbtmpvara^2*(ggbtmpvarb-3)
+-3*ggbtmpvarb^2*ggbtmpvara*(ggbtmpvarc-3*ggbtmpvarb*ggbtmpvara)
+(3*x-5*y)*(3*x+5*y)
+(ggbtmpvarb+ggbtmpvara)*(5*x-2*y)
+4*(3*ggbtmpvarr+ggbtmpvart)^2
+(-ggbtmpvarb^2-5)*(2*ggbtmpvara-3)
+(ggbtmpvara+ggbtmpvarb)^2/(ggbtmpvarc+ggbtmpvard)^2
 4
 4
 ggbtmpvara
@@ -673,8 +646,7 @@ integrate(ggbtmpvarf(y),y,ggbtmpvarsomevar,ggbtmpvarg(ggbtmpvarh))
 sum(ggbtmpvarf(y),y,ggbtmpvarsomevar,ggbtmpvarg(ggbtmpvarh))
 sqrt(3)*sqrt(x+2)
 (ggbtmpvara*ggbtmpvard+ggbtmpvarb*ggbtmpvarc)/(ggbtmpvarc*ggbtmpvard)
-GIAC_ERROR: Index outside range : 4, vector size is 2, syntax compatibility mode xcas
- Error: Invalid dimension
+(ggbtmpvara*ggbtmpvard+ggbtmpvarc*ggbtmpvarb)/(ggbtmpvard*ggbtmpvarc)
 {{ggbtmpvara=2,ggbtmpvarb=0},{ggbtmpvara=2,ggbtmpvarb=(1/2)}}
 {ggbtmpvara,ggbtmpvarb,ggbtmpvarc}
 {ggbtmpvarc}
@@ -722,14 +694,10 @@ x+2*y=3
 {ggbtmpvarc=(ln(ggbtmpvara)/ln(ggbtmpvarb))}
 {}
 {}
-GIAC_ERROR: matrix(dim(ggbfacans)/2,2,ggbfacans) 
- Error: Bad Argument Value
-GIAC_ERROR: matrix(dim(ggbfacans)/2,2,ggbfacans) 
- Error: Bad Argument Value
-GIAC_ERROR: matrix(dim(ggbfacans)/2,2,ggbfacans) 
- Error: Bad Argument Value
-GIAC_ERROR: matrix(dim(ggbfacans)/2,2,ggbfacans) 
- Error: Bad Argument Value
+{{-1,1},{3,1},{5,1}}
+{{3,1},{5,1}}
+{{2,10}}
+{{2,1},{3,1},{7,1}}
 false
 false
 false
@@ -741,8 +709,8 @@ false
 true
 3*(x+5/6)^2+71/12
 3*x+1
-{ggbtmpvarc^2,3*x+1}
-1
+[ggbtmpvarc^2,3*x+1]
+5
 (-ggbtmpvars+5*ggbtmpvart+3,7*ggbtmpvars+ggbtmpvart+2)
 (-ggbtmpvars+3,7*ggbtmpvars+2)
 (3,2)
@@ -778,7 +746,7 @@ true
 {{1,1},{0,0}}
 {{1,0},{0,1}}
 {{1,0,0},{0,1,0},{0,0,1}}
-1
+0
 (erf(-sqrt(2))+1)/2
 {ggbtmpvareps=0.6744897501961}
 ggbtmpvara^2*ggbtmpvarb^2-0.6*ggbtmpvara^3-3.0*ggbtmpvarb^3+1.8*ggbtmpvara*ggbtmpvarb
@@ -843,4 +811,4 @@ y=(c_0*x)
 y=(c_0*x)
 {x=((5*ln(7)+ln(9))/(ln(5)+2*ln(7)-ln(9)))}
 {x=((-ln(11)-ln(5))/(ln(13)-ln(5)))}
-{{ggbtmpvarc=(300000000/((67/3)^(1/1057))^950),ggbtmpvara=(67/(3*((67/3)^(1/1057))^1056))}}
+{{ggbtmpvarc=(300000000/((67/3)^(1/1057))^950),ggbtmpvara=((67/3)^(1/1057))}}

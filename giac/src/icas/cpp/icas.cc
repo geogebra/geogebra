@@ -29,12 +29,12 @@ int main(int argc, char *argv[]){
     context ct;
     gen g;
     while (getline(cin, line)) {
-      if (line.compare("caseval(\"init geogebra\")") == 0)
-        init_geogebra(1,&ct);
+      // if (line.compare("caseval(\"init geogebra\")") == 0)
+      //  init_geogebra(1,&ct);
       g=gen(line,&ct);
       if (is_undef(g))
         break;
-      cout << caseval(g.print(&ct).c_str()) << endl;
+      cout << eval(g,1,&ct) << endl;
       }
     }
   }
