@@ -67,6 +67,13 @@ namespace giac {
   gen laplace(const gen & f0,const gen & x,const gen & s,GIAC_CONTEXT){
     if (x.type!=_IDNT)
       return gensizeerr(contextptr);
+    if (f0.type==_VECT){
+      vecteur v=*f0._VECTptr;
+      for (int i=0;i<int(v.size());++i){
+	v[i]=laplace(v[i],x,s,contextptr);
+      }
+      return gen(v,f0.subtype);
+    }
     gen t(s);
     if (s==x){
 #ifdef GIAC_HAS_STO_38
@@ -717,6 +724,8 @@ namespace giac {
       gen & b=v[1];
       gen & c=v[2];
       if (ckmatrix(a)){
+	if (c.type!=_VECT && is_zero(c))
+	  c=c*a;
 	c=_tran(c,contextptr)[int(a._VECTptr->size())-1];
       }
       result=desolve_lin1(a,b,c,x,parameters,contextptr);
@@ -780,7 +789,7 @@ namespace giac {
 	      bool b=calc_mode(contextptr)==1;
 	      if (b)
 		calc_mode(0,contextptr);
-	      part += _integrate(makesequence(_lin(c[i]*exp(-rac[i]*x,contextptr),contextptr),x),contextptr)*exp(rac[i]*x,contextptr);
+	      part += _lin(_integrate(makesequence(_lin(c[i]*exp(-rac[i]*x,contextptr),contextptr),x),contextptr)*exp(rac[i]*x,contextptr),contextptr);
 	      if (b)
 		calc_mode(1,contextptr);
 	    }

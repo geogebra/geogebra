@@ -1646,6 +1646,8 @@ namespace giac {
   }
 
   static bool proot_real1(const vecteur & v,double eps,int rprec,vecteur & res,GIAC_CONTEXT){
+    if (v.size()<2)
+      return false;
     matrice m(companion(v)),md;
     int dim=int(m.size());
     matrice I(midn(dim));
@@ -1865,7 +1867,7 @@ namespace giac {
       rprec=int((1-std::log10(eps))*3.2);
     // extract 0 as approx root
     unsigned mult0=0;
-    while (is_zero(v.back())){
+    while (!v.empty() && is_zero(v.back())){
       ++mult0;
       v.pop_back();
     }
@@ -12755,6 +12757,8 @@ namespace giac {
     }
     if (is_undef(g1) || g1.type!=_VECT || is_undef(g2) || g2.type!=_VECT)
       return gensizeerr(gettext("cross"));
+    if (g1.subtype==_VECTOR__VECT && g2.subtype==_VECTOR__VECT)
+      return _vector(cross(vector2vecteur(*g1._VECTptr),g2,contextptr),contextptr);
     if (g1.subtype==_VECTOR__VECT)
       return cross(vector2vecteur(*g1._VECTptr),g2,contextptr);
     if (g2.subtype==_VECTOR__VECT)

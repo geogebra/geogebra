@@ -2318,7 +2318,7 @@ namespace giac {
       else {
 	if (v[2].type!=_VECT && !v[2].is_symb_of_sommet(at_pnt) && is_zero(im(v[2],contextptr),contextptr)){
 	  v[1]=v;
-	  v[0]=0;
+	  v[0]=makevecteur(0,0,0);
 	  v.pop_back();
 	}
       }

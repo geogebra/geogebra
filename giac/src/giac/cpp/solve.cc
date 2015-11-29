@@ -984,7 +984,10 @@ namespace giac {
       if (!complexmode && is_positive(-delta,contextptr))
 	return;
 #endif
-      delta=normalize_sqrt(sqrt(delta,contextptr),contextptr);
+      if (complexmode && (lidnt(evalf(makevecteur(two_a,minus_b,delta),1,contextptr)).empty() || lvar(delta).size()==1) && is_positive(-delta,contextptr))
+	delta=cst_i*normalize_sqrt(sqrt(-delta,contextptr),contextptr);
+      else
+	delta=normalize_sqrt(sqrt(delta,contextptr),contextptr);
       newv.push_back(rdiv(minus_b+delta,two_a,contextptr));
       newv.push_back(rdiv(minus_b-delta,two_a,contextptr));
     }
@@ -5866,6 +5869,11 @@ namespace giac {
 		    resk=gensizeerr(contextptr);
 		}
 		return res;
+	      }
+	      if (eq.size()==2 && var.size()==2){
+		// add resultant and solve again
+		gen resu=_resultant(makesequence(eq[0],eq[1],var[j]),contextptr);
+		eq.push_back(resu);
 	      }
 	    } // end if is_linear
 	  }
