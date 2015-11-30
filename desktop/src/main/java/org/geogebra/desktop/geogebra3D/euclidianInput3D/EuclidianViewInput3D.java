@@ -865,10 +865,23 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	}
 
 	private boolean drawStylusBeam() {
-		return input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()
-				&& !input3D.isRightPressed()
-				&& !input3D.isThirdButtonPressed()
-				&& hasMouse();
+		if (!input3D.hasMouseDirection() || input3D.currentlyUseMouse2D()) {
+			return false;
+		}
+
+		if (input3D.isLeftPressed()) { // show stylus beam only if object is
+										// moved
+			if (euclidianController.getMoveMode() == EuclidianController.MOVE_NONE) {
+				return false;
+			}
+			return hasMouse();
+		}
+
+		if (input3D.isRightPressed() || input3D.isThirdButtonPressed()) {
+			return false;
+		}
+
+		return hasMouse();
 	}
 
 	@Override
