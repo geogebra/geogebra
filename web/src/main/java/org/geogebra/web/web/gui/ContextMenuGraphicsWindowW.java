@@ -129,7 +129,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	}
 
 	public void setViewShowAllObject() {
-		app.setViewShowAllObjects();
+		app.setViewShowAllObjects(false);
 	}
 
 	private void addAxesRatioItems(RadioButtonMenuBar menu) {

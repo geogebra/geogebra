@@ -55,7 +55,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		        app.getPlain("ShowAllObjects"), new Command() {
 
 			        public void execute() {
-				        setViewShowAllObject();
+						setViewShowAllObject();
 			        }
 
 		        });

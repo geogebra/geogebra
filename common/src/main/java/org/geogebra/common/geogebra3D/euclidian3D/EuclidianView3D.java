@@ -4083,7 +4083,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private Coords boundsMin, boundsMax;
 
 	@Override
-	public final void setViewShowAllObjects(boolean storeUndo) {
+	public final void setViewShowAllObjects(boolean storeUndo, boolean keepRatio) {
 
 		if (boundsMin == null) {
 			boundsMin = new Coords(3);

@@ -206,7 +206,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		if (cmd.equals("standardView")) {
 			setStandardView();
 		} else if (cmd.equals("showAllObjects")) {
-			app.setViewShowAllObjects();
+			app.setViewShowAllObjects(false);
 		} else if (cmd.equals("properties")) {
 			showOptionsDialog();
 		}

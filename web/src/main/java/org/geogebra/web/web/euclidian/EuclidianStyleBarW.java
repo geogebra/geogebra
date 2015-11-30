@@ -1170,7 +1170,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				setEvStandardView();
 				break;
 			case 1: // show all objects
-				getView().setViewShowAllObjects(true);
+				getView().setViewShowAllObjects(true, false);
 				break;
 			default:
 				setDirection(si);

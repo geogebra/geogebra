@@ -976,7 +976,7 @@ public interface EuclidianViewInterfaceCommon extends
 	 */
 	public void requestFocus();
 
-	public void setViewShowAllObjects(boolean storeUndo);
+	public void setViewShowAllObjects(boolean storeUndo, boolean keepRatio);
 
 	public void zoomAxesRatio(double axesratio, boolean b);
 

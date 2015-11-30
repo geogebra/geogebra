@@ -246,7 +246,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 				getView().setStandardView(true);
 				break;
 			case 1: // show all objects
-				getView().setViewShowAllObjects(true);
+			getView().setViewShowAllObjects(true, false);
 				break;
 			case 2: // standard view orientation
 				getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,

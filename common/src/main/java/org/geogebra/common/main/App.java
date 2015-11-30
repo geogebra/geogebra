@@ -3130,9 +3130,12 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Zooms and pans active EV to show all objects
+	 * 
+	 * @param keepRatio
+	 *            true to keep ratio of axes
 	 */
-	public final void setViewShowAllObjects() {
-		getActiveEuclidianView().setViewShowAllObjects(true);
+	public final void setViewShowAllObjects(boolean keepRatio) {
+		getActiveEuclidianView().setViewShowAllObjects(true, keepRatio);
 	}
 
 	/**

@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -46,7 +45,9 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -4184,81 +4185,134 @@ sb.toString(), getFontAxes(),
 		}
 	}
 
+
 	/**
 	 * Change coord system so that all objects are shown
-	 * 
+	 *
 	 * @param storeUndo
 	 *            true to store undo after
+	 * @param keepRatio
+	 *            true to keep ratio of x and y axes
 	 */
-	public void setViewShowAllObjects(boolean storeUndo) {
+	@Override
+	public void setViewShowAllObjects(boolean storeUndo, boolean keepRatio) {
 
-		double x0RW = getXmin();
-		double x1RW;
-		double y0RW;
-		double y1RW;
-		double y0RWfunctions = 0;
-		double y1RWfunctions = 0;
-		double factor = 0.03d; // don't want objects at edge
-		double xGap = 0;
-
+		// check for functions
 		TreeSet<GeoElement> allFunctions = kernel.getConstruction()
 				.getGeoSetLabelOrder(GeoClass.FUNCTION);
+		boolean hasFunctions = hasVisibleObjects(allFunctions);
 
-		int noVisible = 0;
-		// count no of visible functions
-		Iterator<GeoElement> it = allFunctions.iterator();
-		while (it.hasNext()) {
-			if (((GeoFunction) (it.next())).isEuclidianVisible()) {
-				noVisible++;
-			}
-		}
+		// check for curves
+		TreeSet<GeoElement> allCurves = kernel.getConstruction()
+				.getGeoSetLabelOrder(GeoClass.CURVE_CARTESIAN);
+		boolean hasCurves = hasVisibleObjects(allCurves);
 
+		// check for points, circles etc.
+		drawAll();
 		GRectangle rect = getBounds();
-		if (Kernel.isZero(rect.getHeight()) || Kernel.isZero(rect.getWidth())) {
-			if (noVisible == 0) {
-				return; // no functions or objects
-			}
+		boolean hasObjects = hasVisibleObjects(rect);
 
-			// just functions
-			x0RW = Double.MAX_VALUE;
-			x1RW = -Double.MAX_VALUE;
-			y0RW = Double.MAX_VALUE;
-			y1RW = -Double.MAX_VALUE;
-
-		} else {
-
-			// get bounds of points, circles etc
-			x0RW = toRealWorldCoordX(rect.getMinX());
-			x1RW = toRealWorldCoordX(rect.getMaxX());
-			y0RW = toRealWorldCoordY(rect.getMaxY());
-			y1RW = toRealWorldCoordY(rect.getMinY());
+		if (!hasObjects && !hasCurves && !hasFunctions) {
+			return;
 		}
 
-		xGap = (x1RW - x0RW) * factor;
+		/** curves */
 
+		double xMinCurve = Double.MAX_VALUE;
+		double xMaxCurve = -Double.MAX_VALUE;
+		double yMinCurve = Double.MAX_VALUE;
+		double yMaxCurve = -Double.MAX_VALUE;
+
+		if (hasCurves) {
+			for (GeoElement element : allCurves) {
+				GeoCurveCartesian curve = (GeoCurveCartesian) element;
+				Function funX = curve.getFunX();
+				Function funY = curve.getFunY();
+
+				double min = curve.getMinParameter();
+				double max = curve.getMaxParameter();
+				double step = curve.getAnimationStep();
+
+				xMinCurve = funX.evaluate(min);
+				xMaxCurve = xMinCurve;
+				yMinCurve = funY.evaluate(min);
+				yMaxCurve = yMinCurve;
+
+				double helper;
+
+				while (min < max) {
+					min += step;
+					helper = funX.evaluate(min);
+					if (helper < xMinCurve) {
+						xMinCurve = helper;
+					} else if (helper > xMaxCurve) {
+						xMaxCurve = helper;
+					}
+					helper = funY.evaluate(min);
+					if (helper < yMinCurve) {
+						yMinCurve = helper;
+					} else if (helper > yMaxCurve) {
+						yMaxCurve = helper;
+					}
+				}
+			}
+		}
+
+		/** objects */
+
+		double xMinObj = Double.MAX_VALUE;
+		double xMaxObj = -Double.MAX_VALUE;
+		double yMinObj = Double.MAX_VALUE;
+		double yMaxObj = -Double.MAX_VALUE;
+
+		if (hasObjects) {
+			// get bounds of points, circles etc
+			xMinObj = toRealWorldCoordX(rect.getMinX());
+			xMaxObj = toRealWorldCoordX(rect.getMaxX());
+			yMinObj = toRealWorldCoordY(rect.getMaxY());
+			yMaxObj = toRealWorldCoordY(rect.getMinY());
+		}
+
+		/**
+		 * initialize the rectangle around all visible objects do this before
+		 * handling functions, because functions need the calculated x-values
+		 */
+
+		// xMin,xMax,yMin,yMax of all objects on graphics view
+		double x0RW = Double.MAX_VALUE;
+		double x1RW = -Double.MAX_VALUE;
+		double y0RW = Double.MAX_VALUE;
+		double y1RW = -Double.MAX_VALUE;
+
+		if (hasCurves) {
+			x0RW = Math.min(x0RW, xMinCurve);
+			x1RW = Math.max(x1RW, xMaxCurve);
+			y0RW = Math.min(y0RW, yMinCurve);
+			y1RW = Math.max(y1RW, yMaxCurve);
+		}
+
+		if (hasObjects) {
+			x0RW = Math.min(x0RW, xMinObj);
+			x1RW = Math.max(x1RW, xMaxObj);
+			y0RW = Math.min(y0RW, yMinObj);
+			y1RW = Math.max(y1RW, yMaxObj);
+		}
+
+		/** functions */
+
+		double yMinFunc = Double.MAX_VALUE;
+		double yMaxFunc = -Double.MAX_VALUE;
 		boolean ok = false;
 
-		if (noVisible != 0) {
+		if (hasFunctions) {
 
-			// if there are functions we don't want to zoom in horizintally
+			// if there are functions we don't want to zoom in horizontally
 			x0RW = Math.min(getXmin(), x0RW);
 			x1RW = Math.max(getXmax(), x1RW);
 
-			if (Kernel.isEqual(x0RW, getXmin())
-					&& Kernel.isEqual(x1RW, getXmax())) {
-				// just functions (at sides!), don't need a gap
-				xGap = 0;
-			} else {
-				xGap = (x1RW - x0RW) * factor;
-			}
+			for (GeoElement elem : allFunctions) {
 
-			y0RWfunctions = Double.MAX_VALUE;
-			y1RWfunctions = -Double.MAX_VALUE;
-
-			it = allFunctions.iterator();
-
-			while (it.hasNext()) {
-				GeoFunction fun = (GeoFunction) (it.next());
+				GeoFunction fun = (GeoFunction) elem;
 
 				if (fun.isEuclidianVisible()) {
 					double abscissa;
@@ -4270,44 +4324,184 @@ sb.toString(), getFontAxes(),
 						} else if (i == 1) {
 							abscissa = fun.evaluate(x1RW); // check far right
 						} else {
-							abscissa = fun.evaluate(
-									x0RW + (Math.random() * (x1RW - x0RW)));
+							abscissa = fun.evaluate(x0RW
+									+ (Math.random() * (x1RW - x0RW)));
 						}
 
 						if (!Double.isInfinite(abscissa)
 								&& !Double.isNaN(abscissa)) {
 							ok = true;
-							if (abscissa > y1RWfunctions) {
-								y1RWfunctions = abscissa;
+							if (abscissa > yMaxFunc) {
+								yMaxFunc = abscissa;
 							}
 							// no else: there **might** be just one value
-							if (abscissa < y0RWfunctions) {
-								y0RWfunctions = abscissa;
+							if (abscissa < yMinFunc) {
+								yMinFunc = abscissa;
 							}
 						}
 					}
 				}
 			}
-
 		}
 
-		if (!Kernel.isZero(y1RWfunctions - y0RWfunctions) && ok) {
-			y0RW = Math.min(y0RW, y0RWfunctions);
-			y1RW = Math.max(y1RW, y1RWfunctions);
+		if (hasFunctions && ok) {
+			y0RW = Math.min(y0RW, yMinFunc);
+			y1RW = Math.max(y1RW, yMaxFunc);
 		}
 
 		// don't want objects at edge
-		double yGap = (y1RW - y0RW) * factor;
+		double xGap = (x1RW - x0RW) * 0.03;
+		double yGap = (y1RW - y0RW) * 0.03;
 
-		final double x0RW2 = x0RW - xGap;
-		final double x1RW2 = x1RW + xGap;
-		final double y0RW2 = y0RW - yGap;
-		final double y1RW2 = y1RW + yGap;
+		x0RW -= xGap;
+		x1RW += xGap;
+		y0RW -= yGap;
+		y1RW += yGap;
 
-		setAnimatedRealWorldCoordSystem(x0RW2, x1RW2, y0RW2, y1RW2, 10,
-				storeUndo);
-
+		if (keepRatio) {
+			alignView(x0RW, x1RW, y0RW, y1RW);
+		} else {
+			setAnimatedRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW, 10,
+					storeUndo);
+		}
 	}
+
+	protected void drawAll() {
+		// TODO
+	}
+
+	private boolean hasVisibleObjects(GRectangle rect) {
+		return !(Kernel.isZero(rect.getHeight()) || Kernel.isZero(rect
+				.getWidth()));
+	}
+
+	/**
+	 * center the rectangle around all visible objects and zoom in/out until all
+	 * objects are visible on the graphicsView
+	 *
+	 * @param x0RW
+	 *            xMin of visible objects rectangle
+	 * @param x1RW
+	 *            xMax of visible objects rectangle
+	 * @param y0RW
+	 *            yMin of visible objects rectangle
+	 * @param y1RW
+	 *            yMax of visible objects rectangle
+	 */
+	private void alignView(double x0RW, double x1RW, double y0RW, double y1RW) {
+		centerVisibleObjectsRect(x0RW, x1RW, y0RW, y1RW);
+		setLockedAxesRatio(getScaleRatio());
+		zoomAllVisibleObjects(x0RW, x1RW, y0RW, y1RW);
+		setLockedAxesRatio(null);
+	}
+
+	/**
+	 * zoom in/out so that the given rectangle fits on the euclidian view
+	 *
+	 * @param x0RW
+	 *            xMin of visible objects rectangle
+	 * @param x1RW
+	 *            xMax of visible objects rectangle
+	 * @param y0RW
+	 *            yMin of visible objects rectangle
+	 * @param y1RW
+	 *            yMax of visible objects rectangle
+	 */
+	private void zoomAllVisibleObjects(double x0RW, double x1RW, double y0RW,
+			double y1RW) {
+		int i = 0;
+		if (outOfRange(x0RW, x1RW, y0RW, y1RW)) {
+			// means zoom out
+			while (i < 1000 && outOfRange(x0RW, x1RW, y0RW, y1RW)) {
+				i++;
+				zoom(-0.5);
+			}
+		} else {
+			// means zoom in
+			while (i < 1000 && !outOfRange(x0RW, x1RW, y0RW, y1RW)) {
+				i++;
+				zoom(0.5);
+			}
+		}
+	}
+
+	/**
+	 * centers the rectangle of the visible objects on the visible euclidian
+	 * view
+	 *
+	 * @param x0RW
+	 *            xMin of visible objects rectangle
+	 * @param x1RW
+	 *            xMax of visible objects rectangle
+	 * @param y0RW
+	 *            yMin of visible objects rectangle
+	 * @param y1RW
+	 *            yMax of visible objects rectangle
+	 */
+	private void centerVisibleObjectsRect(double x0RW, double x1RW,
+			double y0RW, double y1RW) {
+		double screenMinX = getXmin();
+		double screenMaxX = getXmax();
+		double screenMinY = getYmin();
+		double screenMaxY = getYmax();
+
+		// center of the rectangle around the objects
+		double centerX = x0RW + (Math.abs(x1RW - x0RW) / 2);
+		double centerY = y0RW + (Math.abs(y1RW - y0RW) / 2);
+
+		// center of the visible graphics view
+		double screenCenterX = screenMinX + (Math.abs(screenMaxX - screenMinX))
+				/ 2;
+		double screenCenterY = screenMinY + (Math.abs(screenMaxY - screenMinY))
+				/ 2;
+
+		double diffX = screenCenterX - centerX;
+		double diffY = screenCenterY - centerY;
+
+		setRealWorldCoordSystem(screenMinX - diffX, screenMaxX - diffX,
+				screenMinY - diffY, screenMaxY - diffY);
+	}
+
+	/**
+	 * @return {@code true} if an object of the given TreeSet is visible in the
+	 *         graphicsView
+	 */
+	private boolean hasVisibleObjects(TreeSet<GeoElement> allFunctions) {
+		for (GeoElement element : allFunctions) {
+			if (element.isEuclidianVisible()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param factor
+	 *            positive numbers to ZoomIn, negative numbers to ZoomOut
+	 */
+	private void zoom(double factor) {
+		setRealWorldCoordSystem(getXmin() + factor, getXmax() - factor,
+				getYmin() + factor, getYmax() - factor);
+	}
+
+	/**
+	 * @param x0rw
+	 *            xMin of all objects
+	 * @param x1rw
+	 *            xMax of all objects
+	 * @param y0rw
+	 *            yMin of all objects
+	 * @param y1rw
+	 *            yMax of all objects
+	 * @return {@code true} if an object is out of the visible area of the
+	 *         euclidian view
+	 */
+	private boolean outOfRange(double x0rw, double x1rw, double y0rw,
+			double y1rw) {
+		return getXmin() > x0rw || getXmax() < x1rw || getYmin() > y0rw
+				|| getYmax() < y1rw;
+	}
+
 
 	/**
 	 * @return width of selection rectangle
