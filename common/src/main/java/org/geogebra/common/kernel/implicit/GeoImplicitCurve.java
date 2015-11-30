@@ -339,6 +339,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return curve;
 	}
 
+	public boolean hasDrawable3D() {
+		return true;
+	}
 	@Override
 	public void set(GeoElementND geo) {
 		if (geo.getDefinition().unwrap() instanceof Equation) {
