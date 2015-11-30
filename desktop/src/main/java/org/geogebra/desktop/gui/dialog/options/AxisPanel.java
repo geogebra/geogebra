@@ -32,7 +32,8 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 	private AxisModel model;
 
 	protected JCheckBox cbShowAxis, cbAxisNumber, cbManualTicks,
-			cbPositiveAxis, cbDrawAtBorder;
+ cbPositiveAxis,
+			cbDrawAtBorder, cbAllowSelection;
 	protected NumberComboBox ncbTickDist;
 	protected JComboBox cbTickStyle, cbAxisLabel, cbUnitLabel;
 	protected JTextField tfCross;
@@ -80,6 +81,11 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		cbPositiveAxis = new JCheckBox(app.getPlain("PositiveDirectionOnly"));
 		cbPositiveAxis.addActionListener(this);
 		JPanel showPosPanel = LayoutUtil.flowPanel(cbPositiveAxis);
+
+		// allow selection
+		cbAllowSelection = new JCheckBox(app.getPlain("SelectionAllowed"));
+		cbAllowSelection.addActionListener(this);
+		JPanel allowSelectionPanel = LayoutUtil.flowPanel(cbAllowSelection);
 
 		// ticks
 		axisTicks = new JLabel(app.getPlain("AxisTicks") + ":");
@@ -134,6 +140,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		add(showTicksPanel);
 		add(labelPanel);
 		addCrossPanel(crossPanel);
+		add(allowSelectionPanel);
 
 		updatePanel();
 	}
@@ -189,8 +196,14 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 		else if (source == cbPositiveAxis) {
 			model.applyPositiveAxis(cbPositiveAxis.isSelected());
-		} else if (source == cbDrawAtBorder) {
+		}
+
+		else if (source == cbDrawAtBorder) {
 			model.applyDrawAtBorder(cbDrawAtBorder.isSelected());
+		}
+
+		else if (source == cbAllowSelection) {
+			model.applyAllowSelection(cbAllowSelection.isSelected());
 		}
 
 		updatePanel();
@@ -268,6 +281,10 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		cbDrawAtBorder.setSelected(view.getDrawBorderAxes()[axis]);
 		cbDrawAtBorder.addActionListener(this);
 
+		cbAllowSelection.removeActionListener(this);
+		cbAllowSelection.setSelected(getModel().isSelectionAllowed());
+		cbAllowSelection.addActionListener(this);
+
 	}
 
 	public void focusGained(FocusEvent e) {
@@ -292,7 +309,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		axisUnitLabel.setText(app.getPlain("AxisUnitLabel") + ":");
 		crossAt.setText(app.getPlain("CrossAt") + ":");
 		stickToEdge.setText(app.getPlain("StickToEdge"));
-
+		cbAllowSelection.setText(app.getPlain("SelectionAllowed"));
 	}
 
 	protected double parseDouble(String text) {

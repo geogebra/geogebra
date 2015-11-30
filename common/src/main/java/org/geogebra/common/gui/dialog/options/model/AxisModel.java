@@ -361,4 +361,30 @@ public class AxisModel {
 		view.updateBackground();
 
 	}
+
+	public boolean isSelectionAllowed() {
+		boolean allowed = false;
+		if (app.getEuclidianView1() == view) {
+			allowed = app.getSettings().getEuclidian(1)
+					.isSelectionAllowed(axis);
+
+		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
+			allowed = app.getSettings().getEuclidian(2)
+					.isSelectionAllowed(axis);
+		} else
+			if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			allowed = app.getSettings().getEuclidian(3)
+					.isSelectionAllowed(axis);
+
+		} else {
+			EuclidianSettings settings = view.getSettings();
+			if (settings != null) {
+				settings.isSelectionAllowed(axis);
+			}
+
+		}
+
+		return allowed;
+	}
 }
