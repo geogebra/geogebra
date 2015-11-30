@@ -4259,27 +4259,31 @@ sb.toString(), getFontAxes(),
 
 			while (it.hasNext()) {
 				GeoFunction fun = (GeoFunction) (it.next());
-				double abscissa;
-				// check 100 random heights
-				for (int i = 0; i < 200; i++) {
 
-					if (i == 0) {
-						abscissa = fun.evaluate(x0RW); // check far left
-					} else if (i == 1) {
-						abscissa = fun.evaluate(x1RW); // check far right
-					} else {
-						abscissa = fun.evaluate(x0RW
-								+ (Math.random() * (x1RW - x0RW)));
-					}
+				if (fun.isEuclidianVisible()) {
+					double abscissa;
+					// check 100 random heights
+					for (int i = 0; i < 200; i++) {
 
-					if (!Double.isInfinite(abscissa) && !Double.isNaN(abscissa)) {
-						ok = true;
-						if (abscissa > y1RWfunctions) {
-							y1RWfunctions = abscissa;
+						if (i == 0) {
+							abscissa = fun.evaluate(x0RW); // check far left
+						} else if (i == 1) {
+							abscissa = fun.evaluate(x1RW); // check far right
+						} else {
+							abscissa = fun.evaluate(
+									x0RW + (Math.random() * (x1RW - x0RW)));
 						}
-						// no else: there **might** be just one value
-						if (abscissa < y0RWfunctions) {
-							y0RWfunctions = abscissa;
+
+						if (!Double.isInfinite(abscissa)
+								&& !Double.isNaN(abscissa)) {
+							ok = true;
+							if (abscissa > y1RWfunctions) {
+								y1RWfunctions = abscissa;
+							}
+							// no else: there **might** be just one value
+							if (abscissa < y0RWfunctions) {
+								y0RWfunctions = abscissa;
+							}
 						}
 					}
 				}
