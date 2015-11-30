@@ -435,16 +435,45 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	private void processThirdButtonPress() {
 		if (wasThirdButtonReleased) {
-			startMouse3DPosition.set(mouse3DPosition);
+			getMouse3DShiftForTranslateView(tmpCoords);
+			tmpCoords2.setMul(view3D.getToScreenMatrix(), tmpCoords.val);
+			tmpCoords2.setAdd(mouse3DPosition, tmpCoords2);
+			startMouse3DPosition.set(tmpCoords2);
 			view.rememberOrigins();
 		} else {
 			tmpCoords.setSub(mouse3DPosition, startMouse3DPosition);
+
+
 			tmpCoords2.setMul(view3D.getToSceneMatrix(), tmpCoords.val);
+
+			getMouse3DShiftForTranslateView(tmpCoords);
+			tmpCoords2.setAdd(tmpCoords, tmpCoords2);
 
 			((EuclidianViewInput3D) view3D)
 					.setCoordSystemFromMouse3DMove(tmpCoords2);
 
 		}
+	}
+
+
+	private void getMouse3DShiftForTranslateView(Coords ret) {
+		// show the cursor at mid beam
+		ret.setMul(getMouse3DDirection(),
+				((EuclidianViewInput3D) view3D).getZNearest() / 2);
+	}
+
+	/**
+	 * get mouse 3D position for translate view
+	 * 
+	 * @param ret
+	 *            coords set
+	 */
+	public void getMouse3DPositionForTranslateView(Coords ret) {
+		tmpCoords2.setMul(view3D.getToSceneMatrix(), mouse3DPosition.val);
+		getMouse3DShiftForTranslateView(tmpCoords);
+		ret.setAdd3(tmpCoords, tmpCoords2);
+		ret.setW(0.0);
+		ret.addInside(view3D.getToSceneMatrix().getOrigin());
 	}
 
 	private void processRightPress() {

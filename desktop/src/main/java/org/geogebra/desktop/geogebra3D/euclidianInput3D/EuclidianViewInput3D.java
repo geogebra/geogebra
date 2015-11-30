@@ -980,4 +980,79 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		super.setMode(mode, m);
 	}
 
+	@Override
+	protected boolean moveCursorIsVisible() {
+		if (!input3D.hasMouseDirection() || input3D.currentlyUseMouse2D()) {
+			return super.moveCursorIsVisible();
+		}
+
+		return input3D.isThirdButtonPressed();
+	}
+
+	@Override
+	protected void drawTranslateViewCursor(Renderer renderer1) {
+		if (!input3D.hasMouseDirection()) {
+			super.drawTranslateViewCursor(renderer1);
+		} else {
+			if (input3D.currentlyUseMouse2D()) {
+				GPoint mouseLoc = euclidianController.getMouseLoc();
+				if (mouseLoc == null) {
+					super.drawTranslateViewCursor(renderer1);
+				} else {
+
+					Coords v;
+					if (getCursor3DType() == CURSOR_DEFAULT) {
+						// if mouse is over nothing, use mouse coords and screen
+						// for depth
+						v = new Coords(mouseLoc.x + renderer1.getLeft(),
+								-mouseLoc.y + renderer1.getTop(), 0, 1);
+					} else {
+						// if mouse is over an object, use its depth and mouse
+						// coords
+						Coords eye = renderer1.getPerspEye();
+						double z = getToScreenMatrix().mul(
+								getCursor3D().getCoords()).getZ() + 20; // to be
+																		// over
+						double eyeSep = renderer1.getEyeSep();
+
+						double x = mouseLoc.x + renderer1.getLeft() + eyeSep
+								- eye.getX();
+						double y = -mouseLoc.y + renderer1.getTop()
+								- eye.getY();
+						double dz = eye.getZ() - z;
+						double coeff = dz / eye.getZ();
+
+						v = new Coords(x * coeff - eyeSep + eye.getX(), y
+								* coeff + eye.getY(), z, 1);
+					}
+
+					tmpMatrix4x4_3.setDiagonal3(1 / getScale());
+					tmpCoords1.setMul(getToSceneMatrix(), v);
+					tmpMatrix4x4_3.setOrigin(tmpCoords1);
+
+					renderer1.setMatrix(tmpMatrix4x4_3);
+					drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
+					renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+				}
+			} else {
+				// let's scale it a bit more
+				tmpMatrix4x4_3.setDiagonal3(1.5 / getScale());
+				// show the cursor at mid beam
+				// tmpCoords1.setMul(
+				// ((EuclidianControllerInput3D) euclidianController)
+				// .getMouse3DDirection(), zNearest / 2);
+				// tmpCoords1
+				// .addInside(((EuclidianControllerInput3D) euclidianController)
+				// .getMouse3DScenePosition());
+				((EuclidianControllerInput3D) euclidianController)
+						.getMouse3DPositionForTranslateView(tmpCoords1);
+				tmpMatrix4x4_3.setOrigin(tmpCoords1);
+
+				renderer1.setMatrix(tmpMatrix4x4_3);
+				renderer1.drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
+				renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+			}
+		}
+	}
+
 }

@@ -200,9 +200,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	// preview
 	private Previewable previewDrawable;
-	private GeoPoint3D cursor3D, cursorOnXOYPlane;
-	// private boolean cursorOnXOYPlaneVisible;
-	// private GeoElement[] cursor3DIntersectionOf = new GeoElement[2];
+	private GeoPoint3D cursor3D;
+	protected GeoPoint3D cursorOnXOYPlane;
 
 	// cursor
 	/** no point under the cursor */
@@ -222,7 +221,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	private int cursor3DType = PREVIEW_POINT_NONE;
 
-	private static final int CURSOR_DEFAULT = 0;
+	protected static final int CURSOR_DEFAULT = 0;
 	private static final int CURSOR_DRAG = 1;
 	private static final int CURSOR_MOVE = 2;
 	private static final int CURSOR_HIT = 3;
@@ -2213,7 +2212,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 
-	private boolean moveCursorIsVisible() {
+	protected boolean moveCursorIsVisible() {
 		return cursor == CURSOR_MOVE
 				|| getEuclidianController().getMode() == EuclidianConstants.MODE_TRANSLATEVIEW;
 	}
@@ -2490,7 +2489,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private CoordMatrix4x4 tmpMatrix4x4_2 = CoordMatrix4x4.Identity();
 	protected CoordMatrix4x4 tmpMatrix4x4_3 = CoordMatrix4x4.Identity();
 
-	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
+	protected Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
 
 	/**
 	 * draw mouse cursor for location v
@@ -2513,6 +2512,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	protected void drawFreeCursor(Renderer renderer1) {
 		// free point on xOy plane
 		renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
+	}
+
+	protected void drawTranslateViewCursor(Renderer renderer1) {
+		renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
+		drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
+		renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
 	}
 
 	/**
@@ -2538,9 +2543,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 			// mouse cursor
 			if (moveCursorIsVisible()) {
-				renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
-				drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
-				renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+				drawTranslateViewCursor(renderer1);
 			} else if (!getEuclidianController().mouseIsOverLabel()
 					&& ((EuclidianController3D) getEuclidianController())
 							.cursor3DVisibleForCurrentMode(getCursor3DType())) {
@@ -2615,7 +2618,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		drawPointAlready(point.getMoveMode());
 	}
 
-	private void drawPointAlready(int mode) {
+	protected void drawPointAlready(int mode) {
 
 		// Application.debug(mode);
 

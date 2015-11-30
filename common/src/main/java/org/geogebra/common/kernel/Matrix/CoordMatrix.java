@@ -1691,6 +1691,26 @@ public class CoordMatrix {
 
 	}
 	
+	/**
+	 * set 3x3 sub matrix to diagonal equal to v
+	 * 
+	 * @param v
+	 *            value
+	 */
+	public void setDiagonal3(double v) {
+		vectors[0].val[0] = v;
+		vectors[0].val[1] = 0;
+		vectors[0].val[2] = 0;
+
+		vectors[1].val[0] = 0;
+		vectors[1].val[1] = v;
+		vectors[1].val[2] = 0;
+
+		vectors[2].val[0] = 0;
+		vectors[2].val[1] = 0;
+		vectors[2].val[2] = v;
+	}
+
 	// /////////////////////////////////////////////////:
 	// testing the package
 	/**
