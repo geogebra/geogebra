@@ -999,7 +999,7 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public boolean setSelectionAllowed(int axis, boolean flag) {
-		boolean changed = flag != showAxes[axis];
+		boolean changed = flag != selectionAllowed[axis];
 
 		if (changed) {
 			selectionAllowed[axis] = flag;

@@ -339,4 +339,26 @@ public class AxisModel {
 	public void setView(EuclidianView view) {
 		this.view = view;
 	}
+
+	public void applyAllowSelection(boolean value) {
+
+		if (app.getEuclidianView1() == view) {
+			app.getSettings().getEuclidian(1).setSelectionAllowed(axis, value);
+			
+		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).setSelectionAllowed(axis, value);
+		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).setSelectionAllowed(axis, value);
+
+
+		} else {
+			EuclidianSettings settings = view.getSettings();
+			if (settings != null) {
+				settings.setSelectionAllowed(axis, value);
+			}
+
+		}
+		view.updateBackground();
+
+	}
 }

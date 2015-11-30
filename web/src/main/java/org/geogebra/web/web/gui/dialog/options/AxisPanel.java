@@ -30,7 +30,8 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	private AxisModel model;
 
 	protected CheckBox cbShowAxis, cbAxisNumber, cbManualTicks,
-	cbPositiveAxis, cbDrawAtBorder;
+ cbPositiveAxis,
+			cbDrawAtBorder, cbAllowSelection;
 
 	protected NumberListBox ncbTickDist;
 	protected ListBox lbTickStyle;
@@ -90,6 +91,14 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 			}});
 
+		// allow axis selection
+		cbAllowSelection = new CheckBox(app.getPlain("SelectionAllowed"));
+		cbAllowSelection.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				model.applyAllowSelection(cbAllowSelection.getValue());
+			}
+		});
 
 		// ticks
 		axisTicks = new Label(app.getPlain("AxisTicks") + ":");
@@ -212,6 +221,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		labelPanel.setStyleName("listBoxPanel");
 		unitPanel.setStyleName("listBoxPanel");
 		tfCross.setStyleName("numberInput");
+		cbAllowSelection.setStyleName("checkBoxPanel");
 		
 		// add all panels
 		add(cbShowAxis);
@@ -224,6 +234,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		if (!view3D){
 			add(crossPanel);
 		}
+		add(cbAllowSelection);
 		updatePanel();
 	}
 	
@@ -282,7 +293,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		axisUnitLabel.setText(app.getPlain("AxisUnitLabel") + ":");
 		crossAt.setText(app.getPlain("CrossAt") + ":");
 		cbDrawAtBorder.setText(app.getPlain("StickToEdge"));
-
+		cbAllowSelection.setText(app.getPlain("SelectionAllowed"));
 	}
 
 	protected double parseDouble(String text) {
