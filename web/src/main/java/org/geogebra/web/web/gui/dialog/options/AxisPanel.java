@@ -273,6 +273,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		cbPositiveAxis.setValue(view.getPositiveAxes()[axis]);
 
 		cbDrawAtBorder.setValue(view.getDrawBorderAxes()[axis]);
+		cbAllowSelection.setValue(getModel().isSelectionAllowed());
 
 	}
 
