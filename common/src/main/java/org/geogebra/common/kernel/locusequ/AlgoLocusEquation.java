@@ -151,7 +151,7 @@ public class AlgoLocusEquation extends AlgoElement {
                 
 				if (p.getParentAlgorithm() != null
 						&& !p.getParentAlgorithm().isLocusEquable()) {
-					App.debug("[LocusEquation] Infeasible dependent point: "
+					App.debug("[LocusEquation] Non-algebraic or unimplemented dependent point: "
 							+ p.getParentAlgorithm());
 					return null;
                 }
@@ -160,7 +160,7 @@ public class AlgoLocusEquation extends AlgoElement {
 					// App.debug("[LocusEquation] Considering " + pred);
 					if (pred.getParentAlgorithm() != null
 							&& !pred.getParentAlgorithm().isLocusEquable()) {
-						App.debug("[LocusEquation] Infeasible predecessor: "
+						App.debug("[LocusEquation] Non-algebraic or unimplemented predecessor: "
 								+ pred.getParentAlgorithm());
 						return null;
 					}

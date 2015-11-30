@@ -155,5 +155,17 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 		return number.getDefinition().toString(tpl);
 	}
 
-	// TODO Consider locusequability
+	@Override
+	public boolean isLocusEquable() {
+		/*
+		 * This is just a workaround to allow the
+		 * A=DynamicCoordinates[A',round(x(A')*10)/10,round(y(A')*10)/10] trick
+		 * (see
+		 * http://tube.geogebra.org/material/simple/id/128631#material/150977).
+		 * For a complete solution here we should analyze the formula if it is
+		 * indeed fully implemented. FIXME
+		 */
+		return true;
+	}
+
 }
