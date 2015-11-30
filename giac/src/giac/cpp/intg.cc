@@ -2816,7 +2816,7 @@ namespace giac {
     gen x=v[1];
     if (x.is_symb_of_sommet(at_unquote))
       x=eval(x,1,contextptr);
-    if (rcl_38 && x.type==_IDNT && rcl_38(x,0,x._IDNTptr->id_name,undef,false,contextptr)){
+    if (storcl_38 && x.type==_IDNT && storcl_38(x,0,x._IDNTptr->id_name,undef,false,contextptr,NULL)){
       identificateur t("t_");
       x=v[1];
       v[0]=quotesubst(v[0],x,t,contextptr);

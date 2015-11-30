@@ -277,7 +277,7 @@ namespace giac {
   // errors: exported names that are regular 38 home variables,
   //         and undeclared global variables that are not regular 38 variables
   // return value is 0: ok, -1: invalid VIEWS, >0: #errors
-  int parse_program(const wchar_t * source,const wchar_t * progname,vecteur & assignation_by_equal,vecteur & undeclared_global_vars,vecteur & declared_global_vars,vecteur & exported_function_names,vecteur & exported_variable_names,vecteur & unknown_exported,vecteur & unexported,vecteur & unexported_declared_global_vars,vecteur & views,vecteur & errors,gen & parsed,GIAC_CONTEXT);
+  // int parse_program(const wchar_t * source,const wchar_t * progname,vecteur & assignation_by_equal,vecteur & undeclared_global_vars,vecteur & declared_global_vars,vecteur & exported_function_names,vecteur & exported_variable_names,vecteur & unknown_exported,vecteur & unexported,vecteur & unexported_declared_global_vars,vecteur & views,vecteur & errors,gen & parsed,GIAC_CONTEXT);
 
   // Prepares app sequence for computing a recurrence relation
   // Valid if 1 sequence is checked and does not depend on other sequences

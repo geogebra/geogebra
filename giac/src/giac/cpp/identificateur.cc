@@ -853,7 +853,7 @@ namespace giac {
 
   gen _prod(const gen & args,GIAC_CONTEXT);
   static bool eval_38(int level,const gen & orig,gen & res,const char * s,GIAC_CONTEXT){
-    if (rcl_38 && rcl_38(res,0,s,undef,false,contextptr)){
+    if (storcl_38 && storcl_38(res,0,s,undef,false,contextptr,NULL)){
       return true;
     }
     return false;
@@ -1084,7 +1084,7 @@ namespace giac {
       sym_tab::const_iterator it=cur->tabptr->find(id_name);
       if (it==cur->tabptr->end()){
         if (No38Lookup) return false;
-	if (sto_38 && abs_calc_mode(contextptr)==38)
+	if (storcl_38 && abs_calc_mode(contextptr)==38)
 	  return eval_38(level,orig,evaled,id_name,contextptr);
 	return false;
       }
@@ -1093,7 +1093,7 @@ namespace giac {
 	  evaled=it->second;
 	return true;
       }
-      if (!No38Lookup && sto_38){ //  && abs_calc_mode(contextptr)==38)
+      if (!No38Lookup && storcl_38){ //  && abs_calc_mode(contextptr)==38)
 	if (eval_38(level,orig,evaled,id_name,contextptr))
 	  return true;
       }

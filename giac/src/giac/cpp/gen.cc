@@ -2487,11 +2487,11 @@ namespace giac {
       return g0;
     if (g0.type==_FLOAT_ || g0.type==_FRAC || g0.type==_ZINT || g0.type==_REAL)
       return evalf_double(g0,1,contextptr);
-    if (rcl_38 && level && g0.type==_IDNT){
+    if (storcl_38 && level && g0.type==_IDNT){
       if (!strcmp(g0._IDNTptr->id_name,"pi"))
 	return M_PI;
       gen res;
-//      if (rcl_38(res,0,g0._IDNTptr->id_name,undef,false,contextptr)) return evalf2double_nock(res,level-1,contextptr);
+//      if (storcl_38(res,0,g0._IDNTptr->id_name,undef,false,contextptr)) return evalf2double_nock(res,level-1,contextptr);
     }
     if (g0.type==_VECT){
       ref_vecteur *vptr = new_ref_vecteur(*g0._VECTptr);
@@ -2619,13 +2619,13 @@ namespace giac {
     if (g0.type==_ZINT)
       return giac_float(g0._ZINTptr);
 #endif
-    if (rcl_38 && level && g0.type==_IDNT){
+    if (storcl_38 && level && g0.type==_IDNT){
 #ifdef BCD
       if (!strcmp(g0._IDNTptr->id_name,"pi"))
 	return fpi();
 #endif
       gen res;
-      if (rcl_38(res,0,g0._IDNTptr->id_name,undef,false,contextptr))
+      if (storcl_38(res,0,g0._IDNTptr->id_name,undef,false,contextptr,NULL))
 	return evalf2bcd_nock(res,level-1,contextptr);
     }
     if (g0.type==_VECT){

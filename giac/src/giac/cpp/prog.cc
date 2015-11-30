@@ -4350,9 +4350,9 @@ namespace giac {
     gen a,b,c;
     if (!check_binary(args,a,b))
       return a;
-    if (sto_38 && abs_calc_mode(contextptr)==38 && a.type==_IDNT){
+    if (storcl_38 && abs_calc_mode(contextptr)==38 && a.type==_IDNT){
       gen value;
-      if (rcl_38(value,a._IDNTptr->id_name,b.type==_IDNT?b._IDNTptr->id_name:b.print().c_str(),undef,false,contextptr)){
+      if (storcl_38(value,a._IDNTptr->id_name,b.type==_IDNT?b._IDNTptr->id_name:b.print().c_str(),undef,false,contextptr,NULL)){
 	return value;
       }
     }
