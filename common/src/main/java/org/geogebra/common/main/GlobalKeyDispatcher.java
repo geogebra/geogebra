@@ -660,7 +660,8 @@ public abstract class GlobalKeyDispatcher {
 					Iterator<GeoElement> it = objects.iterator();
 					while (it.hasNext()) {
 						GeoElement geo = it.next();
-						if (!geo.isSelectionAllowed()) {
+						if (!geo.isSelectionAllowed(
+								app.getActiveEuclidianView())) {
 							selectionAllowed = true;
 							break;
 						}

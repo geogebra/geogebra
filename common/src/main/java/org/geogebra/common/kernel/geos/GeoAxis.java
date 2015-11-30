@@ -12,11 +12,13 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.GeoClass;
 /**
  * Cartesian axis
@@ -165,4 +167,21 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	public boolean isRenameable() {
 		return false;
 	}
+
+	@Override
+	public final boolean isSelectionAllowed(EuclidianViewInterfaceSlim ev) {
+
+		if (ev == null) {
+			ev = kernel.getApplication().getActiveEuclidianView();
+		}
+
+		EuclidianSettings settings = ev.getSettings();
+
+		if (settings != null) {
+			return settings.isSelectionAllowed(type);
+		}
+
+		return true;
+	}
+
 }

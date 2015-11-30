@@ -1691,6 +1691,12 @@ public class MyXMLHandler implements DocHandler {
 				ev.setShowAxis(axis, showAxis);
 			}
 
+			String selectionAllowedStr = attrs.get("selectionAllowed");
+			if (selectionAllowedStr != null) {
+				boolean selectionAllowed = parseBoolean(selectionAllowedStr);
+				ev.setSelectionAllowed(axis, selectionAllowed);
+			}
+
 			// set label
 			ev.setAxisLabel(axis, label);
 			/*

@@ -6188,7 +6188,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	final public boolean doHighlighting() {
 		return (highlighted || selected)
-				&& (!isFixed() || isSelectionAllowed());
+				&& (!isFixed() || isSelectionAllowed(null));
 	}
 
 	/**
@@ -7322,9 +7322,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
+	 * @param ev
 	 * @return true if selection is allowed
 	 */
-	public final boolean isSelectionAllowed() {
+	public boolean isSelectionAllowed(EuclidianViewInterfaceSlim ev) {
 		return selectionAllowed;
 	}
 
@@ -7505,7 +7506,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return true if the object is pickable
 	 */
 	public boolean isPickable() {
-		return isPickable && isSelectionAllowed();
+		return isPickable && isSelectionAllowed(null);
 	}
 
 	/**

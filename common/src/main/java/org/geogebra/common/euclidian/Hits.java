@@ -97,7 +97,7 @@ public class Hits extends ArrayList<GeoElement> {
 	@Override
 	public boolean add(GeoElement geo) {
 
-		if (!geo.isSelectionAllowed()) {
+		if (!geo.isSelectionAllowed(null)) {
 
 			// #3771
 			if (!(geo instanceof GeoList && ((GeoList) geo).drawAsComboBox())) {
@@ -488,7 +488,7 @@ public class Hits extends ArrayList<GeoElement> {
 		Hits selectableList = new Hits();
 		for (int i = 0; i < size(); ++i) {
 			geo = get(i);
-			if (geo.isSelectionAllowed())
+			if (geo.isSelectionAllowed(null))
 				selectableList.add(geo);
 		}
 

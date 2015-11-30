@@ -124,6 +124,10 @@ public class EuclidianSettings extends AbstractSettings {
 		positiveAxes[0] = false;
 		positiveAxes[1] = false;
 
+		selectionAllowed[0] = true;
+		selectionAllowed[1] = true;
+		selectionAllowed[2] = true;
+
 		axisFontStyle = GFont.PLAIN;
 	}
 
@@ -281,6 +285,7 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	protected boolean[] showAxes = { true, true, true };
+	protected boolean[] selectionAllowed = { true, true, true };
 	protected boolean[] showAxesNumbers = { true, true, true };
 	protected boolean[] logAxes = { false, false, false };
 	protected String[] axesLabels = { null, null, null };
@@ -889,6 +894,12 @@ public class EuclidianSettings extends AbstractSettings {
 			sbxml.append(positiveAxes[i]);
 		}
 
+		// selection allowed flags
+		if (!selectionAllowed[i]) {
+			sbxml.append("\" selectionAllowed=\"");
+			sbxml.append(selectionAllowed[i]);
+		}
+
 		sbxml.append("\"/>\n");
 	}
 
@@ -985,6 +996,20 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public int getFileHeight() {
 		return sizeFromFile.getHeight();
+	}
+
+	public boolean setSelectionAllowed(int axis, boolean flag) {
+		boolean changed = flag != showAxes[axis];
+
+		if (changed) {
+			selectionAllowed[axis] = flag;
+			settingChanged();
+		}
+		return changed;
+	}
+
+	public boolean isSelectionAllowed(int axisNo) {
+		return selectionAllowed[axisNo];
 	}
 
 }

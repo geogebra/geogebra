@@ -514,7 +514,7 @@ public class SelectionManager {
 		// or are not visible in the view
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed() || !geo.isEuclidianVisible()
+			if (!geo.isSelectionAllowed(ev) || !geo.isEuclidianVisible()
 					|| !geo.isVisibleInView(ev.getViewID())) {
 				tree.remove(geo);
 			}
@@ -660,7 +660,7 @@ public class SelectionManager {
 		// remove geos that don't have isSelectionAllowed()==true
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed() || !geo.isEuclidianVisible()
+			if (!geo.isSelectionAllowed(ev) || !geo.isEuclidianVisible()
 					|| !geo.isVisibleInView(ev.getViewID())) {
 				tree.remove(geo);
 			}
