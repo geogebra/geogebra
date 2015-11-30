@@ -2155,11 +2155,11 @@ __GGB__keysVar.pt_PT.menu = {
     "insert_worksheet": "Inserir Folha de Trabalho",
     "off": "Desativada",
     "on": "Ativada",
-    "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
-    "phone_loading_materials_offline": "Please check your Internet connection.",
-    "phone_no_materials_found": "No Materials found",
-    "phone_tour_done": "Done",
-    "phone_try_again_loading": "Try again",
+    "phone_loading_materials_failed": "Lamentamos, mas os materiais n\xe3o est\xe3o dispon\xedveis no momento.",
+    "phone_loading_materials_offline": "Por favor, verifique sua conex\xe3o com a Internet.",
+    "phone_no_materials_found": "Materiais n\xe3o encontrados",
+    "phone_tour_done": "Feito",
+    "phone_try_again_loading": "Tente novamente",
     "search_geogebra_materials": "Pesquisar nos materiais do GeoGebra",
 }
 
