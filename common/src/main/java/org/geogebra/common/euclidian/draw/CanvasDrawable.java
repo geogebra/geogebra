@@ -153,6 +153,10 @@ public abstract class CanvasDrawable extends Drawable {
 
 	}
 
+	protected int getDefaultTextHeight(GGraphics2D g2) {
+		return getFullTextHeight(g2, "Apq");
+	}
+
 	protected int getFullTextHeight(GGraphics2D g2, String text) {
 		// make sure layout won't be null ("" makes it null).
 
@@ -263,7 +267,7 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	@Override
-	final public void setGeoElement(GeoElement geo) {
+	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
 
