@@ -134,14 +134,14 @@ public class AlgoEllipseHyperbolaFociPoint extends
 				Variable[] vC = Q.getBotanaVars(Q);
 
 				// if the 2 focus points are equal
-				// handel the ellipse as a circle
+				// handle the ellipse as a circle
 				if (vA[0] == vB[0] && vA[1] == vB[1]) {
 					if (botanaVars == null) {
 						botanaVars = new Variable[4];
-						// center
+						// A - center
 						botanaVars[0] = vA[0];
 						botanaVars[1] = vA[1];
-						// point on the circle
+						// C - point on the circle
 						botanaVars[2] = vC[0];
 						botanaVars[3] = vC[1];
 					}
