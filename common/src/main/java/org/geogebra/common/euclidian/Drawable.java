@@ -230,7 +230,8 @@ public abstract class Drawable extends DrawableND {
 		}
 
 		// label changed: check for bold or italic tags in caption
-		if (oldLabelDesc != labelDesc || (labelDesc.charAt(0) == '<')) {
+		if (oldLabelDesc != labelDesc
+				|| (labelDesc.length() > 0 && labelDesc.charAt(0) == '<')) {
 			boolean italic = false;
 
 			// support for bold and italic tags in captions

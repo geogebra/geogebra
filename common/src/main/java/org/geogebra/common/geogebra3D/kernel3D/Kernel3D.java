@@ -231,7 +231,7 @@ public class Kernel3D extends Kernel {
 
 		case 'c':
 			if (type.equals("conic3d"))
-				return new GeoConic3D(cons1);
+				return new GeoConic3D(cons1, new CoordSys(2));
 			else if (type.equals("curvecartesian3d"))
 				return new GeoCurveCartesian3D(cons1);
 
@@ -324,7 +324,10 @@ public class Kernel3D extends Kernel {
 				double wx = Double.parseDouble(attrs.get("wx"));
 				double wy = Double.parseDouble(attrs.get("wy"));
 				double wz = Double.parseDouble(attrs.get("wz"));
-				CoordSys cs = new CoordSys(2);
+				CoordSys cs = ((GeoConic3D) geo).getCoordSys();
+				if (cs == null) {
+					cs = new CoordSys(2);
+				}
 				cs.addPoint(new Coords(ox, oy, oz, ow));
 				cs.addVector(new Coords(vx, vy, vz));
 				cs.addVector(new Coords(wx, wy, wz));
