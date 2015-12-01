@@ -14,11 +14,14 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoNumeratorDenominatorFun;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -81,7 +84,12 @@ public class AlgoSolveODE extends AlgoElement {
 
 			num = (FunctionalNVar) numAlgo.getGeoElements()[0];
 			den = (FunctionalNVar) denAlgo.getGeoElements()[0];
-			quotient = num.isDefined() && den.isDefined();
+			ExpressionValue denVal= den.getFunctionExpression();
+			boolean constDen = denVal == null
+					|| denVal.unwrap() instanceof GeoNumberValue
+					|| (denVal.unwrap() instanceof MyDouble && denVal
+							.isConstant());
+			quotient = num.isDefined() && den.isDefined() && !constDen;
 
 			if (!quotient) {
 				cons.removeFromAlgorithmList(numAlgo);
