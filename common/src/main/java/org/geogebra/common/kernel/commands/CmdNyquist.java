@@ -25,6 +25,10 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdNyquist extends CommandProcessor {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdNyquist(Kernel kernel) {
 		super(kernel);
 	}

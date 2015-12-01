@@ -95,6 +95,15 @@ public class CmdCurveCartesian extends CommandProcessor {
 		}
 	}
 
+	/**
+	 * @param point
+	 *            point expression
+	 * @param coords
+	 *            coordinates
+	 * @param arg
+	 *            arguments (contains variables)
+	 * @return curve algo
+	 */
 	protected AlgoCurveCartesian getCurveAlgo(ExpressionNode point,
 			NumberValue[] coords,
 			GeoElement[] arg) {

@@ -64,8 +64,6 @@ public class GeoConic extends GeoConicND implements
 	 * 
 	 * @param c
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param coeffs
 	 *            coefficients
 	 */

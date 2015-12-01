@@ -2113,8 +2113,8 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
 		FunctionVariable t = new FunctionVariable(kernel, "t");
 		FunctionVariable x = fun.getFunctionVariable();
-		ExpressionNode yExp = (ExpressionNode) ((ExpressionNode) getFunction()
-				.getExpression().deepCopy(kernel)).replace(x, t);
+		ExpressionNode yExp = (ExpressionNode) getFunction().getExpression()
+				.deepCopy(kernel).replace(x, t);
 		curve.setFunctionY(new Function(yExp, t));
 		Function varFun = new Function(new ExpressionNode(kernel, t), t);
 		curve.setFunctionX(varFun);
@@ -2138,8 +2138,8 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			return this;
 		FunctionVariable t = new FunctionVariable(kernel, "t");
 		FunctionVariable x = getFunction().getFunctionVariable();
-		ExpressionNode yExp = (ExpressionNode) ((ExpressionNode) getFunction()
-				.getExpression().deepCopy(kernel)).replace(x, t);
+		ExpressionNode yExp = (ExpressionNode) getFunction().getExpression()
+				.deepCopy(kernel).replace(x, t);
 		return yExp.buildFunction(t);
 	}
 

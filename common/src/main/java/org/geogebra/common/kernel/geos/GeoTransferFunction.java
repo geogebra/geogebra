@@ -65,8 +65,6 @@ public class GeoTransferFunction extends GeoElement {
 	 *            list of coefficients of denominator
 	 * @param omega
 	 *            value of interval [-omega;omega]
-	 * @param step
-	 *            step for calculus of function
 	 */
 	public GeoTransferFunction(Construction c, String label, GeoList num,
 			GeoList den, int omega) {
@@ -85,7 +83,16 @@ public class GeoTransferFunction extends GeoElement {
 	}
 
 	/**
-	 *  for defalut value of omega
+	 * for defalut value of omega
+	 * 
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param num
+	 *            numerator
+	 * @param den
+	 *            denominator
 	 */
 	public GeoTransferFunction(Construction c, String label, GeoList num,
 			GeoList den) {
@@ -160,6 +167,7 @@ public class GeoTransferFunction extends GeoElement {
 
 	/**
 	 * @param isDefined
+	 *            defined flag
 	 */
 	public void setDefined(boolean isDefined) {
 		this.isDefined = isDefined;

@@ -48,8 +48,23 @@ public class CmdDataFunction extends CommandProcessor {
 		}
 	}
 
+	/**
+	 * @param kernelA
+	 *            kernel
+	 * @param label
+	 *            output label
+	 * @param xlist
+	 *            x-value list
+	 * @param ylist
+	 *            y-value list
+	 * @param arg0
+	 *            function argument
+	 * @param fv
+	 *            variable
+	 * @return data function expression
+	 */
 	public static ExpressionNode getDataFunction(Kernel kernelA, String label,
-			ListValue ml, ListValue vl, ExpressionNode arg0, FunctionVariable fv) {
+			ListValue xlist, ListValue ylist, ExpressionNode arg0, FunctionVariable fv) {
 
 		// ml.addListElement(new MyDouble(kernelA));
 		// vl.addListElement(new MyDouble(kernelA, -1));
@@ -59,7 +74,7 @@ public class CmdDataFunction extends CommandProcessor {
 			arg = arg0;
 		}
 		return new ExpressionNode(kernelA, arg, Operation.DATA,
-				new MyNumberPair(kernelA, ml, vl));
+				new MyNumberPair(kernelA, xlist, ylist));
 
 	}
 
@@ -98,6 +113,13 @@ public class CmdDataFunction extends CommandProcessor {
 		throw argErr(app, null, ev);
 	}
 
+	/**
+	 * @param kernelA
+	 *            kernel
+	 * @param label
+	 *            output label
+	 * @return data function
+	 */
 	public static GeoElement[] emptyFunction(Kernel kernelA, String label) {
 		FunctionVariable fv = new FunctionVariable(kernelA);
 		ExpressionValue en = CmdDataFunction.getDataFunction(kernelA, label,

@@ -1566,9 +1566,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	private boolean showExtendedAV = true;
 
-	private int sliderAnchorX;
-
-	private int sliderAnchorY;
 
 	@Override
 	public boolean isShowingExtendedAV() {

@@ -171,11 +171,8 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	@Override
 	public final boolean isSelectionAllowed(EuclidianViewInterfaceSlim ev) {
 
-		if (ev == null) {
-			ev = kernel.getApplication().getActiveEuclidianView();
-		}
-
-		EuclidianSettings settings = ev.getSettings();
+		EuclidianSettings settings = ev == null ? kernel.getApplication()
+				.getActiveEuclidianView().getSettings() : ev.getSettings();
 
 		if (settings != null) {
 			return settings.isSelectionAllowed(type);

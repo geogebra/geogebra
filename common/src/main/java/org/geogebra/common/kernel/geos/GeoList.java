@@ -3034,6 +3034,10 @@ AngleProperties {
 				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS) && drawAsComboBox);
 	}
 
+	/**
+	 * @param geo
+	 *            element to be added
+	 */
 	public void addCopy(GeoElement geo) {
 		if (!geo.isLabelSet()) {
 			add(geo.copyInternal(cons));

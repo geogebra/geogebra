@@ -96,7 +96,9 @@ public class CmdPolygon extends CommandProcessor {
 	/**
 	 * 
 	 * @param labels
+	 *            labels
 	 * @param points
+	 *            points
 	 * @param is3D
 	 *            if in 3D mode
 	 * @return polygon for points
@@ -109,9 +111,13 @@ public class CmdPolygon extends CommandProcessor {
 	/**
 	 * 
 	 * @param labels
+	 *            labels
 	 * @param A
+	 *            first vertex
 	 * @param B
+	 *            second vertex
 	 * @param n
+	 *            number of vertices
 	 * @return regular polygon
 	 */
 	protected GeoElement[] regularPolygon(String[] labels, GeoPointND A,

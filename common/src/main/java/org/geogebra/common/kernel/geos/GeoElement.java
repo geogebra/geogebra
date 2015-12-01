@@ -7323,6 +7323,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	/**
 	 * @param ev
+	 *            view
 	 * @return true if selection is allowed
 	 */
 	public boolean isSelectionAllowed(EuclidianViewInterfaceSlim ev) {
