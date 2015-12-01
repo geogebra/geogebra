@@ -20,10 +20,10 @@ dependencies {
 		'org.eclipse.jetty.websocket:websocket-server:9.0.5.v20130815',
 		'org.eclipse.jetty.websocket:websocket-servlet:9.0.5.v20130815',
 		'intel.rssdk:libpxcclr:20150901',
-		'com.zspace:zspace:20150615'
+		'com.zspace:zspace:20151201'
 	runtime 'intel.rssdk:libpxcclr:20150901:natives-windows-amd64',
         'intel.rssdk:libpxcclr:20150901:natives-windows-i586',
-	'com.zspace:zspace:20150615:natives-windows-amd64'
+	'com.zspace:zspace:20151201:natives-windows-amd64'
 }
 
 eclipse.classpath.file.whenMerged { classpath ->
