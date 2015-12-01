@@ -21,6 +21,10 @@ int main(int argc, char *argv[]){
   gen g;
   while (getline(cin, line)) {
     g=gen(line,&ct);
-    cout << eval(g,1,&ct) << endl;
+    try {
+      cout << eval(g,1,&ct) << endl;
+      } catch (runtime_error & err) {
+      cout << "ERROR: " << err.what() << endl;
+      }
     }
   }
