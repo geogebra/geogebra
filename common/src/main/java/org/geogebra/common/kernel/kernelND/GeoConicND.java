@@ -3436,7 +3436,7 @@ FromMeta
 	public boolean isInRegion(double x0, double y0) {
 		
 		return Kernel.isGreaterEqual(evaluate(x0, y0)
-				* evaluateInSignificantPoint(), 0);
+				/ evaluateInSignificantPoint(), 0);
 
 	}
 	
