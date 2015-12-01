@@ -721,21 +721,29 @@ public class Kernel {
 	public void previousStep() {
 		int step = cons.getStep() - 1;
 
+		cons.setStep(getClosestStep(step));
+	}
+
+	/**
+	 * @param step
+	 *            raw step number
+	 * @return closest step number showable in construction protocol
+	 */
+	public int getClosestStep(int step) {
 		if (cons.showOnlyBreakpoints()) {
-			cons.setStep(getPreviousBreakpoint(step));
-		} else {
-			ConstructionElement prev = cons.getConstructionElement(step);
-			/*
-			 * if (prev instanceof GeoElement && ((GeoElement)
-			 * prev).getCorrespondingCasCell() != null) { step--; }
-			 */
-			if (prev instanceof GeoCasCell
-					&& ((GeoCasCell) prev).getTwinGeo() != null
-					&& ((GeoCasCell) prev).getTwinGeo().isAlgebraVisible()) {
-				step--;
-			}
-			cons.setStep(step);
+			return getPreviousBreakpoint(step);
 		}
+		ConstructionElement prev = cons.getConstructionElement(step);
+		/*
+		 * if (prev instanceof GeoElement && ((GeoElement)
+		 * prev).getCorrespondingCasCell() != null) { step--; }
+		 */
+		if (prev instanceof GeoCasCell
+				&& ((GeoCasCell) prev).getTwinGeo() != null
+				&& ((GeoCasCell) prev).getTwinGeo().isAlgebraVisible()) {
+			step--;
+		}
+		return step;
 	}
 
 	private int getPreviousBreakpoint(int initStep) {

@@ -414,12 +414,8 @@ public class ConstructionProtocolView {
 			int size = rowList.size();
 			for (int i = 0; i < size; i++) {
 				RowData rd = rowList.get(i);
-				if (rd.getGeo().getConstructionIndex() == step){
-					return rd.getIndex();
-				}
-				if (rd.getGeo().getCorrespondingCasCell() != null
-						&& rd.getGeo().getCorrespondingCasCell()
-								.getConstructionIndex() == step) {
+				if (rd.getGeo().getConstructionIndex() == kernel
+						.getClosestStep(step)) {
 					return rd.getIndex();
 				}
 			}
