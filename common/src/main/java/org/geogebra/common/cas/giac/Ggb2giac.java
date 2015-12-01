@@ -763,7 +763,9 @@ public class Ggb2giac {
 						// translate 3d point
 						+ "point(xcoord(translation(ggbtrsarg1,ggbtrsarg0))[0],"
 						+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[1],"
-						+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ) , ? )][1]");
+						+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ) , "
+						// translate line defined as linear equation (2d)
+						+ "when ( type(xcoord(ggbtrsarg0)) == DOM_INT , (ggbtrsarg0)[1] = (ggbtrsarg0)[2] + (ggbtrsarg1)[1] - (ggbtrsarg1)[0] , ? ) )][1]");
 		p("Transpose.1", "transpose(%0)");
 		// http://reduce-algebra.com/docs/trigsimp.pdf
 		// possible Giac commands we can use:
