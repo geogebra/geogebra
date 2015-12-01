@@ -1712,7 +1712,7 @@ public class Construction {
 				newXML = newGeoAlgo.getXML();
 				// get new geo inputs to check if we have to put the newXML
 				// further in consXML
-				newGeoInputs = newGeoAlgo.getInput();
+				newGeoInputs = newGeoAlgo.getInputForUpdateSetPropagation();
 			}
 			isGettingXMLForReplace = false;
 

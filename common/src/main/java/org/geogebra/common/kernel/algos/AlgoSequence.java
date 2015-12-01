@@ -40,7 +40,7 @@ public class AlgoSequence extends AlgoElement {
 
 	private enum SequenceType {
 		SIMPLE, RANGE, FULL
-	};
+	}
 
 	private GeoElement expression; // input expression dependent on var
 	private GeoNumeric var; // input: local variable
@@ -140,6 +140,8 @@ public class AlgoSequence extends AlgoElement {
 	 *            construction
 	 * @param label
 	 *            label
+	 * @param from
+	 *            lower bound
 	 * @param upTo
 	 *            upper bound
 	 */
@@ -240,12 +242,16 @@ public class AlgoSequence extends AlgoElement {
 		if (!type.equals(SequenceType.FULL)) {
 			return input;
 		}
-		GeoElement[] realInput = new GeoElement[input.length - 1];
-		realInput[0] = expression;
-		realInput[1] = var_from_geo;
-		realInput[2] = var_to_geo;
+		// if expression and var are the same, skip both
+		int skip = expression == var ? 2 : 1;
+		GeoElement[] realInput = new GeoElement[input.length - skip];
+		if (skip == 1) {
+			realInput[0] = expression;
+		}
+		realInput[2 - skip] = var_from_geo;
+		realInput[3 - skip] = var_to_geo;
 		if (input.length == 5) {
-			realInput[3] = var_step_geo;
+			realInput[4 - skip] = var_step_geo;
 		}
 
 		return realInput;
