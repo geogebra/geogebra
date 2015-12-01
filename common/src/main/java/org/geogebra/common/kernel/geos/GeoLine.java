@@ -577,7 +577,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		// independent or defined
 		// return isIndependent() || isDefined();
 
-		return isLabelSet() && (isDefined() || showUndefinedInAlgebraView);
+		return isDefined() || showUndefinedInAlgebraView;
 	}
 
 	/**

@@ -2134,11 +2134,13 @@ public class AlgebraProcessor {
 		}
 		int deg = equ.mayBePolynomial() && !equ.hasVariableDegree() ? equ
 				.degree() : -1;
+		App.debug("DEGREE" + deg);
 		// consider algebraic degree of equation
 		// check not equation of eg plane
 		switch (deg) {
 		// linear equation -> LINE
 		case 1:
+
 			return processLine(equ, equ.wrap());
 
 			// quadratic equation -> CONIC
@@ -2210,7 +2212,9 @@ public class AlgebraProcessor {
 		if (isExplicit) {
 			line.setToExplicit();
 		}
+		line.showUndefinedInAlgebraView(true);
 		line.setLabel(label);
+
 		ret[0] = line;
 		return ret;
 	}
