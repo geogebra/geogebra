@@ -124,7 +124,6 @@ Beta(5/2,7/2,15/22,1)
 {x=(2*n_2*pi-1/4*pi),x=(2*n_2*pi+1/4*pi)}
 ggbtmpvartestvar
 1
-1
 x^3-x^2+1.0
 -7/2
 0
@@ -178,7 +177,6 @@ ggbtmpvarn
 {}
 {{ggbtmpvart=(-2*ggbtmpvars+2),ggbtmpvars=ggbtmpvars}}
 {{ggbtmpvart=(-2*ggbtmpvars+2),ggbtmpvars=ggbtmpvars}}
-{{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb}}
 {{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb}}
 {{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarc=0}}
 {{ggbtmpvarc=0,ggbtmpvarb=(-ggbtmpvara)}}
@@ -315,14 +313,9 @@ ggbtmpvarX=((2*ggbtmpvars+4,-2*ggbtmpvars+1))
 3
 {{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb,ggbtmpvarc=0}}
 {{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb,ggbtmpvarc=0}}
-{{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb,ggbtmpvarc=0}}
 {ggbtmpvara=(-ggbtmpvarb)}
 {ggbtmpvara=(-ggbtmpvarb)}
 {{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb}}
-{{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb}}
-{{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb}}
-{{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb}}
-{ggbtmpvarc=-1,ggbtmpvarc=1}
 {ggbtmpvarc=-1,ggbtmpvarc=1}
 {{ggbtmpvarc=1,ggbtmpvarb=(-ggbtmpvara)},{ggbtmpvarc=-1,ggbtmpvarb=(-ggbtmpvara)}}
 {{ggbtmpvart=ggbtmpvart,ggbtmpvars=(-1/2*ggbtmpvart^2+1/2)}}
@@ -421,7 +414,6 @@ ggbtmpvara^2+ggbtmpvarb^2
 20.75
 3.14159265358979
 0.84147098480789650665
-0.84147098480789650665
 {{1,4,7},{2,5,8},{3,6,9}}
 {{ggbtmpvara,ggbtmpvarc},{ggbtmpvarb,ggbtmpvard}}
 -5
@@ -450,6 +442,8 @@ x=1
 y=(ggbtmpvara*sqrt(-ggbtmpvara^2+1)/(ggbtmpvara^2-1)*x-sqrt(-ggbtmpvara^2+1)/(ggbtmpvara^2-1))
 y=(ggbtmpvara^2*(-ggbtmpvara^3+1)^(1/3)/(ggbtmpvara^3-1)*x+(-ggbtmpvara^3+1)*(-ggbtmpvara^3+1)^(1/3)/(ggbtmpvara^6-2*ggbtmpvara^3+1))
 y=0
+//[[[ggbtanarg0:=point(0,1)],[ggbtanarg1:=((((x)^(2))-((y)^(3)))+((2)*((y)^(2))))-(y)=0],[ggbtanvar:=when(size(lname(ggbtanarg1) intersect [x]) == 0,lname(ggbtanarg1)[0],x)]],when((point(0,1))[0]=='pnt',when((ggbtanarg1)[0]=='=',equation(tangent(ggbtanarg1,ggbtanarg0)),y=normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,ggbtanvar=real(point(0,1)[1])))),y=normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=ggbtanarg0)*(x-(ggbtanarg0))+subst(ggbtanarg1,ggbtanvar=ggbtanarg0)))][1]) 
+
 5
 x+4
 5
@@ -476,9 +470,7 @@ ggbtmpvarr^(ggbtmpvarn+1)/(ggbtmpvarr-1)-1/(ggbtmpvarr-1)
 9973
 x-1/2=(2*x+3)
 x=(2*x+7/2)
-x=(2*x+7/2)
 x=(2.0*x+3.5)
-100*(3/2)^ggbtmpvart
 100*(3/2)^ggbtmpvart
 225
 100*(3/2)^ggbtmpvart
@@ -488,9 +480,7 @@ x=(2.0*x+3.5)
 {ggbtmpvarc=100}
 {ggbtmpvara=(-3/2),ggbtmpvara=(3/2)}
 ggbtmpvara^ggbtmpvart*ggbtmpvarc
-ggbtmpvara^ggbtmpvart*ggbtmpvarc
 {ggbtmpvara=(-15*sqrt(ggbtmpvarc)/ggbtmpvarc),ggbtmpvara=(15*sqrt(ggbtmpvarc)/ggbtmpvarc)}
-x^2-3/2*x+2
 x^2-3/2*x+2
 1/2*x+2
 x^2-3/2*x+2
@@ -507,7 +497,6 @@ x^2-2*x
 x^2-3/2*x+2
 1/2*x+2
 {(0,2),(2,3)}
-ggbtmpvara*x^3+ggbtmpvarb*x^2+ggbtmpvarc*x+ggbtmpvard
 ggbtmpvara*x^3+ggbtmpvarb*x^2+ggbtmpvarc*x+ggbtmpvard
 ggbtmpvara+ggbtmpvarb+ggbtmpvarc+ggbtmpvard=1
 ggbtmpvara*x^3+ggbtmpvarb*x^2+ggbtmpvarc*x+ggbtmpvard
@@ -526,7 +515,6 @@ ggbtmpvara+ggbtmpvarb+ggbtmpvarc+ggbtmpvard=1
 6*ggbtmpvara*x+2*ggbtmpvarb
 6*ggbtmpvara+2*ggbtmpvarb=0
 {{ggbtmpvara=1,ggbtmpvarb=-3,ggbtmpvarc=3,ggbtmpvard=0}}
-{{2,3,2},{1,1,1},{0,-1,3}}
 {{2,3,2},{1,1,1},{0,-1,3}}
 {{3},{2},{7}}
 {{x},{y},{z}}
@@ -619,7 +607,6 @@ ggbtmpvarf
 (-ggbtmpvarb^2-5)*(2*ggbtmpvara-3)
 (ggbtmpvara+ggbtmpvarb)^2/(ggbtmpvarc+ggbtmpvard)^2
 4
-4
 ggbtmpvara
 2*ℯ^(2*x)
 17
@@ -676,7 +663,6 @@ x^2
 2*x
 y-5*x=0
 {{ggbtmpvart=(-2*ggbtmpvars+2),ggbtmpvars=ggbtmpvars}}
-{{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb}}
 {{ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb}}
 {{x=0,ggbtmpvara=(-ggbtmpvarb),ggbtmpvarb=ggbtmpvarb}}
 {ggbtmpvarb=(-ggbtmpvara)}
@@ -749,7 +735,6 @@ true
 0
 (erf(-sqrt(2))+1)/2
 {ggbtmpvareps=0.6744897501961}
-ggbtmpvara^2*ggbtmpvarb^2-0.6*ggbtmpvara^3-3.0*ggbtmpvarb^3+1.8*ggbtmpvara*ggbtmpvarb
 5
 {3,2}
 {3,2}
@@ -811,4 +796,38 @@ y=(c_0*x)
 y=(c_0*x)
 {x=((5*ln(7)+ln(9))/(ln(5)+2*ln(7)-ln(9)))}
 {x=((-ln(11)-ln(5))/(ln(13)-ln(5)))}
-{{ggbtmpvarc=(300000000/((67/3)^(1/1057))^950),ggbtmpvara=((67/3)^(1/1057))}}
+ggbtmpvara*x^2+3*x-5
+{x=((sqrt(20*ggbtmpvara+9)-3)/(2*ggbtmpvara)),x=((-sqrt(20*ggbtmpvara+9)-3)/(2*ggbtmpvara))}
+{ggbtmpvara=(-9/20)}
+{{1-2*ί,1-ί},{1+2*ί,1+ί}}
+0
+1
+2
+{1,2,3,4,5}
+{x,x^2,x^3,x^4,x^5,x^6,x^7,x^8,x^9,x^10}
+{x,x^3,x^5,x^7,x^9}
+3
+ggbtmpvarb
+15
+x^2+2
+x^2+ggbtmpvarp*x+ggbtmpvarq
+1
+x^2+x+2
+2
+2*ggbtmpvara^2+2*ggbtmpvara+1
+1/1000
+27/1000
+243/1000
+729/1000
+0
+sqrt(5)
+sqrt(5)
+{3,4,4,4,3}
+{ggbtmpvara,ggbtmpvarc,ggbtmpvara}
+{2,2,1,3,5}
+{4,6,8}
+ggbtmpvara^2*ggbtmpvarb^2-0.6*ggbtmpvara^3-3.0*ggbtmpvarb^3+1.8*ggbtmpvara*ggbtmpvarb
+-sin(ggbtmpvara)+sin(ggbtmpvarb)
+-sin(ggbtmpvara)+sin(ggbtmpvarb)
+1
+sqrt(ggbtmpvara^2-3*ggbtmpvara+3)/sqrt(3)
