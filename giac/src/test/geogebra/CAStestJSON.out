@@ -113,11 +113,13 @@ diff(ggbtmpvarf(x),x)+diff(ggbtmpvarg(x),x)
 Gamma(x)*Psi(x)
 ℯ^x
 sign(x)*(abs(x)-floor(abs(x)))+x*sign(x)*abs(x)/x
-Beta(ggbtmpvara,ggbtmpvarb,x)*Gamma(ggbtmpvara+ggbtmpvarb)/(Gamma(ggbtmpvara)*Gamma(ggbtmpvarb))+x^(1+ggbtmpvara-1)*(-x+1)^(ggbtmpvarb-1)*Gamma(ggbtmpvara+ggbtmpvarb)/(Gamma(ggbtmpvara)*Gamma(ggbtmpvarb))
+//[[ggbderivarg0:=(x)*(Beta(ggbtmpvara, ggbtmpvarb, x,1))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1] 
+
 (tanh(x)^2-1)/tanh(x)^2
 2*ℯ^(-x^2)/sqrt(pi)
 (1,cos(ggbtmpvart))
-Gamma(x)*Psi(x)/Gamma(x+2)-Gamma(x)*Psi(x+2)/Gamma(x+2)
+//[[ggbderivarg0:=Beta(2, x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1] 
+
 cos(x)*(ggbtmpvarf')(ggbtmpvarg(ggbtmpvarh(sin(x))))*(ggbtmpvarg')(ggbtmpvarh(sin(x)))*(ggbtmpvarh')(sin(x))
 2*cos(2*ggbtmpvart)
 x^3

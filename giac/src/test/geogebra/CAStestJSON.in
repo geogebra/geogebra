@@ -113,11 +113,11 @@ ggbtmpvarf(x)
 [[ggbderivarg0:=Gamma(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[ggbderivarg0:=exp(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[ggbderivarg0:=(x)*(fractionalPart(x))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
-[[ggbderivarg0:=(x)*(Beta(ggbtmpvara, ggbtmpvarb, x,1))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
+comment("[[ggbderivarg0:=(x)*(Beta(ggbtmpvara, ggbtmpvarb, x,1))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]")
 [[ggbderivarg0:=coth(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[ggbderivarg0:=erf(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[ggbderivarg0:=point(ggbtmpvart,sin(ggbtmpvart))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
-[[ggbderivarg0:=Beta(2, x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
+comment("[[ggbderivarg0:=Beta(2, x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]")
 [[ggbderivarg0:=ggbtmpvarf(ggbtmpvarg(ggbtmpvarh(sin(x))))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[ggbderivarg0:=sin((2)*(ggbtmpvart))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[[ggbderiv2arg0:=(ggbtmpvara)*((x)^(3))],[ggbderiv2arg1:=ggbtmpvara]],when(type(ggbderiv2arg1)==DOM_INT,regroup(diff(ggbderiv2arg0,when(count_eq(x,lname(ggbderiv2arg0))==0,lname((ggbtmpvara)*((x)^(3)))[0],x),ggbderiv2arg1)),regroup(diff(ggbderiv2arg0,ggbderiv2arg1)))][1]
