@@ -412,12 +412,12 @@ public class Exercise {
 		}
 
 		for (GeoElement geo : predecessorsOfUsedBooleans) {
-			if (geo.isRandomGeo()) {
-				if (geo instanceof GeoNumeric) {
+			if (geo instanceof GeoNumeric) {
+				geos.add((GeoNumeric) geo);
+				if (geo.isRandomGeo()) {
 					((GeoNumeric) geo).setRandom(false);
 				}
 			}
-			geos.add((GeoNumeric) geo);
 			// If we also want to stop randomizing other values which were
 			// randomized by some AlgoRandom the user would have to specify the
 			// variables used by the assignment. I think this is not necessary
