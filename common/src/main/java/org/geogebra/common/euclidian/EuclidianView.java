@@ -583,7 +583,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			optionPanel.updateBounds();
 
 		if (updateDrawables) {
-			this.updateAllDrawables(true);
+			this.updateAllDrawablesForView(true);
 			this.updateBackgroundOnNextRepaint = true;
 		}
 
@@ -1009,7 +1009,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// if (drawMode == DRAW_MODE_BACKGROUND_IMAGE)
 		if (repaint) {
 			updateBackgroundOnNextRepaint = true;
-			updateAllDrawables(repaint);
+			updateAllDrawablesForView(repaint);
 
 			// needed so that eg Corner[2,1] updates properly on zoom / pan
 			if (getApplication().hasEuclidianView2(1)) {
@@ -1355,7 +1355,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setCoordTransformIfNeeded();
 
 		updateBackgroundImage();
-		updateAllDrawables(true);
+		updateAllDrawablesForView(true);
 
 	}
 
@@ -1376,6 +1376,21 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return;
 		}
 		allDrawableList.updateAll();
+		if (repaint) {
+			repaint();
+		}
+	}
+
+	/**
+	 * @param repaint
+	 *            true to repaint
+	 */
+	final public void updateAllDrawablesForView(boolean repaint) {
+		if (repaint && this.batchUpdate) {
+			this.needsAllDrawablesUpdate = true;
+			return;
+		}
+		allDrawableList.updateAllForView();
 		if (repaint) {
 			repaint();
 		}
@@ -2252,7 +2267,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setAxesIntervals(getYscale(), 1);
 
 		updateBackgroundImage();
-		updateAllDrawables(true);
+		updateAllDrawablesForView(true);
 		// repaint();
 	}
 
@@ -2766,7 +2781,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void updateSize() {
 		updateSizeKeepDrawables();
-		updateAllDrawables(true);
+		updateAllDrawablesForView(true);
 
 	}
 

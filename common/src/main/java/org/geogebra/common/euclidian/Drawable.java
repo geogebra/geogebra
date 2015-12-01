@@ -725,4 +725,9 @@ public abstract class Drawable extends DrawableND {
 		
 		return true;
 	}
+
+	public void updateForView() {
+		update();
+
+	}
 }

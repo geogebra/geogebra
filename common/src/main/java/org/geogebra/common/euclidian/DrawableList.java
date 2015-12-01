@@ -206,6 +206,14 @@ public class DrawableList {
 		}
 	}
 
+	public final void updateAllForView() {
+		Link cur = head;
+		while (cur != null) {
+			cur.d.updateForView();
+			cur = cur.next;
+		}
+	}
+
 	/**
 	 * Updates fot size for all drawables in list
 	 */
