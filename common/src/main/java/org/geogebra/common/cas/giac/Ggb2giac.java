@@ -754,6 +754,16 @@ public class Ggb2giac {
 		p("ToPolar.1",
 				"([[ggbtpans:=%0],[ggbtpans:=polar_coordinates(ggbtpans)],[ggbtpans:=convert([ggb_ang(ggbtpans[0],ggbtpans[1])],25)],ggbtpans])[3]");
 		p("ToPoint.1", "point(convert(coordinates(%0),25))");
+		p("Translate.2",
+				"[[[ggbtrsarg0:=%0] , [ggbtrsarg1:=%1]] , "
+				// translate point about vector
+						+ "when ( (ggbtrsarg0)[0] == 'pnt' , "
+						// translate 2d point
+						+ "when ( !is3dpoint(ggbtrsarg0) , translation(ggbtrsarg1,ggbtrsarg0) ,"
+						// translate 3d point
+						+ "point(xcoord(translation(ggbtrsarg1,ggbtrsarg0))[0],"
+						+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[1],"
+						+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ) , ? )][1]");
 		p("Transpose.1", "transpose(%0)");
 		// http://reduce-algebra.com/docs/trigsimp.pdf
 		// possible Giac commands we can use:
