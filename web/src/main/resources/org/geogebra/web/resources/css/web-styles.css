@@ -521,16 +521,6 @@ body.application[dir=rtl] .gwt-Label {
 	/*border-left: 1px solid #ccc;*/
 }
 
-body[dir=ltr] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
-	/*border-left: 1px solid #ccc;*/
-	
-}
-
-body[dir=rtl] .gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
-	/*border-right: 1px solid #ccc;*/
-	
-}
-
 .gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
 	width: 1px;
 	height: 1px;
@@ -6051,7 +6041,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	color:inherit;
 }
 /* CAS Context menu */
-td.gwt-MenuItemSeparator{
+.gwt-PopupPanel td.gwt-MenuItemSeparator{
 	height: 0px;
     padding: 0px;
     border: 0px;
