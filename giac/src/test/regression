@@ -101,11 +101,12 @@ find -name '*.in' | while read IN; do
      BAD=`cat $SAVEDIR/.bad`
      BAD=$((BAD+1))
      echo $BAD > $SAVEDIR/.bad
-     log "Regression found"
+     log "Regression found in $OUT"
     else
      GOOD=`cat $SAVEDIR/.good`
      GOOD=$((GOOD+1))
      echo $GOOD > $SAVEDIR/.good
+     rm $SAVEDIR/$OUT $SAVEDIR/$OUT.diff # cleaning up
      fi
     fi
    fi
