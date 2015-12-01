@@ -285,7 +285,6 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 			}
 			box.setVisible(isVisible);
 		} else if (!forView) {
-			App.printStacktrace("HIDING");
 			textField.setVisible(false);
 			if (label != null) {
 				label.setVisible(false);
