@@ -1018,7 +1018,11 @@ public class Ggb2giac {
 						+ "normal(regroup(angle(point(0,0,0),"
 						+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
 						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))  )))  , "
-						+ " ? ) ) ) ) ) ) ) ) ) ) ][1]");
+						+ "when ( (ggbangarg0)[0] != '=' && type(ggbangarg0) == DOM_SYMBOLIC && (ggbangarg1)[0] != '=' && type(ggbangarg1) == DOM_SYMBOLIC ,"
+						+ "normal(regroup(angle(point(0,0,0) ,"
+						+ "point(coeff(ggbangarg0,x,1),1,coeff(ggbangarg0,z,1)) ,"
+						+ "point(coeff(ggbangarg1,x,1),1,coeff(ggbangarg1,z,1))))),"
+						+ " ? ) ) ) ) ) ) ) ) ) ) ) ][1]");
 
 		p("Angle.3",
 				"[[[ggbangarg0:=%0], [ggbangarg1:=%1], [ggbangarg2:=%2]], "
