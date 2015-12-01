@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /**
  * 3D expression processor
@@ -227,24 +228,28 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 
 	@Override
 	public GeoElement[] processImplicitPoly(Equation equ) {
-		Polynomial lhs = equ.getNormalForm();
-		boolean isIndependent = !equ.isFunctionDependent() && lhs.isConstant()
-				&& !equ.hasVariableDegree();
-		App.debug("IMPLIT" + equ.isForcedSurface());
-		if (kernel.getApplication().getActiveEuclidianView()
-				.isEuclidianView3D()
-				|| equ.isForcedSurface()) {
-			GeoElement geo = null;
-			if (isIndependent) {
-				geo = new GeoImplicitSurface(cons, equ);
-			} else {
-				AlgoElement surfaceAlgo = new AlgoDependentImplicitSurface(
-						cons, null, equ, true);
-				geo = surfaceAlgo.getOutput(0);
+
+		if (app.has(Feature.IMPLICIT_SURFACES)) {
+			Polynomial lhs = equ.getNormalForm();
+			boolean isIndependent = !equ.isFunctionDependent()
+					&& lhs.isConstant() && !equ.hasVariableDegree();
+			App.debug("IMPLIT" + equ.isForcedSurface());
+			if (kernel.getApplication().getActiveEuclidianView()
+					.isEuclidianView3D()
+					|| equ.isForcedSurface()) {
+				GeoElement geo = null;
+				if (isIndependent) {
+					geo = new GeoImplicitSurface(cons, equ);
+				} else {
+					AlgoElement surfaceAlgo = new AlgoDependentImplicitSurface(
+							cons, null, equ, true);
+					geo = surfaceAlgo.getOutput(0);
+				}
+				geo.setLabel(equ.getLabel());
+				return new GeoElement[] { geo };
 			}
-			geo.setLabel(equ.getLabel());
-			return new GeoElement[] { geo };
 		}
+
 		return super.processImplicitPoly(equ);
 	}
 

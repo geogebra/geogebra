@@ -25,6 +25,8 @@ public enum Feature {
 
 	IMPLICIT_CURVES,
 
+	IMPLICIT_SURFACES,
+
 	POLYGON_OPS,
 
 	INTERSECT,
