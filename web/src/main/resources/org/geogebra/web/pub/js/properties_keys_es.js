@@ -2156,7 +2156,7 @@ __GGB__keysVar.es.menu = {
     "off": "Desactivar\u2193",
     "on": "Activar\u2191",
     "phone_loading_materials_failed": "Lamentablemente los materiales no est\xe1n disponibles en este momento.",
-    "phone_loading_materials_offline": "Aparentemente no est\xe1 conectado a Internet. Por favor, chequee su conexi\xf3n e intente nuevamente.",
+    "phone_loading_materials_offline": "Por favor, chequee su conexi\xf3n a Internet.",
     "phone_no_materials_found": "No se encontraron materiales",
     "phone_tour_done": "Listo",
     "phone_try_again_loading": "Reintentar",
