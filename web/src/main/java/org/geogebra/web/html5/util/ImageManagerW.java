@@ -31,7 +31,6 @@ public class ImageManagerW extends ImageManager {
 		defaults2d = null;
 		defaults3d = null;
 		myXMLio = null;
-		app = null;
 	}
 
 	@Override
@@ -42,17 +41,14 @@ public class ImageManagerW extends ImageManager {
 
 	protected int imagesLoaded = 0;
 
-	ImageLoadCallback callBack = new ImageLoadCallback() {
-
-		public void onLoad() {
-			imagesLoaded++;
-			checkIfAllLoaded();
-		}
-	};
+	/*
+	 * ImageLoadCallback callBack = new ImageLoadCallback() {
+	 * 
+	 * public void onLoad() { imagesLoaded++; checkIfAllLoaded(); } };
+	 */
 
 	private String construction, defaults2d, defaults3d, macros;
 	private MyXMLioW myXMLio;
-	private AppW app = null;
 
 	public void addExternalImage(String fileName, String src) {
 		if (fileName != null && src != null) {
@@ -68,7 +64,7 @@ public class ImageManagerW extends ImageManager {
 		return externalImageSrcs.get(StringUtil.removeLeadingSlash(fileName));
 	}
 
-	protected void checkIfAllLoaded() {
+	protected void checkIfAllLoaded(AppW app1) {
 		imagesLoaded++;
 		if (imagesLoaded == externalImageSrcs.size()) {
 			try {
@@ -88,7 +84,7 @@ public class ImageManagerW extends ImageManager {
 				if (defaults3d != null) {
 					myXMLio.processXMLString(defaults3d, false, true);
 				}
-				app.afterLoadFileAppOrNot();
+				app1.afterLoadFileAppOrNot();
 				imagesLoaded = 0;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -96,14 +92,14 @@ public class ImageManagerW extends ImageManager {
 		}
 	}
 
-	public ImageElement getExternalImage(String fileName) {
+	public ImageElement getExternalImage(String fileName, AppW app1) {
 		ImageElement match = externalImageTable.get(StringUtil
 		        .removeLeadingSlash(fileName));
 		// FIXME this is a bit hacky: if we did not get precise match, assume
 		// encoding problem and rely on MD5
 		if (match == null
-				&& fileName.length() > app.getMD5folderLength(fileName)) {
-			int md5length = app.getMD5folderLength(fileName);
+				&& fileName.length() > app1.getMD5folderLength(fileName)) {
+			int md5length = app1.getMD5folderLength(fileName);
 			String md5 = fileName.substring(0, md5length);
 			for (String s : externalImageTable.keySet()) {
 				if (md5.equals(s.substring(0, md5length))) {
@@ -132,9 +128,11 @@ public class ImageManagerW extends ImageManager {
 
 	class ImageErrorCallback2 implements ImageLoadCallback {
 		public GeoImage gi;
+		private AppW app;
 
-		public ImageErrorCallback2(GeoImage gi2) {
+		public ImageErrorCallback2(GeoImage gi2, AppW app) {
 			this.gi = gi2;
+			this.app = app;
 		}
 
 		public void onLoad() {
@@ -147,10 +145,11 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
-		this.app = (AppW) geoi.getKernel().getApplication();
-		ImageElement img = getExternalImage(imageFileName);
+		ImageElement img = getExternalImage(imageFileName, (AppW) geoi
+				.getKernel().getApplication());
 		ImageWrapper.nativeon(img, "load", new ImageLoadCallback2(geoi));
-		ImageErrorCallback2 i2 = new ImageErrorCallback2(geoi);
+		ImageErrorCallback2 i2 = new ImageErrorCallback2(geoi, (AppW) geoi
+				.getKernel().getApplication());
 		ImageWrapper.nativeon(img, "error", i2);
 		ImageWrapper.nativeon(img, "abort", i2);
 		img.setSrc(externalImageSrcs.get(imageFileName));
@@ -158,18 +157,25 @@ public class ImageManagerW extends ImageManager {
 
 	public void triggerImageLoading(String construction, String defaults2d,
 			String defaults3d, String macros, MyXMLioW myXMLio,
-	        AppW app) {
+ final AppW app) {
 		this.construction = construction;
 		this.defaults2d = defaults2d;
 		this.defaults3d = defaults3d;
 		this.macros = macros;
 		this.myXMLio = myXMLio;
-		this.app = app;
+
 		if (externalImageSrcs.entrySet() != null) {
 			for (Entry<String, String> imgSrc : externalImageSrcs.entrySet()) {
 				ImageWrapper img = new ImageWrapper(
-				        getExternalImage(imgSrc.getKey()));
-				img.attachNativeLoadHandler(this);
+getExternalImage(
+						imgSrc.getKey(), app));
+				img.attachNativeLoadHandler(this, new ImageLoadCallback() {
+
+					public void onLoad() {
+						checkIfAllLoaded(app);
+
+					}
+				});
 				img.getElement().setSrc(imgSrc.getValue());
 			}
 		}

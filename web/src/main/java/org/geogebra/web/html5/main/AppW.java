@@ -904,7 +904,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public final MyImage getExternalImageAdapter(String fileName, int width,
 	        int height) {
-		ImageElement im = getImageManager().getExternalImage(fileName);
+		ImageElement im = getImageManager().getExternalImage(fileName, this);
 		if (im == null)
 			return null;
 		if (width != 0 && height != 0) {
