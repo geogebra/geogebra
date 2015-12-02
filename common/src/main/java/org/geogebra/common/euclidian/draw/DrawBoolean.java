@@ -122,7 +122,7 @@ public final class DrawBoolean extends Drawable {
 
 			if (isLatexLabel()) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), g2, geoBool, view.getFont(),
+						view.getApplication(), g2, geoBool, g2.getFont(),
 						labelDesc);
 
 				textSize.x = d.getWidth();
@@ -143,7 +143,8 @@ public final class DrawBoolean extends Drawable {
 				app.getDrawEquation().drawEquation(app, geoBool, g2,
  posX, posY,
 						geoBool.getCaption(StringTemplate.defaultTemplate),
-						view.getFont(), false, geoBool.getObjectColor(),
+						g2.getFont(), false,
+						geoBool.getObjectColor(),
 						geoBool.getBackgroundColor(), false, false, null);
 			} else {
 				g2.setPaint(geo.getObjectColor());
