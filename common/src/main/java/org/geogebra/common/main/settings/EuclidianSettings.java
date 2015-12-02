@@ -84,8 +84,9 @@ public class EuclidianSettings extends AbstractSettings {
 
 	protected void resetNoFire() {
 		gridDistances = null;
-		axisNumberingDistances = new double[] { Double.NaN, Double.NaN,
-				Double.NaN };
+		axisNumberingDistances[0] = Double.NaN;
+		axisNumberingDistances[1] = Double.NaN;
+		axisNumberingDistances[2] = Double.NaN;
 
 		xminObject = null;
 		xmaxObject = null;
@@ -94,7 +95,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_FULL);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		setAxesColor(GColor.BLACK); // Michael Borcherds 2008-01-26 was darkgray
+		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.LIGHT_GRAY);
 		setBackground(GColor.WHITE);
 
@@ -102,14 +103,19 @@ public class EuclidianSettings extends AbstractSettings {
 
 		showAxesNumbers[0] = true;
 		showAxesNumbers[1] = true;
+		showAxesNumbers[2] = true;
 		axesLabels[0] = null;
 		axesLabels[1] = null;
+		axesLabels[2] = null;
 		axesUnitLabels[0] = null;
 		axesUnitLabels[1] = null;
+		axesUnitLabels[2] = null;
 		piAxisUnit[0] = false;
 		piAxisUnit[1] = false;
+		piAxisUnit[2] = false;
 		axesTickStyles[0] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
 		axesTickStyles[1] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
+		axesTickStyles[2] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
 
 		// for axes labeling with numbers
 		automaticAxesNumberingDistances[0] = true;
@@ -121,8 +127,10 @@ public class EuclidianSettings extends AbstractSettings {
 
 		axisCross[0] = 0;
 		axisCross[1] = 0;
+		axisCross[2] = 0;
 		positiveAxes[0] = false;
 		positiveAxes[1] = false;
+		positiveAxes[2] = false;
 
 		selectionAllowed[0] = true;
 		selectionAllowed[1] = true;
