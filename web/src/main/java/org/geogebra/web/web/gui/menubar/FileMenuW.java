@@ -167,7 +167,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		}
 		if (app.has(Feature.EXAM)) {
-			addItem(MainMenu.getMenuBarHtml(noIcon,
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+					.menu_icons_exam_mode().getSafeUri().asString(),
 							app.getMenu("EnterExamMode"), true),
 					true,
 					new MenuCommand(app) {
@@ -183,7 +184,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
 
 		if (app.has(Feature.PRINT_MENU)) {
-			addItem(MainMenu.getMenuBarHtml(noIcon,
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+					.menu_icons_file_print().getSafeUri().asString(),
 					app.getMenu("PrintPreview"), true), true, new MenuCommand(
 					app) {
 
