@@ -42,8 +42,7 @@ def devModule = 'org.geogebra.web.Web3D'
 
 gwt {
 	gwtVersion = '2.7.0'
-	modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
- 	    'org.geogebra.web.Tablet', 'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin']
+	modules = ['org.geogebra.web.Web3D']
 	
 	if (System.env['DEVMODULES'] != null && System.env['DEVMODULES'] == "all") {
 	    devModules = modules
@@ -51,7 +50,7 @@ gwt {
 	    devModules devModule
 	}
 	
-	maxHeapSize = '1500M'
+	maxHeapSize = '2000M'
 
 	compiler {
 		// Customize the GWT compiler here
@@ -59,8 +58,9 @@ gwt {
         // enableClosureCompiler = true;
         disableClassMetadata = true;
         disableCastChecking = true;
+        draftCompile = true;
         //logLevel = 'SPAM';
-        // style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
+        style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
         // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
 	}
 }

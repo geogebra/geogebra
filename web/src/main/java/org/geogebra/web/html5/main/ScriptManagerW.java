@@ -476,16 +476,24 @@ public class ScriptManagerW extends ScriptManager {
 			}
 		};
 
-		api.setAxesVisible = function(xVisible, yVisible) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxesVisible(ZZ)(xVisible,yVisible);
+		api.setAxesVisible = function(arg1, arg2, arg3, arg4) {
+			if (typeof arg3 === "undefined") {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxesVisible(ZZ)(arg1,arg2);
+			} else {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxesVisible(IZZZ)(arg1, arg2, arg3, !!arg4);
+			}
 		};
 
 		api.getGridVisible = function(view) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getGridVisible(I)(view || 1);
 		};
 
-		api.setGridVisible = function(flag) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setGridVisible(Z)(flag);
+		api.setGridVisible = function(arg1, arg2) {
+			if (typeof arg2 === "undefined") {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setGridVisible(Z)(arg1);
+			} else {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setGridVisible(IZ)(arg1, arg2);
+			}
 		};
 
 		api.getAllObjectNames = function() {// deprecated since 3.0

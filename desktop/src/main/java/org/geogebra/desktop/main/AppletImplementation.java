@@ -1258,12 +1258,23 @@ public class AppletImplementation implements AppletImplementationInterface {
 		ggbApi.setAxesVisible(xVisible, yVisible);
 	}
 
+	public synchronized void setAxesVisible(int view, boolean xVisible,
+			boolean yVisible, boolean zVisible) {
+		ggbApi.setAxesVisible(view, xVisible, yVisible, zVisible);
+	}
+
 	/**
 	 * Shows or hides the coordinate grid in the graphics window.
 	 */
 	public synchronized void setGridVisible(boolean flag) {
-		app.getSettings().getEuclidian(1).showGrid(flag);
-		app.getSettings().getEuclidian(2).showGrid(flag);
+		ggbApi.setGridVisible(flag);
+	}
+
+	/**
+	 * Shows or hides the coordinate grid in the graphics window.
+	 */
+	public synchronized void setGridVisible(int view, boolean flag) {
+		ggbApi.setGridVisible(view, flag);
 	}
 
 	/**

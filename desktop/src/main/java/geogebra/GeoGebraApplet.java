@@ -518,6 +518,12 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getAppletImplementation().setAxesVisible(xVisible, yVisible);
 	}
 
+	public synchronized void setAxesVisible(int view, boolean xVisible,
+			boolean yVisible, boolean zVisible) {
+		getAppletImplementation().setAxesVisible(view, xVisible, yVisible,
+				zVisible);
+	}
+
 	public synchronized void setColor(String objName, int red, int green,
 			int blue) {
 		getAppletImplementation().setColor(objName, red, green, blue);
@@ -589,6 +595,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	}
 
 	public synchronized void setGridVisible(boolean flag) {
+		getAppletImplementation().setGridVisible(flag);
+	}
+
+	public synchronized void setGridVisible(int view, boolean flag) {
 		getAppletImplementation().setGridVisible(flag);
 	}
 

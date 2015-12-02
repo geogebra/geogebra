@@ -1096,6 +1096,20 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		kernel.notifyRepaint();
 	}
 
+	public synchronized void setAxesVisible(int view, boolean xVisible,
+			boolean yVisible, boolean zVisible) {
+		int index = view < 0 ? 3 : view;
+		if (index < 1 || index > 3) {
+			return;
+		}
+		EuclidianSettings evs = app.getSettings().getEuclidian(index);
+		evs.beginBatch();
+		evs.setShowAxis(0, xVisible);
+		evs.setShowAxis(1, yVisible);
+		evs.setShowAxis(2, zVisible);
+		evs.endBatch();
+		kernel.notifyRepaint();
+	}
 	/**
 	 * If the origin is off screen and the axes are visible, GeoGebra shows
 	 * coordinates of the upper-left and bottom-right screen corner. This method
@@ -1120,6 +1134,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public synchronized void setGridVisible(boolean flag) {
 		app.getSettings().getEuclidian(1).showGrid(flag);
 		app.getSettings().getEuclidian(2).showGrid(flag);
+	}
+
+	public synchronized void setGridVisible(int view, boolean flag) {
+		int index = view < 0 ? 3 : view;
+		if (index < 1 || index > 3) {
+			return;
+		}
+		app.getSettings().getEuclidian(index).showGrid(flag);
 	}
 
 	/*

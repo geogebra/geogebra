@@ -537,9 +537,24 @@ public interface JavaScriptAPI {
 	public void setAxesVisible(boolean xVisible, boolean yVisible);
 
 	/**
-	 * Shows or hides the coordinate grid in the graphics window.
+	 * Shows or hides the x- and y-axis of the coordinate system in the graphics
+	 * window.
+	 */
+	public void setAxesVisible(int view, boolean xVisible, boolean yVisible,
+			boolean zVisible);
+
+	/**
+	 * Shows or hides the coordinate grid in the graphics windows 1 and 2.
+	 * 
+	 * @param flag
+	 *            visibility flag
 	 */
 	public void setGridVisible(boolean flag);
+
+	/**
+	 * Shows or hides the coordinate grid in the given graphics window.
+	 */
+	public void setGridVisible(int view, boolean flag);
 
 	public boolean getGridVisible(int view);
 

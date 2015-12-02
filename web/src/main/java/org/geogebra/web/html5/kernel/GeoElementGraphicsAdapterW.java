@@ -63,7 +63,7 @@ public class GeoElementGraphicsAdapterW extends
 		if ("".equals(imageFileName)) {
 			return;
 		}
-
+		App.error("<" + imageFileName + ">");
 		FileExtensions ext = StringUtil.getFileExtension(imageFileName);
 
 		if (ext.isAllowedImage()) {
@@ -75,6 +75,7 @@ public class GeoElementGraphicsAdapterW extends
 
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 		imageFileName = md5e.encrypt(fn) + "/" + fn;
+		App.error("<" + imageFileName + ">");
 	}
 
 }
