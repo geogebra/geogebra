@@ -77,17 +77,20 @@ void main (void)
 	
 	vec4 color;
 	
-	// adding specular
-	float specular = dot(normalize(lightReflect), normalize(viewDirection));	
-	if (specular > 0.0){
-	  	float specular2  = specular  * specular;
-	  	float specular4  = specular2 * specular2;
-	  	float specular8  = specular4 * specular4;
-	  	float specular16 = specular8 * specular8;
-	  	color.rgb = varying_Color.rgb + specular16 * vec3(1.0, 1.0, 1.0);
-	  	color.a = varying_Color.a;
+	if (enableLight == 1){
+		// adding specular
+		float specular = dot(normalize(lightReflect), normalize(viewDirection));	
+		if (specular > 0.0){
+		  	float specular2  = specular  * specular;
+		  	float specular4  = specular2 * specular2;
+		  	float specular16  = specular4 * specular4;
+		  	color.rgb = varying_Color.rgb + specular16 * vec3(1.0, 1.0, 1.0);
+		  	color.a = varying_Color.a;
+		}else{
+		    color = varying_Color;
+		}
 	}else{
-	    color = varying_Color;
+		color = varying_Color;
 	}
 		
 	// default
