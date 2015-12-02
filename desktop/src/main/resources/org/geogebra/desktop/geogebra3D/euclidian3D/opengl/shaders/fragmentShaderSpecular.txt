@@ -59,6 +59,7 @@ varying   vec3    realWorldCoords;
 
 varying vec3 viewDirection;
 varying vec3 lightReflect;
+uniform int	enableLight; 
 
 
 

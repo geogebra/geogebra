@@ -48,8 +48,6 @@ uniform int enableClipPlanes;
 uniform vec3 clipPlanesMin;
 uniform vec3 clipPlanesMax;
 
-uniform int	enableLight; 
-
 uniform float dashValues[4];
 
 uniform sampler2D Texture0;
@@ -61,6 +59,8 @@ varying   vec3    realWorldCoords;
 
 varying vec3 viewDirection;
 varying vec3 lightReflect;
+uniform int	enableLight; 
+
 
 
 
