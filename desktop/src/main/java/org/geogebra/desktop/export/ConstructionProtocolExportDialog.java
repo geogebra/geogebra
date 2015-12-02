@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -41,6 +40,7 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.Util;
 
 public class ConstructionProtocolExportDialog extends JDialog implements
@@ -182,7 +182,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 							Toolkit toolkit = Toolkit.getDefaultToolkit();
 							Clipboard clipboard = toolkit.getSystemClipboard();
 							StringSelection stringSelection = new StringSelection(
-									prot.getHTML(null, null));
+									prot.getHTML(null));
 							clipboard.setContents(stringSelection, null);
 						} catch (Exception ex) {
 							app.showError("SaveFileFailed");
@@ -251,18 +251,13 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	 */
 	private void exportHTML(boolean includePicture,
 			boolean includeAlgebraPicture, boolean useColors, boolean addIcons) {
-		File file, pngFile = null;
-		File dir = null;
+		File file;
 		prot.setUseColors(useColors);
-		dir = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
+		file = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
 				FileExtensions.HTML, null,
-				app.getPlain("Directories"), false, true);
-		if (dir == null)
-			return;
+ app.getPlain("HTML"), true, false);
 
 		try {
-			String thisPath = dir.getPath();
-			file = new File(thisPath, "index.html");
 
 			BufferedImage img = null;
 
@@ -273,16 +268,13 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 				// picture of drawing pad
 				img = getCenterPanelImage();
 			}
+			String imgBase64 = GgbAPID.base64encode(img, 72);
+			String export = prot.getHTML(imgBase64);
+			App.debug(export);
 
-			// save image to PNG file
-			if (img != null) {
-				pngFile = new File(thisPath, "image.png");
-				pngFile.mkdirs();
-				ImageIO.write(img, "png", pngFile);
-			}
 
 			FileWriter fw = new FileWriter(file);
-			fw.write(prot.getHTML(pngFile, thisPath));
+			fw.write(export);
 			fw.close();
 
 			// This code is mostly copy-pasted from

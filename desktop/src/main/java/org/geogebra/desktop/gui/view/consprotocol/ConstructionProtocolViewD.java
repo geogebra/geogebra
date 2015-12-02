@@ -32,13 +32,10 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
-import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
@@ -64,7 +61,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.javax.swing.table.GAbstractTableModel;
@@ -86,6 +82,7 @@ import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.javax.swing.table.GAbstractTableModelD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.plugin.GgbAPID;
 
 public class ConstructionProtocolViewD extends ConstructionProtocolView
 		implements Printable, SettingListener, SetLabels {
@@ -993,7 +990,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 
 		// html code without <html> tags
-		public String getPlainHTMLAt(int nRow, int nCol, String thisPath) {
+		public String getPlainHTMLAt(int nRow, int nCol) {
 
 			/*
 			 * Only one toolbar should be displayed for each step, even if
@@ -1035,49 +1032,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				if (m == -1 || index == prevIndex)
 					return "";
 
-				/*
-				 * Hopefully the mode icons are detected correctly in the
-				 * Algo*.java files. If not, here are the steps how to fix an
-				 * incorrect icon:
-				 * 
-				 * 1. Search for the m*.gif icon in the export HTML directory.
-				 * 
-				 * 2. The number of the icon will be defined in
-				 * EuclidianConstans.java, so you can find the appropriate
-				 * MODE_TOOL constant.
-				 * 
-				 * 3. Search for this constant in Algo*.java. Try to change it
-				 * to a different constant, recompile GeoGebra and try another
-				 * export. Then "go to 1" if your fix was not accurate.
-				 */
-				String gifFileName;
+				ImageIcon icon = ((AppD) app).getModeIcon(m);
+				Image img1 = icon.getImage();
 
-				if (thisPath != null) { // thisPath==null if we want to copy to
-										// the clipboard
+				BufferedImage img2 = toBufferedImage(img1);
+				String base64 = GgbAPID.base64encode(img2, 72);
 
-					ImageIcon icon = ((AppD) app).getModeIcon(m);
-					gifFileName = "m" + Integer.toString(m) + ".gif";
-
-					Image img1 = icon.getImage();
-
-					BufferedImage img2 = toBufferedImage(img1);
-
-					File gifFile = new File(thisPath + "/" + gifFileName);
-					try {
-						ImageIO.write(img2, "gif", gifFile);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				} else {
-
-					String modeText = EuclidianConstants.getModeText(m);
-					gifFileName = "http://www.geogebra.org/icons/mode_"
-							+ modeText.toLowerCase(Locale.US) + "_32.gif";
-				}
-
-				return "<img src=\"" + gifFileName + "\">";
+				return "<img src=\"data:image/png;base64," + base64 + "\">";
 			}
 			case 3:
 				return rowList.get(nRow).getGeo()
@@ -1385,12 +1346,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	/**
 	 * Returns a html representation of the construction protocol.
 	 * 
-	 * @param thisPath
-	 * @param imgFile
+	 * @param imgBase64
 	 *            : image file to be included
-	 * @throws IOException
 	 */
-	public String getHTML(File imgFile, String thisPath) throws IOException {
+	public String getHTML(String imgBase64) {
 		StringBuilder sb = new StringBuilder();
 
 		boolean icon_column;
@@ -1445,10 +1404,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 
 		// include image file
-		if (imgFile != null) {
+		if (imgBase64 != null) {
 			sb.append("<p>\n");
-			sb.append("<img src=\"");
-			sb.append(imgFile.getName());
+			sb.append("<img src=\"data:image/png;base64,");
+			sb.append(imgBase64);
 			sb.append("\" alt=\"");
 			sb.append(StringUtil
 					.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
@@ -1494,7 +1453,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 							.getModelIndex();
 					String str = StringUtil.toHTMLString(
 							((ConstructionTableData) data).getPlainHTMLAt(nRow,
-									col, thisPath), false);
+									col), false);
 					sb.append("<td>");
 					if (str.equals(""))
 						sb.append("&nbsp;"); // space

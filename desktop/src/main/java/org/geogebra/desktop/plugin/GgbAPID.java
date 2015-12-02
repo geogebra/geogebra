@@ -397,6 +397,18 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 		BufferedImage img = ((AppD) app).getEuclidianView1().getExportImage(
 				exportScale, transparent);
 
+		return base64encode(img, DPI);
+	}
+
+	/**
+	 * @param img
+	 *            image
+	 * @return encoded image
+	 */
+	public static String base64encode(BufferedImage img, double DPI) {
+		if (img == null) {
+			return null;
+		}
 		try {
 			Iterator<ImageWriter> it = ImageIO
 					.getImageWritersByFormatName("png");
