@@ -63,5 +63,7 @@ public enum Feature {
 
 	LATEX_ON_BUTTON,
 
-	LATEX_ON_CHECKBOX
+	LATEX_ON_CHECKBOX,
+
+	SHINY_3D
 }

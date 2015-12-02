@@ -15,4 +15,8 @@ public interface Shaders extends ClientBundle {
 
 	@Source(value = { "vertex-shader.txt" })
 	TextResource vertexShader();
+
+	@Source(value = { "vertex-shader-specular.txt" })
+	TextResource vertexShaderShiny();
+
 }

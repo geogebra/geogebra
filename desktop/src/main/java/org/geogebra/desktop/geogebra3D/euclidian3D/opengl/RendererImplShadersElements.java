@@ -22,6 +22,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -131,7 +132,12 @@ public class RendererImplShadersElements implements
 
 		String vertexShaderString, fragmentShaderString;
 
-		vertexShaderString = loadTextFile("vertexShader");
+		App.error("vertexShaderSpecular");
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			vertexShaderString = loadTextFile("vertexShaderSpecular");
+		} else {
+			vertexShaderString = loadTextFile("vertexShader");
+		}
 		fragmentShaderString = loadTextFile("fragmentShader");
 
 		// Make the shader strings compatible with OpenGL 3 core if needed

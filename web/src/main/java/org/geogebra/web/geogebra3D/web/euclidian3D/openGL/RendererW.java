@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
@@ -197,7 +198,8 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		        ShaderProvider.getFragmentShader(glContext));
 		WebGLShader vertexShader = getShader(
 		        WebGLRenderingContext.VERTEX_SHADER,
-		        ShaderProvider.getVertexShader());
+				ShaderProvider.getVertexShader(view3D.getApplication().has(
+						Feature.SHINY_3D)));
 
 		// create shader program
 		shaderProgram = glContext.createProgram();

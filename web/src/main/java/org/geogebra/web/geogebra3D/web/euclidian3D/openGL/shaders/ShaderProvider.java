@@ -26,7 +26,13 @@ public class ShaderProvider {
 	/**
 	 * @return Vertex shader
 	 */
-	public static String getVertexShader() {
-		return Shaders.INSTANCE.vertexShader().getText();
+	public static String getVertexShader(boolean shiny) {
+		TextResource resource = null;
+		if (shiny) {
+			resource = Shaders.INSTANCE.vertexShaderShiny();
+		} else {
+			resource = Shaders.INSTANCE.vertexShader();
+		}
+		return resource.getText();
 	}
 }

@@ -3891,7 +3891,7 @@ public abstract class App implements UpdateSelection {
 		case INPUT3D:
 		case SURFACE_IS_REGION:
 		case SHADERS_IN_DESKTOP:
-		case IMPLICIT_SURFACES:
+		case SHINY_3D:
 		case CP_POPUP:
 		case CP_NEW_COLUMNS:
 		case EXAM:
