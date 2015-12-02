@@ -45,7 +45,6 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 	private double[] evals = new double[3];
 	private double[] normEval = new double[3];
 	private GeoFunctionNVar expression;
-	private Equation equation;
 	private GeoTriangulatedSurface3D surface3D;
 	private FunctionNVar[] derivFunc = new FunctionNVar[3];
 
@@ -114,7 +113,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 	}
 
 	private void fromEquation(Equation eqn) {
-		this.equation = eqn;
+		setDefinition(eqn.wrap());
 
 		ExpressionNode leftHandSide = eqn.getLHS();
 		ExpressionNode rightHandSide = eqn.getRHS();
@@ -301,9 +300,9 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 
 	@Override
 	public void set(GeoElementND geo) {
-		Object equationCopy = ((GeoImplicitSurface) geo).equation
+		Equation equationCopy = (Equation) geo.getDefinition().unwrap()
 				.deepCopy(kernel);
-		fromEquation((Equation) equationCopy);
+		fromEquation(equationCopy);
 	}
 
 	/**
@@ -351,7 +350,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return equation.toValueString(tpl);
+		return getDefinition().toValueString(tpl);
 	}
 
 	@Override
