@@ -188,6 +188,9 @@ public interface GuiResources extends ClientBundle {
 
 	// OTHER MENUICONS
 
+	@Source("org/geogebra/common/menu_icons/p20/menu-create-exercise.png")
+	ImageResource menu_create_exercise();
+
 	@Source("org/geogebra/common/menu_icons/p20/menu-signed-in-m.png")
 	ImageResource menu_icon_signed_in_m();
 
