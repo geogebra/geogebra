@@ -193,13 +193,13 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	 */
 	@Override
 	public void initShaders() {
+		boolean shiny = view3D.getApplication().has(Feature.SHINY_3D);
 		WebGLShader fragmentShader = getShader(
 		        WebGLRenderingContext.FRAGMENT_SHADER,
-		        ShaderProvider.getFragmentShader(glContext));
+				ShaderProvider.getFragmentShader(glContext, shiny));
 		WebGLShader vertexShader = getShader(
 		        WebGLRenderingContext.VERTEX_SHADER,
-				ShaderProvider.getVertexShader(view3D.getApplication().has(
-						Feature.SHINY_3D)));
+				ShaderProvider.getVertexShader(shiny));
 
 		// create shader program
 		shaderProgram = glContext.createProgram();

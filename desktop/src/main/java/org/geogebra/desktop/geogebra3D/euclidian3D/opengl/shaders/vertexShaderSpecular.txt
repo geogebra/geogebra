@@ -79,6 +79,9 @@ varying vec4    varying_Color;
 varying vec2	coordTexture;
 varying vec3    realWorldCoords;
 
+varying vec3 viewDirection;
+varying vec3 lightReflect;
+
 
 void main(void) 
 { 
@@ -122,42 +125,18 @@ void main(void)
 	  float diffuse = ambiantDiffuse[1];
 	  
 	  
-	  // specular
-	  
+	  // specular	  
 	  
 	  // makes natural specular
-	  vec3 viewDirection;
 	  if (eyePosition[3] < 0.5){ // parallel projection
 	  	viewDirection = vec3(eyePosition);
 	  }else{ // perspective projection
 	  	viewDirection = position - vec3(eyePosition);
 	  }
-	  vec3 lightReflect = normalize(reflect(lightPosition, n));
-	  float specular = dot(lightReflect, viewDirection);
+	  lightReflect = reflect(lightPosition, n);
 	  
-	  /*
-	  // makes specular has if eye was lighting
-	  float specular = - dot(n, viewDirection);
-	  if (culling == 1){ // front-face culling
-	  	specular = -specular;
-	  }
-	  */
-	  
-	  
-	  // specular as diffuse
-	  //float specular = factor;
-	  
-	  if (specular > 0.0){
-	  	specular = pow(specular, 16.0);
-	  }else{
-	  	specular = 0.0;
-	  } 
-	  
-	  // specular light from eye
-	  //varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb + 0.5 * specular * vec3(1.0, 1.0, 1.0);
-	  //specular natural way
-	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb + 0.8 * specular * vec3(1.0, 1.0, 1.0);
-
+	  // specular will be added in fragment shader
+	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;
 	  varying_Color.a = c.a;
 	  
 

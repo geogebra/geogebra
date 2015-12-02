@@ -132,13 +132,14 @@ public class RendererImplShadersElements implements
 
 		String vertexShaderString, fragmentShaderString;
 
-		App.error("vertexShaderSpecular");
 		if (view3D.getApplication().has(Feature.SHINY_3D)) {
 			vertexShaderString = loadTextFile("vertexShaderSpecular");
+			fragmentShaderString = loadTextFile("fragmentShaderSpecular");
 		} else {
 			vertexShaderString = loadTextFile("vertexShader");
+			fragmentShaderString = loadTextFile("fragmentShader");
 		}
-		fragmentShaderString = loadTextFile("fragmentShader");
+
 
 		// Make the shader strings compatible with OpenGL 3 core if needed
 		// GL2ES2 also includes the intersection of GL3 core

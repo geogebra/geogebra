@@ -13,6 +13,9 @@ public interface Shaders extends ClientBundle {
 	@Source(value = { "fragment-shader.txt" })
 	TextResource fragmentShader();
 
+	@Source(value = { "fragment-shader-specular.txt" })
+	TextResource fragmentShaderShiny();
+
 	@Source(value = { "vertex-shader.txt" })
 	TextResource vertexShader();
 

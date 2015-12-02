@@ -11,19 +11,28 @@ public class ShaderProvider {
 	/**
 	 * @param glContext
 	 *            used to get debug information about gpu
+	 * @param shiny
+	 *            says if we use specular light to get it shiny
 	 * @return Fragment shader
 	 */
-	public static String getFragmentShader(WebGLRenderingContext glContext) {
+	public static String getFragmentShader(WebGLRenderingContext glContext,
+			boolean shiny) {
 		TextResource resource = null;
 		if (GpuBlacklist.isCurrentGpuBlacklisted(glContext)) {
 			resource = Shaders.INSTANCE.fragmentShaderSmaller();
 		} else {
-			resource = Shaders.INSTANCE.fragmentShader();
+			if (shiny) {
+				resource = Shaders.INSTANCE.fragmentShaderShiny();
+			} else {
+				resource = Shaders.INSTANCE.fragmentShader();
+			}
 		}
 		return resource.getText();
 	}
 
 	/**
+	 * @param shiny
+	 *            says if we use specular light to get it shiny
 	 * @return Vertex shader
 	 */
 	public static String getVertexShader(boolean shiny) {
