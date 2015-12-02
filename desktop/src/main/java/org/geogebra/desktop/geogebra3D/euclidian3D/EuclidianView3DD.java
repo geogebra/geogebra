@@ -34,7 +34,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
-import org.geogebra.desktop.euclidian.EuclidianViewJPanel;
+import org.geogebra.desktop.euclidian.EuclidianViewJPanelD;
 import org.geogebra.desktop.euclidian.MyZoomerD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
@@ -57,7 +57,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		EuclidianViewInterfaceD {
 
 	/** Java component for this view */
-	protected EuclidianViewJPanel evjpanel;
+	protected EuclidianViewJPanelD evjpanel;
 
 	/**
 	 * constructor
@@ -91,7 +91,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	@Override
 	protected void createPanel() {
-		evjpanel = new EuclidianViewJPanel(this);
+		evjpanel = new EuclidianViewJPanelD(this);
 
 		canvas = (Component) ((RendererD) renderer).canvas;
 		getJPanel().setLayout(new BorderLayout());
@@ -346,7 +346,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	}
 
 	/**
-	 * @see EuclidianViewJPanel#processMouseEventImpl(MouseEvent)
+	 * @see EuclidianViewJPanelD#processMouseEventImpl(MouseEvent)
 	 * @param e
 	 *            mouse event
 	 */

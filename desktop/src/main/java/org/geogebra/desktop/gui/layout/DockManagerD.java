@@ -21,7 +21,7 @@ import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.euclidian.EuclidianViewJPanel;
+import org.geogebra.desktop.euclidian.EuclidianViewJPanelD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.panels.EuclidianDockPanelAbstract;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
@@ -919,7 +919,7 @@ public class DockManagerD extends org.geogebra.common.gui.layout.DockManager
 		// euclidian
 		// view, they are always handled by their own mouse event (see doc
 		// comment above)
-		if (dp != null && !(dp.getComponent() instanceof EuclidianViewJPanel)) {
+		if (dp != null && !(dp.getComponent() instanceof EuclidianViewJPanelD)) {
 			// updates the properties view only if source is not the euclidian
 			// style bar
 			boolean updatePropertiesView = true;

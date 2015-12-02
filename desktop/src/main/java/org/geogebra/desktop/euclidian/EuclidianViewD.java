@@ -115,7 +115,7 @@ public class EuclidianViewD extends EuclidianView implements
 	protected Cursor defaultCursor;
 
 	/** Java component for this view */
-	protected EuclidianViewJPanel evjpanel;
+	protected EuclidianViewJPanelD evjpanel;
 
 	// set EuclidianView no - 2 for 2nd EulidianView, 1 for 1st EuclidianView
 	// and Applet
@@ -155,7 +155,7 @@ public class EuclidianViewD extends EuclidianView implements
 
 		super(ec, evno, settings);
 
-		evjpanel = new EuclidianViewJPanel(this);
+		evjpanel = new EuclidianViewJPanelD(this);
 
 		setApplication(ec.getApplication());
 
@@ -966,7 +966,7 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	/**
-	 * @see EuclidianViewJPanel#processMouseEventImpl(MouseEvent)
+	 * @see EuclidianViewJPanelD#processMouseEventImpl(MouseEvent)
 	 * @param e
 	 *            mouse event
 	 */

@@ -9,15 +9,16 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewJPanel;
 
-public class EuclidianViewJPanel extends JPanel implements
-		org.geogebra.common.euclidian.EuclidianViewJPanel {
+public class EuclidianViewJPanelD extends JPanel
+		implements EuclidianViewJPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	EuclidianView view;
 
-	public EuclidianViewJPanel(EuclidianView view, boolean addListeners) {
+	public EuclidianViewJPanelD(EuclidianView view, boolean addListeners) {
 		this.view = view;
 
 		// algebra controller will take care of our key events
@@ -36,7 +37,7 @@ public class EuclidianViewJPanel extends JPanel implements
 		setTransferHandler(new EuclidianViewTransferHandler(view));
 	}
 
-	public EuclidianViewJPanel(EuclidianView view) {
+	public EuclidianViewJPanelD(EuclidianView view) {
 
 		this(view, true);
 
