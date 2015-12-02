@@ -6,7 +6,6 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.ExerciseBuilderDialog;
 import org.geogebra.web.web.gui.dialog.ToolCreationDialog;
 import org.geogebra.web.web.gui.dialog.ToolManagerDialogW;
-import org.geogebra.web.web.gui.images.AppResources;
 
 /**
  * Web implementation of ToolsMenu
@@ -68,8 +67,8 @@ public class ToolsMenuW extends GMenuBar {
 			});
 
 		if (app.has(Feature.EXERCISES)) {
-			addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-			        .getSafeUri().asString(),
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+					.menu_create_exercise().getSafeUri().asString(),
 			        app.getMenu("Exercise.CreateNew"), true), true,
 			        new MenuCommand(app) {
 
