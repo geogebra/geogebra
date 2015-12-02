@@ -91,6 +91,12 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/menu_icons/p20/menu-file-export.png")
 	ImageResource menu_icons_file_export();
 
+	@Source("org/geogebra/common/menu_icons/p20/menu-mode-exam.png")
+	ImageResource menu_icons_exam_mode();
+
+	@Source("org/geogebra/common/menu_icons/p20/menu-file-print-preview.png")
+	ImageResource menu_icons_file_print();
+
 	@Source("org/geogebra/common/menu_icons/p20/menu-edit.png")
 	ImageResource menu_icon_edit();
 
