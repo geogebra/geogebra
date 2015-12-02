@@ -63,7 +63,6 @@ import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -267,7 +266,7 @@ public class EuclidianDraw {
 
 		case IMPLICIT_POLY:
 			if (ev.getApplication().has(Feature.IMPLICIT_CURVES)) {
-				d = new DrawImplicitCurve(ev, (GeoImplicitCurve) geo);
+				d = new DrawImplicitCurve(ev, (GeoImplicit) geo);
 			} else {
 				d = new DrawImplicitPoly(ev, (GeoImplicit) geo);
 			}

@@ -13,14 +13,14 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 
 /**
  * Draw GeoImplicitCurve on euclidian view
  */
 public class DrawImplicitCurve extends DrawLocus {
 
-	private GeoImplicitCurve implicitCurve;
+	private GeoImplicit implicitCurve;
 
 	// private int fillSign; //0=>no filling, only curve -1=>fill the negativ
 	// part, 1=>fill positiv part
@@ -33,11 +33,11 @@ public class DrawImplicitCurve extends DrawLocus {
 	 * @param implicitCurve
 	 *            implicit Curvenomial
 	 */
-	public DrawImplicitCurve(EuclidianView view, GeoImplicitCurve implicitCurve) {
+	public DrawImplicitCurve(EuclidianView view, GeoImplicit implicitCurve) {
 		super(view, implicitCurve.getLocus());
 		this.view = view;
 		this.implicitCurve = implicitCurve;
-		this.geo = implicitCurve;
+		this.geo = implicitCurve.toGeoElement();
 		update();
 	}
 
@@ -52,7 +52,7 @@ public class DrawImplicitCurve extends DrawLocus {
 	 * 
 	 * @return Curve
 	 */
-	public GeoImplicitCurve getCurve() {
+	public GeoImplicit getCurve() {
 		return implicitCurve;
 	}
 
