@@ -35,7 +35,6 @@ import com.google.gwt.cell.client.TextInputCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.BrowserEvents;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
@@ -208,12 +207,18 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		return table;
 	}
 
-	void initGUI() {
-		//remove all columns if there are
-		int colCount = table.getColumnCount();
+	/*
+	 * Remove all columns (if there are) from table tb
+	 */
+	private static void clearTable(CellTable<RowData> tb) {
+		int colCount = tb.getColumnCount();
 		for(int i=0; i<colCount; i++){
-			table.removeColumn(0);
+			tb.removeColumn(0);
 		}
+	}
+
+	void initGUI() {
+		clearTable(table);
 		
 		if (!app.has(Feature.CP_POPUP)) {  //old source inserted back here
 			for (int i = 0; i < data.getColumnCount(); i++) {
@@ -229,30 +234,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			rowCountChanged();
 			return;
 		}
-				
-
-		int lastVisibleColData = data.getColumnCount() - 1;
-		
-		if (app.has(Feature.CP_NEW_COLUMNS)) {
-			while (!data.columns[lastVisibleColData].isVisible()) {
-				lastVisibleColData--;
-			}
-		} else {
-			while (!data.columns[lastVisibleColData].isVisible()
-					|| "ToolbarIcon".equals(data.columns[lastVisibleColData]
-							.getTitle())
-					|| "Command".equals(data.columns[lastVisibleColData]
-							.getTitle())
-					|| "Caption".equals(data.columns[lastVisibleColData]
-							.getTitle())
-					|| "Breakpoint".equals(data.columns[lastVisibleColData]
-							.getTitle())) {
-				lastVisibleColData--;
-			}
-		}
-
 
 		initPopupMenu();
+		addColumnsForTable(table);
+
+		tableInit();
+		rowCountChanged();
+	}
+
+	private void addColumnsForTable(CellTable<RowData> tb) {
 		
 		for (int i = 0; i < data.getColumnCount(); i++) {
 			if (data.columns[i].isVisible()) {
@@ -281,12 +271,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 								+ app.getPlain(headerTitle) + "</div>"));
 					}
 
-					table.addColumn(col, sb.toSafeHtml());
+					tb.addColumn(col, sb.toSafeHtml());
 				}
 			}
 		}
-		tableInit();
-		rowCountChanged();
+
 	}
 
 	protected void initPopupMenu() {
@@ -1007,15 +996,22 @@ myCell) {
     }
 
 	public Widget getPrintable() {
+		CellTable<RowData> previewTable = new CellTable<RowData>();
+		addColumnsForTable(previewTable);
+
+		previewTable.setRowCount(data.getrowList().size());
+		previewTable.setRowData(0, data.getrowList());
+		// dummyTable.setVisibleRange(0, data.getrowList().size() + 1);
+		previewTable.setVisibleRange(0, 4);
+
 		SimplePanel panel = new SimplePanel();
 		panel.setWidth("400px");
-		com.google.gwt.dom.client.Node tableClone = table.getElement()
-				.cloneNode(true);
-		panel.getElement().appendChild(tableClone);
+
+		panel.getElement().appendChild(previewTable.getElement());
 		panel.getElement().getStyle().setDisplay(Display.BLOCK);
 		panel.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		panel.getElement().getStyle().setRight(0, Unit.PX);
-		Document.get().getBody().appendChild(panel.getElement());
+		panel.getElement().getStyle().setLeft(0, Unit.PX);
+
 		return panel;
 	}
 }

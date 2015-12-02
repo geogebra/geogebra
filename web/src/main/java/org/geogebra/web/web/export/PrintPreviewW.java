@@ -8,6 +8,7 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -29,6 +30,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	private Button btCancel;
 	ListBox m_cbView;
 	SimplePanel printPanel;
+	HorizontalPanel printPanel2;
 
 	public PrintPreviewW(AppW appl) {
 		super(true, true, appl.getPanel());
@@ -40,6 +42,8 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	}
 
 	protected void createGUI() {
+		printPanel2 = new HorizontalPanel();
+
 		VerticalPanel centerPanel = new VerticalPanel();
 
 		btPrint = new Button(app.getPlain("Print"));
@@ -141,15 +145,28 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 					// printPanel.add(((PrintableW) app.getView(viewID))
 					// .getPrintable());
 
-					Element printables = getPrintables(
-							viewID, app).getElement();
+					// final Element printables = getPrintables(
+					// viewID, app).getElement();
+					// Scheduler.get().scheduleDeferred(
+					// new Scheduler.ScheduledCommand() {
+					// public void execute() {
+					// app.getGgbApi().getScreenshotURL(
+					// printables,
+					// getScreenshotCallback(printPanel
+					// .getElement()));
+					// }
+					// });
 
-					app.getGgbApi().getScreenshotURL(printables,
-							getScreenshotCallback(printPanel.getElement()));
+					// if (printables.hasParentElement()) {
+					// printables.removeFromParent();
+					// }
 
-					if (printables.hasParentElement()) {
-						printables.removeFromParent();
-					}
+					final Widget printables = getPrintables(viewID, app);
+
+					printPanel2.add(printables);
+					Document.get().getBody()
+							.appendChild(printPanel2.getElement());
+
 				}
 			}
 
