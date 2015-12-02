@@ -267,7 +267,7 @@ public class EuclidianDraw {
 		case IMPLICIT_POLY:
 			if (ev.getApplication().has(Feature.IMPLICIT_CURVES)) {
 				d = new DrawImplicitCurve(ev, (GeoImplicit) geo);
-			} else {
+			} else {// Derivative[atan2(f(x),g(x)),x]
 				d = new DrawImplicitPoly(ev, (GeoImplicit) geo);
 			}
 			break;

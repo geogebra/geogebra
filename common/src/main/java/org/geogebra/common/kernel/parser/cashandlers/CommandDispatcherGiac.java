@@ -387,7 +387,6 @@ public class CommandDispatcherGiac {
 			case fPart:
 			case Gamma:	
 			case conj:
-			case im:
 			case sin:
 			case cos:
 			case tan:
@@ -426,6 +425,22 @@ public class CommandDispatcherGiac {
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),commands.valueOf(cmdName).getOperation(), null);
 				}
+				break;
+			case im:
+
+				if (args.getItem(0).unwrap() instanceof Command) {
+					String cmdname = ((Command) args.getItem(0).unwrap())
+							.getName();
+					if (cmdname.startsWith(Kernel.TMP_VARIABLE_PREFIX)
+							&& kernel.lookupLabel(Kernel
+									.removeCASVariablePrefix(cmdname)) == null) {
+						ret = new MyDouble(kernel).wrap();
+						break;
+					}
+				}
+
+				ret = new ExpressionNode(kernel, args.getItem(0),
+						Operation.IMAGINARY, null);
 				break;
 			case re:
 
@@ -564,7 +579,9 @@ public class CommandDispatcherGiac {
 				if (args.getLength() == 3 && !"1".equals(args.getItem(2).toString(StringTemplate.giacTemplate))) {
 					return new ExpressionNode(kernel, new MyNumberPair(kernel, args.getItem(0), args.getItem(1)), Operation.DIFF, args.getItem(2));
 				}
-
+				if (ExpressionNode.isConstantDouble(args.getItem(0), 0)) {
+					return new ExpressionNode(kernel, 0);
+				}
 				ret = new ExpressionNode(kernel, args.getItem(0), Operation.DIFF, args.getItem(1));
 				break;
 			}
@@ -576,9 +593,11 @@ public class CommandDispatcherGiac {
 			// create ExpressionNode
 			return new ExpressionNode(kernel, ret);
 		} catch (Exception e) {
-			//e.printStackTrace();
-			App.error("CommandDispatcherGiac: error when processing command: "
-					+ cmdName + ", " + args);
+			if (cmdName != null && !cmdName.startsWith("ggbtmpvar")) {
+				e.printStackTrace();
+				App.error("CommandDispatcherGiac: error when processing command: "
+						+ cmdName + ", " + args);
+			}
 		}
 
 		// exception, eg Derivative[f(x)+g(x)]

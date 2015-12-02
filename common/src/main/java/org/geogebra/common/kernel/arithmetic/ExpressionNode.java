@@ -4858,6 +4858,18 @@ kernel, left,
 				return ret;
 			}
 			break;
+		case ARCTAN2:
+			// (((-f(x)) * g'(x)) + (f'(x) * g(x))) / (f(x)^(2) + g(x)^(2))
+			ExpressionNode numerator = left
+					.derivative(fv, kernel0)
+					.wrap()
+					.multiply(right)
+					.wrap()
+					.subtract(
+							right.derivative(fv, kernel0).wrap().multiply(left)
+									.wrap());
+			return numerator.divide(left.wrap().power(2).wrap()
+					.plus(right.wrap().power(2)));
 		case $VAR_COL:
 			break;
 		case $VAR_ROW:
@@ -4874,8 +4886,7 @@ kernel, left,
 			break;
 		case ARBINT:
 			break;
-		case ARCTAN2:
-			break;
+
 		case ARG:
 			break;
 		case ALT:
