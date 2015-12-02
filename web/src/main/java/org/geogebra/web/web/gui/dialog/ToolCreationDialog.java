@@ -106,13 +106,13 @@ public class ToolCreationDialog extends DialogBoxW implements
 	public void setVisible(boolean flag) {
 		super.setVisible(flag);
 
-		// add all possible output and input elements to add Lists
-		toolModel.initAddLists();
-
-		// add all currently selected geos to output list
-		toolModel.addSelectedGeosToOutput();
-
 		if (flag) {
+			// add all possible output and input elements to add Lists
+			toolModel.initAddLists();
+
+			// add all currently selected geos to output list
+			toolModel.addSelectedGeosToOutput();
+
 			app.setMoveMode();
 			app.getSelectionManager().addSelectionListener(this);
 		} else {
@@ -306,6 +306,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 		} else if (target == btCancel.getElement()) {
 			setVisible(false);
 			callHandler();
+			hide();
 		} else {
 			ArrayList<Integer> selIndices = new ArrayList<Integer>();
 			switch (selectedTab) {
@@ -361,20 +362,21 @@ public class ToolCreationDialog extends DialogBoxW implements
 					.getOptionPane()
 					.showOptionDialog(
 							app,
-							app.getLocalization()
-					.getPlain("Tool.ReplaceQuestion", commandName), app
-					.getPlain("Question"), GOptionPane.CUSTOM_OPTION,
-					GOptionPane.QUESTION_MESSAGE, null, options,
-					new AsyncOperation() {
+							app.getLocalization().getPlain(
+									"Tool.ReplaceQuestion", commandName),
+							app.getPlain("Question"),
+							GOptionPane.CUSTOM_OPTION,
+							GOptionPane.QUESTION_MESSAGE, null, options,
+							new AsyncOperation() {
 
-						@Override
-						public void callback(Object obj) {
-							String[] dialogResult = (String[]) obj;
-							if ("0".equals(dialogResult[0])) {
-								saveMacro(appToSave);
-							}
-						}
-					});
+								@Override
+								public void callback(Object obj) {
+									String[] dialogResult = (String[]) obj;
+									if ("0".equals(dialogResult[0])) {
+										saveMacro(appToSave);
+									}
+								}
+							});
 		} else {
 			saveMacro(appToSave);
 		}
@@ -397,27 +399,33 @@ public class ToolCreationDialog extends DialogBoxW implements
 		boolean success = toolModel.finish(appToSave, commandName, toolName,
 				toolHelp, showInToolBar, iconFileName);
 		if (success) {
-			app.getGuiManager()
-					.getOptionPane()
-					.showConfirmDialog(app,
-					app.getMenu("Tool.CreationSuccess"), app.getMenu("Info"),
-					GOptionPane.OK_OPTION, GOptionPane.INFORMATION_MESSAGE,
-					null);
+			if (returnHandler == null) {
+				app.getGuiManager()
+						.getOptionPane()
+						.showConfirmDialog(app,
+								app.getMenu("Tool.CreationSuccess"),
+								app.getMenu("Info"), GOptionPane.OK_OPTION,
+								GOptionPane.INFORMATION_MESSAGE, null);
+			}
 		} else {
 			app.getGuiManager()
 					.getOptionPane()
-					.showConfirmDialog(app, app
-					.getPlain("Tool.NotCompatible"), app.getLocalization()
-					.getError("Error"), GOptionPane.OK_OPTION,
-					GOptionPane.ERROR_MESSAGE, null);
+					.showConfirmDialog(app, app.getPlain("Tool.NotCompatible"),
+							app.getLocalization().getError("Error"),
+							GOptionPane.OK_OPTION, GOptionPane.ERROR_MESSAGE,
+							null);
 		}
 		AppW w = (AppW) app;
 
 		if (w.isToolLoadedFromStorage()) {
 			w.storeMacro(app.getMacro(), true);
 		}
-		callHandler();
-		setVisible(!success);
+		if (success) {
+			setVisible(false);
+			callHandler();
+			hide();
+		}
+
 	}
 
 	private void callHandler() {

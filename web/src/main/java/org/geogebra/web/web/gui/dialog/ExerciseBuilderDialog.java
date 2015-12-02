@@ -84,13 +84,30 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	@Override
 	public void setVisible(boolean flag) {
 		super.setVisible(flag);
-
 		if (flag) {
 			app.setMoveMode();
-			app.getSelectionManager().addSelectionListener(this);
+			if (!app.getSelectionManager().getSelectionListeners()
+					.contains(this)) {
+				app.getSelectionManager().addSelectionListener(this);
+			}
 		} else {
 			app.getSelectionManager().removeSelectionListener(this);
 		}
+	}
+
+	@Override
+	public void center() {
+		app.setMoveMode();
+		if (!app.getSelectionManager().getSelectionListeners().contains(this)) {
+			app.getSelectionManager().addSelectionListener(this);
+		}
+		super.center();
+	}
+
+	@Override
+	public void hide() {
+		app.getSelectionManager().removeSelectionListener(this);
+		super.hide();
 	}
 
 	private void createGUI() {
@@ -119,7 +136,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
 			if (!exercise.usesMacro(i)) {
 				addListMappings.add(app.getKernel().getMacro(i));
-
 			}
 		}
 
@@ -147,7 +163,9 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		btTest = new Button(app.getPlain("Test"));
 		btTest.addClickHandler(this);
 		btTest.getElement().getStyle().setMargin(3, Style.Unit.PX);
-
+		if (exercise.getParts().size() == 0) {
+			btTest.setEnabled(false);
+		}
 		bottomWidget.add(btTest);
 		bottomWidget.add(btApply);
 	}
@@ -306,8 +324,12 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			updateAddList();
 		}
 		exercise.remove(assignment);
+		if (exercise.getParts().size() == 0) {
+			btTest.setEnabled(false);
+		}
 		assignmentsTable.removeRow(assignmentsTable.getCellForEvent(event)
 				.getRowIndex());
+		center();
 	}
 
 	private void updateAddList() {
@@ -361,6 +383,10 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				btApply.setText(app.getPlain("OK"));
 				hide();
 				center();
+				if (!app.getSelectionManager().getSelectionListeners()
+						.contains(this)) {
+					app.getSelectionManager().addSelectionListener(this);
+				}
 			}
 		} else if (target == btTest.getElement()) {
 			if (isEditing) {
@@ -372,6 +398,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				btApply.setText(app.getPlain("Back"));
 				hide();
 				center();
+				app.getSelectionManager().removeSelectionListener(this);
 			} else {
 				check();
 			}
@@ -379,47 +406,54 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	}
 
 	private void check() {
-		exercise.checkExercise();
-		checkAssignmentsTable.removeAllRows();
-		int k = 1;
-		int i = 0; // keep track of the row we're in
-		checkAssignmentsTable.setWidget(i, k++, new Label(app.getMenu("Tool")));
-		checkAssignmentsTable.setWidget(i, k++,
-				new Label(app.getPlain("Result")));
-		checkAssignmentsTable.setWidget(i, k++,
-				new Label(app.getPlain("HintForResult")));
-		checkAssignmentsTable.setWidget(i, k++,
-				new Label(app.getPlain("Fraction")));
-		i++;
+		if (exercise.getParts().size() > 0) {
+			exercise.checkExercise();
+			checkAssignmentsTable.removeAllRows();
+			int k = 1;
+			int i = 0; // keep track of the row we're in
+			checkAssignmentsTable.setWidget(i, k++,
+					new Label(app.getMenu("Tool")));
+			checkAssignmentsTable.setWidget(i, k++,
+					new Label(app.getPlain("Result")));
+			checkAssignmentsTable.setWidget(i, k++,
+					new Label(app.getPlain("HintForResult")));
+			checkAssignmentsTable.setWidget(i, k++,
+					new Label(app.getPlain("Fraction")));
+			i++;
 
-		ArrayList<Assignment> parts = exercise.getParts();
-		for (int j = 0; j < parts.size(); j++, i++) {
-			final Assignment assignment = parts.get(j);
-			Image icon = new Image();
-			icon.setUrl(getIconFile(assignment.getIconFileName()));
-			k = 0;
-			checkAssignmentsTable.setWidget(i, k++, icon);
-			checkAssignmentsTable.setWidget(i, k++,
-					new Label(assignment.getDisplayName()));
-			checkAssignmentsTable.setWidget(i, k++, new Label(assignment
-					.getResult().name()));
-			checkAssignmentsTable.setWidget(i, k++,
-					new Label(assignment.getHint()));
+			ArrayList<Assignment> parts = exercise.getParts();
+			for (int j = 0; j < parts.size(); j++, i++) {
+				final Assignment assignment = parts.get(j);
+				Image icon = new Image();
+				icon.setUrl(getIconFile(assignment.getIconFileName()));
+				k = 0;
+				checkAssignmentsTable.setWidget(i, k++, icon);
+				checkAssignmentsTable.setWidget(i, k++,
+						new Label(assignment.getDisplayName()));
+				checkAssignmentsTable.setWidget(i, k++, new Label(assignment
+						.getResult().name()));
+				String hint = assignment.getHint();
+				if (hint != null && hint.length() > 30) {
+					hint = hint.substring(0, hint.indexOf(" ", 25)) + "...";
+				}
+				checkAssignmentsTable.setWidget(i, k++, new Label(hint));
+				checkAssignmentsTable.setWidget(
+						i,
+						k++,
+						new Label(app.getKernel().format(
+								assignment.getFraction() * 100,
+								StringTemplate.defaultTemplate)));
+			}
+
+			checkAssignmentsTable.setWidget(i, k = 0,
+					new Label(app.getPlain("FractionTotal")));
 			checkAssignmentsTable.setWidget(
 					i,
 					k++,
 					new Label(app.getKernel().format(
-							assignment.getFraction() * 100,
+							exercise.getFraction() * 100,
 							StringTemplate.defaultTemplate)));
 		}
-
-		checkAssignmentsTable.setWidget(i, k = 0,
-				new Label(app.getPlain("FractionTotal")));
-		checkAssignmentsTable.setWidget(
-				i,
-				k++,
-				new Label(app.getKernel().format(exercise.getFraction() * 100,
-						StringTemplate.defaultTemplate)));
 	}
 
 	/**
@@ -433,6 +467,8 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		if (!exercise.usesMacro(macro)) {
 			Assignment a = exercise.addAssignment(macro);
 			appendAssignmentRow(a);
+			btTest.setEnabled(true);
+			center();
 		}
 	}
 
@@ -456,6 +492,17 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		if (geo instanceof GeoBoolean) {
 			addAssignment(geo);
+			addListMappings.remove(geo);
+			updateAddList();
+		} else {
+			boolean isDependentObject = false;
+			for (GeoElement geoP : geo.getAllPredecessors()) {
+				isDependentObject |= geoP.isLabelSet();
+			}
+			if (isDependentObject && isVisible()) {
+				setVisible(false);
+				newTool();
+			}
 		}
 	}
 
@@ -465,6 +512,8 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			if (!exercise.usesBoolean(check)) {
 				Assignment a = exercise.addAssignment(check);
 				appendAssignmentRow(a);
+				btTest.setEnabled(true);
+				center();
 			}
 		}
 	}
@@ -481,14 +530,16 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	}
 
 	private void newTool() {
-		this.setVisible(false);
+		setVisible(false);
 		ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app,
 				new AsyncOperation() {
 					@Override
 					public void callback(Object obj) {
-						if (obj != null) {
+						if (obj instanceof Macro) {
 							Macro macro = (Macro) obj;
-							addAssignment(macro);
+							if (app.getKernel().getMacroID(macro) >= 0) {
+								addAssignment(macro);
+							}
 						}
 						ExerciseBuilderDialog.this.setVisible(true);
 					}
