@@ -995,6 +995,13 @@ public class Ggb2giac {
 		// so we can mix 2d and 3d points
 		p("Angle.2",
 				"[[[ggbangarg0:=%0], [ggbangarg1:=%1]], "
+						// handle special case function as single variable
+						// e.g. Angle[x,3-x]
+						+ "when ( type(ggbangarg0) == DOM_IDENT || type(ggbangarg1) == DOM_IDENT ,"
+						+ "normal(regroup(angle(point(0,0,0) ,"
+						+ "point(coeff(ggbangarg0,x,1),1,"
+						+ "coeff(ggbangarg0,z,1)) ,"
+						+ "point(coeff(ggbangarg1,x,1),1,coeff(ggbangarg1,z,1))))),"
 						// case angle between planes
 						+ "when( string(xcoord(ggbangarg0[1])) == string(hyperplan) && string(xcoord(ggbangarg1[1])) == string(hyperplan) , "
 						+ "normal(regroup(angle(point(0,0,0),"
@@ -1012,6 +1019,16 @@ public class Ggb2giac {
 						+ "normal(regroup(angle(point(0,0,0),"
 						+ "point((ggbangarg0[2][2][2])[2][0],(ggbangarg0[2][2][2])[2][1],(ggbangarg0[2][2][2])[2][2]),"
 						+ "point((ggbangarg1)[1][1][0],(ggbangarg1)[1][1][1],(ggbangarg1)[1][1][2]) ))),"
+						// functions without y or f(x)
+						// e.g. Angle[x+1,-x+3]
+						+ "when ( (ggbangarg0)[0] <> '=' && (ggbangarg0)[0] <> 'pnt' && "
+						+ "xcoord(ggbangarg0) <> string(y) && (xcoord(ggbangarg0))[0] <> '=' && "
+						+ "(ggbangarg1)[0] <> '=' && (ggbangarg1)[0] <> 'pnt' &&"
+						+ " xcoord(ggbangarg1) <> string(y) && (xcoord(ggbangarg1))[0] <> '=',"
+						+ "normal(regroup(angle(point(0,0,0) ,"
+						+ "point(coeff(ggbangarg0,x,1),1,"
+						+ "coeff(ggbangarg0,z,1)) ,"
+						+ "point(coeff(ggbangarg1,x,1),1,coeff(ggbangarg1,z,1))))),"
 						// case lines defined as functions
 						+ "when ( (ggbangarg0)[0] == '=' && (ggbangarg0)[1][0] == 'of' && (ggbangarg0)[1][2] == 'x' &&"
 						+ "(ggbangarg1)[0] == '=' && (ggbangarg1)[1][0] == 'of' && (ggbangarg1)[1][2] == 'x' , "
@@ -1049,11 +1066,7 @@ public class Ggb2giac {
 						+ "normal(regroup(angle(point(0,0,0),"
 						+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
 						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))  )))  , "
-						+ "when ( (ggbangarg0)[0] != '=' && type(ggbangarg0) == DOM_SYMBOLIC && (ggbangarg1)[0] != '=' && type(ggbangarg1) == DOM_SYMBOLIC ,"
-						+ "normal(regroup(angle(point(0,0,0) ,"
-						+ "point(coeff(ggbangarg0,x,1),1,coeff(ggbangarg0,z,1)) ,"
-						+ "point(coeff(ggbangarg1,x,1),1,coeff(ggbangarg1,z,1))))),"
-						+ " ? ) ) ) ) ) ) ) ) ) ) ) ][1]");
+						+ " ? ) ) ) ) ) ) ) ) ) ) ) ) ][1]");
 
 		p("Angle.3",
 				"[[[ggbangarg0:=%0], [ggbangarg1:=%1], [ggbangarg2:=%2]], "
