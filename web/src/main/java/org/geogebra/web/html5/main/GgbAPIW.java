@@ -443,13 +443,13 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
 										//if (item.fileName.indexOf(".png") > -1) 
-										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
+										//@org.geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
 													checkIfStillFilesToAdd();
 												});
 									} else {
-										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
+										//@org.geogebra.common.main.App::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
 										addText(item.fileName,
 												encodeUTF8(item.fileContent),
 												function() {
