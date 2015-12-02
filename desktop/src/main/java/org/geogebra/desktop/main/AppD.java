@@ -5468,4 +5468,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	public static final int HUGE_UNDO_BUTTON_SIZE = 36;
 
+	public String getVersionSuffix() {
+		return "-2D";
+	}
+
 }

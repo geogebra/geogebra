@@ -3104,7 +3104,7 @@ public abstract class App implements UpdateSelection {
 			String name, boolean asHtml, MenuInterface subMenu);
 
 	public String getVersionString() {
-		return GeoGebraConstants.VERSION_STRING;
+		return GeoGebraConstants.VERSION_STRING + getVersionSuffix();
 	}
 
 	public abstract NormalizerMinimal getNormalizer();
@@ -4133,5 +4133,14 @@ public abstract class App implements UpdateSelection {
 			c.run(App.VIEW_DATA_ANALYSIS, "DataAnalysis");
 		}
 
+	}
+
+	/**
+	 * 
+	 * @return a for Android native app, -3D for desktop, w for web + WebView
+	 *         apps, i for iOS native
+	 */
+	public String getVersionSuffix() {
+		return "";
 	}
 }

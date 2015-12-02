@@ -1989,11 +1989,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return true;
 	}
 
-	@Override
-	public String getVersionString() {
-		return super.getVersionString() + "-HTML5";
-	}
-
 	public ArticleElement getArticleElement() {
 		return articleElement;
 	}
@@ -3453,5 +3448,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public DropDownList newDropDownList() {
 		return new DropDownListW();
 	};
+
+	public String getVersionSuffix() {
+		return "w";
+	}
 
 }

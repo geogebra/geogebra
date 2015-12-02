@@ -76,14 +76,14 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    about = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help_about().getSafeUri().asString(),
 	    		app.getMenu("AboutLicense"), true),true,new MenuCommand((AppW) app) {
 	    	
-			@Override
-			public void doExecute() {
-		        Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL +
-						"&version=" + GeoGebraConstants.VERSION_STRING + 
-						"&date=" + GeoGebraConstants.BUILD_DATE,
-						"_blank",
-						"width=720,height=600,scrollbars=yes,toolbar=no,location=no,directories=no,menubar=no,status=no,copyhistory=no");
-            }
+					@Override
+					public void doExecute() {
+						Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL
+								+ "&version=" + app.getVersionString()
+								+ "&date=" + GeoGebraConstants.BUILD_DATE,
+								"_blank",
+								"width=720,height=600,scrollbars=yes,toolbar=no,location=no,directories=no,menubar=no,status=no,copyhistory=no");
+					}
 	    });
 	    if(!((AppW)app).getNetworkOperation().isOnline()){
 	    	render(false);

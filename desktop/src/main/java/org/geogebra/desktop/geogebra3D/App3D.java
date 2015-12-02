@@ -599,11 +599,6 @@ public class App3D extends AppD {
 	}
 
 	@Override
-	public String getVersionString() {
-		return super.getVersionString() + "-3D";
-	}
-
-	@Override
 	public void exportAnimatedGIF(EuclidianView ev, FrameCollector gifEncoder,
 			GeoNumeric num,
 			int n, double val, double min, double max, double step) {
@@ -790,6 +785,10 @@ public class App3D extends AppD {
 			return 36;
 		}
 		return size;
+	}
+
+	public String getVersionSuffix() {
+		return "-3D";
 	}
 
 }
