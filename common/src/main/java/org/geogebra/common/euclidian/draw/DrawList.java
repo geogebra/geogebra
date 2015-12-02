@@ -92,6 +92,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int itemsInRow;
 	private boolean recalculateFontSize = true;
 	private int viewHeight = 0;
+	private boolean allPlain;
 
 	/**
 	 * Creates new drawable list
@@ -509,6 +510,16 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		update();
 	}
 
+	private boolean isAllPlain() {
+		for (int i = 0; i < geoList.size(); i++) {
+			String text = geoList.get(i)
+					.toValueString(StringTemplate.defaultTemplate);
+			if (isLatexString(text)) {
+				return false;
+			}
+		}
+		return true;
+	}
 	private void updateOptionMetrics(GGraphics2D g2) {
 		g2.setPaint(GColor.WHITE);
 		// just measuring
@@ -524,16 +535,29 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return;
 		}
 
-		while (drawOptionLines(g2, 0, false) > view.getHeight()
-				- OPTIONBOX_COMBO_GAP && colCount < geoList.size()) {
+		drawOptionLines(g2, 0, false);
+
+		int plainHeight = getPlainHeight(g2, geoList.size());
+
+		// while ( > view.getHeight()
+		while (plainHeight > view.getHeight() && colCount < geoList.size()) {
 			fontSize -= 1;
 			optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
+			g2.setFont(optionFont);
+
 			if (fontSize < minFontSize) {
 				fontSize = origFontSize;
 				optionFont = optionFont.deriveFont(GFont.PLAIN, origFontSize);
 				colCount++;
 			}
+			g2.setFont(optionFont);
+			plainHeight = getPlainHeight(g2, geoList.size() / colCount);
+			// int h = drawOptionLines(g2, 0, false);
+			// App.debug("[DROPDOWNS][SIZES] normal: " + h + " plain: "
+			// + plainHeight);
 		}
+
+		drawOptionLines(g2, 0, false);
 
 		App.debug("[DROPDOWN] font size udated: " + origFontSize + " to "
 				+ optionFont.getSize());
@@ -564,12 +588,19 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
-	private boolean isFontSizeUpdateNeeded(GGraphics2D g2) {
+	private int getPlainHeight(GGraphics2D g2, int size) {
 		int gap = getOptionsItemGap();
-		int h = (getDefaultTextHeight(g2) + gap) * geoList.size();
+		int h = (getDefaultTextHeight(g2) + gap) * (size + 1);
 		if (colCount == 1) {
-			h += gap;
+			h += 1.5 * gap;
 		}
+		return h;
+	}
+
+	private boolean isFontSizeUpdateNeeded(GGraphics2D g2) {
+
+		int h = getPlainHeight(g2, geoList.size());
+
 		App.debug("[DROPDOWN] fontSize: " + optionFont.getSize() + " height: "
 				+ h + " viewHeight: " + viewHeight);
 		return recalculateFontSize || viewHeight < h;
@@ -697,27 +728,32 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		g2.setPaint(geoList.getBackgroundColor());
 		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
-
 		int viewBottom = view.getViewHeight();
 
 		if (optTop + optionsHeight > viewBottom) {
 			optTop = viewBottom - optionsHeight - OPTIONBOX_COMBO_GAP;
-
+			int gap = getOptionsItemGap() / 2;
+			if (optTop < gap) {
+				optTop = gap;
+			}
 		}
 
 		int rowTop = optTop;
 		drawOptionLines(g2, rowTop, true);
 
 		int size = optionItems.size();
-		if (size > 2) {
+		if (size > 1) {
 			int rowCount = colCount == 1 ? size
 					: size / colCount + (size % colCount == 0 ? 0 : 1);
 			GRectangle rUpLeft = optionItems.get(0).getBounds();
 			GRectangle rDownLeft = optionItems.get(rowCount - 1).getBounds();
+
+			int upRigthIdx = rowCount * (colCount - 1);
+			if (upRigthIdx >= size) {
+				upRigthIdx = size - 1;
+			}
 			GRectangle rUpRight = colCount > 1
-					? optionItems
-.get((rowCount) * (colCount - 1))
-.getBounds()
+					? optionItems.get(upRigthIdx).getBounds()
 					: null;
 			int left = (int) rUpLeft.getX();
 			int top = (int) rUpLeft.getY();
@@ -732,6 +768,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			g2.fillRect(left, top, width, height);
 
 			g2.setPaint(GColor.LIGHT_GRAY);
+
 			g2.drawRect(left, top, width, height);
 
 			g2.setPaint(geo.getObjectColor());
@@ -861,7 +898,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		int rowTop = top;
 		boolean allLatex = true;
-		boolean allPlain = true;
 
 		int standardGap = getOptionsItemGap();
 		GFont font = g2.getFont();
