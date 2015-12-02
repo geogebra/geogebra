@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 
@@ -42,24 +41,26 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for result
 	 * @param g
 	 *            line
 	 */
-	public AlgoSlope(Construction cons, String label, GeoLine g) {
+	public AlgoSlope(Construction cons, GeoLine g) {
 		super(cons);
 		this.g = g;
 		slope = new GeoNumeric(cons);
 		setInputOutput(); // for AlgoElement
 
 		compute();
-		slope.setLabel(label);
+
 		slope.setDrawable(true);
+
 	}
 
 	/**
 	 * For dummy copy only
+	 * 
+	 * @param g
+	 *            line
 	 */
 	AlgoSlope(GeoLine g) {
 		super(g.cons, false);
@@ -119,7 +120,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 	}
 
 	public DrawInformationAlgo copy() {
-		return new AlgoSlope((GeoLine) g.copy());
+		return new AlgoSlope(g.copy());
 	}
 
 	// TODO Consider locusequability
