@@ -6054,13 +6054,16 @@ body.application[dir=rtl] .deleteAlgebra {
    ######################################## */
  
 .printPanel {
-	border: solid 1px;
 	width: 497px;
 	height: 620px;
 }
 
 @media screen {
-
+	.printPanel{
+		position: absolute;
+		left: -10000px;
+		right: 0px;
+	}
 }
 
 @media print {
@@ -6079,5 +6082,8 @@ body.application[dir=rtl] .deleteAlgebra {
 		position: absolute;
 		top: 0px;
 		left: 0px;
+//		top: 0px !important;
+//		left: 0px !important;
 	}
+	
 }

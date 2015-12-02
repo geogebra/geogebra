@@ -19,7 +19,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,8 +28,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	private Button btPrint;
 	private Button btCancel;
 	ListBox m_cbView;
-	SimplePanel printPanel;
-	HorizontalPanel printPanel2;
+	HorizontalPanel printPanel;
 
 	public PrintPreviewW(AppW appl) {
 		super(true, true, appl.getPanel());
@@ -42,7 +40,8 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	}
 
 	protected void createGUI() {
-		printPanel2 = new HorizontalPanel();
+		printPanel = new HorizontalPanel();
+		printPanel.setStyleName("printPanel");
 
 		VerticalPanel centerPanel = new VerticalPanel();
 
@@ -87,16 +86,6 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		buttonPanel.add(m_cbView);
 		centerPanel.add(buttonPanel);
 
-		printPanel = new SimplePanel();
-		printPanel.setStyleName("printPanel");
-
-		// app.getGgbApi().getScreenshotURL(
-		// ((ConstructionProtocolViewW) app.getGuiManager()
-		// .getConstructionProtocolView()).getCpPanel()
-		// .getElement(),
-		// getScreenshotCallback(printPanel.getElement()));
-
-		centerPanel.add(printPanel);
 		createPreview(m_cbView.getSelectedValue());
 
 		setWidget(centerPanel);
@@ -116,6 +105,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 	public void onClick(ClickEvent event) {
 		if (event.getSource() == btPrint) {
+			hide();
 			Window.print();
 		}
 
@@ -141,31 +131,12 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 			// deprecated Element parameter
 			public void run(int viewID, String viewName) {
 				if (app.getPlain(viewName).equals(printableView)) {
-					printPanel.clear();
-					// printPanel.add(((PrintableW) app.getView(viewID))
-					// .getPrintable());
-
-					// final Element printables = getPrintables(
-					// viewID, app).getElement();
-					// Scheduler.get().scheduleDeferred(
-					// new Scheduler.ScheduledCommand() {
-					// public void execute() {
-					// app.getGgbApi().getScreenshotURL(
-					// printables,
-					// getScreenshotCallback(printPanel
-					// .getElement()));
-					// }
-					// });
-
-					// if (printables.hasParentElement()) {
-					// printables.removeFromParent();
-					// }
-
+					
 					final Widget printables = getPrintables(viewID, app);
-
-					printPanel2.add(printables);
+					printPanel.clear();
+					printPanel.add(printables);
 					Document.get().getBody()
-							.appendChild(printPanel2.getElement());
+							.appendChild(printPanel.getElement());
 
 				}
 			}
