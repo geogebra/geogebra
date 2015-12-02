@@ -74,9 +74,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 		this.app = (AppW) app;
 		exercise = app.getKernel().getExercise();
-		if (exercise.isEmpty()) {
-			exercise.initStandardExercise();
-		}
 		addListMappings = new ArrayList<Object>();
 		createGUI();
 	}
