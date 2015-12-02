@@ -225,7 +225,7 @@ public class Exercise {
 	private boolean isStandardExercise() {
 		boolean res = true;
 		if (assignments.size() > 0) {
-			res = !(assignments.size() < app.getKernel().getMacroNumber());
+			res = false;
 		}
 		for (int i = 0; i < assignments.size() && res; i++) {
 			if (assignments.get(i) instanceof GeoAssignment) {
@@ -427,7 +427,12 @@ public class Exercise {
 		return geos;
 	}
 
-	public void notifyUndo() {
+	/**
+	 * If undo happens we have to update the Exercise to the new GeoElements.
+	 * Also used to remove invalid assignments before showing
+	 * Exercisebuilderdialog
+	 */
+	public void notifyUpdate() {
 		for (Assignment assignment : assignments) {
 			if (assignment instanceof BoolAssignment) {
 				if (!((BoolAssignment) assignment).update()) {

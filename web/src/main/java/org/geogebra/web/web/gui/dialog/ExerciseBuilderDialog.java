@@ -81,6 +81,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	@Override
 	public void setVisible(boolean flag) {
 		super.setVisible(flag);
+		update();
 		if (flag) {
 			app.setMoveMode();
 			if (!app.getSelectionManager().getSelectionListeners()
@@ -111,13 +112,8 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		getCaption().setText(app.getMenu("Exercise.CreateNew"));
 
 		setWidget(mainWidget = new VerticalPanel());
-		// addDomHandlers(mainWidget);
-		assignmentsTable = new FlexTable();
 
-		assignmentsTable.setWidget(0, 1, new Label(app.getPlain("Tool")));
-		assignmentsTable.setWidget(0, 2,
-				new Label(app.getPlain("HintForCorrect")));
-		assignmentsTable.setWidget(0, 3, new Label(app.getPlain("Fraction")));
+		assignmentsTable = new FlexTable();
 
 		createAssignmentsTable();
 		checkAssignmentsTable = new FlexTable();
@@ -130,22 +126,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		addList.addChangeHandler(this);
 		addList.setStyleName("submenuContent");
 
-		for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
-			if (!exercise.usesMacro(i)) {
-				addListMappings.add(app.getKernel().getMacro(i));
-			}
-		}
-
-		TreeSet<GeoElement> geos = app.getKernel().getConstruction()
-				.getGeoSetConstructionOrder();
-		for (GeoElement geo : geos) {
-			if (geo instanceof GeoBoolean) {
-				if (!exercise.usesBoolean((GeoBoolean) geo)) {
-					addListMappings.add(geo);
-				}
-			}
-		}
-		updateAddList();
+		buildAddListMappings();
 		mainWidget.add(addList);
 
 		mainWidget.add(bottomWidget = new FlowPanel());
@@ -167,7 +148,37 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		bottomWidget.add(btApply);
 	}
 
+	private void buildAddListMappings() {
+		addListMappings.clear();
+		for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
+			if (!exercise.usesMacro(i)) {
+				addListMappings.add(app.getKernel().getMacro(i));
+			}
+		}
+
+		TreeSet<GeoElement> geos = app.getKernel().getConstruction()
+				.getGeoSetConstructionOrder();
+		for (GeoElement geo : geos) {
+			if (geo instanceof GeoBoolean) {
+				if (!exercise.usesBoolean((GeoBoolean) geo)) {
+					addListMappings.add(geo);
+				}
+			}
+		}
+		updateAddList();
+	}
+
 	private void createAssignmentsTable() {
+		assignmentsTable.removeAllRows();
+		assignmentsTable.setWidget(0, 1, new Label(app.getPlain("Tool")));
+		assignmentsTable.setWidget(0, 2,
+				new Label(app.getPlain("HintForCorrect")));
+		assignmentsTable.setWidget(0, 3, new Label(app.getPlain("Fraction")));
+
+		addAssignmentsTableRows();
+	}
+
+	private void addAssignmentsTableRows() {
 		for (Assignment assignment : exercise.getParts()) {
 			appendAssignmentRow(assignment);
 		}
@@ -301,6 +312,12 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			}
 		});
 		return delIcon;
+	}
+
+	private void update() {
+		exercise.notifyUpdate();
+		createAssignmentsTable();
+		updateAddList();
 	}
 
 	/**
@@ -543,4 +560,5 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				});
 		toolCreationDialog.center();
 	}
+
 }

@@ -144,7 +144,7 @@ public class UndoManagerW extends UndoManager {
 			app.getScriptManager().enableListeners();
 			// If there are Exercises we also have to update the Exercises
 			if (app.getKernel().hasExercise()) {
-				app.getKernel().getExercise().notifyUndo();
+				app.getKernel().getExercise().notifyUpdate();
 			}
 
 		} catch (Exception e) {
