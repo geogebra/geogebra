@@ -329,7 +329,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public GeoClass getGeoClassType() {
-		return GeoClass.IMPLICIT_CURVE;
+		return GeoClass.IMPLICIT_POLY;
 	}
 
 	@Override
@@ -339,6 +339,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return curve;
 	}
 
+	@Override
 	public boolean hasDrawable3D() {
 		return true;
 	}

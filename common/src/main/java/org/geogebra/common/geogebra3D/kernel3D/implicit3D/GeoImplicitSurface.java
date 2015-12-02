@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.StringUtil;
 
 /**
  * 
@@ -104,6 +103,14 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 	public GeoImplicitSurface(Construction cons, GeoImplicitSurface geoSurface) {
 		this(cons);
 		this.set(geoSurface);
+	}
+
+	/**
+	 * @return true for implicit surfaces
+	 */
+	@Override
+	public boolean isGeoImplicitSurface() {
+		return true;
 	}
 
 	private void fromEquation(Equation eqn) {
@@ -1122,20 +1129,6 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 			}
 			return false;
 		}
-	}
-
-	@Override
-	public void getXML(boolean listeners, StringBuilder sbxml) {
-		if (isIndependent() && getDefaultGeoType() < 0) {
-			sbxml.append("<expression");
-			sbxml.append(" label =\"");
-			sbxml.append(label);
-			sbxml.append("\" exp=\"");
-			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
-			// expression
-			sbxml.append("\"/>\n");
-		}
-		super.getXML(listeners, sbxml);
 	}
 
 	@Override

@@ -1327,7 +1327,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		case POLYLINE:
 			return 51;
 		case IMPLICIT_POLY:
-		case IMPLICIT_CURVE:
 			return 60;
 		case CONIC:
 		case CONICPART:
@@ -2369,8 +2368,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		case FUNCTIONCONDITIONAL:
 			break;
 		case FUNCTION_NVAR:
-			break;
-		case IMPLICIT_CURVE:
 			break;
 		case IMPLICIT_POLY:
 			break;
@@ -5320,6 +5317,8 @@ public abstract class GeoElement extends ConstructionElement implements
 				sb.append(" type=\"quadric\"");
 			} else if (isGeoImplicitPoly()) {
 				sb.append(" type=\"implicitpoly\"");
+			} else if (isGeoImplicitSurface()) {
+				sb.append(" type=\"implicitsurface\"");
 			}
 			sb.append("/>\n");
 		}
@@ -5975,6 +5974,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return true for implicit polynomials
 	 */
 	public boolean isGeoImplicitPoly() {
+		return false;
+	}
+
+	/**
+	 * @return true for implicit surfaces
+	 */
+	public boolean isGeoImplicitSurface() {
 		return false;
 	}
 

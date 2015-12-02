@@ -73,6 +73,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -265,10 +266,11 @@ public class EuclidianDraw {
 			break;
 
 		case IMPLICIT_POLY:
-			d = new DrawImplicitPoly(ev, (GeoImplicit) geo);
-			break;
-		case IMPLICIT_CURVE:
-			d = new DrawImplicitCurve(ev, (GeoImplicitCurve) geo);
+			if (ev.getApplication().has(Feature.IMPLICIT_CURVES)) {
+				d = new DrawImplicitCurve(ev, (GeoImplicitCurve) geo);
+			} else {
+				d = new DrawImplicitPoly(ev, (GeoImplicit) geo);
+			}
 			break;
 		case FUNCTION:
 		case FUNCTIONCONDITIONAL:

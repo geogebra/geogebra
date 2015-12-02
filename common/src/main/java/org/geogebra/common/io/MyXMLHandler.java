@@ -5557,7 +5557,6 @@ public class MyXMLHandler implements DocHandler {
 		// type may be vector or point, this is important to distinguish between
 		// them
 		String type = attrs.get("type");
-
 		// parse expression and process it
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(exp);
@@ -5587,9 +5586,14 @@ public class MyXMLHandler implements DocHandler {
 						((Equation) ve).setForceConic();
 					} else if (type.equals("quadric")) {
 						((Equation) ve).setForceQuadric();
+					} else if (type.equals("implicitpoly")) {
+						((Equation) ve).setForceImplicitPoly();
 					} else if (type.equals("implicitPoly")) {
 						((Equation) ve).setForceImplicitPoly();
+					} else if (type.equals("implicitsurface")) {
+						((Equation) ve).setForceSurface();
 					}
+
 				}
 			}
 

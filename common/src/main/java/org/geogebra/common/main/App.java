@@ -3882,6 +3882,7 @@ public abstract class App implements UpdateSelection {
 		case ALL_LANGUAGES:
 		case EXERCISES:
 		case IMPLICIT_CURVES:
+		case IMPLICIT_SURFACES:
 		case KOREAN_KEYBOARD:
 		case LOCALSTORAGE_FILES:
 		case POLYGON_TRIANGULATION:

@@ -85,7 +85,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTextField;
-import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -559,8 +559,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			case LOCUS:
 				d = new DrawLocus3D(this, (GeoLocusND) geo, geo);
 				break;
-			case IMPLICIT_CURVE:
-				d = new DrawImplicitCurve3D(this, (GeoImplicitCurve) geo);
+			case IMPLICIT_POLY:
+				d = new DrawImplicitCurve3D(this, (GeoImplicit) geo);
 				break;
 
 			case ANGLE:

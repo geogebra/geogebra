@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 
 /**
@@ -233,7 +232,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			Polynomial lhs = equ.getNormalForm();
 			boolean isIndependent = !equ.isFunctionDependent()
 					&& lhs.isConstant() && !equ.hasVariableDegree();
-			App.debug("IMPLIT" + equ.isForcedSurface());
+
 			if (kernel.getApplication().getActiveEuclidianView()
 					.isEuclidianView3D()
 					|| equ.isForcedSurface()) {
@@ -245,6 +244,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 							cons, null, equ, true);
 					geo = surfaceAlgo.getOutput(0);
 				}
+				geo.setDefinition(equ.wrap());
 				geo.setLabel(equ.getLabel());
 				return new GeoElement[] { geo };
 			}
