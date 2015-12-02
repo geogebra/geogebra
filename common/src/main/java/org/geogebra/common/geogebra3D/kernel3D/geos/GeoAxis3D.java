@@ -1,12 +1,18 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * Coordinate axis for 3D view
+ *
+ */
 public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 
 	private int type;
@@ -14,6 +20,10 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	// for numbers and ticks
 	private int ticksize = 5; // TODO
 
+	/**
+	 * @param cons
+	 *            construction
+	 */
 	public GeoAxis3D(Construction cons) {
 		super(cons);
 	}
@@ -22,6 +32,12 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return type;
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param type
+	 *            0, 1, 2 for x, y, z axis
+	 */
 	public GeoAxis3D(Construction c, int type) {
 		this(c);
 
@@ -140,5 +156,18 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	@Override
 	public boolean isRenameable() {
 		return false;
+	}
+
+	@Override
+	public final boolean isSelectionAllowed(EuclidianViewInterfaceSlim ev) {
+
+		EuclidianSettings settings = ev == null ? kernel.getApplication()
+				.getActiveEuclidianView().getSettings() : ev.getSettings();
+
+		if (settings != null) {
+			return settings.isSelectionAllowed(type);
+		}
+
+		return true;
 	}
 }
