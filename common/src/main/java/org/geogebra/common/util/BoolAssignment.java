@@ -112,4 +112,16 @@ public class BoolAssignment extends Assignment {
 
 		return sb.toString();
 	}
+
+	public boolean update() {
+		GeoElement geo = kernel.lookupLabel(geoBoolean.getLabelSimple());
+		boolean ret = false;
+		if (geo instanceof GeoBoolean) {
+			geoBoolean = (GeoBoolean) geo;
+			ret = true;
+		} else {
+			ret = false;
+		}
+		return ret;
+	}
 }

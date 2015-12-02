@@ -427,4 +427,14 @@ public class Exercise {
 		return geos;
 	}
 
+	public void notifyUndo() {
+		for (Assignment assignment : assignments) {
+			if (assignment instanceof BoolAssignment) {
+				if (!((BoolAssignment) assignment).update()) {
+					assignments.remove(assignment);
+				}
+			}
+		}
+	}
+
 }

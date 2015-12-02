@@ -4278,6 +4278,10 @@ public class Kernel {
 		return exercise;
 	}
 
+	public boolean hasExercise() {
+		return exercise != null;
+	}
+
 	/**
 	 * Creates a new GeoElement object for the given type string.
 	 * 
@@ -5138,4 +5142,5 @@ public class Kernel {
 		return app.has(Feature.IMPLICIT_CURVES) ? new GeoImplicitCurve(cons)
 				: new GeoImplicitPoly(cons);
 	}
+
 }
