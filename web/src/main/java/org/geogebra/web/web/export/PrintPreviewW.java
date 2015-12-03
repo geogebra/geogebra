@@ -126,9 +126,6 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 		app.forEachView(new App.ViewCallback() {
 
-			@SuppressWarnings("deprecation")
-			// deprecated, because GgbAPIW.getScreenshotURL is waiting for
-			// deprecated Element parameter
 			public void run(int viewID, String viewName) {
 				if (app.getPlain(viewName).equals(printableView)) {
 					

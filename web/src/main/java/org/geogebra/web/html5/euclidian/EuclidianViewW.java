@@ -72,6 +72,7 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewW extends EuclidianView implements
@@ -1236,7 +1237,11 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public Widget getPrintable() {
-		return EVPanel.getEuclidianPanel();
+		Image prevImg = new Image();
+		String urlText = ((EuclidianViewWInterface) app
+				.getActiveEuclidianView()).getExportImageDataUrl(1, false);
+		prevImg.getElement().setAttribute("src", urlText);
+		return prevImg;
 	}
 
 	public void cancelBlur() {
