@@ -2884,7 +2884,6 @@ __GGB__keysVar.es.plain = {
     "TreeModeView": "Orden de objetos por Vista",
     "Triangle": "Tri\xe1ngulo",
     "TriangleABCnonDegenerate": "Tri\xe1ngulo %0 no-degenerado",
-    "TriangulatedSurface": "Superficie triangulada",
     "Turtle": "Tortuga",
     "UncollapseRows": "Filas separadas",
     "Undefined": "indefinido",

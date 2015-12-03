@@ -2884,7 +2884,6 @@ __GGB__keysVar.fr.plain = {
     "TreeModeView": "Trier objets par Affichage",
     "Triangle": "Triangle",
     "TriangleABCnonDegenerate": "Le triangle %0 n'est pas d\xe9g\xe9n\xe9r\xe9",
-    "TriangulatedSurface": "Surface Triangul\xe9e",
     "Turtle": "Tortue",
     "UncollapseRows": "D\xe9plier Lignes",
     "Undefined": "non d\xe9fini",

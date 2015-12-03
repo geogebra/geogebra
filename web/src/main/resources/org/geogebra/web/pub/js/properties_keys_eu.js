@@ -2884,7 +2884,6 @@ __GGB__keysVar.eu.plain = {
     "TreeModeView": "Ordenatu Objektuak Bistaren arabera",
     "Triangle": "Triangelua",
     "TriangleABCnonDegenerate": "%0 triangelua ez-endekatua da",
-    "TriangulatedSurface": "Gainazal Triangeluduna",
     "Turtle": "Dortoka",
     "UncollapseRows": "Errenkadak hedatu",
     "Undefined": "ez definitua",
