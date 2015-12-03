@@ -315,8 +315,10 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean tmp_showAlgebra, tmp_showSpreadsheet;
 
-	// flag so that we can reset EVSettings the first time we get them (for EV1
-	// and EV2)
+	/**
+	 * flag so that we can reset EVSettings the first time we get them (for EV1
+	 * and EV2)
+	 */
 	protected boolean resetEVsettingsNeeded = false;
 
 	/**
@@ -5226,7 +5228,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleCoefficients(LinkedHashMap<String, String> attrs) {
 		// Application.debug(attrs.toString());
-		if (!(geo.isGeoImplicitPoly())) {
+		if (!(geo.isGeoImplicitCurve())) {
 			Log.warn(
 					"wrong element type for <coefficients>: " + geo.getClass());
 			return false;
