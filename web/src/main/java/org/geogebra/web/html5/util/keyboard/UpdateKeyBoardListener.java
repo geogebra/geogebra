@@ -5,7 +5,7 @@ import org.geogebra.web.html5.main.AppW;
 
 public interface UpdateKeyBoardListener {
 
-	public void showInputField();
+	// public void showInputField();
 
 	public void keyBoardNeeded(boolean show, MathKeyboardListener textField);
 

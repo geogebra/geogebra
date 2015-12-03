@@ -182,7 +182,7 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 			contentSpecialChars.setVisible(false);
 			// TODO required for AutoCompleteTextFieldW
 			// processField.setKeyBoardModeText(true);
-			updateKeyBoardListener.showInputField();
+			// updateKeyBoardListener.showInputField();
 		} else if (mode == KeyboardMode.SPECIAL_CHARS) {
 			// TODO required for AutoCompleteTextFieldW
 			// processField.setKeyBoardModeText(false);

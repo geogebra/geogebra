@@ -1040,7 +1040,7 @@ public class KBBase extends PopupPanel {
 			contentNumber.setVisible(false);
 			contentLetters.setVisible(true);
 			contentSpecialChars.setVisible(false);
-			updateKeyBoardListener.showInputField();
+			// updateKeyBoardListener.showInputField();
 		} else if (mode == KeyboardMode.SPECIAL_CHARS) {
 			contentNumber.setVisible(false);
 			contentLetters.setVisible(false);

@@ -237,16 +237,16 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		});
 	}
 
-	@Override
-	public void showInputField() {
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				scrollToInputField();
-			}
-		};
-		timer.schedule(0);
-	}
+	// @Override
+	// public void showInputField() {
+	// Timer timer = new Timer() {
+	// @Override
+	// public void run() {
+	// scrollToInputField();
+	// }
+	// };
+	// timer.schedule(0);
+	// }
 
 	/**
 	 * Scroll to the input-field, if the input-field is in the algebraView.

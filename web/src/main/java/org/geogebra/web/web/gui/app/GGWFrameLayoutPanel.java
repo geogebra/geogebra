@@ -13,7 +13,6 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
-import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -257,7 +256,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			public void run() {
 				onResize();
 				dockPanel.onResize();
-				scrollToInputField();
+				// scrollToInputField();
 			}
 		};
 		app.getGuiManager().focusScheduled(false, false, false);
@@ -327,7 +326,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			public void run() {
 				onResize();
 				dockPanel.onResize();
-				scrollToInputField();
+				// scrollToInputField();
 				if(textField!= null){
 					textField.setFocus(true, true);
 					textField.ensureEditing();
@@ -358,29 +357,29 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 
 	}
 
-	@Override
-	public void showInputField() {
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				scrollToInputField();
-			}
-		};
-		timer.schedule(0);
-	}
+	// @Override
+	// public void showInputField() {
+	// Timer timer = new Timer() {
+	// @Override
+	// public void run() {
+	// scrollToInputField();
+	// }
+	// };
+	// timer.schedule(0);
+	// }
 
-	/**
-	 * Scroll to the input-field, if the input-field is in the algebraView.
-	 */
-	void scrollToInputField(){
-		if (app.showAlgebraInput()
-		        && app.getInputPosition() == InputPositon.algebraView) {
-			((AlgebraDockPanelW) (app.getGuiManager().getLayout()
-			        .getDockManager()
-			        .getPanel(App.VIEW_ALGEBRA)))
-			        .scrollToBottom();
-		}
-	}
+	// /**
+	// * Scroll to the input-field, if the input-field is in the algebraView.
+	// */
+	// void scrollToInputField() { // TODO
+	// if (app.showAlgebraInput()
+	// && app.getInputPosition() == InputPositon.algebraView) {
+	// ((AlgebraDockPanelW) (app.getGuiManager().getLayout()
+	// .getDockManager()
+	// .getPanel(App.VIEW_ALGEBRA)))
+	// .scrollToBottom();
+	// }
+	// }
 
 	//this should be extedns MyDockLayoutPanel to get out somehow the overflow:hidden to show the toolbar.
 	class MyDockPanelLayout extends DockLayoutPanel {
