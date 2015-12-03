@@ -494,13 +494,15 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	public void resetDrawType() {
 
 		if (geoList.drawAsComboBox()) {
-			for (int i = drawables.size() - 1; i >= 0; i--) {
-				GeoElement currentGeo = drawables.get(i).getGeoElement();
-				if (!currentGeo.isLabelSet()) {
-					view.remove(currentGeo);
+			if (drawables != null) {
+				for (int i = drawables.size() - 1; i >= 0; i--) {
+					GeoElement currentGeo = drawables.get(i).getGeoElement();
+					if (!currentGeo.isLabelSet()) {
+						view.remove(currentGeo);
+					}
 				}
-			}
 			drawables.clear();
+			}
 		} else {
 			view.remove(box);
 		}
