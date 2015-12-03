@@ -61,7 +61,8 @@ public class DrawLocus extends Drawable {
 		buildGeneralPath(locus.getPoints());
 
 		// line on screen?
-		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
+		if (!geo.isInverseFill()
+				&& !gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -167,12 +168,16 @@ public class DrawLocus extends Drawable {
 			return false; // hasn't been drawn yet (hidden)
 		}
 
-		if (strokedShape == null) {
-			strokedShape = objStroke.createStrokedShape(gp);
-		}
+
 		if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 			return t.intersects(x - hitThreshold, y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);
+		}
+		if (!isVisible) {
+			return false;
+		}
+		if (strokedShape == null) {
+			strokedShape = objStroke.createStrokedShape(gp);
 		}
 		return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
 				2 * hitThreshold, 2 * hitThreshold);
