@@ -764,6 +764,13 @@ public class Ggb2giac {
 						+ "point(xcoord(translation(ggbtrsarg1,ggbtrsarg0))[0],"
 						+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[1],"
 						+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ) , "
+						// translate function defined from inputBar
+						+ "when( (ggbtrsarg0)[0] <> '=' && xcoord(ggbtrsarg0) <> string(y) &&"
+						+ "(xcoord(ggbtrsarg0))[0] <> '=' && string((xcoord(ggbtrsarg0))[1]) <> string(X),"
+						+ " ggbtrsarg0 + (ggbtrsarg1)[1] - (ggbtrsarg1)[0] , "
+						// translate function defined with f(x)
+						+ "when ( (ggbtrsarg0)[0] == '=' && (ggbtrsarg0)[1][0] == 'of' && (ggbtrsarg0)[1][2] == 'x',"
+						+ "normal((ggbtrsarg0)[2] + (ggbtrsarg1)[1] - (ggbtrsarg1)[0]), "
 						// translate 3d line - defined with command
 						+ "when ( xcoord(ggbtrsarg0) == string(y) , "
 						+ "regroup(equation(cat(\"y=\",point(expr(ggbtrsarg0)[0][2][1] + (ggbtrsarg1)[0] , "
@@ -827,7 +834,8 @@ public class Ggb2giac {
 						// with y coordinate 0
 						+ "equation(circle(point( (-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[0]) , (ggbtrsarg1)[1]) ,"
 						+ " sqrt((ggbtrsarg0)[2]) )) ) ) ) ) ) , "
-						+ " ? ) ) ) ) )][1]");
+						+ " ? ) ) ) ) ) ) )][1]");
+
 		p("Transpose.1", "transpose(%0)");
 		// http://reduce-algebra.com/docs/trigsimp.pdf
 		// possible Giac commands we can use:
