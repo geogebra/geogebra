@@ -145,7 +145,7 @@ fontactive: function(familyName, fvd) {},
 			});
 		}else{
 			var signInText = window.__GGB__keysVar && __GGB__keysVar[lang] ? __GGB__keysVar[lang]["menu"]["SignIn"] : "Sign in";
-			c.innerHTML = '<a href="https://login.geogebra.org/user/login/?url='+(location.href.substring(0,location.href.indexOf('?')))+'" class="button" id="loginButton"><span id="signIn">'+signInText+'</span></a>';
+			c.innerHTML = '<a href="https://accounts.geogebra.org/user/signin/?url='+(location.href.split('?')[0])+'" class="button" id="loginButton"><span id="signIn">'+signInText+'</span></a>';
 		}
 	}
 	
