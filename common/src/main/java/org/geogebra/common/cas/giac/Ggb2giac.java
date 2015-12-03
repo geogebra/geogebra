@@ -764,17 +764,6 @@ public class Ggb2giac {
 						+ "point(xcoord(translation(ggbtrsarg1,ggbtrsarg0))[0],"
 						+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[1],"
 						+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ) , "
-						// translate line defined as linear equation (2d)
-						+ "when ( type(xcoord(ggbtrsarg0)) == DOM_INT , (ggbtrsarg0)[1] = (ggbtrsarg0)[2] + (ggbtrsarg1)[1] - (ggbtrsarg1)[0] , "
-						// translate 3d line - defined from inputBar
-						+ "when ( (xcoord(ggbtrsarg0))[0] == '=' && string((xcoord(ggbtrsarg0))[1]) == string(X) , "
-						+ "regroup(equation(cat(\"y=\",point((ggbtrsarg0)[0][2] + (ggbtrsarg1)[0],"
-						+ "(ggbtrsarg0)[1][2] + (ggbtrsarg1)[1],"
-						+ "(ggbtrsarg0)[2][2][1] + (ggbtrsarg1)[2]),"
-						+ "\"+\u03BB*\","
-						+ "point((ggbtrsarg0[2][2][2])[2][0],"
-						+ "(ggbtrsarg0[2][2][2])[2][1],"
-						+ "(ggbtrsarg0[2][2][2])[2][2]) ))), "
 						// translate 3d line - defined with command
 						+ "when ( xcoord(ggbtrsarg0) == string(y) , "
 						+ "regroup(equation(cat(\"y=\",point(expr(ggbtrsarg0)[0][2][1] + (ggbtrsarg1)[0] , "
@@ -784,7 +773,44 @@ public class Ggb2giac {
 						+ "point(coeff(expr(ggbtrsarg0)[0][2],\u03BB,1) , "
 						+ "coeff(expr(ggbtrsarg0)[1][2],\u03BB,1) , "
 						+ "coeff(expr(ggbtrsarg0)[2][2],\u03BB,1)) ))),"
-						+ " ? ) ) ) )][1]");
+						// translate line defined as linear equation (2d)
+						+ "when ( type(xcoord(ggbtrsarg0)) == DOM_INT && type(grad(ggbtrsarg0,x)[1]) == DOM_INT , "
+						+ "(ggbtrsarg0)[1] = (ggbtrsarg0)[2] + (ggbtrsarg1)[1] - (ggbtrsarg1)[0] , "
+						// translate 3d line - defined from inputBar
+						+ "when ( (xcoord(ggbtrsarg0))[0] == '=' && string((xcoord(ggbtrsarg0))[1]) == string(X) , "
+						+ "regroup(equation(cat(\"y=\",point((ggbtrsarg0)[0][2] + (ggbtrsarg1)[0],"
+						+ "(ggbtrsarg0)[1][2] + (ggbtrsarg1)[1],"
+						+ "(ggbtrsarg0)[2][2][1] + (ggbtrsarg1)[2]),"
+						+ "\"+\u03BB*\","
+						+ "point((ggbtrsarg0[2][2][2])[2][0],"
+						+ "(ggbtrsarg0[2][2][2])[2][1],"
+						+ "(ggbtrsarg0[2][2][2])[2][2]) ))), "
+						// translate circle
+						+ "when ( grad(ggbtrsarg0,x)[1] <> DOM_INT || grad(ggbtrsarg0,y)[1] <> DOM_INT , "
+						+ "when ( size((ggbtrsarg0)[1]) == 4 , "
+						+ "equation(circle("
+						// coordinates of translated center
+						+ "point((-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[0]) ,"
+						+ " (-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2] - (ggbtrsarg1)[1]) ) ,"
+						// radius
+						+ " sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + "
+						+ " sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2]) + (ggbtrsarg0)[2]) )) ,"
+						// special case, circle with center (0,0)
+						// use coordinates of vector as center
+						+ "when ( size((ggbtrsarg0)[1]) == 2 , "
+						+ " equation(circle( point( (ggbtrsarg1)[0] , (ggbtrsarg1)[1] ) , "
+						+ "sqrt((ggbtrsarg0)[2]) )) ,"
+						// x coordinate of center is 0
+						+ " when ( coeff((ggbtrsarg0)[1],x,1) == 0 , "
+						+ " equation(circle(point( (ggbtrsarg1)[0] , "
+						+ "(-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[1]) ) ,"
+						+ " sqrt( sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) ,"
+						// y coordinate of center is 0
+						+ " equation(circle("
+						+ "point( (-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[0]) ,"
+						+ " (ggbtrsarg1)[1] ) , "
+						+ "sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) ) ) ) ,"
+						+ " ? ) ) ) ) )][1]");
 		p("Transpose.1", "transpose(%0)");
 		// http://reduce-algebra.com/docs/trigsimp.pdf
 		// possible Giac commands we can use:
