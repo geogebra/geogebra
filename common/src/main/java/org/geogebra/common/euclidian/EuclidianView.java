@@ -4223,7 +4223,6 @@ sb.toString(), getFontAxes(),
 		boolean hasCurves = hasVisibleObjects(allCurves);
 
 		// check for points, circles etc.
-		drawAll();
 		GRectangle rect = getBounds();
 		boolean hasObjects = hasVisibleObjects(rect);
 
@@ -4379,10 +4378,6 @@ sb.toString(), getFontAxes(),
 			setAnimatedRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW, 10,
 					storeUndo);
 		}
-	}
-
-	protected void drawAll() {
-		// TODO
 	}
 
 	private boolean hasVisibleObjects(GRectangle rect) {
