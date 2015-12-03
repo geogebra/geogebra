@@ -99,15 +99,18 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	{
 
 		try {
-			ggbPrefs = Preferences.userRoot().node(
+			if (PROPERTY_FILEPATH == null) {
+				ggbPrefs = Preferences.userRoot().node(
 					GeoGebraConstants.PREFERENCES_ROOT);
+			}
 		} catch (Exception e) {
 			// thrown when running unsigned JAR
 			ggbPrefs = null;
 		}
 
 		try {
-			if (Preferences.systemRoot().nodeExists(
+			if (PROPERTY_FILEPATH == null
+					&& Preferences.systemRoot().nodeExists(
 					GeoGebraConstants.PREFERENCES_ROOT_GLOBAL)) {
 				ggbPrefsSystem = Preferences.systemRoot().node(
 						GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
@@ -196,7 +199,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 					GeoGebraPreferencesD.VERSION_CHECK_ALLOW, defaultValue));
 		}
 		// then check if user allows
-		if (systemAllows)
+		if (systemAllows && ggbPrefs != null)
 			return Boolean.valueOf(ggbPrefs.get(
 					GeoGebraPreferencesD.VERSION_CHECK_ALLOW, defaultValue));
 		// else don't allow
@@ -349,8 +352,10 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		// version string)
 		if (factoryDefaultXml == null) {
 			factoryDefaultXml = getDefaultPreferences(app);
-			ggbPrefs.put(XML_FACTORY_DEFAULT, factoryDefaultXml);
-			ggbPrefs.put(VERSION, GeoGebraConstants.VERSION_STRING);
+			if (ggbPrefs != null) {
+				ggbPrefs.put(XML_FACTORY_DEFAULT, factoryDefaultXml);
+				ggbPrefs.put(VERSION, GeoGebraConstants.VERSION_STRING);
+			}
 		}
 	}
 

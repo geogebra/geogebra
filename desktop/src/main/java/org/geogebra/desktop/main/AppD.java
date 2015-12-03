@@ -3851,6 +3851,9 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public void setXML(String xml, boolean clearAll) {
+		if (xml == null) {
+			return;
+		}
 		if (clearAll) {
 			setCurrentFile(null);
 		}
