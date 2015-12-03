@@ -17,10 +17,6 @@ public enum Language {
 	// need to be in Alphabetical order so they appear in the menu in the right
 	// order
 	// Afrikaans(null, false, "af","af", "Afrikaans", Country.SouthAfrica),
-	Armenian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u0570",
-			true, "hy", "hy",
-			"Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576",
-			Country.Armenia),
 
 	Albanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"sq", "sq", "Albanian / Gjuha Shqipe",
@@ -68,6 +64,11 @@ public enum Language {
 					+ Unicode.RightToLeftMark
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u062A\u0648\u0646\u0633)"
 					+ Unicode.RightToLeftMark, null, Country.Tunisia),
+
+	Armenian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u0570",
+			true, "hy", "hy",
+			"Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576",
+			Country.Armenia),
 
 	// Azerbaijani(null, null, false, "az", "az", "Azerbaijani",
 	// Country.Azerbaijan),
