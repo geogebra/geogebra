@@ -176,8 +176,14 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 		if (k < 2850) {
 			return weight2800to2849(k, a, b, c);
 		}
+		if (k < 2900) {
+			return weight2850to2899(k, a, b, c);
+		}
+		if (k < 2950) {
+			return weight2900to2949(k, a, b, c);
+		}
 
-		return weight2850plus(k, a, b, c);
+		return weight3000plus(k, a, b, c);
 	}
 
 	private double weight0to99(int k, double a, double b, double c) {
@@ -13503,7 +13509,7 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 		}
 	}
 
-	private double weight2850plus(int k, double a, double b, double c) {
+	private double weight2850to2899(int k, double a, double b, double c) {
 		switch (k) {
 		case 2850:
 			return a
@@ -13834,6 +13840,14 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 			return (a - b - c)
 					* (a3 + a2 * b + a * b2 + b3 + a2 * c - 3 * b2 * c + a * c2
 							- 3 * b * c2 + c3);
+		default:
+			return Double.NaN;
+		}
+	}
+
+	private double weight2900to2949(int k, double a, double b, double c) {
+
+		switch (k) {
 		case 2900:
 			return a
 					* (-a + b + c)
@@ -14228,6 +14242,14 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 							* b * c5 - 4 * a2 * b2 * c5 - a * b3 * c5 - 4 * a3
 							* c6 - 2 * a * b2 * c6 - 2 * b3 * c6 + 4 * a2 * c7
 							+ a * b * c7 + 2 * b2 * c7 + a * c8 + b * c8 - c9);
+		default:
+			return Double.NaN;
+		}
+	}
+
+	private double weight2950to2999(int k, double a, double b, double c) {
+
+		switch (k) {
 		case 2950:
 			return a
 					* (a9 - a8 * b - 4 * a7 * b2 + 4 * a6 * b3 + 6 * a5 * b4
@@ -14528,6 +14550,14 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 					* (-(a2 * b2) + a2 * c2 + b2 * c2);
 		case 2999:
 			return a * (a2 + 2 * a * b + b2 + 2 * a * c - 2 * b * c + c2);
+		default:
+			return Double.NaN;
+		}
+	}
+
+	private double weight3000plus(int k, double a, double b, double c) {
+
+		switch (k) {
 		case 3000:
 			return a
 					* (a3 * b - 2 * a2 * b2 + a * b3 + a3 * c + 2 * a2 * b * c
