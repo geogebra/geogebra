@@ -18,7 +18,7 @@ varying   vec3    realWorldCoords;
 
 varying vec3 viewDirection;
 varying vec3 lightReflect;
-uniform int	enableLight; 
+//uniform int	enableLight; 
 
 
 void main (void) 
@@ -37,7 +37,7 @@ void main (void)
 	
 	vec4 color;
 	
-	if (enableLight == 1){
+	//if (enableLight == 1){
 		// adding specular
 		float specular = dot(normalize(lightReflect), normalize(viewDirection));	
 		if (specular > 0.0){
@@ -49,9 +49,9 @@ void main (void)
 		}else{
 		    color = varying_Color;
 		}
-	}else{
-		color = varying_Color;
-	}
+	//}else{
+	//	color = varying_Color;
+	//}
 	
 		
 	// default
