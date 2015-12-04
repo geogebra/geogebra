@@ -539,7 +539,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		drawOptionLines(g2, 0, false);
 
-		int plainHeight = getPlainHeight(g2, geoList.size());
+		int plainHeight = estimatePlainHeight(g2, geoList.size());
+		// int plainWidth = estimatePlainWidth(g2);
 
 		// while ( > view.getHeight()
 		while (plainHeight > view.getHeight() && colCount < geoList.size()) {
@@ -553,7 +554,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				colCount++;
 			}
 			g2.setFont(optionFont);
-			plainHeight = getPlainHeight(g2, geoList.size() / colCount);
+			plainHeight = estimatePlainHeight(g2, geoList.size() / colCount);
 			// int h = drawOptionLines(g2, 0, false);
 			// App.debug("[DROPDOWNS][SIZES] normal: " + h + " plain: "
 			// + plainHeight);
@@ -565,6 +566,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				+ optionFont.getSize());
 		recalculateFontSize = false;
 	}
+
 
 	private void updateMetrics(GGraphics2D g2) {
 
@@ -590,7 +592,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
-	private int getPlainHeight(GGraphics2D g2, int size) {
+	private int estimatePlainHeight(GGraphics2D g2, int size) {
 		int gap = getOptionsItemGap();
 		int h = (getDefaultTextHeight(g2) + gap) * (size + 1);
 		if (colCount == 1) {
@@ -599,9 +601,17 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		return h;
 	}
 
+	private int estimatePlainWidth(GGraphics2D g2) {
+		// TODO Auto-generated method stub
+		// int gap = getOptionsItemGap();
+		//
+		// GTextLayout layout = getLayout(g2, text, optionFont);
+		return 0;
+	}
+
 	private boolean isFontSizeUpdateNeeded(GGraphics2D g2) {
 
-		int h = getPlainHeight(g2, geoList.size());
+		int h = estimatePlainHeight(g2, geoList.size());
 
 		App.debug("[DROPDOWN] fontSize: " + optionFont.getSize() + " height: "
 				+ h + " viewHeight: " + viewHeight);
