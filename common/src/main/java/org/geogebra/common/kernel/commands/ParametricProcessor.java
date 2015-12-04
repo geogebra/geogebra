@@ -213,7 +213,6 @@ public class ParametricProcessor {
 	 */
 	protected GeoElement[] processParametricFunction(ExpressionNode exp,
 			ExpressionValue ev, FunctionVariable[] fv, String label) {
-		App.printStacktrace(label);
 		Construction cons = kernel.getConstruction();
 		if (fv.length < 2 && ev instanceof VectorValue
 				&& ((VectorValue) ev).getMode() != Kernel.COORD_COMPLEX) {
