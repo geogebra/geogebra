@@ -161,7 +161,7 @@ public class Inequality {
 		} else {
 			FunctionVariable xVar = new FunctionVariable(kernel, "x");
 			FunctionVariable yVar = new FunctionVariable(kernel, "y");
-			ExpressionNode replaced = ((ExpressionNode) normal.deepCopy(kernel))
+			ExpressionNode replaced = normal.deepCopy(kernel)
 					.replace(fv[0], xVar).wrap().replace(fv[1], yVar).wrap();
 			Equation equ = new Equation(kernel, replaced, new MyDouble(kernel,
 					0));

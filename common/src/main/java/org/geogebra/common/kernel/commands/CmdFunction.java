@@ -134,7 +134,7 @@ public class CmdFunction extends CommandProcessor {
 						gf = algo.getFunction();
 					}
 					gf.setLabel(label);
-					gf.validate();
+					gf.validate(label == null);
 					return new GeoElement[] { gf };
 
 				}

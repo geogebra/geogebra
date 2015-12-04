@@ -1358,11 +1358,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		// we get a dependent function if this line has a label or is dependent
 
 		if (isLabelSet() || !isIndependent()) {
-			// don't create a label for the new dependent function
-			boolean oldMacroMode = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
-			ret = kernel.getAlgoDispatcher().DependentFunction(null, fun);
-			cons.setSuppressLabelCreation(oldMacroMode);
+			ret = kernel.getAlgoDispatcher().DependentFunction(fun);
+
 		} else {
 			ret = new GeoFunction(cons);
 			ret.setFunction(fun);

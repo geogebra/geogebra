@@ -326,7 +326,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 * checks to see if this is an nth derivative, and return an appropriate
 	 * label eg f''' for 3rd derivative
 	 */
-	static String getDerivativeLabel(Function fun) {
+	public static String getDerivativeLabel(Function fun) {
 		ExpressionValue ev = fun.getExpression().getLeft();
 		if (ev.isExpressionNode()) {
 			ExpressionNode enL = (ExpressionNode) (fun.getExpression()

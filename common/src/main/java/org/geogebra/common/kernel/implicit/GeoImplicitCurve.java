@@ -188,15 +188,20 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (coeff != null) {
 			doSetCoeff(coeff);
 		} else {
-			eqn.initEquation();
-			Polynomial lhs = eqn.getNormalForm();
-			if (eqn.mayBePolynomial()) {
-				setCoeff(lhs.getCoeff());
-			} else {
-				resetCoeff();
-			}
+			updateCoeff(eqn);
 		}
 		euclidianViewUpdate();
+	}
+
+	private void updateCoeff(Equation eqn) {
+		eqn.initEquation();
+		Polynomial lhs = eqn.getNormalForm();
+		if (eqn.mayBePolynomial()) {
+			setCoeff(lhs.getCoeff());
+		} else {
+			resetCoeff();
+		}
+
 	}
 
 	public void setCoeff(ExpressionValue[][] ev) {
@@ -630,6 +635,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void translate(Coords v) {
 		expression.translate(v);
+		if (coeff != null) {
+			updateCoeff(new Equation(kernel,
+					expression.getFunctionExpression(), new MyDouble(kernel, 0)));
+		}
 		euclidianViewUpdate();
 	}
 
@@ -677,6 +686,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	public void mirror(GeoConic c) {
 		MyDouble r2 = new MyDouble(kernel, c.getHalfAxis(0) * c.getHalfAxis(0));
+		expression.translate(c.getMidpoint2D().mul(-1));
 		FunctionVariable x = expression.getFunctionVariables()[0];
 		FunctionVariable y = expression.getFunctionVariables()[1];
 		ExpressionNode expr = expression.getFunctionExpression().deepCopy(kernel);
@@ -691,6 +701,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		FunctionNVar f2 = new FunctionNVar(expr, new FunctionVariable[] { x2,
 				y2 });
 		expression.setFunction(f2);
+		expression.translate(c.getMidpoint2D());
 		setDefinition(new Equation(kernel, expr, new MyDouble(kernel, 0))
 				.wrap());
 

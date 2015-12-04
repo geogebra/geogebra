@@ -68,10 +68,14 @@ public class CmdSetValue extends CmdScripting {
 	 * sets a value of a list (or extends the list if you set element n+1)
 	 * 
 	 * @param kernel
+	 *            kernel
 	 * @param list
+	 *            list
 	 * @param nn
+	 *            index (1 based)
 	 * @param arg2
-	 * @return
+	 *            value
+	 * @return success
 	 */
 	public static boolean setValue3(Kernel kernel, GeoList list, int nn,
 			GeoElement arg2) {
@@ -119,7 +123,10 @@ public class CmdSetValue extends CmdScripting {
 	/**
 	 * sets arg[0] to arg[1]
 	 * 
-	 * @param arg
+	 * @param arg0
+	 *            target
+	 * @param arg1
+	 *            value
 	 */
 	public static void setValue2(GeoElement arg0, GeoElement arg1) {
 		if (arg0.isGeoFunction() && arg1.isGeoFunctionable()) {
@@ -128,6 +135,10 @@ public class CmdSetValue extends CmdScripting {
 			GeoFunction fun = (GeoFunction) arg0;
 			GeoFunctionable val = (GeoFunctionable) arg1;
 			fun.set(val.getGeoFunction());
+			if (!fun.validate(true)) {
+				fun.set(arg0);
+				fun.setUndefined();
+			}
 			fun.updateRepaint();
 		} else if (arg0.isGeoList() && arg1.isNumberValue()) {
 			((GeoList) arg0).setSelectedIndex(

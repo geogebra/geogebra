@@ -1035,12 +1035,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		// we get a dependent function if this number has a label or is
 		// dependent
 		if (isLabelSet() || !isIndependent()) {
-			// don't create a label for the new dependent function
-			boolean oldMacroMode = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
-			// TODO remove cast
-			ret = kernel.getAlgoDispatcher().DependentFunction(null, fun);
-			cons.setSuppressLabelCreation(oldMacroMode);
+			ret = kernel.getAlgoDispatcher().DependentFunction(fun);
 		} else {
 			ret = new GeoFunction(cons);
 			ret.setFunction(fun);

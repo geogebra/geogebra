@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
 import org.geogebra.common.kernel.algos.AlgoDependentConic;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoDependentFunctionNVar;
 import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
 import org.geogebra.common.kernel.algos.AlgoDependentInterval;
@@ -1521,7 +1522,12 @@ public class AlgebraProcessor {
 							((GeoNumeric) replaceable).extendMinMax(ret[0]);
 						}
 						replaceable.set(ret[0]);
-						replaceable.setDefinition(ret[0].getDefinition());
+						if (replaceable instanceof GeoFunction
+								&& !((GeoFunction) replaceable).validate(true)) {
+							replaceable.setUndefined();
+						} else {
+							replaceable.setDefinition(ret[0].getDefinition());
+						}
 						replaceable.updateRepaint();
 						ret[0] = replaceable;
 					}
@@ -1717,13 +1723,23 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			f = new GeoFunction(cons, fun);
-			f.setLabel(label);
-			f.validate();
+
 		} else {
-			f = kernel.getAlgoDispatcher().DependentFunction(label, fun);
+			f = kernel.getAlgoDispatcher().DependentFunction(fun);
+			if (label == null) {
+				label = AlgoDependentFunction.getDerivativeLabel(fun);
+			}
+
 		}
-		ret[0] = f;
-		return ret;
+
+		if (f.validate(label == null)) {
+			f.setLabel(label);
+			ret[0] = f;
+			return ret;
+		}
+		f.remove();
+		throw new MyError(loc, "InvalidFunction");
+
 	}
 
 
@@ -2028,17 +2044,21 @@ public class AlgebraProcessor {
 
 
 		String label = fun.getLabel();
-		GeoElement[] ret = new GeoElement[1];
+		GeoFunctionNVar gf;
 
 		GeoElement[] vars = fun.getGeoElementVariables();
 		boolean isIndependent = (vars == null || vars.length == 0);
 
 		if (isIndependent) {
-			ret[0] = new GeoFunctionNVar(cons, label, fun);
+			gf = new GeoFunctionNVar(cons, label, fun);
 		} else {
-			ret[0] = DependentFunctionNVar(label, fun);
+			gf = DependentFunctionNVar(label, fun);
 		}
-		return ret;
+		if (!gf.validate(label == null)) {
+			gf.remove();
+			throw new MyError(loc, "InvalidInput");
+		}
+		return new GeoElement[] { gf };
 	}
 
 	/**

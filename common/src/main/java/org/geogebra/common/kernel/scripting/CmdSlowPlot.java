@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDrawingPadCorner;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -71,16 +70,15 @@ public class CmdSlowPlot extends CommandProcessor {
 						.apply(Operation.IF,
 								arg[0].wrap().apply(Operation.FUNCTION, x));
 				GeoFunction g = cons.getKernel().getAlgoDispatcher()
-						.DependentFunction(c.getLabel(), new Function(exp, x));
-				StringTemplate tpl = StringTemplate.maxPrecision;
-				StringBuilder sb = new StringBuilder();
-				sb.append("Function[");
-				sb.append(arg[0].getLabel(tpl));
-				sb.append(",x(Corner[1]), x(Corner[1]) (1-");
-				sb.append(var.getLabel(tpl));
-				sb.append(") + x(Corner(2)) ");
-				sb.append(var.getLabel(tpl));
-				sb.append("]");
+						.DependentFunction(new Function(exp, x));
+				String label = c.getLabel();
+				if (g.validate(label == null)) {
+					g.setLabel(label);
+				} else {
+					var.remove();
+					throw new MyError(loc, "InvalidFunction");
+				}
+
 
 				kernelA.getAnimatonManager().startAnimation();
 				return new GeoElement[] { g };

@@ -339,20 +339,12 @@ public class AlgoDispatcher {
 	 * Function dependent on coefficients of arithmetic expressions with
 	 * variables, represented by trees.
 	 */
-	final public GeoFunction DependentFunction(String label, Function fun) {
+	final public GeoFunction DependentFunction(Function fun) {
 		AlgoDependentFunction algo = new AlgoDependentFunction(cons, fun);
-		String derivativeLabel = null;
 
 		// auto label for f'' to be f'' etc
-		if (label == null) {
-			derivativeLabel = AlgoDependentFunction.getDerivativeLabel(fun);
-		}
 
-		algo.getFunction().setLabel(
-				derivativeLabel != null ? derivativeLabel : label);
-		GeoFunction f = algo.getFunction();
-		f.validate();
-		return f;
+		return algo.getFunction();
 	}
 
 	public GeoTextField textfield(String label, GeoElement geoElement) {

@@ -5652,6 +5652,53 @@ kernel, left,
 							.containsFunctionVariable(name));
 	}
 
+	/**
+	 * @param vars
+	 *            forbidden vars
+	 * @return whether one of the forbidden vars appers in expression node
+	 */
+	public boolean containsFreeFunctionVariableOtherThan(FunctionVariable[] vars) {
+		return checkForFreeVars(left, vars)
+				|| (right != null && checkForFreeVars(right, vars))
+				|| (operation == Operation.FUNCTION_NVAR
+						&& right instanceof MyList && ((ValidExpression) right)
+							.containsFunctionVariableOtherThan(vars));
+	}
+
+	private boolean checkForFreeVars(ExpressionValue ev, FunctionVariable[] vars) {
+		if (ev instanceof FunctionVariable) {
+			return doesNotInclude(vars, ev);
+
+		}
+		if (ev instanceof ExpressionNode) {
+			return ((ExpressionNode) ev)
+					.containsFreeFunctionVariableOtherThan(vars);
+		}
+		if (ev instanceof MyVecNode) {
+			return checkForFreeVars(((MyVecNode) ev).getX(), vars)
+					|| checkForFreeVars(((MyVecNode) ev).getY(), vars);
+		}
+		return false;
+	}
+
+	/**
+	 * @param vars
+	 *            haystack
+	 * @param ev
+	 *            needle (probably function variable, but not necessary to
+	 *            check)
+	 * @return whther the array does NOT contain the variable
+	 */
+	public static boolean doesNotInclude(FunctionVariable[] vars,
+			ExpressionValue ev) {
+		for (int i = 0; i < vars.length; i++) {
+			if (vars[i] == ev) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private boolean checkForFreeVars(ExpressionValue ev, String name) {
 		if (ev instanceof FunctionVariable) {
 			return name == null

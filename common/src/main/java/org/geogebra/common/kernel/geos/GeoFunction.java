@@ -54,7 +54,6 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
@@ -131,17 +130,24 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	}
 
 
-	public void validate() {
-		// TODO: Remove following code for 5.0 -- it's there to make sure no
-		// functions of y are created
-		if (isLabelSet()
-				&& !isBooleanFunction()
-				&& (this.isFunctionOfY() || (label == null && this
-						.isFunctionOfZ()))) {
-			this.remove();
-			throw new MyError(getLoc(), "InvalidFunction");
-		}
+	public boolean validate(boolean autoLabel) {
 
+		if (!cons.isFileLoading()) {
+			if (getFunctionExpression().containsFreeFunctionVariableOtherThan(
+					getFunctionVariables())) {
+				return false;
+			}
+		}
+		// If labels are suppressed (processing command arguments) accept y and
+		// z as
+		// functions
+		if (!cons.isSuppressLabelsActive()
+				&& !isBooleanFunction()
+				&& (this.isFunctionOfY() || (autoLabel && this
+						.isFunctionOfZ()))) {
+			return false;
+		}
+		return true;
 	}
 
 	/**

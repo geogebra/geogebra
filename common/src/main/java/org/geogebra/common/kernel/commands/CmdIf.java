@@ -256,9 +256,12 @@ public class CmdIf extends CommandProcessor {
 						fun);
 				gf = algo.getFunction();
 			}
-			gf.setLabel(label);
-			gf.validate();
-			return gf;
+			if (gf.validate(label == null)) {
+				gf.setLabel(label);
+				gf.validate(label == null);
+				return gf;
+			}
+			throw new MyError(loc, "InvalidFunction");
 		}
 		FunctionNVar fun = new FunctionNVar(expr, fv);
 		if (mayUseIndependent) {

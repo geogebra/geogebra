@@ -133,6 +133,17 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		setLabel(label);
 	}
 
+	public boolean validate(boolean autoLabel) {
+
+		if (!cons.isFileLoading()) {
+			if (getFunctionExpression().containsFreeFunctionVariableOtherThan(
+					getFunctionVariables())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	@Override
 	public String getTypeString() {
 		return (isInequality != null && isInequality) ? "Inequality"
