@@ -3899,8 +3899,8 @@ public abstract class App implements UpdateSelection {
 		case CP_NEW_COLUMNS:
 		case EXAM:
 		case PRINT_MENU:
-		case DRAW_INPUTBOXES_TO_CANVAS:
 		case CAS_TRANSLATE_COMMAND:
+		case DRAW_DROPDOWNLISTS_TO_CANVAS:
 			return prerelease;
 		// return canary;
 		case AV_EXTENSIONS:
@@ -3914,7 +3914,7 @@ public abstract class App implements UpdateSelection {
 		case RETINA:
 		case LATEX_ON_BUTTON:
 		case LATEX_ON_CHECKBOX:
-		case DRAW_DROPDOWNLISTS_TO_CANVAS:
+		case DRAW_INPUTBOXES_TO_CANVAS:
 			return true;
 		default:
 			return false;
