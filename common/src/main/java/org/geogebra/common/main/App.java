@@ -3898,6 +3898,7 @@ public abstract class App implements UpdateSelection {
 		case EXAM:
 		case PRINT_MENU:
 		case DRAW_INPUTBOXES_TO_CANVAS:
+		case CAS_TRANSLATE_COMMAND:
 			return prerelease;
 		// return canary;
 		case AV_EXTENSIONS:

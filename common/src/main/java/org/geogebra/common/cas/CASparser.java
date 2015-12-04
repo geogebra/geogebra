@@ -456,7 +456,8 @@ public class CASparser implements CASParserInterface {
 	synchronized Map<String, String> getTranslationRessourceBundle() {
 		if (rbCasTranslations == null) {
 
-			rbCasTranslations = Ggb2giac.getMap();
+			rbCasTranslations = Ggb2giac
+					.getMap(parser.getKernel().getApplication());
 		}
 		return rbCasTranslations;
 	}
