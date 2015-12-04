@@ -650,13 +650,15 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				getLabelFont(), latex, true);
 
 		drawControl(g2);
-		if (isOptionsVisible()) {
-			drawOptions(g2);
-		}
 
 		if (geo.isLabelVisible()) {
 			drawLabel(g2, geoList, labelText);
 		}
+
+		if (isOptionsVisible()) {
+			drawOptions(g2);
+		}
+
 
 	}
 
