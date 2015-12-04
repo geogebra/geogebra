@@ -11,6 +11,8 @@ import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -343,9 +345,14 @@ public class ParametricProcessor {
  locVar, from, to);
 			ac.getCurve().setLabel(label);
 			return ac.getOutput();
+		} else if (ev instanceof Function) {
+			return ap.processFunction((Function) ev);
+		} else if (ev instanceof FunctionNVar) {
+			return ap.processFunctionNVar((FunctionNVar) ev);
 		}
 		App.debug("InvalidFunction:"
-				+ exp.toString(StringTemplate.defaultTemplate));
+				+ exp.toString(StringTemplate.defaultTemplate) + ","
+				+ ev.getClass() + "," + fv.length);
 		throw new MyError(kernel.getApplication().getLocalization(),
 				"InvalidFunction");
 
