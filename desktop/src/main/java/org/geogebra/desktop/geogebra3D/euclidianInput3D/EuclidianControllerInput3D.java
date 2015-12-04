@@ -435,19 +435,14 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	private void processThirdButtonPress() {
 		if (wasThirdButtonReleased) {
-			getMouse3DShiftForTranslateView(tmpCoords);
-			tmpCoords2.setMul(view3D.getToScreenMatrix(), tmpCoords.val);
-			tmpCoords2.setAdd(mouse3DPosition, tmpCoords2);
-			startMouse3DPosition.set(tmpCoords2);
+			setMouse3DPositionShifted(startMouse3DPosition);
 			view.rememberOrigins();
 		} else {
-			tmpCoords.setSub(mouse3DPosition, startMouse3DPosition);
-
+			getShiftForMouse3D(tmpCoords);
+			tmpCoords.setAdd3(tmpCoords, mouse3DPosition);
+			tmpCoords.setSub(tmpCoords, startMouse3DPosition);
 
 			tmpCoords2.setMul(view3D.getToSceneMatrix(), tmpCoords.val);
-
-			getMouse3DShiftForTranslateView(tmpCoords);
-			tmpCoords2.setAdd(tmpCoords, tmpCoords2);
 
 			((EuclidianViewInput3D) view3D)
 					.setCoordSystemFromMouse3DMove(tmpCoords2);
@@ -455,11 +450,22 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		}
 	}
 
+	private void setMouse3DPositionShifted(Coords ret) {
+		getShiftForMouse3D(tmpCoords2);
+		tmpCoords2.setAdd(mouse3DPosition, tmpCoords2);
+		ret.set(tmpCoords2);
+	}
 
-	private void getMouse3DShiftForTranslateView(Coords ret) {
-		// show the cursor at mid beam
-		ret.setMul(getMouse3DDirection(),
-				((EuclidianViewInput3D) view3D).getZNearest() / 2);
+
+	/**
+	 * get shift in beam direction about 150px
+	 * 
+	 * @param ret
+	 *            result
+	 */
+	private void getShiftForMouse3D(Coords ret) {
+		ret.set(input3D.getMouse3DDirection());
+		ret.mulInside(150);
 	}
 
 	/**
@@ -468,12 +474,13 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	 * @param ret
 	 *            coords set
 	 */
-	public void getMouse3DPositionForTranslateView(Coords ret) {
-		tmpCoords2.setMul(view3D.getToSceneMatrix(), mouse3DPosition.val);
-		getMouse3DShiftForTranslateView(tmpCoords);
-		ret.setAdd3(tmpCoords, tmpCoords2);
+	public void getMouse3DPositionShifted(Coords ret) {
+		getShiftForMouse3D(tmpCoords);
+		tmpCoords.setAdd3(tmpCoords, mouse3DPosition);
+		ret.setMul(view3D.getToSceneMatrix(), tmpCoords.val);
 		ret.setW(0.0);
 		ret.addInside(view3D.getToSceneMatrix().getOrigin());
+
 	}
 
 	private void processRightPress() {
@@ -611,29 +618,32 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		angleOld = 0;
 
 		// start values
-		startMouse3DPosition.set(mouse3DPosition);
+		setMouse3DPositionShifted(startMouse3DPosition);
 
 		view.rememberOrigins();
 		vz = view3D.getRotationMatrix().getVz();
 		
 	}
 
-	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3);
+	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3),
+			tmpCoords3 = new Coords(3);
 
 	private void processRightDrag() {
 
-		Coords v1 = startMouse3DPosition;
-		Coords v2 = mouse3DPosition;
-		
-		v1.setSub(v1, tmpCoords.setMul(vz, v1.dotproduct(vz)));
-		v2.setSub(v2, tmpCoords.setMul(vz, v2.dotproduct(vz)));
+		getShiftForMouse3D(tmpCoords);
+		tmpCoords.setAdd3(tmpCoords, mouse3DPosition);
+		tmpCoords2.setMul(vz, tmpCoords.dotproduct(vz));
+		tmpCoords2.setSub(tmpCoords, tmpCoords2);
 
-		tmpCoords.setCrossProduct(v1, v2);
+		tmpCoords.setMul(vz, startMouse3DPosition.dotproduct(vz));
+		tmpCoords.setSub(startMouse3DPosition, tmpCoords);
 
-		double c = v1.dotproduct(v2);
-		double s = tmpCoords.calcNorm();
+		tmpCoords3.setCrossProduct(tmpCoords, tmpCoords2);
+
+		double c = tmpCoords.dotproduct(tmpCoords2);
+		double s = tmpCoords3.calcNorm();
 		double angle = Math.atan2(s, c) * 180 / Math.PI;
-		if (tmpCoords.dotproduct(vz) > 0) {
+		if (tmpCoords3.dotproduct(vz) > 0) {
 			angle *= -1;
 		}
 

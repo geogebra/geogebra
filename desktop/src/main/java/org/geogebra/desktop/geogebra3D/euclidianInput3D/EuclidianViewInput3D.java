@@ -986,7 +986,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			return super.moveCursorIsVisible();
 		}
 
-		return input3D.isThirdButtonPressed();
+		return input3D.isThirdButtonPressed() || input3D.isRightPressed();
 	}
 
 	@Override
@@ -1035,22 +1035,31 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 					renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
 				}
 			} else {
-				// let's scale it a bit more
-				tmpMatrix4x4_3.setDiagonal3(1.5 / getScale());
-				// show the cursor at mid beam
-				// tmpCoords1.setMul(
-				// ((EuclidianControllerInput3D) euclidianController)
-				// .getMouse3DDirection(), zNearest / 2);
-				// tmpCoords1
-				// .addInside(((EuclidianControllerInput3D) euclidianController)
-				// .getMouse3DScenePosition());
-				((EuclidianControllerInput3D) euclidianController)
-						.getMouse3DPositionForTranslateView(tmpCoords1);
-				tmpMatrix4x4_3.setOrigin(tmpCoords1);
+				if (input3D.isThirdButtonPressed()) { // third button: translate
+														// view
+					// let's scale it a bit more
+					tmpMatrix4x4_3.setDiagonal3(1.5 / getScale());
+					// show the cursor at mid beam
+					((EuclidianControllerInput3D) euclidianController)
+							.getMouse3DPositionShifted(tmpCoords1);
+					tmpMatrix4x4_3.setOrigin(tmpCoords1);
 
-				renderer1.setMatrix(tmpMatrix4x4_3);
-				renderer1.drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
-				renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+					renderer1.setMatrix(tmpMatrix4x4_3);
+					renderer1.drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
+					renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+				} else { // right button: rotate view
+
+					// let's scale it a bit more
+					tmpMatrix4x4_3.setDiagonal3(1.5 / getScale());
+					// show the cursor at mid beam
+					((EuclidianControllerInput3D) euclidianController)
+							.getMouse3DPositionShifted(tmpCoords1);
+					tmpMatrix4x4_3.setOrigin(tmpCoords1);
+
+					// renderer1.setMatrix(tmpMatrix4x4_3);
+					// renderer1.drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
+					// renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+				}
 			}
 		}
 	}
