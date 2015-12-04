@@ -306,4 +306,6 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	void doRemove();
 
 	boolean hasChildren();
+
+	boolean isVisibleInView3D();
 }

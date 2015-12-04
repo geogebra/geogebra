@@ -48,7 +48,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * GeoElement representing an implicit curve.
@@ -444,6 +443,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (viewBounds[0] == Double.POSITIVE_INFINITY) {
 			viewBounds = new double[] { -10, 10, -10, 10, 10, 10 };
 		}
+
 		updatePathQuadTree(viewBounds[0], viewBounds[3],
 				viewBounds[1] - viewBounds[0], viewBounds[3] - viewBounds[2],
 				viewBounds[4], viewBounds[5]);
@@ -1995,7 +1995,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		private void plot(double x1, double y1, double w1, double h1) {
-			int size = plotDepth / searchDepth;
+			int size = Math.min(plotDepth / searchDepth, coordx.length);
 			int inc = plotDepth / segmentCheckDepth;
 			double frx = w1 / size;
 			double fry = h1 / size;
@@ -2444,7 +2444,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				}
 			}
 		}
-		Log.debug(expr.toString(StringTemplate.maxPrecision) + "");
 		setDefinition(new Equation(kernel, expr, new MyDouble(kernel, 0))
 				.wrap());
 			expression = new GeoFunctionNVar(cons, new FunctionNVar(expr,

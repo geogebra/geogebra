@@ -1598,6 +1598,8 @@ public abstract class App implements UpdateSelection {
 		switch (viewID) {
 		case VIEW_EUCLIDIAN:
 			return getEuclidianView1();
+		case VIEW_EUCLIDIAN3D:
+			return getEuclidianView3D();
 		case VIEW_ALGEBRA:
 			return getAlgebraView();
 		case VIEW_SPREADSHEET:
