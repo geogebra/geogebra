@@ -32,6 +32,7 @@
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
+  gen remove_pnt_vect(const gen & g);
   extern const unary_function_ptr * const  at_sphere ;
   extern const unary_function_ptr * const  at_cylindre ;
   extern const unary_function_ptr * const  at_plan ;

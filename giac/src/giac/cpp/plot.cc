@@ -4744,11 +4744,15 @@ namespace giac {
   // ee is a curve
   static gen distance2cp(const gen & ee,const gen & f0,GIAC_CONTEXT){
     gen f=complex_abs3(f0,contextptr);
-    gen e=ee._SYMBptr->feuille._VECTptr->front();
+    gen e=ee._SYMBptr->feuille;
+    if (e.type==_VECT && !e._VECTptr->empty())
+      e=e._VECTptr->front();
     if ((f.type==_SYMB) && (f._SYMBptr->sommet==at_curve))
       return distance2cc(e,f._SYMBptr->feuille._VECTptr->front(),contextptr);
     if ((f.type==_SYMB) && (f._SYMBptr->sommet==at_cercle))
       return distance2cp(ee,cercle2curve(f,contextptr),contextptr);
+    if (e.type!=_VECT || e._VECTptr->size()<2)
+      return undef;
     vecteur v(*e._VECTptr);
     gen p=projection(ee,f,contextptr);
     gen projete=subst(v[0],v[1],p,false,contextptr);

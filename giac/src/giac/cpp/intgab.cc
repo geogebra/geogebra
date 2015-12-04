@@ -235,6 +235,13 @@ namespace giac {
   gen residue(const gen & g_,const gen & x,const gen & a,GIAC_CONTEXT){
     if (x.type!=_IDNT)
       return gensizeerr(contextptr);
+    gen xval=x._IDNTptr->eval(1,x,contextptr);
+    if (xval!=x){
+      _purge(x,contextptr);
+      gen res=residue(g_,x,a,contextptr);
+      sto(xval,x,contextptr);
+      return res;
+    }
     gen g1=fxnd(g_);
     if (g1.type==_VECT && g1._VECTptr->size()==2){
       gen n=g1._VECTptr->front(),d=derive(g1._VECTptr->back(),x,contextptr);

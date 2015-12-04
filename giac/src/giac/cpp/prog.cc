@@ -4352,7 +4352,7 @@ namespace giac {
       return a;
     if (storcl_38 && abs_calc_mode(contextptr)==38 && a.type==_IDNT){
       gen value;
-      if (storcl_38(value,a._IDNTptr->id_name,b.type==_IDNT?b._IDNTptr->id_name:b.print().c_str(),undef,false,contextptr,NULL)){
+      if (storcl_38(value,a._IDNTptr->id_name,b.type==_IDNT?b._IDNTptr->id_name:b.print().c_str(),undef,false,contextptr,NULL,false)){
 	return value;
       }
     }

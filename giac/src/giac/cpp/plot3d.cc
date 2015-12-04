@@ -108,6 +108,13 @@ namespace giac {
     return true;
   }
 
+  gen remove_pnt_vect(const gen & g){
+    gen res=remove_at_pnt(g);
+    if (res.type==_VECT && res.subtype==_VECTOR__VECT && res._VECTptr->size()==2)
+      res=res._VECTptr->back()-res._VECTptr->front();
+    return res;
+  }
+
   gen _plan(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_INT_ || (args.type==_VECT && args._VECTptr->empty()) )
@@ -125,7 +132,7 @@ namespace giac {
     if (s)     
       v[0]=remove_at_pnt(v[0]);
     if (s>1)
-      v[1]=remove_at_pnt(v[1]);
+      v[1]=remove_pnt_vect(v[1]);
     if (s==2){
       if (v[0].type==_VECT && v[0]._VECTptr->size()==2 && v[1].type==_VECT && v[1]._VECTptr->size()==2){
 	// plane in space defined by 2 lines: must be parallel or secant
@@ -152,7 +159,7 @@ namespace giac {
 	return pnt_attrib(symbolic(at_hyperplan,gen(v,args.subtype)),attributs,contextptr);
     }
     if (s==3){ 
-      v[2]=remove_at_pnt(v[2]);
+      v[2]=remove_pnt_vect(v[2]);
       if (v[0].type==_VECT && v[0]._VECTptr->size()==3 && v[1].type==_VECT && v[1]._VECTptr->size()==3 && v[2].type==_VECT && v[2]._VECTptr->size()==3){
       // given by 3 points, compute normal vector
 	gen v1=v[1]-v[0];
@@ -238,6 +245,7 @@ namespace giac {
     ck_parameter_z(contextptr);
     vecteur v = *args._VECTptr;
     gen P=remove_at_pnt(v[0]),theta=v[2];
+    v[1]=remove_pnt_vect(v[1]);
     if (v[1].type!=_VECT || P.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur xyz(makevecteur(x__IDNT_e,y__IDNT_e,z__IDNT_e));
@@ -327,6 +335,7 @@ namespace giac {
     ck_parameter_y(contextptr);
     ck_parameter_z(contextptr);
     gen P=remove_at_pnt(v[0]),r=v[2];
+    v[1]=remove_pnt_vect(v[1]);
     if (v[1].type!=_VECT || P.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur xyz(makevecteur(x__IDNT_e,y__IDNT_e,z__IDNT_e));

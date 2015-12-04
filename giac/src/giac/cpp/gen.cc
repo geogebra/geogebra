@@ -2625,7 +2625,7 @@ namespace giac {
 	return fpi();
 #endif
       gen res;
-      if (storcl_38(res,0,g0._IDNTptr->id_name,undef,false,contextptr,NULL))
+      if (storcl_38(res,0,g0._IDNTptr->id_name,undef,false,contextptr,NULL,false))
 	return evalf2bcd_nock(res,level-1,contextptr);
     }
     if (g0.type==_VECT){

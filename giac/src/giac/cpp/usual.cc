@@ -3043,10 +3043,10 @@ namespace giac {
   }
 
 #ifdef GIAC_HAS_STO_38
-  bool do_storcl_38(gen & value,const char * name_space,const char * idname,gen indice,bool at_of,GIAC_CONTEXT, gen const *sto);
-  bool (*storcl_38)(gen & value,const char * name_space,const char * idname,gen indice,bool at_of,GIAC_CONTEXT, gen const *sto)=do_storcl_38;
+  bool do_storcl_38(gen & value,const char * name_space,const char * idname,gen indice,bool at_of,GIAC_CONTEXT, gen const *sto,bool OnlyLocal);
+  bool (*storcl_38)(gen & value,const char * name_space,const char * idname,gen indice,bool at_of,GIAC_CONTEXT, gen const *sto,bool OnlyLocal)=do_storcl_38;
 #else
-  bool (*storcl_38)(gen & value,const char * name_space,const char * idname,gen indice,bool at_of,GIAC_CONTEXT, gen const *sto)=0;
+  bool (*storcl_38)(gen & value,const char * name_space,const char * idname,gen indice,bool at_of,GIAC_CONTEXT, gen const *sto,bool OnlyLocal)=0;
 #endif
   gen_op_context * interactive_op_tab = 0;
   int (*is_known_name_38)(const char * name_space,const char * idname)=0; // Not used anymore!
@@ -3203,7 +3203,7 @@ namespace giac {
 	if (!check_binary(b._SYMBptr->feuille,a1,bb))
 	  return a1;
         gen ret;
-	if (storcl_38 && !is_local(b,contextptr) && abs_calc_mode(contextptr)==38 && a1.type==_IDNT && bb.type==_IDNT && storcl_38(ret,a1._IDNTptr->id_name,bb._IDNTptr->id_name,undef,false,contextptr,&a)){
+	if (storcl_38 && abs_calc_mode(contextptr)==38 && a1.type==_IDNT && bb.type==_IDNT && storcl_38(ret,a1._IDNTptr->id_name,bb._IDNTptr->id_name,undef,false,contextptr,&a,false)){
 	  return ret;
 	}
 #ifndef RTOS_THREADX
@@ -3311,7 +3311,7 @@ namespace giac {
 	ans=symbolic(at_parameter,makesequence(b,debut,fin,aa,saut));
       } // end parameter
       if (abs_calc_mode(contextptr)==38){
-	if (storcl_38 && !is_local(b,contextptr) && storcl_38(ans,0,b._IDNTptr->id_name,undef,false,contextptr,&aa) )
+	if (storcl_38 && storcl_38(ans,0,b._IDNTptr->id_name,undef,false,contextptr,&aa,false) )
 	  return ans;
       }
       if (b._IDNTptr->quoted)
@@ -3419,7 +3419,7 @@ namespace giac {
       // if (sto_38 && destination.is_symb_of_sommet(at_double_deux_points) && destination._SYMBptr->feuille.type==_VECT && destination._SYMBptr->feuille._VECTptr->size()==2 &&destination._SYMBptr->feuille._VECTptr->front().type==_IDNT && destination._SYMBptr->feuille._VECTptr->back().type==_IDNT && sto_38(a,destination._SYMBptr->feuille._VECTptr->front()._IDNTptr->id_name,destination._SYMBptr->feuille._VECTptr->back()._IDNTptr->id_name,b,error,contextptr))	
       // return is_undef(error)?error:a;
       gen ret;
-      if (storcl_38 && destination.type==_IDNT && storcl_38(ret,0,destination._IDNTptr->id_name,b,true,contextptr,&a))
+      if (storcl_38 && destination.type==_IDNT && storcl_38(ret,0,destination._IDNTptr->id_name,b,true,contextptr,&a,false))
         return ret;
       if (destination.type==_IDNT && destination._IDNTptr->quoted)
 	*destination._IDNTptr->quoted |= 2; // set dirty bit
@@ -4927,14 +4927,14 @@ namespace giac {
     */
     if (storcl_38){
       if (qf.type==_IDNT){
-	if (storcl_38(value,0,qf._IDNTptr->id_name,b,true,contextptr,NULL)){
+	if (storcl_38(value,0,qf._IDNTptr->id_name,b,true,contextptr,NULL,false)){
 	  return value;
 	}
       }
       if (qf.is_symb_of_sommet(at_double_deux_points)){
 	f=qf._SYMBptr->feuille;
 	if (f.type==_VECT && (*f._VECTptr)[0].type==_IDNT && (*f._VECTptr)[1].type==_IDNT){
-	  if (storcl_38(value,(*f._VECTptr)[0]._IDNTptr->id_name,(*f._VECTptr)[1]._IDNTptr->id_name,b,true,contextptr,NULL)){
+	  if (storcl_38(value,(*f._VECTptr)[0]._IDNTptr->id_name,(*f._VECTptr)[1]._IDNTptr->id_name,b,true,contextptr,NULL,false)){
 	    return value;
 	  }
 	}
@@ -5038,7 +5038,7 @@ namespace giac {
     if (storcl_38){
       if (v.front().type==_IDNT){
 	gen value;
-	if (storcl_38(value,0,v.front()._IDNTptr->id_name,v.back(),false,contextptr,NULL)){ //CdB v.back() is actually never used because the at_of paramter is false. Is that intended?
+	if (storcl_38(value,0,v.front()._IDNTptr->id_name,v.back(),false,contextptr,NULL,false)){ //CdB v.back() is actually never used because the at_of paramter is false. Is that intended?
 	  return value;
 	}
       }
@@ -5046,7 +5046,7 @@ namespace giac {
 	gen & f=v.front()._SYMBptr->feuille;
 	if (f[0].type==_IDNT && f[1].type==_IDNT){
 	  gen value;
-	  if (storcl_38(value,f[0]._IDNTptr->id_name,f[1]._IDNTptr->id_name,v.back(),false,contextptr,NULL)){ //CdB v.back() is actually never used because the at_of paramter is false. Is that intended?
+	  if (storcl_38(value,f[0]._IDNTptr->id_name,f[1]._IDNTptr->id_name,v.back(),false,contextptr,NULL,false)){ //CdB v.back() is actually never used because the at_of paramter is false. Is that intended?
 	    return value;
 	  }
 	}

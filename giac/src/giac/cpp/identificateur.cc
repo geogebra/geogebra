@@ -852,7 +852,8 @@ namespace giac {
   }
 
   gen _prod(const gen & args,GIAC_CONTEXT);
-  static bool eval_38(int level,const gen & orig,gen & res,const char * s,GIAC_CONTEXT){
+#if 0
+  static inline bool eval_38(int level,const gen & orig,gen & res,const char * s,GIAC_CONTEXT){
     if (storcl_38 && storcl_38(res,0,s,undef,false,contextptr,NULL)){
       return true;
     }
@@ -990,23 +991,28 @@ namespace giac {
     res=_prod(args,contextptr);
     return true;
   }
+#endif
 
   gen identificateur::eval(int level,const gen & orig,const context * contextptr) {
     if (!ref_count)
       return orig;
+    gen evaled;
     // cerr << "idnt::eval " << *this << " " << level << endl;
     if (level<=0){
       if (level==0) 
 	return orig;
+      // If 38 is there, let it look at the current state and decide if it needs to evaluate the name or if it needs to let the CAS do it
+      // This will depend on the order of priorities and the status of the requested variable (local/global...)
+      if (storcl_38 && abs_calc_mode(contextptr)==38 && storcl_38(evaled,NULL,id_name,undef,false,contextptr,NULL,false)) return evaled;
       if (contextptr){
 	sym_tab::const_iterator it=contextptr->tabptr->find(id_name),itend=contextptr->tabptr->end();
 	if (it!=itend)
 	  return it->second;
-	if (abs_calc_mode(contextptr)==38){
-	  gen evaled;
-	  if (eval_38(level,orig,evaled,id_name,contextptr))
-	    return evaled;
-	}
+	//if (abs_calc_mode(contextptr)==38){
+	//  gen evaled;
+	//  if (eval_38(level,orig,evaled,id_name,contextptr))
+	//    return evaled;
+	//}
 	return orig;
       }
       else {
@@ -1017,7 +1023,6 @@ namespace giac {
       }
     }
     --level;
-    gen evaled;
     if (in_eval(level,orig,evaled,contextptr))
       return evaled;
     else
@@ -1066,7 +1071,9 @@ namespace giac {
 
   bool identificateur::in_eval(int level,const gen & orig,gen & evaled,const context * contextptr, bool No38Lookup) {
     // if (!ref_count) return false; // does not work for cst ref identificateur
-    if (contextptr){
+    if (contextptr){ // Look for local variables...
+      // If 38 is there, let it look at variable priorities, but ONLY looking at local for the moment! We do not want to look as globals as they might need to be quoted...
+      if (storcl_38!=NULL && !No38Lookup && abs_calc_mode(contextptr)==38 && storcl_38(evaled,NULL,id_name,undef,false,contextptr, NULL, true)) return true;
       const context * cur=contextptr;
       for (;cur->previous;cur=cur->previous){
 	sym_tab::const_iterator it=cur->tabptr->find(id_name);
@@ -1080,12 +1087,14 @@ namespace giac {
       // check for quoted
       if (cur->quoted_global_vars && !cur->quoted_global_vars->empty() && equalposcomp(*cur->quoted_global_vars,orig)) 
 	return false;
+      // If 38 is there, look again, but now it is allowed to look at local and globals!
+      if (storcl_38!=NULL && !No38Lookup && abs_calc_mode(contextptr)==38 && storcl_38(evaled,NULL,id_name,undef,false,contextptr, NULL, false)) return true;
       // printsymtab(cur->tabptr);
       sym_tab::const_iterator it=cur->tabptr->find(id_name);
       if (it==cur->tabptr->end()){
-        if (No38Lookup) return false;
-	if (storcl_38 && abs_calc_mode(contextptr)==38)
-	  return eval_38(level,orig,evaled,id_name,contextptr);
+        //if (No38Lookup) return false;
+	//if (storcl_38 && abs_calc_mode(contextptr)==38)
+	//  return eval_38(level,orig,evaled,id_name,contextptr);
 	return false;
       }
       else {
@@ -1093,10 +1102,10 @@ namespace giac {
 	  evaled=it->second;
 	return true;
       }
-      if (!No38Lookup && storcl_38){ //  && abs_calc_mode(contextptr)==38)
-	if (eval_38(level,orig,evaled,id_name,contextptr))
-	  return true;
-      }
+      //if (!No38Lookup && storcl_38){ //  && abs_calc_mode(contextptr)==38)
+      //   if (eval_38(level,orig,evaled,id_name,contextptr))
+      //      return true;
+      //}
     }
     if (local_eval(contextptr) && localvalue && !localvalue->empty()){
       evaled=do_local_eval(*this,level,true);

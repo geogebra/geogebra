@@ -548,6 +548,9 @@ namespace giac {
 #define GBASIS_NO_OUTPUT
 #endif 
 
+  //#define GIAC_HASH
+  short hash64tab[]={1933,1949,1951,1973,1979,1987,1993,1997,1999,2003,2011,2017,2027,2029,2039,2053,2063,2069,2081,2083,2087,2089,2099,2111,2113,2129,2131,2137,2141,2143,2153,2161,2179,2203,2207,2213,2221,2237,2239,2243,2251,2267,2269,2273,2281,2287,2293,2297,2309,2311,2333,2339,2341,2347,2351,2357,2371,2377,2381,2383,2389,2393,2399,2411};
+
   struct tdeg_t64 {
     bool vars64() const {return true;}
     void dbgprint() const;
@@ -560,6 +563,7 @@ namespace giac {
 	short tdeg2;
 	order_t order_;
 	longlong * ui;
+	longlong hash;
       };
     };
     //int front() const { if (tdeg % 2) return (*(ui+1)) & 0xffff; else return order_.o==_PLEX_ORDER?tab[0]:tab[1];}
@@ -569,6 +573,7 @@ namespace giac {
 	tdeg2=a.tdeg2;
 	order_=a.order_;
 	ui=a.ui;
+	hash=a.hash;
 	++(*ui);
       }
       else {
@@ -584,27 +589,35 @@ namespace giac {
       if (tab[0]%2){
 	longlong * ptr=ui+1;
 	tdeg=0;
+	hash=0;
 	int firstblock=order_.o;
 	if (firstblock!=_3VAR_ORDER && firstblock<_7VAR_ORDER)
 	  firstblock=order_.dim;
 	longlong * ptrend=ui+1+(firstblock+degratiom1)/degratio;
-	for (;ptr!=ptrend;++ptr){
+	int i=0;
+	for (;ptr!=ptrend;i+=4,++ptr){
 	  longlong x=*ptr;
 #ifdef GIAC_CHARDEGTYPE
 	  tdeg += ((x+(x>>8)+(x>>16)+(x>>24)+(x>>32)+(x>>40)+(x>>48)+(x>>56))&0xff);
 #else
 	  tdeg += ((x+(x>>16)+(x>>32)+(x>>48))&0xffff);
 #endif
+#ifdef GIAC_HASH
+	  hash += (x&0xffff)*hash64tab[i]+((x>>16)&0xffff)*hash64tab[i+1]+((x>>32)&0xfff)*hash64tab[i+2]+(x>>48)*hash64tab[i+3];
+#endif
 	}
 	tdeg=2*tdeg+1;
 	tdeg2=0;
 	ptrend=ui+1+(order_.dim+degratiom1)/degratio;
-	for (;ptr!=ptrend;++ptr){
+	for (;ptr!=ptrend;i+=4,++ptr){
 	  longlong x=*ptr;
 #ifdef GIAC_CHARDEGTYPE
 	  tdeg2 += ((x+(x>>8)+(x>>16)+(x>>24)+(x>>32)+(x>>40)+(x>>48)+(x>>56))&0xff);
 #else
 	  tdeg2 += ((x+(x>>16)+(x>>32)+(x>>48))&0xffff);
+#endif
+#ifdef GIAC_HASH
+	  hash += (x&0xffff)*hash64tab[i]+((x>>16)&0xffff)*hash64tab[i+1]+((x>>32)&0xfff)*hash64tab[i+2]+(x>>48)*hash64tab[i+3];
 #endif
 	}
       }
@@ -626,6 +639,7 @@ namespace giac {
 	  tdeg2=a.tdeg2;
 	  order_=a.order_;
 	  ui=a.ui;
+	  hash=a.hash;
 	  ++(*ui);
 	  return *this;
 	}
@@ -648,7 +662,7 @@ namespace giac {
     int front(){ return tab[1];}
 #endif
     // methods
-    unsigned total_degree(order_t order) const {
+    inline unsigned total_degree(order_t order) const {
 #ifdef GIAC_64VARS
       if (tab[0]%2)
 	return tdeg/2+tdeg2;
@@ -766,6 +780,9 @@ namespace giac {
 	  tdeg2=0;
 	}
 	order_=order;
+#ifdef GIAC_HASH
+	compute_degs(); // for hash
+#endif
 	return;
       }
 #endif // GIAC_64VARS
@@ -1074,6 +1091,10 @@ namespace giac {
 	X%2
 #endif
 	){
+#ifdef GIAC_HASH
+      if (x.hash!=y.hash) 
+	return false;
+#endif
       //if (x.ui==y.ui) return true;
       const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
 #ifndef GIAC_CHARTABDEG
@@ -1593,7 +1614,11 @@ namespace giac {
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
 #endif
-      if (x.tdeg<y.tdeg || x.tdeg2<y.tdeg2)
+      if (
+#ifdef GIAC_HASH
+	  x.hash<y.hash || 
+#endif
+	  x.tdeg<y.tdeg || x.tdeg2<y.tdeg2)
 	return false;
 #if 0
       const degtype * it1=(degtype *)(x.ui+1),*it1end=it1+x.order_.dim,*it2=(degtype *)(y.ui+1);
@@ -4048,7 +4073,7 @@ namespace giac {
     return false;
   }
 
-  //#define GIAC_DEG_FIRST
+  // #define GIAC_DEG_FIRST
   
   template <class tdeg_t>
   bool operator < (const zsymb_data<tdeg_t> & z1,const zsymb_data<tdeg_t> & z2){
@@ -10095,6 +10120,7 @@ namespace giac {
 
   template<class tdeg_t>
   void zsymbolic_preprocess(const vector<tdeg_t> & f,const vectzpolymod<tdeg_t> & g,const vector<unsigned> & G,unsigned excluded,vector< vector<tdeg_t> > & q,vector<tdeg_t> & rem,vector<tdeg_t> & R){
+    int countdiscarded=0;
     // divides f by g[G[0]] to g[G[G.size()-1]] except maybe g[G[excluded]]
     // CERR << f << "/" << g << endl;
     // first implementation: use quotient heap for all quotient/divisor
@@ -10150,15 +10176,36 @@ namespace giac {
       else {
 	m=H_[H.front()].u;
       }
+      //CERR << m << endl;
       R.push_back(m);
       // extract from heap all terms having m as monomials, substract from c
       while (!H.empty() && H_[H.front()].u==m){
 	heap_t<tdeg_t> & current=H_[H.front()]; // was root node of the heap
 	const zpolymod<tdeg_t> & gcurrent = g[G[current.i]];
-	if (current.gj<gcurrent.coord.size()-1){
-	  ++current.gj;
+	++current.gj;
+	for (int startheappos=1;current.gj<gcurrent.coord.size();++current.gj){
 	  //current.u=q[current.i][current.qi]+(*gcurrent.expo)[gcurrent.coord[current.gj].u];
 	  add(q[current.i][current.qi],(*gcurrent.expo)[gcurrent.coord[current.gj].u],current.u,dim);
+	  int newtdeg=current.u.total_degree(order);
+	  // quick look in part of heap: is monomial already there?
+	  int heappos=startheappos,ntests=H.size(); // giacmin(8,H.size());
+	  for (;heappos<ntests;heappos=2*heappos+1){
+	    heap_t<tdeg_t> & heapcurrent=H_[H[heappos]];
+	    int heapcurtdeg=heapcurrent.u.total_degree(order);
+	    if (heapcurtdeg<newtdeg){
+	      heappos=ntests; break;
+	    }
+	    if (heapcurtdeg==newtdeg && heapcurrent.u==current.u)
+	      break;
+	  }
+	  if (heappos<ntests){
+	    ++countdiscarded;
+	    startheappos=2*heappos+1;
+	    continue;
+	  }
+	  break;
+	}
+	if (current.gj<gcurrent.coord.size()){
 	  H.push_back(H.front());
 	  std::pop_heap(H.begin(),H.end(),key);
 	  H.pop_back();
@@ -10207,16 +10254,40 @@ namespace giac {
       q[i].push_back(monom);
       // CERR << i << " " << q[i] << endl;
       // push in heap
-      if (gGi.coord.size()>1){
-	heap_t<tdeg_t> current = { i, unsigned(q[i].size()) - 1, 1, (*gGi.expo)[gGi.coord[1].u] + monom };
+      int startheappos=0;
+      for (int pos=1;pos<gGi.coord.size();++pos){
+#if 0 // not useful here, but would be above!
+	tdeg_t newmonom=(*gGi.expo)[gGi.coord[pos].u] + monom;
+	int newtdeg=newmonom.total_degree(order);
+	// quick look in part of heap is monomial already there
+	int heappos=startheappos,ntests=H.size(); // giacmin(8,H.size());
+	for (;heappos<ntests;heappos=2*heappos+1){
+	  heap_t<tdeg_t> & current=H_[H[heappos]];
+	  int curtdeg=current.u.total_degree(order);
+	  if (curtdeg<newtdeg){
+	    heappos=ntests; break;
+	  }
+	  if (curtdeg==newtdeg && current.u==newmonom)
+	    break;
+	}
+	if (heappos<ntests){
+	  ++countdiscarded;
+	  startheappos=2*heappos+1;
+	  continue;
+	}
+	heap_t<tdeg_t> current = { i, unsigned(q[i].size()) - 1, pos, newmonom };
+#else
+	heap_t<tdeg_t> current = { i, unsigned(q[i].size()) - 1, pos, (*gGi.expo)[gGi.coord[pos].u] + monom };
+#endif
 	H.push_back(hashgcd_U(H_.size()));
 	H_.push_back(current);
 	key.ptr=&H_.front();
 	std::push_heap(H.begin(),H.end(),key);
+	break;
       }
     } // end main heap pseudo-division loop
     if (debug_infolevel>1)
-      CERR << CLOCK() << " Heap actual size was " << H_.size() << endl;
+      CERR << CLOCK() << " Heap actual size was " << H_.size() << " discarded monomials " << countdiscarded << endl;
   }
 
   template<class tdeg_t>
@@ -13048,7 +13119,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     };
     int front(){ return tab[2];}
     // methods
-    unsigned total_degree(order_t order) const {
+    inline unsigned total_degree(order_t order) const {
       return tdeg+tdeg2;
     }
     // void set_total_degree(unsigned d) { tab[0]=d;}
@@ -13410,7 +13481,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     };
     int front(){ return tab[1];}
     // methods
-    unsigned total_degree(order_t order) const {
+    inline unsigned total_degree(order_t order) const {
       // works only for revlex and tdeg
       return tab[0];
     }
@@ -13747,7 +13818,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     };
     int front(){ return tab[1];}
     // methods
-    unsigned total_degree(order_t order) const {
+    inline unsigned total_degree(order_t order) const {
       if (order.o==_REVLEX_ORDER)
 	return tab[0];      // works only for revlex and tdeg
       if (order.o==_3VAR_ORDER)

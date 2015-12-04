@@ -1382,10 +1382,9 @@ namespace giac {
       vecteur lv(lop(args,at_of));
       vecteur f;
       if (lv.size()>=1 && lv[0]._SYMBptr->feuille.type==_VECT && (f=*lv[0]._SYMBptr->feuille._VECTptr).size()==2){
-	gen f1=vx_var;
-	if (f[1].type==_IDNT || f[1].is_symb_of_sommet(at_at))
-	  f1=f[1];
-	return desolve(args,f1,f[0],ordre,parameters,contextptr);
+	if (f[1].type==_IDNT || f[1].is_symb_of_sommet(at_at)){
+	  return desolve(args,f[1],f[0],ordre,parameters,contextptr);
+	}
       }
       gen vx,vy;
       lv=lidnt(evalf(args,1,contextptr));

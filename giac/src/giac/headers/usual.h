@@ -327,7 +327,7 @@ namespace giac {
   bool check_vect_38(const std::string & s);
   // check value type for storing value in s using 38 compatibility mode
   bool check_sto_38(gen & value,const char * s);
-  extern bool (*storcl_38)(gen & value,const char * name_space,const char * idname,gen indice,bool at_of,GIAC_CONTEXT, gen const *sto);
+  extern bool (*storcl_38)(gen & value,const char * name_space,const char * idname,gen indice,bool at_of,GIAC_CONTEXT, gen const *sto,bool OnlyLocal);
   extern int (*is_known_name_38)(const char * name_space,const char * idname);
   extern gen (*of_pointer_38)(const void * appptr,const void * varptr,const gen & args);
   extern gen_op_context * interactive_op_tab;
