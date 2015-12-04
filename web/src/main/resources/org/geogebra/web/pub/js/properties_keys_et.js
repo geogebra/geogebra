@@ -2145,6 +2145,7 @@ __GGB__keysVar.et.menu = {
     "ZMeanTest": "Z-test, keskv\xe4\xe4rtus",
     "ZProportionInterval": "Z hinnang, osakaal",
     "ZProportionTest": "Z-test, osakaal",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z-test, keskv\xe4\xe4rtuste erinevus",
     "ZTestDifferenceOfProportions": "Z-test, osakaalude erinevus",

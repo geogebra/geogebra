@@ -2145,6 +2145,7 @@ __GGB__keysVar.af.menu = {
     "ZMeanTest": "Z Toets vir 'n Gemiddelde",
     "ZProportionInterval": "Z Estimate of a Proportion",
     "ZProportionTest": "Z Toets vir 'n Verhouding",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z Toets, Verskil in Gemiddelde",
     "ZTestDifferenceOfProportions": "Z Toets, Verskil in Verhouding",

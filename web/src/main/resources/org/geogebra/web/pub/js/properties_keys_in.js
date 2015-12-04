@@ -2145,6 +2145,7 @@ __GGB__keysVar.in.menu = {
     "ZMeanTest": "Uji Z dari Rerata",
     "ZProportionInterval": "Estimasi Z dari suatu Proporsi",
     "ZProportionTest": "Uji Z dari suatu Proporsi",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Uji Z, Perbedaan Rerata",
     "ZTestDifferenceOfProportions": "Uji Z, Perbedaan Proporsi",

@@ -2145,6 +2145,7 @@ __GGB__keysVar.vi.menu = {
     "ZMeanTest": "Ki\u1ec3m \u0111\u1ecbnh trung b\xecnh Z",
     "ZProportionInterval": "L\u01b0\u1ee3ng gi\xe1 Z c\u1ee7a t\u1ec9 l\u1ec7",
     "ZProportionTest": "Ki\u1ec3m \u0111\u1ecbnh Z c\u1ee7a t\u1ec9 l\u1ec7",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Ki\u1ec3m \u0111\u1ecbnh Z, sai kh\xe1c trung b\xecnh",
     "ZTestDifferenceOfProportions": "Ki\u1ec3m \u0111\u1ecbnh Z, sai kh\xe1c t\u1ec9 l\u1ec7",

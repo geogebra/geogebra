@@ -2145,6 +2145,7 @@ __GGB__keysVar.sr.menu = {
     "ZMeanTest": "Z test srednjih vrednosti",
     "ZProportionInterval": "Z o\u010dekivanja proporcija",
     "ZProportionTest": "Z test proporcija",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z Test, razlika srednjih vrednosti",
     "ZTestDifferenceOfProportions": "Z Test, razlika proporcija",

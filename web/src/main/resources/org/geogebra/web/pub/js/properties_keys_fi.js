@@ -2145,6 +2145,7 @@ __GGB__keysVar.fi.menu = {
     "ZMeanTest": "Keskiarvon Z-testi",
     "ZProportionInterval": "Suhteen Z-estimaatti",
     "ZProportionTest": "Suhteen Z-testi",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z-testi, Keskiarvojen erotus",
     "ZTestDifferenceOfProportions": "Z-testi, Suhteiden erotus",

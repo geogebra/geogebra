@@ -2145,6 +2145,7 @@ __GGB__keysVar.tr.menu = {
     "ZMeanTest": "Bir ortalaman\u0131n Z Testi",
     "ZProportionInterval": "Z Oran Tahmini",
     "ZProportionTest": "Z Oran Testi",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z Testi, Ortalamalar Fark\u0131",
     "ZTestDifferenceOfProportions": "Z Testi, Oranlar Fark\u0131",

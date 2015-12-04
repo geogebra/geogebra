@@ -2145,6 +2145,7 @@ __GGB__keysVar.ro.menu = {
     "ZMeanTest": "Test Z al unei medii",
     "ZProportionInterval": "Estimarea Z a propor\u021biilor",
     "ZProportionTest": "Testul Z pentru propor\u021bii",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Testul Z, diferen\u021ba mediilor",
     "ZTestDifferenceOfProportions": "Testul Z, diferen\u021ba propor\u021biilor",

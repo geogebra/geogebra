@@ -2145,6 +2145,7 @@ __GGB__keysVar.ms.menu = {
     "ZMeanTest": "Ujian Z bagi Min",
     "ZProportionInterval": "Anggaran Z Perkadaran",
     "ZProportionTest": "Ujian Z Perkadaran",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Ujian Z, Beza Min",
     "ZTestDifferenceOfProportions": "Ujian Z, Beza Perkadaran",

@@ -2145,6 +2145,7 @@ __GGB__keysVar.sk.menu = {
     "ZMeanTest": "z-test priemeru",
     "ZProportionInterval": "Z odhad pomeru",
     "ZProportionTest": "Z test pomeru",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z test, rozdiel priemerov",
     "ZTestDifferenceOfProportions": "Z test, rozdiel pomerov",

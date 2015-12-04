@@ -2145,6 +2145,7 @@ __GGB__keysVar.no_NB.menu = {
     "ZMeanTest": "Z-test av et gjennomsnitt",
     "ZProportionInterval": "Z-estimat av et forhold",
     "ZProportionTest": "Z-test av et forhold",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z-test. Forskjell mellom gjennomsnitt",
     "ZTestDifferenceOfProportions": "Z-test. Forskjell mellom forhold",

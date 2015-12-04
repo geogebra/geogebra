@@ -2145,6 +2145,7 @@ __GGB__keysVar.iw.menu = {
     "ZMeanTest": "\u05de\u05d1\u05d7\u05df \u200fZ\u200f \u05e9\u05dc \u05de\u05de\u05d5\u05e6\u05e2",
     "ZProportionInterval": "\u05d0\u05d5\u05de\u05d3\u05df \u200fZ{{rlm} \u05e9\u05dc \u05e4\u05e8\u05d5\u05e4\u05d5\u05e8\u05e6\u05d9\u05d4",
     "ZProportionTest": "\u05de\u05d1\u05d7\u05df \u200fZ{{rlm} \u05e9\u05dc \u05e4\u05e8\u05d5\u05e4\u05d5\u05e8\u05e6\u05d9\u05d4",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "\u05de\u05d1\u05d7\u05df \u200fZ\u200f, \u05d4\u05e4\u05e8\u05e9 \u05de\u05de\u05d5\u05e6\u05e2\u05d9\u05dd",
     "ZTestDifferenceOfProportions": "\u05de\u05d1\u05d7\u05df \u200fZ\u200f, \u05d4\u05e4\u05e8\u05e9 \u05e4\u05e8\u05d5\u05e4\u05d5\u05e8\u05e6\u05d9\u05d5\u05ea",

@@ -2145,6 +2145,7 @@ __GGB__keysVar.fa.menu = {
     "ZMeanTest": "\u0622\u0632\u0645\u0648\u0646 Z \u0627\u0632 \u06cc\u06a9 \u0645\u0639\u0646\u06cc",
     "ZProportionInterval": "\u062a\u062e\u0645\u06cc\u0646 Z \u0645\u062a\u0646\u0627\u0633\u0628",
     "ZProportionTest": "\u0622\u0632\u0645\u0648\u0646 Z \u0645\u062a\u0646\u0627\u0633\u0628",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z \u0622\u0632\u0645\u0648\u0646, \u062a\u0641\u0627\u0636\u0644 \u0645\u06cc\u0627\u0646\u06af\u06cc\u0646",
     "ZTestDifferenceOfProportions": "Z \u0622\u0632\u0645\u0648\u0646, \u062a\u0641\u0627\u0636\u0644 \u062a\u0646\u0627\u0633\u0628\u06cc",

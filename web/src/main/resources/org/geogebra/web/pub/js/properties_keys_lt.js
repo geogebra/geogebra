@@ -2145,6 +2145,7 @@ __GGB__keysVar.lt.menu = {
     "ZMeanTest": "Z vidurkio testas",
     "ZProportionInterval": "Proporcijos Z \u012fvertis",
     "ZProportionTest": "Proporcijos Z testas",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z testas, Vidurki\u0173 skirtumas",
     "ZTestDifferenceOfProportions": "Z testas, Proporcij\u0173 skirtumas",

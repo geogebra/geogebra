@@ -2145,6 +2145,7 @@ __GGB__keysVar.fr.menu = {
     "ZMeanTest": "Z Test d'une moyenne",
     "ZProportionInterval": "Z Estimation d'une Proportion",
     "ZProportionTest": "Z Test d'une Proportion",
+    "ZSpace.DetectedMessage": "F\xe9licitations,votre station zSpace  peut \xeatre utilis\xe9e avec GeoGebra !",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z Test, Diff\xe9rence des moyennes",
     "ZTestDifferenceOfProportions": "Z Test, Diff\xe9rence des proportions",

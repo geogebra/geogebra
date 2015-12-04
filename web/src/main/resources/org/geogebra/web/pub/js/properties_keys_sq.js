@@ -2145,6 +2145,7 @@ __GGB__keysVar.sq.menu = {
     "ZMeanTest": "Z Test i nje Mesatare",
     "ZProportionInterval": "Z Vleresim i Proporcioneve",
     "ZProportionTest": "Z Test i nje Proporcioni",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z Test, Diference e Mesatareve",
     "ZTestDifferenceOfProportions": "Z Test, Diference e Proporcioneve",

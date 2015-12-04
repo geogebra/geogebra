@@ -2145,6 +2145,7 @@ __GGB__keysVar.cy.menu = {
     "ZMeanTest": "Prawf Z o'r cymedr",
     "ZProportionInterval": "Amcangyfrif Z o Gyfrannedd",
     "ZProportionTest": "Prawf Z o Gyfrannedd",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Prawf Z, Gwahaniaeth rhwng Cymedrau",
     "ZTestDifferenceOfProportions": "Prawf Z, Gwahaniaeth rhwng Cyfraneddau",

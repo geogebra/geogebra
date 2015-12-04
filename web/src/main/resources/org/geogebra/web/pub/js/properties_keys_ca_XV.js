@@ -2145,6 +2145,7 @@ __GGB__keysVar.ca_XV.menu = {
     "ZMeanTest": "Prova Z d\u2019una mitjana",
     "ZProportionInterval": "Estimaci\xf3 Z d'una proporci\xf3",
     "ZProportionTest": "Prova Z de contrast d'una proporci\xf3",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Prova Z, difer\xe8ncia de mitjanes",
     "ZTestDifferenceOfProportions": "Prova Z, difer\xe8ncia de proporcions",

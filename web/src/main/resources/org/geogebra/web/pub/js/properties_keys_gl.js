@@ -2145,6 +2145,7 @@ __GGB__keysVar.gl.menu = {
     "ZMeanTest": "Test Z dunha media",
     "ZProportionInterval": "Z estimaci\xf3n dunha proporci\xf3n",
     "ZProportionTest": "Z test dunha proporci\xf3n",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z Test, diferenza de medias",
     "ZTestDifferenceOfProportions": "Z test, diferenza de proporci\xf3ns",

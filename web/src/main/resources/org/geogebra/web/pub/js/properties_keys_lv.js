@@ -2145,6 +2145,7 @@ __GGB__keysVar.lv.menu = {
     "ZMeanTest": "Z Test par noz\u012bm\u012bgumu",
     "ZProportionInterval": "Z Nov\u0113rt\u0113jums parproporcij\u0101m",
     "ZProportionTest": "Z Test par proporcij\u0101m",
+    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Z Test, Starp\u012bba starp noz\u012bm\u012bgumu",
     "ZTestDifferenceOfProportions": "Z Test, Starp\u012bba starp proporcj\u0101m",
