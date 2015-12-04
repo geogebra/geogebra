@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
@@ -5563,9 +5562,10 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(exp);
 			if (label != null) {
-				if ("X".equals(ve.getLabel())) {
-					ve = new Equation(kernel, new Variable(kernel, "X"), ve);
-				}
+				// reverted GGB-357
+				// if ("X".equals(ve.getLabel())) {
+				// ve = new Equation(kernel, new Variable(kernel, "X"), ve);
+				// }
 				ve.setLabel(label);
 			}
 
