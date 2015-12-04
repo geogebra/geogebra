@@ -130,28 +130,20 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 
 	}
 
-	/**
-	 * Creates new function
-	 * 
-	 * @param c
-	 *            construction
-	 * @param label
-	 *            label for function
-	 * @param f
-	 *            function
-	 */
-	public GeoFunction(Construction c, String label, Function f) {
-		this(c, f);
-		setLabel(label);
+
+	public void validate() {
 		// TODO: Remove following code for 5.0 -- it's there to make sure no
 		// functions of y are created
-		if (isLabelSet() && !isBooleanFunction()
+		if (isLabelSet()
+				&& !isBooleanFunction()
 				&& (this.isFunctionOfY() || (label == null && this
 						.isFunctionOfZ()))) {
 			this.remove();
 			throw new MyError(getLoc(), "InvalidFunction");
 		}
+
 	}
+
 	/**
 	 * Creates new function
 	 * @param c construction

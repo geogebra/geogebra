@@ -247,12 +247,18 @@ public class CmdIf extends CommandProcessor {
 		}
 		if (vars < 2) {
 			Function fun = new Function(expr, fv[0]);
+			GeoFunction gf;
 			if (mayUseIndependent) {
-				return new GeoFunction(cons, label, fun);
+				gf = new GeoFunction(cons, fun);
+
+			} else {
+				AlgoDependentFunction algo = new AlgoDependentFunction(cons,
+						fun);
+				gf = algo.getFunction();
 			}
-			AlgoDependentFunction algo = new AlgoDependentFunction(cons, label,
-					fun);
-			return algo.getFunction();
+			gf.setLabel(label);
+			gf.validate();
+			return gf;
 		}
 		FunctionNVar fun = new FunctionNVar(expr, fv);
 		if (mayUseIndependent) {

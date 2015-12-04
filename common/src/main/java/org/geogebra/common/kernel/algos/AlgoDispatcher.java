@@ -340,8 +340,18 @@ public class AlgoDispatcher {
 	 * variables, represented by trees.
 	 */
 	final public GeoFunction DependentFunction(String label, Function fun) {
-		AlgoDependentFunction algo = new AlgoDependentFunction(cons, label, fun);
+		AlgoDependentFunction algo = new AlgoDependentFunction(cons, fun);
+		String derivativeLabel = null;
+
+		// auto label for f'' to be f'' etc
+		if (label == null) {
+			derivativeLabel = AlgoDependentFunction.getDerivativeLabel(fun);
+		}
+
+		algo.getFunction().setLabel(
+				derivativeLabel != null ? derivativeLabel : label);
 		GeoFunction f = algo.getFunction();
+		f.validate();
 		return f;
 	}
 

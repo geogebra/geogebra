@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Function[ <GeoFunction>, <NumberValue>, <NumberValue> ]
@@ -123,16 +122,20 @@ public class CmdFunction extends CommandProcessor {
 					expr = new ExpressionNode(kernelA, wrap(conditions.get(0),
 							fv, mayUseIndependent), Operation.IF, wrap(geoFun,
 							fv, mayUseIndependent));
-					Log.debug(expr);
-					Log.debug(arg[0]);
+
 					Function fun = new Function(expr, fv);
+					GeoFunction gf;
 					if (mayUseIndependent) {
-						return new GeoElement[] { new GeoFunction(cons, label,
-								fun) };
+						gf = new GeoFunction(cons, fun);
+
+					} else {
+						AlgoDependentFunction algo = new AlgoDependentFunction(
+								cons, fun);
+						gf = algo.getFunction();
 					}
-					AlgoDependentFunction algo = new AlgoDependentFunction(
-							cons, label, fun);
-					return new GeoElement[] { algo.getFunction() };
+					gf.setLabel(label);
+					gf.validate();
+					return new GeoElement[] { gf };
 
 				}
 				throw argErr(app, c.getName(), getBadArg(ok, arg));

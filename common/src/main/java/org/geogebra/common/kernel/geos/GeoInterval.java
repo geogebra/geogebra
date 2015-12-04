@@ -27,8 +27,8 @@ public class GeoInterval extends GeoFunction {
 	 * @param label label
 	 * @param f boolean function
 	 */
-	public GeoInterval(Construction c, String label, Function f) {
-		super(c, label, f);
+	public GeoInterval(Construction c, Function f) {
+		super(c, f);
 	}
 
 	/**

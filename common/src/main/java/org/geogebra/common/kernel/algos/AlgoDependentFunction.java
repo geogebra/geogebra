@@ -52,28 +52,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	private boolean expContainsFunctions; // expression contains functions
 	private HashSet<GeoElement> unconditionalInput;
 
-	/**
-	 * Creates new AlgoDependentFunction
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label for output
-	 * @param fun
-	 *            input function
-	 */
-	public AlgoDependentFunction(Construction cons, String label, Function fun) {
-		this(cons, fun);
 
-		String derivativeLabel = null;
-
-		// auto label for f'' to be f'' etc
-		if (label == null) {
-			derivativeLabel = getDerivativeLabel(fun);
-		}
-
-		f.setLabel(derivativeLabel != null ? derivativeLabel : label);
-	}
 
 	/**
 	 * @param cons
@@ -347,7 +326,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 * checks to see if this is an nth derivative, and return an appropriate
 	 * label eg f''' for 3rd derivative
 	 */
-	private static String getDerivativeLabel(Function fun) {
+	static String getDerivativeLabel(Function fun) {
 		ExpressionValue ev = fun.getExpression().getLeft();
 		if (ev.isExpressionNode()) {
 			ExpressionNode enL = (ExpressionNode) (fun.getExpression()

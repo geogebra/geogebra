@@ -1682,10 +1682,11 @@ public class AlgebraProcessor {
 				// opposite directions -> OK
 				if (leftDir * rightDir < 0) {
 					if (isIndependent) {
-						f = new GeoInterval(cons, label, fun);
+						f = new GeoInterval(cons, fun);
 					} else {
-						f = DependentInterval(label, fun);
+						f = DependentInterval(fun);
 					}
+					f.setLabel(label);
 					ret[0] = f;
 					return ret;
 
@@ -1715,7 +1716,9 @@ public class AlgebraProcessor {
 		}
 
 		if (isIndependent) {
-			f = new GeoFunction(cons, label, fun);
+			f = new GeoFunction(cons, fun);
+			f.setLabel(label);
+			f.validate();
 		} else {
 			f = kernel.getAlgoDispatcher().DependentFunction(label, fun);
 		}
@@ -1982,7 +1985,7 @@ public class AlgebraProcessor {
 					&& right.isConstant())
 				dir = +1;
 			else if (right instanceof FunctionVariable && left.isNumberValue()
-					&& right.isConstant())
+					&& left.isConstant())
 				dir = -1;
 
 		}
@@ -1993,8 +1996,8 @@ public class AlgebraProcessor {
 	 * Interval dependent on coefficients of arithmetic expressions with
 	 * variables, represented by trees. e.g. x > a && x < b
 	 */
-	final private GeoFunction DependentInterval(String label, Function fun) {
-		AlgoDependentInterval algo = new AlgoDependentInterval(cons, label, fun);
+	final private GeoFunction DependentInterval(Function fun) {
+		AlgoDependentInterval algo = new AlgoDependentInterval(cons, fun);
 		GeoFunction f = algo.getFunction();
 		return f;
 	}
