@@ -947,7 +947,7 @@ ExpressionNode functionExpressionnode():
           FunctionVariable funVar = new FunctionVariable(kernel,localVars.get(i));
           vars.addListElement(funVar);
         }
-        return new Equation(kernel,vars.wrap(),rhs).wrap();
+        return new Equation(kernel,buildOpNode(op, vars), rhs).wrap();
       }
       
       FunctionVariable[] funVar = new FunctionVariable[n];
