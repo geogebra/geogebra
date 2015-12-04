@@ -3493,6 +3493,7 @@ sb.toString(), getFontAxes(),
 		DrawableIterator it = allDrawableList.getIterator();
 		it.reset();
 		DrawList selected = null;
+		DrawList opened = null;
 		while (it.hasNext()) {
 			Drawable d = it.next();
 			if (d instanceof DrawList && ((DrawList) d).isCanvasDrawable()) {
@@ -3502,14 +3503,22 @@ sb.toString(), getFontAxes(),
 					dl.update();
 				}
 
-				if (dl.isSelected()) {
+				if (selected == null && dl.isSelected()) {
 					selected = dl;
 				}
+
+				if (opened == null && dl.isOptionsVisible()) {
+					opened = dl;
+				}
+
 				dl.draw(g);
 			}
 		}
-		if (selected != null) {
-			selected.draw(g);
+
+		DrawList topDropDown = opened != null ? opened : selected;
+
+		if (topDropDown != null) {
+			topDropDown.draw(g);
 		}
 	}
 
