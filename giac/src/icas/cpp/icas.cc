@@ -19,7 +19,10 @@ int main(int argc, char *argv[]){
   context ct;
   string line;
   gen g;
+  int n = 1; // in giac this starts from 0
   while (getline(cin, line)) {
+    cout << n << ">> " << line << endl;
+    cout << n++ << "<< ";
     g=gen(line,&ct);
     try {
       cout << eval(g,1,&ct) << endl;

@@ -288,7 +288,7 @@ model {
 task testIcasExecutable (dependsOn: 'icasExecutable', type: Exec) {
     description 'Tests the icas executable.'
     workingDir 'src/test'
-    commandLine './regression', '-r'
+    commandLine './regression', '-r', '-s'
     }
 
 task androidCopyCrystaxSo (type: Exec) {

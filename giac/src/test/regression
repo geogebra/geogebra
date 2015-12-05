@@ -9,6 +9,7 @@ TIMEOUT=480
 HEAVY=0
 INFEASIBLE=0
 REGRESSION=0
+SILENT=0
 
 log() {
  DATE=`date +%T`
@@ -24,13 +25,17 @@ usage() {
  echo "   -f           overwrite existing .out files (on creation only)"
  echo "   -H           run heavy tests also"
  echo "   -I           run infeasible tests also"
+ echo "   -s           be silent: do not exit with error code when there is regression"
  echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
  echo "   -h           show this help"
  exit 0
  }
 
-while getopts "t:rfhHI" OPT; do
+while getopts "t:rfhHIs" OPT; do
  case $OPT in
+  s)
+   SILENT=0
+   ;;
   r)
    REGRESSION=1
    ;;
@@ -120,7 +125,7 @@ if [ "$REGRESSION" = 1 ]; then
  BAD=`cat $SAVEDIR/.bad`
  GOOD=`cat $SAVEDIR/.good`
  log "Summary: $GOOD good and $BAD bad results"
- if [ "$BAD" != 0 ]; then
+ if [ "$BAD" != 0 -a "$SILENT" = 0 ]; then
   exit 1
   fi
  fi
