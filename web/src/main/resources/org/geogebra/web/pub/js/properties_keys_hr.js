@@ -2157,11 +2157,11 @@ __GGB__keysVar.hr.menu = {
     "insert_worksheet": "Umetni radni list",
     "off": "Isklju\u010deno",
     "on": "uklju\u010deno",
-    "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
+    "phone_loading_materials_failed": "\u017dao nam je ali materijal trenutno nije dostupan.",
     "phone_loading_materials_offline": "Please check your Internet connection.",
     "phone_no_materials_found": "No Materials found",
     "phone_tour_done": "Done",
-    "phone_try_again_loading": "Try again",
+    "phone_try_again_loading": "Poku\u0161ajte ponovo",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra uratke",
 }
 
@@ -2525,7 +2525,7 @@ __GGB__keysVar.hr.plain = {
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",
     "ImplicitPoly": "Implicitno zadana krivulja",
-    "ImplicitSurface": "Implicit Surface",
+    "ImplicitSurface": "Implicitna ploha",
     "IncircleOfTriangleABC": "Upisana kru\u017enica trokuta %0%1%2",
     "Increasing": "rastu\u0107e",
     "IncreasingOnce": "rastu\u0107e (jednom)",
