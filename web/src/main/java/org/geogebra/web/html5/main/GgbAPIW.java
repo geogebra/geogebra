@@ -120,21 +120,19 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 
 	public String getPNGBase64(double exportScale, boolean transparent,
 			double DPI) {
-		if (app.getGuiManager() != null)
+		if (app.getGuiManager() != null) {
 			app.getGuiManager().getLayout().getDockManager().ensureFocus();
-		App.debug(app.getGuiManager().getLayout().getDockManager()
-				.getFocusedViewId()
-				+ " focused");
-		if (app.getGuiManager() != null
-				&& app.getGuiManager().getLayout().getDockManager()
-						.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
-			return pngBase64(((EuclidianViewWInterface) app.getGuiManager()
-					.getPlotPanelEuclidanView()).getExportImageDataUrl(
-					exportScale, transparent));
+
+			if (app.getGuiManager().getLayout().getDockManager()
+					.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
+				return pngBase64(((EuclidianViewWInterface) app.getGuiManager()
+						.getPlotPanelEuclidanView()).getExportImageDataUrl(
+								exportScale, transparent));
+			}
 		}
-		return pngBase64(((EuclidianViewWInterface) app
-				.getActiveEuclidianView()).getExportImageDataUrl(exportScale,
-				transparent));
+		return pngBase64(
+				((EuclidianViewWInterface) app.getActiveEuclidianView())
+						.getExportImageDataUrl(exportScale, transparent));
 	}
 
 	private static String pngBase64(String pngURL) {
