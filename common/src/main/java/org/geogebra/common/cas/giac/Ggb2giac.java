@@ -771,9 +771,14 @@ public class Ggb2giac {
 							+ "translation(vector(ggbtrsarg1),ggbtrsarg0) ,"
 							+ "translation(ggbtrsarg1,ggbtrsarg0) ),"
 					// translate 3d point
+							+ "when ( (ggbtrsarg1)[0] == 'pnt',"
+							// vector as point
+							+ "point(xcoord(translation(vector(ggbtrsarg1),ggbtrsarg0))[0],"
+							+ "xcoord(translation(vector(ggbtrsarg1),ggbtrsarg0))[1], "
+							+ "xcoord(translation(vector(ggbtrsarg1),ggbtrsarg0))[2]) ,"
 					+ "point(xcoord(translation(ggbtrsarg1,ggbtrsarg0))[0],"
 							+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[1], "
-							+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ),"
+							+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ) ),"
 							+ "when ( size(ggbtrsarg0) == 2 && (ggbtrsarg0)[0] == '^' &&"
 							+ "type((ggbtrsarg0)[1]) == DOM_IDENT , "
 							+ " equation( ((ggbtrsarg0)[1] - ggbtrsarg1[0])^(ggbtrsarg0)[2] + (ggbtrsarg1)[1] ), "
