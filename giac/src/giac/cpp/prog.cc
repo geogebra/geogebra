@@ -3694,6 +3694,8 @@ namespace giac {
     }
     if ( (intervalle.type==_SYMB) && (intervalle._SYMBptr->sommet==at_interval)){
       gen c=intervalle._SYMBptr->feuille._VECTptr->front(),d=intervalle._SYMBptr->feuille._VECTptr->back();
+      if ( (!is_integral(c) || !is_integral(d)) && abs_calc_mode(contextptr)==38)
+	return gensizeerr(contextptr);
       gen debut=c,fin=d;
       bool reverse=ck_is_greater(debut,fin,contextptr);
       step=abs(step,contextptr);

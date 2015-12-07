@@ -588,8 +588,8 @@ namespace giac {
     void compute_degs(){
       if (tab[0]%2){
 	longlong * ptr=ui+1;
-	tdeg=0;
 	hash=0;
+	tdeg=0;
 	int firstblock=order_.o;
 	if (firstblock!=_3VAR_ORDER && firstblock<_7VAR_ORDER)
 	  firstblock=order_.dim;
@@ -965,7 +965,7 @@ namespace giac {
   tdeg_t64 operator + (const tdeg_t64 & x,const tdeg_t64 & y){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-#ifdef DEBUG_SUPPORT
+#ifdef GIAC_DEBUG_TDEG_T64
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
 #endif
@@ -1001,7 +1001,7 @@ namespace giac {
   inline void add(const tdeg_t64 & x,const tdeg_t64 & y,tdeg_t64 & res,int dim){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-#ifdef DEBUG_SUPPORT
+#ifdef GIAC_DEBUG_TDEG_T64
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
 #endif
@@ -1047,7 +1047,7 @@ namespace giac {
   tdeg_t64 operator - (const tdeg_t64 & x,const tdeg_t64 & y){ 
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-#ifdef DEBUG_SUPPORT
+#ifdef GIAC_DEBUG_TDEG_T64
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
 #endif
@@ -1083,6 +1083,10 @@ namespace giac {
     longlong X=((longlong *) x.tab)[0];
     if (X!= ((longlong *) y.tab)[0])
       return false;
+#ifdef GIAC_HASH
+    if (x.hash!=y.hash) 
+      return false;
+#endif
 #ifdef GIAC_64VARS
     if (
 #ifdef BIGENDIAN
@@ -1091,10 +1095,6 @@ namespace giac {
 	X%2
 #endif
 	){
-#ifdef GIAC_HASH
-      if (x.hash!=y.hash) 
-	return false;
-#endif
       //if (x.ui==y.ui) return true;
       const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
 #ifndef GIAC_CHARTABDEG
@@ -1374,96 +1374,80 @@ namespace giac {
 #endif
   }
 
-  inline int tdeg_t_greater (const tdeg_t64 & x,const tdeg_t64 & y,order_t order){
+  inline int tdeg_t_greater(const tdeg_t64 & x,const tdeg_t64 & y,order_t order){
     short X=x.tab[0];
     if (X!=y.tab[0]) return X>y.tab[0]?1:0; // since tdeg is tab[0] for plex
 #ifdef GIAC_64VARS
     if (X%2){
+      //if (x.ui==y.ui) return 2;
 #if 1 && !defined BIGENDIAN && !defined GIAC_CHARDEGTYPE
-      longlong a=0,b=0;
+      longlong a=0;
       const longlong * it1=x.ui,* it2=y.ui,*it1beg;
       switch (order.o){
       case _64VAR_ORDER:
-	a=it1[16]; 
-	b=it2[16];
-	if (a!=b)
-	  return a<=b?1:0;
-	a=it1[15]; 
-	b=it2[15];
-	if (a!=b)
-	  return a<=b?1:0;
-	a=it1[14]; 
-	b=it2[14];
-	if (a!=b)
-	  return a<=b?1:0;
-	a=it1[13]; 
-	b=it2[13];
-	if (a!=b)
-	  return a<=b?1:0;
+	a=it1[16]-it2[16];
+	if (a)
+	  return a<=0?1:0;
+	a=it1[15]-it2[15];
+	if (a)
+	  return a<=0?1:0;
+	a=it1[14]-it2[14];
+	if (a)
+	  return a<=0?1:0;
+	a=it1[13]-it2[13];
+	if (a)
+	  return a<=0?1:0;
       case _48VAR_ORDER:
-	a=it1[12]; 
-	b=it2[12];
-	if (a!=b)
-	  return a<=b?1:0;
-	a=it1[11]; 
-	b=it2[11];
-	if (a!=b)
-	  return a<=b?1:0;
-	a=it1[10]; 
-	b=it2[10];
-	if (a!=b)
-	  return a<=b?1:0;
-	a=it1[9]; 
-	b=it2[9];
-	if (a!=b)
-	  return a<=b?1:0;
+	a=it1[12]-it2[12];
+	if (a)
+	  return a<=0?1:0;
+	a=it1[11]-it2[11];
+	if (a)
+	  return a<=0?1:0;
+	a=it1[10]-it2[10];
+	if (a)
+	  return a<=0?1:0;
+	a=it1[9]-it2[9];
+	if (a)
+	  return a<=0?1:0;
       case _32VAR_ORDER:
-	a=it1[8]; 
-	b=it2[8];
-	if (a!=b)
-	  return a<=b?1:0;
-	a=it1[7]; 
-	b=it2[7];
-	if (a!=b)
-	  return a<=b?1:0;
-	a=it1[6]; 
-	b=it2[6];
-	if (a!=b)
-	  return a<=b?1:0;
-	a=it1[5]; 
-	b=it2[5];
-	if (a!=b)
-	  return a<=b?1:0;
+	a=it1[8]-it2[8];
+	if (a)
+	  return a<=0?1:0;
+	a=it1[7]-it2[7];
+	if (a)
+	  return a<=0?1:0;
+	a=it1[6]-it2[6];
+	if (a)
+	  return a<=0?1:0;
+	a=it1[5]-it2[5];
+	if (a)
+	  return a<=0?1:0;
       case _16VAR_ORDER:
-	a=it1[4]; 
-	b=it2[4];
-	if (a!=b)
-	  return a<=b?1:0;
+	a=it1[4]-it2[4];
+	if (a)
+	  return a<=0?1:0;
       case _11VAR_ORDER:
-	a=it1[3]; 
-	b=it2[3];
-	if (a!=b)
-	  return a<=b?1:0;
+	a=it1[3]-it2[3];
+	if (a)
+	  return a<=0?1:0;
       case _7VAR_ORDER:
-	a=it1[2]; 
-	b=it2[2];
-	if (a!=b)
-	  return a<=b?1:0;
+	a=it1[2]-it2[2];
+	if (a)
+	  return a<=0?1:0;
       case _3VAR_ORDER: 
-	a=it1[1]; 
-	b=it2[1];
-	if (a!=b)
-	  return a<=b?1:0;
+	a=it1[1]-it2[1];
+	if (a)
+	  return a<=0?1:0;
 	if (x.tdeg2!=y.tdeg2)
 	  return x.tdeg2>y.tdeg2?1:0;
 	it1beg=it1+(x.order_.o+degratiom1)/degratio;
 	it1 += (x.order_.dim+degratiom1)/degratio;;
 	it2 += (x.order_.dim+degratiom1)/degratio;;
 	for (;;){
-	  a=*it1; 
-	  b=*it2;
-	  if (a!=b)
-	    return a<=b?1:0;
+	  a=*it1-*it2;
+	  if (a)
+	    return a<=0?1:0;
 	  --it2;--it1;
 	  if (it1<=it1beg)
 	    return 2;
@@ -1473,10 +1457,9 @@ namespace giac {
 	it1=x.ui+(x.order_.dim+degratiom1)/degratio;
 	it2=y.ui+(y.order_.dim+degratiom1)/degratio;
 	for (;it1!=it1beg;--it2,--it1){
-	  a=*it1; 
-	  b=*it2;
-	  if (a!=b)
-	    return a<=b?1:0;
+	  a=*it1-*it2;
+	  if (a)
+	    return a<=0?1:0;
 	}
 	return 2;
       case _TDEG_ORDER: case _PLEX_ORDER: {
@@ -1515,10 +1498,9 @@ namespace giac {
 	}
 #else
 	for (;it1!=it1beg;--it2,--it1){
-	  a=*it1; 
-	  b=*it2;
-	  if (a!=b)
-	    return a<=b?1:0;
+	  a=*it1-*it2;
+	  if (a)
+	    return a<=0?1:0;
 	}
 #endif
 	if (x.tdeg2!=y.tdeg2)
@@ -1544,10 +1526,9 @@ namespace giac {
 	}
 #else
 	for (;it1!=it1beg;--it2,--it1){
-	  a=*it1; 
-	  b=*it2;
-	  if (a!=b)
-	    return a<=b?1:0;
+	  a=*it1-*it2;
+	  if (a)
+	    return a<=0?1:0;
 	}
 #endif
 	return 2;
@@ -1573,10 +1554,9 @@ namespace giac {
 	}
 #else
 	for (;it1!=it1beg;--it2,--it1){
-	  a=*it1; 
-	  b=*it2;
-	  if (a!=b)
-	    return a<=b?1:0;
+	  a=*it1-*it2;
+	  if (a)
+	    return a<=0?1:0;
 	}
 #endif
 	return 2;
@@ -1607,19 +1587,19 @@ namespace giac {
     return !tdeg_t_greater(y,x,order); // total order
   }
 
-  bool tdeg_t_all_greater(const tdeg_t64 & x,const tdeg_t64 & y,order_t order){
+  inline bool tdeg_t_all_greater(const tdeg_t64 & x,const tdeg_t64 & y,order_t order){
+    if ((*((ulonglong*)&x)-*((ulonglong*)&y)) & 0x8000800080008000ULL)
+      return false;
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-#ifdef DEBUG_SUPPORT
+#ifdef GIAC_DEBUG_TDEG_T64
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
 #endif
-      if (
 #ifdef GIAC_HASH
-	  x.hash<y.hash || 
-#endif
-	  x.tdeg<y.tdeg || x.tdeg2<y.tdeg2)
+      if (x.hash<y.hash)
 	return false;
+#endif
 #if 0
       const degtype * it1=(degtype *)(x.ui+1),*it1end=it1+x.order_.dim,*it2=(degtype *)(y.ui+1);
       for (;it1!=it1end;++it2,++it1){
@@ -1656,8 +1636,7 @@ namespace giac {
     }
 #endif
     ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
-    if ((xtab[0]-ytab[0]) & 0x8000800080008000ULL)
-      return false;
+  // if ((xtab[0]-ytab[0]) & 0x8000800080008000ULL) return false;
     if ((xtab[1]-ytab[1]) & 0x8000800080008000ULL)
       return false;
     if ((xtab[2]-ytab[2]) & 0x8000800080008000ULL)
@@ -1680,7 +1659,7 @@ namespace giac {
   int tdeg_t_compare_all(const tdeg_t64 & x,const tdeg_t64 & y,order_t order){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-#ifdef DEBUG_SUPPORT
+#ifdef GIAC_DEBUG_TDEG_T64
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
 #endif
@@ -1743,7 +1722,7 @@ namespace giac {
   void index_lcm(const tdeg_t64 & x,const tdeg_t64 & y,tdeg_t64 & z,order_t order){
 #ifdef GIAC_64VARS
     if (x.tdeg%2){
-#ifdef DEBUG_SUPPORT
+#ifdef GIAC_DEBUG_TDEG_T64
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
 #endif
@@ -1889,6 +1868,19 @@ namespace giac {
     }
   }
 
+  void index_lcm_overwrite(const tdeg_t64 & x,const tdeg_t64 & y,tdeg_t64 & z,order_t order){
+    if (z.tdeg%2==0){
+      index_lcm(x,y,z,order);
+      return;
+    }
+    const degtype * xptr=(degtype *)(x.ui+1),*xend=xptr+degratio*((x.order_.dim+degratiom1)/degratio),*yptr=(degtype *)(y.ui+1);
+    degtype * resptr=(degtype *)(z.ui+1);
+    for (;xptr!=xend;++resptr,++yptr,++xptr)
+      *resptr=*xptr>*yptr?*xptr:*yptr;
+    z.tdeg=1;
+    z.compute_degs();
+  }
+  
   void get_index(const tdeg_t64 & x_,index_t & idx,order_t order,int dim){
 #ifdef GIAC_64VARS
     if (x_.tab[0]%2){
@@ -1955,7 +1947,7 @@ namespace giac {
   bool disjoint(const tdeg_t64 & a,const tdeg_t64 & b,order_t order,short dim){
 #ifdef GIAC_64VARS
     if (a.tab[0]%2){
-#ifdef DEBUG_SUPPORT
+#ifdef GIAC_DEBUG_TDEG_T64
       if (!(b.tab[0]%2))
 	COUT << "erreur" << endl;
 #endif
@@ -10044,13 +10036,13 @@ namespace giac {
 
   template<class tdeg_t>
   void zleftright(const vectzpolymod<tdeg_t> & res,const vector< paire > & B,vector<tdeg_t> & leftshift,vector<tdeg_t> & rightshift){
+    tdeg_t l;
     for (unsigned i=0;i<B.size();++i){
       const zpolymod<tdeg_t> & p=res[B[i].first];
       const zpolymod<tdeg_t> & q=res[B[i].second];
       if (debug_infolevel>2)
 	CERR << "zleftright " << p << "," << q << endl;
-      tdeg_t l;
-      index_lcm(p.ldeg,q.ldeg,l,p.order);
+      index_lcm_overwrite(p.ldeg,q.ldeg,l,p.order);
       leftshift[i]=l-p.ldeg;
       rightshift[i]=l-q.ldeg;
     }
@@ -10060,7 +10052,7 @@ namespace giac {
   // does not collect leading monomial (since they cancel)
   template<class tdeg_t>
   void zcollect(const vectzpolymod<tdeg_t> & res,const vector< paire > & B,const vector<unsigned> & permuB,vector<tdeg_t> & allf4buchberger,vector<tdeg_t> & leftshift,vector<tdeg_t> & rightshift){
-    int start=1;
+    int start=1,countdiscarded=0;
     vector<heap_tt<tdeg_t> > Ht;
     heap_tt<tdeg_t> heap_elem;
     vector<heap_tt_ptr<tdeg_t> > H; 
@@ -10094,28 +10086,46 @@ namespace giac {
       heap_tt<tdeg_t> & current = *H.front().ptr;
       if (allf4buchberger.empty() || allf4buchberger.back()!=current.u)
 	allf4buchberger.push_back(current.u);
-      ++current.polymodpos;
       unsigned vpos;
       if (current.left)
 	vpos=B[current.f4buchbergervpos].first;
       else
 	vpos=B[current.f4buchbergervpos].second;
-      if (current.polymodpos>=res[vpos].coord.size()){
-	std::pop_heap(H.begin(),H.end(),key);
-	H.pop_back();
-	continue;
-      }
+      ++current.polymodpos;
       const zpolymod<tdeg_t> & resvpos=res[vpos];
-      if (current.left)
-	current.u=(*resvpos.expo)[resvpos.coord[current.polymodpos].u]+leftshift[current.f4buchbergervpos];
-      else 
-	current.u=(*resvpos.expo)[resvpos.coord[current.polymodpos].u]+rightshift[current.f4buchbergervpos];
+      for (int startheappos=1;current.polymodpos<resvpos.coord.size();++current.polymodpos){
+	add((*resvpos.expo)[resvpos.coord[current.polymodpos].u],current.left?leftshift[current.f4buchbergervpos]:rightshift[current.f4buchbergervpos],current.u,keyorder.dim);
+	// if (current.left) current.u=(*resvpos.expo)[resvpos.coord[current.polymodpos].u]+leftshift[current.f4buchbergervpos]; else current.u=(*resvpos.expo)[resvpos.coord[current.polymodpos].u]+rightshift[current.f4buchbergervpos];
+	int newtdeg=current.u.total_degree(keyorder);
+	// quick look in part of heap: if monomial is already there, increment current.polymodpos
+	int heappos=startheappos,ntests=H.size(); // giacmin(8,H.size());
+	for (;heappos<ntests;){
+	  heap_tt<tdeg_t> & heapcurrent=*H[heappos].ptr;
+	  int heapcurtdeg=heapcurrent.u.total_degree(keyorder);
+	  if (heapcurtdeg<newtdeg){
+	    heappos=ntests; break;
+	  }
+	  if (heapcurtdeg==newtdeg && heapcurrent.u==current.u)
+	    break;
+	  //if (heappos<8) ++heappos; else
+	    heappos=2*heappos+1;
+	}
+	if (heappos<ntests){
+	  ++countdiscarded;
+	  startheappos=2*heappos+1;
+	  continue;
+	}
+	break;
+      }
       // push_back &current into heap so that pop_heap will bubble out the
       // modified root node (initialization will exchange two identical pointers)
-      H.push_back(heap_tt_ptr<tdeg_t>(&current));
+      if (current.polymodpos<resvpos.coord.size())
+	H.push_back(heap_tt_ptr<tdeg_t>(&current));
       std::pop_heap(H.begin(),H.end(),key);
       H.pop_back();
     }
+    if (debug_infolevel>1)
+      CERR << "pairs " << 2*B.size() << ", discarded monomials " << countdiscarded << endl;
   }
 
   template<class tdeg_t>
@@ -10189,7 +10199,7 @@ namespace giac {
 	  int newtdeg=current.u.total_degree(order);
 	  // quick look in part of heap: is monomial already there?
 	  int heappos=startheappos,ntests=H.size(); // giacmin(8,H.size());
-	  for (;heappos<ntests;heappos=2*heappos+1){
+	  for (;heappos<ntests;){
 	    heap_t<tdeg_t> & heapcurrent=H_[H[heappos]];
 	    int heapcurtdeg=heapcurrent.u.total_degree(order);
 	    if (heapcurtdeg<newtdeg){
@@ -10197,6 +10207,8 @@ namespace giac {
 	    }
 	    if (heapcurtdeg==newtdeg && heapcurrent.u==current.u)
 	      break;
+	    //if (heappos<8) ++heappos; else
+	      heappos=2*heappos+1;
 	  }
 	  if (heappos<ntests){
 	    ++countdiscarded;
@@ -11390,7 +11402,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	return;
       if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
 	continue;
-      index_lcm(res[B[i].first].ldeg,res[B[i].second].ldeg,tmp1,order);
+      index_lcm_overwrite(res[B[i].first].ldeg,res[B[i].second].ldeg,tmp1,order);
 #ifdef GIAC_GBASIS_DELAYPAIRS
       if (!multimodular){
 	// look for the pair B[i].second,pos compared to B[i].first/B[i].second
@@ -11439,12 +11451,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	B1.push_back(B[i]);
 	continue;
       }
-      index_lcm(res[B[i].first].ldeg,h0,tmp2,order);
+      index_lcm_overwrite(res[B[i].first].ldeg,h0,tmp2,order);
       if (tmp2==tmp1){
 	B1.push_back(B[i]);
 	continue;
       }
-      index_lcm(res[B[i].second].ldeg,h0,tmp2,order);
+      index_lcm_overwrite(res[B[i].second].ldeg,h0,tmp2,order);
       if (tmp2==tmp1){
 	B1.push_back(B[i]);
 	continue;
@@ -13429,6 +13441,10 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     }
   }
 
+  void index_lcm_overwrite(const tdeg_t14 & x,const tdeg_t14 & y,tdeg_t14 & z,order_t order){
+    index_lcm(x,y,z,order);
+  }
+  
   void get_index(const tdeg_t14 & x_,index_t & idx,order_t order,int dim){
     idx.resize(dim);
 #ifdef GBASIS_SWAP    
@@ -13761,6 +13777,10 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     }
   }
 
+  inline void index_lcm_overwrite(const tdeg_t11 & x,const tdeg_t11 & y,tdeg_t11 & z,order_t order){
+    index_lcm(x,y,z,order);
+  }
+  
   void get_index(const tdeg_t11 & x_,index_t & idx,order_t order,int dim){
     idx.resize(dim);
 #ifdef GBASIS_SWAP    
@@ -14460,6 +14480,10 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       z.tab[0]=(x.tab[0]>y.tab[0])?x.tab[0]:y.tab[0];
     }
   }
+
+  inline void index_lcm_overwrite(const tdeg_t15 & x,const tdeg_t15 & y,tdeg_t15 & z,order_t order){
+    index_lcm(x,y,z,order);
+  }  
 
   void get_index(const tdeg_t15 & x_,index_t & idx,order_t order,int dim){
     idx.resize(dim);
