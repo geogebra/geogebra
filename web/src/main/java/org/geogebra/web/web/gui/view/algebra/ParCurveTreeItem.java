@@ -4,8 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 
-import com.google.gwt.safehtml.shared.SafeUri;
-
 /**
  * ParCurveRadioButtonTreeItem for creating parametric curves (GeoCurveCartesian
  * objects) in the algebra view
@@ -20,9 +18,8 @@ public class ParCurveTreeItem extends RadioTreeItem {
 	 * RadioButtonTreeItem.create, which may call this constructor depending on
 	 * situation (e.g. why not after NewRadioButtonTreeItem?)
 	 */
-	public ParCurveTreeItem(GeoElement ge, SafeUri showUrl,
-			SafeUri hiddenUrl) {
-		super(ge, showUrl, hiddenUrl);
+	public ParCurveTreeItem(GeoElement ge) {
+		super(ge);
 	}
 
 	public static GeoCurveCartesianND createBasic(Kernel kern) {

@@ -115,7 +115,6 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -595,10 +594,9 @@ public class RadioTreeItem extends AVTreeItem
 		private Marble marble;
 		private boolean selected = false;
 
-		public MarblePanel(final GeoElement geo, SafeUri showUrl,
-				SafeUri hiddenUrl) {
+		public MarblePanel(final GeoElement geo) {
 
-			marble = new Marble(showUrl, hiddenUrl, RadioTreeItem.this);
+			marble = new Marble(RadioTreeItem.this);
 			marble.setStyleName("marble");
 			marble.setEnabled(geo.isEuclidianShowable());
 			marble.setChecked(geo.isEuclidianVisible());
@@ -772,16 +770,15 @@ public class RadioTreeItem extends AVTreeItem
 		};
 	}
 
-	public static RadioTreeItem create(GeoElement ge, SafeUri showUrl,
-			SafeUri hiddenUrl) {
+	public static RadioTreeItem create(GeoElement ge) {
 		if (ge.isMatrix()) {
-			return new MatrixTreeItem(ge, showUrl, hiddenUrl);
+			return new MatrixTreeItem(ge);
 		} else if (ge.isGeoCurveCartesian()) {
-			return new ParCurveTreeItem(ge, showUrl, hiddenUrl);
+			return new ParCurveTreeItem(ge);
 		} else if (ge.isGeoFunctionConditional()) {
-			return new CondFunctionTreeItem(ge, showUrl, hiddenUrl);
+			return new CondFunctionTreeItem(ge);
 		}
-		return new RadioTreeItem(ge, showUrl, hiddenUrl);
+		return new RadioTreeItem(ge);
 	}
 
 	/**
@@ -794,8 +791,7 @@ public class RadioTreeItem extends AVTreeItem
 	 * @param hiddenUrl
 	 *            the marble to be shown when the GeoElement is invisible
 	 */
-	public RadioTreeItem(final GeoElement ge, SafeUri showUrl,
-			SafeUri hiddenUrl) {
+	public RadioTreeItem(final GeoElement ge) {
 		super();
 
 		main = new FlowPanel();
@@ -814,7 +810,7 @@ public class RadioTreeItem extends AVTreeItem
 		main.addStyleName("elem");
 		main.addStyleName("panelRow");
 
-		marblePanel = new MarblePanel(ge, showUrl, hiddenUrl);
+		marblePanel = new MarblePanel(ge);
 
 		main.add(marblePanel);
 

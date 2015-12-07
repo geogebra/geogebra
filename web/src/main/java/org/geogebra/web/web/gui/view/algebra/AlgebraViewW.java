@@ -32,7 +32,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -928,29 +927,21 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * @param ob
 	 *            object
 	 */
-	public final void setUserObject(TreeItem ti, final Object ob) {
+	public final void setUserObject(TreeItem ti, final String ob) {
 		ti.setUserObject(ob);
-		if (ob instanceof GeoElement) {
-			ti = RadioTreeItem.create((GeoElement) ob,
-					AppResources.INSTANCE.shown().getSafeUri(),
-					AppResources.INSTANCE.hidden().getSafeUri());
-			ti.setUserObject(ob);
-			ti.addStyleName("avItem");
-		} else {
+
 			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob
 					.toString(), GuiResources.INSTANCE.algebra_tree_open()
 					.getSafeUri(), GuiResources.INSTANCE.algebra_tree_closed()
 .getSafeUri(),
 					hasAvex()));
-		}
+
 	}
 
 	public final AVTreeItem createAVItem(final GeoElement ob) {
 		AVTreeItem ti = null;
 
-		ti = RadioTreeItem.create(ob,
-					AppResources.INSTANCE.shown().getSafeUri(),
-					AppResources.INSTANCE.hidden().getSafeUri());
+		ti = RadioTreeItem.create(ob);
 		ti.setUserObject(ob);
 		ti.addStyleName("avItem");
 
@@ -1109,6 +1100,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 
 	public void clearView() {
+		App.printStacktrace("Clearing:" + nodeTable.size());
 		nodeTable.clear();
 		clearTree();
 		showAlgebraInput(false);

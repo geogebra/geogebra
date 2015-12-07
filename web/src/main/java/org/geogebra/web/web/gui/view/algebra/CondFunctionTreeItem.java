@@ -10,7 +10,6 @@ import org.geogebra.web.web.css.GuiResources;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -31,9 +30,8 @@ public class CondFunctionTreeItem extends RadioTreeItem {
 	 * RadioButtonTreeItem.create, which may call this constructor depending on
 	 * situation (e.g. why not after NewRadioButtonTreeItem?)
 	 */
-	public CondFunctionTreeItem(final GeoElement ge, SafeUri showUrl,
-			SafeUri hiddenUrl) {
-		super(ge, showUrl, hiddenUrl);
+	public CondFunctionTreeItem(final GeoElement ge) {
+		super(ge);
 		
 		pButton = new PushButton(new Image(
 				GuiResources.INSTANCE.algebra_new()));

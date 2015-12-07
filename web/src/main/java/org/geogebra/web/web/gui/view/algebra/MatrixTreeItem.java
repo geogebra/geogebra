@@ -19,7 +19,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
@@ -42,9 +41,8 @@ public class MatrixTreeItem extends RadioTreeItem {
 	 * RadioButtonTreeItem.create, which may call this constructor depending on
 	 * situation (e.g. why not after NewRadioButtonTreeItem?)
 	 */
-	public MatrixTreeItem(final GeoElement ge, SafeUri showUrl,
-			SafeUri hiddenUrl) {
-		super(ge, showUrl, hiddenUrl);
+	public MatrixTreeItem(final GeoElement ge) {
+		super(ge);
 
 		pButton = new PushButton(new Image(
 				GuiResources.INSTANCE.algebra_matrix_size()));

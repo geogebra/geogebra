@@ -6,7 +6,6 @@ import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 
-import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -15,7 +14,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class Marble extends SimplePanel
 {
-	private SafeUri showUrl, hiddenUrl;
 	private GeoContainer gc;
 	/** whether the last switch was done using touch (ignore onclick in that case) */
 	boolean touchUsed;
@@ -32,13 +30,9 @@ public class Marble extends SimplePanel
 	}
 	
 	/**
-	 * @param showUrl url of image for shown geos
-	 * @param hiddenUrl url of image for hidden geos
 	 * @param gc object providing the GeoElement
 	 */
-	public Marble(SafeUri showUrl,SafeUri hiddenUrl,final GeoContainer gc){
-		this.showUrl = showUrl;
-		this.hiddenUrl = hiddenUrl;
+	public Marble(final GeoContainer gc) {
 		this.gc = gc;
 
 		// stopPropagation activated (parameters for the constructor)
