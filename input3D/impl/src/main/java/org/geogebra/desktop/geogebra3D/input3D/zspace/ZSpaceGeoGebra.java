@@ -54,9 +54,10 @@ public class ZSpaceGeoGebra {
 
 		// initialize context
 		zContext = Sdk3.ZSInitialize();
-
-		System.out.println("ZZZZZZZZZZZZZZZZZZ ZSpace inited (zContext: "
-				+ zContext + " )");
+		if (Sdk3.ZSAnyErrorOccurred(false, false)) {
+			throw new Input3DException(Input3DExceptionType.RUN,
+					"zSpace: Failed to init");
+		}
 	}
 	
 	
