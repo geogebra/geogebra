@@ -765,7 +765,11 @@ public class Ggb2giac {
 					// translate point about vector
 					+ "when ( (ggbtrsarg0)[0] == 'pnt' , "
 					// translate 2d point
-					+ "when ( !is3dpoint(ggbtrsarg0) , translation(ggbtrsarg1,ggbtrsarg0) ,"
+							+ "when ( !is3dpoint(ggbtrsarg0) ,"
+							// vector pair of numbers
+							+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
+							+ "translation(vector(ggbtrsarg1),ggbtrsarg0) ,"
+							+ "translation(ggbtrsarg1,ggbtrsarg0) ),"
 					// translate 3d point
 					+ "point(xcoord(translation(ggbtrsarg1,ggbtrsarg0))[0],"
 							+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[1], "
@@ -775,8 +779,8 @@ public class Ggb2giac {
 							+ " equation( ((ggbtrsarg0)[1] - ggbtrsarg1[0])^(ggbtrsarg0)[2] + (ggbtrsarg1)[1] ), "
 					// translate function defined from inputBar
 					+ "when( (ggbtrsarg0)[0] <> '=' && xcoord(ggbtrsarg0) <> string(y) &&"
-							+ "(xcoord(ggbtrsarg0))[0] <> '=' && string((xcoord(ggbtrsarg0))[1]) <> string(X),"
-							+ " ggbtrsarg0 + (ggbtrsarg1)[1] - (ggbtrsarg1)[0] , "
+						+ "(xcoord(ggbtrsarg0))[0] <> '=' && string((xcoord(ggbtrsarg0))[1]) <> string(X),"
+						+ " ggbtrsarg0 + (ggbtrsarg1)[1] - (ggbtrsarg1)[0] , "
 					// translate function defined with f(x)
 					+ "when ( (ggbtrsarg0)[0] == '=' && (ggbtrsarg0)[1][0] == 'of' && (ggbtrsarg0)[1][2] == 'x',"
 							+ "normal((ggbtrsarg0)[2] + (ggbtrsarg1)[1] - (ggbtrsarg1)[0]),"
@@ -847,7 +851,7 @@ public class Ggb2giac {
 							// with y coordinate 0
 							+ "equation(circle(point( (-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[0]) , (ggbtrsarg1)[1]) ,"
 							+ " sqrt((ggbtrsarg0)[2]) )) ) ) ) ) ) , "
-							+ " ? ) ) ) ) ) ) ) ) )][1]");
+							+ " ? ) ) ) ) ) ) ) ) ) )][1]");
 		}
 
 		p("Transpose.1", "transpose(%0)");
