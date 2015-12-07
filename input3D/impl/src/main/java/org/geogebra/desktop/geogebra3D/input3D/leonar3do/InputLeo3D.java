@@ -164,6 +164,10 @@ public class InputLeo3D implements Input3D {
 		return false;
 	}
 
+	public boolean isButtonPressed() {
+		return isRightPressed() || isLeftPressed();
+	}
+
 	public double[] getGlassesPosition(int i){
 		return glassesPosition[i];
 	}

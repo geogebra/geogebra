@@ -92,6 +92,12 @@ public interface Input3D {
 
 	/**
 	 * 
+	 * @return true if one button is pressed
+	 */
+	public boolean isButtonPressed();
+
+	/**
+	 * 
 	 * @return true if the input use depth for hitting
 	 */
 	public boolean useInputDepthForHitting();

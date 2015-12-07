@@ -150,6 +150,10 @@ public class InputZSpace3D implements Input3D {
 		return isThirdButtonPressed;
 	}
 
+	public boolean isButtonPressed() {
+		return isRightPressed() || isLeftPressed() || isThirdButtonPressed();
+	}
+
 	public double[] getGlassesPosition(int i){
 		return glassesPosition[i];
 	}

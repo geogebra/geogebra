@@ -183,6 +183,10 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	}
 
+	private boolean isNotMovingObjectOrView() {
+		return moveMode == MOVE_NONE && isNotMovingView;
+	}
+
 	@Override
 	public void updateInput3D() {
 		
@@ -227,7 +231,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			// update on screen position to check if we allow to use regular
 			// mouse
 			if (robot != null
-					&& (moveMode == MOVE_NONE || !input3D.hasMouseDirection())) {
+					&& (isNotMovingObjectOrView() || !input3D
+							.hasMouseDirection())) {
 				updateOnScreenPosition();
 			}
 
@@ -239,7 +244,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 			// 2D cursor pos
 			if (robot != null) {
-				if (moveMode == MOVE_NONE || !input3D.hasMouseDirection()) {
+				if (isNotMovingObjectOrView() || !input3D.hasMouseDirection()) {
 					// process mouse
 					if (robotX != onScreenX || robotY != onScreenY) {
 						// App.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
@@ -323,7 +328,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 					} else {
 						// process button release
 						if (!wasRightReleased || !wasLeftReleased
-								|| !wasLeftReleased) {
+								|| !wasThirdButtonReleased) {
 							wrapMouseReleased(mouseEvent);
 						}
 
@@ -437,6 +442,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		if (wasThirdButtonReleased) {
 			setMouse3DPositionShifted(startMouse3DPosition);
 			view.rememberOrigins();
+			isNotMovingView = false;
 		} else {
 			getShiftForMouse3D(tmpCoords);
 			tmpCoords.setAdd3(tmpCoords, mouse3DPosition);
@@ -623,7 +629,10 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		view.rememberOrigins();
 		vz = view3D.getRotationMatrix().getVz();
 		
+		isNotMovingView = false;
 	}
+
+	private boolean isNotMovingView = true;
 
 	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3),
 			tmpCoords3 = new Coords(3);
@@ -861,6 +870,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	@Override
 	public void wrapMouseReleased(AbstractEvent e) {
+		isNotMovingView = true;
 		if (!wasRightReleased && !input3D.useQuaternionsForRotate()) {
 			processRightRelease();
 			return;
