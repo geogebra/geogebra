@@ -996,13 +996,14 @@ myCell) {
     }
 
 	public Widget getPrintable() {
-		CellTable<RowData> previewTable = new CellTable<RowData>();
+		CellTable<RowData> previewTable = new CellTable<RowData>(data
+				.getrowList().size());
 		addColumnsForTable(previewTable);
 
 		previewTable.setRowCount(data.getrowList().size());
 		previewTable.setRowData(0, data.getrowList());
-		// dummyTable.setVisibleRange(0, data.getrowList().size() + 1);
-		previewTable.setVisibleRange(0, 4);
+		previewTable.setVisibleRange(0, data.getrowList().size());
+
 
 		SimplePanel panel = new SimplePanel();
 		panel.setWidth("400px");

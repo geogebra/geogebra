@@ -6053,10 +6053,6 @@ body.application[dir=rtl] .deleteAlgebra {
    ###       Printing                   ###
    ######################################## */
  
-.printPanel {
-	width: 497px;
-	height: 620px;
-}
 
 @media screen {
 	.printPanel{

@@ -4,17 +4,17 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -91,27 +91,19 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		setWidget(centerPanel);
 	}
 
-	native JavaScriptObject getScreenshotCallback(Element el)/*-{
-		return function(pngBase64) {
-			var previewImg = document.createElement("img");
-			previewImg
-					.setAttribute("src", "data:image/png;base64," + pngBase64);
-			if (el.hasChildNodes()) {
-				el.removeChild(el.lastChild);
-			}
-			el.appendChild(previewImg);
-		};
-	}-*/;
-
 	public void onClick(ClickEvent event) {
-		if (event.getSource() == btPrint) {
+		if (event.getSource() == btPrint || event.getSource() == btCancel) {
 			hide();
-			Window.print();
+			if (event.getSource() == btPrint) {
+				Window.print();
+			}
+			NodeList<com.google.gwt.dom.client.Element> pp = Dom
+					.getElementsByClassName("printPanel");
+			if (pp.getLength() != 0) {
+				pp.getItem(0).removeFromParent();
+			}
 		}
 
-		if (event.getSource() == btCancel) {
-			hide();
-		}
 	}
 
 	public void onChange(ChangeEvent event) {
