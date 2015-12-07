@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.kernel.discrete.PolygonTriangulation;
+import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
@@ -15,6 +15,7 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPointsPyramid
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -372,6 +373,73 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 		previewAlgo.setOutputOtherEuclidianVisible(true);
 		previewAlgo.notifyUpdateOutputOther();
 
+	}
+
+	private Coords globalCoords, inPlaneCoords;
+
+	@Override
+	public boolean hit(Hitting hitting) {
+
+		if (waitForReset) { // prevent NPE
+			return false;
+		}
+
+		// project hitting origin on polygon plane
+		if (globalCoords == null) {
+			globalCoords = new Coords(4);
+			inPlaneCoords = new Coords(4);
+		}
+
+		double d = Double.NaN;
+		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
+				.getPolygonsLinked()) {
+			d = hitPolygon(d, hitting, p, globalCoords, inPlaneCoords);
+		}
+		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement()).getPolygons()) {
+			d = hitPolygon(d, hitting, p, globalCoords, inPlaneCoords);
+		}
+
+		if (!Double.isNaN(d)) {
+			setZPick(d, d);
+			setPickingType(PickingType.SURFACE);
+			return true;
+		}
+
+		return false;
+	}
+
+	static private double hitPolygon(double currentDistance, Hitting hitting,
+			GeoPolygon polygon,
+			Coords globalCoords, Coords inPlaneCoords) {
+		if (!polygon.isEuclidianVisible() || polygon.isLabelSet()) {
+			return currentDistance;
+		}
+
+		hitting.origin.projectPlaneThruVIfPossible(polygon.getCoordSys()
+				.getMatrixOrthonormal(), hitting.direction, globalCoords,
+				inPlaneCoords);
+
+		if (!hitting.isInsideClipping(globalCoords)) {
+			return currentDistance;
+		}
+
+
+		// check if hitting projection hits the polygon
+		if (polygon.isInRegion(inPlaneCoords.getX(), inPlaneCoords.getY())) {
+			double parameterOnHitting = inPlaneCoords.getZ();// TODO use
+																// other for
+																// non-parallel
+																// projection
+																// :
+																// -hitting.origin.distance(project[0]);
+			if (parameterOnHitting < currentDistance) { // currentDistance may
+														// be NaN
+				return currentDistance;
+			}
+			return parameterOnHitting;
+		}
+
+		return currentDistance;
 	}
 
 }
