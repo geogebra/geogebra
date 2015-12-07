@@ -887,7 +887,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		itemsInRow = (size / colCount) + (size % colCount == 0 ? 0 : 1);
 		int width = 0;
 		int height = 0;
-		int left = left0;
+		int left = left0 > 0 ? left0 : 0;
 		while (startIdx < geoList.size()) {
 			int endIdx = startIdx + itemsInRow;
 			if (endIdx > size) {
