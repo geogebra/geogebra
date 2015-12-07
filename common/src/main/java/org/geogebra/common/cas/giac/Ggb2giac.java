@@ -781,18 +781,30 @@ public class Ggb2giac {
 							+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ) ),"
 							+ "when ( size(ggbtrsarg0) == 2 && (ggbtrsarg0)[0] == '^' &&"
 							+ "type((ggbtrsarg0)[1]) == DOM_IDENT , "
-							+ " equation( ((ggbtrsarg0)[1] - ggbtrsarg1[0])^(ggbtrsarg0)[2] + (ggbtrsarg1)[1] ), "
+							+ "when ( (ggbtrsarg1)[0] == 'pnt' , "
+							+ " equation( ((ggbtrsarg0)[1] - xcoord(ggbtrsarg1))^(ggbtrsarg0)[2] + ycoord(ggbtrsarg1) ) ,"
+							+ " equation( ((ggbtrsarg0)[1] - ggbtrsarg1[0])^(ggbtrsarg0)[2] + (ggbtrsarg1)[1] ) ), "
 					// translate function defined from inputBar
 					+ "when( (ggbtrsarg0)[0] <> '=' && xcoord(ggbtrsarg0) <> string(y) &&"
 						+ "(xcoord(ggbtrsarg0))[0] <> '=' && string((xcoord(ggbtrsarg0))[1]) <> string(X),"
-						+ " ggbtrsarg0 + (ggbtrsarg1)[1] - (ggbtrsarg1)[0] , "
+							// vector as point
+							+ "when ( (ggbtrsarg1)[0] == 'pnt' , "
+							+ "equation(simplify(subst(ggbtrsarg0 + ycoord(ggbtrsarg1), x = x - xcoord(ggbtrsarg1) ))) , "
+							+ "equation(simplify(subst(ggbtrsarg0 + (ggbtrsarg1)[1], x = x - (ggbtrsarg1)[0]))) ), "
 					// translate function defined with f(x)
 					+ "when ( (ggbtrsarg0)[0] == '=' && (ggbtrsarg0)[1][0] == 'of' && (ggbtrsarg0)[1][2] == 'x',"
-							+ "normal((ggbtrsarg0)[2] + (ggbtrsarg1)[1] - (ggbtrsarg1)[0]),"
+							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+							// vector as point
+							+ " equation(simplify(subst((ggbtrsarg0)[2] + ycoord(ggbtrsarg1), x = x - xcoord(ggbtrsarg1)) )) ,"
+							+ " equation(simplify(subst((ggbtrsarg0)[2] + (ggbtrsarg1)[1], x = x - (ggbtrsarg1)[0]))) ),"
 							// function defined with linear equation
 							+ "when( (ggbtrsarg0)[0] == '=' && (ggbtrsarg0)[1] == y , "
+							+ "when ( (ggbtrsarg1)[0] == 'pnt' , "
+							// vector as point
+							+ "equation(simplify(subst((ggbtrsarg0)[1] = (ggbtrsarg0)[2] + ycoord(ggbtrsarg1),"
+							+ "x = x - xcoord(ggbtrsarg1)))) ,"
 							+ "equation(simplify(subst((ggbtrsarg0)[1] = (ggbtrsarg0)[2] + (ggbtrsarg1)[1],"
-							+ "x = x - (ggbtrsarg1)[0]))) , "
+							+ "x = x - (ggbtrsarg1)[0]))) ) , "
 
 					// translate 3d line - defined with command
 					+ "when ( xcoord(ggbtrsarg0) == string(y) , "
