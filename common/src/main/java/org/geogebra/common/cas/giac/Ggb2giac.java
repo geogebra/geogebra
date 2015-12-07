@@ -903,17 +903,31 @@ public class Ggb2giac {
 							// circle defined with command
 							// with non-zero center
 							+ "when (size((ggbtrsarg0)[1][1][1]) == 2 && size((ggbtrsarg0)[1][2][1]) == 2 ,"
+							// vector as point
+							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
 							+ " equation(circle("
+							+ "point( (-1)*((ggbtrsarg0)[1][1][1][2] - xcoord(ggbtrsarg1)), "
+							+ "(-1)*((ggbtrsarg0)[1][2][1][2] - ycoord(ggbtrsarg1)) ),"
+							+ "sqrt((ggbtrsarg0)[2]) )), "
+							+ "equation(circle("
 							+ "point( (-1)*((ggbtrsarg0)[1][1][1][2] - (ggbtrsarg1)[0]), "
 							+ "(-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[1]) ),"
-							+ "sqrt((ggbtrsarg0)[2]) )) ,"
+							+ "sqrt((ggbtrsarg0)[2]) )) ) ,"
 							// with x coordinate 0
 							+ "when ( coeff((ggbtrsarg0)[1],x,1) == 0 , "
+							// vector as point
+							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+							+ " equation(circle(point( xcoord(ggbtrsarg1) , (-1)*((ggbtrsarg0)[1][2][1][2] - ycoord(ggbtrsarg1)) ),"
+							+ " sqrt((ggbtrsarg0)[2]) )) ,"
 							+ "equation(circle(point( (ggbtrsarg1)[0] , (-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[1]) ),"
-							+ " sqrt((ggbtrsarg0)[2]) )) , "
+							+ " sqrt((ggbtrsarg0)[2]) )) ) , "
 							// with y coordinate 0
+							// vector as point
+							+ "when( (ggbtrsarg1)[0] == 'pnt',"
+							+ " equation(circle(point( (-1)*((ggbtrsarg0)[1][2][1][2] - xcoord(ggbtrsarg1)) , ycoord(ggbtrsarg1)) ,"
+							+ " sqrt((ggbtrsarg0)[2]) )) ,"
 							+ "equation(circle(point( (-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[0]) , (ggbtrsarg1)[1]) ,"
-							+ " sqrt((ggbtrsarg0)[2]) )) ) ) ) ) ) , "
+							+ " sqrt((ggbtrsarg0)[2]) )) ) ) ) ) ) ) , "
 							+ " ? ) ) ) ) ) ) ) ) )][1]");
 		}
 
