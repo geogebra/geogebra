@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
+import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.GpuBlacklist;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
@@ -193,13 +194,16 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	 */
 	@Override
 	public void initShaders() {
+		boolean needsSmallFragmentShader = GpuBlacklist
+				.isCurrentGpuBlacklisted(glContext);
 		boolean shiny = view3D.getApplication().has(Feature.SHINY_3D);
 		WebGLShader fragmentShader = getShader(
 		        WebGLRenderingContext.FRAGMENT_SHADER,
-				ShaderProvider.getFragmentShader(glContext, shiny));
+				ShaderProvider.getFragmentShader(needsSmallFragmentShader,
+						shiny));
 		WebGLShader vertexShader = getShader(
 		        WebGLRenderingContext.VERTEX_SHADER,
-				ShaderProvider.getVertexShader(shiny));
+				ShaderProvider.getVertexShader(needsSmallFragmentShader, shiny));
 
 		// create shader program
 		shaderProgram = glContext.createProgram();

@@ -1,7 +1,6 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders;
 
 import com.google.gwt.resources.client.TextResource;
-import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 
 /**
  * This class provides different shaders based on gpu/renderer information.
@@ -9,35 +8,34 @@ import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 public class ShaderProvider {
 
 	/**
-	 * @param glContext
-	 *            used to get debug information about gpu
+	 * @param needsSmallFragmentShader
+	 *            says if we need a small fragment shader
 	 * @param shiny
 	 *            says if we use specular light to get it shiny
 	 * @return Fragment shader
 	 */
-	public static String getFragmentShader(WebGLRenderingContext glContext,
+	public static String getFragmentShader(boolean needsSmallFragmentShader,
 			boolean shiny) {
 		TextResource resource = null;
-		if (GpuBlacklist.isCurrentGpuBlacklisted(glContext)) {
-			resource = Shaders.INSTANCE.fragmentShaderSmaller();
+		if (!needsSmallFragmentShader && shiny) {
+			resource = Shaders.INSTANCE.fragmentShaderShiny();
 		} else {
-			if (shiny) {
-				resource = Shaders.INSTANCE.fragmentShaderShiny();
-			} else {
-				resource = Shaders.INSTANCE.fragmentShader();
-			}
+			resource = Shaders.INSTANCE.fragmentShader();
 		}
 		return resource.getText();
 	}
 
 	/**
+	 * @param needsSmallFragmentShader
+	 *            says if we need a small fragment shader
 	 * @param shiny
 	 *            says if we use specular light to get it shiny
 	 * @return Vertex shader
 	 */
-	public static String getVertexShader(boolean shiny) {
+	public static String getVertexShader(boolean needsSmallFragmentShader,
+			boolean shiny) {
 		TextResource resource = null;
-		if (shiny) {
+		if (!needsSmallFragmentShader && shiny) {
 			resource = Shaders.INSTANCE.vertexShaderShiny();
 		} else {
 			resource = Shaders.INSTANCE.vertexShader();

@@ -44,6 +44,8 @@ precision mediump int;
 // uniform
 uniform int textureType;
 
+uniform int	enableLight; 
+
 uniform int enableClipPlanes;
 uniform vec3 clipPlanesMin;
 uniform vec3 clipPlanesMax;
@@ -59,7 +61,6 @@ varying   vec3    realWorldCoords;
 
 varying vec3 viewDirection;
 varying vec3 lightReflect;
-uniform int	enableLight; 
 
 
 

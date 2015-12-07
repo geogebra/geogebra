@@ -91,6 +91,7 @@ void main(void)
 	  
 	  
   }else{ //no light
+      lightReflect = vec3(0.0,0.0,0.0);
 	  varying_Color = c;
   }
 
