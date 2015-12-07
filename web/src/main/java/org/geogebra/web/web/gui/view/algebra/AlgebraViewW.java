@@ -636,7 +636,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		// auxilliary objects
 		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
 
-		attachView(); // TODO implement applyPerspective correctly
 
 		// collapsed nodes
 		if (collapsedNodes == null)
