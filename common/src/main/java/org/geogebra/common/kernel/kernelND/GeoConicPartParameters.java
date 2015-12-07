@@ -249,19 +249,18 @@ public class GeoConicPartParameters {
 		// for arc, check if is inside the arc : cross product with limit
 		// Application.debug(posOrientation);
 		Coords midPoint = conic.getMidpoint2D();
-		Coords firstVec = conic.getEigenvec(0).mul(
-				conic.getHalfAxis(0) * Math.cos(paramStart)).add(
-						conic.getEigenvec(1).mul(conic.getHalfAxis(1) * Math.sin(paramStart)));
-		Coords secondVec = conic.getEigenvec(0).mul(
-				conic.getHalfAxis(0) * Math.cos(paramEnd)).add(
-						conic.getEigenvec(1).mul(conic.getHalfAxis(1) * Math.sin(paramEnd)));
+		double r = conic.getHalfAxis(1);
+		Coords firstVec = conic.getEigenvec(0).mul(r * Math.cos(paramStart))
+				.add(conic.getEigenvec(1).mul(r * Math.sin(paramStart)));
+		Coords secondVec = conic.getEigenvec(0).mul(r * Math.cos(paramEnd))
+				.add(conic.getEigenvec(1).mul(r * Math.sin(paramEnd)));
 
 		double vx = (x0 - midPoint.getX()) - firstVec.getX(), vy = (y0 - midPoint
 				.getY()) - firstVec.getY();
 		double lx = secondVec.getX() - firstVec.getX(), ly = secondVec.getY()
 				- firstVec.getY();
 
-		return Kernel.isGreaterEqual(vx * ly - vy * lx, 0);
+		return Kernel.isGreaterEqual((vx * ly - vy * lx) / (r * r), 0);
 	}
 	
 	private double computeArg(double x0, double y0) {
