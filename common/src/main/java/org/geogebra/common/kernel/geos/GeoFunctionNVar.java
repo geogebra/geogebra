@@ -133,6 +133,11 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		setLabel(label);
 	}
 
+	/**
+	 * @param autoLabel
+	 *            whether label was set by
+	 * @return whether function contains only valid variables
+	 */
 	public boolean validate(boolean autoLabel) {
 
 		if (!cons.isFileLoading()) {

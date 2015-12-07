@@ -24,7 +24,6 @@ public class GeoInterval extends GeoFunction {
 	 * Creates new GeoInterval
 	 * 
 	 * @param c construction
-	 * @param label label
 	 * @param f boolean function
 	 */
 	public GeoInterval(Construction c, Function f) {
