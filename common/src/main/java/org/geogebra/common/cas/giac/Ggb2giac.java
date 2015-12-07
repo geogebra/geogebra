@@ -768,8 +768,11 @@ public class Ggb2giac {
 					+ "when ( !is3dpoint(ggbtrsarg0) , translation(ggbtrsarg1,ggbtrsarg0) ,"
 					// translate 3d point
 					+ "point(xcoord(translation(ggbtrsarg1,ggbtrsarg0))[0],"
-					+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[1],"
-					+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ) , "
+							+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[1], "
+							+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ),"
+							+ "when ( size(ggbtrsarg0) == 2 && (ggbtrsarg0)[0] == '^' &&"
+							+ "type((ggbtrsarg0)[1]) == DOM_IDENT , "
+							+ " equation( ((ggbtrsarg0)[1] - ggbtrsarg1[0])^(ggbtrsarg0)[2] + (ggbtrsarg1)[1] ), "
 					// translate function defined from inputBar
 					+ "when( (ggbtrsarg0)[0] <> '=' && xcoord(ggbtrsarg0) <> string(y) &&"
 					+ "(xcoord(ggbtrsarg0))[0] <> '=' && string((xcoord(ggbtrsarg0))[1]) <> string(X),"
@@ -840,7 +843,7 @@ public class Ggb2giac {
 					// with y coordinate 0
 					+ "equation(circle(point( (-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[0]) , (ggbtrsarg1)[1]) ,"
 					+ " sqrt((ggbtrsarg0)[2]) )) ) ) ) ) ) , "
-					+ " ? ) ) ) ) ) ) )][1]");
+							+ " ? ) ) ) ) ) ) ) )][1]");
 		}
 
 		p("Transpose.1", "transpose(%0)");
