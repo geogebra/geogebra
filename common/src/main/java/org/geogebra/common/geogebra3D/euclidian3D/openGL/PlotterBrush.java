@@ -551,6 +551,80 @@ public class PlotterBrush implements PathPlotter {
 
 	}
 
+	/**
+	 * draw an arc extended with arrows
+	 * 
+	 * @param center
+	 * @param v1
+	 * @param v2
+	 * @param radius
+	 * @param start
+	 * @param extent
+	 * @param longitude
+	 */
+	public void arcExtendedWithArrows(Coords center, Coords v1, Coords v2,
+			double radius, double start, double extent, int longitude) {
+
+		length = (float) (extent * radius);
+
+		float oldThickness = getThickness();
+
+		double arrowLength = oldThickness * 5;
+
+		vn2.setCrossProduct(v2, v1);
+
+		float dt = (float) 1 / longitude;
+		float da = (float) (extent * dt);
+		float u, v;
+		
+		// start arrow
+		u = (float) Math.cos(start);
+		v = (float) Math.sin(start);
+		
+		vn1.setAdd(tmpCoords.setMul(v1, u), vn1.setMul(v2, v));
+	
+		tmpCoords.setAdd(center, tmpCoords.setMul(vn1, radius));
+		
+		tmpCoords3.setCrossProduct(vn2, vn1);
+		tmpCoords2.setAdd(tmpCoords, tmpCoords3.mulInside(arrowLength));
+		setThickness(0);
+		setTextureX(0, 0);
+		down(tmpCoords2, vn1, vn2);
+		
+		setThickness(2 * oldThickness);
+		setTextureX(0, 0);
+		moveTo(tmpCoords, vn1, vn2);
+
+		setThickness(oldThickness);
+		setTextureX(0, 0);
+		moveTo(tmpCoords, vn1, vn2);
+
+		// arc
+		for (int i = 1; i <= longitude; i++) {
+			u = (float) Math.cos(start + i * da);
+			v = (float) Math.sin(start + i * da);
+
+			setTextureX(i * dt);
+			vn1.setAdd(tmpCoords.setMul(v1, u), vn1.setMul(v2, v));
+			tmpCoords.setAdd(center, tmpCoords.setMul(vn1, radius));
+			moveTo(tmpCoords, vn1, vn2);
+		}
+
+		// end arrow
+		setThickness(2 * oldThickness);
+		setTextureX(0, 0);
+		moveTo(tmpCoords, vn1, vn2);
+
+		tmpCoords3.setCrossProduct(vn1, vn2);
+		tmpCoords2.setAdd(tmpCoords, tmpCoords3.mulInside(arrowLength));
+		setThickness(0);
+		setTextureX(0, 0);
+		moveTo(tmpCoords2, vn1, vn2);
+
+		// back to old thickness
+		setThickness(oldThickness);
+
+	}
 
 
 	private Coords m = new Coords(3), vn1 = new Coords(3);

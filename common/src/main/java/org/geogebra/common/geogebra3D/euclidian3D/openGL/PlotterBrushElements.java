@@ -34,6 +34,17 @@ public class PlotterBrushElements extends PlotterBrush {
 	}
 
 	@Override
+	public void arcExtendedWithArrows(Coords center, Coords v1, Coords v2,
+			double radius, double start, double extent, int longitude) {
+		startCurve();
+
+		super.arcExtendedWithArrows(center, v1, v2, radius, start, extent,
+				longitude);
+
+		endCurve();
+	}
+
+	@Override
 	public void arcEllipse(Coords center, Coords v1, Coords v2, double a,
 			double b, double start, double extent) {
 

@@ -1051,14 +1051,16 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 					// let's scale it a bit more
 					tmpMatrix4x4_3.setDiagonal3(1.5 / getScale());
-					// show the cursor at mid beam
-					((EuclidianControllerInput3D) euclidianController)
-							.getMouse3DPositionShifted(tmpCoords1);
+
+					tmpCoords1.setMul(getToSceneMatrix(),
+							((EuclidianControllerInput3D) euclidianController)
+									.getRightDragElevation().val);
+					tmpCoords1.setW(0);
+					tmpCoords1.addInside(getToSceneMatrix().getOrigin());
 					tmpMatrix4x4_3.setOrigin(tmpCoords1);
 
-					// renderer1.setMatrix(tmpMatrix4x4_3);
-					// renderer1.drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
-					// renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+					renderer1.setMatrix(tmpMatrix4x4_3);
+					renderer1.drawCursor(PlotterCursor.TYPE_ROTATION);
 				}
 			}
 		}

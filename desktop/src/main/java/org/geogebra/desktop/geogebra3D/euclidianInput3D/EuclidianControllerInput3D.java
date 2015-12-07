@@ -618,7 +618,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		angleOld = 0;
 
 		// start values
-		setMouse3DPositionShifted(startMouse3DPosition);
+		startMouse3DPosition.set(mouse3DPosition);
 
 		view.rememberOrigins();
 		vz = view3D.getRotationMatrix().getVz();
@@ -628,12 +628,21 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3),
 			tmpCoords3 = new Coords(3);
 
+	private Coords rightDragElevation = new Coords(3);
+
+	/**
+	 * 
+	 * @return elevation for cursor when right-drag
+	 */
+	public Coords getRightDragElevation() {
+		return rightDragElevation;
+	}
+
 	private void processRightDrag() {
 
-		getShiftForMouse3D(tmpCoords);
-		tmpCoords.setAdd3(tmpCoords, mouse3DPosition);
-		tmpCoords2.setMul(vz, tmpCoords.dotproduct(vz));
-		tmpCoords2.setSub(tmpCoords, tmpCoords2);
+		tmpCoords.setValues(mouse3DPosition, 3);
+		rightDragElevation.setMul(vz, tmpCoords.dotproduct(vz));
+		tmpCoords2.setSub(tmpCoords, rightDragElevation);
 
 		tmpCoords.setMul(vz, startMouse3DPosition.dotproduct(vz));
 		tmpCoords.setSub(startMouse3DPosition, tmpCoords);

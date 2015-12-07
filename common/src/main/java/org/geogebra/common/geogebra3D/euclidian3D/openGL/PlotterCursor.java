@@ -21,8 +21,9 @@ public class PlotterCursor {
 	static public int TYPE_CUBE = 7;
 	static public int TYPE_SPHERE = 8;
 	static public int TYPE_SPHERE_HIGHLIGHTED = 9;
+	static public int TYPE_ROTATION = 10;
 
-	static private int TYPE_LENGTH = 10;
+	static private int TYPE_LENGTH = 11;
 
 	static private float size = 12f;
 	static private float thickness = 1.25f;
@@ -177,6 +178,15 @@ public class PlotterCursor {
 		manager.endGeometry();
 		manager.endList();
 
+		// rotation
+		brush.start(-1);
+		brush.setColor(GColor.GRAY);
+		brush.setThickness(thickness3);// re sets the thickness
+		brush.arcExtendedWithArrows(new Coords(0, 0, 0, 1), new Coords(1, 0, 0,
+				0), new Coords(0, 1, 0, 0), size_move / 2, -Math.PI * 0.6,
+				Math.PI * 1.2, 64);
+		index[TYPE_ROTATION] = brush.end();
+
 	}
 
 	private float r, g, b, a;
@@ -217,8 +227,8 @@ public class PlotterCursor {
 	 */
 	static public boolean isTypeAlready(int type) {
 		return type == TYPE_ALREADY_XY || type == TYPE_ALREADY_Z
-				|| type == TYPE_ALREADY_XYZ
-				|| type == TYPE_CUBE;
+				|| type == TYPE_ALREADY_XYZ || type == TYPE_CUBE
+				|| type == TYPE_ROTATION;
 	}
 
 	// ////////////////////////////////
