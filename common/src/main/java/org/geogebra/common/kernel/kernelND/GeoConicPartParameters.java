@@ -250,17 +250,25 @@ public class GeoConicPartParameters {
 		// Application.debug(posOrientation);
 		Coords midPoint = conic.getMidpoint2D();
 		double r = conic.getHalfAxis(1);
-		Coords firstVec = conic.getEigenvec(0).mul(r * Math.cos(paramStart))
-				.add(conic.getEigenvec(1).mul(r * Math.sin(paramStart)));
-		Coords secondVec = conic.getEigenvec(0).mul(r * Math.cos(paramEnd))
-				.add(conic.getEigenvec(1).mul(r * Math.sin(paramEnd)));
+		double ev0x = conic.getEigenvec(0).getX();
+		double ev0y = conic.getEigenvec(0).getY();
+		double ev1x = conic.getEigenvec(1).getX();
+		double ev1y = conic.getEigenvec(1).getY();
+		double firstVecX = ev0x * Math.cos(paramStart) + ev1x
+				* Math.sin(paramStart);
+		double firstVecY = ev0y * Math.cos(paramStart) + ev1y
+				* Math.sin(paramStart);
+		double secondVecX = ev0x * Math.cos(paramEnd) + ev1x
+				* Math.sin(paramEnd);
+		double secondVecY = ev0y * Math.cos(paramEnd) + ev1y
+				* Math.sin(paramEnd);
 
-		double vx = (x0 - midPoint.getX()) - firstVec.getX(), vy = (y0 - midPoint
-				.getY()) - firstVec.getY();
-		double lx = secondVec.getX() - firstVec.getX(), ly = secondVec.getY()
-				- firstVec.getY();
+		double vx = (x0 - midPoint.getX()) / r - firstVecX;
+		double vy = (y0 - midPoint.getY()) / r - firstVecY;
+		double lx = secondVecX - firstVecX;
+		double ly = secondVecY - firstVecY;
 
-		return Kernel.isGreaterEqual((vx * ly - vy * lx) / (r * r), 0);
+		return Kernel.isGreaterEqual(vx * ly - vy * lx, 0);
 	}
 	
 	private double computeArg(double x0, double y0) {
