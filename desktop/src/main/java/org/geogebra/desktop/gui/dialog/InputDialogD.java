@@ -355,11 +355,13 @@ public class InputDialogD extends org.geogebra.common.gui.dialog.InputDialog
 
 	public void insertString(String str, boolean isLatex) {
 
-		boolean convertGreekLetters = !app.getLocale().getLanguage()
-				.equals("gr");
 		if (str != null) {
 			if (isLatex) {
-				str = StringUtil.toLaTeXString(str, convertGreekLetters);
+				// don't convert Greek letters
+				// * JLaTeXMath can display Unicode
+				// * it might be inserted in the "box" where Unicode is
+				// necessary
+				str = StringUtil.toLaTeXString(str, false);
 			}
 			inputPanel.insertString(str);
 		}
