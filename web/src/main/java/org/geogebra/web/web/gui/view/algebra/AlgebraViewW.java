@@ -1825,4 +1825,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		return new Label("Algebra View");
 	}
 
+	public boolean isAttachedToKernel() {
+		return attached;
+	}
+
 }

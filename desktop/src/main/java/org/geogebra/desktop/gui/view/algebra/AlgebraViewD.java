@@ -1174,7 +1174,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 	}
 
 	@Override
-	public boolean isAttached() {
+	public boolean isAttachedToKernel() {
 		return attached;
 	}
 

@@ -94,7 +94,7 @@ public interface AlgebraView extends View, SetLabels{
 
 	public boolean isRenderLaTeX();
 
-	public boolean isAttached();
+	public boolean isAttachedToKernel();
 
 	public SortMode getTreeMode();
 

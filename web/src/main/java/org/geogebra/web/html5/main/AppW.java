@@ -2129,7 +2129,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			return;
 
 		if (getGuiManager().hasAlgebraView()
-				&& !getGuiManager().getAlgebraView().isAttached())
+				&& !getGuiManager().getAlgebraView().isAttachedToKernel())
 			getGuiManager().attachView(VIEW_ALGEBRA);
 
 		if (needsSpreadsheetTableModel())
