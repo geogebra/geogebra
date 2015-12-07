@@ -808,25 +808,46 @@ public class Ggb2giac {
 
 					// translate 3d line - defined with command
 					+ "when ( xcoord(ggbtrsarg0) == string(y) , "
+							// vector defined as point
+							+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
+							+ "regroup(equation(cat(\"y=\",point(expr(ggbtrsarg0)[0][2][1] + xcoord(ggbtrsarg1) , "
+							+ "expr(ggbtrsarg0)[1][2][1] + ycoord(ggbtrsarg1) ,"
+							+ "expr(ggbtrsarg0)[2][2][1] + zcoord(ggbtrsarg1)),"
+							+ "\"+\u03BB*\","
+							+ "point(coeff(expr(ggbtrsarg0)[0][2],\u03BB,1) , "
+							+ "coeff(expr(ggbtrsarg0)[1][2],\u03BB,1) , "
+							+ "coeff(expr(ggbtrsarg0)[2][2],\u03BB,1)) ))) ,"
 							+ "regroup(equation(cat(\"y=\",point(expr(ggbtrsarg0)[0][2][1] + (ggbtrsarg1)[0] , "
 							+ "expr(ggbtrsarg0)[1][2][1] + (ggbtrsarg1)[1] ,"
 							+ "expr(ggbtrsarg0)[2][2][1] + (ggbtrsarg1)[2] ),"
 							+ "\"+\u03BB*\","
 							+ "point(coeff(expr(ggbtrsarg0)[0][2],\u03BB,1) , "
 							+ "coeff(expr(ggbtrsarg0)[1][2],\u03BB,1) , "
-							+ "coeff(expr(ggbtrsarg0)[2][2],\u03BB,1)) ))),"
+							+ "coeff(expr(ggbtrsarg0)[2][2],\u03BB,1)) ))) ),"
 					// translate line defined as linear equation (2d)
 					+ "when ( type(xcoord(ggbtrsarg0)) == DOM_INT && type(grad(ggbtrsarg0,x)[1]) == DOM_INT , "
-							+ "(ggbtrsarg0)[1] = (ggbtrsarg0)[2] + (ggbtrsarg1)[1] - (ggbtrsarg1)[0] , "
+							+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
+							// vector as point
+							+ " (ggbtrsarg0)[1] = (ggbtrsarg0)[2] + ycoord(ggbtrsarg1) - xcoord(ggbtrsarg1) ,"
+							+ "(ggbtrsarg0)[1] = (ggbtrsarg0)[2] + (ggbtrsarg1)[1] - (ggbtrsarg1)[0] ) , "
 					// translate 3d line - defined from inputBar
 					+ "when ( (xcoord(ggbtrsarg0))[0] == '=' && string((xcoord(ggbtrsarg0))[1]) == string(X) , "
+							// vector as point
+							+ " when ( (ggbtrsarg1)[0] == 'pnt' ,"
+							+ " regroup(equation(cat(\"y=\",point((ggbtrsarg0)[0][2] + xcoord(ggbtrsarg1),"
+							+ "(ggbtrsarg0)[1][2] + ycoord(ggbtrsarg1),"
+							+ "(ggbtrsarg0)[2][2][1] + zcoord(ggbtrsarg1)),"
+							+ "\"+\u03BB*\","
+							+ "point((ggbtrsarg0[2][2][2])[2][0],"
+							+ "(ggbtrsarg0[2][2][2])[2][1],"
+							+ "(ggbtrsarg0[2][2][2])[2][2]) ))) ,"
 							+ "regroup(equation(cat(\"y=\",point((ggbtrsarg0)[0][2] + (ggbtrsarg1)[0],"
 							+ "(ggbtrsarg0)[1][2] + (ggbtrsarg1)[1],"
 							+ "(ggbtrsarg0)[2][2][1] + (ggbtrsarg1)[2]),"
 							+ "\"+\u03BB*\","
 							+ "point((ggbtrsarg0[2][2][2])[2][0],"
 							+ "(ggbtrsarg0[2][2][2])[2][1],"
-							+ "(ggbtrsarg0[2][2][2])[2][2]) ))), "
+							+ "(ggbtrsarg0[2][2][2])[2][2]) ))) ), "
 					// translate circle
 					+ "when ( grad(ggbtrsarg0,x)[1] <> DOM_INT || grad(ggbtrsarg0,y)[1] <> DOM_INT , "
 							// circle defined from inputBar with non-zero
