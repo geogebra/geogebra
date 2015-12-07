@@ -767,8 +767,17 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int rowTop = optTop;
 		int optLeft = boxLeft;
 		int estimatedWidth = estimatePlainWidth(g2);
-		if (optLeft + estimatedWidth > view.getViewWidth()) {
+		int fontSize = 14;// getLabelFontSize();
+		int minFontSize = 10;
+		while (optLeft + estimatedWidth > view.getViewWidth()
+				&& fontSize > minFontSize) {
+			estimatedWidth = estimatePlainWidth(g2);
 			optLeft = view.getViewWidth() - estimatedWidth;
+			if (optLeft < 0) {
+				fontSize--;
+				optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
+				App.debug("[DROPDOWN][METRICS] Shrinking font size...");
+			}
 		}
 
 		drawOptionLines(g2, optLeft, rowTop, true);
