@@ -853,29 +853,53 @@ public class Ggb2giac {
 							// circle defined from inputBar with non-zero
 							// coordinates
 							+ " when ( (ggbtrsarg0)[1][1][0] == '^' &&  size((ggbtrsarg0)[1]) == 4 ,"
+							// vector as point
+							+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
+							+ " equation(circle( "
+							// coordinates of translated center
+							+ "point((-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - xcoord(ggbtrsarg1)) ,"
+							+ " (-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2] - ycoord(ggbtrsarg1)) ) ,"
+							// radius
+							+ " sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + "
+							+ " sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2]) + (ggbtrsarg0)[2]) )) ,"
 							+ "equation(circle( "
 							// coordinates of translated center
 							+ "point((-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[0]) ,"
 							+ " (-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2] - (ggbtrsarg1)[1]) ) ,"
 							// radius
 							+ " sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + "
-							+ " sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2]) + (ggbtrsarg0)[2]) )) ,"
+							+ " sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2]) + (ggbtrsarg0)[2]) )) ),"
 							// circle from inputBar
 							+ " when ( size((ggbtrsarg0)[1]) == 3,"
 							// with x coordinate 0
-							+ "when ( coeff((ggbtrsarg0)[1],x,1) == 0 , "
+							+ "when ( coeff((ggbtrsarg0)[1],x,1) == 0 ,"
+							// vector as point
+							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+							+ " equation(circle(point( xcoord(ggbtrsarg1) , "
+							+ "(-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2] - ycoord(ggbtrsarg1)) ) ,"
+							+ " sqrt( sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) , "
 							+ " equation(circle(point( (ggbtrsarg1)[0] , "
 							+ "(-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[1]) ) ,"
-							+ " sqrt( sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )),"
+							+ " sqrt( sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) ),"
 							// with y coordinate 0
+							// vector as point
+							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+							+ " equation(circle("
+							+ "point( (-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - xcoord(ggbtrsarg1)) ,"
+							+ " ycoord(ggbtrsarg1) ) , "
+							+ "sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )),"
 							+ " equation(circle("
 							+ "point( (-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[0]) ,"
 							+ " (ggbtrsarg1)[1] ) , "
-							+ "sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) ) , "
+							+ "sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) ) ) , "
 							// with center (0,0)
 							+ "when (size((ggbtrsarg0)[1][1][1]) == 1 && size((ggbtrsarg0)[1][2][1]) == 1 , "
+							// vector as point
+							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+							+ " equation(circle( point( xcoord(ggbtrsarg1) , ycoord(ggbtrsarg1) ) , "
+							+ "sqrt((ggbtrsarg0)[2]) )) ,"
 							+ "equation(circle( point( (ggbtrsarg1)[0] , (ggbtrsarg1)[1] ) , "
-							+ "sqrt((ggbtrsarg0)[2]) )) , "
+							+ "sqrt((ggbtrsarg0)[2]) )) ) , "
 							// circle defined with command
 							// with non-zero center
 							+ "when (size((ggbtrsarg0)[1][1][1]) == 2 && size((ggbtrsarg0)[1][2][1]) == 2 ,"
