@@ -1325,6 +1325,7 @@ __GGB__keysVar.sq.menu = {
     "Count": "Numero",
     "CountCells": "Numero",
     "CountCells.Help": "Selekto nje bashkesi qelizash",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Krijo",
     "CreateCurveFit": "Kurba e Pershtatjes me te Mire",
     "CreateCurveFit.Help": "Selekto qelizat per pikat, pastaj kliko butonin e mjetit virtual",

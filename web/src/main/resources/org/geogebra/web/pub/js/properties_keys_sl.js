@@ -1325,6 +1325,7 @@ __GGB__keysVar.sl.menu = {
     "Count": "\u0160tevec",
     "CountCells": "\u0160tetje",
     "CountCells.Help": "Izberi celice",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Izdelaj",
     "CreateCurveFit": "Najbolje se prilegajo\u010da krivulja",
     "CreateCurveFit.Help": "Izberi celice s to\u010dkami in nato klikni na gumb z orodjem",

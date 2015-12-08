@@ -1325,6 +1325,7 @@ __GGB__keysVar.nl_BE.menu = {
     "Count": "Absolute",
     "CountCells": "Tel het aantal waarden in de gekozen cellen",
     "CountCells.Help": "Selecteer een aantal cellen",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Cre\xeber",
     "CreateCurveFit": "Beste passende kromme",
     "CreateCurveFit.Help": "Selecteer cellen voor de punten en klik op de knop",

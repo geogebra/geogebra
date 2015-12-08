@@ -1325,6 +1325,7 @@ __GGB__keysVar.xh.menu = {
     "Count": "Bala",
     "CountCells": "Bala",
     "CountCells.Help": "Khetha iqela lamaGumbi",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Yenza",
     "CreateCurveFit": "iBest Fit Curve",
     "CreateCurveFit.Help": "Khethela iipoints iicells uze wandule ukuklikha iqhosha letool",

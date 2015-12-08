@@ -1325,6 +1325,7 @@ __GGB__keysVar.tr.menu = {
     "Count": "Say",
     "CountCells": "Bir h\xfccre k\xfcmesindeki de\u011ferlerin say\u0131s\u0131n\u0131 say\u0131n",
     "CountCells.Help": "Bir h\xfccre k\xfcmesi se\xe7in",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Olu\u015ftur",
     "CreateCurveFit": "En iyi Yakla\u015f\u0131m E\u011frisi",
     "CreateCurveFit.Help": "Noktalar i\xe7in h\xfccreleri se\xe7in ve sonra ara\xe7 d\xfc\u011fmesine t\u0131klay\u0131n",

@@ -1325,6 +1325,7 @@ __GGB__keysVar.no_NB.menu = {
     "Count": "Tell",
     "CountCells": "Antall celler",
     "CountCells.Help": "Velg celler",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Lag",
     "CreateCurveFit": "Beste tilpasset kurve",
     "CreateCurveFit.Help": "Velg celler for \xe5 definere punkt, og klikk deretter p\xe5 verkt\xf8yikonet",

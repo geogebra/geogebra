@@ -1325,6 +1325,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Count": "Recompte",
     "CountCells": "Recompte",
     "CountCells.Help": "Seleccioneu un conjunt de cel\xb7les",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Crea",
     "CreateCurveFit": "Crea la corba de millor ajust",
     "CreateCurveFit.Help": "Seleccioneu les cel\xb7les dels punts i cliqueu a la ferramenta",

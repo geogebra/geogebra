@@ -1325,6 +1325,7 @@ __GGB__keysVar.eo.menu = {
     "Count": "Nombri",
     "CountCells": "Nombri",
     "CountCells.Help": "Elektu aron de \u0109eloj",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Krei",
     "CreateCurveFit": "Best Fit Curve",
     "CreateCurveFit.Help": "Select cells for points then click the tool button",

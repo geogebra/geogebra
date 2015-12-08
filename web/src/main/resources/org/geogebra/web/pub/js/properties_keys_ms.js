@@ -1325,6 +1325,7 @@ __GGB__keysVar.ms.menu = {
     "Count": "Hitung",
     "CountCells": "Hitung",
     "CountCells.Help": "Pilih satu set sel",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Cipta",
     "CreateCurveFit": "Lengkung Penyuaian Terbaik",
     "CreateCurveFit.Help": "Pilih sel-sel untuk titik-titik kemudian klik butang alatan",

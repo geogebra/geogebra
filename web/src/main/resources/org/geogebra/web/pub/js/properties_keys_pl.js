@@ -1325,6 +1325,7 @@ __GGB__keysVar.pl.menu = {
     "Count": "Licz",
     "CountCells": "Licz",
     "CountCells.Help": "Wybierz zbi\xf3r kom\xf3rek",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Utw\xf3rz",
     "CreateCurveFit": "Utw\xf3rz Lini\u0119 Trendu",
     "CreateCurveFit.Help": "Wybierz kom\xf3rki dla punkt\xf3w, potem kliknij przycisk",

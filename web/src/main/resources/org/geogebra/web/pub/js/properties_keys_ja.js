@@ -1325,6 +1325,7 @@ __GGB__keysVar.ja.menu = {
     "Count": "\u5ea6\u6570",
     "CountCells": "\u30ab\u30a6\u30f3\u30c8",
     "CountCells.Help": "\u30bb\u30eb\u306e\u96c6\u5408\u3092\u9078\u629e",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "\u4f5c\u6210",
     "CreateCurveFit": "\u6700\u826f\u8fd1\u4f3c\u66f2\u7dda",
     "CreateCurveFit.Help": "\u70b9\u306b\u5bfe\u3059\u308b\u30bb\u30eb\u3092\u9078\u629e\u3057\u3066\u30c4\u30fc\u30eb\u30dc\u30bf\u30f3\u3092\u30af\u30ea\u30c3\u30af",

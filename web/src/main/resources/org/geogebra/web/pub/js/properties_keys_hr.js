@@ -1325,6 +1325,7 @@ __GGB__keysVar.hr.menu = {
     "Count": "Broj",
     "CountCells": "Pobroji vrijednosti",
     "CountCells.Help": "Odaberite raspon \u0107elija",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Izradi",
     "CreateCurveFit": "Krivulja najbolje prilagodbe",
     "CreateCurveFit.Help": "Odaberite \u0107elije za to\u010dke pa kliknite na gumb alata",

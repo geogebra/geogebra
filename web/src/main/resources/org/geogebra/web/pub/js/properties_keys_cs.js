@@ -1325,6 +1325,7 @@ __GGB__keysVar.cs.menu = {
     "Count": "Po\u010det",
     "CountCells": "Sou\u010det hodnot bun\u011bk",
     "CountCells.Help": "Vybrat soubor bun\u011bk",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Vytvo\u0159it",
     "CreateCurveFit": "Nejvhodn\u011bj\u0161\xed k\u0159ivka",
     "CreateCurveFit.Help": "Ozna\u010dte bu\u0148ky pro body a vyberte n\xe1stroj",

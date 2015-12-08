@@ -1325,6 +1325,7 @@ __GGB__keysVar.fi.menu = {
     "Count": "Laske m\xe4\xe4r\xe4",
     "CountCells": "Laskee arvojen lukum\xe4\xe4r\xe4n solujoukossa",
     "CountCells.Help": "Valitse solujoukko",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Luo",
     "CreateCurveFit": "Sovita k\xe4yr\xe4",
     "CreateCurveFit.Help": "Valitse solualue pisteit\xe4 varten ja paina Ty\xf6kalu painiketta",

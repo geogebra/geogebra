@@ -1325,6 +1325,7 @@ __GGB__keysVar.vi.menu = {
     "Count": "\u0110\u1ebfm",
     "CountCells": "\u0110\u1ebfm c\xe1c \xf4",
     "CountCells.Help": "Ch\u1ecdn t\u1eadp h\u1ee3p c\xe1c \xf4",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "T\u1ea1o",
     "CreateCurveFit": "T\u1ea1o \u0111\u01b0\u1eddng cong h\u1ed3i quy",
     "CreateCurveFit.Help": "Ch\u1ecdn c\xe1c \xf4 ch\u1ee9a \u0111i\u1ec3m r\u1ed3i nh\u1ea5p chu\u1ed9t v\xe0o n\xfat c\xf4ng c\u1ee5",

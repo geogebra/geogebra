@@ -1325,6 +1325,7 @@ __GGB__keysVar.in.menu = {
     "Count": "Hitung",
     "CountCells": "Hitung",
     "CountCells.Help": "Pilih suatu himpunan sel-sel",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Buat",
     "CreateCurveFit": "Cocok Kurva Terbaik",
     "CreateCurveFit.Help": "Pilih Sel-sel untuk titik-titik kemudian klik tombol peralatan",

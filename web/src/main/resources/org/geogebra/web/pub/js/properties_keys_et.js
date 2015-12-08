@@ -1325,6 +1325,7 @@ __GGB__keysVar.et.menu = {
     "Count": "Loenda",
     "CountCells": "Loenda, mitu v\xe4\xe4rtust on antud lahtrites",
     "CountCells.Help": "Valige lahtrite hulk",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Loo",
     "CreateCurveFit": "Loo regressioonik\xf5ver",
     "CreateCurveFit.Help": "Valige k\xf5igepealt punktide lahtrid, siis kl\xf5psake t\xf6\xf6riistal",

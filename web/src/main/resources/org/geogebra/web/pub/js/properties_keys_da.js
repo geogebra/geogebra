@@ -1325,6 +1325,7 @@ __GGB__keysVar.da.menu = {
     "Count": "Antal",
     "CountCells": "T\xe6l antallet af forekomster i nogle celler",
     "CountCells.Help": "V\xe6lg de relevante celler",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Lav",
     "CreateCurveFit": "Bedste tiln\xe6rmede kurve",
     "CreateCurveFit.Help": "V\xe6lg de celler som indeholder punkterne og klik p\xe5 v\xe6rkt\xf8jet.",

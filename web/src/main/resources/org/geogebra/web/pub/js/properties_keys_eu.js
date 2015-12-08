@@ -1325,6 +1325,7 @@ __GGB__keysVar.eu.menu = {
     "Count": "Zenbatu",
     "CountCells": "Zenbatu balioen kopurua gelaxka-area batean",
     "CountCells.Help": "Hautatu gelaxka-area bat",
+    "CrashReport": "Programaren huts baten berri eman GeoGebrari",
     "Create": "Sortu",
     "CreateCurveFit": "Doikuntza Oneneko Kurba",
     "CreateCurveFit.Help": "Hautatu puntuen gelaxkak. Ondoren, egin klik tresnaren botoian",

@@ -1325,6 +1325,7 @@ __GGB__keysVar.lv.menu = {
     "Count": "Skait\u012bt",
     "CountCells": "Skait\u012bt",
     "CountCells.Help": "Izv\u0113l\u0113ties \u0161\u016bnu kopumu",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Izgatavot",
     "CreateCurveFit": "Lab\u0101k pem\u0113rot\u0101 l\u012bkne",
     "CreateCurveFit.Help": "Izv\u0113leties \u0161\u016bnas punktiem, tad spiediet r\u012bku pogu",

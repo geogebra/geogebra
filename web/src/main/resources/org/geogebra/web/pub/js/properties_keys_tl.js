@@ -1325,6 +1325,7 @@ __GGB__keysVar.tl.menu = {
     "Count": "Bilangin",
     "CountCells": "Count",
     "CountCells.Help": "Pumili ng grupo ng cells",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Create",
     "CreateCurveFit": "Best Fit Curve",
     "CreateCurveFit.Help": "Piliin ang cells para sa points pagkatapos i-click ang tool button",

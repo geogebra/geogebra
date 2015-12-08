@@ -1325,6 +1325,7 @@ __GGB__keysVar.pt.menu = {
     "Count": "Contagem",
     "CountCells": "N\xfamero",
     "CountCells.Help": "Selecione o bloco de c\xe9lulas",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Criar",
     "CreateCurveFit": "Criar Curva de Regress\xe3o",
     "CreateCurveFit.Help": "Selecione c\xe9lulas para definir pontos e, ent\xe3o, clique no bot\xe3o da ferramenta",

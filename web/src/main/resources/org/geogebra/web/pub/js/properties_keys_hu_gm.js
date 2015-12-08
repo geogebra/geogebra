@@ -1325,6 +1325,7 @@ __GGB__keysVar.hu_gm.menu = {
     "Count": "Megsz\xe1mol\xe1s",
     "CountCells": "Megsz\xe1mol\xe1s",
     "CountCells.Help": "Cell\xe1k kijel\xf6l\xe9se",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "L\xe9trehoz",
     "CreateCurveFit": "Legjobban illeszked\u0151 g\xf6rbe",
     "CreateCurveFit.Help": "Pontokat meghat\xe1roz\xf3 cell\xe1k kijel\xf6l\xe9se, majd kattint\xe1s az eszk\xf6z\xf6n",

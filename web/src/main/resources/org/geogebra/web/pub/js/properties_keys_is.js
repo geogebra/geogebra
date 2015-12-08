@@ -1325,6 +1325,7 @@ __GGB__keysVar.is.menu = {
     "Count": "Telja",
     "CountCells": "Telja fj\xf6lda gilda \xed flokki reita",
     "CountCells.Help": "Velji\xf0 flokk reita",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "B\xfaa til",
     "CreateCurveFit": "Besti ferill",
     "CreateCurveFit.Help": "Velji\xf0 reiti fyrir punkta og smelli\xf0 \xfev\xed n\xe6st \xe1 verkf\xe6ri",

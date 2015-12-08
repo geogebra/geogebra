@@ -1325,6 +1325,7 @@ __GGB__keysVar.cy.menu = {
     "Count": "Cyfrif",
     "CountCells": "Cyfrif y nifer o werthoedd mewn celloedd",
     "CountCells.Help": "Dewis set o gelloedd",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Creu",
     "CreateCurveFit": "Cromlin Ffit Orau",
     "CreateCurveFit.Help": "Dewis celloedd y pwyntiau ac yna fotwm yr offer",

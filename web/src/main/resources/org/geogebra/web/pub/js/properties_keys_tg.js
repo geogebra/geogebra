@@ -1325,6 +1325,7 @@ __GGB__keysVar.tg.menu = {
     "Count": "Count",
     "CountCells": "Count",
     "CountCells.Help": "Select a set of cells",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Create",
     "CreateCurveFit": "Best Fit Curve",
     "CreateCurveFit.Help": "Select cells for points then click the tool button",

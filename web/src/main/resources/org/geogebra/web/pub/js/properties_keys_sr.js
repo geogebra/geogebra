@@ -1325,6 +1325,7 @@ __GGB__keysVar.sr.menu = {
     "Count": "Broj",
     "CountCells": "Prebroj broj vrednosti u skupu \u0107elija",
     "CountCells.Help": "Izaberite skup \u0107elija",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Napravi",
     "CreateCurveFit": "Kriva sa najboljim fitovanjem",
     "CreateCurveFit.Help": "Odaberite \u0107elije za ta\u010dke a zatim kliknite na dugme alata",

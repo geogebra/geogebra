@@ -1325,6 +1325,7 @@ __GGB__keysVar.ro.menu = {
     "Count": "Num\u0103r\u0103",
     "CountCells": "Num\u0103r\u0103",
     "CountCells.Help": "Selecta\u0163i un set de celule",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Creaz\u0103",
     "CreateCurveFit": "Curb\u0103 de regresie",
     "CreateCurveFit.Help": "Selecta\u021bi celulele pentru puncte \u0219i apoi ap\u0103sa\u021bi butonul unealt\u0103",

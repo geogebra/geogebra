@@ -1325,6 +1325,7 @@ __GGB__keysVar.lt.menu = {
     "Count": "Da\u017enis",
     "CountCells": "Skai\u010diuoti u\u017eimt\u0173 laukeli\u0173 skai\u010di\u0173",
     "CountCells.Help": "Pasirinkti laukeli\u0173 grup\u0119",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Sukurti",
     "CreateCurveFit": "Labiausiai tinkanti kreiv\u0117",
     "CreateCurveFit.Help": "Pasirinkite langelius apibr\u0117\u017eian\u010dius ta\u0161kus, tuomet pasirinkite \u012franki\u0173 mygtuk\u0105",

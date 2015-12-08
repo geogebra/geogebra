@@ -1325,6 +1325,7 @@ __GGB__keysVar.de.menu = {
     "Count": "Anzahl",
     "CountCells": "Z\xe4hle",
     "CountCells.Help": "W\xe4hlen Sie eine Gruppe von Zellen um diese zu z\xe4hlen.",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Erzeugen",
     "CreateCurveFit": "Regressionskurve",
     "CreateCurveFit.Help": "W\xe4hlen Sie jene Zellen, aus denen Punkte erzeugt werden sollen und aktivieren Sie dann das Werkzeug.",

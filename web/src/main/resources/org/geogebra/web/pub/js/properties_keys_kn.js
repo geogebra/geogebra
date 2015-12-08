@@ -1325,6 +1325,7 @@ __GGB__keysVar.kn.menu = {
     "Count": "\u0c8e\u0ca3\u0cbf\u0c95\u0cc6",
     "CountCells": "\u0c8e\u0ca3\u0cbf\u0c95\u0cc6",
     "CountCells.Help": "Select a set of cells",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Create",
     "CreateCurveFit": "Best Fit Curve",
     "CreateCurveFit.Help": "Select cells for points then click the tool button",

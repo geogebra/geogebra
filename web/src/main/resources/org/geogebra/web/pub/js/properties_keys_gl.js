@@ -1325,6 +1325,7 @@ __GGB__keysVar.gl.menu = {
     "Count": "Conta",
     "CountCells": "Conta",
     "CountCells.Help": "Selecci\xf3n de conxunto de celas",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Crea",
     "CreateCurveFit": "Curva de mellor axuste",
     "CreateCurveFit.Help": "Selecci\xf3n de celas de puntos. Logo, clic no bot\xf3n da ferramenta.",

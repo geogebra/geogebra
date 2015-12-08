@@ -1325,6 +1325,7 @@ __GGB__keysVar.sk.menu = {
     "Count": "Spo\u010d\xedta\u0165",
     "CountCells": "Spo\u010d\xedta po\u010det hodn\xf4t vo vyzna\u010den\xfdch bunk\xe1ch",
     "CountCells.Help": "Vyzna\u010d oblas\u0165 buniek",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Vytvori\u0165",
     "CreateCurveFit": "Najvhodnej\u0161ie krivka",
     "CreateCurveFit.Help": "Vyzna\u010d bunky bodov a potom klikni na tla\u010didlo n\xe1stroja",

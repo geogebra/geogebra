@@ -1325,6 +1325,7 @@ __GGB__keysVar.sv.menu = {
     "Count": "Antal",
     "CountCells": "Antal",
     "CountCells.Help": "V\xe4lj ett omr\xe5de med celler",
+    "CrashReport": "Send crash reports to GeoGebra",
     "Create": "Skapa...",
     "CreateCurveFit": "Regressionskurva",
     "CreateCurveFit.Help": "V\xe4lj celler som representerar punkter. Klicka d\xe4refter p\xe5 verktygsknappen.",

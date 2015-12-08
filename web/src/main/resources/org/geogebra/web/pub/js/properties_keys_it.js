@@ -1325,6 +1325,7 @@ __GGB__keysVar.it.menu = {
     "Count": "Conta",
     "CountCells": "Conta",
     "CountCells.Help": "Selezionare un insieme di celle",
+    "CrashReport": "Invia un rapporto di arresto anomalo di GeoGebra",
     "Create": "Crea",
     "CreateCurveFit": "Curva di regressione",
     "CreateCurveFit.Help": "Selezionare le celle contenenti i punti, quindi fare clic sul pulsante dello strumento",
