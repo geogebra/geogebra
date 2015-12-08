@@ -66,13 +66,14 @@ eclipse.classpath.file.whenMerged { classpath ->
     def zspace_dir = zspace_java.getParent() 
     for (i in zspace_natives) {
 	def myBit = System.getProperty("sun.arch.data.model")
-	def myUsername = System.getProperty("user.name")
+	// def myUsername = System.getProperty("user.name")
+	def myHostname = InetAddress.getLocalHost().getHostName()
         def zspace_native_path = i.getPath()
 	def thisBit = 64
 	if (i.name.contains('i586')) {
 	    thisBit = 32
 	    }
-	if (myBit == thisBit || (myUsername == "deploy" && thisBit == 32)) {
+	if (myBit == thisBit || (myHostname == "deploy" && thisBit == 32)) {
 	    ant.unzip(src: zspace_native_path, dest: zspace_dir)
 	    }
         } 
