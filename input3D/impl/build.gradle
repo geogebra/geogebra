@@ -73,7 +73,8 @@ eclipse.classpath.file.whenMerged { classpath ->
 	if (i.name.contains('i586')) {
 	    thisBit = 32
 	    }
-	if (myBit == thisBit || (myHostname == "deploy" && thisBit == 32)) {
+	if ((myHostname != "deploy" && myBit == thisBit) || (myHostname == "deploy" && thisBit == 32)) {
+	    println "zSpace native ${i}, ${myBit} bit for host ${myHostname} (${thisBit} bit) will be used"
 	    ant.unzip(src: zspace_native_path, dest: zspace_dir)
 	    }
         } 
