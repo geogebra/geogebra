@@ -4870,6 +4870,26 @@ kernel, left,
 									.wrap());
 			return numerator.divide(left.wrap().power(2).wrap()
 					.plus(right.wrap().power(2)));
+
+		case FACTORIAL:
+			// x! -> psi(x+1) * x!
+			return new ExpressionNode(kernel0, left.wrap().plus(1),
+					Operation.PSI, null)
+					.multiply(new ExpressionNode(kernel0, left,
+							Operation.FACTORIAL, null))
+					.multiply((left).derivative(fv, kernel0));
+
+		case GAMMA:
+			// gamma(x) -> gamma(x) psi(x)
+			return new ExpressionNode(kernel0, left, Operation.PSI, null)
+					.multiply(new ExpressionNode(kernel0, left, Operation.GAMMA,
+							null))
+					.multiply((left).derivative(fv, kernel0));
+
+		case FLOOR:
+		case CEIL:
+			return new ExpressionNode(kernel, 0);
+
 		case $VAR_COL:
 			break;
 		case $VAR_ROW:
@@ -4897,8 +4917,6 @@ kernel, left,
 			break;
 		case BETA_INCOMPLETE_REGULARIZED:
 			break;
-		case CEIL:
-			break;
 		case CONJUGATE:
 			break;
 		case DERIVATIVE:
@@ -4909,17 +4927,11 @@ kernel, left,
 			break;
 		case EQUAL_BOOLEAN:
 			break;
-		case FACTORIAL:
-			break;
-		case FLOOR:
-			break;
 		case FRACTIONAL_PART:
 			break;
 		case FREEHAND:
 			break;
 		case FUNCTION_NVAR:
-			break;
-		case GAMMA:
 			break;
 		case GAMMA_INCOMPLETE:
 			break;
