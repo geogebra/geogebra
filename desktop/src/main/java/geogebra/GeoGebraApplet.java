@@ -369,9 +369,9 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	}
 
 	public synchronized String getPNGBase64(double exportScale,
-			boolean transparent, double DPI) {
+			boolean transparent, double DPI, boolean copyToClipboard) {
 		return getAppletImplementation().getPNGBase64(exportScale, transparent,
-				DPI);
+				DPI, copyToClipboard);
 	}
 
 	public synchronized boolean writePNGtoFile(String filename,

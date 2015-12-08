@@ -521,8 +521,20 @@ public interface JavaScriptAPI {
 	public boolean writePNGtoFile(String filename, double exportScale,
 			boolean transparent, double DPI);
 
+	/**
+	 * @param exportScale
+	 *            eg 1
+	 * @param transparent
+	 *            eg true
+	 * @param DPI
+	 *            eg 72
+	 * @param copyToClipboard
+	 *            only supported in desktop, waiting for
+	 *            https://code.google.com/p/chromium/issues/detail?id=150835
+	 * @return
+	 */
 	public String getPNGBase64(double exportScale, boolean transparent,
-			double DPI);
+			double DPI, boolean copyToClipboard);
 
 	/**
 	 * Sets the Cartesian coordinate system in the graphics window.

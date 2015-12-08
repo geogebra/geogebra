@@ -119,7 +119,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	public String getPNGBase64(double exportScale, boolean transparent,
-			double DPI) {
+			double DPI, boolean copyToClipboard) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getLayout().getDockManager().ensureFocus();
 

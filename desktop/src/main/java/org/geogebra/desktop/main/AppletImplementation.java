@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.main;
 
-import geogebra.GeoGebraAppletPreloader;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -37,8 +35,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import netscape.javascript.JSObject;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
@@ -51,6 +47,9 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.Util;
+
+import geogebra.GeoGebraAppletPreloader;
+import netscape.javascript.JSObject;
 
 /**
  * GeoGebra applet implementation operating on a given JApplet object.
@@ -1310,12 +1309,14 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * returns a String (base-64 encoded PNG file of the Graphics View)
 	 */
 	public synchronized String getPNGBase64(final double exportScale,
-			final boolean transparent, final double DPI) {
+			final boolean transparent, final double DPI,
+			final boolean copyToClipboard) {
 		// avoid security problems calling from JavaScript
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 			public String run() {
 				// perform the security-sensitive operation here
-				return ggbApi.getPNGBase64(exportScale, transparent, DPI);
+				return ggbApi.getPNGBase64(exportScale, transparent, DPI,
+						copyToClipboard);
 			}
 		});
 	}

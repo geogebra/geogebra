@@ -1,5 +1,6 @@
 package org.geogebra.desktop.plugin;
 
+import java.awt.Toolkit;
 /* 
  GeoGebra - Dynamic Mathematics for Everyone
  http://www.geogebra.org
@@ -35,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.kernel.EvalCommandQueue;
 import org.geogebra.desktop.main.AppD;
@@ -389,13 +391,25 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 
 	}
 
+	public synchronized String getPNGBase64(double exportScale,
+			boolean transparent, double DPI) {
+		return getPNGBase64(exportScale, transparent, DPI, false);
+	}
+
 	/*
 	 * returns a String (base-64 encoded PNG file of the Graphics View)
 	 */
 	public synchronized String getPNGBase64(double exportScale,
-			boolean transparent, double DPI) {
+			boolean transparent, double DPI, boolean copyToClipboard) {
 		BufferedImage img = ((AppD) app).getEuclidianView1().getExportImage(
 				exportScale, transparent);
+		
+		if (copyToClipboard) {
+			ImageSelection imgSel = new ImageSelection(img);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
+					null);
+			return "";
+		}
 
 		return base64encode(img, DPI);
 	}

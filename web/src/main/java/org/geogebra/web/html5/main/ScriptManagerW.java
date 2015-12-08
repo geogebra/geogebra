@@ -693,8 +693,9 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPerspective(Ljava/lang/String;)(code+"");
 		};
 
-		api.getPNGBase64 = function(exportScale, transparent, dpi) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPNGBase64(DZD)(exportScale,transparent,dpi);
+		api.getPNGBase64 = function(exportScale, transparent, dpi,
+				copyToClipboard) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPNGBase64(DZDZ)(exportScale, transparent, dpi, copyToClipboard);
 		}
 
 		api.getFileJSON = function() {
