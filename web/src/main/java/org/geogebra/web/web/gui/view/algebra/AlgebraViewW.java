@@ -1006,6 +1006,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	private void add(GeoElement geo, int forceLayer) {
+		if (!this.isAttachedToKernel()) {
+			return;
+		}
 		cancelEditing();
 		this.isShowingAuxiliaryObjects = showAuxiliaryObjects();
 
