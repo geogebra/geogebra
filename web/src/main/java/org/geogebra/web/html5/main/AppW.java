@@ -2123,22 +2123,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return getGuiManager().showView(view);
 	}
 
-	protected void attachViews() {
-
-		if (getGuiManager() == null)
-			return;
-
-		if (getGuiManager().hasAlgebraView()
-				&& !getGuiManager().getAlgebraView().isAttachedToKernel())
-			getGuiManager().attachView(VIEW_ALGEBRA);
-
-		if (needsSpreadsheetTableModel())
-			getSpreadsheetTableModel();// its constructor calls attachView as a
-		// side-effect
-		// Attached only on first click
-		// getGuiManager().attachView(VIEW_PROPERTIES);
-	}
-
 	// ========================================================
 	// Languages
 	// ========================================================

@@ -210,8 +210,6 @@ public class AppWapplication extends AppWFull {
 	@Override
 	public void appSplashCanNowHide() {
 
-		attachViews();
-
 		// Well, it may cause freeze if we attach this too early
 
 		// allow eg ?command=A=(1,1);B=(2,2) in URL
@@ -272,8 +270,6 @@ public class AppWapplication extends AppWFull {
 		first = false;
 
 		stopCollectingRepaints();
-		// Well, it may cause freeze if we attach this too early
-		attachViews();
 
 		// this is needed otherwise the coordinate system of EV would not be OK
 		// put in a deferred call because of drag & dropping files
