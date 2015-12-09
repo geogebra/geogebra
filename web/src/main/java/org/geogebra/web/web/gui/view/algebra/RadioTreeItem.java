@@ -899,25 +899,6 @@ public class RadioTreeItem extends AVTreeItem
 
 		buttonPanel.setVisible(false);
 
-		xButton = new PushButton(new Image(
-				GuiResources.INSTANCE.algebra_delete()));
-		xButton.getUpHoveringFace().setImage(
-				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
-		xButton.addStyleName("XButton");
-		xButton.addStyleName("shown");
-		xButton.addMouseDownHandler(new MouseDownHandler() {
-			// ClickHandler changed to MouseDownHandler
-			// in order to fix a bug in Internet Explorer,
-			// where the button disappeared earlier than
-			// this method (onClick) could execute
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-
-				event.stopPropagation();
-				ge.remove();
-			}
-		});
-
 		main.add(buttonPanel);// dirty hack of adding it two times!
 
 		// pButton should be added before xButton is added!
@@ -926,6 +907,31 @@ public class RadioTreeItem extends AVTreeItem
 		// buttonPanel.add(xButton);
 
 		deferredResizeSlider();
+
+	}
+
+	protected PushButton getXbutton() {
+		if (xButton == null) {
+			xButton = new PushButton(new Image(
+					GuiResources.INSTANCE.algebra_delete()));
+			xButton.getUpHoveringFace().setImage(
+					new Image(GuiResources.INSTANCE.algebra_delete_hover()));
+			xButton.addStyleName("XButton");
+			xButton.addStyleName("shown");
+			xButton.addMouseDownHandler(new MouseDownHandler() {
+				// ClickHandler changed to MouseDownHandler
+				// in order to fix a bug in Internet Explorer,
+				// where the button disappeared earlier than
+				// this method (onClick) could execute
+				@Override
+				public void onMouseDown(MouseDownEvent event) {
+
+					event.stopPropagation();
+					geo.remove();
+				}
+			});
+		}
+		return xButton;
 
 	}
 
@@ -1054,18 +1060,14 @@ public class RadioTreeItem extends AVTreeItem
 				: width);
 	}
 
-	public void replaceXButtonDOM(TreeItem item) {
+	public final void replaceXButtonDOM(TreeItem item) {
 		// in subclasses pButton will be added first!
 		// also, this method should be overridden in NewRadioButtonTreeItem
 		// buttonPanel.add(pButton);
-		setFirst(first);
-		if (avExtension && animPanel != null) {
-			buttonPanel.add(animPanel);
-		}
+		getElement().addClassName("XButtonPanelParent");
+		getElement().appendChild(buttonPanel.getElement());
 
-		buttonPanel.add(xButton);
-		item.getElement().addClassName("XButtonPanelParent");
-		item.getElement().appendChild(buttonPanel.getElement());
+
 	}
 
 	@Override
@@ -1542,13 +1544,20 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
+	/**
+	 * Switches to edit mode
+	 * 
+	 * @param substituteNumbers
+	 *            whether value should be used
+	 * @return whether it was successful
+	 */
 	public boolean startEditing(boolean substituteNumbers) {
 		// buttonPanel.setVisible(true);
 
 		if (isThisEdited()) {
 			return true;
 		}
-
+		updateButtonPanel(false);
 		thisIsEdited = true;
 		if (newCreationMode) {
 			DrawEquationW.editEquationMathQuillGGB(this, seMayLatex, true);
@@ -1573,7 +1582,6 @@ public class RadioTreeItem extends AVTreeItem
 					substituteNumbers || sliderNeeded(),
 					StringTemplate.latexTemplateMQedit,
 					true);
-			App.debug("RENDERING" + text);
 			if (text == null) {
 				return false;
 			}
@@ -2186,17 +2194,25 @@ marblePanel, evt))) {
 	 * This method shall only be called when we are not doing editing, so this
 	 * is for the delete button at selection
 	 */
-	private void addDeleteButton() {
+	private void updateButtonPanel(boolean showX) {
+		setFirst(first);
 
 		if (geo == null) {
 			return;
 		}
 
 		if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
-			buttonPanel.getElement().getStyle().setRight(
-					first && !getAlgebraDockPanel().hasLongStyleBar() ? 46 : 0,
-					Unit.PX);
-
+			setFirst(first);
+			buttonPanel.clear();
+			if (avExtension && animPanel != null) {
+				buttonPanel.add(animPanel);
+			}
+			if (getPButton() != null) {
+				buttonPanel.add(getPButton());
+			}
+			if (showX) {
+				buttonPanel.add(getXbutton());
+			}
 			buttonPanel.setVisible(true);
 
 			if (!isThisEdited()) {
@@ -2208,6 +2224,10 @@ marblePanel, evt))) {
 		} else {
 			getAV().removeCloseButton();
 		}
+	}
+
+	protected PushButton getPButton() {
+		return null;
 	}
 
 	protected void maybeSetPButtonVisibility(boolean bool) {
@@ -2489,7 +2509,7 @@ marblePanel, evt))) {
 		if (avExtension) {
 			deferredResizeSlider();
 			if (first && isSelected()) {
-				addDeleteButton();
+				updateButtonPanel(true);
 			}
 		}
 	}
@@ -2536,7 +2556,7 @@ marblePanel, evt))) {
 			// border.setBorderColor(
 			// GColor.getColorString(geo.getAlgebraColor()));
 
-			addDeleteButton();
+			updateButtonPanel(true);
 
 		} else {
 			// border.setBorderColor(CLEAR_COLOR_STR);

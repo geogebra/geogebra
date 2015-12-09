@@ -408,7 +408,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		if (pButton != null) {
 			buttonPanel.getElement().appendChild(pButton.getElement());
 		}
-		buttonPanel.getElement().appendChild(xButton.getElement());
+		buttonPanel.getElement().appendChild(getXbutton().getElement());
 	}
 
 	/**
@@ -543,7 +543,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			return;
 		}
 		buttonPanel.setVisible(show);
-		setButtonVisible(xButton, show);
+		setButtonVisible(getXbutton(), show);
 		setButtonVisible(pButton, show);
 	}
 

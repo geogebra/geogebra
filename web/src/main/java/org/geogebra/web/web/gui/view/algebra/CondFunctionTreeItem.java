@@ -12,7 +12,6 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.TreeItem;
 
 /**
  * CondFunRadioButtonTreeItem for creating piecewise functions (conditional
@@ -63,10 +62,8 @@ public class CondFunctionTreeItem extends RadioTreeItem {
 		// mouse event handlers, so it would be harmful
 	}
 
-	@Override
-	public void replaceXButtonDOM(TreeItem item) {
-		buttonPanel.add(pButton);
-		super.replaceXButtonDOM(item);
+	protected PushButton getPButton() {
+		return pButton;
 	}
 
 	@Override

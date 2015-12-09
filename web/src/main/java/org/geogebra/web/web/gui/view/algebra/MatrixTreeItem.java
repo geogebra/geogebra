@@ -22,7 +22,6 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.TreeItem;
 
 /**
  * MatrixRadioButtonTreeItem for creating matrices (2-dimensional lists in the
@@ -178,10 +177,8 @@ public class MatrixTreeItem extends RadioTreeItem {
 		itemList.add(actual);
 	}
 
-	@Override
-	public void replaceXButtonDOM(TreeItem item) {
-		buttonPanel.add(pButton);
-		super.replaceXButtonDOM(item);
+	protected PushButton getPButton() {
+		return pButton;
 	}
 
 	@Override
