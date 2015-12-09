@@ -1754,7 +1754,7 @@ public abstract class App implements UpdateSelection {
 	 * @param auxiliaryObjects
 	 *            true to show Auxiliary objects
 	 */
-	public void setShowAuxiliaryObjects(boolean auxiliaryObjects) {
+	public final void setShowAuxiliaryObjects(boolean auxiliaryObjects) {
 		if (showAuxiliaryObjects == auxiliaryObjects) {
 			return;
 		}

@@ -3164,16 +3164,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return showMenuBar;
 	}
 
-	@Override
-	public void setShowAuxiliaryObjects(boolean flag) {
-		showAuxiliaryObjects = flag;
-
-		if (getGuiManager() != null) {
-			getGuiManager().setShowAuxiliaryObjects(flag);
-			updateMenubar();
-		}
-	}
-
 	private void hideDockBarPopup() {
 		if (getDockBar() != null)
 			getDockBar().hidePopup();
