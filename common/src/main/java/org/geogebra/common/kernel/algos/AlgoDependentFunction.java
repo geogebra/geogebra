@@ -62,10 +62,12 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 */
 	public AlgoDependentFunction(Construction cons, Function fun) {
 		super(cons);
+		fun.initFunction();
+		cons.addToConstructionList(this, false);
 		this.fun = fun;
 		f = new GeoFunction(cons, false);
 		f.setFunction(fun);
-		f.initFunction();
+		f.setConstructionDefaults();
 
 		// look for FUNCTION or DERIVATIVE nodes in function
 		expression = fun.getExpression();
@@ -322,9 +324,13 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 		return sb.toString();
 	}
 
-	/*
+	/***
 	 * checks to see if this is an nth derivative, and return an appropriate
 	 * label eg f''' for 3rd derivative
+	 * 
+	 * @param fun
+	 *            function
+	 * @return label
 	 */
 	public static String getDerivativeLabel(Function fun) {
 		ExpressionValue ev = fun.getExpression().getLeft();

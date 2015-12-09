@@ -57,11 +57,13 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 	 *            input function
 	 */
 	AlgoDependentFunctionNVar(Construction cons, FunctionNVar fun) {
-		super(cons);		
+		super(cons, false);
+		fun.initFunction();
+		cons.addToConstructionList(this, false);
 		this.fun = fun;
 		f = new GeoFunctionNVar(cons, false);
 		f.setFunction(fun);
-		fun.initFunction();
+
 		expression = fun.getExpression();
 		expContainsFunctions = AlgoDependentFunction
 				.containsFunctions(expression);
