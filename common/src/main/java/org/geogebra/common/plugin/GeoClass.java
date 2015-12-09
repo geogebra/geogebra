@@ -5,59 +5,64 @@ package org.geogebra.common.plugin;
  *
  */
 public enum GeoClass {
-	ANGLE("Angle", false), AXIS("Axis", false), BOOLEAN("Boolean", false), BUTTON(
-			"Button", false), TEXTFIELD("TextField", false), CONIC("Conic",
-			false), CONICPART("ConicPart", false), FUNCTION("Function", false), INTERVAL(
-			"Interval", false), FUNCTIONCONDITIONAL("FunctionConditional",
-			false), IMAGE("Image", false), LINE("Line", false), LIST("List",
-			false), LOCUS("Locus", false), NUMERIC("Numeric", false), POINT(
-			"Point", false), POLYGON("Polygon", false), RAY("Ray", false), SEGMENT(
-			"Segment", false), TEXT("Text", false), VECTOR("Vector", false), CURVE_CARTESIAN(
-			"CurveCartesian", false), CURVE_POLAR("CurvePolar", false), IMPLICIT_POLY(
-			"ImplicitPoly", false), FUNCTION_NVAR(
-			"FunctionNVar", false), POLYLINE("PolyLine", false), PENSTROKE(
-			"PenStroke", false), SPLINE("CurveCartesian", false), TURTLE(
-			"Turtle", false), CAS_CELL("CasCell", false),
-
-	ANGLE3D("Angle", "Angle3D", true), POINT3D("Point", "Point3D", true), VECTOR3D(
-			"Vector", "Vector3D", true), SEGMENT3D("Segment", "Segment3D", true), LINE3D(
-			"Line", "Line3D", true), RAY3D("Ray", "Ray3D", true), CONIC3D(
-			"Conic", "Conic3D", true), CONICSECTION("ConicPart", "Conic3DPart",
-			true), AXIS3D("Axis", "Axis3D", true), CURVE_CARTESIAN3D(
-			"CurveCartesian", "CurveCartesian3D", true), POLYGON3D("Polygon",
-			"Polygon3D", true), PLANE3D("Plane", "Plane3D", true), QUADRIC(
-			"Quadric", true), QUADRIC_PART("Quadric", "QuadricPart", true), QUADRIC_LIMITED(
-			"Quadric", "QuadricLimited", true), POLYLINE3D("PolyLine",
-			"PolyLine3D", true), POLYHEDRON("Polyhedron", true), NET("Net",
-			true),
-
-	SURFACECARTESIAN3D("Surface", "SurfaceCartesian3D", true),
 	
-	IMPLICIT_SURFACE_3D("ImplicitSurface", "ImplicitSurface3D", true),
+	ANGLE("Angle", 80, false), AXIS("Axis", 10, false), BOOLEAN("Boolean", 20, false), BUTTON(
+			"Button",155, false), TEXTFIELD("TextField", 155, false), CONIC("Conic",70,
+			false), CONICPART("ConicPart",70, false), FUNCTION("Function", 90,false), INTERVAL(
+			"Interval",90, false), FUNCTIONCONDITIONAL("FunctionConditional",90,
+			false), IMAGE("Image", 20, false), LINE("Line",100, false), LIST("List",40,
+			false), LOCUS("Locus", 130, false), NUMERIC("Numeric",80, false), POINT(
+			"Point", 140, false), POLYGON("Polygon",50, false), RAY("Ray",110, false), SEGMENT(
+			"Segment", 110, false), TEXT("Text",150, false), VECTOR("Vector", 120, false), CURVE_CARTESIAN(
+			"CurveCartesian", 90, false), CURVE_POLAR("CurvePolar", 90, false), IMPLICIT_POLY(
+			"ImplicitPoly",60, false), FUNCTION_NVAR(
+			"FunctionNVar",102, false), POLYLINE("PolyLine",51, false), PENSTROKE(
+			"PenStroke",15, false), SPLINE("CurveCartesian", 90, false), TURTLE(
+			"Turtle",140, false), CAS_CELL("CasCell",160, false),
 
-	TRIANGULATED_SURFACE_3D("TriangulatedSurface", "TriangulatedSurface3D",
+	ANGLE3D("Angle", "Angle3D",80, true), POINT3D("Point", "Point3D",140, true), VECTOR3D(
+"Vector", "Vector3D", 120, true), SEGMENT3D(
+			"Segment", "Segment3D", 110, true), LINE3D(
+			"Line", "Line3D", 100, true), RAY3D("Ray", "Ray3D", 110,true), CONIC3D(
+			"Conic", "Conic3D", 70, true), CONICSECTION("ConicPart", "Conic3DPart",70,
+			true), AXIS3D("Axis", "Axis3D", 10, true), CURVE_CARTESIAN3D(
+			"CurveCartesian", "CurveCartesian3D", 90, true), POLYGON3D("Polygon",
+			"Polygon3D",50, true), PLANE3D("Plane", "Plane3D", 160, true), QUADRIC(
+			"Quadric", 160, true), QUADRIC_PART("Quadric", "QuadricPart", 160, true), QUADRIC_LIMITED(
+			"Quadric", "QuadricLimited",160,  true), POLYLINE3D("PolyLine",
+			"PolyLine3D",51, true), POLYHEDRON("Polyhedron",160,  true), NET("Net",50,
 			true),
 
-	CLIPPINGCUBE3D("ClippingCube3D", true),
+	SURFACECARTESIAN3D("Surface", "SurfaceCartesian3D",160,  true),
+	
+	IMPLICIT_SURFACE_3D("ImplicitSurface", "ImplicitSurface3D",160,  true),
 
-	SPACE("Space", true),
+	TRIANGULATED_SURFACE_3D("TriangulatedSurface", "TriangulatedSurface3D",160, 
+			true),
 
-	DEFAULT("Default", false);
+	CLIPPINGCUBE3D("ClippingCube3D",160,  true),
 
+	SPACE("Space", 160,  true),
+
+	DEFAULT("Default", 160, false);
+	
 	/**
 	 * name MUST be in ggbtrans/properties
 	 */
 	public String name, xmlName;
 	public boolean is3D;
+	public int priority;
 
-	GeoClass(String name, boolean is3D) {
+	GeoClass(String name, int priority, boolean is3D) {
 		this.name = name;
+		this.priority = priority;
 		this.xmlName = name;
 		this.is3D = is3D;
 	}
 
-	GeoClass(String name, String xmlName, boolean is3D) {
+	GeoClass(String name,  String xmlName, int priority, boolean is3D) {
 		this.name = name;
+		this.priority = priority;
 		this.xmlName = xmlName;
 		this.is3D = is3D;
 

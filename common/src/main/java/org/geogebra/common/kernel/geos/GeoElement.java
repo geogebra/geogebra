@@ -1305,70 +1305,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return drawing priority (lower = drawn first)
 	 */
 	private int typePriority(){
-		switch (getGeoClassType()) {
-		case AXIS:
-			return 10;
-		case PENSTROKE:
-			return 15;
-		case IMAGE:
-		case TURTLE:
-		case BOOLEAN:
-			return 20;
-		case LIST:
-			return 40;
-		case POLYGON:
-		case POLYGON3D:
-			return 50;
-		case POLYLINE:
-			return 51;
-		case IMPLICIT_POLY:
-			return 60;
-		case CONIC:
-		case CONICPART:
-		case CONIC3D:
-		case CONICSECTION:
-			return 70;
-		case ANGLE:
-		case ANGLE3D:
-		case NUMERIC:
-			return 80;
-		case SPLINE:
-		case INTERVAL: // not drawable
-		case FUNCTION:
-		case FUNCTIONCONDITIONAL:
-		case CURVE_CARTESIAN:
-		case CURVE_CARTESIAN3D:
-		case CURVE_POLAR:
-			return 90;
-		case LINE:
-		case LINE3D:
-			return 100;
-		case FUNCTION_NVAR:
-			return 102;
-		case RAY:
-		case SEGMENT:
-		case RAY3D:
-		case SEGMENT3D:
-			return 110;
-		case VECTOR:
-		case VECTOR3D:
-			return 120;
-		case LOCUS:
-			return 130;
-		case POINT:
-		case POINT3D:
-			return 140;
-		case TEXT:
-			return 150;
-		case TEXTFIELD:
-		case BUTTON:
-			// drawn last
-			// in GeoGebra 4 (Java) the buttons/textfields were drawn by swing so were on top
-			return 155;
-		default: // shouldn't occur
-			App.debug("missing case in getDrawingPriority() for "+getGeoClassType());
-			return 160;
-		}
+		return getGeoClassType().priority;
 	}
 	
 	/**
