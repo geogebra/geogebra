@@ -565,6 +565,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	private ArrayList<Integer> collapsedNodes;
+	private boolean isShowingAuxiliaryObjects;
 
 	private void setCollapsedNodes(int[] collapsedNodes) {
 		if (collapsedNodes == null)
@@ -584,7 +585,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	public void setShowAuxiliaryObjects(boolean flag) {
-
+		if (this.isShowingAuxiliaryObjects == flag) {
+			return;
+		}
+		isShowingAuxiliaryObjects = flag;
 		app.showAuxiliaryObjects = flag;
 
 		cancelEditing();
@@ -1003,7 +1007,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	private void add(GeoElement geo, int forceLayer) {
 		cancelEditing();
-
+		this.isShowingAuxiliaryObjects = showAuxiliaryObjects();
 
 		if (geo.isLabelSet() && geo.showInAlgebraView()
 				&& geo.isSetAlgebraVisible()) {
@@ -1100,7 +1104,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 
 	public void clearView() {
-		App.printStacktrace("Clearing:" + nodeTable.size());
 		nodeTable.clear();
 		clearTree();
 		showAlgebraInput(false);
