@@ -2146,7 +2146,7 @@ __GGB__keysVar.de_AT.menu = {
     "ZMeanTest": "Gau\xdf-Test des Mittelwerts",
     "ZProportionInterval": "Gau\xdf-Sch\xe4tzer einer Proportion",
     "ZProportionTest": "Gau\xdf-Test f\xfcr Propotionen",
-    "ZSpace.DetectedMessage": "Congratulations, your zSpace station can be used with GeoGebra!",
+    "ZSpace.DetectedMessage": "Gratulation, Ihre zSpace Station kann jetzt mit GeoGebra verwendet werden!",
     "ZStatistic": "Z",
     "ZTestDifferenceOfMeans": "Gau\xdf-Test, Differenz der Mittelwerte",
     "ZTestDifferenceOfProportions": "Gau\xdf-Test, Differenz von Proportionen",

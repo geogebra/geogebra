@@ -1325,7 +1325,7 @@ __GGB__keysVar.fr.menu = {
     "Count": "Effectifs",
     "CountCells": "Longueur",
     "CountCells.Help": "S\xe9lectionner un ensemble de cellules",
-    "CrashReport": "Send crash reports to GeoGebra",
+    "CrashReport": "Envoyer rapport crash \xe0 GeoGebra",
     "Create": "Cr\xe9er",
     "CreateCurveFit": "Ajustement",
     "CreateCurveFit.Help": "S\xe9lectionner les cellules pour cr\xe9er des points et cliquer sur l'outil",

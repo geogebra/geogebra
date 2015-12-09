@@ -1325,7 +1325,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Count": "\u8ba1\u6570",
     "CountCells": "\u8ba1\u6570",
     "CountCells.Help": "\u9009\u62e9\u4e00\u7ec4\u5355\u5143\u683c, \u8ba1\u7b97\u51fa\u6240\u9009\u5355\u5143\u683c\u7684\u4e2a\u6570",
-    "CrashReport": "Send crash reports to GeoGebra",
+    "CrashReport": "\u5411 GeoGebra \u53d1\u9001\u5d29\u6e83\u62a5\u544a",
     "Create": "\u521b\u5efa",
     "CreateCurveFit": "\u56de\u5f52\u66f2\u7ebf",
     "CreateCurveFit.Help": "\u9009\u62e9\u5355\u5143\u683c\u5185\u70b9\u7684\u5750\u6807, \u518d\u70b9\u51fb\u5de5\u5177\u6309\u94ae",

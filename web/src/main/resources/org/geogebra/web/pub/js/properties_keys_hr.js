@@ -476,7 +476,7 @@ __GGB__keysVar.hr.command = {
     "InverseWeibull.Syntax": "[ <oblik>, <skala>, <vjerojatnost> ]",
     "InverseZipf": "InverzniZipf",
     "InverseZipf.Syntax": "[ <broj elemenata>, <eksponent>, <vjerojatnost> ]",
-    "Invert": "InverznaMatrica",
+    "Invert": "Inverzna",
     "Invert.Syntax": "[ <matrica> ]\n[ <funkcija> ]",
     "IsInRegion": "JeLiUPodru\u010dju",
     "IsInRegion.Syntax": "[ <to\u010dka>, <podru\u010dje> ]",
