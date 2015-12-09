@@ -1147,7 +1147,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		if (rt instanceof ListValue && (lt instanceof FunctionalNVar)) {
 			FunctionNVar funN = ((FunctionalNVar) lt).getFunction();
 			ListValue list = (ListValue) rt;
-			if (funN.getVarNumber() == list.size()) {
+			if (funN.getVarNumber() == list.size() || funN.getVarNumber() == 1) {
 				double[] args = list.toDouble();
 				if (args != null) {
 					if (funN.isBooleanFunction()) {
