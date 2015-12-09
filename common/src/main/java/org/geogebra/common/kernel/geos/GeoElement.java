@@ -1315,11 +1315,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		case BOOLEAN:
 			return 20;
 		case LIST:
-
-			if (((GeoList) this).drawAsComboBox()) {
-				return 160;
-			}
-
 			return 40;
 		case POLYGON:
 		case POLYGON3D:
