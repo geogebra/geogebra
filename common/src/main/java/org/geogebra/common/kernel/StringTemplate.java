@@ -31,7 +31,20 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private final String name;
 
+	private StringType stringType;
+	private boolean internationalizeDigits;
+	private String casPrintFormPI;
+	private ScientificFormatAdapter sf;
+	private NumberFormatAdapter nf;
+	private boolean forceSF;
+	private boolean forceNF;
+	private boolean allowMoreDigits;
+	private boolean useRealLabels;
+
+	private boolean localizeCmds;
+	private boolean usePrefix;
 	private boolean hideLHS = false;
+	private boolean questionMarkForNaN = true;
 	/**
 	 * Default template, but do not localize commands
 	 */
@@ -233,6 +246,27 @@ public class StringTemplate implements ExpressionNodeConstants {
 		xmlTemplate.localizeCmds = false;
 		xmlTemplate.sf = org.geogebra.common.factories.FormatFactory.prototype
 				.getScientificFormat(15, 20, false);
+		xmlTemplate.questionMarkForNaN = false;
+	}
+	/**
+	 * XML string type, do not internationalize digits
+	 */
+	public static final StringTemplate casCopyTemplate = new StringTemplate(
+			"xmlTemplate") {
+		@Override
+		public int getCoordStyle(int coordStyle) {
+			return Kernel.COORD_STYLE_DEFAULT;
+		}
+	};
+	static {
+		xmlTemplate.forceSF = true;
+		xmlTemplate.allowMoreDigits = true;
+		xmlTemplate.internationalizeDigits = false;
+		xmlTemplate.setType(StringType.GEOGEBRA_XML);
+		xmlTemplate.localizeCmds = false;
+		xmlTemplate.sf = org.geogebra.common.factories.FormatFactory.prototype
+				.getScientificFormat(15, 20, false);
+		xmlTemplate.questionMarkForNaN = false;
 	}
 	/**
 	 * for input bar; same as default, but increases precision to
@@ -386,18 +420,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				.getScientificFormat(15, 20, false);
 	}
 
-	private StringType stringType;
-	private boolean internationalizeDigits;
-	private String casPrintFormPI;
-	private ScientificFormatAdapter sf;
-	private NumberFormatAdapter nf;
-	private boolean forceSF;
-	private boolean forceNF;
-	private boolean allowMoreDigits;
-	private boolean useRealLabels;
 
-	private boolean localizeCmds;
-	private boolean usePrefix;
 
 	/**
 	 * Creates default string template
@@ -3004,6 +3027,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public String escapeString(String string) {
 		return string;
+	}
+
+	public boolean hasQuestionMarkForNaN() {
+		return this.questionMarkForNaN;
 	}
 
 }

@@ -1172,6 +1172,8 @@ public class Kernel {
 		case GEOGEBRA_XML:
 			if (isLongInteger) {
 				return Long.toString(rounded);
+			} else if (Double.isNaN(number) && tpl.hasQuestionMarkForNaN()) {
+				return "?";
 			}
 			// #5149
 			return MyDouble.toString(x);
