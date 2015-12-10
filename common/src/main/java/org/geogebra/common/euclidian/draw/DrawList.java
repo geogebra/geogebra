@@ -49,6 +49,7 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
+	private static final int OPTIONSBOX_MIN_FONTSIZE = 9;
 	private static final int OPTIONSBOX_ITEM_GAP_EXTRA_SMALL = 15;
 	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL1 = 20;
 	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL2 = 25;
@@ -566,6 +567,30 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		recalculateFontSize = false;
 	}
 
+	private int getMaxCapacity(GGraphics2D g2) {
+		g2.setFont(optionFont);
+		int w = estimatePlainWidth(g2, 1);
+		int h = estimatePlainHeight(g2, 0);
+		int cols = view.getWidth() / w;
+		int rows = view.getHeight() / h;
+		// drawRows(g2, cols, rows);
+		App.debug("[DROPDOWN][CAPACITY] cols: " + cols + " rows: " + rows
+				+ " max: " + cols * rows + " itemCount: " + geoList.size());
+		return cols * rows;
+	}
+
+	private void drawRows(GGraphics2D g2, int cols, int rows) {
+
+		int w = estimatePlainWidth(g2, 1);
+		int h = estimatePlainHeight(g2, 0);
+
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				g2.drawRect(col * w, row * h, w, h);
+			}
+		}
+
+	}
 
 	private void updateMetrics(GGraphics2D g2) {
 
@@ -580,6 +605,19 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				getLabelFont(), isLatexString(selectedText), false);
 
 		if (isOptionsVisible()) {
+			int max = getMaxCapacity(g2);
+			if (max > geoList.size()) {
+				App.debug("[MULTICOL] few items, normal wrap");
+
+			} else {
+				int fontSize = optionFont.getSize();
+				while (max < geoList.size()
+						&& fontSize > OPTIONSBOX_MIN_FONTSIZE) {
+					fontSize--;
+					optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
+					max = getMaxCapacity(g2);
+				}
+			}
 			updateOptionMetrics(g2);
 		}
 
@@ -605,7 +643,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		for (int i = 0; i < geoList.size(); i++) {
 			String text = geoList.get(i)
 					.toValueString(StringTemplate.defaultTemplate);
-			if (!isLatexString(text) && text.length() > result.length()) {
+			if (!"".equals(text) && !isLatexString(text)
+					&& text.length() > result.length()) {
 				result = text;
 			}
 		}
@@ -613,10 +652,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		return result;
 	}
 
-	private int estimatePlainWidth(GGraphics2D g2) {
+	private int estimatePlainWidth(GGraphics2D g2, int cols) {
 		GTextLayout layout = getLayout(g2, getWidthestPlainItem(), optionFont);
 		double w = (layout.getBounds().getWidth() + 2 * OPTIONSBOX_ITEM_HGAP)
-				* colCount;
+				* cols;
 		App.debug("[DROPDOWNS][METRICS] est. width: " + w);
 		return (int) w;
 	}
@@ -766,18 +805,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		int rowTop = optTop;
 		int optLeft = boxLeft;
-		int estimatedWidth = estimatePlainWidth(g2);
-		int fontSize = 14;// getLabelFontSize();
-		int minFontSize = 10;
-		while (optLeft + estimatedWidth > view.getViewWidth()
-				&& fontSize > minFontSize) {
-			estimatedWidth = estimatePlainWidth(g2);
+		int estimatedWidth = estimatePlainWidth(g2, colCount);
+		if (optLeft + estimatedWidth > view.getViewWidth()) {
 			optLeft = view.getViewWidth() - estimatedWidth;
-			if (optLeft < 0) {
-				fontSize--;
-				optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
-				App.debug("[DROPDOWN][METRICS] Shrinking font size...");
-			}
+		}
+
+		if (optLeft < 0) {
+			optLeft = 0;
 		}
 
 		drawOptionLines(g2, optLeft, rowTop, true);
