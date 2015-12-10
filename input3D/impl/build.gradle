@@ -74,7 +74,7 @@ eclipse.classpath.file.whenMerged { classpath ->
 	    thisBit = 32
 	    }
 	if ((myHostname != "deploy" && myBit == thisBit) || (myHostname == "deploy" && thisBit == 32)) {
-	    println "zSpace native ${i}, ${myBit} bit for host ${myHostname} (${thisBit} bit) will be used"
+	    println "zSpace native ${i}, ${thisBit} bit for host ${myHostname} (${myBit} bit) will be used"
 	    ant.unzip(src: zspace_native_path, dest: zspace_dir)
 	    }
         } 
