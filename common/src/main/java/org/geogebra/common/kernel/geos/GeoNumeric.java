@@ -617,8 +617,11 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		
 		// see MyDouble.toString()
 		if (tpl.getStringType() == StringType.GIAC) {
+			if (this.label != null && this.label.startsWith("c_")) {
+				this.setSendValueToCas(false);
+			}
 			if (!sendValueToCas) {
-				return "(" + label + ")";
+				return "(ggbtmpvar" + label + ")";
 			}
 			//make sure random() works inside Sequence, see #3558
 			if (this.isRandomGeo() && !this.isLabelSet()) {
