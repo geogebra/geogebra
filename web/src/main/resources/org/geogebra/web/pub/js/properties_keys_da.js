@@ -2065,6 +2065,7 @@ __GGB__keysVar.da.menu = {
     "TranslateView.Help": "Klik og tr\xe6k tegnefladen",
     "Transparent": "Gennemsigtig",
     "Transpose": "Transponer",
+    "Tutorial": "Instruktion",
     "Tutorials": "Vejledninger",
     "TwoVarStats": "Tovariabelregressionsanalyse",
     "TwoVarStats.Help": "Analyserer parrede v\xe6rdier fra de valgte celler",

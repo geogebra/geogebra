@@ -2065,6 +2065,7 @@ __GGB__keysVar.eo.menu = {
     "TranslateView.Help": "Drag the Graphics View or one axis (Shift + Drag)",
     "Transparent": "Travidebla",
     "Transpose": "Transponi",
+    "Tutorial": "Lernilo",
     "Tutorials": "Lerniloj",
     "TwoVarStats": "Regresianalizo en du variabloj",
     "TwoVarStats.Help": "Analyze paired number values from selected cells",

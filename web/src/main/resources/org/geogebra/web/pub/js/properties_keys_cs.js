@@ -2065,6 +2065,7 @@ __GGB__keysVar.cs.menu = {
     "TranslateView.Help": "Posunout n\xe1kresny nebo osy (Shift + t\xe1hnout)",
     "Transparent": "Pr\u016fhlednost",
     "Transpose": "P\u0159em\xedst\u011bn\xed",
+    "Tutorial": "Tutori\xe1l",
     "Tutorials": "Tutori\xe1ly",
     "TwoVarStats": "Regresn\xed anal\xfdza dvojrozm\u011brn\xfdch dat",
     "TwoVarStats.Help": "Analyzovat p\xe1rovan\xe9 \u010d\xedseln\xe9 hodnoty z vybran\xfdch bun\u011bk",

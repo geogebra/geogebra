@@ -2065,6 +2065,7 @@ __GGB__keysVar.xh.menu = {
     "TranslateView.Help": "Tsala uMbonoWomfanekiso okanye iaxis enye(Shift + Drag)",
     "Transparent": "Ephumelayo",
     "Transpose": "Transpowza",
+    "Tutorial": "iTyuthoriyali",
     "Tutorials": "iiTutorials",
     "TwoVarStats": "iiVariable Regression Analysis ezimbini",
     "TwoVarStats.Help": "Hlalutya lamanani abekwe ngambini kumagumbi",

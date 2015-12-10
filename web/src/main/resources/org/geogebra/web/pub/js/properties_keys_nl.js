@@ -2065,6 +2065,7 @@ __GGB__keysVar.nl.menu = {
     "TranslateView.Help": "Versleep tekenvenster of as (Shift + slepen)",
     "Transparent": "Transparant",
     "Transpose": "Transponeer",
+    "Tutorial": "Initiatiehandleiding",
     "Tutorials": "Initiatiehandleidingen",
     "TwoVarStats": "Regressieanalyse",
     "TwoVarStats.Help": "Analyseer paired getalwaarden van geselecteerde cellen",

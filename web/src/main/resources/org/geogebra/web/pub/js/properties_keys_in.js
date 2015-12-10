@@ -2065,6 +2065,7 @@ __GGB__keysVar.in.menu = {
     "TranslateView.Help": "Drag tampilan gafik atau salah satu sumbu (Shift + Drag)",
     "Transparent": "Transparan",
     "Transpose": "Transpos",
+    "Tutorial": "Tutorial",
     "Tutorials": "Tutorial",
     "TwoVarStats": "Analisis Regresi Dua Variabel",
     "TwoVarStats.Help": "Analisis pasangan nilai angka dari sel terpilih",

@@ -2065,6 +2065,7 @@ __GGB__keysVar.es.menu = {
     "TranslateView.Help": "Desplaza Vista o modifica ejes (May o Ctrl +Desplazar)",
     "Transparent": "Transparente",
     "Transpose": "Traspuesta",
+    "Tutorial": "Tutorial",
     "Tutorials": "Tutoriales",
     "TwoVarStats": "An\xe1lisis de Regresi\xf3n de dos variables",
     "TwoVarStats.Help": "An\xe1lisis de los pares de valores num\xe9ricos de las celdas seleccionadas",

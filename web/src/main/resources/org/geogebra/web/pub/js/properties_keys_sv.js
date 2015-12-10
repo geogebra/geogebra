@@ -2065,6 +2065,7 @@ __GGB__keysVar.sv.menu = {
     "TranslateView.Help": "Flytta ritomr\xe5det eller axel (Shift + Drag)",
     "Transparent": "Transparent",
     "Transpose": "Transponera",
+    "Tutorial": "Guide",
     "Tutorials": "Guider",
     "TwoVarStats": "Tv\xe5variabels regressionanalys",
     "TwoVarStats.Help": "Analysera parvisa v\xe4rden fr\xe5n valda celler",

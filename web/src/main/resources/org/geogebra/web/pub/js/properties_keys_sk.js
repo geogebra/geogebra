@@ -2065,6 +2065,7 @@ __GGB__keysVar.sk.menu = {
     "TranslateView.Help": "N\xe1kres\u0148u uchop\xedme stla\u010den\xedm \u013eav\xe9ho tla\u010didla my\u0161i a pohybom my\u0161i pos\xfavame, uchopen\xedm osi men\xedme jej mierku",
     "Transparent": "Prieh\u013eadn\xe9",
     "Transpose": "Transponovan\xe1",
+    "Tutorial": "N\xe1vod",
     "Tutorials": "N\xe1vody",
     "TwoVarStats": "Regresn\xe1 anal\xfdza dvoch premenn\xfdch",
     "TwoVarStats.Help": "Analyzuje p\xe1rovan\xe9 \u010d\xedseln\xe9 hodnoty z vyzna\u010den\xfdch buniek",

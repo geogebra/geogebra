@@ -2065,6 +2065,7 @@ __GGB__keysVar.it.menu = {
     "TranslateView.Help": "Fare clic e trascinare la vista Grafici (Tasto Maiusc+trascinare)",
     "Transparent": "Trasparente",
     "Transpose": "Trasponi",
+    "Tutorial": "Tutorial",
     "Tutorials": "Tutorial",
     "TwoVarStats": "Analisi di regressione bivariata",
     "TwoVarStats.Help": "Analizza coppie di valori numerici contenuti nelle celle selezionate",

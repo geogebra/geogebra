@@ -2065,6 +2065,7 @@ __GGB__keysVar.eu.menu = {
     "TranslateView.Help": "Arrastatu Ikuspegi Grafikoa edo ardatz bat (Shift + Arrastatu)",
     "Transparent": "Gardena",
     "Transpose": "Transposizioa",
+    "Tutorial": "Gida",
     "Tutorials": "Tutorialak",
     "TwoVarStats": "Aldagai Biko Analisia",
     "TwoVarStats.Help": "Aztertu hautatutako gelaxketako zenbakizko balioak binaka",

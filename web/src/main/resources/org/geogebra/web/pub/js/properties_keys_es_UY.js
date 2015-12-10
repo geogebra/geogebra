@@ -2065,6 +2065,7 @@ __GGB__keysVar.es_UY.menu = {
     "TranslateView.Help": "Desplaza Vista gr\xe1fica o ejes (May\xfasculas + Arrastrar)",
     "Transparent": "Transparente",
     "Transpose": "Transposici\xf3n",
+    "Tutorial": "Tutorial",
     "Tutorials": "Tutoriales",
     "TwoVarStats": "An\xe1lisis de regresi\xf3n bivariado",
     "TwoVarStats.Help": "Analiza valores de a pares en celdas seleccionadas",

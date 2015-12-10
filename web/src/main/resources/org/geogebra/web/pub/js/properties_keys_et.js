@@ -2065,6 +2065,7 @@ __GGB__keysVar.et.menu = {
     "TranslateView.Help": "Lohistage graafikavaadet v\xf5i telgi (Shift + Lohista)",
     "Transparent": "L\xe4bipaistev",
     "Transpose": "Transponeeri",
+    "Tutorial": "\xd5petus",
     "Tutorials": "\xd5petused",
     "TwoVarStats": "Kahe muutuja regresioonanal\xfc\xfcs",
     "TwoVarStats.Help": "Anal\xfc\xfcsitakse valitud lahtrite arvuliste v\xe4\xe4rtuste paare",

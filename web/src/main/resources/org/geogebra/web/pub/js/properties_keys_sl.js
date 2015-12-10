@@ -2065,6 +2065,7 @@ __GGB__keysVar.sl.menu = {
     "TranslateView.Help": "Pomikanje risalne povr\u0161ine ali osi (Dvigalka+premikanje z mi\u0161ko)",
     "Transparent": "Prosojno",
     "Transpose": "Transponiraj",
+    "Tutorial": "Navodila",
     "Tutorials": "Navodila",
     "TwoVarStats": "Regresijska analiza dveh spremenljivk",
     "TwoVarStats.Help": "Analiziraj parno \u0161tevilo vrednosti izbranih celic",

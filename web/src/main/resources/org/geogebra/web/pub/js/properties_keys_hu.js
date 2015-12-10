@@ -2065,6 +2065,7 @@ __GGB__keysVar.hu.menu = {
     "TranslateView.Help": "Rajzlap vagy egy tengely vonszol\xe1sa (Shift + Vonszol\xe1s)",
     "Transparent": "\xc1tl\xe1tsz\xf3",
     "Transpose": "Transzpon\xe1lt",
+    "Tutorial": "Bemutat\xf3",
     "Tutorials": "Bemutat\xf3k",
     "TwoVarStats": "K\xe9t v\xe1ltoz\xf3s regresszi\xf3 anal\xedzis",
     "TwoVarStats.Help": "A kijel\xf6lt cell\xe1kban szerepl\u0151 sz\xe1m p\xe1rok anal\xedzise",

@@ -2065,6 +2065,7 @@ __GGB__keysVar.sq.menu = {
     "TranslateView.Help": "Zvarrit panelen e vizatimit ose nje bosht(Shift+Drag)",
     "Transparent": "Transparent",
     "Transpose": "Transpozim",
+    "Tutorial": "Tutorial",
     "Tutorials": "Tutoriale",
     "TwoVarStats": "Analize Regresion me Dy Variabla",
     "TwoVarStats.Help": "Analizo vlerat numerike te ciftuara nga qelizat e selektuara",

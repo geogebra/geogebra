@@ -2065,6 +2065,7 @@ __GGB__keysVar.tr.menu = {
     "TranslateView.Help": "\xc7izim tahtas\u0131n\u0131 veya ekseni ta\u015f\u0131 ( Shift + Ta\u015f\u0131)",
     "Transparent": "\u015eeffaf",
     "Transpose": "Transpoz",
+    "Tutorial": "\xd6\u011fretici malzeme",
     "Tutorials": "\xd6\u011fretici malzemeler",
     "TwoVarStats": "\u0130ki De\u011fi\u015fkenli Regresyon Analizi",
     "TwoVarStats.Help": "Se\xe7ili h\xfccrelerden \xe7iftli say\u0131 de\u011ferlerini incele",

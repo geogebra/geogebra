@@ -2065,6 +2065,7 @@ __GGB__keysVar.ms.menu = {
     "TranslateView.Help": "Heret Paparan Grafik atau satu paksi (Shift+Drag)",
     "Transparent": "Lutsinar",
     "Transpose": "Transposisi",
+    "Tutorial": "Tutorial",
     "Tutorials": "Tutorial-tutorial",
     "TwoVarStats": "Analisis Regresi Dua Pembolehubah",
     "TwoVarStats.Help": "Menganalisis nilai-nilai nombor berpasangan daripada sel terpilih",

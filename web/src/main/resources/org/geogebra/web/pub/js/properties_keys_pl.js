@@ -2065,6 +2065,7 @@ __GGB__keysVar.pl.menu = {
     "TranslateView.Help": "Przesu\u0144 obszar roboczy lub osie (Shift + ci\u0105gnij)",
     "Transparent": "Przezroczysty",
     "Transpose": "Transpozycja",
+    "Tutorial": "Tutorial",
     "Tutorials": "Samouczek",
     "TwoVarStats": "Analiza Regresji Dw\xf3ch Zmiennych",
     "TwoVarStats.Help": "Analiza warto\u015bci liczbowych, kt\xf3re s\u0105 powi\u0105zane ze struktur\u0105 arkusza",

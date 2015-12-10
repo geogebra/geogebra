@@ -2065,6 +2065,7 @@ __GGB__keysVar.mr.menu = {
     "TranslateView.Help": "\u0921\u094d\u0930\u0949\u0907\u0902\u0917 \u092a\u0945\u0921 \u0915\u093f\u0902\u0935\u093e \u090f\u0915 \u0905\u0915\u094d\u0937 \u0916\u0947\u091a\u093e (Shift +Drag)",
     "Transparent": "Transparent",
     "Transpose": "Transpose",
+    "Tutorial": "Tutorial",
     "Tutorials": "Tutorials",
     "TwoVarStats": "Two Variable Regression Analysis",
     "TwoVarStats.Help": "Analyze paired number values from selected cells",

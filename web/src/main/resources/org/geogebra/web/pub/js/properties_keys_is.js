@@ -2065,6 +2065,7 @@ __GGB__keysVar.is.menu = {
     "TranslateView.Help": "Dragi\xf0 teiknibor\xf0 e\xf0a \xe1s (Shift + Draga)",
     "Transparent": "Gegns\xe6r",
     "Transpose": "Bylta",
+    "Tutorial": "Kennsluefni",
     "Tutorials": "Kennsluefni",
     "TwoVarStats": "A\xf0hvarfsgreining tveggja breytist\xe6r\xf0a",
     "TwoVarStats.Help": "Greining \xe1 talnap\xf6rum \xed v\xf6ldum reitum",

@@ -2065,6 +2065,7 @@ __GGB__keysVar.lv.menu = {
     "TranslateView.Help": "Ievilkt grafisko skatu jeb uz as\u012bm (Shift + Drag)",
     "Transparent": "Caursp\u012bd\u012bgs",
     "Transpose": "Main\u012bt vietu",
+    "Tutorial": "konsult\u0101cja",
     "Tutorials": "Rokasgr\u0101mata",
     "TwoVarStats": "Divu main\u012bgo regresijas anal\u012bze",
     "TwoVarStats.Help": "Analiz\u0113t skait\u013cu p\u0101rus no izv\u0113l\u0113taj\u0101m \u0161\u016bn\u0101m",

@@ -2065,6 +2065,7 @@ __GGB__keysVar.fr.menu = {
     "TranslateView.Help": "D\xe9placer Graphique, ou modifier les axes (Raccourci = Maj ou Crtl + souris)",
     "Transparent": "Transparent",
     "Transpose": "Transposer",
+    "Tutorial": "Tutoriel",
     "Tutorials": "Tutoriels",
     "TwoVarStats": "Statistiques \xe0 deux variables",
     "TwoVarStats.Help": "Analyse des paires de valeurs num\xe9riques \xe0 partir des cellules s\xe9lectionn\xe9es",

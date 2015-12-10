@@ -2065,6 +2065,7 @@ __GGB__keysVar.si.menu = {
     "TranslateView.Help": "\u0d85\u0db3\u0dd2\u0db1 \u0db4\u0dd4\u0dc0\u0dbb\u0dd0\u0dc0 \u0dc4\u0ddd \u0d91\u0d9a\u0dca \u0d85\u0d9a\u0dca\u0dc2\u0dba\u0d9a\u0dca \u0d87\u0daf\u0d9c\u0dd9\u0db1 \u0dba\u0db1\u0dca\u0db1(Shift+Drag)",
     "Transparent": "Transparent",
     "Transpose": "Transpose",
+    "Tutorial": "\u0db4\u0d82\u0d9a\u0dca\u0dad\u0dd2 \u0db4\u0dcf\u0da9\u0db8",
     "Tutorials": "Tutorials",
     "TwoVarStats": "Two Variable Regression Analysis",
     "TwoVarStats.Help": "Analyze paired number values from selected cells",

@@ -2065,6 +2065,7 @@ __GGB__keysVar.lt.menu = {
     "TranslateView.Help": "Tempkite grafin\u012f vaizd\u0105 bet kur arba viena a\u0161imi (Shift + Tempkite)",
     "Transparent": "Permatomas",
     "Transpose": "Transponuoti",
+    "Tutorial": "Vadov\u0117lis",
     "Tutorials": "Mokymai",
     "TwoVarStats": "Dviej\u0173 kintm\u0173j\u0173 regresin\u0117 analiz\u0117",
     "TwoVarStats.Help": "Analizuoti suporuotus skai\u010di\u0173 vertes i\u0161 pasirinkt\u0173 laukeli\u0173",

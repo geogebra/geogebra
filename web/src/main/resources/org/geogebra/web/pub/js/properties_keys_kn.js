@@ -2065,6 +2065,7 @@ __GGB__keysVar.kn.menu = {
     "TranslateView.Help": "Drag the Graphics View or one axis (Shift + Drag)",
     "Transparent": "\u0caa\u0cbe\u0cb0\u0ca6\u0cb0\u0ccd\u0cb6\u0c95",
     "Transpose": "Transpose",
+    "Tutorial": "\u0cb6\u0cbf\u0c95\u0ccd\u0cb7\u0ca3",
     "Tutorials": "Tutorials",
     "TwoVarStats": "Two Variable Regression Analysis",
     "TwoVarStats.Help": "Analyze paired number values from selected cells",

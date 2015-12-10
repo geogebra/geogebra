@@ -2065,6 +2065,7 @@ __GGB__keysVar.ro.menu = {
     "TranslateView.Help": "Glisare suprafa\u0163\u0103 de desen sau o ax\u0103 (Shift + Trage)",
     "Transparent": "Transparent",
     "Transpose": "Transpunere",
+    "Tutorial": "Tutorial",
     "Tutorials": "Manuale",
     "TwoVarStats": "Analiz\u0103 de regresie dou\u0103 variabile",
     "TwoVarStats.Help": "Analiz\u0103 valori \xeemperecheate din celulele selectate",

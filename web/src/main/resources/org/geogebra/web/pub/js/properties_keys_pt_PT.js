@@ -2065,6 +2065,7 @@ __GGB__keysVar.pt_PT.menu = {
     "TranslateView.Help": "Arraste a Folha Gr\xe1fica ou um Eixo (Shift + Arrastar)",
     "Transparent": "Transparente",
     "Transpose": "Transposta",
+    "Tutorial": "Tutorial",
     "Tutorials": "Tutoriais",
     "TwoVarStats": "An\xe1lise de Regress\xe3o Bivariada",
     "TwoVarStats.Help": "Analisar Pares de valores de c\xe9lulas selecionadas",

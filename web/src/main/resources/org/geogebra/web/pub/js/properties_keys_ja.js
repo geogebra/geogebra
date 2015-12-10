@@ -2065,6 +2065,7 @@ __GGB__keysVar.ja.menu = {
     "TranslateView.Help": "\u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9\u30d3\u30e5\u30fc\u304b\u8ef8\u3092\u30c9\u30e9\u30c3\u30b0 (Shift + Drag)",
     "Transparent": "\u900f\u660e",
     "Transpose": "\u8ee2\u7f6e",
+    "Tutorial": "\u30c1\u30e5\u30fc\u30c8\u30ea\u30a2\u30eb",
     "Tutorials": "\u30c1\u30e5\u30fc\u30c8\u30ea\u30a2\u30eb",
     "TwoVarStats": "\uff12\u5909\u91cf\u56de\u5e30\u5206\u6790",
     "TwoVarStats.Help": "\u9078\u629e\u30bb\u30eb\u304b\u3089\uff12\u5909\u91cf\u89e3\u6790",

@@ -2065,6 +2065,7 @@ __GGB__keysVar.pt.menu = {
     "TranslateView.Help": "Arraste a janela de visualiza\xe7\xe3o ou um eixo (Shift + Arrastar)",
     "Transparent": "Transparente",
     "Transpose": "Transposta",
+    "Tutorial": "Tutorial",
     "Tutorials": "Tutoriais",
     "TwoVarStats": "An\xe1lise Bivariada",
     "TwoVarStats.Help": "Analisa pares de valores em um bloco de c\xe9lulas",

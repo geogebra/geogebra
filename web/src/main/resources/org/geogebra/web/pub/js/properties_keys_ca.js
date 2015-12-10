@@ -2065,6 +2065,7 @@ __GGB__keysVar.ca.menu = {
     "TranslateView.Help": "Arrossegueu la finestra gr\xe0fica o un eix (amb el bot\xf3 principal del ratol\xed)",
     "Transparent": "Transparent",
     "Transpose": "Transposa",
+    "Tutorial": "Tutorial",
     "Tutorials": "Tutorials",
     "TwoVarStats": "An\xe0lisi de regressi\xf3 bivariant",
     "TwoVarStats.Help": "Analitza valors num\xe8rics aparellats de les cel\xb7les seleccionades",

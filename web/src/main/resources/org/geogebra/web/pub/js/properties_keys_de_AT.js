@@ -2065,6 +2065,7 @@ __GGB__keysVar.de_AT.menu = {
     "TranslateView.Help": "Ziehen Sie die Grafik-Ansicht oder die Skalierung einer Achse (Shift + Ziehen).",
     "Transparent": "Transparent",
     "Transpose": "Transponierte",
+    "Tutorial": "Anleitung",
     "Tutorials": "Anleitungen",
     "TwoVarStats": "Analyse zweier Variablen",
     "TwoVarStats.Help": "Analysiere die Zahlenpaare von ausgew\xe4hlten Zellen",

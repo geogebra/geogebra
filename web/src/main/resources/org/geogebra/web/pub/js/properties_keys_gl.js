@@ -2065,6 +2065,7 @@ __GGB__keysVar.gl.menu = {
     "TranslateView.Help": "Desprazar a Vista gr\xe1fica ou os eixes[Shift + Arrastrar]",
     "Transparent": "Transparente",
     "Transpose": "Transposici\xf3n",
+    "Tutorial": "Titorial",
     "Tutorials": "Titoriais",
     "TwoVarStats": "An\xe1lise de regresi\xf3n de d\xfaas variables",
     "TwoVarStats.Help": "Analiza valores de a pares en celas seleccionadas",

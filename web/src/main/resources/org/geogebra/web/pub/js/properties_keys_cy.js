@@ -2065,6 +2065,7 @@ __GGB__keysVar.cy.menu = {
     "TranslateView.Help": "Llusgo'r wedd graffeg neu un echelin (Shift + llusgo)",
     "Transparent": "Tryloyw",
     "Transpose": "Trosi",
+    "Tutorial": "Tutorial",
     "Tutorials": "Gwersi",
     "TwoVarStats": "Dadansoddiad atchweliad dau newidyn",
     "TwoVarStats.Help": "Dadansoddi parau o rifau o gelloedd i'w dewis",

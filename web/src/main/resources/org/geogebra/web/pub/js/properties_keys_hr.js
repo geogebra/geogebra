@@ -2065,6 +2065,7 @@ __GGB__keysVar.hr.menu = {
     "TranslateView.Help": "Povla\u010dite grafi\u010dki prikaz ili koordinatnu os (Shift + pomicanje)",
     "Transparent": "Prozirnost",
     "Transpose": "Transponirana",
+    "Tutorial": "Vodi\u010d",
     "Tutorials": "Upute",
     "TwoVarStats": "Dvovarijabilna regresijska analiza",
     "TwoVarStats.Help": "Analizira sparene broj\u010dane vrijednosti odabranih \u0107elija",

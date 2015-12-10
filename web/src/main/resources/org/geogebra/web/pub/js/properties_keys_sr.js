@@ -2065,6 +2065,7 @@ __GGB__keysVar.sr.menu = {
     "TranslateView.Help": "Pomerite povr\u0161inu za crtanje ili koordinatnu osu (Shift + pomeranje)",
     "Transparent": "Providno",
     "Transpose": "Transponuj",
+    "Tutorial": "Uputstvo",
     "Tutorials": "Tutorijali",
     "TwoVarStats": "Regresiona analiza dve promenljive",
     "TwoVarStats.Help": "Analizira uparene broj\u010dane vrednosti iz odabranih \u0107elija",

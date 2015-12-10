@@ -2065,6 +2065,7 @@ __GGB__keysVar.no_NB.menu = {
     "TranslateView.Help": "Flytt hele grafikkfeltet eller dra i en av aksene (Shift + Flytt)",
     "Transparent": "Gjennomsiktig",
     "Transpose": "Transponer",
+    "Tutorial": "Oppl\xe6ring",
     "Tutorials": "Oppl\xe6ring",
     "TwoVarStats": "Regresjonsanalyse",
     "TwoVarStats.Help": "Analyser tallpar fra valgte celler",

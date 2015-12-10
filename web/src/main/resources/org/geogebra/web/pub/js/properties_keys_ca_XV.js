@@ -2065,6 +2065,7 @@ __GGB__keysVar.ca_XV.menu = {
     "TranslateView.Help": "Arrossegueu la zona gr\xe0fica o un eix",
     "Transparent": "Transparent",
     "Transpose": "Transposa",
+    "Tutorial": "Programa d'aprenentatge",
     "Tutorials": "Programes d'aprenentatge",
     "TwoVarStats": "An\xe0lisi de regressi\xf3 bivariant",
     "TwoVarStats.Help": "Analitza valors num\xe8rics aparellats de les cel\xb7les seleccionades",

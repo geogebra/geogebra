@@ -2065,6 +2065,7 @@ __GGB__keysVar.vi.menu = {
     "TranslateView.Help": "Nh\u1ea5p chu\u1ed9t v\xe0 k\xe9o tr\xean v\xf9ng l\xe0m vi\u1ec7c (Shift + k\xe9o)",
     "Transparent": "Trong su\u1ed1t",
     "Transpose": "Ho\xe1n v\u1ecb",
+    "Tutorial": "H\u01b0\u1edbng d\u1eabn h\u1ecdc",
     "Tutorials": "H\u01b0\u1edbng d\u1eabn",
     "TwoVarStats": "Ph\xe2n t\xedch h\u1ed3i quy 2 bi\u1ebfn",
     "TwoVarStats.Help": "Ph\xe2n t\xedch gi\xe1 tr\u1ecb c\xe1c c\u1eb7p t\u1eeb c\xe1c \xf4 \u0111\xe3 ch\u1ecdn",
