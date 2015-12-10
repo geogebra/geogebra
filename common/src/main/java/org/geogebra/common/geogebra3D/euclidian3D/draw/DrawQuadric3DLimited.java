@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
@@ -181,6 +182,67 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	@Override
 	protected double getColorShift() {
 		return COLOR_SHIFT_SURFACE;
+	}
+
+	@Override
+	public boolean hit(Hitting hitting) {
+
+		if (waitForReset) { // prevent NPE
+			return false;
+		}
+
+		double d = Double.NaN;
+		PickingType pickingType = PickingType.SURFACE;
+		if (drawBottom.hit(hitting)) {
+			d = drawBottom.getZPickNear();
+			pickingType = drawBottom.getPickingType();
+		}
+
+		if (drawTop.hit(hitting)) {
+			PickingType pickingTypeTop = drawTop.getPickingType();
+			if (pickingType == PickingType.SURFACE) {
+				if (pickingTypeTop == PickingType.SURFACE) {
+					double dTop = drawTop.getZPickNear();
+					if (Double.isNaN(d) || dTop > d) {
+						d = dTop;
+					}
+				} else { // pickingTypeTop == PickingType.POINT_OR_CURVE
+					// TODO: opaque bottom
+					d = drawTop.getZPickNear();
+					pickingType = pickingTypeTop;
+				}
+			} else { // pickingType == PickingType.POINT_OR_CURVE
+				if (pickingTypeTop == PickingType.SURFACE) {
+					// TODO: opaque top
+				} else { // pickingTypeTop == PickingType.POINT_OR_CURVE
+					double dTop = drawTop.getZPickNear();
+					if (Double.isNaN(d) || dTop > d) {
+						d = dTop;
+					}
+				}
+			}
+		}
+
+
+		if (pickingType == PickingType.POINT_OR_CURVE) {
+			// TODO opaque side
+			setZPick(d, d);
+			setPickingType(PickingType.POINT_OR_CURVE);
+			return true;
+		}
+
+		if (drawSide.hit(hitting)) {
+			double dSide = drawSide.getZPickNear();
+			if (Double.isNaN(d) || dSide > d) {
+				d = dSide;
+			}
+			setZPick(d, d);
+			setPickingType(PickingType.SURFACE);
+			return true;
+		}
+
+
+		return false;
 	}
 
 }
