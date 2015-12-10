@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
  * interface for specific 3D inputs
@@ -293,5 +294,11 @@ public interface Input3D {
 	 * @return true if zSpace
 	 */
 	public boolean isZSpace();
+
+	/**
+	 * 
+	 * @param settings TODO
+	 */
+	public void setSpecificSettings(EuclidianSettings3D settings);
 
 }

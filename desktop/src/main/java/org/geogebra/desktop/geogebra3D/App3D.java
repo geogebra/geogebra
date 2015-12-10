@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
@@ -379,6 +380,11 @@ public class App3D extends AppD {
 						input3D);
 				break;
 			}
+
+			// set specific settings
+			input3D.setSpecificSettings((EuclidianSettings3D) getSettings()
+					.getEuclidian(3));
+
 		} else {
 			euclidianController3D = new EuclidianController3DD(kernel);
 		}

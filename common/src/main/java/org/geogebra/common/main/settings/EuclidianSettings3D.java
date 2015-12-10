@@ -28,6 +28,22 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		yZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 	}
 
+	private boolean hadSettingChanged = false;
+
+	/**
+	 * 
+	 * @return true if some setting has been changed
+	 */
+	public boolean hadSettingChanged() {
+		return hadSettingChanged;
+	}
+
+	@Override
+	protected void settingChanged() {
+		super.settingChanged();
+		hadSettingChanged = true;
+	}
+
 	public void setZscale(double scale) {
 		if (this.zscale != scale) {
 			this.zscale = scale;

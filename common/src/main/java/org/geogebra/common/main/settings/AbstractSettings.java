@@ -43,7 +43,7 @@ public abstract class AbstractSettings {
 	 * Notify listeners about changed settings. This method has to be called by
 	 * implementors of subclasses if a setting's value has been changed.
 	 */
-	protected final void settingChanged() {
+	protected void settingChanged() {
 		// batch mode: just set flag to inform listeners at the end
 		if (runningBatches > 0) {
 			settingsChanged = true;
