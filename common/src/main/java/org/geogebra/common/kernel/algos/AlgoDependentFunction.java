@@ -61,7 +61,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 *            input function
 	 */
 	public AlgoDependentFunction(Construction cons, Function fun) {
-		super(cons);
+		super(cons, false);
 		fun.initFunction();
 		cons.addToConstructionList(this, false);
 		this.fun = fun;
