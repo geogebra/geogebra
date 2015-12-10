@@ -94,6 +94,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private boolean recalculateFontSize = true;
 	private int viewHeight = 0;
 	private boolean allPlain;
+	private int viewWidth = 0;
 
 	/**
 	 * Creates new drawable list
@@ -541,9 +542,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		drawOptionLines(g2, 0, 0, false);
 
 		int plainHeight = estimatePlainHeight(g2, geoList.size());
-		// int plainWidth = estimatePlainWidth(g2);
-
-		// while ( > view.getHeight()
 		while ((plainHeight > view.getHeight() && colCount < geoList.size())) {
 			fontSize -= 1;
 			optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
@@ -594,9 +592,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private void updateMetrics(GGraphics2D g2) {
 
-		if (viewHeight != view.getHeight()) {
+		if (viewHeight != view.getHeight() || viewWidth != view.getHeight()) {
 			optionFont = getLabelFont().deriveFont(GFont.PLAIN);
+			viewWidth = view.getWidth();
 			viewHeight = view.getHeight();
+
 		}
 
 		selectedText = geoList.get(geoList.getSelectedIndex())
@@ -1357,7 +1357,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * @param down
 	 *            Sets if selection indicator should move down or up.
 	 */
-	public void moveSelection(boolean down) {
+	public void moveSelectionVertical(boolean down) {
 		if (down) {
 			if (currentIdx < optionItems.size() - 1) {
 				currentIdx++;
@@ -1370,6 +1370,36 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 		selectedOptionIndex = currentIdx;
 		geo.updateRepaint();
+	}
+
+	public void moveSelectionHorizontal(boolean left) {
+		int itemInRow = (geoList.size() / colCount) + 1;
+		if (left) {
+			if (currentIdx < optionItems.size()) {
+				currentIdx += itemInRow;
+				if (currentIdx > optionItems.size()) {
+					currentIdx = optionItems.size() - 1;
+				}
+			}
+		} else {
+			if (currentIdx > 0) {
+				currentIdx -= itemInRow;
+				if (currentIdx < 0) {
+					currentIdx = 0;
+				}
+			}
+
+		}
+		selectedOptionIndex = currentIdx;
+		geo.updateRepaint();
+	}
+
+	/**
+	 * 
+	 * @return if the dropdown displays its items in multiple columns.
+	 */
+	public boolean isMultiColumn() {
+		return colCount > 1;
 	}
 
 	/**

@@ -98,16 +98,36 @@ public abstract class GlobalKeyDispatcher {
 		return false;
 	}
 
-	private boolean handleArrowsForDropdown(ArrayList<GeoElement> geos,
+	private boolean handleUpDownArrowsForDropdown(ArrayList<GeoElement> geos,
 			boolean down, boolean canOpenDropDown) {
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawList dl = DrawList.asDrawable(app, geos.get(0));
 			if (canOpenDropDown && !dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			} else {
-				dl.moveSelection(down);
+				dl.moveSelectionVertical(down);
 			}
 			return true;
+		}
+		return false;
+	}
+
+	private boolean handleLeftRightArrowsForDropdown(ArrayList<GeoElement> geos,
+			boolean left, boolean canOpenDropDown) {
+		if (geos.size() == 1 && geos.get(0).isGeoList()) {
+			DrawList dl = DrawList.asDrawable(app, geos.get(0));
+			if (dl.isMultiColumn()) {
+				if (canOpenDropDown && !dl.isOptionsVisible()) {
+					dl.toggleOptions();
+				} else {
+					dl.moveSelectionHorizontal(left);
+				}
+				return true;
+			} else {
+				return handleUpDownArrowsForDropdown(geos, left,
+						canOpenDropDown);
+			}
+
 		}
 		return false;
 	}
@@ -1161,7 +1181,7 @@ public abstract class GlobalKeyDispatcher {
 				return false;
 			}
 			if (!fromSpreadsheet
-					&& handleArrowsForDropdown(geos, false, true)) {
+					&& handleUpDownArrowsForDropdown(geos, false, true)) {
 				return true;
 			}
 			changeValY = base;
@@ -1174,7 +1194,8 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			if (!fromSpreadsheet && handleArrowsForDropdown(geos, true, true)) {
+			if (!fromSpreadsheet
+					&& handleUpDownArrowsForDropdown(geos, true, true)) {
 				return true;
 			}
 			changeValY = -base;
@@ -1187,7 +1208,8 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			if (!fromSpreadsheet && handleArrowsForDropdown(geos, true, true)) {
+			if (!fromSpreadsheet
+					&& handleLeftRightArrowsForDropdown(geos, true, true)) {
 				return true;
 			}
 			changeValX = base;
@@ -1200,7 +1222,8 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			if (!fromSpreadsheet && handleArrowsForDropdown(geos, false, true)) {
+			if (!fromSpreadsheet
+					&& handleLeftRightArrowsForDropdown(geos, false, true)) {
 				return true;
 			}
 
