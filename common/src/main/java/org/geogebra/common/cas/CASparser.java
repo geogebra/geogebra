@@ -199,6 +199,9 @@ public class CASparser implements CASParserInterface {
 		} else
 			expr = (ExpressionNode) ev;
 		GeoGebraString = expr.getCASstring(tpl, true);
+		if (GeoGebraString.startsWith("?")) {
+			return "?";
+		}
 		return GeoGebraString;
 	}
 

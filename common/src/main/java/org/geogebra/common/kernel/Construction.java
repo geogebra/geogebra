@@ -2208,6 +2208,11 @@ public class Construction {
 				&& getKernel().getApplication().getParserFunctions()
 						.isReserved(label))
 			return false;
+
+		if (fileLoading && geoTable.containsKey(label)
+				&& label.startsWith("c_")) {
+			return true;
+		}
 		// check standard geoTable
 		if (geoTable.containsKey(label))
 			return false;
