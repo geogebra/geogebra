@@ -23,9 +23,9 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -49,7 +49,6 @@ import org.geogebra.common.plugin.Operation;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoDependentBoolean extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre, DependentAlgo {
@@ -63,20 +62,24 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	private boolean trustable = true;
 
-	private ExpressionNode root; // input
 	private GeoBoolean bool; // output
 
-	public AlgoDependentBoolean(Construction cons, String label,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param root
+	 *            defining expression
+	 */
+	public AlgoDependentBoolean(Construction cons,
 			ExpressionNode root) {
 		super(cons);
-		this.root = root;
 
 		bool = new GeoBoolean(cons);
+		bool.setDefinition(root);
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
 		compute();
-		bool.setLabel(label);
 	}
 
 	@Override
@@ -87,13 +90,16 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = root.getGeoElementVariables();
+		input = bool.getDefinition().getGeoElementVariables();
 
 		super.setOutputLength(1);
 		super.setOutput(0, bool);
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return the resulting boolean
+	 */
 	public GeoBoolean getGeoBoolean() {
 		return bool;
 	}
@@ -101,28 +107,28 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	// calc the current value of the arithmetic tree
 	@Override
 	public final void compute() {
+		ExpressionValue ev;
 		try {
 
-			// needed for eg Sequence[If[liste1(i) < a
-			boolean oldLabelStatus = cons.isSuppressLabelsActive();
-			kernel.getConstruction().setSuppressLabelCreation(true);
-
-			ExpressionValue ev = root.evaluate(StringTemplate.defaultTemplate);
-			kernel.getConstruction().setSuppressLabelCreation(oldLabelStatus);
-
-			if (ev.isGeoElement())
-				bool.setValue(((GeoBoolean) ev).getBoolean());
-			else
-				bool.setValue(((MyBoolean) ev).getBoolean());
+			ev = bool.getDefinition().evaluate(StringTemplate.defaultTemplate);
 		} catch (Exception e) {
+			ev = null;
+		}
+
+		ExpressionNode root = bool.getDefinition();
+		if (ev instanceof BooleanValue) {
+			bool.setValue(((BooleanValue) ev).getBoolean());
+		} else {
 			bool.setUndefined();
 		}
+		bool.setDefinition(root);
+
 	}
 
 	@Override
 	final public String toString(StringTemplate tpl) {
 		// was defined as e.g. c = a & b
-		return root.toString(tpl);
+		return bool.getDefinition().toString(tpl);
 	}
 
 	public SymbolicParameters getSymbolicParameters() {
@@ -131,6 +137,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
+		ExpressionNode root = bool.getDefinition();
 		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
 			throw new NoSymbolicParametersException();
 
@@ -162,6 +169,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	public int[] getDegrees() throws NoSymbolicParametersException {
+		ExpressionNode root = bool.getDefinition();
 		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
 			throw new NoSymbolicParametersException();
 
@@ -194,7 +202,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
-
+		ExpressionNode root = bool.getDefinition();
 		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
 			throw new NoSymbolicParametersException();
 
@@ -225,7 +233,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
-
+		ExpressionNode root = bool.getDefinition();
 		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
 			throw new NoSymbolicParametersException();
 
@@ -564,6 +572,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
+		ExpressionNode root = bool.getDefinition();
 		// Easy cases: both sides are GeoElements:
 		if (root.getLeft().isGeoElement() && root.getRight().isGeoElement()) {
 
@@ -659,14 +668,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	 * @return input expression
 	 */
 	public ExpressionNode getExpression() {
-		return root;
+		return bool.getDefinition();
 	}
 
 	/**
 	 * @return input operation
 	 */
 	public Operation getOperation() {
-		return root.getOperation();
+		return bool.getDefinition().getOperation();
 	}
 
 	/**
@@ -694,7 +703,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			extraPolys.add(currPoly);
 			index++;
 		}
-		String rootStr = root.toString(StringTemplate.giacTemplate);
+		String rootStr = bool.getDefinition().toString(
+				StringTemplate.giacTemplate);
 		String[] splitedStr = rootStr.split(",");
 		rootStr = splitedStr[0].substring(28, splitedStr[0].length() - 2);
 		StringBuilder strForGiac = new StringBuilder();

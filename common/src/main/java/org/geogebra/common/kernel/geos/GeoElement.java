@@ -8044,10 +8044,20 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return whether value == definition
 	 */
 	public final boolean isSimple() {
-		return isIndependent()
-				&& (definition == null
-				|| (definition.unwrap() instanceof NumberValue && !Kernel
-								.isEqual(definition.evaluateDouble(), Math.PI) && !Kernel
-							.isEqual(definition.evaluateDouble(), Math.E)));
+		
+		if (!isIndependent()
+				|| (definition != null && definition.unwrap() instanceof ExpressionNode)) {
+			return false;
+		}
+		if (definition == null) {
+			return true;
+		}
+		if(definition.unwrap() instanceof NumberValue){
+			double val = evaluateDouble();
+			return MyDouble.isFinite(val) && !Kernel.isEqual(val, Math.PI)
+					&& !Kernel.isEqual(val, Math.E);
+		}
+		return true;
+
 	}
 }

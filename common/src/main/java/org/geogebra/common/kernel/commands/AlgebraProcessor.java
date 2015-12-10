@@ -2634,11 +2634,12 @@ public class AlgebraProcessor {
 			ret[0] = new GeoBoolean(cons);
 			((GeoBoolean) ret[0]).setValue(((BooleanValue) evaluate)
 					.getBoolean());
-			ret[0].setLabel(label);
+			ret[0].setDefinition(n);
 
 		} else {
-			ret[0] = (new AlgoDependentBoolean(cons, label, n)).getGeoBoolean();
+			ret[0] = (new AlgoDependentBoolean(cons, n)).getGeoBoolean();
 		}
+		ret[0].setLabel(label);
 		return ret;
 	}
 

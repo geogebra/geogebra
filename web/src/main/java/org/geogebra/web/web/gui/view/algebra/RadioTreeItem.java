@@ -815,7 +815,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		if (avExtension) {
 
-			if (geo instanceof GeoBoolean && geo.isIndependent()) {
+			if (geo instanceof GeoBoolean && geo.isSimple()) {
 				// CheckBoxes
 				checkBox = new CheckBox();
 				checkBox.setValue(((GeoBoolean) geo).getBoolean());
@@ -1021,7 +1021,9 @@ public class RadioTreeItem extends AVTreeItem
 
 			createAnimPanel();
 			createMinMaxPanel();
+
 			createContentPanel();
+			styleContentPanel(true);
 
 			addAVEXWidget(ihtml);
 			contentPanel.add(LayoutUtil.panelRow(sliderPanel, minMaxPanel));
@@ -1031,8 +1033,28 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void createContentPanel() {
-		contentPanel = new FlowPanel();
-		contentPanel.addStyleName("avItemContent");
+		if (contentPanel == null) {
+			contentPanel = new FlowPanel();
+		} else {
+			contentPanel.clear();
+		}
+
+	}
+
+	private void styleContentPanel(boolean hasSlider) {
+		if (hasSlider) {
+			contentPanel.removeStyleName("elemPanel");
+			contentPanel.addStyleName("avItemContent");
+		} else {
+			contentPanel.addStyleName("elemPanel");
+			contentPanel.removeStyleName("avItemContent");
+		}
+		if (sliderPanel != null) {
+			sliderPanel.setVisible(hasSlider);
+		}
+		if (animPanel != null) {
+			animPanel.setVisible(hasSlider);
+		}
 
 	}
 
@@ -1417,40 +1439,44 @@ public class RadioTreeItem extends AVTreeItem
 		if (geo instanceof GeoNumeric
 				&& (slider != null && sliderPanel != null) || sliderNeeded()) {
 			if (slider == null) {
-				if (contentPanel == null) {
-					createContentPanel();
-				} else {
-					contentPanel.clear();
-				}
+				createContentPanel();
+
 				addAVEXWidget(ihtml);
 				initSlider();
-
+				styleContentPanel(true);
 				getElement().setDraggable(Element.DRAGGABLE_FALSE);
 			}
 			boolean hasMinMax = false;
 			if (((GeoNumeric) geo).getIntervalMaxObject() != null
 					&& ((GeoNumeric) geo).getIntervalMinObject() != null) {
-				hasMinMax = true;
-				boolean degree = geo.isGeoAngle()
-						&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
-				slider.setMinimum(((GeoNumeric) geo).getIntervalMin(), degree);
-				slider.setMaximum(((GeoNumeric) geo).getIntervalMax(), degree);
+				double min = ((GeoNumeric) geo).getIntervalMin();
+				double max = ((GeoNumeric) geo).getIntervalMax();
+				hasMinMax = MyDouble.isFinite(min) && MyDouble.isFinite(max);
+				if (hasMinMax) {
+					boolean degree = geo.isGeoAngle()
+							&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
+					slider.setMinimum(min, degree);
+					slider.setMaximum(max, degree);
 
-				slider.setStep(geo.getAnimationStep());
-				slider.setValue(((GeoNumeric) geo).value);
-				if (minMaxPanel != null) {
-					minMaxPanel.update();
+					slider.setStep(geo.getAnimationStep());
+					slider.setValue(((GeoNumeric) geo).value);
+					if (minMaxPanel != null) {
+						minMaxPanel.update();
+					}
 				}
 			}
+			App.debug("MIN" + ((GeoNumeric) geo).getIntervalMinObject());
 			if (hasMinMax
 					&& ((HasExtendedAV) geo).isShowingExtendedAV()) {
 				if (!slider.isAttached()) {
 					sliderPanel.add(slider);
+					styleContentPanel(true);
 				}
 				minMaxPanel.setVisible(false);
 				updateSliderColor();
 			} else if (sliderPanel != null) {
 				sliderPanel.remove(slider);
+				styleContentPanel(false);
 			}
 
 		}
@@ -2199,7 +2225,7 @@ marblePanel, evt))) {
 		if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
 			setFirst(first);
 			buttonPanel.clear();
-			if (avExtension && animPanel != null) {
+			if (avExtension && animPanel != null && geo.isAnimatable()) {
 				buttonPanel.add(animPanel);
 			}
 			if (getPButton() != null) {
