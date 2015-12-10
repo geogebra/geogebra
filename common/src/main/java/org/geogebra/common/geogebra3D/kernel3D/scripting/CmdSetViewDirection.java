@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -24,6 +25,8 @@ public class CmdSetViewDirection extends CmdScripting {
 		super(kernel);
 	}
 
+	private Coords tmpCoords;
+
 	@Override
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
@@ -31,6 +34,21 @@ public class CmdSetViewDirection extends CmdScripting {
 		switch (n) {
 		case 1:
 			GeoElement[] arg = resArgs(c);
+
+			if (arg[0].isGeoVector()) {
+				GeoVectorND v = (GeoVectorND) arg[0];
+
+				EuclidianView3DInterface view3D = app.getEuclidianView3D();
+
+				if (tmpCoords == null) {
+					tmpCoords = new Coords(3);
+				}
+				tmpCoords.setMul(v.getCoordsInD3(), -1);
+				view3D.setRotAnimation(tmpCoords, false);
+
+				return arg;
+			}
+
 			if (arg[0] instanceof GeoDirectionND) {
 				GeoDirectionND d = (GeoDirectionND) arg[0];
 
@@ -49,11 +67,8 @@ public class CmdSetViewDirection extends CmdScripting {
 				GeoPointND p = (GeoPointND) arg[0];
 
 				if (p.isDefined()) {
-					Coords v = p.getInhomCoordsInD3();
-					v.setW(0);
 					EuclidianView3DInterface view3D = app.getEuclidianView3D();
-					view3D.setClosestRotAnimation(v);
-
+					view3D.setClosestRotAnimation(p.getInhomCoordsInD3());
 				}
 
 				return arg;

@@ -12,6 +12,16 @@ import org.geogebra.common.kernel.Matrix.Coords;
 public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 
 	/**
+	 * start a rotation animation to be in the vector direction
+	 * 
+	 * @param vn
+	 *            vector direction
+	 * @param checkSameValues
+	 *            say if we check already in vector direction, to swap the view
+	 */
+	public void setRotAnimation(Coords vn, boolean checkSameValues);
+
+	/**
 	 * start a rotation animation to be in the vector direction, shortest way
 	 * 
 	 * @param v

@@ -1771,15 +1771,20 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	private Coords tmpCoordsLength3 = new Coords(3);
 
+
+	public void setRotAnimation(Coords vn, boolean checkSameValues) {
+		CoordMatrixUtil.sphericalCoords(vn, tmpCoordsLength3);
+		setRotAnimation(tmpCoordsLength3.get(2) * 180 / Math.PI,
+				tmpCoordsLength3.get(3) * 180 / Math.PI, checkSameValues);
+	}
+
 	/**
 	 * start a rotation animation to be in the vector direction
 	 * 
 	 * @param vn
 	 */
 	public void setRotAnimation(Coords vn) {
-		CoordMatrixUtil.sphericalCoords(vn, tmpCoordsLength3);
-		setRotAnimation(tmpCoordsLength3.get(2) * 180 / Math.PI,
-				tmpCoordsLength3.get(3) * 180 / Math.PI, true);
+		setRotAnimation(vn, true);
 	}
 
 	public void setClosestRotAnimation(Coords v) {
@@ -1831,22 +1836,27 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			aNew = -90;
 
 		// looking for the smallest path
-		if (aOld - aNew > 180)
+		if (aOld - aNew > 180) {
 			aOld -= 360;
-		else if (aOld - aNew < -180)
+		} else if (aOld - aNew < -180) {
 			aOld += 360;
+		}
 
-		else if (checkSameValues)
+		if (checkSameValues) {
 			if (Kernel.isEqual(aOld, aNew, Kernel.STANDARD_PRECISION))
 				if (Kernel.isEqual(bOld, bNew, Kernel.STANDARD_PRECISION)) {
 					if (!Kernel.isEqual(Math.abs(bNew), 90,
-							Kernel.STANDARD_PRECISION))
+							Kernel.STANDARD_PRECISION)) {
 						aNew += 180;
+					}
 					bNew *= -1;
 					// Application.debug("ici");
 				}
-		if (bOld > 180)
+		}
+
+		if (bOld > 180) {
 			bOld -= 360;
+		}
 
 		animatedRotTimeStart = app.getMillisecondTime();
 
