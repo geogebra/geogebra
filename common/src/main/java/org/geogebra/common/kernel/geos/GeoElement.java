@@ -8039,4 +8039,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	public ExpressionNode getDefinition() {
 		return definition;
 	}
+
+	/**
+	 * @return whether value == definition
+	 */
+	public final boolean isSimple() {
+		return isIndependent()
+				&& (definition == null
+				|| (definition.unwrap() instanceof NumberValue && !Kernel
+								.isEqual(definition.evaluateDouble(), Math.PI) && !Kernel
+							.isEqual(definition.evaluateDouble(), Math.E)));
+	}
 }

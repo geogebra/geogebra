@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -966,15 +965,11 @@ public class RadioTreeItem extends AVTreeItem
 
 	private boolean sliderNeeded() {
 		return avExtension && geo instanceof GeoNumeric
-				&& ((GeoNumeric) geo).isShowingExtendedAV()
-				&& geo.isIndependent()
- && isSimple(geo.getDefinition())
+				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
 	}
 
-	private static boolean isSimple(ExpressionNode definition) {
-		return definition == null || definition.unwrap() instanceof NumberValue;
-	}
+
 
 	private void initSlider() {
 		if (!avExtension) {
