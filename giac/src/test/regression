@@ -27,12 +27,16 @@ usage() {
  echo "   -I           run infeasible tests also"
  echo "   -s           be silent: do not exit with error code when there is regression"
  echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
+ echo "   -j           test the JNI version (make sure running task :giac-jni:testJni first)"
  echo "   -h           show this help"
  exit 0
  }
 
-while getopts "t:rfhHIs" OPT; do
+while getopts "t:rfhHIsj" OPT; do
  case $OPT in
+  j)
+   ICAS=../../../giac-jni/src/test/minigiac
+   ;;
   s)
    SILENT=0
    ;;
