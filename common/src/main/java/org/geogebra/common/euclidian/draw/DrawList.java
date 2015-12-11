@@ -577,7 +577,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		App.debug("[DROPDOWN][CAPACITY] cols: " + cols + " rows: " + rows
 				+ " max: " + cols * rows + " itemCount: " + geoList.size());
 		rowCount = rows;
-		colCount = cols;
+		colCount = geoList.size() / rowCount
+				+ (geoList.size() % rowCount == 0 ? 0 : 1);
 		return cols * rows;
 	}
 
