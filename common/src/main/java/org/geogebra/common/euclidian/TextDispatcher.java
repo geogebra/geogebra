@@ -35,9 +35,10 @@ public class TextDispatcher {
 		this.l10n = kernel.getLocalization();
 	}
 
-	protected static String removeUnderscores(String label) {
-		// remove all indices
-		return label.replaceAll("_", "");
+	protected static String removeUnderscoresAndBraces(String label) {
+		// remove all subscripts
+		return label.replaceAll("_", "").replaceAll("\\{", "").replaceAll("\\}",
+				"");
 	}
 
 	protected void setNoPointLoc(GeoText text, GPoint loc) {
@@ -51,10 +52,12 @@ public class TextDispatcher {
 		GeoText text = createDynamicTextForMouseLoc("AreaOfA", conic, area, loc);
 		if (conic.isLabelSet()) {
 			if (!area.isLabelSet()) {
-				area.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n
+				area.setLabel(removeUnderscoresAndBraces(
+						StringUtil.toLowerCase(l10n
 						.getCommand("Area")) + conic.getLabelSimple()));
 			}
-			text.setLabel(removeUnderscores(l10n.getPlain("Text")
+			text.setLabel(removeUnderscoresAndBraces(
+					l10n.getPlain("Text")
 					+ conic.getLabelSimple()));
 		}
 		return new GeoElement[] { text };
@@ -206,7 +209,7 @@ public class TextDispatcher {
 			rwy = ((GeoConicND) object).getTranslationVector().getY();
 		}
 		return view.getEuclidianController().createNewPoint(
-				removeUnderscores(l10n.getPlain("Point")
+				removeUnderscoresAndBraces(l10n.getPlain("Point")
 						+ object.getLabel(StringTemplate.defaultTemplate)),
 				false, object, rwx, rwy, 0, false, false);
 	}
@@ -217,7 +220,7 @@ public class TextDispatcher {
 				.getEuclidianController()
 				.getCompanion()
 				.createNewPoint(
-						removeUnderscores(l10n.getPlain("Point")
+				removeUnderscoresAndBraces(l10n.getPlain("Point")
 								+ object.getLabel(StringTemplate.defaultTemplate)),
 						false, object, view.toRealWorldCoordX(loc.x),
 						view.toRealWorldCoordY(loc.y), 0, false, false);
@@ -240,7 +243,8 @@ public class TextDispatcher {
 			String strText = "";
 			boolean useLabels = geoA.isLabelSet() && geoB.isLabelSet();
 			if (useLabels) {
-				length.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n
+				length.setLabel(removeUnderscoresAndBraces(
+						StringUtil.toLowerCase(l10n
 						.getCommand("Distance"))
 				// .toLowerCase(Locale.US)
 						+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
@@ -260,7 +264,8 @@ public class TextDispatcher {
 				geoA.updateRepaint();
 				geoB.updateRepaint();
 			} else {
-				length.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n
+				length.setLabel(removeUnderscoresAndBraces(
+						StringUtil.toLowerCase(l10n
 						.getCommand("Distance"))));
 				// .toLowerCase(Locale.US)));
 				strText = "\"\"" + length.getLabel(tpl);
@@ -272,7 +277,7 @@ public class TextDispatcher {
 			GeoText text = kernel.getAlgebraProcessor().evaluateToText(strText,
 					true, true);
 			if (useLabels) {
-				text.setLabel(removeUnderscores(l10n.getPlain("Text")
+				text.setLabel(removeUnderscoresAndBraces(l10n.getPlain("Text")
 						+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
 			}
 
@@ -310,7 +315,8 @@ public class TextDispatcher {
 
 			GeoText text = createDynamicTextForMouseLoc("ArcLengthOfA", conic,
 					arcLength, loc);
-			text.setLabel(removeUnderscores(l10n.getPlain("Text")
+			text.setLabel(removeUnderscoresAndBraces(
+					l10n.getPlain("Text")
 					+ conic.getLabelSimple()));
 			GeoElement[] ret = { text };
 			return ret;
@@ -327,10 +333,11 @@ public class TextDispatcher {
 		GeoText text = createDynamicTextForMouseLoc("CircumferenceOfA", conic,
 				circumFerence, loc);
 		if (conic.isLabelSet()) {
-			circumFerence.setLabel(removeUnderscores(StringUtil
+			circumFerence.setLabel(removeUnderscoresAndBraces(
+					StringUtil
 					.toLowerCase(l10n.getCommand("Circumference"))
 					+ conic.getLabel(StringTemplate.defaultTemplate)));
-			text.setLabel(removeUnderscores(l10n.getPlain("Text")
+			text.setLabel(removeUnderscoresAndBraces(l10n.getPlain("Text")
 					+ conic.getLabel(StringTemplate.defaultTemplate)));
 		}
 		GeoElement[] ret = { text };
@@ -345,9 +352,11 @@ public class TextDispatcher {
 				perimeter, mouseLoc);
 
 		if (poly.isLabelSet()) {
-			perimeter.setLabel(removeUnderscores(StringUtil.toLowerCase(l10n
+			perimeter.setLabel(removeUnderscoresAndBraces(
+					StringUtil.toLowerCase(l10n
 					.getCommand("Perimeter")) + poly.getLabelSimple()));
-			text.setLabel(removeUnderscores(l10n.getPlain("Text")
+			text.setLabel(removeUnderscoresAndBraces(
+					l10n.getPlain("Text")
 					+ poly.getLabelSimple()));
 		}
 		text.checkVisibleIn3DViewNeeded();
