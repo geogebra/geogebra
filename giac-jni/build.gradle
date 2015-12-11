@@ -35,9 +35,8 @@ task unzipNatives() {
 	}
     }
 
-task testJni (dependsOn: 'unzipNatives', type: Exec) {
+task testJni (dependsOn: ['unzipNatives', build], type: Exec) {
     description 'Tests the JNI executable.'
     workingDir 'build/libs'
-    // This will fail at the moment, but will work soon:
-    commandLine 'java', '-cp', 'giac-jni.jar', '-Djava.library.path=natives', 'javagiac.runme'
+    commandLine 'java', '-cp', 'giac-jni.jar', '-Djava.library.path=natives', 'javagiac.minigiac'
     }

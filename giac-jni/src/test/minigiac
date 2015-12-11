@@ -1,0 +1,5 @@
+#!/bin/sh
+MYPATH=`readlink -f $0`
+MYDIR=`dirname $MYPATH`
+GIACJNIDIR=$MYDIR/../../build/libs
+cat - | java -cp $GIACJNIDIR/giac-jni.jar -Djava.library.path=$GIACJNIDIR/natives javagiac.minigiac
