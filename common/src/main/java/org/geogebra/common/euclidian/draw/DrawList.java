@@ -1375,18 +1375,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	public void moveSelectionHorizontal(boolean left) {
 		int itemInRow = (geoList.size() / colCount) + 1;
 		if (left) {
-			if (currentIdx < optionItems.size()) {
+			if (currentIdx < optionItems.size() - itemInRow) {
 				currentIdx += itemInRow;
-				if (currentIdx > optionItems.size()) {
-					currentIdx = optionItems.size() - 1;
-				}
+
 			}
 		} else {
-			if (currentIdx > 0) {
+			if (currentIdx > itemInRow - 1) {
 				currentIdx -= itemInRow;
-				if (currentIdx < 0) {
-					currentIdx = 0;
-				}
+
 			}
 
 		}
