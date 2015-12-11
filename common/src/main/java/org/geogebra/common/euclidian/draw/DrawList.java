@@ -49,7 +49,7 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
-	private static final int OPTIONSBOX_MIN_FONTSIZE = 9;
+	private static final int OPTIONSBOX_MIN_FONTSIZE = 13;
 	private static final int OPTIONSBOX_ITEM_GAP_EXTRA_SMALL = 15;
 	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL1 = 20;
 	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL2 = 25;
@@ -59,13 +59,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int OPTIONSBOX_ITEM_GAP_BIG = 55;
 	private static final int COMBO_TEXT_MARGIN = 5;
 
-	private static final int OPTIONSBOX_ITEM_HGAP_EXTRA_SMALL = 5;
-	private static final int OPTIONSBOX_ITEM_HGAP_VERY_SMALL1 = 8;
-	private static final int OPTIONSBOX_ITEM_HGAP_VERY_SMALL2 = 10;
-	private static final int OPTIONSBOX_ITEM_HGAP_SMALL1 = 12;
-	private static final int OPTIONSBOX_ITEM_HGAP_SMALL2 = 15;
-	private static final int OPTIONSBOX_ITEM_HGAP_MEDIUM = 18;
-	private static final int OPTIONSBOX_ITEM_HGAP_BIG = 20;
+	private static final int OPTIONSBOX_ITEM_HGAP_EXTRA_SMALL = 2;
+	private static final int OPTIONSBOX_ITEM_HGAP_VERY_SMALL1 = 4;
+	private static final int OPTIONSBOX_ITEM_HGAP_VERY_SMALL2 = 5;
+	private static final int OPTIONSBOX_ITEM_HGAP_SMALL1 = 8;
+	private static final int OPTIONSBOX_ITEM_HGAP_SMALL2 = 10;
+	private static final int OPTIONSBOX_ITEM_HGAP_MEDIUM = 12;
+	private static final int OPTIONSBOX_ITEM_HGAP_BIG = 15;
 	private static final int OPTIONBOX_COMBO_GAP = 5;
 	private static final int LABEL_COMBO_GAP = 10;
 	/** coresponding list as geo */
@@ -803,7 +803,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int viewBottom = view.getViewHeight();
 
 		if (optTop + optionsHeight > viewBottom) {
-			optTop = 0;// viewBottom - optionsHeight - OPTIONBOX_COMBO_GAP;
+			optTop = viewBottom - optionsHeight - OPTIONBOX_COMBO_GAP;
 			int gap = getOptionsItemGap() / 2;
 			if (optTop < gap) {
 				optTop = gap;
