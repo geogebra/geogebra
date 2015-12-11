@@ -548,16 +548,16 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		drawOptionLines(g2, 0, 0, false);
 
 		int plainHeight = estimatePlainHeight(g2, geoList.size());
-		while ((plainHeight > view.getHeight() && colCount < geoList.size())) {
+		while ((plainHeight > view.getHeight() && fontSize < minFontSize)) {
 			fontSize -= 1;
 			optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
 			g2.setFont(optionFont);
 
-			if (fontSize < minFontSize) {
-				fontSize = origFontSize;
-				optionFont = optionFont.deriveFont(GFont.PLAIN, origFontSize);
-				colCount++;
-			}
+//			if (fontSize < minFontSize) {
+//				fontSize = origFontSize;
+//				optionFont = optionFont.deriveFont(GFont.PLAIN, origFontSize);
+//				colCount++;
+//			}
 
 			g2.setFont(optionFont);
 			plainHeight = estimatePlainHeight(g2, geoList.size() / colCount);
@@ -580,12 +580,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int h = getTextHeight(g2, getWidthestPlainItem()) + getOptionsItemGap();
 		int cols = view.getViewWidth() / w;
 		int rows = view.getViewHeight() / h;
-		App.debug("[DROPDOWN][CAPACITY] cols: " + cols + " rows: " + rows
-				+ " max: " + cols * rows + " itemCount: " + geoList.size());
 		rowCount = rows;
-		colCount = geoList.size() / rowCount
-				+ (geoList.size() % rowCount == 0 ? 0 : 1);
-		return cols * rows;
+		colCount = (geoList.size() / rowCount);
+		if (cols * rows >= geoList.size()) {
+			colCount++;
+		}
+		;
+
+		return colCount * rowCount;
 	}
 
 
@@ -612,20 +614,20 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		if (isOptionsVisible()) {
 			int max = getMaxCapacity(g2);
-			if (max > geoList.size()) {
-				App.debug("[MULTICOL] few items, normal wrap");
-				updateOptionMetrics(g2);
+			int fontSize = optionFont.getSize();
 
-			} else {
-				int fontSize = optionFont.getSize();
-				while (max < geoList.size()
-						&& fontSize > OPTIONSBOX_MIN_FONTSIZE) {
-					fontSize--;
-					optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
-					max = getMaxCapacity(g2);
-				}
-				drawOptionLines(g2, 0, 0, false);
+			while (max < geoList.size() && fontSize > OPTIONSBOX_MIN_FONTSIZE) {
+				fontSize--;
+				optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
+				max = getMaxCapacity(g2);
 			}
+
+			drawOptionLines(g2, 0, 0, false);
+
+			App.debug("[DROPDOWN][CAPACITY] colCount: " + colCount
+					+ " rowCount: " + rowCount + " max capacity: " + max
+					+ " itemCount: " + geoList.size());
+
 		}
 
 		setPreferredSize(getPreferredSize());
@@ -825,25 +827,21 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		int size = optionItems.size();
 		if (size > 1) {
-			int rowCount = colCount == 1 ? size
-					: size / colCount + (size % colCount == 0 ? 0 : 1);
+			// int rowCount = colCount == 1 ? size
+			// : size / colCount + (size % colCount == 0 ? 0 : 1);
 			GRectangle rUpLeft = optionItems.get(0).getBounds();
-			GRectangle rDownLeft = optionItems.get(rowCount - 1).getBounds();
 
 			int upRigthIdx = rowCount * (colCount - 1);
 			if (upRigthIdx >= size) {
 				upRigthIdx = size - 1;
 			}
-			GRectangle rUpRight = colCount > 1
-					? optionItems.get(upRigthIdx).getBounds()
-					: null;
+
 			int left = (int) rUpLeft.getX();
 			int top = (int) rUpLeft.getY();
-			int width = (int) (colCount == 1 ? rUpLeft.getWidth()
-					: rUpRight.getX() + rUpRight.getWidth() - rUpLeft.getX());
-			int height = (int) ((rDownLeft.getY() - top)
-					+ rDownLeft.getHeight());
 
+			int width = (int) (colCount > 0 ? colCount * rUpLeft.getWidth()
+					: rUpLeft.getWidth());
+			int height = (int) (rowCount * rUpLeft.getHeight());
 			optionsRect.setBounds(left, top, width, height);
 
 			App.debug("[DROPDOWNS][METRICS] real width: " + width);
@@ -856,6 +854,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			g2.drawRect(left, top, width, height);
 
 			g2.setPaint(geo.getObjectColor());
+
+			fillRect(g2, rUpLeft, GColor.RED);
+			// fillRect(g2, rDownLeft, GColor.GREEN);
+			// fillRect(g2, rUpRight, GColor.BLUE);
 
 		}
 
@@ -918,8 +920,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		if (colCount == 1) {
 			colWidth = boxWidth;
-			GDimension d = drawOptionColumn(g2, top, left, 0, itemCount,
-					draw);
+			GDimension d = drawOptionColumn(g2, top, left, 0, itemCount, draw);
 			optionsWidth = d.getWidth() + 2 * COMBO_TEXT_MARGIN
 					+ getTriangleControlWidth();
 			optionsHeight = d.getHeight();
@@ -934,7 +935,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			boolean draw) {
 		int startIdx = 0;
 		int size = geoList.size();
-		// itemsInRow = (size / colCount) + (size % colCount == 0 ? 0 : 1);
 		int width = 0;
 		int height = 0;
 		int left = left0 > 0 ? left0 : 0;
