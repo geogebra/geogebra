@@ -90,7 +90,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private GFont optionFont = null;
 	private int colCount = 0;
 	private int colWidth = 0;
-	private int itemsInRow;
+	private int rowCount;
 	private boolean recalculateFontSize = true;
 	private int viewHeight = 0;
 	private boolean allPlain;
@@ -567,35 +567,34 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private int getMaxCapacity(GGraphics2D g2) {
 		g2.setFont(optionFont);
-		int w = estimatePlainWidth(g2, 1);
-		int h = estimatePlainHeight(g2, 0);
-		int cols = view.getWidth() / w;
-		int rows = view.getHeight() / h;
-		// drawRows(g2, cols, rows);
+		GTextLayout layout = getLayout(g2, getWidthestPlainItem(), optionFont);
+		int w = (int) (layout.getBounds().getWidth()
+				+ 3 * OPTIONSBOX_ITEM_HGAP);
+
+		int h = getTextHeight(g2, getWidthestPlainItem()) + getOptionsItemGap();
+		int cols = view.getViewWidth() / w;
+		int rows = view.getViewHeight() / h;
 		App.debug("[DROPDOWN][CAPACITY] cols: " + cols + " rows: " + rows
 				+ " max: " + cols * rows + " itemCount: " + geoList.size());
+		rowCount = rows;
+		colCount = cols;
 		return cols * rows;
 	}
 
-	private void drawRows(GGraphics2D g2, int cols, int rows) {
-
-		int w = estimatePlainWidth(g2, 1);
-		int h = estimatePlainHeight(g2, 0);
-
-		for (int row = 0; row < rows; row++) {
-			for (int col = 0; col < cols; col++) {
-				g2.drawRect(col * w, row * h, w, h);
-			}
-		}
-
-	}
 
 	private void updateMetrics(GGraphics2D g2) {
 
 		if (viewHeight != view.getHeight() || viewWidth != view.getHeight()) {
 			optionFont = getLabelFont().deriveFont(GFont.PLAIN);
-			viewWidth = view.getWidth();
+		}
+
+		if (viewHeight != view.getHeight()) {
 			viewHeight = view.getHeight();
+		}
+
+		if (viewWidth != view.getWidth()) {
+			viewWidth = view.getWidth();
+
 
 		}
 
@@ -608,6 +607,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			int max = getMaxCapacity(g2);
 			if (max > geoList.size()) {
 				App.debug("[MULTICOL] few items, normal wrap");
+				updateOptionMetrics(g2);
 
 			} else {
 				int fontSize = optionFont.getSize();
@@ -617,8 +617,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
 					max = getMaxCapacity(g2);
 				}
+				drawOptionLines(g2, 0, 0, false);
 			}
-			updateOptionMetrics(g2);
 		}
 
 		setPreferredSize(getPreferredSize());
@@ -796,7 +796,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int viewBottom = view.getViewHeight();
 
 		if (optTop + optionsHeight > viewBottom) {
-			optTop = viewBottom - optionsHeight - OPTIONBOX_COMBO_GAP;
+			optTop = 0;// viewBottom - optionsHeight - OPTIONBOX_COMBO_GAP;
 			int gap = getOptionsItemGap() / 2;
 			if (optTop < gap) {
 				optTop = gap;
@@ -927,12 +927,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			boolean draw) {
 		int startIdx = 0;
 		int size = geoList.size();
-		itemsInRow = (size / colCount) + (size % colCount == 0 ? 0 : 1);
+		// itemsInRow = (size / colCount) + (size % colCount == 0 ? 0 : 1);
 		int width = 0;
 		int height = 0;
 		int left = left0 > 0 ? left0 : 0;
 		while (startIdx < geoList.size()) {
-			int endIdx = startIdx + itemsInRow;
+			int endIdx = startIdx + rowCount;
 			if (endIdx > size) {
 				endIdx = size;
 			}
