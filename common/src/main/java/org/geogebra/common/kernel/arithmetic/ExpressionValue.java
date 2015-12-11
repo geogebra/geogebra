@@ -254,5 +254,10 @@ public interface ExpressionValue {
 	 */
 	public ValueType getValueType();
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @return undefined object of the same value type
+	 */
 	public ExpressionValue getUndefinedCopy(Kernel kernel);
 }

@@ -8061,7 +8061,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	}
 
-	public ExpressionValue getUndefinedCopy(Kernel kernel) {
+	public ExpressionValue getUndefinedCopy(Kernel kernel1) {
 		GeoElement ret = copy();
 		ret.setUndefined();
 		return ret;

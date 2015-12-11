@@ -113,7 +113,6 @@ public interface Traversing {
 	 *
 	 */
 	public class CommandFunctionReplacer implements Traversing {
-		private App app;
 		private String fn;
 		private GeoElement function;
 
@@ -143,12 +142,13 @@ public interface Traversing {
 		 *            application (needed to check which commands are valid)
 		 * @param fn
 		 *            functionName
+		 * @param function
+		 *            function
 		 * @return replacer
 		 */
 		public static CommandFunctionReplacer getReplacer(App app, String fn,
 				GeoElement function) {
 			CommandFunctionReplacer replacer = new CommandFunctionReplacer();
-			replacer.app = app;
 			replacer.fn = fn;
 			replacer.function = function;
 			return replacer;
@@ -369,6 +369,9 @@ public interface Traversing {
 		/**
 		 * When calling this method, make sure you initialize the replacer with
 		 * the {@link #addVars(String, ExpressionValue)} method
+		 * 
+		 * @param kernel1
+		 *            kernel
 		 * 
 		 * @return replacer
 		 */
