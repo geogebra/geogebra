@@ -855,7 +855,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			g2.setPaint(geo.getObjectColor());
 
-			fillRect(g2, rUpLeft, GColor.RED);
+			// fillRect(g2, rUpLeft, GColor.RED);
 			// fillRect(g2, rDownLeft, GColor.GREEN);
 			// fillRect(g2, rUpRight, GColor.BLUE);
 
