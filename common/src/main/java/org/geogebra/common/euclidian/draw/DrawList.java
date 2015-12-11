@@ -58,10 +58,16 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int OPTIONSBOX_ITEM_GAP_MEDIUM = 40;
 	private static final int OPTIONSBOX_ITEM_GAP_BIG = 55;
 	private static final int COMBO_TEXT_MARGIN = 5;
+
+	private static final int OPTIONSBOX_ITEM_HGAP_EXTRA_SMALL = 5;
+	private static final int OPTIONSBOX_ITEM_HGAP_VERY_SMALL1 = 8;
+	private static final int OPTIONSBOX_ITEM_HGAP_VERY_SMALL2 = 10;
+	private static final int OPTIONSBOX_ITEM_HGAP_SMALL1 = 12;
+	private static final int OPTIONSBOX_ITEM_HGAP_SMALL2 = 15;
+	private static final int OPTIONSBOX_ITEM_HGAP_MEDIUM = 18;
+	private static final int OPTIONSBOX_ITEM_HGAP_BIG = 20;
 	private static final int OPTIONBOX_COMBO_GAP = 5;
 	private static final int LABEL_COMBO_GAP = 10;
-	// private static final int MAX_COL_COUNT = 100;
-	private static final int OPTIONSBOX_ITEM_HGAP = 15;
 	/** coresponding list as geo */
 	GeoList geoList;
 	private List<GRectangle> optionItems = new ArrayList<GRectangle>();
@@ -569,7 +575,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		g2.setFont(optionFont);
 		GTextLayout layout = getLayout(g2, getWidthestPlainItem(), optionFont);
 		int w = (int) (layout.getBounds().getWidth()
-				+ 3 * OPTIONSBOX_ITEM_HGAP);
+				+ 3 * getOptionsItemHGap());
 
 		int h = getTextHeight(g2, getWidthestPlainItem()) + getOptionsItemGap();
 		int cols = view.getViewWidth() / w;
@@ -655,7 +661,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private int estimatePlainWidth(GGraphics2D g2, int cols) {
 		GTextLayout layout = getLayout(g2, getWidthestPlainItem(), optionFont);
-		double w = (layout.getBounds().getWidth() + 2 * OPTIONSBOX_ITEM_HGAP)
+		double w = (layout.getBounds().getWidth() + 2 * getOptionsItemHGap())
 				* cols;
 		App.debug("[DROPDOWNS][METRICS] est. width: " + w);
 		return (int) w;
@@ -953,9 +959,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			}
 
 			startIdx = endIdx;
-
-			// TODO: gap must be font specific, like getOptionsItemGap().
-			left += colWidth + 2 * OPTIONSBOX_ITEM_HGAP;
+			left += colWidth + 2 * getOptionsItemHGap();
 		}
 
 		if (!draw) {
@@ -1017,7 +1021,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			int h = d.getHeight();
 
-			int w = OPTIONSBOX_ITEM_HGAP;
+			int w = getOptionsItemHGap();
 			if (latex) {
 				itemRect.setBounds(left - w, rowTop, colWidth + 2 * w, h);
 			} else {
@@ -1113,6 +1117,47 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		}
 		return OPTIONSBOX_ITEM_GAP_SMALL1;
+	}
+
+	private int getOptionsItemHGap() {
+
+		// switch (view.getApplication().getFontSize()) {
+		switch (optionFont.getSize()) {
+		case 8:
+		case 9:
+		case 10:
+			return OPTIONSBOX_ITEM_HGAP_EXTRA_SMALL;
+		case 11:
+		case 12:
+		case 13:
+		case 14:
+			return OPTIONSBOX_ITEM_HGAP_VERY_SMALL1;
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+			return OPTIONSBOX_ITEM_HGAP_VERY_SMALL2;
+		case 20:
+		case 21:
+		case 22:
+		case 23:
+		case 24:
+			return OPTIONSBOX_ITEM_HGAP_SMALL1;
+		case 25:
+		case 26:
+		case 27:
+		case 28:
+			return OPTIONSBOX_ITEM_HGAP_SMALL2;
+		case 29:
+		case 30:
+		case 31:
+			return OPTIONSBOX_ITEM_HGAP_MEDIUM;
+		case 32:
+		case 48:
+			return OPTIONSBOX_ITEM_HGAP_BIG;
+
+		}
+		return OPTIONSBOX_ITEM_HGAP_SMALL1;
 	}
 
 	private int getTriangleControlWidth() {
