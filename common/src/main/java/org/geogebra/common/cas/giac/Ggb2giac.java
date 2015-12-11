@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 /***
  * # Command translation table from GeoGebra to giac # e.g. Factor[ 2(x+3) ] is
@@ -759,177 +758,174 @@ public class Ggb2giac {
 				"([[ggbtpans:=%0],[ggbtpans:=polar_coordinates(ggbtpans)],[ggbtpans:=convert([ggb_ang(ggbtpans[0],ggbtpans[1])],25)],ggbtpans])[3]");
 		p("ToPoint.1", "point(convert(coordinates(%0),25))");
 		
-		if (app.has(Feature.CAS_TRANSLATE_COMMAND)) {
-			p("Translate.2",
-					"[[[ggbtrsarg0:=%0] , [ggbtrsarg1:=%1]] , "
-							// translate point about vector
-							+ "when ( (ggbtrsarg0)[0] == 'pnt' , "
-							// translate 2d point
-							+ "when ( !is3dpoint(ggbtrsarg0) ,"
-							// vector as point
-							+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
-							+ "translation(vector(ggbtrsarg1),ggbtrsarg0) ,"
-							+ "translation(ggbtrsarg1,ggbtrsarg0) ),"
-							// translate 3d point
-							+ "when( (ggbtrsarg1)[0] == 'pnt',"
-							// vector as point
-							+ "point(xcoord(translation(vector(ggbtrsarg1),ggbtrsarg0))[0],"
-							+ "xcoord(translation(vector(ggbtrsarg1),ggbtrsarg0))[1], "
-							+ "xcoord(translation(vector(ggbtrsarg1),ggbtrsarg0))[2]),"
-							+ "point(xcoord(translation(ggbtrsarg1,ggbtrsarg0))[0],"
-							+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[1], "
-							+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ) ),"
-							+ "when ( size(ggbtrsarg0) == 2 && (ggbtrsarg0)[0] == '^' &&"
-							+ "type((ggbtrsarg0)[1]) == DOM_IDENT , "
-							+ "when ( (ggbtrsarg1)[0] == 'pnt' , "
-							// vector as point
-							+ " equation( ((ggbtrsarg0)[1] - xcoord(ggbtrsarg1))^(ggbtrsarg0)[2] + ycoord(ggbtrsarg1) ), "
-							+ " equation( ((ggbtrsarg0)[1] - ggbtrsarg1[0])^(ggbtrsarg0)[2] + (ggbtrsarg1)[1] ) ), "
-							// translate function defined from inputBar
-							+ "when( (ggbtrsarg0)[0] <> '=' && xcoord(ggbtrsarg0) <> string(y) &&"
-							+ "(xcoord(ggbtrsarg0))[0] <> '=' && string((xcoord(ggbtrsarg0))[1]) <> string(X),"
-							// vector as point
-							+ "when ( (ggbtrsarg1)[0] == 'pnt' , "
-							+ "equation(simplify(subst(ggbtrsarg0 + ycoord(ggbtrsarg1), x = x - xcoord(ggbtrsarg1) ))) , "
-							+ "equation(simplify(subst(ggbtrsarg0 + (ggbtrsarg1)[1], x = x - (ggbtrsarg1)[0]))) ), "
-							// translate function defined with f(x)
-							+ "when ( (ggbtrsarg0)[0] == '=' && (ggbtrsarg0)[1][0] == 'of' && (ggbtrsarg0)[1][2] == 'x',"
-							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
-							// vector as point
-							+ " equation(simplify(subst((ggbtrsarg0)[2] + ycoord(ggbtrsarg1), x = x - xcoord(ggbtrsarg1)) )) ,"
-							+ " equation(simplify(subst((ggbtrsarg0)[2] + (ggbtrsarg1)[1], x = x - (ggbtrsarg1)[0]))) ),"
-							// function defined with linear equation
-							+ "when( (ggbtrsarg0)[0] == '=' && (ggbtrsarg0)[1] == y , "
-							// vector as point
-							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
-							+ "equation(simplify(subst((ggbtrsarg0)[1] = (ggbtrsarg0)[2] + ycoord(ggbtrsarg1),"
-							+ "x = x - xcoord(ggbtrsarg1)))) ,"
-							+ "equation(simplify(subst((ggbtrsarg0)[1] = (ggbtrsarg0)[2] + (ggbtrsarg1)[1],"
-							+ "x = x - (ggbtrsarg1)[0]))) ),"
-							// translate 3d line - defined with command
-							+ "when ( xcoord(ggbtrsarg0) == string(y) ,"
-							// vector as point
-							+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
-							+ " regroup(equation(cat(\"y=\",point(expr(ggbtrsarg0)[0][2][1] + xcoord(ggbtrsarg1) , "
-							+ "expr(ggbtrsarg0)[1][2][1] + ycoord(ggbtrsarg1) ,"
-							+ "expr(ggbtrsarg0)[2][2][1] + zcoord(ggbtrsarg1) ),"
-							+ "\"+\u03BB*\","
-							+ "point(coeff(expr(ggbtrsarg0)[0][2],\u03BB,1) , "
-							+ "coeff(expr(ggbtrsarg0)[1][2],\u03BB,1) , "
-							+ "coeff(expr(ggbtrsarg0)[2][2],\u03BB,1)) ))) , "
-							+ "regroup(equation(cat(\"y=\",point(expr(ggbtrsarg0)[0][2][1] + (ggbtrsarg1)[0] , "
-							+ "expr(ggbtrsarg0)[1][2][1] + (ggbtrsarg1)[1] ,"
-							+ "expr(ggbtrsarg0)[2][2][1] + (ggbtrsarg1)[2] ),"
-							+ "\"+\u03BB*\","
-							+ "point(coeff(expr(ggbtrsarg0)[0][2],\u03BB,1) , "
-							+ "coeff(expr(ggbtrsarg0)[1][2],\u03BB,1) , "
-							+ "coeff(expr(ggbtrsarg0)[2][2],\u03BB,1)) ))) ),"
-							// translate line defined as linear equation (2d)
-							+ "when ( type(xcoord(ggbtrsarg0)) == DOM_INT && type(grad(ggbtrsarg0,x)[1]) == DOM_INT ,"
-							// vector as point
-							+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
-							+ "(ggbtrsarg0)[1] = (ggbtrsarg0)[2] + ycoord(ggbtrsarg1) - xcoord(ggbtrsarg1) , "
-							+ "(ggbtrsarg0)[1] = (ggbtrsarg0)[2] + (ggbtrsarg1)[1] - (ggbtrsarg1)[0] ), "
-							// translate 3d line - defined from inputBar
-							+ "when ( (xcoord(ggbtrsarg0))[0] == '=' && string((xcoord(ggbtrsarg0))[1]) == string(X) , "
-							// vector as point
-							+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
-							+ "regroup(equation(cat(\"y=\",point((ggbtrsarg0)[0][2] + xcoord(ggbtrsarg1),"
-							+ "(ggbtrsarg0)[1][2] + ycoord(ggbtrsarg1),"
-							+ "(ggbtrsarg0)[2][2][1] + zcoord(ggbtrsarg1)),"
-							+ "\"+\u03BB*\","
-							+ "point((ggbtrsarg0[2][2][2])[2][0],"
-							+ "(ggbtrsarg0[2][2][2])[2][1],"
-							+ "(ggbtrsarg0[2][2][2])[2][2]) ))) , "
-							+ "regroup(equation(cat(\"y=\",point((ggbtrsarg0)[0][2] + (ggbtrsarg1)[0],"
-							+ "(ggbtrsarg0)[1][2] + (ggbtrsarg1)[1],"
-							+ "(ggbtrsarg0)[2][2][1] + (ggbtrsarg1)[2]),"
-							+ "\"+\u03BB*\","
-							+ "point((ggbtrsarg0[2][2][2])[2][0],"
-							+ "(ggbtrsarg0[2][2][2])[2][1],"
-							+ "(ggbtrsarg0[2][2][2])[2][2]) ))) ), "
-							// translate circle
-							+ "when ( grad(ggbtrsarg0,x)[1] <> DOM_INT || grad(ggbtrsarg0,y)[1] <> DOM_INT , "
-							// circle defined from inputBar with non-zero
-							// coordinates
-							+ " when ( (ggbtrsarg0)[1][1][0] == '^' &&  size((ggbtrsarg0)[1]) == 4 ,"
-							// vector as point
-							+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
-							+ " equation(circle( "
-							// coordinates of translated center
-							+ "point((-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - xcoord(ggbtrsarg1)) ,"
-							+ " (-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2] - ycoord(ggbtrsarg1)) ) ,"
-							// radius
-							+ " sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + "
-							+ " sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2]) + (ggbtrsarg0)[2]) )) ,"
-							+ "equation(circle( "
-							// coordinates of translated center
-							+ "point((-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[0]) ,"
-							+ " (-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2] - (ggbtrsarg1)[1]) ) ,"
-							// radius
-							+ " sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + "
-							+ " sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2]) + (ggbtrsarg0)[2]) )) ),"
-							// circle from inputBar
-							+ " when ( size((ggbtrsarg0)[1]) == 3,"
-							// with x coordinate 0
-							+ "when ( coeff((ggbtrsarg0)[1],x,1) == 0 ,"
-							// vector as point
-							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
-							+ " equation(circle(point( xcoord(ggbtrsarg1) , "
-							+ "(-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2] - ycoord(ggbtrsarg1)) ) ,"
-							+ " sqrt( sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) , "
-							+ " equation(circle(point( (ggbtrsarg1)[0] , "
-							+ "(-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[1]) ) ,"
-							+ " sqrt( sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) ),"
-							// with y coordinate 0
-							// vector as point
-							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
-							+ " equation(circle("
-							+ "point( (-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - xcoord(ggbtrsarg1)) ,"
-							+ " ycoord(ggbtrsarg1) ) , "
-							+ "sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )),"
-							+ " equation(circle("
-							+ "point( (-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[0]) ,"
-							+ " (ggbtrsarg1)[1] ) , "
-							+ "sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) ) ) , "
-							// with center (0,0)
-							+ "when (size((ggbtrsarg0)[1][1][1]) == 1 && size((ggbtrsarg0)[1][2][1]) == 1 , "
-							// vector as point
-							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
-							+ " equation(circle( point( xcoord(ggbtrsarg1) , ycoord(ggbtrsarg1) ) , "
-							+ "sqrt((ggbtrsarg0)[2]) )) ,"
-							+ "equation(circle( point( (ggbtrsarg1)[0] , (ggbtrsarg1)[1] ) , "
-							+ "sqrt((ggbtrsarg0)[2]) )) ) , "
-							// circle defined with command
-							// with non-zero center
-							+ "when (size((ggbtrsarg0)[1][1][1]) == 2 && size((ggbtrsarg0)[1][2][1]) == 2 ,"
-							// vector as point
-							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
-							+ " equation(circle("
-							+ "point( (-1)*((ggbtrsarg0)[1][1][1][2] - xcoord(ggbtrsarg1)), "
-							+ "(-1)*((ggbtrsarg0)[1][2][1][2] - ycoord(ggbtrsarg1)) ),"
-							+ "sqrt((ggbtrsarg0)[2]) )), "
-							+ "equation(circle("
-							+ "point( (-1)*((ggbtrsarg0)[1][1][1][2] - (ggbtrsarg1)[0]), "
-							+ "(-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[1]) ),"
-							+ "sqrt((ggbtrsarg0)[2]) )) ) ,"
-							// with x coordinate 0
-							+ "when ( coeff((ggbtrsarg0)[1],x,1) == 0 , "
-							// vector as point
-							+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
-							+ " equation(circle(point( xcoord(ggbtrsarg1) , (-1)*((ggbtrsarg0)[1][2][1][2] - ycoord(ggbtrsarg1)) ),"
-							+ " sqrt((ggbtrsarg0)[2]) )) ,"
-							+ "equation(circle(point( (ggbtrsarg1)[0] , (-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[1]) ),"
-							+ " sqrt((ggbtrsarg0)[2]) )) ) , "
-							// with y coordinate 0
-							// vector as point
-							+ "when( (ggbtrsarg1)[0] == 'pnt',"
-							+ " equation(circle(point( (-1)*((ggbtrsarg0)[1][2][1][2] - xcoord(ggbtrsarg1)) , ycoord(ggbtrsarg1)) ,"
-							+ " sqrt((ggbtrsarg0)[2]) )) ,"
-							+ "equation(circle(point( (-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[0]) , (ggbtrsarg1)[1]) ,"
-							+ " sqrt((ggbtrsarg0)[2]) )) ) ) ) ) ) ) , "
-							+ " ? ) ) ) ) ) ) ) ) )][1]");
-		}
+		// if (app.has(Feature.CAS_TRANSLATE_COMMAND)) {
+		p("Translate.2",
+				"[[[ggbtrsarg0:=%0] , [ggbtrsarg1:=%1]] , "
+						// translate point about vector
+						+ "when ( (ggbtrsarg0)[0] == 'pnt' , "
+						// translate 2d point
+						+ "when ( !is3dpoint(ggbtrsarg0) ,"
+						// vector as point
+						+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
+						+ "translation(vector(ggbtrsarg1),ggbtrsarg0) ,"
+						+ "translation(ggbtrsarg1,ggbtrsarg0) ),"
+						// translate 3d point
+						+ "when( (ggbtrsarg1)[0] == 'pnt',"
+						// vector as point
+						+ "point(xcoord(translation(vector(ggbtrsarg1),ggbtrsarg0))[0],"
+						+ "xcoord(translation(vector(ggbtrsarg1),ggbtrsarg0))[1], "
+						+ "xcoord(translation(vector(ggbtrsarg1),ggbtrsarg0))[2]),"
+						+ "point(xcoord(translation(ggbtrsarg1,ggbtrsarg0))[0],"
+						+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[1], "
+						+ "xcoord(translation(ggbtrsarg1,ggbtrsarg0))[2]) ) ),"
+						+ "when ( size(ggbtrsarg0) == 2 && (ggbtrsarg0)[0] == '^' &&"
+						+ "type((ggbtrsarg0)[1]) == DOM_IDENT , "
+						+ "when ( (ggbtrsarg1)[0] == 'pnt' , "
+						// vector as point
+						+ " equation( ((ggbtrsarg0)[1] - xcoord(ggbtrsarg1))^(ggbtrsarg0)[2] + ycoord(ggbtrsarg1) ), "
+						+ " equation( ((ggbtrsarg0)[1] - ggbtrsarg1[0])^(ggbtrsarg0)[2] + (ggbtrsarg1)[1] ) ), "
+						// translate function defined from inputBar
+						+ "when( (ggbtrsarg0)[0] <> '=' && xcoord(ggbtrsarg0) <> string(y) &&"
+						+ "(xcoord(ggbtrsarg0))[0] <> '=' && string((xcoord(ggbtrsarg0))[1]) <> string(X),"
+						// vector as point
+						+ "when ( (ggbtrsarg1)[0] == 'pnt' , "
+						+ "equation(simplify(subst(ggbtrsarg0 + ycoord(ggbtrsarg1), x = x - xcoord(ggbtrsarg1) ))) , "
+						+ "equation(simplify(subst(ggbtrsarg0 + (ggbtrsarg1)[1], x = x - (ggbtrsarg1)[0]))) ), "
+						// translate function defined with f(x)
+						+ "when ( (ggbtrsarg0)[0] == '=' && (ggbtrsarg0)[1][0] == 'of' && (ggbtrsarg0)[1][2] == 'x',"
+						+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+						// vector as point
+						+ " equation(simplify(subst((ggbtrsarg0)[2] + ycoord(ggbtrsarg1), x = x - xcoord(ggbtrsarg1)) )) ,"
+						+ " equation(simplify(subst((ggbtrsarg0)[2] + (ggbtrsarg1)[1], x = x - (ggbtrsarg1)[0]))) ),"
+						// function defined with linear equation
+						+ "when( (ggbtrsarg0)[0] == '=' && (ggbtrsarg0)[1] == y , "
+						// vector as point
+						+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+						+ "equation(simplify(subst((ggbtrsarg0)[1] = (ggbtrsarg0)[2] + ycoord(ggbtrsarg1),"
+						+ "x = x - xcoord(ggbtrsarg1)))) ,"
+						+ "equation(simplify(subst((ggbtrsarg0)[1] = (ggbtrsarg0)[2] + (ggbtrsarg1)[1],"
+						+ "x = x - (ggbtrsarg1)[0]))) ),"
+						// translate 3d line - defined with command
+						+ "when ( xcoord(ggbtrsarg0) == string(y) ,"
+						// vector as point
+						+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
+						+ " regroup(equation(cat(\"y=\",point(expr(ggbtrsarg0)[0][2][1] + xcoord(ggbtrsarg1) , "
+						+ "expr(ggbtrsarg0)[1][2][1] + ycoord(ggbtrsarg1) ,"
+						+ "expr(ggbtrsarg0)[2][2][1] + zcoord(ggbtrsarg1) ),"
+						+ "\"+\u03BB*\","
+						+ "point(coeff(expr(ggbtrsarg0)[0][2],\u03BB,1) , "
+						+ "coeff(expr(ggbtrsarg0)[1][2],\u03BB,1) , "
+						+ "coeff(expr(ggbtrsarg0)[2][2],\u03BB,1)) ))) , "
+						+ "regroup(equation(cat(\"y=\",point(expr(ggbtrsarg0)[0][2][1] + (ggbtrsarg1)[0] , "
+						+ "expr(ggbtrsarg0)[1][2][1] + (ggbtrsarg1)[1] ,"
+						+ "expr(ggbtrsarg0)[2][2][1] + (ggbtrsarg1)[2] ),"
+						+ "\"+\u03BB*\","
+						+ "point(coeff(expr(ggbtrsarg0)[0][2],\u03BB,1) , "
+						+ "coeff(expr(ggbtrsarg0)[1][2],\u03BB,1) , "
+						+ "coeff(expr(ggbtrsarg0)[2][2],\u03BB,1)) ))) ),"
+						// translate line defined as linear equation (2d)
+						+ "when ( type(xcoord(ggbtrsarg0)) == DOM_INT && type(grad(ggbtrsarg0,x)[1]) == DOM_INT ,"
+						// vector as point
+						+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
+						+ "(ggbtrsarg0)[1] = (ggbtrsarg0)[2] + ycoord(ggbtrsarg1) - xcoord(ggbtrsarg1) , "
+						+ "(ggbtrsarg0)[1] = (ggbtrsarg0)[2] + (ggbtrsarg1)[1] - (ggbtrsarg1)[0] ), "
+						// translate 3d line - defined from inputBar
+						+ "when ( (xcoord(ggbtrsarg0))[0] == '=' && string((xcoord(ggbtrsarg0))[1]) == string(X) , "
+						// vector as point
+						+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
+						+ "regroup(equation(cat(\"y=\",point((ggbtrsarg0)[0][2] + xcoord(ggbtrsarg1),"
+						+ "(ggbtrsarg0)[1][2] + ycoord(ggbtrsarg1),"
+						+ "(ggbtrsarg0)[2][2][1] + zcoord(ggbtrsarg1)),"
+						+ "\"+\u03BB*\"," + "point((ggbtrsarg0[2][2][2])[2][0],"
+						+ "(ggbtrsarg0[2][2][2])[2][1],"
+						+ "(ggbtrsarg0[2][2][2])[2][2]) ))) , "
+						+ "regroup(equation(cat(\"y=\",point((ggbtrsarg0)[0][2] + (ggbtrsarg1)[0],"
+						+ "(ggbtrsarg0)[1][2] + (ggbtrsarg1)[1],"
+						+ "(ggbtrsarg0)[2][2][1] + (ggbtrsarg1)[2]),"
+						+ "\"+\u03BB*\"," + "point((ggbtrsarg0[2][2][2])[2][0],"
+						+ "(ggbtrsarg0[2][2][2])[2][1],"
+						+ "(ggbtrsarg0[2][2][2])[2][2]) ))) ), "
+						// translate circle
+						+ "when ( grad(ggbtrsarg0,x)[1] <> DOM_INT || grad(ggbtrsarg0,y)[1] <> DOM_INT , "
+						// circle defined from inputBar with non-zero
+						// coordinates
+						+ " when ( (ggbtrsarg0)[1][1][0] == '^' &&  size((ggbtrsarg0)[1]) == 4 ,"
+						// vector as point
+						+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
+						+ " equation(circle( "
+						// coordinates of translated center
+						+ "point((-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - xcoord(ggbtrsarg1)) ,"
+						+ " (-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2] - ycoord(ggbtrsarg1)) ) ,"
+						// radius
+						+ " sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + "
+						+ " sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2]) + (ggbtrsarg0)[2]) )) ,"
+						+ "equation(circle( "
+						// coordinates of translated center
+						+ "point((-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[0]) ,"
+						+ " (-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2] - (ggbtrsarg1)[1]) ) ,"
+						// radius
+						+ " sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + "
+						+ " sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][4])[1][1][2]) + (ggbtrsarg0)[2]) )) ),"
+						// circle from inputBar
+						+ " when ( size((ggbtrsarg0)[1]) == 3,"
+						// with x coordinate 0
+						+ "when ( coeff((ggbtrsarg0)[1],x,1) == 0 ,"
+						// vector as point
+						+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+						+ " equation(circle(point( xcoord(ggbtrsarg1) , "
+						+ "(-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2] - ycoord(ggbtrsarg1)) ) ,"
+						+ " sqrt( sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) , "
+						+ " equation(circle(point( (ggbtrsarg1)[0] , "
+						+ "(-1)*(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[1]) ) ,"
+						+ " sqrt( sq(canonical_form((ggbtrsarg0)[1][2] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) ),"
+						// with y coordinate 0
+						// vector as point
+						+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+						+ " equation(circle("
+						+ "point( (-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - xcoord(ggbtrsarg1)) ,"
+						+ " ycoord(ggbtrsarg1) ) , "
+						+ "sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )),"
+						+ " equation(circle("
+						+ "point( (-1)*(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2] - (ggbtrsarg1)[0]) ,"
+						+ " (ggbtrsarg1)[1] ) , "
+						+ "sqrt(sq(canonical_form((ggbtrsarg0)[1][1] + (ggbtrsarg0)[1][3])[1][1][2]) + (ggbtrsarg0)[2]) )) ) ) , "
+						// with center (0,0)
+						+ "when (size((ggbtrsarg0)[1][1][1]) == 1 && size((ggbtrsarg0)[1][2][1]) == 1 , "
+						// vector as point
+						+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+						+ " equation(circle( point( xcoord(ggbtrsarg1) , ycoord(ggbtrsarg1) ) , "
+						+ "sqrt((ggbtrsarg0)[2]) )) ,"
+						+ "equation(circle( point( (ggbtrsarg1)[0] , (ggbtrsarg1)[1] ) , "
+						+ "sqrt((ggbtrsarg0)[2]) )) ) , "
+						// circle defined with command
+						// with non-zero center
+						+ "when (size((ggbtrsarg0)[1][1][1]) == 2 && size((ggbtrsarg0)[1][2][1]) == 2 ,"
+						// vector as point
+						+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+						+ " equation(circle("
+						+ "point( (-1)*((ggbtrsarg0)[1][1][1][2] - xcoord(ggbtrsarg1)), "
+						+ "(-1)*((ggbtrsarg0)[1][2][1][2] - ycoord(ggbtrsarg1)) ),"
+						+ "sqrt((ggbtrsarg0)[2]) )), " + "equation(circle("
+						+ "point( (-1)*((ggbtrsarg0)[1][1][1][2] - (ggbtrsarg1)[0]), "
+						+ "(-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[1]) ),"
+						+ "sqrt((ggbtrsarg0)[2]) )) ) ,"
+						// with x coordinate 0
+						+ "when ( coeff((ggbtrsarg0)[1],x,1) == 0 , "
+						// vector as point
+						+ "when( (ggbtrsarg1)[0] == 'pnt' ,"
+						+ " equation(circle(point( xcoord(ggbtrsarg1) , (-1)*((ggbtrsarg0)[1][2][1][2] - ycoord(ggbtrsarg1)) ),"
+						+ " sqrt((ggbtrsarg0)[2]) )) ,"
+						+ "equation(circle(point( (ggbtrsarg1)[0] , (-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[1]) ),"
+						+ " sqrt((ggbtrsarg0)[2]) )) ) , "
+						// with y coordinate 0
+						// vector as point
+						+ "when( (ggbtrsarg1)[0] == 'pnt',"
+						+ " equation(circle(point( (-1)*((ggbtrsarg0)[1][2][1][2] - xcoord(ggbtrsarg1)) , ycoord(ggbtrsarg1)) ,"
+						+ " sqrt((ggbtrsarg0)[2]) )) ,"
+						+ "equation(circle(point( (-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[0]) , (ggbtrsarg1)[1]) ,"
+						+ " sqrt((ggbtrsarg0)[2]) )) ) ) ) ) ) ) , "
+						+ " ? ) ) ) ) ) ) ) ) )][1]");
+		// }
 
 		p("Transpose.1", "transpose(%0)");
 		// http://reduce-algebra.com/docs/trigsimp.pdf

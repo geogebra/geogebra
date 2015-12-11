@@ -3899,7 +3899,6 @@ public abstract class App implements UpdateSelection {
 		case CP_NEW_COLUMNS:
 		case EXAM:
 		case PRINT_MENU:
-		case CAS_TRANSLATE_COMMAND:
 			return prerelease;
 		// return canary;
 		case AV_EXTENSIONS:
