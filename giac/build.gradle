@@ -143,7 +143,7 @@ model {
         	}
         }
 
-        icas(NativeExecutableSpec) {
+        minigiac(NativeExecutableSpec) {
             binaries.all {
                 lib library: 'giac', linkage: 'static'
                 linker.args '-lgmp', '-lmpfr', '-lpthread'
@@ -155,7 +155,7 @@ model {
         	}
             sources.all {
                 source {
-                    srcDirs 'src/giac/cpp', 'src/icas/cpp'
+                    srcDirs 'src/giac/cpp', 'src/minigiac/cpp'
             	    }
 		}
 
@@ -285,8 +285,8 @@ model {
     }
 }
 
-task testIcasExecutable (dependsOn: 'icasExecutable', type: Exec) {
-    description 'Tests the icas executable.'
+task testMinigiacExecutable (dependsOn: 'minigiacExecutable', type: Exec) {
+    description 'Tests the minigiac executable.'
     workingDir 'src/test'
     commandLine './regression', '-r', '-s'
     }
@@ -317,9 +317,9 @@ task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiac
     commandLine './gradlew', 'assemble'
     }
 
-task run (dependsOn: 'icasExecutable', type: Exec) {
-    description "Runs Giac's icas terminal"
-    commandLine 'build/binaries/icasExecutable/icas'
+task run (dependsOn: 'minigiacExecutable', type: Exec) {
+    description "Runs Giac's minigiac terminal"
+    commandLine 'build/binaries/minigiacExecutable/minigiac'
     standardInput = System.in
     }
 

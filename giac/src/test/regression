@@ -2,7 +2,7 @@
 # Creates *.out files from *.in files or runs a regression test.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
-ICAS=../../build/binaries/icasExecutable/icas
+MINIGIAC=../../build/binaries/minigiacExecutable/minigiac
 
 OVERWRITE=0
 TIMEOUT=480
@@ -35,7 +35,7 @@ usage() {
 while getopts "t:rfhHIsj" OPT; do
  case $OPT in
   j)
-   ICAS=../../../giac-jni/src/test/minigiac
+   MINIGIAC=../../../giac-jni/src/test/minigiac
    ;;
   s)
    SILENT=0
@@ -65,8 +65,8 @@ done
 # Put name of the filters into $@
 shift $((OPTIND-1))
 
-test -x $ICAS || {
- echo "Cannot find $ICAS"
+test -x $MINIGIAC || {
+ echo "Cannot find $MINIGIAC"
  exit 2
  }
 
@@ -95,7 +95,7 @@ find -name '*.in' | while read IN; do
    if [ "$REGRESSION" = 1 ]; then
     mkdir -p `dirname $SAVEDIR/$OUT`
     fi
-   timeout $TIMEOUT $ICAS -m < $IN > $SAVEDIR/$OUT 2> $SAVEDIR/.stderr
+   timeout $TIMEOUT $MINIGIAC -m < $IN > $SAVEDIR/$OUT 2> $SAVEDIR/.stderr
    RETVAL=$?
    if [ $RETVAL != 0 ]; then
     cat $SAVEDIR/.stderr > /dev/stderr
