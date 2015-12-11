@@ -1126,8 +1126,6 @@ var __giac = [ {},
 { cat:"Limit", cmd:"Limit[exp(x)-x^2,+\u221E]", result:"\u221E", notes:"#1586" },
 { cat:"Limit", cmd:"Limit[exp(x)+x,+\u221E]", result:"\u221E", notes:"#1605" },
 { cat:"Limit", cmd:"Limit[exp(x)/(x^2+1),\u221E]", result:"\u221E", notes:"#1610" },
-{ cat:"spare", cmd:"spare", result:"spare" },
-{ cat:"spare", cmd:"spare", result:"spare" },
 { cat:"Integral", cmd:"Integral[1/x^2,-1,1]", result:"\u221E", notes:"#1716" },
 { cat:"Limit", cmd:"Limit[ ln(x) / (3x), +infinity ] ", result:"0", notes:"#2687" },
 { cat:"Limit", cmd:"Limit[ ln(x) / 5, +infinity ]", result:"\u221E", notes:"#2687" },
@@ -1793,10 +1791,21 @@ var __giac = [ {},
 { cat: "Numeric", cmd:"Numeric[3^(26778293/2100000)]", result:"1213512.254672", round:"1213512.25", notes:"GGB-321" },
 { cat:"Solve", cmd:"Solve[{67000=c*a^2007,3=c*a^9},{c,a}]", result:"{{c = 3 / (67000 / 3)^(1 / 222), a = (67000 / 3)^(1 / 1998)}}" },
 { cat:"Solve", cmd:"Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c,a}]", result:"{{c = 300000000 / ((67 / 3)^(1 / 1057))\u2079\u2075\u2070, a = (67 / 3)^(1 / 1057)}}" },
-
+{ cat: "Solve", cmd:"Solve[{((67/10))*((10)^(9))=(c)*((a)^(2007)), (3)*((10)^(8))=(c)*((a)^(950))},{a, c}]", result:"{{a = (67 / 3)^(1 / 1057), c = 300000000 / ((67 / 3)^(1 / 1057))\u2079\u2075\u2070}}", notes:"" },
+{ cat: "Derivative", cmd:"Derivative[f(x!)]", result:"psi(x + 1) x!  f\'[x!]|OR|psi(x + 1) x!  f\'(x!)", notes:"" },
+{ cat: "Integral", cmd:"Integral[Function[x^2,-2,3]]", result:"?", notes:"" },
+{ cat: "Translate", cmd:"Translate[x^2, Vector[(2,3)]]", result:"(x - 2)\u00B2 + 3", notes:"GGB-343" },
+{ cat: "Translate", cmd:"Translate[y=2x+3,Vector[(2,3)]]", result:"y = 2x + 2",  notes:"GGB-343" },
+{ cat: "Translate", cmd:"Translate[x^2+y^2=7, Vector[(2,3)]]", result:"(x - 2)\u00B2 + (y - 3)\u00B2 = 7",  notes:"GGB-343" },
+{ cat: "Translate", cmd:"Translate[(2,3), Vector[(2,3)]]", result:"(4, 6)",  notes:"GGB-343" },
+{ cat: "Translate", cmd:"Translate[x^2+y^2=7, (2,3)]", result:"(x - 2)\u00B2 + (y - 3)\u00B2 = 7",  notes:"GGB-343" },
+{ cat: "Translate", cmd:"Translate[(2,3), (2,3)]", result:"(4, 6)",  notes:"GGB-343" },
+{ cat: "Translate", cmd:"Translate[x^2, (2,3)]", result:"(x - 2)\u00B2 + 3",  notes:"GGB-343" },
+{ cat: "Translate", cmd:"Translate[y=2x+3,(2,3)]", result:"y = 2x + 2",  notes:"GGB-343" },
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
+// 
 // Integral[Function[x^2,-2,3]]
 // [op(solve({((67/10))*((10)^(9))=(ggbtmpvarc)*((ggbtmpvara)^(2007)), (3)*((10)^(8))=(ggbtmpvarc)*((ggbtmpvara)^(950))},{ggbtmpvara, ggbtmpvarc}))]
 ];
