@@ -1455,4 +1455,9 @@ final public class GeoVec2D extends ValidExpression implements
 		return 2;
 	}
 
+	@Override
+	public ExpressionValue getUndefinedCopy(Kernel kernel1) {
+		return new GeoVec2D(kernel1, Double.NaN, Double.NaN);
+	}
+
 }

@@ -80,6 +80,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		setCoords(x, y, z);
 	}
 
+	@Override
 	public ExpressionValue deepCopy(Kernel kernel1) {
 		MyVec3DNode ret = new MyVec3DNode(kernel1, x.deepCopy(kernel1),
 				y.deepCopy(kernel1), z.deepCopy(kernel1));
@@ -91,6 +92,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return ret;
 	}
 
+	@Override
 	public void resolveVariables() {
 		x.resolveVariables();
 		y.resolveVariables();
@@ -263,6 +265,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return toString(tpl, true);
 	}
 
+	@Override
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl);
 	}
@@ -270,20 +273,24 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	/**
 	 * interface Point3DValue implementation
 	 */
+	@Override
 	public double[] getPointAsDouble() {
 		// Application.debug("myvec");
 		return getCoords();
 	}
 
+	@Override
 	public boolean isConstant() {
 		return x.isConstant() && y.isConstant() && z.isConstant();
 	}
 
+	@Override
 	public boolean isLeaf() {
 		return true;
 	}
 
 	/** returns all GeoElement objects in the both coordinate subtrees */
+	@Override
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> temp, varset = x.getVariables();
 		if (varset == null)
@@ -304,10 +311,12 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return true;
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
 
+	@Override
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
@@ -318,12 +327,14 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return isCASVector;// this.mode != Kernel.COORD_COMPLEX;
 	}
 
+	@Override
 	public Geo3DVec getVector() {
 		Geo3DVec ret = kernel.getManager3D().newGeo3DVec(x.evaluateDouble(),
 				y.evaluateDouble(), z.evaluateDouble());
 		return ret;
 	}
 
+	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
@@ -344,6 +355,9 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return t.check(this) || x.inspect(t) || y.inspect(t) || z.inspect(t);
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -353,12 +367,23 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return true;
 	}
 
+	/**
+	 * Sets the spherical coords and changes the coord mode
+	 * 
+	 * @param r
+	 *            radius
+	 * @param theta
+	 *            argument
+	 * @param phi
+	 *            alt
+	 */
 	public void setSphericalPolarCoords(ExpressionValue r,
 			ExpressionValue theta, ExpressionValue phi) {
 		setCoords(r, theta, phi);
 		mode = Kernel.COORD_SPHERICAL;
 	}
 
+	@Override
 	public int getMode() {
 		return mode;
 	}
@@ -370,14 +395,17 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		isCASVector = true;
 	}
 
+	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
 
+	@Override
 	public boolean isCASVector() {
 		return isCASVector;
 	}
 
+	@Override
 	public int getDimension() {
 		return 3;
 	}
@@ -385,6 +413,12 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	@Override
 	public ValueType getValueType() {
 		return ValueType.VECTOR3D;
+	}
+
+	@Override
+	public ExpressionValue getUndefinedCopy(Kernel kernel1) {
+		return kernel1.getManager3D().newGeo3DVec(Double.NaN, Double.NaN,
+				Double.NaN);
 	}
 
 }

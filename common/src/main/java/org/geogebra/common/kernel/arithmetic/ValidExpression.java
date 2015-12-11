@@ -522,4 +522,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	public abstract ValueType getValueType();
+
+	public ExpressionValue getUndefinedCopy(Kernel kernel) {
+		return new MyDouble(kernel, Double.NaN);
+	}
 }

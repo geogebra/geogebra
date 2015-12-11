@@ -1720,4 +1720,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	}
 
+	public ExpressionValue getUndefinedCopy(Kernel kernel) {
+		return new MyDouble(kernel, Double.NaN);
+	}
+
 }

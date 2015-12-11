@@ -1537,9 +1537,10 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue) {
 				if (((BooleanValue) lt).getBoolean()) {
-					return rt;
+					return rt instanceof NumberValue ? ((NumberValue) rt)
+							.getNumber() : rt;
 				}
-				return new MyDouble(ev.getKernel(), Double.NaN);
+				return rt.getUndefinedCopy(ev.getKernel());
 			}
 			return ev.illegalArgument(lt, rt, "if(");
 		}
@@ -1560,7 +1561,8 @@ public enum Operation {
 					if (((BooleanValue) cond).getBoolean()) {
 						return ((MyNumberPair) lt).getY().evaluate(tpl);
 					}
-					return rt;
+					return rt instanceof NumberValue ? ((NumberValue) rt)
+							.getNumber() : rt;
 				}
 			}
 			return ev.illegalArgument(lt, rt, "if(");

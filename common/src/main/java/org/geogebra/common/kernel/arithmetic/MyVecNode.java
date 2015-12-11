@@ -344,4 +344,9 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return 2;
 	}
 
+	@Override
+	public ExpressionValue getUndefinedCopy(Kernel kernel) {
+		return new GeoVec2D(kernel, Double.NaN, Double.NaN);
+	}
+
 }

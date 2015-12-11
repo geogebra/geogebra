@@ -74,7 +74,6 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 	public AlgoDependentNumber(Construction cons, ExpressionNode root,
 			boolean isAngle, ExpressionValue evaluate) {
 		super(cons);
-
 		// simplify constant integers, e.g. -1 * 300 becomes -300
 		root.simplifyConstantIntegers();
 		if (evaluate instanceof GeoNumberValue) {

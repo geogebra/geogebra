@@ -1960,6 +1960,9 @@ public class AlgebraProcessor {
 			}
 		}
 		switch (exp.getOperation()) {
+		case IF:
+			return new ExpressionNode(kernel, exp.getLeft().deepCopy(kernel),
+					Operation.IF, computeCoord(exp.getRightTree(), i));
 		case PLUS:
 			return computeCoord(exp.getLeftTree(), i).plus(
 					computeCoord(exp.getRightTree(), i));
@@ -2407,9 +2410,11 @@ public class AlgebraProcessor {
 		ExpressionNode myNode = n;
 		if (myNode.isLeaf())
 			myNode = myNode.getLeftTree();
+
 		// leaf (no new label specified): just return the existing GeoElement
 		if (eval.isGeoElement() && n.getLabel() == null
-				&& !(n.getOperation().equals(Operation.ELEMENT_OF))) {
+				&& !n.getOperation().equals(Operation.ELEMENT_OF)
+				&& !n.getOperation().equals(Operation.IF_ELSE)) {
 			// take care of spreadsheet $ names: don't loose the wrapper
 			// ExpressionNode here
 			// check if we have a Variable
@@ -2429,7 +2434,8 @@ public class AlgebraProcessor {
 				return ret;
 			}
 		}
-
+		App.debug("PROCESSING");
+		Log.debug(eval);
 		if (eval instanceof BooleanValue)
 			return processBoolean(n, eval);
 		else if (eval instanceof NumberValue)
@@ -2488,7 +2494,8 @@ public class AlgebraProcessor {
 		MyDouble val = ((NumberValue) evaluate).getNumber();
 		boolean isAngle = val.isAngle();
 		double value = val.getDouble();
-
+		Log.debug(n);
+		Log.debug("INDEP" + isIndependent);
 		if (isIndependent) {
 			if (isAngle) {
 				ret[0] = new GeoAngle(cons, value, AngleStyle.UNBOUNDED);

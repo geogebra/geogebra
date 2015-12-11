@@ -190,4 +190,11 @@ public class Resolution implements ExpressionValue {
 		return type;
 	}
 
+	public ExpressionValue getUndefinedCopy(Kernel kernel) {
+		Resolution res = new Resolution();
+		res.listDepth = this.listDepth;
+		res.type = this.type;
+		return res;
+	}
+
 }

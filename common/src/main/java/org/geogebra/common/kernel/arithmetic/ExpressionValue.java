@@ -253,4 +253,6 @@ public interface ExpressionValue {
 	 * @return type of this value after evaluation
 	 */
 	public ValueType getValueType();
+
+	public ExpressionValue getUndefinedCopy(Kernel kernel);
 }
