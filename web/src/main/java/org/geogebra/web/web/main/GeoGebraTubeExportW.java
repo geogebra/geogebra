@@ -31,11 +31,6 @@ public class GeoGebraTubeExportW extends
 		super(app);
 	}
 
-	/**
-	 * URL of the webpage to call if a file should be uploaded.
-	 */
-	private static final String uploadURL = "http://tube.geogebra.org/upload";
-
 	protected StringBuffer getPostData(String base64) throws IOException {
 		Construction cons = app.getKernel().getConstruction();
 
