@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandFunctionReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -109,7 +108,6 @@ public abstract class CommandProcessor {
 
 			// resolve i-th argument and get GeoElements
 			// use only first resolved argument object for result
-			App.debug(i + ":" + ValidExpression.debugString(arg[i]));
 			result[i] = resArg(arg[i])[0];
 		}
 
@@ -224,9 +222,7 @@ kernelA.getEulerNumber(), localVar));
 			cons.setSuppressLabelCreation(true);
 			NumberValue initValue = (NumberValue) resArg(c.getArgument(initPos))[0];
 			cons.setSuppressLabelCreation(oldval);
-			ExpressionNode def = num.getDefinition();
 			num.setValue(initValue.getDouble());
-			num.setDefinition(def);
 		}
 
 		// set local variable as our varPos argument
