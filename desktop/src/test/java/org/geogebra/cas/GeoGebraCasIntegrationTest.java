@@ -1069,8 +1069,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void CompleteSquare_7() {
-		// NaN is OK here as we use the XML template for tests
-		t("CompleteSquare[-10x^7+3]", "NaN");
+		t("CompleteSquare[-10x^7+3]", "?");
 	}
 
 	@Test
@@ -2407,27 +2406,27 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void PreviousPrime_0 () {
-    t("PreviousPrime[-10]", "NaN");
+		t("PreviousPrime[-10]", "?");
   }
 
   @Test
   public void PreviousPrime_1 () {
-    t("PreviousPrime[-1]", "NaN");
+		t("PreviousPrime[-1]", "?");
   }
 
   @Test
   public void PreviousPrime_2 () {
-    t("PreviousPrime[0]", "NaN");
+		t("PreviousPrime[0]", "?");
   }
 
   @Test
   public void PreviousPrime_3 () {
-    t("PreviousPrime[1]", "NaN");
+		t("PreviousPrime[1]", "?");
   }
 
   @Test
   public void PreviousPrime_4 () {
-    t("PreviousPrime[2]", "NaN");
+		t("PreviousPrime[2]", "?");
   }
 
   @Test
@@ -3943,7 +3942,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Mike_1264 () {
 	  // singular point (two tangents) so ? is correct
-    t("Tangent[(0, 1), x^2 - y^3 + 2y^2 - y = 0]", "NaN");
+		t("Tangent[(0, 1), x^2 - y^3 + 2y^2 - y = 0]", "?");
   }
 
 
