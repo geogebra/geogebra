@@ -866,7 +866,6 @@ public class AlgebraProcessor {
 			if (lhs != null) {
 				ggb = lhs.getGroup(1) + "(x)=" + lhs.getGroup(2);
 			}
-			Log.debug(cmd);
 			Log.debug(ggb);
 			ret = this.processAlgebraCommandNoExceptionHandling(ggb, storeUndo,
 					false, throwMyError, false, callback0);
@@ -2434,8 +2433,7 @@ public class AlgebraProcessor {
 				return ret;
 			}
 		}
-		App.debug("PROCESSING");
-		Log.debug(eval);
+
 		if (eval instanceof BooleanValue)
 			return processBoolean(n, eval);
 		else if (eval instanceof NumberValue)
@@ -2494,8 +2492,7 @@ public class AlgebraProcessor {
 		MyDouble val = ((NumberValue) evaluate).getNumber();
 		boolean isAngle = val.isAngle();
 		double value = val.getDouble();
-		Log.debug(n);
-		Log.debug("INDEP" + isIndependent);
+
 		if (isIndependent) {
 			if (isAngle) {
 				ret[0] = new GeoAngle(cons, value, AngleStyle.UNBOUNDED);

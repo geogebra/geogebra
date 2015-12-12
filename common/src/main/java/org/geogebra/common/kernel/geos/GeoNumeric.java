@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -1723,6 +1724,11 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public ExpressionValue getUndefinedCopy(Kernel kernel) {
 		return new MyDouble(kernel, Double.NaN);
+	}
+
+	@Override
+	public ValidExpression toValidExpression() {
+		return getNumber();
 	}
 
 }

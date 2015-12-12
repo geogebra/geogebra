@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -1036,6 +1037,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 	public void setCoords(double x, double y, double z, double w) {
 		setCoords(x, y, w);
+	}
+
+	@Override
+	public ValidExpression toValidExpression() {
+		return getVector();
 	}
 
 }

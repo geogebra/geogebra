@@ -260,4 +260,6 @@ public interface ExpressionValue {
 	 * @return undefined object of the same value type
 	 */
 	public ExpressionValue getUndefinedCopy(Kernel kernel);
+
+	public ExpressionValue toValidExpression();
 }

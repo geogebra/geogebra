@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -1060,5 +1061,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	@Override
 	public GeoPointND newGeoPoint(Construction cons){
 		return new GeoPoint3D(cons);
+	}
+
+	@Override
+	public ValidExpression toValidExpression() {
+		return getNumber();
 	}
 }

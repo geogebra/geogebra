@@ -197,4 +197,8 @@ public class Resolution implements ExpressionValue {
 		return res;
 	}
 
+	public ExpressionValue toValidExpression() {
+		return this;
+	}
+
 }

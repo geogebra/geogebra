@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.Animatable;
@@ -1875,5 +1876,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	public ValueType getValueType() {
 		return ValueType.VECTOR3D;
+	}
+
+	@Override
+	public ValidExpression toValidExpression() {
+		return getVector();
 	}
 }

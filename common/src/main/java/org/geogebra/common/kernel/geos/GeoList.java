@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
@@ -3045,6 +3046,11 @@ AngleProperties {
 			add(geo);
 		}
 
+	}
+
+	@Override
+	public ValidExpression toValidExpression() {
+		return getMyList();
 	}
 
 }

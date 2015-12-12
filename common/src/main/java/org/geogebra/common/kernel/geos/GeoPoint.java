@@ -62,6 +62,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -2609,5 +2610,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public Boolean isCongruent(GeoElement geo) {
 		return geo.isGeoPoint();
+	}
+
+	@Override
+	public ValidExpression toValidExpression() {
+		return getVector();
 	}
 }

@@ -8066,4 +8066,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		ret.setUndefined();
 		return ret;
 	}
+
+	public ExpressionValue toValidExpression() {
+		return this;
+	}
 }
