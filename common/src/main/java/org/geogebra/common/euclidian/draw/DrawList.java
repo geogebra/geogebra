@@ -580,14 +580,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int h = getTextHeight(g2, getWidthestPlainItem()) + getOptionsItemGap();
 		int cols = view.getViewWidth() / w;
 		int rows = view.getViewHeight() / h;
-		rowCount = rows;
-		colCount = (geoList.size() / rowCount);
-		if (cols * rows >= geoList.size()) {
+		int size = geoList.size();
+		rowCount = size < rows ? size : rows;
+		colCount = (size / rowCount);
+		if (colCount * rowCount < size) {
 			colCount++;
 		}
-		;
 
-		return colCount * rowCount;
+		return cols * rows;
 	}
 
 
