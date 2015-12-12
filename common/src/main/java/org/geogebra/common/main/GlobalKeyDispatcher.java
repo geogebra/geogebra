@@ -105,7 +105,7 @@ public abstract class GlobalKeyDispatcher {
 			if (canOpenDropDown && !dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			} else {
-				dl.moveSelectionVertical(down);
+				dl.moveSelectorVertical(down);
 			}
 			return true;
 		}
@@ -120,7 +120,7 @@ public abstract class GlobalKeyDispatcher {
 				if (canOpenDropDown && !dl.isOptionsVisible()) {
 					dl.toggleOptions();
 				} else {
-					dl.moveSelectionHorizontal(left);
+					dl.moveSelectorHorizontal(left);
 				}
 				return true;
 			} else {
