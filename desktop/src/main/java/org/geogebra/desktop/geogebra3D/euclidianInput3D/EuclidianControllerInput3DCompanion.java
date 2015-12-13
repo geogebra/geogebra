@@ -428,6 +428,7 @@ public class EuclidianControllerInput3DCompanion extends
 			}
 
 			// update
+			plane.setDefinition(null);
 			plane.updateCascade();
 
 
