@@ -3819,10 +3819,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 
-	protected GColor bgColor;
+	protected GColor bgColor, bgApplyedColor;
 
 	public GColor getBackground() {
 		return bgColor;
+	}
+
+	public GColor getApplyedBackground() {
+		return bgApplyedColor;
 	}
 
 	@Override

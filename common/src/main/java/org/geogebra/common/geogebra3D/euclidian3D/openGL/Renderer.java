@@ -1352,9 +1352,9 @@ public abstract class Renderer {
 		waitForUpdateClearColor = true;
 	}
 
-	protected void updateClearColor() {
+	final protected void updateClearColor() {
 
-		GColor c = view3D.getBackground();
+		GColor c = view3D.getApplyedBackground();
 		float r, g, b;
 		if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES
 				&& !view3D.isPolarized() && !view3D.isStereoBuffered()) { // grayscale for anaglyph glasses

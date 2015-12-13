@@ -939,7 +939,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 						(int) (color.getGreen() * factor),
 						(int) (color.getBlue() * factor),
 						255);
-				super.setBackground(darker);
+				super.setBackground(color, darker);
 				return;
 			}
 		}
