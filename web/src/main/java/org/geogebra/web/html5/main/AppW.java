@@ -721,7 +721,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			// hide navigation bar for construction steps if visible.
 			// (Don't do this for ggt files.)
 			setHideConstructionProtocolNavigation();
-			getKernel().setNotifyViewsActive(false);
+			// getKernel().setNotifyViewsActive(false); TODO would make things a
+			// lot faster, but problems with construction step and AV ordering
 			if (macros != null) {
 				// App.debug("start processing macros: "+System.currentTimeMillis());
 				getXMLio().processXMLString(macros, true, true);
@@ -743,7 +744,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			}
 			setCurrentFile(archiveContent);
 			afterLoadFileAppOrNot();
-			getKernel().setNotifyViewsActive(true);
+			// getKernel().setNotifyViewsActive(true);
 		} else {
 			// on images do nothing here: wait for callback when images loaded.
 			getImageManager().triggerImageLoading(
