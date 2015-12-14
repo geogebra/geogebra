@@ -3480,7 +3480,8 @@ namespace giac {
 	b=vector2vecteur(*b._VECTptr);
       if (b.type==_VECT && b._VECTptr->size()==2)
 	b=b._VECTptr->front()+cst_i*b._VECTptr->back();
-      b=symbolic(at_pnt,gen(makevecteur(gen(makevecteur(0,b),_LINE__VECT),attributs[0]),_PNT__VECT));
+      if (b.type!=_VECT)
+	b=symbolic(at_pnt,gen(makevecteur(gen(makevecteur(0,b),_LINE__VECT),attributs[0]),_PNT__VECT));
     }
     if (s>2){
       b=remove_at_pnt(b);
@@ -3497,7 +3498,7 @@ namespace giac {
       else
 	if (a.type==_VECT)
 	  a.subtype=_POINT__VECT;
-      d=gen(makevecteur(zero,b),_LINE__VECT);
+      d=gen(makevecteur(zero*b,b),_LINE__VECT);
       b=a;
     }
     else {

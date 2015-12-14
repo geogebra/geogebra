@@ -434,8 +434,11 @@ namespace giac {
 #endif
   // minimal numbers of pair to reduce simultaneously with f4buchberger
   //#define GBASIS_F4BUCHBERGER 5
-  #define GBASIS_F4BUCHBERGER 0
+#define GBASIS_F4BUCHBERGER 0
 #define GBASIS_POSTF4BUCHBERGER 0 // 0 means final simplification at the end, 1 at each loop
+
+  // #define GIAC_GBASIS_REDUCTOR_MAXSIZE 10 // max size for keeping a reductor even if it should be removed from gbasis
+  
   // if GIAC_SHORTSHIFTTYPE is defined, sparse matrix is using shift index
   // coded on 2 bytes -> FIXME segfault for cyclic9
 
@@ -549,8 +552,11 @@ namespace giac {
 #endif 
 
   //#define GIAC_HASH
+  #define GIAC_ELIM
   short hash64tab[]={1933,1949,1951,1973,1979,1987,1993,1997,1999,2003,2011,2017,2027,2029,2039,2053,2063,2069,2081,2083,2087,2089,2099,2111,2113,2129,2131,2137,2141,2143,2153,2161,2179,2203,2207,2213,2221,2237,2239,2243,2251,2267,2269,2273,2281,2287,2293,2297,2309,2311,2333,2339,2341,2347,2351,2357,2371,2377,2381,2383,2389,2393,2399,2411};
 
+  // storing indices in reverse order to have tdeg_t_greater access them
+  // in increasing order seems slower (cocoa.cc.64)
   struct tdeg_t64 {
     bool vars64() const {return true;}
     void dbgprint() const;
@@ -563,7 +569,12 @@ namespace giac {
 	short tdeg2;
 	order_t order_;
 	longlong * ui;
+#ifdef GIAC_HASH
 	longlong hash;
+#endif
+#ifdef GIAC_ELIM
+	ulonglong elim; // used for elimination order (modifies revlex/revlex)
+#endif
       };
     };
     //int front() const { if (tdeg % 2) return (*(ui+1)) & 0xffff; else return order_.o==_PLEX_ORDER?tab[0]:tab[1];}
@@ -573,7 +584,12 @@ namespace giac {
 	tdeg2=a.tdeg2;
 	order_=a.order_;
 	ui=a.ui;
+#ifdef GIAC_HASH
 	hash=a.hash;
+#endif
+#ifdef GIAC_ELIM
+	elim=a.elim;
+#endif
 	++(*ui);
       }
       else {
@@ -585,15 +601,39 @@ namespace giac {
 	ptr[3]=aptr[3];
       }
     }
+#ifdef GIAC_ELIM
+    void compute_elim(longlong * ptr,longlong * ptrend){
+      elim=0;
+      if (order_.o==_PLEX_ORDER) // don't use elim for plex
+	return;
+      if (tdeg>31){
+	elim=0x1fffffffffffffffULL;
+	return;
+      }
+      bool tdegcare=false;
+      if (ptr<ptrend-3)
+	ptr=ptrend-3;
+      for (--ptrend;ptr<=ptrend;--ptrend){
+	longlong x=*ptrend;
+	elim <<= 20;
+	elim += (x&0xffff)+(((x>>16)&0xffff)<<5)+(((x>>32)&0xffff)<<10)+(((x>>48)&0xffff)<<15);
+      }
+    }
+#endif
     void compute_degs(){
       if (tab[0]%2){
 	longlong * ptr=ui+1;
-	hash=0;
 	tdeg=0;
 	int firstblock=order_.o;
 	if (firstblock!=_3VAR_ORDER && firstblock<_7VAR_ORDER)
 	  firstblock=order_.dim;
 	longlong * ptrend=ui+1+(firstblock+degratiom1)/degratio;
+#ifdef GIAC_HASH
+	hash=0;
+#endif
+#ifdef GIAC_ELIM
+	compute_elim(ptr,ptrend);
+#endif
 	int i=0;
 	for (;ptr!=ptrend;i+=4,++ptr){
 	  longlong x=*ptr;
@@ -603,9 +643,13 @@ namespace giac {
 	  tdeg += ((x+(x>>16)+(x>>32)+(x>>48))&0xffff);
 #endif
 #ifdef GIAC_HASH
-	  hash += (x&0xffff)*hash64tab[i]+((x>>16)&0xffff)*hash64tab[i+1]+((x>>32)&0xfff)*hash64tab[i+2]+(x>>48)*hash64tab[i+3];
+	  hash += (x&0xffff)*hash64tab[i]+((x>>16)&0xffff)*hash64tab[i+1]+((x>>32)&0xffff)*hash64tab[i+2]+(x>>48)*hash64tab[i+3];
 #endif
 	}
+#ifdef GIAC_ELIM
+	if (tdeg>=16)
+	  elim=0x1fffffffffffffffULL;
+#endif
 	tdeg=2*tdeg+1;
 	tdeg2=0;
 	ptrend=ui+1+(order_.dim+degratiom1)/degratio;
@@ -639,7 +683,12 @@ namespace giac {
 	  tdeg2=a.tdeg2;
 	  order_=a.order_;
 	  ui=a.ui;
+#ifdef GIAC_HASH
 	  hash=a.hash;
+#endif
+#ifdef GIAC_ELIM
+	  elim=a.elim;
+#endif
 	  ++(*ui);
 	  return *this;
 	}
@@ -780,8 +829,16 @@ namespace giac {
 	  tdeg2=0;
 	}
 	order_=order;
-#ifdef GIAC_HASH
+#ifdef GIAC_HASH 
 	compute_degs(); // for hash
+#else
+#ifdef GIAC_ELIM
+	ptr=ui+1;
+	int firstblock=order_.o;
+	if (firstblock!=_3VAR_ORDER && firstblock<_7VAR_ORDER)
+	  firstblock=order_.dim;
+	compute_elim(ptr,ptr+(firstblock+degratiom1)/degratio);
+#endif
 #endif
 	return;
       }
@@ -1087,6 +1144,9 @@ namespace giac {
     if (x.hash!=y.hash) 
       return false;
 #endif
+#ifdef GIAC_ELIM
+    if (x.elim!=y.elim) return false;
+#endif
 #ifdef GIAC_64VARS
     if (
 #ifdef BIGENDIAN
@@ -1374,103 +1434,114 @@ namespace giac {
 #endif
   }
 
+  inline int tdeg_t_greater_dyn(const tdeg_t64 & x,const tdeg_t64 & y,order_t order){
+    const longlong * it1=x.ui,* it2=y.ui,*it1beg;
+    longlong a=0;
+    switch (order.o){
+    case _64VAR_ORDER:
+      a=it1[16]-it2[16];
+      if (a)
+	return a<=0?1:0;
+      a=it1[15]-it2[15];
+      if (a)
+	return a<=0?1:0;
+      a=it1[14]-it2[14];
+      if (a)
+	return a<=0?1:0;
+      a=it1[13]-it2[13];
+      if (a)
+	return a<=0?1:0;
+    case _48VAR_ORDER:
+      a=it1[12]-it2[12];
+      if (a)
+	return a<=0?1:0;
+      a=it1[11]-it2[11];
+      if (a)
+	return a<=0?1:0;
+      a=it1[10]-it2[10];
+      if (a)
+	return a<=0?1:0;
+      a=it1[9]-it2[9];
+      if (a)
+	return a<=0?1:0;
+    case _32VAR_ORDER:
+      a=it1[8]-it2[8];
+      if (a)
+	return a<=0?1:0;
+      a=it1[7]-it2[7];
+      if (a)
+	return a<=0?1:0;
+      a=it1[6]-it2[6];
+      if (a)
+	return a<=0?1:0;
+      a=it1[5]-it2[5];
+      if (a)
+	return a<=0?1:0;
+    case _16VAR_ORDER:
+      a=it1[4]-it2[4];
+      if (a)
+	return a<=0?1:0;
+    case _11VAR_ORDER:
+      a=it1[3]-it2[3];
+      if (a)
+	return a<=0?1:0;
+    case _7VAR_ORDER:
+      a=it1[2]-it2[2];
+      if (a)
+	return a<=0?1:0;
+    case _3VAR_ORDER: 
+      a=it1[1]-it2[1];
+      if (a)
+	return a<=0?1:0;
+      if (x.tdeg2!=y.tdeg2)
+	return x.tdeg2>y.tdeg2?1:0;
+      it1beg=it1+(x.order_.o+degratiom1)/degratio;
+      it1 += (x.order_.dim+degratiom1)/degratio;;
+      it2 += (x.order_.dim+degratiom1)/degratio;;
+      for (;;){
+	a=*it1-*it2;
+	if (a)
+	  return a<=0?1:0;
+	--it2;--it1;
+	if (it1<=it1beg)
+	  return 2;
+      }
+    case _REVLEX_ORDER:
+      it1beg=x.ui;
+      it1=x.ui+(x.order_.dim+degratiom1)/degratio;
+      it2=y.ui+(y.order_.dim+degratiom1)/degratio;
+#if 0 // def GIAC_ELIM
+      --it1; --it2; // first test already done with elim field
+#endif
+      for (;it1!=it1beg;--it2,--it1){
+	a=*it1-*it2;
+	if (a)
+	  return a<=0?1:0;
+      }
+      return 2;
+    case _TDEG_ORDER: case _PLEX_ORDER: {
+      const degtype * it1=(degtype *)(x.ui+1),*it1end=it1+x.order_.dim,*it2=(degtype *)(y.ui+1);
+      for (;it1!=it1end;++it2,++it1){
+	if (*it1!=*it2)
+	  return *it1>=*it2?1:0;
+      }
+      return 2;
+    }
+    } // end swicth
+    return -1;
+  }
+
   inline int tdeg_t_greater(const tdeg_t64 & x,const tdeg_t64 & y,order_t order){
     short X=x.tab[0];
     if (X!=y.tab[0]) return X>y.tab[0]?1:0; // since tdeg is tab[0] for plex
 #ifdef GIAC_64VARS
     if (X%2){
+#ifdef GIAC_ELIM
+      if ( x.elim!=y.elim) return x.elim<y.elim?1:0;
+#endif
       //if (x.ui==y.ui) return 2;
 #if 1 && !defined BIGENDIAN && !defined GIAC_CHARDEGTYPE
-      longlong a=0;
-      const longlong * it1=x.ui,* it2=y.ui,*it1beg;
-      switch (order.o){
-      case _64VAR_ORDER:
-	a=it1[16]-it2[16];
-	if (a)
-	  return a<=0?1:0;
-	a=it1[15]-it2[15];
-	if (a)
-	  return a<=0?1:0;
-	a=it1[14]-it2[14];
-	if (a)
-	  return a<=0?1:0;
-	a=it1[13]-it2[13];
-	if (a)
-	  return a<=0?1:0;
-      case _48VAR_ORDER:
-	a=it1[12]-it2[12];
-	if (a)
-	  return a<=0?1:0;
-	a=it1[11]-it2[11];
-	if (a)
-	  return a<=0?1:0;
-	a=it1[10]-it2[10];
-	if (a)
-	  return a<=0?1:0;
-	a=it1[9]-it2[9];
-	if (a)
-	  return a<=0?1:0;
-      case _32VAR_ORDER:
-	a=it1[8]-it2[8];
-	if (a)
-	  return a<=0?1:0;
-	a=it1[7]-it2[7];
-	if (a)
-	  return a<=0?1:0;
-	a=it1[6]-it2[6];
-	if (a)
-	  return a<=0?1:0;
-	a=it1[5]-it2[5];
-	if (a)
-	  return a<=0?1:0;
-      case _16VAR_ORDER:
-	a=it1[4]-it2[4];
-	if (a)
-	  return a<=0?1:0;
-      case _11VAR_ORDER:
-	a=it1[3]-it2[3];
-	if (a)
-	  return a<=0?1:0;
-      case _7VAR_ORDER:
-	a=it1[2]-it2[2];
-	if (a)
-	  return a<=0?1:0;
-      case _3VAR_ORDER: 
-	a=it1[1]-it2[1];
-	if (a)
-	  return a<=0?1:0;
-	if (x.tdeg2!=y.tdeg2)
-	  return x.tdeg2>y.tdeg2?1:0;
-	it1beg=it1+(x.order_.o+degratiom1)/degratio;
-	it1 += (x.order_.dim+degratiom1)/degratio;;
-	it2 += (x.order_.dim+degratiom1)/degratio;;
-	for (;;){
-	  a=*it1-*it2;
-	  if (a)
-	    return a<=0?1:0;
-	  --it2;--it1;
-	  if (it1<=it1beg)
-	    return 2;
-	}
-      case _REVLEX_ORDER:
-	it1beg=x.ui;
-	it1=x.ui+(x.order_.dim+degratiom1)/degratio;
-	it2=y.ui+(y.order_.dim+degratiom1)/degratio;
-	for (;it1!=it1beg;--it2,--it1){
-	  a=*it1-*it2;
-	  if (a)
-	    return a<=0?1:0;
-	}
-	return 2;
-      case _TDEG_ORDER: case _PLEX_ORDER: {
-	const degtype * it1=(degtype *)(x.ui+1),*it1end=it1+x.order_.dim,*it2=(degtype *)(y.ui+1);
-	for (;it1!=it1end;++it2,++it1){
-	  if (*it1!=*it2)
-	    return *it1>=*it2?1:0;
-	}
-	return 2;
-      }
-      } // end swicth
+      return tdeg_t_greater_dyn(x,y,order);
 #else // BIGENDIAN, GIAC_CHARDEGTYPE
       if (order.o>=_7VAR_ORDER || order.o==_3VAR_ORDER){
 #ifdef GIAC_GBASISLEX 
@@ -1592,6 +1663,14 @@ namespace giac {
       return false;
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
+#ifdef GIAC_ELIM
+      //bool debug=false;
+      if ( !( (x.elim | y.elim) & 0x1000000000000000ULL) &&
+	   ( (x.elim-y.elim) & 0b1111100001000010000100001000010000100001000010000100001000010000ULL) ){
+	//debug=true;
+	return false;
+      }
+#endif
 #ifdef GIAC_DEBUG_TDEG_T64
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
@@ -1632,6 +1711,7 @@ namespace giac {
 #endif
       }
 #endif
+      // if (debug) CERR << x << " " << y << endl << x.elim << " " << y.elim << " " << x.tdeg << " " << y.tdeg << endl;
       return true;
     }
 #endif
@@ -9854,14 +9934,15 @@ namespace giac {
   struct zpolymod {
     order_t order;
     short int dim;
-    short int age;
+    bool in_gbasis; // set to false in zgbasis_updatemod for "small" reductors that we still want to use for reduction
+    short int age:15;
     vector<zmodint> coord;
     const vector<tdeg_t> * expo;
     tdeg_t ldeg;
-    zpolymod():dim(0),expo(0),ldeg(),age(0) {order.o=0; order.lex=0; order.dim=0;}
-    zpolymod(order_t o,int d): dim(d),expo(0),ldeg(),age(0) {order=o; order.dim=d;}
-    zpolymod(order_t o,int d,const tdeg_t & l): dim(d),expo(0),ldeg(l),age(0) {order=o; order.dim=d;}
-    zpolymod(order_t o,int d,const vector<tdeg_t> * e,const tdeg_t & l): dim(d),expo(e),ldeg(l),age(0) {order=o; order.dim=d;}
+    zpolymod():in_gbasis(true),dim(0),expo(0),ldeg(),age(0) {order.o=0; order.lex=0; order.dim=0;}
+    zpolymod(order_t o,int d): in_gbasis(true),dim(d),expo(0),ldeg(),age(0) {order=o; order.dim=d;}
+    zpolymod(order_t o,int d,const tdeg_t & l): in_gbasis(true),dim(d),expo(0),ldeg(l),age(0) {order=o; order.dim=d;}
+    zpolymod(order_t o,int d,const vector<tdeg_t> * e,const tdeg_t & l): in_gbasis(true),dim(d),expo(e),ldeg(l),age(0) {order=o; order.dim=d;}
     void dbgprint() const;
   };
 
@@ -10347,6 +10428,58 @@ namespace giac {
     }
   }
 
+  template<>
+  bool dicho(std::vector<tdeg_t64>::const_iterator & jt,std::vector<tdeg_t64>::const_iterator jtend,const tdeg_t64 & u,order_t order){
+    if (*jt==u) return true;
+    if (jtend-jt<=6){ ++jt; return false; }// == test faster
+#ifdef GIAC_ELIM
+    if (u.tab[0]%2){
+      int utdeg=u.tab[0];
+      ulonglong uelim=u.elim;
+      for (;;){
+	int step=(jtend-jt)/2;
+	std::vector<tdeg_t64>::const_iterator j=jt+step;
+	if (j==jt)
+	  return *j==u;
+	if (j->tab[0]!=utdeg){
+	  if (j->tdeg>utdeg)
+	    jt=j;
+	  else
+	    jtend=j;
+	  continue;
+	}
+	if (j->elim!=uelim){
+	  if (j->elim<uelim)
+	    jt=j;
+	  else
+	    jtend=j;
+	  continue;
+	}
+	if (int res=tdeg_t_greater_dyn(*j,u,order)){
+	  jt=j;
+	  if (res==2)
+	    return true;
+	}
+	else
+	  jtend=j;
+      }
+    }
+#endif
+    for (;;){
+      int step=(jtend-jt)/2;
+      std::vector<tdeg_t64>::const_iterator j=jt+step;
+      if (j==jt)
+	return *j==u;
+      if (int res=tdeg_t_greater(*j,u,order)){
+	jt=j;
+	if (res==2)
+	  return true;
+      }
+      else
+	jtend=j;
+    }
+  }
+
   template<class tdeg_t>
   void zmakelinesplit(const zpolymod<tdeg_t> & p,const tdeg_t * shiftptr,const vector<tdeg_t> & R,vector<shifttype> & v,vector<shifttype> * prevline,int start=0){
     std::vector<zmodint>::const_iterator it=p.coord.begin()+start,itend=p.coord.end();
@@ -10625,7 +10758,7 @@ namespace giac {
     }
   }
 
-  void zsub(vector<modint2> & v64,const vector<modint> & subcoeff,const vector<shifttype> & subindex,modint env){
+  void zsub(vector<modint2> & v64,const vector<modint> & subcoeff,const vector<shifttype> & subindex){
     if (subcoeff.empty()) return;
     vector<modint2>::iterator wt=v64.begin();
     const modint * jt=&subcoeff.front(),*jtend=jt+subcoeff.size(),*jt_=jtend-8;
@@ -10655,6 +10788,72 @@ namespace giac {
 #endif // def GIAC_SHORTSHIFTTYPE
   }
     
+
+  void zadd(vector<modint2> & v64,const vector<modint> & subcoeff,const vector<shifttype> & subindex){
+    if (subcoeff.empty()) return;
+    vector<modint2>::iterator wt=v64.begin();
+    const modint * jt=&subcoeff.front(),*jtend=jt+subcoeff.size();
+    const shifttype * it=&subindex.front();
+    // first shift
+    unsigned pos=0; next_index(pos,it); wt += pos;
+    *wt += (*jt); ++jt;
+    bool shortshifts=v64.size()<0xffff?true:checkshortshifts(subindex);
+#ifdef GIAC_SHORTSHIFTTYPE
+    if (shortshifts){
+      for (;jt!=jtend;++jt){
+	wt += *it; ++it;
+	*wt += (*jt);
+      }
+    }
+    else {
+      for (;jt!=jtend;++jt){
+	next_index(wt,it);
+	*wt += (*jt);
+      }
+    }
+#else // def GIAC_SHORTSHIFTTYPE
+    for (;jt!=jtend;++jt){
+      v64[*it] += (*jt);
+      ++it; ++jt;
+    }
+#endif // def GIAC_SHORTSHIFTTYPE
+  }
+
+  inline modint makepositive(modint a,modint n){
+    return a<0?a+n:a;
+  }
+
+  template<class tdeg_t>
+  void zadd(vector<modint2> & v64,const zpolymod<tdeg_t> & subcoeff,const vector<shifttype> & subindex,int start,modint env){
+    if (subcoeff.coord.size()<=start) return;
+    vector<modint2>::iterator wt=v64.begin();
+    const zmodint * jt=&subcoeff.coord.front(),*jtend=jt+subcoeff.coord.size();
+    jt += start;
+    const shifttype * it=&subindex.front();
+    // first shift
+    unsigned pos=0; next_index(pos,it); wt += pos;
+    *wt = makepositive(jt->g,env); ++jt;
+    bool shortshifts=v64.size()<0xffff?true:checkshortshifts(subindex);
+#ifdef GIAC_SHORTSHIFTTYPE
+    if (shortshifts){
+      for (;jt!=jtend;++jt){
+	wt += *it; ++it;
+	*wt = makepositive(jt->g,env);
+      }
+    }
+    else {
+      for (;jt!=jtend;++jt){
+	next_index(wt,it);
+	*wt = makepositive(jt->g,env);
+      }
+    }
+#else // def GIAC_SHORTSHIFTTYPE
+    for (;jt!=jtend;++jt){
+      v64[*it] = makepositive(jt->g,env);
+      ++it; ++jt;
+    }
+#endif // def GIAC_SHORTSHIFTTYPE
+  }    
 
 #if 0
   template<class tdeg_t>
@@ -10765,6 +10964,7 @@ namespace giac {
     const vector<vector<unsigned short> > * Mindexptr;
     const vector< vector<modint> > * Mcoeffptr;
     const vector<coeffindex_t> * coeffindexptr;
+    const vector< vector<shifttype> > * indexesptr;
     vector<used_t> * usedptr;
     unsigned * bitmap;
     bool displayinfo;
@@ -10786,6 +10986,7 @@ namespace giac {
     const vector<vector<unsigned short> > &Mindex = *ptr->Mindexptr;
     const vector< vector<modint> > &Mcoeff = *ptr->Mcoeffptr;
     const vector<coeffindex_t> &coeffindex = *ptr->coeffindexptr;
+    const vector< vector<shifttype> > & indexes=*ptr->indexesptr;
     vector<used_t> & used = *ptr->usedptr;
     bool displayinfo=ptr->displayinfo;
     unsigned * bitmap=ptr->bitmap+debut*((N>>5)+1);
@@ -10810,7 +11011,7 @@ namespace giac {
 	  zmakelinesplit<tdeg_t>(res[bk.second],&rightshift[permuB[i]],R,subindex,0,1);
 	}
 	zmakeline(res[bk.first],&leftshift[permuB[i]],R,v64,1);
-	zsub(v64,subcoeff,subindex,env);
+	zsub(v64,subcoeff,subindex);
 #else
 #if 0
       if (bk.second!=bk_prev || !rightshift_prev || *rightshift_prev!=rightshift[permuB[i]] ){
@@ -11051,12 +11252,14 @@ namespace giac {
     unsigned * bitmap=&lebitmap.front();
     bool Kdone=false;
     int th=giacmin(threads,64)-1;
-    vector<modint> subcoeff;
-    vector<shifttype> subindex;
+    vector<modint> subcoeff1,subcoeff2;
+    vector< vector<shifttype> > indexes(2*Bs);
 #ifdef HAVE_LIBPTHREAD
     if (Bs>=256 && threads_allowed && threads>1 && (learning || !pairs_reducing_to_zero) ){
       // prepare memory
-      for (unsigned i=0;i<unsigned(K.size());++i){
+      for (unsigned i=0;i<Bs;++i){
+	//indexes[i].reserve(res[B[permuB[i]].first].coord.size());
+	//indexes[Bs+i].reserve(res[B[permuB[i]].second].coord.size());
 	K[i].reserve(Kcols);
       }
       pthread_t tab[64];
@@ -11064,7 +11267,7 @@ namespace giac {
       int colonnes=N,debut=0,step=Bs/(th+1)+1,fin;
       for (int j=0;j<=th;debut+=step,++j){
 	fin=giacmin(debut+step,Bs);
-	thread_buchberger_t<tdeg_t> tmp={&res,&K,&B,&permuB,&leftshift,&rightshift,&R,env,debut,fin,N,Kcols,&firstpos,&Mindex,&Mcoeff,&coeffindex,&used,bitmap,j==th && debug_infolevel>1};
+	thread_buchberger_t<tdeg_t> tmp={&res,&K,&B,&permuB,&leftshift,&rightshift,&R,env,debut,fin,N,Kcols,&firstpos,&Mindex,&Mcoeff,&coeffindex,&indexes,&used,bitmap,j==th && debug_infolevel>1};
 	buchberger_param[j]=tmp;
 	bool res=true;
 	// CERR << "write " << j << " " << p << endl;
@@ -11086,10 +11289,28 @@ namespace giac {
     }
 #endif
     if (!Kdone){
-      vector<modint> Ki; Ki.reserve(Kcols);
       unsigned bk_prev=-1;
-      vector<modint2> v64_prev(N);
       tdeg_t * rightshift_prev=0;
+      int pos=learned_position;
+      for (i=0;i<Bs;i++){
+	paire bk=B[permuB[i]];
+	if (!learning && pairs_reducing_to_zero && pos<pairs_reducing_to_zero->size() && bk==(*pairs_reducing_to_zero)[pos]){
+	  ++pos;	
+	  continue;
+	}
+	indexes[i].reserve(res[bk.first].coord.size());
+	zmakelinesplit(res[bk.first],&leftshift[permuB[i]],R,indexes[i],0,1);
+	if (bk_prev!=bk.second || !rightshift_prev || *rightshift_prev!=rightshift[permuB[i]]){
+	  indexes[Bs+i].reserve(res[bk.second].coord.size());
+	  zmakelinesplit(res[bk.second],&rightshift[permuB[i]],R,indexes[Bs+i],0,1);
+	  bk_prev=bk.second;
+	  rightshift_prev=&rightshift[permuB[i]];
+	}
+      }
+      bk_prev=-1; rightshift_prev=0;
+      vector<modint> Ki; Ki.reserve(Kcols);
+      vector<modint2> v64_prev(N);
+      int effi=-1;
       for (i=0;i<Bs;++i){
 	if (interrupted || ctrl_c)
 	  return -1;
@@ -11110,43 +11331,19 @@ namespace giac {
 	// zmakelinesub(res[bk.first],&leftshift[i],res[bk.second],&rightshift[i],R,v,1,env);
 	// CERR << bk.first << " " << leftshift[i] << endl;
 	// v64.assign(N,0); // + reset v64 to 0, already done by zconvert_
-#ifndef GIAC_GBASIS_DELAYPAIRS
-	if (bk.second!=bk_prev || !rightshift_prev ||
-	    *rightshift_prev!=rightshift[permuB[i]]){
-	  subcoeff.clear(); subindex.clear();
-	  zcopycoeff(res[bk.second],subcoeff,1);
-	  zmakelinesplit<tdeg_t>(res[bk.second],&rightshift[permuB[i]],R,subindex,0,1);
-	}
-	zmakeline(res[bk.first],&leftshift[permuB[i]],R,v64,1);
-	zsub(v64,subcoeff,subindex,env);
-#else
-#if 1
-	zmakeline(res[bk.first],&leftshift[permuB[i]],R,v64,1);
-	// CERR << bk.second << " " << rightshift[i] << endl;
-	zmakelinesub(res[bk.second],&rightshift[permuB[i]],R,v64,1,env);
-#else // pairs with same lcm do not necessarily cancel according to Gebauer-Moller rules
-	if (bk.second!=bk_prev || !rightshift_prev ||
-	    //*rightshift_prev!=rightshift[permuB[i]]
-	    !tdeg_t_all_greater(rightshift[permuB[i]],*rightshift_prev,order)
-	    ){
-	  // 
-	  // CERR << bk.second << " " << rightshift[i] << endl;
-	  zmakeline(res[bk.second],&rightshift[permuB[i]],R,v64,1);
-	  //colonnes=giacmin(colonnes,reducef4buchbergersplit(v64,Mindex,firstpos,Mcoeff,coeffindex,Ki,0,used,env));
+	if (bk.second!=bk_prev || !rightshift_prev || *rightshift_prev!=rightshift[permuB[i]]){
+	  subcoeff2.clear();
+	  zcopycoeff(res[bk.second],subcoeff2,1);
 	  bk_prev=bk.second;
-	  rightshift_prev=&rightshift[permuB[i]];
-	  // if (i+1<Bs && bk_prev==B[permuB[i+1]].second && *rightshift_prev==rightshift[permuB[i+1]]) copy(v64.begin(),v64.end(),v64_prev.begin());
+	  rightshift_prev=&rightshift[permuB[i]];	  
 	}
-	else {
-	  unsigned tofill=(N>>5)+1;
-	  fill(bitmap,bitmap+tofill,0);
-	  bitmap += tofill;
-	  continue;
-	  copy(v64_prev.begin(),v64_prev.end(),v64.begin());
-	}
-	zmakelinesub(res[bk.first],&leftshift[permuB[i]],R,v64,1,env);
-#endif
-#endif // GIAC_GBASIS_DELAYPAIRS
+	subcoeff1.clear();
+	// zcopycoeff(res[bk.first],subcoeff1,1);zadd(v64,subcoeff1,indexes[i]);
+	zadd(v64,res[bk.first],indexes[i],1,env);
+	effi=Bs+i;
+	while (indexes[effi].empty() && effi)
+	  --effi;
+	zsub(v64,subcoeff2,indexes[effi]);
 	Ki.clear();
 	colonnes=giacmin(colonnes,reducef4buchbergersplit(v64,Mindex,firstpos,Mcoeff,coeffindex,Ki,bitmap,used,env));
 	bitmap += (N>>5)+1;
@@ -11337,7 +11534,16 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     unsigned tmpsize = unsigned(G.size());
     vector<tdeg_t> tmp(tmpsize);
     for (unsigned i=0;i<tmpsize;++i){
-      index_lcm(h0,res[G[i]].ldeg,tmp[i],order); 
+      if (
+#ifdef GIAC_GBASIS_REDUCTOR_MAXSIZE
+	  res[G[i]].in_gbasis
+#else
+	  1
+#endif
+	  )
+	index_lcm(h0,res[G[i]].ldeg,tmp[i],order);
+      else
+	tmp[i].tab[0]=-1;
     }
 #else
     // this would be faster but it does not work for 
@@ -11353,6 +11559,10 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     for (unsigned i=0;i<G.size();++i){
 #ifdef TIMEOUT
       control_c();
+#endif
+#ifdef GIAC_GBASIS_REDUCTOR_MAXSIZE
+      if (!res[G[i]].in_gbasis)
+	continue;
 #endif
       if (interrupted || ctrl_c)
 	return;
@@ -11485,9 +11695,20 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #endif
       if (interrupted || ctrl_c)
 	return;
+#ifdef GIAC_GBASIS_REDUCTOR_MAXSIZE
+      if (!res[G[i]].in_gbasis)
+	continue;
+#endif
       if (!res[G[i]].coord.empty() && !tdeg_t_all_greater(res[G[i]].ldeg,h0,order)){
 	C.push_back(G[i]);
+	continue;
       }
+#ifdef GIAC_GBASIS_REDUCTOR_MAXSIZE
+      if (res[G[i]].coord.size()<=GIAC_GBASIS_REDUCTOR_MAXSIZE){
+	res[G[i]].in_gbasis=false;
+	C.push_back(G[i]);
+      }
+#endif
       // NB: removing all pairs containing i in it does not work
     }
     if (debug_infolevel>2)
@@ -11798,6 +12019,15 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       // CERR << "finish loop G.size "<<G.size() << endl;
       // CERR << added << endl;
     } // end main loop
+#ifdef GIAC_GBASIS_REDUCTOR_MAXSIZE
+    // remove small size reductors that were kept despite not being in gbasis
+    vector<unsigned> G1;
+    for (unsigned i=0;i<G.size();++i){
+      if (res[G[i]].in_gbasis)
+	G1.push_back(G[i]);
+    }
+    G.swap(G1);
+#endif
     // convert back zpolymod<tdeg_t> to polymod<tdeg_t>
     // if eliminate_flag is true, keep only basis element that do not depend
     // on variables to eliminate
@@ -13252,11 +13482,19 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 
   static inline int tdeg_t14_revlex_greater (const tdeg_t14 & x,const tdeg_t14 & y){
 #ifdef GBASIS_SWAP
+#if 0
+    longlong *xtab=(longlong *)&x,*ytab=(longlong *)&y;
+    if (longlong a=*xtab-*ytab) // tdeg test already donne by caller
+      return a<=0?1:0;
+    if (longlong a=xtab[1]-ytab[1])
+      return a<=0?1:0;
+#else
     ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
     if (xtab[0]!=ytab[0]) // tdeg test already donne by caller
       return xtab[0]<=ytab[0]?1:0;
     if (xtab[1]!=ytab[1])
       return xtab[1]<=ytab[1]?1:0;
+#endif
     return 2;
 #else // GBASIS_SWAP
     if (((longlong *) x.tab)[0] != ((longlong *) y.tab)[0]){
@@ -13363,7 +13601,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
   uint128_t mask4=(((uint128_t) mask2)<<64)|mask2;
 #endif
   
-  bool tdeg_t_all_greater(const tdeg_t14 & x,const tdeg_t14 & y,order_t order){
+  inline bool tdeg_t_all_greater(const tdeg_t14 & x,const tdeg_t14 & y,order_t order){
 #ifdef INT128
     return !((* (const uint128_t *) &x - * (const uint128_t *) &y) & mask4);
 #else
@@ -13605,6 +13843,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 
   static inline int tdeg_t11_revlex_greater (const tdeg_t11 & x,const tdeg_t11 & y){
 #ifdef GBASIS_SWAP
+#if 1
     ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
     if (xtab[0]!=ytab[0]) // tdeg test already donne by caller
       return xtab[0]<=ytab[0]?1:0;
@@ -13612,6 +13851,15 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       return xtab[1]<=ytab[1]?1:0;
     if (xtab[2]!=ytab[2])
       return xtab[2]<=ytab[2]?1:0;
+#else
+    longlong *xtab=(longlong *)&x,*ytab=(longlong *)&y;
+    if (longlong a=*xtab-*ytab) // tdeg test already donne by caller
+      return a<=0?1:0;
+    if (longlong a=xtab[1]-ytab[1])
+      return a<=0?1:0;
+    if (longlong a=xtab[2]-ytab[2])
+      return a<=0?1:0;
+#endif
     return 2;
 #else // GBASIS_SWAP
     if (((longlong *) x.tab)[0] != ((longlong *) y.tab)[0]){
@@ -13702,7 +13950,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     return !tdeg_t_greater(y,x,order); // total order
   }
 
-  bool tdeg_t_all_greater(const tdeg_t11 & x,const tdeg_t11 & y,order_t order){
+  inline bool tdeg_t_all_greater(const tdeg_t11 & x,const tdeg_t11 & y,order_t order){
     ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
     if ((xtab[0]-ytab[0]) & 0x8000800080008000ULL)
       return false;
@@ -14059,6 +14307,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 
   static inline int tdeg_t15_revlex_greater (const tdeg_t15 & x,const tdeg_t15 & y){
 #ifdef GBASIS_SWAP
+#if 1
     ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
     if (xtab[0]!=ytab[0]) // tdeg test already donne by caller
       return xtab[0]<=ytab[0]?1:0;
@@ -14066,6 +14315,15 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       return xtab[1]<=ytab[1]?1:0;
     if (xtab[2]!=ytab[2])
       return xtab[2]<=ytab[2]?1:0;
+#else
+    longlong *xtab=(longlong *)&x,*ytab=(longlong *)&y;
+    if (longlong a=*xtab-*ytab) // tdeg test already donne by caller
+      return a<=0?1:0;
+    if (longlong a=xtab[1]-ytab[1])
+      return a<=0?1:0;
+    if (longlong a=xtab[2]-ytab[2])
+      return a<=0?1:0;
+#endif
 #if GROEBNER_VARS>11
     return xtab[3]<=ytab[3]?1:0;
 #endif

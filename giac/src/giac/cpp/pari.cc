@@ -496,7 +496,7 @@ namespace giac {
       prec=mpfr_get_prec(e._REALptr->inf);
 #endif
     const char * s=e.print(contextptr).c_str();
-    GEN g=strtor(s,prec);
+    GEN g=strtor((char *)s,prec);
     if (neg)
       g=gneg(g);
     if (debug_infolevel)

@@ -2366,7 +2366,16 @@ namespace giac {
       int vs=int(v.size());
       if ( (vs==2 || vs==3) && args.subtype==_SEQ__VECT && args[1].type==_VECT && !ckmatrix(args) && !ckmatrix(args._VECTptr->back())){
 	// simplify with side relations
+#ifdef NO_STDEXCEPT
 	return _greduce(args,contextptr);
+#else
+	try {
+	  return _greduce(args,contextptr);
+	}
+	catch(std::runtime_error & e){ 
+	  *logptr(contextptr) << e.what() << endl;
+	}
+#endif
       }
       return apply(args,_simplify,contextptr);
     }
