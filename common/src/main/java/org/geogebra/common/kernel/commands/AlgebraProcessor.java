@@ -2414,7 +2414,6 @@ public class AlgebraProcessor {
 		if (eval.isGeoElement() && n.getLabel() == null
 				&& !myNode.getOperation().equals(Operation.ELEMENT_OF)
 				&& !myNode.getOperation().equals(Operation.IF_ELSE)) {
-			Log.debug(n);
 			// take care of spreadsheet $ names: don't loose the wrapper
 			// ExpressionNode here
 			// check if we have a Variable
