@@ -223,7 +223,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 *            type
 	 */
 	public void setInput3DType(String type) {
-		ggbPrefs.put(GeoGebraPreferencesD.INPUT_3D, type);
+		getPref().savePreference(GeoGebraPreferencesD.INPUT_3D, type);
 	}
 
 	/**
@@ -231,7 +231,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 * @return 3D input type currently used, "none" if none
 	 */
 	public String getInput3DType() {
-		return ggbPrefs.get(GeoGebraPreferencesD.INPUT_3D,
+		return getPref().loadPreference(GeoGebraPreferencesD.INPUT_3D,
 				Input3DFactory.PREFS_NONE);
 	}
 
