@@ -2595,10 +2595,11 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			MyStringBuffer val = ((TextValue) evaluate).getText();
-			ret[0] = Text(label,
-					val.toValueString(StringTemplate.defaultTemplate));
-		} else
-			ret[0] = DependentText(label, n);
+			ret[0] = Text(val.toValueString(StringTemplate.defaultTemplate));
+		} else {
+			ret[0] = DependentText(n);
+		}
+		ret[0].setLabel(label);
 		return ret;
 	}
 
@@ -2606,23 +2607,20 @@ public class AlgebraProcessor {
 	 * Text dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees. e.g. text = "Radius: " + r
 	 */
-	final private GeoText DependentText(String label, ExpressionNode root) {
-		AlgoDependentText algo = new AlgoDependentText(cons, label, root);
+	final private GeoText DependentText(ExpressionNode root) {
+		AlgoDependentText algo = new AlgoDependentText(cons, root, true);
 		GeoText t = algo.getGeoText();
 		return t;
 	}
 
 	/**
-	 * @param label
-	 *            label for result
 	 * @param text
 	 *            content of the text
 	 * @return resulting text
 	 */
-	final public GeoText Text(String label, String text) {
+	final public GeoText Text(String text) {
 		GeoText t = new GeoText(cons);
 		t.setTextString(text);
-		t.setLabel(label);
 		return t;
 	}
 

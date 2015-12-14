@@ -39,39 +39,19 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for result
 	 * @param root
 	 *            root element
 	 */
-	public AlgoDependentText(Construction cons, String label,
-			ExpressionNode root) {
+	public AlgoDependentText(Construction cons, ExpressionNode root,
+			boolean mayBeSpreadsheetTraceable) {
 		super(cons);
 
 		text = new GeoText(cons);
 		text.setDefinition(root);
 		setInputOutput(); // for AlgoElement
-
-		text.initSpreadsheetTraceableCase();
-
-		// compute value of dependent number
-		compute();
-		text.setLabel(label);
-	}
-
-	/**
-	 * @param cons
-	 *            construction
-	 * @param root
-	 *            root element
-	 */
-	public AlgoDependentText(Construction cons, ExpressionNode root) {
-		super(cons);
-
-		text = new GeoText(cons);
-		text.setDefinition(root);
-		setInputOutput(); // for AlgoElement
-
+		if (mayBeSpreadsheetTraceable) {
+			text.initSpreadsheetTraceableCase();
+		}
 		// compute value of dependent number
 		compute();
 	}

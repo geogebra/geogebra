@@ -7678,7 +7678,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			ret = new GeoText(cons);
 			AlgoDependentText.nodeToGeoText(node, ret, ret.getStringTemplate());
 		}else{	
-			AlgoDependentText algo = new AlgoDependentText(cons, node);
+			AlgoDependentText algo = new AlgoDependentText(cons, node, false);
 			algo.setProtectedInput(true);
 			ret = algo.getGeoText();
 		}

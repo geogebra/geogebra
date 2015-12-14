@@ -224,7 +224,7 @@ public abstract class TextPreviewer {
 			}
 
 			// create new previewGeoDependent
-			textAlgo = new AlgoDependentText(cons, (ExpressionNode) exp);
+			textAlgo = new AlgoDependentText(cons, (ExpressionNode) exp, false);
 			cons.removeFromConstructionList(textAlgo);
 			previewGeoDependent = textAlgo.getGeoText();
 			previewGeoDependent.addView(ev.getViewID());
