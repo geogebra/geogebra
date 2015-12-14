@@ -35,14 +35,12 @@ public interface GeoGebraConstants {
 	public static final String XML_FILE_FORMAT = "5.0";
 
 	// This is used for checking if a minor update exists (on each run):
-	// was http://www.geogebra.org/download/version50.txt which redirects
-	// don't use this, doesn't work:
-	// https://www.geogebra.org/download/version50.txt
-	public static final String VERSION_URL_MINOR = "https://download.geogebra.org/installers/5.0/version.txt";
+	// DON'T change to https (causes problems)
+	public static final String VERSION_URL_MINOR = "http://www.geogebra.org/download/version50.txt";
 
 	// This is used for checking whether a major update exists (monthly):
-	// was http://www.geogebra.org/download/version.txt which redirects
-	public static final String VERSION_URL = "https://download.geogebra.org/installers/version.txt";
+	// DON'T change to https (causes problems)
+	public static final String VERSION_URL = "http://www.geogebra.org/download/version.txt";
 
 	public static final String INSTALLERS_URL = "https://www.geogebra.org/installers";
 
