@@ -12,6 +12,7 @@ import java.util.Vector;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Construction;
@@ -1591,8 +1592,14 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					// newly created GeoElement is undefined, we can set our twin geo undefined
 					twinGeo.setUndefined();
 				} else {
+					// needed for GGB-362
+					if (twinGeo instanceof GeoSurfaceCartesian3D
+							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesian3D) {
+						twinGeo.set(lastOutputEvaluationGeo);
+					} else {
 					twinGeo = lastOutputEvaluationGeo;
 					cons.replace(twinGeo, lastOutputEvaluationGeo);
+					}
 				}
 				if(outputVE.unwrap() instanceof GeoElement && ((GeoElement)outputVE.unwrap()).getDrawAlgorithm() instanceof DrawInformationAlgo){
 					twinGeo.setDrawAlgorithm((DrawInformationAlgo) ((GeoElement)outputVE.unwrap()).getDrawAlgorithm());
