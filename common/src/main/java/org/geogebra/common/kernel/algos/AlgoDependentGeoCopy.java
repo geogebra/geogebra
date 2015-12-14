@@ -92,6 +92,9 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		return copyGeo;
 	}
 
+	/**
+	 * @return input geo
+	 */
 	public GeoElement getOrigGeo() {
 		return origGeo;
 	}
@@ -121,6 +124,10 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		// we use the expression as it may add $ signs
 		// to the label like $A$1
 		return origGeoNode.toString(tpl);
+	}
+
+	public ExpressionNode getExpression() {
+		return origGeoNode;
 	}
 
 	// TODO Consider locusequability

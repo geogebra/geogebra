@@ -2437,7 +2437,7 @@ public class AlgebraProcessor {
 		if (eval instanceof BooleanValue)
 			return processBoolean(n, eval);
 		else if (eval instanceof NumberValue)
-			return processNumber(n, eval);
+			return processNumber(n, eval, true);
 		else if (eval instanceof VectorValue)
 			return processPointVector(n, eval);
 		else if (eval instanceof Vector3DValue)
@@ -2484,10 +2484,11 @@ public class AlgebraProcessor {
 		return null;
 	}
 
-	private GeoElement[] processNumber(ExpressionNode n,
-			ExpressionValue evaluate) {
+	GeoElement[] processNumber(ExpressionNode n,
+ ExpressionValue evaluate,
+			boolean needsLabel) {
 		GeoElement[] ret = new GeoElement[1];
-		String label = n.getLabel();
+
 		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 		MyDouble val = ((NumberValue) evaluate).getNumber();
 		boolean isAngle = val.isAngle();
@@ -2508,7 +2509,10 @@ public class AlgebraProcessor {
 		if (n.isForcedFunction()) {
 			ret[0] = ((GeoFunctionable) (ret[0])).getGeoFunction();
 		}
-		ret[0].setLabel(label);
+		if (needsLabel) {
+			String label = n.getLabel();
+			ret[0].setLabel(label);
+		}
 		return ret;
 	}
 

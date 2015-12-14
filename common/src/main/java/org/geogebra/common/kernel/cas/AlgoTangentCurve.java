@@ -87,7 +87,7 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 			AlgoDependentPoint algoDP = (AlgoDependentPoint) P
 					.getParentAlgorithm();
 
-			ExpressionNode en = algoDP.getExpressionNode();
+			ExpressionNode en = algoDP.getExpression();
 
 			if (en.getOperation() == Operation.VEC_FUNCTION
 					&& en.getLeft().unwrap() == f) {

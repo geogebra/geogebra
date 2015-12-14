@@ -94,7 +94,7 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
 		return P;
 	}
 
-	public ExpressionNode getExpressionNode() {
+	public ExpressionNode getExpression() {
 		return P.getDefinition();
 	}
 

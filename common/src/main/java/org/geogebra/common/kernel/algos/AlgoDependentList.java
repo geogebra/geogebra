@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
@@ -199,6 +200,9 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 		return sb.toString();
 	}
 
+	public ExpressionNode getExpression() {
+		return geoList.wrap();
+	}
 	// TODO Consider locusequability
 
 }

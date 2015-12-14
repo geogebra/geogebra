@@ -100,5 +100,8 @@ public class AlgoDependentVector3D extends AlgoElement3D implements
 		return vec.getDefinition().toString(tpl);
 	}
 
+	public ExpressionNode getExpression() {
+		return vec.getDefinition();
+	}
 	// TODO Consider locusequability
 }

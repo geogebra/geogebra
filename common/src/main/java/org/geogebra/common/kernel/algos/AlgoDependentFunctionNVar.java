@@ -165,6 +165,9 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 		return sb.toString();
 	}
 
+	public ExpressionNode getExpression() {
+		return expression;
+	}
 	// TODO Consider locusequability
 
 }

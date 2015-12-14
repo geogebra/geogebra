@@ -368,6 +368,10 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 
 	}
 
+	public ExpressionNode getExpression() {
+		return expression;
+	}
+
 	// TODO Consider locusequability
 
 }

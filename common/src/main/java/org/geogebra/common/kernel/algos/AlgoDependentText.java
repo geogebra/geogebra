@@ -35,7 +35,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
 	private GeoText text; // output
-
+	// Curve[If[t>1,(t,t)],t,0,5]
 	/**
 	 * @param cons
 	 *            construction
@@ -268,6 +268,10 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 			numToTraceSet = true;
 		} else
 			numToTrace = null;
+	}
+
+	public ExpressionNode getExpression() {
+		return text.getDefinition();
 	}
 
 	// TODO Consider locusequability

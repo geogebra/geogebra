@@ -17,8 +17,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.SetOrientation;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
-import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
-import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIf;
@@ -27,6 +25,7 @@ import org.geogebra.common.kernel.algos.AlgoPointVector;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.algos.DependentAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
@@ -4430,16 +4429,12 @@ public class Kernel {
 
 		};
 		if (!geo.isLabelSet() && algo != null
-				&& algo instanceof AlgoDependentNumber) {
-			AlgoDependentNumber algoDep = (AlgoDependentNumber) algo;
+ && algo instanceof DependentAlgo) {
+			DependentAlgo algoDep = (DependentAlgo) algo;
 			return algoDep.getExpression().getCopy(this).traverse(ifReplacer)
 					.wrap();
 		}
-		if (!geo.isLabelSet() && algo != null
-				&& algo instanceof AlgoDependentBoolean) {
-			AlgoDependentBoolean algoDep = (AlgoDependentBoolean) algo;
-			return algoDep.getExpression().getCopy(this);
-		}
+
 		if (!geo.isLabelSet() && algo != null && algo instanceof AlgoIf) {
 			return ((AlgoIf) algo).toExpression();
 		}

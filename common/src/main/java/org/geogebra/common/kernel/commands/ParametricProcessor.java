@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -23,11 +24,13 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -217,9 +220,16 @@ public class ParametricProcessor {
 		if (fv.length < 2 && ev instanceof VectorValue
 				&& ((VectorValue) ev).getMode() != Kernel.COORD_COMPLEX) {
 			GeoNumeric locVar = getLocalVar(exp, fv[0]);
-
+			if (exp.getOperation() == Operation.IF) {
+				ExpressionNode exp1 = exp.getRightTree();
+				ExpressionNode cx = ap.computeCoord(exp1, 0);
+				ExpressionNode cy = ap.computeCoord(exp1, 1);
+				return this.cartesianCurve(cons, label, exp1, locVar, cx, cy,
+						exp.getLeftTree());
+			}
 			ExpressionNode cx = ap.computeCoord(exp, 0);
 			ExpressionNode cy = ap.computeCoord(exp, 1);
+
 			ExpressionValue[] coefX = new ExpressionValue[5], coefY = new ExpressionValue[5];
 			if (ap.getTrigCoeffs(cx, coefX, new ExpressionNode(kernel, 1.0),
 					locVar)
@@ -277,7 +287,8 @@ public class ParametricProcessor {
 					1.0), locVar);
 
 			// line
-			if ((degX >= 0 && degY >= 0) && (degX < 2 && degY < 2)) {
+			if ((degX >= 0 && degY >= 0)
+					&& (degX < 2 && degY < 2)) {
 				FunctionVariable px = new FunctionVariable(kernel, "x");
 				FunctionVariable py = new FunctionVariable(kernel, "y");
 				Equation eq = new Equation(kernel, coefX[1].wrap().multiply(py)
@@ -331,21 +342,7 @@ public class ParametricProcessor {
 
 				return paramConic(eq, exp, label);
 			}
-			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
-			cons.removeFromConstructionList(nx);
-			AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);
-			cons.removeFromConstructionList(ny);
-
-			boolean trig = cx.has2piPeriodicOperations();
-			GeoNumeric from = new GeoNumeric(cons, trig ? 0 : -10);
-			GeoNumeric to = new GeoNumeric(cons, trig ? 2 * Math.PI : 10);
-			AlgoCurveCartesian ac = new AlgoCurveCartesian(cons,
- exp.deepCopy(
-					kernel).wrap(),
-					new NumberValue[] { nx.getNumber(), ny.getNumber() },
- locVar, from, to);
-			ac.getCurve().setLabel(label);
-			return ac.getOutput();
+			return cartesianCurve(cons, label, exp, locVar, cx, cy, null);
 		} else if (ev instanceof Function) {
 			return ap.processFunction((Function) ev);
 		} else if (ev instanceof FunctionNVar) {
@@ -357,6 +354,77 @@ public class ParametricProcessor {
 		throw new MyError(kernel.getApplication().getLocalization(),
 				"InvalidFunction");
 
+	}
+
+	private GeoElement[] cartesianCurve(Construction cons, String label,
+			ExpressionNode exp,
+ GeoNumeric locVar, ExpressionNode cx,
+			ExpressionNode cy, ExpressionNode condition) {
+		AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
+		cons.removeFromConstructionList(nx);
+		AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);
+		cons.removeFromConstructionList(ny);
+		GeoNumberValue from = null, to = null;
+		if (condition != null) {
+			from = getBound(locVar, condition, true);
+			to = getBound(locVar, condition, false);
+		}
+		boolean trig = cx.has2piPeriodicOperations();
+		if (from == null) {
+			from = new GeoNumeric(cons, trig ? 0 : -10);
+
+		}
+		if (to == null) {
+			to = trig ? piTimes(2, cons) : new GeoNumeric(cons, 10);
+		}
+		AlgoCurveCartesian ac = new AlgoCurveCartesian(cons, exp.deepCopy(
+				kernel).wrap(), new NumberValue[] { nx.getNumber(),
+				ny.getNumber() }, locVar, from, to);
+		ac.getCurve().setLabel(label);
+		return ac.getOutput();
+	}
+
+	private GeoNumberValue getBound(GeoNumeric locVar,
+			ExpressionNode condition,
+			boolean swap) {
+		if (condition.getOperation() == Operation.AND
+				|| condition.getOperation() == Operation.AND_INTERVAL) {
+			GeoNumberValue lt = getBound(locVar, condition.getLeftTree(), swap);
+			if (lt != null) {
+				return lt;
+			}
+			GeoNumberValue rt = getBound(locVar, condition.getRightTree(), swap);
+			if (rt != null) {
+				return rt;
+			}
+		}
+		ExpressionValue checkVar = swap ? condition.getLeft() : condition
+				.getRight();
+		ExpressionValue checkNum = !swap ? condition.getLeft() : condition
+				.getRight();
+		if ((condition.getOperation() == Operation.GREATER || condition
+				.getOperation() == Operation.GREATER_EQUAL)
+				&& checkVar == locVar) {
+			return (GeoNumberValue) ap.processNumber(checkNum.wrap(),
+					checkNum.evaluate(StringTemplate.defaultTemplate),
+					false)[0];
+
+		}
+		if ((condition.getOperation() == Operation.LESS || condition
+				.getOperation() == Operation.LESS_EQUAL)
+ && checkNum == locVar) {
+			return (GeoNumberValue) ap.processNumber(checkVar.wrap(),
+					checkVar.evaluate(StringTemplate.defaultTemplate),
+					false)[0];
+
+		}
+		return null;
+	}
+
+	private GeoNumberValue piTimes(int i, Construction cons) {
+		return new AlgoDependentNumber(cons, new ExpressionNode(kernel,
+				new MyDouble(kernel, i), Operation.MULTIPLY, new MyDouble(
+						kernel, Math.PI)), false).getNumber();
 	}
 
 	/**

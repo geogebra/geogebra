@@ -546,7 +546,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			// dependent point of form P = (a, b)
 			if (parentAlgo instanceof AlgoDependentPoint) {
 				AlgoDependentPoint algo = (AlgoDependentPoint) parentAlgo;
-				ExpressionNode en = algo.getExpressionNode();
+				ExpressionNode en = algo.getExpression();
 
 				// (xExpression, yExpression)
 				if (en.isLeaf() && en.getLeft() instanceof MyVecNode) {

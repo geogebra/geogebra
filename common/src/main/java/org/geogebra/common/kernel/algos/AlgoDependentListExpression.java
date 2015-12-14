@@ -103,7 +103,7 @@ public class AlgoDependentListExpression extends AlgoElement implements
 	 * 
 	 * @return input expression
 	 */
-	ExpressionNode getExpression() {
+	public ExpressionNode getExpression() {
 		return list.getDefinition();
 	}
 
