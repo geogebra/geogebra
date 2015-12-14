@@ -121,29 +121,11 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	}
 
-	@Override
-	public void setBackground(GColor color) {
-		if (color != null) {
-			setBackground(color, color);
-		}
 
-	}
 
-	/**
-	 * update background color and apply color to background
-	 * 
-	 * @param updatedColor
-	 *            color to update background
-	 * @param applyedColor
-	 *            color actually applyed
-	 * 
-	 */
+
 	protected void setBackground(GColor updatedColor, GColor applyedColor) {
-		this.bgColor = updatedColor;
-		this.bgApplyedColor = applyedColor;
-		if (renderer != null) {
-			renderer.setWaitForUpdateClearColor();
-		}
+		super.setBackground(updatedColor, applyedColor);
 		evjpanel.setBackground(org.geogebra.desktop.awt.GColorD
 				.getAwtColor(bgApplyedColor));
 	}

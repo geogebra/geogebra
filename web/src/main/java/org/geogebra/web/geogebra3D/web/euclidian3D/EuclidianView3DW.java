@@ -2,7 +2,6 @@ package org.geogebra.web.geogebra3D.web.euclidian3D;
 
 import java.util.HashMap;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -534,15 +533,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	}
 
-	@Override
-	public void setBackground(GColor bgColor) {
-		if (bgColor != null) {
-			this.bgColor = bgColor;
-			if (renderer != null) {
-				renderer.setWaitForUpdateClearColor();
-			}
-		}
-	}
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
