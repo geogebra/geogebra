@@ -36,6 +36,9 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.desktop.euclidian.EuclidianViewD;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
+import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.kernel.EvalCommandQueue;
@@ -401,15 +404,36 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 	 */
 	public synchronized String getPNGBase64(double exportScale,
 			boolean transparent, double DPI, boolean copyToClipboard) {
-		BufferedImage img = ((AppD) app).getEuclidianView1().getExportImage(
-				exportScale, transparent);
+
+		EuclidianViewD ev = ((AppD) app).getEuclidianView1();
 		
 		if (copyToClipboard) {
-			ImageSelection imgSel = new ImageSelection(img);
-			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
-					null);
+
+			if (DPI == 0 || Double.isNaN(DPI)) {
+				// pastes into more programs
+				BufferedImage img = ev.getExportImage(exportScale, transparent);
+
+				ImageSelection imgSel = new ImageSelection(img);
+				Toolkit.getDefaultToolkit().getSystemClipboard()
+						.setContents(imgSel, null);
+			} else {
+
+				if (exportScale == 0 || Double.isNaN(exportScale)) {
+					// calculate so that we get 1:1 scale
+					exportScale = (ev.getPrintingScale() * DPI) / 2.54
+							/ ev.getXscale();
+
+				}
+
+				// more control but doesn't paste into eg Paint, Google Docs
+				GraphicExportDialog.exportPNG(true, transparent, (int) DPI,
+						exportScale, (AppD) app, (EuclidianViewInterfaceD) ev);
+			}
 			return "";
+
 		}
+
+		BufferedImage img = ev.getExportImage(exportScale, transparent);
 
 		return base64encode(img, DPI);
 	}

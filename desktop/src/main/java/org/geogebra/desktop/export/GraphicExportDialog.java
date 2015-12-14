@@ -389,7 +389,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		Format index = selectedFormat();
 		switch (index) {
 		case PNG: // PNG
-			exportPNG(toClipboard);
+			exportPNG(toClipboard, transparent, getDPI(), exportScale, app,
+					getEuclidianView());
 			break;
 
 		case EPS: // EPS
@@ -769,7 +770,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 *            whether to use clipboard or not
 	 * @return whether succesful
 	 */
-	final public boolean exportPNG(boolean exportToClipboard) {
+	final public static boolean exportPNG(boolean exportToClipboard,
+			boolean transparent0, int dpi, double exportScale0, AppD app,
+			EuclidianViewInterfaceD ev) {
 		File file;
 		String tempDir = DownloadManager.getTempDir();
 		if (exportToClipboard) {
@@ -786,9 +789,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		try {
 			// draw graphics view into image
-			EuclidianViewInterfaceD ev = getEuclidianView();
+			// EuclidianViewInterfaceD ev = getEuclidianView();
 
-			exportPNG(ev, file, transparent, getDPI(), exportScale, exportToClipboard);
+			exportPNG(ev, file, transparent0, dpi, exportScale0,
+					exportToClipboard);
 
 
 			return true;
