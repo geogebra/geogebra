@@ -65,5 +65,7 @@ public enum Feature {
 
 	LATEX_ON_CHECKBOX,
 
-	SHINY_3D
+	SHINY_3D,
+
+	ACRA
 }
