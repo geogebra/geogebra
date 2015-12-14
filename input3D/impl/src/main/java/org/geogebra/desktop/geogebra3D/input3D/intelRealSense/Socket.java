@@ -497,10 +497,10 @@ public class Socket {
 							// items[index]);
 							if (items[index].equals("Version")) {
 								String version = items[items.length - 1];
-								if (!isUpToDate(version)) {
-									updateVersion(app);
-								} else {
+								if (isUpToDate(version)) {
 									upToDate = true;
+								} else {
+									// updateVersion(app);
 								}
 
 							}
