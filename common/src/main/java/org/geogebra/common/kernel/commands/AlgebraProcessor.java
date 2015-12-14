@@ -2412,8 +2412,9 @@ public class AlgebraProcessor {
 
 		// leaf (no new label specified): just return the existing GeoElement
 		if (eval.isGeoElement() && n.getLabel() == null
-				&& !n.getOperation().equals(Operation.ELEMENT_OF)
-				&& !n.getOperation().equals(Operation.IF_ELSE)) {
+				&& !myNode.getOperation().equals(Operation.ELEMENT_OF)
+				&& !myNode.getOperation().equals(Operation.IF_ELSE)) {
+			Log.debug(n);
 			// take care of spreadsheet $ names: don't loose the wrapper
 			// ExpressionNode here
 			// check if we have a Variable

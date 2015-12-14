@@ -1537,7 +1537,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue) {
 				if (((BooleanValue) lt).getBoolean()) {
-					return rt.toValidExpression();
+					return rt;
 				}
 				return rt.getUndefinedCopy(ev.getKernel());
 			}
@@ -1560,7 +1560,7 @@ public enum Operation {
 					if (((BooleanValue) cond).getBoolean()) {
 						return ((MyNumberPair) lt).getY().evaluate(tpl);
 					}
-					return rt.toValidExpression();
+					return rt;
 				}
 			}
 			return ev.illegalArgument(lt, rt, "if(");
