@@ -132,6 +132,8 @@ public class SoundManagerD implements org.geogebra.common.sound.SoundManager {
 	 */
 	public void playFile(final String fileName) {
 
+
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 
@@ -178,7 +180,9 @@ public class SoundManagerD implements org.geogebra.common.sound.SoundManager {
 							decoder = new Decoder();
 						}
 
-						decoder.play(fileName, is);
+						Thread thread = new Thread(
+								new PlayMP3Thread(decoder, fileName, is));
+						thread.start();
 
 						return;
 
