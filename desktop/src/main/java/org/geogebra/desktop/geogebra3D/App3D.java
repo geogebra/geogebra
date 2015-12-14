@@ -121,9 +121,16 @@ public class App3D extends AppD {
 
 		@Override
 		public void run() {
-			if (!initRealsense()) {
+
+			boolean realsenseInited = false;
+			if (app.has(Feature.REALSENSE)) {
+				realsenseInited = initRealsense();
+			}
+
+			if (!realsenseInited && app.has(Feature.ZSPACE)) {
 				initZspace();
 			}
+
 		}
 
 		private boolean initRealsense() {
@@ -170,7 +177,7 @@ public class App3D extends AppD {
 
 	private void runThreadForCheckInput3D() {
 		if (!tubeLoginIsShowing && AppD.WINDOWS && !isApplet()
-				&& has(Feature.INPUT3D)
+				&& (has(Feature.REALSENSE) || has(Feature.ZSPACE))
 				&& getInput3DType().equals(Input3DFactory.PREFS_NONE)) {
 			App.debug("============ runThreadToCheckInput3D ");
 			Thread t = new ThreadForCheckInput3D(this);
@@ -350,7 +357,8 @@ public class App3D extends AppD {
 
 		Input3D input3D;
 
-		if (AppD.WINDOWS && !isApplet() && has(Feature.INPUT3D)) {
+		if (AppD.WINDOWS && !isApplet()
+				&& (has(Feature.REALSENSE) || has(Feature.ZSPACE))) {
 			// init the 3D euclidian view (with perhaps a specific 3D input)
 			try {
 				input3D = Input3DFactory.createInput3D(this, getInput3DType());

@@ -3891,7 +3891,7 @@ public abstract class App implements UpdateSelection {
 		case TOOL_EDITOR:
 		case TUBE_BETA:
 		case LOG_AXES:
-		case INPUT3D:
+		case ZSPACE:
 		case SURFACE_IS_REGION:
 		case SHADERS_IN_DESKTOP:
 		case SHINY_3D:
@@ -3916,6 +3916,7 @@ public abstract class App implements UpdateSelection {
 		case LATEX_ON_BUTTON:
 		case LATEX_ON_CHECKBOX:
 		case DRAW_INPUTBOXES_TO_CANVAS:
+		case REALSENSE:
 			return true;
 		default:
 			return false;
