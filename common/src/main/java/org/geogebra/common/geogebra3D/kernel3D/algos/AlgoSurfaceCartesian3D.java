@@ -118,9 +118,9 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 			input = new GeoElement[1 + 3 * localVar.length];
 			offset = 1;
 			input[0] = new AlgoDependentFunction(cons, new Function(
-					surface.getPointExpression(), new FunctionVariable(kernel)))
-					.getFunction();
-			cons.removeFromConstructionList(input[0].getParentAlgorithm());
+surface.getPointExpression(),
+							new FunctionVariable(kernel)), false)
+.getFunction();
 			for (int i = 0; i < offset; i++) {
 				coords[i].toGeoElement().addAlgorithm(this);
 			}

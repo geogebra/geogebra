@@ -340,7 +340,7 @@ public class AlgoDispatcher {
 	 * variables, represented by trees.
 	 */
 	final public GeoFunction DependentFunction(Function fun) {
-		AlgoDependentFunction algo = new AlgoDependentFunction(cons, fun);
+		AlgoDependentFunction algo = new AlgoDependentFunction(cons, fun, true);
 
 		// auto label for f'' to be f'' etc
 

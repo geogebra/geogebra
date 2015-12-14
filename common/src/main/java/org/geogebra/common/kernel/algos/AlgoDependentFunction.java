@@ -60,10 +60,13 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 * @param fun
 	 *            input function
 	 */
-	public AlgoDependentFunction(Construction cons, Function fun) {
+	public AlgoDependentFunction(Construction cons, Function fun,
+			boolean addToConsList) {
 		super(cons, false);
 		fun.initFunction();
-		cons.addToConstructionList(this, false);
+		if (addToConsList) {
+			cons.addToConstructionList(this, false);
+		}
 		this.fun = fun;
 		f = new GeoFunction(cons, false);
 		f.setFunction(fun);

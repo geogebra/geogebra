@@ -263,7 +263,7 @@ public class CmdIf extends CommandProcessor {
 
 			} else {
 				AlgoDependentFunction algo = new AlgoDependentFunction(cons,
-						fun);
+						fun, true);
 				gf = algo.getFunction();
 			}
 			if (gf.validate(label == null)) {

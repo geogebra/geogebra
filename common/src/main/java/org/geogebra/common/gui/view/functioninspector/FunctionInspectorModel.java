@@ -861,8 +861,8 @@ public class FunctionInspectorModel {
 		AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, high, false);
 		cons.removeFromConstructionList(xHigh);
 
-		AlgoDependentFunction interval = new AlgoDependentFunction(cons, new Function(expr,x));
-		cons.removeFromConstructionList(interval);
+		AlgoDependentFunction interval = new AlgoDependentFunction(cons,
+				new Function(expr, x), false);
 
 		functionInterval = interval.getGeoElements()[0];
 		functionInterval.setSelectionAllowed(false);
@@ -886,8 +886,7 @@ public class FunctionInspectorModel {
 		ExpressionNode en = new ExpressionNode(kernel, selectedGeo,
 				Operation.ABS, null);
 		AlgoDependentFunction funAlgo = new AlgoDependentFunction(cons,
-				(Function) en.evaluate(StringTemplate.defaultTemplate));
-		cons.removeFromConstructionList(funAlgo);
+				(Function) en.evaluate(StringTemplate.defaultTemplate), false);
 
 		// the antiderivative of a function containing the absolute function
 		// might be difficult to find if it exists at all. Therefore the

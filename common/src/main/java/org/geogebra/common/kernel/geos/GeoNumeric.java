@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -1039,7 +1040,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		// we get a dependent function if this number has a label or is
 		// dependent
 		if (isLabelSet() || !isIndependent()) {
-			ret = kernel.getAlgoDispatcher().DependentFunction(fun);
+			ret = new AlgoDependentFunction(cons, fun, false).getFunction();
 		} else {
 			ret = new GeoFunction(cons);
 			ret.setFunction(fun);

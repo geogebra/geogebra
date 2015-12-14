@@ -109,8 +109,7 @@ public class CmdFunction extends CommandProcessor {
 							Operation.AND_INTERVAL, right);
 					Function intervalFun = new Function(interval, fv);
 					AlgoDependentFunction intervalAlgo = new AlgoDependentFunction(
-							cons, intervalFun);
-					cons.removeFromConstructionList(intervalAlgo);
+							cons, intervalFun, false);
 					GeoFunction intervalGeo = intervalAlgo.getFunction();
 
 					ArrayList<GeoFunction> conditions = new ArrayList<GeoFunction>();
@@ -130,7 +129,7 @@ public class CmdFunction extends CommandProcessor {
 
 					} else {
 						AlgoDependentFunction algo = new AlgoDependentFunction(
-								cons, fun);
+								cons, fun, true);
 						gf = algo.getFunction();
 					}
 					gf.setLabel(label);

@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.EquationElementInterface;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
@@ -1358,7 +1359,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		// we get a dependent function if this line has a label or is dependent
 
 		if (isLabelSet() || !isIndependent()) {
-			ret = kernel.getAlgoDispatcher().DependentFunction(fun);
+			ret = new AlgoDependentFunction(cons, fun, false).getFunction();
 
 		} else {
 			ret = new GeoFunction(cons);
