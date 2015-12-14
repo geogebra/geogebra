@@ -43,25 +43,16 @@ public class CmdIf extends CommandProcessor {
 		super(kernel);
 	}
 
-	@Override
-	public ExpressionValue simplify(Command c) {
-		ExpressionNode ret = null;
-		if (c.getArgumentNumber() == 2) {
-			ret = new ExpressionNode(kernelA, c.getArgument(0), Operation.IF,
-					c.getArgument(1));
-		}
-		if (c.getArgumentNumber() == 3) {
-			ret = new ExpressionNode(kernelA, new MyNumberPair(kernelA,
-					c.getArgument(0), c.getArgument(1)),
-					Operation.IF_ELSE,
-					c.getArgument(2));
-		}
-		if (ret != null) {
-			ret.resolveVariables();
-			return ret;
-		}
-		return super.simplify(c);
-	}
+	// @Override
+	/*
+	 * public ExpressionValue simplify(Command c) { ExpressionNode ret = null;
+	 * if (c.getArgumentNumber() == 2) { ret = new ExpressionNode(kernelA,
+	 * c.getArgument(0), Operation.IF, c.getArgument(1)); } if
+	 * (c.getArgumentNumber() == 3) { ret = new ExpressionNode(kernelA, new
+	 * MyNumberPair(kernelA, c.getArgument(0), c.getArgument(1)),
+	 * Operation.IF_ELSE, c.getArgument(2)); } if (ret != null) {
+	 * ret.resolveVariables(); return ret; } return super.simplify(c); }
+	 */
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
