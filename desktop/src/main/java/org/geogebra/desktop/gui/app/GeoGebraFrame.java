@@ -619,8 +619,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					newestVersion = httpr.sendRequestGetResponseSync(sb
 							.toString());
 
+
 					if (newestVersion == null) {
 						// probably not online
+						App.error("problem fetching " + sb);
 						return;
 					}
 					newestVersion = newestVersion.replaceAll("-", ".");
@@ -668,6 +670,12 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				AppD.appendJavaVersion(sb);
 
 				newestVersion = httpr.sendRequestGetResponseSync(sb.toString());
+
+				if (newestVersion == null) {
+					App.error("problem fetching " + sb);
+					return;
+				}
+
 				newestVersion = newestVersion.replaceAll("-", ".");
 				newestVersionL = versionToLong(newestVersion);
 
@@ -679,7 +687,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				}
 
 			} catch (Exception ex) {
-				App.error(ex.toString());
+				ex.printStackTrace();
 			}
 
 		}
