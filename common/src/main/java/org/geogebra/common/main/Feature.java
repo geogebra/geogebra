@@ -67,5 +67,7 @@ public enum Feature {
 
 	SHINY_3D,
 
-	ACRA
+	ACRA,
+
+	ANALYTICS
 }
