@@ -8676,7 +8676,9 @@ public abstract class EuclidianController {
 			if (!allowSelectionRectangleForTranslateByVector) {
 				setViewHits(type);
 				hits = view.getHits();
-				hits.removePolygons();
+				// remove polygons even if just one is selected
+				hits.removeAllPolygons();
+
 				if (hits.size() == 0) {
 					createNewPoint(hits, false, true, true);
 				}
