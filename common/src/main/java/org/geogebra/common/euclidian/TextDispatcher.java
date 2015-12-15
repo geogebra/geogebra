@@ -386,7 +386,7 @@ public class TextDispatcher {
 
 		// checkZooming();
 
-		slope = kernel.getAlgoDispatcher().Slope(label, line);
+		slope = kernel.getAlgoDispatcher().Slope(label, line, null);
 
 		// show value
 		if (slope.isLabelVisible()) {

@@ -625,8 +625,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			return;
 		}
 		// get point on line g
-		GeoLine g = ((AlgoSlope) geo.getParentAlgorithm()).getg();
-		g.getInhomPointOnLine(coords);
+		((AlgoSlope) geo.getParentAlgorithm()).getInhomPointOnLine(coords);
 		// draw slope triangle
 		float x = (float) coords[0];
 		float y = (float) coords[1];

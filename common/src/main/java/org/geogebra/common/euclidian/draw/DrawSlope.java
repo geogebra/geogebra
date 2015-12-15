@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoSlope;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -35,7 +34,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 public class DrawSlope extends Drawable {
 
 	private GeoNumeric slope;
-	private GeoLine g;
+	private AlgoSlope algo;
 
 	private boolean isVisible, labelVisible;
 	private int xLabelHor, yLabelHor;
@@ -67,7 +66,7 @@ public class DrawSlope extends Drawable {
 	}
 
 	private void init() {
-		g = ((AlgoSlope) slope.getDrawAlgorithm()).getg();
+		algo = ((AlgoSlope) slope.getDrawAlgorithm());
 
 	}
 
@@ -86,12 +85,8 @@ public class DrawSlope extends Drawable {
 			}
 
 			// get point on line g
-			g.getInhomPointOnLine(coords);
-			if (g.getStartPoint() == null) {
-				// get point on y-axis and line g
-				coords[0] = 0.0d;
-				coords[1] = -g.z / g.y;
-			}
+			algo.getInhomPointOnLine(coords);
+
 			view.toScreenCoords(coords);
 
 			// draw slope triangle

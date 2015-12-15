@@ -294,8 +294,8 @@ public class AlgoDispatcher {
 	/**
 	 * Slope of line g
 	 */
-	final public GeoNumeric Slope(String label, GeoLine g) {
-		AlgoSlope algo = new AlgoSlope(cons, g);
+	final public GeoNumeric Slope(String label, GeoLine g, GeoFunction f) {
+		AlgoSlope algo = new AlgoSlope(cons, g, f);
 		GeoNumeric slope = algo.getSlope();
 		slope.setLabel(label);
 		return slope;
