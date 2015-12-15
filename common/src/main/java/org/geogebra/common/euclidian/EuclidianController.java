@@ -8339,7 +8339,9 @@ public abstract class EuclidianController {
 		setViewHits(type);
 
 		Hits hits = view.getHits().getTopHits();
-
+		if (hits.size() == 0) {
+			return;
+		}
 		GeoElement topHit = hits.get(0);
 
 		if (topHit.isGeoVector()) {
