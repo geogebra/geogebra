@@ -2352,7 +2352,7 @@ marblePanel, evt))) {
 	}
 
 	@Override
-	public void typing(boolean heuristic) {
+	public void typing(boolean heuristic, int code) {
 		// to be overridden in NewRadioButtonTreeItem,
 		// to know whether it's empty, whether to show Xbutton
 	}

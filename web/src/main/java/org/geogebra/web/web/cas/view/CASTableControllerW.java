@@ -345,46 +345,59 @@ public class CASTableControllerW extends CASTableCellController implements
 		// if closing paranthesis is typed and there is no opening parenthesis
 		// for it
 		// add one in the beginning
-		switch (ch) {
-		case ' ':
-		case '|':
-			// insert output of previous row (not in parentheses)
-			if (editingRow > 0 && text.length() == 0) {
-				GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(
-				        editingRow - 1);
-				editor.setInput(selCellValue
-				        .getOutputRHS(StringTemplate.defaultTemplate) + " ");
+		if (editingRow > 0 && text.length() == 0) {
+			if (handleFirstLetter(ch, editingRow, editor)) {
 				e.preventDefault();
 			}
-			break;
-
-		case ')':
-			// insert output of previous row in parentheses
-			if (editingRow > 0 && text.length() == 0) {
-				GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(
-				        editingRow - 1);
-				String prevOutput = selCellValue
-				        .getOutputRHS(StringTemplate.defaultTemplate);
-				editor.setInput("(" + prevOutput + ")");
-				e.preventDefault();
-			}
-			break;
-
-		case '=':
-			// insert input of previous row
-			if (editingRow > 0 && text.length() == 0) {
-				GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(
-				        editingRow - 1);
-				editor.setInput(selCellValue
-				        .getInput(StringTemplate.defaultTemplate));
-				e.preventDefault();
-			}
-			break;
 		}
 		if (e.isEnterKey()) {
 			this.handleEnterKey(e.isCtrlDown(), e.isAltDown(), app);
 			e.preventDefault();
 		}
+	}
+
+	/**
+	 * @param ch
+	 * @param editingRow
+	 * @param editor
+	 * @return
+	 */
+	public boolean handleFirstLetter(char ch, int editingRow,
+			CASTableCellEditor editor) {
+		switch (ch) {
+		case ' ':
+		case '|':
+			// insert output of previous row (not in parentheses)
+
+				GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(
+				        editingRow - 1);
+				editor.setInput(selCellValue
+				        .getOutputRHS(StringTemplate.defaultTemplate) + " ");
+			return true;
+
+
+		case ')':
+			// insert output of previous row in parentheses
+
+			selCellValue = view.getConsoleTable().getGeoCasCell(
+				        editingRow - 1);
+				String prevOutput = selCellValue
+				        .getOutputRHS(StringTemplate.defaultTemplate);
+				editor.setInput("(" + prevOutput + ")");
+			return true;
+
+
+		case '=':
+			// insert input of previous row
+
+			selCellValue = view.getConsoleTable().getGeoCasCell(
+				        editingRow - 1);
+				editor.setInput(selCellValue
+				        .getInput(StringTemplate.defaultTemplate));
+			return true;
+		}
+		return false;
+
 	}
 
 	public void onBlur(BlurEvent event) {
