@@ -14,6 +14,7 @@ public class BoolAssignment extends Assignment {
 
 	private GeoBoolean geoBoolean;
 	private String geoBooleanLabel;
+	private String geoBooleanOldLabel;
 
 	/**
 	 * Create a BoolAssignment
@@ -26,7 +27,8 @@ public class BoolAssignment extends Assignment {
 	 *            Kernel
 	 */
 	public BoolAssignment(GeoBoolean geoBoolean, Kernel kernel) {
-		super(kernel);
+		this(geoBoolean.getLabelSimple(), kernel);
+		this.geoBooleanOldLabel = geoBoolean.getOldLabel();
 		this.geoBoolean = geoBoolean;
 	}
 
@@ -97,6 +99,8 @@ public class BoolAssignment extends Assignment {
 			if (geoElem instanceof GeoBoolean) {
 				geoBoolean = (GeoBoolean) geoElem;
 			}
+		} else {
+			update();
 		}
 		return geoBoolean;
 	}
@@ -115,9 +119,19 @@ public class BoolAssignment extends Assignment {
 
 	public boolean update() {
 		GeoElement geo = kernel.lookupLabel(geoBoolean.getLabelSimple());
+		if (geo == null) {
+			geo = kernel.lookupLabel(geoBoolean.getOldLabel());
+			if (geo == null) {
+				geo = kernel.lookupLabel(geoBooleanOldLabel);
+			}
+		}
 		boolean ret = false;
 		if (geo instanceof GeoBoolean) {
 			geoBoolean = (GeoBoolean) geo;
+			if (geoBooleanLabel != geoBoolean.getLabelSimple()) {
+				geoBooleanOldLabel = geoBooleanLabel;
+				geoBooleanLabel = geoBoolean.getLabelSimple();
+			}
 			ret = true;
 		} else {
 			ret = false;

@@ -48,8 +48,6 @@ public class GeoAssignment extends Assignment {
 
 	private Construction cons;
 
-
-
 	/**
 	 * @param macro
 	 *            the macro (user defined tool) corresponding to the assignment
@@ -79,39 +77,43 @@ public class GeoAssignment extends Assignment {
 	@Override
 	public Result checkAssignment() {
 		res = Result.UNKNOWN;
-		callsToEqual = 0;
-		callsToCheckTypes = 0;
-		boolean oldSilentMode = cons.getKernel().isSilentMode();
-		cons.getKernel().setSilentMode(true);
+		if (isValid()) {
+			callsToEqual = 0;
+			callsToCheckTypes = 0;
+			boolean oldSilentMode = cons.getKernel().isSilentMode();
+			cons.getKernel().setSilentMode(true);
 
-		TreeSet<GeoElement> possibleOutputGeos = new TreeSet<GeoElement>();
+			TreeSet<GeoElement> possibleOutputGeos = new TreeSet<GeoElement>();
 
-		// find all possible inputgeos and all outputgeos that match the type of
-		// the macro
-		TreeSet<GeoElement> sortedSet = cons.getGeoSetNameDescriptionOrder();
-		Iterator<GeoElement> it = sortedSet.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			TreeSet<GeoElement> allPredecessors = geo.getAllPredecessors();
-			if (!allPredecessors.isEmpty()) {
-				for (GeoElement macroOut : macro.getMacroOutput()) {
-					if (macroOut.getClass().equals(geo.getClass())) {
-						possibleOutputGeos.add(geo);
+			// find all possible inputgeos and all outputgeos that match the
+			// type of
+			// the macro
+			TreeSet<GeoElement> sortedSet = cons
+					.getGeoSetNameDescriptionOrder();
+			Iterator<GeoElement> it = sortedSet.iterator();
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				TreeSet<GeoElement> allPredecessors = geo.getAllPredecessors();
+				if (!allPredecessors.isEmpty()) {
+					for (GeoElement macroOut : macro.getMacroOutput()) {
+						if (macroOut.getClass().equals(geo.getClass())) {
+							possibleOutputGeos.add(geo);
+						}
 					}
 				}
 			}
+			if (macro.getMacroOutput().length > possibleOutputGeos.size()) {
+				res = Result.WRONG_OUTPUT_TYPE;
+			} else {
+				checkCorrectness(possibleOutputGeos);
+			}
+			App.debug("Checking on " + macro.getToolName()
+					+ " completed. Comparisons of Objects: " + callsToEqual);
+			App.debug("Checking on " + macro.getToolName()
+					+ " completed. Checked types of Objects: "
+					+ callsToCheckTypes);
+			cons.getKernel().setSilentMode(oldSilentMode);
 		}
-		if (macro.getMacroOutput().length > possibleOutputGeos.size()) {
-			res = Result.WRONG_OUTPUT_TYPE;
-		} else {
-			checkCorrectness(possibleOutputGeos);
-		}
-		App.debug("Checking on " + macro.getToolName()
-				+ " completed. Comparisons of Objects: " + callsToEqual);
-		App.debug("Checking on " + macro.getToolName()
-				+ " completed. Checked types of Objects: " + callsToCheckTypes);
-		cons.getKernel().setSilentMode(oldSilentMode);
-
 		return res;
 	}
 
@@ -184,7 +186,6 @@ public class GeoAssignment extends Assignment {
 
 		}
 	}
-
 
 	private void checkEqualityOfGeos(GeoElement[] input,
 			GeoElement macroOutput, GeoElement possibleOutput[], int i,
@@ -356,7 +357,9 @@ public class GeoAssignment extends Assignment {
 		return macro;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geogebra.common.util.Assignment#getAssignmentXML()
 	 */
 	@Override

@@ -72,9 +72,9 @@ public class Exercise {
 		// }
 		app.getScriptManager().disableListeners();
 		for (Assignment assignment : assignments) {
-			if (assignment.isValid()) {
+			// if (assignment.isValid()) {
 				assignment.checkAssignment();
-			}
+			// }
 		}
 		app.getScriptManager().enableListeners();
 		// for (String addListener : tmpListeners) {
