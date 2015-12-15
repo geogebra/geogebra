@@ -252,21 +252,21 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * XML string type, do not internationalize digits
 	 */
 	public static final StringTemplate casCopyTemplate = new StringTemplate(
-			"xmlTemplate") {
+			"casCopyTemplate") {
 		@Override
 		public int getCoordStyle(int coordStyle) {
 			return Kernel.COORD_STYLE_DEFAULT;
 		}
 	};
 	static {
-		xmlTemplate.forceSF = true;
-		xmlTemplate.allowMoreDigits = true;
-		xmlTemplate.internationalizeDigits = false;
-		xmlTemplate.setType(StringType.GEOGEBRA_XML);
-		xmlTemplate.localizeCmds = false;
-		xmlTemplate.sf = org.geogebra.common.factories.FormatFactory.prototype
+		casCopyTemplate.forceSF = true;
+		casCopyTemplate.allowMoreDigits = true;
+		casCopyTemplate.internationalizeDigits = false;
+		casCopyTemplate.setType(StringType.GEOGEBRA_XML);
+		casCopyTemplate.localizeCmds = false;
+		casCopyTemplate.sf = org.geogebra.common.factories.FormatFactory.prototype
 				.getScientificFormat(15, 20, false);
-		xmlTemplate.questionMarkForNaN = false;
+		casCopyTemplate.questionMarkForNaN = false;
 	}
 	/**
 	 * for input bar; same as default, but increases precision to
