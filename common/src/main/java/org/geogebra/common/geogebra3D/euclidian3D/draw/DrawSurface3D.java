@@ -5,7 +5,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
@@ -13,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -2525,6 +2529,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	final private static int HIT_SAMPLES = 10;
 	final private static double DELTA_SAMPLES = 1.0 / HIT_SAMPLES;
 
+	private CoordMatrix jacobian;
+	private Coords bivariateVector, bivariateDelta;
+	private double[] uv, xyz;
+
+	private GeoPoint3D bivariatePoint;
+
 	@Override
 	public boolean hit(Hitting hitting) {
 
@@ -2593,12 +2603,131 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			resetLastHitParameters(geoF);
 			return false;
 
+		} else if (((GeoElement) surfaceGeo).isGeoSurfaceCartesian()) {
+			// GeoSurfaceCartesian3D surface = (GeoSurfaceCartesian3D)
+			// surfaceGeo;
+			//
+			// hitting.calculateClippedValues();
+			// if (Double.isNaN(hitting.x0)) { // hitting doesn't intersect
+			// // clipping box
+			// resetLastHitParameters(surface);
+			// return false;
+			// }
+			//
+			// if (jacobian == null) {
+			// jacobian = new CoordMatrix(2, 2);
+			// bivariateVector = new Coords(2);
+			// bivariateDelta = new Coords(2);
+			// uv = new double[2];
+			// xyz = new double[3];
+			//
+			// bivariatePoint = new GeoPoint3D(surface.getConstruction(), "N",
+			// 0, 0, 0, 1);
+			//
+			// }
+			//
+			// // we use bivariate newton method:
+			// // A(x0,y0,z0) and B(x1,y1,z1) delimits the hitting segment
+			// // M(u,v) is a point on the surface
+			// // we want vector product AM*AB to equal 0, so A, B, M are
+			// colinear
+			// // we only check first and second values of AM*AB since third
+			// will
+			// // be a consequence
+			//
+			// double vx = hitting.x1 - hitting.x0;
+			// double vy = hitting.y1 - hitting.y0;
+			// double vz = hitting.z1 - hitting.z0;
+			//
+			// double gxc = hitting.z0 * hitting.y1 - hitting.z1 * hitting.y0;
+			// double gyc = hitting.x0 * hitting.z1 - hitting.x1 * hitting.z0;
+			//
+			// double uMin = surface.getMinParameter(0);
+			// double uMax = surface.getMaxParameter(0);
+			// double vMin = surface.getMinParameter(1);
+			// double vMax = surface.getMaxParameter(1);
+			//
+			// double u = 0;
+			// double v = 0;
+			//
+			// boolean found = findBivariate(surface, vx, vy, vz, gxc, gyc, u,
+			// v,
+			// uMin, uMax, vMin, vMax);
+			//
+			// if (found) {
+			// bivariatePoint.setCoords(xyz);
+			// bivariatePoint.updateCoords();
+			// bivariatePoint.update();
+			// }
+			//
+			// return false;
 		}
 
 		return false;
 
 	}
+
+	private boolean findBivariate(final GeoSurfaceCartesian3D surface,
+			final double vx, final double vy, final double vz,
+			final double gxc, final double gyc, final double u, final double v,
+			final double uMin, final double uMax, final double vMin,
+			final double vMax) {
+		uv[0] = u;
+		uv[1] = v;
+
+		App.debug("\n========================");
+
+		double error = 1;
+
+		for (int i = 0; i < 10; i++) {
+			surface.setJacobianForBivariate(uv, vx, vy, vz, jacobian);
+
+			App.debug("\njacobian:\n" + jacobian);
+
+			surface.setVectorForBivariate(uv, xyz, vx, vy, vz, gxc, gyc,
+					bivariateVector);
+
+			App.debug("\nvector:\n" + bivariateVector);
+
+			error = Math.max(Math.abs(bivariateVector.getX()),
+					Math.abs(bivariateVector.getY()));
+
+			if (Math.abs(bivariateVector.getX()) < Kernel.STANDARD_PRECISION
+					&& Math.abs(bivariateVector.getY()) < Kernel.STANDARD_PRECISION) {
+				return true;
+			}
+
+			jacobian.pivotDegenerate(bivariateDelta, bivariateVector);
+
+			App.debug("\nsol:\n" + bivariateDelta);
+
+			if (!bivariateDelta.isDefined()) {
+				return false;
+			}
+
+			uv[0] -= bivariateDelta.getX();
+			uv[1] -= bivariateDelta.getY();
+
+			if (uv[0] > uMax) {
+				return false;
+			}
+			if (uv[0] < uMin) {
+				return false;
+			}
+			if (uv[1] > vMax) {
+				return false;
+			}
+			if (uv[1] < vMin) {
+				return false;
+			}
+
+			App.debug("\nu=" + uv[0] + ", v=" + uv[1] + " -- error = " + error);
+		}
+
+		return false;
+	}
 	
+
 
 	private static void setLastHitParameters(GeoFunctionNVar geoF,
 			boolean swap) {
@@ -2610,6 +2739,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 
+	private static void resetLastHitParameters(GeoSurfaceCartesian3D surface) {
+		// curve.resetLastHitParameters();
+	}
 
 	
 }

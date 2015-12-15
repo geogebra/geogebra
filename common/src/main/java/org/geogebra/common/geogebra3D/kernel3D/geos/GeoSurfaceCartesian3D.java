@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
@@ -123,7 +124,56 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	}
 
-	
+	/**
+	 * set the jacobian matrix for bivariate newton method
+	 * 
+	 * @param uv
+	 * @param vx
+	 * @param vy
+	 * @param vz
+	 * @param matrix
+	 */
+	public void setJacobianForBivariate(double[] uv, double vx,
+			double vy,
+			double vz, CoordMatrix matrix) {
+
+		final double dfxu = fun1[0][0].evaluate(uv);
+		final double dfyu = fun1[0][1].evaluate(uv);
+		final double dfzu = fun1[0][2].evaluate(uv);
+		final double dfxv = fun1[1][0].evaluate(uv);
+		final double dfyv = fun1[1][1].evaluate(uv);
+		final double dfzv = fun1[1][2].evaluate(uv);
+
+		matrix.set(1, 1, vz * dfyu - vy * dfzu);
+		matrix.set(1, 2, vz * dfyv - vy * dfzv);
+
+		matrix.set(2, 1, vx * dfzu - vz * dfxu);
+		matrix.set(2, 2, vx * dfzv - vz * dfxv);
+
+	}
+
+	/**
+	 * set vector for bivariate newton method
+	 * 
+	 * @param uv
+	 * @param vx
+	 * @param vy
+	 * @param vz
+	 * @param cx
+	 * @param cy
+	 * @param vector
+	 */
+	public void setVectorForBivariate(double[] uv, double[] xyz, double vx,
+			double vy,
+			double vz, double cx, double cy, Coords vector) {
+
+		xyz[0] = fun[0].evaluate(uv);
+		xyz[1] = fun[1].evaluate(uv);
+		xyz[2] = fun[2].evaluate(uv);
+
+		vector.setX(vz * xyz[1] - vy * xyz[2] + cx);
+		vector.setY(vx * xyz[2] - vz * xyz[0] + cy);
+	}
 
 	@Override
 	public GeoElement copy() {
