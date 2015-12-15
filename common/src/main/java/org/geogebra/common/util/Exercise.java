@@ -412,7 +412,7 @@ public class Exercise {
 		}
 
 		for (GeoElement geo : predecessorsOfUsedBooleans) {
-			if (geo instanceof GeoNumeric) {
+			if (geo instanceof GeoNumeric && geo.isLabelSet()) {
 				geos.add((GeoNumeric) geo);
 				if (geo.isRandomGeo()) {
 					((GeoNumeric) geo).setRandom(false);
