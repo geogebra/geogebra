@@ -3902,6 +3902,7 @@ public abstract class App implements UpdateSelection {
 		case DRAW_DROPDOWNLISTS_TO_CANVAS:
 		case ACRA:
 		case ANALYTICS:
+		case REALSENSE:
 			return prerelease;
 		// return canary;
 		case AV_EXTENSIONS:
@@ -3916,7 +3917,6 @@ public abstract class App implements UpdateSelection {
 		case LATEX_ON_BUTTON:
 		case LATEX_ON_CHECKBOX:
 		case DRAW_INPUTBOXES_TO_CANVAS:
-		case REALSENSE:
 			return true;
 		default:
 			return false;
