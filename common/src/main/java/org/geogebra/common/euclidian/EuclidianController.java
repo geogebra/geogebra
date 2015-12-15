@@ -8799,6 +8799,7 @@ public abstract class EuclidianController {
 			this.doubleClickStarted = true;
 			// return;
 		}
+		this.setViewHits(event.getType());
 		if (hitComboBox(event.getX(), event.getY())) {
 		}
 		lastMousePressedTime = System.currentTimeMillis();

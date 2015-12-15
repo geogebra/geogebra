@@ -88,7 +88,7 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 			AlgoDependentPoint3D algoDP = (AlgoDependentPoint3D) P
 					.getParentAlgorithm();
 
-			ExpressionNode en = algoDP.getExpressionNode();
+			ExpressionNode en = algoDP.getExpression();
 
 			if (en.getOperation() == Operation.VEC_FUNCTION
 					&& en.getLeft().unwrap() == f) {

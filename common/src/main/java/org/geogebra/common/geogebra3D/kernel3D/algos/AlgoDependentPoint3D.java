@@ -22,6 +22,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
+import org.geogebra.common.kernel.algos.DependentAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 
@@ -30,7 +31,8 @@ import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
  * @author Markus
  * @version
  */
-public class AlgoDependentPoint3D extends AlgoElement3D {
+public class AlgoDependentPoint3D extends AlgoElement3D implements
+		DependentAlgo {
 
 	/**
 	 * 
@@ -40,14 +42,14 @@ public class AlgoDependentPoint3D extends AlgoElement3D {
 
 	private double[] temp;
 
-	public AlgoDependentPoint3D(Construction cons, String label,
-			ExpressionNode root) {
-		this(cons, root);
-
-		P.setLabel(label);
-	}
-
-	/** Creates new AlgoJoinPoints */
+	/**
+	 * Creates new dependent 3D point
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param root
+	 *            point expression
+	 */
 	public AlgoDependentPoint3D(Construction cons, ExpressionNode root) {
 		super(cons);
 
@@ -75,11 +77,14 @@ public class AlgoDependentPoint3D extends AlgoElement3D {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoPoint3D getPoint3D() {
 		return P;
 	}
 
-	public ExpressionNode getExpressionNode() {
+	public ExpressionNode getExpression() {
 		return P.getDefinition();
 	}
 
