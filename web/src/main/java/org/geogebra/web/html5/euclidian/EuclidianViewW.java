@@ -143,19 +143,34 @@ public class EuclidianViewW extends EuclidianView implements
 		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo,
 				settings);
 
+		initClickStartHandler();
+	}
+
+	private void initClickStartHandler() {
 		ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
 			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				app.closePopups(x, y);
+			public void onClickStart(final int x, final int y,
+					PointerEventType type) {
+				getEuclidianController().closePopups(x, y, type);
+
+
+
 			}
 		});
+
 	}
 
 	/**
 	 * @param euclidiancontroller
+	 *            controller
 	 * @param showAxes
+	 *            whether to show axes
 	 * @param showGrid
+	 *            whether to show grid
+	 * @param viewNo
+	 *            view number
 	 * @param settings
+	 *            settings
 	 */
 	public EuclidianViewW(EuclidianController euclidiancontroller,
 	        boolean[] showAxes, boolean showGrid, int viewNo,
@@ -167,7 +182,11 @@ public class EuclidianViewW extends EuclidianView implements
 
 	/**
 	 * @param euclidiancontroller
+	 *            controller
+	 * @param viewNo
+	 *            view number
 	 * @param settings
+	 *            settings
 	 */
 	public EuclidianViewW(EuclidianController euclidiancontroller, int viewNo,
 	        EuclidianSettings settings) {
@@ -186,12 +205,7 @@ public class EuclidianViewW extends EuclidianView implements
 		// initBaseComponents(EVPanel, euclidiancontroller, -1);
 		initBaseComponents(EVPanel, euclidiancontroller, viewNo, settings);
 
-		ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				app.closePopups(x, y);
-			}
-		});
+		initClickStartHandler();
 	}
 
 	/**

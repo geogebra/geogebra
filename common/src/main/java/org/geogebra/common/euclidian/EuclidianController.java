@@ -8799,9 +8799,9 @@ public abstract class EuclidianController {
 			this.doubleClickStarted = true;
 			// return;
 		}
+		setMouseLocation(event);
 		this.setViewHits(event.getType());
-		if (hitComboBox(event.getX(), event.getY())) {
-		}
+		hitComboBox(event.getX(), event.getY());
 		lastMousePressedTime = System.currentTimeMillis();
 
 		app.storeUndoInfoIfSetCoordSystemOccured();
@@ -8833,7 +8833,7 @@ public abstract class EuclidianController {
 			}
 		}
 
-		setMouseLocation(event);
+		
 
 		if (handleMousePressedForViewButtons()) {
 			return;
