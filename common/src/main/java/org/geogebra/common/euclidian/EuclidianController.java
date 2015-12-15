@@ -2885,10 +2885,17 @@ public abstract class EuclidianController {
 
 		addSelectedLine(hits, 1, false);
 
+
 		if (selLines() == 1) {
 			GeoLine line = getSelectedLines()[0];
 
-			return getTextDispatcher().createSlopeText(line, mouseLoc);
+			return getTextDispatcher().createSlopeText(line, null, mouseLoc);
+		}
+		addSelectedFunction(hits, 1, false);
+		if (selFunctions() == 1) {
+			GeoFunction f = getSelectedFunctions()[0];
+
+			return getTextDispatcher().createSlopeText(null, f, mouseLoc);
 		}
 		return null;
 	}

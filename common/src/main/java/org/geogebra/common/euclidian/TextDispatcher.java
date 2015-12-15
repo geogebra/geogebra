@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.algos.AlgoClosestPoint;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -364,7 +365,8 @@ public class TextDispatcher {
 		return ret;
 	}
 
-	public GeoElement[] createSlopeText(GeoLine line, GPoint mouseLoc) {
+	public GeoElement[] createSlopeText(GeoLine line, GeoFunction f,
+			GPoint mouseLoc) {
 		GeoNumeric slope;
 		/*
 		 * if (strLocale.equals("de_AT")) { slope = kernel.Slope("k", line); }
@@ -386,7 +388,7 @@ public class TextDispatcher {
 
 		// checkZooming();
 
-		slope = kernel.getAlgoDispatcher().Slope(label, line, null);
+		slope = kernel.getAlgoDispatcher().Slope(label, line, f);
 
 		// show value
 		if (slope.isLabelVisible()) {
