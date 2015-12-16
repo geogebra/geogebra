@@ -6062,6 +6062,11 @@ body.application[dir=rtl] .deleteAlgebra {
 	}
 }
 
+	.pagebreak{
+		display: block;
+		page-break-before: always;	
+	}
+
 @media print {
 	
 	.GeoGebraFrame{
@@ -6069,7 +6074,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	}
 	
 	.printPopupButtonPanel{
-		display: none;
+		display: none;ś
 	}
 	
 	.GeoGebraPopup{
@@ -6080,6 +6085,7 @@ body.application[dir=rtl] .deleteAlgebra {
 		left: 0px;
 //		top: 0px !important;
 //		left: 0px !important;
-	}
+	}	
 	
 }
+

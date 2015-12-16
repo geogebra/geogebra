@@ -995,23 +995,56 @@ myCell) {
 	    return styleBar;
     }
 
-	public Widget getPrintable() {
+
+	/**
+	 * @param row
+	 *            from which row of Consctruction Protocol will be started the
+	 *            table, which will be added the print preview
+	 * @return
+	 */
+	public CellTable<RowData> getTable(Integer row) {
 		CellTable<RowData> previewTable = new CellTable<RowData>(data
 				.getrowList().size());
 		addColumnsForTable(previewTable);
 
-		previewTable.setRowCount(data.getrowList().size());
-		previewTable.setRowData(0, data.getrowList());
-		previewTable.setVisibleRange(0, data.getrowList().size());
+		int numberOfRows = 10;
+		if (row + numberOfRows > data.getrowList().size()) {
+			numberOfRows = data.getrowList().size() - row;
+		}
 
+		previewTable.setRowCount(numberOfRows);
+		previewTable.setRowData(0,
+				data.getrowList().subList(row, row + numberOfRows));
+		previewTable.setVisibleRange(0, numberOfRows);
 
+		return previewTable;
+	}
+
+	public Widget getPrintable() {
+		CellTable<RowData> previewTable;
+		Integer row = 0;
 		SimplePanel panel = new SimplePanel();
-		panel.setWidth("400px");
 
-		panel.getElement().appendChild(previewTable.getElement());
+		panel.setWidth("400px");
 		panel.getElement().getStyle().setDisplay(Display.BLOCK);
 		panel.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		panel.getElement().getStyle().setLeft(0, Unit.PX);
+
+
+
+		while (row < data.getrowList().size()) {
+			previewTable = getTable(row);
+			// previewTable.getElement().setPropertyString("page-break-after",
+			// "always");
+			// previewTable.addStyleName("previewTable");
+
+			Element pagebreakElement = DOM.createDiv();
+			pagebreakElement.setClassName("pagebreak");
+
+			panel.getElement().appendChild(previewTable.getElement());
+			panel.getElement().appendChild(pagebreakElement);
+			row += previewTable.getRowCount();
+		}
 
 		return panel;
 	}
