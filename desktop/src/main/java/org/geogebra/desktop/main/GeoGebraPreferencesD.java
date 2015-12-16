@@ -19,10 +19,12 @@ import java.util.prefs.Preferences;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory;
+import org.geogebra.desktop.util.Util;
 
 /**
  * Stores user settings and options as preferences.
@@ -363,22 +365,38 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 * Saves preferences by taking the application's current values.
 	 */
 	public void saveXMLPreferences(AppD app) {
-		// preferences xml
-		String xml = app.getPreferencesXML();
 
-		ggbPrefs.put(XML_USER_PREFERENCES, xml);
+		String userPrefsXML = app.getPreferencesXML();
+		String objectPrefsXML = app.getKernel().getConstruction()
+				.getConstructionDefaults().getCDXML();
 
-		// if (!(app instanceof Application3D)) // TODO: implement it in
-		// Application3D!
-		{
-			String xmlDef = app.getKernel().getConstruction()
-					.getConstructionDefaults().getCDXML();
+		byte[] macros = app.getMacroFileAsByteArray();
+
+		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
+			
+			// make sure folder exists
+			new File(GeoGebraConstants.PREFS_PATH).mkdirs();
+
+			Util.writeStringToFile(userPrefsXML,
+					GeoGebraConstants.WINDOWS_USERS_PREFS);
+			Util.writeStringToFile(objectPrefsXML,
+					GeoGebraConstants.WINDOWS_OBJECTS_PREFS);
+
+			Util.writeByteArrayToFile(macros,
+					GeoGebraConstants.WINDOWS_MACROS_PREFS);
+
+			return;
+
+		}
+
+		ggbPrefs.put(XML_USER_PREFERENCES, userPrefsXML);
+
 			try {
-			ggbPrefs.put(XML_DEFAULT_OBJECT_PREFERENCES, xmlDef);
+			ggbPrefs.put(XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
 			} catch (Exception e) {
+				e.printStackTrace();
 				App.error("object defaults too long");
 			}
-		}
 
 		// store current tools including icon images as ggt file (byte array)
 		putByteArray(ggbPrefs, TOOLS_FILE_GGT, app.getMacroFileAsByteArray());
@@ -502,6 +520,40 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	public void loadXMLPreferences(AppD app) {
 		app.setWaitCursor();
 
+		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
+
+			String userPrefsXML = Util
+					.loadFileIntoString(GeoGebraConstants.WINDOWS_USERS_PREFS);
+			String objectPrefsXML = Util.loadFileIntoString(
+					GeoGebraConstants.WINDOWS_OBJECTS_PREFS);
+
+			byte[] ggtFile = Util.loadFileIntoByteArray(
+					GeoGebraConstants.WINDOWS_MACROS_PREFS);
+
+			if (ggtFile != null) {
+			app.loadMacroFileFromByteArray(ggtFile, true);
+			}
+
+			if (userPrefsXML != null) {
+				app.setXML(userPrefsXML, false);
+			} else {
+				app.setXML(factoryDefaultXml, false);
+			}
+
+			if (objectPrefsXML != null
+					&& !objectPrefsXML.equals(factoryDefaultXml)) {
+				boolean eda = app.getKernel().getElementDefaultAllowed();
+				app.getKernel().setElementDefaultAllowed(true);
+				app.setXML(objectPrefsXML, false);
+				app.getKernel().setElementDefaultAllowed(eda);
+			}
+
+			app.updateToolBar();
+			app.setDefaultCursor();
+			return;
+
+		}
+
 		// load this preferences xml file in application
 		try {
 			// load tools from ggt file (byte array)
@@ -545,7 +597,21 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	/**
 	 * Clears all user preferences.
 	 */
-	public void clearPreferences() {
+	public void clearPreferences(App app) {
+		
+		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
+			try {
+				new File(GeoGebraConstants.WINDOWS_OBJECTS_PREFS).delete();
+				new File(GeoGebraConstants.WINDOWS_USERS_PREFS).delete();
+				new File(GeoGebraConstants.WINDOWS_MACROS_PREFS).delete();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return;
+		}
+		
 		try {
 			ggbPrefs.clear();
 			ggbPrefs.flush();

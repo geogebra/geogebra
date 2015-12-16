@@ -3900,6 +3900,7 @@ public abstract class App implements UpdateSelection {
 		case PRINT_MENU:
 		case ACRA:
 		case ANALYTICS:
+		case SAVE_SETTINGS_TO_FILE:
 			return prerelease;
 		// return canary;
 		case AV_EXTENSIONS:

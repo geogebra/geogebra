@@ -71,5 +71,5 @@ public enum Feature {
 
 	ACRA,
 
-	ANALYTICS
+	ANALYTICS, SAVE_SETTINGS_TO_FILE
 }

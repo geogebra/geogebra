@@ -22,12 +22,17 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
@@ -41,6 +46,7 @@ import javax.swing.JDialog;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
+import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -169,6 +175,58 @@ public class Util extends org.geogebra.common.util.Util {
 		return bos.toByteArray();
 	}
 
+	public static String loadFileIntoString(String filename) {
+
+		InputStream ios = null;
+		try {
+			ios = new FileInputStream(new File(filename));
+			return loadIntoString(ios);
+		} catch (Exception e) {
+			App.error("problem loading " + filename);
+		} finally {
+			try {
+				if (ios != null)
+					ios.close();
+			} catch (IOException e) {
+				App.error("problem loading " + filename);
+				return null;
+			}
+		}
+
+		return null;
+
+
+	}
+
+	public static byte[] loadFileIntoByteArray(String filename) {
+		
+		File file = new File(filename);
+		
+	    byte[] buffer = new byte[(int) file.length()];
+	    InputStream ios = null;
+	    try {
+	        ios = new FileInputStream(file);
+	        if (ios.read(buffer) == -1) {
+	        	App.error("problem loading " + filename);
+	        	return null;
+	        }
+
+		} catch (Exception e) {
+			App.error("problem loading " + filename);
+			return null;
+	    } finally {
+	    	try {
+	            if (ios != null)
+	                ios.close();
+	        } catch (IOException e) {
+		    	App.error("problem loading " + filename);
+		    	return null;
+	        }
+		}
+	    
+	    return buffer;
+	}
+
 	/**
 	 * Writes all contents of the given InputStream to a String
 	 */
@@ -288,5 +346,59 @@ public class Util extends org.geogebra.common.util.Util {
 		});
 	}
 
+
+	/**
+	 * 
+	 * Writes file as UTF-8
+	 * 
+	 * @param s
+	 *            string to write
+	 * @param filename
+	 *            filename
+	 */
+	public static void writeStringToFile(String s, String filename) {
+
+		Writer out;
+		try {
+
+			out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(filename), "UTF-8"));
+
+			try {
+				out.write(s);
+			} finally {
+				out.close();
+			}
+
+		} catch (Exception e) {
+			App.error("problem writing file " + filename);
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * @param bytes
+	 *            to write
+	 * @param filename
+	 *            filename
+	 */
+	public static void writeByteArrayToFile(byte[] bytes, String filename) {
+		try {
+
+			FileOutputStream out = new FileOutputStream(filename);
+
+			try {
+				out.write(bytes);
+			} finally {
+				out.close();
+			}
+
+		} catch (Exception e) {
+			App.error("problem writing file " + filename);
+			e.printStackTrace();
+		}
+
+	}
 
 }

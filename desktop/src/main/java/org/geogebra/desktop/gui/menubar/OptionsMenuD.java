@@ -321,7 +321,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 						}
 					}
 
-					GeoGebraPreferencesD.getPref().clearPreferences();
+					GeoGebraPreferencesD.getPref().clearPreferences(app);
 					boolean oldAxisX = app.getSettings().getEuclidian(1)
 							.getShowAxis(0);
 					boolean oldAxisY = app.getSettings().getEuclidian(1)

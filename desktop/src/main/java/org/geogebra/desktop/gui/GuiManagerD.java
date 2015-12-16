@@ -328,7 +328,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void clearPreferences() {
 		if ((app).isSaved() || ((AppD) app).saveCurrentFile()) {
 			app.setWaitCursor();
-			GeoGebraPreferencesD.getPref().clearPreferences();
+			GeoGebraPreferencesD.getPref().clearPreferences(app);
 
 			// clear custom toolbar definition
 			strCustomToolbarDefinition = null;

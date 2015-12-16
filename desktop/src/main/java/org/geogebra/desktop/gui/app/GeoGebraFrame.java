@@ -280,7 +280,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		}
 
 		if (args.containsArg("resetSettings")) {
-			GeoGebraPreferencesD.getPref().clearPreferences();
+			GeoGebraPreferencesD.getPref().clearPreferences(wnd.app);
 		}
 		// Set GeoGebraPreferences mode (system properties or property file)
 		// before it is called for the first time
