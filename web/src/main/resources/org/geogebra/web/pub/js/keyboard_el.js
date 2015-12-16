@@ -50,8 +50,11 @@ __GGB__keyboard.el.lowerCase = {
 
 
 __GGB__keyboard.el.shiftDown = {
-		"B0_0": "",
-		"B0_1": "",
+		// these two are lower-case
+		// but needed to stop the keys jumping around
+		"B0_0": "\u03D5",		
+		"B0_1": "\u03C2",
+		
 		"B0_2": "\u0395",
 		"B0_3": "\u03A1",
 		"B0_4": "\u03A4",
