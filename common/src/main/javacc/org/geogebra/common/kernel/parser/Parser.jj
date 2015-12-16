@@ -168,7 +168,7 @@ public class Parser implements ParserInterface{
     public ExpressionNode parseCmdExpression(String parseString) 
     throws ParseException {    
         myReInit(parseString );                           
-        ExpressionNode ret = cmdexpression();
+        ExpressionNode ret = expressionOrEquation();
         processUndecided();
         return ret;           
     }
@@ -429,7 +429,7 @@ ValidExpression buildValidExpression() :
         // CAS assignment "a := 5" should be supported too
         // inequalities "a: 3x + 4y < 7" and intervalls "b: 3 < x < 7" can be named too                                  
       LOOKAHEAD(2147483647)  
-      l = label() (":" | <ASSIGNMENT> )  ve = cmdexpression()
+      l = label() (":" | <ASSIGNMENT> )  ve = expressionOrEquation()
    |     
         // distingiush <LABEL> = expressionnode()               and  
         //             expressionnode() = expressionnode()      (Equation)
@@ -482,7 +482,7 @@ ValidExpression buildValidExpression() :
         }
      |
         LOOKAHEAD(2147483647)
-        ve = cmdexpression()     
+        ve = expressionOrEquation()     
      |       
         LOOKAHEAD(2147483647)
         labels = labellist() (< EQUAL > | <ASSIGNMENT>) ve = command()                                                                                
@@ -688,8 +688,8 @@ ValidExpression command():
        (t = <FUNCTION_LABEL>) // includes (
       { cmdName = t.image.substring(0,t.image.length()-1);
         c = new Command(kernel, cmdName, true, !ExternalCASParsing );    } 
-      (   ( en = cmdexpression()  { c.addArgument( en ); } )?
-          ( <COMMA> en = cmdexpression() { c.addArgument( en ); } )*
+      (   ( en = expressionOrEquation()  { c.addArgument( en ); } )?
+          ( <COMMA> en = expressionOrEquation() { c.addArgument( en ); } )*
       (")"|"]") )
       { if (GiacParsing)
       {
@@ -808,26 +808,6 @@ ExpressionNode expression():
         return rhs;
     }
 }
-
-/**
- * cmdexpression = expressionnode 
- * (may only return Function)
- */
-ExpressionNode cmdexpression():
-{
-    ExpressionNode en;
-}
-{
-
-   en = expressionOrEquation()              
-    {
-        // since v3.0: commands have to take care of resolving the variables of 
-        // their arguments on their own, e.g. Sequence[ (i, i^2), i , 1, 10 ]       
-    //rhs.resolveVariables();
-        return en;
-    }
-}
-
 
 /**
  * function = functionExpressionnode 
@@ -1662,12 +1642,12 @@ ExpressionValue list():
    ( 
     // list
     "{"
-      ev = cmdexpression()     
+      ev = expressionOrEquation()     
        {   
             myList = new MyList(kernel);         
             myList.addListElement(ev);
         }
-       ( <COMMA> ev = cmdexpression()  
+       ( <COMMA> ev = expressionOrEquation()  
           {
            myList.addListElement(ev); 
           } 
