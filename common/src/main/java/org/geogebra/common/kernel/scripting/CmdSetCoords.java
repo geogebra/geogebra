@@ -50,7 +50,7 @@ public class CmdSetCoords extends CmdScripting {
 
 			x = getDouble(arg[1], c);
 			y = getDouble(arg[2], c);
-			double z = getDouble(arg[4], c);
+			double z = getDouble(arg[3], c);
 
 			if (!setCoords(arg[0], x, y, z)) {
 				throw argErr(app, c.getName(), arg[0]);
