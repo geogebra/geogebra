@@ -3899,7 +3899,6 @@ public abstract class App implements UpdateSelection {
 		case CP_NEW_COLUMNS:
 		case EXAM:
 		case PRINT_MENU:
-		case DRAW_DROPDOWNLISTS_TO_CANVAS:
 		case ACRA:
 		case ANALYTICS:
 		case REALSENSE:
@@ -3917,6 +3916,7 @@ public abstract class App implements UpdateSelection {
 		case LATEX_ON_BUTTON:
 		case LATEX_ON_CHECKBOX:
 		case DRAW_INPUTBOXES_TO_CANVAS:
+		case DRAW_DROPDOWNLISTS_TO_CANVAS:
 			return true;
 		default:
 			return false;
