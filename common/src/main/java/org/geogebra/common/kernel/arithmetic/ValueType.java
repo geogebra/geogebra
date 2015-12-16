@@ -266,7 +266,7 @@ public enum ValueType {
 			break;
 
 		case VECTORPRODUCT:
-			ValueType.VECTOR3D.check(left, ValueType.NUMBER);
+			return ValueType.VECTOR3D.check(left, ValueType.NUMBER);
 		case VEC_FUNCTION:
 			break;
 		case XCOORD:
@@ -276,7 +276,6 @@ public enum ValueType {
 		case IMAGINARY:
 		case RANDOM:
 			return ValueType.NUMBER;
-
 		case ZETA:
 			break;
 

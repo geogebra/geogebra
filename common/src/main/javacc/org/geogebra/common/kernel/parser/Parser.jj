@@ -179,7 +179,7 @@ public class Parser implements ParserInterface{
     public ExpressionNode parseExpression(String parseString) 
     throws ParseException {    
         myReInit( parseString);                           
-        ExpressionNode ret = expression();
+        ExpressionNode ret = expressionNoFreeVars();
         processUndecided();
         return ret;   
     }
@@ -399,7 +399,7 @@ TOKEN: {
  * validexpression =    
  *                  labellist() = command() |           // e.g. {A,B} = Intersect[c, g]
  *                      <LABEL> : parametric() |        // e.g. X = (3,2) + t (2,1)              
- *                      <LABEL> = expression()      // arithmetic expression of floats, vectors and vars
+ *                      <LABEL> = expressionn()      // arithmetic expression of floats, vectors and vars
  *                      <LABEL> : equation()        // equation in x an y
              <LABEL>(x) = function()   // function in x, e.g. f(x) = 3x^3 - sqrt(x)
  */
@@ -760,7 +760,7 @@ NormalVectorForm normalvectorform():
 /**
  * expression = expressionnode
  */
-ExpressionNode expression():
+ExpressionNode expressionNoFreeVars():
 {
     ExpressionNode rhs;
 }
@@ -2085,9 +2085,9 @@ VectorValue cartesianvector():
     // cartesian coordinates
   
     (  LOOKAHEAD(2147483647)
-   ( "(" x = expression() <COMMA> y = expression() ")"  )   
+   ( "(" x = expressionnode() <COMMA> y = expressionnode() ")"  )   
     | 
-    (  "(" x = expression() <VERTICAL_BAR> y = expression() ")" )
+    (  "(" x = expressionnode() <VERTICAL_BAR> y = expressionnode() ")" )
     )
         {  return new MyVecNode(kernel, x, y); }           
 }
@@ -2103,9 +2103,9 @@ Vector3DValue cartesianvector3D():
     // cartesian coordinates
   
     (  LOOKAHEAD(2147483647)
-   ( "(" x = expression() <COMMA> y = expression() <COMMA> z = expression() ")"  )   
+   ( "(" x = expressionnode() <COMMA> y = expressionnode() <COMMA> z = expressionnode() ")"  )   
     | 
-    (  "(" x = expression() <VERTICAL_BAR> y = expression() <VERTICAL_BAR> z = expression() ")" )
+    (  "(" x = expressionnode() <VERTICAL_BAR> y = expressionnode() <VERTICAL_BAR> z = expressionnode() ")" )
     )
         {  return new MyVec3DNode(kernel, x, y, z); }           
 }
@@ -2120,7 +2120,7 @@ VectorValue polarvector():
 }
 {   
     (  
-     ( "(" r = expression() <POLAR_SEPARATOR> phi = expression() ")" )
+     ( "(" r = expressionnode() <POLAR_SEPARATOR> phi = expressionnode() ")" )
     )   
         {                            
              v = new MyVecNode(kernel);                         
@@ -2139,7 +2139,7 @@ Vector3DValue sphericalvector():
 }
 {   
     (  
-     ( "(" r = expression() <POLAR_SEPARATOR> theta = expression() <POLAR_SEPARATOR> phi = expression() ")" )
+     ( "(" r = expressionnode() <POLAR_SEPARATOR> theta = expressionnode() <POLAR_SEPARATOR> phi = expressionnode() ")" )
     )   
         {                            
              v = new MyVec3DNode(kernel);                         
@@ -2158,7 +2158,7 @@ ExpressionNode cartesianvector_special():
 }
 {   
     // cartesian coordinates
-    (   l = <FUNCTION_LABEL>  x = expression() <VERTICAL_BAR> y = expression() ")" )
+    (   l = <FUNCTION_LABEL>  x = expressionNoFreeVars() <VERTICAL_BAR> y = expressionNoFreeVars() ")" )
         {         
           ExpressionNode en =  new ExpressionNode(kernel, new MyVecNode(kernel, x, y)); 
           en.setLabel(l.image.substring(0,l.image.length()-1));
@@ -2173,7 +2173,7 @@ ExpressionNode cartesianvector3D_special():
 }
 {   
     // cartesian coordinates
-    (   l = <FUNCTION_LABEL>  x = expression() <VERTICAL_BAR> y = expression() <VERTICAL_BAR> z = expression() ")" )
+    (   l = <FUNCTION_LABEL>  x = expressionNoFreeVars() <VERTICAL_BAR > y = expressionNoFreeVars() <VERTICAL_BAR> z = expressionNoFreeVars() ")" )
         {         
           ExpressionNode en =  new ExpressionNode(kernel, new MyVec3DNode(kernel, x, y, z)); 
           en.setLabel(l.image.substring(0,l.image.length()-1));
@@ -2191,7 +2191,7 @@ ExpressionNode polarvector_special():
 }
 {   
     // cartesian coordinates
-    (   l = <FUNCTION_LABEL>  r = expression() <POLAR_SEPARATOR>  phi = expression() ")" )
+    (   l = <FUNCTION_LABEL>  r = expressionNoFreeVars() <POLAR_SEPARATOR>  phi = expressionNoFreeVars() ")" )
         {         
             MyVecNode v = new MyVecNode(kernel);
             v.setPolarCoords(r, phi);

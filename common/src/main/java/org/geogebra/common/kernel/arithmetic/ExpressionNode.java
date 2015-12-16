@@ -1053,7 +1053,17 @@ base.getFunctionVariable(), kernel)
 			return new Polynomial(kernel, new Term(new ExpressionNode(kernel,
 					left, operation, right), ""));
 		}
-
+		if (operation == Operation.MULTIPLY
+				&& left.evaluatesToNonComplex2DVector()
+				&& right.evaluatesToNonComplex2DVector()) {
+			return scalarProductComponent(0).plus(scalarProductComponent(1))
+					.makePolynomialTree(equ);
+		}
+		if (operation == Operation.MULTIPLY && left.evaluatesTo3DVector()
+				&& right.evaluatesTo3DVector()) {
+			return scalarProductComponent(0).plus(scalarProductComponent(1))
+					.plus(scalarProductComponent(2)).makePolynomialTree(equ);
+		}
 		// transfer left subtree
 		if (left.isExpressionNode()) {
 			lt = ((ExpressionNode) left).makePolynomialTree(equ);
@@ -1087,6 +1097,15 @@ base.getFunctionVariable(), kernel)
 			}
 		}
 		return lt.apply(operation, rt, equ);
+	}
+
+	private ExpressionNode scalarProductComponent(int i) {
+		return kernel
+				.getAlgebraProcessor()
+				.computeCoord(getLeftTree(), i)
+				.multiply(
+						kernel.getAlgebraProcessor().computeCoord(
+								getRightTree(), i));
 	}
 
 	private Polynomial makePolyTreeFromFunction(Function func, Equation equ) {
@@ -5723,6 +5742,10 @@ kernel, left,
 			return checkForFreeVars(((MyVecNode) ev).getX(), name)
 					|| checkForFreeVars(((MyVecNode) ev).getY(), name);
 		}
+		if (ev instanceof MyVec3DNode) {
+			return checkForFreeVars(((MyVec3DNode) ev).getX(), name)
+					|| checkForFreeVars(((MyVec3DNode) ev).getY(), name);
+		}
 		return false;
 	}
 
@@ -5959,6 +5982,7 @@ kernel, left,
 	@Override
 	public ValueType getValueType() {
 		if (resolve == null) {
+
 			resolve = computeResolve();
 		}
 		return ((Resolution) resolve).getValueType();
