@@ -649,6 +649,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			TreeItem node = getItem(i);
 			if(node != null){
 				node.setState(false);
+				if (node.getWidget() instanceof GroupHeader) {
+					((GroupHeader) node.getWidget()).setChecked(false);
+				}
 			}
 		}
 
