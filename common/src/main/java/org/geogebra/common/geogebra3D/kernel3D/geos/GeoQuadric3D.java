@@ -1634,7 +1634,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// copy everything
 		toStringMode = quadric.toStringMode;
-		App.debug(quadric.type + " quadric type");
 		boolean typeChanged = type != quadric.type;
 		type = quadric.type;
 
