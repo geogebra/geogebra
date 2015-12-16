@@ -97,6 +97,10 @@ public class Hits extends ArrayList<GeoElement> {
 	@Override
 	public boolean add(GeoElement geo) {
 
+		if (geo == null) {
+			return false;
+		}
+
 		if (!geo.isSelectionAllowed(null)) {
 
 			// #3771
