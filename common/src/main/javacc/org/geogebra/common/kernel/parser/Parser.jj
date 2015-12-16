@@ -420,11 +420,7 @@ ValidExpression buildValidExpression() :
        // spreadsheet range like A1:B2
     LOOKAHEAD (3)
     ve = spreadsheetRange()     
-     |     
-        // g: 3x + y = 7 
-        LOOKAHEAD(2147483647)      
-        l = label()  (":" | <ASSIGNMENT> )  ve = equation()        
-    |          
+     |       
         // special case "A: (3,2)" should become a point  
         // CAS assignment "a := 5" should be supported too
         // inequalities "a: 3x + 4y < 7" and intervalls "b: 3 < x < 7" can be named too                                  
@@ -536,13 +532,10 @@ ValidExpression buildCASExpression(GeoCasCell cell) :
  *       l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric3D() 
     |     */
          // labeled equation, e.g. g: 3x + y = 7
-         LOOKAHEAD(2147483647)   
-         l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = equation()  
-    |
-        // assignment         
+         // assignment         
         // b := 27 + c, also allow x := 5, see http://www.geogebra.org/trac/ticket/946
         LOOKAHEAD(2147483647)    
-    l = casVar() (assign= ":" |assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = expressionnode()
+    l = casVar() (assign= ":" |assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = expressionOrEquation()
 /*   |
  *    LOOKAHEAD(2147483647)   
  *       ve = parametric()
