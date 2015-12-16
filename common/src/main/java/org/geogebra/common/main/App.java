@@ -3900,7 +3900,6 @@ public abstract class App implements UpdateSelection {
 		case PRINT_MENU:
 		case ACRA:
 		case ANALYTICS:
-		case SAVE_SETTINGS_TO_FILE:
 			return prerelease;
 		// return canary;
 		case AV_EXTENSIONS:
@@ -3918,6 +3917,7 @@ public abstract class App implements UpdateSelection {
 		case DRAW_DROPDOWNLISTS_TO_CANVAS:
 		case ZSPACE:
 		case REALSENSE:
+		case SAVE_SETTINGS_TO_FILE:
 			return true;
 		default:
 			return false;
