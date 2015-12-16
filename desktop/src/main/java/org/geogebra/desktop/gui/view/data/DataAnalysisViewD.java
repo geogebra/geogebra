@@ -126,7 +126,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 		model.setView(dataSource, mode, forceModeUpdate);
 		updateFonts();
-		setLabels();
 		updateGUI();
 		revalidate();
 
@@ -456,7 +455,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 		}
 
-		setLabels();
 		updateFonts();
 
 		displayPanel.resetToPreferredSizes();
