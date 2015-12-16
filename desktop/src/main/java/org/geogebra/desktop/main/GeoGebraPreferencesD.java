@@ -44,6 +44,13 @@ import org.geogebra.desktop.util.Util;
 
 public class GeoGebraPreferencesD extends GeoGebraPreferences {
 
+	public static final String PREFS_PATH = System.getenv("APPDATA")
+			+ "/GeoGebra 5.0/prefs/";
+	public static final String WINDOWS_USERS_PREFS = PREFS_PATH + "prefs.xml";
+	public static final String WINDOWS_OBJECTS_PREFS = PREFS_PATH
+			+ "defaults.xml";
+	public static final String WINDOWS_MACROS_PREFS = PREFS_PATH + "macros.ggt";
+
 	public static final String AUTHOR = "author";
 
 	public static final String VERSION = "version";
@@ -375,15 +382,15 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
 			
 			// make sure folder exists
-			new File(GeoGebraConstants.PREFS_PATH).mkdirs();
+			new File(PREFS_PATH).mkdirs();
 
 			Util.writeStringToFile(userPrefsXML,
-					GeoGebraConstants.WINDOWS_USERS_PREFS);
+ WINDOWS_USERS_PREFS);
 			Util.writeStringToFile(objectPrefsXML,
-					GeoGebraConstants.WINDOWS_OBJECTS_PREFS);
+ WINDOWS_OBJECTS_PREFS);
 
 			Util.writeByteArrayToFile(macros,
-					GeoGebraConstants.WINDOWS_MACROS_PREFS);
+ WINDOWS_MACROS_PREFS);
 
 			return;
 
@@ -523,12 +530,12 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
 
 			String userPrefsXML = Util
-					.loadFileIntoString(GeoGebraConstants.WINDOWS_USERS_PREFS);
+.loadFileIntoString(WINDOWS_USERS_PREFS);
 			String objectPrefsXML = Util.loadFileIntoString(
-					GeoGebraConstants.WINDOWS_OBJECTS_PREFS);
+WINDOWS_OBJECTS_PREFS);
 
 			byte[] ggtFile = Util.loadFileIntoByteArray(
-					GeoGebraConstants.WINDOWS_MACROS_PREFS);
+WINDOWS_MACROS_PREFS);
 
 			if (ggtFile != null) {
 			app.loadMacroFileFromByteArray(ggtFile, true);
@@ -601,9 +608,9 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		
 		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
 			try {
-				new File(GeoGebraConstants.WINDOWS_OBJECTS_PREFS).delete();
-				new File(GeoGebraConstants.WINDOWS_USERS_PREFS).delete();
-				new File(GeoGebraConstants.WINDOWS_MACROS_PREFS).delete();
+				new File(WINDOWS_OBJECTS_PREFS).delete();
+				new File(WINDOWS_USERS_PREFS).delete();
+				new File(WINDOWS_MACROS_PREFS).delete();
 
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -77,12 +77,6 @@ public interface GeoGebraConstants {
 	/** update directory, typically on Windows */
 	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.0\\jars\\update";
 
-	public static final String PREFS_PATH = /* System.getenv("APPDATA") */ "/GeoGebra 5.0/prefs/";
-	public static final String WINDOWS_USERS_PREFS = PREFS_PATH + "prefs.xml";
-	public static final String WINDOWS_OBJECTS_PREFS = PREFS_PATH
-			+ "defaults.xml";
-	public static final String WINDOWS_MACROS_PREFS = PREFS_PATH + "macros.ggt";
-
 	/** update directory, typically on Windows */
 	public static final String GEOGEBRA_THIRD_PARTY_UPDATE_DIR = "\\GeoGebra 5.0\\thirdparty\\update";
 
