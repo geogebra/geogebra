@@ -545,12 +545,7 @@ ValidExpression buildCASExpression(GeoCasCell cell) :
    |      
          // equation, e.g. 3x + y = 7
          LOOKAHEAD(2147483647)   
-         ve = equation()
-    | 
-      // expression
-      // 5a + 3    
-      LOOKAHEAD(2147483647)
-      ve = expressionnode()                   
+         ve = expressionOrEquation()         
   )                     
     ( <POLAR_SEPARATOR> | <EOF> )     
     {   
@@ -761,24 +756,6 @@ NormalVectorForm normalvectorform():
  * exponents must be integers >= 0
  * divisors must be simplifyable to numbers
  ******************************************************************/
-
-
-/**
- * equation =       expression = expression
- */
-Equation equation():
-{
-    ExpressionNode lhs, rhs;
-}
-{    
-    lhs = expressionnode() <EQUAL> rhs = expressionnode()
-        {             
-            return new Equation(kernel, lhs, rhs); 
-        }
-}
-
-
-
 
 /**
  * expression = expressionnode
