@@ -100,7 +100,7 @@ public enum Language {
 
 	Valencian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO, null, true, "caXV", "ca_XV", "ca",
-			"Catalan (Valencia) / Catal\u00E0 (Valenci\u00E0)", "valencia"),
+			"Catalan / Catal\u00E0 (Valenci\u00E0)", "valencia"),
 	// fudge to get right flag
 
 	Chinese_Simplified(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
@@ -130,12 +130,12 @@ public enum Language {
 
 	Dutch(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO, null, true, "nl", "nl",
-			"Dutch / Nederlands (The Netherlands)",
+			"Dutch / Nederlands (Nederland)",
 			Country.Netherlands, Country.Suriname),
 
 	Dutch_Belgium(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO, null, true, "nlBE", "nl_BE", "nl",
-			"Dutch / Nederlands (Belgium)", null,
+			"Dutch / Nederlands (Belgi\u00eb)", null,
 			Country.Belgium),
 
 	English_US(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
@@ -220,7 +220,7 @@ public enum Language {
 
 	German_Austria(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
 			Unicode.CURRENCY_EURO, null, true, "deAT", "de_AT", "de",
-			"German (Austria) / Deutsch (\u00D6sterreich)", null,
+			"German / Deutsch (\u00D6sterreich)", null,
 			Country.Austria),
 
 	Greek(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
@@ -343,11 +343,13 @@ public enum Language {
 	// use Brazilian as the root (ie not ptBR) as there are more speakers
 			Portuguese_Brazil(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 					null, null, true, "pt", "pt",
-			"Portuguese (Brazil) / Portugu\u00EAs (Brasil)", Country.Brazil),
+ "Portuguese / Portugu\u00EAs (Brasil)",
+			Country.Brazil),
 
 	Portuguese_Portugal(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO, null, true, "ptPT", "pt_PT",
-			"pt", "Portuguese (Portugal) / Portugu\u00EAs (Portugal)", null,
+ "pt",
+			"Portuguese / Portugu\u00EAs (Portugal)", null,
 			Country.Portugal, Country.Mozambique, Country.Angola,
 			Country.CapeVerde, Country.GuineaBissau, Country.SaoTomePrincipe,
 			Country.Macau, Country.EastTimor),
