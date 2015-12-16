@@ -155,6 +155,11 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 	}
 	
+	/**
+	 * @param lineThickness
+	 *            vector thickness
+	 * @return arrow size
+	 */
 	static final public double getFactor(double lineThickness){
 		
 		// changed to make arrow-heads a bit bigger for line thickness 8-13

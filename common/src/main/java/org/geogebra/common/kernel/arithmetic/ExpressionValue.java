@@ -261,5 +261,10 @@ public interface ExpressionValue {
 	 */
 	public ExpressionValue getUndefinedCopy(Kernel kernel);
 
+	/**
+	 * @return converts to valid expression, GeoText -> MyTextBuffer,
+	 *         GeoNumeric-MyDouble etc.
+	 * 
+	 */
 	public ExpressionValue toValidExpression();
 }

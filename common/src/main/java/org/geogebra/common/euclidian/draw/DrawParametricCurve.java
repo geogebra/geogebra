@@ -54,7 +54,6 @@ public class DrawParametricCurve extends Drawable {
 	private CurveEvaluable curve;
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible, labelVisible, fillCurve;
-	private boolean pointwise = false;
 
 	/**
 	 * Creates graphical representation of the curve
@@ -245,26 +244,32 @@ public class DrawParametricCurve extends Drawable {
 				if (v.isExpressionNode()
 						&& ((ExpressionNode) v).getOperation() == Operation.DATA) {
 
-					dataExpression = ((ExpressionNode) v);
-					if (dataExpression.getLeft().unwrap() instanceof FunctionVariable) {
-						invert = null;
-						return true;
-					}
-					invFV = new FunctionVariable(view.getApplication()
-							.getKernel());
-					invert = AlgoFunctionInvert.invert(
-dataExpression.getLeft()
-							.unwrap(),
-							((GeoFunction) curve).getFunctionVariables()[0],
-							invFV, geo.getKernel());
-					if (invert == null) {
-						App.printStacktrace("" + dataExpression.getLeft());
-						dataExpression = null;
-					}
-					return true;
+					return updateDataExpression((ExpressionNode) v);
 				}
 				return false;
 			}};
+	}
+
+	/**
+	 * @param v
+	 *            new node
+	 * @return whether this is a valid datafunction
+	 */
+	protected boolean updateDataExpression(ExpressionNode v) {
+		dataExpression = (v);
+		if (dataExpression.getLeft().unwrap() instanceof FunctionVariable) {
+			invert = null;
+			return true;
+		}
+		invFV = new FunctionVariable(view.getApplication().getKernel());
+		invert = AlgoFunctionInvert.invert(dataExpression.getLeft().unwrap(),
+				((GeoFunction) curve).getFunctionVariables()[0], invFV,
+				geo.getKernel());
+		if (invert == null) {
+			App.printStacktrace("" + dataExpression.getLeft());
+			dataExpression = null;
+		}
+		return true;
 	}
 
 	@Override

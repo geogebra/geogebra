@@ -980,6 +980,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		getPolynomialCoeffsCache.clear();
 	}
 
+	/**
+	 * @return swaps in form a->b
+	 */
 	public ArrayList<String> getVarSwaps() {
 		return varSwaps;
 	}

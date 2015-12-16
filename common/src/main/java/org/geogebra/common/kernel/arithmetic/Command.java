@@ -820,12 +820,15 @@ public class Command extends ValidExpression implements
 		this.name = string;
 	}
 
+	/**
+	 * @return whether this command has a name of GeoGebra supported command
+	 */
 	public boolean isAvailable() {
 		Commands c = null;
 		try {
 			c = Commands.valueOf(name);
 		} catch (Exception e) {
-
+			// not found
 		}
 		return c != null;
 	}
