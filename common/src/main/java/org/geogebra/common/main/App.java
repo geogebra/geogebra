@@ -3891,7 +3891,6 @@ public abstract class App implements UpdateSelection {
 		case TOOL_EDITOR:
 		case TUBE_BETA:
 		case LOG_AXES:
-		case ZSPACE:
 		case SURFACE_IS_REGION:
 		case SHADERS_IN_DESKTOP:
 		case SHINY_3D:
@@ -3901,7 +3900,6 @@ public abstract class App implements UpdateSelection {
 		case PRINT_MENU:
 		case ACRA:
 		case ANALYTICS:
-		case REALSENSE:
 			return prerelease;
 		// return canary;
 		case AV_EXTENSIONS:
@@ -3917,6 +3915,8 @@ public abstract class App implements UpdateSelection {
 		case LATEX_ON_CHECKBOX:
 		case DRAW_INPUTBOXES_TO_CANVAS:
 		case DRAW_DROPDOWNLISTS_TO_CANVAS:
+		case ZSPACE:
+		case REALSENSE:
 			return true;
 		default:
 			return false;
