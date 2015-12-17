@@ -5027,8 +5027,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			animationSpeedList.clear();
 			e.printStackTrace();
-			throw new MyError(loc,
-					"processAnimationSpeedList: " + e.toString());
+			errors.add("Invalid animation speed: " + e.toString());
 		}
 		animationSpeedList.clear();
 	}
@@ -5051,7 +5050,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			animationStepList.clear();
 			e.printStackTrace();
-			throw new MyError(loc, "processAnimationStepList: " + e.toString());
+			errors.add("Invalid animation step: " + e.toString());
 		}
 		animationSpeedList.clear();
 	}
@@ -5065,9 +5064,7 @@ public class MyXMLHandler implements DocHandler {
 				geo1.setAnimating(true);
 			}
 		} catch (Exception e) {
-			animatingList.clear();
-			e.printStackTrace();
-			throw new MyError(loc, "processAnimatingList: " + e.toString());
+			errors.add("Invalid animating: " + e.toString());
 		}
 		animatingList.clear();
 	}
@@ -5102,7 +5099,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			minMaxList.clear();
 			e.printStackTrace();
-			throw new MyError(loc, "processMinMaxList: " + e.toString());
+			errors.add("Invalid min/max: " + e.toString());
 		}
 		minMaxList.clear();
 	}
@@ -5121,7 +5118,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			dynamicColorList.clear();
 			e.printStackTrace();
-			throw new MyError(loc, "dynamicColorList: " + e.toString());
+			errors.add("Invalid dynamic color: " + e.toString());
 		}
 		dynamicColorList.clear();
 	}
@@ -5525,11 +5522,11 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (MyError e) {
-			throw e;
+			errors.add("wrong command size for " + cmd);
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new MyError(loc, "processing of command: " + cmd);
+			errors.add("wrong command size for " + cmd);
 		}
+		return false;
 	}
 
 	/**
@@ -5567,8 +5564,10 @@ public class MyXMLHandler implements DocHandler {
 			return;
 
 		String exp = attrs.get("exp");
-		if (exp == null)
-			throw new MyError(loc, "exp missing in <expression>");
+		if (exp == null) {
+			errors.add("exp missing in <expression>");
+			return;
+		}
 
 		// type may be vector or point, this is important to distinguish between
 		// them
