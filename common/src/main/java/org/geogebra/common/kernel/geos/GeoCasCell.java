@@ -15,6 +15,7 @@ import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.CASException;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -52,6 +53,7 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.script.GgbScript;
@@ -1476,7 +1478,17 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (isError()) {
 			return;
 		}
-		if (!isAssignmentVariableDefined())
+		boolean isLine = false;
+		// case we have 3DLine
+		if (inputVE.getTopLevelCommand().getName().equals("Line")
+				&& outputVE instanceof Equation
+				&& ((Equation) outputVE).getLHS().getLeft()
+						.toString(StringTemplate.defaultTemplate).equals("y")
+				&& ((Equation) outputVE).getRHS().getLeft()
+						.evaluatesTo3DVector()) {
+			isLine = true;
+		}
+		if (!isAssignmentVariableDefined() && !isLine)
 			return;
 		if (isNative() && (getInputVE() instanceof Function)
 				&& (outputVE instanceof ExpressionNode)) {
@@ -1493,7 +1505,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 
 		// check that assignment variable is not a reserved name in GeoGebra
-		if (kernel.getApplication().getParserFunctions().isReserved(assignmentVar))
+		if (!isLine && kernel.getApplication().getParserFunctions().isReserved(assignmentVar))
 			return;
 
 		// try to create twin geo for assignment, e.g. m := c + 3
@@ -1502,8 +1514,23 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		outputVE.traverse(repl);
 		setEquationMode();
 		
-		
-		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
+		GeoElement newTwinGeo = null;
+		if (isLine && outputVE instanceof Equation) {
+
+			try {
+				GeoElement[] line = kernel.getAlgebraProcessor()
+							.doProcessValidExpression(outputVE);
+				newTwinGeo = line[0];
+			} catch (MyError e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CircularDefinitionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else{
+			newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
+		}
 		
 		if(outputVE.unwrap() instanceof GeoElement && ((GeoElement)outputVE.unwrap()).getDrawAlgorithm() instanceof DrawInformationAlgo){
 			newTwinGeo.setDrawAlgorithm((DrawInformationAlgo) ((GeoElement)outputVE.unwrap()).getDrawAlgorithm());

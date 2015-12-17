@@ -178,6 +178,8 @@ public class ParametricProcessor {
 				return t.next();
 			}
 			return "t";
+		} else if ("y".equals(varName)) {
+			return Unicode.lambdaStr;
 		}
 		return varName;
 	}
@@ -513,6 +515,10 @@ public class ParametricProcessor {
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		equ.traverse(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
+		// case 3DLine
+		if (undefinedVariables.isEmpty()) {
+			undefinedVariables.add("y");
+		}
 		String varName = getPreferredName(undefinedVariables);
 		FunctionVariable fv = new FunctionVariable(kernel, varName);
 		ExpressionNode exp = equ.getRHS().deepCopy(kernel)

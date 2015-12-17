@@ -56,6 +56,7 @@ public class Unicode {
 	public static final char iota = '\u03B9';
 	public static final char kappa = '\u03BA';
 	public static final char lambda = '\u03BB';
+	public static final String lambdaStr = "\u03BB";
 	public static final char mu = '\u03BC';
 	public static final char nu = '\u03BD';
 	public static final char xi = '\u03BE';

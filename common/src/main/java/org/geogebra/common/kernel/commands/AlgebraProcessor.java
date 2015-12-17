@@ -68,6 +68,7 @@ import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -2100,9 +2101,11 @@ public class AlgebraProcessor {
 			}
 		}
 		// s = t^2
-		if (lhs instanceof Variable
- && kernel.lookupLabel("X") == null
-				&& "X".equals(lhs.toString(StringTemplate.defaultTemplate))) {
+		if ((lhs instanceof Variable || lhs instanceof GeoDummyVariable)
+				&& kernel.lookupLabel("X") == null
+				&& ("X".equals(lhs.toString(StringTemplate.defaultTemplate)) || ("y"
+						.equals(lhs
+								.toString(StringTemplate.defaultTemplate))))) {
 			return getParamProcessor().processXEquation(equ);
 		}
 		if (lhs instanceof Variable
