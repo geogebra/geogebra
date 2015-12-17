@@ -42,7 +42,6 @@ import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
 
-import org.geogebra.common.io.DocHandler;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.QDParser;
 import org.geogebra.common.kernel.Construction;
@@ -69,8 +68,7 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 	// Use the default (non-validating) parser
 	// private static XMLReaderFactory factory;
 
-	private DocHandler handler;
-	private MyXMLHandler ggbDocHandler;
+	private MyXMLHandler handler;
 	private QDParser xmlParser;
 
 	public MyXMLioD(Kernel kernel, Construction cons) {
@@ -83,11 +81,11 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 	}
 
 	private MyXMLHandler getGGBHandler() {
-		if (ggbDocHandler == null)
+		if (handler == null)
 			// ggb3D : to create also a MyXMLHandler3D
 			// ggbDocHandler = new MyXMLHandler(kernel, cons);
-			ggbDocHandler = kernel.newMyXMLHandler(cons);
-		return ggbDocHandler;
+			handler = kernel.newMyXMLHandler(cons);
+		return handler;
 	}
 
 	/**

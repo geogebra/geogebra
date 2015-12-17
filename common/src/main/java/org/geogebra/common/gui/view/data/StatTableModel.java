@@ -195,9 +195,12 @@ public class StatTableModel {
 			list.add(Stat.SXX);
 			list.add(Stat.SYY);
 			list.add(Stat.SXY);
-			list.add(Stat.NULL);
-			list.add(Stat.RSQUARE);
-			list.add(Stat.SSE);
+
+			if (getListener().getRegressionMode() != Regression.NONE) {
+				list.add(Stat.NULL);
+				list.add(Stat.RSQUARE);
+				list.add(Stat.SSE);
+			}
 			break;
 		}
 

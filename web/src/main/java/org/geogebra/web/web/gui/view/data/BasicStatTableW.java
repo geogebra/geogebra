@@ -3,9 +3,9 @@ package org.geogebra.web.web.gui.view.data;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
-import org.geogebra.common.gui.view.data.StatTableModel;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
+import org.geogebra.common.gui.view.data.StatTableModel;
 import org.geogebra.common.gui.view.data.StatTableModel.Stat;
 import org.geogebra.common.gui.view.data.StatTableModel.StatTableListener;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 		StatTableListener {
-	private static final long serialVersionUID = 1L;
 	private StatTableModel model;
 
 	protected DataAnalysisViewW daView;
@@ -96,7 +95,9 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 		}
 
 		double value;
-
+		statTable.setStatTable(getModel().getRowCount(), getModel()
+				.getRowNames(), getColumnCount(), getModel()
+				.getColumnNames());
 		ArrayList<Stat> list = getModel().getStatList();
 
 		for (int row = 0; row < list.size(); row++) {

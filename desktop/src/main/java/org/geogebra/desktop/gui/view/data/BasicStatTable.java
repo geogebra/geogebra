@@ -6,8 +6,8 @@ import java.awt.Font;
 import javax.swing.JPanel;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
-import org.geogebra.common.gui.view.data.StatTableModel;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
+import org.geogebra.common.gui.view.data.StatTableModel;
 import org.geogebra.common.gui.view.data.StatTableModel.Stat;
 import org.geogebra.common.gui.view.data.StatTableModel.StatTableListener;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -91,6 +91,9 @@ public class BasicStatTable extends JPanel implements StatPanelInterface,
 	 * 
 	 */
 	public void updatePanel() {
+		statTable.setStatTable(getModel().getRowCount(), getModel()
+				.getRowNames(), getModel().getColumnCount(), getModel()
+				.getColumnNames());
 		getModel().updatePanel();
 	}
 
