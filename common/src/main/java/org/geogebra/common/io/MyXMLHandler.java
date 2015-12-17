@@ -217,6 +217,8 @@ public class MyXMLHandler implements DocHandler {
 	private LinkedList<GeoElement> animatingList = new LinkedList<GeoElement>();
 	private LinkedList<GeoNumericMinMax> minMaxList = new LinkedList<GeoNumericMinMax>();
 
+	private ArrayList<String> errors = new ArrayList<String>();
+
 	private class GeoExpPair {
 		private GeoElement geoElement;
 		String exp;
@@ -352,6 +354,8 @@ public class MyXMLHandler implements DocHandler {
 		animationStepList.clear();
 		animationSpeedList.clear();
 
+		errors.clear();
+
 		if (start)
 			consStep = -2;
 
@@ -403,7 +407,11 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	final public void endDocument() throws SAXException {
-
+		if (errors.size() > 0) {
+			String[] a = new String[errors.size()];
+			errors.toArray(a);
+			app.showError(new MyError(loc, a));
+		}
 		if (mode == MODE_INVALID)
 			throw new SAXException(
 					loc.getPlain("XMLTagANotFound", "<geogebra>"));
@@ -4910,7 +4918,7 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			startPointList.clear();
 			e.printStackTrace();
-			throw new MyError(loc, "processStartPointList: " + e.toString());
+			errors.add("Invalid start point: " + e.toString());
 		}
 		startPointList.clear();
 	}
@@ -4923,7 +4931,7 @@ public class MyXMLHandler implements DocHandler {
 		if (geo instanceof GeoTextField) {
 			((GeoTextField) geo).setLength(Integer.parseInt(val));
 		} else {
-			throw new MyError(loc, "handleLength: " + geo.getGeoClassType());
+			Log.error("Length not supported for " + geo.getGeoClassType());
 		}
 
 		return true;
@@ -4981,27 +4989,27 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			linkedGeoList.clear();
 			e.printStackTrace();
-			throw new MyError(loc, "processlinkedGeoList: " + e.toString());
+			errors.add("Invalid linked geo " + e.toString());
 		}
 		linkedGeoList.clear();
 	}
 
 	private void processShowObjectConditionList() {
-		try {
-			Iterator<GeoExpPair> it = showObjectConditionList.iterator();
-			AlgebraProcessor algProc = kernel.getAlgebraProcessor();
+		Iterator<GeoExpPair> it = showObjectConditionList.iterator();
+		AlgebraProcessor algProc = kernel.getAlgebraProcessor();
 
-			while (it.hasNext()) {
+		while (it.hasNext()) {
+			try {
 				GeoExpPair pair = it.next();
 				GeoBoolean condition = algProc.evaluateToBoolean(pair.exp,
 						false);
 				pair.getGeo().setShowObjectCondition(condition);
+
+			} catch (Exception e) {
+				showObjectConditionList.clear();
+				e.printStackTrace();
+				errors.add("Invalid condition to show object: " + e.toString());
 			}
-		} catch (Exception e) {
-			showObjectConditionList.clear();
-			e.printStackTrace();
-			throw new MyError(loc,
-					"processShowObjectConditionList: " + e.toString());
 		}
 		showObjectConditionList.clear();
 	}
@@ -5333,10 +5341,11 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		// Application.debug(name);
-		if (name != null)
+		if (name != null) {
 			command = new Command(kernel, name, false); // do not translate name
-		else
-			throw new MyError(loc, "name missing in <command>");
+		} else {
+			errors.add("name missing in <command>");
+		}
 		return command;
 	}
 
@@ -5345,8 +5354,6 @@ public class MyXMLHandler implements DocHandler {
 		boolean ok = true;
 
 		if ("input".equals(eName)) {
-			if (cmd == null)
-				throw new MyError(loc, "no command set for <input>");
 			ok = handleCmdInput(attrs);
 		} else if ("output".equals(eName)) {
 			ok = handleCmdOutput(attrs);
@@ -5363,7 +5370,10 @@ public class MyXMLHandler implements DocHandler {
 		GeoElement geo1;
 		ExpressionNode en;
 		String arg = null;
-
+		if (cmd == null) {
+			errors.add("No command set for input");
+			return false;
+		}
 		// Collection<String> values = attrs.values();
 
 		// TODO: it doesn't work with GWT. why?
@@ -5404,10 +5414,10 @@ public class MyXMLHandler implements DocHandler {
 				cmd.addArgument(en);
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new MyError(loc, "unknown command input: " + arg);
+				errors.add("unknown command input: " + arg);
 			} catch (Error e) {
 				e.printStackTrace();
-				throw new MyError(loc, "unknown command input: " + arg);
+				errors.add("unknown command input: " + arg);
 			}
 		}
 		return true;
@@ -5451,9 +5461,10 @@ public class MyXMLHandler implements DocHandler {
 			cmdOutput = kernel.getAlgebraProcessor().processCommand(cmd, true);
 			cons.registerFunctionVariable(null);
 			String cmdName = cmd.getName();
-			if (cmdOutput == null)
-				throw new MyError(loc,
-						"processing of command " + cmd + " failed");
+			if (cmdOutput == null) {
+				errors.add("processing of command: " + cmd);
+				return false;
+			}
 			cmd = null;
 
 			// ensure that labels are set for invisible objects too
@@ -5485,10 +5496,13 @@ public class MyXMLHandler implements DocHandler {
 			}
 			return true;
 		} catch (MyError e) {
-			throw e;
+			errors.add("processing of command: " + cmd);
+			e.printStackTrace();
+			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new MyError(loc, "processing of command: " + cmd);
+			errors.add("processing of command: " + cmd);
+			return false;
 		}
 	}
 
@@ -5618,13 +5632,14 @@ public class MyXMLHandler implements DocHandler {
 					+ exp;
 			App.error(msg);
 			e.printStackTrace();
-			throw new MyError(loc, msg);
+			errors.add(msg);
 		} catch (Error e) {
 			String msg = "error in <expression>: label = " + label + ", exp = "
 					+ exp;
 			App.error(msg);
 			e.printStackTrace();
-			throw new MyError(loc, msg);
+			errors.add(msg);
+			//throw new MyError(loc, msg);
 		}
 	}
 
