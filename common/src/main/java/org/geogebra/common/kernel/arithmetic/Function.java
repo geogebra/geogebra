@@ -18,6 +18,7 @@ import java.util.List;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
+import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.roots.RealRootDerivFunction;
@@ -233,7 +234,6 @@ public class Function extends FunctionNVar implements
 	final private void translateX(ExpressionNode en, double vx) {
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
-		App.debug(left + "             " + right + " ->" + vx);
 		// left tree
 		if (left == fVars[0]) {
 			if(right instanceof MyDouble && right.isConstant()) { // is there a constant number to the right?
@@ -270,26 +270,33 @@ public class Function extends FunctionNVar implements
 			} else {
 				en.setLeft(shiftXnode(vx));
 			}
-		} else if (left instanceof ExpressionNode) {
-			translateX((ExpressionNode) left, vx);
-		} else if (left instanceof MyNumberPair) {
-			translateX(((MyNumberPair) left).getX().wrap(), vx);
-			translateX(((MyNumberPair) left).getY().wrap(), vx);
-		} else if (left instanceof MyList) {
-			for (int i = 0; i < ((MyList) left).size(); i++) {
-				translateX(((MyList) left).getListElement(i).wrap(), vx);
-			}
+		} else {
+			translateExpressionX(left, vx);
 		}
 
 		// right tree
 		if (right == fVars[0]) {
 			en.setRight(shiftXnode(vx));
-		} else if (right instanceof ExpressionNode) {
+		} else {
+			translateExpressionX(right, vx);
+		}
+
+	}
+
+	private void translateExpressionX(ExpressionValue right, double vx) {
+		if (right instanceof ExpressionNode) {
 			translateX((ExpressionNode) right, vx);
 		} else if (right instanceof MyList) {
 			for (int i = 0; i < ((MyList) right).size(); i++) {
 				translateX(((MyList) right).getListElement(i).wrap(), vx);
 			}
+		} else if (right instanceof MyVecNode) {
+			translateX(((MyVecNode) right).getX().wrap(), vx);
+			translateX(((MyVecNode) right).getY().wrap(), vx);
+		} else if (right instanceof MyVec3DNode) {
+			translateX(((MyVec3DNode) right).getX().wrap(), vx);
+			translateX(((MyVec3DNode) right).getY().wrap(), vx);
+			translateX(((MyVec3DNode) right).getZ().wrap(), vx);
 		}
 
 	}

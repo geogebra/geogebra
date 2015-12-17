@@ -4685,7 +4685,10 @@ kernel, left,
 				return wrap(left).power(wrap(right).subtract(1))
 						.multiply(left.derivative(fv, kernel0)).multiply(right);
 			}
-
+			ExpressionNode scalarExpanded = expandScalarProduct();
+			if (scalarExpanded != null) {
+				return scalarExpanded.derivative(fv, kernel0);
+			}
 			return wrap(left).power(right).multiply(
 					wrap(right.derivative(fv, kernel0)).multiply(wrap(left).ln()).plus(
 							wrap(right).multiply(left.derivative(fv, kernel0)).divide(
@@ -4707,7 +4710,10 @@ kernel, left,
 			if (left.isNumberValue() && !left.contains(fv)) {
 				return wrap(right).derivative(fv, kernel0).multiply(left);
 			}
-
+			scalarExpanded = expandScalarProduct();
+			if (scalarExpanded != null) {
+				return scalarExpanded.derivative(fv, kernel0);
+			}
 			return wrap(left).multiply(right.derivative(fv, kernel0)).plus(
 					wrap(right).multiply(left.derivative(fv, kernel0)));
 		case PLUS:
