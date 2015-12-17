@@ -329,14 +329,27 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// }
 			o = view3D.getPickFromScenePoint(positionOld, mouseLoc.x
 					- mouseLocOld.x, mouseLoc.y - mouseLocOld.y);
-		} else
+		} else {
 			o = view3D.getPickPoint(mouseLoc);
+		}
+
 		view3D.toSceneCoords3D(o);
 		addOffsetForTranslation(o);
 
 		// getting new position of the point
-		o.projectPlaneThruVIfPossible(getCurrentPlane(),
-				view3D.getHittingDirection(), tmpCoords);
+		if (Kernel.isEqual(view3D.getHittingDirection().dotproduct(getCurrentPlane().getVz()), 0.0,
+				Kernel.STANDARD_PRECISION)) {
+			// hitting direction is parallel to the plane
+			// project on (mouse position, hitting direction) line
+			point.getInhomCoordsInD3().projectLine(o,
+					view3D.getHittingDirection(), tmpCoords2);
+			// now project on plane
+			tmpCoords2.projectPlane(getCurrentPlane(), tmpCoords);
+		} else {
+			o.projectPlaneThruV(getCurrentPlane(),
+					view3D.getHittingDirection(), tmpCoords);
+		}
+
 
 		// min-max x and y values
 		checkXYMinMax(tmpCoords);
@@ -350,6 +363,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	private Coords tmpCoords = new Coords(4);
+	private Coords tmpCoords2 = new Coords(4);
 
 	protected boolean checkXYMinMax(Coords v) {
 		
