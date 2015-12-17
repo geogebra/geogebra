@@ -80,23 +80,9 @@ public enum ValueType {
 			if (right.evaluatesToText()) {
 				return ValueType.TEXT;
 			}
-			if (right.evaluatesToList()) {
-				return ValueType.LIST;
-			}
-			if (right.getValueType() == ValueType.NONCOMPLEX2D
-					|| left.getValueType() == ValueType.NONCOMPLEX2D) {
-				return ValueType.NONCOMPLEX2D;
-			}
-			return left.getValueType();
+			return plusMinusType(left, right);
 		case MINUS:
-			if (right.evaluatesToList()) {
-				return ValueType.LIST;
-			}
-			if (right.getValueType() == ValueType.NONCOMPLEX2D
-					|| left.getValueType() == ValueType.NONCOMPLEX2D) {
-				return ValueType.NONCOMPLEX2D;
-			}
-			return left.getValueType();
+			return plusMinusType(left, right);
 		case MULTIPLY:
 			ValueType rightType = right.getValueType();
 			if (rightType == ValueType.TEXT || rightType == ValueType.LIST) {
@@ -281,6 +267,22 @@ public enum ValueType {
 
 		}
 		return ValueType.NUMBER;
+	}
+
+	private static ValueType plusMinusType(ExpressionValue left,
+			ExpressionValue right) {
+		if (right.evaluatesToList()) {
+			return ValueType.LIST;
+		}
+		if (right.getValueType() == ValueType.VECTOR3D
+				|| left.getValueType() == ValueType.VECTOR3D) {
+			return ValueType.VECTOR3D;
+		}
+		if (right.getValueType() == ValueType.NONCOMPLEX2D
+				|| left.getValueType() == ValueType.NONCOMPLEX2D) {
+			return ValueType.NONCOMPLEX2D;
+		}
+		return left.getValueType();
 	}
 
 	private ValueType check(ExpressionValue arg, ValueType fallback) {

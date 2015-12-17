@@ -2487,6 +2487,15 @@ public class AlgebraProcessor {
 		return null;
 	}
 
+	/**
+	 * @param n
+	 *            expression node
+	 * @param evaluate
+	 *            evaluated node
+	 * @param needsLabel
+	 *            whether to call setLabel
+	 * @return value
+	 */
 	GeoElement[] processNumber(ExpressionNode n,
  ExpressionValue evaluate,
 			boolean needsLabel) {
@@ -2515,6 +2524,8 @@ public class AlgebraProcessor {
 		if (needsLabel) {
 			String label = n.getLabel();
 			ret[0].setLabel(label);
+		} else {
+			cons.removeFromConstructionList(ret[0]);
 		}
 		return ret;
 	}

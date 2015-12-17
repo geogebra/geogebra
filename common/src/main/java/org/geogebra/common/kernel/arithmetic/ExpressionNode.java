@@ -1053,16 +1053,9 @@ base.getFunctionVariable(), kernel)
 			return new Polynomial(kernel, new Term(new ExpressionNode(kernel,
 					left, operation, right), ""));
 		}
-		if (operation == Operation.MULTIPLY
-				&& left.evaluatesToNonComplex2DVector()
-				&& right.evaluatesToNonComplex2DVector()) {
-			return scalarProductComponent(0).plus(scalarProductComponent(1))
-					.makePolynomialTree(equ);
-		}
-		if (operation == Operation.MULTIPLY && left.evaluatesTo3DVector()
-				&& right.evaluatesTo3DVector()) {
-			return scalarProductComponent(0).plus(scalarProductComponent(1))
-					.plus(scalarProductComponent(2)).makePolynomialTree(equ);
+		ExpressionNode scalarExpanded = expandScalarProduct();
+		if (scalarExpanded != null) {
+			return scalarExpanded.makePolynomialTree(equ);
 		}
 		// transfer left subtree
 		if (left.isExpressionNode()) {
@@ -1099,13 +1092,45 @@ base.getFunctionVariable(), kernel)
 		return lt.apply(operation, rt, equ);
 	}
 
-	private ExpressionNode scalarProductComponent(int i) {
+	private ExpressionNode expandScalarProduct() {
+		if (operation == Operation.MULTIPLY
+				&& left.evaluatesToNonComplex2DVector()
+				&& right.evaluatesToNonComplex2DVector()) {
+			return scalarProductComponent(0, left, right).plus(
+					scalarProductComponent(1, left, right));
+
+		}
+		if (operation == Operation.MULTIPLY && left.evaluatesTo3DVector()
+				&& right.evaluatesTo3DVector()) {
+			return scalarProductComponent(0, left, right).plus(
+					scalarProductComponent(1, left, right)).plus(
+					scalarProductComponent(2, left, right));
+		}
+		if (operation == Operation.POWER
+				&& left.evaluatesToNonComplex2DVector()
+				&& ExpressionNode.isConstantDouble(right, 2)) {
+			return scalarProductComponent(0, left, left).plus(
+					scalarProductComponent(1, left, left));
+
+		}
+		if (operation == Operation.POWER && left.evaluatesTo3DVector()
+				&& ExpressionNode.isConstantDouble(right, 2)) {
+			return scalarProductComponent(0, left, left).plus(
+					scalarProductComponent(1, left, left).plus(
+							scalarProductComponent(2, left, left)));
+
+		}
+		return null;
+	}
+
+	private ExpressionNode scalarProductComponent(int i, ExpressionValue left1,
+			ExpressionValue right1) {
 		return kernel
 				.getAlgebraProcessor()
-				.computeCoord(getLeftTree(), i)
+				.computeCoord(left1.wrap(), i)
 				.multiply(
 						kernel.getAlgebraProcessor().computeCoord(
-								getRightTree(), i));
+								right1.wrap(), i));
 	}
 
 	private Polynomial makePolyTreeFromFunction(Function func, Equation equ) {
@@ -4682,6 +4707,7 @@ kernel, left,
 			if (left.isNumberValue() && !left.contains(fv)) {
 				return wrap(right).derivative(fv, kernel0).multiply(left);
 			}
+
 			return wrap(left).multiply(right.derivative(fv, kernel0)).plus(
 					wrap(right).multiply(left.derivative(fv, kernel0)));
 		case PLUS:

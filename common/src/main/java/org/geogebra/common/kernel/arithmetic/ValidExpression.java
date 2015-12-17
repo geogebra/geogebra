@@ -362,6 +362,9 @@ public abstract class ValidExpression implements ExpressionValue {
 							.getName()
 							.replaceAll("org.geogebra.common.kernel.geos.Geo",
 									"G")
+							.replaceAll(
+									"org.geogebra.common.geogebra3D.kernel3D.geos.Geo",
+									"G")
 					+ "("
 					+ s.toString(StringTemplate.defaultTemplate) + ")";
 		}

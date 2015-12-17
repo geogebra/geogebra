@@ -20,6 +20,7 @@ import java.util.Set;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
@@ -605,6 +606,16 @@ public class Equation extends ValidExpression {
 		if (v instanceof FunctionVariable) {
 			String vVar = ((FunctionVariable) v).getSetVarString();
 			return vVar.length() == 1 && vVar.charAt(0) == var;
+		}
+
+		if (v instanceof MyVecNode) {
+			MyVecNode vec = (MyVecNode) v;
+			return containsVar(vec.getX(), var) || containsVar(vec.getY(), var);
+		}
+		if (v instanceof MyVec3DNode) {
+			MyVec3DNode vec = (MyVec3DNode) v;
+			return containsVar(vec.getX(), var) || containsVar(vec.getY(), var)
+					|| containsVar(vec.getZ(), var);
 		}
 
 		if (v instanceof Polynomial) {
