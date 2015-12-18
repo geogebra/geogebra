@@ -2495,6 +2495,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		case QUADRIC_PARABOLOID:
 			p.projectLine(getMidpoint3D(), getEigenvec3D(2), tmpCoords);
 			tmpCoords.setSub(tmpCoords, p);
+			if (tmpCoords.isZero()) {
+				return getEigenvec3D(0);
+			}
 			return tmpCoords;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
