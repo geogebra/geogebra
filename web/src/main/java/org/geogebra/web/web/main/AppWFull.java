@@ -370,6 +370,7 @@ public abstract class AppWFull extends AppW {
 					getGuiManager().updateToolbarActions();
 					Layout.initializeDefaultPerspectives(AppWFull.this, 0.2);
 					getGuiManager().updateMenubar();
+					getGuiManager().resetMenu();
 					DockPanelW dp = ((DockManagerW) getGuiManager().getLayout()
 							.getDockManager()).getPanelForKeyboard();
 					if (dp != null
