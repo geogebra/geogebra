@@ -113,6 +113,22 @@ public class AlgoTangentLine3D extends AlgoTangentLineND {
 	@Override
 	protected void updateTangent(int index) {
 		((GeoLine3D) tangents[index]).setCoord(
-				tangentPoints[i].getInhomCoordsInD3(), direction3D);
+				tangentPoints[index].getInhomCoordsInD3(), direction3D);
+	}
+
+	@Override
+	protected void updateTangentParabola() {
+
+		Coords c0 = tangentPoints[0].getInhomCoordsInD3();
+		Coords c1 = tangentPoints[1].getInhomCoordsInD3();
+
+		if (c0.isDefined()) {
+			((GeoLine3D) tangents[0]).setCoord(c0, direction3D);
+		} else {
+			((GeoLine3D) tangents[0]).setCoord(c1, direction3D);
+		}
+
+		((GeoLine3D) tangents[1]).setUndefined();
+
 	}
 }

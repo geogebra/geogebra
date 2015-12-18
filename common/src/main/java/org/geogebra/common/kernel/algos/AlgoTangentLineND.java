@@ -44,7 +44,6 @@ public abstract class AlgoTangentLineND extends AlgoElement implements
 	protected GeoLine diameter;
 	protected AlgoIntersectND algoIntersect;
 	protected GeoPointND[] tangentPoints;
-	protected int i;
 
 	/** Creates new AlgoTangentLine */
 	protected AlgoTangentLineND(Construction cons, String label, GeoLineND g,
@@ -157,8 +156,13 @@ public abstract class AlgoTangentLineND extends AlgoElement implements
 		// intersect diameter line with conic -> tangentPoints
 		algoIntersect.update();
 
+		if (c.isParabola()) {
+			updateTangentParabola();
+			return;
+		}
+
 		// calc tangents through tangentPoints
-		for (i = 0; i < tangents.length; i++) {
+		for (int i = 0; i < tangents.length; i++) {
 			updateTangent(i);
 		}
 	}
@@ -175,6 +179,8 @@ public abstract class AlgoTangentLineND extends AlgoElement implements
 	 *            index
 	 */
 	abstract protected void updateTangent(int index);
+
+	abstract protected void updateTangentParabola();
 
 	@Override
 	public final String toString(StringTemplate tpl) {

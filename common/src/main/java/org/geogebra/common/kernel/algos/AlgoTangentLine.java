@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.main.App;
 
 /**
  *
@@ -91,8 +92,33 @@ public class AlgoTangentLine extends AlgoTangentLineND {
 		GeoLine tangent = (GeoLine) tangents[index];
 		GeoLine line = (GeoLine) g;
 		GeoPoint point = (GeoPoint) tangentPoints[index];
-		tangent.x = line.x;
-		tangent.y = line.y;
-		tangent.z = -(point.inhomX * line.x + point.inhomY * line.y);
+		// tangent.x = line.x;
+		// tangent.y = line.y;
+		// tangent.z = -(point.inhomX * line.x + point.inhomY * line.y);
+		tangent.setCoords(line.x, line.y,
+				-(point.inhomX * line.x + point.inhomY * line.y));
+		App.error(tangent.x + " " + tangent.y + " " + tangent.z);
+	}
+
+	@Override
+	protected void updateTangentParabola() {
+		GeoLine tangent0 = (GeoLine) tangents[0];
+		GeoLine tangent1 = (GeoLine) tangents[1];
+		GeoLine line = (GeoLine) g;
+		GeoPoint point0 = (GeoPoint) tangentPoints[0];
+		GeoPoint point1 = (GeoPoint) tangentPoints[1];
+		// tangent.x = line.x;
+		// tangent.y = line.y;
+		double z0 = -(point0.inhomX * line.x + point0.inhomY * line.y);
+		double z1 = -(point1.inhomX * line.x + point1.inhomY * line.y);
+
+		// parabola will have just 1 tangent
+		if (Double.isNaN(z1)) {
+			tangent0.setCoords(line.x, line.y, z0);
+		} else {
+			tangent0.setCoords(line.x, line.y, z1);
+
+		}
+		tangent1.setUndefined();
 	}
 }
