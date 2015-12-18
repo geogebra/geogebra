@@ -509,7 +509,7 @@ __GGB__keysVar.cy.command = {
     "LeftSum.Syntax": "[ <Ffwythiant>, <x-gychwynnol>, <x-derfynnol>, <Nifer o betryalau> ]",
     "Length": "Hyd",
     "Length.Syntax": "[ <Fector> ]\n[ <Pwynt> ]\n[ <Ffwythiant>, <Dechrau gwerth-x>, <Diwedd gwerth-x> ]\n[ <Ffwythiant>, <Pwynt cychwyn>, <Pwynt gorffen> ]\n[ <Cromlin>, <Dechrau gwerth-t>, <Diwedd gwerth-t> ]\n[ <Cromlin>, <Pwynt cychwyn>, <Pwynt gorffen> ]\n[ <Rhestr> ]",
-    "Length.SyntaxCAS": "[ <Function>, <x-start>, <x-end> ]\n[ <Function>, <Variable>, <Start Point>, <End Point> ]",
+    "Length.SyntaxCAS": "[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start x-Value>, <End x-Value> ]",
     "LetterToUnicode": "LlythyrenIUnicode",
     "LetterToUnicode.Syntax": "[ <Testun> ]",
     "Limit": "Terfyn",

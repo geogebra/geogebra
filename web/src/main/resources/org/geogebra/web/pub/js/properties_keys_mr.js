@@ -509,7 +509,7 @@ __GGB__keysVar.mr.command = {
     "LeftSum.Syntax": "[ <Function>, <Start x-Value>, <End x-Value>, <Number of Rectangles> ]",
     "Length": "\u0932\u093e\u0902\u092c\u0940",
     "Length.Syntax": "[ <\u0938\u0926\u093f\u0936> ]\n[ <\u092c\u093f\u0902\u0926\u0942> ]\n[ <\u092f\u093e\u0926\u0940> ]\n[ <\u092b\u0932>, <\u0906\u0930\u0902\u092d\u0940 x-\u0915\u093f\u0902\u092e\u0924>, <\u0905\u0902\u0924\u093f\u092e x-\u0915\u093f\u0902\u092e\u0924> ]\n[ <\u092b\u0932>, <\u0906\u0930\u0902\u092d\u092c\u093f\u0902\u0926\u0942>, <\u0905\u0902\u0924\u094d\u092f\u092c\u093f\u0902\u0926\u0942> ]\n[ <\u0935\u0915\u094d\u0930>, <\u0906\u0930\u0902\u092d\u0940 t-\u0915\u093f\u0902\u092e\u0924>, <\u0905\u0902\u0924\u093f\u092e t-\u0915\u093f\u0902\u092e\u0924> ]\n[ <\u0935\u0915\u094d\u0930>, <\u0906\u0930\u0902\u092d\u092c\u093f\u0902\u0926\u0942>, <\u0905\u0902\u0924\u094d\u092f\u092c\u093f\u0902\u0926\u0942> ]",
-    "Length.SyntaxCAS": "[ <Function>, <x-start>, <x-end> ]\n[ <Function>, <Variable>, <Start Point>, <End Point> ]",
+    "Length.SyntaxCAS": "[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start x-Value>, <End x-Value> ]",
     "LetterToUnicode": "\u092f\u0941\u0928\u093f\u0915\u094b\u0921\u0938\u093e\u0920\u0940\u0905\u0915\u094d\u0937\u0930",
     "LetterToUnicode.Syntax": "[ \"<\u0905\u0915\u094d\u0937\u0930>\" ]",
     "Limit": "Limit",
