@@ -8812,7 +8812,11 @@ public abstract class EuclidianController {
 		}
 		setMouseLocation(event);
 		this.setViewHits(event.getType());
-		hitComboBox(event.getX(), event.getY());
+
+		if (hitComboBox(event.getX(), event.getY())) {
+			return;
+		}
+
 		lastMousePressedTime = System.currentTimeMillis();
 
 		app.storeUndoInfoIfSetCoordSystemOccured();
