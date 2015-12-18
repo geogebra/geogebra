@@ -3918,8 +3918,9 @@ public abstract class App implements UpdateSelection {
 		case DRAW_INPUTBOXES_TO_CANVAS:
 		case ZSPACE:
 		case REALSENSE:
-		case SAVE_SETTINGS_TO_FILE:
 			return true;
+		case SAVE_SETTINGS_TO_FILE:
+			return isWindows() || prerelease;
 		default:
 			return false;
 
