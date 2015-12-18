@@ -44,8 +44,14 @@ import org.geogebra.desktop.util.Util;
 
 public class GeoGebraPreferencesD extends GeoGebraPreferences {
 
-	public static final String PREFS_PATH = System.getenv("APPDATA")
-			+ "/GeoGebra 5.0/prefs/";
+	// Windows -> APPDATA, space in "GeoGebra 5.0"
+	// Mac / Linux -> user.home, no space in "GeoGebra5.0"
+	public static final String PREFS_PATH = AppD.WINDOWS
+			? (System.getenv("APPDATA") + "/GeoGebra "
+					+ GeoGebraConstants.SHORT_VERSION_STRING + "/prefs/")
+			: (System.getProperty("user.home") + "/GeoGebra"
+					+ GeoGebraConstants.SHORT_VERSION_STRING + "/prefs/");
+
 	public static final String WINDOWS_USERS_PREFS = PREFS_PATH + "prefs.xml";
 	public static final String WINDOWS_OBJECTS_PREFS = PREFS_PATH
 			+ "defaults.xml";
