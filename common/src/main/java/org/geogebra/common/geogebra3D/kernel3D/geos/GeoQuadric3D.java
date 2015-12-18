@@ -2489,6 +2489,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		case QUADRIC_SPHERE:
 		case QUADRIC_ELLIPSOID:
 			tmpCoords.setSub(getMidpoint3D(), p);
+			if (tmpCoords.isZero()) {
+				return getEigenvec3D(0).copyVector();
+			}
 			return tmpCoords;
 		case QUADRIC_HYPERBOLOID_ONE_SHEET:
 		case QUADRIC_HYPERBOLOID_TWO_SHEETS:
@@ -2496,7 +2499,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			p.projectLine(getMidpoint3D(), getEigenvec3D(2), tmpCoords);
 			tmpCoords.setSub(tmpCoords, p);
 			if (tmpCoords.isZero()) {
-				return getEigenvec3D(0);
+				return getEigenvec3D(0).copyVector();
 			}
 			return tmpCoords;
 		case QUADRIC_CONE:
