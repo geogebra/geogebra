@@ -2746,6 +2746,8 @@ __GGB__keysVar.el.plain = {
     "Ray": "\u0397\u03bc\u03b9\u03b5\u03c5\u03b8\u03b5\u03af\u03b1",
     "RayThroughAB": "\u0397\u03bc\u03b9\u03b5\u03c5\u03b8\u03b5\u03af\u03b1 \u03c0\u03bf\u03c5 \u03c0\u03b5\u03c1\u03bd\u03ac \u03b1\u03c0\u03cc \u03c4\u03b1 %0, %1",
     "RayThroughAWithDirectionB": "\u0397\u03bc\u03b9\u03b5\u03c5\u03b8\u03b5\u03af\u03b1 \u03c0\u03bf\u03c5 \u03c0\u03b5\u03c1\u03bd\u03ac \u03b1\u03c0\u03cc \u03c4\u03bf %0 \u03bc\u03b5 \u03c4\u03b7\u03bd \u03b4\u03b9\u03b5\u03cd\u03b8\u03c5\u03bd\u03c3\u03b7 \u03c4\u03bf\u03c5 %1",
+    "RealSense.DownloadUpdate": "We advise that you upgrade to the latest F200 Camera DCM drivers here:",
+    "RealSense.NotUpToDate": "Your Intel\xae RealSense\u2122 installation is not up to date (%0)",
     "RealSenseNotUpToDate1": "Your Intel\xae RealSense\u2122 Camera drivers are not up to date, we'll download and install new ones.",
     "RealSenseNotUpToDate2": "This may take a few minutes, you will be notified when it's finished.",
     "RealSenseUpdated1": "Your Intel\xae RealSense\u2122 Camera drivers are now up to date.",

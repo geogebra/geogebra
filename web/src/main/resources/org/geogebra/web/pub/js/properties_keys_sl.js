@@ -2746,6 +2746,8 @@ __GGB__keysVar.sl.plain = {
     "Ray": "Poltrak",
     "RayThroughAB": "Poltrak skozi %0, %1",
     "RayThroughAWithDirectionB": "Poltrak iz %0 v smeri %1",
+    "RealSense.DownloadUpdate": "We advise that you upgrade to the latest F200 Camera DCM drivers here:",
+    "RealSense.NotUpToDate": "Your Intel\xae RealSense\u2122 installation is not up to date (%0)",
     "RealSenseNotUpToDate1": "Gonilnik Intel\xae RealSense\u2122 za kamero je zastarel, prenesen bo novej\u0161i in takoj name\u0161\u010den.",
     "RealSenseNotUpToDate2": "To utegne trajati nekaj minut, ko bo kon\u010dano, boste obve\u0161\u010deni.",
     "RealSenseUpdated1": "Va\u0161 driver Intel\xae RealSense\u2122 za kamero je posodobljen.",

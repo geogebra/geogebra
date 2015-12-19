@@ -2746,6 +2746,8 @@ __GGB__keysVar.fr.plain = {
     "Ray": "Demi-droite",
     "RayThroughAB": "Demi-droite [%0%1)",
     "RayThroughAWithDirectionB": "Demi-droite passant par %0 de direction %1",
+    "RealSense.DownloadUpdate": "Nous vous conseillons de mettre \xe0 niveau vos pilotes F200 Camera DCM :",
+    "RealSense.NotUpToDate": "Votre installation Intel\xae RealSense\u2122  n'est pas \xe0 jour (%0)",
     "RealSenseNotUpToDate1": "Les pilotes de votre Cam\xe9ra Intel\xae RealSense\u2122 ne sont pas \xe0 jour, nous allons en t\xe9l\xe9charger et installer des nouveaux.",
     "RealSenseNotUpToDate2": "Cela peut prendre quelques minutes, vous serez pr\xe9venu lorsque ce sera termin\xe9.",
     "RealSenseUpdated1": "Les pilotes de votre Cam\xe9ra Intel\xae RealSense\u2122 sont \xe0 jour maintenant.",

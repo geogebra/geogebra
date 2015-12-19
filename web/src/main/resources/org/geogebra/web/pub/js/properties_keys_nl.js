@@ -2746,6 +2746,8 @@ __GGB__keysVar.nl.plain = {
     "Ray": "Halfrechte",
     "RayThroughAB": "Halfrechte door %0, %1",
     "RayThroughAWithDirectionB": "Halfrechte door %0 met richting %1",
+    "RealSense.DownloadUpdate": "We advise that you upgrade to the latest F200 Camera DCM drivers here:",
+    "RealSense.NotUpToDate": "Your Intel\xae RealSense\u2122 installation is not up to date (%0)",
     "RealSenseNotUpToDate1": "Jouw Intel\xae RealSense\u2122 Camera drivers zijn niet up to date, recentere drivers worden gedownload en ge\xefnstalleerd.",
     "RealSenseNotUpToDate2": "This may take a few minutes, you will be notified when it's finished.",
     "RealSenseUpdated1": "Jouw Intel\xae RealSense\u2122 Camera drivers zijn up to date.",

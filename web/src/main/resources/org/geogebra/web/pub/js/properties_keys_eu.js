@@ -2746,6 +2746,8 @@ __GGB__keysVar.eu.plain = {
     "Ray": "Zuzenerdia",
     "RayThroughAB": "Zuzenerdia %0 eta %1-(e)tik pasatuz",
     "RayThroughAWithDirectionB": "Zuzenerdia %0-(e)tik pasatuz, %1 norabidean",
+    "RealSense.DownloadUpdate": "We advise that you upgrade to the latest F200 Camera DCM drivers here:",
+    "RealSense.NotUpToDate": "Your Intel\xae RealSense\u2122 installation is not up to date (%0)",
     "RealSenseNotUpToDate1": "Zure Intel\xae RealSense\u2122 Kameran kontrolatzaileak ez daude eguneratuta. Kontrolatzaile berriak deskargatu eta instalatuko ditugu.",
     "RealSenseNotUpToDate2": "Honek zenbait minutu iraun dezake. Bukatzen denean, jakinaraziko dizugu.",
     "RealSenseUpdated1": "Zure Intel\xae RealSense\u2122 Kameran kontrolatzaileak eguneratuta daude.",

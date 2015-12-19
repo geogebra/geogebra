@@ -2746,6 +2746,8 @@ __GGB__keysVar.ar.plain = {
     "Ray": "\u0646\u0635\u0641 \u0645\u0633\u062a\u0642\u064a\u0645",
     "RayThroughAB": "[%0%1)\u0646\u0635\u0641 \u0645\u0633\u062a\u0642\u064a\u0645",
     "RayThroughAWithDirectionB": "\u0646\u0635\u0641 \u0645\u0633\u062a\u0642\u064a\u0645 \u0645\u0627\u0631 \u0645\u0646 %0 \u0648\u0641\u0642\u0627 \u0644\u0645\u0646\u062d\u0649 %1",
+    "RealSense.DownloadUpdate": "We advise that you upgrade to the latest F200 Camera DCM drivers here:",
+    "RealSense.NotUpToDate": "Your Intel\xae RealSense\u2122 installation is not up to date (%0)",
     "RealSenseNotUpToDate1": "Your Intel\xae RealSense\u2122 Camera drivers are not up to date, we'll download and install new ones.",
     "RealSenseNotUpToDate2": "This may take a few minutes, you will be notified when it's finished.",
     "RealSenseUpdated1": "Your Intel\xae RealSense\u2122 Camera drivers are now up to date.",

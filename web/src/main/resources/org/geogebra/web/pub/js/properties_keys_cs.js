@@ -2746,6 +2746,8 @@ __GGB__keysVar.cs.plain = {
     "Ray": "Polop\u0159\xedmka",
     "RayThroughAB": "Polop\u0159\xedmka %0, %1",
     "RayThroughAWithDirectionB": "Polop\u0159\xedmka s po\u010d\xe1tkem %0 a sm\u011brem %1",
+    "RealSense.DownloadUpdate": "We advise that you upgrade to the latest F200 Camera DCM drivers here:",
+    "RealSense.NotUpToDate": "Your Intel\xae RealSense\u2122 installation is not up to date (%0)",
     "RealSenseNotUpToDate1": "Ovlada\u010de pro va\u0161i Intel\xae RealSense\u2122 kameru nejsou aktu\xe1ln\xed. Prob\u011bhne sta\u017een\xed nov\xfdch ovlada\u010d\u016f.",
     "RealSenseNotUpToDate2": "Toto m\u016f\u017ee trvat n\u011bkolik minut. Po dokon\u010den\xed obdr\u017e\xedte vzkaz.",
     "RealSenseUpdated1": "Ovlada\u010de pro va\u0161i Intel\xae RealSense\u2122 kameru jsou aktu\xe1ln\xed.",

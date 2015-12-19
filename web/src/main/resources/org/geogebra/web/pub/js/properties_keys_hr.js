@@ -2746,6 +2746,8 @@ __GGB__keysVar.hr.plain = {
     "Ray": "Zraka",
     "RayThroughAB": "Zraka kroz %0, %1",
     "RayThroughAWithDirectionB": "Zraka kroz %0 sa smjerom %1",
+    "RealSense.DownloadUpdate": "We advise that you upgrade to the latest F200 Camera DCM drivers here:",
+    "RealSense.NotUpToDate": "Your Intel\xae RealSense\u2122 installation is not up to date (%0)",
     "RealSenseNotUpToDate1": "Upravlja\u010dki programi za va\u0161u Intel\xae RealSense\u2122 kameru su zastarjeli, preuzet \u0107emo i instalirati nove.",
     "RealSenseNotUpToDate2": "Ovo mo\u017ee potrajati nekoliko minuta, obavijestit \u0107emo vas kad zavr\u0161i.",
     "RealSenseUpdated1": "Upravlja\u010dki programi za va\u0161u Intel\xae RealSense\u2122 kameru su nadogra\u0111eni.",
