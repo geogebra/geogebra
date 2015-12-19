@@ -470,6 +470,7 @@ public class Socket {
 	static public boolean queryRegistry(final App app) throws Input3DException {
 		int registeryQueryResult = 1; // inited to bad value (correct value = 0)
 		boolean upToDate = false;
+		String version = "";
 		try {
 			Runtime runtime = Runtime.getRuntime();
 			Process p = runtime.exec(QUERY_REGISTERY_KEY_FRONT_CAM);
@@ -496,11 +497,12 @@ public class Socket {
 							// App.debug(">>>>> " + index + " : " +
 							// items[index]);
 							if (items[index].equals("Version")) {
-								String version = items[items.length - 1];
+								version = items[items.length - 1];
 								if (isUpToDate(version)) {
 									upToDate = true;
 								} else {
 									// updateVersion(app);
+									upToDate = false;
 								}
 
 							}
@@ -517,19 +519,25 @@ public class Socket {
 					"RealSense: No key for camera in registery");
 		}
 
+		if (!upToDate) {
+			throw new Input3DException(Input3DExceptionType.NOT_UP_TO_DATE,
+					version);
+
+		}
+
 		return upToDate;
 
 	}
 	
 	private static boolean isUpToDate(String version) {
-		App.debug(">>>>> version installed: " + version);
+		// App.debug(">>>>> version installed: " + version);
 		String[] versionSplit = version.split("\\.");
 
 		if (versionSplit.length == 0) {
 			return false;
 		}
 		int major = Integer.parseInt(versionSplit[0]);
-		App.debug(">>>>> major: " + major);
+		// App.debug(">>>>> major: " + major);
 		if (major > VERSION_MAJOR) {
 			return true;
 		}
@@ -538,7 +546,7 @@ public class Socket {
 			return false;
 		}
 		int minor = Integer.parseInt(versionSplit[1]);
-		App.debug(">>>>> minor: " + minor);
+		// App.debug(">>>>> minor: " + minor);
 		if (minor >= VERSION_MINOR) {
 			return true;
 		}

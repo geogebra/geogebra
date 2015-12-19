@@ -17,7 +17,7 @@ public class Input3DFactory {
 	static public String PREFS_NONE = "none";
 	
 	public enum Input3DExceptionType {
-		INSTALL, RUN, ALREADY_USED
+		INSTALL, RUN, ALREADY_USED, NOT_UP_TO_DATE
 	};
 	
 	static public class Input3DException extends Exception {

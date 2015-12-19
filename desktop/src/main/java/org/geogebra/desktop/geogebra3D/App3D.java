@@ -148,6 +148,9 @@ public class App3D extends AppD {
 				return true;
 			} catch (Input3DException e) {
 				Log.debug(e.getMessage());
+				if (e.getType() == Input3DExceptionType.NOT_UP_TO_DATE) {
+					showRealSenseNotUpToDate(e.getMessage());
+				}
 			}
 
 			return false;
@@ -189,22 +192,41 @@ public class App3D extends AppD {
 	 * shows congratulations message for using realsense
 	 */
 	void showRealSenseCongratulations() {
-		showInput3DCongratulations("RealSense.DetectedMessage",
+		showInput3DCongratulations(getMenu("RealSense.DetectedMessage"),
 				"https://tube-beta.geogebra.org/b/OaGmb7LE");
+	}
+
+	/**
+	 * recommend to update version
+	 * 
+	 * @param version
+	 *            version currently installed
+	 */
+	void showRealSenseNotUpToDate(String version) {
+		showInput3DMessage(
+				getLocalization().getPlain("RealSense.NotUpToDate", version),
+				getPlain("RealSense.DownloadUpdate"),
+				"https://software.intel.com/intel-realsense-sdk/download");
 	}
 
 	/**
 	 * shows congratulations message for using zspace
 	 */
 	void showZSpaceCongratulations() {
-		showInput3DCongratulations("ZSpace.DetectedMessage",
+		showInput3DCongratulations(getMenu("ZSpace.DetectedMessage"),
 				"https://tube-beta.geogebra.org/b/mTvZVHwm");
 
 	}
 
-
 	private void showInput3DCongratulations(final String message,
 			final String tutorialURL) {
+		showInput3DMessage(message, getMenu("OpenTutorial"), tutorialURL);
+	}
+
+
+	private void showInput3DMessage(final String message,
+			final String messageForURL,
+			final String URL) {
 		// popup help dialog
 		input3DPopupShowing = true;
 		final JFrame frame = new JFrame();
@@ -216,7 +238,7 @@ public class App3D extends AppD {
 		panel.setBackground(Color.WHITE);
 		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		JLabel label = new JLabel(getMenu(message));
+		JLabel label = new JLabel(message);
 		JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		labelPanel.setBackground(Color.WHITE);
 		labelPanel.add(label);
@@ -224,7 +246,7 @@ public class App3D extends AppD {
 
 		JLabel website = new JLabel();
 		// String tutorialText = "Click here to get a tutorial";
-		website.setText("<html><a href=\"\">" + getMenu("OpenTutorial")
+		website.setText("<html><a href=\"\">" + messageForURL
 				+ "</a></html>");
 		website.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		website.addMouseListener(new MouseAdapter() {
@@ -236,7 +258,7 @@ public class App3D extends AppD {
 					} catch (SecurityException se) {
 						// failed to unset on top
 					}
-					Desktop.getDesktop().browse(new URI(tutorialURL));
+					Desktop.getDesktop().browse(new URI(URL));
 				} catch (IOException e1) {
 					// not working
 				} catch (URISyntaxException e1) {
@@ -367,6 +389,8 @@ public class App3D extends AppD {
 					// reset 3D input type, guessing 3d input has been
 					// uninstalled
 					setInput3DType(Input3DFactory.PREFS_NONE);
+				} else if (e.getType() == Input3DExceptionType.NOT_UP_TO_DATE) {
+					showRealSenseNotUpToDate(e.getMessage());
 				}
 				input3D = null;
 				Log.debug("Problem initializing " + e.getMessage());
