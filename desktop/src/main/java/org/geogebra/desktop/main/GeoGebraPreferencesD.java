@@ -192,8 +192,9 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	}
 
 	public void savePreference(String key, String value) {
-		if (key != null && value != null)
+		if (key != null && value != null) {
 			ggbPrefs.put(key, value);
+		}
 	}
 
 	/**
@@ -215,7 +216,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		}
 		// then check if user allows
 		if (systemAllows && ggbPrefs != null)
-			return Boolean.valueOf(ggbPrefs.get(
+			return Boolean.valueOf(getPref().loadPreference(
 					GeoGebraPreferencesD.VERSION_CHECK_ALLOW, defaultValue));
 		// else don't allow
 		return false;
@@ -228,7 +229,8 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 *            value
 	 */
 	public void saveVersionCheckAllow(String value) {
-		ggbPrefs.put(GeoGebraPreferencesD.VERSION_CHECK_ALLOW, value);
+		getPref().savePreference(GeoGebraPreferencesD.VERSION_CHECK_ALLOW,
+				value);
 	}
 
 	/**
@@ -254,7 +256,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 * Returns the path of the first file in the file list
 	 */
 	public File getDefaultFilePath() {
-		File file = new File(ggbPrefs.get(APP_FILE_ + "1", ""));
+		File file = new File(getPref().loadPreference(APP_FILE_ + "1", ""));
 		if (file.exists())
 			return file.getParentFile();
 		else
@@ -268,7 +270,8 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 */
 	public File getDefaultImagePath() {
 		// image path
-		String pathName = ggbPrefs.get(APP_CURRENT_IMAGE_PATH, null);
+		String pathName = getPref().loadPreference(APP_CURRENT_IMAGE_PATH,
+				null);
 		if (pathName != null)
 			return new File(pathName);
 		return null;
@@ -280,7 +283,8 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	public void saveDefaultImagePath(File imgPath) {
 		try {
 			if (imgPath != null)
-				ggbPrefs.put(APP_CURRENT_IMAGE_PATH, imgPath.getCanonicalPath());
+				getPref().savePreference(APP_CURRENT_IMAGE_PATH,
+						imgPath.getCanonicalPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -293,7 +297,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 */
 	public Locale getDefaultLocale() {
 		// language
-		String strLocale = ggbPrefs.get(APP_LOCALE, null);
+		String strLocale = getPref().loadPreference(APP_LOCALE, null);
 		if (strLocale != null)
 			return AppD.getLocale(strLocale);
 		return null;
@@ -304,7 +308,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 */
 	public void saveDefaultLocale(Locale locale) {
 		// save locale (language)
-		ggbPrefs.put(APP_LOCALE, locale.toString());
+		getPref().savePreference(APP_LOCALE, locale.toString());
 	}
 
 	/**
@@ -314,7 +318,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	public void loadFileList() {
 		// load last eight files
 		for (int i = AppD.MAX_RECENT_FILES; i >= 1; i--) {
-			File file = new File(ggbPrefs.get(APP_FILE_ + i, ""));
+			File file = new File(getPref().loadPreference(APP_FILE_ + i, ""));
 			AppD.addToFileList(file);
 		}
 	}
@@ -327,10 +331,12 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 			// save last four files
 			for (int i = 1; i <= AppD.MAX_RECENT_FILES; i++) {
 				File file = AppD.getFromFileList(i - 1);
-				if (file != null)
-					ggbPrefs.put(APP_FILE_ + i, file.getCanonicalPath());
-				else
-					ggbPrefs.put(APP_FILE_ + i, "");
+				if (file != null) {
+					getPref().savePreference(APP_FILE_ + i,
+							file.getCanonicalPath());
+				} else {
+					getPref().savePreference(APP_FILE_ + i, "");
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -352,12 +358,13 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		if (ggbPrefs != null) {
 			// get the GeoGebra version with which the preferences were saved
 			// (the version number is stored since version 3.9.41)
-			String oldVersion = ggbPrefs.get(VERSION, null);
+			String oldVersion = getPref().loadPreference(VERSION, null);
 
 			// current factory defaults possibly available?
 			if (oldVersion != null
 					&& oldVersion.equals(GeoGebraConstants.VERSION_STRING)) {
-				factoryDefaultXml = ggbPrefs.get(XML_FACTORY_DEFAULT, null);
+				factoryDefaultXml = getPref()
+						.loadPreference(XML_FACTORY_DEFAULT, null);
 			}
 		}
 
@@ -390,13 +397,10 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 			// make sure folder exists
 			new File(PREFS_PATH).mkdirs();
 
-			Util.writeStringToFile(userPrefsXML,
- WINDOWS_USERS_PREFS);
-			Util.writeStringToFile(objectPrefsXML,
- WINDOWS_OBJECTS_PREFS);
+			Util.writeStringToFile(userPrefsXML, WINDOWS_USERS_PREFS);
+			Util.writeStringToFile(objectPrefsXML, WINDOWS_OBJECTS_PREFS);
 
-			Util.writeByteArrayToFile(macros,
- WINDOWS_MACROS_PREFS);
+			Util.writeByteArrayToFile(macros, WINDOWS_MACROS_PREFS);
 
 			return;
 
@@ -404,12 +408,13 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 
 		ggbPrefs.put(XML_USER_PREFERENCES, userPrefsXML);
 
-			try {
-			ggbPrefs.put(XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
-			} catch (Exception e) {
-				e.printStackTrace();
-				App.error("object defaults too long");
-			}
+		try {
+			getPref().savePreference(XML_DEFAULT_OBJECT_PREFERENCES,
+					objectPrefsXML);
+		} catch (Exception e) {
+			e.printStackTrace();
+			App.error("object defaults too long");
+		}
 
 		// store current tools including icon images as ggt file (byte array)
 		putByteArray(ggbPrefs, TOOLS_FILE_GGT, app.getMacroFileAsByteArray());
@@ -521,7 +526,8 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	}
 
 	public String getXMLPreferences() {
-		return ggbPrefs.get(XML_USER_PREFERENCES, factoryDefaultXml);
+		return getPref().loadPreference(XML_USER_PREFERENCES,
+				factoryDefaultXml);
 	}
 
 	/**
@@ -574,13 +580,15 @@ WINDOWS_MACROS_PREFS);
 			app.loadMacroFileFromByteArray(ggtFile, true);
 
 			// load preferences xml
-			String xml = ggbPrefs.get(XML_USER_PREFERENCES, factoryDefaultXml);
+			String xml = getPref().loadPreference(XML_USER_PREFERENCES,
+					factoryDefaultXml);
 			app.setXML(xml, false);
 
 			// if (!(app instanceof Application3D)) // TODO: implement it in
 			// Application3D!
 			{
-				String xmlDef = ggbPrefs.get(XML_DEFAULT_OBJECT_PREFERENCES,
+				String xmlDef = getPref().loadPreference(
+						XML_DEFAULT_OBJECT_PREFERENCES,
 						factoryDefaultXml);
 				if (!xmlDef.equals(factoryDefaultXml)) {
 					boolean eda = app.getKernel().getElementDefaultAllowed();
@@ -590,7 +598,7 @@ WINDOWS_MACROS_PREFS);
 				}
 			}
 
-			// String xml = ggbPrefs.get(XML_USER_PREFERENCES, "");
+			// String xml = getPref().loadPreference(XML_USER_PREFERENCES, "");
 			// if(xml.equals("")) {
 			// initDefaultXML(app);
 			// xml = XML_GGB_FACTORY_DEFAULT;
