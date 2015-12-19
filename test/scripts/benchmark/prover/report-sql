@@ -259,10 +259,12 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   unset RETVAL
   unset ACCEPTED
   unset ERRORTYPE
+  unset RESULT
   TIME=`sqlite3 sqlite3db "select speed $FWCLAUSE"`
   RETVAL=`sqlite3 sqlite3db "select osresult $FWCLAUSE"`
   ACCEPTED=`sqlite3 sqlite3db "select accepted $FWCLAUSE"`
   ERRORTYPE=`sqlite3 sqlite3db "select errortype $FWCLAUSE"`
+  RESULT=`sqlite3 sqlite3db "select result $FWCLAUSE"`
 
   RESULTCLASS=" class=\"o6\""
   CELLCOLOR="green!10"
@@ -302,7 +304,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    fi
   RESULTCLASSDATA[$cn]=$RESULTCLASS
   CELLCOLORDATA[$cn]="$CELLCOLOR"
-  RESULTDATA[$cn]=$ACCEPTED
+  RESULTDATA[$cn]="$RESULT"
   TIMEDATA[$cn]=$TIME
 
   # Storing best and worst results

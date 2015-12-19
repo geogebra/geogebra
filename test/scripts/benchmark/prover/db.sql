@@ -63,6 +63,7 @@ create table tests (
  ndg boolean,
  build_number int not null, -- references builds.build_number
  start_unixtime int, -- when did the test start
+ result text, -- textual result
  osresult int, -- exit code from OS (Linux)
  timeout_setting int,
  accepted bool,

@@ -318,10 +318,10 @@ for i in `find -name '*.ggb' | sort`; do
   speed=null
   fi
 
-  echo -n "insert into tests (testcase, prover, ndg, build_number, start_unixtime,
+  echo -n "insert into tests (testcase, prover, ndg, build_number, start_unixtime, result,
   osresult, timeout_setting, accepted, errortype, speed, regressionfile, logfile, stdout, stderr) values
-  ('$TEST', '$j', $PROVEDETAILS, '$BUILD_NUMBER', $start_unixtime, $RETVAL, $TIMEOUT, $accepted,
-  $errortype, $speed, '" > $MYDIR/tmp/testcmd.sql
+  ('$TEST', '$j', $PROVEDETAILS, '$BUILD_NUMBER', $start_unixtime, '$RESULT',
+  $RETVAL, $TIMEOUT, $accepted, $errortype, $speed, '" > $MYDIR/tmp/testcmd.sql
   cat $REGRESSIONFILE | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql
   echo -n "', '" >> $MYDIR/tmp/testcmd.sql
   cat $LOGFILE | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql

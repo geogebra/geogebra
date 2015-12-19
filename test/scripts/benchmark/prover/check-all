@@ -19,25 +19,25 @@ for i in jar-paper giac-test ndg Prove-desktop-web ProveDetails-desktop-web; do
 t=jar-paper
 read e1 e2 e2g e3a e3b a < tmp/$t.summary.out
 if ((e1 < 33)); then r "$t: Engine 1"; fi
-if ((e2 < 175)); then r "$t: Engine 2"; fi
-if ((e2g < 128)); then r "$t: Engine 2, Giac"; fi
-if ((e3a < 84)); then r "$t: Engine 3a"; fi
+if ((e2 < 176)); then r "$t: Engine 2"; fi
+if ((e2g < 135)); then r "$t: Engine 2, Giac"; fi
+if ((e3a < 86)); then r "$t: Engine 3a"; fi
 if ((e3b < 67)); then r "$t: Engine 3b"; fi
-if ((a < 146)); then r "$t: Auto"; fi
+if ((a < 154)); then r "$t: Auto"; fi
 
 t=ndg
 read b bg ow a < tmp/$t.summary.out
-if ((b < 159)); then r "$t: Botana"; fi
-if ((bg < 158)); then r "$t: BotanaGiac"; fi
-if ((ow < 85)); then r "$t: OpenGeoProver Wu"; fi
-if ((a < 158)); then r "$t: Auto"; fi
+if ((b < 164)); then r "$t: Botana"; fi
+if ((bg < 164)); then r "$t: BotanaGiac"; fi
+if ((ow < 87)); then r "$t: OpenGeoProver Wu"; fi
+if ((a < 164)); then r "$t: Auto"; fi
 
 t=Prove-desktop-web
 read a w < tmp/$t.summary.out
-if ((w < 126)); then r "$t: Web"; fi
+if ((w < 131)); then r "$t: Web"; fi
 
 t=ProveDetails-desktop-web
 read a w < tmp/$t.summary.out
-if ((w < 141)); then r "$t: Web"; fi
+if ((w < 144)); then r "$t: Web"; fi
 
 exit $exitcode
