@@ -1995,6 +1995,7 @@ namespace giac {
     return tsimplify_common(g,contextptr);
   }
   gen tsimplify_noexpln(const gen & e,int s1,int s2,GIAC_CONTEXT){
+    int te=taille(e,65536);
     gen g=e;
     if (s1>1)
       g=trig2exp(e,contextptr);
@@ -2004,6 +2005,9 @@ namespace giac {
     complex_mode(true,contextptr);
     g=tsimplify_common(g,contextptr);
     complex_mode(b,contextptr);
+    int tg=taille(g,8*te); // since sin/cos are coded as exp(i*...)
+    if (tg>=8*te)
+      return e;
     return g;
   }
   gen _tsimplify(const gen & args,GIAC_CONTEXT){
