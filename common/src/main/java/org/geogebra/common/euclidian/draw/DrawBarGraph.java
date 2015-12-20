@@ -10,9 +10,9 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -538,7 +538,9 @@ public class DrawBarGraph extends Drawable {
 			}
 		} else if (n < pts.size()) {
 			// remove
-			for (int i = n; n < pts.size(); i++) {
+			// for (int i = n; n < pts.size(); i++) {
+			// remove in reverse order!
+			for (int i = pts.size() - 1; i >= n; i--) {
 				pts.remove(i);
 				drawPoints.remove(i);
 			}
