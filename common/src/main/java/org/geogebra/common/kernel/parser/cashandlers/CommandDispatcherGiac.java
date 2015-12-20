@@ -163,6 +163,9 @@ public class CommandDispatcherGiac {
 		/** returned by eg BinomialDist[72,1/7,n,true] -> error */
 		binomial_cdf(Operation.NO_OPERATION),
 
+		/** eg binomial_icdf(23,0.9285714285714,-9.999988812822E-013) */
+		binomial_icdf(Operation.NO_OPERATION),
+
 		/** if returned from Giac -> error */
 		fisher_cdf(Operation.NO_OPERATION),
 
@@ -559,6 +562,7 @@ public class CommandDispatcherGiac {
 				Log.warn("'rootof()' returned from giac");
 				// fall through
 			case binomial_cdf:
+			case binomial_icdf:
 			case fisher_cdf:
 			case normald_cdf:
 			case student_cdf:

@@ -436,6 +436,9 @@ public class Ggb2giac {
 				"[[ggblaparg0:=%0],when(lname(ggblaparg0)[0]=ggbtmpvart, laplace(ggblaparg0, ggbtmpvart, ggbtmpvars), laplace(ggblaparg0, lname(ggblaparg0)[0]))][1]");
 		p("Laplace.2", "laplace(%0, %1)");
 		p("Laplace.3", "laplace(%0, %1, %2)");
+
+		p("InverseBinomial.3", "binomial_icdf(%0,%1,max(0,%2-0.000000000001))");
+
 		p("InverseLaplace.1",
 				"[[ggblaparg0:=%0],when(lname(ggblaparg0)[0]=ggbtmpvars, ilaplace(ggblaparg0, ggbtmpvars, ggbtmpvart), ilaplace(ggblaparg0, lname(ggblaparg0)[0]))][1]");
 		p("InverseLaplace.2", "ilaplace(%0, %1)");
