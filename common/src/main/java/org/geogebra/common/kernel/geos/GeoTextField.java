@@ -255,7 +255,9 @@ public class GeoTextField extends GeoButton {
 			return;
 		} 
 		catch (Exception e1) {
-			kernel.getApplication().showError(e1.getMessage());
+			App.error(e1.getMessage());
+			kernel.getApplication().showError(kernel.getApplication()
+					.getLocalization().getError("InvalidInput"));
 			return;
 		}
 		this.setLinkedGeo(linkedGeo);
