@@ -1958,6 +1958,30 @@ public class Kernel {
 
 	/**
 	 * 
+	 * check if e is zero in comparison to x
+	 * 
+	 * @param e
+	 * @param x
+	 * @return
+	 */
+	final public static boolean isEpsilon(double e, double x) {
+
+		double eAbs = Math.abs(e);
+
+		if (eAbs > STANDARD_PRECISION) {
+			return false;
+		}
+
+		if (eAbs > Math.abs(x) * STANDARD_PRECISION) {
+			return false;
+		}
+
+
+		return true;
+	}
+
+	/**
+	 * 
 	 * check if a point is zero, see #5202
 	 * 
 	 * @param e

@@ -447,13 +447,14 @@ public class CoordSys {
 		// / coeff value)
 		Coords o = new Coords(4);
 		boolean originSet = false;
-		for (int i = 0; i < vals.length - 1; i++) {
-			if (!originSet)
-				if (vals[i] != 0) {
-					o.set(i + 1, -vals[vals.length - 1] / vals[i]);
-					originSet = true;
-				}
+		double val = vals[vals.length - 1];
+		for (int i = 0; i < vals.length - 1 && !originSet; i++) {
+			if (!Kernel.isEpsilon(vals[i], val)) {
+				o.set(i + 1, -val / vals[i]);
+				originSet = true;
+			}
 		}
+
 		// check if at least one coeff is non-zero
 		if (!originSet)
 			return;
