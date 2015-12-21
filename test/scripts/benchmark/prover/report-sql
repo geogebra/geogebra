@@ -196,9 +196,34 @@ for c in $COLUMNS; do
 echo "</tr><tr>" >> $MYDIR/$HTML
 echo "\\\\" >> $MYDIR/$TEX
 
+cn=0
+declare -A COL_NDG
+declare -A COL_BUILD_NUMBER
+declare -A COL_J
+declare -A COL_R
+
 for c in $COLUMNS; do
  echo "<th>Result</th><th>Speed</th>" >> $MYDIR/$HTML
  echo "&R.&S." >> $MYDIR/$TEX
+ cn=$((cn+1))
+ j=`echo $c | cut -f1 -d,`
+ r=`echo $c | cut -s -f2- -d,`
+ ndg=0
+ echo $r | grep --silent D && ndg=1
+ if [ $PROVEDETAILS = 1 ]; then
+  ndg=1
+  fi
+ build_number=$BUILD_NUMBER
+ echo $r | grep --silent p && {
+  PREV=`echo $r | awk '{i=index($0,"p"); print(substr($0,i+1))}'`
+  build_number=`sqlite3 sqlite3db "select build_number from builds order by build_number desc limit 1 offset $PREV"`
+  }
+ echo $r | grep --silent b && {
+  build_number=`echo $r | awk '{i=index($0,"b"); print(substr($0,i+1))}'`
+  }
+ COL_J[$cn]=$j
+ COL_NDG[$cn]=$ndg
+ COL_BUILD_NUMBER[$cn]=$build_number
  done
 
 echo "</tr>" >> $MYDIR/$HTML
@@ -238,21 +263,9 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  cn=0
  for c in $COLUMNS; do
   cn=$((cn+1))
-  j=`echo $c | cut -f1 -d,`
-  r=`echo $c | cut -s -f2- -d,`
-  ndg=0
-  echo $r | grep --silent D && ndg=1
-  if [ $PROVEDETAILS = 1 ]; then
-   ndg=1
-   fi
-  build_number=$BUILD_NUMBER
-  echo $r | grep --silent p && {
-   PREV=`echo $r | awk '{i=index($0,"p"); print(substr($0,i+1))}'`
-   build_number=`sqlite3 sqlite3db "select build_number from builds order by build_number desc limit 1 offset $PREV"`
-   }
-  echo $r | grep --silent b && {
-   build_number=`echo $r | awk '{i=index($0,"b"); print(substr($0,i+1))}'`
-   }
+  j=${COL_J[$cn]}
+  ndg=${COL_NDG[$cn]}
+  build_number=${COL_BUILD_NUMBER[$cn]}
 
   FWCLAUSE=" from tests where build_number=$build_number and ndg=$ndg and prover='$j' and testcase='$t'"
   unset TIME
@@ -338,13 +351,10 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
 
  cn=0
  for c in $COLUMNS; do
-  j=`echo $c | cut -f1 -d,`
   cn=$((cn+1))
-  ndg=0
-  echo $r | grep --silent D && ndg=1
-  if [ $PROVEDETAILS = 1 ]; then
-   ndg=1
-   fi
+  j=${COL_J[$cn]}
+  ndg=${COL_NDG[$cn]}
+
   RESULTCLASS=${RESULTCLASSDATA[$cn]}
   CELLCOLOR=${CELLCOLORDATA[$cn]}
   RESULT=${RESULTDATA[$cn]}
