@@ -283,8 +283,13 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   CELLCOLOR="green!10"
   DIRNAMELENGTH=${#DIRNAME}
   if [ "$ACCEPTED" = "" ]; then
-   RESULTCLASS=" class=\"undefined\""
-   CELLCOLOR="yellow!25"
+   if [ "$RESULT" = "" ]; then
+    RESULTCLASS=" class=\"untested\""
+    CELLCOLOR="white!25"
+   else
+    RESULTCLASS=" class=\"undefined\""
+    CELLCOLOR="yellow!25"
+    fi
    fi
   if [ "$ACCEPTED" = "0" ]; then
    RESULTCLASS=" class=\"error\""
