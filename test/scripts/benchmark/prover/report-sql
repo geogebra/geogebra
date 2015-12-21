@@ -288,6 +288,9 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
     RESULTCLASS=" class=\"timeout\""
     CELLCOLOR="yellow!40"
     TIME="t/o"
+    elif [ "$ERRORTYPE" = 0 ]; then
+     RESULTCLASS=" class=\"undefined\""
+     CELLCOLOR="yellow!25"
     else
      RESULTCLASS=" class=\"untested\""
      CELLCOLOR="white!25"
