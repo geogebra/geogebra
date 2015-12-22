@@ -21,6 +21,7 @@ ABSWEBDIR=`readlink -f $WEBCODEBASEDIR`
 
 PHANTOMJS=`which phantomjs || echo unset`
 
+
 usage() {
  echo "$0 - a benchmarking tool for GeoGebra's theorem prover subsystem"
  echo "Usage:"
@@ -176,6 +177,9 @@ if [ "$SVN_REVISION" = "" ]; then
 if [ "$BUILD_URL" = "" ]; then
  BUILD_URL=null
  fi
+
+cd $MYDIR
+test sqlite3db || ./createdb
 
 sqlite3 sqlite3db "insert into builds (build_number, svn_revision, build_url, machine)
 values ($BUILD_NUMBER, $SVN_REVISION, $BUILD_URL, '$machine')"
