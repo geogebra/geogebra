@@ -110,6 +110,7 @@ public interface Inspecting {
 					String varString = gdv
 							.toString(StringTemplate.defaultTemplate);
 					if (!varString.equals("x") && !varString.equals("y")
+							&& !varString.equals("X")
 							&& (dim < 3 || !varString.equals("z"))) {
 						if (varString.equals("\u03BB") && !isOtherVar
 								&& nrOfPoints == 2) {

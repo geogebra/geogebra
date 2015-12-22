@@ -2103,9 +2103,7 @@ public class AlgebraProcessor {
 		// s = t^2
 		if ((lhs instanceof Variable || lhs instanceof GeoDummyVariable)
 				&& kernel.lookupLabel("X") == null
-				&& ("X".equals(lhs.toString(StringTemplate.defaultTemplate)) || ("y"
-						.equals(lhs
-								.toString(StringTemplate.defaultTemplate))))) {
+				&& "X".equals(lhs.toString(StringTemplate.defaultTemplate))) {
 			return getParamProcessor().processXEquation(equ);
 		}
 		if (lhs instanceof Variable
