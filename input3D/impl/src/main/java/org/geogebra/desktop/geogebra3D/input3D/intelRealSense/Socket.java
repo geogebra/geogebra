@@ -470,7 +470,7 @@ public class Socket {
 	static public boolean queryRegistry(final App app) throws Input3DException {
 		int registeryQueryResult = 1; // inited to bad value (correct value = 0)
 		boolean upToDate = false;
-		String version = "";
+		String version = null;
 		try {
 			Runtime runtime = Runtime.getRuntime();
 			Process p = runtime.exec(QUERY_REGISTERY_KEY_FRONT_CAM);
@@ -519,6 +519,13 @@ public class Socket {
 					"RealSense: No key for camera in registery");
 		}
 
+		// nothing went wrong but no version found
+		if (version == null) {
+			throw new Input3DException(Input3DExceptionType.INSTALL,
+					"RealSense: No key for camera in registery");
+		}
+
+		// version is not up to date
 		if (!upToDate) {
 			throw new Input3DException(Input3DExceptionType.NOT_UP_TO_DATE,
 					version);
