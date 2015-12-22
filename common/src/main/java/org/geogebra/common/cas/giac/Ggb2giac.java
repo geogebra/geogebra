@@ -790,7 +790,7 @@ public class Ggb2giac {
 						+ " equation( ((ggbtrsarg0)[1] - xcoord(ggbtrsarg1))^(ggbtrsarg0)[2] + ycoord(ggbtrsarg1) ), "
 						+ " equation( ((ggbtrsarg0)[1] - ggbtrsarg1[0])^(ggbtrsarg0)[2] + (ggbtrsarg1)[1] ) ), "
 						// translate function defined from inputBar
-						+ "when( (ggbtrsarg0)[0] <> '=' && xcoord(ggbtrsarg0) <> string(y) &&"
+						+ "when( (ggbtrsarg0)[0] <> '=' && xcoord(ggbtrsarg0) <> string(X) &&"
 						+ "(xcoord(ggbtrsarg0))[0] <> '=' && string((xcoord(ggbtrsarg0))[1]) <> string(X),"
 						// vector as point
 						+ "when ( (ggbtrsarg1)[0] == 'pnt' , "
@@ -811,17 +811,17 @@ public class Ggb2giac {
 						+ "equation(simplify(subst((ggbtrsarg0)[1] = (ggbtrsarg0)[2] + (ggbtrsarg1)[1],"
 						+ "x = x - (ggbtrsarg1)[0]))) ),"
 						// translate 3d line - defined with command
-						+ "when ( xcoord(ggbtrsarg0) == string(y) ,"
+						+ "when ( xcoord(ggbtrsarg0) == string(X) ,"
 						// vector as point
 						+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
-						+ " regroup(equation(cat(\"y=\",point(expr(ggbtrsarg0)[0][2][1] + xcoord(ggbtrsarg1) , "
+						+ " regroup(equation(cat(\"X=\",point(expr(ggbtrsarg0)[0][2][1] + xcoord(ggbtrsarg1) , "
 						+ "expr(ggbtrsarg0)[1][2][1] + ycoord(ggbtrsarg1) ,"
 						+ "expr(ggbtrsarg0)[2][2][1] + zcoord(ggbtrsarg1) ),"
 						+ "\"+\u03BB*\","
 						+ "point(coeff(expr(ggbtrsarg0)[0][2],\u03BB,1) , "
 						+ "coeff(expr(ggbtrsarg0)[1][2],\u03BB,1) , "
 						+ "coeff(expr(ggbtrsarg0)[2][2],\u03BB,1)) ))) , "
-						+ "regroup(equation(cat(\"y=\",point(expr(ggbtrsarg0)[0][2][1] + (ggbtrsarg1)[0] , "
+						+ "regroup(equation(cat(\"X=\",point(expr(ggbtrsarg0)[0][2][1] + (ggbtrsarg1)[0] , "
 						+ "expr(ggbtrsarg0)[1][2][1] + (ggbtrsarg1)[1] ,"
 						+ "expr(ggbtrsarg0)[2][2][1] + (ggbtrsarg1)[2] ),"
 						+ "\"+\u03BB*\","
@@ -838,13 +838,13 @@ public class Ggb2giac {
 						+ "when ( (xcoord(ggbtrsarg0))[0] == '=' && string((xcoord(ggbtrsarg0))[1]) == string(X) , "
 						// vector as point
 						+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
-						+ "regroup(equation(cat(\"y=\",point((ggbtrsarg0)[0][2] + xcoord(ggbtrsarg1),"
+						+ "regroup(equation(cat(\"X=\",point((ggbtrsarg0)[0][2] + xcoord(ggbtrsarg1),"
 						+ "(ggbtrsarg0)[1][2] + ycoord(ggbtrsarg1),"
 						+ "(ggbtrsarg0)[2][2][1] + zcoord(ggbtrsarg1)),"
 						+ "\"+\u03BB*\"," + "point((ggbtrsarg0[2][2][2])[2][0],"
 						+ "(ggbtrsarg0[2][2][2])[2][1],"
 						+ "(ggbtrsarg0[2][2][2])[2][2]) ))) , "
-						+ "regroup(equation(cat(\"y=\",point((ggbtrsarg0)[0][2] + (ggbtrsarg1)[0],"
+						+ "regroup(equation(cat(\"X=\",point((ggbtrsarg0)[0][2] + (ggbtrsarg1)[0],"
 						+ "(ggbtrsarg0)[1][2] + (ggbtrsarg1)[1],"
 						+ "(ggbtrsarg0)[2][2][1] + (ggbtrsarg1)[2]),"
 						+ "\"+\u03BB*\"," + "point((ggbtrsarg0[2][2][2])[2][0],"
@@ -1156,7 +1156,7 @@ public class Ggb2giac {
 						+ "point( ggbangarg1[1][1][0] , ggbangarg1[1][1][1] , ggbangarg1[1][1][2]) ))),"
 						// line defined with command and plane defined with
 						// command
-						+ "when ( xcoord(ggbangarg0) == string(y) && string(xcoord(ggbangarg1[1])) == string(hyperplan) ,"
+						+ "when ( xcoord(ggbangarg0) == string(X) && string(xcoord(ggbangarg1[1])) == string(hyperplan) ,"
 						+ "normal(regroup(angle(point(0,0,0),"
 						+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
 						+ "point( ggbangarg1[1][1][0] , ggbangarg1[1][1][1] , ggbangarg1[1][1][2]) ))) ,"
@@ -1169,9 +1169,9 @@ public class Ggb2giac {
 						// functions without y or f(x)
 						// e.g. Angle[x+1,-x+3]
 						+ "when ( (ggbangarg0)[0] <> '=' && (ggbangarg0)[0] <> 'pnt' && "
-						+ "xcoord(ggbangarg0) <> string(y) && (xcoord(ggbangarg0))[0] <> '=' && "
+						+ "xcoord(ggbangarg0) <> string(X) && (xcoord(ggbangarg0))[0] <> '=' && "
 						+ "(ggbangarg1)[0] <> '=' && (ggbangarg1)[0] <> 'pnt' &&"
-						+ " xcoord(ggbangarg1) <> string(y) && (xcoord(ggbangarg1))[0] <> '=' && "
+						+ " xcoord(ggbangarg1) <> string(X) && (xcoord(ggbangarg1))[0] <> '=' && "
 						+ "subtype(ggbangarg0) <> 27 && subtype(ggbangarg1) <> 27,"
 						+ "normal(regroup(angle(point(0,0,0) ,"
 						+ "point(coeff(ggbangarg0,x,1),1,"
@@ -1193,7 +1193,7 @@ public class Ggb2giac {
 						+ "when( ( type(xcoord(ggbangarg0)) == DOM_INT || (ggbangarg0)[0] == 'pnt')  && ( type(xcoord(ggbangarg1)) == DOM_INT || (ggbangarg1)[0] == 'pnt' ),"
 						+ "normal(regroup(angle(point(0,0,0),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))) ,"
 						// case 3D lines defined in this command
-						+ "when ( xcoord(ggbangarg0) == string(y) && xcoord(ggbangarg1) == string(y) ,"
+						+ "when ( xcoord(ggbangarg0) == string(X) && xcoord(ggbangarg1) == string(X) ,"
 						+ "normal(regroup(angle(point(0,0,0),"
 						+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
 						+ "point( coeff(expr(ggbangarg1)[0][2],\u03BB,1) , coeff(expr(ggbangarg1)[1][2],\u03BB,1) , coeff(expr(ggbangarg1)[2][2],\u03BB,1) ) ))) ,"
@@ -1204,7 +1204,7 @@ public class Ggb2giac {
 						+ "point( ggbangarg1[2][2][2][0] , ggbangarg1[2][2][2][1] , ggbangarg1[2][2][2][2] ) ))),"
 						// case 3D line def with command and plane with linear
 						// equation
-						+ " when ( xcoord(ggbangarg0) == string(y) && type(xcoord(ggbangarg1)) == DOM_INT,"
+						+ " when ( xcoord(ggbangarg0) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT,"
 						+ "normal(regroup(angle(point(0,0,0),"
 						+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
 						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))) , "
