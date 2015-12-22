@@ -17,6 +17,7 @@ SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 USEENGINES=0
 PROVEDETAILS=0
 DOTS=20
+NICEHTML=0
 
 COMMANDLINE="$0 $*"
 
@@ -36,6 +37,7 @@ usage() {
  echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
  echo "   -e           add introduction and use engine numbers in table headers"
  echo "   -d <length>  use dots in test names in LaTeX output if the name is longer than length ($DOTS)"
+ echo "   -n           nice HTML output (similar to LaTeX)"
  echo "   -h           show this help"
  echo "   -v           print script version"
  echo
@@ -52,10 +54,13 @@ version() {
  exit 0
  }
 
-while getopts "t:H:o:T:c:d:b:S:eDhv" OPT; do
+while getopts "t:H:o:T:c:d:b:S:neDhv" OPT; do
  case $OPT in
   H)
    IMGHEIGHT="$OPTARG"
+   ;;
+  n)
+   NICEHTML=1
    ;;
   o)
    HTML="$OPTARG"
@@ -386,7 +391,21 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    SUMCLASS="best"
    SUMCLASSTEX="\bf"
    fi
-  echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS><p class=\"$SUMCLASS\">$TIME</p></td>" >> $MYDIR/$HTML
+  HTMLRESULT="$RESULT"
+  if [ "$NICEHTML" = 1 ]; then
+   TRUE=t
+   if [ $ndg = 1 ]; then
+    TRUE=""
+    fi
+   HTMLRESULT=`echo $HTMLRESULT | sed s/true/$TRUE/g | sed s/false/f/g`
+   HTMLRESULT=`echo $HTMLRESULT | sed s/"AreEqual\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\\1=\\2"/g |\
+    sed s/"AreParallel\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\\1\&#8741;\\2"/g |\
+    sed s/"ArePerpendicular\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\\1\&#10178;\\2"/g |\
+    sed s/"AreCongruent\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\\1\&#8773;\\2"/g |\
+    sed s/"AreCollinear\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"<span style=\"text-decoration: overline;\">\\1\\2\\3<\/span>"/g |\
+    sed s/"_\([0-9]\+\)"/"<sub>\\1<\/sub>"/g` # Note that subscript change is the last one.
+   fi
+  echo "<td$RESULTCLASS>$HTMLRESULT</td><td$RESULTCLASS><p class=\"$SUMCLASS\">$TIME</p></td>" >> $MYDIR/$HTML
   # TeX related changes
   TRUE=t
   if [ $ndg = 1 ]; then
@@ -395,7 +414,8 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   RESULT=`echo $RESULT | sed s/true/$TRUE/g | sed s/false/f/g`
   RESULT=`echo $RESULT | sed s/"AreEqual\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1=\\2\$"/g |\
    sed s/"AreParallel\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\\\\\parallel \\2\$"/g |\
-   sed s/"ArePerpendicular\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\perp \\2\$"/g |\
+   sed s/"ArePerpendicular\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\\\\\perp \\2\$"/g |\
+   sed s/"AreCongruent\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\\\\\cong \\2\$"/g |\
    sed s/"AreCollinear\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\\\\\\\overline{\\1\\2\\3}\$"/g |\
    sed s/"\\\\$ \\\\$"/"\$\\\\\\\\hfill\\\\\\\\newline\$"/g |\
    sed s/"\.\.\."/"\$\\\\\\\\ldots\$"/g`
