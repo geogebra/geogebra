@@ -30,7 +30,6 @@ usage() {
  echo "   -D           rewrite Prove commands to ProveDetails"
  echo "   -d           put some debugging logs into tmp/"
  echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
- echo "   -H <number>  image height: show .ggb thumbnails in the given number of pixels ($IMGHEIGHT)"
  echo "   -p <list>    space separated list of prover engines to test ($PROVERS)"
  echo "   -g <url>     use 'url' for putting links on test cases ($TESTGGBURLBASE_GGBDIR)"
  echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
@@ -54,7 +53,7 @@ version() {
  exit 0
  }
 
-while getopts "t:dH:p:P:S:Dhvr" OPT; do
+while getopts "t:d:p:P:S:Dhvr" OPT; do
  case $OPT in
   t)
    TIMEOUT="$OPTARG"
@@ -82,6 +81,14 @@ while getopts "t:dH:p:P:S:Dhvr" OPT; do
      ;;
     ndg)
      PROVERS="Botana BotanaGiac OpenGeoProver_Wu Auto"
+     PROVEDETAILS=1
+     ;;
+    prove)
+     PROVERS="Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto Web"
+     PROVEDETAILS=0
+     ;;
+    provedetails)
+     PROVERS="Botana BotanaGiac OpenGeoProver_Wu Auto Web"
      PROVEDETAILS=1
      ;;
    esac # -S

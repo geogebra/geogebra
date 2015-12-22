@@ -6,10 +6,11 @@
 MY_VERSION=2.0
 
 IMGHEIGHT=25
-HTML=html/index.html
-TEX=html/index.tex
+HTML=html/all.html
+TEX=html/all.tex
 # Don't use this, it is just an example:
-COLUMNS="Recio PureSymbolic Botana,D BotanaGiac,D,p2 OpenGeoProver_Wu,p2 OpenGeoProver_Area Auto Web"
+# COLUMNS="Recio PureSymbolic Botana,D BotanaGiac,D,p2 OpenGeoProver_Wu,p2 OpenGeoProver_Area Auto Web"
+COLUMNS="Recio Botana Botana,D BotanaGiac BotanaGiac,D OpenGeoProver_Wu OpenGeoProver_Wu,D OpenGeoProver_Area Auto Auto,D Web Web,D"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
 GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=https://dev.geogebra.org/trac/export
 GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/prover
@@ -17,7 +18,7 @@ SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 USEENGINES=0
 PROVEDETAILS=0
 DOTS=20
-NICEHTML=0
+NICEHTML=1
 
 COMMANDLINE="$0 $*"
 
@@ -37,7 +38,7 @@ usage() {
  echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
  echo "   -e           add introduction and use engine numbers in table headers"
  echo "   -d <length>  use dots in test names in LaTeX output if the name is longer than length ($DOTS)"
- echo "   -n           nice HTML output (similar to LaTeX)"
+ echo "   -N           do not use nice HTML output (similarly to LaTeX)"
  echo "   -h           show this help"
  echo "   -v           print script version"
  echo
@@ -54,13 +55,13 @@ version() {
  exit 0
  }
 
-while getopts "t:H:o:T:c:d:b:S:neDhv" OPT; do
+while getopts "t:H:o:T:c:d:b:S:NeDhv" OPT; do
  case $OPT in
   H)
    IMGHEIGHT="$OPTARG"
    ;;
-  n)
-   NICEHTML=1
+  N)
+   NICEHTML=0
    ;;
   o)
    HTML="$OPTARG"
@@ -437,6 +438,9 @@ for c in $COLUMNS; do
  cn=$((cn+1))
  j=`echo $c | cut -f1 -d,`
  VALUE=${CORRECT[$cn]}
+ if [ "$VALUE" = "" ]; then
+  VALUE=0
+  fi
  echo "<td class=\"summary\" colspan=\"2\"><b>$VALUE</b></td>" >> $MYDIR/$HTML
  echo "&\multicolumn{2}{c|}{\bf $VALUE}" >> $MYDIR/$TEX
  done

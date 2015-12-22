@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Runs all test scenarios based on the current build.
+# See "./runtests-sql -h" and "./report-sql -h" for more details.
+# We assume that this script runs in an xvfb environment.
+
+if [ "$BUILD_NUMBER" = "" ]; then
+ export BUILD_NUMBER=`date +%Y%m%d%H%M%S`
+ fi
+
+MYDIR=`pwd $0`
+cd $MYDIR
+./runtests-sql -S prove -r
+./runtests-sql -S provedetails -r
+./report-sql
+
+# Run ./check-sums after this.
