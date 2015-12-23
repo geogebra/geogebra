@@ -1035,10 +1035,12 @@ namespace giac {
   tdeg_t64 & operator += (tdeg_t64 & x,const tdeg_t64 & y){ 
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
+#ifdef GIAC_DEBUG_TDEG_T64
       if (!(y.tab[0]%2)){
 	y.dbgprint();
 	COUT << "erreur" << endl;
       }
+#endif
       return x=x+y;
     }
 #endif    
@@ -1056,6 +1058,35 @@ namespace giac {
 #endif
     return x;  
   }
+
+  inline tdeg_t64 dynamic_plus(const tdeg_t64 & x,const tdeg_t64 & y){
+    tdeg_t64 res;
+    res.order_=x.order_;
+    res.ui=(longlong *)malloc((1+(x.order_.dim+degratiom1)/degratio)*sizeof(longlong));
+    res.ui[0]=1; 
+    const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
+    longlong * resptr=res.ui+1;
+    for (;xptr!=xend;++resptr,++yptr,++xptr)
+      *resptr=*xptr+*yptr;
+#if 1
+    res.tdeg=1+2*(x.tdeg/2+y.tdeg/2);
+    res.tdeg2=x.tdeg2+y.tdeg2;
+#ifdef GIAC_HASH
+    res.hash=x.hash+y.hash;
+#endif
+#ifdef GIAC_ELIM      
+    if (res.tdeg>=33)
+      res.elim=0x1fffffffffffffffULL;
+    else
+      res.elim=x.elim+y.elim;
+#endif      
+#else
+    res.tdeg=1;
+    res.compute_degs();
+#endif
+    return res;
+  }
+  
   tdeg_t64 operator + (const tdeg_t64 & x,const tdeg_t64 & y){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
@@ -1063,17 +1094,7 @@ namespace giac {
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
 #endif
-      tdeg_t64 res;
-      res.order_=x.order_;
-      res.ui=(longlong *)malloc((1+(x.order_.dim+degratiom1)/degratio)*sizeof(longlong));
-      res.ui[0]=1; 
-      const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
-      longlong * resptr=res.ui+1;
-      for (;xptr!=xend;++resptr,++yptr,++xptr)
-	*resptr=*xptr+*yptr;
-      res.tdeg=1;
-      res.compute_degs();
-      return res;
+      return dynamic_plus(x,y);
     }
 #endif    
     tdeg_t64 res(x);
@@ -1110,11 +1131,25 @@ namespace giac {
 #endif
 	for (;xptr!=xend;++resptr,++yptr,++xptr)
 	  *resptr=*xptr+*yptr;
+#if 1
+	res.tdeg=1+2*(x.tdeg/2+y.tdeg/2);
+	res.tdeg2=x.tdeg2+y.tdeg2;
+#ifdef GIAC_HASH
+	res.hash=x.hash+y.hash;
+#endif
+#ifdef GIAC_ELIM      
+	if (res.tdeg>=33)
+	  res.elim=0x1fffffffffffffffULL;
+	else
+	  res.elim=x.elim+y.elim;
+#endif      
+#else
 	res.tdeg=1;
 	res.compute_degs();
+#endif
       }
       else
-	res=x+y;
+	res=dynamic_plus(x,y);
       return;
     }
 #endif    
@@ -1138,6 +1173,7 @@ namespace giac {
       res.tab[i]=x.tab[i]+y.tab[i];
 #endif
   }
+
   tdeg_t64 operator - (const tdeg_t64 & x,const tdeg_t64 & y){ 
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
@@ -6117,21 +6153,11 @@ namespace giac {
     unsigned skip=0;
     if (env<(1<<24)){
       bool fastcheck = (fitend-fit0)<=0xffff;
+      unsigned redno=0;
       for (;fit!=fitend;++fit){
-	if (fastcheck && *(wt0+*fit)==0)
+	if (*(wt0+*fit)==0)
 	  continue;
 	unsigned i=unsigned(fit-fit0);
-	if (!fastcheck){ 
-	  if ((i&0xffff)==0xffff){
-	    // reduce the line mod env
-	    for (wt=v64.begin();wt!=wtend;++wt){
-	      if (*wt)
-		*wt %= env;
-	    }
-	  }
-	  if (v64[*fit]==0)
-	    continue;
-	}
 	const vector<shifttype> & mindex=M[i];
 	const shifttype * it=&mindex.front();
 	unsigned pos=0;
@@ -6150,6 +6176,18 @@ namespace giac {
 	*wt=0;
 	if (!c)
 	  continue;
+	if (!fastcheck){
+	  ++redno;
+	  if ((redno&0xffff)==0){
+	    // reduce the line mod env
+	    for (wt=v64.begin();wt!=wtend;++wt){
+	      if (*wt)
+		*wt %= env;
+	    }
+	  }
+	  if (v64[*fit]==0)
+	    continue;
+	}
 	++jt;
 #ifdef GIAC_SHORTSHIFTTYPE
 	if (shortshifts){
@@ -13588,9 +13626,9 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #ifdef INT128
     * (uint128_t *) &x += * (const uint128_t *) &y;
 #else
-    ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
-    xtab[0]+=ytab[0];
-    xtab[1]+=ytab[1];
+    // ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
+    *((ulonglong *)&x) += *((ulonglong *)&y);
+    ((ulonglong *)&x)[1] += ((ulonglong *)&y)[1];
 #endif
     if (x.tab[0]>=128){
       gensizeerr("Degree too large");
@@ -13609,9 +13647,9 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #ifdef INT128
     * (uint128_t *) &res = * (const uint128_t *) &x + * (const uint128_t *) &y;
 #else
-    ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y,*ztab=(ulonglong *)&res;
-    ztab[0]=xtab[0]+ytab[0];
-    ztab[1]=xtab[1]+ytab[1];
+    // ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y,*ztab=(ulonglong *)&res;
+    *((ulonglong *)&res)=*((ulonglong *)&x)+*((ulonglong *)&y);
+    ((ulonglong *)&res)[1]=((ulonglong *)&x)[1]+((ulonglong *)&y)[1];
 #endif
   }
   tdeg_t14 operator - (const tdeg_t14 & x,const tdeg_t14 & y){ 
