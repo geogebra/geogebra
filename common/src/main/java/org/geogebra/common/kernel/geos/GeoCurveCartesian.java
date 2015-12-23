@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.kernel.roots.RealRootUtil;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
@@ -600,17 +601,19 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 			// if we don't have a startValue yet, let's take the path parameter
 			// as a guess
-			if (Double.isNaN(startVal))
+			if (Double.isNaN(startVal)) {
 				startVal = pathParam;
+			}
 		}
 
-		// first sample distFun to find a start intervall for ExtremumFinder
+		// first sample distFun to find a start interval for ExtremumFinder
 		double step = (this.endParam - this.startParam) / CLOSEST_PARAMETER_SAMPLES;
 		double minVal = this.distFun.evaluate(this.startParam);
 		double minParam = this.startParam;
 		double t = this.startParam;
 		for (int i = 0; i < CLOSEST_PARAMETER_SAMPLES; i++) {
 			t = t + step;
+			App.error("t = " + t + " " + this.endParam);
 			double ft = this.distFun.evaluate(t);
 			if (ft < minVal) {
 				// found new minimum
@@ -618,18 +621,14 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				minParam = t;
 			}
 		}
-		
-		if (minParam - step < this.getMinParameter() || minParam + step > this.getMaxParameter()) {
-			// at end, so can't sample either side!
-			// #4567
-			return minParam;
-		}
 
 		// use interval around our minParam found by sampling
 		// to find minimum
-		// Math.max/min removed and ParametricCurveDistanceFunction modified instead 
-		double left = minParam - step; 
-		double right = minParam + step;
+		// Math.max/min removed and ParametricCurveDistanceFunction modified
+		// instead
+		// TRAC-4583 #4567 removed wrong check, put Math.max/min in
+		double left = Math.max(this.getMinParameter(), minParam - step);
+		double right = Math.min(this.getMaxParameter(), minParam + step);
 
 		ExtremumFinder extFinder = this.kernel.getExtremumFinder();
 		double sampleResult = extFinder.findMinimum(left, right, this.distFun,
