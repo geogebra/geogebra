@@ -1013,7 +1013,8 @@ public class Ggb2giac {
 		// adapted from xcas example by Bernard Parisse
 		p("SolveCubic.1", "["
 				+ "[j:=exp(2*i*pi/3)],"
-				+ "[V:=symb2poly(%0,x)],"
+				+ "[ggbcub:=%0],"
+				+ "[V:=symb2poly(when(ggbcub[0]=='=',left(ggbcub)-right(ggbcub),ggbcub),x)],"
 				+ "[n:=size(V)],"
 				+
 
@@ -1048,9 +1049,9 @@ public class Ggb2giac {
 				// for debugging
 				// + "[p,q,d,u,v,x1,x2,x3]"
 				// SolveCubic[x^3+1] -> u=0, v=?
-				+ "when(d==0 || u==0, csolve(%0,x), [x1s,x2s,x3s])"
+				+ "when(d==0 || u==0, csolve(ggbcub,x), [x1s,x2s,x3s])"
 
-				+ "][18]");
+				+ "][19]");
 
 		// SolveQuartic[2x^4+3x^3+x^2+1]
 		// SolveQuartic[x^4+6x^2-60x+36] approx = {(-1.872136644123) -
