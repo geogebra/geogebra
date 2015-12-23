@@ -106,6 +106,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
 
 		if (gc != null) {
 			gc.toGeoCurveCartesian(f);
+			f.updateDistanceFunction();
 		}
 
 		if (f.isDefined()) {

@@ -521,4 +521,9 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		return point;
 	}
 
+	/**
+	 * update distance function
+	 */
+	abstract public void updateDistanceFunction();
+
 }

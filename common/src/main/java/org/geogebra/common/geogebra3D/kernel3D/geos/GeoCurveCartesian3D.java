@@ -442,6 +442,10 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		P.setCoords(evaluateCurve3D(pp.t), false);
 	}
 
+	public void updateDistanceFunction() {
+
+	}
+
 	/**
 	 * Returns the parameter value t where this curve has minimal distance to
 	 * point P.
@@ -459,7 +463,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 			distFun = new CurveCartesian3DDistanceFunction(this);
 
 		distFun.setDistantPoint(P);
-
+		
 		// check if P is on this curve and has the right path parameter already
 		if (P.getPath() == this || true) {
 			// point A is on curve c, take its parameter

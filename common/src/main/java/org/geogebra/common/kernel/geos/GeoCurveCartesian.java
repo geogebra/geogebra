@@ -562,6 +562,14 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		P.updateCoordsFrom2D(false, null);
 	}
 
+	@Override
+	public void updateDistanceFunction() {
+		if (this.distFun == null) {
+			this.distFun = new ParametricCurveDistanceFunction(this);
+		}
+		((ParametricCurveDistanceFunction) distFun).setFunctions(this);
+	}
+
 	/**
 	 * Returns the parameter value t where this curve has minimal distance to
 	 * point P.
@@ -575,8 +583,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	@Override
 	public double getClosestParameter(GeoPointND P, double startValue) {
 		double startVal = startValue;
-		if (this.distFun == null)
+		if (this.distFun == null) {
 			this.distFun = new ParametricCurveDistanceFunction(this);
+		}
 		
 		this.distFun.setDistantPoint(P);
 

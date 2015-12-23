@@ -40,10 +40,18 @@ public class ParametricCurveDistanceFunction implements RealRootFunction,
 	 *            curve
 	 */
 	public ParametricCurveDistanceFunction(ParametricCurve curve) {
+		setFunctions(curve);
+	}
+
+	/**
+	 * set functions from curve
+	 * 
+	 * @param curve
+	 *            curve
+	 */
+	public void setFunctions(ParametricCurve curve) {
 		funX = curve.getRealRootFunctionX();
 		funY = curve.getRealRootFunctionY();
-		// this.mint = curve.getMinParameter();
-		// this.maxt = curve.getMaxParameter();
 	}
 
 	/**
