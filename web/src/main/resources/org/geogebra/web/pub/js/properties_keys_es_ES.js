@@ -2747,7 +2747,7 @@ __GGB__keysVar.es_ES.plain = {
     "RayThroughAB": "Semirrecta que pasa por %0, %1",
     "RayThroughAWithDirectionB": "Semirrecta que pasa por %0 con direcci\xf3n %1",
     "RealSense.DownloadUpdate": "Te recomendamos actualizar los controladores de tu F200 Camera DCM aqu\xed:",
-    "RealSense.NotUpToDate": "Tu instalaci\xf3n Intel\xae RealSense\u2122 est\xe1 desactualizada (%0)",
+    "RealSense.NotUpToDate": "Tu versi\xf3n %0 de Intel\xae RealSense\u2122 no est\xe1 actualizada",
     "RealSenseNotUpToDate1": "Los controladores de tu c\xe1mara Intel\xae RealSense\u2122 no est\xe1n actualizados. Descargaremos e instalaremos los nuevos.",
     "RealSenseNotUpToDate2": "Esto tomar\xe1 unos minutos. Recibir\xe1s un aviso cuando haya terminado.",
     "RealSenseUpdated1": "Los controladores de tu c\xe1mara Intel\xae RealSense\u2122 no est\xe1n actualizados.",
