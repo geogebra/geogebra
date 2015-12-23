@@ -89,6 +89,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	}
 
+	@Override
 	public void evaluateCurve(double t, double[] out) {
 
 		for (int i = 0; i < 3; i++) {
@@ -96,6 +97,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		}
 	}
 
+	@Override
 	public double[] newDoubleArray() {
 		return new double[3];
 	}
@@ -236,14 +238,17 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return true;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}
 
+	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 
 		if (tmpMatrix4x4 == null) {
@@ -255,6 +260,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	}
 
+	@Override
 	public void rotate(NumberValue r) {
 
 		if (tmpMatrix4x4 == null) {
@@ -265,6 +271,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	}
 
+	@Override
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
 
 		if (tmpMatrix4x4 == null) {
@@ -301,6 +308,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	private CoordMatrix4x4 tmpMatrix4x4;
 
+	@Override
 	public void rotate(NumberValue r, GeoLineND line) {
 
 		if (tmpMatrix4x4 == null) {
@@ -313,6 +321,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	}
 
+	@Override
 	public double[] getDefinedInterval(double a, double b) {
 
 		return getDefinedInterval(a, b, fun[0], fun[1], fun[2]);
@@ -383,14 +392,17 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	// PATH
 	// /////////////////////////////////////
 
+	@Override
 	public boolean isClosedPath() {
 		return false;
 	}
 
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
 
+	@Override
 	public void pointChanged(GeoPointND P) {
 
 		// get closest parameter position on curve
@@ -400,6 +412,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		pathChanged(P, false);
 	}
 
+	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
 		if (PI.getPath() == this)
@@ -415,6 +428,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return onPath;
 	}
 
+	@Override
 	public void pathChanged(GeoPointND PI) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -442,8 +456,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		P.setCoords(evaluateCurve3D(pp.t), false);
 	}
 
+	@Override
 	public void updateDistanceFunction() {
-
+		if (distFun == null) {
+			distFun = new CurveCartesian3DDistanceFunction(this);
+		}
 	}
 
 	/**
@@ -459,8 +476,9 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	@Override
 	public double getClosestParameter(GeoPointND P, double startValue) {
 		double startVal = startValue;
-		if (distFun == null)
+		if (distFun == null) {
 			distFun = new CurveCartesian3DDistanceFunction(this);
+		}
 
 		distFun.setDistantPoint(P);
 		
@@ -577,6 +595,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		 * @param p
 		 *            point
 		 */
+		@Override
 		public void setDistantPoint(GeoPointND p) {
 
 			if (p.isGeoElement3D()) {
@@ -600,6 +619,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		 * Returns the square of the distance between the currently set distance
 		 * point and this curve at parameter position t
 		 */
+		@Override
 		public double evaluate(double t) {
 
 			Coords eval = curve.evaluateCurve3D(t);
@@ -616,6 +636,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	// TRANSLATE
 	// ///////////////////////////////////
 
+	@Override
 	public void translate(Coords v) {
 
 		// current expressions
@@ -637,10 +658,12 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	// MIRROR
 	// //////////////////////
 
+	@Override
 	public void mirror(Coords Q) {
 		dilate(new MyDouble(kernel, -1.0), Q);
 	}
 
+	@Override
 	public void mirror(GeoLineND line) {
 
 		transform(CoordMatrix4x4.AxialSymetry(line.getDirectionInD3()
@@ -648,6 +671,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	}
 
+	@Override
 	public void mirror(GeoCoordSys2D plane) {
 
 		CoordMatrix4x4 m = plane.getCoordSys().getMatrixOrthonormal();
@@ -659,6 +683,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	// DILATE
 	// //////////////////////
 
+	@Override
 	public void dilate(NumberValue ratio, Coords P) {
 		translate(P.mul(-1));
 		for (int i = 0; i < 3; i++) {
@@ -676,6 +701,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	}
 
+	@Override
 	public boolean isFunctionInX() {
 		return false;
 	}
@@ -688,6 +714,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * GeoVec2D(this.kernel, getFun(0).evaluate(t), getFun(1).evaluate(t)); }
 	 */
 
+	@Override
 	public double distanceMax(double[] p1, double[] p2) {
 		return Math.max(
 				Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1])),
@@ -701,6 +728,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 *            parameter
 	 * @return 3D Point
 	 */
+	@Override
 	public Geo3DVec evaluateCurve(double t) {
 		return new Geo3DVec(this.kernel, getFun(0).evaluate(t), getFun(1)
 				.evaluate(t), getFun(2).evaluate(t));
@@ -716,6 +744,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return HitType.ON_BOUNDARY;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC3D;
 	}
