@@ -39,7 +39,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.kernel.roots.RealRootUtil;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
@@ -613,7 +612,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		double t = this.startParam;
 		for (int i = 0; i < CLOSEST_PARAMETER_SAMPLES; i++) {
 			t = t + step;
-			App.error("t = " + t + " " + this.endParam);
 			double ft = this.distFun.evaluate(t);
 			if (ft < minVal) {
 				// found new minimum
