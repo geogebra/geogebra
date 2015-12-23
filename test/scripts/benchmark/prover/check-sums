@@ -16,16 +16,16 @@ cat html/all.html | grep \"summary | grep -v Summary | cut -f2 -db | tr '></' ' 
 read e1 e2 b e2g bg e3a ow e3b a ad w wd < tmp/all.summary.out
 
 n=33;  if ((e1 < $n));   then r "Engine 1 (Recio)" $e1 $n; fi
-n=176; if ((e2 < $n));  then r "Engine 2 (Botana)" $e2 $n; fi
-n=164; if ((b < $n));   then r "Botana details" $b $n; fi
-n=135; if ((e2g < $n)); then r "Engine 2 (Botana), Giac" $e2g $n; fi
-n=164; if ((bg < $n));  then r "BotanaGiac details" $bg $n; fi
+n=178; if ((e2 < $n));  then r "Engine 2 (Botana)" $e2 $n; fi
+n=166; if ((b < $n));   then r "Botana details" $b $n; fi
+n=136; if ((e2g < $n)); then r "Engine 2 (Botana), Giac" $e2g $n; fi
+n=166; if ((bg < $n));  then r "BotanaGiac details" $bg $n; fi
 n=86; if ((e3a < $n));  then r "Engine 3a (OpenGeoProver Wu)" $e3a $n; fi
 n=87; if ((ow < $n));   then r "OpenGeoProver Wu details" $ow $n; fi
 n=67; if ((e3b < $n));  then r "Engine 3b (OpenGeoProver Area)" $e3b $n; fi
-n=154; if ((a < $n));   then r "Auto" $a $n; fi
-n=164; if ((ad < $n));  then r "Auto details" $ad $n; fi
-n=131; if ((w < $n));   then r "Web" $w $n; fi
+n=155; if ((a < $n));   then r "Auto" $a $n; fi
+n=166; if ((ad < $n));  then r "Auto details" $ad $n; fi
+n=132; if ((w < $n));   then r "Web" $w $n; fi
 n=144; if ((wd < $n));  then r "Web details" $wd $n; fi
 
 exit $exitcode
