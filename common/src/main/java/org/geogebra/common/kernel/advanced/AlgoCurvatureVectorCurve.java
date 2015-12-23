@@ -137,6 +137,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 			if (gc != null) {
 				f = new GeoCurveCartesian(cons);
 				gc.toGeoCurveCartesian(f);
+				f.updateDistanceFunction();
 				cas();
 			}
 			tvalue = f.getClosestParameter(A, f.getMinParameter());

@@ -150,6 +150,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 			if (gc != null) {
 				// f = new GeoCurveCartesian3D(cons);
 				gc.toGeoCurveCartesian(f);
+				f.updateDistanceFunction();
 				cas();
 			}
 
