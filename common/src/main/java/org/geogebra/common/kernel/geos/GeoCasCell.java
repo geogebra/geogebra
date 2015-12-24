@@ -1491,9 +1491,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			isLine = true;
 		}
 		// Surface
-		if (inputVE.isExpressionNode()
-				&& inputVE.getTopLevelCommand().getName().equals("Surface")
-				&& outputVE.isExpressionNode()
+		if (inputVE instanceof ExpressionNode
+				&& inputVE.getTopLevelCommand() != null
+				&& "Surface".equals(inputVE.getTopLevelCommand().getName())
+				&& outputVE instanceof ExpressionNode
 				&& ((ExpressionNode) outputVE).getRight() == null
 				&& ((ExpressionNode) outputVE).getLeft() instanceof MyVec3DNode) {
 			isSurface = true;
