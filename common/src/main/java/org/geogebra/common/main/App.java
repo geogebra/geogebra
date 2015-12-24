@@ -3892,7 +3892,6 @@ public abstract class App implements UpdateSelection {
 		case TUBE_BETA:
 		case LOG_AXES:
 		case SURFACE_IS_REGION:
-		case SHADERS_IN_DESKTOP:
 		case SHINY_3D:
 		case CP_POPUP:
 		case CP_NEW_COLUMNS:
@@ -3918,7 +3917,9 @@ public abstract class App implements UpdateSelection {
 		case DRAW_INPUTBOXES_TO_CANVAS:
 		case ZSPACE:
 		case REALSENSE:
+		case SHADERS_IN_DESKTOP:
 			return true;
+
 		case SAVE_SETTINGS_TO_FILE:
 			return isWindows() || prerelease;
 		default:
