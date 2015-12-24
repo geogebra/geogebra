@@ -1479,17 +1479,26 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return;
 		}
 		boolean isLine = false;
+		boolean isSurface = false;
 		// case we have 3DLine
 		if (inputVE.getTopLevelCommand() != null
 				&& inputVE.getTopLevelCommand().getName().equals("Line")
 				&& outputVE instanceof Equation
 				&& ((Equation) outputVE).getLHS().getLeft()
-						.toString(StringTemplate.defaultTemplate).equals("y")
+						.toString(StringTemplate.defaultTemplate).equals("X")
 				&& ((Equation) outputVE).getRHS().getLeft()
 						.evaluatesTo3DVector()) {
 			isLine = true;
 		}
-		if (!isAssignmentVariableDefined() && !isLine)
+		// Surface
+		if (inputVE.isExpressionNode()
+				&& inputVE.getTopLevelCommand().getName().equals("Surface")
+				&& outputVE.isExpressionNode()
+				&& ((ExpressionNode) outputVE).getRight() == null
+				&& ((ExpressionNode) outputVE).getLeft() instanceof MyVec3DNode) {
+			isSurface = true;
+		}
+		if (!isAssignmentVariableDefined() && !isLine && !isSurface)
 			return;
 		if (isNative() && (getInputVE() instanceof Function)
 				&& (outputVE instanceof ExpressionNode)) {
@@ -1506,7 +1515,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 
 		// check that assignment variable is not a reserved name in GeoGebra
-		if (!isLine && kernel.getApplication().getParserFunctions().isReserved(assignmentVar))
+		if (!isLine
+				&& !isSurface
+				&& kernel.getApplication().getParserFunctions()
+						.isReserved(assignmentVar))
 			return;
 
 		// try to create twin geo for assignment, e.g. m := c + 3
@@ -1529,7 +1541,15 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else{
+		} else if (isSurface) {
+			GeoElement[] geos = kernel.getAlgebraProcessor()
+					.processAlgebraCommand(
+							inputVE.toString(StringTemplate.defaultTemplate),
+							true);
+			outputVE = new ExpressionNode(kernel, geos[0]);
+			newTwinGeo = geos[0];
+			setNative(false);
+		} else {
 			newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
 		}
 		
@@ -1538,6 +1558,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 		if (newTwinGeo != null && !dependsOnDummy(newTwinGeo)) {
 			setTwinGeo(newTwinGeo);
+			if (isSurface) {
+				assignmentType = AssignmentType.DEFAULT;
+				functionvars = invars;
+				assignmentVar = twinGeo.label;
+			}
 			if (twinGeo instanceof GeoImplicit) {
 				((GeoImplicit) twinGeo).setInputForm();
 			}
