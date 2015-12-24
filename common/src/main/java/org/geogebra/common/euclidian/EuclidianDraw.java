@@ -71,7 +71,6 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -169,7 +168,6 @@ public class EuclidianDraw {
 			} else {
 				d = ev.getCompanion().newDrawAngle((GeoAngle) geo);
 				if (geo.isDrawable()) {
-					App.debug("COLOR SET" + geo.isColorSet());
 					if (!geo.isColorSet()) {
 						org.geogebra.common.awt.GColor col = geo
 								.getConstruction()
