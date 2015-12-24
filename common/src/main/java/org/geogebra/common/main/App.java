@@ -3915,10 +3915,18 @@ public abstract class App implements UpdateSelection {
 		case LATEX_ON_BUTTON:
 		case LATEX_ON_CHECKBOX:
 		case DRAW_INPUTBOXES_TO_CANVAS:
+			return true;
+
+		// not supported in applets
 		case ZSPACE:
 		case REALSENSE:
+			return !isApplet();
+
+		// Java Applets are only used in IE8/9
+		// ie on old computers
+		// so use old plotting method in Java Applets
 		case SHADERS_IN_DESKTOP:
-			return true;
+			return !isApplet();
 
 		case SAVE_SETTINGS_TO_FILE:
 			return isWindows() || prerelease;
