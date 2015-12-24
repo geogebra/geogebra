@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
+import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
 
 
 /**
@@ -40,7 +41,16 @@ public class InputIntelRealsense3D implements Input3D {
 	 *             if no camera installed
 	 */
 	public static void createSession(final App app) throws Input3DException {
-		Socket.createSession(app);
+
+		try {
+			Socket.createSession(app);
+		} catch (Input3DException e) {
+			throw e;
+		} catch (Exception e) {
+			App.error(e.getMessage());
+			throw new Input3DException(Input3DExceptionType.UNKNOWN,
+					e.getMessage());
+		}
 	}
 	
 	

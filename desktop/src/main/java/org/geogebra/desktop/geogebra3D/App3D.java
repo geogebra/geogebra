@@ -393,7 +393,10 @@ public class App3D extends AppD {
 					showRealSenseNotUpToDate(e.getMessage());
 				}
 				input3D = null;
-				Log.debug("Problem initializing " + e.getMessage());
+				Log.debug("Problem initializing 3D Input:" + e.getMessage());
+			} catch (Exception e) {
+				input3D = null;
+				Log.debug("Problem initializing 3D Input:" + e.getMessage());
 			}
 		} else {
 			input3D = null;
