@@ -6052,7 +6052,7 @@ namespace giac {
     }
   }
 
-  void f4_innerloop(modint2 * wt,const modint * jt,const modint * jtend,modint C,const shifttype* it){
+  inline void f4_innerloop(modint2 * wt,const modint * jt,const modint * jtend,modint C,const shifttype* it){
     jtend -= 16;
     for (;jt<=jtend;){
 #if 1
@@ -6147,16 +6147,33 @@ namespace giac {
     }
   }
 
-  unsigned reducef4buchbergersplit(vector<modint2> &v64,const vector< vector<shifttype> > & M,const vector<unsigned> & firstpos,const vector< vector<modint> > & coeffs,const vector<coeffindex_t> & coeffindex,vector<modint> & lescoeffs,unsigned * bitmap,vector<used_t> & used,modint env){
-    vector<unsigned>::const_iterator fit=firstpos.begin(),fit0=fit,fitend=firstpos.end();
+  unsigned reducef4buchbergersplit(vector<modint2> &v64,const vector< vector<shifttype> > & M,const vector<unsigned> & firstpos,unsigned firstcol,const vector< vector<modint> > & coeffs,const vector<coeffindex_t> & coeffindex,vector<modint> & lescoeffs,unsigned * bitmap,vector<used_t> & used,modint env){
+    vector<unsigned>::const_iterator fit=firstpos.begin(),fit0=fit,fitend=firstpos.end(),fit4=fitend-4;
     vector<modint2>::iterator wt=v64.begin(),wt0=wt,wt1,wtend=v64.end();
     unsigned skip=0;
+    for (;fit!=fitend;++fit){
+      if (*fit>=firstcol)
+	break;
+    }
     if (env<(1<<24)){
       bool fastcheck = (fitend-fit0)<=0xffff;
       unsigned redno=0;
       for (;fit!=fitend;++fit){
-	if (*(wt0+*fit)==0)
+	if (*(wt0+*fit)==0){
+	  //if (fit<fit4 && *(wt0+fit[1])==0 && *(wt0+fit[2])==0 && *(wt0+fit[3])==0 ) fit += 3;
 	  continue;
+	}
+	if (!fastcheck){
+	  ++redno;
+	  if ((redno&0xffff)==0){
+	    // reduce the line mod env
+	    CERR << "reduce line" << endl;
+	    for (wt=v64.begin();wt!=wtend;++wt){
+	      if (*wt)
+		*wt %= env;
+	    }
+	  }
+	}
 	unsigned i=unsigned(fit-fit0);
 	const vector<shifttype> & mindex=M[i];
 	const shifttype * it=&mindex.front();
@@ -6176,18 +6193,6 @@ namespace giac {
 	*wt=0;
 	if (!c)
 	  continue;
-	if (!fastcheck){
-	  ++redno;
-	  if ((redno&0xffff)==0){
-	    // reduce the line mod env
-	    for (wt=v64.begin();wt!=wtend;++wt){
-	      if (*wt)
-		*wt %= env;
-	    }
-	  }
-	  if (v64[*fit]==0)
-	    continue;
-	}
 	++jt;
 #ifdef GIAC_SHORTSHIFTTYPE
 	if (shortshifts){
@@ -11130,8 +11135,11 @@ namespace giac {
       while (indexes[effi].empty() && effi)
 	--effi;
       zsub(v64,subcoeff2,indexes[effi]);
+      int firstcol=indexes[i].empty()?0:indexes[i].front();
+      if (effi>=0 && !indexes[effi].empty())
+	firstcol=giacmin(firstcol,indexes[effi].front());      
       K[i].clear();
-      colonnes=giacmin(colonnes,reducef4buchbergersplit(v64,Mindex,firstpos,Mcoeff,coeffindex,K[i],bitmap,used,env));
+      colonnes=giacmin(colonnes,reducef4buchbergersplit(v64,Mindex,firstpos,firstcol,Mcoeff,coeffindex,K[i],bitmap,used,env));
       bitmap += (N>>5)+1;
     }
     return ptr_;
@@ -11528,12 +11536,15 @@ namespace giac {
 	    indexes[effi].clear();
 	  effi=i+Bs;
 	}
+	int firstcol=indexes[i].empty()?0:indexes[i].front();
+	if (effi>=0 && !indexes[effi].empty())
+	  firstcol=giacmin(firstcol,indexes[effi].front());
 	// zcopycoeff(res[bk.first],subcoeff1,1);zadd(v64,subcoeff1,indexes[i]);
 	zadd(v64,res[bk.first],indexes[i],1,env);
 	indexes[i].clear();
 	zsub(v64,subcoeff2,indexes[effi]);
 	Ki.clear();
-	colonnes=giacmin(colonnes,reducef4buchbergersplit(v64,Mindex,firstpos,Mcoeff,coeffindex,Ki,bitmap,used,env));
+	colonnes=giacmin(colonnes,reducef4buchbergersplit(v64,Mindex,firstpos,firstcol,Mcoeff,coeffindex,Ki,bitmap,used,env));
 	bitmap += (N>>5)+1;
 	size_t Kis=Ki.size();
 	if (Kis>Ki.capacity()*.8){
