@@ -509,7 +509,7 @@ __GGB__keysVar.eu.command = {
     "LeftSum.Syntax": "[ <Funtzioa>, <x-ren Hasierako Balioa>, <x-ren Amaierako Balioa>, <Zenbat Laukizuzen> ]",
     "Length": "Luzera",
     "Length.Syntax": "[ <Objektua> ]\n[ <Funtzioa>, <x-ren Hasierako Balioa>, <x-ren Amaierako Balioa> ]\n[ <Funtzioa>, <Hasierako Puntua>, <Amaierako Puntua> ]\n[ <Kurba>, <t-ren Hasierako Balioa>, <t-ren Amaierako Balioa> ]\n[ <Kurba>, <Hasierako Puntua>, <Amaierako Puntua> ]",
-    "Length.SyntaxCAS": "[ <Funtzioa>, <Hasierako x>, <Amaierako x> ]\n[ <Funtzioa>, <Aldagaia>, <Hasierako Puntua>, <Amaierako Puntua> ]",
+    "Length.SyntaxCAS": "[ <Funtzioa>, <Hasierako x>, <Amaierako x> ]\n[ <Funtzioa>, <Aldagaia>, <Hasierako x>, <Amaierako x> ]",
     "LetterToUnicode": "LetrarenUnicode",
     "LetterToUnicode.Syntax": "[ \"<Letra>\" ]",
     "Limit": "Limitea",
