@@ -1511,6 +1511,19 @@ namespace giac {
     const longlong * it1=x.ui,* it2=y.ui,*it1beg;
     longlong a=0;
     switch (order.o){
+    case _REVLEX_ORDER:
+      it1beg=x.ui;
+      it1=x.ui+(x.order_.dim+degratiom1)/degratio;
+      it2=y.ui+(y.order_.dim+degratiom1)/degratio;
+#if 0 // def GIAC_ELIM
+      --it1; --it2; // first test already done with elim field
+#endif
+      for (;it1!=it1beg;--it2,--it1){
+	a=*it1-*it2;
+	if (a)
+	  return a<=0?1:0;
+      }
+      return 2;
     case _64VAR_ORDER:
       a=it1[16]-it2[16];
       if (a)
@@ -1579,19 +1592,6 @@ namespace giac {
 	if (it1<=it1beg)
 	  return 2;
       }
-    case _REVLEX_ORDER:
-      it1beg=x.ui;
-      it1=x.ui+(x.order_.dim+degratiom1)/degratio;
-      it2=y.ui+(y.order_.dim+degratiom1)/degratio;
-#if 0 // def GIAC_ELIM
-      --it1; --it2; // first test already done with elim field
-#endif
-      for (;it1!=it1beg;--it2,--it1){
-	a=*it1-*it2;
-	if (a)
-	  return a<=0?1:0;
-      }
-      return 2;
     case _TDEG_ORDER: case _PLEX_ORDER: {
       const degtype * it1=(degtype *)(x.ui+1),*it1end=it1+x.order_.dim,*it2=(degtype *)(y.ui+1);
       for (;it1!=it1end;++it2,++it1){
@@ -6148,31 +6148,27 @@ namespace giac {
   }
 
   unsigned reducef4buchbergersplit(vector<modint2> &v64,const vector< vector<shifttype> > & M,const vector<unsigned> & firstpos,unsigned firstcol,const vector< vector<modint> > & coeffs,const vector<coeffindex_t> & coeffindex,vector<modint> & lescoeffs,unsigned * bitmap,vector<used_t> & used,modint env){
-    vector<unsigned>::const_iterator fit=firstpos.begin(),fit0=fit,fitend=firstpos.end(),fit4=fitend-4;
+    vector<unsigned>::const_iterator fit=firstpos.begin(),fit0=fit,fitend=firstpos.end(),fit1=fit+firstcol,fit2;
+    if (fit1>fitend)
+      fit1=fitend;
     vector<modint2>::iterator wt=v64.begin(),wt0=wt,wt1,wtend=v64.end();
     unsigned skip=0;
-    for (;fit!=fitend;++fit){
-      if (*fit>=firstcol)
-	break;
+    while (fit+1<fit1){
+      fit2=fit+(fit1-fit)/2;
+      if (*fit2>firstcol)
+	fit1=fit2;
+      else
+	fit=fit2;
     }
+    if (debug_infolevel>2)
+      CERR << "Firstcol " << firstcol << "/" << v64.size() << " ratio skipped " << (fit-fit0)/double(fitend-fit0) << endl;
     if (env<(1<<24)){
       bool fastcheck = (fitend-fit0)<=0xffff;
       unsigned redno=0;
-      for (;fit!=fitend;++fit){
+      for (;fit<fitend;++fit){
 	if (*(wt0+*fit)==0){
 	  //if (fit<fit4 && *(wt0+fit[1])==0 && *(wt0+fit[2])==0 && *(wt0+fit[3])==0 ) fit += 3;
 	  continue;
-	}
-	if (!fastcheck){
-	  ++redno;
-	  if ((redno&0xffff)==0){
-	    // reduce the line mod env
-	    CERR << "reduce line" << endl;
-	    for (wt=v64.begin();wt!=wtend;++wt){
-	      if (*wt)
-		*wt %= env;
-	    }
-	  }
 	}
 	unsigned i=unsigned(fit-fit0);
 	const vector<shifttype> & mindex=M[i];
@@ -6193,6 +6189,17 @@ namespace giac {
 	*wt=0;
 	if (!c)
 	  continue;
+	if (!fastcheck){
+	  ++redno;
+	  if ((redno&0xffff)==0){
+	    // reduce the line mod env
+	    CERR << "reduce line" << endl;
+	    for (vector<modint2>::iterator wt=v64.begin();wt!=wtend;++wt){
+	      if (*wt)
+		*wt %= env;
+	    }
+	  }
+	}
 	++jt;
 #ifdef GIAC_SHORTSHIFTTYPE
 	if (shortshifts){
@@ -6348,7 +6355,7 @@ namespace giac {
       return 0; // result in v64, for multiple uses
     unsigned res=0;
     used_t * uit=&used.front();
-    wt=v64.begin();
+    wt=v64.begin()+firstcol;
     wt1=wtend-4;
 #if 1
     for (;wt<=wt1;++wt){
