@@ -46,7 +46,7 @@ public class InputIntelRealsense3D implements Input3D {
 			Socket.createSession(app);
 		} catch (Input3DException e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			App.error(e.getMessage());
 			throw new Input3DException(Input3DExceptionType.UNKNOWN,
 					e.getMessage());

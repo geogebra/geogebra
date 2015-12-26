@@ -394,9 +394,10 @@ public class App3D extends AppD {
 				}
 				input3D = null;
 				Log.debug("Problem initializing 3D Input:" + e.getMessage());
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				input3D = null;
-				Log.debug("Problem initializing 3D Input:" + e.getMessage());
+				Log.debug("Problem initializing 3D Input:" + e.getClass() + " "
+						+ e.getMessage());
 			}
 		} else {
 			input3D = null;
