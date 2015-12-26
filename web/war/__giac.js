@@ -1811,6 +1811,11 @@ var __giac = [ {},
 { cat: "NSolve", cmd:"NSolve[(3628800 / Gamma(k + 1) / Gamma(10 - k + 1) (1 / 10)^k (9 / 10)^(10 - k)) = (14348907 / 250000000),k = 1]", result:"{k = 3}", notes:"" },
 { cat: "NSolve", cmd:"NSolve[Gamma(n + 1) / 6 / Gamma(n - 3 + 1) / 1000 (9 / 10)^(n - 3) = (14348907 / 250000000),n = 1]", result:"{n = 10}", notes:"" },
 { cat: "Solve", cmd:"Solve[(120p³ (1 - p)⁷) = (14348907 / 250000000)]", result:"{p = 1 / 10, p = 0.5745962486843}|OR|{p=1/10,p=0.5745962486669}", notes:"" },
+{ cat: "Numerator", cmd:"Numerator[Simplify[a + b/c]]", result:"a c + b", notes:"wiki example" },
+{ cat: "Denominator", cmd:"Denominator[Simplify[a + b/c]]", result:"c", notes:"wiki example" },
+{ cat: "Numerator", cmd:"Numerator[a + b/c]", result:"a c + b", notes:"wiki example" },
+{ cat: "Denominator", cmd:"Denominator[a + b/c]", result:"c", notes:"wiki example" },
+
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:

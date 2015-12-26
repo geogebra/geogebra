@@ -121,9 +121,15 @@ public class Ggb2giac {
 		p("Degree.1", "total_degree(%0,lname(%0))");
 		p("Degree.2", "degree(%0,%1)");
 
-		// denom() cancels down first
-		// p("Denominator.1", "denom(%0)");
-		p("Denominator.1", "getDenom(%0)");
+		// denom() cancels down first so use getDenom()
+		// a/b encoded as a*(1/b)
+		// factor needed for eg a/b + c/d
+		p("Denominator.1",
+				"[[ggbdenomans:=%0],"
+						+ "when(ggbdenomans[0]=='inv', getDenom(ggbdenomans), "
+						+ "when(ggbdenomans[0]=='*', "
+						+ "when(ggbdenomans[2][0]=='inv', getDenom(ggbdenomans), getDenom(factor(ggbdenomans))),"
+						+ "getDenom(factor(ggbdenomans))   )" + ")][1]");
 
 		// this chooses x if it's in the expression
 		// otherwise the first variable alphabetcially
@@ -539,9 +545,16 @@ public class Ggb2giac {
 		p("NSolutions.2",
 				"ggbsort([[ggbnsans:=fsolve(evalf(%0),%1)],when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])][1])");
 
-		// numer() cancels down first
-		// p("Numerator.1", "numer(%0)");
-		p("Numerator.1", "getNum(%0)");
+		// numer(), denom() cancel down first so use getNum, getDen
+		// a/b encoded as a*(1/b)
+		// factor needed for eg a/b + c/d
+		p("Numerator.1",
+				"[[ggbnumerans:=%0],"
+						+ "when(ggbnumerans[0]=='inv', getNum(ggbnumerans), "
+						+ "when(ggbnumerans[0]=='*', "
+						+ "when(ggbnumerans[2][0]=='inv', getNum(ggbnumerans), getNum(factor(ggbnumerans))),"
+						+ "getNum(factor(ggbnumerans))   )" + ")][1]");
+
 
 		p("Numeric.1",
 				"[[ggbnumans:=%0],when(dim(lname(ggbnumans))==0 || count_eq(unicode0176u,lname(ggbnumans))>0,"
