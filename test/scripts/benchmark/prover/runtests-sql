@@ -4,9 +4,10 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Setting defaults.
-MY_VERSION=2.0
+MY_VERSION=2.1
 
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
+DBDEBUG=0
 TIMEOUT=20
 PROVERS="Recio PureSymbolic Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
@@ -30,6 +31,7 @@ usage() {
  echo "   -S <name>    run scenario: 'name' can be one of the following: jar-paper, giac-test, ndg"
  echo "   -D           rewrite Prove commands to ProveDetails"
  echo "   -d           put some debugging logs into tmp/"
+ echo "   -b           save debugging information in the database"
  echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
  echo "   -p <list>    space separated list of prover engines to test ($PROVERS)"
  echo "   -g <url>     use 'url' for putting links on test cases ($TESTGGBURLBASE_GGBDIR)"
@@ -68,6 +70,9 @@ while getopts "t:d:p:P:S:Dhvr" OPT; do
    ;;
   d)
    DEBUG=1
+   ;;
+  b)
+   DBDEBUG=1
    ;;
   p)
    PROVERS="$OPTARG"
@@ -333,6 +338,12 @@ for i in `find -name '*.ggb' | sort`; do
   osresult, timeout_setting, accepted, errortype, speed, regressionfile, logfile, stdout, stderr) values
   ('$TEST', '$j', $PROVEDETAILS, '$BUILD_NUMBER', $start_unixtime, '$RESULT',
   $RETVAL, $TIMEOUT, $accepted, $errortype, $speed, '" > $MYDIR/tmp/testcmd.sql
+  if [ "$DBDEBUG" = 0 ]; then
+   echo -n > $REGRESSIONFILE
+   echo -n > $LOGFILE
+   echo -n > $MYDIR/tmp/.test.stdout
+   echo -n > $MYDIR/tmp/.test.stderr
+   fi
   cat $REGRESSIONFILE | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql
   echo -n "', '" >> $MYDIR/tmp/testcmd.sql
   cat $LOGFILE | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql
