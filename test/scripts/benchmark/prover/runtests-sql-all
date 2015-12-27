@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Runs all test scenarios based on the current build.
 # See "./runtests-sql -h" and "./report-sql -h" for more details.
