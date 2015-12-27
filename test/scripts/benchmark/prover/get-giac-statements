@@ -1,5 +1,6 @@
 #!/bin/sh
 # Obtains Giac statements from the logfile column from the test database.
+# You need to use the -b option when running ./runtests-sql.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 PROVEDETAILS=0

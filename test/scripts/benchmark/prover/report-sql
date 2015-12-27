@@ -159,7 +159,7 @@ echo "<table><tr><th rowspan=\"2\" colspan=\"2\">Test file</th>" >> $MYDIR/$HTML
 echo "\begin{longtable}{|l|*{$COLUMNSNO}{${RESULTCOLUMN}r|}}
 \hline
 {\multirow{2}{*}{\bf Test}}" >> $MYDIR/$TEX
-echo 
+
 for c in $COLUMNS; do
  j=`echo $c | cut -f1 -d,`
  r=`echo $c | cut -s -f2- -d,`
