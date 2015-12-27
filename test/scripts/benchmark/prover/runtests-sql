@@ -187,7 +187,7 @@ cd $MYDIR
 test sqlite3db || ./createdb
 
 sqlite3 sqlite3db "insert into builds (build_number, svn_revision, build_url, machine)
-values ($BUILD_NUMBER, $SVN_REVISION, $BUILD_URL, '$machine')"
+values ('$BUILD_NUMBER', '$SVN_REVISION', '$BUILD_URL', '$machine')"
 
 # Header
 echo -n "Test file;"
