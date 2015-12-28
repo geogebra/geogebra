@@ -474,7 +474,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
 echo "<tr><td class=\"summary\" colspan=\"2\"><b>Summary (of $TESTS)</b></td>" >> $MYDIR/$HTML
 echo "{\bf Total (of $TESTS)}" >> $MYDIR/$TEX
 ALLGOOD_MEAN=$((ALLGOOD_SUM/ALLGOOD_NO))
-R_YMAX=`echo "scale=3; 1/$ALLGOOD_NO" | bc -q` # FIXME
+R_YMAX=`echo "scale=3; $COLUMNSNO/$ALLGOOD_NO" | bc -q` # FIXME
 R_XMAX=$((ALLGOOD_MEAN*2))
 
 cn=0
