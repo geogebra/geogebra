@@ -65,7 +65,7 @@ public class Hitting {
 
 	private boolean clippedValuesUpdated;
 
-	public double x0, y0, z0, x1, y1, z1;
+	public double x0, y0, z0, x1, y1, z1, vx, vy, vz, squareNorm;
 
 	private double[] minmax;
 
@@ -98,10 +98,14 @@ public class Hitting {
 		z1 = origin.getZ() + direction.getZ()
 				* minmax[1];
 
-		if ((x1 - x0) * direction.getX() < 0
-				|| (y1 - y0) * direction.getY() < 0
-				|| (z1 - z0) * direction.getZ() < 0) {
+		vx = x1 - x0;
+		vy = y1 - y0;
+		vz = z1 - z0;
+		if (vx * direction.getX() < 0 || vy * direction.getY() < 0
+				|| vz * direction.getZ() < 0) {
 			x0 = Double.NaN;
+		} else {
+			squareNorm = vx * vx + vy * vy + vz * vz;
 		}
 
 		clippedValuesUpdated = true;

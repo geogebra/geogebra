@@ -164,8 +164,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 * @param vector
 	 */
 	public void setVectorForBivariate(double[] uv, double[] xyz, double vx,
-			double vy,
-			double vz, double cx, double cy, Coords vector) {
+			double vy, double vz, double cx, double cy, double cz, Coords vector) {
 
 		xyz[0] = fun[0].evaluate(uv);
 		xyz[1] = fun[1].evaluate(uv);
@@ -173,6 +172,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 		vector.setX(vz * xyz[1] - vy * xyz[2] + cx);
 		vector.setY(vx * xyz[2] - vz * xyz[0] + cy);
+		vector.setZ(vy * xyz[0] - vx * xyz[1] + cz);
 	}
 
 	@Override

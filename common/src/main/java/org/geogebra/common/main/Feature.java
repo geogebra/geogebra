@@ -52,6 +52,8 @@ public enum Feature {
 	ZSPACE,
 
 	SURFACE_IS_REGION,
+	
+	HIT_PARAMETRIC_SURFACE,
 
 	SHADERS_IN_DESKTOP,
 

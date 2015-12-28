@@ -5,7 +5,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -16,7 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -2533,7 +2532,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private Coords bivariateVector, bivariateDelta;
 	private double[] uv, xyz;
 
-	private GeoPoint3D bivariatePoint;
 
 	@Override
 	public boolean hit(Hitting hitting) {
@@ -2567,12 +2565,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			boolean isLessZ0 = false, isLessZ1;
 			isLessZ1 = GeoFunctionNVar
 					.isLessZ(xyzf[GeoFunctionNVar.DICHO_LAST]);
+			double t = 0;
 
 			for (int i = 1; i <= HIT_SAMPLES; i++) {
 				double[] tmp = xyzf[GeoFunctionNVar.DICHO_FIRST];
 				xyzf[GeoFunctionNVar.DICHO_FIRST] = xyzf[GeoFunctionNVar.DICHO_LAST];
 				xyzf[GeoFunctionNVar.DICHO_LAST] = tmp;
-				double t = i * DELTA_SAMPLES;
+				t = i * DELTA_SAMPLES;
 				geoF.setXYZ(hitting.x0 * (1 - t) + hitting.x1 * t, hitting.y0
 						* (1 - t) + hitting.y1 * t, hitting.z0 * (1 - t)
 						+ hitting.z1 * t, xyzf[GeoFunctionNVar.DICHO_LAST]);
@@ -2591,11 +2590,27 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					resetLastHitParameters(geoF);
 					return false;
 				}
+				double dx = xyzf[GeoFunctionNVar.DICHO_FIRST][0]
+						- hitting.origin.getX();
+				double dy = xyzf[GeoFunctionNVar.DICHO_FIRST][1]
+						- hitting.origin.getY();
+				double dz = xyzf[GeoFunctionNVar.DICHO_FIRST][2]
+						- hitting.origin.getZ();
+				double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+				setZPick(-d, -d);
 				setLastHitParameters(geoF, false);
 				return true;
 			}
 
 			if (isLessZ1) {
+				double dx = xyzf[GeoFunctionNVar.DICHO_FIRST][0]
+						- hitting.origin.getX();
+				double dy = xyzf[GeoFunctionNVar.DICHO_FIRST][1]
+						- hitting.origin.getY();
+				double dz = xyzf[GeoFunctionNVar.DICHO_FIRST][2]
+						- hitting.origin.getZ();
+				double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+				setZPick(-d, -d);
 				setLastHitParameters(geoF, true);
 				return true;
 			}
@@ -2604,127 +2619,168 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			return false;
 
 		} else if (((GeoElement) surfaceGeo).isGeoSurfaceCartesian()) {
-			// GeoSurfaceCartesian3D surface = (GeoSurfaceCartesian3D)
-			// surfaceGeo;
-			//
-			// hitting.calculateClippedValues();
-			// if (Double.isNaN(hitting.x0)) { // hitting doesn't intersect
-			// // clipping box
-			// resetLastHitParameters(surface);
-			// return false;
-			// }
-			//
-			// if (jacobian == null) {
-			// jacobian = new CoordMatrix(2, 2);
-			// bivariateVector = new Coords(2);
-			// bivariateDelta = new Coords(2);
-			// uv = new double[2];
-			// xyz = new double[3];
-			//
-			// bivariatePoint = new GeoPoint3D(surface.getConstruction(), "N",
-			// 0, 0, 0, 1);
-			//
-			// }
-			//
-			// // we use bivariate newton method:
-			// // A(x0,y0,z0) and B(x1,y1,z1) delimits the hitting segment
-			// // M(u,v) is a point on the surface
-			// // we want vector product AM*AB to equal 0, so A, B, M are
-			// colinear
-			// // we only check first and second values of AM*AB since third
-			// will
-			// // be a consequence
-			//
-			// double vx = hitting.x1 - hitting.x0;
-			// double vy = hitting.y1 - hitting.y0;
-			// double vz = hitting.z1 - hitting.z0;
-			//
-			// double gxc = hitting.z0 * hitting.y1 - hitting.z1 * hitting.y0;
-			// double gyc = hitting.x0 * hitting.z1 - hitting.x1 * hitting.z0;
-			//
-			// double uMin = surface.getMinParameter(0);
-			// double uMax = surface.getMaxParameter(0);
-			// double vMin = surface.getMinParameter(1);
-			// double vMax = surface.getMaxParameter(1);
-			//
-			// double u = 0;
-			// double v = 0;
-			//
-			// boolean found = findBivariate(surface, vx, vy, vz, gxc, gyc, u,
-			// v,
-			// uMin, uMax, vMin, vMax);
-			//
-			// if (found) {
-			// bivariatePoint.setCoords(xyz);
-			// bivariatePoint.updateCoords();
-			// bivariatePoint.update();
-			// }
-			//
-			// return false;
+
+			if (!getView3D().getApplication().has(
+					Feature.HIT_PARAMETRIC_SURFACE)) {
+				return false;
+			}
+
+			GeoSurfaceCartesian3D surface = (GeoSurfaceCartesian3D)
+					surfaceGeo;
+
+			hitting.calculateClippedValues();
+			if (Double.isNaN(hitting.x0)) { // hitting doesn't intersect
+				// clipping box
+				resetLastHitParameters(surface);
+				return false;
+			}
+
+			if (jacobian == null) {
+				jacobian = new CoordMatrix(2, 2);
+				bivariateVector = new Coords(3);
+				bivariateDelta = new Coords(2);
+				uv = new double[2];
+				xyz = new double[3];
+
+			}
+
+			// we use bivariate newton method:
+			// A(x0,y0,z0) and B(x1,y1,z1) delimits the hitting segment
+			// M(u,v) is a point on the surface
+			// we want vector product AM*AB to equal 0, so A, B, M are colinear
+			// we only check first and second values of AM*AB since third will
+			// be a consequence
+
+			double gxc = hitting.z0 * hitting.y1 - hitting.z1 * hitting.y0;
+			double gyc = hitting.x0 * hitting.z1 - hitting.x1 * hitting.z0;
+			double gzc = hitting.y0 * hitting.x1 - hitting.y1 * hitting.x0;
+
+			double uMin = surface.getMinParameter(0);
+			double uMax = surface.getMaxParameter(0);
+			double vMin = surface.getMinParameter(1);
+			double vMax = surface.getMaxParameter(1);
+
+			
+			double finalError = Double.NaN;
+			double dotProduct = -1;
+			double x = 0, y = 0, z = 0;
+			
+			// make several tries
+			double du = (uMax - uMin) / BIVARIATE_SAMPLES;
+			double dv = (vMax - vMin) / BIVARIATE_SAMPLES;
+			for (int ui = 0; ui <= BIVARIATE_SAMPLES; ui++) {
+				double u = uMin + ui * du;
+				for (int vi = 0; vi <= BIVARIATE_SAMPLES; vi++) {
+					double v = vMin + vi * dv;
+					double error = findBivariate(surface, hitting, gxc, gyc,
+							gzc, u, v, uMin, uMax, vMin, vMax);
+					if (!Double.isNaN(error)) {
+						// check if the hit point is in the correct direction
+						double d = (xyz[0] - hitting.x0) * hitting.vx
+								+ (xyz[1] - hitting.y0) * hitting.vy
+								+ (xyz[2] - hitting.z0) * hitting.vz;
+						if (d >= 0) {
+							if (dotProduct < 0 || d < dotProduct) {
+								dotProduct = d;
+								finalError = error;
+								x = xyz[0];
+								y = xyz[1];
+								z = xyz[2];
+							}
+						}
+					}
+
+				}
+
+			}
+
+			if (!Double.isNaN(finalError)) {
+				double dx = x - hitting.origin.getX();
+				double dy = y - hitting.origin.getY();
+				double dz = z - hitting.origin.getZ();
+				double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+				setZPick(-d, -d);
+				setZPick(-d, -d);
+				return true;
+			}
+
+			return false;
 		}
 
 		return false;
 
 	}
 
-	private boolean findBivariate(final GeoSurfaceCartesian3D surface,
-			final double vx, final double vy, final double vz,
-			final double gxc, final double gyc, final double u, final double v,
+	/**
+	 * we'll make 9x9 tries for starting point to hit the surface
+	 */
+	private static final int BIVARIATE_SAMPLES = 8;
+
+	/**
+	 * we'll make 10 jumps to get closer
+	 */
+	private static final int BIVARIATE_JUMPS = 10;
+
+	private double findBivariate(final GeoSurfaceCartesian3D surface,
+			final Hitting hitting,
+			final double gxc, final double gyc, final double gzc,
+			final double u, final double v,
 			final double uMin, final double uMax, final double vMin,
 			final double vMax) {
+
+		// starting parameters
 		uv[0] = u;
 		uv[1] = v;
 
-		App.debug("\n========================");
+		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
 
-		double error = 1;
+			// calc angle vector between hitting direction and hitting
+			// origin-point on surface
+			surface.setVectorForBivariate(uv, xyz, hitting.vx, hitting.vy,
+					hitting.vz, gxc, gyc, gzc, bivariateVector);
 
-		for (int i = 0; i < 10; i++) {
-			surface.setJacobianForBivariate(uv, vx, vy, vz, jacobian);
+			double dx = xyz[0] - hitting.x0;
+			double dy = xyz[1] - hitting.y0;
+			double dz = xyz[2] - hitting.z0;
+			double d = dx * dx + dy * dy + dz * dz;
+			double error = bivariateVector.dotproduct3(bivariateVector);
 
-			App.debug("\njacobian:\n" + jacobian);
-
-			surface.setVectorForBivariate(uv, xyz, vx, vy, vz, gxc, gyc,
-					bivariateVector);
-
-			App.debug("\nvector:\n" + bivariateVector);
-
-			error = Math.max(Math.abs(bivariateVector.getX()),
-					Math.abs(bivariateVector.getY()));
-
-			if (Math.abs(bivariateVector.getX()) < Kernel.STANDARD_PRECISION
-					&& Math.abs(bivariateVector.getY()) < Kernel.STANDARD_PRECISION) {
-				return true;
+			// check if sin(angle)^2 is small enough, then stop
+			if (error < Kernel.STANDARD_PRECISION * hitting.squareNorm * d) {
+				return error;
 			}
 
+			// set jacobian matrix and solve it
+			surface.setJacobianForBivariate(uv, hitting.vx, hitting.vy,
+					hitting.vz, jacobian);
 			jacobian.pivotDegenerate(bivariateDelta, bivariateVector);
 
-			App.debug("\nsol:\n" + bivariateDelta);
-
+			// if no solution, dismiss
 			if (!bivariateDelta.isDefined()) {
-				return false;
+				return Double.NaN;
 			}
 
+			// calc new parameters
 			uv[0] -= bivariateDelta.getX();
 			uv[1] -= bivariateDelta.getY();
 
+			// check bounds
 			if (uv[0] > uMax) {
-				return false;
+				return Double.NaN;
 			}
 			if (uv[0] < uMin) {
-				return false;
+				return Double.NaN;
 			}
 			if (uv[1] > vMax) {
-				return false;
+				return Double.NaN;
 			}
 			if (uv[1] < vMin) {
-				return false;
+				return Double.NaN;
 			}
 
-			App.debug("\nu=" + uv[0] + ", v=" + uv[1] + " -- error = " + error);
 		}
 
-		return false;
+		return Double.NaN;
 	}
 	
 
