@@ -1,8 +1,8 @@
 #!/bin/bash
-# Creates R based density graph
+# Creates R based density graph. Use the r-cran-sm package under Ubuntu.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
-PROVERS="Auto Recio Botana BotanaGiac AlternativeBotana PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
+PROVERS="Auto Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area"
 # Smaller version:
 # PROVERS="Auto Recio Botana OpenGeoProver_Wu OpenGeoProver_Area"
 
@@ -43,7 +43,7 @@ else
  LTYSLIST="$LTYSLIST,$LTY"
  fi
 
- echo "$j <- read.csv('$MYDIR/tmp/rinput-$j', header = F);" >> $PROG
+ echo "$j <- read.csv('$MYDIR/tmp/rinput-$j-0', header = F);" >> $PROG
  echo "sm.density($j,xlim=c(0,$XMAX),ylim=c(0,$YMAX),col='$COLOR',lty=$LTY,positive=TRUE,xlab='',ylab='');" >> $PROG
  echo "par(new=TRUE);" >> $PROG
  i=$((i+1))

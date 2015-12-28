@@ -12,6 +12,6 @@ MYDIR=`pwd $0`
 cd $MYDIR
 ./runtests-sql -S prove -r
 ./runtests-sql -S provedetails -r
-./report-sql
+./report-sql -G
 
 # Run ./check-sums after this.

@@ -3,7 +3,7 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Setting defaults.
-MY_VERSION=2.0
+MY_VERSION=2.1
 
 IMGHEIGHT=25
 HTML=html/all.html
@@ -19,6 +19,21 @@ USEENGINES=0
 PROVEDETAILS=0
 DOTS=20
 NICEHTML=1
+R_RUN=0
+
+# R related settings. If there are more than 12 columns, this will not work. FIXME.
+R_COL[1]=blue;	R_LTY[1]=1
+R_COL[2]=red;	R_LTY[2]=1
+R_COL[3]=black;	R_LTY[3]=1
+R_COL[4]=black;	R_LTY[4]=2
+R_COL[5]=black;	R_LTY[5]=3
+R_COL[6]=red;	R_LTY[6]=2
+R_COL[7]=darkgreen;	R_LTY[7]=1
+R_COL[8]=darkgreen;	R_LTY[8]=2
+R_COL[9]=blue;	R_LTY[9]=2
+R_COL[10]=red;	R_LTY[10]=3
+R_COL[11]=blue;	R_LTY[11]=3
+R_COL[12]=darkgreen;	R_LTY[12]=3
 
 COMMANDLINE="$0 $*"
 
@@ -39,6 +54,7 @@ usage() {
  echo "   -e           add introduction and use engine numbers in table headers"
  echo "   -d <length>  use dots in test names in LaTeX output if the name is longer than length ($DOTS)"
  echo "   -N           do not use nice HTML output (similarly to LaTeX)"
+ echo "   -G           run R to create a density graph also"
  echo "   -h           show this help"
  echo "   -v           print script version"
  echo
@@ -55,7 +71,7 @@ version() {
  exit 0
  }
 
-while getopts "t:H:o:T:c:d:b:S:NeDhv" OPT; do
+while getopts "t:H:o:T:c:d:b:S:NeDGhv" OPT; do
  case $OPT in
   H)
    IMGHEIGHT="$OPTARG"
@@ -102,6 +118,9 @@ while getopts "t:H:o:T:c:d:b:S:NeDhv" OPT; do
   b)
    BUILD_NUMBER="$OPTARG"
    ;;
+  G)
+   R_RUN=1
+   ;;
   h)
    usage
    ;;
@@ -125,6 +144,7 @@ MYDIR=`cd $THISDIR; pwd`
 mkdir -p $MYDIR/tmp $MYDIR/html
 LOGFILE=$MYDIR/tmp/.test.log
 rm -f $HTML $TEX
+R_PROG=$MYDIR/tmp/rprog
 
 # Title
 TITLE="Prover benchmark for GeoGebra $BUILD_NUMBER"
@@ -208,7 +228,12 @@ declare -A COL_BUILD_NUMBER
 declare -A COL_J
 declare -A COL_R
 
+# Creating R input file
+echo "library(sm); data = NULL; group = NULL;" > $R_PROG
+
+# Creating column header related data
 for c in $COLUMNS; do
+ rm -f tmp/rinput-$c
  echo "<th>Result</th><th>Speed</th>" >> $MYDIR/$HTML
  echo "&R.&S." >> $MYDIR/$TEX
  cn=$((cn+1))
@@ -237,8 +262,11 @@ echo "\\\\ \hline" >> $MYDIR/$TEX
 
 # Content
 TESTS=0
+ALLGOOD_NO=0
+ALLGOOD_SUM=0
 for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_number=$BUILD_NUMBER"`; do
  echo -en "Processing test case $t...\033[K\015"
+ ALLGOOD=1
  TESTS=`expr $TESTS + 1`
  # Creating thumbnail:
  cd $MYDIR
@@ -266,6 +294,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  WORSTPROVER=""
  CORRECT=""
 
+ # First run: collecting data for a row
  cn=0
  for c in $COLUMNS; do
   cn=$((cn+1))
@@ -289,6 +318,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   CELLCOLOR="green!10"
   DIRNAMELENGTH=${#DIRNAME}
   if [ "$ACCEPTED" = "" ]; then
+   ALLGOOD=0
    if [ "$RESULT" = "" ]; then
     if [ "$ERRORTYPE" = 1 ]; then
     RESULTCLASS=" class=\"timeout\""
@@ -309,6 +339,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   if [ "$ACCEPTED" = "0" ]; then
    RESULTCLASS=" class=\"error\""
    CELLCOLOR="red!25"
+   ALLGOOD=0
    fi
   if [ "$ACCEPTED" = "1" ]; then
    VALUE=${CORRECT[$cn]}
@@ -333,6 +364,9 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    if [ $TIME -lt 20 ]; then
     RESULTCLASS=" class=\"o1\""
     CELLCOLOR="green!60"
+    fi
+   if [ $TIME -lt 5 ]; then
+    ALLGOOD=0 # this is certainly the "true" case, it would distort density plot, so we ignore it
     fi
    fi
   RESULTCLASSDATA[$cn]=$RESULTCLASS
@@ -369,6 +403,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   # echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS>$TIME</td>" >> $MYDIR/$HTML
   done # All provers done for this tests
 
+ # Second run: summarizing data in a row and generating HTML/LaTeX/R output
  cn=0
  for c in $COLUMNS; do
   cn=$((cn+1))
@@ -382,6 +417,11 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    RESULT=""
    fi
   TIME=${TIMEDATA[$cn]}
+  if [ "$ALLGOOD" = 1 ]; then
+   echo "$TIME" >> tmp/rinput-$c
+   ALLGOOD_SUM=$((ALLGOOD_SUM+TIME))
+   ALLGOOD_NO=$((ALLGOOD_NO+1))
+   fi
   SUMCLASS=""
   SUMCLASSTEX=""
   if [ "$WORSTPROVER" = "$c" ]; then
@@ -433,6 +473,10 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
 # Summary
 echo "<tr><td class=\"summary\" colspan=\"2\"><b>Summary (of $TESTS)</b></td>" >> $MYDIR/$HTML
 echo "{\bf Total (of $TESTS)}" >> $MYDIR/$TEX
+ALLGOOD_MEAN=$((ALLGOOD_SUM/ALLGOOD_NO))
+R_YMAX=`echo "scale=3; 1/$ALLGOOD_NO" | bc -q` # FIXME
+R_XMAX=$((ALLGOOD_MEAN*2))
+
 cn=0
 for c in $COLUMNS; do
  cn=$((cn+1))
@@ -443,11 +487,39 @@ for c in $COLUMNS; do
   fi
  echo "<td class=\"summary\" colspan=\"2\"><b>$VALUE</b></td>" >> $MYDIR/$HTML
  echo "&\multicolumn{2}{c|}{\bf $VALUE}" >> $MYDIR/$TEX
+
+ # Creating R based density graph. We use the r-cran-sm package under Ubuntu.
+ R_COLNAME=`echo $c | sed s/,/__/g`
+ LTY=${R_LTY[$cn]}
+ COLOR=${R_COL[$cn]}
+ if [ $cn = 1 ]; then
+  PROVERSLIST="'$R_COLNAME'"
+  COLSLIST="'$COLOR'"
+  LTYSLIST="$LTY"
+ else
+  PROVERSLIST="$PROVERSLIST,'$c'"
+  COLSLIST="$COLSLIST,'$COLOR'"
+  LTYSLIST="$LTYSLIST,$LTY"
+  fi
+ echo "$R_COLNAME <- read.csv('$MYDIR/tmp/rinput-$c', header = F);" >> $R_PROG
+ echo "sm.density($R_COLNAME,xlim=c(0,$R_XMAX),ylim=c(0,$R_YMAX),col='$COLOR',lty=$LTY,positive=TRUE,xlab='',ylab='');" >> $R_PROG
+ echo "par(new=TRUE);" >> $R_PROG
+
  done
+echo "</tr></table>" >> $MYDIR/$HTML
+
+# Final R related computations
+echo "legend('center','groups',c($PROVERSLIST),lty=c($LTYSLIST),col=c($COLSLIST),ncol=2,bty=\"n\");" >> $R_PROG
+if [ "$R_RUN" = 1 ]; then
+ cat $R_PROG | R -q --save && convert Rplots.pdf png:html/Rplots.png && \
+  echo "<p class=figure><img src=Rplots.png></p>" >> $MYDIR/$HTML
+ # TODO: Add this for LaTeX also.
+ fi
+
 echo "</tr>" >> $MYDIR/$HTML
 echo "\\\\ \\hline" >> $MYDIR/$TEX
 
-echo "</tr></table></body></html>" >> $MYDIR/$HTML
+echo "</body></html>" >> $MYDIR/$HTML
 echo "\end{longtable}
 }
 \end{document}" >> $MYDIR/$TEX

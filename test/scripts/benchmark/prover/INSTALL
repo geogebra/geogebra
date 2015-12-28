@@ -16,8 +16,8 @@ Prerequisites
   * PhantomJS (from http://phantomjs.org/, see also http://phantomjs.org/build.html, version 2.0.0 is
     the minimum requirement) if you are interested in testing the web version also (by default it is
     included)
-
-  * sqlite3 (for SQL based testing, yet under construction)
+  * sqlite3
+  * r-cran-sm
 
 Start Jenkins
 -------------
@@ -65,7 +65,7 @@ Configure Jenkins
     if you have less resources you may omit :web:clean to speed up compilation (but in some cases it may
     be mandatory due to a bug in a Gradle plugin)
 
-  * Click Add build step -> Execute shell, and enter "cd test/scripts/benchmark/prover && ./runtests-all && ./check-all"
+  * Click Add build step -> Execute shell, and enter "cd test/scripts/benchmark/prover && ./runtests-sql-all && ./check-chums"
     (without quotes) as Command
 
   * At Post-build Actions -> Archive the artifacts -> Files to archive enter

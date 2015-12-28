@@ -9,7 +9,7 @@ exitcode=0
 r() {
  echo "Regression in $1: $2 ($3 needed)"
  ./report-sql -c "$1,p1 $1" -o html/$1-diff.html
- exitcode=1
+ exitcode=$4 # allow non-fatal exit for Botana* since it may be due to external reasons
  }
 
 MYDIR=`pwd $0`
@@ -17,17 +17,17 @@ cd $MYDIR
 cat html/all.html | grep \"summary | grep -v Summary | cut -f2 -db | tr '></' '   ' | awk {'printf "%s ", $1'} > tmp/all.summary.out
 read e1 e2 b e2g bg e3a ow e3b a ad w wd < tmp/all.summary.out
 
-n=33;  if ((e1 < $n));   then r "Recio" $e1 $n; fi
-n=178; if ((e2 < $n));  then r "Botana" $e2 $n; fi
-n=166; if ((b < $n));   then r "Botana,D" $b $n; fi
-n=136; if ((e2g < $n)); then r "BotanaGiac" $e2g $n; fi
-n=166; if ((bg < $n));  then r "BotanaGiac,D" $bg $n; fi
-n=86; if ((e3a < $n));  then r "OpenGeoProver_Wu" $e3a $n; fi
-n=87; if ((ow < $n));   then r "OpenGeoProver_Wu,D" $ow $n; fi
-n=67; if ((e3b < $n));  then r "OpenGeoProver_Area" $e3b $n; fi
-n=155; if ((a < $n));   then r "Auto" $a $n; fi
-n=166; if ((ad < $n));  then r "Auto,D" $ad $n; fi
-n=132; if ((w < $n));   then r "Web" $w $n; fi
-n=144; if ((wd < $n));  then r "Web,D" $wd $n; fi
+n=33;  if ((e1 < $n));   then r "Recio" $e1 $n 1; fi
+n=178; if ((e2 < $n));  then r "Botana" $e2 $n 0; fi
+n=166; if ((b < $n));   then r "Botana,D" $b $n 0; fi
+n=136; if ((e2g < $n)); then r "BotanaGiac" $e2g $n 1; fi
+n=166; if ((bg < $n));  then r "BotanaGiac,D" $bg $n 1; fi
+n=86; if ((e3a < $n));  then r "OpenGeoProver_Wu" $e3a $n 1; fi
+n=87; if ((ow < $n));   then r "OpenGeoProver_Wu,D" $ow $n 1; fi
+n=67; if ((e3b < $n));  then r "OpenGeoProver_Area" $e3b $n 1; fi
+n=155; if ((a < $n));   then r "Auto" $a $n 1; fi
+n=166; if ((ad < $n));  then r "Auto,D" $ad $n 1; fi
+n=132; if ((w < $n));   then r "Web" $w $n 1; fi
+n=144; if ((wd < $n));  then r "Web,D" $wd $n 1; fi
 
 exit $exitcode
