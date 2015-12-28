@@ -442,6 +442,11 @@ public class Socket {
 			try {
 				// Create session
 				SESSION = PXCMSession.CreateInstance();
+				// if session == null, install runtimes
+				if (SESSION == null) {
+					installRuntimes(app, INSTALL_CORE_AND_HAND);
+				}
+
 			} catch (Throwable e) {
 				throw new Input3DException(
 						Input3DExceptionType.INSTALL,
@@ -513,6 +518,8 @@ public class Socket {
 				}
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
+				throw new Input3DException(Input3DExceptionType.INSTALL,
+						"RealSense: No key for camera in registery");
 			}
 		} catch (Throwable e) {
 			throw new Input3DException(Input3DExceptionType.INSTALL,
@@ -562,42 +569,34 @@ public class Socket {
 	}
 
 	private final static String REALSENSE_ONLINE_ARCHIVE_BASE = "http://dev.geogebra.org/realsense/latest/";
-	private final static String REALSENSE_DCM_EXE = "intel_rs_dcm_f200_1.4.27.41944.exe";
-	private final static String REALSENSE_ONLINE_ARCHIVE_DCM = REALSENSE_ONLINE_ARCHIVE_BASE
-			+ REALSENSE_DCM_EXE;
-	private final static String REALSENSE_CAMERA_EXE = "intel_rs_sdk_runtime_6.0.21.6598.exe";
-	private final static String REALSENSE_ONLINE_ARCHIVE_CAMERA = REALSENSE_ONLINE_ARCHIVE_BASE
-			+ REALSENSE_CAMERA_EXE;
+	private final static String REALSENSE_WEBSETUP = "intel_rs_sdk_r4_websetup_6.0.21.6598.exe";
+	private final static String REALSENSE_ONLINE_WEBSETUP = REALSENSE_ONLINE_ARCHIVE_BASE
+			+ REALSENSE_WEBSETUP;
 
-	private final static String REALSENSE_DCM_LICENSE = "intel_rs_dcm_f200_1.4.27.41944_license.txt";
-	private final static String REALSENSE_ONLINE_LICENSE_DCM = REALSENSE_ONLINE_ARCHIVE_BASE
-			+ REALSENSE_DCM_LICENSE;
-	private final static String REALSENSE_CAMERA_LICENSE = "intel_rs_sdk_runtime_6.0.21.6598_license.txt";
-	private final static String REALSENSE_ONLINE_LICENSE_CAMERA = REALSENSE_ONLINE_ARCHIVE_BASE
-			+ REALSENSE_CAMERA_LICENSE;
+	private final static String INSTALL_CORE_AND_HAND = "core,hand";
+	private final static String INSTALL_HAND = "hand";
 
-	private static boolean updating = false;
+	private static boolean installRuntimes = false;
 
-	private static void updateVersion(final App app) {
+	private static void installRuntimes(final App app, final String modules) {
 		
-		if (updating) {
+		if (installRuntimes) {
 			return;
 		}
 
 		Thread t = new Thread(){
 			@Override
 			public void run() {
-				updating = true;
+				installRuntimes = true;
 
 				App.debug("\n>>>>>>>>>>>>>> update version");
 
 				showMessage(app.getPlain("RealSenseNotUpToDate1"),
 						app.getPlain("RealSenseNotUpToDate2"));
 
-				String filenameDCM = null;
-				String filenameCAM = null;
+				String filenameWebSetup = null;
 
-				File destDCM = null, destCAM = null;
+				File destWebSetup = null;
 
 				try {
 					String updateDir = System.getenv("APPDATA")
@@ -605,64 +604,37 @@ public class Socket {
 					App.debug("Creating " + updateDir);
 					new File(updateDir).mkdirs();
 
-					// Downloading dcm and runtime licenses
-					String filename = updateDir + File.separator
-							+ REALSENSE_DCM_LICENSE;
-					File dest = new File(filename);
-					URL url = new URL(REALSENSE_ONLINE_LICENSE_DCM);
-					App.debug("Downloading " + REALSENSE_ONLINE_LICENSE_DCM);
-					DownloadManager.copyURLToFile(url, dest);
-					App.debug("=== done");
-
-					filename = updateDir + File.separator
-							+ REALSENSE_CAMERA_LICENSE;
-					dest = new File(filename);
-					url = new URL(REALSENSE_ONLINE_LICENSE_CAMERA);
-					App.debug("Downloading " + REALSENSE_ONLINE_LICENSE_CAMERA);
-					DownloadManager.copyURLToFile(url, dest);
+					// Downloading web setup
+					filenameWebSetup = updateDir + File.separator
+							+ REALSENSE_WEBSETUP;
+					destWebSetup = new File(filenameWebSetup);
+					URL url = new URL(REALSENSE_ONLINE_WEBSETUP);
+					App.debug("Downloading " + REALSENSE_ONLINE_WEBSETUP);
+					DownloadManager.copyURLToFile(url, destWebSetup);
 					App.debug("=== done");
 
 
-					// Downloading dcm installer
-					filenameDCM = updateDir + File.separator + REALSENSE_DCM_EXE;
-					destDCM = new File(filenameDCM);
-					url = new URL(REALSENSE_ONLINE_ARCHIVE_DCM);
-					App.debug("Downloading " + REALSENSE_ONLINE_ARCHIVE_DCM);
-					DownloadManager.copyURLToFile(url, destDCM);
-					App.debug("=== done");
-
-					// Downloading camera installer
-					filenameCAM = updateDir + File.separator + REALSENSE_CAMERA_EXE;
-					destCAM = new File(filenameCAM);
-					url = new URL(REALSENSE_ONLINE_ARCHIVE_CAMERA);
-					App.debug("Downloading " + REALSENSE_ONLINE_ARCHIVE_CAMERA);
-					DownloadManager.copyURLToFile(url, destCAM);
-					App.debug("=== done");
 
 				} catch (Exception e) {
 					App.error("Unsuccessful update");
-					updating = false;
+					installRuntimes = false;
 				}
 
 				boolean installOK = false;
 
-				if (filenameDCM != null) {
-					installOK = install(filenameDCM);
+				if (filenameWebSetup != null) {
+					installOK = install(filenameWebSetup, modules);
 				}
 
-				if (installOK && filenameCAM != null) {
-					installOK = install(filenameCAM);
-				}
 				
 				if (installOK) {
 					App.debug("Successful update");
 					showMessage(app.getPlain("RealSenseUpdated1"),
 							app.getPlain("RealSenseUpdated2"));
-					destDCM.delete();
-					destCAM.delete();
+					destWebSetup.delete();
 				}
 
-				updating = false;
+				installRuntimes = false;
 			}
 		};
 		
@@ -670,13 +642,13 @@ public class Socket {
 
 	}
 
-	static boolean install(String filename) {
-		App.debug("installing " + filename);
+	static boolean install(String filename, String modules) {
+		App.debug("installing " + filename + ", modules: " + modules);
 		Runtime runtime = Runtime.getRuntime();
 		Process p;
 		try {
-			p = runtime.exec(filename
-					+ " --silent --no-progress --acceptlicense=yes");
+			p = runtime.exec(filename + " --finstall=" + modules
+					+ " --fnone=all --silent --noprogress --acceptlicense=yes");
 			p.waitFor();
 			return p.exitValue() == 0; // all is good
 		} catch (IOException e) {
@@ -745,10 +717,9 @@ public class Socket {
 	 * Create a "Socket" for realsense camera
 	 * 
 	 * @throws Input3DException
-	 * 
-	 * 
-	 * @throws Exception
 	 *             when fails
+	 * 
+	 * 
 	 */
 	public Socket(final App app) throws Input3DException {
 
@@ -777,6 +748,8 @@ public class Socket {
 
 		sts = SENSE_MANAGER.EnableHand(null);
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)<0) {
+			// we miss hand module: install it
+			installRuntimes(app, INSTALL_HAND);
 			throw new Input3DException(Input3DExceptionType.RUN,
 					"RealSense: Failed to enable HandAnalysis");
 		}
