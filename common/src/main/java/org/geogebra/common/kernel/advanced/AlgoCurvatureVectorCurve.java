@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.Commands;
@@ -147,11 +148,14 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 			t4 = t2 * t2;
 			evals = f1eval[0] * f2eval[1] - f2eval[0] * f1eval[1];
 
-			x = A.inhomX + ((evals / t4) * (-f1eval[1]));
-			y = A.inhomY + ((evals / t4) * f1eval[0]);
+			Coords coords = A.getCoordsInD2();
+			double ax = coords.getX() / coords.getZ();
+			double ay = coords.getY() / coords.getZ();
+			x = ax + ((evals / t4) * (-f1eval[1]));
+			y = ay + ((evals / t4) * f1eval[0]);
 
-			v.x = x - A.inhomX;
-			v.y = y - A.inhomY;
+			v.x = x - ax;
+			v.y = y - ay;
 			v.z = 0.0;
 		} catch (Exception e) {
 			// in case something went wrong, e.g. derivatives not defined

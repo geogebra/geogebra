@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.main.App;
 
 /**
  * @author Victor Franco Espino
@@ -116,15 +115,13 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 				circle.setUndefined();
 				return;
 			}
-			f = new GeoCurveCartesian(cons);
 			gc.toGeoCurveCartesian(f);
+			f.updateDistanceFunction();
 			// Catch curvature and curvature vector
 			algo.compute();
 			cv.compute();
 			curv = algo.getResult();
 			v = cv.getVector();
-			App.debug(v.toValueString(StringTemplate.defaultTemplate));
-			App.debug(curv.toValueString(StringTemplate.defaultTemplate));
 		}
 		// bugfix Michael Borcherds
 
@@ -133,9 +130,10 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 		double x = r2 * v.x;
 		double y = r2 * v.y;
 
-		R.setCoords(A.inhomX + x, A.inhomY + y, 1.0);
-		App.debug(R.toValueString(StringTemplate.defaultTemplate));
-		App.debug(A.toValueString(StringTemplate.defaultTemplate));
+		Coords coords = A.getCoordsInD2();
+		double ax = coords.getX() / coords.getZ();
+		double ay = coords.getY() / coords.getZ();
+		R.setCoords(ax + x, ay + y, 1.0);
 		circle.setCircle(R, A);
 	}
 
