@@ -1671,7 +1671,7 @@ __GGB__keysVar.eu.menu = {
     "NSolve.Help": "Ekuazio bat edo gehiago zenbakiz ebazten ditu",
     "Name": "Izena",
     "NameIcon": "Izena eta Ikonoa",
-    "NavigationBar": "Nabigazio barra",
+    "NavigationBar": "Nabigazio-barra",
     "Net": "Sarea",
     "Net.Help": "Poliedro bat aukeratu",
     "New": "Berria",
