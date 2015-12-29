@@ -1640,8 +1640,15 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 						((GeoNumeric) twinGeo)
 								.extendMinMax(lastOutputEvaluationGeo);
 					}
+					if (twinGeo instanceof GeoSurfaceCartesian3D
+							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesian3D) {
+						cons.replace(twinGeo, lastOutputEvaluationGeo);
+						twinGeo = lastOutputEvaluationGeo;
+					}
 					// if both geos are the same type we can use set safely
-					twinGeo.set(lastOutputEvaluationGeo);
+					else {
+						twinGeo.set(lastOutputEvaluationGeo);
+					}
 				} else if (!lastOutputEvaluationGeo.isDefined()) {
 					// newly created GeoElement is undefined, we can set our twin geo undefined
 					twinGeo.setUndefined();
@@ -1649,10 +1656,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					// needed for GGB-362
 					if (twinGeo instanceof GeoSurfaceCartesian3D
 							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesian3D) {
-						twinGeo.set(lastOutputEvaluationGeo);
+						cons.replace(twinGeo, lastOutputEvaluationGeo);
+						twinGeo = lastOutputEvaluationGeo;
 					} else {
-					twinGeo = lastOutputEvaluationGeo;
-					cons.replace(twinGeo, lastOutputEvaluationGeo);
+						twinGeo = lastOutputEvaluationGeo;
+						cons.replace(twinGeo, lastOutputEvaluationGeo);
 					}
 				}
 				if(outputVE.unwrap() instanceof GeoElement && ((GeoElement)outputVE.unwrap()).getDrawAlgorithm() instanceof DrawInformationAlgo){
