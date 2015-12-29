@@ -779,6 +779,9 @@ public class Ggb2giac {
 		// if (app.has(Feature.CAS_TRANSLATE_COMMAND)) {
 		p("Translate.2",
 				"[[[ggbtrsarg0:=%0] , [ggbtrsarg1:=%1]] , "
+						// invalid case: translate vector by vector
+						+ "when ( subtype(ggbtrsarg0) == 27 && subtype(ggbtrsarg1) == 27,"
+						+ "?, "
 						// translate point about vector
 						+ "when ( (ggbtrsarg0)[0] == 'pnt' , "
 						// translate 2d point
@@ -942,7 +945,7 @@ public class Ggb2giac {
 						+ " sqrt((ggbtrsarg0)[2]) )) ,"
 						+ "equation(circle(point( (-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[0]) , (ggbtrsarg1)[1]) ,"
 						+ " sqrt((ggbtrsarg0)[2]) )) ) ) ) ) ) ) , "
-						+ " ? ) ) ) ) ) ) ) ) )][1]");
+						+ " ? ) ) ) ) ) ) ) ) ) )][1]");
 		// }
 
 		p("Transpose.1", "transpose(%0)");
