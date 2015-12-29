@@ -782,6 +782,9 @@ public class Ggb2giac {
 						// invalid case: translate vector by vector
 						+ "when ( subtype(ggbtrsarg0) == 27 && subtype(ggbtrsarg1) == 27,"
 						+ "?, "
+						// translate vector by point -> return vector
+						+ "when ( subtype(ggbtrsarg0) == 27 && (ggbtrsarg1)[0] == 'pnt',"
+						+ "ggbtrsarg0,"
 						// translate point about vector
 						+ "when ( (ggbtrsarg0)[0] == 'pnt' , "
 						// translate 2d point
@@ -945,7 +948,7 @@ public class Ggb2giac {
 						+ " sqrt((ggbtrsarg0)[2]) )) ,"
 						+ "equation(circle(point( (-1)*((ggbtrsarg0)[1][2][1][2] - (ggbtrsarg1)[0]) , (ggbtrsarg1)[1]) ,"
 						+ " sqrt((ggbtrsarg0)[2]) )) ) ) ) ) ) ) , "
-						+ " ? ) ) ) ) ) ) ) ) ) )][1]");
+						+ " ? ) ) ) ) ) ) ) ) ) ) )][1]");
 		// }
 
 		p("Transpose.1", "transpose(%0)");
