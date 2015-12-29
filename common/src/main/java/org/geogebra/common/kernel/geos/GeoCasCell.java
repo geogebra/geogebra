@@ -1416,6 +1416,30 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			outputVE = parsed == null ? null : (ValidExpression) parsed
 					.traverse(Traversing.GgbVectRemover.getInstance());
 			
+			// needed for GGB-400
+			// set complex mode for pointList
+			if (inputVE instanceof ExpressionNode
+					&& inputVE.getTopLevelCommand() != null
+					&& "ComplexRoot".equals(inputVE.getTopLevelCommand()
+							.getName())) {
+				if (outputVE instanceof ExpressionNode
+						&& ((ExpressionNode) outputVE).getLeft() instanceof MyList) {
+					int i = ((MyList) ((ExpressionNode) outputVE).getLeft())
+							.getLength();
+					for (int j = 0; j < i; j++) {
+						if (((MyList) ((ExpressionNode) outputVE).getLeft())
+								.getListElement(j) instanceof ExpressionNode
+								&& ((ExpressionNode) ((MyList) ((ExpressionNode) outputVE)
+										.getLeft()).getListElement(j))
+										.getLeft() instanceof MyVecNode) {
+							((MyVecNode) ((ExpressionNode) ((MyList) ((ExpressionNode) outputVE)
+									.getLeft()).getListElement(j)).getLeft())
+									.setMode(Kernel.COORD_COMPLEX);
+						}
+					}
+				}
+			}
+			 
 			if(outputVE!=null){
 				CommandReplacer cr = CommandReplacer.getReplacer(kernel.getApplication());
 				outputVE.traverse(cr);
