@@ -1682,6 +1682,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesian3D) {
 						cons.replace(twinGeo, lastOutputEvaluationGeo);
 						twinGeo = lastOutputEvaluationGeo;
+						if (assignmentVar == null) {
+							assignmentVar = twinGeo
+									.getLabel(StringTemplate.defaultTemplate);
+						}
 					} else {
 						twinGeo = lastOutputEvaluationGeo;
 						cons.replace(twinGeo, lastOutputEvaluationGeo);
