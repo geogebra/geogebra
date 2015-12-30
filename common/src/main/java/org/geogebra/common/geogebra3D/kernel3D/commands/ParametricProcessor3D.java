@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Unicode;
 
 public class ParametricProcessor3D extends ParametricProcessor {
 
@@ -123,7 +124,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 							coefX, coefY, coefZ);
 
 				}
-				line.setToParametric(fv[0].getSetVarString());
+				line.setToParametric(Unicode.lambdaStr);
 				return new GeoElement[] { line };
 
 			}
