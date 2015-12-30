@@ -1476,7 +1476,7 @@ __GGB__keysVar.fr.menu = {
     "Fix.Help": "S\xe9lectionner l'objet \xe0 fixer/lib\xe9rer",
     "FixedToGrid": "Attach\xe9 \xe0 la Grille",
     "FontSize": "Taille des caract\xe8res",
-    "ForegroundColor": "Couleur d'avant plan",
+    "ForegroundColor": "Couleur Avant-Plan",
     "Formulas": "Formules",
     "FrakturLetters": "Lettres Fraktur",
     "FreehandFunction": "MainLev\xe9e",
