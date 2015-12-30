@@ -17,7 +17,7 @@ public class Input3DFactory {
 	static public String PREFS_NONE = "none";
 	
 	public enum Input3DExceptionType {
-		INSTALL, RUN, ALREADY_USED, NOT_UP_TO_DATE, UNKNOWN
+		INSTALL, INSTALL_RUNTIMES, RUN, ALREADY_USED, NOT_UP_TO_DATE, UNKNOWN
 	};
 	
 	static public class Input3DException extends Exception {
@@ -88,7 +88,7 @@ public class Input3DFactory {
 	 *             if none
 	 */
 	public static void initRealsense(final App app) throws Input3DException {
-		InputIntelRealsense3D.createSession(app);
+		InputIntelRealsense3D.init(app);
 	}
 
 	/**

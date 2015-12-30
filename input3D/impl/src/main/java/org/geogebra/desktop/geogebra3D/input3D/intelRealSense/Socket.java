@@ -422,13 +422,18 @@ public class Socket {
 		
 	}
 	
+
 	/**
 	 * Create a session to use realsense camera
 	 * 
+	 * @param app
+	 *            application
+	 * 
 	 * @throws Input3DException
-	 *             if no camera installed
+	 *             if no camera installed or session can't be created
 	 */
-	public static void createSession(final App app) throws Input3DException {
+	public static void createSession(final App app)
+			throws Input3DException {
 
 		if (SESSION != null) {
 			return;
@@ -445,8 +450,13 @@ public class Socket {
 				// if session == null, install runtimes
 				if (SESSION == null) {
 					installRuntimes(app, INSTALL_CORE_AND_HAND);
+					throw new Input3DException(
+							Input3DExceptionType.INSTALL_RUNTIMES,
+							"RealSense: needs to install runtimes ("
+									+ INSTALL_CORE_AND_HAND + ")");
 				}
-
+			} catch (Input3DException e) {
+				throw e;
 			} catch (Throwable e) {
 				throw new Input3DException(
 						Input3DExceptionType.INSTALL,
@@ -527,7 +537,7 @@ public class Socket {
 		}
 
 		// nothing went wrong but no version found
-		if (version == null) {
+		if (version == null || version.length() == 0) {
 			throw new Input3DException(Input3DExceptionType.INSTALL,
 					"RealSense: No key for camera in registery");
 		}
@@ -589,9 +599,9 @@ public class Socket {
 			public void run() {
 				installRuntimes = true;
 
-				App.debug("\n>>>>>>>>>>>>>> update version");
+				App.debug("\n>>>>>>>>>>>>>> install runtimes: " + modules);
 
-				showMessage(app.getPlain("RealSenseNotUpToDate1"),
+				showMessage(app.getPlain("RealSense.DownloadRuntimes"),
 						app.getPlain("RealSenseNotUpToDate2"));
 
 				String filenameWebSetup = null;
@@ -629,7 +639,7 @@ public class Socket {
 				
 				if (installOK) {
 					App.debug("Successful update");
-					showMessage(app.getPlain("RealSenseUpdated1"),
+					showMessage(app.getPlain("RealSense.UpdatedRuntimes"),
 							app.getPlain("RealSenseUpdated2"));
 					destWebSetup.delete();
 				}
@@ -716,6 +726,9 @@ public class Socket {
 	/**
 	 * Create a "Socket" for realsense camera
 	 * 
+	 * @param app
+	 *            app
+	 * 
 	 * @throws Input3DException
 	 *             when fails
 	 * 
@@ -724,7 +737,15 @@ public class Socket {
 	public Socket(final App app) throws Input3DException {
 
 		if (SESSION == null) {
-			createSession(app);
+			try {
+				createSession(app);
+			} catch (Input3DException e) {
+				throw e;
+			} catch (Throwable e) {
+				App.error(e.getMessage());
+				throw new Input3DException(Input3DExceptionType.UNKNOWN,
+						e.getMessage());
+			}
 		}
 
 		if (SESSION == null) {
@@ -750,8 +771,9 @@ public class Socket {
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)<0) {
 			// we miss hand module: install it
 			installRuntimes(app, INSTALL_HAND);
-			throw new Input3DException(Input3DExceptionType.RUN,
-					"RealSense: Failed to enable HandAnalysis");
+			throw new Input3DException(Input3DExceptionType.INSTALL_RUNTIMES,
+					"RealSense: needs to install runtimes (" + INSTALL_HAND
+							+ ")");
 		}
 
 		dataSampler = new DataAverage(SAMPLES);

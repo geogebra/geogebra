@@ -35,15 +35,15 @@ public class InputIntelRealsense3D implements Input3D {
 	private double screenHalfWidth;
 	
 	/**
-	 * Create a session to use realsense camera
+	 * Check if realsense camera can be inited (check registry)
 	 * 
 	 * @throws Input3DException
 	 *             if no camera installed
 	 */
-	public static void createSession(final App app) throws Input3DException {
+	public static void init(final App app) throws Input3DException {
 
 		try {
-			Socket.createSession(app);
+			Socket.queryRegistry(app);
 		} catch (Input3DException e) {
 			throw e;
 		} catch (Throwable e) {
