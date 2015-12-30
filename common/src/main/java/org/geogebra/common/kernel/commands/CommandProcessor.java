@@ -342,7 +342,11 @@ kernelA.getEulerNumber(), localVar));
 		int numArgs = c.getArgumentNumber();
 
 		Construction cmdCons = c.getKernel().getConstruction();
-		GeoList gl = (GeoList) resArg(c.getArgument(numArgs - 2))[0];
+		GeoElement geo = resArg(c.getArgument(numArgs - 2))[0];
+		if (geo != null && !(geo instanceof GeoList)) {
+			throw argErr(app, c.getName(), c.getArgument(numArgs - 2));
+		}
+		GeoList gl = (GeoList) geo;
 		GeoElement num = null;
 		if (gl == null) {
 			num = new GeoNumeric(cons);
