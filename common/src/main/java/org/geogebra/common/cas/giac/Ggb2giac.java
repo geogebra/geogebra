@@ -426,9 +426,12 @@ public class Ggb2giac {
 				"when ( size((%0)[0]) == 3,"
 						// result of Solve, eg {{x=7,y=7,z=7}}
 						+ " flatten1(coordinates(map(%0,t->when ((flatten1(t))[0][0] == '=' && type((flatten1(t))[0][2]) == 'DOM_INT' , "
-						+ "point((flatten1(t))[0][2],(flatten1(t))[1][2],(flatten1(t))[2][2]) , "
+						+ "point((flatten1(t))[0][2],(flatten1(t))[1][2],(flatten1(t))[2][2]) ,"
+						+ "when (type(flatten1(t)[0]) == DOM_INT , "
 						// result of Solution, eg (7 7 7)
-						+ "point(t[0],t[1],t[2]) ) ) ) ), "
+						+ "point(t[0],t[1],t[2]),"
+						// result of Solve as 3D Line
+						+ "point((flatten1(t))[0][2],(flatten1(t))[1][2],(flatten1(t))[2][2]) ) ) ) ) ), "
 						+ "flatten1(coordinates(map(%0,t->when(t[0]=='=',point(re(t[2]),im(t[2])),t) ) ) ) )");
 		p("RootList.1", "apply(x->convert([x,0],25),%0)");
 		p("Invert.1",
