@@ -422,7 +422,12 @@ public class Ggb2giac {
 		p("IterationList.3",
 				"[[ggbilans(f,x0,n):=begin local l,k; l:=[x0]; for k from 1 to n do l[k]:=regroup(f(l[k-1])); od; l; end],ggbilans(unapply(%0,x),%1,%2)][1]");
 		p("PointList.1",
-				"flatten1(coordinates(map(%0,t->when(t[0]='=',point(re(t[2]),im(t[2])),t)))");
+				// solution is 3D
+				"when ( size((%0)[0]) == 3,"
+						// result of Solve, eg {{x=7,y=7,z=7}}
+						+ " flatten1(coordinates(map(%0,t->when ((flatten1(t))[0][0] == '=' && type((flatten1(t))[0][2]) == 'DOM_INT' , "
+						+ "point((flatten1(t))[0][2],(flatten1(t))[1][2],(flatten1(t))[2][2]) , ? ) ) ) ), "
+						+ "flatten1(coordinates(map(%0,t->when(t[0]=='=',point(re(t[2]),im(t[2])),t) ) ) ) )");
 		p("RootList.1", "apply(x->convert([x,0],25),%0)");
 		p("Invert.1",
 				"[[ggbinvans:=0/0], [ggbinvarg:=%0], [ggbinvans:=when(type(ggbinvarg)!=DOM_LIST,"
