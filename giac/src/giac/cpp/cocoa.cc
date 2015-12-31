@@ -3470,7 +3470,9 @@ namespace giac {
       return;
     typename std::vector< T_unsigned<modint,tdeg_t> >::iterator pt=p.coord.begin(),ptend=p.coord.end();
     for (;pt!=ptend;++pt){
-      pt->g=(longlong(pt->g)*a)%m;
+      modint tmp=(longlong(pt->g)*a)%m;
+      if (tmp<0) tmp += m;
+      pt->g=tmp;
     }
   }
 
@@ -6163,7 +6165,11 @@ namespace giac {
     if (debug_infolevel>2)
       CERR << "Firstcol " << firstcol << "/" << v64.size() << " ratio skipped " << (fit-fit0)/double(fitend-fit0) << endl;
     if (env<(1<<24)){
-      bool fastcheck = (fitend-fit0)<=0xffff;
+#ifdef PSEUDO_MOD
+      int nbits=sizeinbase2(env);
+      unsigned invmodulo=((1ULL<<(2*nbits)))/env+1;
+#endif
+      bool fastcheck = (fitend-fit)<32768;
       unsigned redno=0;
       for (;fit<fitend;++fit){
 	if (*(wt0+*fit)==0){
@@ -6184,19 +6190,27 @@ namespace giac {
 	  continue;
 	const modint * jt=&mcoeff.front(),*jtend=jt+mcoeff.size(),*jt_=jtend-8;
 	// if (pos>v.size()) CERR << "error" <<endl;
-	// if (*jt!=1) CERR << "not normalized" << endl;
-	modint c=(modint2(invmod(*jt,env))*(*wt % env))%env;
+	// if (*jt!=1) CERR << "not normalized " << i << endl;
+#if 0 // def PSEUDO_MOD, does not work for cyclic8m
+	modint c=pseudo_mod(*wt,env,invmodulo,nbits); // *jt should be 1
+#else
+	modint c=*wt % env; // (modint2(*jt)*(*wt % env))%env;
+#endif
 	*wt=0;
 	if (!c)
 	  continue;
 	if (!fastcheck){
 	  ++redno;
-	  if ((redno&0xffff)==0){
+	  if (redno==32768){
+	    redno=0;
 	    // reduce the line mod env
-	    CERR << "reduce line" << endl;
-	    for (vector<modint2>::iterator wt=v64.begin();wt!=wtend;++wt){
-	      if (*wt)
-		*wt %= env;
+	    //CERR << "reduce line" << endl;
+	    for (vector<modint2>::iterator wt=v64.begin()+pos;wt!=wtend;++wt){
+	      // 2^63-1-p*p*32768 where p:=prevprime(2^24)
+	      modint2 tmp=*wt;
+	      if (tmp>=3298534588415 || tmp<=-3298534588415)
+		*wt = tmp % env;
+	      // if (*wt) *wt %= env; // does not work pseudo_mod(*wt,env,invmodulo,nbits);
 	    }
 	  }
 	}
@@ -6283,7 +6297,7 @@ namespace giac {
 	const modint * jt=&mcoeff.front(),*jtend=jt+mcoeff.size(),*jt_=jtend-8;
 	// if (pos>v.size()) CERR << "error" <<endl;
 	// if (*jt!=1) CERR << "not normalized" << endl;
-	modint c=(modint2(invmod(*jt,env))*(*wt % env))%env;
+	modint c=*wt % env; // (modint2(*jt)*(*wt % env))%env;
 	if (c<0) c += env;
 	*wt=0;
 	if (!c)
@@ -10045,11 +10059,19 @@ namespace giac {
 
   template<class tdeg_t>
   void zsmallmultmod(modint a,zpolymod<tdeg_t> & p,modint m){
-    if (a==1 || a==1-m)
-      return;
     std::vector< zmodint >::iterator pt=p.coord.begin(),ptend=p.coord.end();
+    if (a==1 || a==1-m){
+      for (;pt!=ptend;++pt){
+	modint tmp=pt->g;
+	if (tmp<0) tmp += m;
+	pt->g=tmp;
+      }
+      return;
+    }
     for (;pt!=ptend;++pt){
-      pt->g=(longlong(pt->g)*a)%m;
+      modint tmp=(longlong(pt->g)*a)%m;
+      if (tmp<0) tmp += m;
+      pt->g=tmp;
     }
   }
 
@@ -11325,10 +11347,11 @@ namespace giac {
 #endif
     for (i=0,j=0;i<G.size();++i){
       // copy coeffs of res[G[i]] in Mcoeff
-      if (env<(1<<24))
+      if (1 || env<(1<<24))
 	zcopycoeff(res[G[i]],Mcoeff[i],0);
       else
 	zcopycoeff(res[G[i]],Mcoeff[i],env,0);
+      // if (!Mcoeff[i].empty()) Mcoeff[i].front()=invmod(Mcoeff[i].front(),env);
       // for each monomial of quo[i], find indexes and put in Mindex
       // Improvement idea: reverse order traversing quo[i]
       // In zmakelinesplit locate res[G[i]].coord.u+*jt by dichotomoy 
@@ -11683,7 +11706,7 @@ namespace giac {
       }
       if (!Pcoord.empty())
 	f4buchbergerv[permutation[i]].ldeg=(*f4buchbergerv[permutation[i]].expo)[Pcoord.front().u];
-      if (!Pcoord.empty() && Pcoord.front().g!=1){
+      if (!Pcoord.empty() && ( (env > (1<< 24)) || Pcoord.front().g!=1) ){
 	zsmallmultmod(invmod(Pcoord.front().g,env),f4buchbergerv[permutation[i]],env);	
 	Pcoord.front().g=1;
       }
@@ -12026,8 +12049,10 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       R0[l]=TMP2.coord[l].u;
     vectzpolymod<tdeg_t> res;
     res.resize(ressize);
-    for (unsigned l=0;l<ressize;++l)
+    for (unsigned l=0;l<ressize;++l){
       convert(resmod[l],res[l],R0);
+      zsmallmultmod(1,res[l],env);
+    }
     if (debug_infolevel>1000){
       res.dbgprint(); res[0].dbgprint(); // instantiate
     }
