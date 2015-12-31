@@ -302,7 +302,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 			switch (getTreeMode()) {
 			case DEPENDENCY:
 				model.insertNodeInto(auxiliaryNode, rootDependency,
-						rootDependency.getChildCount());
+						rootDependency.getChildCount() - 1);
 				break;
 			}
 
