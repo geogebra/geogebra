@@ -89,13 +89,16 @@ public class CmdSetColor extends CmdScripting {
 				// // Application.debug(color);
 				// }
 
-				if (col == null)
+				// SetBackgroundColor(text1, "none") is OK
+				if (col == null && !background) {
 					throw argErr(app, c.getName(), arg[1]);
+				}
 
-				if (background)
+				if (background) {
 					arg[0].setBackgroundColor(col);
-				else
+				} else {
 					arg[0].setObjColor(col);
+				}
 
 				arg[0].updateRepaint();
 
