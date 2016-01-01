@@ -124,11 +124,15 @@ public class Ggb2giac {
 		// denom() cancels down first so use getDenom()
 		// a/b encoded as a*(1/b)
 		// factor needed for eg a/b + c/d
+		// need to use %0 to avoid auto-simplifying eg
+		// Denominator[((x+1)*x)/(x+1)]
+		// || length(%0) > 2 is for Denominator[((x+1)*x)/(x+1)] which Giac
+		// stores as a product of *3* things
 		p("Denominator.1",
 				"[[ggbdenomans:=%0],"
-						+ "when(ggbdenomans[0]=='inv', getDenom(ggbdenomans), "
+						+ "when(ggbdenomans[0]=='inv', getDenom(%0), "
 						+ "when(ggbdenomans[0]=='*', "
-						+ "when(ggbdenomans[2][0]=='inv', getDenom(ggbdenomans), getDenom(factor(ggbdenomans))),"
+						+ "when(ggbdenomans[2][0]=='inv' || length(%0) > 2, getDenom(%0), getDenom(factor(ggbdenomans))),"
 						+ "getDenom(factor(ggbdenomans))   )" + ")][1]");
 
 		// this chooses x if it's in the expression
@@ -558,11 +562,14 @@ public class Ggb2giac {
 		// numer(), denom() cancel down first so use getNum, getDen
 		// a/b encoded as a*(1/b)
 		// factor needed for eg a/b + c/d
+		// need to use %0 to avoid auto-simplifying eg
+		// Numerator[((x+1)*x)/(x+1)]
+		// || length(%0) > 2 is for Numerator[((x+1)*x)/(x+1)] which Giac stores
+		// as a product of *3* things
 		p("Numerator.1",
-				"[[ggbnumerans:=%0],"
-						+ "when(ggbnumerans[0]=='inv', getNum(ggbnumerans), "
-						+ "when(ggbnumerans[0]=='*', "
-						+ "when(ggbnumerans[2][0]=='inv', getNum(ggbnumerans), getNum(factor(ggbnumerans))),"
+				"[[ggbnumerans:=%0]," + "when((%0)[0]=='inv', getNum(%0), "
+						+ "when((%0)[0]=='*', "
+						+ "when((%0)[2][0]=='inv' || length(%0) > 2, getNum(%0), getNum(factor(ggbnumerans))),"
 						+ "getNum(factor(ggbnumerans))   )" + ")][1]");
 
 
