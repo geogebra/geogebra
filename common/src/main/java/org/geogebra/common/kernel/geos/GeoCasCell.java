@@ -1503,7 +1503,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return;
 		}
 		boolean isLine = false;
-		boolean isSurface = false;
 		// case we have 3DLine
 		if (inputVE.getTopLevelCommand() != null
 				&& inputVE.getTopLevelCommand().getName().equals("Line")
@@ -1514,16 +1513,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 						.evaluatesTo3DVector()) {
 			isLine = true;
 		}
-		// Surface
-		if (inputVE instanceof ExpressionNode
-				&& inputVE.getTopLevelCommand() != null
-				&& "Surface".equals(inputVE.getTopLevelCommand().getName())
-				&& outputVE instanceof ExpressionNode
-				&& ((ExpressionNode) outputVE).getRight() == null
-				&& ((ExpressionNode) outputVE).getLeft() instanceof MyVec3DNode) {
-			isSurface = true;
-		}
-		if (!isAssignmentVariableDefined() && !isLine && !isSurface)
+		if (!isAssignmentVariableDefined() && !isLine)
 			return;
 		if (isNative() && (getInputVE() instanceof Function)
 				&& (outputVE instanceof ExpressionNode)) {
@@ -1541,7 +1531,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 		// check that assignment variable is not a reserved name in GeoGebra
 		if (!isLine
-				&& !isSurface
 				&& kernel.getApplication().getParserFunctions()
 						.isReserved(assignmentVar))
 			return;
@@ -1566,14 +1555,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else if (isSurface) {
-			GeoElement[] geos = kernel.getAlgebraProcessor()
-					.processAlgebraCommand(
-							inputVE.toString(StringTemplate.defaultTemplate),
-							true);
-			outputVE = new ExpressionNode(kernel, geos[0]);
-			newTwinGeo = geos[0];
-			setNative(false);
 		} else {
 			newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
 		}
@@ -1583,11 +1564,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 		if (newTwinGeo != null && !dependsOnDummy(newTwinGeo)) {
 			setTwinGeo(newTwinGeo);
-			if (isSurface) {
-				assignmentType = AssignmentType.DEFAULT;
-				functionvars = invars;
-				assignmentVar = twinGeo.label;
-			}
 			if (twinGeo instanceof GeoImplicit) {
 				((GeoImplicit) twinGeo).setInputForm();
 			}
@@ -1668,6 +1644,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesian3D) {
 						cons.replace(twinGeo, lastOutputEvaluationGeo);
 						twinGeo = lastOutputEvaluationGeo;
+						if (assignmentVar == null) {
+							assignmentVar = twinGeo
+									.getLabel(StringTemplate.defaultTemplate);
+						}
 					}
 					// if both geos are the same type we can use set safely
 					else {
@@ -1848,6 +1828,25 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				}
 
 				boolean isSubstitute = isSubstitute();
+				// needed for TRAC-5232
+				// update inputVE for Surface Command without vars
+				if (input.startsWith("Surface")) {
+					String[] surfParts = input.split(",");
+					String surfVar1 = surfParts[3];
+					String surfVar2 = surfParts[6];
+					FunctionVariable fv1 = new FunctionVariable(kernel, surfVar1);
+					FunctionVariable fv2 = new FunctionVariable(kernel, surfVar2);
+					FunctionVariable[] fvs = {fv1,fv2};
+					FunctionNVar surf = new FunctionNVar(
+							(ExpressionNode) inputVE, fvs);
+					if (surf.getLabels() == null) {
+						surf.addLabel(getFreeLabel("a"));
+					}
+					inputVE = surf;
+					setAssignmentType(AssignmentType.DEFAULT);
+					updateInputVariables(inputVE);
+					evalVE = getInputVE();
+				}
 				// wrap in Evaluate if it's an expression rather than a command
 				// needed for Giac (for simplifying x+x to 2x)
 				evalVE = wrapEvaluate(evalVE,
@@ -1925,6 +1924,18 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			kernel.setSilentMode(true);
 
 			try {
+				// needed for TRAC-5232
+				// we need evalVE without Evaluate command
+				if (inputVE instanceof FunctionNVar
+						&& ((FunctionNVar) inputVE).getExpression() != null
+						&& ((FunctionNVar) inputVE).getExpression()
+								.getTopLevelCommand() != null
+						&& "Surface"
+								.equals(((FunctionNVar) inputVE)
+										.getExpression().getTopLevelCommand()
+								.getName())) {
+					evalVE = getInputVE();
+				}
 				// process inputExp in GeoGebra *without* assignment (we need to
 				// avoid redefinition)
 				GeoElement[] geos = kernel.getAlgebraProcessor()
