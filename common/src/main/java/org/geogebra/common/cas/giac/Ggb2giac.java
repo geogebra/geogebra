@@ -129,10 +129,9 @@ public class Ggb2giac {
 		// || length(%0) > 2 is for Denominator[((x+1)*x)/(x+1)] which Giac
 		// stores as a product of *3* things
 		p("Denominator.1",
-				"[[ggbdenomans:=%0],"
-						+ "when(ggbdenomans[0]=='inv', getDenom(%0), "
-						+ "when(ggbdenomans[0]=='*', "
-						+ "when(ggbdenomans[2][0]=='inv' || length(%0) > 2, getDenom(%0), getDenom(factor(ggbdenomans))),"
+				"[[ggbdenomans:=%0],when((%0)[0]=='inv', getDenom(%0), "
+						+ "when((%0)[0]=='*', "
+						+ "when((%0)[2][0]=='inv' || length(%0) > 2, getDenom(%0), getDenom(factor(ggbdenomans))),"
 						+ "getDenom(factor(ggbdenomans))   )" + ")][1]");
 
 		// this chooses x if it's in the expression
