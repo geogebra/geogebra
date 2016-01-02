@@ -1311,11 +1311,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			// App.error(df[i].getMimeType());
 			// }
 
+			DataFlavor htmlFlavor = new DataFlavor(
+					"text/html; document=all; class=java.lang.String; charset=Unicode");
+
 			// PNG image copied in html format
 			// eg http://jsfiddle.net/bvFNL/8/
-			if (transfer.isDataFlavorSupported(DataFlavor.allHtmlFlavor)) {
-				String html = (String) transfer
-						.getTransferData(DataFlavor.allHtmlFlavor);
+			if (transfer.isDataFlavorSupported(htmlFlavor)) {
+				String html = (String) transfer.getTransferData(htmlFlavor);
 				
 				String pngMarker = "data:image/png;base64,";
 
