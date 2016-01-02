@@ -1482,15 +1482,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 *            - the file name of the image
 	 * @param fileStr
 	 *            - the image data url
-	 * @param fileStr2
-	 *            - the image binary string
+	 * @param notUsed
+	 *            - not used
 	 * @param loc
 	 */
 	public void imageDropHappened(String imgFileName, String fileStr,
-			String fileStr2, GeoPoint loc1, int width, int height) {
+			String notUsed, GeoPoint loc1, int width, int height) {
 
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zip_directory = md5e.encrypt(fileStr2);
+		String zip_directory = md5e.encrypt(fileStr);
 
 		String fn = imgFileName;
 		int index = imgFileName.lastIndexOf('/');
@@ -1533,6 +1533,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			gsp2.update();
 			geoImage.setCorner(gsp2, 1);
 		} else {
+
+			// make sure it gets a label if it doesn't have one already
+			loc.setLabel(null);
+
 			geoImage.setCorner(loc, 0);
 			GeoPoint point = new GeoPoint(cons);
 			geoImage.calculateCornerPoint(point, 2);
@@ -3031,7 +3035,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		@org.geogebra.common.main.App::debug(Ljava/lang/String;)(dataAsJSO);
 	}-*/;
 
-	public static native void nativeConsole(JavaScriptObject object) /*-{
+	public static native void nativeConsole(String object) /*-{
 		$wnd.console.log(object);
 	}-*/;
 
