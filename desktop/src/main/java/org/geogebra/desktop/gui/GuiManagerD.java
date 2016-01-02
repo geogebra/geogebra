@@ -15,6 +15,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -1306,11 +1307,39 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		try {
 
 			DataFlavor[] df = transfer.getTransferDataFlavors();
-			for (int i = 0; i < df.length; i++) {
-				// System.out.println(df[i].getMimeType());
+			// for (int i = 0; i < df.length; i++) {
+			// App.error(df[i].getMimeType());
+			// }
+
+			// PNG image copied in html format
+			// eg http://jsfiddle.net/bvFNL/8/
+			if (transfer.isDataFlavorSupported(DataFlavor.allHtmlFlavor)) {
+				String html = (String) transfer
+						.getTransferData(DataFlavor.allHtmlFlavor);
+				
+				String pngMarker = "data:image/png;base64,";
+
+				int pngBase64index = html.indexOf(pngMarker);
+
+				if (pngBase64index > -1) {
+					int pngBase64end = html.indexOf("\"", pngBase64index);
+					String base64 = html.substring(
+							pngBase64index + pngMarker.length(),
+							pngBase64end);
+					byte[] bytes = Base64.decode(base64);
+					
+					InputStream in = new ByteArrayInputStream(bytes);
+					img = ImageIO.read(in);
+					fileName = "transferHTMLImage.png";
+					nameList.add(((AppD) app).createImage(new MyImageD(img),
+							fileName));
+					imageFound = true;
+				}
+				
 			}
 
-			if (transfer.isDataFlavorSupported(DataFlavor.imageFlavor)) {
+			if (!imageFound
+					&& transfer.isDataFlavorSupported(DataFlavor.imageFlavor)) {
 				img = (BufferedImage) transfer
 						.getTransferData(DataFlavor.imageFlavor);
 				if (img != null) {
@@ -1386,12 +1415,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		} catch (UnsupportedFlavorException ufe) {
 			app.setDefaultCursor();
-			// ufe.printStackTrace();
+			ufe.printStackTrace();
 			return null;
 
 		} catch (IOException ioe) {
 			app.setDefaultCursor();
-			// ioe.printStackTrace();
+			ioe.printStackTrace();
 			return null;
 
 		} catch (Exception e) {
