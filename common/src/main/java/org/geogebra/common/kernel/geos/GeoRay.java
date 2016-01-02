@@ -59,18 +59,20 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		setConstructionDefaults();
 	}
 
+	public GeoRay(GeoRay ray) {
+		this(ray.cons);
+		set(ray);
+	}
+
 	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.RAY;
 	}
 
 	 
-	/**
-	 * the copy of a ray is an independent line
-	 *
-	public GeoElement copy() {
-		return new GeoLine(this); 
-	}*/
+	public GeoLine copy() {
+		return new GeoRay(this);
+	}
 	 
 	
 	@Override
@@ -88,7 +90,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		GeoRay ray = (GeoRay) geo;		
 		keepTypeOnGeometricTransform = ray.keepTypeOnGeometricTransform; 
 										
-		startPoint.set(ray.startPoint);
+		setStartPoint(ray.startPoint);
 		
 		//Need to adjust the second defining object too, see #3770
 		if(getParentAlgorithm() instanceof AlgoJoinPointsRay && geo.getParentAlgorithm() instanceof AlgoJoinPointsRay){

@@ -211,7 +211,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 		setKeepTypeOnGeometricTransform(ray.keepsTypeOnGeometricTransform());
 
-		startPoint.set(ray.getStartPoint());
+		setStartPoint(ray.getStartPoint());
 	}
 
 	@Override

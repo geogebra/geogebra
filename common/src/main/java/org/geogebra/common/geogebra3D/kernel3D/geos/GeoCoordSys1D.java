@@ -176,6 +176,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 	@Override
 	final public GeoCoordSys1D copy() {
 		GeoCoordSys1D geo = create(cons);
+		geo.set(this);
 		geo.setCoord(this);
 		return geo;
 	}
