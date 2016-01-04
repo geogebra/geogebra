@@ -1532,6 +1532,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				e.printStackTrace();
 			}
 		} else {
+			if (isFunctionProducingCommand()) {
+			((ExpressionNode) outputVE).setForceFunction();
+			}
 			newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
 		}
 
@@ -1547,6 +1550,21 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				newTwinGeo.setLabelVisible(true);
 			}
 		}
+	}
+
+	/**
+	 * @return whether the output should be considered a function even if it is
+	 *         just a number eg. plotting LeftSide[7=x] should produce f(x)=7
+	 */
+	private boolean isFunctionProducingCommand() {
+		if (evalVE == null || evalVE.getTopLevelCommand() == null) {
+			return false;
+		}
+		String name = evalVE.getTopLevelCommand().getName();
+		if ("LeftSide".equals(name) || "RightSide".equals(name)) {
+			return true;
+		}
+		return false;
 	}
 
 	private void setEquationMode() {
