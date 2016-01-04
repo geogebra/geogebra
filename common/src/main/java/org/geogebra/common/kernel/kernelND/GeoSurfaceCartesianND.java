@@ -15,7 +15,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * @author matthieu
  *
  */
-public abstract class GeoSurfaceCartesianND extends GeoElement{
+public abstract class GeoSurfaceCartesianND extends GeoElement implements
+		SurfaceEvaluable {
 	
 	/** coordinates functions */
 	protected FunctionNVar[] fun;
