@@ -256,6 +256,16 @@ public class RendererWnoWebGL extends RendererW {
 	}
 
 	@Override
+	public void disableShine() {
+		// no webGL context here...
+	}
+
+	@Override
+	public void enableShine() {
+		// no webGL context here...
+	}
+
+	@Override
 	protected void enableClipPlanes() {
 		// no webGL context here...
 	}

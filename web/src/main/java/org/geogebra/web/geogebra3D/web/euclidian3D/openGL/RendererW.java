@@ -68,7 +68,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	// location values for shader fields
 	private WebGLUniformLocation matrixLocation; // matrix
 	private WebGLUniformLocation lightPositionLocation, ambiantDiffuseLocation,
-	        enableLightLocation; // light
+			enableLightLocation, enableShineLocation; // light
 	private WebGLUniformLocation eyePositionLocation; // eye position
 	private WebGLUniformLocation cullingLocation; // culling
 	private WebGLUniformLocation dashValuesLocation; // dash values
@@ -256,6 +256,10 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		        "eyePosition");
 		enableLightLocation = glContext.getUniformLocation(shaderProgram,
 		        "enableLight");
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			enableShineLocation = glContext.getUniformLocation(shaderProgram,
+					"enableShine");
+		}
 
 		cullingLocation = glContext
 		        .getUniformLocation(shaderProgram, "culling");
@@ -1719,12 +1723,33 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		} else {
 			glContext.uniform1i(enableLightLocation, 0);
 		}
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			glContext.uniform1i(enableShineLocation, 0);
+		}
 	}
 
 	@Override
 	public void disableLighting() {
 		if (view3D.getUseLight()) {
 			glContext.uniform1i(enableLightLocation, 0);
+		}
+	}
+
+	@Override
+	public void disableShine() {
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			if (view3D.getUseLight()) {
+				glContext.uniform1i(enableShineLocation, 0);
+			}
+		}
+	}
+
+	@Override
+	public void enableShine() {
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			if (view3D.getUseLight()) {
+				glContext.uniform1i(enableShineLocation, 1);
+			}
 		}
 	}
 

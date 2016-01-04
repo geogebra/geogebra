@@ -78,7 +78,7 @@ public class RendererImplShadersElements implements
 	// location values for shader fields
 	private int matrixLocation; // matrix
 	private int lightPositionLocation, ambiantDiffuseLocation,
-			enableLightLocation; // light
+			enableLightLocation, enableShineLocation; // light
 	private int eyePositionLocation; // eye position
 	private int cullingLocation; // culling type
 	private int dashValuesLocation; // values for dash
@@ -254,6 +254,10 @@ public class RendererImplShadersElements implements
 				shaderProgram, "eyePosition");
 		enableLightLocation = jogl.getGL2ES2().glGetUniformLocation(
 				shaderProgram, "enableLight");
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			enableShineLocation = jogl.getGL2ES2().glGetUniformLocation(
+					shaderProgram, "enableShine");
+		}
 
 		cullingLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram,
 				"culling");
@@ -1234,12 +1238,31 @@ public class RendererImplShadersElements implements
 		} else {
 			jogl.getGL2ES2().glUniform1i(enableLightLocation, 0);
 		}
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			jogl.getGL2ES2().glUniform1i(enableShineLocation, 0);
+		}
 	}
 
 	@Override
 	public void disableLighting() {
 		if (view3D.getUseLight()){
 			jogl.getGL2ES2().glUniform1i(enableLightLocation, 0);
+		}
+	}
+
+	public void disableShine() {
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			if (view3D.getUseLight()) {
+				jogl.getGL2ES2().glUniform1i(enableShineLocation, 0);
+			}
+		}
+	}
+
+	public void enableShine() {
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			if (view3D.getUseLight()) {
+				jogl.getGL2ES2().glUniform1i(enableShineLocation, 1);
+			}
 		}
 	}
 

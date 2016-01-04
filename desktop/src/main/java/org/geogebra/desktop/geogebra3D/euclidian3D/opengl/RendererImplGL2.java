@@ -672,4 +672,12 @@ public class RendererImplGL2 implements RendererImpl {
 	public void initShaders() {
 		// used in shaders
 	}
+
+	public void disableShine() {
+		// only implemented with shaders
+	}
+
+	public void enableShine() {
+		// only implemented with shaders
+	}
 }

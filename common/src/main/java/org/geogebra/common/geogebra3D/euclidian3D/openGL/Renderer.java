@@ -532,7 +532,21 @@ public abstract class Renderer {
 	 * enable lighting
 	 */
 	abstract public void enableLighting();
-	
+
+	/**
+	 * disable shine (specular)
+	 */
+	public void disableShine() {
+		// only implemented with shaders
+	}
+
+	/**
+	 * enable shine (specular)
+	 */
+	public void enableShine() {
+		// only implemented with shaders
+	}
+
 	/**
 	 * init lighting
 	 */
@@ -720,6 +734,12 @@ public abstract class Renderer {
 		drawable3DLists.drawHiddenNotTextured(this);
 		enableDash();
 		drawable3DLists.drawHiddenTextured(this);
+
+		// ////////////////////////////
+		// draw surfaces
+		enableShine();
+
+		// draw hidden surfaces
 		enableFading(); // from RendererShaders -- check when enable textures if
 						// already done
 		drawNotTransp();
@@ -785,6 +805,10 @@ public abstract class Renderer {
 		enableBlending();
 		drawTransp();
 		enableDepthMask();
+
+		// ////////////////////////
+		// end of surfaces
+		disableShine();
 
 		// drawing not hidden parts
 		enableDash();

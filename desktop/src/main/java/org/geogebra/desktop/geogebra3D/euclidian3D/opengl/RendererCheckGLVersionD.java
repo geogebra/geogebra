@@ -468,31 +468,37 @@ public class RendererCheckGLVersionD extends RendererD implements
 		rendererImpl.setCullFaceBack();
 	}
 
+	@Override
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
 		rendererImpl.loadColorBuffer(fbColors, length);
 
 	}
 
+	@Override
 	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
 		rendererImpl.loadNormalBuffer(fbNormals, length);
 
 	}
 
+	@Override
 	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
 		rendererImpl.loadTextureBuffer(fbTextures, length);
 
 	}
 
+	@Override
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
 		rendererImpl.loadVertexBuffer(fbVertices, length);
 
 	}
 
+	@Override
 	public void loadIndicesBuffer(GLBufferIndices arrayI, int length) {
 		rendererImpl.loadIndicesBuffer(arrayI, length);
 
 	}
 
+	@Override
 	public void setCenter(Coords center) {
 		rendererImpl.setCenter(center);
 
@@ -503,68 +509,81 @@ public class RendererCheckGLVersionD extends RendererD implements
 		rendererImpl.resetCenter();
 	}
 
+	@Override
 	public boolean areTexturesEnabled() {
 		return rendererImpl.areTexturesEnabled();
 	}
 
+	@Override
 	public void draw(Type type, int length) {
 		rendererImpl.draw(type, length);
 
 	}
 
+	@Override
 	public void storeBuffer(GLBuffer fb, int length, int size,
 			GPUBuffer buffers, int attrib) {
 		rendererImpl.storeBuffer(fb, length, size, buffers, attrib);
 
 	}
 
+	@Override
 	public void storeElementBuffer(short[] fb, int length, GPUBuffer buffers) {
 		rendererImpl.storeElementBuffer(fb, length, buffers);
 
 	}
 
+	@Override
 	public void bindBufferForIndices(GPUBuffer buffer) {
 		rendererImpl.bindBufferForIndices(buffer);
 
 	}
 
+	@Override
 	public void createArrayBuffer(GPUBuffer buffer) {
 		rendererImpl.createArrayBuffer(buffer);
 
 	}
 
+	@Override
 	public void createElementBuffer(GPUBuffer buffer) {
 		rendererImpl.createElementBuffer(buffer);
 
 	}
 
+	@Override
 	public void removeArrayBuffer(GPUBuffer buffer) {
 		rendererImpl.removeArrayBuffer(buffer);
 
 	}
 
+	@Override
 	public void removeElementBuffer(GPUBuffer buffer) {
 		rendererImpl.removeElementBuffer(buffer);
 
 	}
 
+	@Override
 	public void bindBufferForVertices(GPUBuffer buffer, int size) {
 		rendererImpl.bindBufferForVertices(buffer, size);
 
 	}
 
+	@Override
 	public void bindBufferForColors(GPUBuffer buffer, int size,
 			GLBuffer fbColors) {
 		rendererImpl.bindBufferForColors(buffer, size, fbColors);
 
 	}
 
+	@Override
 	public void bindBufferForNormals(GPUBuffer buffer, int size,
 			GLBuffer fbNormals) {
 		rendererImpl.bindBufferForNormals(buffer, size, fbNormals);
 
 	}
 
+	@Override
 	public void bindBufferForTextures(GPUBuffer buffer, int size,
 			GLBuffer fbTextures) {
 		rendererImpl.bindBufferForTextures(buffer, size, fbTextures);
@@ -575,5 +594,15 @@ public class RendererCheckGLVersionD extends RendererD implements
 	@Override
 	protected void initShaders() {
 		rendererImpl.initShaders();
+	}
+
+	@Override
+	public void disableShine() {
+		rendererImpl.disableShine();
+	}
+
+	@Override
+	public void enableShine() {
+		rendererImpl.enableShine();
 	}
 }

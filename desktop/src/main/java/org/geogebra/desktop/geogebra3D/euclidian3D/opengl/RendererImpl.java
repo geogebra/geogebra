@@ -117,4 +117,8 @@ public interface RendererImpl extends RendererShadersInterface{
 
 	public void initShaders();
 
+	public abstract void disableShine();
+
+	public abstract void enableShine();
+
 }
