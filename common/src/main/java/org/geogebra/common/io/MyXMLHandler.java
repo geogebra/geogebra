@@ -4023,8 +4023,10 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleCoords(LinkedHashMap<String, String> attrs) {
-
-		return kernel.handleCoords(geo, attrs);
+		ExpressionNode def = geo.getDefinition();
+		boolean success = kernel.handleCoords(geo, attrs);
+		geo.setDefinition(def);
+		return success;
 
 	}
 
