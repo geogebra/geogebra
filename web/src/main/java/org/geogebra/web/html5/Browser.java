@@ -147,10 +147,9 @@ public class Browser {
 		} else {
 			url = thumb;
 		}
-		if ("https:".equals(Location.getProtocol())) {
-			return "https://" + url;
-		}
-		return "http://" + url;
+
+		return "https://" + url;
+
 	}
 
 	private static Boolean webglSupported = null;
