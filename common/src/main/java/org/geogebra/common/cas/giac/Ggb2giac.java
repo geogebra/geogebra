@@ -435,7 +435,9 @@ public class Ggb2giac {
 						+ "point(t[0],t[1],t[2]),"
 						// result of Solve as 3D Line
 						+ "point((flatten1(t))[0][2],(flatten1(t))[1][2],(flatten1(t))[2][2]) ) ) ) ) ), "
-						+ "flatten1(coordinates(map(%0,t->when(t[0]=='=',point(re(t[2]),im(t[2])),t) ) ) ) )");
+						+ "when ( type((%0)[0]) == DOM_COMPLEX || (type((%0)[0]) == DOM_SYMBOLIC && (%0)[0][0] == '*'"
+						+ "&& ((%0)[0][1] == i || (%0)[0][2] == i)), %0, "
+						+ "flatten1(coordinates(map(%0,t->when(t[0]=='=',point(re(t[2]),im(t[2])),t)) ) ) ) )");
 		p("RootList.1", "apply(x->convert([x,0],25),%0)");
 		p("Invert.1",
 				"[[ggbinvans:=0/0], [ggbinvarg:=%0], [ggbinvans:=when(type(ggbinvarg)!=DOM_LIST,"
