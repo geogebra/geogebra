@@ -419,13 +419,18 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			// radius
 			double radius = MyMath.length(endPosition.getX(),
 					endPosition.getY());
-			if (xvar instanceof GeoNumeric) {
-				((GeoNumeric) xvar).setValue(radius);
+			if (xvar instanceof GeoNumeric && xvar != yvar) {
+				((GeoNumeric) xvar).setValue(xvar.getDouble()
+						- MyMath.length(inhomX, inhomY) + radius);
 			}
 			if (yvar instanceof GeoNumeric) {
 				// angle
-				double angle = Kernel.convertToAngleValue(Math.atan2(
-						endPosition.getY(), endPosition.getX()));
+				double endAngle = Math.atan2(endPosition.getY(),
+						endPosition.getX());
+				double oldAngle = Math.atan2(inhomY, inhomX);
+
+				double angle = Kernel.convertToAngleValue(yvar.getDouble()
+						- oldAngle + endAngle);
 				// angle outsid of slider range
 				if (((GeoNumeric) yvar).isIntervalMinActive()
 						&& ((GeoNumeric) yvar).isIntervalMaxActive()
@@ -562,10 +567,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 						ExpressionValue xcoord = vn.getX();
 						ExpressionValue ycoord = vn.getY();
 
-						NumberValue xNum = getCoordNumber(xcoord,
-								!hasPolarParentNumbers);
-						NumberValue yNum = getCoordNumber(ycoord,
-								!hasPolarParentNumbers);
+						NumberValue xNum = getCoordNumber(xcoord);
+						NumberValue yNum = getCoordNumber(ycoord);
 						if (xNum instanceof GeoNumeric) {
 							changeableCoordNumbers.add(xNum);
 						} else {
@@ -603,7 +606,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * null where A is a free point. If A is a dependent point, "a + x(A)"
 	 * throws an Exception.
 	 */
-	private NumberValue getCoordNumber(ExpressionValue ev, boolean allowPlusNode)
+	private NumberValue getCoordNumber(ExpressionValue ev)
  {
 		// simple variable "a"
 		if (ev.isLeaf()) {
@@ -623,11 +626,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			if (geo != null && geo.isGeoNumeric()) {
 				return (GeoNumeric) geo;
 			}
-			return null;
-		}
-
-		// are expressions like "a + x(A)" allowed?
-		if (!allowPlusNode) {
 			return null;
 		}
 
