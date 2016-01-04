@@ -2999,7 +2999,7 @@ __GGB__keysVar.ca.plain = {
     "stylebar.Label": "Fixa l'estil de l'etiqueta",
     "stylebar.LineStyle": "Fixa l'estil de la l\xednia",
     "stylebar.ObliqueProjection": "Projecci\xf3 obl\xedqua",
-    "stylebar.OrthographicProjection": "Projecci\xf3 Ortogr\xe0fica",
+    "stylebar.OrthographicProjection": "Projecci\xf3 Paral\xb7lela",
     "stylebar.ParallelProjection": "Projecci\xf3 paral\xb7lela",
     "stylebar.Pen": "Dibuixa a ma al\xe7ada",
     "stylebar.PerspectiveProjection": "Projecci\xf3 perspectiva",
