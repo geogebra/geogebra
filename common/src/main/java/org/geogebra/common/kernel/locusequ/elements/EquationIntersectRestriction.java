@@ -71,6 +71,9 @@ public abstract class EquationIntersectRestriction extends EquationRestriction {
 						getScope().getPointMap().increaseCurInd();
 						final EquationExpression z = new EquationSymbolicValue(
 								curInd);
+						this.getScope().registerExtraVar(
+								(EquationSymbolicValue) z);
+
 						EquationExpression ee = EquationArithHelper.sum(
 								EquationArithHelper.times(dist2, z),
 								EquationNumericValue.from(1));

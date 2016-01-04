@@ -24,24 +24,28 @@ public class EquationScope implements EquationScopeInterface {
 	protected EquationPointMap pointMap;
     protected EquationElementMap elementsMap;
     protected Set<EquationAuxiliarSymbolicPoint> auxiliarPoints;
+	protected Set<EquationSymbolicValue> extraVars; /* used in GGB-254 */
     protected int auxPointIndex;
     
     public EquationScope() {
         this.pointMap = new EquationPointMap(this);
         this.elementsMap = new EquationElementMap(this);
         this.initAuxiliarPoints();
+		this.initExtraVars();
     }
     
     public EquationScope(GeoPoint locusPoint, GeoPoint movingPoint) {
         this.pointMap = new EquationPointMap(locusPoint, movingPoint, this);
         this.elementsMap = new EquationElementMap(this);
         this.initAuxiliarPoints();
+		this.initExtraVars();
     }
     
     public EquationScope(GeoElement path, GeoPoint movingPoint) {
         this.pointMap = new EquationPointMap(path, movingPoint, this);
         this.elementsMap = new EquationElementMap(this);
         this.initAuxiliarPoints();
+		this.initExtraVars();
     }
     
     private void initAuxiliarPoints() {
@@ -49,6 +53,10 @@ public class EquationScope implements EquationScopeInterface {
         this.auxPointIndex = 1;
     }
     
+	private void initExtraVars() {
+		this.extraVars = new HashSet<EquationSymbolicValue>();
+	}
+
     public Collection<EquationPoint> getAllPoints() {
         return this.pointMap.getAllPoints();
     }
@@ -64,6 +72,10 @@ public class EquationScope implements EquationScopeInterface {
             set.addAll(p.getVariables());
         }
         
+		for (EquationSymbolicValue xi : this.extraVars) {
+			set.add(xi);
+		}
+
         return set;
     }
     
@@ -146,6 +158,16 @@ public class EquationScope implements EquationScopeInterface {
     public void registerAuxiliarPoint(EquationAuxiliarSymbolicPoint p) {
         this.auxiliarPoints.add(p);
     }
+
+	/**
+	 * Register a new extra variable.
+	 * 
+	 * @param xi
+	 *            the var to register.
+	 */
+	public void registerExtraVar(EquationSymbolicValue xi) {
+		this.extraVars.add(xi);
+	}
     
     /**
      * Retrieves a copy of the set of auxiliary points.
