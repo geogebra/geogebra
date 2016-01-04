@@ -8970,7 +8970,7 @@ public abstract class EuclidianController {
 				&& view.getHits().get(0) instanceof GeoTextField) {
 			view.requestFocusInWindow();
 		}
-
+		App.debug("scriptsHaveRun" + scriptsHaveRun);
 		// GeoTextField: click scripts run when user presses <Enter>
 		if (!scriptsHaveRun && !geo1.isGeoTextField()) {
 			scriptsHaveRun = true;
@@ -9596,7 +9596,7 @@ public abstract class EuclidianController {
 		if (hits != null && hits.size() > 0) {
 			GeoList list;
 			for (GeoElement geo : hits.getTopHits()) {
-				if (geo instanceof GeoList) {
+				if (geo instanceof GeoList && ((GeoList) geo).drawAsComboBox()) {
 					list = (GeoList) geo;
 					((DrawList) view.getDrawable(list)).onMouseDown(x, y);
 					return true;
