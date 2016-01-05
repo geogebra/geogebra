@@ -1093,7 +1093,8 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 					fun.getExpression(), false, true);
 			if (polyFunction != null) {
 				double val = AlgoDistancePointObject
-					.getClosestFunctionValueToPoint(fun, P.getX(), P.getY());
+.closestValPoly(
+						polyFunction, P.getX(), P.getY(), kernel);
 				P.setX(val);
 				P.setY(evaluate(val));
 			} else {

@@ -142,47 +142,7 @@ public class AlgoDistancePointObject extends AlgoElement implements
 		PolyFunction polyFunction = function.expandToPolyFunction(
 				function.getExpression(), false, true);
 		if (polyFunction != null) {
-			PolyFunction polyDervi = polyFunction.getDerivative();
-			// calculate coeffs for 2*(x - a) + 2(f(x) - b)f'(x) where a and b
-			// are the coordinates of point
-			// expanding it gives 2x - 2a + 2*f(x)*f'(x) - 2*b*f'(x)
-			double[] funCoeffs = polyFunction.getCoeffs();
-			double[] derivCoeffs = polyDervi.getCoeffs();
-			int n = funCoeffs.length - 1;
-			int m = derivCoeffs.length - 1;
-			double[] eq = new double[(m + n < 1) ? 2 : m + n + 1];
-			// calculate 2*f(x)*f'(x)
-			for (int i = 0; i < eq.length; i++) { // c_i
-				for (int j = Math.max(0, i - m); j <= Math.min(i, n); j++) { // sum
-					eq[i] += 2 * funCoeffs[j] * derivCoeffs[i - j];
-				}
-			}
-			// add -2*b*f'(x)
-			for (int i = 0; i <= m; i++) {
-				eq[i] += (-2) * y * derivCoeffs[i];
-			}
-			// add 2x - 2a
-			eq[1] += 2;
-			eq[0] -= 2 * x;
-			// new polynomial coeffs in eq
-			// calculate the roots and find the minimum
-			EquationSolver solver = new EquationSolver(kernel);
-			int nrOfRoots = solver.polynomialRoots(eq, false);
-			if (nrOfRoots == 0) {
-				return Double.NaN;
-			}
-			int k = 0;
-			double min = MyMath.distancePointFunctionAt(polyFunction, x, y,
-					eq[0]);
-			for (int i = 1; i < nrOfRoots; i++) {
-				double val = MyMath.distancePointFunctionAt(polyFunction, x, y,
-						eq[i]);
-				if (Kernel.isGreater(min, val)) {
-					min = val;
-					k = i;
-				}
-			}
-			return eq[k];
+			return closestValPoly(polyFunction, x, y, kernel);
 		}
 		// non polynomial case
 		FunctionVariable fVar = function.getFunctionVariable();
@@ -228,6 +188,50 @@ public class AlgoDistancePointObject extends AlgoElement implements
 			}
 		}
 		return roots[k];
+	}
+
+	public static double closestValPoly(PolyFunction polyFunction, double x,
+			double y, Kernel kernel) {
+		PolyFunction polyDervi = polyFunction.getDerivative();
+		// calculate coeffs for 2*(x - a) + 2(f(x) - b)f'(x) where a and b
+		// are the coordinates of point
+		// expanding it gives 2x - 2a + 2*f(x)*f'(x) - 2*b*f'(x)
+		double[] funCoeffs = polyFunction.getCoeffs();
+		double[] derivCoeffs = polyDervi.getCoeffs();
+		int n = funCoeffs.length - 1;
+		int m = derivCoeffs.length - 1;
+		double[] eq = new double[(m + n < 1) ? 2 : m + n + 1];
+		// calculate 2*f(x)*f'(x)
+		for (int i = 0; i < eq.length; i++) { // c_i
+			for (int j = Math.max(0, i - m); j <= Math.min(i, n); j++) { // sum
+				eq[i] += 2 * funCoeffs[j] * derivCoeffs[i - j];
+			}
+		}
+		// add -2*b*f'(x)
+		for (int i = 0; i <= m; i++) {
+			eq[i] += (-2) * y * derivCoeffs[i];
+		}
+		// add 2x - 2a
+		eq[1] += 2;
+		eq[0] -= 2 * x;
+		// new polynomial coeffs in eq
+		// calculate the roots and find the minimum
+		EquationSolver solver = new EquationSolver(kernel);
+		int nrOfRoots = solver.polynomialRoots(eq, false);
+		if (nrOfRoots == 0) {
+			return Double.NaN;
+		}
+		int k = 0;
+		double min = MyMath.distancePointFunctionAt(polyFunction, x, y, eq[0]);
+		for (int i = 1; i < nrOfRoots; i++) {
+			double val = MyMath.distancePointFunctionAt(polyFunction, x, y,
+					eq[i]);
+			if (Kernel.isGreater(min, val)) {
+				min = val;
+				k = i;
+			}
+		}
+		return eq[k];
 	}
 
 	// TODO Consider locusequability
