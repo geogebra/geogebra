@@ -182,6 +182,12 @@ public class CommandsTest extends Assert{
 	}
 	
 	@Test
+	public void functionDependentPoly() {
+		t("s(x,y)=x+y", "x + y");
+		t("s(1,2)*x=1", "x = 0.3333333333333333");
+	}
+
+	@Test
 	public void cmdDot(){
 		t("Dot[(0,0,1),(1,0,0)]","0");
 		t("Dot[(0,0,1),(0,0,1)]","1");

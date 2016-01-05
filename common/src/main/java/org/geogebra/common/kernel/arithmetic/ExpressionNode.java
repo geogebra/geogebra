@@ -987,37 +987,8 @@ public class ExpressionNode extends ValidExpression implements
 
 		if (operation == Operation.FUNCTION_NVAR) {
 			if ((left instanceof FunctionalNVar) && (right instanceof MyList)) {
-				MyList list = ((MyList) right);
-				FunctionNVar func = ((FunctionalNVar) left).getFunction();
-				ExpressionNode expr = func.getExpression().getCopy(kernel);
-				if (func.getFunctionVariables().length == list.size()) {
-					for (int i = 0; i < list.size(); i++) {
-						ExpressionValue ev = list.getListElement(i);
-						if (ev instanceof ExpressionNode) {
-							ExpressionNode en = ((ExpressionNode) ev)
-									.getCopy(kernel);
-							if (!equ.isFunctionDependent()) {
-								equ.setFunctionDependent(en
-										.containsFunctionVariable());
-							}
-							// we may only make polynomial trees after
-							// replacement
-							// en.makePolynomialTree(equ);
-							ev = en;
-						} else if (list.getListElement(i) instanceof FunctionVariable) {
-							equ.setFunctionDependent(true);
-						}
-						expr = expr.replace(func.getFunctionVariables()[i], ev)
-								.wrap();
-					}
-				} else {
-					throw new MyError(loc,
-							new String[] { "IllegalArgumentNumber" });
-				}
-
-				if (equ.isFunctionDependent()) {
-					return expr.makePolynomialTree(equ);
-				}
+				return makePolynomialTreeFromFunctionNVar(
+						((FunctionalNVar) left).getFunction(), equ);
 			}
 		} else if (operation == Operation.FUNCTION) {
 			if (left instanceof GeoFunction) {
@@ -1090,6 +1061,38 @@ base.getFunctionVariable(), kernel)
 			}
 		}
 		return lt.apply(operation, rt, equ);
+	}
+
+	private Polynomial makePolynomialTreeFromFunctionNVar(FunctionNVar func,
+			Equation equ) {
+		MyList list = ((MyList) right);
+		ExpressionNode expr = func.getExpression().getCopy(kernel);
+		if (func.getFunctionVariables().length == list.size()) {
+			for (int i = 0; i < list.size(); i++) {
+				ExpressionValue ev = list.getListElement(i);
+				if (ev instanceof ExpressionNode) {
+					ExpressionNode en = ((ExpressionNode) ev).getCopy(kernel);
+					if (!equ.isFunctionDependent()) {
+						equ.setFunctionDependent(en.containsFunctionVariable());
+					}
+					// we may only make polynomial trees after
+					// replacement
+					// en.makePolynomialTree(equ);
+					ev = en;
+				} else if (list.getListElement(i) instanceof FunctionVariable) {
+					equ.setFunctionDependent(true);
+				}
+				expr = expr.replace(func.getFunctionVariables()[i], ev).wrap();
+			}
+		} else {
+			throw new MyError(loc, new String[] { "IllegalArgumentNumber" });
+		}
+
+		if (equ.isFunctionDependent()) {
+			return expr.makePolynomialTree(equ);
+		}
+		return new Polynomial(kernel, new Term(new ExpressionNode(kernel, left,
+				operation, right), ""));
 	}
 
 	private ExpressionNode expandScalarProduct() {
