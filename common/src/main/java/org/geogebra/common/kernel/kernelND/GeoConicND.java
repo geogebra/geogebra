@@ -312,6 +312,98 @@ FromMeta
 		 return true;
 	 }
 	 
+	private double[] tmpDouble4;
+
+	/**
+	 * compute closest t parameter to point P
+	 * 
+	 * @param P
+	 *            point
+	 * @return t parameter
+	 */
+	public double getClosestParameterForParabola(GeoPointND P) {
+		Coords coords = P.getCoordsInD2(getCoordSys());
+		coordsRWtoEV(coords);
+		double x = coords.getX();
+		double y = coords.getY();
+		if (tmpDouble4 == null) {
+			tmpDouble4 = new double[4];
+		}
+
+		// solve PM.dM=0
+		tmpDouble4[3] = p / 2;
+		tmpDouble4[2] = 0;
+		tmpDouble4[1] = p - x;
+		tmpDouble4[0] = -y;
+		int nRoots = cons.getKernel().getEquationSolver()
+				.solveCubic(tmpDouble4, tmpDouble4, Kernel.STANDARD_PRECISION);
+
+		// find closest root
+		double dist = Double.POSITIVE_INFINITY;
+		double param = 0;
+		for (int i = 0; i < nRoots; i++) {
+			double t = tmpDouble4[i];
+			double yt= p * t;	
+			double xt = yt*t/2.0;
+			double dx = xt - x;
+			double dy = yt - y;
+			double d = dx * dx + dy * dy;
+			if (d < dist) {
+				dist = d;
+				param = t;
+			}
+
+			// //debug
+			// coords.setX(xt);
+			// coords.setY(yt);
+			// coords.setZ(1);
+			// coordsEVtoRW(coords);
+			// App.debug("root #" + i + ": (" + coords.getX() + ","
+			// + coords.getY() + ") , d=" + d);
+		}
+		return param;
+	}
+
+	/**
+	 * 
+	 * @param t
+	 *            parameter on parabola
+	 * @return curvature value
+	 */
+	public double evaluateCurvatureForParabola(double t) {
+		double s = Math.sqrt(1 + t * t);
+		return 1 / (p * s * s * s);
+	}
+
+	/**
+	 * evaluate first derivative for parameter t
+	 * 
+	 * @param t
+	 *            parameter
+	 * @param result
+	 *            (x,y) first derivative
+	 */
+	public void evaluateFirstDerivativeForParabola(double t, double[] result) {
+		Coords eigenvec0 = getEigenvec(0);
+		Coords eigenvec1 = getEigenvec(1);
+		result[0] = p * (t * eigenvec0.getX() + eigenvec1.getX());
+		result[1] = p * (t * eigenvec0.getY() + eigenvec1.getY());
+	}
+
+	/**
+	 * evaluate second derivative for parameter t
+	 * 
+	 * @param t
+	 *            parameter
+	 * @param result
+	 *            (x,y) second derivative
+	 */
+	public void evaluateSecondDerivativeForParabola(double t, double[] result) {
+		Coords eigenvec0 = getEigenvec(0);
+		result[0] = p * eigenvec0.getX();
+		result[1] = p * eigenvec0.getY();
+	}
+
 	 public void pointChanged(GeoPointND P) {
 		 
 		 Coords coords = P.getCoordsInD2(getCoordSys());

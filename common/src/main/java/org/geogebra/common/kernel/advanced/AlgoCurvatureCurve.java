@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -105,6 +106,12 @@ public class AlgoCurvatureCurve extends AlgoElement {
 	public final void compute() {
 
 		if (gc != null) {
+			if (gc.getType() == GeoConicNDConstants.CONIC_PARABOLA) {
+				double t = gc.getClosestParameterForParabola(A);
+				K.setValue(gc.evaluateCurvatureForParabola(t));
+				return;
+			}
+
 			gc.toGeoCurveCartesian(f);
 			f.updateDistanceFunction();
 		}

@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 /**
  * @author Victor Franco Espino
@@ -135,15 +136,21 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	public final void compute() {
 		try {
 			double t2, t4, x, y, evals, tvalue;
-			if (gc != null) {
-				f = new GeoCurveCartesian(cons);
-				gc.toGeoCurveCartesian(f);
-				f.updateDistanceFunction();
-				cas();
+			if (gc != null
+					&& gc.getType() == GeoConicNDConstants.CONIC_PARABOLA) {
+				tvalue = gc.getClosestParameterForParabola(A);
+				gc.evaluateFirstDerivativeForParabola(tvalue, f1eval);
+				gc.evaluateSecondDerivativeForParabola(tvalue, f2eval);
+			} else {
+				if (gc != null) {
+					gc.toGeoCurveCartesian(f);
+					f.updateDistanceFunction();
+					cas();
+				}
+				tvalue = f.getClosestParameter(A, f.getMinParameter());
+				f1.evaluateCurve(tvalue, f1eval);
+				f2.evaluateCurve(tvalue, f2eval);
 			}
-			tvalue = f.getClosestParameter(A, f.getMinParameter());
-			f1.evaluateCurve(tvalue, f1eval);
-			f2.evaluateCurve(tvalue, f2eval);
 			t2 = f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1];
 			t4 = t2 * t2;
 			evals = f1eval[0] * f2eval[1] - f2eval[0] * f1eval[1];

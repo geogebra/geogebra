@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -146,17 +147,24 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 	public final void compute() {
 		try {
 			double tvalue;
-
-			if (gc != null) {
-				// f = new GeoCurveCartesian3D(cons);
-				gc.toGeoCurveCartesian(f);
-				f.updateDistanceFunction();
-				cas();
+			double curvature;
+			if (gc != null
+					&& gc.getType() == GeoConicNDConstants.CONIC_PARABOLA) {
+				tvalue = gc.getClosestParameterForParabola(A);
+				gc.evaluateFirstDerivativeForParabola(tvalue, f1eval);
+				gc.evaluateSecondDerivativeForParabola(tvalue, f2eval);
+				curvature = gc.evaluateCurvatureForParabola(tvalue);
+			} else {
+				if (gc != null) {
+					gc.toGeoCurveCartesian(f);
+					f.updateDistanceFunction();
+					cas();
+				}
+				tvalue = f.getClosestParameter(A, f.getMinParameter());
+				f1.evaluateCurve(tvalue, f1eval);
+				f2.evaluateCurve(tvalue, f2eval);
+				curvature = f.evaluateCurvature(tvalue);
 			}
-
-			tvalue = f.getClosestParameter(A, f.getMinParameter());
-			f1.evaluateCurve(tvalue, f1eval);
-			f2.evaluateCurve(tvalue, f2eval);
 
 			double[] w = new double[3];
 			double[] w2 = new double[3];
@@ -172,7 +180,6 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 			w2[1] /= d;
 			w2[2] /= d;
 
-			double curvature = f.evaluateCurvature(tvalue);
 			w3[0] = w2[0] * curvature;
 			w3[1] = w2[1] * curvature;
 			w3[2] = w2[2] * curvature;

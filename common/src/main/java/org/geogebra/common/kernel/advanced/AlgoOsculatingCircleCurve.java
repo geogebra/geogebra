@@ -58,15 +58,13 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 			GeoPoint A, GeoConic geoConic) {
 		super(cons);
 		this.A = A;
-		f = new GeoCurveCartesian(cons);
 		gc = geoConic;
-		gc.toGeoCurveCartesian(f);
 		R = new GeoPoint(cons);// R is the center of the circle
 		circle = new GeoConic(cons);
 
 		// Catch curvature and curvature vector
-		algo = new AlgoCurvatureCurve(cons, A, f);
-		cv = new AlgoCurvatureVectorCurve(cons, A, f);
+		algo = new AlgoCurvatureCurve(cons, A, gc);
+		cv = new AlgoCurvatureVectorCurve(cons, A, gc);
 		curv = algo.getResult();
 		v = cv.getVector();
 
@@ -115,8 +113,6 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 				circle.setUndefined();
 				return;
 			}
-			gc.toGeoCurveCartesian(f);
-			f.updateDistanceFunction();
 			// Catch curvature and curvature vector
 			algo.compute();
 			cv.compute();

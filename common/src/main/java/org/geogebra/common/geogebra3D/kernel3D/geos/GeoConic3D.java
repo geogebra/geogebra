@@ -413,6 +413,7 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 
 	private CoordMatrix4x4 tmpMatrix4x4;
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 
@@ -457,6 +458,7 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 		coordSys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD3());
 	}
 
+	@Override
 	public void rotate(NumberValue phiVal, GeoPointND Q,
 			GeoDirectionND orientation) {
 
@@ -464,6 +466,7 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 
 	}
 
+	@Override
 	public void rotate(NumberValue phiVal, GeoLineND line) {
 
 		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
@@ -475,6 +478,7 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 		coordSys.rotate(phiVal.getDouble(), center, direction.normalized());
 	}
 
+	@Override
 	public Coords getDirectionInD3() {
 		switch (type) {
 		case CONIC_LINE:
@@ -499,10 +503,12 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 	// MIRROR
 	// //////////////////////
 
+	@Override
 	public void mirror(Coords Q) {
 		getCoordSys().mirror(Q);
 	}
 
+	@Override
 	public void mirror(GeoLineND line) {
 		Coords point = line.getStartInhomCoords();
 		Coords direction = line.getDirectionInD3().normalized();
@@ -511,6 +517,7 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 
 	}
 
+	@Override
 	public void mirror(GeoCoordSys2D plane) {
 
 		getCoordSys().mirror(plane.getCoordSys());
@@ -520,6 +527,7 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 	// DILATE
 	// //////////////////////
 
+	@Override
 	public void dilate(NumberValue rval, Coords S) {
 
 		double r = rval.getDouble();
@@ -539,6 +547,7 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 
 	private EuclidianViewForPlaneCompanion euclidianViewForPlane;
 
+	@Override
 	public void createView2D() {
 		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) kernel
 				.getApplication().getCompanion()
@@ -546,6 +555,7 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 		euclidianViewForPlane.setTransformRegardingView();
 	}
 
+	@Override
 	public void removeView2D() {
 		euclidianViewForPlane.doRemove();
 	}
@@ -558,12 +568,14 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 		super.doRemove();
 	}
 
+	@Override
 	public boolean hasView2DVisible() {
 		return euclidianViewForPlane != null
 				&& kernel.getApplication().getGuiManager()
 						.showView(euclidianViewForPlane.getId());
 	}
 
+	@Override
 	public void setView2DVisible(boolean flag) {
 
 		if (euclidianViewForPlane == null) {
@@ -590,16 +602,43 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 		euclidianViewForPlane.updateAllDrawables(true);
 	}
 
+	@Override
 	public void setEuclidianViewForPlane(EuclidianViewCompanion view) {
 		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) view;
 	}
 
+	@Override
 	public boolean isParametric() {
 		return true;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC3D;
+	}
+
+	@Override
+	public void evaluateFirstDerivativeForParabola(double t, double[] result) {
+		Coords eigenvec0 = getEigenvec(0);
+		Coords eigenvec1 = getEigenvec(1);
+		double x = p * (t * eigenvec0.getX() + eigenvec1.getX());
+		double y = p * (t * eigenvec0.getY() + eigenvec1.getY());
+
+		result[0] = x * coordSys.getVx().getX() + y * coordSys.getVy().getX();
+		result[1] = x * coordSys.getVx().getY() + y * coordSys.getVy().getY();
+		result[2] = x * coordSys.getVx().getZ() + y * coordSys.getVy().getZ();
+	}
+
+	@Override
+	public void evaluateSecondDerivativeForParabola(double t, double[] result) {
+		Coords eigenvec0 = getEigenvec(0);
+		double x = p * eigenvec0.getX();
+		double y = p * eigenvec0.getY();
+
+		result[0] = x * coordSys.getVx().getX() + y * coordSys.getVy().getX();
+		result[1] = x * coordSys.getVx().getY() + y * coordSys.getVy().getY();
+		result[2] = x * coordSys.getVx().getZ() + y * coordSys.getVy().getZ();
+
 	}
 
 }
