@@ -52,8 +52,8 @@ __GGB__keyboard.el.lowerCase = {
 __GGB__keyboard.el.shiftDown = {
 		// these two are lower-case
 		// but needed to stop the keys jumping around
-		"B0_0": "\u03D5",		
-		"B0_1": "\u03C2",
+		"B0_0": "\u03A6",//same for varphi and phi, see B1_3
+		"B0_1": "\u03A3",//same for varsigma and sigma, see B1_1
 		
 		"B0_2": "\u0395",
 		"B0_3": "\u03A1",
