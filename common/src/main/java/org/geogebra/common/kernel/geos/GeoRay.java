@@ -59,6 +59,12 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		setConstructionDefaults();
 	}
 
+	/**
+	 * Copy constructor
+	 * 
+	 * @param ray
+	 *            template ray
+	 */
 	public GeoRay(GeoRay ray) {
 		this(ray.cons);
 		set(ray);
@@ -70,6 +76,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	}
 
 	 
+	@Override
 	public GeoLine copy() {
 		return new GeoRay(this);
 	}

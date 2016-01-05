@@ -110,7 +110,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	private NumberValue intervalMax;
 	private double sliderWidth = this instanceof GeoAngle ? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE
 			: DEFAULT_SLIDER_WIDTH_PIXEL;
-	private double sliderX, sliderY;
+	private SliderPosition sliderPos;
 	private boolean sliderFixed = false;
 	private boolean sliderHorizontal = true;
 	private double animationValue = Double.NaN;
@@ -286,7 +286,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 				}
 
 				// init screen location
-				if (sliderX == 0 && sliderY == 0) {
+				if (sliderPos == null) {
 					initScreenLocation();
 				}
 
@@ -333,20 +333,20 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	private void initScreenLocation() {
 		App.debug("[SLIDER] initScreenLocation");
 		int count = countSliders();
-
+		sliderPos = new SliderPosition();
 		if (isAbsoluteScreenLocActive()) {
-			sliderX = 30;
+			sliderPos.x = 30;
 			EuclidianViewInterfaceSlim ev = kernel.getApplication().getActiveEuclidianView();
 			if(ev != null){
-				sliderY = ev.getSliderOffsetY() + 40 * count;
+				sliderPos.y = ev.getSliderOffsetY() + 40 * count;
 			}else{
-				sliderY = 50 + 40 * count;
+				sliderPos.y = 50 + 40 * count;
 			}
 			// make sure slider is visible on screen
-			sliderY = (int) sliderY / 400 * 10 + sliderY % 400;
+			sliderPos.y = (int) sliderPos.y / 400 * 10 + sliderPos.y % 400;
 		} else {
-			sliderX = -5;
-			sliderY = 10 - count;
+			sliderPos.x = -5;
+			sliderPos.y = 10 - count;
 		}
 		
 	}
@@ -764,10 +764,12 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 		sb.append(" width=\"");
 		sb.append(sliderWidth);
-		sb.append("\" x=\"");
-		sb.append(sliderX);
-		sb.append("\" y=\"");
-		sb.append(sliderY);
+		if (sliderPos != null) {
+			sb.append("\" x=\"");
+			sb.append(sliderPos.x);
+			sb.append("\" y=\"");
+		}
+		sb.append(sliderPos.y);
 		sb.append("\" fixed=\"");
 		sb.append(sliderFixed);
 		sb.append("\" horizontal=\"");
@@ -866,8 +868,11 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public final void setSliderLocation(double x, double y, boolean force) {
 		if (!force && sliderFixed)
 			return;
-		sliderX = x;
-		sliderY = y;
+		if (sliderPos == null) {
+			sliderPos = new SliderPosition();
+		}
+		sliderPos.x = x;
+		sliderPos.y = y;
 	}
 
 	/**
@@ -903,7 +908,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 * @return x-coord of the slider
 	 */
 	public final double getSliderX() {
-		return sliderX;
+		return sliderPos == null ? 0 : sliderPos.x;
 	}
 
 	/**
@@ -912,7 +917,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 * @return y-coord of the slider
 	 */
 	public final double getSliderY() {
-		return sliderY;
+		return sliderPos == null ? 0 : sliderPos.y;
 	}
 
 	/**
@@ -989,24 +994,27 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	public int getAbsoluteScreenLocX() {
-		return (int) sliderX;
+		return sliderPos == null ? 0 : (int) sliderPos.x;
 	}
 
 	public int getAbsoluteScreenLocY() {
-		return (int) sliderY;
+		return sliderPos == null ? 0 : (int) sliderPos.y;
 	}
 
 	public void setRealWorldLoc(double x, double y) {
-		sliderX = x;
-		sliderY = y;
+		if (sliderPos == null) {
+			sliderPos = new SliderPosition();
+		}
+		sliderPos.x = x;
+		sliderPos.y = y;
 	}
 
 	public double getRealWorldLocX() {
-		return sliderX;
+		return sliderPos == null ? 0 : sliderPos.x;
 	}
 
 	public double getRealWorldLocY() {
-		return sliderY;
+		return sliderPos == null ? 0 : sliderPos.y;
 	}
 
 	public void setAbsoluteScreenLocActive(boolean flag) {
@@ -1705,9 +1713,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public void fixPositionHorizontal(double wish, int fileWidth, int width) {
 		if (width < fileWidth
 				&& wish + (sliderHorizontal ? sliderWidth : 0) > width) {
-			sliderX = wish + width - fileWidth;
+			sliderPos.x = wish + width - fileWidth;
 		} else {
-			sliderX = wish;
+			sliderPos.x = wish;
 		}
 
 	}
@@ -1715,9 +1723,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public void fixPositionVertical(double wish, int fileHeight, int height) {
 		if (height < fileHeight
 				&& wish + (sliderHorizontal ? 0 : sliderWidth) > height) {
-			sliderY = wish + height - fileHeight;
+			sliderPos.y = wish + height - fileHeight;
 		} else {
-			sliderY = wish;
+			sliderPos.y = wish;
 		}
 
 	}
