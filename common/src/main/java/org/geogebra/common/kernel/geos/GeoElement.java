@@ -2816,6 +2816,13 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		caption2 = caption2.trim();
 
+		// workaround for unintended feature of old Input Boxes
+		// &nbsp and &nbsp; both used to work
+		if (caption2.indexOf("&nbsp") > -1) {
+			caption2 = caption2.replaceAll("&nbsp;", Unicode.NBSP);
+			caption2 = caption2.replaceAll("&nbsp", Unicode.NBSP);
+		}
+
 		if (caption2.trim().length() == 0) {
 			this.caption = null;
 			return true;
