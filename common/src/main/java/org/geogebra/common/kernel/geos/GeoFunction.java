@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoDistancePointObject;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
@@ -1087,9 +1088,19 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 					}
 				}
 			}
-			P.setY(evaluate(P.getX()));// changed from fun.evaluate so that it
-			// works with eg Point[If[x < -1, x + 1,
-			// x^2]]
+
+			PolyFunction polyFunction = fun.expandToPolyFunction(
+					fun.getExpression(), false, true);
+			if (polyFunction != null) {
+				double val = AlgoDistancePointObject
+					.getClosestFunctionValueToPoint(fun, P.getX(), P.getY());
+				P.setX(val);
+				P.setY(evaluate(val));
+			} else {
+				P.setY(evaluate(P.getX()));
+			}
+
+
 		} else {
 			pointChangedBoolean(true, P);
 		}
