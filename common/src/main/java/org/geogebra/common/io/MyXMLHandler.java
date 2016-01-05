@@ -4142,9 +4142,9 @@ public class MyXMLHandler implements DocHandler {
 			geo.setEuclidianVisible(false);
 			return true;
 		}
-		if (geo.getDefinition() != null) {
-			return true;
-		}
+		// set value even when definition exists; might be needed if value
+		// depends on Corner
+		ExpressionNode oldDef = geo.getDefinition();
 		if (!(isNumber || isBoolean || geo.isGeoButton())) {
 			App.debug("wrong element type for <value>: " + geo.getClass());
 			return false;
@@ -4158,10 +4158,12 @@ public class MyXMLHandler implements DocHandler {
 
 				// random
 				n.setRandom("true".equals(attrs.get("random")));
+				n.setDefinition(oldDef);
 
 			} else if (isBoolean) {
 				GeoBoolean bool = (GeoBoolean) geo;
 				bool.setValue(parseBoolean(strVal));
+				bool.setDefinition(oldDef);
 			} else if (geo.isGeoButton()) {
 				// XXX What's this javascript doing here? (Arnaud)
 				GeoButton button = (GeoButton) geo;
