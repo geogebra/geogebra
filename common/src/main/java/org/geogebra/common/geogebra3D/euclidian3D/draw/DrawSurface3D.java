@@ -2625,6 +2625,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				return false;
 			}
 
+			// maybe set to null after redefine
+			surfaceGeo.setDerivatives();
+
 			GeoSurfaceCartesian3D surface = (GeoSurfaceCartesian3D)
 					surfaceGeo;
 
