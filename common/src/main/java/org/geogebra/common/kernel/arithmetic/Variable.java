@@ -193,7 +193,8 @@ public class Variable extends ValidExpression {
 			String varStr = name.substring(0, i + 1);
 
 			// eg pix, pixx, f(y)=piyy -> don't want a slider called "pi"
-			if ("pi".equals(StringUtil.toLowerCase(varStr))) {
+			if ("pi".equals(StringUtil.toLowerCase(varStr))
+					|| Unicode.PI_STRING.equals(varStr)) {
 				geo2 = new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING);
 			} else {
 				return new Variable(kernel, varStr);
