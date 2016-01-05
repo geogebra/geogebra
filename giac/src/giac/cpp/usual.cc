@@ -4829,6 +4829,8 @@ namespace giac {
       return a*b;
     }
     vecteur va(lvar(a));
+    if (va.empty())
+      *logptr(contextptr) << "Warning, input parsed as a constant function " << a << " applied to " << b << endl;
     if (!va.empty() && calc_mode(contextptr)==38){
       // check names in va
       bool implicit=false;

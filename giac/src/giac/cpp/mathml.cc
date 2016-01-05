@@ -1319,8 +1319,12 @@ namespace giac {
 	if (e==undef)
 	  return "<mi>undef</mi>";
 	return  "<mi>"+e.print(contextptr)+"</mi>";
-      case _SYMB:                        
-	return symbolic2mathml(*e._SYMBptr, svg,contextptr);
+      case _SYMB: {
+	gen tmp=aplatir_fois_plus(e);
+	if (tmp.type!=_SYMB)
+	  return gen2mathml(e,svg,contextptr);
+	return symbolic2mathml(*tmp._SYMBptr, svg,contextptr);
+      }
       case _VECT:                        
 	if (e.subtype==_SPREAD__VECT)
 	  return spread2mathml(*e._VECTptr,1,contextptr); //----------------v??rifier le 2??me param??tre

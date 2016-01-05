@@ -133,7 +133,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_HComplex;
   extern const unary_function_ptr * const  at_HAngle;
   extern const unary_function_ptr * const  at_HLanguage;
-  extern const unary_function_ptr * const  at_testfunc;
+  // extern const unary_function_ptr * const  at_testfunc;
   extern const unary_function_ptr * const  at_FREEZE;
   extern const unary_function_ptr * const  at_LINE;
   extern const unary_function_ptr * const  at_RECT;

@@ -4224,6 +4224,7 @@ namespace giac {
   
   template <class tdeg_t>
   bool operator < (const zsymb_data<tdeg_t> & z1,const zsymb_data<tdeg_t> & z2){
+    //if (z1.terms!=z2.terms && (z1.terms==1 || z2.terms==1)){ return z2.terms>z1.terms; }
     int d1=z1.deg.total_degree(z1.o),d2=z2.deg.total_degree(z2.o);
 #ifdef GIAC_DEG_FIRST
     if (d1!=d2)
@@ -6384,7 +6385,7 @@ namespace giac {
     }
 #endif
     if (!res){
-      for (;wt!=wtend;++wt){
+      for (;wt<wtend;++wt){
 	modint2 i=*wt;
 	if (!i) continue;
 	*wt = 0;
@@ -6423,7 +6424,7 @@ namespace giac {
       lescoeffs.push_back(i);
     }
 #endif
-    for (;wt!=wtend;++wt){
+    for (;wt<wtend;++wt){
       modint2 i=*wt;
       if (!i) continue;
       *wt=0;
@@ -11199,7 +11200,7 @@ namespace giac {
   };
 
   longlong memory_usage(){
-#ifdef HAVE_SYS_RESOURCE_H
+#if defined HAVE_SYS_RESOURCE_H && !defined NSPIRE
     struct rusage r_usage;
     getrusage(RUSAGE_SELF,&r_usage);
     return r_usage.ru_maxrss;
@@ -11429,6 +11430,11 @@ namespace giac {
       return -1;
     }
     unsigned Kcols=N-nrows;
+    // ((N>>5)+1)*Bs should not exceed 2e9 otherwise this will segfault
+    if (double(Bs)*(N>>5)>2e9){
+      CERR << "Error, problem too large" << endl;
+      return -1;
+    }
     vector<unsigned> lebitmap(((N>>5)+1)*Bs);
     unsigned * bitmap=&lebitmap.front();
     bool Kdone=false;
@@ -13694,6 +13700,8 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     *((ulonglong *)&res)=*((ulonglong *)&x)+*((ulonglong *)&y);
     ((ulonglong *)&res)[1]=((ulonglong *)&x)[1]+((ulonglong *)&y)[1];
 #endif
+    if (res.tab[0]>=128)
+      gensizeerr("Degree too large");
   }
   tdeg_t14 operator - (const tdeg_t14 & x,const tdeg_t14 & y){ 
     tdeg_t14 res;

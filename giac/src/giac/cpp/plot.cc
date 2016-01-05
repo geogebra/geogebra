@@ -1215,7 +1215,8 @@ namespace giac {
       context * newcontextptr= (context *) contextptr;
       int protect=giac::bind(vecteur(1,xmin),localvar,newcontextptr);
       vecteur chemin;
-      for (double i=xmin;i<xmax;i+= step){
+      double i=xmin;
+      for (;i<xmax;i+= step){
 	// yy=evalf_double(subst(f,vars,i,false,contextptr),1,contextptr);
 	local_sto_double(i,*vars._IDNTptr,newcontextptr);
 	// vars._IDNTptr->localvalue->back()._DOUBLE_val =i;
@@ -1276,7 +1277,7 @@ namespace giac {
       if (!chemin.empty()){
 	if (debug_infolevel)
 	  CERR << "curve " << chemin.size() << " " << chemin.front() << " .. " << chemin.back() << endl;
-	res.push_back(pnt_attrib(symb_curve(gen(makevecteur(vars+cst_i*f,vars,xmin,xmax,showeq),_PNT__VECT),gen(chemin,_GROUP__VECT)),attributs.empty()?color:attributs,contextptr));
+	res.push_back(pnt_attrib(symb_curve(gen(makevecteur(vars+cst_i*f,vars,xmin,i-step,showeq),_PNT__VECT),gen(chemin,_GROUP__VECT)),attributs.empty()?color:attributs,contextptr));
       }
       leave(protect,localvar,newcontextptr);
 #ifndef WIN32
@@ -5081,6 +5082,25 @@ namespace giac {
       if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()>=3)
 	return normal(((*g._SYMBptr->feuille._VECTptr)[2]-(*g._SYMBptr->feuille._VECTptr)[1])*(rayon*conj(rayon,contextptr))/2,contextptr);
       return cst_pi*normal(rayon*conj(rayon,contextptr),contextptr);
+    }
+    if (g.is_symb_of_sommet(at_curve)){
+      gen f=g._SYMBptr->feuille;
+      if (f.type==_VECT && !f._VECTptr->empty())
+	f=f._VECTptr->front();
+      if (f.type==_VECT && f._VECTptr->size()>=4){
+	vecteur v=*f._VECTptr;
+#if 0
+	// workaround for ellipse because plotparam does evalf on range
+	if (is_zero(v[2]))
+	  v[2]=zero;
+	if (v[3].type==_DOUBLE_ && v[3]==2*M_PI)
+	  v[3]=cst_two_pi;
+#endif
+	gen x,y;
+	reim(v[0],x,y,contextptr);
+	y=-y*derive(x,v[1],contextptr);
+	return _integrate(makesequence(y,v[1],v[2],v[3]),contextptr);
+      }
     }
     if (g.type!=_VECT || g.subtype==_POINT__VECT || g._VECTptr->empty())
       return 0; // so that a single point has area 0
