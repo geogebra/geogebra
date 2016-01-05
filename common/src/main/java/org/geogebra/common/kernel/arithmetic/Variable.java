@@ -28,6 +28,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Unicode;
 
 /**
  * 
@@ -187,8 +189,16 @@ public class Variable extends ValidExpression {
 			if (geo2 != null)
 				break;
 		}
-		if (i > -1 && !(geo2 instanceof GeoElement))
-			return new Variable(kernel, name.substring(0, i + 1));
+		if (i > -1 && !(geo2 instanceof GeoElement)) {
+			String varStr = name.substring(0, i + 1);
+
+			// eg pix, pixx, f(y)=piyy -> don't want a slider called "pi"
+			if ("pi".equals(StringUtil.toLowerCase(varStr))) {
+				geo2 = new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING);
+			} else {
+				return new Variable(kernel, varStr);
+			}
+		}
 		ExpressionNode powers = new ExpressionNode(kernel,
 				new FunctionVariable(kernel, "x"))
 				.power(new MyDouble(kernel, exponents[0]))
