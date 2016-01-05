@@ -107,10 +107,6 @@ public class OptionsMenu {
 	 */
 	public void addAlgebraDescriptionMenu(MenuInterface menu) {
 
-		if (app.isExam()) {
-			return;
-		}
-
 		menuAlgebraStyle = newSubmenu();
 
 		String[] strDescription = { app.getPlain("Value"),

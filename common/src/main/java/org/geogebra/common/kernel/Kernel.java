@@ -2668,12 +2668,6 @@ public class Kernel {
 	 * @return algebra style, one of ALGEBRA_STYLE_*
 	 */
 	final public int getAlgebraStyle() {
-		
-		if (app.isExam()) {
-			// make sure simplified expressions aren't shown
-			return Kernel.ALGEBRA_STYLE_DEFINITION;
-		}
-		
 		return algebraStyle;
 	}
 

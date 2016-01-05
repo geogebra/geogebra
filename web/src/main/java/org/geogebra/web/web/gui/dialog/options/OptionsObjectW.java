@@ -1300,6 +1300,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 					addColorTab(), addStyleTab(), addPositionTab(),
 					addAdvancedTab(), addAlgebraTab(), addScriptTab());
 		} else {
+			// skip scripting in exam
 		tabs = Arrays.asList(
 				basicTab,
 				addTextTab(),
