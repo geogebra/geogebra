@@ -509,7 +509,7 @@ __GGB__keysVar.no.command = {
     "LeftSum.Syntax": "[ <Function>, <Start x-Value>, <End x-Value>, <Number of Rectangles> ]",
     "Length": "Length",
     "Length.Syntax": "[ <Object> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Start Point>, <End Point> ]\n[ <Curve>, <Start t-Value>, <End t-Value> ]\n[ <Curve>, <Start Point>, <End Point> ]",
-    "Length.SyntaxCAS": "[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start x-Value>, <End x-Value> ]",
+    "Length.SyntaxCAS": "[ <List> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start x-Value>, <End x-Value> ]",
     "LetterToUnicode": "LetterToUnicode",
     "LetterToUnicode.Syntax": "[ \"<Letter>\" ]",
     "Limit": "Limit",

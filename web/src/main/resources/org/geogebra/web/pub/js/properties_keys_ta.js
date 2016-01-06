@@ -509,7 +509,7 @@ __GGB__keysVar.ta.command = {
     "LeftSum.Syntax": "[ <Function>, <Start x-Value>, <End x-Value>, <Number of Rectangles> ]",
     "Length": "\u0ba8\u0bc0\u0bb3\u0bae\u0bcd",
     "Length.Syntax": "[ <\u0baa\u0bca\u0bb0\u0bc1\u0bb3\u0bcd> ]\n[ <\u0b9a\u0bbe\u0bb0\u0bcd\u0baa\u0bc1>, <x-\u0b86\u0bb0\u0bae\u0bcd\u0baa \u0bae\u0ba4\u0bbf\u0baa\u0bcd\u0baa\u0bc1>, <x-\u0b87\u0bb1\u0bc1\u0ba4\u0bbf \u0bae\u0ba4\u0bbf\u0baa\u0bcd\u0baa\u0bc1> ]\n[ <\u0b9a\u0bbe\u0bb0\u0bcd\u0baa\u0bc1>, <\u0b86\u0bb0\u0bae\u0bcd\u0baa\u0baa\u0bcd \u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0b87\u0bb1\u0bc1\u0ba4\u0bbf\u0baa\u0bcd \u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf> ]\n[ <\u0bb5\u0bb3\u0bc8\u0bb5\u0bc1>, <t-\u0b86\u0bb0\u0bae\u0bcd\u0baa \u0bae\u0ba4\u0bbf\u0baa\u0bcd\u0baa\u0bc1>, <t-\u0b87\u0bb1\u0bc1\u0ba4\u0bbf \u0bae\u0ba4\u0bbf\u0baa\u0bcd\u0baa\u0bc1> ]\n[ <\u0bb5\u0bb3\u0bc8\u0bb5\u0bc1>, <\u0b86\u0bb0\u0bae\u0bcd\u0baa\u0baa\u0bcd \u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0b87\u0bb1\u0bc1\u0ba4\u0bbf\u0baa\u0bcd \u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf> ]",
-    "Length.SyntaxCAS": "[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start x-Value>, <End x-Value> ]",
+    "Length.SyntaxCAS": "[ <List> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start x-Value>, <End x-Value> ]",
     "LetterToUnicode": "\u0b92\u0bb0\u0bc1\u0b99\u0bcd\u0b95\u0bc1\u0b95\u0bc1\u0bb1\u0bbf\u0b95\u0bcd\u0b95\u0bbe\u0ba9\u0b8e\u0bb4\u0bc1\u0ba4\u0bcd\u0ba4\u0bc1\u0bb5\u0b9f\u0bbf\u0bb5\u0bae\u0bcd",
     "LetterToUnicode.Syntax": "[ \"<Letter>\" ]",
     "Limit": "Limit",

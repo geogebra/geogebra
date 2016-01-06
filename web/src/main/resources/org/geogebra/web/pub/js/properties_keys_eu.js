@@ -2187,7 +2187,7 @@ __GGB__keysVar.eu.plain = {
     "ARotatedByAngleBAboutCThroughD": "%0 objektua %1 angeluz biratu, %2 ardatzarekiko paralelo eta %3 puntutik pasatuz",
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 objektua %1 angeluz biratu, %2 ardatzarekiko perpendikular eta %3tik pasatuz",
     "ASignificantFigure": "Zifra esanguratsu %0",
-    "ASignificantFigures": "%0 irudi esanguratsu",
+    "ASignificantFigures": "%0 Irudi Esanguratsu",
     "ATouchesB": "%0-(e)k %1 ukitzen du",
     "AandB": "%0 eta %1",
     "AandBareEqual": "%0 eta %1 berdinak dira",

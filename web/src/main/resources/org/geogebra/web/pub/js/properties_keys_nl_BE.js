@@ -1204,7 +1204,7 @@ __GGB__keysVar.nl_BE.menu = {
     "Area": "Oppervlakte",
     "Area.Help": "Veelhoek, cirkel of kegelsnede",
     "Ascending": "Toenemend",
-    "Assignment.Edit": "Bewerk test.",
+    "Assignment.Edit": "Bewerk opdracht",
     "AttachDetachPoint": "Vasthechten / Losmaken van punt",
     "AttachDetachPoint.Help": "Klik op een punt (... en het meetkundig object)",
     "AutoDimension": "Automatische dimensies",
