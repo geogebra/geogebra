@@ -3884,10 +3884,19 @@ public abstract class App implements UpdateSelection {
 		case ALL_LANGUAGES:
 		case EXERCISES:
 		case IMPLICIT_CURVES:
+
+			// when moved to stable, move ImplicitSurface[] from TABLE_ENGLISH
+			// in Command.Java
 		case IMPLICIT_SURFACES:
+
 		case KOREAN_KEYBOARD:
 		case LOCALSTORAGE_FILES:
 		case POLYGON_TRIANGULATION:
+
+			// when moved to stable, move Difference[] from TABLE_ENGLISH in
+			// Command.Java
+		case POLYGON_OPS:
+
 		case TOOL_EDITOR:
 		case TUBE_BETA:
 		case LOG_AXES:
