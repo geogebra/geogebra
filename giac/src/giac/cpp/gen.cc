@@ -9102,7 +9102,7 @@ namespace giac {
     vecteur vres;
     const_iterateur it=varg.begin(),itend=varg.end();    
     for (;it!=itend;++it){
-      if (it->type<_POLY)
+      if (it->type<_POLY || it->type==_FRAC)
 	number=number+(*it);
       else
 	vres.push_back(terme2unitaire(*it,sorted,contextptr));
