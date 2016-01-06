@@ -329,18 +329,37 @@ public class Ggb2giac {
 		// returned.
 		// get the first element of the list to ignore the warning
 		// simplify() added to improve Integral[2*exp(0.5x),0,ln(4)]
+		// check for ? for eg Integral[ln(x)-x+4,0.45,2.07]
+		// check length for eg Integral[ln(x),0.45,2.07]
 		p("Integral.3",
-				"[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2)]],"
-				+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
+				"[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2)], [ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans)], [ggbintanssimplified:=simplify(ggbintans)]],"
+						+ "when(ggbintanssimplified==? || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
 		p("Integral.4",
-				"[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2,%3)]],"
-						+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
+				"[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2,%3)], [ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans)], [ggbintanssimplified:=simplify(ggbintans)]],"
+						+ "when(ggbintanssimplified==? || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
 		p("IntegralBetween.4",
-				"[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),x,%2,%3)]],"
-						+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
+				"[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),x,%2,%3)], [ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans)], [ggbintanssimplified:=simplify(ggbintans)]],"
+						+ "when(ggbintanssimplified==? || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
 		p("IntegralBetween.5",
-				"[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),%2,%3,%4)]],"
-						+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
+				"[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),%2,%3,%4)], [ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans)], [ggbintanssimplified:=simplify(ggbintans)]],"
+						+ "when(ggbintanssimplified==? || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
+
+		// p("Integral.3",
+		// "[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2)]],"
+		// +
+		// "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
+		// p("Integral.4",
+		// "[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2,%3)]],"
+		// +
+		// "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
+		// p("IntegralBetween.4",
+		// "[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),x,%2,%3)]],"
+		// +
+		// "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
+		// p("IntegralBetween.5",
+		// "[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),%2,%3,%4)]],"
+		// +
+		// "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
 
 		// need to wrap in coordinates() for
 		// Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10] ]
@@ -771,6 +790,8 @@ public class Ggb2giac {
 
 		// GeoGebra counts elements from 1, giac from 0
 		// p("Take.3", "%0[%1-1..%2-1]");
+		p("Take.2",
+				"[[[ggbtakearg0:=%0],[ggbtakearg1:=%1]],ggbtakearg0[ggbtakearg1-1..length(ggbtakearg0)]][1]");
 		p("Take.3",
 				"[[[ggbtakearg0:=%0],[ggbtakearg1:=%1],[ggbtakearg2:=%2]],ggbtakearg0[ggbtakearg1-1..ggbtakearg2-1]][1]");
 		p("TaylorSeries.3", "convert(series(%0,x,%1,%2),polynom)");
