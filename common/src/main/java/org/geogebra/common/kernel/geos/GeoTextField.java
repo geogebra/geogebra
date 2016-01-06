@@ -437,15 +437,18 @@ public class GeoTextField extends GeoButton {
 
 	@Override
 	public void setBackgroundColor(final GColor bgCol) {
-		
+
+		if (bgCol == null) {
+			// transparent
+			bgColor = null;
+			return;
+		}
+
 		// default in case alpha = 0 (not allowed for Input Boxes)
 		int red = 255, green = 255, blue = 255;
 		
-		// null -> also means transparent
-		if (bgCol != null
-				
-				// fix for files saved with alpha = 0
-				&& bgCol.getAlpha() != 0) {
+		// fix for files saved with alpha = 0
+		if (bgCol.getAlpha() != 0) {
 			
 			red = bgCol.getRed();
 			green = bgCol.getGreen();
