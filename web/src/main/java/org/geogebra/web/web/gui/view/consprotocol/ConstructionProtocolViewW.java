@@ -859,10 +859,9 @@ myCell) {
 	public void tableInit(){
 //		data.updateAll();
 		table.setRowCount(data.getrowList().size());
-	    table.setRowData(0, data.getrowList());
-	    table.setVisibleRange(0, data.getrowList().size()+1);
+		table.setVisibleRange(0, data.getrowList().size());
+		table.setRowData(0, data.getrowList());
 		scrollToConstructionStep();
-
 	}
 
 	void rowCountChanged() {
