@@ -2844,6 +2844,17 @@ public class Construction {
 	}
 
 	/**
+	 * process xml to create construction
+	 */
+	public void processXML(StringBuilder xml) {
+		try {
+			undoManager.processXML(xml.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * Returns the UndoManager (for Copy & Paste)
 	 * 
 	 * @return UndoManager
@@ -3174,5 +3185,6 @@ public class Construction {
 		}
 		return counter;
 	}
+
 
 }

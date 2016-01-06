@@ -463,6 +463,8 @@ public class SelectionManager {
 			return;
 		}
 
+		kernel.setGeoToggled();
+
 		boolean contains = selectedGeos.contains(geo);
 		if (contains) {
 			selectedGeos.remove(geo);

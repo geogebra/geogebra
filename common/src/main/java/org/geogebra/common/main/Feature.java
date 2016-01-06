@@ -77,5 +77,7 @@ public enum Feature {
 
 	SAVE_SETTINGS_TO_FILE,
 
-	HANDWRITING
+	HANDWRITING,
+
+	UNDO_FOR_TOOLS
 }

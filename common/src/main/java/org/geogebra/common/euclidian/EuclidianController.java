@@ -691,6 +691,36 @@ public abstract class EuclidianController {
 		return mode;
 	}
 
+	public boolean isUndoableMode() {
+
+		switch(mode){
+		case EuclidianConstants.MODE_MOVE:
+		case EuclidianConstants.MODE_TEXT:
+		case EuclidianConstants.MODE_DELETE:
+		case EuclidianConstants.MODE_RELATION:
+		case EuclidianConstants.MODE_SLIDER:
+		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
+		case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
+		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
+		case EuclidianConstants.MODE_ZOOM_IN:
+		case EuclidianConstants.MODE_ZOOM_OUT:
+		case EuclidianConstants.MODE_SELECTION_LISTENER:
+		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
+		case EuclidianConstants.MODE_BUTTON_ACTION:
+		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+		case EuclidianConstants.MODE_PEN:
+		case EuclidianConstants.MODE_PROBABILITY_CALCULATOR:
+		case EuclidianConstants.MODE_FREEHAND_SHAPE:
+		case EuclidianConstants.MODE_FREEHAND_CIRCLE:
+		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
+			return false;
+		}
+		
+		return mode < EuclidianConstants.MODE_CAS_EVALUATE;
+
+		// return false;
+	}
+
 	public int getMoveMode() {
 		return moveMode;
 	}
@@ -722,7 +752,7 @@ public abstract class EuclidianController {
 		}
 
 		if (toggleModeChangedKernel) {
-			app.storeUndoInfo();
+			storeUndoInfo();
 		}
 	}
 
@@ -3130,7 +3160,7 @@ public abstract class EuclidianController {
 				selection.removeSelectedGeo(geo);
 				app.setGeoForCopyStyle(null);
 				if (toggleModeChangedKernel) {
-					app.storeUndoInfo();
+					storeUndoInfo();
 				}
 				toggleModeChangedKernel = false;
 			} else {
@@ -5600,7 +5630,7 @@ public abstract class EuclidianController {
 			@Override
 			public void callback(Object changedKernel) {
 				if (changedKernel.equals(true)) {
-					app.storeUndoInfo();
+					storeUndoInfo();
 				}
 				endOfWrapMouseReleased(hits2, false, false, null); // type =
 																	// null is
@@ -9149,7 +9179,7 @@ public abstract class EuclidianController {
 		}
 
 		if (changedKernel) {
-			app.storeUndoInfo();
+			storeUndoInfo();
 		}
 
 		stopCollectingMinorRepaints();
@@ -9271,7 +9301,7 @@ public abstract class EuclidianController {
 				kernel.getAlgoDispatcher().Circle(null, firstSelectedPoint,
 						new MyDouble(kernel, distance));
 				firstSelectedPoint = null;
-				app.storeUndoInfo();
+				storeUndoInfo();
 				return;
 			}
 		}
@@ -9313,7 +9343,7 @@ public abstract class EuclidianController {
 				boolean kernelChange = switchModeForProcessMode(hits,
 						event.isControlDown(), null);
 				if (kernelChange) {
-					app.storeUndoInfo();
+					storeUndoInfo();
 				}
 			}
 		} else {
@@ -9367,7 +9397,7 @@ public abstract class EuclidianController {
 			// ended deletion
 			view.setDeletionRectangle(null);
 			view.repaintView();
-			app.storeUndoInfo();
+			storeUndoInfo();
 		}
 
 		// reset
@@ -9380,7 +9410,7 @@ public abstract class EuclidianController {
 
 		if (penMode(mode) && penDragged) {
 			getPen().handleMouseReleasedForPenMode(right, x, y);
-			app.storeUndoInfo();
+			storeUndoInfo();
 			return;
 		}
 
@@ -9519,7 +9549,7 @@ public abstract class EuclidianController {
 		if ((changedKernel || this.checkboxChangeOccured) && !changedKernel0
 				&& !modeCreatesHelperPoints(mode)) {
 			this.checkboxChangeOccured = false;
-			app.storeUndoInfo();
+			storeUndoInfo();
 		}
 
 		// make sure that when alt is pressed for creating a segment or line
@@ -9569,7 +9599,7 @@ public abstract class EuclidianController {
 				@Override
 				public void callback(Object arg) {
 					if (arg.equals(true)) {
-						app.storeUndoInfo();
+						storeUndoInfo();
 					}
 					endOfWrapMouseReleased(hits2, event);
 				}
@@ -10125,6 +10155,8 @@ public abstract class EuclidianController {
 
 		view.setPreview(switchPreviewableForInitNewMode(newMode));
 		toggleModeChangedKernel = false;
+
+		kernel.storeStateForModeStarting();
 	}
 
 	public void setMode(int newMode) {
@@ -10577,4 +10609,12 @@ public abstract class EuclidianController {
 			this.view.updatePreviewableForProcessMode();
 		}
 	}
+
+	private void storeUndoInfo() {
+		app.storeUndoInfo();
+
+		// if we use the tool once again
+		kernel.storeStateForModeStarting();
+	}
+
 }

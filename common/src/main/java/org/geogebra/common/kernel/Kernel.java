@@ -3859,28 +3859,67 @@ public class Kernel {
 			app.getCompanion().recallViewCreators();
 			recallSelectedGeosNames();
 			app.stopCollectingRepaints();
+			storeStateForModeStarting();
 		}
 	}
 
-	public void undo() {
-		if (undoActive && cons.getUndoManager().undoPossible()) {
-			app.startCollectingRepaints();
-			storeSelectedGeosNames();
-			app.getCompanion().storeViewCreators();
-			notifyReset();
-			clearJustCreatedGeosInViews();
-			getApplication().getActiveEuclidianView().getEuclidianController()
-					.clearSelections();
-			cons.undo();
-			notifyReset();
-			app.getCompanion().recallViewCreators();
-			recallSelectedGeosNames();
+	private StringBuilder stateForModeStarting;
 
-			// repaint needed for last undo in second EuclidianView (bugfix)
-			if (!undoPossible()) {
-				notifyRepaint();
+	public void storeStateForModeStarting() {
+		if (app.has(Feature.UNDO_FOR_TOOLS)) {
+			stateForModeStarting = cons.getCurrentUndoXML(true);
+			geoToggled = false;
+		}
+	}
+
+	private boolean geoToggled = false;
+
+	public void setGeoToggled() {
+		geoToggled = true;
+	}
+
+	public void undo() {
+		if (undoActive) {
+			if (app.has(Feature.UNDO_FOR_TOOLS)) {
+				if (getApplication().getActiveEuclidianView()
+						.getEuclidianController().isUndoableMode()) {
+					if (geoToggled
+							&& !getApplication().getSelectionManager()
+									.getSelectedGeos().isEmpty()) {
+
+						app.getCompanion().storeViewCreators();
+						notifyReset();
+						getApplication().getActiveEuclidianView()
+								.getEuclidianController().clearSelections();
+						cons.processXML(stateForModeStarting);
+						notifyReset();
+						app.getCompanion().recallViewCreators();
+						geoToggled = false;
+						return;
+					}
+				}
 			}
-			app.stopCollectingRepaints();
+
+			if (cons.getUndoManager().undoPossible()) {
+				app.startCollectingRepaints();
+				storeSelectedGeosNames();
+				app.getCompanion().storeViewCreators();
+				notifyReset();
+				clearJustCreatedGeosInViews();
+				getApplication().getActiveEuclidianView()
+						.getEuclidianController().clearSelections();
+				cons.undo();
+				notifyReset();
+				app.getCompanion().recallViewCreators();
+				recallSelectedGeosNames();
+
+				// repaint needed for last undo in second EuclidianView (bugfix)
+				if (!undoPossible()) {
+					notifyRepaint();
+				}
+				app.stopCollectingRepaints();
+				storeStateForModeStarting();
+			}
 		}
 	}
 
