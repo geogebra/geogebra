@@ -511,3 +511,8 @@ task emMakeMpfr {
  * Run tasks downloadEmsdk, installEmsdk, emConfigureGmp, emMakeGmp, emConfigureMpfr, emMakeMpfr, then run
  * $ EMSCRIPTEN_VER=201505 EXT_GMPMPFR=emgiac EMCC=$HOME/geogebra/giac/build/emsdk/emsdk_portable/emscripten/master/emcc ../gradlew createGiacJs
  */
+
+/* How to use the old system under Java 8, 2 CPUs:
+ * $ EMCC=.../emscripten-master/emcc LLVM=.../clang+llvm-3.2-x86_64-linux-ubuntu-12.04/bin \
+   PATH=.../cross-compilers/x86/bin:/.../cross-compilers/arm/bin:$PATH JAVA_HEAP_SIZE=3072m ../gradlew createGiacJs
+ */
