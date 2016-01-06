@@ -2392,7 +2392,14 @@ namespace giac {
     res=args;
     if (!sub1.empty())
       res=subst(res,sub1,sub2,false,contextptr);
+#ifdef NO_STDEXCEPT
     res=simplify(res,contextptr);
+#else
+    try {
+      res=simplify(res,contextptr);
+    } catch (...){
+    }
+#endif
     if (!sub1.empty())
       res=subst(res,sub2,sub1,false,contextptr);
     calc_mode(c,contextptr);
