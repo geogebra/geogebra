@@ -13,7 +13,9 @@ the Free Software Foundation.
 package org.geogebra.desktop.gui.dialog.options;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -21,8 +23,9 @@ import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
@@ -48,7 +51,9 @@ public class OptionsSpreadsheetD extends
 			cbShowColumnHeader, cbShowHScrollbar, cbShowVScrollbar,
 			cbAllowSpecialEditor, cbAllowToolTips, cbPrependCommands,
 			cbEnableAutoComplete;
-
+	private JLabel descriptionLabel;
+	private JComboBox description;
+	boolean ignoreActions;
 	private JPanel wrappedPanel;
 	private JCheckBox cbShowNavigation;
 
@@ -83,7 +88,7 @@ public class OptionsSpreadsheetD extends
 	private JPanel buildLayoutOptionsPanel() {
 
 		JPanel optionsPanel = new JPanel();
-		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
+		optionsPanel.setLayout(new GridLayout(15, 1));
 
 		optionsPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -127,6 +132,15 @@ public class OptionsSpreadsheetD extends
 		optionsPanel.add(cbShowVScrollbar);
 		optionsPanel.add(cbShowHScrollbar);
 
+		JPanel descriptionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		description = new JComboBox();
+		descriptionLabel = new JLabel();
+		descriptionLabel.setLabelFor(description);
+		descriptionPanel.add(descriptionLabel);
+		descriptionPanel.add(description);
+		description.addActionListener(this);
+		optionsPanel.add(descriptionPanel);
+
 		// spacer
 		optionsPanel.add(Box.createVerticalStrut(16));
 
@@ -157,6 +171,8 @@ public class OptionsSpreadsheetD extends
 		cbPrependCommands.setText(app.getMenu("RequireEquals"));
 		cbEnableAutoComplete.setText(app.getMenu("UseAutoComplete"));
 		cbShowNavigation.setText(app.getMenu("NavigationBar"));
+		descriptionLabel.setText(app.getMenu("AlgebraDescriptions"));
+		updateDescription();
 	}
 
 	/**
@@ -182,6 +198,21 @@ public class OptionsSpreadsheetD extends
 		updateCheckBox(cbShowNavigation,
 				app.showConsProtNavigation(App.VIEW_SPREADSHEET));
 
+	}
+
+	private void updateDescription() {
+		ignoreActions = true;
+		String[] modes = new String[] { app.getPlain("Value"),
+				app.getPlain("Definition"), app.getPlain("Command") };
+		description.removeAllItems();
+
+		for (int i = 0; i < modes.length; i++) {
+			description.addItem(app.getPlain(modes[i]));
+		}
+
+		int descMode = app.getKernel().getAlgebraStyleSpreadsheet();
+		description.setSelectedIndex(descMode);
+		ignoreActions = false;
 	}
 
 	private void updateCheckBox(JCheckBox cb, boolean value) {
@@ -241,6 +272,10 @@ public class OptionsSpreadsheetD extends
 
 		else if (source == cbShowNavigation) {
 			app.toggleShowConstructionProtocolNavigation(App.VIEW_SPREADSHEET);
+		} else if (source == description) {
+			app.getKernel().setAlgebraStyleSpreadsheet(
+					description.getSelectedIndex());
+			app.getKernel().updateConstruction();
 		}
 
 		updateGUI();

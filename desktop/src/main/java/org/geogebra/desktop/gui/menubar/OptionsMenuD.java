@@ -66,7 +66,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 
 		// G.Sturr 2009-10-18
 		// Algebra description: show value or definition of objects
-		getOptionsMenu().addAlgebraDescriptionMenu(this);
+		// getOptionsMenu().addAlgebraDescriptionMenu(this);
 		getOptionsMenu().addDecimalPlacesMenu(this);
 		addSeparator();
 		// Labeling
@@ -377,12 +377,11 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 	 * Update algebra style description (switch between value / definition /
 	 * command).
 	 */
-	private void updateMenuViewDescription() {
-		if (menuAlgebraStyle != null) {
-			((JRadioButtonMenuItem) menuAlgebraStyle.getMenuComponent(kernel
-					.getAlgebraStyle())).setSelected(true);
-		}
-	}
+	/*
+	 * private void updateMenuViewDescription() { if (menuAlgebraStyle != null)
+	 * { ((JRadioButtonMenuItem) menuAlgebraStyle.getMenuComponent(kernel
+	 * .getAlgebraStyle())).setSelected(true); } }
+	 */
 
 	/**
 	 * Update the point capturing menu.

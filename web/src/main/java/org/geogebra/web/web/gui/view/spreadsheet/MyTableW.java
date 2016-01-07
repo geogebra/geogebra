@@ -720,7 +720,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public GeoClass getCellEditorType(int row, int column) {
 		GPoint p = new GPoint(column, row);
 		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p)
-		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+				&& kernel.getAlgebraStyleSpreadsheet() == Kernel.ALGEBRA_STYLE_VALUE) {
 			switch (oneClickEditMap.get(p).getGeoClassType()) {
 			case BOOLEAN:
 				return GeoClass.BOOLEAN;

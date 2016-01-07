@@ -135,6 +135,7 @@ public class Kernel {
 	// critical for exam mode
 	// must use getter
 	private int algebraStyle = Kernel.ALGEBRA_STYLE_VALUE;
+	private int algebraStyleSpreadsheet = Kernel.ALGEBRA_STYLE_VALUE;
 	
 	
 	// end G.Sturr
@@ -2663,12 +2664,20 @@ public class Kernel {
 	final public void setAlgebraStyle(int style) {
 		algebraStyle = style;
 	}
+	
+	final public void setAlgebraStyleSpreadsheet(int style) {
+		algebraStyleSpreadsheet = style;
+	}
 
 	/**
 	 * @return algebra style, one of ALGEBRA_STYLE_*
 	 */
 	final public int getAlgebraStyle() {
 		return algebraStyle;
+	}
+
+	final public int getAlgebraStyleSpreadsheet() {
+		return algebraStyleSpreadsheet;
 	}
 
 	private MaxSizeHashMap<String, String> ggbCasCache;
@@ -4148,6 +4157,8 @@ public class Kernel {
 		// algebra style
 		sb.append("\t<algebraStyle val=\"");
 		sb.append(getAlgebraStyle());
+		sb.append("\" spreadsheet=\"");
+		sb.append(getAlgebraStyleSpreadsheet());
 		sb.append("\"/>\n");
 
 		// coord style

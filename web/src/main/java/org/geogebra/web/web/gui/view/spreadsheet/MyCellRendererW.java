@@ -328,7 +328,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			}
 			text = geo.toValueString(StringTemplate.defaultTemplate);
 		} else {
-			switch (kernel.getAlgebraStyle()) {
+			switch (kernel.getAlgebraStyleSpreadsheet()) {
 			case Kernel.ALGEBRA_STYLE_VALUE:
 				if (geo.isLaTeXDrawableGeo()
 				        && (geo.isGeoList() ? !((GeoList) geo).isMatrix()
@@ -386,7 +386,8 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	}
 	
 	private boolean useSpecialEditor(int row, int column) {
-		if (!view.allowSpecialEditor() || (kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE)) {
+		if (!view.allowSpecialEditor()
+				|| (kernel.getAlgebraStyleSpreadsheet() != Kernel.ALGEBRA_STYLE_VALUE)) {
 			return false;
 		}
 		return geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList();

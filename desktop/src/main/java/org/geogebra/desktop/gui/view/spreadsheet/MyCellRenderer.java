@@ -148,7 +148,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// =======================================================
 
 		if (myTable.allowSpecialEditor()
-				&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+				&& kernel.getAlgebraStyleSpreadsheet() == Kernel.ALGEBRA_STYLE_VALUE) {
 
 			if (geo.isGeoBoolean()) {
 				checkBox.setBackground(table.getBackground());
@@ -195,7 +195,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 				text = geo.toValueString(StringTemplate.defaultTemplate);
 			} else {
 
-				switch (kernel.getAlgebraStyle()) {
+				switch (kernel.getAlgebraStyleSpreadsheet()) {
 				case Kernel.ALGEBRA_STYLE_VALUE:
 					text = geo.toValueString(StringTemplate.defaultTemplate);
 					break;

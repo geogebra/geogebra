@@ -33,6 +33,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.options.OptionPanelD;
 import org.geogebra.desktop.gui.dialog.options.OptionsAdvancedD;
+import org.geogebra.desktop.gui.dialog.options.OptionsAlgebraD;
 import org.geogebra.desktop.gui.dialog.options.OptionsCASD;
 import org.geogebra.desktop.gui.dialog.options.OptionsDefaultsD;
 import org.geogebra.desktop.gui.dialog.options.OptionsEuclidianD;
@@ -67,6 +68,7 @@ public class PropertiesViewD extends
 	private OptionsCASD casPanel;
 	private OptionsAdvancedD advancedPanel;
 	private OptionsLayoutD layoutPanel;
+	private OptionsAlgebraD algebraPanel;
 
 	private Object selectedOptionPanel = null;
 
@@ -461,6 +463,11 @@ public class PropertiesViewD extends
 								.getPreferredSize());
 			}
 			return (OptionPanelD) objectPanel;
+		case ALGEBRA:
+			if (algebraPanel == null) {
+				algebraPanel = new OptionsAlgebraD((AppD) app);
+			}
+			return algebraPanel;
 		}
 		return null;
 	}

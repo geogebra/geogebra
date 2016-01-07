@@ -40,8 +40,8 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	
 	private void initItems(){
 		//"Algebra Descriptions" menu
-		getOptionsMenu().addAlgebraDescriptionMenu(this);
-		getOptionsMenu().addDecimalPlacesMenu(this);	
+		// getOptionsMenu().addAlgebraDescriptionMenu(this);
+		getOptionsMenu().addDecimalPlacesMenu(this);
 		addSeparator();
 		getOptionsMenu().addLabelingMenu(this);
 		addSeparator();

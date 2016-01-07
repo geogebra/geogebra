@@ -37,6 +37,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 
 	/** button to open the popup with the supported tree-modes */
 	PopupMenuButton treeModeButton;
+	PopupMenuButton descriptionButton;
 	/** list of all supported {@link SortMode modes} */
 	ArrayList<SortMode> supportedModes = new ArrayList<SortMode>();
 
@@ -150,6 +151,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 
 		if (selectedItem == null) {
 			addTreeModeButton();
+			addDescriptionButton();
 			addMenuButton();
 		} else {
 			add(btnColor);
@@ -210,6 +212,39 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		add(treeModeButton);
 	}
 
+	private void addDescriptionButton() {
+		ImageOrText[] strTreeMode = getDescriptionModes();
+		if (descriptionButton == null) {
+			descriptionButton = new PopupMenuButton(app, strTreeMode,
+					strTreeMode.length, 1,
+					org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+
+			ImageOrText icon = new ImageOrText(
+					StyleBarResources.INSTANCE.sortObjects());
+			descriptionButton.setFixedIcon(icon);
+
+			descriptionButton.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					int selectedMode = app.getKernel().getAlgebraStyle();
+					descriptionButton.setSelectedIndex(selectedMode);
+				}
+			});
+
+			descriptionButton.addPopupHandler(new PopupMenuHandler() {
+				@Override
+				public void fireActionPerformed(PopupMenuButton actionButton) {
+					// called if a object of the popup is clicked
+					int i = descriptionButton.getSelectedIndex();
+					app.getKernel().setAlgebraStyle(i);
+					app.getKernel().updateConstruction();
+					app.closePopups();
+					app.clearJustClosedPopup();
+				}
+			});
+		}
+		add(descriptionButton);
+	}
+
 	/**
 	 * creates an array from all available supported modes and converts it to an
 	 * array of {@link ImageOrText} elements
@@ -224,9 +259,17 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		return ImageOrText.convert(modes);
     }
 
+	private ImageOrText[] getDescriptionModes() {
+		String[] modes = new String[]{ app.getPlain("Value"),
+				app.getPlain("Definition"), app.getPlain("Command") };
+		return ImageOrText.convert(modes);
+	}
+
 	private void setToolTips() {
 		treeModeButton.setToolTipText(app.getLocalization().getPlainTooltip(
 		        "SortBy"));
+		descriptionButton.setToolTipText(app.getLocalization().getMenu(
+				"AlgebraDescriptions"));
 	}
 
 	@Override
@@ -247,6 +290,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	public void setLabels() {
 		super.setLabels();
 		this.treeModeButton.getMyTable().updateText(getTreeModeStr());
+		this.descriptionButton.getMyTable().updateText(getDescriptionModes());
 		setToolTips();
 	}
 

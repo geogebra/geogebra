@@ -658,9 +658,10 @@ public abstract class GlobalKeyDispatcher {
 					Kernel kernel = app.getKernel();
 					kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);
 					kernel.updateConstruction();
-					if (app.hasOptionsMenu()) {
-						app.getOptionsMenu(null).updateMenuViewDescription();
-					}
+					/*
+					 * if (app.hasOptionsMenu()) {
+					 * app.getOptionsMenu(null).updateMenuViewDescription(); }
+					 */
 					app.setUnsaved();
 					consumed = true;
 				} else {

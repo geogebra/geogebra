@@ -373,7 +373,6 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 		if (getTreeMode().equals(value)) {
 			return;
 		}
-
 		clearView();
 
 		this.treeMode = value;

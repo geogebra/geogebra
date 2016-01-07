@@ -418,7 +418,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		GPoint p = new GPoint(column, row);
 		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p)
-				&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+				&& kernel.getAlgebraStyleSpreadsheet() == Kernel.ALGEBRA_STYLE_VALUE) {
 
 			switch (oneClickEditMap.get(p).getGeoClassType()) {
 			case BOOLEAN:

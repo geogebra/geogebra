@@ -105,36 +105,34 @@ public class OptionsMenu {
 	 * @param menu
 	 *            "Algebra description menu will be added for this
 	 */
-	public void addAlgebraDescriptionMenu(MenuInterface menu) {
-
-		menuAlgebraStyle = newSubmenu();
-
-		String[] strDescription = { app.getPlain("Value"),
-				app.getPlain("Definition"), app.getPlain("Command") };
-		String[] strDescriptionAC = { "0", "1", "2" };
-
-		menuAlgebraStyle.addRadioButtonMenuItems(new MyActionListener() {
-			public void actionPerformed(String command) {
-				int desc = Integer.parseInt(command);
-				kernel.setAlgebraStyle(desc);
-				kernel.updateConstruction();
-			}
-		}, strDescription, strDescriptionAC, kernel.getAlgebraStyle(), false);
-		app.addMenuItem(menu, app.getEmptyIconFileName(),
-				app.getMenu("AlgebraDescriptions"), true, menuAlgebraStyle);
-
-		updateMenuViewDescription();
-	}
+	/*
+	 * public void addAlgebraDescriptionMenu(MenuInterface menu) {
+	 * 
+	 * menuAlgebraStyle = newSubmenu();
+	 * 
+	 * String[] strDescription = { app.getPlain("Value"),
+	 * app.getPlain("Definition"), app.getPlain("Command") }; String[]
+	 * strDescriptionAC = { "0", "1", "2" };
+	 * 
+	 * menuAlgebraStyle.addRadioButtonMenuItems(new MyActionListener() { public
+	 * void actionPerformed(String command) { int desc =
+	 * Integer.parseInt(command); kernel.setAlgebraStyle(desc);
+	 * kernel.updateConstruction(); } }, strDescription, strDescriptionAC,
+	 * kernel.getAlgebraStyle(), false); app.addMenuItem(menu,
+	 * app.getEmptyIconFileName(), app.getMenu("AlgebraDescriptions"), true,
+	 * menuAlgebraStyle);
+	 * 
+	 * updateMenuViewDescription(); }
+	 */
 
 	/**
 	 * Update algebra style description (switch between value / definition /
 	 * command).
 	 */
-	public void updateMenuViewDescription() {
-		if (menuAlgebraStyle != null) {
-			menuAlgebraStyle.setSelected(kernel.getAlgebraStyle());
-		}
-	}
+	/*
+	 * public void updateMenuViewDescription() { if (menuAlgebraStyle != null) {
+	 * menuAlgebraStyle.setSelected(kernel.getAlgebraStyle()); } }
+	 */
 
 	/**
 	 * Update the menu with all decimal places.
@@ -240,7 +238,7 @@ public class OptionsMenu {
 
 	public void update() {
 		updateMenuDecimalPlaces();
-		updateMenuViewDescription();
+		// updateMenuViewDescription();
 		updateMenuLabeling();
 	}
 }
