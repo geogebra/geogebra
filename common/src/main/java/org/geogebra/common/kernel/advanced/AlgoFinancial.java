@@ -143,6 +143,9 @@ public class AlgoFinancial extends AlgoElement {
 		if (geoPmtType != null) {
 			tempList.add(geoPmtType);
 		}
+		if (geoGuess != null) {
+			tempList.add(geoGuess);
+		}
 
 		input = new GeoElement[tempList.size()];
 		input = tempList.toArray(input);
