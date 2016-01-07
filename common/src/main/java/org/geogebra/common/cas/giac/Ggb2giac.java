@@ -1408,8 +1408,13 @@ public class Ggb2giac {
 		p("UnitOrthogonalVector.1",
 				"when(type(%0)==DOM_LIST && size(%0) != 2,?,"
 						+ "when(is3dpoint(%0),?,"
-						+ "regroup(convert(unitV([-ycoord(%0),xcoord(%0)]),25))"
-						+ "))");
+						+ "when( subtype(%0) == 27 ,"
+						// case UnitOrthogonalVector[Vector]
+						+ "regroup(convert(unitV([-ycoord(%0),xcoord(%0)]),25)) , "
+						// case UnitOrthogonalVecto[Line]
+						// UnitOrthogonalVector[Segment]
+						+ "regroup(convert(unitV([xcoord(%0),ycoord(%0)]),25))"
+						+ ")))");
 		p("UnitVector.1",
 				"[[ggin:=%0],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='=',"
 						+ "convert([unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],25),"
