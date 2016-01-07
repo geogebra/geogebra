@@ -997,17 +997,18 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			algo = new AlgoListElement(cons, discreteValueList, k2);
 			cons.removeFromConstructionList(algo);
 
-			AlgoPascal pascal = new AlgoPascal(cons, nGeo, pGeo,
+			AlgoPascal algoPascal = new AlgoPascal(cons, nGeo, pGeo,
 					(NumberValue) algo.getGeoElements()[0], new GeoBoolean(
 							cons, isCumulative));
-			cons.removeFromConstructionList(pascal);
+			cons.removeFromConstructionList(algoPascal);
 
 			nPlusOne = new ExpressionNode(kernel, n2Geo, Operation.PLUS,
 					new MyDouble(kernel, 1.0));
 			plusOneAlgo = new AlgoDependentNumber(cons, nPlusOne, false);
 			cons.removeFromConstructionList(plusOneAlgo);
 
-			algoSeq2 = new AlgoSequence(cons, pascal.getGeoElements()[0], k2,
+			algoSeq2 = new AlgoSequence(cons, algoPascal.getGeoElements()[0],
+					k2,
 					new MyDouble(kernel, 1.0),
 					(NumberValue) plusOneAlgo.getGeoElements()[0], null);
 			cons.removeFromConstructionList(algoSeq2);
