@@ -1627,11 +1627,13 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 			}
 			if (w > grid.length || h > grid[w].length || grid[w][h] == null) {
 				if (w > grid.length || h > grid[w].length) {
-					App.trace("GRID" + grid.length + "," + w + "," + h);
-				} else {
-					App.trace("GRID NULL" + grid.length + "," + w + "," + h
-							+ "," + gridWidth + "," + gridHeight);
+					throw new NullPointerException("GRID" + grid.length + ","
+							+ w + "," + h);
 				}
+					throw new NullPointerException("GRID NULL" + grid.length
+							+ "," + w + "," + h
+							+ "," + gridWidth + "," + gridHeight);
+
 			}
 			while (sx < grid[w][h].x) {
 				if (w > 0)
