@@ -1630,7 +1630,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (lastOutputEvaluationGeo != null && !dependsOnDummy(lastOutputEvaluationGeo)) {
 			try {
 				if (Test.canSet(twinGeo,lastOutputEvaluationGeo)) {
-					if (lastOutputEvaluationGeo instanceof GeoNumeric) {
+					if (lastOutputEvaluationGeo instanceof GeoNumeric
+							&& twinGeo instanceof GeoNumeric) {
 						((GeoNumeric) twinGeo)
 								.extendMinMax(lastOutputEvaluationGeo);
 					}
