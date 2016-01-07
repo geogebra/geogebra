@@ -549,8 +549,8 @@ public final class ArticleElement extends Element {
 	 * "true".equals(getAttribute("data-param-nocas")); }
 	 */
 
-	public boolean getDataParamShowStartTooltip() {
-		return "true".equals(getAttribute("data-param-showTutorialLink"));
+	public boolean getDataParamShowStartTooltip(boolean def) {
+		return getBoolParam("data-param-showTutorialLink", def);
 	}
 
 	public boolean getDataParamEnableFileFeatures() {

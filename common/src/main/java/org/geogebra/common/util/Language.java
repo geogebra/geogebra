@@ -128,15 +128,17 @@ public enum Language {
 			"da", "da", "Danish / Dansk",
 			Country.Denmark),
 
-	Dutch(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
-			Unicode.CURRENCY_EURO, null, true, "nl", "nl",
-			"Dutch / Nederlands (Nederland)",
-			Country.Netherlands, Country.Suriname),
+
 
 	Dutch_Belgium(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
-			Unicode.CURRENCY_EURO, null, true, "nlBE", "nl_BE", "nl",
+			Unicode.CURRENCY_EURO, null, true, "nl", "nl", "nl_BE",
 			"Dutch / Nederlands (Belgi\u00eb)", null,
 			Country.Belgium),
+ Dutch(
+			EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO, null, true, "nlNL", "nl_NL", "nl",
+			"Dutch / Nederlands (Nederland)", null, Country.Netherlands,
+			Country.Suriname),
 
 	English_US(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_DOLLAR, null, true, "en", "en", "English (US)",

@@ -76,7 +76,7 @@ public abstract class Layout {
 		int i = 0; // current perspective
 
 		defaultPerspectives[i] = new Perspective(
-				"Perspective.AlgebraAndGraphics", spData, dpData, defToolbar,
+1, spData, dpData, defToolbar,
 				true, false, true, true, true, InputPositon.algebraView);
 		defaultPerspectives[i].setIconString("menu_view_algebra.png");
 
@@ -112,7 +112,7 @@ public abstract class Layout {
 		 */
 
 		// geometry - like basic geometry but with less toolbar entries
-		defaultPerspectives[++i] = new Perspective("Perspective.Geometry",
+		defaultPerspectives[++i] = new Perspective(2,
 				spData, dpData, defToolbar, true, false, false, false, true,
 				InputPositon.algebraView);
 		defaultPerspectives[i].setIconString("perspectives_geometry.png");
@@ -142,7 +142,7 @@ public abstract class Layout {
 				false, AwtFactory.prototype.newRectangle(100, 100, 600, 400),
 				"1,1", 500);
 
-		defaultPerspectives[++i] = new Perspective("Perspective.Spreadsheet",
+		defaultPerspectives[++i] = new Perspective(3,
 				spData, dpData, defToolbar, true, false, true, false, true,
 				InputPositon.algebraView);
 		defaultPerspectives[i].setIconString("menu_view_spreadsheet.png");
@@ -171,7 +171,7 @@ public abstract class Layout {
 					false, false, AwtFactory.prototype.newRectangle(100, 100,
 							600, 400), "1,1", 500);
 
-			defaultPerspectives[++i] = new Perspective("Perspective.CAS",
+			defaultPerspectives[++i] = new Perspective(4,
 					spData, dpData, defToolbar, true, false, true, false, true,
 					InputPositon.algebraView);
 			defaultPerspectives[i].setIconString("menu_view_cas.png");
@@ -214,7 +214,8 @@ public abstract class Layout {
 			// definition from the 3D dock panel classes
 
 			defaultPerspectives[++i] = new Perspective(
-					"Perspective.3DGraphics", spData, dpData, defToolbar, true,
+5, spData, dpData,
+					defToolbar, true,
 					false, true, true, true, InputPositon.algebraView);
 			defaultPerspectives[i]
 					.setIconString("perspectives_algebra_3Dgraphics.png");
@@ -253,7 +254,7 @@ public abstract class Layout {
 		// Note: toolbar definition is always for EV1, for 3D we use definition
 		// from the 3D dock panel classes
 
-		defaultPerspectives[++i] = new Perspective("Perspective.Probability",
+		defaultPerspectives[++i] = new Perspective(6,
 				spData, dpData, defToolbar, false, false, true, false, true,
 				InputPositon.algebraView);
 		defaultPerspectives[i].setIconString("menu_view_probability.png");

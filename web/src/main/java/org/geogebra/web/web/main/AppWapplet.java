@@ -374,7 +374,7 @@ public class AppWapplet extends AppWFull {
 		GeoGebraFrame.useDataParamBorder(getArticleElement(), frame);
 		GeoGebraProfiler.getInstance().profileEnd();
 		onOpenFile();
-		showStartTooltip();
+		showStartTooltip(0);
 		setAltText();
 	}
 

@@ -3309,7 +3309,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}-*/;
 
-	public void showStartTooltip() {
+	public void showStartTooltip(int perspID) {
 		// probably needed in full version only
 	}
 

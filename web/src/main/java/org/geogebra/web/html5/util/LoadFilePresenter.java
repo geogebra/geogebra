@@ -210,7 +210,9 @@ public class LoadFilePresenter {
 		// }
 		app.updateToolBar();
 		app.focusLost(null, null);
-		app.showStartTooltip();
+		if (p != null) {
+			app.showStartTooltip(p.getDefaultID());
+		}
 	}
 
 	private static void readObjectDefaults(App app, Storage stockStore) {

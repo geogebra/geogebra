@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.io.OFFHandler;
+import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
@@ -173,13 +174,25 @@ public abstract class AppWFull extends AppW {
 	}
 
 	@Override
-	public void showStartTooltip() {
-		if (articleElement.getDataParamShowStartTooltip()) {
+	public void showStartTooltip(int perspID) {
+		String[] tutorials = new String[] { "graphing", "graphing", "geometry",
+				"spreadsheet",
+				"cas", "3d", "probability" };
+		if (articleElement.getDataParamShowStartTooltip(perspID > 0)) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+			String tooltipText = getPlain("NewToGeoGebra")
+					+ "<br/>"
+					+ getLocalization()
+					.getPlain(
+							"CheckOutTutorial",
+							getLocalization().getMenu(
+									Perspective.perspectiveNames[perspID]));
+			String tooltipURL = GeoGebraConstants.QUICKSTART_URL
+					+ tutorials[perspID] + "/"
+					+ getLocalization().getLocaleStr() + "/";
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-			        getPlain("NewToGeoGebra") + "<br/>"
-			                + getPlain("ClickHereToGetHelp"),
-			        GeoGebraConstants.QUICKSTART_URL, ToolTipLinkType.Help,
+					tooltipText,
+					tooltipURL, ToolTipLinkType.Help,
 			        this);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}

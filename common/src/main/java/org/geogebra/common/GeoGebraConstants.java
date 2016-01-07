@@ -143,7 +143,7 @@ public interface GeoGebraConstants {
 	public static final String DATA_LOGGING_WEBSOCKET_PORT = "80";
 	public static final String DATA_LOGGING_WEBSOCKET_SECURE_PORT = "443";
 
-	public static final String QUICKSTART_URL = "https://tube.geogebra.org/student/b308593";
+	public static final String QUICKSTART_URL = "https://www.geogebra.org/tutorial/";
 
 	public static int[] VALID_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28, 32, 48 };
 

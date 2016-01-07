@@ -128,7 +128,7 @@ public class PerspectiveDecoder {
 		DockPanelData[] dpData = new DockPanelData[panelList.size()];
 		panelList.toArray(dpData);
 
-		return new Perspective("Custom", spData, dpData, defToolbar, true,
+		return new Perspective(0, spData, dpData, defToolbar, true,
 				false, true, true, true, InputPositon.algebraView);
 	}
 

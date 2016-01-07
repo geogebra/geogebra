@@ -84,10 +84,16 @@ public class Perspective {
 
 	private String iconString = null;
 
+	private int defaultID;
+	
+	final public static String[] perspectiveNames = new String[] { "Custom",
+		"Perspective.AlgebraAndGraphics","Perspective.Geometry","Perspective.Spreadsheet","Perspective.CAS", "Perspective.3DGraphics","Perspective.Probability"
+ };
+
 	/**
 	 * Create a perspective with default layout.
 	 * 
-	 * @param id
+	 * @param defaultID
 	 *            id
 	 * @param splitPaneInfo
 	 *            split settings
@@ -108,12 +114,13 @@ public class Perspective {
 	 * @param inputPosition
 	 *            position of the InputField/InputBox
 	 */
-	public Perspective(String id, DockSplitPaneData[] splitPaneInfo,
+	public Perspective(int defaultID, DockSplitPaneData[] splitPaneInfo,
 			DockPanelData[] dockPanelInfo, String toolbarDefinition,
 			boolean showToolBar, boolean showGrid, boolean showAxes,
 			boolean showInputPanel, boolean showInputPanelCommands,
 			InputPositon inputPosition) {
-		this.id = id;
+		this.defaultID = defaultID;
+		this.id = perspectiveNames[defaultID];
 		this.splitPaneData = splitPaneInfo;
 		this.setDockPanelData(dockPanelInfo);
 		this.setToolbarDefinition(toolbarDefinition);
@@ -575,6 +582,10 @@ public class Perspective {
 			}
 		}
 		return false;
+	}
+
+	public int getDefaultID() {	
+		return defaultID;
 	}
 
 }
