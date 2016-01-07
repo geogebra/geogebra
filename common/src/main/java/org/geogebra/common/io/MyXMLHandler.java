@@ -1835,6 +1835,14 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleAlgebraStyle(LinkedHashMap<String, String> attrs) {
 		try {
 			kernel.setAlgebraStyle(Integer.parseInt(attrs.get("val")));
+			if (attrs.containsKey("spreadsheet")) {
+				kernel.setAlgebraStyle(Integer.parseInt(attrs
+						.get("spreadsheet")));
+			} else {
+				// old files only have val, use that for spreadsheet too
+				kernel.setAlgebraStyleSpreadsheet(Integer.parseInt(attrs
+						.get("val")));
+			}
 			return true;
 		} catch (Exception e) {
 			return false;
