@@ -252,7 +252,9 @@ public class AlgoFinancial extends AlgoElement {
 	 */
 	private boolean computeRate() {
 
-		int maxIterations = 20; // Excel's max
+		// increased from 20 for eg
+		// Rate[15 (12), -150, 20000]
+		int maxIterations = 100;
 		double y, yPrime;
 		rate = guess;
 
@@ -275,6 +277,7 @@ public class AlgoFinancial extends AlgoElement {
 				return true;
 			}
 			rate = rate2;
+			// App.debug(i + " " + rate);
 
 		}
 		return false;
