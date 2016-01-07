@@ -3,14 +3,13 @@ package org.geogebra.common.util;
 import org.geogebra.common.main.App;
 
 public class Validation {
-	private static Validation validation = new Validation();
 
 	public static double validateDouble(TextObject tf, double def) {
-		return validation.new DoubleValidator().validateDouble(tf, def);
+		return new DoubleValidator().validateDouble(tf, def);
 	}
 
 	public static double validateDoublePositive(TextObject tf, double def) {
-		DoubleValidator dv = validation.new DoubleValidator() {
+		DoubleValidator dv = new DoubleValidator() {
 			@Override
 			protected boolean checkInterval(double val) {
 				return val > 0;
@@ -19,9 +18,12 @@ public class Validation {
 		return dv.validateDouble(tf, def);
 	}
 
-	private class DoubleValidator {
+	private static class DoubleValidator {
 
-		private double validateDouble(TextObject tf, double def) {
+		public DoubleValidator() {
+		}
+
+		public double validateDouble(TextObject tf, double def) {
 			double val = Double.NaN;
 			try {
 				val = Double.parseDouble(tf.getText());
