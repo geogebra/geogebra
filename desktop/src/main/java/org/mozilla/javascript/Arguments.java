@@ -1,41 +1,8 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-1999
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Norris Boyd
- *   Igor Bukanov
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
 
@@ -51,6 +18,8 @@ final class Arguments extends IdScriptableObject
 {
     static final long serialVersionUID = 4275508002492040609L;
 
+    private static final String FTAG = "Arguments";
+
     public Arguments(NativeCall activation)
     {
         this.activation = activation;
@@ -60,7 +29,7 @@ final class Arguments extends IdScriptableObject
         setPrototype(ScriptableObject.getObjectPrototype(parent));
 
         args = activation.originalArgs;
-        lengthObj = new Integer(args.length);
+        lengthObj = Integer.valueOf(args.length);
 
         NativeFunction f = activation.function;
         calleeObj = f;
@@ -78,16 +47,56 @@ final class Arguments extends IdScriptableObject
     @Override
     public String getClassName()
     {
-        return "Object";
+        return FTAG;
     }
+
+    private Object arg(int index) {
+      if (index < 0 || args.length <= index) return NOT_FOUND;
+      return args[index];
+    }
+
+    // the following helper methods assume that 0 < index < args.length
+
+    private void putIntoActivation(int index, Object value) {
+        String argName = activation.function.getParamOrVarName(index);
+        activation.put(argName, activation, value);
+    }
+
+    private Object getFromActivation(int index) {
+        String argName = activation.function.getParamOrVarName(index);
+        return activation.get(argName, activation);
+    }
+
+    private void replaceArg(int index, Object value) {
+      if (sharedWithActivation(index)) {
+        putIntoActivation(index, value);
+      }
+      synchronized (this) {
+        if (args == activation.originalArgs) {
+          args = args.clone();
+        }
+        args[index] = value;
+      }
+    }
+
+    private void removeArg(int index) {
+      synchronized (this) {
+        if (args[index] != NOT_FOUND) {
+          if (args == activation.originalArgs) {
+            args = args.clone();
+          }
+          args[index] = NOT_FOUND;
+        }
+      }
+    }
+
+    // end helpers
 
     @Override
     public boolean has(int index, Scriptable start)
     {
-        if (0 <= index && index < args.length) {
-            if (args[index] != NOT_FOUND) {
-                return true;
-            }
+        if (arg(index) != NOT_FOUND) {
+          return true;
         }
         return super.has(index, start);
     }
@@ -95,19 +104,16 @@ final class Arguments extends IdScriptableObject
     @Override
     public Object get(int index, Scriptable start)
     {
-        if (0 <= index && index < args.length) {
-            Object value = args[index];
-            if (value != NOT_FOUND) {
-                if (sharedWithActivation(index)) {
-                    NativeFunction f = activation.function;
-                    String argName = f.getParamOrVarName(index);
-                    value = activation.get(argName, activation);
-                    if (value == NOT_FOUND) Kit.codeBug();
-                }
-                return value;
-            }
-        }
+      final Object value = arg(index);
+      if (value == NOT_FOUND) {
         return super.get(index, start);
+      } else {
+        if (sharedWithActivation(index)) {
+          return getFromActivation(index);
+        } else {
+          return value;
+        }
+      }
     }
 
     private boolean sharedWithActivation(int index)
@@ -133,41 +139,18 @@ final class Arguments extends IdScriptableObject
     @Override
     public void put(int index, Scriptable start, Object value)
     {
-        if (0 <= index && index < args.length) {
-            if (args[index] != NOT_FOUND) {
-                if (sharedWithActivation(index)) {
-                    String argName;
-                    argName = activation.function.getParamOrVarName(index);
-                    activation.put(argName, activation, value);
-                    return;
-                }
-                synchronized (this) {
-                    if (args[index] != NOT_FOUND) {
-                        if (args == activation.originalArgs) {
-                            args = args.clone();
-                        }
-                        args[index] = value;
-                        return;
-                    }
-                }
-            }
+        if (arg(index) == NOT_FOUND) {
+          super.put(index, start, value);
+        } else {
+          replaceArg(index, value);
         }
-        super.put(index, start, value);
     }
 
     @Override
     public void delete(int index)
     {
         if (0 <= index && index < args.length) {
-            synchronized (this) {
-                if (args[index] != NOT_FOUND) {
-                    if (args == activation.originalArgs) {
-                        args = args.clone();
-                    }
-                    args[index] = NOT_FOUND;
-                    return;
-                }
-            }
+          removeArg(index);
         }
         super.delete(index);
     }
@@ -179,7 +162,7 @@ final class Arguments extends IdScriptableObject
         Id_length           = 2,
         Id_caller           = 3,
 
-        MAX_INSTANCE_ID     = 3;
+        MAX_INSTANCE_ID     = Id_caller;
 
     @Override
     protected int getMaxInstanceId()
@@ -191,9 +174,10 @@ final class Arguments extends IdScriptableObject
     protected int findInstanceIdInfo(String s)
     {
         int id;
-// #generated# Last update: 2007-05-09 08:15:04 EDT
+// #generated# Last update: 2010-01-06 05:48:21 ARST
         L0: { id = 0; String X = null; int c;
-            if (s.length()==6) {
+            int s_length = s.length();
+            if (s_length==6) {
                 c=s.charAt(5);
                 if (c=='e') { X="callee";id=Id_callee; }
                 else if (c=='h') { X="length";id=Id_length; }
@@ -209,9 +193,13 @@ final class Arguments extends IdScriptableObject
         int attr;
         switch (id) {
           case Id_callee:
+            attr = calleeAttr;
+            break;
           case Id_caller:
+            attr = callerAttr;
+            break;
           case Id_length:
-            attr = DONTENUM;
+            attr = lengthAttr;
             break;
           default: throw new IllegalStateException();
         }
@@ -266,26 +254,42 @@ final class Arguments extends IdScriptableObject
     }
 
     @Override
+    protected void setInstanceIdAttributes(int id, int attr)
+    {
+        switch (id) {
+            case Id_callee: calleeAttr = attr; return;
+            case Id_length: lengthAttr = attr; return;
+            case Id_caller: callerAttr = attr; return;
+        }
+        super.setInstanceIdAttributes(id, attr);
+    }
+
+    @Override
     Object[] getIds(boolean getAll)
     {
         Object[] ids = super.getIds(getAll);
-        if (getAll && args.length != 0) {
-            boolean[] present = null;
+        if (args.length != 0) {
+            boolean[] present = new boolean[args.length];
             int extraCount = args.length;
             for (int i = 0; i != ids.length; ++i) {
                 Object id = ids[i];
                 if (id instanceof Integer) {
                     int index = ((Integer)id).intValue();
                     if (0 <= index && index < args.length) {
-                        if (present == null) {
-                            present = new boolean[args.length];
-                        }
                         if (!present[index]) {
                             present[index] = true;
                             extraCount--;
                         }
                     }
                 }
+            }
+            if (!getAll) { // avoid adding args which were redefined to non-enumerable
+              for (int i = 0; i < present.length; i++) {
+                if (!present[i] && super.has(i, this)) {
+                  present[i] = true;
+                  extraCount--;
+                }
+              }
             }
             if (extraCount != 0) {
                 Object[] tmp = new Object[extraCount + ids.length];
@@ -294,7 +298,7 @@ final class Arguments extends IdScriptableObject
                 int offset = 0;
                 for (int i = 0; i != args.length; ++i) {
                     if (present == null || !present[i]) {
-                        ids[offset] = new Integer(i);
+                        ids[offset] = Integer.valueOf(i);
                         ++offset;
                     }
                 }
@@ -302,6 +306,59 @@ final class Arguments extends IdScriptableObject
             }
         }
         return ids;
+    }
+
+    @Override
+    protected ScriptableObject getOwnPropertyDescriptor(Context cx, Object id) {
+      double d = ScriptRuntime.toNumber(id);
+      int index = (int) d;
+      if (d != index) {
+        return super.getOwnPropertyDescriptor(cx, id);
+      }
+      Object value = arg(index);
+      if (value == NOT_FOUND) {
+        return super.getOwnPropertyDescriptor(cx, id);
+      }
+      if (sharedWithActivation(index)) {
+        value = getFromActivation(index);
+      }
+      if (super.has(index, this)) { // the descriptor has been redefined
+        ScriptableObject desc = super.getOwnPropertyDescriptor(cx, id);
+        desc.put("value", desc, value);
+        return desc;
+      } else {
+        Scriptable scope = getParentScope();
+        if (scope == null) scope = this;
+        return buildDataDescriptor(scope, value, EMPTY);
+      }
+    }
+
+    @Override
+    protected void defineOwnProperty(Context cx, Object id,
+                                     ScriptableObject desc,
+                                     boolean checkValid) {
+      super.defineOwnProperty(cx, id, desc, checkValid);
+
+      double d = ScriptRuntime.toNumber(id);
+      int index = (int) d;
+      if (d != index) return;
+
+      Object value = arg(index);
+      if (value == NOT_FOUND) return;
+
+      if (isAccessorDescriptor(desc)) {
+        removeArg(index);
+        return;
+      }
+
+      Object newValue = getProperty(desc, "value");
+      if (newValue == NOT_FOUND) return;
+
+      replaceArg(index, newValue);
+
+      if (isFalse(getProperty(desc, "writable"))) {
+        removeArg(index);
+      }
     }
 
 // Fields to hold caller, callee and length properties,
@@ -312,6 +369,10 @@ final class Arguments extends IdScriptableObject
     private Object callerObj;
     private Object calleeObj;
     private Object lengthObj;
+
+    private int callerAttr = DONTENUM;
+    private int calleeAttr = DONTENUM;
+    private int lengthAttr = DONTENUM;
 
     private NativeCall activation;
 

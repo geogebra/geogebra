@@ -1,50 +1,12 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1998.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-1999
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Norris Boyd
- *   Igor Bukanov
- *   Brendan Eich
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript.regexp;
 
-import org.mozilla.javascript.BaseFunction;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ScriptRuntime;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.Undefined;
+import org.mozilla.javascript.*;
 
 /**
  * This class implements the RegExp constructor native object.
@@ -74,6 +36,16 @@ class NativeRegExpCtor extends BaseFunction
     }
 
     @Override
+    public int getLength() {
+        return 2;
+    }
+
+    @Override
+    public int getArity() {
+        return 2;
+    }
+
+    @Override
     public Object call(Context cx, Scriptable scope, Scriptable thisObj,
                        Object[] args)
     {
@@ -90,7 +62,7 @@ class NativeRegExpCtor extends BaseFunction
     {
         NativeRegExp re = new NativeRegExp();
         re.compile(cx, scope, args);
-        ScriptRuntime.setObjectProtoAndParent(re, scope);
+        ScriptRuntime.setBuiltinProtoAndParent(re, scope, TopLevel.Builtins.RegExp);
         return re;
     }
 
@@ -183,10 +155,16 @@ class NativeRegExpCtor extends BaseFunction
         int attr;
         switch (id) {
           case Id_multiline:
+            attr = multilineAttr;
+            break;
           case Id_STAR:
+            attr = starAttr;
+            break;
           case Id_input:
+            attr = inputAttr;
+            break;
           case Id_UNDERSCORE:
-            attr = PERMANENT;
+            attr = underscoreAttr;
             break;
           default:
             attr = PERMANENT | READONLY;
@@ -294,8 +272,64 @@ class NativeRegExpCtor extends BaseFunction
             case Id_UNDERSCORE:
                 getImpl().input = ScriptRuntime.toString(value);
                 return;
+
+            case Id_lastMatch:
+            case Id_AMPERSAND:
+            case Id_lastParen:
+            case Id_PLUS:
+            case Id_leftContext:
+            case Id_BACK_QUOTE:
+            case Id_rightContext:
+            case Id_QUOTE:
+                return;
+            default:
+                int substring_number = shifted - DOLLAR_ID_BASE - 1;
+                if (0 <= substring_number && substring_number <= 8) {
+                  return;
+                }
         }
         super.setInstanceIdValue(id, value);
     }
 
+    @Override
+    protected void setInstanceIdAttributes(int id, int attr) {
+        int shifted = id - super.getMaxInstanceId();
+        switch (shifted) {
+            case Id_multiline:
+                multilineAttr = attr;
+                return;
+            case Id_STAR:
+                starAttr = attr;
+                return;
+            case Id_input:
+                inputAttr = attr;
+                return;
+            case Id_UNDERSCORE:
+                underscoreAttr = attr;
+                return;
+
+            case Id_lastMatch:
+            case Id_AMPERSAND:
+            case Id_lastParen:
+            case Id_PLUS:
+            case Id_leftContext:
+            case Id_BACK_QUOTE:
+            case Id_rightContext:
+            case Id_QUOTE:
+                // non-configurable + non-writable
+                return;
+            default:
+                int substring_number = shifted - DOLLAR_ID_BASE - 1;
+                if (0 <= substring_number && substring_number <= 8) {
+                  // non-configurable + non-writable
+                  return;
+                }
+        }
+        super.setInstanceIdAttributes(id, attr);
+    }
+
+    private int multilineAttr = PERMANENT;
+    private int starAttr = PERMANENT;
+    private int inputAttr = PERMANENT;
+    private int underscoreAttr = PERMANENT;
 }

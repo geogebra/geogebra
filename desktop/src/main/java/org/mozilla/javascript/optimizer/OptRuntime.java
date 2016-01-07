@@ -1,56 +1,11 @@
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-2000
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Norris Boyd
- *   Roger Lawrence
- *   Hannes Wallnoefer
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 
 package org.mozilla.javascript.optimizer;
 
-import org.mozilla.javascript.Callable;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextAction;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.JavaScriptException;
-import org.mozilla.javascript.NativeFunction;
-import org.mozilla.javascript.NativeGenerator;
-import org.mozilla.javascript.NativeIterator;
-import org.mozilla.javascript.Script;
-import org.mozilla.javascript.ScriptRuntime;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.*;
 
 public final class OptRuntime extends ScriptRuntime
 {
@@ -134,24 +89,35 @@ public final class OptRuntime extends ScriptRuntime
     {
         if (val1 instanceof Scriptable)
             val1 = ((Scriptable) val1).getDefaultValue(null);
-        if (!(val1 instanceof String))
+        if (!(val1 instanceof CharSequence))
             return wrapDouble(toNumber(val1) + val2);
-        return ((String)val1).concat(toString(val2));
+        return new ConsString((CharSequence)val1, toString(val2));
     }
 
     public static Object add(double val1, Object val2)
     {
         if (val2 instanceof Scriptable)
             val2 = ((Scriptable) val2).getDefaultValue(null);
-        if (!(val2 instanceof String))
+        if (!(val2 instanceof CharSequence))
             return wrapDouble(toNumber(val2) + val1);
-        return toString(val1).concat((String)val2);
+        return new ConsString(toString(val1), (CharSequence)val2);
     }
 
+    /**
+     * @deprecated Use {@link #elemIncrDecr(Object, double, Context, Scriptable, int)} instead
+     */
+    @Deprecated
     public static Object elemIncrDecr(Object obj, double index,
                                       Context cx, int incrDecrMask)
     {
-        return ScriptRuntime.elemIncrDecr(obj, new Double(index), cx,
+        return elemIncrDecr(obj, index, cx, getTopCallScope(cx), incrDecrMask);
+    }
+
+    public static Object elemIncrDecr(Object obj, double index,
+                                      Context cx, Scriptable scope,
+                                      int incrDecrMask)
+    {
+        return ScriptRuntime.elemIncrDecr(obj, new Double(index), cx, scope,
                                           incrDecrMask);
     }
 
@@ -302,7 +268,7 @@ public final class OptRuntime extends ScriptRuntime
         public int resumptionPoint;
         static final String resumptionPoint_NAME = "resumptionPoint";
         static final String resumptionPoint_TYPE = "I";
-        
+
         public Scriptable thisObj;
         static final String thisObj_NAME = "thisObj";
         static final String thisObj_TYPE =

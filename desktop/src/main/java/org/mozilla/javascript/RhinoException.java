@@ -1,57 +1,28 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-1999
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Norris Boyd
- *   Igor Bukanov
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 
 package org.mozilla.javascript;
 
 import java.io.CharArrayWriter;
-import java.io.File;
 import java.io.FilenameFilter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The class of exceptions thrown by the JavaScript engine.
  */
 public abstract class RhinoException extends RuntimeException
 {
+    private static final Pattern JAVA_STACK_PATTERN = Pattern.compile("_c_(.*)_\\d+");
+
     RhinoException()
     {
         Evaluator e = Context.createInterpreter();
@@ -74,7 +45,7 @@ public abstract class RhinoException extends RuntimeException
         if (sourceName == null || lineNumber <= 0) {
             return details;
         }
-        StringBuffer buf = new StringBuffer(details);
+        StringBuilder buf = new StringBuilder(details);
         buf.append(" (");
         if (sourceName != null) {
             buf.append(sourceName);
@@ -222,61 +193,160 @@ public abstract class RhinoException extends RuntimeException
 
     /**
      * Get a string representing the script stack of this exception.
-     * If optimization is enabled, this corresponds to all java stack elements
-     * with a source name ending with ".js".
+     * If optimization is enabled, this includes java stack elements
+     * whose source and method names suggest they have been generated
+     * by the Rhino script compiler.
      * @return a script stack dump
      * @since 1.6R6
      */
     public String getScriptStackTrace()
     {
-        return getScriptStackTrace(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".js");
-            }
-        });
+        return getScriptStackTrace(NativeError.DEFAULT_STACK_LIMIT, null);
     }
 
     /**
      * Get a string representing the script stack of this exception.
-     * If optimization is enabled, this corresponds to all java stack elements
-     * with a source name matching the <code>filter</code>.
-     * @param filter the file name filter to determine whether a file is a 
-     *               script file
+     * If optimization is enabled, this includes java stack elements
+     * whose source and method names suggest they have been generated
+     * by the Rhino script compiler.
+     * The optional "limit" parameter limits the number of stack frames returned.
+     * The "functionName" parameter will exclude any stack frames "below" the
+     * specified function on the stack.
+     *
+     * @param limit the number of stack frames returned
+     * @param functionName the name of a function on the stack -- frames below it will be ignored
      * @return a script stack dump
-     * @since 1.6R6
+     * @since 1.8.0
      */
-    public String getScriptStackTrace(FilenameFilter filter)
+    public String getScriptStackTrace(int limit, String functionName)
     {
-        List<String> interpreterStack = null;
-        Evaluator interpreter = Context.createInterpreter();
-        if (interpreter != null) {
-            interpreterStack = interpreter.getScriptStack(this);
-        }
-        int interpreterStackIndex = 0;
-        StringBuffer buffer = new StringBuffer();
+        ScriptStackElement[] stack = getScriptStack(limit, functionName);
+        return formatStackTrace(stack, details());
+    }
+
+    static String formatStackTrace(ScriptStackElement[] stack, String message)
+    {
+        StringBuilder buffer = new StringBuilder();
         String lineSeparator = SecurityUtilities.getSystemProperty("line.separator");
-        StackTraceElement[] stack = getStackTrace();
-        for (int i = 0; i < stack.length; i++) {
-            StackTraceElement e = stack[i];
-            String name = e.getFileName();
-            if (e.getLineNumber() > -1 && name != null &&
-                filter.accept(null, name))
-            {
-                buffer.append("\tat ");
-                buffer.append(e.getFileName());
-                buffer.append(':');
-                buffer.append(e.getLineNumber());
-                buffer.append(lineSeparator);
-            } else if (interpreterStack != null &&
-                interpreterStack.size() > interpreterStackIndex && 
-                "org.mozilla.javascript.Interpreter".equals(e.getClassName()) &&
-                "interpretLoop".equals(e.getMethodName()))
-            {
-                buffer.append(interpreterStack.get(interpreterStackIndex++));
+
+        if ((stackStyle == StackStyle.V8) && !"null".equals(message)) {
+            // V8 Actually puts the error message at the top of "stack."
+            buffer.append(message);
+            buffer.append(lineSeparator);
+        }
+
+        for (ScriptStackElement elem : stack) {
+            switch (stackStyle) {
+            case MOZILLA:
+                elem.renderMozillaStyle(buffer);
+                break;
+            case V8:
+                elem.renderV8Style(buffer);
+                break;
+            case RHINO:
+                elem.renderJavaStyle(buffer);
+                break;
             }
+            buffer.append(lineSeparator);
         }
         return buffer.toString();
     }
+
+    /**
+     * Get a string representing the script stack of this exception.
+     * @deprecated the filter argument is ignored as we are able to
+     * recognize script stack elements by our own. Use
+     * #getScriptStackTrace() instead.
+     * @param filter ignored
+     * @return a script stack dump
+     * @since 1.6R6
+     */
+    @Deprecated
+    public String getScriptStackTrace(FilenameFilter filter)
+    {
+        return getScriptStackTrace();
+    }
+
+    /**
+     * Get the script stack of this exception as an array of
+     * {@link ScriptStackElement}s.
+     * If optimization is enabled, this includes java stack elements
+     * whose source and method names suggest they have been generated
+     * by the Rhino script compiler.
+     * @return the script stack for this exception
+     * @since 1.7R3
+     */
+    public ScriptStackElement[] getScriptStack() {
+        return getScriptStack(-1, null);
+    }
+
+    /**
+     * Get the script stack of this exception as an array of
+     * {@link ScriptStackElement}s.
+     * If optimization is enabled, this includes java stack elements
+     * whose source and method names suggest they have been generated
+     * by the Rhino script compiler.
+     *
+     * @param limit the number of stack frames returned, or -1 for unlimited
+     * @param hideFunction the name of a function on the stack -- frames below it will be ignored, or null
+     * @return the script stack for this exception
+     * @since 1.8.0
+     */
+    public ScriptStackElement[] getScriptStack(int limit, String hideFunction) {
+        List<ScriptStackElement> list = new ArrayList<ScriptStackElement>();
+        ScriptStackElement[][] interpreterStack = null;
+        if (interpreterStackInfo != null) {
+            Evaluator interpreter = Context.createInterpreter();
+            if (interpreter instanceof Interpreter)
+                interpreterStack = ((Interpreter) interpreter).getScriptStackElements(this);
+        }
+
+        int interpreterStackIndex = 0;
+        StackTraceElement[] stack = getStackTrace();
+        int count = 0;
+        boolean printStarted = (hideFunction == null);
+
+        // Pattern to recover function name from java method name -
+        // see Codegen.getBodyMethodName()
+        // kudos to Marc Guillemot for coming up with this
+        for (StackTraceElement e : stack) {
+            String fileName = e.getFileName();
+            if (e.getMethodName().startsWith("_c_")
+                    && e.getLineNumber() > -1
+                    && fileName != null
+                    && !fileName.endsWith(".java")) {
+                String methodName = e.getMethodName();
+                Matcher match = JAVA_STACK_PATTERN.matcher(methodName);
+                // the method representing the main script is always "_c_script_0" -
+                // at least we hope so
+                methodName = !"_c_script_0".equals(methodName) && match.find() ?
+                        match.group(1) : null;
+
+                if (!printStarted && hideFunction.equals(methodName)) {
+                    printStarted = true;
+                } else if (printStarted && ((limit < 0) || (count < limit))) {
+                    list.add(new ScriptStackElement(fileName, methodName, e.getLineNumber()));
+                    count++;
+                }
+
+            } else if ("org.mozilla.javascript.Interpreter".equals(e.getClassName())
+                    && "interpretLoop".equals(e.getMethodName())
+                    && interpreterStack != null
+                    && interpreterStack.length > interpreterStackIndex) {
+
+                for (ScriptStackElement elem : interpreterStack[interpreterStackIndex++]) {
+                    if (!printStarted && hideFunction.equals(elem.functionName)) {
+                        printStarted = true;
+                    } else if (printStarted && ((limit < 0) || (count < limit))) {
+                        list.add(elem);
+                        count++;
+                    }
+                }
+            }
+        }
+        return list.toArray(new ScriptStackElement[list.size()]);
+    }
+
 
     @Override
     public void printStackTrace(PrintWriter s)
@@ -298,6 +368,59 @@ public abstract class RhinoException extends RuntimeException
         }
     }
 
+    /**
+     * Returns true if subclasses of <code>RhinoException</code>
+     * use the Mozilla/Firefox style of rendering script stacks
+     * (<code>functionName()@fileName:lineNumber</code>)
+     * instead of Rhino's own Java-inspired format
+     * (<code>    at fileName:lineNumber (functionName)</code>).
+     * @return true if stack is rendered in Mozilla/Firefox style
+     * @see ScriptStackElement
+     * @since 1.7R3
+     */
+    public static boolean usesMozillaStackStyle() {
+        return (stackStyle == StackStyle.MOZILLA);
+    }
+
+    /**
+     * Tell subclasses of <code>RhinoException</code> whether to
+     * use the Mozilla/Firefox style of rendering script stacks
+     * (<code>functionName()@fileName:lineNumber</code>)
+     * instead of Rhino's own Java-inspired format
+     * (<code>    at fileName:lineNumber (functionName)</code>).
+     * Use "setStackStyle" to select between more than just the "Mozilla" and "Rhino" formats.
+     * @param flag whether to render stacks in Mozilla/Firefox style
+     * @see ScriptStackElement
+     * @since 1.7R3
+     */
+    public static void useMozillaStackStyle(boolean flag) {
+        stackStyle = (flag ? StackStyle.MOZILLA : StackStyle.RHINO);
+    }
+
+    /**
+     * Specify the stack style to use from between three different formats: "Rhino" (the default),
+     * "Mozilla", and "V8." See StackStyle for information about each.
+     * @param style the style to select -- an instance of the StackStyle class
+     * @see StackStyle
+     * @since 1.8.0
+     */
+    public static void setStackStyle(StackStyle style) {
+        stackStyle = style;
+    }
+
+    /**
+     * Return the current stack style in use.
+     * Return the current stack style in use.
+     */
+    public static StackStyle getStackStyle() {
+        return stackStyle;
+    }
+
+    static final long serialVersionUID = 1883500631321581169L;
+
+    // Just for testing!
+    private static StackStyle stackStyle = StackStyle.RHINO;
+
     private String sourceName;
     private int lineNumber;
     private String lineSource;
@@ -305,4 +428,18 @@ public abstract class RhinoException extends RuntimeException
 
     Object interpreterStackInfo;
     int[] interpreterLineData;
+
+    // Allow us to override default stack style for debugging.
+    static {
+        String style = System.getProperty("rhino.stack.style");
+        if (style != null) {
+            if ("Rhino".equalsIgnoreCase(style)) {
+                stackStyle = StackStyle.RHINO;
+            } else if ("Mozilla".equalsIgnoreCase(style)) {
+                stackStyle = StackStyle.MOZILLA;
+            } else if ("V8".equalsIgnoreCase(style)) {
+                stackStyle = StackStyle.V8;
+            }
+        }
+    }
 }

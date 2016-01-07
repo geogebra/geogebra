@@ -1,56 +1,15 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-2000
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Norris Boyd
- *   Igor Bukanov
- *   Frank Mitchell
- *   Mike Shaver
- *   Kemal Bayram
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Date;
+import java.io.*;
+import java.lang.reflect.*;
 import java.util.Map;
+import java.util.Date;
 
 /**
  * This class reflects non-Array Java objects into the JavaScript environment.  It
@@ -92,7 +51,7 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
         } else {
             dynamicType = staticType;
         }
-        members = JavaMembers.lookupClass(parent, dynamicType, staticType, 
+        members = JavaMembers.lookupClass(parent, dynamicType, staticType,
                                           isAdapter);
         fieldAndMethods
             = members.getFieldAndMethodsObjects(this, javaObject, false);
@@ -149,7 +108,9 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
 
     public Scriptable getPrototype() {
         if (prototype == null && javaObject instanceof String) {
-            return ScriptableObject.getClassPrototype(parent, "String");
+            return TopLevel.getBuiltinPrototype(
+                    ScriptableObject.getTopLevelScope(parent),
+                    TopLevel.Builtins.String);
         }
         return prototype;
     }
@@ -179,10 +140,11 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
         return members.getIds(false);
     }
 
-/**
-@deprecated Use {@link Context#getWrapFactory()} together with calling {@link
-WrapFactory#wrap(Context, Scriptable, Object, Class)}
-*/
+    /**
+     * @deprecated Use {@link Context#getWrapFactory()} together with calling {@link
+     * WrapFactory#wrap(Context, Scriptable, Object, Class)}
+     */
+    @Deprecated
     public static Object wrap(Scriptable scope, Object obj, Class<?> staticType) {
 
         Context cx = Context.getContext();
@@ -375,8 +337,8 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
 
         case JSTYPE_OBJECT:
             // Other objects takes #1-#3 spots
-            if (Scriptable.class.isAssignableFrom(to) && to.isInstance(fromObj)) {
-                // No conversion required
+            if (to != ScriptRuntime.ObjectClass && to.isInstance(fromObj)) {
+                // No conversion required, but don't apply for java.lang.Object
                 return 1;
             }
             if (to.isArray()) {
@@ -384,14 +346,14 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
                     // This is a native array conversion to a java array
                     // Array conversions are all equal, and preferable to object
                     // and string conversion, per LC3.
-                    return 1;
+                    return 2;
                 }
             }
             else if (to == ScriptRuntime.ObjectClass) {
-                return 2;
+                return 3;
             }
             else if (to == ScriptRuntime.StringClass) {
-                return 3;
+                return 4;
             }
             else if (to == ScriptRuntime.DateClass) {
                 if (fromObj instanceof NativeDate) {
@@ -400,16 +362,14 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
                 }
             }
             else if (to.isInterface()) {
-                if (fromObj instanceof Function) {
-                    // See comments in coerceType
-                    if (to.getMethods().length == 1) {
-                        return 1;
-                    }
+                if (fromObj instanceof NativeObject || fromObj instanceof NativeFunction) {
+                    // See comments in createInterfaceAdapter
+                    return 1;
                 }
-                return 11;
+                return 12;
             }
             else if (to.isPrimitive() && to != Boolean.TYPE) {
-                return 3 + getSizeRank(to);
+                return 4 + getSizeRank(to);
             }
             break;
         }
@@ -454,7 +414,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
         else if (value == Undefined.instance) {
             return JSTYPE_UNDEFINED;
         }
-        else if (value instanceof String) {
+        else if (value instanceof CharSequence) {
             return JSTYPE_STRING;
         }
         else if (value instanceof Number) {
@@ -497,6 +457,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
      * @deprecated as of 1.5 Release 4
      * @see org.mozilla.javascript.Context#jsToJava(Object, Class)
      */
+    @Deprecated
     public static Object coerceType(Class<?> type, Object value)
     {
         return coerceTypeImpl(type, value);
@@ -564,7 +525,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
 
         case JSTYPE_STRING:
             if (type == ScriptRuntime.StringClass || type.isInstance(value)) {
-                return value;
+                return value.toString();
             }
             else if (type == Character.TYPE
                      || type == ScriptRuntime.CharacterClass)
@@ -573,8 +534,8 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
                 // character
                 // Placed here because it applies *only* to JS strings,
                 // not other JS objects converted to strings
-                if (((String)value).length() == 1) {
-                    return new Character(((String)value).charAt(0));
+                if (((CharSequence)value).length() == 1) {
+                    return Character.valueOf(((CharSequence)value).charAt(0));
                 }
                 else {
                     return coerceToNumber(type, value);
@@ -608,7 +569,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
             break;
 
         case JSTYPE_JAVA_OBJECT:
-        case JSTYPE_JAVA_ARRAY:              
+        case JSTYPE_JAVA_ARRAY:
             if (value instanceof Wrapper) {
               value = ((Wrapper)value).unwrap();
             }
@@ -618,7 +579,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
                 }
                 return coerceToNumber(type, value);
             }
-            else { 
+            else {
               if (type == ScriptRuntime.StringClass) {
                     return value.toString();
                 }
@@ -662,8 +623,8 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
                 Object Result = Array.newInstance(arrayType, (int)length);
                 for (int i = 0 ; i < length ; ++i) {
                     try  {
-                        Array.set(Result, i, coerceType(arrayType,
-                                                        array.get(i, array)));
+                        Array.set(Result, i, coerceTypeImpl(
+                                arrayType, array.get(i, array)));
                     }
                     catch (EvaluatorException ee) {
                         reportConversionError(value, type);
@@ -678,31 +639,10 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
                     return value;
                 reportConversionError(value, type);
             }
-            else if (type.isInterface() && value instanceof Callable) {
-                // Try to use function as implementation of Java interface.
-                //
-                // XXX: Currently only instances of ScriptableObject are
-                // supported since the resulting interface proxies should
-                // be reused next time conversion is made and generic
-                // Callable has no storage for it. Weak references can
-                // address it but for now use this restriction.
-                if (value instanceof ScriptableObject) {
-                    ScriptableObject so = (ScriptableObject)value;
-                    Object key = Kit.makeHashKeyFromPair(
-                        COERCED_INTERFACE_KEY, type);
-                    Object old = so.getAssociatedValue(key);
-                    if (old != null) {
-                        // Function was already wrapped
-                        return old;
-                    }
-                    Context cx = Context.getContext();
-                    Object glue
-                        = InterfaceAdapter.create(cx, type, (Callable)value);
-                    // Store for later retrival
-                    glue = so.associateValue(key, glue);
-                    return glue;
-                }
-                reportConversionError(value, type);
+            else if (type.isInterface() && (value instanceof NativeObject
+                    || value instanceof NativeFunction)) {
+                // Try to use function/object as implementation of Java interface.
+                return createInterfaceAdapter(type, (ScriptableObject) value);
             } else {
                 reportConversionError(value, type);
             }
@@ -710,6 +650,26 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
         }
 
         return value;
+    }
+
+    protected static Object createInterfaceAdapter(Class<?>type, ScriptableObject so) {
+        // XXX: Currently only instances of ScriptableObject are
+        // supported since the resulting interface proxies should
+        // be reused next time conversion is made and generic
+        // Callable has no storage for it. Weak references can
+        // address it but for now use this restriction.
+
+        Object key = Kit.makeHashKeyFromPair(COERCED_INTERFACE_KEY, type);
+        Object old = so.getAssociatedValue(key);
+        if (old != null) {
+            // Function was already wrapped
+            return old;
+        }
+        Context cx = Context.getContext();
+        Object glue = InterfaceAdapter.create(cx, type, so);
+        // Store for later retrieval
+        glue = so.associateValue(key, glue);
+        return glue;
     }
 
     private static Object coerceToNumber(Class<?> type, Object value)
@@ -721,7 +681,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
             if (valueClass == ScriptRuntime.CharacterClass) {
                 return value;
             }
-            return new Character((char)toInteger(value,
+            return Character.valueOf((char)toInteger(value,
                                                  ScriptRuntime.CharacterClass,
                                                  Character.MIN_VALUE,
                                                  Character.MAX_VALUE));
@@ -768,7 +728,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
                 return value;
             }
             else {
-                return new Integer((int)toInteger(value,
+                return Integer.valueOf((int)toInteger(value,
                                                   ScriptRuntime.IntegerClass,
                                                   Integer.MIN_VALUE,
                                                   Integer.MAX_VALUE));
@@ -788,7 +748,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
                  */
                 final double max = Double.longBitsToDouble(0x43dfffffffffffffL);
                 final double min = Double.longBitsToDouble(0xc3e0000000000000L);
-                return new Long(toInteger(value,
+                return Long.valueOf(toInteger(value,
                                           ScriptRuntime.LongClass,
                                           min,
                                           max));
@@ -800,7 +760,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
                 return value;
             }
             else {
-                return new Short((short)toInteger(value,
+                return Short.valueOf((short)toInteger(value,
                                                   ScriptRuntime.ShortClass,
                                                   Short.MIN_VALUE,
                                                   Short.MAX_VALUE));
@@ -812,7 +772,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
                 return value;
             }
             else {
-                return new Byte((byte)toInteger(value,
+                return Byte.valueOf((byte)toInteger(value,
                                                 ScriptRuntime.ByteClass,
                                                 Byte.MIN_VALUE,
                                                 Byte.MAX_VALUE));
@@ -843,7 +803,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
         else {
             Method meth;
             try {
-                meth = value.getClass().getMethod("doubleValue", 
+                meth = value.getClass().getMethod("doubleValue",
                 		                          (Class [])null);
             }
             catch (NoSuchMethodException e) {
@@ -854,7 +814,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
             }
             if (meth != null) {
                 try {
-                    return ((Number)meth.invoke(value, 
+                    return ((Number)meth.invoke(value,
                     		                    (Object [])null)).doubleValue();
                 }
                 catch (IllegalAccessException e) {
@@ -975,7 +935,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
     protected transient Class<?> staticType;
     protected transient JavaMembers members;
     private transient Map<String,FieldAndMethods> fieldAndMethods;
-    private transient boolean isAdapter;
+    protected transient boolean isAdapter;
 
     private static final Object COERCED_INTERFACE_KEY = "Coerced Interface";
     private static Method adapter_writeAdapterObject;
@@ -997,7 +957,7 @@ WrapFactory#wrap(Context, Scriptable, Object, Class)}
                 adapter_readAdapterObject = cl.getMethod("readAdapterObject",
                                                          sig2);
 
-            } catch (Exception ex) {
+            } catch (NoSuchMethodException e) {
                 adapter_writeAdapterObject = null;
                 adapter_readAdapterObject = null;
             }

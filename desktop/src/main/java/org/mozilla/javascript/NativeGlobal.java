@@ -1,49 +1,17 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-1999
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Norris Boyd
- *   Igor Bukanov
- *   Mike McCabe
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
 
 import java.io.Serializable;
 
 import org.mozilla.javascript.xml.XMLLib;
-
+import static org.mozilla.javascript.ScriptableObject.DONTENUM;
+import static org.mozilla.javascript.ScriptableObject.READONLY;
+import static org.mozilla.javascript.ScriptableObject.PERMANENT;
 
 /**
  * This class implements the global native object (function and value
@@ -118,47 +86,39 @@ public class NativeGlobal implements Serializable, IdFunctionCall
 
         ScriptableObject.defineProperty(
             scope, "NaN", ScriptRuntime.NaNobj,
-            ScriptableObject.DONTENUM);
+            READONLY|DONTENUM|PERMANENT);
         ScriptableObject.defineProperty(
             scope, "Infinity",
             ScriptRuntime.wrapNumber(Double.POSITIVE_INFINITY),
-            ScriptableObject.DONTENUM);
+            READONLY|DONTENUM|PERMANENT);
         ScriptableObject.defineProperty(
             scope, "undefined", Undefined.instance,
-            ScriptableObject.DONTENUM);
-
-        String[] errorMethods = {
-                "ConversionError",
-                "EvalError",
-                "RangeError",
-                "ReferenceError",
-                "SyntaxError",
-                "TypeError",
-                "URIError",
-                "InternalError",
-                "JavaException"
-        };
+            READONLY|DONTENUM|PERMANENT);
 
         /*
             Each error constructor gets its own Error object as a prototype,
             with the 'name' property set to the name of the error.
         */
-        for (int i = 0; i < errorMethods.length; i++) {
-            String name = errorMethods[i];
-            Scriptable errorProto = ScriptRuntime.
-                                        newObject(cx, scope, "Error",
+        for (TopLevel.NativeErrors error : TopLevel.NativeErrors.values()) {
+            if (error == TopLevel.NativeErrors.Error) {
+                // Error is initialized elsewhere and we should not overwrite it.
+                continue;
+            }
+            String name = error.name();
+            ScriptableObject errorProto =
+              (ScriptableObject) ScriptRuntime.newBuiltinObject(cx, scope,
+                                                  TopLevel.Builtins.Error,
                                                   ScriptRuntime.emptyArgs);
             errorProto.put("name", errorProto, name);
-            if (sealed) {
-                if (errorProto instanceof ScriptableObject) {
-                    ((ScriptableObject)errorProto).sealObject();
-                }
-            }
+            errorProto.put("message", errorProto, "");
             IdFunctionObject ctor = new IdFunctionObject(obj, FTAG,
                                                          Id_new_CommonError,
                                                          name, 1, scope);
             ctor.markAsConstructor(errorProto);
+            errorProto.put("constructor", errorProto, ctor);
+            errorProto.setAttributes("constructor", ScriptableObject.DONTENUM);
             if (sealed) {
+                errorProto.sealObject();
                 ctor.sealObject();
             }
             ctor.exportAsScopeProperty();
@@ -187,19 +147,13 @@ public class NativeGlobal implements Serializable, IdFunctionCall
                     return js_escape(args);
 
                 case Id_eval:
-                    return js_eval(cx, scope, thisObj, args);
+                    return js_eval(cx, scope, args);
 
                 case Id_isFinite: {
-                    boolean result;
                     if (args.length < 1) {
-                        result = false;
-                    } else {
-                        double d = ScriptRuntime.toNumber(args[0]);
-                        result = (d == d
-                                  && d != Double.POSITIVE_INFINITY
-                                  && d != Double.NEGATIVE_INFINITY);
+                        return Boolean.FALSE;
                     }
-                    return ScriptRuntime.wrapBoolean(result);
+                    return NativeNumber.isFinite(args[0]);
                 }
 
                 case Id_isNaN: {
@@ -249,7 +203,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall
     /**
      * The global method parseInt, as per ECMA-262 15.1.2.2.
      */
-    private Object js_parseInt(Object[] args) {
+    static Object js_parseInt(Object[] args) {
         String s = ScriptRuntime.toString(args, 0);
         int radix = ScriptRuntime.toInt32(args, 1);
 
@@ -262,7 +216,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall
         char c;
         do {
             c = s.charAt(start);
-            if (!Character.isWhitespace(c))
+            if (!ScriptRuntime.isStrWhiteSpaceChar(c))
                 break;
             start++;
         } while (start < len);
@@ -304,7 +258,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall
      *
      * @param args the arguments to parseFloat, ignoring args[>=1]
      */
-    private Object js_parseFloat(Object[] args)
+    static Object js_parseFloat(Object[] args)
     {
         if (args.length < 1)
             return ScriptRuntime.NaNobj;
@@ -319,7 +273,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall
                 return ScriptRuntime.NaNobj;
             }
             c = s.charAt(start);
-            if (!TokenStream.isJSSpace(c)) {
+            if (!ScriptRuntime.isStrWhiteSpaceChar(c)) {
                 break;
             }
             ++start;
@@ -351,6 +305,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall
         // Find the end of the legal bit
         int decimal = -1;
         int exponent = -1;
+        boolean exponentValid = false;
         for (; i < len; i++) {
             switch (s.charAt(i)) {
               case '.':
@@ -361,26 +316,39 @@ public class NativeGlobal implements Serializable, IdFunctionCall
 
               case 'e':
               case 'E':
-                if (exponent != -1)
+                if (exponent != -1) {
                     break;
+                } else if (i == len - 1) {
+                    break;
+                }
                 exponent = i;
                 continue;
 
               case '+':
               case '-':
                  // Only allow '+' or '-' after 'e' or 'E'
-                if (exponent != i-1)
+                if (exponent != i-1) {
                     break;
+                } else if (i == len - 1) {
+                    --i;
+                    break;
+                }
                 continue;
 
               case '0': case '1': case '2': case '3': case '4':
               case '5': case '6': case '7': case '8': case '9':
+                if (exponent != -1) {
+                    exponentValid = true;
+                }
                 continue;
 
               default:
                 break;
             }
             break;
+        }
+        if (exponent != -1 && !exponentValid) {
+            i = exponent;
         }
         s = s.substring(start, i);
         try {
@@ -417,7 +385,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall
             }
         }
 
-        StringBuffer sb = null;
+        StringBuilder sb = null;
         for (int k = 0, L = s.length(); k != L; ++k) {
             int c = s.charAt(k);
             if (mask != 0
@@ -431,7 +399,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall
                 }
             } else {
                 if (sb == null) {
-                    sb = new StringBuffer(L + 3);
+                    sb = new StringBuilder(L + 3);
                     sb.append(s);
                     sb.setLength(k);
                 }
@@ -505,15 +473,14 @@ public class NativeGlobal implements Serializable, IdFunctionCall
         return s;
     }
 
-    private Object js_eval(Context cx, Scriptable scope, Scriptable thisObj, Object[] args)
+    /**
+     * This is an indirect call to eval, and thus uses the global environment.
+     * Direct calls are executed via ScriptRuntime.callSpecial().
+     */
+    private Object js_eval(Context cx, Scriptable scope, Object[] args)
     {
-        if (thisObj.getParentScope() == null) {
-            // We allow indirect calls to eval as long as the script will execute in 
-            // the global scope.
-            return ScriptRuntime.evalSpecial(cx, scope, thisObj, args, "eval code", 1);
-        }
-        String m = ScriptRuntime.getMessage1("msg.cant.call.indirect", "eval");
-        throw NativeGlobal.constructError(cx, "EvalError", m, scope);
+        Scriptable global = ScriptableObject.getTopLevelScope(scope);
+        return ScriptRuntime.evalSpecial(cx, global, global, args, "eval code", 1);
     }
 
     static boolean isEvalFunction(Object functionObj)
@@ -531,6 +498,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall
      * @deprecated Use {@link ScriptRuntime#constructError(String,String)}
      * instead.
      */
+    @Deprecated
     public static EcmaError constructError(Context cx,
                                            String error,
                                            String message,
@@ -544,6 +512,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall
      * {@link ScriptRuntime#constructError(String,String,String,int,String,int)}
      * instead.
      */
+    @Deprecated
     public static EcmaError constructError(Context cx,
                                            String error,
                                            String message,
@@ -567,7 +536,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall
     */
     private static String encode(String str, boolean fullUri) {
         byte[] utf8buf = null;
-        StringBuffer sb = null;
+        StringBuilder sb = null;
 
         for (int k = 0, length = str.length(); k != length; ++k) {
             char C = str.charAt(k);
@@ -577,13 +546,13 @@ public class NativeGlobal implements Serializable, IdFunctionCall
                 }
             } else {
                 if (sb == null) {
-                    sb = new StringBuffer(length + 3);
+                    sb = new StringBuilder(length + 3);
                     sb.append(str);
                     sb.setLength(k);
                     utf8buf = new byte[6];
                 }
                 if (0xDC00 <= C && C <= 0xDFFF) {
-                    throw Context.reportRuntimeError0("msg.bad.uri");
+                    throw uriError();
                 }
                 int V;
                 if (C < 0xD800 || 0xDBFF < C) {
@@ -591,11 +560,11 @@ public class NativeGlobal implements Serializable, IdFunctionCall
                 } else {
                     k++;
                     if (k == length) {
-                        throw Context.reportRuntimeError0("msg.bad.uri");
+                        throw uriError();
                     }
                     char C2 = str.charAt(k);
                     if (!(0xDC00 <= C2 && C2 <= 0xDFFF)) {
-                        throw Context.reportRuntimeError0("msg.bad.uri");
+                        throw uriError();
                     }
                     V = ((C - 0xD800) << 10) + (C2 - 0xDC00) + 0x10000;
                 }
@@ -658,9 +627,9 @@ public class NativeGlobal implements Serializable, IdFunctionCall
                 }
                 int start = k;
                 if (k + 3 > length)
-                    throw Context.reportRuntimeError0("msg.bad.uri");
+                    throw uriError();
                 int B = unHex(str.charAt(k + 1), str.charAt(k + 2));
-                if (B < 0) throw Context.reportRuntimeError0("msg.bad.uri");
+                if (B < 0) throw uriError();
                 k += 3;
                 if ((B & 0x80) == 0) {
                     C = (char)B;
@@ -670,7 +639,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall
                     int utf8Tail, ucs4Char, minUcs4Char;
                     if ((B & 0xC0) == 0x80) {
                         // First  UTF-8 should be ouside 0x80..0xBF
-                        throw Context.reportRuntimeError0("msg.bad.uri");
+                        throw uriError();
                     } else if ((B & 0x20) == 0) {
                         utf8Tail = 1; ucs4Char = B & 0x1F;
                         minUcs4Char = 0x80;
@@ -688,29 +657,31 @@ public class NativeGlobal implements Serializable, IdFunctionCall
                         minUcs4Char = 0x4000000;
                     } else {
                         // First UTF-8 can not be 0xFF or 0xFE
-                        throw Context.reportRuntimeError0("msg.bad.uri");
+                        throw uriError();
                     }
                     if (k + 3 * utf8Tail > length)
-                        throw Context.reportRuntimeError0("msg.bad.uri");
+                        throw uriError();
                     for (int j = 0; j != utf8Tail; j++) {
                         if (str.charAt(k) != '%')
-                            throw Context.reportRuntimeError0("msg.bad.uri");
+                            throw uriError();
                         B = unHex(str.charAt(k + 1), str.charAt(k + 2));
                         if (B < 0 || (B & 0xC0) != 0x80)
-                            throw Context.reportRuntimeError0("msg.bad.uri");
+                            throw uriError();
                         ucs4Char = (ucs4Char << 6) | (B & 0x3F);
                         k += 3;
                     }
                     // Check for overlongs and other should-not-present codes
                     if (ucs4Char < minUcs4Char
-                        || ucs4Char == 0xFFFE || ucs4Char == 0xFFFF)
-                    {
+                            || (ucs4Char >= 0xD800 && ucs4Char <= 0xDFFF)) {
+                        ucs4Char = INVALID_UTF8;
+                    } else if (ucs4Char == 0xFFFE || ucs4Char == 0xFFFF) {
                         ucs4Char = 0xFFFD;
                     }
                     if (ucs4Char >= 0x10000) {
                         ucs4Char -= 0x10000;
-                        if (ucs4Char > 0xFFFFF)
-                            throw Context.reportRuntimeError0("msg.bad.uri");
+                        if (ucs4Char > 0xFFFFF) {
+                            throw uriError();
+                        }
                         char H = (char)((ucs4Char >>> 10) + 0xD800);
                         C = (char)((ucs4Char & 0x3FF) + 0xDC00);
                         buf[bufTop++] = H;
@@ -732,19 +703,25 @@ public class NativeGlobal implements Serializable, IdFunctionCall
 
     private static boolean encodeUnescaped(char c, boolean fullUri) {
         if (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z')
-            || ('0' <= c && c <= '9'))
-        {
+                || ('0' <= c && c <= '9')) {
             return true;
         }
-        if ("-_.!~*'()".indexOf(c) >= 0)
+        if ("-_.!~*'()".indexOf(c) >= 0) {
             return true;
+        }
         if (fullUri) {
             return URI_DECODE_RESERVED.indexOf(c) >= 0;
         }
         return false;
     }
 
+    private static EcmaError uriError() {
+        return ScriptRuntime.constructError("URIError",
+                ScriptRuntime.getMessage0("msg.bad.uri"));
+    }
+
     private static final String URI_DECODE_RESERVED = ";/?:@&=+$,#";
+    private static final int INVALID_UTF8 = Integer.MAX_VALUE;
 
     /* Convert one UCS-4 char and write it into a UTF-8 buffer, which must be
     * at least 6 bytes long.  Return the number of UTF-8 bytes of data written.

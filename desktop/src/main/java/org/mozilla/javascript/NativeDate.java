@@ -1,49 +1,16 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-1999
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Peter Annema
- *   Norris Boyd
- *   Mike McCabe
- *   Ilya Frank
- *   
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
 
-import java.text.DateFormat;
 import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import java.util.TimeZone;
 
 /**
  * This class implements the Date native object.
@@ -71,7 +38,7 @@ final class NativeDate extends IdScriptableObject
         if (thisTimeZone == null) {
             // j.u.TimeZone is synchronized, so setting class statics from it
             // should be OK.
-            thisTimeZone = java.util.TimeZone.getDefault();
+            thisTimeZone = TimeZone.getDefault();
             LocalTZA = thisTimeZone.getRawOffset();
         }
     }
@@ -103,7 +70,7 @@ final class NativeDate extends IdScriptableObject
         addIdFunctionProperty(ctor, DATE_TAG, ConstructorId_parse,
                               "parse", 1);
         addIdFunctionProperty(ctor, DATE_TAG, ConstructorId_UTC,
-                              "UTC", 1);
+                              "UTC", 7);
         super.fillConstructorProperties(ctor);
     }
 
@@ -113,7 +80,7 @@ final class NativeDate extends IdScriptableObject
         String s;
         int arity;
         switch (id) {
-          case Id_constructor:        arity=1; s="constructor";        break;
+          case Id_constructor:        arity=7; s="constructor";        break;
           case Id_toString:           arity=0; s="toString";           break;
           case Id_toTimeString:       arity=0; s="toTimeString";       break;
           case Id_toDateString:       arity=0; s="toDateString";       break;
@@ -158,6 +125,8 @@ final class NativeDate extends IdScriptableObject
           case Id_setFullYear:        arity=3; s="setFullYear";        break;
           case Id_setUTCFullYear:     arity=3; s="setUTCFullYear";     break;
           case Id_setYear:            arity=1; s="setYear";            break;
+          case Id_toISOString:        arity=0; s="toISOString";        break;
+          case Id_toJSON:             arity=1; s="toJSON";             break;
           default: throw new IllegalArgumentException(String.valueOf(id));
         }
         initPrototypeMethod(DATE_TAG, id, s, arity);
@@ -192,6 +161,40 @@ final class NativeDate extends IdScriptableObject
                     return date_format(now(), Id_toString);
                 return jsConstructor(args);
             }
+
+          case Id_toJSON:
+            {
+                final String toISOString = "toISOString";
+
+                Scriptable o = ScriptRuntime.toObject(cx, scope, thisObj);
+                Object tv = ScriptRuntime.toPrimitive(o, ScriptRuntime.NumberClass);
+                if (tv instanceof Number) {
+                    double d = ((Number) tv).doubleValue();
+                    if (d != d || Double.isInfinite(d)) {
+                        return null;
+                    }
+                }
+                Object toISO = ScriptableObject.getProperty(o, toISOString);
+                if (toISO == NOT_FOUND) {
+                    throw ScriptRuntime.typeError2("msg.function.not.found.in",
+                            toISOString,
+                            ScriptRuntime.toString(o));
+                }
+                if ( !(toISO instanceof Callable) ) {
+                    throw ScriptRuntime.typeError3("msg.isnt.function.in",
+                            toISOString,
+                            ScriptRuntime.toString(o),
+                            ScriptRuntime.toString(toISO));
+                }
+                Object result = ((Callable) toISO).call(cx, scope, o,
+                            ScriptRuntime.emptyArgs);
+                if ( !ScriptRuntime.isPrimitive(result) ) {
+                    throw ScriptRuntime.typeError1("msg.toisostring.must.return.primitive",
+                            ScriptRuntime.toString(result));
+                }
+                return result;
+            }
+
         }
 
         // The rest of Date.prototype methods require thisObj to be Date
@@ -365,6 +368,13 @@ final class NativeDate extends IdScriptableObject
             realThis.date = t;
             return ScriptRuntime.wrapNumber(t);
 
+          case Id_toISOString:
+            if (t == t) {
+                return js_toISOString(t);
+            }
+            String msg = ScriptRuntime.getMessage0("msg.invalid.date");
+            throw ScriptRuntime.constructError("RangeError", msg);
+
           default: throw new IllegalArgumentException(String.valueOf(id));
         }
 
@@ -463,6 +473,16 @@ final class NativeDate extends IdScriptableObject
         return day;
     }
 
+    private static int DaysInMonth(int year, int month)
+    {
+        // month is 1-based for DaysInMonth!
+        if (month == 2)
+            return IsLeapYear(year) ? 29 : 28;
+        return month >= 8
+               ? 31 - (month & 1)
+               : 30 + (month & 1);
+    }
+
     private static int MonthFromTime(double t)
     {
         int year = YearFromTime(t);
@@ -556,57 +576,22 @@ final class NativeDate extends IdScriptableObject
         return System.currentTimeMillis();
     }
 
-    /* Should be possible to determine the need for this dynamically
-     * if we go with the workaround... I'm not using it now, because I
-     * can't think of any clean way to make toLocaleString() and the
-     * time zone (comment) in toString match the generated string
-     * values.  Currently it's wrong-but-consistent in all but the
-     * most recent betas of the JRE - seems to work in 1.1.7.
-     */
-    private final static boolean TZO_WORKAROUND = false;
     private static double DaylightSavingTA(double t)
     {
         // Another workaround!  The JRE doesn't seem to know about DST
         // before year 1 AD, so we map to equivalent dates for the
-        // purposes of finding dst.  To be safe, we do this for years
-        // outside 1970-2038.
-        if (t < 0.0 || t > 2145916800000.0) {
+        // purposes of finding DST. To be safe, we do this for years
+        // before 1970.
+        if (t < 0.0) {
             int year = EquivalentYear(YearFromTime(t));
             double day = MakeDay(year, MonthFromTime(t), DateFromTime(t));
             t = MakeDate(day, TimeWithinDay(t));
         }
-        if (!TZO_WORKAROUND) {
-            Date date = new Date((long) t);
-            if (thisTimeZone.inDaylightTime(date))
-                return msPerHour;
-            else
-                return 0;
-        } else {
-            /* Use getOffset if inDaylightTime() is broken, because it
-             * seems to work acceptably.  We don't switch over to it
-             * entirely, because it requires (expensive) exploded date arguments,
-             * and the api makes it impossible to handle dst
-             * changeovers cleanly.
-             */
-
-            // Hardcode the assumption that the changeover always
-            // happens at 2:00 AM:
-            t += LocalTZA + (HourFromTime(t) <= 2 ? msPerHour : 0);
-
-            int year = YearFromTime(t);
-            double offset = thisTimeZone.getOffset(year > 0 ? 1 : 0,
-                                                   year,
-                                                   MonthFromTime(t),
-                                                   DateFromTime(t),
-                                                   WeekDay(t),
-                                                   (int)TimeWithinDay(t));
-
-            if ((offset - LocalTZA) != 0)
-                return msPerHour;
-            else
-                return 0;
-            //         return offset - LocalTZA;
-        }
+        Date date = new Date((long) t);
+        if (thisTimeZone.inDaylightTime(date))
+            return msPerHour;
+        else
+            return 0;
     }
 
     /*
@@ -637,8 +622,8 @@ final class NativeDate extends IdScriptableObject
             switch (day) {
                 case 0: return 1978;
                 case 1: return 1973;
-                case 2: return 1974;
-                case 3: return 1975;
+                case 2: return 1985;
+                case 3: return 1986;
                 case 4: return 1981;
                 case 5: return 1971;
                 case 6: return 1977;
@@ -790,8 +775,166 @@ final class NativeDate extends IdScriptableObject
         return TimeClip(date_msecFromArgs(args));
     }
 
+    /**
+     * 15.9.1.15 Date Time String Format<br>
+     * Parse input string according to simplified ISO-8601 Extended Format:
+     * <ul>
+     * <li><code>YYYY-MM-DD'T'HH:mm:ss.sss'Z'</code></li>
+     * <li>or <code>YYYY-MM-DD'T'HH:mm:ss.sss[+-]hh:mm</code></li>
+     * </ul>
+     */
+    private static double parseISOString(String s) {
+        // we use a simple state machine to parse the input string
+        final int ERROR = -1;
+        final int YEAR = 0, MONTH = 1, DAY = 2;
+        final int HOUR = 3, MIN = 4, SEC = 5, MSEC = 6;
+        final int TZHOUR = 7, TZMIN = 8;
+        int state = YEAR;
+        // default values per [15.9.1.15 Date Time String Format]
+        int[] values = { 1970, 1, 1, 0, 0, 0, 0, -1, -1 };
+        int yearlen = 4, yearmod = 1, tzmod = 1;
+        int i = 0, len = s.length();
+        if (len != 0) {
+            char c = s.charAt(0);
+            if (c == '+' || c == '-') {
+                // 15.9.1.15.1 Extended years
+                i += 1;
+                yearlen = 6;
+                yearmod = (c == '-') ? -1 : 1;
+            } else if (c == 'T') {
+                // time-only forms no longer in spec, but follow spidermonkey here
+                i += 1;
+                state = HOUR;
+            }
+        }
+        loop: while (state != ERROR) {
+            int m = i + (state == YEAR ? yearlen : state == MSEC ? 3 : 2);
+            if (m > len) {
+                state = ERROR;
+                break;
+            }
+
+            int value = 0;
+            for (; i < m; ++i) {
+                char c = s.charAt(i);
+                if (c < '0' || c > '9') { state = ERROR; break loop; }
+                value = 10 * value + (c - '0');
+            }
+            values[state] = value;
+
+            if (i == len) {
+                // reached EOF, check for end state
+                switch (state) {
+                case HOUR:
+                case TZHOUR:
+                    state = ERROR;
+                }
+                break;
+            }
+
+            char c = s.charAt(i++);
+            if (c == 'Z') {
+                // handle abbrevation for UTC timezone
+                values[TZHOUR] = 0;
+                values[TZMIN] = 0;
+                switch (state) {
+                case MIN:
+                case SEC:
+                case MSEC:
+                    break;
+                default:
+                    state = ERROR;
+                }
+                break;
+            }
+
+            // state transition
+            switch (state) {
+            case YEAR:
+            case MONTH:
+                state = (c == '-' ? state + 1 : c == 'T' ? HOUR : ERROR);
+                break;
+            case DAY:
+                state = (c == 'T' ? HOUR : ERROR);
+                break;
+            case HOUR:
+                state = (c == ':' ? MIN : ERROR);
+                break;
+            case TZHOUR:
+                // state = (c == ':' ? state + 1 : ERROR);
+                // Non-standard extension, https://bugzilla.mozilla.org/show_bug.cgi?id=682754
+                if (c != ':') {
+                    // back off by one and try to read without ':' separator
+                    i -= 1;
+                }
+                state = TZMIN;
+                break;
+            case MIN:
+                state = (c == ':' ? SEC : c == '+' || c == '-' ? TZHOUR : ERROR);
+                break;
+            case SEC:
+                state = (c == '.' ? MSEC : c == '+' || c == '-' ? TZHOUR : ERROR);
+                break;
+            case MSEC:
+                state = (c == '+' || c == '-' ? TZHOUR : ERROR);
+                break;
+            case TZMIN:
+                state = ERROR;
+                break;
+            }
+            if (state == TZHOUR) {
+                // save timezone modificator
+                tzmod = (c == '-') ? -1 : 1;
+            }
+        }
+
+        syntax: {
+            // error or unparsed characters
+            if (state == ERROR || i != len) break syntax;
+
+            // check values
+            int year = values[YEAR], month = values[MONTH], day = values[DAY];
+            int hour = values[HOUR], min = values[MIN], sec = values[SEC], msec = values[MSEC];
+            int tzhour = values[TZHOUR], tzmin = values[TZMIN];
+            if (year > 275943 // ceil(1e8/365) + 1970 = 275943
+                || (month < 1 || month > 12)
+                || (day < 1 || day > DaysInMonth(year, month))
+                || hour > 24
+                || (hour == 24 && (min > 0 || sec > 0 || msec > 0))
+                || min > 59
+                || sec > 59
+                || tzhour > 23
+                || tzmin > 59
+               ) {
+                break syntax;
+            }
+            // valid ISO-8601 format, compute date in milliseconds
+            double date = date_msecFromDate(year * yearmod, month - 1, day,
+                                            hour, min, sec, msec);
+            if (tzhour == -1) {
+                // Spec says to use UTC timezone, the following bug report says
+                // that local timezone was meant to be used. Stick with spec for now.
+                // https://bugs.ecmascript.org/show_bug.cgi?id=112
+                // date = internalUTC(date);
+            } else {
+                date -= (tzhour * 60 + tzmin) * msPerMinute * tzmod;
+            }
+
+            if (date < -HalfTimeDomain || date > HalfTimeDomain) break syntax;
+            return date;
+        }
+
+        // invalid ISO-8601 format, return NaN
+        return ScriptRuntime.NaN;
+    }
+
     private static double date_parseString(String s)
     {
+        double d = parseISOString(s);
+        if (d == d) {
+            return d;
+        }
+
         int year = -1;
         int mon = -1;
         int mday = -1;
@@ -1000,7 +1143,7 @@ final class NativeDate extends IdScriptableObject
 
     private static String date_format(double t, int methodId)
     {
-        StringBuffer result = new StringBuffer(60);
+        StringBuilder result = new StringBuilder(60);
         double local = LocalTime(t);
 
         /* Tue Oct 31 09:41:40 GMT-0800 (PST) 2000 */
@@ -1046,17 +1189,17 @@ final class NativeDate extends IdScriptableObject
             append0PaddedUint(result, offset, 4);
 
             if (timeZoneFormatter == null)
-                timeZoneFormatter = new java.text.SimpleDateFormat("zzz");
+                timeZoneFormatter = new SimpleDateFormat("zzz");
 
             // Find an equivalent year before getting the timezone
             // comment.  See DaylightSavingTA.
-            if (t < 0.0 || t > 2145916800000.0) {
+            if (t < 0.0) {
                 int equiv = EquivalentYear(YearFromTime(local));
                 double day = MakeDay(equiv, MonthFromTime(t), DateFromTime(t));
                 t = MakeDate(day, TimeWithinDay(t));
-             }
+            }
             result.append(" (");
-            java.util.Date date = new Date((long) t);
+            Date date = new Date((long) t);
             synchronized (timeZoneFormatter) {
                 result.append(timeZoneFormatter.format(date));
             }
@@ -1083,9 +1226,9 @@ final class NativeDate extends IdScriptableObject
             if (arg0 instanceof Scriptable)
                 arg0 = ((Scriptable) arg0).getDefaultValue(null);
             double date;
-            if (arg0 instanceof String) {
+            if (arg0 instanceof CharSequence) {
                 // it's a string; parse it.
-                date = date_parseString((String)arg0);
+                date = date_parseString(arg0.toString());
             } else {
                 // if it's not a string, use it as a millisecond date
                 date = ScriptRuntime.toNumber(arg0);
@@ -1106,7 +1249,7 @@ final class NativeDate extends IdScriptableObject
 
     private static String toLocale_helper(double t, int methodId)
     {
-        java.text.DateFormat formatter;
+        DateFormat formatter;
         switch (methodId) {
           case Id_toLocaleString:
             if (localeDateTimeFormatter == null) {
@@ -1130,7 +1273,7 @@ final class NativeDate extends IdScriptableObject
             }
             formatter = localeDateFormatter;
             break;
-          default: formatter = null; // unreachable
+          default: throw new AssertionError(); // unreachable
         }
 
         synchronized (formatter) {
@@ -1140,7 +1283,7 @@ final class NativeDate extends IdScriptableObject
 
     private static String js_toUTCString(double date)
     {
-        StringBuffer result = new StringBuffer(60);
+        StringBuilder result = new StringBuilder(60);
 
         appendWeekDayName(result, WeekDay(date));
         result.append(", ");
@@ -1163,7 +1306,35 @@ final class NativeDate extends IdScriptableObject
         return result.toString();
     }
 
-    private static void append0PaddedUint(StringBuffer sb, int i, int minWidth)
+    private static String js_toISOString(double t) {
+        StringBuilder result = new StringBuilder(27);
+
+        int year = YearFromTime(t);
+        if (year < 0) {
+            result.append('-');
+            append0PaddedUint(result, -year, 6);
+        } else if (year > 9999) {
+            append0PaddedUint(result, year, 6);
+        } else {
+            append0PaddedUint(result, year, 4);
+        }
+        result.append('-');
+        append0PaddedUint(result, MonthFromTime(t) + 1, 2);
+        result.append('-');
+        append0PaddedUint(result, DateFromTime(t), 2);
+        result.append('T');
+        append0PaddedUint(result, HourFromTime(t), 2);
+        result.append(':');
+        append0PaddedUint(result, MinFromTime(t), 2);
+        result.append(':');
+        append0PaddedUint(result, SecFromTime(t), 2);
+        result.append('.');
+        append0PaddedUint(result, msFromTime(t), 3);
+        result.append('Z');
+        return result.toString();
+    }
+
+    private static void append0PaddedUint(StringBuilder sb, int i, int minWidth)
     {
         if (i < 0) Kit.codeBug();
         int scale = 1;
@@ -1194,7 +1365,7 @@ final class NativeDate extends IdScriptableObject
         sb.append((char)('0' + i));
     }
 
-    private static void appendMonthName(StringBuffer sb, int index)
+    private static void appendMonthName(StringBuilder sb, int index)
     {
         // Take advantage of the fact that all month abbreviations
         // have the same length to minimize amount of strings runtime has
@@ -1207,7 +1378,7 @@ final class NativeDate extends IdScriptableObject
         }
     }
 
-    private static void appendWeekDayName(StringBuffer sb, int index)
+    private static void appendWeekDayName(StringBuilder sb, int index)
     {
         String days = "Sun"+"Mon"+"Tue"+"Wed"+"Thu"+"Fri"+"Sat";
         index *= 3;
@@ -1218,6 +1389,19 @@ final class NativeDate extends IdScriptableObject
 
     private static double makeTime(double date, Object[] args, int methodId)
     {
+        if (args.length == 0) {
+            /*
+             * Satisfy the ECMA rule that if a function is called with
+             * fewer arguments than the specified formal arguments, the
+             * remaining arguments are set to undefined.  Seems like all
+             * the Date.setWhatever functions in ECMA are only varargs
+             * beyond the first argument; this should be set to undefined
+             * if it's not given.  This means that "d = new Date();
+             * d.setMilliseconds()" returns NaN.  Blech.
+             */
+            return ScriptRuntime.NaN;
+        }
+
         int maxargs;
         boolean local = true;
         switch (methodId) {
@@ -1250,83 +1434,73 @@ final class NativeDate extends IdScriptableObject
             break;
 
           default:
-              Kit.codeBug();
-            maxargs = 0;
+              throw Kit.codeBug();
         }
 
-        int i;
-        double conv[] = new double[4];
-        double hour, min, sec, msec;
-        double lorutime; /* Local or UTC version of date */
-
-        double time;
-        double result;
-
-        /* just return NaN if the date is already NaN */
-        if (date != date)
-            return date;
-
-        /* Satisfy the ECMA rule that if a function is called with
-         * fewer arguments than the specified formal arguments, the
-         * remaining arguments are set to undefined.  Seems like all
-         * the Date.setWhatever functions in ECMA are only varargs
-         * beyond the first argument; this should be set to undefined
-         * if it's not given.  This means that "d = new Date();
-         * d.setMilliseconds()" returns NaN.  Blech.
-         */
-        if (args.length == 0)
-            args = ScriptRuntime.padArguments(args, 1);
-
-        for (i = 0; i < args.length && i < maxargs; i++) {
-            conv[i] = ScriptRuntime.toNumber(args[i]);
-
-            // limit checks that happen in MakeTime in ECMA.
-            if (conv[i] != conv[i] || Double.isInfinite(conv[i])) {
-                return ScriptRuntime.NaN;
+        boolean hasNaN = false;
+        int numNums = args.length < maxargs ? args.length : maxargs;
+        assert numNums <= 4;
+        double[] nums = new double[4];
+        for (int i = 0; i < numNums; i++) {
+            double d = ScriptRuntime.toNumber(args[i]);
+            if (d != d || Double.isInfinite(d)) {
+                hasNaN = true;
+            } else {
+                nums[i] = ScriptRuntime.toInteger(d);
             }
-            conv[i] = ScriptRuntime.toInteger(conv[i]);
         }
+
+        // just return NaN if the date is already NaN,
+        // limit checks that happen in MakeTime in ECMA.
+        if (hasNaN || date != date) {
+            return ScriptRuntime.NaN;
+        }
+
+        int i = 0, stop = numNums;
+        double hour, min, sec, msec;
+        double lorutime;  /* Local or UTC version of date */
 
         if (local)
             lorutime = LocalTime(date);
         else
             lorutime = date;
 
-        i = 0;
-        int stop = args.length;
-
         if (maxargs >= 4 && i < stop)
-            hour = conv[i++];
+            hour = nums[i++];
         else
             hour = HourFromTime(lorutime);
 
         if (maxargs >= 3 && i < stop)
-            min = conv[i++];
+            min = nums[i++];
         else
             min = MinFromTime(lorutime);
 
         if (maxargs >= 2 && i < stop)
-            sec = conv[i++];
+            sec = nums[i++];
         else
             sec = SecFromTime(lorutime);
 
         if (maxargs >= 1 && i < stop)
-            msec = conv[i++];
+            msec = nums[i++];
         else
             msec = msFromTime(lorutime);
 
-        time = MakeTime(hour, min, sec, msec);
-        result = MakeDate(Day(lorutime), time);
+        double time = MakeTime(hour, min, sec, msec);
+        double result = MakeDate(Day(lorutime), time);
 
         if (local)
             result = internalUTC(result);
-        date = TimeClip(result);
 
-        return date;
+        return TimeClip(result);
     }
 
     private static double makeDate(double date, Object[] args, int methodId)
     {
+        /* see complaint about ECMA in date_MakeTime */
+        if (args.length == 0) {
+            return ScriptRuntime.NaN;
+        }
+
         int maxargs;
         boolean local = true;
         switch (methodId) {
@@ -1352,34 +1526,35 @@ final class NativeDate extends IdScriptableObject
             break;
 
           default:
-              Kit.codeBug();
-            maxargs = 0;
+              throw Kit.codeBug();
         }
 
-        int i;
-        double conv[] = new double[3];
-        double year, month, day;
-        double lorutime; /* local or UTC version of date */
-        double result;
-
-        /* See arg padding comment in makeTime.*/
-        if (args.length == 0)
-            args = ScriptRuntime.padArguments(args, 1);
-
-        for (i = 0; i < args.length && i < maxargs; i++) {
-            conv[i] = ScriptRuntime.toNumber(args[i]);
-
-            // limit checks that happen in MakeDate in ECMA.
-            if (conv[i] != conv[i] || Double.isInfinite(conv[i])) {
-                return ScriptRuntime.NaN;
+        boolean hasNaN = false;
+        int numNums = args.length < maxargs ? args.length : maxargs;
+        assert 1 <= numNums && numNums <= 3;
+        double[] nums = new double[3];
+        for (int i = 0; i < numNums; i++) {
+            double d = ScriptRuntime.toNumber(args[i]);
+            if (d != d || Double.isInfinite(d)) {
+                hasNaN = true;
+            } else {
+                nums[i] = ScriptRuntime.toInteger(d);
             }
-            conv[i] = ScriptRuntime.toInteger(conv[i]);
         }
+
+        // limit checks that happen in MakeTime in ECMA.
+        if (hasNaN) {
+            return ScriptRuntime.NaN;
+        }
+
+        int i = 0, stop = numNums;
+        double year, month, day;
+        double lorutime;  /* Local or UTC version of date */
 
         /* return NaN if date is NaN and we're not setting the year,
          * If we are, use 0 as the time. */
         if (date != date) {
-            if (args.length < 3) {
+            if (maxargs < 3) {
                 return ScriptRuntime.NaN;
             } else {
                 lorutime = 0;
@@ -1391,33 +1566,28 @@ final class NativeDate extends IdScriptableObject
                 lorutime = date;
         }
 
-        i = 0;
-        int stop = args.length;
-
         if (maxargs >= 3 && i < stop)
-            year = conv[i++];
+            year = nums[i++];
         else
             year = YearFromTime(lorutime);
 
         if (maxargs >= 2 && i < stop)
-            month = conv[i++];
+            month = nums[i++];
         else
             month = MonthFromTime(lorutime);
 
         if (maxargs >= 1 && i < stop)
-            day = conv[i++];
+            day = nums[i++];
         else
             day = DateFromTime(lorutime);
 
         day = MakeDay(year, month, day); /* day within year */
-        result = MakeDate(day, TimeWithinDay(lorutime));
+        double result = MakeDate(day, TimeWithinDay(lorutime));
 
         if (local)
             result = internalUTC(result);
 
-        date = TimeClip(result);
-
-        return date;
+        return TimeClip(result);
     }
 
 // #string_id_map#
@@ -1426,10 +1596,13 @@ final class NativeDate extends IdScriptableObject
     protected int findPrototypeId(String s)
     {
         int id;
-// #generated# Last update: 2007-05-09 08:15:38 EDT
+// #generated# Last update: 2009-07-22 05:44:02 EST
         L0: { id = 0; String X = null; int c;
             L: switch (s.length()) {
-            case 6: X="getDay";id=Id_getDay; break L;
+            case 6: c=s.charAt(0);
+                if (c=='g') { X="getDay";id=Id_getDay; }
+                else if (c=='t') { X="toJSON";id=Id_toJSON; }
+                break L;
             case 7: switch (s.charAt(3)) {
                 case 'D': c=s.charAt(0);
                     if (c=='g') { X="getDate";id=Id_getDate; }
@@ -1481,6 +1654,7 @@ final class NativeDate extends IdScriptableObject
                     else if (c=='s') { X="setFullYear";id=Id_setFullYear; }
                     break L;
                 case 'M': X="toGMTString";id=Id_toGMTString; break L;
+                case 'S': X="toISOString";id=Id_toISOString; break L;
                 case 'T': X="toUTCString";id=Id_toUTCString; break L;
                 case 'U': c=s.charAt(0);
                     if (c=='g') {
@@ -1589,20 +1763,22 @@ final class NativeDate extends IdScriptableObject
         Id_setFullYear          = 43,
         Id_setUTCFullYear       = 44,
         Id_setYear              = 45,
+        Id_toISOString          = 46,
+        Id_toJSON               = 47,
 
-        MAX_PROTOTYPE_ID        = 45;
+        MAX_PROTOTYPE_ID        = Id_toJSON;
 
     private static final int
         Id_toGMTString  =  Id_toUTCString; // Alias, see Ecma B.2.6
 // #/string_id_map#
 
     /* cached values */
-    private static java.util.TimeZone thisTimeZone;
+    private static TimeZone thisTimeZone;
     private static double LocalTZA;
-    private static java.text.DateFormat timeZoneFormatter;
-    private static java.text.DateFormat localeDateTimeFormatter;
-    private static java.text.DateFormat localeDateFormatter;
-    private static java.text.DateFormat localeTimeFormatter;
+    private static DateFormat timeZoneFormatter;
+    private static DateFormat localeDateTimeFormatter;
+    private static DateFormat localeDateFormatter;
+    private static DateFormat localeTimeFormatter;
 
     private double date;
 }

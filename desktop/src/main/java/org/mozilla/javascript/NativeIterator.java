@@ -1,39 +1,15 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * Contributor(s):
- *   Norris Boyd
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
 
 import java.util.Iterator;
 
 /**
- * This class implements iterator objects. See 
+ * This class implements iterator objects. See
  * http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Iterators
  *
  * @author Norris Boyd
@@ -41,7 +17,7 @@ import java.util.Iterator;
 public final class NativeIterator extends IdScriptableObject {
     private static final long serialVersionUID = -4136968203581667681L;
     private static final Object ITERATOR_TAG = "Iterator";
-    
+
     static void init(ScriptableObject scope, boolean sealed) {
         // Iterator
         NativeIterator iterator = new NativeIterator();
@@ -62,13 +38,13 @@ public final class NativeIterator extends IdScriptableObject {
         // scope is replaced or deleted.
         scope.associateValue(ITERATOR_TAG, obj);
     }
-    
+
     /**
      * Only for constructing the prototype object.
      */
     private NativeIterator() {
     }
-    
+
     private NativeIterator(Object objectIterator) {
       this.objectIterator = objectIterator;
     }
@@ -85,10 +61,10 @@ public final class NativeIterator extends IdScriptableObject {
         Scriptable top = ScriptableObject.getTopLevelScope(scope);
         return ScriptableObject.getTopScopeValue(top, ITERATOR_TAG);
     }
-    
+
     private static final String STOP_ITERATION = "StopIteration";
     public static final String ITERATOR_PROPERTY_NAME = "__iterator__";
-    
+
     static class StopIteration extends NativeObject {
         private static final long serialVersionUID = 2485151085722377663L;
 
@@ -132,49 +108,50 @@ public final class NativeIterator extends IdScriptableObject {
             return super.execIdCall(f, cx, scope, thisObj, args);
         }
         int id = f.methodId();
-        
+
         if (id == Id_constructor) {
             return jsConstructor(cx, scope, thisObj, args);
         }
 
         if (!(thisObj instanceof NativeIterator))
             throw incompatibleCallError(f);
-        
+
         NativeIterator iterator = (NativeIterator) thisObj;
-        
+
         switch (id) {
 
-          case Id_next: 
+          case Id_next:
             return iterator.next(cx, scope);
 
           case Id___iterator__:
             /// XXX: what about argument? SpiderMonkey apparently ignores it
             return thisObj;
 
-          default: 
+          default:
             throw new IllegalArgumentException(String.valueOf(id));
         }
     }
-    
+
     /* The JavaScript constructor */
-    private static Object jsConstructor(Context cx, Scriptable scope, 
+    private static Object jsConstructor(Context cx, Scriptable scope,
                                         Scriptable thisObj, Object[] args)
     {
-        if (args.length == 0 || args[0] == null || 
+        if (args.length == 0 || args[0] == null ||
             args[0] == Undefined.instance)
         {
-            throw ScriptRuntime.typeError1("msg.no.properties", 
-                                           ScriptRuntime.toString(args[0]));
+            Object argument = args.length == 0 ? Undefined.instance : args[0];
+            throw ScriptRuntime.typeError1("msg.no.properties",
+                                           ScriptRuntime.toString(argument));
         }
-        Scriptable obj = ScriptRuntime.toObject(scope, args[0]);
+        Scriptable obj = ScriptRuntime.toObject(cx, scope, args[0]);
         boolean keyOnly = args.length > 1 && ScriptRuntime.toBoolean(args[1]);
         if (thisObj != null) {
             // Called as a function. Convert to iterator if possible.
-          
+
             // For objects that implement java.lang.Iterable or
             // java.util.Iterator, have JavaScript Iterator call the underlying
             // iteration methods
-            Iterator<?> iterator = 
+            Iterator<?> iterator =
                 VMBridge.instance.getJavaIterator(cx, scope, obj);
             if (iterator != null) {
                 scope = ScriptableObject.getTopLevelScope(scope);
@@ -182,28 +159,28 @@ public final class NativeIterator extends IdScriptableObject {
                         new WrappedJavaIterator(iterator, scope),
                         WrappedJavaIterator.class);
             }
-            
+
             // Otherwise, just call the runtime routine
-            Scriptable jsIterator = ScriptRuntime.toIterator(cx, scope, obj, 
+            Scriptable jsIterator = ScriptRuntime.toIterator(cx, scope, obj,
                                                              keyOnly);
             if (jsIterator != null) {
                 return jsIterator;
             }
         }
-        
+
         // Otherwise, just set up to iterate over the properties of the object.
         // Do not call __iterator__ method.
-        Object objectIterator = ScriptRuntime.enumInit(obj, cx,
+        Object objectIterator = ScriptRuntime.enumInit(obj, cx, scope,
             keyOnly ? ScriptRuntime.ENUMERATE_KEYS_NO_ITERATOR
                     : ScriptRuntime.ENUMERATE_ARRAY_NO_ITERATOR);
         ScriptRuntime.setEnumNumbers(objectIterator, true);
         NativeIterator result = new NativeIterator(objectIterator);
-        result.setPrototype(NativeIterator.getClassPrototype(scope, 
+        result.setPrototype(ScriptableObject.getClassPrototype(scope,
                                 result.getClassName()));
         result.setParentScope(scope);
         return result;
     }
-    
+
     private Object next(Context cx, Scriptable scope) {
         Boolean b = ScriptRuntime.enumNext(this.objectIterator);
         if (!b.booleanValue()) {
@@ -213,7 +190,7 @@ public final class NativeIterator extends IdScriptableObject {
         }
         return ScriptRuntime.enumId(this.objectIterator, cx);
     }
-    
+
     static public class WrappedJavaIterator
     {
         WrappedJavaIterator(Iterator<?> iterator, Scriptable scope) {
@@ -237,7 +214,7 @@ public final class NativeIterator extends IdScriptableObject {
         private Iterator<?> iterator;
         private Scriptable scope;
     }
-    
+
 // #string_id_map#
 
     @Override

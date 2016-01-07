@@ -1,51 +1,12 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-1999
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Roger Lawrence
- *   Mike McCabe
- *   Igor Bukanov
- *   Ethan Hugg
- *   Bob Jervis
- *   Terry Lucas
- *   Milen Nankov
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 
 /**
  * This class implements the JavaScript scanner.
@@ -69,6 +30,8 @@ class TokenStream
     private final static int
         EOF_CHAR = -1;
 
+    private final static char BYTE_ORDER_MARK = '\uFEFF';
+
     TokenStream(Parser parser, Reader sourceReader, String sourceString,
                 int lineno)
     {
@@ -84,7 +47,7 @@ class TokenStream
             this.sourceString = sourceString;
             this.sourceEnd = sourceString.length();
         }
-        this.sourceCursor = 0;
+        this.sourceCursor = this.cursor = 0;
     }
 
     /* This function uses the cached op, string and number fields in
@@ -128,13 +91,13 @@ class TokenStream
             Id_delete        = Token.DELPROP,
             Id_do            = Token.DO,
             Id_else          = Token.ELSE,
-            Id_export        = Token.EXPORT,
+            Id_export        = Token.RESERVED,
             Id_false         = Token.FALSE,
             Id_for           = Token.FOR,
             Id_function      = Token.FUNCTION,
             Id_if            = Token.IF,
             Id_in            = Token.IN,
-            Id_let           = Token.LET,
+            Id_let           = Token.LET,  // reserved ES5 strict
             Id_new           = Token.NEW,
             Id_null          = Token.NULL,
             Id_return        = Token.RETURN,
@@ -146,44 +109,44 @@ class TokenStream
             Id_void          = Token.VOID,
             Id_while         = Token.WHILE,
             Id_with          = Token.WITH,
-            Id_yield         = Token.YIELD,
+            Id_yield         = Token.YIELD,  // reserved ES5 strict
 
             // the following are #ifdef RESERVE_JAVA_KEYWORDS in jsscan.c
-            Id_abstract      = Token.RESERVED,
-            Id_boolean       = Token.RESERVED,
-            Id_byte          = Token.RESERVED,
+            Id_abstract      = Token.RESERVED,  // ES3 only
+            Id_boolean       = Token.RESERVED,  // ES3 only
+            Id_byte          = Token.RESERVED,  // ES3 only
             Id_catch         = Token.CATCH,
-            Id_char          = Token.RESERVED,
+            Id_char          = Token.RESERVED,  // ES3 only
             Id_class         = Token.RESERVED,
-            Id_const         = Token.CONST,
+            Id_const         = Token.CONST,     // reserved
             Id_debugger      = Token.DEBUGGER,
-            Id_double        = Token.RESERVED,
+            Id_double        = Token.RESERVED,  // ES3 only
             Id_enum          = Token.RESERVED,
             Id_extends       = Token.RESERVED,
-            Id_final         = Token.RESERVED,
+            Id_final         = Token.RESERVED,  // ES3 only
             Id_finally       = Token.FINALLY,
-            Id_float         = Token.RESERVED,
-            Id_goto          = Token.RESERVED,
-            Id_implements    = Token.RESERVED,
-            Id_import        = Token.IMPORT,
+            Id_float         = Token.RESERVED,  // ES3 only
+            Id_goto          = Token.RESERVED,  // ES3 only
+            Id_implements    = Token.RESERVED,  // ES3, ES5 strict
+            Id_import        = Token.RESERVED,
             Id_instanceof    = Token.INSTANCEOF,
-            Id_int           = Token.RESERVED,
-            Id_interface     = Token.RESERVED,
-            Id_long          = Token.RESERVED,
-            Id_native        = Token.RESERVED,
-            Id_package       = Token.RESERVED,
-            Id_private       = Token.RESERVED,
-            Id_protected     = Token.RESERVED,
-            Id_public        = Token.RESERVED,
-            Id_short         = Token.RESERVED,
-            Id_static        = Token.RESERVED,
+            Id_int           = Token.RESERVED,  // ES3
+            Id_interface     = Token.RESERVED,  // ES3, ES5 strict
+            Id_long          = Token.RESERVED,  // ES3 only
+            Id_native        = Token.RESERVED,  // ES3 only
+            Id_package       = Token.RESERVED,  // ES3, ES5 strict
+            Id_private       = Token.RESERVED,  // ES3, ES5 strict
+            Id_protected     = Token.RESERVED,  // ES3, ES5 strict
+            Id_public        = Token.RESERVED,  // ES3, ES5 strict
+            Id_short         = Token.RESERVED,  // ES3 only
+            Id_static        = Token.RESERVED,  // ES3, ES5 strict
             Id_super         = Token.RESERVED,
-            Id_synchronized  = Token.RESERVED,
+            Id_synchronized  = Token.RESERVED,  // ES3 only
             Id_throw         = Token.THROW,
-            Id_throws        = Token.RESERVED,
-            Id_transient     = Token.RESERVED,
+            Id_throws        = Token.RESERVED,  // ES3 only
+            Id_transient     = Token.RESERVED,  // ES3 only
             Id_try           = Token.TRY,
-            Id_volatile      = Token.RESERVED;
+            Id_volatile      = Token.RESERVED;  // ES3 only
 
         int id;
         String s = name;
@@ -292,11 +255,19 @@ class TokenStream
         return id & 0xff;
     }
 
+    final String getSourceString() { return sourceString; }
+
     final int getLineno() { return lineno; }
 
     final String getString() { return string; }
 
+    final char getQuoteChar() {
+        return (char) quoteChar;
+    }
+
     final double getNumber() { return number; }
+    final boolean isNumberOctal() { return isOctal; }
+    final boolean isNumberHex() { return isHex; }
 
     final boolean eof() { return hitEOF; }
 
@@ -310,9 +281,13 @@ class TokenStream
             for (;;) {
                 c = getChar();
                 if (c == EOF_CHAR) {
+                    tokenBeg = cursor - 1;
+                    tokenEnd = cursor;
                     return Token.EOF;
                 } else if (c == '\n') {
                     dirtyLine = false;
+                    tokenBeg = cursor - 1;
+                    tokenEnd = cursor;
                     return Token.EOL;
                 } else if (!isJSSpace(c)) {
                     if (c != '-') {
@@ -321,6 +296,10 @@ class TokenStream
                     break;
                 }
             }
+
+            // Assume the token will be 1 char - fixed up below.
+            tokenBeg = cursor - 1;
+            tokenEnd = cursor;
 
             if (c == '@') return Token.XMLATTR;
 
@@ -382,7 +361,7 @@ class TokenStream
                                 return Token.ERROR;
                             }
                         } else {
-                            if (c == EOF_CHAR
+                            if (c == EOF_CHAR || c == BYTE_ORDER_MARK
                                 || !Character.isJavaIdentifierPart((char)c))
                             {
                                 break;
@@ -401,27 +380,29 @@ class TokenStream
                     // Return the corresponding token if it's a keyword
                     int result = stringToKeyword(str);
                     if (result != Token.EOF) {
-                        if ((result == Token.LET || result == Token.YIELD) && 
-                            parser.compilerEnv.getLanguageVersion() 
+                        if ((result == Token.LET || result == Token.YIELD) &&
+                            parser.compilerEnv.getLanguageVersion()
                                < Context.VERSION_1_7)
                         {
                             // LET and YIELD are tokens only in 1.7 and later
                             string = result == Token.LET ? "let" : "yield";
                             result = Token.NAME;
                         }
+                        // Save the string in case we need to use in
+                        // object literal definitions.
+                        this.string = (String)allStrings.intern(str);
                         if (result != Token.RESERVED) {
                             return result;
                         } else if (!parser.compilerEnv.
                                         isReservedKeywordAsIdentifier())
                         {
                             return result;
-                        } else {
-                            // If implementation permits to use future reserved
-                            // keywords in violation with the EcmaScript,
-                            // treat it as name but issue warning
-                            parser.addWarning("msg.reserved.keyword", str);
                         }
                     }
+                } else if (isKeyword(str)) {
+                    // If a string contains unicodes, and converted to a keyword,
+                    // we convert the last character back to unicode
+                    str = convertLastCharToHex(str);
                 }
                 this.string = (String)allStrings.intern(str);
                 return Token.NAME;
@@ -429,17 +410,20 @@ class TokenStream
 
             // is it a number?
             if (isDigit(c) || (c == '.' && isDigit(peekChar()))) {
-
+                isOctal = false;
                 stringBufferTop = 0;
                 int base = 10;
+                isHex = isOctal = false;
 
                 if (c == '0') {
                     c = getChar();
                     if (c == 'x' || c == 'X') {
                         base = 16;
+                        isHex = true;
                         c = getChar();
                     } else if (isDigit(c)) {
                         base = 8;
+                        isOctal = true;
                     } else {
                         addToString('0');
                     }
@@ -497,12 +481,13 @@ class TokenStream
                 }
                 ungetChar(c);
                 String numString = getStringFromBuffer();
+                this.string = numString;
 
                 double dval;
                 if (base == 10 && !isInteger) {
                     try {
                         // Use Java conversion to number from string...
-                        dval = Double.valueOf(numString).doubleValue();
+                        dval = Double.parseDouble(numString);
                     }
                     catch (NumberFormatException ex) {
                         parser.addError("msg.caught.nfe");
@@ -523,13 +508,14 @@ class TokenStream
                 // are any escaped characters in the string, we revert to
                 // building it out of a StringBuffer.
 
-                int quoteChar = c;
+                quoteChar = c;
                 stringBufferTop = 0;
 
-                c = getChar();
+                c = getChar(false);
             strLoop: while (c != quoteChar) {
                     if (c == '\n' || c == EOF_CHAR) {
                         ungetChar(c);
+                        tokenEnd = cursor;
                         parser.addError("msg.unterminated.string.lit");
                         return Token.ERROR;
                     }
@@ -619,7 +605,7 @@ class TokenStream
                         }
                     }
                     addToString(c);
-                    c = getChar();
+                    c = getChar(false);
                 }
 
                 String str = getStringFromBuffer();
@@ -679,20 +665,22 @@ class TokenStream
 
             case '=':
                 if (matchChar('=')) {
-                    if (matchChar('='))
+                    if (matchChar('=')) {
                         return Token.SHEQ;
-                    else
+                    } else {
                         return Token.EQ;
+                    }
                 } else {
                     return Token.ASSIGN;
                 }
 
             case '!':
                 if (matchChar('=')) {
-                    if (matchChar('='))
+                    if (matchChar('=')) {
                         return Token.SHNE;
-                    else
+                    } else {
                         return Token.NE;
+                    }
                 } else {
                     return Token.NOT;
                 }
@@ -702,8 +690,10 @@ class TokenStream
                 if (matchChar('!')) {
                     if (matchChar('-')) {
                         if (matchChar('-')) {
+                            tokenBeg = cursor - 4;
                             skipLine();
-                            continue retry;
+                            commentType = Token.CommentType.HTML;
+                            return Token.COMMENT;
                         }
                         ungetCharIgnoreLineEnd('-');
                     }
@@ -754,26 +744,40 @@ class TokenStream
                 }
 
             case '/':
+                markCommentStart();
                 // is it a // comment?
                 if (matchChar('/')) {
+                    tokenBeg = cursor - 2;
                     skipLine();
-                    continue retry;
+                    commentType = Token.CommentType.LINE;
+                    return Token.COMMENT;
                 }
+                // is it a /* or /** comment?
                 if (matchChar('*')) {
                     boolean lookForSlash = false;
+                    tokenBeg = cursor - 2;
+                    if (matchChar('*')) {
+                        lookForSlash = true;
+                        commentType = Token.CommentType.JSDOC;
+                    } else {
+                        commentType = Token.CommentType.BLOCK_COMMENT;
+                    }
                     for (;;) {
                         c = getChar();
                         if (c == EOF_CHAR) {
+                            tokenEnd = cursor - 1;
                             parser.addError("msg.unterminated.comment");
-                            return Token.ERROR;
+                            return Token.COMMENT;
                         } else if (c == '*') {
                             lookForSlash = true;
                         } else if (c == '/') {
                             if (lookForSlash) {
-                                continue retry;
+                                tokenEnd = cursor;
+                                return Token.COMMENT;
                             }
                         } else {
                             lookForSlash = false;
+                            tokenEnd = cursor;
                         }
                     }
                 }
@@ -809,10 +813,12 @@ class TokenStream
                 } else if (matchChar('-')) {
                     if (!dirtyLine) {
                         // treat HTML end-comment after possible whitespace
-                        // after line start as comment-utill-eol
+                        // after line start as comment-until-eol
                         if (matchChar('>')) {
+                            markCommentStart("--");
                             skipLine();
-                            continue retry;
+                            commentType = Token.CommentType.HTML;
+                            return Token.COMMENT;
                         }
                     }
                     c = Token.DEC;
@@ -853,7 +859,7 @@ class TokenStream
         if (c <= 127) {
             return c == 0x20 || c == 0x9 || c == 0xC || c == 0xB;
         } else {
-            return c == 0xA0
+            return c == 0xA0 || c == BYTE_ORDER_MARK
                 || Character.getType((char)c) == Character.SPACE_SEPARATOR;
         }
     }
@@ -869,6 +875,7 @@ class TokenStream
     void readRegExp(int startToken)
         throws IOException
     {
+        int start = tokenBeg;
         stringBufferTop = 0;
         if (startToken == Token.ASSIGN_DIV) {
             // Miss-scanned /=
@@ -882,7 +889,10 @@ class TokenStream
         while ((c = getChar()) != '/' || inCharSet) {
             if (c == '\n' || c == EOF_CHAR) {
                 ungetChar(c);
-                throw parser.reportError("msg.unterminated.re.lit");
+                tokenEnd = cursor - 1;
+                this.string = new String(stringBuffer, 0, stringBufferTop);
+                parser.reportError("msg.unterminated.re.lit");
+                return;
             }
             if (c == '\\') {
                 addToString(c);
@@ -903,17 +913,26 @@ class TokenStream
                 addToString('i');
             else if (matchChar('m'))
                 addToString('m');
+            else if (matchChar('y'))  // FireFox 3
+                addToString('y');
             else
                 break;
         }
+        tokenEnd = start + stringBufferTop + 2;  // include slashes
 
         if (isAlpha(peekChar())) {
-            throw parser.reportError("msg.invalid.re.flag");
+            parser.reportError("msg.invalid.re.flag");
         }
 
         this.string = new String(stringBuffer, 0, reEnd);
         this.regExpFlags = new String(stringBuffer, reEnd,
                                       stringBufferTop - reEnd);
+    }
+
+    String readAndClearRegExpFlags() {
+        String flags = this.regExpFlags;
+        this.regExpFlags = null;
+        return flags;
     }
 
     boolean isXMLAttribute()
@@ -926,12 +945,15 @@ class TokenStream
         xmlOpenTagsCount = 0;
         xmlIsAttribute = false;
         xmlIsTagContent = false;
+        if (!canUngetChar())
+            return Token.ERROR;
         ungetChar('<');
         return getNextXMLToken();
     }
 
     int getNextXMLToken() throws IOException
     {
+        tokenBeg = cursor;
         stringBufferTop = 0; // remember the XML
 
         for (int c = getChar(); c != EOF_CHAR; c = getChar()) {
@@ -1074,6 +1096,7 @@ class TokenStream
             }
         }
 
+        tokenEnd = cursor;
         stringBufferTop = 0; // throw away the string in progress
         this.string = null;
         parser.addError("msg.XML.bad.form");
@@ -1197,6 +1220,7 @@ class TokenStream
 
     private String getStringFromBuffer()
     {
+        tokenEnd = cursor;
         return new String(stringBuffer, 0, stringBufferTop);
     }
 
@@ -1212,18 +1236,24 @@ class TokenStream
         stringBufferTop = N + 1;
     }
 
+    private boolean canUngetChar() {
+        return ungetCursor == 0 || ungetBuffer[ungetCursor - 1] != '\n';
+    }
+
     private void ungetChar(int c)
     {
         // can not unread past across line boundary
         if (ungetCursor != 0 && ungetBuffer[ungetCursor - 1] == '\n')
             Kit.codeBug();
         ungetBuffer[ungetCursor++] = c;
+        cursor--;
     }
-    
+
     private boolean matchChar(int test) throws IOException
     {
         int c = getCharIgnoreLineEnd();
         if (c == test) {
+            tokenEnd = cursor;
             return true;
         } else {
             ungetCharIgnoreLineEnd(c);
@@ -1240,7 +1270,13 @@ class TokenStream
 
     private int getChar() throws IOException
     {
+        return getChar(true);
+    }
+
+    private int getChar(boolean skipFormattingChars) throws IOException
+    {
         if (ungetCursor != 0) {
+            cursor++;
             return ungetBuffer[--ungetCursor];
         }
 
@@ -1251,6 +1287,7 @@ class TokenStream
                     hitEOF = true;
                     return EOF_CHAR;
                 }
+                cursor++;
                 c = sourceString.charAt(sourceCursor++);
             } else {
                 if (sourceCursor == sourceEnd) {
@@ -1259,6 +1296,7 @@ class TokenStream
                         return EOF_CHAR;
                     }
                 }
+                cursor++;
                 c = sourceBuffer[sourceCursor++];
             }
 
@@ -1278,7 +1316,8 @@ class TokenStream
                     c = '\n';
                 }
             } else {
-                if (isJSFormatChar(c)) {
+                if (c == BYTE_ORDER_MARK) return c; // BOM is considered whitespace
+                if (skipFormattingChars && isJSFormatChar(c)) {
                     continue;
                 }
                 if (ScriptRuntime.isJSLineTerminator(c)) {
@@ -1289,10 +1328,11 @@ class TokenStream
             return c;
         }
     }
-    
+
     private int getCharIgnoreLineEnd() throws IOException
     {
         if (ungetCursor != 0) {
+            cursor++;
             return ungetBuffer[--ungetCursor];
         }
 
@@ -1303,6 +1343,7 @@ class TokenStream
                     hitEOF = true;
                     return EOF_CHAR;
                 }
+                cursor++;
                 c = sourceString.charAt(sourceCursor++);
             } else {
                 if (sourceCursor == sourceEnd) {
@@ -1311,6 +1352,7 @@ class TokenStream
                         return EOF_CHAR;
                     }
                 }
+                cursor++;
                 c = sourceBuffer[sourceCursor++];
             }
 
@@ -1320,6 +1362,7 @@ class TokenStream
                     c = '\n';
                 }
             } else {
+                if (c == BYTE_ORDER_MARK) return c; // BOM is considered whitespace
                 if (isJSFormatChar(c)) {
                     continue;
                 }
@@ -1331,20 +1374,25 @@ class TokenStream
             return c;
         }
     }
-    
+
     private void ungetCharIgnoreLineEnd(int c)
     {
         ungetBuffer[ungetCursor++] = c;
+        cursor--;
     }
-    
+
     private void skipLine() throws IOException
     {
         // skip to end of line
         int c;
         while ((c = getChar()) != EOF_CHAR && c != '\n') { }
         ungetChar(c);
+        tokenEnd = cursor;
     }
 
+    /**
+     * Returns the offset into the current line.
+     */
     final int getOffset()
     {
         int n = sourceCursor - lineStart;
@@ -1352,49 +1400,102 @@ class TokenStream
         return n;
     }
 
-    final String getLine()
-    {
+    private final int charAt(int index) {
+        if (index < 0) {
+            return EOF_CHAR;
+        }
         if (sourceString != null) {
-            // String case
-            int lineEnd = sourceCursor;
-            if (lineEndChar >= 0) {
-                --lineEnd;
-            } else {
-                for (; lineEnd != sourceEnd; ++lineEnd) {
-                    int c = sourceString.charAt(lineEnd);
-                    if (ScriptRuntime.isJSLineTerminator(c)) {
-                        break;
-                    }
-                }
+            if (index >= sourceEnd) {
+                return EOF_CHAR;
             }
-            return sourceString.substring(lineStart, lineEnd);
+            return sourceString.charAt(index);
         } else {
-            // Reader case
-            int lineLength = sourceCursor - lineStart;
-            if (lineEndChar >= 0) {
-                --lineLength;
-            } else {
-                // Read until the end of line
-                for (;; ++lineLength) {
-                    int i = lineStart + lineLength;
-                    if (i == sourceEnd) {
-                        try {
-                            if (!fillSourceBuffer()) { break; }
-                        } catch (IOException ioe) {
-                            // ignore it, we're already displaying an error...
-                            break;
-                        }
-                        // i recalculuation as fillSourceBuffer can move saved
-                        // line buffer and change lineStart
-                        i = lineStart + lineLength;
-                    }
-                    int c = sourceBuffer[i];
-                    if (ScriptRuntime.isJSLineTerminator(c)) {
-                        break;
-                    }
+            if (index >= sourceEnd) {
+                int oldSourceCursor = sourceCursor;
+                try {
+                    if (!fillSourceBuffer()) { return EOF_CHAR; }
+                } catch (IOException ioe) {
+                    // ignore it, we're already displaying an error...
+                    return EOF_CHAR;
+                }
+                // index recalculuation as fillSourceBuffer can move saved
+                // line buffer and change sourceCursor
+                index -= (oldSourceCursor - sourceCursor);
+            }
+            return sourceBuffer[index];
+        }
+    }
+
+    private final String substring(int beginIndex, int endIndex) {
+        if (sourceString != null) {
+            return sourceString.substring(beginIndex, endIndex);
+        } else {
+            int count = endIndex - beginIndex;
+            return new String(sourceBuffer, beginIndex, count);
+        }
+    }
+
+    final String getLine() {
+        int lineEnd = sourceCursor;
+        if (lineEndChar >= 0) {
+            // move cursor before newline sequence
+            lineEnd -= 1;
+            if (lineEndChar == '\n' && charAt(lineEnd - 1) == '\r') {
+                lineEnd -= 1;
+            }
+        } else {
+            // Read until the end of line
+            int lineLength = lineEnd - lineStart;
+            for (;; ++lineLength) {
+                int c = charAt(lineStart + lineLength);
+                if (c == EOF_CHAR || ScriptRuntime.isJSLineTerminator(c)) {
+                    break;
                 }
             }
-            return new String(sourceBuffer, lineStart, lineLength);
+            lineEnd = lineStart + lineLength;
+        }
+        return substring(lineStart, lineEnd);
+    }
+
+    final String getLine(int position, int[] linep) {
+        assert position >= 0 && position <= cursor;
+        assert linep.length == 2;
+        int delta = (cursor + ungetCursor) - position;
+        int cur = sourceCursor;
+        if (delta > cur) {
+            // requested line outside of source buffer
+            return null;
+        }
+        // read back until position
+        int end = 0, lines = 0;
+        for (; delta > 0; --delta, --cur) {
+            assert cur > 0;
+            int c = charAt(cur - 1);
+            if (ScriptRuntime.isJSLineTerminator(c)) {
+                if (c == '\n' && charAt(cur - 2) == '\r') {
+                    // \r\n sequence
+                    delta -= 1;
+                    cur -= 1;
+                }
+                lines += 1;
+                end = cur - 1;
+            }
+        }
+        // read back until line start
+        int start = 0, offset = 0;
+        for (; cur > 0; --cur, ++offset) {
+            int c = charAt(cur - 1);
+            if (ScriptRuntime.isJSLineTerminator(c)) {
+                start = cur;
+                break;
+            }
+        }
+        linep[0] = lineno - lines + (lineEndChar >= 0 ? 1 : 0);
+        linep[1] = offset;
+        if (lines == 0) {
+            return getLine();
+        } else {
+            return substring(start, end);
         }
     }
 
@@ -1402,7 +1503,7 @@ class TokenStream
     {
         if (sourceString != null) Kit.codeBug();
         if (sourceEnd == sourceBuffer.length) {
-            if (lineStart != 0) {
+            if (lineStart != 0 && !isMarkingComment()) {
                 System.arraycopy(sourceBuffer, lineStart, sourceBuffer, 0,
                                  sourceEnd - lineStart);
                 sourceEnd -= lineStart;
@@ -1423,6 +1524,84 @@ class TokenStream
         return true;
     }
 
+    /**
+     * Return the current position of the scanner cursor.
+     */
+    public int getCursor() {
+        return cursor;
+    }
+
+    /**
+     * Return the absolute source offset of the last scanned token.
+     */
+    public int getTokenBeg() {
+        return tokenBeg;
+    }
+
+    /**
+     * Return the absolute source end-offset of the last scanned token.
+     */
+    public int getTokenEnd() {
+        return tokenEnd;
+    }
+
+    /**
+     * Return tokenEnd - tokenBeg
+     */
+    public int getTokenLength() {
+        return tokenEnd - tokenBeg;
+    }
+
+    /**
+     * Return the type of the last scanned comment.
+     * @return type of last scanned comment, or 0 if none have been scanned.
+     */
+    public Token.CommentType getCommentType() {
+        return commentType;
+    }
+
+    private void markCommentStart() {
+        markCommentStart("");
+    }
+
+    private void markCommentStart(String prefix) {
+        if (parser.compilerEnv.isRecordingComments() && sourceReader != null) {
+            commentPrefix = prefix;
+            commentCursor = sourceCursor - 1;
+        }
+    }
+
+    private boolean isMarkingComment() {
+        return commentCursor != -1;
+    }
+
+     final String getAndResetCurrentComment() {
+        if (sourceString != null) {
+            if (isMarkingComment()) Kit.codeBug();
+            return sourceString.substring(tokenBeg, tokenEnd);
+        } else {
+            if (!isMarkingComment()) Kit.codeBug();
+            StringBuilder comment = new StringBuilder(commentPrefix);
+            comment.append(sourceBuffer, commentCursor,
+                getTokenLength() - commentPrefix.length());
+            commentCursor = -1;
+            return comment.toString();
+        }
+    }
+
+    private String convertLastCharToHex(String str) {
+      int lastIndex = str.length()-1;
+      StringBuffer buf = new StringBuffer(
+          str.substring(0, lastIndex));
+      buf.append("\\u");
+      String hexCode = Integer.toHexString(str.charAt(lastIndex));
+      for (int i = 0; i < 4-hexCode.length(); ++i) {
+        buf.append('0');
+      }
+      buf.append(hexCode);
+      return buf.toString();
+    }
+
     // stuff other than whitespace since start of line
     private boolean dirtyLine;
 
@@ -1434,6 +1613,11 @@ class TokenStream
     // code.
     private String string = "";
     private double number;
+    private boolean isOctal;
+    private boolean isHex;
+
+    // delimiter for last string literal scanned
+    private int quoteChar;
 
     private char[] stringBuffer = new char[128];
     private int stringBufferTop;
@@ -1446,14 +1630,29 @@ class TokenStream
     private boolean hitEOF = false;
 
     private int lineStart = 0;
-    private int lineno;
     private int lineEndChar = -1;
+    int lineno;
 
     private String sourceString;
     private Reader sourceReader;
     private char[] sourceBuffer;
     private int sourceEnd;
-    private int sourceCursor;
+
+    // sourceCursor is an index into a small buffer that keeps a
+    // sliding window of the source stream.
+    int sourceCursor;
+
+    // cursor is a monotonically increasing index into the original
+    // source stream, tracking exactly how far scanning has progressed.
+    // Its value is the index of the next character to be scanned.
+    int cursor;
+
+    // Record start and end positions of last scanned token.
+    int tokenBeg;
+    int tokenEnd;
+
+    // Type of last comment scanned.
+    Token.CommentType commentType;
 
     // for xml tokenizer
     private boolean xmlIsAttribute;
@@ -1461,4 +1660,7 @@ class TokenStream
     private int xmlOpenTagsCount;
 
     private Parser parser;
+
+    private String commentPrefix = "";
+    private int commentCursor = -1;
 }

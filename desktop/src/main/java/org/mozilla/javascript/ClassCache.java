@@ -1,47 +1,14 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-1999
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Igor Bukanov, igor@fastmail.fm
- *   Norris Boyd
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
 
-import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.io.Serializable;
 
 /**
  * Cache of generated classes and data structures to access Java runtime
@@ -56,10 +23,11 @@ public class ClassCache implements Serializable
     private static final long serialVersionUID = -8866246036237312215L;
     private static final Object AKEY = "ClassCache";
     private volatile boolean cachingIsEnabled = true;
-    private transient HashMap<Class<?>,JavaMembers> classTable;
-    private transient HashMap<JavaAdapter.JavaAdapterSignature,Class<?>> classAdapterCache;
-    private transient HashMap<Class<?>,Object> interfaceAdapterCache;
+    private transient Map<Class<?>,JavaMembers> classTable;
+    private transient Map<JavaAdapter.JavaAdapterSignature,Class<?>> classAdapterCache;
+    private transient Map<Class<?>,Object> interfaceAdapterCache;
     private int generatedClassSerial;
+    private Scriptable associatedScope;
 
     /**
      * Search for ClassCache object in the given scope.
@@ -103,6 +71,7 @@ public class ClassCache implements Serializable
             throw new IllegalArgumentException();
         }
         if (this == topScope.associateValue(AKEY, this)) {
+            associatedScope = topScope;
             return true;
         }
         return false;
@@ -153,30 +122,33 @@ public class ClassCache implements Serializable
             clearCaches();
         cachingIsEnabled = enabled;
     }
-    
+
     /**
      * @return a map from classes to associated JavaMembers objects
      */
     Map<Class<?>,JavaMembers> getClassCacheMap() {
         if (classTable == null) {
-            classTable = new HashMap<Class<?>,JavaMembers>();
+            // Use 1 as concurrency level here and for other concurrent hash maps
+            // as we don't expect high levels of sustained concurrent writes.
+            classTable = new ConcurrentHashMap<Class<?>,JavaMembers>(16, 0.75f, 1);
         }
         return classTable;
     }
-    
+
     Map<JavaAdapter.JavaAdapterSignature,Class<?>> getInterfaceAdapterCacheMap()
     {
         if (classAdapterCache == null) {
-            classAdapterCache = new HashMap<JavaAdapter.JavaAdapterSignature,Class<?>>();
+            classAdapterCache = new ConcurrentHashMap<JavaAdapter.JavaAdapterSignature,Class<?>>(16, 0.75f, 1);
         }
         return classAdapterCache;
     }
-    
+
     /**
      * @deprecated
      * The method always returns false.
      * @see #setInvokerOptimizationEnabled(boolean enabled)
      */
+    @Deprecated
     public boolean isInvokerOptimizationEnabled()
     {
         return false;
@@ -191,6 +163,7 @@ public class ClassCache implements Serializable
      * small speed increase that can be gained using generated proxy class
      * to replace reflection.
      */
+    @Deprecated
     public synchronized void setInvokerOptimizationEnabled(boolean enabled)
     {
     }
@@ -206,8 +179,8 @@ public class ClassCache implements Serializable
 
     Object getInterfaceAdapter(Class<?> cl)
     {
-        return interfaceAdapterCache == null 
-                    ? null 
+        return interfaceAdapterCache == null
+                    ? null
                     : interfaceAdapterCache.get(cl);
     }
 
@@ -215,9 +188,13 @@ public class ClassCache implements Serializable
     {
         if (cachingIsEnabled) {
             if (interfaceAdapterCache == null) {
-                interfaceAdapterCache = new HashMap<Class<?>,Object>();
+                interfaceAdapterCache = new ConcurrentHashMap<Class<?>,Object>(16, 0.75f, 1);
             }
             interfaceAdapterCache.put(cl, iadapter);
         }
+    }
+
+    Scriptable getAssociatedScope() {
+        return associatedScope;
     }
 }

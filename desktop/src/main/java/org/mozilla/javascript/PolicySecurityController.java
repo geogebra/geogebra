@@ -1,36 +1,6 @@
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-1999
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
 
@@ -49,15 +19,14 @@ import java.util.WeakHashMap;
 import org.mozilla.classfile.ByteCode;
 import org.mozilla.classfile.ClassFileWriter;
 
-
 /**
  * A security controller relying on Java {@link Policy} in effect. When you use
  * this security controller, your securityDomain objects must be instances of
- * {@link CodeSource} representing the location from where you load your 
+ * {@link CodeSource} representing the location from where you load your
  * scripts. Any Java policy "grant" statements matching the URL and certificate
- * in code sources will apply to the scripts. If you specify any certificates 
+ * in code sources will apply to the scripts. If you specify any certificates
  * within your {@link CodeSource} objects, it is your responsibility to verify
- * (or not) that the script source files are signed in whatever 
+ * (or not) that the script source files are signed in whatever
  * implementation-specific way you're using.
  * @author Attila Szegedi
  */
@@ -72,7 +41,7 @@ public class PolicySecurityController extends SecurityController
     private static final Map<CodeSource,Map<ClassLoader,SoftReference<SecureCaller>>>
         callers =
             new WeakHashMap<CodeSource,Map<ClassLoader,SoftReference<SecureCaller>>>();
-    
+
     @Override
     public Class<?> getStaticSecurityDomainClassInternal() {
         return CodeSource.class;
@@ -82,7 +51,7 @@ public class PolicySecurityController extends SecurityController
     implements GeneratedClassLoader
     {
         private final CodeSource codeSource;
-        
+
         Loader(ClassLoader parent, CodeSource codeSource)
         {
             super(parent);
@@ -93,15 +62,15 @@ public class PolicySecurityController extends SecurityController
         {
             return defineClass(name, data, 0, data.length, codeSource);
         }
-        
+
         public void linkClass(Class<?> cl)
         {
             resolveClass(cl);
         }
     }
-    
+
     @Override
-    public GeneratedClassLoader createClassLoader(final ClassLoader parent, 
+    public GeneratedClassLoader createClassLoader(final ClassLoader parent,
             final Object securityDomain)
     {
         return (Loader)AccessController.doPrivileged(
@@ -123,11 +92,11 @@ public class PolicySecurityController extends SecurityController
     }
 
     @Override
-    public Object callWithDomain(final Object securityDomain, final Context cx, 
-            Callable callable, Scriptable scope, Scriptable thisObj, 
+    public Object callWithDomain(final Object securityDomain, final Context cx,
+            Callable callable, Scriptable scope, Scriptable thisObj,
             Object[] args)
     {
-        // Run in doPrivileged as we might be checked for "getClassLoader" 
+        // Run in doPrivileged as we might be checked for "getClassLoader"
         // runtime permission
         final ClassLoader classLoader = (ClassLoader)AccessController.doPrivileged(
             new PrivilegedAction<Object>() {
@@ -156,17 +125,17 @@ public class PolicySecurityController extends SecurityController
             {
                 try
                 {
-                    // Run in doPrivileged as we'll be checked for 
+                    // Run in doPrivileged as we'll be checked for
                     // "createClassLoader" runtime permission
                     caller = (SecureCaller)AccessController.doPrivileged(
                             new PrivilegedExceptionAction<Object>()
                     {
                         public Object run() throws Exception
                         {
-                            Loader loader = new Loader(classLoader, 
+                            Loader loader = new Loader(classLoader,
                                     codeSource);
                             Class<?> c = loader.defineClass(
-                                    SecureCaller.class.getName() + "Impl", 
+                                    SecureCaller.class.getName() + "Impl",
                                     secureCallerImplBytecode);
                             return c.newInstance();
                         }
@@ -181,32 +150,32 @@ public class PolicySecurityController extends SecurityController
         }
         return caller.call(callable, cx, scope, thisObj, args);
     }
-    
+
     public abstract static class SecureCaller
     {
-        public abstract Object call(Callable callable, Context cx, Scriptable scope, 
+        public abstract Object call(Callable callable, Context cx, Scriptable scope,
                 Scriptable thisObj, Object[] args);
     }
-    
-    
+
+
     private static byte[] loadBytecode()
     {
         String secureCallerClassName = SecureCaller.class.getName();
         ClassFileWriter cfw = new ClassFileWriter(
-                secureCallerClassName + "Impl", secureCallerClassName, 
+                secureCallerClassName + "Impl", secureCallerClassName,
                 "<generated>");
         cfw.startMethod("<init>", "()V", ClassFileWriter.ACC_PUBLIC);
         cfw.addALoad(0);
-        cfw.addInvoke(ByteCode.INVOKESPECIAL, secureCallerClassName, 
+        cfw.addInvoke(ByteCode.INVOKESPECIAL, secureCallerClassName,
                 "<init>", "()V");
         cfw.add(ByteCode.RETURN);
         cfw.stopMethod((short)1);
-        String callableCallSig = 
+        String callableCallSig =
             "Lorg/mozilla/javascript/Context;" +
             "Lorg/mozilla/javascript/Scriptable;" +
             "Lorg/mozilla/javascript/Scriptable;" +
             "[Ljava/lang/Object;)Ljava/lang/Object;";
-        
+
         cfw.startMethod("call",
                 "(Lorg/mozilla/javascript/Callable;" + callableCallSig,
                 (short)(ClassFileWriter.ACC_PUBLIC
@@ -214,8 +183,8 @@ public class PolicySecurityController extends SecurityController
         for(int i = 1; i < 6; ++i) {
             cfw.addALoad(i);
         }
-        cfw.addInvoke(ByteCode.INVOKEINTERFACE, 
-                "org/mozilla/javascript/Callable", "call", 
+        cfw.addInvoke(ByteCode.INVOKEINTERFACE,
+                "org/mozilla/javascript/Callable", "call",
                 "(" + callableCallSig);
         cfw.add(ByteCode.ARETURN);
         cfw.stopMethod((short)6);

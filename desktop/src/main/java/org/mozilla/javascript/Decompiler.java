@@ -1,45 +1,12 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-1999
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Mike Ang
- *   Igor Bukanov
- *   Bob Jervis
- *   Mike McCabe
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
+
+import org.mozilla.javascript.ast.FunctionNode;
 
 /**
  * The following class save decompilation information about the source.
@@ -299,7 +266,7 @@ public class Decompiler
         int caseGap = properties.getInt(CASE_GAP_PROP, 2);
         if (caseGap < 0) throw new IllegalArgumentException();
 
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         boolean justFunctionBody = (0 != (flags & Decompiler.ONLY_BODY_FLAG));
         boolean toSource = (0 != (flags & Decompiler.TO_SOURCE_FLAG));
 
@@ -356,7 +323,12 @@ public class Decompiler
             switch(source.charAt(i)) {
             case Token.GET:
             case Token.SET:
-                result.append(source.charAt(i) == Token.GET ? "get " : "set ");
+            case Token.METHOD:
+                if (source.charAt(i) == Token.GET) {
+                    result.append("get ");
+                } else if (source.charAt(i) == Token.SET) {
+                    result.append("set ");
+                }
                 ++i;
                 i = printSourceString(source, i + 1, false, result);
                 // Now increment one more to get past the FUNCTION token
@@ -660,7 +632,7 @@ public class Decompiler
                 // This needs to be distinct from COLON in the general case
                 // to distinguish from the colon in a ternary... which needs
                 // different spacing.
-                result.append(':');
+                result.append(": ");
                 break;
 
             case Token.COLON:
@@ -751,11 +723,11 @@ public class Decompiler
             case Token.CONST:
                 result.append("const ");
                 break;
-                
+
             case Token.YIELD:
                 result.append("yield ");
                 break;
-            
+
             case Token.NOT:
                 result.append('!');
                 break;
@@ -816,6 +788,10 @@ public class Decompiler
                 result.append('@');
                 break;
 
+            case Token.DEBUGGER:
+                result.append("debugger;\n");
+                break;
+
             default:
                 // If we don't know how to decompile it, raise an exception.
                 throw new RuntimeException("Token: " +
@@ -849,7 +825,7 @@ public class Decompiler
 
     private static int printSourceString(String source, int offset,
                                          boolean asQuotedString,
-                                         StringBuffer sb)
+                                         StringBuilder sb)
     {
         int length = source.charAt(offset);
         ++offset;
@@ -871,7 +847,7 @@ public class Decompiler
     }
 
     private static int printSourceNumber(String source, int offset,
-                                         StringBuffer sb)
+                                         StringBuilder sb)
     {
         double number = 0.0;
         char type = source.charAt(offset);

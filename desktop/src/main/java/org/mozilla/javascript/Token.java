@@ -1,44 +1,8 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-1999
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Roger Lawrence
- *   Mike McCabe
- *   Igor Bukanov
- *   Bob Jervis
- *   Milen Nankov
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
 
@@ -56,6 +20,9 @@ package org.mozilla.javascript;
 
 public class Token
 {
+    public static enum CommentType {
+        LINE, BLOCK_COMMENT, JSDOC, HTML
+    }
 
     // debug flags
     public static final boolean printTrees = false;
@@ -147,124 +114,143 @@ public class Token
         REF_CALL       = 70, // f(args)    = something or f(args)++
         REF_SPECIAL    = 71, // reference for special properties like __proto
         YIELD          = 72,  // JS 1.7 yield pseudo keyword
+        STRICT_SETNAME = 73,
 
         // For XML support:
-        DEFAULTNAMESPACE = 73, // default xml namespace =
-        ESCXMLATTR     = 74,
-        ESCXMLTEXT     = 75,
-        REF_MEMBER     = 76, // Reference for x.@y, x..y etc.
-        REF_NS_MEMBER  = 77, // Reference for x.ns::y, x..ns::y etc.
-        REF_NAME       = 78, // Reference for @y, @[y] etc.
-        REF_NS_NAME    = 79; // Reference for ns::y, @ns::y@[y] etc.
+        DEFAULTNAMESPACE = 74, // default xml namespace =
+        ESCXMLATTR     = 75,
+        ESCXMLTEXT     = 76,
+        REF_MEMBER     = 77, // Reference for x.@y, x..y etc.
+        REF_NS_MEMBER  = 78, // Reference for x.ns::y, x..ns::y etc.
+        REF_NAME       = 79, // Reference for @y, @[y] etc.
+        REF_NS_NAME    = 80; // Reference for ns::y, @ns::y@[y] etc.
 
         // End of interpreter bytecodes
     public final static int
         LAST_BYTECODE_TOKEN    = REF_NS_NAME,
 
-        TRY            = 80,
-        SEMI           = 81,  // semicolon
-        LB             = 82,  // left and right brackets
-        RB             = 83,
-        LC             = 84,  // left and right curlies (braces)
-        RC             = 85,
-        LP             = 86,  // left and right parentheses
-        RP             = 87,
-        COMMA          = 88,  // comma operator
+        TRY            = 81,
+        SEMI           = 82,  // semicolon
+        LB             = 83,  // left and right brackets
+        RB             = 84,
+        LC             = 85,  // left and right curlies (braces)
+        RC             = 86,
+        LP             = 87,  // left and right parentheses
+        RP             = 88,
+        COMMA          = 89,  // comma operator
 
-        ASSIGN         = 89,  // simple assignment  (=)
-        ASSIGN_BITOR   = 90,  // |=
-        ASSIGN_BITXOR  = 91,  // ^=
-        ASSIGN_BITAND  = 92,  // |=
-        ASSIGN_LSH     = 93,  // <<=
-        ASSIGN_RSH     = 94,  // >>=
-        ASSIGN_URSH    = 95,  // >>>=
-        ASSIGN_ADD     = 96,  // +=
-        ASSIGN_SUB     = 97,  // -=
-        ASSIGN_MUL     = 98,  // *=
-        ASSIGN_DIV     = 99,  // /=
-        ASSIGN_MOD     = 100;  // %=
+        ASSIGN         = 90,  // simple assignment  (=)
+        ASSIGN_BITOR   = 91,  // |=
+        ASSIGN_BITXOR  = 92,  // ^=
+        ASSIGN_BITAND  = 93,  // |=
+        ASSIGN_LSH     = 94,  // <<=
+        ASSIGN_RSH     = 95,  // >>=
+        ASSIGN_URSH    = 96,  // >>>=
+        ASSIGN_ADD     = 97,  // +=
+        ASSIGN_SUB     = 98,  // -=
+        ASSIGN_MUL     = 99,  // *=
+        ASSIGN_DIV     = 100,  // /=
+        ASSIGN_MOD     = 101;  // %=
 
     public final static int
         FIRST_ASSIGN   = ASSIGN,
         LAST_ASSIGN    = ASSIGN_MOD,
 
-        HOOK           = 101, // conditional (?:)
-        COLON          = 102,
-        OR             = 103, // logical or (||)
-        AND            = 104, // logical and (&&)
-        INC            = 105, // increment/decrement (++ --)
-        DEC            = 106,
-        DOT            = 107, // member operator (.)
-        FUNCTION       = 108, // function keyword
-        EXPORT         = 109, // export keyword
-        IMPORT         = 110, // import keyword
-        IF             = 111, // if keyword
-        ELSE           = 112, // else keyword
-        SWITCH         = 113, // switch keyword
-        CASE           = 114, // case keyword
-        DEFAULT        = 115, // default keyword
-        WHILE          = 116, // while keyword
-        DO             = 117, // do keyword
-        FOR            = 118, // for keyword
-        BREAK          = 119, // break keyword
-        CONTINUE       = 120, // continue keyword
-        VAR            = 121, // var keyword
-        WITH           = 122, // with keyword
-        CATCH          = 123, // catch keyword
-        FINALLY        = 124, // finally keyword
-        VOID           = 125, // void keyword
-        RESERVED       = 126, // reserved keywords
+        HOOK           = 102, // conditional (?:)
+        COLON          = 103,
+        OR             = 104, // logical or (||)
+        AND            = 105, // logical and (&&)
+        INC            = 106, // increment/decrement (++ --)
+        DEC            = 107,
+        DOT            = 108, // member operator (.)
+        FUNCTION       = 109, // function keyword
+        EXPORT         = 110, // export keyword
+        IMPORT         = 111, // import keyword
+        IF             = 112, // if keyword
+        ELSE           = 113, // else keyword
+        SWITCH         = 114, // switch keyword
+        CASE           = 115, // case keyword
+        DEFAULT        = 116, // default keyword
+        WHILE          = 117, // while keyword
+        DO             = 118, // do keyword
+        FOR            = 119, // for keyword
+        BREAK          = 120, // break keyword
+        CONTINUE       = 121, // continue keyword
+        VAR            = 122, // var keyword
+        WITH           = 123, // with keyword
+        CATCH          = 124, // catch keyword
+        FINALLY        = 125, // finally keyword
+        VOID           = 126, // void keyword
+        RESERVED       = 127, // reserved keywords
 
-        EMPTY          = 127,
+        EMPTY          = 128,
 
         /* types used for the parse tree - these never get returned
          * by the scanner.
          */
 
-        BLOCK          = 128, // statement block
-        LABEL          = 129, // label
-        TARGET         = 130,
-        LOOP           = 131,
-        EXPR_VOID      = 132, // expression statement in functions
-        EXPR_RESULT    = 133, // expression statement in scripts
-        JSR            = 134,
-        SCRIPT         = 135, // top-level node for entire script
-        TYPEOFNAME     = 136, // for typeof(simple-name)
-        USE_STACK      = 137,
-        SETPROP_OP     = 138, // x.y op= something
-        SETELEM_OP     = 139, // x[y] op= something
-        LOCAL_BLOCK    = 140,
-        SET_REF_OP     = 141, // *reference op= something
+        BLOCK          = 129, // statement block
+        LABEL          = 130, // label
+        TARGET         = 131,
+        LOOP           = 132,
+        EXPR_VOID      = 133, // expression statement in functions
+        EXPR_RESULT    = 134, // expression statement in scripts
+        JSR            = 135,
+        SCRIPT         = 136, // top-level node for entire script
+        TYPEOFNAME     = 137, // for typeof(simple-name)
+        USE_STACK      = 138,
+        SETPROP_OP     = 139, // x.y op= something
+        SETELEM_OP     = 140, // x[y] op= something
+        LOCAL_BLOCK    = 141,
+        SET_REF_OP     = 142, // *reference op= something
 
         // For XML support:
-        DOTDOT         = 142,  // member operator (..)
-        COLONCOLON     = 143,  // namespace::name
-        XML            = 144,  // XML type
-        DOTQUERY       = 145,  // .() -- e.g., x.emps.emp.(name == "terry")
-        XMLATTR        = 146,  // @
-        XMLEND         = 147,
+        DOTDOT         = 143,  // member operator (..)
+        COLONCOLON     = 144,  // namespace::name
+        XML            = 145,  // XML type
+        DOTQUERY       = 146,  // .() -- e.g., x.emps.emp.(name == "terry")
+        XMLATTR        = 147,  // @
+        XMLEND         = 148,
 
         // Optimizer-only-tokens
-        TO_OBJECT      = 148,
-        TO_DOUBLE      = 149,
+        TO_OBJECT      = 149,
+        TO_DOUBLE      = 150,
 
-        GET            = 150,  // JS 1.5 get pseudo keyword
-        SET            = 151,  // JS 1.5 set pseudo keyword
-        LET            = 152,  // JS 1.7 let pseudo keyword
-        CONST          = 153,
-        SETCONST       = 154,
-        SETCONSTVAR    = 155,
-        ARRAYCOMP      = 156,  // array comprehension
-        LETEXPR        = 157,
-        WITHEXPR       = 158,
-        DEBUGGER       = 159,
-        LAST_TOKEN     = 159;
+        GET            = 151,  // JS 1.5 get pseudo keyword
+        SET            = 152,  // JS 1.5 set pseudo keyword
+        LET            = 153,  // JS 1.7 let pseudo keyword
+        CONST          = 154,
+        SETCONST       = 155,
+        SETCONSTVAR    = 156,
+        ARRAYCOMP      = 157,  // array comprehension
+        LETEXPR        = 158,
+        WITHEXPR       = 159,
+        DEBUGGER       = 160,
+        COMMENT        = 161,
+        GENEXPR        = 162,
+        METHOD         = 163,  // ES6 MethodDefinition
+        LAST_TOKEN     = 164;
 
+    /**
+     * Returns a name for the token.  If Rhino is compiled with certain
+     * hardcoded debugging flags in this file, it calls {@code #typeToName};
+     * otherwise it returns a string whose value is the token number.
+     */
     public static String name(int token)
     {
         if (!printNames) {
             return String.valueOf(token);
         }
+        return typeToName(token);
+    }
+
+    /**
+     * Always returns a human-readable string for the token name.
+     * For instance, {@link #FINALLY} has the name "FINALLY".
+     * @param token the token code
+     * @return the actual name for the token code
+     */
+    public static String typeToName(int token) {
         switch (token) {
           case ERROR:           return "ERROR";
           case EOF:             return "EOF";
@@ -315,7 +301,7 @@ public class Token
           case TRUE:            return "TRUE";
           case SHEQ:            return "SHEQ";
           case SHNE:            return "SHNE";
-          case REGEXP:          return "OBJECT";
+          case REGEXP:          return "REGEXP";
           case BINDNAME:        return "BINDNAME";
           case THROW:           return "THROW";
           case RETHROW:         return "RETHROW";
@@ -426,9 +412,66 @@ public class Token
           case WITHEXPR:        return "WITHEXPR";
           case LETEXPR:         return "LETEXPR";
           case DEBUGGER:        return "DEBUGGER";
+          case COMMENT:         return "COMMENT";
+          case GENEXPR:         return "GENEXPR";
+          case METHOD:          return "METHOD";
         }
 
         // Token without name
         throw new IllegalStateException(String.valueOf(token));
+    }
+
+    /**
+     * Convert a keyword token to a name string for use with the
+     * {@link Context#FEATURE_RESERVED_KEYWORD_AS_IDENTIFIER} feature.
+     * @param token A token
+     * @return the corresponding name string
+     */
+    public static String keywordToName(int token) {
+        switch (token) {
+            case Token.BREAK:      return "break";
+            case Token.CASE:       return "case";
+            case Token.CONTINUE:   return "continue";
+            case Token.DEFAULT:    return "default";
+            case Token.DELPROP:    return "delete";
+            case Token.DO:         return "do";
+            case Token.ELSE:       return "else";
+            case Token.FALSE:      return "false";
+            case Token.FOR:        return "for";
+            case Token.FUNCTION:   return "function";
+            case Token.IF:         return "if";
+            case Token.IN:         return "in";
+            case Token.LET:        return "let";
+            case Token.NEW:        return "new";
+            case Token.NULL:       return "null";
+            case Token.RETURN:     return "return";
+            case Token.SWITCH:     return "switch";
+            case Token.THIS:       return "this";
+            case Token.TRUE:       return "true";
+            case Token.TYPEOF:     return "typeof";
+            case Token.VAR:        return "var";
+            case Token.VOID:       return "void";
+            case Token.WHILE:      return "while";
+            case Token.WITH:       return "with";
+            case Token.YIELD:      return "yield";
+            case Token.CATCH:      return "catch";
+            case Token.CONST:      return "const";
+            case Token.DEBUGGER:   return "debugger";
+            case Token.FINALLY:    return "finally";
+            case Token.INSTANCEOF: return "instanceof";
+            case Token.THROW:      return "throw";
+            case Token.TRY:        return "try";
+            default:               return null;
+        }
+    }
+
+    /**
+     * Return true if the passed code is a valid Token constant.
+     * @param code a potential token code
+     * @return true if it's a known token
+     */
+    public static boolean isValidToken(int code) {
+        return code >= ERROR
+                && code <= LAST_TOKEN;
     }
 }

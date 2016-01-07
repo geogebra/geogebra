@@ -1,52 +1,25 @@
 /* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
- * ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0
- *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
- *
- * The Original Code is Rhino code, released
- * May 6, 1999.
- *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1997-1999
- * the Initial Developer. All Rights Reserved.
- *
- * Contributor(s):
- *   Norris Boyd
- *   Igor Bukanov
- *   Bob Jervis
- *   Mike McCabe
- *
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which
- * case the provisions of the GPL are applicable instead of those above. If
- * you wish to allow use of your version of this file only under the terms of
- * the GPL and not to allow others to use your version of this file under the
- * MPL, indicate your decision by deleting the provisions above and replacing
- * them with the notice and other provisions required by the GPL. If you do
- * not delete the provisions above, a recipient may use your version of this
- * file under either the MPL or the GPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 package org.mozilla.javascript;
+
+import java.util.AbstractCollection;
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * This class implements the Object native object.
  * See ECMA 15.2.
  * @author Norris Boyd
  */
-public class NativeObject extends IdScriptableObject
+public class NativeObject extends IdScriptableObject implements Map
 {
     static final long serialVersionUID = -6345305608474346996L;
 
@@ -68,6 +41,38 @@ public class NativeObject extends IdScriptableObject
     public String toString()
     {
         return ScriptRuntime.defaultObjectToString(this);
+    }
+
+    @Override
+    protected void fillConstructorProperties(IdFunctionObject ctor)
+    {
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_getPrototypeOf,
+                "getPrototypeOf", 1);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_keys,
+                "keys", 1);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_getOwnPropertyNames,
+                "getOwnPropertyNames", 1);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_getOwnPropertyDescriptor,
+                "getOwnPropertyDescriptor", 2);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_defineProperty,
+                "defineProperty", 3);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_isExtensible,
+                "isExtensible", 1);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_preventExtensions,
+                "preventExtensions", 1);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_defineProperties,
+                "defineProperties", 2);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_create,
+                "create", 2);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_isSealed,
+                "isSealed", 1);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_isFrozen,
+                "isFrozen", 1);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_seal,
+                "seal", 1);
+        addIdFunctionProperty(ctor, OBJECT_TAG, ConstructorId_freeze,
+                "freeze", 1);
+        super.fillConstructorProperties(ctor);
     }
 
     @Override
@@ -120,7 +125,15 @@ public class NativeObject extends IdScriptableObject
             return ScriptRuntime.toObject(cx, scope, args[0]);
           }
 
-          case Id_toLocaleString: // For now just alias toString
+          case Id_toLocaleString: {
+            Object toString = ScriptableObject.getProperty(thisObj, "toString");
+            if(!(toString instanceof Callable)) {
+                throw ScriptRuntime.notFunctionError(toString);
+            }
+            Callable fun = (Callable)toString;
+            return fun.call(cx, scope, thisObj, ScriptRuntime.emptyArgs);
+          }
+
           case Id_toString: {
             if (cx.hasFeature(Context.FEATURE_TO_STRING_AS_SOURCE)) {
                 String s = ScriptRuntime.defaultObjectToSource(cx, scope,
@@ -140,41 +153,35 @@ public class NativeObject extends IdScriptableObject
 
           case Id_hasOwnProperty: {
             boolean result;
-            if (args.length == 0) {
-                result = false;
+            Object arg = args.length < 1 ? Undefined.instance : args[0];
+            String s = ScriptRuntime.toStringIdOrIndex(cx, arg);
+            if (s == null) {
+                int index = ScriptRuntime.lastIndexResult(cx);
+                result = thisObj.has(index, thisObj);
             } else {
-                String s = ScriptRuntime.toStringIdOrIndex(cx, args[0]);
-                if (s == null) {
-                    int index = ScriptRuntime.lastIndexResult(cx);
-                    result = thisObj.has(index, thisObj);
-                } else {
-                    result = thisObj.has(s, thisObj);
-                }
+                result = thisObj.has(s, thisObj);
             }
             return ScriptRuntime.wrapBoolean(result);
           }
 
           case Id_propertyIsEnumerable: {
             boolean result;
-            if (args.length == 0) {
-                result = false;
+            Object arg = args.length < 1 ? Undefined.instance : args[0];
+            String s = ScriptRuntime.toStringIdOrIndex(cx, arg);
+            if (s == null) {
+                int index = ScriptRuntime.lastIndexResult(cx);
+                result = thisObj.has(index, thisObj);
+                if (result && thisObj instanceof ScriptableObject) {
+                    ScriptableObject so = (ScriptableObject)thisObj;
+                    int attrs = so.getAttributes(index);
+                    result = ((attrs & ScriptableObject.DONTENUM) == 0);
+                }
             } else {
-                String s = ScriptRuntime.toStringIdOrIndex(cx, args[0]);
-                if (s == null) {
-                    int index = ScriptRuntime.lastIndexResult(cx);
-                    result = thisObj.has(index, thisObj);
-                    if (result && thisObj instanceof ScriptableObject) {
-                        ScriptableObject so = (ScriptableObject)thisObj;
-                        int attrs = so.getAttributes(index);
-                        result = ((attrs & ScriptableObject.DONTENUM) == 0);
-                    }
-                } else {
-                    result = thisObj.has(s, thisObj);
-                    if (result && thisObj instanceof ScriptableObject) {
-                        ScriptableObject so = (ScriptableObject)thisObj;
-                        int attrs = so.getAttributes(s);
-                        result = ((attrs & ScriptableObject.DONTENUM) == 0);
-                    }
+                result = thisObj.has(s, thisObj);
+                if (result && thisObj instanceof ScriptableObject) {
+                    ScriptableObject so = (ScriptableObject)thisObj;
+                    int attrs = so.getAttributes(s);
+                    result = ((attrs & ScriptableObject.DONTENUM) == 0);
                 }
             }
             return ScriptRuntime.wrapBoolean(result);
@@ -230,7 +237,7 @@ public class NativeObject extends IdScriptableObject
                   if (args.length < 1 ||
                       !(thisObj instanceof ScriptableObject))
                       return Undefined.instance;
-                  
+
                   ScriptableObject so = (ScriptableObject)thisObj;
                   String name = ScriptRuntime.toStringIdOrIndex(cx, args[0]);
                   int index = (name != null ? 0
@@ -256,10 +263,364 @@ public class NativeObject extends IdScriptableObject
               }
               return Undefined.instance;
 
+          case ConstructorId_getPrototypeOf:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                Scriptable obj = ensureScriptable(arg);
+                return obj.getPrototype();
+              }
+          case ConstructorId_keys:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                Scriptable obj = ensureScriptable(arg);
+                Object[] ids = obj.getIds();
+                for (int i = 0; i < ids.length; i++) {
+                  ids[i] = ScriptRuntime.toString(ids[i]);
+                }
+                return cx.newArray(scope, ids);
+              }
+          case ConstructorId_getOwnPropertyNames:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                ScriptableObject obj = ensureScriptableObject(arg);
+                Object[] ids = obj.getAllIds();
+                for (int i = 0; i < ids.length; i++) {
+                  ids[i] = ScriptRuntime.toString(ids[i]);
+                }
+                return cx.newArray(scope, ids);
+              }
+          case ConstructorId_getOwnPropertyDescriptor:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                // TODO(norris): There's a deeper issue here if
+                // arg instanceof Scriptable. Should we create a new
+                // interface to admit the new ECMAScript 5 operations?
+                ScriptableObject obj = ensureScriptableObject(arg);
+                Object nameArg = args.length < 2 ? Undefined.instance : args[1];
+                String name = ScriptRuntime.toString(nameArg);
+                Scriptable desc = obj.getOwnPropertyDescriptor(cx, name);
+                return desc == null ? Undefined.instance : desc;
+              }
+          case ConstructorId_defineProperty:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                ScriptableObject obj = ensureScriptableObject(arg);
+                Object name = args.length < 2 ? Undefined.instance : args[1];
+                Object descArg = args.length < 3 ? Undefined.instance : args[2];
+                ScriptableObject desc = ensureScriptableObject(descArg);
+                obj.defineOwnProperty(cx, name, desc);
+                return obj;
+              }
+          case ConstructorId_isExtensible:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                ScriptableObject obj = ensureScriptableObject(arg);
+                return Boolean.valueOf(obj.isExtensible());
+              }
+          case ConstructorId_preventExtensions:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                ScriptableObject obj = ensureScriptableObject(arg);
+                obj.preventExtensions();
+                return obj;
+              }
+          case ConstructorId_defineProperties:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                ScriptableObject obj = ensureScriptableObject(arg);
+                Object propsObj = args.length < 2 ? Undefined.instance : args[1];
+                Scriptable props = Context.toObject(propsObj, getParentScope());
+                obj.defineOwnProperties(cx, ensureScriptableObject(props));
+                return obj;
+              }
+          case ConstructorId_create:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                Scriptable obj = (arg == null) ? null : ensureScriptable(arg);
+
+                ScriptableObject newObject = new NativeObject();
+                newObject.setParentScope(getParentScope());
+                newObject.setPrototype(obj);
+
+                if (args.length > 1 && args[1] != Undefined.instance) {
+                  Scriptable props = Context.toObject(args[1], getParentScope());
+                  newObject.defineOwnProperties(cx, ensureScriptableObject(props));
+                }
+
+                return newObject;
+              }
+          case ConstructorId_isSealed:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                ScriptableObject obj = ensureScriptableObject(arg);
+
+                if (obj.isExtensible()) return Boolean.FALSE;
+
+                for (Object name: obj.getAllIds()) {
+                  Object configurable = obj.getOwnPropertyDescriptor(cx, name).get("configurable");
+                  if (Boolean.TRUE.equals(configurable))
+                    return Boolean.FALSE;
+                }
+
+                return Boolean.TRUE;
+              }
+          case ConstructorId_isFrozen:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                ScriptableObject obj = ensureScriptableObject(arg);
+
+                if (obj.isExtensible()) return Boolean.FALSE;
+
+                for (Object name: obj.getAllIds()) {
+                  ScriptableObject desc = obj.getOwnPropertyDescriptor(cx, name);
+                  if (Boolean.TRUE.equals(desc.get("configurable")))
+                    return Boolean.FALSE;
+                  if (isDataDescriptor(desc) && Boolean.TRUE.equals(desc.get("writable")))
+                    return Boolean.FALSE;
+                }
+
+                return Boolean.TRUE;
+              }
+          case ConstructorId_seal:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                ScriptableObject obj = ensureScriptableObject(arg);
+
+                for (Object name: obj.getAllIds()) {
+                  ScriptableObject desc = obj.getOwnPropertyDescriptor(cx, name);
+                  if (Boolean.TRUE.equals(desc.get("configurable"))) {
+                    desc.put("configurable", desc, Boolean.FALSE);
+                    obj.defineOwnProperty(cx, name, desc, false);
+                  }
+                }
+                obj.preventExtensions();
+
+                return obj;
+              }
+          case ConstructorId_freeze:
+              {
+                Object arg = args.length < 1 ? Undefined.instance : args[0];
+                ScriptableObject obj = ensureScriptableObject(arg);
+
+                for (Object name: obj.getAllIds()) {
+                  ScriptableObject desc = obj.getOwnPropertyDescriptor(cx, name);
+                  if (isDataDescriptor(desc) && Boolean.TRUE.equals(desc.get("writable")))
+                    desc.put("writable", desc, Boolean.FALSE);
+                  if (Boolean.TRUE.equals(desc.get("configurable")))
+                    desc.put("configurable", desc, Boolean.FALSE);
+                  obj.defineOwnProperty(cx, name, desc, false);
+                }
+                obj.preventExtensions();
+
+                return obj;
+              }
+
+
           default:
             throw new IllegalArgumentException(String.valueOf(id));
         }
     }
+
+    // methods implementing java.util.Map
+
+    public boolean containsKey(Object key) {
+        if (key instanceof String) {
+            return has((String) key, this);
+        } else if (key instanceof Number) {
+            return has(((Number) key).intValue(), this);
+        }
+        return false;
+    }
+
+    public boolean containsValue(Object value) {
+        for (Object obj : values()) {
+            if (value == obj ||
+                    value != null && value.equals(obj)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Object remove(Object key) {
+        Object value = get(key);
+        if (key instanceof String) {
+            delete((String) key);
+        } else if (key instanceof Number) {
+            delete(((Number) key).intValue());
+        }
+        return value;
+    }
+
+
+    public Set<Object> keySet() {
+        return new KeySet();
+    }
+
+    public Collection<Object> values() {
+        return new ValueCollection();
+    }
+
+    public Set<Map.Entry<Object, Object>> entrySet() {
+        return new EntrySet();
+    }
+
+    public Object put(Object key, Object value) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void putAll(Map m) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void clear() {
+        throw new UnsupportedOperationException();
+    }
+
+
+    class EntrySet extends AbstractSet<Entry<Object, Object>> {
+        @Override
+        public Iterator<Entry<Object, Object>> iterator() {
+            return new Iterator<Map.Entry<Object, Object>>() {
+                Object[] ids = getIds();
+                Object key = null;
+                int index = 0;
+
+                public boolean hasNext() {
+                    return index < ids.length;
+                }
+
+                public Map.Entry<Object, Object> next() {
+                    final Object ekey = key = ids[index++];
+                    final Object value = get(key);
+                    return new Map.Entry<Object, Object>() {
+                        public Object getKey() {
+                            return ekey;
+                        }
+
+                        public Object getValue() {
+                            return value;
+                        }
+
+                        public Object setValue(Object value) {
+                            throw new UnsupportedOperationException();
+                        }
+
+                        @Override
+                        public boolean equals(Object other) {
+                            if (!(other instanceof Map.Entry)) {
+                                return false;
+                            }
+                            Map.Entry<?, ?> e = (Map.Entry<?, ?>) other;
+                            return (ekey == null ? e.getKey() == null : ekey.equals(e.getKey()))
+                                && (value == null ? e.getValue() == null : value.equals(e.getValue()));
+                        }
+
+                        @Override
+                        public int hashCode() {
+                            return (ekey == null ? 0 : ekey.hashCode()) ^
+                                   (value == null ? 0 : value.hashCode());
+                        }
+
+                        @Override
+                        public String toString() {
+                            return ekey + "=" + value;
+                        }
+                    };
+                }
+
+                public void remove() {
+                    if (key == null) {
+                        throw new IllegalStateException();
+                    }
+                    NativeObject.this.remove(key);
+                    key = null;
+                }
+            };
+        }
+
+        @Override
+        public int size() {
+            return NativeObject.this.size();
+        }
+    }
+
+    class KeySet extends AbstractSet<Object> {
+
+        @Override
+        public boolean contains(Object key) {
+            return containsKey(key);
+        }
+
+        @Override
+        public Iterator<Object> iterator() {
+            return new Iterator<Object>() {
+                Object[] ids = getIds();
+                Object key;
+                int index = 0;
+
+                public boolean hasNext() {
+                    return index < ids.length;
+                }
+
+                public Object next() {
+                    try {
+                        return (key = ids[index++]);
+                    } catch(ArrayIndexOutOfBoundsException e) {
+                        key = null;
+                        throw new NoSuchElementException();
+                    }
+                }
+
+                public void remove() {
+                    if (key == null) {
+                        throw new IllegalStateException();
+                    }
+                    NativeObject.this.remove(key);
+                    key = null;
+                }
+           };
+        }
+
+        @Override
+        public int size() {
+            return NativeObject.this.size();
+        }
+    }
+
+    class ValueCollection extends AbstractCollection<Object> {
+
+        @Override
+        public Iterator<Object> iterator() {
+            return new Iterator<Object>() {
+                Object[] ids = getIds();
+                Object key;
+                int index = 0;
+
+                public boolean hasNext() {
+                    return index < ids.length;
+                }
+
+                public Object next() {
+                    return get((key = ids[index++]));
+                }
+
+                public void remove() {
+                    if (key == null) {
+                        throw new IllegalStateException();
+                    }
+                    NativeObject.this.remove(key);
+                    key = null;
+                }
+            };
+        }
+
+        @Override
+        public int size() {
+            return NativeObject.this.size();
+        }
+    }
+
 
 // #string_id_map#
 
@@ -303,6 +664,20 @@ public class NativeObject extends IdScriptableObject
     }
 
     private static final int
+        ConstructorId_getPrototypeOf = -1,
+        ConstructorId_keys = -2,
+        ConstructorId_getOwnPropertyNames = -3,
+        ConstructorId_getOwnPropertyDescriptor = -4,
+        ConstructorId_defineProperty = -5,
+        ConstructorId_isExtensible = -6,
+        ConstructorId_preventExtensions = -7,
+        ConstructorId_defineProperties= -8,
+        ConstructorId_create = -9,
+        ConstructorId_isSealed = -10,
+        ConstructorId_isFrozen = -11,
+        ConstructorId_seal = -12,
+        ConstructorId_freeze = -13,
+
         Id_constructor           = 1,
         Id_toString              = 2,
         Id_toLocaleString        = 3,
