@@ -1236,6 +1236,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Cartesian": "Cartesiano",
     "CasCellUseAsText": "Texto",
     "CheckBoxTitle": "Caixa de Verifica\xe7\xe3o para Mostrar/Esconder Objetos",
+    "CheckOutTutorial": "Check out our %0 tutorial!",
     "CheckboxSize": "Tamanho da Caixa para Mostrar/Esconder Objetos",
     "CheckboxSize.Large": "Grande",
     "CheckboxSize.Regular": "Regular",

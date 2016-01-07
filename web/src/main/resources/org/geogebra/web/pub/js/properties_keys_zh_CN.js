@@ -1236,6 +1236,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Cartesian": "\u76f4\u89d2\u5750\u6807",
     "CasCellUseAsText": "\u8f6c\u6362\u4e3a\u6587\u672c",
     "CheckBoxTitle": "\u590d\u9009\u6846_\u663e\u793a/\u9690\u85cf\u5bf9\u8c61\u7fa4",
+    "CheckOutTutorial": "Check out our %0 tutorial!",
     "CheckboxSize": "\u590d\u9009\u6846\u5927\u5c0f",
     "CheckboxSize.Large": "\u5927",
     "CheckboxSize.Regular": "\u666e\u901a",

@@ -1236,6 +1236,7 @@ __GGB__keysVar.es_UY.menu = {
     "Cartesian": "Cartesiano",
     "CasCellUseAsText": "Texto",
     "CheckBoxTitle": "Casilla de control para mostrar/ocultar objetos",
+    "CheckOutTutorial": "Check out our %0 tutorial!",
     "CheckboxSize": "Tama\xf1o de casillas de control",
     "CheckboxSize.Large": "Grande",
     "CheckboxSize.Regular": "Normal",

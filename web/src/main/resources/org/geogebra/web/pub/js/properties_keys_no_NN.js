@@ -1236,6 +1236,7 @@ __GGB__keysVar.no_NN.menu = {
     "Cartesian": "Kartesisk",
     "CasCellUseAsText": "Tekst",
     "CheckBoxTitle": "Avkryssingsboks for \xe5 vise/skjule objekt",
+    "CheckOutTutorial": "Check out our %0 tutorial!",
     "CheckboxSize": "Storleik p\xe5 avkryssingsboksen",
     "CheckboxSize.Large": "Stor",
     "CheckboxSize.Regular": "Vanleg",

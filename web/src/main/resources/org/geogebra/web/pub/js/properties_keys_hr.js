@@ -1236,6 +1236,7 @@ __GGB__keysVar.hr.menu = {
     "Cartesian": "Kartezijeva",
     "CasCellUseAsText": "Tekst",
     "CheckBoxTitle": "Potvrdni okvir za prikaz/skrivanje objekata",
+    "CheckOutTutorial": "Check out our %0 tutorial!",
     "CheckboxSize": "Veli\u010dina potvrdnog okvira",
     "CheckboxSize.Large": "velik",
     "CheckboxSize.Regular": "obi\u010dan",

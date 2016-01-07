@@ -1236,6 +1236,7 @@ __GGB__keysVar.es.menu = {
     "Cartesian": "Cartesiano",
     "CasCellUseAsText": "Texto",
     "CheckBoxTitle": "Visibilidad de objetos",
+    "CheckOutTutorial": "Check out our %0 tutorial!",
     "CheckboxSize": "Tama\xf1o de casilla",
     "CheckboxSize.Large": "Grande",
     "CheckboxSize.Regular": "Normal",

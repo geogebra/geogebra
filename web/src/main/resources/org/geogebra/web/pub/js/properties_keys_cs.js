@@ -1236,6 +1236,7 @@ __GGB__keysVar.cs.menu = {
     "Cartesian": "Kart\xe9zsk\xfd",
     "CasCellUseAsText": "Text",
     "CheckBoxTitle": "Za\u0161krt\xe1vac\xed pol\xed\u010dko pro skryt\xed / zobrazen\xed objektu",
+    "CheckOutTutorial": "Check out our %0 tutorial!",
     "CheckboxSize": "Velikost v\xfdb\u011brov\xe9ho pol\xed\u010dka",
     "CheckboxSize.Large": "Velk\xe9",
     "CheckboxSize.Regular": "Norm\xe1ln\xed",

@@ -1236,6 +1236,7 @@ __GGB__keysVar.eu.menu = {
     "Cartesian": "Kartesiarra",
     "CasCellUseAsText": "Testua",
     "CheckBoxTitle": "Objektuak erakusteko/ezkutatzeko kontrol-laukia",
+    "CheckOutTutorial": "Check out our %0 tutorial!",
     "CheckboxSize": "Kontrol-Laukiaren Tamaina",
     "CheckboxSize.Large": "Handia",
     "CheckboxSize.Regular": "Normala",
