@@ -1883,7 +1883,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void IntegralBetween_0 () {
-    t("IntegralBetween[sin(x), cos(x), pi / 4, pi * 5 / 4]", "2 * sqrt(2)");
+		t("IntegralBetween[sin(x), cos(x), pi / 4, pi * 5 / 4]", "4 / sqrt(2)",
+				"2 * sqrt(2)");
   }
 
   @Test
