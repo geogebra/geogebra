@@ -898,7 +898,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			StringBuilder sb = getSbBuildValueString();
 			sb.setLength(0);
 			sb.append("(");
-			if (gcd != 1 && Kernel.compare(gcd, 0.0) != 0) {
+			if (gcd != 1 && !Kernel.isZero(gcd)) {
 				sb.append(kernel.format(x / gcd, tpl));
 			} else {
 				sb.append(kernel.format(x, tpl));
@@ -906,7 +906,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			sb.append(")*");
 			sb.append(tpl.printVariableName("x"));
 			sb.append("+(");
-			if (gcd != 1 && Kernel.compare(gcd, 0.0) != 0) {
+			if (gcd != 1 && !Kernel.isZero(gcd)) {
 				sb.append(kernel.format(y / gcd, tpl));
 			} else {
 				sb.append(kernel.format(y, tpl));
@@ -914,7 +914,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			sb.append(")*");
 			sb.append(tpl.printVariableName("y"));
 			sb.append('=');
-			if (gcd != 1 && Kernel.compare(gcd, 0.0) != 0) {
+			if (gcd != 1 && !Kernel.isZero(gcd)) {
 				sb.append(kernel.format(-z / gcd, tpl));
 			} else {
 				sb.append(kernel.format(-z, tpl));
