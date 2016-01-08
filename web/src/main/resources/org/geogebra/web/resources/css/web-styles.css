@@ -3571,6 +3571,12 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	text-align: center;
 }
 
+.cpTable input[type="text"]{
+	background-color:transparent;
+	border: none;
+	box-shadow: none;
+}
+
 /* TOUCH */
 .dummyDragElem div {
 	padding: 10px 15px 10px 15px;

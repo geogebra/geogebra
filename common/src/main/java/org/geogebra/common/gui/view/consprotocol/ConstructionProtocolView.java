@@ -378,6 +378,11 @@ public class ConstructionProtocolView {
 			// not used for this view
 		}
 		
+		public void notifyClear() {
+			// TODO Auto-generated method stub
+
+		}
+
 		public ArrayList<RowData> getrowList(){
 			return rowList;
 		}
@@ -669,10 +674,11 @@ public class ConstructionProtocolView {
 			App.debug("fireTableRowsInserted - must be overriden");
 		}
 		
-		public void initView() {
+		public final void initView() {
 			// init view
 			rowList.clear();
 			geoMap.clear();
+			notifyClear();
 			notifyAddAll(kernel.getLastConstructionStep());
 		}
 
@@ -730,6 +736,8 @@ public class ConstructionProtocolView {
 		return sb.toString();
 	}
 	
+
+
 	public void showOnlyBreakpointsAction() {
 		app.getKernel()
 				.getConstruction()

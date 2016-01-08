@@ -305,6 +305,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			// On web there is no all columns yet, so temporary must hide
 			// some
 			// column on stylebar too
+			final boolean breakpoint = "Breakpoint".equals(colData.getTitle());
 			if (!"No.".equals(colData.getTitle())
 					&& (!"ToolbarIcon".equals(colData.getTitle()) || app
 							.has(Feature.CP_NEW_COLUMNS))
@@ -312,11 +313,16 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 							.has(Feature.CP_NEW_COLUMNS))
 					&& (!"Caption".equals(colData.getTitle()) || app
 							.has(Feature.CP_NEW_COLUMNS))
-					&& (!"Breakpoint".equals(colData.getTitle()) || app
+					&& (!breakpoint || app
 							.has(Feature.CP_NEW_COLUMNS))) {
 				final int j = k;
 				com = new ScheduledCommand() {
 					public void execute() {
+						if (breakpoint && !data.columns[j].isVisible()) {
+							app.getKernel().getConstruction()
+									.setShowOnlyBreakpoints(false);
+							data.initView();
+						}
 						data.columns[j]
 								.setVisible(!data.columns[j].isVisible());
 						initGUI();
@@ -913,6 +919,12 @@ myCell) {
 				needsUpdate = false;
 				tableInit();
 			}
+		}
+
+		@Override
+		public void notifyClear() {
+			rowsChanged = true;
+			needsUpdate = true;
 		}
 		/**
 		 * 
