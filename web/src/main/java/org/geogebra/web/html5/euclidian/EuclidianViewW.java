@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.awt.GBasicStroke;
@@ -1250,12 +1251,16 @@ public class EuclidianViewW extends EuclidianView implements
 		closeAllDropDowns();
 	}
 
-	public Widget getPrintable() {
+	public List<Widget> getPrintable() {
+	
+		Widget[] printableList = {};
 		Image prevImg = new Image();
 		String urlText = ((EuclidianViewWInterface) app
 				.getActiveEuclidianView()).getExportImageDataUrl(1, false);
 		prevImg.getElement().setAttribute("src", urlText);
-		return prevImg;
+
+		printableList[0] = prevImg;
+		return Arrays.asList(printableList);
 	}
 
 	public void cancelBlur() {

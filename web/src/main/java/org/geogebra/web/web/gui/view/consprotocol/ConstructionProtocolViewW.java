@@ -1,5 +1,8 @@
 package org.geogebra.web.web.gui.view.consprotocol;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
@@ -38,8 +41,6 @@ import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -57,7 +58,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -1005,6 +1005,7 @@ myCell) {
 		CellTable<RowData> previewTable = new CellTable<RowData>(data
 				.getrowList().size());
 		addColumnsForTable(previewTable);
+		previewTable.addStyleName("previewTable");
 
 		int numberOfRows = 10;
 		if (row + numberOfRows > data.getrowList().size()) {
@@ -1019,32 +1020,18 @@ myCell) {
 		return previewTable;
 	}
 
-	public Widget getPrintable() {
+	public List<Widget> getPrintable() {
 		CellTable<RowData> previewTable;
 		Integer row = 0;
-		SimplePanel panel = new SimplePanel();
 
-		panel.setWidth("400px");
-		panel.getElement().getStyle().setDisplay(Display.BLOCK);
-		panel.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		panel.getElement().getStyle().setLeft(0, Unit.PX);
-
-
+		Widget[] printableList = {};
 
 		while (row < data.getrowList().size()) {
 			previewTable = getTable(row);
-			// previewTable.getElement().setPropertyString("page-break-after",
-			// "always");
-			// previewTable.addStyleName("previewTable");
-
-			Element pagebreakElement = DOM.createDiv();
-			pagebreakElement.setClassName("pagebreak");
-
-			panel.getElement().appendChild(previewTable.getElement());
-			panel.getElement().appendChild(pagebreakElement);
+			printableList[printableList.length] = previewTable;
 			row += previewTable.getRowCount();
 		}
 
-		return panel;
+		return Arrays.asList(printableList);
 	}
 }

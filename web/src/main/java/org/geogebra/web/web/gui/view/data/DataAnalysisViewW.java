@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui.view.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
@@ -685,7 +687,11 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	}
 
-	public Widget getPrintable() {
-		return new Label("Data analysis View");
+	public List<Widget> getPrintable() {
+
+		Widget[] printableList = {};
+
+		printableList[0] = new Label("Data analysis View");
+		return Arrays.asList(printableList);
 	}
 }

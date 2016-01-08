@@ -1,5 +1,8 @@
 package org.geogebra.web.web.cas.view;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
@@ -217,8 +220,12 @@ public class CASViewW extends CASView implements PrintableW {
 		}
 	}
 
-	public Widget getPrintable() {
-		return new Label("CAS View");
+	public List<Widget> getPrintable() {
+		Widget[] printableList = {};
+
+		printableList[0] = new Label("CAS View");
+		return Arrays.asList(printableList);
+
 	}
 
 }

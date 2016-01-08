@@ -1,7 +1,9 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -1821,8 +1823,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 
 
-	public Widget getPrintable() {
-		return new Label("Algebra View");
+	public List<Widget> getPrintable() {
+		Widget[] printableList = {};
+
+		printableList[0] = new Label("Algebra View");
+		return Arrays.asList(printableList);
 	}
 
 	public boolean isAttachedToKernel() {

@@ -1,5 +1,7 @@
 package org.geogebra.web.web.export;
 
+import java.util.List;
+
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -17,6 +19,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -28,7 +31,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	private Button btPrint;
 	private Button btCancel;
 	ListBox m_cbView;
-	HorizontalPanel printPanel;
+	FlowPanel printPanel;
 
 	public PrintPreviewW(AppW appl) {
 		super(true, true, appl.getPanel());
@@ -40,7 +43,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	}
 
 	protected void createGUI() {
-		printPanel = new HorizontalPanel();
+		printPanel = new FlowPanel();
 		printPanel.setStyleName("printPanel");
 
 		VerticalPanel centerPanel = new VerticalPanel();
@@ -121,9 +124,15 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 			public void run(int viewID, String viewName) {
 				if (app.getPlain(viewName).equals(printableView)) {
 					
-					final Widget printables = getPrintables(viewID, app);
+					final List<Widget> printables = getPrintables(viewID, app);
 					printPanel.clear();
-					printPanel.add(printables);
+					for (int i = 0; i < printables.size(); i++) {
+						Widget printableWidget = printables.get(i);
+						if(i>0){
+							printableWidget.addStyleName("pagebreak");
+						}
+						printPanel.add(printables.get(i));
+					}
 					Document.get().getBody()
 							.appendChild(printPanel.getElement());
 
@@ -134,7 +143,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 	}
 
-	static Widget getPrintables(int viewID, AppW app) {
+	static List<Widget> getPrintables(int viewID, AppW app) {
 		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
 		PrintableW view;
 		if (viewID == App.VIEW_CAS) {

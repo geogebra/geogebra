@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui.view.spreadsheet;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
@@ -1221,7 +1223,11 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	}
 
-	public Widget getPrintable() {
-		return new Label("Spreadsheet View");
+	public List<Widget> getPrintable() {
+
+		Widget[] printableList = {};
+
+		printableList[0] = new Label("Spreadsheet View");
+		return Arrays.asList(printableList);
 	}
 }
