@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
@@ -2528,10 +2527,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	final private static int HIT_SAMPLES = 10;
 	final private static double DELTA_SAMPLES = 1.0 / HIT_SAMPLES;
 
-	private CoordMatrix jacobian;
-	private Coords bivariateVector, bivariateDelta;
-	private double[] uv, xyz;
-
+	private double[] xyzuv;
 
 	@Override
 	public boolean hit(Hitting hitting) {
@@ -2640,78 +2636,25 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				return false;
 			}
 
-			if (jacobian == null) {
-				jacobian = new CoordMatrix(2, 2);
-				bivariateVector = new Coords(3);
-				bivariateDelta = new Coords(2);
-				uv = new double[2];
-				xyz = new double[3];
-
+			if (xyzuv == null) {
+				xyzuv = new double[5];
 			}
-
-			// we use bivariate newton method:
-			// A(x0,y0,z0) and B(x1,y1,z1) delimits the hitting segment
-			// M(u,v) is a point on the surface
-			// we want vector product AM*AB to equal 0, so A, B, M are colinear
-			// we only check first and second values of AM*AB since third will
-			// be a consequence
-
-			double gxc = hitting.z0 * hitting.y1 - hitting.z1 * hitting.y0;
-			double gyc = hitting.x0 * hitting.z1 - hitting.x1 * hitting.z0;
-			double gzc = hitting.y0 * hitting.x1 - hitting.y1 * hitting.x0;
-
-			double uMin = surface.getMinParameter(0);
-			double uMax = surface.getMaxParameter(0);
-			double vMin = surface.getMinParameter(1);
-			double vMax = surface.getMaxParameter(1);
-
 			
-			double finalError = Double.NaN;
-			double dotProduct = -1;
-			double x = 0, y = 0, z = 0;
-			double u = 0, v = 0;
-			
-			// make several tries
-			double du = (uMax - uMin) / BIVARIATE_SAMPLES;
-			double dv = (vMax - vMin) / BIVARIATE_SAMPLES;
-			for (int ui = 0; ui <= BIVARIATE_SAMPLES; ui++) {
-				uv[0] = uMin + ui * du;
-				for (int vi = 0; vi <= BIVARIATE_SAMPLES; vi++) {
-					uv[1] = vMin + vi * dv;
-					double error = findBivariate(surface, hitting, gxc, gyc,
-							gzc, uv, uMin, uMax, vMin, vMax);
-					if (!Double.isNaN(error)) {
-						// check if the hit point is in the correct direction
-						double d = (xyz[0] - hitting.x0) * hitting.vx
-								+ (xyz[1] - hitting.y0) * hitting.vy
-								+ (xyz[2] - hitting.z0) * hitting.vz;
-						if (d >= 0) {
-							if (dotProduct < 0 || d < dotProduct) {
-								dotProduct = d;
-								finalError = error;
-								x = xyz[0];
-								y = xyz[1];
-								z = xyz[2];
-								u = uv[0];
-								v = uv[1];
-							}
-						}
-					}
+			boolean found = surface.getBestColinear(hitting.x0,
+					hitting.y0, hitting.z0, hitting.vx, hitting.vy, hitting.vz,
+					hitting.squareNorm, xyzuv);
 
-				}
-
-			}
-
-			if (!Double.isNaN(finalError)) {
-				double dx = x - hitting.origin.getX();
-				double dy = y - hitting.origin.getY();
-				double dz = z - hitting.origin.getZ();
+			if (found) {
+				double dx = xyzuv[0] - hitting.origin.getX();
+				double dy = xyzuv[1] - hitting.origin.getY();
+				double dz = xyzuv[2] - hitting.origin.getZ();
 				double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
 				setZPick(-d, -d);
 				setZPick(-d, -d);
-				surface.setLastHitParameters(u, v);
+				surface.setLastHitParameters(xyzuv[3], xyzuv[4]);
 				return true;
 			}
+
 
 			return false;
 		}
@@ -2719,63 +2662,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return false;
 
 	}
-
-	/**
-	 * we'll make 9x9 tries for starting point to hit the surface
-	 */
-	private static final int BIVARIATE_SAMPLES = 8;
-
-	/**
-	 * we'll make 10 jumps to get closer
-	 */
-	private static final int BIVARIATE_JUMPS = 10;
-
-	private double findBivariate(final GeoSurfaceCartesian3D surface,
-			final Hitting hitting, final double gxc, final double gyc,
-			final double gzc, double[] uv,
-			final double uMin, final double uMax, final double vMin,
-			final double vMax) {
-
-		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
-
-			// calc angle vector between hitting direction and hitting
-			// origin-point on surface
-			surface.setVectorForBivariate(uv, xyz, hitting.vx, hitting.vy,
-					hitting.vz, gxc, gyc, gzc, bivariateVector);
-
-			double dx = xyz[0] - hitting.x0;
-			double dy = xyz[1] - hitting.y0;
-			double dz = xyz[2] - hitting.z0;
-			double d = dx * dx + dy * dy + dz * dz;
-			double error = bivariateVector.dotproduct3(bivariateVector);
-
-			// check if sin(angle)^2 is small enough, then stop
-			if (error < Kernel.STANDARD_PRECISION * hitting.squareNorm * d) {
-				return error;
-			}
-
-			// set jacobian matrix and solve it
-			surface.setJacobianForBivariate(uv, hitting.vx, hitting.vy,
-					hitting.vz, jacobian);
-			jacobian.pivotDegenerate(bivariateDelta, bivariateVector);
-
-			// if no solution, dismiss
-			if (!bivariateDelta.isDefined()) {
-				return Double.NaN;
-			}
-
-			// calc new parameters
-			uv[0] -= bivariateDelta.getX();
-			uv[1] -= bivariateDelta.getY();
-
-			// check bounds
-			surface.randomBackInIntervalsIfNeeded(uv);
-
-		}
-
-		return Double.NaN;
-	}
-	
 
 
 	private static void setLastHitParameters(GeoFunctionNVar geoF,

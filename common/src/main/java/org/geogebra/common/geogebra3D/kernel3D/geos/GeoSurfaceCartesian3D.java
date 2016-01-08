@@ -442,8 +442,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	public void pointChangedForRegion(GeoPointND P) {
 
-		Coords coords = P.getInhomCoordsInD3();
+		GeoPoint3D p = (GeoPoint3D) P;
 
+		// use last hit parameters if exist
 		if (hasLastHitParameters()) {
 			RegionParameters rp = P.getRegionParameters();
 			rp.setT1(lastHitU);
@@ -453,26 +454,65 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			setDerivatives();
 			Coords n = evaluateNormal(lastHitU, lastHitV);
 			rp.setNormal(n);
-			P.setCoords(c, false);
-			P.updateCoords();
+			p.setCoords(c, false);
+			p.updateCoords();
+			p.setWillingCoordsUndefined();
+			p.setWillingDirectionUndefined();
 			resetLastHitParameters();
 			return;
+		}
+
+		Coords coords, direction;
+		if (p.hasWillingCoords()) { // use willing coords
+			coords = p.getWillingCoords();
+		} else {
+			// use real coords
+			coords = p.getInhomCoordsInD3();
 		}
 
 		if (xyzuv == null) {
 			xyzuv = new double[5];
 		}
 
+
+		// use willing direction if exist
+		if (p.hasWillingDirection()) {
+			direction = p.getWillingDirection();
+
+			// direction.calcSquareNorm();
+			// double vSquareNorm = direction.getSquareNorm();
+			// boolean found = getBestColinear(coords.getX(), coords.getY(),
+			// coords.getZ(), direction.getX(), direction.getY(),
+			// direction.getZ(), vSquareNorm, xyzuv);
+			// if (found) {
+			// RegionParameters rp = p.getRegionParameters();
+			// rp.setT1(xyzuv[3]);
+			// rp.setT2(xyzuv[4]);
+			// Coords n = evaluateNormal(xyzuv[3], xyzuv[4]);
+			// rp.setNormal(n);
+			// p.setCoords(new Coords(xyzuv[0], xyzuv[1], xyzuv[2], 1), false);
+			// p.updateCoords();
+			// }
+
+			// p.setWillingCoordsUndefined();
+			// p.setWillingDirectionUndefined();
+			// resetLastHitParameters();
+			// return;
+		}
+
+
+		// find closest point, looking for zero normal
 		getClosestParameters(coords.getX(), coords.getY(), coords.getZ(), xyzuv);
 
-		RegionParameters rp = P.getRegionParameters();
+		RegionParameters rp = p.getRegionParameters();
 		rp.setT1(xyzuv[3]);
 		rp.setT2(xyzuv[4]);
 		Coords n = evaluateNormal(xyzuv[3], xyzuv[4]);
 		rp.setNormal(n);
-		P.setCoords(new Coords(xyzuv[0], xyzuv[1], xyzuv[2], 1), false);
-		P.updateCoords();
-
+		p.setCoords(new Coords(xyzuv[0], xyzuv[1], xyzuv[2], 1), false);
+		p.updateCoords();
+		p.setWillingCoordsUndefined();
+		p.setWillingDirectionUndefined();
 		resetLastHitParameters();
 
 	}
@@ -526,7 +566,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			uv[0] = uMin + ui * du;
 			for (int vi = 0; vi <= BIVARIATE_SAMPLES; vi++) {
 				uv[1] = vMin + vi * dv;
-				double error = findBivariate(x0, y0, z0, uv);
+				double error = findBivariateNormalZero(x0, y0, z0, uv);
 				if (!Double.isNaN(error)) {
 					// check if the hit point is the closest
 					double dx = (xyz[0] - x0);
@@ -553,7 +593,8 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	private static final int BIVARIATE_JUMPS = 10;
 	private static final int BIVARIATE_SAMPLES = 8;
 
-	private double findBivariate(double x0, double y0, double z0, double[] uv) {
+	private double findBivariateNormalZero(double x0, double y0, double z0,
+			double[] uv) {
 
 		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
 			// compare point to current f(u,v) point
@@ -636,6 +677,139 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 		return Double.NaN;
 
+	}
+
+	/**
+	 * find best point on surface colinear to (x0,y0,z0) point in (vx,vy,vz)
+	 * direction
+	 * 
+	 * @param x0
+	 *            origin x
+	 * @param y0
+	 *            origin y
+	 * @param z0
+	 *            origin z
+	 * @param vx
+	 *            vector x
+	 * @param vy
+	 *            vector y
+	 * @param vz
+	 *            vector z
+	 * @param vSquareNorm
+	 *            vector square norm
+	 * @param xyzuv
+	 *            (x,y,z,u,v) best point coords and parameters
+	 * @return true if point found
+	 */
+	public boolean getBestColinear(double x0, double y0, double z0, double vx,
+			double vy, double vz, double vSquareNorm, double[] xyzuv) {
+		if (jacobian == null) {
+			jacobian = new CoordMatrix(2, 2);
+			bivariateVector = new Coords(3);
+			bivariateDelta = new Coords(2);
+			uv = new double[2];
+			xyz = new double[3];
+
+		}
+
+		// we use bivariate newton method:
+		// A(x0,y0,z0) and B(x1,y1,z1) delimits the hitting segment
+		// M(u,v) is a point on the surface
+		// we want vector product AM*AB to equal 0, so A, B, M are colinear
+		// we only check first and second values of AM*AB since third will
+		// be a consequence
+
+		double gxc = z0 * vy - vz * y0;
+		double gyc = x0 * vz - vx * z0;
+		double gzc = y0 * vx - vy * x0;
+
+		double uMin = getMinParameter(0);
+		double uMax = getMaxParameter(0);
+		double vMin = getMinParameter(1);
+		double vMax = getMaxParameter(1);
+
+		double finalError = Double.NaN;
+		double dotProduct = -1;
+
+		// make several tries
+		double du = (uMax - uMin) / BIVARIATE_SAMPLES;
+		double dv = (vMax - vMin) / BIVARIATE_SAMPLES;
+		for (int ui = 0; ui <= BIVARIATE_SAMPLES; ui++) {
+			uv[0] = uMin + ui * du;
+			for (int vi = 0; vi <= BIVARIATE_SAMPLES; vi++) {
+				uv[1] = vMin + vi * dv;
+				double error = findBivariateColinear(x0, y0, z0, vx, vy, vz,
+						vSquareNorm, gxc, gyc, gzc,
+						uv, uMin, uMax, vMin, vMax);
+				if (!Double.isNaN(error)) {
+					// check if the hit point is in the correct direction
+					double d = (xyz[0] - x0) * vx + (xyz[1] - y0) * vy
+							+ (xyz[2] - z0) * vz;
+					if (d >= 0) {
+						if (dotProduct < 0 || d < dotProduct) {
+							dotProduct = d;
+							finalError = error;
+							xyzuv[0] = xyz[0];
+							xyzuv[1] = xyz[1];
+							xyzuv[2] = xyz[2];
+							xyzuv[3] = uv[0];
+							xyzuv[4] = uv[1];
+						}
+					}
+				}
+
+			}
+
+		}
+
+		return !Double.isNaN(finalError);
+	}
+
+	private double findBivariateColinear(final double x0, final double y0,
+			final double z0, final double vx,
+			final double vy, final double vz, final double vSquareNorm,
+			final double gxc,
+			final double gyc,
+			final double gzc, double[] uv, final double uMin,
+			final double uMax, final double vMin, final double vMax) {
+
+		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
+
+			// calc angle vector between hitting direction and hitting
+			// origin-point on surface
+			setVectorForBivariate(uv, xyz, vx, vy, vz, gxc, gyc, gzc,
+					bivariateVector);
+
+			double dx = xyz[0] - x0;
+			double dy = xyz[1] - y0;
+			double dz = xyz[2] - z0;
+			double d = dx * dx + dy * dy + dz * dz;
+			double error = bivariateVector.dotproduct3(bivariateVector);
+
+			// check if sin(angle)^2 is small enough, then stop
+			if (error < Kernel.STANDARD_PRECISION * vSquareNorm * d) {
+				return error;
+			}
+
+			// set jacobian matrix and solve it
+			setJacobianForBivariate(uv, vx, vy, vz, jacobian);
+			jacobian.pivotDegenerate(bivariateDelta, bivariateVector);
+
+			// if no solution, dismiss
+			if (!bivariateDelta.isDefined()) {
+				return Double.NaN;
+			}
+
+			// calc new parameters
+			uv[0] -= bivariateDelta.getX();
+			uv[1] -= bivariateDelta.getY();
+
+			// check bounds
+			randomBackInIntervalsIfNeeded(uv);
+
+		}
+
+		return Double.NaN;
 	}
 
 	/**
