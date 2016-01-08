@@ -3941,7 +3941,8 @@ public abstract class App implements UpdateSelection {
 			return !isApplet();
 
 		case SAVE_SETTINGS_TO_FILE:
-			return isWindows() || prerelease;
+			// not enabled for linux
+			return isWindows() || isMacOS() || prerelease;
 		default:
 			return false;
 
