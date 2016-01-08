@@ -122,5 +122,8 @@ public interface StyleBarResources extends ClientBundle {
 	
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_spreadsheet_align_right.png")
 	ImageResource stylingbar_spreadsheet_align_right();
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_spreadsheetview_show_input_bar.png")
+	ImageResource description();
 	
 }

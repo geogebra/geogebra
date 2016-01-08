@@ -220,7 +220,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 					org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 
 			ImageOrText icon = new ImageOrText(
-					StyleBarResources.INSTANCE.sortObjects());
+					StyleBarResources.INSTANCE.description());
 			descriptionButton.setFixedIcon(icon);
 
 			descriptionButton.addClickHandler(new ClickHandler() {
