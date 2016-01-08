@@ -1409,7 +1409,7 @@ var __giac = [ {},
 { cat:"Vector", cmd:"(1,2,0)   \u2297 (3,4)", result:"(0,0,-2)", notes:"#4366" },
 { cat:"Evaluate", cmd:"Evaluate[asin(sin(x))]", result:"(-1)^floor(x / \u03C0 + 1 / 2) (-\u03C0 floor(x / \u03C0 + 1 / 2) + x)|OR|(-\u03C0 floor(x / \u03C0 + 1 / 2) + x) / (-1)^floor(x / \u03C0 + 1 / 2)" },
 { cat:"Evaluate", cmd:"Evaluate[asin(cos(x))]", result:"(-1)^floor((1 / 2 \u03C0 - x) / \u03C0 + 1 / 2) (-\u03C0 floor((1 / 2 \u03C0 - x) / \u03C0 + 1 / 2) + 1 / 2 \u03C0 - x)" },
-{ cat:"Evaluate", cmd:"Evaluate[acos(sin(x))]", result:"-(-1)^floor(x / \u03C0 + 1 / 2) x + (-1)^floor(x / \u03C0 + 1 / 2) \u03C0 floor(x / \u03C0 + 1 / 2) + 1 / 2 \u03C0|OR|(-x) / (-1)^floor(x / \u03C0 + 1 / 2) + \u03C0 floor(x / \u03C0 + 1 / 2) / (-1)^floor(x / \u03C0 + 1 / 2) + 1 / 2 \u03C0" },
+{ cat:"Evaluate", cmd:"Evaluate[acos(sin(x))]", result:"(-1)^floor(x/π+1/2)π floor(x/π+1/2)+1/2π-(-1)^floor(x/π+1/2)x|OR|-(-1)^floor(x / \u03C0 + 1 / 2) x + (-1)^floor(x / \u03C0 + 1 / 2) \u03C0 floor(x / \u03C0 + 1 / 2) + 1 / 2 \u03C0|OR|(-x) / (-1)^floor(x / \u03C0 + 1 / 2) + \u03C0 floor(x / \u03C0 + 1 / 2) / (-1)^floor(x / \u03C0 + 1 / 2) + 1 / 2 \u03C0" },
 { cat:"Evaluate", cmd:"Evaluate[acos(cos(x))]", result:"(-1)^floor((1 / 2 \u03C0 - x) / \u03C0 + 1 / 2) x + (-1)^floor((1 / 2 \u03C0 - x) / \u03C0 + 1 / 2) \u03C0 floor((\u03C0 - x) / \u03C0) - (-1)^floor((1 / 2 \u03C0 - x) / \u03C0 + 1 / 2) 1 / 2 \u03C0 + 1 / 2 \u03C0|OR|(-1)^floor((1 / 2 \u03C0 - x) / \u03C0 + 1 / 2) \u03C0 floor((\u03C0 - x) / \u03C0) - (-1)^floor((1 / 2 \u03C0 - x) / \u03C0 + 1 / 2) 1 / 2 \u03C0 + 1 / 2 \u03C0 + (-1)^floor((1 / 2 \u03C0 - x) / \u03C0 + 1 / 2) x" },
 { cat:"Evaluate", cmd:"Evaluate[atan(tan(x))]", result:"-\u03C0 floor(x / \u03C0 + 1 / 2) + x" },
 { cat:"Solve", cmd:"Solve[ln(5x+3) = ln(2x-3)]", result:"{x = -2}", notes:" #4421, TRAC-4258" },
@@ -1821,7 +1821,7 @@ var __giac = [ {},
 { cat: "UnitPerpendicularVector", cmd:"UnitPerpendicularVector[y=2x]", result:"((-2) / sqrt(5), 1 / sqrt(5))" },
 { cat: "UnitPerpendicularVector", cmd:"UnitPerpendicularVector[y=a x + b]", result:"((-a) / sqrt(a\u00B2 + 1), 1 / sqrt(a\u00B2 + 1))" },
 { cat: "Take", cmd:"Take[{4,7,3,8,3,1,7,8},3]", result:"{3, 8, 3, 1, 7, 8}" },
-{ cat:"Integral", cmd:"Integral[(ln(x)-x+4)^2,0.45,2.07]", result:"(-1) / 8000 (3600ln(9 / 20)\u00B2 + 19980ln(9 / 20) + 30573) + 1 / 1000000 (2070000ln(207 / 100)\u00B2 + 8135100ln(207 / 100) + 8659431)" },
+{ cat:"Integral", cmd:"Integral[(ln(x)-x+4)^2,0.45,2.07]", result:"(-1)/8000(19980ln(9/20)+3600ln(9/20)²+30573)+1/1000000(8135100ln(207/100)+2070000ln(207/100)²+8659431)|OR|(-1) / 8000 (3600ln(9 / 20)\u00B2 + 19980ln(9 / 20) + 30573) + 1 / 1000000 (2070000ln(207 / 100)\u00B2 + 8135100ln(207 / 100) + 8659431)" },
 
 
 
