@@ -768,8 +768,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			sb.append("\" x=\"");
 			sb.append(sliderPos.x);
 			sb.append("\" y=\"");
+			sb.append(sliderPos.y);
 		}
-		sb.append(sliderPos.y);
 		sb.append("\" fixed=\"");
 		sb.append(sliderFixed);
 		sb.append("\" horizontal=\"");
