@@ -105,8 +105,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		toggleDescriptionMode.setStandardButton(true); // mouse clicks over
 														// total
 														// button region
-		toggleDescriptionMode.setIcon(app
-				.getScaledIcon("stylingbar_algebraview_sort_objects_by.png"));
+		toggleDescriptionMode.setIcon(app.getScaledIcon("formula_bar.png"));
 		add(toggleDescriptionMode);
 
 	}
