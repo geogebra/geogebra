@@ -540,8 +540,22 @@ public class Coords {
 	 * @return the norm
 	 */
 	public double calcNorm() {
-		norm = Math.sqrt(this.dotproduct(this));
+		calcSquareNorm();
+		norm = Math.sqrt(sqNorm);
 		return norm;
+	}
+
+	/**
+	 * calc the square norm
+	 * 
+	 * @return the square norm
+	 */
+	public double calcSquareNorm() {
+		sqNorm = 0;
+		for (int i = 0; i < val.length; i++) {
+			sqNorm += val[i] * val[i];
+		}
+		return sqNorm;
 	}
 
 	/**
@@ -563,7 +577,7 @@ public class Coords {
 	 */
 	public double squareNorm() {
 		if (calcSqNorm) {
-			sqNorm = this.dotproduct(this);
+			calcSquareNorm();
 			calcSqNorm = false;
 		}
 		return sqNorm;

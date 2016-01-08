@@ -3902,6 +3902,7 @@ public abstract class App implements UpdateSelection {
 		case LOG_AXES:
 		case SURFACE_IS_REGION:
 		case HIT_PARAMETRIC_SURFACE:
+		case PARAMETRIC_SURFACE_IS_REGION:
 		case SHINY_3D:
 		case CP_POPUP:
 		case CP_NEW_COLUMNS:

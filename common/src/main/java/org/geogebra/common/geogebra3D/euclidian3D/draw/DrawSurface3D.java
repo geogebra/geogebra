@@ -2631,6 +2631,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			GeoSurfaceCartesian3D surface = (GeoSurfaceCartesian3D)
 					surfaceGeo;
 
+			surface.resetLastHitParameters();
+
 			hitting.calculateClippedValues();
 			if (Double.isNaN(hitting.x0)) { // hitting doesn't intersect
 				// clipping box
@@ -2667,16 +2669,17 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			double finalError = Double.NaN;
 			double dotProduct = -1;
 			double x = 0, y = 0, z = 0;
+			double u = 0, v = 0;
 			
 			// make several tries
 			double du = (uMax - uMin) / BIVARIATE_SAMPLES;
 			double dv = (vMax - vMin) / BIVARIATE_SAMPLES;
 			for (int ui = 0; ui <= BIVARIATE_SAMPLES; ui++) {
-				double u = uMin + ui * du;
+				uv[0] = uMin + ui * du;
 				for (int vi = 0; vi <= BIVARIATE_SAMPLES; vi++) {
-					double v = vMin + vi * dv;
+					uv[1] = vMin + vi * dv;
 					double error = findBivariate(surface, hitting, gxc, gyc,
-							gzc, u, v, uMin, uMax, vMin, vMax);
+							gzc, uv, uMin, uMax, vMin, vMax);
 					if (!Double.isNaN(error)) {
 						// check if the hit point is in the correct direction
 						double d = (xyz[0] - hitting.x0) * hitting.vx
@@ -2689,6 +2692,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								x = xyz[0];
 								y = xyz[1];
 								z = xyz[2];
+								u = uv[0];
+								v = uv[1];
 							}
 						}
 					}
@@ -2704,6 +2709,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
 				setZPick(-d, -d);
 				setZPick(-d, -d);
+				surface.setLastHitParameters(u, v);
 				return true;
 			}
 
@@ -2725,15 +2731,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static final int BIVARIATE_JUMPS = 10;
 
 	private double findBivariate(final GeoSurfaceCartesian3D surface,
-			final Hitting hitting,
-			final double gxc, final double gyc, final double gzc,
-			final double u, final double v,
+			final Hitting hitting, final double gxc, final double gyc,
+			final double gzc, double[] uv,
 			final double uMin, final double uMax, final double vMin,
 			final double vMax) {
-
-		// starting parameters
-		uv[0] = u;
-		uv[1] = v;
 
 		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
 
@@ -2768,18 +2769,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			uv[1] -= bivariateDelta.getY();
 
 			// check bounds
-			if (uv[0] > uMax) {
-				return Double.NaN;
-			}
-			if (uv[0] < uMin) {
-				return Double.NaN;
-			}
-			if (uv[1] > vMax) {
-				return Double.NaN;
-			}
-			if (uv[1] < vMin) {
-				return Double.NaN;
-			}
+			surface.randomBackInIntervalsIfNeeded(uv);
 
 		}
 

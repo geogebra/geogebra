@@ -22,6 +22,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 	protected FunctionNVar[] fun;
 	/** derivative functions */
 	protected FunctionNVar[][] fun1;
+	/** second derivative functions */
+	protected FunctionNVar[][][] fun2;
 	/** start parameters */
 	protected double[] startParam;
 	/** end parameters */
@@ -90,10 +92,49 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 	}
 	
 	/**
+	 * set first and second derivatives (if not already done)
+	 */
+	public void setSecondDerivatives() {
+
+		if (fun2 != null) {
+			return;
+		}
+
+		// ensure first derivatives are set
+		setDerivatives();
+
+		// set second derivatives
+		FunctionVariable[] vars = fun[0].getFunctionVariables();
+
+		fun2 = new FunctionNVar[vars.length][][];
+		for (int k = 0; k < vars.length; k++) {
+			fun2[k] = new FunctionNVar[vars.length][];
+			for (int j = 0; j < vars.length; j++) {
+				fun2[k][j] = new FunctionNVar[fun.length];
+			}
+
+			if (functionExpander == null) {
+				functionExpander = new FunctionExpander();
+			}
+			for (int i = 0; i < fun.length; i++) {
+				ExpressionValue ve = fun1[k][i].deepCopy(getKernel()).traverse(
+						functionExpander);
+				for (int j = 0; j < vars.length; j++) {
+					fun2[k][j][i] = new FunctionNVar(ve.derivative(vars[j],
+							getKernel()).wrap(), vars);
+					// App.debug(k + "," + j + "," + i + ": " + fun2[k][j][i]);
+				}
+			}
+		}
+
+	}
+
+	/**
 	 * reset derivatives
 	 */
 	public void resetDerivatives(){
 		fun1 = null;
+		fun2 = null;
 	}
 	
 	private static FunctionExpander functionExpander;
