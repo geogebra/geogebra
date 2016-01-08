@@ -227,7 +227,7 @@ public class ToolTipManagerW {
 	 *            app for positioning
 	 */
 	public void showBottomInfoToolTip(String text, final String helpLinkURL,
-			ToolTipLinkType link, AppW app) {
+			ToolTipLinkType link, AppW app, boolean kb) {
 		if (blockToolTip) {
 			return;
 		}
@@ -277,8 +277,7 @@ public class ToolTipManagerW {
 					((app.getWidth() - bottomInfoTipPanel.getOffsetWidth()))
 					/ 2, Unit.PX);
 
-			style.setTop((app.getHeight() - (app.getAppletFrame()
-							.isKeyboardShowing() ? 250 : 70)), Unit.PX);
+			style.setTop((app.getHeight() - (kb ? 250 : 70)), Unit.PX);
 		}
 		if (link == ToolTipLinkType.Help && helpLinkURL != null
 				&& helpLinkURL.length() > 0) {
@@ -302,7 +301,8 @@ public class ToolTipManagerW {
 		}
 		blockToolTip = false;
 		showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(text)
-				+ "</html>", "", null, app);
+				+ "</html>", "", null, app, app.getAppletFrame()
+				.isKeyboardShowing());
 
 		blockToolTip = true;
 		if (closeAutomatic) {

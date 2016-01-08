@@ -29,7 +29,9 @@ public class OptionsAlgebraW extends OptionsAdvanced
 	private Label lblShow;
 	private CheckBox showAuxiliaryObjects;
 	private ListBox sortMode;
+	private ListBox description;
 	private Label lblSortMode;
+	private Label lblDescriptionMode;
 	private List<SortMode> supportedModes = Arrays.asList(SortMode.DEPENDENCY,
 			SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
 
@@ -47,14 +49,27 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		showAuxiliaryObjects.addClickHandler(this);
 		lblSortMode = new Label();
 		lblSortMode.addStyleName("panelTitle");
+		lblDescriptionMode = new Label();
+		lblDescriptionMode.addStyleName("panelTitle");
 		sortMode = new ListBox();
+		description = new ListBox();
 
 		optionsPanel.add(lblShow);
 		optionsPanel.add(LayoutUtil.panelRowIndent(showAuxiliaryObjects));
 		optionsPanel.add(lblSortMode);
 		optionsPanel.add(LayoutUtil.panelRowIndent(sortMode));
+		optionsPanel.add(lblDescriptionMode);
+		optionsPanel.add(LayoutUtil.panelRowIndent(description));
 		sortMode.addChangeHandler(this);
-		updateSortMode();
+		description.addChangeHandler(new ChangeHandler() {
+
+			public void onChange(ChangeEvent event) {
+				app.getKernel().setAlgebraStyle(description.getSelectedIndex());
+				app.getKernel().updateConstruction();
+			}
+		});
+		// updateSortMode(); done by setLabels
+		// updateDescription(); done by set labels
 		setLabels();
 	}
 
@@ -67,9 +82,26 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		SortMode selectedMode = app.getAlgebraView().getTreeMode();
 		sortMode.setSelectedIndex(supportedModes.indexOf(selectedMode));
 	}
+
+	private void updateDescription() {
+		// ignoreActions = true;
+		String[] modes = new String[] { app.getPlain("Value"),
+				app.getPlain("Definition"), app.getPlain("Command") };
+		description.clear();
+
+		for (int i = 0; i < modes.length; i++) {
+			description.addItem(app.getPlain(modes[i]));
+		}
+
+		int descMode = app.getKernel().getAlgebraStyle();
+		description.setSelectedIndex(descMode);
+		// ignoreActions = false;
+	}
+
 	public void updateGUI() {
 		showAuxiliaryObjects.setValue(app.showAuxiliaryObjects);
 		updateSortMode();
+		updateDescription();
 	}
 
 	public Widget getWrappedPanel() {
@@ -95,7 +127,10 @@ public class OptionsAlgebraW extends OptionsAdvanced
 				.setText(app.getLocalization().getPlain("AuxiliaryObjects"));
 
 		lblSortMode.setText(app.getLocalization().getPlain("SortBy"));
+		lblDescriptionMode.setText(app.getLocalization().getMenu(
+				"AlgebraDescriptions"));
 		updateSortMode();
+		updateDescription();
 	}
 
 	public void onChange(ChangeEvent event) {

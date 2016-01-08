@@ -216,7 +216,8 @@ public class CASViewW extends CASView implements PrintableW {
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
 					app.getToolTooltipHTML(mode),
 					app.getGuiManager().getTooltipURL(mode),
-					ToolTipLinkType.Help, app);
+					ToolTipLinkType.Help, app,
+					app.getAppletFrame().isKeyboardShowing());
 		}
 	}
 

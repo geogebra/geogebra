@@ -49,7 +49,8 @@ public class SaveCallback {
  + msg
 			                + "</p>",
 			        app.getActiveMaterial().getURL(),
-			        ToolTipLinkType.ViewSavedFile, app);
+					ToolTipLinkType.ViewSavedFile, app,
+					app.getAppletFrame().isKeyboardShowing());
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
 					app.getMenu("SavedSuccessfully"), true, app);

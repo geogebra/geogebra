@@ -190,10 +190,13 @@ public abstract class AppWFull extends AppW {
 			String tooltipURL = GeoGebraConstants.QUICKSTART_URL
 					+ tutorials[perspID] + "/"
 					+ getLocalization().getLocaleStr() + "/";
+			DockPanelW focused = ((DockManagerW) getGuiManager().getLayout()
+					.getDockManager()).getPanelForKeyboard();
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
 					tooltipText,
 					tooltipURL, ToolTipLinkType.Help,
-			        this);
+ this,
+					focused != null && focused.isVisible());
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 	}

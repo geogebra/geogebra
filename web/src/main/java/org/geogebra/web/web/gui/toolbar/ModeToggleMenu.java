@@ -442,7 +442,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		if (m != ModeSetter.CAS_VIEW
  && app.showToolBarHelp()) {
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText,
-					helpURL, ToolTipLinkType.Help, app);
+					helpURL, ToolTipLinkType.Help, app,
+					app.getAppletFrame().isKeyboardShowing());
 		}
 	}
 
