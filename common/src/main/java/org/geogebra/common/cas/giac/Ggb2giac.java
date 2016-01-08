@@ -1408,7 +1408,8 @@ public class Ggb2giac {
 		p("UnitOrthogonalVector.1",
 				"when(type(%0)==DOM_LIST && size(%0) != 2,?,"
 						+ "when(is3dpoint(%0),?,"
-						+ "when( subtype(%0) == 27 ,"
+						// vector given as point or list
+						+ "when( subtype(%0) == 27 || (%0)[0] == 'pnt' || type(%0) == DOM_LIST,"
 						// case UnitOrthogonalVector[Vector]
 						+ "regroup(convert(unitV([-ycoord(%0),xcoord(%0)]),25)) , "
 						// case UnitOrthogonalVecto[Line]
