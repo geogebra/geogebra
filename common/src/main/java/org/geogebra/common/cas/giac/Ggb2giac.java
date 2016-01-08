@@ -1414,8 +1414,14 @@ public class Ggb2giac {
 						+ "regroup(convert(unitV([-ycoord(%0),xcoord(%0)]),25)) , "
 						// case UnitOrthogonalVecto[Line]
 						// UnitOrthogonalVector[Segment]
-						+ "regroup(convert(unitV([xcoord(%0),ycoord(%0)]),25))"
-						+ ")))");
+						+ "when ((unitV([xcoord(%0),ycoord(%0)]))[0] == 'undef',"
+						+ "{?,?},"
+						+ "when (size(unitV([xcoord(%0),ycoord(%0)])) == 1 , "
+						+ "regroup(convert("
+						+ "point(getNum(unitV([xcoord(%0),ycoord(%0)]))[0]/getDenom(unitV([xcoord(%0),ycoord(%0)])),"
+						+ "getNum(unitV([xcoord(%0),ycoord(%0)]))[1]/getDenom(unitV([xcoord(%0),ycoord(%0)])) ),25)) , "
+						+ "regroup(convert(unitV([xcoord(%0),ycoord(%0)]),25)) ) ),"
+						+ " ) ) )");
 		p("UnitVector.1",
 				"[[ggin:=%0],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='=',"
 						+ "convert([unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],25),"
