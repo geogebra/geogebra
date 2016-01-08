@@ -22,7 +22,7 @@ public final class LocalizationW extends Localization {
 	/**
 	 * eg "en_GB", "es" // remains null until we're sure keys are loaded
 	 */
-	String language = "en";
+	String localeStr = "en";
 
 	private boolean commandChanged = true;
 	/**
@@ -80,12 +80,12 @@ public final class LocalizationW extends Localization {
 			return "";
 		}
 
-		if (language == null) {
+		if (localeStr == null) {
 			// keys not loaded yet
 			return key;
 		}
 
-		String ret = getPropertyNative(language, key, "command");
+		String ret = getPropertyNative(localeStr, key, "command");
 
 		if (ret == null || "".equals(ret)) {
 			App.debug("command key not found: " + key);
@@ -108,12 +108,12 @@ public final class LocalizationW extends Localization {
 			return "";
 		}
 
-		if (language == null) {
+		if (localeStr == null) {
 			// keys not loaded yet
 			return key;
 		}
 
-		String ret = getPropertyNative(language, key, "plain");
+		String ret = getPropertyNative(localeStr, key, "plain");
 
 		if (ret == null || "".equals(ret)) {
 			// App.debug("plain key not found: "+key+" "+ret);
@@ -134,12 +134,12 @@ public final class LocalizationW extends Localization {
 			return "";
 		}
 
-		if (language == null) {
+		if (localeStr == null) {
 			// keys not loaded yet
 			return key;
 		}
 
-		String ret = getPropertyNative(language, key, "menu");
+		String ret = getPropertyNative(localeStr, key, "menu");
 
 		if (ret == null || "".equals(ret)) {
 			// App.debug("menu key not found: "+key);
@@ -195,12 +195,12 @@ public final class LocalizationW extends Localization {
 			return "";
 		}
 
-		if (language == null) {
+		if (localeStr == null) {
 			// keys not loaded yet
 			return key;
 		}
 
-		String ret = getPropertyNative(language, key, "error");
+		String ret = getPropertyNative(localeStr, key, "error");
 
 		if (ret == null || "".equals(ret)) {
 			App.debug("error key not found: " + key);
@@ -213,12 +213,12 @@ public final class LocalizationW extends Localization {
 	@Override
 	final public String getSymbol(int key) {
 
-		if (language == null) {
+		if (localeStr == null) {
 			// keys not loaded yet
 			return null;
 		}
 
-		String ret = getPropertyNative(language, "S_" + key, "symbols");
+		String ret = getPropertyNative(localeStr, "S_" + key, "symbols");
 
 		if (ret == null || "".equals(ret)) {
 			App.debug("menu key not found: " + key);
@@ -231,12 +231,12 @@ public final class LocalizationW extends Localization {
 	@Override
 	final public String getSymbolTooltip(int key) {
 
-		if (language == null) {
+		if (localeStr == null) {
 			// keys not loaded yet
 			return null;
 		}
 
-		String ret = getPropertyNative(language, "T_" + key, "symbols");
+		String ret = getPropertyNative(localeStr, "T_" + key, "symbols");
 
 		if (ret == null || "".equals(ret)) {
 			App.debug("menu key not found: " + key);
@@ -260,7 +260,7 @@ public final class LocalizationW extends Localization {
 			// Dictionary colorKeysDict =
 			// Dictionary.getDictionary("__GGB__colors_"+language);
 			MyDictionary colorKeysDict = MyDictionary.getDictionary("colors",
-			        language);
+					localeStr);
 			Iterator<String> colorKeysIterator = colorKeysDict.keySet()
 			        .iterator();
 			while (colorKeysIterator != null && colorKeysIterator.hasNext()) {
@@ -320,7 +320,7 @@ public final class LocalizationW extends Localization {
 	 */
 	@Override
 	public String getLanguage() {
-		return language == null ? null : language.substring(0, 2);
+		return localeStr == null ? null : localeStr.substring(0, 2);
 	}
 
 	@Override
@@ -353,9 +353,9 @@ public final class LocalizationW extends Localization {
 
 	public void setLanguage(String lang) {
 		if ("".equals(lang)) {
-			language = "en";
+			localeStr = "en";
 		} else {
-			language = lang;
+			localeStr = lang;
 		}
 
 		setCommandChanged(true);
@@ -398,7 +398,7 @@ public final class LocalizationW extends Localization {
 
 	@Override
 	public String getLocaleStr() {
-		return language;
+		return localeStr;
 	}
 
 }
