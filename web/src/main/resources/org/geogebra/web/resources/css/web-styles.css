@@ -1350,6 +1350,11 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	border-bottom: none;
 }
 
+.GeoGebraFrame .algebraOptions{
+	background-color:white;
+	height:100%;
+}
+
 .gwt-TabBar .gwt-TabBarFirst,
 .gwt-TabBar .gwt-TabBarRest {
 	width: 0px;

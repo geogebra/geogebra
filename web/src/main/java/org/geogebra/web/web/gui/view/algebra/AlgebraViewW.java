@@ -467,7 +467,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 */
 	@Override
 	public void setTreeMode(SortMode value) {
-		App.printStacktrace("TREE MODE" + value);
 		if (getTreeMode().equals(value)) {
 			return;
 		}
@@ -1113,7 +1112,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 
 	public void clearView() {
-		App.printStacktrace("CLEAR" + nodeTable.size());
 		nodeTable.clear();
 		clearTree();
 		showAlgebraInput(false);

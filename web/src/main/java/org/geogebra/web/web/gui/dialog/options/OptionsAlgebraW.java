@@ -43,6 +43,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 
 	private void createGUI() {
 		optionsPanel = new FlowPanel();
+		optionsPanel.setStyleName("algebraOptions");
 		lblShow = new Label();
 		lblShow.addStyleName("panelTitle");
 		showAuxiliaryObjects = new CheckBox();
