@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVec4D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
@@ -20,8 +21,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
-import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 /**
  * Sum[{A,B,C}]
@@ -120,8 +121,12 @@ public class AlgoSumPoints extends AlgoElement {
 				y += coords[1];
 				z += coords[2];
 			} else if (p.isGeoVector()) {
-				x += ((GeoVector) p).getX();
-				y += ((GeoVector) p).getY();
+				double[] coords = ((GeoVectorND) p).getInhomCoords();
+				x += coords[0];
+				y += coords[1];
+				if (coords.length == 3) {
+					z += coords[2];
+				}
 			} else if (p instanceof NumberValue) {
 				// changed from GeoGebra 4.2 so that Sum[{(1,2),3}] gives (4,5)
 				// not (4,2)
@@ -136,11 +141,12 @@ public class AlgoSumPoints extends AlgoElement {
 			}
 		}
 
-		if (result.isGeoVector() || result instanceof GeoPoint)
+		if (result instanceof GeoVec3D) {
+			// 2D Point / Vector
 			((GeoVec3D) result).setCoords(x, y, 1.0);
-		else { // 3D
-
-			((GeoPointND) result).setCoords(x, y, z, 1.0);
+		} else if (result instanceof GeoVec4D) {
+			// 3D Point / Vector
+			((GeoVec4D) result).setCoords(x, y, z, 1.0);
 		}
 
 	}
