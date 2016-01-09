@@ -81,6 +81,16 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 		// TODO Auto-generated method stub
 	}
 
+	public void setLineStyleHiddenVisible(boolean value) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void selectCommonLineStyleHidden(boolean equalStyle, int type) {
+		// TODO Auto-generated method stub
+
+	}
+
 	public void setOpacitySliderValue(int value) {
 		// TODO Auto-generated method stub
 	}

@@ -3870,6 +3870,17 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			dashPanel.setVisible(value);
 		}
 
+		@Override
+		public void setLineStyleHiddenVisible(boolean value) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void selectCommonLineStyleHidden(boolean equalStyle, int type) {
+			// TODO Auto-generated method stub
+
+		}
+
 		public void setLineOpacityVisible(boolean value) {
 			opacityPanel.setVisible(value);
 		}

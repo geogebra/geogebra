@@ -691,10 +691,12 @@ class OptionsTab extends FlowPanel {
 		SliderPanel thicknessSlider;
 		private Label opacitySliderLabel;
 		SliderPanel opacitySlider;
-		private Label popupLabel;
+		private Label popupLabel, styleHiddenLabel;
 		LineStylePopup btnLineStyle;
 		private int iconHeight = 24;
 		private FlowPanel stylePanel;
+		private FlowPanel styleHiddenPanel;
+		ListBox styleHiddenList;
 
 		public LineStylePanel(LineStyleModel model0, AppW app) {
 			model = model0;
@@ -773,6 +775,24 @@ class OptionsTab extends FlowPanel {
 			stylePanel.add(btnLineStyle);
 			mainPanel.add(stylePanel);
 
+			styleHiddenPanel = new FlowPanel();
+			styleHiddenPanel.setStyleName("optionsPanel");
+			styleHiddenLabel = new Label();
+			styleHiddenPanel.add(styleHiddenLabel);
+			styleHiddenList = new ListBox();
+			styleHiddenList.setMultipleSelect(false);
+			styleHiddenList.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+					model.applyLineStyleHidden(styleHiddenList
+							.getSelectedIndex());
+				}
+
+			});
+			styleHiddenPanel.add(styleHiddenList);
+			mainPanel.add(styleHiddenPanel);
+
 			setWidget(mainPanel);
 		}
 
@@ -781,6 +801,13 @@ class OptionsTab extends FlowPanel {
 			thicknessSliderLabel.setText(localize("Thickness"));
 			opacitySliderLabel.setText(localize("LineOpacity"));
 			popupLabel.setText(localize("LineStyle") + ":");
+			styleHiddenLabel.setText(localize("HiddenLineStyle") + ":");
+			int selectedIndex = styleHiddenList.getSelectedIndex();
+			styleHiddenList.clear();
+			styleHiddenList.addItem(localize("Hidden.Invisible")); // index 0
+			styleHiddenList.addItem(localize("Hidden.Dashed")); // index 1
+			styleHiddenList.addItem(localize("Hidden.Unchanged")); // index 2
+			styleHiddenList.setSelectedIndex(selectedIndex);
 
 		}
 
@@ -808,8 +835,19 @@ class OptionsTab extends FlowPanel {
 		}
 
 		@Override
+		public void selectCommonLineStyleHidden(boolean equalStyle, int type) {
+			styleHiddenList.setSelectedIndex(type);
+
+		}
+
+		@Override
 		public void setLineTypeVisible(boolean value) {
 			stylePanel.setVisible(value);
+		}
+
+		@Override
+		public void setLineStyleHiddenVisible(boolean value) {
+			styleHiddenPanel.setVisible(value);
 		}
 
 		@Override

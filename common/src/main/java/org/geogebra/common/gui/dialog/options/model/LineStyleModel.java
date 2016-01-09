@@ -16,6 +16,10 @@ public class LineStyleModel extends OptionsModel {
 
 		void setLineTypeVisible(boolean value); 
 		
+		void setLineStyleHiddenVisible(boolean value);
+
+		void selectCommonLineStyleHidden(boolean equalStyle, int type);
+
 		void setLineOpacityVisible(boolean value);
 	}
 
@@ -26,6 +30,7 @@ public class LineStyleModel extends OptionsModel {
 	}
 
 	private boolean lineTypeEnabled;
+	private boolean lineStyleHiddenEnabled;
 	private boolean lineOpacityEnabled;
 
 	private static Integer[] lineStyleArray=null;
@@ -90,23 +95,42 @@ public class LineStyleModel extends OptionsModel {
 			int opacity = (int) ((geo0.getLineOpacity() / 255.0f) * 100);
 			listener.setOpacitySliderValue(opacity);
 			listener.setLineTypeVisible(lineTypeEnabled);
+			listener.setLineStyleHiddenVisible(lineStyleHiddenEnabled);
 			listener.setLineOpacityVisible(lineOpacityEnabled);
 		}
 		// check if geos have same line style
-		if (lineTypeEnabled) { 
+		if (lineTypeEnabled) {
+			boolean equalStyle = true;
+			int type0 = geo0.getLineType();
+			for (int i = 1; i < getGeosLength(); i++) {
+				temp = getGeoAt(i);
+				// same style?
+				if (type0 != temp.getLineType())
+					equalStyle = false;
+			}
+
+			if (listener != null) {
+				listener.selectCommonLineStyle(equalStyle, type0);
+			}
+		}
+
+		// check if geos have same line style
+		if (lineStyleHiddenEnabled) {
 			boolean equalStyle = true; 
-			int type0 = geo0.getLineType(); 
+			int type0 = geo0.getLineTypeHidden();
 			for (int i = 1; i < getGeosLength(); i++) { 
 				temp = getGeoAt(i); 
 				// same style? 
-				if (type0 != temp.getLineType()) 
+				if (type0 != temp.getLineTypeHidden())
 					equalStyle = false; 
 			} 
 
 			if (listener != null) { 
-				listener.selectCommonLineStyle(equalStyle, type0); 
+				listener.selectCommonLineStyleHidden(equalStyle, type0);
 			} 		
 		}
+
+
 
 	}
 
@@ -126,6 +150,15 @@ public class LineStyleModel extends OptionsModel {
 		}
 	}
 
+	public void applyLineStyleHidden(int type) {
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoElement geo = getGeoAt(i);
+			geo.setLineTypeHidden(type);
+			geo.updateVisualStyleRepaint();
+		}
+	}
+
+
 	public void applyOpacity(int value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
@@ -137,6 +170,7 @@ public class LineStyleModel extends OptionsModel {
 	public void applyLineTypeFromIndex(int index) {
 		applyLineType(lineStyleArray[index]);
 	}
+
 
 	@Override
 	public boolean isValidAt(int index) {
@@ -151,6 +185,7 @@ public class LineStyleModel extends OptionsModel {
 	public boolean checkGeos() {
 		boolean geosOK = true;
 		lineTypeEnabled = true;
+		lineStyleHiddenEnabled = true;
 		lineOpacityEnabled = true;
 		for (int i = 0; i < getGeosLength(); i++) {
 			if (!isValidAt(i)) {
@@ -160,8 +195,13 @@ public class LineStyleModel extends OptionsModel {
 			}
 			
 			GeoElement geo = getGeoAt(i);
+			if (i == 0) {
+				lineStyleHiddenEnabled = geo.getKernel().getApplication()
+						.isEuclidianView3Dinited();
+			}
 			if ((geo instanceof GeoNumeric) && ((GeoNumeric)geo).isSlider() ) {
 				lineTypeEnabled = false;
+				lineStyleHiddenEnabled = false;
 				lineOpacityEnabled = false;
 			}
 		}
