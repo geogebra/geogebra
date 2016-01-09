@@ -288,11 +288,13 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  declare -A CELLCOLORDATA
  declare -A TIMEDATA
  declare -A CORRECT
+ declare -A SCORE
  BESTTIME=""
  WORSTTIME=""
  BESTPROVER=""
  WORSTPROVER=""
  CORRECT=""
+ SCORE=""
 
  # First run: collecting data for a row
  cn=0
@@ -314,7 +316,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   ERRORTYPE=`sqlite3 sqlite3db "select errortype $FWCLAUSE"`
   RESULT=`sqlite3 sqlite3db "select result $FWCLAUSE"`
 
-  RESULTCLASS=" class=\"o6\""
+  RESULTCLASS=" class=\"o7\""
   CELLCOLOR="green!10"
   DIRNAMELENGTH=${#DIRNAME}
   if [ "$ACCEPTED" = "" ]; then
@@ -340,30 +342,43 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    RESULTCLASS=" class=\"error\""
    CELLCOLOR="red!25"
    ALLGOOD=0
+   SCORE[$cn]="-1000000000000000" # -infty
    fi
   if [ "$ACCEPTED" = "1" ]; then
    VALUE=${CORRECT[$cn]}
+   SCORE=${SCORE[$cn]}
    VALUE=$((VALUE+1))
    CORRECT[$cn]=$VALUE
+   SCORE[$cn]=$((SCORE+20))
+   if [ $TIME -lt 5000 ]; then
+    RESULTCLASS=" class=\"o6\""
+    CELLCOLOR="green!15"
+    SCORE[$cn]=$((SCORE+70))
+    fi
    if [ $TIME -lt 1000 ]; then
     RESULTCLASS=" class=\"o5\""
     CELLCOLOR="green!20"
+    SCORE[$cn]=$((SCORE+95))
     fi
    if [ $TIME -lt 300 ]; then
     RESULTCLASS=" class=\"o4\""
     CELLCOLOR="green!30"
+    SCORE[$cn]=$((SCORE+97))
     fi
    if [ $TIME -lt 150 ]; then
     RESULTCLASS=" class=\"o3\""
     CELLCOLOR="green!40"
+    SCORE[$cn]=$((SCORE+98))
     fi
    if [ $TIME -lt 50 ]; then
     RESULTCLASS=" class=\"o2\""
     CELLCOLOR="green!50"
+    SCORE[$cn]=$((SCORE+99))
     fi
    if [ $TIME -lt 20 ]; then
     RESULTCLASS=" class=\"o1\""
     CELLCOLOR="green!60"
+    SCORE[$cn]=$((SCORE+100))
     fi
    if [ $TIME -lt 5 ]; then
     ALLGOOD=0 # this is certainly the "true" case, it would distort density plot, so we ignore it
@@ -485,7 +500,14 @@ for c in $COLUMNS; do
  if [ "$VALUE" = "" ]; then
   VALUE=0
   fi
- echo "<td class=\"summary\" colspan=\"2\"><b>$VALUE</b></td>" >> $MYDIR/$HTML
+ SCORE=${SCORE[$cn]}
+ if [ "$SCORE" = "" ]; then
+  SCORE=0
+  fi
+ if [ "${SCORE:0:1}" = "-" ]; then
+  SCORE=error
+  fi
+ echo "<td class=\"summary\" colspan=\"2\"><b>$VALUE</b><br>$SCORE</td>" >> $MYDIR/$HTML
  echo "&\multicolumn{2}{c|}{\bf $VALUE}" >> $MYDIR/$TEX
 
  # Creating R based density graph. We use the r-cran-sm package under Ubuntu.
