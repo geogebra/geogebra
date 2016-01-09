@@ -400,10 +400,10 @@ namespace giac {
 
   static string point_flag(int flag){
     switch(flag) {
-    case _STYLE_BOX : return "[dotstyle=square*]"; break;
-    case _STYLE_CROSS : return "[dotstyle=x]"; break;
-    case _STYLE_PLUS : return "[dotstyle=+]"; break;
-    default : return "[dotstyle=*]"; break;
+    case _STYLE_BOX : return "[dotstyle=square*]"; 
+    case _STYLE_CROSS : return "[dotstyle=x]"; 
+    case _STYLE_PLUS : return "[dotstyle=+]"; 
+    default : return "[dotstyle=*]"; 
     }
   }
 

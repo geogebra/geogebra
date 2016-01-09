@@ -9577,7 +9577,7 @@ namespace giac {
         gen tmp=algebraic_EXTension(u,*((d._EXTptr+1)->_VECTptr));
 	if (tmp.type!=_EXT){ 
 	  return gensizeerr(gettext("gen.cc:simplify/tmp.type!=_EXT")); 
-	  return 1;
+	  // return 1;
 	}
 	n=n*tmp;
 	d=d*tmp;

@@ -2422,7 +2422,7 @@ namespace giac {
   }
 
   static gen in_normalize_sqrt(const gen & e,vecteur & L,GIAC_CONTEXT){
-    if (complex_mode(contextptr)) 
+    if (complex_mode(contextptr) || has_i(e)) 
       return e;
     // remove multiple factors inside sqrt
     // vecteur l0=lop(e,at_pow),lin,lout;

@@ -520,7 +520,7 @@ namespace giac {
   // Ei with imaginary arguments -> Ei(i*t)=i*(-pi/2)+i*Si(x)+Ci(x)
   static bool integrate_ei(const gen & a,const gen & coeff,const identificateur & x,gen & prim,gen & remains_to_integrate,GIAC_CONTEXT){
     gen expax=exp(a*x,contextptr),ima,rea=re(a,contextptr);
-    bool imaneg;
+    bool imaneg=false;
     if (is_zero(rea)){
       ima=im(a,contextptr);
       imaneg=is_positive(-ima,contextptr);

@@ -3032,9 +3032,9 @@ namespace giac {
       return (ckmatrix(value) && is_numericm(*value._VECTptr)) || (value.type==_VECT && is_numericv(*value._VECTptr));
     case 'V':
       return false; // remove if V0..V9 is allowed
-      value=evalf(value,1,context0);
-      value.subtype=0;
-      return value.type==_VECT && is_numericv(*value._VECTptr);
+      //value=evalf(value,1,context0);
+      //value.subtype=0;
+      //return value.type==_VECT && is_numericv(*value._VECTptr);
     case 'Z':
       value=evalf(value,1,context0);
       return value.type==_DOUBLE_ || value.type==_FLOAT_ || value.type==_CPLX;
@@ -5062,7 +5062,7 @@ namespace giac {
 	return it->second;
       // if (a.subtype==_SPARSE_MATRIX)
 	return 0;
-      return symb_at(makevecteur(v.front(),b));
+	//return symb_at(makevecteur(v.front(),b));
     }
     return a.operator_at(b,contextptr);
   }
@@ -7049,9 +7049,9 @@ namespace giac {
   static gen taylor_Gamma (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
     if (ordre<0){
       return 0; // statically handled now
-      limit_tractable_functions().push_back(at_Gamma);
-      limit_tractable_replace().push_back(Gamma_replace);
-      return 1;
+      //limit_tractable_functions().push_back(at_Gamma);
+      //limit_tractable_replace().push_back(Gamma_replace);
+      //return 1;
     }
     shift_coeff=0;
     if (!is_integer(lim_point) || is_strictly_positive(lim_point,contextptr))
@@ -7092,7 +7092,7 @@ namespace giac {
 	gen res=upper_incomplete_gammad(s._DOUBLE_val,z._DOUBLE_val,regu);
 	if (res==-1){
 	  return regu?1:Gamma(s._DOUBLE_val,contextptr)-lower_incomplete_gamma(s._DOUBLE_val,z._DOUBLE_val,regu,contextptr);
-	  return gensizeerr(contextptr);
+	  //return gensizeerr(contextptr);
 	}
 	return res;
       }
@@ -7495,9 +7495,9 @@ namespace giac {
   static gen taylor_Psi (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
     if (ordre<0){
       return 0; // statically handled now
-      limit_tractable_functions().push_back(at_Psi);
-      limit_tractable_replace().push_back(Psi_replace);
-      return 1;
+      //limit_tractable_functions().push_back(at_Psi);
+      //limit_tractable_replace().push_back(Psi_replace);
+      //return 1;
     }
     shift_coeff=0;
     if (!is_integer(lim_point) || is_strictly_positive(lim_point,contextptr))
@@ -8111,9 +8111,9 @@ namespace giac {
   static gen taylor_erf (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
     if (ordre<0){
       return 0; // statically handled now
-      limit_tractable_functions().push_back(at_erf);
-      limit_tractable_replace().push_back(erf_replace);
-      return 1;
+      //limit_tractable_functions().push_back(at_erf);
+      //limit_tractable_replace().push_back(erf_replace);
+      //return 1;
     }
     shift_coeff=0;
     return taylor(lim_point,ordre,f,0,shift_coeff,contextptr);
@@ -8343,6 +8343,7 @@ namespace giac {
 #else
     return symbolic(at_erf,x);
 #endif
+#if 0
     gen e=x.evalf(1,contextptr);
 #ifdef HAVE_LIBGSL
     if (e.type==_DOUBLE_)
@@ -8363,6 +8364,7 @@ namespace giac {
     return 1-2*symbolic(at_UTPN,x*plus_sqrt2);
 #else
     return symbolic(at_erf,x);
+#endif
 #endif
   }
   gen _erf(const gen & args,GIAC_CONTEXT){
@@ -8939,9 +8941,9 @@ namespace giac {
   static gen taylor_Ci(const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
     if (ordre<0){
       return 0; // statically handled now
-      limit_tractable_functions().push_back(at_Ci);
-      limit_tractable_replace().push_back(Ci_replace);
-      return 1;
+      //limit_tractable_functions().push_back(at_Ci);
+      //limit_tractable_replace().push_back(Ci_replace);
+      //return 1;
     }
     shift_coeff=0;
     if (!is_inf(lim_point))
@@ -9080,9 +9082,9 @@ namespace giac {
   static gen taylor_Ei(const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
     if (ordre<0){
       return 0; // statically handled now
-      limit_tractable_functions().push_back(at_Ei);
-      limit_tractable_replace().push_back(Ei_replace);
-      return 1;
+      //limit_tractable_functions().push_back(at_Ei);
+      //limit_tractable_replace().push_back(Ei_replace);
+      //return 1;
     }
     shift_coeff=0;
     if (!is_inf(lim_point))

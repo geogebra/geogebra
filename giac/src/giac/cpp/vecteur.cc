@@ -2463,8 +2463,8 @@ namespace giac {
     }
     return crystalball;
     // GSL call is much faster but not very accurate
-    if (eps<1e-5)
-      eps=1e-5;
+    //if (eps<1e-5)
+    //  eps=1e-5;
 #endif //HAVE_LIBMPFR
     vecteur dv_accurate(derivative(v_accurate));
     gen r,vr,dr;
@@ -4657,10 +4657,12 @@ namespace giac {
       // if (!is_zero(a-b*res))
       //	CERR << "Bad division" << endl;
       return res;
+#if 0
       polynome quo;
       if (!a._POLYptr->Texactquotient(*b._POLYptr,quo))
 	CERR << "bad quo("+a.print()+","+b.print()+")" << endl;
       return quo;
+#endif
     }
     return rdiv(a,b,context0);
   }
@@ -12126,8 +12128,13 @@ namespace giac {
     polynome ppcar(poly1_2_polynome(p_car,1));
     polynome p_content(ppcar.dim);
     gen extra_div=1;
-    if (!factor(ppcar,p_content,f,false,rational_jordan_form?false:withsqrt(contextptr),complex_mode(contextptr),1,extra_div))
+    if (!factor(ppcar,p_content,f,false,rational_jordan_form?false:withsqrt(contextptr),
+		//false,
+		complex_mode(contextptr),
+		1,extra_div))
       return false;
+    // insure that extra extensions created in factor are reduced inside m_adj
+    //clean_ext_reduce(m_adj);
     factorization::const_iterator f_it=f.begin(),f_itend=f.end();
     int total_char_found=0;
     for (;f_it!=f_itend;++f_it){
@@ -15422,6 +15429,7 @@ namespace giac {
     int cend=p->cend;
     do_hessenberg_p(P,oper,cstart,cend);
     return ptr;
+#if 0
     // cut P in smaller slices? (cache) 
     double slicesize=P.size()*double(cend-cstart);
     if (slicesize<6e4)
@@ -15436,6 +15444,7 @@ namespace giac {
       }
     }
     return ptr;
+#endif
   }
 
   void hessenberg_ortho3_flush_p(matrix_double & P,bool compute_P,vector<giac_double> & oper,bool force_flush){

@@ -2184,6 +2184,7 @@ namespace giac {
   void gcdsmallmodpoly(const vector<int> &p,const vector<int> & q,int m,vector<int> & d){
     gcdsmallmodpoly(p,q,m,d,0,0);
     return;
+#if 0
     int as=int(p.size()),bs=int(q.size());
     if (!as){ d=q; return ; }
     if (!bs){ d=p; return ; }
@@ -2220,6 +2221,7 @@ namespace giac {
 #if defined VISUALC || defined BESTA_OS
     delete [] asave;
     delete [] bsave;
+#endif
 #endif
   }
 
@@ -3239,8 +3241,8 @@ namespace giac {
     modpoly a;
     gcdmodpoly(p,q,env,a);
     return a;
-    dbgp(a);
-    return a;
+    // dbgp(a);
+    // return a;
   }
 
   modpoly lcm(const modpoly & p,const modpoly &q,environment * env){

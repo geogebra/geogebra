@@ -52,6 +52,8 @@ namespace giac {
   gen algebraic_EXTension(const gen & a,const gen & v);
   gen ext_reduce(const gen & a, const gen & v);
   gen ext_reduce(const gen & e);
+  void clean_ext_reduce(vecteur & v);
+  void clean_ext_reduce(gen & g);
   gen ext_add(const gen & a,const gen & b,GIAC_CONTEXT);
   gen ext_sub(const gen & a,const gen & b,GIAC_CONTEXT);
   gen ext_mul(const gen & a,const gen & b,GIAC_CONTEXT);

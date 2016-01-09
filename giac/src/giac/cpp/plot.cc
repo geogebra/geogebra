@@ -6938,7 +6938,7 @@ namespace giac {
     if (s>=2){
       a=remove_at_pnt(v[0]);
       gen b=remove_at_pnt(v[1]);
-      bool res;
+      bool res=false;
       int i=2;
       while (a==b && i<s){
 	b=remove_at_pnt(v[i]);
@@ -8702,11 +8702,11 @@ namespace giac {
       gen m,tmin,tmax; double T=1e300;
       if (find_curve_parametrization(ac?remove_at_pnt(aa):a,m,va[1],T,tmin,tmax,false,contextptr)){
 	return equationintercurve(m,va[1],b,vb[0],vb[1],contextptr);
-	va[0]=m;
+	// va[0]=m;
       }
       if (find_curve_parametrization(bc?remove_at_pnt(bb):b,m,vb[1],T,tmin,tmax,false,contextptr)){
 	return equationintercurve(m,vb[1],a,va[0],va[1],contextptr);
-	vb[0]=m;
+	// vb[0]=m;
       }
       if (va[1]==vb[1]){
 	gen newvb(va[1].print(contextptr)+print_INT_(std::rand()),contextptr);
@@ -11559,7 +11559,7 @@ namespace giac {
     io_graph(old_iograph,contextptr);
 #endif // WIN32
     return res; // gen(res,_SEQ__VECT);
-    return zero;
+    // return zero;
 #endif // RTOS_THREADX
   }
 
@@ -13972,7 +13972,7 @@ namespace giac {
 	gen res=w[0]/w[2]+cst_i*w[1]/w[2];
 	res=recursive_normal(res,contextptr);
 	return symb_pnt(res,contextptr);
-	return gensizeerr(contextptr);
+	//return gensizeerr(contextptr);
       }
       A1=D[0]-c;
       A2=D[1]-c;
@@ -14147,7 +14147,7 @@ namespace giac {
       gen e((c-a)/(c-b)+(d-a)/(d-b));
       return is_zero(simplify(e,contextptr),contextptr);
     } else return false; // setsizeerr(contextptr);
-    return 0;
+    // return 0;
   }
   gen _est_harmonique(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -14310,7 +14310,7 @@ namespace giac {
 	return gensizeerr(contextptr);
       c1=remove_at_pnt(c1);
       c2=remove_at_pnt(c2);
-      int res;
+      int res=0;
       int i=2;
       while (c1==c2 && R1==R2 && i<s){
 	if (!centre_rayon(v[i],c2,R2,false,contextptr))
@@ -14447,7 +14447,7 @@ namespace giac {
     vecteur w=makevecteur(v0,v1,v2);
     w.push_back(eval(symb_sto(d,v[3]),contextptr));
     return gen(w,_GROUP__VECT);
-    return gensizeerr(gettext("div_harmonique)"));
+    // return gensizeerr(gettext("div_harmonique)"));
   }
   static const char _div_harmonique_s []="harmonic_division";
   static define_unary_function_eval_quoted (__div_harmonique,&giac::_div_harmonique,_div_harmonique_s);

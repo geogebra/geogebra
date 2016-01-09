@@ -862,7 +862,7 @@ namespace giac {
 	  tdeg2=sum_degree_from(lm,order.o); 
 	}
 	else {
-	  tdeg=2*lm.total_degree()+1;
+	  tdeg=short(2*lm.total_degree()+1);
 	  tdeg2=0;
 	}
 	order_=order;
@@ -4234,7 +4234,7 @@ namespace giac {
     double Z1=double(z1.terms)*d1; double Z2=double(z2.terms)*d2; if (Z1!=Z2) return Z2>Z1;
     if (z1.terms!=z2.terms) return z2.terms>z1.terms;
     if (z1.deg!=z2.deg)
-      return tdeg_t_greater(z1.deg,z2.deg,z1.o);
+      return tdeg_t_greater(z1.deg,z2.deg,z1.o)!=0;
     if (z1.pos!=z2.pos)
       return z2.pos>z1.pos;
     return false;
@@ -4305,7 +4305,7 @@ namespace giac {
 	  if (!*resGi_)
 	    continue;
 	  if (tdeg_t_all_greater(ptu,**resGi_,o)){
-	    i=resGi_-resGi;
+	    i=unsigned(resGi_-resGi);
 	    break;
 	  }
 	}
@@ -4316,7 +4316,7 @@ namespace giac {
 	    if (!*resGi_)
 	      continue;
 	    if (tdeg_t_all_greater(ptu,**resGi_,o)){
-	      i=resGi_-resGi;
+	      i=unsigned(resGi_-resGi);
 	      break;
 	    }
 	  }
@@ -4337,7 +4337,7 @@ namespace giac {
 	    break;
 #endif
 	}
-	i=resGi_-resGi;
+	i=unsigned(resGi_-resGi);
       }
 #endif // GIAC_GBASIS_PERMUTATION2
       if (i==G.size()){ // no leading coeff of G is smaller than the current coeff of rem
@@ -5859,14 +5859,14 @@ namespace giac {
 	}
 #endif // def GIAC_SHORTSHIFTTYPE
       }
-      unsigned res=v.size();
+      unsigned res=unsigned(v.size());
       for (vt=v.begin(),wt=v64.begin();vt!=vtend;++wt,++vt){
 	modint2 i=*wt;
 	if (i) // if (i>=env || i<=-env)
 	  i %= env;
-	*vt = i;
+	*vt = modint(i);
 	if (i){
-	  res=vt-v.begin();
+	  res=unsigned(vt-v.begin());
 	  break;
 	}
       }
@@ -6391,15 +6391,15 @@ namespace giac {
 	*wt = 0;
 	i %= env;
 	if (!i) continue;
-	unsigned I=wt-wt0;
+	unsigned I=unsigned(wt-wt0);
 	res=I;
 	*(uit+I)=1; // used[i]=1;
 	bitmap[I>>5] |= (1<<(I&0x1f));
-	lescoeffs.push_back(i);
+	lescoeffs.push_back(modint(i));
 	break;
       }
       if (!res)
-	res=v64.size();
+	res=unsigned(v64.size());
     }
 #if 1
     for (;wt<=wt1;++wt){
@@ -6418,10 +6418,10 @@ namespace giac {
       *wt = 0;
       i %= env;
       if (!i) continue;
-      unsigned I=wt-wt0;
+      unsigned I=unsigned(wt-wt0);
       *(uit+I)=1; // used[i]=1;
       bitmap[I>>5] |= (1<<(I&0x1f));
-      lescoeffs.push_back(i);
+      lescoeffs.push_back(modint(i));
     }
 #endif
     for (;wt<wtend;++wt){
@@ -6430,10 +6430,10 @@ namespace giac {
       *wt=0;
       i %= env;
       if (!i) continue;
-      unsigned I=wt-wt0;
+      unsigned I=unsigned(wt-wt0);
       *(uit+I)=1; // used[i]=1;
       bitmap[I>>5] |= (1<<(I&0x1f));
-      lescoeffs.push_back(i);
+      lescoeffs.push_back(modint(i));
     }
     return res;
   }
@@ -6869,7 +6869,7 @@ namespace giac {
 	  }
 	}
       }
-      unsigned i=it-it0;
+      unsigned i=unsigned(it-it0);
       *(uit+i)=1; // used[i]=1;
       bitmap[i>>5] |= (1<<(i&0x1f));
       lescoeffs.push_back(*it);
@@ -6878,7 +6878,7 @@ namespace giac {
     for (;it!=itend;++it){
       if (!*it)
 	continue;
-      unsigned i=it-it0;
+      unsigned i=unsigned(it-it0);
       *(uit+i)=1; // used[i]=1;
       bitmap[i>>5] |= (1<<(i&0x1f));
       lescoeffs.push_back(*it);
@@ -7324,7 +7324,7 @@ namespace giac {
   bool dicho(typename std::vector< T_unsigned<modint,tdeg_t> >::const_iterator & jt,typename std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jtend,const tdeg_t & u,order_t order){
     if (jt->u==u) return true;
     for (;;){
-      int step=(jtend-jt)/2;
+      int step=int((jtend-jt)/2);
       typename std::vector< T_unsigned<modint,tdeg_t> >::const_iterator j=jt+step;
       if (j==jt)
 	return j->u==u;
@@ -9989,6 +9989,7 @@ namespace giac {
     modint p=(prevprime((1<<29)-30000000)).val;
     if (eps>0)
       convert(res,resmod,p);
+    // FIXME should be parallelized
     for (unsigned i=0;i<tocheckpairs.size();++i){
 #ifdef TIMEOUT
       control_c();
@@ -10289,7 +10290,7 @@ namespace giac {
 	// if (current.left) current.u=(*resvpos.expo)[resvpos.coord[current.polymodpos].u]+leftshift[current.f4buchbergervpos]; else current.u=(*resvpos.expo)[resvpos.coord[current.polymodpos].u]+rightshift[current.f4buchbergervpos];
 	int newtdeg=current.u.total_degree(keyorder);
 	// quick look in part of heap: if monomial is already there, increment current.polymodpos
-	int heappos=startheappos,ntests=H.size(); // giacmin(8,H.size());
+	int heappos=startheappos,ntests=int(H.size()); // giacmin(8,H.size());
 	for (;heappos<ntests;){
 	  heap_tt<tdeg_t> & heapcurrent=*H[heappos].ptr;
 	  int heapcurtdeg=heapcurrent.u.total_degree(keyorder);
@@ -10389,7 +10390,7 @@ namespace giac {
 	  add(q[current.i][current.qi],(*gcurrent.expo)[gcurrent.coord[current.gj].u],current.u,dim);
 	  int newtdeg=current.u.total_degree(order);
 	  // quick look in part of heap: is monomial already there?
-	  int heappos=startheappos,ntests=H.size(); // giacmin(8,H.size());
+	  int heappos=startheappos,ntests=int(H.size()); // giacmin(8,H.size());
 	  for (;heappos<ntests;){
 	    heap_t<tdeg_t> & heapcurrent=H_[H[heappos]];
 	    int heapcurtdeg=heapcurrent.u.total_degree(order);
@@ -10522,7 +10523,7 @@ namespace giac {
     if (*jt==u) return true;
     if (jtend-jt<=6){ ++jt; return false; }// == test faster
     for (;;){
-      int step=(jtend-jt)/2;
+      int step=int((jtend-jt)/2);
       typename std::vector<tdeg_t>::const_iterator j=jt+step;
       if (j==jt)
 	return *j==u;
@@ -10576,7 +10577,7 @@ namespace giac {
     }
 #endif
     for (;;){
-      int step=(jtend-jt)/2;
+      int step=int((jtend-jt)/2);
       std::vector<tdeg_t64>::const_iterator j=jt+step;
       if (j==jt)
 	return *j==u;
@@ -11187,7 +11188,7 @@ namespace giac {
       const tdeg_t & adeg=(*resptr)[Ba].ldeg;
       const tdeg_t & bdeg=(*resptr)[Bb].ldeg;
       if (adeg!=bdeg)
-	return tdeg_t_greater(bdeg,adeg,o); // return tdeg_t_greater(adeg,bdeg,o);
+	return tdeg_t_greater(bdeg,adeg,o)!=0; // return tdeg_t_greater(adeg,bdeg,o);
       const tdeg_t & aleft=(*rightshiftptr)[a];
       const tdeg_t & bleft=(*rightshiftptr)[b];
       return tdeg_t_strictly_greater(bleft,aleft,o);// return tdeg_t_strictly_greater(aleft,bleft,o);
@@ -11585,7 +11586,7 @@ namespace giac {
 	size_t Kis=Ki.size();
 	if (Kis>Ki.capacity()*.8){
 	  K[i].swap(Ki);
-	  Ki.reserve(giacmin(Kcols,Kis*1.1));
+	  Ki.reserve(giacmin(Kcols,int(Kis*1.1)));
 	}
 	else
 	  K[i]=Ki;      
@@ -11631,7 +11632,7 @@ namespace giac {
     if (0 && !learning && info_ptr->permu.size()==Bs){
       permutation=info_ptr->permu;
       vector< vector<modint> > K1(Bs);
-      for (int i=0;i<Bs;++i){
+      for (unsigned i=0;i<Bs;++i){
 	swap(K1[i],K[permutation[i]]);
       }
       swap(K1,K);
@@ -12067,7 +12068,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     for (int age=1;!B.empty() && !interrupted && !ctrl_c;++age){
       if (debug_infolevel<2 && (CLOCK()-timebeg)>autodebug)
 	debug_infolevel=multimodular?1:2;
-      start_index_v.push_back(res.size()); // store size for final interreduction
+      start_index_v.push_back(int(res.size())); // store size for final interreduction
 #ifdef TIMEOUT
       control_c();
 #endif
@@ -12085,7 +12086,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	clean[B[i].first]=false;
 	clean[B[i].second]=false;
 	index_lcm(res[B[i].first].ldeg,res[B[i].second].ldeg,Blcm[i],order);
-	nterms[i]=res[B[i].first].coord.size()+res[B[i].second].coord.size();
+	nterms[i]=unsigned(res[B[i].first].coord.size()+res[B[i].second].coord.size());
       }
 #if 1
       for (unsigned i=0;i<clean.size();++i){

@@ -1099,8 +1099,12 @@ namespace giac {
     int prec=decimal_digits(contextptr);
     if (prec<30)
       prec=30;
+#if 0
     GEN nf=nfinit0(Pmin,0,prec);
     tmp=GEN2gen(nffactor(nf,P),lv);
+#else
+    tmp=GEN2gen(nffactor(Pmin,P),lv);
+#endif
     avma=av;
     PARI_stack_limit=save_pari_stack_limit;
 #ifdef HAVE_LIBPTHREAD

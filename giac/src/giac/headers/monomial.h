@@ -1013,6 +1013,7 @@ namespace giac {
 	break;
       pivotline.push_back(it->trunc1());
     }
+    return true;
   }
 
   template <class T>

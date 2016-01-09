@@ -97,7 +97,7 @@ namespace giac {
 
   int archive_function_index(const unary_function_ptr & f){
     return f.ptr()?(f.ptr()->index_quoted_function >> 1):0;
-    return equalposcomp(archive_function_tab(),f);
+    // return equalposcomp(archive_function_tab(),f);
   }
 
   int equalposcomp(const unary_function_ptr tab[],const unary_function_ptr & f){

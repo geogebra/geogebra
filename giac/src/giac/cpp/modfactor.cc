@@ -1181,7 +1181,7 @@ namespace giac {
     if (debuglevel>=2)
       COUT << "Bound " << bound << " log:" << logbound_d << endl;
     modpoly Qtry(1);
-    int bestprime,bestnumberoffactors;
+    int bestprime=0,bestnumberoffactors=0;
     gen bestliftsteps;
     vector< facteur<modpoly> > wf;
     vector<modpoly> bestqmat;

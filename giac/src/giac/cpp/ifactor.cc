@@ -816,7 +816,7 @@ namespace giac {
 	slice[lpit->pos] -= 16;
     }
 #endif
-    unsigned cl;
+    unsigned cl=0;
     if (debug_infolevel>6)
       cl=clock();
     if (debug_infolevel>8)
@@ -1968,7 +1968,7 @@ namespace giac {
 	break;
     }
     vector<unsigned> crible;
-    int jp;
+    int jp=0;
     if (basis.size()<B){
 #ifdef PRIME_SIEVE
       fill_crible(crible,int(2.5*B*std::log(B)));

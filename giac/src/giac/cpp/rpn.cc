@@ -1947,8 +1947,8 @@ namespace giac {
       if (v.size()>=4){
 	if (v[1].type!=_IDNT){
 	  return gensizeerr(gettext("∫(expression,var,lower,upper)"));
-	  swapgen(v[0],v[2]);
-	  swapgen(v[1],v[3]);
+	  // swapgen(v[0],v[2]);
+	  // swapgen(v[1],v[3]);
 	}
 	gen x,newx;
 	hp38_eval(v,x,newx,contextptr);
@@ -2166,7 +2166,7 @@ namespace giac {
 	return 0;
     }
     return gentypeerr(contextptr);
-    return 0;
+    // return 0;
   }
   static const char _IS_LINEAR_s[]="LINEAR?";
   static define_unary_function_eval_quoted (__IS_LINEAR,&giac::_IS_LINEAR,_IS_LINEAR_s);
@@ -3770,6 +3770,7 @@ namespace giac {
     return __inputform.op(symbolic(at_choosebox,gen(res,_SEQ__VECT)),contextptr);
 #endif
 #endif
+    return undef;
   }
   static const char _CHOOSE_s []="CHOOSE";
   static define_unary_function_eval_quoted (__CHOOSE,&giac::_CHOOSE,_CHOOSE_s);

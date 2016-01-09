@@ -4230,7 +4230,7 @@ namespace giac {
     if (debug_infolevel)
       *logptr(contextptr) << res << endl;
     return res;
-    return gentoomanyargs("newton");
+    // return gentoomanyargs("newton");
   }
   static const char _newton_s []="newton";
   static define_unary_function_eval (__newton,&_newton,_newton_s);
@@ -4463,7 +4463,7 @@ namespace giac {
       if (q.coord.empty())
 	return true;
       return p.is_strictly_greater(p.coord.front().index,q.coord.front().index);
-      return p.is_strictly_greater(q.coord.front().index,p.coord.front().index);
+      // return p.is_strictly_greater(q.coord.front().index,p.coord.front().index);
 #else
       return giac::tensor_is_strictly_greater<gen>(p,q);
 #endif
@@ -5685,7 +5685,7 @@ namespace giac {
       polynome h=spoly(res[bk.first],res[bk.second],env);
       if (debug_infolevel>1)
 	CERR << clock() << " reduce begin, pair " << bk << " remainder size " << h.coord.size() << endl;
-      reduce(h,res,G,-1,h,env);
+      reduce(h,res,G,unsigned(-1),h,env);
       if (debug_infolevel>1){
 	if (debug_infolevel>2){ CERR << h << endl; }
 	CERR << clock() << " reduce end, remainder size " << h.coord.size() << endl;
@@ -5923,7 +5923,7 @@ namespace giac {
 	  }
 	}
 	return sol;
-	return vecteur(1,gensizeerr(contextptr));
+	//return vecteur(1,gensizeerr(contextptr));
       } // end fractional power code
       // check if one equation depends only on one unknown
       if ((evalf_after & 4)==0){

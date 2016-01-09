@@ -468,8 +468,8 @@ namespace giac {
     }
     // no info about derivative
     return symbolic(at_derive,gen(makevecteur(s,i),_SEQ__VECT));
-    i.dbgprint();
-    s.dbgprint();
+    //i.dbgprint();
+    //s.dbgprint();
   }
 
   static gen derive_VECT(const vecteur & v,const identificateur & i,GIAC_CONTEXT){

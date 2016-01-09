@@ -507,6 +507,9 @@ namespace giac {
     _POINT_WIDTH_6 = 5 << 19,
     _POINT_WIDTH_7 = 6 << 19,
     _POINT_WIDTH_8 = 7 << 19,
+#ifdef BESTA_OS
+#pragma diag_suppress 61
+#endif
     _HIDDEN_NAME = 1 << 31
   };
 

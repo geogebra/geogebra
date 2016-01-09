@@ -1035,11 +1035,13 @@ namespace giac {
       return _upper_incomplete_gamma(makesequence(x+1,lambda,1),contextptr);
     else
       return _upper_incomplete_gamma(makesequence(evalf(fx,1,contextptr),lambda,1),contextptr);
+#if 0
     gen res=0;
     for (int i=0;i<=fx.val;++i){
       res +=poisson(lambda,i,contextptr);
     }
     return res;
+#endif
     //identificateur k(" k");
     //return sum(poisson(n,k,contextptr),k,0,_floor(x,contextptr),contextptr);
   }

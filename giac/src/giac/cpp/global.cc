@@ -2833,22 +2833,16 @@ extern "C" void Sleep(unsigned int miliSecond);
     switch (i){
     case 1:
       return "fr/";
-      break;
     case 2:
       return "en/";
-      break;
     case 3:
       return "es/";
-      break;
     case 4:
       return "el/";
-      break;
     case 5:
       return "pt/";
-      break;
     case 6:
       return "it/";
-      break;
       /*
     case 7:
       return "tr/";
@@ -2856,7 +2850,6 @@ extern "C" void Sleep(unsigned int miliSecond);
       */
     case 8:
       return "zh/";
-      break;
       /*
     case 9:
       return "de/";
@@ -4363,7 +4356,7 @@ unsigned int ConvertUTF8toUTF16 (
     // fprintf(f,"%s",s.c_str());
     writefunc(s.c_str(),1,s.size(),f);
     return true;
-    return false;
+    //return false;
   }
 
 

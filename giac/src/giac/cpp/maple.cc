@@ -165,7 +165,7 @@ namespace giac {
     if (s==3 && mode.type==_IDNT)
       return _quorem(g,contextptr);
     return gensizeerr();
-    return 0;
+    // return 0;
   }
   static const char _divide_s []="divide";
   static define_unary_function_eval (__divide,&_divide,_divide_s);
@@ -1810,7 +1810,7 @@ namespace giac {
       return false;
     vecteur v(v_);
     int channels,sample_rate=44100,bits_per_sample=0;
-    unsigned int u,byte_rate,block_align=0,data_size=1<<31;
+    unsigned int u,byte_rate,block_align=0,data_size=1U<<31;
     if (!read_audio(v,channels,sample_rate,bits_per_sample,data_size))
       return false;
     u=0x46464952;

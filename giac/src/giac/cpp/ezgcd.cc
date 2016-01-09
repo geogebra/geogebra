@@ -197,6 +197,7 @@ namespace giac {
     rem.dim=a.dim;
     // if ( (a.dim<=1) || (a.coord.empty()) )
       return reduce_divrem2(a,other,v,n,quo,rem);
+#if 0
     std::vector< monomial<gen> >::const_iterator it=other.coord.begin();
     int bdeg=it->index.front(),rdeg;
     tensor<gen> b0(Tnextcoeff<gen>(it,other.coord.end()));
@@ -214,6 +215,7 @@ namespace giac {
 	return true;
     }
     return true;
+#endif
   }
 
   // increment last index in v up to k,

@@ -728,7 +728,6 @@ namespace giac {
 	  break;
 	case 2:
 	  return res+=indent(contextptr)+"end_proc;";
-	  break;
 	case 3:
 	  return res+=indent(contextptr)+"EndFunc\n";
 	}
@@ -2186,7 +2185,6 @@ namespace giac {
 	    break;
 	  case 2:
 	    return res+=indent(contextptr)+"end_proc;";
-	    break;
 	  }
 	}
 	return res;
@@ -6213,7 +6211,7 @@ namespace giac {
     }
     else
       return gensizeerr(gettext("No help file found"));
-    return 0;
+    // return 0;
   }
   static const char _findhelp_s []="findhelp";
   static define_unary_function_eval_quoted (__findhelp,&_findhelp,_findhelp_s);
@@ -8815,6 +8813,7 @@ namespace giac {
   static string printaspiecewise(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     // if ( feuille.type!=_VECT || feuille._VECTptr->empty() || abs_calc_mode(contextptr)!=38)
       return string(sommetstr)+('('+feuille.print(contextptr)+')');
+#if 0
     vecteur & v = *feuille._VECTptr;
     string res("CASE");
     int s=int(v.size());
@@ -8830,6 +8829,7 @@ namespace giac {
       res += printasinnerbloc(v[s-1],contextptr);
     }
     return res+" END";
+#endif
   }
   gen _piecewise(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
@@ -9017,8 +9017,8 @@ namespace giac {
     return false;
     // commented otherwise is_array_index inside a program would depend on the global
     // value of m
-    gen mv=eval(m,1,contextptr);
-    return mv.type==_VECT;
+    //gen mv=eval(m,1,contextptr);
+    //return mv.type==_VECT;
   }
 
   gen _autosimplify(const gen & g,GIAC_CONTEXT){

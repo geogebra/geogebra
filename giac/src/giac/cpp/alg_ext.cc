@@ -712,6 +712,31 @@ namespace giac {
     }
   }
 
+  // in-place reduction of algebraic extensions
+  void clean_ext_reduce(vecteur & v){
+    iterateur it=v.begin(),itend=v.end();
+    for (;it!=itend;++it)
+      clean_ext_reduce(*it);
+  }
+  void clean_ext_reduce(gen & g){
+    if (g.type==_EXT){
+      g=ext_reduce(g);
+      return;
+    }
+    if (g.type==_VECT){
+      clean_ext_reduce(*g._VECTptr);
+      return;
+    }
+    if (g.type==_POLY){
+      vector< monomial<gen> >::iterator it=g._POLYptr->coord.begin(),itend=g._POLYptr->coord.end();
+      for (;it!=itend;++it)
+	clean_ext_reduce(it->value);
+      return;
+    }
+    if (g.type==_FRAC)
+      clean_ext_reduce(g._FRACptr->num);
+  }
+
   // a and b are supposed to be *(_EXTptr+1) of some algebraic extension
   // common_EXT will return a new algebraic extension 
   // (suitable to be an extptr+1)
