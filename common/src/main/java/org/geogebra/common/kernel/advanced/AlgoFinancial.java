@@ -2,6 +2,8 @@ package org.geogebra.common.kernel.advanced;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -14,7 +16,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * PV and FV for problems involving compound interest with periodic payments.
  * Results are found by solving this fundamental formula: <br>
  * <br>
- * pv * (1-rate)^n + pmt*(1+rate * pmtType) * ((1+rate)^n - 1)/rate + fv = 0
+ * 
+ * pmt * (1 + rate * pmtType) * ((1 + rate)^n - 1) / (rate) + pv * (1 + rate)^n
+ * + fv = 0
+ * 
  * <br>
  * If rate is 0, then: (pmt * nper) + pv + fv = 0 <br>
  * <br>
@@ -29,6 +34,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * The formula (from Excel's documentation) is solved directly for the values
  * pmt, nper, pv and fv. Rate cannot be found directly and is found instead by
  * an iterative method.
+ * 
+ * Also see Appendix E Formulas Used p251 hp 12c platinum financial calculator
+ * User Guide http://h10032.www1.hp.com/ctg/Manual/bpia5184.pdf
  * 
  * @author G. Sturr
  * 
@@ -166,7 +174,8 @@ public class AlgoFinancial extends AlgoElement {
 		switch (calcType) {
 
 		case RATE:
-			if (!(setNper() && setPmt() && setPV() && setFV() && setPmtType() && setGuess())) {
+			if (!(setNper() && setPmt() && setPV() && setFV() && setPmtType()
+					&& setGuess())) {
 				result.setUndefined();
 				return;
 			}
@@ -178,22 +187,30 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 
 		case NPER:
-			if (!(setRate() && setPmt() && setPV() && setFV() && setPmtType())) {
+			if (!(setRate() && setPmt() && setPV() && setFV()
+					&& setPmtType())) {
 				result.setUndefined();
 				return;
 			}
-			if (rate == 0) {
-				nper = -(pv + fv) / pmt;
+			if (Kernel.isZero(rate)) {
+				nper = Math.round(-(pv + fv) / pmt);
 			} else {
 				double pmt2 = pmt * (1 + rate * pmtType);
-				nper = Math.log((pmt2 - rate * fv) / (pmt2 + rate * pv))
-						/ Math.log(1 + rate);
+				nper = Math
+						.round(Math.log((pmt2 - rate * fv) / (pmt2 + rate * pv))
+								/ Math.log(1 + rate));
 			}
+
+			if (nper <= 0) {
+				nper = Double.NaN;
+			}
+
 			result.setValue(nper);
 			break;
 
 		case PMT:
-			if (!(setRate() && setNper() && setPV() && setFV() && setPmtType())) {
+			if (!(setRate() && setNper() && setPV() && setFV()
+					&& setPmtType())) {
 				result.setUndefined();
 				return;
 			}
@@ -206,7 +223,8 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 
 		case PV:
-			if (!(setRate() && setNper() && setPmt() && setFV() && setPmtType())) {
+			if (!(setRate() && setNper() && setPmt() && setFV()
+					&& setPmtType())) {
 				result.setUndefined();
 				return;
 			}
@@ -219,7 +237,8 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 
 		case FV:
-			if (!(setRate() && setNper() && setPmt() && setPV() && setPmtType())) {
+			if (!(setRate() && setNper() && setPmt() && setPV()
+					&& setPmtType())) {
 				result.setUndefined();
 				return;
 			}
@@ -232,8 +251,6 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 		}
 
-		// debug();
-
 	}
 
 	// ================================================
@@ -245,139 +262,63 @@ public class AlgoFinancial extends AlgoElement {
 	}
 
 	/**
-	 * Uses Newton's method to find rate.
+	 * Uses Brent's method to find rate then Newton to polish the root
 	 * 
-	 * TODO Guard against values of guess that are nearly zero.
+	 * adapted from AlgoRootInterval
 	 * 
-	 * @return
+	 * @return true if calculation successful
 	 */
 	private boolean computeRate() {
 
-		// increased from 20 for eg
-		// Rate[15 (12), -150, 20000]
-		int maxIterations = 100;
-		double y, yPrime;
-		rate = guess;
+		UnivariateRealSolverFactory fact = UnivariateRealSolverFactory
+				.newInstance();
+		UnivariateRealSolver rootFinder = fact.newBrentSolver();
 
-		for (int i = 0; i < maxIterations; i++) {
+		UnivariateRealSolver rootPolisher = fact.newNewtonSolver();
 
-			y = f(rate);
-			if (Math.abs(y) < Kernel.STANDARD_PRECISION) {
-				return true;
+		double min = 0;
+		double max = 1;
+
+		double newtonRoot = Double.NaN;
+
+		RateFunction fun = new RateFunction(nper, pv, fv, pmt, pmtType);
+
+		// Brent's method (Apache 2.2)
+		try {
+			double minSign = Math.signum(fun.value(min));
+			double maxSign = Math.signum(fun.value(max));
+
+			// sensible bound on rate (1000)
+			while (minSign == maxSign && max < 1000) {
+				max *= 2;
+				maxSign = Math.signum(fun.value(max));
 			}
 
-			yPrime = df(rate);
-			// make sure we don't have a small denominator
-			if (Math.abs(yPrime) < Kernel.MAX_DOUBLE_PRECISION) {
-				return false;
+			// App.error("min = " + min + " max = " + max);
+
+			rate = rootFinder.solve(fun, min, max);
+			// App.error("brent rate = " + rate);
+			
+			if (Kernel.isEqual(rate, 1)) {
+				rate = 0.5;
 			}
 
-			double rate2 = rate - (y / df(rate));
-			if (Math.abs(rate2 - rate) < Kernel.STANDARD_PRECISION) {
-				rate = rate2;
-				return true;
-			}
-			rate = rate2;
-			// App.debug(i + " " + rate);
+			newtonRoot = rootPolisher.solve(fun, min, max, rate);
 
+			if (Math.abs(fun.value(newtonRoot)) < Math.abs(fun.value(rate))) {
+				rate = newtonRoot;
+				// App.error(
+				// "polished result from Newton is better: " + newtonRoot);
+			}
+
+			return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 		return false;
 
-	}
-
-	/**
-	 * Computes the fundamental formula as a function of rate.
-	 * 
-	 * @param x
-	 *            the given rate
-	 * @return
-	 */
-	private double f(double x) {
-		return pv * Math.pow(1 + x, nper) + pmt * (1 + pmtType * x)
-				* (Math.pow(1 + x, nper) - 1) / x + fv;
-	}
-
-	/**
-	 * Computes the derivative of the fundamental formula when expressed as a
-	 * function of rate.
-	 * 
-	 * @param x
-	 *            the given rate
-	 * @return
-	 */
-	private double df(double x) {
-		double a = pv;
-		double n = nper;
-		double b = pmt;
-		double c = pmtType;
-
-		// Using the above constants the fundamental formula is:
-		// f = a(1 + x)^n + b(1 + cx)((1 + x)^n - 1) / x + d;
-		// The derivative of f was found by a CAS and is computed below.
-
-		// TODO Optimize this result (?) Protect against division by small
-		// numbers.
-
-		double p = Math.pow(1 + x, n);
-		double num = a * n * x * x * p + b
-				* (c * n * x * x * p + n * x * p - x * p - p + x + 1);
-		return num / (x * x * (x + 1));
-	}
-
-	// TODO. Alternate iterative method to compute rate. For reference only,
-	// should be removed later. Note that the code guards against a rate guess
-	// that is nearly zero.
-	//
-	// Code adapted from http://www.cflib.org/udf/excelRate
-	@SuppressWarnings("unused")
-	private boolean computeRate2() {
-
-		double financialPrecision = 1.0e-08;
-		double maxIterations = 128;
-
-		double f = 0;
-		double i;
-		double y;
-		double y0;
-		double y1;
-		double x0;
-		double x1;
-
-		rate = guess;
-
-		if (Math.abs(rate) < financialPrecision) {
-			y = pv * (1 + nper * rate) + pmt * (1 + rate * pmtType) * nper + fv;
-		} else {
-			f = Math.exp(nper * Math.log(1 + rate));
-			y = pv * f + pmt * (1 / rate + pmtType) * (f - 1) + fv;
-		}
-
-		y0 = pv + pmt * nper + fv;
-		y1 = pv * f + pmt * (1 / rate + pmtType) * (f - 1) + fv;
-
-		i = 0.0;
-		x0 = 0.0;
-		x1 = rate;
-
-		while ((Math.abs(y0 - y1) > financialPrecision) && (i < maxIterations)) {
-			rate = (y1 * x0 - y0 * x1) / (y1 - y0);
-			x0 = x1;
-			x1 = rate;
-
-			if (Math.abs(rate) < financialPrecision) {
-				y = pv * (1 + nper * rate) + pmt * (1 + rate * pmtType) * nper
-						+ fv;
-			} else {
-				f = Math.exp(nper * Math.log(1 + rate));
-				y = pv * f + pmt * (1 / rate + pmtType) * (f - 1) + fv;
-			}
-
-			y0 = y1;
-			y1 = y;
-			i = i++;
-		}
-
-		return true;
 	}
 
 	// =============================================
@@ -396,9 +337,11 @@ public class AlgoFinancial extends AlgoElement {
 		if (geoNper == null || !geoNper.isDefined()) {
 			return false;
 		}
-		nper = geoNper.evaluateDouble();
+		nper = Math.round(geoNper.evaluateDouble());
 		// number of periods must be positive
-		return !(nper <= 0 && Double.isNaN(nper));
+
+		// check for NaN not needed as NaN > 0 returns false
+		return nper > 0;
 	}
 
 	private boolean setPmt() {
