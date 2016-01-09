@@ -388,8 +388,8 @@ public abstract class Prover {
 		proveAutoOrder.add(ProverEngine.BOTANAS_PROVER);
 		// Wu may be a bit slower.
 		proveAutoOrder.add(ProverEngine.OPENGEOPROVER_WU);
-		// Area method is not polished yet.
-		proveAutoOrder.add(ProverEngine.OPENGEOPROVER_AREA);
+		// Area method is not polished yet, thus it's disabled:
+		// proveAutoOrder.add(ProverEngine.OPENGEOPROVER_AREA);
 
 		// Order of ProveDetails[] for the AUTO prover:
 		proveDetailsAutoOrder = new ArrayList<ProverEngine>();
