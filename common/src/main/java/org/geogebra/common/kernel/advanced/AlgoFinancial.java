@@ -14,7 +14,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * PV and FV for problems involving compound interest with periodic payments.
  * Results are found by solving this fundamental formula: <br>
  * <br>
- * pv * (1-rate)^n + pmt(1+rate * pmtType) * ((1+rate)^n - 1))/rate + fv = 0 <br>
+ * pv * (1-rate)^n + pmt*(1+rate * pmtType) * ((1+rate)^n - 1)/rate + fv = 0
+ * <br>
  * If rate is 0, then: (pmt * nper) + pv + fv = 0 <br>
  * <br>
  * rate = interest rate for a compounding period <br>
