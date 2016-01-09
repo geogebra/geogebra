@@ -958,7 +958,7 @@ __GGB__keysVar.ta.command = {
     "TableText.Syntax": "[ <List>, <List>, ... ]\n[ <List>, <List>, ..., <Alignment of Text> ]",
     "Take": "\u0b8e\u0b9f\u0bc1\u0b95\u0bcd\u0b95",
     "Take.Syntax": "[ <List>, <Start Position>, <End Position> ]\n[ <List>, <Start Position> ]\n[ <Text>, <Start Position>, <End Position> ]\n[ <Text>, <Start Position> ]",
-    "Take.SyntaxCAS": "[ <List>, <Start Position>, <End Position> ]",
+    "Take.SyntaxCAS": "[ <List>, <Start Position> ]\n[ <List>, <Start Position>, <End Position> ]",
     "Tangent": "Tangent",
     "Tangent.Syntax": "[ <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0b95\u0bc2\u0bae\u0bcd\u0baa\u0bc1 \u0bb5\u0bc6\u0b9f\u0bcd\u0b9f\u0bbf\u0bb5\u0bb3\u0bc8\u0bb5\u0bb0\u0bc8> ]\n[ <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0b9a\u0bbe\u0bb0\u0bcd\u0baa\u0bc1> ]\n[ <\u0bb5\u0bb3\u0bc8\u0bb5\u0bbf\u0ba9\u0bcd \u0bae\u0bc0\u0ba4\u0bc8\u0bae\u0ba8\u0bcd\u0ba4 \u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0bb5\u0bb3\u0bc8\u0bb5\u0bc1> ]\n[ <x-\u0bae\u0ba4\u0bbf\u0baa\u0bcd\u0baa\u0bc1>, <\u0b9a\u0bbe\u0bb0\u0bcd\u0baa\u0bc1> ]\n[ <\u0b95\u0bcb\u0b9f\u0bc1>, <\u0b95\u0bc2\u0bae\u0bcd\u0baa\u0bc1 \u0bb5\u0bc6\u0b9f\u0bcd\u0b9f\u0bbf\u0bb5\u0bb3\u0bc8\u0bb5\u0bb0\u0bc8> ]\n[ <\u0bb5\u0b9f\u0bcd\u0b9f\u0bae\u0bcd>, <\u0bb5\u0b9f\u0bcd\u0b9f\u0bae\u0bcd> ]",
     "TaylorSeries": "\u0ba4\u0bc6\u0baf\u0bbf\u0bb2\u0bb0\u0bcd\u0ba4\u0bca\u0b9f\u0bb0\u0bcd",

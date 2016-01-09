@@ -958,7 +958,7 @@ __GGB__keysVar.cy.command = {
     "TableText.Syntax": "[ <Rhestr>, <Rhestr>, ... ]TestunTabl[ <Rhestr>, <Rhestr>, ..., <Aliniad y testun> ]",
     "Take": "Cymryd",
     "Take.Syntax": "[ <List>, <Start Position>, <End Position> ]\n[ <List>, <Start Position> ]\n[ <Text>, <Start Position>, <End Position> ]\n[ <Text>, <Start Position> ]",
-    "Take.SyntaxCAS": "[ <List>, <Start Position>, <End Position> ]",
+    "Take.SyntaxCAS": "[ <List>, <Start Position> ]\n[ <List>, <Start Position>, <End Position> ]",
     "Tangent": "Tangiad",
     "Tangent.Syntax": "[ <Pwynt>, <Conig> ]\n[ <Pwynt>, <Ffwythiant> ]\n[ <Pwynt>, <Cromlin> ]\n[ <gwerth-x>, <Ffwythiant> ]\n[ <Llinell baralel>, <Conig> ]\n[ <Segment cyfochrog>, <Conig> ]",
     "TaylorSeries": "CyfresTaylor",

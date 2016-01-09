@@ -958,7 +958,7 @@ __GGB__keysVar.kn.command = {
     "TableText.Syntax": "[ <List>, <List>, ... ]\n[ <List>, <List>, ..., <Alignment of Text> ]",
     "Take": "Take",
     "Take.Syntax": "[ <List>, <Start Position>, <End Position> ]\n[ <List>, <Start Position> ]\n[ <Text>, <Start Position>, <End Position> ]\n[ <Text>, <Start Position> ]",
-    "Take.SyntaxCAS": "[ <List>, <Start Position>, <End Position> ]",
+    "Take.SyntaxCAS": "[ <List>, <Start Position> ]\n[ <List>, <Start Position>, <End Position> ]",
     "Tangent": "Tangent",
     "Tangent.Syntax": "[ <Point>, <Conic> ]\n[ <Point>, <Function> ]\n[ <Point on Curve>, <Curve> ]\n[ <x-Value>, <Function> ]\n[ <Line>, <Conic> ]\n[ <Circle>, <Circle> ]",
     "TaylorSeries": "TaylorPolynomial",

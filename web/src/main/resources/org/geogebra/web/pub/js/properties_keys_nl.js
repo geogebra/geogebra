@@ -2479,7 +2479,7 @@ __GGB__keysVar.nl.plain = {
     "Function.fractionalPart": "partieelbreuk",
     "Function.freehand": "Vrije hand",
     "Function.imaginary": "im",
-    "Function.nroot": "nroot",
+    "Function.nroot": "nwortel",
     "Function.real": "re",
     "Function.sec": "sec",
     "Function.sech": "sech",
