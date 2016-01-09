@@ -38,7 +38,7 @@ while getopts "t:rfhHIsj" OPT; do
    MINIGIAC=../../../giac-jni/src/test/minigiac
    ;;
   s)
-   SILENT=0
+   SILENT=1
    ;;
   r)
    REGRESSION=1
