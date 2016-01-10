@@ -459,7 +459,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
     sed s/"AreParallel\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\\1\&#8741;\\2"/g |\
     sed s/"ArePerpendicular\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\\1\&#10178;\\2"/g |\
     sed s/"AreCongruent\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\\1\&#8773;\\2"/g |\
-    sed s/"AreCollinear\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"<span style=\"text-decoration: overline;\">\\1\\2\\3<\/span>"/g |\
+    sed s/"AreCollinear\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"<span class=\"overline;\">\\1\\2\\3<\/span>"/g |\
     sed s/"_\([0-9]\+\)"/"<sub>\\1<\/sub>"/g` # Note that subscript change is the last one.
    fi
   echo "<td$RESULTCLASS>$HTMLRESULT</td><td$RESULTCLASS><p class=\"$SUMCLASS\">$TIME</p></td>" >> $MYDIR/$HTML

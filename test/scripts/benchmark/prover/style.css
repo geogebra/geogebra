@@ -189,3 +189,7 @@ color: gray;
 p.figure {
 text-align: center;
 }
+
+span.overline {
+text-decoration: overline;
+}
