@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.discrete.delaunay.Triangle_dt;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 
 public class AlgoDelauneyTriangulation extends AlgoHull{
 
@@ -29,7 +30,7 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
     }
     
     public final void compute() {
-    	
+		try {
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {
     		locus.setUndefined();
@@ -95,7 +96,10 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
 
 		locus.setPoints(al);
 		locus.setDefined(true);
-       
+		} catch (Exception e) {
+			App.error(e.getMessage());
+			locus.setUndefined();
+		}
     }
     
     /*

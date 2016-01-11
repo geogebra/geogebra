@@ -968,7 +968,15 @@ public class Delaunay_Triangulation {
 		t._mc = mc;
 		if (u.halfplane || !u.circumcircle_contains(t.c))
 			return;
-
+		if (t.a == t.b) {
+			throw new RuntimeException("Degenerate AB");
+		}
+		if (t.a == t.c) {
+			throw new RuntimeException("Degenerate AC");
+		}
+		if (t.c == t.b) {
+			throw new RuntimeException("Degenerate BC");
+		}
 		if (t.a == u.a) {
 			v = new Triangle_dt(u.b, t.b, t.c);
 			v.abnext = u.bcnext;
