@@ -1739,7 +1739,12 @@ namespace giac {
 #ifdef GIAC_ELIM
       //bool debug=false;
       if ( !( (x.elim | y.elim) & 0x1000000000000000ULL) &&
-	   ( (x.elim-y.elim) & 0b1111100001000010000100001000010000100001000010000100001000010000ULL) ){
+#ifndef BESTA_OS // Keil compiler, for some reason does not like the 0b syntax!
+	   ( (x.elim-y.elim) & 0b1111100001000010000100001000010000100001000010000100001000010000ULL) )
+#else
+	( (x.elim-y.elim) & 0xf842108421084210ULL) )
+#endif
+      {
 	//debug=true;
 	return false;
       }
@@ -4209,6 +4214,7 @@ namespace giac {
     int age;
   };
 
+#ifdef GIAC_GBASIS_PERMUTATION2
   template<class tdeg_t>
   bool tri (const zsymb_data<tdeg_t> & z1,const zsymb_data<tdeg_t> & z2){
     if (z1.terms!=z2.terms) 
@@ -4219,19 +4225,24 @@ namespace giac {
       return z2.pos>z1.pos;
     return false;
   }
+#endif
 
   // #define GIAC_DEG_FIRST
   
   template <class tdeg_t>
   bool operator < (const zsymb_data<tdeg_t> & z1,const zsymb_data<tdeg_t> & z2){
-    //if (z1.terms!=z2.terms && (z1.terms==1 || z2.terms==1)){ return z2.terms>z1.terms; }
+    // reductor choice: less terms is better 
+    // but small degree gives a reductor sooner
+    // e.g. less terms is faster for botana* but slower for cyclic*
+    // if (z1.terms!=z2.terms){ return z2.terms>z1.terms; }
     int d1=z1.deg.total_degree(z1.o),d2=z2.deg.total_degree(z2.o);
 #ifdef GIAC_DEG_FIRST
     if (d1!=d2)
       return d1<d2;
 #endif
-    //double Z1=d1*double(z1.terms)*(z1.age+1); double Z2=d2*double(z2.terms)*(z2.age+1); if (Z1!=Z2) return Z2>Z1;
-    double Z1=double(z1.terms)*d1; double Z2=double(z2.terms)*d2; if (Z1!=Z2) return Z2>Z1;
+    // double Z1=d1*double(z1.terms)*(z1.age+1); double Z2=d2*double(z2.terms)*(z2.age+1); if (Z1!=Z2) return Z2>Z1;
+    double Z1=z1.terms*double(z1.terms)*d1; double Z2=z2.terms*double(z2.terms)*d2; if (Z1!=Z2) return Z2>Z1;
+    //double Z1=double(z1.terms)*d1; double Z2=double(z2.terms)*d2; if (Z1!=Z2) return Z2>Z1;
     if (z1.terms!=z2.terms) return z2.terms>z1.terms;
     if (z1.deg!=z2.deg)
       return tdeg_t_greater(z1.deg,z2.deg,z1.o)!=0;
@@ -5357,6 +5368,20 @@ namespace giac {
     ++it;
   }
 
+  inline void next_index(vector<double>::iterator & pos,const shifttype * & it){
+    if (*it)
+      pos+=(*it);
+    else { // next 3 will make the shift
+      ++it;
+      pos += (*it << 16);
+      ++it;
+      pos += (*it << 8);
+      ++it;
+      pos += *it;
+    }
+    ++it;
+  }
+
 #ifdef __x86_64__
   inline void next_index(vector<int128_t>::iterator & pos,const shifttype * & it){
     if (*it)
@@ -5421,6 +5446,18 @@ namespace giac {
   }
 
   inline void next_index(vector<modint2>::iterator & pos,const shifttype * & it){
+    if (*it)
+      pos += (*it);
+    else { // next will make the shift
+      ++it;
+      pos += (*it << 16);
+      ++it;
+      pos += *it;
+    }
+    ++it;
+  }
+
+  inline void next_index(vector<double>::iterator & pos,const shifttype * & it){
     if (*it)
       pos += (*it);
     else { // next will make the shift
@@ -6017,6 +6054,11 @@ namespace giac {
     x = y - (y>>63)*env2; 
   }
 
+  inline void special_mod(double & x,double c,modint d,modint env,double env2){
+    register modint2 y=x-c*d;
+    if (y<0) x = y+env2; else x=y;// if y is negative make it positive by adding env^2
+  }
+
   typedef char used_t;
   // typedef bool used_t;
 
@@ -6114,6 +6156,44 @@ namespace giac {
 
   void f4_innerloop_special_mod(modint2 * wt,const modint * jt,const modint * jtend,modint C,const shifttype* it,modint env){
     modint2 env2=modint2(env)*env;
+    jtend -= 16;
+    for (;jt<=jtend;){
+      wt += it[0]; int b=it[1];
+      special_mod(*wt,C,*jt,env,env2); 
+      special_mod(wt[b],C,jt[1],env,env2); 
+      wt += b+it[2]; b=it[3];
+      special_mod(*wt,C,jt[2],env,env2); 
+      special_mod(wt[b],C,jt[3],env,env2); 
+      wt += b+it[4]; b=it[5];
+      special_mod(*wt,C,jt[4],env,env2); 
+      special_mod(wt[b],C,jt[5],env,env2); 
+      wt += b+it[6]; b=it[7];
+      special_mod(*wt,C,jt[6],env,env2); 
+      special_mod(wt[b],C,jt[7],env,env2); 
+      wt += b+it[8]; b=it[9];
+      special_mod(*wt,C,jt[8],env,env2); 
+      special_mod(wt[b],C,jt[9],env,env2); 
+      wt += b+it[10]; b=it[11];
+      special_mod(*wt,C,jt[10],env,env2); 
+      special_mod(wt[b],C,jt[11],env,env2); 
+      wt += b+it[12]; b=it[13];
+      special_mod(*wt,C,jt[12],env,env2); 
+      special_mod(wt[b],C,jt[13],env,env2); 
+      wt += b+it[14]; b=it[15];
+      special_mod(*wt,C,jt[14],env,env2); 
+      special_mod(wt[b],C,jt[15],env,env2); 
+      wt += b;
+      it += 16; jt+=16;
+    }
+    jtend += 16;
+    for (;jt!=jtend;++jt){
+      wt += *it; ++it;
+      special_mod(*wt,C,*jt,env,env2); 
+    }
+  }
+
+  void f4_innerloop_special_mod(double * wt,const modint * jt,const modint * jtend,modint C,const shifttype* it,modint env){
+    double env2=double(env)*env;
     jtend -= 16;
     for (;jt<=jtend;){
       wt += it[0]; int b=it[1];
@@ -6375,6 +6455,179 @@ namespace giac {
 #if 1
     for (;wt<=wt1;++wt){
       modint2 i=*wt;
+      if (i) break;
+      ++wt; i=*wt;
+      if (i) break;
+      ++wt; i=*wt;
+      if (i) break;
+      ++wt; i=*wt;
+      if (i) break;
+    }
+#endif
+    if (!res){
+      for (;wt<wtend;++wt){
+	modint2 i=*wt;
+	if (!i) continue;
+	*wt = 0;
+	i %= env;
+	if (!i) continue;
+	unsigned I=unsigned(wt-wt0);
+	res=I;
+	*(uit+I)=1; // used[i]=1;
+	bitmap[I>>5] |= (1<<(I&0x1f));
+	lescoeffs.push_back(modint(i));
+	break;
+      }
+      if (!res)
+	res=unsigned(v64.size());
+    }
+#if 1
+    for (;wt<=wt1;++wt){
+      modint2 i=*wt;
+      if (!i){
+	++wt; i=*wt;
+	if (!i){
+	  ++wt; i=*wt;
+	  if (!i){
+	    ++wt; i=*wt;
+	    if (!i)
+	      continue;
+	  }
+	}
+      }
+      *wt = 0;
+      i %= env;
+      if (!i) continue;
+      unsigned I=unsigned(wt-wt0);
+      *(uit+I)=1; // used[i]=1;
+      bitmap[I>>5] |= (1<<(I&0x1f));
+      lescoeffs.push_back(modint(i));
+    }
+#endif
+    for (;wt<wtend;++wt){
+      modint2 i=*wt;
+      if (!i) continue;
+      *wt=0;
+      i %= env;
+      if (!i) continue;
+      unsigned I=unsigned(wt-wt0);
+      *(uit+I)=1; // used[i]=1;
+      bitmap[I>>5] |= (1<<(I&0x1f));
+      lescoeffs.push_back(modint(i));
+    }
+    return res;
+  }
+
+  unsigned reducef4buchbergersplitdouble(vector<double> &v64,const vector< vector<shifttype> > & M,const vector<unsigned> & firstpos,unsigned firstcol,const vector< vector<modint> > & coeffs,const vector<coeffindex_t> & coeffindex,vector<modint> & lescoeffs,unsigned * bitmap,vector<used_t> & used,modint env){
+    vector<unsigned>::const_iterator fit=firstpos.begin(),fit0=fit,fitend=firstpos.end(),fit1=fit+firstcol,fit2;
+    if (fit1>fitend)
+      fit1=fitend;
+    vector<double>::iterator wt=v64.begin(),wt0=wt,wt1,wtend=v64.end();
+    unsigned skip=0;
+    while (fit+1<fit1){
+      fit2=fit+(fit1-fit)/2;
+      if (*fit2>firstcol)
+	fit1=fit2;
+      else
+	fit=fit2;
+    }
+    if (debug_infolevel>2)
+      CERR << "Firstcol " << firstcol << "/" << v64.size() << " ratio skipped " << (fit-fit0)/double(fitend-fit0) << endl;
+    double env2=double(env)*env;
+    for (;fit!=fitend;++fit){
+      if (v64[*fit]==0)
+	continue;
+      unsigned i=unsigned(fit-fit0);
+      const vector<shifttype> & mindex=M[i];
+      const shifttype * it=&mindex.front();
+      unsigned pos=0;
+      next_index(pos,it);
+      skip=pos;
+      wt=wt0+pos;
+      // if (*wt==0) continue;
+      const vector<modint> & mcoeff=coeffs[coeffindex[i].u];
+      bool shortshifts=coeffindex[i].b;
+      if (mcoeff.empty())
+	continue;
+      const modint * jt=&mcoeff.front(),*jtend=jt+mcoeff.size(),*jt_=jtend-8;
+      // if (pos>v.size()) CERR << "error" <<endl;
+      // if (*jt!=1) CERR << "not normalized" << endl;
+      modint c=modint2(*wt) % env; // (modint2(*jt)*(*wt % env))%env;
+      if (c<0) c += env;
+      *wt=0;
+      if (!c)
+	continue;
+      ++jt;
+#ifdef GIAC_SHORTSHIFTTYPE
+      if (shortshifts){
+	f4_innerloop_special_mod(&*wt,jt,jtend,c,it,env);
+      }
+      else {
+	for (;jt<jt_;){
+	  next_index(wt,it);
+	  special_mod(*wt,c,*jt,env,env2); // 	    *wt-=modint2(c)*(*jt);
+	  ++jt;
+	  next_index(wt,it);
+	  special_mod(*wt,c,*jt,env,env2);
+	  ++jt;
+	  next_index(wt,it);
+	  special_mod(*wt,c,*jt,env,env2);
+	  ++jt;
+	  next_index(wt,it);
+	  special_mod(*wt,c,*jt,env,env2);
+	  ++jt;
+	  next_index(wt,it);
+	  special_mod(*wt,c,*jt,env,env2);
+	  ++jt;
+	  next_index(wt,it);
+	  special_mod(*wt,c,*jt,env,env2);
+	  ++jt;
+	  next_index(wt,it);
+	  special_mod(*wt,c,*jt,env,env2);
+	  ++jt;
+	  next_index(wt,it);
+	  special_mod(*wt,c,*jt,env,env2);
+	  ++jt;
+	}
+	for (;jt!=jtend;++jt){
+	  next_index(wt,it);
+	  special_mod(*wt,c,*jt,env,env2);
+	}
+      }
+#else // def GIAC_SHORTSHIFTTYPE
+      for (;jt<jt_;){
+	special_mod(v64[*it],c,*jt,env,env2);
+	++it; ++jt;
+	special_mod(v64[*it],c,*jt,env,env2);
+	++it; ++jt;
+	special_mod(v64[*it],c,*jt,env,env2);
+	++it; ++jt;
+	special_mod(v64[*it],c,*jt,env,env2);
+	++it; ++jt;
+	special_mod(v64[*it],c,*jt,env,env2);
+	++it; ++jt;
+	special_mod(v64[*it],c,*jt,env,env2);
+	++it; ++jt;
+	special_mod(v64[*it],c,*jt,env,env2);
+	++it; ++jt;
+	special_mod(v64[*it],c,*jt,env,env2);
+	++it; ++jt;
+      }
+      for (;jt!=jtend;++jt){
+	special_mod(v64[*it],c,*jt,env,env2);
+	++it; ++jt;
+      }
+#endif // def GIAC_SHORTSHIFTTYPE
+    }
+    if (!bitmap)
+      return 0; // result in v64, for multiple uses
+    unsigned res=0;
+    used_t * uit=&used.front();
+    wt=v64.begin()+firstcol;
+    wt1=wtend-4;
+#if 1
+    for (;wt<=wt1;++wt){
+      double i=*wt;
       if (i) break;
       ++wt; i=*wt;
       if (i) break;
@@ -10359,7 +10612,7 @@ namespace giac {
     vector<heap_t<tdeg_t> > H_;
     vector<unsigned> H;
     if (debug_infolevel>1)
-      CERR << "Heap reserve " << 3*f.size() << " * " << sizeof(heap_t<deg_t>)+sizeof(unsigned) << ", number of monomials in basis " << guess  << endl;
+      CERR << CLOCK()*1e-6 << " Heap reserve " << 3*f.size() << " * " << sizeof(heap_t<deg_t>)+sizeof(unsigned) << ", number of monomials in basis " << guess  << endl;
     // H_.reserve(guess);
     // H.reserve(guess);
     H_.reserve(3*f.size());
@@ -10892,9 +11145,10 @@ namespace giac {
     }
   }
 
-  void zsub(vector<modint2> & v64,const vector<modint> & subcoeff,const vector<shifttype> & subindex){
+  template<class modint_t>
+  void zsub(vector<modint_t> & v64,const vector<modint> & subcoeff,const vector<shifttype> & subindex){
     if (subcoeff.empty()) return;
-    vector<modint2>::iterator wt=v64.begin();
+    typename vector<modint_t>::iterator wt=v64.begin();
     const modint * jt=&subcoeff.front(),*jtend=jt+subcoeff.size(),*jt_=jtend-8;
     const shifttype * it=&subindex.front();
     // first shift
@@ -10957,10 +11211,10 @@ namespace giac {
     return a<0?a+n:a;
   }
 
-  template<class tdeg_t>
-  void zadd(vector<modint2> & v64,const zpolymod<tdeg_t> & subcoeff,const vector<shifttype> & subindex,int start,modint env){
+  template<class tdeg_t,class modint_t>
+  void zadd(vector<modint_t> & v64,const zpolymod<tdeg_t> & subcoeff,const vector<shifttype> & subindex,int start,modint env){
     if (subcoeff.coord.size()<=start) return;
-    vector<modint2>::iterator wt=v64.begin();
+    typename vector<modint_t>::iterator wt=v64.begin();
     const zmodint * jt=&subcoeff.coord.front(),*jtend=jt+subcoeff.coord.size();
     jt += start;
     const shifttype * it=&subindex.front();
@@ -11421,6 +11675,7 @@ namespace giac {
     // step3 reduce
     vector<modint> v(N);
     vector<modint2> v64(N);
+    vector<double> v64d(N);
 #ifdef __x86_64__
     vector<int128_t> v128;
     if (!large)
@@ -11577,11 +11832,27 @@ namespace giac {
 	if (effi>=0 && !indexes[effi].empty())
 	  firstcol=giacmin(firstcol,indexes[effi].front());
 	// zcopycoeff(res[bk.first],subcoeff1,1);zadd(v64,subcoeff1,indexes[i]);
-	zadd(v64,res[bk.first],indexes[i],1,env);
-	indexes[i].clear();
-	zsub(v64,subcoeff2,indexes[effi]);
-	Ki.clear();
-	colonnes=giacmin(colonnes,reducef4buchbergersplit(v64,Mindex,firstpos,firstcol,Mcoeff,coeffindex,Ki,bitmap,used,env));
+	if (
+#ifdef EMCC
+	    env>(1<<24) && env<=94906249
+#else
+	    0
+#endif
+	    ){
+	  // using doubles instead of 64 bits integer not supported in JS
+	  zadd(v64d,res[bk.first],indexes[i],1,env);
+	  indexes[i].clear();
+	  zsub(v64d,subcoeff2,indexes[effi]);
+	  Ki.clear();
+	  colonnes=giacmin(colonnes,reducef4buchbergersplitdouble(v64d,Mindex,firstpos,firstcol,Mcoeff,coeffindex,Ki,bitmap,used,env));
+	}
+	else {
+	  zadd(v64,res[bk.first],indexes[i],1,env);
+	  indexes[i].clear();
+	  zsub(v64,subcoeff2,indexes[effi]);
+	  Ki.clear();
+	  colonnes=giacmin(colonnes,reducef4buchbergersplit(v64,Mindex,firstpos,firstcol,Mcoeff,coeffindex,Ki,bitmap,used,env));
+	}
 	bitmap += (N>>5)+1;
 	size_t Kis=Ki.size();
 	if (Kis>Ki.capacity()*.8){
@@ -12927,9 +13198,9 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     vectpolymod<tdeg_t> resmod,gbmod;
     poly8<tdeg_t> poly8tmp;
 #ifdef EMCC
-    // make first iteration with a smaller prime to spare memory
-    // next iterations will use larger primes
-    gen p=(1<<24)-_floor(giac_rand(contextptr)/32e3,contextptr);
+    // use smaller primes
+    gen p=94906249-_floor(giac_rand(contextptr)/32e3,contextptr);
+    // gen p=(1<<24)-_floor(giac_rand(contextptr)/32e3,contextptr);
 #else
     gen p=(1<<29)-_floor(giac_rand(contextptr)/1e3,contextptr);
 #endif

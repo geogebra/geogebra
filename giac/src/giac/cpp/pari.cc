@@ -1142,6 +1142,32 @@ namespace giac {
     return true;
   }
   
+  bool pari_allocatemem(size_t mem,GIAC_CONTEXT){
+    if (check_pari_mutex())
+      return false;
+#ifdef HAVE_LIBPTHREAD
+    pthread_cleanup_push(pari_cleanup, (void *) pari_mutex_ptr);
+#endif
+    allocatemem(mem);
+#ifdef HAVE_LIBPTHREAD
+    if (pari_mutex_ptr) pthread_mutex_unlock(pari_mutex_ptr);    
+    pthread_cleanup_pop(0);
+#endif
+    return true;
+  }
+
+  gen _pari_allocatemem(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    gen a=args;
+    if (!is_integral(a) || is_strictly_positive(-a,contextptr))
+      return gensizeerr(contextptr);
+    if (a.type==_INT_)
+      return pari_allocatemem(a.val,contextptr);
+    return gensizeerr(">2*10^9 is not yet supported. Try with repeated 0");
+  }
+  static const char _pari_allocatemem_s []="pari_allocatemem";
+  static define_unary_function_eval (__pari_allocatemem,&giac::_pari_allocatemem,_pari_allocatemem_s);
+  define_unary_function_ptr5( at_pari_allocatemem ,alias_at_pari_allocatemem,&__pari_allocatemem,_QUOTE_ARGUMENTS,true);
 
 #ifndef NO_NAMESPACE_GIAC
 }
@@ -1221,6 +1247,10 @@ namespace giac {
   static const char _pari_unlock_s []="pari_unlock";
   static define_unary_function_eval (__pari_unlock,&giac::_pari,_pari_unlock_s);
   define_unary_function_ptr5( at_pari_unlock ,alias_at_pari_unlock,&__pari_unlock,_QUOTE_ARGUMENTS,true);
+
+  static const char _pari_allocatemem_s []="pari_allocatemem";
+  static define_unary_function_eval (__pari_allocatemem,&giac::_pari,_pari_allocatemem_s);
+  define_unary_function_ptr5( at_pari_allocatemem ,alias_at_pari_allocatemem,&__pari_allocatemem,_QUOTE_ARGUMENTS,true);
 
 #ifndef NO_NAMESPACE_GIAC
 }

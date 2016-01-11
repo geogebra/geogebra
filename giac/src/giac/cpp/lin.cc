@@ -721,7 +721,7 @@ namespace giac {
     return v1; 
   }
 
-  static gen exp_expand(const gen & e,GIAC_CONTEXT){
+  gen exp_expand(const gen & e,GIAC_CONTEXT){
     if (e.type!=_SYMB)
       return exp(e,contextptr);
     if (e._SYMBptr->sommet==at_plus)

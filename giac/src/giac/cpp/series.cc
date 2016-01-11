@@ -2053,9 +2053,21 @@ namespace giac {
     return ln_expand0_(e,contextptr);
   }
 
+  static gen exp_series_(const gen & e0,GIAC_CONTEXT){
+    vecteur v=lop(e0,at_ln);
+    if (v.size()==1 && is_integer(v.front()._SYMBptr->feuille)){
+      gen a,b;
+      if (is_linear_wrt(e0,v.front(),a,b,contextptr))
+	return exp(b,contextptr)*pow(v.front()._SYMBptr->feuille,a,contextptr);
+    }
+    return exp(e0,contextptr);
+  }
+
   static gen remove_lnexp(const gen & e,GIAC_CONTEXT){
     vector<const unary_function_ptr *> v(1,at_ln);
+    v.push_back(at_exp);
     vector< gen_op_context > w(1,&ln_expand_);
+    w.push_back(&exp_series_);
     return subst(e,v,w,false,contextptr);
   }
 
@@ -2793,14 +2805,14 @@ namespace giac {
 
   // Main limit entry point
   gen limit(const gen & e,const identificateur & x,const gen & lim_point,int direction,GIAC_CONTEXT){
-    // Insert here code for cleaning limit remember
-    // int save_inside_limit=inside_limit(contextptr);
-    // inside_limit(1,contextptr);
-    // sincosinf.clear();
     if (is_undef(lim_point))
       return lim_point;
+    // Insert here code for cleaning limit remember
+    int save_series_flags=series_flags(contextptr);
+    series_flags(save_series_flags | 8,contextptr);
+    // sincosinf.clear();
     gen l=in_limit(exact(e,contextptr),x,exact(lim_point,contextptr),direction,contextptr);
-    // inside_limit(save_inside_limit,contextptr);
+    series_flags(save_series_flags,contextptr);
     // vecteur sincosinfsub(sincosinf.size(),undef);
     // l=eval(subst(l,sincosinf,sincosinfsub));
     return l;
@@ -2991,11 +3003,14 @@ namespace giac {
 
   // Main series entry point
   gen series(const gen & e,const identificateur & x,const gen & lim_point,int ordre,int direction,GIAC_CONTEXT){
+    int save_series_flags=series_flags(contextptr);
+    series_flags(save_series_flags | 8,contextptr);
     if (has_op(e,*at_surd) || has_op(e,*at_NTHROOT)){
       vecteur subst1,subst2;
       surd2pow(e,subst1,subst2,contextptr);
       gen g=subst(e,subst1,subst2,false,contextptr);
       g=series(g,x,lim_point,ordre,direction,contextptr);
+      series_flags(save_series_flags,contextptr);
       return subst(g,subst2,subst1,false,contextptr);
     }
     if (e.type==_VECT){
@@ -3004,9 +3019,11 @@ namespace giac {
       for (int i=0;i<l;++i){
 	res[i]=in_series(_pow2exp(tan2sincos(res[i],contextptr),contextptr),x,lim_point,ordre,direction,contextptr);
       }
+      series_flags(save_series_flags,contextptr);
       return res;
     }
     gen res=in_series(_pow2exp(tan2sincos(e,contextptr),contextptr),x,lim_point,ordre,direction,contextptr);
+    series_flags(save_series_flags,contextptr);
     return res;
   }
 

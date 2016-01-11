@@ -28,6 +28,7 @@ namespace giac {
   void compress(vecteur & res,GIAC_CONTEXT);
 
   gen prod_expand(const gen & a,const gen & b,GIAC_CONTEXT);
+  gen exp_expand(const gen & e,GIAC_CONTEXT);
 
   gen unlin(vecteur & v,GIAC_CONTEXT);
   void convolution(const gen & coeff, const gen & arg,const vecteur & w,vecteur & res,GIAC_CONTEXT);

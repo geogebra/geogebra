@@ -524,7 +524,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     bool _specialtexprint_double_;
     int _angle_mode_;
     int _bounded_function_no_;
-    int _series_flags_; // bit1= full simplify, bit2=1 for truncation
+    int _series_flags_; // bit1= full simplify, bit2=1 for truncation, bit3=atan does not rewrite sin/cos to tan
     int _default_color_;
     double _epsilon_;
     double _proba_epsilon_; // if not 0, probabilistic algo may be used
