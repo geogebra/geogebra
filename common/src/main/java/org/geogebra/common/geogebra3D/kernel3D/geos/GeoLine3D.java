@@ -415,4 +415,29 @@ public class GeoLine3D extends GeoCoordSys1D {
 	public Boolean isCongruent(GeoElement geo) {
 		return geo.isGeoLine();
 	}
+
+	/**
+	 * used by GeoSegment/Ray/3D to set start/end points
+	 * 
+	 * @param cons
+	 *            cons
+	 * @param my
+	 *            my point
+	 * @param other
+	 *            point from other geo
+	 * @return what my start/end point should be
+	 */
+	public static GeoPointND updatePoint(Construction cons, GeoPointND my,
+			GeoPointND other) {
+		if (my == null) {
+			if (other == null) {
+				return null;
+			}
+			return (GeoPointND) other.copyInternal(cons);
+		}
+		if (other != null) {
+			my.set(other);
+		}
+		return my;
+	}
 }
