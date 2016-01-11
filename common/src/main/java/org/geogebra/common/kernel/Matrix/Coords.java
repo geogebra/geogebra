@@ -559,14 +559,6 @@ public class Coords {
 	}
 
 	/**
-	 * 
-	 * @return square norm
-	 */
-	public double getSquareNorm() {
-		return sqNorm;
-	}
-
-	/**
 	 * The norm must be already calculated by calcNorm()
 	 * 
 	 * @return the norm
