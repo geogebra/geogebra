@@ -3,6 +3,7 @@ package org.geogebra.common.move.ggtapi.models;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.json.JSONBoolean;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONString;
@@ -20,7 +21,7 @@ public class Material implements Comparable<Material>, Serializable {
 	};
 
 	public enum MaterialType {
-		ggb, ggt, link, book, ws, csv;
+		ggb, ggt, link, book, ws, csv, flexiblews;
 	}
 
 	private int id;
@@ -187,6 +188,11 @@ public class Material implements Comparable<Material>, Serializable {
 	 */
 	public String getURL() {
 		return this.url;
+	}
+
+	public String getEditUrl() {
+		return GeoGebraConstants.GEOGEBRATUBE_WEBSITE + "/material/edit/id/"
+				+ this.id;
 	}
 
 	/**

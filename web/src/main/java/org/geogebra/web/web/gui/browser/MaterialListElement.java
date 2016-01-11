@@ -533,6 +533,7 @@ public class MaterialListElement extends FlowPanel implements
 	 */
 	protected void onEdit() {
 		if (!isLocal) {
+			App.debug(material.getType().toString());
 			if(material.getType() == MaterialType.book){
 				((GeoGebraTubeAPIW) app.getLoginOperation()
 				        .getGeoGebraTubeAPI()).getBookItems(material.getId(),
@@ -559,9 +560,11 @@ public class MaterialListElement extends FlowPanel implements
 					        public void onLoaded(final List<Material> response,
 					                ArrayList<Chapter> meta) {
 						        if (response.size() != 1) {
-						        guiManager.getBrowseView().clearMaterials();
-						        guiManager.getBrowseView().onSearchResults(
-							                response, null);
+											// guiManager.getBrowseView().clearMaterials();
+											// guiManager.getBrowseView().onSearchResults(
+											// response, null);
+											openTubeWindow(
+													material.getEditUrl());
 						        } else {
 							        material = response.get(0);
 							        material.setSyncStamp(synced);
@@ -763,9 +766,11 @@ public class MaterialListElement extends FlowPanel implements
 
 	/**
 	 * Opens GeoGebraTube material in a new window
-	 * @param id material id
+	 * 
+	 * @param url
+	 *            GeoGebraTube url
 	 */
-	private native void openTubeWindow(String url)/*-{
+	native void openTubeWindow(String url)/*-{
 		$wnd.open(url);
 	}-*/;
 
