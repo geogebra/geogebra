@@ -191,7 +191,13 @@ public class Socket {
 	}
     
  
-    
+	/**
+	 * 
+	 * @return display angle with ground
+	 */
+	public double getDisplayAngle() {
+		return zsggb.getDisplayAngle();
+	}
  
     
 }

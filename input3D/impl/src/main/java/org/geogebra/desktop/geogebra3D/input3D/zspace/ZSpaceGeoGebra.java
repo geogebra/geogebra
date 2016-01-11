@@ -6,6 +6,7 @@ import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionTy
 
 import com.zspace.Sdk3;
 import com.zspace.ZSCoordinateSpace;
+import com.zspace.ZSDisplayAngle;
 import com.zspace.ZSDisplayType;
 import com.zspace.ZSEventListener;
 import com.zspace.ZSEventThresholds;
@@ -329,6 +330,7 @@ public class ZSpaceGeoGebra {
     
     private double toPixelRatio = 3600;
     
+	private long displayHandle;
     
     private void init(){
     	
@@ -339,17 +341,17 @@ public class ZSpaceGeoGebra {
 		int numDisplays = Sdk3.ZSGetNumDisplays(zContext);
 		// System.out.println("============= numDisplays = "+numDisplays);
 		for (int i = 0 ; i < numDisplays ; i++){
-			long handle = Sdk3.ZSFindDisplayByIndex(zContext, i);
-			ZSDisplayType type = Sdk3.ZSGetDisplayType(handle);
+			displayHandle = Sdk3.ZSFindDisplayByIndex(zContext, i);
+			ZSDisplayType type = Sdk3.ZSGetDisplayType(displayHandle);
 			
 			if (type.equals(ZSDisplayType.ZS_DISPLAY_TYPE_ZSPACE)){
-				ZSFloatWH displaySize = Sdk3.ZSGetDisplaySize(handle);
-				ZSIntXY resolution = Sdk3.ZSGetDisplayNativeResolution(handle);
+				ZSFloatWH displaySize = Sdk3.ZSGetDisplaySize(displayHandle);
+				ZSIntXY resolution = Sdk3.ZSGetDisplayNativeResolution(displayHandle);
 				toPixelRatio = resolution.getX() / displaySize.getW();
 				//				System.out.println("============= display width = "+displaySize.getW());
 				//				System.out.println("============= display resolution (x) = "+resolution.getX());
 				//				System.out.println("============= ratio = "+toPixelRatio);
-				System.out.println("============= monitor = "+Sdk3.ZSGetDisplayMonitorIndex(handle));
+				System.out.println("============= monitor = "+Sdk3.ZSGetDisplayMonitorIndex(displayHandle));
 			}			
 			
 		}
@@ -642,6 +644,21 @@ public class ZSpaceGeoGebra {
 	public boolean stylusDetected() {
 		return System.currentTimeMillis() < lastStylusDetection
 				+ TRACKER_NOT_DETECTED_MAX_DELAY;
+	}
+
+	/**
+	 * 
+	 * @return display angle with ground
+	 */
+	public double getDisplayAngle() {
+		try{
+		ZSDisplayAngle angle = Sdk3.ZSGetDisplayAngle(displayHandle);
+		return angle.getX();
+		} catch (Throwable e) {
+			System.out.println(
+					"ZSpace, problem getting display angle: " + e.getMessage());
+		}
+		return 60; // default angle for zStation 100
 	}
 
 }

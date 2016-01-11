@@ -243,7 +243,7 @@ public class InputZSpace3D implements Input3D {
 	}
 
 	public double getDefaultRotationXOY() {
-		return 60;
+		return socket.getDisplayAngle();
 	}
 
 	public boolean shouldStoreStereoToXML() {
