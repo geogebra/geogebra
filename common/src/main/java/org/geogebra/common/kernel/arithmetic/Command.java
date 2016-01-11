@@ -782,14 +782,15 @@ public class Command extends ValidExpression implements
 	 *            it's multiplication or function
 	 * @return parsed expression
 	 */
-	public static ExpressionNode xyzCAS(ExpressionNode en, int i, boolean mayCheck,ArrayList<ExpressionNode > undecided) {
+	public static ExpressionNode xyzCAS(ValidExpression en, int i,
+			boolean mayCheck, ArrayList<ExpressionNode> undecided) {
 			Operation[] ops = new Operation[]{Operation.XCOORD, Operation.YCOORD, Operation.ZCOORD};
-			Kernel k = en.getKernel();
+		Kernel k = en.wrap().getKernel();
 			
 			ExpressionNode en2;
 			if(en.evaluatesToList()){
 				  Command cmd = new Command(k, "Element", true, mayCheck );
-		          cmd.addArgument( en );
+			cmd.addArgument(en.wrap());
 		          //Element uses 1 for first element
 		          cmd.addArgument( new MyDouble(k,i+1).wrap() );
 		          en2 = cmd.wrap();

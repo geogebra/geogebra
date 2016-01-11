@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
@@ -3965,7 +3966,7 @@ public class Kernel {
 	}
 
 	final public ExpressionNode handleTrigPower(String image,
-			ExpressionNode en, String operation) {
+			ValidExpression en, String operation) {
 
 		if ("x".equals(operation) || "y".equals(operation)
 				|| "z".equals(operation)) {

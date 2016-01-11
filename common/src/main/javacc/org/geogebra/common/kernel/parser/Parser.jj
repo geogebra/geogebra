@@ -168,7 +168,7 @@ public class Parser implements ParserInterface{
     public ExpressionNode parseCmdExpression(String parseString) 
     throws ParseException {    
         myReInit(parseString );                           
-        ExpressionNode ret = expressionOrEquation();
+        ExpressionNode ret = expressionOrEquation().wrap();
         processUndecided();
         return ret;           
     }
@@ -669,15 +669,15 @@ ValidExpression command():
     Command c;
     Token t;
     String cmdName;
-    ExpressionNode en;
+    ValidExpression en;
 }
 {   
   (
        (t = <FUNCTION_LABEL>) // includes (
       { cmdName = t.image.substring(0,t.image.length()-1);
         c = new Command(kernel, cmdName, true, !ExternalCASParsing );    } 
-      (   ( en = expressionOrEquation()  { c.addArgument( en ); } )?
-          ( <COMMA> en = expressionOrEquation() { c.addArgument( en ); } )*
+      (   ( en = expressionOrEquation()  { c.addArgument( en.wrap() ); } )?
+          ( <COMMA> en = expressionOrEquation() { c.addArgument( en.wrap() ); } )*
       (")"|"]") )
       { if (GiacParsing)
       {
@@ -1021,19 +1021,18 @@ ExpressionNode expressionnode():
 /**
  *  expressionOrEquation =  equation | expressionnode 
  */
-ExpressionNode expressionOrEquation():
+ValidExpression expressionOrEquation():
 {
-    ExpressionNode en, rhs;
+  	ExpressionNode en;
+    ExpressionNode rhs = null;
 }
 { 
      en = expressionnode()
       (  <EQUAL> rhs = expressionnode()
-          {             
-              en = new ExpressionNode(kernel, new Equation(kernel, en, rhs)); 
-          }    
+            
       )?
   {                
-    return en;             
+    return  rhs == null ? en : new Equation(kernel, en, rhs);           
   }
 }
 
@@ -1820,7 +1819,8 @@ ExpressionValue myDouble():
  */
 ExpressionNode numberFunction():
 {
-    ExpressionNode en, en2, en3,en4;
+    ExpressionNode en2, en3,en4;
+    ValidExpression en;
     ExpressionValue ev;
     MyList myList;
     Token c, flabel, fvar1, fvar2;
@@ -1919,7 +1919,7 @@ ExpressionNode numberFunction():
         en = CommandDispatcherGiac.processCommand(funcName, myList, kernel);
         if (en != null)
         {  
-          return en;
+          return en.wrap();
         }
         }
       boolean forceCommand = c.image.charAt(c.image.length()-1)=='[';
