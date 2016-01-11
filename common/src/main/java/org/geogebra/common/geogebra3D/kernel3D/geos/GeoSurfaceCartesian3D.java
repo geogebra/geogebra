@@ -814,191 +814,145 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	}
 
-	private static final int GRADIENT_JUMPS = 10;
+	private static final int GRADIENT_JUMPS = 100;
 
 	// private static final int GRADIENT_SAMPLES = 8;
 
-	// private boolean findMinimumDistanceGradientConjugate(double x0, double
-	// y0,
-	// double z0,
-	// double vx, double vy, double vz,
-	// double[] uv) {
-	//
-	// double gcu = 0, gcv = 0;
-	// double gnorm0 = Double.NaN;
-	//
-	// for (int i = 0; i < GRADIENT_JUMPS; i++) {
-	// // calc current f(u,v) point
-	// xyz[0] = fun[0].evaluate(uv);
-	// xyz[1] = fun[1].evaluate(uv);
-	// xyz[2] = fun[2].evaluate(uv);
-	//
-	// // calculate derivatives values
-	// xyzDu[0] = fun1[0][0].evaluate(uv);
-	// xyzDu[1] = fun1[0][1].evaluate(uv);
-	// xyzDu[2] = fun1[0][2].evaluate(uv);
-	//
-	// xyzDv[0] = fun1[1][0].evaluate(uv);
-	// xyzDv[1] = fun1[1][1].evaluate(uv);
-	// xyzDv[2] = fun1[1][2].evaluate(uv);
-	//
-	// xyzDuu[0] = fun2[0][0][0].evaluate(uv);
-	// xyzDuu[1] = fun2[0][0][1].evaluate(uv);
-	// xyzDuu[2] = fun2[0][0][2].evaluate(uv);
-	//
-	// xyzDuv[0] = fun2[1][0][0].evaluate(uv);
-	// xyzDuv[1] = fun2[1][0][1].evaluate(uv);
-	// xyzDuv[2] = fun2[1][0][2].evaluate(uv);
-	//
-	// xyzDvu[0] = fun2[0][1][0].evaluate(uv);
-	// xyzDvu[1] = fun2[0][1][1].evaluate(uv);
-	// xyzDvu[2] = fun2[0][1][2].evaluate(uv);
-	//
-	// xyzDvv[0] = fun2[1][1][0].evaluate(uv);
-	// xyzDvv[1] = fun2[1][1][1].evaluate(uv);
-	// xyzDvv[2] = fun2[1][1][2].evaluate(uv);
-	//
-	// // // set norm^2 value
-	// // double nx = (xyz[2] - z0) * vx - (xyz[0] - x0) * vz;
-	// // double ny = (xyz[0] - x0) * vy - (xyz[1] - y0) * vx;
-	// // double nz = (xyz[1] - y0) * vz - (xyz[2] - z0) * vy;
-	//
-	// // calc gradient
-	// double gu = 2 * (xyzDu[2] * vx - xyzDu[0] * vz)
-	// * ((xyz[2] - z0) * vx - (xyz[0] - x0) * vz) // nx
-	// + 2
-	// * (xyzDu[0] * vy - xyzDu[1] * vx)
-	// * ((xyz[0] - x0) * vy - (xyz[1] - y0) * vx) // ny
-	// + 2 * (xyzDu[1] * vz - xyzDu[2] * vy)
-	// * ((xyz[1] - y0) * vz - (xyz[2] - z0) * vy); // nz
-	// double gv = 2
-	// * (xyzDv[2] * vx - xyzDv[0] * vz)
-	// * ((xyz[2] - z0) * vx - (xyz[0] - x0) * vz) // nx
-	// + 2
-	// * (xyzDv[0] * vy - xyzDv[1] * vx)
-	// * ((xyz[0] - x0) * vy - (xyz[1] - y0) * vx) // ny
-	// + 2 * (xyzDv[1] * vz - xyzDv[2] * vy)
-	// * ((xyz[1] - y0) * vz - (xyz[2] - z0) * vy); // nz
-	//
-	// // calc Hessien
-	// double huu = 2
-	// * (xyzDuu[2] * vx - xyzDuu[0] * vz)
-	// * ((xyz[2] - z0) * vx - (xyz[0] - x0) * vz) // nx
-	// + 2
-	// * (xyzDuu[0] * vy - xyzDuu[1] * vx)
-	// * ((xyz[0] - x0) * vy - (xyz[1] - y0) * vx) // ny
-	// + 2
-	// * (xyzDuu[1] * vz - xyzDuu[2] * vy)
-	// * ((xyz[1] - y0) * vz - (xyz[2] - z0) * vy) // nz
-	// + 2
-	// * (xyzDu[2] * vx - xyzDu[0] * vz)
-	// * (xyzDu[2] * vx - xyzDu[0] * vz) // nx
-	// + 2
-	// * (xyzDu[0] * vy - xyzDu[1] * vx)
-	// * (xyzDu[0] * vy - xyzDu[1] * vx) // ny
-	// + 2 * (xyzDu[1] * vz - xyzDu[2] * vy)
-	// * (xyzDu[1] * vz - xyzDu[2] * vy); // nz
-	// double huv = 2
-	// * (xyzDuv[2] * vx - xyzDuv[0] * vz)
-	// * ((xyz[2] - z0) * vx - (xyz[0] - x0) * vz) // nx
-	// + 2
-	// * (xyzDuv[0] * vy - xyzDuv[1] * vx)
-	// * ((xyz[0] - x0) * vy - (xyz[1] - y0) * vx) // ny
-	// + 2
-	// * (xyzDuv[1] * vz - xyzDuv[2] * vy)
-	// * ((xyz[1] - y0) * vz - (xyz[2] - z0) * vy) // nz
-	// + 2
-	// * (xyzDu[2] * vx - xyzDu[0] * vz)
-	// * (xyzDv[2] * vx - xyzDv[0] * vz) // nx
-	// + 2
-	// * (xyzDu[0] * vy - xyzDu[1] * vx)
-	// * (xyzDv[0] * vy - xyzDv[1] * vx) // ny
-	// + 2 * (xyzDu[1] * vz - xyzDu[2] * vy)
-	// * (xyzDv[1] * vz - xyzDv[2] * vy); // nz
-	// double hvv = 2
-	// * (xyzDvv[2] * vx - xyzDvv[0] * vz)
-	// * ((xyz[2] - z0) * vx - (xyz[0] - x0) * vz) // nx
-	// + 2
-	// * (xyzDvv[0] * vy - xyzDvv[1] * vx)
-	// * ((xyz[0] - x0) * vy - (xyz[1] - y0) * vx) // ny
-	// + 2
-	// * (xyzDvv[1] * vz - xyzDvv[2] * vy)
-	// * ((xyz[1] - y0) * vz - (xyz[2] - z0) * vy) // nz
-	// + 2
-	// * (xyzDv[2] * vx - xyzDv[0] * vz)
-	// * (xyzDv[2] * vx - xyzDv[0] * vz) // nx
-	// + 2
-	// * (xyzDv[0] * vy - xyzDv[1] * vx)
-	// * (xyzDv[0] * vy - xyzDv[1] * vx) // ny
-	// + 2 * (xyzDv[1] * vz - xyzDv[2] * vy)
-	// * (xyzDv[1] * vz - xyzDv[2] * vy); // nz
-	// double hvu = 2
-	// * (xyzDvu[2] * vx - xyzDvu[0] * vz)
-	// * ((xyz[2] - z0) * vx - (xyz[0] - x0) * vz) // nx
-	// + 2
-	// * (xyzDvu[0] * vy - xyzDvu[1] * vx)
-	// * ((xyz[0] - x0) * vy - (xyz[1] - y0) * vx) // ny
-	// + 2
-	// * (xyzDvu[1] * vz - xyzDvu[2] * vy)
-	// * ((xyz[1] - y0) * vz - (xyz[2] - z0) * vy) // nz
-	// + 2
-	// * (xyzDu[2] * vx - xyzDu[0] * vz)
-	// * (xyzDv[2] * vx - xyzDv[0] * vz) // nx
-	// + 2
-	// * (xyzDu[0] * vy - xyzDu[1] * vx)
-	// * (xyzDv[0] * vy - xyzDv[1] * vx) // ny
-	// + 2 * (xyzDu[1] * vz - xyzDu[2] * vy)
-	// * (xyzDv[1] * vz - xyzDv[2] * vy); // nz
-	//
-	//
-	// // best step
-	// double gnorm = gu * gu + gv * gv;
-	// if (Double.isNaN(gnorm0)) {
-	// gcu = gu;
-	// gcv = gv;
-	// }else{
-	// gcu *= gnorm / gnorm0;
-	// gcv *= gnorm / gnorm0;
-	// gcu += gu;
-	// gcv += gv;
-	// }
-	//
-	// // Hessien * gradient
-	// double Hgu = huu * gcu + hvu * gcv;
-	// double Hgv = huv * gcu + hvv * gcv;
-	//
-	//
-	// double d = (gu * gcu + gv * gcv) / (gcu * Hgu + gcv * Hgv);
-	//
-	// // new u,v
-	// double du = d * gu;
-	// double dv = d * gv;
-	// uv[0] -= du;
-	// uv[1] -= dv;
-	//
-	// // back to interval if needed
-	// if (uv[0] < getMinParameter(0)) {
-	// uv[0] = getMinParameter(0);
-	// } else if (uv[0] > getMaxParameter(0)) {
-	// uv[0] = getMaxParameter(0);
-	// }
-	// if (uv[1] < getMinParameter(1)) {
-	// uv[1] = getMinParameter(1);
-	// } else if (uv[1] > getMaxParameter(1)) {
-	// uv[1] = getMaxParameter(1);
-	// }
-	//
-	// if (Kernel.isZero(gnorm)) {
-	// return true;
-	// }
-	//
-	// gnorm0 = gnorm;
-	//
-	// }
-	//
-	// return false;
-	//
-	// }
+	private boolean findMinimumDistanceGradientConjugate(double x0, double y0,
+			double z0, double vx, double vy, double vz, double[] uv) {
+
+		double gcu = 0, gcv = 0;
+		double gnorm0 = Double.NaN;
+
+		for (int i = 0; i < GRADIENT_JUMPS; i++) {
+			// calc current f(u,v) point
+			xyz[0] = fun[0].evaluate(uv);
+			xyz[1] = fun[1].evaluate(uv);
+			xyz[2] = fun[2].evaluate(uv);
+
+			// calculate derivatives values
+			xyzDu[0] = fun1[0][0].evaluate(uv);
+			xyzDu[1] = fun1[0][1].evaluate(uv);
+			xyzDu[2] = fun1[0][2].evaluate(uv);
+
+			xyzDv[0] = fun1[1][0].evaluate(uv);
+			xyzDv[1] = fun1[1][1].evaluate(uv);
+			xyzDv[2] = fun1[1][2].evaluate(uv);
+
+			xyzDuu[0] = fun2[0][0][0].evaluate(uv);
+			xyzDuu[1] = fun2[0][0][1].evaluate(uv);
+			xyzDuu[2] = fun2[0][0][2].evaluate(uv);
+
+			xyzDuv[0] = fun2[1][0][0].evaluate(uv);
+			xyzDuv[1] = fun2[1][0][1].evaluate(uv);
+			xyzDuv[2] = fun2[1][0][2].evaluate(uv);
+
+			xyzDvu[0] = fun2[0][1][0].evaluate(uv);
+			xyzDvu[1] = fun2[0][1][1].evaluate(uv);
+			xyzDvu[2] = fun2[0][1][2].evaluate(uv);
+
+			xyzDvv[0] = fun2[1][1][0].evaluate(uv);
+			xyzDvv[1] = fun2[1][1][1].evaluate(uv);
+			xyzDvv[2] = fun2[1][1][2].evaluate(uv);
+
+			// we want to minimize (x,y,z)-to-line distance,
+			// i.e. norm of vector:
+			// (xyz[2] - z0) * vx - (xyz[0] - x0) * vz;
+			// (xyz[0] - x0) * vy - (xyz[1] - y0) * vx;
+			// (xyz[1] - y0) * vz - (xyz[2] - z0) * vy;
+
+			// help values
+			double nx = (xyz[2] - z0) * vx - (xyz[0] - x0) * vz;
+			double ny = (xyz[0] - x0) * vy - (xyz[1] - y0) * vx;
+			double nz = (xyz[1] - y0) * vz - (xyz[2] - z0) * vy;
+			double nxDu = xyzDu[2] * vx - xyzDu[0] * vz;
+			double nyDu = xyzDu[0] * vy - xyzDu[1] * vx;
+			double nzDu = xyzDu[1] * vz - xyzDu[2] * vy;
+			double nxDv = xyzDv[2] * vx - xyzDv[0] * vz;
+			double nyDv = xyzDv[0] * vy - xyzDv[1] * vx;
+			double nzDv = xyzDv[1] * vz - xyzDv[2] * vy;
+
+			// calc gradient /2
+			double gu = nxDu * nx // nx
+					+ nyDu * ny // ny
+					+ nzDu * nz; // nz
+			double gv = nxDv * nx // nx
+					+ nyDv * ny // ny
+					+ nzDv * nz; // nz
+
+			// calc Hessien /2
+			double huu = (xyzDuu[2] * vx - xyzDuu[0] * vz) * nx // nx
+					+ (xyzDuu[0] * vy - xyzDuu[1] * vx) * ny // ny
+					+ (xyzDuu[1] * vz - xyzDuu[2] * vy) * nz // nz
+					+ nxDu * nxDu // nx
+					+ nyDu * nyDu // ny
+					+ nzDu * nzDu; // nz
+			double huv = (xyzDuv[2] * vx - xyzDuv[0] * vz) * nx // nx
+					+ (xyzDuv[0] * vy - xyzDuv[1] * vx) * ny // ny
+					+ (xyzDuv[1] * vz - xyzDuv[2] * vy) * nz // nz
+					+ nxDu * nxDv // nx
+					+ nyDu * nyDv // ny
+					+ nzDu * nzDv; // nz
+			double hvv = (xyzDvv[2] * vx - xyzDvv[0] * vz) * nx // nx
+					+ (xyzDvv[0] * vy - xyzDvv[1] * vx) * ny // ny
+					+ (xyzDvv[1] * vz - xyzDvv[2] * vy) * nz // nz
+					+ nxDv * nxDv // nx
+					+ nxDv * nyDv // ny
+					+ nxDv * nzDv; // nz
+			double hvu = (xyzDvu[2] * vx - xyzDvu[0] * vz) * nx // nx
+					+ (xyzDvu[0] * vy - xyzDvu[1] * vx) * ny // ny
+					+ (xyzDvu[1] * vz - xyzDvu[2] * vy) * nz // nz
+					+ nxDu * nxDv // nx
+					+ nyDu * nyDv // ny
+					+ nzDu * nzDv; // nz
+
+			// best step
+			double gnorm = gu * gu + gv * gv;
+			if (Double.isNaN(gnorm0)) {
+				gcu = gu;
+				gcv = gv;
+			} else {
+				gcu *= gnorm / gnorm0;
+				gcv *= gnorm / gnorm0;
+				gcu += gu;
+				gcv += gv;
+			}
+
+			// Hessien * gradient
+			double Hgu = huu * gcu + hvu * gcv;
+			double Hgv = huv * gcu + hvv * gcv;
+
+			double d = (gu * gcu + gv * gcv) / (gcu * Hgu + gcv * Hgv);
+
+			// new u,v
+			double du = d * gu;
+			double dv = d * gv;
+			uv[0] -= du;
+			uv[1] -= dv;
+
+			// back to interval if needed
+			if (uv[0] < getMinParameter(0)) {
+				uv[0] = getMinParameter(0);
+			} else if (uv[0] > getMaxParameter(0)) {
+				uv[0] = getMaxParameter(0);
+			}
+			if (uv[1] < getMinParameter(1)) {
+				uv[1] = getMinParameter(1);
+			} else if (uv[1] > getMaxParameter(1)) {
+				uv[1] = getMaxParameter(1);
+			}
+
+			if (Kernel.isZero(gnorm)) {
+				return true;
+			}
+
+			gnorm0 = gnorm;
+
+		}
+
+		return false;
+
+	}
 
 	private boolean findMinimumDistanceGradient(double x0, double y0,
 			double z0, double vx, double vy, double vz, double[] uv) {
@@ -1117,7 +1071,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 		}
 
-		return true;
+		return false;
 
 	}
 
