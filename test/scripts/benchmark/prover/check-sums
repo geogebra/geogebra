@@ -25,9 +25,9 @@ n=166; if ((bg < $n));  then r "BotanaGiac,D" $bg $n 1; fi
 n=86; if ((e3a < $n));  then r "OpenGeoProver_Wu" $e3a $n 1; fi
 n=87; if ((ow < $n));   then r "OpenGeoProver_Wu,D" $ow $n 1; fi
 n=67; if ((e3b < $n));  then r "OpenGeoProver_Area" $e3b $n 1; fi
-n=155; if ((a < $n));   then r "Auto" $a $n 1; fi
+n=154; if ((a < $n));   then r "Auto" $a $n 1; fi
 n=166; if ((ad < $n));  then r "Auto,D" $ad $n 1; fi
 n=132; if ((w < $n));   then r "Web" $w $n 1; fi
-n=144; if ((wd < $n));  then r "Web,D" $wd $n 1; fi
+n=145; if ((wd < $n));  then r "Web,D" $wd $n 1; fi # midpoints-perpendiculars-are-collinear-ex266 works since Christmas 2015, Pappus is unstable
 
 exit $exitcode
