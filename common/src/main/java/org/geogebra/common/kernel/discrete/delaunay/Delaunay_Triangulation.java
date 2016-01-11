@@ -1080,7 +1080,11 @@ public class Delaunay_Triangulation {
 				return curr;
 			if (next_t.halfplane)
 				return next_t;
+			if (findnext1(p, next_t) == curr) {
+				throw new RuntimeException("Infinite loop");
+			}
 			curr = next_t;
+
 		}
 	}
 
