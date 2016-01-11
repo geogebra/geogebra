@@ -215,10 +215,12 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 	 */
 	public final void intersectConics3D(GeoConicND A, GeoConicND B,
 			GeoPoint3D[] P) {
-
+		if (!A.isDefined() || !B.isDefined()) {
+			setPointsUndefined(P);
+			return;
+		}
 		CoordSys csA = A.getCoordSys();
 		CoordSys csB = B.getCoordSys();
-
 		// check if coord sys are incident
 		Coords cross = csA.getNormal().crossProduct(csB.getNormal());
 		if (!cross.equalsForKernel(0, Kernel.MIN_PRECISION)) { // not same plane
