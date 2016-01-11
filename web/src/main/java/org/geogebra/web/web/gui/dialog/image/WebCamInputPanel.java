@@ -7,6 +7,9 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Panel for HTML5 webcam input
+ */
 public class WebCamInputPanel extends VerticalPanel {
 	
 	private SimplePanel inputWidget;
@@ -18,6 +21,10 @@ public class WebCamInputPanel extends VerticalPanel {
 	private AppW app;
 	private static final int MAX_CANVAS_WIDTH = 640;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public WebCamInputPanel(AppW app) {
 	    this.app = app;
 	    initGUI();
@@ -108,15 +115,25 @@ public class WebCamInputPanel extends VerticalPanel {
 		return canvas.toDataURL('image/png');
 	}-*/;
 
+	/**
+	 * Stop recording
+	 */
 	public native void stopVideo() /*-{
 		var stream = this.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::stream;
 		if (stream == null) {
 			return;
 		}
-		stream.stop();
+		if (stream.stop) {
+			stream.stop();
+		} else {
+			stream.getVideoTracks()[0].stop();
+		}
 		stream = null;
 	}-*/;
 
+	/**
+	 * @return screenshot as data URL (png)
+	 */
 	public String getImageDataURL() {
 		if (video == null) {
 			return null;
@@ -124,6 +141,9 @@ public class WebCamInputPanel extends VerticalPanel {
 		return shotcapture(video);
 	}
 
+	/**
+	 * Starts recording
+	 */
 	public void startVideo() {
 		stopVideo();
 		inputWidget.getElement().removeAllChildren();
@@ -134,10 +154,16 @@ public class WebCamInputPanel extends VerticalPanel {
 	    
     }
 
+	/**
+	 * @return screenshot width
+	 */
 	public int getCanvasWidth() {
 		return canvasWidth;
 	}
 
+	/**
+	 * @return screenshot height
+	 */
 	public int getCanvasHeight() {
 		return canvasHeight;
 	}
