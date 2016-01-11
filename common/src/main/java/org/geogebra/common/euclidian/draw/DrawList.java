@@ -49,7 +49,7 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
-	private static final int OPTIONSBOX_MIN_FONTSIZE = 13;
+	private static final int OPTIONSBOX_MIN_FONTSIZE = 8;
 	private static final int OPTIONSBOX_ITEM_GAP_EXTRA_SMALL = 15;
 	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL1 = 20;
 	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL2 = 25;
@@ -523,12 +523,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		g2.setFont(optionFont);
 		GTextLayout layout = getLayout(g2, getWidthestPlainItem(), optionFont);
 		int w = (int) (layout.getBounds().getWidth()
-				+ 3 * getOptionsItemHGap());
+				+ 2 * getOptionsItemHGap());
 
 		int gap = getOptionsItemGap();
-		int h = getTextHeight(g2, getWidthestPlainItem()) + gap;
+		int h = getTextHeight(g2, getWidthestPlainItem()) + 2 * gap;
 		int cols = view.getViewWidth() / w;
-		int rows = (int) ((view.getViewHeight() - 0.5 * gap) / h);
+		int rows = (view.getViewHeight() - gap) / h;
 		if (rows < 1) {
 			rows = 1;
 		}
@@ -565,13 +565,16 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				getLabelFont(), isLatexString(selectedText), false);
 
 		if (isOptionsVisible()) {
-			int max = getMaxCapacity(g2);
+			int max = 0;// getMaxCapacity(g2);
 			int fontSize = optionFont.getSize();
-
-			while (max < geoList.size() && fontSize > OPTIONSBOX_MIN_FONTSIZE) {
+			App.debug("[CAPACITY] first - cols: " + colCount + " rows: "
+					+ rowCount + " fontSize: " + fontSize + " pt max: " + max);
+			while (max < geoList.size() && fontSize > 1) {
 				fontSize--;
 				optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
 				max = getMaxCapacity(g2);
+				App.debug("[CAPACITY] cols: " + colCount + " rows: " + rowCount
+						+ " fontSize: " + fontSize + " pt max: " + max);
 			}
 
 			drawOptionLines(g2, 0, 0, false);
