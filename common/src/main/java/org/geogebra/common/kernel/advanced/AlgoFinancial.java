@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
 
 /**
  * Computes values corresponding to Excel's financial functions Rate, Nper, PMT,
@@ -276,18 +277,27 @@ public class AlgoFinancial extends AlgoElement {
 
 		UnivariateRealSolver rootPolisher = fact.newNewtonSolver();
 
+		RateFunction fun = new RateFunction(nper, pv, fv, pmt, pmtType);
+
 		double min = 0;
 		double max = 1;
 
 		double newtonRoot = Double.NaN;
 
-		RateFunction fun = new RateFunction(nper, pv, fv, pmt, pmtType);
+		if (geoGuess != null) {
+			rate = geoGuess.getValue();
+		} else {
+			// default starting value if Brent fails
+			rate = 0.1;
+		}
 
+		if (geoGuess == null) {
 		// Brent's method (Apache 2.2)
 		try {
 			double minSign = Math.signum(fun.value(min));
 			double maxSign = Math.signum(fun.value(max));
 
+				// quick and dirty look for interval with sign change
 			// sensible bound on rate (1000)
 			while (minSign == maxSign && max < 1000) {
 				max *= 2;
@@ -299,25 +309,32 @@ public class AlgoFinancial extends AlgoElement {
 			rate = rootFinder.solve(fun, min, max);
 			// App.error("brent rate = " + rate);
 			
-			if (Kernel.isEqual(rate, 1)) {
-				rate = 0.5;
+
+			} catch (Exception e) {
+				// we will still try Newton in this case
+				App.debug("problem with Brent Solver" + e.getMessage());
 			}
-
-			newtonRoot = rootPolisher.solve(fun, min, max, rate);
-
-			if (Math.abs(fun.value(newtonRoot)) < Math.abs(fun.value(rate))) {
-				rate = newtonRoot;
-				// App.error(
-				// "polished result from Newton is better: " + newtonRoot);
-			}
-
-			return true;
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
-		return false;
+		if (Kernel.isEqual(rate, 1) || !Double.isFinite(rate)) {
+			rate = 0.1;
+		}
+
+		try {
+			// App.debug("trying Newton with starting value " + rate);
+			newtonRoot = rootPolisher.solve(fun, min, max, rate);
+			if (Math.abs(fun.value(newtonRoot)) < Math.abs(fun.value(rate))) {
+				// App.error("polished result from Newton is better: \n" + rate
+				// + "\n" + newtonRoot);
+				rate = newtonRoot;
+			}
+		} catch (Exception e) {
+			App.debug("problem with Newton: " + e.getMessage());
+			return false;
+		}
+
+
+		return true;
 
 	}
 
