@@ -316,7 +316,8 @@ public class AlgoFinancial extends AlgoElement {
 			}
 		}
 
-		if (Kernel.isEqual(rate, 1) || !Double.isFinite(rate)) {
+		if (Kernel.isEqual(rate, 1) || Double.isInfinite(rate)
+				|| Double.isNaN(rate)) {
 			rate = 0.1;
 		}
 
