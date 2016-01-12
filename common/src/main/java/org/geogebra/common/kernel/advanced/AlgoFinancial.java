@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.advanced;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
 import org.geogebra.common.kernel.Construction;
@@ -175,8 +176,7 @@ public class AlgoFinancial extends AlgoElement {
 		switch (calcType) {
 
 		case RATE:
-			if (!(setNper() && setPmt() && setPV() && setFV() && setPmtType()
-					&& setGuess())) {
+			if (!(setNper() && setPmt() && setPV() && setFV() && setPmtType() && setGuess())) {
 				result.setUndefined();
 				return;
 			}
@@ -188,8 +188,7 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 
 		case NPER:
-			if (!(setRate() && setPmt() && setPV() && setFV()
-					&& setPmtType())) {
+			if (!(setRate() && setPmt() && setPV() && setFV() && setPmtType())) {
 				result.setUndefined();
 				return;
 			}
@@ -197,9 +196,9 @@ public class AlgoFinancial extends AlgoElement {
 				nper = Math.round(-(pv + fv) / pmt);
 			} else {
 				double pmt2 = pmt * (1 + rate * pmtType);
-				nper = Math
-						.round(Math.log((pmt2 - rate * fv) / (pmt2 + rate * pv))
-								/ Math.log(1 + rate));
+				nper = Math.round(Math.log((pmt2 - rate * fv)
+						/ (pmt2 + rate * pv))
+						/ Math.log(1 + rate));
 			}
 
 			if (nper <= 0) {
@@ -210,8 +209,7 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 
 		case PMT:
-			if (!(setRate() && setNper() && setPV() && setFV()
-					&& setPmtType())) {
+			if (!(setRate() && setNper() && setPV() && setFV() && setPmtType())) {
 				result.setUndefined();
 				return;
 			}
@@ -224,8 +222,7 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 
 		case PV:
-			if (!(setRate() && setNper() && setPmt() && setFV()
-					&& setPmtType())) {
+			if (!(setRate() && setNper() && setPmt() && setFV() && setPmtType())) {
 				result.setUndefined();
 				return;
 			}
@@ -238,8 +235,7 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 
 		case FV:
-			if (!(setRate() && setNper() && setPmt() && setPV()
-					&& setPmtType())) {
+			if (!(setRate() && setNper() && setPmt() && setPV() && setPmtType())) {
 				result.setUndefined();
 				return;
 			}
@@ -286,34 +282,51 @@ public class AlgoFinancial extends AlgoElement {
 
 		if (geoGuess != null) {
 			rate = geoGuess.getValue();
+
+			double dx = 0.001;
+
+			// look for sign-change around interval for Brent
+			min = Math.max(0, rate - dx);
+			max = Math.min(1, rate + dx);
+			double minSign = Math.signum(value(fun, min));
+			double maxSign = Math.signum(value(fun, max));
+
+			// sensible bound on rate (1000)
+			while (minSign == maxSign && dx < 1) {
+				dx *= 2;
+				min = Math.max(0, rate - dx);
+				max = Math.min(1, rate + dx);
+				minSign = Math.signum(value(fun, min));
+				maxSign = Math.signum(value(fun, max));
+			}
+
 		} else {
 			// default starting value if Brent fails
 			rate = 0.1;
-		}
 
-		if (geoGuess == null) {
-		// Brent's method (Apache 2.2)
-		try {
-			double minSign = Math.signum(fun.value(min));
-			double maxSign = Math.signum(fun.value(max));
+			// quick and dirty look for interval with sign change
+			double minSign = Math.signum(value(fun, min));
+			double maxSign = Math.signum(value(fun, max));
 
-				// quick and dirty look for interval with sign change
 			// sensible bound on rate (1000)
 			while (minSign == maxSign && max < 1000) {
 				max *= 2;
-				maxSign = Math.signum(fun.value(max));
+				maxSign = Math.signum(value(fun, max));
 			}
+
+		}
+
+		// Brent's method (Apache 2.2)
+		try {
 
 			// App.error("min = " + min + " max = " + max);
 
 			rate = rootFinder.solve(fun, min, max);
 			// App.error("brent rate = " + rate);
-			
 
-			} catch (Exception e) {
-				// we will still try Newton in this case
-				App.debug("problem with Brent Solver" + e.getMessage());
-			}
+		} catch (Exception e) {
+			// we will still try Newton in this case
+			App.debug("problem with Brent Solver" + e.getMessage());
 		}
 
 		if (Kernel.isEqual(rate, 1) || Double.isInfinite(rate)
@@ -334,7 +347,6 @@ public class AlgoFinancial extends AlgoElement {
 			return false;
 		}
 
-
 		return true;
 
 	}
@@ -342,6 +354,14 @@ public class AlgoFinancial extends AlgoElement {
 	// =============================================
 	// Test/set parameter values
 	// =============================================
+
+	private static double value(RateFunction fun, double min) {
+		try {
+			return fun.value(min);
+		} catch (FunctionEvaluationException e) {
+			return Double.NaN;
+		}
+	}
 
 	private boolean setRate() {
 		if (geoRate == null || !geoRate.isDefined()) {
