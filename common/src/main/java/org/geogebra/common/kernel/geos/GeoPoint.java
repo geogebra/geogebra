@@ -81,7 +81,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 2D Point
@@ -571,8 +570,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 						NumberValue xNum = getCoordNumber(xcoord);
 						NumberValue yNum = getCoordNumber(ycoord);
-						Log.debug(xNum);
-						Log.debug(yNum);
+
 						if (xNum instanceof GeoNumeric
 								&& ((GeoNumeric) xNum).isChangeable()) {
 							changeableCoordNumbers.add(xNum);
