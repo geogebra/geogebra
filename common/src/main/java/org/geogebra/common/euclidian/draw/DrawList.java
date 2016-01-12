@@ -534,7 +534,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		// + 2 * getOptionsItemHGap());
 		itemWidth = estimatePlainWidth(g2, 1);
 		int gap = getOptionsItemGap();
-		itemHeight = getFullTextHeight(g2, getWidthestPlainItem()) + gap;
+		itemHeight = (int) (getTallestPlainItem(g2) + gap);
 		maxCols = view.getViewWidth() / itemWidth;
 		maxRows = (view.getViewHeight()) / itemHeight;
 
@@ -579,11 +579,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			int fontSize = optionFont.getSize();
 			App.debug("[CAPACITY] first - cols: " + colCount + " rows: "
 					+ rowCount + " fontSize: " + fontSize + " pt max: " + max);
-			while (max < geoList.size() && fontSize > 1) {
+			while (max < geoList.size() && fontSize > OPTIONSBOX_MIN_FONTSIZE) {
 				fontSize--;
 				optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
 				max = getMaxCapacity(g2);
-				App.debug("[CAPACITY] cols: " + colCount + " rows: " + rowCount
+				App.debug("[-] cols: " + colCount + " rows: " + rowCount
 						+ " fontSize: " + fontSize + " pt max: " + max);
 			}
 			// g2.setColor(GColor.RED);
@@ -614,6 +614,21 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			if (!"".equals(text) && !isLatexString(text)
 					&& text.length() > result.length()) {
 				result = text;
+			}
+		}
+		return result;
+	}
+
+	private double getTallestPlainItem(GGraphics2D g2) {
+		double result = 0;
+		for (int i = 0; i < geoList.size(); i++) {
+			String text = geoList.get(i)
+					.toValueString(StringTemplate.defaultTemplate);
+			if (!"".equals(text) && !isLatexString(text)) {
+				double h = getFullTextHeight(g2, text);
+				if (h > result) {
+					result = h;
+				}
 			}
 		}
 		return result;
