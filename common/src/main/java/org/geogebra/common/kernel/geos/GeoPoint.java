@@ -81,6 +81,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 2D Point
@@ -570,12 +571,16 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 						NumberValue xNum = getCoordNumber(xcoord);
 						NumberValue yNum = getCoordNumber(ycoord);
-						if (xNum instanceof GeoNumeric) {
+						Log.debug(xNum);
+						Log.debug(yNum);
+						if (xNum instanceof GeoNumeric
+								&& ((GeoNumeric) xNum).isChangeable()) {
 							changeableCoordNumbers.add(xNum);
 						} else {
 							changeableCoordNumbers.add(null);
 						}
-						if (yNum instanceof GeoNumeric) {
+						if (yNum instanceof GeoNumeric
+								&& ((GeoNumeric) xNum).isChangeable()) {
 							changeableCoordNumbers.add(yNum);
 						} else {
 							changeableCoordNumbers.add(null);
@@ -624,7 +629,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 					.lookupLabel(ev.isGeoElement() ? ((GeoElement) ev)
 							.getLabel(StringTemplate.defaultTemplate) : ev
 							.toString(StringTemplate.defaultTemplate));
-			if (geo != null && geo.isGeoNumeric()) {
+			if (geo != null && geo.isGeoNumeric() && geo.isChangeable()) {
 				return (GeoNumeric) geo;
 			}
 			return null;
@@ -641,7 +646,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			// left branch needs to be a single number variable: get it
 			// e.g. a + x(D)
 			coordNumeric = (GeoNumeric) en.getLeft();
-
+			if (!coordNumeric.isChangeable()) {
+				return null;
+			}
 			// check that variables in right branch are all independent to avoid
 			// circular definitions
 			HashSet<GeoElement> rightVars = en.getRight().getVariables();
