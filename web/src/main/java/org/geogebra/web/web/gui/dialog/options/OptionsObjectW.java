@@ -195,10 +195,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			labelMode = new ListBox();
 			labelMode.setMultipleSelect(false);
 
-			// Borcherd
-
-			labelMode.setEnabled(showLabelCB.getValue());
-
 			showLabelCB.addClickHandler(new ClickHandler(){
 				@Override
 				public void onClick(ClickEvent event) {
@@ -210,7 +206,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 				@Override
 				public void onChange(ChangeEvent event) {
-					model.applyModeChanges(labelMode.getSelectedIndex());
+					model.applyModeChanges(labelMode.getSelectedIndex(), true);
 				}
 
 			});
@@ -239,10 +235,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			// set label visible checkbox
 			if (isEqualVal) {
 				showLabelCB.setValue(geo0.isLabelVisible());
-				labelMode.setEnabled(geo0.isLabelVisible());
 			} else {
 				showLabelCB.setValue(false);
-				labelMode.setEnabled(false);
 			}
 
 			// set label visible checkbox

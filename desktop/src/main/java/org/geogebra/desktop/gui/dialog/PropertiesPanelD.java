@@ -1146,6 +1146,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private JCheckBox showLabelCB;
 		private JComboBox labelModeCB;
 		private ShowLabelModel model;
+		private boolean ignoreEvents;
 
 		public LabelPanel() {
 			super();
@@ -1229,9 +1230,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 * action listener implementation for label mode combobox
 		 */
 		public void actionPerformed(ActionEvent e) {
+			if (ignoreEvents) {
+				return;
+			}
 			Object source = e.getSource();
 			if (source == labelModeCB) {
-				model.applyModeChanges(labelModeCB.getSelectedIndex());
+				showLabelCB.setSelected(true);
+				model.applyModeChanges(labelModeCB.getSelectedIndex(), true);
 			}
 		}
 
@@ -1261,18 +1266,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// set label visible checkbox
 			if (isEqualVal) {
 				showLabelCB.setSelected(geo0.isLabelVisible());
-				labelModeCB.setEnabled(geo0.isLabelVisible());
 			} else {
 				showLabelCB.setSelected(false);
-				labelModeCB.setEnabled(false);
 			}
-
+			ignoreEvents = true;
 			// set label visible checkbox
 			if (isEqualMode)
 				labelModeCB.setSelectedIndex(Math.min(geo0.getLabelMode(), 3));
 			else
 				labelModeCB.setSelectedItem(null);
-
+			ignoreEvents = false;
 			// locus in selection
 			labelModeCB.setVisible(model.isNameValueShown());
 
