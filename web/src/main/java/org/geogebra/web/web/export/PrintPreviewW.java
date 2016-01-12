@@ -10,7 +10,6 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -22,6 +21,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -32,6 +32,23 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	private Button btCancel;
 	ListBox m_cbView;
 	FlowPanel printPanel;
+	/**
+	 * printable width at portrait orientation
+	 */
+	public static int PWIDTH = 900;
+	/**
+	 * printable height at portrait orientation
+	 */
+	public static int PHEIGHT = 1000;
+	/**
+	 * printable width at landscape orientation
+	 */
+	public static int LWIDTH = 1200;
+	/**
+	 * printable height at landscape orientation
+	 */
+	public static int LHEIGHT = 500;
+
 
 	public PrintPreviewW(AppW appl) {
 		super(true, true, appl.getPanel());
@@ -45,6 +62,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	protected void createGUI() {
 		printPanel = new FlowPanel();
 		printPanel.setStyleName("printPanel");
+		RootPanel.get().add(printPanel);
 
 		VerticalPanel centerPanel = new VerticalPanel();
 
@@ -124,17 +142,10 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 			public void run(int viewID, String viewName) {
 				if (app.getPlain(viewName).equals(printableView)) {
 					
-					final List<Widget> printables = getPrintables(viewID, app);
-					printPanel.clear();
-					for (int i = 0; i < printables.size(); i++) {
-						Widget printableWidget = printables.get(i);
-						if(i>0){
-							printableWidget.addStyleName("pagebreak");
-						}
-						printPanel.add(printables.get(i));
-					}
-					Document.get().getBody()
-							.appendChild(printPanel.getElement());
+
+
+					getPrintables(viewID, app,
+							printPanel);
 
 				}
 			}
@@ -143,7 +154,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 	}
 
-	static List<Widget> getPrintables(int viewID, AppW app) {
+	static List<Widget> getPrintables(int viewID, AppW app, FlowPanel pPanel) {
 		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
 		PrintableW view;
 		if (viewID == App.VIEW_CAS) {
@@ -163,7 +174,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 			view = app.getEuclidianView1();
 		}
 
-		return view.getPrintable();
+		return view.getPrintable(pPanel);
 	}
 
 }

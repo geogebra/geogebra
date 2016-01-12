@@ -36,6 +36,7 @@ import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextInputCell;
 import com.google.gwt.cell.client.ValueUpdater;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
@@ -1013,11 +1014,12 @@ myCell) {
 	 *            table, which will be added the print preview
 	 * @return
 	 */
-	public CellTable<RowData> getTable(Integer row) {
-		CellTable<RowData> previewTable = new CellTable<RowData>(data
+	public CellTable<RowData> getTable(Integer row, FlowPanel printPanel) {
+		final CellTable<RowData> previewTable = new CellTable<RowData>(data
 				.getrowList().size());
 		addColumnsForTable(previewTable);
 		previewTable.addStyleName("previewTable");
+		previewTable.addStyleName("pagebreakafter");
 
 		int numberOfRows = 10;
 		if (row + numberOfRows > data.getrowList().size()) {
@@ -1025,21 +1027,36 @@ myCell) {
 		}
 
 		previewTable.setRowCount(numberOfRows);
+		previewTable.setVisibleRange(0, numberOfRows);
 		previewTable.setRowData(0,
 				data.getrowList().subList(row, row + numberOfRows));
-		previewTable.setVisibleRange(0, numberOfRows);
+
+		printPanel.add(previewTable);
+
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				App.debug("pT rowcount: " + previewTable.getRowCount());
+				App.debug("pT bodyheight" + previewTable.getBodyHeight());
+				App.debug("pT headerheight" + previewTable.getHeaderHeight());
+				App.debug("pT offsetheight" + previewTable.getOffsetHeight());
+				App.debug("pT clientheight: "
+						+ previewTable.getElement().getClientHeight());
+				App.debug("pT element style height: "
+						+ previewTable.getElement().getStyle().getHeight());
+			}
+		});
 
 		return previewTable;
 	}
 
-	public List<Widget> getPrintable() {
+	public List<Widget> getPrintable(FlowPanel printPanel) {
 		CellTable<RowData> previewTable;
 		Integer row = 0;
 
 		Widget[] printableList = {};
 
 		while (row < data.getrowList().size()) {
-			previewTable = getTable(row);
+			previewTable = getTable(row, printPanel);
 			printableList[printableList.length] = previewTable;
 			row += previewTable.getRowCount();
 		}

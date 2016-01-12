@@ -6065,7 +6065,7 @@ body.application[dir=rtl] .deleteAlgebra {
    ######################################## */
  
 .previewTable{
-	width: 800px;
+	font-size: 30px;
 }
 
 @media screen {
@@ -6076,10 +6076,10 @@ body.application[dir=rtl] .deleteAlgebra {
 	}
 }
 
-	.pagebreak{
-		display: block;
-		page-break-before: always;	
-	}
+.pagebreakafter{
+	display: block;
+	page-break-after: always;	
+}
 
 @media print {
 	
@@ -6101,5 +6101,27 @@ body.application[dir=rtl] .deleteAlgebra {
 //		left: 0px !important;
 	}	
 	
+	@page{
+		margin: 2cm;
+	}
+	
 }
+
+/*
+@media print and (orientation:portrait){		
+ 	.printPanel{
+		color: red;
+		height:1000px;
+   		width:900px;
+	}
+}
+
+@media print and (orientation:landscape){		
+ 	.printPanel{
+		color: green;
+		height:500px;
+   		width:1200px;
+	}
+}
+*/
 

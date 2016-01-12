@@ -694,4 +694,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		printableList[0] = new Label("Data analysis View");
 		return Arrays.asList(printableList);
 	}
+
+	public List<Widget> getPrintable(FlowPanel pPanel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

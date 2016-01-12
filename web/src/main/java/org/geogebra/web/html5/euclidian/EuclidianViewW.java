@@ -73,6 +73,7 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -1265,6 +1266,11 @@ public class EuclidianViewW extends EuclidianView implements
 
 	public void cancelBlur() {
 		CancelEventTimer.disableBlurEvent();
+	}
+
+	public List<Widget> getPrintable(FlowPanel pPanel) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
