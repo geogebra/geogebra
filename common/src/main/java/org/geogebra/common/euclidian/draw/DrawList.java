@@ -100,6 +100,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int viewHeight = 0;
 	// private boolean allPlain;
 	private int viewWidth = 0;
+	private int allRowHeights;
+	private int itemWidth;
+	private int itemHeight;
 
 	/**
 	 * Creates new drawable list
@@ -520,15 +523,19 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private int getMaxCapacity(GGraphics2D g2) {
-		g2.setFont(optionFont);
-		GTextLayout layout = getLayout(g2, getWidthestPlainItem(), optionFont);
-		int w = (int) (layout.getBounds().getWidth()
-				+ 2 * getOptionsItemHGap());
 
+		g2.setFont(optionFont);
+		//
+		// GTextLayout layout = getLayout(g2, getWidthestPlainItem(),
+		// optionFont);
+		// itemWidth = (int) (layout.getBounds().getWidth()
+		// + 2 * getOptionsItemHGap());
+		itemWidth = estimatePlainWidth(g2, 1);
 		int gap = getOptionsItemGap();
-		int h = getTextHeight(g2, getWidthestPlainItem()) + 2 * gap;
-		int cols = view.getViewWidth() / w;
-		int rows = (view.getViewHeight() - gap) / h;
+		itemHeight = getTextHeight(g2, getWidthestPlainItem()) + gap;
+		int cols = view.getViewWidth() / itemWidth;
+		int rows = (view.getViewHeight() - gap) / itemHeight;
+
 		if (rows < 1) {
 			rows = 1;
 		}
@@ -539,6 +546,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			colCount++;
 		}
 
+		allRowHeights = (rowCount + 1) * itemHeight;
 		return cols * rows;
 	}
 
@@ -576,7 +584,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				App.debug("[CAPACITY] cols: " + colCount + " rows: " + rowCount
 						+ " fontSize: " + fontSize + " pt max: " + max);
 			}
-
+			// g2.setColor(GColor.RED);
+			// for (int j = 0; j < rowCount; j++) {
+			// for (int i = 0; i < colCount; i++) {
+			// g2.drawRect(i * itemWidth, j * itemHeight, itemWidth,
+			// itemHeight);
+			// }
+			//
+			// }
 			drawOptionLines(g2, 0, 0, false);
 		}
 
@@ -735,8 +750,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
 		int viewBottom = view.getViewHeight();
 
-		if (optTop + optionsHeight > viewBottom) {
-			optTop = viewBottom - optionsHeight - OPTIONBOX_COMBO_GAP;
+		if (viewBottom - optTop < allRowHeights) {
+			optTop = viewBottom - allRowHeights - OPTIONBOX_COMBO_GAP;
 			int gap = getOptionsItemGap() / 2;
 			if (optTop < gap) {
 				optTop = gap;
@@ -948,19 +963,21 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			}
 			optionItems.add(itemRect);
 
-			if (draw && hovered && itemsTo > i) {
+			if (draw && itemsTo > i) {
 				int rx = (int) (itemRect.getX());
 				int ry = (int) (itemRect.getY());
 				int rw = (int) (itemRect.getWidth());
 				int rh = (int) (itemRect.getHeight());
 
-				g2.setPaint(GColor.LIGHT_GRAY);
+				if (hovered) {
+					g2.setPaint(GColor.LIGHT_GRAY);
 
-				g2.fillRoundRect(rx, ry, rw, rh, 4, 4);
+					g2.fillRoundRect(rx, ry, rw, rh, 4, 4);
+				}
 
 				g2.setPaint(GColor.GRAY);
 
-				g2.drawRoundRect(rx, ry, rw, rh, 4, 4);
+				// g2.drawRoundRect(rx, ry, rw, rh, 4, 4);
 
 				g2.setPaint(geoList.getObjectColor());
 				drawTextLine(g2, true, left, rowTop, text, optionFont, latex,
