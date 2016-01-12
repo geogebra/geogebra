@@ -291,7 +291,7 @@ public class AlgoFinancial extends AlgoElement {
 			double minSign = Math.signum(value(fun, min));
 			double maxSign = Math.signum(value(fun, max));
 
-			// sensible bound on rate (1000)
+			// sensible bound on rate (between 0 and 1)
 			while (minSign == maxSign && dx < 1) {
 				dx *= 2;
 				min = Math.max(0, rate - dx);
