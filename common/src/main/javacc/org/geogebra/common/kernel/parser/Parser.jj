@@ -1983,7 +1983,7 @@ ExpressionNode numberFunction():
               Command cmd = new Command(kernel, funcName, true, !ExternalCASParsing );
               for (int i=0; i < myList.size(); i++)
               {
-                cmd.addArgument((ExpressionNode) myList.getListElement(i));
+                cmd.addArgument(myList.getListElement(i).wrap());
               }
               return new ExpressionNode(kernel, cmd);                  
             
