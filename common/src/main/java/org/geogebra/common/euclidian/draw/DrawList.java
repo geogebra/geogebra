@@ -103,6 +103,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int allRowHeights;
 	private int itemWidth;
 	private int itemHeight;
+	private int maxCols;
+	private int maxRows;
 
 	/**
 	 * Creates new drawable list
@@ -532,22 +534,22 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		// + 2 * getOptionsItemHGap());
 		itemWidth = estimatePlainWidth(g2, 1);
 		int gap = getOptionsItemGap();
-		itemHeight = getTextHeight(g2, getWidthestPlainItem()) + gap;
-		int cols = view.getViewWidth() / itemWidth;
-		int rows = (view.getViewHeight() - gap) / itemHeight;
+		itemHeight = getFullTextHeight(g2, getWidthestPlainItem()) + gap;
+		maxCols = view.getViewWidth() / itemWidth;
+		maxRows = (view.getViewHeight()) / itemHeight;
 
-		if (rows < 1) {
-			rows = 1;
+		if (maxRows < 1) {
+			maxRows = 1;
 		}
 		int size = geoList.size();
-		rowCount = size < rows ? size : rows;
+		rowCount = size < maxRows ? size : maxRows;
 		colCount = (size / rowCount);
 		if (colCount * rowCount < size) {
 			colCount++;
 		}
 
 		allRowHeights = (rowCount + 1) * itemHeight;
-		return cols * rows;
+		return maxCols * maxRows;
 	}
 
 
@@ -585,8 +587,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 						+ " fontSize: " + fontSize + " pt max: " + max);
 			}
 			// g2.setColor(GColor.RED);
-			// for (int j = 0; j < rowCount; j++) {
-			// for (int i = 0; i < colCount; i++) {
+			// for (int j = 0; j < maxRows; j++) {
+			// for (int i = 0; i < maxCols; i++) {
 			// g2.drawRect(i * itemWidth, j * itemHeight, itemWidth,
 			// itemHeight);
 			// }
