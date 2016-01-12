@@ -526,7 +526,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		boolean ret = (num1 instanceof GeoNumeric && ((GeoNumeric) num1)
 				.isChangeable())
-				&& (num2 instanceof GeoNumeric
+				|| (num2 instanceof GeoNumeric
 						&& ((GeoNumeric) num2)
 						.isChangeable());
 
