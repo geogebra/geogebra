@@ -788,7 +788,15 @@ public class RendererImplShadersElements implements
 	@Override
 	public void setMatrixView() {
 
-		tmpMatrix1.setMul(projectionMatrix, view3D.getToScreenMatrix());
+		if (renderer.isExportingImageEquirectangular()) {
+			tmpMatrix2.set(view3D.getToScreenMatrix());
+			tmpMatrix2.set(3, 4,
+					tmpMatrix2.get(3, 4) + renderer.getEyeToScreenDistance());
+			tmpMatrix1.setMul(projectionMatrix, tmpMatrix2);
+		} else {
+			tmpMatrix1.setMul(projectionMatrix, view3D.getToScreenMatrix());
+		}
+
 		tmpMatrix1.getForGL(tmpFloat16);
 
 		jogl.getGL2ES2().glUniformMatrix4fv(matrixLocation, 1, false,
@@ -811,9 +819,16 @@ public class RendererImplShadersElements implements
 	@Override
 	public void initMatrix() {
 
-		tmpMatrix1.setMul(projectionMatrix,
-				tmpMatrix2.setMul(view3D.getToScreenMatrix(),
-						renderer.getMatrix()));
+		if (renderer.isExportingImageEquirectangular()) {
+			tmpMatrix1.set(view3D.getToScreenMatrix());
+			tmpMatrix1.set(3, 4,
+					tmpMatrix1.get(3, 4) + renderer.getEyeToScreenDistance());
+			tmpMatrix2.setMul(tmpMatrix1, renderer.getMatrix());
+		} else {
+			tmpMatrix2.setMul(view3D.getToScreenMatrix(), renderer.getMatrix());
+		}
+
+		tmpMatrix1.setMul(projectionMatrix, tmpMatrix2);
 		tmpMatrix1.getForGL(tmpFloat16);
 
 		jogl.getGL2ES2().glUniformMatrix4fv(matrixLocation, 1, false,

@@ -212,6 +212,22 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	}
 
 	@Override
+	protected void exportImageEquirectangular() {
+
+		setExportImage();
+
+		if (bi == null) {
+			App.error("image null");
+		} else {
+			org.geogebra.desktop.gui.util.ImageSelection imgSel = new org.geogebra.desktop.gui.util.ImageSelection(
+					bi);
+			Toolkit.getDefaultToolkit().getSystemClipboard()
+					.setContents(imgSel, null);
+		}
+		endNeedExportImage();
+	}
+
+	@Override
 	public void dispose(GLAutoDrawable arg0) {
 		// NOTHING TO DO HERE -- NEEDED TO AVOID ERRORS IN INSTALLED/PORTABLE
 		// VERSIONS
@@ -640,14 +656,11 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	private int fboID, fboColorTextureID, fboDepthTextureID;
 	private int fboWidth = 1, fboHeight = 1;
 	private int oldRight, oldLeft, oldTop, oldBottom;
-	protected float fboScale = 1f;
-	
 	
 	@Override
 	final protected void selectFBO() {
 		
 		if (fboID < 0){
-			fboScale = 1f;
 			view3D.setFontScale(1);
 			return;
 		}
@@ -684,16 +697,21 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	@Override
 	final protected void needExportImage(double scale, int w, int h) {
 		
-		fboScale = (float) scale;
 		view3D.setFontScale(scale);
-		fboWidth = w;
-		fboHeight = h;
+		setExportImageDimension(w, h);
 
 		needExportImage = true;
 		display();
 
 	}
 	
+	@Override
+	final protected void setExportImageDimension(int w, int h) {
+		fboWidth = w;
+		fboHeight = h;
+
+	}
+
 	private void endNeedExportImage(){
 		needExportImage = false;
 

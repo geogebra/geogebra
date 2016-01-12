@@ -1897,5 +1897,14 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		// TODO
 	}
 
+	@Override
+	final protected void setExportImageDimension(int w, int h) {
+		// TODO
+	}
+
+	@Override
+	protected void exportImageEquirectangular() {
+		// TODO
+	}
 
 }

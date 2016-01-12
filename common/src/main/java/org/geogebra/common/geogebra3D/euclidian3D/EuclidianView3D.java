@@ -3584,6 +3584,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	final static public int PROJECTION_PERSPECTIVE = 1;
 	final static public int PROJECTION_GLASSES = 2;
 	final static public int PROJECTION_OBLIQUE = 3;
+	final static public int PROJECTION_EQUIRECTANGULAR = 4;
 
 	private int projection = PROJECTION_ORTHOGRAPHIC;
 
@@ -3654,10 +3655,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		projectionPerspectiveEyeDistance[0] = distanceLeft;
 		projectionPerspectiveEyeDistance[1] = distanceRight;
 		if (projection != PROJECTION_PERSPECTIVE
-				&& projection != PROJECTION_GLASSES)
+				&& projection != PROJECTION_GLASSES
+				&& projection != PROJECTION_EQUIRECTANGULAR)
 			projection = PROJECTION_PERSPECTIVE;
 		updateProjectionPerspectiveEyeDistance();
-		if (projection == PROJECTION_GLASSES) { // also update eyes separation
+		if (projection == PROJECTION_GLASSES
+				|| projection == PROJECTION_EQUIRECTANGULAR) { // also update
+																// eyes
+																// separation
 			renderer.updateGlassesValues();
 		}
 	}
@@ -3685,6 +3690,50 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		}
 		setProjectionValues(PROJECTION_GLASSES);
 		setTransparentCursor();
+	}
+
+	public void setProjectionEquirectangular() {
+
+		// updateProjectionPerspectiveEyeDistance();
+		double d = renderer.getVisibleDepth() / 2 + 100;
+		renderer.setNear(d, d);
+		renderer.updateGlassesValues();
+
+		eyeX[0] = 0;
+		eyeX[1] = 0;
+
+		if (isPolarized()) {
+			renderer.setWaitForSetStencilLines();
+		} else {
+			renderer.setWaitForDisableStencilLines();
+		}
+		setProjectionValues(PROJECTION_EQUIRECTANGULAR);
+		setTransparentCursor();
+
+		// set view origin
+		setXZero(0);
+		setYZero(0);
+		setZZero(0);
+
+		// no horizontal angle
+		b = 0;
+
+		// update
+		updateMatrix();
+		setViewChangedByTranslate();
+		setWaitForUpdate();
+
+	}
+
+	public void setEquirectangularAngle(double angle) {
+
+		// change angle
+		a = angle;
+
+		// update
+		updateMatrix();
+		setViewChangedByRotate();
+		setWaitForUpdate();
 	}
 
 	private boolean isGlassesGrayScaled = true;
