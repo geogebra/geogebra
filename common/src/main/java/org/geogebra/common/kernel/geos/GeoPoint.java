@@ -580,7 +580,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 							changeableCoordNumbers.add(null);
 						}
 						if (yNum instanceof GeoNumeric
-								&& ((GeoNumeric) xNum).isChangeable()) {
+								&& ((GeoNumeric) yNum).isChangeable()) {
 							changeableCoordNumbers.add(yNum);
 						} else {
 							changeableCoordNumbers.add(null);
