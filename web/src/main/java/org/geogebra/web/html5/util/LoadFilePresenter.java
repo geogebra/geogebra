@@ -176,17 +176,9 @@ public class LoadFilePresenter {
 	}
 
 	private void finishEmptyLoading(AppW app, Perspective p) {
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().getLayout()
-		        .setPerspectives(app.getTmpPerspectives(), p);
-		}
-		// default layout doesn't have a Graphics View 2
-		app.getEuclidianViewpanel().deferredOnResize();
+
 
 		// code moved here from AppWapplication.afterCoreObjectsInited - end
-
-		app.appSplashCanNowHide();
-
 		Storage stockStore = null;
 
 		stockStore = Storage.getLocalStorageIfSupported();
@@ -202,6 +194,14 @@ public class LoadFilePresenter {
 
 		readObjectDefaults(app, stockStore);
 
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().getLayout()
+					.setPerspectives(app.getTmpPerspectives(), p);
+		}
+		// default layout doesn't have a Graphics View 2
+		app.getEuclidianViewpanel().deferredOnResize();
+
+		app.appSplashCanNowHide();
 		if (app.has(Feature.AV_EXTENSIONS)) {
 			app.getSettings().getAlgebra()
 					.setTreeMode(SortMode.ORDER.ordinal());
