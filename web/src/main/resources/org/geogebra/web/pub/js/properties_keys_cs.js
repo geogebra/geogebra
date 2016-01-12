@@ -2296,7 +2296,7 @@ __GGB__keysVar.cs.plain = {
     "CellAisNotDefined": "Bu\u0148ka %0 nen\xed definov\xe1na",
     "CenterOfA": "St\u0159ed %0",
     "CentroidOfA": "T\u011b\u017ei\u0161t\u011b %0",
-    "CheckOutTutorial": "Check out our %0 tutorial!",
+    "CheckOutTutorial": "P\u0159e\u010dt\u011bte si rychl\xfd \xfavod do aplikace %0 !",
     "CheckedNumerically": "(zkontrolov\xe1no numericky)",
     "ChiSquaredContribution": "P\u0159\xedsp\u011bvek k \u03a7\xb2",
     "ChooseColor": "Vyberte barvu",
