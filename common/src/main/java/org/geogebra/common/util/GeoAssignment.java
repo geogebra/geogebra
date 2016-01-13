@@ -1,6 +1,7 @@
 package org.geogebra.common.util;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -83,13 +84,15 @@ public class GeoAssignment extends Assignment {
 			boolean oldSilentMode = cons.getKernel().isSilentMode();
 			cons.getKernel().setSilentMode(true);
 
-			TreeSet<GeoElement> possibleOutputGeos = new TreeSet<GeoElement>();
+			TreeSet<GeoElement> possibleOutputGeos = new TreeSet<GeoElement>(
+					Collections.reverseOrder());
 
 			// find all possible inputgeos and all outputgeos that match the
 			// type of
 			// the macro
 			TreeSet<GeoElement> sortedSet = cons
 					.getGeoSetNameDescriptionOrder();
+
 			Iterator<GeoElement> it = sortedSet.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
@@ -195,8 +198,15 @@ public class GeoAssignment extends Assignment {
 		boolean mayAdjustMoveableOutputs = adjustMoveableOutputs(macroOutput,
 				possibleOutput);
 		if (checkOp.equals("AreEqual")) {
+			// GeoElement root = new AlgoAreEqual(cons, macroOutput,
+			// possibleOutput[i]).getOutput()[0];
+			//
+			// AlgoProve algoProve = new AlgoProve(cons, null, root);
 			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
 					: Result.WRONG);
+			// partRes.add(algoProve.getGeoBoolean().getBoolean() ?
+			// Result.CORRECT
+			// : Result.WRONG);
 		} else if (checkOp.equals("==")) {
 			partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
 					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
