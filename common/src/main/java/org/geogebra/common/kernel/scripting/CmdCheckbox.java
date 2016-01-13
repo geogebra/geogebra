@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -37,10 +38,11 @@ public class CmdCheckbox extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if (arg[0].isGeoText())
+			if (arg[0].isGeoText()) {
 				caption = ((GeoText) arg[0]).getTextString();
-			else
+			} else {
 				throw argErr(app, c.getName(), arg[0]);
+			}
 			if (arg[1].isGeoList()) {
 				geosToHide = (GeoList) arg[1];
 			} else
@@ -48,9 +50,9 @@ public class CmdCheckbox extends CommandProcessor {
 			break;
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoText())
+			if (arg[0].isGeoText()) {
 				caption = ((GeoText) arg[0]).getTextString();
-			else if (arg[0].isGeoList()) {
+			} else if (arg[0].isGeoList()) {
 				geosToHide = (GeoList) arg[0];
 			} else
 				throw argErr(app, c.getName(), arg[0]);
@@ -61,10 +63,26 @@ public class CmdCheckbox extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
-		GeoBoolean gb = new GeoBoolean(app.getKernel().getConstruction());
-		gb.setValue(true);
-		gb.setEuclidianVisible(true);
-		gb.setLabel(c.getLabel());
+
+		String label = c.getLabel();
+
+		GeoElement geo = cons.lookupLabel(label);
+
+		if (geo == null) {
+			geo = new GeoBoolean(app.getKernel().getConstruction());
+			((GeoBoolean) geo).setValue(true);
+			geo.setEuclidianVisible(true);
+			geo.setLabel(c.getLabel());
+		}
+
+		if (!geo.isGeoBoolean()) {
+			// invalid input
+			app.showError("InvalidInput",
+					label + " = " + c.toString(StringTemplate.defaultTemplate));
+			return new GeoElement[] { null };
+		}
+
+		GeoBoolean gb = (GeoBoolean) geo;
 
 		if (caption != null) {
 			gb.setLabelVisible(true);
@@ -74,8 +92,9 @@ public class CmdCheckbox extends CommandProcessor {
 		try {
 
 			if (geosToHide != null)
-				for (int i = 0; i < geosToHide.size(); i++)
+				for (int i = 0; i < geosToHide.size(); i++) {
 					geosToHide.get(i).setShowObjectCondition(gb);
+				}
 		} catch (CircularDefinitionException e) {
 			app.showError("CircularDefinition");
 		}
