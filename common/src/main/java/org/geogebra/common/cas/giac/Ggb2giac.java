@@ -96,6 +96,10 @@ public class Ggb2giac {
 				+ " ? ) ");
 
 		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
+
+		// not supported in CAS
+		p("CopyFreeObject.1", "?");
+
 		p("Covariance.2", "covariance(%0,%1)");
 		p("Covariance.1", "normal(covariance(%0))");
 
