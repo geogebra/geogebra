@@ -191,8 +191,8 @@ import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.FrameCollector;
-import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.ImageManagerD;
+import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.Normalizer;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -4364,7 +4364,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		// don't remove, useful
-		App.printStacktrace("");
+		Log.printStacktrace("");
 
 		// make sure splash screen not showing (will be in front)
 		if (GeoGebra.splashFrame != null) {

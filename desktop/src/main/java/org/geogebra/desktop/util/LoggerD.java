@@ -101,4 +101,13 @@ public class LoggerD extends org.geogebra.common.util.debug.Log {
 			return;
 		}
 	}
+
+	@Override
+	public void doPrintStacktrace(String message) {
+		try {
+			throw new Exception(message == null ? "null" : message.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

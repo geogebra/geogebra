@@ -1113,24 +1113,6 @@ public abstract class App implements UpdateSelection {
 	protected abstract void initGuiManager();
 
 	/**
-	 * Prints a stacktrace (used for debugging)
-	 * 
-	 * @author Michael Borcherds
-	 * @param message
-	 *            message to appear on top of the stacktrace
-	 */
-	public static void printStacktrace(Object message) {
-		if(Log.logger != null){
-			Log.logger.printStacktrace(message == null ? "null" : message.toString());
-		}
-		try {
-			throw new Exception(message == null ? "null" : message.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Initializes SingularWS
 	 */
 	public static void initializeSingularWS() {

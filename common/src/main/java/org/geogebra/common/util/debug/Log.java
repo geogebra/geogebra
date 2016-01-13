@@ -532,7 +532,12 @@ public abstract class Log {
 		}
 	}
 
-	public void printStacktrace(String message) {
-
+	public static void printStacktrace(String message) {
+		if (logger != null) {
+			logger.doPrintStacktrace(message);
+		}
 	}
+
+	public abstract void doPrintStacktrace(String message);
+
 }

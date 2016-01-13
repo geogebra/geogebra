@@ -19,6 +19,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
 import org.geogebra.ggbjdk.java.awt.geom.PathIterator;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
@@ -896,7 +897,8 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 			lastDebugException = false;
 		} else if (!logical.equals(physical)) {
 			if (!lastDebugException) {
-				App.printStacktrace(hashCode() + ": "
+				Log.printStacktrace(
+						hashCode() + ": "
 				        + logical.replace(".0", "") + " / "
 				        + physical.replace(".0", ""));
 			}

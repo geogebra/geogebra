@@ -115,7 +115,7 @@ public class LoggerW extends org.geogebra.common.util.debug.Log {
 	}
 	
 	@Override
-	public native void printStacktrace(String message)/*-{
+	public native void doPrintStacktrace(String message)/*-{
 		if ($wnd.console && $wnd.console.trace) {
 			$wnd.console.trace(message);
 		}
