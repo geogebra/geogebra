@@ -20,6 +20,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -763,13 +764,13 @@ public class CopyPaste {
 						geo.removeView(App.VIEW_EUCLIDIAN2);
 						app.getEuclidianView2(1).remove(geo);
 					}
-					if (app.getEuclidianView3D() != null) {
+					if (app.isEuclidianView3Dinited()) {
 						app.removeFromViews3D(geo);
 					}
-				} else if (app.getActiveEuclidianView() == app
-						.getEuclidianView3D()) {
+				} else if (app
+						.getActiveEuclidianView() instanceof EuclidianView3D) {
 					app.removeFromEuclidianView(geo);
-					if (app.getEuclidianView3D() != null) {
+					if (app.isEuclidianView3Dinited()) {
 						app.addToViews3D(geo);
 					}
 					if (app.hasEuclidianView2(1)) {
@@ -780,7 +781,7 @@ public class CopyPaste {
 					app.removeFromEuclidianView(geo);
 					geo.addView(App.VIEW_EUCLIDIAN2);
 					app.getEuclidianView2(1).add(geo);
-					if (app.getEuclidianView3D() != null) {
+					if (app.isEuclidianView3Dinited()) {
 						app.removeFromViews3D(geo);
 					}
 				}
