@@ -1419,7 +1419,7 @@ public class Ggb2giac {
 						// case UnitOrthogonalVecto[Line]
 						// UnitOrthogonalVector[Segment]
 						+ "when ((unitV([xcoord(%0),ycoord(%0)]))[0] == 'undef',"
-						+ "{?,?},"
+						+ "point(?,?),"
 						+ "when (size(unitV([xcoord(%0),ycoord(%0)])) == 1 , "
 						+ "regroup(convert("
 						+ "point(getNum(unitV([xcoord(%0),ycoord(%0)]))[0]/getDenom(unitV([xcoord(%0),ycoord(%0)])),"
