@@ -22,6 +22,13 @@ ABSWEBDIR=`readlink -f $WEBCODEBASEDIR`
 
 PHANTOMJS=`which phantomjs || echo unset`
 
+# Create database if it does not exit
+test -r sqlite3db || ./createdb || exit $?
+
+sql_provers() {
+ # Reads prover names from the SQL database.
+ sqlite3 sqlite3db "select name from provers;" | awk '{printf "%s ", $0}'
+ }
 
 usage() {
  echo "$0 - a benchmarking tool for GeoGebra's theorem prover subsystem"
@@ -38,8 +45,9 @@ usage() {
  echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
  echo "   -r           run GeoGebra desktop version from the current sources"
  echo "   -P <path>    use path to run PhantomJS ($PHANTOMJS)"
- echo "   -h           show this help"
- echo "   -v           print script version"
+ echo "   -h           show this help, then exit"
+ echo "   -v           print script version, then exit"
+ echo "   -V           print available provers from the database, then exit"
  echo
  echo "Examples:"
  echo " xvfb-run $0 -S jar-paper -d    # creates an output like at http://ggb1.idm.jku.at/~kovzol/data/Prove-20141009/"
@@ -56,7 +64,7 @@ version() {
  exit 0
  }
 
-while getopts "t:d:p:P:S:Dhvr" OPT; do
+while getopts "t:d:p:P:S:DhvrV" OPT; do
  case $OPT in
   t)
    TIMEOUT="$OPTARG"
@@ -113,6 +121,11 @@ while getopts "t:d:p:P:S:Dhvr" OPT; do
    ;;
   v)
    version
+   ;;
+  V)
+   PROVERS=`sql_provers`
+   echo "Provers are: $PROVERS"
+   exit 0
    ;;
   r)
    RUNDIR=$GEOGEBRADIR/desktop/build/install/desktop/bin # run the "installDist" task in Gradle first
