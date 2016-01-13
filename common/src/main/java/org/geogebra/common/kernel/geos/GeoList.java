@@ -170,6 +170,10 @@ AngleProperties {
 
 			return;
 		}
+		if (!(geo instanceof GeoList)) {
+			setUndefined();
+			return;
+		}
 		final GeoList l = (GeoList) geo;
 
 		if ((l.cons != cons) && isAlgoMacroOutput()) {
