@@ -1128,16 +1128,26 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
+	/**
+	 * @param s
+	 *            string to log
+	 * 
+	 * @deprecated use Log.debug() instead
+	 */
+	@Deprecated
 	public static void debug(String s) {
 		Log.debug(s, 5);
 	}
 
+	/**
+	 * @param s
+	 *            string to log
+	 *
+	 * @deprecated use Log.debug() instead
+	 */
+	@Deprecated
 	public static void error(String s) {
 		Log.error(s, 5);
-	}
-
-	public static void trace(String string) {
-		Log.trace(string);
 	}
 
 	/** Singular web service (CAS) */
