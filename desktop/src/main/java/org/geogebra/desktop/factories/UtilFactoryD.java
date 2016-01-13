@@ -23,7 +23,7 @@ public class UtilFactoryD extends org.geogebra.common.factories.UtilFactory {
 
 	@Override
 	public Log newGeoGebraLogger() {
-		return new org.geogebra.desktop.util.GeoGebraLogger();
+		return new org.geogebra.desktop.util.LoggerD();
 	}
 
 	@Override

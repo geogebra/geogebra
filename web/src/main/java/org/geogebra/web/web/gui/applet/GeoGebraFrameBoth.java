@@ -13,7 +13,7 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.debug.GeoGebraLogger;
+import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -73,7 +73,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrame inst = new GeoGebraFrameBoth(factory, laf);
 			inst.ae = articleElement;
-			GeoGebraLogger.startLogger(inst.ae);
+			LoggerW.startLogger(inst.ae);
 			inst.createSplash(articleElement);
 			RootPanel.get(articleElement.getId()).add(inst);
 		}

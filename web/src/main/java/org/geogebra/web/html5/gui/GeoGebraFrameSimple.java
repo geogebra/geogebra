@@ -7,7 +7,7 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.debug.GeoGebraLogger;
+import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -37,7 +37,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrame inst = new GeoGebraFrameSimple();
 			inst.ae = articleElement;
-			GeoGebraLogger.startLogger(inst.ae);
+			LoggerW.startLogger(inst.ae);
 			inst.createSplash(articleElement);
 			RootPanel.get(articleElement.getId()).add(inst);
 		}

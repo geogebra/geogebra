@@ -13,7 +13,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.View;
-import org.geogebra.web.html5.util.debug.GeoGebraLogger;
+import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.MyHeaderPanel;
@@ -155,7 +155,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	public void init() {
 		setVisible(true);
 		final ArticleElement article = ArticleElement.as(Dom.querySelector(GeoGebraConstants.GGM_CLASS_NAME));
-		GeoGebraLogger.startLogger(article);
+		LoggerW.startLogger(article);
 		article.initID(0);
 		//cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
 		//ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT + GGWStyleBar_HEIGHT));

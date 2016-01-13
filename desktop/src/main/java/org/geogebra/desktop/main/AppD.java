@@ -191,7 +191,7 @@ import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.FrameCollector;
-import org.geogebra.desktop.util.GeoGebraLogger;
+import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.Normalizer;
 import org.json.JSONObject;
@@ -404,7 +404,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		this.args = args;
 
 		if (args != null && !args.containsArg("silent")) {
-			Log.logger = new GeoGebraLogger();
+			Log.logger = new LoggerD();
 			Log.logger.setLogDestination(LogDestination.CONSOLE);
 			if (args.containsArg("logLevel")) {
 				Log.logger.setLogLevel(args.getStringValue("logLevel"));

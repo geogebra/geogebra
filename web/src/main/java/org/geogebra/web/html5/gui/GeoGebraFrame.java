@@ -13,7 +13,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.View;
-import org.geogebra.web.html5.util.debug.GeoGebraLogger;
+import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
@@ -682,7 +682,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 
 		final ArticleElement article = ArticleElement.as(element);
 		if(Log.logger == null){
-			GeoGebraLogger.startLogger(article);
+			LoggerW.startLogger(article);
 		}
 		article.clear();
 		article.initID(0);

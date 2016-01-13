@@ -24,7 +24,7 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
 	public Log newGeoGebraLogger() {
-		return new org.geogebra.web.html5.util.debug.GeoGebraLogger();
+		return new org.geogebra.web.html5.util.debug.LoggerW();
 	}
 
 	@Override

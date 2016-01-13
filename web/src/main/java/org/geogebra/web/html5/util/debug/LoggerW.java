@@ -15,12 +15,12 @@ import com.google.gwt.user.client.Window;
  * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
-public class GeoGebraLogger extends org.geogebra.common.util.debug.Log {
+public class LoggerW extends org.geogebra.common.util.debug.Log {
 
 	/**
 	 * Constructor
 	 */
-	public GeoGebraLogger() {
+	public LoggerW() {
 
 		// needed for IE9
 		initConsole();
@@ -104,12 +104,12 @@ public class GeoGebraLogger extends org.geogebra.common.util.debug.Log {
 
 	public static void startLogger(ArticleElement article) {
 		if (article.getDataParamShowLogging()) {
-			Log.logger = new GeoGebraLogger();
+			Log.logger = new LoggerW();
 			Log.logger.setLogDestination(LogDestination.CONSOLES);
 			Log.logger.setLogLevel(Window.Location.getParameter("logLevel"));
 		} else {
 			// make sure $wnd.console works in IE9
-			GeoGebraLogger.initConsole();
+			LoggerW.initConsole();
 		}
 
 	}
