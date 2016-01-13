@@ -1,5 +1,6 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
+
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
@@ -213,8 +214,6 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	@Override
 	protected void exportImageEquirectangular() {
-
-		setExportImage();
 
 		if (bi == null) {
 			App.error("image null");
@@ -797,6 +796,48 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 //			return -x + 128;
 //		}
 //		return x;
+	}
+
+	private BufferedImage[] equirectangularTiles;
+
+	@Override
+	protected void initExportImageEquirectangularTiles() {
+		if (equirectangularTiles == null) {
+			equirectangularTiles = new BufferedImage[EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS];
+		}
+	}
+
+	@Override
+	protected void setExportImageEquirectangularTile(int i) {
+		setExportImage();
+		equirectangularTiles[i] = bi;
+	}
+
+	static private final int INT_RGB_WHITE = ((255 << 16) | (255 << 8) | 255);
+
+	@Override
+	protected void setExportImageEquirectangularFromTiles() {
+		bi = new BufferedImage(EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH,
+				EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT, BufferedImage.TYPE_INT_RGB);
+
+		int shiftY = (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT - EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT) / 2;
+		for (int i = 0; i < EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS; i++) {
+			int shiftX = i * EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT;
+			for (int x = 0; x < EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT; x++) {
+				for (int y = 0; y < shiftY; y++) {
+					bi.setRGB(x + shiftX, y, INT_RGB_WHITE);
+				}
+				for (int y = 0; y < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT; y++) {
+					bi.setRGB(x + shiftX, y + shiftY,
+							equirectangularTiles[i].getRGB(x, y));
+				}
+				for (int y = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
+						+ shiftY; y < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT; y++) {
+					bi.setRGB(x + shiftX, y, INT_RGB_WHITE);
+				}
+
+			}
+		}
 	}
 
 	/**

@@ -1907,4 +1907,22 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		// TODO
 	}
 
+	@Override
+	protected void initExportImageEquirectangularTiles() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void setExportImageEquirectangularTile(int i) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void setExportImageEquirectangularFromTiles() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -167,7 +167,6 @@ public abstract class Renderer {
 //		}
 
 		if (exportImageEquirectangular) {
-
 			view3D.setProjectionEquirectangular();
 		}
 
@@ -227,30 +226,35 @@ public abstract class Renderer {
 		if (exportImageEquirectangular) {
 
 			if (needExportImage) {
-				setExportImageDimension(30, 300);
+				setExportImageDimension(
+						EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT,
+						EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT);
 				selectFBO();
-			}
+				initExportImageEquirectangularTiles();
 
-			// update view
-			// exportImageEquirectangularAngle += 1;
-			exportImageEquirectangularAngle = 45;
-			view3D.setEquirectangularAngle(exportImageEquirectangularAngle);
+				for (int i = 0; i < EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS; i++) {
+					// update view
+					view3D.setEquirectangularAngle(- EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA * i);
+					clearColorBuffer();
+					clearDepthBuffer();
 
-			clearColorBuffer();
-			clearDepthBuffer();
+					// left eye
+					setDrawLeft();
+					setView();
+					draw();
 
-			// left eye
-			setDrawLeft();
-			setView();
-			draw();
+					setColorMask(true, true, true, true);
 
-			setColorMask(true, true, true, true);
+					setExportImageEquirectangularTile(i);
+				}
 
-			if (needExportImage) {
-				App.debug("ici");
+
+				setExportImageEquirectangularFromTiles();
 				exportImageEquirectangular();
 				unselectFBO();
 				needExportImage = false;
+
+				App.debug("ici");
 			}
 
 			return;
@@ -308,12 +312,42 @@ public abstract class Renderer {
 	 */
 	abstract protected void exportImageEquirectangular();
 
+	/**
+	 * init tiles array
+	 */
+	abstract protected void initExportImageEquirectangularTiles();
+
+	/**
+	 * create equirectangular image i-th tile
+	 */
+	abstract protected void setExportImageEquirectangularTile(int i);
+
+	/**
+	 * concatenates tiles to create equirectangular image
+	 */
+	abstract protected void setExportImageEquirectangularFromTiles();
+
 	protected boolean needExportImage = false, exportImageForThumbnail = false;
 
 	protected boolean exportImageEquirectangular = false;
 	protected double exportImageEquirectangularAngle = 0;
-	private int exportImageEquirectangularWidthElement = 30,
-			exportImageEquirectangularHeight = 300;
+
+	private static int EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX = 45;
+	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN = Math
+			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX * Math.PI / 180);
+
+	private static int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA = 1;
+	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_DELTA_TAN = Math
+			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA * Math.PI / 360);
+	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS = 360 / EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA;
+
+	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT = 2000;
+	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT
+			* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX / 90;
+	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT = (int) (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
+			* EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_DELTA_TAN / EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN);
+	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH = EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT
+			* EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
 
 	/**
 	 * says that an export image is needed, and call immediate display
@@ -1719,16 +1753,19 @@ public abstract class Renderer {
 			// App.error(""+ view3D.getScreenZOffset());
 
 			if (exportImageEquirectangular) {
-				// ratio to see vertical angle of 45 degrees
-				perspDistratio[i] = perspNear[i] / getTop();
+				// frustum: top and bottom
+				perspTop[i] = EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN
+						* perspNear[i];
+				perspBottom[i] = -perspTop[i];
 
-				// frustum
+				// ratio to see vertical angle of 45 degrees
+				perspDistratio[i] = perspTop[i] / getTop();
+
+				// frustum: right and left
 				perspRight[i] = perspNear[i]
-						* exportImageEquirectangularWidthElement
-						/ exportImageEquirectangularHeight;
+						* EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_DELTA_TAN;
 				perspLeft[i] = -perspRight[i];
-				perspBottom[i] = -perspNear[i];
-				perspTop[i] = perspNear[i];
+
 
 			} else {
 				// ratio so that distance on screen plane are not changed
