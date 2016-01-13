@@ -225,37 +225,47 @@ public abstract class Renderer {
 
 		if (exportImageEquirectangular) {
 
-			if (needExportImage) {
-				setExportImageDimension(
-						EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT,
-						EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT);
-				selectFBO();
-				initExportImageEquirectangularTiles();
+			setExportImageDimension(EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT,
+					EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT);
+			selectFBO();
+			initExportImageEquirectangularTiles();
 
-				for (int i = 0; i < EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS; i++) {
-					// update view
-					view3D.setEquirectangularAngle(- EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA * i);
-					clearColorBuffer();
-					clearDepthBuffer();
+			for (int i = 0; i < EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS; i++) {
+				// update view
+				// view3D.setEquirectangularAngle(-EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_ELEMENT
+				// * i);
+				view3D.setEquirectangularAngle(-i
+						* EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA);
 
-					// left eye
-					setDrawLeft();
-					setView();
-					draw();
+				// left eye
+				clearColorBuffer();
+				clearDepthBuffer();
+				setDrawLeft();
+				setView();
+				draw();
+				setExportImageEquirectangularTileLeft(i);
 
-					setColorMask(true, true, true, true);
+				// right eye
+				clearColorBuffer();
+				clearDepthBuffer();
+				setDrawRight();
+				setView();
+				draw();
+				setExportImageEquirectangularTileRight(i);
 
-					setExportImageEquirectangularTile(i);
-				}
+				setColorMask(true, true, true, true);
 
-
-				setExportImageEquirectangularFromTiles();
-				exportImageEquirectangular();
-				unselectFBO();
-				needExportImage = false;
-
-				App.debug("ici");
 			}
+
+
+			setExportImageEquirectangularFromTiles();
+			exportImageEquirectangular();
+			unselectFBO();
+			needExportImage = false;
+
+			App.debug("ici");
+
+			exportImageEquirectangular = false;
 
 			return;
 
@@ -318,9 +328,14 @@ public abstract class Renderer {
 	abstract protected void initExportImageEquirectangularTiles();
 
 	/**
-	 * create equirectangular image i-th tile
+	 * create equirectangular image i-th tile, left eye
 	 */
-	abstract protected void setExportImageEquirectangularTile(int i);
+	abstract protected void setExportImageEquirectangularTileLeft(int i);
+
+	/**
+	 * create equirectangular image i-th tile, right eye
+	 */
+	abstract protected void setExportImageEquirectangularTileRight(int i);
 
 	/**
 	 * concatenates tiles to create equirectangular image
@@ -332,22 +347,26 @@ public abstract class Renderer {
 	protected boolean exportImageEquirectangular = false;
 	protected double exportImageEquirectangularAngle = 0;
 
-	private static int EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX = 45;
-	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN = Math
+	/** max latitude viewed -- must be factor of 9 */
+	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX = 54;
+	protected static double EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN = Math
 			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX * Math.PI / 180);
-
-	private static int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA = 1;
-	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_DELTA_TAN = Math
-			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA * Math.PI / 360);
-	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS = 360 / EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA;
 
 	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT = 2000;
 	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT
 			* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX / 90;
-	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT = (int) (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
-			* EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_DELTA_TAN / EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN);
-	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH = EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT
-			* EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
+
+	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH = 2 * EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT;
+	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS = 200;
+
+	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH
+			/ EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
+
+	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA = 360.0 / EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
+
+	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_ELEMENT_TAN = Math
+			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA * Math.PI / 360.0);
+
 
 	/**
 	 * says that an export image is needed, and call immediate display
@@ -1763,7 +1782,7 @@ public abstract class Renderer {
 
 				// frustum: right and left
 				perspRight[i] = perspNear[i]
-						* EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_DELTA_TAN;
+						* EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_ELEMENT_TAN;
 				perspLeft[i] = -perspRight[i];
 
 

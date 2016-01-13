@@ -3697,10 +3697,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// updateProjectionPerspectiveEyeDistance();
 		double d = renderer.getVisibleDepth() / 2 + 100;
 		renderer.setNear(d, d);
+
+		eyeX[1] = 10;
+		eyeX[0] = -eyeX[1];
+
 		renderer.updateGlassesValues();
 
-		eyeX[0] = 0;
-		eyeX[1] = 0;
 
 		if (isPolarized()) {
 			renderer.setWaitForSetStencilLines();

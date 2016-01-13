@@ -798,42 +798,82 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 //		return x;
 	}
 
-	private BufferedImage[] equirectangularTiles;
+	private BufferedImage[] equirectangularTilesLeft,
+			equirectangularTilesRight;
 
 	@Override
 	protected void initExportImageEquirectangularTiles() {
-		if (equirectangularTiles == null) {
-			equirectangularTiles = new BufferedImage[EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS];
+		if (equirectangularTilesLeft == null) {
+			equirectangularTilesLeft = new BufferedImage[EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS];
+			equirectangularTilesRight = new BufferedImage[EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS];
 		}
 	}
 
 	@Override
-	protected void setExportImageEquirectangularTile(int i) {
+	protected void setExportImageEquirectangularTileLeft(int i) {
 		setExportImage();
-		equirectangularTiles[i] = bi;
+		equirectangularTilesLeft[i] = bi;
 	}
 
+	@Override
+	protected void setExportImageEquirectangularTileRight(int i) {
+		setExportImage();
+		equirectangularTilesRight[i] = bi;
+	}
+
+
 	static private final int INT_RGB_WHITE = ((255 << 16) | (255 << 8) | 255);
+
+	private void setRGBFromTile(int i, int x, int y, int xTile, int yTile) {
+		bi.setRGB(x, y, equirectangularTilesLeft[i].getRGB(xTile, yTile));
+		bi.setRGB(x, y + EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT,
+				equirectangularTilesRight[i].getRGB(xTile, yTile));
+	}
+
+	private void setWhite(int x, int y) {
+		bi.setRGB(x, y, INT_RGB_WHITE);
+		bi.setRGB(x, y + EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT, INT_RGB_WHITE);
+	}
 
 	@Override
 	protected void setExportImageEquirectangularFromTiles() {
 		bi = new BufferedImage(EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH,
-				EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT, BufferedImage.TYPE_INT_RGB);
+				EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT * 2,
+				BufferedImage.TYPE_INT_RGB);
 
 		int shiftY = (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT - EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT) / 2;
+		int shiftAlpha = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT / 2;
 		for (int i = 0; i < EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS; i++) {
 			int shiftX = i * EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT;
 			for (int x = 0; x < EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT; x++) {
+				// top white
 				for (int y = 0; y < shiftY; y++) {
-					bi.setRGB(x + shiftX, y, INT_RGB_WHITE);
+					setWhite(x + shiftX, y);
 				}
-				for (int y = 0; y < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT; y++) {
-					bi.setRGB(x + shiftX, y + shiftY,
-							equirectangularTiles[i].getRGB(x, y));
+				
+				// first line will be missed by alpha
+				setRGBFromTile(i, x + shiftX, shiftY, x, 0);
+
+				// middle line
+				setRGBFromTile(i, x + shiftX, shiftAlpha, x,
+						EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2);
+
+				// angle - tangent match
+				for (int yAlpha = 1; yAlpha < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2; yAlpha++) {
+					double alpha = ((double) (2 * yAlpha * EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX))
+							/ EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT;
+					int y = (int) (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
+							* Math.tan(alpha * Math.PI / 180) / (2 * EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN));
+					setRGBFromTile(i, x + shiftX, shiftAlpha + yAlpha, x,
+							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2 + y);
+					setRGBFromTile(i, x + shiftX, shiftAlpha - yAlpha, x,
+							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2 - y);
 				}
+				
+				// bottom white
 				for (int y = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
 						+ shiftY; y < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT; y++) {
-					bi.setRGB(x + shiftX, y, INT_RGB_WHITE);
+					setWhite(x + shiftX, y);
 				}
 
 			}
