@@ -194,7 +194,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			}
 		};
 		signInInProgressAction = new AbstractAction(
-				app.getMenu("SignInInProgress")) {
+				app.getMenu("SignInProgress")) {
 
 			private static final long serialVersionUID = 1L;
 
