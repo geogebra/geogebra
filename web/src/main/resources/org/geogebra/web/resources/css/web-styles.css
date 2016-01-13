@@ -4301,6 +4301,7 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 
 .colorChooserPreview,.optionsSlider {
 	display: table-row;
+	margin-top: 5px;
 }
 
 .colorChooserPreview>*,.optionsSlider>* {
@@ -5938,10 +5939,6 @@ body.application[dir=rtl] .deleteAlgebra {
 
 /* Options Slider */
 
-.GeoGebraFrame .optionsSlider {
-	display: block;
-	margin-top: 5px;
-}
 
 .avItemContent .optionsSlider .gwt-Label {
 	margin: 0px;
