@@ -1,5 +1,7 @@
 package org.geogebra.desktop.gui.util;
 
+import java.awt.Desktop;
+
 /////////////////////////////////////////////////////////
 // Bare Bones Browser Launch                          //
 // Version 1.5                                        //
@@ -14,40 +16,25 @@ package org.geogebra.desktop.gui.util;
 import java.lang.reflect.Method;
 import java.net.URI;
 
-import javax.swing.JOptionPane;
-
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.Util;
 
 public class BrowserLauncher {
 
-	private static final String errMsg = "Error attempting to launch web browser";
-
 	public static void openURL(String url) {
-		// java 6 supports open URLs in the default browser directly
-		double javaVersion = Util.getJavaVersion();
-		if (javaVersion >= 1.6) {
-			try {
-				URI uri = new URI(url);
 
-				// since Java 6:
-				// java.awt.Desktop.getDesktop().browse(uri)
-				Class<?> desktopClass = Class.forName("java.awt.Desktop");
-				Method getDesktop = desktopClass.getDeclaredMethod(
-						"getDesktop", (Class<?>)null);
-				Method browse = desktopClass.getDeclaredMethod("browse",
-						new Class[] { URI.class });
-				Object desktopObj = getDesktop.invoke((Object[])null, (Object[])null);
-				browse.invoke(desktopObj, new Object[] { uri });
+		try {
 
-				return; // java 1.6 was successful
-			} catch (Exception e) {
-				e.printStackTrace();
+			if (Desktop.isDesktopSupported()) {
+				Desktop desktop = Desktop.getDesktop();
+				desktop.browse(new URI(url));
 			}
+
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		// older Java version
-		// String osName = System.getProperty("os.name");
+		// fallback
 		try {
 			if (AppD.MAC_OS) { // Michael Borcherds 2008-03-21
 				Class<?> fileMgr = Class.forName("com.apple.eio.FileManager");
@@ -92,8 +79,7 @@ public class BrowserLauncher {
 				Runtime.getRuntime().exec(new String[] { browser, url });
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,
-					errMsg + ":\n" + e.getLocalizedMessage());
+			e.printStackTrace();
 		}
 	}
 
