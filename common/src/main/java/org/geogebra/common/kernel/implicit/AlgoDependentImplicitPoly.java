@@ -40,8 +40,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 	 * 
 	 * @param c
 	 *            construction
-	 * @param label
-	 *            label
+	 * @param simplify
+	 *            whether we can evaluate the coefficients
 	 * @param equ
 	 *            equation
 	 */
@@ -161,6 +161,9 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 				geoElement.setUndefined();
 				return;
 			}
+		}
+		if (equation.getNormalForm() == null) {
+			equation.initEquation();
 		}
 		ExpressionNode def = geoElement.getDefinition();
 		// use the forced behavior here
