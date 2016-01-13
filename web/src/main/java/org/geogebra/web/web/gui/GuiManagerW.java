@@ -1391,6 +1391,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		if (toolbarPanel != null && toolbarPanel.getToolBar() != null) {
 			toolbarPanel.getToolBar().buildGui();
+			toolbarPanel.setLabels();
 		}
 		resetMenu();
 

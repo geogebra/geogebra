@@ -3,9 +3,11 @@ package org.geogebra.web.web.gui.app;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -42,7 +44,7 @@ import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GGWToolBar extends Composite implements RequiresResize,
-        ToolBarInterface {
+		ToolBarInterface, SetLabels {
 
 	private static final int MENU_ICONS_WIDTH = 200;
 	private static final int UNDO_ICONS_WIDTH = 90;
@@ -167,7 +169,7 @@ pr.menu_header_redo(), null, 32);
 
 		redoButton.addStyleName("redoButton");
 		//redoButton.getElement().addClassName("button");
-		redoButton.setTitle("Redo");
+
 		redoButton.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 
 		//Image undoImage = new Image(GuiResources.INSTANCE.button_undo());
@@ -196,12 +198,19 @@ pr.menu_header_undo(), null, 32);
 
 		undoButton.addStyleName("undoButton");
 		//undoButton.getElement().addClassName("button");
-		undoButton.setTitle("Undo");
+
 		//toolBarPanel.add(redoButton);
 		updateUndoActions();
 		rightButtonPanel.add(undoButton);
 		rightButtonPanel.add(redoButton);
-			
+		setLabels();
+	}
+
+	public void setLabels() {
+		Localization loc = app.getLocalization();
+		redoButton.setTitle(loc.getMenu("Redo"));
+		undoButton.setTitle(loc.getMenu("Undo"));
+
 	}
 
 	// timer for GeoGebraExam
