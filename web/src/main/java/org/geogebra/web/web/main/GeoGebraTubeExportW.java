@@ -190,7 +190,7 @@ public class GeoGebraTubeExportW extends
 			return URL.encode(str);
 		}
 
-		App.printStacktrace("passed null");
+		App.error("passed null");
 		return "";
 
 	}

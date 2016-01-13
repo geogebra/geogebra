@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 
 /**
@@ -154,7 +153,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 					dependentFromFunctions = functions;
 				}
 			} else if (equation.hasVariableDegree()) {
-				App.printStacktrace("");
 				equation.initEquation();
 				coeff = equation.getNormalForm().getCoeff();
 			}

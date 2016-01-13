@@ -69,7 +69,6 @@ public class ShowLabelModel extends OptionsModel{
 	}
 	
 	public void applyModeChanges(int mode, boolean visible) {
-		App.printStacktrace("" + mode);
 			GeoElement geo;
 			for (int i = 0; i < getGeosLength(); i++) {
 				geo = getGeoAt(i);

@@ -22,6 +22,9 @@ import org.geogebra.common.main.App;
  * pmt * (1 + rate * pmtType) * ((1 + rate)^n - 1) / (rate) + pv * (1 + rate)^n
  * + fv = 0
  * 
+ * https://support.office.com/en-us/article/PV-function-23879d31-0e02-4321-be01-
+ * da16e8168cbd
+ * 
  * <br>
  * If rate is 0, then: (pmt * nper) + pv + fv = 0 <br>
  * <br>
@@ -276,7 +279,7 @@ public class AlgoFinancial extends AlgoElement {
 		RateFunction fun = new RateFunction(nper, pv, fv, pmt, pmtType);
 
 		double min = 0;
-		double max = 1;
+		double max = 0.001;
 
 		double newtonRoot = Double.NaN;
 

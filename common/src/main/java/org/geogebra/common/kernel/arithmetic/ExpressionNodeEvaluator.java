@@ -996,8 +996,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// polynomial ^ number
 		else {
-			App.printStacktrace("ExpressionNodeEvaluator.handlePower()");
-			App.debug("Problem in ExpressionNodeEvaluator.handlePower(): lt :"
+			App.error("Problem in ExpressionNodeEvaluator.handlePower(): lt :"
 					+ lt.getClass() + ", rt: " + rt.getClass());
 			str = new String[] { "IllegalExponent", lt.toString(errorTemplate),
 					"^", rt.toString(errorTemplate) };

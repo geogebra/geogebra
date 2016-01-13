@@ -2250,7 +2250,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			break;
 
 		default:
-			App.printStacktrace("TODO -- type: " + getType());
+			App.error("Missing type -- type: " + getType());
 			break;
 		}
 	}

@@ -3887,7 +3887,7 @@ FromMeta
     		area=0;
     		break;
     	default:
-    		App.printStacktrace("TODO (type="+type+")");
+			App.error("Missing type (type=" + type + ")");
     	}
     }
 
@@ -3895,9 +3895,9 @@ FromMeta
      * @return area of this conic
      */
     public double getArea(){
-    	if (defined)
+		if (defined) {
     		return area;
-		App.printStacktrace("TODO ? (type="+type+")");
+		}
 		return Double.NaN;
     }	
 

@@ -17,7 +17,6 @@ import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -121,7 +120,6 @@ public class OptionsAlgebraD extends
 		this.sortMode = new JComboBox() {
 			@Override
 			public void setSelectedIndex(int i) {
-				App.printStacktrace("SortMode" + i);
 				super.setSelectedIndex(i);
 			}
 		};

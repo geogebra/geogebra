@@ -1496,7 +1496,7 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 
 		} catch (Exception e) {
-			App.printStacktrace(e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 	}

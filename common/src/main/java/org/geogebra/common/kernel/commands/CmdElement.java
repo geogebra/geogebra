@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -59,7 +58,6 @@ public class CmdElement extends CommandProcessor {
 				if (arg[i] instanceof GeoNumberValue)
 					nvs[i - 1] = (GeoNumberValue) arg[i];
 				else {
-					App.printStacktrace(arg[0]);
 					throw argErr(app, c.getName(), arg[i]);
 				}
 			}

@@ -273,7 +273,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public EuclidianView3D(EuclidianController3D ec, EuclidianSettings settings) {
 
 		super(ec, EVNO_3D, settings);
-
 		// don't remove, it's important we pick up when this class is created by
 		// mistake
 		Log.error(
@@ -884,7 +883,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		// App.debug("setRotXY: "+a+","+b);
 		if (Double.isNaN(a) || Double.isNaN(b)) {
-			App.printStacktrace("NaN values for setRotXYinDegrees");
+			App.error("NaN values for setRotXYinDegrees");
 			return;
 		}
 
@@ -1739,7 +1738,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// Application.debug("delay="+delay+", rotSpeed="+rotSpeed);
 
 		if (Double.isNaN(rotSpeed)) {
-			App.printStacktrace("NaN values for setRotContinueAnimation");
+			App.error("NaN values for setRotContinueAnimation");
 			stopRotAnimation();
 			return;
 		}
@@ -1814,7 +1813,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public void setRotAnimation(double aN, double bN, boolean checkSameValues) {
 
 		if (Double.isNaN(aN) || Double.isNaN(bN)) {
-			App.printStacktrace("NaN values for setRotAnimation");
+			App.error("NaN values for setRotAnimation");
 			return;
 		}
 

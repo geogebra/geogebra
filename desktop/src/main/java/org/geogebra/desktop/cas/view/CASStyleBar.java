@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
@@ -225,7 +224,6 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			fontStyle += 1;
 		if (btnItalic.isSelected())
 			fontStyle += 2;
-		App.printStacktrace(geos.size() + "");
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			Log.debug(((GeoCasCell) geo).getGeoText());

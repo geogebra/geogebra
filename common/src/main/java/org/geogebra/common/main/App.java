@@ -3835,7 +3835,6 @@ public abstract class App implements UpdateSelection {
 	 * Disables CAS View.
 	 */
 	public static void disableCASView() {
-		App.printStacktrace("");
 		CASViewEnabled = false;
 	}
 

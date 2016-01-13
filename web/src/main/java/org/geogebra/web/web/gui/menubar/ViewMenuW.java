@@ -77,7 +77,6 @@ public class ViewMenuW extends GMenuBar {
 	 * Initialize menu items
 	 */
 	protected void initActions() {
-		App.printStacktrace("UPDATING VIEWS");
 		for (final ViewType e : Views.getViews()) {
 			if (!app.supportsView(e.getID())) {
 				continue;

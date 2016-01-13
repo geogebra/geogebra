@@ -39,7 +39,6 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
@@ -266,7 +265,6 @@ public class DrawParametricCurve extends Drawable {
 				((GeoFunction) curve).getFunctionVariables()[0], invFV,
 				geo.getKernel());
 		if (invert == null) {
-			App.printStacktrace("" + dataExpression.getLeft());
 			dataExpression = null;
 		}
 		return true;

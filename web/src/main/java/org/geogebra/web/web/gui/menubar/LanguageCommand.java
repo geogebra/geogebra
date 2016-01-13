@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.menubar;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Language;
 import org.geogebra.web.html5.main.AppW;
@@ -102,7 +101,6 @@ public class LanguageCommand implements Command {
 	 * @param newLocale
 	 */
 	public static void changeLocale(String localeParamName, String newLocale) {
-		App.printStacktrace("");
 		//UrlBuilder newUrl = Window.Location.createUrlBuilder();
 		//newUrl.setParameter(localeParamName, newLocale);
 		//Window.Location.assign(newUrl.buildString());

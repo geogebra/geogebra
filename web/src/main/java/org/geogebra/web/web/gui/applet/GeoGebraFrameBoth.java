@@ -198,7 +198,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	private void removeKeyboard(MathKeyboardListener textField) {
 		final VirtualKeyboard keyBoard = app.getGuiManager()
 				.getOnScreenKeyboard(textField, this);
-		App.printStacktrace("HIDE KEYBOARD");
 		this.keyboardShowing = false;
 		app.addToHeight(keyboardHeight);
 		this.remove(keyBoard);

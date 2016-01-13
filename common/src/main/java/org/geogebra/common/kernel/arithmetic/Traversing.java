@@ -790,8 +790,6 @@ public interface Traversing {
 					derivCommand.addArgument(deg.wrap());
 					mult = cas.evaluateToExpression(derivCommand, null, kernel);
 				} else {
-					App.printStacktrace(ValidExpression.debugString(diffArg));
-					App.printStacktrace(ValidExpression.debugString(var));
 					mult = new MyDouble(kernel, Double.NaN);
 				}
 			}

@@ -199,7 +199,7 @@ public class Point_dt {
 				return BEHINDB;
 			return ONSEGMENT;
 		}
-		App.printStacktrace("Error, pointLineTest with a=b");
+		App.error("Error, pointLineTest with a=b");
 		return ERROR;
 	}
 
