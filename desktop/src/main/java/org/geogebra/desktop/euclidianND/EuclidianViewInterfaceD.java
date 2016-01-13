@@ -71,4 +71,8 @@ public interface EuclidianViewInterfaceD {
 	public void exportImagePNG(double scale, boolean transparency, int dpi,
 			File file, boolean exportToClipboard);
 
+	public double getPrintingScale();
+
+	public double getXscale();
+
 }

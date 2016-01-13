@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.util.ImageSelection;
@@ -405,7 +404,8 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 	public synchronized String getPNGBase64(double exportScale,
 			boolean transparent, double DPI, boolean copyToClipboard) {
 
-		EuclidianViewD ev = ((AppD) app).getEuclidianView1();
+		EuclidianViewInterfaceD ev = (EuclidianViewInterfaceD) ((AppD) app)
+				.getActiveEuclidianView();
 		
 		if (copyToClipboard) {
 
