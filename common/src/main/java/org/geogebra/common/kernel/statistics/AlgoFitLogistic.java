@@ -27,8 +27,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /*******************
  * AlgoFitLogistic * *****************
@@ -157,7 +157,8 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		if (!geolist.isDefined() || (size < 3)) { // Need three points, at the
 													// very least...
 			geofunction.setUndefined();
-			errorMsg("List not properly defined or too small. (3 points needed, but the more points, the better result!)");
+			Log.debug(
+					"List not properly defined or too small. (3 points needed, but the more points, the better result!)");
 			return;
 		}
 
@@ -270,7 +271,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		// debug("Sum sq. errors: "+beta2(xd,yd,a,b,c)+"\n-------------");
 		if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c)) {
 			error = true;
-			errorMsg("findParameters(): a,b or c undefined");
+			Log.debug("findParameters(): a,b or c undefined");
 			return;
 		}// 20.11:if one is undefined, everything is undefined
 	}// findParameters()
@@ -325,7 +326,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			if ((iterations > MAXITERATIONS) || (error)) { // From experience:
 															// >200 gives
 															// nothing more...
-				errorMsg("More than " + MAXITERATIONS
+				Log.debug("More than " + MAXITERATIONS
 						+ " iterations. Solution is probably not usable.");
 				break;
 			}
@@ -361,7 +362,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 			if (Math.abs(n) < EPSSING) { // Not singular?
 				error = true;
-				errorMsg("Singular matrix...");
+				Log.debug("Singular matrix...");
 				da = db = dc = 0.0d; // to stop it all...
 			} else {
 				da = RegressionMath.det33(b1, m12, m13, b2, m22, m23, b3, m32,
@@ -400,7 +401,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 		if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c)) {
 			error = true;
-			errorMsg("findParameters(): a,b or c undefined");
+			Log.debug("findParameters(): a,b or c undefined");
 			return;
 		}// 20.11:if one is undefined, everything is undefined
 
@@ -533,14 +534,9 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		xd = xlist;
 		yd = ylist;
 		if (error) {
-			errorMsg("getPoints(): Wrong list format...");
+			Log.debug("getPoints(): Wrong list format...");
 		}
 	}// getPoints()
-
-	// 20.11: ->Application.debug()
-	private final static void errorMsg(String s) {
-		App.debug(s);
-	}// errorMsg(String)
 
 	/*
 	 * //SNIP START==========================Comment out in

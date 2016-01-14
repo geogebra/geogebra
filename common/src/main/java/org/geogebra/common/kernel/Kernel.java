@@ -4642,7 +4642,7 @@ public class Kernel {
 			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
 			sb.append("]");
 
-			App.debug(sb.toString());
+			// App.debug(sb.toString());
 
 			p[i] = getAlgebraProcessor().evaluateToPoint(sb.toString(), true,
 					false);

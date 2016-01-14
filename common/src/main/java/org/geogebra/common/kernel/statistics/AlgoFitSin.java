@@ -27,8 +27,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**************
  * AlgoFitSin * ************
@@ -153,7 +153,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		if (!geolist.isDefined() || (size < 4)) { // Direction-algo needs two
 													// flanks, 3 in each.
 			geofunction.setUndefined();
-			errorMsg("List not properly defined or too small (4 points needed).");
+			Log.debug(
+					"List not properly defined or too small (4 points needed).");
 			return;
 		}
 		// if error in parameters :
@@ -376,7 +377,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			if ((iterations > MAXITERATIONS) || (error)) { // From experience:
 															// >100 gives
 															// unusable result
-				errorMsg("More than " + MAXITERATIONS + " iterations...");
+				Log.debug("More than " + MAXITERATIONS + " iterations...");
 				error = true; // 14.02.09: No use=>undefined!
 				break;
 			}// if diverging
@@ -421,7 +422,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 
 			if (Math.abs(n) < EPSSING) { // Sinular matrix?
 				error = true;
-				errorMsg("Singular matrix...");
+				Log.debug("Singular matrix...");
 				da = db = dc = dd = 0; // To stop it all...
 			} else {
 				da = RegressionMath.det44(b1, m12, m13, m14, b2, m22, m23, m24,
@@ -477,7 +478,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c)
 				|| Double.isNaN(d)) {
 			error = true;
-			errorMsg("findParameters(): a,b or c undefined (NaN).");
+			Log.debug("findParameters(): a,b or c undefined (NaN).");
 			return;
 		}// 20.11:if one is undefined, everything is undefined
 	}// sinus_Reg()
@@ -594,7 +595,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		xd = xlist;
 		yd = ylist;
 		if (error) {
-			errorMsg("getPoints(): Wrong list format, must be points.");
+			Log.debug("getPoints(): Wrong list format, must be points.");
 		}
 	}// getPoints()
 
@@ -615,11 +616,6 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			return false; // Should not happen...
 		}// if
 	}// nearmaxmin(y,a,b)
-
-	// 20.11: ->Application.debug()
-	private final static void errorMsg(String s) {
-		App.debug(s);
-	}// errorMsg(String)
 
 	// Is distance between abs max and abx min 1,3,5,... halfperiodes?
 	// To be used if DFT is used in finding good initial values
