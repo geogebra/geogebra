@@ -270,23 +270,15 @@ pr.menu_header_undo(), null, 32);
 		}
 	}-*/;
 	
-	
-	//---------------- old -----------------------
-	//native void makeRed(Element element) /*-{
-	//	element.style.setProperty("background-color", "red", "important");
-	//	element.style.setProperty("color", "white", "important");
-	//}-*/;
-	
-	
-	
-	// --- new by alicia
-/*	native void makeGrey(Element element) /*-{
-	element.style.setProperty("background-color", "lightgrey", "important");
-	element.style.setProperty("color", "grey", "important");
-
+	/**
+	 * 
+	 * @param element
+	 * 			element to be reset
+	 * 			resets background-color to none - color goes back to inherited
+	 */
+	native void resetToolbarColor(Element element) /*-{
+	element.style.setProperty("background-color", "", "");
 	}-*/;
-	
-	//--- end by alicia
 	
 	private void startCheating() {
 		if (app.getExam() != null) {
@@ -433,10 +425,7 @@ pr.menu_header_undo(), null, 32);
 				// }
 				// });
 
-			//TODO switch toolbar color back to gray 
-			// new by alicia
-		//	makeGrey(getElement());
-			// end by alicia
+			
 			
 				openSearchButton = new StandardButton(
 						pr.menu_header_open_search(), null, 32);
@@ -467,6 +456,10 @@ pr.menu_header_undo(), null, 32);
 			}, KeyUpEvent.getType());
 			
 			this.rightButtonPanel.add(openSearchButton);
+			
+			// switch toolbar color back to grey 
+			resetToolbarColor(getElement());
+			
 		}
 		this.rightButtonPanel.add(openMenuButton); 
 		}
