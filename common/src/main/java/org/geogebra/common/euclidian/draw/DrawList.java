@@ -713,10 +713,15 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private void updateMetrics(GGraphics2D g2) {
 
-		if (optionsUpdate || viewHeight != view.getHeight()
-				|| viewWidth != view.getWidth()) {
-			optionFont = getLabelFont().deriveFont(GFont.PLAIN);
+		int dW = viewWidth - view.getWidth();
+		int dH = viewHeight - view.getHeight();
+
+		if (optionsUpdate || dW != 0 || dH != 0) {
+			if (dW < 0 || dH < 0) {
+				optionFont = getLabelFont().deriveFont(GFont.PLAIN);
+			}
 			updateOptgionMetrics(g2);
+			optionsUpdate = false;
 		}
 
 		if (viewHeight != view.getHeight()) {
@@ -770,7 +775,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private void drawOptions(GGraphics2D g2) {
 
 		g2.setPaint(geoList.getBackgroundColor());
-		int optTop = boxTop + boxHeight + 2 * OPTIONBOX_COMBO_GAP;
+		int optTop = boxTop + boxHeight + 4 * OPTIONBOX_COMBO_GAP;
 		int viewBottom = view.getViewHeight();
 
 		if (viewBottom - optTop < allRowHeights) {
@@ -986,7 +991,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			if (i == itemsFrom && !latex) {
 
 				if (rowTop > boxTop + boxHeight) {
-					rowTop += standardGap / 2;
+					rowTop += standardGap;
 				}
 
 				rowTop += getFullTextHeight(g2, text);
