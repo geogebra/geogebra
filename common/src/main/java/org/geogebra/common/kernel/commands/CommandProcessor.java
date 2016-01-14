@@ -595,7 +595,6 @@ kernelA.getEulerNumber(),
 		else
 			sb.setLength(0);
 		getCommandSyntax(sb, app1.getLocalization(), cmd, argNumber);
-		App.debug(getClass().getName());
 		return new MyError(app1.getLocalization(), sb.toString(), cmd, null);
 	}
 

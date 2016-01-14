@@ -53,12 +53,12 @@ public abstract class AlgoAngle extends AlgoElement {
 	/**
 	 * create a new GeoAngle with interval as default angle
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return new GeoAngle
 	 */
-	protected GeoAngle newGeoAngle(Construction cons) {
-		GeoAngle ret = new GeoAngle(cons);
+	protected GeoAngle newGeoAngle(Construction cons1) {
+		GeoAngle ret = new GeoAngle(cons1);
 		ret.setDrawable(true);
 		return ret;
 	}
@@ -129,6 +129,11 @@ public abstract class AlgoAngle extends AlgoElement {
 		}
 	}
 
+	/**
+	 * @param v
+	 *            vector
+	 * @return start point or origin
+	 */
 	protected GeoPointND getStartPoint(GeoVectorND v) {
 		return v.getStartPoint() == null ? cons.getOrigin() : v.getStartPoint();
 	}

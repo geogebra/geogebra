@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
@@ -134,7 +133,8 @@ public class ParametricProcessor {
 			removeSliders(num, undefinedVariables);
 
 		} else if (parametricEquation) {
-			App.debug("EQUATION");
+			// TODO this branch should be handled by processEquation, so maybe
+			// not needed at all
 			try {
 
 				FunctionVariable fv = new FunctionVariable(kernel, varName);
@@ -350,7 +350,7 @@ public class ParametricProcessor {
 		} else if (ev instanceof FunctionNVar) {
 			return ap.processFunctionNVar((FunctionNVar) ev);
 		}
-		App.debug("InvalidFunction:"
+		Log.debug("InvalidFunction:"
 				+ exp.toString(StringTemplate.defaultTemplate) + ","
 				+ ev.getClass() + "," + fv.length);
 		throw new MyError(kernel.getApplication().getLocalization(),
