@@ -16,7 +16,9 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import org.geogebra.common.cas.GeoGebraCAS;
@@ -30,11 +32,14 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.Traversing.GeoNumericLabelCollector;
+import org.geogebra.common.kernel.arithmetic.Traversing.GeoNumericReplacer;
 import org.geogebra.common.kernel.arithmetic.TrustCheck;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.prover.AlgoAreCongruent;
@@ -633,9 +638,27 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				.isExpressionNode())
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 			TrustCheck rootCheck = traverseExpression(root);
-			if (root.getLeftTree().getOperation().equals(Operation.MULTIPLY)
-					&& !rootCheck.getTrustable()) {
+			// try to check substituted and expanded expression
+			if (!rootCheck.getTrustable()) {
 				ExpressionNode rootCopy = root.deepCopy(kernel);
+				// collect all labels of GeoNumerics from expression
+				Set<String> setOfGeoNumLabels = new TreeSet<String>();
+				rootCopy.traverse(GeoNumericLabelCollector
+						.getCollector(setOfGeoNumLabels));
+				Iterator<String> it = setOfGeoNumLabels.iterator();
+				while (it.hasNext()) {
+					String varStr = it.next();
+					// get GeoNumeric from construction with given label
+					GeoNumeric geo = (GeoNumeric) cons
+							.geoTableVarLookup(varStr);
+					// get substitute formula of GeoNumeric
+					ExpressionNode replExp = ((AlgoDependentNumber) geo
+							.getParentAlgorithm()).getExpression();
+					GeoNumericReplacer repl = GeoNumericReplacer.getReplacer(
+							geo, replExp, kernel);
+					// replace GeoNumeric with formula expression
+					rootCopy.traverse(repl);
+				}
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 				try {
 					// get expanded expression of root
