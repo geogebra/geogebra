@@ -259,12 +259,35 @@ pr.menu_header_undo(), null, 32);
 	/**
 	 * @param element
 	 *            element to be changed to red
+	 *            timer text elements get changed to white
 	 */
 	native void makeRed(Element element) /*-{
-		element.style.setProperty("background-color", "red", "important");
-		element.style.setProperty("color", "white", "important");
+	element.style.setProperty("background-color", "red", "important");
+	var timerElements = element.getElementsByClassName("rightButtonPanel")[0].getElementsByClassName("timer");
+	var i;
+	for(i = 0; i < timerElements.length; i++){
+		timerElements[i].style.setProperty("color", "white", "important");
+		}
+	}-*/;
+	
+	
+	//---------------- old -----------------------
+	//native void makeRed(Element element) /*-{
+	//	element.style.setProperty("background-color", "red", "important");
+	//	element.style.setProperty("color", "white", "important");
+	//}-*/;
+	
+	
+	
+	// --- new by alicia
+/*	native void makeGrey(Element element) /*-{
+	element.style.setProperty("background-color", "lightgrey", "important");
+	element.style.setProperty("color", "grey", "important");
 
 	}-*/;
+	
+	//--- end by alicia
+	
 	private void startCheating() {
 		if (app.getExam() != null) {
 			app.getExam().startCheating();
@@ -410,6 +433,11 @@ pr.menu_header_undo(), null, 32);
 				// }
 				// });
 
+			//TODO switch toolbar color back to gray 
+			// new by alicia
+		//	makeGrey(getElement());
+			// end by alicia
+			
 				openSearchButton = new StandardButton(
 						pr.menu_header_open_search(), null, 32);
 				openSearchButton.getUpFace().setImage(
@@ -437,10 +465,10 @@ pr.menu_header_undo(), null, 32);
 					}
 				}
 			}, KeyUpEvent.getType());
-		
+			
 			this.rightButtonPanel.add(openSearchButton);
 		}
-		this.rightButtonPanel.add(openMenuButton);
+		this.rightButtonPanel.add(openMenuButton); 
 		}
 
 	}
