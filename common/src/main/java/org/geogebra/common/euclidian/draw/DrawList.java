@@ -139,6 +139,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private void resetComboBox() {
+
 		if (!isDrawingOnCanvas() && label == null) {
 			label = view.getApplication().getSwingFactory().newJLabel("Label",
 					true);
@@ -713,23 +714,19 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private void updateMetrics(GGraphics2D g2) {
 
+		Log.debug("[PROFILE] updateMetrics");
 		int dW = viewWidth - view.getWidth();
 		int dH = viewHeight - view.getHeight();
 
 		if (optionsUpdate || dW != 0 || dH != 0) {
 			if (dW < 0 || dH < 0) {
+				Log.debug("[PROFILE] view size change, resetting font");
+				viewHeight = view.getHeight();
+				viewWidth = view.getWidth();
 				optionFont = getLabelFont().deriveFont(GFont.PLAIN);
 			}
-			updateOptgionMetrics(g2);
+			updateOptionMetrics(g2);
 			optionsUpdate = false;
-		}
-
-		if (viewHeight != view.getHeight()) {
-			viewHeight = view.getHeight();
-		}
-
-		if (viewWidth != view.getWidth()) {
-			viewWidth = view.getWidth();
 
 		}
 
@@ -746,10 +743,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
-	private void updateOptgionMetrics(GGraphics2D g2) {
+	private void updateOptionMetrics(GGraphics2D g2) {
 		if (!isOptionsVisible()) {
 			return;
 		}
+		Log.debug("[PROFILE] Updating option metrics");
 		getPlainItemExtremas(g2);
 		int max = getOptionCapacity(g2);
 		int fontSize = optionFont.getSize();
@@ -761,21 +759,19 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			fontSize--;
 			optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
 			max = getOptionCapacity(g2);
-			Log.debug("[OPTIONS] reducing font to " + fontSize + " pt. ("
-					+ colCount + ", " + rowCount + ") capacity: " + max);
+			Log.debug("[PROFILE]fontSize--");
 		}
 		if (colCount == 1) {
 			itemWidth += getTriangleControlWidth();
 		}
 
-		drawOptionLines(g2, 0, 0, false);
 		optionsUpdate = false;
 	}
 
 	private void drawOptions(GGraphics2D g2) {
-
+		Log.debug("[PROFILE] drawing options");
 		g2.setPaint(geoList.getBackgroundColor());
-		int optTop = boxTop + boxHeight + 4 * OPTIONBOX_COMBO_GAP;
+		int optTop = boxTop + boxHeight + 2 * OPTIONBOX_COMBO_GAP;
 		int viewBottom = view.getViewHeight();
 
 		if (viewBottom - optTop < allRowHeights) {
@@ -804,19 +800,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		GRectangle rUpLeft = optionItems.get(0).getBounds();
 		int top = (int) rUpLeft.getBounds().getY();
 		if (size > 1) {
-
-
 			int upRigthIdx = rowCount * (colCount - 1);
 			if (upRigthIdx >= size) {
 				upRigthIdx = size - 1;
 			}
 
-			// int left = (int) rUpLeft.getX();
-			// int top = (int) rUpLeft.getY();
-			//
-			// int width = (int) (colCount > 0 ? colCount * rUpLeft.getWidth()
-			// : rUpLeft.getWidth());
-			// int height = (int) (rowCount * rUpLeft.getHeight());
 			int left = optLeft;
 			int width = optWidth;
 			int height = rowCount * itemHeight;
@@ -895,6 +883,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private int drawOptionLines(GGraphics2D g2, int left, int top,
 			boolean draw) {
+		Log.debug("[PROFILE] drawing option lines");
 		optionItems.clear();
 		int itemCount = geoList.size();
 
