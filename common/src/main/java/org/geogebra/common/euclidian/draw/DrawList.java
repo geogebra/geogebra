@@ -81,7 +81,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private org.geogebra.common.javax.swing.GLabel label;
 	private DropDownList dropDown = null;
 	private int optionsHeight;
-	private int optionsWidth;
+	private boolean optionsUpdate = false;
 	private String selectedText;
 	private int selectedHeight;
 	private GBox ctrlBox;
@@ -715,7 +715,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private void updateMetrics(GGraphics2D g2) {
 
-		if (viewHeight != view.getHeight() || viewWidth != view.getWidth()) {
+		if (optionsUpdate || viewHeight != view.getHeight()
+				|| viewWidth != view.getWidth()) {
 			optionFont = getLabelFont().deriveFont(GFont.PLAIN);
 			updateOptgionMetrics(g2);
 		}
@@ -756,21 +757,21 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			fontSize--;
 			optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
 			max = getOptionCapacity(g2);
-			Log.debug("[-] cols: " + colCount + " rows: " + rowCount
-					+ " fontSize: " + fontSize + " pt max: " + max);
+			Log.debug("[OPTIONS] reducing font to " + fontSize + " pt. ("
+					+ colCount + ", " + rowCount + ") capacity: " + max);
 		}
 		if (colCount == 1) {
 			itemWidth += getTriangleControlWidth();
 		}
 
 		drawOptionLines(g2, 0, 0, false);
-
+		optionsUpdate = false;
 	}
 
 	private void drawOptions(GGraphics2D g2) {
 
 		g2.setPaint(geoList.getBackgroundColor());
-		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
+		int optTop = boxTop + boxHeight + 2 * OPTIONBOX_COMBO_GAP;
 		int viewBottom = view.getViewHeight();
 
 		if (viewBottom - optTop < allRowHeights) {
@@ -897,8 +898,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			colWidth = boxWidth;
 	
 			GDimension d = drawOptionColumn(g2, top, left, 0, itemCount, draw);
-			optionsWidth = d.getWidth() + 2 * COMBO_TEXT_MARGIN
-					+ getTriangleControlWidth();
+			// optionsWidth = d.getWidth() + 2 * COMBO_TEXT_MARGIN
+			// + getTriangleControlWidth();
 			optionsHeight = d.getHeight();
 		} else {
 			drawOptionsMultiColumn(g2, top, left, draw);
@@ -942,7 +943,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			optionsHeight = height;
 		}
 
-		optionsWidth = colWidth * colCount;
+		// optionsWidth = colWidth * colCount;
 
 		if (colCount != size) {
 			// no gap needed at the end if all elements in one row.
@@ -1326,6 +1327,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (optionsVisible) {
 			currentIdx = 0;
 			view.setOpenedComboBox(this);
+			optionsUpdate = true;
 		} else {
 			view.setOpenedComboBox(null);
 		}
