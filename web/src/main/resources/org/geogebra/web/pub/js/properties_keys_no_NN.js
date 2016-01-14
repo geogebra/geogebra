@@ -1799,7 +1799,7 @@ __GGB__keysVar.no_NN.menu = {
     "Ray": "Str\xe5le gjennom to punkt",
     "Ray.Help": "Vel startpunkt og deretter eit punkt p\xe5 str\xe5len",
     "RealSense.DetectedMessage": "Gratulerer! Intel\xae RealSense\u2122-kameraet kan brukast med GeoGebra!",
-    "RealSense.Tutorial": "Intel\xae RealSense\u2122-veiledning",
+    "RealSense.Tutorial": "Intel\xae RealSense\u2122-rettleiing",
     "ReceivedData": "Mottekne data",
     "Recent": "Opne sist brukte",
     "RecentColor": "Sist brukte",
