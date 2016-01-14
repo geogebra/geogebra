@@ -41,12 +41,7 @@ public class MyArbitraryConstant {
 		this.ce = ce;
 	}
 
-	/*
-	 * public static String latexStr(String prefix,Map<Integer,String>
-	 * map,Integer number,Construction cons){ String s = map.get(number);
-	 * if(s!=null) return s; s = cons.getIndexLabel(prefix, number);
-	 * map.put(number, s); return s; }
-	 */
+
 	private int position = 0;
 
 	/**
@@ -213,6 +208,12 @@ public class MyArbitraryConstant {
 		return ce instanceof GeoCasCell;
 	}
 
+	/**
+	 * TODO having just one position assumes that only one of real / integer /
+	 * complex is used
+	 * 
+	 * @return index of next constant
+	 */
 	public int getPosition() {
 		return position;
 	}

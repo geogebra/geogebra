@@ -1070,8 +1070,6 @@ public interface Traversing {
 				return ((FunctionalNVar) geo).getFunctionExpression()
 						.deepCopy(geo.getKernel()).traverse(this);
 			if (geo instanceof GeoCasCell) {
-				App.debug(geo + ":"
-						+ ((GeoCasCell) geo).getOutputValidExpression());
 				return ((GeoCasCell) geo).getOutputValidExpression()
 						.deepCopy(geo.getKernel()).traverse(this).unwrap();
 			}

@@ -22,8 +22,8 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.roots.RealRootDerivFunction;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Function of one variable x that returns either a number or a boolean. This
@@ -753,7 +753,7 @@ public class Function extends FunctionNVar implements
 			}
 			return polyFun;
 		} catch (Exception e) {
-			App.debug("error in buildPolyFunction:");
+			Log.warn("error in buildPolyFunction:" + e.getMessage());
 			e.printStackTrace();
 			return null;
 		}
@@ -785,7 +785,8 @@ public class Function extends FunctionNVar implements
 			coeff = Polynomial.fromNode(replaced, equ).getCoeff();
 			terms = coeff.length;
 		} catch (Throwable t) {
-			App.debug(ev + " couldn't be transformed to polynomial");
+			Log.warn(ev + " couldn't be transformed to polynomial:"
+					+ t.getMessage());
 		}
 		if (terms == -1 || !equ.isPolynomial())
 			return null;
@@ -828,7 +829,6 @@ public class Function extends FunctionNVar implements
 			e.printStackTrace();
 			return null;
 		} catch (Error e) {
-			App.debug("error in evaluateToExpressionNode: " + str);
 			e.printStackTrace();
 			return null;
 		}

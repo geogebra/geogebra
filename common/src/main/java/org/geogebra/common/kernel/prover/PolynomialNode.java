@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.arithmetic;
+package org.geogebra.common.kernel.prover;
 
 import org.geogebra.common.plugin.Operation;
 

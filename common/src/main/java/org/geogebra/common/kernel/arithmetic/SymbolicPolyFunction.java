@@ -13,7 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for polynomials with ExpressionValues as coefficients. Needed for root
@@ -87,11 +87,11 @@ public class SymbolicPolyFunction extends PolyFunction {
 			}
 			return true;
 		} catch (Exception e) {
-			App.debug("updateCoeffValues: ");
+			Log.warn("updateCoeffValues: " + e.getMessage());
 			e.printStackTrace();
 			return false;
 		} catch (Error err) {
-			App.debug("updateCoeffValues: ");
+			Log.warn("updateCoeffValues: " + err.getMessage());
 			err.printStackTrace();
 			return false;
 		}

@@ -26,9 +26,9 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.GgbMat;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * MyList is used to store a list of ExpressionNode objects read by the parser
@@ -893,7 +893,7 @@ public class MyList extends ValidExpression implements ListValue,
 			// g:x=0, g isElementOf {x=0} gives null here
 			// see #1535
 			if (ev == null) {
-				App.debug(myList.getListElement(i).getClass().getName());
+				Log.warn(myList.getListElement(i) + " cannot be evaluated");
 				continue;
 			}
 

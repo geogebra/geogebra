@@ -422,7 +422,7 @@ public class Command extends ValidExpression implements
 		if (evalGeos != null && evalGeos.length >= 1) {
 			return evalGeos[0];
 		}
-		App.debug("invalid command evaluation: " + name);
+		Log.debug("invalid command evaluation: " + name);
 		throw new MyError(app.getLocalization(), app.getLocalization()
 				.getError("InvalidInput") + ":\n" + this);
 
@@ -445,7 +445,7 @@ public class Command extends ValidExpression implements
 		if (result != null) {
 			return result;
 		}
-		App.debug("invalid command evaluation: " + name);
+		Log.debug("invalid command evaluation: " + name);
 		throw new MyError(app.getLocalization(), app.getLocalization()
 				.getError("InvalidInput") + ":\n" + this);
 

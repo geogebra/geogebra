@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MaxSizeHashMap;
@@ -524,7 +523,6 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 					return resultFun;
 				}
 			}
-			App.debug(casString);
 			// evaluate expression by CAS
 			String result = symbolic ? kernel.evaluateGeoGebraCAS(casString,
 					arbconst) : // symbolic

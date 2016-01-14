@@ -5037,7 +5037,7 @@ kernel, left,
 		
 		}
 
-		App.error("unhandled operation in derivative() (no CAS version): "
+		Log.error("unhandled operation in derivative() (no CAS version): "
 				+ operation.toString());
 
 		// undefined
@@ -5427,7 +5427,7 @@ kernel, left,
 
 		}
 
-		App.error("unhandled operation in integral() (no CAS version): "
+		Log.warn("unhandled operation in integral() (no CAS version): "
 				+ operation.toString());
 
 		// undefined
@@ -5463,7 +5463,7 @@ kernel, left,
 					.multiplyR(i);
 		}
 
-		App.debug("not linear integral");
+		Log.warn("not linear integral");
 		return wrap(Double.NaN);
 	}
 

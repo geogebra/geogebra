@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Common class for objects obtained from the parser that are not yet processed
@@ -384,12 +384,12 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel) {
-		App.debug("derivative from " + this.getClass());
+		Log.debug("derivative from " + this.getValueType());
 		return null;
 	}
 
 	public ExpressionValue integral(FunctionVariable fv, Kernel kernel) {
-		App.debug("integral from " + this.getClass());
+		Log.debug("integral from " + this.getValueType());
 		return null;
 	}
 

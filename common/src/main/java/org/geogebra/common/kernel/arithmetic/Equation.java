@@ -22,8 +22,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * stores left and right hand side of an equation as Exprssions
@@ -336,7 +336,7 @@ public class Equation extends ValidExpression {
 			NumberValue nv = (NumberValue) ev;
 			return nv.getDouble();
 		} catch (Exception e) {
-			App.debug("getCoeffValue(" + variables + ") failed:" + e);
+			Log.warn("getCoeffValue(" + variables + ") failed:" + e);
 			return Double.NaN;
 		}
 	}
@@ -584,7 +584,6 @@ public class Equation extends ValidExpression {
 	 * @return says if the original expression contains "z"
 	 */
 	public boolean containsZ() {
-
 		return containsVar(lhs, 'z') || containsVar(rhs, 'z');
 
 	}
@@ -617,7 +616,15 @@ public class Equation extends ValidExpression {
 			return containsVar(vec.getX(), var) || containsVar(vec.getY(), var)
 					|| containsVar(vec.getZ(), var);
 		}
-
+		if (v instanceof MyList) {
+			MyList list = (MyList) v;
+			for (int i = 0; i < list.size(); i++) {
+				if (containsVar(list.getListElement(i), var)) {
+					return true;
+				}
+			}
+			return false;
+		}
 		if (v instanceof Polynomial) {
 			return !((Polynomial) v).isFreeOf(var);
 		}
