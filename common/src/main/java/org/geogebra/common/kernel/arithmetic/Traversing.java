@@ -386,6 +386,108 @@ public interface Traversing {
 	}
 
 	/**
+	 * Replaces GeoNumerics with given expression
+	 */
+	public class GeoNumericReplacer implements Traversing {
+		private List<GeoNumeric> geoNums = new ArrayList<GeoNumeric>();
+		private List<ExpressionValue> newExps = new ArrayList<ExpressionValue>();
+		private int replacements;
+		private Kernel kernel;
+
+		public ExpressionValue process(ExpressionValue ev) {
+			ExpressionValue val;
+			if ((val = contains(ev)) != null)
+				return new ExpressionNode(kernel, val);
+			if (!(ev instanceof GeoNumeric))
+				return ev;
+			if ((val = getGeoNum((GeoNumeric) ev)) == null) {
+				return ev;
+			}
+			replacements++;
+			return val;
+		}
+
+		/**
+		 * @return number of replacements since getReplacer was called
+		 */
+		public int getReplacements() {
+			return replacements;
+		}
+
+		private static ExpressionValue contains(ExpressionValue ev) {
+			for (int i = 0; i < replacer.newExps.size(); i++) {
+				if (replacer.newExps.get(i) == ev) {
+					return replacer.newExps.get(i);
+				}
+			}
+			return null;
+		}
+
+		private static ExpressionValue getGeoNum(GeoNumeric geoNum) {
+			for (int i = 0; i < replacer.geoNums.size(); i++) {
+				if (geoNum.equals(replacer.geoNums.get(i))) {
+					return replacer.newExps.get(i);
+				}
+			}
+			return null;
+		}
+
+		/**
+		 * @param geoNum
+		 *            geoNumeric to replace
+		 * @param replacement
+		 *            replacement object
+		 */
+		public static void addVars(GeoNumeric geoNum,
+				ExpressionValue replacement) {
+			replacer.geoNums.add(geoNum);
+			replacer.newExps.add(replacement);
+		}
+
+		private static GeoNumericReplacer replacer = new GeoNumericReplacer();
+
+		/**
+		 * @param geoNum
+		 *            geoNum to replace
+		 * @param replacement
+		 *            replacement object
+		 * @param kernel
+		 *            kernel
+		 * @return replacer
+		 */
+		public static GeoNumericReplacer getReplacer(GeoNumeric geoNum,
+				ExpressionValue replacement, Kernel kernel) {
+			replacer.geoNums.clear();
+			replacer.newExps.clear();
+
+			replacer.geoNums.add(geoNum);
+			replacer.newExps.add(replacement);
+
+			replacer.replacements = 0;
+			replacer.kernel = kernel;
+			return replacer;
+		}
+
+		/**
+		 * When calling this method, make sure you initialize the replacer with
+		 * the {@link #addVars(String, ExpressionValue)} method
+		 * 
+		 * @param kernel1
+		 *            kernel
+		 * 
+		 * @return replacer
+		 */
+		public static GeoNumericReplacer getReplacer(Kernel kernel1) {
+			replacer.kernel = kernel1;
+			replacer.geoNums.clear();
+			replacer.newExps.clear();
+
+			replacer.replacements = 0;
+			return replacer;
+		}
+	}
+
+	/**
 	 * Renames Spreadsheet Variables with new name according to offset (dx,dy)
 	 * 
 	 * @author michael
@@ -991,6 +1093,46 @@ public interface Traversing {
 		 */
 		public static DummyVariableCollector getCollector(Set<String> commands) {
 			collector.commands = commands;
+			return collector;
+		}
+	}
+
+	/**
+	 * Collects all GeoNumeric labels
+	 */
+	public class GeoNumericLabelCollector implements Traversing {
+		private Set<String> labels;
+
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof ExpressionNode) {
+				ExpressionNode en = (ExpressionNode) ev;
+				if (en.getRight() instanceof GeoNumeric) {
+					add(en.getRight());
+				}
+				if (en.getLeft() instanceof GeoNumeric) {
+					add(en.getLeft());
+				}
+			}
+			return ev;
+		}
+
+		private void add(ExpressionValue geoNum) {
+			String str = ((GeoNumeric) geoNum).getLabelSimple();
+			labels.add(str);
+
+		}
+
+		private static GeoNumericLabelCollector collector = new GeoNumericLabelCollector();
+
+		/**
+		 * Resets and returns the collector
+		 * 
+		 * @param labels
+		 *            set into which we want to collect the geoNumeric labels
+		 * @return derivative collector
+		 */
+		public static GeoNumericLabelCollector getCollector(Set<String> labels) {
+			collector.labels = labels;
 			return collector;
 		}
 	}
