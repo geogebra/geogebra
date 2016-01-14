@@ -106,6 +106,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int itemHeight;
 	private int maxCols;
 	private int maxRows;
+	private String itemPlainMaxWidth;
+	private String itemPlainMaxHeight;
 
 	/**
 	 * Creates new drawable list
@@ -527,36 +529,31 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 
 
-	private String getWidthestPlainItem() {
-		String result = "";
+	private void getPlainItemExtremas(GGraphics2D g2) {
+
+		itemPlainMaxWidth = "";
+		itemPlainMaxHeight = "";
+		double maxHeight = 0;
 		for (int i = 0; i < geoList.size(); i++) {
 			String text = geoList.get(i)
 					.toValueString(StringTemplate.defaultTemplate);
 			if (!"".equals(text) && !isLatexString(text)
-					&& text.length() > result.length()) {
-				result = text;
-			}
-		}
-		return result;
-	}
+					&& text.length() > itemPlainMaxWidth.length()) {
+				itemPlainMaxWidth = text;
 
-	private double getTallestPlainItem(GGraphics2D g2) {
-		double result = 0;
-		for (int i = 0; i < geoList.size(); i++) {
-			String text = geoList.get(i)
-					.toValueString(StringTemplate.defaultTemplate);
-			if (!"".equals(text) && !isLatexString(text)) {
 				double h = getFullTextHeight(g2, text);
-				if (h > result) {
-					result = h;
+				if (h > maxHeight) {
+					itemPlainMaxHeight = text;
+					maxHeight = h;
 				}
+
 			}
 		}
-		return result;
 	}
 
-	private int estimatePlainWidth(GGraphics2D g2, int cols) {
-		GTextLayout layout = getLayout(g2, getWidthestPlainItem(), optionFont);
+
+	private int getPlainMaxWidth(GGraphics2D g2, int cols) {
+		GTextLayout layout = getLayout(g2, itemPlainMaxWidth, optionFont);
 		double w = (layout.getBounds().getWidth() + 2 * getOptionsItemHGap())
 				* cols;
 		return (int) w;
@@ -690,8 +687,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int getOptionCapacity(GGraphics2D g2) {
 		g2.setFont(optionFont);
 		int gap = getOptionsItemGap();
-		itemWidth = estimatePlainWidth(g2, 1);
-		itemHeight = (int) (getTallestPlainItem(g2)) + gap;
+
+		itemWidth = getPlainMaxWidth(g2, 1);
+		itemHeight = getFullTextHeight(g2, itemPlainMaxHeight) + gap;
 
 		maxCols = view.getViewWidth() / itemWidth;
 		maxRows = (view.getViewHeight()) / itemHeight;
@@ -747,6 +745,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (!isOptionsVisible()) {
 			return;
 		}
+		getPlainItemExtremas(g2);
 		int max = getOptionCapacity(g2);
 		int fontSize = optionFont.getSize();
 		Log.debug("[OPTIONS] update Metrics - cols: " + colCount + " rows: "
