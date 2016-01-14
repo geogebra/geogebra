@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Draw a GeoList containing drawable objects
@@ -714,8 +715,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private void updateMetrics(GGraphics2D g2) {
 
-		if (viewHeight != view.getHeight() || viewWidth != view.getHeight()) {
+		if (viewHeight != view.getHeight() || viewWidth != view.getWidth()) {
 			optionFont = getLabelFont().deriveFont(GFont.PLAIN);
+			updateOptgionMetrics(g2);
 		}
 
 		if (viewHeight != view.getHeight()) {
@@ -732,31 +734,36 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		selectedDimension = drawTextLine(g2, false, 0, 0, selectedText,
 				getLabelFont(), isLatexString(selectedText), false);
 
-		if (isOptionsVisible()) {
-			int max = 0;// getMaxCapacity(g2);
-			int fontSize = optionFont.getSize();
-			App.debug("[CAPACITY] first - cols: " + colCount + " rows: "
-					+ rowCount + " fontSize: " + fontSize + " pt max: " + max);
-			while ((max < geoList.size()
-					&& fontSize > OPTIONSBOX_MIN_FONTSIZE)) {
-				fontSize--;
-				optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
-				max = getOptionCapacity(g2);
-				App.debug("[-] cols: " + colCount + " rows: " + rowCount
-						+ " fontSize: " + fontSize + " pt max: " + max);
-			}
-			if (colCount == 1) {
-				itemWidth += getTriangleControlWidth();
-			}
-
-			drawOptionLines(g2, 0, 0, false);
-		}
-
 		setPreferredSize(getPreferredSize());
 
 		latexLabel = measureLabel(g2, geoList, getLabelText());
 
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth, boxHeight);
+
+	}
+
+	private void updateOptgionMetrics(GGraphics2D g2) {
+		if (!isOptionsVisible()) {
+			return;
+		}
+		int max = getOptionCapacity(g2);
+		int fontSize = optionFont.getSize();
+		Log.debug("[OPTIONS] update Metrics - cols: " + colCount + " rows: "
+				+ rowCount
+				+ " fontSize: " + fontSize + " pt max: " + max);
+
+		while ((max < geoList.size() && fontSize > OPTIONSBOX_MIN_FONTSIZE)) {
+			fontSize--;
+			optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
+			max = getOptionCapacity(g2);
+			Log.debug("[-] cols: " + colCount + " rows: " + rowCount
+					+ " fontSize: " + fontSize + " pt max: " + max);
+		}
+		if (colCount == 1) {
+			itemWidth += getTriangleControlWidth();
+		}
+
+		drawOptionLines(g2, 0, 0, false);
 
 	}
 
@@ -1331,7 +1338,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (!isDrawingOnCanvas()) {
 			return;
 		}
-		App.debug("[DROPDOWN] toggle");
+		Log.debug("[DROPDOWN] toggle");
 		optionsVisible = !optionsVisible;
 		geo.updateRepaint();
 	}
