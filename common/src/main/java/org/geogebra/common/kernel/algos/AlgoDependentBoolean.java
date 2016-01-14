@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
@@ -31,6 +32,7 @@ import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolynomialNode;
 import org.geogebra.common.kernel.arithmetic.TrustCheck;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -631,6 +633,32 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				.isExpressionNode())
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 			TrustCheck rootCheck = traverseExpression(root);
+			if (root.getLeftTree().getOperation().equals(Operation.MULTIPLY)
+					&& !rootCheck.getTrustable()) {
+				ExpressionNode rootCopy = root.deepCopy(kernel);
+				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+				try {
+					// get expanded expression of root
+					String expandGiacOutput = cas.getCurrentCAS().evaluateRaw(
+							"expand("
+									+ rootCopy.getLeftTree().toString(
+											StringTemplate.giacTemplate) + ")");
+					if (!expandGiacOutput.contains("?")
+							&& !expandGiacOutput.equals("{}")) {
+						// parse expanded string into expression
+						ValidExpression expandValidExp = (kernel
+								.getGeoGebraCAS())
+							.getCASparser()
+							.parseGeoGebraCASInputAndResolveDummyVars(
+									expandGiacOutput, kernel, null);
+						// check if expanded expression is trustable
+						rootCheck = traverseExpression((ExpressionNode) expandValidExp);
+					}
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			// we won't accept untrusted expressions
 			if (root.getLeftTree().isExpressionNode()
 					&& root.getRightTree().isExpressionNode()
