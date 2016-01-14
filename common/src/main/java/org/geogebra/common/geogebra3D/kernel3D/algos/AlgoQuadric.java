@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * @author ggb3D
- * @param <Computer>
  *
  */
 public abstract class AlgoQuadric extends AlgoElement3D {

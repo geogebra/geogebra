@@ -52,12 +52,12 @@ import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /** Class for conic in any dimension.
  * 
@@ -83,7 +83,7 @@ FromMeta
 	public static final int EQUATION_SPECIFIC = 2;
 	/** X=(1,1)+(sin(t),cos(t)) */
 	public static final int EQUATION_PARAMETRIC = 3;
-	
+	/** user defined equation form */
 	public static final int EQUATION_USER = 4;
 	/** variable strings for default output */
 	protected static String[] vars = { "x\u00b2", "x y", "y\u00b2", "x", "y" };
@@ -3872,34 +3872,7 @@ FromMeta
     // AREA
     //////////////////////////
     
-    private double area;
 
-    /**
-     * Updates area to match current definition
-     */
-    public void calcArea(){
-
-    	switch(type){
-    	case CONIC_CIRCLE:
-    		area=getHalfAxis(0)*getHalfAxis(0)*Math.PI;
-    		break;
-    	case CONIC_SINGLE_POINT:
-    		area=0;
-    		break;
-    	default:
-			App.error("Missing type (type=" + type + ")");
-    	}
-    }
-
-    /**
-     * @return area of this conic
-     */
-    public double getArea(){
-		if (defined) {
-    		return area;
-		}
-		return Double.NaN;
-    }	
 
     
 
@@ -4268,7 +4241,8 @@ FromMeta
 			break;
 
 		default:
-			App.debug("unknown conic type");
+			Log.debug("unknown conic type");
+			Log.debug(this.coeffs);
 			sbBuildValueString.append("?");
 			break;
 		}

@@ -94,6 +94,7 @@ import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -7711,7 +7712,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			spreadsheetTraceList.add(xx);
 
 		} else {
-			App.debug("error in getSpreadsheetTraceList(), not a NumberValue");
+			Log.debug("error in getSpreadsheetTraceList(), not a NumberValue");
 		}
 
 	}

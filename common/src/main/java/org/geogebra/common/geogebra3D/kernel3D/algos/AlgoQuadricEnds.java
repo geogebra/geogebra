@@ -156,8 +156,8 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		sections[1].setMatrix(cm);
 
 		// areas
-		sections[0].calcArea();
-		sections[1].calcArea();
+		// sections[0].calcArea();
+		// sections[1].calcArea();
 
 	}
 

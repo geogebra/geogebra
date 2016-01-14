@@ -116,7 +116,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		section.setMatrix(cm);
 
 		// areas
-		section.calcArea();
+		// section.calcArea();
 
 	}
 

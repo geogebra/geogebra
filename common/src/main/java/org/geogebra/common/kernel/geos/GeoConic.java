@@ -500,8 +500,6 @@ public class GeoConic extends GeoConicND implements
 		if (coeff.length <= 2 && coeff[0].length <= 2
 				&& Kernel.isZero(evalCoeff(coeff, 1, 1))) {
 			type = CONIC_LINE;
-			App.debug(matrix[4] + "," + matrix[5] + ","
-					+ matrix[2]);
 		}
 	}
 

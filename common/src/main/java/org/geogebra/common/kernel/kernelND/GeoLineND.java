@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * @author mathieu
@@ -154,8 +153,7 @@ public interface GeoLineND extends GeoDirectionND{
 	 * @return line direction for equation (to keep integers if some)
 	 */
 	public Coords getDirectionForEquation();
-	
-	public boolean isEqual(GeoElement geo);
+
 	public void setStandardStartPoint();
 	
 	public void setStartPoint(GeoPointND point);
