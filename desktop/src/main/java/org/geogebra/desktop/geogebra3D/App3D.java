@@ -140,7 +140,7 @@ public class App3D extends AppD {
 				Log.debug("RealSense: Session successfully created");
 
 				// save in prefs
-				setInput3DType(Input3DFactory.PREFS_REALSENSE);
+				setInput3DType(Input3D.PREFS_REALSENSE);
 
 				// show message
 				showRealSenseCongratulations();
@@ -164,7 +164,7 @@ public class App3D extends AppD {
 				Log.debug("zSpace: successfully detected");
 
 				// save in prefs
-				setInput3DType(Input3DFactory.PREFS_ZSPACE);
+				setInput3DType(Input3D.PREFS_ZSPACE);
 
 				// show message
 				showZSpaceCongratulations();
@@ -181,7 +181,7 @@ public class App3D extends AppD {
 	private void runThreadForCheckInput3D() {
 		if (!tubeLoginIsShowing && AppD.WINDOWS && !isApplet()
 				&& (has(Feature.REALSENSE) || has(Feature.ZSPACE))
-				&& getInput3DType().equals(Input3DFactory.PREFS_NONE)) {
+				&& getInput3DType().equals(Input3D.PREFS_NONE)) {
 			App.debug("============ runThreadToCheckInput3D ");
 			Thread t = new ThreadForCheckInput3D(this);
 			t.start();
@@ -193,7 +193,7 @@ public class App3D extends AppD {
 	 */
 	void showRealSenseCongratulations() {
 		showInput3DCongratulations(getMenu("RealSense.DetectedMessage"),
-				"https://tube-beta.geogebra.org/b/OaGmb7LE");
+				REALSENSE_TUTORIAL);
 	}
 
 	/**
@@ -361,11 +361,8 @@ public class App3D extends AppD {
 		GeoGebraPreferencesD.getPref().setInput3DType(type);
 	}
 
-	/**
-	 * 
-	 * @return 3D input type currently used, "none" if none
-	 */
-	public static String getInput3DType() {
+	@Override
+	public String getInput3DType() {
 		return GeoGebraPreferencesD.getPref().getInput3DType();
 	}
 
@@ -388,7 +385,7 @@ public class App3D extends AppD {
 				if (e.getType() == Input3DExceptionType.INSTALL) {
 					// reset 3D input type, guessing 3d input has been
 					// uninstalled
-					setInput3DType(Input3DFactory.PREFS_NONE);
+					setInput3DType(Input3D.PREFS_NONE);
 				} else if (e.getType() == Input3DExceptionType.NOT_UP_TO_DATE) {
 					showRealSenseNotUpToDate(e.getMessage());
 				}
@@ -829,6 +826,7 @@ public class App3D extends AppD {
 		return size;
 	}
 
+	@Override
 	public String getVersionSuffix() {
 		return "-3D";
 	}

@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -102,6 +103,8 @@ public abstract class App implements UpdateSelection {
 	public static final String WIKI_CAS_VIEW = "CAS_View";
 	/** Url for wiki tutorials */
 	public static final String WIKI_TUTORIAL = "Tutorial:Main Page";
+	/** Url for Intel RealSense tutorials */
+	public static final String REALSENSE_TUTORIAL = "https://tube-beta.geogebra.org/b/OaGmb7LE";
 	/**
 	 * Url for wiki article about exporting to HTML changed to GeoGebraTube
 	 * upload from ggb44
@@ -4164,5 +4167,9 @@ public abstract class App implements UpdateSelection {
 	 */
 	public String getVersionSuffix() {
 		return "";
+	}
+
+	public String getInput3DType() {
+		return Input3D.PREFS_NONE;
 	}
 }

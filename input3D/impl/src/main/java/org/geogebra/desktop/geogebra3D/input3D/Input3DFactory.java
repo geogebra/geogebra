@@ -12,10 +12,6 @@ import org.geogebra.desktop.geogebra3D.input3D.zspace.InputZSpace3D;
  */
 public class Input3DFactory {
 
-	static public String PREFS_REALSENSE = "realsense";
-	static public String PREFS_ZSPACE = "zspace";
-	static public String PREFS_NONE = "none";
-	
 	public enum Input3DExceptionType {
 		INSTALL, INSTALL_RUNTIMES, RUN, ALREADY_USED, NOT_UP_TO_DATE, UNKNOWN
 	};
@@ -52,13 +48,13 @@ public class Input3DFactory {
 
 		switch (type.charAt(0)) {
 		case 'r':
-			if (type.equals(PREFS_REALSENSE)) {
+			if (type.equals(Input3D.PREFS_REALSENSE)) {
 				// check for realsense
 				return new InputIntelRealsense3D(app);
 			}
 			return null;
 		case 'z':
-			if (type.equals(PREFS_ZSPACE)) {
+			if (type.equals(Input3D.PREFS_ZSPACE)) {
 				// check for zSpace
 				return new InputZSpace3D();
 			}

@@ -22,6 +22,10 @@ public interface Input3D {
 		LEFT, RIGHT, FAR, NEAR, BOTTOM, TOP, NO, NEVER, YES
 	}
 
+	static public String PREFS_REALSENSE = "realsense";
+	static public String PREFS_ZSPACE = "zspace";
+	static public String PREFS_NONE = "none";
+
 	/**
 	 * 
 	 * @return device type
