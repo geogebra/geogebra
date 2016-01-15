@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 
 /**
@@ -166,9 +167,14 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 			equation.initEquation();
 		}
 		ExpressionNode def = geoElement.getDefinition();
+		App.debug(equation.isForcedImplicitPoly() + ","
+				+ equation.isForcedConic() + "," + equation.degree());
 		// use the forced behavior here
 		int degree = equation.isForcedImplicitPoly() ? 3
 				: (equation.isForcedConic() ? 2 : equation.degree());
+		if (!equation.isPolynomial()) {
+			degree = 3;
+		}
 		switch (degree) {
 		// linear equation -> LINE
 		case 1:
