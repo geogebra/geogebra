@@ -23,6 +23,10 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.Inspecting.MinusChecker;
+import org.geogebra.common.kernel.arithmetic.Inspecting.PlusChecker;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -469,15 +473,49 @@ public class ProverBotanasMethod {
 				// get expression string for giac
 				String strForGiac = ((AlgoDependentBoolean) algo)
 						.getStrForGiac();
+				String userStrForGiac = ((AlgoDependentBoolean) algo)
+						.getUserGiacString();
 
 				GeoGebraCAS cas = (GeoGebraCAS) statement.getKernel()
 						.getGeoGebraCAS();
 				try {
+					// K
 					String output = cas.getCurrentCAS().evaluateRaw(
 							strForGiac.toString());
+					// F
+					String userOutput = cas.getCurrentCAS().evaluateRaw(
+							userStrForGiac);
+					// T = K/F
+					String result = cas.getCurrentCAS().evaluateRaw(
+							"simplify(" + output + "/" + userOutput + ")");
 					// unhandled input expression
-					if (output.contains("?")) {
+					if (output.contains("?") || userOutput.contains("?")
+							|| result.contains("?")) {
 						return ProofResult.UNKNOWN;
+					}
+					// T is not empty
+					if (!(result.equals("{}"))) {
+						ValidExpression resultVE = (statement.getKernel()
+								.getGeoGebraCAS()).getCASparser()
+								.parseGeoGebraCASInputAndResolveDummyVars(
+										result, statement.getKernel(), null);
+						if (resultVE instanceof ExpressionNode
+								&& ((ExpressionNode) resultVE).getLeft() instanceof MyList) {
+							ExpressionValue nodeToCheck = ((MyList) ((ExpressionNode) resultVE)
+									.getLeft()).getListElement(0);
+							Inspecting plusInsp = PlusChecker.INSTANCE;
+							Inspecting minusInsp = MinusChecker.INSTANCE;
+							// check if contains only plus
+							boolean contPlus = plusInsp.check(nodeToCheck);
+							// check if contains only minus
+							boolean contMinus = minusInsp.check(nodeToCheck);
+							// expression is trustable
+							// if contains only plus or only minus
+							if (contPlus || contMinus) {
+								((AlgoDependentBoolean) algo)
+										.setTrustable(true);
+							}
+						}
 					}
 					// giac output is not empty
 					if (!(output.equals("{}"))) {
@@ -516,7 +554,7 @@ public class ProverBotanasMethod {
 								// reserve first var
 								GeoElement geo = giacVarIt.next();
 								// copy the expression of giac output
-								ExpressionNode copyRoot = (ExpressionNode) root
+								ExpressionNode copyRoot = root
 										.deepCopy(statement.getKernel());
 								while (giacVarIt.hasNext()) {
 									// iterate through vars
