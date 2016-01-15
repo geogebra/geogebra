@@ -383,6 +383,7 @@ public abstract class AppWFull extends AppW {
 					Date date = new Date();
 					kernel.getAlgebraProcessor().reinitCommands();
 					getExam().setStart(date.getTime());
+					fireViewsChangedEvent();
 					getGuiManager().updateToolbarActions();
 					Layout.initializeDefaultPerspectives(AppWFull.this, 0.2);
 					getGuiManager().updateMenubar();
