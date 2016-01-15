@@ -31,6 +31,11 @@ public final class MyMath {
 	public static final double ONE_THIRD = 1d / 3d;
 
 	/**
+	 * Largest integer
+	 */
+	public static double LARGEST_INTEGER = 9007199254740992d;
+
+	/**
 	 * Cubic root
 	 * 
 	 * @param a

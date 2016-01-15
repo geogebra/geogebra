@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.MyMath;
 
 /**
  * Prime factors of a number. Adapted from AlgoPrimeFactors
@@ -31,10 +32,6 @@ public class AlgoPrimeFactorization extends AlgoElement {
 	private NumberValue num; // input
 	private GeoList outputList; // output
 
-	/**
-	 * Largest integer
-	 */
-	public static double LARGEST_INTEGER = 9007199254740992d;
 
 	/**
 	 * Creates new factorization algo
@@ -105,7 +102,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 			return;
 		}
 
-		if (n < 2 || n > LARGEST_INTEGER) {
+		if (n < 2 || n > MyMath.LARGEST_INTEGER) {
 			outputList.setUndefined();
 			return;
 		}

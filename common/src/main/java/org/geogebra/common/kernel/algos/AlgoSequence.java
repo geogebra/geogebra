@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -329,9 +330,18 @@ public class AlgoSequence extends AlgoElement {
 		updateRunning = false;
 	}
 
+	// use doubles
+	// ef Sequence[9007199254000027, 9007199254000187]
 	private void computeRange() {
-		int from = (int) Math.round(var_from.getDouble());
-		int to = (int) Math.round(var_to.getDouble());
+		double from = Math.round(var_from.getDouble());
+		double to = Math.round(var_to.getDouble());
+
+		if (from > MyMath.LARGEST_INTEGER || from < -MyMath.LARGEST_INTEGER
+				|| to > MyMath.LARGEST_INTEGER
+				|| to < -MyMath.LARGEST_INTEGER) {
+			list.setUndefined();
+			return;
+		}
 
 		list.clear();
 
@@ -339,14 +349,14 @@ public class AlgoSequence extends AlgoElement {
 		if (from < to) {
 
 			// increasing list
-			for (int k = from; k <= to; k++) {
+			for (double k = from; k <= to; k++) {
 				list.addNumber(k, null);
 			}
 
 		} else {
 
 			// decreasing list
-			for (int k = from; k >= to; k--) {
+			for (double k = from; k >= to; k--) {
 				list.addNumber(k, null);
 			}
 

@@ -1708,21 +1708,31 @@ public enum Operation {
 					&& (rt.unwrap() instanceof NumberValue)) {
 				MyList list = new MyList(ev.getKernel());
 
-				int from = (int) Math.round(lt.evaluateDouble());
-				int to = (int) Math.round(rt.evaluateDouble());
+				double from = Math.round(lt.evaluateDouble());
+				double to = Math.round(rt.evaluateDouble());
+
+				if (from > MyMath.LARGEST_INTEGER
+						|| from < -MyMath.LARGEST_INTEGER) {
+					return ev.illegalArgument(lt);
+				}
+
+				if (to > MyMath.LARGEST_INTEGER
+						|| to < -MyMath.LARGEST_INTEGER) {
+					return ev.illegalArgument(rt);
+				}
 
 				// also see AlgoSequence.computeRange()
 				if (from < to) {
 
 					// increasing list
-					for (int k = from; k <= to; k++) {
+					for (double k = from; k <= to; k++) {
 						list.addListElement(new MyDouble(ev.getKernel(), k));
 					}
 
 				} else {
 
 					// decreasing list
-					for (int k = from; k >= to; k--) {
+					for (double k = from; k >= to; k--) {
 						list.addListElement(new MyDouble(ev.getKernel(), k));
 					}
 

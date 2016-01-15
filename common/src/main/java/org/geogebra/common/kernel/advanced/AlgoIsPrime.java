@@ -3,10 +3,10 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.cas.AlgoPrimeFactorization;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.MyMath;
 
 public class AlgoIsPrime extends AlgoElement {
 	private GeoBoolean result;
@@ -37,7 +37,7 @@ public class AlgoIsPrime extends AlgoElement {
 			return;
 		}
 
-		if (n < 2 || n > AlgoPrimeFactorization.LARGEST_INTEGER) {
+		if (n < 2 || n > MyMath.LARGEST_INTEGER) {
 			result.setUndefinedProverOnly();
 			return;
 		}

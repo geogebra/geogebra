@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.MyMath;
 
 /**
  * Algorithm for NextPrime and PreviousPrime
@@ -50,8 +51,7 @@ public class AlgoNextPreviousPrime extends AlgoElement implements UsesCAS {
 
 	@Override
 	public void compute() {
-		if (!init.isDefined()
-				|| init.getDouble() > AlgoPrimeFactorization.LARGEST_INTEGER) {
+		if (!init.isDefined() || init.getDouble() > MyMath.LARGEST_INTEGER) {
 			result.setUndefined();
 			return;
 		}
