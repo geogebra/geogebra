@@ -104,7 +104,7 @@ public abstract class App implements UpdateSelection {
 	/** Url for wiki tutorials */
 	public static final String WIKI_TUTORIAL = "Tutorial:Main Page";
 	/** Url for Intel RealSense tutorials */
-	public static final String REALSENSE_TUTORIAL = "https://tube-beta.geogebra.org/b/OaGmb7LE";
+	public static final String REALSENSE_TUTORIAL = "https://tube.geogebra.org/b/OaGmb7LE";
 	/**
 	 * Url for wiki article about exporting to HTML changed to GeoGebraTube
 	 * upload from ggb44
