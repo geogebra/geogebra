@@ -6062,7 +6062,7 @@ body.application[dir=rtl] .deleteAlgebra {
    ######################################## */
  
 .previewTable{
-	font-size: 30px;
+	font-size: 40px;
 }
 
 @media screen {
@@ -6073,9 +6073,9 @@ body.application[dir=rtl] .deleteAlgebra {
 	}
 }
 
-.pagebreakafter{
+.pagebreakbefore{
 	display: block;
-	page-break-after: always;	
+	page-break-before: always;	
 }
 
 @media print {

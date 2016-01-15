@@ -21,6 +21,7 @@ import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.export.PrintPreviewW;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolStyleBarW;
 import org.geogebra.web.web.gui.util.StyleBarW;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
@@ -1035,14 +1036,8 @@ myCell) {
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				App.debug("pT rowcount: " + previewTable.getRowCount());
-				App.debug("pT bodyheight" + previewTable.getBodyHeight());
-				App.debug("pT headerheight" + previewTable.getHeaderHeight());
 				App.debug("pT offsetheight" + previewTable.getOffsetHeight());
-				App.debug("pT clientheight: "
-						+ previewTable.getElement().getClientHeight());
-				App.debug("pT element style height: "
-						+ previewTable.getElement().getStyle().getHeight());
+
 			}
 		});
 
@@ -1050,17 +1045,62 @@ myCell) {
 	}
 
 	public List<Widget> getPrintable(FlowPanel printPanel) {
-		CellTable<RowData> previewTable;
-		Integer row = 0;
 
+		// TODO: remove return value
 		Widget[] printableList = {};
 
-		while (row < data.getrowList().size()) {
-			previewTable = getTable(row, printPanel);
-			printableList[printableList.length] = previewTable;
-			row += previewTable.getRowCount();
-		}
+		createTable(printPanel, 0, 1);
 
 		return Arrays.asList(printableList);
+	}
+
+	private void createTable(final FlowPanel printPanel, final int row, final int numberOfRows) {
+		final CellTable<RowData> previewTable = new CellTable<RowData>(data
+				.getrowList().size());
+		addColumnsForTable(previewTable);
+		previewTable.addStyleName("previewTable");
+		if (row > 0) {
+			previewTable.addStyleName("pagebreakbefore");
+		}
+		printPanel.add(previewTable);
+
+		addRows(printPanel, row, numberOfRows, previewTable);
+		
+	}
+
+	private void addRows(final FlowPanel printPanel, final int row,
+			final int numberOfRows, final CellTable<RowData> previewTable) {
+
+		previewTable.setRowCount(numberOfRows);
+		previewTable.setVisibleRange(0, numberOfRows);
+		previewTable.setRowData(0,
+				data.getrowList().subList(row, row + numberOfRows));
+
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				int offsetHeight = previewTable.getOffsetHeight();
+				if (row + numberOfRows == data.getRowCount()) {
+					setRows(printPanel, row, numberOfRows, previewTable);
+				} else if (offsetHeight < PrintPreviewW.LHEIGHT) {
+					addRows(printPanel, row, numberOfRows + 1, previewTable);
+				} else {
+					setRows(printPanel, row, numberOfRows - 1, previewTable);
+				}
+
+			}
+		});
+
+	}
+
+	private void setRows(final FlowPanel printPanel, final int row,
+			final int numberOfRows, final CellTable<RowData> previewTable) {
+		previewTable.setRowCount(numberOfRows);
+		previewTable.setVisibleRange(0, numberOfRows);
+		previewTable.setRowData(0,
+				data.getrowList().subList(row, row + numberOfRows));
+
+		if (row + numberOfRows < data.getRowCount()) {
+			createTable(printPanel, row + numberOfRows, 1);
+		}
 	}
 }
