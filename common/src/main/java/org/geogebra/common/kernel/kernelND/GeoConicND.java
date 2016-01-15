@@ -3394,6 +3394,12 @@ FromMeta
 			case GeoConicND.EQUATION_EXPLICIT :
 				sb.append("\t<eqnStyle style=\"explicit\"/>\n");
 				break;
+		case GeoConicND.EQUATION_USER:
+			sb.append("\t<eqnStyle style=\"user\"/>\n");
+			break;
+		case GeoConicND.EQUATION_PARAMETRIC:
+			sb.append("\t<eqnStyle style=\"parametric\"/>\n");
+			break;
 				
 			default :
 				sb.append("\t<eqnStyle style=\"implicit\"/>\n");
