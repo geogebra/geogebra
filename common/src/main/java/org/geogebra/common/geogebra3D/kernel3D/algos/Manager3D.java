@@ -61,7 +61,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoSurfaceFinite;
-import org.geogebra.common.kernel.kernelND.Geo3DVec;
+import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -1733,7 +1733,7 @@ public class Manager3D implements Manager3DInterface {
 		return t.transform(geoTrans, label);
 	}
 
-	public Geo3DVec newGeo3DVec(double x, double y, double z) {
+	public Geo3DVecInterface newGeo3DVec(double x, double y, double z) {
 		return new org.geogebra.common.geogebra3D.kernel3D.geos.Geo3DVec(kernel, x,
 				y, z);
 	}

@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSurfaceFinite;
-import org.geogebra.common.kernel.kernelND.Geo3DVec;
+import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -797,7 +797,7 @@ public interface Manager3DInterface {
 	public GeoElement[] Translate3D(String label, GeoElement geoTrans,
 			GeoVectorND v);
 
-	public Geo3DVec newGeo3DVec(double double1, double double2, double double3);
+	public Geo3DVecInterface newGeo3DVec(double double1, double double2, double double3);
 
 	/**
 	 * rotate about a point + direction

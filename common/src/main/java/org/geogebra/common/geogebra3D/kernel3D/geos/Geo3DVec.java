@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 
@@ -43,8 +44,8 @@ import org.geogebra.common.kernel.kernelND.GeoVecInterface;
  * @author Michael adapted from GeoVec2D
  * @version
  */
-final public class Geo3DVec extends ValidExpression implements Vector3DValue,
-		org.geogebra.common.kernel.kernelND.Geo3DVec {
+final public class Geo3DVec extends ValidExpression
+		implements Vector3DValue, Geo3DVecInterface {
 
 	public double x = Double.NaN;
 	public double y = Double.NaN;
@@ -362,7 +363,7 @@ final public class Geo3DVec extends ValidExpression implements Vector3DValue,
 		return kernel;
 	}
 
-	public boolean isEqual(org.geogebra.common.kernel.kernelND.Geo3DVec vec) {
+	public boolean isEqual(org.geogebra.common.kernel.kernelND.Geo3DVecInterface vec) {
 		Geo3DVec v = (Geo3DVec) vec;
 		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y)
 				&& Kernel.isEqual(z, v.z);
@@ -569,6 +570,12 @@ final public class Geo3DVec extends ValidExpression implements Vector3DValue,
 
 	public int getDimension() {
 		return 3;
+	}
+
+	public void mult(double d) {
+		this.x *= d;
+		this.y *= d;
+		this.z *= d;
 	}
 
 }

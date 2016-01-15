@@ -19,7 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic3D;
 
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
-import org.geogebra.common.kernel.kernelND.Geo3DVec;
+import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 
 /**
  *
@@ -33,5 +33,5 @@ public interface Vector3DValue extends VectorNDValue {
 	 */
 	public double[] getPointAsDouble();
 
-	public Geo3DVec getVector();
+	public Geo3DVecInterface getVector();
 }

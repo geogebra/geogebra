@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
+import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -566,8 +567,16 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @return en*ev
 	 */
 	protected ExpressionValue multiply(NumberValue en, VectorNDValue ev) {
-		GeoVec2D vec = ((VectorValue) ev).getVector();
-		GeoVec2D.mult(vec, en.getDouble(), vec);
+
+		if (ev instanceof VectorValue) {
+
+			GeoVec2D vec = ((VectorValue) ev).getVector();
+			GeoVec2D.mult(vec, en.getDouble(), vec);
+			return vec;
+		}
+
+		Geo3DVecInterface vec = ((Vector3DValue) ev).getVector();
+		vec.mult(en.getDouble());
 		return vec;
 	}
 

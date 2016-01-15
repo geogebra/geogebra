@@ -32,7 +32,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.Geo3DVec;
+import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -328,8 +328,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	}
 
 	@Override
-	public Geo3DVec getVector() {
-		Geo3DVec ret = kernel.getManager3D().newGeo3DVec(x.evaluateDouble(),
+	public Geo3DVecInterface getVector() {
+		Geo3DVecInterface ret = kernel.getManager3D().newGeo3DVec(x.evaluateDouble(),
 				y.evaluateDouble(), z.evaluateDouble());
 		return ret;
 	}

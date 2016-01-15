@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.ParametricCurve;
-import org.geogebra.common.kernel.kernelND.Geo3DVec;
+import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
@@ -733,7 +733,7 @@ public enum Operation {
 				return new MyDouble(kernel, GeoVec2D.complexAbs(vec));
 
 			} else if (lt instanceof Vector3DValue) {
-				Geo3DVec vec3d = ((Vector3DValue) lt).getVector();
+				Geo3DVecInterface vec3d = ((Vector3DValue) lt).getVector();
 
 				// complex Abs(z)
 				// or magnitude of point
@@ -1033,7 +1033,7 @@ public enum Operation {
 				return ret;
 			}
 			if (lt instanceof Vector3DValue) {
-				Geo3DVec ret = ((Vector3DValue) lt).getVector().floor();
+				Geo3DVecInterface ret = ((Vector3DValue) lt).getVector().floor();
 				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "floor(");
@@ -1055,7 +1055,7 @@ public enum Operation {
 				return ret;
 			}
 			if (lt instanceof Vector3DValue) {
-				Geo3DVec ret = ((Vector3DValue) lt).getVector().ceil();
+				Geo3DVecInterface ret = ((Vector3DValue) lt).getVector().ceil();
 				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "ceil(");
@@ -1089,7 +1089,7 @@ public enum Operation {
 				return ret;
 			}
 			if (lt instanceof Vector3DValue) {
-				Geo3DVec ret = ((Vector3DValue) lt).getVector().round();
+				Geo3DVecInterface ret = ((Vector3DValue) lt).getVector().round();
 				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "round(");
@@ -1117,7 +1117,7 @@ public enum Operation {
 				return ret;
 			}
 			if (lt instanceof Vector3DValue) {
-				Geo3DVec ret = ((Vector3DValue) lt).getVector().round();
+				Geo3DVecInterface ret = ((Vector3DValue) lt).getVector().round();
 				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "round(");
@@ -1372,7 +1372,7 @@ public enum Operation {
 				ret.setAngle();
 				return ret;
 			} else if (lt instanceof Vector3DValue) {
-				Geo3DVec vec = ((Vector3DValue) lt).getVector();
+				Geo3DVecInterface vec = ((Vector3DValue) lt).getVector();
 				double l = MyMath.length(vec.getX(), vec.getY());
 				MyDouble ret = new MyDouble(kernel, Math.atan2(vec.getZ(), l));
 				ret.setAngle();
