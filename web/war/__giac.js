@@ -1520,7 +1520,7 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate[z((11+k,12+k,13+k))]", result:"k+13" },
 { cat:"Evaluate", cmd:"Evaluate[x((11+k,12+k))]", result:"k+11" },
 { cat:"Evaluate", cmd:"Evaluate[y((11+k,12+k))]", result:"k+12" },
-{ cat:"UnitVector", cmd:"UnitVector[(k+1,k+1)]", result:"((k sqrt(2) + sqrt(2)) / (2abs(k + 1)), (k sqrt(2) + sqrt(2)) / (2abs(k + 1)))" },
+{ cat:"UnitVector", cmd:"UnitVector[(k+1,k+1)]", result:"(sqrt(2) / 2, sqrt(2) / 2)" },
 { cat:"UnitVector", cmd:"UnitVector[(k+1,k+2)]", result:"((k sqrt(2k\u00B2 + 6k + 5) + sqrt(2k\u00B2 + 6k + 5)) / (2k\u00B2 + 6k + 5), (k sqrt(2k\u00B2 + 6k + 5) + 2sqrt(2k\u00B2 + 6k + 5)) / (2k\u00B2 + 6k + 5))" },
 { cat:"UnitVector", cmd:"UnitVector[(k+1,k+1,k+1)]", result:"((sqrt(3) k + sqrt(3)) / (3abs(k + 1)), (sqrt(3) k + sqrt(3)) / (3abs(k + 1)), (sqrt(3) k + sqrt(3)) / (3abs(k + 1)))" },
 { cat:"UnitVector", cmd:"UnitVector[(k+1,k+1,k+2)]", result:"((k + 1) sqrt(3k\u00B2 + 8k + 6) / (3k\u00B2 + 8k + 6), (k + 1) sqrt(3k\u00B2 + 8k + 6) / (3k\u00B2 + 8k + 6), (k + 2) sqrt(3k\u00B2 + 8k + 6) / (3k\u00B2 + 8k + 6))" },
@@ -1821,7 +1821,9 @@ var __giac = [ {},
 { cat: "UnitPerpendicularVector", cmd:"UnitPerpendicularVector[y=2x]", result:"((-2) / sqrt(5), 1 / sqrt(5))" },
 { cat: "UnitPerpendicularVector", cmd:"UnitPerpendicularVector[y=a x + b]", result:"((-a) / sqrt(a\u00B2 + 1), 1 / sqrt(a\u00B2 + 1))" },
 { cat: "Take", cmd:"Take[{4,7,3,8,3,1,7,8},3]", result:"{3, 8, 3, 1, 7, 8}" },
-{ cat:"Integral", cmd:"Integral[(ln(x)-x+4)^2,0.45,2.07]", result:"(-1)/8000(19980ln(9/20)+3600ln(9/20)²+30573)+1/1000000(8135100ln(207/100)+2070000ln(207/100)²+8659431)|OR|(-1) / 8000 (3600ln(9 / 20)\u00B2 + 19980ln(9 / 20) + 30573) + 1 / 1000000 (2070000ln(207 / 100)\u00B2 + 8135100ln(207 / 100) + 8659431)" },
+{ cat: "Integral", cmd:"Integral[(ln(x)-x+4)^2,0.45,2.07]", result:"(-1)/8000(19980ln(9/20)+3600ln(9/20)²+30573)+1/1000000(8135100ln(207/100)+2070000ln(207/100)²+8659431)|OR|(-1) / 8000 (3600ln(9 / 20)\u00B2 + 19980ln(9 / 20) + 30573) + 1 / 1000000 (2070000ln(207 / 100)\u00B2 + 8135100ln(207 / 100) + 8659431)" },
+{ cat: "Integral", cmd:"Integral[ 9 / 20 (1 / 2 x sqrt(x² + 1) - 1 / 2 ln(-x + sqrt(x² + 1))) ]", result:"9 / 20 (1 / 6 sqrt(x\u00B2 + 1) (x\u00B2 + 1) - 1 / 2 (sqrt(x\u00B2 + 1) + x ln(-x + sqrt(x\u00B2 + 1)))) + c_29" },
+
 
 
 
