@@ -189,7 +189,7 @@ public class OptionsAlgebraD extends
 	}
 
 	public void setLabels() {
-		auxiliary.setText(loc.getMenu("AuxiliaryObjects"));
+		auxiliary.setText(loc.getPlain("AuxiliaryObjects"));
 		descriptionLabel.setText(loc.getMenu("AlgebraDescriptions"));
 		sortLabel.setText(loc.getMenu("SortBy") + ":");
 		updateDescription();
