@@ -102,7 +102,8 @@ FromMeta
 	public GeoLine[] lines;
 	
 	/** two Eigenvectors (unit vectors), set by setEigenvectors() */
-	public GeoVec2D[] eigenvec = { new GeoVec2D(kernel, 1, 0), new GeoVec2D(kernel, 0, 1)};
+	public final GeoVec2D[] eigenvec = { new GeoVec2D(kernel, 1, 0),
+			new GeoVec2D(kernel, 0, 1) };
 	
 	/**
 	 * (eigenvecX, eigenvecY) are coords of currently calculated first eigenvector

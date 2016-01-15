@@ -331,9 +331,8 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 
 			sb.append("/>\n");
 		}
-		// curve thickness and type
+		// curve thickness and type printed by conicND
 		super.getXMLtags(sb);
-		getLineStyleXML(sb);
 
 	}
 

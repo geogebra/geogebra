@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Rotateable;
-import org.geogebra.common.util.debug.Log;
 
 /**
  *
@@ -113,9 +112,6 @@ public class AlgoRotate extends AlgoTransformation {
 			return;
 		}
 		if (inGeo instanceof GeoFunction) {
-			Log.printStacktrace("BOUNDS" + kernel.getXminForFunctions() + ","
-					+
-					kernel.getXmaxForFunctions());
 			((GeoFunction) inGeo)
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
 		} else
