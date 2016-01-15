@@ -38,7 +38,7 @@ public class AlgoIsPrime extends AlgoElement {
 		}
 
 		if (n < 2 || n > AlgoPrimeFactorization.LARGEST_INTEGER) {
-			result.setUndefined();
+			result.setUndefinedProverOnly();
 			return;
 		}
 		result.setValue(true);
