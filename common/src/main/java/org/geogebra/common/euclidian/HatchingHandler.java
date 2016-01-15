@@ -93,8 +93,23 @@ public class HatchingHandler {
 
 		}
 
+		int exportScale = 1;
+
+		// use higher resolution when exporting
+		// to avoid blockiness
+		if (app.isExporting()) {
+			// arbitrary (can run out of memory if too high though)
+			exportScale = 10;
+			xInt *= exportScale;
+			yInt *= exportScale;
+
+			objStroke = AwtFactory.prototype
+					.newBasicStroke(objStroke.getLineWidth() * exportScale);
+
+		}
+
 		GGraphics2D g2d = createImage(objStroke, color, bgColor,
-				backgroundTransparency, xInt, yInt);
+				backgroundTransparency, xInt * exportScale, yInt * exportScale);
 
 		int startX = xInt;
 		int startY = yInt;
@@ -172,8 +187,9 @@ public class HatchingHandler {
 		// use the middle square of our 3 x 3 grid to fill with
 		GPaint ret = AwtFactory.prototype.newTexturePaint(
 				subImage = bufferedImage.getSubimage(startX, startY, width,
-						height), AwtFactory.prototype.newRectangle(0, 0, width,
-						height));
+						height),
+				AwtFactory.prototype.newRectangle(0, 0, width / exportScale,
+						height / exportScale));
 		g3.setPaint(ret);
 		return ret;
 	}
