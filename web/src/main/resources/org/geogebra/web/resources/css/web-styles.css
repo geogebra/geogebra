@@ -6104,21 +6104,27 @@ body.application[dir=rtl] .deleteAlgebra {
 	
 }
 
-/*
 @media print and (orientation:portrait){		
- 	.printPanel{
-		color: red;
-		height:1000px;
-   		width:900px;
+	.preview_portrait{
+		display: block;
+		visibility: visible;
+	}
+	
+	.preview_landscape{
+		display: none;
+		visibility: hidden;
 	}
 }
 
 @media print and (orientation:landscape){		
- 	.printPanel{
-		color: green;
-		height:500px;
-   		width:1200px;
+	.preview_portrait{
+		display: none;
+		visibility: hidden;
+	}
+	
+	.preview_landscape{
+		display: block;
+		visibility: visible;
 	}
 }
-*/
 

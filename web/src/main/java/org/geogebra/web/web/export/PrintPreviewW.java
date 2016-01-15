@@ -39,7 +39,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	/**
 	 * printable height at portrait orientation
 	 */
-	public static int PHEIGHT = 1000;
+	public static int PHEIGHT = 1400;
 	/**
 	 * printable width at landscape orientation
 	 */

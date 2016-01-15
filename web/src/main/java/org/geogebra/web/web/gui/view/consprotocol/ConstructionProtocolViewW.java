@@ -1008,68 +1008,48 @@ myCell) {
 	    return styleBar;
     }
 
-
-	/**
-	 * @param row
-	 *            from which row of Consctruction Protocol will be started the
-	 *            table, which will be added the print preview
-	 * @return
-	 */
-	public CellTable<RowData> getTable(Integer row, FlowPanel printPanel) {
-		final CellTable<RowData> previewTable = new CellTable<RowData>(data
-				.getrowList().size());
-		addColumnsForTable(previewTable);
-		previewTable.addStyleName("previewTable");
-		previewTable.addStyleName("pagebreakafter");
-
-		int numberOfRows = 10;
-		if (row + numberOfRows > data.getrowList().size()) {
-			numberOfRows = data.getrowList().size() - row;
-		}
-
-		previewTable.setRowCount(numberOfRows);
-		previewTable.setVisibleRange(0, numberOfRows);
-		previewTable.setRowData(0,
-				data.getrowList().subList(row, row + numberOfRows));
-
-		printPanel.add(previewTable);
-
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			public void execute() {
-				App.debug("pT offsetheight" + previewTable.getOffsetHeight());
-
-			}
-		});
-
-		return previewTable;
-	}
-
 	public List<Widget> getPrintable(FlowPanel printPanel) {
 
 		// TODO: remove return value
 		Widget[] printableList = {};
 
-		createTable(printPanel, 0, 1);
+		// Number of rows depends on orientation, and we can't manipulat with
+		// css, so we must to create the print
+		// preview for both orientation.
+		// We can create the printed panel before the browser's print preview
+		// opened, and the user can change the orientation later,
+		// so we must create the tables for both orientation at the beginning.
+		createTable(printPanel, 0, 1, Orientation.PORTRAIT);
+		createTable(printPanel, 0, 1, Orientation.LANDSCAPE);
 
 		return Arrays.asList(printableList);
 	}
 
-	private void createTable(final FlowPanel printPanel, final int row, final int numberOfRows) {
-		final CellTable<RowData> previewTable = new CellTable<RowData>(data
-				.getrowList().size());
+	private enum Orientation {
+		PORTRAIT, LANDSCAPE
+	}
+
+	private void createTable(final FlowPanel printPanel, final int row,
+			final int numberOfRows, Orientation orient) {
+		final CellTable<RowData> previewTable = new CellTable<RowData>();
 		addColumnsForTable(previewTable);
 		previewTable.addStyleName("previewTable");
 		if (row > 0) {
 			previewTable.addStyleName("pagebreakbefore");
 		}
+		if (orient == Orientation.PORTRAIT) {
+			previewTable.addStyleName("preview_portrait");
+		} else
+			previewTable.addStyleName("preview_landscape");
 		printPanel.add(previewTable);
 
-		addRows(printPanel, row, numberOfRows, previewTable);
+		addRows(printPanel, row, numberOfRows, previewTable, orient);
 		
 	}
 
-	private void addRows(final FlowPanel printPanel, final int row,
-			final int numberOfRows, final CellTable<RowData> previewTable) {
+	void addRows(final FlowPanel printPanel, final int row,
+			final int numberOfRows, final CellTable<RowData> previewTable,
+			final Orientation orient) {
 
 		previewTable.setRowCount(numberOfRows);
 		previewTable.setVisibleRange(0, numberOfRows);
@@ -1079,12 +1059,16 @@ myCell) {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
 				int offsetHeight = previewTable.getOffsetHeight();
+				int printHeight = (orient == Orientation.PORTRAIT) ? PrintPreviewW.PHEIGHT
+						: PrintPreviewW.LHEIGHT;
 				if (row + numberOfRows == data.getRowCount()) {
-					setRows(printPanel, row, numberOfRows, previewTable);
-				} else if (offsetHeight < PrintPreviewW.LHEIGHT) {
-					addRows(printPanel, row, numberOfRows + 1, previewTable);
+					setRows(printPanel, row, numberOfRows, previewTable, orient);
+				} else if (offsetHeight < printHeight) {
+					addRows(printPanel, row, numberOfRows + 1, previewTable,
+							orient);
 				} else {
-					setRows(printPanel, row, numberOfRows - 1, previewTable);
+					setRows(printPanel, row, numberOfRows - 1, previewTable,
+							orient);
 				}
 
 			}
@@ -1092,15 +1076,16 @@ myCell) {
 
 	}
 
-	private void setRows(final FlowPanel printPanel, final int row,
-			final int numberOfRows, final CellTable<RowData> previewTable) {
+	void setRows(final FlowPanel printPanel, final int row,
+			final int numberOfRows, final CellTable<RowData> previewTable,
+			Orientation orient) {
 		previewTable.setRowCount(numberOfRows);
 		previewTable.setVisibleRange(0, numberOfRows);
 		previewTable.setRowData(0,
 				data.getrowList().subList(row, row + numberOfRows));
 
 		if (row + numberOfRows < data.getRowCount()) {
-			createTable(printPanel, row + numberOfRows, 1);
+			createTable(printPanel, row + numberOfRows, 1, orient);
 		}
 	}
 }
