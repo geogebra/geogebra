@@ -719,7 +719,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int dH = viewHeight - view.getHeight();
 
 		if (optionsUpdate || dW != 0 || dH != 0) {
-			if (dW < 0 || dH < 0) {
+			if (dW != 0 || dH != 0) {
 				Log.debug("[PROFILE] view size change, resetting font");
 				viewHeight = view.getHeight();
 				viewWidth = view.getWidth();
@@ -770,20 +770,17 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private void drawOptions(GGraphics2D g2) {
 		Log.debug("[PROFILE] drawing options");
-		g2.setPaint(geoList.getBackgroundColor());
-		int optTop = boxTop + boxHeight + 2 * OPTIONBOX_COMBO_GAP;
-		int viewBottom = view.getViewHeight();
+		int topMargin = getOptionsItemGap() / 4;
 
-		if (viewBottom - optTop < allRowHeights) {
-			optTop = (int) (viewBottom - allRowHeights
-					- 1.5 * OPTIONBOX_COMBO_GAP);
-			int gap = getOptionsItemGap() / 2;
-			if (optTop < gap) {
-				optTop = gap;
-			}
+		g2.setPaint(geoList.getBackgroundColor());
+		int optTop = boxTop + boxHeight;
+
+		if (optTop + topMargin + allRowHeights > viewHeight) {
+			optTop = (viewHeight - allRowHeights - topMargin);
+
 		}
 
-		int rowTop = optTop;
+		int rowTop = (optTop < topMargin ? itemHeight : optTop) + topMargin;
 		int optLeft = boxLeft;
 		int optWidth = colCount * itemWidth;
 		if (optLeft + optWidth > view.getViewWidth()) {
@@ -795,20 +792,20 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 
-		drawOptionLines(g2, optLeft, rowTop, true);
-		int size = optionItems.size();
-		GRectangle rUpLeft = optionItems.get(0).getBounds();
-		int top = (int) rUpLeft.getBounds().getY();
-		if (size > 1) {
-			int upRigthIdx = rowCount * (colCount - 1);
-			if (upRigthIdx >= size) {
-				upRigthIdx = size - 1;
+		// drawOptionContent(g2, optLeft, rowTop, true);
+		// GRectangle rUpLeft = optionItems.get(0).getBounds();
+		int top = rowTop;// (int) rUpLeft.getBounds().getY();
+		if (geoList.size() > 1) {
+			if (top > boxTop + boxHeight) {
+				top += getOptionsItemGap();
 			}
+
+			top += getFullTextHeight(g2, itemPlainMaxHeight) - itemHeight;
 
 			int left = optLeft;
 			int width = optWidth;
 			int height = rowCount * itemHeight;
-			optionsRect.setBounds(left, top, width, height);
+			optionsRect.setBounds(left, rowTop, width, height);
 
 			g2.setPaint(geoList.getBackgroundColor());
 			g2.fillRect(left, top, width, height);
@@ -821,7 +818,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		}
 
-		drawOptionLines(g2, optLeft, rowTop, true);
+		drawOptionContent(g2, optLeft, rowTop, true);
 
 
 		// for (int j = 0; j < maxRows; j++) {
@@ -881,9 +878,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				Math.round(lastAscent + lastDescent));
 	}
 
-	private int drawOptionLines(GGraphics2D g2, int left, int top,
+	private int drawOptionContent(GGraphics2D g2, int left, int top,
 			boolean draw) {
-		Log.debug("[PROFILE] drawing option lines");
+		Log.debug("[PROFILE] drawing option content");
 		optionItems.clear();
 		int itemCount = geoList.size();
 
@@ -947,8 +944,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private GDimension drawOptionColumn(GGraphics2D g2, int top, int left,
 			int itemsFrom, int itemsTo, boolean draw) {
-		int dW = 0;
-		int dH = 0;
 
 		int rowTop = top;
 		boolean allLatex = true;
@@ -1032,9 +1027,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			// dW = d.getWidth();
 			// }
 
-			if (dW < itemWidth) {
-				dW = itemWidth;
-			}
 
 			// if (!latex && latexNext) {
 			// rowTop += standardGap;
