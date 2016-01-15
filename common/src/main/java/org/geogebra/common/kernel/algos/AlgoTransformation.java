@@ -141,4 +141,10 @@ public abstract class AlgoTransformation extends AlgoElement {
 	 * @return area scale factor of the transformation (-1 for reflections)
 	 */
 	public abstract double getAreaScaleFactor();
+
+	@Override
+	public final boolean euclidianViewUpdate() {
+		compute();
+		return true;
+	}
 }
