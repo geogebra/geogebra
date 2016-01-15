@@ -71,6 +71,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	private GeoBoolean bool; // output
 
+	private boolean substNeeded = false;
+
 	/**
 	 * @param cons
 	 *            construction
@@ -645,6 +647,9 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				Set<String> setOfGeoNumLabels = new TreeSet<String>();
 				rootCopy.traverse(GeoNumericLabelCollector
 						.getCollector(setOfGeoNumLabels));
+				if (!setOfGeoNumLabels.isEmpty()) {
+					substNeeded = true;
+				}
 				Iterator<String> it = setOfGeoNumLabels.iterator();
 				while (it.hasNext()) {
 					String varStr = it.next();
@@ -659,6 +664,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					// replace GeoNumeric with formula expression
 					rootCopy.traverse(repl);
 				}
+				// traverse substituted expression to collect segments
+				traverseExpression(rootCopy);
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 				try {
 					// get expanded expression of root
@@ -754,8 +761,33 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			extraPolys.add(currPoly);
 			index++;
 		}
-		String rootStr = bool.getDefinition().toString(
-				StringTemplate.giacTemplate);
+		String rootStr;
+		// make sure we use substituted expression
+		// if substitution was made in root
+		if (substNeeded) {
+			ExpressionNode rootCopy = bool.getDefinition().deepCopy(kernel);
+			// collect all labels of GeoNumerics from expression
+			Set<String> setOfGeoNumLabels = new TreeSet<String>();
+			rootCopy.traverse(GeoNumericLabelCollector
+					.getCollector(setOfGeoNumLabels));
+			Iterator<String> it = setOfGeoNumLabels.iterator();
+			while (it.hasNext()) {
+				String varStr = it.next();
+				// get GeoNumeric from construction with given label
+				GeoNumeric geo = (GeoNumeric) cons.geoTableVarLookup(varStr);
+				// get substitute formula of GeoNumeric
+				ExpressionNode replExp = ((AlgoDependentNumber) geo
+						.getParentAlgorithm()).getExpression();
+				GeoNumericReplacer repl = GeoNumericReplacer.getReplacer(geo,
+						replExp, kernel);
+				// replace GeoNumeric with formula expression
+				rootCopy.traverse(repl);
+			}
+			rootStr = rootCopy.toString(StringTemplate.giacTemplate);
+		} else {
+			rootStr = bool.getDefinition()
+					.toString(StringTemplate.giacTemplate);
+		}
 		String[] splitedStr = rootStr.split(",");
 		rootStr = splitedStr[0].substring(28, splitedStr[0].length() - 2);
 		StringBuilder strForGiac = new StringBuilder();
