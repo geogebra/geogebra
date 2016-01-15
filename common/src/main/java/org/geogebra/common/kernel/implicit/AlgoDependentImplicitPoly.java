@@ -214,6 +214,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 					((GeoImplicit) geoElement).setCoeff(coeff);
 				}
 			}
+			geoElement.setDefinition(def);
 		}
 	}
 
