@@ -808,6 +808,61 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	/**
+	 * @return string for giac
+	 */
+	public String getUserGiacString() {
+		String[] labels = new String[allSegmentsFromExpression.size()];
+		int index = 0;
+		for (GeoSegment segment : allSegmentsFromExpression) {
+			labels[index] = segment.getLabel(StringTemplate.giacTemplate);
+			index++;
+		}
+		String rootStr;
+		// make sure we use substituted expression
+		// if substitution was made in root
+		if (substNeeded) {
+			ExpressionNode rootCopy = bool.getDefinition().deepCopy(kernel);
+			// collect all labels of GeoNumerics from expression
+			Set<String> setOfGeoNumLabels = new TreeSet<String>();
+			rootCopy.traverse(GeoNumericLabelCollector
+					.getCollector(setOfGeoNumLabels));
+			Iterator<String> it = setOfGeoNumLabels.iterator();
+			while (it.hasNext()) {
+				String varStr = it.next();
+				// get GeoNumeric from construction with given label
+				GeoNumeric geo = (GeoNumeric) cons.geoTableVarLookup(varStr);
+				// get substitute formula of GeoNumeric
+				ExpressionNode replExp = ((AlgoDependentNumber) geo
+						.getParentAlgorithm()).getExpression();
+				GeoNumericReplacer repl = GeoNumericReplacer.getReplacer(geo,
+						replExp, kernel);
+				// replace GeoNumeric with formula expression
+				rootCopy.traverse(repl);
+			}
+			rootStr = rootCopy.toString(StringTemplate.giacTemplate);
+		} else {
+			rootStr = bool.getDefinition()
+					.toString(StringTemplate.giacTemplate);
+		}
+		String[] splitedStr = rootStr.split(",");
+		rootStr = splitedStr[0].substring(28, splitedStr[0].length() - 2);
+		StringBuilder strForGiac = new StringBuilder();
+		strForGiac.append("eliminate([" + rootStr + "=0");
+		StringBuilder labelsStr = new StringBuilder();
+		for (int i = 0; i < labels.length; i++) {
+			if (i == 0) {
+				labelsStr.append(labels[i]);
+			} else {
+				labelsStr.append("," + labels[i]);
+			}
+			strForGiac.append("," + labels[i] + "=" + botanaVars[i]);
+		}
+		strForGiac.append("],[");
+		strForGiac.append(labelsStr + "])");
+		return strForGiac.toString();
+	}
+
+	/**
 	 * @return distance polynomials
 	 */
 	public ArrayList<Polynomial> getExtraPolys() {
