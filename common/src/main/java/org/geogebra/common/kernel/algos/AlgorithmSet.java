@@ -16,6 +16,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.geogebra.common.main.App;
+
 /**
  * Set to store AlgoElement objects for updating.
  */
@@ -189,6 +191,7 @@ public class AlgorithmSet {
 	final public void updateAll() {
 		Link cur = getHead();
 		while (cur != null) {
+			App.debug("UPDATE" + cur.algo.getClass());
 			cur.algo.update();
 			cur = cur.next;
 		}

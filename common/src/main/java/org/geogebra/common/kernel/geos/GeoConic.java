@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.MyMath;
 
@@ -204,7 +203,6 @@ public class GeoConic extends GeoConicND implements
 				matrix[1] = 0;
 				matrix[3] = 0;
 				
-				App.debug(matrix[4]+","+matrix[5]+","+matrix[2]);
 				// we update the eigenvectors etc.
 				this.classifyConic(true);
 				// classification yields CONIC_DOUBLE_LINE, we want a single

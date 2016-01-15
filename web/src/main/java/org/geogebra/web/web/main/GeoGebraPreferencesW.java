@@ -38,9 +38,12 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		stockStore = Storage.getLocalStorageIfSupported();
 		if (stockStore != null) {
 			stockStore.setItem(XML_USER_PREFERENCES, xml);
-			String xmlDef = app.getKernel().getConstruction()
-			        .getConstructionDefaults().getCDXML();
-			stockStore.setItem(XML_DEFAULT_OBJECT_PREFERENCES, xmlDef);
+			StringBuilder sb2d = new StringBuilder();
+			StringBuilder sb3d = new StringBuilder();
+			app.getKernel().getConstruction().getConstructionDefaults()
+					.getDefaultsXML(sb2d, sb3d);
+			String objectPrefsXML = sb2d.toString();
+			stockStore.setItem(XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
 		}
 	}
 }

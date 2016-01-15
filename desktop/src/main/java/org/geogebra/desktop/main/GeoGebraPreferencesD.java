@@ -387,9 +387,11 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	public void saveXMLPreferences(AppD app) {
 
 		String userPrefsXML = app.getPreferencesXML();
-		String objectPrefsXML = app.getKernel().getConstruction()
-				.getConstructionDefaults().getCDXML();
-
+		StringBuilder sb2d = new StringBuilder();
+		StringBuilder sb3d = new StringBuilder();
+		app.getKernel().getConstruction().getConstructionDefaults()
+				.getDefaultsXML(sb2d, sb3d);
+		String objectPrefsXML = sb2d.toString();
 		byte[] macros = app.getMacroFileAsByteArray();
 
 		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {

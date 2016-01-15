@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -505,39 +504,6 @@ public class ConstructionDefaults {
 		list.setBackgroundColor(GColor.WHITE);
 		list.setDefaultGeoType(DEFAULT_LIST);
 		defaultGeoElements.put(DEFAULT_LIST, list);
-	}
-
-	/**
-	 * Returns the xml of the default geos - just used by GeoGebraPreferences
-	 * 
-	 * @return XML string
-	 */
-	public String getCDXML() {
-
-		StringBuilder sb = new StringBuilder();
-		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		sb.append("<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT
-				+ "\">\n");
-		sb.append("<construction>\n");
-		for (GeoElement geo : defaultGeoElements.values()) {
-			getXML(geo, sb);
-		}
-		sb.append("</construction>\n");
-		sb.append("</geogebra>\n");
-
-		return sb.toString();
-	}
-
-	/**
-	 * put geo XML in string builder for default settings
-	 * 
-	 * @param geo
-	 *            geo
-	 * @param sb
-	 *            string builder
-	 */
-	protected void getXML(GeoElement geo, StringBuilder sb) {
-		geo.getXML(false, sb);
 	}
 
 	/**
