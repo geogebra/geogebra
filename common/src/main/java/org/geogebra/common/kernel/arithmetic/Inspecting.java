@@ -257,5 +257,55 @@ public interface Inspecting {
 			return (v instanceof GeoText || v instanceof MyStringBuffer);
 		}
 	};
+	
+	/**
+	 * @author csilla check whether the expression contains only "+" (needed for
+	 *         Theorem proving)
+	 */
+	public enum PlusChecker implements Inspecting {
+		/** singleton instance */
+		INSTANCE;
+		public boolean check(ExpressionValue v) {
+			if (v instanceof GeoDummyVariable) {
+				return true;
+			}
+			if (v instanceof ExpressionNode) {
+				ExpressionNode en = (ExpressionNode) v;
+				if (en.getOperation().equals(Operation.PLUS)) {
+					return check(en.getLeft()) && check(en.getRight());
+				}
+			}
+			return false;
+		}
+
+	}
+
+	/**
+	 * @author csilla check whether the expression contains only "-" (needed for
+	 *         Theorem proving)
+	 */
+	public enum MinusChecker implements Inspecting {
+		/** singleton instance */
+		INSTANCE;
+		public boolean check(ExpressionValue v) {
+			if (v instanceof GeoDummyVariable) {
+				return true;
+			}
+			if (v instanceof ExpressionNode) {
+				ExpressionNode en = (ExpressionNode) v;
+				if (en.getOperation().equals(Operation.MULTIPLY)
+						&& en.getLeft() instanceof MyDouble
+						&& en.getLeft().evaluateDouble() == -1
+						&& en.getRight() instanceof GeoDummyVariable) {
+					return true;
+				}
+				if (en.getOperation().equals(Operation.MINUS)) {
+					return check(en.getLeft()) && check(en.getRight());
+				}
+			}
+			return false;
+		}
+
+	}
 
 }
