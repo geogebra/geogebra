@@ -266,7 +266,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		casCopyTemplate.localizeCmds = false;
 		casCopyTemplate.sf = org.geogebra.common.factories.FormatFactory.prototype
 				.getScientificFormat(15, 20, false);
-		casCopyTemplate.questionMarkForNaN = false;
+		casCopyTemplate.questionMarkForNaN = true;
 	}
 	/**
 	 * for input bar; same as default, but increases precision to
