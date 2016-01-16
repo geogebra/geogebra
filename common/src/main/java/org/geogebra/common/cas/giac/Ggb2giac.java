@@ -773,7 +773,9 @@ public class Ggb2giac {
 		p("Substitute.3", "subst(%0,%1,%2)");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
 
-		p("Sum.1", "sum(%0)");
+		p("Sum.1", "when ( (%0)[0][0] == 'pnt' ,"
+				+ "point(sum(xcoordvect(%0))[0],sum(ycoordvect(%0))[0]) ,"
+				+ "sum(%0))");
 
 		// remove normal from Sum, otherwise
 		// Sum[1/n*sqrt(1-(k/n)^2),k,1,n]
