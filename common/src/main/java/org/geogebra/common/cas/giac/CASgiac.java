@@ -118,8 +118,8 @@ public abstract class CASgiac implements CASGenericInterface {
 			// check list befor equation to avoid out of bounds. flatten helps
 			// for {} and {{{0}}}
 			+ "ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,false)));"
-			+ "xcoordvect(%0):=map(%0,t->makevector(xcoord(t)));"
-			+ "ycoordvect(%0):=map(%0,t->makevector(ycoord(t)));";
+			+ "xcoordvect(x):=map(x,t->makevector(xcoord(t)));"
+			+ "ycoordvect(x):=map(x,t->makevector(ycoord(t)));";
 	/**
 	 * whether Giac has been set to GeoGebra mode yet
 	 */
