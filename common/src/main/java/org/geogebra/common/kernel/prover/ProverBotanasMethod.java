@@ -78,29 +78,29 @@ public class ProverBotanasMethod {
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isGeoPoint() && geo.getParentAlgorithm() == null) { // this
-																		// is a
-																		// free
-																		// point
+			if (geo.isGeoPoint() && geo.getParentAlgorithm() == null) {
+				/* this is a free point */
 				freePoints.add(geo);
 			}
 		}
 		return freePoints;
 	}
 
-	// We don't use this at the moment. It seemed to be useful to select the
-	// best coordinates to fix from circle centers
-	// but finally there is no test case for this at the moment to be convinced
-	// if this really helps in speed.
+	/*
+	 * We don't use this at the moment. It seemed to be useful to select the
+	 * best coordinates to fix from circle centers but finally there is no test
+	 * case for this at the moment to be convinced if this really helps in
+	 * speed.
+	 */
 	private static List<GeoElement> getCircleCenters(GeoElement statement) {
 		List<GeoElement> circleCenters = new ArrayList<GeoElement>();
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isGeoConic()) { // this is probably a circle
+			if (geo.isGeoConic()) { /* this is probably a circle */
 				if (geo.getParentAlgorithm() instanceof AlgoCircleTwoPoints
 						|| geo.getParentAlgorithm() instanceof AlgoCircleThreePoints) {
-					// Search for the center point.
+					/* Search for the center point. */
 					Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
 							.getBotanaVars(geo);
 					Variable[] center = new Variable[2];
@@ -108,8 +108,10 @@ public class ProverBotanasMethod {
 					center[1] = vars[1];
 					GeoElement centerGeo = botanaVarsInv.get(Arrays
 							.asList(center));
-					if (centerGeo != null) // it may be a virtual center (TODO:
-											// handle somehow)
+					if (centerGeo != null) /*
+											 * it may be a virtual center (TODO:
+											 * handle somehow)
+											 */
 						circleCenters.add(centerGeo);
 				}
 			}
@@ -124,11 +126,11 @@ public class ProverBotanasMethod {
 	 * @return the NDG polynomials (in denial form)
 	 */
 	private static Polynomial[] create3FreePointsNeverCollinearNDG(Prover prover) {
-		// Creating the set of free points first:
+		/* Creating the set of free points first: */
 		List<GeoElement> freePoints = getFreePoints(prover.getStatement());
 		int setSize = freePoints.size();
 
-		// Creating NDGs:
+		/* Creating NDGs: */
 		NDGCondition ndgc = new NDGCondition();
 		if (setSize > 3)
 			ndgc.setCondition("DegeneratePolygon");
@@ -144,11 +146,11 @@ public class ProverBotanasMethod {
 		Arrays.sort(ndgc.getGeos());
 		prover.addNDGcondition(ndgc);
 
-		// The output will contain $\binom{n}{3}$ elements:
+		/* The output will contain $\binom{n}{3}$ elements: */
 		Polynomial[] ret = new Polynomial[setSize * (setSize - 1)
 				* (setSize - 2) / 6];
 		i = 0;
-		// Creating the set of triplets:
+		/* Creating the set of triplets: */
 		HashSet<HashSet<GeoElement>> triplets = new HashSet<HashSet<GeoElement>>();
 		Iterator<GeoElement> it1 = freePoints.iterator();
 		while (it1.hasNext()) {
@@ -165,8 +167,10 @@ public class ProverBotanasMethod {
 							triplet.add(geo1);
 							triplet.add(geo2);
 							triplet.add(geo3);
-							// Only the significantly new triplets will be
-							// processed:
+							/*
+							 * Only the significantly new triplets will be
+							 * processed:
+							 */
 							if (!triplets.contains(triplet)) {
 								triplets.add(triplet);
 								Variable[] fv1 = ((SymbolicParametersBotanaAlgo) geo1)
@@ -175,7 +179,7 @@ public class ProverBotanasMethod {
 										.getBotanaVars(geo2);
 								Variable[] fv3 = ((SymbolicParametersBotanaAlgo) geo3)
 										.getBotanaVars(geo3);
-								// Creating the polynomial for collinearity:
+								/* Creating the polynomial for collinearity: */
 								Polynomial p = Polynomial.collinear(fv1[0],
 										fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
 								App.debug("Forcing non-collinearity for points "
@@ -184,13 +188,17 @@ public class ProverBotanasMethod {
 										+ geo2.getLabelSimple()
 										+ " and "
 										+ geo3.getLabelSimple());
-								// Rabinowitsch trick for prohibiting
-								// collinearity:
+								/*
+								 * Rabinowitsch trick for prohibiting
+								 * collinearity:
+								 */
 								ret[i] = p.multiply(
 										new Polynomial(new Variable()))
 										.subtract(new Polynomial(1));
-								// FIXME: this always introduces an extra
-								// variable, shouldn't do
+								/*
+								 * FIXME: this always introduces an extra
+								 * variable, shouldn't do
+								 */
 								i++;
 							}
 						}
@@ -220,7 +228,7 @@ public class ProverBotanasMethod {
 		GeoElement statement = prover.getStatement();
 		List<GeoElement> freePoints = getFreePoints(statement);
 		List<GeoElement> fixedPoints = new ArrayList<GeoElement>();
-		// Adding free points:
+		/* Adding free points: */
 		for (GeoElement ge : freePoints) {
 			fixedPoints.add(ge);
 		}
@@ -244,7 +252,7 @@ public class ProverBotanasMethod {
 			}
 		}
 
-		// We implicitly assumed that the first two points are different:
+		/* We implicitly assumed that the first two points are different: */
 		if (i == 2 && prover.isReturnExtraNDGs()) {
 			NDGCondition ndgc = new NDGCondition();
 			ndgc.setCondition("AreEqual");
@@ -255,7 +263,7 @@ public class ProverBotanasMethod {
 		return ret;
 	}
 
-	// formulate draw in readable format, TODO: create translation keys
+	/* formulate draw in readable format, TODO: create translation keys */
 	private static String getTextFormat(GeoElement statement) {
 		Localization loc = statement.getKernel().getLocalization();
 		ArrayList<String> freePoints = new ArrayList<String>();
@@ -281,7 +289,8 @@ public class ProverBotanasMethod {
 			freePointsText.append(",");
 		}
 		freePointsText.deleteCharAt(freePointsText.length() - 1);
-		theoremText.append(loc.getPlain("LetABeArbitraryPoints",
+		theoremText
+				.append(loc.getPlain("LetABeArbitraryPoints",
 						freePointsText.toString())).append(".\n");
 
 		theoremText.append(hypotheses);
@@ -299,16 +308,19 @@ public class ProverBotanasMethod {
 	 * @return if the statement is true
 	 */
 	public static ProofResult prove(org.geogebra.common.util.Prover prover) {
-		GeoElement statement = prover.getStatement();
 
-		// Decide quickly if proving this kind of statement is already implemented at all: 
+		GeoElement statement = prover.getStatement();
+		/*
+		 * Decide quickly if proving this kind of statement is already
+		 * implemented at all:
+		 */
 		if (!(statement.getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
 			App.debug(statement.getParentAlgorithm() + " unimplemented");
 			return ProofResult.UNKNOWN;
-			// If not, let's not spend any time here, but give up immediately. 
+			/* If not, let's not spend any time here, but give up immediately. */
 		}
-		
-		// If Singular is not available, let's try Giac (mainly on web)
+
+		/* If Singular is not available, let's try Giac (mainly on web) */
 		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
 			ProverSettings.transcext = false;
 			App.debug("Testing local CAS connection");
@@ -327,12 +339,12 @@ public class ProverBotanasMethod {
 			}
 		}
 
-		// Getting the hypotheses:
+		/* Getting the hypotheses: */
 		Polynomial[] hypotheses = null;
 		boolean interpretFalseAsUndefined = false;
 		int maxFixcoords = -1;
 
-		// write construction in readable format
+		/* write construction in readable format */
 		// App.debug(getTextFormat(statement));
 
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
@@ -358,11 +370,14 @@ public class ProverBotanasMethod {
 								+ " */");
 					} else {
 						String description = geo.getAlgebraDescriptionDefault();
-						if (!description.startsWith("xOyPlane")) { // handling
-																	// GeoGebra3D's
-																	// definition
-																	// for
-																	// xy-plane
+						if (!description.startsWith("xOyPlane")) { /*
+																	 * handling
+																	 * GeoGebra3D
+																	 * 's
+																	 * definition
+																	 * for
+																	 * xy-plane
+																	 */
 							App.debug(description + " /* free point */");
 							Variable[] v = new Variable[2];
 							v = ((SymbolicParametersBotanaAlgo) geo)
@@ -371,21 +386,22 @@ public class ProverBotanasMethod {
 								geo.setCaptionBotanaVars("(" + v[0].toTeX()
 										+ "," + v[1].toTeX() + ")");
 							}
-							App.debug("// Free point "
-									+ geo.getLabelSimple() + "(" + v[0] + ","
-									+ v[1] + ")");
+							App.debug("// Free point " + geo.getLabelSimple()
+									+ "(" + v[0] + "," + v[1] + ")");
 						}
 					}
 					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo)
 							.getBotanaPolynomials(geo);
-					
-					/* Check if the construction step could be reliably translated to
-					 * an algebraic representation. This is the case for linear
-					 * constructions (parallel, perpendicular etc.) but not for
-					 * quadratic ones (intersection of conics etc.). In the latter case the equation system
-					 * may be solvable even if geometrically, "seemingly" the statement is
-					 * true. To avoid such confusing cases, it's better to report undefined
-					 * instead of false.
+
+					/*
+					 * Check if the construction step could be reliably
+					 * translated to an algebraic representation. This is the
+					 * case for linear constructions (parallel, perpendicular
+					 * etc.) but not for quadratic ones (intersection of conics
+					 * etc.). In the latter case the equation system may be
+					 * solvable even if geometrically, "seemingly" the statement
+					 * is true. To avoid such confusing cases, it's better to
+					 * report undefined instead of false.
 					 */
 					AlgoElement algo = geo.getParentAlgorithm();
 					if (algo instanceof AlgoAngularBisectorPoints
@@ -395,7 +411,9 @@ public class ProverBotanasMethod {
 							|| (algo instanceof AlgoIntersectLineConic && ((AlgoIntersectLineConic) algo)
 									.existingIntersections() != 1)) {
 						interpretFalseAsUndefined = true;
-						App.debug("Due to " + algo + " is not 1-1 algebraic mapping, FALSE will be interpreted as UNKNOWN");
+						App.debug("Due to "
+								+ algo
+								+ " is not 1-1 algebraic mapping, FALSE will be interpreted as UNKNOWN");
 					}
 
 					/*
@@ -411,7 +429,7 @@ public class ProverBotanasMethod {
 							&& ProverSettings.transcext) {
 						maxFixcoords = 2;
 					}
-				
+
 					if (geoPolys != null) {
 						if (geo instanceof GeoPoint) {
 							Variable[] v = new Variable[2];
@@ -461,16 +479,18 @@ public class ProverBotanasMethod {
 		updateBotanaVarsInv(statement);
 		try {
 			boolean interpretTrueAsUndefined = false;
-			// The sets of statement polynomials.
-			// The last equation of each set will be negated.
+			/*
+			 * The sets of statement polynomials. The last equation of each set
+			 * will be negated.
+			 */
 
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement
 					.getParentAlgorithm()).getBotanaPolynomials();
 
-			// case input was an expression
+			/* case input was an expression */
 			if (statements == null) {
 				AlgoElement algo = statement.getParentAlgorithm();
-				// get expression string for giac
+				/* get expression string for giac */
 				String strForGiac = ((AlgoDependentBoolean) algo)
 						.getStrForGiac();
 				String userStrForGiac = ((AlgoDependentBoolean) algo)
@@ -479,21 +499,24 @@ public class ProverBotanasMethod {
 				GeoGebraCAS cas = (GeoGebraCAS) statement.getKernel()
 						.getGeoGebraCAS();
 				try {
-					// K
+					/* K: extended polynomial */
 					String output = cas.getCurrentCAS().evaluateRaw(
 							strForGiac.toString());
-					// F
+					/* F: user's polynomial formula */
 					String userOutput = cas.getCurrentCAS().evaluateRaw(
 							userStrForGiac);
-					// T = K/F
+					/*
+					 * T = K/F: the factor between user's formula and the
+					 * extended one
+					 */
 					String result = cas.getCurrentCAS().evaluateRaw(
 							"simplify(" + output + "/" + userOutput + ")");
-					// unhandled input expression
+					/* unhandled input expression */
 					if (output.contains("?") || userOutput.contains("?")
 							|| result.contains("?")) {
 						return ProofResult.UNKNOWN;
 					}
-					// T is not empty
+					/* T is not empty */
 					if (!(result.equals("{}"))) {
 						ValidExpression resultVE = (statement.getKernel()
 								.getGeoGebraCAS()).getCASparser()
@@ -505,32 +528,33 @@ public class ProverBotanasMethod {
 									.getLeft()).getListElement(0);
 							Inspecting plusInsp = PlusChecker.INSTANCE;
 							Inspecting minusInsp = MinusChecker.INSTANCE;
-							// check if contains only plus
+							/* check if T contains only plus */
 							boolean contPlus = plusInsp.check(nodeToCheck);
-							// check if contains only minus
+							/* check if T contains only minus */
 							boolean contMinus = minusInsp.check(nodeToCheck);
-							// expression is trustable
-							// if contains only plus or only minus
+							/*
+							 * user's expression is trustable if T contains only
+							 * plus or only minus
+							 */
 							if (contPlus || contMinus) {
 								((AlgoDependentBoolean) algo)
 										.setTrustable(true);
 							}
 						}
 					}
-					// giac output is not empty
+					/* giac output is not empty */
 					if (!(output.equals("{}"))) {
 						// App.debug(output);
 						ValidExpression validExpression = (statement
-								.getKernel()
-							.getGeoGebraCAS()).getCASparser()
-							.parseGeoGebraCASInputAndResolveDummyVars(output,
-									statement.getKernel(), null);
+								.getKernel().getGeoGebraCAS()).getCASparser()
+								.parseGeoGebraCASInputAndResolveDummyVars(
+										output, statement.getKernel(), null);
 						// App.debug(validExpression
 						// .toString(StringTemplate.defaultTemplate));
 						PolynomialNode polyRoot = new PolynomialNode();
 						ExpressionNode expNode = new ExpressionNode(
-							statement.getKernel(),
-							((ExpressionNode) validExpression).getLeft());
+								statement.getKernel(),
+								((ExpressionNode) validExpression).getLeft());
 						MyList list = new MyList(statement.getKernel());
 						ExpressionNode root = null;
 						if (expNode.getLeft() instanceof MyList) {
@@ -539,34 +563,36 @@ public class ProverBotanasMethod {
 						if (list.getListElement(0).isExpressionNode()) {
 							root = (ExpressionNode) list.getListElement(0);
 						}
-						// case giac output has form A^2-B^2
+						/* case giac output has form A^2-B^2 */
 						if (cas.getCurrentCAS()
 								.evaluateRaw(
 										"size("
 												+ root.toString(StringTemplate.giacTemplate)
 												+ ")").equals("2")) {
-							// get variables of giac output
+							/* get variables of giac output */
 							HashSet<GeoElement> giacOutputVars = root
 									.getVariables();
 							if (giacOutputVars != null) {
 								Iterator<GeoElement> giacVarIt = giacOutputVars
 										.iterator();
-								// reserve first var
+								/* reserve first var */
 								GeoElement geo = giacVarIt.next();
-								// copy the expression of giac output
+								/* copy the expression of giac output */
 								ExpressionNode copyRoot = root
 										.deepCopy(statement.getKernel());
 								while (giacVarIt.hasNext()) {
-									// iterate through vars
+									/* iterate through vars */
 									GeoElement currGeo = giacVarIt.next();
-									// replace current var with 1
+									/* replace current var with 1 */
 									copyRoot.traverse(GeoDummyReplacer.getReplacer(
 											currGeo.getLabel(StringTemplate.defaultTemplate),
 											new ExpressionNode(statement
 													.getKernel(), 1), true));
 								}
-								// get solution of expression with reserved var
-								// parameter
+								/*
+								 * get solution of expression with reserved var
+								 * parameter
+								 */
 								String solutionGeo = cas
 										.getCurrentCAS()
 										.evaluateRaw(
@@ -576,13 +602,15 @@ public class ProverBotanasMethod {
 														+ "=0,"
 														+ geo.toString(StringTemplate.giacTemplate)
 														+ ")))");
-								// skip { and }
+								/* skip { and } */
 								solutionGeo = solutionGeo.substring(1,
 										solutionGeo.length() - 1);
-								// split solution list
+								/* split solution list */
 								String[] solutionList = solutionGeo.split(",");
-								// parse solutions into expression
-								// needed e.g. 1/2 solution
+								/*
+								 * parse solutions into expression needed e.g.
+								 * 1/2 solution
+								 */
 								ValidExpression validSol1 = (statement
 										.getKernel().getGeoGebraCAS())
 										.getCASparser()
@@ -597,63 +625,76 @@ public class ProverBotanasMethod {
 												statement.getKernel(), null);
 								double geoSol1 = validSol1.evaluateDouble();
 								double geoSol2 = validSol2.evaluateDouble();
-								// make sure we use the positive root
+								/* make sure we use the positive root */
 								if (geoSol1 < 0) {
 									geoSol1 = geoSol2;
 								}
-								// substitution list
-								// e.g. [a,v7],[b,v8]
-								// where a name of segment and v7 the variable
+								/*
+								 * substitution list e.g. [a,v7],[b,v8] where a
+								 * name of segment and v7 the variable
+								 */
 								ArrayList<Vector<String>> substitutions = ((AlgoDependentBoolean) algo)
 										.getVarSubstListOfSegs();
-								// copy input expression
+								/* copy input expression */
 								ExpressionNode statementRootCopy = (ExpressionNode) ((AlgoDependentBoolean) algo)
 										.getExpression().deepCopy(
 												statement.getKernel());
-								// result after substitution of solutions into
-								// input expression
-								// using e.g. subst(2a=b,{a=1,b=2})
+								/*
+								 * result after substitution of solutions into
+								 * input expression using e.g.
+								 * subst(2a=b,{a=1,b=2})
+								 */
 								String substOutput = new String();
 								if (substitutions != null) {
-									Iterator<Vector<String>> itSubst = substitutions.iterator();
-									// list of substitutions
+									Iterator<Vector<String>> itSubst = substitutions
+											.iterator();
+									/* list of substitutions */
 									StringBuilder substListStr = new StringBuilder();
 									substListStr.append("{");
 									while (itSubst.hasNext()) {
-										Vector<String> currSubst = itSubst.next();
-										// reserved var substitute with
-										// calculated solution
-										if (currSubst.get(1).equals(geo.toString(StringTemplate.defaultTemplate))) {
-											substListStr.append("ggbtmpvar"+currSubst.get(0)+"="+geoSol1+",");
+										Vector<String> currSubst = itSubst
+												.next();
+										/*
+										 * reserved var substitute with
+										 * calculated solution
+										 */
+										if (currSubst
+												.get(1)
+												.equals(geo
+														.toString(StringTemplate.defaultTemplate))) {
+											substListStr.append("ggbtmpvar"
+													+ currSubst.get(0) + "="
+													+ geoSol1 + ",");
 										} else {
-											// everything else substitute with 1
-											substListStr.append("ggbtmpvar"+currSubst.get(0)+"=1,");
+											/* everything else substitute with 1 */
+											substListStr.append("ggbtmpvar"
+													+ currSubst.get(0) + "=1,");
 										}
 									}
-									// cut unwanted ","
-									substListStr.setLength(substListStr.length()-1);
+									/* cut unwanted "," */
+									substListStr.setLength(substListStr
+											.length() - 1);
 									substListStr.append("}");
-									// call giac substitution
+									/* call giac substitution */
 									substOutput = cas
-													.getCurrentCAS()
-													.evaluateRaw(
-															"subst("
-																	+ statementRootCopy
-																			.getLeftTree()
-																			.toString(
-																					StringTemplate.giacTemplate)
-																	+ "="
-																	+ statementRootCopy
-																			.getRightTree()
-																			.toString(
-																					StringTemplate.giacTemplate)
-																	+ ","
-																	+ substListStr
-																			.toString()
-																	+ ")");
+											.getCurrentCAS()
+											.evaluateRaw(
+													"subst("
+															+ statementRootCopy
+																	.getLeftTree()
+																	.toString(
+																			StringTemplate.giacTemplate)
+															+ "="
+															+ statementRootCopy
+																	.getRightTree()
+																	.toString(
+																			StringTemplate.giacTemplate)
+															+ ","
+															+ substListStr
+																	.toString()
+															+ ")");
 								}
-								// check if equation is true
-								// e.g. 2=2
+								/* check if equation is true e.g. 2=2 */
 								if (cas.getCurrentCAS()
 										.evaluateRaw(
 												"evalb(" + substOutput + ")")
@@ -665,31 +706,31 @@ public class ProverBotanasMethod {
 							}
 						}
 						((AlgoDependentBoolean) algo).buildPolynomialTree(root,
-							polyRoot);
+								polyRoot);
 						((AlgoDependentBoolean) algo)
-								.expressionNodeToPolynomial(
-							root, polyRoot);
+								.expressionNodeToPolynomial(root, polyRoot);
 						while (polyRoot.getPoly() == null) {
 							((AlgoDependentBoolean) algo)
-								.expressionNodeToPolynomial(root,
-										polyRoot);
+									.expressionNodeToPolynomial(root, polyRoot);
 						}
-						// get distance polynomials
+						/* get distance polynomials */
 						ArrayList<Polynomial> extraPolys = ((AlgoDependentBoolean) algo)
-							.getExtraPolys();
+								.getExtraPolys();
 						statements = new Polynomial[1][extraPolys.size() + 1];
 						int index = 0;
 						for (Polynomial p : extraPolys) {
 							statements[0][index] = p;
 							index++;
 						}
-						// clear polynomial list of distant conditions for the
-						// next check
+						/*
+						 * clear polynomial list of distant conditions for the
+						 * next check
+						 */
 						extraPolys = new ArrayList<Polynomial>();
-						// add input polynomial
+						/* add input polynomial */
 						statements[0][index] = polyRoot.getPoly();
 					}
-					// case giac result was empty
+					/* case giac result was empty */
 					else {
 						statements = new Polynomial[1][1];
 						statements[0][0] = new Polynomial(0);
@@ -700,8 +741,7 @@ public class ProverBotanasMethod {
 
 			}
 
-			AlgoElement algo = statement
-					.getParentAlgorithm();
+			AlgoElement algo = statement.getParentAlgorithm();
 			if (algo instanceof AlgoAreCongruent) {
 				if (algo.input[0] instanceof GeoAngle
 						&& algo.input[1] instanceof GeoAngle) {
@@ -729,20 +769,22 @@ public class ProverBotanasMethod {
 					}
 				}
 			}
-			
-			// The NDG conditions (automatically created):
+
+			/* The NDG conditions (automatically created): */
 			Polynomial[] ndgConditions = null;
 			if (ProverSettings.freePointsNeverCollinear == null) {
 				if (App.singularWS != null && App.singularWS.isAvailable()) {
-					// SingularWS will use Cox' method
+					/* SingularWS will use Cox' method */
 					ProverSettings.freePointsNeverCollinear = false;
 				} else {
 					ProverSettings.freePointsNeverCollinear = true;
 				}
 			}
 
-			// Only for the Prove command makes sense to set up extra NDG
-			// conditions
+			/*
+			 * Only for the Prove command makes sense to set up extra NDG
+			 * conditions
+			 */
 			if (ProverSettings.freePointsNeverCollinear
 					&& !(prover.isReturnExtraNDGs())) {
 				ndgConditions = create3FreePointsNeverCollinearNDG(prover);
@@ -770,16 +812,16 @@ public class ProverBotanasMethod {
 			if (statements != null)
 				nStatements = statements.length;
 
-			
-			// Solving/manipulating the equation system:
-			
+			/* Solving/manipulating the equation system: */
+
 			int nExtraPolysNonDenied = 0;
 			for (int i = 0; i < nStatements; ++i) {
 				nExtraPolysNonDenied += (statements[i].length - 1);
 			}
-			
-			Polynomial[] eqSystem = new Polynomial[nHypotheses + nNdgConditions + nExtraPolysNonDenied + 1];
-			// These polynomials will be in the equation system always:
+
+			Polynomial[] eqSystem = new Polynomial[nHypotheses + nNdgConditions
+					+ nExtraPolysNonDenied + 1];
+			/* These polynomials will be in the equation system always: */
 			for (int j = 0; j < nHypotheses; ++j)
 				eqSystem[j] = hypotheses[j];
 			if (nNdgConditions > 0)
@@ -799,21 +841,27 @@ public class ProverBotanasMethod {
 				}
 			}
 
-			// Rabinowitsch trick for the last polynomials of the theses of the statement.
-			// Here we use that NOT (A and B and C) == (NOT A) or (NOT b) or (NOT c),
-			// and disjunctions can be algebraized by using products.
+			/*
+			 * Rabinowitsch trick for the last polynomials of the theses of the
+			 * statement. Here we use that NOT (A and B and C) == (NOT A) or
+			 * (NOT b) or (NOT c), and disjunctions can be algebraized by using
+			 * products.
+			 */
 			App.debug("Thesis reductio ad absurdum (denied statement), product of factors:");
 			Polynomial spoly = new Polynomial(1);
 			Variable z = new Variable();
-			// It is OK to use the same variable for each factor since it is enough
-			// to find one counterexample only for one of the theses.
-			// See http://link.springer.com/article/10.1007%2Fs10817-009-9133-x
-			// Appendix, Proposition 6 and Corollary 2 to read more on this.
-			// FIXME: this always introduces an extra variable, shouldn't do.
+			/*
+			 * It is OK to use the same variable for each factor since it is
+			 * enough to find one counterexample only for one of the theses. See
+			 * http://link.springer.com/article/10.1007%2Fs10817-009-9133-x
+			 * Appendix, Proposition 6 and Corollary 2 to read more on this.
+			 * FIXME: this always introduces an extra variable, shouldn't do.
+			 */
 			for (int i = 0; i < nStatements; ++i) {
 				Polynomial factor = (statements[i][statements[i].length - 1]);
 				App.debug("(" + factor + ")*" + z + "-1");
-				factor = factor.multiply(new Polynomial(z)).subtract(new Polynomial(1));
+				factor = factor.multiply(new Polynomial(z)).subtract(
+						new Polynomial(1));
 				spoly = spoly.multiply(factor);
 			}
 			eqSystem[k] = spoly;
@@ -821,247 +869,209 @@ public class ProverBotanasMethod {
 			App.debug((k + 1) + ". " + spoly);
 
 			if (prover.isReturnExtraNDGs()) {
+				/* START OF PROVEDETAILS. */
+				Set<Set<Polynomial>> eliminationIdeal;
+				NDGDetector ndgd = new NDGDetector(prover, substitutions);
 
-					Set<Set<Polynomial>> eliminationIdeal;
-					NDGDetector ndgd = new NDGDetector(prover, substitutions);
+				boolean found = false;
+				int permutation = 0;
+				int MAX_PERMUTATIONS = 1; /*
+										 * Giac cannot permute the variables at
+										 * the moment.
+										 */
+				if (App.singularWS != null && App.singularWS.isAvailable()) {
+					/*
+					 * TODO: Limit MAX_PERMUTATIONS to (#freevars-#substitutes)!
+					 * to prevent unneeded computations:
+					 */
+					MAX_PERMUTATIONS = 8; /*
+										 * intuitively set, see Polynomial.java
+										 * for more on info (Pappus6 will work
+										 * with 7, too)
+										 */
+					/* Pappus6 is at http://www.tube.geogebra.org/student/m57255 */
+				}
+				while (!found && permutation < MAX_PERMUTATIONS) {
 
-					boolean found = false;
-					int permutation = 0;
-					int MAX_PERMUTATIONS = 1; // Giac cannot permute the
-												// variables at the moment.
-					if (App.singularWS != null && App.singularWS.isAvailable()) {
-						// TODO: Limit MAX_PERMUTATIONS to
-						// (#freevars-#substitutes)! to prevent unneeded
-						// computations:
-						MAX_PERMUTATIONS = 8; // intuitively set, see
-												// Polynomial.java for more on
-												// info (Pappus6 will work with
-												// 7, too)
-						// Pappus6 is at
-						// http://www.tube.geogebra.org/student/m57255
+					eliminationIdeal = Polynomial
+							.eliminate(eqSystem, substitutions,
+									statement.getKernel(), permutation++);
+					if (eliminationIdeal == null) {
+						return ProofResult.UNKNOWN;
 					}
-					while (!found && permutation < MAX_PERMUTATIONS) {
 
-						eliminationIdeal = Polynomial.eliminate(eqSystem,
-								substitutions, statement.getKernel(),
-								permutation++);
-						if (eliminationIdeal == null) {
-							return ProofResult.UNKNOWN;
-						}
+					Iterator<Set<Polynomial>> ndgSet = eliminationIdeal
+							.iterator();
 
-						Iterator<Set<Polynomial>> ndgSet = eliminationIdeal
-								.iterator();
+					List<Set<GeoPoint>> xEqualSet = new ArrayList(
+							new HashSet<GeoPoint>());
+					List<Set<GeoPoint>> yEqualSet = new ArrayList(
+							new HashSet<GeoPoint>());
+					boolean xyRewrite = (eliminationIdeal.size() == 2);
 
-						List<Set<GeoPoint>> xEqualSet = new ArrayList(
-								new HashSet<GeoPoint>());
-						List<Set<GeoPoint>> yEqualSet = new ArrayList(
-								new HashSet<GeoPoint>());
-						boolean xyRewrite = (eliminationIdeal.size() == 2);
+					List<NDGCondition> bestNdgSet = new ArrayList<NDGCondition>();
+					double bestScore = Double.POSITIVE_INFINITY;
+					int ndgI = 0;
+					while (ndgSet.hasNext()) {
+						ndgI++;
+						App.debug("Considering NDG " + ndgI + "...");
+						List<NDGCondition> ndgcl = new ArrayList<NDGCondition>();
+						double score = 0.0;
+						/*
+						 * All NDGs must be translatable into human readable
+						 * form.
+						 */
+						boolean readable = true;
+						Set<Polynomial> thisNdgSet = ndgSet.next();
+						Iterator<Polynomial> ndg = thisNdgSet.iterator();
+						while (ndg.hasNext() && readable) {
+							Polynomial poly = ndg.next();
+							if (poly.isZero()) {
 
-						List<NDGCondition> bestNdgSet = new ArrayList<NDGCondition>();
-						double bestScore = Double.POSITIVE_INFINITY;
-						int ndgI = 0;
-						while (ndgSet.hasNext()) {
-							ndgI++;
-							App.debug("Considering NDG " + ndgI + "...");
-							List<NDGCondition> ndgcl = new ArrayList<NDGCondition>();
-							double score = 0.0;
-							// All NDGs must be translatable into human readable
-							// form.
-							boolean readable = true;
-							Set<Polynomial> thisNdgSet = ndgSet.next();
-							Iterator<Polynomial> ndg = thisNdgSet.iterator();
-							while (ndg.hasNext() && readable) {
-								Polynomial poly = ndg.next();
-								if (poly.isZero()) {
+								/*
+								 * Here we know that the statement is reported
+								 * to be not generally true.
+								 */
+								App.debug("Statement is NOT GENERALLY TRUE");
 
-									// Here we know that the statement is not generally true.
-									App.debug("Statement is NOT GENERALLY TRUE");
-
-									/*								
-									// But it is possible that the statement is not generally false, either.
-									// So we should check the negative statement also.
-									App.debug("Checking the negative statement to decide if the statement is generally false or not:");
-									
-									// If there were more than one theses, we need to add 1 extra polynomial for each,
-									// because we used the product of the last statement of each, but now we need to add all of
-									// them to the system.
-									if (nStatements != 1) {
-										Polynomial[] eqSystem2 = new Polynomial[nHypotheses + nNdgConditions + nExtraPolysNonDenied + nStatements];
-										for (int i = 0; i < nHypotheses + nNdgConditions + nExtraPolysNonDenied; ++i) {
-											eqSystem2[i] = eqSystem[i];
-											}
-										eqSystem = eqSystem2;
-										}
-									int j = nHypotheses + nNdgConditions + nExtraPolysNonDenied;
-									// Add the last (earlier: denied) theses to the system as simple equations (in non-denied form). 
-									for (int i = 0; i < nStatements; ++i) {
-										eqSystem[j + i] = statements[i][statements[i].length - 1];
-									}
-									// Computing elimination ideal. If this elimination is not zero, then the statement is generally false.
-									eliminationIdeal = Polynomial.eliminate(eqSystem,
-										substitutions, statement.getKernel(),
-										permutation++);
-									if (eliminationIdeal == null) {
-											App.debug("Statement is NOT GENERALLY FALSE => UNKNOWN (1)");
-											return ProofResult.UNKNOWN;
-										}
-									ndgSet = eliminationIdeal.iterator();
-									while (ndgSet.hasNext()) {
-										thisNdgSet = ndgSet.next();
-										ndg = thisNdgSet.iterator();
-										while (ndg.hasNext()) {
-											poly = ndg.next();
-											if (poly.isZero()) {
-												App.debug("Statement is NOT GENERALLY FALSE either => UNKNOWN (2)");
-												return ProofResult.UNKNOWN;
-											}
-										}
-									}
-								App.debug("Statement is GENERALLY FALSE");
-								*/
-									if (interpretFalseAsUndefined) {
-										App.debug("Interpreting FALSE as UNKNOWN");
-										return ProofResult.UNKNOWN;
-									}
-									return ProofResult.FALSE;
+								if (interpretFalseAsUndefined) {
+									App.debug("Interpreting FALSE as UNKNOWN");
+									return ProofResult.UNKNOWN;
 								}
-									
+								return ProofResult.FALSE;
+							}
+
+							/*
+							 * Here we know that the statement is reported to be
+							 * generally true with some NDGs.
+							 */
 							if (!poly.isConstant()) {
+								if (interpretTrueAsUndefined) {
+									App.debug("Interpreting TRUE as UNKNOWN");
+									return ProofResult.UNKNOWN;
+								}
 								NDGCondition ndgc = ndgd.detect(poly);
 								if (ndgc == null)
 									readable = false;
 								else {
-									// Check if this elimination ideal
-									// equals to {xM-xN,yM-yN}:
+									/*
+									 * Check if this elimination ideal equals to
+									 * {xM-xN,yM-yN}:
+									 */
 									xyRewrite = (xyRewrite && thisNdgSet.size() == 1);
-										// Note that in some cases the CAS may
-										// return (xM-xN)*(-1) which
-										// consists of two factors, so
-										// thisNdgSet.size() == 1 will fail.
-										// Until now there is no experience of
-										// such behavior for such
-										// simple ideals, so maybe this check is
-										// OK.
+									/*
+									 * Note that in some cases the CAS may
+									 * return (xM-xN)*(-1) which consists of two
+									 * factors, so thisNdgSet.size() == 1 will
+									 * fail. Until now there is no experience of
+									 * such behavior for such simple ideals, so
+									 * maybe this check is OK.
+									 */
 									if (xyRewrite) {
-										if (ndgc.getCondition().equals("xAreEqual")) {
+										if (ndgc.getCondition().equals(
+												"xAreEqual")) {
 											Set<GeoPoint> points = new HashSet<GeoPoint>();
-											points.add((GeoPoint) ndgc.getGeos()[0]);
-											points.add((GeoPoint) ndgc.getGeos()[1]);
+											points.add((GeoPoint) ndgc
+													.getGeos()[0]);
+											points.add((GeoPoint) ndgc
+													.getGeos()[1]);
 											xEqualSet.add(points);
-											}
-										if (ndgc.getCondition().equals("yAreEqual")) {
+										}
+										if (ndgc.getCondition().equals(
+												"yAreEqual")) {
 											Set<GeoPoint> points = new HashSet<GeoPoint>();
-											points.add((GeoPoint) ndgc.getGeos()[0]);
-											points.add((GeoPoint) ndgc.getGeos()[1]);
+											points.add((GeoPoint) ndgc
+													.getGeos()[0]);
+											points.add((GeoPoint) ndgc
+													.getGeos()[1]);
 											yEqualSet.add(points);
-											}
-										if (xEqualSet.size() == 1 && xEqualSet.equals(yEqualSet)) {
-											// If yes, set the condition to
-											// AreEqual(M,N) and readable
-											// enough:
+										}
+										if (xEqualSet.size() == 1
+												&& xEqualSet.equals(yEqualSet)) {
+											/*
+											 * If yes, set the condition to
+											 * AreEqual(M,N) and readable
+											 * enough:
+											 */
 											ndgc.setCondition("AreEqual");
 											ndgc.setReadability(0.5);
-											}
 										}
+									}
 
 									ndgcl.add(ndgc);
 									score += ndgc.getReadability();
 								}
 							}
 						}
-						// Now we take the set if the conditions are
-						// readable and the set is the current best.
-						// TODO: Here we should simplify the NDGs, i.e. if
-						// one of them is a logical
-						// consequence of others, then it should be
-						// eliminated.
+						/*
+						 * Now we take the set if the conditions are readable
+						 * and the set is the current best. TODO: Here we should
+						 * simplify the NDGs, i.e. if one of them is a logical
+						 * consequence of others, then it should be eliminated.
+						 */
 						if (readable && score < bestScore) {
 							App.debug("Found a better NDG score (" + score
-								+ ") than " + bestScore);
+									+ ") than " + bestScore);
 							bestScore = score;
 							bestNdgSet = ndgcl;
 							found = true;
 						} else {
 							if (readable) {
 								App.debug("Not better than previous NDG score ("
-									+ bestScore + "), this is " + score);
-								} else {
+										+ bestScore + "), this is " + score);
+							} else {
 								App.debug("...unreadable");
-								}
 							}
 						}
+					}
 					if (found) {
 						Iterator<NDGCondition> ndgc = bestNdgSet.iterator();
 						while (ndgc.hasNext()) {
 							prover.addNDGcondition(ndgc.next());
-							}
 						}
 					}
-				// No readable proof was found, search for another
-				// prover to make a better job:
+				}
+				/*
+				 * No readable NDGs was found, search for another prover to make
+				 * a better job:
+				 */
 				if (!found) {
 					App.debug("Statement is TRUE but NDGs are UNREADABLE");
 					return ProofResult.TRUE_NDG_UNREADABLE;
-					}
-				} else {
-					Boolean solvable = Polynomial.solvable(eqSystem,
-							substitutions, statement.getKernel(),
-							ProverSettings.transcext);
-					if (solvable == null) {
-						// Prover returned with no success, search for another
-						// prover:
-						App.debug("Unsuccessful run, statement is UNKNOWN at the moment");
+				}
+				/* END OF PROVEDETAILS. */
+
+				/* START OF PROVE. */
+			} else {
+				Boolean solvable = Polynomial.solvable(eqSystem, substitutions,
+						statement.getKernel(), ProverSettings.transcext);
+				if (solvable == null) {
+					/*
+					 * Prover returned with no success, search for another
+					 * prover:
+					 */
+					App.debug("Unsuccessful run, statement is UNKNOWN at the moment");
+					return ProofResult.UNKNOWN;
+				}
+				if (solvable) {
+					if (!ProverSettings.transcext) {
+						/*
+						 * We cannot reliably tell if the statement is really
+						 * false:
+						 */
+						App.debug("No transcext support, system is solvable, statement is UNKNOWN");
 						return ProofResult.UNKNOWN;
 					}
-					if (solvable) {
-						if (!ProverSettings.transcext) {
-							// We cannot reliably tell if the statement is
-							// really false:
-							App.debug("No transcext support, system is solvable, statement is UNKNOWN");
-							return ProofResult.UNKNOWN;
-						}
-						// Here we know that the statement is not generally true.
-						// But it is possible that the statement is not generally false, either.
-						// So we check the negative statement also.
-						//spoly = lastpoly;
-						App.debug("Statement is NOT GENERALLY TRUE");
-						
-						/*
-						App.debug("Checking the negative statement to decide if the statement is generally false or not:");
-						
-						// If there were more than one theses, we need to add 1 extra polynomial for each,
-						// because we used the product of the last statement of each, but now we need to add all of
-						// them to the system.
-						if (nStatements != 1) {
-							Polynomial[] eqSystem2 = new Polynomial[nHypotheses + nNdgConditions + nExtraPolysNonDenied + nStatements];
-							for (int i = 0; i < nHypotheses + nNdgConditions + nExtraPolysNonDenied; ++i) {
-								eqSystem2[i] = eqSystem[i];
-								}
-							eqSystem = eqSystem2;
-							}
-						int j = nHypotheses + nNdgConditions + nExtraPolysNonDenied;
-						// Add the last (earlier: denied) theses to the system as simple equations (in non-denied form). 
-						for (int i = 0; i < nStatements; ++i) {
-							eqSystem[j + i] = statements[i][statements[i].length - 1];
-						}
+					/* Here we know that the statement is not generally true. */
+					App.debug("Statement is NOT GENERALLY TRUE");
 
-						Boolean negsolvable = Polynomial.solvable(eqSystem,
-								substitutions, statement.getKernel(),
-								ProverSettings.transcext);
-						if (negsolvable) {
-							App.debug("Statement is NOT GENERALLY FALSE either => UNKNOWN");
-							return ProofResult.UNKNOWN;
-						}
-						App.debug("Statement is GENERALLY FALSE");
-						*/
 					if (interpretFalseAsUndefined && !interpretTrueAsUndefined) {
-							App.debug("Interpreting FALSE as UNKNOWN");
-							return ProofResult.UNKNOWN;
-						}
-						return ProofResult.FALSE;
+						App.debug("Interpreting FALSE as UNKNOWN");
+						return ProofResult.UNKNOWN;
 					}
+					return ProofResult.FALSE;
 				}
+			}
 			if (interpretTrueAsUndefined) {
 				App.debug("Interpreting TRUE as UNKNOWN");
 				return ProofResult.UNKNOWN;
