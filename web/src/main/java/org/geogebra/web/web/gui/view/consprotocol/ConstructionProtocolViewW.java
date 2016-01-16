@@ -58,6 +58,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -1008,7 +1009,7 @@ myCell) {
 	    return styleBar;
     }
 
-	public List<Widget> getPrintable(FlowPanel printPanel) {
+	public List<Widget> getPrintable(FlowPanel printPanel, Button btPrint) {
 
 		// TODO: remove return value
 		Widget[] printableList = {};
@@ -1019,8 +1020,8 @@ myCell) {
 		// We can create the printed panel before the browser's print preview
 		// opened, and the user can change the orientation later,
 		// so we must create the tables for both orientation at the beginning.
-		createTable(printPanel, 0, 1, Orientation.PORTRAIT);
-		createTable(printPanel, 0, 1, Orientation.LANDSCAPE);
+		createTable(printPanel, 0, 1, Orientation.PORTRAIT, btPrint);
+		createTable(printPanel, 0, 1, Orientation.LANDSCAPE, btPrint);
 
 		return Arrays.asList(printableList);
 	}
@@ -1030,7 +1031,7 @@ myCell) {
 	}
 
 	private void createTable(final FlowPanel printPanel, final int row,
-			final int numberOfRows, Orientation orient) {
+			final int numberOfRows, Orientation orient, Button btPrint) {
 		final CellTable<RowData> previewTable = new CellTable<RowData>();
 		addColumnsForTable(previewTable);
 		previewTable.addStyleName("previewTable");
@@ -1043,13 +1044,13 @@ myCell) {
 			previewTable.addStyleName("preview_landscape");
 		printPanel.add(previewTable);
 
-		addRows(printPanel, row, numberOfRows, previewTable, orient);
+		addRows(printPanel, row, numberOfRows, previewTable, orient, btPrint);
 		
 	}
 
 	void addRows(final FlowPanel printPanel, final int row,
 			final int numberOfRows, final CellTable<RowData> previewTable,
-			final Orientation orient) {
+			final Orientation orient, final Button btPrint) {
 
 		previewTable.setRowCount(numberOfRows);
 		previewTable.setVisibleRange(0, numberOfRows);
@@ -1062,13 +1063,14 @@ myCell) {
 				int printHeight = (orient == Orientation.PORTRAIT) ? PrintPreviewW.PHEIGHT
 						: PrintPreviewW.LHEIGHT;
 				if (row + numberOfRows == data.getRowCount()) {
-					setRows(printPanel, row, numberOfRows, previewTable, orient);
+					setRows(printPanel, row, numberOfRows, previewTable,
+							orient, btPrint);
 				} else if (offsetHeight < printHeight) {
 					addRows(printPanel, row, numberOfRows + 1, previewTable,
-							orient);
+							orient, btPrint);
 				} else {
 					setRows(printPanel, row, numberOfRows - 1, previewTable,
-							orient);
+							orient, btPrint);
 				}
 
 			}
@@ -1076,16 +1078,26 @@ myCell) {
 
 	}
 
+	/**
+	 * true, if the previews are ready for both orientation
+	 */
+	int ready = 0;
+
 	void setRows(final FlowPanel printPanel, final int row,
 			final int numberOfRows, final CellTable<RowData> previewTable,
-			Orientation orient) {
+			Orientation orient, Button btPrint) {
 		previewTable.setRowCount(numberOfRows);
 		previewTable.setVisibleRange(0, numberOfRows);
 		previewTable.setRowData(0,
 				data.getrowList().subList(row, row + numberOfRows));
 
 		if (row + numberOfRows < data.getRowCount()) {
-			createTable(printPanel, row + numberOfRows, 1, orient);
+			createTable(printPanel, row + numberOfRows, 1, orient, btPrint);
+		} else { // last page of the current orientation
+			ready++;
+			if (ready == 2) {
+				btPrint.setEnabled(true);
+			}
 		}
 	}
 }

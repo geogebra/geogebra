@@ -51,6 +51,7 @@ import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
@@ -1833,7 +1834,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		return attached;
 	}
 
-	public List<Widget> getPrintable(FlowPanel pPanel) {
+	public List<Widget> getPrintable(FlowPanel pPanel, Button btPrint) {
 		// TODO Auto-generated method stub
 		return null;
 	}

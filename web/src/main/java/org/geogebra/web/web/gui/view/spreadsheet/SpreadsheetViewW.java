@@ -34,6 +34,7 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -1232,7 +1233,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		return Arrays.asList(printableList);
 	}
 
-	public List<Widget> getPrintable(FlowPanel pPanel) {
+	public List<Widget> getPrintable(FlowPanel pPanel, Button btPrint) {
 		// TODO Auto-generated method stub
 		return null;
 	}

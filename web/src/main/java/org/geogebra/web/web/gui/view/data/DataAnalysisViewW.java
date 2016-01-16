@@ -22,6 +22,7 @@ import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ProvidesResize;
@@ -695,7 +696,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		return Arrays.asList(printableList);
 	}
 
-	public List<Widget> getPrintable(FlowPanel pPanel) {
+	public List<Widget> getPrintable(FlowPanel pPanel, Button btPrint) {
 		// TODO Auto-generated method stub
 		return null;
 	}

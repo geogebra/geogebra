@@ -69,6 +69,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		btPrint = new Button(app.getPlain("Print"));
 		btPrint.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btPrint.addClickHandler(this);
+		btPrint.setEnabled(false);
 
 		btCancel = new Button(app.getPlain("Cancel"));
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
@@ -141,12 +142,9 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 			public void run(int viewID, String viewName) {
 				if (app.getPlain(viewName).equals(printableView)) {
-					
-
-
+					btPrint.setEnabled(false);
 					getPrintables(viewID, app,
-							printPanel);
-
+						printPanel, btPrint);
 				}
 			}
 
@@ -154,7 +152,8 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 	}
 
-	static List<Widget> getPrintables(int viewID, AppW app, FlowPanel pPanel) {
+	static List<Widget> getPrintables(int viewID, AppW app, FlowPanel pPanel,
+			Button bPrint) {
 		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
 		PrintableW view;
 		if (viewID == App.VIEW_CAS) {
@@ -174,7 +173,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 			view = app.getEuclidianView1();
 		}
 
-		return view.getPrintable(pPanel);
+		return view.getPrintable(pPanel, bPrint);
 	}
 
 }
