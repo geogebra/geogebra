@@ -407,6 +407,7 @@ ValidExpression buildValidExpression() :
 {
     ValidExpression ve = null;
     ExpressionNode lhs, rhs;
+    ExpressionNode conditions = null;
     Token l = new Token();
     Token c = null;
     Vector labels = new Vector();
@@ -428,9 +429,14 @@ ValidExpression buildValidExpression() :
       l = label() (":" | <ASSIGNMENT> )  ve = expressionOrEquation()
    |
         LOOKAHEAD(2147483647)
-        (ve = expressionOrEquation())        {
+        (          (ve = expressionOrEquation())        {
           if(ve instanceof Equation)          {			ve = ((Equation)ve).equationOrAssignment();
-          }        }     
+          }        })
+        (conditions = conditions()
+        {
+			ve = new ExpressionNode(kernel, conditions, Operation.IF, ve);
+        })?
+                       
      |       
         LOOKAHEAD(2147483647)
         labels = labellist() (< EQUAL > | <ASSIGNMENT>) ve = command()                                                                                
