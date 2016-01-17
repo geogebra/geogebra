@@ -187,7 +187,7 @@ public enum ValueType {
 			return ValueType.FUNCTION;
 
 		case IF:
-			return left.getValueType();
+			return right.getValueType();
 		case IF_ELSE:
 			return right.getValueType();
 		case IF_LIST:

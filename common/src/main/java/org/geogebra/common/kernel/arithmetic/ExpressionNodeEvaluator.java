@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
@@ -731,7 +730,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		else {
 			str = new String[] { "IllegalAddition", lt.toString(errorTemplate),
 					"+", rt.toString(errorTemplate) };
-			App.error(lt.getClass() + "" + rt.getClass());
+			Log.error(lt.getValueType() + "+" + rt.getValueType());
 			throw new MyError(l10n, str);
 		}
 
@@ -882,7 +881,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		else {
 			str = new String[] { "IllegalSubtraction",
 					lt.toString(errorTemplate), "-", rt.toString(errorTemplate) };
-			App.debug(lt.getClass() + "," + rt.getClass());
+			Log.error(lt.getValueType() + " - " + rt.getValueType());
 			throw new MyError(l10n, str);
 		}
 	}
@@ -1005,8 +1004,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// polynomial ^ number
 		else {
-			App.error("Problem in ExpressionNodeEvaluator.handlePower(): lt :"
-					+ lt.getClass() + ", rt: " + rt.getClass());
+			Log.error(lt.getValueType() + "^" + rt.getValueType());
 			str = new String[] { "IllegalExponent", lt.toString(errorTemplate),
 					"^", rt.toString(errorTemplate) };
 			throw new MyError(l10n, str);
@@ -1130,7 +1128,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					return new MyDouble(kernel, ((GeoFunctionable) lt)
 							.getGeoFunction().getFunction().evaluate(pt));
 				} else {
-					App.error("missing case in ExpressionNodeEvaluator");
+					Log.warn("missing case in ExpressionNodeEvaluator");
 				}
 			}
 		}
@@ -1186,12 +1184,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					return new MyDouble(kernel, funN.evaluate(vals));
 				} else if ((ev instanceof ListValue)
 						&& ((ListValue) ev).getMyList().getListElement(0)
-								.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue) { // TODO
-																									// can
-																									// we
-																									// avoid
-																									// evaluate
-																									// here
+								.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue) {
+					// TODO can we avoid evaluate here
 					double[] vals = ((ListValue) ev).toDouble();
 					if (vals != null) {
 						if (funN.isBooleanFunction()) {

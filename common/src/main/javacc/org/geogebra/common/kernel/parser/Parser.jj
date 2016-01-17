@@ -426,59 +426,11 @@ ValidExpression buildValidExpression() :
         // inequalities "a: 3x + 4y < 7" and intervalls "b: 3 < x < 7" can be named too                                  
       LOOKAHEAD(2147483647)  
       l = label() (":" | <ASSIGNMENT> )  ve = expressionOrEquation()
-   |     
-        // distingiush <LABEL> = expressionnode()               and  
-        //             expressionnode() = expressionnode()      (Equation)
-        //
-        // equation without label and only one variable on the lhs
-        // could be expression too!!!
-        // eg. t = 2 x     or     t = 2 s
-        
-     LOOKAHEAD(2147483647)
-        lhs = expressionnode() <EQUAL> rhs = expressionnode()
-        {             
-            // maybe it's an assignment, i.e. there is no x, y, or z on the right side
-      if (!rhs.containsFreeFunctionVariable(null))
-      {
-          // assignment, e.g. z = 23
-          if (lhs.isSingleVariable()) {                                                   
-                  ve = rhs;
-                  ve.setLabel(((Variable)lhs.evaluate(StringTemplate.defaultTemplate)).getName(StringTemplate.defaultTemplate));                         
-              }
-              
-        // special case: e = 2 should be an assignment
-        // but an undefined "e" has been read as the Euler constant already
-        else if (Unicode.EULER_STRING.equals(lhs.toString(StringTemplate.defaultTemplate)))
-        {
-           ve = rhs;
-                    ve.setLabel("e");  
-        }
-
-        // special case: i = 2 should be an assignment
-        // but an undefined "i" has been read as the imaginary unit already
-        else if (lhs.isImaginaryUnit())
-        {
-            ve = rhs;
-                    ve.setLabel("i"); 
-        }
-              
-        // special case: z = 2 should be an assignment when 3D view is not present
-        else if (kernel.isZvarAllowed() && "z".equals(lhs.toString(StringTemplate.defaultTemplate)))
-        {
-          ve = rhs;
-                  ve.setLabel("z");  
-        }
-      }
-                
-      // standard equation
-      if (ve == null) {
-                // it's an equation in x, y, and possibly z
-                ve = new Equation(kernel, lhs, rhs);
-            }            
-        }
-     |
+   |
         LOOKAHEAD(2147483647)
-        ve = expressionOrEquation()     
+        (ve = expressionOrEquation())        {
+          if(ve instanceof Equation)          {			ve = ((Equation)ve).equationOrAssignment();
+          }        }     
      |       
         LOOKAHEAD(2147483647)
         labels = labellist() (< EQUAL > | <ASSIGNMENT>) ve = command()                                                                                
