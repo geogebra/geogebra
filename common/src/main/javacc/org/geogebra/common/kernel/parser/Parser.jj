@@ -831,6 +831,20 @@ FunctionNVar  functionNVar():
 )     
 }
 
+ExpressionNode conditions():
+{
+    
+    ExpressionNode condition = null;
+    ExpressionNode conditions = null;    
+}
+{  
+(  <COMMA> (condition = expressionnode())
+          {
+            conditions = conditions == null ? condition : new ExpressionNode(kernel, conditions, Operation.AND, condition);
+          })+
+          {			return conditions;
+          }
+}        
 /**
  * function =   f(var1, var2) = expressionnode 
  *        f(var) := expressionnode 
@@ -839,7 +853,7 @@ FunctionNVar  functionNVar():
 ExpressionNode functionExpressionnode():
 {
     ExpressionNode rhs;
-    ExpressionNode condition= null;
+    ExpressionNode cond = null;
     Token funName = null;
     Token varName = null;
     ArrayList<String> localVars;
@@ -863,14 +877,14 @@ ExpressionNode functionExpressionnode():
        { localVars.add(varName.image);
        kernel.getConstruction().registerFunctionVariable(varName.image);} )* 
       // closing ) and assignment with expressionnode
-          ")" ( <EQUAL > | <ASSIGNMENT> ) rhs = expressionnode() (<COMMA> condition = expressionnode())?
+          ")" ( <EQUAL > | <ASSIGNMENT> ) rhs = expressionnode() (cond = conditions())?
       {
           // allow f(y) in CAS but not in GeoGebra
     //  if (!ExternalCASParsing && !GeoGebraCASParsing && "y".equals(varName.image)) 
       //      throw new MyError(app, "InvalidInput");
-      	if(condition != null)
+      	if(cond != null)
       	{
-			rhs = new ExpressionNode(kernel, condition, Operation.IF, rhs);
+			rhs = new ExpressionNode(kernel, cond, Operation.IF, rhs);
       	}
         String funLabel = funName.image.substring(0,funName.image.length()-1);   
 
