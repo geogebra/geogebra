@@ -696,8 +696,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		return Arrays.asList(printableList);
 	}
 
-	public List<Widget> getPrintable(FlowPanel pPanel, Button btPrint) {
+	public void getPrintable(FlowPanel pPanel, Button btPrint) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 }

@@ -1834,9 +1834,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		return attached;
 	}
 
-	public List<Widget> getPrintable(FlowPanel pPanel, Button btPrint) {
+	public void getPrintable(FlowPanel pPanel, Button btPrint) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

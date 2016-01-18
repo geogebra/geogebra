@@ -1,8 +1,5 @@
 package org.geogebra.web.web.gui.view.consprotocol;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
@@ -61,7 +58,6 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Web implementation of ConstructionProtocol
@@ -1009,10 +1005,7 @@ myCell) {
 	    return styleBar;
     }
 
-	public List<Widget> getPrintable(FlowPanel printPanel, Button btPrint) {
-
-		// TODO: remove return value
-		Widget[] printableList = {};
+	public void getPrintable(FlowPanel printPanel, Button btPrint) {
 
 		// Number of rows depends on orientation, and we can't manipulat with
 		// css, so we must to create the print
@@ -1022,8 +1015,6 @@ myCell) {
 		// so we must create the tables for both orientation at the beginning.
 		createTable(printPanel, 0, 1, Orientation.PORTRAIT, btPrint);
 		createTable(printPanel, 0, 1, Orientation.LANDSCAPE, btPrint);
-
-		return Arrays.asList(printableList);
 	}
 
 	private enum Orientation {

@@ -1,7 +1,5 @@
 package org.geogebra.web.web.export;
 
-import java.util.List;
-
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -23,7 +21,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		ChangeHandler {
@@ -143,7 +140,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 			public void run(int viewID, String viewName) {
 				if (app.getPlain(viewName).equals(printableView)) {
 					btPrint.setEnabled(false);
-					getPrintables(viewID, app,
+					createPrintables(viewID, app,
 						printPanel, btPrint);
 				}
 			}
@@ -152,7 +149,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 	}
 
-	static List<Widget> getPrintables(int viewID, AppW app, FlowPanel pPanel,
+	static void createPrintables(int viewID, AppW app, FlowPanel pPanel,
 			Button bPrint) {
 		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
 		PrintableW view;
@@ -173,7 +170,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 			view = app.getEuclidianView1();
 		}
 
-		return view.getPrintable(pPanel, bPrint);
+		view.getPrintable(pPanel, bPrint);
 	}
 
 }

@@ -1,8 +1,6 @@
 package org.geogebra.web.web.gui.view.spreadsheet;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
@@ -36,7 +34,6 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 //import geogebra.web.gui.inputfield.MyTextField;
 //import geogebra.web.gui.view.Gridable;
@@ -1225,16 +1222,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	}
 
-	public List<Widget> getPrintable() {
-
-		Widget[] printableList = {};
-
-		printableList[0] = new Label("Spreadsheet View");
-		return Arrays.asList(printableList);
-	}
-
-	public List<Widget> getPrintable(FlowPanel pPanel, Button btPrint) {
-		// TODO Auto-generated method stub
-		return null;
+	public void getPrintable(FlowPanel pPanel, Button btPrint) {
+		// pPanel.add(table.);
 	}
 }
