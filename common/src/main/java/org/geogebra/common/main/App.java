@@ -3906,7 +3906,6 @@ public abstract class App implements UpdateSelection {
 		case ANALYTICS:
 		case HANDWRITING:
 		case DRAW_DROPDOWNLISTS_TO_CANVAS:
-		case UNDO_FOR_TOOLS:
 			return prerelease;
 		// return canary;
 		case AV_EXTENSIONS:
@@ -3921,6 +3920,7 @@ public abstract class App implements UpdateSelection {
 		case LATEX_ON_BUTTON:
 		case LATEX_ON_CHECKBOX:
 		case DRAW_INPUTBOXES_TO_CANVAS:
+		case UNDO_FOR_TOOLS:
 			return true;
 
 		// not supported in applets
