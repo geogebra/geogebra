@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -185,19 +184,6 @@ public class AlgoDependentCasCell extends AlgoElement implements
 
 		compute();
 
-		// needed for TRAC-5232
-		if (casCell.getInputVE() instanceof FunctionNVar
-				&& ((FunctionNVar) casCell.getInputVE()).getExpression() != null
-				&& ((FunctionNVar) casCell.getInputVE()).getExpression()
-						.getTopLevelCommand() != null
-				&& "Surface".equals(((FunctionNVar) casCell.getInputVE())
-						.getExpression().getTopLevelCommand().getName())) {
-			cons.putCasCellLabel(casCell, casCell.getAssignmentVariable());
-			cons.addToAlgorithmList(this);
-			cons.addToConstructionList(this, true);
-			cons.putLabel(casCell);
-			cons.addToGeoSetWithCasCells(casCell);
-		}
 		if (!hadTwinGeo && casCell.hasTwinGeo()) { // we got a new twin
 													// GeoElement
 			// reinitialize algo object

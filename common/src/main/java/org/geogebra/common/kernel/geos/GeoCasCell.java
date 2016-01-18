@@ -1388,7 +1388,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (nativeOutput) {
 			String res = output;
 
-			if (isFunctionDeclaration && prependLabel) {
+			if (isFunctionDeclaration && prependLabel
+					&& !input.startsWith("Surface")) {
 				// removing y from expressions y = x! and 
 				outputVE = (ValidExpression) parseGeoGebraCASInputAndResolveDummyVars(res).traverse(Traversing.FunctionCreator.getCreator());
 			
@@ -1415,7 +1416,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			ValidExpression parsed = parseGeoGebraCASInputAndResolveDummyVars(res);
 			outputVE = parsed == null ? null : (ValidExpression) parsed
 					.traverse(Traversing.GgbVectRemover.getInstance());
-			
 			if(outputVE!=null){
 				CommandReplacer cr = CommandReplacer.getReplacer(kernel.getApplication());
 				outputVE.traverse(cr);
@@ -1807,6 +1807,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return;
 		}
 
+		if (input.startsWith("Surface")) {
+			useGeoGebraFallback = true;
+		}
+
 		String result = null;
 		boolean success = false;
 		CASException ce = null;
@@ -1823,25 +1827,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				}
 
 				boolean isSubstitute = isSubstitute();
-				// needed for TRAC-5232
-				// update inputVE for Surface Command without vars
-				if (input.startsWith("Surface")) {
-					String[] surfParts = input.split(",");
-					String surfVar1 = surfParts[3];
-					String surfVar2 = surfParts[6];
-					FunctionVariable fv1 = new FunctionVariable(kernel, surfVar1);
-					FunctionVariable fv2 = new FunctionVariable(kernel, surfVar2);
-					FunctionVariable[] fvs = {fv1,fv2};
-					FunctionNVar surf = new FunctionNVar(
-							(ExpressionNode) inputVE, fvs);
-					if (surf.getLabels() == null) {
-						surf.addLabel(getFreeLabel("a"));
-					}
-					inputVE = surf;
-					setAssignmentType(AssignmentType.DEFAULT);
-					updateInputVariables(inputVE);
-					evalVE = getInputVE();
-				}
+
 				// wrap in Evaluate if it's an expression rather than a command
 				// needed for Giac (for simplifying x+x to 2x)
 				evalVE = wrapEvaluate(evalVE,
@@ -1919,18 +1905,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			kernel.setSilentMode(true);
 
 			try {
-				// needed for TRAC-5232
-				// we need evalVE without Evaluate command
-				if (inputVE instanceof FunctionNVar
-						&& ((FunctionNVar) inputVE).getExpression() != null
-						&& ((FunctionNVar) inputVE).getExpression()
-								.getTopLevelCommand() != null
-						&& "Surface"
-								.equals(((FunctionNVar) inputVE)
-										.getExpression().getTopLevelCommand()
-								.getName())) {
-					evalVE = getInputVE();
-				}
 				// process inputExp in GeoGebra *without* assignment (we need to
 				// avoid redefinition)
 				GeoElement[] geos = kernel.getAlgebraProcessor()
