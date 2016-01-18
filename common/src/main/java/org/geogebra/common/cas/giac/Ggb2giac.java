@@ -773,9 +773,10 @@ public class Ggb2giac {
 		p("Substitute.3", "subst(%0,%1,%2)");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
 
-		p("Sum.1", "when ( (%0)[0][0] == 'pnt' ,"
-						+ "point(sum(map(%0,t->makevector(xcoord(t))))[0],sum(map(%0,t->makevector(ycoord(t))))[0]) ,"
-				+ "sum(%0))");
+		p("Sum.1",
+				"[[ggbsumarg1:=%0],when ( when(size(ggbsumarg1)>0,ggbsumarg1[0],1)[0] == 'pnt' ,"
+						+ "point(sum(map(ggbsumarg1,t->makevector(xcoord(t))))[0],sum(map(ggbsumarg1,t->makevector(ycoord(t))))[0]) ,"
+						+ "sum(ggbsumarg1))][1]");
 
 		// remove normal from Sum, otherwise
 		// Sum[1/n*sqrt(1-(k/n)^2),k,1,n]
