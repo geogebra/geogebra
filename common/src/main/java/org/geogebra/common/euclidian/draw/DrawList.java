@@ -70,7 +70,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private GRectangle optionsRect;
 	private GBox optionsBox;
 	private GDimension selectedDimension;
-	private int currentIdx;
 	private float lastDescent;
 	private float lastAscent;
 	private boolean latexLabel;
@@ -136,6 +135,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		private GColor hoverColor;
 		private GGraphics2D g2;
 		private boolean visible;
+
+		private int selectedIndex;
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
 			itemHovered = null;
@@ -160,7 +161,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			int idx = 0;
 
-				for (int col = 0; col < colCount; col++) {
+				for (int col = 0; col < getColCount(); col++) {
 				for (int row = 0; row < rowCount; row++) {
 					drawItem(col, row, items.get(idx), false);
 					idx++;
@@ -227,6 +228,21 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return isVisible() && rectTable.contains(x, y);
 		}
 
+		public boolean onMouseDown(int x, int y) {
+			OptionItem item = getItemAt(x, y);
+			if (item == null) {
+				return false;
+			}
+
+			Log.debug("[REFACTOR] selected item: " + item.text + "("
+					+ item.index + ")");
+			selectedIndex = item.index;
+			geoList.setSelectedIndex(selectedIndex, true);
+			setVisible(false);
+			return true;
+
+		}
+
 		public void onMouseOver(int x, int y) {
 			if (!isHit(x, y)) {
 				return;
@@ -270,7 +286,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			}
 
 			dimTable = AwtFactory.prototype.newDimension(
-					colCount * dimItem.getWidth(),
+					getColCount() * dimItem.getWidth(),
 					rowCount * dimItem.getHeight());
 
 			if (top + dimTable.getHeight() > view.getHeight()) {
@@ -295,13 +311,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			int maxItems = geoList.size();
 			int maxRows = view.getHeight() / dimItem.getHeight();
 			if (maxItems < maxRows) {
-				colCount = 1;
+				setColCount(1);
 				rowCount = maxItems;
 				return true;
 			}
 
 			int mod = maxItems % maxRows;
-			colCount = maxItems / maxRows + (mod == 0 ? 0 : 1);
+			setColCount(maxItems / maxRows + (mod == 0 ? 0 : 1));
 			rowCount = maxRows;
 			return mod == 0;
 
@@ -337,22 +353,68 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		public void setVisible(boolean visible) {
 			this.visible = visible;
+			if (visible) {
+				view.setOpenedComboBox(DrawList.this);
+				selectedIndex = 0;
+			}
+			view.setOpenedComboBox(null);
+			geo.updateRepaint();
 		}
 
 		public void onResize() {
 			itemHovered = null;
 		}
 
-		public boolean onMouseDown(int x, int y) {
-			for (OptionItem item : items) {
-				if (item.isHit(x, y)) {
-					geoList.setSelectedIndex(item.index, true);
-					setVisible(false);
-					return true;
+		public void toggle() {
+			setVisible(!visible);
+		}
+
+		public void moveSelectorBy(int diff, boolean forward) {
+			boolean update = false;
+			boolean hasHovered = itemHovered != null;
+			int idx = hasHovered ? itemHovered.index : 0;
+			if (forward) {
+				if (idx < items.size() - diff) {
+					idx += diff;
+					update = true;
+				}
+			} else {
+				if (idx > diff - 1) {
+					idx -= diff;
+					update = true;
 				}
 			}
-			return false;
+
+			if (update && (!hasHovered
+					|| (hasHovered && itemHovered.index != idx))) {
+				if (hasHovered) {
+					drawItem(itemHovered, false);
+				}
+
+				itemHovered = items.get(idx);
+				drawItem(itemHovered, true);
+
+			}
 		}
+
+		public void moveSelectorVertical(boolean moveDown) {
+			moveSelectorBy(1, moveDown);
+		}
+
+		public void moveSelectorHorizontal(boolean moveLeft) {
+			moveSelectorBy(rowCount, moveLeft);
+		}
+
+
+		public int getColCount() {
+			return colCount;
+		}
+
+		public void setColCount(int colCount) {
+			this.colCount = colCount;
+		}
+
+
 	}
 	/**
 	 * Creates new drawable list
@@ -1009,19 +1071,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		// no widget
 	}
 
-	private int getOptionAt(int x, int y) {
-		int idx = 0;
-		for (GRectangle rect : optionItems) {
-			boolean inside = rect != null && rect.contains(x, y);
-			if (inside) {
-				return idx;
-			}
-			idx++;
-
-		}
-		return -1;
-	}
-
 	/**
 	 * Returns if mouse is hit the options or not.
 	 * 
@@ -1032,7 +1081,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * @return true if options rectangle hit by mouse.
 	 */
 	public boolean isOptionsHit(int x, int y) {
-		return optionsVisible && optionsRect.contains(x, y);
+		return drawOptions.isHit(x, y);
 	}
 
 	/**
@@ -1059,19 +1108,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (!isDrawingOnCanvas()) {
 			return;
 		}
-
-		if (!drawOptions.onMouseDown(x, y) && isControlHit(x, y)) {
+		Log.debug("[REFACTOR] HEYYYYYYYYYY!");
+		drawOptions.onMouseDown(x, y);
+		if (isControlHit(x, y)) {
 			setOptionsVisible(!isOptionsVisible());
-		}
-	}
-
-	private void selectItem() {
-		if (currentIdx != -1) {
-			geoList.setSelectedIndex(currentIdx, true);
+		} else {
 
 		}
-		closeOptions();
-
 	}
 
 	/**
@@ -1111,14 +1154,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 *            change visibility of dropdown items
 	 */
 	private void setOptionsVisible(boolean optionsVisible) {
-		this.optionsVisible = optionsVisible;
 		drawOptions.setVisible(optionsVisible);
-		if (optionsVisible) {
-			currentIdx = 0;
-			view.setOpenedComboBox(this);
-		} else {
-			view.setOpenedComboBox(null);
-		}
+
 	}
 
 	/**
@@ -1128,8 +1165,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (!isDrawingOnCanvas()) {
 			return;
 		}
-		Log.debug("[DROPDOWN] toggle");
-		geo.updateRepaint();
+		drawOptions.toggle();
+
 	}
 
 	/**
@@ -1139,7 +1176,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (!isOptionsVisible()) {
 			return;
 		}
-		selectItem();
 		geo.updateRepaint();
 	}
 
@@ -1164,16 +1200,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 *            Sets if selection indicator should move down or up.
 	 */
 	public void moveSelectorVertical(boolean down) {
-		if (down) {
-			if (currentIdx < optionItems.size() - 1) {
-				currentIdx++;
-			}
-		} else {
-			if (currentIdx > 0) {
-			}
-
-		}
-		geo.updateRepaint();
+		drawOptions.moveSelectorVertical(down);
 	}
 
 	/**
@@ -1183,14 +1210,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 *            Indicates that selector should move left or right.
 	 */
 	public void moveSelectorHorizontal(boolean left) {
+		drawOptions.moveSelectorHorizontal(left);
 	}
 
-	/**
-	 * 
-	 * @return if the dropdown displays its items in multiple columns.
-	 */
 	public boolean isMultiColumn() {
-		return true;
+		return drawOptions.getColCount() > 1;
 	}
 
 	/**
