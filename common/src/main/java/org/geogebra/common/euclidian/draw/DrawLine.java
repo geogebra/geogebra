@@ -474,6 +474,8 @@ public class DrawLine extends Drawable implements Previewable {
 	public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
+		isPreviewVisible = false;
+
 		if (isVisible) {
 
 			Coords coords;
@@ -613,6 +615,8 @@ public class DrawLine extends Drawable implements Previewable {
 				isVisible = false;
 				return;
 			}
+
+			isPreviewVisible = true;
 			gx = ((GeoLine) g).x;
 			gy = ((GeoLine) g).y;
 			gz = ((GeoLine) g).z;
@@ -622,8 +626,10 @@ public class DrawLine extends Drawable implements Previewable {
 
 	}
 
+	private boolean isPreviewVisible;
+
 	final public void drawPreview(org.geogebra.common.awt.GGraphics2D g2) {
-		if (isVisible) {
+		if (isPreviewVisible) {
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
