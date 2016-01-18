@@ -236,7 +236,17 @@ public class MyCellEditorW implements BaseCellEditor {
 			table.setAllowEditing(true);
 			table.editCellAt(row + rowOff, column + colOff);
 			table.setAllowEditing(false);
+			// this should be deferred so that browser cannot steal focus from
+			// SS
 			autoCompleteTextField.getTextField().setFocus(true);
+			app.getGuiManager().invokeLater(new Runnable() {
+
+				public void run() {
+					autoCompleteTextField.getTextField().setFocus(true);
+
+				}
+			});
+
 		}
 
 		return success;
