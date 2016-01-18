@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.web.gui.util;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TextAreaElement;

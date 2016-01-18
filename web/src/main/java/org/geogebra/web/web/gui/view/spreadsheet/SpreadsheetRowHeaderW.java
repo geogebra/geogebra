@@ -6,13 +6,13 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.core.client.Scheduler;
