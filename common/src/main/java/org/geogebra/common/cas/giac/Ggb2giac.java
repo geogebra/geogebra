@@ -774,7 +774,7 @@ public class Ggb2giac {
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
 
 		p("Sum.1", "when ( (%0)[0][0] == 'pnt' ,"
-				+ "point(sum(xcoordvect(%0))[0],sum(ycoordvect(%0))[0]) ,"
+						+ "point(sum(map(%0,t->makevector(xcoord(t))))[0],sum(map(%0,t->makevector(ycoord(t))))[0]) ,"
 				+ "sum(%0))");
 
 		// remove normal from Sum, otherwise
