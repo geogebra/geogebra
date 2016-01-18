@@ -43,6 +43,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -379,6 +380,19 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 
 	}
 
+	// transfer focus to the table
+	// @Override
+	public void requestFocus() {
+		Scheduler.get().scheduleDeferred(requestFocusCommand);
+	}
+
+	Scheduler.ScheduledCommand requestFocusCommand = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			focusPanel.setFocus(true);
+			table.updateCopiableSelection();
+		}
+	};
+
 	// ===============================================
 	// Key Listeners
 	// ===============================================
@@ -557,7 +571,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			table.finishEditing();
 		}
 		
-		view.requestFocus();
+		requestFocus();
 
 		boolean shiftPressed = e.isShiftDown();
 		boolean rightClick = (e.isRightClick());
