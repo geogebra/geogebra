@@ -50,25 +50,8 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
-	private static final int OPTIONSBOX_MIN_FONTSIZE = 8;
-	private static final int OPTIONSBOX_ITEM_GAP_EXTRA_SMALL = 8;
-	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL1 = 20;
-	private static final int OPTIONSBOX_ITEM_GAP_VERY_SMALL2 = 25;
-	private static final int OPTIONSBOX_ITEM_GAP_SMALL1 = 30;
-	private static final int OPTIONSBOX_ITEM_GAP_SMALL2 = 35;
-	private static final int OPTIONSBOX_ITEM_GAP_MEDIUM = 40;
-	private static final int OPTIONSBOX_ITEM_GAP_BIG = 55;
-	private static final int COMBO_TEXT_MARGIN = 5;
-
-	private static final int OPTIONSBOX_ITEM_HGAP_EXTRA_SMALL = 2;
-	private static final int OPTIONSBOX_ITEM_HGAP_VERY_SMALL1 = 4;
-	private static final int OPTIONSBOX_ITEM_HGAP_VERY_SMALL2 = 5;
-	private static final int OPTIONSBOX_ITEM_HGAP_SMALL1 = 8;
-	private static final int OPTIONSBOX_ITEM_HGAP_SMALL2 = 10;
-	private static final int OPTIONSBOX_ITEM_HGAP_MEDIUM = 12;
-	private static final int OPTIONSBOX_ITEM_HGAP_BIG = 15;
-	private static final int OPTIONBOX_COMBO_GAP = 5;
 	private static final int LABEL_COMBO_GAP = 10;
+	private static final int COMBO_TEXT_MARGIN = 5;
 	/** coresponding list as geo */
 	GeoList geoList;
 	private List<GRectangle> optionItems = new ArrayList<GRectangle>();
@@ -80,35 +63,297 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	org.geogebra.common.javax.swing.AbstractJComboBox comboBox;
 	private org.geogebra.common.javax.swing.GLabel label;
 	private DropDownList dropDown = null;
-	private int optionsHeight;
-	private boolean optionsUpdate = false;
 	private String selectedText;
 	private int selectedHeight;
 	private GBox ctrlBox;
 	private GRectangle ctrlRect;
 	private GRectangle optionsRect;
 	private GBox optionsBox;
-	private int selectedOptionIndex;
 	private GDimension selectedDimension;
 	private int currentIdx;
 	private float lastDescent;
 	private float lastAscent;
 	private boolean latexLabel;
-	private GFont optionFont = null;
-	private int colCount = 0;
 	private int colWidth = 0;
-	private int rowCount;
 	private int viewHeight = 0;
 	// private boolean allPlain;
 	private int viewWidth = 0;
-	private int allRowHeights;
 	private int itemWidth;
 	private int itemHeight;
-	private int maxCols;
-	private int maxRows;
-	private String itemPlainMaxWidth;
-	private String itemPlainMaxHeight;
 
+	private DrawOptions drawOptions;
+
+	private class DrawOptions {
+		private class OptionItem {
+			public int index;
+			public int width;
+			public int height;
+			public String text;
+			public boolean latex;
+			private GRectangle rect;
+			public OptionItem(GGraphics2D g2, int idx) {
+				index = idx;
+				text = geoList.get(idx)
+						.toValueString(StringTemplate.defaultTemplate);
+				latex = isLatexString(text);
+
+				if (!"".equals(text) && !latex) {
+					GTextLayout layout = getLayout(g2, text, itemFont);
+					width = (int) Math.round(layout.getBounds().getWidth());
+					height = (int) Math.round(layout.getBounds().getHeight());
+				}
+				rect = null;
+			}
+
+			public GRectangle getRect() {
+				return rect;
+			}
+
+			public boolean isHit(int x, int y) {
+				return rect != null && rect.contains(x, y);
+			}
+
+			public void setRect(GRectangle rect) {
+				this.rect = rect;
+			}
+		}
+
+		private static final int MIN_FONT_SIZE = 12;
+
+		private int colCount = 10;
+		private int rowCount = 10;
+		private GRectangle rectTable;
+		private GDimension dimItem;
+		private GDimension dimTable;
+		private int left;
+		private int top;
+		private int xPadding;
+		private int yPadding;
+		private GFont itemFont;
+
+		private List<OptionItem> items;
+		private OptionItem itemHovered;
+		private GColor hoverColor;
+		private GGraphics2D g2;
+		private boolean visible;
+		public DrawOptions() {
+			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
+			itemHovered = null;
+			hoverColor = GColor.LIGHT_GRAY;
+		}
+
+		public void draw(GGraphics2D g2, int left, int top) {
+			if (!isVisible()) {
+				return;
+			}
+
+			this.left = left;
+			this.top = top;
+			this.g2 = g2;
+		
+			getMetrics();
+			drawBox();
+			drawItems();
+		}
+
+		private void drawItems() {
+
+			int idx = 0;
+
+				for (int col = 0; col < colCount; col++) {
+				for (int row = 0; row < rowCount; row++) {
+					drawItem(col, row, items.get(idx), false);
+					idx++;
+				}
+			}
+		}
+
+		private void drawItem(int col, int row, OptionItem item,
+				boolean hover) {
+
+			int rectLeft = left + dimItem.getWidth() * col;
+			int rectTop = top + dimItem.getHeight() * row;
+
+			if (item.getRect() == null) {
+				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
+						rectTop, dimItem.getWidth(), dimItem.getHeight()));
+			}
+
+			drawItem(item, hover);
+		}
+
+		private void drawItem(OptionItem item, boolean hover) {
+
+			int rectLeft = (int) item.rect.getBounds().getX();
+			int rectTop = (int) item.rect.getBounds().getY();
+
+			g2.setColor(hover ? hoverColor : geoList.getBackgroundColor());
+			g2.fillRect(rectLeft, rectTop, dimItem.getWidth(),
+						dimItem.getHeight());
+
+			// item rectangle drawing for debug.
+			g2.setPaint(GColor.ORANGE);
+
+			g2.drawRect(rectLeft, rectTop, dimItem.getWidth(),
+					dimItem.getHeight());
+
+			if (item.getRect() == null) {
+				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
+						rectTop, dimItem.getWidth(), dimItem.getHeight()));
+			}
+			if (item.latex) {
+
+			} else {
+				g2.setPaint(geo.getObjectColor());
+				g2.setFont(itemFont.deriveFont(10));
+				int x = (dimItem.getWidth() - item.width) / 2;
+				int y = (dimItem.getHeight() - yPadding);
+
+				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+						item.text, rectLeft + x, rectTop + y, false,
+						false);
+			}
+		}
+
+		private void drawBox() {
+			g2.setPaint(view.getBackgroundCommon());
+			g2.fillRect(left, top, dimTable.getWidth(), dimTable.getHeight());
+			g2.setPaint(GColor.LIGHT_GRAY);
+			g2.drawRect(left, top, dimTable.getWidth(), dimTable.getHeight());
+
+		}
+
+		public boolean isHit(int x, int y) {
+			return isVisible() && rectTable.contains(x, y);
+		}
+
+		public void onMouseOver(int x, int y) {
+			if (!isHit(x, y)) {
+				return;
+			}
+			OptionItem item = getItemAt(x, y);
+			if (item != null) {
+				if (itemHovered != null) {
+					drawItem(itemHovered, false);
+				}
+
+				drawItem(item, true);
+
+				itemHovered = item;
+
+				Log.debug("[REFACTOR] hovered item is: " + item.text);
+			} else {
+			}
+		}
+
+		private OptionItem getItemAt(int x, int y) {
+			for (OptionItem item : items) {
+				if (item.isHit(x, y)) {
+					return item;
+				}
+			}
+
+			return null;
+		}
+
+		private void getMetrics() {
+			xPadding = 10;
+			yPadding = 10;
+			int fontSize = getLabelFontSize();
+			boolean finished = false;
+
+			while (!finished && fontSize > MIN_FONT_SIZE) {
+				itemFont = getLabelFont().deriveFont(GFont.PLAIN, fontSize);
+				createItems();
+				finished = getTableScale();
+				fontSize--;
+			}
+
+			dimTable = AwtFactory.prototype.newDimension(
+					colCount * dimItem.getWidth(),
+					rowCount * dimItem.getHeight());
+
+			if (top + dimTable.getHeight() > view.getHeight()) {
+				top = (view.getHeight() - dimTable.getHeight());
+			}
+
+			if (left + dimTable.getWidth() > view.getWidth()) {
+				left = (view.getWidth() - dimTable.getWidth());
+			}
+			rectTable = AwtFactory.prototype.newRectangle(left, top,
+					dimTable.getWidth(), dimTable.getHeight());
+
+		}
+
+		/**
+		 * Gets the columns and rows for options table.
+		 * 
+		 * @return true if all table columns are full, ie no column with fewer
+		 *         items at the end.
+		 */
+		private boolean getTableScale() {
+			int maxItems = geoList.size();
+			int maxRows = view.getHeight() / dimItem.getHeight();
+			if (maxItems < maxRows) {
+				colCount = 1;
+				rowCount = maxItems;
+				return true;
+			}
+
+			int mod = maxItems % maxRows;
+			colCount = maxItems / maxRows + (mod == 0 ? 0 : 1);
+			rowCount = maxRows;
+			return mod == 0;
+
+		}
+
+		private void createItems() {
+
+			double maxWidth = 0;
+			double maxHeight = 0;
+			items.clear();
+			for (int i = 0; i < geoList.size(); i++) {
+				OptionItem item = new OptionItem(g2, i);
+				items.add(item);
+				if (!item.latex) {
+					if (maxWidth < item.width) {
+						maxWidth = item.width;
+					}
+					if (maxHeight < item.height) {
+						maxHeight = item.height;
+					}
+				}
+			}
+
+			dimItem = AwtFactory.prototype.newDimension(
+					(int) (maxWidth + 2 * xPadding),
+					(int) (maxHeight + 2 * yPadding));
+
+		}
+
+		public boolean isVisible() {
+			return visible;
+		}
+
+		public void setVisible(boolean visible) {
+			this.visible = visible;
+		}
+
+		public void onResize() {
+			itemHovered = null;
+		}
+
+		public boolean onMouseDown(int x, int y) {
+			for (OptionItem item : items) {
+				if (item.isHit(x, y)) {
+					geoList.setSelectedIndex(item.index, true);
+					setVisible(false);
+					return true;
+				}
+			}
+			return false;
+		}
+	}
 	/**
 	 * Creates new drawable list
 	 * 
@@ -125,6 +370,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS));
 
 		if (isDrawingOnCanvas()) {
+			drawOptions = new DrawOptions();
 			dropDown = view.getApplication().newDropDownList();
 			ctrlBox = geo.getKernel().getApplication().getSwingFactory()
 					.createHorizontalBox(view.getEuclidianController());
@@ -528,38 +774,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		update();
 	}
 
-
-
-	private void getPlainItemExtremas(GGraphics2D g2) {
-
-		itemPlainMaxWidth = "";
-		itemPlainMaxHeight = "";
-		double maxHeight = 0;
-		for (int i = 0; i < geoList.size(); i++) {
-			String text = geoList.get(i)
-					.toValueString(StringTemplate.defaultTemplate);
-			if (!"".equals(text) && !isLatexString(text)
-					&& text.length() > itemPlainMaxWidth.length()) {
-				itemPlainMaxWidth = text;
-
-				double h = getFullTextHeight(g2, text);
-				if (h > maxHeight) {
-					itemPlainMaxHeight = text;
-					maxHeight = h;
-				}
-
-			}
-		}
-	}
-
-
-	private int getPlainMaxWidth(GGraphics2D g2, int cols) {
-		GTextLayout layout = getLayout(g2, itemPlainMaxWidth, optionFont);
-		double w = (layout.getBounds().getWidth() + 2 * getOptionsItemHGap())
-				* cols;
-		return (int) w;
-	}
-
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
 
@@ -597,11 +811,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			drawLabel(g2, geoList, labelText);
 		}
 
-		if (isOptionsVisible()) {
-			drawOptions(g2);
-
-		}
-
+		drawOptions.draw(g2, boxLeft, boxTop + boxHeight + 5);
 
 	}
 
@@ -681,36 +891,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 						/ 2;
 	}
 
-	/*
-	 * gives that how many item fits on screen with optionFont also computes
-	 * columns and rows needed with their size.
-	 */
-	private int getOptionCapacity(GGraphics2D g2) {
-		g2.setFont(optionFont);
-		int gap = getOptionsItemGap();
-
-		itemWidth = getPlainMaxWidth(g2, 1);
-		itemHeight = getFullTextHeight(g2, itemPlainMaxHeight) + gap;
-
-		maxCols = view.getViewWidth() / itemWidth;
-		maxRows = (view.getViewHeight()) / itemHeight;
-
-		if (maxRows < 1) {
-			maxRows = 1;
-		}
-		int size = geoList.size();
-		rowCount = size < maxRows ? size : maxRows;
-		colCount = size / rowCount + (size % rowCount == 0 ? 0 : 1);
-
-		if (colCount * rowCount < size) {
-			colCount++;
-		}
-
-
-		allRowHeights = (rowCount + 1) * itemHeight;
-		return maxCols * maxRows;
-		// return colCount * rowCount;
-	}
 
 	private void updateMetrics(GGraphics2D g2) {
 
@@ -718,15 +898,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int dW = viewWidth - view.getWidth();
 		int dH = viewHeight - view.getHeight();
 
-		if (optionsUpdate || dW != 0 || dH != 0) {
+		if (dW != 0 || dH != 0) {
 			if (dW != 0 || dH != 0) {
-				Log.debug("[PROFILE] view size change, resetting font");
+				Log.debug("[PROFILE] resize happened.");
 				viewHeight = view.getHeight();
 				viewWidth = view.getWidth();
-				optionFont = getLabelFont().deriveFont(GFont.PLAIN);
+				drawOptions.onResize();
 			}
-			updateOptionMetrics(g2);
-			optionsUpdate = false;
 
 		}
 
@@ -743,95 +921,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
-	private void updateOptionMetrics(GGraphics2D g2) {
-		if (!isOptionsVisible()) {
-			return;
-		}
-		Log.debug("[PROFILE] Updating option metrics");
-		getPlainItemExtremas(g2);
-		int max = getOptionCapacity(g2);
-		int fontSize = optionFont.getSize();
-		Log.debug("[OPTIONS] update Metrics - cols: " + colCount + " rows: "
-				+ rowCount
-				+ " fontSize: " + fontSize + " pt max: " + max);
-
-		while ((max < geoList.size() && fontSize > OPTIONSBOX_MIN_FONTSIZE)) {
-			fontSize--;
-			optionFont = optionFont.deriveFont(GFont.PLAIN, fontSize);
-			max = getOptionCapacity(g2);
-			Log.debug("[PROFILE]fontSize--");
-		}
-		if (colCount == 1) {
-			itemWidth += getTriangleControlWidth();
-		}
-
-		optionsUpdate = false;
-	}
-
-	private void drawOptions(GGraphics2D g2) {
-		Log.debug("[PROFILE] drawing options");
-		int topMargin = getOptionsItemGap() / 4;
-
-		g2.setPaint(geoList.getBackgroundColor());
-		int optTop = boxTop + boxHeight;
-
-		if (optTop + topMargin + allRowHeights > viewHeight) {
-			optTop = (viewHeight - allRowHeights - topMargin);
-
-		}
-
-		int rowTop = (optTop < topMargin ? itemHeight : optTop) + topMargin;
-		int optLeft = boxLeft;
-		int optWidth = colCount * itemWidth;
-		if (optLeft + optWidth > view.getViewWidth()) {
-			optLeft = view.getViewWidth() - optWidth;
-		}
-
-		if (optLeft < 0) {
-			optLeft = 0;
-		}
-
-
-		// drawOptionContent(g2, optLeft, rowTop, true);
-		// GRectangle rUpLeft = optionItems.get(0).getBounds();
-		int top = rowTop;// (int) rUpLeft.getBounds().getY();
-		if (geoList.size() > 1) {
-			if (top > boxTop + boxHeight) {
-				top += getOptionsItemGap();
-			}
-
-			top += getFullTextHeight(g2, itemPlainMaxHeight) - itemHeight;
-
-			int left = optLeft;
-			int width = optWidth;
-			int height = rowCount * itemHeight;
-			optionsRect.setBounds(left, rowTop, width, height);
-
-			g2.setPaint(geoList.getBackgroundColor());
-			g2.fillRect(left, top, width, height);
-
-			g2.setPaint(GColor.LIGHT_GRAY);
-
-			g2.drawRect(left, top, width, height);
-
-			g2.setPaint(geo.getObjectColor());
-
-		}
-
-		drawOptionContent(g2, optLeft, rowTop, true);
-
-
-		// for (int j = 0; j < maxRows; j++) {
-		// for (int i = 0; i < maxCols; i++) {
-		// g2.setColor(i % 2 == 0 ? GColor.RED : GColor.GREEN);
-		//
-		// g2.drawRect(optLeft + i * itemWidth, top + j * itemHeight,
-		// itemWidth, itemHeight);
-		// }
-		//
-		// }
-
-	}
 
 	private GDimension drawTextLine(GGraphics2D g2, boolean center,
 			int textLeft, int textTop, String text, GFont font, boolean latex,
@@ -876,255 +965,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		return AwtFactory.prototype.newDimension(w,
 				Math.round(lastAscent + lastDescent));
-	}
-
-	private int drawOptionContent(GGraphics2D g2, int left, int top,
-			boolean draw) {
-		Log.debug("[PROFILE] drawing option content");
-		optionItems.clear();
-		int itemCount = geoList.size();
-
-		if (colCount == 1) {
-			colWidth = boxWidth;
-	
-			GDimension d = drawOptionColumn(g2, top, left, 0, itemCount, draw);
-			// optionsWidth = d.getWidth() + 2 * COMBO_TEXT_MARGIN
-			// + getTriangleControlWidth();
-			optionsHeight = d.getHeight();
-		} else {
-			drawOptionsMultiColumn(g2, top, left, draw);
-		}
-
-		return optionsHeight;
-	}
-
-	private void drawOptionsMultiColumn(GGraphics2D g2, int top, int left0,
-			boolean draw) {
-		int startIdx = 0;
-		int size = geoList.size();
-		int width = 0;
-		int height = 0;
-		int left = left0 > 0 ? left0 : 0;
-		while (startIdx < geoList.size()) {
-			int endIdx = startIdx + rowCount;
-			if (endIdx > size) {
-				endIdx = size;
-			}
-
-			GDimension d = drawOptionColumn(g2, top, left, startIdx, endIdx,
-					draw);
-
-			if (!draw) {
-				if (width < d.getWidth()) {
-					width = d.getWidth();
-				}
-				if (height < d.getHeight()) {
-					height = d.getHeight();
-				}
-
-			}
-
-			startIdx = endIdx;
-			left += itemWidth;
-		}
-
-		if (!draw) {
-			colWidth = itemWidth;
-			optionsHeight = height;
-		}
-
-		// optionsWidth = colWidth * colCount;
-
-		if (colCount != size) {
-			// no gap needed at the end if all elements in one row.
-			optionsHeight += getOptionsItemGap();
-		}
-
-	}
-
-	private GDimension drawOptionColumn(GGraphics2D g2, int top, int left,
-			int itemsFrom, int itemsTo, boolean draw) {
-
-		int rowTop = top;
-		boolean allLatex = true;
-
-		int standardGap = getOptionsItemGap();
-		GFont font = g2.getFont();
-		g2.setFont(optionFont);
-		for (int i = itemsFrom; i < itemsTo; i++) {
-			GBox b = geo.getKernel().getApplication().getSwingFactory()
-					.createHorizontalBox(view.getEuclidianController());
-			GRectangle itemRect = b.getBounds();
-
-			String text = geoList.get(i)
-					.toValueString(StringTemplate.defaultTemplate);
-
-			boolean latex = isLatexString(text);
-
-			allLatex = allLatex && latex;
-
-			boolean latexNext = i < itemsTo - 1
-					? isLatexString(geoList.get(i + 1)
-							.toValueString(StringTemplate.defaultTemplate))
-					: allLatex;
-
-			boolean hovered = i == selectedOptionIndex;
-
-			int h = itemHeight;
-
-			if (i == itemsFrom && !latex) {
-
-				if (rowTop > boxTop + boxHeight) {
-					rowTop += standardGap;
-				}
-
-				rowTop += getFullTextHeight(g2, text);
-				// h += getFullTextHeight(g2, text);
-
-			}
-
-			// GDimension d = drawTextLine(g2, true, left, rowTop, text,
-			// optionFont, latex, draw);
-
-			// d.getHeight();
-
-			int w = getOptionsItemHGap();
-			if (latex) {
-				itemRect.setBounds(left - w, rowTop, colWidth + 2 * w, h);
-			} else {
-				itemRect.setBounds(left, rowTop - itemHeight, itemWidth,
-						itemHeight);
-
-			}
-			optionItems.add(itemRect);
-
-			if (draw && itemsTo > i) {
-				int rx = (int) (itemRect.getX());
-				int ry = (int) (itemRect.getY());
-				int rw = (int) (itemRect.getWidth());
-				int rh = (int) (itemRect.getHeight());
-
-				if (hovered) {
-					g2.setPaint(GColor.LIGHT_GRAY);
-
-					g2.fillRoundRect(rx, ry, rw, rh, 4, 4);
-				}
-
-				g2.setPaint(GColor.GRAY);
-
-				// g2.drawRoundRect(rx, ry, rw, rh, 4, 4);
-
-				g2.setPaint(geoList.getObjectColor());
-				drawTextLine(g2, true, left, rowTop, text, optionFont, latex,
-						draw);
-			}
-
-			if (i == geoList.getSelectedIndex()) {
-				selectedText = text;
-			}
-
-			// if (dW < d.getWidth()) {
-			// dW = d.getWidth();
-			// }
-
-
-			// if (!latex && latexNext) {
-			// rowTop += standardGap;
-			// dH += standardGap;
-			//
-			// } else if (latex && !latexNext) {
-			// rowTop += itemRect.getHeight() + 1.5 * standardGap;
-			// } else {
-			rowTop += itemHeight;
-			// }
-			//
-
-		}
-		// GRectangle lastRect = optionItems.get(itemsTo - 1);
-		// dH = (int) ((lastRect.getY() + lastRect.getHeight())
-		// - optionItems.get(itemsFrom).getY());
-		g2.setFont(font);
-
-		return AwtFactory.prototype.newDimension(itemWidth,
-				itemHeight * (itemsTo - itemsFrom));
-	}
-
-	private int getOptionsItemGap() {
-		switch (optionFont.getSize()) {
-		case 8:
-		case 9:
-		case 10:
-			return OPTIONSBOX_ITEM_GAP_EXTRA_SMALL;
-		case 11:
-		case 12:
-		case 13:
-		case 14:
-			return OPTIONSBOX_ITEM_GAP_VERY_SMALL1;
-		case 15:
-		case 16:
-		case 17:
-		case 18:
-			return OPTIONSBOX_ITEM_GAP_VERY_SMALL2;
-		case 20:
-		case 21:
-		case 22:
-		case 23:
-		case 24:
-			return OPTIONSBOX_ITEM_GAP_SMALL1;
-		case 25:
-		case 26:
-		case 27:
-		case 28:
-			return OPTIONSBOX_ITEM_GAP_SMALL2;
-		case 29:
-		case 30:
-		case 31:
-			return OPTIONSBOX_ITEM_GAP_MEDIUM;
-		case 32:
-		case 48:
-			return OPTIONSBOX_ITEM_GAP_BIG;
-
-		}
-		return OPTIONSBOX_ITEM_GAP_SMALL1;
-	}
-
-	private int getOptionsItemHGap() {
-		switch (optionFont.getSize()) {
-		case 8:
-		case 9:
-		case 10:
-			return OPTIONSBOX_ITEM_HGAP_EXTRA_SMALL;
-		case 11:
-		case 12:
-		case 13:
-		case 14:
-			return OPTIONSBOX_ITEM_HGAP_VERY_SMALL1;
-		case 15:
-		case 16:
-		case 17:
-		case 18:
-			return OPTIONSBOX_ITEM_HGAP_VERY_SMALL2;
-		case 20:
-		case 21:
-		case 22:
-		case 23:
-		case 24:
-			return OPTIONSBOX_ITEM_HGAP_SMALL1;
-		case 25:
-		case 26:
-		case 27:
-		case 28:
-			return OPTIONSBOX_ITEM_HGAP_SMALL2;
-		case 29:
-		case 30:
-		case 31:
-			return OPTIONSBOX_ITEM_HGAP_MEDIUM;
-		case 32:
-		case 48:
-			return OPTIONSBOX_ITEM_HGAP_BIG;
-
-		}
-		return OPTIONSBOX_ITEM_HGAP_SMALL1;
 	}
 
 	private int getTriangleControlWidth() {
@@ -1204,17 +1044,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 *            mouse y-coord
 	 */
 	public void onOptionOver(int x, int y) {
-		if (!isOptionsHit(x, y)) {
-			return;
-		}
-
-		currentIdx = getOptionAt(x, y);
-
-		if (currentIdx != -1 && currentIdx != selectedOptionIndex) {
-			selectedOptionIndex = currentIdx;
-			geoList.updateRepaint();
-		}
-
+		drawOptions.onMouseOver(x, y);
 	}
 
 	/**
@@ -1230,36 +1060,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return;
 		}
 
-		boolean optionHandled = false;
-		if (isOptionsVisible()) {
-			optionHandled = onOptionDown(x, y);
-		}
-
-		if (!optionHandled && isControlHit(x, y)) {
+		if (!drawOptions.onMouseDown(x, y) && isControlHit(x, y)) {
 			setOptionsVisible(!isOptionsVisible());
 		}
-	}
-
-	/**
-	 * Called when user presses mouse on dropdown list
-	 * 
-	 * @param x
-	 *            Mouse x coordinate.
-	 * @param y
-	 *            Mouse y coordinate.
-	 * @return If item is selected.
-	 */
-	public boolean onOptionDown(int x, int y) {
-		if (!isDrawingOnCanvas()) {
-			return false;
-		}
-		if (optionsRect.contains(x, y)
-				|| optionsRect.getBounds().contains(x, y)) {
-			currentIdx = getOptionAt(x, y);
-			selectItem();
-			return true;
-		}
-		return false;
 	}
 
 	private void selectItem() {
@@ -1300,7 +1103,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * @return whether dropdown is visible
 	 */
 	public boolean isOptionsVisible() {
-		return optionsVisible;
+		return drawOptions.isVisible();
 	}
 
 	/**
@@ -1309,10 +1112,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 */
 	private void setOptionsVisible(boolean optionsVisible) {
 		this.optionsVisible = optionsVisible;
+		drawOptions.setVisible(optionsVisible);
 		if (optionsVisible) {
 			currentIdx = 0;
 			view.setOpenedComboBox(this);
-			optionsUpdate = true;
 		} else {
 			view.setOpenedComboBox(null);
 		}
@@ -1326,7 +1129,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return;
 		}
 		Log.debug("[DROPDOWN] toggle");
-		optionsVisible = !optionsVisible;
 		geo.updateRepaint();
 	}
 
@@ -1368,11 +1170,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			}
 		} else {
 			if (currentIdx > 0) {
-				currentIdx--;
 			}
 
 		}
-		selectedOptionIndex = currentIdx;
 		geo.updateRepaint();
 	}
 
@@ -1383,21 +1183,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 *            Indicates that selector should move left or right.
 	 */
 	public void moveSelectorHorizontal(boolean left) {
-		int itemInRow = (geoList.size() / colCount) + 1;
-		if (left) {
-			if (currentIdx < optionItems.size() - itemInRow) {
-				currentIdx += itemInRow;
-
-			}
-		} else {
-			if (currentIdx > itemInRow - 1) {
-				currentIdx -= itemInRow;
-
-			}
-
-		}
-		selectedOptionIndex = currentIdx;
-		geo.updateRepaint();
 	}
 
 	/**
@@ -1405,7 +1190,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * @return if the dropdown displays its items in multiple columns.
 	 */
 	public boolean isMultiColumn() {
-		return colCount > 1;
+		return true;
 	}
 
 	/**
