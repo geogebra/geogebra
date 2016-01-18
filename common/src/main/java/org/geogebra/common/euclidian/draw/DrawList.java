@@ -193,11 +193,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 						dimItem.getHeight());
 
 			// item rectangle drawing for debug.
-			g2.setPaint(GColor.ORANGE);
-
-			g2.drawRect(rectLeft, rectTop, dimItem.getWidth(),
-					dimItem.getHeight());
-
+			// g2.setPaint(GColor.ORANGE);
+			//
+			// g2.drawRect(rectLeft, rectTop, dimItem.getWidth(),
+			// dimItem.getHeight());
+			//
 			if (item.getRect() == null) {
 				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
@@ -237,7 +237,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			Log.debug("[REFACTOR] selected item: " + item.text + "("
 					+ item.index + ")");
 			selectedIndex = item.index;
-			geoList.setSelectedIndex(selectedIndex, true);
+			selectCurrentItem();
 			setVisible(false);
 			return true;
 
@@ -248,18 +248,17 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				return;
 			}
 			OptionItem item = getItemAt(x, y);
-			if (item != null) {
-				if (itemHovered != null) {
-					drawItem(itemHovered, false);
-				}
-
-				drawItem(item, true);
-
-				itemHovered = item;
-
-				Log.debug("[REFACTOR] hovered item is: " + item.text);
-			} else {
+			if (item == null) {
+				return;
 			}
+
+			if (itemHovered != null) {
+				drawItem(itemHovered, false);
+			}
+
+			drawItem(item, true);
+			itemHovered = item;
+			selectedIndex = item.index;
 		}
 
 		private OptionItem getItemAt(int x, int y) {
@@ -414,6 +413,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			this.colCount = colCount;
 		}
 
+		public void selectCurrentItem() {
+			geoList.setSelectedIndex(selectedIndex, true);
+		}
 
 	}
 	/**
@@ -1071,6 +1073,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		// no widget
 	}
 
+
 	/**
 	 * Returns if mouse is hit the options or not.
 	 * 
@@ -1176,7 +1179,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (!isOptionsVisible()) {
 			return;
 		}
-		geo.updateRepaint();
+
+		drawOptions.selectCurrentItem();
+		setOptionsVisible(false);
 	}
 
 	/**
