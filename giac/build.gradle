@@ -256,6 +256,7 @@ model {
                     cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
                     cppCompiler.args '-fno-strict-aliasing' // maybe not needed
                     cppCompiler.args '-DPIC' // maybe not needed
+                    cppCompiler.args '-fPIC' // android 6.0 doesn't load libraries which have text relocations
 
                     linker.args '-s' // stripping
                 }
