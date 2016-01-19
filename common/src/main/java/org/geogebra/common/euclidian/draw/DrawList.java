@@ -54,10 +54,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int COMBO_TEXT_MARGIN = 5;
 	/** coresponding list as geo */
 	GeoList geoList;
-	private List<GRectangle> optionItems = new ArrayList<GRectangle>();
 	private DrawListArray drawables;
 	private boolean isVisible;
-	private boolean optionsVisible = false;
 	private String oldCaption = "";
 	/** combobox */
 	org.geogebra.common.javax.swing.AbstractJComboBox comboBox;
@@ -67,7 +65,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int selectedHeight;
 	private GBox ctrlBox;
 	private GRectangle ctrlRect;
-	private GRectangle optionsRect;
 	private GBox optionsBox;
 	private GDimension selectedDimension;
 	private float lastDescent;
@@ -75,7 +72,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private boolean latexLabel;
 	private int colWidth = 0;
 	private int viewHeight = 0;
-	// private boolean allPlain;
 	private int viewWidth = 0;
 	private int itemWidth;
 	private int itemHeight;
@@ -217,7 +213,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		private void drawBox() {
-			g2.setPaint(view.getBackgroundCommon());
+			g2.setPaint(geoList.getBackgroundColor());
 			g2.fillRect(left, top, dimTable.getWidth(), dimTable.getHeight());
 			g2.setPaint(GColor.LIGHT_GRAY);
 			g2.drawRect(left, top, dimTable.getWidth(), dimTable.getHeight());
@@ -443,7 +439,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			ctrlRect = ctrlBox.getBounds();
 			optionsBox = geo.getKernel().getApplication().getSwingFactory()
 					.createHorizontalBox(view.getEuclidianController());
-			optionsRect = optionsBox.getBounds();
+			optionsBox.getBounds();
 		}
 		reset();
 
