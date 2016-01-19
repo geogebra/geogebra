@@ -21,6 +21,7 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.util.AdvancedFocusPanel;
+import org.geogebra.web.web.gui.util.AdvancedFocusPanelI;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -56,7 +57,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// TODO: should traceDialog belong to the SpreadsheetTraceManager?
 	// private TraceDialog traceDialog;
 
-	protected AdvancedFocusPanel spreadsheetWrapper;
+	protected AdvancedFocusPanelI spreadsheetWrapper;
 	private SpreadsheetStyleBarW styleBar;
 
 	// toolbar manager
@@ -1167,7 +1168,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	};
 
 	public Widget getFocusPanel() {
-		return spreadsheetWrapper;
+		return spreadsheetWrapper.asWidget();
 	}
 
 	// public ScrollPanel getScrollPanel() {

@@ -6,7 +6,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AdvancedFocusPanel extends SimplePanel {
+public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPanelI {
 
 	TextAreaElement focusTextarea;
 
