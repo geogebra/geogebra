@@ -137,7 +137,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		SpreadsheetKeyListenerW sskl = new SpreadsheetKeyListenerW(app, table);
 		spreadsheetWrapper.addDomHandler(sskl, KeyDownEvent.getType());
 		spreadsheetWrapper.addDomHandler(sskl, KeyPressEvent.getType());
-		sskl.addPasteHandlerTo(spreadsheetWrapper.getTextarea());
+		spreadsheetWrapper.addPasteHandler(sskl);
 	}
 
 	private void buildSpreadsheet() {

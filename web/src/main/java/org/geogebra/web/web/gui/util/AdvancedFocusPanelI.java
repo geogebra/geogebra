@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
-import com.google.gwt.dom.client.Element;
+import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetKeyListenerW;
+
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -24,8 +25,6 @@ public interface AdvancedFocusPanelI extends IsWidget {
 
 	public boolean isAttached();
 
-	public Element getTextarea();
-
 	public void setFocus(boolean b);
 
 	public void setSelectedContent(String cs);
@@ -33,5 +32,7 @@ public interface AdvancedFocusPanelI extends IsWidget {
 	public void setHeight(String string);
 
 	public void setWidth(String string);
+	
+	public void addPasteHandler(SpreadsheetKeyListenerW sskl);
 
 }
