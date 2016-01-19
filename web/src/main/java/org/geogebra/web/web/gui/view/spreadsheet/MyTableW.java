@@ -1728,15 +1728,16 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
-	public void finishEditing() {
+	public void finishEditing(boolean editNext) {
 		isEditing = false;
 
 		// hide the editor
 		positionEditorPanel(false, 0, 0);
 		editRow = -1;
 		editColumn = -1;
-
-		view.requestFocus();
+		if (!editNext) {
+			view.requestFocus();
+		}
 
 		// setRepaintAll();//TODO: don't call renderCells, just change the
 		// edited cell

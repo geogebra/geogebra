@@ -377,7 +377,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			table.getEditor().setAllowProcessGeo(true);
 			table.getEditor().stopCellEditing();
 			table.getEditor().setAllowProcessGeo(false);
-			table.finishEditing();
+			table.finishEditing(false);
 		}
 
 		int x = SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app);

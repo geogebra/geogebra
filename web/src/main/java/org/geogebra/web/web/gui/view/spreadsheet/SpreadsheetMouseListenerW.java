@@ -276,7 +276,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		editor.setAllowProcessGeo(true);
 		editor.stopCellEditing();
 		editor.setAllowProcessGeo(false);
-		table.finishEditing();
+		table.finishEditing(false);
 	}
 
 	private boolean isCurrentSelection(GPoint point) {

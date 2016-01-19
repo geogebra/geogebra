@@ -43,7 +43,6 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -568,7 +567,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			table.getEditor().setAllowProcessGeo(true);
 			table.getEditor().stopCellEditing();
 			table.getEditor().setAllowProcessGeo(false);
-			table.finishEditing();
+			table.finishEditing(false);
 		}
 		
 		requestFocus();

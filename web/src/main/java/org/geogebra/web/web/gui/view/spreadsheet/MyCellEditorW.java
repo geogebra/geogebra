@@ -205,7 +205,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		errorOnStopEditing = false;
 		
 		if (table != null) { // ?
-			table.finishEditing();
+			table.finishEditing(false);
 		}
 	}
 
@@ -231,7 +231,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		boolean success = stopCellEditing();
 		moveSelectedCell(colOff, rowOff);
 		allowProcessGeo = false;
-		table.finishEditing(); // don't finish, we
+		table.finishEditing(editNext); // don't finish, we
 		if (editNext) {
 			table.setAllowEditing(true);
 			table.editCellAt(row + rowOff, column + colOff);
@@ -239,13 +239,7 @@ public class MyCellEditorW implements BaseCellEditor {
 			// this should be deferred so that browser cannot steal focus from
 			// SS
 			autoCompleteTextField.getTextField().setFocus(true);
-			app.getGuiManager().invokeLater(new Runnable() {
 
-				public void run() {
-					autoCompleteTextField.getTextField().setFocus(true);
-
-				}
-			});
 
 		}
 

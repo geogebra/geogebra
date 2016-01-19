@@ -15,6 +15,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -1064,7 +1065,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void requestFocus() {
 		// if (table != null)
 		// table.requestFocus();
-		App.debug("Spreadsheet requested focus");
+
+		Log.debug("Spreadsheet requested focus");
 
 		Scheduler.get().scheduleDeferred(requestFocusCommand);
 	}
