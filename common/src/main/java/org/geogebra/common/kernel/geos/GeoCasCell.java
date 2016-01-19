@@ -1388,8 +1388,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (nativeOutput) {
 			String res = output;
 
-			if (isFunctionDeclaration && prependLabel
-					&& !input.startsWith("Surface")) {
+			if (isFunctionDeclaration && prependLabel) {
 				// removing y from expressions y = x! and 
 				outputVE = (ValidExpression) parseGeoGebraCASInputAndResolveDummyVars(res).traverse(Traversing.FunctionCreator.getCreator());
 			
@@ -1622,11 +1621,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		// silent evaluation of output in GeoGebra
 		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE, allowFunction);
 		
-
 		Log.debug(lastOutputEvaluationGeo);
 		
-		
-
 		if (lastOutputEvaluationGeo != null && !dependsOnDummy(lastOutputEvaluationGeo)) {
 			try {
 				if (Test.canSet(twinGeo,lastOutputEvaluationGeo)) {
@@ -1637,8 +1633,15 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					}
 					if (twinGeo instanceof GeoSurfaceCartesian3D
 							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesian3D) {
+						// when we replace twinGeo, dependent geos are also
+						// deleted from cons
 						cons.replace(twinGeo, lastOutputEvaluationGeo);
 						twinGeo = lastOutputEvaluationGeo;
+						twinGeo.setCorrespondingCasCell(this);
+						// add to construction casCell and parentAlgo
+						cons.addToConstructionList(this.getParentAlgorithm(),
+								true);
+						cons.addToGeoSetWithCasCells(this);
 						if (assignmentVar == null) {
 							assignmentVar = twinGeo
 									.getLabel(StringTemplate.defaultTemplate);
@@ -1807,7 +1810,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return;
 		}
 
-		if (input.startsWith("Surface")) {
+		if (input.contains("Surface")) {
 			useGeoGebraFallback = true;
 		}
 
