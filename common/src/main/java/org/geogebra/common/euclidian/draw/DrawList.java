@@ -72,6 +72,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private DrawOptions drawOptions;
 
 	private class DrawOptions {
+		private static final int MAX_COLS_NO_FONT_CHANGE = 5;
+
 		private class OptionItem {
 			public int index;
 			public int width;
@@ -322,6 +324,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		private boolean getTableScale() {
 			int maxItems = geoList.size();
 			int maxRows = view.getHeight() / dimItem.getHeight();
+			int maxCols = view.getWidth() / dimItem.getWidth();
 			if (maxItems < maxRows) {
 				setColCount(1);
 				dimItem = AwtFactory.prototype
@@ -336,7 +339,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			int mod = maxItems % maxRows;
 			setColCount(maxItems / maxRows + (mod == 0 ? 0 : 1));
 			rowCount = maxRows;
-			return mod == 0;
+			return colCount < maxCols / 2 || mod == 0;
 
 		}
 
