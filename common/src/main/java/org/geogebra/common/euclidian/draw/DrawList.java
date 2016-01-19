@@ -78,17 +78,25 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			public int height;
 			public String text;
 			public boolean latex;
-			private GRectangle rect;
+			GRectangle rect;
 			public OptionItem(GGraphics2D g2, int idx) {
 				index = idx;
 				text = geoList.get(idx)
 						.toValueString(StringTemplate.defaultTemplate);
 				latex = isLatexString(text);
 
-				if (!"".equals(text) && !latex) {
-					GTextLayout layout = getLayout(g2, text, itemFont);
-					width = (int) Math.round(layout.getBounds().getWidth());
-					height = (int) Math.round(layout.getBounds().getHeight());
+				if (!"".equals(text)) {
+					if (latex) {
+						GDimension d = measureLatex(g2, geoList, itemFont,
+								text);
+						width = d.getWidth();
+						height = d.getHeight();
+					} else {
+						GTextLayout layout = getLayout(g2, text, itemFont);
+						width = (int) Math.round(layout.getBounds().getWidth());
+						height = (int) Math
+								.round(layout.getBounds().getHeight());
+					}
 				}
 				rect = null;
 			}
@@ -117,7 +125,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		private int top;
 		private int xPadding;
 		private int yPadding;
-		private GFont itemFont;
+		GFont itemFont;
 
 		private List<OptionItem> items;
 		private OptionItem itemHovered;
@@ -194,7 +202,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
 			}
 			if (item.latex) {
+				GRectangle rect = item.rect.getBounds();
+				int x = (int) rect.getX();
+				int y = (int) rect.getY();
 
+				drawLatex(g2, geoList, itemFont, item.text,
+						x + (int) ((rect.getWidth() - item.width) / 2), 
+						y + (int) ((rect.getHeight() - item.height) / 2));
 			} else {
 				g2.setPaint(geo.getObjectColor());
 				g2.setFont(itemFont.deriveFont(10));
@@ -302,7 +316,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			int maxRows = view.getHeight() / dimItem.getHeight();
 			if (maxItems < maxRows) {
 				setColCount(1);
-				dimItem = AwtFactory.prototype.newDimension(boxWidth,
+				dimItem = AwtFactory.prototype
+						.newDimension(
+								boxWidth > dimItem.getWidth() ? boxWidth
+										: dimItem.getWidth(),
 						dimItem.getHeight());
 				rowCount = maxItems;
 				return true;
@@ -323,14 +340,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			for (int i = 0; i < geoList.size(); i++) {
 				OptionItem item = new OptionItem(g2, i);
 				items.add(item);
-				if (!item.latex) {
-					if (maxWidth < item.width) {
-						maxWidth = item.width;
-					}
-					if (maxHeight < item.height) {
-						maxHeight = item.height;
-					}
+				if (maxWidth < item.width) {
+					maxWidth = item.width;
 				}
+
+				if (maxHeight < item.height) {
+					maxHeight = item.height;
+				}
+
 			}
 
 			dimItem = AwtFactory.prototype.newDimension(
@@ -1092,8 +1109,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		drawOptions.onMouseDown(x, y);
 		if (isControlHit(x, y)) {
 			setOptionsVisible(!isOptionsVisible());
-		} else {
-
 		}
 	}
 
