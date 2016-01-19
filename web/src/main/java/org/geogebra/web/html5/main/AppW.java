@@ -443,6 +443,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		examWelcome();
 	}
 
+	@Override
 	public final void setLanguage(final String browserLang) {
 		if (browserLang != null && browserLang.equals(loc.getLocaleStr())) {
 			setLabels();
@@ -451,18 +452,17 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		if (browserLang == null || "".equals(browserLang)) {
 
-			App.error("language being set to empty string");
+			Log.warn("language being set to empty string");
 			setLanguage("en");
 			return;
 		}
 		final String lang = Language
 		        .getClosestGWTSupportedLanguage(browserLang);
-		App.debug("setting language to:" + lang + ", browser lang:"
+		Log.debug("setting language to:" + lang + ", browser lang:"
 		        + browserLang);
 
 
 		if (Browser.supportsSessionStorage() && loadPropertiesFromStorage(lang)) {
-			App.debug("properties loaded from local storage");
 			doSetLanguage(lang);
 		} else {
 			// load keys (into a JavaScript <script> tag)
@@ -792,6 +792,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 
 
+	/**
+	 * @return current .zip file as hashmap
+	 */
 	public HashMap<String, String> getCurrentFile() {
 		return currentFile;
 	}
@@ -966,7 +969,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	/**
-	 * @param allMacroXML
 	 * @param macro
 	 *            Macro need to be stored.
 	 * @param writeBack
@@ -1254,6 +1256,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return networkOperation;
 	}
 
+	/**
+	 * Initialize online/offline state listener
+	 */
 	protected void initNetworkEventFlow() {
 
 		Network network = new Network() {
@@ -1340,7 +1345,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 			@Override
 			public void onFailure(Throwable reason) {
-				App.debug("AlgoKimberlingWeights loading failure");
+				Log.warn("AlgoKimberlingWeights loading failure");
 			}
 		});
 		return kimberlingw;
