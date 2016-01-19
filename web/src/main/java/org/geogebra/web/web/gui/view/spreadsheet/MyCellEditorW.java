@@ -331,7 +331,10 @@ public class MyCellEditorW implements BaseCellEditor {
 
 			// stopping propagation is needed to prevent duplicate events
 			e.stopPropagation();
-
+			app.getKernel()
+					.getAlgebraProcessor()
+					.processAlgebraCommand(
+							"DOWN=\"DOWN" + e.getNativeKeyCode() + "\"", false);
 			checkCursorKeys(e);
 			int keyCode = e.getNativeKeyCode();
 
@@ -357,14 +360,25 @@ public class MyCellEditorW implements BaseCellEditor {
 		}
 
 		public void onKeyPress(KeyPressEvent e) {
+			// iOS: we do receive the event but nothing is actually printed
+			// because focus moved from dummy textarea into editor
+			final String charcode = e.getCharCode() + "";
+			app.getGuiManager().invokeLater(new Runnable(){
 
+				public void run() {
+					String text = autoCompleteTextField.getText();
+					if (text == null || text.length() == 0) {
+						autoCompleteTextField.setText(charcode);
+					}
+				}
+			});
+			
 			// stopping propagation is needed to prevent
 			// the prevention of the default action at another place
 			e.stopPropagation();
 		}
 
 		public void onKeyUp(KeyUpEvent e) {
-
 			// stopping propagation may be needed in strange browsers
 			// this also makes sure no top-level action is done on keyUp
 			// but the default action of the event should have already been
