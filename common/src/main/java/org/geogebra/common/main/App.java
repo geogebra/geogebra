@@ -3906,7 +3906,9 @@ public abstract class App implements UpdateSelection {
 		case ANALYTICS:
 		case HANDWRITING:
 		case DRAW_DROPDOWNLISTS_TO_CANVAS:
-			return prerelease;
+		case MOBILE_PROPERTIES_VIEW:
+				return prerelease;
+
 		// return canary;
 		case AV_EXTENSIONS:
 		case DATA_COLLECTION:

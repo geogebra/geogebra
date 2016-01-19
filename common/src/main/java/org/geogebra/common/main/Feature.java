@@ -81,5 +81,7 @@ public enum Feature {
 
 	HANDWRITING,
 
-	UNDO_FOR_TOOLS
+	UNDO_FOR_TOOLS,
+
+	MOBILE_PROPERTIES_VIEW
 }
