@@ -311,6 +311,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			int maxRows = view.getHeight() / dimItem.getHeight();
 			if (maxItems < maxRows) {
 				setColCount(1);
+				dimItem = AwtFactory.prototype.newDimension(boxWidth,
+						dimItem.getHeight());
 				rowCount = maxItems;
 				return true;
 			}
