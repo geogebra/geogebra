@@ -63,18 +63,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private DropDownList dropDown = null;
 	private String selectedText;
 	private int selectedHeight;
-	private GBox ctrlBox;
 	private GRectangle ctrlRect;
-	private GBox optionsBox;
 	private GDimension selectedDimension;
-	private float lastDescent;
-	private float lastAscent;
 	private boolean latexLabel;
-	private int colWidth = 0;
 	private int viewHeight = 0;
 	private int viewWidth = 0;
-	private int itemWidth;
-	private int itemHeight;
 
 	private DrawOptions drawOptions;
 
@@ -159,7 +152,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 				for (int col = 0; col < getColCount(); col++) {
 				for (int row = 0; row < rowCount; row++) {
-					drawItem(col, row, items.get(idx), false);
+					if (idx < items.size()) {
+						drawItem(col, row, items.get(idx), false);
+					}
 					idx++;
 				}
 			}
@@ -415,6 +410,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			geoList.setSelectedIndex(selectedIndex, true);
 		}
 
+		public int getMaxItemWidth() {
+			return dimItem != null ? dimItem.getWidth() : 0;
+		}
+
 	}
 	/**
 	 * Creates new drawable list
@@ -434,12 +433,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (isDrawingOnCanvas()) {
 			drawOptions = new DrawOptions();
 			dropDown = view.getApplication().newDropDownList();
-			ctrlBox = geo.getKernel().getApplication().getSwingFactory()
+			GBox ctrlBox = geo.getKernel().getApplication().getSwingFactory()
 					.createHorizontalBox(view.getEuclidianController());
 			ctrlRect = ctrlBox.getBounds();
-			optionsBox = geo.getKernel().getApplication().getSwingFactory()
-					.createHorizontalBox(view.getEuclidianController());
-			optionsBox.getBounds();
 		}
 		reset();
 
@@ -1006,11 +1002,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					left, top, false, false);
 		}
 
-		lastDescent = layout.getDescent();
-		lastAscent = layout.getAscent();
-
 		return AwtFactory.prototype.newDimension(w,
-				Math.round(lastAscent + lastDescent));
+				Math.round(layout.getDescent() + layout.getAscent()));
 	}
 
 	private int getTriangleControlWidth() {
@@ -1030,7 +1023,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				+ (isLatexString(selectedText) ? 0 : 2 * COMBO_TEXT_MARGIN)
 				+ getTriangleControlWidth();
 
-		return (isOptionsVisible() && itemWidth > selectedWidth) ? itemWidth
+		int maxItemWidth = drawOptions.getMaxItemWidth();
+		return (isOptionsVisible() && maxItemWidth > selectedWidth)
+				? maxItemWidth
 				: selectedWidth;
 	}
 
@@ -1200,6 +1195,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		drawOptions.moveSelectorHorizontal(left);
 	}
 
+	/**
+	 * @return if
+	 */
 	public boolean isMultiColumn() {
 		return drawOptions.getColCount() > 1;
 	}
