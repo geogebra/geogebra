@@ -134,6 +134,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		private boolean visible;
 
 		private int selectedIndex;
+
+		private int itemFontSize;
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
 			itemHovered = null;
@@ -211,7 +213,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 						y + (int) ((rect.getHeight() - item.height) / 2));
 			} else {
 				g2.setPaint(geo.getObjectColor());
-				g2.setFont(itemFont.deriveFont(10));
+				if (g2.getFont().getSize() != itemFontSize) {
+					g2.setFont(itemFont.deriveFont(itemFontSize));
+				}
 				int x = (dimItem.getWidth() - item.width) / 2;
 				int y = (dimItem.getHeight() - yPadding);
 
@@ -279,14 +283,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		private void getMetrics() {
 			xPadding = 10;
 			yPadding = 10;
-			int fontSize = getLabelFontSize();
+			itemFontSize = getLabelFontSize();
 			boolean finished = false;
 
-			while (!finished && fontSize > MIN_FONT_SIZE) {
-				itemFont = getLabelFont().deriveFont(GFont.PLAIN, fontSize);
+			while (!finished && itemFontSize > MIN_FONT_SIZE) {
+				itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
 				createItems();
 				finished = getTableScale();
-				fontSize--;
+				itemFontSize--;
 			}
 
 			dimTable = AwtFactory.prototype.newDimension(
