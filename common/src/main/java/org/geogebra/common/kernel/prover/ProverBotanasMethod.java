@@ -617,6 +617,9 @@ public class ProverBotanasMethod {
 										.parseGeoGebraCASInputAndResolveDummyVars(
 												solutionList[0],
 												statement.getKernel(), null);
+								if (validSol1 == null) {
+									return ProofResult.FALSE;
+								}
 								ValidExpression validSol2 = (statement
 										.getKernel().getGeoGebraCAS())
 										.getCASparser()
