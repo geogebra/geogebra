@@ -387,8 +387,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public boolean showInEuclidianView() {
 		return isDrawable()
 				&& isDefined()
-				&& (intervalMin == null || intervalMax == null || (isIntervalMinActive() && isIntervalMaxActive())
-					&& (getIntervalMin() < getIntervalMax()));
+				&& (((intervalMin == null || intervalMax == null)
+				&& !Double.isInfinite(value)
+				&& !Double.isNaN(value)) ||
+				(isIntervalMinActive() && isIntervalMaxActive()) && (getIntervalMin() < getIntervalMax()));
 	}
 
 	@Override
