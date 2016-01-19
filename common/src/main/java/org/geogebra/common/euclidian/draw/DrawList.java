@@ -864,8 +864,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			textBottom = alignTextToBottom(g2, boxTop, boxHeight, selectedText);
 		}
 
-		drawTextLine(g2, false, textLeft, textBottom, selectedText,
-				getLabelFont(), latex, true);
+		drawSelectedText(g2, textLeft, textBottom, true);
 
 		drawControl(g2);
 
@@ -972,8 +971,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		selectedText = geoList.get(geoList.getSelectedIndex())
 				.toValueString(StringTemplate.defaultTemplate);
-		selectedDimension = drawTextLine(g2, false, 0, 0, selectedText,
-				getLabelFont(), isLatexString(selectedText), false);
+		selectedDimension = drawSelectedText(g2, 0, 0, false);
 
 		setPreferredSize(getPreferredSize());
 
@@ -984,41 +982,27 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	}
 
 
-	private GDimension drawTextLine(GGraphics2D g2, boolean center,
-			int textLeft, int textTop, String text, GFont font, boolean latex,
+	private GDimension drawSelectedText(GGraphics2D g2, int left, int top,
 			boolean draw) {
 
-		int left = textLeft;
-		int top = textTop;
+		GFont font = view.getFont();
 
-		if (latex) {
+		if (isLatexString(selectedText)) {
 			GDimension d = null;
-			if (center) {
-				g2.setPaint(GColor.WHITE);
-				d = measureLatex(g2, geoList, getLabelFont(), text);
-				left += (colWidth - d.getWidth()) / 2;
-				g2.setPaint(geo.getObjectColor());
-
-			}
-
-			d = draw ? drawLatex(g2, geoList, font, text, left, top)
-					: measureLatex(g2, geoList, font, text);
+			d = draw ? drawLatex(g2, geoList, font, selectedText, left, top)
+					: measureLatex(g2, geoList, font, selectedText);
 
 			return d;
 		}
 		g2.setFont(font);
 
-		GTextLayout layout = getLayout(g2, text, font);
+		GTextLayout layout = getLayout(g2, selectedText, font);
 
 		final int w = (int) layout.getBounds().getWidth();
-		final int h = (int) layout.getBounds().getHeight();
-		if (center) {
-			left += (itemWidth - w) / 2;
-			top -= (itemHeight - h) / 2;
-		}
 
 		if (draw) {
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+					selectedText,
 					left, top, false, false);
 		}
 
@@ -1109,7 +1093,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (!isDrawingOnCanvas()) {
 			return;
 		}
-		Log.debug("[REFACTOR] HEYYYYYYYYYY!");
+
 		drawOptions.onMouseDown(x, y);
 		if (isControlHit(x, y)) {
 			setOptionsVisible(!isOptionsVisible());
