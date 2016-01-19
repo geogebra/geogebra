@@ -5801,6 +5801,9 @@ CharCmds['\u00d7'] =
 LatexCmds['='] = bind(BinaryOperator, '=', '=');
 LatexCmds['<'] = bind(BinaryOperator, '<', '&lt;');
 LatexCmds['>'] = bind(BinaryOperator, '>', '&gt;');
+//needed for GGB-446
+LatexCmds[':'] = bind(BinaryOperator, ':', ':');
+LatexCmds['\u2254'] = bind(BinaryOperator, '\u2254', '\u2254');
 
 LatexCmds.notin =
 LatexCmds.sim =
