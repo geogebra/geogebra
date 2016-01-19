@@ -6081,7 +6081,16 @@ body.application[dir=rtl] .deleteAlgebra {
 @media print {
 	
 	.GeoGebraFrame{
-		display: none;
+		/*display: none; */
+		visibility: hidden;
+	}
+	
+	.printableView{
+		visibility: visible;
+		height: 10000px;
+		position: absolute;
+		top: 0px;
+		left: 0px;
 	}
 	
 	.printPopupButtonPanel{
@@ -6114,6 +6123,7 @@ body.application[dir=rtl] .deleteAlgebra {
 		display: none;
 		visibility: hidden;
 	}
+	
 }
 
 @media print and (orientation:landscape){		

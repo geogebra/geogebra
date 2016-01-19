@@ -121,6 +121,9 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 			if (pp.getLength() != 0) {
 				pp.getItem(0).removeFromParent();
 			}
+			
+			Dom.getElementsByClassName("printableView").getItem(0)
+					.removeClassName("printableView");
 		}
 
 	}

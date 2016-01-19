@@ -32,6 +32,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
@@ -1835,7 +1836,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	public void getPrintable(FlowPanel pPanel, Button btPrint) {
-		// TODO Auto-generated method stub
+		Dom.getElementsByClassName("algebraSimpleP").getItem(0)
+				.addClassName("printableView"); // TODO: don't use DOM here
+		pPanel.clear();
+		btPrint.setEnabled(true);
+
 	}
 
 }
