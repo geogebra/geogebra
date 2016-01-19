@@ -238,6 +238,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		public boolean onMouseDown(int x, int y) {
+			if (!visible) {
+				return false;
+			}
+
 			OptionItem item = getItemAt(x, y);
 			if (item == null) {
 				return false;
@@ -1110,7 +1114,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return;
 		}
 
-		drawOptions.onMouseDown(x, y);
+		if (drawOptions.onMouseDown(x, y)) {
+			return;
+		}
+
 		if (isControlHit(x, y)) {
 			setOptionsVisible(!isOptionsVisible());
 		}
