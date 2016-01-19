@@ -657,6 +657,9 @@ public abstract class GlobalKeyDispatcher {
 				if (!isShiftDown) {
 					Kernel kernel = app.getKernel();
 					kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);
+					kernel.setAlgebraStyleSpreadsheet(
+							(kernel.getAlgebraStyleSpreadsheet() + 1) % 3);
+
 					kernel.updateConstruction();
 					/*
 					 * if (app.hasOptionsMenu()) {
