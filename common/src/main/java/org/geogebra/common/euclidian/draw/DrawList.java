@@ -1089,6 +1089,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * @return true if options rectangle hit by mouse.
 	 */
 	public boolean isOptionsHit(int x, int y) {
+		if (!isDrawingOnCanvas()) {
+			return false;
+		}
+
 		return drawOptions.isHit(x, y);
 	}
 
@@ -1101,6 +1105,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 *            mouse y-coord
 	 */
 	public void onOptionOver(int x, int y) {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+
 		drawOptions.onMouseOver(x, y);
 	}
 
@@ -1130,6 +1138,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * Open dropdown
 	 */
 	public void openOptions() {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
 		setOptionsVisible(false);
 	}
 
@@ -1137,6 +1148,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * Close dropdown
 	 */
 	public void closeOptions() {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
 		setOptionsVisible(false);
 	}
 
@@ -1148,6 +1162,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * @return whether control rectangle was hit
 	 */
 	public boolean isControlHit(int x, int y) {
+		if (!isDrawingOnCanvas()) {
+			return false;
+		}
+
 		return ctrlRect != null && ctrlRect.contains(x, y);
 	}
 
@@ -1155,6 +1173,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 * @return whether dropdown is visible
 	 */
 	public boolean isOptionsVisible() {
+		if (!isDrawingOnCanvas()) {
+			return false;
+		}
 		return drawOptions.isVisible();
 	}
 
@@ -1163,6 +1184,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 *            change visibility of dropdown items
 	 */
 	private void setOptionsVisible(boolean optionsVisible) {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+
 		drawOptions.setVisible(optionsVisible);
 
 	}
@@ -1211,6 +1236,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 *            Sets if selection indicator should move down or up.
 	 */
 	public void moveSelectorVertical(boolean down) {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+
 		drawOptions.moveSelectorVertical(down);
 	}
 
@@ -1221,13 +1250,21 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	 *            Indicates that selector should move left or right.
 	 */
 	public void moveSelectorHorizontal(boolean left) {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+
 		drawOptions.moveSelectorHorizontal(left);
 	}
 
 	/**
-	 * @return if
+	 * @return if combo have more columns than one.
 	 */
 	public boolean isMultiColumn() {
+		if (!isDrawingOnCanvas()) {
+			return false;
+		}
+
 		return drawOptions.getColCount() > 1;
 	}
 
