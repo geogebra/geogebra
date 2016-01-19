@@ -128,6 +128,10 @@
 	/* almost good, but caret is still visible in IE */
 	/* so we shall use things from MathQuillGGB */
 	clip: rect(1em 1em 1em 1em);
+	padding: 0px;
+    font-size: 0px;
+    -webkit-transform:scale(0.0);  
+    resize:none;
 
     -webkit-user-select: text;
     -moz-user-select: text;
