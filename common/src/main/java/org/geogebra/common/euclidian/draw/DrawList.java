@@ -340,9 +340,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			rowCount = maxRows;
 			
 			int mod = geoList.size() % rowCount;
-
 			boolean balanced = mod == 0 || mod > rowCount - 2 || rowCount < 3;
-			while (!balanced && colCount < maxCols) {
+			while (!balanced && fitHorizontally()) {
 				rowCount--;
 				mod += colCount - 1;
 				if (mod > rowCount) {
@@ -355,11 +354,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				balanced = mod == 0 || mod > rowCount - 2 || rowCount < 3;
 			}
 
-			return colCount < maxCols || balanced;
+			return (colCount < maxCols / 2 || balanced) && fitHorizontally();
 
 		}
 
-
+		private boolean fitHorizontally() {
+			return colCount * dimItem.getWidth() < view.getWidth();
+		}
 
 		private void createItems() {
 
