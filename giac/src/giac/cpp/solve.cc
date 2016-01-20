@@ -3330,6 +3330,7 @@ namespace giac {
     if (s==2 && v[1].type==_IDNT){ 
       // no initial guess, check for poly-like equation
       vecteur lv(lvar(v0));
+      lv=lvar(evalf(lv,1,contextptr));
       int lvs=int(lv.size());
       bool poly=true;
       for (unsigned i=0;i<lv.size();++i){
@@ -5604,7 +5605,7 @@ namespace giac {
 	if (tmp[i].coord.empty())
 	  break;
       }
-      if (i==tmp.size())
+      if (rur || i==tmp.size())
 	tmp.swap(res);
       else {
 	// remove 0

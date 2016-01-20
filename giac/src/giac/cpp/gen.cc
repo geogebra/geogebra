@@ -14359,6 +14359,10 @@ namespace giac {
       return negatif?"-infinity":"+infinity";
     mp_exp_t expo;
     int dd=mpfr_get_prec(inf);
+#ifdef EMCC // workaround: mpfr_set_prec or get_prec has problems with emcc
+    if (dd==53)
+      dd=100;
+#endif
     dd=bits2digits(dd);
     dd--;
 #ifdef VISUALC

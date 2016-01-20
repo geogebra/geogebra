@@ -6453,6 +6453,8 @@ namespace giac {
     gen b=double_is_int(b_orig,contextptr);
     if (a.type!=_INT_ || b.type!=_INT_)
       return Gamma(a+1,contextptr)/Gamma(b+1,contextptr)/Gamma(a-b+1,contextptr);
+    if (a.val<0 || b.val<0)
+      return gensizeerr(contextptr);
     return comb((unsigned long int) a.val,(unsigned long int) b.val);
   }
   gen _comb(const gen & args,GIAC_CONTEXT){

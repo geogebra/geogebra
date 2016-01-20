@@ -5520,17 +5520,22 @@ namespace giac {
       gen x=g._SYMBptr->feuille._VECTptr->back();
       if (p.type==_VECT && x.type==_VECT){
 	// adjust (guess?) nbits
-	gen g_=evalf_double(g,1,contextptr); // rough evalf
+	gen g_=accurate_evalf(evalf_double(g,1,contextptr),60); // low prec multiprec evalf 
 	vecteur P=*p._VECTptr;
-	gen val=0.0;
-	double err=0;
-	double absg=abs(g,contextptr)._DOUBLE_val;
+	gen val=0;
+	gen err=0; // absolute error
+	gen absg=abs(g_,contextptr);
+	gen rnd=accurate_evalf(gen(4e-15),60);
 	for (int i=0;i<P.size();++i){
-	  err += evalf_double(abs(val,contextptr),1,contextptr)._DOUBLE_val+absg;
-	  val = evalf_double(val*g+P[i],1,contextptr);
+	  val = accurate_evalf(val*g_+P[i],60);
+	  // 2* because we multiply complex numbers
+	  err = 2*(err*absg+rnd*abs(val,contextptr));
 	}
-	err=err/abs(val,contextptr)._DOUBLE_val;
-	int nbitsmore=std::ceil(std::log(err)/std::log(2));
+	err=err/abs(val,contextptr)/rnd; // relative error/rounding error
+	if (is_strictly_greater(err,1,contextptr))
+	  err=log(err,contextptr);
+	double errd=evalf_double(err,1,contextptr)._DOUBLE_val;
+	int nbitsmore=std::ceil(errd/std::log(2));
 	gen r=complexroot(makesequence(symb_horner(*x._VECTptr,vx_var),pow(plus_two,-nbits-nbitsmore-2,contextptr)),true,contextptr);
 	if (r.type==_VECT){
 	  vecteur R=*r._VECTptr;

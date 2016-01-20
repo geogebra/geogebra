@@ -3219,6 +3219,10 @@ namespace giac {
     }
     // find angles
     gen a1(zero),a2(cst_two_pi);
+    if (s==1+narg){
+      *logptr(contextptr) << "Assuming circumcircle call" << endl;
+      return _circonscrit(args,contextptr);
+    }
     if (s>1+narg){
       a1=eval(v[narg],contextptr);
       a2=eval(v[narg+1],contextptr);
@@ -5881,7 +5885,7 @@ namespace giac {
 	else
 	  res.push_back(obj);
       }
-      g= (res.size()==1)? res.front() : gen(res,_SEQ__VECT);
+      g= (res.size()==1)? res.front() : res; // gen(res,_SEQ__VECT);
       return true;
     }
     return false;

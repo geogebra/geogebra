@@ -12655,7 +12655,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     int dim=gbmod.front().dim;
     lm.order=order; lm.dim=dim; lm.coord.clear();
     polymod<tdeg_t> gblm(order,dim);
-	unsigned S = unsigned(gbmod.size());
+    unsigned S = unsigned(gbmod.size());
     for (unsigned i=0;i<S;++i){
       if (gbmod[i].coord.empty())
 	continue;

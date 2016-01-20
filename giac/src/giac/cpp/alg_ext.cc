@@ -246,13 +246,13 @@ namespace giac {
     const_iterateur it=a.begin(),itend=a.end();
     for (;it!=itend;++it){
       double cur_re(re(*it,contextptr).evalf_double(1,contextptr)._DOUBLE_val),cur_im(im(*it,contextptr).evalf_double(1,contextptr)._DOUBLE_val);
-      if (cur_re > max_re ){
+      if (cur_re > (1+1e-14)*max_re ){
 	current=*it;
 	max_re=cur_re;
 	max_im=cur_im;
       }
       else { // same argument
-	if ( (cur_re == max_re) && (cur_im>max_im) ){
+	if ( std::abs(cur_re-max_re)<1e-14*max_re && (cur_im>max_im) ){
 	  current=*it;
 	  max_im=cur_im;
 	}
@@ -269,7 +269,8 @@ namespace giac {
     double eps=std::pow(0.1,n);
     int rprec=int(n*3.3);
     vecteur a=proot(v,eps,rprec);
-    return in_select_root(a,is_real(v,contextptr),contextptr);
+    gen r=in_select_root(a,is_real(v,contextptr),contextptr);
+    return r;
   }
 
   gen alg_evalf(const gen & a,const gen &b,GIAC_CONTEXT){
@@ -280,7 +281,7 @@ namespace giac {
       return a1;
     if (b1.type!=_VECT)
       return algebraic_EXTension(a1,b1);
-    gen r(select_root(*b1._VECTptr,contextptr));
+    gen r(select_root(*b1._VECTptr,contextptr)); 
     if (is_undef(r))
       return algebraic_EXTension(a1,b1);
     return horner(*a1._VECTptr,r);

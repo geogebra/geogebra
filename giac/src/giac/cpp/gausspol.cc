@@ -4893,7 +4893,11 @@ namespace giac {
       return false;
     }
     gen ip=im(p,context0);
-    if (!is_zero(ip) ||complexmode){
+    bool ip0=is_zero(ip);
+    if (!ip0 || complexmode){
+      gen anreal(an),extra_divreal(extra_div); factorization freal; polynome p_contentreal(p_content);
+      if (ip0 && !ext_factor(p,e,anreal,p_contentreal,freal,false,extra_divreal))
+	return false;
       // replace i by [1,0]:[1,0,1]
       gen bn=1,the_ext=algebraic_EXTension(makevecteur(1,0),makevecteur(1,0,1));
       gen newp=re(p,context0)+the_ext*ip;
@@ -4921,7 +4925,8 @@ namespace giac {
 	}
       }
       if (e.type==_EXT){
-	common_EXT(*(e._EXTptr+1),*(the_ext._EXTptr+1),0,context0);
+	gen ee=*(e._EXTptr+1);
+	common_EXT(ee,*(the_ext._EXTptr+1),0,context0);
 	the_ext=ext_reduce(the_ext);
 	if (the_ext.type==_FRAC)
 	  the_ext=the_ext._FRACptr->num;
@@ -4936,6 +4941,13 @@ namespace giac {
       if (the_ext.type!=_EXT)
 	return false;
       bool res=ext_factor(*newp._POLYptr,the_ext,an,p_content,f,false,extra_div);
+      if (f.size()==freal.size()){
+	an=anreal;
+	p_content=p_contentreal;
+	f=freal;
+	extra_div=extra_divreal;
+	return true;
+      }
       an=an/(bn*bn2);
       return res;
     }
