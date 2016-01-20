@@ -289,7 +289,8 @@ public class AlgoFinancial extends AlgoElement {
 			double dx = 0.001;
 
 			// look for sign-change around interval for Brent
-			min = Math.max(0, rate - dx);
+			// within [-1,1]
+			min = Math.max(-1, rate - dx);
 			max = Math.min(1, rate + dx);
 			double minSign = Math.signum(value(fun, min));
 			double maxSign = Math.signum(value(fun, max));
@@ -311,9 +312,9 @@ public class AlgoFinancial extends AlgoElement {
 			double minSign = Math.signum(value(fun, min));
 			double maxSign = Math.signum(value(fun, max));
 
-			// sensible bound on rate (1000)
-			while (minSign == maxSign && max < 1000) {
-				max *= 2;
+			// sensible bound on rate (1)
+			while (minSign == maxSign && max < 1) {
+				max += 0.05;
 				maxSign = Math.signum(value(fun, max));
 			}
 
