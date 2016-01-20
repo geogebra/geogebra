@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootFunction;
-import org.geogebra.common.main.App;
 
 /**
  * Integral of a function (GeoFunction)
@@ -263,7 +262,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			n.setValue(0);
 			return;
 		}
-		App.debug(f.toString(StringTemplate.defaultTemplate));
 		// check if f(a) and f(b) are defined
 		double fa = f.evaluate(lowerLimit);
 		double fb = f.evaluate(upperLimit);
@@ -389,7 +387,10 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 				result = result.split(",")[0];
 				result = result.substring(1);
 			}
-
+			if ("(".equals(result)) {
+				n.setUndefined();
+				return;
+			}
 			n.setValue(kernel.getAlgebraProcessor().evaluateToDouble(result,
 					true));
 
