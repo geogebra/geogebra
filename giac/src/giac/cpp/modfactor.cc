@@ -1289,7 +1289,8 @@ namespace giac {
       }
     }
 #endif // HAVE_LIBPARI
-    if (is_strictly_greater(bound,pow(env->modulo,(long unsigned int) HENSEL_QUADRATIC_POWER),context0)) { // bound>pow(...)
+    // quadratic lift commented until bug is fixed for factor(poly2symb([2052661997653969,0,-28627701862508750,0,2045357156640625],x));
+    if (0 && is_strictly_greater(bound,pow(env->modulo,(long unsigned int) HENSEL_QUADRATIC_POWER),context0)) { // bound>pow(...)
       int res=liftq(env,q1,bound,w,v,possible_degrees);
       if (res==-1)
 	return false;
