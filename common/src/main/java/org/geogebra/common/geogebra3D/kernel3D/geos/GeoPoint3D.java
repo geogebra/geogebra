@@ -237,6 +237,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 			}
 			updateCoords();
+		} else if (hasPath()) {
+			// make sure animation value is consistent with path parameter
+			animationValue = PathNormalizer.toNormalizedPathParameter(
+					getPathParameter().t, path.getMinParameter(),
+					path.getMaxParameter());
 		}
 
 	}
