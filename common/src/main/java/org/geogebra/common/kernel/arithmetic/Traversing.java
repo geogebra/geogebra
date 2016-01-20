@@ -470,7 +470,7 @@ public interface Traversing {
 
 		/**
 		 * When calling this method, make sure you initialize the replacer with
-		 * the {@link #addVars(String, ExpressionValue)} method
+		 * the {@link #addVars(GeoNumeric, ExpressionValue)} method
 		 * 
 		 * @param kernel1
 		 *            kernel

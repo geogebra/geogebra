@@ -185,9 +185,11 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 
 		if (sb == null)
 			sb = new StringBuilder();
-		else
+		else {
 			sb.setLength(0);
-		sb.append("{");
+		}
+
+		tpl.leftCurlyBracket(sb);
 
 		if (input.length > 0) { // Florian Sonner 2008-07-12
 			for (int i = 0; i < input.length - 1; i++) {
@@ -196,7 +198,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 			}
 			sb.append(input[input.length - 1].getLabel(tpl));
 		}
-		sb.append("}");
+		tpl.rightCurlyBracket(sb);
 		return sb.toString();
 	}
 

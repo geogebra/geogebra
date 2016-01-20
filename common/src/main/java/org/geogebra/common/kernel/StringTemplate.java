@@ -3033,4 +3033,22 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return this.questionMarkForNaN;
 	}
 
+	public void leftCurlyBracket(StringBuilder sb) {
+		if (hasType(StringType.LATEX)) {
+			sb.append("\\left\\{");
+		} else {
+			sb.append("{");
+		}
+
+	}
+
+	public void rightCurlyBracket(StringBuilder sb) {
+		if (hasType(StringType.LATEX)) {
+			sb.append("\\right\\}");
+		} else {
+			sb.append("}");
+		}
+
+	}
+
 }

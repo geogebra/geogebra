@@ -1439,6 +1439,10 @@ kernel, left,
 					} else if (right.isExpressionNode()) {
 						rightStr = ((ExpressionNode) right).getCASstring(tpl,
 								symbolic);
+					} else if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF)
+							&& right instanceof MyList) {
+						rightStr = ((MyList) right).toString(tpl, !symbolic,
+								false);
 					} else {
 						rightStr = symbolic ? right.toString(tpl) : right
 								.toValueString(tpl);
@@ -1563,7 +1567,12 @@ kernel, left,
 				} else
 					rightStr = ((GeoElement) right).getLabel(tpl);
 			} else {
-				rightStr = right.toString(tpl);
+				if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF)
+						&& right instanceof MyList) {
+					rightStr = ((MyList) right).toString(tpl, true, false);
+				} else {
+					rightStr = right.toString(tpl);
+				}
 			}
 		}
 		return ExpressionNode.operationToString(left, right, operation,
@@ -1593,7 +1602,12 @@ kernel, left,
 
 		String rightStr = null;
 		if (right != null) {
-			rightStr = right.toValueString(tpl);
+			if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF)
+					&& right instanceof MyList) {
+				rightStr = ((MyList) right).toString(tpl, true, false);
+			} else {
+				rightStr = right.toValueString(tpl);
+			}
 		}
 
 		return ExpressionNode.operationToString(left, right, operation,
@@ -1612,7 +1626,12 @@ kernel, left,
 
 		String rightStr = null;
 		if (right != null) {
-			rightStr = right.toOutputValueString(tpl);
+			if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF)
+					&& right instanceof MyList) {
+				rightStr = ((MyList) right).toString(tpl, true, false);
+			} else {
+				rightStr = right.toOutputValueString(tpl);
+			}
 		}
 
 		return ExpressionNode.operationToString(left, right, operation,
@@ -1643,15 +1662,18 @@ kernel, left,
 		String leftStr = left.toLaTeXString(symbolic, tpl);
 		String rightStr = null;
 		if (right != null) {
-			rightStr = right.toLaTeXString(symbolic, tpl);
+
 			if (((operation == Operation.FUNCTION_NVAR) || (operation == Operation.ELEMENT_OF))
 					&& (right instanceof MyList)) {
 				// 1 character will be taken from the left and right
 				// of rightStr in operationToString, but more
 				// is necessary in case of LaTeX, we do that here
 				// " \\{ " is put by MyList 5 - 1(escape) -1(operationToString)
-				rightStr = rightStr.substring(7, rightStr.length() - 9);
-				rightStr = rightStr.concat("}");
+				rightStr = ((MyList) right).toLaTeXStringNoBrackets(symbolic,
+						tpl);
+
+			} else {
+				rightStr = right.toLaTeXString(symbolic, tpl);
 			}
 		}
 
@@ -3260,7 +3282,7 @@ kernel, left,
 					sb.append(tpl.leftBracket());
 					sb.append(leftStr);
 					sb.append(tpl.leftBracket());
-					sb.append(rightStr.substring(1, rightStr.length() - 1));
+					// sb.append(rightStr.substring(1, rightStr.length() - 1));
 					sb.append(tpl.rightBracket());
 					sb.append(tpl.rightBracket());
 				} else {
@@ -3285,11 +3307,9 @@ kernel, left,
 					// rightStr is a list of arguments, e.g. {2, 3}
 					// drop the curly braces { and }
 					// or list( and ) in case of mpreduce
-					if (tpl.getStringType().equals(StringType.LATEX)) {
-						sb.append(rightStr.substring(2, rightStr.length() - 2));
-					} else {
-						sb.append(rightStr.substring(1, rightStr.length() - 1));
-					}
+
+					sb.append(rightStr);
+
 					sb.append(tpl.rightBracket());
 				}
 			}

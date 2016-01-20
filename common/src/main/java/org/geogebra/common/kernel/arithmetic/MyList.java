@@ -24,7 +24,6 @@ import java.util.HashSet;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.GgbMat;
@@ -655,7 +654,7 @@ public class MyList extends ValidExpression implements ListValue,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return toString(tpl, true);
+		return toString(tpl, true, true);
 		/*
 		 * int size = listElements.size(); for (int i=0; i < size; i++) {
 		 * ((ExpressionValue) listElements.get(i)).evaluate(); }
@@ -716,40 +715,62 @@ public class MyList extends ValidExpression implements ListValue,
 		} else {
 			toLaTeXString.append(" \\left\\{ ");
 
-			// first (n-1) elements
-			int lastIndex = listElements.size() - 1;
-			if (lastIndex > -1) {
-				for (int i = 0; i < lastIndex; i++) {
-					ExpressionValue exp = listElements.get(i);
-					toLaTeXString.append(exp.toLaTeXString(symbolic, tpl));
-					toLaTeXString.append(", ");
-				}
 
-				// last element
-				ExpressionValue exp = listElements.get(lastIndex);
-				toLaTeXString.append(exp.toLaTeXString(symbolic, tpl));
-			}
 
 			toLaTeXString.append(" \\right\\} ");
 		}
 		return toLaTeXString.toString();
 	}
 
-	@Override
-	public String toString(StringTemplate tpl) {
-		return toString(tpl, false);
+	/**
+	 * @param symbolic
+	 *            whether to substitute numbers
+	 * @param tpl
+	 *            output template
+	 * @return string representation without brackets
+	 */
+	public String toLaTeXStringNoBrackets(boolean symbolic, StringTemplate tpl) {
+		StringBuilder toLaTeXString = new StringBuilder();
+		// first (n-1) elements
+		int lastIndex = listElements.size() - 1;
+		if (lastIndex > -1) {
+			for (int i = 0; i < lastIndex; i++) {
+				ExpressionValue exp = listElements.get(i);
+				toLaTeXString.append(exp.toLaTeXString(symbolic, tpl));
+				toLaTeXString.append(", ");
+			}
+
+			// last element
+			ExpressionValue exp = listElements.get(lastIndex);
+			toLaTeXString.append(exp.toLaTeXString(symbolic, tpl));
+		}
+		return toLaTeXString.toString();
 	}
 
-	// Michael Borcherds 2008-02-04
-	// adapted from GeoList
-	private String toString(StringTemplate tpl, boolean valueMode) {
+	@Override
+	public String toString(StringTemplate tpl) {
+		return toString(tpl, false, true);
+	}
+
+	/**
+	 * Adapted from GeoList
+	 * 
+	 * @param tpl
+	 *            output template
+	 * @param valueMode
+	 *            true to substitute numbers
+	 * @param printBrackets
+	 *            true to include {} (needs to be false for f(x,y) as {x,y} is
+	 *            MyList too
+	 * @return string representation of this list
+	 */
+	public String toString(StringTemplate tpl, boolean valueMode,
+			boolean printBrackets) {
 
 		StringBuilder sb = new StringBuilder();
-		if (tpl.hasType(StringType.LATEX)) {
-			sb.append("\\{");
-		} else
-			sb.append("{");
-
+		if(printBrackets){
+			tpl.leftCurlyBracket(sb);
+		}
 		// first (n-1) elements
 		int lastIndex = listElements.size() - 1;
 		if (lastIndex > -1) {
@@ -765,11 +786,9 @@ public class MyList extends ValidExpression implements ListValue,
 			sb.append(valueMode ? exp.toOutputValueString(tpl) : exp
 					.toString(tpl));
 		}
-
-		if (tpl.hasType(StringType.LATEX)) {
-			sb.append("\\}");
-		} else
-			sb.append("}");
+		if (printBrackets) {
+			tpl.rightCurlyBracket(sb);
+		}
 		return sb.toString();
 	}
 
