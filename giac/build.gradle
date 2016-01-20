@@ -103,19 +103,19 @@ model {
             target('win32') {
                 cppCompiler.executable 'i686-w64-mingw32-g++'
                 linker.executable 'i686-w64-mingw32-g++'
-        	}
+                }
             target('win64') {
                 cppCompiler.executable 'x86_64-w64-mingw32-g++'
                 linker.executable 'x86_64-w64-mingw32-g++'
-        	}
-        }
+                }
+            }
         clang(Clang) {
             target('osx_amd64') {
                 cppCompiler.executable 'clang'
                 linker.executable 'gcc'
-        	}
-    	}
-	// Note: Make sure manually that these executables are on the PATH.
+                }
+            }
+        // Note: Make sure manually that these executables are on the PATH.
         android(Gcc) {
             target('androideabi') {
                 cppCompiler.executable 'arm-linux-androideabi-g++'
