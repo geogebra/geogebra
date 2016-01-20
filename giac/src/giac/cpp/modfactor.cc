@@ -752,6 +752,7 @@ namespace giac {
       vector<modpoly>::iterator it=v_in.begin(),itend=v_in.end();
       dense_POLY1 pi;
       mulmodpoly(it,itend,env,pi);
+      lcoeff=q.front();
       // compute Q such that q=lcoeff*(pi+p^k*Q)
       // modulo=modulonext; // work in Z/p^(k+1), done by modularize below
       modpoly Q((q-lcoeff*pi)/moduloi);
@@ -761,7 +762,7 @@ namespace giac {
       if (notunit)
 	mulmodpoly(Q,invmod(lcoeff,env->modulo),env,Q); // Q=Q*invmod(lcoeff);
       // COUT << "Q:" << Q << endl;
-      // _VECTute new v_in
+      // compute new v_in
       if (Q.empty()){
 	env->modulo=modulonext;
 	moduloi=modulonext;

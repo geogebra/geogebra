@@ -1739,7 +1739,7 @@ namespace giac {
 #ifdef GIAC_ELIM
       //bool debug=false;
       if ( !( (x.elim | y.elim) & 0x1000000000000000ULL) &&
-#ifndef BESTA_OS // Keil compiler, for some reason does not like the 0b syntax!
+#if 0 // ndef BESTA_OS // Keil compiler, for some reason does not like the 0b syntax!
 	   ( (x.elim-y.elim) & 0b1111100001000010000100001000010000100001000010000100001000010000ULL) )
 #else
 	( (x.elim-y.elim) & 0xf842108421084210ULL) )
@@ -6289,7 +6289,7 @@ namespace giac {
 	    for (vector<modint2>::iterator wt=v64.begin()+pos;wt!=wtend;++wt){
 	      // 2^63-1-p*p*32768 where p:=prevprime(2^24)
 	      modint2 tmp=*wt;
-	      if (tmp>=3298534588415 || tmp<=-3298534588415)
+	      if (tmp>=3298534588415LL || tmp<=-3298534588415LL)
 		*wt = tmp % env;
 	      // if (*wt) *wt %= env; // does not work pseudo_mod(*wt,env,invmodulo,nbits);
 	    }

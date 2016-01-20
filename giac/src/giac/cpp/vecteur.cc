@@ -13319,8 +13319,8 @@ namespace giac {
     }
     gsl_vector_free(tau);
     gsl_matrix_free(m);
-    // return gen(makevecteur(Q,R),_SEQ__VECT);
-    return R;
+    return gen(makevecteur(Q,R),_SEQ__VECT);
+    //return R;
     }
 #endif // HAVE_LIBGSL
 
