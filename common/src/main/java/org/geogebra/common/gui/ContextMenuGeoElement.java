@@ -238,8 +238,11 @@ public abstract class ContextMenuGeoElement {
 
 		// geo.remove();
 		for (int i = geos2.size() - 1; i >= 0; i--) {
-			GeoElement geo1 = geos2.get(i);
-			geo1.removeOrSetUndefinedIfHasFixedDescendent();
+			// maybe we killed siblings -> geos2 list shrinks
+			if (i < geos2.size()) {
+				GeoElement geo1 = geos2.get(i);
+				geo1.removeOrSetUndefinedIfHasFixedDescendent();
+			}
 		}
 		app.storeUndoInfo();
 	}

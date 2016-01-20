@@ -71,7 +71,10 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 
 				// now let's compute the roots of this factor
 				// compute all roots of polynomial polyFun
-				real = polyFun.getCoeffsCopy();
+				if (polyFun.hasZeroRoot()) {
+					addToCurrentRoots(new double[] { 0 }, new double[] { 0 }, 1);
+				}
+				real = polyFun.getCoeffsCopyNoTrailingZeros();
 				complex = new double[real.length];
 				noOfRoots = eqnSolver.polynomialComplexRoots(real, complex);
 				addToCurrentRoots(real, complex, noOfRoots);

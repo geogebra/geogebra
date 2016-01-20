@@ -81,6 +81,22 @@ public class PolyFunction implements RealRootDerivFunction {
 		return ret;
 	}
 
+	public double[] getCoeffsCopyNoTrailingZeros() {
+		int offset = 0;
+		for (int i = 0; i < coeffs.length; i++) {
+			if (!Kernel.isZero(coeffs[i])) {
+				offset = i;
+				break;
+			}
+		}
+		double[] ret = new double[coeffs.length - offset];
+
+		for (int i = offset; i < coeffs.length; i++) {
+			ret[i - offset] = coeffs[i];
+		}
+		return ret;
+	}
+
 	/**
 	 * Returns true. This method is overwritten by the subclass
 	 * SymbolicPolyFunction.
@@ -282,6 +298,10 @@ public class PolyFunction implements RealRootDerivFunction {
 
 		return true;
 
+	}
+
+	public boolean hasZeroRoot() {
+		return coeffs.length > 0 && Kernel.isZero(coeffs[0]);
 	}
 
 	/*
