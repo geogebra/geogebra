@@ -120,13 +120,13 @@ model {
             target('androideabi') {
                 cppCompiler.executable 'arm-linux-androideabi-g++'
                 linker.executable 'arm-linux-androideabi-g++'
-            }
+                }
             target('androidx86') {
                 cppCompiler.executable 'i686-linux-android-g++'
                 linker.executable 'i686-linux-android-g++'
+                }
             }
         }
-	}
     components {
         // giac static libary
         giac(NativeLibrarySpec) {
