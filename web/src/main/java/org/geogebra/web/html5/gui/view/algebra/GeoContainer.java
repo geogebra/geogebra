@@ -36,7 +36,9 @@ public interface GeoContainer {
 
 	public App getApplication();
 
-	public void typing(boolean heuristic, int code);
+	public void typing(boolean heuristic);
+
+	public void onKeyPress(String s);
 
 	public void onBlur(BlurEvent be);
 

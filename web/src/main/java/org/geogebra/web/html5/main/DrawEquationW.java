@@ -615,9 +615,9 @@ public class DrawEquationW extends DrawEquation {
 								}
 							} else {
 								if ((code == 8) || (code == 32) || (code == 9)) { // backspace
-									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(ZI)(false, code);
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(false);
 								} else {
-									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(ZI)(true, code);
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(true);
 								}
 								// it would be counterproductive to call autoScroll and history popup
 								// after the editing/new formula creation ends! so put their code here
@@ -638,12 +638,14 @@ public class DrawEquationW extends DrawEquation {
 							event.preventDefault();
 							return false;
 						})
-				.keypress(function(event2) {
-					// the main reason of calling stopPropagation here
-					// is to prevent calling preventDefault later
-					// code style is not by me, but automatic formatting
-					event2.stopPropagation();
-				})
+				.keypress(
+						function(event2) {
+							rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onKeyPress(Ljava/lang/String;)(String.fromCharCode(event2.charCode));
+							// the main reason of calling stopPropagation here
+							// is to prevent calling preventDefault later
+							// code style is not by me, but automatic formatting
+							event2.stopPropagation();
+						})
 				.keydown(function(event3) {
 					// to prevent focus moving away
 					event3.stopPropagation();
@@ -886,7 +888,7 @@ public class DrawEquationW extends DrawEquation {
 				// it might be backspace! but maybe we have to wait for it...
 				setTimeout(function() {
 					// first trying to wait for just a little
-					rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(ZI)(false,0);
+					rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(false);
 				});
 			}
 		}
@@ -932,7 +934,8 @@ public class DrawEquationW extends DrawEquation {
 				// it might be a lot of kinds of keys that add! but maybe we have to wait for it...
 				setTimeout(function() {
 					// first trying to wait for just a little
-					rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(ZI)(true, charcode);
+					rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(true);
+					rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onKeyPress(Ljava/lang/String;)(String.fromCharCode(charcode));
 				});
 			}
 		}
@@ -1132,9 +1135,9 @@ public class DrawEquationW extends DrawEquation {
 
 		if (rbti) {
 			if (latex) {
-				rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(ZI)(true,0);
+				rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(true);
 			} else {
-				rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(ZI)(false,0);
+				rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(false);
 			}
 		}
 	}-*/;

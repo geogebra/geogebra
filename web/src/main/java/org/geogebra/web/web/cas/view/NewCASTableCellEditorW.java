@@ -341,25 +341,8 @@ public class NewCASTableCellEditorW extends Label implements
 		return false;
 	}
 
-	public void typing(boolean heuristic, int code) {
-		String input =this.getInput();
-		int editingRow = table.getEditingRow();
-		if (editingRow > 0 && input != null) {
-			App.debug(input + "," + code);
-			boolean needsFocus = false;
-			if(input.equals(" ")){
-				needsFocus = ml.handleFirstLetter(' ', editingRow, this);
-			}
-			if (input.equals("()") && code == 48) {
-				needsFocus = ml.handleFirstLetter(')', editingRow, this);
-			}else if(input.trim().length()==1){
-				needsFocus = ml.handleFirstLetter(input.trim().charAt(0),
-						editingRow, this);
-			}
-			if (needsFocus) {
-				DrawEquationW.editEquationMathQuillGGB(this, seMayLaTeX, true);
-			}
-		}
+	public void typing(boolean heuristic) {
+
 		// to be overridden in NewRadioButtonTreeItem,
 		// to know whether it's empty, whether to show Xbutton
 	}
@@ -401,5 +384,22 @@ public class NewCASTableCellEditorW extends Label implements
 
 	public Element getScrollElement() {
 		return getElement();
+	}
+
+	public void onKeyPress(String s) {
+		String input = this.getInput();
+		App.debug("KEY PRESS" + input);
+		int editingRow = table.getEditingRow();
+		if (editingRow > 0 && input != null) {
+			boolean needsFocus = false;
+			if (input.equals("")) {
+				needsFocus = ml
+						.handleFirstLetter(s.charAt(0), editingRow, this);
+			}
+			if (needsFocus) {
+				DrawEquationW.editEquationMathQuillGGB(this, seMayLaTeX, true);
+			}
+		}
+
 	}
 }

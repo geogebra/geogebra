@@ -715,7 +715,7 @@ public class MyList extends ValidExpression implements ListValue,
 		} else {
 			toLaTeXString.append(" \\left\\{ ");
 
-
+			toLaTeXString.append(toLaTeXStringNoBrackets(symbolic, tpl));
 
 			toLaTeXString.append(" \\right\\} ");
 		}

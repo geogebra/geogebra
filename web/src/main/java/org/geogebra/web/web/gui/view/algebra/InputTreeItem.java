@@ -609,7 +609,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			updateGUIfocus(event == null ? this : event.getSource(), false);
 		} else {
 			// note: we are not doing this on blur!
-			typing(false, 0);
+			typing(false);
 		}
 
 		app.getSelectionManager().clearSelectedGeos();
@@ -654,7 +654,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		// then all of our three icons are visible in theory
 		// except pButton, if it is null...
 		if (!blurtrue || !emptyCase) {
-			typing(false, 0);
+			typing(false);
 		}
 	}
 
@@ -762,7 +762,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	}
 
 	@Override
-	public void typing(boolean heuristic, int code) {
+	public void typing(boolean heuristic) {
 		if (xButton != null) {
 			if (heuristic || !isEmpty()) {
 				if (pButton == null) {

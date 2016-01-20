@@ -81,6 +81,9 @@ public class PolyFunction implements RealRootDerivFunction {
 		return ret;
 	}
 
+	/**
+	 * @return copy of coeffs, skip zeros to ignore zero roots
+	 */
 	public double[] getCoeffsCopyNoTrailingZeros() {
 		int offset = 0;
 		for (int i = 0; i < coeffs.length; i++) {
@@ -300,6 +303,9 @@ public class PolyFunction implements RealRootDerivFunction {
 
 	}
 
+	/**
+	 * @return whether constant coefficient is zero
+	 */
 	public boolean hasZeroRoot() {
 		return coeffs.length > 0 && Kernel.isZero(coeffs[0]);
 	}

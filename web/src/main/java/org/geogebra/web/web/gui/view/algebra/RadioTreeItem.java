@@ -2352,7 +2352,7 @@ marblePanel, evt))) {
 	}
 
 	@Override
-	public void typing(boolean heuristic, int code) {
+	public void typing(boolean heuristic) {
 		// to be overridden in NewRadioButtonTreeItem,
 		// to know whether it's empty, whether to show Xbutton
 	}
@@ -2618,6 +2618,11 @@ marblePanel, evt))) {
 	private AlgebraDockPanelW getAlgebraDockPanel() {
 		return (AlgebraDockPanelW) app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
+
+	}
+
+	public void onKeyPress(String s) {
+		// TODO Auto-generated method stub
 
 	}
 }

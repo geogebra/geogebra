@@ -166,7 +166,9 @@ public class SelectionManager {
 
 		// notify all registered selection listeners
 		for (GeoElementSelectionListener sl : getSelectionListeners()) {
-			sl.geoElementSelected(geo, true);
+			if (sl != null) {
+				sl.geoElementSelected(geo, true);
+			}
 		}
 
 	}
