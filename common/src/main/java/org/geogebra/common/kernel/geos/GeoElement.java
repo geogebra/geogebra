@@ -7418,7 +7418,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if ((p instanceof GeoElement) && (p instanceof GeoPoint)) {
 			return distance((GeoPoint) p);
 		}
-		App.debug("TODO : distance from " + getGeoClassType()
+		Log.debug("TODO : distance from " + getGeoClassType()
 				+ " to ND point");
 		return Double.POSITIVE_INFINITY;
 	}

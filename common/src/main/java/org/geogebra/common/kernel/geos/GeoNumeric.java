@@ -53,6 +53,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -306,7 +307,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	private void setMaxFrom(GeoNumeric num) {
 		double max = num.getIntervalMax();
 		if (value > max) {
-			App.debug(value + " OVERRIDES " + max);
 			if (Math.ceil(value) < 0) {
 				max = 0;
 			} else {
@@ -331,7 +331,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	private void initScreenLocation() {
-		App.debug("[SLIDER] initScreenLocation");
 		int count = countSliders();
 		sliderPos = new SliderPosition();
 		if (isAbsoluteScreenLocActive()) {
@@ -1641,7 +1640,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 				botanaVars = new Variable[2];
 				botanaVars[0] = new Variable(true);
 				botanaVars[1] = new Variable(true);
-				App.debug("Free point " + geo.getLabelSimple() + "("
+				Log.debug("Free point " + geo.getLabelSimple() + "("
 						+ botanaVars[0] + "," + botanaVars[1] + ")");
 			}
 		}
@@ -1706,9 +1705,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		}
 		setEuclidianVisible(true);
 		setEuclidianVisible(false);
-
-		// GGB-55
-		setSliderLocation(0, 0, true);
 
 	}
 

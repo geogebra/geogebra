@@ -3448,4 +3448,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return "w";
 	}
 
+	public boolean showAutoCreatedSlidersInEV() {
+		return true;
+	}
+
 }
