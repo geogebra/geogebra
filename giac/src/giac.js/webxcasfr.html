@@ -40,7 +40,7 @@
   Giac/Xcas (c) B. Parisse, R. De Graeve, Institut Fourier, Université de Grenoble I, sous licence GPL3.
   <hr>
   <form onsubmit="setTimeout(function() {     
-		  caseval = Module.cwrap('_ZN4giac7casevalEPKc', 'string', ['string']);    
+		  caseval = Module.cwrap('_caseval', 'string', ['string']);    
 		  Module.print(entree.value+'\n  '+caseval(entree.value));}); 
 		  return false">
     Input: <input type="text" name="entree" value="factor(x^4-1)">

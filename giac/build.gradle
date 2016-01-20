@@ -407,7 +407,7 @@ task emccGiacJs (dependsOn: 'emccCompile') {
 		}
 	    linkerArgs << '-DGIAC_GGB'
 	    linkerArgs << '-o' << output
-	    linkerArgs << '-O2' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['__ZN4giac7casevalEPKc']"
+	    linkerArgs << '-O2' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['__caseval']"
 	    linkerArgs << '--closure' << '1'
 	    commandLine emccCommand
 	    args linkerArgs
