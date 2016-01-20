@@ -341,17 +341,18 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			
 			int mod = geoList.size() % rowCount;
 
-			boolean balanced = mod > rowCount - 2 || rowCount < 3;
-			while (!balanced) {
+			boolean balanced = mod == 0 || mod > rowCount - 2 || rowCount < 3;
+			while (!balanced && colCount < maxCols) {
 				rowCount--;
 				mod += colCount - 1;
 				if (mod > rowCount) {
 					colCount++;
-					mod %= rowCount;
+					mod = maxItems % rowCount;
+
 				}
 
 				Log.debug("[BALANCE] rows: " + rowCount + " mod: " + mod);
-				balanced = mod > rowCount - 2 || rowCount < 3;
+				balanced = mod == 0 || mod > rowCount - 2 || rowCount < 3;
 			}
 
 			return colCount < maxCols || balanced;
