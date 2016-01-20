@@ -140,8 +140,8 @@ model {
                 cppCompiler.define "HAVE_NO_HOME_DIRECTORY"
                 cppCompiler.define "VERSION", '"1.1.3"'
                 cppCompiler.define "TIMEOUT"
-        	}
-        }
+                }
+            }
 
         minigiac(NativeExecutableSpec) {
             binaries.all {
@@ -149,17 +149,16 @@ model {
                 linker.args '-lgmp', '-lmpfr', '-lpthread'
                 cppCompiler.define 'IN_GIAC'
                 cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
-        	cppCompiler.define 'HAVE_CONFIG_H'
+                cppCompiler.define 'HAVE_CONFIG_H'
                 cppCompiler.define 'HAVE_UNISTD_H'
                 cppCompiler.define 'GIAC_GGB'
-        	}
+                }
             sources.all {
                 source {
                     srcDirs 'src/giac/cpp', 'src/minigiac/cpp'
-            	    }
-		}
-
-        }
+                    }
+                }
+            }
 
         javagiac(NativeLibrarySpec) {
             targetPlatform 'win32'
