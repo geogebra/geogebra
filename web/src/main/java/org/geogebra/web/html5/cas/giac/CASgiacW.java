@@ -141,7 +141,7 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 			$wnd.console.log("js giac  input:" + s);
 		}
 
-		caseval = $wnd.__ggb__giac.cwrap('_ZN4giac7casevalEPKc', 'string',
+		caseval = $wnd.__ggb__giac.cwrap('_caseval', 'string',
 				[ 'string' ]);
 
 		var ret = caseval(s);
