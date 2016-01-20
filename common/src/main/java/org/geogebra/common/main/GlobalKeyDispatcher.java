@@ -348,7 +348,8 @@ public abstract class GlobalKeyDispatcher {
 				// event.isShiftDown() doesn't work if NumLock on
 				// however .isAltDown() stops AltGr-3 from working (^ on
 				// Croatian keyboard)
-				if (isShiftDown && app.getGuiManager() != null) { // ||
+				if (isShiftDown && app.getGuiManager() != null
+						&& app.supportsView(App.VIEW_EUCLIDIAN3D)) { // ||
 																	// event.isAltDown())
 																	// {
 					app.getGuiManager()
@@ -386,7 +387,8 @@ public abstract class GlobalKeyDispatcher {
 
 			case K:
 				if (isShiftDown) {
-					if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					if (app.isUsingFullGui() && app.getGuiManager() != null
+							&& app.supportsView(App.VIEW_CAS)) {
 						app.getGuiManager().setShowView(
 								!app.getGuiManager().showView(App.VIEW_CAS),
 								App.VIEW_CAS);
