@@ -440,7 +440,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		// inputField.setDictionary(getCommandDictionary());
 
-		examWelcome();
+		notifyLocalizationLoaded();
+	}
+
+	public void notifyLocalizationLoaded() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -1612,11 +1617,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}-*/;
 
-	/**
-	 * Pops up a welcome message for the exam mode.
-	 */
-	public void examWelcome() {
-	}
 
 	protected GOptionPaneW getOptionPane() {
 		// TODO Auto-generated method stub

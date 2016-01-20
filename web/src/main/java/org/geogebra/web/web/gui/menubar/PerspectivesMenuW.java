@@ -8,6 +8,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -61,6 +62,7 @@ public class PerspectivesMenuW extends GMenuBar {
 						@Override
 						public void doExecute() {
 							setPerspective(index);
+							((AppWFull) app).showStartTooltip(index);
 						}
 			});			
 		}

@@ -15,6 +15,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.export.PrintPreviewW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -230,7 +231,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				app.getGgbApi().setPerspective("1");
 				app.getGuiManager().resetMenu();
 
-				app.examWelcome();
+				((AppWFull) app).examWelcome();
 
 			}
 		};

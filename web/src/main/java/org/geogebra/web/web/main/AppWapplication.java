@@ -131,8 +131,13 @@ public class AppWapplication extends AppWFull {
 		        && this.getArticleElement().getDataParamBase64String().length() == 0
 				&& this.getArticleElement().getDataParamJSON().length() == 0
 				&& this.getExam() == null) {
-			((DialogManagerW) getDialogManager())
-			        .showRecoverAutoSavedDialog(this);
+			afterLocalizationLoaded(new Runnable() {
+
+				public void run() {
+					((DialogManagerW) getDialogManager())
+							.showRecoverAutoSavedDialog(AppWapplication.this);
+				}
+			});
 		} else {
 			this.startAutoSave();
 		}

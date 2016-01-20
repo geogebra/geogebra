@@ -75,8 +75,18 @@ public abstract class AppWFull extends AppW {
 	private CustomizeToolbarGUI ct;
 	// maybe this is unnecessary, just I did not want to make error here
 	boolean infiniteLoopPreventer = false;
+	private ArrayList<Runnable> waitingForLocalization;
+	private boolean localizationLoaded;
 	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super(ae, dimension, laf);
+		if (this.isExam()) {
+			afterLocalizationLoaded(new Runnable() {
+
+				public void run() {
+					examWelcome();
+				}
+			});
+		}
 	}
 
 	@Override
@@ -173,8 +183,34 @@ public abstract class AppWFull extends AppW {
 
 	}
 
+	public void notifyLocalizationLoaded() {
+		for (Runnable run : waitingForLocalization) {
+			run.run();
+		}
+		waitingForLocalization.clear();
+	}
+	public void afterLocalizationLoaded(Runnable run) {
+		if (localizationLoaded) {
+			run.run();
+		} else {
+			if (waitingForLocalization == null) {
+				waitingForLocalization = new ArrayList<Runnable>();
+			}
+			waitingForLocalization.add(run);
+		}
+	}
+
 	@Override
-	public void showStartTooltip(int perspID) {
+	public void showStartTooltip(final int perspID) {
+		afterLocalizationLoaded(new Runnable() {
+
+			public void run() {
+				doShowStartTooltip(perspID);
+			}
+		});
+	}
+
+	void doShowStartTooltip(int perspID) {
 		String[] tutorials = new String[] { "graphing", "graphing", "geometry",
 				"spreadsheet",
 				"cas", "3d", "probability" };
@@ -327,7 +363,9 @@ public abstract class AppWFull extends AppW {
 	}
 
 
-	@Override
+	/**
+	 * Popup exam welcome message
+	 */
 	public void examWelcome(){
 
 		if (isExam() && getExam().getStart() < 0) {
