@@ -76,7 +76,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 			// get polynomial factors and calc roots
 			calcRoots(intervalFun, 0);
 		} else {
-			curRealRoots = 0;
+			solution.resetRoots();
 		}
 	}
 

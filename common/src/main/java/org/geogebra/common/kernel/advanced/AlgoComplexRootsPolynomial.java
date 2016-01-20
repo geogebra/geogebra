@@ -24,7 +24,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 
 		computeComplexRoots();
 
-		setRootPoints(curRoots, curComplexRoots, curRealRoots);
+		setRootPoints(solution.curRoots, curComplexRoots, solution.curRealRoots);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 			// get polynomial factors anc calc roots
 			calcComplexRoots(fun);
 		} else {
-			curRealRoots = 0;
+			solution.resetRoots();
 		}
 	}
 
@@ -52,7 +52,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 
 		double[] real, complex;
 		int noOfRoots;
-		curRealRoots = 0; // reset curRoots index
+		solution.resetRoots(); // reset solution.curRoots index
 
 		// we got a list of polynomial factors
 		if (factorList != null) {
@@ -65,7 +65,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 				// (this is needed for SymbolicPolyFunction objects)
 				if (!polyFun.updateCoeffValues()) {
 					// current coefficients are not defined
-					curRealRoots = 0;
+					solution.curRealRoots = 0;
 					return;
 				}
 
@@ -80,41 +80,43 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 			return;
 
 		/*
-		 * if (curRealRoots > 1) { // sort roots and eliminate duplicate ones
-		 * Arrays.sort(curRoots, 0, curRealRoots);
+		 * if (solution.curRealRoots > 1) { // sort roots and eliminate
+		 * duplicate ones Arrays.sort(solution.curRoots, 0,
+		 * solution.curRealRoots);
 		 * 
-		 * // eliminate duplicate roots double maxRoot = curRoots[0]; int
-		 * maxIndex = 0; for (int i = 1; i < curRealRoots; i++) { if
-		 * ((curRoots[i] - maxRoot) > AbstractKernel.MIN_PRECISION) { maxRoot =
-		 * curRoots[i]; maxIndex++; curRoots[maxIndex] = maxRoot; } }
-		 * curRealRoots = maxIndex + 1; }
+		 * // eliminate duplicate roots double maxRoot = solution.curRoots[0];
+		 * int maxIndex = 0; for (int i = 1; i < solution.curRealRoots; i++) {
+		 * if ((solution.curRoots[i] - maxRoot) > AbstractKernel.MIN_PRECISION)
+		 * { maxRoot = solution.curRoots[i]; maxIndex++;
+		 * solution.curRoots[maxIndex] = maxRoot; } } solution.curRealRoots =
+		 * maxIndex + 1; }
 		 */
 
 	}
 
 	// add first number of doubles in roots to current roots
 	private void addToCurrentRoots(double[] real, double[] complex, int number) {
-		int length = curRealRoots + number;
-		if (length >= curRoots.length) { // ensure space
+		int length = solution.curRealRoots + number;
+		if (length >= solution.curRoots.length) { // ensure space
 			double[] temp = new double[2 * length];
 			double[] temp2 = new double[2 * length];
-			for (int i = 0; i < curRealRoots; i++) {
-				temp[i] = curRoots[i];
+			for (int i = 0; i < solution.curRealRoots; i++) {
+				temp[i] = solution.curRoots[i];
 				temp2[i] = curComplexRoots[i];
 			}
-			curRoots = temp;
+			solution.curRoots = temp;
 			curComplexRoots = temp2;
 		}
 
 		if (curComplexRoots == null)
-			curComplexRoots = new double[curRoots.length];
+			curComplexRoots = new double[solution.curRoots.length];
 
 		// insert new roots
 		for (int i = 0; i < number; i++) {
-			curRoots[curRealRoots + i] = real[i];
-			curComplexRoots[curRealRoots + i] = complex[i];
+			solution.curRoots[solution.curRealRoots + i] = real[i];
+			curComplexRoots[solution.curRealRoots + i] = complex[i];
 		}
-		curRealRoots += number;
+		solution.curRealRoots += number;
 	}
 
 	// roots array and number of roots

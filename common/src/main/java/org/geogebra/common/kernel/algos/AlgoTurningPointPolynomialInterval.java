@@ -66,10 +66,10 @@ public class AlgoTurningPointPolynomialInterval extends
 			// (roots without change of sign are removed)
 			calcRoots(yValFunction, 2);
 		} else {
-			curRealRoots = 0;
+			solution.resetRoots();
 		}
 
-		setRootPoints(curRoots, curRealRoots);
+		setRootPoints(solution.curRoots, solution.curRealRoots);
 
 		// remove points that aren't in the interval
 		for (int i = 0; i < rootPoints.length; i++) {

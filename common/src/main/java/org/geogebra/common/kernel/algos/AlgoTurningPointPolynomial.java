@@ -53,10 +53,10 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 			// (roots without change of sign are removed)
 			calcRoots(yValFunction, 2);
 		} else {
-			curRealRoots = 0;
+			solution.resetRoots();
 		}
 
-		setRootPoints(curRoots, curRealRoots);
+		setRootPoints(solution.curRoots, solution.curRealRoots);
 	}
 
 	@Override

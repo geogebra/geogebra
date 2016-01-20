@@ -2,8 +2,6 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
@@ -11,7 +9,6 @@ import org.geogebra.common.kernel.EquationSolverInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -38,10 +35,9 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 
 	protected Function yValFunction;
 	protected EquationSolverInterface eqnSolver;
+	private final Solution solution = new Solution();
 
 
-	private double[] curRoots = new double[30]; // current roots
-	private int curRealRoots;
 
 	private Function diffFunction;
 	private GeoPoint tempPoint;
@@ -105,7 +101,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 		diffFunction = new Function(kernel);
 		tempPoint = new GeoPoint(getConstruction());
 		eqnSolver = cons.getKernel().getEquationSolver();
-		curRealRoots = 0;
+		solution.resetRoots();
 
 		outputPoints = this.createOutputPoints();
 	}
@@ -129,9 +125,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 
 			// check for vertical line a*x + c = 0: intersection at x=-c/a
 			if (Kernel.isZero(seg.y)) {
-				double x = -seg.z / seg.x;
-				curRoots[0] = x;
-				curRealRoots = 1;
+				solution.setSingleRoot(-seg.z / seg.x);
 			}
 			// standard case
 			else {
@@ -144,8 +138,9 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 			// this is important for segments and rays
 			// Zbynek Konecny 2010-02-12 -- following must be done for both
 			// vertical and standard
-			for (int i = 0; i < curRealRoots; i++) {
-				tempPoint.setCoords(curRoots[i], func.evaluate(curRoots[i]),
+			for (int i = 0; i < solution.curRealRoots; i++) {
+				tempPoint.setCoords(solution.curRoots[i],
+						func.evaluate(solution.curRoots[i]),
 						1.0);
 				if (seg.isOnPath(tempPoint,
 						Kernel.MIN_PRECISION)) {
@@ -155,170 +150,56 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 			}
 			// end Zbynek Konecny
 		} else {
-			curRealRoots = 0;
+			solution.curRealRoots = 0;
 		}
 	}
 
 	// add first number of doubles in roots to current roots
-	private void addToCurrentRoots(double[] roots, int number) {
-		int length = curRealRoots + number;
-		if (length >= curRoots.length) { // ensure space
-			double[] temp = new double[2 * length];
-			for (int i = 0; i < curRealRoots; i++) {
-				temp[i] = curRoots[i];
-			}
-			curRoots = temp;
-		}
 
-		// insert new roots
-		for (int i = 0; i < number; i++) {
-			curRoots[curRealRoots + i] = roots[i];
-		}
-		curRealRoots += number;
-	}
 
-	final private void removeRoot(int pos) {
-		for (int i = pos + 1; i < curRealRoots; i++) {
-			curRoots[i - 1] = curRoots[i];
-		}
-		curRealRoots--;
-	}
+
 
 	/**
 	 * Calculates the roots of the given function resp. its derivative, stores
-	 * them in curRoots and sets curRealRoots to the number of real roots found.
+	 * them in solution.curRoots and sets solution.curRealRoots to the number of
+	 * real roots found.
 	 * 
 	 * @param derivDegree
 	 *            degree of derivative to compute roots from
 	 */
 	public final void calcRoots(Function fun, int derivDegree) {
-		RealRootFunction evalFunction = calcRootsMultiple(fun, derivDegree);
+		RealRootFunction evalFunction = AlgoRootsPolynomial.calcRootsMultiple(
+				fun, derivDegree, solution, eqnSolver);
 
-		if (curRealRoots > 1) {
+		if (solution.curRealRoots > 1) {
 			// sort roots and eliminate duplicate ones
-			Arrays.sort(curRoots, 0, curRealRoots);
+			Arrays.sort(solution.curRoots, 0, solution.curRealRoots);
 
 			// eliminate duplicate roots
-			double maxRoot = curRoots[0];
+			double maxRoot = solution.curRoots[0];
 			int maxIndex = 0;
-			for (int i = 1; i < curRealRoots; i++) {
-				if ((curRoots[i] - maxRoot) > Kernel.MIN_PRECISION) {
-					maxRoot = curRoots[i];
+			for (int i = 1; i < solution.curRealRoots; i++) {
+				if ((solution.curRoots[i] - maxRoot) > Kernel.MIN_PRECISION) {
+					maxRoot = solution.curRoots[i];
 					maxIndex++;
-					curRoots[maxIndex] = maxRoot;
+					solution.curRoots[maxIndex] = maxRoot;
 				}
 			}
-			curRealRoots = maxIndex + 1;
+			solution.curRealRoots = maxIndex + 1;
 		}
 
 		// for first or second derivative we only
 		// want roots where the signs changed
 		// i.e. we only want extrema and inflection points
 		if (derivDegree > 0) {
-			ensureSignChanged(evalFunction);
+			solution.ensureSignChanged(evalFunction, DELTA);
 		}
-	}
-
-	public RealRootFunction calcRootsMultiple(Function fun, int derivDegree) {
-		LinkedList<PolyFunction> factorList;
-		PolyFunction derivPoly = null;// only needed for derivatives
-		RealRootFunction evalFunction = null; // needed to remove wrong extrema
-												// and inflection points
-
-		// get polynomial factors for this function
-		if (derivDegree > 0) {
-			// try to get the factors of the symbolic derivative
-			factorList = fun.getSymbolicPolynomialDerivativeFactors(
-					derivDegree, true);
-
-			// if this didn't work take the derivative of the numeric
-			// expansion of this function
-			if (factorList == null) {
-				derivPoly = fun.getNumericPolynomialDerivative(derivDegree,
-						false);
-				evalFunction = derivPoly;
-			} else {
-				evalFunction = fun.getDerivative(derivDegree, true);
-			}
-		} else {
-			// standard case
-			factorList = fun.getPolynomialFactors(false);
-		}
-
-		double[] roots;
-		int realRoots;
-		curRealRoots = 0; // reset curRoots index
-
-		// we got a list of polynomial factors
-		if (factorList != null) {
-			// compute the roots of every single factor
-			Iterator<PolyFunction> it = factorList.iterator();
-			while (it.hasNext()) {
-				PolyFunction polyFun = it.next();
-
-				// update the current coefficients of polyFun
-				// (this is needed for SymbolicPolyFunction objects)
-				if (!polyFun.updateCoeffValues()) {
-					// current coefficients are not defined
-					curRealRoots = 0;
-					return null;
-				}
-
-				// now let's compute the roots of this factor
-				// compute all roots of polynomial polyFun
-				roots = polyFun.getCoeffsCopy();
-				realRoots = eqnSolver.polynomialRoots(roots, true);
-				addToCurrentRoots(roots, realRoots);
-			}
-		}
-		// we've got one factor, i.e. derivPoly
-		else if (derivPoly != null) {
-			// compute all roots of derivPoly
-			roots = derivPoly.getCoeffsCopy();
-			realRoots = eqnSolver.polynomialRoots(roots, false);
-			addToCurrentRoots(roots, realRoots);
-		} else
-			return null;
-		if (curRealRoots > 1)
-			Arrays.sort(curRoots, 0, curRealRoots);
-		return evalFunction;
-
 	}
 
 	private static final double DELTA = Kernel.MIN_PRECISION * 10;
 
 	// remove roots where the sign of the function's values did not change
-	private void ensureSignChanged(RealRootFunction f) {
-		double left, right, leftEval, rightEval;
-		boolean signUnChanged;
-		for (int i = 0; i < curRealRoots; i++) {
-			left = curRoots[i] - DELTA;
-			right = curRoots[i] + DELTA;
-			// ensure we get a non-zero y value to the left
-			int count = 0;
-			while (Math.abs(leftEval = f.evaluate(left)) < DELTA
-					&& count++ < 100)
-				left = left - DELTA;
 
-			// ensure we get a non-zero y value to the right
-			count = 0;
-			while (Math.abs(rightEval = f.evaluate(right)) < DELTA
-					&& count++ < 100)
-				right = right + DELTA;
-
-			// Application.debug("leftEval: " + leftEval + ", left: " + left);
-			// Application.debug("rightEval: " + rightEval + ", right: " +
-			// right);
-
-			// check if the second derivative changed its sign here
-			signUnChanged = leftEval * rightEval > 0;
-			if (signUnChanged) {
-				// remove root[i]
-				removeRoot(i);
-				i--;
-			}
-		}
-	}
 
 	/**
 	 * 
@@ -363,7 +244,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 		// calculate intersectpaths between poly and conic
 		for (int index = 0; index < segCountOfPoly; index++) {
 
-			curRealRoots = 0;
+			solution.resetRoots();
 
 			tempSegEndPoints[0] = getPoly().getPoint(index);
 			tempSegEndPoints[1] = getPoly().getPoint(

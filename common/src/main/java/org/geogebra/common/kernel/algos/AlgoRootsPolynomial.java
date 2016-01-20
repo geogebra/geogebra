@@ -52,8 +52,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	private boolean initLabels;
 	protected boolean setLabels;
 	protected EquationSolverInterface eqnSolver;
-	protected double[] curRoots = new double[30]; // current roots
-	protected int curRealRoots;
+	protected final Solution solution = new Solution();
 
 	protected Function yValFunction;
 	// used for AlgoExtremumPolynomial, see setRootPoints()
@@ -250,9 +249,9 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			if (f.isDefined()) {
 				Function fun = f.getFunction();
 				// get polynomial factors anc calc roots
-				calcRootsMultiple(fun, 0);
+				calcRootsMultiple(fun, 0, solution, eqnSolver);
 			} else {
-				curRealRoots = 0;
+				solution.resetRoots();
 			}
 			break;
 		case INTERSECT_POLYNOMIALS:
@@ -266,7 +265,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			break;
 		}
 
-		setRootPoints(curRoots, curRealRoots);
+		setRootPoints(solution.curRoots, solution.curRealRoots);
 	}
 
 	// roots of f
@@ -276,7 +275,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// get polynomial factors anc calc roots
 			calcRoots(fun, 0);
 		} else {
-			curRealRoots = 0;
+			solution.resetRoots();
+			;
 		}
 	}
 
@@ -290,17 +290,17 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 			// check if the intersection points are really on the functions
 			// due to interval restrictions this might not be the case
-			for (int i = 0; i < curRealRoots; i++) {
-				if (!Kernel.isEqual(f.evaluate(curRoots[i]),
-						g.evaluate(curRoots[i]), Kernel.MIN_PRECISION)) {
-					removeRoot(i);
+			for (int i = 0; i < solution.curRealRoots; i++) {
+				if (!Kernel.isEqual(f.evaluate(solution.curRoots[i]),
+						g.evaluate(solution.curRoots[i]), Kernel.MIN_PRECISION)) {
+					solution.removeRoot(i);
 					i--;
 				}
 
 			}
 
 		} else {
-			curRealRoots = 0;
+			solution.resetRoots();
 		}
 	}
 
@@ -311,9 +311,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 			// check for vertical line a*x + c = 0: intersection at x=-c/a
 			if (Kernel.isZero(line.y)) {
-				double x = -line.z / line.x;
-				curRoots[0] = x;
-				curRealRoots = 1;
+				solution.setSingleRoot(-line.z / line.x);
 			}
 			// standard case
 			else {
@@ -326,56 +324,61 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// this is important for segments and rays
 			// Zbynek Konecny 2010-02-12 -- following must be done for both
 			// vertical and standard
-			for (int i = 0; i < curRealRoots; i++) {
-				tempPoint.setCoords(curRoots[i], f.evaluate(curRoots[i]), 1.0);
+			for (int i = 0; i < solution.curRealRoots; i++) {
+				tempPoint.setCoords(solution.curRoots[i],
+						f.evaluate(solution.curRoots[i]), 1.0);
 				if (!line.isIntersectionPointIncident(tempPoint,
 						Kernel.MIN_PRECISION)) {
-					removeRoot(i);
+					solution.removeRoot(i);
 					i--;
 				}
 			}
 			// end Zbynek Konecny
 		} else {
-			curRealRoots = 0;
+			solution.curRealRoots = 0;
 		}
 	}
 
 	/**
 	 * Calculates the roots of the given function resp. its derivative, stores
-	 * them in curRoots and sets curRealRoots to the number of real roots found.
+	 * them in solution.curRoots and sets solution.curRealRoots to the number of
+	 * real roots found.
 	 * 
 	 * @param derivDegree
 	 *            degree of derivative to compute roots from
 	 */
 	public final void calcRoots(Function fun, int derivDegree) {
-		RealRootFunction evalFunction = calcRootsMultiple(fun, derivDegree);
+		RealRootFunction evalFunction = calcRootsMultiple(fun, derivDegree,
+				solution, eqnSolver);
 
-		if (curRealRoots > 1) {
+		if (solution.curRealRoots > 1) {
 			// sort roots and eliminate duplicate ones
-			Arrays.sort(curRoots, 0, curRealRoots);
+			Arrays.sort(solution.curRoots, 0, solution.curRealRoots);
 
 			// eliminate duplicate roots
-			double maxRoot = curRoots[0];
+			double maxRoot = solution.curRoots[0];
 			int maxIndex = 0;
-			for (int i = 1; i < curRealRoots; i++) {
-				if ((curRoots[i] - maxRoot) > Kernel.MIN_PRECISION) {
-					maxRoot = curRoots[i];
+			for (int i = 1; i < solution.curRealRoots; i++) {
+				if ((solution.curRoots[i] - maxRoot) > Kernel.MIN_PRECISION) {
+					maxRoot = solution.curRoots[i];
 					maxIndex++;
-					curRoots[maxIndex] = maxRoot;
+					solution.curRoots[maxIndex] = maxRoot;
 				}
 			}
-			curRealRoots = maxIndex + 1;
+			solution.curRealRoots = maxIndex + 1;
 		}
 
 		// for first or second derivative we only
 		// want roots where the signs changed
 		// i.e. we only want extrema and inflection points
 		if (derivDegree > 0) {
-			ensureSignChanged(evalFunction);
+			solution.ensureSignChanged(evalFunction, DELTA);
 		}
 	}
 
-	public RealRootFunction calcRootsMultiple(Function fun, int derivDegree) {
+	public static RealRootFunction calcRootsMultiple(Function fun,
+			int derivDegree, Solution solution,
+			EquationSolverInterface eqnSolver) {
 		LinkedList<PolyFunction> factorList;
 		PolyFunction derivPoly = null;// only needed for derivatives
 		RealRootFunction evalFunction = null; // needed to remove wrong extrema
@@ -403,7 +406,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 		double[] roots;
 		int realRoots;
-		curRealRoots = 0; // reset curRoots index
+		solution.curRealRoots = 0; // reset solution.curRoots index
 
 		// we got a list of polynomial factors
 		if (factorList != null) {
@@ -416,7 +419,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 				// (this is needed for SymbolicPolyFunction objects)
 				if (!polyFun.updateCoeffValues()) {
 					// current coefficients are not defined
-					curRealRoots = 0;
+					solution.curRealRoots = 0;
 					return null;
 				}
 
@@ -424,7 +427,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 				// compute all roots of polynomial polyFun
 				roots = polyFun.getCoeffsCopy();
 				realRoots = eqnSolver.polynomialRoots(roots, true);
-				addToCurrentRoots(roots, realRoots);
+				solution.addToCurrentRoots(roots, realRoots);
 			}
 		}
 		// we've got one factor, i.e. derivPoly
@@ -432,74 +435,21 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// compute all roots of derivPoly
 			roots = derivPoly.getCoeffsCopy();
 			realRoots = eqnSolver.polynomialRoots(roots, false);
-			addToCurrentRoots(roots, realRoots);
+			solution.addToCurrentRoots(roots, realRoots);
 		} else
 			return null;
-		if (curRealRoots > 1)
-			Arrays.sort(curRoots, 0, curRealRoots);
+		if (solution.curRealRoots > 1)
+			Arrays.sort(solution.curRoots, 0, solution.curRealRoots);
 		return evalFunction;
 
 	}
 
-	// remove roots where the sign of the function's values did not change
-	private void ensureSignChanged(RealRootFunction f) {
-		double left, right, leftEval, rightEval;
-		boolean signUnChanged;
-		for (int i = 0; i < curRealRoots; i++) {
-			left = curRoots[i] - DELTA;
-			right = curRoots[i] + DELTA;
-			// ensure we get a non-zero y value to the left
-			int count = 0;
-			while (Math.abs(leftEval = f.evaluate(left)) < DELTA
-					&& count++ < 100)
-				left = left - DELTA;
-
-			// ensure we get a non-zero y value to the right
-			count = 0;
-			while (Math.abs(rightEval = f.evaluate(right)) < DELTA
-					&& count++ < 100)
-				right = right + DELTA;
-
-			// Application.debug("leftEval: " + leftEval + ", left: " + left);
-			// Application.debug("rightEval: " + rightEval + ", right: " +
-			// right);
-
-			// check if the second derivative changed its sign here
-			signUnChanged = leftEval * rightEval > 0;
-			if (signUnChanged) {
-				// remove root[i]
-				removeRoot(i);
-				i--;
-			}
-		}
-	}
 
 	private static final double DELTA = Kernel.MIN_PRECISION * 10;
 
-	// add first number of doubles in roots to current roots
-	private void addToCurrentRoots(double[] roots, int number) {
-		int length = curRealRoots + number;
-		if (length >= curRoots.length) { // ensure space
-			double[] temp = new double[2 * length];
-			for (int i = 0; i < curRealRoots; i++) {
-				temp[i] = curRoots[i];
-			}
-			curRoots = temp;
-		}
 
-		// insert new roots
-		for (int i = 0; i < number; i++) {
-			curRoots[curRealRoots + i] = roots[i];
-		}
-		curRealRoots += number;
-	}
 
-	final private void removeRoot(int pos) {
-		for (int i = pos + 1; i < curRealRoots; i++) {
-			curRoots[i - 1] = curRoots[i];
-		}
-		curRealRoots--;
-	}
+
 
 	// roots array and number of roots
 	protected final void setRootPoints(double[] roots, int number) {
