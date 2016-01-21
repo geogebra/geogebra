@@ -52,7 +52,6 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -1888,12 +1887,12 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				}
 				success = result != null;
 			} catch (CASException e) {
-				App.error("GeoCasCell.computeOutput(), CAS eval: "
+				Log.error("GeoCasCell.computeOutput(), CAS eval: "
 						+ evalVE + "\n\terror: " + e.getMessage());
 				success = false;
 				ce = e;
 			} catch (Exception e) {
-				App.error("GeoCasCell.computeOutput(), CAS eval: " + evalVE
+				Log.error("GeoCasCell.computeOutput(), CAS eval: " + evalVE
 						+ "\n\t " + e);
 				e.printStackTrace();
 				success = false;
@@ -1982,6 +1981,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		// but DO wrap f'(x+1) or f'(3) as it may simplify
 		if (arg.unwrap() instanceof ExpressionNode) {
 			ExpressionNode en = (ExpressionNode) arg.unwrap();
+			if (en.getOperation() == Operation.EQUAL_BOOLEAN) {
+				return arg;
+			}
 			if ((en.getOperation().equals(Operation.FUNCTION) ||
 					en.getOperation().equals(Operation.FUNCTION_NVAR))
 					&& en.getLeft() instanceof ExpressionNode) {
@@ -2007,7 +2009,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			// eg x+x=y+y
 			en = new ExpressionNode(kernel, arg.unwrap(), Operation.NO_OPERATION, null);
 		}
-
+		Log.debug(en);
+		Log.debug("WRAPPING");
 		Command c= new Command(kernel, "Evaluate", false);
 		c.addArgument(en);
 		ExpressionNode expr = c.wrap();
@@ -2519,7 +2522,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			if (subst != null && !subst.sendValueToCas) {
 				return false;
 			}
-			App.debug("DUMMY"+geo);
 			return true;
 		}
 		if (geo.isGeoList()) {
@@ -2741,7 +2743,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			clearStrings();
 			cons.addToConstructionList(twinGeo, true);
 		} else {
-			App.debug("Fail" + oldEvalComment);
+			Log.debug("Fail" + oldEvalComment);
 			if (twinGeo != null && twinGeo.getLabelSimple() != null)
 				twinGeo.doRemove();
 			// plot failed, undo assignment
