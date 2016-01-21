@@ -1997,7 +1997,15 @@ kernel, left,
 					sb.append(strVECTORPRODUCT);
 				}
 				sb.append(' ');
-				tpl.append(sb, rightStr, right, operation);
+				boolean rightVectorProduct = right.isExpressionNode()
+						&& ((ExpressionNode) right).getOperation() == Operation.VECTORPRODUCT;
+				if (rightVectorProduct) {
+					sb.append(tpl.leftBracket());
+					sb.append(rightStr);
+					sb.append(tpl.rightBracket());
+				} else {
+					tpl.append(sb, rightStr, right, operation);
+				}
 				// sb.append(rightStr);
 			}
 			break;
