@@ -72,6 +72,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private DrawOptions drawOptions;
 
 	private class DrawOptions {
+		private static final int BOTTOM_MARGIN = 5;
+
+		private static final int ROUND = 8;
+
 		private static final int MAX_COLS_NO_FONT_CHANGE = 5;
 
 		private class OptionItem {
@@ -191,9 +195,17 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			int rectLeft = (int) item.rect.getBounds().getX();
 			int rectTop = (int) item.rect.getBounds().getY();
 
-			g2.setColor(hover ? hoverColor : geoList.getBackgroundColor());
-			g2.fillRect(rectLeft, rectTop, dimItem.getWidth(),
+			if (hover) {
+				g2.setColor(hoverColor);
+				g2.fillRoundRect(rectLeft, rectTop, dimItem.getWidth(),
+						dimItem.getHeight(), ROUND, ROUND);
+
+			} else {
+				g2.setColor(geoList.getBackgroundColor());
+				g2.fillRect(rectLeft, rectTop, dimItem.getWidth(),
 						dimItem.getHeight());
+
+			}
 
 			// item rectangle drawing for debug.
 			// g2.setPaint(GColor.ORANGE);
@@ -229,9 +241,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		private void drawBox() {
 			g2.setPaint(geoList.getBackgroundColor());
-			g2.fillRect(left, top, dimTable.getWidth(), dimTable.getHeight());
+			g2.fillRoundRect(left - 1, top - 1, dimTable.getWidth() + 2,
+					dimTable.getHeight() + 2, ROUND, ROUND);
 			g2.setPaint(GColor.LIGHT_GRAY);
-			g2.drawRect(left, top, dimTable.getWidth(), dimTable.getHeight());
+			g2.drawRoundRect(left - 1, top - 1, dimTable.getWidth() + 2,
+					dimTable.getHeight() + 2, ROUND, ROUND);
 
 		}
 
@@ -303,8 +317,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					getColCount() * dimItem.getWidth(),
 					rowCount * dimItem.getHeight());
 
-			if (top + dimTable.getHeight() > view.getHeight()) {
-				top = (view.getHeight() - dimTable.getHeight());
+			if (top + dimTable.getHeight() + BOTTOM_MARGIN > view.getHeight()) {
+				top = (view.getHeight() - dimTable.getHeight() - BOTTOM_MARGIN);
 			}
 
 			if (left + dimTable.getWidth() > view.getWidth()) {
@@ -338,10 +352,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			setColCount(maxItems / maxRows + (maxItems % maxRows == 0 ? 0 : 1));
 			rowCount = maxRows;
-			boolean balanced = true;
 
 			balanceTable();
-			return (colCount < maxCols && balanced);
+			return (colCount < maxCols);
 		}
 
 		private void balanceTable() {
@@ -370,29 +383,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			Log.debug("[BALANCE] mod: " + maxMod + " cols: " + colCount
 					+ " rows: " + rowCount);
 		}
-		//
-		// private void balanceTable() {
-		// int maxCols = view.getWidth() / dimItem.getWidth();
-		//
-		// int mod = geoList.size() % rowCount;
-		//
-		// boolean balanced = mod == 0 || mod > rowCount - 2 || rowCount < 3;
-		//
-		// while (!balanced && colCount < maxCols) {
-		// rowCount--;
-		// mod += colCount - 1;
-		// if (mod > rowCount) {
-		// colCount += mod / rowCount;
-		// mod %= rowCount;
-		// if (mod > 0) {
-		// // colCount++;
-		// }
-		// }
-		//
-		// Log.debug("[BALANCE] rows: " + rowCount + " mod: " + mod);
-		// balanced = mod == 0 || mod > rowCount - 2 || rowCount < 3;
-		// }
-		// }
 
 		private boolean fitHorizontally() {
 			return colCount * dimItem.getWidth() < view.getWidth();
