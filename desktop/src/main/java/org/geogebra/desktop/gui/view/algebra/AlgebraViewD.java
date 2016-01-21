@@ -331,22 +331,6 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 		return treeMode;
 	}
 
-	/**
-	 * @return int value for tree mode (used in XML)
-	 */
-	public int getTreeModeValue() {
-		switch (getTreeMode()) {
-		case DEPENDENCY:
-			return 0;
-		case TYPE:
-		default:
-			return 1;
-		case LAYER:
-			return 2;
-		case ORDER:
-			return 3;
-		}
-	}
 
 	public void setTreeMode(int mode) {
 		switch (mode) {
@@ -1039,7 +1023,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 		if (getTreeMode() != SortMode.TYPE) {
 			sbXML.append("\t<mode ");
 			sbXML.append("val=\"");
-			sbXML.append(getTreeModeValue());
+			sbXML.append(getTreeMode().toInt());
 			sbXML.append("\"");
 			sbXML.append("/>\n");
 		}

@@ -27,7 +27,6 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -473,7 +472,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 */
 	@Override
 	public void setTreeMode(SortMode value) {
-		Log.printStacktrace("" + value);
 		if (getTreeMode().equals(value)) {
 			return;
 		}
@@ -486,18 +484,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		kernel.notifyAddAll(this);
 		setLabels();
 	}
-
-	/**
-	 * @return int value for tree mode (used in XML)
-	 */
-	public int getTreeModeValue() {
-		return getTreeMode().ordinal();
-	}
-
-	public void setTreeMode(int mode) {
-		setTreeMode(SortMode.fromInt(mode));
-	}
-
 
 
 	/**
@@ -514,7 +500,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		if (getTreeMode() != SortMode.TYPE) {
 			sbXML.append("\t<mode ");
 			sbXML.append("val=\"");
-			sbXML.append(getTreeModeValue());
+			sbXML.append(getTreeMode().toInt());
 			sbXML.append("\"");
 			sbXML.append("/>\n");
 		}

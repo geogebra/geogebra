@@ -90,15 +90,23 @@ public interface AlgebraView extends View, SetLabels{
 			}
 			return SortMode.TYPE;
 		}
+
+		public int toInt() {
+			switch (this) {
+			case DEPENDENCY:
+				return 0;
+			case TYPE:
+				return 1;
+			case LAYER:
+				return 2;
+			case ORDER:
+				return 3;
+			}
+			return 1;
+		}
+
 	}
 	
-	/**
-	 * set tree mode from int value
-	 * @param mode int value of the mode
-	 */
-	public void setTreeMode(int mode);
-
-	public int getTreeModeValue();
 
 	public void setFocus(boolean b);
 
