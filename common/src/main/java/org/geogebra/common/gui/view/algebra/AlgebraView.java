@@ -75,6 +75,20 @@ public interface AlgebraView extends View, SetLabels{
 			public String toString() {
 				return "Layer";
 			}
+		};
+		
+		public static SortMode fromInt(int mode) {
+			switch (mode) {
+			case 0:
+				return SortMode.DEPENDENCY;
+			case 1:
+				return SortMode.TYPE;
+			case 2:
+				return SortMode.LAYER;
+			case 3:
+				return SortMode.ORDER;
+			}
+			return SortMode.TYPE;
 		}
 	}
 	

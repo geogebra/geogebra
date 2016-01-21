@@ -2,12 +2,14 @@ package org.geogebra.common.main.settings;
 
 import java.util.LinkedList;
 
+import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+
 /**
  * Settings for the algebra view.
  */
 public class AlgebraSettings extends AbstractSettings {
 
-	private int treeMode = 1;
+	private SortMode treeMode = SortMode.TYPE;
 
 	private boolean showAuxiliaryObjects = false;
 	private boolean modeChanged = false;
@@ -28,6 +30,11 @@ public class AlgebraSettings extends AbstractSettings {
 	 *            value
 	 */
 	public void setTreeMode(int val) {
+		treeMode = SortMode.fromInt(val);
+		settingChanged();
+	}
+
+	public void setTreeMode(SortMode val) {
 		treeMode = val;
 		settingChanged();
 	}
@@ -36,7 +43,7 @@ public class AlgebraSettings extends AbstractSettings {
 	 * 
 	 * @return tree mode (as int value)
 	 */
-	public int getTreeMode() {
+	public SortMode getTreeMode() {
 		return treeMode;
 	}
 
@@ -82,7 +89,7 @@ public class AlgebraSettings extends AbstractSettings {
 	 * reset the settings
 	 */
 	public void reset() {
-		treeMode = 1;
+		treeMode = SortMode.TYPE;
 		showAuxiliaryObjects = false;
 		collapsedNodes = null;
 	}

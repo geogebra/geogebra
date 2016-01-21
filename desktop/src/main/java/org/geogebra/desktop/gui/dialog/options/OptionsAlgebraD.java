@@ -87,9 +87,9 @@ public class OptionsAlgebraD extends
 					return;
 				}
 				if (sortMode.getSelectedIndex() >= 0) {
-					SortMode sort = supportedModes.get(sortMode
-							.getSelectedIndex());
-					app.getAlgebraView().setTreeMode(sort);
+					int index = sortMode.getSelectedIndex();
+					app.getSettings().getAlgebra()
+							.setTreeMode(supportedModes.get(index));
 				}
 			}
 		});

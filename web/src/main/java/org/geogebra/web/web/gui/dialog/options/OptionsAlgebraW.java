@@ -139,7 +139,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		if (source == sortMode) {
 			int i = sortMode.getSelectedIndex();
 			app.getSettings().getAlgebra()
-					.setTreeMode(supportedModes.get(i).ordinal());
+.setTreeMode(supportedModes.get(i));
 
 		}
 	}

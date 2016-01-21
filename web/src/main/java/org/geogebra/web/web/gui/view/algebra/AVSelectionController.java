@@ -49,8 +49,7 @@ public class AVSelectionController {
 	}
 
 	private void continuousSelect(GeoElement geo) {
-		SortMode sortMode = AlgebraViewW
-				.intToMode(app.getSettings().getAlgebra().getTreeMode());
+		SortMode sortMode = app.getSettings().getAlgebra().getTreeMode();
 		switch (sortMode) {
 		case LAYER:
 			break;

@@ -203,7 +203,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 					// called if a object of the popup is clicked
 					int i = treeModeButton.getSelectedIndex();
 					app.getSettings().getAlgebra()
-							.setTreeMode(supportedModes.get(i).ordinal());
+							.setTreeMode(supportedModes.get(i));
 					app.closePopups();
 					app.clearJustClosedPopup();
 				}

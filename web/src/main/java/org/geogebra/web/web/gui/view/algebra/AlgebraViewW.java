@@ -27,6 +27,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -184,7 +185,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 		// initializes the tree model, important to set tree mode first to avoid
 		// inf. loop #3651
-		treeMode = intToMode(app.getSettings().getAlgebra().getTreeMode());
+		treeMode = app.getSettings().getAlgebra().getTreeMode();
 		initModel();
 
 		setLabels();
@@ -472,6 +473,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 */
 	@Override
 	public void setTreeMode(SortMode value) {
+		Log.printStacktrace("" + value);
 		if (getTreeMode().equals(value)) {
 			return;
 		}
@@ -489,36 +491,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * @return int value for tree mode (used in XML)
 	 */
 	public int getTreeModeValue() {
-		switch (getTreeMode()) {
-		case DEPENDENCY:
-			return 0;
-		case TYPE:
-		default:
-			return 1;
-		case LAYER:
-			return 2;
-		case ORDER:
-			return 3;
-		}
+		return getTreeMode().ordinal();
 	}
 
 	public void setTreeMode(int mode) {
-		setTreeMode(intToMode(mode));
+		setTreeMode(SortMode.fromInt(mode));
 	}
 
-	public static SortMode intToMode(int mode){
-		switch (mode) {
-		case 0:
-			return SortMode.DEPENDENCY;
-		case 1:
-			return SortMode.TYPE;
-		case 2:
-			return SortMode.LAYER;
-		case 3:
-			return SortMode.ORDER;
-		}
-		return SortMode.TYPE;
-	}
+
 
 	/**
 	 * returns settings in XML format

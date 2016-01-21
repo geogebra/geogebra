@@ -203,8 +203,7 @@ public class LoadFilePresenter {
 
 		app.appSplashCanNowHide();
 		if (app.has(Feature.AV_EXTENSIONS)) {
-			app.getSettings().getAlgebra()
-					.setTreeMode(SortMode.ORDER.ordinal());
+			app.getSettings().getAlgebra().setTreeMode(SortMode.ORDER);
 		}
 			// }
 		// }
