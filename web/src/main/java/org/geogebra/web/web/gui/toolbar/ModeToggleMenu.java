@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -19,6 +20,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -76,12 +78,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		tbutton.add(toolbarImg);
 		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");	
 		addDomHandlers(tbutton);
-		tbutton.addDomHandler(this, MouseOutEvent.getType());
-		tbutton.addDomHandler(this, KeyUpEvent.getType());
-		tbutton.addDomHandler(this, MouseOverEvent.getType());
 		addPasteHandlerTo(tbutton.getElement());
 		this.add(tbutton);
-		setToolTipText(app.getToolTooltipHTML(menu.get(0).intValue()));
     }
 
 	public native void addPasteHandlerTo(Element elem) /*-{
@@ -161,9 +159,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				if (!"".equals(app.getToolName(addMode))) {
 					ListItem subLi = submenu.addItem(addMode);
 					addDomHandlers(subLi);
-					subLi.addDomHandler(this, MouseOverEvent.getType());
-					subLi.addDomHandler(this, MouseOutEvent.getType());
-					subLi.addDomHandler(this, KeyUpEvent.getType());
 				}
 			}
 		}
@@ -191,6 +186,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		w.addDomHandler(this, MouseUpEvent.getType());
 		w.addDomHandler(this, TouchStartEvent.getType());
 		w.addDomHandler(this, TouchEndEvent.getType());
+		w.addDomHandler(this, MouseOverEvent.getType());
+		w.addDomHandler(this, MouseOutEvent.getType());
+		w.addDomHandler(this, KeyUpEvent.getType());
 	}
 	
 	/**
@@ -238,7 +236,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			if (menu.get(0) == mode) {
 				
 
-				showToolTipBottom(app.getGuiManager().getTooltipURL(mode), m);
+				showToolTipBottom(mode, m);
 				this.setCssToSelected();
 				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
 								//remove, if it will be updated without this.
@@ -274,7 +272,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 				selectItem(mi);
 				
-				showToolTipBottom(app.getGuiManager().getTooltipURL(mode), m);
+				showToolTipBottom(mode, m);
 				return true;
 			}
 		}
@@ -314,9 +312,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		toolbar.update();
 		setCssToSelected();
 
-		//toolbar.update(); //TODO remove later
-		//tbutton.setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
-		setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
 	}
 	
 	
@@ -412,6 +407,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		        && !CancelEventTimer.cancelMouseEvent()) {
 	    	onStart(event);
 	    } else { // clicked on a submenu list item
+			showTooltipFor(event);
 	    	event.stopPropagation(); // the submenu doesn't close as a popup, see GeoGebraAppFrame init()
 	    }
 	    event.preventDefault();
@@ -419,9 +415,11 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	
 	/**
 	 * Handles the touchstart and mousedown events on main tools.
+	 * 
 	 * @param event
+	 *            mouse or touch event
 	 */
-	public void onStart(DomEvent<?> event){
+	public void onStart(HumanInputEvent<?> event) {
 		event.preventDefault();
 		event.stopPropagation();
 		this.setFocus(true);
@@ -432,25 +430,41 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			wasMenuShownOnMouseDown = false;
 			showMenu();
 			if (menu.size() == 1) {
-				ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-				// if we click the toolbar button, only interpret it as real
-				// click if there is only one tool in this menu
-				showToolTipBottom(app.getGuiManager()
-						.getTooltipURL(menu.get(0)), ModeSetter.TOOLBAR);
-				ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+				showTooltipFor(event);
 			}
 		}
 	}
 	
+	private void showTooltipFor(HumanInputEvent<?> event) {
+
+		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+		int mode = -1;
+		if (event.getSource() == tbutton) {
+			mode = menu.get(0);
+		} else {
+			mode = Integer.parseInt(event.getRelativeElement().getAttribute(
+					"mode"));
+		}
+		if (mode >= 0) {
+			// if we click the toolbar button, only interpret it as real
+			// click if there is only one tool in this menu
+			showToolTipBottom(mode, ModeSetter.TOOLBAR);
+		}
+		ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+
+	}
+
 	public void setToolTipText(String string) {
 		toolTipText = string;
     }
 
-	public void showToolTipBottom(String helpURL, ModeSetter m) {
+	public void showToolTipBottom(int mode, ModeSetter m) {
 		if (m != ModeSetter.CAS_VIEW
  && app.showToolBarHelp()) {
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText,
-					helpURL, ToolTipLinkType.Help, app,
+			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+					app.getToolTooltipHTML(mode),
+					app.getGuiManager().getTooltipURL(mode),
+					ToolTipLinkType.Help, app,
 					app.getAppletFrame().isKeyboardShowing());
 		}
 	}
@@ -585,11 +599,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				if (app.isModeValid(addMode)) {
 					ListItem subLi = submenu.addItem(addMode);
 					addDomHandlers(subLi);
-					subLi.addDomHandler(this, MouseOverEvent.getType());
-					subLi.addDomHandler(this, MouseOutEvent.getType());
-					subLi.addDomHandler(this, KeyUpEvent.getType());
 				} else {
-					App.debug("BADMODE: " + addMode);
+					Log.debug("Invalid toolbar mode: " + addMode);
 				}
 			}
 		}
