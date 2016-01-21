@@ -110,7 +110,8 @@ public class RelativeCopy {
 										.getSpreadsheetCellName(x, y + 2) + vs1;
 								String d1 = GeoElementSpreadsheet
 										.getSpreadsheetCellName(x, y + 1) + vs2;
-								String text = "=2*" + d1 + "-" + d0;
+								String text = "=CopyFreeObject[2*" + d1 + "-"
+										+ d0 + "]";
 								doCopyNoStoringUndoInfo1(kernel, app, text,
 										v4, x, y);
 							}
@@ -149,7 +150,8 @@ public class RelativeCopy {
 										.getSpreadsheetCellName(x, y - 2) + vs1;
 								String d1 = GeoElementSpreadsheet
 										.getSpreadsheetCellName(x, y - 1) + vs2;
-								String text = "=2*" + d1 + "-" + d0;
+								String text = "=CopyFreeObject[2*" + d1 + "-"
+										+ d0 + "]";
 								doCopyNoStoringUndoInfo1(kernel, app, text,
 										v4, x, y);
 							}
@@ -194,7 +196,8 @@ public class RelativeCopy {
 										.getSpreadsheetCellName(x + 2, y) + vs1;
 								String d1 = GeoElementSpreadsheet
 										.getSpreadsheetCellName(x + 1, y) + vs2;
-								String text = "=2*" + d1 + "-" + d0;
+								String text = "=CopyFreeObject[2*" + d1 + "-"
+										+ d0 + "]";
 								doCopyNoStoringUndoInfo1(kernel, app, text,
 										v4, x, y);
 							}
@@ -232,7 +235,8 @@ public class RelativeCopy {
 										.getSpreadsheetCellName(x - 2, y) + vs1;
 								String d1 = GeoElementSpreadsheet
 										.getSpreadsheetCellName(x - 1, y) + vs2;
-								String text = "=2*" + d1 + "-" + d0;
+								String text = "=CopyFreeObject[2*" + d1 + "-"
+										+ d0 + "]";
 								doCopyNoStoringUndoInfo1(kernel, app, text,
 										v4, x, y);
 							}
@@ -403,8 +407,17 @@ public class RelativeCopy {
 	protected static final RegExp pattern2 = RegExp
 			.compile("(::|\\$)([A-Z]+)(::|\\$)([0-9]+)");
 
-	public static GeoElement doCopyNoStoringUndoInfo0(Kernel kernel,
-			App app, GeoElement value, GeoElement oldValue, int dx, int dy)
+	public static GeoElement doCopyNoStoringUndoInfo0(Kernel kernel, App app,
+			GeoElement value, GeoElement oldValue, int dx, int dy)
+			throws Exception {
+
+		return doCopyNoStoringUndoInfo0(kernel, app, value, oldValue, dx, dy,
+				-1, -1);
+	}
+
+	public static GeoElement doCopyNoStoringUndoInfo0(Kernel kernel, App app,
+			GeoElement value, GeoElement oldValue, int dx, int dy, int row0,
+			int column0)
 			throws Exception {
 		if (value == null) {
 			if (oldValue != null) {
@@ -516,8 +529,9 @@ public class RelativeCopy {
 
 		// get location of source cell
 		// TODO: Why not always use getSpreadsheetCoords()? 
-		int column0 = -1, row0 = -1; 
-		if (value.labelSet) {
+		if (row0 > -1 && column0 > -1) {
+			// nothing to do, already set
+		} else if (value.labelSet) {
 			MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
 					.exec(value.getLabel(StringTemplate.defaultTemplate));
 			column0 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);

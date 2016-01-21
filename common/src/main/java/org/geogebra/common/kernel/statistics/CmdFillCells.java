@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.statistics;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
@@ -116,6 +117,7 @@ public class CmdFillCells extends CommandProcessor {
 
 				}
 				if (!geo.isGeoList()) {
+
 					for (int row = minRow; row <= maxRow; row++)
 						for (int col = minCol; col <= maxCol; col++) {
 							try {
@@ -125,8 +127,17 @@ public class CmdFillCells extends CommandProcessor {
 								removePossibleGeo(GeoElementSpreadsheet
 										.getSpreadsheetCellName(col, row));
 
-								kernelA.getGeoElementSpreadsheet()
-										.setSpreadsheetCell(app, row, col, geo);
+								// eg FillCells[B1:B7,A1+1]
+								// change to eg A2+1, A3+1, A4+1 etc
+								// FillCells[B1:B7,A1] doesn't change A1
+								// use FillCells[B1:B7,A1+0] for that
+								RelativeCopy.doCopyNoStoringUndoInfo0(kernelA,
+										app, geo, null, col - minCol, row
+												- minRow, minRow, minCol);
+
+								// old code
+								// kernelA.getGeoElementSpreadsheet()
+								// .setSpreadsheetCell(app, row, col, geo);
 							} catch (Exception e) {
 								app.setScrollToShow(true);
 								e.printStackTrace();
