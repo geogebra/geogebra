@@ -397,8 +397,7 @@ public class EuclidianStyleBarStatic {
 			if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoText)) {
 				if (geo instanceof GeoImage && geo.getAlphaValue() != alpha) {
 					geo.setAlphaValue(alpha);
-				} else
-				if ((geo.getObjectColor() != color || geo.getAlphaValue() != alpha)) {
+				} else if ((geo.getObjectColor() != color || geo.getAlphaValue() != alpha)) {
 					geo.setObjColor(color);
 					// if we change alpha for functions, hit won't work properly
 					if (geo.isFillable())
