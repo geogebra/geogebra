@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -295,7 +294,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	void selectItem(Widget mi) {
 		
 		final String miMode = mi.getElement().getAttribute("mode");
-		App.debug(miMode);
 		// check if the menu item is already selected
 		if (tbutton.getElement().getAttribute("isSelected").equals(true)
 				&& tbutton.getElement().getAttribute("mode").equals(miMode)) {
@@ -488,6 +486,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	public void onMouseOver(MouseOverEvent event) {
 		if (event.getSource() != tbutton) {
 			setHovered(event.getRelativeElement(), true);
+			showTooltipFor(event);
 			return;
 		}
 		if (!isMenuShown() && toolbar.isAnyOtherSubmenuOpen(this)) {
