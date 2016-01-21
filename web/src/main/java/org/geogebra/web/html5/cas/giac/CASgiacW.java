@@ -103,7 +103,7 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 
 		// #5439
 		// restart Giac before each call
-		nativeEvaluateRaw(initString, Log.logger != null);
+		nativeEvaluateRaw(initStringWeb, Log.logger != null);
 		nativeEvaluateRaw(specialFunctions, false);
 		nativeEvaluateRaw("timeout " + (timeoutMilliseconds / 1000), false);
 
