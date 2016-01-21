@@ -150,10 +150,10 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 	private void computeDegenerate() {
 		if (line == null) { // init lines
 			line = conicPart.getLines()[0];
-			line.setStartPoint(getA());
-			line.setEndPoint(getC());
 			conicPart.getLines()[1].setStartPoint(getC());
 		}
+		line.setStartPoint(getA());
+		line.setEndPoint(getC());
 
 		// make sure the line goes through A and C
 		GeoVec3D.lineThroughPoints(getA(), getC(), line);
