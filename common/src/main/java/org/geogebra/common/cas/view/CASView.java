@@ -189,7 +189,6 @@ public abstract class CASView implements View, SetLabels {
 			// ignore other modes
 		}
 		if (backToEvaluate){
-			showTooltip(mode);
 			getApp().setMode(EuclidianConstants.MODE_CAS_EVALUATE,
 					ModeSetter.CAS_VIEW);
 		}
@@ -398,6 +397,11 @@ public abstract class CASView implements View, SetLabels {
 		return ret.toString();
 	}
 
+	/**
+	 * @param selRows
+	 *            list of rows
+	 * @return \n separated cell outputs
+	 */
 	public final String getTextFromCells(int[] selRows) {
 
 		StringBuilder ret = new StringBuilder();
@@ -405,8 +409,7 @@ public abstract class CASView implements View, SetLabels {
 		for (int i = 0; i < selRows.length; i++) {
 			GeoCasCell casCell = getConsoleTable().getGeoCasCell(selRows[i]);
 			if (casCell != null) {
-				ret.append(casCell.getOutput(
-						StringTemplate.xmlTemplate));
+				ret.append(casCell.getOutput(StringTemplate.casCopyTemplate));
 
 				// LaTeX linebreak
 				if (i != selRows.length - 1) {
@@ -506,7 +509,6 @@ public abstract class CASView implements View, SetLabels {
 	 * @return input
 	 */
 	public String getCellInput(int i) {
-		App.debug("Input of cell" + i);
 		GeoCasCell casCell = getConsoleTable().getGeoCasCell(i);
 		if (casCell != null) {
 			return casCell.getInput(StringTemplate.xmlTemplate);

@@ -431,6 +431,14 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			toolbar.closeAllSubmenu();
 			wasMenuShownOnMouseDown = false;
 			showMenu();
+			if (menu.size() == 1) {
+				ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+				// if we click the toolbar button, only interpret it as real
+				// click if there is only one tool in this menu
+				showToolTipBottom(app.getGuiManager()
+						.getTooltipURL(menu.get(0)), ModeSetter.TOOLBAR);
+				ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+			}
 		}
 	}
 	

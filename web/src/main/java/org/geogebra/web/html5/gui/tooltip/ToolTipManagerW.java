@@ -300,8 +300,8 @@ public class ToolTipManagerW {
 			return;
 		}
 		blockToolTip = false;
-		showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(text)
-				+ "</html>", "", null, app, app.getAppletFrame()
+		showBottomInfoToolTip(StringUtil.toHTMLString(text), "", null, app, app
+				.getAppletFrame()
 				.isKeyboardShowing());
 
 		blockToolTip = true;
