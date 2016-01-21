@@ -62,6 +62,13 @@ public class CopyPasteCutW extends CopyPasteCut {
 		copy(column1, row1, column2, row2, skipGeoCopy, false);
 	}
 
+	public static native boolean checkClipboardSupported() /*-{
+		if ($doc.queryCommandSupported("copy")) {
+			return true;
+		}
+		return false;
+	}-*/;
+
 	public void copy(int column1, int row1, int column2, int row2,
 			boolean skipGeoCopy, boolean nat) {
 		sourceColumn1 = column1;

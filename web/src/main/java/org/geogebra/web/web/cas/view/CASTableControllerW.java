@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -33,11 +34,14 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * HTML5 version of CAS controller
+ *
+ */
 public class CASTableControllerW extends CASTableCellController implements
         MouseDownHandler, MouseUpHandler, MouseMoveHandler, KeyHandler,
         BlurHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler,
@@ -53,6 +57,12 @@ public class CASTableControllerW extends CASTableCellController implements
 
 	private boolean contextOpened;
 
+	/**
+	 * @param casViewW
+	 *            cas view
+	 * @param app
+	 *            application
+	 */
 	public CASTableControllerW(CASViewW casViewW, AppW app) {
 		view = casViewW;
 		this.app = app;
@@ -65,6 +75,7 @@ public class CASTableControllerW extends CASTableCellController implements
 			table.setSelectedRows(startSelectRow, startSelectRow);
 		}
 		if (table.getSelectedRows().length > 0) {
+			// TODO select cells for copy
 			RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app.getGuiManager())
 			        .getCASContextMenu(null, table);
 			popupMenu.show(new GPoint(x, y));
@@ -119,12 +130,11 @@ public class CASTableControllerW extends CASTableCellController implements
 			return;
 		}
 		mouseDown = false;
-
+		CASTableW table = view.getConsoleTable();
+		GPoint point = table.getPointForEvent(event);
 		if (checkHeaderClick(event)) {
 			// do this even if left/right click, even if clipboard is not
 			// supported!
-			CASTableW table = view.getConsoleTable();
-			GPoint point = table.getPointForEvent(event);
 			Widget wid = table.getWidget(point.y, point.x);
 			if ((wid != null) && (wid instanceof RowHeaderWidget)) {
 				// quick implementation would call the handler
@@ -140,8 +150,12 @@ public class CASTableControllerW extends CASTableCellController implements
 					// only makes sense for mouse events yet
 					// TODO: add this functionality to touch events,
 					// maybe override onPointerUp??
-					CASTableW table = view.getConsoleTable();
-					GPoint point = table.getPointForEvent(event);
+
+
+			if (!table.isSelectedIndex(point.y)) {
+				table.setSelectedRows(point.y, point.y);
+			}
+
 					// CASTableCellEditor tableCellEditor = table.getEditor();
 					Widget wid = table.getWidget(point.y, 0);
 					RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app
@@ -159,13 +173,13 @@ public class CASTableControllerW extends CASTableCellController implements
 		event.stopPropagation();
 	}
 
-	public static native boolean checkClipboardSupported() /*-{
-		if ($doc.queryCommandSupported("copy")) {
-			return true;
-		}
-		return false;
-	}-*/;
 
+
+	/**
+	 * @param event
+	 *            mouse event
+	 * @return whether column is 0
+	 */
 	public boolean checkHeaderClick(HumanInputEvent<?> event) {
 		CASTableW cw = view.getConsoleTable();
 		GPoint gp = cw.getPointForEvent(event);
@@ -175,6 +189,11 @@ public class CASTableControllerW extends CASTableCellController implements
 		return false;
 	}
 
+	/**
+	 * @param event
+	 *            mouse event
+	 * @return whether input of a cell was clicked
+	 */
 	public boolean checkQuestionClick(HumanInputEvent<?> event) {
 		CASTableW cw = view.getConsoleTable();
 		GPoint gp = cw.getPointForEvent(event);
@@ -273,7 +292,7 @@ public class CASTableControllerW extends CASTableCellController implements
 			return;
 		}
 		int currentRow = point.getY();
-		if (event.getNativeButton() == Event.BUTTON_RIGHT
+		if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT
 		        && selectionContainsRow(currentRow)) {
 			// do nothing
 		} else if (event.isShiftKeyDown()) {
@@ -337,7 +356,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		CASTableW table = view.getConsoleTable();
 		int editingRow = table.getEditingRow();
 		if (editingRow < 0) {
-			App.debug("No row is being edited.");
+			Log.debug("Key " + ch + " pressed, no row is being edited.");
 			return;
 		}
 		CASTableCellEditor editor = table.getEditor();
@@ -358,9 +377,12 @@ public class CASTableControllerW extends CASTableCellController implements
 
 	/**
 	 * @param ch
+	 *            first character
 	 * @param editingRow
+	 *            row index
 	 * @param editor
-	 * @return
+	 *            editor
+	 * @return true if special handling was necessary
 	 */
 	public boolean handleFirstLetter(char ch, int editingRow,
 			CASTableCellEditor editor) {
@@ -409,8 +431,4 @@ public class CASTableControllerW extends CASTableCellController implements
 		}
 	}
 
-	private Cell getCellForEvent(HumanInputEvent<?> event) {
-		CASTableW table = view.getConsoleTable();
-		return table.getCellForEvent(event);
-	}
 }

@@ -2,7 +2,7 @@ package org.geogebra.web.web.cas.view;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.web.html5.AttachedToDOM;
@@ -11,29 +11,38 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.MenuItem;
 
+/**
+ * The one popup menu used in web CAS
+ *
+ */
 public class RowHeaderPopupMenuW extends
         org.geogebra.common.cas.view.RowHeaderPopupMenu implements AttachedToDOM {
 
-	private RowHeaderWidget rowHeader;
 	private CASTableW table;
 	private GPopupMenuW rowHeaderPopupMenu;
 
-	public RowHeaderPopupMenuW(RowHeaderWidget rowHeaderWidget,
+	/**
+	 * @param casTableW
+	 *            table
+	 * @param appl
+	 *            application
+	 */
+	public RowHeaderPopupMenuW(
 	        CASTableW casTableW, AppW appl) {
 		rowHeaderPopupMenu = new GPopupMenuW(appl);
-		rowHeader = rowHeaderWidget;
 		table = casTableW;
 		app = appl;
 		initMenu();
 	}
 
+	@SuppressWarnings("javadoc")
 	enum CellAction {
 		COPY_INPUT, PASTE, INSERT_ABOVE, INSERT_BELOW, DELETE, TEXT, COPY, COPY_LATEX
 	}
 
 	private void initMenu() {
 		// "Insert Above" menuitem
-		boolean canSystemCopy = CASTableControllerW.checkClipboardSupported();
+		boolean canSystemCopy = CopyPasteCutW.checkClipboardSupported();
 		MenuItem miCopyInput = new MenuItem(app.getMenu("CopyInput"),
 				new ScheduledCommand() {
 					public void execute() {
@@ -185,7 +194,6 @@ public class RowHeaderPopupMenuW extends
 			// it's possible that the last row is the input bar,
 			// and if this is the case, the formula ends by:
 			// \\ undefined \\
-			App.debug("Copying" + toBeCopied);
 			if (toBeCopied != null) {
 				CopyPasteCutW.setClipboardContents(toBeCopied, null);
 			}
@@ -195,7 +203,7 @@ public class RowHeaderPopupMenuW extends
 			// it's possible that the last row is the input bar,
 			// and if this is the case, the formula ends by:
 			// \\ undefined \\
-			App.debug("Pasting" + toBeCopied);
+			Log.debug("Pasting" + toBeCopied);
 			if (toBeCopied != null) {
 				table.setCellInput(selRows[0], toBeCopied);
 			}
@@ -212,6 +220,12 @@ public class RowHeaderPopupMenuW extends
 		rowHeaderPopupMenu.removeFromDOM();
 	}
 
+	/**
+	 * show the popup
+	 * 
+	 * @param gPoint
+	 *            point where the popup should appear
+	 */
 	public void show(GPoint gPoint) {
 		rowHeaderPopupMenu.show(gPoint);
 

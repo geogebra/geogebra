@@ -250,7 +250,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public RowHeaderPopupMenuW getCASContextMenu(
 	        final RowHeaderWidget rowHeader, final CASTableW table) {
 		removePopup();
-		currentPopup = new RowHeaderPopupMenuW(rowHeader, table, (AppW) app);
+		currentPopup = new RowHeaderPopupMenuW(table, (AppW) app);
 		return (RowHeaderPopupMenuW) currentPopup;
 	}
 
