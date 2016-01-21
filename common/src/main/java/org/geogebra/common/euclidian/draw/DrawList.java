@@ -339,29 +339,59 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			setColCount(maxItems / maxRows + (maxItems % maxRows == 0 ? 0 : 1));
 			rowCount = maxRows;
 			boolean balanced = true;
+
 			balanceTable();
 			return (colCount < maxCols && balanced);
 		}
 
 		private void balanceTable() {
-			int maxCols = view.getWidth() / dimItem.getWidth();
+			int itemCount = geoList.size();
+			int resultRow = 0;
 
-			int mod = geoList.size() % rowCount;
-
-			boolean balanced = mod == 0 || mod > rowCount - 2 || rowCount < 3;
-
-			while (!balanced && colCount < maxCols) {
-				rowCount--;
-				mod += colCount - 1;
-				if (mod > rowCount) {
-					colCount++;
-					mod %= rowCount;
+			int maxMod = -1;
+			boolean found = false;
+			int row = rowCount;
+			while (!found && row > 1) {
+				row--;
+				int mod = itemCount % row;
+				if (mod == 0) {
+					resultRow = row;
+					found = true;
+				} else if (mod > maxMod) {
+					maxMod = mod;
+					resultRow = row;
 				}
 
-				Log.debug("[BALANCE] rows: " + rowCount + " mod: " + mod);
-				balanced = mod == 0 || mod > rowCount - 2 || rowCount < 3;
+
 			}
+
+			rowCount = resultRow;
+			colCount = itemCount / rowCount + (maxMod == 0 ? 0 : 1);
+
 		}
+		//
+		// private void balanceTable() {
+		// int maxCols = view.getWidth() / dimItem.getWidth();
+		//
+		// int mod = geoList.size() % rowCount;
+		//
+		// boolean balanced = mod == 0 || mod > rowCount - 2 || rowCount < 3;
+		//
+		// while (!balanced && colCount < maxCols) {
+		// rowCount--;
+		// mod += colCount - 1;
+		// if (mod > rowCount) {
+		// colCount += mod / rowCount;
+		// mod %= rowCount;
+		// if (mod > 0) {
+		// // colCount++;
+		// }
+		// }
+		//
+		// Log.debug("[BALANCE] rows: " + rowCount + " mod: " + mod);
+		// balanced = mod == 0 || mod > rowCount - 2 || rowCount < 3;
+		// }
+		// }
 
 		private boolean fitHorizontally() {
 			return colCount * dimItem.getWidth() < view.getWidth();
