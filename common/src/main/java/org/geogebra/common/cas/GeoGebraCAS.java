@@ -272,6 +272,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return getCASCommand(name, args, symbolic, tpl, true);
 	}
 
+	int counter = 1;
 	final synchronized private String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl, boolean allowOutsourcing) {
@@ -556,7 +557,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		// get translation ggb -> MathPiper/Maxima
 		if (!outsourced) {
-			translation = casParser.getTranslatedCASCommand(sbCASCommand
+			translation = translateCommandSignature(sbCASCommand
 					.toString());
 		}
 		sbCASCommand.setLength(0);
@@ -799,6 +800,16 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	public String translateCommandSignature(String string) {
+		String translation = casParser.getTranslatedCASCommand(string);
+		if (translation != null) {
+			translation = translation.replaceAll("arg0", "arg0" + counter);
+			translation = translation.replaceAll("arg1", "arg1" + counter);
+			counter++;
+		}
+		return translation;
 	}
 
 	private static boolean isLinear(ExpressionValue listElement) {

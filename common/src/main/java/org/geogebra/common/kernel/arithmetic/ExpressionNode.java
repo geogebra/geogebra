@@ -1971,13 +1971,14 @@ kernel, left,
 				MathmlTemplate
 						.mathml(sb, "<vectorproduct/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.GIAC)) {
-
+				ArrayList<ExpressionNode> crossArg = new ArrayList<ExpressionNode>();
+				crossArg.add(left.wrap());
+				crossArg.add(right.wrap());
+				sb.append(kernel.getGeoGebraCAS()
+						.translateCommandSignature("Cross.2")
+						.replace("%0", leftStr).replace("%1", rightStr));
 				// from Ggb2Giac Cross.2
-				sb.append("[[[ggbcrossarg0:=");
-				sb.append(leftStr);
-				sb.append("], [ggbcrossarg1:=");
-				sb.append(rightStr);
-				sb.append("]],when(is3dpoint(ggbcrossarg0)||is3dpoint(ggbcrossarg1),point(cross(ggbcrossarg0,ggbcrossarg1)),cross(ggbcrossarg0,ggbcrossarg1))][1]");
+
 
 			} else {
 				tpl.append(sb, leftStr, left, operation);

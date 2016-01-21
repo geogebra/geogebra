@@ -3,7 +3,6 @@ package org.geogebra.common.kernel;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -157,5 +156,7 @@ public interface GeoGebraCasInterface {
 	 * Clear cache of this CAS (not the local caches in functions etc.)
 	 */
 	public void clearCache();
+
+	public String translateCommandSignature(String string);
 
 }
