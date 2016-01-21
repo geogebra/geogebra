@@ -337,7 +337,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		 */
 		private boolean getTableScale() {
 			int maxItems = geoList.size();
-			int maxRows = view.getHeight() / dimItem.getHeight();
+			int maxRows = (view.getHeight() / dimItem.getHeight()) + 1;
 			int maxCols = view.getWidth() / dimItem.getWidth();
 			if (maxItems < maxRows) {
 				setColCount(1);
