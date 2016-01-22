@@ -169,7 +169,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 
 		// if no label and no decoration then we're done
-		if (!labelVisible && geo.decorationType == GeoElement.DECORATION_NONE)
+		if (!labelVisible && geo.getDecorationType() == GeoElement.DECORATION_NONE)
 			return;
 
 		// calc midpoint (midX, midY) and perpendicular vector (nx, ny)
@@ -194,7 +194,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 
 		// update decoration
-		if (geo.decorationType != GeoElement.DECORATION_NONE && nLength > 0) {
+		if (geo.getDecorationType() != GeoElement.DECORATION_NONE && nLength > 0) {
 			if (decoTicks == null) {
 				// only create these object when they are really needed
 				decoTicks = new GLine2D[6]; // Michael Borcherds 20071006
@@ -211,7 +211,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			// Michael Borcherds 20071006 end
 			double vx, vy, factor;
 
-			switch (geo.decorationType) {
+			switch (geo.getDecorationType()) {
 			case GeoElement.DECORATION_SEGMENT_ONE_TICK:
 				// use perpendicular vector to set tick
 				factor = tickLength / nLength;
@@ -363,11 +363,11 @@ public class DrawSegment extends Drawable implements Previewable {
 			g2.draw(line);
 
 			// decoTicks is null for zero length segments
-			if (geo.decorationType != GeoElement.DECORATION_NONE
+			if (geo.getDecorationType() != GeoElement.DECORATION_NONE
 					&& decoTicks != null) {
 				g2.setStroke(decoStroke);
 
-				switch (geo.decorationType) {
+				switch (geo.getDecorationType()) {
 				case GeoElement.DECORATION_SEGMENT_ONE_TICK:
 					g2.draw(decoTicks[0]);
 					break;

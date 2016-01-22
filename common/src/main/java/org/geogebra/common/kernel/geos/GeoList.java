@@ -2816,11 +2816,7 @@ AngleProperties {
 	
 	@Override
 	public void setDecorationType(int type) {
-		if (type >= GeoAngle.getDecoTypes().length || type < 0) {
-			decorationType = DECORATION_NONE;
-		} else {
-			decorationType = type;
-		}
+		setDecorationType(type, GeoAngle.getDecoTypes().length);
 		
 		if (geoList != null) {
 			for (GeoElement geo: geoList) {

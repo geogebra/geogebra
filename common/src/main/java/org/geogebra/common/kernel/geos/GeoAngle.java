@@ -559,10 +559,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 	@Override
 	public void setDecorationType(int type) {
-		if (type >= getDecoTypes().length || type < 0)
-			decorationType = DECORATION_NONE;
-		else
-			decorationType = type;
+		setDecorationType(type, getDecoTypes().length);
 	}
 
 	/**

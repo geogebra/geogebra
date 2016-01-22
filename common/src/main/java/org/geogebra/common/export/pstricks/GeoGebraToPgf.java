@@ -780,7 +780,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				endBeamer(code);
 			}
 		}
-		int deco = geo.decorationType;
+		int deco = geo.getDecorationType();
 		if (deco != GeoElement.DECORATION_NONE) {
 			startBeamer(code);
 			markAngle(geo, r, m, angSt, angExt);
@@ -2308,7 +2308,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		code.append("-- ");
 		writePoint(B[0], B[1], code);
 		code.append(";\n");
-		int deco = geo.decorationType;
+		int deco = geo.getDecorationType();
 		if (deco != GeoElement.DECORATION_NONE)
 			mark(A, B, deco, geo);
 		endBeamer(code);

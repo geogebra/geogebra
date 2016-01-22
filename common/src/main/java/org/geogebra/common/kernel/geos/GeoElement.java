@@ -443,7 +443,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	protected int lineOpacity = 255;
 
 	/** decoration type */
-	public int decorationType = DECORATION_NONE;
+	private int decorationType = DECORATION_NONE;
 
 	// DECORATION
 	
@@ -5862,6 +5862,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void setDecorationType(final int type) {
 		decorationType = type;
+	}
+
+	public void setDecorationType(final int type, int max) {
+		if (type >= max || type < 0)
+			decorationType = DECORATION_NONE;
+		else
+			decorationType = type;
 	}
 
 	/**

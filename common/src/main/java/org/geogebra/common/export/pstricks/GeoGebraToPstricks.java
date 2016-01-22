@@ -713,7 +713,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				endBeamer(code);
 			}
 		}
-		int deco = geo.decorationType;
+		int deco = geo.getDecorationType();
 		if (deco != GeoElement.DECORATION_NONE) {
 			startBeamer(code);
 			markAngle(geo, r, m, angSt, angExt);
@@ -1618,7 +1618,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		code.append(",");
 		code.append(y2);
 		code.append(")\n");
-		int deco = geo.decorationType;
+		int deco = geo.getDecorationType();
 		if (deco != GeoElement.DECORATION_NONE)
 			mark(A, B, deco, geo);
 		endBeamer(code);

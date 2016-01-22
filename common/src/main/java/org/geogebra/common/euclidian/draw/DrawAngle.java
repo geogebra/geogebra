@@ -363,7 +363,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			double rdiff;
 
 			// For Decoration
-			switch (geo.decorationType) {
+			switch (geo.getDecorationType()) {
 			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
 				rdiff = 4 + geo.getLineThickness() / 2d;
 				r = (arcSize - rdiff) * view.getInvXscale();
@@ -425,7 +425,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 				double rotateangle = 0.25d; // rotate arrow slightly
 
-				if (geo.decorationType == GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE) {
+				if (geo.getDecorationType() == GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE) {
 					n2[0] = Math.cos(angSt);
 					n2[1] = Math.sin(angSt);
 					n[0] = Math.cos(angSt + rotateangle);
@@ -551,7 +551,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				// if we don't have a special 90 degrees appearance we might
 				// need to draw
 				// other decorations
-				switch (geo.decorationType) {
+				switch (geo.getDecorationType()) {
 				case GeoElement.DECORATION_ANGLE_TWO_ARCS:
 					g2.draw(shapeArc1);
 					break;

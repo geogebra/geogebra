@@ -1136,7 +1136,7 @@ public abstract class GeoGebraExport {
 	protected void markAngle(GeoAngle geo, double r, double[] vertex,
 			double angSt, double angEnd) {
 		double rdiff;
-		switch (geo.decorationType) {
+		switch (geo.getDecorationType()) {
 		case GeoElement.DECORATION_ANGLE_TWO_ARCS:
 			rdiff = 4 + geo.getLineThickness() / 2d;
 			drawArc(geo, vertex, angSt, angEnd, r);

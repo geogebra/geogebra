@@ -825,7 +825,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				code.append(")");
 				endDraw(geo);
 			}
-			if (geo.decorationType != GeoElement.DECORATION_NONE) {
+			if (geo.getDecorationType() != GeoElement.DECORATION_NONE) {
 				markAngle(geo, r, m, angSt, angExt);
 			}
 		}
@@ -1925,7 +1925,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		pointStart.getInhomCoords(A);
 		pointEnd.getInhomCoords(B);
 		String x1 = format(A[0]), y1 = format(A[1]), x2 = format(B[0]), y2 = format(B[1]);
-		int deco = geo.decorationType;
+		int deco = geo.getDecorationType();
 
 		if (!compact)
 			code.append("\n");

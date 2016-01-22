@@ -50,16 +50,13 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	public static final int SEGMENT_DECORATION_TWO_TICKS = 2;
 	/** three ticks */
 	public static final int SEGMENT_DECORATION_THREE_TICKS = 3;
-	//	 Michael Borcherds 20071006 start
 	/** one arrow */
 	public static final int SEGMENT_DECORATION_ONE_ARROW = 4;
 	/** two arrows */
 	public static final int SEGMENT_DECORATION_TWO_ARROWS = 5;
 	/** three arrows */
 	public static final int SEGMENT_DECORATION_THREE_ARROWS = 6;
-	//	 Michael Borcherds 20071006 end
 
-	// added by Loic
 	/**
 	 * Returns array of all decoration types
 	 * @see #SEGMENT_DECORATION_ONE_TICK etc.
@@ -70,25 +67,17 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 				Integer.valueOf(SEGMENT_DECORATION_ONE_TICK),
 				Integer.valueOf(SEGMENT_DECORATION_TWO_TICKS),
 				Integer.valueOf(SEGMENT_DECORATION_THREE_TICKS),
-				// Michael Borcherds 20071006 start
 				Integer.valueOf(SEGMENT_DECORATION_ONE_ARROW),
 				Integer.valueOf(SEGMENT_DECORATION_TWO_ARROWS),
 				Integer.valueOf(SEGMENT_DECORATION_THREE_ARROWS)
-				// Michael Borcherds 20071006 end
 		};
 		return ret;
 	}
-	//end		
 
-	//	 Michael Borcherds 2007-11-20
 	@Override
 	public void setDecorationType(int type) {
-		if (type>=getDecoTypes().length || type<0)
-			decorationType=DECORATION_NONE;
-		else
-			decorationType = type;
+		setDecorationType(type, getDecoTypes().length);
 	}
-	//	 Michael Borcherds 2007-11-20
 
 	/**
 	 * Creates new segment
