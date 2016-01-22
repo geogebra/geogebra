@@ -12603,7 +12603,7 @@ namespace giac {
     matrice::const_iterator it=res.begin(),itend=res.end();
     int i;
     for (i=0;(i<c) && (it!=itend);++i){
-      if (is_zero(((*(it->_VECTptr))[i]),contextptr)){
+      if (it->_VECTptr->empty() || is_zero(((*(it->_VECTptr))[i]),contextptr)){
 	newres.push_back(vecteur(c,zero));
       }
       else {

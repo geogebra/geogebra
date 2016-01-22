@@ -4831,6 +4831,7 @@ namespace giac {
     factorization sqff_f(squarefree_fp(p,n,1));
     if (!sqff_ffield_factor(sqff_f,n,&env,f))
       return false;
+    factorization_compress(f);
     // cleanup cst coeff
     gen coeff(1);
     factorization::iterator it=f.begin(),itend=f.end();

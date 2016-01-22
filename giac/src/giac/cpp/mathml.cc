@@ -1112,6 +1112,11 @@ namespace giac {
       svg=svg+symbolic2svg(mys,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,contextptr);
       return "<mtext>"+mys.print(contextptr)+"</mtext>";
     }
+    gen tmp,value;
+    if (mys.sommet==at_rootof && (tmp=mys.feuille).type==_VECT && tmp._VECTptr->size()==2 && tmp._VECTptr->front().type==_VECT && has_rootof_value(tmp._VECTptr->back(),value,contextptr)){
+      value=horner_rootof(*tmp._VECTptr->front()._VECTptr,value,contextptr);
+      return gen2mathml(value,svg,contextptr);
+    }
     if ( (mys.feuille.type==_VECT) && (mys.feuille._VECTptr->empty()) )
       return string(provisoire_mbox_begin)+mys.sommet.ptr()->print(contextptr)+string("()")+string(provisoire_mbox_end);
     if ( (mys.feuille.type!=_VECT) || (mys.feuille._VECTptr->front().type==_VECT)){

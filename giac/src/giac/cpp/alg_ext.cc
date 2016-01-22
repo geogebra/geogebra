@@ -1075,6 +1075,12 @@ namespace giac {
     if (!lop(lvar(e),at_pow).empty())
       return gensizeerr(gettext("Algebraic extensions not allowed in a rootof"));
     // should call factor before returning unevaluated rootof
+    if (e.type==_VECT && e._VECTptr->size()==2 && e._VECTptr->back().type==_VECT){
+      vecteur v2=*e._VECTptr->back()._VECTptr;
+      gen g(1);
+      lcmdeno(v2,g,contextptr);
+      return symbolic(at_rootof,gen(makevecteur(e._VECTptr->front(),gen(v2,e._VECTptr->back().subtype)),e.subtype));
+    }
     return symbolic(at_rootof,e);
   }
   gen approx_rootof(const gen & e,GIAC_CONTEXT){
