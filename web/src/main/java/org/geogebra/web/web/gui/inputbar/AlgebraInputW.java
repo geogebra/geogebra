@@ -223,9 +223,15 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		inputField.requestFocus();
 	}
 
+	private AlgebraDockPanelW getAlgebraDockPanel() {
+		return (AlgebraDockPanelW) app.getGuiManager().getLayout()
+				.getDockManager().getPanel(App.VIEW_ALGEBRA);
+
+	}
 	public void onFocus(FocusEvent event) {
-		if(((AlgebraViewW) app.getGuiManager().getAlgebraView()).isNodeTableEmpty()) {
-			((AlgebraDockPanelW)app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)).showStyleBarPanel(false);	
+		if (((AlgebraViewW) app.getGuiManager().getAlgebraView())
+				.isNodeTableEmpty() && !getAlgebraDockPanel().hasLongStyleBar()) {
+			getAlgebraDockPanel().showStyleBarPanel(false);
 		}
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
@@ -234,7 +240,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	}
 
 	public void onBlur(BlurEvent event) {
-		((AlgebraDockPanelW)app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)).showStyleBarPanel(true);	
+		getAlgebraDockPanel().showStyleBarPanel(true);
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
 		this.focused = false;

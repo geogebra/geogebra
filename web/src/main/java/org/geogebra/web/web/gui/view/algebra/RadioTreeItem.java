@@ -1092,7 +1092,9 @@ public class RadioTreeItem extends AVTreeItem
 		super.setFirst(first);
 		if (buttonPanel != null) {
 			buttonPanel.getElement().getStyle().setRight(
-					first && !getAlgebraDockPanel().hasLongStyleBar() ? 46 : 0,
+							first && app.allowStylebar()
+									&& !getAlgebraDockPanel().hasLongStyleBar() ? 46
+									: 0,
 					Unit.PX);
 		}
 	}
@@ -2615,7 +2617,7 @@ marblePanel, evt))) {
 		return getWidget().getElement();
 	}
 
-	private AlgebraDockPanelW getAlgebraDockPanel() {
+	protected AlgebraDockPanelW getAlgebraDockPanel() {
 		return (AlgebraDockPanelW) app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 

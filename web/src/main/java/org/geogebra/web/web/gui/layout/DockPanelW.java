@@ -524,11 +524,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (hasStyleBar()) {
 
 			if (app.getSettings().getLayout().showTitleBar()
-			        /* && !(isAlone && !isMaximized()) */&& (!app.isApplet()
-			                || app.getArticleElement().getDataParamShowMenuBar(
-			                        false) || app.getArticleElement()
-			                .getDataParamAllowStyleBar(false))
-			        && (!isOpenInFrame())) {
+					&& app.allowStylebar()) {
 				
 				dockPanel.addNorth(titleBarPanel, 0);
 			}
@@ -786,9 +782,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * @param value true to show style bar
 	 */
 	private void setStyleBarLongVisibility(boolean value) {
-		if ((!app.isApplet()
-				|| app.getArticleElement().getDataParamShowMenuBar(false) || app
-				.getArticleElement().getDataParamAllowStyleBar(false))) {
+		if (app.allowStylebar()) {
 			dockPanel.setWidgetSize(titleBarPanel, value ? 44 : 0);
 			titleBarPanel.setStyleName("TitleBarPanel-open", value);
 			setLongStyleBar(value);
@@ -1350,13 +1344,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	public void setViewImage(ResourcePrototype imageResource){
 		this.viewImage = imageResource;
-	}
-
-	/**
-	 * show/hide the whole Panel
-	 */
-	public void setPanelVisible(boolean visible){
-		this.titleBarPanel.setVisible(visible);
 	}
 	
 	private ResourcePrototype getToggleImage(boolean showing){

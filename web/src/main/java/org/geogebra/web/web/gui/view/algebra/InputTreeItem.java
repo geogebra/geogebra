@@ -630,17 +630,14 @@ public class InputTreeItem extends RadioTreeItem implements
 		// deselects current selection
 		((AlgebraViewW) av).setActiveTreeItem(null);
 
-		boolean emptyCase = ((AlgebraViewW) av).isNodeTableEmpty();
+		boolean emptyCase = ((AlgebraViewW) av).isNodeTableEmpty()
+				&& !this.getAlgebraDockPanel().hasLongStyleBar();
 
 		// update style bar icon look
 		if (emptyCase) {
-			((AlgebraDockPanelW) app.getGuiManager().getLayout()
-					.getDockManager().getPanel(App.VIEW_ALGEBRA))
-					.showStyleBarPanel(blurtrue);
+			getAlgebraDockPanel().showStyleBarPanel(blurtrue);
 		} else {
-			((AlgebraDockPanelW) app.getGuiManager().getLayout()
-					.getDockManager().getPanel(App.VIEW_ALGEBRA))
-					.showStyleBarPanel(true);
+			getAlgebraDockPanel().showStyleBarPanel(true);
 		}
 
 		// always show popup, except (blurtrue && emptyCase) == true

@@ -106,9 +106,7 @@ public class AppWapplet extends AppWFull {
 		initCommonObjects();
 		initing = true;
 
-		this.euclidianViewPanel = new EuclidianDockPanelW(this,
-				getArticleElement().getDataParamShowMenuBar(false)
-						|| getArticleElement().getDataParamAllowStyleBar(false));
+		this.euclidianViewPanel = new EuclidianDockPanelW(this, allowStylebar());
 		// (EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
@@ -128,8 +126,6 @@ public class AppWapplet extends AppWFull {
 			}
 		}
 	}
-
-
 
 	@Override
 	public GeoGebraFrameBoth getAppletFrame() {
