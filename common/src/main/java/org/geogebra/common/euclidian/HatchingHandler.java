@@ -13,8 +13,8 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
 /**
@@ -234,7 +234,7 @@ public class HatchingHandler {
 	 *            alpha value
 	 */
 	protected void setTexture(org.geogebra.common.awt.GGraphics2D g3,
-			GeoElement geo, float alpha) {
+			GeoElementND geo, float alpha) {
 		// Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		if (geo.getFillImage() == null || geo.getFillImage().isSVG()) {
 			g3.setPaint(geo.getFillColor());

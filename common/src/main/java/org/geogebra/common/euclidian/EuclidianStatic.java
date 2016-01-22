@@ -10,8 +10,8 @@ import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
@@ -224,7 +224,7 @@ public abstract class EuclidianStatic {
 	 */
 	public static final org.geogebra.common.awt.GRectangle drawMultilineLaTeX(
 			App app, org.geogebra.common.awt.GGraphics2D tempGraphics,
-			GeoElement geo, org.geogebra.common.awt.GGraphics2D g2,
+			GeoElementND geo, org.geogebra.common.awt.GGraphics2D g2,
 			org.geogebra.common.awt.GFont font, org.geogebra.common.awt.GColor fgColor,
 			org.geogebra.common.awt.GColor bgColor, String labelDesc,
 			int xLabel, int yLabel, boolean serif, Runnable callback) {
@@ -263,7 +263,7 @@ public abstract class EuclidianStatic {
 	 * @return bounds of resulting LaTeX formula
 	 */
 	public final GRectangle doDrawMultilineLaTeX(App app,
-			GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2,
+			GGraphics2D tempGraphics, GeoElementND geo, GGraphics2D g2,
 			GFont font, GColor fgColor, GColor bgColor, String labelDesc,
 			int xLabel, int yLabel, boolean serif, Runnable callback) {
 		int fontSize = g2.getFont().getSize();

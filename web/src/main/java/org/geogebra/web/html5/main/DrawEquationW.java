@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -120,7 +121,7 @@ public class DrawEquationW extends DrawEquation {
 	}
 
 	@Override
-	public GDimension drawEquation(App app1, GeoElement geo,
+	public GDimension drawEquation(App app1, GeoElementND geo,
 			final GGraphics2D g2,
 	        int x, int y, String latexString0, GFont font, boolean serif,
 	        final GColor fgColor, GColor bgColor, boolean useCache,

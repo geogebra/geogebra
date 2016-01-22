@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 
@@ -63,7 +64,8 @@ public abstract class DrawEquation {
 	 * @return dimensions of result
 	 */
 	public abstract org.geogebra.common.awt.GDimension drawEquation(App app,
-			GeoElement geo, org.geogebra.common.awt.GGraphics2D g2, int x, int y,
+			GeoElementND geo, org.geogebra.common.awt.GGraphics2D g2, int x,
+			int y,
 			String text, org.geogebra.common.awt.GFont font, boolean serif,
 			org.geogebra.common.awt.GColor fgColor,
 			org.geogebra.common.awt.GColor bgColor, boolean useCache,

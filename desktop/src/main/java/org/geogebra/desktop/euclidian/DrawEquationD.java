@@ -16,6 +16,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.Language;
@@ -49,7 +50,7 @@ public class DrawEquationD extends DrawEquation {
 	 * @return dimension of rendered equation
 	 */
 	final public Dimension drawEquationJLaTeXMath(final AppD app,
-			final GeoElement geo, final Graphics2D g2, final int x,
+			final GeoElementND geo, final Graphics2D g2, final int x,
 			final int y, final String text,
 			final org.geogebra.common.awt.GFont font, final boolean serif,
 			final Color fgColor, final Color bgColor, final boolean useCache,
@@ -335,7 +336,8 @@ public class DrawEquationD extends DrawEquation {
 	}
 
 	final public org.geogebra.common.awt.GDimension drawEquation(final App app,
-			final GeoElement geo, final org.geogebra.common.awt.GGraphics2D g2,
+			final GeoElementND geo,
+			final org.geogebra.common.awt.GGraphics2D g2,
 			final int x, final int y, final String text,
 			final org.geogebra.common.awt.GFont font, final boolean serif,
 			final org.geogebra.common.awt.GColor fgColor,
@@ -351,7 +353,7 @@ public class DrawEquationD extends DrawEquation {
 	}
 
 	final public static Dimension drawEquation(final AppD app,
-			final GeoElement geo, final Graphics2D g2, final int x,
+			final GeoElementND geo, final Graphics2D g2, final int x,
 			final int y, final String text,
 			final org.geogebra.common.awt.GFont font, final boolean serif,
 			final org.geogebra.common.awt.GColor fgColor,

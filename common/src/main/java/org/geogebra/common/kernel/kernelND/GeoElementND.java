@@ -14,16 +14,21 @@ package org.geogebra.common.kernel.kernelND;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GPaint;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ToGeoElement;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.LaTeXCache;
 /**
  * Common interface for all interfaces that represent GeoElements
  * @author Zbynek
@@ -316,4 +321,64 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 *         use isCongruent)
 	 */
 	public boolean isEqual(GeoElement geo);
+
+	Kernel getKernel();
+
+	boolean doHighlighting();
+
+	float getAlphaValue();
+
+	AlgoElement getDrawAlgorithm();
+
+	GPaint getFillColor();
+
+	GColor getBackgroundColor();
+
+	FillType getFillType();
+
+	GColor getLabelColor();
+
+	String getLabelDescription();
+
+	GColor getObjectColor();
+
+	String getImageFileName();
+
+	Object getLaTeXdescription();
+
+	GColor getSelColor();
+
+	boolean isHatchingEnabled();
+
+	void setHatchingAngle(int hatchingAngle);
+
+	void setAlphaValue(float alpha);
+
+	String getCaption(StringTemplate defaulttemplate);
+
+	MyImage getFillImage();
+
+	String getFillSymbol();
+
+	void setFillType(FillType fillType);
+
+	int getHatchingDistance();
+
+	void setFillSymbol(String symbol);
+
+	boolean isFillable();
+
+	boolean isGeoFunction();
+
+	boolean isTraceable();
+
+	double getHatchingAngle();
+
+	void setImageFileName(String fileName);
+
+	boolean getShowTrimmedIntersectionLines();
+
+	boolean isVisible();
+	
+	public LaTeXCache getLaTeXCache();
 }
