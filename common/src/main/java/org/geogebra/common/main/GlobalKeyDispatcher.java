@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles keyboard events. This class only dispatches
@@ -100,6 +101,7 @@ public abstract class GlobalKeyDispatcher {
 
 	private boolean handleUpDownArrowsForDropdown(ArrayList<GeoElement> geos,
 			boolean down, boolean canOpenDropDown) {
+		Log.debug("[KEYS] handleUpDownArrowsForDropdown");
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawList dl = DrawList.asDrawable(app, geos.get(0));
 			if (canOpenDropDown && !dl.isOptionsVisible()) {
@@ -114,15 +116,18 @@ public abstract class GlobalKeyDispatcher {
 
 	private boolean handleLeftRightArrowsForDropdown(ArrayList<GeoElement> geos,
 			boolean left, boolean canOpenDropDown) {
+		Log.debug("[KEYS] handleLeftRightArrowsForDropdown");
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawList dl = DrawList.asDrawable(app, geos.get(0));
+			if (canOpenDropDown && !dl.isOptionsVisible()) {
+				dl.toggleOptions();
+			}
+
 			if (dl.isMultiColumn()) {
-				if (canOpenDropDown && !dl.isOptionsVisible()) {
-					dl.toggleOptions();
-				} else {
+				if (dl.isOptionsVisible()) {
 					dl.moveSelectorHorizontal(left);
+					return true;
 				}
-				return true;
 			} else {
 				return handleUpDownArrowsForDropdown(geos, left,
 						canOpenDropDown);

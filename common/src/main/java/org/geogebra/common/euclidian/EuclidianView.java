@@ -63,6 +63,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -5239,6 +5240,13 @@ sb.toString(), getFontAxes(),
 
 	public void setOpenedComboBox(DrawList openedComboBox) {
 		this.openedComboBox = openedComboBox;
+		SelectionManager sm = app.getSelectionManager();
+		if (openedComboBox != null) {
+			GeoElement geo = openedComboBox.getGeoElement();
+			if (!sm.containsSelectedGeo(geo)) {
+				sm.addSelectedGeo(geo);
+			}
+		}
 	}
 
 	public void cancelBlur() {
