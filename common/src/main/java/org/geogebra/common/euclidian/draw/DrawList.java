@@ -466,6 +466,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				}
 
 				itemHovered = items.get(idx);
+				selectedIndex = idx;
 				drawItem(itemHovered, true);
 
 			}
@@ -1278,7 +1279,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		drawOptions.selectCurrentItem();
-		setOptionsVisible(false);
+		closeOptions();
 	}
 
 	/**
