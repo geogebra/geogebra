@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.images;
 import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
 
 /**
  * SVGs of the main buttons
@@ -64,27 +63,27 @@ public interface SvgPerspectiveResources extends PerspectiveResources, ClientBun
 	SVGResource styleBar_spreadsheetView();
 	
 	@Source("org/geogebra/common/icons/svg/web/menu-edit-redo.svg")
-	ImageResource menu_header_redo();
+	SVGResource menu_header_redo();
 
 	@Source("org/geogebra/common/icons/svg/web/menu-edit-redo.svg")
-	ImageResource menu_header_redo_hover();
+	SVGResource menu_header_redo_hover();
 
 	@Source("org/geogebra/common/icons/svg/web/menu-edit-undo.svg")
-	ImageResource menu_header_undo();
+	SVGResource menu_header_undo();
 
 	@Source("org/geogebra/common/icons/svg/web/menu-edit-undo.svg")
-	ImageResource menu_header_undo_hover();
+	SVGResource menu_header_undo_hover();
 
 	@Source("org/geogebra/common/icons/svg/web/menu-button-open-search.svg")
-	ImageResource menu_header_open_search();
+	SVGResource menu_header_open_search();
 
 	@Source("org/geogebra/common/icons/svg/web/menu-button-open-search.svg")
-	ImageResource menu_header_open_search_hover();
+	SVGResource menu_header_open_search_hover();
 
 	@Source("org/geogebra/common/icons/svg/web/menu-button-open-menu.svg")
-	ImageResource menu_header_open_menu();
+	SVGResource menu_header_open_menu();
 
 	@Source("org/geogebra/common/icons/svg/web/menu-button-open-menu.svg")
-	ImageResource menu_header_open_menu_hover();
+	SVGResource menu_header_open_menu_hover();
 
 }
