@@ -128,7 +128,7 @@ public class DrawVector extends Drawable implements Previewable {
 		coordsB[1] = coordsA[1] + coordsV[1];
 
 		// set line and arrow of vector and converts all coords to screen
-		setArrow(((GeoElement) v).lineThickness);
+		setArrow(((GeoElement) v).getLineThickness());
 
 		// label position
 		if (labelVisible) {

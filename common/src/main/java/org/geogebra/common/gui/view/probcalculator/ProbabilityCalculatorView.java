@@ -525,7 +525,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			axis.setCoords(0, 1, 0);
 			axis.setLayer(4);
 			axis.setObjColor(app.getEuclidianView1().getAxesColor());
-			axis.setLineThickness(discreteIntervalGraph.lineThickness);
+			axis.setLineThickness(discreteIntervalGraph.getLineThickness());
 			axis.setFixed(true);
 			axis.setSelectionAllowed(false);
 			axis.updateCascade();

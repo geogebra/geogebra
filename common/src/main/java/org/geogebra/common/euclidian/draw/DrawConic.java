@@ -481,7 +481,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		point.copyLabel(conic);
 		point.setObjColor(conic.getObjectColor());
-		point.setPointSize(conic.lineThickness);
+		point.setPointSize(conic.getLineThickness());
 
 		drawPoint.update(coords);
 	}

@@ -164,7 +164,7 @@ public class DrawSlope extends Drawable {
 				g2.draw(gp);
 			}
 
-			if (geo.lineThickness > 0) {
+			if (geo.getLineThickness() > 0) {
 				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(gp);

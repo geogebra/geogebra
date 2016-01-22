@@ -204,7 +204,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			}
 
 			// tick spacing and length.
-			double tickSpacing = 2.5 + geo.lineThickness / 2d;
+			double tickSpacing = 2.5 + geo.getLineThickness() / 2d;
 			double tickLength = tickSpacing + 1;
 			// Michael Borcherds 20071006 start
 			double arrowlength = 1.5;
@@ -348,7 +348,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 		// segments of polygons can have zero thickness
-		if (geo.lineThickness == 0)
+		if (geo.getLineThickness() == 0)
 			return;
 
 		if (isVisible) {

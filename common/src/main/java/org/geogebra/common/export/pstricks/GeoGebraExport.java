@@ -374,7 +374,7 @@ public abstract class GeoGebraExport {
 					GeoPoint point = geo.getSinglePoint();
 					point.copyLabel(geo);
 					point.setObjColor(geo.getObjectColor());
-					point.setPointSize(geo.lineThickness);
+					point.setPointSize(geo.getLineThickness());
 					point.setLabelOffset(geo.labelOffsetX, geo.labelOffsetY);
 					DrawPoint drawPoint = new DrawPoint(euclidianView, point);
 					drawPoint.setGeoElement(geo);
@@ -387,7 +387,7 @@ public abstract class GeoGebraExport {
 					for (int i = 0; i < 2; i++) {
 						lines[i].copyLabel(geo);
 						lines[i].setObjColor(geo.getObjectColor());
-						lines[i].lineThickness = geo.lineThickness;
+						lines[i].setLineThickness(geo.getLineThickness());
 						lines[i].lineType = geo.lineType;
 					}
 					drawLines[0] = new DrawLine(euclidianView, lines[0]);
@@ -935,7 +935,7 @@ public abstract class GeoGebraExport {
 		double ny = B[0] - A[0];
 		double nLength = MyMath.length(nx, ny);
 		// tick spacing and length.
-		double tickSpacing = 2.5 + geo.lineThickness / 2d;
+		double tickSpacing = 2.5 + geo.getLineThickness() / 2d;
 		double tickLength = tickSpacing + 1;
 		// Michael Borcherds 20071006 start
 		double arrowlength = 1.5;
@@ -1138,13 +1138,13 @@ public abstract class GeoGebraExport {
 		double rdiff;
 		switch (geo.decorationType) {
 		case GeoElement.DECORATION_ANGLE_TWO_ARCS:
-			rdiff = 4 + geo.lineThickness / 2d;
+			rdiff = 4 + geo.getLineThickness() / 2d;
 			drawArc(geo, vertex, angSt, angEnd, r);
 			r -= rdiff / euclidianView.getXscale();
 			drawArc(geo, vertex, angSt, angEnd, r);
 			break;
 		case GeoElement.DECORATION_ANGLE_THREE_ARCS:
-			rdiff = 4 + geo.lineThickness / 2d;
+			rdiff = 4 + geo.getLineThickness() / 2d;
 			drawArc(geo, vertex, angSt, angEnd, r);
 			r -= rdiff / euclidianView.getXscale();
 			drawArc(geo, vertex, angSt, angEnd, r);

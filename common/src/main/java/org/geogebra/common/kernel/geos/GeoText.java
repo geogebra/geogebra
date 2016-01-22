@@ -38,6 +38,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 
 
@@ -191,8 +192,7 @@ public class GeoText extends GeoElement implements Locateable,
 				}
 			}
 		} catch (CircularDefinitionException e) {
-			App
-					.debug("set GeoText: CircularDefinitionException");
+			Log.debug("set GeoText: CircularDefinitionException");
 		}
 		updateTemplate();
 	}
@@ -897,9 +897,9 @@ public class GeoText extends GeoElement implements Locateable,
 
 		// needed for eg \sqrt in latex
 		if ((fontStyle & GFont.BOLD) != 0)
-			lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS * 2;
+			setLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS * 2);
 		else
-			lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
+			setLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS);
 
 	}
 

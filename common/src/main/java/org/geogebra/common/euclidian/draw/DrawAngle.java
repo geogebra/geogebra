@@ -338,14 +338,14 @@ public class DrawAngle extends Drawable implements Previewable {
 
 				if (dot90degree == null)
 					dot90degree = AwtFactory.prototype.newEllipse2DDouble();
-				int diameter = 2 * geo.lineThickness;
+				int diameter = 2 * geo.getLineThickness();
 				double radius = r / 1.7;
 				double labelAngle = angSt + angExt / 2.0;
 				coords[0] = m[0] + radius * Math.cos(labelAngle);
 				coords[1] = m[1] + radius * Math.sin(labelAngle);
 				view.toScreenCoords(coords);
-				dot90degree.setFrame(coords[0] - geo.lineThickness, coords[1]
-						- geo.lineThickness, diameter, diameter);
+				dot90degree.setFrame(coords[0] - geo.getLineThickness(), coords[1]
+						- geo.getLineThickness(), diameter, diameter);
 
 				// set arc in real world coords and transform to screen coords
 				drawArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.PIE);
@@ -365,7 +365,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			// For Decoration
 			switch (geo.decorationType) {
 			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
-				rdiff = 4 + geo.lineThickness / 2d;
+				rdiff = 4 + geo.getLineThickness() / 2d;
 				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
@@ -374,7 +374,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				break;
 
 			case GeoElement.DECORATION_ANGLE_THREE_ARCS:
-				rdiff = 4 + geo.lineThickness / 2d;
+				rdiff = 4 + geo.getLineThickness() / 2d;
 				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
@@ -444,13 +444,13 @@ public class DrawAngle extends Drawable implements Previewable {
 				double p1[] = new double[2];
 				double p2[] = new double[2];
 				double p3[] = new double[2];
-				rdiff = 4 + geo.lineThickness / 2d;
+				rdiff = 4 + geo.getLineThickness() / 2d;
 				r = (arcSize) * view.getInvXscale();
 
 				p1[0] = m[0] + r * n2[0];
 				p1[1] = m[1] + r * n2[1]; // arrow tip
 
-				double size = 4d + geo.lineThickness / 4d;
+				double size = 4d + geo.getLineThickness() / 4d;
 				size = size * 0.9d;
 
 				p2[0] = p1[0] + (1 * n[0] + 3 * v[0]) * size
@@ -503,7 +503,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			yLabel = (int) (coords[1] + 5);
 
 			if (!addLabelOffset() && drawDot)
-				xLabel = (int) (coords[0] + 2 * geo.lineThickness);
+				xLabel = (int) (coords[0] + 2 * geo.getLineThickness());
 		}
 
 		// G.Sturr 2010-6-28 spreadsheet trace is now handled in
@@ -529,7 +529,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				g2.draw(shape);
 			}
 
-			if (geo.lineThickness > 0) {
+			if (geo.getLineThickness() > 0) {
 				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(shape);
@@ -612,7 +612,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		double cos = Math.cos(angle1);
 		double sin = Math.sin(angle1);
 
-		double length = 2.5 + geo.lineThickness / 4d;
+		double length = 2.5 + geo.getLineThickness() / 4d;
 
 		tick[id].setLine(coords[0] + (radius - length) * cos, coords[1]
 				+ (radius - length) * sin * view.getScaleRatio(), coords[0]

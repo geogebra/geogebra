@@ -434,7 +434,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	// line thickness and line type: s
 	/** note: line thickness in Drawable is calculated as lineThickness / 2.0f */
-	public int lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
+	private int lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 	/** line type (full, dashed, ...) see EuclidianStyleConstants.LINE_TYPE */
 	public int lineType = EuclidianStyleConstants.DEFAULT_LINE_TYPE;
 	/** line type for hidden parts (for 3D) */
@@ -8078,5 +8078,9 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public ExpressionValue toValidExpression() {
 		return this;
+	}
+
+	public void doSetLineThickness(int lineThickness) {
+		this.lineThickness = lineThickness;
 	}
 }

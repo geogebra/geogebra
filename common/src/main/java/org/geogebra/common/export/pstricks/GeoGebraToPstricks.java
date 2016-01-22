@@ -691,7 +691,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
 					&& geo.isEmphasizeRightAngle()
 					&& euclidianView.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT) {
-				double diameter = geo.lineThickness / euclidianView.getXscale();
+				double diameter = geo.getLineThickness() / euclidianView.getXscale();
 				double radius = arcSize / euclidianView.getXscale() / 1.7;
 				double labelAngle = (angSt + angExt) / 2.0;
 				double x1 = m[0] + radius * Math.cos(labelAngle);
@@ -726,7 +726,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			double angEnd, double r, boolean anticlockwise) {
 		// The arrow head goes away from the line.
 		// Arrow Winset=0.25, see PStricks spec for arrows
-		double arrowHeight = (geo.lineThickness * 0.8 + 3) * 1.4 * 3 / 4;
+		double arrowHeight = (geo.getLineThickness() * 0.8 + 3) * 1.4 * 3 / 4;
 		double angle = Math.asin(arrowHeight / 2 / euclidianView.getXscale()
 				/ r);
 		angEnd = angEnd - angle;
@@ -778,7 +778,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	protected void drawTick(GeoAngle geo, double[] vertex, double angle) {
 		angle = -angle;
 		double radius = geo.getArcSize();
-		double diff = 2.5 + geo.lineThickness / 4d;
+		double diff = 2.5 + geo.getLineThickness() / 4d;
 		double x1 = euclidianView.toRealWorldCoordX(vertex[0] + (radius - diff)
 				* Math.cos(angle));
 		double x2 = euclidianView.toRealWorldCoordX(vertex[0] + (radius + diff)
@@ -827,7 +827,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				.toLaTeXString(geo.getLabelDescription(), true);
 		geoPoint.setLabel(label);
 		double param = (value - min) / (max - min);
-		geoPoint.setPointSize(2 + (geo.lineThickness + 1) / 3);
+		geoPoint.setPointSize(2 + (geo.getLineThickness() + 1) / 3);
 		geoPoint.setLabelVisible(geo.isLabelVisible());
 		if (horizontal)
 			geoPoint.setCoords(x + width * param, y, 1.0);

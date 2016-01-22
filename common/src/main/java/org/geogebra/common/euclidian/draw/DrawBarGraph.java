@@ -195,7 +195,7 @@ public class DrawBarGraph extends Drawable {
 			}
 
 			try {
-				if (geo.lineThickness > 0) {
+				if (geo.getLineThickness() > 0) {
 					g2.setPaint(getObjectColor());
 					g2.setStroke(objStroke);
 					for (int i = 0; i < gp.length; i++) {
@@ -316,7 +316,7 @@ public class DrawBarGraph extends Drawable {
 				coords[1] = yVal[i];
 				pts.get(i).setCoords(coords[0], coords[1], 1.0);
 				pts.get(i).setObjColor(geo.getObjectColor());
-				pts.get(i).setPointSize(2 + (geo.lineThickness + 1) / 3);
+				pts.get(i).setPointSize(2 + (geo.getLineThickness() + 1) / 3);
 				pts.get(i).setPointStyle(pointStyle);
 				if (pointType == POINT_RIGHT) {
 					pts.get(i).setEuclidianVisible(false);
@@ -341,7 +341,7 @@ public class DrawBarGraph extends Drawable {
 					pts.get(N + i).setCoords(coords[0], coords[1], 1.0);
 					pts.get(N + i).setObjColor(geo.getObjectColor());
 					pts.get(N + i)
-							.setPointSize(2 + (geo.lineThickness + 1) / 3);
+							.setPointSize(2 + (geo.getLineThickness() + 1) / 3);
 					pts.get(N + i).setPointStyle(pointStyle);
 					if (pointType == POINT_LEFT) {
 						pts.get(N + i).setEuclidianVisible(false);

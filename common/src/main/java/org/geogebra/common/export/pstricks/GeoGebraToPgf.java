@@ -761,7 +761,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
 					&& geo.isEmphasizeRightAngle()
 					&& euclidianView.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT) {
-				double diameter = geo.lineThickness / euclidianView.getXscale();
+				double diameter = geo.getLineThickness() / euclidianView.getXscale();
 				double radius = arcSize / euclidianView.getXscale() / 1.7;
 				double labelAngle = (angSt + angExt) / 2.0;
 				double x1 = m[0] + radius * Math.cos(labelAngle);
@@ -856,7 +856,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	protected void drawTick(GeoAngle geo, double[] vertex, double angle) {
 		angle = -angle;
 		double radius = geo.getArcSize();
-		double diff = 2.5 + geo.lineThickness / 4d;
+		double diff = 2.5 + geo.getLineThickness() / 4d;
 		double x1 = euclidianView.toRealWorldCoordX(vertex[0] + (radius - diff)
 				* Math.cos(angle));
 		double x2 = euclidianView.toRealWorldCoordX(vertex[0] + (radius + diff)
@@ -902,7 +902,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				.toLaTeXString(geo.getLabelDescription(), true);
 		geoPoint.setLabel(label);
 		double param = (value - min) / (max - min);
-		geoPoint.setPointSize(2 + (geo.lineThickness + 1) / 3);
+		geoPoint.setPointSize(2 + (geo.getLineThickness() + 1) / 3);
 		geoPoint.setLabelVisible(geo.isLabelVisible());
 		if (horizontal)
 			geoPoint.setCoords(x + width * param, y, 1.0);

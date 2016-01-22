@@ -18,6 +18,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Input box for user input
@@ -219,7 +220,6 @@ public class GeoTextField extends GeoButton {
 		if (linkedGeo.isGeoNumeric() && linkedGeo.isIndependent()
 				&& !linkedGeo.isGeoAngle()
 				&& (printDecimals > -1 || printFigures > -1)) {
-			App.error("1");
 			try {
 				// can be a calculation eg 1/2+3
 				// so use full GeoGebra parser
@@ -255,7 +255,7 @@ public class GeoTextField extends GeoButton {
 			return;
 		} 
 		catch (Exception e1) {
-			App.error(e1.getMessage());
+			Log.error(e1.getMessage());
 			kernel.getApplication().showError(kernel.getApplication()
 					.getLocalization().getError("InvalidInput"));
 			return;

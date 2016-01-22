@@ -168,7 +168,7 @@ public class DrawIntegral extends Drawable {
 			fill(g2, gp, true); // fill using default/hatching/image as
 								// appropriate
 
-			if (geo.lineThickness > 0) {
+			if (geo.getLineThickness() > 0) {
 				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				g2.drawWithValueStrokePure(gp);

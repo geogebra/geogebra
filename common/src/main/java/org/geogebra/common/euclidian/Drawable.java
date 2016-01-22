@@ -543,8 +543,8 @@ public abstract class Drawable extends DrawableND {
 		strokedShape = null;
 		strokedShape2 = null;
 
-		if (lineThickness != fromGeo.lineThickness) {
-			lineThickness = fromGeo.lineThickness;
+		if (lineThickness != fromGeo.getLineThickness()) {
+			lineThickness = fromGeo.getLineThickness();
 
 			float width = lineThickness / 2.0f;
 			objStroke = org.geogebra.common.factories.AwtFactory.prototype

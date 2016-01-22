@@ -126,7 +126,7 @@ public class DrawSlider extends Drawable {
 			double max = number.getIntervalMax();
 
 			double param = (number.getValue() - min) / (max - min);
-			setPointSize(2 + (number.lineThickness + 1) / 3);
+			setPointSize(2 + (number.getLineThickness() + 1) / 3);
 			labelVisible = geo.isLabelVisible();
 
 			// horizontal slider

@@ -250,7 +250,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	@Override
 	public boolean showInEuclidianView() {
 		// segments of polygons can have thickness 0
-		return defined && lineThickness != 0;
+		return defined && getLineThickness() != 0;
 	}
 
 

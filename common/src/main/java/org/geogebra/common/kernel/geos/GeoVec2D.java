@@ -37,10 +37,10 @@ import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Riemann;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -1340,8 +1340,10 @@ final public class GeoVec2D extends ValidExpression implements
 			yy = p.getInhomY();
 			zz = 1;			
 
-		} else
-			App.debug("error in GeoVec2D");
+		} else {
+			Log.warn("error in GeoVec2D.multiplyMatrixAffine"
+					+ (rt == null ? "null" : rt.getValueType()));
+		}
 
 		a = MyList.getCell(list, 0, 0).evaluateDouble();
 		b = MyList.getCell(list, 1, 0).evaluateDouble();
