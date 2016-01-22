@@ -276,40 +276,29 @@ public class DrawConicPart extends Drawable implements Previewable {
 			drawRay1.setGeoElement((GeoElement) conicPart);
 			drawRay2.setGeoElement((GeoElement) conicPart);
 		}
-
+		Coords s = view.getCoordsForView(conicPart.getOrigin3D(0));
+		if (!Kernel.isZero(s.getZ())) {
+			isVisible = false;
+			return;
+		}
+		Coords e = view.getCoordsForView(conicPart.getSegmentEnd3D());
+		if (!Kernel.isZero(e.getZ())) {
+			isVisible = false;
+			return;
+		}
 		if (conicPart.positiveOrientation()) {
 			draw_type = DRAW_TYPE_SEGMENT;
-			Coords s = view.getCoordsForView(((GeoConicND) conicPart)
-					.getOrigin3D(0));
-			if (!Kernel.isZero(s.getZ())) {
-				isVisible = false;
-				return;
-			}
-			Coords e = view.getCoordsForView(conicPart.getSegmentEnd3D());
-			if (!Kernel.isZero(e.getZ())) {
-				isVisible = false;
-				return;
-			}
+
 			drawSegment.setIsVisible();
 			drawSegment.update(s, e);
 		} else {
 			draw_type = DRAW_TYPE_RAYS;
-			Coords s = view.getCoordsForView(((GeoConicND) conicPart)
-					.getOrigin3D(0));
-			if (!Kernel.isZero(s.getZ())) {
-				isVisible = false;
-				return;
-			}
-			Coords d = view.getCoordsForView(conicPart.getSegmentEnd3D())
-					.sub(s);
-			if (!Kernel.isZero(d.getZ())) {
-				isVisible = false;
-				return;
-			}
+
+			Coords d = e.sub(s);
 			drawRay1.setIsVisible();
 			drawRay1.update(s, d.mul(-1), false); // don't show labels
 			drawRay2.setIsVisible();
-			drawRay2.update(((GeoConicND) conicPart).getOrigin3D(1), d, false);
+			drawRay2.update(conicPart.getOrigin3D(1), d, false);
 		}
 	}
 

@@ -75,5 +75,13 @@ public interface GeoConicPartND {
 	 * set parameters in case of single point
 	 */
 	public void setParametersToSinglePoint();
+
+	/**
+	 * 
+	 * @param i
+	 *            index of line
+	 * @return the origin of lines in case of parallel lines
+	 */
+	public Coords getOrigin3D(int i);
 }
 

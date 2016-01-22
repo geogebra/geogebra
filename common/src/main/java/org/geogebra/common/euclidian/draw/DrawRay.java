@@ -113,7 +113,7 @@ public class DrawRay extends Drawable implements Previewable {
 				tmpCoords2 = new Coords(2);
 			}
 			tmpCoords2.setX(equation.getY());
-			tmpCoords2.setY(equation.getX());
+			tmpCoords2.setY(-equation.getX());
 			update(A, tmpCoords2, showLabel);
 
 		}
@@ -140,7 +140,7 @@ public class DrawRay extends Drawable implements Previewable {
 		view.toScreenCoords(a);
 
 		v[0] = direction.getX() * view.getXscale();
-		v[1] = direction.getY() * view.getYscale();
+		v[1] = -direction.getY() * view.getYscale();
 
 		setClippedLine();
 
