@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
@@ -76,7 +77,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		private static final int ROUND = 8;
 
-		private static final int MAX_COLS_NO_FONT_CHANGE = 5;
+//		private static final int MAX_COLS_NO_FONT_CHANGE = 5;
 
 		private class OptionItem {
 			public int index;
@@ -122,8 +123,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		private static final int MIN_FONT_SIZE = 12;
 
-		private int colCount = 10;
-		private int rowCount = 10;
+		private int colCount=1;
+		private int rowCount=1;
 		private GRectangle rectTable;
 		private GDimension dimItem;
 		private GDimension dimTable;
@@ -288,6 +289,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			drawItem(item, true);
 			itemHovered = item;
 			selectedIndex = item.index;
+			ensureSelected();
 		}
 
 		private OptionItem getItemAt(int x, int y) {
@@ -425,8 +427,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			if (visible) {
 				view.setOpenedComboBox(DrawList.this);
 				selectedIndex = 0;
+				itemHovered = items.get(0);
+			} else {
+				view.setOpenedComboBox(null);
 			}
-			view.setOpenedComboBox(null);
 			geo.updateRepaint();
 		}
 
@@ -437,6 +441,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		public void toggle() {
 			setVisible(!visible);
 		}
+
 
 		public void moveSelectorBy(int diff, boolean forward) {
 			boolean update = false;
@@ -489,6 +494,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		public int getMaxItemWidth() {
 			return dimItem != null ? dimItem.getWidth() : 0;
+		}
+
+		public boolean isInside(GRectangle rect) {
+			return rectTable.contains(rect);
+		}
+
+		public boolean intersectsRectangle(GRectangle rect) {
+			return rectTable.getBounds().intersects(rect);
 		}
 
 	}
@@ -803,7 +816,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	@Override
 	public boolean isInside(GRectangle rect) {
 		if (geoList.drawAsComboBox()) {
-			return super.isInside(rect);
+			return super.isInside(rect);// || drawOptions.isInside(rect);
 		}
 
 		int size = drawables.size();
@@ -820,6 +833,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	public boolean intersectsRectangle(GRectangle rect) {
 		if (geoList.drawAsComboBox()) {
 			return super.intersectsRectangle(rect);
+			// || drawOptions.intersectsRectangle(rect);
 		}
 
 		int size = drawables.size();
@@ -1141,7 +1155,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return false;
 		}
 
-		return drawOptions.isHit(x, y);
+		boolean hit = drawOptions.isHit(x, y);
+		if (hit) {
+			Log.debug("OPTION is HIT");
+		}
+		return hit;
 	}
 
 	/**
@@ -1324,4 +1342,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		return geo.doHighlighting();
 	}
 
+	void ensureSelected() {
+		SelectionManager sel = view.getApplication().getSelectionManager();
+		if (!sel.containsSelectedGeo(geo)) {
+			sel.addSelectedGeo(geo);
+
+		}
+	}
 }
