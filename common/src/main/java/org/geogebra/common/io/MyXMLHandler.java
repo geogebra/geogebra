@@ -1836,7 +1836,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			kernel.setAlgebraStyle(Integer.parseInt(attrs.get("val")));
 			if (attrs.containsKey("spreadsheet")) {
-				kernel.setAlgebraStyle(Integer.parseInt(attrs
+				kernel.setAlgebraStyleSpreadsheet(Integer.parseInt(attrs
 						.get("spreadsheet")));
 			} else {
 				// old files only have val, use that for spreadsheet too
