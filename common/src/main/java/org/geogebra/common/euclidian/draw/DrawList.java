@@ -312,7 +312,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				finished = getTableScale();
 				itemFontSize--;
 			}
-
+			if (dimItem == null) {
+				itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
+				createItems();
+				getTableScale();
+			}
 			dimTable = AwtFactory.prototype.newDimension(
 					getColCount() * dimItem.getWidth(),
 					rowCount * dimItem.getHeight());
@@ -502,7 +506,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		geo = geoList;
 		setDrawingOnCanvas(view.getApplication()
 				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS));
-
+		App.debug("DRAW ON CANVAS" + isDrawingOnCanvas());
 		if (isDrawingOnCanvas()) {
 			drawOptions = new DrawOptions();
 			dropDown = view.getApplication().newDropDownList();
