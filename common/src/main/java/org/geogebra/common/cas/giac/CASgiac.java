@@ -27,11 +27,11 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -53,6 +53,9 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * 
 	 */
 	public final static String initString = "caseval(\"init geogebra\")";
+	/**
+	 * In web we need to skip caseval because of emcscripten
+	 */
 	public final static String initStringWeb = "init geogebra";
 
 	/**
@@ -118,7 +121,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			"ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x));"
 			// check list befor equation to avoid out of bounds. flatten helps
 			// for {} and {{{0}}}
-			+ "ggb_is_zero(x):=when(x==0 || (x[0]== 'pnt' && x[1] == ggbvect[0,0,0]),true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,false)));";
+			+ "ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]== 'pnt' && x[1] == ggbvect[0,0,0])));";
 	/**
 	 * whether Giac has been set to GeoGebra mode yet
 	 */
@@ -150,7 +153,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String exp = input;
 
-		App.debug("giac eval: " + exp);
+		Log.debug("giac eval: " + exp);
 		String result = evaluate(exp, getTimeoutMilliseconds());
 
 		// FIXME: This check is too heuristic: in giac.js we can get results
@@ -164,7 +167,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				// eg
 				// "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
 				// assume error
-				App.debug("message from giac (assuming error) " + result);
+				Log.debug("message from giac (assuming error) " + result);
 				result = "?";
 			} else { // this is a special string output (only for the prover at
 						// the moment)
@@ -175,7 +178,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			}
 		}
 
-		App.debug("CASgiac.evaluateRaw: result: " + result);
+		Log.debug("CASgiac.evaluateRaw: result: " + result);
 		return result;
 	}
 
@@ -658,7 +661,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		for (int x = 0; x < xLength; x++) {
 			for (int y = 0; y < yLength; y++) {
 				result[x][y] = Double.parseDouble(flatData[counter]);
-				App.debug("[LocusEqu] result[" + x + "," + y + "]="
+				Log.debug("[LocusEqu] result[" + x + "," + y + "]="
 						+ result[x][y]);
 				++counter;
 			}
@@ -733,7 +736,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			// App.debug(matcher.getGroup(4));
 			ret = matcher.getGroup(3) + "<" + matcher.getGroup(2)
 					+ matcher.getGroup(1);
-			App.debug("giac output (with simple inequality converted): " + ret);
+			Log.debug("giac output (with simple inequality converted): " + ret);
 			return ret;
 		}
 
@@ -793,7 +796,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 
 		if (!exp.equals(ret)) {
-			App.debug("giac output (with inequality converted): " + ret);
+			Log.debug("giac output (with inequality converted): " + ret);
 		}
 
 		return ret;
@@ -812,7 +815,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (s.indexOf("GIAC_ERROR:") > -1) {
 			// GIAC_ERROR: canonical_form(3*ggbtmpvarx^4+ggbtmpvarx^2) Error:
 			// Bad Argument Value
-			App.debug("error from Giac: " + s);
+			Log.debug("error from Giac: " + s);
 
 			return "?";
 		}
@@ -847,7 +850,6 @@ public abstract class CASgiac implements CASGenericInterface {
 					sb = sb.replace(primeOpen, primeOpen + 1, "");
 					sb = sb.replace(primeClose - 1, primeClose, "");
 					ret = sb.toString();
-					App.debug(ret);
 					primeOpen = ret.indexOf('\'', primeClose);
 				} else {
 					primeOpen = primeClose;
@@ -868,14 +870,14 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (ret.indexOf("c_") > -1) {
 			nrOfReplacedConst += ret.length() / 3; // upper bound on number of
 													// constants in result
-			App.debug("replacing arbitrary constants in " + ret);
+			Log.debug("replacing arbitrary constants in " + ret);
 			ret = ret.replaceAll("c_([0-9]*)", "arbconst($1+"
 					+ nrOfReplacedConst
 					+ ")");
 		}
 
 		if (ret.indexOf("n_") > -1) {
-			App.debug("replacing arbitrary integers in " + ret);
+			Log.debug("replacing arbitrary integers in " + ret);
 			ret = ret.replaceAll("n_([0-9]*)", "arbint($1)");
 		}
 
