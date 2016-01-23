@@ -129,8 +129,9 @@ public interface Inspecting {
 
 				}
 				return false;
-				// Function
+				// Function, FunctionNVar
 			case 3:
+			case 10:
 				if (v instanceof GeoDummyVariable) {
 					GeoElement subst = ((GeoDummyVariable) v)
 							.getElementWithSameName();
@@ -147,9 +148,7 @@ public interface Inspecting {
 				// MyList
 			case 6:
 				return false;
-				// FunctionNVar
-			case 10:
-				return true;
+
 				// ExpressionNode
 			case 11:
 				if (v instanceof GeoDummyVariable) {
@@ -212,7 +211,7 @@ public interface Inspecting {
 				return false;
 			} else if (v instanceof FunctionNVar) {
 				type = 10;
-				return true;
+				return ((FunctionNVar) v).getVarNumber() > 2;
 			}
 			return false;
 
