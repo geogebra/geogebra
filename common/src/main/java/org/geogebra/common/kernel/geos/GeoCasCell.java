@@ -1530,10 +1530,44 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				e.printStackTrace();
 			}
 		} else {
+			HashSet<FunctionVariable> fVarSet = new HashSet<FunctionVariable>();
 			if (isFunctionProducingCommand()) {
-			((ExpressionNode) outputVE).setForceFunction();
+				((ExpressionNode) outputVE).setForceFunction();
+				HashSet<String> varSet = new HashSet<String>();
+				evalVE.traverse(Traversing.DummyVariableCollector
+						.getCollector(varSet));
+				Iterator<String> it = varSet.iterator();
+				// collect function variables
+				while (it.hasNext() && varSet.size() != 1) {
+					String curFVar = it.next();
+					FunctionVariable fv = new FunctionVariable(kernel, curFVar);
+					fVarSet.add(fv);
+				}
 			}
 			newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
+			// update newTwinGeo as multivariable function
+			if (isFunctionProducingCommand() && !fVarSet.isEmpty()
+					&& newTwinGeo instanceof GeoFunction) {
+				Iterator<FunctionVariable> it = fVarSet.iterator();
+				FunctionVariable[] funcVars = ((GeoFunction) newTwinGeo)
+						.getFunctionVariables();
+				FunctionVariable[] newFuncVars = new FunctionVariable[funcVars.length
+				         + fVarSet.size()];
+				while (it.hasNext()) {
+					FunctionVariable curFV = it.next();
+					int i;
+					for (i = 0; i < funcVars.length; i++) {
+						newFuncVars[i] = funcVars[i];
+					}
+					newFuncVars[i] = curFV;
+					i++;
+				}
+
+				FunctionNVar newFNV = new FunctionNVar(
+						((GeoFunction) newTwinGeo).getFunctionExpression(),
+						newFuncVars);
+				newTwinGeo = new GeoFunctionNVar(cons, newFNV);
+			}
 		}
 
 		if(outputVE.unwrap() instanceof GeoElement && ((GeoElement)outputVE.unwrap()).getDrawAlgorithm() instanceof DrawInformationAlgo){
