@@ -1025,6 +1025,8 @@ namespace giac {
       return sto(delrowscols(eval(g,eval_level(contextptr),contextptr),isrow,contextptr),gm,contextptr);
     }
     interval=g._VECTptr->back();
+    // if (interval.type==_IDNT || interval.type==_SYMB)
+      interval=eval(interval,1,contextptr);
     if (!interval.is_symb_of_sommet(at_interval))
       interval=symb_interval(interval,interval);
     if (!ckmatrix(gm) || !interval.is_symb_of_sommet(at_interval) || (f=interval._SYMBptr->feuille).type!=_VECT || f._VECTptr->size()!=2 || !is_integral(fa=f._VECTptr->front()) || !is_integral(fb=f._VECTptr->back()) )
