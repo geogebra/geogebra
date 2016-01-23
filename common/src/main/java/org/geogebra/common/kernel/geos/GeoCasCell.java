@@ -1672,8 +1672,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 						twinGeo = lastOutputEvaluationGeo;
 						twinGeo.setCorrespondingCasCell(this);
 						// add to construction casCell and parentAlgo
-						cons.addToConstructionList(this.getParentAlgorithm(),
+						if (this.getParentAlgorithm() != null) {
+							cons.addToConstructionList(
+									this.getParentAlgorithm(),
 								true);
+						}
 						cons.addToGeoSetWithCasCells(this);
 						if (assignmentVar == null) {
 							assignmentVar = twinGeo
@@ -2755,7 +2758,25 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			}
 			ex.traverse(remover);
 			setAssignmentType(AssignmentType.DEFAULT);
-			ex.setLabel(twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate));
+			if (twinGeo instanceof GeoSurfaceCartesian3D
+					&& twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate)
+							.length() == 1) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(twinGeoLabelSimple);
+				sb.append("(");
+				Iterator<String> it = invars.iterator();
+				while (it.hasNext()) {
+					String str = it.next();
+					sb.append(str);
+					sb.append(",");
+				}
+				sb.setLength(sb.length() - 1);
+				sb.append(")");
+				ex.setLabel(sb.toString());
+			} else {
+				ex.setLabel(twinGeo
+						.getAssignmentLHS(StringTemplate.defaultTemplate));
+			}
 			if (twinGeo instanceof GeoFunction) {
 				ex.traverse(Traversing.FunctionCreator.getCreator());
 			}
