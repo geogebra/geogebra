@@ -155,7 +155,9 @@ public interface Inspecting {
 				if (v instanceof GeoDummyVariable) {
 					GeoDummyVariable gdv = (GeoDummyVariable) v;
 					if (!gdv.toString(StringTemplate.defaultTemplate).equals(
-							"x")) {
+							"x")
+							&& !gdv.toString(StringTemplate.defaultTemplate)
+									.equals("y")) {
 						return true;
 					}
 				} else if (!(v instanceof MyDouble
