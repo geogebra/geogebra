@@ -1540,8 +1540,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				// collect function variables
 				while (it.hasNext() && varSet.size() != 1) {
 					String curFVar = it.next();
-					FunctionVariable fv = new FunctionVariable(kernel, curFVar);
-					fVarSet.add(fv);
+					if ("x".equals(curFVar) || "y".equals(curFVar)) {
+						FunctionVariable fv = new FunctionVariable(kernel,
+								curFVar);
+						fVarSet.add(fv);
+					}
 				}
 			}
 			newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
