@@ -2,7 +2,9 @@ package org.geogebra.common.awt;
 
 import org.geogebra.common.factories.AwtFactory;
 
-public abstract class GColor implements GPaint {
+import java.util.Comparator;
+
+public abstract class GColor implements GPaint, Comparable<GColor> {
 
 	public static GColor WHITE;
 	public static GColor BLACK;
@@ -193,5 +195,35 @@ public abstract class GColor implements GPaint {
 		double diff_brightness = Math.abs(foreground.getGrayScale() - background.getGrayScale());
 
 		return diff_brightness > 125 && diff_hue > 500;
+	}
+
+	public int compareTo(GColor c){
+		if (getRed() < c.getRed()){
+			return -1;
+		}
+		if (getRed() > c.getRed()){
+			return 1;
+		}
+		if (getGreen() < c.getGreen()){
+			return -1;
+		}
+		if (getGreen() > c.getGreen()){
+			return 1;
+		}
+		if (getBlue() < c.getBlue()){
+			return -1;
+		}
+		if (getBlue() > c.getBlue()){
+			return 1;
+		}
+		if (getAlpha() < c.getAlpha()){
+			return -1;
+		}
+		if (getAlpha() > c.getAlpha()){
+			return 1;
+		}
+
+
+		return 0;
 	}
 }
