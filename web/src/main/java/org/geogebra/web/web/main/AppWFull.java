@@ -184,6 +184,9 @@ public abstract class AppWFull extends AppW {
 	}
 
 	public void notifyLocalizationLoaded() {
+		if(waitingForLocalization == null){
+			return;
+		}
 		for (Runnable run : waitingForLocalization) {
 			run.run();
 		}
