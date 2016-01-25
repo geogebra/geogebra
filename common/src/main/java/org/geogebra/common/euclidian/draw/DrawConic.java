@@ -1314,15 +1314,7 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
 
-			if (conic.isInverseFill()) {
-				fill(g2, getShape(), false);
-			} else {
-				fill(g2, shape, false); // fill using default/hatching/image as
-										// appropriate
-			}
-			if (arcFiller != null)
-				fill(g2, arcFiller, true); // fill using default/hatching/image
-											// as appropriate
+			fillEllipseParabola(g2);
 
 			if (geo.doHighlighting()) {
 				g2.setStroke(selStroke);
@@ -1346,6 +1338,18 @@ public class DrawConic extends Drawable implements Previewable {
 			drawHyperbola(g2);
 			break;
 		}
+	}
+
+	private void fillEllipseParabola(GGraphics2D g2) {
+		if (conic.isInverseFill()) {
+			fill(g2, getShape(), false);
+		} else {
+			fill(g2, shape, false); // fill using default/hatching/image as
+									// appropriate
+		}
+		if (arcFiller != null)
+			fill(g2, arcFiller, true); // fill using default/hatching/image
+										// as appropriate
 	}
 
 	/**
@@ -1372,22 +1376,7 @@ public class DrawConic extends Drawable implements Previewable {
 	 *            graphic context
 	 */
 	protected void drawHyperbola(org.geogebra.common.awt.GGraphics2D g2) {
-		if (conic.isInverseFill()) {
-			org.geogebra.common.awt.GArea a1 = AwtFactory.prototype
-					.newArea(hypLeft);
-			org.geogebra.common.awt.GArea a2 = AwtFactory.prototype
-					.newArea(hypRight);
-			org.geogebra.common.awt.GArea complement = AwtFactory.prototype
-					.newArea(view.getBoundingPath());
-			complement.subtract(a1);
-			complement.subtract(a2);
-			fill(g2, complement, false);
-		} else {
-			if (hypLeftOnScreen)
-				fill(g2, hypLeft, true);
-			if (hypRightOnScreen)
-				fill(g2, hypRight, true);
-		}
+		fillHyperbola(g2);
 
 		if (geo.doHighlighting()) {
 			g2.setStroke(selStroke);
@@ -1411,6 +1400,25 @@ public class DrawConic extends Drawable implements Previewable {
 			g2.setFont(view.getFontConic());
 			g2.setColor(geo.getLabelColor());
 			drawLabel(g2);
+		}
+	}
+
+	private void fillHyperbola(GGraphics2D g2) {
+		if (conic.isInverseFill()) {
+			org.geogebra.common.awt.GArea a1 = AwtFactory.prototype
+					.newArea(hypLeft);
+			org.geogebra.common.awt.GArea a2 = AwtFactory.prototype
+					.newArea(hypRight);
+			org.geogebra.common.awt.GArea complement = AwtFactory.prototype
+					.newArea(view.getBoundingPath());
+			complement.subtract(a1);
+			complement.subtract(a2);
+			fill(g2, complement, false);
+		} else {
+			if (hypLeftOnScreen)
+				fill(g2, hypLeft, true);
+			if (hypRightOnScreen)
+				fill(g2, hypRight, true);
 		}
 	}
 
@@ -1478,12 +1486,15 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
+			fillEllipseParabola(g2);
 			g2.setStroke(objStroke);
 			g2.setColor(getObjectColor());
 			g2.draw(shape);
+
 			break;
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
+			fillHyperbola(g2);
 			g2.setStroke(objStroke);
 			g2.setColor(getObjectColor());
 			g2.draw(hypLeft);

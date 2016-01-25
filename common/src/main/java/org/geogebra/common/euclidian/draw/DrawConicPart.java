@@ -365,6 +365,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 	protected final void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
+			fill(g2, shape, false); // fill using default/hatching/image as
+									// appropriate
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.draw(shape);
