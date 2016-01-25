@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class ObjectNameModel extends OptionsModel {
 	public interface IObjectNameListener extends PropertyListener {
@@ -109,6 +110,7 @@ public class ObjectNameModel extends OptionsModel {
 	}
 
 	public void applyNameChange(final String name) {
+
 		nameInputHandler.setGeoElement(currentGeo);
 		nameInputHandler.processInput(name);
 
