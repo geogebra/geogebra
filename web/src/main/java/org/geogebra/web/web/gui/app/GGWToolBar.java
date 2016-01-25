@@ -224,7 +224,7 @@ pr.menu_header_undo(), null, 32);
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-
+				app.getExam().checkCheating();
 				if (app.getExam().isCheating()) {
 					makeRed(getElement());
 				}
@@ -262,11 +262,12 @@ pr.menu_header_undo(), null, 32);
 	 *            timer text elements get changed to white
 	 */
 	native void makeRed(Element element) /*-{
-	element.style.setProperty("background-color", "red", "important");
-	var timerElements = element.getElementsByClassName("rightButtonPanel")[0].getElementsByClassName("timer");
-	var i;
-	for(i = 0; i < timerElements.length; i++){
-		timerElements[i].style.setProperty("color", "white", "important");
+		element.style.setProperty("background-color", "red", "important");
+		var timerElements = element.getElementsByClassName("rightButtonPanel")[0]
+				.getElementsByClassName("timer");
+		var i;
+		for (i = 0; i < timerElements.length; i++) {
+			timerElements[i].style.setProperty("color", "white", "important");
 		}
 	}-*/;
 	
@@ -277,7 +278,7 @@ pr.menu_header_undo(), null, 32);
 	 * 			resets background-color to none - color goes back to inherited
 	 */
 	native void resetToolbarColor(Element element) /*-{
-	element.style.setProperty("background-color", "", "");
+		element.style.setProperty("background-color", "", "");
 	}-*/;
 	
 	private void startCheating() {

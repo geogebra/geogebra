@@ -14,6 +14,7 @@ public class ExamEnvironment {
 	private LinkedList<Long> cheatingTimes = null;
 	private LinkedList<Boolean> cheatingEvents = null;
 	private long closed = -1;
+	private long maybeCheating = -1;
 
 	public long getStart() {
 		return examStartTime;
@@ -40,20 +41,29 @@ public class ExamEnvironment {
 	}
 
 	public void startCheating() {
-		if (getStart() > 0) {
-			initLists();
-			if (cheatingEvents.size() == 0
-					|| !cheatingEvents.get(cheatingEvents.size() - 1)
-							.booleanValue()) {
-				cheatingTimes.add(System.currentTimeMillis());
-				cheatingEvents.add(true);
-			}
-			App.debug("STARTED CHEATING");
-		}
+		maybeCheating = System.currentTimeMillis();
+	}
 
+	public void checkCheating() {
+		if (maybeCheating > 0
+				&& maybeCheating < System.currentTimeMillis() - 100) {
+
+			maybeCheating = -1;
+			if (getStart() > 0) {
+				initLists();
+				if (cheatingEvents.size() == 0
+						|| !cheatingEvents.get(cheatingEvents.size() - 1)
+								.booleanValue()) {
+					cheatingTimes.add(System.currentTimeMillis());
+					cheatingEvents.add(true);
+				}
+				App.debug("STARTED CHEATING");
+			}
+		}
 	}
 
 	public void stopCheating() {
+		maybeCheating = -1;
 		if (cheatingTimes == null || getStart() < 0) {
 			return;
 		}
