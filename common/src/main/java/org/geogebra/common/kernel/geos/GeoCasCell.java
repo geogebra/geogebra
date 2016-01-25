@@ -2768,19 +2768,12 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			}
 			ex.traverse(remover);
 			setAssignmentType(AssignmentType.DEFAULT);
-			if (twinGeo instanceof GeoSurfaceCartesian3D
-					&& twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate)
-							.length() == 1) {
+			if (twinGeo instanceof GeoSurfaceCartesianND) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(twinGeoLabelSimple);
 				sb.append("(");
-				Iterator<String> it = invars.iterator();
-				while (it.hasNext()) {
-					String str = it.next();
-					sb.append(str);
-					sb.append(",");
-				}
-				sb.setLength(sb.length() - 1);
+				sb.append(((GeoSurfaceCartesianND) twinGeo)
+						.getVarString(StringTemplate.defaultTemplate));
 				sb.append(")");
 				ex.setLabel(sb.toString());
 			} else {
