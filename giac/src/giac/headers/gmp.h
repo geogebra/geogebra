@@ -46,6 +46,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #ifndef __GNU_MP__
 #define __GNU_MP__ 5
 
+#ifndef OSX_10_9_CXX // http://stackoverflow.com/questions/17417978/compiling-gmp-library-on-osx-10-9-with-c-enabled
 #define __need_size_t  /* tell gcc stddef.h we only want size_t */
 #if defined (__cplusplus)
 #include <cstddef>     /* for size_t */
@@ -53,6 +54,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include <stddef.h>    /* for size_t */
 #endif
 #undef __need_size_t
+#endif // OSX_10_9_CXX
 
 /* Instantiated by configure. */
 #if ! defined (__GMP_WITHIN_CONFIGURE)

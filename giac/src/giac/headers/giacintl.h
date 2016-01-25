@@ -23,7 +23,7 @@
 #if defined GIAC_HAS_STO_38 || ( defined EMCC && !defined GIAC_GGB )
 const char * gettext(const char * s); // in aspen.cc or opengl.cc
 #else
-#ifndef APPLE_SMART
+#if (!defined(APPLE_SMART) || defined(NO_GETTEXT))
 inline const char * gettext(const char * s) { return s; };
 #endif
 #endif
