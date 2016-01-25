@@ -1533,14 +1533,19 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			HashSet<FunctionVariable> fVarSet = new HashSet<FunctionVariable>();
 			if (isFunctionProducingCommand()) {
 				((ExpressionNode) outputVE).setForceFunction();
-				HashSet<String> varSet = new HashSet<String>();
+				TreeSet<String> varSet = new TreeSet<String>(
+                        new Comparator<String>() {
+                            public int compare(String o1, String o2) {
+                                return o2.compareTo(o1);
+                            }
+                        });
 				evalVE.traverse(Traversing.DummyVariableCollector
 						.getCollector(varSet));
 				Iterator<String> it = varSet.iterator();
 				// collect function variables
 				while (it.hasNext() && varSet.size() != 1) {
 					String curFVar = it.next();
-					if ("x".equals(curFVar) || "y".equals(curFVar)) {
+					if ("y".equals(curFVar)) {
 						FunctionVariable fv = new FunctionVariable(kernel,
 								curFVar);
 						fVarSet.add(fv);
@@ -1551,11 +1556,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			// update newTwinGeo as multivariable function
 			if (isFunctionProducingCommand() && !fVarSet.isEmpty()
 					&& newTwinGeo instanceof GeoFunction) {
-				Iterator<FunctionVariable> it = fVarSet.iterator();
 				FunctionVariable[] funcVars = ((GeoFunction) newTwinGeo)
 						.getFunctionVariables();
 				FunctionVariable[] newFuncVars = new FunctionVariable[funcVars.length
 				         + fVarSet.size()];
+				Iterator<FunctionVariable> it = fVarSet.iterator();
 				while (it.hasNext()) {
 					FunctionVariable curFV = it.next();
 					int i;
