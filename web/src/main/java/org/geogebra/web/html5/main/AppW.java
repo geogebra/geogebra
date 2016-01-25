@@ -452,6 +452,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public final void setLanguage(final String browserLang) {
 		if (browserLang != null && browserLang.equals(loc.getLocaleStr())) {
 			setLabels();
+			notifyLocalizationLoaded();
 			return;
 		}
 

@@ -187,9 +187,11 @@ public abstract class AppWFull extends AppW {
 		if(waitingForLocalization == null){
 			return;
 		}
+		localizationLoaded = true;
 		for (Runnable run : waitingForLocalization) {
 			run.run();
 		}
+
 		waitingForLocalization.clear();
 	}
 	public void afterLocalizationLoaded(Runnable run) {
@@ -370,7 +372,6 @@ public abstract class AppWFull extends AppW {
 	 * Popup exam welcome message
 	 */
 	public void examWelcome(){
-
 		if (isExam() && getExam().getStart() < 0) {
 			Localization loc = getLocalization();
 			StyleInjector
