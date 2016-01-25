@@ -34,13 +34,14 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
-		Functional2Var, SurfaceEvaluable, Traceable, CasEvaluableFunction,
+		Functional2Var, Traceable, CasEvaluableFunction,
 		Region {
 
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
 	 * 
 	 * @param c
+	 *            construction
 	 */
 	public GeoSurfaceCartesian3D(Construction c) {
 		super(c);
@@ -50,7 +51,11 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 * common constructor
 	 * 
 	 * @param c
+	 *            construction
+	 * @param point
+	 *            expression defining the surface
 	 * @param fun
+	 *            functions
 	 */
 	public GeoSurfaceCartesian3D(Construction c, ExpressionNode point,
 			FunctionNVar fun[]) {
@@ -59,11 +64,12 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	/**
 	 * 
-	 * @param curve
+	 * @param surface
+	 *            Surface to be copied
 	 */
-	public GeoSurfaceCartesian3D(GeoSurfaceCartesian3D curve) {
-		super(curve.cons);
-		set(curve);
+	public GeoSurfaceCartesian3D(GeoSurfaceCartesian3D surface) {
+		super(surface.cons);
+		set(surface);
 	}
 
 	private double[] tmp = new double[2];
@@ -380,8 +386,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	@Override
 	public String getVarString(StringTemplate tpl) {
-		// TODO Auto-generated method stub
-		return null;
+		return fun[0].getVarString(tpl);
 	}
 
 	@Override
@@ -522,7 +527,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	private CoordMatrix jacobian;
 
 	private void getClosestParameters(double x0, double y0, double z0,
-			double[] xyzuv) {
+			double[] xzyzuvOut) {
 
 		// set derivatives if needed
 		setSecondDerivatives();
@@ -551,7 +556,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 		// init to no solution
 		double dist = Double.POSITIVE_INFINITY;
-		xyzuv[0] = Double.NaN;
+		xzyzuvOut[0] = Double.NaN;
 
 		// make several tries
 		double uMin = getMinParameter(0);
@@ -574,11 +579,11 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 					if (d < dist) {
 						dist = d;
-						xyzuv[0] = xyz[0];
-						xyzuv[1] = xyz[1];
-						xyzuv[2] = xyz[2];
-						xyzuv[3] = uv[0];
-						xyzuv[4] = uv[1];
+						xzyzuvOut[0] = xyz[0];
+						xzyzuvOut[1] = xyz[1];
+						xzyzuvOut[2] = xyz[2];
+						xzyzuvOut[3] = uv[0];
+						xzyzuvOut[4] = uv[1];
 					}
 
 				}
@@ -592,13 +597,13 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	private static final int BIVARIATE_SAMPLES = 8;
 
 	private double findBivariateNormalZero(double x0, double y0, double z0,
-			double[] uv) {
+			double[] uvOut) {
 
 		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
 			// compare point to current f(u,v) point
-			xyz[0] = fun[0].evaluate(uv);
-			xyz[1] = fun[1].evaluate(uv);
-			xyz[2] = fun[2].evaluate(uv);
+			xyz[0] = fun[0].evaluate(uvOut);
+			xyz[1] = fun[1].evaluate(uvOut);
+			xyz[2] = fun[2].evaluate(uvOut);
 
 			double dx = xyz[0] - x0;
 			double dy = xyz[1] - y0;
@@ -606,29 +611,29 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 
 			// calculate derivatives values
-			xyzDu[0] = fun1[0][0].evaluate(uv);
-			xyzDu[1] = fun1[0][1].evaluate(uv);
-			xyzDu[2] = fun1[0][2].evaluate(uv);
+			xyzDu[0] = fun1[0][0].evaluate(uvOut);
+			xyzDu[1] = fun1[0][1].evaluate(uvOut);
+			xyzDu[2] = fun1[0][2].evaluate(uvOut);
 
-			xyzDv[0] = fun1[1][0].evaluate(uv);
-			xyzDv[1] = fun1[1][1].evaluate(uv);
-			xyzDv[2] = fun1[1][2].evaluate(uv);
+			xyzDv[0] = fun1[1][0].evaluate(uvOut);
+			xyzDv[1] = fun1[1][1].evaluate(uvOut);
+			xyzDv[2] = fun1[1][2].evaluate(uvOut);
 
-			xyzDuu[0] = fun2[0][0][0].evaluate(uv);
-			xyzDuu[1] = fun2[0][0][1].evaluate(uv);
-			xyzDuu[2] = fun2[0][0][2].evaluate(uv);
+			xyzDuu[0] = fun2[0][0][0].evaluate(uvOut);
+			xyzDuu[1] = fun2[0][0][1].evaluate(uvOut);
+			xyzDuu[2] = fun2[0][0][2].evaluate(uvOut);
 
-			xyzDuv[0] = fun2[1][0][0].evaluate(uv);
-			xyzDuv[1] = fun2[1][0][1].evaluate(uv);
-			xyzDuv[2] = fun2[1][0][2].evaluate(uv);
+			xyzDuv[0] = fun2[1][0][0].evaluate(uvOut);
+			xyzDuv[1] = fun2[1][0][1].evaluate(uvOut);
+			xyzDuv[2] = fun2[1][0][2].evaluate(uvOut);
 
-			xyzDvu[0] = fun2[0][1][0].evaluate(uv);
-			xyzDvu[1] = fun2[0][1][1].evaluate(uv);
-			xyzDvu[2] = fun2[0][1][2].evaluate(uv);
+			xyzDvu[0] = fun2[0][1][0].evaluate(uvOut);
+			xyzDvu[1] = fun2[0][1][1].evaluate(uvOut);
+			xyzDvu[2] = fun2[0][1][2].evaluate(uvOut);
 
-			xyzDvv[0] = fun2[1][1][0].evaluate(uv);
-			xyzDvv[1] = fun2[1][1][1].evaluate(uv);
-			xyzDvv[2] = fun2[1][1][2].evaluate(uv);
+			xyzDvv[0] = fun2[1][1][0].evaluate(uvOut);
+			xyzDvv[1] = fun2[1][1][1].evaluate(uvOut);
+			xyzDvv[2] = fun2[1][1][2].evaluate(uvOut);
 
 			// set bivariate vector
 			bivariateVector.setX(dx * xyzDu[0] + dy * xyzDu[1] + dz * xyzDu[2]);
@@ -664,11 +669,11 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			}
 
 			// calc new parameters
-			uv[0] -= bivariateDelta.getX();
-			uv[1] -= bivariateDelta.getY();
+			uvOut[0] -= bivariateDelta.getX();
+			uvOut[1] -= bivariateDelta.getY();
 
 			// check bounds
-			randomBackInIntervalsIfNeeded(uv);
+			randomBackInIntervalsIfNeeded(uvOut);
 
 
 		}
@@ -955,38 +960,38 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	}
 
 	private boolean findMinimumDistanceGradient(double x0, double y0,
-			double z0, double vx, double vy, double vz, double[] uv) {
+			double z0, double vx, double vy, double vz, double[] uvOut) {
 
 		for (int i = 0; i < GRADIENT_JUMPS; i++) {
 			// calc current f(u,v) point
-			xyz[0] = fun[0].evaluate(uv);
-			xyz[1] = fun[1].evaluate(uv);
-			xyz[2] = fun[2].evaluate(uv);
+			xyz[0] = fun[0].evaluate(uvOut);
+			xyz[1] = fun[1].evaluate(uvOut);
+			xyz[2] = fun[2].evaluate(uvOut);
 
 			// calculate derivatives values
-			xyzDu[0] = fun1[0][0].evaluate(uv);
-			xyzDu[1] = fun1[0][1].evaluate(uv);
-			xyzDu[2] = fun1[0][2].evaluate(uv);
+			xyzDu[0] = fun1[0][0].evaluate(uvOut);
+			xyzDu[1] = fun1[0][1].evaluate(uvOut);
+			xyzDu[2] = fun1[0][2].evaluate(uvOut);
 
-			xyzDv[0] = fun1[1][0].evaluate(uv);
-			xyzDv[1] = fun1[1][1].evaluate(uv);
-			xyzDv[2] = fun1[1][2].evaluate(uv);
+			xyzDv[0] = fun1[1][0].evaluate(uvOut);
+			xyzDv[1] = fun1[1][1].evaluate(uvOut);
+			xyzDv[2] = fun1[1][2].evaluate(uvOut);
 
-			xyzDuu[0] = fun2[0][0][0].evaluate(uv);
-			xyzDuu[1] = fun2[0][0][1].evaluate(uv);
-			xyzDuu[2] = fun2[0][0][2].evaluate(uv);
+			xyzDuu[0] = fun2[0][0][0].evaluate(uvOut);
+			xyzDuu[1] = fun2[0][0][1].evaluate(uvOut);
+			xyzDuu[2] = fun2[0][0][2].evaluate(uvOut);
 
-			xyzDuv[0] = fun2[1][0][0].evaluate(uv);
-			xyzDuv[1] = fun2[1][0][1].evaluate(uv);
-			xyzDuv[2] = fun2[1][0][2].evaluate(uv);
+			xyzDuv[0] = fun2[1][0][0].evaluate(uvOut);
+			xyzDuv[1] = fun2[1][0][1].evaluate(uvOut);
+			xyzDuv[2] = fun2[1][0][2].evaluate(uvOut);
 
-			xyzDvu[0] = fun2[0][1][0].evaluate(uv);
-			xyzDvu[1] = fun2[0][1][1].evaluate(uv);
-			xyzDvu[2] = fun2[0][1][2].evaluate(uv);
+			xyzDvu[0] = fun2[0][1][0].evaluate(uvOut);
+			xyzDvu[1] = fun2[0][1][1].evaluate(uvOut);
+			xyzDvu[2] = fun2[0][1][2].evaluate(uvOut);
 
-			xyzDvv[0] = fun2[1][1][0].evaluate(uv);
-			xyzDvv[1] = fun2[1][1][1].evaluate(uv);
-			xyzDvv[2] = fun2[1][1][2].evaluate(uv);
+			xyzDvv[0] = fun2[1][1][0].evaluate(uvOut);
+			xyzDvv[1] = fun2[1][1][1].evaluate(uvOut);
+			xyzDvv[2] = fun2[1][1][2].evaluate(uvOut);
 
 			// we want to minimize (x,y,z)-to-line distance,
 			// i.e. norm of vector:
@@ -1050,19 +1055,19 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			// new u,v
 			double du = d * gu;
 			double dv = d * gv;
-			uv[0] -= du;
-			uv[1] -= dv;
+			uvOut[0] -= du;
+			uvOut[1] -= dv;
 
 			// back to interval if needed
-			if (uv[0] < getMinParameter(0)) {
-				uv[0] = getMinParameter(0);
-			} else if (uv[0] > getMaxParameter(0)) {
-				uv[0] = getMaxParameter(0);
+			if (uvOut[0] < getMinParameter(0)) {
+				uvOut[0] = getMinParameter(0);
+			} else if (uvOut[0] > getMaxParameter(0)) {
+				uvOut[0] = getMaxParameter(0);
 			}
-			if (uv[1] < getMinParameter(1)) {
-				uv[1] = getMinParameter(1);
-			} else if (uv[1] > getMaxParameter(1)) {
-				uv[1] = getMaxParameter(1);
+			if (uvOut[1] < getMinParameter(1)) {
+				uvOut[1] = getMinParameter(1);
+			} else if (uvOut[1] > getMaxParameter(1)) {
+				uvOut[1] = getMaxParameter(1);
 			}
 
 			if (Kernel.isZero(gnorm)) {
@@ -1093,12 +1098,12 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 *            vector z
 	 * @param vSquareNorm
 	 *            vector square norm
-	 * @param xyzuv
+	 * @param xyzuvOut
 	 *            (x,y,z,u,v) best point coords and parameters
 	 * @return true if point found
 	 */
 	public boolean getBestColinear(double x0, double y0, double z0, double vx,
-			double vy, double vz, double vSquareNorm, double[] xyzuv) {
+			double vy, double vz, double vSquareNorm, double[] xyzuvOut) {
 		if (jacobian == null) {
 			jacobian = new CoordMatrix(2, 2);
 			bivariateVector = new Coords(3);
@@ -1145,11 +1150,11 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 						if (dotProduct < 0 || d < dotProduct) {
 							dotProduct = d;
 							finalError = error;
-							xyzuv[0] = xyz[0];
-							xyzuv[1] = xyz[1];
-							xyzuv[2] = xyz[2];
-							xyzuv[3] = uv[0];
-							xyzuv[4] = uv[1];
+							xyzuvOut[0] = xyz[0];
+							xyzuvOut[1] = xyz[1];
+							xyzuvOut[2] = xyz[2];
+							xyzuvOut[3] = uv[0];
+							xyzuvOut[4] = uv[1];
 						}
 					}
 				}
@@ -1212,16 +1217,18 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 * check if parameters u, v are between min/max parameters; if not, replace
 	 * by a random number in interval
 	 * 
-	 * @param uv
+	 * @param uvInOut
 	 *            u,v parameters
 	 */
-	public void randomBackInIntervalsIfNeeded(double[] uv) {
-		if (uv[0] > getMaxParameter(0) || uv[0] < getMinParameter(0)) {
-			uv[0] = getRandomBetween(getMinParameter(0), getMaxParameter(0));
+	public void randomBackInIntervalsIfNeeded(double[] uvInOut) {
+		if (uvInOut[0] > getMaxParameter(0) || uvInOut[0] < getMinParameter(0)) {
+			uvInOut[0] = getRandomBetween(getMinParameter(0),
+					getMaxParameter(0));
 		}
 
-		if (uv[1] > getMaxParameter(1) || uv[1] < getMinParameter(1)) {
-			uv[1] = getRandomBetween(getMinParameter(1), getMaxParameter(1));
+		if (uvInOut[1] > getMaxParameter(1) || uvInOut[1] < getMinParameter(1)) {
+			uvInOut[1] = getRandomBetween(getMinParameter(1),
+					getMaxParameter(1));
 		}
 	}
 

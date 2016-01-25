@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -323,9 +324,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 							.getLeft());
 					if (isAssignmentVariableDefined()) {
 						sb.append(getAssignmentLHS(StringTemplate.latexTemplateCAS));
-						if (geo instanceof GeoFunction) {
+						if (geo instanceof GeoFunction
+								|| geo instanceof GeoSurfaceCartesianND) {
 							sb.append('(');
-							sb.append(((GeoFunction) geo)
+							sb.append(((VarString) geo)
 									.getVarString(StringTemplate.latexTemplateCAS));
 							sb.append(')');
 						}
