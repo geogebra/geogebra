@@ -483,6 +483,11 @@ class ColorPanel extends JPanel implements ActionListener,
 					selectedColor = org.geogebra.desktop.awt.GColorD.getAwtColor(geo0
 							.getFillColor());
 					alpha = geo0.getAlphaValue();
+
+					// can be -1 for lists
+					if (alpha < 0) {
+						alpha = 0;
+					}
 				} else {
 					selectedColor = org.geogebra.desktop.awt.GColorD.getAwtColor(geo0
 							.getObjectColor());
@@ -507,7 +512,13 @@ class ColorPanel extends JPanel implements ActionListener,
 			// first geo's
 			// alpha value
 			opacityPanel.setVisible(true);
+
 			alpha = geo0.getAlphaValue();
+			// can be -1 for lists
+			if (alpha < 0) {
+				alpha = 0;
+			}
+
 			if (isBarChart) {
 				setOpacitySlider(geo0, alpha);
 			} else {

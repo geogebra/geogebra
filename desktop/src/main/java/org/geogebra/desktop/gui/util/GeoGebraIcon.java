@@ -408,8 +408,9 @@ public class GeoGebraIcon {
 		float thickness = 3;
 
 		// if fgColor is null then make it a transparent white
-		if (fgColor == null)
+		if (fgColor == null) {
 			fgColor = new Color(255, 255, 255, 1);
+		}
 
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);

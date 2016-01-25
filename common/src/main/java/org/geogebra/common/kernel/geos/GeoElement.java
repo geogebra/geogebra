@@ -1378,6 +1378,9 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	/**
 	 * @return alpha value (transparency)
+	 * 
+	 *         NOTE: can be -1 for lists, see GeoList.getAlphaValue(),
+	 *         GeoList.setgetAlphaValue()
 	 */
 	public float getAlphaValue() {
 		if ((colFunction == null) || (colFunction.size() == 3)) {

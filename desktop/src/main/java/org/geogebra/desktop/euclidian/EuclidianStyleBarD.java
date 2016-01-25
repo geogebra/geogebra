@@ -1074,6 +1074,7 @@ axesIcon, iconHeight);
 						for (int i = 0; i < geos.length; i++) {
 							if (((GeoElement) geos[i]).isFillable()) {
 								hasFillable = true;
+								// can be -1 for lists
 								alpha = ((GeoElement) geos[i]).getAlphaValue();
 								break;
 							}
@@ -1093,7 +1094,7 @@ axesIcon, iconHeight);
 						int index = this.getColorIndex(org.geogebra.desktop.awt.GColorD
 								.getAwtColor(geoColor));
 						setSelectedIndex(index);
-						setDefaultColor(alpha, geoColor);
+						setDefaultColor(alpha < 0 ? 0 : alpha, geoColor);
 
 						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 					}
