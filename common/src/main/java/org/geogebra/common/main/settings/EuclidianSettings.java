@@ -84,9 +84,11 @@ public class EuclidianSettings extends AbstractSettings {
 
 	protected void resetNoFire() {
 		gridDistances = null;
-		axisNumberingDistances[0] = Double.NaN;
-		axisNumberingDistances[1] = Double.NaN;
-		axisNumberingDistances[2] = Double.NaN;
+
+		// length might be 2 or 3
+		for (int i = 0; i < axisNumberingDistances.length; i++) {
+			axisNumberingDistances[i] = Double.NaN;
+		}
 
 		xminObject = null;
 		xmaxObject = null;
@@ -101,40 +103,59 @@ public class EuclidianSettings extends AbstractSettings {
 
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 
-		showAxesNumbers[0] = true;
-		showAxesNumbers[1] = true;
-		showAxesNumbers[2] = true;
-		axesLabels[0] = null;
-		axesLabels[1] = null;
-		axesLabels[2] = null;
-		axesUnitLabels[0] = null;
-		axesUnitLabels[1] = null;
-		axesUnitLabels[2] = null;
-		piAxisUnit[0] = false;
-		piAxisUnit[1] = false;
-		piAxisUnit[2] = false;
-		axesTickStyles[0] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
-		axesTickStyles[1] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
-		axesTickStyles[2] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
+		// length might be 2 or 3
+		for (int i = 0; i < showAxesNumbers.length; i++) {
+			showAxesNumbers[i] = true;
+		}
+
+		// length might be 2 or 3
+		for (int i = 0; i < axesLabels.length; i++) {
+			axesLabels[i] = null;
+		}
+
+		// length might be 2 or 3
+		for (int i = 0; i < axesUnitLabels.length; i++) {
+			axesUnitLabels[i] = null;
+		}
+
+		// length might be 2 or 3
+		for (int i = 0; i < piAxisUnit.length; i++) {
+			piAxisUnit[i] = false;
+		}
+
+		// length might be 2 or 3
+		for (int i = 0; i < axesTickStyles.length; i++) {
+			axesTickStyles[i] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
+		}
 
 		// for axes labeling with numbers
-		automaticAxesNumberingDistances[0] = true;
-		automaticAxesNumberingDistances[1] = true;
-		automaticAxesNumberingDistances[2] = true;
+		// length might be 2 or 3
+		for (int i = 0; i < automaticAxesNumberingDistances.length; i++) {
+			automaticAxesNumberingDistances[i] = true;
+		}
+
+		// length might be 2 or 3
+		for (int i = 0; i < automaticAxesNumberingDistances.length; i++) {
+			automaticAxesNumberingDistances[i] = true;
+		}
 
 		// distances between grid lines
 		automaticGridDistance = true;
 
-		axisCross[0] = 0;
-		axisCross[1] = 0;
-		axisCross[2] = 0;
-		positiveAxes[0] = false;
-		positiveAxes[1] = false;
-		positiveAxes[2] = false;
+		// length might be 2 or 3
+		for (int i = 0; i < axisCross.length; i++) {
+			axisCross[i] = 0;
+		}
 
-		selectionAllowed[0] = true;
-		selectionAllowed[1] = true;
-		selectionAllowed[2] = true;
+		// length might be 2 or 3
+		for (int i = 0; i < positiveAxes.length; i++) {
+			positiveAxes[i] = false;
+		}
+
+		// length might be 2 or 3
+		for (int i = 0; i < selectionAllowed.length; i++) {
+			selectionAllowed[i] = true;
+		}
 
 		axisFontStyle = GFont.PLAIN;
 	}
