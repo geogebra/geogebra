@@ -4282,14 +4282,16 @@ namespace giac {
 	  return chkmod(zero,a);
 	if (a.is_symb_of_sommet(at_neg) && b==a._SYMBptr->feuille)
 	  return chkmod(zero,b);
-	return new_ref_symbolic(symbolic(at_plus,args));
+	if (!b.is_symb_of_sommet(at_program))
+	  return new_ref_symbolic(symbolic(at_plus,args));
       }
       if (idnt_symb_int(a) && plus_idnt_symb(b)){
 	if (b.is_symb_of_sommet(at_neg) && a==b._SYMBptr->feuille)
 	  return chkmod(zero,a);
 	if (a.is_symb_of_sommet(at_neg) && b==a._SYMBptr->feuille)
 	  return chkmod(zero,b);
-	return new_ref_symbolic(symbolic(at_plus,args));
+	if (!a.is_symb_of_sommet(at_program))
+	  return new_ref_symbolic(symbolic(at_plus,args));
       }
       return operator_plus(a,b,contextptr);
     }
@@ -4810,13 +4812,14 @@ namespace giac {
   }
   // Find the best interpretation of a(b) either as a function of or as a product (implicit *)
 
-  static void warn_implicit(const gen & a,const gen &b,GIAC_CONTEXT){
-#if 1 // ndef GIAC_HAS_STO_38
+  static bool warn_implicit(const gen & a,const gen &b,GIAC_CONTEXT){
+    if (abs_calc_mode(contextptr)==38)
+      return false;
     if (contains(lidnt(b),i__IDNT_e))
       *logptr(contextptr) << gettext("Implicit multiplication does not work with complex numbers.")<<endl;
     else
       *logptr(contextptr) << gettext("Warning : using implicit multiplication for (") << a.print(contextptr) << ")(" << b.print(contextptr) << ')' << endl;
-#endif
+    return true;
   }
   gen check_symb_of(const gen& a,const gen & b0,GIAC_CONTEXT){
     if ( (a.type<_IDNT || a.type==_FLOAT_) && b0.type==_VECT && b0._VECTptr->empty())
@@ -4825,12 +4828,16 @@ namespace giac {
     if (b0.type==_VECT && b0.subtype==_SEQ__VECT && b0._VECTptr->size()==1)
       b=b0._VECTptr->front();
     if (a.type<_IDNT || a.type==_FLOAT_){
-      warn_implicit(a,b,contextptr);
+      if (!warn_implicit(a,b,contextptr))
+	return gensizeerr("Invalid implicit multiplication for ("+ a.print(contextptr)+")(" + b.print(contextptr)+')');
       return a*b;
     }
     vecteur va(lvar(a));
-    if (va.empty())
+    if (va.empty()){
+      if (abs_calc_mode(contextptr)==38)
+	return gensizeerr("Invalid implicit multiplication for ("+ a.print(contextptr)+")(" + b.print(contextptr)+')');
       *logptr(contextptr) << "Warning, input parsed as a constant function " << a << " applied to " << b << endl;
+    }
     if (!va.empty() && calc_mode(contextptr)==38){
       // check names in va
       bool implicit=false;
@@ -4851,7 +4858,8 @@ namespace giac {
 	  implicit=true;
       }
       if (implicit){
-	warn_implicit(a,b,contextptr);
+	if (!warn_implicit(a,b,contextptr))
+	  return gensizeerr("Invalid implicit multiplication for ("+ a.print(contextptr)+")(" + b.print(contextptr)+')');
 	return a*b;
       }
     }
@@ -4859,7 +4867,8 @@ namespace giac {
     vecteur vab(lvar(makevecteur(a,b)));
     if (vab.size()==va.size()+vb.size())
       return symb_of(a,b);
-    warn_implicit(a,b,contextptr);
+    if (!warn_implicit(a,b,contextptr))
+      return gensizeerr("Invalid implicit multiplication for ("+ a.print(contextptr)+")(" + b.print(contextptr)+')');
     return a*b;
   }
   symbolic symb_of(const gen & a,const gen & b){

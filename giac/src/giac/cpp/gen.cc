@@ -4548,10 +4548,15 @@ namespace giac {
 	if (var1==var2)
 	  return symbolic(at_program,gen(makevecteur(var1,0,operator_plus(res1,res2,contextptr)),_SEQ__VECT));
       }
+      if (!is_constant_wrt(b,var1,contextptr))
+	*logptr(contextptr) << "Warning function+constant with constant dependant of mute variable" << endl;
       return symbolic(at_program,gen(makevecteur(var1,0,operator_plus(res1,b,contextptr)),_SEQ__VECT));
     }
-    if (is_algebraic_program(b,var2,res2))
+    if (is_algebraic_program(b,var2,res2)){
+      if (!is_constant_wrt(a,var2,contextptr))
+	*logptr(contextptr) << "Warning constant+function with constant dependant of mute variable" << endl;
       return symbolic(at_program,gen(makevecteur(var2,0,operator_plus(a,res2,contextptr)),_SEQ__VECT));
+    }
     if (a.type==_VECT){
       if (is_zero(b,contextptr))
 	return a;
@@ -5648,8 +5653,20 @@ namespace giac {
     }
     case _VECT__VECT: {
       gen A(a),B(b);
+      // FIXME should not convert 0 in B if A has intervals
       if (A.is_approx() && !is_fully_numeric(B)){
-	B=evalf(b,1,contextptr);
+	bool done=false;
+#if defined HAVE_LIBMPFI && !defined NO_RTTI
+	// workaround for lu e.g. a:=ranm(4,4); b:=convert(a,interval); p,l,u:=lu(b):; l*u;
+	if (!A._VECTptr->empty() && A._VECTptr->back().type==_VECT && !A._VECTptr->back()._VECTptr->empty() && A._VECTptr->back()._VECTptr->front().type==_REAL){
+	  if (real_interval * ptr=dynamic_cast<real_interval *>(A._VECTptr->back()._VECTptr->front()._REALptr)){
+	    B=convert_interval(b,mpfi_get_prec(ptr->infsup),contextptr);
+	    done=true;
+	  }
+	}
+#endif
+	if (!done)
+	  B=evalf(b,1,contextptr);
 	if (B.type!=_VECT)
 	  B=b;
       }
@@ -6340,10 +6357,15 @@ namespace giac {
 	if (var1==var2)
 	  return symbolic(at_program,gen(makevecteur(var1,0,operator_times(res1,res2,contextptr)),_SEQ__VECT));
       }
+      if (!is_constant_wrt(b,var1,contextptr))
+	*logptr(contextptr) << "Warning function*constant with constant dependant of mute variable" << endl;
       return symbolic(at_program,gen(makevecteur(var1,0,operator_times(res1,b,contextptr)),_SEQ__VECT));
     }
-    if (is_algebraic_program(b,var2,res2))
+    if (is_algebraic_program(b,var2,res2)){
+      if (!is_constant_wrt(a,var2,contextptr))
+	*logptr(contextptr) << "Warning constant*function with constant dependant of mute variable" << endl;
       return symbolic(at_program,gen(makevecteur(var2,0,operator_times(a,res2,contextptr)),_SEQ__VECT));
+    }
     if (is_inf(a)){
       if (is_exactly_zero(normal(b,contextptr)))
 	return undef;
@@ -7160,10 +7182,15 @@ namespace giac {
 	    if (var1==var2)
 	      return symbolic(at_program,gen(makevecteur(var1,0,rdiv(res1,res2,contextptr)),_SEQ__VECT));
 	  }
+	  if (!is_constant_wrt(b,var1,contextptr))
+	    *logptr(contextptr) << "Warning function/constant with constant dependant of mute variable" << endl;
 	  return symbolic(at_program,gen(makevecteur(var1,0,rdiv(res1,b,contextptr)),_SEQ__VECT));
 	}
-	if (is_algebraic_program(b,var2,res2))
+	if (is_algebraic_program(b,var2,res2)){
+	  if (!is_constant_wrt(a,var2,contextptr))
+	    *logptr(contextptr) << "Warning constant/function with constant dependant of mute variable" << endl;
 	  return symbolic(at_program,gen(makevecteur(var2,0,rdiv(a,res2,contextptr)),_SEQ__VECT));	
+	}
       }
       if (a.type==_FLOAT_)
 	return rdiv(evalf_double(a,1,contextptr),b,contextptr);
@@ -7496,6 +7523,13 @@ namespace giac {
   }
 
   gen min(const gen & a, const gen & b,GIAC_CONTEXT){
+    if (a.type==_DOUBLE_ && b.type==_DOUBLE_)
+      return a._DOUBLE_val<b._DOUBLE_val?a._DOUBLE_val:b._DOUBLE_val;
+    if (a.type==_REAL && b.type==_REAL){
+      gen s=sign(a-b,contextptr);
+      if (s==1) return b;
+      if (s==-1) return a;
+    }
     if (a==b)
       return a;
     if (is_inf(a)){
@@ -7532,6 +7566,11 @@ namespace giac {
       return a.val<b.val?b.val:a.val;
     if (a.type==_DOUBLE_ && b.type==_DOUBLE_)
       return a._DOUBLE_val<b._DOUBLE_val?b._DOUBLE_val:a._DOUBLE_val;
+    if (a.type==_REAL && b.type==_REAL){
+      gen s=sign(a-b,contextptr);
+      if (s==1) return a;
+      if (s==-1) return b;
+    }
     if (a==b)
       return a;
     if (is_inf(a)){
