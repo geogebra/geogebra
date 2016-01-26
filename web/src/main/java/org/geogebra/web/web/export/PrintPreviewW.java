@@ -1,6 +1,7 @@
 package org.geogebra.web.web.export;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -20,6 +21,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class PrintPreviewW extends GPopupPanel implements ClickHandler,
@@ -29,6 +31,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	private Button btCancel;
 	ListBox m_cbView;
 	FlowPanel printPanel;
+	private SimplePanel scalePanelHolder;
 	/**
 	 * printable width at portrait orientation
 	 */
@@ -76,7 +79,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 		app.forEachView(new App.ViewCallback() {
 			public void run(int viewID, String viewName) {
-				m_cbView.addItem(app.getPlain(viewName));
+				m_cbView.addItem(app.getPlain(viewName), viewID + "");
 			}
 		});
 
@@ -87,7 +90,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		} else {
 			String title = app.getPlain(focusedPanel.getViewTitle());
 			int index = m_cbView.getItemCount() - 1;
-			while (!m_cbView.getItemText(index).equals(title) && index != 0) {
+			while (!m_cbView.getValue(index).equals(title) && index != 0) {
 				index--;
 			}
 
@@ -104,6 +107,8 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		buttonPanel.add(btCancel);
 		buttonPanel.add(m_cbView);
 		centerPanel.add(buttonPanel);
+		scalePanelHolder = new SimplePanel();
+		centerPanel.add(scalePanelHolder);
 
 		createPreview(m_cbView.getSelectedValue());
 
@@ -130,25 +135,20 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 	public void onChange(ChangeEvent event) {
 		if (event.getSource() == m_cbView) {
+			scalePanelHolder.clear();
+			if ((app.VIEW_EUCLIDIAN + "").equals(m_cbView.getSelectedValue())
+					|| (app.VIEW_EUCLIDIAN2 + "").equals(m_cbView
+							.getSelectedValue())) {
+				scalePanelHolder.add(new PrintScalePanelW(app, null));
+			}
+
 			createPreview(m_cbView.getSelectedValue());
 		}
 	}
 
-	public void createPreview(final String printableView) {
+	public void createPreview(final String viewID) {
 
-		App.debug("create preview from : " + printableView);
-
-		app.forEachView(new App.ViewCallback() {
-
-			public void run(int viewID, String viewName) {
-				if (app.getPlain(viewName).equals(printableView)) {
-					btPrint.setEnabled(false);
-					createPrintables(viewID, app,
-						printPanel, btPrint);
-				}
-			}
-
-		});
+		createPrintables(Integer.parseInt(viewID), app, printPanel, btPrint);
 
 	}
 
