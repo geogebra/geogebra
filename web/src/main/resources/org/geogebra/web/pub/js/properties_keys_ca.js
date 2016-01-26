@@ -2997,7 +2997,7 @@ __GGB__keysVar.ca.plain = {
     "stylebar.Bracket": "Fixa l'estil dels par\xe8ntesis",
     "stylebar.Caption": "Fixa l'estil del t\xedtol",
     "stylebar.Capture": "Fixa l'estil de captura de punts",
-    "stylebar.Clipping": "Mida de la caixa de representaci\xf3",
+    "stylebar.Clipping": "Caixa de representaci\xf3",
     "stylebar.Color": "Fixa el color",
     "stylebar.ColorTransparency": "Fixa el color i la transpar\xe8ncia",
     "stylebar.CopyVisualStyle": "Copia l'estil visual",
