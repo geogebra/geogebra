@@ -1,7 +1,6 @@
 package org.geogebra.web.web.export;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -99,8 +98,6 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 		m_cbView.addChangeHandler(this);
 
-		App.debug("selected index: " + m_cbView.getSelectedIndex());
-
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("printPopupButtonPanel");
 		buttonPanel.add(btPrint);
@@ -136,10 +133,13 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	public void onChange(ChangeEvent event) {
 		if (event.getSource() == m_cbView) {
 			scalePanelHolder.clear();
-			if ((app.VIEW_EUCLIDIAN + "").equals(m_cbView.getSelectedValue())
-					|| (app.VIEW_EUCLIDIAN2 + "").equals(m_cbView
-							.getSelectedValue())) {
-				scalePanelHolder.add(new PrintScalePanelW(app, null));
+			if ((app.VIEW_EUCLIDIAN + "").equals(m_cbView.getSelectedValue())){
+				app.getEuclidianView1();
+				scalePanelHolder.add(new PrintScalePanelW(app, app.getEuclidianView1()));
+			} else if ((app.VIEW_EUCLIDIAN2 + "").equals(m_cbView
+					.getSelectedValue())) {
+				scalePanelHolder.add(new PrintScalePanelW(app, app
+						.getEuclidianView2(1)));
 			}
 
 			createPreview(m_cbView.getSelectedValue());
