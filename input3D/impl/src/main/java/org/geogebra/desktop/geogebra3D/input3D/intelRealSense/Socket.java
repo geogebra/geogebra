@@ -579,7 +579,7 @@ public class Socket {
 	}
 
 	private final static String REALSENSE_ONLINE_ARCHIVE_BASE = "http://dev.geogebra.org/realsense/latest/";
-	private final static String REALSENSE_WEBSETUP = "intel_rs_sdk_r4_websetup_6.0.21.6598.exe";
+	private final static String REALSENSE_WEBSETUP = "intel_rs_sdk_runtime_websetup_6.0.21.6598.exe";
 	private final static String REALSENSE_ONLINE_WEBSETUP = REALSENSE_ONLINE_ARCHIVE_BASE
 			+ REALSENSE_WEBSETUP;
 
