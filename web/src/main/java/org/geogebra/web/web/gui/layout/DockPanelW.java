@@ -1450,4 +1450,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	public void setLongStyleBar(boolean longStyleBar) {
 		this.longStyleBar = longStyleBar;
 	}
+
+	public int navHeightIfShown() {
+		return app.showConsProtNavigation(getViewId()) ? navHeight() : 0;
+
+	}
 }

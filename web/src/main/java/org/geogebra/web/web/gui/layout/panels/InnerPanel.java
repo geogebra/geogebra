@@ -18,7 +18,8 @@ public class InnerPanel extends FlowPanel implements RequiresResize {
 		}
 
 	public void onResize() {
-		int height = dock.getComponentInteriorHeight() - dock.navHeight();
+		int height = dock.getComponentInteriorHeight()
+				- dock.navHeightIfShown();
 		if (height > 0) {
 			content.setHeight(height + "px");
 		}

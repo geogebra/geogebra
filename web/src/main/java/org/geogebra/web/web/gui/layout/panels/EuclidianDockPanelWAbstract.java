@@ -141,11 +141,10 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 
 			if (app != null) {
 
-				int h = dockPanel.getComponentInteriorHeight();
+				int h = dockPanel.getComponentInteriorHeight()
+						- dockPanel.navHeightIfShown();
 				int w = dockPanel.getComponentInteriorWidth();
-				if (app.showConsProtNavigation(dockPanel.getViewId())) {
-					h -= dockPanel.navHeight();
-				}
+
 
 				// TODO handle this better?
 				// exit if new size cannot be determined
