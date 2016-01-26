@@ -143,10 +143,24 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		private int selectedIndex;
 
 		private int itemFontSize;
+
+		// startIdx and endIdx defines the range of items that are visible.
+		private int startIdx;
+		private int endIdx;
+		private boolean scrollSupport;
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
 			itemHovered = null;
 			hoverColor = GColor.LIGHT_GRAY;
+			scrollSupport = view.getApplication().has(Feature.COMBOSCROLLING);
+		}
+
+		private int getStartIdx() {
+			return scrollSupport ? startIdx : 0;
+		}
+
+		private int getEndIdx() {
+			return scrollSupport ? endIdx : items.size();
 		}
 
 		public void draw(GGraphics2D g2, int left, int top) {
@@ -165,7 +179,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		private void drawItems() {
 
-			int idx = 0;
+			int idx = getStartIdx();
 
 				for (int col = 0; col < getColCount(); col++) {
 				for (int row = 0; row < rowCount; row++) {
@@ -302,22 +316,29 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return null;
 		}
 
+		private boolean prepareTable() {
+			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
+			createItems();
+			return getTableScale();
+			
+		}
 		private void getMetrics() {
 			xPadding = 10;
 			yPadding = 10;
 			itemFontSize = getLabelFontSize();
-			boolean finished = false;
+			if (scrollSupport) {
 
-			while (!finished && itemFontSize > MIN_FONT_SIZE) {
-				itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
-				createItems();
-				finished = getTableScale();
-				itemFontSize--;
-			}
-			if (dimItem == null) {
-				itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
-				createItems();
-				getTableScale();
+			} else {
+				boolean finished = false;
+
+				while (!finished && itemFontSize > MIN_FONT_SIZE) {
+					finished = prepareTable();
+					itemFontSize--;
+				}
+
+				if (dimItem == null) {
+					prepareTable();
+				}
 			}
 			dimTable = AwtFactory.prototype.newDimension(
 					getColCount() * dimItem.getWidth(),
@@ -388,10 +409,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			colCount = itemCount / rowCount + (maxMod == 0 ? 0 : 1);
 			Log.debug("[BALANCE] mod: " + maxMod + " cols: " + colCount
 					+ " rows: " + rowCount);
-		}
-
-		private boolean fitHorizontally() {
-			return colCount * dimItem.getWidth() < view.getWidth();
 		}
 
 		private void createItems() {
