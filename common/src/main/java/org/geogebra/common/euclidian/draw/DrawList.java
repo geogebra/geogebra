@@ -73,7 +73,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private DrawOptions drawOptions;
 
 	private class DrawOptions {
-		private static final int BOTTOM_MARGIN = 5;
+		private static final int MARGIN = 5;
 
 		private static final int ROUND = 8;
 
@@ -340,18 +340,26 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					prepareTable();
 				}
 			}
-			dimTable = AwtFactory.prototype.newDimension(
-					getColCount() * dimItem.getWidth(),
-					rowCount * dimItem.getHeight());
+			int tableWidth = getColCount() * dimItem.getWidth();
+			int tableHeight = rowCount * dimItem.getHeight();
 
-			if (top + dimTable.getHeight() + BOTTOM_MARGIN > view.getHeight()) {
-				top = (view.getHeight() - dimTable.getHeight() - BOTTOM_MARGIN);
+			if (top + tableHeight + 2 * MARGIN > view
+					.getHeight()) {
+				top = (view.getHeight() - tableHeight - MARGIN);
+				if (top < MARGIN) {
+					top = MARGIN;
+					tableHeight -= MARGIN;
+				}
 			}
+
+			dimTable = AwtFactory.prototype.newDimension(tableWidth,
+					tableHeight);
 
 			if (left + dimTable.getWidth() > view.getWidth()) {
 				left = (view.getWidth() - dimTable.getWidth());
 			}
-			rectTable = AwtFactory.prototype.newRectangle(left, top,
+			rectTable = AwtFactory.prototype.newRectangle(left,
+					top + MARGIN,
 					dimTable.getWidth(), dimTable.getHeight());
 
 		}
