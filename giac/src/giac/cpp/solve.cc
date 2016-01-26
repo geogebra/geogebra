@@ -876,8 +876,10 @@ namespace giac {
 	      // make change of variable so that Q becomes monic and solve again
 	      gen q0=q._VECTptr->front();
 	      gen e1=subst(e,x,x/q0,false,contextptr);
-	      in_solve(e1,x,v,isolate_mode,contextptr);
-	      multvecteur(inv(q0,contextptr),v,v);
+	      vecteur newv;
+	      in_solve(e1,x,newv,isolate_mode,contextptr);
+	      multvecteur(inv(q0,contextptr),newv,newv);
+	      v=mergevecteur(v,newv);
 	      return;
 	    }
 	    gen D=r2sym(27*alpha2*delta-9*alpha*beta*gamma+2*beta3,lv,contextptr);

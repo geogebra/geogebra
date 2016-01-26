@@ -964,7 +964,7 @@ namespace giac {
       if (v[0].type==_SYMB)
 	return symbolic2svg(*v[0]._SYMBptr,xmin,xmax,ymin,ymax,contextptr);
     }
-    if (v.subtype==_GROUP__VECT)
+    if (v.subtype==_GROUP__VECT || v._VECTptr->size()>2)
       return svg_polyline(v, attr, name,xmin,xmax,ymin,ymax,contextptr);
     if (v.subtype==_LINE__VECT)
       return svg_line(v[0],v[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
