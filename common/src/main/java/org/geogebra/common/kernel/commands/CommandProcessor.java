@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandFunctionReplacer;
+import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -100,6 +101,61 @@ public abstract class CommandProcessor {
 
 		// resolve arguments to get GeoElements
 		ExpressionNode[] arg = c.getArguments();
+		// x variable was replaced in Surface command
+		boolean wasXReplaced = false;
+		// y variable was replaced in Surface command
+		boolean wasYReplaced = false;
+		// name of replace variable of "x"/"y"
+		String newXVarStr = null;
+		String newYVarStr = null;
+		if (c.getName() != null && "Surface".equals(c.getName())) {
+			// we have to replace "x"
+			if (arg[3] != null
+					&& arg[3].getLeft() instanceof GeoNumeric
+					&& arg[3].getRight() == null
+					&& ((GeoNumeric) arg[3].getLeft()).getLabelSimple() != null
+					&& ((GeoNumeric) arg[3].getLeft()).getLabelSimple().equals(
+							"x")) {
+				GeoDummyReplacer replacer = new GeoDummyReplacer();
+				// get free variable to replace "x" with
+				Variable newVar = new Variable(cons.getKernel(),
+						((GeoElement) arg[3].getLeft()).getFreeLabel("u"));
+				GeoNumeric gn = new GeoNumeric(cons);
+				newXVarStr = newVar.getName();
+				c.getKernel().getConstruction()
+						.addLocalVariable(newXVarStr, gn);
+				replacer = GeoDummyReplacer.getReplacer("x", newVar, true);
+				// replace "x" in expressions
+				arg[0].traverse(replacer);
+				arg[1].traverse(replacer);
+				arg[2].traverse(replacer);
+				arg[3].setLeft(gn);
+				wasXReplaced = true;
+			}
+			// we have to replace "y"
+			if (arg[6] != null
+					&& arg[6].getLeft() instanceof GeoNumeric
+					&& arg[6].getRight() == null
+					&& ((GeoNumeric) arg[6].getLeft()).getLabelSimple() != null
+					&& ((GeoNumeric) arg[6].getLeft()).getLabelSimple().equals(
+							"y")) {
+				GeoDummyReplacer replacer = new GeoDummyReplacer();
+				// get free variable to replace "y" with
+				Variable newVar = new Variable(cons.getKernel(),
+						((GeoElement) arg[6].getLeft()).getFreeLabel("v"));
+				GeoNumeric gn = new GeoNumeric(cons);
+				newYVarStr = newVar.getName();
+				c.getKernel().getConstruction()
+						.addLocalVariable(newYVarStr, gn);
+				replacer = GeoDummyReplacer.getReplacer("y", newVar, true);
+				// replace "y" in expressions
+				arg[0].traverse(replacer);
+				arg[1].traverse(replacer);
+				arg[2].traverse(replacer);
+				arg[6].setLeft(gn);
+				wasYReplaced = true;
+			}
+		}
 		GeoElement[] result = new GeoElement[arg.length];
 
 		for (int i = 0; i < arg.length; ++i) {
@@ -110,6 +166,29 @@ public abstract class CommandProcessor {
 			// use only first resolved argument object for result
 			result[i] = resArg(arg[i])[0];
 		}
+
+		// "x" was replaced
+		if (wasXReplaced) {
+			if (result[0] instanceof GeoNumeric
+					&& result[0].getLabelSimple() != null
+					&& result[0].getLabelSimple().equals(newXVarStr)) {
+				// change label to "x"
+				result[0].setLabelSimple("x");
+			}
+
+		}
+		// "y" was replaced
+		if (wasYReplaced) {
+			if (result[1] instanceof GeoNumeric
+					&& result[1].getLabelSimple() != null
+					&& result[1].getLabelSimple().equals(newYVarStr)) {
+				// change label to "y"
+				result[1].setLabelSimple("y");
+			}
+		}
+		// remove added variables from construction
+		cons.removeLocalVariable(newXVarStr);
+		cons.removeLocalVariable(newYVarStr);
 
 		cons.setSuppressLabelCreation(oldMacroMode);
 		return result;
@@ -470,11 +549,9 @@ kernelA.getEulerNumber(), localVar));
 				// variable "i"object
 				localVarName[i] = "e";
 				Variable localVar = new Variable(kernelA, localVarName[i]);
-				c.traverse(Replacer.getReplacer(
-kernelA.getEulerNumber(),
+				c.traverse(Replacer.getReplacer(kernelA.getEulerNumber(),
 						localVar));
 			}
-
 		}
 
 		// add local variable name to construction
