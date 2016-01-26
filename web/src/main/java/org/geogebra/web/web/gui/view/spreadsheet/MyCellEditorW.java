@@ -331,10 +331,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 			// stopping propagation is needed to prevent duplicate events
 			e.stopPropagation();
-			app.getKernel()
-					.getAlgebraProcessor()
-					.processAlgebraCommand(
-							"DOWN=\"DOWN" + e.getNativeKeyCode() + "\"", false);
+
 			checkCursorKeys(e);
 			int keyCode = e.getNativeKeyCode();
 
