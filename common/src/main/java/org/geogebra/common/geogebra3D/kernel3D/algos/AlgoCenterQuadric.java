@@ -41,6 +41,8 @@ public class AlgoCenterQuadric extends AlgoCenterQuadricND {
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID:
 		case GeoQuadricNDConstants.QUADRIC_CONE:
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET:
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS:
 			((GeoPoint3D) midpoint).setCoords(c.getMidpoint3D());
 			break;
 
