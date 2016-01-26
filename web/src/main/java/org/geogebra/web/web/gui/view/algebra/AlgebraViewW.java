@@ -27,6 +27,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -37,7 +38,9 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
@@ -1805,30 +1808,98 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 
-	public void getPrintable(FlowPanel pPanel, Button btPrint) {
-		Tree printTree = new Tree();
-		TreeItem depNode1 = new AVTreeItem();
-		TreeItem indNode1 = new AVTreeItem();
-		TreeItem auxiliaryNode1 = new AVTreeItem();
-		TreeItem rootType1 = new AVTreeItem();
-		TreeItem rootOrder1 = new AVTreeItem();
-		TreeItem inputPanelTreeItem1 = new AVTreeItem();
-		TreeItem rootLayer1 = new AVTreeItem();
-		HashMap<String, TreeItem> typeNodesMap1 = new HashMap<String, TreeItem>(
-				5);
-		HashMap<Integer, TreeItem> layerNodesMap1 = new HashMap<Integer, TreeItem>(
-				10);
+	// public void getPrintable(FlowPanel pPanel, Button btPrint) {
+	// Tree printTree = new Tree();
+	// TreeItem depNode1 = new AVTreeItem();
+	// TreeItem indNode1 = new AVTreeItem();
+	// TreeItem auxiliaryNode1 = new AVTreeItem();
+	// TreeItem rootType1 = new AVTreeItem();
+	// TreeItem rootOrder1 = new AVTreeItem();
+	// TreeItem inputPanelTreeItem1 = new AVTreeItem();
+	// TreeItem rootLayer1 = new AVTreeItem();
+	// HashMap<String, TreeItem> typeNodesMap1 = new HashMap<String, TreeItem>(
+	// 5);
+	// HashMap<Integer, TreeItem> layerNodesMap1 = new HashMap<Integer,
+	// TreeItem>(
+	// 10);
+	//
+	// initModel(printTree, depNode1, indNode1, auxiliaryNode1, rootOrder1,
+	// inputPanelTreeItem1, rootType1, rootLayer1, typeNodesMap1,
+	// layerNodesMap1);
+	//
+	// pPanel.clear();
+	//
+	// pPanel.add(printTree);
+	//
+	// btPrint.setEnabled(true);
+	// }
 
-		initModel(printTree, depNode1, indNode1, auxiliaryNode1, rootOrder1,
-				inputPanelTreeItem1, rootType1, rootLayer1, typeNodesMap1,
-				layerNodesMap1);
+	native JavaScriptObject getScreenshotCallback(Element el)/*-{
+		return function(pngBase64) {
+			var previewImg = document.createElement("img");
+			previewImg
+					.setAttribute("src", "data:image/png;base64," + pngBase64);
+			el.appendChild(previewImg);
+		};
+	}-*/;
+
+	public void getPrintable(FlowPanel pPanel, final Button btPrint) {
+		Tree printTree = new Tree();
 
 		pPanel.clear();
 
+		
+		for (int i = 0; i < this.getItemCount(); i++) {
+			TreeItem item = this.getItem(i);
+			Log.debug("item text: " + item.getText());
+			TreeItem printItem = new TreeItem();
+			printItem.setText(item.getText());
+			for (int j = 0; j < item.getChildCount(); j++) {
+				TreeItem leaf = item.getChild(j);
+
+				Log.debug(leaf.getClass() + "");
+				if (leaf instanceof AVTreeItem) {
+					printItem.addItem(createAVItem(((RadioTreeItem) leaf)
+							.getGeo().copy()));
+				}
+
+				printItem.addItem(leaf); // ???
+
+				TreeItem printLeaf = new TreeItem();
+
+				// app.getGgbApi().getScreenshotURL(leaf.getElement(),
+				// getScreenshotCallback(printLeaf.getElement()));
+
+				// printLeaf.getElement().setInnerHTML(
+				// leaf.getElement().getInnerHTML());
+				printItem.addItem(printLeaf);
+			}
+			printItem.setState(true);
+			printTree.addItem(printItem);
+		}
+
 		pPanel.add(printTree);
 
-		btPrint.setEnabled(true);
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				btPrint.setEnabled(true);
+			}
+		});
 	}
 
-
+	// public void getPrintable(FlowPanel pPanel, final Button btPrint) {
+	//
+	// pPanel.clear();
+	//
+	//
+	// Tree AV2 = new AlgebraViewW(algebraController);
+	//
+	// pPanel.add();
+	//
+	// Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+	// public void execute() {
+	// btPrint.setEnabled(true);
+	// }
+	// });
+	// }
 }

@@ -1261,6 +1261,7 @@ public class EuclidianViewW extends EuclidianView implements
 		String urlText = ((EuclidianViewWInterface) app
 				.getActiveEuclidianView()).getExportImageDataUrl(1, false);
 		prevImg.getElement().setAttribute("src", urlText);
+		prevImg.addStyleName("prevImg");
 		pPanel.add(prevImg);
 		btPrint.setEnabled(true);
 	}
