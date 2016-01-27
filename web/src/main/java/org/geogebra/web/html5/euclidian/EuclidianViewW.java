@@ -45,6 +45,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
+import org.geogebra.web.web.export.PrintPreviewW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
@@ -72,9 +73,11 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewW extends EuclidianView implements
@@ -1256,17 +1259,23 @@ public class EuclidianViewW extends EuclidianView implements
 		CancelEventTimer.disableBlurEvent();
 	}
 
-	public void getPrintable(FlowPanel pPanel, Button btPrint) {
+	public void getPrintable(final FlowPanel pPanel, Button btPrint) {
 		Log.debug(getPrintingScale());
-		Image prevImg = new Image();
-		String urlText = ((EuclidianViewWInterface) app
-				.getActiveEuclidianView()).getExportImageDataUrl(
-				getPrintingScale(), false);
+		final Image prevImg = new Image();
+		String urlText = getExportImageDataUrl(getPrintingScale(), false);
+
 		prevImg.getElement().setAttribute("src", urlText);
 		prevImg.addStyleName("prevImg");
 		pPanel.clear();
-		pPanel.add(prevImg);
-		btPrint.setEnabled(true);
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				pPanel.add(new Label("label1"));
+				pPanel.add(prevImg);
+				pPanel.add(new Label("label2"));
+				Window.print();
+				PrintPreviewW.removePrintPanelFromDOM();
+			}
+		});
 	}
 
 }

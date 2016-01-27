@@ -130,18 +130,16 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 								.equals(App.VIEW_EUCLIDIAN2 + ""))) {
 					Log.debug("print EV");
 					createPreview(m_cbView.getSelectedValue());
+				} else {
+					Window.print();
+					removePrintPanelFromDOM();
 				}
-				Window.print();
 			}
-			NodeList<com.google.gwt.dom.client.Element> pp = Dom
-					.getElementsByClassName("printPanel");
-			if (pp.getLength() != 0) {
-				pp.getItem(0).removeFromParent();
-			}
+
 			
 			NodeList<Element> pw = Dom.getElementsByClassName("printableView");
-			if (pp.getLength() != 0) {
-				pp.getItem(0).removeClassName("printableView");
+			if (pw.getLength() != 0) {
+				pw.getItem(0).removeClassName("printableView");
 			}
 		}
 
@@ -199,6 +197,14 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		}
 
 		view.getPrintable(pPanel, bPrint);
+	}
+
+	public static void removePrintPanelFromDOM() {
+		NodeList<com.google.gwt.dom.client.Element> pp = Dom
+				.getElementsByClassName("printPanel");
+		if (pp.getLength() != 0) {
+			pp.getItem(0).removeFromParent();
+		}
 	}
 
 }
