@@ -5915,7 +5915,7 @@ namespace giac {
   }
 
   // TI89/92 function/program translate
-#if defined(WIN32) || defined(BESTA_OS)
+#if defined(WIN32) || defined(BESTA_OS) || defined(MS_SMART)
 #define BUFFER_SIZE 16384
 #endif
 

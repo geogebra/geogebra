@@ -609,7 +609,7 @@ namespace giac {
     vector<int> test(1);
     for (int k=1;k<=nfact/2;){
       if (debug_infolevel)
-	COUT << clock() << "Testing combination of " << k << " factors" << endl;
+	COUT << CLOCK() << "Testing combination of " << k << " factors" << endl;
       // FIXME check on cst coeff
       if (1){
 	polynome prodP(P[test[0]]);
@@ -865,20 +865,20 @@ namespace giac {
       if (!is_zero(mod) && essai>mod.val)
 	return false;
       if (debuglog)
-	CERR << "Find_good_eval " << clock() << " " << b << endl;
+	CERR << "Find_good_eval " << CLOCK() << " " << b << endl;
       Fb=peval_1(F,b,mod);
       if (debuglog)
-	CERR << "Fb= " << clock() << " " << gen(Fb) << endl;
+	CERR << "Fb= " << CLOCK() << " " << gen(Fb) << endl;
       if (&F==&G)
 	Gb=Fb;
       else {
 	Gb=peval_1(G,b,mod);
       }
       if (debuglog)
-	CERR << "Gb= " << clock() << " " << gen(Gb) << endl;
+	CERR << "Gb= " << CLOCK() << " " << gen(Gb) << endl;
       if ( (Fb.lexsorted_degree()==Fdeg) && (Gb.lexsorted_degree()==Gdeg) ){
 	if (debuglog)
-	  CERR << "FOUND good eval" << clock() << " " << b << endl;
+	  CERR << "FOUND good eval" << CLOCK() << " " << b << endl;
 	return true;
       }
       b=vranm(nvars,0,0); // find another random point

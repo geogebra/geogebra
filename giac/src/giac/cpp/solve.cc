@@ -5127,7 +5127,7 @@ namespace giac {
       idxm=index_t(idxt);
       M.coord.push_back(monomial<gen>(1,idxm));
       if (debug_infolevel>0)
-	CERR << clock() << " reduce begin " << M << endl;
+	CERR << CLOCK() << " reduce begin " << M << endl;
       gen mprev=m;
       m=1;
       if (prev.empty())
@@ -5141,7 +5141,7 @@ namespace giac {
 	m=mprev*m;
       }
       if (debug_infolevel>0)
-	CERR << clock() << " reduce end " << endl;
+	CERR << CLOCK() << " reduce end " << endl;
       // 1st check if we need to add new monomials
       int pos;
       bool inserted=false;
@@ -5164,7 +5164,7 @@ namespace giac {
 	}
       }
       if (debug_infolevel>0)
-	CERR << clock() << " end insert monomials" << endl;
+	CERR << CLOCK() << " end insert monomials" << endl;
       // now make last matrix line
       ligne.clear();
       for (unsigned i=0;i<positions.size();++i)
@@ -5183,7 +5183,7 @@ namespace giac {
       gen det,bareiss=1,piv,coeff;
       int li=0,lmax=int(mat.size()),c=0,cmax=int(mat.front()._VECTptr->size())-1;
       if (debug_infolevel>0)
-	CERR << clock() << " reduce line" << endl;
+	CERR << CLOCK() << " reduce line" << endl;
       for (;li<lmax-1 && c<cmax;){
 	vecteur & v=*mat[li]._VECTptr;
 	piv=v[c];
@@ -5274,7 +5274,7 @@ namespace giac {
 	swap(mat,matr);
       }
       if (debug_infolevel>0)
-	CERR << clock() << " reduce line end" << endl;
+	CERR << CLOCK() << " reduce line end" << endl;
       // if last line is 0, add element to Glex and remove last line from mat
       for (pos=0;pos<int(l.size())-1;++pos){
 	if (!is_zero(l[pos],contextptr))
@@ -5359,10 +5359,10 @@ namespace giac {
       M.coord.front().index=idxm;
       gen m;
       if (debug_infolevel>0)
-	CERR << clock() << " reduce begin " << endl;
+	CERR << CLOCK() << " reduce begin " << endl;
       reduce(M,&G.front(),&G.back()+1,R,m,env);
       if (debug_infolevel>0)
-	CERR << clock() << " reduce end " << endl;
+	CERR << CLOCK() << " reduce end " << endl;
       if (R.coord.empty()){
 	Glex.push_back(M);
 	break;
@@ -5385,7 +5385,7 @@ namespace giac {
 	if (debug_infolevel>0){
 	  if (R==M)
 	    CERR << "R=M " ;
-	  CERR << clock() << " fill matrix " << endl;
+	  CERR << CLOCK() << " fill matrix " << endl;
 	}
 	lignes.clear();
 	lignes.reserve(reduced.size()+1);
@@ -5465,10 +5465,10 @@ namespace giac {
 	    lcmdeno(*syst[i]._VECTptr,m,context0);
 	  }
 	  if (debug_infolevel>0)
-	    CERR << clock() << " ker begin " << neq << "*" << nunknown << endl;
+	    CERR << CLOCK() << " ker begin " << neq << "*" << nunknown << endl;
 	  mker(syst,B,contextptr);
 	  if (debug_infolevel>0)
-	    CERR << clock() << " ker end " << endl;
+	    CERR << CLOCK() << " ker end " << endl;
 	}
 	if (is_undef(B) || B.empty())
 	  ;
@@ -5658,7 +5658,7 @@ namespace giac {
     }
     for (;!B.empty() && !interrupted;){
       if (debug_infolevel>1)
-	CERR << clock() << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
+	CERR << CLOCK() << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
       index_t small0,cur;
       unsigned smallpos;
@@ -5683,21 +5683,21 @@ namespace giac {
       }
       pair<unsigned,unsigned> bk=B[smallpos];
       if (debug_infolevel>1 && (equalposcomp(G,bk.first)==0 || equalposcomp(G,bk.second)==0))
-	CERR << clock() << " reducing pair with 1 element not in basis " << bk << " from " << B << endl;
+	CERR << CLOCK() << " reducing pair with 1 element not in basis " << bk << " from " << B << endl;
       B.erase(B.begin()+smallpos);
       polynome h=spoly(res[bk.first],res[bk.second],env);
       if (debug_infolevel>1)
-	CERR << clock() << " reduce begin, pair " << bk << " remainder size " << h.coord.size() << endl;
+	CERR << CLOCK() << " reduce begin, pair " << bk << " remainder size " << h.coord.size() << endl;
       reduce(h,res,G,unsigned(-1),h,env);
       if (debug_infolevel>1){
 	if (debug_infolevel>2){ CERR << h << endl; }
-	CERR << clock() << " reduce end, remainder size " << h.coord.size() << endl;
+	CERR << CLOCK() << " reduce end, remainder size " << h.coord.size() << endl;
       }
       if (!h.coord.empty()){
 	res.push_back(h);
 	gbasis_update(G,B,res,int(res.size())-1,env);
 	if (debug_infolevel>2)
-	  CERR << clock() << " basis indexes " << G << " pairs indexes " << B << endl;
+	  CERR << CLOCK() << " basis indexes " << G << " pairs indexes " << B << endl;
       }
     }
     vectpoly newres(G.size(),polynome(res.front().dim,res.front()));
@@ -8164,6 +8164,7 @@ int trstlp(int *n, int *m, double *a,
     int *iact, double *z__, double *zdota, double *vmultc,
      double *sdirn, double *dxnew, double *vmultd)
 {
+#ifndef MS_SMART // https://connect.microsoft.com/VisualStudio/feedback/details/1028781/crash-c1001-on-relase-build
   /* System generated locals */
   int a_dim1, a_offset, z_dim1, z_offset, i__1, i__2;
   double d__1, d__2;
@@ -8776,6 +8777,7 @@ L490:
   }
   *ifull = 0;
 L500:
+#endif // MS_SMART
   return 0;
 } /* trstlp */
 

@@ -1084,7 +1084,7 @@ namespace giac {
 	if (!is_exactly_zero(vradius[i]))
 	  vradius[i]=min(epsg,pow(plus_two,int(evalf_double(ln(vradius[i],context0),1,context0)._DOUBLE_val/std::log(2.))+1),context0);
 	if (debug_infolevel)
-	  CERR << clock() << " isolated " << r << " radius " << vradius[i] << endl;
+	  CERR << CLOCK() << " isolated " << r << " radius " << vradius[i] << endl;
 	if (nextconj){
 	  v[i+1]=conj(r,context0);
 	  vradius[i+1]=vradius[i];
@@ -1137,10 +1137,10 @@ namespace giac {
       for (;n<400;n*=2){
 	double cureps=std::pow(2.0,-n);
 	if (debug_infolevel)
-	  CERR << clock() << " proot at precision " << cureps << endl;
+	  CERR << CLOCK() << " proot at precision " << cureps << endl;
 	vecteur v=proot(P,cureps,n);
 	if (debug_infolevel)
-	  CERR << clock() << " proot end at precision " << cureps << endl;
+	  CERR << CLOCK() << " proot end at precision " << cureps << endl;
 	vecteur vradius(v.size());
 	unsigned i=0;
 	int kmax=int(std::log(eps)/std::log(cureps))+4;

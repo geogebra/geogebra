@@ -610,12 +610,12 @@ namespace giac {
 	      addmodpoly(*itv,vadd,env,*itv); // (*itv)=(*itv)+moduloi*vadd;
 	      testfortruefs = false;
 	    }
-	    int debut_time=clock();
+	    int debut_time=CLOCK();
 	    if (debuglevel)
 	      COUT << debut_time << "Searching true factor" << endl;
 	    // test if *itv divides q in Z
 	    if ( testfortruefs && !hasbeentested[i] && DenseDivRem(newq,truefact,tmp1,tmp2,true) && (tmp2.empty()) ){
-	      int fin_time=clock();
+	      int fin_time=CLOCK();
 	      if (debuglevel)
 		COUT << fin_time << "Found true factor " << *itv << endl << "New bound:"<< bound << endl;
 	      // yes! _VECTute new q and bound
@@ -638,7 +638,7 @@ namespace giac {
 	      }
 	    }
 	    else {
-	      int fin_time=clock();
+	      int fin_time=CLOCK();
 	      if (debuglevel)
 		COUT << fin_time << "No luck!" << endl;
 	      if (testfortruefs)
@@ -794,7 +794,7 @@ namespace giac {
       return; // nothing to do
     int n=int(v_in.size());
     if (debuglevel)
-      COUT << clock() << "Starting combining with " << n << " factors" << endl;
+      COUT << CLOCK() << "Starting combining with " << n << " factors" << endl;
     gen lcoeff(smod(q.front(),env->modulo));
     bool notunit=(!is_one(lcoeff));
     if (n==1){
@@ -821,7 +821,7 @@ namespace giac {
     // COUT << dminus1bound << endl;
     for (;k<n;k++){
       if (debuglevel)
-	COUT << clock() << "Testing combination of " << k << " factors" << endl;
+	COUT << CLOCK() << "Testing combination of " << k << " factors" << endl;
       // initialize all iterators, picstcoeff[] and totaldeg[]
       it[1]=v_in.begin();
       // product of cst coeff
@@ -943,7 +943,7 @@ namespace giac {
 	      break;
 	  }
 	  if (debuglevel && (j<k/2))
-	    COUT << clock() << " " << _VECTteur << " tries." << endl;
+	    COUT << CLOCK() << " " << _VECTteur << " tries." << endl;
 	  // if j!=0, recalculate successors, picstcoeff and totaldeg
 	  if (j){
 	    lastpi=picstcoeff[j-1];
@@ -1304,7 +1304,7 @@ namespace giac {
     }
     env->moduloon=false;
     if (debuglevel)
-      COUT << clock() << "End combine" << endl;
+      COUT << CLOCK() << "End combine" << endl;
     return true;
   }
 

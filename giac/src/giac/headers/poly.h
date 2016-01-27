@@ -1669,7 +1669,7 @@ namespace giac {
 	sign=-sign;
       ddeg=m-n;
       if (debug_infolevel)
-	CERR << clock() << "Tresultant n,m,ddeg: " << n << " ," << m << " ," << ddeg << std::endl;
+	CERR << CLOCK() << "Tresultant n,m,ddeg: " << n << " ," << m << " ," << ddeg << std::endl;
       tensor<T> tmp1(Tfirstcoeff(qtmp)),tmp2(p.dim),tmp3(pow(h,ddeg)),rem(p.dim),a(p.dim);
       ptmp.TPseudoDivRem(qtmp,tmp2,rem,a); // (ptmp*pow(tmp1,ddeg+1)).TDivRem1(qtmp,tmp2,rem,false);
       rem.high_order_degree_truncate(n);

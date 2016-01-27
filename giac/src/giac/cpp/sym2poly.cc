@@ -3011,7 +3011,7 @@ namespace giac {
     alg_lvar(b,l);
     fraction fa(e2r(a,l,contextptr)),fb(e2r(b,l,contextptr)); // ok
     if (debug_infolevel)
-      CERR << "rational gcd begin " << clock() << endl;
+      CERR << "rational gcd begin " << CLOCK() << endl;
     if (!is_one(fa.den) || !is_one(fb.den))
       CERR << "Warning gcd of fractions " << fa << " " << fb ;
     if (fa.num.type==_FRAC)

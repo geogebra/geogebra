@@ -4,7 +4,9 @@
 #undef clock
 #undef clock_t
 #ifndef ConnectivityKit
+#ifndef MS_SMART
 #include "../../../_windows/src/stdafx.h"
+#endif
 #endif
 #endif
 
@@ -12548,7 +12550,7 @@ namespace giac {
 #ifdef ConnectivityKit
   void gen::dbgprint() const { }
 #else
-#ifdef VISUALC
+#if defined(VISUALC) && !defined(MS_SMART)
   void gen::dbgprint() const { ATLTRACE2("%s\r\n", this->print(0).c_str()); }
 #else
   void gen::dbgprint() const{    
@@ -12658,7 +12660,7 @@ namespace giac {
   /* Some string utilities not use anymore */
   // Note that this function should be optimized for large input
   string cut_string(const string & chaine,int nchar,vector<int> & ligne_end) {
-    // CERR << clock() << endl;
+    // CERR << CLOCK() << endl;
     int pos;
     if (ligne_end.empty())
       pos=0;
@@ -12671,7 +12673,7 @@ namespace giac {
       int k=int(chaine.find_first_of('\n',i));
       if ( (l-i<nchar) && ((k<i)||(k>=l-1)) ){
 	ligne_end.push_back(pos+l);
-	// CERR << clock() << endl;
+	// CERR << CLOCK() << endl;
 	return res+chaine.substr(i,l-i);
       }
       if ((k>=i) && (k<i+nchar+4*(i==0)) ){
@@ -12696,7 +12698,7 @@ namespace giac {
 	}
       }
     }
-    // CERR << clock() << endl;
+    // CERR << CLOCK() << endl;
     return res;
   }
 

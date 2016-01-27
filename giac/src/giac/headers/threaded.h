@@ -59,11 +59,11 @@
 
 #if defined HAVE_SYS_TIME_H && !defined VISUALC13
 #include <time.h>
-#else
-#ifndef VISUALC13
-#define clock_t int
-#endif
-#define clock() 0
+//#else
+//#ifndef VISUALC13
+//#define clock_t int
+//#endif
+//#define CLOCK() 0
 #endif
 
 #ifndef NO_NAMESPACE_GIAC
@@ -1148,7 +1148,7 @@ namespace giac {
     }
     bool use_heap=(heap_mult>0 && v1v2>=heap_mult);
     if (debug_infolevel>20){
-      CERR << "// " << clock() << "using ";
+      CERR << "// " << CLOCK() << "using ";
       if (use_heap)
 	CERR << "heap";
       else
@@ -1246,7 +1246,7 @@ namespace giac {
 	  }
 	} // end for heapbeg!=heapend
 	if (debug_infolevel>20)
-	  CERR << clock() << " heap_mult, %age of chains" << count1/total << " " << count2/total << " " << std::endl;
+	  CERR << CLOCK() << " heap_mult, %age of chains" << count1/total << " " << count2/total << " " << std::endl;
 	delete [] heap;
 	return;
       }
@@ -1392,7 +1392,7 @@ namespace giac {
 #ifdef HASH_MAP_NAMESPACE
       typedef HASH_MAP_NAMESPACE::hash_map< U,T,hash_function_unsigned_object > hash_prod ;
       hash_prod produit(possible_size); // try to avoid reallocation
-      // cout << "hash " << clock() << std::endl;
+      // cout << "hash " << CLOCK() << std::endl;
 #else
 #ifdef USTL
       typedef ustl::map<U,T> hash_prod;
@@ -1440,9 +1440,9 @@ namespace giac {
 	  v.push_back(gu);
 	}
       }    
-      // CERR << "smallmult sort " << clock() << std::endl;
+      // CERR << "smallmult sort " << CLOCK() << std::endl;
       sort(v.begin(),v.end());
-      // CERR << "smallmult sort end " << clock() << std::endl;
+      // CERR << "smallmult sort end " << CLOCK() << std::endl;
     } // endif // HEAP_MULT
   }
 
@@ -1468,7 +1468,7 @@ namespace giac {
   template<class T,class U> void * do_threadmult(void * ptr){
     threadmult_t<T,U> * argptr = (threadmult_t<T,U> *) ptr;
     argptr->status=1;
-    argptr->clock=clock();
+    argptr->clock=CLOCK();
     int reduce=argptr->reduce;
     const std::vector< T_unsigned<T,U> > * v1 = argptr->v1ptr;
     std::vector< typename std::vector< T_unsigned<T,U> >::const_iterator >  * v2ptr = argptr->v2ptr;
@@ -1532,7 +1532,7 @@ namespace giac {
 	  }
 	}
       }
-      argptr->clock = clock() - argptr->clock;
+      argptr->clock = CLOCK() - argptr->clock;
       argptr->status=2;
       return &v; // not used, all is stored in prod
     }
@@ -1756,7 +1756,7 @@ namespace giac {
 	  }
 	} // end for heapbeg!=heapend
       } // end els (smallindex)
-      argptr->clock = clock() - argptr->clock;
+      argptr->clock = CLOCK() - argptr->clock;
       argptr->status=2;
       return &v;
     }
@@ -1816,10 +1816,10 @@ namespace giac {
 	v.push_back(gu);
       }
     }    
-    // CERR << "do_threadmult end " << clock() << std::endl;
+    // CERR << "do_threadmult end " << CLOCK() << std::endl;
     sort(v.begin(),v.end());
-    // CERR << "do_threadmult sort end " << clock() << std::endl;
-    argptr->clock = clock() - argptr->clock;
+    // CERR << "do_threadmult sort end " << CLOCK() << std::endl;
+    argptr->clock = CLOCK() - argptr->clock;
     argptr->status = 2;
     return &v;
   }
@@ -1859,7 +1859,7 @@ namespace giac {
     if (!prod && use_heap && nthreads<2) 
       return false;  
     if (debug_infolevel>20){
-      CERR << "// " << clock() << "using threaded " ;
+      CERR << "// " << CLOCK() << "using threaded " ;
       if (use_heap)
 	CERR << "heap";
       else 
@@ -1924,7 +1924,7 @@ namespace giac {
 	  arg[i].vsmallindexptr=0;
 	}
 	if (debug_infolevel>30)
-	  CERR << "Computing degree " << i << " " << clock() << std::endl;
+	  CERR << "Computing degree " << i << " " << CLOCK() << std::endl;
 	do_threadmult<T,U>(&arg[i]);
 	threads_time += arg[i].clock;
 	possible_size += arg[i].vptr->size();	
@@ -2023,7 +2023,7 @@ namespace giac {
       }
     } // end else of if (nthreads==1)
     if (debug_infolevel>30)
-      CERR << "Begin copy " << clock() << std::endl;
+      CERR << "Begin copy " << CLOCK() << std::endl;
     // store to v
     if (prod){
       int n=0;
@@ -2072,7 +2072,7 @@ namespace giac {
       */
     }
     if (debug_infolevel>30)
-      CERR << "End copy " << clock() << std::endl;
+      CERR << "End copy " << CLOCK() << std::endl;
     delete [] arg;
     return true;
   }
@@ -2097,7 +2097,7 @@ namespace giac {
   // if quo_only is >= 2 or <=-2, r is not computed
   template<class T,class U,class R>
   int hashdivrem(const std::vector< T_unsigned<T,U> > & a,const std::vector< T_unsigned<T,U> > & b,std::vector< T_unsigned<T,U> > & q,std::vector< T_unsigned<T,U> > & r,const std::vector<U> & vars,const R & reduce,double qmax,bool allowrational,int quo_only=0){
-    // CERR << "hashdivrem dim " << vars.size() << " clock " << clock() << std::endl;
+    // CERR << "hashdivrem dim " << vars.size() << " clock " << CLOCK() << std::endl;
     q.clear();
     r.clear();
     if (a.empty()){
@@ -2144,7 +2144,7 @@ namespace giac {
       }
       for (;cit!=citend;++cit)
 	r.push_back(*cit);
-      // CERR << "hashdivrem end dim " << vars.size() << " clock " << clock() << std::endl;
+      // CERR << "hashdivrem end dim " << vars.size() << " clock " << CLOCK() << std::endl;
       return 1;
     }
     unsigned as=unsigned(a.size()),bs=unsigned(b.size());
@@ -2451,7 +2451,7 @@ namespace giac {
       } // for (;;)
       // r still empty
       if (debug_infolevel>20)
-	CERR << "Finished computing quotient, size " << q.size() << " " << clock() << std::endl ;
+	CERR << "Finished computing quotient, size " << q.size() << " " << CLOCK() << std::endl ;
       if (quo_only>=2 || quo_only<=-2){
 	delete [] heap;
 	return 1;
@@ -2586,7 +2586,7 @@ namespace giac {
     }
     for (rdeg=adeg;rdeg>=bdeg;--rdeg){
       if (debug_infolevel>20)
-	CERR << "hashdivrem degree " << rdeg << " " << clock() << std::endl;
+	CERR << "hashdivrem degree " << rdeg << " " << CLOCK() << std::endl;
       if (produit[rdeg].empty())
 	continue;
       // find degree of remainder and main coeff
@@ -2699,7 +2699,7 @@ namespace giac {
 #ifdef HASH_MAP_NAMESPACE
     typedef HASH_MAP_NAMESPACE::hash_map< U,T,hash_function_unsigned_object > hash_prod ;
     hash_prod produit; // try to avoid reallocation
-    // cout << "hash " << clock() << std::endl;
+    // cout << "hash " << CLOCK() << std::endl;
 #else
 #ifdef USTL
     typedef ustl::map<U,T> hash_prod;

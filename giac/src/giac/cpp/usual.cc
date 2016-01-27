@@ -4427,7 +4427,7 @@ namespace giac {
     gen prod(operator_times(a,b,contextptr));
     */
     if (debug_infolevel>2)
-      CERR << clock() << " begin _prod" << endl;
+      CERR << CLOCK() << " begin _prod" << endl;
     for (;it!=itend;++it){
       if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_inv) && (it->_SYMBptr->feuille.type!=_VECT) )
 	prod = rdiv(prod,it->_SYMBptr->feuille,contextptr);
@@ -4438,7 +4438,7 @@ namespace giac {
 	  prod = operator_times(prod,*it,contextptr);
       }
       if (debug_infolevel>2)
-	CERR << clock() << " in _prod" << endl;
+	CERR << CLOCK() << " in _prod" << endl;
     }
     return prod;
   }
@@ -5318,7 +5318,7 @@ namespace giac {
     if (args.type!=_VECT)
       return args;
     if (debug_infolevel)
-      CERR << "gcd begin " << clock() << endl;
+      CERR << "gcd begin " << CLOCK() << endl;
     vecteur::const_iterator it=args._VECTptr->begin(),itend=args._VECTptr->end();
     if (ckmatrix(args) && itend-it==2)
       return apply(*it,*(it+1),contextptr,gcd);

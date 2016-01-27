@@ -36,7 +36,7 @@ using namespace std;
 #include <time.h>
 #else
 #define clock_t int
-#define clock() 0
+#define CLOCK() 0
 #endif
 
 #ifndef NO_NAMESPACE_GIAC
@@ -1997,7 +1997,7 @@ namespace giac {
       }
       if (aa!=aend && compute_cof){
 	if (debug_infolevel>20)
-	  CERR << "gcdsmallmodpoly, compute cofactors " << clock() << endl;
+	  CERR << "gcdsmallmodpoly, compute cofactors " << CLOCK() << endl;
 #if defined VISUALC || defined BESTA_OS
 	int * qsave=new int[std::max(as,bs)], *qcur=qsave,*qend=qsave+std::max(as,bs);
 #else
@@ -2018,7 +2018,7 @@ namespace giac {
 	    dq.coord.push_back(monomial<gen>(smod(*qcur,m),deg,1,1));
 	}
 	if (debug_infolevel>20)
-	  CERR << "gcdsmallmodpoly, end compute cofactors " << clock() << endl;
+	  CERR << "gcdsmallmodpoly, end compute cofactors " << CLOCK() << endl;
 #if defined VISUALC || defined BESTA_OS
 	delete [] qsave; 
 #endif
@@ -2486,13 +2486,13 @@ namespace giac {
     int e=0; // number of evaluations
     int alpha=0,ps,qs;
     if (debug_infolevel>1)
-      CERR << "gcdmod find alpha dim " << d.dim << " " << clock() << endl;
+      CERR << "gcdmod find alpha dim " << d.dim << " " << CLOCK() << endl;
     vector<int> palpha,qalpha,pcofactalpha,qcofactalpha,g,g1;
     for (;;++alpha){
       if (alpha==modulo)
 	setsizeerr(gettext("Modgcd: no suitable evaluation point"));
       if (debug_infolevel>1)
-	CERR << "gcdmod eval " << alpha << " dim " << d.dim << " " << clock() << endl;
+	CERR << "gcdmod eval " << alpha << " dim " << d.dim << " " << CLOCK() << endl;
       palpha=pevaln(pxn,alpha,modulo);
       if (palpha.empty())
 	continue;
@@ -2516,13 +2516,13 @@ namespace giac {
 	continue;
       // palpha and qalpha are p_prim and q_prim evaluated at xn=alpha
       if (debug_infolevel>1)
-	CERR << "gcdmod gcd at " << alpha << " dim " << d.dim << " " << clock() << endl;
+	CERR << "gcdmod gcd at " << alpha << " dim " << d.dim << " " << CLOCK() << endl;
       gcdsmallmodpoly(palpha,qalpha,modulo,g,pcofactalpha,qcofactalpha);
       int gdeg(g.size()-1);
       int gcd_plus_delta_deg=gcddeg+Delta.size()-1;
       if (gdeg==delta){
 	if (debug_infolevel>1)
-	  CERR << "gcdmod interp dim " << d.dim << " " << clock() << endl;
+	  CERR << "gcdmod interp dim " << d.dim << " " << CLOCK() << endl;
 	g1=g;
 	mulmodpoly(g1,smod(hornermod(Delta,alpha,modulo)*invmod(g.front(),modulo),modulo),modulo);
 	smallmodpoly2modpoly(g1-pevaln(d,alpha,modulo),modulo,g1);
@@ -2534,7 +2534,7 @@ namespace giac {
 	    || is_zero(g1)
 	    ){
 	  if (debug_infolevel)
-	    CERR << "gcdmod pp1mod dim " << d.dim << " " << clock() << endl;
+	    CERR << "gcdmod pp1mod dim " << d.dim << " " << CLOCK() << endl;
 	  polynome pD,QP(dim),QQ(dim),R(d);
 	  vecteur vtmp;
 	  pp_mod(R,vtmp,&env);
@@ -2542,7 +2542,7 @@ namespace giac {
 	  // This removes the polynomial in x1 that we multiplied by
 	  // (it was necessary to know the lcoeff of the interpolated poly)
 	  if (debug_infolevel)
-	    CERR << "gcdmod check dim " << d.dim << " " << clock() << endl;
+	    CERR << "gcdmod check dim " << d.dim << " " << CLOCK() << endl;
 	  divremmod(p,pD,modulo,QP,R);
 	  // Now, gcd divides pD for gcddeg+1 values of x1
 	  // degree(pD)<=degree(gcd)
@@ -2574,7 +2574,7 @@ namespace giac {
 	      qcofactor=qcofactor*QQ;
 	      qcofactor=smod(q_orig.coord.front().value*invmod(qcofactor.coord.front().value,modulo)*qcofactor,modulo);
 	      if (debug_infolevel)
-		CERR << "gcdmod found dim " << d.dim << " " << clock() << endl;
+		CERR << "gcdmod found dim " << d.dim << " " << CLOCK() << endl;
 	      return;
 	    }
 	  }
@@ -2704,7 +2704,7 @@ namespace giac {
 
   bool gcd_modular(const polynome &p_orig, const polynome & q_orig, polynome & pgcd,polynome & pcofactor,polynome & qcofactor,bool compute_cofactors){
     if (debug_infolevel)
-      CERR << "gcd modular algo begin " << clock() << endl;
+      CERR << "gcd modular algo begin " << CLOCK() << endl;
     int dim=p_orig.dim;
     vector< T_unsigned<gen,hashgcd_U> > p,q,g,pcof,qcof;
     index_t d(dim);
@@ -2757,13 +2757,13 @@ namespace giac {
 
   bool mod_gcd(const polynome &p_orig, const polynome & q_orig, const gen & modulo, polynome & pgcd,polynome & pcofactor,polynome & qcofactor,bool compute_cofactors){
     if (debug_infolevel)
-      CERR << "modgcd begin " << clock() << endl;
+      CERR << "modgcd begin " << CLOCK() << endl;
     int dim=p_orig.dim;
     if ( dim==1 || p_orig.coord.empty() || is_one(q_orig) || q_orig.coord.empty() || is_one(p_orig) || modulo.type!=_INT_ ){
       return mod_gcd_c(p_orig,q_orig,modulo,pgcd,pcofactor,qcofactor,compute_cofactors);
     }
     if (debug_infolevel)
-      CERR << "modgcd begin 2 " << clock() << endl;
+      CERR << "modgcd begin 2 " << CLOCK() << endl;
     std::vector<hashgcd_U> vars(dim);
     vector< T_unsigned<int,hashgcd_U> > p,q,g,pcof,qcof;
     index_t d(dim);
@@ -2812,7 +2812,7 @@ namespace giac {
       return true;
     env.complexe=!estreel;
     if (debug_infolevel)
-      CERR << "xn_gcdmod content/x1..xn-1 dim " << dim << " " << clock() << endl;
+      CERR << "xn_gcdmod content/x1..xn-1 dim " << dim << " " << CLOCK() << endl;
     // Make p and q primitive with respect to x1,...,xn-1
     // i.e. the coeff of p and q wrt x1,...,xn-1 which are polynomials in xn
     // are relative prime 
@@ -2906,7 +2906,7 @@ namespace giac {
     // gcd of leading coefficients of p and q viewed as poly in X_1...X_n-1
     // with coeff in Z[X_n]
     if (debug_infolevel)
-      CERR << "gcdmod lcoeffn dim " << dim-1 << " " << clock() << endl;
+      CERR << "gcdmod lcoeffn dim " << dim-1 << " " << CLOCK() << endl;
     gen lp(pxn.coord.front().value),lq(qxn.coord.front().value);
     vecteur Delta(1,1),lcoeffp(1,1),lcoeffq(1,1);
     if (lp.type==_VECT)
@@ -2958,14 +2958,14 @@ namespace giac {
     int e=0; // number of evaluations
     int alpha=0;
     if (debug_infolevel>1)
-      CERR << "gcdmod find alpha dim " << d.dim << " " << clock() << endl;
+      CERR << "gcdmod find alpha dim " << d.dim << " " << CLOCK() << endl;
     for (;;++alpha){
       if (alpha==modulo){
 	CERR << "Modgcd: no suitable evaluation point" << endl;
 	return false;
       }
       if (debug_infolevel>1)
-	CERR << "gcdmod eval " << alpha << " dim " << d.dim << " " << clock() << endl;
+	CERR << "gcdmod eval " << alpha << " dim " << d.dim << " " << CLOCK() << endl;
       index_t * pdegptr=&pdeg;
       const polynome & palpha=pevaln(pxn,alpha,modulo,pdegptr,estreel);
       if (palpha.coord.empty())
@@ -2997,7 +2997,7 @@ namespace giac {
       // continue;
       // palpha and qalpha are p_prim and q_prim evaluated at xn=alpha
       if (debug_infolevel>1)
-	CERR << "gcdmod gcd at " << alpha << " dim " << d.dim << " " << clock() << endl;
+	CERR << "gcdmod gcd at " << alpha << " dim " << d.dim << " " << CLOCK() << endl;
       polynome g(dim-1),gp(dim-1),gq(dim-1);
       index_t * tmpptr=0;
       if (compute_cof && e>liftdeg0 && e<=liftdeg){
@@ -3040,10 +3040,10 @@ namespace giac {
 	    }
 	    // Reduce linear system modulo modulo
 	    gen det; vecteur pivots; matrice mred;
-	    // CERR << "SPMOD " << clock() << endl;
+	    // CERR << "SPMOD " << CLOCK() << endl;
 	    if (!modrref(m,mred,pivots,det,0,int(m.size()),0,int(m.front()._VECTptr->size())-1,true,false,modulo,false))
 	      return false;
-	    // CERR << "SPMODend " << clock() << endl;
+	    // CERR << "SPMODend " << CLOCK() << endl;
 	    if (!is_zero(det)){	      
 	      // Last column is the solution, it should be polynomials
 	      // that must be untrunced with index = to non-0 coeff of vzero
@@ -3095,7 +3095,7 @@ namespace giac {
 	  } // end if gcddeg-nzero==e
 	} // end if (nzero)
 	if (debug_infolevel>1)
-	  CERR << "gcdmod interp dim " << d.dim << " " << clock() << endl;
+	  CERR << "gcdmod interp dim " << d.dim << " " << CLOCK() << endl;
 	if (compute_cof){
 	  // interpolate p cofactor
 	  mulpoly(gp,smod(hornermod(lcoeffp,alpha,modulo)*invmod(gp.coord.front().value,modulo),modulo),g1);
@@ -3145,7 +3145,7 @@ namespace giac {
 		qcofactor=smod(q_orig.coord.front().value*invmod(qcofactor.coord.front().value,modulo)*qcofactor,modulo);
 	      }
 	      if (debug_infolevel)
-		CERR << "gcdmod end dim " << dim << " " << clock() << endl;
+		CERR << "gcdmod end dim " << dim << " " << CLOCK() << endl;
 	      return true;
 	    }
 	    d.coord.clear(); dp.coord.clear(); dq.coord.clear();
@@ -3157,7 +3157,7 @@ namespace giac {
 	else {
 	  if (e>gcddeg || is_zero(g1)){
 	    if (debug_infolevel)
-	      CERR << "gcdmod pp1mod dim " << dim << " " << clock() << endl;
+	      CERR << "gcdmod pp1mod dim " << dim << " " << CLOCK() << endl;
 	    polynome pD,QP(dim),QQ(dim),R(d);
 	    if (!pp_mod(R,vtmp,&env))
 	      return false;
@@ -3165,7 +3165,7 @@ namespace giac {
 	    // This removes the polynomial in xn that we multiplied by
 	    // (it was necessary to know the lcoeff of the interpolated poly)
 	    if (debug_infolevel)
-	      CERR << "gcdmod check dim " << dim << " " << clock() << endl;
+	      CERR << "gcdmod check dim " << dim << " " << CLOCK() << endl;
 	    // Now, gcd divides pD for gcddeg+1 values of x1
 	    // degree(pD)<=degree(gcd)
 	    if (divremmod(p,pD,modulo,QP,R) && R.coord.empty()){
@@ -3197,7 +3197,7 @@ namespace giac {
 		  qcofactor=smod(q_orig.coord.front().value*invmod(qcofactor.coord.front().value,modulo)*qcofactor,modulo);
 		}
 		if (debug_infolevel)
-		  CERR << "gcdmod found dim " << d.dim << " " << clock() << endl;
+		  CERR << "gcdmod found dim " << d.dim << " " << CLOCK() << endl;
 		return true;
 	      }
 	    }

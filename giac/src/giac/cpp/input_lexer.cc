@@ -1382,7 +1382,7 @@ static yyconst flex_int16_t yy_chk[2029] =
 #include "permu.h"
 #include "input_parser.h"    
 
-#if defined(RTOS_THREADX) || defined(__MINGW_H) || defined NSPIRE
+#if defined(RTOS_THREADX) || defined(__MINGW_H) || defined NSPIRE || defined MS_SMART
   int isatty (int ){ return 0; }
 #endif
 

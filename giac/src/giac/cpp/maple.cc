@@ -355,13 +355,13 @@ namespace giac {
     return (emcctime()-t1)/1000;
 #endif
 #if defined(__APPLE__) || defined(PNACL)
-    unsigned u1=clock();
+    unsigned u1=CLOCK();
     struct timezone tz;
     struct timeval debut,fin;
     gettimeofday(&debut,&tz);
     eval(a,level,contextptr);
     gettimeofday(&fin,&tz);
-    u1=clock()-u1;
+    u1=CLOCK()-u1;
     return makevecteur(double(u1)/CLOCKS_PER_SEC,fin.tv_sec-debut.tv_sec+(fin.tv_usec-debut.tv_usec)/1e6);
 #endif
 #ifdef GIAC_HAS_STO_38

@@ -26,7 +26,7 @@
 #define PREFETCH(addr) /* nothing */
 #elif (defined(__GNUC__) && __GNUC__ >= 3) || defined(__clang__)
 	#define PREFETCH(addr) __builtin_prefetch(addr) 
-#elif defined(_MSC_VER) && _MSC_VER >= 1400
+#elif defined(_MSC_VER) && _MSC_VER >= 1400 && !defined(MS_SMART)
 	#define PREFETCH(addr) PreFetchCacheLine(PF_TEMPORAL_LEVEL_1, addr)
 #else
 	#define PREFETCH(addr) /* nothing */
@@ -62,9 +62,16 @@ extern "C" double emcctime();
 extern "C" int glinit(int,int,int,int,int);
 extern "C" void glcontext(int);
 #define CLOCK emcctime
+#define CLOCK_T clock_t
 #else
 #define CERR std::cerr
+#ifdef MS_SMART
+#define CLOCK() 0
+#define CLOCK_T int
+#else
 #define CLOCK clock
+#define CLOCK_T clock_t
+#endif // MS_SMART
 #endif
 #endif
 

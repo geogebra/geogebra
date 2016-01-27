@@ -510,7 +510,7 @@ namespace giac {
     /* if (a!=a_end)
        log=a->index.size()>=12; 
        if (log)
-       CERR << "+ begin" << clock() << endl; */
+       CERR << "+ begin" << CLOCK() << endl; */
     for (;;) {
       if (a == a_end) {
 	while (b != b_end) {
@@ -551,7 +551,7 @@ namespace giac {
       }
     }
     //  if (log)
-    //  CERR << "+ end " << clock() << endl;
+    //  CERR << "+ end " << CLOCK() << endl;
   }
 
   template <class T>
@@ -818,7 +818,7 @@ namespace giac {
     double factorialaabbd=std::lgamma(aa+bb+d+1),factorialaabb=std::lgamma(aa+bb+1);
     r=std::exp(factorialaabbd-(factorialaabb+factoriald));
     if (debug_infolevel)
-      CERR << "// " << clock() << " Mul degree " << aa << "+" << bb << " size " << asize << "*" << bsize << "=" << asize*bsize << " max " << r << std::endl;
+      CERR << "// " << CLOCK() << " Mul degree " << aa << "+" << bb << " size " << asize << "*" << bsize << "=" << asize*bsize << " max " << r << std::endl;
     new_coord.clear();
     new_coord.reserve(std::min(int(r),itend-it));
     // add terms with same power

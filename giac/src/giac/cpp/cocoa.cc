@@ -15423,7 +15423,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  rur=false;
 	  order.o=absint(order.o);
 	}
-	clock_t c=CLOCK();
+	CLOCK_T c=CLOCK();
 	if (modularalgo && (!env || env->modulo==0 || env->moduloon==false)){
 	  if (mod_gbasis(res,modularcheck,
 			 //order.o==_REVLEX_ORDER /* zdata*/,
@@ -15480,7 +15480,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	rur=false;
 	order.o=absint(order.o);
       }
-      clock_t c=CLOCK();
+      CLOCK_T c=CLOCK();
       if (modularalgo && (!env || env->modulo==0 || env->moduloon==false)){
 	if (mod_gbasis(res,modularcheck,
 		       //order.o==_REVLEX_ORDER /* zdata*/,
@@ -15536,7 +15536,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	rur=false;
 	order.o=absint(order.o);
       }
-      clock_t c=CLOCK();
+      CLOCK_T c=CLOCK();
       if (modularalgo && (!env || env->modulo==0 || env->moduloon==false)){
 	if (mod_gbasis(res,modularcheck,
 		       //order.o==_REVLEX_ORDER /* zdata*/,
@@ -15592,7 +15592,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       rur=false;
       order.o=absint(order.o);
     }
-    clock_t c=CLOCK();
+    CLOCK_T c=CLOCK();
     if (modularalgo && (!env || env->modulo==0 || env->moduloon==false)){
       if (mod_gbasis(res,modularcheck,
 		     //order.o==_REVLEX_ORDER /* zdata*/,
