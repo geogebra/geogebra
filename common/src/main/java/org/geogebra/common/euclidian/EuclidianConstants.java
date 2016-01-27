@@ -235,7 +235,7 @@ public final class EuclidianConstants {
 	/** Freehand circle */
 	public static final int MODE_FREEHAND_CIRCLE = 74;
 
-	/** Freehand circle */
+	/** Extremum */
 	public static final int MODE_EXTREMUM = 75;
 
 	/** Point on Object */

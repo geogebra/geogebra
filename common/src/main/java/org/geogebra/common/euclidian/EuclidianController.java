@@ -10627,7 +10627,6 @@ public abstract class EuclidianController {
 		Hits h = hits.getHits(Test.GEOFUNCTION, false, new Hits());
 		if (h.size() > 0) {
 			GeoFunction function = (GeoFunction) h.get(0);
-
 			if(function.isPolynomialFunction(false)){
 				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(this.kernel.getConstruction(),
 						null, function);
