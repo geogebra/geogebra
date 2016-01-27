@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -166,7 +165,6 @@ public class Variable extends ValidExpression {
 		int i;
 		ExpressionValue geo2 = null;
 		String nameNoX = name;
-		Log.printStacktrace("");
 		for (i = name.length() - 1; i >= 0; i--) {
 			if (name.charAt(i) < 'x' || name.charAt(i) > 'z')
 				break;
