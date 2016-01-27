@@ -216,14 +216,15 @@ model {
                     cppCompiler.define 'YY_NO_UNISTD_H'
 
                     // This can be done to reduce size, but not necessary
-                    // if (targetPlatform.architecture.name == 'i386') {
+                    if (targetPlatform.architecture.name == 'i386') {
                     //	cppCompiler.args '-UHAVE_PTHREAD_H'
-                    //	}
+                         cppCompiler.args '-fpermissive' // compile CLOCK()
+                         }
 
                     cppCompiler.args '-I', file('src/jni/jdkHeaders/win32').toString()
                     // Insert prebuilt libraries
-            	    linker.args '-Wl,--add-stdcall-alias'
-            	    linker.args '-s' // stripping
+                    linker.args '-Wl,--add-stdcall-alias'
+                    linker.args '-s' // stripping
 
                     // Add libgcc and libstdc++ statically
                     linker.args '-static-libgcc'
