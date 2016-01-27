@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
+import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoRadius;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
@@ -10625,9 +10626,16 @@ public abstract class EuclidianController {
 		Hits h = hits.getHits(Test.GEOFUNCTION, false, new Hits());
 		if (h.size() > 0) {
 			GeoFunction function = (GeoFunction) h.get(0);
-			AlgoExtremumMulti algo = new AlgoExtremumMulti(this.kernel.getConstruction(), null, function,
-					new MyDouble(this.kernel, this.view.getXmin()), new MyDouble(this.kernel, this.view.getXmax()));
-			return algo.getExtremumPoints();
+
+			if(function.isPolynomialFunction(false)){
+				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(this.kernel.getConstruction(),
+						null, function);
+				return algo.getExtremumPoints();
+			} else {
+				AlgoExtremumMulti algo = new AlgoExtremumMulti(this.kernel.getConstruction(), null, function,
+						new MyDouble(this.kernel, this.view.getXmin()), new MyDouble(this.kernel, this.view.getXmax()));
+				return algo.getExtremumPoints();
+			}
 		}
 		return null;
 	}
