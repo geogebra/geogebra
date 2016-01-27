@@ -3901,7 +3901,11 @@ public abstract class App implements UpdateSelection {
 		case CP_POPUP:
 		case CP_NEW_COLUMNS:
 		case EXAM:
+
+			// in web
 		case PRINT_MENU:
+		case WEB_PRINT_ALGEBRA_VIEW:
+
 		case ACRA:
 		case ANALYTICS:
 		case HANDWRITING:

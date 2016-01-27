@@ -67,6 +67,8 @@ public enum Feature {
 
 	PRINT_MENU,
 
+	WEB_PRINT_ALGEBRA_VIEW,
+
 	LATEX_ON_BUTTON,
 
 	LATEX_ON_CHECKBOX,
