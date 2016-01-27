@@ -1523,7 +1523,10 @@ ExpressionValue enelement():
     // parenthesis
     LOOKAHEAD(2147483647)
     "("  ev = expressionOrEquation()  ")" 
-        { ev = ev.unwrap(); if(ev instanceof ExpressionNode)
+        {
+          if(GiacParsing)        {          ev = ev.unwrap();
+        }
+         if(ev instanceof ExpressionNode)
         {
           ((ExpressionNode)ev).setBrackets(true);
         }
