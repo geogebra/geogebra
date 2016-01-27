@@ -878,7 +878,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			Coords ev2) {
 		// try to keep ev0
 		tmpCoords.setCrossProduct(ev2, ev0);
-		if (!tmpCoords.isZero()) {
+		if (!tmpCoords.isZero(3)) {
 			ev1.setValues(tmpCoords, 3);
 			ev1.normalize();
 		} else if (!ev1.isZero()) { // ev1 and ev2 are already orthogonal

@@ -1354,6 +1354,18 @@ public class Coords {
 	}
 
 	/**
+	 * @param dim
+	 *            number of coords that must be 0
+	 * @return whether first dim coords are 0
+	 */
+	public boolean isZero(int dim) {
+		for (int i = 0; i < dim; i++)
+			if (!Kernel.isEqual(val[i], 0, Kernel.STANDARD_PRECISION))
+				return false;
+		return true;
+	}
+
+	/**
 	 * Return true if all coordinates are not different from val more than
 	 * precision.
 	 * 
