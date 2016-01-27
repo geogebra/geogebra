@@ -1264,6 +1264,7 @@ public class EuclidianViewW extends EuclidianView implements
 				getPrintingScale(), false);
 		prevImg.getElement().setAttribute("src", urlText);
 		prevImg.addStyleName("prevImg");
+		pPanel.clear();
 		pPanel.add(prevImg);
 		btPrint.setEnabled(true);
 	}

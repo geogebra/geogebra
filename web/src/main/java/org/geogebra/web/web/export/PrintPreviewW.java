@@ -9,6 +9,7 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -138,8 +139,10 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 				pp.getItem(0).removeFromParent();
 			}
 			
-			Dom.getElementsByClassName("printableView").getItem(0)
-					.removeClassName("printableView");
+			NodeList<Element> pw = Dom.getElementsByClassName("printableView");
+			if (pp.getLength() != 0) {
+				pp.getItem(0).removeClassName("printableView");
+			}
 		}
 
 	}
@@ -149,10 +152,12 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 			app.getEuclidianView1();
 			scalePanelHolder.add(new PrintScalePanelW(app, app
 					.getEuclidianView1()));
+			btPrint.setEnabled(true);
 		} else if ((App.VIEW_EUCLIDIAN2 + "").equals(m_cbView
 				.getSelectedValue())) {
 			scalePanelHolder.add(new PrintScalePanelW(app, app
 					.getEuclidianView2(1)));
+			btPrint.setEnabled(true);
 		} else {
 			createPreview(m_cbView.getSelectedValue());
 		}
