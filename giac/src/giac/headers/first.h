@@ -65,7 +65,7 @@ extern "C" void glcontext(int);
 #define CLOCK_T clock_t
 #else
 #define CERR std::cerr
-#ifdef MS_SMART
+#if defined(MS_SMART) || defined(NO_CLOCK)
 #define CLOCK() 0
 #define CLOCK_T int
 #else

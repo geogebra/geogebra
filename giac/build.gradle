@@ -212,14 +212,16 @@ model {
                     cppCompiler.define 'HAVE_NO_SYS_RESOURCE_WAIT_H'
                     cppCompiler.define 'HAVE_NO_PWD_H'
                     cppCompiler.define 'HAVE_NO_CWD'
+                    cppCompiler.define 'NO_CLOCK'
                     cppCompiler.define 'usleep',''
                     cppCompiler.define 'YY_NO_UNISTD_H'
 
-                    // This can be done to reduce size, but not necessary
-                    if (targetPlatform.architecture.name == 'i386') {
-                    //	cppCompiler.args '-UHAVE_PTHREAD_H'
-                         cppCompiler.args '-fpermissive' // compile CLOCK()
-                         }
+                    // if (targetPlatform.architecture.name == 'x86') {
+                         // This can be done to reduce size, but not necessary:
+                         // cppCompiler.args '-UHAVE_PTHREAD_H'
+                         // This may help in allowing some deprecated constructs:
+                         // cppCompiler.args '-fpermissive'
+                         // }
 
                     cppCompiler.args '-I', file('src/jni/jdkHeaders/win32').toString()
                     // Insert prebuilt libraries
