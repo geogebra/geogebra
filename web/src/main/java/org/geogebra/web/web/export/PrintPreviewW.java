@@ -1,6 +1,7 @@
 package org.geogebra.web.web.export;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -107,7 +108,13 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		scalePanelHolder = new SimplePanel();
 		centerPanel.add(scalePanelHolder);
 
-		createPreview(m_cbView.getSelectedValue());
+		// if (!((m_cbView.getSelectedValue().equals(App.VIEW_EUCLIDIAN + ""))
+		// || (m_cbView
+		// .getSelectedValue().equals(App.VIEW_EUCLIDIAN2 + "")))) {
+		// createPreview(m_cbView.getSelectedValue());
+		// }
+
+		addScalePanelOrCreatePreview();
 
 		setWidget(centerPanel);
 	}
@@ -116,6 +123,13 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		if (event.getSource() == btPrint || event.getSource() == btCancel) {
 			hide();
 			if (event.getSource() == btPrint) {
+				if ((m_cbView.getSelectedValue()
+						.equals(App.VIEW_EUCLIDIAN + ""))
+						|| (m_cbView.getSelectedValue()
+								.equals(App.VIEW_EUCLIDIAN2 + ""))) {
+					Log.debug("print EV");
+					createPreview(m_cbView.getSelectedValue());
+				}
 				Window.print();
 			}
 			NodeList<com.google.gwt.dom.client.Element> pp = Dom
@@ -130,19 +144,25 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 	}
 
+	private void addScalePanelOrCreatePreview() {
+		if ((App.VIEW_EUCLIDIAN + "").equals(m_cbView.getSelectedValue())) {
+			app.getEuclidianView1();
+			scalePanelHolder.add(new PrintScalePanelW(app, app
+					.getEuclidianView1()));
+		} else if ((App.VIEW_EUCLIDIAN2 + "").equals(m_cbView
+				.getSelectedValue())) {
+			scalePanelHolder.add(new PrintScalePanelW(app, app
+					.getEuclidianView2(1)));
+		} else {
+			createPreview(m_cbView.getSelectedValue());
+		}
+	}
+
 	public void onChange(ChangeEvent event) {
 		if (event.getSource() == m_cbView) {
 			scalePanelHolder.clear();
-			if ((app.VIEW_EUCLIDIAN + "").equals(m_cbView.getSelectedValue())){
-				app.getEuclidianView1();
-				scalePanelHolder.add(new PrintScalePanelW(app, app.getEuclidianView1()));
-			} else if ((app.VIEW_EUCLIDIAN2 + "").equals(m_cbView
-					.getSelectedValue())) {
-				scalePanelHolder.add(new PrintScalePanelW(app, app
-						.getEuclidianView2(1)));
-			}
+			addScalePanelOrCreatePreview();
 
-			createPreview(m_cbView.getSelectedValue());
 		}
 	}
 

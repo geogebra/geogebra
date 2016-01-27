@@ -1257,9 +1257,11 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public void getPrintable(FlowPanel pPanel, Button btPrint) {
+		Log.debug(getPrintingScale());
 		Image prevImg = new Image();
 		String urlText = ((EuclidianViewWInterface) app
-				.getActiveEuclidianView()).getExportImageDataUrl(1, false);
+				.getActiveEuclidianView()).getExportImageDataUrl(
+				getPrintingScale(), false);
 		prevImg.getElement().setAttribute("src", urlText);
 		prevImg.addStyleName("prevImg");
 		pPanel.add(prevImg);

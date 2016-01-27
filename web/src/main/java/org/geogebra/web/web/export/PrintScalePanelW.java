@@ -9,8 +9,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -71,9 +69,9 @@ public class PrintScalePanelW extends FlowPanel {
 		exportMode.addItem(jcbItemFixedSize);
 
 		add(exportMode);
-		exportMode.addChangeHandler(new ChangeHandler() {
+		exportMode.addBlurHandler(new BlurHandler() {
 
-			public void onChange(ChangeEvent event) {
+			public void onBlur(BlurEvent event) {
 				switchMode();
 			}
 
@@ -92,6 +90,8 @@ public class PrintScalePanelW extends FlowPanel {
 		cmModePanel.add(new Label(" cm"));
 
 		add(cmModePanel);
+
+		updateScaleTextFields();
 
 	}
 
@@ -144,6 +144,7 @@ public class PrintScalePanelW extends FlowPanel {
 			double denominator = Double.parseDouble(tfScale1.getText());
 			double scale = numerator / denominator;
 			if (!(Double.isInfinite(scale) || Double.isNaN(scale))) {
+				Log.debug("printing scale set: " + scale);
 				ev.setPrintingScale(scale);
 				// viewChanged = true;
 			}
