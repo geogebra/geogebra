@@ -43,9 +43,9 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
-import org.geogebra.web.web.export.PrintPreviewW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
@@ -53,6 +53,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -1273,7 +1274,13 @@ public class EuclidianViewW extends EuclidianView implements
 				pPanel.add(prevImg);
 				pPanel.add(new Label("label2"));
 				Window.print();
-				PrintPreviewW.removePrintPanelFromDOM();
+
+				// PrintPreviewW.removePrintPanelFromDOM();
+				NodeList<com.google.gwt.dom.client.Element> pp = Dom
+						.getElementsByClassName("printPanel");
+				if (pp.getLength() != 0) {
+					pp.getItem(0).removeFromParent();
+				}
 			}
 		});
 	}
