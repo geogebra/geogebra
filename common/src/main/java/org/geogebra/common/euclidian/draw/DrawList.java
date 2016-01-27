@@ -327,7 +327,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			yPadding = 10;
 			itemFontSize = getLabelFontSize();
 			if (scrollSupport) {
-
+				getScrollSettings();
 			} else {
 				boolean finished = false;
 
@@ -364,6 +364,34 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		}
 
+		private void getOneColumnSettings() {
+			setColCount(1);
+			dimItem = AwtFactory.prototype
+					.newDimension(boxWidth > dimItem.getWidth() ? boxWidth
+							: dimItem.getWidth(), dimItem.getHeight());
+
+		}
+
+		private void getScrollSettings() {
+			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
+			createItems();
+
+			getOneColumnSettings();
+
+			int maxItems = geoList.size();
+			int visibleItems = ((view.getHeight() - 2 * MARGIN)
+					/ dimItem.getHeight()) + 1;
+			startIdx = 0;
+			endIdx = Math.min(visibleItems, maxItems);
+			rowCount = getVisibleItemCount();
+		}
+
+		private int getVisibleItemCount() {
+			int result = getEndIdx() - getStartIdx();
+			// There will be always one row at least.
+			return result > 0 ? result : 1;
+		}
+
 		/**
 		 * Gets the columns and rows for options table.
 		 * 
@@ -376,12 +404,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					/ dimItem.getHeight()) + 1;
 			int maxCols = view.getWidth() / dimItem.getWidth();
 			if (maxItems < maxRows) {
-				setColCount(1);
-				dimItem = AwtFactory.prototype
-						.newDimension(
-								boxWidth > dimItem.getWidth() ? boxWidth
-										: dimItem.getWidth(),
-						dimItem.getHeight());
+				getOneColumnSettings();
 				rowCount = maxItems;
 				return true;
 			}
