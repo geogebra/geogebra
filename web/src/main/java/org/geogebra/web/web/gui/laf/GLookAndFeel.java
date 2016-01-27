@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.laf;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
@@ -144,9 +143,12 @@ public class GLookAndFeel implements GLookAndFeelI{
 		return false;
 	}
 
-	public ExamEnvironment getExam() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean examSupported() {
+		return true;
+	}
+
+	public boolean printSupported() {
+		return true;
 	}
 
 }

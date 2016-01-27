@@ -98,4 +98,14 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	public boolean supportsGoogleDrive() {
 		return false;
 	}
+
+	@Override
+	public boolean examSupported() {
+		return false;
+	}
+
+	@Override
+	public boolean printSupported() {
+		return false;
+	}
 }

@@ -71,4 +71,14 @@ public class TabletLookAndFeel extends GLookAndFeel {
 		return "Tablet";
 	}
 
+	@Override
+	public boolean examSupported() {
+		return false;
+	}
+
+	@Override
+	public boolean printSupported() {
+		return false;
+	}
+
 }

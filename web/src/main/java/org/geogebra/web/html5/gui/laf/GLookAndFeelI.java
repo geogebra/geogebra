@@ -46,4 +46,8 @@ public interface GLookAndFeelI {
 
 	boolean isEmbedded();
 
+	boolean examSupported();
+
+	boolean printSupported();
+
 }
