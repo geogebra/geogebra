@@ -308,8 +308,8 @@ public class EquationEditor {
 
 	public void setText(String s, boolean shallfocus) {
 		String slatex = historyMap.get(s);
-		if (slatex == null) {
-			slatex = s;
+		if (slatex == null && s != null) {
+			slatex = s.replace("$", "\\dollar ");
 		}
 		org.geogebra.web.html5.main.DrawEquationW.updateEditingMathQuillGGB(
 				component.getLaTeXSpan(), slatex, shallfocus);
