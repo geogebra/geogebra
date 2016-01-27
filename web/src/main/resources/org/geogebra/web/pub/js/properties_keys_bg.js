@@ -1799,7 +1799,7 @@ __GGB__keysVar.bg.menu = {
     "Ray": "\u041b\u044a\u0447",
     "Ray.Help": "\u0414\u0432\u0435 \u0442\u043e\u0447\u043a\u0438",
     "RealSense.DetectedMessage": "\u041f\u043e\u0437\u0434\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f, \u0412\u0430\u0448\u0430\u0442\u0430 Intel\xae RealSense\u2122 \u043a\u0430\u043c\u0435\u0440\u0430 \u0431\u0435\u0448\u0435 \u0438\u0437\u043f\u043e\u043b\u0437\u0432\u0430\u043d\u0430 \u0441 GeoGebra!",
-    "RealSense.Tutorial": "Intel\xae RealSense\u2122 Tutorial",
+    "RealSense.Tutorial": "Intel\xae RealSense\u2122 \u0440\u044a\u043a\u043e\u0432\u043e\u0434\u0441\u0442\u0432\u043e",
     "ReceivedData": "\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438 \u0434\u0430\u043d\u043d\u0438",
     "Recent": "\u041e\u0442\u0432\u043e\u0440\u0438 \u043f\u043e\u0441\u043b\u0435\u0434\u0435\u043d",
     "RecentColor": "\u041f\u043e\u0441\u043b\u0435\u0434\u0435\u043d",
@@ -2171,9 +2171,9 @@ __GGB__keysVar.bg.menu = {
     "on": "\u0412\u043a\u043b\u044e\u0447\u0435\u043d\u043e",
     "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
     "phone_loading_materials_offline": "Please check your Internet connection.",
-    "phone_no_materials_found": "No Materials found",
-    "phone_tour_done": "Done",
-    "phone_try_again_loading": "Try again",
+    "phone_no_materials_found": "\u041d\u0435 \u0441\u0430 \u043e\u0442\u043a\u0440\u0438\u0442\u0438 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0438",
+    "phone_tour_done": "\u0413\u043e\u0442\u043e\u0432\u043e",
+    "phone_try_again_loading": "\u041e\u043f\u0438\u0442\u0430\u0439\u0442\u0435 \u043e\u0442\u043d\u043e\u0432\u043e",
     "search_geogebra_materials": "\u0422\u044a\u0440\u0441\u0435\u043d\u0435 \u043d\u0430 GeoGebra \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0438",
 }
 

@@ -2306,7 +2306,7 @@ __GGB__keysVar.de_AT.plain = {
     "CellAisNotDefined": "Zelle %0 ist nicht definiert",
     "CenterOfA": "Mittelpunkt von %0",
     "CentroidOfA": "Schwerpunkt von %0",
-    "CheckOutTutorial": "Sehen Sie sich unsere %0 Quickstart Anleitung an!",
+    "CheckOutTutorial": "Sehen Sie sich unsere %0 Anleitung an!",
     "CheckedNumerically": "(numerisch gepr\xfcft)",
     "ChiSquaredContribution": "\u03a7\xb2 Beitr\xe4ge",
     "ChooseColor": "W\xe4hlen Sie eine Farbe",
