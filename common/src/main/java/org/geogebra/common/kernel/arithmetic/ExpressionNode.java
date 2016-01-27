@@ -4433,7 +4433,7 @@ kernel, left,
 	 * @return result of multiplication
 	 */
 	public ExpressionNode multiplyR(ExpressionValue v2) {
-		if (isConstantDouble(v2, 0))
+		if (isConstantDouble(v2, 0) || isConstantDouble(this, 1))
 			return v2.wrap();
 		if (isConstantDouble(v2, 1))
 			return this;

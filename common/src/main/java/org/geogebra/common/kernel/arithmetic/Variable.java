@@ -27,8 +27,8 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -165,37 +165,52 @@ public class Variable extends ValidExpression {
 		int[] exponents = new int[] { 0, 0, 0 };
 		int i;
 		ExpressionValue geo2 = null;
+		String nameNoX = name;
+		Log.printStacktrace("");
 		for (i = name.length() - 1; i >= 0; i--) {
 			if (name.charAt(i) < 'x' || name.charAt(i) > 'z')
 				break;
 			exponents[name.charAt(i) - 'x']++;
-			String nameNoX = name.substring(0, i);
+			nameNoX = name.substring(0, i);
 			geo2 = kernel.lookupLabel(nameNoX);
 			Operation op = kernel.getApplication().getParserFunctions()
 					.get(nameNoX, 1);
 			if (op != null && op != Operation.XCOORD && op != Operation.YCOORD
 					&& op != Operation.ZCOORD) {
-				return new FunctionVariable(kernel, name.charAt(i) + "")
-						.wrap()
-						.power(new MyDouble(kernel,
-								exponents[name.charAt(i) - 'x'])).apply(op);
+				return xyzPowers(kernel, exponents).apply(op);
 			}
 
 			if (geo2 != null)
 				break;
 		}
-		if (i > -1 && !(geo2 instanceof GeoElement)) {
-			String varStr = name.substring(0, i + 1);
-
-			// eg pix, pixx, f(y)=piyy -> don't want a slider called "pi"
-			if ("pi".equals(StringUtil.toLowerCase(varStr))
-					|| Unicode.PI_STRING.equals(varStr)) {
-				geo2 = new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING);
-			} else {
-				return new Variable(kernel, varStr);
+		int piPower = 0;
+		while (nameNoX.length() > 0
+				&& !(geo2 instanceof GeoElement)
+				&& (nameNoX.startsWith("pi") || nameNoX.charAt(0) == Unicode.pi)) {
+			int chop = nameNoX.charAt(0) == Unicode.pi ? 1 : 2;
+			piPower++;
+			nameNoX = nameNoX.substring(chop);
+			if (i + 1 >= chop) {
+				geo2 = kernel.lookupLabel(nameNoX);
+			}
+			if (geo2 != null) {
+				break;
 			}
 		}
-		ExpressionNode powers = new ExpressionNode(kernel,
+		if (nameNoX.length() > 0 && !(geo2 instanceof GeoElement)) {
+			return new Variable(kernel, nameNoX);
+		}
+		ExpressionNode powers = xyzPowers(kernel, exponents);
+		if (geo2 == null) {
+			return piPower == 0 ? powers : powers
+					.multiply(piTo(piPower, kernel));
+		}
+		return piPower == 0 ? powers.multiply(geo2) : powers.multiply(geo2)
+				.multiply(piTo(piPower, kernel));
+	}
+
+	private static ExpressionNode xyzPowers(Kernel kernel, int[] exponents) {
+		return new ExpressionNode(kernel,
 				new FunctionVariable(kernel, "x"))
 				.power(new MyDouble(kernel, exponents[0]))
 				.multiplyR(
@@ -204,10 +219,11 @@ public class Variable extends ValidExpression {
 				.multiplyR(
 						new ExpressionNode(kernel, new FunctionVariable(kernel,
 								"z")).power(new MyDouble(kernel, exponents[2])));
-		if (geo2 == null) {
-			return powers;
-		}
-		return powers.multiply(geo2);
+	}
+
+	private static ExpressionNode piTo(int piPower, Kernel kernel2) {
+		return new MySpecialDouble(kernel2, Math.PI, Unicode.PI_STRING).wrap()
+				.power(piPower);
 	}
 
 	public HashSet<GeoElement> getVariables() {
