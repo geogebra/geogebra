@@ -1569,7 +1569,7 @@ kernel, left,
 			} else {
 				if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF)
 						&& right instanceof MyList) {
-					rightStr = ((MyList) right).toString(tpl, true, false);
+					rightStr = ((MyList) right).toString(tpl, false, false);
 				} else {
 					rightStr = right.toString(tpl);
 				}
@@ -3291,7 +3291,7 @@ kernel, left,
 					sb.append(tpl.leftBracket());
 					sb.append(leftStr);
 					sb.append(tpl.leftBracket());
-					// sb.append(rightStr.substring(1, rightStr.length() - 1));
+					sb.append(rightStr);
 					sb.append(tpl.rightBracket());
 					sb.append(tpl.rightBracket());
 				} else {
