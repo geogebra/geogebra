@@ -331,8 +331,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			switch (kernel.getAlgebraStyleSpreadsheet()) {
 			case Kernel.ALGEBRA_STYLE_VALUE:
 				if (geo.isLaTeXDrawableGeo()
-				        && (geo.isGeoList() ? !((GeoList) geo).isMatrix()
-				                : true)
 				        && (geo.isGeoText() ? ((GeoText) geo).isLaTeX() : true)) {
 
 					latex = geo.getLaTeXdescription();
