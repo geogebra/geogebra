@@ -235,6 +235,9 @@ public final class EuclidianConstants {
 	/** Freehand circle */
 	public static final int MODE_FREEHAND_CIRCLE = 74;
 
+	/** Freehand circle */
+	public static final int MODE_EXTREMUM = 75;
+
 	/** Point on Object */
 	public static final int MODE_POINT_ON_OBJECT = 501;
 
@@ -756,6 +759,9 @@ public final class EuclidianConstants {
 
 		case EuclidianConstants.MODE_SPREADSHEET_MAX:
 			return "MaxCells";
+
+		case EuclidianConstants.MODE_EXTREMUM:
+			return "Extremum";
 
 		default:
 			Log.error("Unknown mode " + mode);

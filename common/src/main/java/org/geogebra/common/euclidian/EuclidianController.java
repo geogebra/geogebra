@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoRadius;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
@@ -359,7 +360,7 @@ public abstract class EuclidianController {
 	private boolean externalHandling;
 
 	private long lastMouseRelease;
-	
+
 	private long lastTouchRelease;
 
 	int index;
@@ -388,7 +389,7 @@ public abstract class EuclidianController {
 		this.l10n = app.getLocalization();
 		createCompanions();
 	}
-	
+
 	protected void createCompanions(){
 		this.companion = newCompanion();
 	}
@@ -420,7 +421,7 @@ public abstract class EuclidianController {
 	/**
 	 * Stop collecting the minor repaints (view.repaintView's not at the end of
 	 * the events)
-	 * 
+	 *
 	 * @return: whether the actual method shall repaint anything
 	 */
 	public void stopCollectingMinorRepaints() {
@@ -715,7 +716,7 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 			return false;
 		}
-		
+
 		return mode < EuclidianConstants.MODE_CAS_EVALUATE;
 
 		// return false;
@@ -814,7 +815,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * return selected points as ND points
-	 * 
+	 *
 	 * @return selected points
 	 */
 	protected final GeoPointND[] getSelectedPointsND() {
@@ -1082,7 +1083,7 @@ public abstract class EuclidianController {
 
 	/***************************************************************************
 	 * mode implementations
-	 * 
+	 *
 	 * the following methods return true if a factory method of the kernel was
 	 * called
 	 **************************************************************************/
@@ -1188,7 +1189,7 @@ public abstract class EuclidianController {
 		while (it.hasNext()) {
 			geo = it.next();
 
-			if (!highlight || !geo.isFixed()) { 
+			if (!highlight || !geo.isFixed()) {
 				geo.setHighlighted(highlight);
 			}
 		}
@@ -1209,7 +1210,7 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if the mouse is over a label
 	 */
 	public boolean mouseIsOverLabel() {
@@ -1464,7 +1465,7 @@ public abstract class EuclidianController {
 			/*
 			 * try { throw new Exception("choose"); } catch (Exception e) {
 			 * e.printStackTrace();
-			 * 
+			 *
 			 * }
 			 */
 
@@ -1567,7 +1568,7 @@ public abstract class EuclidianController {
 	/**
 	 * Shows dialog to choose one object out of hits[] that is an instance of
 	 * specified class (note: subclasses are included)
-	 * 
+	 *
 	 */
 	protected GeoElement chooseGeo(Hits hits, Test geoclass) {
 		return chooseGeo(hits.getHits(geoclass, tempArrayList), true);
@@ -1576,7 +1577,7 @@ public abstract class EuclidianController {
 	/**
 	 * selectionList may only contain max objects a choose dialog will be shown
 	 * if not all objects can be added
-	 * 
+	 *
 	 * @param geos
 	 *            a clone of the to-be-added list
 	 * @param addMoreThanOneAllowed
@@ -1844,7 +1845,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * only used in 3D
-	 * 
+	 *
 	 * @param sourcePoint
 	 */
 	protected void createNewPoint(GeoPointND sourcePoint) {
@@ -1853,7 +1854,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * only used in 3D
-	 * 
+	 *
 	 * @param intersectionPoint
 	 */
 	protected void createNewPointIntersection(GeoPointND intersectionPoint) {
@@ -1877,9 +1878,9 @@ public abstract class EuclidianController {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param notAlreadyStarted
 	 *            true current created geo is not already started
 	 * @return true if dragging occurred before release, so maybe we don't want
@@ -2370,8 +2371,8 @@ public abstract class EuclidianController {
 				ret[0] = getAlgoDispatcher().IntersectFunctionLine(null,
 						fun[0], line[0], initPoint);
 			}
-			return ret;	
-		} 
+			return ret;
+		}
 		// polynomial and polyLine
 		else if ((selPolyLines() >= 1) && (selFunctions() >= 1)) {
 
@@ -2550,7 +2551,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * ensure that the point will show 2D cartesion coords
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -3018,7 +3019,7 @@ public abstract class EuclidianController {
 			 * else if (selLines() == 1) { GeoImplicit implicitPoly =
 			 * getSelectedImplicitpoly()[0]; GeoLineND[] lines =
 			 * getSelectedLinesND(); // create new line checkZooming();
-			 * 
+			 *
 			 * return getAlgoDispatcher().Tangent(null, lines[0], implicitPoly);
 			 * }
 			 */// not implemented yet
@@ -3182,7 +3183,7 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if a checkbox/textfield/button just has been hitted, to
 	 *         avoid properties view to show graphics properties
 	 */
@@ -3700,7 +3701,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * Clear selection
-	 * 
+	 *
 	 * @param repaint
 	 *            whether all views need repainting afterwards
 	 * @param updateSelection
@@ -4086,7 +4087,7 @@ public abstract class EuclidianController {
 			 * app.getGuiManager().showNumberInputDialog(l10n.getMenu
 			 * (getKernel().getModeText(mode)), l10n.getPlain("Numeric"), null);
 			 * if (num == null) { view.resetMode(); return null; }
-			 * 
+			 *
 			 * if (selPolygons() == 1) { GeoPolygon[] polys =
 			 * getSelectedPolygons(); GeoPoint[] points = getSelectedPoints();
 			 * return kernel.Dilate(null, polys[0], num, points[0]); } else if
@@ -4188,7 +4189,7 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return percentage for which we capture point to grid
 	 */
 	public float getPointCapturingPercentage() {
@@ -4197,10 +4198,10 @@ public abstract class EuclidianController {
 
 	/**
 	 * COORD TRANSFORM SCREEN -> REAL WORLD
-	 * 
+	 *
 	 * real world coords -> screen coords ( xscale 0 xZero ) T = ( 0 -yscale
 	 * yZero ) ( 0 0 1 )
-	 * 
+	 *
 	 * screen coords -> real world coords ( 1/xscale 0 -xZero/xscale ) T^(-1) =
 	 * ( 0 -1/yscale yZero/yscale ) ( 0 0 1 )
 	 */
@@ -4461,7 +4462,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * add selected planes for angle tool (3D)
-	 * 
+	 *
 	 * @param hits
 	 *            current hits
 	 * @param count
@@ -4474,7 +4475,7 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return angle from plane/plane or plane/line
 	 */
 	protected GeoAngle createAngle3D() {
@@ -5119,7 +5120,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * Handles selected objects for a macro
-	 * 
+	 *
 	 * @param hits
 	 * @return
 	 */
@@ -5567,6 +5568,10 @@ public abstract class EuclidianController {
 			changedKernel = functionInspector(hits);
 			break;
 
+		case EuclidianConstants.MODE_EXTREMUM:
+			ret = extremum(hits);
+			break;
+
 		default:
 			// do nothing
 		}
@@ -5721,10 +5726,10 @@ public abstract class EuclidianController {
 
 	/**
 	 * right-release the mouse makes stop 3D rotation
-	 * 
+	 *
 	 * @param type
 	 *            event type
-	 * 
+	 *
 	 * @return false
 	 */
 	protected boolean processReleaseForRotate3D(PointerEventType type) {
@@ -6396,7 +6401,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * for some modes, polygons are not to be removed
-	 * 
+	 *
 	 * @param hits
 	 */
 	protected void switchModeForRemovePolygons(Hits hits) {
@@ -7467,12 +7472,12 @@ public abstract class EuclidianController {
 			// allow buttons to be dragged only if the button tool is selected
 			// (important for tablets)
 			boolean textField = movedGeoElement instanceof GeoTextField;
-			boolean textFieldSelected = textField && 
+			boolean textFieldSelected = textField &&
 					oldMode == EuclidianConstants.MODE_TEXTFIELD_ACTION;
 			boolean buttonSelected = !textField &&
 					oldMode == EuclidianConstants.MODE_BUTTON_ACTION;
 			boolean moveSelected = oldMode == EuclidianConstants.MODE_MOVE;
-			
+
 			if ((!app.isApplet() || temporaryMode)
 					&& (textFieldSelected || buttonSelected ||
 							(moveSelected && app.isRightClickEnabled())
@@ -7565,7 +7570,7 @@ public abstract class EuclidianController {
 	/**
 	 * checks wheter the slider itself or the point of the slider should be
 	 * moved
-	 * 
+	 *
 	 * @return true if the slider should be moved; false if the point on the
 	 *         slider should be moved (i.e. change the number)
 	 */
@@ -7590,7 +7595,7 @@ public abstract class EuclidianController {
 				|| !movedGeoBoolean.isCheckboxFixed() || app
 				.getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 	}
-	
+
 	protected boolean isMoveButtonExpected(GeoElement geo) {
 		if (!geo.isGeoButton()) {
 			return false;
@@ -7622,7 +7627,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * Dragging a fixed checkbox should change its state (important for EWB etc)
-	 * 
+	 *
 	 * Also for iPads etc HTML5: don't allow dragging unless we have a GUI
 	 */
 	private boolean isCheckboxFixed(GeoBoolean geoBool) {
@@ -7927,7 +7932,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * right-drag the mouse makes 3D rotation
-	 * 
+	 *
 	 * @return false
 	 */
 	protected boolean processRotate3DView() {
@@ -8328,7 +8333,7 @@ public abstract class EuclidianController {
 		}
 		/*
 		 * Conintuity handling
-		 * 
+		 *
 		 * If the mouse is moved wildly we take intermediate steps to get a more
 		 * continous behaviour
 		 */
@@ -8465,7 +8470,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * set translate start infos
-	 * 
+	 *
 	 * @param geo
 	 *            needed in 3D
 	 * @param vec
@@ -8487,7 +8492,7 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if a view button has been pressed (see 3D)
 	 */
 	protected boolean handleMousePressedForViewButtons() {
@@ -8496,7 +8501,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * right-press the mouse makes start 3D rotation
-	 * 
+	 *
 	 * @param event
 	 *            used by actual 3D controller
 	 * */
@@ -8878,7 +8883,7 @@ public abstract class EuclidianController {
 			}
 		}
 
-		
+
 
 		if (handleMousePressedForViewButtons()) {
 			return;
@@ -8953,7 +8958,7 @@ public abstract class EuclidianController {
 		}
 		switchModeForMousePressed(event);
 	}
-	
+
 	protected boolean hasNoHitsDisablingModeForShallMoveView(Hits hits) {
 		return hits.isEmpty();
 	}
@@ -8964,7 +8969,7 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param event
 	 *            event calling
 	 * @return mode when "shall move view"
@@ -9042,7 +9047,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * Removes geos that don't match given test from geos and updates selection
-	 * 
+	 *
 	 * @param hits
 	 *            srt of its geos, may not be null
 	 * @param test
@@ -9415,7 +9420,7 @@ public abstract class EuclidianController {
 
 		boolean changedKernel0 = false;
 		if (pastePreviewSelected != null) {
-			
+
 			mergeStickyPointsAfterPaste();
 
 			// add moved points to sticky points again
@@ -9440,18 +9445,18 @@ public abstract class EuclidianController {
 		// if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
 		// view.resetTraceRow(); // for trace/spreadsheet
 		if (getMovedGeoPoint() != null) {
-			
+
 			processReleaseForMovedGeoPoint(right);
 			/*
 			 * // deselect point after drag, but not on click if
 			 * (movedGeoPointDragged) getMovedGeoPoint().setSelected(false);
-			 * 
+			 *
 			 * if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
 			 * getMovedGeoPoint().resetTraceColumns();
 			 */
 		}
 		if (movedGeoNumeric != null) {
-			
+
 			// deselect slider after drag, but not on click
 			// if (movedGeoNumericDragged) movedGeoNumeric.setSelected(false);
 
@@ -9507,7 +9512,7 @@ public abstract class EuclidianController {
 		// handle moving
 		boolean changedKernel = false;
 		if (draggingOccured) {
-			
+
 			draggingOccurredBeforeRelease = true;
 			draggingOccured = false;
 			// // copy value into input bar
@@ -9574,7 +9579,7 @@ public abstract class EuclidianController {
 		// Michael Borcherds 2007-12-08 END
 
 		if (temporaryMode) {
-			
+
 			// Michael Borcherds 2007-10-13 BEGIN
 			view.setMode(oldMode);
 			temporaryMode = false;
@@ -9672,7 +9677,7 @@ public abstract class EuclidianController {
 
 	public void endOfWrapMouseReleased(Hits hits, boolean control, boolean alt,
 			PointerEventType type) {
-		
+
 		if (!hits.isEmpty()) {
 			view.setDefaultCursor();
 		} else {
@@ -9734,7 +9739,7 @@ public abstract class EuclidianController {
 	private void processRightReleased(boolean right, boolean alt,
 			boolean control, boolean shift,
 			PointerEventType type) {
-		
+
 		if (!app.isRightClickEnabled()) {
 			return;
 		}
@@ -9774,10 +9779,10 @@ public abstract class EuclidianController {
 		} else {
 			// there are hits
 			if (selection.selectedGeosSize() > 0) {
-				
+
 				if (mode == EuclidianConstants.MODE_MOVE) { // only for move
 															// mode
-					
+
 					// right click on already selected geos -> show menu for
 					// them
 					// right click on object(s) not selected -> clear
@@ -9799,7 +9804,7 @@ public abstract class EuclidianController {
 				} else { // other modes : want to apply tool of one of the hits
 							// (choose geo and show popup menu)
 					if (canShowPopupMenu()) {
-						
+
 						GeoElement geo = chooseGeo(hits, true, false);
 
 						if (geo == null)// when axis is clicked
@@ -9815,7 +9820,7 @@ public abstract class EuclidianController {
 			} else {
 				// no selected geos: choose geo and show popup menu
 				if (canShowPopupMenu()) {
-					
+
 					GeoElement geo = chooseGeo(hits, true, false);
 
 					if (geo == null)// when axis is clicked
@@ -9837,7 +9842,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * set just created geos as selected (if any)
-	 * 
+	 *
 	 * @return true if any just created geos
 	 */
 	public boolean setJustCreatedGeosSelected() {
@@ -9966,7 +9971,7 @@ public abstract class EuclidianController {
 		 * boolean createUndo = true; // scale both EVs 1:1 if
 		 * (app.getEuclidianView().isVisible()) {
 		 * app.getEuclidianView().zoomAxesRatio(1, true); createUndo = false; }
-		 * 
+		 *
 		 * if (app.hasEuclidianView2() && app.getEuclidianView2().isVisible()) {
 		 * app.getEuclidianView2().zoomAxesRatio(1, createUndo); }//
 		 */
@@ -9978,7 +9983,7 @@ public abstract class EuclidianController {
 		 * transformed images if (geo.isGeoImage()) { GeoPoint2 c1 = ((GeoImage)
 		 * geo).getCorner(0); GeoPoint2 c2 = ((GeoImage) geo).getCorner(1);
 		 * GeoPoint2 c3 = ((GeoImage) geo).getCorner(2);
-		 * 
+		 *
 		 * if (((c3 == null) && (c2 == null // c2 = null -> not transformed ))
 		 * // or c1 and c2 are the correct spacing for the // image not to be
 		 * transformed // (ie image was probably created by the Pen Tool) ||
@@ -10247,7 +10252,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * show popup menu when no geo is selected
-	 * 
+	 *
 	 * @param selectedGeos1
 	 *            first hits on the mouse
 	 * @param hits
@@ -10288,7 +10293,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * when object created, make undo point if scroll wheel has been used
-	 * 
+	 *
 	 * @param forPreviewable
 	 *            whether this is for preview only
 	 */
@@ -10296,9 +10301,9 @@ public abstract class EuclidianController {
 
 		/*
 		 * TODO what about this method? if (forPreviewable) { return; }
-		 * 
+		 *
 		 * if (wheelZoomingOccurred) { app.storeUndoInfo(); }
-		 * 
+		 *
 		 * wheelZoomingOccurred = false;
 		 */
 	}
@@ -10383,7 +10388,7 @@ public abstract class EuclidianController {
 	public void twoTouchMove(double x1, double y1, double x2, double y2) {
 		twoTouchMoveCommon(x1, y1, x2, y2);
 	}
-	
+
 	final public void twoTouchMoveCommon(double x1, double y1, double x2, double y2) {
 		int centerX, centerY;
 		double newDistance;
@@ -10407,9 +10412,9 @@ public abstract class EuclidianController {
 
 	/**
 	 * in future 3 will be supported for 3rd 2D View
-	 * 
+	 *
 	 * @return 1 (EV1) , 2 (EV2), -1 (3D) or EVNO_GENERAL = 1001
-	 * 
+	 *
 	 */
 	public int getEvNo() {
 		return this.view.evNo;
@@ -10501,7 +10506,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * set the view attached to this
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 */
@@ -10520,7 +10525,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * set view hits for current mouse location
-	 * 
+	 *
 	 * @param type
 	 *            event type
 	 */
@@ -10532,7 +10537,7 @@ public abstract class EuclidianController {
 		return temporaryMode;
 	}
 
-	
+
 	public void resetModeAfterFreehand() {
 		// not used in common, overwritten for other projects
 	}
@@ -10547,11 +10552,11 @@ public abstract class EuclidianController {
 	 */
 	public void onPointerEventStart(AbstractEvent e) {
 		// not used in common, overwritten for other projects
-		
+
 	}
 
 	/**
-	 * 
+	 *
 	 * @return currently moved geo
 	 */
 	public GeoElement getMovedGeoElement() {
@@ -10560,7 +10565,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * necessary for webSimple, to exclude new focus
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isComboboxFocused() {
@@ -10614,6 +10619,17 @@ public abstract class EuclidianController {
 
 		// if we use the tool once again
 		kernel.storeStateForModeStarting();
+	}
+
+	protected GeoElement[] extremum(Hits hits) {
+		Hits h = hits.getHits(Test.GEOFUNCTION, false, new Hits());
+		if (h.size() > 0) {
+			GeoFunction function = (GeoFunction) h.get(0);
+			AlgoExtremumMulti algo = new AlgoExtremumMulti(this.kernel.getConstruction(), null, function,
+					new MyDouble(this.kernel, this.view.getXmin()), new MyDouble(this.kernel, this.view.getXmax()));
+			return algo.getExtremumPoints();
+		}
+		return null;
 	}
 
 }
