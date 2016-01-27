@@ -3643,8 +3643,9 @@ public abstract class EuclidianController {
 		// TODO - this can trigger a tool on mouse-move
 		// https://www.geogebra.org/forum/viewtopic.php?f=8&t=33719
 		// removing breaks previews in trunk
+		boolean oldTranslateRectangle = this.allowSelectionRectangleForTranslateByVector;
 		processMode(hits, isControlDown, null); // build highlightedGeos List
-
+		this.allowSelectionRectangleForTranslateByVector = oldTranslateRectangle;
 		if (highlightJustCreatedGeos) {
 			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
 														// created geos
