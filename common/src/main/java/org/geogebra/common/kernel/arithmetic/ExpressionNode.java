@@ -1211,6 +1211,9 @@ kernel, left,
 		}
 		boolean leftVector = left.evaluatesToVectorNotPoint();
 		boolean rightVector = right.evaluatesToVectorNotPoint();
+		if (operation == Operation.PLUS && left.evaluatesToNDVector()) {
+			return leftVector && rightVector;
+		}
 		boolean ret = leftVector || rightVector;
 
 		if (leftVector

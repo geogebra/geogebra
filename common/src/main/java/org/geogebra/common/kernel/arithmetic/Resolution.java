@@ -201,4 +201,9 @@ public class Resolution implements ExpressionValue {
 		return this;
 	}
 
+	public boolean evaluatesToNDVector() {
+		// TODO Auto-generated method stub
+		return evaluatesTo3DVector() || evaluatesToNonComplex2DVector();
+	}
+
 }

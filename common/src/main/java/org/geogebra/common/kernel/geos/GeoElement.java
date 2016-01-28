@@ -72,6 +72,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -8092,5 +8093,10 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public void doSetLineThickness(int lineThickness) {
 		this.lineThickness = lineThickness;
+	}
+
+	public boolean evaluatesToNDVector() {
+		ValueType vt = getValueType();
+		return vt == ValueType.NONCOMPLEX2D || vt == ValueType.VECTOR3D;
 	}
 }

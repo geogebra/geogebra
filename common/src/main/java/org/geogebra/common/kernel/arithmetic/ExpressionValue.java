@@ -267,4 +267,6 @@ public interface ExpressionValue {
 	 * 
 	 */
 	public ExpressionValue toValidExpression();
+
+	public boolean evaluatesToNDVector();
 }

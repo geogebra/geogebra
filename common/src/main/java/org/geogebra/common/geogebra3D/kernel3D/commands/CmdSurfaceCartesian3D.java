@@ -48,6 +48,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 							.computeCoord(exp, i);
 					AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx,
 							false);
+					cons.removeFromConstructionList(nx);
 					coords[i] = nx.getNumber();
 				}
 				GeoElement[] ret = new GeoElement[1];

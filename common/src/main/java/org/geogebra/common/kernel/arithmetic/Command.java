@@ -528,6 +528,9 @@ public class Command extends ValidExpression implements
 		if ("Vector".equals(name)) {
 			return ValueType.NONCOMPLEX2D;
 		}
+		if ("Evaluate".equals(name) && args.size() > 0) {
+			return args.get(0).getValueType();
+		}
 		if (lastType != null) {
 			return lastType;
 		}

@@ -533,4 +533,9 @@ public abstract class ValidExpression implements ExpressionValue {
 	public ExpressionValue toValidExpression() {
 		return this;
 	}
+
+	public boolean evaluatesToNDVector() {
+		ValueType vt = getValueType();
+		return vt == ValueType.NONCOMPLEX2D || vt == ValueType.VECTOR3D;
+	}
 }
