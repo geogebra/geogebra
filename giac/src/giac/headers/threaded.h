@@ -65,6 +65,9 @@
 //#endif
 //#define CLOCK() 0
 #endif
+#ifdef BESTA_OS
+#include <time.h>
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -1148,7 +1151,11 @@ namespace giac {
     }
     bool use_heap=(heap_mult>0 && v1v2>=heap_mult);
     if (debug_infolevel>20){
+#ifdef BESTA_OS
+      CERR << "// " << clock() << "using ";
+#else
       CERR << "// " << CLOCK() << "using ";
+#endif
       if (use_heap)
 	CERR << "heap";
       else

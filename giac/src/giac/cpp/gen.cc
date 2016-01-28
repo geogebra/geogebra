@@ -5367,6 +5367,7 @@ namespace giac {
   // a*b -> tmp, modifies tmp in place
   void type_operator_times(const gen & a,const gen &b,gen & tmp){
     register unsigned t=(a.type<< _DECALAGE) | b.type;
+#ifndef EMCC
     if (tmp.type==_DOUBLE_ && t==_DOUBLE___DOUBLE_){
 #ifdef DOUBLEVAL
       tmp._DOUBLE_val=a._DOUBLE_val*b._DOUBLE_val;
@@ -5376,6 +5377,7 @@ namespace giac {
 #endif
       return ;
     }
+#endif
     if (!t && tmp.type==_INT_ ){
       register longlong ab=longlong(a.val)*b.val;
       tmp.val=(int)ab;

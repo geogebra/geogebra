@@ -13191,6 +13191,9 @@ namespace giac {
   gen qr(const gen &args_orig,GIAC_CONTEXT){
     gen args;
     int method=0; // use -1 to check built-in qr
+#if !defined(HAVE_LIBLAPACK) || !defined (HAVE_LIBGSL)
+    method=-3;
+#endif
     if ( (args_orig.type==_VECT) && (args_orig._VECTptr->size()==2) && (args_orig._VECTptr->back().type==_INT_)){
       args=args_orig._VECTptr->front();
       method=args_orig._VECTptr->back().val;
@@ -13213,11 +13216,17 @@ namespace giac {
 	qr_ortho(H,P,contextptr);
 	std_matrix_gen2matrice_destroy(H,h);
 	std_matrix_gen2matrice_destroy(P,p);
-	return makevecteur(_trn(p,contextptr),h,midn(int(h.size())));
+	if (method<=-3)
+	  return makevecteur(_trn(p,contextptr),h);
+	else
+	  return makevecteur(_trn(p,contextptr),h,midn(int(h.size())));
       }
       // qr decomposition using GramSchmidt (not numerically stable)
-      matrice res(gramschmidt(*_trn(args,contextptr)._VECTptr,r,cplx || method==-1,contextptr));
-      return gen(makevecteur(_trn(res,contextptr),r,midn(int(r.size()))),_SEQ__VECT);
+      matrice res(gramschmidt(*_trn(args,contextptr)._VECTptr,r,cplx || method==-1 || method==-3,contextptr));
+      if (method<=-3)
+	return gen(makevecteur(_trn(res,contextptr),r),_SEQ__VECT);
+      else
+	return gen(makevecteur(_trn(res,contextptr),r,midn(int(r.size()))),_SEQ__VECT);
     }
 #ifdef HAVE_LIBLAPACK
     if (!CAN_USE_LAPACK
