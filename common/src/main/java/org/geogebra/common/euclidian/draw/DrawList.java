@@ -275,11 +275,46 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		public boolean isHit(int x, int y) {
-			return isVisible() && rectTable.contains(x, y);
+			return isVisible() && (rectTable.contains(x, y)
+					|| (scrollSupport && isControlHit(x, y)));
+		}
+
+		private boolean handleUpControl(int x, int y) {
+			if (scrollSupport && rectUp.contains(x, y)) {
+				scrollUp();
+				return true;
+			}
+			return false;
+		}
+
+		private boolean handleDownControl(int x, int y) {
+			if (scrollSupport && rectDown.contains(x, y)) {
+				scrollDown();
+				return true;
+			}
+
+			return false;
+		}
+
+		public boolean isControlHit(int x, int y) {
+			return scrollSupport
+					&& (rectUp.contains(x, y) || rectDown.contains(x, y));
+		}
+
+		private void scrollUp() {
+			Log.debug(SCROLL_PFX + " Scrolling up!");
+		}
+
+		private void scrollDown() {
+			Log.debug(SCROLL_PFX + " Scrolling down!");
 		}
 
 		public boolean onMouseDown(int x, int y) {
 			if (!visible) {
+				return false;
+			}
+
+			if (handleUpControl(x, y) || handleDownControl(x, y)) {
 				return false;
 			}
 
@@ -301,6 +336,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			if (!isHit(x, y)) {
 				return;
 			}
+
 			OptionItem item = getItemAt(x, y);
 			if (item == null) {
 				return;
@@ -366,6 +402,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 				if (scrollSupport) {
 					top -= (int) (rectUp.getHeight() + rectDown.getHeight());
+					tableHeight += (int) rectDown.getHeight();
 				}
 			}
 
@@ -384,7 +421,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 						(int) (rectUp.getWidth()),
 						(int) (rectUp.getHeight()));
 				rectDown.setBounds(left,
-						top + dimTable.getHeight() + (int) rectUp.getHeight(),
+ top + dimTable.getHeight(),
 						(int) (rectDown.getWidth()),
 						(int) (rectDown.getHeight()));
 			}
@@ -401,8 +438,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			int h = (int) rectUp.getHeight();
 			int w = (int) rectUp.getWidth();
 
-			Log.debug(SCROLL_PFX + " drawing up control at (" + x + ", " + y
-					+ ") w: " + w + " h: " + h);
+			// Log.debug(SCROLL_PFX + " drawing up control at (" + x + ", " + y
+			// + ") w: " + w + " h: " + h);
 			g2.fillRoundRect(x, y, w, h, ROUND, ROUND);
 			g2.setPaint(GColor.GREEN);
 
@@ -410,8 +447,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			int y2 = (int) rectDown.getY();
 			int h2 = (int) rectDown.getHeight();
 			int w2 = (int) rectDown.getWidth();
-			Log.debug(SCROLL_PFX + " drawing up control at (" + x2 + ", " + y2
-					+ ") w: " + w2 + " h: " + h2);
+			// Log.debug(SCROLL_PFX + " drawing up control at (" + x2 + ", " +
+			// y2
+			// + ") w: " + w2 + " h: " + h2);
 			g2.fillRoundRect(x2, y2, w2, h2, ROUND, ROUND);
 
 		}
