@@ -9,6 +9,8 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -74,9 +76,9 @@ public class PrintScalePanelW extends FlowPanel {
 		exportMode.addItem(jcbItemFixedSize);
 
 		add(exportMode);
-		exportMode.addBlurHandler(new BlurHandler() {
+		exportMode.addChangeHandler(new ChangeHandler() {
 
-			public void onBlur(BlurEvent event) {
+			public void onChange(ChangeEvent event) {
 				switchMode();
 			}
 
