@@ -3,10 +3,12 @@ package org.geogebra.web.web.gui.menubar;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.html5.main.FileManagerI;
@@ -29,6 +31,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	private MenuItem uploadToGGT;
 	/** clear construction and reset GUI */
 	Runnable newConstruction;
+	private MenuItem printItem;
 	
 	/**
 	 * @param app application
@@ -51,7 +54,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		update();
 	}
 
-	private void update() { 
+	void update() {
 	    // TODO Auto-generated method stub
 	    
     }
@@ -186,7 +189,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
 
 		if (app.has(Feature.PRINT_MENU) && app.getLAF().printSupported()) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+			Log.debug("new printItem");
+			printItem = new MenuItem(MainMenu.getMenuBarHtml(
+					GuiResources.INSTANCE
 					.menu_icons_file_print().getSafeUri().asString(),
 					app.getMenu("PrintPreview"), true), true, new MenuCommand(
 					app) {
@@ -196,6 +201,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					new PrintPreviewW(app);
 				}
 			});
+			updatePrintMenu();
 
 		}
 
@@ -204,6 +210,36 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    if (!app.getNetworkOperation().isOnline()) {
 	    	render(false);    	
 	    }
+	}
+
+	private boolean printItemAdded = false;
+
+	public void updatePrintMenu() {
+		Log.debug("print item added: " + printItemAdded);
+		if (printItem == null)
+			return;
+		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)
+				|| app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
+			Log.debug("show print item");
+			// printItem.setVisible(true);
+			// printItem.setEnabled(true);
+			// if (!printItemAdded) { // if (printItem.getParentMenu() == null)
+			// {
+				Log.debug("add print menu");
+				addItem(printItem);
+				printItemAdded = true;
+			// }
+		} else {
+			Log.debug("don't show print item");
+			// printItem.setVisible(false);
+			// printItem.setEnabled(false);
+			// if (printItemAdded) { // if (printItem.getParentMenu() != null) {
+				Log.debug("remove print menu");
+				removeItem(printItem);
+				printItemAdded = false;
+			// }
+
+		}
 	}
 
 	protected StringHandler getShareStringHandler() {

@@ -1432,6 +1432,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	}
 
+	public void updatePrintMenu() {
+		((MainMenu) (((AppW) app).getLAF().getMenuBar((AppW) app)))
+				.updatePrintMenu();
+	}
+
 	@Override
 	public void setShowToolBarHelp(final boolean showToolBarHelp) {
 		App.debug("unimplemented");

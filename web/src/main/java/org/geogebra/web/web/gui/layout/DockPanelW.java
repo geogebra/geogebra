@@ -1424,6 +1424,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (keyboardButton != null && !visible) {
 			keyboardButton.hide();
 		}
+
+		((GuiManagerW) app.getGuiManager()).updatePrintMenu();
 	}
 
 	public MathKeyboardListener getKeyboardListener() {

@@ -288,6 +288,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
     }
 	
+	public void updatePrintMenu() {
+		if (fileMenu != null) {
+			fileMenu.updatePrintMenu();
+		}
+	}
+
 	public void updateSelection() {
 		if(this.getEditMenu()!=null){
 			getEditMenu().invalidate();
