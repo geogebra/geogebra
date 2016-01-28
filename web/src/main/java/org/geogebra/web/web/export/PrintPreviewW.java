@@ -102,12 +102,13 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("printPopupButtonPanel");
-		buttonPanel.add(btPrint);
-		buttonPanel.add(btCancel);
-		buttonPanel.add(m_cbView);
-		centerPanel.add(buttonPanel);
+
+		centerPanel.add(m_cbView);
 		scalePanelHolder = new SimplePanel();
 		centerPanel.add(scalePanelHolder);
+		buttonPanel.add(btPrint);
+		buttonPanel.add(btCancel);
+		centerPanel.add(buttonPanel);
 
 		// if (!((m_cbView.getSelectedValue().equals(App.VIEW_EUCLIDIAN + ""))
 		// || (m_cbView
