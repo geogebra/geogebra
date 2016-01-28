@@ -72,7 +72,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	protected void exitAndResetExam() {
 		if (!ExamUtil.toggleFullscreen(false)) {
 			app.getExam().exit();
-			app.showMessage(app.getExam().getLog(app.getLocalization()));
+			app.showMessage(app.getExam().getLog(app.getLocalization()),app.getMenu("exam_log_header"));
 			app.setExam(null);
 			Layout.initializeDefaultPerspectives(app, 0.2);
 			app.getLAF().addWindowClosingHandler(app);
@@ -83,11 +83,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			app.getGuiManager().resetMenu();
 		}
 	}
+	
 
 	private void initActions() {
 		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
 		if (app.isExam()) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(),app.getMenu("Close"), true),true,new MenuCommand(app) {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(),app.getMenu("exam_menu_exit"), true),true,new MenuCommand(app) { //Close
 
 				@Override
 				public void doExecute() {
@@ -98,8 +99,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					app.getGuiManager()
 							.getOptionPane()
 							.showOptionDialog(app,
-									app.getMenu("ExitExamConfirm"),
-									app.getMenu("ExitExamConfirmTitle"),
+									app.getMenu("exam_exit_confirmation"), //ExitExamConfirm
+									app.getMenu("exam_exit_header"), //ExitExamConfirmTitle
 					        GOptionPane.CUSTOM_OPTION, GOptionPane.WARNING_MESSAGE, null,
 					        optionNames, new AsyncOperation() {
 										@Override
@@ -170,7 +171,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		if (app.has(Feature.EXAM) && app.getLAF().examSupported()) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 					.menu_icons_exam_mode().getSafeUri().asString(),
-							app.getMenu("EnterExamMode"), true),
+							app.getMenu("exam_menu_enter"), true),//EnterExamMode
 					true,
 					new MenuCommand(app) {
 
@@ -223,14 +224,14 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			public void run() {
 				ExamUtil.toggleFullscreen(true);
 				app.setExam(new ExamEnvironment());
-				Layout.initializeDefaultPerspectives(app, 0.2);
+				/*Layout.initializeDefaultPerspectives(app, 0.2);
 				app.fileNew();
 				app.fireViewsChangedEvent();
 				app.getGuiManager().setGeneralToolBarDefinition(
 						ToolBar.getAllToolsNoMacros(true, true));
 				app.getGgbApi().setPerspective("1");
 				app.getGuiManager().resetMenu();
-
+				 */
 				((AppWFull) app).examWelcome();
 
 			}
