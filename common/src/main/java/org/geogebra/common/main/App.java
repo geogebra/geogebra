@@ -3910,9 +3910,10 @@ public abstract class App implements UpdateSelection {
 		case ANALYTICS:
 		case HANDWRITING:
 		case DRAW_DROPDOWNLISTS_TO_CANVAS:
-		case MOBILE_PROPERTIES_VIEW:
 			// case COMBOSCROLLING:
-				return prerelease;
+			return prerelease;
+		case MOBILE_PROPERTIES_VIEW:
+			return prerelease;
 
 		// return canary;
 		case AV_EXTENSIONS:
