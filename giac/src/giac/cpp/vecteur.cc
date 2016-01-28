@@ -6734,8 +6734,10 @@ namespace giac {
 	    else {
 	      gen coeff=M[ltemp][pivotcol]/pivot;
 	      linear_combination(plus_one,M[ltemp],-coeff,M[l],plus_one,M[ltemp],eps,(c+1)*(rref_or_det_or_lu>0));
-	      if (rref_or_det_or_lu==2 || rref_or_det_or_lu == 3)
-		M[ltemp][pivotcol]=coeff;
+	      if (rref_or_det_or_lu==2 || rref_or_det_or_lu == 3){
+		M[ltemp][pivotcol]=0;
+		M[ltemp][l]=coeff; // pivotcol replaced by l
+	      }
 	    }
 	  }
 	  if (rref_or_det_or_lu==1 && algorithm!=RREF_GAUSS_JORDAN) {
@@ -12940,14 +12942,13 @@ namespace giac {
 	modular=true;
 	a=*a.front()._VECTptr;
       }
-      if (!is_squarematrix(a))
-	return false; // setsizeerr(gettext("Expecting a square matrix"));
+      // if (!is_squarematrix(a)) return false; // setsizeerr(gettext("Expecting a square matrix"));
     }
     gen det;
     vecteur pivots;
     matrice res;
-    int s=int(a.size());
-    if (!mrref(a,res,pivots,det,0,s,0,s,
+    int s=int(a.size()),C=int(a.front()._VECTptr->size());
+    if (!mrref(a,res,pivots,det,0,s,0,C,
 	  /* fullreduction */0,0,false,(modular?3:0) /* algorithm */,2 /* lu */,
 	       contextptr))
       return false;
@@ -12967,9 +12968,9 @@ namespace giac {
 	wl[j]=v[j];
       }
       wl[i]=1;
-      U.push_back(new ref_vecteur(s));
+      U.push_back(new ref_vecteur(C));
       vecteur & wu=*U.back()._VECTptr;
-      for (int j=i;j<s;++j){ // U part
+      for (int j=i;j<C;++j){ // U part
 	wu[j]=v[j];
       }
     }

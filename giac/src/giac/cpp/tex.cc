@@ -1157,7 +1157,7 @@ namespace giac {
 	    s += "\\left(" + gen2tex(e._SYMBptr->feuille,contextptr) + "\\right)";
 	}
 	else {
-	  if ( ( (e.type==_INT_) || (e.type==_ZINT) ) && (!is_positive(e,0)) )
+	  if ( e.type<=_REAL  && !is_positive(e,0) )
 	    s += e.print(contextptr);
 	  else {
 	    if (i)

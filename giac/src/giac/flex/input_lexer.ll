@@ -82,7 +82,7 @@
 #include "permu.h"
 #include "input_parser.h"    
 
-#if defined(RTOS_THREADX) || defined(__MINGW_H) || defined NSPIRE
+#if defined(RTOS_THREADX) || defined(__MINGW_H) || defined NSPIRE || defined MS_SMART 
   int isatty (int ){ return 0; }
 #endif
 
