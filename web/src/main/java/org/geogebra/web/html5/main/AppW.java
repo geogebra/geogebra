@@ -2892,6 +2892,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		        null);
 	}
 
+	public void showMessage(final String message, final String title) {
+		getOptionPane().showConfirmDialog(this, message, title,
+				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
+		        null);
+	}
+	
 	@Override
 	public void showErrorDialog(final String msg) {
 		if (!isErrorDialogsActive()) {
