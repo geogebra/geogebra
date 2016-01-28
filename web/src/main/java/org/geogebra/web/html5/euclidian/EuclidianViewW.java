@@ -78,7 +78,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewW extends EuclidianView implements
@@ -1270,9 +1269,7 @@ public class EuclidianViewW extends EuclidianView implements
 		pPanel.clear();
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				pPanel.add(new Label("label1"));
 				pPanel.add(prevImg);
-				pPanel.add(new Label("label2"));
 				Window.print();
 
 				// PrintPreviewW.removePrintPanelFromDOM();

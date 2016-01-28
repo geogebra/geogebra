@@ -55,13 +55,15 @@ public class PrintScalePanelW extends FlowPanel {
 			}
 		};
 
-		// tfScale1 = new TextBox();
-		// tfScale2 = new TextBox();
+		Runnable updateFixedSize = new Runnable() {
+			public void run() {
+				fireFixedSizeTextFieldUpdate();
+			}
+		};
 		
 		tfScale1 = getNumberField(updateCm);
 		tfScale2 = getNumberField(updateCm);
-
-		tfScaleFixed = new TextBox();
+		tfScaleFixed = getNumberField(updateFixedSize);
 
 		jcbItemScaleInCentimeter = loc.getPlain("ScaleInCentimeter")
 				+ ":";
@@ -111,13 +113,21 @@ public class PrintScalePanelW extends FlowPanel {
 		case SIZEINCM:
 			remove(fixedSizeModePanel);
 			add(cmModePanel);
+			updateScaleTextFields();
 			break;
 		case FIXED_SIZE:
 			remove(cmModePanel);
 			add(fixedSizeModePanel);
+			updateFixedSizeTextFields();
 			break;
 		}
 
+	}
+
+	private void updateFixedSizeTextFields() {
+		double relScale = 100 * ev.getPrintingScale() / ev.getXscale();
+		// setTextNoListener(tfScaleFixed, nf.format(relScale));
+		setTextNoListener(tfScaleFixed, relScale + "");
 	}
 
 	private void updateScaleTextFields() {
@@ -137,6 +147,27 @@ public class PrintScalePanelW extends FlowPanel {
 	private void setTextNoListener(TextBox field, String s) {
 		handlers.put(field, true);
 		field.setText(s);
+	}
+
+	void fireFixedSizeTextFieldUpdate() {
+		// boolean viewChanged = false;
+
+		try {
+			double userScale = Double.parseDouble(tfScaleFixed.getText());
+			if (!(Double.isInfinite(userScale) || Double.isNaN(userScale))) {
+				double scale = userScale * ev.getXscale() / 100;
+				ev.setPrintingScale(scale);
+				// viewChanged = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		updateFixedSizeTextFields();
+
+		// if (viewChanged) {
+		// notifyListeners();
+		// }
 	}
 
 	void fireTextFieldUpdate() {
