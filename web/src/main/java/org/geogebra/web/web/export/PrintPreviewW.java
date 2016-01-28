@@ -61,6 +61,11 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 	}
 
 	protected void createGUI() {
+
+		// Maybe there is older print panel, because after open pdf in preview
+		// the previous print panel hasn't been removed
+		removePrintPanelFromDOM();
+
 		printPanel = new FlowPanel();
 		printPanel.setStyleName("printPanel");
 		RootPanel.get().add(printPanel);
@@ -78,45 +83,68 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 		m_cbView = new ListBox();
 
-		app.forEachView(new App.ViewCallback() {
-			public void run(int viewID, String viewName) {
-				m_cbView.addItem(app.getPlain(viewName), viewID + "");
-			}
-		});
+		// app.forEachView(new App.ViewCallback() {
+		// public void run(int viewID, String viewName) {
+		// m_cbView.addItem(app.getPlain(viewName), viewID + "");
+		// }
+		// });
 
-		DockPanelW focusedPanel = ((GuiManagerW) app.getGuiManager())
-				.getLayout().getDockManager().getFocusedPanel();
-		if (focusedPanel == null) {
-			m_cbView.setItemSelected(0, true); // setSelectedItem(app.getPlain("AllViews"));
-		} else {
-			String title = app.getPlain(focusedPanel.getViewTitle());
-			int index = m_cbView.getItemCount() - 1;
-			while (!m_cbView.getValue(index).equals(title) && index != 0) {
-				index--;
-			}
 
-			m_cbView.setItemSelected(index, true);
+		// We can print EVs yet
+		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
+			m_cbView.addItem(app.getPlain("DrawingPad"), App.VIEW_EUCLIDIAN
+					+ "");
+		}
+		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
+			m_cbView.addItem(app.getPlain("DrawingPad2"), App.VIEW_EUCLIDIAN2
+					+ "");
 		}
 
-		m_cbView.addChangeHandler(this);
+		if (m_cbView.getItemCount() == 0) {
+			this.setVisible(false);
+			this.hide(false);
+		}
 
-		HorizontalPanel buttonPanel = new HorizontalPanel();
-		buttonPanel.setStyleName("printPopupButtonPanel");
+		if (m_cbView.getItemCount() != 0) {
 
-		centerPanel.add(m_cbView);
-		scalePanelHolder = new SimplePanel();
-		centerPanel.add(scalePanelHolder);
-		buttonPanel.add(btPrint);
-		buttonPanel.add(btCancel);
-		centerPanel.add(buttonPanel);
+			DockPanelW focusedPanel = ((GuiManagerW) app.getGuiManager())
+					.getLayout().getDockManager().getFocusedPanel();
+			if (focusedPanel == null) {
+				m_cbView.setItemSelected(0, true); // setSelectedItem(app.getPlain("AllViews"));
+			} else {
+				String title = app.getPlain(focusedPanel.getViewTitle());
+				int index = m_cbView.getItemCount() - 1;
+				while (!m_cbView.getValue(index).equals(title) && index != 0) {
+					index--;
+				}
 
-		// if (!((m_cbView.getSelectedValue().equals(App.VIEW_EUCLIDIAN + ""))
-		// || (m_cbView
-		// .getSelectedValue().equals(App.VIEW_EUCLIDIAN2 + "")))) {
-		// createPreview(m_cbView.getSelectedValue());
-		// }
+				m_cbView.setItemSelected(index, true);
+			}
 
-		addScalePanelOrCreatePreview();
+			m_cbView.addChangeHandler(this);
+
+			HorizontalPanel buttonPanel = new HorizontalPanel();
+			buttonPanel.setStyleName("printPopupButtonPanel");
+
+			centerPanel.add(m_cbView);
+			scalePanelHolder = new SimplePanel();
+			centerPanel.add(scalePanelHolder);
+			buttonPanel.add(btPrint);
+			buttonPanel.add(btCancel);
+			centerPanel.add(buttonPanel);
+
+			// if (!((m_cbView.getSelectedValue().equals(App.VIEW_EUCLIDIAN +
+			// ""))
+			// || (m_cbView
+			// .getSelectedValue().equals(App.VIEW_EUCLIDIAN2 + "")))) {
+			// createPreview(m_cbView.getSelectedValue());
+			// }
+
+			addScalePanelOrCreatePreview();
+
+		} else {
+			centerPanel.add(btCancel);
+		}
 
 		setWidget(centerPanel);
 	}

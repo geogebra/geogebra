@@ -197,11 +197,17 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					app) {
 
 				@Override
-				public void doExecute() {
-					new PrintPreviewW(app);
-				}
+						public void doExecute() {
+							if (app.getGuiManager()
+									.showView(App.VIEW_EUCLIDIAN)
+									|| app.getGuiManager().showView(
+											App.VIEW_EUCLIDIAN2)) {
+								new PrintPreviewW(app);
+							}
+						}
 			});
-			updatePrintMenu();
+			// updatePrintMenu();
+			addItem(printItem);
 
 		}
 
@@ -215,31 +221,31 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	private boolean printItemAdded = false;
 
 	public void updatePrintMenu() {
-		Log.debug("print item added: " + printItemAdded);
-		if (printItem == null)
-			return;
-		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)
-				|| app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
-			Log.debug("show print item");
-			// printItem.setVisible(true);
-			// printItem.setEnabled(true);
-			// if (!printItemAdded) { // if (printItem.getParentMenu() == null)
-			// {
-				Log.debug("add print menu");
-				addItem(printItem);
-				printItemAdded = true;
-			// }
-		} else {
-			Log.debug("don't show print item");
-			// printItem.setVisible(false);
-			// printItem.setEnabled(false);
-			// if (printItemAdded) { // if (printItem.getParentMenu() != null) {
-				Log.debug("remove print menu");
-				removeItem(printItem);
-				printItemAdded = false;
-			// }
-
-		}
+		// Log.debug("print item added: " + printItemAdded);
+		// if (printItem == null)
+		// return;
+		// if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)
+		// || app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
+		// Log.debug("show print item");
+		// // printItem.setVisible(true);
+		// // printItem.setEnabled(true);
+		// // if (!printItemAdded) { // if (printItem.getParentMenu() == null)
+		// // {
+		// Log.debug("add print menu");
+		// addItem(printItem);
+		// printItemAdded = true;
+		// // }
+		// } else {
+		// Log.debug("don't show print item");
+		// // printItem.setVisible(false);
+		// // printItem.setEnabled(false);
+		// // if (printItemAdded) { // if (printItem.getParentMenu() != null) {
+		// Log.debug("remove print menu");
+		// removeItem(printItem);
+		// printItemAdded = false;
+		// // }
+		//
+		// }
 	}
 
 	protected StringHandler getShareStringHandler() {

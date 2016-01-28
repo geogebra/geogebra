@@ -7,13 +7,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -31,7 +26,7 @@ public class PrintScalePanelW extends FlowPanel {
 	private FlowPanel cmModePanel, fixedSizeModePanel;
 
 	// private boolean noAction = false;
-	private HashMap<TextBox, Boolean> handlers = new HashMap<TextBox, Boolean>();
+	HashMap<TextBox, Boolean> handlers = new HashMap<TextBox, Boolean>();
 
 	public enum PrintScaleModes {
 		SIZEINCM, FIXED_SIZE
@@ -85,8 +80,10 @@ public class PrintScalePanelW extends FlowPanel {
 		});
 
 		fixedSizeModePanel = new FlowPanel();
-		fixedSizeModePanel.add(new Label(" "
-				+ loc.getPlain("APixelsOnScreen", "100") + " = "));
+		Label aPixelsOnScreen = new Label(" "
+				+ loc.getPlain("APixelsOnScreen", "100") + " = ");
+		aPixelsOnScreen.addStyleName("aPixelsOnScreen");
+		fixedSizeModePanel.add(aPixelsOnScreen);
 		fixedSizeModePanel.add(tfScaleFixed);
 		fixedSizeModePanel.add(new Label(" cm"));
 
@@ -147,7 +144,7 @@ public class PrintScalePanelW extends FlowPanel {
 	}
 
 	private void setTextNoListener(TextBox field, String s) {
-		handlers.put(field, true);
+		// handlers.put(field, true);
 		field.setText(s);
 	}
 
@@ -199,26 +196,20 @@ public class PrintScalePanelW extends FlowPanel {
 		final TextBox ret = new TextBox();
 		// ret.setColumns(maxFracDigits);
 		// ret.setHorizontalAlignment(SwingConstants.RIGHT);
-		BlurHandler bH = new BlurHandler() {
-			public void onBlur(BlurEvent event) {
+
+		ret.addDomHandler(new ChangeHandler() {
+
+			public void onChange(ChangeEvent event) {
 				if (handlers.get(ret)) {
 					handlers.put(ret, false);
 					return;
 				}
 				run.run();
-
 			}
-		};
-		ret.addBlurHandler(bH);
+
+		}, ChangeEvent.getType());
+
 		handlers.put(ret, false);
-
-		ret.addKeyUpHandler(new KeyUpHandler() {
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					run.run();
-				}
-			}
-		});
 
 		return ret;
 	}

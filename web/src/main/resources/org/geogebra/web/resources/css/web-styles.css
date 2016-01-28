@@ -6078,6 +6078,10 @@ body.application[dir=rtl] .deleteAlgebra {
 	margin: 10px;
 }
 
+.aPixelsOnScreen{
+	margin: 10px;
+}
+
 @media screen {
 	.printPanel{
 		position: absolute;
