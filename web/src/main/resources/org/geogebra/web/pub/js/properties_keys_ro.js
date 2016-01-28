@@ -2117,6 +2117,7 @@ __GGB__keysVar.ro.menu = {
     "View": "Vizualizare",
     "ViewInFrontOf": "Vizualizare in fata la",
     "ViewInFrontOf.Help": "schimba punctul de vedere \xeen fa\u021ba obiectului apasat",
+    "ViewMaterial": "View",
     "ViewPanel": "Vizualizare panel",
     "VisualStyle": "Stil vizual",
     "VisualStyle.Help": "Ap\u0103sa\u021bi pe obiecte sau glisa\u021bi un dreptunghi pentru a le schimba propriet\u0103\u021bile",

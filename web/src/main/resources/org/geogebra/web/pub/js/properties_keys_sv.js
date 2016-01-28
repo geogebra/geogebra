@@ -2117,6 +2117,7 @@ __GGB__keysVar.sv.menu = {
     "View": "Visa",
     "ViewInFrontOf": "Visa framf\xf6r",
     "ViewInFrontOf.Help": "\xc4ndra vy framf\xf6r det markerade objektet",
+    "ViewMaterial": "View",
     "ViewPanel": "Visa sidopanel",
     "VisualStyle": "Visuell stil",
     "VisualStyle.Help": "Klicka p\xe5 objekt eller v\xe4lj dem genom att dra en rektangel runt dem f\xf6r att \xe4ndra deras egenskaper",

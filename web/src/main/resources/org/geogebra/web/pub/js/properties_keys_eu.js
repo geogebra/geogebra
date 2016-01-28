@@ -2117,6 +2117,7 @@ __GGB__keysVar.eu.menu = {
     "View": "Ikuspegia",
     "ViewInFrontOf": "Ikuspegia honen aurrean",
     "ViewInFrontOf.Help": "Aldatu ikuspegia hautatutako objektuaren aurrera",
+    "ViewMaterial": "View",
     "ViewPanel": "Ikusi panela",
     "VisualStyle": "Ikuste-Estiloa",
     "VisualStyle.Help": "Egin klik objektuetan edo arrastatu hautespen-laukizuzenak beren propietateak aldatzeko",

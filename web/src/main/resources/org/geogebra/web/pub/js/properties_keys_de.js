@@ -2117,6 +2117,7 @@ __GGB__keysVar.de.menu = {
     "View": "Ansicht",
     "ViewInFrontOf": "Frontalansicht",
     "ViewInFrontOf.Help": "W\xe4hlen Sie jenes Objekt, das in Frontalansicht dargestellt werden soll.",
+    "ViewMaterial": "Ansehen",
     "ViewPanel": "Ansichten",
     "VisualStyle": "Optische Darstellung",
     "VisualStyle.Help": "Klicken Sie auf Objekte oder markieren Sie diese durch ein Auswahl-Rechteck, um deren Eigenschaften zu \xe4ndern.",

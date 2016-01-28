@@ -2117,6 +2117,7 @@ __GGB__keysVar.it.menu = {
     "View": "Visualizza",
     "ViewInFrontOf": "Vista frontale",
     "ViewInFrontOf.Help": "Sposta la vista di fronte all'oggetto selezionato",
+    "ViewMaterial": "View",
     "ViewPanel": "Mostra pannello",
     "VisualStyle": "Stile visuale",
     "VisualStyle.Help": "Fare clic sugli oggetti o tracciare un rettangolo di selezione per modificarne le propriet\xe0",

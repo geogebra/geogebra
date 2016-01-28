@@ -2117,6 +2117,7 @@ __GGB__keysVar.vi.menu = {
     "View": "Hi\u1ec3n th\u1ecb",
     "ViewInFrontOf": "Hi\u1ec7n th\u1ecb ph\xeda tr\u01b0\u1edbc",
     "ViewInFrontOf.Help": "Thay \u0111\u1ed5i hi\u1ec3n th\u1ecb ph\xeda tr\u01b0\u1edbc \u0111\u1ed1i t\u01b0\u1ee3ng \u0111\xe3 nh\u1ea5p chu\u1ed9t",
+    "ViewMaterial": "View",
     "ViewPanel": "Hi\u1ec3n th\u1ecb b\u1ea3ng v\u1ebd",
     "VisualStyle": "Ki\u1ec3u hi\u1ec3n th\u1ecb",
     "VisualStyle.Help": "Ch\u1ecdn c\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng ho\u1eb7c k\xe9o h\xecnh ch\u1eef nh\u1eadt \u0111\u1ec3 thay \u0111\u1ed5i c\xe1c \u0111\u1eb7c \u0111i\u1ec3m c\u1ee7a n\xf3",

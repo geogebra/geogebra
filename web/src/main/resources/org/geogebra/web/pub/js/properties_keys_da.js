@@ -2117,6 +2117,7 @@ __GGB__keysVar.da.menu = {
     "View": "Vis",
     "ViewInFrontOf": "Vis foran",
     "ViewInFrontOf.Help": "Forandrer visning foran det valgte objekt",
+    "ViewMaterial": "View",
     "ViewPanel": "Vis Panel",
     "VisualStyle": "Visuel stil",
     "VisualStyle.Help": "V\xe6lg objekter for at lave om p\xe5 deres egenskaber",

@@ -2117,6 +2117,7 @@ __GGB__keysVar.gl.menu = {
     "View": "Ver",
     "ViewInFrontOf": "Vista en fronte de",
     "ViewInFrontOf.Help": "Cambia a vista \xe1 fronte do obxecto indicado polo clic",
+    "ViewMaterial": "View",
     "ViewPanel": "Ver panel",
     "VisualStyle": "Estilo visual",
     "VisualStyle.Help": "Clic ou enmarcado dos obxectos aos que cambiarlles propiedades",

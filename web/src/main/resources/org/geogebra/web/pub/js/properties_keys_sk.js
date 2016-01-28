@@ -2117,6 +2117,7 @@ __GGB__keysVar.sk.menu = {
     "View": "Vzh\u013ead",
     "ViewInFrontOf": "Poh\u013ead z prednej strane",
     "ViewInFrontOf.Help": "Zmeni\u0165 poh\u013ead z prednej strany vybrat\xe9ho objektu",
+    "ViewMaterial": "View",
     "ViewPanel": "Panel vzh\u013ead",
     "VisualStyle": "Vizu\xe1lny \u0161t\xedl",
     "VisualStyle.Help": "Kliknite na objekt alebo vyzna\u010dte obd\u013a\u017en\xedk pre nastavenie vlastnost\xed",

@@ -2117,6 +2117,7 @@ __GGB__keysVar.sl.menu = {
     "View": "Pogled",
     "ViewInFrontOf": "Poglej objekt",
     "ViewInFrontOf.Help": "Spremeni pogled na izbrani objekt (dolo\u010den s klikom)",
+    "ViewMaterial": "View",
     "ViewPanel": "Panel s pogledi",
     "VisualStyle": "Slog",
     "VisualStyle.Help": "Klikni na objekt ali premakni pravokotnik, da mu spremeni\u0161 lastnosti",

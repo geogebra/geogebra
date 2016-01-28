@@ -2117,6 +2117,7 @@ __GGB__keysVar.cs.menu = {
     "View": "Zobrazit",
     "ViewInFrontOf": "Pohled podle objektu",
     "ViewInFrontOf.Help": "Nastav\xed pohled zep\u0159edu na ozna\u010den\xfd objekt",
+    "ViewMaterial": "Zobrazit",
     "ViewPanel": "Zobrazit panel",
     "VisualStyle": "Vizu\xe1ln\xed styl",
     "VisualStyle.Help": "Pro zm\u011bnu vlastnost\xed klikn\u011bte na objekty nebo vyberte ta\u017een\xedm",

@@ -2117,6 +2117,7 @@ __GGB__keysVar.nl.menu = {
     "View": "Beeld",
     "ViewInFrontOf": "Aanzicht volgens...",
     "ViewInFrontOf.Help": "Frontaal aanzicht op aangegeklikt opbject",
+    "ViewMaterial": "View",
     "ViewPanel": "Toon Paneel",
     "VisualStyle": "Visuele Stijl",
     "VisualStyle.Help": "Klik op objecten of versleep de selecteer-rechthoek voor wijzigen eigenschappen",

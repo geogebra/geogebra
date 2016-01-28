@@ -2117,6 +2117,7 @@ __GGB__keysVar.no_NB.menu = {
     "View": "Vis",
     "ViewInFrontOf": "Frontperspektiv",
     "ViewInFrontOf.Help": "Vis frontperspektiv for det valgte objektet",
+    "ViewMaterial": "View",
     "ViewPanel": "Vis panel",
     "VisualStyle": "Egenskaper og utseende",
     "VisualStyle.Help": "Klikk p\xe5 flere objekt eller dra et rektangel over dem for \xe5 forandre egenskapene",

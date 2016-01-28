@@ -2117,6 +2117,7 @@ __GGB__keysVar.hu_gm.menu = {
     "View": "N\xe9zet",
     "ViewInFrontOf": "N\xe9zet szemb\u0151l",
     "ViewInFrontOf.Help": "A kijel\xf6lt objektummal szemk\xf6zti n\xe9zetre v\xe1lt",
+    "ViewMaterial": "View",
     "ViewPanel": "N\xe9zet panel",
     "VisualStyle": "Vizu\xe1lis st\xedlus",
     "VisualStyle.Help": "Kattint\xe1s az objektumokon vagy kijel\xf6l\xe9s kerettel",

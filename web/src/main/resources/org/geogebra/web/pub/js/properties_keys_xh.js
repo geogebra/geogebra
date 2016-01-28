@@ -2117,6 +2117,7 @@ __GGB__keysVar.xh.menu = {
     "View": "Jonga",
     "ViewInFrontOf": "Jonga phambi",
     "ViewInFrontOf.Help": "Tshintsha umbono phambi kweNto eklikhiweyo",
+    "ViewMaterial": "View",
     "ViewPanel": "Jonga iPanel",
     "VisualStyle": "iStayile seMbonakalo",
     "VisualStyle.Help": "Klikha kwiNto okanye utsale uxande ukutshintsha iiproperties zalo",

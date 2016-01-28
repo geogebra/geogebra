@@ -2117,6 +2117,7 @@ __GGB__keysVar.fi.menu = {
     "View": "N\xe4yt\xe4",
     "ViewInFrontOf": "N\xe4yt\xe4 objektin edest\xe4",
     "ViewInFrontOf.Help": "Muuta katselusuunta klikattavan objektin eteen",
+    "ViewMaterial": "View",
     "ViewPanel": "N\xe4yt\xe4 paneeli",
     "VisualStyle": "Ulkoasu",
     "VisualStyle.Help": "Valitse objektit muuttaaksesi ominaisuuksia",

@@ -2117,6 +2117,7 @@ __GGB__keysVar.tr.menu = {
     "View": "G\xf6r\xfcn\xfcm",
     "ViewInFrontOf": "\xd6n\xfcndeki G\xf6r\xfcn\xfcm",
     "ViewInFrontOf.Help": "T\u0131klanan nesnenin \xf6n\xfcndeki g\xf6r\xfcn\xfcm\xfc de\u011fi\u015ftir",
+    "ViewMaterial": "View",
     "ViewPanel": "G\xf6r\xfcn\xfcm Paneli",
     "VisualStyle": "G\xf6rsel Sitil",
     "VisualStyle.Help": "\xd6zelliklerini de\u011fi\u015ftirmek i\xe7in bir nesneye t\u0131klay\u0131n veya bir dikd\xf6rtgeni \xe7ekin",

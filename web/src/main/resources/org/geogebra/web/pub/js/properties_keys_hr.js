@@ -2117,6 +2117,7 @@ __GGB__keysVar.hr.menu = {
     "View": "Pogled",
     "ViewInFrontOf": "Pogled ispred",
     "ViewInFrontOf.Help": "Mijenjanje pogleda na odabrane objekte",
+    "ViewMaterial": "View",
     "ViewPanel": "Poka\u017ei plo\u010du",
     "VisualStyle": "Stil izgleda",
     "VisualStyle.Help": "Kliknite na objekte ili povla\u010dite pravokutnik za promjenu njihovih svojstava",

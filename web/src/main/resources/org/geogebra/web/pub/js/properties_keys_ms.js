@@ -2117,6 +2117,7 @@ __GGB__keysVar.ms.menu = {
     "View": "Paparan",
     "ViewInFrontOf": "Paparan di depan",
     "ViewInFrontOf.Help": "Tukar paparan di depan objek yang diklik",
+    "ViewMaterial": "View",
     "ViewPanel": "Papar Panel",
     "VisualStyle": "Stail Visual",
     "VisualStyle.Help": "Klik pada objek-objek atau heret satu segiempat tepat untuk menukar sifat-sifat mereka",

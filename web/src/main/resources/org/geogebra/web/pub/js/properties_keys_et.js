@@ -2117,6 +2117,7 @@ __GGB__keysVar.et.menu = {
     "View": "Vaade",
     "ViewInFrontOf": "Eestvaade",
     "ViewInFrontOf.Help": "Kl\xf5psake objektile, mille eestvaadet soovite n\xe4ha",
+    "ViewMaterial": "View",
     "ViewPanel": "N\xe4ita paneeli",
     "VisualStyle": "Visuaalne stiil",
     "VisualStyle.Help": "Kl\xf5psake objektil v\xf5i looge objektide valikuristk\xfclik, mille omadusi soovite muuta",

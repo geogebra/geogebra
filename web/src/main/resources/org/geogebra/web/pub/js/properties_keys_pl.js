@@ -2117,6 +2117,7 @@ __GGB__keysVar.pl.menu = {
     "View": "Widok",
     "ViewInFrontOf": "Zobacz przed",
     "ViewInFrontOf.Help": "Zmie\u0144 widok z przodu klikni\u0119tego obiektu",
+    "ViewMaterial": "View",
     "ViewPanel": "Poka\u017c Panel",
     "VisualStyle": "Styl wizualny",
     "VisualStyle.Help": "Kliknij na Obiekt i wyznacz prostok\u0105t, aby zmieni\u0107 jego w\u0142a\u015bciwo\u015bci",

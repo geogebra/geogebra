@@ -2117,6 +2117,7 @@ __GGB__keysVar.ca.menu = {
     "View": "Visualitza",
     "ViewInFrontOf": "Punt de vista",
     "ViewInFrontOf.Help": "Amb un clic canvia el punt de vista de l\u2019objecte seleccionat",
+    "ViewMaterial": "View",
     "ViewPanel": "Mostra panell d'escenaris",
     "VisualStyle": "Estil visual",
     "VisualStyle.Help": "Cliqueu a sobre dels objectes o arrossegueu un rectangle per canviar-ne les propietats",

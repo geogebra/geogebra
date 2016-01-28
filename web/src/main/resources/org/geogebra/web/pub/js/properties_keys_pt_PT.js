@@ -2117,6 +2117,7 @@ __GGB__keysVar.pt_PT.menu = {
     "View": "Vista",
     "ViewInFrontOf": "Vista frontal de",
     "ViewInFrontOf.Help": "Permite a Vista de Frente do objeto selecionado",
+    "ViewMaterial": "View",
     "ViewPanel": "Ver Painel de Disposi\xe7\xf5es",
     "VisualStyle": "Estilo Visual",
     "VisualStyle.Help": "Clique no objeto ou defina um ret\xe2ngulo de sele\xe7\xe3o para alterar as propriedades",

@@ -2117,6 +2117,7 @@ __GGB__keysVar.bs.menu = {
     "View": "Prikaz",
     "ViewInFrontOf": "Prikaz ispred",
     "ViewInFrontOf.Help": "Promijenite klikom pogled na figuru",
+    "ViewMaterial": "View",
     "ViewPanel": "Panel s prikazima",
     "VisualStyle": "Vizuelni stil",
     "VisualStyle.Help": "Klikom na figuru ili ozna\u010davanjem s pravougaonom povr\u0161i mijenjate njene osobine",

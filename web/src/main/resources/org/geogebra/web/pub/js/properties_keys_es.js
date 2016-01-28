@@ -2117,6 +2117,7 @@ __GGB__keysVar.es.menu = {
     "View": "Vista",
     "ViewInFrontOf": "Vista frontal",
     "ViewInFrontOf.Help": "Vista frontal del objeto seleccionado",
+    "ViewMaterial": "View",
     "ViewPanel": "Muestra la Barra Lateral",
     "VisualStyle": "Estilo visual",
     "VisualStyle.Help": "Clic o enmarcado rectangular de objetos cuyas propiedades se cambiar\xe1n",
