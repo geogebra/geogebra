@@ -262,7 +262,7 @@ public class ToolTipManagerW {
 			/*
 			 * In "exam" mode the question mark is not shown
 			 */
-			if (!(app.isExam())) {
+			if (!(app.isExam()&& app.getExam().getStart() >= 0)) {
 				bottomInfoTipPanel.add(helpLabel);
 			}
 		}
@@ -329,7 +329,7 @@ public class ToolTipManagerW {
 	 * @param url
 	 *            that should be opened
 	 */
-	native void openWindow(String url)/*-{
+	native public static void openWindow(String url)/*-{
 		$wnd.open(url);
 	}-*/;
 
