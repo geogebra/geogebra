@@ -43,4 +43,15 @@ public class DropDownListD implements DropDownList {
 		GGraphics2DD.getAwtGraphics(g2).fillPolygon(p);
 
 	}
+
+	public void drawScrollUp(GGraphics2D g2, int left, int top, int width,
+			int height, GColor bgColor, boolean pressed) {
+
+	}
+
+	public void drawScrollDown(GGraphics2D g2, int left, int top, int width,
+			int height, GColor bgColor, boolean pressed) {
+
+	}
+
 }

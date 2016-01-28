@@ -154,6 +154,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		private GRectangle rectUp;
 		private GRectangle rectDown;
 
+		private boolean scrollNeeded;
+
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
 			itemHovered = null;
@@ -280,7 +282,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		private boolean handleUpControl(int x, int y) {
-			if (scrollSupport && rectUp.contains(x, y)) {
+			if (scrollSupport && scrollNeeded && rectUp.contains(x, y)) {
 				scrollUp();
 				return true;
 			}
@@ -288,7 +290,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		private boolean handleDownControl(int x, int y) {
-			if (scrollSupport && rectDown.contains(x, y)) {
+			if (scrollSupport && scrollNeeded && rectDown.contains(x, y)) {
 				scrollDown();
 				return true;
 			}
@@ -297,7 +299,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		public boolean isControlHit(int x, int y) {
-			return scrollSupport
+			return scrollSupport && scrollNeeded
 					&& (rectUp.contains(x, y) || rectDown.contains(x, y));
 		}
 
@@ -407,7 +409,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					tableHeight -= MARGIN;
 				}
 
-				if (scrollSupport) {
+				if (scrollSupport && scrollNeeded) {
 					top -= (int) (rectUp.getHeight() + rectDown.getHeight());
 					tableHeight += (int) rectDown.getHeight();
 				}
@@ -423,7 +425,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					top + MARGIN,
 					dimTable.getWidth(), dimTable.getHeight());
 
-			if (scrollSupport) {
+			if (scrollSupport && scrollNeeded) {
 				rectUp.setBounds(left, top,
 						(int) (rectUp.getWidth()),
 						(int) (rectUp.getHeight()));
@@ -435,11 +437,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		private void drawControls() {
-			if (!scrollSupport) {
+			if (!scrollSupport || !scrollNeeded) {
 				return;
 			}
 
-			g2.setPaint(GColor.YELLOW);
+			// g2.setPaint(GColor.YELLOW);
 			int x = (int) rectUp.getX();
 			int y = (int) rectUp.getY();
 			int h = (int) rectUp.getHeight();
@@ -447,8 +449,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			// Log.debug(SCROLL_PFX + " drawing up control at (" + x + ", " + y
 			// + ") w: " + w + " h: " + h);
-			g2.fillRoundRect(x, y, w, h, ROUND, ROUND);
-			g2.setPaint(GColor.GREEN);
+			// g2.fillRoundRect(x, y, w, h, ROUND, ROUND);
+			dropDown.drawScrollUp(g2, x, y, w, h,
+					geoList.getBackgroundColor(), false);
 
 			int x2 = (int) rectDown.getX();
 			int y2 = (int) rectDown.getY();
@@ -457,7 +460,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			// Log.debug(SCROLL_PFX + " drawing up control at (" + x2 + ", " +
 			// y2
 			// + ") w: " + w2 + " h: " + h2);
+
+			g2.setPaint(geoList.getBackgroundColor());
+
 			g2.fillRoundRect(x2, y2, w2, h2, ROUND, ROUND);
+			dropDown.drawScrollDown(g2, x2, y2, w2, h2,
+					geoList.getBackgroundColor(), false);
 
 		}
 		private void getOneColumnSettings() {
@@ -485,6 +493,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					/ dimItem.getHeight();
 			endIdx = startIdx + Math.min(visibleItems, maxItems);
 			rowCount = getVisibleItemCount();
+			scrollNeeded = endIdx != maxItems - 1;
 		}
 
 		private int getVisibleItemCount() {

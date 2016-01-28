@@ -10,4 +10,12 @@ public interface DropDownList {
 
 	void drawControl(GGraphics2D g2, int left, int top, int width, int height,
 			GColor bgColor, boolean pressed);
+
+	void drawScrollUp(GGraphics2D g2, int left, int top, int width,
+ int height,
+			GColor bgColor, boolean pressed);
+
+	void drawScrollDown(GGraphics2D g2, int left, int top, int width,
+			int height, GColor bgColor, boolean pressed);
+		
 }
