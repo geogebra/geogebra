@@ -123,6 +123,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		private static final int MIN_FONT_SIZE = 12;
 
+		private static final String SCROLL_PFX = "[COMBOSCROLLING]";
+
 		private int colCount=1;
 		private int rowCount=1;
 		private GRectangle rectTable;
@@ -144,10 +146,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		private int itemFontSize;
 
+		private boolean scrollSupport;
+
 		// startIdx and endIdx defines the range of items that are visible.
 		private int startIdx;
 		private int endIdx;
-		private boolean scrollSupport;
+		private GRectangle rectUp;
+		private GRectangle rectDown;
+
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
 			itemHovered = null;
@@ -175,6 +181,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			getMetrics();
 			drawBox();
 			drawItems();
+			drawControls();
+
 		}
 
 		private void drawItems() {
@@ -196,7 +204,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			int rectLeft = left + dimItem.getWidth() * col;
 			int rectTop = top + dimItem.getHeight() * row;
-
+			if (scrollSupport) {
+				rectTop += rectUp.getHeight();
+			}
 			if (item.getRect() == null) {
 				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
@@ -328,6 +338,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			itemFontSize = getLabelFontSize();
 			if (scrollSupport) {
 				getScrollSettings();
+
 			} else {
 				boolean finished = false;
 
@@ -340,8 +351,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					prepareTable();
 				}
 			}
+
 			int tableWidth = getColCount() * dimItem.getWidth();
 			int tableHeight = rowCount * dimItem.getHeight();
+
 
 			if (top + tableHeight + 2 * MARGIN > view
 					.getHeight()) {
@@ -349,6 +362,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				if (top < MARGIN) {
 					top = MARGIN;
 					tableHeight -= MARGIN;
+				}
+
+				if (scrollSupport) {
+					top -= (int) (rectUp.getHeight() + rectDown.getHeight());
 				}
 			}
 
@@ -362,8 +379,42 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					top + MARGIN,
 					dimTable.getWidth(), dimTable.getHeight());
 
+			if (scrollSupport) {
+				rectUp.setBounds(left, top,
+						(int) (rectUp.getWidth()),
+						(int) (rectUp.getHeight()));
+				rectDown.setBounds(left,
+						top + dimTable.getHeight() + (int) rectUp.getHeight(),
+						(int) (rectDown.getWidth()),
+						(int) (rectDown.getHeight()));
+			}
 		}
 
+		private void drawControls() {
+			if (!scrollSupport) {
+				return;
+			}
+
+			g2.setPaint(GColor.YELLOW);
+			int x = (int) rectUp.getX();
+			int y = (int) rectUp.getY();
+			int h = (int) rectUp.getHeight();
+			int w = (int) rectUp.getWidth();
+
+			Log.debug(SCROLL_PFX + " drawing up control at (" + x + ", " + y
+					+ ") w: " + w + " h: " + h);
+			g2.fillRoundRect(x, y, w, h, ROUND, ROUND);
+			g2.setPaint(GColor.GREEN);
+
+			int x2 = (int) rectDown.getX();
+			int y2 = (int) rectDown.getY();
+			int h2 = (int) rectDown.getHeight();
+			int w2 = (int) rectDown.getWidth();
+			Log.debug(SCROLL_PFX + " drawing up control at (" + x2 + ", " + y2
+					+ ") w: " + w2 + " h: " + h2);
+			g2.fillRoundRect(x2, y2, w2, h2, ROUND, ROUND);
+
+		}
 		private void getOneColumnSettings() {
 			setColCount(1);
 			dimItem = AwtFactory.prototype
@@ -373,14 +424,20 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		private void getScrollSettings() {
+
 			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
 			createItems();
-
 			getOneColumnSettings();
+			rectUp = AwtFactory.prototype
+					.newRectangle(dimItem.getWidth(), dimItem.getHeight() / 2);
+			rectDown = AwtFactory.prototype
+					.newRectangle(dimItem.getWidth(), dimItem.getHeight() / 2);
+
 
 			int maxItems = geoList.size();
-			int visibleItems = ((view.getHeight() - 2 * MARGIN)
-					/ dimItem.getHeight()) + 1;
+			int visibleItems = (view.getHeight() - (2 * MARGIN
+					+ (int) (rectUp.getHeight() + rectDown.getHeight())))
+					/ dimItem.getHeight();
 			startIdx = 0;
 			endIdx = Math.min(visibleItems, maxItems);
 			rowCount = getVisibleItemCount();
