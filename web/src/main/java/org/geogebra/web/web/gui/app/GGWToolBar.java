@@ -14,6 +14,7 @@ import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
@@ -36,6 +37,8 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -238,6 +241,18 @@ pr.menu_header_undo(), null, 32);
 
 		});
 		visibilityEventMain();
+		//TODO ALICIA Window.addWindowResizeListener(listener);
+		Window.addWindowResizeListener(new WindowResizeListener(){
+
+			@Override
+			public void onWindowResized(int width, int height) {
+				//ExamUtil.toggleFullscreen(true);
+				/*startCheating();
+				app.getExam().checkCheating();
+				stopCheating();
+				*/
+			}});
+		
 
 		FlowPanel fp = new FlowPanel();
 		fp.add(timer);
@@ -246,9 +261,9 @@ pr.menu_header_undo(), null, 32);
 		fp.add(info);
 		info.getElement().getStyle().setMarginLeft(5, Unit.PX);
 		fp.addDomHandler(new ClickHandler() {
-
+			// clicking on info button
 			public void onClick(ClickEvent event) {
-				app.showMessage(app.getExam().getLog(app.getLocalization()));
+				app.showMessage(app.getExam().getLog(app.getLocalization()),app.getMenu("exam_log_header"));
 
 			}
 		}, ClickEvent.getType());
