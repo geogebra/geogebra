@@ -92,6 +92,7 @@ public abstract class DrawEquation {
 		initJLM.append("\\DeclareMathOperator{\\fractionalPart}{fractionalPart} ");
 		initJLM.append("\\DeclareMathOperator{\\round}{round} ");
 		initJLM.append("\\newcommand{\\space}[0]{\\ } ");
+		initJLM.append("\\newcommand{\\dollar}[0]{\\$} ");
 
 		// #4068 so that we can use \questeq in Java and HTML5
 		initJLM.append("\\newcommand{\\questeq}[0]{ \\stackrel{ \\small ?}{=} } ");

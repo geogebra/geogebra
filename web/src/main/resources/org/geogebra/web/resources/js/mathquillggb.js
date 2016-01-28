@@ -4333,6 +4333,7 @@ LatexCmds.vspace = bind(SomethingHTML, '\\vspace', brHTML);
 var hatHTML = '<span class="array non-leaf vbottom"><span class="hat">^</span><span>&0</span></span>';
 LatexCmds.hat = bind(SomethingHTML, '\\hat', hatHTML);
 
+
 // MathQuillGGB hacks by GeoGebra
 var vecHTML = '<table class="spec" style="display:inline-table;vertical-align:65%;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
 LatexCmds.overrightarrow = bind(SomethingHTML, '\\overrightarrow', vecHTML);
@@ -5575,6 +5576,7 @@ LatexCmds.xi = LatexCmds['\u03be'] = bind(Variable, '\\xi ', '&xi;', '\u03be');
 
 // omicron was missing! adding it here, for GeoGebraWeb needs it too:
 LatexCmds.omicron = LatexCmds['\u03bf'] = bind(Variable, '\\omicron ', '&omicron;', '\u03bf');
+LatexCmds.dollar = bind(Variable, '\\dollar', "<span>&#36;</span>", "$");
 
 LatexCmds.rho = LatexCmds['\u03c1'] = bind(Variable, '\\rho ', '&rho;', '\u03c1');
 LatexCmds.sigma = LatexCmds['\u03c3'] = bind(Variable, '\\sigma ', '&sigma;', '\u03c3');// final sigma??
