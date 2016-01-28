@@ -753,7 +753,7 @@ public class MaterialListElement extends FlowPanel implements
 	/*** LAF dependent methods **/
 
 	public String getInsertWorksheetTitle(final Material m) {
-		return "View";
+		return "ViewMaterial";
 	}
 
 	/**
