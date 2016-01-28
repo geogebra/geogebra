@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 public class LineStyleModel extends OptionsModel {
 	public interface ILineStyleListener extends PropertyListener {
@@ -88,6 +89,7 @@ public class LineStyleModel extends OptionsModel {
 	@Override
 	public void updateProperties() {
 		GeoElement temp, geo0 = getGeoAt(0);
+		Log.debug("geo0 = " + geo0 + ", lineTypeEnabled="+lineTypeEnabled);
 		if (listener != null) {
 			listener.setThicknessSliderValue(geo0.getLineThickness());
 			// allow polygons to have thickness 0
