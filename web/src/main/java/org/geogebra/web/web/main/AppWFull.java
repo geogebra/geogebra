@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
@@ -15,6 +16,7 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -47,6 +49,7 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
+import org.geogebra.web.web.gui.menubar.FileMenuW;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
@@ -64,6 +67,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public abstract class AppWFull extends AppW {
@@ -374,21 +378,31 @@ public abstract class AppWFull extends AppW {
 	public void examWelcome(){
 		if (isExam() && getExam().getStart() < 0) {
 			Localization loc = getLocalization();
-			StyleInjector
-					.inject(GuiResources.INSTANCE.examStyleLTR().getText());
+			//StyleInjector
+			//		.inject(GuiResources.INSTANCE.examStyleLTR().getText());
 			final DialogBoxW box = new DialogBoxW(false, true, null, getPanel());
 			VerticalPanel mainWidget = new VerticalPanel();
 			FlowPanel btnPanel = new FlowPanel();
 
 			Button btnOk = new Button();
-			mainWidget.add(btnPanel);
+			Button btnCancel = new Button();
+			Button btnHelp = new Button();
+			//mainWidget.add(btnPanel);
+			
 			btnPanel.add(btnOk);
-			btnOk.setText(loc.getMenu("StartExam"));
-			// mainWidget.add(new Label(getMenu("WelcomeExam")));
+			btnPanel.add(btnCancel);
+			btnPanel.add(btnHelp);
+			
+			btnOk.setText(loc.getMenu("exam_start_button"));
+			btnCancel.setText(loc.getMenu("Cancel"));
+			btnHelp.setText(loc.getMenu("Help"));
+			Label description = new Label(loc.getMenu("exam_custom_description"));
+			mainWidget.add(description);
+			//description.addStyleName("padding");
+			box.addStyleName("boxsize");
 			final CheckBox cas = new CheckBox(loc.getMenu("Perspective.CAS"));
 			cas.addStyleName("examCheckbox");
-			final CheckBox allow3D = new CheckBox(
-					loc.getMenu("Perspective.3DGraphics"));
+			final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
 			allow3D.addStyleName("examCheckbox");
 			mainWidget.add(cas);
 			mainWidget.add(allow3D);
@@ -396,17 +410,14 @@ public abstract class AppWFull extends AppW {
 			allow3D.setValue(true);
 			getExam().setCASAllowed(cas.getValue());
 			getExam().set3DAllowed(allow3D.getValue());
-			getGuiManager().updateToolbarActions();
-			getLAF().removeWindowClosingHandler();
+			
 			cas.addClickHandler(new ClickHandler() {
-
 				public void onClick(ClickEvent event) {
 					getExam().setCASAllowed(cas.getValue());
 					getGuiManager().updateToolbarActions();
 				}
 			});
 			allow3D.addClickHandler(new ClickHandler() {
-
 				public void onClick(ClickEvent event) {
 					getExam().set3DAllowed(allow3D.getValue());
 					getGuiManager().updateToolbarActions();
@@ -415,14 +426,25 @@ public abstract class AppWFull extends AppW {
 			});
 			mainWidget.add(btnPanel);
 			box.setWidget(mainWidget);
-			box.getCaption().setText(getMenu("GeoGebraExam"));
+			box.getCaption().setText(getMenu("exam_custom_header"));
 			box.center();
+			box.setWidth("300px");
+			//box.setHeight("300px");
+			
 			btnOk.addStyleName("examStartButton");
 			btnOk.addClickHandler(new ClickHandler() {
-
 				public void onClick(ClickEvent event) {
 					ExamUtil.toggleFullscreen(true);
-					Date date = new Date();
+					StyleInjector
+					.inject(GuiResources.INSTANCE.examStyleLTR().getText());
+					Date date = new Date();	
+					getGuiManager().updateToolbarActions();
+					getLAF().removeWindowClosingHandler();
+					fileNew();
+					getGuiManager().setGeneralToolBarDefinition(
+							ToolBar.getAllToolsNoMacros(true, true));
+					getGgbApi().setPerspective("1");
+					
 					kernel.getAlgebraProcessor().reinitCommands();
 					getExam().setStart(date.getTime());
 					fireViewsChangedEvent();
@@ -436,12 +458,34 @@ public abstract class AppWFull extends AppW {
 							&& dp.getKeyboardListener() instanceof GeoContainer) { // dp.getKeyboardListener().setFocus(true);
 
 						showKeyboard(dp.getKeyboardListener(), true);
-
 					}
 					box.hide();
 
 				}
 			});
+			
+			btnCancel.addStyleName("cancelBtn");
+			btnCancel.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					getExam().exit();
+					setExam(null);
+					ExamUtil.toggleFullscreen(false);
+					fireViewsChangedEvent();
+					getGuiManager().updateToolbarActions();
+					getGuiManager().setGeneralToolBarDefinition(
+							ToolBar.getAllToolsNoMacros(true, false));
+					getGuiManager().resetMenu();
+					box.hide();
+				}
+			});
+			btnHelp.addStyleName("cancelBtn");
+			btnHelp.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					ToolTipManagerW.openWindow("http://www.geogebra.org");
+				}
+			});
+			
+			
 			if (Location.getHost() != null) {
 				return;
 			}
