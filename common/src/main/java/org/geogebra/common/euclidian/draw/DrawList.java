@@ -149,7 +149,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		private boolean scrollSupport;
 
 		// startIdx and endIdx defines the range of items that are visible.
-		private int startIdx;
+		private int startIdx = 0;
 		private int endIdx;
 		private GRectangle rectUp;
 		private GRectangle rectDown;
@@ -303,10 +303,17 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		private void scrollUp() {
 			Log.debug(SCROLL_PFX + " Scrolling up!");
+			if (startIdx > 0) {
+				startIdx--;
+			}
 		}
 
 		private void scrollDown() {
 			Log.debug(SCROLL_PFX + " Scrolling down!");
+			if (endIdx != items.size()) {
+				startIdx++;
+			}
+			// drawItems();
 		}
 
 		public boolean onMouseDown(int x, int y) {
@@ -476,8 +483,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			int visibleItems = (view.getHeight() - (2 * MARGIN
 					+ (int) (rectUp.getHeight() + rectDown.getHeight())))
 					/ dimItem.getHeight();
-			startIdx = 0;
-			endIdx = Math.min(visibleItems, maxItems);
+			endIdx = startIdx + Math.min(visibleItems, maxItems);
 			rowCount = getVisibleItemCount();
 		}
 
