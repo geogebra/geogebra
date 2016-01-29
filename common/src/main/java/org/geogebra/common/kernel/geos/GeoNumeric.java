@@ -392,13 +392,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			return false;
 		}
 
-		// if (Double.isInfinite(value)){
-		// return false;
-		// }
-		//
-		// if (Double.isNaN(value)){
-		// return false;
-		// }
+		if (Double.isInfinite(value)) {
+			return false;
+		}
 
 		if (intervalMin == null) {
 			return true;
