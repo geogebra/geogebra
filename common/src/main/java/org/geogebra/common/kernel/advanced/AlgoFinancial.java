@@ -196,10 +196,11 @@ public class AlgoFinancial extends AlgoElement {
 				return;
 			}
 			if (Kernel.isZero(rate)) {
-				nper = Math.round(-(pv + fv) / pmt);
+				nper = Kernel.checkInteger(-(pv + fv) / pmt);
 			} else {
 				double pmt2 = pmt * (1 + rate * pmtType);
-				nper = Math.round(Math.log((pmt2 - rate * fv)
+				nper = Kernel.checkInteger(
+						Math.log((pmt2 - rate * fv)
 						/ (pmt2 + rate * pv))
 						/ Math.log(1 + rate));
 			}
@@ -379,7 +380,7 @@ public class AlgoFinancial extends AlgoElement {
 		if (geoNper == null || !geoNper.isDefined()) {
 			return false;
 		}
-		nper = Math.round(geoNper.evaluateDouble());
+		nper = Kernel.checkInteger(geoNper.evaluateDouble());
 		// number of periods must be positive
 
 		// check for NaN not needed as NaN > 0 returns false
