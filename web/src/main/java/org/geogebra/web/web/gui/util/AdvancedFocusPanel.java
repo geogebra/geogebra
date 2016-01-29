@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.util;
 
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetKeyListenerW;
 
 import com.google.gwt.dom.client.Element;
@@ -11,6 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPanelI {
 
 	TextAreaElement focusTextarea;
+	boolean disabledTextarea;
 
 	public AdvancedFocusPanel() {
 		// Here it is not the getContainerElement()
@@ -36,7 +38,12 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 		// the only problem with focusTextarea seems to be its style:
 		// so it is still visible on the page, unless we hide it!
 		focusTextarea.addClassName("AdvancedFocusPanelsTextarea");
+		if (Browser.isMobile()) {
+			focusTextarea.setDisabled(true);
+			this.disabledTextarea = true;
+		}
 
+		getContainerElement().setTabIndex(1);
 		// as the setWidget call happens later, we shall accept
 		// that focusTextarea will actually be the first child
 		// of the AdvancedFocusPanel... but it's not trivial
@@ -66,15 +73,17 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 	 * @param focus true focus false blur
 	 */
 	public void setFocus(boolean focus) {
+		Element el = this.disabledTextarea ? getContainerElement()
+				: this.focusTextarea;
 		if (focus) {
-			focusTextarea.focus();
+			el.focus();
 		} else {
-			focusTextarea.blur();
+			el.blur();
 		}
 	}
 
 	public Element getTextarea() {
-		return (Element)focusTextarea;
+		return focusTextarea;
 	}
 
 	/**

@@ -257,6 +257,11 @@ public class Browser {
 				&& !Browser.isAndroidVersionLessThan(4.0);
 	}
 
+	public static native boolean isMobile()/*-{
+		return !!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+				.test($wnd.navigator.userAgent));
+	}-*/;
+
 	public native static boolean isIE10plus() /*-{
 		return !!$wnd.MSBlobBuilder;
 	}-*/;
