@@ -1433,8 +1433,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public void updatePrintMenu() {
-		((MainMenu) (((AppW) app).getLAF().getMenuBar((AppW) app)))
-				.updatePrintMenu();
+		final GGWMenuBar bar = getObjectPool().getGgwMenubar();
+		if (bar != null && bar.getMenubar() != null) {
+			bar.getMenubar().updatePrintMenu();
+
+		}
 	}
 
 	@Override
