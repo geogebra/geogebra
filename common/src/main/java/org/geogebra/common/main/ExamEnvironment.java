@@ -142,9 +142,15 @@ public class ExamEnvironment {
 			sb.append(loc.getMenu("exam_views_deactivated")+":");
 			sb.append(' ');
 			}
-		if(supportsCAS == false) sb.append("CAS");
-		if(supportsCAS == false && supports3D == false ) sb.append(","+' ');
-		if(supports3D == false) sb.append("3D Graphics");
+		if (supportsCAS == false) {
+			sb.append("CAS");
+		}
+		if (supportsCAS == false && supports3D == false) {
+			sb.append("," + ' ');
+		}
+		if (supports3D == false) {
+			sb.append("3D Graphics");
+		}
 		sb.append("\n");
 		
 		// Exam Start Date
