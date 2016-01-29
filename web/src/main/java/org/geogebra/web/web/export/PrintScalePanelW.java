@@ -3,6 +3,7 @@ package org.geogebra.web.web.export;
 import java.util.HashMap;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -124,7 +125,8 @@ public class PrintScalePanelW extends FlowPanel {
 	}
 
 	private void updateFixedSizeTextFields() {
-		double relScale = 100 * ev.getPrintingScale() / ev.getXscale();
+		double relScale = Kernel
+				.checkInteger(100 * ev.getPrintingScale() / ev.getXscale());
 		// setTextNoListener(tfScaleFixed, nf.format(relScale));
 		setTextNoListener(tfScaleFixed, relScale + "");
 	}
@@ -135,10 +137,10 @@ public class PrintScalePanelW extends FlowPanel {
 		if (scale <= 1) {
 			setTextNoListener(tfScale2, "1");
 			// setTextNoListener(tfScale1, nf.format(1 / scale));
-			setTextNoListener(tfScale1, (1 / scale) + "");
+			setTextNoListener(tfScale1, Kernel.checkInteger(1 / scale) + "");
 		} else {
 			// setTextNoListener(tfScale2, nf.format(scale));
-			setTextNoListener(tfScale2, scale + "");
+			setTextNoListener(tfScale2, Kernel.checkInteger(scale) + "");
 			setTextNoListener(tfScale1, "1");
 		}
 	}
