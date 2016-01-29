@@ -26,13 +26,10 @@ public class GLookAndFeel implements GLookAndFeelI{
 	public static final int VIEW_ICON_SIZE = 20;
 	private HandlerRegistration windowClosingHandler;
 	private HandlerRegistration windowCloseHandler;
-	private MainMenu mainMenu;
 	
 	public MainMenu getMenuBar(AppW app) {
-		if(mainMenu == null){
-			mainMenu = new MainMenu(app);
-		}
-		return mainMenu;
+		return new MainMenu(app);
+
     }
 
 	public boolean undoRedoSupported() {
