@@ -3909,7 +3909,6 @@ public abstract class App implements UpdateSelection {
 		case ACRA:
 		case ANALYTICS:
 		case HANDWRITING:
-		case DRAW_DROPDOWNLISTS_TO_CANVAS:
 			// case COMBOSCROLLING:
 			return prerelease;
 		case MOBILE_PROPERTIES_VIEW:
@@ -3929,6 +3928,10 @@ public abstract class App implements UpdateSelection {
 		case LATEX_ON_CHECKBOX:
 		case DRAW_INPUTBOXES_TO_CANVAS:
 		case UNDO_FOR_TOOLS:
+			return true;
+
+		// enabled from 5.0.200.0
+		case DRAW_DROPDOWNLISTS_TO_CANVAS:
 			return true;
 
 		// not supported in applets
