@@ -392,6 +392,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			return false;
 		}
 
+		// Double.isNaN(value) is tested in isDefined()
+
 		if (Double.isInfinite(value)) {
 			return false;
 		}
