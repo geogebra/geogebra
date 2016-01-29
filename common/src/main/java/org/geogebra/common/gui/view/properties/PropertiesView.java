@@ -47,6 +47,7 @@ public abstract class PropertiesView implements View {
 	protected App app;
 	protected final Localization loc;
 	protected OptionType selectedOptionType = OptionType.EUCLIDIAN;
+
 	protected OptionsObject objectPanel;
 
 	public PropertiesView(App app2) {
@@ -352,15 +353,24 @@ public abstract class PropertiesView implements View {
 		}
 	}
 
+	/**
+	 *
+	 * @return currently focused view type
+	 */
+	protected OptionType getFocusedViewType(){
+		int focusedViewId = app.getGuiManager().getLayout().getDockManager()
+				.getFocusedViewId();
+
+		return getTypeFromFocusedViewId(focusedViewId);
+	}
+
 	final protected void setOptionPanelRegardingFocus(boolean updateEuclidianTab) {
 
 		if (stayInCurrentPanelWithObjects())
 			return;
 
-		int focusedViewId = app.getGuiManager().getLayout().getDockManager()
-				.getFocusedViewId();
 
-		OptionType type = getTypeFromFocusedViewId(focusedViewId);
+		OptionType type = getFocusedViewType();
 
 		if (type != null) {
 			if (type == OptionType.EUCLIDIAN || type == OptionType.EUCLIDIAN2) {
