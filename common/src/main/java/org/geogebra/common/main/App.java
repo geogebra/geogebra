@@ -3902,8 +3902,6 @@ public abstract class App implements UpdateSelection {
 		case CP_NEW_COLUMNS:
 		case EXAM:
 
-			// in web
-		case PRINT_MENU:
 		case WEB_PRINT_ALGEBRA_VIEW:
 
 		case ACRA:
@@ -3928,6 +3926,8 @@ public abstract class App implements UpdateSelection {
 		case LATEX_ON_CHECKBOX:
 		case DRAW_INPUTBOXES_TO_CANVAS:
 		case UNDO_FOR_TOOLS:
+			// in web
+		case PRINT_MENU:
 			return true;
 
 		// enabled from 5.0.200.0
