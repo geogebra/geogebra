@@ -262,7 +262,7 @@ public class ToolTipManagerW {
 			/*
 			 * In "exam" mode the question mark is not shown
 			 */
-			if (!(app.isExam()&& app.getExam().getStart() >= 0)) {
+			if (!(app.isExam() && app.getExam().getStart() >= 0)) {
 				bottomInfoTipPanel.add(helpLabel);
 			}
 		}
