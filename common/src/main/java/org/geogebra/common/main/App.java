@@ -3898,8 +3898,6 @@ public abstract class App implements UpdateSelection {
 		case HIT_PARAMETRIC_SURFACE:
 		case PARAMETRIC_SURFACE_IS_REGION:
 		case SHINY_3D:
-		case CP_POPUP:
-		case CP_NEW_COLUMNS:
 		case EXAM:
 
 		case WEB_PRINT_ALGEBRA_VIEW:
@@ -3928,6 +3926,8 @@ public abstract class App implements UpdateSelection {
 		case UNDO_FOR_TOOLS:
 			// in web
 		case PRINT_MENU:
+		case CP_POPUP:
+		case CP_NEW_COLUMNS:
 			return true;
 
 		// enabled from 5.0.200.0
