@@ -41,9 +41,10 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 		if (Browser.isMobile()) {
 			focusTextarea.setDisabled(true);
 			this.disabledTextarea = true;
+			getContainerElement().setTabIndex(1);
 		}
 
-		getContainerElement().setTabIndex(1);
+
 		// as the setWidget call happens later, we shall accept
 		// that focusTextarea will actually be the first child
 		// of the AdvancedFocusPanel... but it's not trivial
