@@ -346,43 +346,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			if (!editor.isEditing()) {
 				if (!(ctrlDown || e.isAltKeyDown())) {
 					letterOrDigitTyped();
-				} // else if (ctrlDown) {
-					// e.consume();
-				//	if (keyCode == GWTKeycodes.KEY_C) {
-						// KeyEvent.VK_C) {
-
-						// instead, natural copy event will happen
-						// on the hidden textarea, with selected content
-						// this is also needed, but moved to onCopy()
-						// table.copy(altDown);
-				//	} else if (keyCode == GWTKeycodes.KEY_V) {
-						// KeyEvent.VK_V) {
-
-						// nooo! this cannot get what should be
-						// pasted well! so using the "paste"
-						// event instead, addPasteHandlerTo!
-
-						//boolean storeUndo = table.paste();
-						//view.rowHeaderRevalidate();
-						//if (storeUndo)
-						//	app.storeUndoInfo();
-
-						// but still, CTRL+V should survive the
-						// keypress event in order to properly
-						// send a paste event in Firefox!
-						// workaround could come here, but we
-						// can also detect CTRL+v at keypress
-				//	} else if (keyCode == GWTKeycodes.KEY_X) {
-						// KeyEvent.VK_X) {
-
-						// instead, natural cut event will happen
-						// on the hidden textarea, with selected content
-						// this is also needed, but moved to onCut()
-						//boolean storeUndo = table.cut();
-						//if (storeUndo)
-						//	app.storeUndoInfo();
-				//	}
-				//}
+				}
 			}
 			break;
 
@@ -404,11 +368,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			if (!editor.isEditing()) {
 				table.setAllowEditing(true);
 				table.editCellAt(table.getSelectedRow(),
-				        table.getSelectedColumn());
-				// ?//final JTextComponent f =
-				// (JTextComponent)table.getEditorComponent();
-				// ?// f.requestFocus();
-				// ?// f.getCaret().setVisible(true);
+						table.getSelectedColumn());
 				table.setAllowEditing(false);
 			}
 			// e.consume();
@@ -513,14 +473,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				break;
 
 		}
-
-		/*
-		 * if (keyCode >= 37 && keyCode <= 40) { if (editor.isEditing()) return;
-		 * }
-		 * 
-		 * for (int i = 0; i < defaultKeyListeners.length; ++ i) { if
-		 * (e.isConsumed()) break; defaultKeyListeners[i].keyPressed(e); }
-		 */
 
 	}
 
