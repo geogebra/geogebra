@@ -45,6 +45,8 @@ import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoRadius;
+import org.geogebra.common.kernel.algos.AlgoRoots;
+import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.algos.AlgoVector;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
@@ -5574,6 +5576,10 @@ public abstract class EuclidianController {
 			ret = extremum(hits);
 			break;
 
+		case EuclidianConstants.MODE_ROOTS:
+			ret = roots(hits);
+			break;
+
 		default:
 			// do nothing
 		}
@@ -10624,7 +10630,7 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoElement[] extremum(Hits hits) {
-		Hits h = hits.getHits(Test.GEOFUNCTION, false, new Hits());
+		Hits h = hits.getHits(Test.GEOFUNCTION, new Hits());
 		if (h.size() > 0) {
 			GeoFunction function = (GeoFunction) h.get(0);
 			if(function.isPolynomialFunction(false)){
@@ -10640,4 +10646,30 @@ public abstract class EuclidianController {
 		return null;
 	}
 
+	protected GeoElement[] roots(Hits hits) {
+		Hits h = hits.getHits(Test.GEOFUNCTION, new Hits());
+		GeoFunction function = null;
+		if(h.size() == 0) {
+			h = hits.getHits(Test.GEOLINE, new Hits());
+			if(h.size() > 0) {
+				GeoLine line = (GeoLine) h.get(0);
+				function = line.getGeoFunction();
+			}
+		} else {
+			function = (GeoFunction) h.get(0);
+		}
+
+		if (function != null) {
+			if(function.isPolynomialFunction(false)) {
+				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(this.kernel.getConstruction(), null, function);
+				return algo.getRootPoints();
+			} else {
+				AlgoRoots algo = new AlgoRoots(this.kernel.getConstruction(), null, function,
+						new MyDouble(this.kernel, this.view.getXmin()), new MyDouble(this.kernel, this.view.getXmax()));
+				return algo.getRootPoints();
+			}
+		}
+
+		return null;
+	}
 }

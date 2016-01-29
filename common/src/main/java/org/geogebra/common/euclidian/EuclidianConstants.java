@@ -238,6 +238,9 @@ public final class EuclidianConstants {
 	/** Extremum */
 	public static final int MODE_EXTREMUM = 75;
 
+	/** Roots */
+	public static final int MODE_ROOTS = 76;
+
 	/** Point on Object */
 	public static final int MODE_POINT_ON_OBJECT = 501;
 
@@ -762,6 +765,9 @@ public final class EuclidianConstants {
 
 		case EuclidianConstants.MODE_EXTREMUM:
 			return "Extremum";
+
+		case EuclidianConstants.MODE_ROOTS:
+			return "Roots";
 
 		default:
 			Log.error("Unknown mode " + mode);

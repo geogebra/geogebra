@@ -3948,6 +3948,13 @@ public abstract class App implements UpdateSelection {
 		case SAVE_SETTINGS_TO_FILE:
 			// not enabled for linux
 			return isWindows() || isMacOS() || prerelease;
+
+		case MOBILE_CIRCLE_FREEHAND_TOOL:
+		case MOBILE_EXTREMUM_TOOL:
+		case MOBILE_ROOTS_TOOL:
+			// add if you want to enable these tools for Android app:
+			// return true;
+
 		default:
 			return false;
 
