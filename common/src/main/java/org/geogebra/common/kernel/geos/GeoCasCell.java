@@ -1895,6 +1895,51 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					expandedEvalVE = processSolveCommand(expandedEvalVE);
 				}
 
+				// hack needed for GGB-494
+				// Solve command with list of equs and list of vars
+				if (expandedEvalVE instanceof ExpressionNode
+						&& ((ExpressionNode) expandedEvalVE).getLeft() instanceof Command
+						&& "Solve"
+								.equals(((Command) ((ExpressionNode) expandedEvalVE)
+										.getLeft()).getName())
+						&& ((Command) ((ExpressionNode) expandedEvalVE)
+								.getLeft()).getArgumentNumber() == 2) {
+					// get list of equations
+					ExpressionNode equList = ((Command) ((ExpressionNode) expandedEvalVE)
+							.getLeft()).getArgument(0);
+					if (equList.getLeft() instanceof MyList) {
+						// "x" geoDummy instead of functionVariable
+						GeoDummyVariable x = new GeoDummyVariable(cons, "x");
+						// "y" geoDummy instead of functionVariable
+						GeoDummyVariable y = new GeoDummyVariable(cons, "y");
+						for (int i = 0; i < ((MyList) equList.getLeft()).size(); i++) {
+							if (((MyList) equList.getLeft()).getListElement(i) instanceof ExpressionNode
+									&& ((ExpressionNode) ((MyList) equList
+											.getLeft()).getListElement(i))
+											.getLeft() instanceof Equation) {
+								// set Equation in list of equs instead of
+								// ExpressionNode that contains Equation
+								((MyList) equList.getLeft()).setListElement(i,
+										((ExpressionNode) ((MyList) equList
+												.getLeft()).getListElement(i))
+												.getLeft());
+								// Equation contains "x" functionVariable
+								// replace with simple GeoDummyVariable
+								((MyList) equList.getLeft()).getListElement(i)
+										.traverse(
+												GeoDummyReplacer.getReplacer(
+														"x", x, true));
+								// Equation contains "y" functionVariable
+								// replace with simple GeoDummyVariable
+								((MyList) equList.getLeft()).getListElement(i)
+										.traverse(
+												GeoDummyReplacer.getReplacer(
+														"y", y, true));
+							}
+						}
+					}
+				}
+
 				if (!cons.getArbitraryConsTable().isEmpty()) {
 					// get abritraryConstant for this cell from construction
 					MyArbitraryConstant myArbconst = cons
