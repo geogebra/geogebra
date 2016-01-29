@@ -19,6 +19,7 @@ public class ExamEnvironment {
 	public long getStart() {
 		return examStartTime;
 	}
+
 	public boolean is3DAllowed() {
 		return supports3D;
 	}
@@ -51,9 +52,8 @@ public class ExamEnvironment {
 			maybeCheating = -1;
 			if (getStart() > 0) {
 				initLists();
-				if (cheatingEvents.size() == 0
-						|| !cheatingEvents.get(cheatingEvents.size() - 1)
-								.booleanValue()) {
+				if (cheatingEvents.size() == 0 || !cheatingEvents
+						.get(cheatingEvents.size() - 1).booleanValue()) {
 					cheatingTimes.add(System.currentTimeMillis());
 					cheatingEvents.add(true);
 				}
@@ -68,8 +68,8 @@ public class ExamEnvironment {
 			return;
 		}
 
-		if (cheatingEvents.size() > 0
-				&& cheatingEvents.get(cheatingEvents.size() - 1).booleanValue()) {
+		if (cheatingEvents.size() > 0 && cheatingEvents
+				.get(cheatingEvents.size() - 1).booleanValue()) {
 			cheatingTimes.add(System.currentTimeMillis());
 			cheatingEvents.add(false);
 			App.debug("STOPPED CHEATING");
@@ -83,6 +83,7 @@ public class ExamEnvironment {
 		}
 
 	}
+
 	public boolean isCheating() {
 		return cheatingTimes != null;
 	}
@@ -92,56 +93,42 @@ public class ExamEnvironment {
 		return CmdGetTime.buildLocalizedDate("\\D \\j\\S \\F \\Y \\H:\\i:\\s",
 				new Date(time), loc);
 	}
-	
+
 	private String getLocalizedTimeOnly(Localization loc, long time) {
 		// eg "14:08:48"
-		return CmdGetTime.buildLocalizedDate("\\H:\\i:\\s",
-				new Date(time), loc);
+		return CmdGetTime.buildLocalizedDate("\\H:\\i:\\s", new Date(time),
+				loc);
 	}
-	
+
 	private String getLocalizedDateOnly(Localization loc, long time) {
 		// eg "Fri 23rd October 2015"
 		return CmdGetTime.buildLocalizedDate("\\D \\j\\S \\F \\Y",
 				new Date(time), loc);
 	}
 
-	/*public String getLog(Localization loc) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Exam started");
-		sb.append(' ');
-		sb.append(getLocalizedTime(loc, examStartTime));
-		sb.append("\n");
-		if(cheatingTimes != null){
-			for(int i = 0; i < cheatingTimes.size(); i++){
-				sb.append(timeToString(cheatingTimes.get(i)));
-				sb.append(' ');
-				sb.append(cheatingEvents.get(i) ? "CHEATING ALERT: exam left"
-						: "exam active again");
-				sb.append("\n");
-			}
-		}
-		if (closed > 0) {
-			sb.append("Exam finished");
-			sb.append(' ');
-			sb.append(getLocalizedTime(loc, closed));
-		}
-		return sb.toString();
-	}
-	*/
+	/*
+	 * public String getLog(Localization loc) { StringBuilder sb = new
+	 * StringBuilder(); sb.append("Exam started"); sb.append(' ');
+	 * sb.append(getLocalizedTime(loc, examStartTime)); sb.append("\n");
+	 * if(cheatingTimes != null){ for(int i = 0; i < cheatingTimes.size(); i++){
+	 * sb.append(timeToString(cheatingTimes.get(i))); sb.append(' ');
+	 * sb.append(cheatingEvents.get(i) ? "CHEATING ALERT: exam left" :
+	 * "exam active again"); sb.append("\n"); } } if (closed > 0) { sb.append(
+	 * "Exam finished"); sb.append(' '); sb.append(getLocalizedTime(loc,
+	 * closed)); } return sb.toString(); }
+	 */
 
-	
 	/**
-	 * NEW LOG DIALOG
-	 * (Alicia)
+	 * NEW LOG DIALOG (Alicia)
 	 */
 	public String getLog(Localization loc) {
 		StringBuilder sb = new StringBuilder();
-		
+
 		// Deactivated Views
-		if(supportsCAS == false || supports3D == false ){
-			sb.append(loc.getMenu("exam_views_deactivated")+":");
+		if (supportsCAS == false || supports3D == false) {
+			sb.append(loc.getMenu("exam_views_deactivated") + ":");
 			sb.append(' ');
-			}
+		}
 		if (supportsCAS == false) {
 			sb.append("CAS");
 		}
@@ -152,53 +139,57 @@ public class ExamEnvironment {
 			sb.append("3D Graphics");
 		}
 		sb.append("\n");
-		
+
 		// Exam Start Date
-		sb.append(loc.getMenu("exam_start_date")+":"); 
+		sb.append(loc.getMenu("exam_start_date") + ":");
 		sb.append(' ');
 		sb.append(getLocalizedDateOnly(loc, examStartTime));
 		sb.append("\n");
-		
+
 		// Exam Start Time
-		sb.append(loc.getMenu("exam_start_time")+":"); 
+		sb.append(loc.getMenu("exam_start_time") + ":");
 		sb.append(' ');
 		sb.append(getLocalizedTimeOnly(loc, examStartTime));
 		sb.append("\n");
-		
+
 		// Exam End Time
 		if (closed > 0) {
-			sb.append(loc.getMenu("exam_end_time")+":"); 
+			sb.append(loc.getMenu("exam_end_time") + ":");
 			sb.append(' ');
 			sb.append(getLocalizedTimeOnly(loc, closed));
 			sb.append("\n");
 		}
-		
+
 		sb.append("-------------");
 		sb.append("\n");
-		
+
 		// Log times
 		sb.append("0:00");
 		sb.append(' ');
 		sb.append(loc.getMenu("exam_started"));
 		sb.append("\n");
-		
-		if(cheatingTimes != null){
-			for(int i = 0; i < cheatingTimes.size(); i++){
+
+		if (cheatingTimes != null) {
+			for (int i = 0; i < cheatingTimes.size(); i++) {
 				sb.append(timeToString(cheatingTimes.get(i)));
 				sb.append(' ');
-				sb.append(cheatingEvents.get(i) ? loc.getMenu("exam_log_window_left") //CHEATING ALERT: exam left
-						: loc.getMenu("exam_log_window_entered")); //exam active again
+				sb.append(cheatingEvents.get(i)
+						? loc.getMenu("exam_log_window_left") // CHEATING ALERT:
+																// exam left
+						: loc.getMenu("exam_log_window_entered")); // exam
+																	// active
+																	// again
 				sb.append("\n");
 			}
 		}
 		if (closed > 0) {
-			sb.append(timeToString(closed)); //  get exit timestamp
+			sb.append(timeToString(closed)); // get exit timestamp
 			sb.append(' ');
 			sb.append(loc.getMenu("exam_ended"));
 		}
 		return sb.toString();
 	}
-	
+
 	public String timeToString(long timestamp) {
 		if (examStartTime < 0) {
 			return "0:00";
@@ -218,7 +209,7 @@ public class ExamEnvironment {
 	}
 
 	public String getSyntax(String cmdInt, Localization loc) {
-		if(supportsCAS){
+		if (supportsCAS) {
 			return loc.getCommandSyntax(cmdInt);
 		}
 		Commands cmd = null;
