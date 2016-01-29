@@ -85,6 +85,7 @@ import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
@@ -2557,11 +2558,11 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	}
 
 	public void showURLinBrowser(URL url) {
-		App.debug("opening URL:" + url);
 		if (AppD.getJApplet() != null) {
+			Log.debug("opening URL (applet):" + url);
 			AppD.getJApplet().getAppletContext().showDocument(url, "_blank");
 		} else {
-			App.debug("opening URL:" + url.toExternalForm());
+			Log.debug("opening URL:" + url.toExternalForm());
 			BrowserLauncher.openURL(url.toExternalForm());
 		}
 	}

@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.util;
 
 import java.awt.Desktop;
-
 /////////////////////////////////////////////////////////
 // Bare Bones Browser Launch                          //
 // Version 1.5                                        //
@@ -12,14 +11,22 @@ import java.awt.Desktop;
 //  BareBonesBrowserLaunch.openURL(url);            //
 // Public Domain Software -- Free to Use as You Like  //
 /////////////////////////////////////////////////////////
-
 import java.lang.reflect.Method;
 import java.net.URI;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
+/**
+ * Utility for launching browser
+ *
+ */
 public class BrowserLauncher {
 
+	/**
+	 * @param url
+	 *            website URL
+	 */
 	public static void openURL(String url) {
 
 		try {
@@ -27,9 +34,10 @@ public class BrowserLauncher {
 			if (Desktop.isDesktopSupported()) {
 				Desktop desktop = Desktop.getDesktop();
 				desktop.browse(new URI(url));
+				return;
 			}
 
-			return;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,23 +54,27 @@ public class BrowserLauncher {
 				// Michael Borcherds 2008-03-21 BEGIN
 				// replace file:/c:/Program Files/etc
 				// by file:///c:\Program Files\etc
-				if (url.indexOf("file:") == 0) // local URL
+				String fixedURL = url;
+				if (fixedURL.indexOf("file:") == 0) // local URL
 				{
-					url = url.replaceAll("file:///", ""); // remove file:///
+					fixedURL = fixedURL.replaceAll("file:///", ""); // remove
+																// file:///
 															// from the start
-					url = url.replaceAll("file:/", ""); // remove file:/ from
+					fixedURL = fixedURL.replaceAll("file:/", ""); // remove
+																	// file:/
+																	// from
 														// the start
 
-					url = url.replaceAll("[/\\\\]+", "\\" + "\\"); // replace
+					fixedURL = fixedURL.replaceAll("[/\\\\]+", "\\" + "\\"); // replace
 																	// slashes
 																	// with
 																	// backslashes
 
-					url = "file:///" + url; // put "file:///" back in
+					fixedURL = "file:///" + url; // put "file:///" back in
 				}
 				// Michael Borcherds 2008-03-21 END
 				Runtime.getRuntime().exec(
-						"rundll32.exe url.dll,FileProtocolHandler " + url);
+						"rundll32.exe url.dll,FileProtocolHandler " + fixedURL);
 			} else { // assume Unix or Linux
 				String[] browsers = { "xdg-open", "firefox", "google-chrome",
 						"chromium-browser", "opera", "konqueror", "epiphany",
@@ -76,6 +88,7 @@ public class BrowserLauncher {
 				if (browser == null) {
 					throw new Exception("Could not find web browser");
 				}
+				Log.debug("Using browser " + browser);
 				Runtime.getRuntime().exec(new String[] { browser, url });
 			}
 		} catch (Exception e) {
