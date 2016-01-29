@@ -52,7 +52,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			table.sendEditorKeyDownEvent(e);
 			return;
 		}
-
+		table.allowAutoEdit();
 		int keyCode = e.getNativeKeyCode();// .getKeyCode();
 		// Application.debug(keyCode+"");
 		// boolean shiftDown = e.isShiftDown();

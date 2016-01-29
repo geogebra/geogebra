@@ -2841,4 +2841,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 	}
+
+	public void allowAutoEdit() {
+		if (editor != null) {
+			editor.allowAutoEdit();
+		}
+
+	}
 }

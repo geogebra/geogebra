@@ -54,6 +54,8 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	private SpreadsheetCellEditorKeyListener keyListener;
 
+	private boolean allowAutoEdit;
+
 	public boolean isEnableAutoComplete() {
 		return enableAutoComplete;
 	}
@@ -359,16 +361,20 @@ public class MyCellEditorW implements BaseCellEditor {
 		public void onKeyPress(KeyPressEvent e) {
 			// iOS: we do receive the event but nothing is actually printed
 			// because focus moved from dummy textarea into editor
-			final String charcode = e.getCharCode() + "";
-			app.getGuiManager().invokeLater(new Runnable(){
 
-				public void run() {
-					String text = autoCompleteTextField.getText();
-					if (text == null || text.length() == 0) {
-						autoCompleteTextField.setText(charcode);
+			final String charcode = e.getCharCode() + "";
+			if (MyCellEditorW.this.allowAutoEdit) {
+				app.getGuiManager().invokeLater(new Runnable() {
+
+					public void run() {
+						String text = autoCompleteTextField.getText();
+						if (text == null || text.length() == 0) {
+							autoCompleteTextField.setText(charcode);
+						}
 					}
-				}
-			});
+				});
+				MyCellEditorW.this.allowAutoEdit = false;
+			}
 			
 			// stopping propagation is needed to prevent
 			// the prevention of the default action at another place
@@ -520,6 +526,11 @@ public class MyCellEditorW implements BaseCellEditor {
 	
 	boolean isSuggesting(){
 		return autoCompleteTextField.isSuggesting();
+	}
+
+	public void allowAutoEdit() {
+		this.allowAutoEdit = true;
+
 	}
 
 }
