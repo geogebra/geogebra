@@ -171,6 +171,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return scrollSupport ? endIdx : items.size();
 		}
 
+		private boolean isScrollNeeded() {
+			return scrollSupport && scrollNeeded;
+		}
 		public void draw(GGraphics2D g2, int left, int top) {
 			if (!isVisible()) {
 				return;
@@ -183,7 +186,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			getMetrics();
 			drawBox();
 			drawItems();
-			drawControls();
+			if (isScrollNeeded()) {
+				drawControls();
+			}
 
 		}
 
@@ -206,7 +211,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			int rectLeft = left + dimItem.getWidth() * col;
 			int rectTop = top + dimItem.getHeight() * row;
-			if (scrollSupport) {
+			if (isScrollNeeded()) {
 				rectTop += rectUp.getHeight();
 			}
 			if (item.getRect() == null) {
@@ -278,11 +283,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		public boolean isHit(int x, int y) {
 			return isVisible() && (rectTable.contains(x, y)
-					|| (scrollSupport && isControlHit(x, y)));
+					|| (isScrollNeeded() && isControlHit(x, y)));
 		}
 
 		private boolean handleUpControl(int x, int y) {
-			if (scrollSupport && scrollNeeded && rectUp.contains(x, y)) {
+			if (isScrollNeeded() && rectUp.contains(x, y)) {
 				scrollUp();
 				return true;
 			}
@@ -290,7 +295,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		private boolean handleDownControl(int x, int y) {
-			if (scrollSupport && scrollNeeded && rectDown.contains(x, y)) {
+			if (isScrollNeeded() && rectDown.contains(x, y)) {
 				scrollDown();
 				return true;
 			}
@@ -299,7 +304,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		public boolean isControlHit(int x, int y) {
-			return scrollSupport && scrollNeeded
+			return isScrollNeeded()
 					&& (rectUp.contains(x, y) || rectDown.contains(x, y));
 		}
 
@@ -409,7 +414,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					tableHeight -= MARGIN;
 				}
 
-				if (scrollSupport && scrollNeeded) {
+				if (isScrollNeeded()) {
 					top -= (int) (rectUp.getHeight() + rectDown.getHeight());
 					tableHeight += (int) rectDown.getHeight();
 				}
@@ -425,7 +430,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					top + MARGIN,
 					dimTable.getWidth(), dimTable.getHeight());
 
-			if (scrollSupport && scrollNeeded) {
+			if (isScrollNeeded()) {
 				rectUp.setBounds(left, top,
 						(int) (rectUp.getWidth()),
 						(int) (rectUp.getHeight()));
@@ -437,7 +442,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		private void drawControls() {
-			if (!scrollSupport || !scrollNeeded) {
+			if (!isScrollNeeded()) {
 				return;
 			}
 
@@ -493,7 +498,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					/ dimItem.getHeight();
 			endIdx = startIdx + Math.min(visibleItems, maxItems);
 			rowCount = getVisibleItemCount();
-			scrollNeeded = endIdx != maxItems - 1;
+			scrollNeeded = endIdx != maxItems;
+
+			Log.debug(SCROLL_PFX + geoList.getLongDescription() + " max: "
+					+ maxItems + " endIdx: " + endIdx + " scroll needed: "
+					+ scrollNeeded);
 		}
 
 		private int getVisibleItemCount() {
