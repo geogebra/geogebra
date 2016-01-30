@@ -4729,6 +4729,40 @@ namespace giac {
     }
   }
 
+  // v=c1*v1+c2*v2 
+  void double_linear_combination(double c1,const std::vector<giac_double> & v1,double c2,const std::vector<giac_double> & v2,std::vector<giac_double> & v,int cstart){
+    std::vector<giac_double>::const_iterator it1=v1.begin()+cstart,it1end=v1.end();
+    std::vector<giac_double>::const_iterator it2=v2.begin()+cstart;
+    std::vector<giac_double>::iterator it=v.begin()+cstart;
+    for (;it1!=it1end;++it,++it1,++it2)
+      *it = c1*(*it1)+c2*(*it2);
+  }
+
+  // c1*v1+c2*v2 -> v2 and c2*v1-c1*v2 -> v1
+  void givens_linear_combination(double c1,std::vector<giac_double> & v1,double c2,std::vector<giac_double> & v2,int cstart){
+    std::vector<giac_double>::iterator it1=v1.begin()+cstart,it1end=v1.end(),it1end_=it1end-4;
+    std::vector<giac_double>::iterator it2=v2.begin()+cstart;
+    for (;it1<=it1end_;it1+=4,it2+=4){
+      double i1=*it1,i2=*it2;
+      *it2=c1*i1+c2*i2;
+      *it1=c2*i1-c1*i2;
+      i1=it1[1],i2=it2[1];
+      it2[1]=c1*i1+c2*i2;
+      it1[1]=c2*i1-c1*i2;
+      i1=it1[2],i2=it2[2];
+      it2[2]=c1*i1+c2*i2;
+      it1[2]=c2*i1-c1*i2;
+      i1=it1[3],i2=it2[3];
+      it2[3]=c1*i1+c2*i2;
+      it1[3]=c2*i1-c1*i2;
+    }
+    for (;it1!=it1end;++it1,++it2){
+      double i1=*it1,i2=*it2;
+      *it2=c1*i1+c2*i2;
+      *it1=c2*i1-c1*i2;
+    }
+  }
+
   // v1=v1+c2*v2 
   void double_linear_combination(std::vector<giac_double> & v1,double c2,const std::vector<giac_double> & v2,int cstart,int cend){
     if (c2){
@@ -10389,14 +10423,76 @@ namespace giac {
   }
 
   // QR reduction, P is orthogonal and should be initialized to identity
-  // trn(P)*H=original
+  // trn(P)*H=original, Givens method
+  void qr_givens(matrix_double & H,matrix_double & P){
+    int n=int(H.size()),c=int(H.front().size()),lastcol=std::min(n-1,c);
+    double t,tn,tabs,u,un,tmp1,tmp2,norme;
+    vector<double> v1(c),v2(P.front().size());
+    for (int m=0;m<lastcol;++m){
+      if (debug_infolevel>=5)
+	CERR << "// Givens reduction line " << m << endl;
+      // check for a non zero coeff in the column m below ligne m
+      int i=m;
+      double pivot=0;
+      int pivotline=0;
+      for (;i<n;++i){
+	t=H[i][m];
+	tabs=std::abs(t);
+	if (tabs>pivot){
+	  pivotline=i;
+	  pivot=tabs;
+	}
+      }
+      if (pivot==0) //not found
+	continue;
+      i=pivotline;
+      // exchange lines 
+      if (i>m){
+	swap(H[i],H[m]);
+	swap(P[i],P[m]);
+      }
+      // now coeff at line m column m is H[m][m]=t!=0
+      // creation of zeros in lines i=m+1 and below
+      for (i=m+1;i<n;++i){
+	// line operation
+	t=H[m][m];
+	if (t==0){
+	  swap(H[i],H[m]);
+	  swap(P[i],P[m]);
+	  t=H[m][m];
+	}
+	u=H[i][m];
+	if (u==0)
+	  continue;
+	norme=hypot(u,t);
+	un=u/norme; tn=t/norme; 
+	if (debug_infolevel>=6)
+	  CERR << "// i=" << i << " " << u <<endl;
+	// H[m]=un*H[i]+tn*H[m] and H[i]=tn*H[i]-un*H[m];
+	givens_linear_combination(un,H[i],tn,H[m],m); 
+	givens_linear_combination(un,P[i],tn,P[m],0); 
+      }
+    }
+  }
+
+  // QR reduction, P is orthogonal and should be initialized to identity
+  // trn(P)*H=original, Givens method
   void qr_ortho(std_matrix<gen> & H,std_matrix<gen> & P,GIAC_CONTEXT){
+    matrix_double H1;
+    if (epsilon(contextptr)>=1e-15 && std_matrix_gen2std_matrix_giac_double(H,H1,true)){
+      matrix_double P1;
+      std_matrix_gen2std_matrix_giac_double(P,P1,true);
+      qr_givens(H1,P1);
+      std_matrix_giac_double2std_matrix_gen(P1,P);
+      std_matrix_giac_double2std_matrix_gen(H1,H);
+      return;
+    }
     int n=int(H.size()),lastcol=std::min(n-1,int(H.front().size()));
     gen t,tn,tc,tabs,u,un,uc,tmp1,tmp2,norme;
     vecteur v1,v2;
     for (int m=0;m<lastcol;++m){
       if (debug_infolevel>=5)
-	CERR << "// hessenberg reduction line " << m << endl;
+	CERR << "// Givens reduction line " << m << endl;
       // check for a non zero coeff in the column m below ligne m
       int i=m;
       gen pivot=0;
