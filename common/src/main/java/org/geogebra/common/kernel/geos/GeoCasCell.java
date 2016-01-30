@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
+import org.geogebra.common.kernel.arithmetic.Traversing.GeoSurfaceReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -1889,6 +1890,13 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				}
 				
 				expandedEvalVE = pointList ? wrapPointList(evalVE) : evalVE;
+				// needed for GGB-494
+				// replace GeoSurfaceCartesian3D geos with MyVect3D with
+				// expressions of surface
+				expandedEvalVE = (ValidExpression) expandedEvalVE
+						.traverse(GeoSurfaceReplacer
+						.getInstance());
+
 				if(!(expandedEvalVE.isTopLevelCommand()) || !expandedEvalVE.getTopLevelCommand().getName().equals("Delete")) {
 					FunctionExpander fex = FunctionExpander.getCollector();
 					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap().getCopy(kernel).traverse(fex);
