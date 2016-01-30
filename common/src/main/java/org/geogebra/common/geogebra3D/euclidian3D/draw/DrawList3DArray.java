@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawListArray;
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Class for storing 3D drawables includes in a DrawList
@@ -52,6 +53,19 @@ public class DrawList3DArray extends DrawListArray {
 		drawList3D.getDrawable3DLists().remove((Drawable3D) old);
 		drawList3D.getDrawable3DLists().add((Drawable3D) d);
 		return old;
+	}
+
+	/**
+	 * This is called right before the reference to oldDrawable is removed: we
+	 * have to free all the resources ManagerShaders has allocated for this one
+	 */
+	@Override
+	protected DrawableND getDrawable(DrawableND oldDrawable,
+			GeoElement listElement, DrawableND drawList) {
+		if (oldDrawable instanceof Drawable3D) {
+			((Drawable3D) oldDrawable).removeFromGL();
+		}
+		return super.getDrawable(oldDrawable, listElement, drawList);
 	}
 
 }
