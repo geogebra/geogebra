@@ -3,6 +3,10 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectImplicitSurface;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
@@ -1452,6 +1456,14 @@ public class AlgoDispatcher {
 		return points;
 	}
 
+	final public GeoPoint3D[] IntersectImplicitSurfaceLine(String[] labels,
+			GeoImplicitSurface surf, GeoLine3D line) {
+		AlgoIntersectImplicitSurface algo = new AlgoIntersectImplicitSurface(
+				cons, labels, surf, line);
+		GeoPoint3D[] out = algo.getIntersectionPoints();
+		algo.setLabels(labels);
+		return out;
+	}
 	// intersect polynomial and conic
 	public AlgoIntersectPolynomialConic getIntersectionAlgorithm(GeoFunction f,
 			GeoConic c) {

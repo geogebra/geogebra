@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
@@ -413,9 +414,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 *            function variable y
 	 * @return the value of the function
 	 */
+	int counter = 0;
 	public double evaluateImplicitCurve(double x, double y) {
 		evalArray[0] = x;
 		evalArray[1] = y;
+		counter++;
 		return evaluateImplicitCurve(evalArray);
 	}
 
@@ -1476,7 +1479,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			this.scaleX = slX;
 			this.scaleY = slY;
 			this.locusPoints = getLocus().getPoints();
+			counter = 0;
 			this.updatePath();
+			App.debug("Size: " + locusPoints.size());
+			App.debug("Counter: " + counter);
 		}
 
 		public void polishPointOnPath(GeoPointND pt) {

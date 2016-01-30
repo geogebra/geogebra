@@ -1113,6 +1113,23 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		dilate3D(new MyDouble(kernel, -1.0), Q);
 	}
 
+	/**
+	 * @param g1
+	 *            line
+	 */
+	public void mirror3D(GeoLineND g1) {
+		if (g1 instanceof GeoLine) {
+			mirror(g1);
+			return;
+		}
+		Coords coords = g1.getDirectionInD3().normalize();
+		double x = coords.getX();
+		double y = coords.getY();
+		double z = coords.getZ();
+		matrixTransform(x * x - 1, x * y, x * z, x * y, y * y - 1, y * z,
+				x * z, y * z, z * z - 1);
+	}
+
 	public void mirror(GeoLineND g1) {
 
 		GeoLine g = (GeoLine) g1;

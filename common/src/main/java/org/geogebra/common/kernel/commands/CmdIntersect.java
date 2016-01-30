@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoIntersect;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
@@ -383,6 +385,16 @@ public class CmdIntersect extends CommandProcessor {
 				return getAlgoDispatcher().IntersectImplicitCurveFunction(
 						c.getLabels(), (GeoImplicitCurve) arg[1],
 						(GeoFunction) arg[0]);
+			} else if ((ok[0] = arg[0].isGeoLine()) 
+					&& (ok[1] = arg[1].isGeoImplicitSurface())) {
+				return getAlgoDispatcher().IntersectImplicitSurfaceLine(
+						c.getLabels(), (GeoImplicitSurface) arg[1],
+						(GeoLine3D) arg[0]);
+			} else if ((ok[0] = arg[0].isGeoImplicitSurface())
+					&& (ok[1] = arg[1].isGeoLine())) {
+				return getAlgoDispatcher().IntersectImplicitSurfaceLine(
+						c.getLabels(), (GeoImplicitSurface) arg[0],
+						(GeoLine3D) arg[1]);
 			}
 			/*
 			 * moved to CmdIntersection to allow Intersect[List, List] to

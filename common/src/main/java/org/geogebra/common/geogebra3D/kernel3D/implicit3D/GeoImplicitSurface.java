@@ -338,6 +338,9 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 		updateSurface(bounds);
 	}
 
+	public FunctionNVar getExpression() {
+		return expression.getFunction();
+	}
 	@Override
 	public boolean isDefined() {
 		return defined;
@@ -404,7 +407,8 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 	}
 
 	public void mirror(GeoLineND g) {
-		expression.mirror(g);
+		// TODO : implement it correctly
+		// expression.mirror3D(g);
 	}
 
 	public void mirror(GeoCoordSys2D plane) {
