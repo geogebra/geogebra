@@ -60,6 +60,8 @@ public interface Geo3DVecInterface extends GeoVecInterface{
 	public double arg();
 
 	public void mult(double double1);
+
+	public void setMode(int mode);
 		
 	
 }

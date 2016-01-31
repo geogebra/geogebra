@@ -359,10 +359,6 @@ final public class Geo3DVec extends ValidExpression
 		return toValueString(tpl);
 	}
 
-	public Kernel getKernel() {
-		return kernel;
-	}
-
 	public boolean isEqual(org.geogebra.common.kernel.kernelND.Geo3DVecInterface vec) {
 		Geo3DVec v = (Geo3DVec) vec;
 		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y)
@@ -555,6 +551,7 @@ final public class Geo3DVec extends ValidExpression
 		return new Geo3DVec(kernel, Math.ceil(x), Math.ceil(y), Math.ceil(z));
 	}
 
+	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
@@ -576,6 +573,11 @@ final public class Geo3DVec extends ValidExpression
 		this.x *= d;
 		this.y *= d;
 		this.z *= d;
+	}
+
+	public void setMode(int mode) {
+		this.mode = mode;
+
 	}
 
 }

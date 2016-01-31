@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
 public enum Operation {
@@ -725,8 +726,9 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().abs();
 			} else if (lt instanceof VectorValue) {
-				vec = ((VectorValue) lt).getVector();
 
+				vec = ((VectorValue) lt).getVector();
+				Log.debug(vec);
 				// complex Abs(z)
 				// or magnitude of point
 

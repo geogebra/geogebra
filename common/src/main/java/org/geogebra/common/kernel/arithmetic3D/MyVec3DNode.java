@@ -329,8 +329,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 
 	@Override
 	public Geo3DVecInterface getVector() {
-		Geo3DVecInterface ret = kernel.getManager3D().newGeo3DVec(x.evaluateDouble(),
-				y.evaluateDouble(), z.evaluateDouble());
+		double coords[] = getCoords();
+		Geo3DVecInterface ret = kernel.getManager3D().newGeo3DVec(coords[0],
+				coords[1], coords[2]);
+		ret.setMode(mode);
 		return ret;
 	}
 
