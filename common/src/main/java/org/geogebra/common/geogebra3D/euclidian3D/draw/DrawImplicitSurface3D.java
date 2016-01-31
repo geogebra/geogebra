@@ -1,6 +1,8 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -9,6 +11,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D.Sur
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D.Triangle;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.MyMath;
 
 /**
  * 
@@ -109,6 +112,43 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_SURFACE;
 	}
+
+	@Override
+	public boolean hit(Hitting hitting) {
+
+		if (waitForReset) { // prevent NPE
+			return false;
+		}
+
+		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
+			return false;
+		}
+
+		GeoImplicitSurface gs = (GeoImplicitSurface) this.getGeoElement();
+		hitting.calculateClippedValues();
+		if (Double.isNaN(hitting.x0)) { // hitting doesn't intersect
+										// clipping box
+			return false;
+		}
+		double v0 = gs.evaluateAt(hitting.x0, hitting.y0, hitting.z0);
+		double v1 = gs.evaluateAt(hitting.x1, hitting.y1, hitting.z1);
+		if (MyMath.changedSign(v0, v1)) {
+			return true;
+		}
+		for (int i = 0; i < hitTestParams.length; i++) {
+			double p = hitTestParams[i];
+			double q = 1 - p;
+			v1 = gs.evaluateAt(hitting.x1 * p + hitting.x0 * q, hitting.y1 * p
+					+ hitting.y0 * q, hitting.z1 * p + hitting.z0 * q);
+			if (MyMath.changedSign(v0, v1)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private final static double[] hitTestParams = new double[] { 0.5, 0.25,
+			0.75, 0.125, 0.375, 0.625, 0.875 };
 
 
 }

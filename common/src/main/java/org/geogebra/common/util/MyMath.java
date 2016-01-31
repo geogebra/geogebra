@@ -466,4 +466,8 @@ public final class MyMath {
 		}
 		return max;
 	}
+
+	public static boolean changedSign(double v0, double v1) {
+		return (v0 < 0 && v1 >= 0) || (v0 > 0 && v1 <= 0);
+	}
 }
