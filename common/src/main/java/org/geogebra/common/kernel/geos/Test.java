@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -200,6 +201,16 @@ Test {
 		}
 	},
 	
+	/**
+	 * Implicit surface
+	 */
+	GEOIMPLICITSURFACE {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoImplicitSurfaceND;
+		}
+	},
+
 	/** Test for GEOQUADRIC3D */
 	GEOQUADRIC3DLIMITED {
 		@Override

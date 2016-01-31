@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandProcessor3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectImplicitSurface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Manager3DInterface;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -293,6 +295,16 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			return getManager3D().Locus3D(label, Q, P);
 		}
 		return super.LocusNoCheck(label, Q, P);
+	}
+
+	@Override
+	public GeoElement[] IntersectImplicitSurfaceLine(String[] labels,
+			GeoImplicitSurfaceND surf, GeoLineND line) {
+		AlgoIntersectImplicitSurface algo = new AlgoIntersectImplicitSurface(
+				cons, labels, surf, line);
+		GeoElement[] out = algo.getIntersectionPoints();
+		algo.setLabels(labels);
+		return out;
 	}
 
 }

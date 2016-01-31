@@ -2774,7 +2774,7 @@ public class Kernel {
 	 *            geo
 	 * @return minimal x-bound of all views displaying geo
 	 */
-	public double getViewsXMin(GeoElement geo) {
+	public double getViewsXMin(GeoElementND geo) {
 		return getViewBoundsForGeo(geo)[0];
 	}
 
@@ -2784,7 +2784,7 @@ public class Kernel {
 	 *            geo
 	 * @return maximal x-bound of all views displaying geo
 	 */
-	public double getViewsXMax(GeoElement geo) {
+	public double getViewsXMax(GeoElementND geo) {
 		return getViewBoundsForGeo(geo)[1];
 	}
 
@@ -2804,15 +2804,15 @@ public class Kernel {
 	 *            geo
 	 * @return maximal y-bound of all views displaying geo
 	 */
-	public double getViewsYMax(GeoElement geo) {
+	public double getViewsYMax(GeoElementND geo) {
 		return getViewBoundsForGeo(geo)[3];
 	}
 
-	public double getViewsXScale(GeoElement geo) {
+	public double getViewsXScale(GeoElementND geo) {
 		return getViewBoundsForGeo(geo)[4];
 	}
 
-	public double getViewsYScale(GeoElement geo) {
+	public double getViewsYScale(GeoElementND geo) {
 		return getViewBoundsForGeo(geo)[5];
 	}
 

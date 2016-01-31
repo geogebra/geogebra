@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
 
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersect3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -17,6 +16,9 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -29,8 +31,8 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 	@SuppressWarnings("unused")
 	private static final double EPS = Kernel.MIN_PRECISION;
 	private static final int SAMPLE_SIZE = 100;
-	private GeoImplicitSurface surface;
-	private GeoElement eqn;
+	private GeoImplicitSurfaceND surface;
+	private GeoElementND eqn;
 	private OutputHandler<GeoPoint3D> outputs;
 	private String labels[];
 	@SuppressWarnings("unused")
@@ -48,7 +50,7 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 	 *            equation
 	 */
 	public AlgoIntersectImplicitSurface(Construction c, String[] labels,
-			GeoImplicitSurface surface, GeoElement equation) {
+			GeoImplicitSurfaceND surface, GeoElementND equation) {
 		super(c);
 		this.surface = surface;
 		this.eqn = equation;
@@ -75,14 +77,14 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 			return;
 		}
 		
-		if (eqn instanceof GeoLine3D) {
-			intersectLine((GeoLine3D) eqn);
+		if (eqn instanceof GeoLineND) {
+			intersectLine((GeoLineND) eqn);
 		}
 	}
 
-	private void intersectLine(GeoLine3D eq) {
+	private void intersectLine(GeoLineND eq) {
 		Coords v = eq.getDirectionInD3();
-		Coords r = eq.getStartPoint().getCoords();
+		Coords r = eq.getStartPoint().getCoordsInD3();
 		FunctionVariable t = new FunctionVariable(kernel, "x");
 		ExpressionNode x = new ExpressionNode(kernel, r.getX());
 		ExpressionNode y = new ExpressionNode(kernel, r.getY());
@@ -141,8 +143,8 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = surface;
-		input[1] = eqn;
+		input[0] = surface.toGeoElement();
+		input[1] = eqn.toGeoElement();
 
 		outputs = new OutputHandler<GeoPoint3D>(
 				new elementFactory<GeoPoint3D>() {

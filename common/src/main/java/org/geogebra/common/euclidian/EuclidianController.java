@@ -97,6 +97,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -249,6 +250,8 @@ public abstract class EuclidianController {
 	protected final ArrayList<GeoConicND> selectedConicsND = new ArrayList<GeoConicND>();
 
 	protected final ArrayList<GeoImplicit> selectedImplicitpoly = new ArrayList<GeoImplicit>();
+
+	protected final ArrayList<GeoImplicitSurfaceND> selectedImplicitSurface = new ArrayList<GeoImplicitSurfaceND>();
 
 	protected final ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
 
@@ -1059,6 +1062,19 @@ public abstract class EuclidianController {
 		return implicitPoly;
 	}
 
+	protected final GeoImplicitSurfaceND[] getSelectedImplicitSurface() {
+		GeoImplicitSurfaceND[] implicitPoly = new GeoImplicitSurfaceND[selectedImplicitSurface
+				.size()];
+		int i = 0;
+		Iterator<GeoImplicitSurfaceND> it = selectedImplicitSurface.iterator();
+		while (it.hasNext()) {
+			implicitPoly[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedImplicitSurface);
+		return implicitPoly;
+	}
+
 	protected final GeoFunction[] getSelectedFunctions() {
 		GeoFunction[] functions = new GeoFunction[selectedFunctions.size()];
 		int i = 0;
@@ -1790,6 +1806,12 @@ public abstract class EuclidianController {
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedImplicitpoly, Test.GEOIMPLICIT);
+	}
+
+	protected final int addSelectedImplicitSurface(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+		return handleAddSelected(hits, max, addMoreThanOneAllowed,
+				selectedImplicitSurface, Test.GEOIMPLICITSURFACE);
 	}
 
 	protected final int addSelectedPolygon(Hits hits, int max,

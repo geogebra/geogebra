@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D;
-import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -17,27 +16,23 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValueType;
-import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.kernel.geos.PointRotateable;
-import org.geogebra.common.kernel.geos.Transformable;
-import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
  * 
  */
-public class GeoImplicitSurface extends GeoElement3D implements Translateable,
-		Dilateable, PointRotateable, MirrorableAtPlane,
-		Transformable {
+public class GeoImplicitSurface extends GeoElement3D implements
+		GeoImplicitSurfaceND {
 	private static final boolean DEBUG = false;
 	private static final Coords3 DUMMY_NORMAL = new CoordsDouble3(0, 0, 1.0);
 	private boolean defined;
@@ -421,7 +416,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 	 */
 	static void debug(String debug) {
 		if (DEBUG) {
-			App.debug(debug);
+			Log.debug(debug);
 		}
 	}
 

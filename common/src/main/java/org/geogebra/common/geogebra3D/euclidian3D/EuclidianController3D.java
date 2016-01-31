@@ -2288,7 +2288,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			} else { // 1d geo: can intersect with 1d or 2d geo
 				hits.getHits(new Test[] { Test.GEOLINEND, Test.GEOCOORDSYS2D,
-						Test.GEOQUADRICND }, false, goodHits);
+						Test.GEOQUADRICND, Test.GEOIMPLICITSURFACE }, false,
+						goodHits);
 
 				// does not have to test this. we will select only the top
 				// element!
@@ -2357,6 +2358,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		addSelectedPlane(hits, 1, true);
 		addSelectedPolygon(hits, 1, true);
 		addSelectedQuadric(hits, 1, true);
+		addSelectedImplicitSurface(hits, 1, true);
 
 		if (selLines() >= 2) {// two lines
 			GeoLineND[] lines = getSelectedLinesND();
@@ -2398,6 +2400,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 						(GeoElement) getSelectedLinesND()[0],
 						getSelectedPlanes()[0]);
 				return ret;
+			} else if (selImplicitSurfaces() == 1) {// line-plane
+
+				return getKernel().getAlgoDispatcher()
+						.IntersectImplicitSurfaceLine(null,
+						getSelectedImplicitSurface()[0],
+								getSelectedLinesND()[0]);
+
 			}
 		} else if (selConics() >= 2) {// conic-conic
 			GeoConicND[] conics = getSelectedConicsND();
@@ -3067,6 +3076,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	final int selPlanes() {
 		return selectedPlane.size();
+	}
+
+	final int selImplicitSurfaces() {
+		return selectedImplicitSurface.size();
 	}
 
 	/**
