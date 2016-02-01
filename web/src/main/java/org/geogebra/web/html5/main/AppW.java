@@ -3456,7 +3456,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public boolean showAutoCreatedSlidersInEV() {
-		return true;
+		return false;
 	}
 
 	public boolean allowStylebar() {
