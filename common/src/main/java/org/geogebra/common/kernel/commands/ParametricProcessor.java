@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
@@ -81,8 +80,7 @@ public class ParametricProcessor {
 		}
 		boolean parametricExpression = ("X".equals(ve0.getLabel())
 				|| undefinedVariables
-.contains("t") || undefinedVariables
-				.contains(Unicode.thetaStr));
+				.contains("t"));
 		boolean parametricEquation = ve0.unwrap() instanceof Equation
 				&& "X".equals(((Equation) ve0.unwrap()).getLHS().toString(
 						StringTemplate.defaultTemplate));
@@ -103,17 +101,7 @@ public class ParametricProcessor {
 		if (parametricExpression) {
 			try {
 				FunctionVariable fv = new FunctionVariable(kernel, varName);
-				if (varName.equals(Unicode.thetaStr)
-						&& ve0.evaluatesToNumber(true)) {
-					String label = ve.getLabel();
-					ve = new MyVecNode(kernel, ve0, fv.wrap());
-					((MyVecNode) ve).setMode(Kernel.COORD_POLAR);
-					// TODO the "r" check is there to allow r=theta in the
-					// future
-					if (!"r".equals(label)) {
-						ve.setLabel(label);
-					}
-				}
+
 				ExpressionNode exp = ve
 						.deepCopy(kernel)
 						.traverse(

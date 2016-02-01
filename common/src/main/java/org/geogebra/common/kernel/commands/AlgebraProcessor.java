@@ -58,6 +58,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CollectFunctionVariables
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
+import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
@@ -101,6 +102,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.regexp.shared.MatchResult;
@@ -1067,10 +1069,10 @@ public class AlgebraProcessor {
 			if (temp[0] instanceof GeoList) {
 				list = (GeoList) temp[0];
 			} else {
-				App.error("return value was not a list");
+				Log.error("return value was not a list");
 			}
 		} catch (CircularDefinitionException e) {
-			App.debug("CircularDefinition");
+			Log.debug("CircularDefinition");
 			// app.showError("CircularDefinition");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1227,7 +1229,7 @@ public class AlgebraProcessor {
 			GeoElement[] temp = processValidExpression(ve);
 			num = (GeoNumberValue) temp[0];
 		} catch (CircularDefinitionException e) {
-			App.debug("CircularDefinition");
+			Log.debug("CircularDefinition");
 			if (!suppressErrors)
 				app.showError("CircularDefinition");
 		} catch (Exception e) {
@@ -1648,6 +1650,37 @@ public class AlgebraProcessor {
 	 * @return GeoFunction
 	 */
 	public final GeoElement[] processFunction(Function fun) {
+		String varName = fun.getVarString(StringTemplate.defaultTemplate);
+		if (varName.equals(
+				Unicode.thetaStr)
+				&& !kernel.getConstruction().isRegistredFunctionVariable(
+						Unicode.thetaStr)
+				&& fun.getExpression().evaluatesToNumber(true)) {
+			String label = fun.getLabel();
+			ValidExpression ve = new MyVecNode(kernel, fun.getExpression(),
+					fun.getFunctionVariable());
+			((MyVecNode) ve).setMode(Kernel.COORD_POLAR);
+			// TODO the "r" check is there to allow r=theta in the
+			// future
+			if (!"r".equals(label)) {
+				ve.setLabel(label);
+			}
+			ExpressionNode exp = ve
+					.deepCopy(kernel)
+					.traverse(
+							VariableReplacer.getReplacer(varName,
+									fun.getFunctionVariable(), kernel))
+					.wrap();
+			exp.resolveVariables();
+			GeoElement[] ret = getParamProcessor().processParametricFunction(
+					exp,
+					exp.evaluate(StringTemplate.defaultTemplate),
+					new FunctionVariable[] { fun.getFunctionVariable() },
+					"X".equals(ve.getLabel()) ? null : ve.getLabel());
+			if (ret != null) {
+				return ret;
+			}
+		}
 		if (!fun.initFunction()) {
 			return getParamProcessor().processParametricFunction(
 					fun.getExpression(),
@@ -2479,7 +2512,7 @@ public class AlgebraProcessor {
 		// }
 
 		// if we get here, nothing worked
-		App.debug("Unhandled ExpressionNode: " + eval + ", " + eval.getClass());
+		Log.debug("Unhandled ExpressionNode: " + eval + ", " + eval.getClass());
 		return null;
 	}
 

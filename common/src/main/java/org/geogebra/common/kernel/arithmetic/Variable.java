@@ -161,14 +161,15 @@ public class Variable extends ValidExpression {
 	 */
 	public static ExpressionValue replacement(Kernel kernel, String name) {
 		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
-		int[] exponents = new int[] { 0, 0, 0 };
+		int[] exponents = new int[] { 0, 0, 0, 0 };
 		int i;
 		ExpressionValue geo2 = null;
 		String nameNoX = name;
 		for (i = name.length() - 1; i >= 0; i--) {
-			if (name.charAt(i) < 'x' || name.charAt(i) > 'z')
+			char c = name.charAt(i);
+			if ((c < 'x' || c > 'z') && c != Unicode.theta)
 				break;
-			exponents[name.charAt(i) - 'x']++;
+			exponents[c == Unicode.theta ? 3 : c - 'x']++;
 			nameNoX = name.substring(0, i);
 			geo2 = kernel.lookupLabel(nameNoX);
 			Operation op = kernel.getApplication().getParserFunctions()
@@ -216,7 +217,11 @@ public class Variable extends ValidExpression {
 								"y")).power(new MyDouble(kernel, exponents[1])))
 				.multiplyR(
 						new ExpressionNode(kernel, new FunctionVariable(kernel,
-								"z")).power(new MyDouble(kernel, exponents[2])));
+								"z")).power(new MyDouble(kernel, exponents[2])))
+				.multiplyR(
+						new ExpressionNode(kernel, new FunctionVariable(kernel,
+								Unicode.thetaStr)).power(new MyDouble(kernel,
+								exponents[3])));
 	}
 
 	private static ExpressionNode piTo(int piPower, Kernel kernel2) {
