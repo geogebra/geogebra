@@ -35,6 +35,7 @@ import org.geogebra.common.euclidian.event.ActionEvent;
 import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.util.DropDownList;
+import org.geogebra.common.gui.util.DropDownList.DropDownListener;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -50,7 +51,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus Hohenwarter
  */
-public final class DrawList extends CanvasDrawable implements RemoveNeeded {
+public final class DrawList extends CanvasDrawable
+		implements RemoveNeeded, DropDownListener {
 	private static final int LABEL_COMBO_GAP = 10;
 	private static final int COMBO_TEXT_MARGIN = 5;
 	/** coresponding list as geo */
@@ -71,6 +73,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int viewWidth = 0;
 
 	private DrawOptions drawOptions;
+
+	enum ScrollMode {
+		UP, DOWN, NONE
+	};
 
 	private class DrawOptions {
 		private static final int MARGIN = 5;
@@ -155,6 +161,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		private GRectangle rectDown;
 
 		private boolean scrollNeeded;
+		private ScrollMode scrollMode = ScrollMode.NONE;
 
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
@@ -288,6 +295,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		private boolean handleUpControl(int x, int y) {
 			if (isScrollNeeded() && rectUp.contains(x, y)) {
+				scrollMode = ScrollMode.UP;
+				dropDown.startTimer();
 				scrollUp();
 				return true;
 			}
@@ -296,6 +305,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		private boolean handleDownControl(int x, int y) {
 			if (isScrollNeeded() && rectDown.contains(x, y)) {
+				scrollMode = ScrollMode.DOWN;
+				dropDown.startTimer();
 				scrollDown();
 				return true;
 			}
@@ -323,6 +334,23 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			// drawItems();
 		}
 
+		public void scroll() {
+			switch (scrollMode) {
+			case UP:
+				scrollUp();
+				geo.updateRepaint();
+				break;
+			case DOWN:
+				scrollDown();
+				geo.updateRepaint();
+				break;
+			case NONE:
+				break;
+			default:
+				break;
+
+			}
+		}
 		public boolean onMouseDown(int x, int y) {
 			if (!visible) {
 				return false;
@@ -348,6 +376,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		public void onMouseOver(int x, int y) {
 			if (!isHit(x, y)) {
+				stopScrolling();
 				return;
 			}
 
@@ -673,6 +702,18 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			return rectTable.getBounds().intersects(rect);
 		}
 
+		public boolean onMouseUp(int x, int y) {
+			if (isScrollNeeded()) {
+				stopScrolling();
+			}
+			return true;
+		}
+
+		private void stopScrolling() {
+			dropDown.stopTimer();
+			scrollMode = ScrollMode.NONE;
+		}
+
 	}
 	/**
 	 * Creates new drawable list
@@ -690,7 +731,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS));
 		if (isDrawingOnCanvas()) {
 			drawOptions = new DrawOptions();
-			dropDown = view.getApplication().newDropDownList();
+			dropDown = view.getApplication().newDropDownList(this);
 			GBox ctrlBox = geo.getKernel().getApplication().getSwingFactory()
 					.createHorizontalBox(view.getEuclidianController());
 			ctrlRect = ctrlBox.getBounds();
@@ -1369,6 +1410,15 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
+	public void onMouseUp(int x, int y) {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+
+		if (drawOptions.onMouseUp(x, y)) {
+			return;
+		}
+	}
 	/**
 	 * Open dropdown
 	 */
@@ -1517,5 +1567,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			sel.addSelectedGeo(geo);
 
 		}
+	}
+
+	public void execTimer() {
+		if (isDrawingOnCanvas()) {
+			drawOptions.scroll();
+		}
+
 	}
 }

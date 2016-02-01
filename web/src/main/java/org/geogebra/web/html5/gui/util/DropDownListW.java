@@ -6,12 +6,27 @@ import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.ggbjdk.java.awt.geom.Polygon;
 
+import com.google.gwt.user.client.Timer;
+
 public class DropDownListW implements DropDownList {
 	private static final int BOX_ROUND = 8;
 	private static final GColor FOCUS_COLOR = GColor.BLUE;
 	private static final GColor NORMAL_COLOR = GColor.LIGHT_GRAY;
 	private static final int MAX_WIDTH = 40;
+	private Timer timer;
+	private int timerDelay = 100;
+	private DropDownListener listener;
 
+	public DropDownListW(DropDownListener listener) {
+		this.listener = listener;
+		timer = new Timer() {
+
+			@Override
+			public void run() {
+				DropDownListW.this.listener.execTimer();
+			}
+		};
+	}
 	public void drawSelected(GeoElement geo, GGraphics2D g2, GColor bgColor,
 			int left, int top, int width, int height) {
 		g2.setPaint(bgColor);
@@ -82,5 +97,22 @@ public class DropDownListW implements DropDownList {
 		g2.fill(p);
 
 	}
+
+	public void startTimer() {
+		timer.scheduleRepeating(timerDelay);
+	}
+
+	public void stopTimer() {
+		timer.cancel();
+	}
+
+	public boolean isTimerRunning() {
+		return timer.isRunning();
+	}
+
+	public void setTimerDelay(int timerDelay) {
+		this.timerDelay = timerDelay;
+	}
+
 
 }

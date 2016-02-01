@@ -4133,7 +4133,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected boolean hitComboBox(int x, int y) {
+	protected boolean hitComboBox(int x, int y, boolean down) {
 		return false;
 	}
 

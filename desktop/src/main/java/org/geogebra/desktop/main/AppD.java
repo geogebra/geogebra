@@ -116,6 +116,7 @@ import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.util.DropDownList;
+import org.geogebra.common.gui.util.DropDownList.DropDownListener;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.OFFHandler;
@@ -5442,8 +5443,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		return getScaledInternalImage(name);
 	}
 
-	public DropDownList newDropDownList() {
-		return new DropDownListD();
+	public DropDownList newDropDownList(DropDownListener listener) {
+		return new DropDownListD(listener);
 	}
 
 	public void needThumbnailFor3D() {

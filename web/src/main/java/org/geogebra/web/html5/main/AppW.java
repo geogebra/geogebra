@@ -21,6 +21,7 @@ import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.util.DropDownList;
+import org.geogebra.common.gui.util.DropDownList.DropDownListener;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
@@ -3447,8 +3448,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 
 
-	public DropDownList newDropDownList() {
-		return new DropDownListW();
+	public DropDownList newDropDownList(DropDownListener listener) {
+		return new DropDownListW(listener);
 	};
 
 	public String getVersionSuffix() {

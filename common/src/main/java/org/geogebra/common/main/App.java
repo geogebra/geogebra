@@ -33,6 +33,7 @@ import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.util.DropDownList;
+import org.geogebra.common.gui.util.DropDownList.DropDownListener;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
@@ -4116,7 +4117,7 @@ public abstract class App implements UpdateSelection {
 		return Math.max(getFontSize(), 14);
 	}
 
-	public DropDownList newDropDownList() {
+	public DropDownList newDropDownList(DropDownListener listener) {
 		return null;
 	};
 

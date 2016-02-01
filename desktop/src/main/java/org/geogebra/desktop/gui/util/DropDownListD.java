@@ -1,6 +1,10 @@
 package org.geogebra.desktop.gui.util;
 
 import java.awt.Polygon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
@@ -8,11 +12,18 @@ import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.awt.GGraphics2DD;
 
-public class DropDownListD implements DropDownList {
+public class DropDownListD implements DropDownList, ActionListener {
 	private static final GColor FOCUS_COLOR = GColor.BLUE;
 	private static final GColor NORMAL_COLOR = GColor.LIGHT_GRAY;
 	private static final int MAX_WIDTH = 40;
+	private Timer timer;
+	private DropDownListener listener;
+	private int timerDelay = 100;
 
+	public DropDownListD(DropDownListener listener) {
+		this.listener = listener;
+		timer = new Timer(timerDelay, this);
+	}
 	public void drawSelected(GeoElement geo, GGraphics2D g2, GColor bgColor,
 			int left, int top, int width, int height) {
 		g2.setPaint(bgColor);
@@ -52,6 +63,26 @@ public class DropDownListD implements DropDownList {
 	public void drawScrollDown(GGraphics2D g2, int left, int top, int width,
 			int height, GColor bgColor, boolean pressed) {
 
+	}
+
+	public void startTimer() {
+		timer.start();
+	}
+
+	public void stopTimer() {
+		timer.stop();
+	}
+
+	public boolean isTimerRunning() {
+		return timer.isRunning();
+	}
+
+	public void setTimerDelay(int timerDelay) {
+		timer.setDelay(timerDelay);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		listener.execTimer();
 	}
 
 }
