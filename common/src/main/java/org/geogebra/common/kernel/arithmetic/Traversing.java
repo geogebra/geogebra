@@ -1321,9 +1321,50 @@ public interface Traversing {
 						}
 						en2 = ve.unwrap() instanceof FunctionNVar ? ((FunctionNVar) ve
 								.unwrap()).getExpression() : ve.wrap();
+
 						en2 = en2.traverse(this).wrap();
-						en2 = en2.getCopy(((GeoCasCell) geo).getKernel());
+						if (en2 != null
+								&& en2.getLeft() instanceof GeoSurfaceCartesian3D) {
+							FunctionNVar[] fun = ((GeoSurfaceCartesian3D) en2
+									.getLeft())
+									.getFunctions();
+							MyVec3DNode vect = new MyVec3DNode(
+									((ExpressionNode) ev).getKernel(),
+									fun[0].getExpression(),
+									fun[1].getExpression(),
+									fun[2].getExpression());
+							en2 = new ExpressionNode(en.getKernel(), vect);
+							if (en.getRight() instanceof MyList
+									&& ((MyList) en.getRight())
+											.getListElement(0) instanceof ExpressionNode
+									&& ((ExpressionNode) ((MyList) en
+											.getRight()).getListElement(0))
+											.getLeft() instanceof MyList) {
+								en.setRight(((ExpressionNode) ((MyList) en
+										.getRight()).getListElement(0))
+										.getLeft());
+							}
+						} else {
+							en2 = en2.getCopy(((GeoCasCell) geo).getKernel());
+						}
 						fv = ((GeoCasCell) geo).getFunctionVariables();
+					}
+					if (geo instanceof GeoSurfaceCartesian3D) {
+						en.setOperation(Operation.FUNCTION_NVAR);
+						if (en.getRight() instanceof MyList
+								&& ((MyList) en.getRight()).getListElement(0) instanceof ExpressionNode
+								&& ((ExpressionNode) ((MyList) en.getRight()).getListElement(0)).getLeft() instanceof MyList) {
+							en.setRight(((ExpressionNode) ((MyList) en
+									.getRight()).getListElement(0)).getLeft());
+						}
+						FunctionNVar[] fun = ((GeoSurfaceCartesian3D) geo)
+								.getFunctions();
+						fv = fun[0].getFunctionVariables();
+						MyVec3DNode vect = new MyVec3DNode(
+								((ExpressionNode) ev).getKernel(),
+								fun[0].getExpression(), fun[1].getExpression(),
+								fun[2].getExpression());
+						en2 = new ExpressionNode(en.getKernel(), vect);
 					}
 					if (deriv != null) {
 						CASGenericInterface cas = en.getKernel()

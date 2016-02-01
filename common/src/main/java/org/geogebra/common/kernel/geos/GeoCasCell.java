@@ -1890,12 +1890,26 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				}
 				
 				expandedEvalVE = pointList ? wrapPointList(evalVE) : evalVE;
-				// needed for GGB-494
-				// replace GeoSurfaceCartesian3D geos with MyVect3D with
-				// expressions of surface
-				expandedEvalVE = (ValidExpression) expandedEvalVE
-						.traverse(GeoSurfaceReplacer
-						.getInstance());
+				if (expandedEvalVE instanceof ExpressionNode
+						&& ((ExpressionNode) expandedEvalVE).getLeft() instanceof Command
+						&& !("Evaluate")
+								.equals(((Command) ((ExpressionNode) expandedEvalVE)
+										.getLeft()).getName())
+						&& ((Command) ((ExpressionNode) expandedEvalVE)
+								.getLeft()).getArgumentNumber() != 1
+						&& ((Command) ((ExpressionNode) expandedEvalVE)
+								.getLeft()).getArgument(0) != null) {
+					ExpressionNode node = ((Command) ((ExpressionNode) expandedEvalVE)
+							.getLeft()).getArgument(0);
+					if (!(node.getLeft() instanceof GeoSurfaceCartesian3D)
+							&& !(node.getRight() instanceof MyList)) {
+						// needed for GGB-494
+						// replace GeoSurfaceCartesian3D geos with MyVect3D with
+						// expressions of surface
+						expandedEvalVE = (ValidExpression) expandedEvalVE
+								.traverse(GeoSurfaceReplacer.getInstance());
+					}
+				}
 
 				if(!(expandedEvalVE.isTopLevelCommand()) || !expandedEvalVE.getTopLevelCommand().getName().equals("Delete")) {
 					FunctionExpander fex = FunctionExpander.getCollector();
