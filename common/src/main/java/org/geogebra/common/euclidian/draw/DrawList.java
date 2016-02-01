@@ -230,6 +230,9 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		private void drawItem(OptionItem item, boolean hover) {
+			if (item.rect == null) {
+				return;
+			}
 
 			int rectLeft = (int) item.rect.getBounds().getX();
 			int rectTop = (int) item.rect.getBounds().getY();
