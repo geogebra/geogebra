@@ -527,7 +527,7 @@ public final class DrawList extends CanvasDrawable
 					/ dimItem.getHeight();
 			endIdx = startIdx + Math.min(visibleItems, maxItems);
 			rowCount = getVisibleItemCount();
-			scrollNeeded = endIdx != maxItems;
+			scrollNeeded = getVisibleItemCount() != maxItems;
 
 			Log.debug(SCROLL_PFX + geoList.getLongDescription() + " max: "
 					+ maxItems + " endIdx: " + endIdx + " scroll needed: "
