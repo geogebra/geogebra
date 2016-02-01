@@ -55,6 +55,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * List of GeoElements
@@ -1719,7 +1720,7 @@ AngleProperties {
 		}
 		final GeoElement geo = get(closestPointIndex);
 		if (!(geo instanceof PathOrPoint)) {
-			App.debug("TODO: " + geo.getGeoClassType()
+			Log.debug("TODO: " + geo.getGeoClassType()
 					+ " should implement PathOrPoint interface");
 			return;
 		}
@@ -1843,7 +1844,7 @@ AngleProperties {
 			// t = size() when at very end of path
 			// so check == 0 is OK, just need to set n = size() - 1
 			if (check != 0.0) {
-				App.debug("problem with path param "
+				Log.debug("problem with path param "
 						+ PI.getLabel(StringTemplate.defaultTemplate));
 			}
 			n = (n < 0) ? 0 : size() - 1;
@@ -1857,7 +1858,7 @@ AngleProperties {
 		GeoElement elementN = get(n);
 		
 		if (!(elementN instanceof PathOrPoint)) {
-			App.debug("not path or point");
+			Log.debug("not path or point");
 			return;
 		}
 

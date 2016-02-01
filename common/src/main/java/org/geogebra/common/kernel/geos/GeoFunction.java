@@ -54,7 +54,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.kernel.roots.RealRootUtil;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
@@ -2028,7 +2027,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 											verticalAsymptotesArray[i], true)
 											.getDouble());
 					} catch (Exception e) {
-						App.debug("Error parsing: "
+						Log.warn("Error parsing: "
 								+ verticalAsymptotesArray[i]);
 					}
 					if (reverseCondition)

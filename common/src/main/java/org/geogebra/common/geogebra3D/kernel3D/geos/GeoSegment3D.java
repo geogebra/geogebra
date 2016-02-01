@@ -553,4 +553,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 				&& Kernel
 						.isEqual(getLength(), ((GeoSegmentND) geo).getLength());
 	}
+
+	public Coords getOrigin() {
+		return getCoordSys().getOrigin();
+	}
 }

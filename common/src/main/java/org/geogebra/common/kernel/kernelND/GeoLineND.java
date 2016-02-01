@@ -158,4 +158,6 @@ public interface GeoLineND extends GeoDirectionND{
 	
 	public void setStartPoint(GeoPointND point);
 
+	public Coords getOrigin();
+
 }

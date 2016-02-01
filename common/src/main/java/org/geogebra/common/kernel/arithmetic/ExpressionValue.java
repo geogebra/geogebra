@@ -268,5 +268,8 @@ public interface ExpressionValue {
 	 */
 	public ExpressionValue toValidExpression();
 
+	/**
+	 * @return whether this evaluates to 3D vector on non-complex 2D
+	 */
 	public boolean evaluatesToNDVector();
 }

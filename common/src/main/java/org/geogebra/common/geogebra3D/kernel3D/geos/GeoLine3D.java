@@ -9,9 +9,9 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.Unicode;
 
@@ -87,8 +87,15 @@ public class GeoLine3D extends GeoCoordSys1D {
 	}
 
 	@Override
-	public boolean isEqual(GeoElement Geo) {
-		App.debug("unimplemented");
+	public boolean isEqual(GeoElement geo) {
+		if (geo instanceof GeoLineND) {
+			Coords diff = ((GeoLineND) geo).getDirectionInD3().crossProduct(
+					getDirectionInD3().normalize());
+			return diff.isZero()
+					&& getCoordSys().getOrigin()
+							.sub(((GeoLineND) geo).getOrigin())
+							.crossProduct(getDirectionInD3()).isZero();
+		}
 		return false;
 	}
 
@@ -440,4 +447,14 @@ public class GeoLine3D extends GeoCoordSys1D {
 		}
 		return my;
 	}
+
+	@Override
+	public double distance(GeoPointND pt) {
+		return super.distance(pt);
+	}
+
+	public Coords getOrigin() {
+		return getCoordSys().getOrigin();
+	}
+
 }

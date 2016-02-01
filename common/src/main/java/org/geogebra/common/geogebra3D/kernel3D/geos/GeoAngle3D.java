@@ -5,8 +5,16 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * Angle that may or may not be oriented
+ *
+ */
 final public class GeoAngle3D extends GeoAngle {
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public GeoAngle3D(Construction c) {
 		super(c);
 		hasOrientation = false;

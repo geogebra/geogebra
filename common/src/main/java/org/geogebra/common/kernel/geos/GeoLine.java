@@ -1722,4 +1722,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	protected char getLabelDelimiter() {
 		return ':';
 	}
+
+	public Coords getOrigin() {
+		return getStartPoint().getCoordsInD3();
+	}
 }
