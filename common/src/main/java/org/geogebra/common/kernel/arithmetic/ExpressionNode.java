@@ -3244,10 +3244,11 @@ kernel, left,
 
 		// TODO: put back into case FUNCTION_NVAR:, see #1115
 		case ELEMENT_OF:
-			if (tpl.hasCASType()) {
+			if (tpl.hasCASType() && right instanceof MyList) {
 				sb.append(leftStr);
 				sb.append("[");
-				if (rightStr.startsWith("{")) {
+
+				if (((MyList) right).size() > 1) {
 					ListValue list = (ListValue) right;
 					for (int i = 0; i < list.size(); i++) {
 						if (i != 0) {
