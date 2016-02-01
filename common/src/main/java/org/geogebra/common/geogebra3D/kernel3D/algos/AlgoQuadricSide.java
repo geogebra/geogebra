@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 
 /**
  * @author ggb3D
@@ -14,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class AlgoQuadricSide extends AlgoQuadric {
 
 	private boolean isHelperAlgo;
+	private GeoConicND bottom;
 
 	/**
 	 * @param c
@@ -21,11 +23,11 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	 * @param inputQuadric
 	 */
 	public AlgoQuadricSide(Construction c, GeoQuadric3DLimited inputQuadric,
-			boolean isHelperAlgo) {
+			boolean isHelperAlgo, GeoConicND bottom) {
 		super(c, inputQuadric, null, new AlgoQuadricComputerSide());
 
 		this.isHelperAlgo = isHelperAlgo;
-
+		this.bottom = bottom;
 		setInputOutput(new GeoElement[] { inputQuadric },
 				new GeoElement[] { getQuadric() });
 
@@ -35,7 +37,7 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	public AlgoQuadricSide(Construction c, String label,
 			GeoQuadric3DLimited inputQuadric) {
 
-		this(c, inputQuadric, false);
+		this(c, inputQuadric, false, null);
 		getQuadric().setLabel(label);
 	}
 
@@ -51,14 +53,21 @@ public class AlgoQuadricSide extends AlgoQuadric {
 			getQuadric().setUndefined();
 			return;
 		}
-
+		double r1 = getInputQuadric().getRadius(), r2;
+		Coords eigen = null;
+		if (bottom == null) {
+			r2 = r1;
+		} else {
+			r2 = r1 * bottom.getHalfAxis(1) / bottom.getHalfAxis(0);
+			eigen = bottom.getEigenvec3D(0).normalize();
+		}
 		// compute the quadric
 		getQuadric().setDefined();
 		getQuadric().setType(getInputQuadric().getType());
 		getComputer()
 				.setQuadric(getQuadric(), getInputQuadric().getOrigin(),
-						getInputQuadric().getDirection(),
-						getInputQuadric().getRadius());
+				getInputQuadric().getDirection(), eigen,
+ r1, r2);
 		((GeoQuadric3DPart) getQuadric()).setLimits(getInputQuadric()
 				.getBottomParameter(), getInputQuadric().getTopParameter());
 

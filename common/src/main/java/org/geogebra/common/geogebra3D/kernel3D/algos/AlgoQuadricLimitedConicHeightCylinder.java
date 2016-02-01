@@ -33,7 +33,8 @@ public class AlgoQuadricLimitedConicHeightCylinder extends
 	}
 
 	@Override
-	protected void setQuadric(Coords o1, Coords o2, Coords d, double r,
+	protected void setQuadric(Coords o1, Coords o2, Coords d, Coords eigen,
+			double r, double r2,
 			double min, double max) {
 		getQuadric().setCylinder(o1, d, r, min, max);
 	}

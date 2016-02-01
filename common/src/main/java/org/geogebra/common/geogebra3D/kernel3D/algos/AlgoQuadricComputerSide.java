@@ -20,9 +20,9 @@ public class AlgoQuadricComputerSide extends AlgoQuadricComputer {
 
 	@Override
 	public void setQuadric(GeoQuadric3D quadric, Coords origin,
-			Coords direction, double number) {
+			Coords direction, Coords eigen, double r, double r2) {
 
-		((GeoQuadric3DPart) quadric).set(origin, direction, number);
+		((GeoQuadric3DPart) quadric).set(origin, direction, eigen, r, r2);
 
 	}
 

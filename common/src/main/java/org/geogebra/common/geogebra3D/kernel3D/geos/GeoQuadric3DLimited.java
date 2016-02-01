@@ -516,16 +516,26 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 			volume = Double.NaN;
 			return;
 		}
-
+		double pih =  Math.PI
+				* Math.abs(topParameter - bottomParameter);
 		switch (type) {
 		case QUADRIC_CYLINDER:
-			volume = radius * radius * Math.PI
-					* Math.abs(topParameter - bottomParameter);
+			if (bottom.halfAxes == null) {
+				volume = radius * radius * pih;
+			} else {
+				volume = bottom.getHalfAxis(0) * bottom.getHalfAxis(1)
+						* pih ;
+			}
 			break;
 		case QUADRIC_CONE:
 			double h = Math.abs(topParameter - bottomParameter);
-			double r = radius * h; // "radius" is the radius value for h = 1
-			volume = r * r * Math.PI * h / 3;
+
+			if (bottom.halfAxes == null) {
+				double r = radius * h; // "radius" is the radius value for h = 1
+				volume = r * r * pih / 3;
+			} else {
+				volume = bottom.getHalfAxis(0) * bottom.getHalfAxis(1) * pih / 3;
+			}
 			break;
 		// default:
 		// volume=Double.NaN;

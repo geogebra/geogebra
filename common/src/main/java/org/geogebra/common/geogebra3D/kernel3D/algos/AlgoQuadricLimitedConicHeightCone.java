@@ -33,7 +33,8 @@ public class AlgoQuadricLimitedConicHeightCone extends
 	}
 
 	@Override
-	protected void setQuadric(Coords o1, Coords o2, Coords d, double r,
+	protected void setQuadric(Coords o1, Coords o2, Coords d, Coords eigen,
+			double r, double r2,
 			double min, double max) {
 		// getQuadric().setCone(o1,d,r, min, max);
 		getQuadric().setCone(o2, d, r / max, -max, 0);

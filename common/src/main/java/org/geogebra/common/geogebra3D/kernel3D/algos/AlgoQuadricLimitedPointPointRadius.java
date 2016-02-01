@@ -58,7 +58,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 
 		compute();
 
-		AlgoQuadricSide algo = new AlgoQuadricSide(cons, quadric, true);
+		AlgoQuadricSide algo = new AlgoQuadricSide(cons, quadric, true, null);
 		cons.removeFromConstructionList(algo);
 		side = (GeoQuadric3DPart) algo.getQuadric();
 		quadric.setSide(side);

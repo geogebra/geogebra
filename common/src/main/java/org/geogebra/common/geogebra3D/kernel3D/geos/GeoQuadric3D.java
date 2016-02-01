@@ -1446,32 +1446,31 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			defined = false;// TODO if s=0 then draws a line
 		else {
 			r = s / c;
-			setCone(origin.getInhomCoordsInD3(), direction.getCoordsInD3(), r);
+			setCone(origin.getInhomCoordsInD3(), direction.getCoordsInD3(),
+					null, r, r);
 		}
 
 	}
 
-	public void setCone(Coords origin, Coords direction, double r) {
+	public void setCone(Coords origin, Coords direction, Coords eigen,
+			double r, double r2) {
 
 		// set center
 		setMidpoint(origin.get());
 
-		// set direction
-		eigenvecND[2].setValues(direction, 3);
-
-		// set others eigen vecs
-		eigenvecND[2].completeOrthonormal(eigenvecND[0], eigenvecND[1]);
+		updateEigenvectors(direction, eigen);
 
 		// set halfAxes = radius
-		for (int i = 0; i < 2; i++)
-			halfAxes[i] = r;
+
+		halfAxes[0] = r;
+		halfAxes[1] = r2;
 
 		halfAxes[2] = 1;
 
 		// set the diagonal values
 		diagonal[0] = 1;
 		diagonal[1] = 1;
-		diagonal[2] = -r * r;
+		diagonal[2] = -r * r2;
 		diagonal[3] = 0;
 
 		// set matrix
@@ -1488,6 +1487,20 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	// //////////////////////////////
 	// CONE
 
+	private void updateEigenvectors(Coords direction, Coords eigen) {
+		// set direction
+		eigenvecND[2].setValues(direction, 3);
+
+		// set others eigen vecs
+		if (eigen != null) {
+			eigenvecND[0] = eigen.normalize();
+			eigenvecND[1] = eigenvecND[2].crossProduct(eigen).normalize();
+		} else {
+			eigenvecND[2].completeOrthonormal(eigenvecND[0], eigenvecND[1]);
+		}
+
+	}
+
 	public void setCylinder(GeoPointND origin, Coords direction, double r) {
 
 		// check midpoint
@@ -1503,25 +1516,23 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 		if (defined) {
-			setCylinder(origin.getInhomCoordsInD3(), direction, r);
+			setCylinder(origin.getInhomCoordsInD3(), direction, null, r, r);
 		}
 
 	}
 
-	public void setCylinder(Coords origin, Coords direction, double r) {
+	public void setCylinder(Coords origin, Coords direction, Coords eigen,
+			double r, double r2) {
 
 		// set center
 		setMidpoint(origin.get());
 
 		// set direction
-		eigenvecND[2].setValues(direction, 3);
-
-		// set others eigen vecs
-		eigenvecND[2].completeOrthonormal(eigenvecND[0], eigenvecND[1]);
+		updateEigenvectors(direction, eigen);
 
 		// set halfAxes = radius
-		for (int i = 0; i < 2; i++)
-			halfAxes[i] = r;
+		halfAxes[0] = r;
+		halfAxes[1] = r2;
 
 		halfAxes[2] = 1;
 

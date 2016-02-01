@@ -14,8 +14,8 @@ public class AlgoQuadricComputerCylinder extends AlgoQuadricComputer {
 
 	@Override
 	public void setQuadric(GeoQuadric3D quadric, Coords origin,
-			Coords direction, double number) {
-		quadric.setCylinder(origin, direction.normalize(), number);
+			Coords direction, Coords eigen, double r, double r2) {
+		quadric.setCylinder(origin, direction.normalize(), eigen, r, r2);
 
 	}
 

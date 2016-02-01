@@ -61,7 +61,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 
 		compute();
 
-		AlgoQuadricSide algo = new AlgoQuadricSide(cons, quadric, true);
+		AlgoQuadricSide algo = new AlgoQuadricSide(cons, quadric, true, bottom);
 		cons.removeFromConstructionList(algo);
 		side = (GeoQuadric3DPart) algo.getQuadric();
 		quadric.setSide(side);
@@ -111,6 +111,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 
 		// TODO cylinder with other conics (than circles)
 		double r = bottom.getHalfAxis(0);
+		double r2 = bottom.getHalfAxis(1);
 
 		double altitude = height.getDouble();
 
@@ -120,14 +121,14 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 
 		quadric.setDefined();
 
-		setQuadric(o, o2, d, r, 0, altitude);
+		setQuadric(o, o2, d, bottom.getEigenvec3D(0), r, r2, 0, altitude);
 
 		quadric.calcVolume();
 
 	}
 
 	abstract protected void setQuadric(Coords o1, Coords o2, Coords d,
-			double r, double min, double max);
+			Coords eigen, double r, double r2, double min, double max);
 
 	public GeoQuadric3DLimited getQuadric() {
 		return quadric;

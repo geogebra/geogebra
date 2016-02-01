@@ -63,7 +63,7 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 
 		getQuadric().setDefined();
 
-		getQuadric().setCylinder(o, d, r);
+		getQuadric().setCylinder(o, d, null, r, r);
 
 	}
 

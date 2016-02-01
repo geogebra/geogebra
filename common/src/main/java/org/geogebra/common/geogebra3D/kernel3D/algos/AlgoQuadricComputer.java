@@ -30,7 +30,7 @@ public abstract class AlgoQuadricComputer {
 	 * @param number
 	 */
 	abstract public void setQuadric(GeoQuadric3D quadric, Coords origin,
-			Coords direction, double number);
+			Coords direction, Coords eigen, double r, double r2);
 
 	/**
 	 * return Double.NaN if no usable number

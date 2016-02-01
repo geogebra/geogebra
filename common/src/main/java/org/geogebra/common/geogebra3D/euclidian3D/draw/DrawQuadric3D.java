@@ -583,13 +583,16 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				ev1 = quadric.getEigenvec3D(0);
 				ev2 = quadric.getEigenvec3D(1);
 				radius = quadric.getHalfAxis(0);
+				double radius2 = quadric.getHalfAxis(1);
 				Coords bottomCenter = surface.cone(top, ev1, ev2, quadric.getEigenvec3D(2),
-						radius, 0, 2 * Math.PI, height, 1f);
+ radius, radius2, 0,
+						2 * Math.PI, height, 1f);
 				
 				boundsMin.setValues(top, 3);
 				boundsMax.setValues(top, 3);
 				radius *= height;
-				enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter, ev1, ev2, radius, radius);
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter,
+						ev1, ev2, radius, radius2);
 				
 			} else { // infinite cone
 				if (vMinMax == null) {
@@ -656,8 +659,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 			if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
 				radius = quadric.getHalfAxis(0);
+				double radius2 = quadric.getHalfAxis(1);
 				longitude = renderer.getGeometryManager().getLongitude(radius, getView3D().getScale());
-				Coords bottomCenter = surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2 * Math.PI,
+				Coords bottomCenter = surface.cylinder(center, ev1, ev2, ev3,
+						radius, radius2, 0, 2 * Math.PI,
 						quadric.getMinParameter(1), quadric.getMaxParameter(1),
 						false, false, longitude);				
 				

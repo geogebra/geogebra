@@ -21,12 +21,12 @@ public class AlgoQuadricComputerCylinderOpen extends
 
 	@Override
 	public void setQuadric(GeoQuadric3D quadric, Coords origin,
-			Coords direction, double number) {
+			Coords direction, Coords eigen, double r, double r2) {
 
 		direction.calcNorm();
 		double altitude = direction.getNorm();
 
-		quadric.setCylinder(origin, direction.mul(1 / altitude), number);
+		quadric.setCylinder(origin, direction.mul(1 / altitude), eigen, r, r2);
 
 		((GeoQuadric3DPart) quadric).setLimits(0, altitude);
 	}

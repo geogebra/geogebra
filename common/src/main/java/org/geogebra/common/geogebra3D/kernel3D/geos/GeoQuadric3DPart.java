@@ -96,14 +96,15 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		return super.getMaxParameter(index);
 	}
 
-	public void set(Coords origin, Coords direction, double r) {
+	public void set(Coords origin, Coords direction, Coords eigen, double r,
+			double r2) {
 		switch (type) {
 		case QUADRIC_CYLINDER:
-			setCylinder(origin, direction, r);
+			setCylinder(origin, direction, eigen, r, r2);
 			break;
 
 		case QUADRIC_CONE:
-			setCone(origin, direction, r);
+			setCone(origin, direction, eigen, r, r2);
 			break;
 		}
 	}
