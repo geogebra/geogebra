@@ -3905,9 +3905,9 @@ public abstract class App implements UpdateSelection {
 		case ACRA:
 		case ANALYTICS:
 		case HANDWRITING:
-			// case COMBOSCROLLING:
 			return prerelease;
 		case MOBILE_PROPERTIES_VIEW:
+		case COMBOSCROLLING:
 			return prerelease;
 
 		// return canary;
