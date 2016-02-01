@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Compute one end of a limited quadric
@@ -91,15 +92,22 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		section.setDefined();
 
 		CoordMatrix qm = quadric.getSymetricMatrix();
+		Log.debug(qm);
 		Coords d = quadric.getEigenvec3D(2);
 		Coords o1 = quadric.getMidpoint3D().add(
 				d.mul(quadric.getBottomParameter()));
 		Coords o2 = quadric.getMidpoint3D().add(
 				d.mul(quadric.getTopParameter()));
 		pm.setOrigin(getOrigin(o1, o2));
-		Coords[] v = d.completeOrthonormal();
+		Coords[] v = new Coords[3];// d.completeOrthonormal();
+		v[2] = d;
+		v[0] = quadric.getEigenvec3D(0).normalize();
+		v[1] = quadric.getEigenvec3D(1).normalize();
 		pm.setVx(v[0]);
 		pm.setVy(v[1]);
+		/*
+		 * Coords[] v = d.completeOrthonormal();
+		 */
 		pm.transposeCopy(pmt);
 
 		// sets the conic matrix from plane and quadric matrix

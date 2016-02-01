@@ -1522,7 +1522,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 	public void setCylinder(Coords origin, Coords direction, Coords eigen,
 			double r, double r2) {
-		setCylinder(origin, direction, eigen, r, r2, QUADRIC_CYLINDER, -1);
+		setCylinder(origin, direction, eigen, r, r2, QUADRIC_CYLINDER, 1);
 	}
 
 	public void setCylinder(Coords origin, Coords direction, Coords eigen,
@@ -1542,9 +1542,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// set the diagonal values
 		diagonal[0] = 1;
-		diagonal[1] = 1;
+		diagonal[1] = sgn * r * r / r2 / r2;
 		diagonal[2] = 0;
-		diagonal[3] = r * r2 * sgn;
+		diagonal[3] = -r * r2;
 
 		// set matrix
 		setMatrixFromEigen();
@@ -1560,7 +1560,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			Coords eigen, double r, double r2) {
 
 		setCylinder(origin, direction, eigen, r, r2,
-				QUADRIC_HYPERBOLIC_CYLINDER, 1);
+				QUADRIC_HYPERBOLIC_CYLINDER, -1);
 	}
 
 	public void setParabolicCylinder(Coords origin, Coords direction,
