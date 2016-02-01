@@ -1468,8 +1468,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		halfAxes[2] = 1;
 
 		// set the diagonal values
-		diagonal[0] = 1;
-		diagonal[1] = 1;
+		diagonal[0] = r2 / r;
+		diagonal[1] = r / r2;
 		diagonal[2] = -r * r2;
 		diagonal[3] = 0;
 

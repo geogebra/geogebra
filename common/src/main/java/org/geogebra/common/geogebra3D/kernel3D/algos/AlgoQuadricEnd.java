@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Compute one end of a limited quadric
@@ -92,7 +91,6 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		section.setDefined();
 
 		CoordMatrix qm = quadric.getSymetricMatrix();
-		Log.debug(qm);
 		Coords d = quadric.getEigenvec3D(2);
 		Coords o1 = quadric.getMidpoint3D().add(
 				d.mul(quadric.getBottomParameter()));
