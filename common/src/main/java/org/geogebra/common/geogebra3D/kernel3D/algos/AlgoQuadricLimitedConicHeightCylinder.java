@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
 /**
@@ -29,14 +30,44 @@ public class AlgoQuadricLimitedConicHeightCylinder extends
 	 */
 	public AlgoQuadricLimitedConicHeightCylinder(Construction c,
 			String[] labels, GeoConicND bottom, NumberValue height) {
-		super(c, labels, bottom, height, GeoQuadricNDConstants.QUADRIC_CYLINDER);
+		super(
+				c,
+				labels,
+				bottom,
+				height,
+ getExtrusionType(bottom));
+	}
+
+	private static int getExtrusionType(GeoConicND type) {
+		switch(type.getType()){
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+			return GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER;
+		case GeoConicNDConstants.CONIC_PARABOLA:
+			return GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER;
+		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+			return GeoQuadricNDConstants.QUADRIC_PLANE;
+		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			return GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES;
+		}
+		return GeoQuadricNDConstants.QUADRIC_CYLINDER;
 	}
 
 	@Override
 	protected void setQuadric(Coords o1, Coords o2, Coords d, Coords eigen,
 			double r, double r2,
 			double min, double max) {
-		getQuadric().setCylinder(o1, d, r, min, max);
+		switch (getExtrusionType(getBottomFace())) {
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
+			getQuadric().setCylinder(o1, d, r, min, max);
+			break;
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER:
+			getQuadric().setHyperbolicCylinder(o1, d, r, min, max);
+			break;
+		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER:
+			getQuadric().setParabolicCylinder(o1, d, r, min, max);
+			break;
+		}
+
 	}
 
 	@Override

@@ -243,6 +243,46 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 
 	}
 
+	public void setHyperbolicCylinder(Coords origin, Coords direction,
+			double r, double bottomParameter, double topParameter) {
+
+		// limits
+		setLimits(bottomParameter, topParameter);
+
+		// set center
+		this.origin = origin;
+
+		// set direction
+		this.direction = direction;
+
+		// set bottom radius
+		this.radius = r;
+
+		// set type
+		setType(QUADRIC_HYPERBOLIC_CYLINDER);
+
+	}
+
+	public void setParabolicCylinder(Coords origin, Coords direction, double r,
+			double bottomParameter, double topParameter) {
+
+		// limits
+		setLimits(bottomParameter, topParameter);
+
+		// set center
+		this.origin = origin;
+
+		// set direction
+		this.direction = direction;
+
+		// set bottom radius
+		this.radius = r;
+
+		// set type
+		setType(QUADRIC_PARABOLIC_CYLINDER);
+
+	}
+
 	/**
 	 * sets the bottom and top values for limits
 	 * 

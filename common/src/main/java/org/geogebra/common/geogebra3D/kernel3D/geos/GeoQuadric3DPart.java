@@ -102,6 +102,12 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		case QUADRIC_CYLINDER:
 			setCylinder(origin, direction, eigen, r, r2);
 			break;
+		case QUADRIC_HYPERBOLIC_CYLINDER:
+			setHyperbolicCylinder(origin, direction, eigen, r, r2);
+			break;
+		case QUADRIC_PARABOLIC_CYLINDER:
+			setParabolicCylinder(origin, direction, eigen, r, r2);
+			break;
 
 		case QUADRIC_CONE:
 			setCone(origin, direction, eigen, r, r2);

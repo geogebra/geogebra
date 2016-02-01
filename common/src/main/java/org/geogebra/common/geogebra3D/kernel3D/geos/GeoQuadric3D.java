@@ -1520,9 +1520,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 	}
-
 	public void setCylinder(Coords origin, Coords direction, Coords eigen,
 			double r, double r2) {
+		setCylinder(origin, direction, eigen, r, r2, QUADRIC_CYLINDER, -1);
+	}
+
+	public void setCylinder(Coords origin, Coords direction, Coords eigen,
+			double r, double r2, int type, double sgn) {
 
 		// set center
 		setMidpoint(origin.get());
@@ -1540,7 +1544,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		diagonal[0] = 1;
 		diagonal[1] = 1;
 		diagonal[2] = 0;
-		diagonal[3] = -r * r;
+		diagonal[3] = r * r2 * sgn;
 
 		// set matrix
 		setMatrixFromEigen();
@@ -1549,7 +1553,22 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], 1);
 
 		// set type
-		type = QUADRIC_CYLINDER;
+		this.type = type;
+	}
+
+	public void setHyperbolicCylinder(Coords origin, Coords direction,
+			Coords eigen, double r, double r2) {
+
+		setCylinder(origin, direction, eigen, r, r2,
+				QUADRIC_HYPERBOLIC_CYLINDER, 1);
+	}
+
+	public void setParabolicCylinder(Coords origin, Coords direction,
+			Coords eigen, double r, double r2) {
+
+		setCylinder(origin, direction.crossProduct(eigen).normalize(),
+				eigen.normalize(), r, r2,
+				QUADRIC_PARABOLIC_CYLINDER, 0);
 	}
 
 	/**

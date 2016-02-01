@@ -522,52 +522,73 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			center = quadric.getMidpoint3D();
 			r0 = quadric.getHalfAxis(0);
 			r1 = quadric.getHalfAxis(1);
-			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getReusableSurfaceIndex());
+
 			ev0 = quadric.getEigenvec3D(0);
 			ev1 = quadric.getEigenvec3D(1);
 			ev2 = quadric.getEigenvec3D(2);
-			if (uMinMax == null) {
-				uMinMax = new double[2];
+			surface = renderer.getGeometryManager().getSurface();
+			surface.start(getReusableSurfaceIndex());
+			if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
+
+				radius = quadric.getHalfAxis(0);
+				double radius2 = quadric.getHalfAxis(1);
+				longitude = renderer.getGeometryManager().getLongitude(radius,
+						getView3D().getScale());
+				surface.drawHyperbolicCylinder(center, ev0, ev1, ev2,
+ radius,
+						radius2, -Math.PI, Math.PI,
+						quadric.getMinParameter(1), quadric.getMaxParameter(1),
+ false);
+
+				boundsMin.set(Double.POSITIVE_INFINITY);
+				boundsMax.set(Double.NEGATIVE_INFINITY);
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, center, ev1, ev2,
+						radius, radius);
+
+
+			} else {
+
+				if (uMinMax == null) {
+					uMinMax = new double[2];
+				}
+				uMinMax[0] = Double.POSITIVE_INFINITY;
+				uMinMax[1] = Double.NEGATIVE_INFINITY;
+				getView3D().getMinIntervalOutsideClipping(uMinMax, center,
+						ev0.mul(r0));
+				scale = getView3D().getScale();
+				if (uMinMax[0] < -1) { // bottom exists
+					min = -DrawConic3D.acosh(-uMinMax[0]);
+				} else if (uMinMax[0] <= 1) { // top ends at pole
+					min = 0;
+				} else { // top pole is cut
+					min = DrawConic3D.acosh(uMinMax[0]);
+				}
+				if (uMinMax[1] > 1) { // top exists
+					max = DrawConic3D.acosh(uMinMax[1]);
+				} else if (uMinMax[1] >= -1) { // bottom ends at pole
+					max = 0;
+				} else { // bottom pole is cut
+					max = -DrawConic3D.acosh(-uMinMax[1]);
+				}
+				if (vMinMax == null) {
+					vMinMax = new double[2];
+				}
+				vMinMax[0] = Double.POSITIVE_INFINITY;
+				vMinMax[1] = Double.NEGATIVE_INFINITY;
+				getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2);
+				if (min < 0) {
+					surface.drawHyperbolicCylinder(center, ev0.mul(-1),
+							ev1.mul(-1), ev2, r0, r1, -max, -min, vMinMax[0],
+							vMinMax[1], !getView3D().useClippingCube());
+				}
+				if (max > 0) {
+					surface.drawHyperbolicCylinder(center, ev0, ev1, ev2, r0,
+							r1, min, max, vMinMax[0], vMinMax[1], !getView3D()
+									.useClippingCube());
+				}
+				uMinMax[0] = Math.sinh(min);
+				uMinMax[1] = Math.sinh(max);
 			}
-			uMinMax[0] = Double.POSITIVE_INFINITY;
-			uMinMax[1] = Double.NEGATIVE_INFINITY;
-			getView3D().getMinIntervalOutsideClipping(uMinMax, center,
-					ev0.mul(r0));
-			scale = getView3D().getScale();
-			if (uMinMax[0] < -1) { // bottom exists
-				min = -DrawConic3D.acosh(-uMinMax[0]);
-			} else if (uMinMax[0] <= 1) { // top ends at pole
-				min = 0;
-			} else { // top pole is cut
-				min = DrawConic3D.acosh(uMinMax[0]);
-			}
-			if (uMinMax[1] > 1) { // top exists
-				max = DrawConic3D.acosh(uMinMax[1]);
-			} else if (uMinMax[1] >= -1) { // bottom ends at pole
-				max = 0;
-			} else { // bottom pole is cut
-				max = -DrawConic3D.acosh(-uMinMax[1]);
-			}
-			if (vMinMax == null) {
-				vMinMax = new double[2];
-			}
-			vMinMax[0] = Double.POSITIVE_INFINITY;
-			vMinMax[1] = Double.NEGATIVE_INFINITY;
-			getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2);
-			if (min < 0) {
-				surface.drawHyperbolicCylinder(center, ev0.mul(-1),
-						ev1.mul(-1), ev2, r0, r1, -max, -min, vMinMax[0],
-						vMinMax[1], !getView3D()
-								.useClippingCube());
-			}
-			if (max > 0) {
-				surface.drawHyperbolicCylinder(center, ev0, ev1, ev2, r0, r1,
-						min, max, vMinMax[0], vMinMax[1], !getView3D()
-								.useClippingCube());
-			}
-			uMinMax[0] = Math.sinh(min);
-			uMinMax[1] = Math.sinh(max);
 			setSurfaceIndex(surface.end());
 
 			break;

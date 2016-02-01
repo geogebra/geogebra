@@ -178,6 +178,10 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		return top;
 	}
 
+	public GeoConicND getBottomFace() {
+		return bottom;
+	}
+
 	public void setOutputOtherEuclidianVisible(boolean b) {
 		side.setEuclidianVisible(b);
 		top.setEuclidianVisible(b);
