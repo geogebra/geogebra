@@ -2149,8 +2149,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param selectedPoints
 	 * @return a preview sphere (center-point)
 	 */
-	@SuppressWarnings("rawtypes")
-	public Previewable createPreviewSphere(ArrayList selectedPoints) {
+	public Previewable createPreviewSphere(ArrayList<GeoPointND> selectedPoints) {
 		return new DrawQuadric3D(this, selectedPoints,
 				GeoQuadricNDConstants.QUADRIC_SPHERE);
 	}

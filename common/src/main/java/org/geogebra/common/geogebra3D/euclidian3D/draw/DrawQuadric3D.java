@@ -29,7 +29,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	 * common constructor
 	 * 
 	 * @param a_view3d
+	 *            view
 	 * @param a_quadric
+	 *            quadric
 	 */
 	public DrawQuadric3D(EuclidianView3D a_view3d, GeoQuadric3D a_quadric) {
 
@@ -185,6 +187,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 	}
 
+	/**
+	 * Last longitude used for painting; helps avoiding updates
+	 */
 	protected int longitude = 0;
 
 	private double scale;
@@ -486,36 +491,60 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			ev0 = quadric.getEigenvec3D(0);
 			ev1 = quadric.getEigenvec3D(1);
 			ev2 = quadric.getEigenvec3D(2);
-			if (uMinMax == null) {
-				uMinMax = new double[2];
-			}
-			uMinMax[0] = Double.POSITIVE_INFINITY;
-			uMinMax[1] = Double.NEGATIVE_INFINITY;
 			if (vMinMax == null) {
 				vMinMax = new double[2];
 			}
 			vMinMax[0] = Double.POSITIVE_INFINITY;
 			vMinMax[1] = Double.NEGATIVE_INFINITY;
 			getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev0);
-			if (vMinMax[1] < 0) {
-				// nothing to draw
-				setSurfaceIndex(surface.end());
-			} else {
-				scale = getView3D().getScale();
-				// get radius at max
-				if (vMinMax[0] <= 0) {
-					vMinMax[0] = 0;
+			if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
+
+				radius = quadric.getHalfAxis(0);
+
+				if (vMinMax[1] < 0) {
+					// nothing to draw
+
 				} else {
-					vMinMax[0] = Math.sqrt(vMinMax[0]);
+					if (vMinMax[0] <= 0) {
+						vMinMax[0] = 0;
+					} else {
+						vMinMax[0] = Math.sqrt(vMinMax[0]);
+					}
+					vMinMax[1] = Math.sqrt(vMinMax[1]);
+					surface.drawParabolicCylinder(center, ev0, ev1, ev2, r2,
+							vMinMax[0], vMinMax[1], quadric.getMinParameter(1),
+							quadric.getMaxParameter(1), false);
+
+					boundsMin.set(Double.POSITIVE_INFINITY);
+					boundsMax.set(Double.NEGATIVE_INFINITY);
 				}
-				vMinMax[1] = Math.sqrt(vMinMax[1]);
-				getView3D().getMinIntervalOutsideClipping(uMinMax, center, ev1);
-				surface.drawParabolicCylinder(center, ev0, ev1, ev2, r2,
-						vMinMax[0], vMinMax[1], uMinMax[0], uMinMax[1],
-						!getView3D()
-								.useClippingCube());
-				setSurfaceIndex(surface.end());
+
+			} else {
+				if (uMinMax == null) {
+					uMinMax = new double[2];
+				}
+				uMinMax[0] = Double.POSITIVE_INFINITY;
+				uMinMax[1] = Double.NEGATIVE_INFINITY;
+				if (vMinMax[1] < 0) {
+					// nothing to draw
+
+				} else {
+					scale = getView3D().getScale();
+					// get radius at max
+					if (vMinMax[0] <= 0) {
+						vMinMax[0] = 0;
+					} else {
+						vMinMax[0] = Math.sqrt(vMinMax[0]);
+					}
+					vMinMax[1] = Math.sqrt(vMinMax[1]);
+					getView3D().getMinIntervalOutsideClipping(uMinMax, center,
+							ev1);
+					surface.drawParabolicCylinder(center, ev0, ev1, ev2, r2,
+							vMinMax[0], vMinMax[1], uMinMax[0], uMinMax[1],
+							!getView3D().useClippingCube());
+				}
 			}
+			setSurfaceIndex(surface.end());
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER:
@@ -536,7 +565,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 						getView3D().getScale());
 				surface.drawHyperbolicCylinder(center, ev0, ev1, ev2,
  radius,
-						radius2, -Math.PI, Math.PI,
+						radius2, 0, 2 * Math.PI,
 						quadric.getMinParameter(1), quadric.getMaxParameter(1),
  false);
 
@@ -823,6 +852,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	}
 
+	/**
+	 * @param min
+	 *            minimal parameter
+	 * @param max
+	 *            maximal parameter
+	 * @param surface
+	 *            plotter
+	 */
 	protected void setSurfaceV(float min, float max, PlotterSurface surface) {
 		float fade = (max - min) / 10f;
 
@@ -859,7 +896,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		int type = quadric.getType();
-
 		switch (type) {
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 			if (getView3D().viewChangedByZoom()) {
@@ -1104,18 +1140,20 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	// //////////////////////////////
 	// Previewable interface
 
-	@SuppressWarnings("rawtypes")
-	private ArrayList selectedPoints;
+	private ArrayList<GeoPointND> selectedPoints;
 
 	/**
 	 * constructor for previewable
 	 * 
 	 * @param view3D
+	 *            view
 	 * @param selectedPoints
-	 * @param cs1D
+	 *            points defining preview
+	 * @param type
+	 *            quadric type
 	 */
-	@SuppressWarnings("unchecked")
-	public DrawQuadric3D(EuclidianView3D view3D, ArrayList selectedPoints,
+	public DrawQuadric3D(EuclidianView3D view3D,
+			ArrayList<GeoPointND> selectedPoints,
 			int type) {
 
 		super(view3D);
@@ -1135,7 +1173,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	public void updateMousePos(double xRW, double yRW) {
-
+		// not needed
 	}
 
 	public void updatePreview() {
@@ -1143,9 +1181,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		GeoPointND firstPoint = null;
 		GeoPointND secondPoint = null;
 		if (selectedPoints.size() >= 1) {
-			firstPoint = (GeoPointND) selectedPoints.get(0);
+			firstPoint = selectedPoints.get(0);
 			if (selectedPoints.size() == 2)
-				secondPoint = (GeoPointND) selectedPoints.get(1);
+				secondPoint = selectedPoints.get(1);
 			else
 				secondPoint = getView3D().getCursor3D();
 		}
