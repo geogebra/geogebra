@@ -1314,7 +1314,7 @@ __GGB__keysVar.nl_NL.menu = {
     "CopyAsLibreOfficeFormula": "Kopieer als OpenOffice Formule",
     "CopyImage": "Kopieer Afbeelding",
     "CopyImageAsSVG": "Kopieer afbeelding als SVG",
-    "CopyInput": "Copy Input",
+    "CopyInput": "Invoer kopi\xebren",
     "CopyToClipboard": "Kopieer naar klembord",
     "CopyToGraphics": "Kopieer naar tekenvenster",
     "CopyToInputBar": "Kopieer naar invoervak",

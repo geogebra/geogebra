@@ -1314,7 +1314,7 @@ __GGB__keysVar.it.menu = {
     "CopyAsLibreOfficeFormula": "Copia come formula di LibreOffice",
     "CopyImage": "Copia come immagine",
     "CopyImageAsSVG": "Copia immagine come SVG",
-    "CopyInput": "Copy Input",
+    "CopyInput": "Copia inserimento",
     "CopyToClipboard": "Copia negli Appunti",
     "CopyToGraphics": "Copia nella vista Grafici",
     "CopyToInputBar": "Copia nella Barra di inserimento",

@@ -1314,7 +1314,7 @@ __GGB__keysVar.fr.menu = {
     "CopyAsLibreOfficeFormula": "Copier en Formule LibreOffice",
     "CopyImage": "Copie Image",
     "CopyImageAsSVG": "Copier Image en SVG",
-    "CopyInput": "Copy Input",
+    "CopyInput": "Copier Saisie",
     "CopyToClipboard": "Copier dans le Presse-Papiers",
     "CopyToGraphics": "Copier vers Graphique",
     "CopyToInputBar": "Copier dans Champ de saisie",
