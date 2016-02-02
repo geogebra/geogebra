@@ -214,7 +214,7 @@ public class App3D extends AppD {
 	 */
 	void showZSpaceCongratulations() {
 		showInput3DCongratulations(getMenu("ZSpace.DetectedMessage"),
-				"https://tube-beta.geogebra.org/b/mTvZVHwm");
+				"http://www.geogebra.org/tutorial/zspace");
 
 	}
 
