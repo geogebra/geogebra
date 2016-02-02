@@ -325,19 +325,20 @@ public final class DrawList extends CanvasDrawable
 			itemHovered = items.get(selectedIndex);
 		}
 
-		private void scrollUp() {
+		void scrollUp() {
 			if (startIdx > 0) {
 				startIdx--;
 				selectedIndex = startIdx;
-				// updateItemHovered();
+				geo.updateRepaint();
+
 			}
 		}
 
-		private void scrollDown() {
+		void scrollDown() {
 			if (endIdx != items.size()) {
 				startIdx++;
 				selectedIndex = endIdx;
-				// updateItemHovered();
+				geo.updateRepaint();
 			}
 		}
 
@@ -345,11 +346,9 @@ public final class DrawList extends CanvasDrawable
 			switch (scrollMode) {
 			case UP:
 				scrollUp();
-				geo.updateRepaint();
 				break;
 			case DOWN:
 				scrollDown();
-				geo.updateRepaint();
 				break;
 			case NONE:
 				break;
@@ -631,6 +630,9 @@ public final class DrawList extends CanvasDrawable
 			this.visible = visible;
 			if (visible) {
 				view.setOpenedComboBox(DrawList.this);
+				if (isScrollNeeded()) {
+
+				}
 				selectedIndex = 0;
 				itemHovered = items.get(0);
 			} else {
@@ -1583,5 +1585,15 @@ public final class DrawList extends CanvasDrawable
 			drawOptions.scroll();
 		}
 
+	}
+
+	public void onMouseWheel(double delta) {
+		Log.debug("SONOFABITCH: " + delta);
+		if (delta > 0) {
+			drawOptions.scrollDown();
+		} else {
+			drawOptions.scrollUp();
+
+		}
 	}
 }
