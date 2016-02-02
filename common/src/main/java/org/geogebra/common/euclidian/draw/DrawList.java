@@ -206,15 +206,14 @@ public final class DrawList extends CanvasDrawable
 				for (int col = 0; col < getColCount(); col++) {
 				for (int row = 0; row < rowCount; row++) {
 					if (idx < items.size()) {
-						drawItem(col, row, items.get(idx), false);
+						drawItem(col, row, items.get(idx));
 					}
 					idx++;
 				}
 			}
 		}
 
-		private void drawItem(int col, int row, OptionItem item,
-				boolean hover) {
+		private void drawItem(int col, int row, OptionItem item) {
 
 			int rectLeft = left + dimItem.getWidth() * col;
 			int rectTop = top + dimItem.getHeight() * row;
@@ -226,7 +225,7 @@ public final class DrawList extends CanvasDrawable
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
 			}
 
-			drawItem(item, hover);
+			drawItem(item, item.index == selectedIndex);
 		}
 
 		private void drawItem(OptionItem item, boolean hover) {
@@ -322,19 +321,24 @@ public final class DrawList extends CanvasDrawable
 					&& (rectUp.contains(x, y) || rectDown.contains(x, y));
 		}
 
+		private void updateItemHovered() {
+			itemHovered = items.get(selectedIndex);
+		}
+
 		private void scrollUp() {
-			Log.debug(SCROLL_PFX + " Scrolling up!");
 			if (startIdx > 0) {
 				startIdx--;
+				selectedIndex = startIdx;
+				// updateItemHovered();
 			}
 		}
 
 		private void scrollDown() {
-			Log.debug(SCROLL_PFX + " Scrolling down!");
 			if (endIdx != items.size()) {
 				startIdx++;
+				selectedIndex = endIdx;
+				// updateItemHovered();
 			}
-			// drawItems();
 		}
 
 		public void scroll() {
@@ -360,7 +364,7 @@ public final class DrawList extends CanvasDrawable
 			}
 
 			if (handleUpControl(x, y) || handleDownControl(x, y)) {
-				return false;
+				return true;
 			}
 
 			OptionItem item = getItemAt(x, y);
@@ -388,6 +392,7 @@ public final class DrawList extends CanvasDrawable
 				return;
 			}
 
+			updateItemHovered();
 			if (itemHovered != null) {
 				drawItem(itemHovered, false);
 			}
