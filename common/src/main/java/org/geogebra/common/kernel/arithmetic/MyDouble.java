@@ -217,9 +217,12 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	/**
 	 * Switches to angle mode (to use degrees)
+	 * 
+	 * @return reference to self
 	 */
-	public void setAngle() {
+	public MyDouble setAngle() {
 		angleDim = 1;
+		return this;
 	}
 
 	/**

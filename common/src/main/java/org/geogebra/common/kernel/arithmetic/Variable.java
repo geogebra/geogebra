@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
 
 /**
@@ -165,7 +166,18 @@ public class Variable extends ValidExpression {
 		int i;
 		ExpressionValue geo2 = null;
 		String nameNoX = name;
-		for (i = name.length() - 1; i >= 0; i--) {
+		int degPower = 0;
+		while (nameNoX.length() > 0 && !(geo2 instanceof GeoElement)
+				&& nameNoX.endsWith("deg")) {
+			int length = nameNoX.length();
+			degPower++;
+			nameNoX = nameNoX.substring(0, length - 3);
+			if (length > 3) {
+				geo2 = kernel.lookupLabel(nameNoX);
+			}
+
+		}
+		for (i = nameNoX.length() - 1; i >= 0; i--) {
 			char c = name.charAt(i);
 			if ((c < 'x' || c > 'z') && c != Unicode.theta)
 				break;
@@ -201,11 +213,12 @@ public class Variable extends ValidExpression {
 		}
 		ExpressionNode powers = xyzPowers(kernel, exponents);
 		if (geo2 == null) {
-			return piPower == 0 ? powers : powers
-					.multiply(piTo(piPower, kernel));
+			return piPower == 0 && degPower == 0 ? powers : powers
+					.multiply(piDegTo(piPower, degPower, kernel));
 		}
-		return piPower == 0 ? powers.multiply(geo2) : powers.multiply(geo2)
-				.multiply(piTo(piPower, kernel));
+		return piPower == 0 && degPower == 0 ? powers.multiply(geo2) : powers
+				.multiply(geo2)
+.multiply(piDegTo(piPower, degPower, kernel));
 	}
 
 	private static ExpressionNode xyzPowers(Kernel kernel, int[] exponents) {
@@ -224,9 +237,16 @@ public class Variable extends ValidExpression {
 								exponents[3])));
 	}
 
-	private static ExpressionNode piTo(int piPower, Kernel kernel2) {
-		return new MySpecialDouble(kernel2, Math.PI, Unicode.PI_STRING).wrap()
-				.power(piPower);
+	private static ExpressionNode piDegTo(int piPower, int degPower,
+			Kernel kernel2) {
+		ExpressionNode piExp = piPower > 0 ? new MySpecialDouble(kernel2, Math.PI, Unicode.PI_STRING).wrap()
+		.power(piPower) : null;
+		ExpressionNode degExp = degPower > 0 ?
+ new MyDouble(kernel2, MyMath.DEG)
+				.setAngle()
+.wrap().power(degPower) : null;
+		return degExp == null ? piExp : (piExp == null ? degExp : piExp
+				.multiply(degExp));
 	}
 
 	public HashSet<GeoElement> getVariables() {
