@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 
 /**
@@ -148,7 +147,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 				// }
 				// }
 				// }
-				if (!functions.equals(dependentFromFunctions)) {
+				if (!functions.equals(dependentFromFunctions)
+						|| equation.hasVariableDegree()) {
 					equation.initEquation();
 					coeff = equation.getNormalForm().getCoeff();
 					dependentFromFunctions = functions;
@@ -167,8 +167,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 			equation.initEquation();
 		}
 		ExpressionNode def = geoElement.getDefinition();
-		App.debug(equation.isForcedImplicitPoly() + ","
-				+ equation.isForcedConic() + "," + equation.degree());
+
 		// use the forced behavior here
 		int degree = equation.isForcedImplicitPoly() ? 3
 				: (equation.isForcedConic() ? 2 : equation.degree());
