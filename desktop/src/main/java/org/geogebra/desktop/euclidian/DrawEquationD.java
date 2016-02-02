@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.Language;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.main.AppD;
 import org.scilab.forge.jlatexmath.AlphabetRegistration;
@@ -114,11 +115,20 @@ public class DrawEquationD extends DrawEquation {
 				// e.printStackTrace();
 				// Application.debug("LaTeX parse exception: "+e.getMessage()+"\n"+text);
 				// Write error message to Graphics View
+				try {
+					formula = TeXFormula.getPartialTeXFormula(text);
 
-				formula = TeXFormula.getPartialTeXFormula(text);
-				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, fgColor);
-
+					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+							font.getSize() + 3, style, fgColor);
+				} catch (Exception e2) {
+					Log.debug("LaTeX parse exception: " + e.getMessage() + "\n"
+							+ text);
+					formula = TeXFormula.getPartialTeXFormula("\text{"
+							+ app.getLocalization().getError(
+									"CAS.GeneralErrorMessage") + "}");
+					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+							font.getSize() + 3, style, fgColor);
+				}
 				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
 				// x, y + g2.getFont().getSize(), g2);
 				// return new Dimension(rec.width, rec.height);
