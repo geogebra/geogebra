@@ -656,28 +656,29 @@ public final class DrawList extends CanvasDrawable
 				if (idx < items.size() - diff) {
 					idx += diff;
 					update = true;
+					if (idx > endIdx - 1) {
+						scrollDown();
+					}
 				}
 			} else {
 				if (idx > diff - 1) {
 					idx -= diff;
 					update = true;
+					if (idx < startIdx) {
+						scrollUp();
+					}
 				}
 			}
 
-			if (update && (!hasHovered
-					|| (hasHovered && itemHovered.index != idx))) {
-				if (hasHovered) {
-					drawItem(itemHovered, false);
-				}
-
+			if (update) {
 				itemHovered = items.get(idx);
 				selectedIndex = idx;
-				drawItem(itemHovered, true);
-
+				geo.updateRepaint();
 			}
 		}
 
 		public void moveSelectorVertical(boolean moveDown) {
+
 			moveSelectorBy(1, moveDown);
 		}
 
