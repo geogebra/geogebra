@@ -73,7 +73,8 @@ public class DrawConicPart3D extends DrawConic3D {
 			minmax = getLineMinMax(0); // get min/max with current (m,d)
 
 			brush.segment(m, m.add(d.mul(minmax[0])));
-			brush.segment(conic.getOrigin3D(1), m.add(d.mul(minmax[1])));
+			brush.segment(((GeoConicPartND) conic).getSegmentEnd3D(),
+					m.add(d.mul(minmax[1])));
 
 		}
 	}
