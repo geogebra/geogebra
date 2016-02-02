@@ -5290,7 +5290,9 @@ public class MyXMLHandler implements DocHandler {
 						coeff[i][j] = row.get(j);
 					}
 				}
+				ExpressionNode def = geo.getDefinition();
 				((GeoImplicit) geo).setCoeff(coeff);
+				geo.setDefinition(def);
 				return true;
 			}
 		} catch (Exception e) {

@@ -291,7 +291,7 @@ TOKEN :  {
   | < IMAGINARY: ("\u03af") > // imaginary constant
   // 02da is "Ring Above", Alt-k in iPad
   // 00ba is Masculine ordinal indicator Alt-zero on OSX
-  | < DEGREE:   ( "\u00b0" | "\u02da" | "\u00ba" ) > 
+  | < DEGREE:   ( "\u00b0" | "\u02da" | "\u00ba" | "deg") > 
   | < INFINITY: ("\u221e" | "Infinity" | "inf" | "infinity") >
   | < RAD:      "rad" >
   | < DERIVATIVE: "'" >
@@ -1743,8 +1743,12 @@ ExpressionValue myDouble():
       }                               
     }
 |
-    <DEGREE>
-    {  // constant for degree to radians 
+    (c = <DEGREE>)
+    {  // constant for degree to radians
+    if(c.image.length() ==3)    {		GeoElement geo = kernel.lookupLabel(c.image);
+		if(geo != null)		{			return geo;
+		}
+    } 
         d = new MySpecialDouble(kernel, Math.PI / 180.0d, "\u00b0");
         d.setAngle();
         return d;

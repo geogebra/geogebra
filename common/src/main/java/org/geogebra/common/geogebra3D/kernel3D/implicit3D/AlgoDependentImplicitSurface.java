@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Dependent implicit surface
@@ -74,7 +75,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	 * 
 	 * @return {@link GeoImplicitSurface}
 	 */
-	public GeoImplicitSurface getGeo() {
+	public GeoElement getGeo() {
 		return geoElem;
 	}
 
