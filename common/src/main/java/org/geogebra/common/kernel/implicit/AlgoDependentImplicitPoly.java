@@ -13,8 +13,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -50,33 +48,10 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 		super(c, false);
 		Polynomial lhs = equ.getNormalForm();
 		coeff = lhs.getCoeff();
-		for (int i = 0; i < coeff.length; i++) {
-			for (int j = 0; j < coeff[i].length; j++) {
-				if (coeff[i][j] != null) {
-					// find constant parts of input and evaluate them right now
-					if (simplify && !coeff[i][j]
-							.inspect(Inspecting.dynamicGeosFinder)) {
-						coeff[i][j] = coeff[i][j]
-								.evaluate(StringTemplate.defaultTemplate);
-					}
-
-					// check that coefficient is a number: this may throw an
-					// exception
-					ExpressionValue eval = coeff[i][j]
-							.evaluate(StringTemplate.defaultTemplate);
-					((NumberValue) eval).getDouble();
-				}
-			}
-		}
+		PolynomialUtils.checkNumericCoeff(coeff, simplify);
 		c.addToConstructionList(this, false);
-		if (equ.isForcedLine()) {
-			geoElement = new GeoLine(c);
-		} else if (equ.isForcedConic()) {
-			geoElement = new GeoConic(c);
-		} else if (equ.isForcedImplicitPoly()) {
-			geoElement = kernel.newImplicitPoly(cons);
-		} else {
-			switch (equ.degree()) {
+
+			switch (equ.preferredDegree()) {
 			// linear equation -> LINE
 			case 1:
 				geoElement = new GeoLine(c);
@@ -88,7 +63,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 			default:
 				geoElement = kernel.newImplicitPoly(c);
 			}
-		}
+
 		geoElement.setDefinition(equ.wrap());
 		setInputOutput(); // for AlgoElement
 
@@ -133,20 +108,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 				addAllFunctionalDescendents(this, functions,
 						new TreeSet<AlgoElement>());
 
-				// for (int i=0;i<dependentFromFunctions.length;i++){
-				// if (dependentFromFunctions[i]!=null){
-				// if (!(input[i] instanceof FunctionalNVar)){
-				// functionChanged=true;
-				// break;
-				// }else{
-				// if
-				// (((FunctionalNVar)input[i]).getFunction()!=dependentFromFunctions[i]){
-				// functionChanged=true;
-				// break;
-				// }
-				// }
-				// }
-				// }
 				if (!functions.equals(dependentFromFunctions)
 						|| equation.hasVariableDegree()) {
 					equation.initEquation();
@@ -169,8 +130,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 		ExpressionNode def = geoElement.getDefinition();
 
 		// use the forced behavior here
-		int degree = equation.isForcedImplicitPoly() ? 3
-				: (equation.isForcedConic() ? 2 : equation.degree());
+		int degree = equation.preferredDegree();
 		if (!equation.isPolynomial()) {
 			degree = 3;
 		}
@@ -187,7 +147,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 					setLine();
 				}
 			}
-			geoElement.setDefinition(def);
 			break;
 		// quadratic equation -> CONIC
 		case 2:
@@ -201,14 +160,12 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 					setConic();
 				}
 			}
-			geoElement.setDefinition(def);
 			break;
 		default:
 			if (geoElement instanceof GeoImplicit) {
 				((GeoImplicit) geoElement).setDefined();
 				((GeoImplicit) geoElement).fromEquation(equation, null);
 				((GeoImplicit) geoElement).setCoeff(coeff);
-				geoElement.setDefinition(def);
 			} else {
 				if (geoElement.hasChildren())
 					geoElement.setUndefined();
@@ -219,8 +176,9 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 					((GeoImplicit) geoElement).setCoeff(coeff);
 				}
 			}
-			geoElement.setDefinition(def);
+
 		}
+		geoElement.setDefinition(def);
 	}
 
 	private void setLine() {

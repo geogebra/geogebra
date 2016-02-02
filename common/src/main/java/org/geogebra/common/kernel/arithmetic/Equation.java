@@ -738,4 +738,19 @@ public class Equation extends ValidExpression {
 		return this;
 	}
 
+	/**
+	 * @return degree; overriden by forcedLine, forceConic, forceImplicitPoly
+	 */
+	public int preferredDegree() {
+		if (isForcedLine() || isForcedPlane()) {
+			return 1;
+		} else if (isForcedConic() || isForcedQuadric()) {
+			return 2;
+		} else if (isForcedImplicitPoly() || isForcedSurface()) {
+			return 3;
+		} else {
+			return degree();
+		}
+	}
+
 } // end of class Equation

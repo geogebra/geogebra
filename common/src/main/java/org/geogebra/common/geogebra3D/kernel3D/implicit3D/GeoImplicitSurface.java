@@ -107,7 +107,7 @@ public class GeoImplicitSurface extends GeoElement3D implements
 		return true;
 	}
 
-	private void fromEquation(Equation eqn) {
+	void fromEquation(Equation eqn) {
 		setDefinition(eqn.wrap());
 
 		ExpressionNode leftHandSide = eqn.getLHS();

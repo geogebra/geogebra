@@ -20,6 +20,10 @@ package org.geogebra.common.kernel.implicit;
 
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.polynomial.BigPolynomial;
 
 /**
@@ -270,6 +274,30 @@ public class PolynomialUtils {
 		pair[0] = x;
 		pair[1] = y;
 		return err < Kernel.STANDARD_PRECISION;
+	}
+
+	public static void checkNumericCoeff(ExpressionValue[][] coeff,
+			boolean simplify) {
+		for (int i = 0; i < coeff.length; i++) {
+			for (int j = 0; j < coeff[i].length; j++) {
+				if (coeff[i][j] != null) {
+					// find constant parts of input and evaluate them right now
+					if (simplify
+							&& !coeff[i][j]
+									.inspect(Inspecting.dynamicGeosFinder)) {
+						coeff[i][j] = coeff[i][j]
+								.evaluate(StringTemplate.defaultTemplate);
+					}
+
+					// check that coefficient is a number: this may throw an
+					// exception
+					ExpressionValue eval = coeff[i][j]
+							.evaluate(StringTemplate.defaultTemplate);
+					((NumberValue) eval).getDouble();
+				}
+			}
+		}
+
 	}
 
 }
