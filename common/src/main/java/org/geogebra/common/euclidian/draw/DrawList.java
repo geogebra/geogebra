@@ -155,7 +155,7 @@ public final class DrawList extends CanvasDrawable
 		private boolean scrollSupport;
 
 		// startIdx and endIdx defines the range of items that are visible.
-		private int startIdx = 0;
+		private int startIdx = -1;
 		private int endIdx;
 		private GRectangle rectUp;
 		private GRectangle rectDown;
@@ -185,11 +185,14 @@ public final class DrawList extends CanvasDrawable
 			if (!isVisible()) {
 				return;
 			}
+			if (startIdx == -1 && !"".equals(selectedText)) {
+				startIdx = isScrollNeeded() ? geoList.getSelectedIndex() : 0;
 
+			}
 			this.left = left;
 			this.top = top;
 			this.g2 = g2;
-		
+
 			getMetrics();
 			drawBox();
 			drawItems();
@@ -422,6 +425,9 @@ public final class DrawList extends CanvasDrawable
 			xPadding = 10;
 			yPadding = 10;
 			itemFontSize = getLabelFontSize();
+
+
+
 			if (scrollSupport) {
 				getScrollSettings();
 
@@ -532,6 +538,7 @@ public final class DrawList extends CanvasDrawable
 			int visibleItems = (view.getHeight() - (2 * MARGIN
 					+ (int) (rectUp.getHeight() + rectDown.getHeight())))
 					/ dimItem.getHeight();
+
 			endIdx = startIdx + Math.min(visibleItems, maxItems);
 			rowCount = getVisibleItemCount();
 			scrollNeeded = getVisibleItemCount() != maxItems;
@@ -630,11 +637,9 @@ public final class DrawList extends CanvasDrawable
 			this.visible = visible;
 			if (visible) {
 				view.setOpenedComboBox(DrawList.this);
-				if (isScrollNeeded()) {
-
-				}
-				selectedIndex = 0;
-				itemHovered = items.get(0);
+				startIdx = isScrollNeeded() ? geoList.getSelectedIndex() : 0;
+				selectedIndex = startIdx;
+				itemHovered = items.get(selectedIndex);
 			} else {
 				view.setOpenedComboBox(null);
 			}

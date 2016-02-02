@@ -9902,6 +9902,11 @@ public abstract class EuclidianController {
 			return;
 		}
 
+		DrawList combo = view.getOpenedComboBox();
+		if (combo != null) {
+			combo.onMouseWheel(delta);
+			return;
+		}
 		app.maySetCoordSystem();
 
 		// don't allow mouse wheel zooming for applets if mode is not zoom mode
@@ -9912,6 +9917,7 @@ public abstract class EuclidianController {
 		if (!allowMouseWheel) {
 			return;
 		}
+
 
 		setMouseLocation(alt, x, y);
 
