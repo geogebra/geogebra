@@ -37,11 +37,11 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 public class AlgoDirectrix extends AlgoElement {
 
 	private GeoConic c; // input
-	private GeoLine directrix; // output
+	private GeoLine directrix, directrix2; // output
 
 	private GeoVec2D[] eigenvec;
 	private GeoVec2D b;
-	private GeoPoint P;
+	private GeoPoint P, P2;
 
 	public AlgoDirectrix(Construction cons, String label, GeoConic c) {
 		super(cons);
@@ -51,11 +51,15 @@ public class AlgoDirectrix extends AlgoElement {
 		b = c.b;
 
 		directrix = new GeoLine(cons);
+		directrix2 = new GeoLine(cons);
 		P = new GeoPoint(cons);
+		P2 = new GeoPoint(cons);
 		directrix.setStartPoint(P);
+		directrix2.setStartPoint(P2);
 
 		setInputOutput(); // for AlgoElement
 		compute();
+		directrix2.setLabel(label);
 		directrix.setLabel(label);
 	}
 
@@ -70,13 +74,18 @@ public class AlgoDirectrix extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = c;
 
-		super.setOutputLength(1);
+		super.setOutputLength(2);
 		super.setOutput(0, directrix);
+		super.setOutput(1, directrix2);
 		setDependencies(); // done by AlgoElement
 	}
 
 	public GeoLine getDirectrix() {
 		return directrix;
+	}
+
+	public GeoLine getDirectrix2() {
+		return directrix2;
 	}
 
 	GeoConic getConic() {
@@ -96,9 +105,38 @@ public class AlgoDirectrix extends AlgoElement {
 			double py = b.getY() - c.p / 2.0 * eigenvec[0].getY();
 			directrix.z = -(directrix.x * px + directrix.y * py);
 
+			directrix2.setUndefined();
+
+		} else if (c.type == GeoConicNDConstants.CONIC_ELLIPSE
+				|| c.type == GeoConicNDConstants.CONIC_HYPERBOLA) {
+			// https://jira.geogebra.org/browse/GGB-183
+			// parallel to the minor axis, at a distance a/e away from the
+			// origin.
+
+			double e = c.eccentricity;
+			double a = c.getHalfAxis(0);
+
+			double py = b.getY() + eigenvec[0].getY() * a / e;
+			double px = b.getX() + eigenvec[0].getX() * a / e;
+			double py2 = b.getY() - eigenvec[0].getY() * a / e;
+			double px2 = b.getX() - eigenvec[0].getX() * a / e;
+
+			directrix.x = -eigenvec[1].getY();
+			directrix.y = eigenvec[1].getX();
+			directrix.z = -(directrix.x * px + directrix.y * py);
+
 			P.setCoords(px, py, 1.0);
-		} else
+
+			directrix2.x = -eigenvec[1].getY();
+			directrix2.y = eigenvec[1].getX();
+			directrix2.z = -(directrix.x * px2 + directrix.y * py2);
+
+			P2.setCoords(px2, py2, 1.0);
+
+		} else {
 			directrix.setUndefined();
+			directrix2.setUndefined();
+		}
 	}
 
 	@Override

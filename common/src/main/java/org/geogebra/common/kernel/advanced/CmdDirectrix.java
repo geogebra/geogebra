@@ -37,7 +37,8 @@ public class CmdDirectrix extends CommandProcessor {
 				AlgoDirectrix algo = new AlgoDirectrix(cons, c.getLabel(),
 						(GeoConic) arg[0]);
 
-				GeoElement[] ret = { algo.getDirectrix() };
+				GeoElement[] ret = { algo.getDirectrix(),
+						algo.getDirectrix2() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
