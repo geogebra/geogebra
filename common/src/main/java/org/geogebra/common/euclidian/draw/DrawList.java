@@ -370,7 +370,7 @@ public final class DrawList extends CanvasDrawable
 				return true;
 			}
 
-			return true;
+			return false;
 
 		}
 
@@ -1391,11 +1391,7 @@ public final class DrawList extends CanvasDrawable
 			return false;
 		}
 
-		boolean hit = drawOptions.isHit(x, y);
-		if (hit) {
-			Log.debug("OPTION is HIT");
-		}
-		return hit;
+		return drawOptions.isHit(x, y);
 	}
 
 	/**
@@ -1435,7 +1431,8 @@ public final class DrawList extends CanvasDrawable
 
 		if (isControlHit(x, y)) {
 			drawOptions.itemHovered = null;
-			setOptionsVisible(!isOptionsVisible());
+			toggleOptions();
+			// setOptionsVisible(!isOptionsVisible());
 			controlHitLast = true;
 		} else {
 			controlHitLast = false;
