@@ -1282,16 +1282,16 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 	
 	@Override
-	public void updateVisualStyle() {
-		super.updateVisualStyle();
-		
-		ArrayList<AlgoElement> algosTextCorner = new ArrayList<AlgoElement>();
-		for (AlgoElement algo : getAlgorithmList()){
-			if (algo instanceof AlgoTextCorner)
-				algosTextCorner.add(algo);
+	public void updateVisualStyle(GProperty prop) {
+		super.updateVisualStyle(prop);
+		if (prop == GProperty.FONT) {
+			ArrayList<AlgoElement> algosTextCorner = new ArrayList<AlgoElement>();
+			for (AlgoElement algo : getAlgorithmList()) {
+				if (algo instanceof AlgoTextCorner)
+					algosTextCorner.add(algo);
+			}
+			AlgoElement.updateCascadeAlgos(algosTextCorner);
 		}
-		AlgoElement.updateCascadeAlgos(algosTextCorner);
-		
 	}
 
 

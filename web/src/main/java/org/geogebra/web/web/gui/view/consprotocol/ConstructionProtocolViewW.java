@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -536,7 +537,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			public void update(int index, RowData object, String value) {
 				object.getGeo().setCaption(value);
 				data.initView();
-				object.getGeo().updateVisualStyleRepaint();
+				object.getGeo().updateVisualStyleRepaint(GProperty.CAPTION);
 			}
 
 		});
@@ -717,7 +718,7 @@ myCell) {
 				object.getGeo().setCaption(value);
 				data.initView();
 				tableInit();
-				object.getGeo().updateVisualStyleRepaint();
+				object.getGeo().updateVisualStyleRepaint(GProperty.CAPTION);
 
 			}
 

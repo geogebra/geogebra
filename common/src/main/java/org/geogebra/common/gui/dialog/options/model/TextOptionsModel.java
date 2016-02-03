@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -190,7 +191,7 @@ public class TextOptionsModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
 			text.setFontSizeMultiplier(value);
-			getGeoAt(i).updateVisualStyleRepaint();
+			getGeoAt(i).updateVisualStyleRepaint(GProperty.FONT);
 		}
 		if (editGeo == null) {
 			return;
@@ -217,7 +218,7 @@ public class TextOptionsModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
 			text.setSerifFont(isSerif);
-			getGeoAt(i).updateVisualStyleRepaint();
+			text.updateVisualStyleRepaint(GProperty.FONT);
 		}
 
 		((TextProperties)editGeo).setSerifFont(isSerif);
@@ -259,7 +260,7 @@ public class TextOptionsModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
 			text.setFontStyle(style);
-			((GeoElement) text).updateVisualStyleRepaint();
+			text.updateVisualStyleRepaint(GProperty.FONT);
 		}
 
 		listener.updatePreview();

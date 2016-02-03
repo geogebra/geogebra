@@ -26,6 +26,7 @@ import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -192,7 +193,7 @@ public class DialogManagerD extends org.geogebra.common.main.DialogManager {
 			return;
 
 		geo.setLabelVisible(true);
-		geo.updateVisualStyleRepaint();
+		geo.updateVisualStyleRepaint(GProperty.LABEL_VISIBLE);
 
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 

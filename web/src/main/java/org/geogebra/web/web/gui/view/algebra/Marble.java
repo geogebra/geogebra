@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
@@ -23,7 +24,7 @@ public class Marble extends SimplePanel
 	 */
 	void toggleVisibility(){
 		gc.getGeo().setEuclidianVisible(!gc.getGeo().isSetEuclidianVisible());
-		gc.getGeo().updateVisualStyle();
+		gc.getGeo().updateVisualStyle(GProperty.VISIBLE);
 		gc.getGeo().getKernel().getApplication().storeUndoInfo();
 		gc.getGeo().getKernel().notifyRepaint();
 		setChecked(gc.getGeo().isEuclidianVisible());

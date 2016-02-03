@@ -2786,7 +2786,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 		if (hasTwinGeo()) {
 			twinGeo.setEuclidianVisible(visible);
-			twinGeo.updateVisualStyle();
+			twinGeo.updateVisualStyle(GProperty.VISIBLE);
 		}
 		kernel.getApplication().storeUndoInfo();
 		kernel.notifyRepaint();
@@ -3191,4 +3191,5 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	public void setSubstList(ArrayList<Vector<String>> list) {
 		this.substList = list;
 	}
+
 }

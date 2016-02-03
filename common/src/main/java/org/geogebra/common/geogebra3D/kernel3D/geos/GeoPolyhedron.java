@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.Dilateable;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -895,22 +896,22 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setObjColor(color);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.COLOR);
 		}
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.setObjColor(color);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.COLOR);
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setObjColor(color);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.COLOR);
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
 			segment.setObjColor(color);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.COLOR);
 		}
 
 		getKernel().notifyRepaint();
@@ -941,7 +942,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
 			((GeoElement) segment).removeColorFunction();
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.COLOR);
 		}
 
 		getKernel().notifyRepaint();
@@ -973,7 +974,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
 			((GeoElement) segment).setColorFunction(col);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.COLOR);
 		}
 
 		getKernel().notifyRepaint();
@@ -989,22 +990,22 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLineType(type, false);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.setLineType(type, false);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setLineType(type);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
 			((GeoElement) segment).setLineType(type);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
 	}
@@ -1018,22 +1019,22 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLayer(layer2);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.LAYER);
 		}
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.setLayer(layer2);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.LAYER);
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setLayer(layer2);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.LAYER);
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
 			((GeoElement) segment).setLayer(layer2);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.LAYER);
 		}
 	}
 
@@ -1046,22 +1047,22 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLineTypeHidden(type, false);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.setLineTypeHidden(type, false);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setLineTypeHidden(type);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
 			((GeoElement) segment).setLineTypeHidden(type);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
 	}
@@ -1080,17 +1081,17 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.setLineThickness(th, false);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setLineThickness(th);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
 			segment.setLineThickness(th);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 	}
 
@@ -1100,7 +1101,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		if (polygons == null || cons.isFileLoading())
 			return;
-
+		GProperty prop = th > 0 ? GProperty.LINE_STYLE : GProperty.COMBINED;
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLineThickness(th, false);
 			polygon.update();
@@ -1108,17 +1109,17 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.setLineThickness(th, false);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(prop);
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setLineThicknessOrVisibility(th);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(prop);
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
 			((GeoElement) segment).setLineThicknessOrVisibility(th);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(prop);
 		}
 	}
 
@@ -1906,28 +1907,28 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	}
 
 	@Override
-	public void updateVisualStyle() {
+	public void updateVisualStyle(GProperty prop) {
 
 		super.updateVisualStyle();
 
 		for (GeoPoint3D point : pointsCreated) {
-			point.updateVisualStyle();
+			point.updateVisualStyle(prop);
 		}
 
 		for (GeoPolygon3D polygon : polygons.values()) {
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(prop);
 		}
 
 		for (GeoPolygon polygon : polygonsLinked) {
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(prop);
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(prop);
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
-			((GeoElement) segment).updateVisualStyle();
+			((GeoElement) segment).updateVisualStyle(prop);
 		}
 
 	}

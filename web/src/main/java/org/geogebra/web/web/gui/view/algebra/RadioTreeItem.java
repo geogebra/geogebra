@@ -1467,7 +1467,6 @@ public class RadioTreeItem extends AVTreeItem
 					}
 				}
 			}
-			App.debug("MIN" + ((GeoNumeric) geo).getIntervalMinObject());
 			if (hasMinMax
 					&& ((HasExtendedAV) geo).isShowingExtendedAV()) {
 				if (!slider.isAttached()) {

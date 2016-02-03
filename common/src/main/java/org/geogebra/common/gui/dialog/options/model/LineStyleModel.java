@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -140,7 +141,7 @@ public class LineStyleModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setLineThickness(value);
-			geo.updateVisualStyleRepaint();
+			geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		}
 	}
 
@@ -148,7 +149,7 @@ public class LineStyleModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setLineType(type);
-			geo.updateVisualStyleRepaint();
+			geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		}
 	}
 
@@ -156,7 +157,7 @@ public class LineStyleModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setLineTypeHidden(type);
-			geo.updateVisualStyleRepaint();
+			geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		}
 	}
 
@@ -165,7 +166,7 @@ public class LineStyleModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setLineOpacity(value);
-			geo.updateVisualStyleRepaint();
+			geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		}
 	}
 

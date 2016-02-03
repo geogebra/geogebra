@@ -878,7 +878,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		if (updateSegments && segments != null) {
 			for (int i = 0; i < segments.length; i++) {
 				segments[i].setLineOpacity(lineOpacity);
-				segments[i].updateVisualStyle();
+				segments[i].updateVisualStyle(GProperty.LINE_STYLE);
 			}
 		}
 	}
@@ -1316,7 +1316,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		if (updateSegments && segments != null) {
 			for (int i = 0; i < segments.length; i++) {
 				segments[i].setEuclidianVisible(visible);
-				segments[i].updateVisualStyle();
+				segments[i].updateVisualStyle(GProperty.VISIBLE);
 			}
 		}
 	}
@@ -1327,7 +1327,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		if (segments != null && createSegments) {
 			for (int i = 0; i < segments.length; i++) {
 				segments[i].setObjColor(color);
-				segments[i].updateVisualStyle();
+				segments[i].updateVisualStyle(GProperty.COLOR);
 			}
 		}
 	}
@@ -1349,7 +1349,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			if (segments != null) {
 				for (int i = 0; i < segments.length; i++) {
 					segments[i].setLineType(type);
-					segments[i].updateVisualStyle();
+					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
 				}
 			}
 	}
@@ -1371,7 +1371,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			if (segments != null) {
 				for (int i = 0; i < segments.length; i++) {
 					((GeoElement) segments[i]).setLineTypeHidden(type);
-					segments[i].updateVisualStyle();
+					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
 				}
 			}
 	}
@@ -1394,7 +1394,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			if (segments != null) {
 				for (int i = 0; i < segments.length; i++) {
 					segments[i].setLineThickness(th);
-					segments[i].updateVisualStyle();
+					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
 				}
 			}
 	}
@@ -1407,7 +1407,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		if (segments != null) {
 			for (int i = 0; i < segments.length; i++) {
 				((GeoElement) segments[i]).setLineThicknessOrVisibility(th);
-				segments[i].updateVisualStyle();
+				segments[i].updateVisualStyle(GProperty.COMBINED);
 			}
 		}
 	}

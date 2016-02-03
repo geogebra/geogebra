@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -82,8 +83,11 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	
 	/**
 	 * Update visual style and notify kernel
+	 * 
+	 * @param prop
+	 *            property being changed
 	 */
-	public void updateVisualStyle();
+	public void updateVisualStyle(GProperty prop);
 
 	/**
 	 * Remove this from construction
@@ -381,4 +385,6 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	boolean isVisible();
 	
 	public LaTeXCache getLaTeXCache();
+
+	public void updateVisualStyleRepaint(GProperty prop);
 }

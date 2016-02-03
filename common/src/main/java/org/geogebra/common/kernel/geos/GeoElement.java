@@ -4054,21 +4054,21 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * update color
 	 */
-	public void updateVisualStyle() {
+	public final void updateVisualStyle() {
+		// updateGeo();
+		updateVisualStyle(GProperty.COMBINED);
+		// updateDependentObjects();
+		// kernel.notifyRepaint();
+	}
+
+	public void updateVisualStyle(GProperty prop) {
 		// updateGeo();
 		kernel.notifyUpdateVisualStyle(this);
 		// updateDependentObjects();
 		// kernel.notifyRepaint();
 	}
 
-	/**
-	 * Updates visual properties and repaints this object
-	 */
-	public void updateVisualStyleRepaint() {
 
-		updateVisualStyle();
-		kernel.notifyRepaint();
-	}
 
 	@SuppressWarnings("deprecation")
 	@Deprecated
@@ -8098,5 +8098,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean evaluatesToNDVector() {
 		ValueType vt = getValueType();
 		return vt == ValueType.NONCOMPLEX2D || vt == ValueType.VECTOR3D;
+	}
+
+	/**
+	 * Updates visual properties and repaints this object
+	 */
+	public final void updateVisualStyleRepaint(GProperty prop) {
+		updateVisualStyle(prop);
+		kernel.notifyRepaint();
 	}
 }

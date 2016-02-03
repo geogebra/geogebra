@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -359,7 +360,7 @@ public class EuclidianStyleBarStatic {
 					|| geo.getLineThickness() != lineSize) {
 				geo.setLineType(lineStyle);
 				geo.setLineThickness(lineSize);
-				geo.updateVisualStyleRepaint();
+				geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 				needUndo = true;
 			}
 		}
@@ -378,7 +379,7 @@ public class EuclidianStyleBarStatic {
 						|| (((PointProperties) geo).getPointStyle() != pointStyle)) {
 					((PointProperties) geo).setPointSize(pointSize);
 					((PointProperties) geo).setPointStyle(pointStyle);
-					geo.updateVisualStyleRepaint();
+					geo.updateVisualStyleRepaint(GProperty.POINT_STYLE);
 					needUndo = true;
 				}
 			}
@@ -428,7 +429,7 @@ public class EuclidianStyleBarStatic {
 					geo.setBackgroundColor(color == null ? null : color);
 					// TODO apply background alpha
 					// --------
-					geo.updateVisualStyleRepaint();
+					geo.updateVisualStyleRepaint(GProperty.COLOR_BG);
 					needUndo = true;
 				}
 		}
@@ -443,7 +444,7 @@ public class EuclidianStyleBarStatic {
 			if (geo.getGeoElementForPropertiesDialog() instanceof TextProperties
 					&& geo.getObjectColor() != color) {
 				geo.setObjColor(color);
-				geo.updateVisualStyleRepaint();
+				geo.updateVisualStyleRepaint(GProperty.COLOR);
 				needUndo = true;
 			}
 		}
@@ -464,11 +465,12 @@ public class EuclidianStyleBarStatic {
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof TextProperties) {
-				int newStyle = (((TextProperties) geo).getFontStyle() & mask)
+				TextProperties text = ((TextProperties) geo);
+				int newStyle = (text.getFontStyle() & mask)
 						| add;
-				if (((TextProperties) geo).getFontStyle() != newStyle) {
-					((TextProperties) geo).setFontStyle(newStyle);
-					geo.updateVisualStyleRepaint();
+				if (text.getFontStyle() != newStyle) {
+					text.setFontStyle(newStyle);
+					text.updateVisualStyleRepaint(GProperty.FONT);
 					needUndo = true;
 				}
 			}
@@ -494,7 +496,7 @@ public class EuclidianStyleBarStatic {
 			if (geo instanceof TextProperties
 					&& ((TextProperties) geo).getFontSizeMultiplier() != fontSize) {
 				((TextProperties) geo).setFontSizeMultiplier(fontSize);
-				geo.updateVisualStyleRepaint();
+				((TextProperties) geo).updateVisualStyleRepaint(GProperty.FONT);
 				needUndo = true;
 			}
 		}
@@ -835,7 +837,7 @@ public class EuclidianStyleBarStatic {
 			if (geo instanceof AngleProperties) {
 				if (((AngleProperties) geo).getAngleStyle().getXmlVal() != index) {
 					((AngleProperties) geo).setAngleStyle(index);
-					geo.updateVisualStyleRepaint();
+					geo.updateVisualStyleRepaint(GProperty.ANGLE_INTERVAL);
 					needUndo = true;
 				}
 			}

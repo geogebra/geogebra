@@ -4,10 +4,10 @@ import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.TextValue;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 
 public class ObjectNameModel extends OptionsModel {
 	public interface IObjectNameListener extends PropertyListener {
@@ -153,7 +153,7 @@ public class ObjectNameModel extends OptionsModel {
 		if (!strCaption.equals(caption.trim())) {
 			listener.setCaptionText(strCaption);
 		}
-		currentGeo.updateVisualStyleRepaint();
+		currentGeo.updateVisualStyleRepaint(GProperty.CAPTION);
 	}
 
 	public void redefineCurrentGeo(GeoElement geo, final String text, final String redefinitionText) {

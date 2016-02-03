@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.Dilateable;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -396,17 +397,17 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 	}
 
 	@Override
-	public void updateVisualStyle() {
+	public void updateVisualStyle(GProperty prop) {
 
-		super.updateVisualStyle();
+		super.updateVisualStyle(prop);
 
 		if (bottom == null)
 			return;
 
-		bottom.updateVisualStyle();
+		bottom.updateVisualStyle(prop);
 		if (!silentTop)
-			top.updateVisualStyle();
-		side.updateVisualStyle();
+			top.updateVisualStyle(prop);
+		side.updateVisualStyle(prop);
 
 	}
 

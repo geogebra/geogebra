@@ -1,9 +1,11 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+
 /**
  * Element with text properties
  */
-public interface TextProperties {
+public interface TextProperties extends GeoElementND {
 	/**
 	 * 
 	 * @return font size (relative)
@@ -71,5 +73,6 @@ public interface TextProperties {
 	 * @return whether this was created using a command with LaTeX output
 	 */
 	public boolean isLaTeXTextCommand();
+
 
 }
