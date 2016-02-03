@@ -237,9 +237,9 @@ pr.menu_header_undo(), null, 32);
 
 
 		});
+		// check and log window resize and focus on window
 		visibilityEventMain();
-		// checkResizeEvent();
-		// TODO ALICIA
+
 
 		FlowPanel fp = new FlowPanel();
 		fp.add(timer);
@@ -296,40 +296,14 @@ pr.menu_header_undo(), null, 32);
 		}
 	}
 
-	// private native void visibilityEventMain() /*-{
-	// // wrapper to call the appropriate function from visibility.js
-	// var that = this;
-	// var startCheating = function() {
-	// that.@org.geogebra.web.web.gui.app.GGWToolBar::startCheating()()
-	// };
-	// var stopCheating = function() {
-	// that.@org.geogebra.web.web.gui.app.GGWToolBar::stopCheating()()
-	// };
-	// $wnd.visibilityEventMain(startCheating, stopCheating);
-	// // Suggested by Zbynek (Hero of the Day, 2015-01-22)
-	// $wnd.onblur = function(event) {
-	// // Borrowed from http://www.quirksmode.org/js/events_properties.html
-	// var e = event ? event : $wnd.event;
-	// var targ;
-	// if (e.target) {
-	// targ = e.target;
-	// } else if (e.srcElement) {
-	// targ = e.srcElement;
-	// }
-	// if (targ.nodeType == 3) { // defeat Safari bug
-	// targ = targ.parentNode;
-	// }
-	// console.log("Checking cheating: Type = " + e.type + ", Target = "
-	// + targ + ", " + targ.id + "CurrentTarget = "
-	// + e.currentTarget + ", " + e.currentTarget.id);
-	// // The focusout event should not be caught:
-	// if (e.type == "blur") {
-	// startCheating();
-	// }
-	// };
-	// $wnd.onfocus = stopCheating;
-	// }-*/;
 
+	/**
+	 * check and log window resize and focus lost/gained window resize is
+	 * checked first - if window is not in full screen mode "cheating" can't be
+	 * stopped (only going back to full screen ends "cheating") if window is in
+	 * full screen losing focus starts "cheating", gaining focus stops
+	 * "cheating"
+	 */
 	private native void visibilityEventMain() /*-{
 		// wrapper to call the appropriate function from visibility.js
 		var that = this;
@@ -374,6 +348,7 @@ pr.menu_header_undo(), null, 32);
 				stopCheating();
 			}
 		}
+		// window resize has 2 cases: full screen and not full screen
 		$wnd.onresize = function(event) {
 			var height = $wnd.innerHeight;
 			$wnd.console.log(height, screenHeight);
@@ -389,39 +364,7 @@ pr.menu_header_undo(), null, 32);
 		}
 	}-*/;
 	
-	// private native void checkResizeEvent()/*-{
-	//
-	// var screenHeight = screen.height;
-	// var fullscreen = true;
-	// $wnd.console.log(fullscreen);
-	// if ($wnd.innerHeight < screenHeight) {
-	// fullscreen = false;
-	// }
-	//
-	// var that = this;
-	// var startCheating = function() {
-	// that.@org.geogebra.web.web.gui.app.GGWToolBar::startCheating()()
-	// };
-	// var stopCheating = function() {
-	// that.@org.geogebra.web.web.gui.app.GGWToolBar::stopCheating()()
-	// };
-	// $wnd.onresize = function(event) {
-	// var height = $wnd.innerHeight;
-	// $wnd.console.log(height, screenHeight);
-	//
-	// if (height < screenHeight) {
-	// startCheating();
-	// fullscreen = false;
-	// }
-	// if (height >= screenHeight) {
-	// stopCheating();
-	// fullscreen = true;
-	// }
-	// }
-	//
-	// }-*/;
 	
-
 	// Undo, redo, open, menu (and exam mode)
 	private void addRightButtonPanel(){
 

@@ -42,23 +42,6 @@ function visibilityEventMain(startCheating, stopCheating) {
 		
 	}
 }
-/*if ($wnd.outerHeight == screen.height)*/
-
-/*function visibilityEventMain(startCheating, stopCheating) {
-	var visProp = getHiddenProp();
-	if (visProp) {
-		var evtname = visProp.replace(/[H|h]idden/,'') + 'visibilitychange';
-		document.addEventListener(evtname, function(){
-			if(document[visProp]){
-				startCheating();
-			}else{
-				stopCheating();
-			}
-		});
-		
-	}
-}*/
-
 
 function toggleFullScreen(full) {
 	  if (full) {  // current working methods
