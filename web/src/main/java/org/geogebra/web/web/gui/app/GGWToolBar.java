@@ -14,7 +14,6 @@ import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
@@ -37,8 +36,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -241,18 +238,8 @@ pr.menu_header_undo(), null, 32);
 
 		});
 		visibilityEventMain();
-		//TODO ALICIA Window.addWindowResizeListener(listener);
-		Window.addWindowResizeListener(new WindowResizeListener(){
-
-			@Override
-			public void onWindowResized(int width, int height) {
-				//ExamUtil.toggleFullscreen(true);
-				/*startCheating();
-				app.getExam().checkCheating();
-				stopCheating();
-				*/
-			}});
-		
+		// checkResizeEvent();
+		// TODO ALICIA
 
 		FlowPanel fp = new FlowPanel();
 		fp.add(timer);
@@ -270,7 +257,8 @@ pr.menu_header_undo(), null, 32);
 		return fp;
 
 	}
-
+	
+		
 	/**
 	 * @param element
 	 *            element to be changed to red
@@ -308,15 +296,57 @@ pr.menu_header_undo(), null, 32);
 		}
 	}
 
+	// private native void visibilityEventMain() /*-{
+	// // wrapper to call the appropriate function from visibility.js
+	// var that = this;
+	// var startCheating = function() {
+	// that.@org.geogebra.web.web.gui.app.GGWToolBar::startCheating()()
+	// };
+	// var stopCheating = function() {
+	// that.@org.geogebra.web.web.gui.app.GGWToolBar::stopCheating()()
+	// };
+	// $wnd.visibilityEventMain(startCheating, stopCheating);
+	// // Suggested by Zbynek (Hero of the Day, 2015-01-22)
+	// $wnd.onblur = function(event) {
+	// // Borrowed from http://www.quirksmode.org/js/events_properties.html
+	// var e = event ? event : $wnd.event;
+	// var targ;
+	// if (e.target) {
+	// targ = e.target;
+	// } else if (e.srcElement) {
+	// targ = e.srcElement;
+	// }
+	// if (targ.nodeType == 3) { // defeat Safari bug
+	// targ = targ.parentNode;
+	// }
+	// console.log("Checking cheating: Type = " + e.type + ", Target = "
+	// + targ + ", " + targ.id + "CurrentTarget = "
+	// + e.currentTarget + ", " + e.currentTarget.id);
+	// // The focusout event should not be caught:
+	// if (e.type == "blur") {
+	// startCheating();
+	// }
+	// };
+	// $wnd.onfocus = stopCheating;
+	// }-*/;
+
 	private native void visibilityEventMain() /*-{
 		// wrapper to call the appropriate function from visibility.js
 		var that = this;
+		var screenHeight = screen.height;
+		var fullscreen = true;
+		$wnd.console.log(fullscreen);
+		if ($wnd.innerHeight < screenHeight) {
+			fullscreen = false;
+		}
+
 		var startCheating = function() {
 			that.@org.geogebra.web.web.gui.app.GGWToolBar::startCheating()()
 		};
 		var stopCheating = function() {
 			that.@org.geogebra.web.web.gui.app.GGWToolBar::stopCheating()()
 		};
+
 		$wnd.visibilityEventMain(startCheating, stopCheating);
 		// Suggested by Zbynek (Hero of the Day, 2015-01-22)
 		$wnd.onblur = function(event) {
@@ -335,12 +365,61 @@ pr.menu_header_undo(), null, 32);
 					+ targ + ", " + targ.id + "CurrentTarget = "
 					+ e.currentTarget + ", " + e.currentTarget.id);
 			// The focusout event should not be caught:
-			if (e.type == "blur") {
+			if (e.type == "blur" && fullscreen == true) {
 				startCheating();
 			}
 		};
-		$wnd.onfocus = stopCheating;
+		$wnd.onfocus = function(event) {
+			if (fullscreen == true) {
+				stopCheating();
+			}
+		}
+		$wnd.onresize = function(event) {
+			var height = $wnd.innerHeight;
+			$wnd.console.log(height, screenHeight);
+
+			if (height < screenHeight) {
+				startCheating();
+				fullscreen = false;
+			}
+			if (height >= screenHeight) {
+				stopCheating();
+				fullscreen = true;
+			}
+		}
 	}-*/;
+	
+	// private native void checkResizeEvent()/*-{
+	//
+	// var screenHeight = screen.height;
+	// var fullscreen = true;
+	// $wnd.console.log(fullscreen);
+	// if ($wnd.innerHeight < screenHeight) {
+	// fullscreen = false;
+	// }
+	//
+	// var that = this;
+	// var startCheating = function() {
+	// that.@org.geogebra.web.web.gui.app.GGWToolBar::startCheating()()
+	// };
+	// var stopCheating = function() {
+	// that.@org.geogebra.web.web.gui.app.GGWToolBar::stopCheating()()
+	// };
+	// $wnd.onresize = function(event) {
+	// var height = $wnd.innerHeight;
+	// $wnd.console.log(height, screenHeight);
+	//
+	// if (height < screenHeight) {
+	// startCheating();
+	// fullscreen = false;
+	// }
+	// if (height >= screenHeight) {
+	// stopCheating();
+	// fullscreen = true;
+	// }
+	// }
+	//
+	// }-*/;
 	
 
 	// Undo, redo, open, menu (and exam mode)

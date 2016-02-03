@@ -27,6 +27,25 @@ function isHidden() {
 // use the property name to generate the prefixed event name
 function visibilityEventMain(startCheating, stopCheating) {
 	var visProp = getHiddenProp();
+
+	if (visProp) {
+		var evtname = visProp.replace(/[H|h]idden/,'') + 'visibilitychange';
+		document.addEventListener(evtname, function(){
+			if(window.innerHeight >= screen.height){
+				if(document[visProp]){
+					startCheating();
+				}else {
+					stopCheating();
+				}
+			}
+		});
+		
+	}
+}
+/*if ($wnd.outerHeight == screen.height)*/
+
+/*function visibilityEventMain(startCheating, stopCheating) {
+	var visProp = getHiddenProp();
 	if (visProp) {
 		var evtname = visProp.replace(/[H|h]idden/,'') + 'visibilitychange';
 		document.addEventListener(evtname, function(){
@@ -38,7 +57,7 @@ function visibilityEventMain(startCheating, stopCheating) {
 		});
 		
 	}
-}
+}*/
 
 
 function toggleFullScreen(full) {

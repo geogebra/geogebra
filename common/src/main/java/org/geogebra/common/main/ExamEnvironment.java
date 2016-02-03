@@ -103,7 +103,7 @@ public class ExamEnvironment {
 	private String getLocalizedDateOnly(Localization loc, long time) {
 		// eg "Fri 23 October 2015"
 		// don't use \\S for 23rd (not used in eg French)
-		return CmdGetTime.buildLocalizedDate("\\D \\j \\F \\Y",
+		return CmdGetTime.buildLocalizedDate("\\D, \\j \\F \\Y",
 				new Date(time), loc);
 	}
 

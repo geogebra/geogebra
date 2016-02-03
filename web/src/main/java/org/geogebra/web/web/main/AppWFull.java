@@ -16,7 +16,6 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -49,7 +48,6 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
-import org.geogebra.web.web.gui.menubar.FileMenuW;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
@@ -383,6 +381,7 @@ public abstract class AppWFull extends AppW {
 			final DialogBoxW box = new DialogBoxW(false, true, null, getPanel());
 			VerticalPanel mainWidget = new VerticalPanel();
 			FlowPanel btnPanel = new FlowPanel();
+			FlowPanel cbxPanel = new FlowPanel();
 
 			Button btnOk = new Button();
 			Button btnCancel = new Button();
@@ -404,8 +403,11 @@ public abstract class AppWFull extends AppW {
 			cas.addStyleName("examCheckbox");
 			final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
 			allow3D.addStyleName("examCheckbox");
-			mainWidget.add(cas);
-			mainWidget.add(allow3D);
+			cbxPanel.add(cas);
+			cbxPanel.add(allow3D);
+			mainWidget.add(cbxPanel);
+			cbxPanel.addStyleName("ExamCheckboxPanel");
+			btnPanel.addStyleName("DialogButtonPanel");
 			cas.setValue(true);
 			allow3D.setValue(true);
 			getExam().setCASAllowed(cas.getValue());
@@ -428,8 +430,6 @@ public abstract class AppWFull extends AppW {
 			box.setWidget(mainWidget);
 			box.getCaption().setText(getMenu("exam_custom_header"));
 			box.center();
-			box.setWidth("300px");
-			//box.setHeight("300px");
 			
 			btnOk.addStyleName("examStartButton");
 			btnOk.addClickHandler(new ClickHandler() {

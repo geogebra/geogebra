@@ -254,6 +254,21 @@ input[type="text"]::-ms-clear {
 	min-height: 0px;
 }
 
+/* Pop-up Exam Mode Dialog */
+.ExamCheckboxPanel {
+		margin: 10px 20px;	
+	}
+.examCheckbox{
+		line-height:2em;
+		display: block;
+	}
+.boxsize {
+	width: 340px;
+	max-width: 100%;
+	/*height: 200px;*/
+	}
+	
+
 .GeoGebraFrame .gwt-Button.minor {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -2829,6 +2844,7 @@ body.application[dir=rtl] .DialogRbPanel td {
 	text-align: right;
 	padding-top: 10px;
 	min-width: 250px;
+	max-width:100%;
 }
 body.application[dir=rtl] .DialogButtonPanel {
 	text-align: left;
