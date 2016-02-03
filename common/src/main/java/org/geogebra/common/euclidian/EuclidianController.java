@@ -4883,6 +4883,10 @@ public abstract class EuclidianController {
 		// create hits for region
 		Hits regionHits = getRegionHits(hits);
 
+		// make sure Point Tool works when you click on eg xAxis where a slider
+		// is
+		hits.removeSliders();
+
 		// only keep polygon in hits if one side of polygon is in hits too
 		// removed: Point Tool creates Point on edge of Polygon
 		if ((mode != EuclidianConstants.MODE_POINT)

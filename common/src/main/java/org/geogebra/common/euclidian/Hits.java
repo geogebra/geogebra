@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
@@ -33,6 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DPartInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.HasVolume;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -273,6 +275,22 @@ public class Hits extends ArrayList<GeoElement> {
 				if (sidePresent != sidePresentWanted) {
 					it.remove();
 				}
+			}
+		}
+	}
+
+	/**
+	 * remove sliders from hits
+	 */
+	final void removeSliders() {
+
+		Iterator<GeoElement> it = this.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo.isGeoNumeric() && ((GeoNumeric) geo).isSlider()) {
+				Log.debug("remove");
+
+				remove(geo);
 			}
 		}
 	}
