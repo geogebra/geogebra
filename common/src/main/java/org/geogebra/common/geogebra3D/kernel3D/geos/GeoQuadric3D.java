@@ -1566,9 +1566,32 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	public void setParabolicCylinder(Coords origin, Coords direction,
 			Coords eigen, double r, double r2) {
 
-		setCylinder(origin, direction.crossProduct(eigen).normalize(),
-				eigen.normalize(), r, r2,
-				QUADRIC_PARABOLIC_CYLINDER, 0);
+		// set center
+		setMidpoint(origin.get());
+
+		// set direction
+		updateEigenvectors(eigen.crossProduct(direction), eigen);
+
+		// set halfAxes = radius
+		halfAxes[0] = 1;
+		halfAxes[1] = 1;
+
+		halfAxes[2] = Math.sqrt(r2 * 2);
+
+		// set the diagonal values
+		diagonal[0] = 0;
+		diagonal[1] = 0;
+		diagonal[2] = 1; // TODO still wrong
+		diagonal[3] = 0;
+
+		// set matrix
+		setMatrixFromEigen();
+
+		// eigen matrix
+		setEigenMatrix(1, 1, halfAxes[2]);
+
+		// set type
+		this.type = QUADRIC_PARABOLIC_CYLINDER;
 	}
 
 	/**

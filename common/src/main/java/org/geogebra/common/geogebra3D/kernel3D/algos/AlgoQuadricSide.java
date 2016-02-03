@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 /**
  * @author ggb3D
@@ -58,7 +59,9 @@ public class AlgoQuadricSide extends AlgoQuadric {
 		if (bottom == null) {
 			r2 = r1;
 		} else {
-			r2 = r1 * bottom.getHalfAxis(1) / bottom.getHalfAxis(0);
+			r2 = bottom.getType() == GeoConicNDConstants.CONIC_PARABOLA ? bottom.p
+					: r1
+					* bottom.getHalfAxis(1) / bottom.getHalfAxis(0);
 			eigen = bottom.getEigenvec3D(0).normalize();
 		}
 		// compute the quadric
