@@ -4350,9 +4350,13 @@ public class MyXMLHandler implements DocHandler {
 				num.setAbsoluteScreenLocActive(false);
 			}
 
-			double x = StringUtil.parseDouble(attrs.get("x"));
-			double y = StringUtil.parseDouble(attrs.get("y"));
-			num.setSliderLocation(x, y, true);
+			// null in preferences
+			if (attrs.get("x") != null) {
+				double x = StringUtil.parseDouble(attrs.get("x"));
+				double y = StringUtil.parseDouble(attrs.get("y"));
+				num.setSliderLocation(x, y, true);
+			}
+
 			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")));
 			num.setSliderFixed(parseBoolean(attrs.get("fixed")));
 			num.setShowExtendedAV(parseBoolean(attrs.get("showAlgebra")));
@@ -4361,6 +4365,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
