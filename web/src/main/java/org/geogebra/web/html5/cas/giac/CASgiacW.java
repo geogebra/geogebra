@@ -47,9 +47,9 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 		this.kernel = kernel;
 
 		App.setCASVersionString("Giac/JS");
-		App.debug("starting CAS");
+		Log.debug("starting CAS");
 		if (Browser.externalCAS()) {
-			App.debug("switching to external");
+			Log.debug("switching to external");
 			// CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 			this.jsLoaded = true;
 		} else
@@ -79,7 +79,7 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 			// } catch (TimeoutException toe) {
 			// throw new Error(toe.getMessage());
 		} catch (Throwable e) {
-			App.debug("evaluateGiac: " + e.getMessage());
+			Log.debug("evaluateGiac: " + e.getMessage());
 			return "?";
 		}
 	}
@@ -100,11 +100,26 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 		if (!jsLoaded) {
 			return "?";
 		}
+		
+		if (Browser.externalCAS()) {
+			// native Giac so need same initString and fix as desktop
+			nativeEvaluateRaw(initString, Log.logger != null);
 
-		// #5439
-		// restart Giac before each call
-		nativeEvaluateRaw(initStringWeb, Log.logger != null);
-		nativeEvaluateRaw(specialFunctions, false);
+			// fix for problem with eg SolveODE[y''=0,{(0,1), (1,3)}]
+			// sending all at once doesn't work from
+			// http://dev.geogebra.org/trac/changeset/42719
+			String[] sf = specialFunctions.split(";");
+			for (int i = 0; i < sf.length; i++) {
+				nativeEvaluateRaw(sf[i], false);
+			}
+		} else {
+			// #5439
+			// restart Giac before each call
+			nativeEvaluateRaw(initStringWeb, Log.logger != null);
+			
+			nativeEvaluateRaw(specialFunctions, false);
+		}
+
 		nativeEvaluateRaw("timeout " + (timeoutMilliseconds / 1000), false);
 
 		// make sure we don't always get the same value!
@@ -121,9 +136,9 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 			exp = s;
 		}
 
-		App.debug("giac  input:" + exp);
+		Log.debug("giac  input:" + exp);
 		String ret = nativeEvaluateRaw(exp, true);
-		App.debug("giac output:" + ret);
+		Log.debug("giac output:" + ret);
 
 		return ret;
 	}
@@ -155,14 +170,14 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 	public void initialize() {
 		GWT.runAsync(new RunAsyncCallback() {
 			public void onSuccess() {
-				App.debug("giac.js loading success");
+				Log.debug("giac.js loading success");
 				JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
 				CASgiacW.this.jsLoaded = true;
 				CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 			}
 
 			public void onFailure(Throwable reason) {
-				App.debug("giac.js loading failure");
+				Log.debug("giac.js loading failure");
 			}
 		});
 	}
