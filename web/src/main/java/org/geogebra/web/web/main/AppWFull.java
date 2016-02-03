@@ -431,6 +431,7 @@ public abstract class AppWFull extends AppW {
 			box.getCaption().setText(getMenu("exam_custom_header"));
 			box.center();
 			
+			// start exam button
 			btnOk.addStyleName("examStartButton");
 			btnOk.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
@@ -463,7 +464,7 @@ public abstract class AppWFull extends AppW {
 
 				}
 			});
-			
+			// Cancel button
 			btnCancel.addStyleName("cancelBtn");
 			btnCancel.addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
@@ -478,14 +479,14 @@ public abstract class AppWFull extends AppW {
 					box.hide();
 				}
 			});
+			// Help button
 			btnHelp.addStyleName("cancelBtn");
 			btnHelp.addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
-					ToolTipManagerW.openWindow("http://www.geogebra.org");
+					ToolTipManagerW.openWindow("http://tube.geogebra.org/student/bsyWFZsxM");
 				}
 			});
-			
-			
+
 			if (Location.getHost() != null) {
 				return;
 			}
