@@ -107,20 +107,10 @@ public class ExamEnvironment {
 				new Date(time), loc);
 	}
 
-	/*
-	 * public String getLog(Localization loc) { StringBuilder sb = new
-	 * StringBuilder(); sb.append("Exam started"); sb.append(' ');
-	 * sb.append(getLocalizedTime(loc, examStartTime)); sb.append("\n");
-	 * if(cheatingTimes != null){ for(int i = 0; i < cheatingTimes.size(); i++){
-	 * sb.append(timeToString(cheatingTimes.get(i))); sb.append(' ');
-	 * sb.append(cheatingEvents.get(i) ? "CHEATING ALERT: exam left" :
-	 * "exam active again"); sb.append("\n"); } } if (closed > 0) { sb.append(
-	 * "Exam finished"); sb.append(' '); sb.append(getLocalizedTime(loc,
-	 * closed)); } return sb.toString(); }
-	 */
+
 
 	/**
-	 * NEW LOG DIALOG (Alicia)
+	 * NEW LOG DIALOG
 	 */
 	public String getLog(Localization loc) {
 		StringBuilder sb = new StringBuilder();
