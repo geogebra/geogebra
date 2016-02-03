@@ -73,6 +73,7 @@ public final class DrawList extends CanvasDrawable
 	private int viewWidth = 0;
 
 	private DrawOptions drawOptions;
+	private boolean controlHitLast;
 
 	enum ScrollMode {
 		UP, DOWN, NONE
@@ -369,16 +370,6 @@ public final class DrawList extends CanvasDrawable
 				return true;
 			}
 
-			OptionItem item = getItemAt(x, y);
-			if (item == null) {
-				return false;
-			}
-
-			Log.debug("[REFACTOR] selected item: " + item.text + "("
-					+ item.index + ")");
-			selectedIndex = item.index;
-			selectCurrentItem();
-			setVisible(false);
 			return true;
 
 		}
@@ -718,13 +709,32 @@ public final class DrawList extends CanvasDrawable
 			return rectTable.getBounds().intersects(rect);
 		}
 
+		private boolean selectItem() {
+			// OptionItem item = getItemAt(x, y);
+			if (itemHovered == null) {
+				return false;
+			}
+
+			Log.debug("[REFACTOR] selected item: " + itemHovered.text + "("
+					+ itemHovered.index + ")");
+			selectedIndex = itemHovered.index;
+			selectCurrentItem();
+			setVisible(false);
+
+			return true;
+
+		}
+
 		public boolean onMouseUp(int x, int y) {
 			if (isScrollNeeded()) {
 				stopScrolling();
 			}
-			return true;
-		}
+			if (!isHit(x, y)) {
+				return false;
+			}
 
+			return selectItem();
+		}
 		private void stopScrolling() {
 			dropDown.stopTimer();
 			scrollMode = ScrollMode.NONE;
@@ -1417,12 +1427,18 @@ public final class DrawList extends CanvasDrawable
 			return;
 		}
 
+
 		if (drawOptions.onMouseDown(x, y)) {
+			controlHitLast = false;
 			return;
 		}
 
 		if (isControlHit(x, y)) {
+			drawOptions.itemHovered = null;
 			setOptionsVisible(!isOptionsVisible());
+			controlHitLast = true;
+		} else {
+			controlHitLast = false;
 		}
 	}
 
@@ -1431,7 +1447,7 @@ public final class DrawList extends CanvasDrawable
 			return;
 		}
 
-		if (drawOptions.onMouseUp(x, y)) {
+		if (!controlHitLast && drawOptions.onMouseUp(x, y)) {
 			return;
 		}
 	}
