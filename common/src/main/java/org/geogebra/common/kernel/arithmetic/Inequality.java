@@ -370,4 +370,11 @@ public class Inequality {
 		return op;
 	}
 
+	/**
+	 * @return simple expression of inequality
+	 */
+	public ExpressionNode getNormalExpression() {
+		return normal;
+	}
+
 } // end of class Equation

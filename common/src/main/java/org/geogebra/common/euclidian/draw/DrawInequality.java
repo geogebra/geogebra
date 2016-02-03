@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
+import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
@@ -236,8 +237,46 @@ public class DrawInequality extends Drawable {
 	private boolean checkRight(IneqTree inEqLeft, IneqTree inEqRight) {
 		if (operation.equals(Operation.AND) && inEqLeft != null
 				&& inEqRight != null) {
-			if (inEqLeft.getIneq().getOperation().equals(Operation.GREATER)
-					&& inEqRight.getIneq().getOperation()
+			if (inEqLeft.getIneq() == null && inEqLeft.getSize() == 2
+					&& inEqLeft.getOperation().equals(Operation.AND_INTERVAL)
+					&& inEqRight.getIneq() != null) {
+				Double xMin = inEqLeft.getLeft().getIneq().getZeros()[0].getX();
+				Double xMax = inEqLeft.getRight().getIneq().getZeros()[0]
+						.getX();
+				Double xRight = inEqRight.getIneq().getZeros()[0].getX();
+				if (inEqRight.getIneq().getOperation()
+						.equals(Operation.GREATER)
+						|| inEqRight.getIneq().getOperation()
+								.equals(Operation.GREATER_EQUAL)) {
+					if (inEqRight.getIneq().getNormalExpression().getLeft() instanceof MySpecialDouble) {
+						if (Kernel.isGreater(xMax, xRight)) {
+							inEqLeft.setRight(inEqRight);
+						} else {
+							return false;
+						}
+					} else {
+						if (Kernel.isGreater(xRight, xMin)
+								&& Kernel.isGreater(xMax, xRight)) {
+							inEqLeft.setLeft(inEqRight);
+						}
+					}
+				}
+				if (inEqRight.getIneq().getOperation().equals(Operation.LESS)
+						|| inEqRight.getIneq().getOperation()
+								.equals(Operation.LESS_EQUAL)) {
+					if (inEqRight.getIneq().getNormalExpression().getLeft() instanceof MySpecialDouble) {
+						if (Kernel.isGreater(xRight, xMin)
+								&& Kernel.isGreater(xMax, xRight)) {
+							inEqLeft.setLeft(inEqRight);
+						} else {
+							return false;
+						}
+					}
+				}
+
+			}
+			if (inEqLeft.getIneq() != null && inEqLeft.getIneq().getOperation().equals(Operation.GREATER)
+					&& inEqRight.getIneq() != null && inEqRight.getIneq().getOperation()
 							.equals(Operation.GREATER_EQUAL)) {
 				Double xLeft = inEqLeft.getIneq().getZeros()[0].getX();
 				Double xRight = inEqRight.getIneq().getZeros()[0].getX();
@@ -245,8 +284,9 @@ public class DrawInequality extends Drawable {
 					return false;
 				}
 			}
-			if ((inEqLeft.getIneq().getOperation().equals(Operation.GREATER) 
+			if (inEqLeft.getIneq() != null && (inEqLeft.getIneq().getOperation().equals(Operation.GREATER) 
 					|| inEqLeft.getIneq().getOperation().equals(Operation.GREATER_EQUAL))
+					&& inEqRight.getIneq() != null
 					&& (inEqRight.getIneq().getOperation()
 							.equals(Operation.GREATER) || inEqRight.getIneq().getOperation()
 							.equals(Operation.GREATER_EQUAL))) {
