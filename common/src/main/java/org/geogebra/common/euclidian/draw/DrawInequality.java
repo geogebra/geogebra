@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
@@ -148,7 +149,7 @@ public class DrawInequality extends Drawable {
 			b.subtract(getShape());
 			setShape(b);
 		}
-
+		
 	}
 
 	private void createDrawable() {
@@ -191,10 +192,13 @@ public class DrawInequality extends Drawable {
 		if (operation.equals(Operation.AND)
 				|| operation.equals(Operation.AND_INTERVAL)) {
 			setShape(left.getShape());
-			getShape().intersect(right.getShape());
+			if (right != null) {
+				getShape().intersect(right.getShape());
+			}
 		} else if (operation.equals(Operation.OR)) {
 			setShape(left.getShape());
-			getShape().add(right.getShape());
+			if (right != null)
+				getShape().add(right.getShape());
 		} else if (operation.equals(Operation.EQUAL_BOOLEAN)) {
 			setShape(AwtFactory.prototype.newArea(view.getBoundingPath()));
 			left.getShape().exclusiveOr(right.getShape());
@@ -209,6 +213,8 @@ public class DrawInequality extends Drawable {
 	}
 
 	private void updateTrees(IneqTree it) {
+		boolean rightNeeded = checkRight(it.getLeft(), it.getRight());
+
 		if (it.getLeft() != null && left == null) {
 			left = new DrawInequality(it.getLeft(), view, geo);
 		}
@@ -216,14 +222,45 @@ public class DrawInequality extends Drawable {
 			left.updateRecursive(it.getLeft());
 		} else
 			left = null;
-		if (it.getRight() != null && right == null) {
+		if (it.getRight() != null && right == null && rightNeeded) {
 			right = new DrawInequality(it.getLeft(), view, geo);
 		}
-		if (it.getRight() != null)
+
+		if (it.getRight() != null && rightNeeded)
 			right.updateRecursive(it.getRight());
 		else
 			right = null;
 
+	}
+
+	private boolean checkRight(IneqTree inEqLeft, IneqTree inEqRight) {
+		if (operation.equals(Operation.AND) && inEqLeft != null
+				&& inEqRight != null) {
+			if (inEqLeft.getIneq().getOperation().equals(Operation.GREATER)
+					&& inEqRight.getIneq().getOperation()
+							.equals(Operation.GREATER_EQUAL)) {
+				Double xLeft = inEqLeft.getIneq().getZeros()[0].getX();
+				Double xRight = inEqRight.getIneq().getZeros()[0].getX();
+				if (Kernel.isEqual(xLeft, xRight)) {
+					return false;
+				}
+			}
+			if ((inEqLeft.getIneq().getOperation().equals(Operation.GREATER) 
+					|| inEqLeft.getIneq().getOperation().equals(Operation.GREATER_EQUAL))
+					&& (inEqRight.getIneq().getOperation()
+							.equals(Operation.GREATER) || inEqRight.getIneq().getOperation()
+							.equals(Operation.GREATER_EQUAL))) {
+				Double xLeft = inEqLeft.getIneq().getZeros()[0].getX();
+				Double xRight = inEqRight.getIneq().getZeros()[0].getX();
+				if (Kernel.isGreater(xLeft, xRight)) {
+					return false;
+				}
+			}
+		}
+		if (operation.equals(Operation.OR)) {
+			return false;
+		}
+		return true;
 	}
 
 	private static boolean matchBorder(GeoElement border, Drawable d) {

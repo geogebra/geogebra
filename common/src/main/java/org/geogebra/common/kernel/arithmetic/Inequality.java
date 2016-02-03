@@ -363,4 +363,11 @@ public class Inequality {
 		return zeros;
 	}
 
+	/**
+	 * @return operation in ineq
+	 */
+	public Operation getOperation() {
+		return op;
+	}
+
 } // end of class Equation
