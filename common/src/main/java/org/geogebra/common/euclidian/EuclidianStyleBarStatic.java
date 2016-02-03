@@ -341,7 +341,7 @@ public class EuclidianStyleBarStatic {
 					) {
 				geo.setLabelModeFromStylebar(index);
 			}
-			geo.updateVisualStyle();
+			geo.updateVisualStyle(GProperty.LABEL_STYLE);
 			needUndo = true;
 		}
 
@@ -405,7 +405,7 @@ public class EuclidianStyleBarStatic {
 						geo.setAlphaValue(alpha);
 				}
 
-				geo.updateVisualStyle();
+				geo.updateVisualStyle(GProperty.COLOR);
 				needUndo = true;
 
 			}

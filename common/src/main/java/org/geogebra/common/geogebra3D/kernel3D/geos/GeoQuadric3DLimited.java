@@ -468,13 +468,13 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 			return;
 
 		bottom.setAlphaValue(alpha);
-		bottom.updateVisualStyle();
+		bottom.updateVisualStyle(GProperty.COLOR);
 		if (!silentTop) {
 			top.setAlphaValue(alpha);
-			top.updateVisualStyle();
+			top.updateVisualStyle(GProperty.COLOR);
 		}
 		side.setAlphaValue(alpha);
-		side.updateVisualStyle();
+		side.updateVisualStyle(GProperty.COLOR);
 
 		getKernel().notifyRepaint();
 

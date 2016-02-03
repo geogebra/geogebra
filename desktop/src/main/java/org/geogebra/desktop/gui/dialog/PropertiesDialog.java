@@ -55,6 +55,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
@@ -907,7 +908,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 				if (iconClicked) {
 					// icon clicked: toggle show/hide
 					geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
-					geo.updateVisualStyle();
+					geo.updateVisualStyle(GProperty.VISIBLE);
 					kernel.notifyRepaint();
 
 					// update properties dialog by selecting this geo again

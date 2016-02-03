@@ -120,11 +120,13 @@ public class GeoTextField extends GeoButton {
 
 	/**
 	 * Sets length of the input box
-	 * @param l new length
+	 * 
+	 * @param len
+	 *            new length
 	 */
-	public void setLength(int l){
-		length = l;
-		this.updateVisualStyle();
+	public void setLength(int len) {
+		length = len;
+		this.updateVisualStyle(GProperty.LENGTH);
 	}
 
 	/**

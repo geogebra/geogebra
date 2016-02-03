@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.plugin.GeoClass;
@@ -325,7 +326,7 @@ public class SelectionManager {
 					&& geo.getGeoClassType() != GeoClass.QUADRIC_LIMITED
 					&& geo.getGeoClassType() != GeoClass.NET) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
-				geo.updateVisualStyle();
+				geo.updateVisualStyle(GProperty.VISIBLE);
 			}
 		}
 
@@ -334,7 +335,7 @@ public class SelectionManager {
 			if (geo.isGeoPolygon() || geo.isGeoPolyLine()
 					|| geo.getGeoClassType() == GeoClass.QUADRIC_LIMITED) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
-				geo.updateVisualStyle();
+				geo.updateVisualStyle(GProperty.VISIBLE);
 			}
 		}
 
@@ -342,7 +343,7 @@ public class SelectionManager {
 			GeoElement geo = selectedGeos.get(i);
 			if (geo.isGeoPolyhedron() || geo.getGeoClassType() == GeoClass.NET) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
-				geo.updateVisualStyle();
+				geo.updateVisualStyle(GProperty.VISIBLE);
 			}
 		}
 
@@ -358,7 +359,7 @@ public class SelectionManager {
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
 			geo.setLabelVisible(!geo.isLabelVisible());
-			geo.updateVisualStyle();
+			geo.updateVisualStyle(GProperty.LABEL_STYLE);
 		}
 		kernel.notifyRepaint();
 		updateSelection();

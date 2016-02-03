@@ -2,6 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -136,7 +137,7 @@ public class ColorObjectModel extends OptionsModel {
 				listener.updateNoBackground(geo,col,alpha,updateAlphaOnly, allFillable);
 			}
 			
-			geo.updateVisualStyle();
+			geo.updateVisualStyle(GProperty.COLOR);
 		}
 		kernel.notifyRepaint();
 	}
@@ -151,7 +152,7 @@ public class ColorObjectModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			geo = getGeoAt(i);
 			geo.setBackgroundColor(null);
-			geo.updateVisualStyle();
+			geo.updateVisualStyle(GProperty.COLOR_BG);
 		}
 		kernel.notifyRepaint();
 	}
@@ -209,7 +210,7 @@ public class ColorObjectModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			geo = getGeoAt(i);
 			geo.setSequentialColor(b);
-			geo.updateVisualStyle();
+			geo.updateVisualStyle(GProperty.COLOR);
 		}
 		kernel.notifyRepaint();
 

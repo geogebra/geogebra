@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -275,7 +276,7 @@ public class FillingModel extends MultipleOptionsModel {
 			} else {
 				geo.setAlphaValue(value / 100.0f);
 			}
-			geo.updateVisualStyle();
+			geo.updateVisualStyle(GProperty.COLOR);
 
 		}
 		kernel.notifyRepaint();
@@ -293,7 +294,7 @@ public class FillingModel extends MultipleOptionsModel {
 				geo.setHatchingAngle(angle);
 				geo.setHatchingDistance(distance);
 			}
-			geo.updateVisualStyle();
+			geo.updateVisualStyle(GProperty.ANGLE_STYLE);
 		}
 		kernel.notifyRepaint();
 

@@ -1519,7 +1519,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public void setVisualStyleForTransformations(final GeoElement geo) {
 		setVisualStyle(geo);
 		setFixed(false);
-		updateVisualStyle();
+		updateVisualStyle(GProperty.COMBINED);
 	}
 
 	/**
@@ -4051,16 +4051,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		kernel.notifyRepaint();
 	}
 
-	/**
-	 * update color
-	 */
-	public final void updateVisualStyle() {
-		// updateGeo();
-		updateVisualStyle(GProperty.COMBINED);
-		// updateDependentObjects();
-		// kernel.notifyRepaint();
-	}
-
 	public void updateVisualStyle(GProperty prop) {
 		// updateGeo();
 		kernel.notifyUpdateVisualStyle(this);
@@ -5868,6 +5858,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		decorationType = type;
 	}
 
+	/**
+	 * @param type
+	 *            decoration type
+	 * @param max
+	 *            max for this object class
+	 */
 	public void setDecorationType(final int type, int max) {
 		if (type >= max || type < 0)
 			decorationType = DECORATION_NONE;
@@ -8089,10 +8085,6 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public ExpressionValue toValidExpression() {
 		return this;
-	}
-
-	public void doSetLineThickness(int lineThickness) {
-		this.lineThickness = lineThickness;
 	}
 
 	public boolean evaluatesToNDVector() {

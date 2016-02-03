@@ -154,26 +154,23 @@ public class MiniStyle {
 		}
 	}
 
-	public void setAllProperties() {
-
-		ArrayList<GeoElement> geos = selection.getSelectedGeos();
-
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if (geo instanceof PointProperties) {
-				PointProperties p = (PointProperties) geo;
-				p.setPointSize(pointSize);
-			}
-
-			geo.setLineThickness(lineSize);
-			geo.setLineType(lineStyle);
-			geo.setObjColor(new org.geogebra.desktop.awt.GColorD(color));
-			geo.setAlphaValue(alpha);
-
-			geo.updateVisualStyle();
-
-		}
-	}
+	/*
+	 * public void setAllProperties() {
+	 * 
+	 * ArrayList<GeoElement> geos = selection.getSelectedGeos();
+	 * 
+	 * for (int i = 0; i < geos.size(); i++) { GeoElement geo = geos.get(i); if
+	 * (geo instanceof PointProperties) { PointProperties p = (PointProperties)
+	 * geo; p.setPointSize(pointSize); }
+	 * 
+	 * geo.setLineThickness(lineSize); geo.setLineType(lineStyle);
+	 * geo.setObjColor(new org.geogebra.desktop.awt.GColorD(color));
+	 * geo.setAlphaValue(alpha);
+	 * 
+	 * geo.updateVisualStyle();
+	 * 
+	 * } }
+	 */
 
 	// ==============================================
 	// colors

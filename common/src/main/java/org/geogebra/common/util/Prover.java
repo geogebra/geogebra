@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -262,7 +263,7 @@ public abstract class Prover {
 			line.setEuclidianVisible(true);
 			line.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 			line.setLabelVisible(true);
-			line.updateVisualStyle();
+			line.updateVisualStyle(GProperty.COMBINED);// visibility and style
 			cons.setSuppressLabelCreation(oldMacroMode);
 			return line;
 		}
@@ -296,7 +297,7 @@ public abstract class Prover {
 			segment.setEuclidianVisible(true);
 			segment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 			segment.setLabelVisible(true);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.COMBINED);
 			cons.setSuppressLabelCreation(oldMacroMode);
 			return segment;
 		}

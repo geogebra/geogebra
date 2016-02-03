@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
@@ -74,7 +75,7 @@ public class ShowLabelModel extends OptionsModel{
 				geo = getGeoAt(i);
 			geo.setLabelVisible(visible);
 				geo.setLabelMode(mode);
-				geo.updateVisualStyle();
+			geo.updateVisualStyle(GProperty.LABEL_STYLE);
 			}
 			kernel.notifyRepaint();
 			app.storeUndoInfo();

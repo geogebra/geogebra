@@ -12,6 +12,7 @@ import javax.swing.tree.TreePath;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
@@ -106,7 +107,7 @@ implements MouseListener, MouseMotionListener{
 			if (iconClicked) {
 				// icon clicked: toggle show/hide
 				geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
-				geo.updateVisualStyle();
+				geo.updateVisualStyle(GProperty.VISIBLE);
 				app.storeUndoInfo();
 				kernel.notifyRepaint();
 				return;

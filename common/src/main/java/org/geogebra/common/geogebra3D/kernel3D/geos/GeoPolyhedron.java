@@ -927,17 +927,17 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.removeColorFunction();
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.COLOR);
 		}
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.removeColorFunction();
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.COLOR);
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
 			segment.removeColorFunction();
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.COLOR);
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
@@ -959,17 +959,17 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setColorFunction(col);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.COLOR);
 		}
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.setColorFunction(col);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.COLOR);
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setColorFunction(col);
-			segment.updateVisualStyle();
+			segment.updateVisualStyle(GProperty.COLOR);
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
@@ -1133,12 +1133,12 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setAlphaValue(alpha);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.COLOR);
 		}
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.setAlphaValue(alpha);
-			polygon.updateVisualStyle();
+			polygon.updateVisualStyle(GProperty.COLOR);
 		}
 
 		getKernel().notifyRepaint();
@@ -1909,7 +1909,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	@Override
 	public void updateVisualStyle(GProperty prop) {
 
-		super.updateVisualStyle();
+		super.updateVisualStyle(prop);
 
 		for (GeoPoint3D point : pointsCreated) {
 			point.updateVisualStyle(prop);

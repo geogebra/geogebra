@@ -1044,7 +1044,7 @@ AngleProperties {
 				final GeoElement geo = colorFunctionListener.get(i);
 				// kernel.notifyUpdate(geo);
 				// geo.toGeoElement().updateCascade();
-				geo.updateVisualStyle();
+				geo.updateVisualStyle(GProperty.COLOR);
 				//AbstractApplication.debug(geo);
 			}
 			// kernel.notifyRepaint();
