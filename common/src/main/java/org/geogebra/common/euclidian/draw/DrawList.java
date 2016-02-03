@@ -224,7 +224,10 @@ public final class DrawList extends CanvasDrawable
 			if (isScrollNeeded()) {
 				rectTop += rectUp.getHeight();
 			}
-			if (item.getRect() == null) {
+
+			GRectangle rect = item.getRect();
+			if (rect == null
+					|| (rectLeft != rect.getX() || rectTop != rect.getY())) {
 				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
 			}
@@ -630,7 +633,11 @@ public final class DrawList extends CanvasDrawable
 				view.setOpenedComboBox(DrawList.this);
 				startIdx = isScrollNeeded() ? geoList.getSelectedIndex() : 0;
 				selectedIndex = startIdx;
-				itemHovered = items.get(selectedIndex);
+				if (items != null && selectedIndex < items.size()) {
+					itemHovered = items.get(selectedIndex);
+				} else {
+					itemHovered = null;
+				}
 			} else {
 				view.setOpenedComboBox(null);
 			}

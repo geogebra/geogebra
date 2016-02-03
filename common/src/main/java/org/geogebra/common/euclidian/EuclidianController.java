@@ -6761,6 +6761,9 @@ public abstract class EuclidianController {
 	protected boolean overComboBox(AbstractEvent event, GeoElement hit) {
 		if (hit.isGeoList()) {
 			DrawList dl = (DrawList) view.getDrawableFor(hit);
+			if (dl == null) {
+				return false;
+			}
 			dl.onOptionOver(event.getX(),
 					event.getY());
 			return dl.isCanvasDrawable();
