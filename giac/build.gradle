@@ -138,8 +138,11 @@ model {
                 cppCompiler.define "HAVE_LIBPTHREAD"
                 cppCompiler.define "HAVE_SYSCONF"
                 cppCompiler.define "HAVE_NO_HOME_DIRECTORY"
+                cppCompiler.define "HAVE_LIBMPFR"
+                cppCompiler.define "HAVE_MPFR_H", "1"
                 cppCompiler.define "VERSION", '"1.1.3"'
                 cppCompiler.define "TIMEOUT"
+
                 }
             }
 
@@ -152,6 +155,8 @@ model {
                 cppCompiler.define 'HAVE_CONFIG_H'
                 cppCompiler.define 'HAVE_UNISTD_H'
                 cppCompiler.define 'GIAC_GGB'
+                cppCompiler.define "HAVE_LIBMPFR"
+                cppCompiler.define "HAVE_MPFR_H", "1"
                 }
             sources.all {
                 source {
@@ -172,13 +177,13 @@ model {
             sources.cpp {
                 source {
                     srcDirs 'src/giac/cpp', 'src/jni/cpp'
-            	}
+                    }
                 exportedHeaders {
                     srcDirs 'src/giac/headers', 'src/jni/jdkHeaders'
-            	}
+                    }
                 lib library: 'mpfr', linkage: 'static'
                 lib library: 'gmp', linkage: 'static'
-        	}
+                }
 
             binaries.withType(SharedLibraryBinary) {
                 // Common settings for all platforms and architectures:
@@ -188,6 +193,8 @@ model {
                 // They are automatically loaded if HAVE_CONFIG_H is defined below:
                 cppCompiler.define 'HAVE_CONFIG_H'
                 cppCompiler.define 'GIAC_GGB'
+                cppCompiler.define "HAVE_LIBMPFR"
+                cppCompiler.define "HAVE_MPFR_H", "1"
 
                 cppCompiler.args '-fexceptions'
                 // cppCompiler.args '-Os' // size optimization
@@ -200,9 +207,9 @@ model {
                 if (targetPlatform.architecture.name == 'i386') {
                     cppCompiler.define 'SMARTPTR64'
                     cppCompiler.define 'SIZEOF_LONG', '8'
-            	} else {
+                    } else {
                     cppCompiler.define 'SIZEOF_LONG', '4'
-            	}
+                    }
 
                 // OS based settings:
                 if (targetPlatform.operatingSystem.name == 'windows') {
@@ -266,11 +273,11 @@ model {
                 if (targetPlatform.operatingSystem.name == 'osx') {
                     cppCompiler.define 'HAVE_UNISTD_H'
                     cppCompiler.define 'APPLE_SMART'
-            	    cppCompiler.define 'NO_SCANDIR'
-            	    cppCompiler.define 'gettext', ''
-            	    cppCompiler.args '-mmacosx-version-min=10.6'
-            	    cppCompiler.args '-isysroot', '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk'
-            	    cppCompiler.args '-I/System/Library/Frameworks/CoreFoundation.framework/Headers'
+                    cppCompiler.define 'NO_SCANDIR'
+                    cppCompiler.define 'gettext', ''
+                    cppCompiler.args '-mmacosx-version-min=10.6'
+                    cppCompiler.args '-isysroot', '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk'
+                    cppCompiler.args '-I/System/Library/Frameworks/CoreFoundation.framework/Headers'
 
                     cppCompiler.args '-I', file('src/jni/jdkHeaders/darwin').toString()
 
@@ -328,35 +335,35 @@ task run (dependsOn: 'minigiacExecutable', type: Exec) {
 
 tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.") { String taskName ->
     if ((taskName.startsWith('emccCompile_')) && (taskName.endsWith('Cc'))) {
-	def basename = (taskName - 'Cc').substring('emccCompile_'.length())
+        def basename = (taskName - 'Cc').substring('emccCompile_'.length())
         task(taskName) {
-	    def input = "src/giac/cpp/${basename}.cc"
-	    inputs.file input
-	    def output = "build/objs/giac.js/${basename}.o"
-	    outputs.file output
-	    doLast {
-		file("build/objs/giac.js").mkdirs()
-		exec {
-		    // Be very careful when changing this: config.h also contains some entries! 
-		    def specialOptions = ''
-		    def commandline = emccCommand
-		    commandline += ' -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -DNO_STDEXCEPT -DHAVE_CONFIG_H' // from old Makefile
-		    if (emscriptenVer == '201304') {
-			commandline += " -s PRECISE_I32_MUL=1" // from old Makefile (PREC)
-			}
-		    if (emscriptenVer == '201505') {
-			commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1 -fno-exceptions"
-			}
+            def input = "src/giac/cpp/${basename}.cc"
+            inputs.file input
+            def output = "build/objs/giac.js/${basename}.o"
+            outputs.file output
+            doLast {
+                file("build/objs/giac.js").mkdirs()
+                exec {
+                    // Be very careful when changing this: config.h also contains some entries! 
+                    def specialOptions = ''
+                    def commandline = emccCommand
+                    commandline += ' -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -DNO_STDEXCEPT -DHAVE_CONFIG_H' // from old Makefile
+                    if (emscriptenVer == '201304') {
+                        commandline += " -s PRECISE_I32_MUL=1" // from old Makefile (PREC)
+                        }
+                    if (emscriptenVer == '201505') {
+                        commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1 -fno-exceptions"
+                        }
 
-		    commandline += ' -DGIAC_GGB' // from old Makefile
-		    commandline += ' -DTIMEOUT -DEMCC' // from old config.h
-		    commandline += " -Isrc/giac/headers -c $input -o $output"
+                    commandline += ' -DGIAC_GGB' // from old Makefile
+                    commandline += ' -DTIMEOUT -DEMCC -DHAVE_LIBMPFR -DHAVE_MPFR_H=1' // from old config.h
+                    commandline += " -Isrc/giac/headers -c $input -o $output"
 
-		    commandLine commandline.split()
-		    }
-		}
-	    }
-	}
+                    commandLine commandline.split()
+                    }
+                }
+            }
+        }
     }
 
 task emccClean(type: Delete) {
@@ -369,11 +376,11 @@ task emccCompile {
     def list = []
     FileTree files = fileTree(dir: 'src/giac/cpp')
     files.visit { f ->
-	if (f.name.endsWith('.cc')) {
-    	    def emccCompileTask = 'emccCompile_' + f.name - '.cc' + 'Cc'
-	    list << emccCompileTask
-	    }
-	}
+        if (f.name.endsWith('.cc')) {
+            def emccCompileTask = 'emccCompile_' + f.name - '.cc' + 'Cc'
+            list << emccCompileTask
+            }
+        }
     dependsOn list
     }
 
@@ -384,37 +391,37 @@ task emccGiacJs (dependsOn: 'emccCompile') {
     def inputInclude = []
     FileTree files = fileTree(dir: 'build/objs/giac.js')
     files.visit { f ->
-    	def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
-	inputInclude << f.name
-	inputInclude << ('src/giac/cpp/' + f.name - '.o' + '.cc')
-	list << emccCompileTask
-	linkerArgs << "build/objs/giac.js/${f.name}"
-	}
+        def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
+        inputInclude << f.name
+        inputInclude << ('src/giac/cpp/' + f.name - '.o' + '.cc')
+        list << emccCompileTask
+        linkerArgs << "build/objs/giac.js/${f.name}"
+        }
     def output = "build/binaries/giacggb.js/giacggb.js"
     inputs.files inputInclude
     outputs.file output
     mustRunAfter emccCompile
     doLast {
-	file("build/binaries/giacggb.js").mkdirs()
-	exec {
-	    linkerArgs << LlvmMpfrA // mpfr must precede gmp, see http://www.mpfr.org/faq.html, Q5
-	    linkerArgs << LlvmGmpA
-	    linkerArgs << '--js-library' << 'src/giac.js/js/time.js'
-	    if (emscriptenVer == '201304') {
-    	        linkerArgs << '-s' << 'PRECISE_I32_MUL=1'
-		}
-	    if (emscriptenVer == '201505') {
-		linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1'
-    	        // linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
-		}
-	    linkerArgs << '-DGIAC_GGB'
-	    linkerArgs << '-o' << output
-	    linkerArgs << '-O2' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['_caseval']"
-	    linkerArgs << '--closure' << '1'
-	    commandLine emccCommand
-	    args linkerArgs
-	    }
-	}
+        file("build/binaries/giacggb.js").mkdirs()
+        exec {
+            linkerArgs << LlvmMpfrA // mpfr must precede gmp, see http://www.mpfr.org/faq.html, Q5
+            linkerArgs << LlvmGmpA
+            linkerArgs << '--js-library' << 'src/giac.js/js/time.js'
+            if (emscriptenVer == '201304') {
+                linkerArgs << '-s' << 'PRECISE_I32_MUL=1'
+                }
+            if (emscriptenVer == '201505') {
+                linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1'
+                // linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
+                }
+            linkerArgs << '-DGIAC_GGB'
+            linkerArgs << '-o' << output
+            linkerArgs << '-O2' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['_caseval']"
+            linkerArgs << '--closure' << '1'
+            commandLine emccCommand
+            args linkerArgs
+            }
+        }
     }
 
 task createGiacGgbJs(dependsOn: 'emccGiacJs', type: Copy) {
@@ -440,74 +447,74 @@ task downloadEmsdk {
     outputs.dir emsdkDir
     doLast {
         emsdkDir.mkdirs()
-	ant.get(src: "$emsdkUrlFolder/$emsdkTgzFile", dest: emsdkDir,
-	    skipexisting: true, usetimestamp: true)
-	copy {
-	    from tarTree("$emsdkDir/$emsdkTgzFile")
-	    into "$emsdkDir"
-	    }
-	}
+        ant.get(src: "$emsdkUrlFolder/$emsdkTgzFile", dest: emsdkDir,
+            skipexisting: true, usetimestamp: true)
+        copy {
+            from tarTree("$emsdkDir/$emsdkTgzFile")
+            into "$emsdkDir"
+            }
+        }
     }
 
 task installEmsdk (dependsOn: 'downloadEmsdk') {
     description 'Installs/updates the emscripten SDK.'
     doLast {
-	exec {
-	    commandLine './emsdk update'.split()
-	    workingDir emsdkRunDir
-	    }
-	exec {
-	    commandLine './emsdk install latest'.split()
-	    workingDir emsdkRunDir
-	    }
-	exec {
-	    commandLine './emsdk activate latest'.split()
-	    workingDir emsdkRunDir
-	    }
-	// "nodejs" must be set in ~/.emscripten under Ubuntu 14.10
-	}
+        exec {
+            commandLine './emsdk update'.split()
+            workingDir emsdkRunDir
+            }
+        exec {
+            commandLine './emsdk install latest'.split()
+            workingDir emsdkRunDir
+            }
+        exec {
+            commandLine './emsdk activate latest'.split()
+            workingDir emsdkRunDir
+            }
+        // "nodejs" must be set in ~/.emscripten under Ubuntu 14.10
+        }
     }
 
 task emConfigureGmp {
     description 'Configures GMP for the emscripten SDK.'
     doLast {
-	exec {
-	    commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emconfigure $gmpSourceDir/configure --build=none --host=none --disable-assembly"
-	    workingDir gmpSourceDir
-	    }
-	}
+        exec {
+            commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emconfigure $gmpSourceDir/configure --build=none --host=none --disable-assembly"
+            workingDir gmpSourceDir
+            }
+        }
     }
 
 task emMakeGmp {
     description 'Makes GMP with the emscripten SDK.'
     doLast {
-	exec {
-	    commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emmake make"
-	    workingDir gmpSourceDir
-	    }
-	}
+        exec {
+            commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emmake make"
+            workingDir gmpSourceDir
+            }
+        }
     }
 
 task emConfigureMpfr {
     description 'Configures MPFR for the emscripten SDK.'
     doLast {
-	exec {
-	    commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; " +
-		"$emscriptenDir/emconfigure $mpfrSourceDir/configure --build=none --host=none --disable-assembly " +
-		"--with-gmp-lib=$gmpSourceDir/.libs --with-gmp-include=$gmpSourceDir"
-	    workingDir mpfrSourceDir
-	    }
-	}
+        exec {
+            commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; " +
+                "$emscriptenDir/emconfigure $mpfrSourceDir/configure --build=none --host=none --disable-assembly " +
+                "--with-gmp-lib=$gmpSourceDir/.libs --with-gmp-include=$gmpSourceDir"
+            workingDir mpfrSourceDir
+            }
+        }
     }
 
 task emMakeMpfr {
     description 'Makes MPFR with the emscripten SDK.'
     doLast {
-	exec {
-	    commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emmake make"
-	    workingDir mpfrSourceDir
-	    }
-	}
+        exec {
+            commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emmake make"
+            workingDir mpfrSourceDir
+            }
+        }
     }
 
 /* How to use the new system:

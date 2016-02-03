@@ -34,8 +34,6 @@
 #define HAVE_NO_HOME_DIRECTORY
 
 #define HAVE_SYSCONF
-#define HAVE_LIBMPFR
-#define HAVE_MPFR_H 1
 
 /* The size of `int' and `long long', as computed by sizeof. */
 #define SIZEOF_INT 4
