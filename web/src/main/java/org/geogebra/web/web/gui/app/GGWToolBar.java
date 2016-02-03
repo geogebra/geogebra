@@ -349,7 +349,7 @@ pr.menu_header_undo(), null, 32);
 			}
 		}
 		// window resize has 2 cases: full screen and not full screen
-		$wnd.onresize = function(event) {
+		$wnd.addEventListener("resize", function() {
 			var height = $wnd.innerHeight;
 			$wnd.console.log(height, screenHeight);
 
@@ -361,7 +361,7 @@ pr.menu_header_undo(), null, 32);
 				stopCheating();
 				fullscreen = true;
 			}
-		}
+		});
 	}-*/;
 	
 	
