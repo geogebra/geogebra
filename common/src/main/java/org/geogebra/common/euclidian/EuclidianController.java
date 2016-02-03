@@ -8882,7 +8882,8 @@ public abstract class EuclidianController {
 		setMouseLocation(event);
 		this.setViewHits(event.getType());
 
-		if (hitComboBox(event.getX(), event.getY(), true)) {
+		if (!event.isRightClick()
+				&& hitComboBox(event.getX(), event.getY(), true)) {
 			return;
 		}
 
