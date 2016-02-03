@@ -185,6 +185,11 @@ model {
                 lib library: 'gmp', linkage: 'static'
                 }
 
+            binaries.withType(StaticLibraryBinary) { // TODO: Unify this with SharedLibraryBinary
+                cppCompiler.define "HAVE_LIBMPFR"
+                cppCompiler.define "HAVE_MPFR_H", "1"
+                }
+
             binaries.withType(SharedLibraryBinary) {
                 // Common settings for all platforms and architectures:
                 cppCompiler.define 'IN_GIAC'
