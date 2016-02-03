@@ -138,8 +138,6 @@ model {
                 cppCompiler.define "HAVE_LIBPTHREAD"
                 cppCompiler.define "HAVE_SYSCONF"
                 cppCompiler.define "HAVE_NO_HOME_DIRECTORY"
-                cppCompiler.define "HAVE_LIBMPFR"
-                cppCompiler.define "HAVE_MPFR_H", "1"
                 cppCompiler.define "VERSION", '"1.1.3"'
                 cppCompiler.define "TIMEOUT"
 
@@ -155,8 +153,6 @@ model {
                 cppCompiler.define 'HAVE_CONFIG_H'
                 cppCompiler.define 'HAVE_UNISTD_H'
                 cppCompiler.define 'GIAC_GGB'
-                cppCompiler.define "HAVE_LIBMPFR"
-                cppCompiler.define "HAVE_MPFR_H", "1"
                 }
             sources.all {
                 source {
@@ -185,11 +181,6 @@ model {
                 lib library: 'gmp', linkage: 'static'
                 }
 
-            binaries.withType(StaticLibraryBinary) { // TODO: Unify this with SharedLibraryBinary
-                cppCompiler.define "HAVE_LIBMPFR"
-                cppCompiler.define "HAVE_MPFR_H", "1"
-                }
-
             binaries.withType(SharedLibraryBinary) {
                 // Common settings for all platforms and architectures:
                 cppCompiler.define 'IN_GIAC'
@@ -198,8 +189,6 @@ model {
                 // They are automatically loaded if HAVE_CONFIG_H is defined below:
                 cppCompiler.define 'HAVE_CONFIG_H'
                 cppCompiler.define 'GIAC_GGB'
-                cppCompiler.define "HAVE_LIBMPFR"
-                cppCompiler.define "HAVE_MPFR_H", "1"
 
                 cppCompiler.args '-fexceptions'
                 // cppCompiler.args '-Os' // size optimization
@@ -361,7 +350,7 @@ tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.")
                         }
 
                     commandline += ' -DGIAC_GGB' // from old Makefile
-                    commandline += ' -DTIMEOUT -DEMCC -DHAVE_LIBMPFR -DHAVE_MPFR_H=1' // from old config.h
+                    commandline += ' -DTIMEOUT -DEMCC' // from old config.h
                     commandline += " -Isrc/giac/headers -c $input -o $output"
 
                     commandLine commandline.split()

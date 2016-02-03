@@ -35,6 +35,9 @@
 
 #define HAVE_SYSCONF
 
+#define HAVE_LIBMPFR
+#define HAVE_MPFR_H 1
+
 /* The size of `int' and `long long', as computed by sizeof. */
 #define SIZEOF_INT 4
 #define SIZEOF_LONG_LONG 8
