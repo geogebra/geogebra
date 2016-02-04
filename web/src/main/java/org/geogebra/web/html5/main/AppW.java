@@ -131,10 +131,12 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AppW extends App implements SetLabels, HasKeyboard {
@@ -2899,6 +2901,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		        null);
 	}
 	
+	public void showMessage(boolean scrollable, final String message, final String title) {
+		HTML content = new HTML(message);
+		ScrollPanel scrollPanel = new ScrollPanel(content);
+		scrollPanel.addStyleName("examScrollPanel");
+		getOptionPane().showConfirmDialog(this, scrollPanel, title, GOptionPane.DEFAULT_OPTION,
+				GOptionPane.INFORMATION_MESSAGE, null);
+
+	}
+
 	@Override
 	public void showErrorDialog(final String msg) {
 		if (!isErrorDialogsActive()) {

@@ -268,6 +268,13 @@ input[type="text"]::-ms-clear {
 	/*height: 200px;*/
 	}
 	
+.examScrollPanel{
+	overflow: auto;
+	min-height: 150px;
+	max-height:350px;
+	/*margin: 0px 10px 10px 10px;*/
+	padding: 0px 10px 10px 5px;
+}
 
 .GeoGebraFrame .gwt-Button.minor {
 	border-radius: 5px;

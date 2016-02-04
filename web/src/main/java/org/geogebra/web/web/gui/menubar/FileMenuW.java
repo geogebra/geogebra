@@ -75,7 +75,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	protected void exitAndResetExam() {
 		if (!ExamUtil.toggleFullscreen(false)) {
 			app.getExam().exit();
-			app.showMessage(app.getExam().getLog(app.getLocalization()),app.getMenu("exam_log_header"));
+			app.showMessage(true, app.getExam().getLog(app.getLocalization()), app.getMenu("exam_log_header"));
 			app.setExam(null);
 			Layout.initializeDefaultPerspectives(app, 0.2);
 			app.getLAF().addWindowClosingHandler(app);

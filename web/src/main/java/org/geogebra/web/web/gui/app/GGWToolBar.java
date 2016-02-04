@@ -250,7 +250,7 @@ pr.menu_header_undo(), null, 32);
 		fp.addDomHandler(new ClickHandler() {
 			// clicking on info button
 			public void onClick(ClickEvent event) {
-				app.showMessage(app.getExam().getLog(app.getLocalization()),app.getMenu("exam_log_header"));
+				app.showMessage(true, app.getExam().getLog(app.getLocalization()), app.getMenu("exam_log_header"));
 
 			}
 		}, ClickEvent.getType());

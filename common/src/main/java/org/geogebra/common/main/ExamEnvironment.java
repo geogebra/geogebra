@@ -129,36 +129,36 @@ public class ExamEnvironment {
 		if (supports3D == false) {
 			sb.append("3D Graphics");
 		}
-		sb.append("\n");
+		sb.append("<br>");
 
 		// Exam Start Date
 		sb.append(loc.getMenu("exam_start_date") + ":");
 		sb.append(' ');
 		sb.append(getLocalizedDateOnly(loc, examStartTime));
-		sb.append("\n");
+		sb.append("<br>");
 
 		// Exam Start Time
 		sb.append(loc.getMenu("exam_start_time") + ":");
 		sb.append(' ');
 		sb.append(getLocalizedTimeOnly(loc, examStartTime));
-		sb.append("\n");
+		sb.append("<br>");
 
 		// Exam End Time
 		if (closed > 0) {
 			sb.append(loc.getMenu("exam_end_time") + ":");
 			sb.append(' ');
 			sb.append(getLocalizedTimeOnly(loc, closed));
-			sb.append("\n");
+			sb.append("<br>");
 		}
 
-		sb.append("-------------");
-		sb.append("\n");
+		sb.append("<hr>");
+		sb.append("<br>");
 
 		// Log times
 		sb.append("0:00");
 		sb.append(' ');
 		sb.append(loc.getMenu("exam_started"));
-		sb.append("\n");
+		sb.append("<br>");
 
 		if (cheatingTimes != null) {
 			for (int i = 0; i < cheatingTimes.size(); i++) {
@@ -170,7 +170,7 @@ public class ExamEnvironment {
 						: loc.getMenu("exam_log_window_entered")); // exam
 																	// active
 																	// again
-				sb.append("\n");
+				sb.append("<br>");
 			}
 		}
 		if (closed > 0) {

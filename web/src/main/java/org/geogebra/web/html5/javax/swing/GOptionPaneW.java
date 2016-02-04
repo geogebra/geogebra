@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -45,6 +46,7 @@ public class GOptionPaneW extends GDialogBox implements
 	private AutoCompleteTextFieldW inputField;
 	private FlowPanel mainPanel;
 	private FlowPanel buttonPanel;
+	private ScrollPanel scrollPanel;
 	private int returnOption;
 	private String returnValue;
 	private VerticalPanel messageTextPanel;
@@ -218,13 +220,15 @@ public class GOptionPaneW extends GDialogBox implements
 		if (icon != null) {
 			messagePanel.add(icon);
 		}
-
-		String[] lines = message.split("\n");
+		if (scrollPanel != null) {
+			messagePanel.add(scrollPanel);
+		} else {
+			String[] lines = message.split("\n");
 		for (String item : lines) {
 			messageTextPanel.add(new Label(item));
 		}
 		messagePanel.add(messageTextPanel);
-
+		}
 	}
 
 	private void setLabels() {
@@ -337,6 +341,28 @@ public class GOptionPaneW extends GDialogBox implements
 
 		this.app = app;
 		this.message = message;
+		this.title = title;
+		this.optionType = optionType;
+		this.messageType = messageType;
+		this.icon = (Image) icon;
+
+		this.okLabel = null;
+
+		this.returnHandler = null;
+		requiresReturnValue = false;
+
+		showDialog(true);
+		showDialog(true);
+
+		return returnOption;
+
+	}
+
+	public int showConfirmDialog(App app, ScrollPanel scrollPanel, String title, int optionType, int messageType,
+			Image icon) {
+
+		this.app = app;
+		this.scrollPanel = scrollPanel;
 		this.title = title;
 		this.optionType = optionType;
 		this.messageType = messageType;
