@@ -30,6 +30,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -38,7 +39,6 @@ import org.geogebra.common.gui.dialog.ToolManagerDialogModel;
 import org.geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogListener;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.gui.ToolNameIconPanel;
@@ -274,17 +274,23 @@ public class ToolManagerDialog extends javax.swing.JDialog implements
 			Thread runner = new Thread() {
 				@Override
 				public void run() {
-					App.debug("before" + app.hashCode());
 					app.setWaitCursor();
-					GeoGebraFrame newframe = ((GeoGebraFrame) app.getFrame())
-							.createNewWindow(
-							null, macro);
-					newframe.setTitle(macro.getCommandName());
-					byte[] byteArray = app.getMacroFileAsByteArray();
-					newframe.getApplication().loadMacroFileFromByteArray(
-							byteArray, false);
-					newframe.getApplication().openMacro(macro);
-					app.setDefaultCursor();
+					// avoid deadlock with current app
+					SwingUtilities.invokeLater(new Runnable() {
+
+						public void run() {
+							GeoGebraFrame newframe = ((GeoGebraFrame) app
+									.getFrame()).createNewWindow(null, macro);
+							newframe.setTitle(macro.getCommandName());
+							byte[] byteArray = app.getMacroFileAsByteArray();
+							newframe.getApplication()
+									.loadMacroFileFromByteArray(byteArray,
+											false);
+							newframe.getApplication().openMacro(macro);
+							app.setDefaultCursor();
+
+						}
+					});
 
 				}
 			};
