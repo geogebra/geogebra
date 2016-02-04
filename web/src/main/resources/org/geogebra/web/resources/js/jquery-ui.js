@@ -882,7 +882,7 @@ var mouse = $.widget("ui.mouse", {
 			.bind("mousedown." + this.widgetName, function(event) {
 				return that._mouseDown(event);
 			})
-			.bind("click." + this.widgetName, function(event) {
+			.bind("mouseup." + this.widgetName, function(event) {
 				if (true === $.data(event.target, that.widgetName + ".preventClickEvent")) {
 					$.removeData(event.target, that.widgetName + ".preventClickEvent");
 					event.stopImmediatePropagation();

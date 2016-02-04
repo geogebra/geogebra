@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.util.sliderPanel;
 
-import org.geogebra.common.main.App;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
@@ -24,7 +22,6 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	public SliderWJquery(double min, double max) {
 		range = Document.get().createElement("div");
 		range.getStyle().setWidth(200, Unit.PX);
-		App.debug("setting up" + min + "," + max);
 		setup(range, min, max, min);
 
 		setElement(range);
@@ -109,14 +106,12 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
-		App.debug("up");
 		ValueChangeEvent.fireIfNotEqual(this, curValue, getValue());
 		curValue = getValue();
 	}
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		App.debug("down");
 		event.stopPropagation();
 		// curValue = getValue();
 	}
@@ -127,16 +122,12 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	}
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
-		App.debug("move");
+
 		// event.stopPropagation();
 		Double value = getValue();
 		if (curValue != null) {
 			slide(value);
 		}
-	}
-
-	private void moveKnob(boolean value) {
-		App.debug("JQSlider move knob: " + value);
 	}
 
 	public static SliderWJquery as(SliderWI obj) {
