@@ -1314,7 +1314,7 @@ __GGB__keysVar.ko.menu = {
     "CopyAsLibreOfficeFormula": "\ub9ac\ube0c\ub808\uc624\ud53c\uc2a4 \uc218\uc2dd\uc73c\ub85c \ubcf5\uc0ac",
     "CopyImage": "\uae30\ud558\ucc3d\uc744 \uadf8\ub9bc\uc73c\ub85c \uc800\uc7a5",
     "CopyImageAsSVG": "SVG\ub85c \uadf8\ub9bc\uc744 \ubcf5\uc0ac",
-    "CopyInput": "Copy Input",
+    "CopyInput": "\uc785\ub825\ub0b4\uc6a9 \ubcf5\uc0ac",
     "CopyToClipboard": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac",
     "CopyToGraphics": "\uae30\ud558\ucc3d\uc5d0 \ubcf5\uc0ac",
     "CopyToInputBar": "\uc785\ub825\ucc3d\uc73c\ub85c \ubcf5\uc0ac",

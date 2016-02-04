@@ -1330,7 +1330,7 @@ __GGB__keysVar.xh.menu = {
     "CreateCurveFit": "iBest Fit Curve",
     "CreateCurveFit.Help": "Khethela iipoints iicells uze wandule ukuklikha iqhosha letool",
     "CreateDataFunction": "Create DataFunction",
-    "CreateDataList": "Create List",
+    "CreateDataList": "Yenza uluhlu",
     "CreateList": "Uluhlu",
     "CreateList.Help": "Khetha iicells uze uklikhe iqhosha letool",
     "CreateListGraphicsView": "Yenza Uluhlu",
