@@ -1576,7 +1576,8 @@ public abstract class EuclidianController {
 			ret = geos.get(0);
 
 			for (int i = 0; i < geos.size(); i++) {
-				if (geos.get(i).drawBefore(ret, true)) {
+				// other not drawn before = other is on top
+				if (!geos.get(i).drawBefore(ret, true)) {
 					ret = geos.get(i);
 				}
 			}
