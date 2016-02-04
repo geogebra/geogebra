@@ -25,6 +25,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
@@ -165,6 +166,7 @@ public final class DrawList extends CanvasDrawable
 		private ScrollMode scrollMode = ScrollMode.NONE;
 
 		private boolean dragging;
+		private GPoint dragPoint;
 
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
@@ -201,6 +203,12 @@ public final class DrawList extends CanvasDrawable
 			drawItems();
 			if (isScrollNeeded()) {
 				drawControls();
+				if (dragPoint != null) {
+					g2.setPaint(GColor.RED);
+					int r = 2;
+					g2.fillRect(dragPoint.getX() - r, dragPoint.getY() - r, r,
+							r);
+				}
 			}
 
 		}
@@ -335,17 +343,25 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		void scrollUp() {
-			if (startIdx > 0) {
-				startIdx--;
+			scrollUpBy(1);
+		}
+
+		void scrollDown() {
+			scrollDownBy(1);
+		}
+
+		void scrollUpBy(int diff) {
+			if (startIdx > diff - 1) {
+				startIdx -= diff;
 				selectedIndex = startIdx;
 				geo.updateRepaint();
 
 			}
 		}
 
-		void scrollDown() {
-			if (endIdx != items.size()) {
-				startIdx++;
+		void scrollDownBy(int diff) {
+			if (endIdx + diff != items.size() - 1) {
+				startIdx += diff;
 				selectedIndex = endIdx;
 				geo.updateRepaint();
 			}
@@ -372,7 +388,7 @@ public final class DrawList extends CanvasDrawable
 			}
 
 			dragging = false;
-
+			dragPoint = null;
 			if (handleUpControl(x, y) || handleDownControl(x, y)) {
 				return true;
 			}
@@ -737,7 +753,9 @@ public final class DrawList extends CanvasDrawable
 		public boolean onMouseUp(int x, int y) {
 			if (isScrollNeeded()) {
 				stopScrolling();
+				dragPoint = null;
 			}
+
 			if (!isHit(x, y) || isControlHit(x, y) || dragging) {
 				return false;
 			}
@@ -750,13 +768,42 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		public boolean onDrag(int x, int y) {
-			if (!isHit(x, y)) {
+			if (!isHit(x, y) || !isScrollNeeded()) {
 				return false;
 			}
 
 			dragging = true;
-			Log.debug(SCROLL_PFX + " DRAG!");
+
+			GPoint p = new GPoint(x, y);
+			if (dragPoint != null) {
+				int dY = dragPoint.getY() - p.getY();
+				Log.debug(SCROLL_PFX + " DRAG! dY: " + dY);
+
+				if (dY > 0) {
+				} else {
+
+				}
+
+				OptionItem item = getItemAt(x, y);
+				OptionItem lastItem = getItemAt(dragPoint);
+				if (item != null && lastItem != null && item != lastItem) {
+					int dIdx = lastItem.index - item.index;
+					Log.debug(SCROLL_PFX + " Different items! dIdx: " + dIdx);
+					if (dIdx > 0) {
+						scrollDownBy(dIdx);
+					} else {
+						scrollUpBy(-dIdx);
+					}
+				}
+			}
+
+			dragPoint = p;
+			geo.updateRepaint();
 			return true;
+		}
+
+		private OptionItem getItemAt(GPoint p) {
+			return getItemAt(p.getX(), p.getY());
 		}
 
 	}
