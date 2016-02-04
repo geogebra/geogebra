@@ -1078,6 +1078,7 @@ var slider = $.widget( "ui.slider", $.ui.mouse, {
 	// number of pages in a slider
 	// (how many times can you page up/down to go through the whole range)
 	numPages: 5,
+	zoom: 1,
 
 	_create: function() {
 		this._keySliding = false;
@@ -1320,10 +1321,10 @@ var slider = $.widget( "ui.slider", $.ui.mouse, {
 			valueMouse;
 
 		if ( this.orientation === "horizontal" ) {
-			pixelTotal = this.elementSize.width;
+			pixelTotal = this.elementSize.width * this.zoom;
 			pixelMouse = position.x - this.elementOffset.left - ( this._clickOffset ? this._clickOffset.left : 0 );
 		} else {
-			pixelTotal = this.elementSize.height;
+			pixelTotal = this.elementSize.height * this.zoom;
 			pixelMouse = position.y - this.elementOffset.top - ( this._clickOffset ? this._clickOffset.top : 0 );
 		}
 
@@ -1438,6 +1439,12 @@ var slider = $.widget( "ui.slider", $.ui.mouse, {
 		}
 
 		return this._value();
+	},
+	
+	setzoom: function( newZoom ) {
+		
+			this.zoom = newZoom;
+		
 	},
 
 	values: function( index, newValue ) {

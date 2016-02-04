@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
@@ -36,6 +37,8 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		minLabel = new Label();
 		add(minLabel);
 		slider = new SliderWJquery(min, max);
+		slider.setScale(((AppW) kernel.getApplication()).getArticleElement()
+				.getDataParamScale());
 		add(slider);
 		maxLabel = new Label();
 		setMinimum(min, degrees);
@@ -139,5 +142,16 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		style.setBackgroundColor(GColor.getColorString(color));
 
 		style.setBorderColor(GColor.getColorString(c));
+	}
+
+	/**
+	 * @param scale
+	 *            scale of the app, NOT including browser zoom
+	 */
+	public void setScale(float scale) {
+		if (slider != null) {
+			slider.setScale(scale);
+		}
+
 	}
 }

@@ -16,4 +16,6 @@ public interface SliderWI extends HasChangeHandlers, HasValue<Double>,
 
 	void setStep(double step);
 
+	void setScale(float scale);
+
 }

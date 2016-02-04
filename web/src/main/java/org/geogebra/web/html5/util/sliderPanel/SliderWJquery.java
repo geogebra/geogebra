@@ -44,8 +44,17 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 								that.@org.geogebra.web.html5.util.sliderPanel.SliderWJquery::slide(D)(ui.value)
 							}
 						});
+
 	}-*/ ;
 
+	public void setScale(float zoom) {
+		setScale(range, zoom);
+	}
+
+	private native void setScale(Element range1, float zoom) /*-{
+		$wnd.$ggbQuery(range1).slider("setzoom", zoom);
+	}-*/;
+	
 	private native void setRangeValue(Element range1, double val) /*-{
 		$wnd.$ggbQuery(range1).slider("values", [ val ]);
 	}-*/;

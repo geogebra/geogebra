@@ -1447,6 +1447,8 @@ public class RadioTreeItem extends AVTreeItem
 				initSlider();
 				styleContentPanel(true);
 				getElement().setDraggable(Element.DRAGGABLE_FALSE);
+			} else {
+				slider.setScale(app.getArticleElement().getDataParamScale());
 			}
 			boolean hasMinMax = false;
 			if (((GeoNumeric) geo).getIntervalMaxObject() != null
