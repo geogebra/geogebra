@@ -514,7 +514,7 @@ namespace giac {
       }
       return subst(e,*i._VECTptr,*newi._VECTptr,quotesubst,contextptr);
     }
-    if (i.type!=_IDNT && i.type!=_SYMB)
+    if (i.type!=_IDNT && i.type!=_SYMB && i.type!=_FUNC)
       *logptr(contextptr) << gettext("Warning, replacing ") << i << gettext(" by ") << newi << gettext(", a substitution variable should perhaps be purged.") << endl;
     gen res;
     if (has_subst(e,i,newi,res,quotesubst,contextptr))
@@ -2389,6 +2389,8 @@ namespace giac {
     calc_mode(0,contextptr);
     vecteur sub1,sub2;
     surd2pow(args,sub1,sub2,contextptr);
+    if (!sub2.empty())
+      sub2=subst(sub2,at_abs,at_nop,false,contextptr);
     res=args;
     if (!sub1.empty())
       res=subst(res,sub1,sub2,false,contextptr);
