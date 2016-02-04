@@ -4191,4 +4191,9 @@ public abstract class App implements UpdateSelection {
 	public String getInput3DType() {
 		return Input3D.PREFS_NONE;
 	}
+
+	public void closePopups() {
+		// TODO Auto-generated method stub
+
+	}
 }

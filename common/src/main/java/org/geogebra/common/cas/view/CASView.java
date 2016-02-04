@@ -191,6 +191,7 @@ public abstract class CASView implements View, SetLabels {
 		if (backToEvaluate){
 			getApp().setMode(EuclidianConstants.MODE_CAS_EVALUATE,
 					ModeSetter.CAS_VIEW);
+			getApp().closePopups();
 		}
 	}
 
