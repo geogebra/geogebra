@@ -56,13 +56,14 @@ public class PerspectivesMenuW extends GMenuBar {
 				continue;
 			}
 			final int index = i;
+			final int defID = defaultPerspectives[i].getDefaultID();
 			addItem(MainMenu.getMenuBarHtml(GGWToolBar.safeURI(icons.get(i)),
 					app.getMenu(defaultPerspectives[i].getId()), true),true,new MenuCommand(app) {
 						
 						@Override
 						public void doExecute() {
 							setPerspective(index);
-							((AppWFull) app).showStartTooltip(index);
+							((AppWFull) app).showStartTooltip(defID);
 						}
 			});			
 		}
