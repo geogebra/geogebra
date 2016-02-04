@@ -439,17 +439,18 @@ public class ToolTipManagerW {
 	 * is null, use current mouse coordinates.
 	 */
 	protected void setToolTipLocation() {
-		int left, top;
+		int left, top, topAbove;
 
 		// get initial position from associated tip element or,
 		// if this is null, from mouse coordinates
 		if (tipElement == null) {
 			left = scrollLeft + mouseX;
-			top = scrollTop + mouseY + 18;
+			topAbove = top = scrollTop + mouseY + 18;
 
 		} else {
 			left = tipElement.getAbsoluteLeft();
 			top = tipElement.getAbsoluteBottom();
+			topAbove = tipElement.getAbsoluteTop();
 		}
 
 		// handle toolTip overflow at left and bottom edge
@@ -464,7 +465,7 @@ public class ToolTipManagerW {
 		int windowBottom = RootPanel.get().getAbsoluteTop()
 				+ RootPanel.get().getOffsetHeight();
 		if (top + h > windowBottom) {
-			top = windowBottom - h;
+			top = topAbove - h;
 		}
 
 		// set the toolTip location
@@ -537,11 +538,12 @@ public class ToolTipManagerW {
 		if (!enabled) {
 			return;
 		}
-		// locate and show the toolTip
-		setToolTipLocation();
+
 		// tipPanel.getElement().getStyle().setProperty("visibility",
 		// "visible");
 		tipPanel.setVisible(true);
+		// locate and show the toolTip
+		setToolTipLocation();
 
 		// set to immediate mode so that toolTips for nearby elements will not
 		// be delayed
