@@ -4,6 +4,7 @@ import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -22,6 +23,13 @@ public class ScrollableSuggestBox extends SuggestBox {
 		protected Widget decorateSuggestionList(Widget suggestionList) {
 			ScrollPanel panel = new ScrollPanel(suggestionList);
 			return panel;
+		}
+
+		@Override
+		protected PopupPanel createPopup() {
+			PopupPanel su = super.createPopup();
+			su.addStyleName("ggb-AlgebraViewSuggestionPopup");
+			return su;
 		}
 	}
 
