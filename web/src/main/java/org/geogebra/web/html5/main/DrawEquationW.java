@@ -109,15 +109,23 @@ public class DrawEquationW extends DrawEquation {
 		if (!serif) {
 			texIconStyle = texIconStyle | TeXFormula.SANSSERIF;
 		}
+		TeXIcon icon = null;
+		try {
+			icon = formula.new TeXIconBuilder()
+					.setStyle(TeXConstants.STYLE_DISPLAY).setType(texIconStyle)
+					.setSize(size).build();
 
-		TeXIcon icon = formula.new TeXIconBuilder()
-				.setStyle(TeXConstants.STYLE_DISPLAY).setType(texIconStyle)
-				.setSize(size).build();
+			icon.setInsets(new Insets(5, 5, 5, 5));
+			return icon;
+		} catch (Exception e) {
+			formula = new TeXFormula("\\text{Invalid LaTeX syntax.}");
+			icon = formula.new TeXIconBuilder()
+					.setStyle(TeXConstants.STYLE_DISPLAY).setType(texIconStyle)
+					.setSize(size).build();
 
-
-		icon.setInsets(new Insets(5, 5, 5, 5));
+			icon.setInsets(new Insets(5, 5, 5, 5));
+		}
 		return icon;
-
 	}
 
 	@Override
