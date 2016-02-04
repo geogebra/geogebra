@@ -99,10 +99,10 @@ public abstract class Localization {
 		// Special endings for -val/-vel:
 		String[] endO2 = { "00", "20", "30", "60", "80" };
 
-		for (String affixes : affixesList) {
+		for (String affix : affixesList) {
 			int match;
 			do {
-				match = text.indexOf(affixes);
+				match = text.indexOf(affix);
 				// match > 0 can be assumed because an affix will not start the
 				// text
 				if ((match > -1) && (match > 0)) {
@@ -110,16 +110,16 @@ public abstract class Localization {
 					String prevChars = translationFixPronouncedPrevChars(text,
 							match, 1);
 					if (Unicode.translationFixHu_endE1.indexOf(prevChars) > -1) {
-						text = translationFixHuAffixChange(text, match,
-								affixes, "e", prevChars);
+						text = translationFixHuAffixChange(text, match, affix,
+								"e", prevChars);
 					} else if (Unicode.translationFixHu_endO1
 							.indexOf(prevChars) > -1) {
-						text = translationFixHuAffixChange(text, match,
-								affixes, "o", prevChars);
+						text = translationFixHuAffixChange(text, match, affix,
+								"o", prevChars);
 					} else if (Unicode.translationFixHu_endOE1
 							.indexOf(prevChars) > -1) {
-						text = translationFixHuAffixChange(text, match,
-								affixes, Unicode.translationFixHu_oe, prevChars);
+						text = translationFixHuAffixChange(text, match, affix,
+								Unicode.translationFixHu_oe, prevChars);
 					} else if (match > 1) {
 						// Append the previous character.
 						// TODO: This could be quicker: to add only the second
@@ -130,7 +130,7 @@ public abstract class Localization {
 						for (String last2fit : endE2) {
 							if (!found2 && last2fit.equals(prevChars)) {
 								text = translationFixHuAffixChange(text, match,
-										affixes, "e", prevChars);
+										affix, "e", prevChars);
 								found2 = true;
 							}
 						}
@@ -140,7 +140,7 @@ public abstract class Localization {
 							for (String last2fit : endO2) {
 								if (!found2 && last2fit.equals(prevChars)) {
 									text = translationFixHuAffixChange(text,
-											match, affixes, "o", prevChars);
+											match, affix, "o", prevChars);
 									found2 = true;
 								}
 							}
@@ -149,13 +149,43 @@ public abstract class Localization {
 						if (!found2) {
 							// Use heuristics:
 							text = translationFixHuAffixChange(text, match,
-									affixes, "o", prevChars);
+									affix, "o", prevChars);
 						}
 
 					} else {
 						// Use heuristics:
-						text = translationFixHuAffixChange(text, match,
-								affixes, "o", prevChars);
+						text = translationFixHuAffixChange(text, match, affix,
+								"o", prevChars);
+					}
+				}
+			} while (match > -1);
+		}
+
+		// Fixing definite article.
+		String[] articlesList = { "a(z)", "A(z)" }; // assume they are 3 chars
+													// long
+		for (String article : articlesList) {
+			int match;
+			do {
+				match = text.indexOf(article);
+				if (match > -1) {
+					// Article found. Get the next character.
+					if (match < text.length() - 5) {
+						char checked = Character.toLowerCase(text
+								.charAt(match + 5));
+						String consonants = "bcdfghjklmnpqrstvwx2346789";
+						int match2 = consonants.indexOf(checked);
+						String first = text.substring(0, match + 1);
+						String last = text.substring(match + 4);
+						if (match2 > -1) {
+							// removing "(z)" if the next word starts with a
+							// consonant
+							text = first + last;
+						} else {
+							// removing "()" otherwise, using "z" instead (next
+							// word starts with a vowel)
+							text = first + "z" + last;
+						}
 					}
 				}
 			} while (match > -1);
@@ -423,7 +453,8 @@ public abstract class Localization {
 			}
 		}
 
-		return sbPlain.toString();
+		// In some languages we may need some final fixes:
+		return translationFix(sbPlain.toString());
 	}
 
 	/**

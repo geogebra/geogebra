@@ -2952,7 +2952,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return getLabel(tpl);
 		}
 
-		return getLoc().translationFix(captionSB.toString());
+		return captionSB.toString();
 	}
 	/** @return caption without substitution; returns "" if caption is null*/
 	public String getRawCaption() {
@@ -4378,8 +4378,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return "";
 		}
 		return indicesToHTML(
-				getLoc().translationFix(
-						getDefinitionDescription(StringTemplate.defaultTemplate)),
+				getDefinitionDescription(StringTemplate.defaultTemplate),
 				addHTMLtag);
 	}
 
@@ -4460,7 +4459,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		
 		// check for index
-		convertIndicesToHTML(getLoc().translationFix(ret), builder);
+		convertIndicesToHTML(ret, builder);
 	}
 
 	/**
@@ -4596,8 +4595,10 @@ public abstract class GeoElement extends ConstructionElement implements
 			} else {
 				sbLongDescHTML.append(": ");
 			}
-			sbLongDescHTML.append(indicesToHTML(
-					getLoc().translationFix(algoParent.toString(StringTemplate.defaultTemplate)), false));
+			sbLongDescHTML
+					.append(indicesToHTML(
+							algoParent.toString(StringTemplate.defaultTemplate),
+							false));
 			if (rightToLeft) {
 				// sbLongDescHTML.append("\u200e");
 				sbLongDescHTML.append(Unicode.LeftToRightMark);
