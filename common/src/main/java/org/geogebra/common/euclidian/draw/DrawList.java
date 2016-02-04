@@ -736,7 +736,7 @@ public final class DrawList extends CanvasDrawable
 			if (isScrollNeeded()) {
 				stopScrolling();
 			}
-			if (!isHit(x, y)) {
+			if (!isHit(x, y) || isControlHit(x, y)) {
 				return false;
 			}
 
