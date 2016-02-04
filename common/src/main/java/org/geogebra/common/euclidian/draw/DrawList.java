@@ -164,6 +164,8 @@ public final class DrawList extends CanvasDrawable
 		private boolean scrollNeeded;
 		private ScrollMode scrollMode = ScrollMode.NONE;
 
+		private boolean dragging;
+
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
 			itemHovered = null;
@@ -368,6 +370,8 @@ public final class DrawList extends CanvasDrawable
 			if (!visible) {
 				return false;
 			}
+
+			dragging = false;
 
 			if (handleUpControl(x, y) || handleDownControl(x, y)) {
 				return true;
@@ -638,6 +642,7 @@ public final class DrawList extends CanvasDrawable
 					itemHovered = null;
 				}
 			}
+			updateOpenedComboBox();
 			geo.updateRepaint();
 		}
 
@@ -733,7 +738,7 @@ public final class DrawList extends CanvasDrawable
 			if (isScrollNeeded()) {
 				stopScrolling();
 			}
-			if (!isHit(x, y) || isControlHit(x, y)) {
+			if (!isHit(x, y) || isControlHit(x, y) || dragging) {
 				return false;
 			}
 
@@ -749,6 +754,7 @@ public final class DrawList extends CanvasDrawable
 				return false;
 			}
 
+			dragging = true;
 			Log.debug(SCROLL_PFX + " DRAG!");
 			return true;
 		}
@@ -1516,10 +1522,21 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		drawOptions.setVisible(optionsVisible);
-		view.setOpenedComboBox(optionsVisible ? this : null);
 
 	}
 
+	private void updateOpenedComboBox() {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+
+		DrawList dl = view.getOpenedComboBox();
+		if (drawOptions.isVisible()) {
+			view.setOpenedComboBox(this);
+		} else if (dl == this) {
+			view.setOpenedComboBox(null);
+		}
+	}
 	/**
 	 * toggle visibility of dropdown items
 	 */
@@ -1528,8 +1545,6 @@ public final class DrawList extends CanvasDrawable
 			return;
 		}
 		drawOptions.toggle();
-
-		view.setOpenedComboBox(drawOptions.isVisible() ? this : null);
 
 	}
 

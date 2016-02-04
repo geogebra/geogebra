@@ -118,6 +118,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -8179,10 +8180,19 @@ public abstract class EuclidianController {
 			return;
 		}
 
+		DrawList dl = view.getOpenedComboBox();
+		if (dl != null) {
+			if (dl.onDrag(event.getX(), event.getY())) {
+				return;
+			}
+		} else {
+			Log.debug("dl IS NULLL");
+		}
+
 		clearJustCreatedGeos();
 		if (!draggingOccured) {
-
 			draggingOccured = true;
+
 
 			// make sure dragging triggers reset/play/pause
 			// needed for tablets
