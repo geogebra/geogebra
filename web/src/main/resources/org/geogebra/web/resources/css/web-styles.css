@@ -6103,8 +6103,12 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 
 .printScalePanel input{
-	width: 60px;
+	width: 60px !important;
 	margin: 10px;
+}
+
+.printScalePanel select{
+	width: auto;
 }
 
 .aPixelsOnScreen{
@@ -6137,10 +6141,6 @@ body.application[dir=rtl] .deleteAlgebra {
 		position: absolute;
 		top: 0px;
 		left: 0px;
-	}
-	
-	.printPopupButtonPanel{
-		display: none;
 	}
 	
 	.GeoGebraPopup{

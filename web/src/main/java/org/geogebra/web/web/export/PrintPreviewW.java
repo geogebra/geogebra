@@ -7,6 +7,7 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
 import com.google.gwt.dom.client.Element;
@@ -16,16 +17,16 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class PrintPreviewW extends GPopupPanel implements ClickHandler,
+public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		ChangeHandler {
 	AppW app;
 	private Button btPrint;
@@ -52,11 +53,12 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 
 	public PrintPreviewW(AppW appl) {
-		super(true, true, appl.getPanel());
+		super(appl.getPanel());
 		app = appl;
 		createGUI();
 		addStyleName("GeoGebraPopup");
 		setGlassEnabled(true);
+		getCaption().setText(app.getMenu("PrintPreview"));
 		center();
 	}
 
@@ -70,7 +72,7 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 		printPanel.setStyleName("printPanel");
 		RootPanel.get().add(printPanel);
 
-		VerticalPanel centerPanel = new VerticalPanel();
+		FlowPanel centerPanel = new FlowPanel();
 
 		btPrint = new Button(app.getPlain("Print"));
 		btPrint.getElement().getStyle().setMargin(3, Style.Unit.PX);
@@ -123,8 +125,8 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 
 			m_cbView.addChangeHandler(this);
 
-			HorizontalPanel buttonPanel = new HorizontalPanel();
-			buttonPanel.setStyleName("printPopupButtonPanel");
+			FlowPanel buttonPanel = new FlowPanel();
+			buttonPanel.addStyleName("DialogButtonPanel");
 
 			centerPanel.add(m_cbView);
 			scalePanelHolder = new SimplePanel();
@@ -146,7 +148,15 @@ public class PrintPreviewW extends GPopupPanel implements ClickHandler,
 			centerPanel.add(btCancel);
 		}
 
-		setWidget(centerPanel);
+		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
+
+			public void onClose(final CloseEvent<GPopupPanel> event) {
+				app.setDefaultCursor();
+				app.closePopups();
+			}
+		});
+
+		add(centerPanel);
 	}
 
 	public void onClick(ClickEvent event) {
