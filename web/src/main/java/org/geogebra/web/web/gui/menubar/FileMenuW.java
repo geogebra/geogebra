@@ -150,6 +150,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			});			
 		}
 
+		addSeparator();
+
 		// this is enabled always
 	    uploadToGGT = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),app.getMenu("Share"), true),true,new MenuCommand(app) {
 	    	
@@ -171,22 +173,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			        true, new ExportMenuW(app));
 
 		}
-		if (app.has(Feature.EXAM) && app.getLAF().examSupported()) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-					.menu_icons_exam_mode().getSafeUri().asString(),
-							app.getMenu("exam_menu_enter"), true),//EnterExamMode
-					true,
-					new MenuCommand(app) {
 
-						@Override
-						public void doExecute() {
-							((DialogManagerW) app.getDialogManager())
-									.getSaveDialog().showIfNeeded(
-											getExamCallback());
-
-						}
-					});
-		}
 
 		if (app.has(Feature.PRINT_MENU) && app.getLAF().printSupported()) {
 			Log.debug("new printItem");
@@ -209,6 +196,24 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			// updatePrintMenu();
 			addItem(printItem);
 
+		}
+
+		addSeparator();
+
+		if (app.has(Feature.EXAM) && app.getLAF().examSupported()) {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+					.menu_icons_exam_mode().getSafeUri().asString(),
+					app.getMenu("exam_menu_enter"), true),// EnterExamMode
+					true, new MenuCommand(app) {
+
+						@Override
+						public void doExecute() {
+							((DialogManagerW) app.getDialogManager())
+									.getSaveDialog().showIfNeeded(
+											getExamCallback());
+
+						}
+					});
 		}
 
 	    app.getNetworkOperation().getView().add(this);
