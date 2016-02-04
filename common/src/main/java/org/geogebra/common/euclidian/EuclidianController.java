@@ -10688,12 +10688,17 @@ public abstract class EuclidianController {
 		if (h.size() > 0) {
 			GeoFunction function = (GeoFunction) h.get(0);
 			if(function.isPolynomialFunction(false)){
+				// calculates all extremum points (e.g. x^2)
 				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(this.kernel.getConstruction(),
 						null, function);
 				return algo.getExtremumPoints();
 			} else {
+				// calculates only the extremum points that are visible at the moment (e.g. sin(x))
 				AlgoExtremumMulti algo = new AlgoExtremumMulti(this.kernel.getConstruction(), null, function,
-						new MyDouble(this.kernel, this.view.getXmin()), new MyDouble(this.kernel, this.view.getXmax()));
+						this.view.getXminObject(), this.view.getXmaxObject());
+
+				// updates the area that is visible
+				this.view.addOnBoundsChangedAlgo(algo);
 				return algo.getExtremumPoints();
 			}
 		}
@@ -10715,11 +10720,16 @@ public abstract class EuclidianController {
 
 		if (function != null) {
 			if(function.isPolynomialFunction(false)) {
+				// calculates all root points (e.g. x^2 - 1)
 				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(this.kernel.getConstruction(), null, function);
 				return algo.getRootPoints();
 			} else {
+				// calculates only the root points that are visible at the moment (e.g. sin(x))
 				AlgoRoots algo = new AlgoRoots(this.kernel.getConstruction(), null, function,
-						new MyDouble(this.kernel, this.view.getXmin()), new MyDouble(this.kernel, this.view.getXmax()));
+						this.view.getXminObject(), this.view.getXmaxObject());
+
+				// updates the area that is visible
+				this.view.addOnBoundsChangedAlgo(algo);
 				return algo.getRootPoints();
 			}
 		}
