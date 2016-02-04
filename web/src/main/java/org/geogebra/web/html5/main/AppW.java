@@ -2903,6 +2903,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	
 	public void showMessage(boolean scrollable, final String message, final String title) {
 		HTML content = new HTML(message);
+		content.addStyleName("examContent");
 		ScrollPanel scrollPanel = new ScrollPanel(content);
 		scrollPanel.addStyleName("examScrollPanel");
 		getOptionPane().showConfirmDialog(this, scrollPanel, title, GOptionPane.DEFAULT_OPTION,
