@@ -222,6 +222,7 @@ public class GOptionPaneW extends GDialogBox implements
 		}
 		if (scrollPanel != null) {
 			messagePanel.add(scrollPanel);
+			messagePanel.addStyleName("examMessagePanel");
 		} else {
 			String[] lines = message.split("\n");
 		for (String item : lines) {

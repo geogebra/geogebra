@@ -269,17 +269,19 @@ input[type="text"]::-ms-clear {
 	}
 	
 .examContent{
-	min-width:260px;
+	/*min-width:260px;*/
 	}
 .examScrollPanel{
 	overflow: auto;
-	min-height: 150px;
+	min-height: 100px;
 	max-height:350px;
-	min-width:275px;
+	/*min-width:275px;*/
 	/*margin: 0px 10px 10px 10px;*/
 	padding: 0px 10px 10px 5px;
 }
-
+.examMessagePanel{
+	margin-right:30px;
+}
 .GeoGebraFrame .gwt-Button.minor {
 	border-radius: 5px;
 	-moz-border-radius: 5px;

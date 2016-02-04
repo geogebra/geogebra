@@ -483,7 +483,7 @@ public abstract class AppWFull extends AppW {
 			btnHelp.addStyleName("cancelBtn");
 			btnHelp.addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
-					ToolTipManagerW.openWindow("http://tube.geogebra.org/student/bsyWFZsxM");
+					ToolTipManagerW.openWindow("https://www.geogebra.org/tutorial/exam");
 				}
 			});
 
