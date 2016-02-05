@@ -3899,7 +3899,6 @@ public abstract class App implements UpdateSelection {
 		case HIT_PARAMETRIC_SURFACE:
 		case PARAMETRIC_SURFACE_IS_REGION:
 		case SHINY_3D:
-		case EXAM:
 
 		case WEB_PRINT_ALGEBRA_VIEW:
 
@@ -3929,6 +3928,9 @@ public abstract class App implements UpdateSelection {
 		case PRINT_MENU:
 		case CP_POPUP:
 		case CP_NEW_COLUMNS:
+			// in web (not tablet apps yet)
+			// File -> Enter Exam Mode
+		case EXAM:
 			return true;
 
 		// enabled from 5.0.200.0
