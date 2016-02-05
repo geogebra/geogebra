@@ -118,7 +118,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -8186,8 +8185,6 @@ public abstract class EuclidianController {
 			if (dl.onDrag(event.getX(), event.getY())) {
 				return;
 			}
-		} else {
-			Log.debug("dl IS NULLL");
 		}
 
 		clearJustCreatedGeos();
