@@ -69,6 +69,7 @@ public abstract class CanvasDrawable extends Drawable {
 				labelSize.x = d.getWidth();
 				labelSize.y = d.getHeight();
 			} else {
+				g2.setFont(getLabelFont());
 				setLabelSize(
 						EuclidianStatic.drawIndexedString(view.getApplication(),
 								g2, text, 0, 0,
