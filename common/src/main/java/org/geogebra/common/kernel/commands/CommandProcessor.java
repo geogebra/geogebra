@@ -110,51 +110,10 @@ public abstract class CommandProcessor {
 		String newYVarStr = null;
 		if (c.getName() != null && "Surface".equals(c.getName())) {
 			// we have to replace "x"
-			if (arg[3] != null
-					&& arg[3].getLeft() instanceof GeoNumeric
-					&& arg[3].getRight() == null
-					&& ((GeoNumeric) arg[3].getLeft()).getLabelSimple() != null
-					&& ((GeoNumeric) arg[3].getLeft()).getLabelSimple().equals(
-							"x")) {
-				GeoDummyReplacer replacer = new GeoDummyReplacer();
-				// get free variable to replace "x" with
-				Variable newVar = new Variable(cons.getKernel(),
-						((GeoElement) arg[3].getLeft()).getFreeLabel("u"));
-				GeoNumeric gn = new GeoNumeric(cons);
-				newXVarStr = newVar.getName();
-				c.getKernel().getConstruction()
-						.addLocalVariable(newXVarStr, gn);
-				replacer = GeoDummyReplacer.getReplacer("x", newVar, true);
-				// replace "x" in expressions
-				arg[0].traverse(replacer);
-				arg[1].traverse(replacer);
-				arg[2].traverse(replacer);
-				arg[3].setLeft(gn);
-				wasXReplaced = true;
-			}
-			// we have to replace "y"
-			if (arg[6] != null
-					&& arg[6].getLeft() instanceof GeoNumeric
-					&& arg[6].getRight() == null
-					&& ((GeoNumeric) arg[6].getLeft()).getLabelSimple() != null
-					&& ((GeoNumeric) arg[6].getLeft()).getLabelSimple().equals(
-							"y")) {
-				GeoDummyReplacer replacer = new GeoDummyReplacer();
-				// get free variable to replace "y" with
-				Variable newVar = new Variable(cons.getKernel(),
-						((GeoElement) arg[6].getLeft()).getFreeLabel("v"));
-				GeoNumeric gn = new GeoNumeric(cons);
-				newYVarStr = newVar.getName();
-				c.getKernel().getConstruction()
-						.addLocalVariable(newYVarStr, gn);
-				replacer = GeoDummyReplacer.getReplacer("y", newVar, true);
-				// replace "y" in expressions
-				arg[0].traverse(replacer);
-				arg[1].traverse(replacer);
-				arg[2].traverse(replacer);
-				arg[6].setLeft(gn);
-				wasYReplaced = true;
-			}
+			wasXReplaced = checkReplaced(arg, 3, "x", "u")
+					|| checkReplaced(arg, 6, "x", "u");
+			wasYReplaced = checkReplaced(arg, 6, "y", "v")
+					|| checkReplaced(arg, 3, "y", "v");
 		}
 		GeoElement[] result = new GeoElement[arg.length];
 
@@ -192,6 +151,30 @@ public abstract class CommandProcessor {
 
 		cons.setSuppressLabelCreation(oldMacroMode);
 		return result;
+	}
+
+	private boolean checkReplaced(ExpressionNode[] arg, int i, String var,
+			String subst) {
+		if (arg[i] != null && arg[i].getLeft() instanceof GeoNumeric
+				&& arg[3].getRight() == null
+				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple() != null
+				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple().equals(var)) {
+			GeoDummyReplacer replacer = new GeoDummyReplacer();
+			// get free variable to replace "x" with
+			Variable newVar = new Variable(cons.getKernel(),
+					((GeoElement) arg[i].getLeft()).getFreeLabel(subst));
+			GeoNumeric gn = new GeoNumeric(cons);
+			String newXVarStr = newVar.getName();
+			kernelA.getConstruction().addLocalVariable(newXVarStr, gn);
+			replacer = GeoDummyReplacer.getReplacer(var, newVar, true);
+			// replace "x" in expressions
+			arg[0].traverse(replacer);
+			arg[1].traverse(replacer);
+			arg[2].traverse(replacer);
+			arg[i].setLeft(gn);
+			return true;
+		}
+		return false;
 	}
 
 	/**
