@@ -80,6 +80,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		btPrint.setEnabled(false);
 
 		btCancel = new Button(app.getPlain("Cancel"));
+		btCancel.addStyleName("cancelBtn");
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
 
