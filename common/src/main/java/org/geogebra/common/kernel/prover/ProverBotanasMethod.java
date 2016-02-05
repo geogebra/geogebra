@@ -419,11 +419,21 @@ public class ProverBotanasMethod {
 					/*
 					 * Consider the following case: Let AB a segment and C a
 					 * point on it. Move C to A. Now let's check if Prove[A==C]
-					 * returns false. Since C is on a line and normally A=(0,0),
-					 * B=(0,1), x(C)=0, but this last one should not be
-					 * constrained, otherwise we will get true for a false
-					 * statement! See Example 52 in Zoltan's diss on page
-					 * 176---here we need to generalize B to avoid getting true.
+					 * returns false. Since C is on a line and normally A=(0,0)
+					 * and B=(0,1), thus x(C)=0 follows. But we set x(C) to be a
+					 * free variable in the AlgoPointOnPath equation and y(C) to
+					 * be dependent which is a bad idea for Cox's method: this
+					 * scenario cannot be constructed (the converse scenario:
+					 * x(C) is dependent and y(C) is free would be fine), so
+					 * Cox's method will return true (because a
+					 * non-constructible setting is always contradictory)---even
+					 * if the statement is false. So we avoid setting B=(0,1)
+					 * for Cox's method when there is a point on a path,
+					 * otherwise we will get true for a false statement! See
+					 * Example 52 in Zoltan's diss on page 176---here we need to
+					 * generalize B to avoid getting true. This will slow down
+					 * some things, but that's the price for the correct
+					 * behavior.
 					 */
 					if (algo instanceof AlgoPointOnPath
 							&& ProverSettings.transcext) {
