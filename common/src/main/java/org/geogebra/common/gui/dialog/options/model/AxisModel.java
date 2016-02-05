@@ -7,29 +7,19 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Unicode;
 
 public class AxisModel {
-	public interface IAxisModelListener {
-		void addTickItem(String item);
-		void addAxisLabelItem(String item);
-		void addUnitLabelItem(String item);
-		void setCrossText(String text);
-	}
-	
-	private IAxisModelListener listener;
-	
+	final static public int AXIS_X = 0;
+	final static public int AXIS_Y = 1;
+	final static public int AXIS_Z = 2;
 	protected int axis;
-	private App app;
 	protected EuclidianView view;
-
-	final static protected int AXIS_X = 0;
-	final static protected int AXIS_Y = 1;
-	final static protected int AXIS_Z = 2;
-
+	private IAxisModelListener listener;
+	private App app;
 	/******************************************************
 	 * @param app
 	 * @param view
 	 * @param axis
 	 */
-	
+
 	public AxisModel(App app, EuclidianView view, int axis, IAxisModelListener listener) {
 		this.listener = listener;
 		this.app = app;
@@ -50,6 +40,7 @@ public class AxisModel {
 		listener.addTickItem(" "); // no ticks
 
 	}
+
 	public String getAxisName() {
 		switch (axis){
 		case AXIS_X:
@@ -57,7 +48,7 @@ public class AxisModel {
 			return "xAxis";
 		case AXIS_Y:
 			return "yAxis";
-		case AXIS_Z:	
+			case AXIS_Z:
 			return "zAxis";
 		}
 	}
@@ -67,7 +58,7 @@ public class AxisModel {
 			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1)
 				.setAxesNumberingDistance(value, axis);
-				
+
 			} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 				app.getSettings().getEuclidian(2).setAxesNumberingDistance(value, axis);
 			} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
@@ -81,7 +72,7 @@ public class AxisModel {
 					view.setAxesNumberingDistance(value, axis);
 				}
 			}
-			
+
 			view.updateBackground();
 		}
 	}
@@ -92,7 +83,6 @@ public class AxisModel {
 		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 	}
 
-	
 	public void fillUnitLabel() {
 		listener.addUnitLabelItem(null);
 		listener.addUnitLabelItem(Unicode.DEGREE); // degrees
@@ -107,13 +97,13 @@ public class AxisModel {
 	public void showAxis(boolean value) {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1)
-					.setShowAxis(axis, value); 
+					.setShowAxis(axis, value);
 
 		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 			app.getSettings().getEuclidian(2).setShowAxis(axis, value);
 		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
 			app.getSettings().getEuclidian(3).setShowAxis(axis, value);
-		
+
 		}
 		else {
 			EuclidianSettings settings = view.getSettings();
@@ -129,7 +119,7 @@ public class AxisModel {
 
 	public void showAxisNumbers(boolean value) {
 		view.setShowAxisNumbers(axis, value);
-		view.updateBackground();	
+		view.updateBackground();
 	}
 
 	public void applyTickDistance(boolean value) {
@@ -163,7 +153,7 @@ public class AxisModel {
 	public void applyUnitLabel(String text) {
 		String[] labels = view.getAxesUnitLabels();
 		labels[axis] = text;
-		
+
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setAxesUnitLabels(labels);
 
@@ -183,13 +173,13 @@ public class AxisModel {
 				view.setAxesUnitLabels(labels);
 			}
 		}
-		
+
 		view.updateBackground();
 		view.repaintView();
 	}
 
 	public void applyAxisLabel(String text) {
-		
+
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setAxisLabel(axis, text);
 
@@ -209,12 +199,12 @@ public class AxisModel {
 				view.setAxisLabel(axis, text);
 			}
 		}
-	
+
 		view.updateBounds(true, true);
 		view.updateBackground();
 		view.repaintView();
-	
-	
+
+
 	}
 
 	public void applyTickStyle(int type) {
@@ -223,12 +213,12 @@ public class AxisModel {
 
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setAxisTickStyle(axis, type);
-		
+
 		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 			app.getSettings().getEuclidian(2).setAxisTickStyle(axis, type);
 		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
 			app.getSettings().getEuclidian(3).setAxisTickStyle(axis, type);
-		
+
 		} else {
 			EuclidianSettings settings = view.getSettings();
 			if (settings != null) {
@@ -245,12 +235,12 @@ public class AxisModel {
 		if (view == app.getEuclidianView1()) {
 			app.getSettings().getEuclidian(1)
 					.setPositiveAxis(axis, value);
-		
+
 		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 			app.getSettings().getEuclidian(2).setPositiveAxis(axis, value);
 		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
 			app.getSettings().getEuclidian(3).setPositiveAxis(axis, value);
-		
+
 		} else {
 			EuclidianSettings settings = view.getSettings();
 			if (settings != null) {
@@ -259,7 +249,7 @@ public class AxisModel {
 				view.setPositiveAxis(axis, value);
 			}
 		}
-		
+
 		view.updateBackground();
 	}
 
@@ -270,10 +260,10 @@ public class AxisModel {
 		if (!value) {
 			view.setAxisCross(axis, 0.0);
 		}
-		
+
 		view.updateBackground();
 	}
-	
+
 	public void applyCrossing(String crossStr) {
 		String str = crossStr;
 		if ("".equals(str))
@@ -285,7 +275,7 @@ public class AxisModel {
 
 			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1).setAxisCross(axis, cross);
-				
+
 			} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 				app.getSettings().getEuclidian(2).setAxisCross(axis, cross);
 			} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
@@ -302,9 +292,9 @@ public class AxisModel {
 
 			}
 		}
-		
+
 		view.updateBackground();
-		
+
 		listener.setCrossText("" + view.getAxesCross()[axis]);
 
 	}
@@ -333,7 +323,7 @@ public class AxisModel {
 		for (int i = 0; i < greeks.length; i++) {
 			listener.addAxisLabelItem(greeks[i]);
 		}
-	
+
 	}
 
 	public void setView(EuclidianView view) {
@@ -344,7 +334,7 @@ public class AxisModel {
 
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setSelectionAllowed(axis, value);
-			
+
 		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 			app.getSettings().getEuclidian(2).setSelectionAllowed(axis, value);
 		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
@@ -386,5 +376,15 @@ public class AxisModel {
 		}
 
 		return allowed;
+	}
+
+	public interface IAxisModelListener {
+		void addTickItem(String item);
+
+		void addAxisLabelItem(String item);
+
+		void addUnitLabelItem(String item);
+
+		void setCrossText(String text);
 	}
 }
