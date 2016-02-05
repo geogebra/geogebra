@@ -3048,8 +3048,9 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		setFocusedPanel((MouseEventND) event, updatePropertiesView);
 	}
 
-	public void loadImage(GeoPoint loc, Object transfer, boolean fromClipboard) {
-		loadImage(loc, fromClipboard, (Transferable) transfer);
+	public void loadImage(GeoPoint loc, Object transfer, boolean fromClipboard,
+			EuclidianView ev) {
+		loadImage(loc, fromClipboard, (Transferable) transfer, ev);
 
 	}
 
@@ -3062,7 +3063,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	 * @return whether a new image was created or not
 	 */
 	public boolean loadImage(GeoPoint loc, boolean fromClipboard,
-			Transferable transfer) {
+			Transferable transfer, EuclidianView ev) {
 		app.setWaitCursor();
 
 		String[] fileName = null;
@@ -3099,7 +3100,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 				geoImage = new GeoImage(app.getKernel().getConstruction());
 				geoImage.setImageFileName(fileName[i]);
-				App.debug("filename = " + fileName[i]);
+				// App.debug("filename = " + fileName[i]);
 				geoImage.setCorner(point1, 0);
 
 				GeoPoint point2 = new GeoPoint(app.getKernel()
@@ -3107,6 +3108,16 @@ FileExtensions.GEOGEBRA_TOOL)) {
 				geoImage.calculateCornerPoint(point2, 2);
 				geoImage.setCorner(point2, 1);
 				point2.setLabel(null);
+
+				// make sure 2nd corner is on screen
+				double x1 = point1.inhomX;
+				double x2 = point2.inhomX;
+				double xmax = ev
+						.toRealWorldCoordX((double) (ev.getWidth()) + 1);
+				if (x2 > xmax) {
+					point2.setCoords((x1 + 9 * xmax) / 10, point2.inhomY, 1);
+					point2.update();
+				}
 
 				geoImage.setLabel(null);
 

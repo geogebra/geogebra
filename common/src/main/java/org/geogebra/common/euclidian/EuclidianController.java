@@ -3458,7 +3458,7 @@ public abstract class EuclidianController {
 		// got location
 		if (loc != null) {
 			if (app.getGuiManager() != null) {// FIXME: fix this better
-				app.getGuiManager().loadImage(loc, null, altDown);
+				app.getGuiManager().loadImage(loc, null, altDown, view);
 			}
 			return true;
 		}

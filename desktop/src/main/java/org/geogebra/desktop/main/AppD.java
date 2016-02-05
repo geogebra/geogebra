@@ -964,7 +964,7 @@ public class AppD extends App implements KeyEventDispatcher {
 					if (strLine.endsWith(",")) {
 						strLine = strLine.substring(0, strLine.length() - 1);
 					}
-					//System.out.println(strLine);
+					System.out.println(strLine);
 
 					if (strLine.startsWith("{")) {
 						
@@ -1033,6 +1033,14 @@ public class AppD extends App implements KeyEventDispatcher {
 									+ StringUtil
 											.toJavaString(casResultOriginal);
 							
+							// to auto-fill answers for new test-cases
+							// error = "{ cat:\"Integral\", cmd:\"";
+							// error += StringUtil.toJavaString(command);
+							// error += "\", result:\"";
+							// error +=
+							// StringUtil.toJavaString(casResultOriginal);
+							// error += "\", notes:\"from Giac's tests\" },\n";
+
 							App.error(error);
 							errors.add(error);
 							

@@ -1552,10 +1552,20 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			loc.setLabel(null);
 
 			geoImage.setCorner(loc, 0);
-			GeoPoint point = new GeoPoint(cons);
-			geoImage.calculateCornerPoint(point, 2);
-			geoImage.setCorner(point, 1);
-			point.setLabel(null);
+			GeoPoint point2 = new GeoPoint(cons);
+			geoImage.calculateCornerPoint(point2, 2);
+			geoImage.setCorner(point2, 1);
+			point2.setLabel(null);
+
+			// make sure 2nd corner is on screen
+			double x1 = loc.inhomX;
+			double x2 = point2.inhomX;
+			double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
+			if (x2 > xmax) {
+				point2.setCoords((x1 + 9 * xmax) / 10, point2.inhomY, 1);
+				point2.update();
+			}
+
 		}
 
 		geoImage.setLabel(null);

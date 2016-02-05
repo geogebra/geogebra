@@ -63,7 +63,8 @@ public interface GuiManagerInterface {
 	public void setFocusedPanel(AbstractEvent event,
 			boolean updatePropertiesView);
 
-	public void loadImage(GeoPoint loc, Object object, boolean altDown);
+	public void loadImage(GeoPoint loc, Object object, boolean altDown,
+			EuclidianView view);
 
 	public boolean hasAlgebraViewShowing();
 
