@@ -1314,7 +1314,7 @@ __GGB__keysVar.fi.menu = {
     "CopyAsLibreOfficeFormula": "Kopioi LibreOffice kaavana",
     "CopyImage": "Kopio kuva",
     "CopyImageAsSVG": "Kopioi kuva SVG-muotoon",
-    "CopyInput": "Copy Input",
+    "CopyInput": "Kopioi sy\xf6te",
     "CopyToClipboard": "Kopioi leikep\xf6yd\xe4lle",
     "CopyToGraphics": "Kopioi piirtoalueelle",
     "CopyToInputBar": "Kopioi sy\xf6tt\xf6kentt\xe4\xe4n",

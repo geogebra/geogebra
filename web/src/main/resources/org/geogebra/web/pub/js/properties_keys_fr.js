@@ -2157,7 +2157,7 @@ __GGB__keysVar.fr.menu = {
     "exam_custom_description": "Choisir les vues autoris\xe9es pour Examen.",
     "exam_custom_header": "GeoGebraExamen",
     "exam_end_time": "Heure Fin Examen",
-    "exam_ended": "Examen termin\xe9",
+    "exam_ended": "Terminer Examen",
     "exam_exit_confirmation": "Vraiment  ?",
     "exam_exit_header": "Quitter GeoGebraExamen ?",
     "exam_log_header": "En GeoGebraExamen",
