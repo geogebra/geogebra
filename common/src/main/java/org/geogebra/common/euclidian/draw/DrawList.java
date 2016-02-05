@@ -656,8 +656,9 @@ public final class DrawList extends CanvasDrawable
 					itemHovered = null;
 				}
 			}
+			// TODO maybe updateWidgets(); ?
 			updateOpenedComboBox();
-			geo.updateRepaint();
+			view.repaintView();
 		}
 
 		public void onResize() {
@@ -743,7 +744,7 @@ public final class DrawList extends CanvasDrawable
 			selectedIndex = itemHovered.index;
 			selectCurrentItem();
 			setVisible(false);
-
+			geo.updateRepaint();
 			return true;
 
 		}
