@@ -110,10 +110,15 @@ public abstract class CommandProcessor {
 		String newYVarStr = null;
 		if (c.getName() != null && "Surface".equals(c.getName())) {
 			// we have to replace "x"
-			wasXReplaced = checkReplaced(arg, 3, "x", "u")
-					|| checkReplaced(arg, 6, "x", "u");
-			wasYReplaced = checkReplaced(arg, 6, "y", "v")
-					|| checkReplaced(arg, 3, "y", "v");
+			newXVarStr = checkReplaced(arg, 3, "x", "u");
+			if(newXVarStr == null){
+				newXVarStr = checkReplaced(arg, 6, "x", "u");
+			}
+			
+			newYVarStr = checkReplaced(arg, 6, "y", "v");
+			if (newYVarStr == null) {
+				checkReplaced(arg, 3, "y", "v");
+			}
 		}
 		GeoElement[] result = new GeoElement[arg.length];
 
@@ -153,7 +158,7 @@ public abstract class CommandProcessor {
 		return result;
 	}
 
-	private boolean checkReplaced(ExpressionNode[] arg, int i, String var,
+	private String checkReplaced(ExpressionNode[] arg, int i, String var,
 			String subst) {
 		if (arg[i] != null && arg[i].getLeft() instanceof GeoNumeric
 				&& arg[3].getRight() == null
@@ -172,9 +177,9 @@ public abstract class CommandProcessor {
 			arg[1].traverse(replacer);
 			arg[2].traverse(replacer);
 			arg[i].setLeft(gn);
-			return true;
+			return newXVarStr;
 		}
-		return false;
+		return null;
 	}
 
 	/**
