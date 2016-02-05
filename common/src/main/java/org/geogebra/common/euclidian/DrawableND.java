@@ -1,6 +1,9 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.euclidian.draw.CanvasDrawable;
+import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Class for drawables in any dimension
@@ -128,6 +131,20 @@ public abstract class DrawableND {
 	public void move() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public boolean isCanvasDrawable() {
+		if (!(this instanceof CanvasDrawable)) {
+			return false;
+		}
+
+		if (this instanceof DrawList) {
+			if (!((GeoList) this.getGeoElement()).drawAsComboBox()) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 }
