@@ -20,6 +20,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
@@ -742,17 +743,19 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// add the ones that have (showInToolbar == true) into the toolbar if
 		// they are not already there.
 		StringBuilder customToolBar = new StringBuilder("");
+		String oldToolbar = getToolbarDefinition() == null ? ToolBar
+				.getAllTools(app) : getToolbarDefinition();
 		for (int i = 0; i < macroCount; i++) {
 			Macro macro = kernel.getMacro(i);
 			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET + i;
 			if (macro.isShowInToolBar()
-					&& !(getToolbarDefinition().contains(String
+					&& !(oldToolbar.contains(String
 							.valueOf(macroMode)))) {
 				customToolBar.append(" " + macroMode);
 			}
 		}
 
-		String toolbarDef = getToolbarDefinition().trim();
+		String toolbarDef = oldToolbar.trim();
 		String last = "";
 		try {
 			// get the last tool mode number in the toolbar def string

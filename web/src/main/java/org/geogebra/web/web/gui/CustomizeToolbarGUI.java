@@ -14,7 +14,6 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.CustomizeToolbarHeaderPanel.CustomizeToolbarListener;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.layout.DockPanelW;
-import org.geogebra.web.web.gui.toolbar.ToolBarW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -865,7 +864,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	}
 
 	private void updateAllTools() {
-		allTools = CustomizeToolbarModel.generateToolsVector(ToolBarW
+		allTools = CustomizeToolbarModel.generateToolsVector(ToolBar
 		        .getAllTools(app));
 
 		allToolsPanelContent.clear();

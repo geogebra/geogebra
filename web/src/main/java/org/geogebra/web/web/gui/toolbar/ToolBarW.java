@@ -7,8 +7,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -259,47 +257,10 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		if (dockPanel != null) {
 			return dockPanel.getDefaultToolbarString();
 		}
-		return ToolBarW.getAllTools(app);
+		return ToolBar.getAllTools(app);
 	}
 
-	/**
-	 * @param app
-	 * @return All tools as a toolbar definition string
-	 */
-	public static String getAllTools(AppW app) {
-		StringBuilder sb = new StringBuilder();
 
-		sb.append(org.geogebra.common.gui.toolbar.ToolBar.getAllToolsNoMacros(true,
-		        app.isExam()));
-
-		// macros
-		Kernel kernel = app.getKernel();
-		int macroNumber = kernel.getMacroNumber();
-
-		// check if at least one macro is shown
-		// to avoid strange GUI
-		boolean at_least_one_shown = false;
-		for (int i = 0; i < macroNumber; i++) {
-			Macro macro = kernel.getMacro(i);
-			if (macro.isShowInToolBar()) {
-				at_least_one_shown = true;
-				break;
-			}
-		}
-
-		if (macroNumber > 0 && at_least_one_shown) {
-			sb.append(" || ");
-			for (int i = 0; i < macroNumber; i++) {
-				Macro macro = kernel.getMacro(i);
-				if (macro.isShowInToolBar()) {
-					sb.append(i + EuclidianConstants.MACRO_MODE_ID_OFFSET);
-					sb.append(" ");
-				}
-			}
-		}
-
-		return sb.toString();
-	}
 
 	public void setActiveView(Integer viewID) {
 		activeView = viewID;
