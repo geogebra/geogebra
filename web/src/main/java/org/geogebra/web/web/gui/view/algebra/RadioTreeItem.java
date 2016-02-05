@@ -649,7 +649,6 @@ public class RadioTreeItem extends AVTreeItem
 	Kernel kernel;
 	protected AppW app;
 	protected AlgebraView av;
-	private boolean avExtension;
 	private boolean LaTeX = false;
 	private boolean thisIsEdited = false;
 	boolean newCreationMode = false;
@@ -803,7 +802,6 @@ public class RadioTreeItem extends AVTreeItem
 		kernel = geo.getKernel();
 		app = (AppW) kernel.getApplication();
 		av = app.getAlgebraView();
-		avExtension = app.has(Feature.AV_EXTENSIONS);
 		selectionCtrl = getAV().getSelectionCtrl();
 
 		main.addStyleName("elem");
@@ -813,25 +811,25 @@ public class RadioTreeItem extends AVTreeItem
 
 		main.add(marblePanel);
 
-		if (avExtension) {
 
-			if (geo instanceof GeoBoolean && geo.isSimple()) {
-				// CheckBoxes
-				checkBox = new CheckBox();
-				checkBox.setValue(((GeoBoolean) geo).getBoolean());
-				main.add(checkBox);
-				checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-					@Override
-					public void onValueChange(ValueChangeEvent<Boolean> event) {
-						((GeoBoolean) geo).setValue(event.getValue());
-						geo.updateCascade();
-						// updates other views (e.g. Euclidian)
-						kernel.notifyRepaint();
 
-					}
-				});
-			}
+		if (geo instanceof GeoBoolean && geo.isSimple()) {
+			// CheckBoxes
+			checkBox = new CheckBox();
+			checkBox.setValue(((GeoBoolean) geo).getBoolean());
+			main.add(checkBox);
+			checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+				@Override
+				public void onValueChange(ValueChangeEvent<Boolean> event) {
+					((GeoBoolean) geo).setValue(event.getValue());
+					geo.updateCascade();
+					// updates other views (e.g. Euclidian)
+					kernel.notifyRepaint();
+
+				}
+			});
 		}
+
 		seNoLatex = DOM.createSpan().cast();
 
 		seNoLatex.addClassName("sqrtFontFix");
@@ -892,9 +890,8 @@ public class RadioTreeItem extends AVTreeItem
 
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
-		if (avExtension) {
-			buttonPanel.addStyleName("smallStylebar");
-		}
+
+		buttonPanel.addStyleName("smallStylebar");
 
 		buttonPanel.setVisible(false);
 
@@ -964,7 +961,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private boolean sliderNeeded() {
-		return avExtension && geo instanceof GeoNumeric
+		return geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
 	}
@@ -972,9 +969,6 @@ public class RadioTreeItem extends AVTreeItem
 
 
 	private void initSlider() {
-		if (!avExtension) {
-			return;
-		}
 
 		final GeoNumeric num = (GeoNumeric) geo;
 
@@ -1059,14 +1053,14 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void deferredResizeSlider() {
-		if (!avExtension || slider == null) {
+		if (slider == null) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(resizeSliderCmd);
 	}
 
 	private void resizeSlider() {
-		if (!avExtension || slider == null) {
+		if (slider == null) {
 			return;
 		}
 
@@ -1173,15 +1167,11 @@ public class RadioTreeItem extends AVTreeItem
 	// methods for AV Slider
 
 	private void createAnimPanel() {
-		animPanel = avExtension && geo.isAnimatable() ? new AnimPanel() : null;
+		animPanel = geo.isAnimatable() ? new AnimPanel() : null;
 
 	}
 
 	private void createMinMaxPanel() {
-		if (!avExtension) {
-			return;
-		}
-
 		minMaxPanel = new MinMaxPanel();
 		minMaxPanel.setVisible(false);
 	}
@@ -1200,7 +1190,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void updateSliderColor() {
-		if (!avExtension) {
+		if (slider == null) {
 			return;
 		}
 		slider.updateColor(geo.getAlgebraColor());
@@ -1262,7 +1252,7 @@ public class RadioTreeItem extends AVTreeItem
 	 */
 	@Override
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		if (avExtension && isMinMaxPanelVisible()) {
+		if (isMinMaxPanelVisible()) {
 			return;
 		}
 		if (commonEditingCheck()) {
@@ -1292,7 +1282,7 @@ public class RadioTreeItem extends AVTreeItem
 	@Override
 	public void keypress(char character, boolean alt, boolean ctrl,
 			boolean shift, boolean more) {
-		if (avExtension && isMinMaxPanelVisible()) {
+		if (isMinMaxPanelVisible()) {
 			return;
 		}
 
@@ -1318,7 +1308,7 @@ public class RadioTreeItem extends AVTreeItem
 	 */
 	@Override
 	public final void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
-		if (avExtension && isMinMaxPanelVisible()) {
+		if (isMinMaxPanelVisible()) {
 			return;
 		}
 
@@ -1581,7 +1571,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (isThisEdited()) {
 			return true;
 		}
-		updateButtonPanel(false);
+		updateButtonPanel(true);
 		thisIsEdited = true;
 		if (newCreationMode) {
 			DrawEquationW.editEquationMathQuillGGB(this, seMayLatex, true);
@@ -1865,8 +1855,7 @@ public class RadioTreeItem extends AVTreeItem
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
 
-		if (avExtension
-				&& (isWidgetHit(animPanel, evt)
+		if ((isWidgetHit(animPanel, evt)
 						|| (minMaxPanel != null && minMaxPanel.isVisible()) || isWidgetHit(
 marblePanel, evt))) {
 			return;
@@ -1919,7 +1908,7 @@ marblePanel, evt))) {
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
-		if (geo == null || (avExtension && isGeoASlider())) {
+		if (geo == null || (isGeoASlider())) {
 			return;
 		}
 
@@ -1996,9 +1985,6 @@ marblePanel, evt))) {
 	}
 
 	private void handleAVItem(int x, int y) {
-		if (!avExtension) {
-			return;
-		}
 
 		boolean minHit = sliderPanel != null
 				&& isWidgetHit(slider.getWidget(0), x, y);
@@ -2163,7 +2149,7 @@ marblePanel, evt))) {
 
 	private void onPointerUp(AbstractEvent event) {
 		selectionCtrl.setSelectHandled(false);
-		if (avExtension && isMinMaxPanelVisible()) {
+		if (isMinMaxPanelVisible()) {
 			return;
 		}
 		if (commonEditingCheck()) {
@@ -2228,7 +2214,7 @@ marblePanel, evt))) {
 		if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
 			setFirst(first);
 			buttonPanel.clear();
-			if (avExtension && animPanel != null && geo.isAnimatable()) {
+			if (animPanel != null && geo.isAnimatable()) {
 				buttonPanel.add(animPanel);
 			}
 			if (getPButton() != null) {
@@ -2259,16 +2245,12 @@ marblePanel, evt))) {
 	}
 
 	private void onPointerMove(AbstractEvent event) {
-		if (avExtension || commonEditingCheck()) {
-			return;
-		}
-		// tell EuclidianView to handle mouse over
-		EuclidianViewInterfaceCommon ev = kernel.getApplication()
-				.getActiveEuclidianView();
-		if (geo != null) {
-			ev.mouseMovedOver(geo);
-		}
-
+		/*
+		 * // tell EuclidianView to handle mouse over
+		 * EuclidianViewInterfaceCommon ev = kernel.getApplication()
+		 * .getActiveEuclidianView(); if (geo != null) { ev.mouseMovedOver(geo);
+		 * }
+		 */
 	}
 
 	private void onRightClick(int x, int y) {
@@ -2530,16 +2512,16 @@ marblePanel, evt))) {
 
 	@Override
 	public void onResize() {
-		if (avExtension) {
-			deferredResizeSlider();
-			if (first && isSelected()) {
-				updateButtonPanel(true);
-			}
+
+		deferredResizeSlider();
+		if (first && isSelected()) {
+			updateButtonPanel(true);
 		}
+
 	}
 
 	private void setAnimating(boolean value) {
-		if (!(avExtension && geo.isAnimatable())) {
+		if (!(geo.isAnimatable())) {
 			return;
 		}
 		geo.setAnimating(value);
