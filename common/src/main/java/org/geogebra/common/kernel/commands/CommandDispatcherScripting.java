@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.scripting.CmdButton;
 import org.geogebra.common.kernel.scripting.CmdCenterView;
 import org.geogebra.common.kernel.scripting.CmdCheckbox;
 import org.geogebra.common.kernel.scripting.CmdDelete;
+import org.geogebra.common.kernel.scripting.CmdExecute;
 import org.geogebra.common.kernel.scripting.CmdHideLayer;
 import org.geogebra.common.kernel.scripting.CmdLineStyle;
 import org.geogebra.common.kernel.scripting.CmdPan;

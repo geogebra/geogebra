@@ -1,8 +1,9 @@
-package org.geogebra.common.kernel.commands;
+package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -11,7 +12,7 @@ import org.geogebra.common.main.MyError;
 /**
  * Execute[<list of commands>]
  */
-public class CmdExecute extends CommandProcessor {
+public class CmdExecute extends CmdScripting {
 
 	/**
 	 * Create new command processor
@@ -24,7 +25,7 @@ public class CmdExecute extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
@@ -67,7 +68,7 @@ public class CmdExecute extends CommandProcessor {
 		kernelA.setUseInternalCommandNames(oldVal);
 
 		app.storeUndoInfo();
-		return new GeoElement[] {};
+		return arg;
 
 	}
 }
