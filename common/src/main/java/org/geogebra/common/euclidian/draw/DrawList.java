@@ -165,8 +165,8 @@ public final class DrawList extends CanvasDrawable
 		private boolean scrollNeeded;
 		private ScrollMode scrollMode = ScrollMode.NONE;
 
-		private boolean dragging;
-		private GPoint dragPoint;
+		private GPoint dragPoint = null;
+		private int dragOffsetY = 0;
 
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
@@ -185,6 +185,10 @@ public final class DrawList extends CanvasDrawable
 
 		private boolean isScrollNeeded() {
 			return scrollSupport && scrollNeeded;
+		}
+
+		private boolean isDragging() {
+			return (isScrollNeeded() && dragPoint != null);
 		}
 		public void draw(GGraphics2D g2, int left, int top) {
 			if (!isVisible()) {
@@ -233,6 +237,9 @@ public final class DrawList extends CanvasDrawable
 			int rectTop = top + dimItem.getHeight() * row;
 			if (isScrollNeeded()) {
 				rectTop += rectUp.getHeight();
+				if (isDragging()) {
+					rectTop += dragOffsetY;
+				}
 			}
 
 			GRectangle rect = item.getRect();
@@ -385,7 +392,6 @@ public final class DrawList extends CanvasDrawable
 				return false;
 			}
 
-			dragging = false;
 			dragPoint = null;
 			if (handleUpControl(x, y) || handleDownControl(x, y)) {
 				return true;
@@ -755,7 +761,7 @@ public final class DrawList extends CanvasDrawable
 				dragPoint = null;
 			}
 
-			if (!isHit(x, y) || isControlHit(x, y) || dragging) {
+			if (!isHit(x, y) || isControlHit(x, y) || isDragging()) {
 				return false;
 			}
 
@@ -764,6 +770,7 @@ public final class DrawList extends CanvasDrawable
 		private void stopScrolling() {
 			dropDown.stopTimer();
 			scrollMode = ScrollMode.NONE;
+			dragPoint = null;
 		}
 
 		public boolean onDrag(int x, int y) {
@@ -771,10 +778,14 @@ public final class DrawList extends CanvasDrawable
 				return false;
 			}
 
-
-			dragging = true;
-
 			GPoint p = new GPoint(x, y);
+			OptionItem item = getItemAt(x, y);
+			if (item != null) {
+				dragOffsetY = (int) (y - item.rect.getY());
+			} else {
+				Log.debug(SCROLL_PFX + " dragged item is null!");
+			}
+
 			if (dragPoint != null) {
 				int dY = dragPoint.getY() - p.getY();
 				Log.debug(SCROLL_PFX + " DRAG! dY: " + dY);
@@ -784,11 +795,11 @@ public final class DrawList extends CanvasDrawable
 
 				}
 
-				OptionItem item = getItemAt(x, y);
 				OptionItem lastItem = getItemAt(dragPoint);
 				if (item != null) {
 
-					if (lastItem != null && item != lastItem) {
+					if (lastItem != null && item != lastItem
+							&& Math.abs(dY) >= item.rect.getHeight()) {
 						int dIdx = lastItem.index - item.index;
 						Log.debug(
 								SCROLL_PFX + " Different items! dIdx: " + dIdx);
