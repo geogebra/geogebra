@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
@@ -433,9 +434,10 @@ public class ProverBotanasMethod {
 					 * Example 52 in Zoltan's diss on page 176---here we need to
 					 * generalize B to avoid getting true. This will slow down
 					 * some things, but that's the price for the correct
-					 * behavior.
+					 * behavior. Note that non-linear paths are not affected.
 					 */
 					if (algo instanceof AlgoPointOnPath
+							&& algo.input[0] instanceof GeoLine
 							&& ProverSettings.transcext) {
 						maxFixcoords = 2;
 					}
