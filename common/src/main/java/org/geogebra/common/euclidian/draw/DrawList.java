@@ -353,7 +353,6 @@ public final class DrawList extends CanvasDrawable
 		void scrollUpBy(int diff) {
 			if (startIdx > diff - 1) {
 				startIdx -= diff;
-				selectedIndex = startIdx;
 				geo.updateRepaint();
 
 			}
@@ -362,7 +361,6 @@ public final class DrawList extends CanvasDrawable
 		void scrollDownBy(int diff) {
 			if (endIdx + diff != items.size() - 1) {
 				startIdx += diff;
-				selectedIndex = endIdx;
 				geo.updateRepaint();
 			}
 		}
@@ -772,6 +770,7 @@ public final class DrawList extends CanvasDrawable
 				return false;
 			}
 
+
 			dragging = true;
 
 			GPoint p = new GPoint(x, y);
@@ -786,13 +785,17 @@ public final class DrawList extends CanvasDrawable
 
 				OptionItem item = getItemAt(x, y);
 				OptionItem lastItem = getItemAt(dragPoint);
-				if (item != null && lastItem != null && item != lastItem) {
-					int dIdx = lastItem.index - item.index;
-					Log.debug(SCROLL_PFX + " Different items! dIdx: " + dIdx);
-					if (dIdx > 0) {
-						scrollDownBy(dIdx);
-					} else {
-						scrollUpBy(-dIdx);
+				if (item != null) {
+
+					if (lastItem != null && item != lastItem) {
+						int dIdx = lastItem.index - item.index;
+						Log.debug(
+								SCROLL_PFX + " Different items! dIdx: " + dIdx);
+						if (dIdx > 0) {
+							scrollDownBy(dIdx);
+						} else {
+							scrollUpBy(-dIdx);
+						}
 					}
 				}
 			}
