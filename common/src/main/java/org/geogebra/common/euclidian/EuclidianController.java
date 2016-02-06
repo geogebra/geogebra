@@ -8180,13 +8180,6 @@ public abstract class EuclidianController {
 			return;
 		}
 
-		DrawList dl = view.getOpenedComboBox();
-		if (dl != null) {
-			if (dl.onDrag(event.getX(), event.getY())) {
-				return;
-			}
-		}
-
 		clearJustCreatedGeos();
 		if (!draggingOccured) {
 			draggingOccured = true;

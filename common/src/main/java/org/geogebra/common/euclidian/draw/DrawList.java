@@ -25,7 +25,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
@@ -74,7 +73,6 @@ public final class DrawList extends CanvasDrawable
 	private int viewWidth = 0;
 
 	private DrawOptions drawOptions;
-	private boolean controlHitLast;
 
 	enum ScrollMode {
 		UP, DOWN, NONE
@@ -165,9 +163,6 @@ public final class DrawList extends CanvasDrawable
 		private boolean scrollNeeded;
 		private ScrollMode scrollMode = ScrollMode.NONE;
 
-		private GPoint dragPoint = null;
-		private int dragOffsetY = 0;
-
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
 			itemHovered = null;
@@ -186,10 +181,6 @@ public final class DrawList extends CanvasDrawable
 		private boolean isScrollNeeded() {
 			return scrollSupport && scrollNeeded;
 		}
-
-		private boolean isDragging() {
-			return (isScrollNeeded() && dragPoint != null);
-		}
 		public void draw(GGraphics2D g2, int left, int top) {
 			if (!isVisible()) {
 				return;
@@ -207,12 +198,6 @@ public final class DrawList extends CanvasDrawable
 			drawItems();
 			if (isScrollNeeded()) {
 				drawControls();
-				if (dragPoint != null) {
-					g2.setPaint(GColor.RED);
-					int r = 2;
-					g2.fillRect(dragPoint.getX() - r, dragPoint.getY() - r, r,
-							r);
-				}
 			}
 
 		}
@@ -237,14 +222,8 @@ public final class DrawList extends CanvasDrawable
 			int rectTop = top + dimItem.getHeight() * row;
 			if (isScrollNeeded()) {
 				rectTop += rectUp.getHeight();
-				if (isDragging()) {
-					rectTop += dragOffsetY;
-				}
 			}
-
-			GRectangle rect = item.getRect();
-			if (rect == null
-					|| (rectLeft != rect.getX() || rectTop != rect.getY())) {
+			if (item.getRect() == null) {
 				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
 			}
@@ -350,24 +329,18 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		void scrollUp() {
-			scrollUpBy(1);
-		}
-
-		void scrollDown() {
-			scrollDownBy(1);
-		}
-
-		void scrollUpBy(int diff) {
-			if (startIdx > diff - 1) {
-				startIdx -= diff;
+			if (startIdx > 0) {
+				startIdx--;
+				selectedIndex = startIdx;
 				geo.updateRepaint();
 
 			}
 		}
 
-		void scrollDownBy(int diff) {
-			if (endIdx + diff != items.size() - 1) {
-				startIdx += diff;
+		void scrollDown() {
+			if (endIdx != items.size()) {
+				startIdx++;
+				selectedIndex = endIdx;
 				geo.updateRepaint();
 			}
 		}
@@ -392,12 +365,21 @@ public final class DrawList extends CanvasDrawable
 				return false;
 			}
 
-			dragPoint = null;
 			if (handleUpControl(x, y) || handleDownControl(x, y)) {
 				return true;
 			}
 
-			return false;
+			OptionItem item = getItemAt(x, y);
+			if (item == null) {
+				return false;
+			}
+
+			Log.debug("[REFACTOR] selected item: " + item.text + "("
+					+ item.index + ")");
+			selectedIndex = item.index;
+			selectCurrentItem();
+			setVisible(false);
+			return true;
 
 		}
 
@@ -561,9 +543,9 @@ public final class DrawList extends CanvasDrawable
 			rowCount = getVisibleItemCount();
 			scrollNeeded = getVisibleItemCount() != maxItems;
 
-			// Log.debug(SCROLL_PFX + geoList.getLongDescription() + " max: "
-			// + maxItems + " endIdx: " + endIdx + " scroll needed: "
-			// + scrollNeeded);
+			Log.debug(SCROLL_PFX + geoList.getLongDescription() + " max: "
+					+ maxItems + " endIdx: " + endIdx + " scroll needed: "
+					+ scrollNeeded);
 		}
 
 		private int getVisibleItemCount() {
@@ -654,17 +636,14 @@ public final class DrawList extends CanvasDrawable
 		public void setVisible(boolean visible) {
 			this.visible = visible;
 			if (visible) {
+				view.setOpenedComboBox(DrawList.this);
 				startIdx = isScrollNeeded() ? geoList.getSelectedIndex() : 0;
 				selectedIndex = startIdx;
-				if (items != null && selectedIndex < items.size()) {
-					itemHovered = items.get(selectedIndex);
-				} else {
-					itemHovered = null;
-				}
+				itemHovered = items.get(selectedIndex);
+			} else {
+				view.setOpenedComboBox(null);
 			}
-			// TODO maybe updateWidgets(); ?
-			updateOpenedComboBox();
-			view.repaintView();
+			geo.updateRepaint();
 		}
 
 		public void onResize() {
@@ -739,86 +718,16 @@ public final class DrawList extends CanvasDrawable
 			return rectTable.getBounds().intersects(rect);
 		}
 
-		private boolean selectItem() {
-			// OptionItem item = getItemAt(x, y);
-			if (itemHovered == null) {
-				return false;
-			}
-
-			Log.debug("[REFACTOR] selected item: " + itemHovered.text + "("
-					+ itemHovered.index + ")");
-			selectedIndex = itemHovered.index;
-			selectCurrentItem();
-			setVisible(false);
-			geo.updateRepaint();
-			return true;
-
-		}
-
 		public boolean onMouseUp(int x, int y) {
 			if (isScrollNeeded()) {
 				stopScrolling();
-				dragPoint = null;
 			}
-
-			if (!isHit(x, y) || isControlHit(x, y) || isDragging()) {
-				return false;
-			}
-
-			return selectItem();
-		}
-		private void stopScrolling() {
-			dropDown.stopTimer();
-			scrollMode = ScrollMode.NONE;
-			dragPoint = null;
-		}
-
-		public boolean onDrag(int x, int y) {
-			if (!isHit(x, y) || !isScrollNeeded()) {
-				return false;
-			}
-
-			GPoint p = new GPoint(x, y);
-			OptionItem item = getItemAt(x, y);
-			if (item != null) {
-				dragOffsetY = (int) (y - item.rect.getY());
-			} else {
-				Log.debug(SCROLL_PFX + " dragged item is null!");
-			}
-
-			if (dragPoint != null) {
-				int dY = dragPoint.getY() - p.getY();
-				Log.debug(SCROLL_PFX + " DRAG! dY: " + dY);
-
-				if (dY > 0) {
-				} else {
-
-				}
-
-				OptionItem lastItem = getItemAt(dragPoint);
-				if (item != null) {
-
-					if (lastItem != null && item != lastItem
-							&& Math.abs(dY) >= item.rect.getHeight()) {
-						int dIdx = lastItem.index - item.index;
-						Log.debug(
-								SCROLL_PFX + " Different items! dIdx: " + dIdx);
-						if (dIdx > 0) {
-							scrollDownBy(dIdx);
-						} else {
-							scrollUpBy(-dIdx);
-						}
-					}
-				}
-			}
-
-			dragPoint = p;
-			geo.updateRepaint();
 			return true;
 		}
 
-		private OptionItem getItemAt(GPoint p) {
-			return getItemAt(p.getX(), p.getY());
+		private void stopScrolling() {
+			dropDown.stopTimer();
+			scrollMode = ScrollMode.NONE;
 		}
 
 	}
@@ -1358,13 +1267,13 @@ public final class DrawList extends CanvasDrawable
 
 	private void updateMetrics(GGraphics2D g2) {
 
-		// Log.debug("[PROFILE] updateMetrics");
+		Log.debug("[PROFILE] updateMetrics");
 		int dW = viewWidth - view.getWidth();
 		int dH = viewHeight - view.getHeight();
 
 		if (dW != 0 || dH != 0) {
 			if (dW != 0 || dH != 0) {
-				// Log.debug("[PROFILE] resize happened.");
+				Log.debug("[PROFILE] resize happened.");
 				viewHeight = view.getHeight();
 				viewWidth = view.getWidth();
 				drawOptions.onResize();
@@ -1472,7 +1381,11 @@ public final class DrawList extends CanvasDrawable
 			return false;
 		}
 
-		return drawOptions.isHit(x, y);
+		boolean hit = drawOptions.isHit(x, y);
+		if (hit) {
+			Log.debug("OPTION is HIT");
+		}
+		return hit;
 	}
 
 	/**
@@ -1504,19 +1417,12 @@ public final class DrawList extends CanvasDrawable
 			return;
 		}
 
-
 		if (drawOptions.onMouseDown(x, y)) {
-			controlHitLast = false;
 			return;
 		}
 
 		if (isControlHit(x, y)) {
-			drawOptions.itemHovered = null;
-			toggleOptions();
-			// setOptionsVisible(!isOptionsVisible());
-			controlHitLast = true;
-		} else {
-			controlHitLast = false;
+			setOptionsVisible(!isOptionsVisible());
 		}
 	}
 
@@ -1525,7 +1431,7 @@ public final class DrawList extends CanvasDrawable
 			return;
 		}
 
-		if (!controlHitLast && drawOptions.onMouseUp(x, y)) {
+		if (drawOptions.onMouseUp(x, y)) {
 			return;
 		}
 	}
@@ -1587,18 +1493,6 @@ public final class DrawList extends CanvasDrawable
 
 	}
 
-	private void updateOpenedComboBox() {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
-
-		DrawList dl = view.getOpenedComboBox();
-		if (drawOptions.isVisible()) {
-			view.setOpenedComboBox(this);
-		} else if (dl == this) {
-			view.setOpenedComboBox(null);
-		}
-	}
 	/**
 	 * toggle visibility of dropdown items
 	 */
@@ -1699,6 +1593,7 @@ public final class DrawList extends CanvasDrawable
 	}
 
 	public void onMouseWheel(double delta) {
+		Log.debug("SONOFABITCH: " + delta);
 		if (delta > 0) {
 			drawOptions.scrollDown();
 		} else {
@@ -1706,13 +1601,4 @@ public final class DrawList extends CanvasDrawable
 
 		}
 	}
-
-	public boolean onDrag(int x, int y) {
-		if (!isDrawingOnCanvas()) {
-			return false;
-		}
-
-		return drawOptions.onDrag(x, y);
-	}
-
 }
