@@ -429,6 +429,7 @@ namespace giac {
   }
   
 #ifndef CAS38_DISABLED
+  //#define GBASIS_SELECT_TOTAL_DEGREE
 #if GROEBNER_VARS!=15 // double revlex ordering is not compatible with indices swapping
 #define GBASIS_SWAP 
 #endif
@@ -748,6 +749,16 @@ namespace giac {
     int front(){ return tab[1];}
 #endif
     // methods
+    inline unsigned selection_degree(order_t order) const {
+#ifdef GBASIS_SELECT_TOTAL_DEGREE
+      return total_degree(order);
+#endif
+#ifdef GIAC_64VARS
+      if (tab[0]%2)
+	return tdeg/2;
+#endif
+      return tdeg;
+    }
     inline unsigned total_degree(order_t order) const {
 #ifdef GIAC_64VARS
       if (tab[0]%2)
@@ -1617,10 +1628,6 @@ namespace giac {
       return tdeg_t_greater_dyn(x,y,order);
 #else // BIGENDIAN, GIAC_CHARDEGTYPE
       if (order.o>=_7VAR_ORDER || order.o==_3VAR_ORDER){
-#ifdef GIAC_GBASISLEX 
-	// if activated, check that poly8, polymod and zpolymod should be reordered
-	// FIXME
-#endif
 	int n=(order.o+degratiom1)/degratio;
 	const longlong * it1beg=x.ui,*it1=x.ui+n,*it2=y.ui+n;
 	longlong a=0,b=0;
@@ -2341,7 +2348,7 @@ namespace giac {
 	  t2 = tab[i];
 	  if (t2==0)
 	    continue;
-	  os << "*x"<< 4+p.dim-i;
+	  os << "*x"<< 7+p.dim-i;
 	  if (t2!=1)
 	    os << "^" << t2;
 	}
@@ -2359,7 +2366,7 @@ namespace giac {
 	  t2 = tab[i];
 	  if (t2==0)
 	    continue;
-	  os << "*x"<< 8+p.dim-i;
+	  os << "*x"<< 11+p.dim-i;
 	  if (t2!=1)
 	    os << "^" << t2;
 	}
@@ -2377,7 +2384,7 @@ namespace giac {
 	  t2 = tab[i];
 	  if (t2==0)
 	    continue;
-	  os << "*x"<< 12+p.dim-i;
+	  os << "*x"<< 15+p.dim-i;
 	  if (t2!=1)
 	    os << "^" << t2;
 	}
@@ -3226,7 +3233,7 @@ namespace giac {
     for (unsigned l=0;l<res.size();++l){
       gbasis_update(G,B,res,l,TMP1,TMP2,vtmp,env);
     }
-    for (;!B.empty() && !interrupted && !ctrl_c;){
+    for (int age=1;!B.empty() && !interrupted && !ctrl_c;++age){
       if (debug_infolevel>1)
 	CERR << CLOCK()*1e-6 << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
@@ -3621,7 +3628,7 @@ namespace giac {
 	  t2 = tab[i];
 	  if (t2==0)
 	    continue;
-	  os << "*x"<< 4+p.dim-i;
+	  os << "*x"<< 7+p.dim-i;
 	  if (t2!=1)
 	    os << "^" << t2;
 	}
@@ -3639,7 +3646,7 @@ namespace giac {
 	  t2 = tab[i];
 	  if (t2==0)
 	    continue;
-	  os << "*x"<< 8+p.dim-i;
+	  os << "*x"<< 11+p.dim-i;
 	  if (t2!=1)
 	    os << "^" << t2;
 	}
@@ -3657,7 +3664,7 @@ namespace giac {
 	  t2 = tab[i];
 	  if (t2==0)
 	    continue;
-	  os << "*x"<< 12+p.dim-i;
+	  os << "*x"<< 15+p.dim-i;
 	  if (t2!=1)
 	    os << "^" << t2;
 	}
@@ -8601,6 +8608,9 @@ namespace giac {
     bool sugar=false,learning=pairs_reducing_to_zero && pairs_reducing_to_zero->empty();
     if (debug_infolevel>1000)
       res.dbgprint(); // instantiate dbgprint()
+    int capa=512;
+    if (f4buchberger_info)
+      capa=f4buchberger_info->capacity();
     polymod<tdeg_t> TMP1(res.front().order,res.front().dim),TMP2(res.front().order,res.front().dim);
     vector< paire > B,BB;
     B.reserve(256); BB.reserve(256);
@@ -8617,7 +8627,9 @@ namespace giac {
 #endif      
       gbasis_updatemod(G,B,res,l,TMP2,env,true,oldG);
     }
-    for (;!B.empty() && !interrupted && !ctrl_c;){
+    for (int age=1;!B.empty() && !interrupted && !ctrl_c;++age){
+      if (age+1>=capa)
+	return false; // otherwise reallocation will make pointers invalid
       oldG=G;
       if (debug_infolevel>1)
 	CERR << CLOCK()*1e-6 << " begin new iteration mod, " << env << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
@@ -10295,11 +10307,22 @@ namespace giac {
     vector<zmodint> coord;
     const vector<tdeg_t> * expo;
     tdeg_t ldeg;
-    zpolymod():in_gbasis(true),dim(0),expo(0),ldeg(),age(0) {order.o=0; order.lex=0; order.dim=0;}
-    zpolymod(order_t o,int d): in_gbasis(true),dim(d),expo(0),ldeg(),age(0) {order=o; order.dim=d;}
-    zpolymod(order_t o,int d,const tdeg_t & l): in_gbasis(true),dim(d),expo(0),ldeg(l),age(0) {order=o; order.dim=d;}
-    zpolymod(order_t o,int d,const vector<tdeg_t> * e,const tdeg_t & l): in_gbasis(true),dim(d),expo(e),ldeg(l),age(0) {order=o; order.dim=d;}
+    int maxtdeg;
+    zpolymod():in_gbasis(true),dim(0),expo(0),ldeg(),age(0) {order.o=0; order.lex=0; order.dim=0; maxtdeg=-1;}
+    zpolymod(order_t o,int d): in_gbasis(true),dim(d),expo(0),ldeg(),age(0) {order=o; order.dim=d; maxtdeg=-1;}
+    zpolymod(order_t o,int d,const tdeg_t & l): in_gbasis(true),dim(d),expo(0),ldeg(l),age(0) {order=o; order.dim=d; maxtdeg=-1;}
+    zpolymod(order_t o,int d,const vector<tdeg_t> * e,const tdeg_t & l): in_gbasis(true),dim(d),expo(e),ldeg(l),age(0) {order=o; order.dim=d; maxtdeg=-1;}
     void dbgprint() const;
+    void compute_maxtdeg(){
+      if (expo){
+	std::vector< zmodint >::iterator pt=coord.begin(),ptend=coord.end();
+	for (;pt!=ptend;++pt){
+	  int tmp=(*expo)[pt->u].total_degree(order);
+	  if (tmp>maxtdeg)
+	    maxtdeg=tmp;
+	}
+      }
+    }
   };
 
   template<class tdeg_t>
@@ -10417,7 +10440,7 @@ namespace giac {
 	  t2 = tab[i];
 	  if (t2==0)
 	    continue;
-	  os << "*x"<< 4+p.dim-i;
+	  os << "*x"<< 7+p.dim-i;
 	  if (t2!=1)
 	    os << "^" << t2;
 	}
@@ -10435,7 +10458,7 @@ namespace giac {
 	  t2 = tab[i];
 	  if (t2==0)
 	    continue;
-	  os << "*x"<< 8+p.dim-i;
+	  os << "*x"<< 11+p.dim-i;
 	  if (t2!=1)
 	    os << "^" << t2;
 	}
@@ -10453,7 +10476,7 @@ namespace giac {
 	  t2 = tab[i];
 	  if (t2==0)
 	    continue;
-	  os << "*x"<< 12+p.dim-i;
+	  os << "*x"<< 15+p.dim-i;
 	  if (t2!=1)
 	    os << "^" << t2;
 	}
@@ -10496,7 +10519,7 @@ namespace giac {
   // collect monomials from pairs of res (vector of polymod<tdeg_t>s), shifted by lcm
   // does not collect leading monomial (since they cancel)
   template<class tdeg_t>
-  void zcollect(const vectzpolymod<tdeg_t> & res,const vector< paire > & B,const vector<unsigned> & permuB,vector<tdeg_t> & allf4buchberger,vector<tdeg_t> & leftshift,vector<tdeg_t> & rightshift){
+  bool zcollect(const vectzpolymod<tdeg_t> & res,const vector< paire > & B,const vector<unsigned> & permuB,vector<tdeg_t> & allf4buchberger,vector<tdeg_t> & leftshift,vector<tdeg_t> & rightshift){
     int start=1,countdiscarded=0;
     vector<heap_tt<tdeg_t> > Ht;
     heap_tt<tdeg_t> heap_elem;
@@ -10529,6 +10552,8 @@ namespace giac {
     while (!H.empty()){
       // push root node of the heap in allf4buchberger
       heap_tt<tdeg_t> & current = *H.front().ptr;
+      if (current.u.total_degree(keyorder)>GBASISF4_MAX_TOTALDEG)
+	return false;
       if (allf4buchberger.empty() || allf4buchberger.back()!=current.u)
 	allf4buchberger.push_back(current.u);
       unsigned vpos;
@@ -10570,7 +10595,8 @@ namespace giac {
       H.pop_back();
     }
     if (debug_infolevel>1)
-      CERR << "pairs " << 2*B.size() << ", discarded monomials " << countdiscarded << endl;
+      CERR << "pairs " << B.size() << ", discarded monomials " << countdiscarded << endl;
+    return true;
   }
 
   template<class tdeg_t>
@@ -11520,7 +11546,8 @@ namespace giac {
 	CERR << CLOCK()*1e-6 << " zf4buchberger begin collect monomials on #polys " << f4buchbergerv.size() << endl;
       }
 #endif
-      zcollect(res,B,permuB,all,leftshift,rightshift);
+      if (!zcollect(res,B,permuB,all,leftshift,rightshift))
+	return -1;
       if (debug_infolevel>1)
 	CERR << CLOCK()*1e-6 << " zf4buchberger symbolic preprocess" << endl;
       zsymbolic_preprocess(all,res,G,-1,info_tmp.quo,info_tmp.rem,info_tmp.R);
@@ -11543,7 +11570,7 @@ namespace giac {
     permuBptr=&permuB;
     const vector<tdeg_t> & R = info_ptr->R;
     vector<unsigned> Rtoremv;
-    Rtorem(R,info_ptr->rem,Rtoremv);
+    Rtorem(R,info_ptr->rem,Rtoremv); // positions of R degrees in rem
     const vector< vector<tdeg_t> > & quo = info_ptr->quo;
     //CERR << quo << endl;
     unsigned N = unsigned(R.size()), i, j = 0;
@@ -11630,7 +11657,7 @@ namespace giac {
 	atrier.push_back(sparse_element(first_index(Mindex[j]),j));
       }
 #else
-      std::vector< tdeg_t >::const_iterator jt=quo[i].begin(),jtend=quo[i].end();
+      typename std::vector< tdeg_t >::const_iterator jt=quo[i].begin(),jtend=quo[i].end();
       for (;jt!=jtend;++j,++jt){
 	coeffindex.push_back(coeffindex_t(N<=0xffff,i));
 	zmakelinesplit(res[G[i]],&*jt,R,Rhashptr,Rdegpos,Mindex[j],0,0);
@@ -12337,6 +12364,8 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     double timebeg=CLOCK(),autodebug=5e8;
     vector<int> start_index_v;
     for (int age=1;!B.empty() && !interrupted && !ctrl_c;++age){
+      if (age+1>=capa)
+	return false; // otherwise reallocation will make pointers invalid
       if (debug_infolevel<2 && (CLOCK()-timebeg)>autodebug)
 	debug_infolevel=multimodular?1:2;
       start_index_v.push_back(int(res.size())); // store size for final interreduction
@@ -12348,15 +12377,24 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (debug_infolevel>1)
 	CERR << CLOCK()*1e-6 << " begin new iteration " << age << " zmod, " << env << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       vector<bool> clean(res.size(),true); 
-      for (unsigned i=0;i<G.size();++i){
+      for (unsigned i=0;i<int(G.size());++i){
 	clean[G[i]]=false;
       }
+      if (!totdeg){
+	for (unsigned i=0;i<int(res.size());++i){
+	  if (res[i].maxtdeg==-1)
+	    res[i].compute_maxtdeg();
+	}
+      }
       vector<tdeg_t> Blcm(B.size());
+      vector<int> Blcmdeg(B.size());
       vector<unsigned> nterms(B.size());
       for (unsigned i=0;i<B.size();++i){
 	clean[B[i].first]=false;
 	clean[B[i].second]=false;
 	index_lcm(res[B[i].first].ldeg,res[B[i].second].ldeg,Blcm[i],order);
+	if (!totdeg)
+	  Blcmdeg[i]=giacmax(res[B[i].first].maxtdeg+(Blcm[i]-res[B[i].first].ldeg).total_degree(order),res[B[i].second].maxtdeg+(Blcm[i]-res[B[i].second].ldeg).total_degree(order));
 	nterms[i]=unsigned(res[B[i].first].coord.size()+res[B[i].second].coord.size());
       }
 #if 1
@@ -12372,73 +12410,67 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (B.size()<=GBASIS_F4BUCHBERGER)
 	swap(smallposp,B);      
       else {
-#ifdef GIAC_GBASISLEX
-	// find smallest lcm pair in B
-	unsigned smalltotdeg=RAND_MAX,firstdeg=RAND_MAX-1;
-	for (unsigned i=0;i<B.size();++i){
-	  if (!B[i].live) continue;
-	  if (order.lex){
-	    int s=Blcm[i].total_degree(order);
-	    if (s>smalltotdeg)
+	vector<unsigned> smallposv;
+	if (!totdeg){
+	  bool seldeg=age%2;
+	  // find smallest lcm pair in B
+	  // could also take nterms[i] in account
+	  unsigned firstdeg=RAND_MAX-1;
+	  for (unsigned i=0;i<B.size();++i){
+	    if (!B[i].live) continue;
+	    // unsigned f=seldeg?Blcmdeg[i]:Blcm[i].selection_degree(order);
+	    unsigned f=Blcmdeg[i]; 
+	    if (f>firstdeg)
 	      continue;
-	    if (s<smalltotdeg){
-	      firstdeg=Blcm[i].front();
-	      smalltotdeg=s;
+	    if (f<firstdeg){
+	      firstdeg=f;
 	      continue;
 	    }
-	    if (Blcm[i].front()<firstdeg)
-	      firstdeg=Blcm[i].front();
-	  } 
-	  else {
-	    if (Blcm[i].total_degree(order)<smalltotdeg)
-	      smalltotdeg=Blcm[i].total_degree(order);
 	  }
-	}
-	vector<unsigned> smallposv;
-	for (unsigned i=0;i<B.size();++i){
-	  if (!B[i].live) continue;
-	  if (order.lex){
-	    if (Blcm[i].front()==firstdeg && Blcm[i].total_degree(order)==smalltotdeg)
+	  for (unsigned i=0;i<B.size();++i){
+	    if (!B[i].live) continue;
+	    if (
+		//(seldeg?Blcmdeg[i]:Blcm[i].selection_degree(order))==firstdeg
+		Blcmdeg[i]==firstdeg
+		){
 	      smallposv.push_back(i);
+	    }
 	  }
-	  else {
-	    if (Blcm[i].total_degree(order)==smalltotdeg)
+	  if (smallposv.empty()) smallposv.resize(B.size());
+	  if (debug_infolevel>1)
+	    CERR << CLOCK()*1e-6 << " zpairs min total degrees*first degree " << firstdeg << " #pairs " << smallposv.size() << endl;
+	  if (firstdeg>GBASISF4_MAX_TOTALDEG)
+	    return false;
+	}
+	else {
+	  // find smallest lcm pair in B
+	  unsigned smallnterms=RAND_MAX,firstdeg=RAND_MAX-1;
+	  for (unsigned i=0;i<B.size();++i){
+	    if (!B[i].live) continue;
+	    unsigned f=Blcm[i].total_degree(order);
+	    if (f>firstdeg)
+	      continue;
+	    if (f<firstdeg){
+	      firstdeg=f;
+	      smallnterms=nterms[i];
+	      continue;
+	    }
+	    if (nterms[i]<smallnterms)
+	      smallnterms=nterms[i];
+	  }
+	  smallnterms *= 5;
+	  for (unsigned i=0;i<B.size();++i){
+	    if (!B[i].live) continue;
+	    if (
+		//nterms[i]<=smallnterms && 
+		Blcm[i].total_degree(order)==firstdeg){
 	      smallposv.push_back(i);
+	    }
 	  }
+	  if (smallposv.empty()) smallposv.resize(B.size());
+	  if (debug_infolevel>1)
+	    CERR << CLOCK()*1e-6 << " zpairs min total degrees, nterms " << firstdeg << "," << smallnterms << " #pairs " << smallposv.size() << endl;
 	}
-	if (smallposv.empty()) smallposv.resize(B.size());
-	if (debug_infolevel>1)
-	  CERR << CLOCK()*1e-6 << " zpairs degrees " << firstdeg << "," << smalltotdeg << " #" << smallposv.size() << endl;
-#else
-	// find smallest lcm pair in B
-	unsigned smallnterms=RAND_MAX,firstdeg=RAND_MAX-1;
-	for (unsigned i=0;i<B.size();++i){
-	  if (!B[i].live) continue;
-	  unsigned f=Blcm[i].total_degree(order);
-	  if (f>firstdeg)
-	    continue;
-	  if (f<firstdeg){
-	    firstdeg=f;
-	    smallnterms=nterms[i];
-	    continue;
-	  }
-	  if (nterms[i]<smallnterms)
-	    smallnterms=nterms[i];
-	}
-	vector<unsigned> smallposv;
-	smallnterms *= 5;
-	for (unsigned i=0;i<B.size();++i){
-	  if (!B[i].live) continue;
-	  if (
-	      //nterms[i]<=smallnterms && 
-	      Blcm[i].total_degree(order)==firstdeg){
-	    smallposv.push_back(i);
-	  }
-	}
-	if (smallposv.empty()) smallposv.resize(B.size());
-	if (debug_infolevel>1)
-	  CERR << CLOCK()*1e-6 << " zpairs min total degrees/nterms " << firstdeg << "," << smallnterms << " #" << smallposv.size() << endl;
-#endif
 	if (debug_infolevel>3)
 	  CERR << "pairs reduced " << B << " indices " << smallposv << endl;
 	if (smallposv.size()==B.size()){
@@ -13215,9 +13247,9 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     vector<unsigned> G;
     vector< paire > reduceto0;
     vector< info_t<tdeg_t> > f4buchberger_info;
-    f4buchberger_info.reserve(256);
+    f4buchberger_info.reserve(GBASISF4_MAXITER);
     vector<zinfo_t<tdeg_t> > zf4buchberger_info;
-    zf4buchberger_info.reserve(256);
+    zf4buchberger_info.reserve(GBASISF4_MAXITER);
     mpz_t zu,zd,zu1,zd1,zabsd1,zsqrtm,zq,zur,zr,ztmp;
     mpz_init(zu);
     mpz_init(zd);
@@ -13872,6 +13904,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     };
     int front(){ return tab[2];}
     // methods
+    inline unsigned selection_degree(order_t order) const {
+#ifdef GBASIS_SELECT_TOTAL_DEGREE
+      return total_degree(order);
+#endif
+      return tdeg;
+    }
     inline unsigned total_degree(order_t order) const {
       return tdeg+tdeg2;
     }
@@ -14099,7 +14137,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #endif
   }
 
-  inline int tdeg_t_greater (const tdeg_t14 & x,const tdeg_t14 & y,order_t order){
+  inline int tdeg_t_greater(const tdeg_t14 & x,const tdeg_t14 & y,order_t order){
     short X=x.tab[0];
     if (X!=y.tab[0]) return X>y.tab[0]?1:0; // since tdeg is tab[0] for plex
     if (order.o==_REVLEX_ORDER)
@@ -14255,6 +14293,9 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     };
     int front(){ return tab[1];}
     // methods
+    inline unsigned selection_degree(order_t order) const {
+      return tab[0];
+    }
     inline unsigned total_degree(order_t order) const {
       // works only for revlex and tdeg
       return tab[0];
@@ -14459,7 +14500,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #endif
   }
 
-  inline int tdeg_t_greater (const tdeg_t11 & x,const tdeg_t11 & y,order_t order){
+  inline int tdeg_t_greater(const tdeg_t11 & x,const tdeg_t11 & y,order_t order){
     short X=x.tab[0];
     if (X!=y.tab[0]) return X>y.tab[0]?1:0; // since tdeg is tab[0] for plex
     if (order.o==_REVLEX_ORDER)
@@ -14613,6 +14654,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     };
     int front(){ return tab[1];}
     // methods
+    inline unsigned selection_degree(order_t order) const {
+#ifdef GBASIS_SELECT_TOTAL_DEGREE
+      return total_degree(order);
+#endif
+      return tab[0];
+    }
     inline unsigned total_degree(order_t order) const {
       if (order.o==_REVLEX_ORDER)
 	return tab[0];      // works only for revlex and tdeg
@@ -14903,6 +14950,9 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 
   int tdeg_t15_3var_greater (const tdeg_t15 & x,const tdeg_t15 & y){
     if (((longlong *) x.tab)[0] != ((longlong *) y.tab)[0]){
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[0] <= ((longlong *) y.tab)[0];
+#else
       if (x.tab[0]!=y.tab[0])
 	return x.tab[0]>=y.tab[0]?1:0;
       if (x.tab[1]!=y.tab[1])
@@ -14910,17 +14960,25 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (x.tab[2]!=y.tab[2])
 	return x.tab[2]<=y.tab[2]?1:0;
       return x.tab[3]<=y.tab[3]?1:0;
+#endif
     }
     if (((longlong *) x.tab)[1] != ((longlong *) y.tab)[1]){
       if (x.tab[4]!=y.tab[4])
 	return x.tab[4]>=y.tab[4]?1:0;
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[1] <= ((longlong *) y.tab)[1];
+#else
       if (x.tab[5]!=y.tab[5])
 	return x.tab[5]<=y.tab[5]?1:0;
       if (x.tab[6]!=y.tab[6])
 	return x.tab[6]<=y.tab[6]?1:0;
       return x.tab[7]<=y.tab[7]?1:0;
+#endif
     }
     if (((longlong *) x.tab)[2] != ((longlong *) y.tab)[2]){
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[2] <= ((longlong *) y.tab)[2];
+#else
       if (x.tab[8]!=y.tab[8])
 	return x.tab[8]<=y.tab[8]?1:0;
       if (x.tab[9]!=y.tab[9])
@@ -14928,8 +14986,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (x.tab[10]!=y.tab[10])
 	return x.tab[10]<=y.tab[10]?1:0;
       return x.tab[11]<=y.tab[11]?1:0;
+#endif
     }
     if (((longlong *) x.tab)[3] != ((longlong *) y.tab)[3]){
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[3] <= ((longlong *) y.tab)[3];
+#else
       if (x.tab[12]!=y.tab[12])
 	return x.tab[12]<=y.tab[12]?1:0;
       if (x.tab[13]!=y.tab[13])
@@ -14937,12 +14999,16 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (x.tab[14]!=y.tab[14])
 	return x.tab[14]<=y.tab[14]?1:0;
       return x.tab[15]<=y.tab[15]?1:0;
+#endif
     }
     return 2;
   }
 
   int tdeg_t15_7var_greater (const tdeg_t15 & x,const tdeg_t15 & y){
     if (((longlong *) x.tab)[0] != ((longlong *) y.tab)[0]){
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[0] <= ((longlong *) y.tab)[0];
+#else
       if (x.tab[0]!=y.tab[0])
 	return x.tab[0]>=y.tab[0]?1:0;
       if (x.tab[1]!=y.tab[1])
@@ -14950,8 +15016,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (x.tab[2]!=y.tab[2])
 	return x.tab[2]<=y.tab[2]?1:0;
       return x.tab[3]<=y.tab[3]?1:0;
+#endif
     }
     if (((longlong *) x.tab)[1] != ((longlong *) y.tab)[1]){
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[1] <= ((longlong *) y.tab)[1];
+#else
       if (x.tab[4]!=y.tab[4])
 	return x.tab[4]<=y.tab[4]?1:0;
       if (x.tab[5]!=y.tab[5])
@@ -14959,17 +15029,25 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (x.tab[6]!=y.tab[6])
 	return x.tab[6]<=y.tab[6]?1:0;
       return x.tab[7]<=y.tab[7]?1:0;
+#endif
     }
     if (((longlong *) x.tab)[2] != ((longlong *) y.tab)[2]){
       if (x.tab[8]!=y.tab[8])
 	return x.tab[8]>=y.tab[8]?1:0;
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[2] <= ((longlong *) y.tab)[2];
+#else
       if (x.tab[9]!=y.tab[9])
 	return x.tab[9]<=y.tab[9]?1:0;
       if (x.tab[10]!=y.tab[10])
 	return x.tab[10]<=y.tab[10]?1:0;
       return x.tab[11]<=y.tab[11]?1:0;
+#endif
     }
     if (((longlong *) x.tab)[3] != ((longlong *) y.tab)[3]){
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[3] <= ((longlong *) y.tab)[3];
+#else
       if (x.tab[12]!=y.tab[12])
 	return x.tab[12]<=y.tab[12]?1:0;
       if (x.tab[13]!=y.tab[13])
@@ -14977,12 +15055,16 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (x.tab[14]!=y.tab[14])
 	return x.tab[14]<=y.tab[14]?1:0;
       return x.tab[15]<=y.tab[15]?1:0;
+#endif
     }
     return 2;
   }
 
   int tdeg_t15_11var_greater (const tdeg_t15 & x,const tdeg_t15 & y){
     if (((longlong *) x.tab)[0] != ((longlong *) y.tab)[0]){
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[0] <= ((longlong *) y.tab)[0];
+#else
       if (x.tab[0]!=y.tab[0])
 	return x.tab[0]>=y.tab[0]?1:0;
       if (x.tab[1]!=y.tab[1])
@@ -14990,8 +15072,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (x.tab[2]!=y.tab[2])
 	return x.tab[2]<=y.tab[2]?1:0;
       return x.tab[3]<=y.tab[3]?1:0;
+#endif
     }
     if (((longlong *) x.tab)[1] != ((longlong *) y.tab)[1]){
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[1] <= ((longlong *) y.tab)[1];
+#else
       if (x.tab[4]!=y.tab[4])
 	return x.tab[4]<=y.tab[4]?1:0;
       if (x.tab[5]!=y.tab[5])
@@ -14999,8 +15085,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (x.tab[6]!=y.tab[6])
 	return x.tab[6]<=y.tab[6]?1:0;
       return x.tab[7]<=y.tab[7]?1:0;
+#endif
     }
     if (((longlong *) x.tab)[2] != ((longlong *) y.tab)[2]){
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[2] <= ((longlong *) y.tab)[2];
+#else
       if (x.tab[8]!=y.tab[8])
 	return x.tab[8]<=y.tab[8]?1:0;
       if (x.tab[9]!=y.tab[9])
@@ -15008,15 +15098,20 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (x.tab[10]!=y.tab[10])
 	return x.tab[10]<=y.tab[10]?1:0;
       return x.tab[11]<=y.tab[11]?1:0;
+#endif
     }
     if (((longlong *) x.tab)[3] != ((longlong *) y.tab)[3]){
       if (x.tab[12]!=y.tab[12])
 	return x.tab[12]>=y.tab[12]?1:0;
+#ifdef GBASIS_SWAP
+      return ((longlong *) x.tab)[3] <= ((longlong *) y.tab)[3];
+#else
       if (x.tab[13]!=y.tab[13])
 	return x.tab[13]<=y.tab[13]?1:0;
       if (x.tab[14]!=y.tab[14])
 	return x.tab[14]<=y.tab[14]?1:0;
       return x.tab[15]<=y.tab[15]?1:0;
+#endif
     }
     return 2;
   }
@@ -15082,7 +15177,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #endif
   }
 
-  inline int tdeg_t_greater (const tdeg_t15 & x,const tdeg_t15 & y,order_t order){
+  inline int tdeg_t_greater(const tdeg_t15 & x,const tdeg_t15 & y,order_t order){
     short X=x.tab[0];
     if (X!=y.tab[0]) return X>y.tab[0]?1:0; // since tdeg is tab[0] for plex
     if (order.o==_REVLEX_ORDER)
@@ -15569,7 +15664,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	if (debug_infolevel)
 	  CERR << "G=" << G << endl;
       }
-      else {
+      else { // env->modoloon etc.
 #ifdef GIAC_REDUCEMODULO
 	vectpoly w(v);
 	reduce(w,env);

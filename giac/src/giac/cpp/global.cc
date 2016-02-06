@@ -1548,6 +1548,8 @@ extern "C" void Sleep(unsigned int miliSecond);
   int MAX_PRINTABLE_ZINT=10000;
   int MAX_RECURSION_LEVEL=9;
   int GBASIS_DETERMINISTIC=20;
+  int GBASISF4_MAX_TOTALDEG=1024;
+  int GBASISF4_MAXITER=256;
 
   const int BUFFER_SIZE=512;
 #else
@@ -1581,6 +1583,8 @@ extern "C" void Sleep(unsigned int miliSecond);
   int MAX_PRINTABLE_ZINT=1000000;
   int MAX_RECURSION_LEVEL=100;
   int GBASIS_DETERMINISTIC=50;
+  int GBASISF4_MAX_TOTALDEG=2048;
+  int GBASISF4_MAXITER=512;
   const int BUFFER_SIZE=16384;
 #endif
   volatile bool ctrl_c=false,interrupted=false;

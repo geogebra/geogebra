@@ -257,6 +257,8 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern int MAX_PRINTABLE_ZINT;
   extern int MAX_RECURSION_LEVEL;
   extern int GBASIS_DETERMINISTIC;
+  extern int GBASISF4_MAX_TOTALDEG;
+  extern int GBASISF4_MAXITER;
   extern int PROOT_FACTOR_MAXDEG;
   extern int ABS_NBITS_EVALF;
   extern volatile bool ctrl_c,interrupted;

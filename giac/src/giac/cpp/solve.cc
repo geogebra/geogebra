@@ -3342,12 +3342,13 @@ namespace giac {
 	break;
       }
       if (poly){
-	gen tmp=_e2r(makesequence(v0,v[1]),contextptr);
+	gen tmp=_e2r(makesequence(v0,v[1]),contextptr),tmp1=tmp;
 	if (tmp.type==_FRAC)
-	  tmp=tmp._FRACptr->num;
+	  tmp1=tmp=tmp._FRACptr->num;
 	tmp=evalf(tmp,eval_level(contextptr),contextptr);
 	if (tmp.type==_VECT){
-	  gen res=complex_mode(contextptr)?proot(*tmp._VECTptr,epsilon(contextptr)):real_proot(*tmp._VECTptr,epsilon(contextptr),contextptr);
+	  // call realroot? this would be more accurate
+	  gen res=complex_mode(contextptr)?proot(*tmp._VECTptr,epsilon(contextptr)):_realroot(gen(makevecteur(tmp1,epsilon(contextptr),at_evalf),_SEQ__VECT),contextptr);//real_proot(*tmp._VECTptr,epsilon(contextptr),contextptr);
 	  if (res.type==_VECT && res._VECTptr->size()==1)
 	    return res._VECTptr->front();
 	  return res;
@@ -6744,6 +6745,8 @@ namespace giac {
       returngb=1;
     if (args._VECTptr->back()==at_lcoeff)
       returngb=2;
+    if (args._VECTptr->back()==at_resultant)
+      returngb=3;
     bool with_f5=false,with_cocoa=false,eliminate_flag=epsilon(contextptr)!=0; int modular=1; gen o;
     read_gbargs(*args._VECTptr,2,int(args._VECTptr->size()),o,with_cocoa,with_f5,modular,eliminate_flag);
     vecteur eqs=gen2vecteur(remove_equal(args._VECTptr->front()));
@@ -6780,7 +6783,7 @@ namespace giac {
     }
     vecteur linelim;
 #ifdef GIAC_GBASISLEX
-    if (!returngb && eqs.size()<=l.size()+3){
+    if (returngb==3 && eqs.size()<=l.size()+3){
       // eliminate variables with linear dependency 
       // (in order to lower the number of vars, since <= 11 vars is handled faster)
       // not faster
@@ -6802,13 +6805,13 @@ namespace giac {
     lvar(elim,linelim);
     elim=linelim;
     int es=int(elim.size()),rs=int(l.size()-elim.size()),neq=int(eqs.size());
-#if 0 
+#if 1
     // check if we should eliminate linear dependency with resultant
     // to fit inside 3/11 or 7/7 or 11/3
-    if (!returngb && eqs.size()<=l.size()+3){
-      bool ok=(es<=3 && rs<=11) || (es<=7 && rs<=7) || (es<=11 && rs<=3);
-      if (!ok){
-	*logptr(contextptr) << "First eliminating with resultant. Original equations may reduce further."<<endl;
+    if (returngb==3 && eqs.size()<=l.size()+3){
+      bool ok=es>=1;
+      if (ok){
+	*logptr(contextptr) << "Eliminating with resultant. Original equations may reduce further."<<endl;
 	vector<int> vtdeg;
 	// Choose lowest degree pivot 
 	int curdeg=_total_degree(makesequence(eqs.front(),l),contextptr).val;
@@ -6845,7 +6848,7 @@ namespace giac {
 	    }
 	  }
 	}
-	if (curdeg==1){
+	if (1 || curdeg==1){
 	  // Choose lowest number of dependant equations in poselim
 	  gen besteq(0),bestvar(0); int bestpos=-1,n0deps=-1;
 	  for (int i=0;i<int(poselim.size());++i){
@@ -6881,7 +6884,9 @@ namespace giac {
 	      newelim.push_back(elim[i]);
 	  }
 	  // recursive call
-	  gen res=_eliminate(makesequence(neweq,newelim),contextptr);
+	  if (newelim.empty())
+	    return neweq;
+	  gen res=_eliminate(makesequence(neweq,newelim,at_resultant),contextptr);
 	  return res;
 	}
       }

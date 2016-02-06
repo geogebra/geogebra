@@ -95,6 +95,7 @@ namespace giac {
     matrix_double() : std::vector< std::vector<giac_double> >() { };
     matrix_double(int i) : std::vector< std::vector<giac_double> >(i) { };
     matrix_double(int i,const std::vector<giac_double> v) : std::vector< std::vector<giac_double> >(i,v) { };
+    matrix_double(const matrix_double::const_iterator b,const matrix_double::const_iterator e) : std::vector< std::vector<giac_double> >(b,e) { };
     void dbgprint() const ;
   };
   
@@ -373,7 +374,7 @@ namespace giac {
   void hessenberg(std_matrix<gen> & H,std_matrix<gen> & P,GIAC_CONTEXT);
   void hessenberg_ortho(std_matrix<gen> & H,std_matrix<gen> & P,GIAC_CONTEXT);
   void hessenberg_ortho(std_matrix<gen> & H,std_matrix<gen> & P,int firstrow,int n,bool compute_P,int already_zero,double eps,GIAC_CONTEXT);
-  void qr_ortho(std_matrix<gen> & H,std_matrix<gen> & P,GIAC_CONTEXT);
+  void qr_ortho(std_matrix<gen> & H,std_matrix<gen> & P,bool computeP,GIAC_CONTEXT);
   void hessenberg_schur(std_matrix<gen> & H,std_matrix<gen> & P,int maxiter,double eps,GIAC_CONTEXT);
   gen _hessenberg(const gen & g0,GIAC_CONTEXT);
 

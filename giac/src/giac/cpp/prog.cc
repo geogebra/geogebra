@@ -3639,6 +3639,8 @@ namespace giac {
       a=eval(a,1,contextptr);
       gen a1=a._SYMBptr->feuille._VECTptr->front(),a2=a._SYMBptr->feuille._VECTptr->back();
       gen nstep=(a2-a1)/b1;
+      if (nstep.type==_DOUBLE_)
+	nstep=(1+1e-12)*nstep;
       if (ck_is_positive(nstep,contextptr))
 	nstep=_floor(nstep,contextptr);
       else {

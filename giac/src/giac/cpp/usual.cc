@@ -8000,7 +8000,7 @@ namespace giac {
       return gsl_sf_zeta(x._DOUBLE_val);
 #endif // HAVE_LIBGSL
 #ifdef HAVE_LIBPARI
-    if (x.type==_CPLX)
+    if (x.type==_CPLX && x.subtype!=3)
       return pari_zeta(x);
 #endif
 #ifdef HAVE_LIBMPFR
