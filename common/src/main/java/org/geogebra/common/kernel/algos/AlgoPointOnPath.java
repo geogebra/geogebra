@@ -251,8 +251,8 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 
 			if (line[2].equals(BigInteger.ZERO)) {
 				/* this line is going through the origin, we simply substitute */
-				exactCoordinates[0] = line[0].multiply(values.get(variable));
-				exactCoordinates[1] = line[1].multiply(values.get(variable));
+				exactCoordinates[0] = line[1].multiply(values.get(variable));
+				exactCoordinates[1] = line[0].multiply(values.get(variable));
 				exactCoordinates[2] = BigInteger.ONE;
 			} else {
 				/*
