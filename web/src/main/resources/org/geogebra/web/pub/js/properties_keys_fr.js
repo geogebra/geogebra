@@ -2651,7 +2651,7 @@ __GGB__keysVar.fr.plain = {
     "Net": "Patron",
     "NewExpression": "Nouvelle expression",
     "NewNameForA": "Nouveau nom pour %0",
-    "NewToGeoGebra": "Nouveau en GeoGebra?",
+    "NewToGeoGebra": "Nouveau en GeoGebra ?",
     "NewerVersionA": "Une version plus r\xe9cente de GeoGebra est disponible.\nObtenir GeoGebra %0 maintenant ?",
     "Next": "Suivant",
     "NextCell": "Cellule suivante",
