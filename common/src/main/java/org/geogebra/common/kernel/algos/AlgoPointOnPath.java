@@ -248,13 +248,27 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 			BigInteger[] exactCoordinates = new BigInteger[3];
 			BigInteger[] line = ((SymbolicParametersAlgo) input[0])
 					.getExactCoordinates(values);
-			exactCoordinates[0] = line[2].multiply(values.get(variable));
-			exactCoordinates[1] = line[2].multiply(BigInteger.ONE
+
+			if (line[2].equals(BigInteger.ZERO)) {
+				/* this line is going through the origin, we simply substitute */
+				exactCoordinates[0] = line[0].multiply(values.get(variable));
+				exactCoordinates[1] = line[1].multiply(values.get(variable));
+				exactCoordinates[2] = BigInteger.ONE;
+			} else {
+				/*
+				 * using Simon's original code otherwise, it doesn't seem to
+				 * handle the previous case properly
+				 */
+				exactCoordinates[0] = line[2].multiply(values.get(variable));
+				exactCoordinates[1] = line[2].multiply(BigInteger.ONE
 					.subtract(values.get(variable)));
-			exactCoordinates[2] = line[0].multiply(
+				exactCoordinates[2] = line[0].multiply(
 					values.get(variable).negate()).add(
 					line[1].multiply(values.get(variable).subtract(
-							BigInteger.ONE)));
+								BigInteger.ONE)));
+				/* maybe there is a way to unify the two cases, TODO */
+			}
+
 			return exactCoordinates;
 		}
 		return null;
