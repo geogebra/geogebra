@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -43,7 +43,7 @@ public class CmdSurdText extends CommandProcessor {
 			} else if (arg[0].isGeoPoint()) {
 
 				AlgoSurdTextPoint algo = new AlgoSurdTextPoint(cons,
-						c.getLabel(), (GeoPoint) arg[0]);
+						c.getLabel(), (GeoPointND) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

@@ -14,11 +14,13 @@ package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Algorithm for SurdText(Point)
@@ -26,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoText;
  */
 public class AlgoSurdTextPoint extends AlgoSurdText {
 
-	private GeoPoint p; // input
+	private GeoPointND p; // input
 	private GeoText text; // output
 	private StringBuilder sbp;
 
@@ -38,7 +40,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 	 * @param p
 	 *            input point
 	 */
-	public AlgoSurdTextPoint(Construction cons, String label, GeoPoint p) {
+	public AlgoSurdTextPoint(Construction cons, String label, GeoPointND p) {
 		this(cons, p);
 		text.setLabel(label);
 	}
@@ -49,7 +51,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 	 * @param p
 	 *            input point
 	 */
-	AlgoSurdTextPoint(Construction cons, GeoPoint p) {
+	AlgoSurdTextPoint(Construction cons, GeoPointND p) {
 		super(cons);
 		this.p = p;
 		sbp = new StringBuilder(50);
@@ -78,7 +80,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
-		input[0] = p;
+		input[0] = (GeoElement) p;
 
 		setOutputLength(1);
 		setOutput(0, text);
@@ -93,12 +95,30 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 	@Override
 	public final void compute() {
 		if (input[0].isDefined()) {
-
 			sbp.setLength(0);
 			sbp.append(" \\left( ");
-			PSLQappendQuadratic(sbp, p.inhomX, text.getStringTemplate());
-			sbp.append(" , ");
-			PSLQappendQuadratic(sbp, p.inhomY, text.getStringTemplate());
+
+			int coordMode = p.getMode();
+			if (coordMode == Kernel.COORD_CARTESIAN_3D
+					|| coordMode == Kernel.COORD_SPHERICAL) {
+				// we want 3D coords
+				Coords coords = p.getInhomCoordsInD3();
+				append3dCoords(coords);
+			} else if (p.isGeoElement3D()) {
+				// we need to check if z == 0
+				Coords coords = p.getInhomCoordsInD3();
+				if (Kernel.isZero(coords.getZ())) {
+					// z==0 so 2D coords
+					append2dCoords(coords);
+				} else {
+					// z!=0 so 3D coords
+					append3dCoords(coords);
+				}
+			} else {
+				Coords coords = p.getInhomCoordsInD2();
+				append2dCoords(coords);
+			}
+
 			sbp.append(" \\right) ");
 
 			text.setTextString(sbp.toString());
@@ -107,6 +127,24 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		} else {
 			text.setUndefined();
 		}
+	}
+
+	private void append3dCoords(Coords coords) {
+		append(coords.getX());
+		sbp.append(" , ");
+		append(coords.getY());
+		sbp.append(" , ");
+		append(coords.getZ());
+	}
+
+	private void append2dCoords(Coords coords) {
+		append(coords.getX());
+		sbp.append(" , ");
+		append(coords.getY());
+	}
+
+	private void append(double value) {
+		PSLQappendQuadratic(sbp, value, text.getStringTemplate());
 	}
 
 	@Override
