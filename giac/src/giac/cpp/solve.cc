@@ -920,6 +920,7 @@ namespace giac {
 	}
 	if (debug_infolevel) // abs_calc_mode(contextptr)!=38)
 	  *logptr(contextptr) << gettext("Warning! Algebraic extension not implemented yet for poly ") << r2sym(w,lv,contextptr) << endl;
+	vecteur w_orig=w;
 	w=*evalf(r2sym(w,lv,contextptr),1,contextptr)._VECTptr;
 	if (has_num_coeff(w)){ // FIXME: test is always true...
 #ifndef NO_STDEXCEPT
@@ -927,8 +928,8 @@ namespace giac {
 #endif
 	    if (complexmode)
 	      newv=proot(w,epsilon(contextptr));
-	    else
-	      newv=real_proot(w,epsilon(contextptr),contextptr);
+	    else 
+	      newv=gen2vecteur(_realroot(gen(makevecteur(w_orig,epsilon(contextptr),at_evalf),_SEQ__VECT),contextptr)); // newv=real_proot(w,epsilon(contextptr),contextptr);
 	    solve_ckrange(x,newv,isolate_mode,contextptr);
 	    v=mergevecteur(v,newv);
 #ifndef NO_STDEXCEPT
