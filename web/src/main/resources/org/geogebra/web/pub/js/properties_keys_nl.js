@@ -2675,7 +2675,7 @@ __GGB__keysVar.nl.plain = {
     "On": "Aan",
     "OnClick": "Bij klikken",
     "OnMouseOver": "Bij Mouse-Over",
-    "OnUpdate": "Bij Update",
+    "OnUpdate": "Bij update",
     "Open": "Openen",
     "OpenButton": "Knop om GeoGebrascherm te openen",
     "Orthographic": "Orthografisch",
