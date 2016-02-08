@@ -449,6 +449,7 @@ public abstract class AppWFull extends AppW {
 					kernel.getAlgebraProcessor().reinitCommands();
 					getExam().setStart(date.getTime());
 					fireViewsChangedEvent();
+					getGuiManager().updateToolbar();
 					getGuiManager().updateToolbarActions();
 					Layout.initializeDefaultPerspectives(AppWFull.this, 0.2);
 					getGuiManager().updateMenubar();
@@ -475,6 +476,7 @@ public abstract class AppWFull extends AppW {
 					getGuiManager().updateToolbarActions();
 					getGuiManager().setGeneralToolBarDefinition(
 							ToolBar.getAllToolsNoMacros(true, false));
+					getGuiManager().updateToolbar();
 					getGuiManager().resetMenu();
 					box.hide();
 				}
