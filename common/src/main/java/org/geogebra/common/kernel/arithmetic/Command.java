@@ -228,6 +228,7 @@ public class Command extends ValidExpression implements
 	private String toString(boolean symbolic, boolean LaTeX, StringTemplate tpl) {
 		switch (tpl.getStringType()) {
 		case GIAC:
+		case GIAC_NUMERIC:
 			return (kernel.getGeoGebraCAS()).getCASCommand(name, args,
 					symbolic, tpl);
 		case LATEX:

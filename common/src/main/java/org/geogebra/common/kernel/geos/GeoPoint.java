@@ -57,7 +57,6 @@ import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
@@ -1366,6 +1365,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		switch (tpl.getStringType()) {
 		case GIAC:
+		case GIAC_NUMERIC:
 			if (getDefinition() != null) {
 				sbBuildValueString.append(getDefinition().toValueString(tpl));
 				return sbBuildValueString;
@@ -1427,7 +1427,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public static final void buildValueStringCoordCartesian3D(Kernel kernel,
 			StringTemplate tpl, double x, double y, double z,
 			StringBuilder sbBuildValueString) {
-		if (tpl.hasType(StringType.GIAC)) {
+		if (tpl.hasCASType()) {
 
 			sbBuildValueString.append("point(");
 			sbBuildValueString.append(kernel.format(x, tpl));

@@ -10,6 +10,8 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.util.debug.Log;
 
 public class StringUtil {
@@ -1156,7 +1158,8 @@ public class StringUtil {
 	 *            String to wrap
 	 * @return "exact(" + s + ")" if necessary (for Giac)
 	 */
-	public static String wrapInExact(String s) {
+	public static String wrapInExact(String s, StringTemplate tpl) {
+		Log.printStacktrace(s);
 		if (s.startsWith("exact(")) {
 			// nothing to do
 			return s;
@@ -1170,6 +1173,10 @@ public class StringUtil {
 
 		if ("?".equals(s) || "undef".equals(s)) {
 			return "undef";
+		}
+
+		if (tpl.getStringType().equals(StringType.GIAC_NUMERIC)) {
+			return s;
 		}
 
 		if ("inf".equals(s)) {

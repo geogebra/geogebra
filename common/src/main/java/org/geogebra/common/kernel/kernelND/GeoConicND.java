@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.algos.AlgoEllipseFociLength;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -1623,7 +1622,7 @@ FromMeta
 		coeffs[1] = 2 * matrix1[3]; // xy        
 		coeffs[3] = 2 * matrix1[4]; // x
 		coeffs[4] = 2 * matrix1[5]; // y  
-		if (tpl.hasType(StringType.GIAC)){
+		if (tpl.hasCASType()) {
 			StringBuilder sb = sbToValueString;
 			sb.setLength(0);
 			String x = tpl.printVariableName("x");
@@ -1677,6 +1676,7 @@ FromMeta
 				break;
 				
 			case GIAC:
+		case GIAC_NUMERIC:
 				squared = "^2";
 				myVars = varsCAS;
 				break;

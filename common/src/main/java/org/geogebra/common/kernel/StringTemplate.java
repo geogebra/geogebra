@@ -552,6 +552,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
+					case GIAC_NUMERIC:
 						showMultiplicationSign = true;
 						break;
 
@@ -649,6 +650,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
+					case GIAC_NUMERIC:
 						sb.append(multiplicationSign());
 						break;
 
@@ -673,6 +675,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 
 		case GIAC:
+		case GIAC_NUMERIC:
 
 			// App.debug(left.getClass()+" "+right.getClass());
 			// App.debug(leftStr+" "+rightStr);
@@ -782,6 +785,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		switch (t) {
 		case GIAC:
+		case GIAC_NUMERIC:
 			casPrintFormPI = "%pi";
 			break;
 
@@ -1108,6 +1112,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			final String label) {
 		switch (printForm) {
 		case GIAC:
+		case GIAC_NUMERIC:
 			// make sure we don't interfer with reserved names
 			// or command names in the underlying CAS
 			// see http://www.geogebra.org/trac/ticket/1051
@@ -1128,7 +1133,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private String addTempVariablePrefix(final String label) {
 
 		// keep x, y, z so that x^2+y^2=1 works in Giac
-		if (getStringType().equals(StringType.GIAC)
+		if (getStringType().isGiac()
 				&& ("x".equals(label) || "y".equals(label)
 						|| "y'".equals(label) || "y''".equals(label) || "z"
 							.equals(label))) {
@@ -1179,10 +1184,26 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * @return whether stringType is for a CAS (Giac, MPReduce, MathPiper)
+	 * @return copy of this, with string type set to StringType.GIAC_NUMERIC
+	 */
+	public StringTemplate deriveNumericGiac() {
+
+		if (stringType.equals(StringType.GIAC_NUMERIC)) {
+			return this;
+		}
+
+		StringTemplate ret = this.copy();
+
+		ret.setType(StringType.GIAC_NUMERIC);
+
+		return ret;
+	}
+
+	/**
+	 * @return whether stringType is for a CAS (ie Giac)
 	 */
 	public boolean hasCASType() {
-		return stringType.equals(StringType.GIAC);
+		return stringType.isGiac();
 	}
 
 	protected boolean isNDvector(ExpressionValue v) {
@@ -1204,6 +1225,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, "<plus/>", leftStr, rightStr);
 			break;
 		case GIAC:
+		case GIAC_NUMERIC:
 			// don't use isNumberValue(), isListValue as those lead to an
 			// evaluate()
 			if (left.evaluatesToList()
@@ -1551,6 +1573,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, "<minus/>", leftStr, rightStr);
 			break;
 		case GIAC:
+		case GIAC_NUMERIC:
 			if (left.evaluatesToList()
 					&& (right.evaluatesToNumber(false) || right instanceof NumberValue)) {
 				// eg {1,2,3} + 10
@@ -1934,6 +1957,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
+					case GIAC_NUMERIC:
 						showMultiplicationSign = true;
 						break;
 
@@ -2028,6 +2052,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
+					case GIAC_NUMERIC:
 						sb.append(multiplicationSign());
 						break;
 
@@ -2051,6 +2076,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 
 		case GIAC:
+		case GIAC_NUMERIC:
 
 			// App.debug(left.getClass()+" "+right.getClass());
 			// App.debug(leftStr+" "+rightStr);
@@ -2205,6 +2231,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 
 		case GIAC:
+		case GIAC_NUMERIC:
 			sb.append("(");
 			sb.append(leftStr);
 			sb.append(")/(");
@@ -2309,6 +2336,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("||");
 				break;
 
@@ -2332,6 +2360,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "\\geq";
 		case LIBRE_OFFICE:
 		case GIAC:
+		case GIAC_NUMERIC:
 			return ">=";
 		default:
 			return strGREATER_EQUAL;
@@ -2347,6 +2376,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "\\leq";
 		case LIBRE_OFFICE:
 		case GIAC:
+		case GIAC_NUMERIC:
 			return "<=";
 		default:
 			return strLESS_EQUAL;
@@ -2423,6 +2453,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "\\questeq ";
 		case LIBRE_OFFICE:
 		case GIAC:
+		case GIAC_NUMERIC:
 			return "=";
 		default:
 			return strEQUAL_BOOLEAN;
@@ -2476,7 +2507,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			boolean valueForm) {
 		StringBuilder sb = new StringBuilder();
 		if (stringType.equals(StringType.MATHML)
-				|| stringType.equals(StringType.GIAC)) {
+ || stringType.isGiac()) {
 			return andString(left, right, leftStr, rightStr);
 		}
 		if (right.isExpressionNode()) {
@@ -2530,7 +2561,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		StringBuilder sb = new StringBuilder();
 		if (stringType.equals(StringType.MATHML)) {
 			MathmlTemplate.mathml(sb, "<and/>", leftStr, rightStr);
-		} else if (stringType.equals(StringType.GIAC)) {
+		} else if (stringType.isGiac()) {
 			sb.append('(');
 			sb.append(leftStr);
 			sb.append(" && ");
@@ -2553,6 +2584,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("&&");
 				break;
 
@@ -2652,6 +2684,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			switch (stringType) {
 
 			case GIAC:
+			case GIAC_NUMERIC:
 
 				// if user types e^(ln(4.93)/1.14)
 				// ie not Unicode.EULER_STRING
@@ -2770,6 +2803,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 			// rightStr already done in Giac
 			case GIAC:
+			case GIAC_NUMERIC:
 				break;
 			case PSTRICKS:
 			case PGF:
@@ -2873,7 +2907,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public String convertScientificNotation(String scientificStr) {
 
 		// for Giac, don't want 3E3 or 3*10^3
-		if (hasType(StringType.GIAC)) {
+		if (hasCASType()) {
 			return convertScientificNotationGiac(scientificStr);
 		}
 		// in XML we write the original to avoid brackets and priority problems
@@ -2912,7 +2946,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/*
 	 * convert 3E3 to 3000 convert 3.33 to 333/100 convert 3E-3 to 3/1000
 	 */
-	public static String convertScientificNotationGiac(String originalString) {
+	public String convertScientificNotationGiac(String originalString) {
+
+		if (getStringType().equals(StringType.GIAC_NUMERIC)) {
+			return originalString.replace('E', 'e');
+		}
+
 		if (originalString.indexOf("E-") > -1) {
 
 			String[] s = originalString.split("E-");

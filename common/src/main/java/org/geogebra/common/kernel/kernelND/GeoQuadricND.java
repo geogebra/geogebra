@@ -506,16 +506,17 @@ Traceable{
 	protected void buildSphereNDString(StringBuilder sbToValueString,StringTemplate tpl){
 		String squared;
 		switch (tpl.getStringType()) {
-			case LATEX:
-				squared = "^{2}";
-				break;
-				
-			case GIAC:
-				squared = "^2";
-				break;
-				
-			default:
-				squared = "\u00b2";
+		case LATEX:
+			squared = "^{2}";
+			break;
+
+		case GIAC:
+		case GIAC_NUMERIC:
+			squared = "^2";
+			break;
+
+		default:
+			squared = "\u00b2";
 		}
 		
 		for (int i=0; i<dimension; i++){

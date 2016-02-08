@@ -176,6 +176,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		StringBuilder sb = new StringBuilder();
 		switch (tpl.getStringType()) {
 		case GIAC:
+		case GIAC_NUMERIC:
 			switch (mode) {
 			case Kernel.COORD_SPHERICAL:
 				sb.append("point((");

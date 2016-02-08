@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -457,7 +456,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		if (this.isDefined) {
 			StringBuilder sbTemp = new StringBuilder(80);
 
-			if (tpl.getStringType().equals(StringType.GIAC)) {
+			if (tpl.hasCASType()) {
 				// eg plotparam([t,t^2],t,-10,10)
 				// TODO: remove wrapping in equation when Giac supports intersecting equation, parametric
 				sbTemp.append("equation(plotparam([");

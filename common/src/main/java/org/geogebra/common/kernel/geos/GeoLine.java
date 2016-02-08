@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.TangentAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
@@ -884,7 +883,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
-		if(tpl.hasType(StringType.GIAC)){
+		if (tpl.hasCASType()) {
 			if (getDefinition() != null) {
 				StringBuilder sb = getSbBuildValueString();
 				sb.append(getDefinition().toValueString(tpl));

@@ -665,7 +665,18 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 			for (int i = 0; i < translation.length(); i++) {
 				char ch = translation.charAt(i);
+
+				StringTemplate tplToUse = tpl;
+
 				if (ch == '%') {
+
+					if (translation.charAt(i + 1) == '%') {
+						// eg %%0
+						// numeric = true;
+						tplToUse = tpl.deriveNumericGiac();
+						i++;
+					}
+
 					// get number after %
 					i++;
 					int pos = translation.charAt(i) - '0';
@@ -673,14 +684,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					if (argIsList) {
 						ev = ((MyList) args.get(0).getLeft())
 								.getListElement(pos);
-						sbCASCommand.append(toString(ev, symbolic, tpl));
+						sbCASCommand.append(toString(ev, symbolic, tplToUse));
 					} else if (name.equals("Solve")) {
 						// case we have assumptions in equation list
 						if (isAssumeInEqus && args.size() != 3) {
 							// append list of equations
 							if (pos == 0) {
 								sbCASCommand.append(toString(equsForArgs,
-										symbolic, tpl));
+										symbolic, tplToUse));
 							}
 							// append list of assumptions
 							else if (pos == 2) {
@@ -690,7 +701,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 							else {
 								ev = args.get(pos);
 								sbCASCommand
-										.append(toString(ev, symbolic, tpl));
+.append(
+										toString(ev, symbolic, tplToUse));
 							}
 						}
 						else if (pos == 2
@@ -701,7 +713,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						MyList list = (MyList) args.get(2).getLeft();
 						for (int k = 0; k < list.size(); k++) {
 							ev = list.getItem(k);
-							sbCASCommand.append(toString(ev, symbolic, tpl));
+								sbCASCommand.append(
+										toString(ev, symbolic, tplToUse));
 							sbCASCommand.append("),assume(");
 						}
 						sbCASCommand.setLength(sbCASCommand.length() - 9);
@@ -713,7 +726,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 							}
 							// we need completion of variable list
 							if (varComplNeeded && pos == 1) {
-								String listOfVars = toString(ev, symbolic, tpl);
+								String listOfVars = toString(ev, symbolic,
+										tplToUse);
 								if (!listOfVars.startsWith("{")) {
 									// add { with the defined vars by user
 									sbCASCommand.append("{" + listOfVars);
@@ -730,7 +744,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 								sbCASCommand.append(complOfVarsStr + "}");
 							} else {
 								sbCASCommand
-										.append(toString(ev, symbolic, tpl));
+.append(
+										toString(ev, symbolic, tplToUse));
 							}
 						}
 					} else if (pos >= 0 && pos < args.size()) {
@@ -742,9 +757,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 								&& args.size() > 2) {
 							sbCASCommand.append(toString(((MyList) (args
 									.get(pos).getLeft())).getListElement(0),
-									symbolic, tpl));
+									symbolic, tplToUse));
 						} else {
-							sbCASCommand.append(toString(ev, symbolic, tpl));
+							sbCASCommand
+									.append(toString(ev, symbolic, tplToUse));
 						}
 					} else {
 						// failed
@@ -760,8 +776,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					if (pos >= 0 && pos < args.size()) {
 						// success: insert argument(pos)
 						ExpressionValue ev = args.get(pos);
-						if (toString(ev, symbolic, tpl).matches("[^(),]*"))
-							sbCASCommand.append(toString(ev, symbolic, tpl));
+						if (toString(ev, symbolic, tplToUse).matches("[^(),]*"))
+							sbCASCommand
+									.append(toString(ev, symbolic, tplToUse));
 						else
 							sbCASCommand.append("x");
 					} else {

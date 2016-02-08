@@ -22,7 +22,6 @@ import java.io.Serializable;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
 
@@ -462,7 +461,7 @@ public class Term implements Comparable<Object>, Serializable {
 	private String variableString(StringTemplate tpl) {
 		String str = variables.toString();
 
-		if ((tpl.hasType(StringType.GIAC)) && variables.length() >= 1) {
+		if ((tpl.hasCASType()) && variables.length() >= 1) {
 
 			StringBuilder sb = new StringBuilder("(");
 

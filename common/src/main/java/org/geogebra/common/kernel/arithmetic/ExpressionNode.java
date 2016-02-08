@@ -1592,7 +1592,7 @@ kernel, left,
 		}
 
 		// needed for TRAC-4217
-		if (tpl.equals(StringTemplate.giacTemplate)
+		if (tpl.hasCASType()
 				&& left instanceof GeoNumeric
 				&& !(left instanceof GeoDummyVariable)
 				&& ((GeoElement) left).getLabelSimple() != null
@@ -1780,7 +1780,7 @@ kernel, left,
 				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
 			} else {
 
-				if (tpl.getStringType().equals(StringType.GIAC)) {
+				if (tpl.getStringType().isGiac()) {
 					sb.append("when(ggb\\_is\\_zero(simplify(");
 					tpl.append(sb, leftStr, left, operation);
 					sb.append("-(");
@@ -1806,7 +1806,7 @@ kernel, left,
 		case IS_ELEMENT_OF:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<in/>", leftStr, rightStr);
-			} else if (stringType.equals(StringType.GIAC)) {
+			} else if (stringType.isGiac()) {
 				sb.append("when(count\\_eq(");
 				sb.append(leftStr);
 				sb.append(',');
@@ -1838,7 +1838,7 @@ kernel, left,
 		case IS_SUBSET_OF:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<subset/>", leftStr, rightStr);
-			} else if (stringType.equals(StringType.GIAC)) {
+			} else if (stringType.isGiac()) {
 				sb.append("when((");
 				sb.append(leftStr);
 				sb.append(") union (");
@@ -1856,7 +1856,7 @@ kernel, left,
 		case IS_SUBSET_OF_STRICT:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<prsubset/>", leftStr, rightStr);
-			} else if (stringType.equals(StringType.GIAC)) {
+			} else if (stringType.isGiac()) {
 				sb.append("when((");
 				sb.append(leftStr);
 				sb.append(") union (");
@@ -1878,7 +1878,7 @@ kernel, left,
 		case SET_DIFFERENCE:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<setdiff/>", leftStr, rightStr);
-			} else if (stringType.equals(StringType.GIAC)) {
+			} else if (stringType.isGiac()) {
 				sb.append('(');
 				sb.append(leftStr);
 				sb.append(" minus ");
@@ -1973,7 +1973,7 @@ kernel, left,
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate
 						.mathml(sb, "<vectorproduct/>", leftStr, rightStr);
-			} else if (stringType.equals(StringType.GIAC)) {
+			} else if (stringType.isGiac()) {
 				ArrayList<ExpressionNode> crossArg = new ArrayList<ExpressionNode>();
 				crossArg.add(left.wrap());
 				crossArg.add(right.wrap());
@@ -2142,6 +2142,7 @@ kernel, left,
 					break;
 
 				case GIAC:
+				case GIAC_NUMERIC:
 					sb.append(degFix("atan2", kernel));
 					sb.append("(");
 					break;
@@ -2210,6 +2211,7 @@ kernel, left,
 				sb.append("func zeta left (");
 				break;
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("Zeta(");
 				break;
 			default:
@@ -2229,6 +2231,7 @@ kernel, left,
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				appendReduceFunction(sb, left, "Ci");
 				break;
 			default:
@@ -2248,6 +2251,7 @@ kernel, left,
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				appendReduceFunction(sb, left, "Si");
 				break;
 
@@ -2267,6 +2271,7 @@ kernel, left,
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				appendReduceFunction(sb, left, "Ei");
 				break;
 
@@ -2319,6 +2324,7 @@ kernel, left,
 
 			case GEOGEBRA_XML:
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("exp(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2356,6 +2362,7 @@ kernel, left,
 					sb.append("ln left ( ");
 					break;
 				case GIAC:
+				case GIAC_NUMERIC:
 				case GEOGEBRA_XML:
 					sb.append("log(");
 					break;
@@ -2394,6 +2401,7 @@ kernel, left,
 				sb.append(tpl.rightBracket());
 				break;
 			case GIAC:
+			case GIAC_NUMERIC:
 			case PSTRICKS:
 			case PGF:
 				// ln(x)/ln(b)
@@ -2427,6 +2435,7 @@ kernel, left,
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				// *******************
 				// arguments swapped
 				// swapped back in CommandDispatcherGiac
@@ -2462,6 +2471,7 @@ kernel, left,
 			case LIBRE_OFFICE:
 				sb.append("func ");
 			case GIAC:
+			case GIAC_NUMERIC:
 			default:
 				sb.append("erf(");
 				sb.append(leftStr);
@@ -2481,6 +2491,7 @@ kernel, left,
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				appendReduceFunction(sb, left, "Psi");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2519,6 +2530,7 @@ kernel, left,
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 			case PGF:
 				sb.append("log10("); // user-defined function in Maxima
 				sb.append(leftStr);
@@ -2546,6 +2558,7 @@ kernel, left,
 				sb.append(")");
 				break;
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("log(");
 				sb.append(leftStr);
 				sb.append(")/log(2)");
@@ -2594,6 +2607,7 @@ kernel, left,
 				sb.append(')');
 				break;
 			case GIAC:
+			case GIAC_NUMERIC:
 				if (leftStr.equals(Unicode.EULER_STRING)) {
 					sb.append("exp(1/(");
 					sb.append(rightStr);
@@ -2660,6 +2674,7 @@ kernel, left,
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				// was simplify(surd(, causes problems with output from cubic
 				// formula, eg x^3 - 6x^2 - 7x + 9
 				sb.append("surd(");
@@ -2689,6 +2704,7 @@ kernel, left,
 				sb.append('}');
 				break;
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("normal(ggbabs(");
 				sb.append(leftStr);
 				sb.append("))");
@@ -2708,6 +2724,7 @@ kernel, left,
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("sign(");
 				break;
 
@@ -2737,6 +2754,7 @@ kernel, left,
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("conj(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2765,6 +2783,7 @@ kernel, left,
 				sb.append("\\right)");
 				break;
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("arg(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2790,6 +2809,7 @@ kernel, left,
 				sb.append("\\right)");
 				break;
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("ggbalt(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2860,6 +2880,7 @@ kernel, left,
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 			case PSTRICKS:
 				sb.append("ceiling(");
 				sb.append(leftStr);
@@ -2903,6 +2924,7 @@ kernel, left,
 				sb.append("%GAMMA left (");
 				break;
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("Gamma(");
 				break;
 
@@ -2922,6 +2944,7 @@ kernel, left,
 				sb.append("%GAMMA left (");
 				break;
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("igamma(");
 				break;
 
@@ -2947,6 +2970,7 @@ kernel, left,
 				sb.append("func gammaRegularized left (");
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("igamma(");
 				break;
 
@@ -2960,7 +2984,7 @@ kernel, left,
 				sb.append(", ");
 			sb.append(rightStr);
 
-			if (stringType == StringType.GIAC) {
+			if (stringType.isGiac()) {
 				sb.append(",1");
 			}
 
@@ -2976,6 +3000,7 @@ kernel, left,
 				sb.append("%BETA left(");
 				break;
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("Beta(");
 				break;
 
@@ -3001,6 +3026,7 @@ kernel, left,
 				break;
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("Beta(");
 				break;
 
@@ -3026,6 +3052,7 @@ kernel, left,
 				sb.append("func betaRegularized left (");
 
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append("Beta(");
 				break;
 
@@ -3039,7 +3066,7 @@ kernel, left,
 				sb.append(", ");
 			sb.append(rightStr);
 
-			if (stringType == StringType.GIAC) {
+			if (stringType.isGiac()) {
 				sb.append(",1");
 			}
 
@@ -3053,6 +3080,7 @@ kernel, left,
 				switch (stringType) {
 
 				case GIAC:
+				case GIAC_NUMERIC:
 					sb.append("rand(0,1)");
 					break;
 				case LIBRE_OFFICE:
@@ -3064,7 +3092,7 @@ kernel, left,
 			break;
 
 		case XCOORD:
-			if (stringType != StringType.GIAC && valueForm
+			if (!stringType.isGiac() && valueForm
 					&& !left.wrap().containsFunctionVariable()
 					&& (leftEval = left.evaluate(tpl)) instanceof VectorNDValue) {
 				sb.append(kernel.format(((VectorNDValue) leftEval).getVector()
@@ -3084,6 +3112,7 @@ kernel, left,
 					sb.append(leftStr);
 					sb.append(tpl.rightBracket());
 				case GIAC:
+				case GIAC_NUMERIC:
 					sb.append("xcoord(");
 					sb.append(leftStr);
 					sb.append(")");
@@ -3098,7 +3127,7 @@ kernel, left,
 			break;
 
 		case YCOORD:
-			if (stringType != StringType.GIAC && valueForm
+			if (!stringType.isGiac() && valueForm
 					&& !left.wrap().containsFunctionVariable()
 					&& (leftEval = left.evaluate(tpl)) instanceof VectorNDValue) {
 				sb.append(kernel.format(((VectorNDValue) leftEval).getVector()
@@ -3118,6 +3147,7 @@ kernel, left,
 					sb.append(leftStr);
 					sb.append(tpl.rightBracket());
 				case GIAC:
+				case GIAC_NUMERIC:
 					sb.append("ycoord(");
 					sb.append(leftStr);
 					sb.append(")");
@@ -3132,7 +3162,7 @@ kernel, left,
 			break;
 
 		case ZCOORD:
-			if (stringType != StringType.GIAC && valueForm
+			if (!stringType.isGiac() && valueForm
 					&& !left.wrap().containsFunctionVariable()
 					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
 				sb.append(kernel.format(
@@ -3152,6 +3182,7 @@ kernel, left,
 					sb.append(leftStr);
 					sb.append(tpl.rightBracket());
 				case GIAC:
+				case GIAC_NUMERIC:
 					sb.append("zcoord(");
 					sb.append(leftStr);
 					sb.append(")");
@@ -3170,7 +3201,7 @@ kernel, left,
 			// FALL THROUGH
 		case FUNCTION:
 
-			if (stringType == StringType.GIAC && right instanceof ListValue) {
+			if (stringType.isGiac() && right instanceof ListValue) {
 				// TODO: does this ever get called?
 
 				ListValue list = (ListValue) right;
@@ -3344,7 +3375,7 @@ kernel, left,
 			// we only serialize this temporarily during GIAC parsing, so only
 			// default template needed
 			// GIAC template added for safety
-			if (tpl.hasType(StringType.GIAC)) {
+			if (tpl.hasCASType()) {
 				sb.append("diff(");
 			} else {
 				sb.append("ggbdiff(");
@@ -3355,7 +3386,7 @@ kernel, left,
 			sb.append(")");
 		case DERIVATIVE: // e.g. f''
 			// labeled GeoElements should not be expanded
-			if (tpl.hasType(StringType.GIAC)) {
+			if (tpl.hasCASType()) {
 				sb.append("diff(");
 				sb.append(leftStr);
 				break;
@@ -3464,7 +3495,7 @@ kernel, left,
 				sb.append(" d");
 				sb.append(rightStr);
 			} else {
-				if (stringType == StringType.GIAC) {
+				if (stringType.isGiac()) {
 					sb.append("int(");
 				} else {
 					sb.append("gGbInTeGrAl(");
@@ -3496,7 +3527,7 @@ kernel, left,
 				sb.append("}");
 				sb.append(((MyNumberPair) left).x.toString(tpl));
 			} else {
-				if (stringType == StringType.GIAC) {
+				if (stringType.isGiac()) {
 					sb.append("sum(");
 				} else {
 					sb.append("gGbSuM(");
@@ -3522,7 +3553,7 @@ kernel, left,
 				sb.append(leftStr);
 				sb.append("}");
 			} else {
-				if (stringType == StringType.GIAC) {
+				if (stringType.isGiac()) {
 					sb.append("subst(");
 				} else {
 					sb.append("gGbSuBsTiTuTiOn(");
@@ -3534,7 +3565,7 @@ kernel, left,
 			}
 			break;
 		case IF:
-			if (stringType == StringType.GIAC) {
+			if (stringType.isGiac()) {
 				sb.append("when(");
 				sb.append(leftStr);
 				sb.append(',');
@@ -3554,7 +3585,7 @@ kernel, left,
 			}
 			break;
 		case IF_ELSE:
-			if (stringType == StringType.GIAC) {
+			if (stringType.isGiac()) {
 				sb.append("when(");
 				sb.append(leftStr);
 				sb.append(",");
@@ -3575,7 +3606,7 @@ kernel, left,
 			break;
 
 		case IF_LIST:
-			if (stringType == StringType.GIAC) {
+			if (stringType.isGiac()) {
 				sb.append(loc.getCommand("piecewise("));
 			} else if (tpl.isPrintLocalizedCommandNames()) {
 				sb.append(loc.getCommand("If"));
@@ -3604,7 +3635,7 @@ kernel, left,
 						.toString(tpl));
 			}
 
-			sb.append(stringType == StringType.GIAC ? ")" : tpl
+			sb.append(stringType.isGiac() ? ")" : tpl
 					.rightSquareBracket());
 
 			break;
@@ -3748,6 +3779,7 @@ kernel, left,
 				sb.append(" left( ");
 				break;
 			case GIAC:
+			case GIAC_NUMERIC:
 				sb.append(giac);
 				sb.append('(');
 				break;

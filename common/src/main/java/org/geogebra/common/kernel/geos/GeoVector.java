@@ -452,6 +452,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 		switch (tpl.getStringType()) {
 		case GIAC:
+		case GIAC_NUMERIC:
 			sbBuildValueString.append("ggbvect[");
 			sbBuildValueString.append(kernel.format(getInhomVec().getX(), tpl));
 			sbBuildValueString.append(',');

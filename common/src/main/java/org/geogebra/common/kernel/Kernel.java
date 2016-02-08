@@ -1179,10 +1179,11 @@ public class Kernel {
 
 			// number formatting for CAS
 		case GIAC:
+		case GIAC_NUMERIC:
 			if (Double.isNaN(x)) {
 				return "?";
 			} else if (Double.isInfinite(x)) {
-				if (casPrintForm.equals(StringType.GIAC)) {
+				if (casPrintForm.isGiac()) {
 					return (x < 0) ? "-inf" : "inf";
 				}
 				return Double.toString(x); // "Infinity" or "-Infinity"
@@ -1200,9 +1201,9 @@ public class Kernel {
 
 					// convert 0.125 to 1/8 so Giac treats it as an exact number
 					// Note: exact(0.3333333333333) gives 1/3
-					if (casPrintForm.equals(StringType.GIAC)
+					if (casPrintForm.isGiac()
 							&& ret.indexOf('.') > -1) {
-						return StringUtil.wrapInExact(ret);
+						return StringUtil.wrapInExact(ret, tpl);
 					}
 
 					return ret;
@@ -1871,6 +1872,7 @@ public class Kernel {
 		String numberStr = format(x, tpl);
 		switch (tpl.getStringType()) {
 		case GIAC:
+		case GIAC_NUMERIC:
 			return numberStr + "*";
 
 		default:

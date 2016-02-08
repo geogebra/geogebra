@@ -13,8 +13,13 @@ public interface ExpressionNodeConstants {
 		GEOGEBRA_XML,
 		/** default */
 		GEOGEBRA,
-		/** maxima */
+		/** Giac exact */
 		GIAC,
+		/**
+		 * Giac numeric keep 1.23 as 1.23 not 123/100 or exact(1.23) needed for
+		 * NSolve[] etc
+		 */
+		GIAC_NUMERIC,
 		/** LaTeX */
 		LATEX,
 		/** Libre Office (or Open Office) Math Commands */
@@ -26,7 +31,12 @@ public interface ExpressionNodeConstants {
 		/** MathML */
 		MATHML,
 		/** OGP */
-		OGP
+		OGP;
+
+		public boolean isGiac() {
+			return this.equals(StringType.GIAC)
+					|| this.equals(StringType.GIAC_NUMERIC);
+		}
 	}
 
 	/** prefix for CAS row reference ($) */

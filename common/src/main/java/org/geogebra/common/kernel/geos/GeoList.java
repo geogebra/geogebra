@@ -2007,12 +2007,12 @@ AngleProperties {
 		// isMatrix() is rather expensive, and we only need it
 		// if we're using Maxima, so test for that first
 		final StringType casPrinttype = tpl.getStringType();
-		if ((!casPrinttype.equals(StringType.GIAC)) || !isMatrix()) {
+		if ((!casPrinttype.isGiac()) || !isMatrix()) {
 			return super.getCASString(tpl, symbolic);
 		}
 
 		final StringBuilder sb = new StringBuilder();
-		if (casPrinttype.equals(StringType.GIAC)) {
+		if (casPrinttype.isGiac()) {
 			sb.append("matrix(");
 			for (int i = 0; i < size(); i++) {
 				final GeoList geo = (GeoList) get(i);

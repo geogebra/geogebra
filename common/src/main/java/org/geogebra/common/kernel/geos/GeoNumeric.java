@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -608,7 +607,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		}
 		
 		// #4186
-		if (tpl.getStringType() == StringType.GIAC) { 
+		if (tpl.hasCASType()) {
 			return toValueString(tpl); 
 		} 
 		
@@ -646,7 +645,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public String toValueString(StringTemplate tpl) {
 		
 		// see MyDouble.toString()
-		if (tpl.getStringType() == StringType.GIAC) {
+		if (tpl.hasCASType()) {
 			if (this.label != null && this.label.startsWith("c_")) {
 				this.setSendValueToCas(false);
 			}
@@ -671,7 +670,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			if (getDefinition() != null) {
 				return getDefinition().toValueString(tpl);
 			}
-			return StringUtil.wrapInExact(kernel.format(value, tpl));
+			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
 		
 		return kernel.format(value, tpl);

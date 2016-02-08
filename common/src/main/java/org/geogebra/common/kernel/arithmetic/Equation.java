@@ -19,7 +19,6 @@ import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
@@ -479,7 +478,7 @@ public class Equation extends ValidExpression {
 		else
 			sb.append('0');
 
-		if (tpl.getStringType().equals(StringType.GIAC)) {
+		if (tpl.getStringType().isGiac()) {
 			if (lhs.evaluatesToList() || rhs.evaluatesToList()) {
 				// %= stops {1,2}={3,4} being turned into {1=3,2=4}
 				sb.append("%=");
@@ -522,7 +521,7 @@ public class Equation extends ValidExpression {
 		else
 			sb.append('0');
 
-		if (tpl.getStringType().equals(StringType.GIAC)) {
+		if (tpl.getStringType().isGiac()) {
 			if (lhs1.evaluatesToList() || rhs.evaluatesToList()) {
 				// %= stops {1,2}={3,4} being turned into {1=3,2=4}
 				sb.append("%=");

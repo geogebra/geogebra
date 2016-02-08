@@ -2540,6 +2540,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		switch (tpl.getStringType()) {
 		// send output to underlying CAS
 		case GIAC:
+		case GIAC_NUMERIC:
 			sb.append(" (");
 			sb.append(outputVE == null ? "?" : outputVE.toString(tpl));
 			sb.append(") ");

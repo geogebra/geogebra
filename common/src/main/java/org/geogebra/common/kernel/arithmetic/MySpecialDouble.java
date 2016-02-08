@@ -134,9 +134,8 @@ public class MySpecialDouble extends MyDouble {
 		if (!isLetterConstant) {
 			// serializing to CAS -- simply print input
 
-			if (tpl.hasType(StringType.GIAC)) {
-
-				return StringTemplate.convertScientificNotationGiac(originalString);
+			if (tpl.hasCASType()) {
+				return tpl.convertScientificNotationGiac(originalString);
 			}
 
 			// if we are printing result of numeric and user didn't force us to
@@ -162,6 +161,7 @@ public class MySpecialDouble extends MyDouble {
 		switch (printForm) {
 
 		case GIAC:
+		case GIAC_NUMERIC:
 			ch = strToString.charAt(0);
 			switch (ch) {
 			case Unicode.pi:

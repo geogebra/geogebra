@@ -366,7 +366,8 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 			if (from <= mr.getIndex() - 1)
 				output.append(input.substring(from, mr.getIndex()));
 			// Adding the matching part in replaced form (removing the first "." character):
-			output.append(StringTemplate.convertScientificNotationGiac(number));
+			output.append(StringTemplate.giacTemplate
+					.convertScientificNotationGiac(number));
 			from = mr.getIndex() + number.length(); // Preparing then next "from".
 		}
 		// Adding tail:

@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -1109,6 +1108,7 @@ final public class GeoVec2D extends ValidExpression implements
 		if (isImaginaryUnit()) {
 			switch (tpl.getStringType()) {
 			case GIAC:
+			case GIAC_NUMERIC:
 				return "i";
 
 			default:
@@ -1130,7 +1130,7 @@ final public class GeoVec2D extends ValidExpression implements
 		}
 		initStringBuilder();
 		sbToString.setLength(0);
-		if (tpl.getStringType().equals(StringType.GIAC)) {
+		if (tpl.hasCASType()) {
 			sbToString.append("point");			
 		}
 		sbToString.append('(');

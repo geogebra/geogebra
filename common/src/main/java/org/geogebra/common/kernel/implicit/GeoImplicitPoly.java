@@ -359,7 +359,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 				sb.append(exp);
 				sb.append('}');
 			} else if ((tpl.getStringType().equals(StringType.GEOGEBRA_XML))
-					|| (tpl.getStringType().equals(StringType.GIAC))) {
+					|| (tpl.hasCASType())) {
 				sb.append('^');
 				sb.append(exp);
 			} else {
@@ -426,7 +426,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 						// check both in case of 1.000
 						if (!number.equals("1") && coeff[i][j] != 1) {
 							sb.append(number);
-							if (tpl.hasType(StringType.GIAC)) {
+							if (tpl.hasCASType()) {
 								appendMultiply(sb);
 							}
 						}
@@ -435,7 +435,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 						}
 						addPow(sb, i, tpl);
 						if (j > 0) {
-							if (tpl.hasType(StringType.GIAC)) {
+							if (tpl.hasCASType()) {
 								appendMultiply(sb);
 							} else if (i > 0) { // insert blank after x^i
 								sb.append(' ');
