@@ -11,7 +11,6 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.util.debug.Log;
 
 public class StringUtil {
@@ -1175,7 +1174,7 @@ public class StringUtil {
 			return "undef";
 		}
 
-		if (tpl.getStringType().equals(StringType.GIAC_NUMERIC)) {
+		if (tpl.isNumeric()) {
 			return s;
 		}
 

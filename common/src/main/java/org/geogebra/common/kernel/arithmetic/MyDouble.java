@@ -178,33 +178,31 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		// String ret = kernel.format(Kernel.checkDecimalFraction(val), tpl);
 		String ret = kernel.format((val), tpl);
 
-		switch (tpl.getStringType()) {
-		case GIAC:
-			// convert eg 0.125 to exact(0.125) so that Giac does an exact
-			// calculation with it
-			// numbers entered in the CAS View are handled by MySpecialDoule
-			// this code is just used when accessing a GeoGebra object
-			// eg Input Bar: f(x)=x^-0.5
-			// CAS View: Integral[f,1,Infinity]
-
-			if (val == Math.PI) {
-				return "pi";
-			}
-			if (val == Math.E) {
-				return "e";
-			}
-
-			// Note: exact(0.3333333333333) gives 1/3
-			if (ret.indexOf('.') > -1) {
-				return StringUtil.wrapInExact(ret, tpl);
-			}
-
-			return ret;
-
-		case GIAC_NUMERIC:
-		default:
+		if (tpl.isNumeric()) {
 			return ret;
 		}
+
+		// convert eg 0.125 to exact(0.125) so that Giac does an exact
+		// calculation with it
+		// numbers entered in the CAS View are handled by MySpecialDoule
+		// this code is just used when accessing a GeoGebra object
+		// eg Input Bar: f(x)=x^-0.5
+		// CAS View: Integral[f,1,Infinity]
+
+		if (val == Math.PI) {
+			return "pi";
+		}
+		if (val == Math.E) {
+			return "e";
+		}
+
+		// Note: exact(0.3333333333333) gives 1/3
+		if (ret.indexOf('.') > -1) {
+			return StringUtil.wrapInExact(ret, tpl);
+		}
+
+		return ret;
+
 	}
 
 	@Override

@@ -1179,7 +1179,6 @@ public class Kernel {
 
 			// number formatting for CAS
 		case GIAC:
-		case GIAC_NUMERIC:
 			if (Double.isNaN(x)) {
 				return "?";
 			} else if (Double.isInfinite(x)) {
@@ -1872,7 +1871,6 @@ public class Kernel {
 		String numberStr = format(x, tpl);
 		switch (tpl.getStringType()) {
 		case GIAC:
-		case GIAC_NUMERIC:
 			return numberStr + "*";
 
 		default:

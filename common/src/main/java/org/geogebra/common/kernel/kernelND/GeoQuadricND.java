@@ -511,7 +511,6 @@ Traceable{
 			break;
 
 		case GIAC:
-		case GIAC_NUMERIC:
 			squared = "^2";
 			break;
 

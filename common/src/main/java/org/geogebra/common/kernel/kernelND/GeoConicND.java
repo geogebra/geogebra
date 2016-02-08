@@ -1676,7 +1676,6 @@ FromMeta
 				break;
 				
 			case GIAC:
-		case GIAC_NUMERIC:
 				squared = "^2";
 				myVars = varsCAS;
 				break;

@@ -45,6 +45,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean usePrefix;
 	private boolean hideLHS = false;
 	private boolean questionMarkForNaN = true;
+
+	private boolean numeric = true;
 	/**
 	 * Default template, but do not localize commands
 	 */
@@ -220,6 +222,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			"giacTemplate");
 	static {
 		giacTemplate.internationalizeDigits = false;
+		giacTemplate.numeric = false;
 		giacTemplate.usePrefix = false;
 		giacTemplate.forceNF = true;
 		giacTemplate.localizeCmds = false;
@@ -552,7 +555,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
-					case GIAC_NUMERIC:
 						showMultiplicationSign = true;
 						break;
 
@@ -650,7 +652,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
-					case GIAC_NUMERIC:
 						sb.append(multiplicationSign());
 						break;
 
@@ -675,7 +676,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 
 		case GIAC:
-		case GIAC_NUMERIC:
 
 			// App.debug(left.getClass()+" "+right.getClass());
 			// App.debug(leftStr+" "+rightStr);
@@ -785,7 +785,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		switch (t) {
 		case GIAC:
-		case GIAC_NUMERIC:
 			casPrintFormPI = "%pi";
 			break;
 
@@ -1112,7 +1111,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			final String label) {
 		switch (printForm) {
 		case GIAC:
-		case GIAC_NUMERIC:
 			// make sure we don't interfer with reserved names
 			// or command names in the underlying CAS
 			// see http://www.geogebra.org/trac/ticket/1051
@@ -1184,17 +1182,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * @return copy of this, with string type set to StringType.GIAC_NUMERIC
+	 * @return copy of this, with isNumeric() returning true
 	 */
 	public StringTemplate deriveNumericGiac() {
 
-		if (stringType.equals(StringType.GIAC_NUMERIC)) {
+		if (this.numeric) {
 			return this;
 		}
 
 		StringTemplate ret = this.copy();
 
-		ret.setType(StringType.GIAC_NUMERIC);
+		ret.numeric = true;
 
 		return ret;
 	}
@@ -1225,7 +1223,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, "<plus/>", leftStr, rightStr);
 			break;
 		case GIAC:
-		case GIAC_NUMERIC:
 			// don't use isNumberValue(), isListValue as those lead to an
 			// evaluate()
 			if (left.evaluatesToList()
@@ -1573,7 +1570,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, "<minus/>", leftStr, rightStr);
 			break;
 		case GIAC:
-		case GIAC_NUMERIC:
 			if (left.evaluatesToList()
 					&& (right.evaluatesToNumber(false) || right instanceof NumberValue)) {
 				// eg {1,2,3} + 10
@@ -1957,7 +1953,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
-					case GIAC_NUMERIC:
 						showMultiplicationSign = true;
 						break;
 
@@ -2052,7 +2047,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
-					case GIAC_NUMERIC:
 						sb.append(multiplicationSign());
 						break;
 
@@ -2076,7 +2070,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 
 		case GIAC:
-		case GIAC_NUMERIC:
 
 			// App.debug(left.getClass()+" "+right.getClass());
 			// App.debug(leftStr+" "+rightStr);
@@ -2231,7 +2224,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 
 		case GIAC:
-		case GIAC_NUMERIC:
 			sb.append("(");
 			sb.append(leftStr);
 			sb.append(")/(");
@@ -2336,7 +2328,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("||");
 				break;
 
@@ -2360,7 +2351,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "\\geq";
 		case LIBRE_OFFICE:
 		case GIAC:
-		case GIAC_NUMERIC:
 			return ">=";
 		default:
 			return strGREATER_EQUAL;
@@ -2376,7 +2366,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "\\leq";
 		case LIBRE_OFFICE:
 		case GIAC:
-		case GIAC_NUMERIC:
 			return "<=";
 		default:
 			return strLESS_EQUAL;
@@ -2453,7 +2442,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "\\questeq ";
 		case LIBRE_OFFICE:
 		case GIAC:
-		case GIAC_NUMERIC:
 			return "=";
 		default:
 			return strEQUAL_BOOLEAN;
@@ -2584,7 +2572,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("&&");
 				break;
 
@@ -2684,7 +2671,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			switch (stringType) {
 
 			case GIAC:
-			case GIAC_NUMERIC:
 
 				// if user types e^(ln(4.93)/1.14)
 				// ie not Unicode.EULER_STRING
@@ -2803,7 +2789,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 			// rightStr already done in Giac
 			case GIAC:
-			case GIAC_NUMERIC:
 				break;
 			case PSTRICKS:
 			case PGF:
@@ -2948,7 +2933,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String convertScientificNotationGiac(String originalString) {
 
-		if (getStringType().equals(StringType.GIAC_NUMERIC)) {
+		if (isNumeric()) {
 			return originalString.replace('E', 'e');
 		}
 
@@ -3088,6 +3073,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append("}");
 		}
 
+	}
+
+	/**
+	 * @return true if numeric rather than exact is required eg 1.23 for
+	 *         NSolve[] in the CAS View rather than changing to 123/100 for most
+	 *         other commands
+	 */
+	public boolean isNumeric() {
+		return numeric;
 	}
 
 }

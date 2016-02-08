@@ -161,7 +161,6 @@ public class MySpecialDouble extends MyDouble {
 		switch (printForm) {
 
 		case GIAC:
-		case GIAC_NUMERIC:
 			ch = strToString.charAt(0);
 			switch (ch) {
 			case Unicode.pi:

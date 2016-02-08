@@ -265,7 +265,6 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 		switch (tpl.getStringType()) {
 		case GIAC:
-		case GIAC_NUMERIC:
 			sbBuildValueString.append("ggbvect[");
 			sbBuildValueString.append(kernel.format(getX(), tpl));
 			sbBuildValueString.append(',');

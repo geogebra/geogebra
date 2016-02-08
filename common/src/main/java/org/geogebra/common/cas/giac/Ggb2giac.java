@@ -538,7 +538,8 @@ public class Ggb2giac {
 		p("nPr.2", "perm(%0,%1)");
 
 		// #4124 / TRAC-3835 wrap input in evalf
-		// #4124 / evalf removed, changed to %%0 to use GIAC_NUMERIC stringtype
+		// #4124 / evalf removed, changed to %%0 to use new "numeric"
+		// StringTemplate
 		p("NSolve.1",
 				"ggbsort([[ggbnsans:=(%%0)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,"
 						+

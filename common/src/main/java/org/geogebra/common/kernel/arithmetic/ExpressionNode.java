@@ -2142,7 +2142,6 @@ kernel, left,
 					break;
 
 				case GIAC:
-				case GIAC_NUMERIC:
 					sb.append(degFix("atan2", kernel));
 					sb.append("(");
 					break;
@@ -2211,7 +2210,6 @@ kernel, left,
 				sb.append("func zeta left (");
 				break;
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("Zeta(");
 				break;
 			default:
@@ -2231,7 +2229,6 @@ kernel, left,
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				appendReduceFunction(sb, left, "Ci");
 				break;
 			default:
@@ -2251,7 +2248,6 @@ kernel, left,
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				appendReduceFunction(sb, left, "Si");
 				break;
 
@@ -2271,7 +2267,6 @@ kernel, left,
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				appendReduceFunction(sb, left, "Ei");
 				break;
 
@@ -2324,7 +2319,6 @@ kernel, left,
 
 			case GEOGEBRA_XML:
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("exp(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2362,7 +2356,6 @@ kernel, left,
 					sb.append("ln left ( ");
 					break;
 				case GIAC:
-				case GIAC_NUMERIC:
 				case GEOGEBRA_XML:
 					sb.append("log(");
 					break;
@@ -2401,7 +2394,6 @@ kernel, left,
 				sb.append(tpl.rightBracket());
 				break;
 			case GIAC:
-			case GIAC_NUMERIC:
 			case PSTRICKS:
 			case PGF:
 				// ln(x)/ln(b)
@@ -2435,7 +2427,6 @@ kernel, left,
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				// *******************
 				// arguments swapped
 				// swapped back in CommandDispatcherGiac
@@ -2471,7 +2462,6 @@ kernel, left,
 			case LIBRE_OFFICE:
 				sb.append("func ");
 			case GIAC:
-			case GIAC_NUMERIC:
 			default:
 				sb.append("erf(");
 				sb.append(leftStr);
@@ -2491,7 +2481,6 @@ kernel, left,
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				appendReduceFunction(sb, left, "Psi");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2530,7 +2519,6 @@ kernel, left,
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 			case PGF:
 				sb.append("log10("); // user-defined function in Maxima
 				sb.append(leftStr);
@@ -2558,7 +2546,6 @@ kernel, left,
 				sb.append(")");
 				break;
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("log(");
 				sb.append(leftStr);
 				sb.append(")/log(2)");
@@ -2607,7 +2594,6 @@ kernel, left,
 				sb.append(')');
 				break;
 			case GIAC:
-			case GIAC_NUMERIC:
 				if (leftStr.equals(Unicode.EULER_STRING)) {
 					sb.append("exp(1/(");
 					sb.append(rightStr);
@@ -2674,7 +2660,6 @@ kernel, left,
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				// was simplify(surd(, causes problems with output from cubic
 				// formula, eg x^3 - 6x^2 - 7x + 9
 				sb.append("surd(");
@@ -2704,7 +2689,6 @@ kernel, left,
 				sb.append('}');
 				break;
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("normal(ggbabs(");
 				sb.append(leftStr);
 				sb.append("))");
@@ -2724,7 +2708,6 @@ kernel, left,
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("sign(");
 				break;
 
@@ -2754,7 +2737,6 @@ kernel, left,
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("conj(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2783,7 +2765,6 @@ kernel, left,
 				sb.append("\\right)");
 				break;
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("arg(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2809,7 +2790,6 @@ kernel, left,
 				sb.append("\\right)");
 				break;
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("ggbalt(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -2880,7 +2860,6 @@ kernel, left,
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 			case PSTRICKS:
 				sb.append("ceiling(");
 				sb.append(leftStr);
@@ -2924,7 +2903,6 @@ kernel, left,
 				sb.append("%GAMMA left (");
 				break;
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("Gamma(");
 				break;
 
@@ -2944,7 +2922,6 @@ kernel, left,
 				sb.append("%GAMMA left (");
 				break;
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("igamma(");
 				break;
 
@@ -2970,7 +2947,6 @@ kernel, left,
 				sb.append("func gammaRegularized left (");
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("igamma(");
 				break;
 
@@ -3000,7 +2976,6 @@ kernel, left,
 				sb.append("%BETA left(");
 				break;
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("Beta(");
 				break;
 
@@ -3026,7 +3001,6 @@ kernel, left,
 				break;
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("Beta(");
 				break;
 
@@ -3052,7 +3026,6 @@ kernel, left,
 				sb.append("func betaRegularized left (");
 
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append("Beta(");
 				break;
 
@@ -3080,7 +3053,6 @@ kernel, left,
 				switch (stringType) {
 
 				case GIAC:
-				case GIAC_NUMERIC:
 					sb.append("rand(0,1)");
 					break;
 				case LIBRE_OFFICE:
@@ -3112,7 +3084,6 @@ kernel, left,
 					sb.append(leftStr);
 					sb.append(tpl.rightBracket());
 				case GIAC:
-				case GIAC_NUMERIC:
 					sb.append("xcoord(");
 					sb.append(leftStr);
 					sb.append(")");
@@ -3147,7 +3118,6 @@ kernel, left,
 					sb.append(leftStr);
 					sb.append(tpl.rightBracket());
 				case GIAC:
-				case GIAC_NUMERIC:
 					sb.append("ycoord(");
 					sb.append(leftStr);
 					sb.append(")");
@@ -3182,7 +3152,6 @@ kernel, left,
 					sb.append(leftStr);
 					sb.append(tpl.rightBracket());
 				case GIAC:
-				case GIAC_NUMERIC:
 					sb.append("zcoord(");
 					sb.append(leftStr);
 					sb.append(")");
@@ -3779,7 +3748,6 @@ kernel, left,
 				sb.append(" left( ");
 				break;
 			case GIAC:
-			case GIAC_NUMERIC:
 				sb.append(giac);
 				sb.append('(');
 				break;

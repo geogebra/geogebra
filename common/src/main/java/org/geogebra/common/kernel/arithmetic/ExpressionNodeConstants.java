@@ -15,11 +15,6 @@ public interface ExpressionNodeConstants {
 		GEOGEBRA,
 		/** Giac exact */
 		GIAC,
-		/**
-		 * Giac numeric keep 1.23 as 1.23 not 123/100 or exact(1.23) needed for
-		 * NSolve[] etc
-		 */
-		GIAC_NUMERIC,
 		/** LaTeX */
 		LATEX,
 		/** Libre Office (or Open Office) Math Commands */
@@ -34,8 +29,7 @@ public interface ExpressionNodeConstants {
 		OGP;
 
 		public boolean isGiac() {
-			return this.equals(StringType.GIAC)
-					|| this.equals(StringType.GIAC_NUMERIC);
+			return this.equals(StringType.GIAC);
 		}
 	}
 
