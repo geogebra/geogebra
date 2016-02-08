@@ -920,16 +920,20 @@ namespace giac {
 	}
 	if (debug_infolevel) // abs_calc_mode(contextptr)!=38)
 	  *logptr(contextptr) << gettext("Warning! Algebraic extension not implemented yet for poly ") << r2sym(w,lv,contextptr) << endl;
-	vecteur w_orig=w;
-	w=*evalf(r2sym(w,lv,contextptr),1,contextptr)._VECTptr;
+	gen w_orig;
+	w=*evalf((w_orig=r2sym(w,lv,contextptr)),1,contextptr)._VECTptr;
 	if (has_num_coeff(w)){ // FIXME: test is always true...
 #ifndef NO_STDEXCEPT
 	  try {
 #endif
 	    if (complexmode)
 	      newv=proot(w,epsilon(contextptr));
-	    else 
-	      newv=gen2vecteur(_realroot(gen(makevecteur(w_orig,epsilon(contextptr),at_evalf),_SEQ__VECT),contextptr)); // newv=real_proot(w,epsilon(contextptr),contextptr);
+	    else {
+	      if (lidnt(w_orig).empty())
+		newv=gen2vecteur(_realroot(gen(makevecteur(w_orig,epsilon(contextptr),at_evalf),_SEQ__VECT),contextptr));
+	      else 
+		newv=real_proot(w,epsilon(contextptr),contextptr);
+	    }
 	    solve_ckrange(x,newv,isolate_mode,contextptr);
 	    v=mergevecteur(v,newv);
 #ifndef NO_STDEXCEPT
@@ -4067,7 +4071,7 @@ namespace giac {
     bool out=niter!=NEWTON_DEFAULT_ITERATION;
     gen guess(guess_);
     // ofstream of("log"); of << f0 << endl << x << endl << guess << endl << niter ; 
-    gen f(eval(f0,1,context0));  // eval of f wrt context0 is intentionnal, replace UTPN by erf
+    gen f=real?eval(f0,1,context0):f0;  // eval of f wrt context0 is intentionnal, replace UTPN by erf
     if (guess.is_symb_of_sommet(at_interval))
       guess=(guess._SYMBptr->feuille[0]+guess._SYMBptr->feuille[1])/2;
     bool inv_after=f.type==_VECT;

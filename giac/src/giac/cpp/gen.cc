@@ -13320,7 +13320,7 @@ namespace giac {
     }
     int save_decimal_digits=decimal_digits(context0);
     set_decimal_digits(precision,context0);
-    gen tmp=evalf(g,1,context0);
+    gen tmp=re(evalf(g,1,context0),context0);
     set_decimal_digits(save_decimal_digits,context0);
     if (tmp.type!=_REAL){
 #ifndef NO_STDEXCEPT

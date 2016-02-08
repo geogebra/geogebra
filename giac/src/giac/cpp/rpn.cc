@@ -2251,7 +2251,10 @@ namespace giac {
 	gen args=args0._VECTptr->front();
 	if (!ckmatrix(args))
 	  return gentypeerr(contextptr);
+	double save_eps=epsilon(contextptr);
+	epsilon(0.0,contextptr); // otherwise small singular values are cancelled and condition is infinity
 	gen g=_SVL(args,contextptr);
+	epsilon(save_eps,contextptr);
 	if (is_undef(g)) return g;
 	if (g.type!=_VECT)
 	  return undef;

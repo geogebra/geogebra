@@ -9558,6 +9558,16 @@ namespace giac {
       return;
     }
     if (f.is_symb_of_sommet(at_interval) && f._SYMBptr->feuille.type==_VECT){
+      gen x=evalf(f._SYMBptr->feuille._VECTptr->front(),1,contextptr),y=evalf(f._SYMBptr->feuille._VECTptr->back(),1,contextptr);
+      if (x.type==_DOUBLE_ && y.type==_DOUBLE_){
+	double xd=x._DOUBLE_val,yd=y._DOUBLE_val;
+	double scale=(yd-xd)/(rand_max2+1.0);
+	for (int i=0;i<n;++i){
+	  double xr= giac_rand(contextptr)*scale+xd;
+	  res.push_back(xr);
+	}
+	return;
+      }
       for (int i=0;i<n;++i)
 	res.push_back(rand_interval(*f._SYMBptr->feuille._VECTptr,false,contextptr));
       return;
@@ -15417,10 +15427,14 @@ namespace giac {
       }
       if (!transpose)
 	transpose_double(P);
+      if (debug_infolevel)
+	CERR << CLOCK() << " Householder end" << endl;
       return;
     }
     vector<giac_double> w(n),q(cend-cstart);
-    vector<giac_double> Pw((n*(n+1))/2); // save w to compute P all at once at the end
+    // save w to compute P all at once at the end, this could also be done
+    // inside the lower diagonal bloc of H
+    vector<giac_double> Pw((lastcol*(2*n-lastcol+1))/2); 
     int nreflectors=0;
     giac_double * Pwptr=&Pw.front();
     for (int m=cstart;m<lastcol;++m){
@@ -15517,7 +15531,7 @@ namespace giac {
       matrix_double P1;
       std_matrix_gen2std_matrix_giac_double(P,P1,true);
       if (1 || H.size()==H.front().size())
-	qr_householder(H1,0,P1,computeP,true,true,0,0,1);//threads>1); 
+	qr_householder(H1,0,P1,computeP,true,true,0,0,threads>1); 
       else 
 	qr_givens(H1,0,P1,computeP,true,true,0,0,threads>1);
       std_matrix_giac_double2std_matrix_gen(P1,P);
