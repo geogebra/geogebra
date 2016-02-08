@@ -2158,7 +2158,7 @@ __GGB__keysVar.fr.menu = {
     "exam_custom_header": "GeoGebraExamen",
     "exam_end_time": "Fin Examen",
     "exam_ended": "Terminer Examen",
-    "exam_exit_confirmation": "\xcates vous s\xfbr de vouloir quitter le Mode Examen ?",
+    "exam_exit_confirmation": "Vraiment ?",
     "exam_exit_header": "Quitter GeoGebraExamen ?",
     "exam_log_header": "GeoGebraExamen",
     "exam_log_window_entered": "Rentr\xe9e Examen",
