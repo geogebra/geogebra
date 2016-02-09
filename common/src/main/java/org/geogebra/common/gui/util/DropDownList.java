@@ -6,7 +6,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 public interface DropDownList {
 	public interface DropDownListener {
-		void execTimer();
+		void onClick(int x, int y);
+
+		void onScroll(int x, int y);
 	}
 
 	void drawSelected(GeoElement geo, GGraphics2D g2, GColor bgColor, int left,
@@ -22,11 +24,17 @@ public interface DropDownList {
 	void drawScrollDown(GGraphics2D g2, int left, int top, int width,
 			int height, GColor bgColor, boolean pressed);
 		
-	void startTimer();
+	void startClickTimer(int x, int y);
 
-	void stopTimer();
+	void stopClickTimer();
 
-	boolean isTimerRunning();
+	void startScrollTimer(int x, int y);
+
+	void stopScrollTimer();
+
+	boolean isClickTimerRunning();
+
+	boolean isScrollTimerRunning();
 
 	void setTimerDelay(int timerDelay);
 

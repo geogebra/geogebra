@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Polygon;
 
 import com.google.gwt.user.client.Timer;
@@ -13,17 +14,30 @@ public class DropDownListW implements DropDownList {
 	private static final GColor FOCUS_COLOR = GColor.BLUE;
 	private static final GColor NORMAL_COLOR = GColor.LIGHT_GRAY;
 	private static final int MAX_WIDTH = 40;
-	private Timer timer;
-	private int timerDelay = 100;
+	private Timer timScroll;
+	private Timer timClick;
+	private int scrollDelay = 100;
+	private int clickDelay = 200;
+	private int mouseX = 0;
+	private int mouseY = 0;
+
 	private DropDownListener listener;
 
 	public DropDownListW(DropDownListener listener) {
 		this.listener = listener;
-		timer = new Timer() {
+		timClick = new Timer() {
 
 			@Override
 			public void run() {
-				DropDownListW.this.listener.execTimer();
+				DropDownListW.this.listener.onClick(mouseX, mouseY);
+			}
+		};
+
+		timScroll = new Timer() {
+
+			@Override
+			public void run() {
+				DropDownListW.this.listener.onScroll(mouseX, mouseY);
 			}
 		};
 	}
@@ -98,20 +112,38 @@ public class DropDownListW implements DropDownList {
 
 	}
 
-	public void startTimer() {
-		timer.scheduleRepeating(timerDelay);
+	public void startClickTimer(int x, int y) {
+		mouseX = x;
+		mouseY = y;
+		timClick.schedule(clickDelay);
 	}
 
-	public void stopTimer() {
-		timer.cancel();
+	public void stopClickTimer() {
+		timClick.cancel();
+		Log.debug("[COMBOSCROLLING] CLICK CANCELED");
 	}
 
-	public boolean isTimerRunning() {
-		return timer.isRunning();
+	public boolean isClickTimerRunning() {
+		return timClick.isRunning();
+	}
+
+	public void startScrollTimer(int x, int y) {
+		timClick.cancel();
+		mouseX = x;
+		mouseY = y;
+		timScroll.scheduleRepeating(scrollDelay);
+	}
+
+	public void stopScrollTimer() {
+		timScroll.cancel();
+	}
+
+	public boolean isScrollTimerRunning() {
+		return timScroll.isRunning();
 	}
 
 	public void setTimerDelay(int timerDelay) {
-		this.timerDelay = timerDelay;
+		this.scrollDelay = timerDelay;
 	}
 
 

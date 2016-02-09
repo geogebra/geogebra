@@ -251,12 +251,6 @@ public final class DrawList extends CanvasDrawable
 
 			}
 
-			// item rectangle drawing for debug.
-			// g2.setPaint(GColor.ORANGE);
-			//
-			// g2.drawRect(rectLeft, rectTop, dimItem.getWidth(),
-			// dimItem.getHeight());
-			//
 			if (item.getRect() == null) {
 				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
@@ -301,7 +295,7 @@ public final class DrawList extends CanvasDrawable
 		private boolean handleUpControl(int x, int y) {
 			if (isScrollNeeded() && rectUp.contains(x, y)) {
 				scrollMode = ScrollMode.UP;
-				dropDown.startTimer();
+				dropDown.startScrollTimer(x, y);
 				scrollUp();
 				return true;
 			}
@@ -311,7 +305,7 @@ public final class DrawList extends CanvasDrawable
 		private boolean handleDownControl(int x, int y) {
 			if (isScrollNeeded() && rectDown.contains(x, y)) {
 				scrollMode = ScrollMode.DOWN;
-				dropDown.startTimer();
+				dropDown.startScrollTimer(x, y);
 				scrollDown();
 				return true;
 			}
@@ -369,20 +363,38 @@ public final class DrawList extends CanvasDrawable
 				return true;
 			}
 
-			OptionItem item = getItemAt(x, y);
-			if (item == null) {
-				return false;
+			if (isScrollNeeded()) {
+				dropDown.startClickTimer(x, y);
+			} else {
+				onClick(x, y);
 			}
-
-			Log.debug("[REFACTOR] selected item: " + item.text + "("
-					+ item.index + ")");
-			selectedIndex = item.index;
-			selectCurrentItem();
-			setVisible(false);
 			return true;
 
 		}
 
+		public void onClick(int x, int y) {
+			OptionItem item = getItemAt(x, y);
+
+			if (item == null) {
+				return;
+			}
+
+			selectedIndex = item.index;
+			selectCurrentItem();
+			setVisible(false);
+
+		}
+
+		public boolean onDrag(int x, int y) {
+			dropDown.stopClickTimer();
+			Log.debug(SCROLL_PFX + " start dragging ");
+			OptionItem item = getItemAt(x, y);
+
+			if (item == null) {
+				return false;
+			}
+			return true;
+		}
 		public void onMouseOver(int x, int y) {
 			if (!isHit(x, y)) {
 				stopScrolling();
@@ -640,10 +652,10 @@ public final class DrawList extends CanvasDrawable
 				startIdx = isScrollNeeded() ? geoList.getSelectedIndex() : 0;
 				selectedIndex = startIdx;
 				itemHovered = items.get(selectedIndex);
-			} else {
-				view.setOpenedComboBox(null);
 			}
-			geo.updateRepaint();
+
+			updateOpenedComboBox();
+			view.repaintView();
 		}
 
 		public void onResize() {
@@ -718,16 +730,15 @@ public final class DrawList extends CanvasDrawable
 			return rectTable.getBounds().intersects(rect);
 		}
 
-		public boolean onMouseUp(int x, int y) {
-			if (isScrollNeeded()) {
-				stopScrolling();
-			}
-			return true;
-		}
 
 		private void stopScrolling() {
-			dropDown.stopTimer();
+			dropDown.stopScrollTimer();
 			scrollMode = ScrollMode.NONE;
+		}
+
+		public void onMouseUp(int x, int y) {
+			// TODO Auto-generated method stub
+
 		}
 
 	}
@@ -1426,15 +1437,6 @@ public final class DrawList extends CanvasDrawable
 		}
 	}
 
-	public void onMouseUp(int x, int y) {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
-
-		if (drawOptions.onMouseUp(x, y)) {
-			return;
-		}
-	}
 	/**
 	 * Open dropdown
 	 */
@@ -1585,11 +1587,13 @@ public final class DrawList extends CanvasDrawable
 		}
 	}
 
-	public void execTimer() {
+	public boolean onDrag(int x, int y) {
+		return drawOptions.onDrag(x, y);
+	}
+	public void onScroll(int x, int y) {
 		if (isDrawingOnCanvas()) {
 			drawOptions.scroll();
 		}
-
 	}
 
 	public void onMouseWheel(double delta) {
@@ -1600,4 +1604,29 @@ public final class DrawList extends CanvasDrawable
 
 		}
 	}
+
+	public void onClick(int x, int y) {
+		drawOptions.onClick(x, y);
+	}
+
+	private void updateOpenedComboBox() {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+
+		DrawList dl = view.getOpenedComboBox();
+		if (drawOptions.isVisible()) {
+			view.setOpenedComboBox(this);
+		} else if (dl == this) {
+			view.setOpenedComboBox(null);
+		}
+	}
+
+	public void onMouseUp(int x, int y) {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+		drawOptions.onMouseUp(x, y);
+	}
+
 }

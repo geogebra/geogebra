@@ -8180,6 +8180,13 @@ public abstract class EuclidianController {
 			return;
 		}
 
+		DrawList dl = view.getOpenedComboBox();
+		if (dl != null) {
+			if (dl.onDrag(event.getX(), event.getY())) {
+				return;
+			}
+		}
+
 		clearJustCreatedGeos();
 		if (!draggingOccured) {
 			draggingOccured = true;
@@ -8886,8 +8893,11 @@ public abstract class EuclidianController {
 		setMouseLocation(event);
 		this.setViewHits(event.getType());
 
+		DrawList dl = getComboBoxHit(event.getX(), event.getY());
+
 		if (!event.isRightClick()
-				&& hitComboBox(event.getX(), event.getY(), true)) {
+ && dl != null) {
+			dl.onMouseDown(event.getX(), event.getY());
 			return;
 		}
 
@@ -9332,7 +9342,9 @@ public abstract class EuclidianController {
 		// will be reset in wrapMouseReleased
 		GeoPointND p = this.selPoints() == 1 ? selectedPoints.get(0) : null;
 
-		if (hitComboBox(event.getX(), event.getY(), false)) {
+		DrawList dl = getComboBoxHit(event.getX(), event.getY());
+		if (dl != null) {
+			dl.onMouseUp(event.getX(), event.getY());
 			return;
 		}
 		if (this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
@@ -9667,25 +9679,19 @@ public abstract class EuclidianController {
 						.getHits().getTopHits().get(0) instanceof GeoList);
 	}
 
-	protected boolean hitComboBox(int x, int y, boolean down) {
+	protected DrawList getComboBoxHit(int x, int y) {
 		Hits hits = view.getHits();
 		if (hits != null && hits.size() > 0) {
 			GeoList list;
 			for (GeoElement geo : hits.getTopHits()) {
 				if (geo instanceof GeoList && ((GeoList) geo).drawAsComboBox()) {
 					list = (GeoList) geo;
-					DrawList dl = (DrawList) (view.getDrawable(list));
-					if (down) {
-						dl.onMouseDown(x, y);
-					} else {
-						dl.onMouseUp(x, y);
-					}
-					return true;
+					return (DrawList) (view.getDrawable(list));
 				}
 			}
 
 		}
-		return false;
+		return null;
 	}
 
 	private static boolean modeCreatesHelperPoints(int mode2) {

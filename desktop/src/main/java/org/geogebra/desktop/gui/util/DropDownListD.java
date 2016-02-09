@@ -16,13 +16,18 @@ public class DropDownListD implements DropDownList, ActionListener {
 	private static final GColor FOCUS_COLOR = GColor.BLUE;
 	private static final GColor NORMAL_COLOR = GColor.LIGHT_GRAY;
 	private static final int MAX_WIDTH = 40;
-	private Timer timer;
+	private Timer timClick;
+	private Timer timDrag;
 	private DropDownListener listener;
-	private int timerDelay = 100;
+	private int clickDelay = 100;
+	private int dragDelay = 100;
+	private int mouseX = 0;
+	private int mouseY = 0;
 
 	public DropDownListD(DropDownListener listener) {
 		this.listener = listener;
-		timer = new Timer(timerDelay, this);
+		timClick = new Timer(clickDelay, this);
+		timDrag = new Timer(dragDelay, this);
 	}
 	public void drawSelected(GeoElement geo, GGraphics2D g2, GColor bgColor,
 			int left, int top, int width, int height) {
@@ -65,24 +70,43 @@ public class DropDownListD implements DropDownList, ActionListener {
 
 	}
 
-	public void startTimer() {
-		timer.start();
+	public void startScrollTimer(int x, int y) {
+		timDrag.start();
 	}
 
-	public void stopTimer() {
-		timer.stop();
+	public void stopScrollTimer() {
+		timDrag.stop();
 	}
 
-	public boolean isTimerRunning() {
-		return timer.isRunning();
-	}
 
 	public void setTimerDelay(int timerDelay) {
-		timer.setDelay(timerDelay);
+		timDrag.setDelay(timerDelay);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		listener.execTimer();
+		if (e.getSource() == timClick) {
+			listener.onClick(mouseX, mouseY);
+		} else {
+			listener.onScroll(mouseX, mouseY);
+		}
+	}
+
+	public void startClickTimer(int x, int y) {
+		mouseX = x;
+		mouseY = y;
+		timClick.start();
+	}
+
+	public void stopClickTimer() {
+		timClick.stop();
+	}
+
+	public boolean isClickTimerRunning() {
+		return timClick.isRunning();
+	}
+
+	public boolean isScrollTimerRunning() {
+		return timDrag.isRunning();
 	}
 
 }
