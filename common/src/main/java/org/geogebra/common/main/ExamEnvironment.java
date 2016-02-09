@@ -155,6 +155,7 @@ public class ExamEnvironment {
 		sb.append("<br>");
 
 		// Log times
+
 		sb.append("0:00");
 		sb.append(' ');
 		sb.append(loc.getMenu("exam_started"));
@@ -165,7 +166,8 @@ public class ExamEnvironment {
 				sb.append(timeToString(cheatingTimes.get(i)));
 				sb.append(' ');
 				sb.append(cheatingEvents.get(i)
-						? loc.getMenu("exam_log_window_left") // CHEATING ALERT:
+ ? loc.getMenu("exam_log_window_left") // CHEATING
+																								// ALERT:
 																// exam left
 						: loc.getMenu("exam_log_window_entered")); // exam
 																	// active
