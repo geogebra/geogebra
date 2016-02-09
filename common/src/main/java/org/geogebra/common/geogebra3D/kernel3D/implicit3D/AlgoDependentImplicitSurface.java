@@ -10,13 +10,9 @@ import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Dependent implicit surface
@@ -97,10 +93,13 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 		if (!first
 				&& (equation.hasVariableDegree() || equation
 						.isFunctionDependent())) {
+			equation.resetFlags();
 			equation.initEquation();
 		}
 		int degree = equation.preferredDegree();
-		App.debug(degree + "");
+		if (!equation.isPolynomial()) {
+			degree = 3;
+		}
 		switch (degree) {
 		// linear equation -> LINE
 		case 1:
@@ -110,7 +109,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 				if (geoElem.hasChildren())
 					geoElem.setUndefined();
 				else {
-					replaceGeoElement(new GeoLine(getConstruction()));
+					replaceGeoElement(new GeoPlane3D(getConstruction()));
 					setPlane();
 				}
 			}
@@ -123,7 +122,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 				if (geoElem.hasChildren())
 					geoElem.setUndefined();
 				else {
-					replaceGeoElement(new GeoConic(getConstruction()));
+					replaceGeoElement(new GeoQuadric3D(getConstruction()));
 					setQuadric();
 				}
 			}
@@ -173,21 +172,21 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	}
 
 	private void setPlane() {
-		double a, b, c, d;
 
 		Polynomial lhs = equation.getNormalForm();
-		a = lhs.getCoeffValue("x");
-		b = lhs.getCoeffValue("y");
-		c = lhs.getCoeffValue("z");
-		d = lhs.getCoeffValue("");
-		Log.debug(new double[] { a, b, c, d });
-		((GeoPlane3D) geoElem).setEquation(a, b, c, d);
-		// ((GeoPlane3D) geoElem).upd
+		ev[0] = lhs.getCoefficient("x");
+		ev[1] = lhs.getCoefficient("y");
+		ev[2] = lhs.getCoefficient("z");
+		ev[3] = lhs.getCoefficient("");
+		((GeoPlane3D) geoElem).setEquation(ev[0].evaluateDouble(),
+				ev[1].evaluateDouble(),
+				ev[2].evaluateDouble(),ev[3].evaluateDouble());
 
 	}
 
 	protected void replaceGeoElement(GeoElementND newElem) {
 		String label = geoElem.getLabelSimple();
+		newElem.toGeoElement().setVisualStyle(geoElem);
 		geoElem.doRemove();
 		geoElem = newElem.toGeoElement();
 		setInputOutput();

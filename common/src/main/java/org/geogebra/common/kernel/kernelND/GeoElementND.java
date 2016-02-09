@@ -387,4 +387,6 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	public LaTeXCache getLaTeXCache();
 
 	public void updateVisualStyleRepaint(GProperty prop);
+
+	void setVisualStyle(GeoElement geoElement);
 }

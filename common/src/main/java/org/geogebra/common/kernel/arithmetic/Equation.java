@@ -407,7 +407,17 @@ public class Equation extends ValidExpression {
 		ret.forcePlane = forcePlane;
 		ret.forceQuadric = forceQuadric;
 		ret.forceImplicitPoly = forceImplicitPoly;
+		ret.forceSurface = forceSurface;
 		return ret;
+	}
+
+	public void resetFlags() {
+		forceConic = false;
+		forceLine = false;
+		forcePlane = false;
+		forceQuadric = false;
+		forceImplicitPoly = false;
+		forceSurface = false;
 	}
 
 	@Override
@@ -746,7 +756,7 @@ public class Equation extends ValidExpression {
 		} else if (isForcedConic() || isForcedQuadric()) {
 			return 2;
 		} else if (isForcedImplicitPoly() || isForcedSurface()) {
-			return 3;
+			return 7;
 		} else {
 			return degree();
 		}

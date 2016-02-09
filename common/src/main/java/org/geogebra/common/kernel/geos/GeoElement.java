@@ -2440,6 +2440,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param v animation step
 	 */
 	public void setAnimationStep(final NumberValue v) {
+		Log.printStacktrace("");
 		animationIncrement = v;
 	}
 
