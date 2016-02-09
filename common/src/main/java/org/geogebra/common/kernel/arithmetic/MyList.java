@@ -830,7 +830,13 @@ public class MyList extends ValidExpression implements ListValue,
 	 */
 
 	public boolean isConstant() {
-		return getVariables().size() == 0;
+		int size = listElements.size();
+		for (int i = 0; i < size; i++) {
+			if (!listElements.get(i).isConstant()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public boolean isLeaf() {
