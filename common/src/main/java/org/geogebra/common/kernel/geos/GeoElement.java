@@ -2440,7 +2440,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param v animation step
 	 */
 	public void setAnimationStep(final NumberValue v) {
-		Log.printStacktrace("");
 		animationIncrement = v;
 	}
 
@@ -5232,8 +5231,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append(" label =\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
-			sb.append(label);
-			sb.append(":");
 			StringUtil.encodeXML(sb,
 					definition.toString(StringTemplate.xmlTemplate));
 			// expression
