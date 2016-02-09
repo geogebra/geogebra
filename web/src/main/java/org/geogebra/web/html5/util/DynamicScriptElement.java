@@ -26,7 +26,7 @@ public final class DynamicScriptElement extends ScriptElement {
 						}, false);
 		this
 				.addEventListener(
-						"load",
+						"error",
 						function() {
 							handler.@org.geogebra.web.html5.util.ScriptLoadCallback::onError()();
 						}, false);
