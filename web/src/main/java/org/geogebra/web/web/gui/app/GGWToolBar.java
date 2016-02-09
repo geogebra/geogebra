@@ -307,7 +307,9 @@ pr.menu_header_undo(), null, 32);
 	private native void visibilityEventMain() /*-{
 		// wrapper to call the appropriate function from visibility.js
 		var that = this;
-		var screenHeight = screen.height;
+
+		// fix for firefox and iexplorer (e.g. fullscreen goes to 1079px instead of 1080px)
+		var screenHeight = screen.height - 5;
 		var fullscreen = true;
 		$wnd.console.log(fullscreen);
 		if ($wnd.innerHeight < screenHeight) {
