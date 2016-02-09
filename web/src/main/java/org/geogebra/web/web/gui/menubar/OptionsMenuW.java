@@ -93,6 +93,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 
 	private void addLanguageMenu() {
 
+		if (!app.isExam()) {
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 		        .menu_icon_options_language().getSafeUri().asString(),
  getApp()
@@ -103,6 +104,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 				getApp().showLanguageGUI();
 			}
 		});
+		}
 		return;
 	}
 	
@@ -161,7 +163,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	}
 	
 	private void addSaveSettingsMenu(){
-		
+		if (!app.isExam()) {
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 				.menu_icon_file_save().getSafeUri().asString(), getApp()
 				.getMenu("Settings.Save"), true),
@@ -172,6 +174,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 				GeoGebraPreferencesW.getPref().saveXMLPreferences(getApp());
 			        }
 		        });
+		}
 	}
 	
 	public void actionPerformed(String cmd){

@@ -139,6 +139,7 @@ public class ViewMenuW extends GMenuBar {
 		}, true);
 		addItem(consProtNav.getMenuItem());
 
+
 		if (app.has(Feature.DATA_COLLECTION)) {
 			dataCollection = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 					AppResources.INSTANCE.empty().getSafeUri().asString(), app
@@ -156,8 +157,11 @@ public class ViewMenuW extends GMenuBar {
 							app.toggleMenu();
 						}
 					}, true);
+			if (!app.isExam()) {
 			addItem(dataCollection.getMenuItem());
+			}
 		}
+
 
 		addSeparator();
 

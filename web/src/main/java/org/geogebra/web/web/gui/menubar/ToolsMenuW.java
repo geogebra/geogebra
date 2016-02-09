@@ -34,6 +34,7 @@ public class ToolsMenuW extends GMenuBar {
 	 */
 	protected void initActions() {
 
+		if (!app.isExam()) {
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools_customize().getSafeUri().asString(),
 		        app.getMenu("Toolbar.Customize"), true), true, new MenuCommand(app) {
 
@@ -42,6 +43,7 @@ public class ToolsMenuW extends GMenuBar {
 		        app.showCustomizeToolbarGUI();
 			}
 		});
+		}
 
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 			        .menu_icon_tools_new().getSafeUri().asString(), app
@@ -66,6 +68,7 @@ public class ToolsMenuW extends GMenuBar {
 				}
 			});
 
+		if (!app.isExam()) {
 		if (app.has(Feature.EXERCISES)) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 					.menu_create_exercise().getSafeUri().asString(),
@@ -79,6 +82,7 @@ public class ToolsMenuW extends GMenuBar {
 					        exerciseBuilderDialog.center();
 				        }
 			        });
+		}
 		}
 	}
 	
