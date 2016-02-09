@@ -291,7 +291,8 @@ TOKEN :  {
   | < IMAGINARY: ("\u03af") > // imaginary constant
   // 02da is "Ring Above", Alt-k in iPad
   // 00ba is Masculine ordinal indicator Alt-zero on OSX
-  | < DEGREE:   ( "\u00b0" | "\u02da" | "\u00ba" | "deg") > 
+  | < DEGREE:   ( "\u00b0" | "\u02da" | "\u00ba" | "deg") >
+  | < GRADIAN:   ( "\u1D4D") > // superscript g
   | < INFINITY: ("\u221e" | "Infinity" | "inf" | "infinity") >
   | < RAD:      "rad" >
   | < DERIVATIVE: "'" >
@@ -1757,6 +1758,13 @@ ExpressionValue myDouble():
     <RAD>
     {  // constant for radians to radians 
         d = new MySpecialDouble(kernel, 1.0d, "rad");
+        d.setAngle();
+        return d;
+    }
+|
+    <GRADIAN>
+    {  // constant for gradians to radians 
+        d = new MySpecialDouble(kernel, Math.PI / 200.0d, "\u1D4D");
         d.setAngle();
         return d;
     }
