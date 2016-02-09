@@ -1658,7 +1658,8 @@ public class AlgebraProcessor {
 				&& fun.getExpression().evaluatesToNumber(true)) {
 			String label = fun.getLabel();
 			ValidExpression ve = new MyVecNode(kernel, fun.getExpression(),
-					fun.getFunctionVariable());
+ fun
+					.getFunctionVariable().wrap());
 			((MyVecNode) ve).setMode(Kernel.COORD_POLAR);
 			// TODO the "r" check is there to allow r=theta in the
 			// future
