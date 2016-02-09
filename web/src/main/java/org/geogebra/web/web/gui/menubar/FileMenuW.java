@@ -116,27 +116,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					        });
 				}
 			});
-			// ****** exam print testing
-			if (app.has(Feature.PRINT_MENU) && app.getLAF().printSupported()) {
-				Log.debug("new printItem");
-				printItem = new MenuItem(
-						MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icons_file_print().getSafeUri().asString(),
-								app.getMenu("PrintPreview"), true),
-						true, new MenuCommand(app) {
 
-							@Override
-							public void doExecute() {
-								if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)
-										|| app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
-									new PrintPreviewW(app).show();
-								}
-							}
-						});
-				// updatePrintMenu();
-				addItem(printItem);
-
-			}
-			// ******
 			return;
 		}
 		
