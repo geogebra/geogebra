@@ -1889,7 +1889,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void IntegralBetween_1 () {
-    t("IntegralBetween[a * sin(t), a * cos(t), t, pi / 4, pi * 5 / 4]", "2 * sqrt(2) * a", "2 * a * sqrt(2)");
+		t("IntegralBetween[a * sin(t), a * cos(t), t, pi / 4, pi * 5 / 4]",
+				"2 * a * sqrt(2)", "2 * sqrt(2) * a");
   }
 
   @Test
@@ -3920,7 +3921,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Mike_1260 () {
-		t("Tangent[(1, 1), x^3 + y^3 = 1]", "{y = 1, x = 1}", "{x = 1, y = 1}");
+		t("Tangent[(1, 1), x^3 + y^3 = 1]", "{x = 1, y = 1}", "{y = 1, x = 1}");
   }
 
   @Test
