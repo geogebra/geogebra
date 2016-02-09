@@ -757,4 +757,6 @@ public interface JavaScriptAPI {
 	
 	public float getExerciseFraction();
 
+	public String getVersion();
+
 }

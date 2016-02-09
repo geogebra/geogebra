@@ -4,4 +4,6 @@ public interface ScriptLoadCallback {
 
 	public void onLoad();
 
+	public void onError();
+
 }

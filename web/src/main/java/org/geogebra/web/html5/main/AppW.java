@@ -471,7 +471,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		        + browserLang);
 
 
-		if (Browser.supportsSessionStorage() && loadPropertiesFromStorage(lang)) {
+		if (Browser.supportsSessionStorage()
+				&& loadPropertiesFromStorage(lang,
+						GeoGebraConstants.VERSION_STRING)) {
 			doSetLanguage(lang);
 		} else {
 			// load keys (into a JavaScript <script> tag)
@@ -486,8 +488,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 					// force reload
 					doSetLanguage(lang);
 					if (Browser.supportsSessionStorage()) {
-						savePropertiesToStorage(lang);
+						savePropertiesToStorage(lang,
+								GeoGebraConstants.VERSION_STRING);
 					}
+				}
+
+				public void onError() {
+					loadPropertiesFromStorage(lang, "");
+
 				}
 
 			});
@@ -496,13 +504,17 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
-	private native boolean loadPropertiesFromStorage(String lang) /*-{
+	native boolean loadPropertiesFromStorage(String lang, String version) /*-{
 		var storedTranslation = {};
 		if ($wnd.localStorage && $wnd.localStorage.translation) {
 			try {
 				storedTranslation = JSON.parse(localStorage.translation);
+				if (version.length > 0 && storedTranslation
+						&& storedTranslation["version"] != version) {
+					storedTranslation = {};
+				}
 			} catch (e) {
-				console.log(e.message);
+				$wnd.console && $wnd.console.log(e.message);
 			}
 		}
 		if (storedTranslation && storedTranslation[lang]) {
@@ -519,11 +531,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * @param lang
 	 *            language
 	 */
-	native void savePropertiesToStorage(String lang) /*-{
+	native void savePropertiesToStorage(String lang, String version) /*-{
 		var storedTranslation = {};
 		if ($wnd.localStorage && $wnd["__GGB__keysVar"]
 				&& $wnd["__GGB__keysVar"][lang]) {
 			var obj = {};
+			obj.version = version;
 			obj[lang] = $wnd.__GGB__keysVar[lang];
 			$wnd.localStorage.translation = JSON.stringify(obj);
 		}

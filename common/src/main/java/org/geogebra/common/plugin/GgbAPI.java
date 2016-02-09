@@ -1569,4 +1569,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public Object getExerciseResult() {
 		return "";
 	}
+
+	public String getVersion() {
+		return GeoGebraConstants.VERSION_STRING;
+	}
 }

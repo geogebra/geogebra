@@ -18,8 +18,17 @@ public final class DynamicScriptElement extends ScriptElement {
 	 *            ScriptLoadHandler
 	 */
 	public native void addLoadHandler(ScriptLoadCallback handler) /*-{
-		this.addEventListener("load", function() {
-			handler.@org.geogebra.web.html5.util.ScriptLoadCallback::onLoad()();
-		}, false);
+		this
+				.addEventListener(
+						"load",
+						function() {
+							handler.@org.geogebra.web.html5.util.ScriptLoadCallback::onLoad()();
+						}, false);
+		this
+				.addEventListener(
+						"load",
+						function() {
+							handler.@org.geogebra.web.html5.util.ScriptLoadCallback::onError()();
+						}, false);
 	}-*/;
 }

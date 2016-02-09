@@ -794,4 +794,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getAppletImplementation().getPerspectiveXML();
 	}
 
+	public String getVersion() {
+		return getAppletImplementation().getVersion();
+	}
 }
