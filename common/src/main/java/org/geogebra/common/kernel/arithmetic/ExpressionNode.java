@@ -2229,7 +2229,7 @@ kernel, left,
 				break;
 
 			case GIAC:
-				appendReduceFunction(sb, left, "Ci");
+				appendFunction(sb, "Ci");
 				break;
 			default:
 				sb.append("cosIntegral(");
@@ -2248,7 +2248,7 @@ kernel, left,
 				break;
 
 			case GIAC:
-				appendReduceFunction(sb, left, "Si");
+				appendFunction(sb, "Si");
 				break;
 
 			default:
@@ -2267,7 +2267,7 @@ kernel, left,
 				break;
 
 			case GIAC:
-				appendReduceFunction(sb, left, "Ei");
+				appendFunction(sb, "Ei");
 				break;
 
 			default:
@@ -2431,7 +2431,7 @@ kernel, left,
 				// arguments swapped
 				// swapped back in CommandDispatcherGiac
 				// *******************
-				appendReduceFunction(sb, left, "Psi");
+				appendFunction(sb, "Psi");
 				sb.append(rightStr);
 				sb.append(',');
 				sb.append(leftStr);
@@ -2481,7 +2481,7 @@ kernel, left,
 				break;
 
 			case GIAC:
-				appendReduceFunction(sb, left, "Psi");
+				appendFunction(sb, "Psi");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3776,17 +3776,9 @@ kernel, left,
 
 	}
 
-	private static void appendReduceFunction(StringBuilder sb,
-			ExpressionValue left, String string) {
-		if (left instanceof ListValue) {
-			sb.append("applyfunction(");
-			sb.append(string);
-			sb.append(",");
-		} else {
-			sb.append(string);
-			sb.append('(');
-		}
-
+	private static void appendFunction(StringBuilder sb, String string) {
+		sb.append(string);
+		sb.append('(');
 	}
 
 	/**
