@@ -1158,7 +1158,6 @@ public class StringUtil {
 	 * @return "exact(" + s + ")" if necessary (for Giac)
 	 */
 	public static String wrapInExact(String s, StringTemplate tpl) {
-		Log.printStacktrace(s);
 		if (s.startsWith("exact(")) {
 			// nothing to do
 			return s;
