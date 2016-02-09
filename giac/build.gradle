@@ -289,7 +289,7 @@ model {
     }
 }
 
-task testMinigiacExecutable (dependsOn: 'minigiacExecutable', type: Exec) {
+task testMinigiacExecutable (dependsOn: 'installMinigiacExecutable', type: Exec) {
     description 'Tests the minigiac executable.'
     workingDir 'src/test'
     commandLine './regression', '-r', '-s'
@@ -321,9 +321,9 @@ task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiac
     commandLine './gradlew', 'assemble'
     }
 
-task run (dependsOn: 'minigiacExecutable', type: Exec) {
+task run (dependsOn: 'installMinigiacExecutable', type: Exec) {
     description "Runs Giac's minigiac terminal"
-    commandLine 'build/binaries/minigiacExecutable/minigiac'
+    commandLine 'build/install/minigiacExecutable/minigiac'
     standardInput = System.in
     }
 
