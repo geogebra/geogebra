@@ -361,7 +361,7 @@ namespace giac {
     v[2]=c;
     v[3]=d;
     v[4]=e;
-    return v;
+    return gen(v,_SEQ__VECT);
   }
 
   gen makesequence(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f){
