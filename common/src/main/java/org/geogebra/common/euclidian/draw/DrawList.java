@@ -1593,7 +1593,6 @@ public final class DrawList extends CanvasDrawable
 	}
 
 	public void onMouseWheel(double delta) {
-		Log.debug("SONOFABITCH: " + delta);
 		if (delta > 0) {
 			drawOptions.scrollDown();
 		} else {
