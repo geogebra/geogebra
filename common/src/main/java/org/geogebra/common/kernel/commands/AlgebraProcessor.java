@@ -102,6 +102,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
@@ -2143,6 +2144,14 @@ public class AlgebraProcessor {
 		if (lhs instanceof Variable
 				&& kernel.lookupLabel(((Variable) lhs).getName()) == null) {
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
+			try {
+				return processValidExpression(equ.getRHS());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if (lhs instanceof MyDouble && lhs.evaluateDouble() == MyMath.DEG) {
+			equ.getRHS().setLabel("deg");
 			try {
 				return processValidExpression(equ.getRHS());
 			} catch (Exception e) {

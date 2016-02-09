@@ -287,6 +287,7 @@ public class ParserFunctions {
 
 		RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY);
 		RESERVED_FUNCTION_NAMES.add("freehand");
+		RESERVED_FUNCTION_NAMES.add("deg");
 
 	}
 
