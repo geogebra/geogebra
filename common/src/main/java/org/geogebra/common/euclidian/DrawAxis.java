@@ -78,11 +78,11 @@ public class DrawAxis {
 		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0,
 				view.axesTickStyles[1] == 0 };
 
-		GFontRenderContext frc = g2.getFontRenderContext();
 		g2.setFont(view.getFontAxes());
 		int fontsize = view.getFontAxes().getSize();
 		int arrowSize = fontsize / 3;
 		g2.setPaint(view.axesColor);
+		GFontRenderContext frc = g2.getFontRenderContext();
 
 		if (bold) {
 			view.axesStroke = EuclidianView.boldAxesStroke;
