@@ -442,10 +442,9 @@ public abstract class AppWFull extends AppW {
 					getGuiManager().updateToolbarActions();
 					getLAF().removeWindowClosingHandler();
 					fileNew();
+					getGgbApi().setPerspective("1");
 					getGuiManager().setGeneralToolBarDefinition(
 							ToolBar.getAllToolsNoMacros(true, true));
-					getGgbApi().setPerspective("1");
-					
 					kernel.getAlgebraProcessor().reinitCommands();
 					getExam().setStart(date.getTime());
 					fireViewsChangedEvent();
