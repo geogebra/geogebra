@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -66,8 +67,10 @@ public class CmdSlider extends CommandProcessor {
 
 		slider.setIntervalMin((GeoNumberValue) arg[0]);
 		slider.setIntervalMax((GeoNumberValue) arg[1]);
-		if (n > 2)
+		if (n > 2) {
 			slider.setAnimationStep((GeoNumberValue) arg[2]);
+			slider.setAutoStep(!MyDouble.isFinite(arg[2].evaluateDouble()));
+		}
 		if (n > 3)
 			slider.setAnimationSpeedObject((GeoNumberValue) arg[3]);
 		if (n > 4)
