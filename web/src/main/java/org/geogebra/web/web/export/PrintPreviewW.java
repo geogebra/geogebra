@@ -1,6 +1,7 @@
 package org.geogebra.web.web.export;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -101,6 +102,12 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
 			m_cbView.addItem(app.getPlain("DrawingPad2"), App.VIEW_EUCLIDIAN2
 					+ "");
+		}
+		if (app.has(Feature.WEB_PRINT_ALGEBRA_VIEW)) {
+			if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
+				m_cbView.addItem(app.getPlain("AlgebraWindow"), App.VIEW_ALGEBRA
+						+ "");
+			}
 		}
 
 		if (m_cbView.getItemCount() == 0) {

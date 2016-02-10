@@ -1843,12 +1843,16 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		};
 	}-*/;
 
+	native void copyCanvas(Element copyCanvas, Element origCanvas)/*-{
+		console.log(copyCanvas);
+		copyCanvas.getContext("2d").drawImage(origCanvas, 0, 0);
+	}-*/;
+
 	public void getPrintable(FlowPanel pPanel, final Button btPrint) {
 		Tree printTree = new Tree();
 
 		pPanel.clear();
 
-		
 		for (int i = 0; i < this.getItemCount(); i++) {
 			TreeItem item = this.getItem(i);
 			Log.debug("item text: " + item.getText());
@@ -1859,20 +1863,39 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 				Log.debug(leaf.getClass() + "");
 				if (leaf instanceof AVTreeItem) {
-					printItem.addItem(createAVItem(((RadioTreeItem) leaf)
-							.getGeo().copy()));
+					GeoElement geo = ((RadioTreeItem) leaf).getGeo();
+					RadioTreeItem printLeaf = new RadioTreeItem(geo);
+					printItem.addItem(printLeaf);
+
+					RadioTreeItem.as(printLeaf).repaint();
+					leaf.setSelected(geo.doHighlighting());
+
 				}
 
-				printItem.addItem(leaf); // ???
+				// printItem.addItem(leaf); // ???
 
-				TreeItem printLeaf = new TreeItem();
+				// TreeItem printLeaf = new TreeItem();
 
 				// app.getGgbApi().getScreenshotURL(leaf.getElement(),
 				// getScreenshotCallback(printLeaf.getElement()));
 
 				// printLeaf.getElement().setInnerHTML(
 				// leaf.getElement().getInnerHTML());
-				printItem.addItem(printLeaf);
+				//
+
+				// NodeList<Element> canvasList = leaf.getElement()
+				// .getElementsByTagName("canvas");
+				// Log.debug("canvasList lenght: " + canvasList.getLength());
+				// if (canvasList.getLength() > 0) {
+				// NodeList<Element> printCanvasList = printLeaf.getElement()
+				// .getElementsByTagName("canvas");
+				// for (int k = 0; k < canvasList.getLength(); k++) {
+				// copyCanvas(canvasList.getItem(k),
+				// printCanvasList.getItem(k));
+				// }
+				// }
+
+				// printItem.addItem(printLeaf);
 			}
 			printItem.setState(true);
 			printTree.addItem(printItem);
@@ -1902,4 +1925,25 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	// }
 	// });
 	// }
+
+	// public void getPrintable(FlowPanel pPanel, Button btPrint) {
+	// // Dom.getElementsByClassName("algebraView").getItem(0)
+	// // .addClassName("printableView"); // TODO: don't use DOM here
+	// this.getParent().addStyleName("printableView");
+	// pPanel.clear();
+	// btPrint.setEnabled(true);
+	// }
+
+	// public void getPrintable(FlowPanel pPanel, Button btPrint) {
+	// pPanel.clear();
+	// getPrintableClone(pPanel.getElement(), this.getElement());
+	// btPrint.setEnabled(true);
+	// }
+	//
+	// native void getPrintableClone(Element panel, Element cloneable)/*-{
+	// //cloneable.clone().appendTo(panel);
+	// //Object.create(cloneable).appendTo(panel);
+	// //$(cloneable).appendTo(panel);
+	// panel.appendChild(cloneable.cloneNode(true));
+	// }-*/;
 }
