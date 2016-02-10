@@ -2409,13 +2409,13 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			if(substituteNumbers){
 				sbLaTeX.append(expr.getRight().toValueString(
 						StringTemplate.latexTemplate));
-				sbLaTeX.append(" \\;\\;\\;\\; \\left(");
+				sbLaTeX.append(", \\;\\;\\;\\; \\left(");
 				sbLaTeX.append(expr.getLeft().toValueString(
 						StringTemplate.latexTemplate));
 			}else{
 				sbLaTeX.append(expr.getRight().toString(
 						StringTemplate.latexTemplate));
-				sbLaTeX.append(" \\;\\;\\;\\; \\left(");
+				sbLaTeX.append(", \\;\\;\\;\\; \\left(");
 				sbLaTeX.append(expr.getLeft().toString(
 						StringTemplate.latexTemplate));	
 			}
