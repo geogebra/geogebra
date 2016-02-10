@@ -159,8 +159,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/** kernel */
 	protected Kernel kernel;
 
-	protected ArrayList<AlgoElement> updateOnBoundsChanged = new ArrayList<AlgoElement>();
-
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
 		Integer[] ret = { new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),
@@ -492,10 +490,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			((GeoNumeric) xmaxObject).setValue(getXmax());
 			((GeoNumeric) yminObject).setValue(getYmin());
 			((GeoNumeric) ymaxObject).setValue(getYmax());
-
-			for(AlgoElement a : updateOnBoundsChanged){
-				a.update();
-			}
 		}
 	}
 
@@ -5266,9 +5260,4 @@ sb.toString(), getFontAxes(),
 				.getFileWidth() || getHeight() < getSettings().getFileHeight()));
 	}
 
-	public void addOnBoundsChangedAlgo(AlgoElement algo){
-		if(!updateOnBoundsChanged.contains(algo)){
-			updateOnBoundsChanged.add(algo);
-		}
-	}
 }

@@ -10695,7 +10695,7 @@ public abstract class EuclidianController {
 						this.view.getXminObject(), this.view.getXmaxObject());
 
 				// updates the area that is visible
-				this.view.addOnBoundsChangedAlgo(algo);
+				kernel.getConstruction().registerEuclidianViewCE(algo);
 				return algo.getExtremumPoints();
 			}
 		}
@@ -10726,7 +10726,7 @@ public abstract class EuclidianController {
 						this.view.getXminObject(), this.view.getXmaxObject());
 
 				// updates the area that is visible
-				this.view.addOnBoundsChangedAlgo(algo);
+				kernel.getConstruction().registerEuclidianViewCE(algo);
 				return algo.getRootPoints();
 			}
 		}
