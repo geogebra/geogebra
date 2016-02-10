@@ -8181,7 +8181,7 @@ public abstract class EuclidianController {
 		}
 
 		DrawList dl = view.getOpenedComboBox();
-		if (dl != null) {
+		if (dl != null && isDraggingBeyondThreshold()) {
 			if (dl.onDrag(event.getX(), event.getY())) {
 				return;
 			}

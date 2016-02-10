@@ -25,6 +25,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
@@ -127,9 +128,24 @@ public final class DrawList extends CanvasDrawable
 			}
 		}
 
+		private class DraggedItem {
+			public GPoint startPoint;
+			public OptionItem item;
+
+			public DraggedItem(int x, int y) {
+				item = getItemAt(x, y);
+				startPoint = new GPoint(x, y);
+			}
+
+			public boolean isValid() {
+				return item != null;
+			}
+		}
+
 		private static final int MIN_FONT_SIZE = 12;
 
 		private static final String SCROLL_PFX = "[COMBOSCROLLING]";
+		private static final String DRAG_PFX = "[DRAGGG]";
 
 		private int colCount=1;
 		private int rowCount=1;
@@ -162,6 +178,7 @@ public final class DrawList extends CanvasDrawable
 
 		private boolean scrollNeeded;
 		private ScrollMode scrollMode = ScrollMode.NONE;
+		private DraggedItem dragged = null;
 
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
@@ -323,18 +340,32 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		void scrollUp() {
-			if (startIdx > 0) {
-				startIdx--;
-				selectedIndex = startIdx;
+			scrollUpBy(1);
+		}
+
+		void scrollDown() {
+			scrollDownBy(1);
+		}
+
+		void scrollBy(int diff) {
+			if (diff > 0) {
+				scrollDownBy(diff);
+			} else if (diff < 0) {
+				scrollUpBy(-diff);
+			}
+		}
+
+		void scrollUpBy(int diff) {
+			if (startIdx - diff > 0) {
+				startIdx -= diff;
 				geo.updateRepaint();
 
 			}
 		}
 
-		void scrollDown() {
-			if (endIdx != items.size()) {
-				startIdx++;
-				selectedIndex = endIdx;
+		void scrollDownBy(int diff) {
+			if (endIdx + diff != items.size()) {
+				startIdx += diff;
 				geo.updateRepaint();
 			}
 		}
@@ -394,13 +425,13 @@ public final class DrawList extends CanvasDrawable
 				return false;
 			}
 
-			dropDown.stopClickTimer();
-			Log.debug(SCROLL_PFX + " start dragging ");
-			OptionItem item = getItemAt(x, y);
+			dragged = new DraggedItem(x, y);
+			if (dragged.isValid()) {
+				dropDown.stopClickTimer();
+				Log.debug(SCROLL_PFX + " start dragging " + dragged.item.text);
 
-			if (item == null) {
-				return false;
 			}
+
 			return true;
 		}
 		public void onMouseOver(int x, int y) {
@@ -409,6 +440,9 @@ public final class DrawList extends CanvasDrawable
 				return;
 			}
 
+			if (dragged != null ) {
+				return;
+			}
 			OptionItem item = getItemAt(x, y);
 			if (item == null) {
 				return;
@@ -746,6 +780,7 @@ public final class DrawList extends CanvasDrawable
 
 		public void onMouseUp(int x, int y) {
 			stopScrolling();
+			dragged = null;
 		}
 
 	}
