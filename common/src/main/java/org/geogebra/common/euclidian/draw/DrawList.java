@@ -180,6 +180,8 @@ public final class DrawList extends CanvasDrawable
 		private ScrollMode scrollMode = ScrollMode.NONE;
 		private DraggedItem dragged = null;
 
+		private int dragOffset;
+
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
 			itemHovered = null;
@@ -233,14 +235,22 @@ public final class DrawList extends CanvasDrawable
 			}
 		}
 
+		private boolean isDragging() {
+			return dragged != null && dragged.isValid();
+		}
+
 		private void drawItem(int col, int row, OptionItem item) {
 
 			int rectLeft = left + dimItem.getWidth() * col;
 			int rectTop = top + dimItem.getHeight() * row;
 			if (isScrollNeeded()) {
 				rectTop += rectUp.getHeight();
+				if (isDragging()) {
+					// rectTop += dragOffset;
+				}
 			}
-			if (item.getRect() == null) {
+			if (item.getRect() == null || item.getRect().getX() != rectLeft
+					|| item.getRect().getY() != rectTop) {
 				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
 			}
@@ -356,7 +366,7 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		void scrollUpBy(int diff) {
-			if (startIdx - diff > 0) {
+			if (startIdx - diff >= 0) {
 				startIdx -= diff;
 				geo.updateRepaint();
 
@@ -440,6 +450,9 @@ public final class DrawList extends CanvasDrawable
 					scrollBy(itemDiffs);
 					Log.debug(SCROLL_PFX + " dragging by " + itemDiffs);
 					dragged = di;
+				} else {
+					dragOffset = -dY;
+					view.repaintView();
 				}
 
 			}
