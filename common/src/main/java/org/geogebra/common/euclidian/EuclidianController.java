@@ -9342,7 +9342,8 @@ public abstract class EuclidianController {
 		// will be reset in wrapMouseReleased
 		GeoPointND p = this.selPoints() == 1 ? selectedPoints.get(0) : null;
 
-		DrawList dl = getComboBoxHit(event.getX(), event.getY());
+		DrawList dl = view.getOpenedComboBox();// getComboBoxHit(event.getX(),
+												// event.getY());
 		if (dl != null) {
 			dl.onMouseUp(event.getX(), event.getY());
 			return;

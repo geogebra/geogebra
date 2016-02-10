@@ -745,8 +745,7 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		public void onMouseUp(int x, int y) {
-			// TODO Auto-generated method stub
-
+			stopScrolling();
 		}
 
 	}
