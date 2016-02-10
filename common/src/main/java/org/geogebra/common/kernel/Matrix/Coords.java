@@ -1517,7 +1517,7 @@ public class Coords {
 
 		Coords result = new Coords(rows);
 
-		for (int i = 0; i < rows; i++) {
+		for (int i = 0; i < rows && i < v.rows; i++) {
 			result.val[i] = val[i] + v.val[i];
 		}
 
