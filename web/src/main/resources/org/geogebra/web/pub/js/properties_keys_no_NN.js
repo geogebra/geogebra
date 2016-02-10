@@ -1314,7 +1314,7 @@ __GGB__keysVar.no_NN.menu = {
     "CopyAsLibreOfficeFormula": "Kopier som LibreOffice-formel",
     "CopyImage": "Kopier bilde",
     "CopyImageAsSVG": "Kopier bilde som SVG",
-    "CopyInput": "Copy Input",
+    "CopyInput": "Kopier inntasting",
     "CopyToClipboard": "Kopier til utklippstavla",
     "CopyToGraphics": "Kopier til grafikkfeltet",
     "CopyToInputBar": "Kopier til inntastingsfeltet",

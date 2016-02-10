@@ -1778,7 +1778,7 @@ __GGB__keysVar.pl.menu = {
     "ProbabilityCalculator": "Kalkulator Prawdopodobie\u0144stwa",
     "ProbabilityCalculator.Help": "Okienko Dialogowe do obliczania prawdopodobie\u0144stw",
     "ProbabilityOf": "P(",
-    "ProductTour": "Product Tour",
+    "ProductTour": "Prezentacja",
     "Properties.Algebra": "Algebra",
     "Properties.Basic": "Podstawowe",
     "Properties.Position": "Po\u0142o\u017cenie",
