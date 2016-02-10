@@ -282,6 +282,11 @@ input[type="text"]::-ms-clear {
 .examMessagePanel{
 	margin-right:30px;
 }
+
+.webkitFullscreen:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
 .GeoGebraFrame .gwt-Button.minor {
 	border-radius: 5px;
 	-moz-border-radius: 5px;

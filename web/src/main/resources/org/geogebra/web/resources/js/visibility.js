@@ -52,7 +52,9 @@ function toggleFullScreen(full) {
 	    } else if (document.documentElement.mozRequestFullScreen) {
 	      document.documentElement.mozRequestFullScreen();
 	    } else if (document.documentElement.webkitRequestFullscreen) {
-	      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+	    	document.documentElement.style.setProperty("width", "100%", "important");
+	    	document.documentElement.style.setProperty("height", "100%", "important");
+	    	document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
 	    }
 	  } else {
 	    if (document.exitFullscreen) {
