@@ -15530,7 +15530,17 @@ namespace giac {
     if (epsilon(contextptr)>=1e-15 && std_matrix_gen2std_matrix_giac_double(H,H1,true)){
       matrix_double P1;
       std_matrix_gen2std_matrix_giac_double(P,P1,true);
-      if (1 || H.size()==H.front().size())
+      // count 0 in H under the diagonal
+      // if less than 20% Householder else Givens
+      int count1=0,count2=0,L=int(H.size()),C=H.front().size();
+      for (int i=1;i<L;++i){
+	const vector<giac_double> & Hi=H1[i];
+	for (int j=0;j<i && j<C;++count2,++j){
+	  if (Hi[j]==0.0)
+	    ++count1;
+	}
+      }
+      if (count1<=0.2*count2)
 	qr_householder(H1,0,P1,computeP,true,true,0,0,threads>1); 
       else 
 	qr_givens(H1,0,P1,computeP,true,true,0,0,threads>1);

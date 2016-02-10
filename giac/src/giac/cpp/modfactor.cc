@@ -817,7 +817,8 @@ namespace giac {
     for (int j=0;j<n;j++)
       d1tab[j]=(iquo(v_in[j][1]*twoto32,env->modulo)).to_int();
     gen dminus1bound((norm(q,0)+1)*gen((int)q.size()-1)*lcoeff);
-    int d1=(iquo(dminus1bound*twoto32,env->modulo)).to_int()+1; // maxvalue of d-1 coeff for a product
+    gen dminus1bound_=iquo(dminus1bound*twoto32,env->modulo);
+    int d1=dminus1bound_.to_int()+1; // maxvalue of d-1 coeff for a product
     // COUT << dminus1bound << endl;
     for (;k<n;k++){
       if (debuglevel)
@@ -867,11 +868,14 @@ namespace giac {
 	// first test that the degree is admissible, 
 	// then do the d-1 test: coeff multiplied by lcoeff mod modulo < bound
 	// and that the product of cst_coeff divides the polynomial
-	if ( possible_degrees[lastdeg+(*position)] &&
-	     // ( abs(smod((lastdminus1+(*current)[1])*lcoeff,env->modulo)) < dminus1bound ) &&
-	     ( absint(lastd1+(*d1tabposition))< d1 ) ){
+	if ( possible_degrees[lastdeg+(*position)] 
+	     && is_greater(dminus1bound,abs(smod((lastdminus1+(*current)[1])*lcoeff,env->modulo)),0)
+	     //&& ( absint(lastd1+(*d1tabposition))< d1 ) 
+	     ){
+	  gen check=smod(lastpi*cstcoeff(*current)*lcoeff,env->modulo);
+	  check=check/gcd(check,lcoeff);
 	  if (
-	      is_zero(cstcoeff(q)%smod(lastpi*cstcoeff(*current),env->modulo))
+	      is_zero(cstcoeff(q)%check)
 	      ){
 	    it[k]=current;
 	    // modpoly pi(*it[1]);
@@ -962,8 +966,9 @@ namespace giac {
 	    position=&degrees[current-itbegin];
 	    lastd1=(iquo(lastdminus1*twoto32,env->modulo)).to_int();
 	    d1tabposition=&d1tab[current-itbegin];
-	    if (2*(lastdeg+current->size()-1)>q.size()-1)
-	      break;
+	    if (2*(lastdeg+current->size()-1)>q.size()-1){
+	      current=itend-1; continue;
+	    }
 	  }
 	  else
 	    break;

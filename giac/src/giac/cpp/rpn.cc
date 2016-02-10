@@ -2820,6 +2820,35 @@ namespace giac {
     int as=int(A.size()),bs=int(B.size()); 
     // bs system to solve, each with neq equations and as variables
     if (as>neq){ // under-determined system, find the smallest solution
+      if (has_num_coeff(A)){
+	// QR factorization of A=trn(system matrix) 
+	// R_1=neq first rows of R
+	// Q_1=neq first cols of Q
+	// solve R_1^* c = B[i] then output Q_1*c
+	gen qrdec=qr(A,contextptr);
+	if (qrdec.type==_VECT && qrdec._VECTptr->size()==2){
+	  gen q=qrdec._VECTptr->front(),r=qrdec._VECTptr->back();
+	  if (ckmatrix(q) && ckmatrix(r)){ 
+	    if (!is_zero(r[neq-1])){
+	      vecteur R(r._VECTptr->begin(),r._VECTptr->begin()+neq);
+	      r=mtran(R);
+	      R=*r._VECTptr;
+	      vecteur qt=mtran(*q._VECTptr);
+	      matrice res;
+	      qt=vecteur(qt.begin(),qt.begin()+neq);
+	      qt=mtran(qt);
+	      for (int i=0;i<bs;++i){
+		gen Bi=B[i];
+		vecteur v,w;
+		linsolve_l(R,*Bi._VECTptr,v);
+		multmatvecteur(qt,v,w);
+		res.push_back(w);
+	      }
+	      return mtran(res);
+	    }
+	  }
+	}
+      }
       // not optimal since we solve the system for each Bi
       A.push_back(0);
       matrice res;
