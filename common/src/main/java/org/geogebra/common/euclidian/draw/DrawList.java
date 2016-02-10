@@ -340,6 +340,10 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		public void scroll() {
+			if (!isScrollNeeded()) {
+				return;
+			}
+
 			switch (scrollMode) {
 			case UP:
 				scrollUp();
@@ -386,6 +390,10 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		public boolean onDrag(int x, int y) {
+			if (!isScrollNeeded()) {
+				return false;
+			}
+
 			dropDown.stopClickTimer();
 			Log.debug(SCROLL_PFX + " start dragging ");
 			OptionItem item = getItemAt(x, y);
@@ -396,7 +404,7 @@ public final class DrawList extends CanvasDrawable
 			return true;
 		}
 		public void onMouseOver(int x, int y) {
-			if (!isHit(x, y)) {
+			if (!isHit(x, y) && isScrollNeeded()) {
 				stopScrolling();
 				return;
 			}
@@ -1588,6 +1596,10 @@ public final class DrawList extends CanvasDrawable
 	}
 
 	public boolean onDrag(int x, int y) {
+		if (!isDrawingOnCanvas()) {
+			return false;
+		}
+
 		return drawOptions.onDrag(x, y);
 	}
 	public void onScroll(int x, int y) {
@@ -1597,6 +1609,10 @@ public final class DrawList extends CanvasDrawable
 	}
 
 	public void onMouseWheel(double delta) {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+
 		if (delta > 0) {
 			drawOptions.scrollDown();
 		} else {
