@@ -425,10 +425,22 @@ public final class DrawList extends CanvasDrawable
 				return false;
 			}
 
-			dragged = new DraggedItem(x, y);
-			if (dragged.isValid()) {
+			DraggedItem di = new DraggedItem(x, y);
+			if (di.isValid()) {
 				dropDown.stopClickTimer();
-				Log.debug(SCROLL_PFX + " start dragging " + dragged.item.text);
+				Log.debug(SCROLL_PFX + " start dragging " + di.item.text);
+				if (dragged == null || !dragged.isValid()) {
+					dragged = di;
+					return true;
+				}
+
+				int dY = dragged.startPoint.getY() - di.startPoint.getY();
+				int itemDiffs = (int) (dY / di.item.getRect().getHeight());
+				if (itemDiffs != 0) {
+					scrollBy(itemDiffs);
+					Log.debug(SCROLL_PFX + " dragging by " + itemDiffs);
+					dragged = di;
+				}
 
 			}
 
