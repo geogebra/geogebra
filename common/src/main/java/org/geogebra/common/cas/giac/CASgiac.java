@@ -163,7 +163,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		// OK (or \"\").
 		String rtrimmed = result.trim();
 		if (rtrimmed.startsWith("\"")) {
-			if (!rtrimmed.startsWith("\"[") && !"\"\"".equals(rtrimmed)) {
+			if (!rtrimmed.startsWith("\"[") && !"\"\"".equals(rtrimmed)
+					&& !rtrimmed.startsWith("\"X=")) {
 				// eg
 				// "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
 				// assume error
