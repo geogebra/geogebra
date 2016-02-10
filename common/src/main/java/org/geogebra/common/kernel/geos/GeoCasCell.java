@@ -1490,7 +1490,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 						.evaluatesTo3DVector()) {
 			isLine = true;
 		}
-		if (!isAssignmentVariableDefined() && !isLine)
+		if (!isAssignmentVariableDefined())
 			return;
 		if (isNative() && (getInputVE() instanceof Function)
 				&& (outputVE instanceof ExpressionNode)) {
@@ -1522,8 +1522,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (isLine && outputVE instanceof Equation) {
 
 			try {
+				boolean old = kernel.getConstruction().isSuppressLabelsActive();
+				kernel.getConstruction().setSuppressLabelCreation(true);
 				GeoElement[] line = kernel.getAlgebraProcessor()
-							.doProcessValidExpression(outputVE);
+						.doProcessValidExpression(outputVE);
+				kernel.getConstruction().setSuppressLabelCreation(old);
 				newTwinGeo = line[0];
 			} catch (MyError e) {
 				// TODO Auto-generated catch block
@@ -2817,8 +2820,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		adjustPointList(false);
 		this.firstComputeOutput = true;
 		this.computeOutput(true,true);
-		if (twinGeo != null  && !dependsOnDummy(twinGeo))
+		if (twinGeo != null && !dependsOnDummy(twinGeo)) {
 			twinGeo.setLabel(null);
+		}
 		if (twinGeo != null && twinGeo.getLabelSimple() != null
 				&& twinGeo.isEuclidianShowable()) {
 			String twinGeoLabelSimple = twinGeo.getLabelSimple();
