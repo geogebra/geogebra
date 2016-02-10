@@ -309,10 +309,11 @@ pr.menu_header_undo(), null, 32);
 		var that = this;
 
 		// fix for firefox and iexplorer (e.g. fullscreen goes to 1079px instead of 1080px)
-		var screenHeight = screen.height - 5;
+		//var screenHeight = screen.height - 5;
+
 		var fullscreen = true;
 		$wnd.console.log(fullscreen);
-		if ($wnd.innerHeight < screenHeight) {
+		if ($wnd.innerHeight < screen.height - 5) {
 			fullscreen = false;
 		}
 
@@ -353,6 +354,7 @@ pr.menu_header_undo(), null, 32);
 		// window resize has 2 cases: full screen and not full screen
 		$wnd.addEventListener("resize", function() {
 			var height = $wnd.innerHeight;
+			var screenHeight = screen.height - 5;
 			$wnd.console.log(height, screenHeight);
 
 			if (height < screenHeight) {
@@ -364,6 +366,9 @@ pr.menu_header_undo(), null, 32);
 				fullscreen = true;
 			}
 		});
+		//$wnd.addEventListener("orientationchange", function() {
+		//	var height = $wnd.innerHeight;
+		//});
 	}-*/;
 	
 	
