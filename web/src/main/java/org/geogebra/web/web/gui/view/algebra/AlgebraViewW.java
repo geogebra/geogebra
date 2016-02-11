@@ -1853,7 +1853,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		printItem.addItem(printLeaf);
 
 		RadioTreeItem.as(printLeaf).repaint();
-		leaf.setSelected(geo.doHighlighting());
 	}
 
 	public void getPrintable(FlowPanel pPanel, final Button btPrint) {
@@ -1877,7 +1876,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				}
 			}
 			printItem.setState(true);
-			printTree.addItem(printItem);
+			if (item != inputPanelTreeItem) {
+				printTree.addItem(printItem);
+			}
 		}
 
 		pPanel.add(printTree);
