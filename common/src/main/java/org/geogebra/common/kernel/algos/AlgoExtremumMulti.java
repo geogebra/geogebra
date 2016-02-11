@@ -26,31 +26,31 @@ import org.geogebra.common.main.App;
 
 /**
  * Command: Extremum[ <function>, left-x, right-x]
- * 
+ *
  * Numerically calculates Extremum points for <function> in interval
  * <left-x,right-x> without being dependent on being able to find the derivate
  * of <function>.
- * 
+ *
  * Restrictions for use: <function> should be continuous and be reasonably
  * well-behaved in the interval. (For instance the function should not be wildly
  * oscillating in small x-intervals, and not have several hundred extremums in
  * the interval.) (The interval should be an open interval, extremums should not
  * be on leftx or rightx.)(?) Breaking restrictions could go well but could also
  * give unpredictable results.
- * 
+ *
  * This routine tries to find all extremums visible by eyesight in the graphic
  * screen, but might oversee more extremums not being visible. (Those might
  * become visible by zooming howeveer.)
- * 
+ *
  * Algorithm is: -Sample every 5 pixel -Find intervals with possible extremums
  * -Use Brent's algorithm (see geogebra.kernel.optimization.ExtremumFinder) on
  * the intervals
- * 
+ *
  * 01.03.2011: -Got rid of false extremums near asymptotes (even if the user
  * should not have them in the interval...) by testing gradient 07.03.2011:
  * Rewrote to extend abstract AlgoGeoPointsFunction which has all the label
  * code.
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 2011-03.07
  */
@@ -302,6 +302,32 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 			getOutput(i).updateCascade();
 		}
 	}
+
+    @Override
+    protected void initPoints(int number) {
+        super.initPoints(number);
+
+        if (points.length > number) {
+            // if there are no points left, there needs to be one "undefined" point
+            number = Math.max(1, number);
+
+            GeoPoint[] temp = new GeoPoint[number];
+            for (int i = 0; i < temp.length; i++) {
+                temp[i] = points[i];
+                temp[i].setCoords(0, 0, 1); // init as defined
+            }
+
+            // delete the remaining points
+            for (int i = number; i < points.length; i++) {
+                if (points[i] != null) {
+                    points[i].setParentAlgorithm(null);
+                    points[i].remove();
+                }
+            }
+            points = temp;
+            super.setOutput(points);
+        }
+    }
 
 }// class AlgoExtremumNumerical
 
