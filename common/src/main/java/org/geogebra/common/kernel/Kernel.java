@@ -5212,4 +5212,8 @@ public class Kernel {
 				: new GeoImplicitPoly(cons);
 	}
 
+	public int getXmaxLength() {
+		return xmax.length;
+	}
+
 }

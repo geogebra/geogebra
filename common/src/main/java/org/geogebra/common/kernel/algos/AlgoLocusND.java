@@ -917,7 +917,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			views++;
 		}
 		boolean changed = false;
-		for (int i = 0; i < visibleEV.length; i++) {
+		for (int i = 0; i < visibleEV.length && i < kernel.getXmaxLength(); i++) {
 			if (visibleEV[i]) {
 				changed = changed || updateScreenBorders(i);
 			}
