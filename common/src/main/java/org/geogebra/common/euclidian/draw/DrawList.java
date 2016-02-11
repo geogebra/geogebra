@@ -255,6 +255,7 @@ public final class DrawList extends CanvasDrawable
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
 			}
 
+
 			drawItem(item, item.index == selectedIndex);
 		}
 
@@ -265,22 +266,31 @@ public final class DrawList extends CanvasDrawable
 
 			int rectLeft = (int) item.rect.getBounds().getX();
 			int rectTop = (int) item.rect.getBounds().getY();
+			int ctrlUpY = (int) (rectUp.getBounds().getY()
+					+ rectUp.getBounds().getHeight());
+			g2.setClip(rectLeft, ctrlUpY, (int) item.rect.getWidth(),
+					(int) (rectDown.getY() - ctrlUpY));
 
+			int itemHeight = dimItem.getHeight();
+			// if (rectTop < ctrlUpY) {
+			// itemHeight -= (ctrlUpY - rectTop);
+			// rectTop = ctrlUpY;
+			// }
 			if (hover) {
 				g2.setColor(hoverColor);
 				g2.fillRoundRect(rectLeft, rectTop, dimItem.getWidth(),
-						dimItem.getHeight(), ROUND, ROUND);
+						itemHeight, ROUND, ROUND);
 
 			} else {
 				g2.setColor(geoList.getBackgroundColor());
 				g2.fillRect(rectLeft, rectTop, dimItem.getWidth(),
-						dimItem.getHeight());
+ itemHeight);
 
 			}
 
 			if (item.getRect() == null) {
 				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
-						rectTop, dimItem.getWidth(), dimItem.getHeight()));
+						rectTop, dimItem.getWidth(), itemHeight));
 			}
 			if (item.latex) {
 				GRectangle rect = item.rect.getBounds();
@@ -296,12 +306,13 @@ public final class DrawList extends CanvasDrawable
 					g2.setFont(itemFont.deriveFont(itemFontSize));
 				}
 				int x = (dimItem.getWidth() - item.width) / 2;
-				int y = (dimItem.getHeight() - yPadding);
+				int y = (itemHeight - yPadding);
 
 				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 						item.text, rectLeft + x, rectTop + y, false,
 						false);
 			}
+			g2.setClip(0, 0, viewWidth, viewHeight);
 		}
 
 		private void drawBox() {
