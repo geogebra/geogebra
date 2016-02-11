@@ -1581,14 +1581,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// set the diagonal values
 		diagonal[0] = 0;
 		diagonal[1] = 0;
-		diagonal[2] = 1; // TODO still wrong
+		diagonal[2] = 1 / halfAxes[2]; // TODO still wrong
 		diagonal[3] = 0;
 
 		// set matrix
-		setMatrixFromEigen(-r2 * 2);
+		setMatrixFromEigen(-0.25 * halfAxes[2]);
 
 		// eigen matrix
-		setEigenMatrix(1, 1, halfAxes[2]);
+		setEigenMatrix(1, 1, 2 * halfAxes[2]);
 
 		// set type
 		this.type = QUADRIC_PARABOLIC_CYLINDER;

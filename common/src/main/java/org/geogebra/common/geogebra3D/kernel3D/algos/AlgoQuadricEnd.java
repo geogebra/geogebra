@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Compute one end of a limited quadric
@@ -127,12 +126,6 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			coordsys.addVector(getV1(v[1]).mul(-1));
 			coordsys.makeOrthoMatrix(false, false);
 			section.setMatrix(cm);
-			if (quadric.getBottom() != null) {
-				double dd = quadric.getBottom().p;
-				Log.debug(dd + "," + section.p);
-				// qm.set(3, 1, dd);
-				// qm.set(1, 3, dd);
-			}
 		} else {
 		CoordMatrix qm = quadric.getSymetricMatrix();
 		Coords d = quadric.getEigenvec3D(2);
