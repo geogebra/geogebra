@@ -27,7 +27,6 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -1848,6 +1847,15 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		copyCanvas.getContext("2d").drawImage(origCanvas, 0, 0);
 	}-*/;
 
+	private static void addLeaf(TreeItem printItem, RadioTreeItem leaf) {
+		GeoElement geo = leaf.getGeo();
+		RadioTreeItem printLeaf = new RadioTreeItem(geo);
+		printItem.addItem(printLeaf);
+
+		RadioTreeItem.as(printLeaf).repaint();
+		leaf.setSelected(geo.doHighlighting());
+	}
+
 	public void getPrintable(FlowPanel pPanel, final Button btPrint) {
 		Tree printTree = new Tree();
 
@@ -1855,47 +1863,18 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 		for (int i = 0; i < this.getItemCount(); i++) {
 			TreeItem item = this.getItem(i);
-			Log.debug("item text: " + item.getText());
 			TreeItem printItem = new TreeItem();
 			printItem.setText(item.getText());
-			for (int j = 0; j < item.getChildCount(); j++) {
-				TreeItem leaf = item.getChild(j);
 
-				Log.debug(leaf.getClass() + "");
-				if (leaf instanceof AVTreeItem) {
-					GeoElement geo = ((RadioTreeItem) leaf).getGeo();
-					RadioTreeItem printLeaf = new RadioTreeItem(geo);
-					printItem.addItem(printLeaf);
-
-					RadioTreeItem.as(printLeaf).repaint();
-					leaf.setSelected(geo.doHighlighting());
-
+			if (item instanceof RadioTreeItem) {
+				addLeaf(printItem, (RadioTreeItem) item);
+			} else {
+				for (int j = 0; j < item.getChildCount(); j++) {
+					TreeItem leaf = item.getChild(j);
+					if (leaf instanceof RadioTreeItem) {
+						addLeaf(printItem, (RadioTreeItem) leaf);
+					}
 				}
-
-				// printItem.addItem(leaf); // ???
-
-				// TreeItem printLeaf = new TreeItem();
-
-				// app.getGgbApi().getScreenshotURL(leaf.getElement(),
-				// getScreenshotCallback(printLeaf.getElement()));
-
-				// printLeaf.getElement().setInnerHTML(
-				// leaf.getElement().getInnerHTML());
-				//
-
-				// NodeList<Element> canvasList = leaf.getElement()
-				// .getElementsByTagName("canvas");
-				// Log.debug("canvasList lenght: " + canvasList.getLength());
-				// if (canvasList.getLength() > 0) {
-				// NodeList<Element> printCanvasList = printLeaf.getElement()
-				// .getElementsByTagName("canvas");
-				// for (int k = 0; k < canvasList.getLength(); k++) {
-				// copyCanvas(canvasList.getItem(k),
-				// printCanvasList.getItem(k));
-				// }
-				// }
-
-				// printItem.addItem(printLeaf);
 			}
 			printItem.setState(true);
 			printTree.addItem(printItem);
