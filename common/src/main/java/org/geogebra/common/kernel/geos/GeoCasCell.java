@@ -2882,14 +2882,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			evalComment = oldEvalComment;
 			evalVE = oldEvalVE;
 			// needed for GGB-525
-			// reevaluate Solve command without requiring pointList
-			if (evalVE instanceof ExpressionNode
-					&& ((ExpressionNode) evalVE).getLeft() != null
-					&& ((ExpressionNode) evalVE).getLeft() instanceof Command
-					&& "Solve".equals(((Command) ((ExpressionNode) evalVE)
-							.getLeft()).getName())) {
-				pointList = false;
-			}
+			// reevaluate Solve, Solutions etc without requiring pointList
+			pointList = false;
+
 			setInputVE(oldInputVE);
 
 			this.computeOutput(true,false);
