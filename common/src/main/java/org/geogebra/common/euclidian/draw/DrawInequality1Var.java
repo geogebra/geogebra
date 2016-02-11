@@ -1,9 +1,11 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -20,6 +22,7 @@ public class DrawInequality1Var extends Drawable {
 	public static final double DOT_RADIUS = 1;
 	private Inequality ineq;
 	private GeneralPathClipped[] gp;
+	private GLine2D[] lines;
 	private org.geogebra.common.awt.GEllipse2DDouble[] circle;
 	private boolean varIsY;
 
@@ -47,14 +50,14 @@ public class DrawInequality1Var extends Drawable {
 
 	@Override
 	public void draw(org.geogebra.common.awt.GGraphics2D g2) {
-		if (gp == null)
+		if (lines == null)
 			return;
 		int i = 0;
-		while (i < gp.length && gp[i] != null) {
+		while (i < lines.length && lines[i] != null) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				g2.drawWithValueStrokePure(gp[i]);
+				g2.drawWithValueStrokePure(lines[i]);
 			}
 
 			if (geo.getLineThickness() > 0) {
@@ -62,7 +65,7 @@ public class DrawInequality1Var extends Drawable {
 				g2.setStroke(EuclidianStatic.getStroke(
 						geo.getLineThickness() / 2.0f,
 						((GeoElement) ineq.getFunBorder()).lineType));
-				g2.drawWithValueStrokePure(gp[i]);
+				g2.drawWithValueStrokePure(lines[i]);
 			}
 
 			// TODO: draw label
@@ -126,11 +129,13 @@ public class DrawInequality1Var extends Drawable {
 			double[] x = new double[roots.length + 2];
 			x[0] = view.getHeight() + 10;
 			int numOfX = 1;
-			for (int i = 0; i < roots.length; i++)
+			for (int i = 0; i < roots.length; i++) {
 				if (roots[i].x < view.toRealWorldCoordY(-10)
 						&& roots[i].x > view
-								.toRealWorldCoordY(view.getHeight() + 10))
+								.toRealWorldCoordY(view.getHeight() + 10)) {
 					x[numOfX++] = view.toScreenCoordY(roots[i].x);
+				}
+			}
 			x[numOfX++] = -10;
 			if (numOfX > 2 && x[numOfX - 2] > 0
 					&& x[numOfX - 2] < view.getHeight())
@@ -138,8 +143,7 @@ public class DrawInequality1Var extends Drawable {
 			else
 				yLabel = 10;
 			xLabel = (int) view.getxZero() + 6;
-			if (gp == null)
-				gp = new GeneralPathClipped[numOfX / 2];
+			initGP(numOfX);
 			int j = ineq.getFunBorder().evaluate(
 					view.toRealWorldCoordY(view.getHeight() + 10)) <= 0 ? 1 : 0;
 			org.geogebra.common.awt.GArea a = org.geogebra.common.factories.AwtFactory.prototype
@@ -152,6 +156,12 @@ public class DrawInequality1Var extends Drawable {
 				gp[i].lineTo(-10, x[2 * i + j + 1]);
 				gp[i].lineTo(-10, x[2 * i + j]);
 				gp[i].closePath();
+				lines[2 * i] = AwtFactory.prototype.newLine2D();
+				lines[2 * i].setLine(-10, x[2 * i + j], view.getWidth() + 10,
+						x[2 * i + j]);
+				lines[2 * i + 1] = AwtFactory.prototype.newLine2D();
+				lines[2 * i + 1].setLine(-10, x[2 * i + j + 1],
+						view.getWidth() + 10, x[2 * i + j + 1]);
 				a.add(org.geogebra.common.factories.AwtFactory.prototype
 						.newArea(gp[i]));
 			}
@@ -161,11 +171,13 @@ public class DrawInequality1Var extends Drawable {
 			double[] x = new double[roots.length + 2];
 			x[0] = -10;
 			int numOfX = 1;
-			for (int i = 0; i < roots.length; i++)
+			for (int i = 0; i < roots.length; i++) {
 				if (roots[i].x > view.toRealWorldCoordX(-10)
 						&& roots[i].x < view
-								.toRealWorldCoordX(view.getWidth() + 10))
+								.toRealWorldCoordX(view.getWidth() + 10)) {
 					x[numOfX++] = view.toScreenCoordX(roots[i].x);
+				}
+			}
 			x[numOfX++] = view.getWidth() + 10;
 
 			if (numOfX > 2 && x[numOfX - 2] > 0
@@ -175,8 +187,7 @@ public class DrawInequality1Var extends Drawable {
 				xLabel = 10;
 			yLabel = (int) view.getyZero() + 15;
 
-			if (gp == null)
-				gp = new GeneralPathClipped[numOfX / 2];
+			initGP(numOfX);
 
 			org.geogebra.common.awt.GArea a = org.geogebra.common.factories.AwtFactory.prototype
 					.newArea();
@@ -209,6 +220,12 @@ public class DrawInequality1Var extends Drawable {
 					gp[i].lineTo(x[2 * i + j + 1], -10);
 					gp[i].lineTo(x[2 * i + j], -10);
 					gp[i].closePath();
+					lines[2 * i] = AwtFactory.prototype.newLine2D();
+					lines[2 * i].setLine(x[2 * i + j], -10, x[2 * i + j],
+							view.getHeight() + 10);
+					lines[2 * i + 1] = AwtFactory.prototype.newLine2D();
+					lines[2 * i + 1].setLine(x[2 * i + 1 + j], -10, x[2 * i + 1
+							+ j], view.getHeight() + 10);
 					a.add(org.geogebra.common.factories.AwtFactory.prototype
 							.newArea(gp[i]));
 				}
@@ -216,6 +233,14 @@ public class DrawInequality1Var extends Drawable {
 			setShape(a);
 		}
 		updateStrokes(geo);
+	}
+
+	private void initGP(int numOfX) {
+		if (gp == null) {
+			gp = new GeneralPathClipped[numOfX / 2];
+			lines = new GLine2D[numOfX];
+		}
+
 	}
 
 }
