@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -33,7 +32,8 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 	private GeoQuadric3DLimited quadric; // input
 	private GeoConic3D section; // output
 	private CoordSys coordsys;
-	private GeoPoint3D help;
+
+	// private GeoPoint3D help;
 	/**
 	 * 
 	 * @param cons
@@ -49,8 +49,8 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		coordsys = new CoordSys(2);
 		section.setCoordSys(coordsys);
 		section.setIsEndOfQuadric(true);
-		help = new GeoPoint3D(cons);
-		help.setLabel("help");
+		// help = new GeoPoint3D(cons);
+		// help.setLabel("help");
 		setInputOutput(new GeoElement[] { quadric },
 				new GeoElement[] { section });
 
@@ -101,9 +101,9 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			Coords o2 = quadric.getMidpoint3D().add(
 					d.mul(quadric.getTopParameter()));
 			pm.setOrigin(getOrigin(o1, o2));
-			help.setCoords(o2.getX(), o2.getY(), o2.getZ(),
-					1);
-			help.update();
+		//	help.setCoords(o2.getX(), o2.getY(), o2.getZ(),
+			// 1);
+		//	help.update();
 			Coords[] v = new Coords[3];// d.completeOrthonormal();
 			v[2] = d;
 			v[0] = quadric.getEigenvec3D(0).normalize();
