@@ -266,11 +266,12 @@ public final class DrawList extends CanvasDrawable
 
 			int rectLeft = (int) item.rect.getBounds().getX();
 			int rectTop = (int) item.rect.getBounds().getY();
-			int ctrlUpY = (int) (rectUp.getBounds().getY()
-					+ rectUp.getBounds().getHeight());
-			g2.setClip(rectLeft, ctrlUpY, (int) item.rect.getWidth(),
-					(int) (rectDown.getY() - ctrlUpY));
-
+			if (this.isScrollNeeded()) {
+				int ctrlUpY = (int) (rectUp.getBounds().getY() + rectUp
+						.getBounds().getHeight());
+				g2.setClip(rectLeft, ctrlUpY, (int) item.rect.getWidth(),
+						(int) (rectDown.getY() - ctrlUpY));
+			}
 			int itemHeight = dimItem.getHeight();
 			// if (rectTop < ctrlUpY) {
 			// itemHeight -= (ctrlUpY - rectTop);
