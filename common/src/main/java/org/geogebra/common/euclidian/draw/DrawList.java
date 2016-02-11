@@ -246,7 +246,7 @@ public final class DrawList extends CanvasDrawable
 			if (isScrollNeeded()) {
 				rectTop += rectUp.getHeight();
 				if (isDragging()) {
-					// rectTop += dragOffset;
+					rectTop += dragOffset;
 				}
 			}
 			if (item.getRect() == null || item.getRect().getX() != rectLeft
@@ -447,6 +447,7 @@ public final class DrawList extends CanvasDrawable
 				int dY = dragged.startPoint.getY() - di.startPoint.getY();
 				int itemDiffs = (int) (dY / di.item.getRect().getHeight());
 				if (itemDiffs != 0) {
+					dragOffset = (int) (dY % di.item.getRect().getHeight());
 					scrollBy(itemDiffs);
 					Log.debug(SCROLL_PFX + " dragging by " + itemDiffs);
 					dragged = di;
