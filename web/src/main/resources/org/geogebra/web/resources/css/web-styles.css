@@ -6165,6 +6165,10 @@ body.application[dir=rtl] .deleteAlgebra {
 	.avItem{
 		page-break-inside: avoid;
 	}
+	
+	.marble{
+		-webkit-print-color-adjust: exact;
+	}
 }
 
 @media print and (orientation:portrait){		
