@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Compute one end of a limited quadric
@@ -31,7 +33,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 	private GeoQuadric3DLimited quadric; // input
 	private GeoConic3D section; // output
 	private CoordSys coordsys;
-
+	private GeoPoint3D help;
 	/**
 	 * 
 	 * @param cons
@@ -47,7 +49,8 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		coordsys = new CoordSys(2);
 		section.setCoordSys(coordsys);
 		section.setIsEndOfQuadric(true);
-
+		help = new GeoPoint3D(cons);
+		help.setLabel("help");
 		setInputOutput(new GeoElement[] { quadric },
 				new GeoElement[] { section });
 
@@ -98,6 +101,9 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			Coords o2 = quadric.getMidpoint3D().add(
 					d.mul(quadric.getTopParameter()));
 			pm.setOrigin(getOrigin(o1, o2));
+			help.setCoords(o2.getX(), o2.getY(), o2.getZ(),
+					1);
+			help.update();
 			Coords[] v = new Coords[3];// d.completeOrthonormal();
 			v[2] = d;
 			v[0] = quadric.getEigenvec3D(0).normalize();
@@ -111,17 +117,22 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 
 			// sets the conic matrix from plane and quadric matrix
 
-			CoordMatrix cm = quadric.getBottom() != null ? quadric.getBottom()
-					.getSymetricMatrix() : pmt.mul(qm).mul(pm);
+			CoordMatrix cm = pmt.mul(qm).mul(pm);
 
 			// Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
 
 			coordsys.resetCoordSys();
-			coordsys.addPoint(o2);
-			coordsys.addVector(v[1]);
-			coordsys.addVector(getV1(v[0]).mul(-1));
+			coordsys.addPoint(getOrigin(o1, o2));
+			coordsys.addVector(v[0]);
+			coordsys.addVector(getV1(v[1]).mul(-1));
 			coordsys.makeOrthoMatrix(false, false);
 			section.setMatrix(cm);
+			if (quadric.getBottom() != null) {
+				double dd = quadric.getBottom().p;
+				Log.debug(dd + "," + section.p);
+				// qm.set(3, 1, dd);
+				// qm.set(1, 3, dd);
+			}
 		} else {
 		CoordMatrix qm = quadric.getSymetricMatrix();
 		Coords d = quadric.getEigenvec3D(2);
@@ -147,9 +158,9 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		// Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
 
 		coordsys.resetCoordSys();
-		coordsys.addPoint(getOrigin(o1, o2));
-		coordsys.addVector(v[0]);
-		coordsys.addVector(getV1(v[1]));
+			coordsys.addPoint(getOrigin(o1, o2));
+			coordsys.addVector(v[0]);
+			coordsys.addVector(getV1(v[1].mul(0.5)));
 		coordsys.makeOrthoMatrix(false, false);
 
 		section.setMatrix(cm);

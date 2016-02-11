@@ -1585,7 +1585,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		diagonal[3] = 0;
 
 		// set matrix
-		setMatrixFromEigen();
+		setMatrixFromEigen(-r2 * 2);
 
 		// eigen matrix
 		setEigenMatrix(1, 1, halfAxes[2]);
