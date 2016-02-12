@@ -105,6 +105,8 @@ public class CommandsTest extends Assert{
 				"--prerelease" }), new JFrame(), false);
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
+		// make sure x=y is a line, not plane
+		app.getGgbApi().setPerspective("1");
 	    // Setting the general timeout to 11 seconds. Feel free to change this.
 		app.getKernel().getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(11000);
 	}
@@ -309,6 +311,12 @@ public class CommandsTest extends Assert{
 		t("Sequence[ t^2, t, 1, 4, -2 ]", "{}");
 		t("Length[Unique[Sequence[ random(), t, 1, 10]]]", "10");
 
+	}
+
+	@Test
+	public void cmdOrthogonalPlane() {
+		t("OrthogonalPlane[ (0,0,1), X=(p,2p,3p) ]", "x + 2y + 3z = 3");
+		t("OrthogonalPlane[ (0,0,1), Vector[(1,2,3)] ]", "x + 2y + 3z = 3");
 	}
 
 	@Test

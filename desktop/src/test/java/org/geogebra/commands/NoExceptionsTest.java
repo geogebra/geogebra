@@ -34,6 +34,8 @@ public class NoExceptionsTest {
 		ap = app.getKernel().getAlgebraProcessor();
 	    // Setting the general timeout to 11 seconds. Feel free to change this.
 		app.getKernel().getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(11000);
+		// make sure x=y is a line, not plane
+		app.getGgbApi().setPerspective("1");
 		//try this before an object named i is created
 		t("1+i");
 		t("Pt1=(1,1)");
