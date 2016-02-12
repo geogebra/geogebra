@@ -273,10 +273,6 @@ public final class DrawList extends CanvasDrawable
 						(int) (rectDown.getY() - ctrlUpY));
 			}
 			int itemHeight = dimItem.getHeight();
-			// if (rectTop < ctrlUpY) {
-			// itemHeight -= (ctrlUpY - rectTop);
-			// rectTop = ctrlUpY;
-			// }
 			if (hover) {
 				g2.setColor(hoverColor);
 				g2.fillRoundRect(rectLeft, rectTop, dimItem.getWidth(),
@@ -463,7 +459,7 @@ public final class DrawList extends CanvasDrawable
 					scrollBy(itemDiffs);
 					Log.debug(SCROLL_PFX + " dragging by " + itemDiffs);
 					dragged = di;
-				} else {
+				} else if (getStartIdx() > 0) {
 					dragOffset = -dY;
 					view.repaintView();
 				}
