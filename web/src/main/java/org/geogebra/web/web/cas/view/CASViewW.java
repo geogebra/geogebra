@@ -170,9 +170,7 @@ public class CASViewW extends CASView implements PrintableW {
 	 *            make keyboard immediately visible
 	 */
 	public void maybeOpenKeyboard(final boolean force) {
-		if (!app.has(Feature.CAS_EDITOR)
-				|| app.getArticleElement()
-.getDataParamBase64String().length() > 0
+		if (!app.has(Feature.CAS_EDITOR) || app.isStartedWithFile()
 				|| app.showView(App.VIEW_ALGEBRA)) {
 			return;
 		}

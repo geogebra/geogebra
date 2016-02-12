@@ -127,9 +127,7 @@ public class AppWapplication extends AppWFull {
 		}
 
 		if (getFileManager().isAutoSavedFileAvailable()
-		        && this.getArticleElement().getDataParamTubeID().length() == 0
-		        && this.getArticleElement().getDataParamBase64String().length() == 0
-				&& this.getArticleElement().getDataParamJSON().length() == 0
+				&& !this.isStartedWithFile()
 				&& this.getExam() == null) {
 			afterLocalizationLoaded(new Runnable() {
 

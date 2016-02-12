@@ -345,7 +345,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			}
 		} else {
 			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()) {
-				if (app.getArticleElement().getDataParamBase64String().length() == 0) {
+				if (!app.isStartedWithFile()) {
 					keyboardShowing = true;
 					app.getGuiManager().invokeLater(new Runnable() {
 

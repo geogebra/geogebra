@@ -2150,7 +2150,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public static boolean mayForceKeyboard(AppW app) {
-		return app.getArticleElement().getDataParamBase64String().length() == 0
+		return !app.isStartedWithFile()
 				&& (app.getExam() == null || app.getExam().getStart() > 0);
 	}
 
