@@ -50,7 +50,8 @@ public class CASTableCellW extends VerticalPanel {
 		if (casCell != null) {
 			inputPanel
 			        .setText(casCell.getInput(StringTemplate.defaultTemplate));
-			inputPanel.setLaTeX(casCell.getLaTeXInput());
+			inputPanel.setLaTeX(casCell
+					.getLaTeXInput(StringTemplate.latexTemplate));
 
 		}
 		add(inputPanel);
@@ -100,21 +101,28 @@ public class CASTableCellW extends VerticalPanel {
 	}
 
 	/**
-	 * @param editor
+	 * @param casEditorW
 	 *            field for editing
 	 */
-	public void startEditing(AutoCompleteW editor, String newText) {
+	public void startEditing(CASEditorW casEditorW, String newText) {
 		clear();
-		add(editor.toWidget());
-		textField = editor;
+		textField = casEditorW.getWidget();
+		add(textField.toWidget());
 		textBeforeEdit = inputPanel.getText();
-		editor.setText(newText == null ? textBeforeEdit : newText);
+
+		if (newText == null) {
+			casEditorW.setLaTeX(
+					textBeforeEdit,
+					getCASCell().getLaTeXInput(
+							StringTemplate.latexTemplateMQedit));
+		}
+		textField.setText(newText == null ? textBeforeEdit : newText);
 		add(outputPanel);
 		if(getCASCell() != null && getCASCell().isError()){
 			outputPanel.clear();
 			outputPanel.add(renderPlain());
 		}
-		editor.requestFocus();
+		textField.requestFocus();
 	}
 
 	/**

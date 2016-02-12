@@ -424,4 +424,12 @@ public class EquationEditor {
 		return ret;
 	}
 
+	public void setLaTeX(String plain, String latex) {
+		if (this.historyMap.containsKey(plain) || latex == null) {
+			return;
+		}
+		historyMap.put(plain, latex);
+
+	}
+
 }

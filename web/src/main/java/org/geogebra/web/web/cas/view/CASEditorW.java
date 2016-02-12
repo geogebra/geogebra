@@ -9,4 +9,6 @@ public interface CASEditorW extends CASTableCellEditor {
 	public void resetInput();
 
 	public void setAutocomplete(boolean b);
+
+	public void setLaTeX(String plain, String latex);
 }

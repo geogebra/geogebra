@@ -149,7 +149,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 			str = geo.toValueString(StringTemplate.latexTemplate);
 		} else {
 			str = geo instanceof GeoCasCell ? ((GeoCasCell) geo)
-					.getLaTeXInput() : geo
+					.getLaTeXInput(StringTemplate.latexTemplate) : geo
 					.toString(StringTemplate.latexTemplate);
 		}
 		DrawEquationW.paintOnCanvas(geo, str, c, app.getFontSizeWeb());

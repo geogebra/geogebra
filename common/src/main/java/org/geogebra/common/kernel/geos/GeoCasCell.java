@@ -3123,14 +3123,14 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	/**
 	 * @return input in LaTeX form
 	 */
-	public String getLaTeXInput() {
+	public String getLaTeXInput(StringTemplate tpl) {
 
 		if (useAsText) {
 			return "\\text{" + this.commentText.getTextString() + "}";
 		}
 
 		return latexInput == null ? (inputVE == null ? input : inputVE
-				.toAssignmentString(StringTemplate.latexTemplate,
+				.toAssignmentString(tpl,
 						getAssignmentType())) : latexInput;
 	}
 

@@ -109,4 +109,9 @@ public class CASTableCellEditorW implements CASTableCellEditor, CASEditorW {
 		}
 		return null;
 	}
+
+	public void setLaTeX(String plain, String latex) {
+		// TODO Auto-generated method stub
+
+	}
 }

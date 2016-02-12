@@ -551,61 +551,21 @@ public class StringTemplate implements ExpressionNodeConstants {
 				boolean multiplicationSpaceNeeded = false;
 				if (nounary) {
 					switch (getStringType()) {
-					case PGF:
-					case PSTRICKS:
-					case GEOGEBRA_XML:
-					case GIAC:
-						showMultiplicationSign = true;
-						break;
-
-					case LIBRE_OFFICE:
+					
 					case LATEX:
 						// check if we need a multiplication sign, see #414
 						// digit-digit, e.g. 3 * 5
 						// digit-fraction, e.g. 3 * \frac{5}{2}
-						char lastLeft = leftStr.charAt(leftStr.length() - 1);
-						char firstRight = rightStr.charAt(0);
 						showMultiplicationSign = !(right instanceof MySpecialDouble && Unicode.DEGREE
 								.equals(right.toString(defaultTemplate)));
 						// left is digit or ends with }, e.g. exponent,
 						// fraction
-						/*
-						 * (StringUtil.isDigit(lastLeft) || (lastLeft == '}'))
-						 * && // right is digit or fraction
-						 * (StringUtil.isDigit(firstRight) || rightStr
-						 * .startsWith("\\frac"));
-						 */
+
 						multiplicationSpaceNeeded = !(right instanceof MySpecialDouble && Unicode.DEGREE
 								.equals(right.toString(defaultTemplate)));
 						break;
 
-					default: // GeoGebra syntax
-						char firstLeft = leftStr.charAt(0);
-						lastLeft = leftStr.charAt(leftStr.length() - 1);
-						firstRight = rightStr.charAt(0);
-						// check if we need a multiplication sign, see #414
-						// digit-digit, e.g. 3 * 5
-						showMultiplicationSign = Character.isDigit(lastLeft)
-								&& (StringUtil.isDigit(firstRight)
-								// 3*E23AB can't be written 3E23AB
-								|| (rightStr.charAt(0) == 'E'));
-						// check if we need a multiplication space:
-						multiplicationSpaceNeeded = showMultiplicationSign;
-						if (!multiplicationSpaceNeeded) {
-							// check if we need a multiplication space:
-							// it's needed except for number * character,
-							// e.g. 23x
-							// need to check start and end for eg A1 * A2
-							boolean leftIsNumber = left.isLeaf()
-									&& (StringUtil.isDigit(firstLeft) || (firstLeft == '-'))
-									&& StringUtil.isDigit(lastLeft);
 
-							// check if we need a multiplication space:
-							// all cases except number * character, e.g. 3x
-							multiplicationSpaceNeeded = showMultiplicationSign
-									|| !(leftIsNumber && !Character
-											.isDigit(firstRight));
-						}
 					}
 
 					if (getStringType().equals(StringType.LATEX)
@@ -617,7 +577,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 						sb.append(multiplicationSign());
 					} else if (multiplicationSpaceNeeded) {
 						// space instead of multiplication sign
-						sb.append(multiplicationSpace());
+						sb.append("\\space");
 					}
 				}
 
@@ -629,8 +589,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 						|| (!nounary && !right.isLeaf() && (opIDright <= Operation.DIVIDE
 								.ordinal() // -(x * a) or -(x / a)
 						))
-						|| (showMultiplicationSign && getStringType().equals(
-								StringType.GEOGEBRA))) // 3 (5)
+						) // 3 (5)
 				{
 					if (rtlMinus) {
 						sb.append(Unicode.RightToLeftMark);
@@ -647,18 +606,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 			} else { // right is + or - tree
 				if (nounary) {
-					switch (getStringType()) {
-					case PGF:
-					case PSTRICKS:
-					case GEOGEBRA_XML:
-					case GIAC:
-						sb.append(multiplicationSign());
-						break;
-
-					default:
+					
 						// space instead of multiplication sign
-						sb.append(multiplicationSpace());
-					}
+						sb.append("\\space");
+					
 				}
 				sb.append(leftBracket());
 				sb.append(rightStr);
@@ -680,58 +631,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// App.debug(left.getClass()+" "+right.getClass());
 			// App.debug(leftStr+" "+rightStr);
 
-			if (left instanceof MySpecialDouble
-					&& right instanceof ExpressionNode
-					&& ((ExpressionNode) right).getOperation().isInequality()) {
-				// eg 3(x<4)
-				// MySpecialDouble shouldn't be negative, but just in case:
-				boolean reverse = leftStr.startsWith("-");
 
-				sb.append('(');
-				sb.append(leftStr);
-				sb.append(")*(");
-				sb.append(this.expToString(((ExpressionNode) right).getLeft(),
-						valueForm));
-				sb.append(')');
-				sb.append(op((ExpressionNode) right, reverse));
-				sb.append('(');
-				sb.append(leftStr);
-				sb.append(")*(");
-				sb.append(expToString(((ExpressionNode) right).getRight(),
-						valueForm));
-				sb.append(')');
-			} else if (right instanceof MySpecialDouble
-					&& left instanceof ExpressionNode
-					&& ((ExpressionNode) left).getOperation().isInequality()) {
-				// eg 3(x<4)
-				// MySpecialDouble shouldn't be negative, but just in case:
-				boolean reverse = rightStr.startsWith("-");
-
-				sb.append('(');
-				sb.append(rightStr);
-				sb.append(")*(");
-				sb.append(expToString(((ExpressionNode) left).getLeft(),
-						valueForm));
-				sb.append(')');
-				sb.append(op((ExpressionNode) left, reverse));
-				sb.append('(');
-				sb.append(rightStr);
-				sb.append(")*(");
-				sb.append(expToString(((ExpressionNode) left).getRight(),
-						valueForm));
-				sb.append(')');
-			} else if (ExpressionNode.isEqualString(left, -1, !valueForm)) {
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(')');
-			} else {
-				sb.append("(");
-				sb.append(leftStr);
-				sb.append(")*(");
-				sb.append(rightStr);
-				sb.append(")");
-				break;
-			}
 			break;
 
 		}

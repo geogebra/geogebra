@@ -402,4 +402,9 @@ public class NewCASTableCellEditorW extends Label implements
 		}
 
 	}
+
+	public void setLaTeX(String plain, String latex) {
+		editor.setLaTeX(plain, latex);
+
+	}
 }
