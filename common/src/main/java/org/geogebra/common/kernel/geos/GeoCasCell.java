@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import org.geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
@@ -2914,10 +2915,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (unwrapped == null) {
 			return PLOT_VAR;
 		}
-		if (unwrapped instanceof MyVecNode) {
-			isCasVector = ((MyVecNode) unwrapped).evaluatesToVectorNotPoint();
-		} else if (unwrapped instanceof MyVec3DNode) {
-			isCasVector = ((MyVec3DNode) unwrapped).evaluatesToVectorNotPoint();
+		if (unwrapped instanceof MyVecNDNode) {
+			isCasVector = unwrapped.evaluatesToVectorNotPoint();
 		}
 		if (isCasVector) {
 			return PLOT_VAR.toLowerCase();

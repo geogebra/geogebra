@@ -4,7 +4,7 @@ package org.geogebra.common.kernel.arithmetic;
  * Symbolic vector, coordinastes are expression values
  *
  */
-public interface MyVecNDNode {
+public interface MyVecNDNode extends ExpressionValue {
 
 	/**
 	 * @return whether this vector is for CAS
