@@ -382,7 +382,7 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		void scrollDownBy(int diff) {
-			if (endIdx + diff != items.size()) {
+			if (endIdx + diff < items.size() + 1) {
 				startIdx += diff;
 				geo.updateRepaint();
 			}
@@ -459,7 +459,7 @@ public final class DrawList extends CanvasDrawable
 					scrollBy(itemDiffs);
 					Log.debug(SCROLL_PFX + " dragging by " + itemDiffs);
 					dragged = di;
-				} else if (getStartIdx() > 0) {
+				} else if (getStartIdx() > 0 && getEndIdx() < geoList.size()) {
 					dragOffset = -dY;
 					view.repaintView();
 				}
@@ -725,7 +725,17 @@ public final class DrawList extends CanvasDrawable
 			this.visible = visible;
 			if (visible) {
 				view.setOpenedComboBox(DrawList.this);
-				startIdx = isScrollNeeded() ? geoList.getSelectedIndex() : 0;
+				if (isScrollNeeded()) {
+					int selIdx = geoList.getSelectedIndex();
+					if (selIdx + getVisibleItemCount() < geoList.size()) {
+						startIdx = selIdx;
+					} else {
+						startIdx = geoList.size() - getVisibleItemCount();
+					}
+				} else {
+					startIdx = 0;
+				}
+
 				selectedIndex = startIdx;
 				itemHovered = items.get(selectedIndex);
 			}
