@@ -512,7 +512,10 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		ret.setMode(toStringMode);
 		return ret;
 	}        
-	
+
+	public double[] getPointAsDouble() {
+		return new double[] { x, y };
+	}
 	/** POLAR or CARTESIAN */
 
 	/**
@@ -1043,5 +1046,6 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	public ValidExpression toValidExpression() {
 		return getVector();
 	}
+
 
 }

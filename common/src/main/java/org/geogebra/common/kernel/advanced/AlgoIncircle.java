@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -109,37 +108,21 @@ public class AlgoIncircle extends AlgoElement {
 	@Override
 	public void compute() {
 		// bisector of angle ABC
-		double dAB = getA().distance(getB());
-		double dAC = getA().distance(getC());
-		double dBC = getB().distance(getC());
-		double dmax = dAB > dBC ? dAB : dBC;
-		A1.setCoords(dmax / dAB * (getA().inhomX - getB().inhomX)
-				+ getB().inhomX, dmax / dAB * (getA().inhomY - getB().inhomY)
-				+ getB().inhomY, 1.0d);
-		C1.setCoords(dmax / dBC * (getC().inhomX - getB().inhomX)
-				+ getB().inhomX, dmax / dBC * (getC().inhomY - getB().inhomY)
-				+ getB().inhomY, 1.0d);
-		B1.setCoords((A1.inhomX + C1.inhomX) / 2.0d,
-				(A1.inhomY + C1.inhomY) / 2.0d, 1.0d);
-		GeoVec3D.lineThroughPoints(getB(), B1, bisectorB);
-		// bisector of angle BCA
-		dmax = dAC > dBC ? dAC : dBC;
-		A1.setCoords(dmax / dAC * (getA().inhomX - getC().inhomX)
-				+ getC().inhomX, dmax / dAC * (getA().inhomY - getC().inhomY)
-				+ getC().inhomY, 1.0d);
-		B1.setCoords(dmax / dBC * (getB().inhomX - getC().inhomX)
-				+ getC().inhomX, dmax / dBC * (getB().inhomY - getC().inhomY)
-				+ getC().inhomY, 1.0d);
-		C1.setCoords((A1.inhomX + B1.inhomX) / 2.0d,
-				(A1.inhomY + B1.inhomY) / 2.0d, 1.0d);
-		GeoVec3D.lineThroughPoints(getC(), C1, bisectorC);
-		// intersect angle bisectors to get incenter
-		GeoVec3D.lineThroughPoints(getB(), getC(), sideBC);
-		GeoVec3D.cross(bisectorB, bisectorC, incenter);
-		GeoVec3D.cross(incenter, sideBC.x, sideBC.y, 0.0, heightBC);
-		GeoVec3D.cross(sideBC, heightBC, heightFoot);
-		double dist = incenter.distance(heightFoot);
-		circle.setCircle(incenter, dist);
+		double dAB = A.distance(B);
+		double dAC = A.distance(C);
+		double dBC = B.distance(C);		
+		double s = (dAB + dAC + dBC) / 2;
+		double[] Ac = A.getPointAsDouble();
+		double[] Bc = B.getPointAsDouble();
+		double[] Cc = C.getPointAsDouble();
+		double wA = dBC / s / 2;
+		double wB = dAC / s / 2;
+		double wC = dAB / s / 2;
+
+		incenter.setCoords(Ac[0] * wA + Bc[0] * wB + Cc[0] * wC, Ac[1] * wA
+				+ Bc[1] * wB + Cc[1] * wC, 1);
+		double radius = Math.sqrt((s - dBC) * (s - dAC) / s * (s - dAB));
+		circle.setCircle(incenter, radius);
 	}
 
 	@Override

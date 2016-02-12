@@ -349,4 +349,8 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return new GeoVec2D(kernel1, Double.NaN, Double.NaN);
 	}
 
+	public double[] getPointAsDouble() {
+		return new double[] { x.evaluateDouble(), y.evaluateDouble() };
+	}
+
 }

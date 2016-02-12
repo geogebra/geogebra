@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
@@ -29,7 +30,7 @@ import org.geogebra.common.kernel.geos.Translateable;
  */
 
 public interface GeoPointND extends PointProperties, Translateable,
-		SpreadsheetTraceable, PointRotateable, HasCoordsMode {
+		SpreadsheetTraceable, PointRotateable, HasCoordsMode, VectorNDValue {
 
 	
 	

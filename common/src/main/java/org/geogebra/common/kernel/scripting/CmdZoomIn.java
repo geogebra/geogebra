@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
@@ -57,11 +57,11 @@ public class CmdZoomIn extends CmdScripting {
 			boolean ok0;
 			if ((ok0 = arg[0].isGeoNumeric()) && arg[1].isGeoPoint()) {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
-				GeoPoint p = (GeoPoint) arg[1];
+				double[] coords = ((GeoPointND) arg[1]).getPointAsDouble();
 
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-				double px = ev.toScreenCoordXd(p.inhomX); // mouseLoc.x;
-				double py = ev.toScreenCoordYd(p.inhomY); // mouseLoc.y;
+				double px = ev.toScreenCoordXd(coords[0]); // mouseLoc.x;
+				double py = ev.toScreenCoordYd(coords[1]); // mouseLoc.y;
 
 				double factor = numGeo.getDouble();
 				if (Kernel.isZero(factor))

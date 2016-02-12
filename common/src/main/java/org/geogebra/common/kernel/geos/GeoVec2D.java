@@ -1461,4 +1461,8 @@ final public class GeoVec2D extends ValidExpression implements
 		return new GeoVec2D(kernel1, Double.NaN, Double.NaN);
 	}
 
+	public double[] getPointAsDouble() {
+		return new double[] { x, y };
+	}
+
 }

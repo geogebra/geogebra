@@ -80,6 +80,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 2D Point
@@ -319,7 +320,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			setCoords(v.getDouble(), 0, 1d);
 			setMode(Kernel.COORD_COMPLEX);
 		} else {
-			App.error(geo.getGeoClassType() + " invalid as point");
+			Log.error(geo.getGeoClassType() + " invalid as point");
 			throw new IllegalArgumentException();
 		}
 		setDefinition(!geo.isIndependent() ? null : geo.getDefinition());
@@ -2622,5 +2623,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public ValidExpression toValidExpression() {
 		return getVector();
+	}
+
+	public double[] getPointAsDouble() {
+		return new double[] { inhomX, inhomY };
 	}
 }
