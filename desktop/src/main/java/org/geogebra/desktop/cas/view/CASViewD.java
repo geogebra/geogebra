@@ -361,7 +361,11 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		table.stopEditing();
 	}
 
+	public ListSelectionModel getListSelModel() {
+		return listSelModel;
+	}
 
-
-
+	public void setListSelModel(ListSelectionModel listSelModel) {
+		this.listSelModel = listSelModel;
+	}
 }

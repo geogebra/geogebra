@@ -71,6 +71,11 @@ public class CASInputHandler {
 		int selEnd = cellEditor.getInputSelectionEnd();
 		String selRowInput = cellEditor.getInput();
 
+		// needed for GGB-517
+		if (cellValue.getInput(StringTemplate.defaultTemplate).equals("")) {
+			cellValue.setInput(selRowInput);
+		}
+
 		// hack for debugging the underlying cas
 		if (selRowInput != null && selRowInput.startsWith("@")) {
 			try {

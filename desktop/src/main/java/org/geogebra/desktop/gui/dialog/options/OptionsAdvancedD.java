@@ -15,6 +15,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -38,6 +39,7 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -585,10 +587,43 @@ public class OptionsAdvancedD extends
 			app.getKernel().setInverseTrigReturnsAngle(
 					cbReturnAngleInverseTrig.isSelected());
 
+			// needed for GGB-517
+			// keep information form listSelectionModel
+			CASViewD casView = null;
+			DefaultListSelectionModel listSelModel = null;
+			if (app.getView(8) != null && app.getView(8) instanceof CASViewD)
+				casView = (CASViewD) app.getView(8);
+			if (casView != null
+					&& casView.getListSelModel() != null
+					&& casView.getListSelModel() instanceof DefaultListSelectionModel)
+				listSelModel = (DefaultListSelectionModel) casView
+						.getListSelModel();
+
+			int anchorIndex = 0;
+			int leadIndex = 0;
+			int maxIndex = 0;
+			int minIndex = 0;
+			boolean changed = false;
+
+			if (listSelModel != null) {
+				anchorIndex = listSelModel.getAnchorSelectionIndex();
+				leadIndex = listSelModel.getLeadSelectionIndex();
+				maxIndex = listSelModel.getMaxSelectionIndex();
+				minIndex = listSelModel.getMinSelectionIndex();
+				changed = true;
+			}
+			
 			// make sure all calculations fully updated
 			// app.getKernel().updateConstruction(); doesn't do what we want
 			app.getKernel().getConstruction().getUndoManager()
 					.storeUndoInfo(true);
+			
+			if (changed) {
+				listSelModel.setAnchorSelectionIndex(anchorIndex);
+				listSelModel.setLeadSelectionIndex(leadIndex);
+				listSelModel.setSelectionInterval(minIndex, maxIndex);
+			}
+
 
 		} else if (source == cbUseLocalLabels) {
 			loc.setUseLocalizedLabels(cbUseLocalLabels.isSelected());

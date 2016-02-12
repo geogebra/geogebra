@@ -20,12 +20,15 @@ import java.io.InputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
+import javax.swing.DefaultListSelectionModel;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.main.AppD;
 
@@ -203,11 +206,42 @@ public class UndoManagerD extends UndoManager {
 
 			// make sure objects are displayed in the correct View
 			app.setActiveView(App.VIEW_EUCLIDIAN);
+			
+			// needed for GGB-517
+			// keep information form listSelectionModel
+			CASViewD casView = null;
+			DefaultListSelectionModel listSelModel = null;
+			if (app.getView(8) != null && app.getView(8) instanceof CASViewD)
+				casView = (CASViewD) app.getView(8);
+			if (casView != null
+					&& casView.getListSelModel() != null
+					&& casView.getListSelModel() instanceof DefaultListSelectionModel)
+				listSelModel = (DefaultListSelectionModel) casView
+						.getListSelModel();
+
+			int anchorIndex = 0;
+			int leadIndex = 0;
+			int maxIndex = 0;
+			int minIndex = 0;
+			boolean changed = false;
+
+			if (listSelModel != null) {
+				anchorIndex = listSelModel.getAnchorSelectionIndex();
+				leadIndex = listSelModel.getLeadSelectionIndex();
+				maxIndex = listSelModel.getMaxSelectionIndex();
+				minIndex = listSelModel.getMinSelectionIndex();
+				changed = true;
+			}
 
 			// load undo info
 			((AppD) app).getScriptManager().disableListeners();
 			((org.geogebra.desktop.io.MyXMLioD) construction.getXMLio())
 					.readZipFromMemory(is);
+			if (changed) {
+				listSelModel.setAnchorSelectionIndex(anchorIndex);
+				listSelModel.setLeadSelectionIndex(leadIndex);
+				listSelModel.setSelectionInterval(minIndex, maxIndex);
+			}
 			((AppD) app).getScriptManager().enableListeners();
 
 			is.close();
