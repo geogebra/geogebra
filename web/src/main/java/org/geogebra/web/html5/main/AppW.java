@@ -495,7 +495,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 				public void onError() {
 					loadPropertiesFromStorage(lang, "");
-
+					doSetLanguage(lang);
 				}
 
 			});
