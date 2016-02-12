@@ -3499,7 +3499,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Displays the construction protocol navigation
 	 * 
-	 * @param show
+	 * @param flag
 	 *            true to show navigation bar
 	 */
 	public void setShowConstructionProtocolNavigation(boolean flag) {
@@ -3536,7 +3536,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Displays the construction protocol navigation
 	 * 
-	 * @param show
+	 * @param flag
 	 *            true to show navigation bar
 	 */
 	public void setShowConstructionProtocolNavigation(boolean flag, int id) {
@@ -3646,10 +3646,7 @@ public abstract class App implements UpdateSelection {
 	 * 
 	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	 * 
-	 * @param k
-	 * @param a
-	 * @param b
-	 * @param c
+	 * @param kw
 	 * @return
 	 */
 	public abstract double kimberlingWeight(AlgoKimberlingWeightsParams kw);
@@ -3669,10 +3666,7 @@ public abstract class App implements UpdateSelection {
 	 * 
 	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	 * 
-	 * @param k
-	 * @param a
-	 * @param b
-	 * @param c
+	 * @param kw
 	 * @return
 	 */
 	public abstract String cubicSwitch(AlgoCubicSwitchParams kw);
@@ -3907,6 +3901,7 @@ public abstract class App implements UpdateSelection {
 		case HANDWRITING:
 			return prerelease;
 		case MOBILE_PROPERTIES_VIEW:
+		case MOBILE_WEB_VIEW:
 		case COMBOSCROLLING:
 			return prerelease;
 
