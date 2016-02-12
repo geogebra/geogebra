@@ -187,6 +187,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				// selecting the same cell should not finish editing
 				// e.g. move cursor inside cell
 				if (!isCurrentSelection(point)) {
+					if (table.getEditor() != null) {
+						table.getEditor().stopCellEditing();
+					}
 					finishEditing();
 				}
 			}
