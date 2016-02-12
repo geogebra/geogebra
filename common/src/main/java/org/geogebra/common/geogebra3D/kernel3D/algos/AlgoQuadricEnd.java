@@ -31,7 +31,6 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 	private GeoQuadric3DLimited quadric; // input
 	private GeoConic3D section; // output
 	private CoordSys coordsys;
-
 	// private GeoPoint3D help;
 	/**
 	 * 
@@ -48,8 +47,6 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		coordsys = new CoordSys(2);
 		section.setCoordSys(coordsys);
 		section.setIsEndOfQuadric(true);
-		// help = new GeoPoint3D(cons);
-		// help.setLabel("help");
 		setInputOutput(new GeoElement[] { quadric },
 				new GeoElement[] { section });
 
@@ -94,21 +91,20 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		section.setDefined();
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER) {
 			CoordMatrix qm = quadric.getSymetricMatrix();
-			Coords d = quadric.getEigenvec3D(1);
+			Coords d = quadric.getEigenvec3D(1).normalize();
+
 			Coords o1 = quadric.getMidpoint3D().add(
 					d.mul(quadric.getBottomParameter()));
 			Coords o2 = quadric.getMidpoint3D().add(
 					d.mul(quadric.getTopParameter()));
 			pm.setOrigin(getOrigin(o1, o2));
-		//	help.setCoords(o2.getX(), o2.getY(), o2.getZ(),
-			// 1);
-		//	help.update();
 			Coords[] v = new Coords[3];// d.completeOrthonormal();
-			v[2] = d;
+			v[2] = quadric.getEigenvec3D(2).normalize();
 			v[0] = quadric.getEigenvec3D(0).normalize();
-			v[1] = quadric.getEigenvec3D(2).normalize();
+			v[1] = d;
+
 			pm.setVx(v[0]);
-			pm.setVy(v[1]);
+			pm.setVy(v[2]);
 			/*
 			 * Coords[] v = d.completeOrthonormal();
 			 */
@@ -123,40 +119,40 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			coordsys.resetCoordSys();
 			coordsys.addPoint(getOrigin(o1, o2));
 			coordsys.addVector(v[0]);
-			coordsys.addVector(getV1(v[1]).mul(-1));
+			coordsys.addVector(getV1(v[2]));
 			coordsys.makeOrthoMatrix(false, false);
 			section.setMatrix(cm);
 		} else {
-		CoordMatrix qm = quadric.getSymetricMatrix();
-		Coords d = quadric.getEigenvec3D(2);
-		Coords o1 = quadric.getMidpoint3D().add(
-				d.mul(quadric.getBottomParameter()));
-		Coords o2 = quadric.getMidpoint3D().add(
-				d.mul(quadric.getTopParameter()));
-		pm.setOrigin(getOrigin(o1, o2));
-		Coords[] v = new Coords[3];// d.completeOrthonormal();
-		v[2] = d;
-		v[0] = quadric.getEigenvec3D(0).normalize();
-		v[1] = quadric.getEigenvec3D(1).normalize();
-		pm.setVx(v[0]);
-		pm.setVy(v[1]);
-		/*
-		 * Coords[] v = d.completeOrthonormal();
-		 */
-		pm.transposeCopy(pmt);
+			CoordMatrix qm = quadric.getSymetricMatrix();
+			Coords d = quadric.getEigenvec3D(2);
+			Coords o1 = quadric.getMidpoint3D().add(
+					d.mul(quadric.getBottomParameter()));
+			Coords o2 = quadric.getMidpoint3D().add(
+					d.mul(quadric.getTopParameter()));
+			pm.setOrigin(getOrigin(o1, o2));
+			Coords[] v = new Coords[3];// d.completeOrthonormal();
+			v[2] = d;
+			v[0] = quadric.getEigenvec3D(0).normalize();
+			v[1] = quadric.getEigenvec3D(1).normalize();
+			pm.setVx(v[0]);
+			pm.setVy(v[1]);
+			/*
+			 * Coords[] v = d.completeOrthonormal();
+			 */
+			pm.transposeCopy(pmt);
 
-		// sets the conic matrix from plane and quadric matrix
-		CoordMatrix cm = pmt.mul(qm).mul(pm);
+			// sets the conic matrix from plane and quadric matrix
+			CoordMatrix cm = pmt.mul(qm).mul(pm);
 
-		// Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
+			// Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
 
-		coordsys.resetCoordSys();
+			coordsys.resetCoordSys();
 			coordsys.addPoint(getOrigin(o1, o2));
 			coordsys.addVector(v[0]);
-			coordsys.addVector(getV1(v[1].mul(0.5)));
-		coordsys.makeOrthoMatrix(false, false);
+			coordsys.addVector(getV1(v[1]));
+			coordsys.makeOrthoMatrix(false, false);
 
-		section.setMatrix(cm);
+			section.setMatrix(cm);
 		}
 		// areas
 		// section.calcArea();

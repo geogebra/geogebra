@@ -219,7 +219,7 @@ Traceable{
 			tmpEigenMatrix = new CoordMatrix(4, 4);
 		}
 		tmpEigenMatrix.set(eigenvecND);
-		tmpEigenMatrix.set(getMidpoint(),4);
+		tmpEigenMatrix.set(getMidpoint(), 4);
 		
 		
 		
@@ -227,9 +227,10 @@ Traceable{
 		
 		CoordMatrix eigenMatrixInv = tmpEigenMatrix.inverse();
 
-		diagonalizedMatrix.set(1, 2, m21);
-		diagonalizedMatrix.set(2, 1, m21);
-		CoordMatrix finalMatrix = eigenMatrixInv.transposeCopy().mul(diagonalizedMatrix).mul(eigenMatrixInv);
+		diagonalizedMatrix.set(1, 4, m21);
+		diagonalizedMatrix.set(4, 1, m21);
+		CoordMatrix finalMatrix = eigenMatrixInv.transposeCopy()
+				.mul(diagonalizedMatrix).mul(eigenMatrixInv);
 		
 		setMatrix(finalMatrix);
 	}

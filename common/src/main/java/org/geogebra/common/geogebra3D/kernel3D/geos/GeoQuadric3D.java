@@ -141,6 +141,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		detS = matrix[0] * matrix[1] * matrix[2] - matrix[0] * matrix[6]
 				* matrix[6] - matrix[1] * matrix[5] * matrix[5] - matrix[2]
 				* matrix[4] * matrix[4] + 2 * matrix[4] * matrix[5] * matrix[6];
+		App.debug(detS + ",");
 		if (Kernel.isZero(detS)) {
 			classifyNoMidpointQuadric();
 		} else {
@@ -1570,7 +1571,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setMidpoint(origin.get());
 
 		// set direction
-		updateEigenvectors(eigen.crossProduct(direction), eigen);
+		updateEigenvectors(eigen.crossProduct(direction).normalize(),
+				eigen.normalize());
 
 		// set halfAxes = radius
 		halfAxes[0] = 1;
@@ -1581,15 +1583,19 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// set the diagonal values
 		diagonal[0] = 0;
 		diagonal[1] = 0;
-		diagonal[2] = 1 / halfAxes[2]; // TODO still wrong
+		diagonal[2] = 1; // TODO still wrong
 		diagonal[3] = 0;
 
 		// set matrix
-		setMatrixFromEigen(-0.25 * halfAxes[2]);
+		setMatrixFromEigen(-r2);
 
 		// eigen matrix
-		setEigenMatrix(1, 1, 2 * halfAxes[2]);
-
+		// setEigenMatrix(1, 1, halfAxes[2]);
+		eigenvecND[1] = new Coords(eigenvecND[1].getX(), eigenvecND[1].getY(),
+				eigenvecND[1].getZ(), 0);
+		this.setSemiDiagonalizedMatrix();
+		// parabolicCylinder(-r2 * 2);
+		this.setEigenMatrix(1, 1, halfAxes[2]);
 		// set type
 		this.type = QUADRIC_PARABOLIC_CYLINDER;
 	}

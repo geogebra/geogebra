@@ -267,6 +267,11 @@ public class Coords {
 		return val[i - 1];
 
 	}
+
+	public double getChecked(int i) {
+		return i > val.length ? 0 : val[i - 1];
+
+	}
 	
 	/**
 	 * @param ret copy of this
