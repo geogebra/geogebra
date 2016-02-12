@@ -2590,7 +2590,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	public void setCoordsFromPoint(GeoPointND point) {
-		setCoords((GeoPoint) point);
+		if (point instanceof GeoPoint) {
+			setCoords((GeoPoint) point);
+		} else {
+			setCoords(point.getCoordsInD2(), true);
+		}
 	}
 
 	public void set(double param1, double param2, MyPoint leftPoint,

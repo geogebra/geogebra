@@ -70,6 +70,7 @@ import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -642,7 +643,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		Coords coords;
 		Coords[] project;
-
+		if (!(region instanceof Region3D)) {
+			Log.warn(region + " is not 3D region");
+			return;
+		}
 		if (hasWillingCoords()) // use willing coords
 			coords = getWillingCoords();
 		else

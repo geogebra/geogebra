@@ -1006,8 +1006,9 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 					found = true;
 				}
 			}
-		if (!found)
-			((GeoPoint) P).setUndefined();
+		if (!found) {
+			P.setUndefined();
+		}
 
 	}
 
