@@ -289,6 +289,7 @@ public final class DrawList extends CanvasDrawable
 				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), itemHeight));
 			}
+			g2.setPaint(geo.getObjectColor());
 			if (item.latex) {
 				GRectangle rect = item.rect.getBounds();
 				int x = (int) rect.getX();
@@ -298,7 +299,6 @@ public final class DrawList extends CanvasDrawable
 						x + (int) ((rect.getWidth() - item.width) / 2), 
 						y + (int) ((rect.getHeight() - item.height) / 2));
 			} else {
-				g2.setPaint(geo.getObjectColor());
 				if (g2.getFont().getSize() != itemFontSize) {
 					g2.setFont(itemFont.deriveFont(itemFontSize));
 				}
@@ -469,8 +469,10 @@ public final class DrawList extends CanvasDrawable
 			return true;
 		}
 		public void onMouseOver(int x, int y) {
-			if (!isHit(x, y) && isScrollNeeded()) {
-				stopScrolling();
+			if (!isHit(x, y)) {
+				if (isScrollNeeded()) {
+					stopScrolling();
+				}
 				return;
 			}
 
