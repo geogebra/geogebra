@@ -176,7 +176,7 @@ public final class DrawList extends CanvasDrawable
 		private GRectangle rectUp;
 		private GRectangle rectDown;
 
-		private boolean scrollNeeded;
+		private boolean scrollNeeded = false;
 		private ScrollMode scrollMode = ScrollMode.NONE;
 		private DraggedItem dragged = null;
 
@@ -583,10 +583,13 @@ public final class DrawList extends CanvasDrawable
 			int y = (int) rectUp.getY();
 			int h = (int) rectUp.getHeight();
 			int w = (int) rectUp.getWidth();
-
+			if (y < MARGIN) {
+				y = MARGIN;
+			}
 			// Log.debug(SCROLL_PFX + " drawing up control at (" + x + ", " + y
 			// + ") w: " + w + " h: " + h);
-			// g2.fillRoundRect(x, y, w, h, ROUND, ROUND);
+			g2.setPaint(geoList.getBackgroundColor());
+			g2.fillRoundRect(x, y, w, h, ROUND, ROUND);
 			dropDown.drawScrollUp(g2, x, y, w, h,
 					geoList.getBackgroundColor(), false);
 
@@ -625,13 +628,23 @@ public final class DrawList extends CanvasDrawable
 
 
 			int maxItems = geoList.size();
-			int visibleItems = (view.getHeight() - (2 * MARGIN
-					+ (int) (rectUp.getHeight() + rectDown.getHeight())))
+			int arrowsHeight = (int) (rectUp.getHeight()
+					+ rectDown.getHeight());
+			int visibleItems = (view.getHeight() - (2 * MARGIN))
 					/ dimItem.getHeight();
 
+			if (visibleItems < maxItems - 1) {
+				visibleItems = (view.getHeight() - (2 * MARGIN + arrowsHeight))
+						/ dimItem.getHeight();
+
+			}
 			endIdx = startIdx + Math.min(visibleItems, maxItems);
 			rowCount = getVisibleItemCount();
 			scrollNeeded = getVisibleItemCount() != maxItems;
+			if (!scrollNeeded) {
+				startIdx = 0;
+				endIdx = maxItems;
+			}
 
 			Log.debug(SCROLL_PFX + geoList.getLongDescription() + " max: "
 					+ maxItems + " endIdx: " + endIdx + " scroll needed: "
