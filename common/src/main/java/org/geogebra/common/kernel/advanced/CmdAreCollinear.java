@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.AlgoAreCollinear;
 import org.geogebra.common.main.MyError;
 
@@ -43,19 +43,20 @@ public class CmdAreCollinear extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (n == 3) {
-			if (!(arg[0] instanceof GeoPoint)) {
+			if (!arg[0].isGeoPoint()) {
 				throw argErr(app, c.getName(), arg[0]);
 			}
-			if (!(arg[1] instanceof GeoPoint)) {
+			if (!arg[1].isGeoPoint()) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
-			if (!(arg[2] instanceof GeoPoint)) {
+			if (!arg[2].isGeoPoint()) {
 				throw argErr(app, c.getName(), arg[2]);
 			}
 
-			AlgoAreCollinear algo = new AlgoAreCollinear(cons, c.getLabel(),
-					(GeoPoint) arg[0], (GeoPoint) arg[1], (GeoPoint) arg[2]);
-
+			AlgoAreCollinear algo = new AlgoAreCollinear(cons,
+					(GeoPointND) arg[0], (GeoPointND) arg[1],
+					(GeoPointND) arg[2]);
+			algo.getResult().setLabel(c.getLabel());
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}

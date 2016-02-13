@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
@@ -14,6 +13,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 
@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 public class AlgoAreCollinear extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
 
-	private GeoPoint inputPoint1, inputPoint2, inputPoint3; // input
+	private GeoPointND inputPoint1, inputPoint2, inputPoint3; // input
 
 	private GeoBoolean outputBoolean; // output
 	private Polynomial[] polynomials;
@@ -38,8 +38,6 @@ public class AlgoAreCollinear extends AlgoElement implements
 	 * 
 	 * @param cons
 	 *            the Construction
-	 * @param label
-	 *            the name of the boolean
 	 * @param inputPoint1
 	 *            the first point
 	 * @param inputPoint2
@@ -48,8 +46,8 @@ public class AlgoAreCollinear extends AlgoElement implements
 	 *            the third point
 	 */
 	public AlgoAreCollinear(final Construction cons,
-			final GeoPoint inputPoint1, final GeoPoint inputPoint2,
-			final GeoPoint inputPoint3) {
+			final GeoPointND inputPoint1, final GeoPointND inputPoint2,
+			final GeoPointND inputPoint3) {
 		super(cons);
 		this.inputPoint1 = inputPoint1;
 		this.inputPoint2 = inputPoint2;
@@ -61,12 +59,7 @@ public class AlgoAreCollinear extends AlgoElement implements
 		compute();
 	}
 
-	public AlgoAreCollinear(final Construction cons, final String label,
-			final GeoPoint inputPoint1, final GeoPoint inputPoint2,
-			final GeoPoint inputPoint3) {
-		this(cons, inputPoint1, inputPoint2, inputPoint3);
-		outputBoolean.setLabel(label);
-	}
+
 
 	@Override
 	public Commands getClassName() {
@@ -76,9 +69,9 @@ public class AlgoAreCollinear extends AlgoElement implements
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = inputPoint1;
-		input[1] = inputPoint2;
-		input[2] = inputPoint3;
+		input[0] = inputPoint1.toGeoElement();
+		input[1] = inputPoint2.toGeoElement();
+		input[2] = inputPoint3.toGeoElement();
 
 		super.setOutputLength(1);
 		super.setOutput(0, outputBoolean);
@@ -96,14 +89,8 @@ public class AlgoAreCollinear extends AlgoElement implements
 
 	@Override
 	public final void compute() {
-		double det = inputPoint1.getX() * inputPoint2.getY()
-				* inputPoint3.getZ() + inputPoint2.getX() * inputPoint3.getY()
-				* inputPoint1.getZ() + inputPoint3.getX() * inputPoint1.getY()
-				* inputPoint2.getZ() - inputPoint3.getX() * inputPoint2.getY()
-				* inputPoint1.getZ() - inputPoint2.getX() * inputPoint1.getY()
-				* inputPoint3.getZ() - inputPoint1.getX() * inputPoint3.getY()
-				* inputPoint2.getZ();
-		outputBoolean.setValue(Kernel.isZero(det));
+		outputBoolean.setValue(GeoPoint.collinearND(inputPoint1, inputPoint2,
+				inputPoint3));
 	}
 
 	public SymbolicParameters getSymbolicParameters() {
@@ -112,20 +99,20 @@ public class AlgoAreCollinear extends AlgoElement implements
 
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
-		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null) {
-			inputPoint1.getFreeVariables(variables);
-			inputPoint2.getFreeVariables(variables);
-			inputPoint3.getFreeVariables(variables);
+		if (getInputPoint1() != null && getInputPoint2() != null && getInputPoint3() != null) {
+			getInputPoint1().getFreeVariables(variables);
+			getInputPoint2().getFreeVariables(variables);
+			getInputPoint3().getFreeVariables(variables);
 			return;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
 	public int[] getDegrees() throws NoSymbolicParametersException {
-		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null) {
-			int[] degree1 = inputPoint1.getDegrees();
-			int[] degree2 = inputPoint2.getDegrees();
-			int[] degree3 = inputPoint3.getDegrees();
+		if (getInputPoint1() != null && getInputPoint2() != null && getInputPoint3() != null) {
+			int[] degree1 = getInputPoint1().getDegrees();
+			int[] degree2 = getInputPoint2().getDegrees();
+			int[] degree3 = getInputPoint3().getDegrees();
 			int[] result = new int[1];
 			result[0] = Math.max(degree1[0] + degree2[1] + degree3[2], Math
 					.max(degree2[0] + degree3[1] + degree1[2], Math.max(
@@ -143,10 +130,10 @@ public class AlgoAreCollinear extends AlgoElement implements
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
-		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null) {
-			BigInteger[] coords1 = inputPoint1.getExactCoordinates(values);
-			BigInteger[] coords2 = inputPoint2.getExactCoordinates(values);
-			BigInteger[] coords3 = inputPoint3.getExactCoordinates(values);
+		if (getInputPoint1() != null && getInputPoint2() != null && getInputPoint3() != null) {
+			BigInteger[] coords1 = getInputPoint1().getExactCoordinates(values);
+			BigInteger[] coords2 = getInputPoint2().getExactCoordinates(values);
+			BigInteger[] coords3 = getInputPoint3().getExactCoordinates(values);
 			BigInteger[] coords = new BigInteger[1];
 			coords[0] = coords1[0]
 					.multiply(coords2[1])
@@ -172,10 +159,10 @@ public class AlgoAreCollinear extends AlgoElement implements
 			return polynomials;
 		}
 
-		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null) {
-			Polynomial[] coords1 = inputPoint1.getPolynomials();
-			Polynomial[] coords2 = inputPoint2.getPolynomials();
-			Polynomial[] coords3 = inputPoint3.getPolynomials();
+		if (getInputPoint1() != null && getInputPoint2() != null && getInputPoint3() != null) {
+			Polynomial[] coords1 = getInputPoint1().getPolynomials();
+			Polynomial[] coords2 = getInputPoint2().getPolynomials();
+			Polynomial[] coords3 = getInputPoint3().getPolynomials();
 			polynomials = new Polynomial[1];
 			polynomials[0] = coords1[0]
 					.multiply(coords2[1])
@@ -202,14 +189,14 @@ public class AlgoAreCollinear extends AlgoElement implements
 			return botanaPolynomials;
 		}
 
-		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null) {
+		if (getInputPoint1() != null && getInputPoint2() != null && getInputPoint3() != null) {
 
 			Variable[] fv1 = new Variable[2];
 			Variable[] fv2 = new Variable[2];
 			Variable[] fv3 = new Variable[2];
-			fv1 = inputPoint1.getBotanaVars(inputPoint1);
-			fv2 = inputPoint2.getBotanaVars(inputPoint2);
-			fv3 = inputPoint3.getBotanaVars(inputPoint3);
+			fv1 = getInputPoint1().getBotanaVars(getInputPoint1());
+			fv2 = getInputPoint2().getBotanaVars(getInputPoint2());
+			fv3 = getInputPoint3().getBotanaVars(getInputPoint3());
 
 			botanaPolynomials = new Polynomial[1][1];
 			botanaPolynomials[0][0] = Polynomial.collinear(fv1[0], fv1[1],
@@ -218,6 +205,18 @@ public class AlgoAreCollinear extends AlgoElement implements
 
 		}
 		throw new NoSymbolicParametersException();
+	}
+
+	private GeoPoint getInputPoint1() {
+		return (GeoPoint) inputPoint1;
+	}
+
+	private GeoPoint getInputPoint2() {
+		return (GeoPoint) inputPoint2;
+	}
+
+	private GeoPoint getInputPoint3() {
+		return (GeoPoint) inputPoint3;
 	}
 
 	// TODO Consider locusequability
