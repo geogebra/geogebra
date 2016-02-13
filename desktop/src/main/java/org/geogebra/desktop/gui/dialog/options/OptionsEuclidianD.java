@@ -123,7 +123,7 @@ public class OptionsEuclidianD extends
 			cbTooltips;
 
 	protected JLabel lblAxisLabelStyle;
-	protected JCheckBox cbAxisLabelBold, cbAxisLabelItalic;
+	protected JCheckBox cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic;
 	private JTextField tfAxesRatioX, tfAxesRatioY;
 
 	private NumberFormat nfAxesRatio;
@@ -317,10 +317,14 @@ public class OptionsEuclidianD extends
 		// show axis label bold checkbox
 		cbAxisLabelBold = new JCheckBox(app.getPlain("Bold"));
 
+		// show axis label serif checkbox
+		cbAxisLabelSerif = new JCheckBox(app.getMenu("Serif"));
+
 		// show axis label bold checkbox
 		cbAxisLabelItalic = new JCheckBox(app.getPlain("Italic"));
 
 		cbAxisLabelBold.addActionListener(this);
+		cbAxisLabelSerif.addActionListener(this);
 		cbAxisLabelItalic.addActionListener(this);
 
 		// axes color
@@ -374,7 +378,7 @@ public class OptionsEuclidianD extends
 				Box.createHorizontalStrut(20), lineStyle, cbAxesStyle));
 
 		axesOptionsPanel.add(LayoutUtil.flowPanel(lblAxisLabelStyle,
-				cbAxisLabelBold, cbAxisLabelItalic));
+				cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
 	}
 
 	protected void initMiscPanel() {
@@ -727,6 +731,7 @@ public class OptionsEuclidianD extends
 
 		lblAxisLabelStyle.setText(app.getPlain("LabelStyle"));
 		cbAxisLabelBold.setText(app.getPlain("Bold"));
+		cbAxisLabelSerif.setText(app.getMenu("Serif"));
 		cbAxisLabelItalic.setText(app.getPlain("Italic"));
 	}
 
@@ -780,6 +785,9 @@ public class OptionsEuclidianD extends
 							: 0));
 		} else if (source == cbAxisLabelBold) {
 			model.setAxisFontBold(cbAxisLabelBold.isSelected());
+
+		} else if (source == cbAxisLabelSerif) {
+			model.setAxesLabelsSerif(cbAxisLabelSerif.isSelected());
 
 		} else if (source == cbAxisLabelItalic) {
 			model.setAxisFontItalic(cbAxisLabelItalic.isSelected());
@@ -1197,7 +1205,9 @@ public class OptionsEuclidianD extends
 		initGUI();
 	}
 
-	public void updateAxisFontStyle(boolean isBold, boolean isItalic) {
+	public void updateAxisFontStyle(boolean isSerif, boolean isBold,
+			boolean isItalic) {
+		cbAxisLabelSerif.setSelected(isSerif);
 		cbAxisLabelBold.setSelected(isBold);
 		cbAxisLabelItalic.setSelected(isItalic);
 	}

@@ -15,9 +15,9 @@ import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEucli
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -115,6 +115,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private CheckBox cbShowGrid;
 		private CheckBox cbBoldGrid;
 		protected Label lblAxisLabelStyle;
+		protected CheckBox cbAxisLabelSerif;
 		protected CheckBox cbAxisLabelBold;
 		protected CheckBox cbAxisLabelItalic;
 		public BasicTab() {
@@ -293,6 +294,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// show axis label bold checkbox
 			cbAxisLabelBold = new CheckBox(app.getPlain("Bold"));
 
+			cbAxisLabelSerif = new CheckBox(app.getMenu("Serif"));
+
 			// show axis label italic checkbox
 			cbAxisLabelItalic = new CheckBox(app.getPlain("Italic"));
 
@@ -375,6 +378,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					updateView();
                 }});
 			
+			cbAxisLabelSerif.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					model.setAxesLabelsSerif(cbAxisLabelSerif.getValue());
+				}
+			});
+
 			cbAxisLabelBold.addClickHandler(new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
@@ -405,7 +415,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			axesOptionsPanel.add(LayoutUtil.panelRow(colorLabel, btAxesColor,
 					 lineStyle, axesStylePopup));
 			axesOptionsPanel.add(LayoutUtil.panelRow(lblAxisLabelStyle,
-					cbAxisLabelBold, cbAxisLabelItalic));
+					cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
 
 		}
 
@@ -611,6 +621,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbOpenConsProtocol.setText(app.getPlain("ConstructionProtocolButton"));
 			
 			lblAxisLabelStyle.setText(app.getPlain("LabelStyle"));
+			cbAxisLabelSerif.setText(app.getMenu("Serif"));
 			cbAxisLabelBold.setText(app.getPlain("Bold"));
 			cbAxisLabelItalic.setText(app.getPlain("Italic"));
 
@@ -1183,7 +1194,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
     }
 
 	public void showCbView(boolean b) {
-	    App.debug("showCbView");
+		Log.warn("showCbView");
 	        // TODO Auto-generated method stub
 	    
     }
@@ -1309,10 +1320,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	 */
 	public void setSelectedTab(int index) {
 		// tabbedPane.setSelectedIndex(index);
-		App.debug("======== OptionsEuclidianW.setSelectedTab() : TODO");
+		Log.warn("======== OptionsEuclidianW.setSelectedTab() : TODO");
 	}
 
-	public void updateAxisFontStyle(boolean isBold, boolean isItalic) {
+	public void updateAxisFontStyle(boolean serif, boolean isBold,
+			boolean isItalic) {
+		basicTab.cbAxisLabelSerif.setValue(serif);
 		basicTab.cbAxisLabelBold.setValue(isBold);
 		basicTab.cbAxisLabelItalic.setValue(isItalic);
 

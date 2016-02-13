@@ -158,6 +158,7 @@ public class EuclidianSettings extends AbstractSettings {
 		}
 
 		axisFontStyle = GFont.PLAIN;
+		axesLabelsSerif = false;
 	}
 
 	/**
@@ -364,6 +365,8 @@ public class EuclidianSettings extends AbstractSettings {
 	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 
 	private int axisFontStyle = GFont.PLAIN;
+
+	private boolean axesLabelsSerif = false;
 
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
@@ -1005,6 +1008,20 @@ public class EuclidianSettings extends AbstractSettings {
 	public int getAxisFontStyle() {
 		// #5320
 		return axisFontStyle ;
+	}
+
+	/**
+	 * @return whether axes labels are in serif font
+	 */
+	public boolean getAxesLabelsSerif() {
+		return axesLabelsSerif;
+	}
+
+	public void setAxesLabelsSerif(boolean b) {
+		if (axesLabelsSerif != b) {
+			axesLabelsSerif = b;
+			settingChanged();
+		}
 	}
 
 	public void setAxisFontStyle(int style) {

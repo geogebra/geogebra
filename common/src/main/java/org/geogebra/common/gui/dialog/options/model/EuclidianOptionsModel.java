@@ -26,7 +26,8 @@ public class EuclidianOptionsModel {
 
 		void updateAxes(GColor color, boolean isShown, boolean isBold);
 
-		void updateAxisFontStyle(boolean isBold, boolean isItalic);
+		void updateAxisFontStyle(boolean isSerif, boolean isBold,
+				boolean isItalic);
 
 		void updateBackgroundColor(GColor color);
 		
@@ -645,7 +646,9 @@ public class EuclidianOptionsModel {
 		listener.updateConsProtocolPanel(app.showConsProtNavigation(view
 				.getViewID()));
 		int fontStyle = view.getSettings().getAxisFontStyle();
-		listener.updateAxisFontStyle((fontStyle & GFont.BOLD) == GFont.BOLD,
+		boolean serif = view.getSettings().getAxesLabelsSerif();
+		listener.updateAxisFontStyle(serif,
+				(fontStyle & GFont.BOLD) == GFont.BOLD,
 				(fontStyle & GFont.ITALIC) == GFont.ITALIC);
 
 	}
@@ -715,6 +718,10 @@ public class EuclidianOptionsModel {
 		view.updateFonts();
 	}
 
+	public void setAxesLabelsSerif(boolean serif) {
+		view.getSettings().setAxesLabelsSerif(serif);
+		view.updateFonts();
+	}
 
 	public void setAxisFontBold(boolean value) {
 		int style = getAxisFontStyle();

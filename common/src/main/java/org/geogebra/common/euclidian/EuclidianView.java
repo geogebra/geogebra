@@ -2769,9 +2769,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				GFont.PLAIN, getFontSize()));
 
 		if (getSettings() != null) {
-		setFontCoords(getApplication().getPlainFontCommon().deriveFont(
-				getSettings().getAxisFontStyle(),
-				Math.max(Math.round(getFontSize() * 0.75), 10)));
+
+			setFontCoords(getApplication()
+					.getFontCommon(getSettings().getAxesLabelsSerif(),
+					getSettings().getAxisFontStyle(),
+					(int) Math.max(Math.round(getFontSize() * 0.75), 10)));
 		}
 		updateDrawableFontSize();
 		updateBackground();
@@ -4092,11 +4094,17 @@ sb.toString(), getFontAxes(),
 
 		// axes label style
 		int style = getSettings().getAxisFontStyle();
-		if (style == GFont.BOLD || style == GFont.ITALIC
-				|| style == GFont.BOLD + GFont.ITALIC) {
+		boolean serif = getSettings().getAxesLabelsSerif();
+		if (style != GFont.PLAIN || serif) {
 			sbxml.append("\t<labelStyle axes=\"");
 			sbxml.append(style);
-			sbxml.append("\"/>\n");
+			sbxml.append("\"");
+			
+			sbxml.append("serif=\"");
+			sbxml.append(serif);
+			sbxml.append("\"");
+			
+			sbxml.append("/>\n");
 		}
 
 		// axis settings

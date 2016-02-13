@@ -1644,6 +1644,7 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		try {
 			ev.setAxisFontStyle(Integer.parseInt(attrs.get("axes")));
+			ev.setAxesLabelsSerif("true".equals(attrs.get("serif")));
 			return true;
 		} catch (Exception e) {
 			return false;

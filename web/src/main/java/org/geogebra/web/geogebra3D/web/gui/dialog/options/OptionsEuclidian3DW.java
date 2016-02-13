@@ -130,7 +130,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes));
 			axesOptionsPanel.add(LayoutUtil.panelRow(cbYAxisVertical));
 			axesOptionsPanel.add(LayoutUtil.panelRow(lblAxisLabelStyle,
-					cbAxisLabelBold, cbAxisLabelItalic));
+					cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
 
 		}
 
