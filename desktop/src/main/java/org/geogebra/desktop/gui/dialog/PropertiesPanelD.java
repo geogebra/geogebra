@@ -2591,7 +2591,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				secondLineVisible = !showFontDetails;
 			}
 
-			cbFont.setVisible(model.isTextEditable());
+			// removed, stops lists being set to Serif / Sans Serif
+			// cbFont.setVisible(model.isTextEditable());
 
 		}
 

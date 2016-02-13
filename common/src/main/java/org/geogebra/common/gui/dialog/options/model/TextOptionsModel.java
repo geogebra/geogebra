@@ -210,10 +210,6 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	public void applyFont(boolean isSerif) { 
-		if (editGeo == null) {
-			return;
-		}
-
 
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
@@ -221,7 +217,10 @@ public class TextOptionsModel extends OptionsModel {
 			text.updateVisualStyleRepaint(GProperty.FONT);
 		}
 
-		((TextProperties)editGeo).setSerifFont(isSerif);
+		if (editGeo != null) {
+			((TextProperties) editGeo).setSerifFont(isSerif);
+		}
+
 		listener.updatePreview();
 	}
 

@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 
 public abstract class CanvasDrawable extends Drawable {
@@ -40,14 +41,21 @@ public abstract class CanvasDrawable extends Drawable {
 
 	protected GDimension measureLatex(GGraphics2D g2, GeoElement geo0,
 			GFont font, String text) {
+
 		return drawLatex(g2, geo0, font, text, Integer.MIN_VALUE,
 				Integer.MIN_VALUE);
 	}
 	protected GDimension drawLatex(GGraphics2D g2, GeoElement geo0, GFont font,
 			String text, int x, int y) {
 		App app = view.getApplication();
+
+		boolean serif = false;
+		if (geo0 instanceof TextProperties) {
+			serif = ((TextProperties) geo0).isSerifFont();
+		}
+
 		return app.getDrawEquation().drawEquation(app, geo0, g2, x, y, text,
-				font, false, geo.getObjectColor(), geo.getBackgroundColor(),
+				font, serif, geo.getObjectColor(), geo.getBackgroundColor(),
 				false,
 				false, null);
 	};
