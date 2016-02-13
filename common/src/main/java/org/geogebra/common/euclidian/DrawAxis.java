@@ -199,7 +199,7 @@ public class DrawAxis {
 			double smallTickOffset = 0;
 			double axesStep = view.getXscale() * view.axesNumberingDistances[0]; // pixelstep
 			if (view.getPositiveAxes()[0]
-					&& (view.kernel.isGreaterEqual(rw, view.getXmin()))) {
+					&& (Kernel.isGreaterEqual(rw, view.getXmin()))) {
 				// start labels at the y-axis instead of screen border
 				// be careful: view.axisCross[1] = x value for which the y-axis
 				// crosses,
@@ -420,7 +420,7 @@ public class DrawAxis {
 			double smallTickOffset = 0;
 			double axesStep = view.getYscale() * view.axesNumberingDistances[1]; // pixelstep
 			if (view.getPositiveAxes()[1]
-					&& (view.kernel.isGreaterEqual(rw, view.getYmin()))) {
+					&& (Kernel.isGreaterEqual(rw, view.getYmin()))) {
 				// start labels at the y-axis instead of screen border
 				// be careful: view.axisCross[1] = x value for which the y-axis
 				// crosses,
