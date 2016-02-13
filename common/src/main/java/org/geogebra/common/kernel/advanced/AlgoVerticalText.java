@@ -17,8 +17,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Algorithm for vertical text
@@ -29,7 +29,7 @@ public class AlgoVerticalText extends AlgoElement {
 
 	private GeoText text; // output
 	private GeoText args; // input
-	private GeoPoint startPoint, startPointCopy; // optional input
+	private GeoPointND startPoint, startPointCopy; // optional input
 
 	private StringBuilder sb = new StringBuilder();
 
@@ -71,7 +71,7 @@ public class AlgoVerticalText extends AlgoElement {
 	 *            input text
 	 */
 	public AlgoVerticalText(Construction cons, String label, GeoText args,
-			GeoPoint p) {
+			GeoPointND p) {
 		this(cons, args, p);
 		text.setLabel(label);
 	}
@@ -84,7 +84,7 @@ public class AlgoVerticalText extends AlgoElement {
 	 * @param args
 	 *            input text
 	 */
-	public AlgoVerticalText(Construction cons, GeoText args, GeoPoint p) {
+	public AlgoVerticalText(Construction cons, GeoText args, GeoPointND p) {
 		super(cons);
 
 		this.args = args;
@@ -95,7 +95,7 @@ public class AlgoVerticalText extends AlgoElement {
 
 		// set startpoint
 		if (startPoint != null) {
-			startPointCopy = (GeoPoint) startPoint.copyInternal(cons);
+			startPointCopy = (GeoPointND) startPoint.copyInternal(cons);
 
 			try {
 				text.setStartPoint(startPointCopy);
@@ -126,7 +126,7 @@ public class AlgoVerticalText extends AlgoElement {
 		} else {
 			input = new GeoElement[2];
 			input[0] = args;
-			input[1] = startPoint;
+			input[1] = startPoint.toGeoElement();
 		}
 
 		super.setOutputLength(1);
@@ -157,7 +157,7 @@ public class AlgoVerticalText extends AlgoElement {
 
 		// update startpoint position of text
 		if (startPointCopy != null) {
-			startPointCopy.setCoords(startPoint);
+			startPointCopy.setCoords(startPoint.getCoordsInD3(), false);
 		}
 
 	}

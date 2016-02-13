@@ -1,13 +1,11 @@
 package org.geogebra.common.kernel.scripting;
 
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -55,27 +53,9 @@ public class CmdZoomOut extends CmdScripting {
 
 		case 2:
 			arg = resArgs(c);
-			boolean ok0;
-			if ((ok0 = arg[0].isGeoNumeric()) && arg[1].isGeoPoint()) {
-				GeoNumeric numGeo = (GeoNumeric) arg[0];
-				double[] coords = ((GeoPointND) arg[1]).getPointAsDouble();
-
-				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-				double px = ev.toScreenCoordXd(coords[0]); // mouseLoc.x;
-				double py = ev.toScreenCoordYd(coords[1]); // mouseLoc.y;
-
-				double factor = numGeo.getDouble();
-				if (Kernel.isZero(factor))
-					throw argErr(app, c.getName(), arg[0]);
-
-				ev.zoom(px, py, 1 / factor, 4, true);
-
-				app.setUnsaved();
-
-				return arg;
-
-			}
-			throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
+			return CmdZoomIn.zoomIn2(arg, c.getName(),
+					1 / arg[0].evaluateDouble(),
+					this);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

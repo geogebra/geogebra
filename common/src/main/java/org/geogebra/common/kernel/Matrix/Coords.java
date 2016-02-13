@@ -1567,10 +1567,11 @@ public class Coords {
 	 * add values of v inside this
 	 * @param v vector
 	 */
-	public void addInside(Coords v){
+	public Coords addInside(Coords v) {
 		for (int i = 0 ; i < v.val.length ; i++){
 			val[i] += v.val[i];
 		}
+		return this;
 	}
 	
 	/**

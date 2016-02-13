@@ -1118,6 +1118,16 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return Kernel.isEqual(sum1, sum2, eps);
 	}
 
+	public static boolean collinearND(GeoPointND A, GeoPointND B, GeoPointND C) {
+		// A, B, C are collinear iff (A-B)x(A-C) == (0,0,0)
+
+		Coords diffB = A.getCoordsInD3().sub(B.getCoordsInD3());
+		Coords diffC = A.getCoordsInD3().sub(C.getCoordsInD3());
+		Coords prod = diffB.crossProduct(diffC);
+
+		return prod.isZero(3);
+	}
+
 	/**
 	 * Calcs determinant of P and Q. Note: no test for defined or infinite is
 	 * done here.
@@ -1145,15 +1155,27 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            C
 	 * @return lambda = AC/AB.
 	 */
-	public static final double affineRatio(GeoPoint A, GeoPoint B, GeoPoint C) {
-		double ABx = B.inhomX - A.inhomX;
-		double ABy = B.inhomY - A.inhomY;
+	public static final double affineRatio(GeoPointND A, GeoPointND B,
+			GeoPointND C) {
+		Coords cA = A.getCoordsInD3();
+		Coords cB = B.getCoordsInD3();
+		Coords cC = C.getCoordsInD3();
+
+		double ABx = cB.getX() - cA.getX();
+		double ABy = cB.getY() - cA.getY();
+		double ABz = cB.getZ() - cA.getZ();
 
 		// avoid division by a number close to zero
 		if (Math.abs(ABx) > Math.abs(ABy)) {
-			return (C.inhomX - A.inhomX) / ABx;
+			if (Math.abs(ABx) > Math.abs(ABz)) {
+				return (cC.getX() - cA.getX()) / ABx;
+			}
+			return (cC.getZ() - cA.getZ()) / ABz;
 		}
-		return (C.inhomY - A.inhomY) / ABy;
+		if (Math.abs(ABy) > Math.abs(ABz)) {
+			return (cC.getY() - cA.getY()) / ABy;
+		}
+		return (cC.getZ() - cA.getZ()) / ABz;
 	}
 
 	/***********************************************************
@@ -2627,5 +2649,16 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	public double[] getPointAsDouble() {
 		return new double[] { inhomX, inhomY };
+	}
+
+	public static void setBarycentric(GeoPointND A, GeoPointND B, GeoPointND C,
+			double wA, double wB, double wC, double w, GeoPointND M) {
+		Coords cA = A.getCoordsInD3();
+		Coords cB = B.getCoordsInD3();
+		Coords cC = C.getCoordsInD3();
+		Coords cM = cA.mul(wA / w).addInside(cB.mul(wB / w))
+				.addInside(cC.mul(wC / w));
+		M.setCoords(cM, false);
+
 	}
 }

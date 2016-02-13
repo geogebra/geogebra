@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -58,6 +59,10 @@ public abstract class CmdScripting extends CommandProcessor {
 			CircularDefinitionException {
 		GeoScriptAction sa = new GeoScriptAction(cons, this, c);
 		return new GeoElement[] { sa };
+	}
+
+	public App getApp() {
+		return app;
 	}
 
 }

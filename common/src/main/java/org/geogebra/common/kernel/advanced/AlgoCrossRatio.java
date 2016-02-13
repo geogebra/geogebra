@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * @author Victor Franco Espino
@@ -18,11 +19,11 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class AlgoCrossRatio extends AlgoElement {
 
-	private GeoPoint A, B, C, D; // input
+	private GeoPointND A, B, C, D; // input
 	private GeoNumeric M; // output
 
-	public AlgoCrossRatio(Construction cons, String label, GeoPoint A,
-			GeoPoint B, GeoPoint C, GeoPoint D) {
+	public AlgoCrossRatio(Construction cons, String label, GeoPointND A,
+			GeoPointND B, GeoPointND C, GeoPointND D) {
 		super(cons);
 		this.A = A;
 		this.B = B;
@@ -43,13 +44,12 @@ public class AlgoCrossRatio extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[4];
-		input[0] = A;
-		input[1] = B;
-		input[2] = C;
-		input[3] = D;
+		input[0] = A.toGeoElement();
+		input[1] = B.toGeoElement();
+		input[2] = C.toGeoElement();
+		input[3] = D.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, M);
+		super.setOnlyOutput(M);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -60,8 +60,9 @@ public class AlgoCrossRatio extends AlgoElement {
 	@Override
 	public final void compute() {
 		// Check if the points are aligned
-		if (!(A.isEqual(D)) && !(B.isEqual(C)) && GeoPoint.collinear(B, C, D)
-				&& GeoPoint.collinear(A, C, D)) {
+		if (!(A.isEqualPointND(D)) && !(B.isEqualPointND(C))
+				&& GeoPoint.collinearND(B, C, D)
+				&& GeoPoint.collinearND(A, C, D)) {
 			M.setValue(GeoPoint.affineRatio(B, C, D)
 					/ GeoPoint.affineRatio(A, C, D));
 		} else {

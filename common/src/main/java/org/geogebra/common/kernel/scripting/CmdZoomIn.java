@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
@@ -54,27 +55,7 @@ public class CmdZoomIn extends CmdScripting {
 			throw argErr(app, c.getName(), arg[0]);
 		case 2:
 			arg = resArgs(c);
-			boolean ok0;
-			if ((ok0 = arg[0].isGeoNumeric()) && arg[1].isGeoPoint()) {
-				GeoNumeric numGeo = (GeoNumeric) arg[0];
-				double[] coords = ((GeoPointND) arg[1]).getPointAsDouble();
-
-				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-				double px = ev.toScreenCoordXd(coords[0]); // mouseLoc.x;
-				double py = ev.toScreenCoordYd(coords[1]); // mouseLoc.y;
-
-				double factor = numGeo.getDouble();
-				if (Kernel.isZero(factor))
-					throw argErr(app, c.getName(), arg[0]);
-
-				ev.zoom(px, py, factor, 4, true);
-
-				app.setUnsaved();
-
-				return arg;
-
-			}
-			throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
+			return zoomIn2(arg, c.getName(), arg[0].evaluateDouble(), this);
 		case 4:
 			arg = resArgs(c);
 			for (int i = 0; i < 3; i++) {
@@ -93,5 +74,38 @@ public class CmdZoomIn extends CmdScripting {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	/**
+	 * @param arg
+	 * @param cName
+	 * @param factor
+	 * @param proc
+	 * @return
+	 */
+	protected static GeoElement[] zoomIn2(GeoElement[] arg, String cName,
+			double factor, CmdScripting proc) {
+
+		boolean ok0;
+		if ((ok0 = arg[0].isGeoNumeric()) && arg[1].isGeoPoint()) {
+
+			EuclidianViewInterfaceCommon ev = proc.getApp()
+					.getActiveEuclidianView();
+			Coords coords = ev.getCoordsForView(((GeoPointND) arg[1])
+					.getCoordsInD3());
+			double px = ev.toScreenCoordXd(coords.getX());
+			double py = ev.toScreenCoordYd(coords.getY());
+
+			if (!Kernel.isZero(factor)) {
+
+				ev.zoom(px, py, factor, 4, true);
+
+				proc.getApp().setUnsaved();
+			}
+
+			return arg;
+
+		}
+		throw proc.argErr(proc.getApp(), cName, ok0 ? arg[1] : arg[0]);
 	}
 }

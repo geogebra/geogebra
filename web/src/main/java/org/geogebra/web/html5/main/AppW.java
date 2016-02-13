@@ -29,6 +29,7 @@ import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.UndoManager;
@@ -1736,7 +1737,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * @return a kernel
 	 */
 	protected Kernel newKernel(App this_app) {
-		return new Kernel(this_app);
+		return new Kernel(this_app, new GeoFactory());
 	}
 
 	/**

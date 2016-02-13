@@ -19,30 +19,22 @@ package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.MyMath;
 
 public class AlgoIncircle extends AlgoElement {
 
 	private GeoPointND A, B, C; // input
 	protected GeoConicND circle; // output
+	protected GeoPointND incenter;
 
 	// angle bisector calculations
-	private GeoLine bisectorC, bisectorB, sideBC, heightBC;
-	private GeoPoint heightFoot, incenter;
-	private GeoPoint A1, B1, C1;
-
-	public AlgoIncircle(Construction cons, String label, GeoPointND A,
-			GeoPointND B, GeoPointND C) {
-		this(cons, A, B, C);
-		circle.setLabel(label);
-	}
 
 	public AlgoIncircle(Construction cons, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
@@ -53,18 +45,14 @@ public class AlgoIncircle extends AlgoElement {
 		this.B = B;
 		this.C = C;
 
-		circle = new GeoConic(cons); // output
 
-		bisectorC = new GeoLine(cons);
-		bisectorB = new GeoLine(cons);
-		heightFoot = new GeoPoint(cons);
-		heightBC = new GeoLine(cons);
-		sideBC = new GeoLine(cons);
-		incenter = new GeoPoint(cons);
-		A1 = new GeoPoint(cons);
-		B1 = new GeoPoint(cons);
-		C1 = new GeoPoint(cons);
 
+		int dim = MyMath.max(A.getDimension(), B.getDimension(),
+				C.getDimension());
+		circle = kernel.getGeoFactory().newConic(dim, cons);
+		// output
+		incenter = kernel.getGeoFactory().newPoint(dim, cons);
+		incenter.setLabel("inc");
 		setInputOutput();
 
 		compute();
@@ -92,37 +80,38 @@ public class AlgoIncircle extends AlgoElement {
 		return circle;
 	}
 
-	public GeoPoint getA() {
-		return (GeoPoint) A;
-	}
 
-	public GeoPoint getB() {
-		return (GeoPoint) B;
-	}
-
-	public GeoPoint getC() {
-		return (GeoPoint) C;
-	}
 
 	// compute incircle of triangle A, B, C
 	@Override
 	public void compute() {
-		// bisector of angle ABC
+		if (!A.isDefined() || !B.isDefined() || !C.isDefined()) {
+			circle.setUndefined();
+			return;
+		}
 		double dAB = A.distance(B);
 		double dAC = A.distance(C);
 		double dBC = B.distance(C);		
 		double s = (dAB + dAC + dBC) / 2;
-		double[] Ac = A.getPointAsDouble();
-		double[] Bc = B.getPointAsDouble();
-		double[] Cc = C.getPointAsDouble();
 		double wA = dBC / s / 2;
 		double wB = dAC / s / 2;
 		double wC = dAB / s / 2;
-
-		incenter.setCoords(Ac[0] * wA + Bc[0] * wB + Cc[0] * wC, Ac[1] * wA
-				+ Bc[1] * wB + Cc[1] * wC, 1);
+		GeoPoint.setBarycentric(A, B, C, wA, wB, wC, 1, incenter);
+		incenter.update();
 		double radius = Math.sqrt((s - dBC) * (s - dAC) / s * (s - dAB));
-		circle.setCircle(incenter, radius);
+
+		CoordSys sys = circle.getCoordSys();
+		if (sys != CoordSys.Identity3D) {
+			sys.resetCoordSys();
+			sys.addPoint(A.getInhomCoordsInD3());
+			sys.addPoint(B.getInhomCoordsInD3());
+			sys.addPoint(C.getInhomCoordsInD3());
+			sys.makeOrthoMatrix(false, false);
+			circle.setSphereND(incenter.getCoordsInD2(sys), radius);
+		} else {
+			circle.setSphereND(incenter, radius);
+		}
+
 	}
 
 	@Override

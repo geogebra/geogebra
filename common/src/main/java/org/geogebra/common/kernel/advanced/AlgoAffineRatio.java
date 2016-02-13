@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * @author Victor Franco Espino
@@ -17,11 +18,11 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class AlgoAffineRatio extends AlgoElement {
 
-	private GeoPoint A, B, C; // input
+	private GeoPointND A, B, C; // input
 	private GeoNumeric M; // output
 
-	public AlgoAffineRatio(Construction cons, String label, GeoPoint A,
-			GeoPoint B, GeoPoint C) {
+	public AlgoAffineRatio(Construction cons, String label, GeoPointND A,
+			GeoPointND B, GeoPointND C) {
 		super(cons);
 		this.A = A;
 		this.B = B;
@@ -42,12 +43,11 @@ public class AlgoAffineRatio extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = A;
-		input[1] = B;
-		input[2] = C;
+		input[0] = A.toGeoElement();
+		input[1] = B.toGeoElement();
+		input[2] = C.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, M);
+		setOnlyOutput(M);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -58,8 +58,8 @@ public class AlgoAffineRatio extends AlgoElement {
 	@Override
 	public final void compute() {
 		// Check if the points are aligned
-		if (GeoPoint.collinear(A, B, C)) {
-			if (B.isEqual(C)) {
+		if (GeoPoint.collinearND(A, B, C)) {
+			if (B.isEqualPointND(C)) {
 				M.setValue(1.0); // changed, was undefined
 			} else {
 				M.setValue(GeoPoint.affineRatio(A, B, C));

@@ -6,6 +6,8 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.MyMath;
 
 /**
  * @author Darko Drakulic
@@ -17,9 +19,9 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class AlgoTrilinear extends AlgoElement {
 
-	private GeoPoint P1, P2, P3; // input
+	private GeoPointND P1, P2, P3; // input
 	private NumberValue v1, v2, v3; // input
-	private GeoPoint point; // output
+	private GeoPointND point; // output
 
 	/**
 	 * Creates new trilinear algo
@@ -41,8 +43,9 @@ public class AlgoTrilinear extends AlgoElement {
 	 * @param c
 	 *            third trilinear coord
 	 */
-	public AlgoTrilinear(Construction cons, String label, GeoPoint A,
-			GeoPoint B, GeoPoint C, NumberValue a, NumberValue b, NumberValue c) {
+	public AlgoTrilinear(Construction cons, String label, GeoPointND A,
+			GeoPointND B, GeoPointND C, NumberValue a, NumberValue b,
+			NumberValue c) {
 		super(cons);
 		this.P1 = A;
 		this.P2 = B;
@@ -51,7 +54,9 @@ public class AlgoTrilinear extends AlgoElement {
 		this.v2 = b;
 		this.v3 = c;
 
-		point = new GeoPoint(cons);
+		int dim = MyMath.max(A.getDimension(), B.getDimension(),
+				C.getDimension());
+		point = kernel.getGeoFactory().newPoint(dim, cons);
 		setInputOutput();
 		compute();
 		point.setLabel(label);
@@ -66,22 +71,21 @@ public class AlgoTrilinear extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[6];
-		input[0] = P1;
-		input[1] = P2;
-		input[2] = P3;
+		input[0] = P1.toGeoElement();
+		input[1] = P2.toGeoElement();
+		input[2] = P3.toGeoElement();
 		input[3] = v1.toGeoElement();
 		input[4] = v2.toGeoElement();
 		input[5] = v3.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, point);
+		setOnlyOutput(point);
 		setDependencies(); // done by AlgoElement
 	}
 
 	/**
 	 * @return resulting point
 	 */
-	public GeoPoint getResult() {
+	public GeoPointND getResult() {
 		return point;
 	}
 
@@ -92,13 +96,10 @@ public class AlgoTrilinear extends AlgoElement {
 		double p2 = P1.distance(P3);
 		double p3 = P1.distance(P2);
 
-		double x = 0, y = 0, sum = 0;
-		x = v1.getDouble() * p1 * P1.inhomX + v2.getDouble() * p2 * P2.inhomX
-				+ v3.getDouble() * p3 * P3.inhomX;
-		y = v1.getDouble() * p1 * P1.inhomY + v2.getDouble() * p2 * P2.inhomY
-				+ v3.getDouble() * p3 * P3.inhomY;
-		sum = v1.getDouble() * p1 + v2.getDouble() * p2 + v3.getDouble() * p3;
-		point.setCoords(x / sum, y / sum, 1);
+		double wA = v1.getDouble() * p1, wB = v2.getDouble() * p2, wC = v3
+				.getDouble() * p3;
+		double sum = wA + wB + wC;
+		GeoPoint.setBarycentric(P1, P2, P3, wA, wB, wC, sum, point);
 	}
 
 	// TODO Consider locusequability

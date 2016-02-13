@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -1001,4 +1002,6 @@ public interface EuclidianViewInterfaceCommon extends
 	 * Close all the dropdowns but the one was hit at
 	 */
 	void closeDropDowns(int x, int y);
+
+	public Coords getCoordsForView(Coords coordsInD3);
 }

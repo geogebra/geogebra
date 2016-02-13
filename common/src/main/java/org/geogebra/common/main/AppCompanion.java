@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.gui.layout.DockPanel;
+import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -34,7 +35,7 @@ public class AppCompanion {
 	 * @return new kernel
 	 */
 	public Kernel newKernel() {
-		return new Kernel(app);
+		return new Kernel(app, new GeoFactory());
 	}
 
 	/**

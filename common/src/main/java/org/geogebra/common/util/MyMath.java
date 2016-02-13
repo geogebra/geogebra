@@ -471,4 +471,8 @@ public final class MyMath {
 	public static boolean changedSign(double v0, double v1) {
 		return (v0 < 0 && v1 >= 0) || (v0 > 0 && v1 <= 0);
 	}
+
+	public static int max(int a, int b, int c) {
+		return Math.max(a, Math.max(b, c));
+	}
 }

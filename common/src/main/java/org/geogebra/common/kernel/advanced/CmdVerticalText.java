@@ -4,8 +4,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -45,7 +45,7 @@ public class CmdVerticalText extends CommandProcessor {
 
 			if ((ok[0] = (arg[0].isGeoText())) && (ok[1] = arg[1].isGeoPoint())) {
 				AlgoVerticalText algo = new AlgoVerticalText(cons,
-						c.getLabel(), (GeoText) arg[0], (GeoPoint) arg[1]);
+						c.getLabel(), (GeoText) arg[0], (GeoPointND) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

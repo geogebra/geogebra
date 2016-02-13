@@ -36,6 +36,7 @@ public class MacroKernel extends Kernel {
 	 *            kernel of construction in which we want to use this macro
 	 */
 	public MacroKernel(Kernel parentKernel) {
+		super(parentKernel.getGeoFactory());
 		this.parentKernel = parentKernel;
 
 		app = parentKernel.getApplication();
@@ -209,15 +210,6 @@ public class MacroKernel extends Kernel {
 		return parentKernel.hasCasCache();
 	}
 
-	@Override
-	public GeoElement copy3D(GeoElement geo) {
-		return parentKernel.copy3D(geo);
-	}
-
-	@Override
-	public GeoElement copyInternal3D(Construction cons, GeoElement geo) {
-		return parentKernel.copyInternal3D(cons, geo);
-	}
 
 	@Override
 	protected AlgoDispatcher newAlgoDispatcher(Construction cons1) {

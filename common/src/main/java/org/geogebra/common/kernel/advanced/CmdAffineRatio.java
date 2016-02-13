@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -37,8 +37,8 @@ public class CmdAffineRatio extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
 				AlgoAffineRatio affine = new AlgoAffineRatio(cons,
-						c.getLabel(), (GeoPoint) arg[0], (GeoPoint) arg[1],
-						(GeoPoint) arg[2]);
+						c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
+						(GeoPointND) arg[2]);
 
 				GeoElement[] ret = { affine.getResult() };
 				return ret;

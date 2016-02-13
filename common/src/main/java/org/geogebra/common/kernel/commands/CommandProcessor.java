@@ -592,7 +592,7 @@ kernelA.getEulerNumber(), localVar));
 	 *            faulty argument
 	 * @return wrong argument error
 	 */
-	protected final MyError argErr(App app1, String cmd, ExpressionValue arg) {
+	public final MyError argErr(App app1, String cmd, ExpressionValue arg) {
 		return argErr(app1.getLocalization(), cmd, arg);
 
 	}

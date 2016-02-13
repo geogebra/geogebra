@@ -7,7 +7,9 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
+import org.geogebra.common.util.MyMath;
 
 /**
  * @author Zbynek Konecny, credit goes to Jason Cantarella of the Univerity of
@@ -21,8 +23,8 @@ import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 
 public class AlgoKimberling extends AlgoElement {
 
-	private GeoPoint A, B, C; // input
-	private GeoPoint M; // output
+	private GeoPointND A, B, C; // input
+	private GeoPointND M; // output
 	private NumberValue n;
 
 	/**
@@ -41,15 +43,17 @@ public class AlgoKimberling extends AlgoElement {
 	 * @param n
 	 *            index in ETC
 	 */
-	public AlgoKimberling(Construction cons, String label, GeoPoint A,
-			GeoPoint B, GeoPoint C, NumberValue n) {
+	public AlgoKimberling(Construction cons, String label, GeoPointND A,
+			GeoPointND B, GeoPointND C, NumberValue n) {
 		super(cons);
 		kernel.getApplication().getAlgoKimberlingWeights();
 		this.A = A;
 		this.B = B;
 		this.C = C;
 		this.n = n;
-		M = new GeoPoint(cons);
+		int dim = MyMath.max(A.getDimension(), B.getDimension(),
+				C.getDimension());
+		M = kernel.getGeoFactory().newPoint(dim, cons);
 		setInputOutput();
 		compute();
 		M.setLabel(label);
@@ -64,20 +68,20 @@ public class AlgoKimberling extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[4];
-		input[0] = A;
-		input[1] = B;
-		input[2] = C;
+		input[0] = A.toGeoElement();
+		input[1] = B.toGeoElement();
+		input[2] = C.toGeoElement();
 		input[3] = n.toGeoElement();
 
 		setOutputLength(1);
-		setOutput(0, M);
+		setOutput(0, M.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
 
 	/**
 	 * @return resulting point
 	 */
-	public GeoPoint getResult() {
+	public GeoPointND getResult() {
 		return M;
 	}
 
@@ -106,10 +110,9 @@ public class AlgoKimberling extends AlgoElement {
 			double w = wA + wB + wC;
 			if (Double.isNaN(w) || Kernel.isZero(w))
 				M.setUndefined();
-			else
-				M.setCoords((A.x / A.z * wA + B.x / B.z * wB + C.x / C.z * wC)
-						/ w, (A.y / A.z * wA + B.y / B.z * wB + C.y / C.z * wC)
-						/ w, 1);
+			else {
+				GeoPoint.setBarycentric(A, B, C, wA, wB, wC, w, M);
+			}
 		}
 	}
 

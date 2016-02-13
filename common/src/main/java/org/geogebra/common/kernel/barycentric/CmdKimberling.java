@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -40,10 +40,10 @@ public class CmdKimberling extends CommandProcessor {
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
 
 				AlgoKimberling algo = new AlgoKimberling(cons, c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1],
-						(GeoPoint) arg[2], (GeoNumberValue) arg[3]);
+						(GeoPointND) arg[0], (GeoPointND) arg[1],
+						(GeoPointND) arg[2], (GeoNumberValue) arg[3]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = { algo.getResult().toGeoElement() };
 				return ret;
 
 			}

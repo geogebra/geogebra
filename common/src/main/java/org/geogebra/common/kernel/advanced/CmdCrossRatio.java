@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -38,8 +38,8 @@ public class CmdCrossRatio extends CommandProcessor {
 					&& (ok[3] = (arg[3].isGeoPoint()))) {
 
 				AlgoCrossRatio cross = new AlgoCrossRatio(cons, c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1],
-						(GeoPoint) arg[2], (GeoPoint) arg[3]);
+						(GeoPointND) arg[0], (GeoPointND) arg[1],
+						(GeoPointND) arg[2], (GeoPointND) arg[3]);
 
 				GeoElement[] ret = { cross.getResult() };
 				return ret;
