@@ -43,7 +43,6 @@ public class TextOptionsModel extends OptionsModel {
 
 	private boolean justDisplayFontSize;
 
-	private String[] fonts = { "Sans Serif", "Serif" };
 	private App app;
 	private Localization loc;
 	private DynamicTextProcessor dTProcessor; 
@@ -202,7 +201,9 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	public String[] getFonts() {
-		return fonts;
+		String[] ret = { loc.getMenu("SansSerif"), loc.getMenu("Serif") };
+
+		return ret;
 	}
 
 	public String[] getFontSizes() {
