@@ -86,7 +86,7 @@ public class AlgoFitLineX extends AlgoElement {
 
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = geoList.get(i);
-			if (geo.isGeoPoint()) {
+			if (geo instanceof GeoPoint) {
 				double xy[] = new double[2];
 				((GeoPoint) geo).getInhomCoords(xy);
 				double x = xy[0];

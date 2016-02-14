@@ -651,7 +651,12 @@ AngleProperties {
 		}
 		// check element type
 		else if (elementType != geo.getGeoClassType()) {
-			elementType = ELEMENT_TYPE_MIXED;
+			if ((elementType == GeoClass.POINT3D || elementType == GeoClass.POINT)
+					&& geo.isGeoPoint()) {
+				elementType = GeoClass.POINT3D;
+			} else {
+				elementType = ELEMENT_TYPE_MIXED;
+			}
 		}
 		isDrawable = isDrawable
 				&& geo.isDrawable()

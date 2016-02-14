@@ -571,7 +571,7 @@ public final class RegressionMath {
 		ylist = new double[size];
 		for (int i = 0; i < size; i++) {
 			geoelement = geolist.get(i);
-			if (geoelement.isGeoPoint()) {
+			if (geoelement instanceof GeoPoint) {
 				((GeoPoint) geoelement).getInhomCoords(xy);
 				xlist[i] = xy[0];
 				ylist[i] = xy[1];

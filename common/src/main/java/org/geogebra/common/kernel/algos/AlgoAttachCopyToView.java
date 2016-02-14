@@ -20,6 +20,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -30,7 +31,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -185,19 +185,17 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		if (view == 0)
 			return;
 
-		GeoPoint c1 = (GeoPoint) corner1;
-		GeoPoint c3 = (GeoPoint) corner3;
-		GeoPoint c5 = (GeoPoint) screenCorner1;
-		GeoPoint c7 = (GeoPoint) screenCorner3;
+		Coords c1 = corner1.getCoordsInD3();
+		Coords c3 = corner3.getCoordsInD3();
+		Coords c5 = screenCorner1.getCoordsInD3();
+		Coords c7 = screenCorner3.getCoordsInD3();
 
-		double c1x = ev.toRealWorldCoordX(c5.getX() / c5.getZ());
-		double c1y = ev.toRealWorldCoordY(c5.getY() / c5.getZ());
-		double c3x = ev.toRealWorldCoordX(c7.getX() / c7.getZ());
-		double c3y = ev.toRealWorldCoordY(c7.getY() / c7.getZ());
-		double[][] m1 = MyMath.adjoint(c1.getX() / c1.getZ(),
-				c1.getY() / c1.getZ(), 1, c3.getX() / c3.getZ(),
-				c3.getY() / c3.getZ(), 1, c1.getX() / c1.getZ(),
-				c3.getY() / c3.getZ(), 1);
+		double c1x = ev.toRealWorldCoordX(c5.getX());
+		double c1y = ev.toRealWorldCoordY(c5.getY());
+		double c3x = ev.toRealWorldCoordX(c7.getX());
+		double c3y = ev.toRealWorldCoordY(c7.getY());
+		double[][] m1 = MyMath.adjoint(c1.getX(), c1.getY(), 1, c3.getX(),
+				c3.getY(), 1, c1.getX(), c3.getY(), 1);
 		double[][] m2 = new double[][] { { c1x, c3x, c1x }, { c1y, c3y, c3y },
 				{ 1, 1, 1 } };
 		double[][] m = MyMath.multiply(m2, m1);

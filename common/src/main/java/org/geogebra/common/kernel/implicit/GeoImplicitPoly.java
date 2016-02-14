@@ -954,9 +954,9 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 *            array of points
 	 */
 	public void throughPoints(GeoPoint[] points) {
-		ArrayList<GeoPoint> p = new ArrayList<GeoPoint>();
+		ArrayList<Coords> p = new ArrayList<Coords>();
 		for (int i = 0; i < points.length; i++)
-			p.add(points[i]);
+			p.add(points[i].getInhomCoordsInD3());
 		throughPoints(p);
 	}
 
@@ -967,9 +967,9 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 *            array of points
 	 */
 	public void throughPoints(GeoList points) {
-		ArrayList<GeoPoint> p = new ArrayList<GeoPoint>();
+		ArrayList<Coords> p = new ArrayList<Coords>();
 		for (int i = 0; i < points.size(); i++)
-			p.add((GeoPoint) points.get(i));
+			p.add(((GeoPointND) points.get(i)).getInhomCoordsInD3());
 		throughPoints(p);
 	}
 
@@ -979,7 +979,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 * @param points
 	 *            ArrayList of points
 	 */
-	public void throughPoints(ArrayList<GeoPoint> points) {
+	public void throughPoints(ArrayList<Coords> points) {
 		if ((int) Math.sqrt(9 + 8 * points.size()) != Math
 				.sqrt(9 + 8 * points.size())) {
 			setUndefined();
@@ -1001,8 +1001,12 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 		double[] results;
 
 		for (int i = 0; i < points.size(); i++) {
-			double x = points.get(i).x / points.get(i).z;
-			double y = points.get(i).y / points.get(i).z;
+			if (!Kernel.isZero(points.get(i).getZ())) {
+				setUndefined();
+				return;
+			}
+			double x = points.get(i).getX();
+			double y = points.get(i).getY();
 
 			for (int j = 0, m = 0; j < degree + 1; j++)
 				for (int k = 0; j + k != degree + 1; k++)
@@ -1026,8 +1030,8 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 				matrixRow = new double[noPoints + 1];
 
 				for (int i = 0; i < noPoints; i++) {
-					double x = points.get(i).x;
-					double y = points.get(i).y;
+					double x = points.get(i).getX();
+					double y = points.get(i).getY();
 
 					for (int j = 0, m = 0; j < realDegree + 1; j++)
 						for (int k = 0; j + k != realDegree + 1; k++)
@@ -1075,7 +1079,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 
 		setDefined();
 		for (int i = 0; i < points.size(); i++)
-			if (!this.isOnPath(points.get(i), 1)) {
+			if (!this.isOnPath(points.get(i).getX(), points.get(i).getY())) {
 				this.setUndefined();
 				return;
 			}
@@ -1164,6 +1168,10 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 			}
 		}
 
+		return isOnPath(px, py);
+	}
+
+	private boolean isOnPath(double px, double py) {
 		double value = this.evalPolyAt(px, py);
 
 		return Math.abs(value) < Kernel.MIN_PRECISION;

@@ -92,7 +92,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		// copy inputList into two arrays
 		for (int i = 0; i < n; i++) {
 			GeoElement geo = inputList.get(i);
-			if (geo.isGeoPoint()) {
+			if (geo instanceof GeoPoint) {
 				GeoPoint listElement = (GeoPoint) inputList.getCached(i);
 				listElement.getInhomCoords(xy);
 				x[i] = xy[0];

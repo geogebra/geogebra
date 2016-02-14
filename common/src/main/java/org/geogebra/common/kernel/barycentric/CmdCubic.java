@@ -36,8 +36,9 @@ public class CmdCubic extends CommandProcessor {
 		case 4:
 			arg = resArgs(c);
 
-			if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
-					&& (ok[2] = arg[2].isGeoPoint())
+			if ((ok[0] = arg[0] instanceof GeoPoint)
+					&& (ok[1] = arg[1] instanceof GeoPoint)
+					&& (ok[2] = arg[2] instanceof GeoPoint)
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
 
 				AlgoCubic algo = new AlgoCubic(cons, c.getLabel(),

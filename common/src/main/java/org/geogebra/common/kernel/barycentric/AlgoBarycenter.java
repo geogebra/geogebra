@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.barycentric;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * @author Darko Drakulic
@@ -20,7 +20,7 @@ public class AlgoBarycenter extends AlgoElement {
 
 	private GeoList poly; // input
 	private GeoList list; // input
-	private GeoPoint point; // output
+	private GeoPointND point; // output
 
 	/**
 	 * 
@@ -37,7 +37,14 @@ public class AlgoBarycenter extends AlgoElement {
 		super(cons);
 		this.poly = A;
 		this.list = B;
-		point = new GeoPoint(cons);
+		int dim = 2;
+		for (int i = 0; i < A.size(); i++) {
+			if (A.get(i).isGeoElement3D()) {
+				dim = 3;
+				break;
+			}
+		}
+		point = kernel.getGeoFactory().newPoint(dim, cons);
 		setInputOutput();
 		compute();
 		point.setLabel(label);
@@ -55,8 +62,7 @@ public class AlgoBarycenter extends AlgoElement {
 		input[0] = poly;
 		input[1] = list;
 
-		setOutputLength(1);
-		setOutput(0, point);
+		setOnlyOutput(point);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -65,7 +71,7 @@ public class AlgoBarycenter extends AlgoElement {
 	 * 
 	 * @return the resulting point
 	 */
-	public GeoPoint getResult() {
+	public GeoPointND getResult() {
 		return point;
 	}
 
@@ -88,16 +94,19 @@ public class AlgoBarycenter extends AlgoElement {
 		}
 
 		int numberOfVertices = poly.size();
-		double x = 0, y = 0, sum = 0;
-		for (int i = 0; i < numberOfVertices; i++) {
-			x += ((GeoPoint) poly.get(i)).inhomX
-					* ((GeoNumeric) (list.get(i))).getDouble();
-			y += ((GeoPoint) poly.get(i)).inhomY
-					* ((GeoNumeric) (list.get(i))).getDouble();
-			sum += ((GeoNumeric) (list.get(i))).getDouble();
+		double sum = list.get(0).evaluateDouble();
+		Coords sumCoords = ((GeoPointND) poly.get(0)).getInhomCoordsInD3().mul(
+				sum);
+		for (int i = 1; i < numberOfVertices; i++) {
+			double w = list.get(i).evaluateDouble();
+			sumCoords.addInside(((GeoPointND) poly.get(i)).getInhomCoordsInD3()
+					.mul(
+					w));
+			sum += w;
+
 		}
 
-		point.setCoords(x / sum, y / sum, 1);
+		point.setCoords(sumCoords.mul(1 / sum), false);
 	}
 
 	// TODO Consider locusequability

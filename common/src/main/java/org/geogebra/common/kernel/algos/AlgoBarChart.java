@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.draw.DrawBarGraph;
 import org.geogebra.common.euclidian.draw.DrawBarGraph.DrawType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
@@ -35,7 +36,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.AlgoUsingUniqueAndFrequency;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Cloner;
@@ -777,6 +778,10 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 			if (list1.getGeoElementForPropertiesDialog().isGeoPoint()) {
 				computeFromPointList(list1);
 			} else {
+				if (list2 == null) {
+					sum.setUndefined();
+					return;
+				}
 				barWidth = 0.0;
 				computeFromValueFrequencyLists(list1, list2);
 			}
@@ -1017,8 +1022,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 		for (int i = 0; i < N; i++) {
 
 			GeoElement geo = list1.get(i);
-
-			double x = ((GeoPoint) geo).getX();
+			Coords coords = ((GeoPointND) geo).getCoordsInD3();
+			double x = coords.getX();
 			if (!Double.isNaN(x)) {
 				leftBorder[i] = x - barWidth / 2;
 			} else {
@@ -1028,7 +1033,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 
 			value[i] = kernel.format(x, StringTemplate.defaultTemplate);
 
-			double y = ((GeoPoint) geo).getY();
+			double y = coords.getY();
 			if (!Double.isNaN(y)) {
 				yval[i] = y;
 				ySum += y;

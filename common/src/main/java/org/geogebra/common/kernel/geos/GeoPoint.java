@@ -2653,9 +2653,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	public static void setBarycentric(GeoPointND A, GeoPointND B, GeoPointND C,
 			double wA, double wB, double wC, double w, GeoPointND M) {
-		Coords cA = A.getCoordsInD3();
-		Coords cB = B.getCoordsInD3();
-		Coords cC = C.getCoordsInD3();
+		Coords cA = A.getInhomCoordsInD3();
+		Coords cB = B.getInhomCoordsInD3();
+		Coords cC = C.getInhomCoordsInD3();
 		Coords cM = cA.mul(wA / w).addInside(cB.mul(wB / w))
 				.addInside(cC.mul(wC / w));
 		M.setCoords(cM, false);

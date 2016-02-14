@@ -38,7 +38,7 @@ public class CmdBarycenter extends CommandProcessor {
 				AlgoBarycenter algo = new AlgoBarycenter(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = { algo.getResult().toGeoElement() };
 				return ret;
 
 			}

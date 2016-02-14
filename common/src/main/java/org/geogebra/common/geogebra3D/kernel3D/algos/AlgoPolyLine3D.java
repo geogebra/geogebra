@@ -92,7 +92,9 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 	 */
 	private void updatePointArray(GeoList pointList) {
 		// check if we have a point list
-		if (!pointList.getElementType().equals(GeoClass.POINT)) {
+		System.out.println(pointList.getElementType());
+		if (!pointList.getElementType().equals(GeoClass.POINT)
+				&& !pointList.getElementType().equals(GeoClass.POINT3D)) {
 			poly.setUndefined();
 			return;
 		}

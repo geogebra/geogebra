@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
@@ -115,7 +114,7 @@ public class CmdLength extends CommandProcessor {
 
 				AlgoLengthFunction2Points algo = new AlgoLengthFunction2Points(
 						cons, c.getLabel(), (GeoFunction) arg[0],
-						(GeoPoint) arg[1], (GeoPoint) arg[2]);
+						(GeoPointND) arg[1], (GeoPointND) arg[2]);
 
 				GeoElement[] ret = { algo.getLength() };
 				return ret;
@@ -140,7 +139,7 @@ public class CmdLength extends CommandProcessor {
 
 				AlgoLengthCurve2Points algo = new AlgoLengthCurve2Points(cons,
 						c.getLabel(), (GeoCurveCartesian) arg[0],
-						(GeoPoint) arg[1], (GeoPoint) arg[2]);
+						(GeoPointND) arg[1], (GeoPointND) arg[2]);
 
 				GeoElement[] ret = { algo.getLength() };
 				return ret;

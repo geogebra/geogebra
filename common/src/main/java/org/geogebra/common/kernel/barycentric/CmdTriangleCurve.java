@@ -58,8 +58,9 @@ public class CmdTriangleCurve extends CommandProcessor {
 			arg[3] = kernelA.getAlgebraProcessor().processEquation(
 					(Equation) c.getArgument(3).unwrap(), true)[0];
 			cons.setSuppressLabelCreation(oldMacroMode);
-			if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
-					&& (ok[2] = arg[2].isGeoPoint())
+			if ((ok[0] = arg[0] instanceof GeoPoint)
+					&& (ok[1] = arg[1] instanceof GeoPoint)
+					&& (ok[2] = arg[2] instanceof GeoPoint)
 					&& (ok[3] = arg[3].isGeoImplicitCurve())) {
 
 				AlgoTriangleCurve algo = new AlgoTriangleCurve(cons,

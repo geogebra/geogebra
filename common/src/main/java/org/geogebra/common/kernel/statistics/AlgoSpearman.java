@@ -107,7 +107,7 @@ public class AlgoSpearman extends AlgoElement {
 
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = geoListPts.get(i);
-				if (geo.isGeoPoint()) {
+				if (geo instanceof GeoPoint) {
 					double x = ((GeoPoint) geo).getX();
 					double y = ((GeoPoint) geo).getY();
 					double z = ((GeoPoint) geo).getZ();

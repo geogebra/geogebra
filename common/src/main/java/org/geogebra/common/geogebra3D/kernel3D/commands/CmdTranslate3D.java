@@ -36,17 +36,19 @@ public class CmdTranslate3D extends CmdTranslate {
 
 			// check if there is a 3D geo
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()) {
-
+				if (arg[0].isGeoVector() && arg[1].isGeoPoint()) {
+					// TODO implement like in 3d (throw prevents wrong
+					// evaluation)
+					throw argErr(app, c.getName(), arg[0]);
+				}
+				ok[0] = (arg[0] instanceof Translateable
+						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList());
 				// translate object
-				if ((ok[0] = (arg[0] instanceof Translateable
-						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
-						&& (ok[1] = (arg[1].isGeoVector()))) {
+				if (ok[0] && (ok[1] = (arg[1].isGeoVector()))) {
 					ret = kernelA.getManager3D().Translate3D(label, arg[0],
 							(GeoVectorND) arg[1]);
 					return ret;
-				} else if ((ok[0] = (arg[0] instanceof Translateable
-						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
-						&& (ok[1] = (arg[1] instanceof GeoPointND))) {
+				} else if (ok[0] && (ok[1] = (arg[1] instanceof GeoPointND))) {
 
 					// wrap (1,2,3) as Vector[(1,2,3)]
 					AlgoVectorPoint3D algoVP = new AlgoVectorPoint3D(cons,
@@ -57,6 +59,7 @@ public class CmdTranslate3D extends CmdTranslate {
 							algoVP.getVector());
 					return ret;
 				}
+				throw argErr(app, c.getName(), getBadArg(ok, arg));
 			}
 			break;
 		}

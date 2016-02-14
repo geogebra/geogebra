@@ -13,12 +13,13 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Mean, covariance, sum, sum of squares, etc from two lists or a list of points
@@ -150,11 +151,12 @@ public abstract class AlgoStats2D extends AlgoElement {
 			for (int i = 0; i < sizex; i++) {
 				GeoElement geo = geoListx.get(i);
 				if (geo.isGeoPoint()) {
-					double x = ((GeoPoint) geo).getX();
-					double y = ((GeoPoint) geo).getY();
-					double z = ((GeoPoint) geo).getZ();
-					valx = x / z;
-					valy = y / z;
+					Coords coords = ((GeoPointND) geo).getInhomCoordsInD3();
+					double x = coords.getX();
+					double y = coords.getY();
+
+					valx = x;
+					valy = y;
 					sumx += valx;
 					sumy += valy;
 					sumxx += valx * valx;

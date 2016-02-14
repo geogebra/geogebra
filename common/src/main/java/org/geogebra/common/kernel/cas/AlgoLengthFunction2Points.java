@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
 
 public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 
-	private GeoPoint A, B; // input
+	private GeoPointND A, B; // input
 	private GeoFunction f;// f1 is f'(x)
 	private GeoNumeric length; // output
 	private RealRootFunction lengthFunction; // is T = sqrt(1+(f')^2)
@@ -36,7 +36,7 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 	 *            end point
 	 */
 	public AlgoLengthFunction2Points(Construction cons, String label,
-			GeoFunction f, GeoPoint A, GeoPoint B) {
+			GeoFunction f, GeoPointND A, GeoPointND B) {
 		super(cons);
 		this.A = A;
 		this.B = B;
@@ -59,8 +59,8 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 	protected void setInputOutput() {
 		input = new GeoElement[3];
 		input[0] = f;
-		input[1] = A;
-		input[2] = B;
+		input[1] = A.toGeoElement();
+		input[2] = B.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, length);
@@ -76,8 +76,8 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 
 	@Override
 	public final void compute() {
-		double a = A.inhomX;
-		double b = B.inhomX;
+		double a = A.getInhomCoordsInD3().getX();
+		double b = B.getInhomCoordsInD3().getX();
 
 		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(
 				lengthFunction, a, b));

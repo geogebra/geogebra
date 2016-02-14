@@ -95,7 +95,7 @@ public class AlgoRSquare extends AlgoElement {
 
 		for (int i = 0; i < size; i++) {
 			geo = inputList.get(i);
-			if (geo.isGeoPoint()) {
+			if (geo instanceof GeoPoint) {
 				point = (GeoPoint) geo;
 				x = point.getX();
 				y = point.getY();

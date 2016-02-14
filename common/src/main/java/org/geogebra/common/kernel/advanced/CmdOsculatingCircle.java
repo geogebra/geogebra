@@ -44,7 +44,7 @@ public class CmdOsculatingCircle extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getCircle() };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoPoint()))
+			} else if ((ok[0] = (arg[0] instanceof GeoPoint))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
 
 				AlgoOsculatingCircleCurve algo = new AlgoOsculatingCircleCurve(

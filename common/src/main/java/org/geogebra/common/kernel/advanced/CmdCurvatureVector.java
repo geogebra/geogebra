@@ -62,7 +62,7 @@ public class CmdCurvatureVector extends CommandProcessor {
 						(GeoConic3D) arg[1]);
 				GeoElement[] ret = { algo.getVector() };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoPoint()))
+			} else if ((ok[0] = (arg[0] instanceof GeoPoint))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
 
 				AlgoCurvatureVectorCurve algo = new AlgoCurvatureVectorCurve(

@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
 
 public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 
-	private GeoPoint A, B; // input
+	private GeoPointND A, B; // input
 	private GeoCurveCartesian c;
 	private GeoCurveCartesian derivative;
 	private GeoNumeric length; // output
@@ -37,7 +37,7 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 	 *            end point
 	 */
 	public AlgoLengthCurve2Points(Construction cons, String label,
-			GeoCurveCartesian c, GeoPoint A, GeoPoint B) {
+			GeoCurveCartesian c, GeoPointND A, GeoPointND B) {
 		super(cons);
 		this.A = A;
 		this.B = B;
@@ -60,8 +60,8 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 	protected void setInputOutput() {
 		input = new GeoElement[3];
 		input[0] = c;
-		input[1] = A;
-		input[2] = B;
+		input[1] = A.toGeoElement();
+		input[2] = B.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, length);

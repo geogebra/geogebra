@@ -31,13 +31,13 @@ public class CmdUnitOrthogonalVector extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoLine()) {
+			if (arg[0] instanceof GeoLine) {
 				AlgoUnitOrthoVectorLine algo = new AlgoUnitOrthoVectorLine(
 						cons, c.getLabel(), (GeoLine) arg[0]);
 
 				GeoElement[] ret = { algo.getVector() };
 				return ret;
-			} else if (arg[0].isGeoVector()) {
+			} else if (arg[0] instanceof GeoVector) {
 
 				AlgoUnitOrthoVectorVector algo = new AlgoUnitOrthoVectorVector(
 						cons, c.getLabel(), (GeoVector) arg[0]);
