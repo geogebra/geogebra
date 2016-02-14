@@ -2,9 +2,10 @@ package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.LengthCurve;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
@@ -18,7 +19,7 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
 public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 
 	private GeoNumeric t0, t1; // input
-	private GeoCurveCartesian c; // c1 is c'(x)
+	private GeoCurveCartesianND c; // c1 is c'(x)
 
 	private GeoNumeric length; // output
 	private RealRootFunction lengthCurve; // is T = sqrt(a'(t)^2+b'(t)^2)
@@ -36,7 +37,7 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 	 *            end parameter
 	 */
 	public AlgoLengthCurve(Construction cons, String label,
-			GeoCurveCartesian c, GeoNumeric t0, GeoNumeric t1) {
+			GeoCurveCartesianND c, GeoNumeric t0, GeoNumeric t1) {
 		super(cons);
 		this.t0 = t0;
 		this.t1 = t1;
@@ -88,7 +89,7 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 	public void refreshCASResults() {
 		// First derivative of curve f
 		algoCAS = new AlgoDerivative(cons, c);
-		GeoCurveCartesian c1 = (GeoCurveCartesian) ((AlgoDerivative) algoCAS)
+		GeoCurveCartesianND c1 = (GeoCurveCartesianND) ((AlgoDerivative) algoCAS)
 				.getResult();
 		cons.removeFromConstructionList(algoCAS);
 		lengthCurve = new LengthCurve(c1);

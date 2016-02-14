@@ -526,4 +526,9 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	 */
 	abstract public void updateDistanceFunction();
 
+	public void evaluateCurve(double t, double[] f1eval) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

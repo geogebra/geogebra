@@ -2,9 +2,10 @@ package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.LengthCurve;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 
@@ -19,8 +20,8 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
 public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 
 	private GeoPointND A, B; // input
-	private GeoCurveCartesian c;
-	private GeoCurveCartesian derivative;
+	private GeoCurveCartesianND c;
+	private GeoCurveCartesianND derivative;
 	private GeoNumeric length; // output
 	private RealRootFunction lengthCurve; // is T = sqrt(a'(t)^2+b'(t)^2)
 
@@ -37,7 +38,7 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 	 *            end point
 	 */
 	public AlgoLengthCurve2Points(Construction cons, String label,
-			GeoCurveCartesian c, GeoPointND A, GeoPointND B) {
+			GeoCurveCartesianND c, GeoPointND A, GeoPointND B) {
 		super(cons);
 		this.A = A;
 		this.B = B;
@@ -93,7 +94,8 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 	public void refreshCASResults() {
 		// First derivative of curve f
 		algoCAS = new AlgoDerivative(cons, c);
-		derivative = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
+		derivative = (GeoCurveCartesianND) ((AlgoDerivative) algoCAS)
+				.getResult();
 		cons.removeFromConstructionList(algoCAS);
 		lengthCurve = new LengthCurve(derivative);
 	}

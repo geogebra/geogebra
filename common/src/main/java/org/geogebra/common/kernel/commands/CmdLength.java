@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.cas.AlgoLengthCurve;
 import org.geogebra.common.kernel.cas.AlgoLengthCurve2Points;
 import org.geogebra.common.kernel.cas.AlgoLengthFunction;
 import org.geogebra.common.kernel.cas.AlgoLengthFunction2Points;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -19,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -125,7 +125,7 @@ public class CmdLength extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {
 
 				AlgoLengthCurve algo = new AlgoLengthCurve(cons, c.getLabel(),
-						(GeoCurveCartesian) arg[0], (GeoNumeric) arg[1],
+						(GeoCurveCartesianND) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2]);
 
 				GeoElement[] ret = { algo.getLength() };
@@ -138,7 +138,7 @@ public class CmdLength extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
 				AlgoLengthCurve2Points algo = new AlgoLengthCurve2Points(cons,
-						c.getLabel(), (GeoCurveCartesian) arg[0],
+						c.getLabel(), (GeoCurveCartesianND) arg[0],
 						(GeoPointND) arg[1], (GeoPointND) arg[2]);
 
 				GeoElement[] ret = { algo.getLength() };
