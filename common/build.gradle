@@ -23,7 +23,6 @@ buildscript {
 
 apply plugin: 'ca.coglinc.javacc'
 apply plugin: 'java'
-apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -44,12 +43,4 @@ compileJavacc {
 task cleanJavacc(type: Delete) {
 	description 'Cleans the javacc generated files.'
 	delete compileJavacc
-}
-
-publishing {
-	publications {
-		library(MavenPublication) {
-			from components.java
-		}
-	}
 }
