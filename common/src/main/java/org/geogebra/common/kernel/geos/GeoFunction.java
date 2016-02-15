@@ -998,7 +998,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	/*
 	 * Path interface
 	 */
-	private void pointChanged(Coords P) {
+	private void pointChanged(Coords P, boolean closestPoly) {
 
 		if (P.getZ() == 1.0) {
 			// P.x = P.x;
@@ -1088,12 +1088,10 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 				}
 			}
 
-			PolyFunction polyFunction = fun.expandToPolyFunction(
-					fun.getExpression(), false, true);
+			PolyFunction polyFunction = closestPoly ? fun.expandToPolyFunction(
+					fun.getExpression(), false, true) : null;
 			if (polyFunction != null) {
-				double val = AlgoDistancePointObject
-.closestValPoly(
-						polyFunction, P.getX(), P.getY(), kernel);
+				double val = AlgoDistancePointObject.closestValPoly(polyFunction, P.getX(), P.getY(), kernel);
 				P.setX(val);
 				P.setY(evaluate(val));
 			} else {
@@ -1108,9 +1106,13 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	}
 
 	public void pointChanged(GeoPointND P) {
+		pointChanged(P, true);
+	}
+
+	private void pointChanged(GeoPointND P, boolean closestPoly) {
 
 		Coords coords = P.getCoordsInD2();
-		pointChanged(coords);
+		pointChanged(coords, closestPoly);
 
 		// set path parameter for compatibility with
 		// PathMoverGeneric
@@ -1187,7 +1189,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 
 		PathParameter pp = P.getPathParameter();
 		P.setX(pp.t);
-		pointChanged(P);
+		pointChanged(P, false);
 	}
 
 	@Override

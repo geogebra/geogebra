@@ -2777,7 +2777,7 @@ public class Kernel {
 	 *            geo
 	 * @return minimal y-bound of all views displaying geo
 	 */
-	public double getViewsYMin(GeoElement geo) {
+	public double getViewsYMin(GeoElementND geo) {
 		return getViewBoundsForGeo(geo)[2];
 	}
 

@@ -990,10 +990,10 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		// EuclidianViewInterfaceSlim ev =
 		// kernel.getApplication().getEuclidianView();
 		boolean found = false;
-		double xmin = kernel.getViewsXMin((GeoElement) P);
-		double xmax = kernel.getViewsXMax((GeoElement) P);
-		double ymin = kernel.getViewsYMin((GeoElement) P);
-		double ymax = kernel.getViewsYMax((GeoElement) P);
+		double xmin = kernel.getViewsXMin(P);
+		double xmax = kernel.getViewsXMax(P);
+		double ymin = kernel.getViewsYMin(P);
+		double ymax = kernel.getViewsYMax(P);
 		for (int i = 0; !found && i < SEARCH_SAMPLES; i++)
 			for (int j = 0; !found && j < SEARCH_SAMPLES; j++) {
 				double p = i / SEARCH_SAMPLES;
