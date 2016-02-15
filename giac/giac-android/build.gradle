@@ -16,18 +16,13 @@ buildscript {
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.library'
 
-repositories {
-    mavenCentral()
-    jcenter()
-}
-
 configurations {
     provide
 }
 
 dependencies {
     compile fileTree(dir: "${buildDir}/intermediates/libs", include: ['*.jar'])
-    compile project(':giac-jni') 
+    provide project(':giac-jni') 
 }
 
 android {
