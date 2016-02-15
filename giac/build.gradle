@@ -311,10 +311,8 @@ task androidCopyX86LibjavagiacSo (dependsOn: 'androidx86JavagiacSharedLibrary', 
     include ('libjavagiac.so')
     }
 
-task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo', 'androidCopyX86LibjavagiacSo'], type: Exec) {
+task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo', 'androidCopyX86LibjavagiacSo', ':giac:giac-android:assemble']) {
     description 'Creates .aar package'
-    workingDir 'android'
-    commandLine './gradlew', 'assemble'
     }
 
 task run (dependsOn: 'installMinigiacExecutable', type: Exec) {
