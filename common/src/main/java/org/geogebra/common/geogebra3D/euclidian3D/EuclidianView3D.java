@@ -77,6 +77,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -550,6 +551,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				break;
 
 			case FUNCTION:
+				if (((GeoFunction) geo).isBooleanFunction()) {
+					d = newDrawSurface3D((SurfaceEvaluable) geo);
+
+				} else {
+					d = new DrawCurve3D(this, (CurveEvaluable) geo);
+				}
+				break;
 			case CURVE_CARTESIAN:
 			case CURVE_CARTESIAN3D:
 				d = new DrawCurve3D(this, (CurveEvaluable) geo);

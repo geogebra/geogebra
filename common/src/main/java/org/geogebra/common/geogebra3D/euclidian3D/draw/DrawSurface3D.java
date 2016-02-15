@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
@@ -227,7 +228,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			double vMin = surfaceGeo.getMinParameter(1);
 			double vMax = surfaceGeo.getMaxParameter(1);
 
-			if (((GeoElement) surfaceGeo).isGeoFunctionNVar()) {
+			if (((GeoElement) surfaceGeo).isGeoFunctionNVar()
+					|| (surfaceGeo instanceof GeoFunction)) {
 				if (Double.isNaN(uMin)) {
 					uMin = getView3D().getXmin();
 				}

@@ -61,6 +61,9 @@ public abstract class CmdScripting extends CommandProcessor {
 		return new GeoElement[] { sa };
 	}
 
+	/**
+	 * @return app
+	 */
 	public App getApp() {
 		return app;
 	}

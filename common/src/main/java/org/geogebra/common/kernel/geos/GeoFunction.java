@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.algos.AlgoDistancePointObject;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
@@ -70,7 +71,8 @@ import org.geogebra.common.util.debug.Log;
 public class GeoFunction extends GeoElement implements VarString,
 Translateable, Functional, FunctionalNVar, GeoFunctionable, Region,
 CasEvaluableFunction, ParametricCurve,
-RealRootFunction, Dilateable, Transformable, InequalityProperties {
+ RealRootFunction, Dilateable,
+		Transformable, InequalityProperties, SurfaceEvaluable {
 
 	/** inner function representation */
 	protected Function fun;
@@ -2876,6 +2878,54 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 
 	public ValueType getValueType() {
 		return ValueType.FUNCTION;
+	}
+
+	public Coords evaluatePoint(double u, double v) {
+		return new Coords(u, v, this.evaluateBoolean(u) ? 0 : Double.NaN);
+	}
+
+	public void evaluatePoint(double u, double v, Coords3 point) {
+		if (this.evaluateBoolean(u)) {
+			point.set(u, v, 0);
+		} else {
+			point.set(u, v, Double.NaN);
+		}
+
+	}
+
+	public boolean evaluateNormal(Coords3 p, double u, double v, Coords3 normal) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public double getMinParameter(int i) {
+		// TODO Auto-generated method stub
+		return Double.NaN;
+	}
+
+	public double getMaxParameter(int i) {
+		// TODO Auto-generated method stub
+		return Double.NaN;
+	}
+
+	public void setDerivatives() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void resetDerivatives() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public LevelOfDetail getLevelOfDetail() {
+		// TODO Auto-generated method stub
+		return LevelOfDetail.SPEED;
+	}
+
+	public void setLevelOfDetail(LevelOfDetail lod) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
