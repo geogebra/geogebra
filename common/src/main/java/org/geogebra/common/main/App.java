@@ -4193,4 +4193,9 @@ public abstract class App implements UpdateSelection {
 		// TODO Auto-generated method stub
 
 	}
+
+	public String getExportTitle() {
+		String title = getKernel().getConstruction().getTitle();
+		return "".equals(title) ? "geogebra-export" : title;
+	}
 }

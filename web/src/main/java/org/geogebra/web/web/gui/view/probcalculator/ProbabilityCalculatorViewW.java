@@ -1070,7 +1070,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 							String url = ((EuclidianViewW) plotPanel)
 									.getExportImageDataUrl(3, true);
 							((FileManagerW) ((AppW) app).getFileManager())
-									.showExportAsPictureDialog(url, (AppW) app);
+									.showExportAsPictureDialog(url,
+											app.getExportTitle(), (AppW) app);
 						}
 					});
 			menu.addItem(miAsPicture);

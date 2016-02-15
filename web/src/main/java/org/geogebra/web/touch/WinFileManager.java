@@ -274,11 +274,7 @@ public class WinFileManager extends FileManager {
 	}-*/;
 	
 	public void export(final AppW app) {
-		String title = app.getKernel().getConstruction().getTitle();
-		if(title == null || title.length() ==0){
-			title = "construction";
-		}
-		final String title1 = title;
+		final String title1 = app.getExportTitle();
 		app.getGgbApi().showTooltip(app.getPlain("Saving"));
 		final StringHandler onFileDialogClosed = new StringHandler() {
 
@@ -329,8 +325,8 @@ public class WinFileManager extends FileManager {
 		return true;
 	}
 
-	public void showExportAsPictureDialog(String url, AppW app) {
-		exportImage(url, "export.png");
+	public void showExportAsPictureDialog(String url, String filename, AppW app) {
+		exportImage(url, filename);
 
 	}
 

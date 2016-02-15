@@ -9,8 +9,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
- * @author bencze
- * The "Export Image" menu, part of the "File" menu.
+ * @author bencze The "Export Image" menu, part of the "File" menu.
  */
 public class ExportMenuW extends MenuBar {
 
@@ -27,11 +26,11 @@ public class ExportMenuW extends MenuBar {
 	 */
 	public ExportMenuW(AppW app) {
 		super(true);
-		
+
 		this.app = app;
 		addStyleName("GeoGebraMenuBar");
 		MainMenu.addSubmenuArrow(this);
-		
+
 		initActions();
 	}
 
@@ -39,20 +38,19 @@ public class ExportMenuW extends MenuBar {
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 		// translation not needed
-		        .getSafeUri().asString(), "ggb", true), true,
-		        new MenuCommand(app) {
+				.getSafeUri().asString(), "ggb", true), true, new MenuCommand(
+				app) {
 
-			        @Override
-			        public void doExecute() {
+			@Override
+			public void doExecute() {
 				hide();
 				app.getFileManager().export(app);
 			}
-		        });
+		});
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 		// translation not needed
-		        .getSafeUri().asString(), "png",
- true), true, new MenuCommand(
+				.getSafeUri().asString(), "png", true), true, new MenuCommand(
 				app) {
 
 			public void execute() {
@@ -61,21 +59,21 @@ public class ExportMenuW extends MenuBar {
 						.getActiveEuclidianView()).getExportImageDataUrl(1.0,
 						false);
 
-				app.getFileManager()
-						.showExportAsPictureDialog(url, app);
+				app.getFileManager().showExportAsPictureDialog(url,
+						app.getExportTitle(), app);
 			}
 		});
-		if(!app.getLAF().isTablet()){
-			addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-			        .getSafeUri().asString(), app.getPlain("AnimatedGIF"),
- true),
+		if (!app.getLAF().isTablet()) {
+			addItem(MainMenu
+					.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri()
+							.asString(), app.getPlain("AnimatedGIF"), true),
 					true, new MenuCommand(app) {
 						public void doExecute() {
 							hide();
 							((FileManagerW) app.getFileManager())
-					                .createRemoteAnimGif(app);
-					        }
-			});
+									.createRemoteAnimGif(app);
+						}
+					});
 		}
 	}
 

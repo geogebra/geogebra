@@ -274,11 +274,13 @@ public class FileManagerW extends FileManager {
 		return true;
 	}
 	
-	public void showExportAsPictureDialog(final String url, AppW app) {
+	public void showExportAsPictureDialog(final String url, String filename,
+			AppW app) {
 		app.getGuiManager()
 				.getOptionPane()
 				.showSaveDialog(getApp(),
-				getApp().getPlain("ExportAsPicture"), "export.png", null,
+ getApp().getPlain("ExportAsPicture"),
+						filename + ".png", null,
 				new AsyncOperation() {
 
 					@Override
@@ -290,8 +292,7 @@ public class FileManagerW extends FileManager {
 						}
 
 
-						getApp().getFileManager().exportImage(url,
-								dialogResult[1]);
+								exportImage(url, dialogResult[1]);
 
 					}
 				}, getApp().getPlain("Export"));

@@ -50,5 +50,5 @@ public interface FileManagerI {
 
 	void nativeShare(String s, String string);
 
-	void showExportAsPictureDialog(String url, AppW app);
+	void showExportAsPictureDialog(String url, String filename, AppW app);
 }

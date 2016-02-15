@@ -1052,8 +1052,8 @@ public class FileManagerT extends FileManager {
 
 			@Override
 			public void handle(String s) {
-				String title = app.getKernel().getConstruction().getTitle();
-				nativeShare(s, "".equals(title) ? "construction" : title);
+
+				nativeShare(s, app.getExportTitle());
 			}
 		});
 	}
@@ -1065,8 +1065,8 @@ public class FileManagerT extends FileManager {
 		}
 	}-*/;
 
-	public void showExportAsPictureDialog(String url, AppW app) {
-		exportImage(url, "export.png");
+	public void showExportAsPictureDialog(String url, String filename, AppW app) {
+		exportImage(url, filename);
 
 	}
 
