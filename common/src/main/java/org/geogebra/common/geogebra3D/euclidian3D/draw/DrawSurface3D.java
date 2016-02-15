@@ -242,6 +242,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				if (Double.isNaN(vMax)) {
 					vMax = getView3D().getYmax();
 				}
+			}else{
+				// cartesian surface, maybe surface of revolution
+				if (((GeoSurfaceCartesian3D) surfaceGeo)
+						.isSurfaceOfRevolutionAroundOx()) {
+					uMin = getView3D().getXmin();				
+					uMax = getView3D().getXmax();
+				}
 			}
 
 			uDelta = uMax - uMin;

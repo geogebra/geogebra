@@ -741,10 +741,12 @@ public interface Traversing {
 							StringTemplate.defaultTemplate));
 				} else if ("Surface".equals(com.getName())) {
 					int len = com.getArgumentNumber();
-					localTree.add(com.getArgument(len - 3).toString(
-							StringTemplate.defaultTemplate));
-					localTree.add(com.getArgument(len - 6).toString(
-							StringTemplate.defaultTemplate));
+					if (len > 2) {
+						localTree.add(com.getArgument(len - 3).toString(
+								StringTemplate.defaultTemplate));
+						localTree.add(com.getArgument(len - 6).toString(
+								StringTemplate.defaultTemplate));
+					}
 				} else if ("CurveCartesian".equals(com.getName())) {
 					int len = com.getArgumentNumber();
 					localTree.add(com.getArgument(len - 3).toString(

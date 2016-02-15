@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.CmdCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
@@ -27,10 +28,24 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
+		GeoElement[] arg;
+
 
 		switch (n) {
+		case 2:
+			arg = resArgs(c);
+			if ((ok[0] = arg[0] instanceof GeoFunction)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+				GeoElement[] ret = new GeoElement[1];
+
+				ret[0] = kernelA.getManager3D().SurfaceOfRevolution(
+						c.getLabel(), (GeoFunction) arg[0],
+						(GeoNumberValue) arg[1]);
+
+				return ret;
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 		case 7:
-			GeoElement[] arg;
 			// create local variables and resolve arguments
 			// Surface[(1;a;b),a,0,pi,b,0,pi]
 			arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 });

@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -526,6 +527,20 @@ public interface Manager3DInterface {
 			NumberValue ycoord, NumberValue zcoord, GeoNumeric uVar,
 			NumberValue uFrom, NumberValue uTo, GeoNumeric vVar,
 			NumberValue vFrom, NumberValue vTo);
+
+	/**
+	 * surface of revolution, rotating function around x-axis, from 0 to angle
+	 * 
+	 * @param label
+	 *            name
+	 * @param function
+	 *            x->y function
+	 * @param angle
+	 *            angle
+	 * @return surface of revolution
+	 */
+	public GeoElement SurfaceOfRevolution(String label, GeoFunction function,
+			NumberValue angle);
 
 	// //////////////////////////////////////////////
 	// intersection algos

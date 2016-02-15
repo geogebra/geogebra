@@ -45,6 +45,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 */
 	public GeoSurfaceCartesian3D(Construction c) {
 		super(c);
+		isSurfaceOfRevolutionAroundOx = false;
 	}
 
 	/**
@@ -60,6 +61,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	public GeoSurfaceCartesian3D(Construction c, ExpressionNode point,
 			FunctionNVar fun[]) {
 		super(c, point, fun);
+		isSurfaceOfRevolutionAroundOx = false;
 	}
 
 	/**
@@ -213,6 +215,8 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		startParam = geoSurface.startParam;
 		endParam = geoSurface.endParam;
 		isDefined = geoSurface.isDefined;
+
+		isSurfaceOfRevolutionAroundOx = geoSurface.isSurfaceOfRevolutionAroundOx;
 
 		// macro OUTPUT
 		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
@@ -1278,6 +1282,26 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		lastHitU = u;
 		lastHitV = v;
 		hasLastHitParameters = true;
+	}
+
+	private boolean isSurfaceOfRevolutionAroundOx = false;
+
+	/**
+	 * 
+	 * @return true if surface of revolution around Ox by definition
+	 */
+	public boolean isSurfaceOfRevolutionAroundOx() {
+		return isSurfaceOfRevolutionAroundOx;
+	}
+
+	/**
+	 * set this to be a surface of revolution around Ox
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	public void setIsSurfaceOfRevolutionAroundOx(boolean flag) {
+		isSurfaceOfRevolutionAroundOx = flag;
 	}
 
 }

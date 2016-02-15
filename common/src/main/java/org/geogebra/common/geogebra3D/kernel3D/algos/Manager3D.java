@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -1050,6 +1051,13 @@ public class Manager3D implements Manager3DInterface {
 				new NumberValue[] { uTo, vTo });
 		return algo.getSurface();
 
+	}
+
+	public GeoElement SurfaceOfRevolution(String label, GeoFunction function,
+			NumberValue angle) {
+		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons, label,
+				function, angle);
+		return algo.getSurface();
 	}
 
 	/********************************************************************
