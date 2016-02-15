@@ -8882,6 +8882,13 @@ public abstract class EuclidianController {
 	private long lastMousePressedTime;
 
 	public void wrapMousePressed(AbstractEvent event) {
+		DrawList dl = getComboBoxHit(event.getX(), event.getY());
+
+		if (!event.isRightClick() && dl != null) {
+			dl.onMouseDown(event.getX(), event.getY());
+			return;
+		}
+
 		long last = event.getType() == PointerEventType.MOUSE ? this.lastMouseRelease : this.lastTouchRelease;
 		if (last + EuclidianConstants.DOUBLE_CLICK_DELAY > System
 				.currentTimeMillis()
@@ -8893,13 +8900,7 @@ public abstract class EuclidianController {
 		setMouseLocation(event);
 		this.setViewHits(event.getType());
 
-		DrawList dl = getComboBoxHit(event.getX(), event.getY());
 
-		if (!event.isRightClick()
- && dl != null) {
-			dl.onMouseDown(event.getX(), event.getY());
-			return;
-		}
 
 		lastMousePressedTime = System.currentTimeMillis();
 
