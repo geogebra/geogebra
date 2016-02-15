@@ -2,7 +2,6 @@ package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -300,14 +299,8 @@ public class GlobalKeyDispatcherW extends
 
 	@Override
 	protected boolean handleEnter() {
-		if (app.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS)
-				&& selection.getSelectedGeos().size() == 1) {
-			GeoElement geo = selection.getSelectedGeos().get(0);
-			if (geo.isGeoList()) {
-				DrawList.asDrawable(app, geo).selectCurrentItem();
-				return true;
-			}
-
+		if (handleEnterForDropdowns()) {
+			return true;
 		}
 
 		if (((AppW) app).isUsingFullGui()

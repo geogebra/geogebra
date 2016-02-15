@@ -73,6 +73,7 @@ public class EuclidianControllerD extends
 	public void mousePressed(MouseEvent e) {
 		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
 		wrapMousePressed(event);
+		closePopups(event.getX(), event.getY(), null);
 		event.release();
 	}
 

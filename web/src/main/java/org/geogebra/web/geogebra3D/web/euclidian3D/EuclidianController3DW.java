@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -393,6 +394,12 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	@Override
 	public void setActualSticky(boolean b) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void closePopups(int x, int y, PointerEventType type) {
 		// TODO Auto-generated method stub
 
 	}

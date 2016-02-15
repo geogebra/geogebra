@@ -1388,4 +1388,16 @@ public abstract class GlobalKeyDispatcher {
 	protected abstract void copyDefinitionsToInputBarAsList(
 			ArrayList<GeoElement> geos);
 
+	protected boolean handleEnterForDropdowns() {
+		if (app.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS)
+				&& selection.getSelectedGeos().size() == 1) {
+			GeoElement geo = selection.getSelectedGeos().get(0);
+			if (geo.isGeoList()) {
+				DrawList.asDrawable(app, geo).selectCurrentItem();
+				return true;
+			}
+
+		}
+		return false;
+	}
 }

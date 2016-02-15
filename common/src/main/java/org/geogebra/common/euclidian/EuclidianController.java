@@ -8889,6 +8889,7 @@ public abstract class EuclidianController {
 			return;
 		}
 
+
 		long last = event.getType() == PointerEventType.MOUSE ? this.lastMouseRelease : this.lastTouchRelease;
 		if (last + EuclidianConstants.DOUBLE_CLICK_DELAY > System
 				.currentTimeMillis()
@@ -10735,4 +10736,10 @@ public abstract class EuclidianController {
 
 		return null;
 	}
+
+	public void closePopups(int x, int y, PointerEventType type) {
+		app.closePopups(x, y);
+	}
+
+	// public abstract void closePopups(int x, int y, PointerEventType type);
 }

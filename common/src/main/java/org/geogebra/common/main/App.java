@@ -4189,9 +4189,11 @@ public abstract class App implements UpdateSelection {
 		return Input3D.PREFS_NONE;
 	}
 
-	public void closePopups() {
-		// TODO Auto-generated method stub
+	public abstract void closePopups();
 
+	public void closePopups(int x, int y) {
+		closePopups();
+		getActiveEuclidianView().closeDropDowns(x, y);
 	}
 
 	public String getExportTitle() {

@@ -5474,4 +5474,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		return "-2D";
 	}
 
+	@Override
+	public void closePopups() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

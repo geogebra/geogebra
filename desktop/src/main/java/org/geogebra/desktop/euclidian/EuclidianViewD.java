@@ -1195,8 +1195,7 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	public void closeDropdowns() {
-		// TODO Auto-generated method stub
-
+		closeAllDropDowns();
 	}
 
 }

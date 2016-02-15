@@ -2533,10 +2533,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// getActiveEuclidianView().closeDropdowns();
 	}
 
-	public void closePopups(int x, int y) {
-		closePopups();
-		getActiveEuclidianView().closeDropDowns(x, y);
-	}
+
 
 	public boolean wasPopupJustClosed() {
 		return justClosedPopup;

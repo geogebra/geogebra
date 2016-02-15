@@ -620,10 +620,4 @@ public class EuclidianControllerW extends EuclidianController implements
 	public LongTouchManager getLongTouchManager() {
 		return mtg.getLongTouchManager();
 	}
-
-	public void closePopups(int x, int y, PointerEventType type) {
-		PointerEvent wrap = new PointerEvent(x, y, type, mtg);
-		((AppW) app).closePopups(wrap.getX(), wrap.getY());
-
-	}
 }
