@@ -22,6 +22,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 
 		int n = c.getArgumentNumber();
@@ -87,6 +88,26 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	@Override
+	protected String[] replaceXYarguments(ExpressionNode[] arg) {
+		String[] newXYZ = new String[3];
+
+		if (arg.length == 9 || arg.length == 7) {
+			int offset = arg.length - 6;
+			// we have to replace "x", "y"
+			newXYZ[0] = checkReplaced(arg, offset, "x", "u", offset);
+			if (newXYZ[0] == null) {
+				newXYZ[0] = checkReplaced(arg, offset + 3, "x", "u", offset);
+			}
+			newXYZ[1] = checkReplaced(arg, offset + 3, "y", "v", offset);
+			if (newXYZ[1] == null) {
+				newXYZ[1] = checkReplaced(arg, offset, "y", "v", offset);
+			}
+		}
+
+		return newXYZ;
 	}
 
 }

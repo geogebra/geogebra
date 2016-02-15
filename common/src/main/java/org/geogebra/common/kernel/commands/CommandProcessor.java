@@ -102,39 +102,8 @@ public abstract class CommandProcessor {
 		// resolve arguments to get GeoElements
 		ExpressionNode[] arg = c.getArguments();
 		// name of replace variable of "x"/"y"
-		String newXVarStr = null;
-		String newYVarStr = null;
-		if ("Surface".equals(c.getName())) {
 
-			if (arg.length == 9 || arg.length == 7) {
-				int offset = arg.length - 6;
-				// we have to replace "x", "y"
-				newXVarStr = checkReplaced(arg, offset, "x", "u", offset);
-				if (newXVarStr == null) {
-					newXVarStr = checkReplaced(arg, offset + 3, "x", "u",
-							offset);
-				}
-				newYVarStr = checkReplaced(arg, offset + 3, "y", "v", offset);
-				if (newYVarStr == null) {
-					checkReplaced(arg, offset, "y", "v", offset);
-				}
-				Log.debug(arg[0]);
-			}
-		}
-		if ("CurveCartesian".equals(c.getName())) {
-			if (arg.length == 4 || arg.length == 5 || arg.length == 6) {
-				int offset = arg.length - 3;
-				// we have to replace "x"
-				newXVarStr = checkReplaced(arg, offset, "x", "u", offset);
-				if (newXVarStr == null) {
-					newXVarStr = checkReplaced(arg, offset, "y", "v", offset);
-					if (newXVarStr == null) {
-						checkReplaced(arg, offset, "z", "w", offset);
-					}
-				}
-
-			}
-		}
+		String[] newXYZ = replaceXYarguments(arg);
 		GeoElement[] result = new GeoElement[arg.length];
 
 		for (int i = 0; i < arg.length; ++i) {
@@ -146,27 +115,50 @@ public abstract class CommandProcessor {
 			result[i] = resArg(arg[i])[0];
 		}
 
-
 		// remove added variables from construction
-		cons.removeLocalVariable(newXVarStr);
-		cons.removeLocalVariable(newYVarStr);
-
+		if (newXYZ != null) {
+			for (int i = 0; i < 3; i++) {
+				cons.removeLocalVariable(newXYZ[i]);
+			}
+		}
 		cons.setSuppressLabelCreation(oldMacroMode);
 		return result;
 	}
 
-	private String checkReplaced(ExpressionNode[] arg, int i, String var,
+	/**
+	 * @param arg
+	 *            arguments
+	 * @return local variable names
+	 */
+	protected String[] replaceXYarguments(ExpressionNode[] arg) {
+		return null;
+	}
+
+	/**
+	 * @param arg
+	 *            arguments
+	 * @param i
+	 *            local variable position
+	 * @param var
+	 *            variable name
+	 * @param subst
+	 *            new variable name
+	 * @param argsToCheck
+	 *            number of arguments that need replacing
+	 * @return new variable name (subst or subst + index if subst is used by
+	 *         another object)
+	 */
+	protected String checkReplaced(ExpressionNode[] arg, int i, String var,
 			String subst, int argsToCheck) {
-		Log.debug(arg[i].unwrap());
 		if (arg[i] != null && arg[i].unwrap() instanceof GeoNumeric
 				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple() != null
 				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple().equals(var)) {
 			GeoDummyReplacer replacer = new GeoDummyReplacer();
 			// get free variable to replace "x" with
-			Variable newVar = new Variable(cons.getKernel(),
-					((GeoElement) arg[i].getLeft()).getFreeLabel(subst));
+			String newXVarStr = ((GeoElement) arg[i].getLeft())
+					.getFreeLabel(subst);
+			Variable newVar = new Variable(cons.getKernel(), newXVarStr);
 			GeoNumeric gn = new GeoNumeric(cons);
-			String newXVarStr = newVar.getName();
 			kernelA.getConstruction().addLocalVariable(newXVarStr, gn);
 			replacer = GeoDummyReplacer.getReplacer(var, newVar, true);
 			// replace "x" in expressions
@@ -280,7 +272,7 @@ kernelA.getEulerNumber(), localVar));
 		Construction cmdCons = c.getKernel().getConstruction();
 		GeoNumeric num = new GeoNumeric(cmdCons);
 		cmdCons.addLocalVariable(localVarName, num);
-		replaceZvarIfNeeded(localVarName, c);
+		replaceZvarIfNeeded(localVarName, c, varPos);
 		// initialize first value of local numeric variable from initPos
 		if (initPos != varPos) {
 			boolean oldval = cons.isSuppressLabelsActive();
@@ -302,17 +294,19 @@ kernelA.getEulerNumber(), localVar));
 		return arg;
 	}
 
-	private void replaceZvarIfNeeded(String name, Command c) {
+	private void replaceZvarIfNeeded(String name, Command c, int argsToReplace) {
 		if (name.equals("z")) {
 			// parse again to undo z*z -> Function
 			try {
-				c.setArgument(
-						0,
+				for (int i = 0; i < argsToReplace; i++) {
+					c.setArgument(
+							i,
 						kernelA.getParser()
 								.parseGeoGebraExpression(
-										c.getArgument(0).toString(
+											c.getArgument(i).toString(
 												StringTemplate.xmlTemplate))
 								.wrap());
+				}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -370,7 +364,7 @@ kernelA.getEulerNumber(), localVar));
 			}
 
 			cmdCons.addLocalVariable(localVarName, num);
-			replaceZvarIfNeeded(localVarName, c);
+			replaceZvarIfNeeded(localVarName, c, 1);
 			// set local variable as our varPos argument
 			c.setArgument(varPos, new ExpressionNode(c.getKernel(), num));
 			vars[varPos / 2] = num.toGeoElement();
@@ -450,7 +444,7 @@ kernelA.getEulerNumber(), localVar));
 
 
 			cmdCons.addLocalVariable(localVarName, num);
-			replaceZvarIfNeeded(localVarName, c);
+			replaceZvarIfNeeded(localVarName, c, 1);
 			// set local variable as our varPos argument
 			c.setArgument(varPos, new ExpressionNode(c.getKernel(), num));
 			vars[varPos - 1] = num.toGeoElement();
@@ -546,7 +540,7 @@ kernelA.getEulerNumber(), localVar));
 		for (int i = 0; i < varPos.length; i++) {
 			num[i] = new GeoNumeric(cmdCons);
 			cmdCons.addLocalVariable(localVarName[i], num[i]);
-			replaceZvarIfNeeded(localVarName[i], c);
+			replaceZvarIfNeeded(localVarName[i], c, varPos[0]);
 		}
 
 		// initialize first value of local numeric variable from initPos

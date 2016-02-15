@@ -111,4 +111,21 @@ public class CmdCurveCartesian extends CommandProcessor {
 		return new AlgoCurveCartesian(cons, point, coords, (GeoNumeric) arg[1],
 				(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
 	}
+
+	@Override
+	protected String[] replaceXYarguments(ExpressionNode[] arg) {
+		String[] newXYZ = new String[3];
+
+		if (arg.length == 4 || arg.length == 5 || arg.length == 6) {
+			int offset = arg.length - 3;
+			// we have to replace "x"
+			newXYZ[0] = checkReplaced(arg, offset, "x", "u", offset);
+			if (newXYZ[0] == null) {
+				newXYZ[0] = checkReplaced(arg, offset, "y", "v", offset);
+			}
+
+		}
+
+		return newXYZ;
+	}
 }
