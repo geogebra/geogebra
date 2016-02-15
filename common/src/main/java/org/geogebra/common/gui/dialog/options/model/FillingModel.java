@@ -294,7 +294,7 @@ public class FillingModel extends MultipleOptionsModel {
 				geo.setHatchingAngle(angle);
 				geo.setHatchingDistance(distance);
 			}
-			geo.updateVisualStyle(GProperty.ANGLE_STYLE);
+			geo.updateVisualStyle(GProperty.HATCHING);
 		}
 		kernel.notifyRepaint();
 
