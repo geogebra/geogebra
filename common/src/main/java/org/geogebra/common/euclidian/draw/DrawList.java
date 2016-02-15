@@ -1319,7 +1319,7 @@ public final class DrawList extends CanvasDrawable
 
 		} else {
 			textBottom = boxTop
-					+ (boxHeight + getMultipliedFontSize() - COMBO_TEXT_MARGIN)
+					+ (boxHeight + getLabelFontSize() - COMBO_TEXT_MARGIN)
 							/ 2;
 			g2.setPaint(geo.getObjectColor());
 			g2.setFont(getLabelFont());
