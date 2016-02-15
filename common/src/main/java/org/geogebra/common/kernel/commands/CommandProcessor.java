@@ -101,23 +101,38 @@ public abstract class CommandProcessor {
 
 		// resolve arguments to get GeoElements
 		ExpressionNode[] arg = c.getArguments();
-		// x variable was replaced in Surface command
-		boolean wasXReplaced = false;
-		// y variable was replaced in Surface command
-		boolean wasYReplaced = false;
 		// name of replace variable of "x"/"y"
 		String newXVarStr = null;
 		String newYVarStr = null;
-		if (c.getName() != null && "Surface".equals(c.getName())) {
-			// we have to replace "x"
-			newXVarStr = checkReplaced(arg, 3, "x", "u");
-			if(newXVarStr == null){
-				newXVarStr = checkReplaced(arg, 6, "x", "u");
+		if ("Surface".equals(c.getName())) {
+
+			if (arg.length == 9 || arg.length == 7) {
+				int offset = arg.length - 6;
+				// we have to replace "x", "y"
+				newXVarStr = checkReplaced(arg, offset, "x", "u", offset);
+				if (newXVarStr == null) {
+					newXVarStr = checkReplaced(arg, offset + 3, "x", "u",
+							offset);
+				}
+				newYVarStr = checkReplaced(arg, offset + 3, "y", "v", offset);
+				if (newYVarStr == null) {
+					checkReplaced(arg, offset, "y", "v", offset);
+				}
+				Log.debug(arg[0]);
 			}
-			
-			newYVarStr = checkReplaced(arg, 6, "y", "v");
-			if (newYVarStr == null) {
-				checkReplaced(arg, 3, "y", "v");
+		}
+		if ("CurveCartesian".equals(c.getName())) {
+			if (arg.length == 4 || arg.length == 5 || arg.length == 6) {
+				int offset = arg.length - 3;
+				// we have to replace "x"
+				newXVarStr = checkReplaced(arg, offset, "x", "u", offset);
+				if (newXVarStr == null) {
+					newXVarStr = checkReplaced(arg, offset, "y", "v", offset);
+					if (newXVarStr == null) {
+						checkReplaced(arg, offset, "z", "w", offset);
+					}
+				}
+
 			}
 		}
 		GeoElement[] result = new GeoElement[arg.length];
@@ -131,25 +146,7 @@ public abstract class CommandProcessor {
 			result[i] = resArg(arg[i])[0];
 		}
 
-		// "x" was replaced
-		if (wasXReplaced) {
-			if (result[0] instanceof GeoNumeric
-					&& result[0].getLabelSimple() != null
-					&& result[0].getLabelSimple().equals(newXVarStr)) {
-				// change label to "x"
-				result[0].setLabelSimple("x");
-			}
 
-		}
-		// "y" was replaced
-		if (wasYReplaced) {
-			if (result[1] instanceof GeoNumeric
-					&& result[1].getLabelSimple() != null
-					&& result[1].getLabelSimple().equals(newYVarStr)) {
-				// change label to "y"
-				result[1].setLabelSimple("y");
-			}
-		}
 		// remove added variables from construction
 		cons.removeLocalVariable(newXVarStr);
 		cons.removeLocalVariable(newYVarStr);
@@ -159,9 +156,9 @@ public abstract class CommandProcessor {
 	}
 
 	private String checkReplaced(ExpressionNode[] arg, int i, String var,
-			String subst) {
-		if (arg[i] != null && arg[i].getLeft() instanceof GeoNumeric
-				&& arg[3].getRight() == null
+			String subst, int argsToCheck) {
+		Log.debug(arg[i].unwrap());
+		if (arg[i] != null && arg[i].unwrap() instanceof GeoNumeric
 				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple() != null
 				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple().equals(var)) {
 			GeoDummyReplacer replacer = new GeoDummyReplacer();
@@ -173,9 +170,10 @@ public abstract class CommandProcessor {
 			kernelA.getConstruction().addLocalVariable(newXVarStr, gn);
 			replacer = GeoDummyReplacer.getReplacer(var, newVar, true);
 			// replace "x" in expressions
-			arg[0].traverse(replacer);
-			arg[1].traverse(replacer);
-			arg[2].traverse(replacer);
+			for (int j = 0; j < argsToCheck; j++) {
+				arg[j].traverse(replacer);
+			}
+
 			arg[i].setLeft(gn);
 			return newXVarStr;
 		}
