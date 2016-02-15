@@ -3487,8 +3487,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	};
 
 	public String getVersionSuffix() {
-		if (getLAF().isSmart()) {
-			return "s";
+		if (getLAF() != null) {
+			return getLAF().getVersionSuffix();
 		}
 		return "w";
 	}

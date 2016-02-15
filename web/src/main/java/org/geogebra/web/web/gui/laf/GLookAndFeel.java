@@ -151,4 +151,8 @@ public class GLookAndFeel implements GLookAndFeelI{
 		return true;
 	}
 
+	public String getVersionSuffix() {
+		return "w";
+	}
+
 }

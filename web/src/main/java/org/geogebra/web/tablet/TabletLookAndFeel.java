@@ -81,4 +81,9 @@ public class TabletLookAndFeel extends GLookAndFeel {
 		return false;
 	}
 
+	@Override
+	public String getVersionSuffix() {
+		return "t";
+	}
+
 }

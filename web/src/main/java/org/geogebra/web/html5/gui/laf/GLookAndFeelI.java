@@ -50,4 +50,6 @@ public interface GLookAndFeelI {
 
 	boolean printSupported();
 
+	String getVersionSuffix();
+
 }

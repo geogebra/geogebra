@@ -108,4 +108,9 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	public boolean printSupported() {
 		return false;
 	}
+
+	@Override
+	public String getVersionSuffix() {
+		return "s";
+	}
 }
