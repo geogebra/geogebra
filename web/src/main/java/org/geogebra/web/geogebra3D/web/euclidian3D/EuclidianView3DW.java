@@ -679,8 +679,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			return;
 		}
 
+		getApplication().ensureTimerRunning();
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
-			getApplication().ensureTimerRunning();
 			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
 		}
 	}
