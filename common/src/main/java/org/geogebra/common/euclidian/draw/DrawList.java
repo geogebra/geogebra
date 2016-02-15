@@ -493,6 +493,7 @@ public final class DrawList extends CanvasDrawable
 			itemHovered = item;
 			selectedIndex = item.index;
 			ensureSelected();
+			view.repaintView();
 		}
 
 		private OptionItem getItemAt(int x, int y) {
