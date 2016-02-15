@@ -16,13 +16,8 @@ buildscript {
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.library'
 
-configurations {
-    provide
-}
-
 dependencies {
-    compile fileTree(dir: "${buildDir}/intermediates/libs", include: ['*.jar'])
-    provide project(':giac-jni') 
+    compile project(':giac-jni') 
 }
 
 android {
@@ -34,13 +29,6 @@ android {
         targetSdkVersion 23
     }
 }
-
-task copyLibs(type: Copy) {
-    from configurations.provide
-    into "${buildDir}/intermediates/libs"
-}
-
-tasks['preBuild'].dependsOn(copyLibs)
 
 def jniLibsDir = "src/main/jniLibs"
 def armeabiDir = "$jniLibsDir/armeabi-v7a"
@@ -70,10 +58,4 @@ task copyCrystaxSo {
 	    throw new GradleException("Missing $missing $so libraries, check PATH")
 	    }
 	}
-    }
-
-// Include Gradle code for publishing (not available in GPL'ed version):
-def publishScript = file('../../deploy/giac-android.gradle')
-if (publishScript.exists()) {
-    apply from: publishScript
     }
