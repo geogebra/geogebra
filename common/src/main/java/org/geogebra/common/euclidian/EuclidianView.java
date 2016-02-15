@@ -5148,10 +5148,10 @@ sb.toString(), getFontAxes(),
 	 */
 	public void exportPaint(org.geogebra.common.awt.GGraphics2D g2d,
 			double scale, boolean transparency, ExportType exportType) {
-		getApplication().setExporting(exportType);
+		getApplication().setExporting(exportType, scale);
 		exportPaintPre(g2d, scale, transparency);
 		drawObjects(g2d);
-		getApplication().setExporting(ExportType.NONE);
+		getApplication().setExporting(ExportType.NONE, 1);
 	}
 
 	/**

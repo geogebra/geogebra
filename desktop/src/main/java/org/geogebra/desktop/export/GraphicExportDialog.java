@@ -871,7 +871,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					(int) (pixelWidth / exportScale),
 					(int) (pixelHeight / exportScale)), cmWidth, cmHeight);
 			// make sure LaTeX exported at hi res
-			app.setExporting(ExportType.SVG);
+			app.setExporting(ExportType.SVG, exportScale);
 
 			g.startExport();
 			// export scale = 1 (change for SVG export in cm)
@@ -902,7 +902,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			app.setExporting(ExportType.NONE);
+			app.setExporting(ExportType.NONE, 1);
 		}
 	}
 

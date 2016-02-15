@@ -104,7 +104,7 @@ public class PrintGridable implements Printable {
 		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 		g2d.translate(-bounds.x, -bounds.y);
 		g2d.clipRect(bounds.x, bounds.y, bounds.width, bounds.height);
-		gridable.getApplication().setExporting(ExportType.PRINTING);
+		gridable.getApplication().setExporting(ExportType.PRINTING, 10);
 		Component[][] comp = gridable.getPrintComponents();
 		int down = 0;
 		for (int i = 0; i < comp.length; i++) {
@@ -123,7 +123,7 @@ public class PrintGridable implements Printable {
 		g2d.setColor(Color.BLACK);
 		g2d.draw(bounds);
 
-		gridable.getApplication().setExporting(ExportType.NONE);
+		gridable.getApplication().setExporting(ExportType.NONE, 1);
 		return Printable.PAGE_EXISTS;
 	}
 

@@ -824,7 +824,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 				if (isInRegion(bestX, bestY)) {
 					rp.setT1(bestX);
 					rp.setT2(bestY);
-					((GeoPoint) P).setCoords(bestX, bestY, 1);
+					P.setCoords(new Coords(bestX, bestY, 1), false);
 				} else
 					tryLocateInEV(P);
 

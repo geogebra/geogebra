@@ -356,10 +356,10 @@ public class EuclidianViewW extends EuclidianView implements
 		c4.setWidth(width + "px");
 		c4.setHeight(height + "px");
 		g4copy = new org.geogebra.web.html5.awt.GGraphics2DW(c4);
-		this.app.setExporting(ExportType.PNG);
+		this.app.setExporting(ExportType.PNG, scale);
 		exportPaintPre(g4copy, scale, transparency);
 		drawObjects(g4copy);
-		this.app.setExporting(ExportType.NONE);
+		this.app.setExporting(ExportType.NONE, 1);
 		return g4copy.getCanvas().toDataUrl();
 	}
 

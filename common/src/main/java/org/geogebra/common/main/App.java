@@ -1860,6 +1860,7 @@ public abstract class App implements UpdateSelection {
 	public abstract DrawEquation getDrawEquation();
 
 	protected ArrayList<Perspective> tmpPerspectives = new ArrayList<Perspective>();
+	private double exportScale = 1;
 
 	/**
 	 * Save all perspectives included in a document into an array with temporary
@@ -1928,8 +1929,9 @@ public abstract class App implements UpdateSelection {
 		return exportType != ExportType.NONE;
 	}
 
-	public void setExporting(ExportType et) {
+	public void setExporting(ExportType et, double scale) {
 		exportType = et;
+		exportScale = scale;
 	}
 
 	public ExportType getExportType() {
@@ -4199,5 +4201,9 @@ public abstract class App implements UpdateSelection {
 	public String getExportTitle() {
 		String title = getKernel().getConstruction().getTitle();
 		return "".equals(title) ? "geogebra-export" : title;
+	}
+
+	public double getExportScale() {
+		return this.exportScale;
 	}
 }
