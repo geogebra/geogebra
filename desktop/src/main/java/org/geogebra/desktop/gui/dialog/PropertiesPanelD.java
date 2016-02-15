@@ -183,7 +183,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	AppD app;
 	LocalizationD loc;
-	private Kernel kernel;
+	Kernel kernel;
 	GeoGebraColorChooser colChooser;
 
 	private static final long serialVersionUID = 1L;
@@ -3607,11 +3607,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setAngleValue(int value) {
+			angleSlider.removeChangeListener(this);
 			angleSlider.setValue(value);
+			angleSlider.addChangeListener(this);
 		}
 
 		public void setDistanceValue(int value) {
+			distanceSlider.removeChangeListener(this);
 			distanceSlider.setValue(value);
+			distanceSlider.addChangeListener(this);
 		}
 
 		public int getSelectedBarIndex() {
@@ -3970,10 +3974,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			return this;
 		}
 
-		private boolean checkGeos(Object[] geos) {
+		private boolean checkGeos(Object[] geos1) {
 			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
+			for (int i = 0; i < geos1.length; i++) {
+				GeoElement geo = (GeoElement) geos1[i];
 				if (!(geo.isPath())) {
 					geosOK = false;
 					break;
