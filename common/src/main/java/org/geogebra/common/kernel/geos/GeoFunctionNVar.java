@@ -824,7 +824,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 				if (isInRegion(bestX, bestY)) {
 					rp.setT1(bestX);
 					rp.setT2(bestY);
-					P.setCoords(new Coords(bestX, bestY, 1), false);
+					P.setCoords(new Coords(bestX, bestY, 0, 1), false);
 				} else
 					tryLocateInEV(P);
 
@@ -868,7 +868,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 
 	@Override
 	public boolean isRegion3D() {
-		return getVarNumber() == 2
+		return getVarNumber() == 2 && !isBooleanFunction()
 				&& kernel.getApplication().has(Feature.SURFACE_IS_REGION);
 	}
 
@@ -1009,7 +1009,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 				double q = i / SEARCH_SAMPLES;
 				double ry = q * ymin + (1 - q) * ymax;
 				if (isInRegion(rx, ry)) {
-					((GeoPoint) P).setCoords(rx, ry, 1);
+					P.setCoords(new Coords(rx, ry, 0, 1), false);
 					// Application.debug("Desperately found"+rx+","+ry);
 					found = true;
 				}
