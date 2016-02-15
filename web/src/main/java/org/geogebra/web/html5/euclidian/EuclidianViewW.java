@@ -156,6 +156,7 @@ public class EuclidianViewW extends EuclidianView implements
 			@Override
 			public void onClickStart(final int x, final int y,
 					PointerEventType type) {
+
 				getEuclidianController().closePopups(x, y, type);
 
 

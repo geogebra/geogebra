@@ -299,7 +299,7 @@ public class GlobalKeyDispatcherW extends
 
 	@Override
 	protected boolean handleEnter() {
-		if (handleEnterForDropdowns()) {
+		if (super.handleEnter()) {
 			return true;
 		}
 

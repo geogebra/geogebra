@@ -188,7 +188,7 @@ public class GlobalKeyDispatcherD extends
 
 	@Override
 	protected boolean handleEnter() {
-		if (handleEnterForDropdowns()) {
+		if (super.handleEnter()) {
 			return true;
 		}
 

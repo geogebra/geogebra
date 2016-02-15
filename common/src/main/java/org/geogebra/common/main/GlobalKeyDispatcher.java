@@ -234,7 +234,9 @@ public abstract class GlobalKeyDispatcher {
 		// ESC and function keys
 		switch (key) {
 		case ESCAPE:
+
 			// ESC: set move mode
+			handleEscForDropdown();
 			if (app.isApplet() && !app.showToolBar()) {
 				app.loseFocus();
 			} else {
@@ -725,7 +727,7 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private void handleEscForDropdown() {
-		App.debug("handleEscForDropdown");
+		Log.debug("handleEscForDropdown");
 		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawList dl = DrawList.asDrawable(app, geos.get(0));
@@ -797,10 +799,6 @@ public abstract class GlobalKeyDispatcher {
 		return true;
 	}
 
-	/**
-	 * @return handles enter
-	 */
-	protected abstract boolean handleEnter();
 
 	/**
 	 * Changes the font size of the user interface and construction element
@@ -1296,11 +1294,11 @@ public abstract class GlobalKeyDispatcher {
 			changeVal = -base;
 			vertical = false;
 			break;
-		case ESCAPE:
-			if (!fromSpreadsheet) {
-				handleEscForDropdown();
-			}
-			break;
+			// case ESCAPE:
+			// if (!fromSpreadsheet) {
+			// handleEscForDropdown();
+			// }
+		// break;
 		}
 		/*
 		 * if (changeVal == 0) { char keyChar = event.getKeyChar(); if (keyChar
@@ -1388,7 +1386,10 @@ public abstract class GlobalKeyDispatcher {
 	protected abstract void copyDefinitionsToInputBarAsList(
 			ArrayList<GeoElement> geos);
 
-	protected boolean handleEnterForDropdowns() {
+	/**
+	 * @return handles enter
+	 */
+	protected boolean handleEnter() {
 		if (app.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS)
 				&& selection.getSelectedGeos().size() == 1) {
 			GeoElement geo = selection.getSelectedGeos().get(0);
