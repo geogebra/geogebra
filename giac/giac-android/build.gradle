@@ -36,7 +36,7 @@ android {
 }
 
 task copyLibs(type: Copy) {
-    from configurations.compile
+    from configurations.provide
     into "${buildDir}/intermediates/libs"
 }
 
