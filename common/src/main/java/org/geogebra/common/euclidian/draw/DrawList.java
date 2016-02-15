@@ -1379,13 +1379,11 @@ public final class DrawList extends CanvasDrawable
 
 	private void updateMetrics(GGraphics2D g2) {
 
-		Log.debug("[PROFILE] updateMetrics");
 		int dW = viewWidth - view.getWidth();
 		int dH = viewHeight - view.getHeight();
 
 		if (dW != 0 || dH != 0) {
 			if (dW != 0 || dH != 0) {
-				Log.debug("[PROFILE] resize happened.");
 				viewHeight = view.getHeight();
 				viewWidth = view.getWidth();
 				drawOptions.onResize();
@@ -1409,7 +1407,7 @@ public final class DrawList extends CanvasDrawable
 	private GDimension drawSelectedText(GGraphics2D g2, int left, int top,
 			boolean draw) {
 
-		GFont font = view.getFont();
+		GFont font = getLabelFont();
 
 		if (isLatexString(selectedText)) {
 			GDimension d = null;
