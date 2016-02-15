@@ -600,8 +600,8 @@ public enum Language {
 	}
 
 	public static String getClosestGWTSupportedLanguage(String browserLangCode) {
-		String normalizedLanguage = StringUtil.toLowerCase(browserLangCode
-				.replace("-", "_"));
+		String normalizedLanguage = StringUtil
+				.toLowerCase(browserLangCode + "").replace("-", "_");
 
 		if ("he".equals(normalizedLanguage)) {
 			normalizedLanguage = "iw";
@@ -632,7 +632,7 @@ public enum Language {
 			}
 
 		}
-		return null;
+		return "en";
 
 	}
 

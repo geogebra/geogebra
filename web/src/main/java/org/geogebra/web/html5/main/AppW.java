@@ -454,20 +454,21 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public final void setLanguage(final String browserLang) {
-		if (browserLang != null && browserLang.equals(loc.getLocaleStr())) {
+
+		final String lang = Language
+				.getClosestGWTSupportedLanguage(browserLang);
+		if (lang != null && lang.equals(loc.getLocaleStr())) {
 			setLabels();
 			notifyLocalizationLoaded();
 			return;
 		}
-
-		if (browserLang == null || "".equals(browserLang)) {
+		if (lang == null || "".equals(lang)) {
 
 			Log.warn("language being set to empty string");
 			setLanguage("en");
 			return;
 		}
-		final String lang = Language
-		        .getClosestGWTSupportedLanguage(browserLang);
+
 		Log.debug("setting language to:" + lang + ", browser lang:"
 		        + browserLang);
 
