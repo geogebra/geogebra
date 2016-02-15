@@ -652,19 +652,27 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		Coords p = new Coords(3);
 		tmp[0] = u;
 		tmp[1] = v;
-		double val = fun.evaluate(tmp);
+
 		p.set(1, u);
 		p.set(2, v);
-		p.set(3, val);
+		p.set(3, evaluateForDrawSurface());
 		return p;
+	}
 
+	private double evaluateForDrawSurface() {
+		if (isBooleanFunction()) {
+			if (fun.evaluateBoolean(tmp)) {
+				return 0;
+			}
+			return Double.NaN;
+		}
+		return fun.evaluate(tmp);
 	}
 
 	public void evaluatePoint(double u, double v, Coords3 p) {
 		tmp[0] = u;
 		tmp[1] = v;
-		double val = fun.evaluate(tmp);
-		p.set(u, v, val);
+		p.set(u, v, evaluateForDrawSurface());
 
 	}
 
