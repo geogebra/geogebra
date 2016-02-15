@@ -107,7 +107,9 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	@Override
 	protected Renderer createRenderer() {
 
-		if (app.has(Feature.SHADERS_IN_DESKTOP) && !app.isApplet()) {
+		// we don't want shaders with win os < vista
+		if (app.has(Feature.SHADERS_IN_DESKTOP) && !app.isApplet()
+				&& (!app.isWindows() || app.isWindowsVistaOrLater())) {
 			return new RendererCheckGLVersionD(this, !app.isApplet());
 		}
 
