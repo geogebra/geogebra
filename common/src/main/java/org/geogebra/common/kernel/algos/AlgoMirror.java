@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -449,11 +450,11 @@ public class AlgoMirror extends AlgoTransformation implements
 		return -1;
 	}
 
-	public Variable[] getBotanaVars(GeoElement geo) {
+	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {

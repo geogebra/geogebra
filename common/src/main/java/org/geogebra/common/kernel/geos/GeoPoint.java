@@ -73,7 +73,6 @@ import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -2566,7 +2565,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars(GeoElement geo) {
+	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
@@ -2578,7 +2577,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				botanaVars = new Variable[2];
 				botanaVars[0] = new Variable(true);
 				botanaVars[1] = new Variable(true);
-				App.debug("Free point " + geo.getLabelSimple() + "("
+				Log.trace("Free point " + geo.getLabelSimple() + "("
 						+ botanaVars[0] + "," + botanaVars[1] + ")");
 			}
 		}
@@ -2586,7 +2585,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {

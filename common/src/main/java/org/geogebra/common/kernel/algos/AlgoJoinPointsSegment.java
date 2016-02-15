@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
@@ -207,14 +208,14 @@ public class AlgoJoinPointsSegment extends AlgoElement implements
 		return getLoc().getPlain("SegmentAB", P.getLabel(tpl), Q.getLabel(tpl));
 	}
 
-	public Variable[] getBotanaVars(GeoElement geo) {
+	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (botanaVars != null)
 			return botanaVars;
 		botanaVars = SymbolicParameters.addBotanaVarsJoinPoints(input);
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// It's OK, polynomials for lines/segments are only created when a third
 		// point is lying on them, too:

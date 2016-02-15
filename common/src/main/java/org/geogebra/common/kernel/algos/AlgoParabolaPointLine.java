@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -73,11 +74,11 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND implements
 		return LocusEquation.eqnParabolaPointLine(geo, this, scope);
 	}
 
-	public Variable[] getBotanaVars(GeoElement geo) {
+	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		
 		if (botanaPolynomials != null) {

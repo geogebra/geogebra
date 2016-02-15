@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -289,11 +290,11 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 		return LocusEquation.eqnIntersectSingle(geo, this, scope);
 	}
 
-	public Variable[] getBotanaVars(GeoElement geo) {
+	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {

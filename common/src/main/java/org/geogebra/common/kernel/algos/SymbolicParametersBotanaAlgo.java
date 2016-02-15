@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -20,7 +20,7 @@ public interface SymbolicParametersBotanaAlgo {
 	 *            The corresponding GeoElement
 	 * @return array of the free variables
 	 */
-	public Variable[] getBotanaVars(GeoElement geo);
+	public Variable[] getBotanaVars(GeoElementND geo);
 
 	/**
 	 * Calculates the polynomials of an object for the Botana method
@@ -31,6 +31,6 @@ public interface SymbolicParametersBotanaAlgo {
 	 * @throws NoSymbolicParametersException
 	 *             if it is not possible to obtain suitable polynomials
 	 */
-	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException;
 }

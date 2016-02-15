@@ -990,7 +990,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars(GeoElement geo) {
+	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
@@ -998,7 +998,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		return null;
 	}
 	
-	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException  {
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
 		return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
 		}

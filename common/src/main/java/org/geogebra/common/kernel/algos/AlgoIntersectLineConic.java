@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
@@ -55,8 +56,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	protected GeoPoint[] P, Q; // output -- Q permuted according to D
 	protected int intersectionType;
 
-	private HashMap<GeoElement, Polynomial[]> botanaPolynomials;
-	private HashMap<GeoElement, Variable[]> botanaVars;
+	private HashMap<GeoElementND, Polynomial[]> botanaPolynomials;
+	private HashMap<GeoElementND, Variable[]> botanaVars;
 
 	private int age[]; // of defined points D
 	private int permutation[]; // of computed intersection points Q to output
@@ -759,11 +760,11 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		return foundPoint;
 	}
 
-	public Variable[] getBotanaVars(GeoElement geo) {
+	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars.get(geo);
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			Polynomial[] ret = botanaPolynomials.get(geo);
@@ -789,7 +790,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 			if (g != null && c != null /* !g.isGeoSegment() && */) {
 				Variable[] botanaVarsThis = new Variable[2];
 				if (botanaVars == null) {
-					botanaVars = new HashMap<GeoElement, Variable[]>();
+					botanaVars = new HashMap<GeoElementND, Variable[]>();
 				}
 				if (botanaVars.containsKey(geo)) {
 					botanaVarsThis = botanaVars.get(geo);
@@ -829,10 +830,10 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				 * This is very ugly.
 				 */
 				Variable[] botanaVarsOther = new Variable[2];
-				Iterator<GeoElement> it = botanaVars.keySet().iterator();
+				Iterator<GeoElementND> it = botanaVars.keySet().iterator();
 				boolean found = false;
 				while (it.hasNext()) {
-					GeoElement otherGeo = it.next();
+					GeoElementND otherGeo = it.next();
 					/*
 					 * This should be at most one element. There is one element
 					 * if we found the second intersection point, otherwise (for
@@ -865,7 +866,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 						vc[0], vc[1], botanaVarsThis[0], botanaVarsThis[1]);
 
 				if (botanaPolynomials == null) {
-					botanaPolynomials = new HashMap<GeoElement, Polynomial[]>();
+					botanaPolynomials = new HashMap<GeoElementND, Polynomial[]>();
 				}
 
 				/*
@@ -903,7 +904,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 				Variable[] botanaVarsThis = new Variable[2];
 				if (botanaVars == null) {
-					botanaVars = new HashMap<GeoElement, Variable[]>();
+					botanaVars = new HashMap<GeoElementND, Variable[]>();
 				}
 				if (botanaVars.containsKey(geo)) {
 					botanaVarsThis = botanaVars.get(geo);
@@ -924,7 +925,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 						vg[0], vg[1], vg[2], vg[3]);
 
 				if (botanaPolynomials == null) {
-					botanaPolynomials = new HashMap<GeoElement, Polynomial[]>();
+					botanaPolynomials = new HashMap<GeoElementND, Polynomial[]>();
 				}
 				botanaPolynomials.put(geo, botanaPolynomialsThis);
 

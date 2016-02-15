@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
@@ -531,7 +532,7 @@ public class GeoConic extends GeoConicND implements
 
 	}
 
-	public Variable[] getBotanaVars(GeoElement geo) {
+	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
@@ -539,7 +540,8 @@ public class GeoConic extends GeoConicND implements
 		return null;
 	}
 	
-	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException  {
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
 		return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
 		}

@@ -1616,7 +1616,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars(GeoElement geo) {
+	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
@@ -1624,7 +1624,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return null;
 	}
 	
-	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException  {
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
 		return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
 		}

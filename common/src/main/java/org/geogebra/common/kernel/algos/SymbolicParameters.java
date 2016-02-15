@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -278,7 +279,7 @@ public class SymbolicParameters {
 	 *            Two EV points
 	 * @return List of Botana variables (4 elements)
 	 */
-	public static Variable[] addBotanaVarsJoinPoints(GeoElement[] input) {
+	public static Variable[] addBotanaVarsJoinPoints(GeoElementND[] input) {
 		Variable[] botanaVars = new Variable[4];
 		Variable[] line1vars = new Variable[2];
 		Variable[] line2vars = new Variable[2];

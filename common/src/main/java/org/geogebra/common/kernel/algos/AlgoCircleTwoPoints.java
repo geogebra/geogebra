@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
@@ -86,7 +87,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 	 * public final void compute() { circle.setCircle(M, P); }
 	 */
 
-	public Variable[] getBotanaVars(GeoElement geo) {
+	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (botanaVars == null) {
 			Variable[] circle1vars = new Variable[2];
 			Variable[] centerVars = new Variable[2];
@@ -107,7 +108,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// It's OK to return null here since no constraint must be set:
 		return null;

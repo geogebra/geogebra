@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
@@ -90,7 +91,7 @@ public class AlgoAreaPolygon extends AlgoElement implements SymbolicParametersBo
 		area.setValue(polygon.getArea());
 	}
 
-	public Variable[] getBotanaVars(GeoElement geo) {
+	public Variable[] getBotanaVars(GeoElementND geo) {
 		GeoPointND[] pointsOfPolygon = polygon.getPoints();
 		if (botanaVars == null) {
 			botanaVars = new Variable[pointsOfPolygon.length * 2];
@@ -104,7 +105,7 @@ public class AlgoAreaPolygon extends AlgoElement implements SymbolicParametersBo
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 			return null;
 	}
