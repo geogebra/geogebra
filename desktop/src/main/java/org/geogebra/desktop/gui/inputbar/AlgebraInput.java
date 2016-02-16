@@ -208,7 +208,7 @@ public class AlgebraInput extends JPanel implements ActionListener,
 
 		// update the help panel
 		if (((GuiManagerD) app.getGuiManager()).hasInputHelpPanel()) {
-			InputBarHelpPanel helpPanel = (InputBarHelpPanel) ((GuiManagerD) app
+			InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) ((GuiManagerD) app
 					.getGuiManager()).getInputHelpPanel();
 			helpPanel.updateFonts();
 		}
@@ -285,7 +285,7 @@ public class AlgebraInput extends JPanel implements ActionListener,
 			// =========================================
 
 			if (btnHelpToggle.isSelected()) {
-				InputBarHelpPanel helpPanel = (InputBarHelpPanel) ((GuiManagerD) app
+				InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) ((GuiManagerD) app
 						.getGuiManager()).getInputHelpPanel();
 				helpPanel.setLabels();
 				helpPanel.setCommands();

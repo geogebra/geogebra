@@ -102,7 +102,7 @@ import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.gui.dialog.InputDialogOpenURL;
 import org.geogebra.desktop.gui.dialog.ToolCreationDialog;
 import org.geogebra.desktop.gui.inputbar.AlgebraInput;
-import org.geogebra.desktop.gui.inputbar.InputBarHelpPanel;
+import org.geogebra.desktop.gui.inputbar.InputBarHelpPanelD;
 import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.layout.panels.AlgebraDockPanel;
@@ -2935,7 +2935,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		}
 	}
 
-	private InputBarHelpPanel inputHelpPanel;
+	private InputBarHelpPanelD inputHelpPanel;
 
 	public boolean hasInputHelpPanel() {
 		if (inputHelpPanel == null)
@@ -2959,7 +2959,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 			if (app.showView(App.VIEW_CAS)) {
 				app.getCommandDictionaryCAS();
 			}
-			inputHelpPanel = new InputBarHelpPanel((AppD) app);
+			inputHelpPanel = new InputBarHelpPanelD((AppD) app);
 		}
 		return inputHelpPanel;
 	}

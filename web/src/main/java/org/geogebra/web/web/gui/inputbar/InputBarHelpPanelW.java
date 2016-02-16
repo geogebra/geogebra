@@ -9,11 +9,11 @@ import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.inputbar.InputBarHelpPanel;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
-import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -299,46 +299,14 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 	private TreeMap<String, TreeSet<String>> getCommandTreeMap() {
 
-		TreeMap<String, TreeSet<String>> cmdTreeMap = new TreeMap<String, TreeSet<String>>(
-		        comparator);
-		LowerCaseDictionary[] subDict = app.getSubCommandDictionary();
+		return InputBarHelpPanel.getCommandTreeMap(app, comparator);
 
-		for (int i = 0; i < subDict.length; i++) {
-
-			if (subDict[i].isEmpty()) {
-				continue;
-			}
-
-			String cmdSetName = app.getKernel().getAlgebraProcessor()
-			        .getSubCommandSetName(i);
-
-			TreeSet<String> cmdTree = new TreeSet<String>(comparator);
-
-			Iterator<?> it = subDict[i].getIterator();
-			while (it.hasNext()) {
-				String cmd = subDict[i].get(it.next());
-				if (cmd != null && cmd.length() > 0) {
-					cmdTree.add(cmd);
-				}
-			}
-			cmdTreeMap.put(cmdSetName, cmdTree);
-		}
-		return cmdTreeMap;
 	}
 
 	private TreeSet<String> getAllCommandsTreeSet() {
 
-		TreeSet<String> treeSet = new TreeSet<String>(comparator);
+		return InputBarHelpPanel.getAllCommandsTreeSet(app, comparator);
 
-		LowerCaseDictionary dict = app.getCommandDictionary();
-		Iterator<?> it = dict.getIterator();
-		while (it.hasNext()) {
-			String cmdName = dict.get(it.next());
-			if (cmdName != null && cmdName.length() > 0) {
-				treeSet.add(cmdName);
-			}
-		}
-		return treeSet;
 	}
 
 	// =================================================================

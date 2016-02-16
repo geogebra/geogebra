@@ -63,13 +63,13 @@ import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
+public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		ActionListener, FocusListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 	/** application */
 	AppD app;
-	private InputBarHelpPanel thisPanel;
+	private InputBarHelpPanelD thisPanel;
 	private Color bgColor = Color.WHITE;
 
 	// TODO remove?
@@ -105,7 +105,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	/***************************************************
 	 * Constructor
 	 */
-	public InputBarHelpPanel(AppD app) {
+	public InputBarHelpPanelD(AppD app) {
 
 		this.app = app;
 		this.loc = app.getLocalization();
