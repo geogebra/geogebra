@@ -96,4 +96,6 @@ public enum Feature {
 	MOBILE_ROOTS_TOOL,
 
 	MOBILE_WEB_VIEW,
+
+	MOBILE_INPUT_BAR_HELP_PANEL
 }

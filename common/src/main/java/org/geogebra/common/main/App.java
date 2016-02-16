@@ -1,12 +1,5 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.Vector;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -83,19 +76,17 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
+
 /**
  * Represents an application window, gives access to views and system stuff
  */
 public abstract class App implements UpdateSelection {
-	/** Script manager */
-	protected ScriptManager scriptManager = null;
-	/**
-	 * True when we are running standalone app or signed applet, false for
-	 * unsigned applet
-	 */
-	protected static boolean hasFullPermissions = false;
-	/** whether current construction was saved after last changes */
-	protected boolean isSaved = true;
 	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
 	/** Url for main page of manual */
@@ -118,7 +109,6 @@ public abstract class App implements UpdateSelection {
 	public static final String WIKI_ADVANCED = "Advanced Features";
 	/** Url for wiki article about functions */
 	public static final String WIKI_TEXT_TOOL = "Text Tool";
-
 	/** id for dummy view */
 	public static final int VIEW_NONE = 0;
 	/** id for euclidian view */
@@ -152,30 +142,106 @@ public abstract class App implements UpdateSelection {
 	public static final int VIEW_EUCLIDIAN_FOR_PLANE_START = 1024;
 	/** maximal ID of view for plane */
 	public static final int VIEW_EUCLIDIAN_FOR_PLANE_END = 2047;
-	// please let 1024 to 2047 empty
-	/** id for plot panels (small EVs eg in regression analysis tool) */
+	/**
+	 * id for plot panels (small EVs eg in regression analysis tool)
+	 */
 	public static final int VIEW_PLOT_PANEL = 2048;
-	/** id for text preview in text tool */
+	/**
+	 * id for text preview in text tool
+	 */
 	public static final int VIEW_TEXT_PREVIEW = 4096;
-	/** id for properties view */
+	/**
+	 * id for properties view
+	 */
 	public static final int VIEW_PROPERTIES = 4097;
+	// please let 1024 to 2047 empty
 	/** id for assignment view */
 	public static final int VIEW_ASSIGNMENT = 8192;
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
 	public static final int VIEW_DATA_COLLECTION = 43;
-	/** id for Python view */
-	// public static final int VIEW_PYTHON = 16384;
-	private boolean showResetIcon = false;
+	public static final int DEFAULT_THRESHOLD = 3;
+	/**
+	 * minimal font size
+	 */
+	public static final int MIN_FONT_SIZE = 10;
+	/**
+	 * initial number of columns for spreadsheet
+	 */
+	public static final int SPREADSHEET_INI_COLS = 26;
+	/**
+	 * initial number of rows for spreadsheet
+	 */
+	public static final int SPREADSHEET_INI_ROWS = 100;
+	// used by PropertyDialogGeoElement and MenuBarImpl
+	// for the Rounding Menus
+	final public static int roundingMenuLookup[] = {0, 1, 2, 3, 4, 5, 10, 15,
+			-1, 3, 5, 10, 15};
+	final public static int decimalsLookup[] = {0, 1, 2, 3, 4, 5, -1, -1, -1,
+			-1, 6, -1, -1, -1, -1, 7};
+	final public static int figuresLookup[] = {-1, -1, -1, 9, -1, 10, -1, -1,
+			-1, -1, 11, -1, -1, -1, -1, 12};
+	/**
+	 * Rounding menu options (not internationalized)
+	 */
+	final public static String[] strDecimalSpacesAC = {"0 decimals",
+			"1 decimals", "2 decimals", "3 decimals", "4 decimals",
+			"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
+			"5 figures", "10 figures", "15 figures"};
+	/** Singular web service (CAS) */
+	public static SingularWebService singularWS;
+	/**
+	 * True when we are running standalone app or signed applet, false for
+	 * unsigned applet
+	 */
+	protected static boolean hasFullPermissions = false;
+	protected static boolean useFullAppGui = false;
+	private static String CASVersionString = "";
+	private static boolean CASViewEnabled = true;
+	private static boolean _3DViewEnabled = true;
+	/**
+	 * whether axes should be visible when EV is created first element of this
+	 * array is for x-axis, second for y-axis
+	 */
+	protected final boolean[] showAxes = {true, true};
+	/** whether axes should be logarithmci when EV is created */
+	protected final boolean[] logAxes = {false, false};
 	/**
 	 * Whether we are running applet in frame. Not possible with 4.2+ (we need
 	 * this to hide reset icon from EV)
 	 */
 	public boolean runningInFrame = false;
-	private ParserFunctions pf = new ParserFunctions();
-
-	private SpreadsheetTraceManager traceManager;
-	public static final int DEFAULT_THRESHOLD = 3;
+	public Vector<GeoImage> images = new Vector<GeoImage>();
+	/**
+	 * Whether AV should show auxiliary objects stored here rather than in
+	 * algebra view so that it can be set without creating an AV (compatibility
+	 * with 3.2)
+	 */
+	public boolean showAuxiliaryObjects = false;
+	/** flag to test whether to draw Equations full resolution */
+	public ExportType exportType = ExportType.NONE;
+	/**
+	 * right angle style
+	 *
+	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_SQUARE
+	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_DOT
+	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_L
+	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_NONE
+	 */
+	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
+	public AlgoKimberlingWeightsInterface kimberlingw = null;
+	;
+	public AlgoCubicSwitchInterface cubicw = null;
+	/**
+	 * whether transparent cursor should be used while dragging
+	 */
+	public boolean useTransparentCursorWhenDragging = false;
+	/**
+	 * Script manager
+	 */
+	protected ScriptManager scriptManager = null;
+	/** whether current construction was saved after last changes */
+	protected boolean isSaved = true;
 	/**
 	 * object is hit if mouse is within this many pixels (more for points, see
 	 * geogebra.common.euclidian.DrawPoint)
@@ -183,29 +249,11 @@ public abstract class App implements UpdateSelection {
 	protected int capturingThreshold = DEFAULT_THRESHOLD;
 	protected int capturingThresholdTouch = 3 * DEFAULT_THRESHOLD;
 
-	/**
-	 * possible positions for the inputBar (respective inputBox)
-	 */
-	public enum InputPositon {
-		/**
-		 * inputBox in the AV
-		 */
-		algebraView,
-		/**
-		 * inputBar at the top
-		 */
-		top,
-		/**
-		 * inputBar at the bottom
-		 */
-		bottom
-	}
-	public Vector<GeoImage> images = new Vector<GeoImage>();
+	/* Font settings */
 	/**
 	 * where to show the inputBar (respective inputBox)
 	 */
 	protected InputPositon showInputTop = InputPositon.algebraView;
-
 	/**
 	 * Whether input bar should be visible
 	 */
@@ -214,49 +262,150 @@ public abstract class App implements UpdateSelection {
 	 * Whether toolbar should appear on top
 	 */
 	protected boolean showToolBarTop = true;
+	// note: It is not necessary to use powers of 2 for view IDs
+
+	// For eg Hebrew and Arabic.
 	/**
 	 * Whether toolbar help should appear
 	 */
 	protected boolean showToolBarHelp = false;
-
 	/**
 	 * Toolbar position
 	 */
 	protected int toolbarPosition = 1;
-
 	/**
 	 * Whether input help toggle button should be visible
 	 */
 	protected boolean showInputHelpToggle = true;
-
 	/**
-	 * Whether AV should show auxiliary objects stored here rather than in
-	 * algebra view so that it can be set without creating an AV (compatibility
-	 * with 3.2)
+	 * whether righ click is enabled
 	 */
-	public boolean showAuxiliaryObjects = false;
-	/** whether righ click is enabled */
 	protected boolean rightClickEnabled = true;
-
-	/** flag to test whether to draw Equations full resolution */
-	public ExportType exportType = ExportType.NONE;
-
-	public enum ExportType {
-		NONE, PDF_TEXTASSHAPES, PDF_EMBEDFONTS, EPS, EMF, PNG, SVG, PRINTING
-	};
-
-	private static String CASVersionString = "";
-
-	/** User Sign in handling */
+	/**
+	 * User Sign in handling
+	 */
 	protected LogInOperation loginOperation = null;
+	/** XML input / output handler */
+	protected MyXMLio myXMLio;
+	// gui / menu fontsize (-1 = use appFontSize)
+	protected int guiFontSize = -1;
+	/** kernel */
+	protected Kernel kernel;
+	/** whether points can be created by other tools than point tool */
+	protected boolean isOnTheFlyPointCreationActive = true;
+	/** Settings object */
+	protected Settings settings;
+	protected SelectionManager selection;
+	/** whether we should use antialisaing in EV */
+	protected boolean antialiasing = true;
+	/** whether grid should be visible when EV is created */
+	protected boolean showGrid = false;
+	/**
+	 * this flag is true during initialization phase (until GUI is built and
+	 * command line args handled, incl. file loading) or when we are opening a
+	 * file
+	 */
+	protected boolean initing = false;
+	/** Euclidian view */
+	protected EuclidianView euclidianView;
+	/** Euclidian view's controller */
+	protected EuclidianController euclidianController;
+	/** selection listener */
+	protected GeoElementSelectionListener currentSelectionListener;
+	/**
+	 * whether menubar should be visible
+	 */
+	protected boolean showMenuBar = true;
+	protected String uniqueId;
+	protected ArrayList<Perspective> tmpPerspectives = new ArrayList<Perspective>();
+	/**
+	 * whether toolbar should be visible
+	 */
+	protected boolean showToolBar = true;
+	/**
+	 * whether shift, drag and zoom features are enabled
+	 */
+	protected boolean shiftDragZoomEnabled = true;
+	protected int appletWidth = 0;
+	protected int appletHeight = 0;
+	protected boolean useFullGui = false;
+	protected int appCanvasHeight;
+	protected int appCanvasWidth;
+	protected boolean needsSpreadsheetTableModel = false;
+	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
+	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
+	protected AppCompanion companion;
+	protected boolean prerelease;
+	protected boolean canary;
+	/**
+	 * given 1, return eg 1st, 1e, 1:e according to the language
+	 * <p/>
+	 * http://en.wikipedia.org/wiki/Ordinal_indicator
+	 */
+	StringBuilder sbOrdinal;
+	/**
+	 * id for Python view
+	 */
+	// public static final int VIEW_PYTHON = 16384;
+	private boolean showResetIcon = false;
+	private ParserFunctions pf = new ParserFunctions();
+	private SpreadsheetTraceManager traceManager;
+	private ExamEnvironment exam;
+	// currently used application fonts
+	private int appFontSize;
+	// moved to Application from EuclidianView as the same value is used across
+	// multiple EVs
+	private int maxLayerUsed = 0;
+	/**
+	 * size of checkboxes, default in GeoGebraPreferencesXML.java
+	 * checkboxSize="26"
+	 */
+	private int booleanSize = EuclidianConstants.DEFAULT_CHECKBOX_SIZE;
+	private boolean labelDragsEnabled = true;
+	private HashMap<String, String> translateCommandTable;
+	// command dictionary
+	private LowerCaseDictionary commandDict;
+	private LowerCaseDictionary commandDictCAS;
+	// array of dictionaries corresponding to the sub command tables
+	private LowerCaseDictionary[] subCommandDict;
+	private String scriptingLanguage;
+	/**
+	 * flag for current state
+	 */
+	private StoreUndoInfoForSetCoordSystem storeUndoInfoForSetCoordSystem = StoreUndoInfoForSetCoordSystem.NONE;
+	private boolean blockUpdateScripts = false;
+	private boolean useBrowserForJavaScript = true;
+	private EventDispatcher eventDispatcher;
+	private int[] version = null;
+	private List<SavedStateListener> savedListeners = new ArrayList<SavedStateListener>();
+	private Macro macro;
+	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
+	/**
+	 * says that a labeling style is selected in menu
+	 * (i.e. all default geos use the selected labeling style)
+	 */
+	private boolean labelingStyleSelected = true;
+	private boolean scriptingDisabled = false;
+	private double exportScale = 1;
+	private PropertiesView propertiesView;
+	private Random random = new Random();
+	private GeoScriptRunner geoScriptRunner;
+	private GeoElement geoForCopyStyle;
+	private OptionsMenu optionsMenu;
+	private boolean isErrorDialogsActive = true;
+	private ArrayList<OpenFileListener> openFileListener;
+	// whether to allow perspective and login popups
+	private boolean allowPopUps = false;
+
+	// TODO: move following methods somewhere else
+	private int tubeID = 0;
 
 	/**
-	 * @param string
-	 *            CAS version string
+	 * constructor
 	 */
-	public static final void setCASVersionString(String string) {
-		CASVersionString = string;
-
+	public App() {
+		companion = newAppCompanion();
+		resetUniqueId();
 	}
 
 	/**
@@ -267,40 +416,115 @@ public abstract class App implements UpdateSelection {
 
 	}
 
-	/** XML input / output handler */
-	protected MyXMLio myXMLio;
-	private ExamEnvironment exam;
+	/**
+	 * @param string CAS version string
+	 */
+	public static final void setCASVersionString(String string) {
+		CASVersionString = string;
 
-	/* Font settings */
-	/** minimal font size */
-	public static final int MIN_FONT_SIZE = 10;
-	// gui / menu fontsize (-1 = use appFontSize)
-	protected int guiFontSize = -1;
-	// currently used application fonts
-	private int appFontSize;
-	// note: It is not necessary to use powers of 2 for view IDs
-
-	// For eg Hebrew and Arabic.
-
-	// moved to Application from EuclidianView as the same value is used across
-	// multiple EVs
-	private int maxLayerUsed = 0;
+	}
 
 	/**
-	 * size of checkboxes, default in GeoGebraPreferencesXML.java
-	 * checkboxSize="26"
+	 * Initializes SingularWS
 	 */
-	private int booleanSize = EuclidianConstants.DEFAULT_CHECKBOX_SIZE;
+	public static void initializeSingularWS() {
+		singularWS = new SingularWebService();
+		singularWS.enable();
+		if (singularWS.isAvailable()) {
+			Log.info("SingularWS is available at "
+					+ singularWS.getConnectionSite());
+			// debug(singularWS.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
+		} else {
+			Log.info("No SingularWS is available at "
+					+ singularWS.getConnectionSite() + " (yet)");
+		}
+	}
+
+	/* selection handling */
 
 	/**
-	 * 
-	 * set global checkbox size (all checkboxes, both views)
-	 * 
-	 * @param b
-	 *            new size for checkboxes (either 13 or 26)
+	 * @param s
+	 *            string to log
+	 *
+	 * @deprecated use Log.debug() instead
 	 */
-	public void setCheckboxSize(int b) {
-		booleanSize = (b == 13) ? 13 : 26;
+	@Deprecated
+	public static void debug(String s) {
+		Log.debug(s, 5);
+	}
+
+	/**
+	 * @param s string to log
+	 * @deprecated use Log.debug() instead
+	 */
+	@Deprecated
+	public static void error(String s) {
+		Log.error(s, 5);
+	}
+
+	/**
+	 * @param version string version, eg 4.9.38.0
+	 * @return version as list of ints, eg [4,9,38,0]
+	 */
+	static final public int[] getSubValues(String version) {
+		String[] values = version.split("\\.");
+		int[] ret = new int[values.length];
+		for (int i = 0; i < values.length; i++) {
+			ret[i] = Integer.parseInt(values[i]);
+		}
+
+		return ret;
+	}
+
+	public static boolean isFullAppGui() {
+		return useFullAppGui;
+	}
+
+	/**
+	 * Disables CAS View.
+	 */
+	public static void disableCASView() {
+		CASViewEnabled = false;
+	}
+
+	// Rounding Menus end
+
+	/**
+	 * Disables 3D View.
+	 */
+	public static void disable3DView() {
+		_3DViewEnabled = false;
+	}
+
+	public static double getMaxScaleForClipBoard(EuclidianView ev) {
+		double size = ev.getExportWidth() * ev.getExportHeight();
+
+		// Windows XP clipboard has trouble with images larger than this
+		// at double scale (with scale = 2d)
+		if (size > 500000) {
+			return 2.0 * Math.sqrt(500000 / size);
+		}
+
+		return 2d;
+	}
+
+	/**
+	 *
+	 * @param id
+	 *            view id
+	 * @return true if id is a 3D view id
+	 */
+	public static final boolean isView3D(int id) {
+		if (id == App.VIEW_EUCLIDIAN3D) {
+			return true;
+		}
+
+		if (id == App.VIEW_EUCLIDIAN3D_2) {
+			return true;
+		}
+
+		return false;
+
 	}
 
 	/**
@@ -311,24 +535,15 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * right angle style
-	 * 
-	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_SQUARE
-	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_DOT
-	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_L
-	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_NONE
+	 *
+	 * set global checkbox size (all checkboxes, both views)
+	 *
+	 * @param b
+	 *            new size for checkboxes (either 13 or 26)
 	 */
-	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
-
-	/** kernel */
-	protected Kernel kernel;
-	/** whether points can be created by other tools than point tool */
-	protected boolean isOnTheFlyPointCreationActive = true;
-	/** Settings object */
-	protected Settings settings;
-
-	protected SelectionManager selection;
-
+	public void setCheckboxSize(int b) {
+		booleanSize = (b == 13) ? 13 : 26;
+	}
 
 	/**
 	 * @return capturing threshold
@@ -339,63 +554,17 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param i
-	 *            capturing threshold
+	 * @param i capturing threshold
 	 */
 	public void setCapturingThreshold(int i) {
 		this.capturingThreshold = i;
 		this.capturingThresholdTouch = 3 * i;
 	}
 
-	/** whether we should use antialisaing in EV */
-	protected boolean antialiasing = true;
-	/**
-	 * whether axes should be visible when EV is created first element of this
-	 * array is for x-axis, second for y-axis
-	 */
-	protected final boolean[] showAxes = { true, true };
-	/** whether grid should be visible when EV is created */
-	protected boolean showGrid = false;
-	/** whether axes should be logarithmci when EV is created */
-	protected final boolean[] logAxes = { false, false };
-	/**
-	 * this flag is true during initialization phase (until GUI is built and
-	 * command line args handled, incl. file loading) or when we are opening a
-	 * file
-	 */
-	protected boolean initing = false;
-
-	private boolean labelDragsEnabled = true;
-	/** initial number of columns for spreadsheet */
-	public static final int SPREADSHEET_INI_COLS = 26;
-	/** initial number of rows for spreadsheet */
-	public static final int SPREADSHEET_INI_ROWS = 100;
-
-	private HashMap<String, String> translateCommandTable;
-	// command dictionary
-	private LowerCaseDictionary commandDict;
-	private LowerCaseDictionary commandDictCAS;
-	/** Euclidian view */
-	protected EuclidianView euclidianView;
-	/** Euclidian view's controller */
-	protected EuclidianController euclidianController;
-	/** selection listener */
-	protected GeoElementSelectionListener currentSelectionListener;
-	/** whether menubar should be visible */
-	protected boolean showMenuBar = true;
-	// array of dictionaries corresponding to the sub command tables
-	private LowerCaseDictionary[] subCommandDict;
-
-	private String scriptingLanguage;
-
-	public AlgoKimberlingWeightsInterface kimberlingw = null;
-
-	public AlgoCubicSwitchInterface cubicw = null;
-
 	/**
 	 * We need this method so that we can override it using more powerful
 	 * normalizer
-	 * 
+	 *
 	 * @return new lowercase dictionary
 	 */
 	protected LowerCaseDictionary newLowerCaseDictionary() {
@@ -414,7 +583,7 @@ public abstract class App implements UpdateSelection {
 
 		if (!getLocalization().isCommandChanged()
 				&& ((commandDictCAS != null) || getLocalization()
-						.isCommandNull())) {
+				.isCommandNull())) {
 			return;
 		}
 		GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
@@ -471,7 +640,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Returns an array of command dictionaries corresponding to the categorized
 	 * sub command sets created in CommandDispatcher.
-	 * 
+	 *
 	 * @return command dictionaries corresponding to the categories
 	 */
 	public final LowerCaseDictionary[] getSubCommandDictionary() {
@@ -603,9 +772,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * translate command name to internal name. Note: the case of localname is
 	 * NOT relevant
-	 * 
-	 * @param command
-	 *            local name
+	 *
+	 * @param command local name
 	 * @return internal name
 	 */
 	public String getReverseCommand(String command) {
@@ -686,23 +854,6 @@ public abstract class App implements UpdateSelection {
 	public abstract void storeUndoInfo();
 
 	/**
-	 * state to know if we'll need to store undo info
-	 */
-	private enum StoreUndoInfoForSetCoordSystem {
-		/** tells that the mouse has been pressed */
-		MAY_SET_COORD_SYSTEM,
-		/** tells that the coord system has changed */
-		SET_COORD_SYSTEM_OCCURED,
-		/** no particular state */
-		NONE
-	}
-
-	/**
-	 * flag for current state
-	 */
-	private StoreUndoInfoForSetCoordSystem storeUndoInfoForSetCoordSystem = StoreUndoInfoForSetCoordSystem.NONE;
-
-	/**
 	 * store undo info only if view coord system has changed
 	 */
 	public void storeUndoInfoIfSetCoordSystemOccured() {
@@ -740,7 +891,7 @@ public abstract class App implements UpdateSelection {
 	public abstract boolean isUsingFullGui();
 
 	/**
-	 * 
+	 *
 	 * @param view
 	 *            view ID
 	 * @return whether view with given ID is visible
@@ -767,20 +918,17 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param blockUpdateScripts
-	 *            the blockUpdateScripts to set
+	 * @param blockUpdateScripts the blockUpdateScripts to set
 	 */
 	public void setBlockUpdateScripts(boolean blockUpdateScripts) {
 		this.blockUpdateScripts = blockUpdateScripts;
 	}
 
-	private boolean blockUpdateScripts = false;
-
 	/**
 	 * Translates localized command name into internal TODO check whether this
 	 * differs from translateCommand somehow and either document it or remove
 	 * this method
-	 * 
+	 *
 	 * @param cmd
 	 *            localized command name
 	 * @return internal command name
@@ -805,21 +953,17 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Show error dialog wiith given text
-	 * 
-	 * @param s
-	 *            error message
+	 *
+	 * @param s error message
 	 */
 	public abstract void showError(String s);
 
 	/**
 	 * Shows error dialog with a given text
-	 * 
+	 *
 	 * @param s
 	 */
 	protected abstract void showErrorDialog(String s);
-
-	private boolean useBrowserForJavaScript = true;
-	private EventDispatcher eventDispatcher;
 
 	/**
 	 * @param useBrowserForJavaScript
@@ -848,7 +992,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Get the event dispatcher, which dispatches events objects that manage
 	 * event driven scripts
-	 * 
+	 *
 	 * @return the app's event dispatcher
 	 */
 	public EventDispatcher getEventDispatcher() {
@@ -858,7 +1002,6 @@ public abstract class App implements UpdateSelection {
 		return eventDispatcher;
 	}
 
-	// TODO: move following methods somewhere else
 	/**
 	 * @param ge
 	 *            geo
@@ -870,10 +1013,8 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Start tracing geo to spreadsheet
-	 * 
-	 * @param ge
-	 *            geo
-	 * 
+	 *
+	 * @param ge geo
 	 */
 	public void traceToSpreadsheet(GeoElement ge) {
 		getTraceManager().traceToSpreadsheet(ge);
@@ -881,9 +1022,8 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Reset tracing column for given geo
-	 * 
-	 * @param ge
-	 *            geo
+	 *
+	 * @param ge geo
 	 */
 	public void resetTraceColumn(GeoElement ge) {
 		getTraceManager().setNeedsColumnReset(ge, true);
@@ -891,7 +1031,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Updates the counter of used layers
-	 * 
+	 *
 	 * @param layer
 	 *            layer to which last element was added
 	 */
@@ -912,33 +1052,12 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
-	/* selection handling */
-
 	/**
 	 * @return last created GeoElement
 	 */
 	final public GeoElement getLastCreatedGeoElement() {
 		return kernel.getConstruction().getLastGeoElement();
 	}
-
-	// used by PropertyDialogGeoElement and MenuBarImpl
-	// for the Rounding Menus
-	final public static int roundingMenuLookup[] = { 0, 1, 2, 3, 4, 5, 10, 15,
-			-1, 3, 5, 10, 15 };
-	final public static int decimalsLookup[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
-			-1, 6, -1, -1, -1, -1, 7 };
-	final public static int figuresLookup[] = { -1, -1, -1, 9, -1, 10, -1, -1,
-			-1, -1, 11, -1, -1, -1, -1, 12 };
-
-	/**
-	 * Rounding menu options (not internationalized)
-	 */
-	final public static String[] strDecimalSpacesAC = { "0 decimals",
-			"1 decimals", "2 decimals", "3 decimals", "4 decimals",
-			"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
-			"5 figures", "10 figures", "15 figures" };
-
-	// Rounding Menus end
 
 	/**
 	 * Deletes selected objects
@@ -979,9 +1098,8 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Append XML describing the keyboard to given string builder
-	 * 
-	 * @param sb
-	 *            string builder
+	 *
+	 * @param sb string builder
 	 */
 	public void getKeyboardXML(StringBuilder sb) {
 		sb.append("<keyboard width=\"");
@@ -1008,17 +1126,9 @@ public abstract class App implements UpdateSelection {
 	public abstract long freeMemory();
 
 	/**
-	 * given 1, return eg 1st, 1e, 1:e according to the language
-	 * 
-	 * http://en.wikipedia.org/wiki/Ordinal_indicator
-	 */
-	StringBuilder sbOrdinal;
-
-	/**
 	 * set right angle style
-	 * 
-	 * @param style
-	 *            style
+	 *
+	 * @param style style
 	 */
 	public void setRightAngleStyle(int style) {
 		rightAngleStyle = style;
@@ -1117,49 +1227,8 @@ public abstract class App implements UpdateSelection {
 	protected abstract void initGuiManager();
 
 	/**
-	 * Initializes SingularWS
-	 */
-	public static void initializeSingularWS() {
-		singularWS = new SingularWebService();
-		singularWS.enable();
-		if (singularWS.isAvailable()) {
-			Log.info("SingularWS is available at "
-					+ singularWS.getConnectionSite());
-			// debug(singularWS.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
-		} else {
-			Log.info("No SingularWS is available at "
-					+ singularWS.getConnectionSite() + " (yet)");
-		}
-	}
-
-	/**
-	 * @param s
-	 *            string to log
-	 * 
-	 * @deprecated use Log.debug() instead
-	 */
-	@Deprecated
-	public static void debug(String s) {
-		Log.debug(s, 5);
-	}
-
-	/**
-	 * @param s
-	 *            string to log
-	 *
-	 * @deprecated use Log.debug() instead
-	 */
-	@Deprecated
-	public static void error(String s) {
-		Log.error(s, 5);
-	}
-
-	/** Singular web service (CAS) */
-	public static SingularWebService singularWS;
-
-	/**
 	 * Whether we are running on Mac
-	 * 
+	 *
 	 * @return whether we are running on Mac
 	 */
 	public boolean isMacOS() {
@@ -1168,7 +1237,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Whether we are running on Windows
-	 * 
+	 *
 	 * @return whether we are running on Windows
 	 */
 	public boolean isWindows() {
@@ -1177,7 +1246,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Whether we are running on Windows Vista or later
-	 * 
+	 *
 	 * @return whether we are running on Windows Vista or later
 	 */
 	public boolean isWindowsVistaOrLater() {
@@ -1196,8 +1265,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param scriptingLanguage
-	 *            the scriptingLanguage to set
+	 * @param scriptingLanguage the scriptingLanguage to set
 	 */
 	public void setScriptingLanguage(String scriptingLanguage) {
 		this.scriptingLanguage = scriptingLanguage;
@@ -1205,21 +1273,15 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Runs JavaScript
-	 * 
-	 * @param app
-	 *            application
-	 * @param script
-	 *            JS method name
-	 * @param arg
-	 *            arguments
+	 *
+	 * @param app    application
+	 * @param script JS method name
+	 * @param arg    arguments
 	 */
 	public abstract void evalJavaScript(App app, String script, String arg);
 
-	private int[] version = null;
-
 	/**
-	 * @param v
-	 *            version parts
+	 * @param v version parts
 	 * @return whether given version is newer than this code
 	 */
 	public boolean fileVersionBefore(int[] v) {
@@ -1245,7 +1307,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Sets version of currently loaded file
-	 * 
+	 *
 	 * @param version
 	 *            version string
 	 */
@@ -1262,47 +1324,36 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param version
-	 *            string version, eg 4.9.38.0
-	 * @return version as list of ints, eg [4,9,38,0]
-	 */
-	static final public int[] getSubValues(String version) {
-		String[] values = version.split("\\.");
-		int[] ret = new int[values.length];
-		for (int i = 0; i < values.length; i++) {
-			ret[i] = Integer.parseInt(values[i]);
-		}
-
-		return ret;
-	}
-
-	/**
 	 * @return euclidian view; if not present yet, new one is created
 	 */
 	public abstract EuclidianView createEuclidianView();
 
 	/**
 	 * Returns current mode (tool number)
-	 * 
+	 *
 	 * @return current mode
 	 */
 	final public int getMode() {
 		return this.createEuclidianView().getMode();
 	}
 
+	public void setMode(int mode) {
+		setMode(mode, ModeSetter.TOOLBAR);
+	}
+
 	/**
 	 * Returns labeling style for newly created geos
-	 * 
+	 *
 	 * @return labeling style; AUTOMATIC is resolved either to
-	 *         USE_DEFAULTS/POINTS_ONLY (for 3D) or OFF depending on visibility
-	 *         of AV
+	 * USE_DEFAULTS/POINTS_ONLY (for 3D) or OFF depending on visibility
+	 * of AV
 	 */
 	public int getCurrentLabelingStyle() {
 		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
 			if (isUsingFullGui()) {
 				if ((getGuiManager() != null)
 						&& getGuiManager().hasAlgebraViewShowing()) {
-					if( getAlgebraView().isVisible()){
+					if (getAlgebraView().isVisible()) {
 						if (isView3D(getGuiManager().getLayout()
 								.getDockManager().getFocusedViewId())) {
 							// only points (and sliders and angles) are labeled
@@ -1331,7 +1382,7 @@ public abstract class App implements UpdateSelection {
 	 * This is needed for handling paths to images inside .ggb archive TODO
 	 * probably we should replace this methodby something else as images are
 	 * different in web
-	 * 
+	 *
 	 * @param fullPath
 	 *            path to image
 	 * @return legth of MD5 hash output
@@ -1346,7 +1397,7 @@ public abstract class App implements UpdateSelection {
 	 * @return image wrapped in GBufferedImage
 	 */
 	public abstract MyImage getExternalImageAdapter(String filename, int width,
-			int height);
+													int height);
 
 	/**
 	 * @return whether label dragging is enableded
@@ -1358,7 +1409,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Enables or disables label dragging in this application. This is useful
 	 * for applets.
-	 * 
+	 *
 	 * @param flag
 	 *            true to allow label dragging
 	 */
@@ -1377,7 +1428,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Sets state of application to "saved", so that no warning appears on
 	 * close.
-	 * 
+	 *
 	 * @author Zbynek Konecny
 	 * @version 2010-05-26
 	 */
@@ -1387,8 +1438,6 @@ public abstract class App implements UpdateSelection {
 			sl.stateChanged(true);
 		}
 	}
-
-	private List<SavedStateListener> savedListeners = new ArrayList<SavedStateListener>();
 
 	public void registerSavedStateListener(SavedStateListener l) {
 		savedListeners.add(l);
@@ -1410,9 +1459,8 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Makes given view active
-	 * 
-	 * @param evID
-	 *            view id
+	 *
+	 * @param evID view id
 	 */
 	public abstract void setActiveView(int evID);
 
@@ -1426,11 +1474,10 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Switches the application to macro editing mode
-	 * 
+	 *
+	 * @param editMacro Tool to be edited
 	 * @author Zbynek Konecny
 	 * @version 2010-05-26
-	 * @param editMacro
-	 *            Tool to be edited
 	 */
 	public void openMacro(Macro editMacro) {
 		for (int i = 0; i < editMacro.getKernel().getMacroNumber(); i++) {
@@ -1448,7 +1495,7 @@ public abstract class App implements UpdateSelection {
 		String macroXml = sb.toString();
 		String newXml = header
 				+ macroXml.substring(macroXml.indexOf("<construction"),
-						macroXml.indexOf("</construction>")) + footer;
+				macroXml.indexOf("</construction>")) + footer;
 		this.macro = editMacro;
 		setXML(newXml, true);
 	}
@@ -1484,11 +1531,9 @@ public abstract class App implements UpdateSelection {
 		// setXML(newXml, true);
 	}
 
-	private Macro macro;
-
 	/**
 	 * Returns macro if in macro editing mode.
-	 * 
+	 *
 	 * @return macro being edited (in unchanged state)
 	 */
 	public Macro getMacro() {
@@ -1514,8 +1559,6 @@ public abstract class App implements UpdateSelection {
 		ArrayList<Macro> macros = kernel.getAllMacros();
 		return getXMLio().getFullMacroXML(macros);
 	}
-
-	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
 
 	public boolean hasEuclidianView2(int idx) {
 		// TODO Auto-generated method stub
@@ -1569,7 +1612,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * FKH
-	 * 
+	 *
 	 * @version 20040826
 	 * @return full xml for GUI and construction
 	 */
@@ -1580,8 +1623,7 @@ public abstract class App implements UpdateSelection {
 	public abstract void showError(String string, String str);
 
 	/**
-	 * @param viewID
-	 *            view id
+	 * @param viewID view id
 	 * @return view with given ID
 	 */
 	public View getView(int viewID) {
@@ -1592,62 +1634,61 @@ public abstract class App implements UpdateSelection {
 			return getGuiManager().getPlotPanelView(viewID);
 		}
 		switch (viewID) {
-		case VIEW_EUCLIDIAN:
-			return getEuclidianView1();
-		case VIEW_EUCLIDIAN3D:
-			return getEuclidianView3D();
-		case VIEW_ALGEBRA:
-			return getAlgebraView();
-		case VIEW_SPREADSHEET:
-			if (!isUsingFullGui())
-				return null;
-			else if (getGuiManager() == null)
-				initGuiManager();
-			if (getGuiManager() == null)
-				return null;
-			return getGuiManager().getSpreadsheetView();
-		case VIEW_CAS:
-			if (!isUsingFullGui())
-				return null;
-			else if (getGuiManager() == null)
-				initGuiManager();
-			if (getGuiManager() == null)
-				return null;
-			return getGuiManager().getCasView();
-		case VIEW_EUCLIDIAN2:
-			return hasEuclidianView2(1) ? getEuclidianView2(1) : null;
-		case VIEW_CONSTRUCTION_PROTOCOL:
-			if (!isUsingFullGui())
-				return null;
-			else if (getGuiManager() == null)
-				initGuiManager();
-			if (getGuiManager() == null)
-				return null;
-			return getGuiManager().getConstructionProtocolData();
-		case VIEW_PROBABILITY_CALCULATOR:
-			if (!isUsingFullGui())
-				return null;
-			else if (getGuiManager() == null)
-				initGuiManager();
-			if (getGuiManager() == null)
-				return null;
-			return getGuiManager().getProbabilityCalculator();
-		case VIEW_DATA_ANALYSIS:
-			if (!isUsingFullGui())
-				return null;
-			else if (getGuiManager() == null)
-				initGuiManager();
-			if (getGuiManager() == null)
-				return null;
-			return getGuiManager().getDataAnalysisView();
+			case VIEW_EUCLIDIAN:
+				return getEuclidianView1();
+			case VIEW_EUCLIDIAN3D:
+				return getEuclidianView3D();
+			case VIEW_ALGEBRA:
+				return getAlgebraView();
+			case VIEW_SPREADSHEET:
+				if (!isUsingFullGui())
+					return null;
+				else if (getGuiManager() == null)
+					initGuiManager();
+				if (getGuiManager() == null)
+					return null;
+				return getGuiManager().getSpreadsheetView();
+			case VIEW_CAS:
+				if (!isUsingFullGui())
+					return null;
+				else if (getGuiManager() == null)
+					initGuiManager();
+				if (getGuiManager() == null)
+					return null;
+				return getGuiManager().getCasView();
+			case VIEW_EUCLIDIAN2:
+				return hasEuclidianView2(1) ? getEuclidianView2(1) : null;
+			case VIEW_CONSTRUCTION_PROTOCOL:
+				if (!isUsingFullGui())
+					return null;
+				else if (getGuiManager() == null)
+					initGuiManager();
+				if (getGuiManager() == null)
+					return null;
+				return getGuiManager().getConstructionProtocolData();
+			case VIEW_PROBABILITY_CALCULATOR:
+				if (!isUsingFullGui())
+					return null;
+				else if (getGuiManager() == null)
+					initGuiManager();
+				if (getGuiManager() == null)
+					return null;
+				return getGuiManager().getProbabilityCalculator();
+			case VIEW_DATA_ANALYSIS:
+				if (!isUsingFullGui())
+					return null;
+				else if (getGuiManager() == null)
+					initGuiManager();
+				if (getGuiManager() == null)
+					return null;
+				return getGuiManager().getDataAnalysisView();
 		}
 
 		return null;
 	}
 
 	/**
-	 * @param asPreference
-	 *            true if we need this for prefs XML
+	 * @param asPreference true if we need this for prefs XML
 	 * @return XML for user interface (EVs, spreadsheet, kernel settings)
 	 */
 	public String getCompleteUserInterfaceXML(boolean asPreference) {
@@ -1734,14 +1775,12 @@ public abstract class App implements UpdateSelection {
 		return settings;
 	}
 
-	protected String uniqueId;
+	public final String getUniqueId() {
+		return uniqueId;
+	}
 
 	public final void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
-	}
-
-	public final String getUniqueId() {
-		return uniqueId;
 	}
 
 	public abstract void resetUniqueId();
@@ -1761,17 +1800,21 @@ public abstract class App implements UpdateSelection {
 			// updateMenubar();
 		}
 	}
-	
+
 	/**
-	 * says that a labeling style is selected in menu 
-	 * (i.e. all default geos use the selected labeling style)
+	 * Returns labeling style. See the constants in ConstructionDefaults (e.g.
+	 * LABEL_VISIBLE_AUTOMATIC)
+	 *
+	 * @return labeling style for new objects
 	 */
-	private boolean labelingStyleSelected = true;
+	public int getLabelingStyle() {
+		return labelingStyle;
+	}
 
 	/**
 	 * Sets labeling style. See the constants in ConstructionDefaults (e.g.
 	 * LABEL_VISIBLE_AUTOMATIC)
-	 * 
+	 *
 	 * @param labelingStyle
 	 *            labeling style for new objects
 	 */
@@ -1782,32 +1825,21 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * Returns labeling style. See the constants in ConstructionDefaults (e.g.
-	 * LABEL_VISIBLE_AUTOMATIC)
-	 * 
-	 * @return labeling style for new objects
-	 */
-	public int getLabelingStyle() {
-		return labelingStyle;
-	}
-	
-	/**
-	 * 
 	 * @return labeling style for new objects for menu
 	 */
 	public int getLabelingStyleForMenu() {
-		if (labelingStyleSelected){
+		if (labelingStyleSelected) {
 			return getLabelingStyle();
 		}
 		return -1;
 	}
-	
+
 	/**
-	 * set the labeling style not selected, 
+	 * set the labeling style not selected,
 	 * i.e. at least one default geo has
 	 * specific labeling style
 	 */
-	public void setLabelingStyleIsNotSelected(){
+	public void setLabelingStyleIsNotSelected() {
 		labelingStyleSelected = false;
 		if (getGuiManager() != null){
 			getGuiManager().updateMenubar();
@@ -1829,11 +1861,8 @@ public abstract class App implements UpdateSelection {
 		this.scriptingDisabled = sd;
 	}
 
-	private boolean scriptingDisabled = false;
-
 	/**
-	 * @param size
-	 *            preferred size
+	 * @param size preferred size
 	 */
 	public void setPreferredSize(GDimension size) {
 		// TODO Auto-generated method stub
@@ -1849,8 +1878,18 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param ttl
-	 *            tooltip language
+	 * Sets tooltip timeout (in seconds)
+	 *
+	 * @param ttt
+	 *            tooltip timeout
+	 */
+	public void setTooltipTimeout(int ttt) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * @param ttl tooltip language
 	 */
 	public void setTooltipLanguage(String ttl) {
 		// TODO Auto-generated method stub
@@ -1859,33 +1898,19 @@ public abstract class App implements UpdateSelection {
 
 	public abstract DrawEquation getDrawEquation();
 
-	protected ArrayList<Perspective> tmpPerspectives = new ArrayList<Perspective>();
-	private double exportScale = 1;
-
-	/**
-	 * Save all perspectives included in a document into an array with temporary
-	 * perspectives.
-	 * 
-	 * @param perspectives
-	 *            array of perspetctives in the document
-	 */
-	public void setTmpPerspectives(ArrayList<Perspective> perspectives) {
-		tmpPerspectives = perspectives;
-	}
-
 	public ArrayList<Perspective> getTmpPerspectives() {
 		return tmpPerspectives;
 	}
 
 	/**
-	 * Sets tooltip timeout (in seconds)
-	 * 
-	 * @param ttt
-	 *            tooltip timeout
+	 * Save all perspectives included in a document into an array with temporary
+	 * perspectives.
+	 *
+	 * @param perspectives
+	 *            array of perspetctives in the document
 	 */
-	public void setTooltipTimeout(int ttt) {
-		// TODO Auto-generated method stub
-
+	public void setTmpPerspectives(ArrayList<Perspective> perspectives) {
+		tmpPerspectives = perspectives;
 	}
 
 	/**
@@ -1909,7 +1934,7 @@ public abstract class App implements UpdateSelection {
 	public abstract double getHeight();
 
 	/**
-	 * 
+	 *
 	 * @param serif
 	 *            serif
 	 * @param style
@@ -1937,9 +1962,6 @@ public abstract class App implements UpdateSelection {
 	public ExportType getExportType() {
 		return exportType;
 	}
-
-	/** whether toolbar should be visible */
-	protected boolean showToolBar = true;
 
 	public void setShowToolBarNoUpdate(boolean toolbar) {
 		showToolBar = toolbar;
@@ -2001,13 +2023,13 @@ public abstract class App implements UpdateSelection {
 	}
 
 	abstract protected EuclidianView newEuclidianView(boolean[] showAxes1,
-			boolean showGrid1);
+													  boolean showGrid1);
 
 	public abstract EuclidianController newEuclidianController(Kernel kernel1);
 
 	/**
 	 * Returns undo manager
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @return undo manager
@@ -2016,7 +2038,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * TODO refactor to remove this method Creates new animation manager
-	 * 
+	 *
 	 * @param kernel2
 	 *            kernel
 	 * @return animation manager
@@ -2026,7 +2048,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * TODO maybe we should create another factory for internal classes like
 	 * this
-	 * 
+	 *
 	 * @return new graphics adapter for geo
 	 */
 	public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
@@ -2047,6 +2069,15 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
+	 * @param isOnTheFlyPointCreationActive
+	 *            Whether points can be created on the fly
+	 */
+	public final void setOnTheFlyPointCreationActive(
+			boolean isOnTheFlyPointCreationActive) {
+		this.isOnTheFlyPointCreationActive = isOnTheFlyPointCreationActive;
+	}
+
+	/**
 	 * @return spreadsheet trace manager
 	 */
 	final public SpreadsheetTraceManager getTraceManager() {
@@ -2056,7 +2087,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if there is a trace manager
 	 */
 	final public boolean hasTraceManager() {
@@ -2064,7 +2095,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if at least one geo is traced
 	 */
 	final public boolean hasGeoTraced() {
@@ -2112,7 +2143,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Changes current mode (tool number)
-	 * 
+	 *
 	 * @param mode
 	 *            new mode
 	 */
@@ -2128,13 +2159,9 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	public void setMode(int mode) {
-		setMode(mode, ModeSetter.TOOLBAR);
-	}
-
 	/**
 	 * Adds geo to Euclidian view (EV1)
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
@@ -2145,7 +2172,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Removes geo from Euclidian view (EV1)
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
@@ -2156,9 +2183,8 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Adds geo to 3D views
-	 * 
-	 * @param geo
-	 *            geo
+	 *
+	 * @param geo geo
 	 */
 	public void addToViews3D(GeoElement geo) {
 		geo.addViews3D();
@@ -2167,7 +2193,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Removes geo from 3D views
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
@@ -2180,7 +2206,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Returns API that can be used from external applications
-	 * 
+	 *
 	 * @return GeoGebra API
 	 */
 	public abstract GgbAPI getGgbApi();
@@ -2239,7 +2265,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Inform current selection listener about newly (un)selected geo
-	 * 
+	 *
 	 * @param geo
 	 *            (un)selected geo
 	 * @param addToSelection
@@ -2251,13 +2277,9 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	private PropertiesView propertiesView;
-	/** whether shift, drag and zoom features are enabled */
-	protected boolean shiftDragZoomEnabled = true;
-
 	/**
 	 * Links properties view to this application
-	 * 
+	 *
 	 * @param propertiesView
 	 *            properties view
 	 */
@@ -2268,7 +2290,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Sets a mode where clicking on an object will notify the given selection
 	 * listener.
-	 * 
+	 *
 	 * @param sl
 	 *            selection listener
 	 */
@@ -2284,7 +2306,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Update stylebars and menubar (and possibly properties view) to match
 	 * selection
-	 * 
+	 *
 	 * @param updatePropertiesView
 	 *            whether to update properties view
 	 */
@@ -2336,8 +2358,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param shiftDragZoomEnabled
-	 *            whether shift, drag and zoom features are enabled
+	 * @param shiftDragZoomEnabled whether shift, drag and zoom features are enabled
 	 */
 	public final void setShiftDragZoomEnabled(boolean shiftDragZoomEnabled) {
 		this.shiftDragZoomEnabled = shiftDragZoomEnabled;
@@ -2357,11 +2378,9 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Changes font size and possibly resets fonts
-	 * 
-	 * @param points
-	 *            font size
-	 * @param update
-	 *            whether fonts should be reset
+	 *
+	 * @param points font size
+	 * @param update whether fonts should be reset
 	 * @see #resetFonts()
 	 */
 	public void setFontSize(int points, boolean update) {
@@ -2402,6 +2421,10 @@ public abstract class App implements UpdateSelection {
 	public abstract void updateUI();
 
 	/**
+	 * @return string representation of current locale, eg no_NO_NY
+	 */
+
+	/**
 	 * Update font sizes of all components to match current GUI font size
 	 */
 	final public void resetFonts() {
@@ -2417,8 +2440,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param size
-	 *            GUI font size
+	 * @param size GUI font size
 	 */
 	public void setGUIFontSize(int size) {
 		guiFontSize = size;
@@ -2432,16 +2454,14 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Returns font manager
-	 * 
 	 */
 	protected abstract FontManager getFontManager();
 
 	/**
 	 * Returns a font that can display testString in plain sans-serif font and
 	 * current font size.
-	 * 
-	 * @param testString
-	 *            test string
+	 *
+	 * @param testString test string
 	 * @return font
 	 */
 	public GFont getFontCanDisplay(String testString) {
@@ -2451,7 +2471,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Returns a font that can display testString in given font style,
 	 * sans-serif and current font size.
-	 * 
+	 *
 	 * @param testString
 	 *            test string
 	 * @param fontStyle
@@ -2464,28 +2484,23 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Returns a font that can display testString and given font size.
-	 * 
-	 * @param testString
-	 *            test string
-	 * @param serif
-	 *            true=serif, false=sans-serif
-	 * @param fontStyle
-	 *            font style
-	 * @param fontSize
-	 *            font size
+	 *
+	 * @param testString test string
+	 * @param serif      true=serif, false=sans-serif
+	 * @param fontStyle  font style
+	 * @param fontSize   font size
 	 * @return font
 	 */
 	public GFont getFontCanDisplay(String testString, boolean serif,
-			int fontStyle, int fontSize) {
+								   int fontStyle, int fontSize) {
 		return getFontManager().getFontCanDisplay(testString, serif, fontStyle,
 				fontSize);
 	}
 
 	/**
 	 * Returns gui settings in XML format
-	 * 
-	 * @param asPreference
-	 *            whether this is for preferences file
+	 *
+	 * @param asPreference whether this is for preferences file
 	 * @return gui settings in XML format
 	 */
 	public String getGuiXML(boolean asPreference) {
@@ -2527,9 +2542,8 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Appends construction protocol view settings in XML format
-	 * 
-	 * @param sb
-	 *            string builder
+	 *
+	 * @param sb string builder
 	 */
 	public final void getConsProtocolXML(StringBuilder sb) {
 		if (getGuiManager() == null) {
@@ -2548,11 +2562,9 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Appends layout settings in XML format to given builder
-	 * 
-	 * @param sb
-	 *            string builder
-	 * @param asPreference
-	 *            whether this is for preferences
+	 *
+	 * @param sb           string builder
+	 * @param asPreference whether this is for preferences
 	 */
 	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
 		sb.append("\t<window width=\"");
@@ -2588,16 +2600,14 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param sl
-	 *            selection listener
+	 * @param sl selection listener
 	 */
 	public void setCurrentSelectionListener(GeoElementSelectionListener sl) {
 		currentSelectionListener = sl;
 	}
 
 	/**
-	 * @param flag
-	 *            whether reset icon should be visible (in applets)
+	 * @param flag whether reset icon should be visible (in applets)
 	 */
 	public void setShowResetIcon(boolean flag) {
 		if (flag != showResetIcon) {
@@ -2618,62 +2628,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public boolean isUndoActive() {
 		return kernel.isUndoActive();
-	}
-
-	/**
-	 * @return whether we are running in HTML5 applet
-	 */
-	public abstract boolean isHTML5Applet();
-
-	/**
-	 * @param isOnTheFlyPointCreationActive
-	 *            Whether points can be created on the fly
-	 */
-	public final void setOnTheFlyPointCreationActive(
-			boolean isOnTheFlyPointCreationActive) {
-		this.isOnTheFlyPointCreationActive = isOnTheFlyPointCreationActive;
-	}
-
-	/** whether transparent cursor should be used while dragging */
-	public boolean useTransparentCursorWhenDragging = false;
-	protected int appletWidth = 0;
-	protected int appletHeight = 0;
-	protected boolean useFullGui = false;
-
-	/**
-	 * @param useTransparentCursorWhenDragging
-	 *            whether transparent cursor should be used while dragging
-	 */
-	public void setUseTransparentCursorWhenDragging(
-			boolean useTransparentCursorWhenDragging) {
-		this.useTransparentCursorWhenDragging = useTransparentCursorWhenDragging;
-	}
-
-	public void doAfterRedefine(GeoElement geo) {
-		if (getGuiManager() != null) {
-			getGuiManager().doAfterRedefine(geo);
-		}
-	}
-
-	/**
-	 * @return string representation of current locale, eg no_NO_NY
-	 */
-
-	/**
-	 * Opens browser with given URL
-	 * 
-	 * @param string
-	 *            URL
-	 */
-	public abstract void showURLinBrowser(String string);
-
-	/**
-	 * Opens the upload to GGT dialog
-	 */
-	public abstract void uploadToGeoGebraTube();
-
-	public boolean getUseFullGui() {
-		return useFullGui;
 	}
 
 	public void setUndoActive(boolean undoActive) {
@@ -2699,14 +2653,41 @@ public abstract class App implements UpdateSelection {
 		setSaved();
 	}
 
-	protected static boolean useFullAppGui = false;
+	/**
+	 * @return whether we are running in HTML5 applet
+	 */
+	public abstract boolean isHTML5Applet();
 
-	public static boolean isFullAppGui() {
-		return useFullAppGui;
+	/**
+	 * @param useTransparentCursorWhenDragging whether transparent cursor should be used while dragging
+	 */
+	public void setUseTransparentCursorWhenDragging(
+			boolean useTransparentCursorWhenDragging) {
+		this.useTransparentCursorWhenDragging = useTransparentCursorWhenDragging;
 	}
 
-	protected int appCanvasHeight;
-	protected int appCanvasWidth;
+	public void doAfterRedefine(GeoElement geo) {
+		if (getGuiManager() != null) {
+			getGuiManager().doAfterRedefine(geo);
+		}
+	}
+
+	/**
+	 * Opens browser with given URL
+	 *
+	 * @param string
+	 *            URL
+	 */
+	public abstract void showURLinBrowser(String string);
+
+	/**
+	 * Opens the upload to GGT dialog
+	 */
+	public abstract void uploadToGeoGebraTube();
+
+	public boolean getUseFullGui() {
+		return useFullGui;
+	}
 
 	public int getAppCanvasWidth() {
 		return appCanvasWidth;
@@ -2718,7 +2699,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Returns image with given filename
-	 * 
+	 *
 	 * @param filename
 	 *            filename
 	 * @return null unless overriden
@@ -2729,7 +2710,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * @deprecated use getInputPosition instead
-	 * 
+	 *
 	 * @return whether input bar should be on top; returns false if shown in
 	 *         AlgebraView
 	 */
@@ -2746,12 +2727,12 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * @deprecated use setInputPositon instead
-	 * 
+	 *
 	 *             Changes input position between bottom and top
-	 * 
+	 *
 	 *             if the actual position is AlgebraView, the position will be
 	 *             changed to bottom or top (according to the flag)
-	 * 
+	 *
 	 * @param flag
 	 *            whether input should be on top
 	 * @param update
@@ -2772,7 +2753,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Changes input position between bottom and top
-	 * 
+	 *
 	 * @param flag
 	 *            whether input should be on top
 	 * @param update
@@ -2799,7 +2780,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Shows / hides input help toggle button
-	 * 
+	 *
 	 * @param flag
 	 *            whether innput help toggle button should be visible
 	 */
@@ -2820,7 +2801,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Returns name or help for given tool
-	 * 
+	 *
 	 * @param mode
 	 *            mode number
 	 * @param toolName
@@ -2866,7 +2847,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Returns name of given tool.
-	 * 
+	 *
 	 * @param mode
 	 *            number
 	 * @return name of given tool.
@@ -2877,7 +2858,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Returns the tool help text for the given tool.
-	 * 
+	 *
 	 * @param mode
 	 *            number
 	 * @return the tool help text for the given tool.
@@ -2889,7 +2870,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Translates function name for which plain bundle contains corresponding
 	 * Function.* key
-	 * 
+	 *
 	 * @param string
 	 *            english function name
 	 * @return localized function name
@@ -2907,7 +2888,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Clears construction
-	 * 
+	 *
 	 * @return true if successful otherwise false (eg user clicks "Cancel")
 	 */
 	public abstract boolean clearConstruction();
@@ -2928,12 +2909,9 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	private Random random = new Random();
-	private GeoScriptRunner geoScriptRunner;
-
 	/**
 	 * allows use of seeds to generate the same sequence for a ggb file
-	 * 
+	 *
 	 * @return random number in [0,1]
 	 */
 	public double getRandomNumber() {
@@ -2942,15 +2920,15 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * allows use of seeds to generate the same sequence for a ggb file
-	 * 
+	 *
 	 * @param low
 	 *            least possible value of result
 	 * @param high
 	 *            highest possible value of result
-	 * 
+	 *
 	 * @return random integer between a and b inclusive (or NaN for
 	 *         getRandomIntegerBetween(5.5, 5.5))
-	 * 
+	 *
 	 */
 	public int getRandomIntegerBetween(double low, double high) {
 		// make sure 4.000000001 is not rounded up to 5
@@ -2976,7 +2954,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * allows use of seeds to generate the same sequence for a ggb file
-	 * 
+	 *
 	 * @param seed
 	 *            new seed
 	 */
@@ -3044,10 +3022,10 @@ public abstract class App implements UpdateSelection {
 		sb.append("\"preventFocus\":false,\n");
 
 		sb.append("\"language\":\"" + getLocalization().getLanguage() + "\",\n");
-		
+
 		sb.append("// use this instead of ggbBase64 to load a material from GeoGebraTube\n");
 		sb.append("// \"material_id\":12345,\n");
-		
+
 		sb.append("\"ggbBase64\":\"");
 		// don't include preview bitmap
 		sb.append(getGgbApi().getBase64(false));
@@ -3061,10 +3039,10 @@ public abstract class App implements UpdateSelection {
 		sb.append("'is3D': " + (kernel.kernelHas3DObjects() ? "1" : "0"));
 		sb.append(",'AV': "
 				+ (gui.hasAlgebraView() && gui.getAlgebraView().isShowing() ? "1"
-						: "0"));
+				: "0"));
 		sb.append(",'SV': "
 				+ (gui.hasSpreadsheetView()
-						&& gui.getSpreadsheetView().isShowing() ? "1" : "0"));
+				&& gui.getSpreadsheetView().isShowing() ? "1" : "0"));
 		sb.append(",'CV': " + (gui.hasCasView() ? "1" : "0"));
 		sb.append(",'EV2': " + (hasEuclidianView2(1) ? "1" : "0"));
 		sb.append(",'CP': " + (gui.isUsingConstructionProtocol() ? "1" : "0"));
@@ -3100,8 +3078,10 @@ public abstract class App implements UpdateSelection {
 
 	public abstract void exitAll();
 
+	// protected abstract Object getMainComponent();
+
 	public abstract void addMenuItem(MenuInterface parentMenu, String filename,
-			String name, boolean asHtml, MenuInterface subMenu);
+									 String name, boolean asHtml, MenuInterface subMenu);
 
 	public String getVersionString() {
 		return GeoGebraConstants.VERSION_STRING + getVersionSuffix();
@@ -3120,9 +3100,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Sets the ratio between the scales of y-axis and x-axis, i.e. ratio =
 	 * yscale / xscale;
-	 * 
-	 * @param axesratio
-	 *            axes scale ratio
+	 *
+	 * @param axesratio axes scale ratio
 	 */
 	public final void zoomAxesRatio(double axesratio) {
 		getActiveEuclidianView().zoomAxesRatio(axesratio, true);
@@ -3130,23 +3109,11 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Zooms and pans active EV to show all objects
-	 * 
-	 * @param keepRatio
-	 *            true to keep ratio of axes
+	 *
+	 * @param keepRatio true to keep ratio of axes
 	 */
 	public final void setViewShowAllObjects(boolean keepRatio) {
 		getActiveEuclidianView().setViewShowAllObjects(true, keepRatio);
-	}
-
-	/**
-	 * Enables or disables right clicking in this application. This is useful
-	 * for applets.
-	 * 
-	 * @param flag
-	 *            whether right click features should be enabled
-	 */
-	public void setRightClickEnabled(boolean flag) {
-		rightClickEnabled = flag;
 	}
 
 	/**
@@ -3154,6 +3121,16 @@ public abstract class App implements UpdateSelection {
 	 */
 	final public boolean isRightClickEnabled() {
 		return rightClickEnabled;
+	}
+
+	/**
+	 * Enables or disables right clicking in this application. This is useful
+	 * for applets.
+	 *
+	 * @param flag whether right click features should be enabled
+	 */
+	public void setRightClickEnabled(boolean flag) {
+		rightClickEnabled = flag;
 	}
 
 	/**
@@ -3178,15 +3155,13 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param geo1
-	 *            geo
-	 * @param string
-	 *            parameter (for input box scripts)
+	 * @param geo1   geo
+	 * @param string parameter (for input box scripts)
 	 */
 	public abstract void runScripts(GeoElement geo1, String string);
 
 	public Script createScript(ScriptType type, String scriptText,
-			boolean translate) {
+							   boolean translate) {
 		if (type == ScriptType.GGBSCRIPT && translate) {
 			scriptText = GgbScript.localizedScript2Script(this, scriptText);
 		}
@@ -3202,22 +3177,17 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Compares two objects by using the Relation Tool.
-	 * 
+	 *
 	 * @param ra
 	 *            first object
 	 * @param rb
 	 *            second object
-	 * 
+	 *
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
 	public void showRelation(final GeoElement ra, final GeoElement rb) {
 		Relation.showRelation(this, ra, rb);
 	}
-
-	// protected abstract Object getMainComponent();
-
-	private GeoElement geoForCopyStyle;
-	private OptionsMenu optionsMenu;
 
 	public GeoElement getGeoForCopyStyle() {
 		return geoForCopyStyle;
@@ -3274,11 +3244,6 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	protected boolean needsSpreadsheetTableModel = false;
-	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
-	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
-	private boolean isErrorDialogsActive = true;
-
 	public void setNeedsSpreadsheetTableModel() {
 		needsSpreadsheetTableModel = true;
 	}
@@ -3287,20 +3252,20 @@ public abstract class App implements UpdateSelection {
 		return needsSpreadsheetTableModel;
 	}
 
-	public void setAppletWidth(int width) {
-		this.appletWidth = width;
-	}
-
-	public void setAppletHeight(int height) {
-		this.appletHeight = height;
-	}
-
 	public final int getAppletWidth() {
 		return appletWidth;
 	}
 
+	public void setAppletWidth(int width) {
+		this.appletWidth = width;
+	}
+
 	public int getAppletHeight() {
 		return appletHeight;
+	}
+
+	public void setAppletHeight(int height) {
+		this.appletHeight = height;
 	}
 
 	public void startCollectingRepaints() {
@@ -3338,7 +3303,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Returns the tool name and tool help text for the given tool as an HTML
 	 * text that is useful for tooltips.
-	 * 
+	 *
 	 * @param mode
 	 *            : tool ID
 	 */
@@ -3366,7 +3331,7 @@ public abstract class App implements UpdateSelection {
 		if (showConstProtNavigationNeedsUpdate == null){
 			return false;
 		}
-		
+
 		Boolean update = showConstProtNavigationNeedsUpdate.get(id);
 		if (update == null) {
 			return false;
@@ -3379,7 +3344,7 @@ public abstract class App implements UpdateSelection {
 			return false;
 		}
 
-		
+
 		for (boolean update : showConstProtNavigationNeedsUpdate.values()){
 			if (update) {
 				return true;
@@ -3500,7 +3465,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Displays the construction protocol navigation
-	 * 
+	 *
 	 * @param flag
 	 *            true to show navigation bar
 	 */
@@ -3537,7 +3502,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Displays the construction protocol navigation
-	 * 
+	 *
 	 * @param flag
 	 *            true to show navigation bar
 	 */
@@ -3600,17 +3565,17 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * useful for benchmarking ie only useful for elapsed time
-	 * 
+	 *
 	 * accuracy will depend on the platform / browser uses
 	 * System.nanoTime()/1000000 in Java performance.now() in JavaScript
-	 * 
+	 *
 	 * Won't return sub-millisecond accuracy
-	 * 
+	 *
 	 * Chrome: doesn't work for sub-millisecond yet
 	 * https://code.google.com/p/chromium/issues/detail?id=158234
-	 * 
+	 *
 	 * @return millisecond time
 	 */
 	public abstract double getMillisecondTime();
@@ -3636,7 +3601,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * This method is to be overridden in subclasses In Web, this can run in
 	 * asyncronous mode
-	 * 
+	 *
 	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	 *
 	 * @return AlgoKimberlingWeightsInterface
@@ -3645,9 +3610,9 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Needed for running part of AlgoKimberling async
-	 * 
+	 * <p/>
 	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
-	 * 
+	 *
 	 * @param kw
 	 * @return
 	 */
@@ -3656,7 +3621,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * This method is to be overridden in subclasses In Web, this can run in
 	 * asyncronous mode
-	 * 
+	 *
 	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	 *
 	 * @return AlgoCubicSwitchInterface
@@ -3665,9 +3630,9 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Needed for running part of AlgoKimberling async
-	 * 
+	 *
 	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
-	 * 
+	 *
 	 * @param kw
 	 * @return
 	 */
@@ -3685,7 +3650,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Whether the app is running just to create a screenshot, some
 	 * recomputations can be avoided in such case
-	 * 
+	 *
 	 * @return false by defaul, overridden in AppW
 	 */
 	public boolean isScreenshotGenerator() {
@@ -3719,23 +3684,12 @@ public abstract class App implements UpdateSelection {
 
 	}
 
-	protected AppCompanion companion;
-	private ArrayList<OpenFileListener> openFileListener;
-
 	protected AppCompanion newAppCompanion() {
 		return new AppCompanion(this);
 	}
 
 	public AppCompanion getCompanion() {
 		return companion;
-	}
-
-	/**
-	 * constructor
-	 */
-	public App() {
-		companion = newAppCompanion();
-		resetUniqueId();
 	}
 
 	public SensorLogger getSensorLogger() {
@@ -3778,15 +3732,12 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
-	// whether to allow perspective and login popups
-	private boolean allowPopUps = false;
+	public boolean isAllowPopups() {
+		return allowPopUps;
+	}
 
 	public void setAllowPopups(boolean b) {
 		allowPopUps = b;
-	}
-
-	public boolean isAllowPopups() {
-		return allowPopUps;
 	}
 
 	public void showPopUps() {
@@ -3798,9 +3749,8 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Adds a macro from XML
-	 * 
-	 * @param xml
-	 *            macro code (including &lt;macro> wrapper)
+	 *
+	 * @param xml macro code (including &lt;macro> wrapper)
 	 * @return True if successful
 	 */
 	public boolean addMacroXML(String xml) {
@@ -3821,22 +3771,11 @@ public abstract class App implements UpdateSelection {
 		return ok;
 	}
 
-	private static boolean CASViewEnabled = true;
-
-	/**
-	 * Disables CAS View.
-	 */
-	public static void disableCASView() {
-		CASViewEnabled = false;
-	}
-
-	private static boolean _3DViewEnabled = true;
-
 	/**
 	 * Tells if given View is enabled. 3D be disabled by using command line
 	 * option "--show3D=disable". CAS be disabled by using command line option
 	 * "--showCAS=disable".
-	 * 
+	 *
 	 * @return whether the 3D view is enabled
 	 */
 	public boolean supportsView(int viewID) {
@@ -3849,13 +3788,6 @@ public abstract class App implements UpdateSelection {
 		return true;
 	}
 
-	/**
-	 * Disables 3D View.
-	 */
-	public static void disable3DView() {
-		_3DViewEnabled = false;
-	}
-
 	public void ensureTimerRunning() {
 		// only for Web
 
@@ -3866,9 +3798,6 @@ public abstract class App implements UpdateSelection {
 	public abstract boolean isSelectionRectangleAllowed();
 
 	public abstract String getEnglishCommand(String command);
-
-	protected boolean prerelease;
-	protected boolean canary;
 	
 	public final boolean has(Feature f) {
 		switch (f) {
@@ -3888,9 +3817,9 @@ public abstract class App implements UpdateSelection {
 			// Command.Java
 		case POLYGON_OPS:
 
-		case TOOL_EDITOR:
-		case TUBE_BETA:
-		case LOG_AXES:
+			case TOOL_EDITOR:
+			case TUBE_BETA:
+			case LOG_AXES:
 		case SURFACE_IS_REGION:
 		case HIT_PARAMETRIC_SURFACE:
 		case PARAMETRIC_SURFACE_IS_REGION:
@@ -3905,6 +3834,9 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_PROPERTIES_VIEW:
 		case MOBILE_WEB_VIEW:
 		case COMBOSCROLLING:
+			return prerelease;
+
+		case MOBILE_INPUT_BAR_HELP_PANEL:
 			return prerelease;
 
 		// return canary;
@@ -3976,7 +3908,7 @@ public abstract class App implements UpdateSelection {
 	 * @param tpl
 	 *            can be null or StringTemplate.latexTemplateMQ, or something
 	 *            that might be StringTemplate.latexTemplateMQ, but maybe not
-	 * 
+	 *
 	 * @return boolean whether we CAN && SHOULD display LaTeX by MathQuillGGB
 	 */
 	public final boolean isLatexMathQuillStyle(StringTemplate tpl) {
@@ -3987,26 +3919,12 @@ public abstract class App implements UpdateSelection {
 		return tpl != null && tpl.isMathQuill();
 	}
 
-	private int tubeID = 0;
-
 	public final int getTubeId() {
 		return tubeID;
 	}
 
 	public final void setTubeId(int uniqueId) {
 		this.tubeID = uniqueId;
-	}
-	
-	public static double getMaxScaleForClipBoard(EuclidianView ev) {
-		double size = ev.getExportWidth() * ev.getExportHeight();
-
-		// Windows XP clipboard has trouble with images larger than this
-		// at double scale (with scale = 2d)
-		if (size > 500000) {
-			return 2.0 * Math.sqrt(500000 / size);
-		}
-
-		return 2d;
 	}
 
 	public boolean hasFocus() {
@@ -4016,7 +3934,7 @@ public abstract class App implements UpdateSelection {
 	final public boolean hasEuclidianViewForPlane() {
 		return companion.hasEuclidianViewForPlane();
 	}
-	
+
 	final public boolean hasEuclidianViewForPlaneVisible() {
 		return companion.hasEuclidianViewForPlaneVisible();
 	}
@@ -4027,9 +3945,8 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * add to views for plane (if any)
-	 * 
-	 * @param geo
-	 *            geo
+	 *
+	 * @param geo geo
 	 */
 	final public void addToViewsForPlane(GeoElement geo) {
 		companion.addToViewsForPlane(geo);
@@ -4037,7 +3954,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * remove from views for plane (if any)
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
@@ -4056,7 +3973,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * handle space key hitted
-	 * 
+	 *
 	 * @return true if key is consumed
 	 */
 	public boolean handleSpaceKey() {
@@ -4075,31 +3992,12 @@ public abstract class App implements UpdateSelection {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
 				((DrawList) d).toggleOptions();
-			
+
 			} else {
 
 				geo.runClickScripts(null);
 			}
 
-			return true;
-		}
-
-		return false;
-
-	}
-
-	/**
-	 * 
-	 * @param id
-	 *            view id
-	 * @return true if id is a 3D view id
-	 */
-	public static final boolean isView3D(int id) {
-		if (id == App.VIEW_EUCLIDIAN3D) {
-			return true;
-		}
-
-		if (id == App.VIEW_EUCLIDIAN3D_2) {
 			return true;
 		}
 
@@ -4116,9 +4014,9 @@ public abstract class App implements UpdateSelection {
 		return Math.max(getFontSize(), 14);
 	}
 
-	public DropDownList newDropDownList(DropDownListener listener) {
-		return null;
-	};
+public DropDownList newDropDownList(DropDownListener listener) {
+	return null;
+}
 
 	/**
 	 * @return if sliders are displayed in the AV
@@ -4131,13 +4029,15 @@ public abstract class App implements UpdateSelection {
 		return exam;
 	}
 
+	public boolean isExam() {
+		return exam != null;
+	}
+
+	;
+
 	public void setExam(ExamEnvironment exam) {
 		this.exam = exam;
 
-	}
-
-	public boolean isExam() {
-		return exam != null;
 	}
 
 	public void setLanguage(String s) {
@@ -4147,10 +4047,6 @@ public abstract class App implements UpdateSelection {
 	public void isShowingLogInDialog() {
 		// TODO Auto-generated method stub
 
-	}
-
-	public interface ViewCallback {
-		public void run(int viewID, String viewName);
 	}
 
 	public void forEachView(ViewCallback c) {
@@ -4179,7 +4075,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return a for Android native app, -3D for desktop, w for web + WebView
 	 *         apps, i for iOS native
 	 */
@@ -4205,5 +4101,43 @@ public abstract class App implements UpdateSelection {
 
 	public double getExportScale() {
 		return this.exportScale;
+	}
+
+	/**
+	 * possible positions for the inputBar (respective inputBox)
+	 */
+	public enum InputPositon {
+		/**
+		 * inputBox in the AV
+		 */
+		algebraView,
+		/**
+		 * inputBar at the top
+		 */
+		top,
+		/**
+		 * inputBar at the bottom
+		 */
+		bottom
+	}
+
+	public enum ExportType {
+		NONE, PDF_TEXTASSHAPES, PDF_EMBEDFONTS, EPS, EMF, PNG, SVG, PRINTING
+	}
+
+	/**
+	 * state to know if we'll need to store undo info
+	 */
+	private enum StoreUndoInfoForSetCoordSystem {
+		/** tells that the mouse has been pressed */
+		MAY_SET_COORD_SYSTEM,
+		/** tells that the coord system has changed */
+		SET_COORD_SYSTEM_OCCURED,
+		/** no particular state */
+		NONE
+	}
+
+	public interface ViewCallback {
+		public void run(int viewID, String viewName);
 	}
 }
