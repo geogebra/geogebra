@@ -657,7 +657,7 @@ public final class DrawList extends CanvasDrawable
 			// + maxItems + " endIdx: " + endIdx + " scroll needed: "
 			// + scrollNeeded);
 
-			scrollNeeded = rowCount > 2;
+			scrollNeeded = scrollNeeded && rowCount > 2;
 			return scrollNeeded;
 		}
 
