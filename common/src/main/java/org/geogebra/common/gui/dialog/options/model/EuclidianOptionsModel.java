@@ -11,69 +11,21 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Unicode;
 
 public class EuclidianOptionsModel {
-	public interface IEuclidianOptionsListener  {
-
-		GColor getEuclidianBackground(int viewNumber);
-
-		void enableAxesRatio(boolean value);
-
-		void setMinMaxText(String minX, String maxX, String minY,
-				String maxY);
-
-		void addTooltipItem(String item);
-
-		void addGridTypeItem(String item);
-
-		void updateAxes(GColor color, boolean isShown, boolean isBold);
-
-		void updateAxisFontStyle(boolean isSerif, boolean isBold,
-				boolean isItalic);
-
-		void updateBackgroundColor(GColor color);
-		
-		void updateGrid(GColor color, boolean isShown, boolean isBold, int gridType);
-
-		void selectTooltipType(int index);
-
-		void updateConsProtocolPanel(boolean isVisible);
-
-		void updateBounds();
-
-		void showMouseCoords(boolean value);
-
-		void selectAxesStyle(int index);
-
-		void updateGridTicks(boolean isAutoGrid,
-				double[] gridTicks, int gridType);
-
-		void enableLock(boolean zoomable);
-
-		void selectGridStyle(int style);
-
-		void addAngleOptionItem(String item);
-	}
-	public enum MinMaxType {
-		minX,
-		maxX,
-		minY,
-		maxY
-	}	
-
 	public static final int MAX_AXES_STYLE_COUNT = 5;
-
 	public static final int X_AXIS = 0;
 	public static final int Y_AXIS = 1;
 	public static final int Z_AXIS = 2;
-
 	private App app;
 	private EuclidianView view;
 	private IEuclidianOptionsListener listener;
-
-
 	public EuclidianOptionsModel(App app, EuclidianView view, IEuclidianOptionsListener listener) {
 		this.app = app;
 		this.view = view;
 		this.listener = listener;
+	}
+
+	public static int getAxesStyleLength() {
+		return MAX_AXES_STYLE_COUNT;
 	}
 
 	public void setView(EuclidianView view) {
@@ -85,7 +37,7 @@ public class EuclidianOptionsModel {
 			app.getSettings()
 			.getEuclidian(1)
 			.setBackground(listener.getEuclidianBackground(1));
-			
+
 		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 			app.getSettings().getEuclidian(2).setBackground(listener.getEuclidianBackground(2));
 		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
@@ -93,7 +45,7 @@ public class EuclidianOptionsModel {
 
 		} else {
 			view.setBackground(view.getBackgroundCommon());
-		}	
+		}
 	}
 
 	public void applyBackgroundColor(int viewIdx, GColor color) {
@@ -111,9 +63,9 @@ public class EuclidianOptionsModel {
 		}
 
 		view.setBackground(view.getBackgroundCommon());
-			
+
 	}
-	
+
 	public void applyAxesColor(GColor col) {
 		if (view == app.getEuclidianView1()) {
 			app.getSettings().getEuclidian(1).setAxesColor(col);
@@ -165,7 +117,7 @@ public class EuclidianOptionsModel {
 
 		view.setGridColor(col);
 
-	}	
+	}
 
 	public void applyTooltipMode(int mode) {
 		if (mode == 0) {
@@ -179,7 +131,7 @@ public class EuclidianOptionsModel {
 			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setAllowToolTips(mode);
 			return;
-				
+
 		}
 
 		if (app.hasEuclidianView2EitherShowingOrNot(1)
@@ -211,7 +163,7 @@ public class EuclidianOptionsModel {
 			.getEuclidian(1)
 			.setShowAxes(value,
 					value);
-			
+
 			return;
 
 		}
@@ -477,7 +429,7 @@ public class EuclidianOptionsModel {
 					// => yscale = xscale * xval/yval
 			view.setCoordSystem(view.getXZero(), view.getYZero(),
 					view.getXscale(), view.getXscale() * xval / yval);
-		}	
+		}
 	}
 
 	public void applyLockRatio(Double value) {
@@ -505,12 +457,12 @@ public class EuclidianOptionsModel {
 				if (view == app.getEuclidianView1()) {
 					app.getSettings().getEuclidian(1)
 					.setXmaxObject(minMax, true);
-					
+
 				} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 					app.getSettings().getEuclidian(2).setXmaxObject(minMax, true);
 				} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
 					app.getSettings().getEuclidian(3).setXmaxObject(minMax, true);
-					
+
 				} else {
 					EuclidianSettings settings = view.getSettings();
 					if (settings != null) {
@@ -524,7 +476,7 @@ public class EuclidianOptionsModel {
 				if (view == app.getEuclidianView1()) {
 					app.getSettings().getEuclidian(1)
 					.setYmaxObject(minMax, true);
-					
+
 				} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 					app.getSettings().getEuclidian(2).setYmaxObject(minMax, true);
 				} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
@@ -543,7 +495,7 @@ public class EuclidianOptionsModel {
 				if (view == app.getEuclidianView1()) {
 					app.getSettings().getEuclidian(1)
 					.setXminObject(minMax, true);
-					
+
 				} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 					app.getSettings().getEuclidian(2).setXminObject(minMax, true);
 				} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
@@ -562,7 +514,7 @@ public class EuclidianOptionsModel {
 				if (view == app.getEuclidianView1()) {
 					app.getSettings().getEuclidian(1)
 					.setYminObject(minMax, true);
-					
+
 				} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 					app.getSettings().getEuclidian(2).setYminObject(minMax, true);
 				} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
@@ -597,21 +549,21 @@ public class EuclidianOptionsModel {
 			listener.addTooltipItem(item);
 		}
 	}
-	
+
 	public void updateProperties() {
 
 		listener.updateAxes(view.getAxesColor(), view.getShowXaxis() && view.getShowYaxis(),
 				view.areAxesBold());
-		
+
 		listener.updateGrid(view.getGridColor(), view.getShowGrid(), view.getGridIsBold(),
 				view.getGridType());
-		
+
 		listener.updateBackgroundColor(getBackgroundColor());
-		
+
 		if (view instanceof EuclidianView) {
 			int ind = ((EuclidianView) view).getAllowToolTips();
 			int idx = -1;
-			
+
 			if (ind == EuclidianStyleConstants.TOOLTIPS_ON) {
 				idx = 0;
 			} else if (ind == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC) {
@@ -619,7 +571,7 @@ public class EuclidianOptionsModel {
 			} else if (ind == EuclidianStyleConstants.TOOLTIPS_OFF) {
 				idx = 2;
 			}
-			
+
 			listener.selectTooltipType(idx);
 		}
 
@@ -653,20 +605,16 @@ public class EuclidianOptionsModel {
 
 	}
 
-	public static int getAxesStyleLength() {
-		return MAX_AXES_STYLE_COUNT;
-	}
-
 	public void fillGridTypeCombo() {
 		String[] gridTypes = new String[3];
 		gridTypes[EuclidianView.GRID_CARTESIAN] = app.getMenu("Cartesian");
 		gridTypes[EuclidianView.GRID_ISOMETRIC] = app.getMenu("Isometric");
 		gridTypes[EuclidianView.GRID_POLAR] = app.getMenu("Polar");
-		for (String item: gridTypes) {
+		for (String item : gridTypes) {
 			listener.addGridTypeItem(item);
 		}
 	}
-	
+
 	public void fillAngleOptions() {
 		String[] angleOptions = { Unicode.PI_STRING + "/12",
 			Unicode.PI_STRING + "/6", Unicode.PI_STRING + "/4",
@@ -704,7 +652,7 @@ public class EuclidianOptionsModel {
 	public GColor getGridColor() {
 		return view.getGridColor();
 	}
-	
+
 	public GColor getBackgroundColor() {
 		return view.getBackgroundCommon();
 	}
@@ -751,6 +699,55 @@ public class EuclidianOptionsModel {
 				setAxisFontStyle(style);
 			}
 		}
+	}
+
+	public enum MinMaxType {
+		minX,
+		maxX,
+		minY,
+		maxY
+	}
+
+	public interface IEuclidianOptionsListener {
+
+		GColor getEuclidianBackground(int viewNumber);
+
+		void enableAxesRatio(boolean value);
+
+		void setMinMaxText(String minX, String maxX, String minY,
+						   String maxY);
+
+		void addTooltipItem(String item);
+
+		void addGridTypeItem(String item);
+
+		void updateAxes(GColor color, boolean isShown, boolean isBold);
+
+		void updateAxisFontStyle(boolean isSerif, boolean isBold,
+								 boolean isItalic);
+
+		void updateBackgroundColor(GColor color);
+
+		void updateGrid(GColor color, boolean isShown, boolean isBold, int gridType);
+
+		void selectTooltipType(int index);
+
+		void updateConsProtocolPanel(boolean isVisible);
+
+		void updateBounds();
+
+		void showMouseCoords(boolean value);
+
+		void selectAxesStyle(int index);
+
+		void updateGridTicks(boolean isAutoGrid,
+							 double[] gridTicks, int gridType);
+
+		void enableLock(boolean zoomable);
+
+		void selectGridStyle(int style);
+
+		void addAngleOptionItem(String item);
 	}
 
 }
