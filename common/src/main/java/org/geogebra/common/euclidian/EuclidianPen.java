@@ -181,6 +181,12 @@ public class EuclidianPen {
 	protected boolean deleteInitialPoint = false;
 
 	/**
+	 * if set to true, the circles created will be defined with three points
+	 * if set to false, the circles created will be defined with center and radius
+	 */
+	protected boolean createCircleWithThreePoints = false;
+
+	/**
 	 * @return pen size
 	 */
 	public int getPenSize() {
@@ -694,6 +700,10 @@ public class EuclidianPen {
 				// create best fitting circle
 				GeoConic circle = this.makeACircle(EuclidianPen.center_x(s),
 						EuclidianPen.center_y(s), EuclidianPen.I_rad(s));
+
+				if(createCircleWithThreePoints){
+					return circle;
+				}
 
 				// midpoint
 				GeoPoint m = new GeoPoint(app.getKernel().getConstruction(), null, circle.getMidpoint().getX(),
