@@ -888,6 +888,24 @@ namespace giac {
 
   gen _laplacian(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_DOUBLE_ && args._DOUBLE_val==int(args._DOUBLE_val)){
+      return evalf(_laplacian(int(args._DOUBLE_val),contextptr),1,context0);
+    }
+    if (args.type==_INT_ && args.val>0 && args.val<int(std::sqrt(double(LIST_SIZE_LIMIT)))){
+      // discrete 1-d laplacian matrix
+      int n=args.val;
+      vecteur res(n);
+      for (int i=0;i<n;++i){
+	vecteur resi(n);
+	if (i)
+	  resi[i-1]=-1;
+	resi[i]=2;
+	if (i<n-1)
+	  resi[i+1]=-1;
+	res[i]=resi;
+      }
+      return res;
+    }
     if (args.type==_VECT && args._VECTptr->size()==3){
       gen opt=args._VECTptr->back();
       if (opt.is_symb_of_sommet(at_equal) && (opt._SYMBptr->feuille[0]==at_coordonnees || (opt._SYMBptr->feuille[0].type==_INT_ && opt._SYMBptr->feuille[0].val==_COORDS))){

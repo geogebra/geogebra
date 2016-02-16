@@ -12326,6 +12326,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 
   template<class tdeg_t>
   bool in_zgbasis(vectpolymod<tdeg_t> &resmod,unsigned ressize,vector<unsigned> & G,modint env,bool totdeg,vector< paire > * pairs_reducing_to_zero,vector< zinfo_t<tdeg_t> > & f4buchberger_info,bool recomputeR,bool eliminate_flag,bool multimodular){
+    bool seldeg=true; int sel1=0;
     unsigned cleared=0;
     unsigned learned_position=0,f4buchberger_info_position=0;
     bool learning=f4buchberger_info.empty();
@@ -12412,14 +12413,13 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       else {
 	vector<unsigned> smallposv;
 	if (!totdeg){
-	  bool seldeg=age%2;
 	  // find smallest lcm pair in B
 	  // could also take nterms[i] in account
 	  unsigned firstdeg=RAND_MAX-1;
 	  for (unsigned i=0;i<B.size();++i){
 	    if (!B[i].live) continue;
-	    // unsigned f=seldeg?Blcmdeg[i]:Blcm[i].selection_degree(order);
-	    unsigned f=Blcmdeg[i]; 
+	    unsigned f=seldeg?Blcmdeg[i]:Blcm[i].selection_degree(order);
+	    //unsigned f=Blcmdeg[i]; 
 	    if (f>firstdeg)
 	      continue;
 	    if (f<firstdeg){
@@ -12430,15 +12430,23 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  for (unsigned i=0;i<B.size();++i){
 	    if (!B[i].live) continue;
 	    if (
-		//(seldeg?Blcmdeg[i]:Blcm[i].selection_degree(order))==firstdeg
-		Blcmdeg[i]==firstdeg
+		(seldeg?Blcmdeg[i]:Blcm[i].selection_degree(order))==firstdeg
+		//Blcmdeg[i]==firstdeg
 		){
 	      smallposv.push_back(i);
 	    }
 	  }
 	  if (smallposv.empty()) smallposv.resize(B.size());
 	  if (debug_infolevel>1)
-	    CERR << CLOCK()*1e-6 << " zpairs min total degrees*first degree " << firstdeg << " #pairs " << smallposv.size() << endl;
+	    CERR << CLOCK()*1e-6 << " zpairs min " << (seldeg?"total degree":"elimination degree ") << firstdeg << " #pairs " << smallposv.size() << endl;
+	  if (smallposv.size()==1){
+	    ++sel1;
+	    if (sel1%5==0){
+	      seldeg=!seldeg;
+	      if (debug_infolevel>1)
+		CERR << "1 pair selected 5 times, switching selection degree" << endl;
+	    }
+	  }
 	  if (firstdeg>GBASISF4_MAX_TOTALDEG)
 	    return false;
 	}
@@ -15649,7 +15657,8 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	if (!res.empty() && (res.front().order.o==_REVLEX_ORDER || res.front().order.o==_3VAR_ORDER || res.front().order.o==_7VAR_ORDER || res.front().order.o==_11VAR_ORDER)){
 	  vector<zinfo_t<tdeg_t15> > f4buchberger_info;
 	  f4buchberger_info.reserve(256);
-	  zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/,eliminate_flag,false/* 1 mod only*/);	
+	  if (!zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/,eliminate_flag,false/* 1 mod only*/))
+	    return false;
 	  *logptr(contextptr) << "// Groebner basis computation time " << (CLOCK()-c)*1e-6 <<  " Memory " << memory_usage()*1e-6 << "M" << endl;
 	  newres=vectpoly(G.size(),polynome(v.front().dim,v.front()));
 	  for (unsigned i=0;i<G.size();++i)

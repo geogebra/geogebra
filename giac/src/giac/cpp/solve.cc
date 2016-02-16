@@ -5607,7 +5607,8 @@ namespace giac {
 	 res.front().dim<=GROEBNER_VARS+1-(order!=_PLEX_ORDER)){
       vectpoly tmp;
       order_t order_={order,lexvars};
-      gbasis8(res,order_,tmp,env,modularcheck!=0,modularcheck>=2,rur,contextptr,eliminate_flag); 
+      if (!gbasis8(res,order_,tmp,env,modularcheck!=0,modularcheck>=2,rur,contextptr,eliminate_flag))
+	return false;
       int i;
       for (i=0;i<tmp.size();++i){
 	if (tmp[i].coord.empty())

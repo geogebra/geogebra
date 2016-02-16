@@ -3347,6 +3347,8 @@ namespace giac {
   // static gen symb_makelist(const gen & args){  return symbolic(at_makelist,args);  }
   gen _makelist(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    if (args.type==_INT_ && args.val>=0 && args.val<LIST_SIZE_LIMIT)
+      return vecteur(args.val);
     if (args.type!=_VECT)
       return gensizeerr();
     vecteur v(*args._VECTptr);
