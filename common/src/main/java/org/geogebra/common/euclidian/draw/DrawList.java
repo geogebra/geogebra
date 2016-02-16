@@ -547,7 +547,7 @@ public final class DrawList extends CanvasDrawable
 
 				if (isScrollNeeded()) {
 					top -= (int) (rectUp.getHeight() + rectDown.getHeight());
-					tableHeight += (int) rectDown.getHeight();
+					tableHeight += 2 * (int) rectDown.getHeight();
 				}
 			}
 
@@ -566,7 +566,8 @@ public final class DrawList extends CanvasDrawable
 						(int) (rectUp.getWidth()),
 						(int) (rectUp.getHeight()));
 				rectDown.setBounds(left,
- top + dimTable.getHeight(),
+						top + dimTable.getHeight()
+								- (int) (rectDown.getHeight()),
 						(int) (rectDown.getWidth()),
 						(int) (rectDown.getHeight()));
 			}
