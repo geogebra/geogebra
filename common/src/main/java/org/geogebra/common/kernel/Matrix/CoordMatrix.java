@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.Matrix;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Simple matrix description with basic linear algebra methods.
@@ -934,7 +935,8 @@ public class CoordMatrix {
 		return sol;
 
 	}
-	
+
+	private static double[][] matrixForSolve;
 	/**
 	 * @param sol
 	 *            solution vector
@@ -943,14 +945,18 @@ public class CoordMatrix {
 	 * @param columns
 	 *            matrix columns
 	 */
-	static final public void solve(double[] sol, Coords res, Coords... columns){
+	static synchronized final public void solve(double[] sol, Coords res,
+			Coords... columns) {
 		
 		int size = res.getLength();
-		
-		double[][] matrix = new double[size][];
+		if (matrixForSolve == null || matrixForSolve.length != size
+				|| matrixForSolve[0].length != size) {
+			Log.debug("Solve: new matrix needed");
+			matrixForSolve = new double[size][size];
+		}
+
 		for (int i = 0 ; i < size ; i++){
-			matrix[i] = new double[size];
-			columns[i].copy(matrix[i]);
+			columns[i].copy(matrixForSolve[i]);
 		}
 
 		PivotSolRes pivotSolRes = new PivotSolRes();
@@ -959,7 +965,7 @@ public class CoordMatrix {
 		
 		pivotSolRes.sol = sol;
 		
-		pivot(matrix, pivotSolRes);
+		pivot(matrixForSolve, pivotSolRes);
 		
 	}
 	
