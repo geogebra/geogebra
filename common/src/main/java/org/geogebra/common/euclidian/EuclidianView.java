@@ -2909,6 +2909,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			firstPaint = true;
 			bgImage = null;
 			bgGraphics = null;
+			openedComboBox = null;
 		}
 	}
 
