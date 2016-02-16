@@ -356,7 +356,7 @@ public class ZSpaceGeoGebra {
 			
 		}
 		
-		zBuffer = Sdk3.ZSCreateStereoBufferGL(zContext);
+		zBuffer = Sdk3.ZSCreateStereoBufferGL(zContext, 0);
 		zViewport = Sdk3.ZSCreateViewport(zContext);
 //		long zFrustum = Sdk3.ZSFindFrustum(zViewport);
 		
