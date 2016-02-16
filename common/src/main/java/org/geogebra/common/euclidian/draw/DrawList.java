@@ -182,6 +182,8 @@ public final class DrawList extends CanvasDrawable
 
 		private int dragOffset;
 
+		private boolean panelFallBack;
+
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
 			itemHovered = null;
@@ -519,12 +521,8 @@ public final class DrawList extends CanvasDrawable
 
 
 
-			if (scrollSupport) {
-				getScrollSettings();
-
-			} else {
+			if (!getScrollSettings()) {
 				boolean finished = false;
-
 				while (!finished && itemFontSize > MIN_FONT_SIZE) {
 					finished = prepareTable();
 					itemFontSize--;
@@ -617,7 +615,15 @@ public final class DrawList extends CanvasDrawable
 
 		}
 
-		private void getScrollSettings() {
+		/**
+		 * Gets scroll settings: visible items, boundaries.
+		 * 
+		 * @return if scroll really makes sense or multi-column would be better.
+		 */
+		private boolean getScrollSettings() {
+			if (!scrollSupport) {
+				return false;
+			}
 
 			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
 			createItems();
@@ -647,9 +653,12 @@ public final class DrawList extends CanvasDrawable
 				endIdx = maxItems;
 			}
 
-			Log.debug(SCROLL_PFX + geoList.getLongDescription() + " max: "
-					+ maxItems + " endIdx: " + endIdx + " scroll needed: "
-					+ scrollNeeded);
+			// Log.debug(SCROLL_PFX + geoList.getLongDescription() + " max: "
+			// + maxItems + " endIdx: " + endIdx + " scroll needed: "
+			// + scrollNeeded);
+
+			scrollNeeded = rowCount > 2;
+			return scrollNeeded;
 		}
 
 		private int getVisibleItemCount() {
