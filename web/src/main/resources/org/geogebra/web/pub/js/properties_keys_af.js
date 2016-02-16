@@ -940,7 +940,7 @@ __GGB__keysVar.af.command = {
     "SurdText": "SurdText",
     "SurdText.Syntax": "[ <Point> ]\n[ <Number> ]\n[ <Number>, <List> ]",
     "Surface": "Surface",
-    "Surface.Syntax": "[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
+    "Surface.Syntax": "[ <Function>, <Angle> ]\n[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
     "TDistribution": "TDistribution",
     "TDistribution.Syntax": "[ <Degrees of Freedom>, x ]\n[ <Degrees of Freedom>, <Variable Value> ]\n[ <Degrees of Freedom>, x, <Boolean Cumulative> ]",
     "TDistribution.SyntaxCAS": "[ <Degrees of Freedom>, <Variable Value> ]",

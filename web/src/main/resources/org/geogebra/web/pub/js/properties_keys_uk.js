@@ -940,7 +940,7 @@ __GGB__keysVar.uk.command = {
     "SurdText": "\u0420\u0430\u0434\u0438\u043a\u0430\u043b\u0422\u0435\u043a\u0441\u0442",
     "SurdText.Syntax": "[ <\u0422\u043e\u0447\u043a\u0430> ]\n[ <\u0427\u0438\u0441\u043b\u043e> ]\n[ <\u0427\u0438\u0441\u043b\u043e>, <\u0421\u043f\u0438\u0441\u043e\u043a> ]",
     "Surface": "Surface",
-    "Surface.Syntax": "[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
+    "Surface.Syntax": "[ <Function>, <Angle> ]\n[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
     "TDistribution": "\u0421\u0442\u044c\u044e\u0434\u0435\u043d\u0442\u0430T\u0420\u043e\u0437\u043f",
     "TDistribution.Syntax": "[ <\u0421\u0442\u0443\u043f\u0435\u043d\u0456 \u0441\u0432\u043e\u0431\u043e\u0434\u0438>, x ]\n[ <\u0421\u0442\u0443\u043f\u0435\u043d\u0456 \u0441\u0432\u043e\u0431\u043e\u0434\u0438>, <\u0417\u043c\u0456\u043d\u043d\u0430 \u0432\u0435\u043b\u0438\u0447\u0438\u043d\u0430> ]\n[ <\u0421\u0442\u0443\u043f\u0435\u043d\u0456 \u0441\u0432\u043e\u0431\u043e\u0434\u0438>, x, <Boolean Cumulative> ]",
     "TDistribution.SyntaxCAS": "[ <\u0421\u0442\u0443\u043f\u0435\u043d\u0456 \u0441\u0432\u043e\u0431\u043e\u0434\u0438>, <\u0417\u043c\u0456\u043d\u043d\u0430 \u0432\u0435\u043b\u0438\u0447\u0438\u043d\u0430> ]",

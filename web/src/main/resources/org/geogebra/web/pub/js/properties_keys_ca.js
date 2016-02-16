@@ -650,7 +650,7 @@ __GGB__keysVar.ca.command = {
     "Periods.Syntax": "[ <Taxa>, <Pagament>, <Valor actual>, <Valor futur (opcional)>, <Tipus (opcional)> ]",
     "Plane": "Pla",
     "Plane.Syntax": "[ <Pol\xedgon> ]\n[ <C\xf2nica> ]\n[ <Punt>, <Pla> ]\n[ <Punt>, <Recta> ]\n[ <Recta>, <Recta> ]\n[ <Punt>, <Punt>, <Punt> ]",
-    "PlaneBisector": "PlaBisector",
+    "PlaneBisector": "PlaMitger",
     "PlaneBisector.Syntax": "[ <Segment> ]\n[ <Punt>, <Punt> ]",
     "PlaySound": "ReprodueixSo",
     "PlaySound.Syntax": "[ <Fitxer> ]\n[ <Reproducci\xf3 booleana> ]\n[ <Seq\xfc\xe8ncia de Notes>, <Instrument> ]\n[ <Nota>, <Duraci\xf3>, <Instrument> ]\n[ <Funci\xf3>, <Valor M\xednim>, <Valor M\xe0xim> ]\n[ <Funci\xf3>, <Valor M\xednim>, <Valor M\xe0xim>, <Freq\xfc\xe8ncia de mostreig>, <Profunditat de Mostreig> ]",

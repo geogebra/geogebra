@@ -940,7 +940,7 @@ __GGB__keysVar.is.command = {
     "SurdText": "T\xe1kntexti",
     "SurdText.Syntax": "[ <Punktur> ]\n[ <Tala> ]\n[ <Tala>, <Listi> ]",
     "Surface": "Surface",
-    "Surface.Syntax": "[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
+    "Surface.Syntax": "[ <Function>, <Angle> ]\n[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
     "TDistribution": "TDreifing",
     "TDistribution.Syntax": "[ <Svigr\xfamsv\xeddd>, x ]\n[ <Svigr\xfamsv\xeddd>, x, <Dreififall> ]\n[ <Svigr\xfamsv\xeddd>, x, <Gildi breytu> ]",
     "TDistribution.SyntaxCAS": "[ <Svigr\xfamsv\xeddd>, x ]",

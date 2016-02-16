@@ -940,7 +940,7 @@ __GGB__keysVar.cy.command = {
     "SurdText": "SurdText",
     "SurdText.Syntax": "[ <Point> ]\n[ <Number> ]\n[ <Number>, <List> ]",
     "Surface": "Surface",
-    "Surface.Syntax": "[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
+    "Surface.Syntax": "[ <Function>, <Angle> ]\n[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
     "TDistribution": "DosraniadT",
     "TDistribution.Syntax": "[ <Graddfeydd Ryddid>, x ]\n[ <Graddfeydd Ryddid>, <Gwerth y Newidyn> ]\n[ <Graddfeydd Ryddid>, x, <Cronnus Boolean> ]",
     "TDistribution.SyntaxCAS": "[ <Degrees of Freedom>, <Variable Value> ]",
