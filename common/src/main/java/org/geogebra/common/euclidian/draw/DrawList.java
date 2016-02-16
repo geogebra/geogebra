@@ -226,9 +226,15 @@ public final class DrawList extends CanvasDrawable
 		private void drawItems() {
 
 			int idx = getStartIdx();
-
+			int startRow = 0;
+			int visibleRows = rowCount;
+			if (isScrollNeeded() && idx > 0 && dragOffset != 0) {
+				idx--;
+				startRow = -1;
+				visibleRows++;
+			}
 				for (int col = 0; col < getColCount(); col++) {
-				for (int row = 0; row < rowCount; row++) {
+				for (int row = startRow; row < visibleRows; row++) {
 					if (idx < items.size()) {
 						drawItem(col, row, items.get(idx));
 					}
