@@ -62,11 +62,41 @@ public class DropDownListD implements DropDownList, ActionListener {
 
 	public void drawScrollUp(GGraphics2D g2, int left, int top, int width,
 			int height, GColor bgColor, boolean pressed) {
+		g2.setColor(GColor.DARK_GRAY);
+
+		int midx = left + width / 2;
+
+		int w = width < MAX_WIDTH ? width : MAX_WIDTH;
+		int tW = w / 6;
+		int tH = w / 6;
+
+		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
+
+		Polygon p = new Polygon();
+		p.addPoint(midx - tW, midy + 2 * tW);
+		p.addPoint(midx + tW, midy + 2 * tW);
+		p.addPoint(midx, midy + tH);
+		GGraphics2DD.getAwtGraphics(g2).fillPolygon(p);
 
 	}
 
 	public void drawScrollDown(GGraphics2D g2, int left, int top, int width,
 			int height, GColor bgColor, boolean pressed) {
+		g2.setColor(GColor.DARK_GRAY);
+
+		int midx = left + width / 2;
+
+		int w = width < MAX_WIDTH ? width : MAX_WIDTH;
+		int tW = w / 6;
+		int tH = w / 6;
+
+		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
+
+		Polygon p = new Polygon();
+		p.addPoint(midx - tW, midy + tH);
+		p.addPoint(midx + tW, midy + tH);
+		p.addPoint(midx, midy + 2 * tW);
+		GGraphics2DD.getAwtGraphics(g2).fillPolygon(p);
 
 	}
 
