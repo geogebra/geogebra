@@ -495,6 +495,12 @@ public class CellFormat implements CellFormatInterface {
 		setFormat(crList, formatType, formatValue);
 	}
 
+	public void doSetFormat(GPoint cell, int formatType, Object formatValue) {
+		ArrayList<CellRange> crList = new ArrayList<CellRange>();
+		crList.add(new CellRange(app, cell.x, cell.y));
+		doSetFormat(crList, formatType, formatValue);
+	}
+
 	/**
 	 * Add a format value to a cell range.
 	 */
@@ -510,6 +516,15 @@ public class CellFormat implements CellFormatInterface {
 	public void setFormat(ArrayList<CellRange> crList, int formatType,
 			Object value) {
 
+		doSetFormat(crList, formatType, value);
+
+		setCellFormatString();
+		table.repaint();
+
+	}
+
+	private void doSetFormat(ArrayList<CellRange> crList, int formatType,
+			Object value) {
 		HashMap<GPoint, Object> formatTable = formatMapArray[formatType];
 
 		// handle select all case first, then exit
@@ -584,9 +599,6 @@ public class CellFormat implements CellFormatInterface {
 					formatTable.put(cellPoint, value);
 			}
 		}
-
-		setCellFormatString();
-		table.repaint();
 
 	}
 
@@ -1014,14 +1026,16 @@ public class CellFormat implements CellFormatInterface {
 		if (xml == null)
 			return;
 
-		// System.out.println("XML:  " + xml);
 		String[] cellGroup = xml.split(cellDelimiter);
 		// System.out.println("cellGroup:  " +
 		// java.util.Arrays.toString(cellGroup));
 		for (int i = 0; i < cellGroup.length; i++) {
-			if (cellGroup.length > 0)
+			if (cellGroup.length > 0) {
 				processCellFormatString(cellGroup[i]);
+			}
 		}
+		setCellFormatString();
+		table.repaintAll();
 
 	}
 
@@ -1056,7 +1070,7 @@ public class CellFormat implements CellFormatInterface {
 			} else {
 				formatValue = Integer.parseInt(f[i + 1]);
 			}
-			this.setFormat(cell, formatType, formatValue);
+			this.doSetFormat(cell, formatType, formatValue);
 		}
 
 	}
