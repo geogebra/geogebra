@@ -14,12 +14,7 @@ package org.geogebra.common.kernel.Matrix;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
 
 /**
  * Simple matrix description with basic linear algebra methods.
@@ -37,7 +32,7 @@ public class CoordMatrix {
 	 * </code>
 	 */
 	//public double[] val;
-	protected Coords[] vectors;
+	protected final Coords[] vectors;
 	
 	/** number of rows of the matrix */
 	protected int rows;
@@ -102,7 +97,7 @@ public class CoordMatrix {
 	 *            number of values
 	 */
 	public CoordMatrix(int rows, int columns) {
-
+		vectors = new Coords[columns];
 		initialise(rows, columns);
 
 	}
@@ -110,75 +105,20 @@ public class CoordMatrix {
 	/**
 	 * init the matrix (all values to 0)
 	 * 
-	 * @param rows
+	 * @param r
 	 *            number of rows
-	 * @param columns
+	 * @param c
 	 *            number of columns
 	 */
-	private void initialise(int rows, int columns) {
+	private void initialise(int r, int c) {
+		this.rows = r;
+		this.columns = c;
 
-		this.rows = rows;
-		this.columns = columns;
 
-		vectors = new Coords[columns];
-		for (int i = 0; i < columns; i++) {
-			vectors[i] = new Coords(rows);
+		for (int i = 0; i < c; i++) {
+			vectors[i] = new Coords(r);
 		}
 
-	}
-
-	/**
-	 * TODO doc
-	 * 
-	 * @param inputList
-	 */
-	public CoordMatrix(GeoList inputList) {
-
-		int cols = inputList.size();
-		if (!inputList.isDefined() || cols == 0) {
-			setIsSingular(true);
-			return;
-		}
-
-		GeoElement geo = inputList.get(0);
-
-		if (!geo.isGeoList()) {
-			setIsSingular(true);
-			return;
-		}
-
-		int rows = ((GeoList) geo).size();
-
-		if (rows == 0) {
-			setIsSingular(true);
-			return;
-		}
-
-		initialise(rows, cols);
-
-		GeoList columnList;
-
-		for (int r = 0; r < rows; r++) {
-			geo = inputList.get(r);
-			if (!geo.isGeoList()) {
-				setIsSingular(true);
-				return;
-			}
-			columnList = (GeoList) geo;
-			if (columnList.size() != columns) {
-				setIsSingular(true);
-				return;
-			}
-			for (int c = 0; c < rows; c++) {
-				geo = columnList.get(c);
-				if (!geo.isGeoNumeric()) {
-					setIsSingular(true);
-					return;
-				}
-
-				set(r + 1, c + 1, ((GeoNumeric) geo).getValue());
-			}
-		}
 
 	}
 
@@ -239,6 +179,7 @@ public class CoordMatrix {
 	 * returns diagonal matrix
 	 * 
 	 * @param vals
+	 *            values on diagonal (determines dimension)
 	 * @return diagonal matrix
 	 */
 	public static final CoordMatrix DiagonalMatrix(double vals[]) {
@@ -337,7 +278,11 @@ public class CoordMatrix {
 	
 	/**
 	 * 3x3 rotation matrix around oz
-	 * @param angle angle of rotation
+	 * 
+	 * @param angle
+	 *            angle of rotation
+	 * @param m
+	 *            output matrix
 	 */	
 	public static final void Rotation3x3(double angle, CoordMatrix m) {
 		
@@ -351,9 +296,13 @@ public class CoordMatrix {
 	
 	/**
 	 * 3x3 rotation matrix around vector
-	 * @param u vector of rotation
-	 * @param angle angle of rotation
-	 * @return matrix
+	 * 
+	 * @param u
+	 *            vector of rotation
+	 * @param angle
+	 *            angle of rotation
+	 * @param m
+	 *            output matrix
 	 */
 	public static final void Rotation3x3(Coords u, double angle, CoordMatrix m) {
 		
@@ -452,37 +401,6 @@ public class CoordMatrix {
 	public Coords getColumn(int j) {
 		
 		return vectors[j-1];
-
-	}
-
-	/**
-	 * returns GgbMatrix as a GeoList eg { {1,2}, {3,4} }
-	 * 
-	 * @param outputList
-	 * @param cons
-	 * @return eg { {1,2}, {3,4} }
-	 */
-	public GeoList getGeoList(GeoList outputList, Construction cons) {
-
-		if (isSingular()) {
-			outputList.setDefined(false);
-			return outputList;
-		}
-
-		outputList.clear();
-		outputList.setDefined(true);
-
-		for (int r = 0; r < rows; r++) {
-			GeoList columnList = new GeoList(cons);
-			for (int c = 0; c < columns; c++) {
-				GeoNumeric num = new GeoNumeric(cons);
-				num.setValue(get(r + 1, c + 1));
-				columnList.add(num);
-			}
-			outputList.add(columnList);
-		}
-
-		return outputList;
 
 	}
 
@@ -635,13 +553,6 @@ public class CoordMatrix {
 			}
 		}
 
-	}
-
-
-	/** prints the matrix to the screen */
-	public void SystemPrint() {
-
-		App.debug(toString());
 	}
 
 	@Override
@@ -1024,6 +935,14 @@ public class CoordMatrix {
 
 	}
 	
+	/**
+	 * @param sol
+	 *            solution vector
+	 * @param res
+	 *            result vector
+	 * @param columns
+	 *            matrix columns
+	 */
 	static final public void solve(double[] sol, Coords res, Coords... columns){
 		
 		int size = res.getLength();
@@ -1061,7 +980,9 @@ public class CoordMatrix {
 		 * perform the last pivot step
 		 * 
 		 * @param stack
+		 *            stack
 		 * @param matrix
+		 *            matrix
 		 */
 		public void lastStep(ArrayList<Integer> stack, double[][] matrix) {
 			int index = stack.get(0);
@@ -1494,6 +1415,7 @@ public class CoordMatrix {
 	 * sets if the matrix is singular
 	 * 
 	 * @param isSingular
+	 *            ignored (assume true)
 	 */
 	public void setIsSingular(boolean isSingular) {
 		vectors[0].set(1, Double.NaN);
@@ -1664,6 +1586,9 @@ public class CoordMatrix {
 	/**
 	 * 
 	 * set values in openGL format
+	 * 
+	 * @param val
+	 *            flat array
 	 */
 	public void getForGL(float[] val){
 
@@ -1716,7 +1641,6 @@ public class CoordMatrix {
 	/**
 	 * testing the package
 	 * 
-	 * @param args
 	 */
 	public static void test() {
 
