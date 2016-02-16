@@ -769,7 +769,11 @@ public final class DrawList extends CanvasDrawable
 				}
 
 				selectedIndex = startIdx;
-				itemHovered = items.get(selectedIndex);
+				if (selectedIndex < items.size()) {
+					itemHovered = items.get(selectedIndex);
+				} else {
+					itemHovered = null;
+				}
 			}
 
 			updateOpenedComboBox();
