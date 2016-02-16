@@ -29,7 +29,7 @@ public class DropDownListW implements DropDownList {
 
 			@Override
 			public void run() {
-				DropDownListW.this.listener.onClick(mouseX, mouseY);
+				doRunClick();
 			}
 		};
 
@@ -40,6 +40,10 @@ public class DropDownListW implements DropDownList {
 				DropDownListW.this.listener.onScroll(mouseX, mouseY);
 			}
 		};
+	}
+
+	public void doRunClick() {
+		listener.onClick(mouseX, mouseY);
 	}
 	public void drawSelected(GeoElement geo, GGraphics2D g2, GColor bgColor,
 			int left, int top, int width, int height) {

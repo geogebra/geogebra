@@ -11,6 +11,8 @@ public interface DropDownList {
 		void onScroll(int x, int y);
 	}
 
+	void doRunClick();
+
 	void drawSelected(GeoElement geo, GGraphics2D g2, GColor bgColor, int left,
 			int top, int width, int height);
 

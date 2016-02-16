@@ -860,6 +860,10 @@ public final class DrawList extends CanvasDrawable
 
 		public void onMouseUp(int x, int y) {
 			stopScrolling();
+			if (dropDown.isClickTimerRunning()) {
+				dropDown.stopClickTimer();
+
+			}
 			dragged = null;
 		}
 

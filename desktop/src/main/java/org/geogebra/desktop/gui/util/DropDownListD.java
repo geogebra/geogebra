@@ -117,7 +117,7 @@ public class DropDownListD implements DropDownList, ActionListener {
 		if (e.getSource() == timClick) {
 			listener.onClick(mouseX, mouseY);
 		} else {
-			listener.onScroll(mouseX, mouseY);
+			doRunClick();
 		}
 	}
 
@@ -137,6 +137,10 @@ public class DropDownListD implements DropDownList, ActionListener {
 
 	public boolean isScrollTimerRunning() {
 		return timDrag.isRunning();
+	}
+
+	public void doRunClick() {
+		listener.onClick(mouseX, mouseY);
 	}
 
 }
