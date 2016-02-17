@@ -63,7 +63,9 @@ public class PerspectivesMenuW extends GMenuBar {
 						@Override
 						public void doExecute() {
 							setPerspective(index);
-							((AppWFull) app).showStartTooltip(defID);
+							if (!(app.isExam() && app.getExam().getStart() >= 0)) {
+								((AppWFull) app).showStartTooltip(defID);
+							}
 						}
 			});			
 		}
