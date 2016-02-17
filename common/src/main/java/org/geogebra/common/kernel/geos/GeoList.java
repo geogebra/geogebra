@@ -305,6 +305,9 @@ AngleProperties {
 
 	@Override
 	public final void removeColorFunction() {
+		if (getColorFunction() == null) {
+			return;
+		}
 		super.removeColorFunction();
 
 		if ((geoList == null) || (geoList.size() == 0)) {

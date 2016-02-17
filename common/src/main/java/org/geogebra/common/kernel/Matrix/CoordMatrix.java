@@ -700,6 +700,11 @@ public class CoordMatrix {
 
 		Coords result = new Coords(getRows());
 
+		return mul(v, result);
+	}
+
+	public Coords mul(Coords v, Coords result) {
+
 		for (int i = 1; i <= result.getLength(); i++) {
 
 			double r = 0;
@@ -708,7 +713,6 @@ public class CoordMatrix {
 
 			result.set(i, r);
 		}
-
 		return result;
 	}
 

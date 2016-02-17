@@ -919,6 +919,9 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 	@Override
 	public void removeColorFunction() {
+		if (getColorFunction() == null) {
+			return;
+		}
 		super.removeColorFunction();
 
 		if (polygons == null || cons.isFileLoading()) {

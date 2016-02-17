@@ -354,7 +354,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		Coords vn = coordSys.getVz();
 
 		CoordMatrix4x4 matrix = coordSys.getMatrixOrthonormal();
-
+		CoordMatrix inv = matrix.inverse();
+		Coords d2 = new Coords(4);
 		for (int i = 0; i < points.length; i++) {
 
 			// check if the vertex is defined and finite
@@ -372,11 +373,15 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			}
 
 			// project the point on the coord sys
-			CoordMatrix.solve(tmpCoords, p, matrix.getVx(),
-					matrix.getVy(), vn, o);
+			inv.mul(p, d2);
 
+			/*
+			 * CoordMatrix.solve(tmpCoords, p, matrix.getVx(), matrix.getVy(),
+			 * vn, o);
+			 */
+			// App.debug(d2 + "");
 			// set the 2D points
-			points2D[i].setCoords(tmpCoords[0], tmpCoords[1], tmpCoords[3]);
+			points2D[i].setCoords(d2.getX(), d2.getY(), d2.getW());
 		}
 
 		return true;
@@ -1086,8 +1091,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	}
 
 	@Override
-	public GeoPointND newGeoPoint(Construction cons){
-		return new GeoPoint3D(cons);
+	public GeoPointND newGeoPoint(Construction cons1) {
+		return new GeoPoint3D(cons1);
 	}
 
 	@Override
