@@ -78,7 +78,7 @@ public class AppWapplet3D extends AppWapplet {
 
 		super.recalculateEnvironments();
 
-		if (getEuclidianView3D() != null) {
+		if (this.isEuclidianView3Dinited()) {
 			getEuclidianView3D().getEuclidianController()
 			        .calculateEnvironment();
 		}

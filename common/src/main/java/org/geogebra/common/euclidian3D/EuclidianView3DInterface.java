@@ -167,4 +167,6 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 
 	public void setAltText();
 
+	public boolean hasStyleBar();
+
 }
