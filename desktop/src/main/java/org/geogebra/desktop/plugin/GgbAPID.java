@@ -42,7 +42,6 @@ import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.kernel.EvalCommandQueue;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.Util;
 
 /**
  * <h3>GgbAPI - API for PlugLets</h3>
@@ -536,13 +535,6 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 
 	}
 
-	public String getIPAddress() {
-		return Util.getIPAddress();
-	}
-
-	public String getHostname() {
-		return Util.getHostname();
-	}
 
 	/**
 	 * Returns the dimensions of the real world coordinate system in the

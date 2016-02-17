@@ -92,16 +92,6 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		app.refreshViews();
 	}
 
-	public String getIPAddress() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String getHostname() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void openFile(String strURL) {
 		// TODO Auto-generated method stub
 

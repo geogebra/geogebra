@@ -50,7 +50,6 @@ import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.plugin.GgbAPID;
-import org.geogebra.desktop.util.Util;
 
 /**
  * GeoGebra applet implementation operating on a given JApplet object.
@@ -873,20 +872,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 */
 	public synchronized void refreshViews() {
 		app.refreshViews();
-	}
-
-	/*
-	 * returns IP address
-	 */
-	public synchronized String getIPAddress() {
-		return Util.getIPAddress();
-	}
-
-	/*
-	 * returns hostname
-	 */
-	public synchronized String getHostname() {
-		return Util.getHostname();
 	}
 
 	/**

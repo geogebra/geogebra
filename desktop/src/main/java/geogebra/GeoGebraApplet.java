@@ -352,14 +352,6 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getAppletImplementation().getGGBfile();
 	}
 
-	public synchronized String getHostname() {
-		return getAppletImplementation().getHostname();
-	}
-
-	public synchronized String getIPAddress() {
-		return getAppletImplementation().getIPAddress();
-	}
-
 	public synchronized int getLayer(String objName) {
 		return getAppletImplementation().getLayer(objName);
 	}

@@ -134,16 +134,6 @@ public interface JavaScriptAPI {
 	public void refreshViews();
 
 	/**
-	 * returns IP address
-	 */
-	public String getIPAddress();
-
-	/**
-	 * returns hostname
-	 */
-	public String getHostname();
-
-	/**
 	 * Loads a construction from a file (given URL). ...but the actual code is
 	 * in a thread to avoid JavaScript security issues
 	 */
