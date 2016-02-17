@@ -496,12 +496,11 @@ public class CoordSys {
 		// if the coord sys is made, the drawing matrix is updated
 		if (dimension == 1) {
 			// compute Vy and Vz
-			Coords vy = (new Coords(new double[] { 0, 0, 1, 0 }))
-					.crossProduct(getVx());
+			Coords vy = Coords.VZ.crossProduct(getVx());
 			// check if vy=0 (if so, vx is parallel to Oz)
 			if (vy.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
-				setVy(new Coords(new double[] { 1, 0, 0, 0 }));
-				setVz(new Coords(new double[] { 0, 1, 0, 0 }));
+				setVy(Coords.VX);
+				setVz(Coords.VY);
 			} else {
 				setVy(vy);
 				setVz(getVx().crossProduct(getVy()));
@@ -525,8 +524,8 @@ public class CoordSys {
 
 			if (firstVectorParallelToXOY) {
 				// vector Vx parallel to xOy plane
-				vz = new Coords(0, 0, 1, 0);
-				vx = getVz().crossProduct(vz);
+
+				vx = getVz().crossProduct(Coords.VZ);
 				// if (!Kernel.isEqual(vx.norm(), 0,
 				// Kernel.STANDARD_PRECISION)){
 				if (!vx.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
@@ -535,13 +534,14 @@ public class CoordSys {
 					vy.normalize();
 					vz = getVz().normalized();
 				} else {
+					vz = new Coords(0, 0, 1, 0);
 					vx = new Coords(1, 0, 0, 0);
 					vy = new Coords(0, 1, 0, 0);
 				}
 			} else {
 				vx = getVx().normalized(true);
 				// vz is computed and vy recomputed to make orthonormal matrix
-				vz = vx.crossProduct(getVy()).normalized(true);
+				vz = vx.crossProduct(getVy()).normalize(true);
 				vy = vz.crossProduct(vx);
 			}
 
