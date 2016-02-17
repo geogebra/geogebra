@@ -242,7 +242,10 @@ public class ToolTipManagerW {
 		boolean online = app == null || app.getNetworkOperation() == null
 				|| app.getNetworkOperation().isOnline();
 		this.helpURL = helpLinkURL;
-		if (helpLinkURL != null && helpLinkURL.length() > 0 && link != null
+		if (app.isExam() && app.getExam().getStart() >= 0) {
+			this.helpURL = null;
+		}
+		if (helpURL != null && helpURL.length() > 0 && link != null
 				&& online) {
 
 			helpLabel = new Label();
@@ -279,8 +282,8 @@ public class ToolTipManagerW {
 
 			style.setTop((app.getHeight() - (kb ? 250 : 70)), Unit.PX);
 		}
-		if (link == ToolTipLinkType.Help && helpLinkURL != null
-				&& helpLinkURL.length() > 0) {
+		if (link == ToolTipLinkType.Help && helpURL != null
+				&& helpURL.length() > 0) {
 			scheduleHideBottom();
 		}
 	}
