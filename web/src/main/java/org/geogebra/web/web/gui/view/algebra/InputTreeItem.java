@@ -786,6 +786,9 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	public void setLabels() {
 		editor.resetLanguage();
+		if (dummyLabel != null) {
+			dummyLabel.setText(app.getPlain("InputLabel") + Unicode.ellipsis);
+		}
 		if (piecewiseLabel != null) {
 			piecewiseLabel.setText(app.getPlain("PiecewiseFunction"));
 			curveLabel.setText(app.getPlain("CurveCartesian"));
