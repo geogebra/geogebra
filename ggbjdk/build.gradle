@@ -1,19 +1,10 @@
 description 'Platform independent supplementary files for graphics support'
 
 apply plugin: 'java'
-apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 dependencies {
     compile project(':common')
-}
-
-publishing {
-	publications {
-		library(MavenPublication) {
-			from components.java
-		}
-	}
 }
