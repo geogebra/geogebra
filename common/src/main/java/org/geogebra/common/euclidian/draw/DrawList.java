@@ -182,7 +182,7 @@ public final class DrawList extends CanvasDrawable
 
 		private int dragOffset;
 
-		private boolean panelFallBack;
+		private boolean dragging = false;
 
 		public DrawOptions() {
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
@@ -243,19 +243,13 @@ public final class DrawList extends CanvasDrawable
 			}
 		}
 
-		private boolean isDragging() {
-			return dragged != null && dragged.isValid();
-		}
-
 		private void drawItem(int col, int row, OptionItem item) {
 
 			int rectLeft = left + dimItem.getWidth() * col;
 			int rectTop = top + dimItem.getHeight() * row;
 			if (isScrollNeeded()) {
 				rectTop += rectUp.getHeight();
-				if (isDragging()) {
-					rectTop += dragOffset;
-				}
+				rectTop += dragOffset;
 			}
 			if (item.getRect() == null || item.getRect().getX() != rectLeft
 					|| item.getRect().getY() != rectTop) {
@@ -424,13 +418,23 @@ public final class DrawList extends CanvasDrawable
 				return true;
 			}
 
-			if (isScrollNeeded()) {
+			if (isScrollNeeded() && !isDragging()) {
+				Log.debug(SCROLL_PFX + " ClickTimer: start");
 				dropDown.startClickTimer(x, y);
 			} else {
+				Log.debug(SCROLL_PFX + " plain click - no scroll");
 				onClick(x, y);
 			}
 			return true;
 
+		}
+
+		private boolean isDragging() {
+			if (!isScrollNeeded()) {
+				return false;
+			}
+
+			return dragging;
 		}
 
 		public void onClick(int x, int y) {
@@ -439,9 +443,10 @@ public final class DrawList extends CanvasDrawable
 			if (item == null) {
 				return;
 			}
-
+			Log.debug(SCROLL_PFX + " Click on item " + item.text);
 			selectedIndex = item.index;
 			selectCurrentItem();
+			setDragging(false);
 			setVisible(false);
 
 		}
@@ -453,38 +458,64 @@ public final class DrawList extends CanvasDrawable
 
 			DraggedItem di = new DraggedItem(x, y);
 			if (di.isValid()) {
-				dropDown.stopClickTimer();
 				Log.debug(SCROLL_PFX + " start dragging " + di.item.text);
 				if (dragged == null || !dragged.isValid()) {
 					dragged = di;
 					return true;
 				}
 
+
 				int dY = dragged.startPoint.getY() - di.startPoint.getY();
-				int itemDiffs = (int) (dY / di.item.getRect().getHeight());
+				int itemHeight = (int) (di.item.getRect().getHeight());
+
+				int itemDiffs = dY / itemHeight;
 				if (itemDiffs != 0) {
-					dragOffset = (int) (dY % di.item.getRect().getHeight());
+					dragOffset = dY % itemHeight;
 					scrollBy(itemDiffs);
 					Log.debug(SCROLL_PFX + " dragging by " + itemDiffs);
 					dragged = di;
-				} else if (getStartIdx() > 0 && getEndIdx() < geoList.size()) {
-					dragOffset = -dY;
-					view.repaintView();
+				} else {
+					if (Math.abs(dY) < itemHeight / 4) {
+						setDragging(true);
+					}
+
+					if (getStartIdx() > 0 && getEndIdx() < geoList.size()) {
+						dragOffset = -dY;
+						view.repaintView();
+					}
 				}
 
 			}
 
 			return true;
 		}
+
+		private void setDragging(boolean value) {
+			if (!isScrollNeeded()) {
+				return;
+			}
+			dragging = value;
+			if (dragging) {
+				Log.debug(SCROLL_PFX + " ClickTimer: stop -> drag");
+				dropDown.stopClickTimer();
+			} else {
+				Log.debug(SCROLL_PFX + " drag = false");
+				dragged = null;
+
+			}
+
+		}
+
 		public void onMouseOver(int x, int y) {
 			if (!isHit(x, y)) {
 				if (isScrollNeeded()) {
 					stopScrolling();
+					setDragging(false);
 				}
 				return;
 			}
 
-			if (dragged != null ) {
+			if (isDragging()) {
 				return;
 			}
 			OptionItem item = getItemAt(x, y);
@@ -864,7 +895,7 @@ public final class DrawList extends CanvasDrawable
 				dropDown.stopClickTimer();
 
 			}
-			dragged = null;
+			setDragging(false);
 		}
 
 	}
@@ -1155,10 +1186,10 @@ public final class DrawList extends CanvasDrawable
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
 		if (geoList.drawAsComboBox()) {
-			DrawList dl = view.getOpenedComboBox();
-			if (dl != null && dl != this) {
-				return false;
-			}
+			// DrawList dl = view.getOpenedComboBox();
+			// if (dl != null && dl != this) {
+			// return false;
+			// }
 
 			return isDrawingOnCanvas()
 					? super.hit(x, y, hitThreshold) || isControlHit(x, y)
@@ -1552,13 +1583,27 @@ public final class DrawList extends CanvasDrawable
 			return;
 		}
 
-		if (drawOptions.onMouseDown(x, y)) {
-			return;
-		}
+			if (drawOptions.onMouseDown(x, y)) {
+				return;
+			}
 
-		if (isControlHit(x, y)) {
-			setOptionsVisible(!isOptionsVisible());
-		}
+			if (isControlHit(x, y)) {
+				setOptionsVisible(!isOptionsVisible());
+			}
+
+		// if (isControlHit(x, y)) {
+		// Log.debug("Control was hit!");
+		// if (!drawOptions.isHit(x, y)) {
+		// setOptionsVisible(!isOptionsVisible());
+		// }
+		// return;
+		// }
+		//
+		// if (drawOptions.onMouseDown(x, y)) {
+		// return;
+		// }
+
+
 	}
 
 	/**
