@@ -54,8 +54,6 @@ public class CustomColorDialog extends DialogBoxW {
 			slider = new Slider(0, 255);
 			slider.setMajorTickSpacing(2);
 			slider.setMinorTickSpacing(1);
-			slider.setPaintTicks(true);
-			slider.setPaintLabels(true);
 			
 			Label maxLabel = new Label("255");
 		

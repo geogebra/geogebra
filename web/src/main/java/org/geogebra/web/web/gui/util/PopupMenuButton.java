@@ -394,9 +394,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		mySlider = new Slider(0,100);
 		mySlider.setMajorTickSpacing(25);
 		mySlider.setMinorTickSpacing(5);
-		mySlider.setPaintTicks(false);
-		mySlider.setPaintLabels(false);
 		mySlider.addChangeHandler(this);
+
 		sliderLabel = new Label();
 		FlowPanel panel = new FlowPanel();
 		panel.add(mySlider);

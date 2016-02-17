@@ -39,7 +39,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		btnLineStyle.getMySlider().setMaximum(13);
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
-		btnLineStyle.getMySlider().setPaintTicks(true);
+
 		btnLineStyle.addPopupHandler(this);
 	}
 
@@ -51,7 +51,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		btnPointStyle.getMySlider().setMaximum(9);
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);
 		btnPointStyle.getMySlider().setMinorTickSpacing(1);
-		btnPointStyle.getMySlider().setPaintTicks(true);
+
 		btnPointStyle.addPopupHandler(this);
 	}
 

@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui.util;
 
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.awt.GDimensionW;
 
 import com.google.gwt.dom.client.Document;
@@ -70,14 +69,6 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 
 	public void setMinorTickSpacing(int step) {
 		range.setAttribute("step", String.valueOf(step));
-	}
-
-	public void setPaintTicks(boolean b) {
-		App.debug("not applicable for range");
-	}
-
-	public void setPaintLabels(boolean b) {
-		App.debug("not applicable for range");
 	}
 
 	public GDimensionW getPreferredSize() {
