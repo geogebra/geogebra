@@ -114,8 +114,16 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 
 	public boolean writePNGtoFile(String filename, double exportScale,
 			boolean transparent, double DPI) {
-		// TODO Auto-generated method stub
-		return false;
+
+		// get export image
+		// DPI ignored (desktop only)
+		String url = ((EuclidianViewWInterface) app.getActiveEuclidianView())
+				.getExportImageDataUrl(exportScale, transparent);
+
+		// make browser save/download PNG file
+		Browser.exportImage(url, filename);
+
+		return true;
 	}
 
 	public String getPNGBase64(double exportScale, boolean transparent,

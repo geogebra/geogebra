@@ -9,6 +9,7 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ggtapi.JSONparserGGT;
@@ -278,74 +279,31 @@ public class FileManagerW extends FileManager {
 			AppW app) {
 		app.getGuiManager()
 				.getOptionPane()
-				.showSaveDialog(getApp(),
- getApp().getPlain("ExportAsPicture"),
-						filename + ".png", null,
-				new AsyncOperation() {
+				.showSaveDialog(getApp(), getApp().getPlain("ExportAsPicture"),
+						filename + ".png", null, new AsyncOperation() {
 
-					@Override
-					public void callback(Object obj) {
-						String[] dialogResult = (String[]) obj;
+							@Override
+							public void callback(Object obj) {
+								String[] dialogResult = (String[]) obj;
 
-						if (Integer.parseInt(dialogResult[0]) != 0) {
-							return;
-						}
-
+								if (Integer.parseInt(dialogResult[0]) != 0) {
+									return;
+								}
 
 								exportImage(url, dialogResult[1]);
 
-					}
-				}, getApp().getPlain("Export"));
+							}
+						}, getApp().getPlain("Export"));
 
 	}
-	public native void exportImage(String url,
-	        String title) /*-{
-		//idea from http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript/16245768#16245768
-
-		if ($wnd.navigator.msSaveBlob) {
-			var sliceSize = 512;
-
-			var byteCharacters = atob(url
-					.substring("data:image/png;base64,".length));
-			var byteArrays = [];
-
-			for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-				var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-				var byteNumbers = new Array(slice.length);
-				for (var i = 0; i < slice.length; i++) {
-					byteNumbers[i] = slice.charCodeAt(i);
-				}
-
-				var byteArray = new Uint8Array(byteNumbers);
-
-				byteArrays.push(byteArray);
-			}
-
-			var blob = new Blob(byteArrays, {
-				type : "image/png"
-			});
-
-			//works for internet explorer
-
-			$wnd.navigator.msSaveBlob(blob, title);
-		} else {
-			//works for firefox
-			var a = $doc.createElement("a");
-			$doc.body.appendChild(a);
-			a.style = "display: none";
-			a.href = url;
-			a.download = title;
-			$wnd.setTimeout(function() {
-				a.click()
-			}, 1000);
-		}
-
-	}-*/;
 
 	public boolean hasBase64(Material material) {
 		return material.getBase64() != null
 				&& material.getBase64().length() > 0;
+	}
+
+	public void exportImage(String url, String filename) {
+		Browser.exportImage(url, filename);
 	}
 
 }

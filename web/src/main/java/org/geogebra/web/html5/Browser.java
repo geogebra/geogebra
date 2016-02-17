@@ -267,7 +267,6 @@ public class Browser {
 	}-*/;
 
 	public static native float getPixelRatio() /*-{
-		// TODO Auto-generated method stub
 		var testCanvas = document.createElement("canvas"), testCtx = testCanvas
 				.getContext("2d");
 		devicePixelRatio = $wnd.devicePixelRatio || 1;
@@ -278,4 +277,49 @@ public class Browser {
 				|| testCtx.backingStorePixelRatio || 1;
 		return devicePixelRatio / backingStorePixelRatio;
 	}-*/;
+
+	public static native void exportImage(String url, String title) /*-{
+		//idea from http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript/16245768#16245768
+
+		if ($wnd.navigator.msSaveBlob) {
+			var sliceSize = 512;
+
+			var byteCharacters = atob(url
+					.substring("data:image/png;base64,".length));
+			var byteArrays = [];
+
+			for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+				var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+				var byteNumbers = new Array(slice.length);
+				for (var i = 0; i < slice.length; i++) {
+					byteNumbers[i] = slice.charCodeAt(i);
+				}
+
+				var byteArray = new Uint8Array(byteNumbers);
+
+				byteArrays.push(byteArray);
+			}
+
+			var blob = new Blob(byteArrays, {
+				type : "image/png"
+			});
+
+			//works for internet explorer
+
+			$wnd.navigator.msSaveBlob(blob, title);
+		} else {
+			//works for firefox
+			var a = $doc.createElement("a");
+			$doc.body.appendChild(a);
+			a.style = "display: none";
+			a.href = url;
+			a.download = title;
+			$wnd.setTimeout(function() {
+				a.click()
+			}, 1000);
+		}
+
+	}-*/;
+
 }
