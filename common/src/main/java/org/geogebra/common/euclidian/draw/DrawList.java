@@ -893,6 +893,7 @@ public final class DrawList extends CanvasDrawable
 			stopScrolling();
 			if (dropDown.isClickTimerRunning()) {
 				dropDown.stopClickTimer();
+				onClick(x, y);
 
 			}
 			setDragging(false);
