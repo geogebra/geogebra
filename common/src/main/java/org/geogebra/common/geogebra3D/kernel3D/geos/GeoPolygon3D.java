@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -86,10 +87,22 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		this(c, points, null, true);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 */
 	public GeoPolygon3D(Construction cons) {
 		this(cons, false);
 	}
 
+	/**
+	 * For intersection algos
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param isIntersection
+	 *            whether this is intersection
+	 */
 	public GeoPolygon3D(Construction cons, boolean isIntersection) {
 		super(cons, isIntersection);
 	}
@@ -316,17 +329,26 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * @return true if all points lie on coord sys
 	 */
 	public boolean checkPointsAreOnCoordSys() {
-		Coords tmpCoords = new Coords(4);
-		return checkPointsAreOnCoordSys(coordSys, points, points2D, tmpCoords);
+		return checkPointsAreOnCoordSys(coordSys, points, points2D,
+				new double[4]);
 	}
 
 	/**
 	 * check that all points are on coord sys, and calc their 2D coords
 	 * 
-	 * @return true if all points lie on coord sys
+	 * @param coordSys
+	 *            coordinate system
+	 * @param points
+	 *            points in 3D
+	 * @param points2D
+	 *            projections in 2D
+	 * @param tmpCoords
+	 *            temporary coords, must have length 4
+	 * 
+	 * @return true if all points lie on coord system
 	 */
 	static final public boolean checkPointsAreOnCoordSys(CoordSys coordSys,
-			GeoPointND[] points, GeoPoint[] points2D, Coords tmpCoords) {
+			GeoPointND[] points, GeoPoint[] points2D, double[] tmpCoords) {
 
 		Coords o = coordSys.getOrigin();
 		Coords vn = coordSys.getVz();
@@ -350,20 +372,22 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			}
 
 			// project the point on the coord sys
-			p.projectPlaneInPlaneCoords(matrix, tmpCoords);
+			CoordMatrix.solve(tmpCoords, p, matrix.getVx(),
+					matrix.getVy(), vn, o);
 
 			// set the 2D points
-			points2D[i].setCoords(tmpCoords.getX(), tmpCoords.getY(),
-					tmpCoords.getW());
+			points2D[i].setCoords(tmpCoords[0], tmpCoords[1], tmpCoords[3]);
 		}
 
 		return true;
 	}
 
+	/**
+	 * @return true if it has worked
+	 */
 	public boolean updateCoordSys() {
 
-		Coords tmpCoords = new Coords(4);
-		return updateCoordSys(coordSys, points, points2D, tmpCoords);
+		return updateCoordSys(coordSys, points, points2D, new double[4]);
 
 	}
 
@@ -375,10 +399,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 *            points that create the coord sys
 	 * @param points2D
 	 *            2D coords of the points in coord sys (if possible)
+	 * @param tmpCoords
+	 *            temporary coordinates, must have length 4
 	 * @return true if it has worked
 	 */
 	static final public boolean updateCoordSys(CoordSys coordSys,
-			GeoPointND[] points, GeoPoint[] points2D, Coords tmpCoords) {
+			GeoPointND[] points, GeoPoint[] points2D, double[] tmpCoords) {
 		coordSys.resetCoordSys();
 		for (int i = 0; (!coordSys.isMadeCoordSys()) && (i < points.length); i++) {
 			// Application.debug(points[i].getLabel()+"=\n"+points[i].getCoordsInD3());
@@ -437,10 +463,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	/** return true if there's a polygon AND a 2D coord sys */
 	@Override
 	public boolean isDefined() {
-		if (coordSys == null)
+		if (coordSys == null) {
 			return false;
-		else
-			return super.isDefined() && coordSys.isDefined();
+		}
+		return super.isDefined() && coordSys.isDefined();
 		// return coordSys.isDefined();
 	}
 
@@ -448,6 +474,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * set if this is a part of a closed surface
 	 * 
 	 * @param v
+	 *            flag value
 	 */
 	public void setIsPartOfClosedSurface(boolean v) {
 		isPartOfClosedSurface = v;
@@ -591,8 +618,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	}
 
 	@Override
-	protected GeoPolygon newGeoPolygon(Construction cons) {
-		return new GeoPolygon3D(cons, null);
+	protected GeoPolygon newGeoPolygon(Construction cons1) {
+		return new GeoPolygon3D(cons1, null);
 	}
 
 	@Override

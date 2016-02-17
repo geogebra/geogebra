@@ -4,7 +4,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -48,11 +47,11 @@ public class AlgoConicFivePoints3D extends AlgoConicFivePoints {
 		return ret;
 	}
 
-	private Coords tmpCoords;
+	private double[] tmpCoords;
 
 	@Override
 	protected void initCoords() {
-		tmpCoords = new Coords(4);
+		tmpCoords = new double[4];
 	}
 
 	@Override

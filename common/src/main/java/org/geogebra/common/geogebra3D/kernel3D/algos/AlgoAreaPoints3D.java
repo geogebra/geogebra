@@ -20,7 +20,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAreaPoints;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -45,11 +44,11 @@ public class AlgoAreaPoints3D extends AlgoAreaPoints {
 		}
 	}
 
-	private Coords tmpCoords;
+	private double[] tmpCoords;
 
 	@Override
 	protected void initCoords() {
-		tmpCoords = new Coords(4);
+		tmpCoords = new double[4];
 	}
 
 	@Override
