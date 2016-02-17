@@ -1,5 +1,12 @@
 package org.geogebra.common.main;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -75,13 +82,6 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.Vector;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -3826,6 +3826,7 @@ public abstract class App implements UpdateSelection {
 		case SHINY_3D:
 
 		case WEB_PRINT_ALGEBRA_VIEW:
+		case WEB_PRINT_CP_VIEW:
 
 		case ACRA:
 		case ANALYTICS:

@@ -189,7 +189,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							if (app.getGuiManager()
 									.showView(App.VIEW_EUCLIDIAN)
 									|| app.getGuiManager().showView(
-											App.VIEW_EUCLIDIAN2)) {
+											App.VIEW_EUCLIDIAN2)
+									|| app.has(Feature.WEB_PRINT_CP_VIEW)
+									&& app.getGuiManager().showView(
+											App.VIEW_CONSTRUCTION_PROTOCOL)) {
 								new PrintPreviewW(app).show();
 							}
 						}

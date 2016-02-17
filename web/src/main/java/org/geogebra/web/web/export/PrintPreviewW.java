@@ -110,6 +110,13 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 			}
 		}
 
+		if (app.has(Feature.WEB_PRINT_CP_VIEW)) {
+			if (app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+				m_cbView.addItem(app.getPlain("ConstructionProtocol"),
+						App.VIEW_CONSTRUCTION_PROTOCOL + "");
+			}
+		}
+
 		if (m_cbView.getItemCount() == 0) {
 			this.setVisible(false);
 			this.hide(false);
