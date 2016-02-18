@@ -2046,7 +2046,7 @@ __GGB__keysVar.nl.menu = {
     "Tool.SelectObjects": "Selecteer objecten in de constructie of kies uit de lijst",
     "ToolHelp": "Knop help",
     "ToolName": "Naam knop",
-    "Toolbar": "Werkbalk",
+    "Toolbar": "Knoppenbalk",
     "Toolbar.Customize": "Knoppenbalk aanpassen",
     "Toolbar.ResetDefault": "Standaardknoppenbalk herstellen",
     "Tools": "Knoppen",
