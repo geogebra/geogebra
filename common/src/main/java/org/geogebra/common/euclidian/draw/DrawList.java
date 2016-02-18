@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
@@ -507,6 +506,10 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		public void onMouseOver(int x, int y) {
+			if (!isVisible) {
+				return;
+			}
+
 			if (!isHit(x, y)) {
 				if (isScrollNeeded()) {
 					stopScrolling();
@@ -531,7 +534,6 @@ public final class DrawList extends CanvasDrawable
 			drawItem(item, true);
 			itemHovered = item;
 			selectedIndex = item.index;
-			ensureSelected();
 			view.repaintView();
 		}
 
@@ -1747,14 +1749,6 @@ public final class DrawList extends CanvasDrawable
 	 */
 	public boolean isSelected() {
 		return geo.doHighlighting();
-	}
-
-	void ensureSelected() {
-		SelectionManager sel = view.getApplication().getSelectionManager();
-		if (!sel.containsSelectedGeo(geo)) {
-			sel.addSelectedGeo(geo);
-
-		}
 	}
 
 	public boolean onDrag(int x, int y) {
