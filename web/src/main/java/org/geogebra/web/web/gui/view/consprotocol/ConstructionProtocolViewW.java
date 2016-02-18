@@ -1007,15 +1007,14 @@ myCell) {
     }
 
 	public void getPrintable(FlowPanel printPanel, Button btPrint) {
-
-		// Number of rows depends on orientation, and we can't manipulat with
-		// css, so we must to create the print
-		// preview for both orientation.
-		// We can create the printed panel before the browser's print preview
-		// opened, and the user can change the orientation later,
-		// so we must create the tables for both orientation at the beginning.
-		createTable(printPanel, 0, 1, Orientation.PORTRAIT, btPrint);
-		createTable(printPanel, 0, 1, Orientation.LANDSCAPE, btPrint);
+		final CellTable<RowData> previewTable = new CellTable<RowData>();
+		addColumnsForTable(previewTable);
+		previewTable.addStyleName("previewTable");
+		printPanel.add(previewTable);
+		previewTable.setRowCount(data.getRowCount());
+		previewTable.setVisibleRange(0, data.getRowCount());
+		previewTable.setRowData(0, data.getrowList());
+		btPrint.setEnabled(true);
 	}
 
 	private enum Orientation {
