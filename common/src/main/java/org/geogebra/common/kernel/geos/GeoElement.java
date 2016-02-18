@@ -1369,15 +1369,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		if ((fillColor == null) || (alpha < 0.0f) || (alpha > 1.0f)) {
 			return;
 		}
-		if (alpha != alphaValue) {
-			// if nothing changed don't refresh color: too expensive in Web
-			alphaValue = alpha;
+		alphaValue = alpha;
+		fillColor = AwtFactory.prototype.newColor(fillColor.getRed(),
+				fillColor.getGreen(), fillColor.getBlue(), (int) (255 * alpha));
 
-			final float[] rgb = new float[3];
-			fillColor.getRGBColorComponents(rgb);
-			fillColor = AwtFactory.prototype.newColor(rgb[0], rgb[1], rgb[2],
-					alpha);
-		}
 	}
 
 	/**
