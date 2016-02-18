@@ -467,6 +467,9 @@ public final class DrawList extends CanvasDrawable
 
 				int dY = dragged.startPoint.getY() - di.startPoint.getY();
 				int itemHeight = (int) (di.item.getRect().getHeight());
+				if (Math.abs(dY) > 0) {
+					setDragging(true);
+				}
 
 				int itemDiffs = dY / itemHeight;
 				if (itemDiffs != 0) {
@@ -475,9 +478,6 @@ public final class DrawList extends CanvasDrawable
 					Log.debug(SCROLL_PFX + " dragging by " + itemDiffs);
 					dragged = di;
 				} else {
-					if (Math.abs(dY) < itemHeight / 4) {
-						setDragging(true);
-					}
 
 					if (getStartIdx() > 0 && getEndIdx() < geoList.size()) {
 						dragOffset = -dY;
