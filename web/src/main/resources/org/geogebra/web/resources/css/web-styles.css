@@ -6142,7 +6142,6 @@ body.application[dir=rtl] .deleteAlgebra {
 	
 	.printableView{
 		visibility: visible;
-		height: 10000px;
 		position: absolute;
 		top: 0px;
 		left: 0px;
@@ -6168,6 +6167,10 @@ body.application[dir=rtl] .deleteAlgebra {
 	
 	.marble{
 		-webkit-print-color-adjust: exact;
+	}
+	
+	.avItemContent .panelRow{
+		display: none;
 	}
 }
 
