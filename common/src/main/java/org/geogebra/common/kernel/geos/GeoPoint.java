@@ -1117,6 +1117,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return Kernel.isEqual(sum1, sum2, eps);
 	}
 
+	/**
+	 * @param A
+	 *            first point
+	 * @param B
+	 *            second point
+	 * @param C
+	 *            third point
+	 * @return whether the three points A, B and C are collinear.
+	 */
 	public static boolean collinearND(GeoPointND A, GeoPointND B, GeoPointND C) {
 		// A, B, C are collinear iff (A-B)x(A-C) == (0,0,0)
 
@@ -2650,6 +2659,24 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return new double[] { inhomX, inhomY };
 	}
 
+	/**
+	 * @param A
+	 *            first point
+	 * @param B
+	 *            second point
+	 * @param C
+	 *            third point
+	 * @param wA
+	 *            weight of A
+	 * @param wB
+	 *            weight of B
+	 * @param wC
+	 *            weight of C
+	 * @param w
+	 *            value of wA+wB+wC
+	 * @param M
+	 *            output
+	 */
 	public static void setBarycentric(GeoPointND A, GeoPointND B, GeoPointND C,
 			double wA, double wB, double wC, double w, GeoPointND M) {
 		Coords cA = A.getInhomCoordsInD3();

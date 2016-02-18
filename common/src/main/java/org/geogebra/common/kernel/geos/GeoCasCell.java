@@ -3120,6 +3120,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	}
 
 	/**
+	 * @param tpl
+	 *            string template (might be MathQuill or JLM)
 	 * @return input in LaTeX form
 	 */
 	public String getLaTeXInput(StringTemplate tpl) {
