@@ -9,35 +9,18 @@ import javax.swing.Timer;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.gui.util.DropDownList;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.awt.GGraphics2DD;
 
-public class DropDownListD implements DropDownList, ActionListener {
-	private static final GColor FOCUS_COLOR = GColor.BLUE;
-	private static final GColor NORMAL_COLOR = GColor.LIGHT_GRAY;
-	private static final int MAX_WIDTH = 40;
+public class DropDownListD extends DropDownList implements ActionListener
+
+{
 	private Timer timClick;
-	private Timer timDrag;
-	private DropDownListener listener;
-	private int clickDelay = 100;
-	private int dragDelay = 100;
-	private int mouseX = 0;
-	private int mouseY = 0;
+	private Timer timScroll;
 
 	public DropDownListD(DropDownListener listener) {
-		this.listener = listener;
+		super(listener);
 		timClick = new Timer(clickDelay, this);
-		timDrag = new Timer(dragDelay, this);
-	}
-	public void drawSelected(GeoElement geo, GGraphics2D g2, GColor bgColor,
-			int left, int top, int width, int height) {
-		g2.setPaint(bgColor);
-		g2.fillRect(left, top, width, height);
-
-		// TF Rectangle
-		g2.setPaint(geo.doHighlighting() ? FOCUS_COLOR : NORMAL_COLOR);
-		g2.drawRect(left, top, width, height);
-
+		timScroll = new Timer(scrollDelay, this);
 	}
 
 	public void drawControl(GGraphics2D g2, int left, int top, int width,
@@ -100,30 +83,30 @@ public class DropDownListD implements DropDownList, ActionListener {
 
 	}
 
-	public void startScrollTimer(int x, int y) {
-		timDrag.start();
+	@Override
+	protected void runScrollTimer() {
+		timScroll.start();
 	}
 
 	public void stopScrollTimer() {
-		timDrag.stop();
+		timScroll.stop();
 	}
 
 
 	public void setTimerDelay(int timerDelay) {
-		timDrag.setDelay(timerDelay);
+		timScroll.setDelay(timerDelay);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == timClick) {
-			listener.onClick(mouseX, mouseY);
-		} else {
 			doRunClick();
+		} else {
+			doScroll();
 		}
 	}
 
-	public void startClickTimer(int x, int y) {
-		mouseX = x;
-		mouseY = y;
+	@Override
+	protected void runClickTimer() {
 		timClick.start();
 	}
 
@@ -136,11 +119,6 @@ public class DropDownListD implements DropDownList, ActionListener {
 	}
 
 	public boolean isScrollTimerRunning() {
-		return timDrag.isRunning();
+		return timScroll.isRunning();
 	}
-
-	public void doRunClick() {
-		listener.onClick(mouseX, mouseY);
-	}
-
 }

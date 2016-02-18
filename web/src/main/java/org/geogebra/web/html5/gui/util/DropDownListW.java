@@ -3,28 +3,18 @@ package org.geogebra.web.html5.gui.util;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.gui.util.DropDownList;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Polygon;
 
 import com.google.gwt.user.client.Timer;
 
-public class DropDownListW implements DropDownList {
-	private static final int BOX_ROUND = 8;
-	private static final GColor FOCUS_COLOR = GColor.BLUE;
-	private static final GColor NORMAL_COLOR = GColor.LIGHT_GRAY;
-	private static final int MAX_WIDTH = 40;
+public class DropDownListW extends DropDownList {
 	private Timer timScroll;
 	private Timer timClick;
-	private int scrollDelay = 100;
-	private int clickDelay = 200;
-	private int mouseX = 0;
-	private int mouseY = 0;
 
-	private DropDownListener listener;
 
 	public DropDownListW(DropDownListener listener) {
-		this.listener = listener;
+		super(listener);
 		timClick = new Timer() {
 
 			@Override
@@ -37,23 +27,9 @@ public class DropDownListW implements DropDownList {
 
 			@Override
 			public void run() {
-				DropDownListW.this.listener.onScroll(mouseX, mouseY);
+				doScroll();
 			}
 		};
-	}
-
-	public void doRunClick() {
-		listener.onClick(mouseX, mouseY);
-	}
-	public void drawSelected(GeoElement geo, GGraphics2D g2, GColor bgColor,
-			int left, int top, int width, int height) {
-		g2.setPaint(bgColor);
-		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
-
-		// TF Rectangle
-		g2.setPaint(geo.doHighlighting() ? FOCUS_COLOR : NORMAL_COLOR);
-		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
-
 	}
 
 	public void drawControl(GGraphics2D g2, int left, int top, int width,
@@ -116,10 +92,13 @@ public class DropDownListW implements DropDownList {
 
 	}
 
-	public void startClickTimer(int x, int y) {
-		mouseX = x;
-		mouseY = y;
+	protected void runClickTimer() {
 		timClick.schedule(clickDelay);
+	}
+
+	protected void runScrollTimer() {
+		timClick.cancel();
+		timScroll.scheduleRepeating(scrollDelay);
 	}
 
 	public void stopClickTimer() {
@@ -131,12 +110,6 @@ public class DropDownListW implements DropDownList {
 		return timClick.isRunning();
 	}
 
-	public void startScrollTimer(int x, int y) {
-		timClick.cancel();
-		mouseX = x;
-		mouseY = y;
-		timScroll.scheduleRepeating(scrollDelay);
-	}
 
 	public void stopScrollTimer() {
 		timScroll.cancel();
