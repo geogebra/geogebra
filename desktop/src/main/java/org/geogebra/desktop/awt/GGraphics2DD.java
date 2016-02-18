@@ -322,6 +322,9 @@ public class GGraphics2DD implements org.geogebra.common.awt.GGraphics2D {
 			impl.fill(org.geogebra.desktop.awt.GGeneralPathD
 					.getAwtGeneralPath(((GeneralPathClipped) s)
 							.getGeneralPath()));
+		if (s instanceof GPolygonD) {
+			getAwtGraphics(this).fillPolygon(((GPolygonD) s).getPolygon());
+		}
 	}
 
 	public org.geogebra.common.awt.GShape getClip() {

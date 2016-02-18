@@ -2,6 +2,8 @@ package org.geogebra.common.gui.util;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPolygon;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 public abstract class DropDownList {
@@ -46,18 +48,65 @@ public abstract class DropDownList {
 
 	}
 
-	public abstract void drawControl(GGraphics2D g2, int left, int top,
-			int width, int height,
-			GColor bgColor, boolean pressed);
+	public void drawControl(GGraphics2D g2, int left, int top, int width,
+			int height, GColor bgColor, boolean pressed) {
+		g2.setColor(GColor.DARK_GRAY);
 
-	public abstract void drawScrollUp(GGraphics2D g2, int left, int top,
-			int width,
- int height,
-			GColor bgColor, boolean pressed);
+		int midx = left + width / 2;
 
-	public abstract void drawScrollDown(GGraphics2D g2, int left, int top,
-			int width,
-			int height, GColor bgColor, boolean pressed);
+		int w = width < MAX_WIDTH ? width : MAX_WIDTH;
+		int tW = w / 4;
+		int tH = w / 6;
+
+		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
+
+		GPolygon p = AwtFactory.prototype.newPolygon();
+		p.addPoint(midx - tW, midy + tH);
+		p.addPoint(midx + tW, midy + tH);
+		p.addPoint(midx, midy + 2 * tW);
+		g2.fill(p);
+
+	}
+
+	public void drawScrollUp(GGraphics2D g2, int left, int top, int width,
+			int height, GColor bgColor, boolean pressed) {
+		g2.setColor(GColor.DARK_GRAY);
+
+		int midx = left + width / 2;
+
+		int w = width < MAX_WIDTH ? width : MAX_WIDTH;
+		int tW = w / 6;
+		int tH = w / 6;
+
+		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
+
+		GPolygon p = AwtFactory.prototype.newPolygon();
+		p.addPoint(midx - tW, midy + 2 * tW);
+		p.addPoint(midx + tW, midy + 2 * tW);
+		p.addPoint(midx, midy + tH);
+		g2.fill(p);
+
+	}
+
+	public void drawScrollDown(GGraphics2D g2, int left, int top, int width,
+			int height, GColor bgColor, boolean pressed) {
+		g2.setColor(GColor.DARK_GRAY);
+
+		int midx = left + width / 2;
+
+		int w = width < MAX_WIDTH ? width : MAX_WIDTH;
+		int tW = w / 6;
+		int tH = w / 6;
+
+		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
+
+		GPolygon p = AwtFactory.prototype.newPolygon();
+		p.addPoint(midx - tW, midy + tH);
+		p.addPoint(midx + tW, midy + tH);
+		p.addPoint(midx, midy + 2 * tW);
+		g2.fill(p);
+
+	}
 
 	private void setMouse(int x, int y) {
 		mouseX = x;

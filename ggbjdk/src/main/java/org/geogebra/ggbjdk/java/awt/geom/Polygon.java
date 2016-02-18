@@ -26,6 +26,7 @@ package org.geogebra.ggbjdk.java.awt.geom;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.awt.GPolygon;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.ggbjdk.sun.awt.geom.Crossings;
 
@@ -50,7 +51,7 @@ import org.geogebra.ggbjdk.sun.awt.geom.Crossings;
  * @author Herb Jellinek
  * @since 1.0
  */
-public class Polygon implements Shape {
+public class Polygon implements Shape, GPolygon {
 
 	/**
 	 * The total number of points. The value of <code>npoints</code> represents
