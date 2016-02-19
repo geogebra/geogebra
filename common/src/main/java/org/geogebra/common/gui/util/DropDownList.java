@@ -5,8 +5,11 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPolygon;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimer.GTimerListener;
 
-public abstract class DropDownList {
+public class DropDownList {
 	public interface DropDownListener {
 		void onClick(int x, int y);
 
@@ -23,10 +26,28 @@ public abstract class DropDownList {
 
 	private int mouseX = 0;
 	private int mouseY = 0;
-	private DropDownListener listener;
+	private GTimer clickTimer;
+	private GTimer scrollTimer;
 
-	public DropDownList(DropDownListener listener) {
+	private DropDownListener listener;
+	private App app;
+
+	public DropDownList(App app, DropDownListener listener) {
 		this.listener = listener;
+		this.app = app;
+		clickTimer = app.newTimer(new GTimerListener() {
+
+			public void onRun() {
+				doRunClick();
+			}
+		}, clickDelay);
+
+		scrollTimer = app.newTimer(new GTimerListener() {
+
+			public void onRun() {
+				doScroll();
+			}
+		}, scrollDelay);
 	}
 
 	public void doRunClick() {
@@ -113,29 +134,30 @@ public abstract class DropDownList {
 		mouseY = y;
 	}
 
-	protected abstract void runClickTimer();
-
-	protected abstract void runScrollTimer();
-
 	public void startClickTimer(int x, int y) {
 		setMouse(x, y);
-		runClickTimer();
+		clickTimer.start();
 	}
 
 	public void startScrollTimer(int x, int y) {
 		setMouse(x, y);
-		runScrollTimer();
+		scrollTimer.startRepeat();
 	}
 
-	public abstract void stopClickTimer();
+	public void stopClickTimer() {
+		clickTimer.stop();
+	}
 
-	public abstract void stopScrollTimer();
+	public void stopScrollTimer() {
+		scrollTimer.stop();
+	}
 
-	public abstract boolean isClickTimerRunning();
+	public boolean isClickTimerRunning() {
+		return clickTimer.isRunning();
+	}
 
-	public abstract boolean isScrollTimerRunning();
-
-	public abstract void setTimerDelay(int timerDelay);
-
+	public boolean isScrollTimerRunning() {
+		return scrollTimer.isRunning();
+	}
 
 }

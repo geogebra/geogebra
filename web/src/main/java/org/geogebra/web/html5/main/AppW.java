@@ -20,8 +20,6 @@ import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.MenuInterface;
-import org.geogebra.common.gui.util.DropDownList;
-import org.geogebra.common.gui.util.DropDownList.DropDownListener;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
@@ -72,6 +70,8 @@ import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimer.GTimerListener;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -90,7 +90,6 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.util.DropDownListW;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.io.ConstructionException;
@@ -113,6 +112,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.util.GTimerW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -3481,11 +3481,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 
-
-	public DropDownList newDropDownList(DropDownListener listener) {
-		return new DropDownListW(listener);
-	};
-
 	public String getVersionSuffix() {
 		if (getLAF() != null) {
 			return getLAF().getVersionSuffix();
@@ -3510,4 +3505,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 				|| this.getArticleElement().getDataParamJSON().length() > 0;
 	}
 
+	@Override
+	public GTimer newTimer(GTimerListener listener, int delay) {
+		return new GTimerW(listener, delay);
+	}
 }

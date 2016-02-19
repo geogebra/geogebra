@@ -115,8 +115,6 @@ import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.util.DropDownList;
-import org.geogebra.common.gui.util.DropDownList.DropDownListener;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.OFFHandler;
@@ -150,6 +148,8 @@ import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DownloadManager;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimer.GTimerListener;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -179,7 +179,6 @@ import org.geogebra.desktop.gui.dialog.AxesStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
 import org.geogebra.desktop.gui.layout.DockPanel;
-import org.geogebra.desktop.gui.util.DropDownListD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.kernel.AnimationManagerD;
@@ -192,6 +191,7 @@ import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.FrameCollector;
+import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.Normalizer;
@@ -5451,9 +5451,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return getScaledInternalImage(name);
 	}
 
-	public DropDownList newDropDownList(DropDownListener listener) {
-		return new DropDownListD(listener);
-	}
 
 	public void needThumbnailFor3D() {
 		// nothing to do here
@@ -5478,6 +5475,11 @@ public class AppD extends App implements KeyEventDispatcher {
 	public void closePopups() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public GTimer newTimer(GTimerListener listener, int delay) {
+		return new GTimerD(listener, delay);
 	}
 
 }

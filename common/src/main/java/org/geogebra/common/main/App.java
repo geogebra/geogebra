@@ -32,8 +32,6 @@ import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.OptionsMenu;
-import org.geogebra.common.gui.util.DropDownList;
-import org.geogebra.common.gui.util.DropDownList.DropDownListener;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
@@ -76,6 +74,8 @@ import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.CommandInputField;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimer.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -4015,9 +4015,6 @@ public abstract class App implements UpdateSelection {
 		return Math.max(getFontSize(), 14);
 	}
 
-public DropDownList newDropDownList(DropDownListener listener) {
-	return null;
-}
 
 	/**
 	 * @return if sliders are displayed in the AV
@@ -4141,4 +4138,13 @@ public DropDownList newDropDownList(DropDownListener listener) {
 	public interface ViewCallback {
 		public void run(int viewID, String viewName);
 	}
+
+	/**
+	 * Creates a new Timer.
+	 * 
+	 * @param delay
+	 *            Milliseconds to run timer after start()1.
+	 * @return GTimer descendant instance.
+	 */
+	public abstract GTimer newTimer(GTimerListener listener, int delay);
 }

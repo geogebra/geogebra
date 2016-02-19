@@ -918,7 +918,8 @@ public final class DrawList extends CanvasDrawable
 				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS));
 		if (isDrawingOnCanvas()) {
 			drawOptions = new DrawOptions();
-			dropDown = view.getApplication().newDropDownList(this);
+			dropDown = new DropDownList(view.getApplication(), this);
+
 			GBox ctrlBox = geo.getKernel().getApplication().getSwingFactory()
 					.createHorizontalBox(view.getEuclidianController());
 			ctrlRect = ctrlBox.getBounds();
