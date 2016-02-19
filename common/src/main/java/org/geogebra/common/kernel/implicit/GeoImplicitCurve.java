@@ -3,7 +3,9 @@ package org.geogebra.common.kernel.implicit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
@@ -45,7 +47,6 @@ import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
@@ -69,7 +70,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	/**
 	 * Underlying drawing algorithm
 	 */
-	protected final QuadTree quadTree = new ExperimentalQuadTree();
+	protected final QuadTree quadTree = new WebExperimentalQuadTree();
 
 	private double[] evalArray = new double[2];
 	private double[] derEvalArray = new double[2];
@@ -414,11 +415,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 *            function variable y
 	 * @return the value of the function
 	 */
-	int counter = 0;
 	public double evaluateImplicitCurve(double x, double y) {
 		evalArray[0] = x;
 		evalArray[1] = y;
-		counter++;
 		return evaluateImplicitCurve(evalArray);
 	}
 
@@ -1166,10 +1165,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * Base class for quadtree algorithms
 	 */
 	private abstract class QuadTree {
-
 		/**
 		 * All corners are inside / outside
 		 */
+		@SuppressWarnings("unused")
 		public static final int T0000 = 0;
 
 		/**
@@ -1212,54 +1211,37 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		 * invalid configuration. expression value is undefined / infinity for
 		 * at least one of the corner
 		 */
-		public static final int T_INV = 16;
-
+		public static final int T_INV = -1;
+		public static final int EMPTY = 0;
+		public static final int FINISHED = Integer.MAX_VALUE;
+		public static final int VALID = 1;
+		/**
+		 * it would be better to adjust LIST_THRESHOLD based on platform
+		 */
+		public int LIST_THRESHOLD = 48;
 		protected double x;
 		protected double y;
 		protected double w;
 		protected double h;
-		protected double fracX;
-		protected double fracY;
 		protected double scaleX;
 		protected double scaleY;
 		protected ArrayList<MyPoint> locusPoints;
+		private LinkedList<PointList> openList = new LinkedList<PointList>();
+		private MyPoint[] pts = new MyPoint[2];
+		private PointList p1, p2;
+		private MyPoint temp;
+		private ListIterator<PointList> itr1, itr2;
 
 		public QuadTree() {
 
 		}
 
-		/**
-		 * 
-		 * @param topLeft
-		 *            value of function evaluated at top left corner of the
-		 *            square cell
-		 * @param topRight
-		 *            value of function evaluated at top right corner of the
-		 *            square cell
-		 * @param bottomRight
-		 *            value of the function evaluated at bottom right corner of
-		 *            the square cell
-		 * @param bottomLeft
-		 *            value of the function evaluated at bottom left corner of
-		 *            the square cell
-		 * @return an integer between 0 to 7 representing type of configuration
-		 *         of the cell or T_INV if for an invalid cell configuration
-		 */
-		public int config(double topLeft, double topRight, double bottomRight,
-				double bottomLeft) {
-			// find and pack corner configuration
-			int config = sign(topLeft);
-			config = (config << 1) | sign(topRight);
-			config = (config << 1) | sign(bottomRight);
-			config = (config << 1) | sign(bottomLeft);
-			if (config >= 16) {
-				// invalid configuration
-				return T_INV;
-			} else if (config >= 8) {
-				// get complementary configuration for the cell
-				config = (~config) & 0xf;
+		public int config(Rect r) {
+			int config = 0;
+			for (int i = 0; i < 4; i++) {
+				config = (config << 1) | sign(r.evals[i]);
 			}
-			return config;
+			return config >= 8 ? (~config) & 0xf : config;
 		}
 
 		/**
@@ -1280,177 +1262,130 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			}
 		}
 
-		/**
-		 * Add a new segment which exists in square cell bounded by (x1, y1) and
-		 * (x2, y2) to the locus
-		 * 
-		 * @param x1
-		 *            leftmost x coordinate
-		 * @param y1
-		 *            topmost y coordinate
-		 * @param x2
-		 *            rightmost x coordinate
-		 * @param y2
-		 *            bottom most y coordinate
-		 */
-		public void addSegment(double x1, double y1, double x2, double y2) {
-			// evaluate curve at each corner
-			double tl = evaluateImplicitCurve(x1, y1);
-			double tr = evaluateImplicitCurve(x2, y1);
-			double br = evaluateImplicitCurve(x2, y2);
-			double bl = evaluateImplicitCurve(x1, y2);
-			// add segment
-			addSegment(x1, y1, x2, y2, tl, tr, br, bl);
-		}
-
-		/**
-		 * @param x1
-		 *            leftmost x coordinate
-		 * @param y1
-		 *            topmost y coordinate
-		 * @param x2
-		 *            rightmost x coordinate
-		 * @param y2
-		 *            bottom most y coordinate
-		 * @param tl
-		 *            value of the function evaluated at top-left corner
-		 * @param tr
-		 *            value of the function evaluated at top-right corner
-		 * @param br
-		 *            value of the function evaluated at bottom-right corner
-		 * @param bl
-		 *            value of the function evaluated at bottom-left corner
-		 */
-		public void addSegment(double x1, double y1, double x2, double y2,
-				double tl, double tr, double br, double bl) {
-			// get an appropriate segment
-			MyPoint[] pts = getSegmentFor(config(tl, tr, br, bl), x1, y1, x2,
-					y2, tl, tr, br, bl);
-
-			// add segment to locus
-			if (pts != null) {
-				locusPoints.add(pts[0]);
-				locusPoints.add(pts[1]);
+		public void abortList() {
+			itr1 = openList.listIterator();
+			while (itr1.hasNext()) {
+				p1 = itr1.next();
+				locusPoints.add(p1.start);
+				locusPoints.addAll(p1.pts);
+				locusPoints.add(p1.end);
 			}
+			openList.clear();
 		}
 
-		/**
-		 * Create an appropriate segment for the given square cell
-		 * 
-		 * @param gridType
-		 *            type of the grid
-		 * @param x1
-		 *            leftmost x coordinate
-		 * @param y1
-		 *            topmost y coordinate
-		 * @param x2
-		 *            rightmost x coordinate
-		 * @param y2
-		 *            bottom most y coordinate
-		 * @param tl
-		 *            value of the function evaluated at top-left corner
-		 * @param tr
-		 *            value of the function evaluated at top-right corner
-		 * @param br
-		 *            value of the function evaluated at bottom-right corner
-		 * @param bl
-		 *            value of the function evaluated at bottom-left corner
-		 * @return Array of two points representing a segment of straight line
-		 *         from the first point to the second point or null for invalid
-		 *         cell
-		 */
-		public MyPoint[] getSegmentFor(int gridType, double x1, double y1,
-				double x2, double y2, double tl, double tr, double br,
-				double bl) {
+		private boolean equal(MyPoint q1, MyPoint q2) {
+			return Kernel.isEqual(q1.x, q2.x, 1e-10)
+					&& Kernel.isEqual(q1.y, q2.y, 1e-10);
+		}
 
-			MyPoint P = null, Q = null;
-			double p1 = 0.0, p2 = 0.0;
+		public int addSegment(Rect r) {
+			int status = createSegment(r);
+			if (status == VALID) {
+				if (pts[0].x > pts[1].x) {
+					temp = pts[0];
+					pts[0] = pts[1];
+					pts[1] = temp;
+				}
+				itr1 = openList.listIterator();
+				itr2 = openList.listIterator();
+				boolean flag1 = false, flag2 = false;
+				while (itr1.hasNext()) {
+					p1 = itr1.next();
+					if (equal(pts[1], p1.start)) {
+						flag1 = true;
+						break;
+					}
+				}
+
+				while (itr2.hasNext()) {
+					p2 = itr2.next();
+					if (equal(pts[0], p2.end)) {
+						flag2 = true;
+						break;
+					}
+				}
+
+				if (flag1 && flag2) {
+					itr1.remove();
+					p2.mergeTo(p1);
+				} else if (flag1) {
+					p1.extendBack(pts[0]);
+				} else if (flag2) {
+					p2.extendFront(pts[1]);
+				} else {
+					openList.addFirst(new PointList(pts[0], pts[1]));
+				}
+				if (openList.size() > LIST_THRESHOLD) {
+					abortList();
+				}
+			}
+			return status;
+		}
+
+		public int createSegment(Rect r) {
+			int gridType = config(r);
+			if (gridType == T0101 || gridType == T_INV) {
+				return gridType;
+			}
+
+			double x1 = r.x1(), x2 = r.x2(), y1 = r.y1(), y2 = r.y2();
+			double tl = r.evals[0], tr = r.evals[1], br = r.evals[2], bl = r.evals[3];
+			double q1 = 0.0, q2 = 0.0;
+
 			switch (gridType) {
 			// one or three corners are inside / outside
 			case T0001:
-				P = new MyPoint(x1, interpolate(bl, tl, y2, y1), false);
-				Q = new MyPoint(interpolate(bl, br, x1, x2), y2, true);
-				p1 = Math.min(Math.abs(bl), Math.abs(tl));
-				p2 = Math.min(Math.abs(bl), Math.abs(br));
+				pts[0] = new MyPoint(x1, interpolate(bl, tl, y2, y1), false);
+				pts[1] = new MyPoint(interpolate(bl, br, x1, x2), y2, true);
+				q1 = Math.min(Math.abs(bl), Math.abs(tl));
+				q2 = Math.min(Math.abs(bl), Math.abs(br));
 				break;
 
 			case T0010:
-				P = new MyPoint(x2, interpolate(br, tr, y2, y1), false);
-				Q = new MyPoint(interpolate(br, bl, x2, x1), y2, true);
-				p1 = Math.min(Math.abs(br), Math.abs(tr));
-				p2 = Math.min(Math.abs(br), Math.abs(bl));
+				pts[0] = new MyPoint(x2, interpolate(br, tr, y2, y1), false);
+				pts[1] = new MyPoint(interpolate(br, bl, x2, x1), y2, true);
+				q1 = Math.min(Math.abs(br), Math.abs(tr));
+				q2 = Math.min(Math.abs(br), Math.abs(bl));
 				break;
 
 			case T0100:
-				P = new MyPoint(x2, interpolate(tr, br, y1, y2), false);
-				Q = new MyPoint(interpolate(tr, tl, x2, x1), y1, true);
-				p1 = Math.min(Math.abs(tr), Math.abs(br));
-				p2 = Math.min(Math.abs(tr), Math.abs(tl));
+				pts[0] = new MyPoint(x2, interpolate(tr, br, y1, y2), false);
+				pts[1] = new MyPoint(interpolate(tr, tl, x2, x1), y1, true);
+				q1 = Math.min(Math.abs(tr), Math.abs(br));
+				q2 = Math.min(Math.abs(tr), Math.abs(tl));
 				break;
 
 			case T0111:
-				P = new MyPoint(x1, interpolate(tl, bl, y1, y2), false);
-				Q = new MyPoint(interpolate(tl, tr, x1, x2), y1, true);
-				p1 = Math.min(Math.abs(bl), Math.abs(tl));
-				p2 = Math.min(Math.abs(tl), Math.abs(tr));
+				pts[0] = new MyPoint(x1, interpolate(tl, bl, y1, y2), false);
+				pts[1] = new MyPoint(interpolate(tl, tr, x1, x2), y1, true);
+				q1 = Math.min(Math.abs(bl), Math.abs(tl));
+				q2 = Math.min(Math.abs(tl), Math.abs(tr));
 				break;
 
 			// two consecutive corners are inside / outside
 			case T0011:
-				P = new MyPoint(x1, interpolate(tl, bl, y1, y2), false);
-				Q = new MyPoint(x2, interpolate(tr, br, y1, y2), true);
-				p1 = Math.min(Math.abs(tl), Math.abs(bl));
-				p2 = Math.min(Math.abs(tr), Math.abs(br));
+				pts[0] = new MyPoint(x1, interpolate(tl, bl, y1, y2), false);
+				pts[1] = new MyPoint(x2, interpolate(tr, br, y1, y2), true);
+				q1 = Math.min(Math.abs(tl), Math.abs(bl));
+				q2 = Math.min(Math.abs(tr), Math.abs(br));
 				break;
 
 			case T0110:
-				P = new MyPoint(interpolate(tl, tr, x1, x2), y1, false);
-				Q = new MyPoint(interpolate(bl, br, x1, x2), y2, true);
-				p1 = Math.min(Math.abs(tl), Math.abs(tr));
-				p2 = Math.min(Math.abs(bl), Math.abs(br));
+				pts[0] = new MyPoint(interpolate(tl, tr, x1, x2), y1, false);
+				pts[1] = new MyPoint(interpolate(bl, br, x1, x2), y2, true);
+				q1 = Math.min(Math.abs(tl), Math.abs(tr));
+				q2 = Math.min(Math.abs(bl), Math.abs(br));
 				break;
-
-			// a pair of opposite corners are inside / outside
-			case T0101:
-				// invalid/value is undefined for at least on of the corner
-			case T_INV:
-			case T0000:
 			default:
-				return null;
+				return EMPTY;
 			}
 			// check continuity of the function between P1 and P2
-			double p = Math.abs(evaluateImplicitCurve(P.x, P.y));
-			double q = Math.abs(evaluateImplicitCurve(Q.x, Q.y));
-			if ((p <= p1 && q <= p2)) {
-				return new MyPoint[] { P, Q };
+			double p = Math.abs(evaluateImplicitCurve(pts[0].x, pts[0].y));
+			double q = Math.abs(evaluateImplicitCurve(pts[1].x, pts[1].y));
+			if ((p <= q1 && q <= q2)) {
+				return VALID;
 			}
-			return null;
-		}
-
-		/**
-		 * 
-		 * @param startX
-		 *            leftmost x coordinate of the square cell
-		 * @param startY
-		 *            topmost y coordinate of the square cell
-		 * @param endX
-		 *            rightmost x coordinate of the square cell
-		 * @param endY
-		 *            bottom most y coordinate of the square cell
-		 * @return true if the square cell contains a crossing segment
-		 */
-		public boolean hasSegment(double startX, double startY, double endX,
-				double endY) {
-			double tl = evaluateImplicitCurve(startX, startY);
-			double br = evaluateImplicitCurve(endX, endY);
-			int s1 = sign(tl);
-			int s2 = sign(br);
-			if ((s1 == s2) && (tl + br != 0.0)) {
-				if (sign(evaluateImplicitCurve(endX, startY)) == s1) {
-					return s1 != sign(evaluateImplicitCurve(startX, endY));
-				}
-			}
-			return true;
+			return EMPTY;
 		}
 
 		/**
@@ -1479,10 +1414,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			this.scaleX = slX;
 			this.scaleY = slY;
 			this.locusPoints = getLocus().getPoints();
-			counter = 0;
 			this.updatePath();
-			App.debug("Size: " + locusPoints.size());
-			App.debug("Counter: " + counter);
+			this.abortList();
 		}
 
 		public void polishPointOnPath(GeoPointND pt) {
@@ -1490,7 +1423,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		public List<Coords> probablePoints(GeoImplicitCurve other, int n) {
-			// TODO: It would be nice idea to find xMin, yMin etc from the locus
 			double xMin = Math.max(x, other.quadTree.x);
 			double yMin = Math.max(y, other.quadTree.y);
 			double xMax = Math.min(x + w, other.quadTree.x + w);
@@ -1499,621 +1431,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					xMin, yMin, xMax, yMax, n);
 		}
 
-		public abstract void updatePath();
-	}
-
-	/**
-	 * Implementation of the first quad-tree algorithm. The algorithm searches
-	 * for the cells which contain a curve segment up to seach_depth. It goes
-	 * deep up to plot_depth if a square cell has a segment and eventually plot
-	 * the segment
-	 */
-	@SuppressWarnings("unused")
-	private class SimpleQuadTree extends QuadTree {
-		private static final int MAX_PLOT_DEPTH = 1 << 8;
-		private static final int MAX_SEARCH_DEPTH = 1 << 6;
-		private int searchDepth;
-		private int plotDepth;
-
-		public SimpleQuadTree() {
-			super();
-		}
-
-		@Override
-		public void updatePath() {
-			// get max of height and width to get square shaped subdivision
-			double mx = Math.max(w, h);
-			// Ensure that grid size should be at least eight pixel
-			int pxls = (int) (Math.max(w * scaleX, h * scaleY) * 0.125 + 1);
-			if (pxls == 0) {
-				return;
-			}
-			// Ceil to next power of two
-			int hBits = Integer.highestOneBit(pxls);
-			if ((pxls & (pxls - 1)) != 0) {
-				hBits <<= 1;
-			}
-			// Adjust plot and search depth according to size of viewport
-			plotDepth = Math.min(hBits, MAX_PLOT_DEPTH);
-			searchDepth = Math.min(hBits >> 2, MAX_SEARCH_DEPTH);
-
-			// initialize x and y fractions corresponding to PLOT_DEPTH
-			super.fracX = mx / plotDepth;
-			super.fracY = mx / plotDepth;
-			// execute quad-tree
-			createTree(0, 0, 1);
-		}
-
-		/**
-		 * An integer based fast implementation of the subdivision algorithm
-		 * 
-		 * @param startX
-		 *            starting x coordinate
-		 * @param startY
-		 *            starting y coordinate
-		 * @param depth
-		 *            current depth which is always power of two
-		 */
-		private void subdivide(int startX, int startY, int depth) {
-			int frac = plotDepth / depth;
-			createTree(startX, startY, depth);
-			createTree(startX | frac, startY, depth);
-			createTree(startX | frac, startY | frac, depth);
-			createTree(startX, startY | frac, depth);
-		}
-
-		/**
-		 * An integer based implementation of quad-tree
-		 * 
-		 * @param startX
-		 *            starting x coordinate
-		 * @param startY
-		 *            starting y coordinate
-		 * @param depth
-		 *            current depth which is always power of two
-		 */
-		private void createTree(int startX, int startY, int depth) {
-			if (depth < searchDepth) {
-				// increase the depth and divide the region further
-				subdivide(startX, startY, depth << 1);
-			} else {
-				// calculate the current fraction of the whole grid
-				int frac = plotDepth / depth;
-
-				// calculate all four coordinate based on current fraction, x
-				// and y coordinate
-				double x1 = this.x + startX * fracX;
-				double x2 = this.x + (startX + frac) * fracX;
-				double y1 = this.y + startY * fracY;
-				double y2 = this.y + (startY + frac) * fracY;
-
-				// check whether square cell contains a segment
-				if (hasSegment(x1, y1, x2, y2)) {
-					// subdivide of current depth is smaller than plot_depth
-					// other wise plot the current cell
-					if (depth < plotDepth) {
-						subdivide(startX, startY, depth << 1);
-					} else {
-						addSegment(x1, y1, x2, y2);
-					}
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * Quadtree implementation which exploits curvature property of the curve.
-	 * 
-	 * For more details flow the link and see second approach
-	 * http://comjnl.oxfordjournals.org/content/33/5/402.full.pdf+html
-	 */
-	@SuppressWarnings("unused")
-	private class CurvatureQuadTree extends QuadTree {
-		/**
-		 * Maximum search depth
-		 */
-		private static final int MAX_SEARCH_DEPTH = 1 << 5;
-		/**
-		 * Minimum grid size in pixel. Subdivision stops and square cell is
-		 * plotted when grid size equals MIN_GRID_SIZE
-		 */
-		private static final int MIN_GRID_SIZE = 4;
-		/**
-		 * Maximum grid size in pixel. Plotting won't start if grid size is
-		 * larger than MAX_GRID_SIZE
-		 */
-		private static final int MAX_GRID_SIZE = 64;
-		/**
-		 * A factor to determine whether a cell should be plotted or subdivided
-		 */
-		private static final int N = 8;
-
-		private int minPlotDepth;
-		private int searchDepth;
-		private int plotDepth;
-
-		private FunctionNVar fx;
-		private FunctionNVar fy;
-		private FunctionNVar fxx;
-		private FunctionNVar fyy;
-		private FunctionNVar fxy;
-
-		public CurvatureQuadTree() {
-			super();
-		}
-
-		private void init() {
-			// calculate the required derivatives
-			FunctionNVar func = getExpression();
-			fx = func.getDerivativeNoCAS(getVar(func, "x"), 1);
-			fy = func.getDerivativeNoCAS(getVar(func, "y"), 1);
-			fxx = fx.getDerivativeNoCAS(getVar(fx, "x"), 1);
-			fxy = fx.getDerivativeNoCAS(getVar(fx, "y"), 1);
-			fyy = fy.getDerivativeNoCAS(getVar(fy, "y"), 1);
-		}
-
-		private FunctionVariable getVar(FunctionNVar func, String name) {
-			FunctionVariable[] fvs = func.getFunctionVariables();
-			for (int i = 0; i < fvs.length; i++) {
-				if (name.equals(fvs[i].getSetVarString())) {
-					return fvs[i];
-				}
-			}
-			return new FunctionVariable(kernel, name);
-		}
-
-		/**
-		 * evaluate radius of the curvature at (x1, y1)
-		 * 
-		 * @param x1
-		 *            x-coordinate
-		 * @param y1
-		 *            y-coordinate
-		 * @return radius of curvature at (x1, y1)
-		 */
-		private double radius(double x1, double y1) {
-			double[] arr = new double[] { x1, y1 };
-			double xv = fx.evaluate(arr);
-			double yv = fy.evaluate(arr);
-			double xx = fxx.evaluate(arr);
-			double yy = fyy.evaluate(arr);
-			double xy = fxy.evaluate(arr);
-			double x2 = xv * xv; // x^2
-			double y2 = yv * yv; // y^2
-			double num = x2 + y2;
-			double den = xx * y2 + yy * x2 - 2 * xy * xv * yv;
-			return Math.pow(num, 1.5) / den;
-		}
-
-		@Override
-		public void updatePath() {
-			init();
-			// get max of height and width to get square shaped subdivision
-			double mx = Math.max(w, h);
-
-			int pxls = (int) (Math.max(w * scaleX, h * scaleY) + 1);
-			if (pxls == 0) {
-				return;
-			}
-			// ceil to power of two
-			int hBits = Integer.highestOneBit(pxls);
-			if ((pxls & (pxls - 1)) != 0) {
-				hBits <<= 1;
-			}
-
-			// max plot depth
-			plotDepth = hBits / MIN_GRID_SIZE;
-			// max search depth
-			searchDepth = Math.min(hBits / MAX_GRID_SIZE, MAX_SEARCH_DEPTH);
-			// min plot depth
-			minPlotDepth = Math.min(searchDepth << 2, plotDepth);
-
-			// initialize x and y fractions corresponding to PLOT_DEPTH
-			super.fracX = mx / plotDepth;
-			super.fracY = mx / plotDepth;
-
-			// execute quad-tree
-			createTree(0, 0, 1);
-		}
-
-		/**
-		 * An integer based fast implementation of the subdivision algorithm
-		 * 
-		 * @param startX
-		 *            starting x coordinate
-		 * @param startY
-		 *            starting y coordinate
-		 * @param depth
-		 *            current depth which is always power of two
-		 */
-		private void subdivide(int startX, int startY, int depth) {
-			int frac = plotDepth / depth;
-			createTree(startX, startY, depth);
-			createTree(startX | frac, startY, depth);
-			createTree(startX | frac, startY | frac, depth);
-			createTree(startX, startY | frac, depth);
-		}
-
-		/**
-		 * An integer based implementation of quad-tree
-		 * 
-		 * @param startX
-		 *            starting x coordinate
-		 * @param startY
-		 *            starting y coordinate
-		 * @param depth
-		 *            current depth which is always power of two
-		 */
-		private void createTree(int startX, int startY, int depth) {
-			if (depth < searchDepth) {
-				// increase the depth and divide the region further
-				subdivide(startX, startY, depth << 1);
-			} else {
-				// calculate the current fraction of the whole grid
-				int frac = plotDepth / depth;
-
-				// calculate all four coordinate based on current fraction, x
-				// and y coordinate
-				double x1 = this.x + startX * fracX;
-				double x2 = this.x + (startX + frac) * fracX;
-				double y1 = this.y + startY * fracY;
-				double y2 = this.y + (startY + frac) * fracY;
-
-				double d = (x2 - x1) * 0.5;
-				// check whether square cell contains a segment
-				if (hasSegment(x1, y1, x2, y2)) {
-					// plot if radius is large enough or depth equals plotDepth
-					if ((depth >= minPlotDepth && canPlot(x1 + d, y1 + d, d))
-							|| depth >= plotDepth) {
-						addSegment(x1, y1, x2, y2);
-					} else {
-						subdivide(startX, startY, depth << 1);
-					}
-				}
-			}
-		}
-
-		/**
-		 * 
-		 * @param xc
-		 *            x coordinate at the center of the square cell
-		 * @param yc
-		 *            y coordinate at the center of the square cell
-		 * @param d
-		 *            size of the square cell
-		 * @return true if we can plot the current segment
-		 */
-		private boolean canPlot(double xc, double yc, double d) {
-			double r = radius(xc, yc);
-			if (Double.isNaN(r) && Double.isInfinite(r)) {
-				return false;
-			}
-			return Math.abs(r) > N * d;
-		}
-	}
-
-	/**
-	 * Experimental implementation of quad tree. Maximum search_depth (S) is
-	 * currently 5,
-	 * 
-	 */
-	private class ExperimentalQuadTree extends QuadTree {
-		/**
-		 * maximum search depth
-		 */
-		private static final int MAX_SEARCH_DEPTH = 1 << 5;
-		/**
-		 * minimum possible grid size in pixels
-		 */
-		private static final int MIN_GRID_SIZE = 8;
-		/**
-		 * maximum possible grid size in pixels
-		 */
-		private static final int MAX_GRID_SIZE = 64;
-		/**
-		 * a constant indicating that square cell has been plotted
-		 */
-		private static final int FINISHED = Integer.MAX_VALUE;
-		/**
-		 * a constant indicating square cell is empty
-		 */
-		private static final int EMPTY = 0;
-
-		private int searchDepth;
-		private int stepMask;
-		private int steps;
-		private int plotDepth;
-		private int maxPoints;
-		private int[][] grid;
-		private int[][] mark;
-		private int[][] points;
-		private int segmentCheckDepth;
-		private int currentX;
-		private int currentY;
-		private double[][] rect;
-		private double[] coordx;
-		private double[] coordy;
-		private boolean[][] status;
-
-		public ExperimentalQuadTree() {
-			int m = MAX_SEARCH_DEPTH + 2;
-			this.maxPoints = MAX_SEARCH_DEPTH * (MAX_SEARCH_DEPTH + 1);
-			this.points = new int[maxPoints][2];
-			grid = new int[m][m];
-			mark = new int[m][m];
-			rect = new double[m][m];
-			coordx = new double[m];
-			coordy = new double[m];
-			status = new boolean[m][m];
-		}
-
-		@Override
-		public void updatePath() {
-			// get max of height and width to get square shaped subdivision
-			double mx = Math.max(w, h);
-
-			int pxls = (int) (Math.max(w * scaleX, h * scaleY) + 1);
-			if (pxls == 0) {
-				return;
-			}
-			// ceil to power of two
-			int hBits = Integer.highestOneBit(pxls);
-			if ((pxls & (pxls - 1)) != 0) {
-				hBits <<= 1;
-			}
-
-			// max plot depth
-			plotDepth = hBits / MIN_GRID_SIZE;
-
-			// max search depth
-			searchDepth = Math.max(1,
-					Math.min(hBits / MAX_GRID_SIZE, MAX_SEARCH_DEPTH));
-
-			double frx = mx / searchDepth;
-			double fry = mx / searchDepth;
-
-			// allocate memory to memorize x and y coordinates at the search
-			// depth
-			int end = searchDepth + 1;
-			double[] vertices = new double[end];
-			double[] xcoords = new double[end];
-			double[] ycoords = new double[end];
-			double cur, prev;
-
-			for (int i = 0; i <= searchDepth; i++) {
-				xcoords[i] = x + i * frx;
-				ycoords[i] = y + i * fry;
-			}
-
-			for (int i = 0; i <= searchDepth; i++) {
-				vertices[i] = evaluateImplicitCurve(xcoords[i], ycoords[0]);
-			}
-
-			// initialize grid configuration at the search depth
-			int count = 0, top = 0, i, j, ni, nj, k;
-			for (i = 1; i <= searchDepth; i++) {
-				prev = evaluateImplicitCurve(xcoords[0], ycoords[i]);
-				mark[0][i] = mark[i][0] = mark[end][i] = mark[i][end] = 2;
-				for (j = 1; j <= searchDepth; j++) {
-					cur = evaluateImplicitCurve(xcoords[j], ycoords[i]);
-
-					grid[i][j] = edgeConfig(vertices[j - 1], vertices[j], cur,
-							prev);
-					mark[i][j] = 0;
-					if (grid[i][j] != EMPTY) {
-						count++;
-						points[top][0] = i;
-						points[top++][1] = j;
-						mark[i][j] = 1;
-					}
-					vertices[j - 1] = prev;
-					prev = cur;
-				}
-				vertices[searchDepth] = prev;
-			}
-
-			if (count <= 96) {
-				plotDepth <<= 2;
-			} else if (count <= 192) {
-				plotDepth <<= 1;
-			}
-
-			// set step size for search depth
-			steps = plotDepth / searchDepth;
-
-			// step mask to identify intersection
-			stepMask = steps - 1;
-
-			steps = Integer.numberOfTrailingZeros(steps);
-
-			super.fracX = mx / plotDepth;
-			super.fracY = mx / plotDepth;
-
-			segmentCheckDepth = Math.min(searchDepth << 2, plotDepth);
-
-			// for the very first iteration we check that if a square grid has a
-			// segment, but in subsequent iteration we don't perform any check
-			int rtop = maxPoints;
-			while (top != 0) {
-				i = points[--top][0];
-				j = points[top][1];
-				mark[i][j] = 2;
-				currentX = j;
-				currentY = i;
-				plot(xcoords[j - 1], ycoords[i - 1], frx, fry);
-				for (k = 0; k < 4; k++) {
-					ni = i + MOVE[k][0];
-					nj = j + MOVE[k][1];
-					if (mark[ni][nj] == 0 && grid[ni][nj] != EMPTY) {
-						mark[ni][nj] = 1;
-						points[--rtop][0] = ni;
-						points[rtop][1] = nj;
-					}
-				}
-				grid[i][j] = FINISHED;
-			}
-
-			if (rtop == maxPoints) {
-				return;
-			}
-			top = maxPoints - rtop;
-			if (top <= 96) {
-				plotDepth = searchDepth << 4;
-				segmentCheckDepth = plotDepth;
-			} else if (top <= 192) {
-				plotDepth = searchDepth << 4;
-				segmentCheckDepth = plotDepth >> 1;
-			} else {
-				segmentCheckDepth = Math.min(128, plotDepth);
-			}
-
-			steps = plotDepth / searchDepth;
-
-			// step mask to identify intersection
-			stepMask = steps - 1;
-
-			steps = Integer.numberOfTrailingZeros(steps);
-
-			super.fracX = mx / plotDepth;
-			super.fracY = mx / plotDepth;
-
-			top = rtop;
-
-			while (top != maxPoints) {
-				i = points[top][0];
-				j = points[top++][1];
-				mark[i][j] = 2;
-				currentX = j;
-				currentY = i;
-				plot(xcoords[j - 1], ycoords[i - 1], frx, fry);
-				for (k = 0; k < 4; k++) {
-					ni = i + MOVE[k][0];
-					nj = j + MOVE[k][1];
-					if (mark[ni][nj] == 0 && grid[ni][nj] != EMPTY) {
-						mark[ni][nj] = 1;
-						points[--top][0] = ni;
-						points[top][1] = nj;
-					}
-				}
-				grid[i][j] = FINISHED;
-			}
-		}
-
-		private void plot(double x1, double y1, double w1, double h1) {
-			int size = Math.min(plotDepth / searchDepth, coordx.length);
-			int inc = plotDepth / segmentCheckDepth;
-			double frx = w1 / size;
-			double fry = h1 / size;
-			coordx[0] = x1;
-			coordy[0] = y1;
-			for (int i = 1; i <= size; i++) {
-				coordx[i] = coordx[i - 1] + frx;
-				coordy[i] = coordy[i - 1] + fry;
-			}
-
-			for (int i = 0; i <= size; i++) {
-				for (int j = 0; j <= size; j++) {
-					status[i][j] = false;
-				}
-			}
-
-			for (int i = 0; i <= size; i += inc) {
-				rect[0][i] = evaluateImplicitCurve(coordx[i], y1);
-				status[0][i] = true;
-			}
-
-			double tl, tr, bl, br;
-			for (int i = inc, pi = 0; i <= size; i += inc) {
-				rect[i][0] = evaluateImplicitCurve(x1, coordy[i]);
-				status[i][0] = true;
-				for (int j = inc, pj = 0; j <= size; j += inc) {
-					rect[i][j] = evaluateImplicitCurve(coordx[j], coordy[i]);
-					status[i][j] = true;
-					tl = rect[pi][pj];
-					tr = rect[pi][j];
-					br = rect[i][j];
-					bl = rect[i][pj];
-					if (edgeConfig(tl, tr, br, bl) != EMPTY) {
-						plot(pj, pi, segmentCheckDepth);
-					}
-					pj = j;
-				}
-				pi = i;
-			}
-		}
-
-		private void createTree(int x1, int y1, int depth) {
-			int f = plotDepth / depth;
-			plot(x1, y1, depth);
-			plot(x1 | f, y1, depth);
-			plot(x1 | f, y1 | f, depth);
-			plot(x1, y1 | f, depth);
-		}
-
-		private double checkAndEvaluate(int x1, int y1) {
-			if (!status[y1][x1]) {
-				status[y1][x1] = true;
-				rect[y1][x1] = evaluateImplicitCurve(coordx[x1], coordy[y1]);
-			}
-			return rect[y1][x1];
-		}
-
-		private void plot(int sx, int sy, int depth) {
-			if (depth < segmentCheckDepth) {
-				createTree(sx, sy, depth << 1);
-				return;
-			}
-			// calculate the current fraction of the whole grid
-			int frac = plotDepth / depth;
-			int ex = sx + frac;
-			int ey = sy + frac;
-			double tl = checkAndEvaluate(sx, sy);
-			double bl = checkAndEvaluate(sx, ey);
-			double tr = checkAndEvaluate(ex, sy);
-			double br = checkAndEvaluate(ex, ey);
-
-			// calculate all four coordinate based on current fraction, x
-			// and y coordinate
-
-			if (edgeConfig(tl, tr, br, bl) != EMPTY) {
-				if (depth == plotDepth) {
-					addSegment(coordx[sx], coordy[sy], coordx[ex], coordy[ey],
-							tl, tr, br, bl);
-
-					if ((sx & stepMask) == 0) {
-						grid[currentY][currentX - 1] |= intersect(tl, bl);
-					}
-					if ((ex & stepMask) == 0) {
-						grid[currentY][currentX + 1] |= intersect(tr, br);
-					}
-					if ((sy & stepMask) == 0) {
-						grid[currentY - 1][currentX] |= intersect(tl, tr);
-					}
-					if ((ey & stepMask) == 0) {
-						grid[currentY + 1][currentX] |= intersect(bl, br);
-					}
-				} else {
-					createTree(sx, sy, depth << 1);
-				}
-			}
-		}
-
-		/**
-		 * @param tl
-		 *            value of the function evaluated at top-left corner
-		 * @param tr
-		 *            value of the function evaluated at top-right corner
-		 * @param br
-		 *            value of the function evaluated at bottom-right corner
-		 * @param bl
-		 *            value of the function evaluated at bottom-left corner
-		 * @return edge configuration based on value of curve at all vertices of
-		 *         the square
-		 */
-		private int edgeConfig(double tl, double tr, double br, double bl) {
-			int config = (intersect(bl, tl) << 3) | (intersect(tl, tr) << 2)
-					| (intersect(tr, br) << 1) | (intersect(br, bl));
+		public int edgeConfig(Rect r) {
+			int config = (intersect(r.evals[0], r.evals[1]) << 3)
+					| (intersect(r.evals[1], r.evals[2]) << 2)
+					| (intersect(r.evals[2], r.evals[3]) << 1)
+					| (intersect(r.evals[3], r.evals[0]));
 			if (config == 15 || config == 0) {
 				return EMPTY;
 			}
@@ -2136,67 +1458,395 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			return 0;
 		}
 
-		private boolean adjustX(GeoPointND pt, double x1, double x2, double y1,
-				int d) {
-			if (d == 0) {
-				return false;
-			}
-			double d1 = evaluateImplicitCurve(x1, y1);
-			double d2 = evaluateImplicitCurve(x2, y1);
-			if (Kernel.isZero(d1)) {
-				pt.setCoords(new Coords(x1, y1, 1.0), false);
-			} else if (Kernel.isZero(d2)) {
-				pt.setCoords(new Coords(x2, y1, 1.0), false);
-			} else if (intersect(d1, d2) == 1) {
-				if (!adjustX(pt, x1, interpolate(d1, d2, x1, x2), y1, d - 1)) {
-					return adjustX(pt, interpolate(d1, d2, x1, x2), x2, y1,
-							d - 1);
-				}
-			} else {
-				return false;
-			}
-			return true;
+		public abstract void updatePath();
+	}
+
+	private class PointList {
+		MyPoint start;
+		MyPoint end;
+		LinkedList<MyPoint> pts = new LinkedList<MyPoint>();
+
+		public PointList(MyPoint start, MyPoint end) {
+			this.start = start;
+			this.end = end;
+			this.start.lineTo = false;
+			this.end.lineTo = true;
 		}
 
-		private boolean adjustY(GeoPointND pt, double x1, double y1, double y2,
-				int d) {
-			if (d == 0) {
-				return false;
+		public void mergeTo(PointList pl) {
+			this.pts.addLast(this.end);
+			pl.start.lineTo = true;
+			this.pts.addLast(pl.start);
+			this.end = pl.end;
+			int s1 = this.pts.size(), s2 = pl.pts.size();
+
+			if (s2 == 0) {
+				return;
 			}
-			double d1 = evaluateImplicitCurve(x1, y1);
-			double d2 = evaluateImplicitCurve(x1, y2);
-			if (Kernel.isZero(d1)) {
-				pt.setCoords(new Coords(x1, y1, 1.0), false);
-			} else if (Kernel.isZero(d2)) {
-				pt.setCoords(new Coords(x1, y2, 1.0), false);
-			} else if (intersect(d1, d2) == 1) {
-				if (!adjustY(pt, x1, y1, (y1 + y2) * 0.5, d - 1)) {
-					return adjustY(pt, x1, (y1 + y2) * 0.5, y2, d - 1);
+
+			if (s1 < s2) {
+				ListIterator<MyPoint> itr = this.pts.listIterator(s1 - 1);
+				while (itr.hasPrevious()) {
+					pl.pts.addFirst(itr.previous());
 				}
+				this.pts = pl.pts;
 			} else {
-				return false;
+				ListIterator<MyPoint> itr = pl.pts.listIterator();
+				while (itr.hasNext()) {
+					this.pts.addLast(itr.next());
+				}
 			}
-			return true;
+		}
+
+		public void extendBack(MyPoint p) {
+			p.lineTo = false;
+			this.start.lineTo = true;
+			this.pts.addFirst(start);
+			this.start = p;
+		}
+
+		public void extendFront(MyPoint p) {
+			p.lineTo = true;
+			this.pts.addLast(this.end);
+			this.end = p;
+		}
+	}
+
+	/**
+	 * Border mask
+	 */
+	private static final int[] MASK = { 0x9, 0xC, 0x6, 0x3 };
+
+	private class Rect {
+		/**
+		 * {top, right, bottom, left}
+		 */
+		final double[] evals = new double[4];
+		int x;
+		int y;
+		int shares;
+		int status;
+		double fx;
+		double fy;
+		boolean singular;
+		Coords coords = new Coords(3);
+		Rect[] children;
+
+		public Rect() {
+		}
+
+		public void set(int x, int y, double fx, double fy, boolean singular) {
+			this.x = x;
+			this.y = y;
+			this.fx = fx;
+			this.fy = fy;
+			this.singular = singular;
+			this.shares = 0;
+		}
+
+		public void set(Rect r) {
+			this.set(r.x, r.y, r.fx, r.fy, r.singular);
+			this.shares = r.shares;
+			this.coords.set(r.coords);
+			for (int i = 0; i < 4; i++) {
+				this.evals[i] = r.evals[i];
+			}
+		}
+
+		public Rect[] split() {
+			if (this.children == null) {
+				this.children = new Rect[4];
+				for (int i = 0; i < 4; i++) {
+					this.children[i] = new Rect();
+				}
+			}
+			Rect[] rect = this.children;
+			double fx2 = fx * 0.5;
+			double fy2 = fy * 0.5;
+			double x1 = this.coords.val[0];
+			double y1 = this.coords.val[1];
+			for (int i = 0; i < 4; i++) {
+				rect[i].set(x, y, fx2, fy2, singular);
+				rect[i].coords.set(x1, y1, 0.0);
+				rect[i].evals[i] = this.evals[i];
+				rect[i].shares = this.shares & MASK[i];
+			}
+			rect[1].coords.val[0] += fx2;
+			rect[2].coords.val[0] += fx2;
+			rect[2].coords.val[1] += fy2;
+			rect[3].coords.val[1] += fy2;
+			rect[1].evals[0] = evaluateImplicitCurve(rect[1].coords.val);
+			rect[2].evals[0] = evaluateImplicitCurve(rect[2].coords.val);
+			rect[2].evals[1] = evaluateImplicitCurve(x1 + fx, y1 + fy2);
+			rect[2].evals[3] = evaluateImplicitCurve(x1 + fx2, y1 + fy);
+			rect[3].evals[0] = evaluateImplicitCurve(rect[3].coords.val);
+			rect[3].evals[1] = rect[0].evals[2] = rect[1].evals[3] = rect[2].evals[0];
+			rect[0].evals[1] = rect[1].evals[0];
+			rect[0].evals[3] = rect[3].evals[0];
+			rect[1].evals[2] = rect[2].evals[1];
+			rect[3].evals[2] = rect[2].evals[3];
+			return rect;
+		}
+
+		public double x1() {
+			return this.coords.val[0];
+		}
+
+		public double x2() {
+			return this.coords.val[0] + fx;
+		}
+
+		public double y1() {
+			return this.coords.val[1];
+		}
+
+		public double y2() {
+			return this.coords.val[1] + fy;
+		}
+	}
+
+	private static class Timer {
+		public long now;
+		public long elapse;
+
+		public static Timer newTimer() {
+			return new Timer();
+		}
+
+		public void reset() {
+			this.now = System.currentTimeMillis();
+		}
+
+		public void record() {
+			this.elapse = System.currentTimeMillis() - now;
+		}
+	}
+
+	/**
+	 * @author GSoCImplicitCurve-2015
+	 */
+	private class WebExperimentalQuadTree extends QuadTree {
+		private static final int RES_COARSE = 8;
+		private static final int MAX_SPLIT = 40;
+		private int plotDepth;
+		private int segmentCheckDepth;
+		private int sw;
+		private int sh;
+		private Rect[][] grid;
+		private Rect temp;
+		private Timer timer = Timer.newTimer();
+
+		public WebExperimentalQuadTree() {
+			super();
+		}
+
+		@Override
+		public void updatePath() {
+			this.sw = Math.min(MAX_SPLIT, (int) (w * scaleX / RES_COARSE));
+			this.sh = Math.min(MAX_SPLIT, (int) (h * scaleY / RES_COARSE));
+			if (sw == 0 || sh == 0) {
+				return;
+			}
+
+			if (grid == null || grid.length != sh || grid[0].length != sw) {
+				this.grid = new Rect[sh][sw];
+				for (int i = 0; i < sh; i++) {
+					for (int j = 0; j < sw; j++) {
+						this.grid[i][j] = new Rect();
+					}
+				}
+			}
+
+			if (temp == null) {
+				temp = new Rect();
+			}
+
+			double frx = w / sw;
+			double fry = h / sh;
+
+			double[] vertices = new double[sw + 1];
+			double[] xcoords = new double[sw + 1];
+			double[] ycoords = new double[sh + 1];
+			double cur, prev;
+
+			for (int i = 0; i <= sw; i++) {
+				xcoords[i] = x + i * frx;
+			}
+
+			for (int i = 0; i <= sh; i++) {
+				ycoords[i] = y + i * fry;
+			}
+
+			for (int i = 0; i <= sw; i++) {
+				vertices[i] = evaluateImplicitCurve(xcoords[i], ycoords[0]);
+			}
+
+			// initialize grid configuration at the search depth
+			int i, j;
+			double dx, dy, fx, fy;
+			// debug = true;
+			timer.reset();
+			for (i = 1; i <= sh; i++) {
+				prev = evaluateImplicitCurve(xcoords[0], ycoords[i]);
+				fy = ycoords[i] - 0.5 * fry;
+				for (j = 1; j <= sw; j++) {
+					cur = evaluateImplicitCurve(xcoords[j], ycoords[i]);
+					Rect rect = this.grid[i - 1][j - 1];
+					rect.set(j - 1, i - 1, frx, fry, false);
+					rect.coords.val[0] = xcoords[j - 1];
+					rect.coords.val[1] = ycoords[i - 1];
+					rect.evals[0] = vertices[j - 1];
+					rect.evals[1] = vertices[j];
+					rect.evals[2] = cur;
+					rect.evals[3] = prev;
+					rect.status = edgeConfig(rect);
+					rect.shares = 0xff;
+					fx = xcoords[j] - 0.5 * frx;
+					dx = derivativeX(fx, fy);
+					dy = derivativeY(fx, fy);
+					dx = Math.abs(dx) + Math.abs(dy);
+					if (Kernel.isZero(dx, 0.001)) {
+						rect.singular = true;
+					}
+					this.grid[i - 1][j - 1] = rect;
+					vertices[j - 1] = prev;
+					prev = cur;
+				}
+				vertices[sw] = prev;
+			}
+
+			timer.record();
+
+			if (timer.elapse <= 10) {
+				// Fast device optimize for UX
+				plotDepth = 3;
+				segmentCheckDepth = 2;
+				LIST_THRESHOLD = 48;
+			} else {
+				// Slow device detected reduce parameters
+				plotDepth = 2;
+				segmentCheckDepth = 1;
+				LIST_THRESHOLD = 24;
+			}
+
+			for (i = 0; i < sh; i++) {
+				for (j = 0; j < sw; j++) {
+					if (!grid[i][j].singular && grid[i][j].status != EMPTY) {
+						temp.set(grid[i][j]);
+						plot(temp, 0);
+						grid[i][j].status = FINISHED;
+					}
+				}
+			}
+
+			timer.record();
+
+			if (timer.elapse >= 500) {
+				// I can't do anything more. I've been working for 500 ms
+				// Therefore I am tired
+				return;
+			} else if (timer.elapse >= 300) {
+				// I am exhausted, reducing load!
+				plotDepth -= 1;
+				segmentCheckDepth -= 1;
+			}
+
+			for (int k = 0; k < 4; k++) {
+				for (i = 0; i < sh; i++) {
+					for (j = 0; j < sw; j++) {
+						if (grid[i][j].singular
+								&& grid[i][j].status != FINISHED) {
+							temp.set(grid[i][j]);
+							plot(temp, 0);
+							grid[i][j].status = FINISHED;
+						}
+					}
+				}
+			}
+		}
+
+		public void createTree(Rect r, int depth) {
+			Rect[] n = r.split();
+			plot(n[0], depth);
+			plot(n[1], depth);
+			plot(n[2], depth);
+			plot(n[3], depth);
+		}
+
+		public void plot(Rect r, int depth) {
+			if (depth < segmentCheckDepth) {
+				createTree(r, depth + 1);
+				return;
+			}
+			int e = edgeConfig(r);
+			if (grid[r.y][r.x].singular || e != EMPTY) {
+				if (depth >= plotDepth) {
+					if (addSegment(r) == T0101) {
+						createTree(r, depth + 1);
+						return;
+					}
+					if (r.x != 0 && (e & r.shares & 0x1) != 0) {
+						if (grid[r.y][r.x - 1].status == EMPTY) {
+							grid[r.y][r.x - 1].status = 1;
+						}
+					}
+					if (r.x + 1 != sw && (e & r.shares & 0x4) != 0) {
+						if (grid[r.y][r.x + 1].status == EMPTY) {
+							grid[r.y][r.x + 1].status = 1;
+						}
+					}
+					if (r.y != 0 && (e & r.shares & 0x8) != 0) {
+						if (grid[r.y - 1][r.x].status == EMPTY) {
+							grid[r.y - 1][r.x].status = 1;
+						}
+					}
+					if (r.y + 1 != sh && (e & r.shares & 0x2) != 0) {
+						if (grid[r.y + 1][r.x].status == EMPTY) {
+							grid[r.y + 1][r.x].status = 1;
+						}
+					}
+				} else {
+					createTree(r, depth + 1);
+				}
+			}
 		}
 
 		@Override
 		public void polishPointOnPath(GeoPointND pt) {
-			double px = onScreen(pt.getInhomX(), this.x, this.x + this.w);
-			double py = onScreen(pt.getInhomY(), this.y, this.y + this.h);
-			double d1 = evaluateImplicitCurve(px, py);
-			if (!Kernel.isZero(d1)) {
-				boolean adjusted = adjustX(pt, px, px + fracX, py, 8);
-				if (!adjusted) {
-					adjusted = adjustX(pt, px - fracX, px, py, 8);
+			double x1 = onScreen(pt.getInhomX(), this.x, this.x + this.w);
+			double y1 = onScreen(pt.getInhomY(), this.y, this.y + this.h);
+			double d1 = evaluateImplicitCurve(x1, y1);
+			if (Kernel.isZero(d1)) {
+				pt.setCoords(new Coords(x1, y1, 1.0), false);
+				return;
+			}
+			double mv = Math.max(w, h) / MAX_SPLIT, x2, y2, d2, mx, my, md;
+			for (int i = 0; i < MOVE.length; i++) {
+				x2 = x1 + mv * MOVE[i][0];
+				y2 = y1 + mv * MOVE[i][1];
+				d2 = evaluateImplicitCurve(x2, y2);
+				if (d2 * d1 <= 0.0) {
+					int count = 0;
+					while (!Kernel.isZero(d2) && count < 64) {
+						mx = 0.5 * (x1 + x2);
+						my = 0.5 * (y1 + y2);
+						md = evaluateImplicitCurve(mx, my);
+						if (Kernel.isZero(md)) {
+							pt.setCoords(new Coords(mx, my, 1.0), false);
+							return;
+						}
+						if (d1 * md <= 0.0) {
+							d2 = md;
+							x2 = mx;
+							y2 = my;
+						} else {
+							d1 = md;
+							x1 = mx;
+							y1 = my;
+						}
+						count++;
+					}
 				}
-				if (!adjusted) {
-					adjusted = adjustY(pt, px, py, py + fracY, 8);
-				}
-				if (!adjusted) {
-					adjustY(pt, px, py - fracY, py, 8);
-				}
-			} else {
-				pt.setCoords(new Coords(px, py, 1.0), false);
 			}
 		}
 

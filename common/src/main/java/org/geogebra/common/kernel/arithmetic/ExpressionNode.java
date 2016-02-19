@@ -5650,15 +5650,19 @@ kernel, left,
 			return left.evaluateDouble() + right.evaluateDouble();
 		case MINUS:
 			return left.evaluateDouble() - right.evaluateDouble();
-			// case MULTIPLY: return left.evaluateDouble() *
-			// right.evaluateDouble();
+		case MULTIPLY:
+			double lt = left.evaluateDouble();
+			double rt = right.evaluateDouble();
+			return !Double.isNaN(lt) && !Double.isNaN(rt) ? left
+					.evaluateDouble() * right.evaluateDouble() : super
+					.evaluateDouble();
 		case DIVIDE:
 			return left.evaluateDouble() / right.evaluateDouble();
 		case POWER:
 			if (!left.isNumberValue()) {
 				return super.evaluateDouble();
 			}
-			double lt = left.evaluateDouble();
+			lt = left.evaluateDouble();
 			if (lt < 0
 					&& right.isExpressionNode()
 					&& ((ExpressionNode) right).getOperation() == Operation.DIVIDE) {
