@@ -103,6 +103,23 @@ public class Inequality {
 		} else {
 			normal = new ExpressionNode(kernel, rhs, Operation.MINUS, lhs);
 		}
+
+		if (normal.getLeftTree().getOperation() == Operation.ABS
+				&& !normal.getRightTree().containsFreeFunctionVariable(null)) {
+			normal.setLeft(normal.getLeftTree().getLeftTree().power(2));
+			normal.setRight(normal.getRightTree().multiply(
+					normal.getRightTree().abs()));
+		}
+ else if (normal.getRightTree().getOperation() == Operation.ABS
+				&& !normal.getLeftTree().containsFreeFunctionVariable(null)) {
+			normal.setRight(normal.getRightTree().getLeftTree().power(2));
+			normal.setLeft(normal.getLeftTree().multiply(
+					normal.getLeftTree().abs()));
+		} else if (normal.getRightTree().getOperation() == Operation.ABS
+				&& normal.getLeftTree().getOperation() == Operation.ABS) {
+			normal.setRight(normal.getRightTree().getLeftTree().power(2));
+			normal.setLeft(normal.getLeftTree().getLeftTree().power(2));
+		}
 		update();
 	}
 
