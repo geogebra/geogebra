@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util;
+package org.geogebra.web.html5.sound;
 
 import org.geogebra.common.util.GTimer;
 
