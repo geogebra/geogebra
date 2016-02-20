@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -354,7 +353,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		Coords vn = coordSys.getVz();
 
 		CoordMatrix4x4 matrix = coordSys.getMatrixOrthonormal();
-		CoordMatrix inv = matrix.inverse();
 		Coords d2 = new Coords(4);
 		for (int i = 0; i < points.length; i++) {
 
@@ -366,22 +364,19 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 			Coords p = points[i].getInhomCoordsInD3();
 
+			// origin-point vector
+			d2.setSub(p, o);
+
 			// check if the vertex lies on the coord sys
-			if (!Kernel.isZero(vn.dotproduct(p.sub(o)))) {
+			if (!Kernel.isZero(vn.dotproduct3(d2))) {
 				coordSys.setUndefined();
 				return false;
 			}
 
-			// project the point on the coord sys
-			inv.mul(p, d2);
-
-			/*
-			 * CoordMatrix.solve(tmpCoords, p, matrix.getVx(), matrix.getVy(),
-			 * vn, o);
-			 */
-			// App.debug(d2 + "");
 			// set the 2D points
-			points2D[i].setCoords(d2.getX(), d2.getY(), d2.getW());
+			points2D[i].setCoords(matrix.getVx().dotproduct3(d2), matrix
+					.getVy().dotproduct3(d2), 1);
+
 		}
 
 		return true;
