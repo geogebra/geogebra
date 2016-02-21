@@ -142,18 +142,6 @@ public class CoordMatrix {
 
 	}
 
-	/**
-	 * returns scale homogenic matrix, dim v.length+1
-	 * 
-	 * @param v
-	 *            scaling vector
-	 * @return scale matrix
-	 */
-	public static final CoordMatrix ScaleMatrix(double[] v) {
-
-		return ScaleMatrix(new Coords(v));
-
-	}
 
 	/**
 	 * returns scale homogenic matrix, dim v.length+1
@@ -196,18 +184,6 @@ public class CoordMatrix {
 
 	}
 
-	/**
-	 * returns translation homogenic matrix, dim v.length+1
-	 * 
-	 * @param v
-	 *            translation vector
-	 * @return traslation matrix
-	 */
-	public static final CoordMatrix TranslationMatrix(double[] v) {
-
-		return TranslationMatrix(new Coords(v));
-
-	}
 
 	/**
 	 * returns translation homogenic matrix, dim v.length+1
@@ -695,26 +671,18 @@ public class CoordMatrix {
 	 * @param v
 	 *            vector
 	 * @return resulting vector
+	 * 
+	 * @deprecated create result vector and use
+	 *             {@link Coords#setMul(CoordMatrix, Coords)} instead
 	 */
+	@Deprecated
 	public Coords mul(Coords v) {
 
 		Coords result = new Coords(getRows());
 
-		return mul(v, result);
+		return result.setMul(this, v);
 	}
 
-	public Coords mul(Coords v, Coords result) {
-
-		for (int i = 1; i <= result.getLength(); i++) {
-
-			double r = 0;
-			for (int n = 1; n <= getColumns(); n++)
-				r += get(i, n) * v.get(n);
-
-			result.set(i, r);
-		}
-		return result;
-	}
 
 	// matrix multiplication
 	/**
@@ -915,7 +883,10 @@ public class CoordMatrix {
 	 * @param v
 	 *            vector
 	 * @return solving vector
+	 * 
+	 * @deprecated create result and use {@link #solve(Coords, Coords)} instead
 	 */
+	@Deprecated
 	public Coords solve(Coords v) {
 		
 		Coords sol = new Coords(v.getLength());

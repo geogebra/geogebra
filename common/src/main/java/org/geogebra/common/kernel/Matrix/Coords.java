@@ -405,7 +405,11 @@ public class Coords {
 	 * @param end
 	 *            number of end row
 	 * @return vector with rows between start and end
+	 * 
+	 * @deprecated create vector and use {@link #setSubVector(Coords, int, int)}
+	 *             instead
 	 */
+	@Deprecated
 	public Coords subVector(int start, int end) {
 		int r = end - start + 1;
 		Coords result = new Coords(r);
@@ -418,12 +422,37 @@ public class Coords {
 	}
 
 	/**
+	 * set this to start-end subvector of v
+	 * 
+	 * @param v
+	 *            vector
+	 * 
+	 * @param start
+	 *            number of starting row
+	 * @param end
+	 *            number of end row
+	 * @return this
+	 */
+	public Coords setSubVector(Coords v, int start, int end) {
+		int r = end - start + 1;
+		for (int i = 0; i < r; i++)
+			val[i] = v.val[start + i - 1];
+
+		return this;
+
+	}
+
+	/**
 	 * returns the subvector composed of this without the row number row
 	 * 
 	 * @param row
 	 *            number of the row to remove
 	 * @return vector composed of this without the row number row
+	 * 
+	 * @deprecated create vector and use {@link #setSubVector(Coords, int)}
+	 *             instead
 	 */
+	@Deprecated
 	public Coords subVector(int row) {
 		int r = rows;
 		Coords result = new Coords(r - 1);
@@ -437,6 +466,29 @@ public class Coords {
 		}
 
 		return result;
+
+	}
+
+	/**
+	 * set this to subvector composed of v without the row number row
+	 * 
+	 * @param v
+	 *            vector
+	 * 
+	 * @param row
+	 *            number of the row to remove
+	 * @return this
+	 */
+	public Coords setSubVector(Coords v, int row) {
+
+		for (int i = 0; i < row; i++) {
+			val[i] = v.val[i];
+		}
+		for (int i = row; i < rows; i++) {
+			val[i] = v.val[i + 1];
+		}
+
+		return this;
 
 	}
 
@@ -488,7 +540,11 @@ public class Coords {
 	 * @param v
 	 *            vector multiplied with
 	 * @return vector resulting of the cross product
+	 * 
+	 * @deprecated create vector and use
+	 *             {@link #setCrossProduct(Coords, Coords)} instead
 	 */
+	@Deprecated
 	final public Coords crossProduct(Coords v) {
 
 		Coords ret = new Coords(3);
@@ -502,7 +558,11 @@ public class Coords {
 	 * 
 	 * @param v
 	 * @return 4-length vector equal to cross product this ^ v
+	 * 
+	 * @deprecated create vector and use
+	 *             {@link #setCrossProduct(Coords, Coords)} instead
 	 */
+	@Deprecated
 	final public Coords crossProduct4(Coords v) {
 
 		Coords ret = new Coords(4);
@@ -603,7 +663,11 @@ public class Coords {
 	 * @param checkOneDirection
 	 *            check if one of the result coord is near to 1 (for Kernel)
 	 * @return this normalized
+	 * 
+	 * @deprecated create vector and use {@link #setNormalized(Coords, boolean)}
+	 *             instead
 	 */
+	@Deprecated
 	public Coords normalized(boolean checkOneDirection) {
 		Coords ret = new Coords(getLength());
 		calcNorm();
@@ -629,8 +693,44 @@ public class Coords {
 	}
 	
 	/**
+	 * set this equal to normalized vector. Warning: recalc vector's norm
+	 * 
+	 * @param vector
+	 *            vector
+	 * 
+	 * @param checkOneDirection
+	 *            check if one of the result coord is near to 1 (for Kernel)
+	 * @return this
+	 */
+	public Coords setNormalized(Coords vector, boolean checkOneDirection) {
+		vector.calcNorm();
+		double normInv = 1 / vector.getNorm();
+		for (int i = 0; i < rows; i++) {
+			double v = vector.val[i] * normInv;
+			// check if v is near to be one direction vector
+			if (checkOneDirection && Kernel.isEqual(Math.abs(v), 1)) {
+				if (v < 0) {
+					val[i] = -1;
+				} else {
+					val[i] = 1;
+				}
+				for (int j = 0; j < i; j++) {
+					val[j] = 0;
+				}
+				for (int j = i + 1; j < rows; j++) {
+					val[j] = 0;
+				}
+				break;
+			}
+			val[i] = v;
+		}
+		return this;
+	}
+
+	/**
 	 * put this normalized in ret (WARNING : recalc the norm)
-	 * @param ret 
+	 * 
+	 * @param ret
 	 * 
 	 */
 	public void normalized(Coords ret) {
@@ -1169,7 +1269,10 @@ public class Coords {
 	 * @param v
 	 *            vector subtracted
 	 * @return this-v
+	 * 
+	 * @deprecated create vector and use {@link #setSub(Coords, Coords)} instead
 	 */
+	@Deprecated
 	public Coords sub(Coords v) {
 		int i;
 		Coords result = new Coords(rows);
@@ -1210,7 +1313,10 @@ public class Coords {
 	 * If this={x1,x2,xn}, it returns {x1/xn,x2/xn,...,x(n-1)}
 	 * 
 	 * @return {x1/xn,x2/xn,...,x(n-1)/xn}
+	 * 
+	 * @deprecated create vector and use {@link #setInhomCoords(Coords)} instead
 	 */
+	@Deprecated
 	public Coords getInhomCoords() {
 		int r = rows;
 		Coords result = new Coords(r - 1);
@@ -1223,10 +1329,31 @@ public class Coords {
 	}
 
 	/**
+	 * If v={x1,x2,xn}, this gets {x1/xn,x2/xn,...,x(n-1)}
+	 * 
+	 * @param v
+	 *            vector
+	 * 
+	 * @return this
+	 */
+	public Coords setInhomCoords(Coords v) {
+
+		double wdiv = 1 / v.val[rows - 1];
+		for (int i = 0; i < rows - 1; i++)
+			val[i] = v.val[i] * wdiv;
+
+		return this;
+	}
+
+	/**
 	 * returns n length vector, all coordinates divided by the n-th.
 	 * 
 	 * @return {x1/xn,x2/xn,...,x(n-1)/xn,1}
+	 * 
+	 * @deprecated create vector and use
+	 *             {@link #setInhomCoordsInSameDimension(Coords)} instead
 	 */
+	@Deprecated
 	public Coords getInhomCoordsInSameDimension() {
 
 		int r = rows;
@@ -1245,6 +1372,22 @@ public class Coords {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * If v={x1,x2,xn}, this gets {x1/xn,x2/xn,...,x(n-1, 1)}
+	 * 
+	 * @param v
+	 *            vector
+	 * 
+	 * @return this
+	 */
+	public Coords setInhomCoordsInSameDimension(Coords v) {
+
+		setInhomCoords(v);
+		val[rows - 1] = 1;
+		return this;
+	}
+
 	/**
 	 * set values in inhom coords
 	 */
@@ -1268,7 +1411,10 @@ public class Coords {
 	 * If this={x1,x2,xn}, it returns {x1/xn,x2/xn,...,1}
 	 * 
 	 * @return {x1/xn,x2/xn,...,1}
+	 * 
+	 * @deprecated create vector and use {@link #setCoordsLast1(Coords)} instead
 	 */
+	@Deprecated
 	public Coords getCoordsLast1() {
 		int len = getLength();
 		Coords result = new Coords(len);
@@ -1283,9 +1429,33 @@ public class Coords {
 	}
 
 	/**
+	 *
+	 * If v={x1,x2,xn}, this gets {x1/xn,x2/xn,...,1}
+	 * 
+	 * @param v
+	 *            vector
+	 * 
+	 * @return this
+	 */
+	public Coords setCoordsLast1(Coords v) {
+		double lastCoord = v.val[rows - 1];
+		if (lastCoord != 0.0) {
+			double lastCoordInv = 1 / lastCoord;
+			for (int i = 0; i < rows; i++)
+				val[i] = v.val[i] * lastCoordInv;
+		} else {
+			set(v);
+		}
+		return this;
+	}
+
+	/**
 	 * 
 	 * @return this with (n-1) coord removed
+	 * @deprecated create vector and use {@link #setProjectInfDim(Coords)}
+	 *             instead
 	 */
+	@Deprecated
 	public Coords projectInfDim() {
 		int len = getLength();
 		Coords result = new Coords(len - 1);
@@ -1293,6 +1463,21 @@ public class Coords {
 			result.val[i] = val[i];
 		result.val[len - 2] = val[len - 1];
 		return result;
+	}
+
+	/**
+	 * set this equal to v with (n-1) coord removed
+	 * 
+	 * @param v
+	 *            vector
+	 * @return this
+	 */
+	public Coords setProjectInfDim(Coords v) {
+		for (int i = 0; i < v.rows - 1; i++) {
+			val[i] = v.val[i];
+		}
+		val[rows - 2] = v.val[rows - 1];
+		return this;
 	}
 
 	/**
@@ -1394,7 +1579,11 @@ public class Coords {
 	 * Assume that "this" is a non-zero vector in 3-space. This method returns
 	 * an array v of two vectors {v[0], v[1]} (rows=4) so that (this, v[0],
 	 * v[1]) is a right-handed orthonormal system.
+	 * 
+	 * @deprecated create vectors and use
+	 *             {@link #completeOrthonormal(Coords, Coords)} instead
 	 */
+	@Deprecated
 	public Coords[] completeOrthonormal() {
 		Coords vn1 = new Coords(4);
 
@@ -1518,6 +1707,14 @@ public class Coords {
 	// BASIC OPERATIONS
 	// ///////////////////////////////////////////////////
 
+	/**
+	 * 
+	 * @param v
+	 * @return
+	 * 
+	 * @deprecated create vector and use {@link #setAdd(Coords, Coords)} or
+	 *             {@link #setAdd3(Coords, Coords)} instead
+	 */
 	public Coords add(Coords v) {
 
 		Coords result = new Coords(rows);
@@ -1553,6 +1750,14 @@ public class Coords {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param v
+	 * @return
+	 * 
+	 * @deprecated create vector and use {@link #setAdd(Coords, Coords)} or
+	 *             {@link #setAdd3(Coords, Coords) instead
+	 */
 	public Coords addSmaller(Coords v) {
 		Coords result = new Coords(rows);
 
@@ -1584,6 +1789,13 @@ public class Coords {
 		}
 	}
 
+	/**
+	 * 
+	 * @param val0
+	 * @return
+	 * 
+	 * @deprecated create vector and use {@link #setMul(Coords, double)} instead
+	 */
 	public Coords mul(double val0) {
 
 		Coords result = new Coords(rows);
@@ -1705,6 +1917,9 @@ public class Coords {
 	 * 
 	 * @param coordsND
 	 * @return
+	 * 
+	 * @deprecated create 3 rows vector and use
+	 *             {@link #setCoordsIn2DView(Coords)} instead
 	 */
 	public Coords getCoordsIn2DView() {
 
@@ -1725,6 +1940,52 @@ public class Coords {
 			// get(3) to get(dim) are all zero
 			return new Coords(get(1), get(2), get(dim + 1));
 		}
+	}
+
+	/**
+	 * if the ND hom coords is in x-y plane, set this to v coords
+	 * 
+	 * @param v
+	 *            vector
+	 * @return this
+	 * 
+	 */
+	public Coords setCoordsIn2DView(Coords v) {
+
+		int dim = v.rows - 1;
+		switch (dim) {
+		case 2:
+			setX(v.getX());
+			setY(v.getY());
+			setZ(v.getZ());
+			break;
+		case -1:
+		case 0:
+			setX(0);
+			setY(0);
+			setZ(v.getX());
+			break;
+		case 1:
+			setX(v.getX());
+			setY(0);
+			setZ(v.getY());
+			break;
+		default:
+			for (int i = 3; i <= dim; i++) {
+				if (Double.isNaN(v.get(i)) || !Kernel.isZero(v.get(i))) {
+					setX(Double.NaN);
+					setY(Double.NaN);
+					setZ(Double.NaN);
+					return this;
+				}
+			}
+			// get(3) to get(dim) are all zero
+			setX(v.get(1));
+			setY(v.get(2));
+			setZ(v.get(dim + 1));
+		}
+
+		return this;
 	}
 
 	/**
