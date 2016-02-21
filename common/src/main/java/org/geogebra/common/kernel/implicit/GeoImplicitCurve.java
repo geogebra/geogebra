@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
@@ -2026,6 +2027,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		this.coeff = coeffMatrix;
 		this.degX = coeff.length - 1;
 		this.degY = coeff[0].length - 1;
+	}
+
+	public CoordSys getCoordSys() {
+		return CoordSys.Identity3D;
 	}
 
 }

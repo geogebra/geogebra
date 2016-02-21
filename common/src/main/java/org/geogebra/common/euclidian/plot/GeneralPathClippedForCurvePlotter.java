@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.util.Cloner;
 
 /**
@@ -168,7 +169,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		return new double[2];
 	}
 
-	public boolean copyCoords(MyPoint point, double[] ret) {
+	public boolean copyCoords(MyPoint point, double[] ret, CoordSys sys) {
 
 		if (!Kernel.isZero(point.getZ())) {
 			return false;
@@ -182,6 +183,10 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 	public void endPlot() {
 		// TODO Auto-generated method stub
+	}
+
+	public boolean supports(CoordSys sys) {
+		return sys == null || sys == CoordSys.Identity3D;
 	}
 
 }

@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.euclidian.plot.PathPlotter;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1060,10 +1061,25 @@ public class PlotterBrush implements PathPlotter {
 		return new double[3];
 	}
 
-	public boolean copyCoords(MyPoint point, double[] ret) {
-		ret[0] = point.x;
-		ret[1] = point.y;
-		ret[2] = point.getZ(); // maybe 0 if 2D point
+	public boolean copyCoords(MyPoint point, double[] ret, CoordSys sys) {
+		if (sys == CoordSys.Identity3D || sys == null) {
+			ret[0] = point.x;
+			ret[1] = point.y;
+			ret[2] = point.getZ();// maybe 0 if 2D point
+		} else {
+			/*
+			 * ret[0] = point.x * sys.getVx().getX() + point.y
+			 * sys.getVy().getX() + sys.getOrigin().getX(); ret[1] = point.x *
+			 * sys.getVx().getY() + point.y sys.getVy().getY() +
+			 * sys.getOrigin().getY();
+			 */
+			// z=d/c-a/c*x-b/c*y
+			Coords eq = sys.getEquationVector();
+			ret[0] = point.x;
+			ret[1] = point.y;
+			ret[2] = -point.x * eq.getX() / eq.getZ() - point.y * eq.getY()
+					/ eq.getZ() - eq.getW() / eq.getZ();
+		}
 
 		return true;
 	}
@@ -1080,6 +1096,10 @@ public class PlotterBrush implements PathPlotter {
 
 	public void endPlot() {
 		// TODO Auto-generated method stub
+	}
+
+	public boolean supports(CoordSys sys) {
+		return true;
 	}
 
 }

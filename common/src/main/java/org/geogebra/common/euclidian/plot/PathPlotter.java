@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.plot;
 
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 
 /**
  * interface where the curve will plot
@@ -69,11 +70,13 @@ public interface PathPlotter {
 	 *            double values
 	 * @return true if coords are on the view
 	 */
-	public boolean copyCoords(MyPoint point, double[] ret);
+	public boolean copyCoords(MyPoint point, double[] ret, CoordSys sys);
 
 	/**
 	 * end the plotting
 	 */
 	public void endPlot();
+
+	public boolean supports(CoordSys sys);
 
 }

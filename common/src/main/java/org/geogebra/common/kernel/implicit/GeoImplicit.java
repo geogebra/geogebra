@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.implicit;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -59,5 +60,7 @@ public interface GeoImplicit extends GeoElementND {
 	void setCoeff(ExpressionValue[][] coeff);
 
 	void throughPoints(GeoList p);
+
+	CoordSys getCoordSys();
 
 }

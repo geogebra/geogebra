@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoClosestPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -1947,6 +1948,10 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 		if (eqnCoeff != null) {
 			setCoeff(eqnCoeff);
 		}
+	}
+
+	public CoordSys getCoordSys() {
+		return CoordSys.Identity3D;
 	}
 
 }

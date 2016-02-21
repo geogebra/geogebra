@@ -20,6 +20,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.Traceable;
@@ -115,7 +116,7 @@ public class DrawLocus extends Drawable {
 		else
 			gp.reset();
 
-		lastPointCoords = CurvePlotter.draw(gp, pointList);
+		lastPointCoords = CurvePlotter.draw(gp, pointList, CoordSys.Identity3D);
 	}
 
 	@Override

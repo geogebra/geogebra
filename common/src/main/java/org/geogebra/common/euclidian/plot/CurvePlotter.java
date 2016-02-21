@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.util.Cloner;
 
@@ -648,9 +649,11 @@ public class CurvePlotter {
 	 * @return last point drawn
 	 */
 	static public double[] draw(PathPlotter gp,
-			ArrayList<? extends MyPoint> pointList) {
+			ArrayList<? extends MyPoint> pointList, CoordSys sys) {
 		double[] coords = gp.newDoubleArray();
-
+		if (!gp.supports(sys)) {
+			return coords;
+		}
 		// this is for making sure that there is no lineto from nothing
 		// and there is no lineto if there is an infinite point between the
 		// points
@@ -663,7 +666,7 @@ public class CurvePlotter {
 			// don't add infinite points
 			// otherwise hit-testing doesn't work
 			if (p.isFinite()) {
-				if (gp.copyCoords(p, coords)) {
+				if (gp.copyCoords(p, coords, sys)) {
 
 					if (p.lineTo && !linetofirst) {
 						gp.lineTo(coords);

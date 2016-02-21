@@ -72,6 +72,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -564,7 +565,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				break;
 
 			case LOCUS:
-				d = new DrawLocus3D(this, (GeoLocusND) geo, geo);
+				d = new DrawLocus3D(this, (GeoLocusND) geo, geo,
+						CoordSys.Identity3D);
 				break;
 			case IMPLICIT_POLY:
 				d = new DrawImplicitCurve3D(this, (GeoImplicit) geo);
