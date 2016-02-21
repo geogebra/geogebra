@@ -13,6 +13,7 @@ public class CmdDifference3D extends CmdDifference {
 
 	/**
 	 * @param kernel
+	 *            kernel
 	 */
 	public CmdDifference3D(Kernel kernel) {
 		super(kernel);

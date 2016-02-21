@@ -12,12 +12,21 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Cone command processor
+ *
+ */
 public class CmdCone extends CommandProcessor {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdCone(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -77,17 +86,20 @@ public class CmdCone extends CommandProcessor {
 
 	// overridded by CmdConeInfinite
 
+	/**
+	 * @param c
+	 *            command
+	 * @param p1
+	 *            top
+	 * @param p2
+	 *            bottom center
+	 * @param r
+	 *            bottom radius
+	 * @return cone
+	 */
 	protected GeoElement[] conePointPointRadius(Command c, GeoPointND p1,
 			GeoPointND p2, NumberValue r) {
 		return kernelA.getManager3D().ConeLimited(c.getLabels(), p1, p2, r);
-	}
-
-	protected MyError argErr(GeoElement geo, Command c) {
-		return argErr(app, c.getName(), geo);
-	}
-
-	protected MyError argNumErr(int n, Command c) {
-		return argNumErr(app, c.getName(), n);
 	}
 
 }

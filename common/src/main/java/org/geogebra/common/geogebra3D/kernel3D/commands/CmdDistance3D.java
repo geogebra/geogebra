@@ -14,14 +14,18 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdDistance3D extends CmdDistance {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdDistance3D(Kernel kernel) {
 		super(kernel);
 
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {

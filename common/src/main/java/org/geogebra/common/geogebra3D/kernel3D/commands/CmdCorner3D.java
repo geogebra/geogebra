@@ -15,6 +15,10 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdCorner3D extends CmdVertex3D {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdCorner3D(Kernel kernel) {
 		super(kernel);
 	}

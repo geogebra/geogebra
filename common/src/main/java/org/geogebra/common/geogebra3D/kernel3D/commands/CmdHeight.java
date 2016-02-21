@@ -15,10 +15,15 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdHeight extends CommandProcessor {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdHeight(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;

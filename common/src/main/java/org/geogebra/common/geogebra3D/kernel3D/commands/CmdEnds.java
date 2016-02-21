@@ -16,6 +16,10 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdEnds extends CommandProcessor {
 
+	/**
+	 * @param kernel
+	 *            kenrel
+	 */
 	public CmdEnds(Kernel kernel) {
 		super(kernel);
 	}

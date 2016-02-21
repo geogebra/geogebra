@@ -7,8 +7,16 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
+/**
+ * Diameter line
+ *
+ */
 public class CmdDiameter3D extends CmdDiameter {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdDiameter3D(Kernel kernel) {
 		super(kernel);
 	}

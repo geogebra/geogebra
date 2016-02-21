@@ -8,19 +8,27 @@ import org.geogebra.common.kernel.advanced.AlgoAxisFirst;
 import org.geogebra.common.kernel.advanced.CmdFirstAxis;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 
+/**
+ * MajorAxis command processor
+ *
+ */
 public class CmdFirstAxis3D extends CmdFirstAxis {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdFirstAxis3D(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	protected AlgoAxisFirst getAlgoAxisFirst(Construction cons, String label,
+	protected AlgoAxisFirst getAlgoAxisFirst(Construction cons1, String label,
 			GeoConicND geoConicND) {
 		if (geoConicND instanceof GeoConic3D) {
-			return new AlgoAxisFirst3D(cons, label, geoConicND);
+			return new AlgoAxisFirst3D(cons1, label, geoConicND);
 		}
-		return new AlgoAxisFirst(cons, label, geoConicND);
+		return new AlgoAxisFirst(cons1, label, geoConicND);
 
 	}
 

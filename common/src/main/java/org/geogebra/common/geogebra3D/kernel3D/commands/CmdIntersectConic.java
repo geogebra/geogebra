@@ -9,12 +9,21 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Processor for IntersectConic and IntersectCircle commands
+ *
+ */
 public class CmdIntersectConic extends CommandProcessor {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdIntersectConic(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

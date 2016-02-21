@@ -5,10 +5,17 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.MyError;
 
+/**
+ * Processor for InfiniteCone command
+ *
+ */
 public class CmdConeInfinite extends CmdCone {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdConeInfinite(Kernel kernel) {
 		super(kernel);
 	}
@@ -18,16 +25,6 @@ public class CmdConeInfinite extends CmdCone {
 			GeoPointND p2, NumberValue r) {
 		return new GeoElement[] { kernelA.getManager3D().Cone(c.getLabel(), p1,
 				p2, r) };
-	}
-
-	@Override
-	protected MyError argErr(GeoElement geo, Command c) {
-		return argErr(app, c.getName(), geo);
-	}
-
-	@Override
-	protected MyError argNumErr(int n, Command c) {
-		return argNumErr(app, c.getName(), n);
 	}
 
 }

@@ -21,19 +21,34 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Intersect[ <GeoPlane3D>, <GeoConicND> ] Intersect[ <GeoLineND>,
- * <GeoQuadric3D> ] Intersect[ <GeoConicND>, <GeoConicND> ] Intersect[
- * <GeoLineND>, <GeoPolygon> ] Intersect[ <GeoLineND>, <GeoCoordSys2D> ]
- * Intersect[ <GeoLineND>, <GeoLineND> ] Intersect[ <GeoLineND>, <GeoConicND>,
- * <GeoNumeric> ] Intersect[ <GeoLineND>, <GeoQuadric3D>, <GeoNumeric> ]
+ * Intersect[ <GeoPlane3D>, <GeoConicND> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoQuadric3D> ]
+ * 
+ * Intersect[ <GeoConicND>, <GeoConicND> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoPolygon> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoCoordSys2D> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoLineND> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoConicND>, <GeoNumeric> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoQuadric3D>, <GeoNumeric> ]
  */
 public class CmdIntersect3D extends CmdIntersect {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdIntersect3D(Kernel kernel) {
 		super(kernel);
 
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

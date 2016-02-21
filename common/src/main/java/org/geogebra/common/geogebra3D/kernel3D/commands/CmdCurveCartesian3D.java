@@ -64,6 +64,7 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 		return super.process(c);
 	}
 
+	@Override
 	protected AlgoCurveCartesian getCurveAlgo(ExpressionNode point,
 			NumberValue[] coords,
 			GeoElement[] arg) {

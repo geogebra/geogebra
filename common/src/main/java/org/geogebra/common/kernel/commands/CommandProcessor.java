@@ -858,4 +858,26 @@ kernelA.getEulerNumber(), localVar));
 		return null;
 	}
 
+	/**
+	 * @param geo
+	 *            problematic geo
+	 * @param c
+	 *            command
+	 * @return throws error
+	 */
+	protected final MyError argErr(GeoElement geo, Command c) {
+		return argErr(app, c.getName(), geo);
+	}
+
+	/**
+	 * @param n
+	 *            argument number
+	 * @param c
+	 *            command
+	 * @return throws error
+	 */
+	protected final MyError argNumErr(int n, Command c) {
+		return argNumErr(app, c.getName(), n);
+	}
+
 }

@@ -7,20 +7,29 @@ import org.geogebra.common.kernel.algos.AlgoFocus;
 import org.geogebra.common.kernel.commands.CmdFocus;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 
+/**
+ * 3D version of Focus
+ *
+ */
 public class CmdFocus3D extends CmdFocus {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdFocus3D(Kernel kernel) {
 		super(kernel);
 	}
 
-	protected AlgoFocus newAlgoFocus(Construction cons, String[] labels,
+	@Override
+	protected AlgoFocus newAlgoFocus(Construction cons1, String[] labels,
 			GeoConicND c) {
 
 		if (c.isGeoElement3D()) {
-			return new AlgoFocus3D(cons, labels, c);
+			return new AlgoFocus3D(cons1, labels, c);
 		}
 
-		return super.newAlgoFocus(cons, labels, c);
+		return super.newAlgoFocus(cons1, labels, c);
 	}
 
 }

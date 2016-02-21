@@ -5,8 +5,16 @@ import org.geogebra.common.kernel.commands.CmdConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Conic through five points
+ *
+ */
 public class CmdConic3D extends CmdConic {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdConic3D(Kernel kernel) {
 		super(kernel);
 	}

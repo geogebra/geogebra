@@ -13,8 +13,18 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Ellipse and Hyperbola command processor
+ *
+ */
 public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param type
+	 *            conic type
+	 */
 	public CmdEllipseHyperbola3D(Kernel kernel, final int type) {
 		super(kernel, type);
 	}

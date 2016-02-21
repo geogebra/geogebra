@@ -12,12 +12,21 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Cylinder command processor (for finite cylinder)
+ *
+ */
 public class CmdCylinder extends CommandProcessor {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdCylinder(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -77,17 +86,22 @@ public class CmdCylinder extends CommandProcessor {
 
 	// overridded by CmdCylinderInfinite
 
+	/**
+	 * @param c
+	 *            command
+	 * @param p1
+	 *            bottom center
+	 * @param p2
+	 *            top center
+	 * @param r
+	 *            radius
+	 * @return cylinder
+	 */
 	protected GeoElement[] cylinderPointPointRadius(Command c, GeoPointND p1,
 			GeoPointND p2, NumberValue r) {
 		return kernelA.getManager3D().CylinderLimited(c.getLabels(), p1, p2, r);
 	}
 
-	protected MyError argErr(GeoElement geo, Command c) {
-		return argErr(app, c.getName(), geo);
-	}
 
-	protected MyError argNumErr(int n, Command c) {
-		return argNumErr(app, c.getName(), n);
-	}
 
 }

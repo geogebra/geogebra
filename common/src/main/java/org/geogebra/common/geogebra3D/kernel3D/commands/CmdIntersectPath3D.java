@@ -16,12 +16,21 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Processor forIntersectPath command
+ *
+ */
 public class CmdIntersectPath3D extends CmdIntersectPath {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdIntersectPath3D(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -93,6 +102,14 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 					&& (ok[1] = (arg[1].isGeoImplicitSurface()))) {
 				GeoElement[] result = new GeoElement[] { new AlgoIntersectImplicitSurfacePlane(
 						cons, (GeoImplicitSurface) arg[1], (GeoPlaneND) arg[0])
+						.getOutput()[0] };
+				result[0].setLabel(c.getLabel());
+				return result;
+			}
+			if ((ok[1] = (arg[1].isGeoPlane()))
+					&& (ok[0] = (arg[0].isGeoImplicitSurface()))) {
+				GeoElement[] result = new GeoElement[] { new AlgoIntersectImplicitSurfacePlane(
+						cons, (GeoImplicitSurface) arg[0], (GeoPlaneND) arg[1])
 						.getOutput()[0] };
 				result[0].setLabel(c.getLabel());
 				return result;
