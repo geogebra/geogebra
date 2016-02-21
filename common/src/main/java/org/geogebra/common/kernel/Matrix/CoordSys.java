@@ -183,27 +183,8 @@ public class CoordSys {
 		return result;
 	}
 
-	public Coords[] getNormalProjectionForDrawing(Coords coords) {
-		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
-		coords.projectPlane(drawingMatrix, result[0], result[1]);
-		return result;
-	}
-
-	public Coords[] getProjection(Coords coords, Coords willingDirection) {
-		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
-		coords.projectPlaneThruV(this.getMatrixOrthonormal(),
-				willingDirection, result[0], result[1]);
-		return result;
-	}
 	
 
-	public Coords[] getProjectionThruVIfPossible(Coords coords,
-			Coords willingDirection) {
-		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
-		coords.projectPlaneThruVIfPossible(this.getMatrixOrthonormal(),
-				willingDirection, result[0], result[1]);
-		return result;
-	}
 
 	// /////////////////////////////////////
 	// creating a coord sys
