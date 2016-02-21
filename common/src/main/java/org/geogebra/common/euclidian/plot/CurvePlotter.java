@@ -651,7 +651,8 @@ public class CurvePlotter {
 	static public double[] draw(PathPlotter gp,
 			ArrayList<? extends MyPoint> pointList, CoordSys sys) {
 		double[] coords = gp.newDoubleArray();
-		if (!gp.supports(sys)) {
+		int size = pointList.size();
+		if (!gp.supports(sys) || size == 0) {
 			return coords;
 		}
 		// this is for making sure that there is no lineto from nothing
@@ -659,7 +660,7 @@ public class CurvePlotter {
 		// points
 		boolean linetofirst = true;
 
-		int size = pointList.size();
+
 		for (int i = 0; i < size; i++) {
 			MyPoint p = pointList.get(i);
 
