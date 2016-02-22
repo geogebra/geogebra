@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -28,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -36,6 +38,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
+import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 
 /**
@@ -175,6 +179,33 @@ public class AlgoDependentListExpression extends AlgoElement implements
 				if (geo == null) {
 					GeoPoint point = new GeoPoint(cons);
 					point.setCoords(vec);
+					geo = point;
+				}
+
+				// add point to list
+				list.add(geo);
+			}
+
+			// point
+			else if (element instanceof Vector3DValue) {
+				Geo3DVecInterface vec = ((Vector3DValue) element).getVector();
+
+				// try to use cached element of same type
+				if (i < cachedListSize) {
+					GeoElement cachedGeo = list.getCached(i);
+
+					// the cached element is a point: set value
+					if (cachedGeo.isGeoPoint()) {
+						((GeoPointND) cachedGeo).setCoords(vec.getX(),
+								vec.getY(), vec.getZ(), 1);
+						geo = cachedGeo;
+					}
+				}
+
+				// no cached point: create new one
+				if (geo == null) {
+					GeoPoint3D point = new GeoPoint3D(cons);
+					point.setCoords(vec.getX(), vec.getY(), vec.getZ(), 1);
 					geo = point;
 				}
 
