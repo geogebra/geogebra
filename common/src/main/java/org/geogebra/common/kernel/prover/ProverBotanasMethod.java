@@ -951,6 +951,16 @@ public class ProverBotanasMethod {
 
 		AlgebraicStatement as = new AlgebraicStatement(statement, prover);
 
+		/*
+		 * It's possible that we already know the answer without computing
+		 * anything on the polynomials. If yes, we quit here and return the
+		 * known result.
+		 */
+		if (as.result != null) {
+			return as.result;
+		}
+
+		/* Set substitutions. */
 		HashMap<Variable, Integer> substitutions = null;
 		int fixcoords = 0;
 		if (prover.isReturnExtraNDGs())
