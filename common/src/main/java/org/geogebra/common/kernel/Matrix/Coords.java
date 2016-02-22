@@ -195,6 +195,22 @@ public class Coords {
 	}
 
 	/**
+	 * set four first values
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param w
+	 */
+	public void set(double x, double y, double z, double w) {
+		val[0] = x;
+		val[1] = y;
+		val[2] = z;
+		val[3] = w;
+		calcNorm = calcSqNorm = true;
+	}
+
+	/**
 	 * sets v to vals0
 	 * 
 	 * @param vals0
@@ -247,6 +263,17 @@ public class Coords {
 		set(v.val);
 	}
 	
+	/**
+	 * set 3 first values from v
+	 * 
+	 * @param v
+	 *            coords
+	 */
+	public void set3(Coords v) {
+		val[0] = v.val[0];
+		val[1] = v.val[1];
+		val[2] = v.val[2];
+	}
 
 	public void set(double val0) {
 		for (int i = 0; i < rows; i++) {
@@ -709,6 +736,18 @@ public class Coords {
 		return ret;
 	}
 	
+	/**
+	 * set this equal to normalized vector. Warning: recalc vector's norm
+	 * 
+	 * @param vector
+	 *            vector
+	 * 
+	 * @return this
+	 */
+	public Coords setNormalized(Coords vector) {
+		return setNormalized(vector, false);
+	}
+
 	/**
 	 * set this equal to normalized vector. Warning: recalc vector's norm
 	 * 

@@ -168,7 +168,7 @@ public class CoordSys {
 	}
 
 	public Coords getNormal() {
-		return matrixOrthonormal.getVz();// getVx().crossProduct(getVy()).normalized();
+		return matrixOrthonormal.getVz();
 	}
 
 	// ///////////////////////////////////
@@ -312,7 +312,7 @@ public class CoordSys {
 			if (!Kernel.isEqual(vn.norm(), 0,
 					Kernel.STANDARD_PRECISION)) {
 				setVy(v);
-				setVz(getVx().crossProduct(getVy()));
+				getVz().setCrossProduct(getVx(), getVy());
 				setMadeCoordSys(2);
 			}
 			break;
@@ -325,7 +325,7 @@ public class CoordSys {
 	 * creates the equation vector
 	 */
 	public void makeEquationVector() {
-		equationVector.set(getVx().crossProduct(getVy()));
+		equationVector.setCrossProduct(getVx(), getVy());
 		equationVector.set(4, 0);
 
 		double d = equationVector.dotproduct(getOrigin());
@@ -477,14 +477,14 @@ public class CoordSys {
 		// if the coord sys is made, the drawing matrix is updated
 		if (dimension == 1) {
 			// compute Vy and Vz
-			Coords vy = Coords.VZ.crossProduct(getVx());
+			Coords vy = getVy();
+			vy.setCrossProduct(Coords.VZ, getVx());
 			// check if vy=0 (if so, vx is parallel to Oz)
 			if (vy.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
 				setVy(Coords.VX);
 				setVz(Coords.VY);
 			} else {
-				setVy(vy);
-				setVz(getVx().crossProduct(getVy()));
+				getVz().setCrossProduct(getVx(), getVy());
 			}
 
 			if (projectOrigin){ // recompute origin for ortho matrix
@@ -501,42 +501,48 @@ public class CoordSys {
 		}
 
 		if (dimension == 2) { // vy and Vz are computed
-			Coords vx, vy, vz;
 
 			if (firstVectorParallelToXOY) {
 				// vector Vx parallel to xOy plane
 
-				vx = getVz().crossProduct(Coords.VZ);
+				tmpCoords1.setCrossProduct(getVz(), Coords.VZ);
+				tmpCoords1.setW(0);
 				// if (!Kernel.isEqual(vx.norm(), 0,
 				// Kernel.STANDARD_PRECISION)){
-				if (!vx.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
-					vx.normalize();
-					vy = getVz().crossProduct(vx);
-					vy.normalize();
-					vz = getVz().normalized();
+				if (!tmpCoords1.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
+					tmpCoords1.normalize();
+					tmpCoords2.setCrossProduct(getVz(), tmpCoords1);
+					tmpCoords2.setW(0);
+					tmpCoords2.normalize();
+					tmpCoords3.setNormalized(getVz());
 				} else {
-					vz = new Coords(0, 0, 1, 0);
-					vx = new Coords(1, 0, 0, 0);
-					vy = new Coords(0, 1, 0, 0);
+					tmpCoords3.set(0, 0, 1, 0);
+					tmpCoords1.set(1, 0, 0, 0);
+					tmpCoords2.set(0, 1, 0, 0);
 				}
 			} else {
-				vx = getVx().normalized(true);
+				tmpCoords1.setNormalized(getVx(), true);
 				// vz is computed and vy recomputed to make orthonormal matrix
-				vz = vx.crossProduct(getVy()).normalize(true);
-				vy = vz.crossProduct(vx);
+				tmpCoords3.setCrossProduct(tmpCoords1, getVy());
+				tmpCoords3.setW(0);
+				tmpCoords3.normalize(true);
+				tmpCoords2.setCrossProduct(tmpCoords3, tmpCoords1);
+				tmpCoords2.setW(0);
 			}
 
 			matrixOrthonormal.setOrigin(getOrigin());
-			matrixOrthonormal.setVx(vx);
-			matrixOrthonormal.setVy(vy);
-			matrixOrthonormal.setVz(vz);
+			matrixOrthonormal.setVx(tmpCoords1);
+			matrixOrthonormal.setVy(tmpCoords2);
+			matrixOrthonormal.setVz(tmpCoords3);
 			Coords.O.projectPlane(getMatrixOrthonormal(), tmpCoords3);
 			
 			if (projectOrigin){ // recompute origin for ortho and drawing matrix
 				matrixOrthonormal.setOrigin(tmpCoords3);
 			}
 
-			CoordMatrix4x4.createOrthoToDirection(tmpCoords3, vz, CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, drawingMatrix);
+			CoordMatrix4x4.createOrthoToDirection(tmpCoords3,
+					matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, tmpCoords1,
+					tmpCoords2, drawingMatrix);
 
 			// Application.debug("matrix ortho=\n"+getMatrixOrthonormal());
 

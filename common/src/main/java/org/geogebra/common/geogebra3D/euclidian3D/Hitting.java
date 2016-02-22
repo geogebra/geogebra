@@ -43,6 +43,11 @@ public class Hitting {
 	public Hitting(EuclidianView3D view) {
 		this.view = view;
 		pos = new GPoint();
+
+		origin = new Coords(4);
+		origin.setW(1);
+
+		direction = new Coords(4);
 	}
 
 	/**
@@ -123,8 +128,9 @@ public class Hitting {
 	 */
 	public void setOriginDirectionThreshold(Coords origin, Coords direction,
 			int threshold) {
-		this.origin = origin;
-		this.direction = direction;
+
+		this.origin.set3(origin);
+		this.direction.set3(direction);
 		this.threshold = threshold;
 
 		// we need to update clipped values
