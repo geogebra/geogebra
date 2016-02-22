@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
 
@@ -45,15 +45,15 @@ public class View {
 	}
 
 	public void promptUserForGgbFile() {
-		App.debug("No data-param-fileName attribute presented");
+		Log.debug("No data-param-fileName attribute presented");
 	}
 
 	public void showError(String errorMessage) {
-		App.debug(errorMessage);
+		Log.debug(errorMessage);
 	}
 
 	public void hide() {
-		App.debug("View.hide called");
+		Log.debug("View.hide called");
 	}
 
 	public void showLoadAnimation() {
@@ -158,7 +158,7 @@ public class View {
 
 		try {
 			app.loadGgbFile(archiveContent);
-			App.debug("loadggb finished" + System.currentTimeMillis());
+			Log.debug("loadggb finished" + System.currentTimeMillis());
 		} catch (Throwable ex) {
 			ex.printStackTrace();
 			log(ex);
@@ -170,7 +170,7 @@ public class View {
 		// too,
 		// it should load after the images are loaded
 
-		App.debug("file loaded");
+		Log.debug("file loaded");
 		// This is used also by touch where dialog manager is null
 		app.notifyFileLoaded();
 
@@ -182,7 +182,7 @@ public class View {
 			if (cpNav != null)
 				cpNav.update();
 		}
-		App.debug("end unzipping" + System.currentTimeMillis());
+		Log.debug("end unzipping" + System.currentTimeMillis());
 	}
 
 	public void maybeLoadFile(HashMap<String, String> archiveCont) {
@@ -282,21 +282,21 @@ public class View {
 			      (function(entry){	            		
 			      var filename = entry.filename;
 			      if (entry.filename.match(imageRegex)) {
-				      @org.geogebra.common.main.App::debug(Ljava/lang/String;)(filename+" : image");
+				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(filename+" : image");
 				      var filenameParts = filename.split(".");
 				      entry.getData(new $wnd.zip.Data64URIWriter("image/"+filenameParts[filenameParts.length - 1]), function (data) {
 				      view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
 				      });
 			      } else {
-				      @org.geogebra.common.main.App::debug(Ljava/lang/String;)(entry.filename+" : text");
+				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(entry.filename+" : text");
 				      if ($wnd.zip.useWebWorkers === false || (typeof $wnd.zip.forceDataURIWriter !== "undefined" && $wnd.zip.forceDataURIWriter === true)) {
-					      @org.geogebra.common.main.App::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
+					      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
 					      entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 					      var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
 					      view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
 					      });
 				      } else {
-					      @org.geogebra.common.main.App::debug(Ljava/lang/String;)("worker");
+					      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("worker");
 					      entry.getData(new ASCIIWriter(), function(text) {
 					      view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
 					      });
@@ -430,21 +430,21 @@ public class View {
        	(function(entry){
            	var filename = entry.filename;
                if (entry.filename.match(imageRegex)) {
-                       @org.geogebra.common.main.App::debug(Ljava/lang/String;)(filename+" : image");
+                       @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(filename+" : image");
                        var filenameParts = filename.split(".");
                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filenameParts[filenameParts.length -1]), function (data) {
                            view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
                        });
                    } else {
-                       @org.geogebra.common.main.App::debug(Ljava/lang/String;)(entry.filename+" : text");
+                       @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(entry.filename+" : text");
                        if ($wnd.zip.useWebWorkers === false || (typeof $wnd.zip.forceDataURIWriter !== "undefined" && $wnd.zip.forceDataURIWriter === true)) {
-                           @org.geogebra.common.main.App::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
+                           @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
                            entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
                    			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
                              	view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
                             });
                        } else {
-                       	@org.geogebra.common.main.App::debug(Ljava/lang/String;)("worker");
+                       	@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("worker");
                        	entry.getData(new ASCIIWriter(), function(text) {
                              	view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
                             });
@@ -457,7 +457,7 @@ public class View {
       });
       },
       function (error) {
-      	@org.geogebra.common.util.debug.Log(Ljava/lang/String;)(error);
+      	@org.geogebra.common.util.debug.Log::error(Ljava/lang/String;)(error);
       });
       }-*/;
 
@@ -474,7 +474,7 @@ public class View {
 	private String prepareFileReading() {
 		archiveContent = new HashMap<String, String>();
 		String workerUrls = GgbAPIW.zipJSworkerURL();
-		App.debug("start unzipping" + System.currentTimeMillis());
+		Log.debug("start unzipping" + System.currentTimeMillis());
 		return workerUrls;
 	}
 
