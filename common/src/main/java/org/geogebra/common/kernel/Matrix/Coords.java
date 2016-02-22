@@ -530,6 +530,23 @@ public class Coords {
 		return res;
 	}
 
+
+	/**
+	 * Assume that (u,v) are orthogonal
+	 * 
+	 * @param u
+	 *            vector
+	 * @param v
+	 *            vector
+	 * @return true if crossProduct(u,v)*w is almost zero
+	 */
+	final public boolean isDependentToOrtho(Coords u, Coords v) {
+		double value = (u.getY() * v.getZ() - u.getZ() * v.getY()) * getX()
+				+ (u.getZ() * v.getX() - u.getX() * v.getZ()) * getY()
+				+ (u.getX() * v.getY() - u.getY() * v.getX()) * getZ();
+		return Kernel.isZero(value);
+	}
+
 	/**
 	 * returns cross product this * v. Attempt that the two vectors are of
 	 * dimension 3.
@@ -934,9 +951,7 @@ public class Coords {
 	public void projectPlaneInPlaneCoords(Coords vx, Coords vy, Coords vz, Coords o, Coords inPlaneCoords) {
 			
 
-		if (Kernel.isEqual(
-				(vx.crossProduct(vy)).dotproduct(vz), 0,
-				Kernel.STANDARD_PRECISION)) {
+		if (vz.isDependentToOrtho(vx, vy)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
 			// Application.printStacktrace("infinity");
@@ -960,9 +975,7 @@ public class Coords {
 		
 	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o, Coords globalCoords) {
 		
-		if (Kernel.isEqual(
-				(vx.crossProduct(vy)).dotproduct(vz), 0,
-				Kernel.STANDARD_PRECISION)) {
+		if (vz.isDependentToOrtho(vx, vy)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
 			// Application.printStacktrace("infinity");
