@@ -187,7 +187,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 				// no valid URL?
 				if (start == -1) {
-					App.debug("problem parsing: " + processedUrlString);
+					Log.debug("problem parsing: " + processedUrlString);
 					return false;
 				}
 
@@ -222,7 +222,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 					}
 				}
 
-				App.debug(processedUrlString);
+				Log.debug(processedUrlString);
 				success = loadURL_GGB(processedUrlString);
 
 				// special case: urlString is actually a base64 encoded ggb file
@@ -304,7 +304,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			if (App.isView3D(viewId)) {
 				// handled elsewhere
 			} else {
-				App.error("Error attaching VIEW: " + viewId);
+				Log.error("Error attaching VIEW: " + viewId);
 			}
 		}
 	}
@@ -401,13 +401,13 @@ public abstract class GuiManager implements GuiManagerInterface {
 			break;
 		case App.VIEW_EUCLIDIAN:
 		case App.VIEW_EUCLIDIAN2:
-			App.debug("TODO: should we detach EV1/2?");
+			Log.debug("TODO: should we detach EV1/2?");
 			break;
 		default:
 			if (App.isView3D(viewId)) {
-				App.debug("TODO: should we detach EV3D?");
+				Log.debug("TODO: should we detach EV3D?");
 			} else {
-				App.error("Error detaching VIEW: " + viewId);
+				Log.error("Error detaching VIEW: " + viewId);
 			}
 		}
 	}

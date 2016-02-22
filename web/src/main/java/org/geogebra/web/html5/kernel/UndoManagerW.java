@@ -118,10 +118,10 @@ public class UndoManagerW extends UndoManager {
 			        new Event(EventType.STOREUNDO, null));
 
 		} catch (Exception e) {
-			App.debug("storeUndoInfo: " + e.toString());
+			Log.debug("storeUndoInfo: " + e.toString());
 			e.printStackTrace();
 		} catch (Error err) {
-			App.debug("UndoManager.storeUndoInfo: " + err.toString());
+			Log.debug("UndoManager.storeUndoInfo: " + err.toString());
 			err.printStackTrace();
 		}
 		updateUndoActions();
@@ -133,7 +133,7 @@ public class UndoManagerW extends UndoManager {
 			// load from file
 			String tempXML = ((AppStateWeb) info).getXML();
 			if (tempXML == null) {
-				App.error("Undo not supported.");
+				Log.error("Undo not supported.");
 			}
 			// make sure objects are displayed in the correct View
 			app.setActiveView(App.VIEW_EUCLIDIAN);
@@ -150,9 +150,9 @@ public class UndoManagerW extends UndoManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 			restoreCurrentUndoInfo();
-			App.error("Undo exception:" + e.getMessage());
+			Log.error("Undo exception:" + e.getMessage());
 		} catch (Error err) {
-			App.error("Undo error:" + err.getMessage());
+			Log.error("Undo error:" + err.getMessage());
 		}
 	}
 }

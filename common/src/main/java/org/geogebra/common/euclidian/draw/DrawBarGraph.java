@@ -13,8 +13,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable representation of a bar graph
@@ -141,7 +141,7 @@ public class DrawBarGraph extends Drawable {
 					g2.setPaint(color);
 				}
 			} catch (Exception e) {
-				App.debug(e.getMessage());
+				Log.debug(e.getMessage());
 			}
 
 			try {
@@ -211,7 +211,7 @@ public class DrawBarGraph extends Drawable {
 					g2.setPaint(color);
 				}
 			} catch (Exception e) {
-				App.debug(e.getMessage());
+				Log.debug(e.getMessage());
 			}
 			if (labelVisible) {
 				g2.setFont(view.getFontConic());

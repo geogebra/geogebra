@@ -18,6 +18,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
@@ -137,7 +138,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 			setExportImage();
 			if (bi == null) {
-				App.error("image null");
+				Log.error("image null");
 			} else {
 				gifEncoder.addFrame(bi);
 			}
@@ -172,7 +173,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 			setExportImage();
 
 			if (bi == null) {
-				App.error("image null");
+				Log.error("image null");
 			} else {
 				org.geogebra.desktop.gui.util.ImageSelection imgSel = new org.geogebra.desktop.gui.util.ImageSelection(
 						bi);
@@ -189,7 +190,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 			setExportImage();
 
 			if (bi == null) {
-				App.error("image null, uploading with no preview");
+				Log.error("image null, uploading with no preview");
 				// TODO: set 2D preview image
 			}
 
@@ -216,7 +217,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	protected void exportImageEquirectangular() {
 
 		if (bi == null) {
-			App.error("image null");
+			Log.error("image null");
 		} else {
 			org.geogebra.desktop.gui.util.ImageSelection imgSel = new org.geogebra.desktop.gui.util.ImageSelection(
 					bi);
@@ -777,11 +778,11 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 			
 			// check if frame buffer is complete
 			if (getGL().glCheckFramebufferStatus(GLlocal.GL_FRAMEBUFFER) != GLlocal.GL_FRAMEBUFFER_COMPLETE) {
-				App.error("Frame buffer is not complete");
+				Log.error("Frame buffer is not complete");
 				fboID = -1;
 			}
 		}catch(Exception e){
-			App.error(e.getMessage());
+			Log.error(e.getMessage());
 			fboID = -1;
 		}
 		
@@ -909,7 +910,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 				}
 			bi.flush();
 		} catch (Exception e) {
-			App.error("setExportImage: " + e.getMessage());
+			Log.error("setExportImage: " + e.getMessage());
 		}
 
 	}

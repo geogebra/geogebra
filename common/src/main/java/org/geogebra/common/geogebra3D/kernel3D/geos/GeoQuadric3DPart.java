@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DPartInterface;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for part of a quadric (e.g. side of a limited cone, cylinder, ...)
@@ -385,7 +385,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 
 	@Override
 	protected void classifyQuadric() {
-		App.error("GeoQuadric3DPart should not need classification");
+		Log.warn("GeoQuadric3DPart should not need classification");
 	}
 
 	@Override

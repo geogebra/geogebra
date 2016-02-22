@@ -2,6 +2,7 @@ package org.geogebra.common.util;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Collection of which languages are official in which countries (only includes
@@ -560,7 +561,7 @@ public enum Language {
 			}
 		}
 
-		App.error("language not recognized: " + language);
+		Log.error("language not recognized: " + language);
 		return null;
 	}
 
@@ -569,7 +570,7 @@ public enum Language {
 		// eg change en_GB to enGB
 		ggbLangCode = ggbLangCode.replaceAll("_", "");
 
-		App.debug("looking for: " + ggbLangCode);
+		Log.debug("looking for: " + ggbLangCode);
 		for (Language l : Language.values()) {
 			if (l.locale.equals(ggbLangCode)
 					|| l.localeGWT.replaceAll("_", "").equals(ggbLangCode)) {
@@ -577,7 +578,7 @@ public enum Language {
 			}
 		}
 
-		App.error("language not found: " + ggbLangCode);
+		Log.error("language not found: " + ggbLangCode);
 
 		return null;
 	}
@@ -595,7 +596,7 @@ public enum Language {
 			}
 		}
 
-		App.error("language not found: " + language);
+		Log.error("language not found: " + language);
 		return "a";
 	}
 

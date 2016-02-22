@@ -2,8 +2,8 @@ package org.geogebra.web.html5.sound;
 
 
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
 import org.geogebra.common.sound.FunctionSound;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.sound.WebAudioWrapper.FunctionAudioListener;
 
 /**
@@ -25,13 +25,13 @@ public final class FunctionSoundW extends FunctionSound implements
 	public FunctionSoundW() {
 		super();
 		if (WebAudioWrapper.INSTANCE.init()) {
-			App.debug("[WEB AUDIO] Initialization is OK.");
+			Log.debug("[WEB AUDIO] Initialization is OK.");
 		} else {
-			App.debug("[WEB AUDIO] Initialization has FAILED.");
+			Log.debug("[WEB AUDIO] Initialization has FAILED.");
 		}
 
 		if (!initStreamingAudio(getSampleRate(), getBitDepth())) {
-			App.error("Cannot initialize streaming audio");
+			Log.error("Cannot initialize streaming audio");
 		}
 
 	}
@@ -73,7 +73,7 @@ public final class FunctionSoundW extends FunctionSound implements
 		if (!checkFunction(geoFunction, min, max, sampleRate, bitDepth)) {
 			return;
 		}
-		App.debug("FunctionSound");
+		Log.debug("FunctionSound");
 		waw.setListener(this);
 		generateFunctionSound();
 	}

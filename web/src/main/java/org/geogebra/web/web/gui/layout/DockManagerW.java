@@ -16,6 +16,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -282,7 +283,7 @@ public class DockManagerW extends DockManager {
 					}
 				}
 				if(currentParent==null){
-					App.error("Invalid perspective");
+					Log.error("Invalid perspective");
 					currentParent = rootPane;
 				}
 				else if(directions[directions.length - 1].equals("0") || directions[directions.length - 1].equals("3")) {
@@ -1634,7 +1635,7 @@ public class DockManagerW extends DockManager {
 		//euclidian view for plane case	
 		DockPanelW panel = (DockPanelW) app.getCompanion().createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
 		if (panel==null){
-			App.error("panel==null");
+			Log.error("panel==null");
 			return null;
 		}
 		

@@ -31,7 +31,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.MyImageD;
 
@@ -120,7 +120,7 @@ public class GGraphics2DD implements org.geogebra.common.awt.GGraphics2D {
 			impl.setPaint(((GTexturePaintD) paint).getPaint());
 			return;
 		} else {
-			App.error("unknown paint type");
+			Log.error("unknown paint type");
 		}
 
 	}

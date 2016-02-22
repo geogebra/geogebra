@@ -401,7 +401,7 @@ response,
 
 					@Override
 			        public void onError(String error) {
-				        App.error("SYNCE error" + error);
+						Log.error("SYNCE error" + error);
 
 			        }
 		        });

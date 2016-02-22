@@ -13,8 +13,8 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to convert a GeoPolygon to a set of triangles
@@ -111,7 +111,7 @@ public class PolygonTriangulation {
 	 */
 	final static protected void debug(String s) {
 		if (DEBUG) {
-			App.debug(s);
+			Log.debug(s);
 		}
 	}
 
@@ -123,7 +123,7 @@ public class PolygonTriangulation {
 	 */
 	final static protected void error(String s) {
 		if (DEBUG) {
-			App.error(s);
+			Log.error(s);
 		}
 	}
 

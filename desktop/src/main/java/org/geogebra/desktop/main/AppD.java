@@ -1041,7 +1041,7 @@ public class AppD extends App implements KeyEventDispatcher {
 							// StringUtil.toJavaString(casResultOriginal);
 							// error += "\", notes:\"from Giac's tests\" },\n";
 
-							App.error(error);
+							Log.error(error);
 							errors.add(error);
 							
 							
@@ -1063,7 +1063,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				e.printStackTrace();
 			}
 
-			App.error("CAS TESTS ENDED. Total tests run = " + count
+			Log.error("CAS TESTS ENDED. Total tests run = " + count
 					+ ". Failed = " + errors.size());
 
 			Iterator<String> it = errors.iterator();

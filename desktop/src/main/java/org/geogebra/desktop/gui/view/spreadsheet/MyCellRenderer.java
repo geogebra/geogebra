@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
 
@@ -277,7 +278,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		if (geo.isGeoImage()) {
 
 			if (((MyImageD) ((GeoImage) geo).getFillImage()).isSVG()) {
-				App.error(
+				Log.error(
 						"SVG not supported in the spreadsheet in desktop yet");
 			} else {
 

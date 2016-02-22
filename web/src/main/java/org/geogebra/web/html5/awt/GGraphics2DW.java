@@ -17,7 +17,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
@@ -274,10 +273,10 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 					        });
 				}
 			} catch (Throwable e) {
-				App.error(e.getMessage());
+				Log.error(e.getMessage());
 			}
 		} else {
-			App.error("unknown paint type");
+			Log.error("unknown paint type");
 		}
 	}
 
@@ -457,7 +456,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 			try {
 				context.setFont(currentFont.getFullFontString());
 			} catch (Throwable t) {
-				App.error("problem setting font: "
+				Log.error("problem setting font: "
 				        + currentFont.getFullFontString());
 			}
 		}
@@ -492,7 +491,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	public void clip(org.geogebra.common.awt.GShape shape) {
 		if (shape == null) {
-			App.error("Error in Graphics2D.clip");
+			Log.error("Error in Graphics2D.clip");
 			return;
 		}
 		clipShape = shape;
@@ -561,7 +560,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	public void draw(org.geogebra.common.awt.GShape shape) {
 		if (shape == null) {
-			App.error("Error in EuclidianView.draw");
+			Log.error("Error in EuclidianView.draw");
 			return;
 		}
 		if (shape instanceof GeneralPathClipped) {
@@ -575,7 +574,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	public void fill(org.geogebra.common.awt.GShape gshape) {
 		if (gshape == null) {
-			App.error("Error in EuclidianView.draw");
+			Log.error("Error in EuclidianView.draw");
 			return;
 		}
 		Shape shape;
@@ -960,7 +959,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 				context.drawImage(bi.getImageElement(), x, y);
 			}
 		} catch (Exception e) {
-			App.error("error in context.drawImage method");
+			Log.error("error in context.drawImage method");
 		}
 	}
 
@@ -968,7 +967,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		try {
 			context.drawImage(img, x, y);
 		} catch (Exception e) {
-			App.error("error in context.drawImage method");
+			Log.error("error in context.drawImage method");
 		}
 	}
 

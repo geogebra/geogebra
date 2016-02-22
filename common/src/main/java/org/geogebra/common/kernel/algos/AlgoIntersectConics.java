@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Computes intersection points of two conic sections
@@ -240,7 +241,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	public final void compute() {
 
 		if (permutation[3] == 0) {
-			App.error("error in AlgoIntersectConics");
+			Log.error("error in AlgoIntersectConics");
 		}
 		/*
 		 * if (this.getA().getLabelSimple().equals("c") &&

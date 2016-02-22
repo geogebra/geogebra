@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to control data management for the DataAnalysisView.
@@ -212,7 +213,7 @@ public abstract class DataAnalysisController {
 
 			for (int i = 0; i < dataSelected.size(); i++) {
 				dataArray.add(i, dataSelected.get(i));
-				// App.error(dataSelected.get(i).toOutputValueString(
+				// Log.error(dataSelected.get(i).toOutputValueString(
 				// StringTemplate.defaultTemplate));
 			}
 
@@ -221,7 +222,7 @@ public abstract class DataAnalysisController {
 				getModel().getListener().loadDataTable(dataArray);
 			}
 		} else {
-			App.error("null dataSelected, mode = " + getMode());
+			Log.error("null dataSelected, mode = " + getMode());
 		}
 	}
 
@@ -303,7 +304,7 @@ public abstract class DataAnalysisController {
 			updateAllPanels(true);
 
 		} else {
-			// App.error("error in updateDialog");
+			// Log.error("error in updateDialog");
 		}
 
 		getModel().updateGUI();

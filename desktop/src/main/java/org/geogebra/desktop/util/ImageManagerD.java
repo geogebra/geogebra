@@ -36,6 +36,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
 
@@ -187,7 +188,7 @@ public class ImageManagerD extends ImageManager {
 		}
 
 		if (img == null) {
-			App.error("Image " + name + " not found");
+			Log.error("Image " + name + " not found");
 		}
 
 		return img;

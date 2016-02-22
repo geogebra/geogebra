@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.AlgoCubicSwitchParams;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author Darko Drakulic
@@ -149,7 +149,7 @@ public class AlgoCubic extends AlgoElement {
 			poly.setDefined();
 		} catch (ParseException e) {
 			poly.setUndefined();
-			App.error(equation);
+			Log.error(equation);
 		}
 	}
 

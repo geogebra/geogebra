@@ -5,6 +5,7 @@ import java.awt.Image;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageManagerD;
@@ -29,7 +30,7 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 		if (imageFileName.startsWith("/geogebra")) {
 			Image im = app.getImageManager().getImageResource(imageFileName);
 			if(im == null){
-				App.error(imageFileName+ " does not exist");
+				Log.error(imageFileName + " does not exist");
 				return null;
 			}
 			image = new MyImageD(ImageManagerD.toBufferedImage(im));

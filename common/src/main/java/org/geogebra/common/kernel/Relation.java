@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Compares two objects, first numerically, then symbolically (when the
@@ -130,7 +131,7 @@ public class Relation {
 								// ProveDetails=={true}
 								rel.info += app.getPlain("AlwaysTrue");
 							} else { // "0"
-								App.error("Internal error in prover: Prove==true <-> ProveDetails==false");
+								Log.error("Internal error in prover: Prove==true <-> ProveDetails==false");
 								rel.info += app.getPlain("ButNotGenerallyTrue");
 							}
 							rel.info += "</b>";

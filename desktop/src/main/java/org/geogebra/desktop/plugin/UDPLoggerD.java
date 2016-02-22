@@ -9,8 +9,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.SensorLogger;
+import org.geogebra.common.util.debug.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -89,7 +89,7 @@ public class UDPLoggerD extends SensorLogger {
 					break;
 
 				default:
-					App.error("unknown EDAQ port!");
+					Log.error("unknown EDAQ port!");
 				}
 			}
 
@@ -101,7 +101,7 @@ public class UDPLoggerD extends SensorLogger {
 	public void handle(byte[] buffer, int length, String address,
 			boolean quicker) {
 
-		// App.debug("undoActive is: " + kernel.isUndoActive());
+		// Log.debug("undoActive is: " + kernel.isUndoActive());
 
 		byte c0 = buffer[0];
 		byte c1 = buffer[1];
@@ -111,7 +111,7 @@ public class UDPLoggerD extends SensorLogger {
 		if (c0 == 'F' && c1 == 'S' && c2 == 0x01) {
 			double timestamp = 0;
 			// https://itunes.apple.com/gb/app/sensor-data-streamer/id608278214?mt=8
-			App.debug("data is from 'Sensor Streamer' (c) 2013 FNI Co LTD");
+			Log.debug("data is from 'Sensor Streamer' (c) 2013 FNI Co LTD");
 			log(Types.ACCELEROMETER_X, timestamp, getFloat(buffer, 4));
 			log(Types.ACCELEROMETER_Y, timestamp, getFloat(buffer, 8));
 			log(Types.ACCELEROMETER_Z, timestamp, getFloat(buffer, 12));
@@ -136,7 +136,7 @@ public class UDPLoggerD extends SensorLogger {
 				// ,,23456789
 
 				if (buffer[bp - 1] != ';') {
-					App.error("error in UDP transmission");
+					Log.error("error in UDP transmission");
 				}
 
 				long gotit = 0;
@@ -145,7 +145,7 @@ public class UDPLoggerD extends SensorLogger {
 				}
 
 				if (buffer[bp + 1] != ',') {
-					App.error("error in UDP transmission");
+					Log.error("error in UDP transmission");
 				}
 				double timestamp = 0;
 				switch (buffer[bp]) {
@@ -166,7 +166,7 @@ public class UDPLoggerD extends SensorLogger {
 					break;
 
 				default:
-					App.error("unknown EDAQ port!");
+					Log.error("unknown EDAQ port!");
 				}
 			}
 
@@ -176,18 +176,18 @@ public class UDPLoggerD extends SensorLogger {
 		} else {
 
 			// https://play.google.com/store/apps/details?id=jp.ac.ehime_u.cite.sasaki.SensorUdp
-			App.debug("Assume data is from Android/SensorUDP");
+			Log.debug("Assume data is from Android/SensorUDP");
 
 			String msg = new String(buffer, 0, length);
 
-			App.debug(msg);
+			Log.debug(msg);
 
 			String[] split = msg.split(", ");
 			double timestamp = Math.abs(now - Double.parseDouble(split[2]));
 			switch (buffer[0]) {
 			case 'A':
 
-				// App.debug("received" + msg);
+				// Log.debug("received" + msg);
 
 				log(Types.ACCELEROMETER_X, timestamp,
 						Double.parseDouble(split[3].replace(",", ".")));
@@ -218,8 +218,8 @@ public class UDPLoggerD extends SensorLogger {
 				break;
 
 			default:
-				// App.debug("unknown data type: " + buffer[0]);
-				// App.debug(msg);
+				// Log.debug("unknown data type: " + buffer[0]);
+				// Log.debug(msg);
 				break;
 			}
 			// timestamp and data-count logged always
@@ -227,12 +227,12 @@ public class UDPLoggerD extends SensorLogger {
 			log(Types.DATA_COUNT, timestamp, Double.parseDouble(split[1]));
 
 			// for (int i = 1; i < split.length; i++) {
-			// App.debug(split[i]);
+			// Log.debug(split[i]);
 			// }
 
 			// Convert the contents to a string, and display
 			// them
-			App.debug(address + ": " + msg);
+			Log.debug(address + ": " + msg);
 		}
 	}
 
@@ -333,18 +333,18 @@ public class UDPLoggerD extends SensorLogger {
 			@Override
 			public void run() {
 
-				App.debug("thread starting");
+				Log.debug("thread starting");
 
 				while (socketCopy == dsocket) {
 					// Wait to receive a datagram
 					try {
-						App.debug("waiting");
+						Log.debug("waiting");
 						dsocket.receive(packet);
 					} catch (IOException e) {
 						if (dsocket != null)
 							dsocket.close();
 						dsocket = null;
-						App.debug("logging failed");
+						Log.debug("logging failed");
 
 						// stoplogging also drops exception here, so no need
 						// error message if
@@ -392,7 +392,7 @@ public class UDPLoggerD extends SensorLogger {
 
 				if (dsocket != null)
 					dsocket.close();
-				App.debug("thread ending");
+				Log.debug("thread ending");
 			}
 
 			private float getInt(byte[] buffer1, int i) {

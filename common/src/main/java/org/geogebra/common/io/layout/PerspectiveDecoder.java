@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Helper class to convert strings like "CA/G" into perspectives
@@ -175,7 +176,7 @@ public class PerspectiveDecoder {
 					+ (horizontal ? ",3" : ",0"), splitPath + ",0", panelList,
 					splitList, width1, height1);
 		} else {
-			App.error("Wrong type" + expr.getClass().getName());
+			Log.error("Wrong type" + expr.getValueType());
 		}
 	}
 

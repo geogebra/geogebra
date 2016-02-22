@@ -46,7 +46,7 @@ import javax.swing.JDialog;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -182,13 +182,13 @@ public class Util extends org.geogebra.common.util.Util {
 			ios = new FileInputStream(new File(filename));
 			return loadIntoString(ios);
 		} catch (Exception e) {
-			App.error("problem loading " + filename);
+			Log.error("problem loading " + filename);
 		} finally {
 			try {
 				if (ios != null)
 					ios.close();
 			} catch (IOException e) {
-				App.error("problem loading " + filename);
+				Log.error("problem loading " + filename);
 				return null;
 			}
 		}
@@ -207,19 +207,19 @@ public class Util extends org.geogebra.common.util.Util {
 	    try {
 	        ios = new FileInputStream(file);
 	        if (ios.read(buffer) == -1) {
-	        	App.error("problem loading " + filename);
+				Log.error("problem loading " + filename);
 	        	return null;
 	        }
 
 		} catch (Exception e) {
-			App.error("problem loading " + filename);
+			Log.error("problem loading " + filename);
 			return null;
 	    } finally {
 	    	try {
 	            if (ios != null)
 	                ios.close();
 	        } catch (IOException e) {
-		    	App.error("problem loading " + filename);
+				Log.error("problem loading " + filename);
 		    	return null;
 	        }
 		}
@@ -371,7 +371,7 @@ public class Util extends org.geogebra.common.util.Util {
 			}
 
 		} catch (Exception e) {
-			App.error("problem writing file " + filename);
+			Log.error("problem writing file " + filename);
 			e.printStackTrace();
 		}
 
@@ -395,7 +395,7 @@ public class Util extends org.geogebra.common.util.Util {
 			}
 
 		} catch (Exception e) {
-			App.error("problem writing file " + filename);
+			Log.error("problem writing file " + filename);
 			e.printStackTrace();
 		}
 

@@ -1,6 +1,5 @@
 package org.geogebra.common.util.debug;
 
-import org.geogebra.common.main.App;
 
 /**
  * @author gabor
@@ -62,7 +61,7 @@ public abstract class GeoGebraProfiler {
 	public static GeoGebraProfiler getInstance() {
 		if (instance == null) {
 			instance = new SilentProfiler();
-			App.error("trying to profile without profiler");
+			Log.warn("trying to profile without profiler");
 		}
 		return instance;
 	}
@@ -79,28 +78,28 @@ public abstract class GeoGebraProfiler {
 		repaints++;
 		repaintTime += time;
 		if (repaints % 100 == 0) {
-			App.debug("Profile Repaint: " + repaints + " x "
+			Log.debug("Profile Repaint: " + repaints + " x "
 					+ (repaintTime / repaints) + " = " + repaintTime);
 			int realDrags = drags - moveEventsIgnored;
 			if (realDrags > 0) {
-				App.debug("Profile Drag: " + realDrags + " x "
+				Log.debug("Profile Drag: " + realDrags + " x "
 						+ (dragTime / realDrags) + " = " + dragTime + ","
 						+ moveEventsIgnored + " ignored");
 			}
 			if (hits > 0) {
-				App.debug("Profile Hits: " + hits + " x " + (hitTime / hits)
+				Log.debug("Profile Hits: " + hits + " x " + (hitTime / hits)
 						+ " = " + hitTime);
 			}
 			if (cascades > 0) {
-				App.debug("Profile Cascades: " + cascades + " x "
+				Log.debug("Profile Cascades: " + cascades + " x "
 						+ (cascadeTime / cascades) + " = " + cascadeTime);
 			}
 			if (algebra > 0) {
-				App.debug("Profile Algebra: " + algebra + " x "
+				Log.debug("Profile Algebra: " + algebra + " x "
 						+ (algebraTime / algebra) + " = " + algebraTime);
 			}
 			if (event > 0) {
-				App.debug("Profile EventDispatcher: " + event + " x "
+				Log.debug("Profile EventDispatcher: " + event + " x "
 						+ (eventTime / event) + " = " + eventTime);
 			}
 		}

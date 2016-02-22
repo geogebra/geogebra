@@ -19,6 +19,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class DownloadManager {
 
@@ -85,7 +86,7 @@ public class DownloadManager {
 				in.close();
 				out.close();
 			} catch (Exception ex) {
-				App.error(ex.toString());
+				Log.error(ex.toString());
 			}
 			// dest.delete();
 

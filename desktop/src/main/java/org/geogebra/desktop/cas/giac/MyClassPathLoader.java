@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -42,7 +42,7 @@ public class MyClassPathLoader {
 		InputStream ins = ClassLoader.getSystemResourceAsStream(filename);
 
 		if (ins == null) {
-			App.error(filename + " not found");
+			Log.error(filename + " not found");
 			return false;
 		}
 
@@ -56,7 +56,7 @@ public class MyClassPathLoader {
 			tmpFile.delete();
 		} catch (IOException e) {
 			e.printStackTrace();
-			App.debug("error loading: " + fname);
+			Log.debug("error loading: " + fname);
 			return false;
 		}
 

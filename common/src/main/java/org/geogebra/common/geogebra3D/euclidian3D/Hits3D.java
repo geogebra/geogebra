@@ -12,7 +12,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 3D hits (for picking, selection, ...)
@@ -111,7 +111,7 @@ public class Hits3D extends Hits {
 	public boolean add(GeoElement geo) {
 
 		if (geo == null) {
-			App.error("adding null geo");
+			Log.error("adding null geo");
 			return false;
 		}
 

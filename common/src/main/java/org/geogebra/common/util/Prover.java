@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Prover package for GeoGebra. Allows using multiple backends for theorem
@@ -468,7 +469,7 @@ public abstract class Prover {
 	public void decideStatement() {
 		// Step 1: Checking if the statement is null.
 		if (statement == null) {
-			App.error("No statement to prove");
+			Log.error("No statement to prove");
 			result = ProofResult.UNKNOWN;
 			return;
 		}

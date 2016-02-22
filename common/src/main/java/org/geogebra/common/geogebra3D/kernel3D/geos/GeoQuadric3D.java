@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * class describing quadric for 3D space
@@ -1892,7 +1893,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			break;
 
 		default:
-			App.error(this + " has wrong type : " + type);
+			Log.error(this + " has wrong type : " + type);
 			break;
 		}
 
@@ -2309,7 +2310,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			break;
 
 		default:
-			App.error("Missing type -- type: " + getType());
+			Log.error("Missing type -- type: " + getType());
 			break;
 		}
 	}

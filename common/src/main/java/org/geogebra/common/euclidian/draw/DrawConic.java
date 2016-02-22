@@ -58,8 +58,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -167,7 +167,7 @@ public class DrawConic extends Drawable implements Previewable {
 		org.geogebra.common.awt.GArea area = super.getShape() != null ? super
 				.getShape() : (shape == null ? AwtFactory.prototype.newArea()
 				: AwtFactory.prototype.newArea(shape));
-		// App.debug(conic.isInverseFill() + "," + shape +
+		// Log.debug(conic.isInverseFill() + "," + shape +
 		// ","+super.getShape());
 		if (conic.isInverseFill()) {
 			GArea complement = AwtFactory.prototype.newArea(view
@@ -469,7 +469,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		// looks if it's on view
 		Coords p = view.getCoordsForView(conic.getMidpoint3D());
-		// App.debug("\n"+view+"\n"+p);
+		// Log.debug("\n"+view+"\n"+p);
 		if (!Kernel.isZero(p.getZ())) {
 			isVisible = false;
 			return;
@@ -585,7 +585,7 @@ public class DrawConic extends Drawable implements Previewable {
 		yradius = halfAxes[1] * view.getYscale(); // radius scaled in y
 													// direction
 		if (radius > DrawConic.HUGE_RADIUS || yradius > DrawConic.HUGE_RADIUS) {
-			App.debug("ellipse fallback");
+			Log.debug("ellipse fallback");
 			// ellipse drawing is handling those cases better
 			updateEllipse();
 			return;
@@ -1765,7 +1765,7 @@ public class DrawConic extends Drawable implements Previewable {
 			break;
 
 		default:
-			App.debug("unknown conic type");
+			Log.debug("unknown conic type");
 		}
 
 		if (conic != null)
@@ -1846,7 +1846,7 @@ public class DrawConic extends Drawable implements Previewable {
 				for (int i = 0; i < prevPoints.size(); i++) {
 					Coords p = view.getCoordsForView(prevPoints.get(i)
 							.getInhomCoordsInD3());
-					// App.debug("p["+i+"]=\n"+p);
+					// Log.debug("p["+i+"]=\n"+p);
 					previewTempPoints[i].setCoords(p.projectInfDim(), false);
 				}
 				previewTempPoints[0].updateCascade();

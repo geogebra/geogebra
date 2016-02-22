@@ -70,6 +70,7 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author gabor
@@ -1701,10 +1702,10 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 		case PASCAL:
 		case POISSON:
 		case HYPERGEOMETRIC:
-			App.error("not continuous");
+			Log.error("Not continuous distribution");
 			break;
 		default:
-			App.error("missing case");
+			Log.error("Missing case for density curve");
 		}
 
 		if (ret != null) {

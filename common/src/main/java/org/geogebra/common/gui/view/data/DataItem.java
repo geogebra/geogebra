@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * A DataItem maintains a reference to an existing GeoList or a set of
@@ -421,7 +422,7 @@ public class DataItem {
 					list.add(geo);
 				} catch (Exception e) {
 					// e.printStackTrace();
-					App.error(e.getMessage());
+					Log.error(e.getMessage());
 				}
 			}
 			cons.setSuppressLabelCreation(oldSuppress);

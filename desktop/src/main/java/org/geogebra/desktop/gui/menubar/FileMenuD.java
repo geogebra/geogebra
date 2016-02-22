@@ -11,11 +11,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
@@ -312,7 +312,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 							.loadClass("javafx.embed.swing.JFXPanel");
 					javaFx22Available = true;
 				} catch (ClassNotFoundException ex) {
-					App.error("JavaFX 2.2 not available");
+					Log.error("JavaFX 2.2 not available");
 				}
 
 				// Open the Search dialog only when javafx is available.
@@ -376,7 +376,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 								app.getGuiManager().showGraphicExport();
 
 							} catch (Exception e1) {
-								App.debug("GraphicExportDialog not available for 3D view yet");
+								Log.debug("GraphicExportDialog not available for 3D view yet");
 								// for 3D View
 								app.copyGraphicsViewToClipboard();
 							}
@@ -403,7 +403,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				try {
 					new org.geogebra.desktop.export.AnimationExportDialog(app);
 				} catch (Exception ex) {
-					App.debug("AnimationExportDialog not available");
+					Log.debug("AnimationExportDialog not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -422,7 +422,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 					GeoGebraToPstricksD export = new GeoGebraToPstricksD(app);
 					new org.geogebra.desktop.export.pstricks.PstricksFrame(export);
 				} catch (Exception ex) {
-					App.debug("GeoGebraToPstricks not available");
+					Log.debug("GeoGebraToPstricks not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -440,7 +440,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 					GeoGebraToPgfD export = new GeoGebraToPgfD(app);
 					new org.geogebra.desktop.export.pstricks.PgfFrame(export);
 				} catch (Exception ex) {
-					App.debug("GeoGebraToPGF not available");
+					Log.debug("GeoGebraToPGF not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -461,7 +461,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 							app);
 					new org.geogebra.desktop.export.pstricks.AsymptoteFrame(export);
 				} catch (Exception ex) {
-					App.debug("GeoGebraToAsymptote not available");
+					Log.debug("GeoGebraToAsymptote not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -494,7 +494,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 								d.setVisible(true);
 							} catch (Exception e1) {
-								App.debug("WorksheetExportDialog not available");
+								Log.debug("WorksheetExportDialog not available");
 								e1.printStackTrace();
 							}
 							app.setDefaultCursor();
@@ -531,7 +531,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 								app.uploadToGeoGebraTubeOnCallback();
 
 							} catch (Exception e1) {
-								App.debug("Uploading failed");
+								Log.debug("Uploading failed");
 								e1.printStackTrace();
 							}
 							app.setDefaultCursor();

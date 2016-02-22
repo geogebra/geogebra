@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.algos.AlgoBoxPlot;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable representation of box plots
@@ -59,7 +59,7 @@ public class DrawBoxPlot extends Drawable {
 					g2.draw(gp);
 				}
 			} catch (Exception e) {
-				App.debug(e.getMessage());
+				Log.debug(e.getMessage());
 			}
 
 			try {
@@ -76,7 +76,7 @@ public class DrawBoxPlot extends Drawable {
 					g2.draw(gp);
 				}
 			} catch (Exception e) {
-				App.debug(e.getMessage());
+				Log.debug(e.getMessage());
 			}
 
 			if (labelVisible) {

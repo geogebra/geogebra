@@ -85,6 +85,7 @@ import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Provides methods for computation
@@ -4106,9 +4107,9 @@ public class Kernel {
 		if (kernelHas3DObjects()) {
 			// DO NOT REMOVE
 			// it's important we pick up errors involving this quickly
-			App.error("************************************");
-			App.error("****** file has 3D objects *********");
-			App.error("************************************");
+			Log.error("************************************");
+			Log.error("****** file has 3D objects *********");
+			Log.error("************************************");
 			sb.append("\t<uses3D val=\"true\"/>\n");
 		}
 

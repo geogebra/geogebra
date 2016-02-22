@@ -155,7 +155,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 						.loadClass("javafx.embed.swing.JFXPanel");
 				javaFx22Available = true;
 			} catch (ClassNotFoundException e) {
-				App.error("JavaFX 2.2 not available");
+				Log.error("JavaFX 2.2 not available");
 			}
 
 			// JavaFX 2.2 available by default only on Java 7u6 or higher
@@ -167,7 +167,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 					add(Box.createHorizontalGlue());
 					addSignIn();
 				} catch (Exception e) {
-					App.error("problem starting JavaFX");
+					Log.error("problem starting JavaFX");
 				}
 			}
 

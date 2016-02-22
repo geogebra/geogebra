@@ -48,6 +48,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Validation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
@@ -642,7 +643,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 			if (value instanceof PlotType) {
 				str = app.getMenu(((PlotType) value).key);
 			} else {
-				App.error("wrong class");
+				Log.error("wrong class");
 			}
 			if (SEPARATOR.equals(str)) {
 				return separator;

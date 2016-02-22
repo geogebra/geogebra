@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.discrete.delaunay;
 import java.util.Comparator;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * This class represents a 3D point, with some simple geometric methods
@@ -199,7 +200,7 @@ public class Point_dt {
 				return BEHINDB;
 			return ONSEGMENT;
 		}
-		App.error("Error, pointLineTest with a=b");
+		Log.error("Error, pointLineTest with a=b");
 		return ERROR;
 	}
 

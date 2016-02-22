@@ -7,6 +7,7 @@ import java.util.List;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public abstract class ScriptManager implements EventListener {
 
@@ -82,7 +83,7 @@ public abstract class ScriptManager implements EventListener {
 			break;
 		// TODO case CLEAR
 		default:
-			App.debug("Unknown event type");
+			Log.debug("Unknown event type");
 		}
 	}
 
@@ -219,7 +220,7 @@ public abstract class ScriptManager implements EventListener {
 		if (listenerList != null) {
 			listenerList.add(jSFunctionName);
 		}
-		App.debug(string + " (" + listenerList.size() + ") : " + jSFunctionName);
+		Log.debug(string + " (" + listenerList.size() + ") : " + jSFunctionName);
 
 	}
 
@@ -231,7 +232,7 @@ public abstract class ScriptManager implements EventListener {
 	public synchronized void unregisterAddListener(String JSFunctionName) {
 		if (addListeners != null) {
 			addListeners.remove(JSFunctionName);
-			App.debug("unregisterAddListener: " + JSFunctionName);
+			Log.debug("unregisterAddListener: " + JSFunctionName);
 		}
 	}
 
@@ -254,7 +255,7 @@ public abstract class ScriptManager implements EventListener {
 	public synchronized void unregisterRemoveListener(String JSFunctionName) {
 		if (removeListeners != null) {
 			removeListeners.remove(JSFunctionName);
-			App.debug("unregisterRemoveListener: " + JSFunctionName);
+			Log.debug("unregisterRemoveListener: " + JSFunctionName);
 		}
 	}
 
@@ -277,7 +278,7 @@ public abstract class ScriptManager implements EventListener {
 	public synchronized void unregisterClearListener(String JSFunctionName) {
 		if (clearListeners != null) {
 			clearListeners.remove(JSFunctionName);
-			App.debug("unregisterClearListener: " + JSFunctionName);
+			Log.debug("unregisterClearListener: " + JSFunctionName);
 		}
 	}
 
@@ -300,7 +301,7 @@ public abstract class ScriptManager implements EventListener {
 	public synchronized void unregisterRenameListener(String JSFunctionName) {
 		if (renameListeners != null) {
 			renameListeners.remove(JSFunctionName);
-			App.debug("unregisterRenameListener: " + JSFunctionName);
+			Log.debug("unregisterRenameListener: " + JSFunctionName);
 		}
 	}
 

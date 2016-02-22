@@ -382,7 +382,7 @@ public class Socket {
 	 */
 	void setAlert(int id, AlertType type) {
 		
-		// App.debug("alert hand #" + id + " : " + type);
+		// Log.debug("alert hand #" + id + " : " + type);
 		
 		if (handOut != OutOfField.NO) { // no hand for now
 			if (type == AlertType.ALERT_HAND_INSIDE_BORDERS){
@@ -491,7 +491,7 @@ public class Socket {
 			Process p = runtime.exec(QUERY_REGISTERY_KEY_FRONT_CAM);
 			p.waitFor();
 			registeryQueryResult = p.exitValue();
-			App.debug(QUERY_REGISTERY_KEY_FRONT_CAM + " : "
+			Log.debug(QUERY_REGISTERY_KEY_FRONT_CAM + " : "
 					+ registeryQueryResult);
 			// get query result -- so we can check version
 			try {
@@ -501,7 +501,7 @@ public class Socket {
 				try {
 					// get version
 					while ((line = reader.readLine()) != null) {
-						// App.debug(line);
+						// Log.debug(line);
 						String[] items = line.split(" ");
 						int index = 0;
 						while (index < items.length
@@ -509,7 +509,7 @@ public class Socket {
 							index++;
 						}
 						if (index < items.length) {
-							// App.debug(">>>>> " + index + " : " +
+							// Log.debug(">>>>> " + index + " : " +
 							// items[index]);
 							if (items[index].equals("Version")) {
 								version = items[items.length - 1];
@@ -554,14 +554,14 @@ public class Socket {
 	}
 	
 	private static boolean isUpToDate(String version) {
-		// App.debug(">>>>> version installed: " + version);
+		// Log.debug(">>>>> version installed: " + version);
 		String[] versionSplit = version.split("\\.");
 
 		if (versionSplit.length == 0) {
 			return false;
 		}
 		int major = Integer.parseInt(versionSplit[0]);
-		// App.debug(">>>>> major: " + major);
+		// Log.debug(">>>>> major: " + major);
 		if (major > VERSION_MAJOR) {
 			return true;
 		}
@@ -570,7 +570,7 @@ public class Socket {
 			return false;
 		}
 		int minor = Integer.parseInt(versionSplit[1]);
-		// App.debug(">>>>> minor: " + minor);
+		// Log.debug(">>>>> minor: " + minor);
 		if (minor >= VERSION_MINOR) {
 			return true;
 		}
@@ -599,7 +599,7 @@ public class Socket {
 			public void run() {
 				installRuntimes = true;
 
-				App.debug("\n>>>>>>>>>>>>>> install runtimes: " + modules);
+				Log.debug("\n>>>>>>>>>>>>>> install runtimes: " + modules);
 
 				showMessage(app.getPlain("RealSense.DownloadRuntimes"),
 						app.getPlain("RealSenseNotUpToDate2"));
@@ -611,7 +611,7 @@ public class Socket {
 				try {
 					String updateDir = System.getenv("APPDATA")
 							+ GeoGebraConstants.GEOGEBRA_THIRD_PARTY_UPDATE_DIR;
-					App.debug("Creating " + updateDir);
+					Log.debug("Creating " + updateDir);
 					new File(updateDir).mkdirs();
 
 					// Downloading web setup
@@ -619,14 +619,14 @@ public class Socket {
 							+ REALSENSE_WEBSETUP;
 					destWebSetup = new File(filenameWebSetup);
 					URL url = new URL(REALSENSE_ONLINE_WEBSETUP);
-					App.debug("Downloading " + REALSENSE_ONLINE_WEBSETUP);
+					Log.debug("Downloading " + REALSENSE_ONLINE_WEBSETUP);
 					DownloadManager.copyURLToFile(url, destWebSetup);
-					App.debug("=== done");
+					Log.debug("=== done");
 
 
 
 				} catch (Exception e) {
-					App.error("Unsuccessful update");
+					Log.error("Unsuccessful update");
 					installRuntimes = false;
 				}
 
@@ -638,7 +638,7 @@ public class Socket {
 
 				
 				if (installOK) {
-					App.debug("Successful update");
+					Log.debug("Successful update");
 					showMessage(app.getPlain("RealSense.UpdatedRuntimes"),
 							app.getPlain("RealSenseUpdated2"));
 					destWebSetup.delete();
@@ -653,7 +653,7 @@ public class Socket {
 	}
 
 	static boolean install(String filename, String modules) {
-		App.debug("installing " + filename + ", modules: " + modules);
+		Log.debug("installing " + filename + ", modules: " + modules);
 		Runtime runtime = Runtime.getRuntime();
 		Process p;
 		try {
@@ -662,10 +662,10 @@ public class Socket {
 			p.waitFor();
 			return p.exitValue() == 0; // all is good
 		} catch (IOException e) {
-			App.debug("Unsuccesfull install of " + filename + " : "
+			Log.debug("Unsuccesfull install of " + filename + " : "
 					+ e.getMessage());
 		} catch (InterruptedException e) {
-			App.debug("Unsuccesfull wait for install of " + filename + " : "
+			Log.debug("Unsuccesfull wait for install of " + filename + " : "
 					+ e.getMessage());
 		}
 
@@ -742,7 +742,7 @@ public class Socket {
 			} catch (Input3DException e) {
 				throw e;
 			} catch (Throwable e) {
-				App.error(e.getMessage());
+				Log.error(e.getMessage());
 				throw new Input3DException(Input3DExceptionType.UNKNOWN,
 						e.getMessage());
 			}

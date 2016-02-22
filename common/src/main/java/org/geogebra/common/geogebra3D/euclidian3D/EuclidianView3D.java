@@ -893,7 +893,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		// App.debug("setRotXY: "+a+","+b);
 		if (Double.isNaN(a) || Double.isNaN(b)) {
-			App.error("NaN values for setRotXYinDegrees");
+			Log.error("NaN values for setRotXYinDegrees");
 			return;
 		}
 
@@ -1748,7 +1748,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// Application.debug("delay="+delay+", rotSpeed="+rotSpeed);
 
 		if (Double.isNaN(rotSpeed)) {
-			App.error("NaN values for setRotContinueAnimation");
+			Log.error("NaN values for setRotContinueAnimation");
 			stopRotAnimation();
 			return;
 		}
@@ -1823,7 +1823,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public void setRotAnimation(double aN, double bN, boolean checkSameValues) {
 
 		if (Double.isNaN(aN) || Double.isNaN(bN)) {
-			App.error("NaN values for setRotAnimation");
+			Log.error("NaN values for setRotAnimation");
 			return;
 		}
 

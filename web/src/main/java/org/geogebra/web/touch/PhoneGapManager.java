@@ -1,6 +1,6 @@
 package org.geogebra.web.touch;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.client.GWT;
 import com.googlecode.gwtphonegap.client.PhoneGap;
@@ -26,7 +26,7 @@ public class PhoneGapManager {
 						phoneGap.getEvent().getBackButton()
 						        .addBackButtonPressedHandler(handler);
 					} catch (Throwable t) {
-						App.error("No back button event.");
+						Log.error("No back button event.");
 					}
 
 				}

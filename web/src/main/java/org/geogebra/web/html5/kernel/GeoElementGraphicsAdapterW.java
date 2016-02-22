@@ -5,6 +5,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 public class GeoElementGraphicsAdapterW extends
         org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter {
@@ -63,10 +64,11 @@ public class GeoElementGraphicsAdapterW extends
 		if ("".equals(imageFileName)) {
 			return;
 		}
-		App.error("<" + imageFileName + ">");
+		String oldFn = imageFileName;
 		FileExtensions ext = StringUtil.getFileExtension(imageFileName);
 
 		if (ext.isAllowedImage()) {
+			Log.warn("Invalid image:" + oldFn);
 			return;
 		}
 
@@ -75,7 +77,7 @@ public class GeoElementGraphicsAdapterW extends
 
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 		imageFileName = md5e.encrypt(fn) + "/" + fn;
-		App.error("<" + imageFileName + ">");
+		Log.debug("Converted:" + oldFn + "->" + imageFileName);
 	}
 
 }

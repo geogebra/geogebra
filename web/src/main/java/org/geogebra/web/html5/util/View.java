@@ -310,7 +310,7 @@ public class View {
       };
       
       var errorCallback = function (error) {
-      @org.geogebra.common.main.App::error(Ljava/lang/String;)(error);
+      @org.geogebra.common.util.debug.Log::error(Ljava/lang/String;)(error);
       };
       
       if (binary) {
@@ -457,7 +457,7 @@ public class View {
       });
       },
       function (error) {
-      @org.geogebra.common.main.App::error(Ljava/lang/String;)(error);
+      	@org.geogebra.common.util.debug.Log(Ljava/lang/String;)(error);
       });
       }-*/;
 

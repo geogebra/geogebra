@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class that manage all geometry objects
@@ -321,7 +321,7 @@ abstract public class Manager {
 	 *            index
 	 */
 	public void drawInObjFormat(GeoElement geo, int index) {
-		App.error(".obj format not possible with this manager");
+		Log.error(".obj format not possible with this manager");
 	}
 
 	abstract public void remove(int index);

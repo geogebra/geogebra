@@ -18,8 +18,8 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Quaternion;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianViewInput3D.StationaryCoords;
 
 /**
@@ -180,7 +180,7 @@ public class EuclidianControllerInput3DCompanion extends
 					s += " ";
 				}
 				s += "|";
-				App.error("\n rot delay : " + s);
+				Log.error("\n rot delay : " + s);
 				if ((time - startTime) > 1000) {
 					startCoords.setUndefined(); // consume event
 					return true;
@@ -397,7 +397,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 					} else {
 						step = -1;
-						// App.error("TOO FAR (first point)");
+						// Log.error("TOO FAR (first point)");
 					}
 
 					switch (step) {

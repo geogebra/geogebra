@@ -25,6 +25,7 @@ import javax.swing.table.TableCellRenderer;
 import org.geogebra.common.gui.util.RelationMore;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Desktop implementation of the Relation Tool information window.
@@ -386,7 +387,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			try {
 				super.fireEditingStopped();
 			} catch (Exception e) {
-				App.error("Swing error in RelationPaneD");
+				Log.error("Swing error in RelationPaneD");
 			}
 		}
 	}

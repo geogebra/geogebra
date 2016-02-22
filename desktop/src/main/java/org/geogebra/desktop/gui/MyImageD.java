@@ -20,11 +20,10 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
-import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
 
 import com.kitfox.svg.SVGCache;
@@ -83,7 +82,7 @@ public class MyImageD implements MyImage {
 				md5hash = md.digest();
 				return StringUtil.convertToHex(md5hash);
 			} catch (NoSuchAlgorithmException e) {
-				App.error("MD5 Error");
+				Log.error("MD5 Error");
 				return "svg" + UUID.randomUUID();
 			}
 		}
@@ -91,7 +90,7 @@ public class MyImageD implements MyImage {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			if (img == null) {
-				App.error("image==null");
+				Log.error("image==null");
 			} else {
 				ImageIO.write((BufferedImage) img, "png", baos);
 				byte[] fileData = baos.toByteArray();
@@ -107,7 +106,7 @@ public class MyImageD implements MyImage {
 			//
 		}
 
-		App.error("MD5 Error");
+		Log.error("MD5 Error");
 		return "image" + UUID.randomUUID();
 
 	}
@@ -195,7 +194,7 @@ public class MyImageD implements MyImage {
 			try {
 				diagram.render(g2);
 			} catch (Exception e) {
-				App.error("drawing svg failed");
+				Log.error("Drawing svg image failed");
 			}
 		}
 

@@ -63,6 +63,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.DownloadManager;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.AppId;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
@@ -329,7 +330,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			// System.setProperty("com.apple.macos.useScreenMenuBar", "true");
 			System.setProperty("apple.laf.useScreenMenuBar", "true");
 		} catch (Exception e) {
-			App.debug(e + "");
+			Log.debug(e + "");
 		}
 	}
 
@@ -511,7 +512,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				// Creating working directory:
 				String updateDir = System.getenv("APPDATA")
 						+ GeoGebraConstants.GEOGEBRA_JARS_UPDATE_DIR;
-				App.debug("Creating " + updateDir);
+				Log.debug("Creating " + updateDir);
 				new File(updateDir).mkdirs();
 
 				// Downloading newest .jar files in a .zip:
@@ -519,7 +520,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						+ "geogebra-jars.zip";
 				File dest = new File(filename);
 				URL url = new URL(GeoGebraConstants.GEOGEBRA_ONLINE_JARS_ZIP);
-				App.debug("Downloading "
+				Log.debug("Downloading "
 						+ GeoGebraConstants.GEOGEBRA_ONLINE_JARS_ZIP);
 				DownloadManager.copyURLToFile(url, dest);
 
@@ -535,7 +536,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					String name = ze.getName();
 					FileOutputStream fos = new FileOutputStream(updateDir
 							+ File.separator + name);
-					App.debug("Extracting " + name);
+					Log.debug("Extracting " + name);
 					int l = 0;
 					// write buffer to file
 					while ((l = zis.read(buff)) > 0) {
@@ -547,7 +548,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				dest.delete();
 
 			} catch (Exception e) {
-				App.error("Unsuccessful update");
+				Log.error("Unsuccessful update");
 			}
 		}
 
@@ -556,9 +557,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		 * for major updates, but every run for minor updates.
 		 */
 		private void checkVersion() {
-			App.debug("Checking version");
+			Log.debug("Checking version");
 			if (!app.getVersionCheckAllowed()) {
-				App.debug("Version check is not allowed");
+				Log.debug("Version check is not allowed");
 				return;
 			}
 
@@ -572,7 +573,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 			if (lastVersionCheck == null || lastVersionCheck.equals("")) {
 				checkNeeded = true;
-				App.debug("major version check needed: no check was done yet");
+				Log.debug("major version check needed: no check was done yet");
 			}
 
 			else {
@@ -580,10 +581,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				if (lastVersionCheckL + 1000L * 60 * 60 * 24
 						* VERSION_CHECK_DAYS < nowL) {
 					checkNeeded = true;
-					App.debug("major version check needed: lastVersionCheckL="
+					Log.debug("major version check needed: lastVersionCheckL="
 							+ lastVersionCheckL + " nowL=" + nowL);
 				} else {
-					App.debug("no major version check needed: lastVersionCheck="
+					Log.debug("no major version check needed: lastVersionCheck="
 							+ lastVersionCheckL + " nowL=" + nowL);
 				}
 			}
@@ -622,13 +623,13 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 					if (newestVersion == null) {
 						// probably not online
-						App.error("problem fetching " + sb);
+						Log.error("Problem fetching " + sb);
 						return;
 					}
 					newestVersion = newestVersion.replaceAll("-", ".");
 					newestVersionL = versionToLong(newestVersion);
 
-					App.debug("current=" + currentVersionL + " newest="
+					Log.debug("current=" + currentVersionL + " newest="
 							+ newestVersionL);
 					if (currentVersionL < newestVersionL) {
 						String q = app.getPlain("NewerVersionA").replaceAll(
@@ -672,14 +673,14 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				newestVersion = httpr.sendRequestGetResponseSync(sb.toString());
 
 				if (newestVersion == null) {
-					App.error("problem fetching " + sb);
+					Log.error("problem fetching " + sb);
 					return;
 				}
 
 				newestVersion = newestVersion.replaceAll("-", ".");
 				newestVersionL = versionToLong(newestVersion);
 
-				App.debug("newest_minor=" + newestVersionL);
+				Log.debug("newest_minor=" + newestVersionL);
 				// Windows only: automatic update
 
 				if (AppD.WINDOWS && currentVersionL < newestVersionL) {
@@ -836,7 +837,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 					if (slider == null || !slider.isGeoNumeric()
 							|| !((GeoNumeric) slider).isSlider()) {
-						App.error(sliderName + " is not a slider");
+						Log.error(sliderName + " is not a slider");
 						System.exit(0);
 					}
 
@@ -920,7 +921,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 								max,
 								step);
 
-						App.debug("animated GIF exported successfully");
+						Log.debug("animated GIF exported successfully");
 
 						System.exit(0);
 					}
@@ -939,7 +940,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 					for (int i = 0; i < n; i++) {
 
-						App.debug("exporting frame " + i + "of " + n);
+						Log.debug("exporting frame " + i + "of " + n);
 
 						// avoid values like 14.399999999999968
 						val = Kernel.checkDecimalFraction(val);
@@ -977,7 +978,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			final int dpi = Integer
 					.parseInt(dpiStr.equals("") ? "300" : dpiStr);
 
-			App.debug("attempting to export: " + filename + " at " + dpiStr
+			Log.debug("attempting to export: " + filename + " at " + dpiStr
 					+ "dpi");
 
 
@@ -994,7 +995,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 								&& app.hasEuclidianView3D()) {
 
 							if (!"png".equals(extension)) {
-								App.error("only PNG export supported for the 3D View");
+								Log.error("only PNG export supported for the 3D View");
 								System.exit(0);
 							}
 
@@ -1008,7 +1009,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 										.getExportImage(1);
 								ImageIO.write(bufferedImage, "png", new File(
 										filename));
-								App.debug("3D view exported successfully");
+								Log.debug("3D view exported successfully");
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
@@ -1037,7 +1038,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 								transparent, dpi, exportScale, textAsShapes,
 								useEMFplus, pixelWidth, pixelHeight, app);
 
-						App.debug("2D view exported successfully");
+						Log.debug("2D view exported successfully");
 
 					} catch (Throwable t) {
 						t.printStackTrace();

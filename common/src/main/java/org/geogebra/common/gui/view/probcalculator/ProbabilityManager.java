@@ -44,6 +44,7 @@ import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import org.geogebra.common.util.MyMath2;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to handle probability calculations and to maintain the fields
@@ -264,7 +265,7 @@ public class ProbabilityManager {
 		if (ret != null) {
 			ret.getConstruction().removeFromConstructionList(ret);
 		} else {
-			App.error("missing case");
+			Log.error("missing case");
 		}
 
 		return ret;
@@ -330,13 +331,13 @@ public class ProbabilityManager {
 			break;
 
 		default:
-			App.error("missing case");
+			Log.error("missing case");
 		}
 
 		if (ret != null) {
 			cons.removeFromConstructionList(ret);
 		} else {
-			App.error("missing case");
+			Log.error("missing case");
 		}
 
 		return ret;
@@ -419,7 +420,7 @@ public class ProbabilityManager {
 			return new double[] { 60, 10, 20 }; // pop = 60, n = 10, sample = 20
 
 		default:
-			App.error("missing case");
+			Log.error("missing case");
 		}
 
 		return null;

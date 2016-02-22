@@ -7,6 +7,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
@@ -70,7 +71,7 @@ public class GeoGebraTubeExportW extends
 			Request response = rb.sendRequest(postData, new RequestCallback() {
 
 				public void onError(Request request, Throwable exception) {
-					App.debug("onError: " + request.toString() + " "
+					Log.debug("onError: " + request.toString() + " "
 					        + exception.toString());
 				}
 
@@ -79,7 +80,7 @@ public class GeoGebraTubeExportW extends
 
 					if (response.getStatusCode() == Response.SC_OK) {
 
-						App.debug("result from server: " + response.getText());
+						Log.debug("result from server: " + response.getText());
 
 						final UploadResults results = new UploadResults(
 						        response.getText());
@@ -89,21 +90,21 @@ public class GeoGebraTubeExportW extends
 							        "UploadError", results.getStatus()));
 							setEnabled(false);
 
-							App.debug("Upload failed. Response: "
+							Log.debug("Upload failed. Response: "
 							        + response.getText());
 						} else {
-							App.debug("Opening URL: " + uploadURL + "/"
+							Log.debug("Opening URL: " + uploadURL + "/"
 							        + results.getUID());
 							pba.openURL(uploadURL + "/"
 									+ results.getUID());
 							hideDialog();
 						}
 					} else { // not Response.SC_OK
-						App.debug("Upload failed. Response: #"
+						Log.debug("Upload failed. Response: #"
 						        + response.getStatusCode() + " - "
 						        + response.getStatusText());
 
-						App.debug(response.getText());
+						Log.debug(response.getText());
 
 						statusLabelSetText(loc.getPlain("UploadError",
 						        Integer.toString(response.getStatusCode())));
@@ -120,7 +121,7 @@ public class GeoGebraTubeExportW extends
 			setEnabled(false);
 			pack();
 
-			App.debug(e.getMessage());
+			Log.debug(e.getMessage());
 		}
 	}
 
@@ -148,7 +149,7 @@ public class GeoGebraTubeExportW extends
 			setEnabled(false);
 			pack();
 
-			App.debug(e.getMessage());
+			Log.debug(e.getMessage());
 
 		}
 	}
@@ -179,7 +180,7 @@ public class GeoGebraTubeExportW extends
 			setEnabled(false);
 			pack();
 
-			App.debug(e.getMessage());
+			Log.debug(e.getMessage());
 
 		}
 	}
@@ -190,34 +191,34 @@ public class GeoGebraTubeExportW extends
 			return URL.encode(str);
 		}
 
-		App.error("passed null");
+		Log.error("passed null");
 		return "";
 
 	}
 
 	@Override
 	protected void setMaximum(int i) {
-		App.debug("Unimplemented " + i);
+		Log.debug("Unimplemented " + i);
 	}
 
 	@Override
 	protected void setMinimum(int i) {
-		App.debug("Unimplemented " + i);
+		Log.debug("Unimplemented " + i);
 	}
 
 	@Override
 	protected void setIndeterminate(boolean b) {
-		App.debug("Unimplemented " + b);
+		Log.debug("Unimplemented " + b);
 	}
 
 	@Override
 	protected void setValue(int end) {
-		App.debug("Unimplemented " + end);
+		Log.debug("Unimplemented " + end);
 	}
 
 	@Override
 	protected void setEnabled(boolean b) {
-		App.debug("Unimplemented " + b);
+		Log.debug("Unimplemented " + b);
 	}
 
 	/**
@@ -225,7 +226,7 @@ public class GeoGebraTubeExportW extends
 	 */
 	@Override
 	protected void showDialog() {
-		App.debug("Unimplemented");
+		Log.debug("Unimplemented");
 	}
 
 	@Override
@@ -236,7 +237,7 @@ public class GeoGebraTubeExportW extends
 
 	@Override
 	protected void pack() {
-		App.debug("Unimplemented");
+		Log.debug("Unimplemented");
 	}
 
 	/**
@@ -244,7 +245,7 @@ public class GeoGebraTubeExportW extends
 	 */
 	@Override
 	public void hideDialog() {
-		App.debug("Unimplemented");
+		Log.debug("Unimplemented");
 	}
 
 	@Override

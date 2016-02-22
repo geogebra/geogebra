@@ -72,6 +72,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.DynamicTextInputPane;
 import org.geogebra.desktop.gui.DynamicTextInputPane.DynamicTextField;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -192,7 +193,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 						undo.undo();
 					}
 				} catch (CannotUndoException e1) {
-					App.debug("Cannot Undo");
+					Log.debug("Cannot Undo");
 				}
 			}
 		});
@@ -209,7 +210,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 						undo.redo();
 					}
 				} catch (CannotRedoException e2) {
-					App.debug("Cannot Redo");
+					Log.debug("Cannot Redo");
 				}
 			}
 		});
@@ -1188,7 +1189,6 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 	}
 
 	public void handleDialogVisibilityChange(boolean isVisible) {
-		App.debug("calling set visible: " + isVisible);
 		if (!isVisible) {
 			if (textPreviewer != null) {
 				textPreviewer.removePreviewGeoText();

@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.algos.AlgoMirror;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.locusequ.EquationScope;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author Zoltan Kovacs
@@ -33,7 +33,7 @@ public class EquationMirrorRestriction extends EquationGenericMidpointRestrictio
 	        this.setEnds((GeoPoint) p, (GeoPoint) p_);
 	        this.setMidpoint((GeoPoint) m);		
 		} else {
-			App.error("unimplemented");
+			Log.error("unimplemented");
 		}
 		
 	}

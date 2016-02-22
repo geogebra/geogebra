@@ -2,7 +2,7 @@ package org.freehep.xml.util;
 
 import java.io.Writer;
 
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * A class that makes it easy to write XHTML documents.
@@ -32,7 +32,8 @@ public class XHTMLWriter extends XMLWriter
                        "-//W3C//DTD XHTML 1.0 Frameset//EN",
                        "http://wwww.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd");
         } else {
-            AppD.debug("XHTMLWriter: unknown type: "+type+", allowed are: strict, transitional, frameset");
+			Log.debug("XHTMLWriter: unknown type: " + type
+					+ ", allowed are: strict, transitional, frameset");
         }
         setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
         if (!type.equals("strict")) {

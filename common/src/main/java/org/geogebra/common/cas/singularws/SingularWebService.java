@@ -3,10 +3,10 @@ package org.geogebra.common.cas.singularws;
 import java.util.Date;
 
 import org.geogebra.common.factories.UtilFactory;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.URLEncoder;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Maintains a Singular WebService. For the SingularWS API please see the
@@ -79,7 +79,7 @@ public class SingularWebService {
 		if (response.contains("error")) {
 			// Intuitive detection of error in computation. TODO: be more
 			// strict.
-			App.error("Computation error in SingularWS: " + response);
+			Log.error("Computation error in SingularWS: " + response);
 			throw new org.geogebra.common.cas.error.ComputationException(
 					"Computation error in SingularWS");
 		}
@@ -134,14 +134,14 @@ public class SingularWebService {
 	 */
 	public boolean testConnection() {
 
-		// App.debug("TEST: " +
+		// Log.debug("TEST: " +
 		// convertFloatsToRationals("((6.56*(x-x1))-(-0.2197*(y-x2)))"));
 
 		String result = null;
 		try {
 			result = swsCommandResult(testConnectionCommand);
 		} catch (Throwable e) {
-			App.error("Failure while testing SingularWS connection");
+			Log.error("Failure while testing SingularWS connection");
 		}
 		if (result == null)
 			return false;
@@ -154,11 +154,11 @@ public class SingularWebService {
 				try {
 					swsCommandResult(testConnectionCommand);
 				} catch (Throwable e) {
-					App.error("Failure while testing SingularWS connection");
+					Log.error("Failure while testing SingularWS connection");
 				}
 				date = new Date();
 				long elapsedTime = date.getTime() - startTime;
-				App.debug("Measuring speed to SWS #" + i + ": " + elapsedTime
+				Log.debug("Measuring speed to SWS #" + i + ": " + elapsedTime
 						+ " ms");
 				if (elapsedTime > CONNECTION_SPEED_THRESHOLD)
 					fastConn = false;
@@ -181,13 +181,13 @@ public class SingularWebService {
 		try {
 			result = directCommand("LIB \"" + name + ".lib\";");
 			if (result.length() == 0) {
-				App.debug("SingularWS supports library " + name);
+				Log.debug("SingularWS supports library " + name);
 				return true;
 			}
-			App.debug("SingularWS doesn't support library " + name + " ("
+			Log.debug("SingularWS doesn't support library " + name + " ("
 					+ result + ")");
 		} catch (Throwable e) {
-			App.error("Failure connecting to SingularWS");
+			Log.error("Failure connecting to SingularWS");
 		}
 		return false;
 	}
@@ -230,11 +230,11 @@ public class SingularWebService {
 	 */
 	public void enable() {
 		if (!SingularWSSettings.useSingularWebService) {
-			App.debug("SingularWS connection disabled by command line option");
+			Log.debug("SingularWS connection disabled by command line option");
 			this.available = false;
 			return;
 		}
-		App.debug("Trying to enable SingularWS connection");
+		Log.debug("Trying to enable SingularWS connection");
 		Boolean tc = testConnection();
 		if (tc != null && tc) {
 			this.available = true;
@@ -270,7 +270,7 @@ public class SingularWebService {
 			try {
 				return directCommand("system(\"version\");");
 			} catch (Throwable e) {
-				App.error("Failure while getting SingularWS version");
+				Log.error("Failure while getting SingularWS version");
 			}
 		}
 		return null;

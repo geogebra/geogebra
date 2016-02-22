@@ -163,7 +163,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	/* Set in geogebra.gui.app.GeoGebraFrame before first call to getPref() */
 	public static void setPropertyFileName(String pfname) {
 		PROPERTY_FILEPATH = pfname;
-		App.debug("Prferences in: " + PROPERTY_FILEPATH);
+		Log.debug("Prferences in: " + PROPERTY_FILEPATH);
 	}// setPropertyFileName(String)
 
 	public synchronized static GeoGebraPreferencesD getPref() {
@@ -415,7 +415,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 					objectPrefsXML);
 		} catch (Exception e) {
 			e.printStackTrace();
-			App.error("object defaults too long");
+			Log.error("object defaults too long");
 		}
 
 		// store current tools including icon images as ggt file (byte array)
@@ -424,7 +424,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		try {
 			ggbPrefs.flush();
 		} catch (Exception e) {
-			App.debug(e + "");
+			Log.debug(e + "");
 		}
 	}
 
@@ -639,7 +639,7 @@ WINDOWS_MACROS_PREFS);
 			ggbPrefs.clear();
 			ggbPrefs.flush();
 		} catch (Exception e) {
-			App.debug(e + "");
+			Log.debug(e + "");
 		}
 	}
 

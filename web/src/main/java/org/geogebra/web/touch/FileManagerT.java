@@ -527,7 +527,7 @@ public class FileManagerT extends FileManager {
 
 			@Override
 			public void onFailure(String reason) {
-				App.error("SAVE FAILED " + reason);
+				Log.error("SAVE FAILED " + reason);
 
 			}
 

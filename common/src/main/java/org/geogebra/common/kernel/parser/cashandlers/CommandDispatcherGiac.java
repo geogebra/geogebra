@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -599,7 +598,7 @@ public class CommandDispatcherGiac {
 		} catch (Exception e) {
 			if (cmdName != null && !cmdName.startsWith("ggbtmpvar")) {
 				e.printStackTrace();
-				App.error("CommandDispatcherGiac: error when processing command: "
+				Log.error("CommandDispatcherGiac: error when processing command: "
 						+ cmdName + ", " + args);
 			}
 		}

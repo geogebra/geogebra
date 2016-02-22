@@ -7,7 +7,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * manager for shaders + obj files
@@ -77,7 +77,7 @@ public class ManagerShadersObj extends ManagerShaders {
 					 * break;
 					 */
 					default:
-						App.error("geometry type not handled : "
+						Log.error("geometry type not handled : "
 								+ geometry.getType());
 						break;
 					}

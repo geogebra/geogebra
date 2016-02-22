@@ -34,8 +34,8 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -221,7 +221,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 		switch (angle.getAngleStyle()) {
 		case UNBOUNDED:
-			App.error("shouldn't be drawable");
+			Log.error("Unbounded angle shouldn't be drawable");
 			break;
 
 		// case GeoAngle.ANGLE_ISCLOCKWISE:

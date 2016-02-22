@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
-import org.geogebra.common.main.App;
 
 /**
  *
@@ -97,7 +96,6 @@ public class AlgoTangentLine extends AlgoTangentLineND {
 		// tangent.z = -(point.inhomX * line.x + point.inhomY * line.y);
 		tangent.setCoords(line.x, line.y,
 				-(point.inhomX * line.x + point.inhomY * line.y));
-		App.error(tangent.x + " " + tangent.y + " " + tangent.z);
 	}
 
 	@Override

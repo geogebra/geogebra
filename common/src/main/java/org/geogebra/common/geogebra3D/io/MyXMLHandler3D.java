@@ -14,10 +14,10 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class extending MyXMLHandler for 3D
@@ -143,11 +143,11 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			 */
 
 		default:
-			App.error("unknown tag in <euclidianView3D>: " + eName);
+			Log.error("unknown tag in <euclidianView3D>: " + eName);
 		}
 
 		if (!ok) {
-			App.error("error in <euclidianView3D>: " + eName);
+			Log.error("error in <euclidianView3D>: " + eName);
 		}
 	}
 
@@ -155,7 +155,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	protected void startGeoElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		if (geo == null) {
-			App.debug("no element set for <" + eName + ">");
+			Log.debug("no element set for <" + eName + ">");
 			return;
 		}
 
@@ -177,7 +177,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 
 		if (!ok) {
-			App.debug("error in <element>: " + eName);
+			Log.debug("error in <element>: " + eName);
 		}
 	}
 

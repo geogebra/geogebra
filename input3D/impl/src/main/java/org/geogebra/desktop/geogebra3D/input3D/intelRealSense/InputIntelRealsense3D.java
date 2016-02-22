@@ -10,6 +10,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
 
@@ -47,7 +48,7 @@ public class InputIntelRealsense3D implements Input3D {
 		} catch (Input3DException e) {
 			throw e;
 		} catch (Throwable e) {
-			App.error(e.getMessage());
+			Log.error(e.getMessage());
 			throw new Input3DException(Input3DExceptionType.UNKNOWN,
 					e.getMessage());
 		}
