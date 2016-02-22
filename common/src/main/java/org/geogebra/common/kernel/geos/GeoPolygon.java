@@ -977,6 +977,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 */
 	@Override
 	public Boolean isCongruent(GeoElement geo) {
+		if (geo instanceof GeoPolygon) {
 		GeoPolygon polygon = (GeoPolygon) geo;
 		// Polygons:
 		// two polygon are congruent if the corresponding sides has same length
@@ -1138,6 +1139,13 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			algo1.remove();
 			algo2.remove();
 			return result;
+		}
+		}
+		// case the geo is a GeoNumeric, e.g. area using formula
+		// we can check whether the areas are equal or not
+		if (geo instanceof GeoNumeric) {
+			if (Kernel.isEqual(this.getArea(), ((GeoNumeric) geo).getValue()))
+				return true;
 		}
 		return false;
 	}
