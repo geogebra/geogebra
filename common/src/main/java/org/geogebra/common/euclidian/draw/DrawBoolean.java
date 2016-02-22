@@ -18,6 +18,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Checkbox for free GeoBoolean object.
@@ -34,6 +36,8 @@ import org.geogebra.common.main.Feature;
  * @author Markus Hohenwarter
  */
 public final class DrawBoolean extends Drawable {
+
+	private static final int LABEL_MARGIN = 9;
 
 	private GeoBoolean geoBool;
 
@@ -114,6 +118,8 @@ public final class DrawBoolean extends Drawable {
 
 			g2.setFont(view.getFontPoint());
 			g2.setStroke(EuclidianStatic.getDefaultStroke());
+			int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth() + 5;
+			int posY = geoBool.labelOffsetY;
 
 			checkBoxIcon.paintIcon(geoBool.getBoolean(),
 					geoBool.doHighlighting(), g2, geoBool.labelOffsetX + 5,
@@ -128,30 +134,39 @@ public final class DrawBoolean extends Drawable {
 				textSize.x = d.getWidth();
 				textSize.y = d.getHeight();
 
-				int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth()
-						+ 5;
-				int posY = geoBool.labelOffsetY;
+
 				if (checkBoxIcon.getIconHeight() < d.getHeight()) {
 					posY -= (d.getHeight() - checkBoxIcon.getIconHeight()) / 2;
 				} else {
-					posY += checkBoxIcon.getIconHeight() - (d.getHeight() / 2);
+					posY += (checkBoxIcon.getIconHeight() - d.getHeight()) / 2;
 
 				}
+				Log.debug("[DrawBoolean] posX: " + posX + ", posY: " + posY
+						+ " textSize: " + textSize);
 				App app = view.getApplication();
 				g2.setPaint(geo.getObjectColor());
-
+				g2.setColor(GColor.RED);
 				app.getDrawEquation().drawEquation(app, geoBool, g2,
  posX, posY,
 						geoBool.getCaption(StringTemplate.defaultTemplate),
 						g2.getFont(), false,
 						geoBool.getObjectColor(),
-						geoBool.getBackgroundColor(), false, false, null);
+						// geoBool.getBackgroundColor(),
+						GColor.BLUE, false, false, null);
 			} else {
 				g2.setPaint(geo.getObjectColor());
-				textSize = EuclidianStatic.drawIndexedString(
-						view.getApplication(), g2, labelDesc,
-						geoBool.labelOffsetX + size + 9,
-						geoBool.labelOffsetY + (size + 9) / 2 + 5, false,
+				GTextLayout layout = g2.getFontRenderContext()
+						.getTextLayout(labelDesc, view.getFontPoint());
+				int width = (int) Math.round(layout.getBounds().getWidth());
+				int height = (int) Math.round(layout.getBounds().getHeight());
+
+				int left = geoBool.labelOffsetX + checkBoxIcon.getIconWidth() + LABEL_MARGIN;
+				int top = geoBool.labelOffsetY
+						+ checkBoxIcon.getIconWidth() / 2 + 5;
+				top += height / 2;
+				EuclidianStatic.drawIndexedString(
+view.getApplication(), g2,
+						labelDesc, left, top, false,
 						false);
 			}
 
