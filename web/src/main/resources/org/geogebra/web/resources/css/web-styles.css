@@ -6135,6 +6135,11 @@ body.application[dir=rtl] .deleteAlgebra {
 
 @media print {
 	
+	.sqrtFontFix{
+		width: 100vw;
+		white-space: normal;	
+	}
+	
 	.GeoGebraFrame{
 		/*display: none; */
 		visibility: hidden;
