@@ -195,8 +195,7 @@ public class View {
 	}
 
 	public void processBase64String(String dataParamBase64String) {
-		String workerUrls = prepareFileReading();
-		populateArchiveContent(dataParamBase64String, workerUrls, this, false);
+		populateArchiveContent(getBase64Reader(dataParamBase64String));
 	}
 
 	private int zippedLength = 0;
@@ -208,8 +207,12 @@ public class View {
 		}
 	}
 
-	private native void populateArchiveContent(Object dpb64str,
-	        String workerUrls, View view, boolean binary) /*-{
+	private void populateArchiveContent(JavaScriptObject ggbReader) {
+		String workerUrls = prepareFileReading();
+		populateArchiveContent(workerUrls, this, ggbReader);
+	}
+	private native void populateArchiveContent(String workerUrls, View view,
+			JavaScriptObject ggbReader) /*-{
 	                                                      
 	                                                      
 	                                                      
@@ -313,11 +316,9 @@ public class View {
       @org.geogebra.common.util.debug.Log::error(Ljava/lang/String;)(error);
       };
       
-      if (binary) {
-      	$wnd.zip.createReader(new $wnd.zip.BlobReader(dpb64str),readerCallback, errorCallback); 
-      } else {
-      	$wnd.zip.createReader(new $wnd.zip.Data64URIReader(dpb64str),readerCallback, errorCallback); 
-      } 
+      $wnd.zip.createReader(ggbReader,readerCallback, errorCallback);
+       
+       
       }-*/;
 
 	public void processFileName(String url) {
@@ -357,119 +358,32 @@ public class View {
 			return;
 
 		}
-		String workerUrls = prepareFileReading();
-		populateArchiveContentFromFile(url, workerUrls, this);
+
+		populateArchiveContent(getHTTPReader(url));
 	}
 
-	private native void populateArchiveContentFromFile(String url,
-	        String workerUrls, View view) /*-{
-      // Writer for ASCII strings
-      function ASCIIWriter() {
-      var that = this, data;
-      
-      function init(callback, onerror) {
-	      data = "";
-	      callback();
-      }
-      
-      function writeUint8Array(array, callback, onerror) {
-	      var i;
-	      for (i = 0; i < array.length; i++) {
-	      	data += $wnd.String.fromCharCode(array[i]);
-	      }
-	      callback();
-      }
-      
-      function getData(callback) {		
-      	callback(data);
-      }
-      
-      that.init = init;
-      that.writeUint8Array = writeUint8Array;
-      that.getData = getData;
-      }
-      ASCIIWriter.prototype = new $wnd.zip.Writer();
-      ASCIIWriter.prototype.constructor = ASCIIWriter;
-      
-      function decodeUTF8(str_data) {
-      var tmp_arr = [], i = 0, ac = 0, c1 = 0, c2 = 0, c3 = 0;
-      
-      str_data += '';
-      
-      while (i < str_data.length) {
-	      c1 = str_data.charCodeAt(i);
-	      if (c1 < 128) {
-	      	tmp_arr[ac++] = String.fromCharCode(c1);
-	      	i++;
-	      } else if (c1 > 191 && c1 < 224) {
-	      	c2 = str_data.charCodeAt(i + 1);
-	      	tmp_arr[ac++] = String.fromCharCode(((c1 & 31) << 6) | (c2 & 63));
-	      	i += 2;
-	      } else {
-	      	c2 = str_data.charCodeAt(i + 1);
-	      	c3 = str_data.charCodeAt(i + 2);
-	      	tmp_arr[ac++] = String.fromCharCode(((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-	      	i += 3;
-	      }
-      }
-      
-      return tmp_arr.join('');
-      }		
-      
-      var imageRegex = /\.(png|jpg|jpeg|gif|bmp|tif|tiff)$/i;
-      if (workerUrls === "false") {
-      	$wnd.zip.useWebWorkers = false;
-      } else {
-      	$wnd.zip.workerScriptsPath = workerUrls;
-      }
-      
-      $wnd.zip.createReader(new $wnd.zip.HttpReader(url),function(reader) {
-      reader.getEntries(function(entries) {
-      view.@org.geogebra.web.html5.util.View::zippedLength = entries.length;
-       for (var i = 0, l = entries.length; i < l; i++) {
-       	(function(entry){
-           	var filename = entry.filename;
-               if (entry.filename.match(imageRegex)) {
-                       @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(filename+" : image");
-                       var filenameParts = filename.split(".");
-                       entry.getData(new $wnd.zip.Data64URIWriter("image/"+filenameParts[filenameParts.length -1]), function (data) {
-                           view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
-                       });
-                   } else {
-                       @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(entry.filename+" : text");
-                       if ($wnd.zip.useWebWorkers === false || (typeof $wnd.zip.forceDataURIWriter !== "undefined" && $wnd.zip.forceDataURIWriter === true)) {
-                           @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
-                           entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
-                   			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
-                             	view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
-                            });
-                       } else {
-                       	@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("worker");
-                       	entry.getData(new ASCIIWriter(), function(text) {
-                             	view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
-                            });
-                       }
-                       	
-               	}
-       	})(entries[i]);
-       } 
-       reader.close();
-      });
-      },
-      function (error) {
-      	@org.geogebra.common.util.debug.Log::error(Ljava/lang/String;)(error);
-      });
-      }-*/;
+	private native JavaScriptObject getHTTPReader(String url)/*-{
+		return new $wnd.zip.HttpReader(url);
+	}-*/;
+
+
 
 	/**
 	 * @param binary
 	 *            string (zipped GGB)
 	 */
 	public void processBinaryString(JavaScriptObject binary) {
-		String workerUrls = prepareFileReading();
-		populateArchiveContent(binary, workerUrls, this, true);
+		populateArchiveContent(getBinaryReader(binary));
 
 	}
+
+	private native JavaScriptObject getBinaryReader(Object blob) /*-{
+		return new $wnd.zip.BlobReader(blob);
+	}-*/;
+
+	private native JavaScriptObject getBase64Reader(String base64str)/*-{
+		return new $wnd.zip.Data64URIReader(base64str);
+	}-*/;
 
 	private String prepareFileReading() {
 		archiveContent = new HashMap<String, String>();
