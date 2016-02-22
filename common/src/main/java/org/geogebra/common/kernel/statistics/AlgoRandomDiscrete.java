@@ -44,6 +44,7 @@ public class AlgoRandomDiscrete extends AlgoElement {
 		compute();
 
 		randomDiscrete.setLabel(label);
+		cons.addRandomGeo(randomDiscrete);
 	}
 
 	public Commands getClassName() {

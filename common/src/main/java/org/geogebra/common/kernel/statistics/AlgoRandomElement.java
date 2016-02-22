@@ -65,6 +65,7 @@ public class AlgoRandomElement extends AlgoElement {
 		setInputOutput();
 		compute();
 		element.setLabel(label);
+		cons.addRandomGeo(element);
 	}
 
 	@Override
