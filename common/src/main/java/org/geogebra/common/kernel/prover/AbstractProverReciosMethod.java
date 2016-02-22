@@ -56,7 +56,7 @@ public abstract class AbstractProverReciosMethod {
 		}
 
 		// setting two points fixed (the first to (0,0) and the second to (0,1))
-		// all other variables are stores in freeVariables
+		// all other variables are stored in freeVariables
 		Iterator<Variable> it = variables.iterator();
 		HashMap<Variable, BigInteger> values = new HashMap<Variable, BigInteger>();
 		TreeSet<Variable> fixedVariables = new TreeSet<Variable>(

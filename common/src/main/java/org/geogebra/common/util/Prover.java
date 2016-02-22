@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
+import org.geogebra.common.kernel.prover.ProverBotanasMethod;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -528,8 +529,8 @@ public abstract class Prover {
 		App.debug("Using " + currentEngine);
 		ndgConditions = new HashSet<NDGCondition>(); // reset
 		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
-			result = override(org.geogebra.common.kernel.prover.ProverBotanasMethod
-					.prove(this));
+			ProverBotanasMethod pbm = new org.geogebra.common.kernel.prover.ProverBotanasMethod();
+			result = override(pbm.prove(this));
 			return;
 		} else if (currentEngine == ProverEngine.RECIOS_PROVER) {
 			result = override(reciosProver.prove(this));
