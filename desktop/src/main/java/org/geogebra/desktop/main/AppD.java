@@ -122,7 +122,6 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.GImageIcon;
-import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -181,7 +180,6 @@ import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
 import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
-import org.geogebra.desktop.kernel.AnimationManagerD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
@@ -4793,10 +4791,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		return new GeoElementGraphicsAdapterD(this);
 	}
 
-	@Override
-	public AnimationManager newAnimationManager(Kernel kernel2) {
-		return new AnimationManagerD(kernel2);
-	}
+
 
 	@Override
 	public SpreadsheetTableModel getSpreadsheetTableModel() {

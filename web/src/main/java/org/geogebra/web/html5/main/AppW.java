@@ -25,7 +25,6 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.GOptionPane;
-import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -97,7 +96,6 @@ import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
-import org.geogebra.web.html5.kernel.AnimationManagerW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
@@ -943,10 +941,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return new MyImageW(im, fileName.toLowerCase().endsWith(".svg"));
 	}
 
-	@Override
-	public final AnimationManager newAnimationManager(Kernel kernel2) {
-		return new AnimationManagerW(kernel2);
-	}
 
 	@Override
 	public final UndoManager getUndoManager(Construction cons) {

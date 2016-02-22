@@ -6,11 +6,13 @@ import java.util.TreeSet;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimer.GTimerListener;
 
 /**
  * Updates all animated geos based on slider ticks
  */
-public abstract class AnimationManager {
+public class AnimationManager implements GTimerListener {
 	/** animation time */
 	public final static int STANDARD_ANIMATION_TIME = 10; // secs
 	/** max frames per second */
@@ -32,6 +34,7 @@ public abstract class AnimationManager {
 	 * when the timer is started or stopped
 	 */
 	protected ArrayList<TimerListener> listener = new ArrayList<TimerListener>();
+	private GTimer timer;
 
 	/**
 	 * @param kernel2
@@ -41,6 +44,8 @@ public abstract class AnimationManager {
 		this.kernel = kernel2;
 		animatedGeos = new ArrayList<GeoElement>();
 		changedGeos = new ArrayList<Animatable>();
+		timer = kernel.getApplication().newTimer(this,
+				1000 / MAX_ANIMATION_FRAME_RATE);
 	}
 
 	/**
@@ -269,22 +274,43 @@ public abstract class AnimationManager {
 	/**
 	 * @return whether the animation is currently running.
 	 */
-	public abstract boolean isRunning();
+	public boolean isRunning() {
+		return timer.isRunning();
+	}
 
 	/**
 	 * @param i
 	 *            delay in miliseconds
 	 */
-	protected abstract void setTimerDelay(int i);
+
+	protected void setTimerDelay(int i) {
+		timer.setDelay(i);
+
+	}
+
+	public void onRun() {
+		sliderStep();
+
+	}
 
 	/**
 	 * stops timer
 	 */
-	protected abstract void stopTimer();
+	protected void stopTimer() {
+		timer.stop();
+		for (TimerListener tl : listener) {
+			tl.onTimerStopped();
+		}
+	}
 
 	/**
 	 * starts timer
 	 */
-	protected abstract void startTimer();
+	protected void startTimer() {
+		timer.startRepeat();
+		for (TimerListener tl : listener) {
+			tl.onTimerStarted();
+		}
+	}
 
 }

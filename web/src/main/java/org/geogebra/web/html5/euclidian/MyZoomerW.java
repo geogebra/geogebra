@@ -2,15 +2,15 @@ package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
-import org.geogebra.web.html5.gawt.Timer;
-import org.geogebra.web.html5.kernel.HasTimerAction;
+import org.geogebra.common.util.GTimer.GTimerListener;
+import org.geogebra.web.html5.sound.GTimerW;
 
-public class MyZoomerW extends MyZoomer implements HasTimerAction {
-	protected Timer timer; // for animation
+public class MyZoomerW extends MyZoomer implements GTimerListener {
+	protected GTimerW timer; // for animation
 
 	public MyZoomerW(EuclidianView view) {
 		super(view);
-		timer = new Timer(DELAY, this);
+		timer = new GTimerW(this, DELAY);
 	}
 
 	protected void stopTimer() {
@@ -21,12 +21,12 @@ public class MyZoomerW extends MyZoomer implements HasTimerAction {
 		return timer != null;
 	}
 
-	public synchronized void actionPerformed() {
+	public synchronized void onRun() {
 		step();
 	}
 
 	@Override
 	protected void startTimer() {
-		timer.start();
+		timer.startRepeat();
 	}
 }

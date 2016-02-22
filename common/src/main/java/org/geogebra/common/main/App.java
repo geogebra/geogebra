@@ -2034,7 +2034,9 @@ public abstract class App implements UpdateSelection {
 	 *            kernel
 	 * @return animation manager
 	 */
-	public abstract AnimationManager newAnimationManager(Kernel kernel2);
+	public AnimationManager newAnimationManager(Kernel kernel2) {
+		return new AnimationManager(kernel2);
+	}
 
 	/**
 	 * TODO maybe we should create another factory for internal classes like

@@ -26,7 +26,9 @@ public class GTimerW implements GTimer {
 	}
 
 	public void startRepeat() {
-		timer.scheduleRepeating(delay);
+		if (!isRunning()) {
+			timer.scheduleRepeating(delay);
+		}
 	}
 
 	public void stop() {
@@ -39,6 +41,11 @@ public class GTimerW implements GTimer {
 
 	public void setDelay(int delay) {
 		this.delay = delay;
+		if (isRunning()) {
+			// note that this will stop the current schedule
+			// and start a new one with the new delay
+			timer.scheduleRepeating(delay);
+		}
 	}
 
 }
