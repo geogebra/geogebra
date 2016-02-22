@@ -44,7 +44,7 @@ public final class DrawBoolean extends Drawable {
 	private boolean isVisible;
 	private String oldCaption;
 
-	private GPoint textSize = new GPoint(0, 0);
+	private final GPoint textSize = new GPoint(0, 0);
 
 	private CheckBoxIcon checkBoxIcon;
 	private boolean latexEnabled;
@@ -104,7 +104,7 @@ public final class DrawBoolean extends Drawable {
 		GDimension prefSize = AwtFactory.prototype.newDimension(size + 12,
 				size + 12);// checkBox.getPreferredSize();
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth()
-				+ ((textSize == null) ? 0 : textSize.x), prefSize.getHeight());
+				+ textSize.x, prefSize.getHeight());
 
 		// checkBox.setBounds(labelRectangle);
 	}
@@ -113,8 +113,6 @@ public final class DrawBoolean extends Drawable {
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 
 		if (isVisible) {
-
-			int size = view.getBooleanSize();
 
 			g2.setFont(view.getFontPoint());
 			g2.setStroke(EuclidianStatic.getDefaultStroke());
@@ -158,7 +156,7 @@ public final class DrawBoolean extends Drawable {
 						.getTextLayout(labelDesc, view.getFontPoint());
 				int width = (int) Math.round(layout.getBounds().getWidth());
 				int height = (int) Math.round(layout.getBounds().getHeight());
-
+				textSize.x = width;
 				int left = geoBool.labelOffsetX + checkBoxIcon.getIconWidth() + LABEL_MARGIN;
 				int top = geoBool.labelOffsetY
 						+ checkBoxIcon.getIconWidth() / 2 + 5;
