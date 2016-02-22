@@ -7497,9 +7497,9 @@ namespace giac {
     bool inverting=fullreduction==2;
     int linit=l;//,previous_l=l;
     // Reduction
-    int pivot,temp;
+    int pivot,temp=0;
     // vecteur vtemp;
-    int pivotline,pivotcol;
+    int pivotline,pivotcol=0;
     if (reset){
       idet=1;
       pivots.clear();
@@ -10827,7 +10827,7 @@ namespace giac {
 #endif // PTHREAD
       if (!done){
 	// slicing is slower
-	int nslice=1; cP/128+1;
+	int nslice=1; // nslice=cP/128+1;
 	int slicesize=cP/nslice+1;
 	int Pstart=0,Pend=0;
 	for (;Pstart<cP;Pstart=Pend){

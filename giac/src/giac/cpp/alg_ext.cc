@@ -1498,8 +1498,8 @@ namespace giac {
     else {
       // FIXME: check if var is quoted, otherwise it will be erased
       gen savevar=var;
-      if (var._IDNTptr->in_eval(1,var,savevar,contextptr))
-	1;
+      var._IDNTptr->in_eval(1,var,savevar,contextptr);
+      // if (var._IDNTptr->in_eval(1,var,savevar,contextptr)) 1;
       giac_assume(symbolic(at_and,makevecteur(symb_superieur_egal(var,range[0]),symb_inferieur_egal(var,range[1]))),contextptr);
       w=solve(df,var,2,contextptr);
       if (savevar==var)

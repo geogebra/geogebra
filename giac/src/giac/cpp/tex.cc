@@ -1160,9 +1160,14 @@ namespace giac {
 	  if ( e.type<=_REAL  && !is_positive(e,0) )
 	    s += e.print(contextptr);
 	  else {
-	    if (i)
-	      s += opstring;
-	    s += gen2tex(e,contextptr);
+	    string sadd=gen2tex(e,contextptr);
+	    if (i){
+	      if (opstring=="+" && !sadd.empty() && sadd[0]=='-')
+		;
+	      else
+		s += opstring;
+	    }
+	    s += sadd;
 	  }
 	}
       } // end_for

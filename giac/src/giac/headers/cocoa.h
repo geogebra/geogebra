@@ -44,7 +44,7 @@ namespace giac {
     unsigned char lex;
   };
 
-  bool gbasis8(const vectpoly & v,order_t & order,vectpoly & res,environment * env,bool modularalgo,bool modularcheck,bool & rur,GIAC_CONTEXT,bool eliminate_flag);
+  bool gbasis8(const vectpoly & v,order_t & order,vectpoly & res,environment * env,bool modularalgo,bool modularcheck,int & rur,GIAC_CONTEXT,bool eliminate_flag);
   bool greduce8(const vectpoly & v,const vectpoly & G,order_t & order,vectpoly & res,environment * env,GIAC_CONTEXT);
 #endif
 

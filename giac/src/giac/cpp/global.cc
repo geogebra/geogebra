@@ -1550,7 +1550,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int GBASIS_DETERMINISTIC=20;
   int GBASISF4_MAX_TOTALDEG=1024;
   int GBASISF4_MAXITER=256;
-
+  // int GBASISF4_BUCHBERGER=5;
   const int BUFFER_SIZE=512;
 #else
   int CALL_LAPACK=1111;
@@ -1583,8 +1583,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   int MAX_PRINTABLE_ZINT=1000000;
   int MAX_RECURSION_LEVEL=100;
   int GBASIS_DETERMINISTIC=50;
-  int GBASISF4_MAX_TOTALDEG=2048;
-  int GBASISF4_MAXITER=512;
+  int GBASISF4_MAX_TOTALDEG=16384;
+  int GBASISF4_MAXITER=1024;
+  // int GBASISF4_BUCHBERGER=5;
   const int BUFFER_SIZE=16384;
 #endif
   volatile bool ctrl_c=false,interrupted=false;
@@ -3468,7 +3469,8 @@ extern "C" void Sleep(unsigned int miliSecond);
   int check_threads(int i){
     int s,ans=-1;
     context * cptr;
-    if (i>=s || i<0)
+    if (// i>=s || 
+	i<0)
       return -2;
     for (;;++i){
       pthread_mutex_lock(&context_list_mutex);

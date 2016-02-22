@@ -2997,9 +2997,13 @@ namespace giac {
   gen _pointer(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return gensizeerr(contextptr);
-    if (args._VECTptr->front().type!=_INT_ || args._VECTptr->back().type!=_INT_)
+    if (args._VECTptr->back().type!=_INT_)
       return gentypeerr(contextptr);
-    return gen((void *)(unsigned)args._VECTptr->front().val, args._VECTptr->back().val);
+    if (args._VECTptr->front().type==_INT_)
+      return gen((void *)(unsigned long)args._VECTptr->front().val, args._VECTptr->back().val);
+    if (args._VECTptr->front().type==_ZINT)
+      return gensizeerr("64 bits pointer I/O not yet implemented");
+    return gentypeerr(contextptr);
   }
   static const char _pointer_s[]="pointer";
   static define_unary_function_eval (__pointer,&_pointer,_pointer_s);
