@@ -180,19 +180,22 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		}
 
 		if (editor.isEditing()) {
-			if (editor.textStartsWithEquals()) {
-				copyIntoEditorFromCellAt(point);
+			if (editor.textStartsWithEquals()
+					&& copyIntoEditorFromCellAt(point)) {
+
 				startEditDragging(point);
-			} else {
+				event.preventDefault();
+				return;
+			}
 				// selecting the same cell should not finish editing
 				// e.g. move cursor inside cell
-				if (!isCurrentSelection(point)) {
-					if (table.getEditor() != null) {
-						table.getEditor().stopCellEditing();
-					}
-					finishEditing();
+			if (!isCurrentSelection(point)) {
+				if (table.getEditor() != null) {
+					table.getEditor().stopCellEditing();
 				}
+				finishEditing();
 			}
+
 		}
 
 		// request focus only if there will be no editing
@@ -236,11 +239,11 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		}
 	}
 
-	private void copyIntoEditorFromCellAt(GPoint pointOnMouseDown) {
+	private boolean copyIntoEditorFromCellAt(GPoint pointOnMouseDown) {
 		int column = pointOnMouseDown.getX();
 		int row = pointOnMouseDown.getY();
 		if (column == editor.column && row == editor.row) {
-			return;
+			return false;
 		}
 		GeoElement geo = RelativeCopy.getValue(app, column, row);
 		if (geo != null) {
@@ -255,7 +258,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 			// insert the geo label into the editor string
 			editor.addLabel(name);
+			return true;
 		}
+		return false;
 	}
 
 	private void startEditDragging(GPoint point) {
