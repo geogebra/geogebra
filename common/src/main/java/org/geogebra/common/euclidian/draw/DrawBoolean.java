@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Checkbox for free GeoBoolean object.
@@ -139,8 +138,6 @@ public final class DrawBoolean extends Drawable {
 					posY += (checkBoxIcon.getIconHeight() - d.getHeight()) / 2;
 
 				}
-				Log.debug("[DrawBoolean] posX: " + posX + ", posY: " + posY
-						+ " textSize: " + textSize);
 				App app = view.getApplication();
 				g2.setPaint(geo.getObjectColor());
 				g2.setColor(GColor.RED);
