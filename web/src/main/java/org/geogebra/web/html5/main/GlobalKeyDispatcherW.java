@@ -2,7 +2,6 @@ package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -459,23 +458,7 @@ public class GlobalKeyDispatcherW extends
 		}
 	}
 
-	/**
-	 * check for eg alt-a for alpha check for eg alt-shift-a for upper case
-	 * alpha
-	 * 
-	 * @param keyCode
-	 *            Key code without modifiers.
-	 * @param isShiftDown
-	 *            Determines if shift is down,
-	 * @return The "alpha-string" ie the symbols.
-	 */
-	public String getAltSymbols(int keyCode, boolean isShiftDown) {
-		if (isShiftDown) {
-			return AltKeys.LookupUpper.get((char) keyCode);
-		}
 
-		return AltKeys.LookupLower.get((char) keyCode);
-	}
 
 	/**
 	 * 
@@ -483,7 +466,7 @@ public class GlobalKeyDispatcherW extends
 	 *            The KeyEvent
 	 * @return true if unwanted key combination has pressed.
 	 */
-	public boolean isBadKeyEvent(KeyEvent e) {
+	public static boolean isBadKeyEvent(KeyEvent e) {
 		return e.isAltKeyDown() && !e.isControlKeyDown()
 				&& e.getNativeEvent().getCharCode() > 128;
 	}

@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.common.gui.inputfield.AltKeys;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -15,11 +16,9 @@ import com.google.gwt.user.client.ui.TextArea;
 public class ScriptArea extends TextArea
 		implements KeyPressHandler, KeyDownHandler, KeyUpHandler {
 
-	private AppW app;
 
-	public ScriptArea(AppW app) {
+	public ScriptArea() {
 		setStyleName("scriptArea");
-		this.app = app;
 		addKeyPressHandler(this);
 		addKeyDownHandler(this);
 		addKeyUpHandler(this);
@@ -32,7 +31,7 @@ public class ScriptArea extends TextArea
 	public void onKeyUp(KeyUpEvent e) {
 		if (e.isAltKeyDown()) {
 
-			String s = app.getGlobalKeyDispatcher().getAltSymbols(e.getNativeKeyCode(),
+			String s = AltKeys.getAltSymbols(e.getNativeKeyCode(),
 					e.isShiftKeyDown());
 
 			if (s != null) {
@@ -85,14 +84,14 @@ public class ScriptArea extends TextArea
 	}
 
 	public void onKeyDown(KeyDownEvent e) {
-		if (app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
+		if (GlobalKeyDispatcherW.isBadKeyEvent(e)) {
 			e.preventDefault();
 		}
 
 	}
 
 	public void onKeyPress(KeyPressEvent e) {
-		if (app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
+		if (GlobalKeyDispatcherW.isBadKeyEvent(e)) {
 			e.preventDefault();
 			e.stopPropagation();
 			return;

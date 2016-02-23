@@ -128,4 +128,22 @@ public class AltKeys {
 
 	}
 
+	/**
+	 * check for eg alt-a for alpha check for eg alt-shift-a for upper case
+	 * alpha
+	 * 
+	 * @param keyCode
+	 *            Key code without modifiers.
+	 * @param isShiftDown
+	 *            Determines if shift is down,
+	 * @return The "alpha-string" ie the symbols.
+	 */
+	public static String getAltSymbols(int keyCode, boolean isShiftDown) {
+		if (isShiftDown) {
+			return AltKeys.LookupUpper.get((char) keyCode);
+		}
+
+		return AltKeys.LookupLower.get((char) keyCode);
+	}
+
 }

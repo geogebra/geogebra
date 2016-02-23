@@ -61,7 +61,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 		model = new ScriptInputModel(app, this, updateScript, forceJavaScript);
 
 		inputPanel = new FlowPanel();
-		textArea = new ScriptArea(app);
+		textArea = new ScriptArea();
 		inputPanel.add(textArea);
 		// init dialog using text
 

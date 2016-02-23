@@ -179,14 +179,9 @@ public class GeoGebraKeys implements KeyListener {
 			// don't want to act on eg "Shift"
 			if (keyString.length() == 1) {
 
-				if (e.isShiftDown()) {
-					insertStr = AltKeys.LookupUpper.get(Character
-							.toUpperCase(keyString.charAt(0)));
-				} else {
-					// toUpperCase() here deliberate!
-					insertStr = AltKeys.LookupLower.get(Character
-							.toUpperCase(keyString.charAt(0)));
-				}
+				insertStr = AltKeys.getAltSymbols(
+						Character.toUpperCase(keyString.charAt(0)),
+						e.isShiftDown());
 
 				if (insertStr == null) {
 					insertStr = "";

@@ -127,7 +127,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 
 		Label scriptLabel = new Label(app.getPlain("Script") + ":");
 
-		tfScript = new ScriptArea(app);
+		tfScript = new ScriptArea();
 		
 		FlowPanel scriptPanel = new FlowPanel();
 		scriptPanel.add(scriptLabel);
