@@ -52,7 +52,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -924,7 +923,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void onKeyPress(KeyPressEvent e) {
-		if (isBadKeyEvent(e)) {
+		if (app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
 			e.preventDefault();
 			e.stopPropagation();
 			return;
@@ -1025,17 +1024,18 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		setCaretPosition(Math.min(text.length(), caretPos));
 	}
 
-	private boolean isBadKeyEvent(KeyEvent e) {
-		return e.isAltKeyDown() && !e.isControlKeyDown()
-				&& e.getNativeEvent().getCharCode() > 128;
-	}
+	// private boolean isBadKeyEvent(KeyEvent e) {
+	// return e.isAltKeyDown() && !e.isControlKeyDown()
+	// && e.getNativeEvent().getCharCode() > 128;
+	// }
 	@Override
 	public void onKeyDown(KeyDownEvent e) {
 		if (!isTabEnabled()) {
 			return;
 		}
 		int keyCode = e.getNativeKeyCode();
-		if (keyCode == GWTKeycodes.KEY_TAB || isBadKeyEvent(e)) {
+		if (keyCode == GWTKeycodes.KEY_TAB
+				|| app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
 			e.preventDefault();
 		}
 	}

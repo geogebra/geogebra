@@ -3,18 +3,25 @@ package org.geogebra.web.web.gui.util;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.TextArea;
 
 // Class for future syntax highlighting, line numbering and so on.
-public class ScriptArea extends TextArea implements KeyUpHandler {
+public class ScriptArea extends TextArea
+		implements KeyPressHandler, KeyDownHandler, KeyUpHandler {
 
 	private AppW app;
 
 	public ScriptArea(AppW app) {
 		setStyleName("scriptArea");
 		this.app = app;
+		addKeyPressHandler(this);
+		addKeyDownHandler(this);
 		addKeyUpHandler(this);
 	}
 
@@ -75,6 +82,21 @@ public class ScriptArea extends TextArea implements KeyUpHandler {
 		// if (insertHandler != null) {
 		// insertHandler.onInsert(text);
 		// }
+	}
+
+	public void onKeyDown(KeyDownEvent e) {
+		if (app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
+			e.preventDefault();
+		}
+
+	}
+
+	public void onKeyPress(KeyPressEvent e) {
+		if (app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
+			e.preventDefault();
+			e.stopPropagation();
+			return;
+		}
 	}
 
 }

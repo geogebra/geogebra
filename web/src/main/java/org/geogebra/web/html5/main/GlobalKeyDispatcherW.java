@@ -476,4 +476,15 @@ public class GlobalKeyDispatcherW extends
 
 		return AltKeys.LookupLower.get((char) keyCode);
 	}
+
+	/**
+	 * 
+	 * @param e
+	 *            The KeyEvent
+	 * @return true if unwanted key combination has pressed.
+	 */
+	public boolean isBadKeyEvent(KeyEvent e) {
+		return e.isAltKeyDown() && !e.isControlKeyDown()
+				&& e.getNativeEvent().getCharCode() > 128;
+	}
 }
