@@ -177,4 +177,14 @@ public class Variable implements Comparable<Variable> {
 	public boolean isFree() {
 		return isFree;
 	}
+
+	/**
+	 * Set a variable to be free or dependent.
+	 * 
+	 * @param value
+	 *            true if free, false if dependent
+	 */
+	public void setFree(boolean value) {
+		isFree = value;
+	}
 }

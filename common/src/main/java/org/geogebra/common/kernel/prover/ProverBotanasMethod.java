@@ -355,6 +355,16 @@ public class ProverBotanasMethod {
 		}
 
 		/**
+		 * Add a polynomial to the system manually.
+		 * 
+		 * @param p
+		 *            the polynomial to be added
+		 */
+		public void addPolynomial(Polynomial p) {
+			polynomials.add(p);
+		}
+
+		/**
 		 * Number of maximal fix coordinates. -1 if no limit. Sometimes we need
 		 * to limit the maximum if the construction contains constrained point
 		 * on a path.

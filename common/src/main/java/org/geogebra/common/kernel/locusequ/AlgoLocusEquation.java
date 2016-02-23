@@ -15,6 +15,7 @@ import java.util.TreeSet;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
@@ -163,7 +164,7 @@ public class AlgoLocusEquation extends AlgoElement {
 		old_system = system;
 
 		if (system != null) {
-			EquationTranslator<StringBuilder> trans = new CASTranslator(cons.getKernel());
+			EquationTranslator<StringBuilder> trans = new CASTranslator(kernel);
 			try{
 				this.geoPoly.setCoeff(trans.eliminateSystem(system)); // eliminateSystem() is heavy
 				this.geoPoly.setDefined();
@@ -258,12 +259,31 @@ public class AlgoLocusEquation extends AlgoElement {
 		return Commands.LocusEquation;
 	}
 	
+	private long[] doubleToRational(double x) {
+		double y;
+		long[] ret = new long[2];
+		ret[1] = 1;
+		int rounding = kernel.getPrintDecimals();
+		y = x; // Kernel.roundToScale(x, rounding);
+		while (rounding > 0) {
+			ret[1] *= 10;
+			y *= 10;
+			rounding--;
+		}
+		ret[0] = (int) Math.floor(y);
+		long gcd = Kernel.gcd(ret[0], ret[1]);
+		ret[0] /= gcd;
+		ret[1] /= gcd;
+		return ret;
+	}
+
 	private String getImplicitPoly() throws Throwable {
 		Prover p = UtilFactory.prototype.newProver();
 		p.setProverEngine(ProverEngine.LOCUS_IMPLICIT);
 		ProverBotanasMethod pbm = new ProverBotanasMethod();
 		AlgebraicStatement as = pbm.new AlgebraicStatement(implicitLocus, p);
 		Set<Set<Polynomial>> eliminationIdeal;
+
 		HashMap<Variable, Integer> substitutions = new HashMap<Variable, Integer>();
 		List<GeoElement> freePoints = ProverBotanasMethod
 				.getFreePoints(implicitLocus);
@@ -274,10 +294,42 @@ public class AlgoLocusEquation extends AlgoElement {
 			Variable[] vars = ((SymbolicParametersBotanaAlgo) freePoint)
 					.getBotanaVars(freePoint);
 			if (!movingPoint.equals(freePoint)) {
-				substitutions.put(vars[0],
-						(int) ((GeoPoint) freePoint).getInhomX());
-				substitutions.put(vars[1],
-						(int) ((GeoPoint) freePoint).getInhomY());
+				double x = ((GeoPoint) freePoint).getInhomX();
+				if ((x % 1) == 0) { // integer
+					substitutions.put(vars[0], (int) x);
+				} else { // fractional
+					/*
+					 * Use the fraction P/Q according to the current kernel
+					 * setting.
+					 */
+					long[] q = doubleToRational(x);
+					/* Set up a new free variable v. */
+					Variable v = new Variable(true);
+					vars[0].setFree(false);
+					/* Create the polynomial v-x*Q=0 and substitution v=P. */
+					Polynomial ph = new Polynomial(v).subtract(new Polynomial(
+							vars[0]).multiply(new Polynomial((int) q[1])));
+					as.addPolynomial(ph);
+					substitutions.put(v, (int) q[0]);
+				}
+				double y = ((GeoPoint) freePoint).getInhomY();
+				if ((y % 1) == 0) {
+					substitutions.put(vars[1], (int) y);
+				} else { // fractional
+					/*
+					 * Use the fraction P/Q according to the current kernel
+					 * setting.
+					 */
+					long[] q = doubleToRational(y);
+					/* Set up a new variable v. */
+					Variable v = new Variable(true);
+					vars[1].setFree(false);
+					/* Create the polynomial v-x*Q=0 and substitution v=P. */
+					Polynomial ph = new Polynomial(v).subtract(new Polynomial(
+							vars[1]).multiply(new Polynomial((int) q[1])));
+					as.addPolynomial(ph);
+					substitutions.put(v, (int) q[0]);
+				}
 			} else {
 				vx = vars[0].toString();
 				vy = vars[1].toString();
@@ -287,7 +339,7 @@ public class AlgoLocusEquation extends AlgoElement {
 		eliminationIdeal = Polynomial.eliminate(
 				as.getPolynomials().toArray(
 						new Polynomial[as.getPolynomials().size()]),
-				substitutions, implicitLocus.getKernel(), 0, false);
+				substitutions, kernel, 0, false);
 
 		Polynomial result = null;
 		Iterator<Set<Polynomial>> it1 = eliminationIdeal.iterator();
@@ -319,8 +371,7 @@ public class AlgoLocusEquation extends AlgoElement {
 				.append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;")
 				.append("cc:=append(cc,ee); od; od],cc][6]");
 
-		GeoGebraCAS cas = (GeoGebraCAS) implicitLocus.getKernel()
-				.getGeoGebraCAS();
+		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		try {
 			String impccoeffs = cas.getCurrentCAS().evaluateRaw(
 					script.toString());
