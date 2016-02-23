@@ -430,7 +430,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 								var item, imgExtensions = [ "jpg", "jpeg",
 										"png", "gif", "bmp" ];
 								if (arch.archive.length > 0) {
-									@org.geogebra.common.main.App::debug(Ljava/lang/String;)("arch.archive.length: "+arch.archive.length);
+									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("arch.archive.length: "+arch.archive.length);
 									item = arch.archive.shift();
 									var ind = item.fileName.lastIndexOf('.');
 									if (ind > -1
@@ -439,13 +439,13 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
 										//if (item.fileName.indexOf(".png") > -1) 
-										//@org.geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
+										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
 													checkIfStillFilesToAdd();
 												});
 									} else {
-										//@org.geogebra.common.main.App::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
+										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
 										addText(item.fileName,
 												encodeUTF8(item.fileContent),
 												function() {
@@ -460,8 +460,8 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 													// that's right, this truncation is necessary
 													//clb(dataURI.substr(dataURI.indexOf(',')+1));
 												} else {
-													@org.geogebra.common.main.App::debug(Ljava/lang/String;)("not callback was given");
-													@org.geogebra.common.main.App::debug(Ljava/lang/String;)(dataURI);
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("not callback was given");
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(dataURI);
 												}
 											});
 								}
@@ -471,7 +471,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 
 						},
 						function(error) {
-							@org.geogebra.common.main.App::debug(Ljava/lang/String;)("error occured while creating ggb zip");
+							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while creating ggb zip");
 						});
 
 	}-*/;
@@ -573,13 +573,13 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
 
-										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
+										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
 													checkIfStillFilesToAdd();
 												});
 									} else {
-										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
+										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
 										addText(item.fileName,
 												encodeUTF8(item.fileContent),
 												function() {
@@ -594,8 +594,8 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 													clb(dataURI.substr(dataURI
 															.indexOf(',') + 1));
 												} else {
-													@org.geogebra.common.main.App::debug(Ljava/lang/String;)("not callback was given");
-													@org.geogebra.common.main.App::debug(Ljava/lang/String;)(dataURI);
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("not callback was given");
+													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(dataURI);
 												}
 											});
 								}
@@ -605,7 +605,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 
 						},
 						function(error) {
-							@org.geogebra.common.main.App::debug(Ljava/lang/String;)("error occured while creating base64 zip");
+							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while creating base64 zip");
 						});
 	}-*/;
 

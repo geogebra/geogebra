@@ -89,7 +89,7 @@ public class LanguageCommand implements Command {
 				localStorage.setItem("reloadBase64String", base64);
 				@org.geogebra.web.web.gui.app.GeoGebraAppFrame::removeCloseMessage()();
 			} catch (e) {
-				@org.geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
+				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
 			} finally {
 				$wnd.location.reload();
 			}

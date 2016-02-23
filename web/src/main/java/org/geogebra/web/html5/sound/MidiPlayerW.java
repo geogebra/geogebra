@@ -75,7 +75,7 @@ public class MidiPlayerW {
 					ff[z] = scc(t.charCodeAt(z) & 255);
 				}
 				$wnd.midiFile = new $wnd.MidiFile(ff.join(""));
-				@org.geogebra.common.main.App::debug(Ljava/lang/String;)($wnd.midiFile);
+				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)($wnd.midiFile);
 
 			}
 		}

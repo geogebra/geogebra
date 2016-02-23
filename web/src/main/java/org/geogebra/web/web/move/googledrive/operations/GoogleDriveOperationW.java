@@ -124,7 +124,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 							'picker',
 							{
 								'callback' : function() {
-									@org.geogebra.common.main.App::debug(Ljava/lang/String;)("picker loaded");
+									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("picker loaded");
 								}
 							});
 
@@ -518,7 +518,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 						if (!resp.error) {
 							_this.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.id, resp.title, resp.description)
 						} else {
-							@org.geogebra.common.main.App::debug(Ljava/lang/String;)("Error saving to Google Drive: " + resp.error);
+							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("Error saving to Google Drive: " + resp.error);
 							_this.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW::showUploadError()();
 						}
 					});

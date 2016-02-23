@@ -37,7 +37,6 @@ import org.geogebra.ggbjdk.java.awt.geom.Area;
 import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Line2D;
-import org.geogebra.ggbjdk.java.awt.geom.Polygon;
 import org.geogebra.ggbjdk.java.awt.geom.QuadCurve2D;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
@@ -285,7 +284,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GPolygon newPolygon() {
-		return new Polygon();
+		return new org.geogebra.ggbjdk.java.awt.geom.Polygon();
 	}
 
 }

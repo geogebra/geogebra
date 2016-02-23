@@ -3073,7 +3073,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}-*/;
 
 	public static native void console(JavaScriptObject dataAsJSO) /*-{
-		@org.geogebra.common.main.App::debug(Ljava/lang/String;)(dataAsJSO);
+		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(dataAsJSO);
 	}-*/;
 
 	public static native void nativeConsole(String object) /*-{
