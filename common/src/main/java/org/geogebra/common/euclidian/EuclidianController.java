@@ -8897,6 +8897,7 @@ public abstract class EuclidianController {
 		DrawList dl = getComboBoxHit(event.getX(), event.getY());
 
 		if (!event.isRightClick() && dl != null) {
+			clearSelections();
 			dl.onMouseDown(event.getX(), event.getY());
 			return;
 		}
