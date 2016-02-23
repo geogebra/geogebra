@@ -482,7 +482,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		JavaScriptObject callback = ((GoogleDriveOperationW) app
 		        .getGoogleDriveOperation()).getPutFileCallback(saveName,
 		        "GeoGebra");
-		app.getGgbApi().getBase64(true, callback);
+		if (saveType == MaterialType.ggt) {
+			app.getGgbApi().getMacrosBase64(true, callback);
+		} else {
+			app.getGgbApi().getBase64(true, callback);
+		}
 	}
 
 	void handleSync(final String base64, final String visibility) {
