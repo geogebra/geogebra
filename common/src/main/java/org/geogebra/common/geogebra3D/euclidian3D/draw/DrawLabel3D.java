@@ -116,7 +116,6 @@ public class DrawLabel3D {
 			GColor color, Coords v, float xOffset, float yOffset) {
 
 		this.origin = v;
-		App.debug(font0.getFontName() + "LABEL");
 		if (text.length() == 0)
 			return;
 

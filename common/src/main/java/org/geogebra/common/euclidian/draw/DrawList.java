@@ -457,7 +457,6 @@ public final class DrawList extends CanvasDrawable
 
 			DraggedItem di = new DraggedItem(x, y);
 			if (di.isValid()) {
-				Log.debug(SCROLL_PFX + " start dragging " + di.item.text);
 				if (dragged == null || !dragged.isValid()) {
 					dragged = di;
 					return true;
@@ -474,7 +473,6 @@ public final class DrawList extends CanvasDrawable
 				if (itemDiffs != 0) {
 					dragOffset = dY % itemHeight;
 					scrollBy(itemDiffs);
-					Log.debug(SCROLL_PFX + " dragging by " + itemDiffs);
 					dragged = di;
 				} else {
 
@@ -1551,11 +1549,7 @@ public final class DrawList extends CanvasDrawable
 			return false;
 		}
 
-		boolean hit = drawOptions.isHit(x, y);
-		if (hit) {
-			Log.debug("OPTION is HIT");
-		}
-		return hit;
+		return drawOptions.isHit(x, y);
 	}
 
 	/**
