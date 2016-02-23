@@ -33,7 +33,28 @@ public class CmdToolImage extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 
+		GeoPoint corner = null, corner2 = null;
+
 		switch (n) {
+
+		case 2:
+		case 3:
+			if (arg[1] instanceof GeoPoint) {
+				corner = (GeoPoint) arg[1];
+			} else {
+				throw argErr(app, c.getName(), arg[1]);
+			}
+
+			if (n == 3) {
+				if (arg[2] instanceof GeoPoint) {
+					corner2 = (GeoPoint) arg[2];
+				} else {
+					throw argErr(app, c.getName(), arg[2]);
+				}
+
+			}
+
+			// FALL THROUGH
 		case 1:
 			if (arg[0].isGeoNumeric()) {
 
@@ -42,8 +63,9 @@ public class CmdToolImage extends CommandProcessor {
 				String modeStr = StringUtil.toLowerCase(EuclidianConstants
 						.getModeText(mode));
 
-				if ("".equals(modeStr))
+				if ("".equals(modeStr)) {
 					throw argErr(app, c.getName(), arg[0]);
+				}
 
 				// TODO Fix me
 
@@ -60,10 +82,17 @@ public class CmdToolImage extends CommandProcessor {
 
 				boolean oldState = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
-				GeoPoint corner = new GeoPoint(cons, null, 0, 0, 1);
+				if (corner == null) {
+					corner = new GeoPoint(cons, null, 0, 0, 1);
+				}
 				cons.setSuppressLabelCreation(oldState);
 				try {
 					geoImage.setStartPoint(corner);
+
+					if (corner2 != null) {
+						geoImage.setCorner(corner2, 1);
+					}
+
 				} catch (CircularDefinitionException e) {
 					e.printStackTrace();
 				}
