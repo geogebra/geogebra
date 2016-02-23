@@ -8894,10 +8894,11 @@ public abstract class EuclidianController {
 		setMouseLocation(event);
 		this.setViewHits(event.getType());
 
-		DrawList dl = getComboBoxHit(event.getX(), event.getY());
+		DrawList dl = getComboBoxHit();
 
 		if (!event.isRightClick() && dl != null) {
 			clearSelections();
+			app.getSelectionManager().addSelectedGeo(dl.geo);
 			dl.onMouseDown(event.getX(), event.getY());
 			return;
 		}
@@ -9682,7 +9683,7 @@ public abstract class EuclidianController {
 						.getHits().getTopHits().get(0) instanceof GeoList);
 	}
 
-	protected DrawList getComboBoxHit(int x, int y) {
+	protected DrawList getComboBoxHit() {
 		Hits hits = view.getHits();
 		if (hits != null && hits.size() > 0) {
 			GeoList list;
@@ -10676,7 +10677,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	private void storeUndoInfo() {
+	void storeUndoInfo() {
 		app.storeUndoInfo();
 
 		// if we use the tool once again
@@ -10692,15 +10693,16 @@ public abstract class EuclidianController {
 				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(this.kernel.getConstruction(),
 						null, function);
 				return algo.getExtremumPoints();
-			} else {
-				// calculates only the extremum points that are visible at the moment (e.g. sin(x))
-				AlgoExtremumMulti algo = new AlgoExtremumMulti(this.kernel.getConstruction(), null, function,
-						this.view.getXminObject(), this.view.getXmaxObject());
-
-				// updates the area that is visible
-				kernel.getConstruction().registerEuclidianViewCE(algo);
-				return algo.getExtremumPoints();
 			}
+			// calculates only the extremum points that are visible at the
+			// moment (e.g. sin(x))
+			AlgoExtremumMulti algo = new AlgoExtremumMulti(
+					this.kernel.getConstruction(), null, function,
+					this.view.getXminObject(), this.view.getXmaxObject());
+
+			// updates the area that is visible
+			kernel.getConstruction().registerEuclidianViewCE(algo);
+			return algo.getExtremumPoints();
 		}
 		return null;
 	}
@@ -10723,20 +10725,25 @@ public abstract class EuclidianController {
 				// calculates all root points (e.g. x^2 - 1)
 				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(this.kernel.getConstruction(), null, function);
 				return algo.getRootPoints();
-			} else {
-				// calculates only the root points that are visible at the moment (e.g. sin(x))
-				AlgoRoots algo = new AlgoRoots(this.kernel.getConstruction(), null, function,
-						this.view.getXminObject(), this.view.getXmaxObject());
-
-				// updates the area that is visible
-				kernel.getConstruction().registerEuclidianViewCE(algo);
-				return algo.getRootPoints();
 			}
+			// calculates only the root points that are visible at the moment
+			// (e.g. sin(x))
+			AlgoRoots algo = new AlgoRoots(this.kernel.getConstruction(), null,
+					function, this.view.getXminObject(),
+					this.view.getXmaxObject());
+
+			// updates the area that is visible
+			kernel.getConstruction().registerEuclidianViewCE(algo);
+			return algo.getRootPoints();
 		}
 
 		return null;
 	}
 
+	/**
+	 * @param type
+	 *            used in Web
+	 */
 	public void closePopups(int x, int y, PointerEventType type) {
 		app.closePopups(x, y);
 	}

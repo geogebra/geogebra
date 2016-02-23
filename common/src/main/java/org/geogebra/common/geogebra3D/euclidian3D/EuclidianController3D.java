@@ -4134,7 +4134,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected DrawList getComboBoxHit(int x, int y) {
+	protected DrawList getComboBoxHit() {
 		return null;
 	}
 
