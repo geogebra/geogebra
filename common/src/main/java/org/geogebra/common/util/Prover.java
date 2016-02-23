@@ -56,9 +56,13 @@ public abstract class Prover {
 		 */
 		PURE_SYMBOLIC_PROVER,
 		/**
-		 * Default prover (GeoGebra decides internally)
+		 * default prover (GeoGebra decides internally)
 		 */
-		AUTO
+		AUTO, /**
+		 * 
+		 * not a theorem prover, but an implicit locus calculator
+		 */
+		LOCUS_IMPLICIT
 	}
 
 	/**
@@ -426,6 +430,15 @@ public abstract class Prover {
 	 */
 	public void setProverEngine(ProverEngine engine) {
 		this.engine = engine;
+	}
+
+	/**
+	 * Gets the prover engine.
+	 * 
+	 * @return the engine subsystem
+	 */
+	public ProverEngine getProverEngine() {
+		return this.engine;
 	}
 
 	/**

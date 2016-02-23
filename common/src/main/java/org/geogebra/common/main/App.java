@@ -3881,6 +3881,9 @@ public abstract class App implements UpdateSelection {
 			// add if you want to enable these tools for Android app:
 			// return true;
 
+		case IMPLICIT_LOCUS:
+			return prerelease;
+
 		default:
 			return false;
 

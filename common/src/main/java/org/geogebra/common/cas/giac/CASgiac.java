@@ -577,6 +577,11 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	}
 
+	public String createEliminateScript(String polys, String elimVars) {
+		return "eliminate([" + polys + "],revlist(["
+				+ elimVars + "]))";
+	}
+
 	public String createGroebnerSolvableScript(
 			HashMap<Variable, Integer> substitutions, String polys,
 			String freeVars, String dependantVars, boolean transcext) {

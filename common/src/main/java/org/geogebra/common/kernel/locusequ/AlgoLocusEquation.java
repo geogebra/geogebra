@@ -5,20 +5,32 @@ package org.geogebra.common.kernel.locusequ;
 
 
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.locusequ.arith.Equation;
+import org.geogebra.common.kernel.prover.ProverBotanasMethod;
+import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Prover;
+import org.geogebra.common.util.Prover.ProverEngine;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author sergio
@@ -31,6 +43,7 @@ public class AlgoLocusEquation extends AlgoElement {
 	private GeoImplicit geoPoly;
     private GeoElement[] efficientInput, standardInput;
     private EquationSystem old_system = null; // for caching
+	private GeoElement implicitLocus = null;
     
 	public AlgoLocusEquation(Construction cons, String label, GeoPoint locusPoint, GeoPoint movingPoint) {
 		this(cons, locusPoint, movingPoint);
@@ -42,6 +55,7 @@ public class AlgoLocusEquation extends AlgoElement {
         
         this.movingPoint = movingPoint;
         this.locusPoint  = locusPoint;
+		this.implicitLocus = null;
         
 		this.geoPoly = kernel.newImplicitPoly(cons);
         
@@ -49,11 +63,36 @@ public class AlgoLocusEquation extends AlgoElement {
         compute();
     }
 
+	public AlgoLocusEquation(Construction cons, String label,
+			GeoElement implicitLocus, GeoPoint movingPoint) {
+		this(cons, implicitLocus, movingPoint);
+		this.geoPoly.setLabel(label);
+	}
+
+	public AlgoLocusEquation(Construction cons, GeoElement implicitLocus,
+			GeoPoint movingPoint) {
+		super(cons);
+
+		this.implicitLocus = implicitLocus;
+		this.movingPoint = movingPoint;
+
+		this.geoPoly = kernel.newImplicitPoly(cons);
+
+		setInputOutput();
+		compute();
+	}
+
 	/* (non-Javadoc)
 	 * @see geogebra.common.kernel.algos.AlgoElement#setInputOutput()
 	 */
 	@Override
 	protected void setInputOutput() {
+
+		if (implicitLocus != null) {
+			setInputOutputImplicit();
+			return;
+		}
+
 		// it is inefficient to have Q and P as input
         // let's take all independent parents of Q
         // and the path as input
@@ -97,6 +136,12 @@ public class AlgoLocusEquation extends AlgoElement {
 	 */
 	@Override
 	public void compute() {
+
+		if (implicitLocus != null) {
+			computeImplicit();
+			return;
+		}
+
 		EquationSystem system = getOriginalIdeal();
 		/* geoPoly is set to undefined until the CAS is loaded properly.
 		 * On loading a GGB file geoPoly may be, however, defined, but
@@ -212,15 +257,129 @@ public class AlgoLocusEquation extends AlgoElement {
 	public Commands getClassName() {
 		return Commands.LocusEquation;
 	}
-
-	/* (non-Javadoc)
-	 * @see geogebra.common.kernel.algos.AlgoElement#buildEquationElementForGeo(geogebra.common.kernel.geos.GeoElement, geogebra.common.kernel.locusequ.EquationScope)
-	 */
 	
+	private String getImplicitPoly() throws Throwable {
+		Prover p = UtilFactory.prototype.newProver();
+		p.setProverEngine(ProverEngine.LOCUS_IMPLICIT);
+		ProverBotanasMethod pbm = new ProverBotanasMethod();
+		AlgebraicStatement as = pbm.new AlgebraicStatement(implicitLocus, p);
+		Set<Set<Polynomial>> eliminationIdeal;
+		HashMap<Variable, Integer> substitutions = new HashMap<Variable, Integer>();
+		List<GeoElement> freePoints = ProverBotanasMethod
+				.getFreePoints(implicitLocus);
+		Iterator<GeoElement> it = freePoints.iterator();
+		String vx = "", vy = "";
+		while (it.hasNext()) {
+			GeoElement freePoint = it.next();
+			Variable[] vars = ((SymbolicParametersBotanaAlgo) freePoint)
+					.getBotanaVars(freePoint);
+			if (!movingPoint.equals(freePoint)) {
+				substitutions.put(vars[0],
+						(int) ((GeoPoint) freePoint).getInhomX());
+				substitutions.put(vars[1],
+						(int) ((GeoPoint) freePoint).getInhomY());
+			} else {
+				vx = vars[0].toString();
+				vy = vars[1].toString();
+			}
+		}
 
-	/* (non-Javadoc)
-	 * @see geogebra.common.kernel.algos.ConstructionElement#isLocusEquable()
-	 */
-	
+		eliminationIdeal = Polynomial.eliminate(
+				as.getPolynomials().toArray(
+						new Polynomial[as.getPolynomials().size()]),
+				substitutions, implicitLocus.getKernel(), 0, false);
 
+		Polynomial result = null;
+		Iterator<Set<Polynomial>> it1 = eliminationIdeal.iterator();
+		if (it1.hasNext()) {
+			Set<Polynomial> results1 = it1.next();
+			Iterator<Polynomial> it2 = results1.iterator();
+			if (it2.hasNext()) {
+				result = it2.next();
+			}
+		}
+
+		if (result == null) {
+			Log.warn("No implicit locus equation found");
+			return null;
+		}
+
+		String implicitCurveString = result.toString().replaceAll(vx, "x")
+				.replaceAll(vy, "y");
+		Log.debug("Implicit locus equation: " + implicitCurveString);
+
+		// This piece of code has been directly copied from CASgiac.java:
+		StringBuilder script = new StringBuilder();
+		script.append("[[aa:=")
+				.append(implicitCurveString)
+				.append("],")
+				.append("[bb:=coeffs(aa,x)], [sx:=size(bb)], [sy:=size(coeffs(aa,y))],")
+				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
+				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
+				.append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;")
+				.append("cc:=append(cc,ee); od; od],cc][6]");
+
+		GeoGebraCAS cas = (GeoGebraCAS) implicitLocus.getKernel()
+				.getGeoGebraCAS();
+		try {
+			String impccoeffs = cas.getCurrentCAS().evaluateRaw(
+					script.toString());
+			Log.debug("Output from giac: " + impccoeffs);
+			return impccoeffs.substring(1, impccoeffs.length() - 1);
+		} catch (Exception ex) {
+			Log.warn("Error computing locus equation");
+			return null;
+		}
+	}
+
+	protected void setInputOutputImplicit() {
+
+		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
+		inSet.add(this.movingPoint);
+		Iterator<GeoElement> it = this.implicitLocus.getAllPredecessors()
+				.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo.isIndependent() || geo.isPointOnPath()) {
+				inSet.add(geo);
+			}
+		}
+		inSet.remove(movingPoint);
+
+		efficientInput = new GeoElement[inSet.size()];
+		efficientInput = inSet.toArray(efficientInput);
+
+		standardInput = new GeoElement[2];
+		standardInput[0] = this.implicitLocus;
+		standardInput[1] = this.movingPoint;
+
+		setOutputLength(1);
+		setOutput(0, this.geoPoly.toGeoElement());
+
+		setEfficientDependencies(standardInput, efficientInput);
+
+	}
+
+	public void computeImplicit() {
+		String result = null;
+		try {
+			result = getImplicitPoly();
+		} catch (Throwable ex) {
+			Log.warn("Error computing implicit curve");
+		}
+
+		if (result != null) {
+			try {
+				this.geoPoly.setCoeff(CASTranslator
+						.getBivarPolyCoefficientsSingular(result));
+				this.geoPoly.setDefined();
+
+				// Timeout => set undefined
+			} catch (Exception e) {
+				this.geoPoly.setUndefined();
+			}
+		} else {
+			this.geoPoly.setUndefined();
+		}
+	}
 }

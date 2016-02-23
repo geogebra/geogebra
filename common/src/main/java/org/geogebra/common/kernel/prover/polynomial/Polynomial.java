@@ -1052,7 +1052,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return elements of the elimination ideal or null if computation failed
 	 */
 	public static Set<Set<Polynomial>> eliminate(Polynomial[] eqSystem,
-			HashMap<Variable, Integer> substitutions, Kernel kernel, int permutation) {
+			HashMap<Variable, Integer> substitutions, Kernel kernel,
+			int permutation, boolean factorized) {
 
 		TreeSet<Variable> dependentVariables = new TreeSet<Variable>();
 		TreeSet<Variable> freeVariables = new TreeSet<Variable>();
@@ -1084,7 +1085,8 @@ public class Polynomial implements Comparable<Polynomial> {
 		String elimResult, elimProgram;
 		App.debug("Eliminating system in " + variables.size() + " variables (" + dependentVariables.size() + " dependent)");
 		
-		if (App.singularWS != null && App.singularWS.isAvailable()) {
+		if (App.singularWS != null && App.singularWS.isAvailable()
+				&& factorized) {
 
 			/*
 			 * In most cases the revlex permutation gives good (readable) result, but not always.
@@ -1159,7 +1161,8 @@ public class Polynomial implements Comparable<Polynomial> {
 			}
 		} else {
 			
-			// If SingularWS is not applicable, then we try to use the internal CAS:
+			// If SingularWS is not applicable or don't need factorization, then
+			// we try to use the internal CAS:
 			GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 			
 			String polys = getPolysAsCommaSeparatedString(eqSystemSubstituted);
@@ -1168,14 +1171,26 @@ public class Polynomial implements Comparable<Polynomial> {
 			// elimVars = dependentVariables.toString().replaceAll(" ", "");
 			// elimVars = elimVars.substring(1, elimVars.length()-1);
 
-			elimProgram = cas.getCurrentCAS().createEliminateFactorizedScript(polys, elimVars);
+			if (factorized) {
+				elimProgram = cas.getCurrentCAS()
+						.createEliminateFactorizedScript(polys, elimVars);
+			} else {
+				elimProgram = cas.getCurrentCAS().createEliminateScript(polys,
+						elimVars);
+			}
 			if (elimProgram == null) {
 				Log.info("Not implemented (yet)");
 				return null; // cannot decide
 			}
-			Log.info("[eliminateFactorized] input to cas: "+elimProgram);
+			Log.info("[eliminate] input to cas: " + elimProgram);
 			elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_").replace("unicode91u", "[");
-			Log.info("[eliminateFactorized] output from cas: "+elimResult);	
+			Log.info("[eliminate] output from cas: " + elimResult);
+			if (!factorized) {
+				elimResult = "[1]: [1]: _[1]=1 _[2]="
+						+ elimResult.substring(1, elimResult.length() - 1)
+						+ " [2]: 1,1";
+				Log.info("[eliminate] rewritten: " + elimResult);
+			}
 		}
 
 		// Singular returns "empty list", Giac "{0}" when the statement is

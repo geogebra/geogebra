@@ -45,6 +45,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Prover.NDGCondition;
 import org.geogebra.common.util.Prover.ProofResult;
+import org.geogebra.common.util.Prover.ProverEngine;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -86,7 +87,7 @@ public class ProverBotanasMethod {
 	 *            the input statement
 	 * @return list of free points
 	 */
-	protected static List<GeoElement> getFreePoints(GeoElement statement) {
+	public static List<GeoElement> getFreePoints(GeoElement statement) {
 		List<GeoElement> freePoints = new ArrayList<GeoElement>();
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
@@ -320,7 +321,8 @@ public class ProverBotanasMethod {
 	 * Translation of a geometric statement into an algebraic one. We use
 	 * polynomials and integer coefficients. The computations assume that a
 	 * complex algebraic geometry approach will be used based on the Groebner
-	 * basis method.
+	 * basis method (or Wu's characteristic method, but that's not yet
+	 * implemented).
 	 */
 	public class AlgebraicStatement {
 		/**
@@ -344,6 +346,14 @@ public class ProverBotanasMethod {
 		 * Should the "true" result be interpreted as undefined?
 		 */
 		boolean interpretTrueAsUndefined = false;
+		
+		/**
+		 * @return the polynomials
+		 */
+		public Set<Polynomial> getPolynomials() {
+			return polynomials;
+		}
+
 		/**
 		 * Number of maximal fix coordinates. -1 if no limit. Sometimes we need
 		 * to limit the maximum if the construction contains constrained point
@@ -828,13 +838,23 @@ public class ProverBotanasMethod {
 
 				int k = polynomials.size();
 
+				int minus = 1;
+				if (geoProver.getProverEngine() == ProverEngine.LOCUS_IMPLICIT) {
+					minus = 0;
+				}
+
 				Log.debug("Thesis equations (non-denied ones):");
 				for (int i = 0; i < statements.length; ++i) {
-					for (int j = 0; j < statements[i].length - 1; ++j) {
+					for (int j = 0; j < statements[i].length - minus; ++j) {
 						Log.debug((k + 1) + ". " + statements[i][j]);
 						polynomials.add(statements[i][j]);
 						k++;
 					}
+				}
+
+				if (geoProver.getProverEngine() == ProverEngine.LOCUS_IMPLICIT) {
+					Log.debug("Not using refutation");
+					return;
 				}
 
 				/*
@@ -891,7 +911,9 @@ public class ProverBotanasMethod {
 			 * Only for the Prove command makes sense to set up extra NDG
 			 * conditions
 			 */
-			if (ProverSettings.freePointsNeverCollinear
+			if (prover != null
+					&& ProverSettings.freePointsNeverCollinear != null
+					&& ProverSettings.freePointsNeverCollinear
 					&& !(prover.isReturnExtraNDGs())) {
 				for (Polynomial p : create3FreePointsNeverCollinearNDG(prover)) {
 					polynomials.add(p);
@@ -1002,7 +1024,8 @@ public class ProverBotanasMethod {
 
 				eliminationIdeal = Polynomial.eliminate(as.polynomials
 						.toArray(new Polynomial[as.polynomials.size()]),
-						substitutions, statement.getKernel(), permutation++);
+						substitutions, statement.getKernel(), permutation++,
+						true);
 				if (eliminationIdeal == null) {
 					return ProofResult.UNKNOWN;
 				}

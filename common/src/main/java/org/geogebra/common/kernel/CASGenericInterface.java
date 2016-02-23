@@ -3,7 +3,6 @@ package org.geogebra.common.kernel;
 import java.util.HashMap;
 
 import org.geogebra.common.cas.GeoGebraCAS;
-import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -135,6 +134,17 @@ public interface CASGenericInterface extends SettingListener {
 	 * @return factors in the same form as Singular gives
 	 */
 	public String createEliminateFactorizedScript(String polys, String elimVars);
+
+	/**
+	 * Creates a program to return the elimination ideal in non-factorized form.
+	 * 
+	 * @param polys
+	 *            input polynomials (comma separated strings)
+	 * @param elimVars
+	 *            variables to eliminate (comma separated strings)
+	 * @return the elimination ideal
+	 */
+	public String createEliminateScript(String polys, String elimVars);
 
 	/**
 	 * Creates a program to check if an equation system has no solution, using
