@@ -13,7 +13,6 @@ import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.VirtualKeyboardListener;
-import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.javax.swing.GBox;
@@ -1211,15 +1210,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			// check for eg alt-shift-a for upper case alpha
 			if (e.isAltKeyDown()) {
 
-				char c = (char) keyCode;
-
-				String s;
-
-				if (e.isShiftKeyDown()) {
-					s = AltKeys.LookupUpper.get(c);
-				} else {
-					s = AltKeys.LookupLower.get(c);
-				}
+				String s = app.getGlobalKeyDispatcher().getAltSymbols(keyCode,
+						e.isShiftKeyDown());
 
 				if (s != null) {
 					insertString(s);
