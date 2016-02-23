@@ -121,13 +121,13 @@ public class ExamEnvironment {
 			sb.append(' ');
 		}
 		if (supportsCAS == false) {
-			sb.append("CAS");
+			sb.append(loc.getMenu("Perspective.CAS"));
 		}
 		if (supportsCAS == false && supports3D == false) {
 			sb.append("," + ' ');
 		}
 		if (supports3D == false) {
-			sb.append("3D Graphics");
+			sb.append(loc.getMenu("Perspective.3DGraphics"));
 		}
 		sb.append("<br>");
 
