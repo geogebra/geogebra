@@ -75,8 +75,8 @@ public class DrawLocus extends Drawable {
 			labelDesc = geo.getLabelDescription();
 			xLabel = (int) (lastPointCoords[0] - 5);
 			yLabel = (int) (lastPointCoords[1] + 4 + view.getFontSize());
-			addLabelOffsetEnsureOnScreen(1.25, 1.0); // we add 25% width for
-														// sure
+			// we add 25% width for sure
+			addLabelOffsetEnsureOnScreen(1.25, 1.0, view.getFontLine());
 		}
 
 		// draw trace

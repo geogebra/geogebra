@@ -37,8 +37,8 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -333,7 +333,7 @@ public final class DrawPoint extends Drawable {
 			labelDesc = geo.getLabelDescription();
 			xLabel = (int) Math.round(coords[0] + 4);
 			yLabel = (int) Math.round(yUL - pointSize);
-			addLabelOffsetEnsureOnScreen();
+			addLabelOffsetEnsureOnScreen(view.getFontPoint());
 		}
 	}
 
@@ -375,7 +375,7 @@ public final class DrawPoint extends Drawable {
 
 		default:
 			drawable = null;
-			App.debug("unsupported type for restricted drawing "
+			Log.debug("Unsupported type for restricted drawing "
 					+ geo2.getGeoClassType());
 		}
 

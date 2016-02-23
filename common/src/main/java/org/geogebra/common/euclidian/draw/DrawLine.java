@@ -222,7 +222,7 @@ public class DrawLine extends Drawable implements Previewable {
 			if (labelVisible) {
 				labelDesc = geo.getLabelDescription();
 				setLabelPosition();
-				addLabelOffsetEnsureOnScreen();
+				addLabelOffsetEnsureOnScreen(view.getFontLine());
 			}
 		}
 	}
@@ -470,7 +470,7 @@ public class DrawLine extends Drawable implements Previewable {
 
 	private org.geogebra.common.awt.GPoint2D endPoint = org.geogebra.common.factories.AwtFactory.prototype
 			.newPoint2D();
-
+	private final Coords coordsForMousePos = new Coords(4);
 	public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
@@ -478,7 +478,6 @@ public class DrawLine extends Drawable implements Previewable {
 
 		if (isVisible) {
 
-			Coords coords;
 
 			switch (previewMode) {
 			case LINE:
@@ -509,10 +508,12 @@ public class DrawLine extends Drawable implements Previewable {
 				// line through first point and mouse position
 				// coords = startPoint.getCoordsInD2().crossProduct(new
 				// Coords(xRW, yRW, 1));
-				coords = view.getCoordsForView(startPoint.getInhomCoordsInD3())
-						.projectInfDim().crossProduct(new Coords(xRW, yRW, 1));
-				((GeoLine) g).setCoords(coords.getX(), coords.getY(),
-						coords.getZ());
+				this.coordsForMousePos.setCrossProduct(
+						view.getCoordsForView(startPoint.getInhomCoordsInD3())
+								.projectInfDim(), new Coords(xRW, yRW, 1));
+
+				((GeoLine) g).setCoords(coordsForMousePos.getX(),
+						coordsForMousePos.getY(), coordsForMousePos.getZ());
 				// GeoVec3D.cross(startPoint, xRW, yRW, 1.0, g);
 
 				break;
@@ -534,9 +535,9 @@ public class DrawLine extends Drawable implements Previewable {
 				break;
 			case PERPENDICULAR_BISECTOR:
 				// calc the perpendicular bisector
-				coords = startPoint.getInhomCoordsInD2();
-				double startx = coords.getX();
-				double starty = coords.getY();
+				coordsForMousePos.set(startPoint.getInhomCoordsInD2());
+				double startx = coordsForMousePos.getX();
+				double starty = coordsForMousePos.getY();
 				GeoVec3D.cross((xRW + startx) / 2, (yRW + starty) / 2, 1.0,
 						-yRW + starty, xRW - startx, 0.0, ((GeoLine) g));
 
@@ -548,12 +549,16 @@ public class DrawLine extends Drawable implements Previewable {
 				// GeoVec3D.cross(previewPoint2, startPoint, g1);
 				// GeoVec3D.cross(previewPoint2, xRW, yRW, 1.0, h);
 
-				coords = previewPoint2.getCoordsInD2().crossProduct(
+				coordsForMousePos.setCrossProduct(
+						previewPoint2.getCoordsInD2(),
 						startPoint.getCoordsInD2());
-				g1.setCoords(coords.getX(), coords.getY(), coords.getZ());
-				coords = previewPoint2.getCoordsInD2().crossProduct(
+				g1.setCoords(coordsForMousePos.getX(),
+						coordsForMousePos.getY(), coordsForMousePos.getZ());
+				coordsForMousePos.setCrossProduct(
+						previewPoint2.getCoordsInD2(),
 						new Coords(xRW, yRW, 1));
-				h.setCoords(coords.getX(), coords.getY(), coords.getZ());
+				h.setCoords(coordsForMousePos.getX(), coordsForMousePos.getY(),
+						coordsForMousePos.getZ());
 
 				// (gx, gy) is direction of g = B v A
 				double g2x = g1.y;
@@ -602,10 +607,10 @@ public class DrawLine extends Drawable implements Previewable {
 				// wv.y = wy;
 
 				// set bisector
-				coords = previewPoint2.getInhomCoordsInD2();
+				this.coordsForMousePos.set(previewPoint2.getInhomCoordsInD2());
 				((GeoLine) g).x = -wy;
 				((GeoLine) g).y = wx;
-				((GeoLine) g).z = -(coords.getX() * ((GeoLine) g).x + coords
+				((GeoLine) g).z = -(coordsForMousePos.getX() * ((GeoLine) g).x + coordsForMousePos
 						.getY() * ((GeoLine) g).y);
 
 				break;

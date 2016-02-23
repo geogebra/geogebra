@@ -283,12 +283,12 @@ public abstract class Drawable extends DrawableND {
 	 * @param Ymultiplier
 	 *            multiply the y size by it to ensure fitting (default: 1.0)
 	 */
-	private void ensureLabelDrawsOnScreen(double Xmultiplier, double Ymultiplier) {
+	private void ensureLabelDrawsOnScreen(double Xmultiplier,
+			double Ymultiplier, GFont font) {
 		// draw label and
 		int widthEstimate = (int) labelRectangle.getWidth();
 		int heightEstimate = (int) labelRectangle.getHeight();
 
-		GFont font = view.getApplication().getPlainFontCommon();
 
 		if (oldLabelDesc != labelDesc || lastFontSize != font.getSize()) {
 			if (labelDesc.startsWith("$")) {
@@ -441,9 +441,12 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * Adds geo's label offset to xLabel and yLabel.
 	 * 
+	 * @param font
+	 *            used font
+	 * 
 	 */
-	public final void addLabelOffsetEnsureOnScreen() {
-		addLabelOffsetEnsureOnScreen(1.0, 1.0);
+	public final void addLabelOffsetEnsureOnScreen(GFont font) {
+		addLabelOffsetEnsureOnScreen(1.0, 1.0, font);
 	}
 
 	/**
@@ -456,13 +459,13 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 */
 	public final void addLabelOffsetEnsureOnScreen(double Xmultiplier,
-			double Ymultiplier) {
+			double Ymultiplier, GFont font) {
 		// MAKE SURE LABEL STAYS ON SCREEN
 		xLabel += geo.labelOffsetX;
 		yLabel += geo.labelOffsetY;
 
 		// change xLabel and yLabel so that label stays on screen
-		ensureLabelDrawsOnScreen(Xmultiplier, Ymultiplier);
+		ensureLabelDrawsOnScreen(Xmultiplier, Ymultiplier, font);
 	}
 
 	/**

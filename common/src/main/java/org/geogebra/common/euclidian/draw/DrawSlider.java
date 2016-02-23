@@ -308,7 +308,7 @@ public class DrawSlider extends Drawable {
 			labelDesc = geo.getLabelDescription();
 			xLabel = (int) Math.round(coords[0] + 4);
 			yLabel = (int) Math.round(yUL - pointSize);
-			addLabelOffsetEnsureOnScreen();
+			addLabelOffsetEnsureOnScreen(view.getFontPoint());
 		}
 	}
 
