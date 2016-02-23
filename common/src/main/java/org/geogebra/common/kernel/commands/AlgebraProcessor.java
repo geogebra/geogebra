@@ -609,7 +609,13 @@ public class AlgebraProcessor {
 		ValidExpression ve;
 		try {
 			ve = parser.parseGeoGebraExpression(cmd);
-
+			GeoCasCell casEval = checkCasEval(ve.getLabel(), cmd);
+			if (casEval != null) {
+				if (callback0 != null) {
+					callback0.callback(casEval);
+				}
+				return new GeoElement[0];
+			}
 			// collect undefined variables
 			CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 			ve.traverse(collecter);
@@ -805,6 +811,43 @@ public class AlgebraProcessor {
 	}
 
 
+
+	/**
+	 * @param label
+	 *            dollar label
+	 * @param cmd
+	 *            whole command including label
+	 * @return cell
+	 */
+	public GeoCasCell checkCasEval(String label, String cmd) {
+		if (label != null && label.startsWith("$")) {
+			Integer row = -1;
+			try {
+				row = Integer.parseInt(label.substring(1)) - 1;
+			} catch (Exception e) {
+				// eg $A$1 label, do nothing
+			}
+			if (row < 0) {
+				return null;
+			}
+			GeoCasCell cell = cons.getCasCell(row);
+			if (cell == null) {
+				cell = new GeoCasCell(cons);
+			}
+			int colonPos = cmd.indexOf(':') + 1;
+			int eqPos = cmd.indexOf('=') + 1;
+			int prefixLength = eqPos > 0 ? (colonPos > 0 ? Math.min(colonPos,
+					eqPos) : eqPos) : colonPos;
+			if (cmd.charAt(prefixLength) == '=') {
+				prefixLength++;
+			}
+			
+			cell.setInput(cmd.substring(prefixLength));
+			this.processCasCell(cell, false);
+			return cell;
+		}
+		return null;
+	}
 
 	/**
 	 * @param ve

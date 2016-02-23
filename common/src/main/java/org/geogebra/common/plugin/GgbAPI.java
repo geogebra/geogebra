@@ -148,12 +148,16 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			// kernel.getConstruction().addToConstructionList(f, false);
 
 			f.setInput(cmdString);
-
+			if (f.getInputVE() != null && f.getInputVE().getLabel() != null) {
+				kernel.getAlgebraProcessor().checkCasEval(
+						f.getInputVE().getLabel(),
+						cmdString);
+			}
 			f.computeOutput();
 
 			boolean includesNumericCommand = false;
 			HashSet<Command> commands = new HashSet<Command>();
-
+			
 			f.getInputVE().traverse(CommandCollector.getCollector(commands));
 
 			if (!commands.isEmpty()) {

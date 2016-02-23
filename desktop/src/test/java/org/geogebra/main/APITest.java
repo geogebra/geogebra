@@ -85,6 +85,8 @@ public class APITest {
 
 	@Test
 	public void casEvalTest() {
+		String assignResult = api.evalCommandCAS("$1:=a+a");
+		Assert.assertEquals("2a", assignResult);
 		String solveResult = api
 				.evalGeoGebraCAS("Solve[{ a=2, 12*sqrt(3)* a* b^2*exp(-3* b)-6*sqrt(3)* a* b*exp(-3* b)=0},{ a, b}]");
 		Assert.assertEquals("{{a = 2, b = 0}, {a = 2, b = 1 / 2}}", solveResult);
