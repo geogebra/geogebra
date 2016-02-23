@@ -20,11 +20,10 @@ public class FontManagerW extends FontManager {
 	@Override
 	public GFont getFontCanDisplay(String testString, boolean serif,
 	        int fontStyle, int fontSize1) {
-		org.geogebra.web.html5.awt.GFontW ret = new org.geogebra.web.html5.awt.GFontW("normal");
-		ret.setFontStyle(fontStyle);
-		ret.setFontSize(fontSize1);
-		ret.setFontFamily(serif ? "geogebra-serif, serif"
-		        : "geogebra-sans-serif, sans-serif");
+		org.geogebra.web.html5.awt.GFontW ret = new org.geogebra.web.html5.awt.GFontW(
+				serif ? "geogebra-serif, serif"
+						: "geogebra-sans-serif, sans-serif", fontStyle,
+				fontSize1);
 		return ret;
 	}
 

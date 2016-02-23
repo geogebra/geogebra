@@ -4,9 +4,9 @@ package org.geogebra.web.html5.awt;
 public class GFontW extends org.geogebra.common.awt.GFont {
 	public static final int BOLD = 1;
 	public static final int ITALIC = 2;
-	public static final String NORMAL_STR = "normal";
-	public static final String BOLD_STR = "bold";
-	public static final String ITALIC_STR = "italic";
+	private static final String NORMAL_STR = "normal";
+	private static final String BOLD_STR = "bold";
+	private static final String ITALIC_STR = "italic";
 	private String fontStyle = NORMAL_STR;
 	private String fontVariant = NORMAL_STR;
 	private String fontWeight = NORMAL_STR;
@@ -24,7 +24,7 @@ public class GFontW extends org.geogebra.common.awt.GFont {
 	}
 
 	public GFontW(String fontStyle) {
-		this.setFontStyle(fontStyle);
+		this.fontStyle = fontStyle;
 	}
 
 	public GFontW(String name, int style, int size) {
@@ -38,10 +38,6 @@ public class GFontW extends org.geogebra.common.awt.GFont {
 		fontSize = size + "";
 		setFontStyle(style);
 
-	}
-
-	public void setFontStyle(String fontStyle) {
-		this.fontStyle = fontStyle;
 	}
 
 	public String getFontStyle() {
@@ -61,16 +57,8 @@ public class GFontW extends org.geogebra.common.awt.GFont {
 		return fontVariant;
 	}
 
-	public void setFontWeight(String fontWeight) {
-		this.fontWeight = fontWeight;
-	}
-
 	public String getFontWeight() {
 		return fontWeight;
-	}
-
-	public void setFontSize(String fontSize) {
-		this.fontSize = fontSize;
 	}
 
 	public String getFontSize() {
@@ -85,18 +73,8 @@ public class GFontW extends org.geogebra.common.awt.GFont {
 		return lineHeight;
 	}
 
-	public void setFontFamily(String fontFamily) {
-		this.fontFamily = fontFamily;
-	}
-
 	public String getFontFamily() {
 		return fontFamily;
-	}
-
-	public GFontW deriveFont(String fontStyle2, final int newSize) {
-		GFontW f = new GFontW(fontStyle2);
-		f.setFontSize(newSize);
-		return f;
 	}
 
 	@Override
@@ -107,32 +85,24 @@ public class GFontW extends org.geogebra.common.awt.GFont {
 		return -1;
 	}
 
-	public void setFontStyle(int fontStyle) {
+	private void setFontStyle(int fontStyle) {
 		switch (fontStyle) {
 		case BOLD:
-			setFontWeight(BOLD_STR);
-			setFontStyle(NORMAL_STR);
+			this.fontWeight = BOLD_STR;
+			this.fontStyle = NORMAL_STR;
 			break;
 		case ITALIC:
-			setFontWeight(NORMAL_STR);
-			setFontStyle(ITALIC_STR);
+			this.fontWeight = NORMAL_STR;
+			this.fontStyle = ITALIC_STR;
 			break;
 		case (BOLD + ITALIC):
-			setFontWeight(BOLD_STR);
-			setFontStyle(ITALIC_STR);
+			this.fontWeight = BOLD_STR;
+			this.fontStyle = ITALIC_STR;
 			break;
 		default:
-			setFontStyle(NORMAL_STR);
-			setFontWeight(NORMAL_STR);
+			this.fontStyle = NORMAL_STR;
+			this.fontWeight = NORMAL_STR;
 		}
-	}
-
-	/**
-	 * @param fontSize
-	 *            font size
-	 */
-	public void setFontSize(int fontSize) {
-		this.fontSize = "" + fontSize;
 	}
 
 	@Override
@@ -156,10 +126,11 @@ public class GFontW extends org.geogebra.common.awt.GFont {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GFont deriveFont(int plain2, int fontSize) {
+	public org.geogebra.common.awt.GFont deriveFont(int plain2, int newFontSize) {
 		GFontW ret = new GFontW(fontStyle);
+		ret.fontFamily = fontFamily;
 		ret.setFontStyle(plain2);
-		ret.setFontSize(fontSize);
+		ret.fontSize = newFontSize + "";
 		return ret;
 	}
 
@@ -172,7 +143,7 @@ public class GFontW extends org.geogebra.common.awt.GFont {
 	public org.geogebra.common.awt.GFont deriveFont(int i) {
 		GFontW ret = new GFontW(fontStyle);
 		ret.setFontStyle(i);
-		ret.setFontSize(fontSize);
+		ret.fontSize = fontSize;
 		return ret;
 	}
 
