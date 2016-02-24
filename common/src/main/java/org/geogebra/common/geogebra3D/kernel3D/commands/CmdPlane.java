@@ -1,13 +1,16 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentVector3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.Operation;
 
 public class CmdPlane extends CommandProcessor {
 
@@ -66,6 +69,24 @@ public class CmdPlane extends CommandProcessor {
 						(GeoPointND) arg[2]) };
 				return ret;
 			}
+
+			// implement Plane[(1,2,3),Vector[(3,-3,1)],Vector[(2,2,-1)]] as
+			// shortcut/macro for
+			// PerpendicularPlane[(1,2,3),Vector[(3,-3,1)]\u2297Vector[(2,2,-1)]]
+			if ((ok[0] = (arg[0].isGeoPoint()))
+					&& (ok[1] = (arg[1].isGeoVector()))
+					&& (ok[2] = (arg[2].isGeoVector()))) {
+				ExpressionNode cross = new ExpressionNode(kernelA, arg[1],
+						Operation.VECTORPRODUCT, arg[2]);
+
+				AlgoDependentVector3D algo = new AlgoDependentVector3D(cons,
+						cross);
+
+				return new GeoElement[] { (GeoElement) kernelA.getManager3D()
+						.OrthogonalPlane3D(c.getLabel(), (GeoPointND) arg[0],
+								algo.getVector3D()) };
+			}
+
 
 			if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
