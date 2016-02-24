@@ -255,7 +255,7 @@ response,
 	 * @param cb
 	 *            MaterialCallback
 	 */
-	public void uploadMaterial(App app, int tubeID, String visibility,
+	public void uploadMaterial(int tubeID, String visibility,
 	        final String filename,
  String base64, final MaterialCallback cb,
 			MaterialType type) {
@@ -277,10 +277,10 @@ response,
 	 * @param cb
 	 *            {@link MaterialCallback}
 	 */
-	public void uploadRenameMaterial(final AppW app, Material mat,
+	public void uploadRenameMaterial(Material mat,
 	        final MaterialCallback cb) {
 		performRequest(
-		        UploadRequest.getRequestElement(app, mat.getTitle(),
+				UploadRequest.getRequestElement(mat.getTitle(),
 		                mat.getId()).toJSONString(client), cb);
 	}
 
@@ -297,7 +297,8 @@ response,
 	public void uploadLocalMaterial(final AppW app, final Material mat,
 	        final MaterialCallback cb) {
 		performRequest(
-		        UploadRequest.getRequestElement(app, mat).toJSONString(client),
+UploadRequest.getRequestElement(mat)
+				.toJSONString(client),
 		        cb);
 	}
 
@@ -309,9 +310,10 @@ response,
 	 * @param cb
 	 *            {@link MaterialCallback}
 	 */
-	public void deleteMaterial(AppW app, Material material,
+	public void deleteMaterial(Material material,
 	        final MaterialCallback cb) {
-		performRequest(DeleteRequest.getRequestElement(app, material)
+		performRequest(
+				DeleteRequest.getRequestElement(material)
 		        .toJSONString(client), cb);
 	}
 
@@ -344,9 +346,9 @@ response,
 		        cb);
 	}
 
-	public void sync(AppW app, long timestamp, final SyncCallback cb) {
+	public void sync(long timestamp, final SyncCallback cb) {
 		this.performRequest(
-		        new SyncRequest(app, timestamp).toJSONString(client),
+new SyncRequest(timestamp).toJSONString(client),
 		        false, new AjaxCallback() {
 
 			        @Override

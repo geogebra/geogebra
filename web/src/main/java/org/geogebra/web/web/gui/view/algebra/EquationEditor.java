@@ -313,7 +313,8 @@ public class EquationEditor {
 		}
 		if (slatex != null) {
 			slatex = slatex.replace("\\$", "\\dollar ").replace("$",
-					"\\dollar ");
+ "\\dollar ").replace("(", "\\left(")
+					.replace(")", "\\right)");
 		}
 		org.geogebra.web.html5.main.DrawEquationW.updateEditingMathQuillGGB(
 				component.getLaTeXSpan(), slatex, shallfocus);

@@ -5,7 +5,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Request;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONString;
-import org.geogebra.web.html5.main.AppW;
 
 public class DeleteRequest implements Request {
 
@@ -21,7 +20,7 @@ public class DeleteRequest implements Request {
 	 * @param material
 	 *            {@link Material}
 	 */
-	DeleteRequest(AppW app, Material material) {
+	DeleteRequest(Material material) {
 		this.material = material;
 	}
 
@@ -57,7 +56,7 @@ public class DeleteRequest implements Request {
 	 *            Material
 	 * @return DeleteRequest
 	 */
-	public static DeleteRequest getRequestElement(AppW app, Material mat) {
-		return new DeleteRequest(app, mat);
+	public static DeleteRequest getRequestElement(Material mat) {
+		return new DeleteRequest(mat);
 	}
 }

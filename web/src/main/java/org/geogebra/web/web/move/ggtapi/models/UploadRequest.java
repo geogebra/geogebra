@@ -55,7 +55,7 @@ public class UploadRequest implements Request {
 	 * @param mat
 	 *            Material
 	 */
-	UploadRequest(AppW app, Material mat) {
+	UploadRequest(Material mat) {
 		this.consTitle = mat.getTitle();
 		this.type = mat.getType() == MaterialType.ggb ? "applet" : mat
 				.getType().name();
@@ -76,7 +76,7 @@ public class UploadRequest implements Request {
 	 * @param id
 	 *            int
 	 */
-	UploadRequest(AppW app, String newTitle, int id) {
+	UploadRequest(String newTitle, int id) {
 		this.consTitle = newTitle;
 		this.uniqueID = id;
 		this.type = "applet"; // TODO can this be ignored
@@ -167,8 +167,8 @@ public class UploadRequest implements Request {
 	 *            {@link Material}
 	 * @return the upload XML as JSON String
 	 */
-	public static UploadRequest getRequestElement(AppW app, Material mat) {
-		return new UploadRequest(app, mat);
+	public static UploadRequest getRequestElement(Material mat) {
+		return new UploadRequest(mat);
 	}
 
 	/**
@@ -182,8 +182,8 @@ public class UploadRequest implements Request {
 	 *            int
 	 * @return the upload XML as JSON String
 	 */
-	public static UploadRequest getRequestElement(AppW app, String newTitle,
+	public static UploadRequest getRequestElement(String newTitle,
 	        int id) {
-		return new UploadRequest(app, newTitle, id);
+		return new UploadRequest(newTitle, id);
 	}
 }

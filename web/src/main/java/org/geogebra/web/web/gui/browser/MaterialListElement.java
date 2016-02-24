@@ -3,11 +3,11 @@ package org.geogebra.web.web.gui.browser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
@@ -79,7 +79,7 @@ public class MaterialListElement extends FlowPanel implements
 
 		@Override
 		public void run() {
-			App.debug("DELETE finished");
+			Log.debug("DELETE finished");
 			MaterialListElement.this.app.getGuiManager().getBrowseView()
 			        .setMaterialsDefaultStyle();
 		}
@@ -225,7 +225,9 @@ public class MaterialListElement extends FlowPanel implements
 		if (app.getNetworkOperation().isOnline() && this.material.getId() > 0) {
 
 			this.material.setTitle(this.title.getText());
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadRenameMaterial(this.app, this.material, new MaterialCallback() {
+			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+					.uploadRenameMaterial(this.material,
+							new MaterialCallback() {
 				
 				@Override
 				                public void onLoaded(
@@ -235,7 +237,7 @@ public class MaterialListElement extends FlowPanel implements
 						app.showError(app.getLocalization().getError("RenameFailed"));
 						title.setText(oldTitle);
 					                } else {
-						                App.debug("RENAME local");
+										Log.debug("RENAME local");
 						                material.setModified(parseResponse.get(
 						                        0).getModified());
 						                material.setSyncStamp(parseResponse
@@ -244,7 +246,7 @@ public class MaterialListElement extends FlowPanel implements
 						                if (material.getLocalID() <= 0) {
 							                return;
 						                }
-						                App.debug("RENAME CALLBACK" + oldTitle
+										Log.debug("RENAME CALLBACK" + oldTitle
 						                        + "->" + title.getText());
 						                material.setTitle(oldTitle);
 						                app.getFileManager().rename(
@@ -459,12 +461,12 @@ public class MaterialListElement extends FlowPanel implements
 
 		if (app.getNetworkOperation().isOnline() && toDelete.getId() > 0) {
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-			        .deleteMaterial(this.app, toDelete, new MaterialCallback() {
+					.deleteMaterial(toDelete, new MaterialCallback() {
 
 				@Override
 				        public void onLoaded(List<Material> parseResponse,
 				                ArrayList<Chapter> meta) {
-					        App.debug("DELETE local");
+							Log.debug("DELETE local");
 					remove();
 					        MaterialListElement.this.app.getFileManager()
 					                .delete(toDelete,
@@ -474,7 +476,7 @@ public class MaterialListElement extends FlowPanel implements
 
 				@Override
 				public void onError(Throwable exception) {
-					        App.debug("DELETE backup");
+							Log.debug("DELETE backup");
 					        MaterialListElement.this.app.getFileManager()
 					                .delete(toDelete,
 					                        false,
@@ -484,7 +486,7 @@ public class MaterialListElement extends FlowPanel implements
 				}
 			});
 		} else {
-			App.debug("DELETE permanent");
+			Log.debug("DELETE permanent");
 			this.app.getFileManager().delete(toDelete, toDelete.getId() <= 0,
 			        this.deleteCallback);
 		}
@@ -533,7 +535,7 @@ public class MaterialListElement extends FlowPanel implements
 	 */
 	protected void onEdit() {
 		if (!isLocal) {
-			App.debug(material.getType().toString());
+			Log.debug(material.getType().toString());
 			if(material.getType() == MaterialType.book){
 				((GeoGebraTubeAPIW) app.getLoginOperation()
 				        .getGeoGebraTubeAPI()).getBookItems(material.getId(),

@@ -4,7 +4,6 @@ import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Request;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONString;
-import org.geogebra.web.html5.main.AppW;
 
 /**
  * Upload request for GeoGebraTube
@@ -25,7 +24,7 @@ public class SyncRequest implements Request {
 	 * @param timestamp
 	 *            since when we want to see the events
 	 */
-	SyncRequest(AppW app, long timestamp) {
+	SyncRequest(long timestamp) {
 		this.timestamp = timestamp;
 	}
 

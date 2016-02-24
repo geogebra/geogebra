@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.geogebra.common.kernel.commands.CmdGetTime;
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -13,6 +12,7 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -114,7 +114,7 @@ public abstract class FileManager implements FileManagerI {
 
 		if (app.getTubeId() != 0) {
 			mat.setId(app.getTubeId());
-			App.debug("create material" + app.getSyncStamp());
+			Log.debug("create material" + app.getSyncStamp());
 			mat.setSyncStamp(app.getSyncStamp());
 		}
 		mat.setAuthorId(app.getLoginOperation().getModel().getUserId());
@@ -175,7 +175,7 @@ public abstract class FileManager implements FileManagerI {
 		}
 
 		this.notSyncedFileCount--;
-		App.debug("SYNC remains " + this.notSyncedFileCount);
+		Log.debug("SYNC remains " + this.notSyncedFileCount);
 		checkMaterialsToDownload(events);
 		sync(mat, new SyncEvent(0, 0));
 	}
@@ -225,13 +225,13 @@ public abstract class FileManager implements FileManagerI {
 		} else {
 			// no changes in Tube
 			if (mat.isDeleted()) {
-				App.debug("SYNC outgoing delete:" + mat.getId());
+				Log.debug("SYNC outgoing delete:" + mat.getId());
 				deleteFromTube(mat, dummyCallback);
 			} else if (mat.getId() > 0
 			        && mat.getModified() <= mat.getSyncStamp()) {
-				App.debug("SYNC material up to date" + mat.getId());
+				Log.debug("SYNC material up to date" + mat.getId());
 			} else {
-				App.debug("SYNC outgoing changes:" + mat.getId());
+				Log.debug("SYNC outgoing changes:" + mat.getId());
 				upload(mat);
 			}
 		}
@@ -242,7 +242,7 @@ public abstract class FileManager implements FileManagerI {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
 		        app.getLocalization().getPlain("SeveralVersionsOfA",
 						mat.getTitle()), true, app);
-		App.debug("SYNC fork: " + mat.getId());
+		Log.debug("SYNC fork: " + mat.getId());
 		final String format = app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "
 		        + Unicode.LeftToRightMark
 		        + "\\F"
@@ -276,7 +276,7 @@ public abstract class FileManager implements FileManagerI {
 				        checkSyncFinished();
 				        // edited on Tube, not edited locally
 				        if (parseResponse.size() == 1) {
-					        App.debug("SYNC downloading file:" + id);
+							Log.debug("SYNC downloading file:" + id);
 					        Material tubeMat = parseResponse.get(0);
 					        tubeMat.setSyncStamp(tubeMat.getModified());
 					        tubeMat.setFromAnotherDevice(fromAnotherDevice);
@@ -290,7 +290,7 @@ null,
 			        public void onError(final Throwable exception) {
 				        FileManager.this.notDownloadedFileCount--;
 				        checkSyncFinished();
-				        App.debug("SYNC error loading from tube" + id);
+						Log.debug("SYNC error loading from tube" + id);
 			        }
 		        });
 
@@ -311,7 +311,7 @@ null,
 
 				        // edited on Tube, not edited locally
 				        if (mat.getModified() <= mat.getSyncStamp()) {
-					        App.debug("SYNC incomming changes:" + mat.getId());
+							Log.debug("SYNC incomming changes:" + mat.getId());
 					        FileManager.this.updateFile(getFileKey(mat),
 					                parseResponse.get(0).getModified(),
 					                parseResponse.get(0));
@@ -321,7 +321,7 @@ null,
 
 			        @Override
 			        public void onError(final Throwable exception) {
-				        App.debug("SYNC error loading from tube" + mat.getId());
+						Log.debug("SYNC error loading from tube" + mat.getId());
 			        }
 		        });
 
@@ -333,7 +333,7 @@ null,
 			return;
 		}
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-		        .deleteMaterial(app, mat, new MaterialCallback() {
+				.deleteMaterial(mat, new MaterialCallback() {
 
 			        @Override
 			        public void onLoaded(final List<Material> parseResponse,
@@ -346,7 +346,7 @@ null,
 
 			        @Override
 			        public void onError(final Throwable exception) {
-				        App.debug("SYNC error deleting from tube" + mat.getId());
+						Log.debug("SYNC error deleting from tube" + mat.getId());
 			        }
 		        });
 

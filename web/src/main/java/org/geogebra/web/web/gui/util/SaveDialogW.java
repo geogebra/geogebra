@@ -537,7 +537,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	void doUploadToGgt(int tubeID, String visibility, String base64,
 	        MaterialCallback materialCallback) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-		        .uploadMaterial(app, tubeID, visibility, this.title.getText(),
+				.uploadMaterial(tubeID, visibility, this.title.getText(),
 						base64, materialCallback, this.saveType);
 	}
 
