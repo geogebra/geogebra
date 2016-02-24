@@ -21,7 +21,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
@@ -61,7 +60,7 @@ public class RendererImplShadersElements implements
 	public RendererImplShadersElements(RendererD renderer,
 			EuclidianView3D view,
 			RendererJogl jogl) {
-		App.debug("============== Renderer with shaders created (shaders checked ok)");
+		Log.debug("============== Renderer with shaders created (shaders checked ok)");
 		this.renderer = renderer;
 		this.view3D = view;
 		this.jogl = jogl;
@@ -178,7 +177,7 @@ public class RendererImplShadersElements implements
 				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS,
 				compiled, 0);
 		if (compiled[0] != 0) {
-			App.debug("Vertex shader compiled");
+			Log.debug("Vertex shader compiled");
 		} else {
 			int[] logLength = new int[1];
 			jogl.getGL2ES2().glGetShaderiv(vertShader,
@@ -726,7 +725,7 @@ public class RendererImplShadersElements implements
 			((ManagerShadersObj) renderer.getGeometryManager())
 					.startObjFile(writer);
 
-			App.debug("=== Creating .OBJ === ");
+			// App.debug("=== Creating .OBJ === ");
 			renderer.drawable3DLists.drawInObjFormat(renderer);
 
 			writer.close();

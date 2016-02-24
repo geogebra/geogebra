@@ -27,7 +27,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
@@ -60,7 +59,7 @@ public class RendererShaders extends RendererD implements
 		super(view, useCanvas);
 		hitting = new Hitting(view3D);
 
-		App.debug("Renderer with shaders created");
+		Log.debug("Renderer with shaders created");
 	}
 
 	@Override
@@ -744,7 +743,7 @@ public class RendererShaders extends RendererD implements
 
 			((ManagerShadersObj) getGeometryManager()).startObjFile(writer);
 
-			App.debug("=== Creating .OBJ === ");
+			// App.debug("=== Creating .OBJ === ");
 			drawable3DLists.drawInObjFormat(this);
 
 			writer.close();
