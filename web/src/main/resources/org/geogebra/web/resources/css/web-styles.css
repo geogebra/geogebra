@@ -6172,6 +6172,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	
 	.marble{
 		-webkit-print-color-adjust: exact;
+		margin-top: auto;
 	}
 	
 	.avItemContent .panelRow{
