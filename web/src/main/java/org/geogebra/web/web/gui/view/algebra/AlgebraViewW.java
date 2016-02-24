@@ -38,9 +38,7 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
