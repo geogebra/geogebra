@@ -56,6 +56,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasTreeItems;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ProvidesResize;
@@ -1848,7 +1849,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		copyCanvas.getContext("2d").drawImage(origCanvas, 0, 0);
 	}-*/;
 
-	private static void addLeaf(TreeItem printItem, RadioTreeItem leaf) {
+	private static void addLeaf(HasTreeItems printItem, RadioTreeItem leaf) {
 		GeoElement geo = leaf.getGeo();
 		RadioTreeItem printLeaf = new RadioTreeItem(geo);
 		printItem.addItem(printLeaf);
@@ -1865,21 +1866,21 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 		for (int i = 0; i < this.getItemCount(); i++) {
 			TreeItem item = this.getItem(i);
-			TreeItem printItem = new TreeItem();
-			printItem.setText(item.getText());
 
 			if (item instanceof RadioTreeItem) {
-				addLeaf(printItem, (RadioTreeItem) item);
-			} else {
+				addLeaf(printTree, (RadioTreeItem) item);
+			} else if (item != inputPanelTreeItem) {
+
+				TreeItem printItem = new TreeItem();
+				printItem.setText(item.getText());
 				for (int j = 0; j < item.getChildCount(); j++) {
 					TreeItem leaf = item.getChild(j);
 					if (leaf instanceof RadioTreeItem) {
 						addLeaf(printItem, (RadioTreeItem) leaf);
 					}
 				}
-			}
-			printItem.setState(true);
-			if (item != inputPanelTreeItem) {
+
+				printItem.setState(true);
 				printTree.addItem(printItem);
 			}
 		}
