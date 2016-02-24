@@ -107,28 +107,25 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * Nodes for tree mode MODE_DEPENDENCY
 	 */
-	private TreeItem depNode = new AVTreeItem(); // dependent objects
-	private TreeItem indNode = new AVTreeItem();
-	private TreeItem auxiliaryNode = new AVTreeItem();
+	private TreeItem depNode, indNode;
+	private TreeItem auxiliaryNode;
 
 	/**
 	 * Root node for tree mode MODE_TYPE.
 	 */
-	private TreeItem rootType = new AVTreeItem();
+	private TreeItem rootType;
 
 	/**
 	 * Nodes for tree mode MODE_TYPE
 	 */
-	private HashMap<String, TreeItem> typeNodesMap = new HashMap<String, TreeItem>(
-			5);
+	private HashMap<String, TreeItem> typeNodesMap;
 
 	/* for SortMode.ORDER */
-	private TreeItem rootOrder = new AVTreeItem();
+	private TreeItem rootOrder;
 
 	/* for SortMode.LAYER */
-	private TreeItem rootLayer = new AVTreeItem();
-	private HashMap<Integer, TreeItem> layerNodesMap = new HashMap<Integer, TreeItem>(
-			10);
+	private TreeItem rootLayer;
+	private HashMap<Integer, TreeItem> layerNodesMap;
 
 	// although Java also allowed protected, NewRadioButtonTreeItem can use
 	// package private
@@ -671,13 +668,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		attached = false;
 	}
 
-	protected void initModel() {
-		initModel(this, depNode,
- indNode, auxiliaryNode, rootOrder,
-				inputPanelTreeItem, rootType, rootLayer, typeNodesMap,
-				layerNodesMap);
-	}
-
 	/**
 	 * Method to initialize the tree model of the current tree mode. This method
 	 * should be called whenever the tree mode is changed, it won't initialize
@@ -685,80 +675,86 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * 
 	 * This method will also actually change the model of the tree.
 	 */
-	protected void initModel(Tree tree, TreeItem depNode1,
-			TreeItem indNode1, TreeItem auxiliaryNode1, TreeItem rootOrder1,
-			TreeItem inputPanelTreeItem1, TreeItem rootType1,
-			TreeItem rootLayer1,
-			HashMap<String, TreeItem> typeNodesMap1,
-			HashMap<Integer, TreeItem> layerNodesMap1) {
+	protected void initModel() {
 		// build default tree structure
 		switch (treeMode) {
 		case DEPENDENCY:
+			// don't re-init anything
+			if (depNode == null || indNode == null || auxiliaryNode == null) {
+				// rootDependency = new TreeItem();
+				depNode = new AVTreeItem(); // dependent objects
+				indNode = new AVTreeItem();
+				auxiliaryNode = new AVTreeItem();
+
+			}
+
 			// set the root
-			tree.clear();
-			tree.addItem(indNode1);
-			tree.addItem(depNode1);
+			clear();
+			addItem(indNode);
+			addItem(depNode);
 
 			// add auxiliary node if neccessary
 			if (app.showAuxiliaryObjects) {
-				if (auxiliaryNode1.getTree() != tree) {
-					tree.addItem(auxiliaryNode1);
+				if (auxiliaryNode.getTree() != this) {
+					addItem(auxiliaryNode);
 				}
 			}
 			break;
 		case ORDER:
-
-			if (tree == this) { // TODO - needed for printing?
-				setUserObject(rootOrder1, "");
+			if (rootOrder == null) {
+				// both rootOrder and AlgebraView will have the Tree items
+				rootOrder = new AVTreeItem();
 			}
+			setUserObject(rootOrder, "");
 
 			// always try to remove the auxiliary node
-			if (app.showAuxiliaryObjects && auxiliaryNode1 != null) {
-				// removeAuxiliaryNode();
-				tree.removeItem(auxiliaryNode1);
+			if (app.showAuxiliaryObjects && auxiliaryNode != null) {
+				removeAuxiliaryNode();
 			}
 
 			// set the root
-			tree.clear();
+			clear();
 			if (isAlgebraInputVisible()) {
 				// why is this here and not in case of DEPENDENCY, LAYER
-				if (tree == this) {
-					super.addItem(inputPanelTreeItem1);
-				} else {
-					tree.addItem(inputPanelTreeItem1);
-				}
+				super.addItem(inputPanelTreeItem);
 			}
 			break;
 
 		case TYPE:
+			// don't re-init anything
+			if (rootType == null) {
+				rootType = new AVTreeItem();
+				// setUserObject(rootType, "");
+				typeNodesMap = new HashMap<String, TreeItem>(5);
+
+			}
 
 			// always try to remove the auxiliary node
-			if (app.showAuxiliaryObjects && auxiliaryNode1 != null) {
-				// removeAuxiliaryNode();
-				tree.removeItem(auxiliaryNode1);
+			if (app.showAuxiliaryObjects && auxiliaryNode != null) {
+				removeAuxiliaryNode();
 			}
 
 			// set the root
-			tree.clear();
+			clear();
 			if (isAlgebraInputVisible()) {
 				// why is this here and not in case of DEPENDENCY, LAYER
-				if (tree == this) {
-					super.addItem(inputPanelTreeItem1);
-				} else {
-					tree.addItem(inputPanelTreeItem1);
-				}
+				super.addItem(inputPanelTreeItem);
 			} 
 			break;
 		case LAYER:
+			// don't re-init anything
+			if (rootLayer == null) {
+				rootLayer = new AVTreeItem();
+				layerNodesMap = new HashMap<Integer, TreeItem>(10);
+			}
 
 			// always try to remove the auxiliary node
-			if (app.showAuxiliaryObjects && auxiliaryNode1 != null) {
-				// removeAuxiliaryNode();
-				tree.removeItem(auxiliaryNode1);
+			if (app.showAuxiliaryObjects && auxiliaryNode != null) {
+				removeAuxiliaryNode();
 			}
 
 			// set the root
-			tree.clear();
+			clear();
 			// addItem(rootLayer);
 			break;
 		}
@@ -1809,46 +1805,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 
-	// public void getPrintable(FlowPanel pPanel, Button btPrint) {
-	// Tree printTree = new Tree();
-	// TreeItem depNode1 = new AVTreeItem();
-	// TreeItem indNode1 = new AVTreeItem();
-	// TreeItem auxiliaryNode1 = new AVTreeItem();
-	// TreeItem rootType1 = new AVTreeItem();
-	// TreeItem rootOrder1 = new AVTreeItem();
-	// TreeItem inputPanelTreeItem1 = new AVTreeItem();
-	// TreeItem rootLayer1 = new AVTreeItem();
-	// HashMap<String, TreeItem> typeNodesMap1 = new HashMap<String, TreeItem>(
-	// 5);
-	// HashMap<Integer, TreeItem> layerNodesMap1 = new HashMap<Integer,
-	// TreeItem>(
-	// 10);
-	//
-	// initModel(printTree, depNode1, indNode1, auxiliaryNode1, rootOrder1,
-	// inputPanelTreeItem1, rootType1, rootLayer1, typeNodesMap1,
-	// layerNodesMap1);
-	//
-	// pPanel.clear();
-	//
-	// pPanel.add(printTree);
-	//
-	// btPrint.setEnabled(true);
-	// }
-
-	native JavaScriptObject getScreenshotCallback(Element el)/*-{
-		return function(pngBase64) {
-			var previewImg = document.createElement("img");
-			previewImg
-					.setAttribute("src", "data:image/png;base64," + pngBase64);
-			el.appendChild(previewImg);
-		};
-	}-*/;
-
-	native void copyCanvas(Element copyCanvas, Element origCanvas)/*-{
-		console.log(copyCanvas);
-		copyCanvas.getContext("2d").drawImage(origCanvas, 0, 0);
-	}-*/;
-
 	private static void addLeaf(HasTreeItems printItem, RadioTreeItem leaf) {
 		GeoElement geo = leaf.getGeo();
 		RadioTreeItem printLeaf = new RadioTreeItem(geo);
@@ -1895,41 +1851,4 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			}
 		});
 	}
-
-	// public void getPrintable(FlowPanel pPanel, final Button btPrint) {
-	//
-	// pPanel.clear();
-	//
-	//
-	// Tree AV2 = new AlgebraViewW(algebraController);
-	//
-	// pPanel.add();
-	//
-	// Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-	// public void execute() {
-	// btPrint.setEnabled(true);
-	// }
-	// });
-	// }
-
-	// public void getPrintable(FlowPanel pPanel, Button btPrint) {
-	// // Dom.getElementsByClassName("algebraView").getItem(0)
-	// // .addClassName("printableView"); // TODO: don't use DOM here
-	// this.getParent().addStyleName("printableView");
-	// pPanel.clear();
-	// btPrint.setEnabled(true);
-	// }
-
-	// public void getPrintable(FlowPanel pPanel, Button btPrint) {
-	// pPanel.clear();
-	// getPrintableClone(pPanel.getElement(), this.getElement());
-	// btPrint.setEnabled(true);
-	// }
-	//
-	// native void getPrintableClone(Element panel, Element cloneable)/*-{
-	// //cloneable.clone().appendTo(panel);
-	// //Object.create(cloneable).appendTo(panel);
-	// //$(cloneable).appendTo(panel);
-	// panel.appendChild(cloneable.cloneNode(true));
-	// }-*/;
 }
