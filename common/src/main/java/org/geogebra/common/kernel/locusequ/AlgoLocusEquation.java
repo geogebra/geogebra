@@ -300,17 +300,14 @@ public class AlgoLocusEquation extends AlgoElement {
 				} else { // fractional
 					/*
 					 * Use the fraction P/Q according to the current kernel
-					 * setting.
+					 * setting. We use the P/Q=x <=> P-Q*x=0 equation.
 					 */
 					long[] q = doubleToRational(x);
-					/* Set up a new free variable v. */
-					Variable v = new Variable(true);
 					vars[0].setFree(false);
-					/* Create the polynomial v-x*Q=0 and substitution v=P. */
-					Polynomial ph = new Polynomial(v).subtract(new Polynomial(
+					Polynomial ph = new Polynomial((int) q[0])
+							.subtract(new Polynomial(
 							vars[0]).multiply(new Polynomial((int) q[1])));
 					as.addPolynomial(ph);
-					substitutions.put(v, (int) q[0]);
 				}
 				double y = ((GeoPoint) freePoint).getInhomY();
 				if ((y % 1) == 0) {
@@ -318,17 +315,14 @@ public class AlgoLocusEquation extends AlgoElement {
 				} else { // fractional
 					/*
 					 * Use the fraction P/Q according to the current kernel
-					 * setting.
+					 * setting. We use the P/Q=x <=> P-Q*x=0 equation.
 					 */
 					long[] q = doubleToRational(y);
-					/* Set up a new variable v. */
-					Variable v = new Variable(true);
 					vars[1].setFree(false);
-					/* Create the polynomial v-x*Q=0 and substitution v=P. */
-					Polynomial ph = new Polynomial(v).subtract(new Polynomial(
+					Polynomial ph = new Polynomial((int) q[0])
+							.subtract(new Polynomial(
 							vars[1]).multiply(new Polynomial((int) q[1])));
 					as.addPolynomial(ph);
-					substitutions.put(v, (int) q[0]);
 				}
 			} else {
 				vx = vars[0].toString();
