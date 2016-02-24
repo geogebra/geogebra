@@ -105,8 +105,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		}
 		if (app.has(Feature.WEB_PRINT_ALGEBRA_VIEW)) {
 			if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
-				m_cbView.addItem(app.getPlain("AlgebraWindow"),
-						App.VIEW_ALGEBRA
+				m_cbView.addItem(app.getPlain("AlgebraWindow"), App.VIEW_ALGEBRA
 						+ "");
 			}
 		}
@@ -114,15 +113,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		if (app.has(Feature.WEB_PRINT_CP_VIEW)) {
 			if (app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
 				m_cbView.addItem(app.getPlain("ConstructionProtocol"),
-			App.VIEW_CONSTRUCTION_PROTOCOL + "");
-			}
-
-		}
-
-		if (app.has(Feature.WEB_PRINT_SPREADSHEET_VIEW)) {
-			if (app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
-				m_cbView.addItem(app.getPlain("Spreadsheet"),
-						App.VIEW_SPREADSHEET + "");
+						App.VIEW_CONSTRUCTION_PROTOCOL + "");
 			}
 		}
 
