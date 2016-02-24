@@ -2004,7 +2004,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		FunctionVariable y = new FunctionVariable(kernel, "y");
 		ExpressionNode expr = null;
 		for (int i = 0; i <= degX; i++) {
-			for (int j = 0; j <= degY; j++) {
+			// different rows have different lengths
+			for (int j = 0; j < coeff[i].length; j++) {
 				if (i == 0 && j == 0) {
 					expr = new ExpressionNode(kernel, coeff[0][0]);
 				} else {
