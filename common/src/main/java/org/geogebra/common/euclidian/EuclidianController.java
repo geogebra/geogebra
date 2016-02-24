@@ -10223,6 +10223,7 @@ public abstract class EuclidianController {
 		view.setPreview(switchPreviewableForInitNewMode(newMode));
 		toggleModeChangedKernel = false;
 
+		kernel.restoreStateForInitNewMode();
 		kernel.storeStateForModeStarting();
 	}
 
@@ -10678,10 +10679,12 @@ public abstract class EuclidianController {
 	}
 
 	void storeUndoInfo() {
-		app.storeUndoInfo();
 
 		// if we use the tool once again
 		kernel.storeStateForModeStarting();
+
+		// store undo info
+		app.storeUndoInfo();
 	}
 
 	protected GeoElement[] extremum(Hits hits) {

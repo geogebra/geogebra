@@ -3859,6 +3859,14 @@ public class Kernel {
 
 	private StringBuilder stateForModeStarting;
 
+	public void restoreStateForInitNewMode() {
+		if (app.has(Feature.UNDO_FOR_TOOLS)) {
+			if (geoToggled) {
+				restoreStateForModeStarting();
+			}
+		}
+	}
+
 	public void storeStateForModeStarting() {
 		if (app.has(Feature.UNDO_FOR_TOOLS)) {
 			stateForModeStarting = cons.getCurrentUndoXML(true);
@@ -3872,6 +3880,16 @@ public class Kernel {
 		geoToggled = true;
 	}
 
+	private void restoreStateForModeStarting() {
+		app.getCompanion().storeViewCreators();
+		notifyReset();
+		getApplication().getActiveEuclidianView().getEuclidianController()
+				.clearSelections();
+		cons.processXML(stateForModeStarting);
+		notifyReset();
+		app.getCompanion().recallViewCreators();
+	}
+
 	public void undo() {
 		if (undoActive) {
 			if (app.has(Feature.UNDO_FOR_TOOLS)) {
@@ -3881,13 +3899,7 @@ public class Kernel {
 							&& !getApplication().getSelectionManager()
 									.getSelectedGeos().isEmpty()) {
 
-						app.getCompanion().storeViewCreators();
-						notifyReset();
-						getApplication().getActiveEuclidianView()
-								.getEuclidianController().clearSelections();
-						cons.processXML(stateForModeStarting);
-						notifyReset();
-						app.getCompanion().recallViewCreators();
+						restoreStateForModeStarting();
 						geoToggled = false;
 						return;
 					}
