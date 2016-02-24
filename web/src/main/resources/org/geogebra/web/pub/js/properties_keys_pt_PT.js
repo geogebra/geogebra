@@ -2217,7 +2217,7 @@ __GGB__keysVar.pt_PT.plain = {
     "AbsoluteScreenLocation": "Posi\xe7\xe3o absoluta no Ecr\xe3",
     "AddColumn": "Adicionar Coluna",
     "AddRow": "Adicionar Linha",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 n\xe3o pertence a %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 n\xe3o pertence ao per\xedmetro de %1",
     "AdoesNothaveTheSameAreaAsB": "%0 n\xe3o tem a mesma \xe1rea que %1",

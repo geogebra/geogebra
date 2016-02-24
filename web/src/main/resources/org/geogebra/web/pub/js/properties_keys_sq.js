@@ -2217,7 +2217,7 @@ __GGB__keysVar.sq.plain = {
     "AbsoluteScreenLocation": "Pozicion Absolut Ekrani",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 nuk ndodhet ne %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 nuk ndodhet ne Perimetrin e %1",
     "AdoesNothaveTheSameAreaAsB": "%0 nuk ka te Njejten Syrprine si %1",

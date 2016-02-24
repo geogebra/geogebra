@@ -2217,7 +2217,7 @@ __GGB__keysVar.fr.plain = {
     "AbsoluteScreenLocation": "Position absolue sur l'\xe9cran",
     "AddColumn": "Ajouter Colonne",
     "AddRow": "Ajouter Ligne",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 n'appartient pas \xe0 %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 n'est pas sur le pourtour de %1",
     "AdoesNothaveTheSameAreaAsB": "%0 et %1 n'ont pas la m\xeame aire",

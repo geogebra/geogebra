@@ -2217,7 +2217,7 @@ __GGB__keysVar.pl.plain = {
     "AbsoluteScreenLocation": "Po\u0142o\u017cenie bezwzgl\u0119dne na ekranie",
     "AddColumn": "Dodaj Kolumn\u0119",
     "AddRow": "Dodaj wiersz",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 nie le\u017cy na %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 nie le\u017cy na brzegu %1",
     "AdoesNothaveTheSameAreaAsB": "%0 nie ma takiego pola jak %1",

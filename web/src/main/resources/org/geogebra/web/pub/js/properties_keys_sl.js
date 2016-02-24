@@ -2217,7 +2217,7 @@ __GGB__keysVar.sl.plain = {
     "AbsoluteScreenLocation": "Absolutni polo\u017eaj na ekranu",
     "AddColumn": "Dodaj stolpec",
     "AddRow": "Dodaj vrstico",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 ne le\u017ei na %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 ne le\u017ei na meji %1",
     "AdoesNothaveTheSameAreaAsB": "Plo\u0161\u010dini %0 in %1 nista enaki",

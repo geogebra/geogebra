@@ -2217,7 +2217,7 @@ __GGB__keysVar.et.plain = {
     "AbsoluteScreenLocation": "Ekraaniga seotud punkt",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 ei asu objektil %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 ei asu objekti %1 piiraval joonel",
     "AdoesNothaveTheSameAreaAsB": "%0 ja %1 ei ole v\xf5rdse pindalaga",

@@ -2217,7 +2217,7 @@ __GGB__keysVar.sk.plain = {
     "AbsoluteScreenLocation": "Absol\xfatna poz\xedcia na obrazovke",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 nele\u017e\xed na %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 nele\u017e\xed na obvode %1",
     "AdoesNothaveTheSameAreaAsB": "%0 nem\xe1 tak\xfd ist\xfd obsah ako %1",

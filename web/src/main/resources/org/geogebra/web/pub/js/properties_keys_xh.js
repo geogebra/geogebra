@@ -2217,7 +2217,7 @@ __GGB__keysVar.xh.plain = {
     "AbsoluteScreenLocation": "Indawo Eqinisekileyo eSkrinini",
     "AddColumn": "Fakela ikholamni",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "u %0 akalelanga phezu ko %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 ayikhophezu komjikelezo we %1",
     "AdoesNothaveTheSameAreaAsB": "%0 ayinaeriya ifana no %1",

@@ -2217,7 +2217,7 @@ __GGB__keysVar.cy.plain = {
     "AbsoluteScreenLocation": "Safle absoliwt ar y sgrin",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "Nid yw %0 yn gorwedd ar %1",
     "AdoesNotLieOnThePerimeterOfB": "Nid yw %0 yn gorwedd ar berimedr %1",
     "AdoesNothaveTheSameAreaAsB": "Nid oes gan %0 yr un arwynebedd \xe2 %1",

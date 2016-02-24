@@ -2217,7 +2217,7 @@ __GGB__keysVar.nl_NL.plain = {
     "AbsoluteScreenLocation": "Absolute positie op het scherm",
     "AddColumn": "Invoegen kolom",
     "AddRow": "Rij toevoegen",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 is niet gelegen op %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 is niet op de omtrek gelegen %1",
     "AdoesNothaveTheSameAreaAsB": "%0 heeft niet dezelfde oppervlakte als %1",

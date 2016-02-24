@@ -2217,7 +2217,7 @@ __GGB__keysVar.de_AT.plain = {
     "AbsoluteScreenLocation": "Absolute Position am Bildschirm",
     "AddColumn": "Spalte hinzuf\xfcgen",
     "AddRow": "Reihe hinzuf\xfcgen",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 liegt nicht auf %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 liegt nicht auf dem Umriss von %1",
     "AdoesNothaveTheSameAreaAsB": "%0 und %1 haben nicht den gleichen Fl\xe4cheninhalt",

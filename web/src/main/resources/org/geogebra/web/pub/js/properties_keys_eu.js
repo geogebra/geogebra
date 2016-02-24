@@ -2217,7 +2217,7 @@ __GGB__keysVar.eu.plain = {
     "AbsoluteScreenLocation": "Posizio Absolutua Pantailan",
     "AddColumn": "Gehitu Zutabea",
     "AddRow": "Gehitu Lerroa",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 ez dago %1-(e)n",
     "AdoesNotLieOnThePerimeterOfB": "%0 ez dago %1-(r)en perimetroan",
     "AdoesNothaveTheSameAreaAsB": "%0-(r)en azalera eta %1-(r)ena desberdinak dira",

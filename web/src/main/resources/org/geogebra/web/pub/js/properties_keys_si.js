@@ -2217,7 +2217,7 @@ __GGB__keysVar.si.plain = {
     "AbsoluteScreenLocation": "\u0db1\u0dd2\u0dbb\u0db4\u0dda\u0d9a\u0dca\u0dc2 \u0dad\u0dd2\u0dbb \u0db4\u0dd2\u0dc4\u0dd2\u0da7\u0dd4\u0db8",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%1 \u0db8\u0dad %0 \u0db1\u0ddc\u0db4\u0dd2\u0dc4\u0dd2\u0da7\u0dba\u0dd2",
     "AdoesNotLieOnThePerimeterOfB": "%1 \u0dc4\u0dd2 \u0db4\u0dbb\u0dcf\u0db8\u0dd2\u0dad\u0dd2\u0dba \u0db8\u0dad %0 \u0db1\u0ddc\u0db4\u0dd2\u0dc4\u0dd2\u0da7\u0dba\u0dd2",
     "AdoesNothaveTheSameAreaAsB": "%0 \u0dc3\u0dc4 %1 \u0dc4\u0dd2 \u0d9a\u0dca\u0dc2\u0dda\u0dad\u0dca\u0dbb \u0dc3\u0db8\u0dcf\u0db1 \u0db1\u0ddc\u0dc0\u0dda",

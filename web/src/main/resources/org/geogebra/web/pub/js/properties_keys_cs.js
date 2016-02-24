@@ -2217,7 +2217,7 @@ __GGB__keysVar.cs.plain = {
     "AbsoluteScreenLocation": "Absolutn\xed sou\u0159adnice na obrazovce",
     "AddColumn": "P\u0159idat sloupec",
     "AddRow": "P\u0159idat \u0159\xe1dek",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 nele\u017e\xed na %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 nele\u017e\xed na pr\u016fm\u011bru %1",
     "AdoesNothaveTheSameAreaAsB": "%0 nem\xe1 stejnou plochu jako %1",

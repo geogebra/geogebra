@@ -2217,7 +2217,7 @@ __GGB__keysVar.gl.plain = {
     "AbsoluteScreenLocation": "Posici\xf3n absoluta na pantalla",
     "AddColumn": "Engadir columna",
     "AddRow": "Engadir fila",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 non se acha sobre %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 non se acha no per\xedmetro de %1",
     "AdoesNothaveTheSameAreaAsB": "%0 non ten a misma \xe1rea que %1",

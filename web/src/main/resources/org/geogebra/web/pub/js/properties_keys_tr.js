@@ -2217,7 +2217,7 @@ __GGB__keysVar.tr.plain = {
     "AbsoluteScreenLocation": "Ekrandaki mutlak yer",
     "AddColumn": "S\xfctun Ekle",
     "AddRow": "Sat\u0131r Ekle",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0, %1 \xfczerinde de\u011fildir",
     "AdoesNotLieOnThePerimeterOfB": "%0, %1 \xe7evresinde de\u011fildir",
     "AdoesNothaveTheSameAreaAsB": "%0, %1 ile ayn\u0131 alana sahip de\u011fildir",

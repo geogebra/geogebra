@@ -2217,7 +2217,7 @@ __GGB__keysVar.ca_XV.plain = {
     "AbsoluteScreenLocation": "Posici\xf3 absoluta en pantalla",
     "AddColumn": "Afegir Columna",
     "AddRow": "Afegeix fila",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%1 no passa per %0",
     "AdoesNotLieOnThePerimeterOfB": "%0 no pertany al per\xedmetre de %1",
     "AdoesNothaveTheSameAreaAsB": "%0 no t\xe9 la mateixa \xe0rea que %1",

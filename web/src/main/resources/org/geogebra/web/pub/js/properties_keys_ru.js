@@ -2217,7 +2217,7 @@ __GGB__keysVar.ru.plain = {
     "AbsoluteScreenLocation": "\u0410\u0431\u0441\u043e\u043b\u044e\u0442\u043d\u0430\u044f \u043f\u043e\u0437\u0438\u0446\u0438\u044f \u043d\u0430 \u044d\u043a\u0440\u0430\u043d\u0435",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 \u043d\u0435 \u043b\u0435\u0436\u0438\u0442 \u043d\u0430 %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 \u043d\u0435 \u043b\u0435\u0436\u0438\u0442 \u043d\u0430 \u0433\u0440\u0430\u043d\u0438\u0446\u0435 %1",
     "AdoesNothaveTheSameAreaAsB": "\u041f\u043b\u043e\u0449\u0430\u0434\u0438 %0 \u0438 %1 \u043d\u0435 \u0440\u0430\u0432\u043d\u044b",

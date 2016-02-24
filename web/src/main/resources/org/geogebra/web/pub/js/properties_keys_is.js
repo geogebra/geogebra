@@ -2217,7 +2217,7 @@ __GGB__keysVar.is.plain = {
     "AbsoluteScreenLocation": "Sta\xf0a \xe1 skj\xe1",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 liggur ekki \xe1 %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 liggur ekki \xe1 ja\xf0ri %1",
     "AdoesNothaveTheSameAreaAsB": "%0 hefur ekki sama flatarm\xe1l og %1",

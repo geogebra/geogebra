@@ -2217,7 +2217,7 @@ __GGB__keysVar.ro.plain = {
     "AbsoluteScreenLocation": "Pozi\u0163ie absolut\u0103 pe ecran",
     "AddColumn": "Adaug\u0103 coloan\u0103",
     "AddRow": "Adaug\u0103 linie",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 nu se afl\u0103 pe %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 nu se afl\u0103 pe perimetrul lui %1",
     "AdoesNothaveTheSameAreaAsB": "%0 nu are aceea\u015fi arie ca %1",

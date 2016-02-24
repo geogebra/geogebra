@@ -2217,7 +2217,7 @@ __GGB__keysVar.ar_MA.plain = {
     "AbsoluteScreenLocation": "\u0645\u0648\u0642\u0639 \u062b\u0627\u0628\u062a \u0639\u0644\u0649 \u0627\u0644\u0634\u0627\u0634\u0629",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 \u0644\u0627 \u062a\u0646\u062a\u0645\u064a \u0625\u0644\u0649 %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 \u0644\u0627\u062a\u0646\u062a\u0645\u064a \u0625\u0644\u0649 \u0645\u062d\u064a\u0637 %1",
     "AdoesNothaveTheSameAreaAsB": "%0 \u0648%1 \u0644\u0647\u0645\u0627 \u0645\u0633\u0627\u062d\u0627\u062a \u0645\u062e\u062a\u0644\u0641\u0629",

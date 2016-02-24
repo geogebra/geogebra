@@ -2217,7 +2217,7 @@ __GGB__keysVar.ms.plain = {
     "AbsoluteScreenLocation": "Kedudukan mutlak di atas skrin",
     "AddColumn": "Tambah Lajur",
     "AddRow": "Tambah Baris",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 tidak terletak pada %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 tidak terletak atas perimeter %1",
     "AdoesNothaveTheSameAreaAsB": "%0 tidak mempunyai luas yang sama dengan %1",

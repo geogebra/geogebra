@@ -2217,7 +2217,7 @@ __GGB__keysVar.vi.plain = {
     "AbsoluteScreenLocation": "V\u1ecb tr\xed c\u1ed1 \u0111\u1ecbnh tr\xean m\xe0n h\xecnh",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 kh\xf4ng n\u1eb1m tr\xean %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 kh\xf4ng n\u1eb1m trong chu vi %1",
     "AdoesNothaveTheSameAreaAsB": "%0 c\xf3 di\u1ec7n t\xedch kh\xf4ng b\u1eb1ng di\u1ec7n t\xedch c\u1ee7a %1",

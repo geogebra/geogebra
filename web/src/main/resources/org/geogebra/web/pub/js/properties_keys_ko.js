@@ -2217,7 +2217,7 @@ __GGB__keysVar.ko.plain = {
     "AbsoluteScreenLocation": "\ud654\uba74\uc5d0 \uace0\uc815",
     "AddColumn": "\uc5f4 \ucd94\uac00",
     "AddRow": "\ud589 \ucd94\uac00",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 \uc740(\ub294) %1 \uc704\uc5d0 \uc788\uc9c0 \uc54a\uc74c",
     "AdoesNotLieOnThePerimeterOfB": "%0 \uc740(\ub294) %1 \uc758 \ub458\ub808\uc5d0 \ub193\uc5ec\uc788\uc9c0 \uc54a\uc74c",
     "AdoesNothaveTheSameAreaAsB": "%0 \uc740(\ub294) %1 \ub85c\uc368 \uac19\uc740 \ub113\uc774\ub97c \uac19\uc9c0 \uc54a\uc74c",

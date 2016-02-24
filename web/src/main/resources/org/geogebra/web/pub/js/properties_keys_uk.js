@@ -2217,7 +2217,7 @@ __GGB__keysVar.uk.plain = {
     "AbsoluteScreenLocation": "\u0410\u0431\u0441\u043e\u043b\u044e\u0442\u043d\u0430 \u043f\u043e\u0437\u0438\u0446\u0456\u044f \u043d\u0430 \u0435\u043a\u0440\u0430\u043d\u0456",
     "AddColumn": "\u0414\u043e\u0434\u0430\u0442\u0438 \u0441\u0442\u043e\u0432\u043f\u0447\u0438\u043a",
     "AddRow": "\u0414\u043e\u0434\u0430\u0442\u0438 \u0440\u044f\u0434\u043e\u043a",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 \u043d\u0435 \u043b\u0435\u0436\u0438\u0442\u044c \u043d\u0430 %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 \u043d\u0435 \u043b\u0435\u0436\u0438\u0442\u044c \u043d\u0430 \u043c\u0435\u0436\u0456 %1",
     "AdoesNothaveTheSameAreaAsB": "\u041f\u043b\u043e\u0449\u0456 %0 \u0456 %1 \u043d\u0435 \u0440\u0456\u0432\u043d\u0456",

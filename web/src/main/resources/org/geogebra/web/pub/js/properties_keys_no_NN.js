@@ -2217,7 +2217,7 @@ __GGB__keysVar.no_NN.plain = {
     "AbsoluteScreenLocation": "Absolutt posisjon p\xe5 skjermen",
     "AddColumn": "Legg til kolonne",
     "AddRow": "Legg til rad",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 ligg ikkje p\xe5 %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 ligg ikkje p\xe5 omkrinsen av %1",
     "AdoesNothaveTheSameAreaAsB": "%0 har ikkje same areal som %1",

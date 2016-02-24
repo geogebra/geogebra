@@ -2217,7 +2217,7 @@ __GGB__keysVar.eo.plain = {
     "AbsoluteScreenLocation": "Absolute Position on Screen",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 ne estas sur %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 ne estas sur la rando de %1",
     "AdoesNothaveTheSameAreaAsB": "%0 does not have the same area as %1",

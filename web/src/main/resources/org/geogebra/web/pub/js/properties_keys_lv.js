@@ -2217,7 +2217,7 @@ __GGB__keysVar.lv.plain = {
     "AbsoluteScreenLocation": "Absol\u016bt\u0101 Poz\u012bcija uz Ekr\u0101na",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 neatrodas uz %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 neatrodas uz %1 perimetra",
     "AdoesNothaveTheSameAreaAsB": "%0 nav t\u0101ds pats laukums k\u0101 %1",

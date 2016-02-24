@@ -2217,7 +2217,7 @@ __GGB__keysVar.lt.plain = {
     "AbsoluteScreenLocation": "Neabejotina vieta ekrane",
     "AddColumn": "Prid\u0117ti stulp\u0105",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0 n\u0117ra ant %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 n\u0117ra ant %1 perimetro",
     "AdoesNothaveTheSameAreaAsB": "%0 plotas nelygus %1 plotui",

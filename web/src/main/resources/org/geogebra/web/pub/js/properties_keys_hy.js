@@ -2217,7 +2217,7 @@ __GGB__keysVar.hy.plain = {
     "AbsoluteScreenLocation": "\u0532\u0561\u0581\u0561\u0580\u0571\u0561\u056f \u0564\u056b\u0580\u0584 \u0567\u056f\u0580\u0561\u0576\u056b\u0576",
     "AddColumn": "Add Column",
     "AddRow": "Add Row",
-    "AddToolOrBoolean": "Add Tool or Boolean",
+    "AddToolOrBoolean": "Add Tool or Boolean Variable",
     "AdoesNotLieOnB": "%0-\u0568 \u0579\u056b \u0563\u057f\u0576\u057e\u0578\u0582\u0574 %1-\u056b \u057e\u0580\u0561",
     "AdoesNotLieOnThePerimeterOfB": "%0-\u0568 \u0579\u056b \u0563\u057f\u0576\u057e\u0578\u0582\u0574 %1-\u056b \u0565\u0566\u0580\u0561\u0563\u056e\u056b \u057e\u0580\u0561",
     "AdoesNothaveTheSameAreaAsB": "%0-\u056b \u0587 %1-\u056b \u0574\u0561\u056f\u0565\u0580\u0565\u057d\u0576\u0565\u0580\u0568 \u0570\u0561\u057e\u0561\u057d\u0561\u0580 \u0579\u0565\u0576",
