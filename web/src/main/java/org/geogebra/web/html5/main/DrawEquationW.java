@@ -1354,6 +1354,15 @@ public class DrawEquationW extends DrawEquation {
 		return (DrawEquationW) rbti.getApplication().getDrawEquation();
 	}
 
+	/*
+	 * needed for avoid the pixelated appearance of LaTeX texts at printing
+	 */
+	private static double printScale = 1;
+
+	public static void setPrintScale(double t) {
+		printScale = t;
+	}
+
 	public static Canvas paintOnCanvas(GeoElement geo, String text0, Canvas c,
 			int fontSize) {
 		if (geo == null) {
@@ -1371,7 +1380,7 @@ public class DrawEquationW extends DrawEquation {
 				+ "}}", fontSize, GFont.PLAIN, false);
 		Graphics2DInterface g3 = new Graphics2DW(ctx);
 		double ratio = ((AppW) geo.getKernel().getApplication())
-				.getPixelRatio();
+				.getPixelRatio() * printScale;
 		c.setCoordinateSpaceWidth((int) (icon.getIconWidth() * ratio));
 		c.setCoordinateSpaceHeight((int) (icon.getIconHeight() * ratio));
 		c.getElement().getStyle().setWidth(icon.getIconWidth(), Unit.PX);

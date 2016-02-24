@@ -31,6 +31,7 @@ import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -1860,6 +1861,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 		pPanel.clear();
 
+		DrawEquationW.setPrintScale(3);
+
 		for (int i = 0; i < this.getItemCount(); i++) {
 			TreeItem item = this.getItem(i);
 			TreeItem printItem = new TreeItem();
@@ -1880,6 +1883,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				printTree.addItem(printItem);
 			}
 		}
+
+		DrawEquationW.setPrintScale(1);
 
 		pPanel.add(printTree);
 
