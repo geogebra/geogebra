@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.main.AppD;
@@ -140,8 +141,7 @@ public class RendererShaders extends RendererD implements
 		// This allows the shaders to compile using the latest
 		// desktop OpenGL 3 and 4 drivers.
 		if (jogl.getGL2ES2().isGL3core()) {
-			System.out
-					.println("GL3 core detected: explicit add #version 130 to shaders");
+			Log.debug("GL3 core detected: explicit add #version 130 to shaders");
 			vertexShaderString = "#version 130\n" + vertexShaderString;
 			fragmentShaderString = "#version 130\n" + fragmentShaderString;
 		}
@@ -167,7 +167,7 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glGetShaderiv(vertShader, GL2ES2.GL_COMPILE_STATUS,
 				compiled, 0);
 		if (compiled[0] != 0) {
-			System.out.println("Horray! vertex shader compiled");
+			Log.debug("Vertex shader compiled");
 		} else {
 			int[] logLength = new int[1];
 			jogl.getGL2ES2().glGetShaderiv(vertShader,
@@ -177,7 +177,7 @@ public class RendererShaders extends RendererD implements
 			jogl.getGL2ES2().glGetShaderInfoLog(vertShader, logLength[0],
 					(int[]) null, 0, log, 0);
 
-			System.err.println("Error compiling the vertex shader: "
+			Log.error("Error compiling the vertex shader: "
 					+ new String(log));
 			System.exit(1);
 		}
@@ -193,7 +193,7 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glGetShaderiv(fragShader, GL2ES2.GL_COMPILE_STATUS,
 				compiled, 0);
 		if (compiled[0] != 0) {
-			System.out.println("Horray! fragment shader compiled");
+			Log.debug("Fragment shader compiled");
 		} else {
 			int[] logLength = new int[1];
 			jogl.getGL2ES2().glGetShaderiv(fragShader,
@@ -203,7 +203,7 @@ public class RendererShaders extends RendererD implements
 			jogl.getGL2ES2().glGetShaderInfoLog(fragShader, logLength[0],
 					(int[]) null, 0, log, 0);
 
-			System.err.println("Error compiling the fragment shader: "
+			Log.error("Error compiling the fragment shader: "
 					+ new String(log));
 			System.exit(1);
 		}
@@ -916,7 +916,6 @@ public class RendererShaders extends RendererD implements
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
-		System.out.println("cleanup, remember to release shaders");
 
 		setGL(drawable);
 
