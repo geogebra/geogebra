@@ -14,7 +14,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * LocusEquation[ <GeoLocus> ] LocusEquation[ <GeoPoint>, <GeoPoint> ]
- * LocusEquation[ <Boolean Value>, <GeoPoint> ] TODO: add this syntax to
+ * LocusEquation[ <Boolean Expression>, <Free Point> ] TODO: add this syntax to
  * command.properties
  */
 public class CmdLocusEquation extends CommandProcessor {
@@ -58,7 +58,9 @@ public class CmdLocusEquation extends CommandProcessor {
 			} else {
 				if (app.has(Feature.IMPLICIT_LOCUS)
 						&& (ok[0] = (arg[0] instanceof BooleanValue))
-						&& (ok[1] = (arg[1].isGeoPoint()))) {
+						// second parameter should be a free point
+						&& (ok[1] = (arg[1].isGeoPoint() && arg[1]
+								.getParentAlgorithm() == null))) {
 					implicitLocus = arg[0];
 					movingPoint = (GeoPoint) arg[1];
 					return new GeoElement[] { LocusEquation(c.getLabel(),
