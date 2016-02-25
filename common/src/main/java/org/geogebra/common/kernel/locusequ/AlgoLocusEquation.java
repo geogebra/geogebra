@@ -297,6 +297,7 @@ public class AlgoLocusEquation extends AlgoElement {
 				double x = ((GeoPoint) freePoint).getInhomX();
 				if ((x % 1) == 0) { // integer
 					substitutions.put(vars[0], (int) x);
+					vars[0].setFree(true);
 				} else { // fractional
 					/*
 					 * Use the fraction P/Q according to the current kernel
@@ -312,6 +313,7 @@ public class AlgoLocusEquation extends AlgoElement {
 				double y = ((GeoPoint) freePoint).getInhomY();
 				if ((y % 1) == 0) {
 					substitutions.put(vars[1], (int) y);
+					vars[1].setFree(true);
 				} else { // fractional
 					/*
 					 * Use the fraction P/Q according to the current kernel
@@ -327,6 +329,8 @@ public class AlgoLocusEquation extends AlgoElement {
 			} else {
 				vx = vars[0].toString();
 				vy = vars[1].toString();
+				vars[0].setFree(true);
+				vars[1].setFree(true);
 			}
 		}
 
