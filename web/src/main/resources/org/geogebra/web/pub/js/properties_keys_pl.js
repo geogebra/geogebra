@@ -2988,6 +2988,8 @@ __GGB__keysVar.pl.plain = {
     "otherwise": "pozostale",
     "parallel": "r\xf3wnoleg\u0142y",
     "pdf": "pdf",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "png",
     "polar": "biegunowy",
     "resetConstruction": "Reset konstrukcji",

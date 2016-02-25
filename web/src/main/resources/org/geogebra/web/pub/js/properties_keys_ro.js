@@ -2988,6 +2988,8 @@ __GGB__keysVar.ro.plain = {
     "otherwise": "altfel",
     "parallel": "paralel",
     "pdf": "Portable Document Format (pdf)",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "Portable Network Graphics (png)",
     "polar": "polar",
     "resetConstruction": "Reseteaz\u0103 construc\u021bie",

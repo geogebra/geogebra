@@ -2988,6 +2988,8 @@ __GGB__keysVar.sv.plain = {
     "otherwise": "annars",
     "parallel": "parallell",
     "pdf": "pdf",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "Portable Network Graphics",
     "polar": "pol\xe4r",
     "resetConstruction": "Nollst\xe4ll konstruktion",

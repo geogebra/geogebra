@@ -2988,6 +2988,8 @@ __GGB__keysVar.zh_TW.plain = {
     "otherwise": "otherwise",
     "parallel": "\u5e73\u884c\u7dda",
     "pdf": "PDF",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "PNG",
     "polar": "\u6975\u5ea7\u6a19",
     "resetConstruction": "\u91cd\u65b0\u958b\u59cb",

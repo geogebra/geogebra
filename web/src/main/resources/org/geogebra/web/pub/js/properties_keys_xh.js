@@ -2988,6 +2988,8 @@ __GGB__keysVar.xh.plain = {
     "otherwise": "okanye",
     "parallel": "KekeleNgokufanayo",
     "pdf": "iPortable Document Format",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "iPortable Network Graphics",
     "polar": "ipolar",
     "resetConstruction": "Phinda ulungise uLwakhiwo",

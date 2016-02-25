@@ -2988,6 +2988,8 @@ __GGB__keysVar.vi.plain = {
     "otherwise": "kh\xe1c",
     "parallel": "song song",
     "pdf": "\u0111u\xf4i .pdf",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "\u0111u\xf4i .png",
     "polar": "c\u1ef1c",
     "resetConstruction": "x\xe1c l\u1eadp l\u1ea1i c\xe1ch d\u1ef1ng h\xecnh",

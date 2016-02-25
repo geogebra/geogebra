@@ -2988,6 +2988,8 @@ __GGB__keysVar.ar.plain = {
     "otherwise": "\u0625\u0630\u0627 \u0643\u0627\u0646 \u0644\u0627",
     "parallel": "\u0645\u0648\u0627\u0632\u064a",
     "pdf": "\u0639\u0644\u0649 \u0634\u0643\u0644 \u0648\u062b\u0627\u0626\u0642 \u0645\u062d\u0645\u0648\u0644\u0629",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "PNG",
     "polar": "\u0642\u0637\u0628\u064a",
     "resetConstruction": "\u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0628\u0646\u0627\u0621 \u0645\u0646 \u062c\u062f\u064a\u062f",

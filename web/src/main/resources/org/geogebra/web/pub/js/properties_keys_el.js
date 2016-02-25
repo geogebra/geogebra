@@ -2988,6 +2988,8 @@ __GGB__keysVar.el.plain = {
     "otherwise": "\u03b4\u03b9\u03b1\u03c6\u03bf\u03c1\u03b5\u03c4\u03b9\u03ba\u03ac",
     "parallel": "\u03c0\u03b1\u03c1\u03ac\u03bb\u03bb\u03b7\u03bb\u03b7",
     "pdf": "Portable Document Format (PDF)",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "PNG \u03bc\u03bf\u03c1\u03c6\u03ae (Portable Network Graphics)",
     "polar": "\u03c0\u03bf\u03bb\u03b9\u03ba\u03ae",
     "resetConstruction": "\u0391\u03ba\u03cd\u03c1\u03c9\u03c3\u03b7 \u03ba\u03b1\u03c4\u03b1\u03c3\u03ba\u03b5\u03c5\u03ae\u03c2",

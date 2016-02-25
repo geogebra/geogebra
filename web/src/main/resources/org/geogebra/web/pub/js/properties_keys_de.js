@@ -2988,6 +2988,8 @@ __GGB__keysVar.de.plain = {
     "otherwise": "sonst",
     "parallel": "parallel",
     "pdf": "PDF-Format",
+    "phone_change_visibility": "Sichtbarkeit \xe4ndern",
+    "phone_change_visibility_text": "Wenn Sie dieses private Material teilen, wird die Sichtbarkeit auf \"Mit Link teilen\" gesetzt.",
     "png": "Bilddatei",
     "polar": "polar",
     "resetConstruction": "Konstruktion zur\xfccksetzen",

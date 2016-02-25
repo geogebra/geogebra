@@ -2988,6 +2988,8 @@ __GGB__keysVar.cy.plain = {
     "otherwise": "fel arall",
     "parallel": "paralel",
     "pdf": "Ffurf Dogfen Symudol",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "Rhwydwaith Graffeg Symudol",
     "polar": "pegynlin",
     "resetConstruction": "Ailosod y lluniad",

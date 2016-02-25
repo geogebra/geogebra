@@ -2988,6 +2988,8 @@ __GGB__keysVar.ka.plain = {
     "otherwise": "\u10e1\u10ee\u10d5\u10d0\u10d2\u10d5\u10d0\u10e0\u10d0\u10d3",
     "parallel": "\u10de\u10d0\u10e0\u10d0\u10da\u10d4\u10da\u10e3\u10e0\u10d8",
     "pdf": "\u10d2\u10d0\u10d3\u10d0\u10e2\u10d0\u10dc\u10d0\u10d3\u10d8 \u10d3\u10dd\u10d9\u10e3\u10db\u10d4\u10dc\u10e2\u10d8\u10e1 \u10e4\u10dd\u10e0\u10db\u10d0\u10e2\u10d8 (PDF)",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "\u10d2\u10d0\u10d3\u10d0\u10e2\u10d0\u10dc\u10d0\u10d3\u10d8 \u10e5\u10e1\u10d4\u10da\u10d8\u10e1 \u10d2\u10e0\u10d0\u10e4\u10d8\u10d9\u10d0 (PNG)",
     "polar": "\u10de\u10dd\u10da\u10d0\u10e0\u10e3\u10da\u10d8",
     "resetConstruction": "\u10d0\u10d2\u10d4\u10d1\u10d8\u10e1 \u10d2\u10d0\u10e3\u10e5\u10db\u10d4\u10d1\u10d0",

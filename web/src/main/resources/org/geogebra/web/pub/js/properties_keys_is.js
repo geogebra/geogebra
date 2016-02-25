@@ -2988,6 +2988,8 @@ __GGB__keysVar.is.plain = {
     "otherwise": "annars",
     "parallel": "sams\xed\xf0a",
     "pdf": "pdf-skjalsni\xf0",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "png-skjalsni\xf0",
     "polar": "skaut",
     "resetConstruction": "Endursetja sm\xed\xf0",

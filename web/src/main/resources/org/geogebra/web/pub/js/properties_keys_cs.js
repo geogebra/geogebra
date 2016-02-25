@@ -2988,6 +2988,8 @@ __GGB__keysVar.cs.plain = {
     "otherwise": "jinak",
     "parallel": "rovnob\u011b\u017en\u011b",
     "pdf": "PDF",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "Portable Network Graphics",
     "polar": "pol\xe1rn\xed",
     "resetConstruction": "znovunastaven\xed konstrukce",

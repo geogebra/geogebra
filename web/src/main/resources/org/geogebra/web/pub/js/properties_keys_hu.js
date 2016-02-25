@@ -2988,6 +2988,8 @@ __GGB__keysVar.hu.plain = {
     "otherwise": "k\xfcl\xf6nben",
     "parallel": "p\xe1rhuzamos",
     "pdf": "Portable Document Format (.pdf)",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "Portable Network Graphics (.png)",
     "polar": "pol\xe1r",
     "resetConstruction": "Szerkeszt\xe9s t\xf6rl\xe9se",

@@ -2988,6 +2988,8 @@ __GGB__keysVar.tr.plain = {
     "otherwise": "aksi halde",
     "parallel": "paralel",
     "pdf": "Ta\u015f\u0131nabilir Dosya Bi\xe7imi(pdf)",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "Ta\u015f\u0131nabilir A\u011f Grafi\u011fi",
     "polar": "kutupsal",
     "resetConstruction": "\u0130n\u015fay\u0131 s\u0131f\u0131rla",

@@ -2988,6 +2988,8 @@ __GGB__keysVar.sr.plain = {
     "otherwise": "ina\u010de",
     "parallel": "paralelno",
     "pdf": "Portable Document Format",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "Portable Network Graphics",
     "polar": "polarno",
     "resetConstruction": "resetuj konstrukciju",

@@ -2988,6 +2988,8 @@ __GGB__keysVar.gl.plain = {
     "otherwise": "en caso contrario",
     "parallel": "paralela",
     "pdf": "Formato de documento pdf",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "Formato de gr\xe1ficos png",
     "polar": "polar",
     "resetConstruction": "Reinicializar construci\xf3n",

@@ -2988,6 +2988,8 @@ __GGB__keysVar.in.plain = {
     "otherwise": "jika tidak",
     "parallel": "sejajar",
     "pdf": "Portable Document Format",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "Portable Network Graphics",
     "polar": "polar",
     "resetConstruction": "Kembali ke kontruksi awal",

@@ -2988,6 +2988,8 @@ __GGB__keysVar.ms.plain = {
     "otherwise": "kalau tidak",
     "parallel": "selari",
     "pdf": "Format Dokumen Mudah Alih",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "Grafik Rangkaian Mudah Alih",
     "polar": "kutub",
     "resetConstruction": "Set Semula pembinaan",

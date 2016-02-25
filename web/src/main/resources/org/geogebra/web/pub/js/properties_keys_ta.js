@@ -2988,6 +2988,8 @@ __GGB__keysVar.ta.plain = {
     "otherwise": "otherwise",
     "parallel": "\u0b9a\u0bae\u0bbe\u0ba8\u0bcd\u0ba4\u0bb0\u0bae\u0bcd",
     "pdf": "PDF \u0b86\u0bb5\u0ba3\u0bae\u0bcd",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "PNG \u0baa\u0b9f\u0bae\u0bcd",
     "polar": "\u0bae\u0bc1\u0ba9\u0bc8\u0bb5\u0bae\u0bcd",
     "resetConstruction": "\u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc8 \u0bae\u0bc0\u0bb3 \u0b85\u0bae\u0bc8\u0b95\u0bcd\u0b95",

@@ -2988,6 +2988,8 @@ __GGB__keysVar.ko.plain = {
     "otherwise": "\ub2e4\ub978 \uacbd\uc6b0",
     "parallel": "\ud3c9\ud589",
     "pdf": "PDF",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "PNG",
     "polar": "\uadf9\uc88c\ud45c",
     "resetConstruction": "\uad6c\uc131 \ub418\ub3cc\ub9ac\uae30",

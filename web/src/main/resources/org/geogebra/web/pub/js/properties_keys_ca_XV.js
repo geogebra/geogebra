@@ -2988,6 +2988,8 @@ __GGB__keysVar.ca_XV.plain = {
     "otherwise": "altrament",
     "parallel": "paral\xb7lel",
     "pdf": "PDF",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "PNG",
     "polar": "forma polar",
     "resetConstruction": "Reinicia la construcci\xf3",

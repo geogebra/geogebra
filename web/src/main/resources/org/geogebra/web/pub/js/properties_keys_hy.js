@@ -2988,6 +2988,8 @@ __GGB__keysVar.hy.plain = {
     "otherwise": "\u0540\u0561\u056f\u0561\u057c\u0561\u056f \u0564\u0565\u057a\u0584\u0578\u0582\u0574",
     "parallel": "\u0536\u0578\u0582\u0563\u0561\u0570\u0565\u057c \u0578\u0582\u0572\u056b\u0572",
     "pdf": "Portable Document Format",
+    "phone_change_visibility": "Change Visibility",
+    "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
     "png": "Portable Network Graphics",
     "polar": "\u054a\u0578\u056c\u0575\u0561\u0580",
     "resetConstruction": "\u054e\u0565\u0580\u0561\u0564\u0561\u0580\u0571\u0576\u0565\u0574 \u057d\u056f\u0566\u0562\u0576\u0561\u056f\u0561\u0576 \u057e\u056b\u0573\u0561\u056f\u056b",
