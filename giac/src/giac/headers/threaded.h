@@ -25,6 +25,9 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#if defined WIN32 && !defined CLOCK
+#define CLOCK clock
+#endif
 
 /*
 #ifndef WIN32

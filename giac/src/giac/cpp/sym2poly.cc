@@ -1005,8 +1005,21 @@ namespace giac {
 	else
 	  num=algebraic_EXTension(makevecteur(doubl,0),v);
       }
-      else 
+      else {
+	bool neg=false; 
+#if 1
+	gen numd;
+	if (has_evalf(num,numd,1,contextptr) && is_positive(-numd,contextptr))
+	  neg=true;
+	if (neg){
+	  num=-num;
+	  v.back()=-num;
+	}
+#endif
 	sym2rxrootnum(v,vecteur(l.begin()+embeddings,l.end()),num,tmpden,contextptr);
+	if (neg)
+	  num=cst_i*num;
+      }
     }
     // end else num integer
     // and eventually we embedd num 
