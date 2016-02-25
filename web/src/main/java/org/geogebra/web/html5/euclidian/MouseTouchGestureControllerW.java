@@ -7,6 +7,8 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Hits;
+import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
+import org.geogebra.common.euclidian.controller.MultitouchMode;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -57,8 +59,8 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
-public class MouseTouchGestureControllerW implements
- HasOffsets {
+public class MouseTouchGestureControllerW extends MouseTouchGestureController
+		implements HasOffsets {
 
 	private AppW app;
 	private EuclidianController ec;
@@ -68,45 +70,6 @@ public class MouseTouchGestureControllerW implements
 	private PointerEvent waitingMouseMove = null;
 
 	public EnvironmentStyleW style = new EnvironmentStyleW();
-
-	/**
-	 * different modes of a multitouch-event
-	 */
-	protected enum MultitouchMode {
-		/**
-		 * scale x-axis (two TouchStartEvents on the x-axis)
-		 */
-		zoomX,
-		/**
-		 * scale y-axis (two TouchStartEvents on the y-axis)
-		 */
-		zoomY,
-		/**
-		 * scale a circle or ellipsis with three points or an ellipsis with 5
-		 * points
-		 */
-		circle3Points,
-		/**
-		 * scale a circle with 2 points
-		 */
-		circle2Points,
-		/**
-		 * scale a circle given with midpoint and a number-input as radius
-		 */
-		circleRadius,
-		/**
-		 * scale a circle given as input formula
-		 */
-		circleFormula,
-		/**
-		 * zooming
-		 */
-		view,
-		/**
-		 * move a line with two fingers
-		 */
-		moveLine;
-	}
 
 	/**
 	 * Threshold for the selection rectangle distance squared (10 pixel circle)
