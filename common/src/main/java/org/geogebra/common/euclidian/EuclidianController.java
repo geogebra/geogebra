@@ -6619,6 +6619,7 @@ public abstract class EuclidianController {
 			} else {
 				view.setToolTipText(l10n.getPlainTooltip("Pause"));
 			}
+
 			view.setHitCursor();
 			view.repaintView();
 			return;
@@ -9545,7 +9546,17 @@ public abstract class EuclidianController {
 			} else {
 				kernel.getAnimatonManager().startAnimation();
 			}
+			if (app.getGuiManager().hasAlgebraView()) {
+				for (GeoElement geo : kernel.getConstruction()
+						.getGeoSetConstructionOrder()) {
+					if (geo instanceof GeoNumeric) {
+						geo.setAnimating(kernel.isAnimationRunning());
+						geo.updateRepaint();
+					}
+				}
+			}
 			view.repaintView();
+
 			app.setUnsaved();
 			return;
 		}
