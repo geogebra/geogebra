@@ -107,11 +107,13 @@ public class MyList extends ValidExpression implements ListValue,
 	 * 
 	 * @return array of double values from this list
 	 */
-	public double[] toDouble() {
+	@Override
+	public double[] toDouble(int offset) {
+		int length = listElements.size();
 		try {
-			double[] valueArray = new double[listElements.size()];
-			for (int i = 0; i < valueArray.length; i++) {
-				valueArray[i] = listElements.get(i).evaluateDouble();
+			double[] valueArray = new double[length - offset];
+			for (int i = offset; i < length; i++) {
+				valueArray[i - offset] = listElements.get(i).evaluateDouble();
 			}
 			return valueArray;
 		} catch (Exception e) {

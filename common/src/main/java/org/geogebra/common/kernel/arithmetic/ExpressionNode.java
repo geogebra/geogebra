@@ -3268,8 +3268,8 @@ kernel, left,
 				break;
 			}
 
-			// #1115
-			// no break
+			appendFunctionNVar(sb, left, leftStr, rightStr, tpl);
+			break;
 		case FUNCTION_NVAR:
 			if (valueForm) {
 				// TODO: avoid replacing of expressions in operationToString
@@ -3304,27 +3304,7 @@ kernel, left,
 					sb.append(tpl.rightBracket());
 				}
 			} else {
-				// multivariate functions
-				if (left.isGeoElement()) {
-					sb.append(((GeoElement) left).getLabel(tpl));
-				} else {
-					sb.append(leftStr);
-				}
-				// no parameters for LeftSide[a], Derivative[sin(x+y),y], etc
-				// parameters for unknown cas functions
-				if (!left.isGeoElement() || ((GeoElement) left).isLabelSet()
-						|| left instanceof GeoDummyVariable
-						|| left instanceof GeoCasCell) {
-					sb.append(tpl.leftBracket());
-
-					// rightStr is a list of arguments, e.g. {2, 3}
-					// drop the curly braces { and }
-					// or list( and ) in case of mpreduce
-
-					sb.append(rightStr);
-
-					sb.append(tpl.rightBracket());
-				}
+				appendFunctionNVar(sb, left, leftStr, rightStr, tpl);
 			}
 			break;
 
@@ -3645,6 +3625,33 @@ kernel, left,
 			sb.append("unhandled operation " + operation);
 		}
 		return sb.toString();
+	}
+
+	private static void appendFunctionNVar(StringBuilder sb,
+			ExpressionValue left, String leftStr,
+			String rightStr, StringTemplate tpl) {
+		// multivariate functions
+		if (left.isGeoElement()) {
+			sb.append(((GeoElement) left).getLabel(tpl));
+		} else {
+			sb.append(leftStr);
+		}
+		// no parameters for LeftSide[a], Derivative[sin(x+y),y], etc
+		// parameters for unknown cas functions
+		if (!left.isGeoElement() || ((GeoElement) left).isLabelSet()
+				|| left instanceof GeoDummyVariable
+				|| left instanceof GeoCasCell) {
+			sb.append(tpl.leftBracket());
+
+			// rightStr is a list of arguments, e.g. {2, 3}
+			// drop the curly braces { and }
+			// or list( and ) in case of mpreduce
+
+			sb.append(rightStr);
+
+			sb.append(tpl.rightBracket());
+		}
+
 	}
 
 	private static String degFix(String string,
@@ -5742,7 +5749,7 @@ kernel, left,
 	public boolean containsFreeFunctionVariable(String name) {
 		return checkForFreeVars(left, name)
 				|| (right != null && checkForFreeVars(right, name))
-				|| (operation == Operation.FUNCTION_NVAR
+				|| ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF)
 						&& right instanceof MyList && ((ValidExpression) right)
 							.containsFunctionVariable(name));
 	}
@@ -5755,7 +5762,7 @@ kernel, left,
 	public boolean containsFreeFunctionVariableOtherThan(FunctionVariable[] vars) {
 		return checkForFreeVars(left, vars)
 				|| (right != null && checkForFreeVars(right, vars))
-				|| (operation == Operation.FUNCTION_NVAR
+				|| ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF)
 						&& right instanceof MyList && ((ValidExpression) right)
 							.containsFunctionVariableOtherThan(vars));
 	}

@@ -748,11 +748,12 @@ AngleProperties {
 	 * @return array of double values from this list
 	 */
 	@Override
-	public double[] toDouble() {
+	public double[] toDouble(int offset) {
+		int length = geoList.size();
 		try {
-			final double[] valueArray = new double[geoList.size()];
-			for (int i = 0; i < valueArray.length; i++) {
-				valueArray[i] = ((NumberValue) geoList.get(i)).getDouble();
+			final double[] valueArray = new double[length - offset];
+			for (int i = offset; i < length; i++) {
+				valueArray[i - offset] = geoList.get(i).evaluateDouble();
 			}
 			return valueArray;
 		} catch (final Exception e) {

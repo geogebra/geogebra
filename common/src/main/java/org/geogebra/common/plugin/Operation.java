@@ -9,6 +9,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
@@ -24,6 +27,7 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoVec2D;
@@ -34,6 +38,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
 public enum Operation {
@@ -1483,8 +1488,16 @@ public enum Operation {
 									((GeoFunction) nextSublist).evaluate(lv
 											.getListElement(i + 1)
 											.evaluateDouble()));
-						} else {
+						} else if (nextSublist instanceof GeoFunctionNVar
+								&& i == lv.size()
+										- ((GeoFunctionNVar) nextSublist)
+										.getVarNumber() - 1) {
 
+							return new MyDouble(ev.getKernel(),
+									((GeoFunctionNVar) nextSublist).evaluate(lv
+											.toDouble(1)));
+						} else {
+							Log.debug(nextSublist + " inavlid in Element");
 							return new MyDouble(ev.getKernel(), Double.NaN);
 						}
 
@@ -1494,18 +1507,33 @@ public enum Operation {
 				if (idx < 0) {
 					idx = sublist.size() + 1 + idx;
 				}
+				GeoElement ret;
 				if (idx >= 0 && idx < sublist.size()) {
-					GeoElement ret = sublist.get(idx).copyInternal(
+					ret = sublist.get(idx).copyInternal(
 							sublist.getConstruction());
-					if (ret instanceof GeoFunction) {
-						return ((GeoFunction) ret).getFunction();
-					}
-					return ret;
+				} else {
+					ret = sublist.createTemplateElement();
+
+					ret.setUndefined();
 				}
-				GeoElement ret = sublist.createTemplateElement();
-				ret.setUndefined();
 				if (ret instanceof GeoFunction) {
-					return ((GeoFunction) ret).getFunction();
+					Kernel kernel = ret.getKernel();
+					MyList list = lv.getMyList();
+					FunctionVariable fv = new FunctionVariable(kernel);
+					list.addListElement(fv);
+					return new Function(new ExpressionNode(kernel, sublist,
+							Operation.ELEMENT_OF, list), fv);
+				}
+				if (ret instanceof GeoFunctionNVar) {
+					Kernel kernel = ret.getKernel();
+					MyList list = lv.getMyList();
+					FunctionVariable[] vars = ((GeoFunctionNVar) ret)
+							.getFunctionVariables();
+					for (int i = 0; i < vars.length; i++) {
+						list.addListElement(vars[i]);
+					}
+					return new FunctionNVar(new ExpressionNode(kernel, sublist,
+							Operation.ELEMENT_OF, list), vars);
 				}
 				return ret;
 			}

@@ -34,9 +34,12 @@ public interface ListValue extends ExpressionValue {
 	/**
 	 * Tries to return this list as an array of double values
 	 * 
+	 * @param offset
+	 *            how many elements should be skipped
+	 * 
 	 * @return array of double values from this list
 	 */
-	public double[] toDouble();
+	public double[] toDouble(int offset);
 
 	/**
 	 * @return number of elements of this list

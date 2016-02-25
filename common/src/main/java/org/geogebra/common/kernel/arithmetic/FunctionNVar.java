@@ -399,7 +399,6 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		}
 		// NumberValue
 		for (int i = 0; i < fVars.length; i++) {
-			// Application.debug(fVars[i].toString()+" <= "+vals[i]);
 			fVars[i].set(vals[i]);
 		}
 		return expression.evaluateDouble();

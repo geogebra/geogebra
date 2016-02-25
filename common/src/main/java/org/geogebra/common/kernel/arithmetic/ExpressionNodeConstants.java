@@ -28,6 +28,9 @@ public interface ExpressionNodeConstants {
 		/** OGP */
 		OGP;
 
+		/**
+		 * @return whether this is giac type
+		 */
 		public boolean isGiac() {
 			return this.equals(StringType.GIAC);
 		}

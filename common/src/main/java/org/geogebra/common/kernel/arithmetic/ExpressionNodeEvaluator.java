@@ -1154,7 +1154,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			FunctionNVar funN = ((FunctionalNVar) lt).getFunction();
 			ListValue list = (ListValue) rt;
 			if (funN.getVarNumber() == list.size() || funN.getVarNumber() == 1) {
-				double[] args = list.toDouble();
+				double[] args = list.toDouble(0);
 				if (args != null) {
 					if (funN.isBooleanFunction()) {
 						return new MyBoolean(kernel, funN.evaluateBoolean(args));
@@ -1186,7 +1186,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						&& ((ListValue) ev).getMyList().getListElement(0)
 								.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue) {
 					// TODO can we avoid evaluate here
-					double[] vals = ((ListValue) ev).toDouble();
+					double[] vals = ((ListValue) ev).toDouble(0);
 					if (vals != null) {
 						if (funN.isBooleanFunction()) {
 							return new MyBoolean(kernel,

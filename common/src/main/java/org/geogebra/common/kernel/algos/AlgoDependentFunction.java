@@ -32,9 +32,9 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * This class is only needed to handle dependencies
@@ -140,7 +140,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				App.debug("derivative failed");
+				Log.debug("derivative failed");
 			}
 
 			if (ev == null) {
@@ -262,7 +262,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 					return ((Functional) ((GeoCasCell)leftValue).getTwinGeo()).getGeoDerivative(order);	
 				}
 				return ((Functional) leftValue).getGeoDerivative(order);
-
+			case ELEMENT_OF:
+				Log.debug("TODO: expand list1(x)");
 				// remove spreadsheet $ references, i.e. $A1 -> A1
 			case $VAR_ROW:
 			case $VAR_COL:
@@ -299,6 +300,10 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 					|| op.equals(Operation.FUNCTION)
 					|| op.equals(Operation.DERIVATIVE)) {
 				return true;
+			}
+			// list(1,x) is function dependent, list(1,2) is not
+			if (op.equals(Operation.ELEMENT_OF)) {
+				return node.getRightTree().containsFreeFunctionVariable(null);
 			}
 			return containsFunctions(node.getLeft())
 					|| containsFunctions(node.getRight());

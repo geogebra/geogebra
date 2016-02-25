@@ -23,5 +23,8 @@ public interface GetItem extends ExpressionValue {
 	 */
 	public int getLength();
 
+	/**
+	 * @return label of expected result
+	 */
 	public String getLabel();
 }
