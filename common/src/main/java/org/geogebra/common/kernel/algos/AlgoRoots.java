@@ -35,14 +35,14 @@ import org.geogebra.common.main.App;
  * Command: Roots[ <function>, <left-x>, <right-x>] (TYPE 0) and Command:
  * Intersect[ <function>, <function>, <left-x>, <right-x>] (TYPE 1) (just uses
  * difference-function instead of one function)
- * 
+ *
  * Can be used elsewhere: public static final double[] findRoots(GeoFunction
  * f,double l,double r,int samples) public static final double[]
  * calcSingleRoot(GeoFunction f, double l, double r);
- * 
+ *
  * Extends AlgoGeoPointsFunction (abstract), with the label methods, which again
  * extens AlgoElement.
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 2011-03-08
  */
@@ -485,9 +485,39 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	protected void initPoints(int number) {
 		super.initPoints(number);
 
+		// parentAlgorithm is set to null in some cases (see below)
+		for(int i= 0; i< points.length;i++){
+			points[i].setParentAlgorithm(this);
+		}
+
 		if (points.length > number) {
-			// if there are no points left, there needs to be one "undefined" point
-			number = Math.max(1, number);
+
+			// no visible points left
+			if(number==0){
+				ArrayList<GeoPoint> temp = new ArrayList<GeoPoint>();
+				for(int i =0; i< points.length;i++){
+					if(!points[i].getAlgoUpdateSet().isEmpty()){
+						// store points that have dependent objects
+						temp.add(points[i]);
+					}
+				}
+
+				// at least one point with dependencies was found
+				if(temp.size() > 0){
+					// delete all other points
+					for(int i =0; i< points.length;i++){
+						if(!temp.contains(points[i])){
+							points[i].setParentAlgorithm(null);
+							points[i].remove();
+						}
+					}
+					// do not reset points -> position of the not removed points is not changed
+					return;
+				}
+
+				// there are no points with dependencies -> keep only one undefined point
+				number = 1;
+			}
 
 			GeoPoint[] temp = new GeoPoint[number];
 			for (int i = 0; i < temp.length; i++) {
@@ -507,4 +537,16 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		}
 	}
 
+    @Override
+    protected void removePoint(int pos) {
+        points[pos].doRemove();
+
+        for (GeoPoint point : points) {
+            if (point.isLabelSet()) {
+                return;
+            }
+        }
+
+        super.remove();
+    }
 }// class AlgoRoots

@@ -218,7 +218,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		}// if
 	}// initPoints(n)
 
-	private void removePoint(int pos) {
+	protected void removePoint(int pos) {
 		points[pos].doRemove();
 
 		// build new rootPoints array without the removed point
