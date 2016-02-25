@@ -154,4 +154,19 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 		super.clear();
 		this.treeSet.clear();
 	}
+
+	public ArrayList<String> getAllCommands() {
+		ArrayList<String> ret = new ArrayList<String>();
+
+		Iterator<String> compIter = treeSet.iterator();
+		while (compIter.hasNext()) {
+			ret.add(get(compIter.next()));
+		}
+
+		if (ret.isEmpty()) {
+			return null;
+		}
+
+		return ret;
+	}
 }

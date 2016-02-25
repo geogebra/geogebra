@@ -16,6 +16,12 @@ package org.geogebra.common.kernel.commands;
  * ID's of tables for commands
  */
 public interface CommandsConstants {
+
+	/**
+	 * Index for commands
+	 */
+	public static final int ALL_COMMANDS_INDEX = -1;
+
 	/** Geometry commands */
 	public static final int TABLE_GEOMETRY = 0;
 	/** Algebra commands */

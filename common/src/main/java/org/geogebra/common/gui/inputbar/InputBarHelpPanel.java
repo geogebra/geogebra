@@ -1,8 +1,10 @@
 package org.geogebra.common.gui.inputbar;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.LowerCaseDictionary;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeMap;
@@ -10,10 +12,23 @@ import java.util.TreeSet;
 
 public class InputBarHelpPanel {
 
-	final static public String ALL_COMMANDS_CATEGORY = "";
+	protected App mApp;
+	private LowerCaseDictionary mDict;
+	private Collection<String> mAllCommands;
+	private LowerCaseDictionary[] mSubDict;
+	private TreeMap<String, Integer> mCategoryNameToTableIndex;
+	private Collection<String>[] mCommands;
+
+	public InputBarHelpPanel(App app) {
+		super();
+		this.mApp = app;
+		updateDictionaries();
+
+
+	}
 
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            app
 	 * @param comparator
@@ -52,7 +67,7 @@ public class InputBarHelpPanel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            app
 	 * @param comparator
@@ -73,5 +88,71 @@ public class InputBarHelpPanel {
 			}
 		}
 		return treeSet;
+	}
+
+	public void updateDictionaries() {
+
+		// all commands dictionary
+		mDict = mApp.getCommandDictionary();
+		mAllCommands = mDict.getAllCommands();
+
+		// by category dictionaries
+		mSubDict = mApp.getSubCommandDictionary();
+
+		int n = getCategoriesCount();
+		mCommands = new Collection[n];
+		mCategoryNameToTableIndex = new TreeMap<String, Integer>();
+
+		for (int i = 0; i < n; i++) {
+			String categoryName = getCategoryName(i);
+//			Log.debug("==== Category: "+categoryName);
+			Collection<String> list = getSubDictionary(i).getAllCommands();
+			if (list != null) {
+				mCategoryNameToTableIndex.put(categoryName, i);
+				mCommands[i] = list;
+//				for (String s : list) {
+//					Log.debug(s);
+//				}
+			}
+//			else{
+//				Log.debug("xxx none");
+//			}
+		}
+
+
+	}
+
+	public Collection<String> getCommands(int i) {
+		return mCommands[i];
+	}
+
+	public Collection<String> getAllCommands() {
+		return mAllCommands;
+	}
+
+	/**
+	 * USED IN ANDROID
+	 *
+	 * @return all commands dictionnary
+	 */
+	public AutoCompleteDictionary getDictionary() {
+		return this.mDict;
+	}
+
+	public LowerCaseDictionary getSubDictionary(int i) {
+		return mSubDict[i];
+	}
+
+	public String getCategoryName(int i) {
+		return mApp.getKernel().getAlgebraProcessor()
+				.getSubCommandSetName(i);
+	}
+
+	public int getCategoriesCount() {
+		return mSubDict.length;
+	}
+
+	public TreeMap<String, Integer> getCategories() {
+		return mCategoryNameToTableIndex;
 	}
 }
