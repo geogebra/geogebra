@@ -1129,8 +1129,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public static boolean collinearND(GeoPointND A, GeoPointND B, GeoPointND C) {
 		// A, B, C are collinear iff (A-B)x(A-C) == (0,0,0)
 
-		Coords diffB = A.getCoordsInD3().sub(B.getCoordsInD3());
-		Coords diffC = A.getCoordsInD3().sub(C.getCoordsInD3());
+		Coords diffB = A.getInhomCoordsInD3().sub(B.getInhomCoordsInD3());
+		Coords diffC = A.getInhomCoordsInD3().sub(C.getInhomCoordsInD3());
 		Coords prod = diffB.crossProduct(diffC);
 
 		return prod.isZero(3);
