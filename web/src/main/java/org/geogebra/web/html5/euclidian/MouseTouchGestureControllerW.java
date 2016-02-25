@@ -225,8 +225,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		}
 	};
 
-	// private boolean ignoreNextMouseEvent;
-
 	public void moveIfWaiting() {
 		long time = System.currentTimeMillis();
 		if (this.waitingMouseMove != null) {
@@ -242,9 +240,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	public MouseTouchGestureControllerW(AppW app, EuclidianController ec) {
-		// super(kernel.getApplication());
-		// setKernel(kernel);
-
 		this.app = app;
 		this.ec = ec;
 
