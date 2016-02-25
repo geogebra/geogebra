@@ -2568,7 +2568,9 @@ marblePanel, evt))) {
 			// border.setBorderColor(CLEAR_COLOR_STR);
 			removeStyleName("avSelectedRow");
 		}
-		marblePanel.setHighlighted(selected);
+		if (marblePanel != null) {
+			marblePanel.setHighlighted(selected);
+		}
 		if (selected == false
 				// && geo != AVSelectionController.get(app).getLastSelectedGeo()
 				&& animPanel != null) {
