@@ -985,7 +985,7 @@ __GGB__keysVar.fr.command = {
     "ToPolar": "EnPolaires",
     "ToPolar.Syntax": "[ <Nombre complexe> ]\n[ <Vecteur> ]",
     "ToolImage": "Ic\xf4neOutil",
-    "ToolImage.Syntax": "[ <Num\xe9ro> ]",
+    "ToolImage.Syntax": "[ <Num\xe9ro> ]\n[ <Num\xe9ro>, <Point> ]\n[ <Num\xe9ro>, <Point>, <Point> ]",
     "Top": "EnHaut",
     "Top.Syntax": "[ <Quadrique> ]",
     "Translate": "Translation",
