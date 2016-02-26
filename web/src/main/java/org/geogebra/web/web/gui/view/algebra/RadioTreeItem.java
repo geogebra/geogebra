@@ -78,6 +78,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -386,6 +387,10 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		public void onMouseDown(MouseDownEvent event) {
+			if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+				return;
+			}
+
 			event.preventDefault();
 			event.stopPropagation();
 
@@ -1972,7 +1977,8 @@ marblePanel, evt))) {
 	}
 
 	private void handleAVItem(MouseEvent<?> evt) {
-		handleAVItem(evt.getClientX(), evt.getClientY());
+		handleAVItem(evt.getClientX(), evt.getClientY(),
+				evt.getNativeButton() == NativeEvent.BUTTON_RIGHT);
 	}
 
 	private void handleAVItem(TouchStartEvent evt) {
@@ -1981,10 +1987,10 @@ marblePanel, evt))) {
 		}
 
 		Touch t = evt.getTouches().get(0);
-		handleAVItem(t.getClientX(), t.getClientY());
+		handleAVItem(t.getClientX(), t.getClientY(), false);
 	}
 
-	private void handleAVItem(int x, int y) {
+	private void handleAVItem(int x, int y, boolean rightClick) {
 
 		boolean minHit = sliderPanel != null
 				&& isWidgetHit(slider.getWidget(0), x, y);
@@ -2005,7 +2011,7 @@ marblePanel, evt))) {
 			return;
 		}
 
-		if (sliderPanel != null && sliderPanel.isVisible()) {
+		if (sliderPanel != null && sliderPanel.isVisible() && !rightClick) {
 
 			if (minHit || maxHit) {
 				minMaxPanel.show();
