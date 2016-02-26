@@ -940,7 +940,9 @@ public class RadioTreeItem extends AVTreeItem
 				// this method (onClick) could execute
 				@Override
 				public void onMouseDown(MouseDownEvent event) {
-
+					if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+						return;
+					}
 					event.stopPropagation();
 					geo.remove();
 				}
