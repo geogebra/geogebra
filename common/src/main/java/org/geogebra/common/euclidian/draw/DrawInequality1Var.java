@@ -243,4 +243,10 @@ public class DrawInequality1Var extends Drawable {
 
 	}
 
+	public void ignoreLines() {
+		for (int i = 0; i < lines.length; i++) {
+			lines[i] = null;
+		}
+
+	}
 }

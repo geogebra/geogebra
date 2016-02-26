@@ -15,6 +15,8 @@ package org.geogebra.common.euclidian;
 //import java.awt.Graphics2D;
 import java.util.Iterator;
 
+import org.geogebra.common.euclidian.draw.DrawInequality;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
@@ -187,6 +189,12 @@ public class DrawableList {
 				if (cur.d.needsUpdate()) {
 					cur.d.setNeedsUpdate(false);
 					cur.d.update();
+					if (cur.d instanceof DrawInequality
+							&& ((DrawInequality) cur.d).getLeft() != null
+							&& ((DrawInequality) cur.d).getRight() != null) {
+						((DrawInequality) cur.d)
+								.update((FunctionalNVar) ((DrawInequality) cur.d).geo);
+					}
 				}
 				cur.d.draw(g2);
 			}
