@@ -1713,7 +1713,8 @@ namespace giac {
 	res=0; R=inv(R,contextptr);
 	// add sum(1/k^pui,k,a,inf)
 	// -> 2*sum(1/(2*k)^pui,k,a/2,inf)=2^(1-pui)*sum(1/k^pui,k,a/2,inf)
-	res = res - _sum(makesequence(R,x,a,plus_inf),contextptr) + pow(2,1-pui,contextptr)*_sum(makesequence(R,x,(a.val+1)/2,plus_inf),contextptr);
+	res = - _sum(makesequence(R,x,a,plus_inf),contextptr) + pow(2,1-pui,contextptr)*_sum(makesequence(R,x,(a.val+1)/2,plus_inf),contextptr);
+	res = -res*subst(g/R,x,a,false,contextptr);
 	return true;
       }
       gen n=b-a;
