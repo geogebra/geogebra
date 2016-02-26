@@ -37,6 +37,8 @@ public class DrawInequality extends Drawable {
 	private Inequality ineq;
 	private FunctionalNVar function;
 
+	private boolean recUpdateNeeded = false;
+
 	/**
 	 * Creates new drawable linear inequality
 	 * 
@@ -64,6 +66,21 @@ public class DrawInequality extends Drawable {
 	}
 
 	public void update(FunctionalNVar fun) {
+		if (recUpdateNeeded) {
+			if (left.drawable instanceof DrawInequality1Var) {
+				((DrawInequality1Var) left.drawable).ignoreLines();
+			} else {
+				left.recUpdateNeeded = true;
+				left.update(fun);
+			}
+			if (right.drawable instanceof DrawInequality1Var) {
+				((DrawInequality1Var) right.drawable).ignoreLines();
+			} else {
+				right.recUpdateNeeded = true;
+				right.update(fun);
+			}
+			return;
+		}
 		if (left.drawable == null && right.drawable == null) {
 			if (this.operation.equals(Operation.OR)) {
 				if (right.left != null && right.right != null
@@ -181,6 +198,13 @@ public class DrawInequality extends Drawable {
 					}
 				}
 			}
+			return;
+		}
+		if (left.drawable instanceof DrawInequality1Var
+				&& right.drawable == null
+				&& this.operation.equals(Operation.OR)) {
+			right.recUpdateNeeded = true;
+			right.update(fun);
 			return;
 		}
 		if (left.drawable instanceof DrawInequality1Var && right.drawable instanceof DrawInequality1Var) {
