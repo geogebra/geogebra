@@ -2918,6 +2918,7 @@ namespace giac {
 	    if (conj_in_nf(w,P,contextptr)){
 	      // P is a rootof such that conj(rootof(w))=P
 	      gen c=horner(tmp[0].conj(contextptr),P);
+	      c=normal(c,contextptr);
 	      return c;
 	    }
 	  }
@@ -12538,8 +12539,14 @@ namespace giac {
 	return printmap(*_MAPptr,contextptr);
     case _EQW:
       return print_EQW(*_EQWptr);
-    case _POINTER_:
-      return "pointer("+hexa_print_INT_(int((alias_type)_POINTER_val))+","+print_INT_(subtype)+")";
+    case _POINTER_: {
+      // handle 64 bits pointers
+      unsigned long u=(unsigned long)_POINTER_val;
+      if (u<(1U<<31))
+	return "pointer("+hexa_print_INT_(int((alias_type)_POINTER_val))+","+print_INT_(subtype)+")";
+      gen z=longlong(u);
+      return "pointer("+hexa_print_ZINT(*z._ZINTptr)+","+print_INT_(subtype)+")";
+    }
     default:
 #ifndef NO_STDEXCEPT
       settypeerr(gettext("print"));

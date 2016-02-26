@@ -168,7 +168,7 @@ namespace giac {
 	gen r2=c[i];
 	gen R2=_evalf(makesequence(r2,ndigits),contextptr);
 	if (is_greater(borne*abs(R1,contextptr),abs(R1-R2,contextptr)*pow10,contextptr)){
-	  g=r2;
+	  g=r2; 
 	  return true;
 	}
       }

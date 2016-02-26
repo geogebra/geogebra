@@ -2500,7 +2500,10 @@ namespace giac {
       }
     }
     // if (is_fully_numeric(res))
-    if (!v.empty() && v.back().type!=_VECT && lidnt(res).empty() && is_zero(im(res,contextptr),contextptr))
+    if (!v.empty() && v.back().type!=_VECT && 
+	lidnt(evalf(res,1,contextptr)).empty()
+	// lidnt(res).empty() && is_zero(im(res,contextptr),contextptr)
+	)
       res=protect_sort(res,contextptr);
     if (!xcas_mode(contextptr) && calc_mode(contextptr)!=1)
       return gen(res,_LIST__VECT);

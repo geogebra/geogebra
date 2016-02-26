@@ -2994,6 +2994,22 @@ namespace giac {
   static define_unary_function_eval (__VIEWS,&_VIEWS,_VIEWS_s);
   define_unary_function_ptr5( at_VIEWS ,alias_at_VIEWS,&__VIEWS,_QUOTE_ARGUMENTS,T_RETURN);
   
+  unsigned long long mpz_get_ull(mpz_t n){
+    unsigned int lo, hi;
+    mpz_t tmp;
+    
+    mpz_init( tmp );
+    mpz_mod_2exp( tmp, n, 64 );   /* tmp = (lower 64 bits of n) */
+    
+    lo = mpz_get_ui( tmp );       /* lo = tmp & 0xffffffff */ 
+    mpz_div_2exp( tmp, tmp, 32 ); /* tmp >>= 32 */
+    hi = mpz_get_ui( tmp );       /* hi = tmp & 0xffffffff */
+
+    mpz_clear( tmp );
+
+    return (((unsigned long long)hi) << 32) + lo;
+  }
+
   gen _pointer(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return gensizeerr(contextptr);
@@ -3001,8 +3017,10 @@ namespace giac {
       return gentypeerr(contextptr);
     if (args._VECTptr->front().type==_INT_)
       return gen((void *)(unsigned long)args._VECTptr->front().val, args._VECTptr->back().val);
-    if (args._VECTptr->front().type==_ZINT)
-      return gensizeerr("64 bits pointer I/O not yet implemented");
+    if (args._VECTptr->front().type==_ZINT){
+      unsigned long u=mpz_get_ull(*args._ZINTptr);
+      return gen((void *)u,args._VECTptr->back().val);
+    }
     return gentypeerr(contextptr);
   }
   static const char _pointer_s[]="pointer";

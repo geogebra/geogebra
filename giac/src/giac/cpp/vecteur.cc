@@ -6472,10 +6472,17 @@ namespace giac {
       // convert a to internal form
       lv=alg_lvar(res);
       if (!lv.empty() && lv.front().type==_VECT && lv.front()._VECTptr->size()>1){
-	vecteur lw=*tsimplify(lv.front(),contextptr)._VECTptr;
+	vecteur lw=*halftan(lv.front(),contextptr)._VECTptr;
 	if (lvar(lw).size()<lv.front()._VECTptr->size()){
 	  res=*subst(gen(res),lv.front(),lw,false,contextptr)._VECTptr;
 	  lv=alg_lvar(res);
+	}
+	if (!lv.empty() && lv.front().type==_VECT && lv.front()._VECTptr->size()>1){
+	  lw=*tsimplify(lv.front(),contextptr)._VECTptr;
+	  if (lvar(lw).size()<lv.front()._VECTptr->size()){
+	    res=*subst(gen(res),lv.front(),lw,false,contextptr)._VECTptr;
+	    lv=alg_lvar(res);
+	  }
 	}
       }
       res = *(e2r(res,lv,contextptr)._VECTptr);
