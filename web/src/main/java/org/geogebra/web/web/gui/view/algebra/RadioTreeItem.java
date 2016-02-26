@@ -484,7 +484,12 @@ public class RadioTreeItem extends AVTreeItem
 
 			ClickStartHandler.init(btnPlay, new ClickStartHandler() {
 				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
+				public boolean onClickStart(int x, int y, PointerEventType type,
+						boolean right) {
+					if (right) {
+						return true;
+					}
+
 					boolean value = !(geo.isAnimating() && app.getKernel()
 							.getAnimatonManager().isRunning());
 
@@ -493,6 +498,12 @@ public class RadioTreeItem extends AVTreeItem
 					geo.updateRepaint();
 
 					setAnimating(geo.isAnimating());
+					return true;
+				}
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					onClickStart(x, y, type, false);
 				}
 			});
 
@@ -552,6 +563,9 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		public void onClick(ClickEvent event) {
+			if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+				return;
+			}
 			Object source = event.getSource();
 			if (source == btnSpeedDown) {
 				speedDown();
