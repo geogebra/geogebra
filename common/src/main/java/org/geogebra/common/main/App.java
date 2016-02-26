@@ -3814,12 +3814,18 @@ public abstract class App implements UpdateSelection {
 			// Command.Java
 		case POLYGON_OPS:
 
-			case TOOL_EDITOR:
-			case TUBE_BETA:
-			case LOG_AXES:
+		case TOOL_EDITOR:
+		case TUBE_BETA:
+		case LOG_AXES:
+			return prerelease;
+
 		case SURFACE_IS_REGION:
 		case HIT_PARAMETRIC_SURFACE:
+			return true;
+
 		case PARAMETRIC_SURFACE_IS_REGION:
+			return prerelease;
+
 		case SHINY_3D:
 
 		case WEB_PRINT_ALGEBRA_VIEW:
