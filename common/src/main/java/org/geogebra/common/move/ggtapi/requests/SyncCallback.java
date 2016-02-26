@@ -1,4 +1,4 @@
-package org.geogebra.web.web.move.ggtapi.models;
+package org.geogebra.common.move.ggtapi.requests;
 
 import java.util.ArrayList;
 

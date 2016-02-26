@@ -1,4 +1,4 @@
-package org.geogebra.web.web.move.ggtapi.models;
+package org.geogebra.common.move.ggtapi.requests;
 
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -8,7 +8,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONBoolean;
 import org.geogebra.common.move.ggtapi.models.json.JSONNumber;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONString;
-import org.geogebra.web.html5.main.AppW;
 
 /**
  * Upload request for GeoGebraTube
@@ -28,8 +27,6 @@ public class UploadRequest implements Request {
 	/**
 	 * Used to upload the actual opened application to GeoGebraTube
 	 * 
-	 * @param app
-	 *            AppW
 	 * @param consTitle
 	 *            title of construction
 	 * @param base64
