@@ -84,7 +84,6 @@ import org.geogebra.web.web.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
-import org.geogebra.web.web.gui.view.algebra.AlgebraContextMenuW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
@@ -239,12 +238,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		        mt);
 		currentPopup = (AttachedToDOM) contextMenu.getMenuContainer();
 		return contextMenu;
-	}
-
-	public AlgebraContextMenuW getAlgebraContextMenu() {
-		removePopup();
-		currentPopup = new AlgebraContextMenuW((AppW) app);
-		return (AlgebraContextMenuW) currentPopup;
 	}
 
 	public RowHeaderPopupMenuW getCASContextMenu(

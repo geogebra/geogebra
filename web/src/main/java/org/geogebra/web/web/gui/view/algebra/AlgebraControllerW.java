@@ -28,7 +28,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.Window;
 
 
 public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.AlgebraController
@@ -107,11 +106,6 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 		if (rightClick) {
 			// The default algebra menu will be created here (not for GeoElements).
 			/*e.consume(); FIXME*/
-			AlgebraContextMenuW contextMenu = ((GuiManagerW)app.getGuiManager()).getAlgebraContextMenu();
-
-			// Window.getScrollLeft and .getScrollTop are necessary; see ticket #4049
-			contextMenu.show(view, e.getPoint().x + Window.getScrollLeft(), e.getPoint().y + Window.getScrollTop());
-
 			// LEFT CLICK	
 		} else {
 			
