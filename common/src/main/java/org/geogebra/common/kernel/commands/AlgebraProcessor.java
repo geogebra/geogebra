@@ -609,7 +609,7 @@ public class AlgebraProcessor {
 		ValidExpression ve;
 		try {
 			ve = parser.parseGeoGebraExpression(cmd);
-			GeoCasCell casEval = checkCasEval(ve.getLabel(), cmd);
+			GeoCasCell casEval = checkCasEval(ve.getLabel(), cmd, null);
 			if (casEval != null) {
 				if (callback0 != null) {
 					callback0.callback(casEval);
@@ -815,11 +815,14 @@ public class AlgebraProcessor {
 	/**
 	 * @param label
 	 *            dollar label
-	 * @param cmd
+	 * @param input
 	 *            whole command including label
+	 * @param parsed
+	 *            parsed content of input
 	 * @return cell
 	 */
-	public GeoCasCell checkCasEval(String label, String cmd) {
+	public GeoCasCell checkCasEval(String label, String input,
+			ValidExpression parsed) {
 		if (label != null && label.startsWith("$")) {
 			Integer row = -1;
 			try {
@@ -834,6 +837,8 @@ public class AlgebraProcessor {
 			if (cell == null) {
 				cell = new GeoCasCell(cons);
 			}
+			String cmd = input == null ? parsed
+					.toString(StringTemplate.defaultTemplate) : input;
 			int colonPos = cmd.indexOf(':') + 1;
 			int eqPos = cmd.indexOf('=') + 1;
 			int prefixLength = eqPos > 0 ? (colonPos > 0 ? Math.min(colonPos,
@@ -2186,6 +2191,12 @@ public class AlgebraProcessor {
 		}
 		if (lhs instanceof Variable
 				&& kernel.lookupLabel(((Variable) lhs).getName()) == null) {
+			GeoCasCell c = this.checkCasEval(((Variable) lhs).getName(),
+ null,
+					equ);
+			if (c != null) {
+				return new GeoElement[0];
+			}
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
 				return processValidExpression(equ.getRHS());
