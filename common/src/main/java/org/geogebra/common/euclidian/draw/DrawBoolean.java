@@ -111,7 +111,7 @@ public final class DrawBoolean extends Drawable {
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 
-		if (isVisible) {
+		if (isVisible && labelDesc != null && !"".equals(labelDesc)) {
 
 			g2.setFont(view.getFontPoint());
 			g2.setStroke(EuclidianStatic.getDefaultStroke());
@@ -141,8 +141,7 @@ public final class DrawBoolean extends Drawable {
 				App app = view.getApplication();
 				g2.setPaint(geo.getObjectColor());
 				g2.setColor(GColor.RED);
-				app.getDrawEquation().drawEquation(app, geoBool, g2,
- posX, posY,
+				app.getDrawEquation().drawEquation(app, geoBool, g2, posX, posY,
 						geoBool.getCaption(StringTemplate.defaultTemplate),
 						g2.getFont(), false,
 						geoBool.getObjectColor(),
@@ -158,8 +157,7 @@ public final class DrawBoolean extends Drawable {
 				int top = geoBool.labelOffsetY
 						+ checkBoxIcon.getIconWidth() / 2 + 5;
 				top += height / 2;
-				EuclidianStatic.drawIndexedString(
-view.getApplication(), g2,
+				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 						labelDesc, left, top, false,
 						false);
 			}
