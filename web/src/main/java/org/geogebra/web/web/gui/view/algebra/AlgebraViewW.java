@@ -1816,7 +1816,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 		pPanel.clear();
 
-		DrawEquationW.setPrintScale(3);
+		DrawEquationW.setPrintScale(10);
 
 		for (int i = 0; i < this.getItemCount(); i++) {
 			TreeItem item = this.getItem(i);
