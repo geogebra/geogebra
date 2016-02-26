@@ -111,7 +111,7 @@ public final class DrawBoolean extends Drawable {
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 
-		if (isVisible && labelDesc != null && !"".equals(labelDesc)) {
+		if (isVisible) {
 
 			g2.setFont(view.getFontPoint());
 			g2.setStroke(EuclidianStatic.getDefaultStroke());
@@ -150,16 +150,21 @@ public final class DrawBoolean extends Drawable {
 				g2.setPaint(geo.getObjectColor());
 				GTextLayout layout = g2.getFontRenderContext()
 						.getTextLayout(labelDesc, view.getFontPoint());
-				int width = (int) Math.round(layout.getBounds().getWidth());
-				int height = (int) Math.round(layout.getBounds().getHeight());
-				textSize.x = width;
-				int left = geoBool.labelOffsetX + checkBoxIcon.getIconWidth() + LABEL_MARGIN;
-				int top = geoBool.labelOffsetY
-						+ checkBoxIcon.getIconWidth() / 2 + 5;
-				top += height / 2;
-				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-						labelDesc, left, top, false,
-						false);
+
+				// ie labelDesc != ""
+				if (layout != null) {
+					int width = (int) Math.round(layout.getBounds().getWidth());
+					int height = (int) Math
+							.round(layout.getBounds().getHeight());
+					textSize.x = width;
+					int left = geoBool.labelOffsetX
+							+ checkBoxIcon.getIconWidth() + LABEL_MARGIN;
+					int top = geoBool.labelOffsetY
+							+ checkBoxIcon.getIconWidth() / 2 + 5;
+					top += height / 2;
+					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+							labelDesc, left, top, false, false);
+				}
 			}
 
 			updateLabel();
