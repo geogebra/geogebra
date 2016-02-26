@@ -12541,7 +12541,7 @@ namespace giac {
       return print_EQW(*_EQWptr);
     case _POINTER_: {
       // handle 64 bits pointers
-      unsigned long u=(unsigned long)_POINTER_val;
+      unsigned long long u=(unsigned long long)_POINTER_val;
       if (u<(1U<<31))
 	return "pointer("+hexa_print_INT_(int((alias_type)_POINTER_val))+","+print_INT_(subtype)+")";
       gen z=longlong(u);
