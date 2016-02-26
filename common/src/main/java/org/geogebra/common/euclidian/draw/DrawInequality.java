@@ -207,6 +207,22 @@ public class DrawInequality extends Drawable {
 			right.update(fun);
 			return;
 		}
+
+		if (left.drawable == null && this.operation.equals(Operation.OR)) {
+			if (left.right.drawable instanceof DrawInequality1Var) {
+				((DrawInequality1Var) left.right.drawable).ignoreLines();
+			} else {
+				left.right.recUpdateNeeded = true;
+				left.right.update(fun);
+			}
+			if (right.drawable instanceof DrawInequality1Var) {
+				((DrawInequality1Var) right.drawable).ignoreLines();
+			} else {
+				right.recUpdateNeeded = true;
+				right.update(fun);
+			}
+			return;
+		}
 		if (left.drawable instanceof DrawInequality1Var && right.drawable instanceof DrawInequality1Var) {
 			DrawInequality1Var leftDrawable = (DrawInequality1Var) left.drawable;
 			DrawInequality1Var rightDrawable = (DrawInequality1Var) right.drawable;
