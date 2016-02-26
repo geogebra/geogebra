@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -28,7 +29,11 @@ public abstract class ClickStartHandler {
 				if (handler.stopPropagation) {
 					event.stopPropagation();
 				}
-				if (!CancelEventTimer.cancelMouseEvent()) {
+				boolean right = event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT;
+				if (!CancelEventTimer.cancelMouseEvent()
+						&& !handler.onClickStart(event.getX(), event.getY(),
+								PointerEventType.MOUSE, right)) {
+
 					handler.onClickStart(event.getX(), event.getY(),
 					        PointerEventType.MOUSE);
 				}
@@ -88,6 +93,24 @@ public abstract class ClickStartHandler {
 	 *            type of the event
 	 */
 	public abstract void onClickStart(int x, int y, PointerEventType type);
+
+	/**
+	 * Actual handler-method, needs to be overwritten in the instances.
+	 * 
+	 * @param x
+	 *            x-coordinate of the event
+	 * @param y
+	 *            y-coordinate of the event
+	 * @param type
+	 *            type of the event
+	 * @param right
+	 *            whether it's right click
+	 * @return whether it was processed
+	 */
+	public boolean onClickStart(int x, int y, PointerEventType type,
+			boolean right) {
+		return false;
+	}
 
 	/**
 	 * Set preventDefault explicitly. event.preventDefault() will also be
