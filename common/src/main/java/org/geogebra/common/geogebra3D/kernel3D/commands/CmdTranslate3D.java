@@ -37,9 +37,11 @@ public class CmdTranslate3D extends CmdTranslate {
 			// check if there is a 3D geo
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()) {
 				if (arg[0].isGeoVector() && arg[1].isGeoPoint()) {
-					// TODO implement like in 3d (throw prevents wrong
-					// evaluation)
-					throw argErr(app, c.getName(), arg[0]);
+					AlgoTranslateVector algo = getAlgoTranslateVector(label,
+							arg[0], arg[1]);
+
+					ret[0] = (GeoElement) algo.getTranslatedVector();
+					return ret;
 				}
 				ok[0] = (arg[0] instanceof Translateable
 						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList());
