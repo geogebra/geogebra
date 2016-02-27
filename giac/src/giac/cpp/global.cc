@@ -4713,6 +4713,7 @@ unsigned int ConvertUTF8toUTF16 (
     "ifactor",
     "lncollect",
     "lnexpand",
+    "mathml",
     "mult_c_conjugate",
     "mult_conjugate",
     "nodisp",

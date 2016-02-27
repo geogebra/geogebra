@@ -1787,6 +1787,11 @@ namespace giac {
   }
 
   static bool in_proot(const vecteur & w,double & eps,int & rprec,vecteur & res,bool isolaterealroot,GIAC_CONTEXT){
+#ifdef EMCC
+    if (eps<1e-300)
+      eps=1e-11;
+    return proot_real1(w,eps,rprec,res,contextptr);
+#endif
     // new code using francis_schur
     // if (has_num_coeff(w))
       isolaterealroot=false; // eliminating real roots is not stable enough

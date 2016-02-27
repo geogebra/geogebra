@@ -1278,84 +1278,83 @@ namespace giac {
     string part_re="", part_im="<mi>i</mi>";
     if (e.type==_SYMB && e._SYMBptr->sommet==at_sum)
       return mathml_printassum(e,contextptr);
-    else if (e.type==_SYMB && e._SYMBptr->sommet==at_abs)
+    if (e.type==_SYMB && e._SYMBptr->sommet==at_abs)
       return mathml_printasabs(e,contextptr);
-    else if (e.type==_SYMB && e._SYMBptr->sommet==at_unit)      
+    if (e.type==_SYMB && e._SYMBptr->sommet==at_unit)      
       return mathml_printasunit(e,contextptr);
-    else
-      switch (e.type){
-      case _INT_: case _ZINT:                        
-	return "<mn>"+mathml_split(e.print(contextptr),50)+"</mn>";
-      case _DOUBLE_:                        
-	/* FH: This should be tuned in the context
-        if (fabs(e._DOUBLE_val)<1.1e-5)
-	  return "<mn>0.0</mn>";
+    switch (e.type){
+    case _INT_: case _ZINT:                        
+      return "<mn>"+mathml_split(e.print(contextptr),50)+"</mn>";
+    case _DOUBLE_:                        
+      /* FH: This should be tuned in the context
+	 if (fabs(e._DOUBLE_val)<1.1e-5)
+	 return "<mn>0.0</mn>";
+	 else
+      */
+      return "<mn>"+e.print(contextptr)+"</mn>"; 
+    case _REAL:                        
+      return "<mn>"+mathml_split(e.print(contextptr),50)+"</mn>"; 
+    case _CPLX:
+      if (!is_zero(re(e,contextptr)))
+	part_re="<mn>"+re(e,contextptr).print(contextptr)+"</mn>";
+      if (!is_zero(im(e,contextptr))){
+	if (is_positive(im(e,contextptr),contextptr)){
+	  if (!is_zero(re(e,contextptr)))
+	    part_re = part_re+"<mo>+</mo>";
+	}
 	else
-	*/
-	  return "<mn>"+e.print(contextptr)+"</mn>"; 
-      case _REAL:                        
-	return "<mn>"+mathml_split(e.print(contextptr),50)+"</mn>"; 
-      case _CPLX:
-	if (!is_zero(re(e,contextptr)))
-	    part_re="<mn>"+re(e,contextptr).print(contextptr)+"</mn>";
-	if (!is_zero(im(e,contextptr))){
-	  if (is_positive(im(e,contextptr),contextptr)){
-	    if (!is_zero(re(e,contextptr)))
-	      part_re = part_re+"<mo>+</mo>";
-	  }
-	  else
-	    part_re = part_re+"<mo>-</mo>";
-	}
-	if (!is_one(-im(e,contextptr)) && ! is_one(im(e,contextptr)))
-	  part_im="<mn>"+abs(im(e,contextptr),contextptr).print(contextptr)+"</mn>"+part_im;	
-        //the is_zero test should be the last one  
-	//Ex: 3+10.0**(-13)*i avec Digits 12 et 10.0**(-13)*i avec Digits 12 et 
-	if (is_zero(im(e,contextptr))){
-	  part_im="";
-	  if (is_zero(re(e,contextptr)))
-	    part_re="<mn>0.0</mn>";
-	}
-      	return part_re+part_im;
-      case _IDNT:                        
-	if (e==unsigned_inf)
-	  return "<mn>&infin;</mn>";
-	if (e==cst_pi)
-	  return "<mi>&pi;</mi>";
-	if (e==undef)
-	  return "<mi>undef</mi>";
-	return  "<mi>"+e.print(contextptr)+"</mi>";
-      case _SYMB: {
-	gen tmp=aplatir_fois_plus(e);
-	if (tmp.type!=_SYMB)
-	  return gen2mathml(e,svg,contextptr);
-	return symbolic2mathml(*tmp._SYMBptr, svg,contextptr);
+	  part_re = part_re+"<mo>-</mo>";
       }
-      case _VECT:                        
-	if (e.subtype==_SPREAD__VECT)
-	  return spread2mathml(*e._VECTptr,1,contextptr); //----------------v??rifier le 2??me param??tre
-	if (e.subtype!=_SEQ__VECT && ckmatrix(*e._VECTptr))
-	  return matrix2mathml(*e._VECTptr,contextptr);
-    else return _VECT2mathml(*e._VECTptr,e.subtype, svg,contextptr);
-      case _POLY:
-	return string("<mi>polynome</mi>");
-      case _FRAC:                        
-	return string("<mfrac><mrow>")+gen2mathml(e._FRACptr->num,contextptr)+"</mrow><mrow>"
-	  +gen2mathml(e._FRACptr->den,contextptr)+"</mrow></mfrac>";
-      case _EXT: 
-	return "";
-      case _STRNG:
-	return string2mathml(*e._STRNGptr);
-	// return "<mi>"+(*e._STRNGptr)+"</mi>";
-      case _FUNC: case _MAP:
-	return "<mi>"+e.print(contextptr)+"</mi>";
-      case _USER:
-	return string2mathml(e.print(contextptr));
-	// return "<mi>"+e._USERptr->texprint(contextptr)+"</mi>"; 
-      case _MOD:
-	return gen2mathml(*e._MODptr,contextptr)+"<mo>%</mo>"+gen2mathml(*(e._MODptr+1),contextptr);
-      default:
-	settypeerr(gettext("MathMl convert ")+e.print(contextptr));
+      if (!is_one(-im(e,contextptr)) && ! is_one(im(e,contextptr)))
+	part_im="<mn>"+abs(im(e,contextptr),contextptr).print(contextptr)+"</mn>"+part_im;	
+      //the is_zero test should be the last one  
+      //Ex: 3+10.0**(-13)*i avec Digits 12 et 10.0**(-13)*i avec Digits 12 et 
+      if (is_zero(im(e,contextptr))){
+	part_im="";
+	if (is_zero(re(e,contextptr)))
+	  part_re="<mn>0.0</mn>";
       }
+      return part_re+part_im;
+    case _IDNT:                        
+      if (e==unsigned_inf)
+	return "<mn>&infin;</mn>";
+      if (e==cst_pi)
+	return "<mi>&pi;</mi>";
+      if (e==undef)
+	return "<mi>undef</mi>";
+      return  "<mi>"+e.print(contextptr)+"</mi>";
+    case _SYMB: {
+      gen tmp=aplatir_fois_plus(e);
+      if (tmp.type!=_SYMB)
+	return gen2mathml(tmp,svg,contextptr);
+      return symbolic2mathml(*tmp._SYMBptr, svg,contextptr);
+    }
+    case _VECT:                        
+      if (e.subtype==_SPREAD__VECT)
+	return spread2mathml(*e._VECTptr,1,contextptr); //----------------v??rifier le 2??me param??tre
+      if (e.subtype!=_SEQ__VECT && ckmatrix(*e._VECTptr))
+	return matrix2mathml(*e._VECTptr,contextptr);
+      return _VECT2mathml(*e._VECTptr,e.subtype, svg,contextptr);
+    case _POLY:
+      return string("<mi>polynome</mi>");
+    case _FRAC:                        
+      return string("<mfrac><mrow>")+gen2mathml(e._FRACptr->num,contextptr)+"</mrow><mrow>"
+	+gen2mathml(e._FRACptr->den,contextptr)+"</mrow></mfrac>";
+    case _EXT: 
+      return "";
+    case _STRNG:
+      return string2mathml(*e._STRNGptr);
+      // return "<mi>"+(*e._STRNGptr)+"</mi>";
+    case _FUNC: case _MAP:
+      return "<mi>"+e.print(contextptr)+"</mi>";
+    case _USER:
+      return string2mathml(e.print(contextptr));
+      // return "<mi>"+e._USERptr->texprint(contextptr)+"</mi>"; 
+    case _MOD:
+      return gen2mathml(*e._MODptr,contextptr)+"<mo>%</mo>"+gen2mathml(*(e._MODptr+1),contextptr);
+    default:
+      settypeerr(gettext("MathMl convert ")+e.print(contextptr));
+    }
     return "mathml error (gen2mathml)";
   }
 
