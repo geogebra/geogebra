@@ -31,9 +31,22 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 		this.normalizer = normalizer;
 	}
 
+	private static final String greatestCommonPrefix(String possiblyNull, String notNull) {
+		if (possiblyNull == null) {
+			return null;
+		}
+		int minLength = Math.min(possiblyNull.length(), notNull.length());
+		for (int i = 0; i < minLength; i++) {
+			if (possiblyNull.charAt(i) != notNull.charAt(i)) {
+				return possiblyNull.substring(0, i);
+			}
+		}
+		return possiblyNull.substring(0, minLength);
+	}
+
 	/**
 	 * Adds an entry to the dictionary.
-	 * 
+	 *
 	 * @param s
 	 *            The string to add to the dictionary.
 	 */
@@ -47,7 +60,7 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 
 	/**
 	 * Removes an entry from the dictionary.
-	 * 
+	 *
 	 * @param s
 	 *            The string to remove to the dictionary.
 	 * @return True if successful, false if the string is not contained or
@@ -67,7 +80,7 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 	 * Perform a lookup. This routine returns the closest matching string that
 	 * completely starts with the given string, or null if none is found. Note:
 	 * the lookup is NOT case sensitive.
-	 * 
+	 *
 	 * @param curr
 	 *            The string to use as the base for the lookup.
 	 * @return curr The closest matching string that completely contains the
@@ -100,7 +113,7 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 	/**
 	 * Find all possible completions for the string curr; return null if none
 	 * exists
-	 * 
+	 *
 	 * @param curr
 	 *            The string to use as the base for the lookup
 	 * @return a list of strings containing all completions or null if none
@@ -111,6 +124,7 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 			return null;
 
 		String currLowerCase = normalizer.transform(curr);
+		getGreatestCommonPrefix(currLowerCase);
 		try {
 			SortedSet<String> tailSet = treeSet.tailSet(currLowerCase);
 			ArrayList<String> completions = new ArrayList<String>();
@@ -129,6 +143,58 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	/**
+	 * Calculate greatest prefix common to curr. Then return list of all
+	 * elements matching this prefix. Return null if none
+	 * exists
+	 *
+	 * @param curr The string to use as the base for the lookup
+	 * @return the greatest common prefix
+	 */
+	public String setMatchingGreatestPrefix(final String curr, ArrayList<String> completions) {
+		if (curr == null || "".equals(curr))
+			return "";
+
+		String prefixLowerCase = getGreatestCommonPrefix(normalizer.transform(curr));
+		if (prefixLowerCase == null || "".equals(prefixLowerCase))
+			return ""; // no common prefix
+
+		try {
+			SortedSet<String> tailSet = treeSet.tailSet(prefixLowerCase);
+			Iterator<String> compIter = tailSet.iterator();
+			while (compIter.hasNext()) {
+				String comp = compIter.next();
+				if (!comp.startsWith(prefixLowerCase)) {
+					break;
+				}
+				completions.add(get(comp));
+			}
+			return prefixLowerCase;
+		} catch (Exception e) {
+			return "";
+		}
+	}
+
+	private String getGreatestCommonPrefix(final String curr) {
+
+		String prefixBefore = greatestCommonPrefix(treeSet.floor(curr), curr);
+		String prefixAfter = greatestCommonPrefix(treeSet.ceiling(curr), curr);
+
+		if (prefixBefore == null) {
+			return prefixAfter;
+		}
+
+		if (prefixAfter == null) {
+			return prefixBefore;
+		}
+
+		if (prefixBefore.length() > prefixAfter.length()) {
+			return prefixBefore;
+		}
+
+		return prefixAfter;
 	}
 
 	public List<String> getCompletionsKorean(final String curr) {

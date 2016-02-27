@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.inputbar;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.LowerCaseDictionary;
 
 import java.util.Collection;
@@ -135,7 +134,7 @@ public class InputBarHelpPanel {
 	 *
 	 * @return all commands dictionnary
 	 */
-	public AutoCompleteDictionary getDictionary() {
+	public LowerCaseDictionary getDictionary() {
 		return this.mDict;
 	}
 
