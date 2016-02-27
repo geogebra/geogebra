@@ -10234,7 +10234,9 @@ public abstract class EuclidianController {
 		view.setPreview(switchPreviewableForInitNewMode(newMode));
 		toggleModeChangedKernel = false;
 
-		kernel.restoreStateForInitNewMode();
+		// MOB-197
+		// kernel.restoreStateForInitNewMode();
+
 		kernel.storeStateForModeStarting();
 	}
 
