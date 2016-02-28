@@ -4053,7 +4053,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoElement[] geos = ec
 						.rotateAroundLine(polys[0], num, lines[0]);
 				if (geos != null) {
-					app.storeUndoInfo();
+					app.storeUndoInfoAndStateForModeStarting();
 					ec.memorizeJustCreatedGeos(geos);
 				}
 				return defaultRotateAngle;
@@ -4072,7 +4072,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				}
 			}
 			if (!ret.isEmpty()) {
-				app.storeUndoInfo();
+				app.storeUndoInfoAndStateForModeStarting();
 				ec.memorizeJustCreatedGeos(ret);
 			}
 

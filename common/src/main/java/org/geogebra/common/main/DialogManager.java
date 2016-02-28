@@ -132,7 +132,7 @@ public abstract class DialogManager {
 		}
 
 
-		kernel.getApplication().storeUndoInfo();
+		kernel.getApplication().storeUndoInfoAndStateForModeStarting();
 
 	}
 
@@ -263,7 +263,7 @@ public abstract class DialogManager {
 				GeoElement[] geos = ec.getCompanion().rotateByAngle(polys[0],
 						num, points[0]);
 				if (geos != null) {
-					app.storeUndoInfo();
+					app.storeUndoInfoAndStateForModeStarting();
 					ec.memorizeJustCreatedGeos(geos);
 				}
 				return defaultRotateAngle;
@@ -282,7 +282,7 @@ public abstract class DialogManager {
 				}
 			}
 			if (!ret.isEmpty()) {
-				app.storeUndoInfo();
+				app.storeUndoInfoAndStateForModeStarting();
 				ec.memorizeJustCreatedGeos(ret);
 			}
 
@@ -322,7 +322,7 @@ public abstract class DialogManager {
 		GeoElement[] onlypoly = { null };
 		if (geos != null) {
 			onlypoly[0] = geos[0];
-			app.storeUndoInfo();
+			app.storeUndoInfoAndStateForModeStarting();
 			ec.memorizeJustCreatedGeos(onlypoly);
 		}
 
@@ -384,7 +384,7 @@ public abstract class DialogManager {
 			}
 			if (!ret.isEmpty()) {
 				ec.memorizeJustCreatedGeos(ret);
-				kernel.getApplication().storeUndoInfo();
+				kernel.getApplication().storeUndoInfoAndStateForModeStarting();
 				return true;
 			}
 		}
@@ -400,7 +400,7 @@ public abstract class DialogManager {
 		GeoElement[] onlysegment = { null };
 		if (segment != null) {
 			onlysegment[0] = segment[0];
-			kernel.getApplication().storeUndoInfo();
+			kernel.getApplication().storeUndoInfoAndStateForModeStarting();
 			kernel.getApplication().getActiveEuclidianView()
 					.getEuclidianController()
 					.memorizeJustCreatedGeos(onlysegment);

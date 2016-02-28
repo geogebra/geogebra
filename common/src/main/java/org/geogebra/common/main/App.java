@@ -845,6 +845,12 @@ public abstract class App implements UpdateSelection {
 	public abstract void storeUndoInfo();
 
 	/**
+	 * Store current state of construction for undo/redo purposes, and state of
+	 * construction for mode starting (so undo cancels partial tool preview)
+	 */
+	public abstract void storeUndoInfoAndStateForModeStarting();
+
+	/**
 	 * store undo info only if view coord system has changed
 	 */
 	public void storeUndoInfoIfSetCoordSystemOccured() {

@@ -10213,6 +10213,8 @@ public abstract class EuclidianController {
 
 	protected void initNewMode(int newMode) {
 
+		boolean wasUndoableMode = isUndoableMode();
+
 		// this should not happen in theory
 		/*
 		 * if (app.getGuiManager() == null && newMode !=
@@ -10235,7 +10237,7 @@ public abstract class EuclidianController {
 		toggleModeChangedKernel = false;
 
 		// change tool: remove unfinished creation
-		if (app.has(Feature.UNDO_WHEN_CHANGE_TOOL)) {
+		if (wasUndoableMode) {
 			kernel.restoreStateForInitNewMode();
 		}
 
@@ -10694,12 +10696,8 @@ public abstract class EuclidianController {
 	}
 
 	void storeUndoInfo() {
-
-		// if we use the tool once again
-		kernel.storeStateForModeStarting();
-
-		// store undo info
-		app.storeUndoInfo();
+		// store undo info and state if we use the tool once again
+		app.storeUndoInfoAndStateForModeStarting();
 	}
 
 	protected GeoElement[] extremum(Hits hits) {

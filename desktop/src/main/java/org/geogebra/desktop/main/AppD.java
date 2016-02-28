@@ -3924,6 +3924,15 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
+	@Override
+	public void storeUndoInfoAndStateForModeStarting() {
+		if (isUndoActive()) {
+			kernel.storeStateForModeStarting();
+			kernel.storeUndoInfo();
+			setUnsaved();
+		}
+	}
+
 	public void restoreCurrentUndoInfo() {
 		if (isUndoActive()) {
 			kernel.restoreCurrentUndoInfo();
