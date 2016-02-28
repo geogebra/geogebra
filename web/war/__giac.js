@@ -1899,6 +1899,7 @@ var __giac = [ {},
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
+// sqrt(1-48sqrt(2))
 // Solve[a x\u00B2+b y\u00B2=c\u00B2,y]
 // Integral[Function[x^2,-2,3]]
 // [op(solve({((67/10))*((10)^(9))=(ggbtmpvarc)*((ggbtmpvara)^(2007)), (3)*((10)^(8))=(ggbtmpvarc)*((ggbtmpvara)^(950))},{ggbtmpvara, ggbtmpvarc}))]
