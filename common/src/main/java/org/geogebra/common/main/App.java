@@ -3857,6 +3857,9 @@ public abstract class App implements UpdateSelection {
 		case LATEX_ON_CHECKBOX:
 		case DRAW_INPUTBOXES_TO_CANVAS:
 		case UNDO_FOR_TOOLS:
+			return true;
+		case UNDO_WHEN_CHANGE_TOOL:
+			return prerelease;
 			// in web
 		case PRINT_MENU:
 		case CP_POPUP:

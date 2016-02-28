@@ -10234,8 +10234,10 @@ public abstract class EuclidianController {
 		view.setPreview(switchPreviewableForInitNewMode(newMode));
 		toggleModeChangedKernel = false;
 
-		// MOB-197
-		// kernel.restoreStateForInitNewMode();
+		// change tool: remove unfinished creation
+		if (app.has(Feature.UNDO_WHEN_CHANGE_TOOL)) {
+			kernel.restoreStateForInitNewMode();
+		}
 
 		kernel.storeStateForModeStarting();
 	}
