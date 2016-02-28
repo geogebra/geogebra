@@ -853,17 +853,22 @@ namespace giac {
       gen coeff=*it;
       ++it; 
       gen expo=*it;
-      ++it;
-      res += risch_lin(coeff*exp(expo,contextptr),x,rem,contextptr);
+      ++it; rem=0;
+      res = res+risch_lin(coeff*exp(expo,contextptr),x,rem,contextptr);
       remsum += rem;
     }
-    res += risch_lin(remsum,x,remains_to_integrate,contextptr);
+    res = res+risch_lin(remsum,x,remains_to_integrate,contextptr);
     if (is_zero(res)){ // perhaps we should derive res and substract it from e_orig
       remains_to_integrate=e_orig;
     }
     else {
-      if (!has_i(e_orig) && has_i(remains_to_integrate))
-	remains_to_integrate=ratnormal(re(_exp2trig(remains_to_integrate,contextptr),contextptr));
+      if (!has_i(e_orig) && has_i(remains_to_integrate)){
+	// ?fails for x/(2*i)/(exp(i*x)+exp(-i*x))*2*exp(i*x)+(-i)*x/(exp((-i)*x)^2+1)
+	gen tmp=_exp2trig(remains_to_integrate,contextptr),r,i;
+	reim(tmp,r,i,contextptr);
+	if (is_zero(ratnormal(i)))
+	  remains_to_integrate=ratnormal(r);
+      }
     }
     vector<const unary_function_ptr *> SiCiexp(1,at_Si);
     SiCiexp.push_back(at_Ci);
@@ -895,7 +900,7 @@ namespace giac {
     gen res=risch(v.front(),*var._IDNTptr,tmp,contextptr);
     if (is_zero(tmp))
       return res;
-    return res+symbolic(at_integrate,makevecteur(tmp,var)); 
+    return res+symbolic(at_integrate,makesequence(tmp,var)); 
   }
   static const char _risch_s []="risch";
   static define_unary_function_eval (__risch,&_risch,_risch_s);

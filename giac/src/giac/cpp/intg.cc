@@ -2534,6 +2534,10 @@ namespace giac {
 	  gprintf(step_bypart1,gettext("Integration of %gen by part of u*v' where u=1 and v=%gen'"),makevecteur(e,e),contextptr);
 	gen tmpres,tmprem;
 	tmpres=linear_integrate_nostep(gen_x*derive(e,gen_x,contextptr),gen_x,tmprem,intmode,contextptr);
+	if (!has_i(e) && has_i(tmpres)){
+	  remains_to_integrate=e;
+	  return 0;
+	}
 	remains_to_integrate=-tmprem;
 	return gen_x*e-tmpres;
       }

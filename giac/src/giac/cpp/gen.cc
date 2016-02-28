@@ -14705,7 +14705,7 @@ namespace giac {
       return S.c_str();
     }
 #endif
-    if (!lop(g,at_rootof).empty())
+    if (calc_mode(&C)==1 && !lop(g,at_rootof).empty())
       g=evalf(g,1,&C);
     if (has_undef_stringerr(g,S))
       S="GIAC_ERROR: "+S;
