@@ -2874,6 +2874,25 @@ namespace giac {
 	    neg=true;
 	    v[2]=a; v[3]=b;
 	  }
+	  vecteur lv=lop(lvarx(v[0],v[1]),at_pow);
+	  lv=mergevecteur(lv,lop(lvarx(v[0],v[1]),at_surd));
+	  lv=mergevecteur(lv,lop(lvarx(v[0],v[1]),at_NTHROOT));
+	  if (lv.size()==1 && v[1].type==_IDNT){
+	    gen powarg=lv[0][1];
+	    if (lv[0][0]==at_NTHROOT)
+	      powarg=lv[0][2];
+	    lv=protect_solve(powarg,*v[1]._IDNTptr,0,contextptr);
+	    for (int i=0;i<int(lv.size());++i){
+	      if (is_strictly_greater(lv[i],a,contextptr) && is_strictly_greater(b,lv[i],contextptr)){
+		v[3]=lv[i];
+		gen res1=_integrate(v,contextptr);
+		v[3]=b;
+		v[2]=lv[i];
+		gen res2=_integrate(v,contextptr);
+		return res1+res2;
+	      }
+	    }
+	  }
 	  giac_assume(symb_and(symb_superieur_egal(x,a),symb_inferieur_egal(x,b)),contextptr);
 	  v.push_back(at_assume);
 	  gen res=_integrate(gen(v,_SEQ__VECT),contextptr);
