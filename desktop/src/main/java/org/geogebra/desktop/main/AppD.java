@@ -4863,18 +4863,22 @@ public class AppD extends App implements KeyEventDispatcher {
 		return System.getProperty("java.version").startsWith("1.7.");
 	}
 
-	// don't pull these up to common, use the non static methods isWindows(),
-	// isMacOS(), isWindowsVistaOrLater() instead
 	private static String OS = System.getProperty("os.name").toLowerCase(
 			Locale.US);
+
 	public static boolean MAC_OS = OS.startsWith("mac");
 	public static boolean WINDOWS = OS.startsWith("windows");
 	public static boolean LINUX = OS.startsWith("linux");
-	// make sure still works in the future on eg Windows 9
+
+	// make sure still works in the future on eg Windows 10/11
+	// note Java 7u40 returns "Windows 8" for Windows 8.1 and Windows 10
 	public static boolean WINDOWS_VISTA_OR_LATER = WINDOWS
 			&& !OS.startsWith("windows 2000") && !OS.startsWith("windows 95")
 			&& !OS.startsWith("windows 98") && !OS.startsWith("windows nt")
 			&& !OS.startsWith("windows xp");
+
+	public static boolean WINDOWS_VISTA_OR_EARLIER = !WINDOWS_VISTA_OR_LATER
+			|| OS.startsWith("windows vista");
 
 	@Override
 	public boolean isHTML5Applet() {
