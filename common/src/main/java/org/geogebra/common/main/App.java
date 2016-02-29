@@ -3865,7 +3865,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case UNDO_WHEN_CHANGE_TOOL:
-			return prerelease;
+			return true;
 
 			// in web
 		case PRINT_MENU:
