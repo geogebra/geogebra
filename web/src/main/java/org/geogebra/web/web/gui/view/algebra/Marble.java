@@ -39,8 +39,23 @@ public class Marble extends SimplePanel
 		// stopPropagation activated (parameters for the constructor)
 		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
 			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
+			public boolean onClickStart(int x, int y, PointerEventType type,
+					boolean right) {
+				if (type == PointerEventType.TOUCH) {
+					return false;
+				}
+				if (right) {
+					return true;
+				}
 				toggleVisibility();
+				return false;
+			}
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (type == PointerEventType.TOUCH) {
+					toggleVisibility();
+				}
 			}
 		});
 	}
