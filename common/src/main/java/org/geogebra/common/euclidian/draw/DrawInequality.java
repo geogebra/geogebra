@@ -9,10 +9,12 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -38,6 +40,10 @@ public class DrawInequality extends Drawable {
 	private FunctionalNVar function;
 
 	private boolean recUpdateNeeded = false;
+	private double maxBound = 1000000;
+	private Drawable max;
+	private double minBound = -1000000;
+	private Drawable min;
 
 	/**
 	 * Creates new drawable linear inequality
@@ -61,212 +67,232 @@ public class DrawInequality extends Drawable {
 			ineq = function.getIneqs().getIneq();
 		update();
 		if (left != null && right != null) {
-			update(function);
+			update2();
 		}
 	}
 
-	public void update(FunctionalNVar fun) {
+	public void update2() {
+		// recursive skip in case of OR
 		if (recUpdateNeeded) {
 			if (left.drawable instanceof DrawInequality1Var) {
 				((DrawInequality1Var) left.drawable).ignoreLines();
 			} else {
 				left.recUpdateNeeded = true;
-				left.update(fun);
+				left.update2();
 			}
 			if (right.drawable instanceof DrawInequality1Var) {
 				((DrawInequality1Var) right.drawable).ignoreLines();
 			} else {
 				right.recUpdateNeeded = true;
-				right.update(fun);
+				right.update2();
 			}
 			return;
 		}
-		if (left.drawable == null && right.drawable == null) {
-			if (this.operation.equals(Operation.OR)) {
-				if (right.left != null && right.right != null
-						&& right.left.drawable instanceof DrawInequality1Var
-						&& right.right.drawable instanceof DrawInequality1Var) {
-					((DrawInequality1Var) right.left.drawable).ignoreLines();
-					((DrawInequality1Var) right.right.drawable).ignoreLines();
-					return;
-				}
+		// skip borders of right side
+		if (this.operation.equals(Operation.OR)) {
+			if (right.drawable != null
+					&& right.drawable instanceof DrawInequality1Var) {
+				((DrawInequality1Var) right.drawable).ignoreLines();
+			} else {
+				right.recUpdateNeeded = true;
+				right.update2();
 			}
-			if (this.operation.equals(Operation.AND)
-					&& left.operation.equals(Operation.AND_INTERVAL)
-					&& right.operation.equals(Operation.AND_INTERVAL)
-					&& left.left.drawable instanceof DrawInequality1Var
-					&& left.right.drawable instanceof DrawInequality1Var
-					&& right.left.drawable instanceof DrawInequality1Var
-					&& right.right.drawable instanceof DrawInequality1Var) {
-				ExpressionNode leftExp = fun.getFunctionExpression()
-						.getLeftTree();
-				ExpressionNode rightExp = fun.getFunctionExpression()
-						.getRightTree();
-				Double minLeft = leftExp.getLeftTree().getLeft()
-						.evaluateDouble();
-				Double maxLeft = leftExp.getRightTree().getRight()
-						.evaluateDouble();
-				Double minRight = rightExp.getLeftTree().getLeft()
-						.evaluateDouble();
-				Double maxRight = rightExp.getRightTree().getRight()
-						.evaluateDouble();
-				if (Kernel.isGreater(minRight, minLeft)) {
-					((DrawInequality1Var) left.left.drawable).ignoreLines();
-				} else {
-					((DrawInequality1Var) right.left.drawable).ignoreLines();
-				}
-				if (Kernel.isGreater(maxLeft, maxRight)) {
-					((DrawInequality1Var) left.right.drawable).ignoreLines();
-				} else {
-					((DrawInequality1Var) right.right.drawable).ignoreLines();
-				}
-				return;
-			}
+			left.update2();
+			return;
 		}
-		if (left.operation.equals(Operation.AND_INTERVAL)) {
-				if (this.operation.equals(Operation.OR)) {
-					if (right.drawable instanceof DrawInequality1Var) {
+		if (this.operation.equals(Operation.AND_INTERVAL)) {
+			ExpressionNode leftExp = ((DrawInequality1Var) left.drawable)
+					.getIneq().getNormalExpression();
+			if (leftExp.getOperation().equals(Operation.MINUS)) {
+				if (leftExp.getRight() instanceof MySpecialDouble) {
+					Double minLeft = leftExp.getRight().evaluateDouble();
+					if (Kernel.isGreater(minLeft, minBound)) {
+						minBound = minLeft;
+						if (this.min != null) {
+							((DrawInequality1Var) this.min).ignoreLines();
+						}
+						this.min = left.drawable;
+					} else if (Kernel.isGreater(minBound, minLeft)) {
+						((DrawInequality1Var) left.drawable).ignoreLines();
+					}
+				}
+			}
+			ExpressionNode rightExp = ((DrawInequality1Var) right.drawable)
+					.getIneq().getNormalExpression();
+			if (rightExp.getOperation().equals(Operation.MINUS)) {
+				if (rightExp.getLeft() instanceof MySpecialDouble) {
+					Double maxRight = rightExp.getLeft().evaluateDouble();
+					if (Kernel.isGreater(maxBound, maxRight)) {
+						maxBound = maxRight;
+						if (max != null) {
+							((DrawInequality1Var) this.max).ignoreLines();
+						}
+						this.max = right.drawable;
+					} else if (Kernel.isGreater(maxRight, maxBound)) {
 						((DrawInequality1Var) right.drawable).ignoreLines();
 					}
 				}
-				if (this.operation.equals(Operation.AND)) {
-				ExpressionNode leftExp = fun.getFunctionExpression()
-						.getLeftTree();
-				ExpressionNode rightExp = fun.getFunctionExpression()
-						.getRightTree();
-				Double minLeft = leftExp.getLeftTree().getLeft()
-						.evaluateDouble();
-				Double maxLeft = leftExp.getRightTree().getRight()
-						.evaluateDouble();
-				if (right.drawable != null) {
-					if (rightExp.getLeft() instanceof MySpecialDouble) {
-						if (rightExp.getOperation().equals(Operation.GREATER)
-								|| rightExp.getOperation().equals(
-										Operation.GREATER_EQUAL)) {
-							Double maxRight = rightExp.getLeft()
-									.evaluateDouble();
-							if (Kernel.isGreater(maxLeft, maxRight)) {
-								((DrawInequality1Var) left.getRight().drawable)
-										.ignoreLines();
-								return;
-							}
-							((DrawInequality1Var) right.drawable).ignoreLines();
-							return;
-							}
-						if (rightExp.getOperation().equals(Operation.LESS)
-								|| rightExp.getOperation().equals(
-										Operation.LESS_EQUAL)) {
-							Double minRight = rightExp.getLeft()
-									.evaluateDouble();
-							if (Kernel.isGreater(minLeft, minRight)) {
-								((DrawInequality1Var) right.drawable)
-										.ignoreLines();
-								return;
-							}
-							((DrawInequality1Var) left.getLeft().drawable)
-									.ignoreLines();
-							return;
-							}
-					} else if (rightExp.getRight() instanceof MySpecialDouble) {
-						if (rightExp.getOperation().equals(Operation.GREATER)
-								|| rightExp.getOperation().equals(
-										Operation.GREATER_EQUAL)) {
-							Double minRight = rightExp.getRight()
-									.evaluateDouble();
-							if (Kernel.isGreater(minRight, minLeft)) {
-								((DrawInequality1Var) left.getLeft().drawable)
-										.ignoreLines();
-								return;
-							}
-							((DrawInequality1Var) right.drawable).ignoreLines();
-							return;
-						}
-						if (rightExp.getOperation().equals(Operation.LESS)
-								|| rightExp.getOperation().equals(
-										Operation.LESS_EQUAL)) {
-							Double minRight = rightExp.getLeft()
-									.evaluateDouble();
-							if (Kernel.isGreater(minLeft, minRight)) {
-								((DrawInequality1Var) right.drawable)
-										.ignoreLines();
-								return;
-							}
-							((DrawInequality1Var) left.getLeft().drawable)
-									.ignoreLines();
-							return;
-						}
-					}
-				}
 			}
-			return;
-		}
-		if (left.drawable instanceof DrawInequality1Var
-				&& right.drawable == null
-				&& this.operation.equals(Operation.OR)) {
-			right.recUpdateNeeded = true;
-			right.update(fun);
 			return;
 		}
 
-		if (left.drawable == null && this.operation.equals(Operation.OR)) {
-			if (left.right.drawable instanceof DrawInequality1Var) {
-				((DrawInequality1Var) left.right.drawable).ignoreLines();
-			} else {
-				left.right.recUpdateNeeded = true;
-				left.right.update(fun);
-			}
-			if (right.drawable instanceof DrawInequality1Var) {
-				((DrawInequality1Var) right.drawable).ignoreLines();
-			} else {
-				right.recUpdateNeeded = true;
-				right.update(fun);
-			}
-			return;
-		}
-		if (left.drawable instanceof DrawInequality1Var && right.drawable instanceof DrawInequality1Var) {
-			DrawInequality1Var leftDrawable = (DrawInequality1Var) left.drawable;
-			DrawInequality1Var rightDrawable = (DrawInequality1Var) right.drawable;
-			ExpressionNode leftExp = fun.getFunctionExpression().getLeftTree();
-			ExpressionNode rightExp = fun.getFunctionExpression()
-					.getRightTree();
-			if (leftDrawable != null && rightDrawable != null
-					&& leftExp != null && rightExp != null) {
-				if (fun.getFunctionExpression().getOperation()
-						.equals(Operation.AND)) {
-					if ((leftExp.getOperation().equals(Operation.GREATER) ||
-							leftExp.getOperation().equals(Operation.GREATER_EQUAL))
-							&& (rightExp.getOperation().equals(Operation.GREATER) ||
-									rightExp.getOperation().equals(Operation.GREATER_EQUAL))) {
+		if (left.drawable == null) {
+			left.min = min;
+			left.max = max;
+			left.minBound = minBound;
+			left.maxBound = maxBound;
+			left.update2();
+			this.min = left.min;
+			this.max = left.max;
+			this.minBound = left.minBound;
+			this.maxBound = left.maxBound;
+		} else if (left.drawable instanceof DrawInequality1Var) {
+			ExpressionNode leftExp = ((DrawInequality1Var) left.drawable)
+					.getIneq().getNormalExpression();
+			if (leftExp.getOperation().equals(Operation.MINUS)) {
+				if (leftExp.getRight() instanceof MySpecialDouble
+						|| (leftExp.getRight() instanceof MyDouble && !(leftExp
+								.getRight() instanceof FunctionVariable))) {
+					if (((DrawInequality1Var) left.drawable).getIneq()
+							.getOperation().equals(Operation.GREATER)
+							|| ((DrawInequality1Var) left.drawable).getIneq().getOperation()
+									.equals(Operation.GREATER_EQUAL)) {
 						Double minLeft = leftExp.getRight().evaluateDouble();
-						Double minRight = rightExp.getRight().evaluateDouble();
-						if (Kernel.isGreater(minRight, minLeft)) {
-							leftDrawable.ignoreLines();
-						} else {
-							rightDrawable.ignoreLines();
+						if (Kernel.isGreater(minLeft, minBound)) {
+							minBound = minLeft;
+							if (this.min != null) {
+								((DrawInequality1Var) this.min).ignoreLines();
+							}
+							this.min = left.drawable;
+						} else if (Kernel.isGreater(minBound, minLeft)) {
+							((DrawInequality1Var) left.drawable).ignoreLines();
 						}
-					}
-					if ((leftExp.getOperation().equals(Operation.LESS) || leftExp
-							.getOperation().equals(Operation.LESS_EQUAL))
-							&& (rightExp.getOperation().equals(Operation.LESS) || rightExp
-									.getOperation()
-									.equals(Operation.LESS_EQUAL))) {
+					} else if (((DrawInequality1Var) left.drawable).getIneq()
+							.getOperation().equals(Operation.LESS)
+							|| ((DrawInequality1Var) left.drawable).getIneq().getOperation()
+									.equals(Operation.LESS_EQUAL)) {
 						Double maxLeft = leftExp.getRight().evaluateDouble();
-						Double maxRight = rightExp.getRight().evaluateDouble();
-						if (Kernel.isGreater(maxLeft, maxRight)) {
-							leftDrawable.ignoreLines();
-						} else {
-							rightDrawable.ignoreLines();
+						if (Kernel.isGreater(maxBound, maxLeft)) {
+							maxBound = maxLeft;
+							if (this.max != null) {
+								((DrawInequality1Var) this.max).ignoreLines();
+							}
+							this.max = left.drawable;
 						}
 					}
-				}
-		
-				if (fun.getFunctionExpression().getOperation()
-						.equals(Operation.OR)) {
-					rightDrawable.ignoreLines();
+				} else if (leftExp.getLeft() instanceof MySpecialDouble
+						|| (leftExp.getLeft() instanceof MyDouble && !(leftExp
+								.getLeft() instanceof FunctionVariable))) {
+					if (((DrawInequality1Var) left.drawable).getIneq()
+							.getOperation().equals(Operation.GREATER)
+							|| ((DrawInequality1Var) left.drawable).getIneq().getOperation()
+									.equals(Operation.GREATER_EQUAL)) {
+						Double maxLeft = leftExp.getLeft().evaluateDouble();
+						if (Kernel.isGreater(maxBound, maxLeft)) {
+							maxBound = maxLeft;
+							if (this.max != null) {
+								((DrawInequality1Var) this.max).ignoreLines();
+							}
+							this.max = left.drawable;
+						} else if (Kernel.isGreater(maxLeft, maxBound)) {
+							((DrawInequality1Var) left.drawable).ignoreLines();
+						}
+					} else if (((DrawInequality1Var) left.drawable).getIneq()
+							.getOperation().equals(Operation.LESS)
+							|| ((DrawInequality1Var) left.drawable).getIneq().getOperation()
+									.equals(Operation.LESS_EQUAL)) {
+						Double maxLeft = leftExp.getRight().evaluateDouble();
+						if (Kernel.isGreater(maxBound, maxLeft)) {
+							maxBound = maxLeft;
+							if (this.max != null) {
+								((DrawInequality1Var) this.max).ignoreLines();
+							}
+							this.max = left.drawable;
+						}
+					}
 				}
 			}
 		}
-	}
+		if (right.drawable == null) {
+			right.min = min;
+			right.max = max;
+			right.minBound = minBound;
+			right.maxBound = maxBound;
+			right.update2();
+			this.min = right.min;
+			this.max = right.max;
+			this.minBound = right.minBound;
+			this.maxBound = right.maxBound;
+		} else if (right.drawable instanceof DrawInequality1Var) {
+			ExpressionNode rightExp = ((DrawInequality1Var) right.drawable)
+					.getIneq().getNormalExpression();
+			if (rightExp.getOperation().equals(Operation.MINUS)) {
+				if (rightExp.getRight() instanceof MySpecialDouble
+						|| (rightExp.getRight() instanceof MyDouble && !(rightExp
+								.getRight() instanceof FunctionVariable))) {
+					if (((DrawInequality1Var) right.drawable).getIneq()
+							.getOperation().equals(Operation.GREATER)
+							|| ((DrawInequality1Var) right.drawable).getIneq().getOperation()
+									.equals(Operation.GREATER_EQUAL)) {
+						Double minRight = rightExp.getRight().evaluateDouble();
+						if (Kernel.isGreater(minRight, minBound)) {
+							minBound = minRight;
+							if (this.min != null) {
+								((DrawInequality1Var) this.min).ignoreLines();
+							}
+							this.min = right.drawable;
+						} else if (Kernel.isGreater(minBound, minRight)) {
+							((DrawInequality1Var) right.drawable).ignoreLines();
+						}
+					} else if (((DrawInequality1Var) right.drawable).getIneq()
+							.getOperation().equals(Operation.LESS)
+							|| ((DrawInequality1Var) right.drawable).getIneq().getOperation()
+									.equals(Operation.LESS_EQUAL)) {
+						Double maxRight = rightExp.getRight().evaluateDouble();
+						if (Kernel.isGreater(maxBound, maxRight)) {
+							maxBound = maxRight;
+							if (this.max != null) {
+								((DrawInequality1Var) this.max).ignoreLines();
+							}
+							this.max = right.drawable;
+						}
+					}
+				}
+				if (rightExp.getLeft() instanceof MySpecialDouble
+						|| (rightExp.getLeft() instanceof MyDouble && !(rightExp
+								.getLeft() instanceof FunctionVariable))) {
+					if (((DrawInequality1Var) right.drawable).getIneq()
+							.getOperation().equals(Operation.GREATER)
+							|| ((DrawInequality1Var) right.drawable).getIneq().getOperation()
+									.equals(Operation.GREATER_EQUAL)) {
+						Double maxRight = rightExp.getLeft().evaluateDouble();
+						if (Kernel.isGreater(maxBound, maxRight)) {
+							maxBound = maxRight;
+							if (this.max != null) {
+								((DrawInequality1Var) this.max).ignoreLines();
+							}
+							this.max = right.drawable;
+						} else if (Kernel.isGreater(maxRight, maxBound)) {
+							((DrawInequality1Var) right.drawable).ignoreLines();
+						}
+					} else if (((DrawInequality1Var) right.drawable).getIneq()
+							.getOperation().equals(Operation.LESS)
+							|| ((DrawInequality1Var) right.drawable).getIneq().getOperation()
+									.equals(Operation.LESS_EQUAL)) {
+						Double maxRight = rightExp.getRight().evaluateDouble();
+						if (Kernel.isGreater(maxBound, maxRight)) {
+							maxBound = maxRight;
+							if (this.max != null) {
+								((DrawInequality1Var) this.max).ignoreLines();
+							}
+							this.max = right.drawable;
+						}
+					}
+				}
+
+				}
+			}
+		}
 
 	private DrawInequality(IneqTree tree, EuclidianView view, GeoElement geo) {
 		this.view = view;

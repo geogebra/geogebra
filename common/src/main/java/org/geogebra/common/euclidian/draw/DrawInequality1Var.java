@@ -249,4 +249,8 @@ public class DrawInequality1Var extends Drawable {
 		}
 
 	}
+
+	public Inequality getIneq() {
+		return this.ineq;
+	}
 }
