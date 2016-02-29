@@ -365,7 +365,7 @@ null,
 		final String localKey = getFileKey(mat);
 		mat.setTitle(getTitleFromKey(mat.getTitle()));
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-		        .uploadLocalMaterial(app, mat, new MaterialCallback() {
+				.uploadLocalMaterial(mat, new MaterialCallback() {
 
 			        @Override
 			        public void onLoaded(final List<Material> parseResponse,

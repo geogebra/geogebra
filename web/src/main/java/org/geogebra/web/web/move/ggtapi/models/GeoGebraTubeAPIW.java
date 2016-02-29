@@ -2,7 +2,6 @@ package org.geogebra.web.web.move.ggtapi.models;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.move.ggtapi.models.Chapter;
@@ -298,7 +297,7 @@ response,
 	 * @param cb
 	 *            {@link MaterialCallback}
 	 */
-	public void uploadLocalMaterial(final AppW app, final Material mat,
+	public void uploadLocalMaterial(final Material mat,
 	        final MaterialCallback cb) {
 		performRequest(
 UploadRequest.getRequestElement(mat)
@@ -438,15 +437,15 @@ new SyncRequest(timestamp).toJSONString(client),
 					try {
 						String respData = response.getText();
 						if (respData == null || respData.equals("")) {
-							App.debug("[ANIMGIF] no response");
+							Log.debug("[ANIMGIF] no response");
 							return;
 						}
-						App.debug("[ANIMGIF] respData is: " + respData);
+						Log.debug("[ANIMGIF] respData is: " + respData);
 						JSONValue responseObject = JSONParser
 						        .parseStrict(respData);
 						if (responseObject == null
 						        || responseObject.isObject() == null) {
-							App.debug("[ANIMGIF] responseObject is null");
+							Log.debug("[ANIMGIF] responseObject is null");
 							WindowW.postMessage(gifWnd, StringUtil
 							        .toHTMLString(app.getLocalization()
 							                .getPlain("AnimatedGIF.ErrorA",
@@ -461,7 +460,7 @@ new SyncRequest(timestamp).toJSONString(client),
 							JSONValue error = responseObject.isObject()
 							        .get("error").isObject().get("-type")
 							        .isString();
-							App.debug("[ANIMGIF] error is " + error.toString());
+							Log.debug("[ANIMGIF] error is " + error.toString());
 
 							WindowW.postMessage(
 							        gifWnd,
@@ -486,26 +485,27 @@ new SyncRequest(timestamp).toJSONString(client),
 						        .getLocalization().getPlain(
 						                "AnimatedGIF.Success")));
 					} catch (Throwable t) {
-						App.debug(t.getMessage());
-						App.debug("'" + response + "'");
+						Log.debug(t.getMessage());
+						Log.debug("'" + response + "'");
 					}
 				}
 			}
 
 			public void onError(Request request, Throwable exception) {
-				App.debug("[ANIMGIF] EXCEPTION: " + exception);
+				Log.debug("[ANIMGIF] EXCEPTION: " + exception);
 
 			}
 		};
 
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, getUrl());
 
-		App.debug("[URL] " + getUrl());
-		String req = AnimGifRequest.getRequestElement(app, sliderName,
+		Log.debug("[URL] " + getUrl());
+		String req = AnimGifRequest.getRequestElement(
+				app.getGgbApi().getBase64(), sliderName,
 		        timing,
 		        isLoop)
 		        .toJSONString(client);
-		App.debug("[REQUEST]: " + req);
+		Log.debug("[REQUEST]: " + req);
 		try {
 			rb.setHeader("Content-type", "text/plain");
 			rb.sendRequest(req, cb);

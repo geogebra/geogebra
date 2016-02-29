@@ -5,17 +5,16 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Request;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONString;
-import org.geogebra.web.html5.main.AppW;
 
 public class AnimGifRequest implements Request {
 
 	private final String API = "1.0.0";
 	private final String TYPE = "convertGGBToGIF";
 
-	private AppW app;
 	private String sliderName;
 	private int timing;
 	private boolean isLoop;
+	private String base64;
 
 	/**
 	 * @param app
@@ -23,8 +22,8 @@ public class AnimGifRequest implements Request {
 	 * @param material
 	 *            {@link Material}
 	 */
-	AnimGifRequest(AppW app, String sliderName, int timing, boolean isLoop) {
-		this.app = app;
+	AnimGifRequest(String base64, String sliderName, int timing, boolean isLoop) {
+		this.base64 = base64;
 		this.sliderName = sliderName;
 		this.timing = timing;
 		this.isLoop = isLoop;
@@ -47,7 +46,7 @@ public class AnimGifRequest implements Request {
 		// task
 		JSONObject task = new JSONObject();
 		JSONObject ggbBase64 = new JSONObject();
-		ggbBase64.put("-base64", app.getGgbApi().getBase64());
+		ggbBase64.put("-base64", base64);
 
 		task.put("-type", new JSONString(TYPE));
 		task.put("file", ggbBase64);
@@ -70,8 +69,9 @@ public class AnimGifRequest implements Request {
 	 *            The slider of animation steps
 	 * @return AnimGifRequest
 	 */
-	public static AnimGifRequest getRequestElement(AppW app, String sliderName,
+	public static AnimGifRequest getRequestElement(String base64,
+			String sliderName,
 	        int timing, boolean isLoop) {
-		return new AnimGifRequest(app, sliderName, timing, isLoop);
+		return new AnimGifRequest(base64, sliderName, timing, isLoop);
 	}
 }
