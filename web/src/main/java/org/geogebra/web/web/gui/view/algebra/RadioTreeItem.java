@@ -248,6 +248,7 @@ public class RadioTreeItem extends AVTreeItem
 			addBlurHandler(new BlurHandler() {
 
 				public void onBlur(BlurEvent event) {
+
 					hide();
 				}
 			});
@@ -2003,10 +2004,12 @@ marblePanel, evt))) {
 		}
 
 		Touch t = evt.getTouches().get(0);
-		handleAVItem(t.getClientX(), t.getClientY(), false);
+		if (handleAVItem(t.getClientX(), t.getClientY(), false)) {
+			evt.preventDefault();
+		}
 	}
 
-	private void handleAVItem(int x, int y, boolean rightClick) {
+	private boolean handleAVItem(int x, int y, boolean rightClick) {
 
 		boolean minHit = sliderPanel != null
 				&& isWidgetHit(slider.getWidget(0), x, y);
@@ -2024,7 +2027,7 @@ marblePanel, evt))) {
 
 		if (minMaxPanel != null && minMaxPanel.isVisible()) {
 			selectItem(true);
-			return;
+			return false;
 		}
 
 		if (sliderPanel != null && sliderPanel.isVisible() && !rightClick) {
@@ -2037,13 +2040,15 @@ marblePanel, evt))) {
 					minMaxPanel.setMaxFocus();
 				}
 
-				return;
+				return true;
 			}
 		}
 
 		if (!selectionCtrl.isSelectHandled()) {
 			selectItem(true);
 		}
+
+		return false;
 
 	}
 	protected AlgebraViewW getAV() {
