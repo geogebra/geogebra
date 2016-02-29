@@ -3841,15 +3841,14 @@ public abstract class App implements UpdateSelection {
 		case ANALYTICS:
 		case HANDWRITING:
 			return prerelease;
+
 		case MOBILE_PROPERTIES_VIEW:
 		case MOBILE_WEB_VIEW:
-		case COMBOSCROLLING:
 			return prerelease;
 
 		case MOBILE_INPUT_BAR_HELP_PANEL:
 			return prerelease;
 
-		// return canary;
 		case AV_EXTENSIONS:
 		case DATA_COLLECTION:
 		case SEQUENTIAL_COLORS:
@@ -3864,15 +3863,22 @@ public abstract class App implements UpdateSelection {
 		case DRAW_INPUTBOXES_TO_CANVAS:
 		case UNDO_FOR_TOOLS:
 			return true;
+
 		case UNDO_WHEN_CHANGE_TOOL:
 			return prerelease;
+
 			// in web
 		case PRINT_MENU:
 		case CP_POPUP:
 		case CP_NEW_COLUMNS:
+
 			// in web (not tablet apps yet)
 			// File -> Enter Exam Mode
 		case EXAM:
+			return true;
+
+		// enabled from 5.0.210.0
+		case COMBOSCROLLING:
 			return true;
 
 		// enabled from 5.0.200.0
