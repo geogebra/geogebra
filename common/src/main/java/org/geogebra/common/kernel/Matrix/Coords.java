@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.Matrix;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 
@@ -68,6 +69,10 @@ public class Coords {
 	};
 
 	public static final Coords BLACK = new Coords(0, 0, 0, 1);
+	public static final Coords DARK_GRAY = new Coords(
+			GColor.DARK_GRAY.getRed() / 255.0,
+			GColor.DARK_GRAY.getGreen() / 255.0,
+			GColor.DARK_GRAY.getBlue() / 255.0, 1);
 
 	public double[] val;
 	

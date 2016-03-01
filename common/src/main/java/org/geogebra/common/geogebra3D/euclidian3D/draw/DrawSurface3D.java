@@ -204,7 +204,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				return;
 			}
 
-			setDrawingColor(Coords.BLACK); // TODO
+			setDrawingColor(Coords.DARK_GRAY); // TODO
 			renderer.getTextures()
 					.setDashFromLineTypeHidden(Textures.DASH_NONE);
 			// setLineTextureHidden(renderer); //TODO
@@ -222,7 +222,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				return;
 			}
 
-			setDrawingColor(Coords.BLACK); // TODO
+			setDrawingColor(Coords.DARK_GRAY); // TODO
 			renderer.getTextures().setDashFromLineType(Textures.DASH_NONE);
 			// setLineTexture(renderer); //TODO
 
@@ -468,7 +468,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
 		brush.start(getReusableGeometryIndex());
-		brush.setThickness(2/* getGeoElement().getLineThickness() */, // TODO
+		brush.setThickness(1/* getGeoElement().getLineThickness() */, // TODO
 				(float) getView3D().getScale());
 		brush.setAffineTexture(0f, 0f);
 		brush.setLength(1f);
