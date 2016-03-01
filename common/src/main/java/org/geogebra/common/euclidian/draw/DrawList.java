@@ -40,6 +40,7 @@ import org.geogebra.common.gui.util.DropDownList.DropDownListener;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -73,6 +74,7 @@ public final class DrawList extends CanvasDrawable
 	private int viewWidth = 0;
 
 	private DrawOptions drawOptions;
+	private boolean seLatex;
 
 	enum ScrollMode {
 		UP, DOWN, NONE
@@ -94,9 +96,16 @@ public final class DrawList extends CanvasDrawable
 			GRectangle rect;
 			public OptionItem(GGraphics2D g2, int idx) {
 				index = idx;
-				text = geoList.get(idx)
-						.toValueString(StringTemplate.defaultTemplate);
-				latex = isLatexString(text);
+				GeoElement geoItem = geoList.get(idx);
+				if (geoItem instanceof GeoFunction) {
+					text = ((GeoFunction) geoItem).toLaTeXString(true,
+							StringTemplate.latexTemplate);
+					latex = true;
+				} else {
+					text = geoItem
+							.toValueString(StringTemplate.defaultTemplate);
+					latex = isLatexString(text);
+				}
 
 				if (!"".equals(text)) {
 					if (latex) {
@@ -1338,8 +1347,7 @@ public final class DrawList extends CanvasDrawable
 		g2.setPaint(geo.getObjectColor());
 
 		// Draw the selected line
-		boolean latex = isLatexString(selectedText);
-		if (latex) {
+		if (seLatex) {
 			textBottom = boxTop
 					+ (boxHeight - selectedDimension.getHeight()) / 2;
 		} else {
@@ -1449,8 +1457,18 @@ public final class DrawList extends CanvasDrawable
 
 		}
 
-		selectedText = geoList.get(geoList.getSelectedIndex())
-				.toValueString(StringTemplate.defaultTemplate);
+		GeoElement geoItem = geoList.getSelectedElement();
+		// boolean latex = false;
+		if (geoItem instanceof GeoFunction) {
+			selectedText = ((GeoFunction) geoItem).toLaTeXString(true,
+					StringTemplate.latexTemplate);
+			seLatex = true;
+		} else {
+			selectedText = geoItem
+					.toValueString(StringTemplate.defaultTemplate);
+			seLatex = isLatexString(selectedText);
+		}
+
 		selectedDimension = drawSelectedText(g2, 0, 0, false);
 
 		setPreferredSize(getPreferredSize());
@@ -1467,7 +1485,8 @@ public final class DrawList extends CanvasDrawable
 
 		GFont font = getLabelFont();
 
-		if (isLatexString(selectedText)) {
+
+		if (seLatex) {
 			GDimension d = null;
 			d = draw ? drawLatex(g2, geoList, font, selectedText, left, top)
 					: measureLatex(g2, geoList, font, selectedText);
