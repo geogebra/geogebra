@@ -202,13 +202,14 @@ public class AlgoIntersectImplicitpolyParametric
 	private void computeNonPoly(GeoFunction fun) {
 		Kernel ker = cons.getKernel();
 
-		ker.setSilentMode(true);
+
 
 		GeoFunction paramEquation = new GeoFunction(cons, p, null, fun);
 
 		AlgoRoots algo = new AlgoRoots(cons, paramEquation, new GeoNumeric(
 				cons, fun.getMinParameter()), new GeoNumeric(cons,
 				fun.getMaxParameter()));
+		cons.removeFromConstructionList(algo);
 
 		GeoPoint[] rootPoints = algo.getRootPoints();
 		List<double[]> valPairs = new ArrayList<double[]>();
@@ -217,7 +218,7 @@ public class AlgoIntersectImplicitpolyParametric
 			valPairs.add(new double[] { t, fun.evaluate(t) });
 		}
 
-		ker.setSilentMode(false);
+
 		setPoints(valPairs);
 
 	}
