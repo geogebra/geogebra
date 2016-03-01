@@ -136,12 +136,10 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 					.sub(plane1.getCoordSys().getOrigin())
 					.dotproduct(plane1.getDirectionInD3()))) {
 				return RESULTCATEGORY_CONTAINED;
-			} else {
-				return RESULTCATEGORY_PARALLEL;
 			}
-		} else {
-			return RESULTCATEGORY_GENERAL;
+			return RESULTCATEGORY_PARALLEL;
 		}
+		return RESULTCATEGORY_GENERAL;
 	}
 
 	// TODO optimize it, using the coefficients of planes directly
