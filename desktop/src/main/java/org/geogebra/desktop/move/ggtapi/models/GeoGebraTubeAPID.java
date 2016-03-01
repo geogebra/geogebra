@@ -16,7 +16,6 @@ import org.json.JSONTokener;
 public class GeoGebraTubeAPID extends
 		org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI {
 
-	private ClientInfo client;
 
 	@Override
 	protected org.geogebra.common.util.HttpRequest createHttpRequest() {

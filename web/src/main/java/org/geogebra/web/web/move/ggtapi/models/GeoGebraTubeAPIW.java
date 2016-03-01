@@ -8,13 +8,11 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
-import org.geogebra.common.move.ggtapi.requests.DeleteRequest;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.move.ggtapi.requests.SyncRequest;
-import org.geogebra.common.move.ggtapi.requests.UploadRequest;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -44,8 +42,7 @@ import com.google.gwt.json.client.JSONValue;
  * 
  */
 public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
-	private RequestBuilder requestBuilder;
-	private ClientInfo client;
+
 
 	/**
 	 * @param url
@@ -55,7 +52,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 */
 	public GeoGebraTubeAPIW(ClientInfo client, boolean beta) {
 		super(beta);
-		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, getUrl());
 		this.client = client;
 	}
 
@@ -124,8 +120,9 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 * @param cb
 	 *            {@link MaterialCallback}
 	 */
+	@Override
 	protected void performRequest(String requestString,
-	        final MaterialCallback cb) {
+			final MaterialCallbackI cb) {
 
 		HttpRequest req = createHttpRequest();
 		req.sendRequestPost(getUrl(), requestString, new AjaxCallback() {
@@ -248,106 +245,9 @@ response,
 		return requestJSON.toString();
 	}
 
-	/**
-	 * Uploads the actual opened application to ggt
-	 * 
-	 * @param app
-	 *            AppW
-	 * @param filename
-	 *            String
-	 * @param cb
-	 *            MaterialCallback
-	 */
-	public void uploadMaterial(int tubeID, String visibility,
-	        final String filename,
- String base64, final MaterialCallback cb,
-			MaterialType type) {
 
-		performRequest(
-		        UploadRequest.getRequestElement(tubeID, visibility, filename,
-						base64, type)
-.toJSONString(client), cb);
 
-	}
 
-	/**
-	 * to rename materials on ggt; TODO no use of base64
-	 * 
-	 * @param app
-	 *            {@link AppW}
-	 * @param mat
-	 *            {@link Material}
-	 * @param cb
-	 *            {@link MaterialCallback}
-	 */
-	public void uploadRenameMaterial(Material mat,
-	        final MaterialCallback cb) {
-		performRequest(
-				UploadRequest.getRequestElement(mat.getTitle(),
-		                mat.getId()).toJSONString(client), cb);
-	}
-
-	/**
-	 * Uploads a local saved file (web - localStorage; touch - device) to ggt
-	 * 
-	 * @param app
-	 *            {@link AppW}
-	 * @param mat
-	 *            {@link Material}
-	 * @param cb
-	 *            {@link MaterialCallback}
-	 */
-	public void uploadLocalMaterial(final Material mat,
-	        final MaterialCallback cb) {
-		performRequest(
-UploadRequest.getRequestElement(mat)
-				.toJSONString(client),
-		        cb);
-	}
-
-	/**
-	 * @param app
-	 *            {@link AppW}
-	 * @param material
-	 *            {@link Material}
-	 * @param cb
-	 *            {@link MaterialCallback}
-	 */
-	public void deleteMaterial(Material material,
-	        final MaterialCallback cb) {
-		performRequest(
-				DeleteRequest.getRequestElement(material)
-		        .toJSONString(client), cb);
-	}
-
-	/**
-	 * @param userId
-	 *            int
-	 * @param cb
-	 *            {@link MaterialCallback}
-	 */
-	public void getUsersMaterials(MaterialCallback cb) {
-		performRequest(
-		        MaterialRequest.forCurrentUser(client).toJSONString(client),
-		        cb);
-	}
-
-	/**
-	 * @param id
-	 *            int
-	 * @param cb
-	 *            {@link MaterialCallback}
-	 */
-	public void getBookItems(int id, MaterialCallback cb) {
-		performRequest(
-		        MaterialRequest.forBook(id, client).toJSONString(client), cb);
-	}
-
-	public void getWorksheetItems(int id, MaterialCallback cb) {
-		performRequest(
-		        MaterialRequest.forWorksheet(id, client).toJSONString(client),
-		        cb);
-	}
 
 	public void sync(long timestamp, final SyncCallback cb) {
 		this.performRequest(

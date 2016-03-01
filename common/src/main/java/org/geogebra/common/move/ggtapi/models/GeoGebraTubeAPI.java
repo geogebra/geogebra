@@ -2,7 +2,11 @@ package org.geogebra.common.move.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
+import org.geogebra.common.move.ggtapi.requests.DeleteRequest;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
+import org.geogebra.common.move.ggtapi.requests.UploadRequest;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
 
@@ -41,6 +45,7 @@ public abstract class GeoGebraTubeAPI {
 	
 	protected boolean available = true;
 	protected boolean availabilityCheckDone = false;
+	protected ClientInfo client;
 	
 	/**
 	 * Private method performing the request given by requestString
@@ -239,6 +244,105 @@ public abstract class GeoGebraTubeAPI {
 
 					}
 				});
+
+	}
+
+	/**
+	 * to rename materials on ggt; TODO no use of base64
+	 * 
+	 * @param app
+	 *            {@link AppW}
+	 * @param mat
+	 *            {@link Material}
+	 * @param cb
+	 *            {@link MaterialCallbackI}
+	 */
+	public void uploadRenameMaterial(Material mat, final MaterialCallbackI cb) {
+		performRequest(
+				UploadRequest.getRequestElement(mat.getTitle(), mat.getId())
+						.toJSONString(client), cb);
+	}
+
+	/**
+	 * Uploads a local saved file (web - localStorage; touch - device) to ggt
+	 * 
+	 * @param app
+	 *            {@link AppW}
+	 * @param mat
+	 *            {@link Material}
+	 * @param cb
+	 *            {@link MaterialCallbackI}
+	 */
+	public void uploadLocalMaterial(final Material mat,
+			final MaterialCallbackI cb) {
+		performRequest(UploadRequest.getRequestElement(mat)
+				.toJSONString(client), cb);
+	}
+
+	/**
+	 * @param app
+	 *            {@link AppW}
+	 * @param material
+	 *            {@link Material}
+	 * @param cb
+	 *            {@link MaterialCallbackI}
+	 */
+	public void deleteMaterial(Material material, final MaterialCallbackI cb) {
+		performRequest(
+				DeleteRequest.getRequestElement(material).toJSONString(client),
+				cb);
+	}
+
+	/**
+	 * @param userId
+	 *            int
+	 * @param cb
+	 *            {@link MaterialCallbackI}
+	 */
+	public void getUsersMaterials(MaterialCallbackI cb) {
+		performRequest(
+				MaterialRequest.forCurrentUser(client).toJSONString(client), cb);
+	}
+
+	protected void performRequest(String jsonString, MaterialCallbackI cb) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * @param id
+	 *            int
+	 * @param cb
+	 *            {@link MaterialCallbackI}
+	 */
+	public void getBookItems(int id, MaterialCallbackI cb) {
+		performRequest(
+				MaterialRequest.forBook(id, client).toJSONString(client), cb);
+	}
+
+	public void getWorksheetItems(int id, MaterialCallbackI cb) {
+		performRequest(
+				MaterialRequest.forWorksheet(id, client).toJSONString(client),
+				cb);
+	}
+
+	/**
+	 * Uploads the actual opened application to ggt
+	 * 
+	 * @param app
+	 *            AppW
+	 * @param filename
+	 *            String
+	 * @param cb
+	 *            MaterialCallback
+	 */
+	public void uploadMaterial(int tubeID, String visibility,
+			final String filename, String base64, final MaterialCallbackI cb,
+			MaterialType type) {
+
+		performRequest(
+				UploadRequest.getRequestElement(tubeID, visibility, filename,
+						base64, type).toJSONString(client), cb);
 
 	}
 }
