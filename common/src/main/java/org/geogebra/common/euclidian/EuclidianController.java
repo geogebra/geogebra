@@ -10249,6 +10249,8 @@ public abstract class EuclidianController {
 			pen.resetPenOffsets();
 		}
 
+		view.closeDropdowns();
+
 		if ((newMode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS)
 				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS)
 				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS)) {
