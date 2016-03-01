@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 
 /**
@@ -200,6 +201,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		return fontSizeD ;
 	}
 	public void setFontSizeMultiplier(double d) {
+		Log.printStacktrace("SIZE" + d);
 		fontSizeD = d;
 	}
 

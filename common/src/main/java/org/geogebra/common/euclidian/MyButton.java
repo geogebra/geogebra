@@ -35,10 +35,10 @@ public class MyButton implements Observer {
 	private float textHeight;
 	private float textWidth;
 
-	private static float marginTopMultiplier = 0.6f;
-	private static float marginBottomMultiplier = 0.5f;
-	private static float marginLeftMultiplier = 1f;
-	private static float marginRightMultiplier = 1f;
+	private final static float marginTopMultiplier = 0.6f;
+	private final static float marginBottomMultiplier = 0.5f;
+	private final static float marginLeftMultiplier = 1f;
+	private final static float marginRightMultiplier = 1f;
 
 	/**
 	 * @param button
@@ -67,14 +67,15 @@ public class MyButton implements Observer {
 	 * @param g
 	 *            graphics
 	 */
-	public void paintComponent(org.geogebra.common.awt.GGraphics2D g) {
+	public void paintComponent(org.geogebra.common.awt.GGraphics2D g,
+			double multiplier) {
 
 		boolean latex = CanvasDrawable.isLatexString(getCaption());
 
 		view.setAntialiasing(g);
 
 		font = font.deriveFont(geoButton.getFontStyle(),
-				(int) (geoButton.getFontSizeMultiplier() * 12));
+				(int) (multiplier * 12));
 		g.setFont(font);
 
 		boolean hasText = getCaption().length() > 0;
@@ -332,8 +333,8 @@ public class MyButton implements Observer {
 				textWidth = t.getAdvance();
 			}
 		}
-		geoButton.setFontSizeMultiplier(GeoText.getRelativeFontSize(i));
-		setFont(font);
+		double ret = GeoText.getRelativeFontSize(i);
+		paintComponent(g, ret);
 
 	}
 
