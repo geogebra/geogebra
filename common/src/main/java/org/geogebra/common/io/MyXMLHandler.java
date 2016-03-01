@@ -27,6 +27,7 @@ import java.util.LinkedList;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
@@ -363,6 +364,7 @@ public class MyXMLHandler implements DocHandler {
 		constMode = MODE_CONSTRUCTION;
 		hasGuiElement = false;
 		sliderTagProcessed = false;
+		fontTagProcessed = false;
 
 		initKernelVars();
 
@@ -1231,7 +1233,7 @@ public class MyXMLHandler implements DocHandler {
 			ymin = new HashMap<EuclidianSettings, String>(),
 			ymax = new HashMap<EuclidianSettings, String>();
 
-	private boolean sliderTagProcessed;
+	private boolean sliderTagProcessed, fontTagProcessed;
 
 	private boolean handleCoordSystem(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
@@ -3217,6 +3219,7 @@ public class MyXMLHandler implements DocHandler {
 				constMode = MODE_CONST_GEO_ELEMENT;
 				geo = getGeoElement(attrs);
 				sliderTagProcessed = false;
+				fontTagProcessed = false;
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_COMMAND;
@@ -3285,6 +3288,10 @@ public class MyXMLHandler implements DocHandler {
 			if ("element".equals(eName)) {
 				if (!sliderTagProcessed && geo.isGeoNumeric()) {
 					((GeoNumeric) geo).setShowExtendedAV(false);
+				}else if (!fontTagProcessed && geo.isGeoText()) {
+					((TextProperties) geo).setFontSizeMultiplier(1);
+					((TextProperties) geo).setSerifFont(false);
+					((TextProperties) geo).setFontStyle(GFont.PLAIN);
 				}
 				constMode = MODE_CONSTRUCTION;
 			}
@@ -4545,6 +4552,7 @@ public class MyXMLHandler implements DocHandler {
 
 	// <font serif="false" size="12" style="0">
 	private boolean handleTextFont(LinkedHashMap<String, String> attrs) {
+		this.fontTagProcessed = true;
 		if (!(geo instanceof TextProperties)) {
 			Log.error("wrong element type for <font>: " + geo.getClass());
 			return false;
