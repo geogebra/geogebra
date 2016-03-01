@@ -126,7 +126,16 @@ public class CoordsFloat3 extends Coords3{
 		return z;
 	}
 
-
+	@Override
+	public String toString() {
+		StringBuilder ret = new StringBuilder();
+		ret.append(x);
+		ret.append(',');
+		ret.append(y);
+		ret.append(',');
+		ret.append(z);
+		return ret.toString();
+	}
 
 	
 	

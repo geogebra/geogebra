@@ -67,6 +67,8 @@ public class Coords {
 		}
 	};
 
+	public static final Coords BLACK = new Coords(0, 0, 0, 1);
+
 	public double[] val;
 	
 	private int rows;

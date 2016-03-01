@@ -1020,18 +1020,25 @@ public class PlotterBrush implements PathPlotter {
 	// PATH PLOTTER
 	// //////////////////////////////
 
-	public void drawTo(double[] pos, boolean lineTo) {
+	private Coords tmpDrawTo = Coords.createInhomCoorsInD3();
 
-		Coords p = new Coords(0, 0, 0, 1);
-		p.set(pos);
+	public void drawTo(double[] pos, boolean lineTo) {
+		drawTo(pos[0], pos[1], pos[2], lineTo);
+	}
+
+	public void drawTo(double x, double y, double z, boolean lineTo) {
+
+		tmpDrawTo.setX(x);
+		tmpDrawTo.setY(y);
+		tmpDrawTo.setZ(z);
 
 		// App.debug("\n"+p);
 
 		if (lineTo) {
-			curveTo(p);
+			curveTo(tmpDrawTo);
 		} else {
 			setCurvePos(0);
-			down(p);
+			down(tmpDrawTo);
 		}
 	}
 
@@ -1041,6 +1048,10 @@ public class PlotterBrush implements PathPlotter {
 
 	public void moveTo(double[] pos) {
 		drawTo(pos, false);
+	}
+
+	public void moveTo(double x, double y, double z) {
+		drawTo(x, y, z, false);
 	}
 
 	public void corner() {
@@ -1101,5 +1112,6 @@ public class PlotterBrush implements PathPlotter {
 	public boolean supports(CoordSys sys) {
 		return true;
 	}
+
 
 }

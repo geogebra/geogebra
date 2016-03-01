@@ -90,6 +90,11 @@ public class PlotterBrushElements extends PlotterBrush {
 	 */
 	private void endCurve() {
 
+		if (sectionSize == -1) {
+			// no curve drawn
+			return;
+		}
+
 		// last tube rule
 		for (int i = 0; i < LATITUDES; i++) {
 			draw(end, SINUS[i], COSINUS[i], 1);
@@ -145,6 +150,19 @@ public class PlotterBrushElements extends PlotterBrush {
 		startCurve();
 
 		drawTo(pos, false);
+	}
+
+	@Override
+	public void moveTo(double x, double y, double z) {
+		// close last part
+		if (sectionSize >= 0) {
+			endCurve();
+		}
+
+		// start new part
+		startCurve();
+
+		drawTo(x, y, z, false);
 	}
 
 	@Override

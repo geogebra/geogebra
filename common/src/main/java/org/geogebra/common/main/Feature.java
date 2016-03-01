@@ -72,6 +72,8 @@ public enum Feature {
 
 	SHINY_3D,
 
+	SURFACE_WIREFRAME,
+
 	ACRA,
 
 	ANALYTICS,

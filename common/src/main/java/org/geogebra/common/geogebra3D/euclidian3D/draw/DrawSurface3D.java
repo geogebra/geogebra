@@ -3,8 +3,10 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -196,16 +198,45 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	public void drawGeometryHidden(Renderer renderer) {
-		// TODO Auto-generated method stub
+
+		if (appFeaturesWireframe()) {
+			if (!isVisible()) {
+				return;
+			}
+
+			setDrawingColor(Coords.BLACK); // TODO
+			renderer.getTextures()
+					.setDashFromLineTypeHidden(Textures.DASH_NONE);
+			// setLineTextureHidden(renderer); //TODO
+
+			renderer.getGeometryManager().draw(getGeometryIndex());
+			// Log.debug("Draw hidden: " + getGeoElement());
+		}
 
 	}
 
 	@Override
 	public void drawOutline(Renderer renderer) {
-		// no outline
+		if (appFeaturesWireframe()) {
+			if (!isVisible()) {
+				return;
+			}
+
+			setDrawingColor(Coords.BLACK); // TODO
+			renderer.getTextures().setDashFromLineType(Textures.DASH_NONE);
+			// setLineTexture(renderer); //TODO
+
+			renderer.getGeometryManager().draw(getGeometryIndex());
+			// Log.debug("Draw outline: " + getGeoElement());
+		}
 	}
-	
+
 	private boolean drawFromScratch = true;
+
+	/**
+	 * first corner from root mesh
+	 */
+	private Corner firstCorner;
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -280,7 +311,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			int vN = 1 + rootMeshIntervals * rootMeshIntervals / uN;
 			debug("grids: " + uN + ", " + vN);
 			cornerListIndex = 0;
-			Corner corner = createRootMesh(uMin, uMax, uN, vMin, vMax, vN);
+			firstCorner = createRootMesh(uMin, uMax, uN, vMin, vMax, vN);
 
 			// split root mesh as start
 			currentSplitIndex = 0;
@@ -288,7 +319,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			nextSplitIndex = 0;
 			drawListIndex = 0;
 			notDrawn = 0;
-			splitRootMesh(corner);
+			splitRootMesh(firstCorner);
 			debug("\nnot drawn after split root mesh: " + notDrawn);
 				
 			// now splitted root mesh is ready
@@ -371,8 +402,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 	private void draw(){
+
+		Renderer renderer = getView3D().getRenderer();
+
 		// draw splitted, still to split, and next to split
-		PlotterSurface surface = getView3D().getRenderer().getGeometryManager().getSurface();
+		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		surface.start(getReusableSurfaceIndex());
 
 		if (!stillRoomLeft){
@@ -416,6 +450,80 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 
 		setSurfaceIndex(surface.end());
+
+		if (appFeaturesWireframe()) {
+			drawWireframe(renderer);
+		}
+	}
+
+	static final private boolean isDefinedForWireframe(Corner corner) {
+		if (corner.p.isFinalUndefined()) {
+			return false;
+		}
+
+		return corner.p.isDefined();
+	}
+
+	private void drawWireframe(Renderer renderer) {
+		PlotterBrush brush = renderer.getGeometryManager().getBrush();
+
+		brush.start(getReusableGeometryIndex());
+		brush.setThickness(2/* getGeoElement().getLineThickness() */, // TODO
+				(float) getView3D().getScale());
+		brush.setAffineTexture(0f, 0f);
+		brush.setLength(1f);
+
+		for (int i = 0; i < bottomCorners.length; i++) {
+			Corner above = bottomCorners[i];
+			boolean currentPointIsDefined = isDefinedForWireframe(above);
+			if (currentPointIsDefined) {
+				brush.moveTo(above.p.getXd(), above.p.getYd(), above.p.getZd());
+			}
+			boolean lastPointIsDefined = currentPointIsDefined;
+			above = above.a;
+			while (above != null) {
+				currentPointIsDefined = isDefinedForWireframe(above);
+				if (currentPointIsDefined) {
+					if (lastPointIsDefined) {
+						brush.drawTo(above.p.getXd(), above.p.getYd(),
+								above.p.getZd(), true);
+					} else {
+						brush.moveTo(above.p.getXd(), above.p.getYd(),
+								above.p.getZd());
+					}
+				}
+				lastPointIsDefined = currentPointIsDefined;
+				above = above.a;
+			}
+			brush.endPlot();
+		}
+
+		for (int i = 0; i < rightCorners.length; i++) {
+			Corner left = rightCorners[i];
+			boolean currentPointIsDefined = isDefinedForWireframe(left);
+			if (currentPointIsDefined) {
+				brush.moveTo(left.p.getXd(), left.p.getYd(), left.p.getZd());
+			}
+			boolean lastPointIsDefined = currentPointIsDefined;
+			left = left.l;
+			while (left != null) {
+				currentPointIsDefined = isDefinedForWireframe(left);
+				if (currentPointIsDefined) {
+					if (lastPointIsDefined) {
+						brush.drawTo(left.p.getXd(), left.p.getYd(),
+								left.p.getZd(), true);
+					} else {
+						brush.moveTo(left.p.getXd(), left.p.getYd(),
+								left.p.getZd());
+					}
+				}
+				lastPointIsDefined = currentPointIsDefined;
+				left = left.l;
+			}
+			brush.endPlot();
+		}
+
+		setGeometryIndex(brush.end());
 	}
 	
 	
@@ -440,14 +548,24 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return DRAW_PICK_ORDER_SURFACE;
 	}
 
+	private boolean appFeaturesWireframe() {
+		return getView3D().getApplication().has(Feature.SURFACE_WIREFRAME);
+	}
+
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		addToDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
+		if (appFeaturesWireframe()) {
+			addToDrawable3DLists(lists, DRAW_TYPE_CLIPPED_CURVES);
+		}
 	}
 
 	@Override
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
+		if (appFeaturesWireframe()) {
+			removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_CURVES);
+		}
 	}
 
 	private boolean updateCullingBox() {
@@ -515,13 +633,22 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 	
 
-
+	private Corner[] bottomCorners, rightCorners;
 
 	private Corner createRootMesh(double uMin, double uMax, int uN, double vMin, double vMax, int vN) {
 
+		if (appFeaturesWireframe()) {
+			bottomCorners = new Corner[uN + 1];
+			rightCorners = new Corner[vN + 1];
+		}
 
 		Corner bottomRight = newCorner(uMax, vMax);
 		Corner first = bottomRight;
+
+		if (appFeaturesWireframe()) {
+			bottomCorners[0] = first;
+			rightCorners[0] = first;
+		}
 
 		// first row
 		Corner right = bottomRight;
@@ -529,6 +656,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			Corner left = newCorner(uMax - (uDelta * i) / uN, vMax);
 			right.l = left;
 			right = left;
+			if (appFeaturesWireframe()) {
+				bottomCorners[i] = right;
+			}
 		}
 
 		// all rows
@@ -545,6 +675,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				below.a = right;
 			}
 			bottomRight = bottomRight.a;
+			if (appFeaturesWireframe()) {
+				rightCorners[j] = bottomRight;
+			}
 		}
 
 		return first;
@@ -2686,6 +2819,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static void resetLastHitParameters(GeoSurfaceCartesian3D surface) {
 		// curve.resetLastHitParameters();
 	}
+
 
 	
 }
