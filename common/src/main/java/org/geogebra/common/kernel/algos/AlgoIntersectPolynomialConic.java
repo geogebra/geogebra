@@ -102,6 +102,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			setRootsPolynomial(r);
 		} else {
 			Kernel ker = cons.getKernel();
+			boolean oldSilentMode = ker.isSilentMode();
 			ker.setSilentMode(true);
 
 			/*
@@ -187,7 +188,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 				valPairs.add(new double[] { t, h.evaluate(t) });
 			}
 
-			ker.setSilentMode(false);
+			ker.setSilentMode(oldSilentMode);
 
 			setPoints(valPairs);
 			return;

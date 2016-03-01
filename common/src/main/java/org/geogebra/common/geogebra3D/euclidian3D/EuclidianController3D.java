@@ -726,6 +726,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		singleIntersectionPoint = null;
 		
 		
+		boolean oldSilentMode = getKernel().isSilentMode();
 		kernel.setSilentMode(true);
 
 		// check if a and b are two 2D geos
@@ -788,7 +789,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// TODO: conic/plane, conic/quadric
 
-		kernel.setSilentMode(false);
+		kernel.setSilentMode(oldSilentMode);
 
 		// Application.debug("point is defined : "+point.isDefined());
 
