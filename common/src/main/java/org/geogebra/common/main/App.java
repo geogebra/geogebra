@@ -3823,9 +3823,6 @@ public abstract class App implements UpdateSelection {
 		case HIT_PARAMETRIC_SURFACE:
 			return true;
 
-		case PARAMETRIC_SURFACE_IS_REGION:
-			return prerelease;
-
 		case SHINY_3D:
 
 		case WEB_PRINT_ALGEBRA_VIEW:
@@ -3852,8 +3849,6 @@ public abstract class App implements UpdateSelection {
 		case GL_ELEMENTS:
 		case AUTOMATIC_FONTSIZE:
 		case RETINA:
-		case LATEX_ON_BUTTON:
-		case LATEX_ON_CHECKBOX:
 		case DRAW_INPUTBOXES_TO_CANVAS:
 		case UNDO_FOR_TOOLS:
 			return true;

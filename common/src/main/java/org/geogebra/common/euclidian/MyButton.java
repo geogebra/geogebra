@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 //import java.awt.Color;
 
@@ -40,7 +39,6 @@ public class MyButton implements Observer {
 	private static float marginBottomMultiplier = 0.5f;
 	private static float marginLeftMultiplier = 1f;
 	private static float marginRightMultiplier = 1f;
-	private boolean hasLatex = false;
 
 	/**
 	 * @param button
@@ -53,7 +51,6 @@ public class MyButton implements Observer {
 		this.view = view;
 		this.x = 20;
 		this.y = 20;
-		hasLatex = view.getApplication().has(Feature.LATEX_ON_BUTTON);
 		geoButton.setObserver(this);
 	}
 
@@ -72,7 +69,7 @@ public class MyButton implements Observer {
 	 */
 	public void paintComponent(org.geogebra.common.awt.GGraphics2D g) {
 
-		boolean latex = hasLatex && CanvasDrawable.isLatexString(getCaption());
+		boolean latex = CanvasDrawable.isLatexString(getCaption());
 
 		view.setAntialiasing(g);
 
@@ -284,7 +281,7 @@ public class MyButton implements Observer {
 	}
 
 	private void resize(org.geogebra.common.awt.GGraphics2D g, int imgGap) {
-		boolean latex = hasLatex && CanvasDrawable.isLatexString(getCaption());
+		boolean latex = CanvasDrawable.isLatexString(getCaption());
 
 		// Reduces the font for attempts
 		GTextLayout t = null;

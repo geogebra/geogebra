@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 /**
  * Checkbox for free GeoBoolean object.
@@ -46,7 +45,6 @@ public final class DrawBoolean extends Drawable {
 	private final GPoint textSize = new GPoint(0, 0);
 
 	private CheckBoxIcon checkBoxIcon;
-	private boolean latexEnabled;
 	/**
 	 * Creates new DrawText
 	 * 
@@ -59,13 +57,12 @@ public final class DrawBoolean extends Drawable {
 		this.view = view;
 		this.geoBool = geoBool;
 		geo = geoBool;
-		latexEnabled = view.getApplication().has(Feature.LATEX_ON_CHECKBOX);
 		checkBoxIcon = new CheckBoxIcon(view);
 		update();
 	}
 
 	private boolean isLatexLabel() {
-		return latexEnabled && CanvasDrawable.isLatexString(labelDesc);
+		return CanvasDrawable.isLatexString(labelDesc);
 	}
 	@Override
 	final public void update() {
