@@ -106,7 +106,6 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 	protected void end() {
 
 		// algo for intersect points with bottom and top
-		kernel.setSilentMode(true);
 		algoBottom = new AlgoIntersectPlaneConic(cons);
 		algoTop = new AlgoIntersectPlaneConic(cons);
 		cons.removeFromConstructionList(algoBottom);
