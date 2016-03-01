@@ -16,6 +16,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -97,7 +98,9 @@ public class DockGlassPaneW extends AbsolutePanel implements
 	 * @param state
 	 */
 	public void startDrag(DnDState state) {
-
+		// we need capture for touch; otherwise touch move events go to
+		// dragPanel
+		Event.setCapture(this.getElement());
 		setVisible(true);
 		reg0 = addDomHandler(this, TouchMoveEvent.getType());
 		reg1 = addDomHandler(this, MouseMoveEvent.getType());
@@ -153,7 +156,7 @@ public class DockGlassPaneW extends AbsolutePanel implements
 	 * The mouse was released, quit the drag'n'drop mode.
 	 */
 	public void stopDrag() {
-
+		Event.releaseCapture(this.getElement());
 		if (!dragInProgress)
 			return;
 		reg0.removeHandler();
