@@ -23,15 +23,12 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoCoordSys;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
-import org.geogebra.common.main.App;
 
 /**
  *
@@ -120,34 +117,6 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 		
 		l.setCoord(o, vn);
 
-	}
-
-	public static GeoLine3D getIntersectPlanePlane(GeoCoordSys2D cs1,
-			GeoCoordSys2D cs2) {
-
-		Coords[] intersection = CoordMatrixUtil.intersectPlanes(cs1
-				.getCoordSys().getMatrixOrthonormal(), cs2.getCoordSys()
-				.getMatrixOrthonormal());
-
-		// update line
-		Construction c = cs1.toGeoElement().getConstruction();
-		c.getKernel().setSilentMode(true);
-		GeoLine3D l = new GeoLine3D(c, intersection[0], intersection[1]);
-		c.getKernel().setSilentMode(false);
-		return l;
-	}
-
-	public static GeoLine3D getIntersectPlanePlane(Construction cons,
-			CoordSys cs1, CoordSys cs2) {
-
-		Coords[] intersection = CoordMatrixUtil.intersectPlanes(
-				cs1.getMatrixOrthonormal(), cs2.getMatrixOrthonormal());
-
-		// update line
-		cons.getKernel().setSilentMode(true);
-		GeoLine3D l = new GeoLine3D(cons, intersection[0], intersection[1]);
-		cons.getKernel().setSilentMode(false);
-		return l;
 	}
 
 	public static int RESULTCATEGORY_NA = -1;
