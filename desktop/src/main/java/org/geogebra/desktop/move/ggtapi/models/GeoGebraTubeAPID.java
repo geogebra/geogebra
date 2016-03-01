@@ -28,6 +28,7 @@ public class GeoGebraTubeAPID extends
 	 * @return GeogebraTubeAPI singleton
 	 */
 	public GeoGebraTubeAPID(ClientInfo client) {
+		super(false);
 		this.client = client;
 	}
 
@@ -111,16 +112,6 @@ public class GeoGebraTubeAPID extends
 
 	public boolean isCheckDone() {
 		return availabilityCheckDone;
-	}
-
-	@Override
-	protected String getLoginUrl() {
-		return login_url;
-	}
-
-	@Override
-	protected String getUrl() {
-		return url;
 	}
 
 	@Override

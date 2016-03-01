@@ -46,6 +46,14 @@ public abstract class GeoGebraTubeAPI {
 	protected boolean available = true;
 	protected boolean availabilityCheckDone = false;
 	protected ClientInfo client;
+	private boolean beta;
+
+	/**
+	 * @param beta
+	 */
+	public GeoGebraTubeAPI(boolean beta) {
+		this.beta = beta;
+	}
 	
 	/**
 	 * Private method performing the request given by requestString
@@ -62,9 +70,13 @@ public abstract class GeoGebraTubeAPI {
 				callback);
 	}
 	
-	protected abstract String getLoginUrl();
+	protected final String getLoginUrl() {
+		return beta ? login_urlBeta : login_url;
+	}
 
-	protected abstract String getUrl();
+	protected final String getUrl() {
+		return beta ? urlBeta : url;
+	}
 
 	/**
 	 * Creates a new Http request
