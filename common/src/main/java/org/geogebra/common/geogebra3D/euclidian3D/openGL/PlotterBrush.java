@@ -1023,7 +1023,10 @@ public class PlotterBrush implements PathPlotter {
 	private Coords tmpDrawTo = Coords.createInhomCoorsInD3();
 
 	public void drawTo(double[] pos, boolean lineTo) {
-		drawTo(pos[0], pos[1], pos[2], lineTo);
+
+		tmpDrawTo.set(pos);
+
+		drawTo(lineTo);
 	}
 
 	public void drawTo(double x, double y, double z, boolean lineTo) {
@@ -1031,6 +1034,11 @@ public class PlotterBrush implements PathPlotter {
 		tmpDrawTo.setX(x);
 		tmpDrawTo.setY(y);
 		tmpDrawTo.setZ(z);
+
+		drawTo(lineTo);
+	}
+
+	private void drawTo(boolean lineTo) {
 
 		// App.debug("\n"+p);
 
