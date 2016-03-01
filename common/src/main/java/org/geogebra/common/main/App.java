@@ -3826,6 +3826,9 @@ public abstract class App implements UpdateSelection {
 		case HIT_PARAMETRIC_SURFACE:
 			return true;
 
+		case PARAMETRIC_SURFACE_IS_REGION:
+			return prerelease;
+
 		case SHINY_3D:
 
 		case WEB_PRINT_ALGEBRA_VIEW:

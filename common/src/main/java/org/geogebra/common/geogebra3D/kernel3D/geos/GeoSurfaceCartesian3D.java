@@ -444,7 +444,8 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	@Override
 	public boolean isRegion3D() {
-		return kernel.getApplication().has(Feature.SURFACE_IS_REGION);
+		return kernel.getApplication()
+				.has(Feature.PARAMETRIC_SURFACE_IS_REGION);
 	}
 
 	private double[] xyzuv;
