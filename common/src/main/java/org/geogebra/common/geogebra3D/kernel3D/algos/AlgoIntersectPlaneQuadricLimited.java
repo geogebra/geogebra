@@ -60,7 +60,6 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 			GeoQuadricND quadric) {
 
 		super(cons, plane, quadric);
-
 	}
 
 	/**
@@ -107,12 +106,11 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 	protected void end() {
 
 		// algo for intersect points with bottom and top
-		boolean oldSilentMode = kernel.isSilentMode();
 		kernel.setSilentMode(true);
 		algoBottom = new AlgoIntersectPlaneConic(cons);
 		algoTop = new AlgoIntersectPlaneConic(cons);
-		kernel.setSilentMode(oldSilentMode);
-
+		cons.removeFromConstructionList(algoBottom);
+		cons.removeFromConstructionList(algoTop);
 		bottomP = new GeoPoint3D[2];
 		for (int i = 0; i < 2; i++) {
 			bottomP[i] = new GeoPoint3D(cons);

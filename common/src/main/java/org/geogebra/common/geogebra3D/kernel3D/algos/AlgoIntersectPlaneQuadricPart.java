@@ -42,12 +42,10 @@ public class AlgoIntersectPlaneQuadricPart extends
 			bottom = parent.getBottom();
 			top = parent.getTop();
 		} else {
-			boolean oldSilentMode = kernel.isSilentMode();
-			kernel.setSilentMode(true);
 			algoEnds = new AlgoQuadricEnds(cons, quadric);
+			cons.removeFromConstructionList(algoEnds);
 			bottom = algoEnds.getSection1();
 			top = algoEnds.getSection2();
-			kernel.setSilentMode(oldSilentMode);
 
 		}
 
