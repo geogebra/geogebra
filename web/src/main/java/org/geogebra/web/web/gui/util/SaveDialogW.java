@@ -102,7 +102,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * @param app
 	 *            AppW
 	 * 
-	 *            Creates a new GeoGebraFileChooser Window
+	 *            Creates a new GeoGebraFileChooser Window <br>
+	 *            Use ((DialogManagerW) app.getDialogManager()).getSaveDialog()
+	 *            to get a SaveDialog! This looks like a very "special"
+	 *            Implementation of a Singleton... ->Refactor?
 	 */
 	public SaveDialogW(final AppW app) {
 		super(app.getPanel());

@@ -398,7 +398,8 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	 */
 	private void saveTools() {
 		applyChanges();
-		SaveDialogW dlg = new SaveDialogW(app);
+		SaveDialogW dlg = ((DialogManagerW) app.getDialogManager())
+				.getSaveDialog();
 		dlg.setSaveType(MaterialType.ggt);
 		dlg.show();
 
