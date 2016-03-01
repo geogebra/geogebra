@@ -53,7 +53,7 @@ public class Variable extends ValidExpression {
 		this.kernel = kernel;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	public Variable deepCopy(Kernel kernel1) {
 		return new Variable(kernel1, name);
 	}
 

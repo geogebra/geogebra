@@ -659,7 +659,7 @@ public class AlgebraProcessor {
 				// ==========================
 				GeoElement[] geoElements = null;
 				try {
-					geoElements = processValidExpression(ve);
+					geoElements = processValidExpression(ve.deepCopy(kernel));
 					if (storeUndo && geoElements != null)
 						app.storeUndoInfo();
 				} catch (Throwable ex) {

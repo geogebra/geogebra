@@ -538,4 +538,6 @@ public abstract class ValidExpression implements ExpressionValue {
 		ValueType vt = getValueType();
 		return vt == ValueType.NONCOMPLEX2D || vt == ValueType.VECTOR3D;
 	}
+
+	public abstract ValidExpression deepCopy(Kernel kernel);
 }

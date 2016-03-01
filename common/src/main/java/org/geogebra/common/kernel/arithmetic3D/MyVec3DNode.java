@@ -81,7 +81,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	}
 
 	@Override
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	public MyVec3DNode deepCopy(Kernel kernel1) {
 		MyVec3DNode ret = new MyVec3DNode(kernel1, x.deepCopy(kernel1),
 				y.deepCopy(kernel1), z.deepCopy(kernel1));
 		ret.mode = mode;

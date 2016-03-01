@@ -94,7 +94,8 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return true;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernelForCopy) {
+	@Override
+	public MyStringBuffer deepCopy(Kernel kernelForCopy) {
 		return getText();
 	}
 

@@ -76,7 +76,7 @@ final public class Geo3DVec extends ValidExpression
 		mode = v.mode;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	public Geo3DVec deepCopy(Kernel kernel1) {
 		return new Geo3DVec(this);
 	}
 

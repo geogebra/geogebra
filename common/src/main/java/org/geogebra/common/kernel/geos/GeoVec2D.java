@@ -116,7 +116,8 @@ final public class GeoVec2D extends ValidExpression implements
 		return mode == Kernel.COORD_COMPLEX && x == 0 && y == 1;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel2) {
+	@Override
+	public GeoVec2D deepCopy(Kernel kernel2) {
 		return new GeoVec2D(this);
 	}
 

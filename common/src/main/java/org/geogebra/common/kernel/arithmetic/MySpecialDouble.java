@@ -101,7 +101,7 @@ public class MySpecialDouble extends MyDouble {
 	}
 
 	@Override
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	public MySpecialDouble deepCopy(Kernel kernel1) {
 		if (isEulerConstant())
 			return kernel1.getEulerNumber();
 

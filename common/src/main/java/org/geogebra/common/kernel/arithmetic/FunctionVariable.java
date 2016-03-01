@@ -55,7 +55,7 @@ public class FunctionVariable extends MyDouble {
 	}
 
 	@Override
-	final public ExpressionValue deepCopy(Kernel k) {
+	final public FunctionVariable deepCopy(Kernel k) {
 		return new FunctionVariable(k, varStr);
 	}
 

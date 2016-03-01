@@ -92,7 +92,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 		return true;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	@Override
+	public MyBoolean deepCopy(Kernel kernel1) {
 		return new MyBoolean(kernel1, value);
 	}
 

@@ -591,7 +591,7 @@ public class Command extends ValidExpression implements
 	}
 
 	@Override
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	public Command deepCopy(Kernel kernel1) {
 		Command c = new Command(kernel1, name, false);
 		// copy arguments
 		int size = args.size();
