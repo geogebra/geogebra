@@ -22,19 +22,6 @@ public class AlgoIntersectPlaneQuadricPart extends
 	@Override
 	protected void end() {
 
-		/*
-		 * //algo for intersect points with bottom and top boolean oldSilentMode
-		 * = kernel.isSilentMode(); kernel.setSilentMode(true); algoBottom = new
-		 * AlgoIntersectPlaneConic(cons); algoTop = new
-		 * AlgoIntersectPlaneConic(cons); kernel.setSilentMode(oldSilentMode);
-		 * 
-		 * bottomP = new GeoPoint3D[2]; for(int i = 0 ; i < 2 ; i++){ bottomP[i]
-		 * = new GeoPoint3D(cons); }
-		 * 
-		 * topP = new GeoPoint3D[2]; for(int i = 0 ; i < 2 ; i++){ topP[i] = new
-		 * GeoPoint3D(cons); }
-		 */
-
 		if (quadric.getParentAlgorithm() instanceof AlgoQuadricSide) {
 			// use quadric limited parent ends
 			GeoQuadric3DLimited parent = ((AlgoQuadricSide) quadric

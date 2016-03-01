@@ -413,6 +413,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	public void openCommandHelp(String command) {
+		Log.printStacktrace("");
 		String internalCmd = null;
 		if (command != null)
 			try { // convert eg uppersum to UpperSum

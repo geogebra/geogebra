@@ -344,14 +344,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		boolean was3d = kernel3D.getConstruction().usedGeos
 				.contains(GeoClass.POINT3D);
 		// previewables
-		// kernel3D.setSilentMode(true);
 		cursor3D = new GeoPoint3D(kernel3D.getConstruction());
 		cursor3D.setCoords(0, 0, 0, 1);
 		cursor3D.setIsPickable(false);
 		// cursor3D.setLabelOffset(5, -5);
 		// cursor3D.setEuclidianVisible(false);
 		cursor3D.setMoveNormalDirection(Coords.VZ);
-		// kernel3D.setSilentMode(false);
 
 		cursorOnXOYPlane = new GeoPoint3D(kernel3D.getConstruction());
 		cursorOnXOYPlane.setCoords(0, 0, 0, 1);

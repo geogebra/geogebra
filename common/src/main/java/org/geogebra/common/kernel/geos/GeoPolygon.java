@@ -792,7 +792,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	public Path getBoundary() {
 		boolean suppress = this.cons.isSuppressLabelsActive();
-		this.getConstruction().getKernel().setSilentMode(true);
+		kernel.setSilentMode(true);
 
 		GeoPointND[] pointsForPolyLine = new GeoPointND[getPointsLength() + 1];
 		System.arraycopy(points, 0, pointsForPolyLine, 0, getPointsLength());
@@ -801,7 +801,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		GeoPolyLine pl = new GeoPolyLine(this.getConstruction(),
 				pointsForPolyLine);
 
-		this.getConstruction().getKernel().setSilentMode(false);
+		kernel.setSilentMode(false);
 		cons.setSuppressLabelCreation(suppress);
 		return pl;
 	}
