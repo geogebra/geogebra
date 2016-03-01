@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -24,7 +23,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Circle arc or sector defined by three points.
@@ -35,12 +34,38 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 
 	private GeoLine line; // for degenerate case
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param A
+	 *            start point
+	 * @param B
+	 *            point on arc
+	 * @param C
+	 *            end point
+	 * @param type
+	 *            conic type
+	 */
 	public AlgoConicPartCircumcircleND(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C, int type) {
 		this(cons, A, B, C, type);
 		conicPart.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            start point
+	 * @param B
+	 *            point on arc
+	 * @param C
+	 *            end point
+	 * @param type
+	 *            conic type
+	 */
 	public AlgoConicPartCircumcircleND(Construction cons, GeoPointND A,
 			GeoPointND B, GeoPointND C, int type) {
 		super(cons, type);
@@ -65,11 +90,13 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 
 	/**
 	 * 
-	 * @param cons
-	 * @param type
+	 * @param cons1
+	 *            construction
+	 * @param type1
+	 *            part type (arc or sector)
 	 * @return output conic part
 	 */
-	abstract protected GeoConicND createConicPart(Construction cons, int type);
+	abstract protected GeoConicND createConicPart(Construction cons1, int type1);
 
 	/**
 	 * 
@@ -86,7 +113,7 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 	@Override
 	public Commands getClassName() {
 		switch (type) {
-		case GeoConicPart.CONIC_PART_ARC:
+		case GeoConicNDConstants.CONIC_PART_ARC:
 			return Commands.CircumcircleArc;
 		default:
 			return Commands.CircumcircleSector;
@@ -96,7 +123,7 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 	@Override
 	public int getRelatedModeID() {
 		switch (type) {
-		case GeoConicPart.CONIC_PART_ARC:
+		case GeoConicNDConstants.CONIC_PART_ARC:
 			return EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS;
 		default:
 			return EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS;
@@ -140,7 +167,7 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 
 		default:
 			// this should not happen
-			App.debug("AlgoCirclePartPoints: unexpected conic type: "
+			Log.debug("AlgoCirclePartPoints: unexpected conic type: "
 					+ conicPart.getType());
 			conicPart.setUndefined();
 		}
@@ -169,6 +196,7 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 			// two rays
 			// second ray with start point C and direction of AC
 			conicPart.getLines()[1].setCoords(line);
+			conicPart.getLines()[1].setStartPoint(getC());
 			// first ray with start point A and oposite direction
 			line.changeSign();
 
@@ -228,27 +256,27 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 	 */
 	abstract public GeoPoint getC();
 
-	final protected double getAx() {
+	final private double getAx() {
 		return getA().inhomX;
 	}
 
-	final protected double getAy() {
+	final private double getAy() {
 		return getA().inhomY;
 	}
 
-	final protected double getBx() {
+	final private double getBx() {
 		return getB().inhomX;
 	}
 
-	final protected double getBy() {
+	final private double getBy() {
 		return getB().inhomY;
 	}
 
-	final protected double getCx() {
+	final private double getCx() {
 		return getC().inhomX;
 	}
 
-	final protected double getCy() {
+	final private double getCy() {
 		return getC().inhomY;
 	}
 
