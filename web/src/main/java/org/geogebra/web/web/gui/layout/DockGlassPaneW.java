@@ -3,8 +3,10 @@ package org.geogebra.web.web.gui.layout;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 
 import com.google.gwt.dom.client.Style;
@@ -12,8 +14,8 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -24,8 +26,9 @@ import com.google.gwt.user.client.ui.SimplePanel;
  * 
  * @author Florian Sonner, adapted by G.Sturr
  */
-public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
-        MouseMoveHandler {
+public class DockGlassPaneW extends AbsolutePanel implements
+ MouseMoveHandler,
+		TouchMoveHandler {
 
 	private boolean dragInProgress = false;
 
@@ -43,9 +46,8 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 	private SimplePanel previewPanel;
 
-	private com.google.gwt.event.shared.HandlerRegistration reg1;
+	private com.google.gwt.event.shared.HandlerRegistration reg0, reg1, reg2;
 
-	private com.google.gwt.event.shared.HandlerRegistration reg2;
 
 	private ArticleElement ae;
 
@@ -97,8 +99,17 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 	public void startDrag(DnDState state) {
 
 		setVisible(true);
+		reg0 = addDomHandler(this, TouchMoveEvent.getType());
 		reg1 = addDomHandler(this, MouseMoveEvent.getType());
-		reg2 = addDomHandler(this, MouseUpEvent.getType());
+		reg2 =
+		ClickEndHandler.init(this, new ClickEndHandler() {
+
+			@Override
+			public void onClickEnd(int x, int y, PointerEventType type) {
+				onMouseUp();
+
+			}
+		});
 		
 		// this.getElement().getStyle().setZIndex(50);
 		if (dragInProgress)
@@ -145,7 +156,7 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 
 		if (!dragInProgress)
 			return;
-
+		reg0.removeHandler();
 		reg1.removeHandler();
 		reg2.removeHandler();
 
@@ -366,7 +377,20 @@ public class DockGlassPaneW extends AbsolutePanel implements MouseUpHandler,
 		}
 	}
 
-	public void onMouseUp(MouseUpEvent event) {
+	public void onTouchMove(TouchMoveEvent event) {
+		if (dragInProgress) {
+			if (event.getTouches().length() == 1) {
+				event.preventDefault();
+				mouseDragged(
+						event.getTouches().get(0).getClientX()
+								+ Window.getScrollLeft(), event.getTouches()
+								.get(0).getClientY()
+								+ Window.getScrollTop());
+			}
+		}
+	}
+
+	public void onMouseUp() {
 		if (dragInProgress) {
 			stopDrag();
 		}

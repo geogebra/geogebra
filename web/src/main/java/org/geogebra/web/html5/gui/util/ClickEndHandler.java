@@ -7,9 +7,11 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class ClickEndHandler {
+
 
 	/**
 	 * Attaches a handler for MouseUpEvent and a TouchEndEvent to the widget.
@@ -20,8 +22,10 @@ public abstract class ClickEndHandler {
 	 * @param handler
 	 *            EventHandler (instance of this class)
 	 */
-	public static void init(Widget w, final ClickEndHandler handler) {
-		w.addDomHandler(new MouseUpHandler() {
+	public static HandlerRegistration init(Widget w,
+			final ClickEndHandler handler) {
+		final HandlerRegistration mouseReg = w.addDomHandler(
+				new MouseUpHandler() {
 			public void onMouseUp(MouseUpEvent event) {
 				if (handler.preventDefault) {
 					event.preventDefault();
@@ -36,7 +40,8 @@ public abstract class ClickEndHandler {
 			}
 		}, MouseUpEvent.getType());
 
-		w.addDomHandler(new TouchEndHandler() {
+		final HandlerRegistration touchReg = w.addDomHandler(
+				new TouchEndHandler() {
 			public void onTouchEnd(TouchEndEvent event) {
 				if (handler.preventDefault) {
 					event.preventDefault();
@@ -51,6 +56,14 @@ public abstract class ClickEndHandler {
 				CancelEventTimer.touchEventOccured();
 			}
 		}, TouchEndEvent.getType());
+		return new HandlerRegistration() {
+
+			public void removeHandler() {
+				mouseReg.removeHandler();
+				touchReg.removeHandler();
+
+			}
+		};
 	}
 
 	boolean preventDefault = false;

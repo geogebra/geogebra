@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.layout;
 
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -14,6 +15,7 @@ import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.NoDragImage;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.cas.view.CASStylebarW;
@@ -39,8 +41,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEvent;
 import com.google.gwt.event.dom.client.DragHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -72,7 +72,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public abstract class DockPanelW extends ResizeComposite implements
-        DockPanel, DockComponent, MouseDownHandler {
+ DockPanel,
+		DockComponent {
 	protected DockManagerW dockManager;
 
 	protected AppW app;
@@ -420,7 +421,15 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		dragPanel = new FlowPanel();
 		dragPanel.setStyleName("dragPanel");
-		dragPanel.addDomHandler(this, MouseDownEvent.getType());
+		ClickStartHandler.init(dragPanel, new ClickStartHandler(true, false) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				startDragging();
+
+			}
+		});
+
 		dragPanel.setVisible(false);
 		if(dragIcon == null){
 			dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
@@ -476,6 +485,15 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (setlayout) {
 			setLayout(false);
 		}
+	}
+
+	protected void startDragging() {
+		Log.debug("PANEL tapped:" + (componentPanel == null));
+		if (componentPanel == null)
+			return;
+
+		dockManager.drag(DockPanelW.this);
+
 	}
 
 	private void addToggleButton() {
@@ -1272,17 +1290,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		return false;
 	}
 
-	public void onMouseDown(MouseDownEvent event) {
 
-		// No, we don't need this, but do nothing instead if building GUI is
-		// necessary
-		// buildGUIIfNecessary();
-		App.debug("PANEL MOUSE DOWN" + (componentPanel == null));
-		if (componentPanel == null)
-			return;
-
-		dockManager.drag(this);
-	}
 
 	public GDimension getEstimatedSize() {
 		switch (getViewId()) {
