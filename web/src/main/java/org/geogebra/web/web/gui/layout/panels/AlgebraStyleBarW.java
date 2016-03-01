@@ -259,10 +259,9 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		return ImageOrText.convert(modes);
     }
 
+
 	private ImageOrText[] getDescriptionModes() {
-		String[] modes = new String[]{ app.getPlain("Value"),
-				app.getPlain("Definition"), app.getPlain("Command") };
-		return ImageOrText.convert(modes);
+		return ImageOrText.convert(AlgebraSettings.getDescriptionModes(app));
 	}
 
 	private void setToolTips() {

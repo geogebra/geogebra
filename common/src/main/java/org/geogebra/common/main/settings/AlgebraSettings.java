@@ -3,6 +3,8 @@ package org.geogebra.common.main.settings;
 import java.util.LinkedList;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /**
  * Settings for the algebra view.
@@ -100,6 +102,15 @@ public class AlgebraSettings extends AbstractSettings {
 
 	public void setModeChanged(boolean modeChanged) {
 		this.modeChanged = modeChanged;
+	}
+
+	public static String[] getDescriptionModes(App app) {
+		return app.has(Feature.AV_DEFINITION_AND_VALUE)
+				? new String[] { app.getPlain("DefinitionAndValue"),
+						app.getPlain("Value"), app.getPlain("Definition"),
+						app.getPlain("Description"), }
+				: new String[] { app.getPlain("Value"),
+						app.getPlain("Definition"), app.getPlain("Command") };
 	}
 
 }

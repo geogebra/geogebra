@@ -3831,6 +3831,7 @@ public abstract class App implements UpdateSelection {
 		case ACRA:
 		case ANALYTICS:
 		case HANDWRITING:
+		case AV_DEFINITION_AND_VALUE:
 			return prerelease;
 
 		case MOBILE_PROPERTIES_VIEW:

@@ -7,6 +7,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsAdvanced;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.html5.gui.util.LayoutUtil;
 import org.geogebra.web.html5.main.AppW;
@@ -86,8 +87,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 
 	private void updateDescription() {
 		// ignoreActions = true;
-		String[] modes = new String[] { app.getPlain("Value"),
-				app.getPlain("Definition"), app.getPlain("Command") };
+		String[] modes = AlgebraSettings.getDescriptionModes(app);
 		description.clear();
 
 		for (int i = 0; i < modes.length; i++) {
