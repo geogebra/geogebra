@@ -2369,6 +2369,30 @@ namespace giac {
 	  e=linear_integrate_nostep(fx,gen_x,tmprem,intmode,contextptr);
 	  remains_to_integrate=remains_to_integrate+complex_subst(tmprem,gen_x,*it,contextptr)*df;
 	  e=complex_subst(e,gen_x,*it,contextptr);
+	  // additional check for integrals like
+	  // int(sqrt (1+x^(-2/3)),x,-1,0)
+	  if (it->is_symb_of_sommet(at_pow)){
+	    gen powarg=(*it)[1],powa,powb;
+	    if (is_linear_wrt(powarg,gen_x,powa,powb,contextptr) && !is_zero(powa)){
+	      gen powx=-powb/powa;
+	      // check derivative at powx+-1
+	      gen check=ratnormal(derive(e,gen_x,contextptr)/e_orig);
+	      gen chkplus=subst(check,gen_x,powx+1.0,false,contextptr);
+	      gen chkminus=subst(check,gen_x,powx-1.0,false,contextptr);
+	      bool tstplus=is_zero(chkplus+1,contextptr);		
+	      bool tstminus=is_zero(chkminus+1,contextptr);		
+	      if (tstplus){
+		if (tstminus)
+		  e=-e;
+		else
+		  e=-sign(gen_x,contextptr)*e;
+	      }
+	      else {
+		if (tstminus)
+		  e=sign(gen_x,contextptr)*e;
+	      }
+	    }
+	  }
 	  return e;
 #endif
 	}
