@@ -433,7 +433,7 @@ public final class DrawList extends CanvasDrawable
 				dropDown.startClickTimer(x, y);
 			} else {
 				Log.debug(SCROLL_PFX + " plain click - no scroll");
-				onClick(x, y);
+				return onClick(x, y);
 			}
 			return true;
 
@@ -447,18 +447,18 @@ public final class DrawList extends CanvasDrawable
 			return dragging;
 		}
 
-		public void onClick(int x, int y) {
+		public boolean onClick(int x, int y) {
 			OptionItem item = getItemAt(x, y);
 
 			if (item == null) {
-				return;
+				return false;
 			}
 			Log.debug(SCROLL_PFX + " Click on item " + item.text);
 			selectedIndex = item.index;
 			selectCurrentItem();
 			setDragging(false);
 			setVisible(false);
-
+			return true;
 		}
 
 		public boolean onDrag(int x, int y) {
@@ -1603,7 +1603,6 @@ public final class DrawList extends CanvasDrawable
 		if (!isDrawingOnCanvas()) {
 			return;
 		}
-
 			if (drawOptions.onMouseDown(x, y)) {
 				return;
 			}
