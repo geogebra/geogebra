@@ -39,8 +39,8 @@ import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.gui.util.DropDownList.DropDownListener;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -59,31 +59,32 @@ public final class DrawList extends CanvasDrawable
 	/** coresponding list as geo */
 	GeoList geoList;
 	private DrawListArray drawables;
-	private boolean isVisible;
+	boolean isVisible;
 	private String oldCaption = "";
 	/** combobox */
 	org.geogebra.common.javax.swing.AbstractJComboBox comboBox;
 	private org.geogebra.common.javax.swing.GLabel label;
-	private DropDownList dropDown = null;
-	private String selectedText;
+	DropDownList dropDown = null;
+	String selectedText;
 	private int selectedHeight;
 	private GRectangle ctrlRect;
 	private GDimension selectedDimension;
 	private boolean latexLabel;
-	private int viewHeight = 0;
-	private int viewWidth = 0;
+	int viewHeight = 0;
+	int viewWidth = 0;
 
 	private DrawOptions drawOptions;
 	private boolean seLatex;
 
 	enum ScrollMode {
 		UP, DOWN, NONE
-	};
+	}
 
 	private class DrawOptions {
 		private static final int MARGIN = 5;
 
 		private static final int ROUND = 8;
+		final EuclidianView viewOpt;
 
 //		private static final int MAX_COLS_NO_FONT_CHANGE = 5;
 
@@ -97,8 +98,8 @@ public final class DrawList extends CanvasDrawable
 			public OptionItem(GGraphics2D g2, int idx) {
 				index = idx;
 				GeoElement geoItem = geoList.get(idx);
-				if (geoItem instanceof GeoFunction) {
-					text = ((GeoFunction) geoItem).toLaTeXString(true,
+				if (needsLatex(geoItem)) {
+					text = geoItem.toLaTeXString(false,
 							StringTemplate.latexTemplate);
 					latex = true;
 				} else {
@@ -153,7 +154,6 @@ public final class DrawList extends CanvasDrawable
 		private static final int MIN_FONT_SIZE = 12;
 
 		private static final String SCROLL_PFX = "[COMBOSCROLLING]";
-		private static final String DRAG_PFX = "[DRAGGG]";
 
 		private int colCount=1;
 		private int rowCount=1;
@@ -192,7 +192,8 @@ public final class DrawList extends CanvasDrawable
 
 		private boolean dragging = false;
 
-		public DrawOptions() {
+		public DrawOptions(EuclidianView view) {
+			this.viewOpt = view;
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
 			itemHovered = null;
 			hoverColor = GColor.LIGHT_GRAY;
@@ -210,7 +211,8 @@ public final class DrawList extends CanvasDrawable
 		private boolean isScrollNeeded() {
 			return scrollSupport && scrollNeeded;
 		}
-		public void draw(GGraphics2D g2, int left, int top) {
+
+		public void draw(GGraphics2D graphics2, int leftPos, int topPos) {
 			if (!isVisible()) {
 				return;
 			}
@@ -218,9 +220,9 @@ public final class DrawList extends CanvasDrawable
 				startIdx = isScrollNeeded() ? geoList.getSelectedIndex() : 0;
 
 			}
-			this.left = left;
-			this.top = top;
-			this.g2 = g2;
+			this.left = leftPos;
+			this.top = topPos;
+			this.g2 = graphics2;
 
 			getMetrics();
 			drawBox();
@@ -299,7 +301,7 @@ public final class DrawList extends CanvasDrawable
 				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), itemHeight));
 			}
-			g2.setPaint(geo.getObjectColor());
+			g2.setPaint(getGeoElement().getObjectColor());
 			if (item.latex) {
 				GRectangle rect = item.rect.getBounds();
 				int x = (int) rect.getX();
@@ -315,7 +317,7 @@ public final class DrawList extends CanvasDrawable
 				int x = (dimItem.getWidth() - item.width) / 2;
 				int y = (itemHeight - yPadding);
 
-				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+				EuclidianStatic.drawIndexedString(viewOpt.getApplication(), g2,
 						item.text, rectLeft + x, rectTop + y, false,
 						false);
 			}
@@ -386,7 +388,7 @@ public final class DrawList extends CanvasDrawable
 		void scrollUpBy(int diff) {
 			if (startIdx - diff >= 0) {
 				startIdx -= diff;
-				geo.updateRepaint();
+				getGeoElement().updateRepaint();
 
 			}
 		}
@@ -394,7 +396,7 @@ public final class DrawList extends CanvasDrawable
 		void scrollDownBy(int diff) {
 			if (endIdx + diff < items.size() + 1) {
 				startIdx += diff;
-				geo.updateRepaint();
+				getGeoElement().updateRepaint();
 			}
 		}
 
@@ -487,7 +489,7 @@ public final class DrawList extends CanvasDrawable
 
 					if (getStartIdx() > 0 && getEndIdx() < geoList.size()) {
 						dragOffset = -dY;
-						view.repaintView();
+						viewOpt.repaintView();
 					}
 				}
 
@@ -541,10 +543,10 @@ public final class DrawList extends CanvasDrawable
 			drawItem(item, true);
 			itemHovered = item;
 			selectedIndex = item.index;
-			view.repaintView();
+			viewOpt.repaintView();
 		}
 
-		private OptionItem getItemAt(int x, int y) {
+		OptionItem getItemAt(int x, int y) {
 			for (OptionItem item : items) {
 				if (item.isHit(x, y)) {
 					return item;
@@ -583,9 +585,9 @@ public final class DrawList extends CanvasDrawable
 			int tableHeight = rowCount * dimItem.getHeight();
 
 
-			if (top + tableHeight + 2 * MARGIN > view
+			if (top + tableHeight + 2 * MARGIN > viewOpt
 					.getHeight()) {
-				top = (view.getHeight() - tableHeight - MARGIN);
+				top = (viewOpt.getHeight() - tableHeight - MARGIN);
 				if (top < MARGIN) {
 					top = MARGIN;
 					tableHeight -= MARGIN;
@@ -600,8 +602,8 @@ public final class DrawList extends CanvasDrawable
 			dimTable = AwtFactory.prototype.newDimension(tableWidth,
 					tableHeight);
 
-			if (left + dimTable.getWidth() > view.getWidth()) {
-				left = (view.getWidth() - dimTable.getWidth());
+			if (left + dimTable.getWidth() > viewOpt.getWidth()) {
+				left = (viewOpt.getWidth() - dimTable.getWidth());
 			}
 			rectTable = AwtFactory.prototype.newRectangle(left,
 					top + MARGIN,
@@ -684,11 +686,11 @@ public final class DrawList extends CanvasDrawable
 			int maxItems = geoList.size();
 			int arrowsHeight = (int) (rectUp.getHeight()
 					+ rectDown.getHeight());
-			int visibleItems = (view.getHeight() - (2 * MARGIN))
+			int visibleItems = (viewOpt.getHeight() - (2 * MARGIN))
 					/ dimItem.getHeight();
 
 			if (visibleItems < maxItems - 1) {
-				visibleItems = (view.getHeight() - (2 * MARGIN + arrowsHeight))
+				visibleItems = (viewOpt.getHeight() - (2 * MARGIN + arrowsHeight))
 						/ dimItem.getHeight();
 
 			}
@@ -722,9 +724,9 @@ public final class DrawList extends CanvasDrawable
 		 */
 		private boolean getTableScale() {
 			int maxItems = geoList.size();
-			int maxRows = ((view.getHeight() - 2 * MARGIN)
+			int maxRows = ((viewOpt.getHeight() - 2 * MARGIN)
 					/ dimItem.getHeight()) + 1;
-			int maxCols = view.getWidth() / dimItem.getWidth();
+			int maxCols = viewOpt.getWidth() / dimItem.getWidth();
 			if (maxItems < maxRows) {
 				getOneColumnSettings();
 				rowCount = maxItems;
@@ -796,7 +798,7 @@ public final class DrawList extends CanvasDrawable
 		public void setVisible(boolean visible) {
 			this.visible = visible;
 			if (visible) {
-				view.setOpenedComboBox(DrawList.this);
+				viewOpt.setOpenedComboBox(DrawList.this);
 				if (isScrollNeeded()) {
 					int selIdx = geoList.getSelectedIndex();
 					if (selIdx + getVisibleItemCount() < geoList.size()) {
@@ -817,7 +819,7 @@ public final class DrawList extends CanvasDrawable
 			}
 
 			updateOpenedComboBox();
-			view.repaintView();
+			viewOpt.repaintView();
 		}
 
 		public void onResize() {
@@ -854,7 +856,7 @@ public final class DrawList extends CanvasDrawable
 			if (update) {
 				itemHovered = items.get(idx);
 				selectedIndex = idx;
-				geo.updateRepaint();
+				getGeoElement().updateRepaint();
 			}
 		}
 
@@ -882,14 +884,6 @@ public final class DrawList extends CanvasDrawable
 
 		public int getMaxItemWidth() {
 			return dimItem != null ? dimItem.getWidth() : 0;
-		}
-
-		public boolean isInside(GRectangle rect) {
-			return rectTable.contains(rect);
-		}
-
-		public boolean intersectsRectangle(GRectangle rect) {
-			return rectTable.getBounds().intersects(rect);
 		}
 
 
@@ -924,7 +918,7 @@ public final class DrawList extends CanvasDrawable
 		setDrawingOnCanvas(view.getApplication()
 				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS));
 		if (isDrawingOnCanvas()) {
-			drawOptions = new DrawOptions();
+			drawOptions = new DrawOptions(view);
 			dropDown = new DropDownList(view.getApplication(), this);
 
 			GBox ctrlBox = geo.getKernel().getApplication().getSwingFactory()
@@ -1459,8 +1453,8 @@ public final class DrawList extends CanvasDrawable
 
 		GeoElement geoItem = geoList.getSelectedElement();
 		// boolean latex = false;
-		if (geoItem instanceof GeoFunction) {
-			selectedText = ((GeoFunction) geoItem).toLaTeXString(true,
+		if (needsLatex(geoItem)) {
+			selectedText = geoItem.toLaTeXString(false,
 					StringTemplate.latexTemplate);
 			seLatex = true;
 		} else {
@@ -1479,6 +1473,16 @@ public final class DrawList extends CanvasDrawable
 
 	}
 
+
+	/**
+	 * @param geoItem
+	 *            geo
+	 * @return whether it should be painted in LaTeX
+	 */
+	static boolean needsLatex(GeoElement geoItem) {
+		return geoItem instanceof FunctionalNVar
+				|| (geoItem.isGeoText() && geoItem.isLaTeXDrawableGeo());
+	}
 
 	private GDimension drawSelectedText(GGraphics2D g2, int left, int top,
 			boolean draw) {
@@ -1795,7 +1799,7 @@ public final class DrawList extends CanvasDrawable
 		drawOptions.onClick(x, y);
 	}
 
-	private void updateOpenedComboBox() {
+	void updateOpenedComboBox() {
 		if (!isDrawingOnCanvas()) {
 			return;
 		}
