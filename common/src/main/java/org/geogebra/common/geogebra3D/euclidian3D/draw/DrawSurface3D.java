@@ -251,40 +251,49 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			surfaceGeo.setDerivatives();
 
 			// calc min/max values
-			double uMin = surfaceGeo.getMinParameter(0);
-			double uMax = surfaceGeo.getMaxParameter(0);
-			double vMin = surfaceGeo.getMinParameter(1);
-			double vMax = surfaceGeo.getMaxParameter(1);
+			double uBorderMin = surfaceGeo.getMinParameter(0);
+			double uBorderMax = surfaceGeo.getMaxParameter(0);
+			double vBorderMin = surfaceGeo.getMinParameter(1);
+			double vBorderMax = surfaceGeo.getMaxParameter(1);
 
 			if (((GeoElement) surfaceGeo).isGeoFunctionNVar()
 					|| (surfaceGeo instanceof GeoFunction)) {
-				if (Double.isNaN(uMin)) {
-					uMin = getView3D().getXmin();
+				if (Double.isNaN(uBorderMin)) {
+					uBorderMin = getView3D().getXmin();
 				}
-				if (Double.isNaN(uMax)) {
-					uMax = getView3D().getXmax();
+				if (Double.isNaN(uBorderMax)) {
+					uBorderMax = getView3D().getXmax();
 				}
-				if (Double.isNaN(vMin)) {
-					vMin = getView3D().getYmin();
+				if (Double.isNaN(vBorderMin)) {
+					vBorderMin = getView3D().getYmin();
 				}
-				if (Double.isNaN(vMax)) {
-					vMax = getView3D().getYmax();
+				if (Double.isNaN(vBorderMax)) {
+					vBorderMax = getView3D().getYmax();
 				}
+				// don't draw borders
+				drawWireframeBorderU = 0;
+				drawWireframeBorderV = 0;
+			}else if (((GeoSurfaceCartesian3D) surfaceGeo)
+					.isSurfaceOfRevolutionAroundOx()) {
+				// cartesian surface of revolution
+				uBorderMin = getView3D().getXmin();
+				uBorderMax = getView3D().getXmax();
+				// draw borders for v, not for u=x
+				drawWireframeBorderU = 0;
+				drawWireframeBorderV = 1;
 			}else{
-				// cartesian surface, maybe surface of revolution
-				if (((GeoSurfaceCartesian3D) surfaceGeo)
-						.isSurfaceOfRevolutionAroundOx()) {
-					uMin = getView3D().getXmin();				
-					uMax = getView3D().getXmax();
-				}
+				// cartesian surface NOT of revolution
+				// draw borders for u and v
+				drawWireframeBorderU = 1;
+				drawWireframeBorderV = 1;
 			}
 
-			uDelta = uMax - uMin;
+			uDelta = uBorderMax - uBorderMin;
 			if (Kernel.isZero(uDelta)) {
 				setSurfaceIndex(-1);
 				return true;
 			}
-			vDelta = vMax - vMin;
+			vDelta = vBorderMax - vBorderMin;
 			if (Kernel.isZero(vDelta)) {
 				setSurfaceIndex(-1);
 				return true;
@@ -308,7 +317,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			int vN = 1 + rootMeshIntervals * rootMeshIntervals / uN;
 			debug("grids: " + uN + ", " + vN);
 			cornerListIndex = 0;
-			firstCorner = createRootMesh(uMin, uMax, uN, vMin, vMax, vN);
+			double du = uDelta / uN;
+			double dv = vDelta / vN;
+			firstCorner = createRootMesh(uBorderMin, uBorderMax - du,
+					uBorderMax, uN, vBorderMin, vBorderMax - dv, vBorderMax, vN);
 
 			// split root mesh as start
 			currentSplitIndex = 0;
@@ -478,8 +490,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		brush.setAffineTexture(0f, 0f);
 		brush.setLength(1f);
 
-		for (int i = 0; i < bottomCorners.length; i++) {
-			Corner above = bottomCorners[i];
+		for (int i = 0; i < wireframeBottomCorners.length; i++) {
+			Corner above = wireframeBottomCorners[i];
 			boolean currentPointIsDefined = isDefinedForWireframe(above);
 			if (currentPointIsDefined) {
 				brush.moveTo(above.p.getXd(), above.p.getYd(), above.p.getZd());
@@ -503,8 +515,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			brush.endPlot();
 		}
 
-		for (int i = 0; i < rightCorners.length; i++) {
-			Corner left = rightCorners[i];
+		for (int i = 0; i < wireframeRightCorners.length; i++) {
+			Corner left = wireframeRightCorners[i];
 			boolean currentPointIsDefined = isDefinedForWireframe(left);
 			if (currentPointIsDefined) {
 				brush.moveTo(left.p.getXd(), left.p.getYd(), left.p.getZd());
@@ -638,50 +650,97 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 	
 
-	private Corner[] bottomCorners, rightCorners;
+	// corners for drawing wireframe (bottom and right sides)
+	private Corner[] wireframeBottomCorners, wireframeRightCorners;
 
-	private Corner createRootMesh(double uMin, double uMax, int uN, double vMin, double vMax, int vN) {
+	// says if we draw borders for wireframe
+	// (we use short for array index shifting)
+	private short drawWireframeBorderU, drawWireframeBorderV;
 
-		if (appFeaturesWireframe()) {
-			bottomCorners = new Corner[uN + 1];
-			rightCorners = new Corner[vN + 1];
+	private class RootMeshManager {
+
+		private double uBorderMin;
+		private double uMin;
+		private double uMax;
+		private int uN;
+		private double vBorderMin;
+		private double vMin;
+		private double vMax;
+		private int vN;
+
+		public void setValues(double uBorderMin, double uMin, double uMax,
+				int uN, double vBorderMin, double vMin, double vMax, int vN) {
+			this.uBorderMin = uBorderMin;
+			this.uMin = uMin;
+			this.uMax = uMax;
+			this.uN = uN;
+			this.vBorderMin = vBorderMin;
+			this.vMin = vMin;
+			this.vMax = vMax;
+			this.vN = vN;
 		}
 
-		Corner bottomRight = newCorner(uMax, vMax);
+		// public double getU(int i) {
+		// if (i == 1) {
+		//
+		// }
+		// }
+	}
+
+
+	private Corner createRootMesh(double uBorderMin, double uMax,
+			double uBorderMax, int uN, double vBorderMin,
+			double vMax, double vBorderMax, int vN) {
+
+		if (appFeaturesWireframe()) {
+			wireframeBottomCorners = new Corner[uN - 1 + 2
+					* drawWireframeBorderU];
+			wireframeRightCorners = new Corner[vN - 1 + 2
+					* drawWireframeBorderV];
+		}
+
+		Corner bottomRight = newCorner(uBorderMax, vBorderMax);
 		Corner first = bottomRight;
 
 		if (appFeaturesWireframe()) {
-			bottomCorners[0] = first;
-			rightCorners[0] = first;
+			if (drawWireframeBorderU == 1) {
+				wireframeBottomCorners[0] = first;
+			}
+			if (drawWireframeBorderV == 1) {
+				wireframeRightCorners[0] = first;
+			}
 		}
 
 		// first row
 		Corner right = bottomRight;
-		for (int i = 1; i <= uN; i++) {
-			Corner left = newCorner(uMax - (uDelta * i) / uN, vMax);
-			right.l = left;
-			right = left;
+		for (int i = 0; i < uN - 1; i++) {
+			right = addLeftToMesh(right, uMax - (uDelta * i) / uN, vBorderMax);
 			if (appFeaturesWireframe()) {
-				bottomCorners[i] = right;
+				wireframeBottomCorners[i + drawWireframeBorderU] = right;
+			}
+		}
+		right = addLeftToMesh(right, uBorderMin, vBorderMax);
+		if (appFeaturesWireframe()) {
+			if (drawWireframeBorderU == 1) {
+				wireframeBottomCorners[uN] = right;
 			}
 		}
 
-		// all rows
-		for (int j = 1; j <= vN; j++) {
-			double v = vMax - (vDelta * j) / vN;
-			Corner below = bottomRight;
-			right = newCorner(uMax, v);
-			below.a = right;
-			for (int i = 1; i <= uN; i++) {
-				Corner left = newCorner(uMax - (uDelta * i) / uN, v);
-				right.l = left;
-				right = left;
-				below = below.l;
-				below.a = right;
-			}
-			bottomRight = bottomRight.a;
+		// all intermediate rows
+		for (int j = 0; j < vN - 1; j++) {
+			bottomRight = addRowAboveToMesh(bottomRight, vMax - (vDelta * j)
+					/ vN, uBorderMin, uBorderMax, uMax, uN);
 			if (appFeaturesWireframe()) {
-				rightCorners[j] = bottomRight;
+				wireframeRightCorners[j + drawWireframeBorderV] = bottomRight;
+			}
+		}
+
+		// last row
+		bottomRight = addRowAboveToMesh(bottomRight, vBorderMin, uBorderMin,
+				uBorderMax, uMax, uN);
+		if (appFeaturesWireframe()) {
+			if (drawWireframeBorderV == 1) {
+				wireframeRightCorners[vN] = bottomRight;
 			}
 		}
 
@@ -689,6 +748,28 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
+	final private Corner addLeftToMesh(Corner right, double u, double v) {
+		Corner left = newCorner(u, v);
+		right.l = left;
+		return left;
+	}
+
+	final private Corner addRowAboveToMesh(Corner bottomRight,
+			double v, double uBorderMin, double uBorderMax, double uMax, int uN) {
+		Corner below = bottomRight;
+		Corner right = newCorner(uBorderMax, v);
+		below.a = right;
+		for (int i = 0; i < uN - 1; i++) {
+			right = addLeftToMesh(right, uMax - (uDelta * i) / uN, v);
+			below = below.l;
+			below.a = right;
+		}
+		right = addLeftToMesh(right, uBorderMin, v);
+		below = below.l;
+		below.a = right;
+
+		return bottomRight.a;
+	}
 
 	protected int notDrawn;
 
