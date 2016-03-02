@@ -1055,7 +1055,14 @@ public class PlotterBrush implements PathPlotter {
 	}
 
 	public void moveTo(double[] pos) {
-		drawTo(pos, false);
+
+		tmpDrawTo.set(pos);
+		if (pos.length == 2) {
+			// in case of 2D point
+			tmpDrawTo.setZ(0);
+		}
+
+		drawTo(false);
 	}
 
 	public void moveTo(double x, double y, double z) {
