@@ -455,10 +455,14 @@ public class InputTreeItem extends RadioTreeItem implements
 						public void setPosition(int offsetWidth,
 								int offsetHeight) {
 							helpPopup.getElement().getStyle()
-									.setProperty("left", (btnHelpToggle.getAbsoluteLeft()+btnHelpToggle.getOffsetWidth())+"");
+									.setProperty(
+											"left",
+											(btnHelpToggle.getAbsoluteLeft() + btnHelpToggle
+													.getOffsetWidth()) + "px");
 							helpPopup.getElement().getStyle()
 									.setProperty("top",
-											btnHelpToggle.getAbsoluteTop() + "");
+											btnHelpToggle.getAbsoluteTop()
+													+ "px");
 							helpPopup.show();
 						}
 					});
