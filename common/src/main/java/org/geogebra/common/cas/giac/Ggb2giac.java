@@ -374,11 +374,14 @@ public class Ggb2giac {
 		// Intersect[f,a] works
 		p("Intersect.2",
 				"[[ggbinterans:=0/0],"
-						+
-
-						"[ggbinarg0:=%0],"
+						+ "[ggbinarg0:=%0],"
 						+ "[ggbinarg1:=%1],"
-						+ "[ggbinterans:=normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1)))],[ggbinterans:=when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans)))],ggbinterans][5]");
+						+ "[ggbinterans:=when( ggbinarg0[0] == 'pnt' , "
+						+ "same((subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[1],(subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[2]) ,"
+						+ "normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1))) )],"
+						+ "[ggbinterans:= when(ggbinarg0[0] == 'pnt', when(ggbinterans == true,ggbinarg0,?) ,"
+						+ "when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans))) )],"
+						+ "ggbinterans][5]");
 
 		// Giac currently uses approximation for this
 		// p("Conic.5", "equation(conic((%0),(%1),(%2),(%3),(%4)))");
