@@ -43,8 +43,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	public static final int DEFAULT_POLYHEDRON = 3300;
 	/** default quadric type */
 	public static final int DEFAULT_QUADRIC = 3301;
-	/** default function 2 var type */
-	public static final int DEFAULT_FUNCTION_NVAR = 3302;
 
 	/** default surface type */
 	public static final int DEFAULT_SURFACECARTESIAN3D = 3304;
@@ -165,6 +163,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		surface.setLocalVariableLabel("surface");
 		surface.setObjColor(colQuadric);
 		surface.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
+		surface.setLineThickness(1);
 		surface.setDefaultGeoType(DEFAULT_SURFACECARTESIAN3D);
 		defaultGeoElements.put(DEFAULT_SURFACECARTESIAN3D, surface);
 	}

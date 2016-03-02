@@ -6,7 +6,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -18,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -200,17 +200,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	public void drawGeometryHidden(Renderer renderer) {
 
 		if (appFeaturesWireframe()) {
-			if (!isVisible()) {
+			if (!isVisible()
+					|| getGeoElement().getLineTypeHidden() == EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE) {
 				return;
 			}
 
-			setDrawingColor(Coords.DARK_GRAY); // TODO
-			renderer.getTextures()
-					.setDashFromLineTypeHidden(Textures.DASH_NONE);
-			// setLineTextureHidden(renderer); //TODO
+			setDrawingColor(Coords.DARK_GRAY);
+			setLineTextureHidden(renderer);
 
 			renderer.getGeometryManager().draw(getGeometryIndex());
-			// Log.debug("Draw hidden: " + getGeoElement());
 		}
 
 	}
@@ -222,12 +220,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				return;
 			}
 
-			setDrawingColor(Coords.DARK_GRAY); // TODO
-			renderer.getTextures().setDashFromLineType(Textures.DASH_NONE);
-			// setLineTexture(renderer); //TODO
+			setDrawingColor(Coords.DARK_GRAY);
+			renderer.getTextures().setDashFromLineType(
+					getGeoElement().getLineType());
 
 			renderer.getGeometryManager().draw(getGeometryIndex());
-			// Log.debug("Draw outline: " + getGeoElement());
 		}
 	}
 
@@ -379,6 +376,14 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 	}
 	
+	@Override
+	public void setWaitForUpdateVisualStyle() {
+		super.setWaitForUpdateVisualStyle();
+
+		// also update for line width
+		super.setWaitForUpdate();
+	}
+
 	/**
 	 * ends geometry
 	 * 
@@ -468,7 +473,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
 		brush.start(getReusableGeometryIndex());
-		brush.setThickness(1/* getGeoElement().getLineThickness() */, // TODO
+		brush.setThickness(getGeoElement().getLineThickness(),
 				(float) getView3D().getScale());
 		brush.setAffineTexture(0f, 0f);
 		brush.setLength(1f);

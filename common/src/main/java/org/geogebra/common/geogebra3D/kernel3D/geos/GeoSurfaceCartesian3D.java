@@ -1305,4 +1305,14 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		isSurfaceOfRevolutionAroundOx = flag;
 	}
 
+	@Override
+	public boolean showLineProperties() {
+		return kernel.getApplication().has(Feature.SURFACE_WIREFRAME);
+	}
+
+	@Override
+	public int getMinimumLineThickness() {
+		return 0;
+	}
+
 }
