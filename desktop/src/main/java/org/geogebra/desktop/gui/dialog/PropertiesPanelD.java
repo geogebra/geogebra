@@ -3978,7 +3978,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			boolean geosOK = true;
 			for (int i = 0; i < geos1.length; i++) {
 				GeoElement geo = (GeoElement) geos1[i];
-				if (!(geo.isPath())) {
+				if (!(geo.showLineProperties())) {
 					geosOK = false;
 					break;
 				}
