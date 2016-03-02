@@ -34,7 +34,7 @@ public class ButtonSizeModel extends OptionsModel {
 			
 			if (geo != null) {
 				listener.updateSizes(geo.getWidth(), geo.getHeight(),
-						geo.isFixed());
+						geo.isFixedSize());
 			}
 		}
 	
