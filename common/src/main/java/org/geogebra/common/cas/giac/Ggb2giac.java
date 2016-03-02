@@ -376,10 +376,15 @@ public class Ggb2giac {
 				"[[ggbinterans:=0/0],"
 						+ "[ggbinarg0:=%0],"
 						+ "[ggbinarg1:=%1],"
+						// first parameter is point
 						+ "[ggbinterans:=when( ggbinarg0[0] == 'pnt' , "
 						+ "same((subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[1],(subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[2]) ,"
-						+ "normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1))) )],"
-						+ "[ggbinterans:= when(ggbinarg0[0] == 'pnt', when(ggbinterans == true,ggbinarg0,?) ,"
+						// second parameter is point
+						+ "when (ggbinarg1[0] == 'pnt' , "
+						+ "same(subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[1],subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[2]),"
+						+ "normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1))) ))],"
+						+ "[ggbinterans:= when(ggbinarg0[0] == 'pnt' || ggbinarg1[0] == 'pnt', when(ggbinterans == true,"
+						+ "when(ggbinarg0[0]=='pnt',ggbinarg0,ggbinarg1),?) ,"
 						+ "when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans))) )],"
 						+ "ggbinterans][5]");
 
