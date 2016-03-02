@@ -294,7 +294,7 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 
 	public void onKeyUp(KeyUpEvent event) {
 		updateCmdName(event.getSource());
-
+		showToolChanged();
 	}
 
 	private void updateCmdName(Object source) {
