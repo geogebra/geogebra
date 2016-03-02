@@ -312,7 +312,7 @@ public final class DrawList extends CanvasDrawable
 						y + (int) ((rect.getHeight() - item.height) / 2));
 			} else {
 				if (g2.getFont().getSize() != itemFontSize) {
-					g2.setFont(itemFont.deriveFont(itemFontSize));
+					g2.setFont(itemFont.deriveFont(GFont.PLAIN, itemFontSize));
 				}
 				int x = (dimItem.getWidth() - item.width) / 2;
 				int y = (itemHeight - yPadding);

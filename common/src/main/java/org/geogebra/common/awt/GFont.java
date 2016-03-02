@@ -16,60 +16,34 @@ public abstract class GFont {
 
 	public abstract int canDisplayUpTo(String textString);
 
-	public abstract GFont deriveFont(int plain2, int fontSize);
+	/**
+	 * @param style
+	 *            font style (GFont.PLAIN, GFont.BOLD, GFont.ITALIC or sum of
+	 *            last two)
+	 * @param fontSize
+	 *            font size
+	 * @return derive fonts
+	 */
+	public abstract GFont deriveFont(int style, int fontSize);
 
-	public abstract GFont deriveFont(int plain2, float fontSize);
+	/**
+	 * @param style
+	 *            font style (GFont.PLAIN, GFont.BOLD, GFont.ITALIC or sum of
+	 *            last two)
+	 * @param fontSize
+	 *            font size
+	 * @return derive fonts
+	 */
+	public abstract GFont deriveFont(int style, float fontSize);
 
-	public abstract GFont deriveFont(int i);
+	/**
+	 * @param style
+	 *            font style (GFont.PLAIN, GFont.BOLD, GFont.ITALIC or sum of
+	 *            last two)
+	 * @return derive fonts
+	 */
+	public abstract GFont deriveFont(int style);
 
 	public abstract String getFontName();
-
-	/*
-	 * public abstract void setFontStyle(String fontStyle);
-	 * 
-	 * public abstract String getFontStyle();
-	 * 
-	 * public abstract String getFullFontString();
-	 * 
-	 * public abstract void setFontVariant(String fontVariant);
-	 * 
-	 * public abstract String getFontVariant();
-	 * 
-	 * public abstract void setFontWeight(String fontWeight);
-	 * 
-	 * public abstract String getFontWeight();
-	 * 
-	 * public abstract void setFontSize(String fontSize);
-	 * 
-	 * public abstract String getFontSize();
-	 * 
-	 * public abstract void setLineHeight(String lineHeight);
-	 * 
-	 * public abstract String getLineHeight();
-	 * 
-	 * public abstract void setFontFamily(String fontFamily);
-	 * 
-	 * public abstract String getFontFamily();
-	 * 
-	 * public abstract Font deriveFont(String fontStyle2, final int newSize);
-	 * 
-	 * public abstract int canDisplayUpTo(String textString);
-	 * 
-	 * public abstract void setFontStyle(int fontStyle);
-	 * 
-	 * public abstract void setFontSize(int fontSize);
-	 * 
-	 * public abstract int getSize();
-	 * 
-	 * public abstract boolean isItalic();
-	 * 
-	 * public abstract boolean isBold();
-	 * 
-	 * public abstract int getStyle();
-	 * 
-	 * public abstract Font deriveFont(int i);
-	 * 
-	 * public abstract Font deriveFont(int style, int newSize);
-	 */
 
 }
