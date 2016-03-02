@@ -313,7 +313,8 @@ pr.menu_header_undo(), null, 32);
 
 		var fullscreen = true;
 		$wnd.console.log(fullscreen);
-		if ($wnd.innerHeight < screen.height - 5) {
+		if ($wnd.innerHeight < screen.height - 5
+				|| $wnd.innerWidth < screen.width - 5) {
 			fullscreen = false;
 		}
 
@@ -354,21 +355,44 @@ pr.menu_header_undo(), null, 32);
 		// window resize has 2 cases: full screen and not full screen
 		$wnd.addEventListener("resize", function() {
 			var height = $wnd.innerHeight;
-			var screenHeight = screen.height - 5;
-			$wnd.console.log(height, screenHeight);
+			var width = $wnd.innerWidth;
 
-			if (height < screenHeight) {
+			var screenHeight = screen.height - 5;
+			var screenWidth = screen.width - 5;
+
+			//$wnd.console.log("height: " + height, screenHeight);
+			//$wnd.console.log("width: " + width, screenWidth);
+
+			if (height < screenHeight || width < screenWidth) {
 				startCheating();
 				fullscreen = false;
 			}
-			if (height >= screenHeight) {
+			if (height >= screenHeight && width >= screenWidth) {
 				stopCheating();
 				fullscreen = true;
 			}
 		});
-		//$wnd.addEventListener("orientationchange", function() {
-		//	var height = $wnd.innerHeight;
-		//});
+
+		document.addEventListener("visibilitychange", function() {
+			$wnd.console.log("hidden = " + document.hidden);
+			if (document.hidden == true) {
+				startCheating();
+			} else {
+				stopCheating();
+			}
+		});
+		//var interval = setInterval(function() {
+		//	if (fullscreen == true) {
+		//		if ($wnd.screenX != 0 || $wnd.screenY != 0) {
+		//			startCheating();
+		//			$wnd.console.log('moved! ' + $wnd.screenX);
+		//		} else {
+		//			stopCheating();
+		//			$wnd.console.log('stop!');
+		//		}
+		//	}
+		//}, 1000);
+
 	}-*/;
 	
 	
