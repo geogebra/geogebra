@@ -140,7 +140,8 @@ model {
                 cppCompiler.define "HAVE_NO_HOME_DIRECTORY"
                 cppCompiler.define "VERSION", '"1.1.3"'
                 cppCompiler.define "TIMEOUT"
-
+                cppCompiler.define 'HAVE_SYS_TIMES_H'
+                cppCompiler.define 'HAVE_SYS_TIME_H'
                 }
             }
 
@@ -148,11 +149,13 @@ model {
             binaries.all {
                 lib library: 'giac', linkage: 'static'
                 linker.args '-lgmp', '-lmpfr', '-lpthread'
+                cppCompiler.define 'GIAC_GGB'
                 cppCompiler.define 'IN_GIAC'
                 cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
                 cppCompiler.define 'HAVE_CONFIG_H'
                 cppCompiler.define 'HAVE_UNISTD_H'
-                cppCompiler.define 'GIAC_GGB'
+                cppCompiler.define 'HAVE_SYS_TIMES_H'
+                cppCompiler.define 'HAVE_SYS_TIME_H'
                 }
             sources.all {
                 source {
