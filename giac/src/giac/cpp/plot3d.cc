@@ -35,7 +35,7 @@ diff plot.c plot.c~
 
 using namespace std;
 #ifndef NSPIRE
-#ifdef VISUALC13
+#if defined VISUALC13 && !defined BESTA_OS
 #undef clock
 #undef clock_t
 #endif

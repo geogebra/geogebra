@@ -76,9 +76,7 @@ using namespace std;
 u32 PrimeGetNow();
 extern "C" uint32_t mainThreadStack[];
 #else
-#undef clock
-#undef clock_t
-#include <time.h>
+//#include <time.h>
 #endif
 
 #ifndef NO_NAMESPACE_GIAC

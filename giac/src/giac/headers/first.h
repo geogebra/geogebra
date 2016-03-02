@@ -23,6 +23,7 @@
 
 // Thanks to Jason Papadopoulos, author of msieve
 #ifdef BESTA_OS
+#include <time.h>
 #define PREFETCH(addr) /* nothing */
 #elif (defined(__GNUC__) && __GNUC__ >= 3) || defined(__clang__)
 	#define PREFETCH(addr) __builtin_prefetch(addr) 
@@ -44,6 +45,8 @@
 #ifdef RTOS_THREADX
 #define NO_STDEXCEPT 1
 #endif
+
+
 
 #ifdef NSPIRE
 #define clock() 0
@@ -112,6 +115,13 @@ int my_sprintf(char * s, const char * format, ...);
 
 #if defined(RTOS_THREADX) || defined(BESTA_OS) || defined NSPIRE
 #define NO_TEMPLATE_MULTGCD
+#endif
+
+#ifdef BESTA_OS
+#undef CLOCK
+#undef CLOCK_T
+#define CLOCK() PrimeGetNow()
+#define CLOCK_T int
 #endif
 
 #ifdef NO_UNARY_FUNCTION_COMPOSE

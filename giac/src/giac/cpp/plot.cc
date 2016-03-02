@@ -96,8 +96,10 @@ using namespace std;
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #else
+#ifndef BESTA_OS
 #define clock_t int
 #define CLOCK() 0
+#endif
 #endif
 #ifndef HAVE_NO_SYS_RESOURCE_WAIT_H
 #include <sys/resource.h>

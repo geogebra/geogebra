@@ -35,8 +35,10 @@ using namespace std;
 #ifdef HAVE_SYS_TIME_H
 #include <time.h>
 #else
+#ifndef BESTA_OS
 #define clock_t int
 #define CLOCK() 0
+#endif
 #endif
 
 #ifndef NO_NAMESPACE_GIAC

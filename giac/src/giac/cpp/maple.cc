@@ -24,7 +24,7 @@ using namespace std;
 #include <cmath>
 #include <cstdlib>
 #include <stdio.h>
-#ifndef HAVE_NO_SYS_TIMES_H
+#if !defined HAVE_NO_SYS_TIMES_H && defined HAVE_SYS_TIME_H
 #include <fcntl.h>
 #include <sys/time.h>
 #include <time.h>
@@ -865,7 +865,7 @@ namespace giac {
   // open a file, returns a FD
   gen _open(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if defined(VISUALC) || defined(__MINGW_H) || defined (FIR) || defined(NSPIRE) || defined(__ANDROID__) || defined(NSPIRE_NEWLIB) 
+#if defined(VISUALC) || defined(__MINGW_H) || defined (FIR) || defined(NSPIRE) || defined(__ANDROID__) || defined(NSPIRE_NEWLIB) || defined(EMCC) 
     return gensizeerr(gettext("not implemented"));
 #else
     gen tmp=check_secure();

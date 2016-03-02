@@ -17,7 +17,7 @@
 #include <cstdlib>
 #ifndef NSPIRE
 #include <cstdio>
-#ifdef VISUALC13
+#if defined VISUALC13 && !defined BESTA_OS
 #undef clock
 #undef clock_t
 #endif
@@ -1159,9 +1159,10 @@ namespace giac {
 	  if ( ( (e.type==_INT_) || (e.type==_ZINT) ) && (!is_positive(e,contextptr)) )
 	    s = s+"<mo>-</mo><mn>"+(-e).print(contextptr)+"</mn>";
 	  else {
-	    if (i)
+	    string adds=gen2mathml(e,contextptr);
+	    if (i && (adds.size()<5 || adds.substr(0,5)!="<mo>-"))
 	      s = s+"<mo>"+opstring+"</mo>";
-	    s = s+gen2mathml(e,contextptr);
+	    s = s+adds;
 	  }
 	}
       } // end_for

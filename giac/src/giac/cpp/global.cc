@@ -1789,7 +1789,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	sigprocmask (SIG_UNBLOCK, &mask, NULL);
 #endif
 	// read and evaluate input
-	clock_t start, end;
+	CLOCK_T start, end;
 	double elapsed;
 	start = CLOCK();
         messages_to_print="";
@@ -1946,7 +1946,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     if (child_busy || data_ready)
       return false;
     gen entr;
-    clock_t start, end;
+    CLOCK_T start, end;
     start = CLOCK();
     try {
       ofstream parent_out(cas_entree_name().c_str());
@@ -2309,7 +2309,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       ifstream parent_in(cas_sortie_name().c_str());
       if (!parent_in)
 	setsizeerr();
-      clock_t start, end;  
+      CLOCK_T start, end;  
       start = CLOCK();
       entree=unarchive(parent_in,contextptr);
       sortie=unarchive(parent_in,contextptr);
