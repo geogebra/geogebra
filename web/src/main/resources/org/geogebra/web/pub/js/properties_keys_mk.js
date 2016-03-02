@@ -2189,6 +2189,7 @@ __GGB__keysVar.mk.menu = {
  ***********************************************/
 
 __GGB__keysVar.mk.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u0434\u0435\u0446\u0438\u043c\u0430\u043b\u043d\u043e \u043c\u0435\u0441\u0442\u043e",
     "ADecimalPlaces": "%0 \u0434\u0435\u0446\u0438\u043c\u0430\u043b\u043d\u0438 \u043c\u0435\u0441\u0442\u0430",
     "ADerivativeOfB": "%0 \u0438\u0437\u0432\u043e\u0434 \u043e\u0434 %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.mk.plain = {
     "SMARTBoardDLLErrorA": "\u041d\u0435 \u0441\u0435 \u043d\u0430\u043e\u0453\u0430 \u043f\u043e\u0442\u0440\u0435\u0431\u043d\u0430\u0442\u0430 \u0434\u0430\u0442\u043e\u0442\u0435\u043a\u0430 \"%0\"",
     "ScaleInCentimeter": "\u0420\u0430\u0437\u043c\u0435\u0440 \u0432\u043e cm",
     "Script": "\u0413\u0435\u043e\u0433\u0435\u0431\u0440\u0430 \u0421\u043a\u0440\u0438\u043f\u0442\u0430",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "\u0421\u0440\u0435\u0434\u043d\u0430 \u043f\u043e\u043b\u0443\u043e\u0441\u043a\u0430 \u043e\u0434 %0",
     "SecondAxisOfA": "\u0421\u0440\u0435\u0434\u043d\u0430 \u043e\u0441\u043a\u0430 \u043e\u0434 %0",
     "Sector": "\u0418\u0441\u0435\u0447\u043e\u043a",

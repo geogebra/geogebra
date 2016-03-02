@@ -2189,6 +2189,7 @@ __GGB__keysVar.it.menu = {
  ***********************************************/
 
 __GGB__keysVar.it.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 cifra decimale",
     "ADecimalPlaces": "%0 cifre decimali",
     "ADerivativeOfB": "Derivata di ordine %0 di %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.it.plain = {
     "SMARTBoardDLLErrorA": "Impossibile trovare il file necessario \"%0\"",
     "ScaleInCentimeter": "Scala in cm",
     "Script": "GeoGebra Script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Lunghezza del semiasse minore di %0",
     "SecondAxisOfA": "Asse minore di %0",
     "Sector": "Settore",
@@ -3062,7 +3065,7 @@ __GGB__keysVar.it.symbols = {
     "S.11": "$",
     "S.12": "\u222a",
     "S.13": "\u2229",
-    "S.14": "\u03a3",
+    "S.14": "\xb7",
     "S.15": "\u2209",
     "S.16": "\u2660",
     "S.17": "\u2665",
@@ -3081,7 +3084,7 @@ __GGB__keysVar.it.symbols = {
     "T.11": "Dollaro",
     "T.12": "Unione",
     "T.13": "Intersezione",
-    "T.14": "Carattere greco: \u03a3",
+    "T.14": "Prodotto",
     "T.15": "Non appartiene",
     "T.16": "Picche",
     "T.17": "Cuori",

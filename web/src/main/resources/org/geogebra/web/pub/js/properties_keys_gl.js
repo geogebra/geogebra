@@ -2189,6 +2189,7 @@ __GGB__keysVar.gl.menu = {
  ***********************************************/
 
 __GGB__keysVar.gl.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 cifra decimal",
     "ADecimalPlaces": "%0 cifras decimais",
     "ADerivativeOfB": "%0 derivada de %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.gl.plain = {
     "SMARTBoardDLLErrorA": "Non se puido atopar o ficheiro necesario \"%0\"",
     "ScaleInCentimeter": "Escala en cm",
     "Script": "Gui\xf3n (Script) GeoGebra",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Lonxitude do semi-eixe secundario de %0",
     "SecondAxisOfA": "Eixe secundario de %0",
     "Sector": "Sector",

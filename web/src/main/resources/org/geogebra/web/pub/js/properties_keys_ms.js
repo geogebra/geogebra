@@ -2189,6 +2189,7 @@ __GGB__keysVar.ms.menu = {
  ***********************************************/
 
 __GGB__keysVar.ms.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Tempat Perpuluhan",
     "ADecimalPlaces": "%0 Tempat Perpuluhan",
     "ADerivativeOfB": "Terbitan ke %0 bagi %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.ms.plain = {
     "SMARTBoardDLLErrorA": "Tidak dapat menemui fail \"%0\"",
     "ScaleInCentimeter": "Skala dalam cm",
     "Script": "Skrip GeoGebra",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Panjang paksi minor %0",
     "SecondAxisOfA": "Paksi minor %0",
     "Sector": "Sektor",

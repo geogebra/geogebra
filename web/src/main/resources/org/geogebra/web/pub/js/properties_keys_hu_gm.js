@@ -2189,6 +2189,7 @@ __GGB__keysVar.hu_gm.menu = {
  ***********************************************/
 
 __GGB__keysVar.hu_gm.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "Tizedesjegyek sz\xe1ma %0",
     "ADecimalPlaces": "Tizedesjegyek sz\xe1ma %0",
     "ADerivativeOfB": "%1 %0 deriv\xe1ltja",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.hu_gm.plain = {
     "SMARTBoardDLLErrorA": "A sz\xfcks\xe9ges \"%0\" f\xe1jl nem tal\xe1lhat\xf3.",
     "ScaleInCentimeter": "Ar\xe1ny cm-ben",
     "Script": "GeoGebra Script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0 kistengely\xe9nek hossza",
     "SecondAxisOfA": "%0 kistengelye",
     "Sector": "Cikk",

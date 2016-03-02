@@ -2189,6 +2189,7 @@ __GGB__keysVar.in.menu = {
  ***********************************************/
 
 __GGB__keysVar.in.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Angka Desimal",
     "ADecimalPlaces": "%0 Angka Desimal",
     "ADerivativeOfB": "Turunan %0 dari %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.in.plain = {
     "SMARTBoardDLLErrorA": "Tidak dapat menemukan file \"%0\" yang dibutuhkan",
     "ScaleInCentimeter": "Skala dalam cm",
     "Script": "Skrip GeoGebra",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Panjang sumbu kedua dari %0",
     "SecondAxisOfA": "Sumbu kedua dari %0",
     "Sector": "Sektor",

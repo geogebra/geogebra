@@ -2189,6 +2189,7 @@ __GGB__keysVar.lv.menu = {
  ***********************************************/
 
 __GGB__keysVar.lv.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Z\u012bmes aiz komata",
     "ADecimalPlaces": "%0 Z\u012bmes aiz komata",
     "ADerivativeOfB": "%0 Atvasin\u0101jums no %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.lv.plain = {
     "SMARTBoardDLLErrorA": "Nevar atrast nepiecie\u0161amo datni \"%0\"",
     "ScaleInCentimeter": "Skala cm",
     "Script": "GeoGebra Script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Minor axis' length of %0",
     "SecondAxisOfA": "Minor axis of %0",
     "Sector": "Sektors",

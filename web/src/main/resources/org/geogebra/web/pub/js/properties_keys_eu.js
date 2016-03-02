@@ -2189,6 +2189,7 @@ __GGB__keysVar.eu.menu = {
  ***********************************************/
 
 __GGB__keysVar.eu.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Posizioko Hamartarra",
     "ADecimalPlaces": "%0 Hamartar",
     "ADerivativeOfB": "%1 funtzioaren %0 deribatua",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.eu.plain = {
     "SMARTBoardDLLErrorA": "Ezin izan da behar den \"%0\" artxiboa aurkitu",
     "ScaleInCentimeter": "Eskala cm-tan",
     "Script": "GeoGebraren Komandoen Sekuentzia (Script)",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0-(r)en ardatz sekundarioaren luzera",
     "SecondAxisOfA": "%0-(r)en ardatz sekundarioa",
     "Sector": "Sektorea",

@@ -2189,6 +2189,7 @@ __GGB__keysVar.cy.menu = {
  ***********************************************/
 
 __GGB__keysVar.cy.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 lle degol",
     "ADecimalPlaces": "%0 lle degol",
     "ADerivativeOfB": "deilliad %0 o %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.cy.plain = {
     "SMARTBoardDLLErrorA": "Could not find necessary file \"%0\"",
     "ScaleInCentimeter": "Graddau mewn cm",
     "Script": "SgriptGeoGebra",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Hyd ail echelin o %0",
     "SecondAxisOfA": "Ail echelin o %0",
     "Sector": "Sector",

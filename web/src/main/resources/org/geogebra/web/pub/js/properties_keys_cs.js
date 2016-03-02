@@ -2189,6 +2189,7 @@ __GGB__keysVar.cs.menu = {
  ***********************************************/
 
 __GGB__keysVar.cs.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 desetinn\xe9 m\xedsto",
     "ADecimalPlaces": "%0 desetinn\xfdch m\xedst",
     "ADerivativeOfB": "%0 derivace %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.cs.plain = {
     "SMARTBoardDLLErrorA": "Nenalezen pot\u0159ebn\xfd soubor \"%0\"",
     "ScaleInCentimeter": "M\u011b\u0159\xedtko v cm",
     "Script": "GeoGebra Skript",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Vedlej\u0161\xed osa d\xe9lky %0",
     "SecondAxisOfA": "Vedlej\u0161\xed osa %0",
     "Sector": "V\xfdse\u010d",

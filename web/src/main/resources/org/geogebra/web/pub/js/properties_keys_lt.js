@@ -2189,6 +2189,7 @@ __GGB__keysVar.lt.menu = {
  ***********************************************/
 
 __GGB__keysVar.lt.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 skai\u010dius po kablelio",
     "ADecimalPlaces": "%0 skai\u010di\u0173 po kablelio",
     "ADerivativeOfB": "%0 laipsnio %1 i\u0161vestin\u0117",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.lt.plain = {
     "SMARTBoardDLLErrorA": "Nepavyko rasti b\u016btino dokumento \"%0\"",
     "ScaleInCentimeter": "Mastelis centrimetrais",
     "Script": "GeoGebra programavimas",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Antros a\u0161ies ilgis %0",
     "SecondAxisOfA": "Antra a\u0161is %0",
     "Sector": "Dalis",

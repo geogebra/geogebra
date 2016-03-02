@@ -2189,6 +2189,7 @@ __GGB__keysVar.sv.menu = {
  ***********************************************/
 
 __GGB__keysVar.sv.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 decimaler",
     "ADecimalPlaces": "%0 decimaler",
     "ADerivativeOfB": "%0:e-derivatan av %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.sv.plain = {
     "SMARTBoardDLLErrorA": "Det gick inte att hitta filen: \"%0\"",
     "ScaleInCentimeter": "Skala i cm",
     "Script": "GeoGebra script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "L\xe4ngd av andra axeln hos %0",
     "SecondAxisOfA": "Andra axeln hos %0",
     "Sector": "Sektor",

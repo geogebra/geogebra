@@ -2189,6 +2189,7 @@ __GGB__keysVar.mr.menu = {
  ***********************************************/
 
 __GGB__keysVar.mr.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u0926\u0936\u093e\u0902\u0936 \u0938\u094d\u0925\u093e\u0928",
     "ADecimalPlaces": "%0\u0926\u0936\u093e\u0902\u0936 \u0938\u094d\u0925\u093e\u0928",
     "ADerivativeOfB": "%0 \u0918\u093e\u0924\u093e\u090f\u0935\u0922\u0940 %1 \u091a\u093e \u093f\u0935\u0915\u0932\u091c (derivative)",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.mr.plain = {
     "SMARTBoardDLLErrorA": "Could not find necessary file \"%0\"",
     "ScaleInCentimeter": "\u0938\u0947\u092e\u0940 \u092a\u094d\u0930\u092e\u093e\u0923",
     "Script": "GeoGebra Script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0 \u091a\u094d\u092f\u093e \u0932\u0918\u0941\u0905\u0915\u094d\u0937\u093e\u091a\u0940 \u0932\u093e\u0902\u092c\u0940",
     "SecondAxisOfA": "%0 \u091a\u093e \u0932\u0918\u0941\u0905\u0915\u094d\u0937",
     "Sector": "\u0915\u0902\u0938\u092a\u093e\u0915\u0933\u0940 (sector)",

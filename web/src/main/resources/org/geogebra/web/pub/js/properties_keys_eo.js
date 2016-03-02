@@ -2189,6 +2189,7 @@ __GGB__keysVar.eo.menu = {
  ***********************************************/
 
 __GGB__keysVar.eo.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 decimalo",
     "ADecimalPlaces": "%0 decimaloj",
     "ADerivativeOfB": "%0 deriva\u0135o de %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.eo.plain = {
     "SMARTBoardDLLErrorA": "Nepra dosiero \"%0\" ne troveblas",
     "ScaleInCentimeter": "Scale in cm",
     "Script": "GeoGebra Script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Minor axis' length of %0",
     "SecondAxisOfA": "Minor axis of %0",
     "Sector": "Sektoro",

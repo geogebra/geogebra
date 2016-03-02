@@ -2189,6 +2189,7 @@ __GGB__keysVar.sq.menu = {
  ***********************************************/
 
 __GGB__keysVar.sq.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Pozicion Dhjetor",
     "ADecimalPlaces": "%0 Pozicione Dhjetore",
     "ADerivativeOfB": "Derivati i %0 i %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.sq.plain = {
     "SMARTBoardDLLErrorA": "Nuk mundi te gjeje dokumentin e nevojshem \"%0\"",
     "ScaleInCentimeter": "Shkalle ne Centimetra",
     "Script": "GjeoGjebra Skript",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Gjysem-Bosht i Vogel me Gjatesi %0",
     "SecondAxisOfA": "Gjysem-Bosht i Vogel i %0",
     "Sector": "Sektor",

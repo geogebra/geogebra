@@ -2189,6 +2189,7 @@ __GGB__keysVar.zh_CN.menu = {
  ***********************************************/
 
 __GGB__keysVar.zh_CN.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "\u4fdd\u7559 %0 \u4f4d\u5c0f\u6570",
     "ADecimalPlaces": "\u4fdd\u7559 %0 \u4f4d\u5c0f\u6570",
     "ADerivativeOfB": "%1 \u7684 %0 \u9636\u5bfc\u6570",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.zh_CN.plain = {
     "SMARTBoardDLLErrorA": "\u65e0\u6cd5\u627e\u5230\u5fc5\u9700\u7684\u6587\u4ef6 \"%0\"",
     "ScaleInCentimeter": "\u6bd4\u4f8b\u5c3a",
     "Script": "GeoGebra \u811a\u672c",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0 \u7684\u77ed\u8f74\u957f",
     "SecondAxisOfA": "%0 \u7684\u77ed\u8f74",
     "Sector": "\u6247\u5f62",

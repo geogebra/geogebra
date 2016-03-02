@@ -2189,6 +2189,7 @@ __GGB__keysVar.is.menu = {
  ***********************************************/
 
 __GGB__keysVar.is.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Aukastafur",
     "ADecimalPlaces": "%0 Aukastafir",
     "ADerivativeOfB": "%0 aflei\xf0a %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.is.plain = {
     "SMARTBoardDLLErrorA": "Fann ekki skr\xe1na \"%0\"",
     "ScaleInCentimeter": "Kvar\xf0i \xed cm",
     "Script": "GeoGebru forrit",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Lengd skamm\xe1ss %0",
     "SecondAxisOfA": "Skamm\xe1s %0",
     "Sector": "Geiri",

@@ -2189,6 +2189,7 @@ __GGB__keysVar.sk.menu = {
  ***********************************************/
 
 __GGB__keysVar.sk.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 desat. m.",
     "ADecimalPlaces": "%0 desat. m.",
     "ADerivativeOfB": "%0 deriv\xe1cia z %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.sk.plain = {
     "SMARTBoardDLLErrorA": "Nie je mo\u017en\xe9 n\xe1js\u0165 potrebn\xfd s\xfabor: \"%0\"",
     "ScaleInCentimeter": "Mierka v cm",
     "Script": "GeoGebra Script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "D\u013a\u017eka vedlaj\u0161ej osi toho: %0",
     "SecondAxisOfA": "Ved\u013eaj\u0161ia os toho %0",
     "Sector": "V\xfdsek",

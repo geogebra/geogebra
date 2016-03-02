@@ -2189,6 +2189,7 @@ __GGB__keysVar.ca_XV.menu = {
  ***********************************************/
 
 __GGB__keysVar.ca_XV.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 xifra decimal",
     "ADecimalPlaces": "%0 xifres decimals",
     "ADerivativeOfB": "%0 derivada de %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.ca_XV.plain = {
     "SMARTBoardDLLErrorA": "No s\'ha pogut trobar el fitxer necessari \"%0\".",
     "ScaleInCentimeter": "Escala en cm",
     "Script": "Seq\xfc\xe8ncia d'ordes del GeoGebra",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Longitud de l'eix secundari de %0",
     "SecondAxisOfA": "Eix secundari de %0",
     "Sector": "Sector",

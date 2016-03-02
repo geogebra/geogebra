@@ -2189,6 +2189,7 @@ __GGB__keysVar.es_ES.menu = {
  ***********************************************/
 
 __GGB__keysVar.es_ES.plain = {
+    "ACommand": "Comando %0",
     "ADecimalPlace": "%0 cifra decimal",
     "ADecimalPlaces": "%0 cifras decimales",
     "ADerivativeOfB": "%0 derivada de %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.es_ES.plain = {
     "SMARTBoardDLLErrorA": "No se encuentra el archivo necesario \"%0\"",
     "ScaleInCentimeter": "Escala en cm",
     "Script": "Guion (script) de GeoGebra",
+    "SearchCommands": "Buscar comandos",
+    "SearchInA": "Buscar en %0",
     "SecondAxisLengthOfA": "Longitud del semieje menor de %0",
     "SecondAxisOfA": "Eje menor de %0",
     "Sector": "Sector",

@@ -2189,6 +2189,7 @@ __GGB__keysVar.ro.menu = {
  ***********************************************/
 
 __GGB__keysVar.ro.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 pozi\u0163ie zecimal\u0103",
     "ADecimalPlaces": "%0 pozi\u0163ii zecimale",
     "ADerivativeOfB": "%0 derivat de %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.ro.plain = {
     "SMARTBoardDLLErrorA": "Nu a fost g\u0103sit fi\u0219ierul necesar \"%0\"",
     "ScaleInCentimeter": "Scar\u0103 \xeen cm",
     "Script": "Script GeoGebra",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Lungime axa minor\u0103 pentru %0",
     "SecondAxisOfA": "Axa minor\u0103 pentru %0",
     "Sector": "Sector",

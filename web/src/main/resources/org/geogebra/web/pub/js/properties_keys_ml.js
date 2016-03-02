@@ -2189,6 +2189,7 @@ __GGB__keysVar.ml.menu = {
  ***********************************************/
 
 __GGB__keysVar.ml.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u0d26\u0d36\u0d3e\u0d02\u0d36 \u0d38\u0d4d\u0d25\u0d3e\u0d28\u0d02",
     "ADecimalPlaces": "%0 \u0d26\u0d36\u0d3e\u0d02\u0d36 \u0d38\u0d4d\u0d25\u0d3e\u0d28\u0d19\u0d4d\u0d19\u0d33\u0d4d\u200d",
     "ADerivativeOfB": "%0 derivative of %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.ml.plain = {
     "SMARTBoardDLLErrorA": "Could not find necessary file \"%0\"",
     "ScaleInCentimeter": "Scale in cm",
     "Script": "GeoGebra Script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Minor axis' length of %0",
     "SecondAxisOfA": "Minor axis of %0",
     "Sector": "Sector",

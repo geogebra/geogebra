@@ -2189,6 +2189,7 @@ __GGB__keysVar.xh.menu = {
  ***********************************************/
 
 __GGB__keysVar.xh.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Inani Lwedesimali",
     "ADecimalPlaces": "%0 Amanani Edesimali",
     "ADerivativeOfB": "%0 Idirevetivi ye%1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.xh.plain = {
     "SMARTBoardDLLErrorA": "Ayifumanekanga lefayile\"%0\"",
     "ScaleInCentimeter": "iScale kwi cm",
     "Script": "umbhalo weJiyoJebra",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "ubude beMinor axis' ka %0",
     "SecondAxisOfA": "iMinor axis ka %0",
     "Sector": "iSektha",

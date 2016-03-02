@@ -2189,6 +2189,7 @@ __GGB__keysVar.pl.menu = {
  ***********************************************/
 
 __GGB__keysVar.pl.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 miejsce po przecinku",
     "ADecimalPlaces": "%0 miejsca po przecinku",
     "ADerivativeOfB": "%0 pochodna %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.pl.plain = {
     "SMARTBoardDLLErrorA": "Nie mo\u017cna odnale\u017a\u0107 niezb\u0119dnego pliku \"%0\"",
     "ScaleInCentimeter": "Miara w cm",
     "Script": "GeoGebra Script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "D\u0142ugo\u015b\u0107 osi ma\u0142ej %0",
     "SecondAxisOfA": "O\u015b ma\u0142a %0",
     "Sector": "Wycinek ko\u0142owy",

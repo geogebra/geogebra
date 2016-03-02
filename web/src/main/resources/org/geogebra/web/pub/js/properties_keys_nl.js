@@ -2189,6 +2189,7 @@ __GGB__keysVar.nl.menu = {
  ***********************************************/
 
 __GGB__keysVar.nl.plain = {
+    "ACommand": "%0 Commando",
     "ADecimalPlace": "%0 Decimaal cijfer",
     "ADecimalPlaces": "%0 Decimale cijfers",
     "ADerivativeOfB": "%0 afgeleide van %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.nl.plain = {
     "SMARTBoardDLLErrorA": "Kon het benodigde bestand niet vinden \"%0\"",
     "ScaleInCentimeter": "Schaal in cm",
     "Script": "GeoGebra Script",
+    "SearchCommands": "Zoek commando's",
+    "SearchInA": "Zoek in %0",
     "SecondAxisLengthOfA": "Lengte van kleine as %0",
     "SecondAxisOfA": "Kleine as van %0",
     "Sector": "Kegelsnedesector",

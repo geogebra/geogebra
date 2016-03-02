@@ -2189,6 +2189,7 @@ __GGB__keysVar.tr.menu = {
  ***********************************************/
 
 __GGB__keysVar.tr.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Ondal\u0131k Hane",
     "ADecimalPlaces": "%0 Ondal\u0131k Haneler",
     "ADerivativeOfB": "%1'in %0 t\xfcrevi",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.tr.plain = {
     "SMARTBoardDLLErrorA": "Gerekli dosya \"%0\" bulunamad\u0131",
     "ScaleInCentimeter": "cm cinsinden \xf6l\xe7ek",
     "Script": "GeoGebra Betik",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0 ikinci eksen uzunlu\u011fu",
     "SecondAxisOfA": "%0 ikinci ekseni",
     "Sector": "Dilim",

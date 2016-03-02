@@ -2189,6 +2189,7 @@ __GGB__keysVar.no_NN.menu = {
  ***********************************************/
 
 __GGB__keysVar.no_NN.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 desimal",
     "ADecimalPlaces": "%0 desimalar",
     "ADerivativeOfB": "%0 deriverte av %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.no_NN.plain = {
     "SMARTBoardDLLErrorA": "Kunne ikkje finne n\xf8dvendig fil \"%0\"",
     "ScaleInCentimeter": "Skala i cm",
     "Script": "GeoGebra-Script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Lengde av andreaksen til %0",
     "SecondAxisOfA": "Andreaksen til %0",
     "Sector": "Sektor",

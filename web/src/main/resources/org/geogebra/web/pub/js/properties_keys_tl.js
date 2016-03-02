@@ -2189,6 +2189,7 @@ __GGB__keysVar.tl.menu = {
  ***********************************************/
 
 __GGB__keysVar.tl.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Decimal Place",
     "ADecimalPlaces": "%0 Decimal Places",
     "ADerivativeOfB": "%0 derivative of %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.tl.plain = {
     "SMARTBoardDLLErrorA": "Hindi mahanap ang kailangang file \"%0\"",
     "ScaleInCentimeter": "Iskalya sa cm",
     "Script": "Iskrip sa GeoGebra",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Haba ng aksis na di-mahalaga ay %0",
     "SecondAxisOfA": "Aksis na di-mahalaga ay %0",
     "Sector": "Sektor",

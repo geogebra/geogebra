@@ -2189,6 +2189,7 @@ __GGB__keysVar.km.menu = {
  ***********************************************/
 
 __GGB__keysVar.km.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Decimal Place",
     "ADecimalPlaces": "%0 Decimal Places",
     "ADerivativeOfB": "%0 derivative of %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.km.plain = {
     "SMARTBoardDLLErrorA": "Could not find necessary file \"%0\"",
     "ScaleInCentimeter": "Scale in cm",
     "Script": "GeoGebra Script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Minor axis' length of %0",
     "SecondAxisOfA": "Minor axis of %0",
     "Sector": "Sector",

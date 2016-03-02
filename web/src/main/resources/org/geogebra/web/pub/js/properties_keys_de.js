@@ -2189,6 +2189,7 @@ __GGB__keysVar.de.menu = {
  ***********************************************/
 
 __GGB__keysVar.de.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Dezimalstelle",
     "ADecimalPlaces": "%0 Dezimalstellen",
     "ADerivativeOfB": "%0 Ableitung von %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.de.plain = {
     "SMARTBoardDLLErrorA": "Die erforderliche Datei \"%0\" konnte nicht gefunden werden!",
     "ScaleInCentimeter": "Ma\xdfstab in cm",
     "Script": "GeoGebra Skript",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Nebenachsenl\xe4nge von %0",
     "SecondAxisOfA": "Nebenachse von %0",
     "Sector": "Sektor",

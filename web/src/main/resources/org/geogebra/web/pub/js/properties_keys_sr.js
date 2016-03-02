@@ -2189,6 +2189,7 @@ __GGB__keysVar.sr.menu = {
  ***********************************************/
 
 __GGB__keysVar.sr.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 decimalno mesto",
     "ADecimalPlaces": "%0 decimal. mesta",
     "ADerivativeOfB": "%0 izvod od %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.sr.plain = {
     "SMARTBoardDLLErrorA": "Ne mogu da prona\u0111em neophodnu datoteku \"%0\"",
     "ScaleInCentimeter": "Razmera u cm",
     "Script": "GeoGebra Script",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Du\u017eina druge ose od %0",
     "SecondAxisOfA": "Druga osa od %0",
     "Sector": "Ise\u010dak",

@@ -2189,6 +2189,7 @@ __GGB__keysVar.ka.menu = {
  ***********************************************/
 
 __GGB__keysVar.ka.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u10dc\u10d8\u10e8\u10d0\u10dc\u10d8 \u10db\u10eb\u10d8\u10db\u10d8\u10e1 \u10e8\u10d4\u10db\u10d3\u10d4\u10d2",
     "ADecimalPlaces": "%0 \u10dc\u10d8\u10e8\u10d0\u10dc\u10d8 \u10db\u10eb\u10d8\u10db\u10d8\u10e1 \u10e8\u10d4\u10db\u10d3\u10d4\u10d2",
     "ADerivativeOfB": "%0 \u10ec\u10d0\u10e0\u10db\u10dd\u10d4\u10d1\u10e3\u10da\u10d8\u10d0 %1-\u10d8\u10e1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.ka.plain = {
     "SMARTBoardDLLErrorA": "\u10e1\u10d0\u10ed\u10d8\u10e0\u10dd \u10e4\u10d0\u10d8\u10da\u10d8 \"%0\" \u10d5\u10d4\u10e0 \u10db\u10dd\u10d8\u10eb\u10d4\u10d1\u10dc\u10d0",
     "ScaleInCentimeter": "\u10db\u10d0\u10e1\u10e8\u10e2\u10d0\u10d1\u10d8 \u10e1\u10d0\u10dc\u10e2\u10d8\u10db\u10d4\u10e2\u10e0\u10d4\u10d1\u10e8\u10d8",
     "Script": "GeoGebra-\u10e1 \u10e1\u10d9\u10e0\u10d8\u10de\u10e2\u10d8",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "\u10db\u10d4\u10dd\u10e0\u10d0\u10d3\u10d8 \u10e6\u10d4\u10e0\u10eb\u10d8\u10d0, \u10e1\u10d8\u10d2\u10e0\u10eb\u10d8\u10d7 %0",
     "SecondAxisOfA": "\u10db\u10d4\u10dd\u10e0\u10d0\u10d3\u10d8 \u10e6\u10d4\u10e0\u10eb\u10d8\u10d0 %0-\u10e1\u10d8",
     "Sector": "\u10e1\u10d4\u10e5\u10e2\u10dd\u10e0\u10d8",

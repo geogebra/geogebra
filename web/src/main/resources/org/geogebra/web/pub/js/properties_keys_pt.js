@@ -2189,6 +2189,7 @@ __GGB__keysVar.pt.menu = {
  ***********************************************/
 
 __GGB__keysVar.pt.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Casa Decimal",
     "ADecimalPlaces": "%0 Casas Decimais",
     "ADerivativeOfB": "%0 derivada de %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.pt.plain = {
     "SMARTBoardDLLErrorA": "N\xe3o foi poss\xedvel encontrar o arquivo \"%0\" necess\xe1rio",
     "ScaleInCentimeter": "Escala em cm",
     "Script": "C\xf3digo GeoGebra",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Comprimento do eixo secund\xe1rio de %0",
     "SecondAxisOfA": "Eixo secund\xe1rio de %0",
     "Sector": "Setor",

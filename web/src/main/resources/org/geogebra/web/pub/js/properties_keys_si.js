@@ -2189,6 +2189,7 @@ __GGB__keysVar.si.menu = {
  ***********************************************/
 
 __GGB__keysVar.si.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u0dc0\u0db1 \u0daf\u0dc1\u0db8 \u0dc3\u0dca\u0dae\u0dcf\u0db1\u0dba",
     "ADecimalPlaces": "%0 \u0dc0\u0db1 \u0daf\u0dc1\u0db8 \u0dc3\u0dca\u0dae\u0dcf\u0db1",
     "ADerivativeOfB": "%0 \u0dc0\u0dca\u0dba\u0dd4\u0dad\u0dca\u0db4\u0db1\u0dca\u0db1\u0dba",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.si.plain = {
     "SMARTBoardDLLErrorA": "Could not find necessary file \"%0\"",
     "ScaleInCentimeter": "cm \u0db4\u0dbb\u0dd2\u0db8\u0dcf\u0dab\u0dba",
     "Script": "\u0da2\u0dd2\u0dba\u0ddd\u0da2\u0dd3\u0db6\u0dca\u200d\u0dbb\u0dcf \u0db4\u0dd2\u0da7\u0db4\u0dad",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0 \u0dc4\u0dd2 \u0daf\u0dd9\u0dc0\u0db1 \u0d85\u0d9a\u0dca\u0dc2 \u0daf\u0d9c",
     "SecondAxisOfA": "%0 \u0dc4\u0dd2 \u0daf\u0dd9\u0dc0\u0db1 \u0d85\u0d9a\u0dca\u0dc2\u0dba",
     "Sector": "\u0d9a\u0dda\u0db1\u0dca\u0daf\u0dca\u200d\u0dbb\u0dd2\u0d9a \u0d9b\u0dab\u0dca\u0da9\u0dba",

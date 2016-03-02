@@ -2189,6 +2189,7 @@ __GGB__keysVar.ne.menu = {
  ***********************************************/
 
 __GGB__keysVar.ne.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u0926\u0936\u092e\u0932\u092c \u0938\u094d\u0925\u093e\u0928",
     "ADecimalPlaces": "%0 \u0926\u0936\u092e\u0932\u092c \u0938\u094d\u0925\u093e\u0928\u0939\u0930\u0941",
     "ADerivativeOfB": "\u0921\u0947\u0930\u0940\u092d\u0947\u091f\u093f\u092d",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.ne.plain = {
     "SMARTBoardDLLErrorA": "Could not find necessary file \"%0\"",
     "ScaleInCentimeter": "\u0938\u0947\u0928\u094d\u091f\u093f\u092e\u093f\u091f\u0930\u092e\u093e \u0928\u093e\u092a",
     "Script": "\u091c\u093f\u092f\u094b\u091c\u0947\u092c\u094d\u0930\u093e \u0938\u094d\u0915\u093f\u0943\u092a\u091f",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0 \u0915\u094b \u0926\u094b\u0936\u094d\u0930\u094b \u0905\u0915\u094d\u0937\u0915\u094b \u0932\u092e\u094d\u092c\u093e\u0908",
     "SecondAxisOfA": "%0 \u0915\u094b \u0926\u094b\u0936\u094d\u0930\u094b \u0905\u0915\u094d\u0937",
     "Sector": "\u0935\u0943\u0924\u093f\u092f \u0916\u0923\u094d\u0921",

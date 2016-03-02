@@ -2189,6 +2189,7 @@ __GGB__keysVar.et.menu = {
  ***********************************************/
 
 __GGB__keysVar.et.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 k\xfcmnendkoht",
     "ADecimalPlaces": "%0 k\xfcmnendkohta",
     "ADerivativeOfB": "%1 %0 tuletis",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.et.plain = {
     "SMARTBoardDLLErrorA": "Ei leidnud vajalikku faili \"%0\"",
     "ScaleInCentimeter": "Skaala sentimeetrites",
     "Script": "GeoGebra skript",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0 teise pooltelje pikkus",
     "SecondAxisOfA": "%0 teine telg",
     "Sector": "Sektor",

@@ -2189,6 +2189,7 @@ __GGB__keysVar.hr.menu = {
  ***********************************************/
 
 __GGB__keysVar.hr.plain = {
+    "ACommand": "%0 Command",
     "ADecimalPlace": "%0 decimalno mjesto",
     "ADecimalPlaces": "%0 decimal. mjesta",
     "ADerivativeOfB": "%0 derivacija od %1",
@@ -2790,6 +2791,8 @@ __GGB__keysVar.hr.plain = {
     "SMARTBoardDLLErrorA": "Nedostaje nu\u017ena datoteka \"%0\"",
     "ScaleInCentimeter": "Mjerilo u cm",
     "Script": "GeoGebra skriptiranje",
+    "SearchCommands": "Search Commands",
+    "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Duljina sporedne poluosi od %0",
     "SecondAxisOfA": "Sporedna poluos od %0",
     "Sector": "Isje\u010dak",
