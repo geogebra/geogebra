@@ -235,7 +235,13 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 				public void fireActionPerformed(PopupMenuButton actionButton) {
 					// called if a object of the popup is clicked
 					int i = descriptionButton.getSelectedIndex();
-					app.getKernel().setAlgebraStyle(i);
+					if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
+						app.getKernel()
+								.setAlgebraStyle(AlgebraSettings.styleModes[i]);
+					} else {
+						app.getKernel().setAlgebraStyle(i);
+
+					}
 					app.getKernel().updateConstruction();
 					app.closePopups();
 					app.clearJustClosedPopup();

@@ -338,12 +338,12 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				text = geo.toValueString(StringTemplate.defaultTemplate);
 				break;
 
-			case Kernel.ALGEBRA_STYLE_DEFINITION:
+			case Kernel.ALGEBRA_STYLE_DESCRIPTION:
 				text = geo
 				        .getDefinitionDescription(StringTemplate.defaultTemplate);
 				break;
 
-			case Kernel.ALGEBRA_STYLE_COMMAND:
+			case Kernel.ALGEBRA_STYLE_DEFINITION:
 				text = geo
 				        .getDefinition(StringTemplate.defaultTemplate);
 				break;

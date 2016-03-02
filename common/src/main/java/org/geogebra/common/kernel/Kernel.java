@@ -111,11 +111,13 @@ public class Kernel {
 	// algebra style
 	/** Algebra view style: value */
 	final public static int ALGEBRA_STYLE_VALUE = 0;
+	/** Algebra view style: description */
+	final public static int ALGEBRA_STYLE_DESCRIPTION = 1;
 	/** Algebra view style: definition */
-	final public static int ALGEBRA_STYLE_DEFINITION = 1;
-	/** Algebra view style: command */
-	final public static int ALGEBRA_STYLE_COMMAND = 2;
+	final public static int ALGEBRA_STYLE_DEFINITION = 2;
 	
+	/** Algebra view style: definition and value */
+	final public static int ALGEBRA_STYLE_DEFINITION_AND_VALUE = 3;
 	// critical for exam mode
 	// must use getter
 	private int algebraStyle = Kernel.ALGEBRA_STYLE_VALUE;

@@ -962,13 +962,13 @@ public class RadioTreeItem extends AVTreeItem
 				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 				break;
 
-			case Kernel.ALGEBRA_STYLE_DEFINITION:
+			case Kernel.ALGEBRA_STYLE_DESCRIPTION:
 				geo.addLabelTextOrHTML(
 						geo.getDefinitionDescription(StringTemplate.defaultTemplate),
 						getBuilder(seNoLatex));
 				break;
 
-			case Kernel.ALGEBRA_STYLE_COMMAND:
+			case Kernel.ALGEBRA_STYLE_DEFINITION:
 				geo.addLabelTextOrHTML(geo
 						.getDefinition(StringTemplate.defaultTemplate),
 						getBuilder(seNoLatex));

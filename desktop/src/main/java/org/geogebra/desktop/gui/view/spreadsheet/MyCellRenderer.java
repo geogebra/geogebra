@@ -201,7 +201,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 					text = geo.toValueString(StringTemplate.defaultTemplate);
 					break;
 
-				case Kernel.ALGEBRA_STYLE_DEFINITION:
+				case Kernel.ALGEBRA_STYLE_DESCRIPTION:
 					IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
 					GeoElement
 							.convertIndicesToHTML(
@@ -210,7 +210,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 					text = builder.toString();
 					break;
 
-				case Kernel.ALGEBRA_STYLE_COMMAND:
+				case Kernel.ALGEBRA_STYLE_DEFINITION:
 					builder = new IndexHTMLBuilder(true);
 					GeoElement
 							.convertIndicesToHTML(

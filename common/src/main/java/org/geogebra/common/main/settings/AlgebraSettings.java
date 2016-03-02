@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 import java.util.LinkedList;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 
@@ -16,6 +17,10 @@ public class AlgebraSettings extends AbstractSettings {
 	private boolean showAuxiliaryObjects = false;
 	private boolean modeChanged = false;
 	private int[] collapsedNodes = null;
+	public static int[] styleModes = {
+			Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE,
+			Kernel.ALGEBRA_STYLE_VALUE, Kernel.ALGEBRA_STYLE_DEFINITION,
+			Kernel.ALGEBRA_STYLE_DESCRIPTION };
 
 	public AlgebraSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);

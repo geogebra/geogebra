@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsAdvanced;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -66,7 +67,14 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		description.addChangeHandler(new ChangeHandler() {
 
 			public void onChange(ChangeEvent event) {
-				app.getKernel().setAlgebraStyle(description.getSelectedIndex());
+				int idx = description.getSelectedIndex();
+				if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
+					app.getKernel()
+							.setAlgebraStyle(AlgebraSettings.styleModes[idx]);
+				} else {
+					app.getKernel().setAlgebraStyle(idx);
+
+				}
 				app.getKernel().updateConstruction();
 			}
 		});
