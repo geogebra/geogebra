@@ -149,7 +149,7 @@ public class PlotterBrushElements extends PlotterBrush {
 		// start new part
 		startCurve();
 
-		drawTo(pos, false);
+		super.moveTo(pos);
 	}
 
 	@Override
