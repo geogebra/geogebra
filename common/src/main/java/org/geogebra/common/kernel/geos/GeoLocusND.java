@@ -112,7 +112,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
-		sbToString.append(getCommandDescription(tpl));
+		sbToString.append(getDefinition(tpl));
 		return sbToString.toString();
 	}
 
@@ -156,7 +156,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
+		return getDefinition(tpl);
 	}
 
 	@Override

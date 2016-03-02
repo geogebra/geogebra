@@ -180,7 +180,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 
 	@Override
 	// Not sure how to do this hack normally.
-	final public String getCommandName(StringTemplate tpl) {
+	final public String getDefinitionName(StringTemplate tpl) {
 		return "ProveDetails";
 	}
 

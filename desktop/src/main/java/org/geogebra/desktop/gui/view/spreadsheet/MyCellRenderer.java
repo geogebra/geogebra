@@ -214,7 +214,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 					builder = new IndexHTMLBuilder(true);
 					GeoElement
 							.convertIndicesToHTML(
-									geo.getCommandDescription(StringTemplate.defaultTemplate),
+									geo.getDefinition(StringTemplate.defaultTemplate),
 									builder);
 					text = builder.toString();
 

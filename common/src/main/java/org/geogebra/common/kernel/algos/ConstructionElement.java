@@ -293,7 +293,7 @@ public abstract class ConstructionElement implements
 	 *            string template
 	 * @return command description, e.g. "Midpoint[A,B]"
 	 */
-	public abstract String getCommandDescription(StringTemplate tpl);
+	public abstract String getDefinition(StringTemplate tpl);
 
 	/**
 	 * Returns string representation of this element

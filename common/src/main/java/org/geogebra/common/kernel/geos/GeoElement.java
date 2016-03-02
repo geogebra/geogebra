@@ -564,7 +564,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (!tpl.isUseRealLabels() || (realLabel == null) || realLabel.equals("")) {
 			if (!labelSet && !localVarLabelSet) {
 				if (algoParent != null) {
-					return algoParent.getCommandDescription(tpl);
+					return algoParent.getDefinition(tpl);
 				}
 				if (definition != null) {
 					return definition.toString(tpl);
@@ -908,7 +908,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			ret = useOutputValueString ? toOutputValueString(tpl)
 					: toValueString(tpl);
 		} else if(getParentAlgorithm() != null){
-			ret = getParentAlgorithm().getCommandDescription(tpl);
+			ret = getParentAlgorithm().getDefinition(tpl);
 		} else if (getDefinition() != null) {
 			ret = getDefinition().toString(tpl);
 		}
@@ -947,7 +947,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// getAlgebraDescription() returns "3 = 5"
 		// so we need to use getCommandDescription() in those cases
 
-		String inputBarStr = getCommandDescription(stringTemplate);
+		String inputBarStr = getDefinition(stringTemplate);
 		if (!inputBarStr.equals("")) {
 
 			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
@@ -2651,7 +2651,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return representation of this geo for CAS
 	 */
 	public String getCASString(StringTemplate tpl,final boolean symbolic) {
-		return symbolic && !isIndependent() ? getCommandDescription(tpl)
+		return symbolic && !isIndependent() ? getDefinition(tpl)
 				: toValueString(tpl);
 	}
 
@@ -4371,7 +4371,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param addHTMLtag true to wrap in &lthtml>
 	 * @return definition description as HTML
 	 */
-	final public String getDefinitionDescriptionHTML(final boolean addHTMLtag) {
+	final public String getDescriptionHTML(final boolean addHTMLtag) {
 		if (algoParent == null) {
 			return "";
 		}
@@ -4381,9 +4381,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	@Override
-	final public String getCommandDescription(StringTemplate tpl) {
+	final public String getDefinition(StringTemplate tpl) {
 		if (algoParent != null) {
-			return algoParent.getCommandDescription(tpl);
+			return algoParent.getDefinition(tpl);
 
 		}
 		if (definition != null) {
@@ -4397,11 +4397,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param addHTMLtag tue to wrap in &lt;HTML>
 	 * @return HTML command description
 	 */
-	final public String getCommandDescriptionHTML(final boolean addHTMLtag) {
+	final public String getDefinitionHTML(final boolean addHTMLtag) {
 		if (algoParent == null) {
 			return "";
 		}
-		return indicesToHTML(algoParent.getCommandDescription(StringTemplate.defaultTemplate), addHTMLtag);
+		return indicesToHTML(algoParent.getDefinition(StringTemplate.defaultTemplate), addHTMLtag);
 	}
 
 	@Override
@@ -4905,7 +4905,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			boolean fallback) {
 		String ret = null;
 		if (!substituteNumbers) {
-			ret = getCommandDescription(tpl);
+			ret = getDefinition(tpl);
 
 		}
 		if (ret != null && ret.length() > 0) {
@@ -6761,7 +6761,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		} else if (isGeoSurfaceCartesian() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
 		} else {
-			ret = substituteNumbers ? toValueString(tpl) : getCommandDescription(tpl);
+			ret = substituteNumbers ? toValueString(tpl) : getDefinition(tpl);
 		}
 
 		// GeoNumeric eg a=1

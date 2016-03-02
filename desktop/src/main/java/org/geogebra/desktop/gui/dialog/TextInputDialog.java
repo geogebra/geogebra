@@ -682,7 +682,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 					initString = "\"" + initString + "\"";
 			} else
 				initString = geo
-						.getCommandDescription(StringTemplate.defaultTemplate);
+						.getDefinition(StringTemplate.defaultTemplate);
 			isLaTeX = geo.isLaTeX();
 		}
 		// ----------------------------------------------

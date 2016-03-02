@@ -300,7 +300,7 @@ public class AlgoCellRange extends AlgoElement {
 	}
 
 	@Override
-	final public String getCommandDescription(StringTemplate tpl) {
+	final public String getDefinition(StringTemplate tpl) {
 		return toStringOutput;
 	}
 

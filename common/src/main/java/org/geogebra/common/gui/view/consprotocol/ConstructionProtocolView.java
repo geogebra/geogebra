@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.IndexHTMLBuilder;
 
 public class ConstructionProtocolView {
@@ -34,7 +35,7 @@ public class ConstructionProtocolView {
 					// geo is shown in the protocol
 		GeoElement geo;
 		GImageIcon toolbarIcon;
-		String name, algebra, definition, command, caption;
+		String name, algebra, description, definition, caption;
 		boolean includesIndex;
 		Boolean consProtocolVisible;
 		private boolean wrapHTML;
@@ -80,12 +81,12 @@ public class ConstructionProtocolView {
 			return name;
 		}
 		
-		public String getDefinition(){
-			return definition;
+		public String getDescription() {
+			return description;
 		}
 		
-		public String getCommand(){
-			return command;
+		public String getDefinition() {
+			return definition;
 		}
 
 		public String getAlgebra(){
@@ -161,16 +162,16 @@ public class ConstructionProtocolView {
 			else
 				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(
 						true));
-			definition = geo.getDefinitionDescriptionHTML(true);
-			command = geo.getCommandDescriptionHTML(true);
+			description = geo.getDescriptionHTML(true);
+			definition = geo.getDefinitionHTML(true);
 			updateCaption();
 			consProtocolVisible = new Boolean(geo.isConsProtocolBreakpoint());
 
 			// does this line include an index?
 			includesIndex = (name.indexOf("<sub>") >= 0)
 					|| (algebra.indexOf("<sub>") >= 0)
+					|| (description.indexOf("<sub>") >= 0)
 					|| (definition.indexOf("<sub>") >= 0)
-					|| (command.indexOf("<sub>") >= 0)
 					|| (caption.indexOf("<sub>") >= 0);
 		}
 
@@ -332,13 +333,17 @@ public class ConstructionProtocolView {
 	public class ConstructionTableData implements View, SetLabels{
 
 		protected ConstructionTableData ctData = this;
+		final boolean defAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
+
 		public final ColumnData columns[] = {
 						new ColumnData("No.", 35, 35, SwingConstants.RIGHT, true),
 						new ColumnData("Name", 80, 50, SwingConstants.LEFT, true),
 						new ColumnData("ToolbarIcon", 35, 35, SwingConstants.CENTER,
 								false),
-						new ColumnData("Definition", 150, 50, SwingConstants.LEFT, true),
-						new ColumnData("Command", 150, 50, SwingConstants.LEFT, false),
+				new ColumnData(defAndValue ? "Description" : "Definition", 150,
+						50, SwingConstants.LEFT, true),
+				new ColumnData(defAndValue ? "Definition" : "Command", 150, 50,
+						SwingConstants.LEFT, false),
 						new ColumnData("Value", 150, 50, SwingConstants.LEFT, true),
 						new ColumnData("Caption", 150, 50, SwingConstants.LEFT, true),
 						new ColumnData("Breakpoint", 70, 35, SwingConstants.CENTER,

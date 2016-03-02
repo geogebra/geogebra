@@ -1266,7 +1266,7 @@ public class Construction {
 					((GeoElement) ce).getXMLtagsMinimal(sb, tpl);
 
 				} else if (ce instanceof AlgoElement) {
-					sb.append(((AlgoElement) ce).getCommandDescription(tpl));
+					sb.append(((AlgoElement) ce).getDefinition(tpl));
 					sb.append(" == ");
 					sb.append(((AlgoElement) ce)
 							.getAlgebraDescriptionRegrOut(tpl));
@@ -1416,8 +1416,8 @@ public class Construction {
 
 		// if an object is redefined the same (eg in a script) rather than
 		// reloading the whole XML, just update it
-		if (oldGeo.getCommandDescription(StringTemplate.maxPrecision).equals(
-				newGeo.getCommandDescription(StringTemplate.maxPrecision))
+		if (oldGeo.getDefinition(StringTemplate.maxPrecision).equals(
+				newGeo.getDefinition(StringTemplate.maxPrecision))
 				&& oldGeo.getParentAlgorithm() != null) {
 			ArrayList<AlgoElement> ae = new ArrayList<AlgoElement>();
 			ae.add(oldGeo.getParentAlgorithm());

@@ -372,7 +372,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	@Override
 	protected void drawHistogramOrBarChartBox(double[] y, double[] x,
 			int length, double width, GeoNumeric g) {
-		String command = g.getCommandDescription(StringTemplate.noLocalDefault);
+		String command = g.getDefinition(StringTemplate.noLocalDefault);
 		if (command.contains("Binomial") && command.contains("true")) {
 			startTransparentFill(codeFilledObject);
 			codeFilledObject.append("(" + format(x[0] + width / 2));

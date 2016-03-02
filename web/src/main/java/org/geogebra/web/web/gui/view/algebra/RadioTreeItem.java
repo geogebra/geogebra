@@ -970,7 +970,7 @@ public class RadioTreeItem extends AVTreeItem
 
 			case Kernel.ALGEBRA_STYLE_COMMAND:
 				geo.addLabelTextOrHTML(geo
-						.getCommandDescription(StringTemplate.defaultTemplate),
+						.getDefinition(StringTemplate.defaultTemplate),
 						getBuilder(seNoLatex));
 				break;
 			}

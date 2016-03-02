@@ -879,7 +879,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return "";
-		return geo.getCommandDescription(StringTemplate.defaultTemplate);
+		return geo.getDefinition(StringTemplate.defaultTemplate);
 	}
 
 	public synchronized String getCommandString(String objName, boolean localize) {
@@ -887,7 +887,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null)
 			return "";
 		return geo
-				.getCommandDescription(localize ? StringTemplate.defaultTemplate
+				.getDefinition(localize ? StringTemplate.defaultTemplate
 						: StringTemplate.noLocalDefault);
 	}
 

@@ -55,7 +55,7 @@ public class MyCellEditor extends DefaultCellEditor {
 				} else if (geo.isChangeable()) {
 					str = geo.getDefinitionForInputBar();
                 } else {
-                    str = geo.getCommandDescription(tpl);
+                    str = geo.getDefinition(tpl);
                 } 
             }
         }

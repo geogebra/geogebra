@@ -1167,11 +1167,11 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	@Override
-	public String getCommandDescription(StringTemplate tpl) {
-		String cmdname = getCommandName(tpl);
+	public String getDefinition(StringTemplate tpl) {
+		String def = getDefinitionName(tpl);
 
 		// command name
-		if (cmdname.equals("Expression")) {
+		if (def.equals("Expression")) {
 			return toString(tpl);
 		}
 		// #2706
@@ -1179,9 +1179,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 			return null;
 		sbAE.setLength(0);
 		if (tpl.isPrintLocalizedCommandNames()) {
-			sbAE.append(getLoc().getCommand(cmdname));
+			sbAE.append(getLoc().getCommand(def));
 		} else {
-			sbAE.append(cmdname);
+			sbAE.append(def);
 		}
 
 		int length = getInputLengthForCommandDescription();
@@ -1244,7 +1244,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * 
 	 * @return internal command name
 	 */
-	public String getCommandName(StringTemplate tpl) {
+	public String getDefinitionName(StringTemplate tpl) {
 		String cmdname;
 		GetCommand classname;
 		// get class name
@@ -1308,7 +1308,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		try {
 			// command
 			StringTemplate tpl = StringTemplate.xmlTemplate;
-			String cmdname = getCommandName(tpl);
+			String cmdname = getDefinitionName(tpl);
 			if (cmdname.equals("Expression")) {
 				sb.append(getExpXML(tpl));
 			} else {
@@ -1345,7 +1345,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		try {
 			// command
 			StringTemplate tpl = StringTemplate.ogpTemplate;
-			String cmdname = getCommandName(tpl);
+			String cmdname = getDefinitionName(tpl);
 			if (cmdname.equals("Expression")) {
 				sb.append(getExpXML(tpl));
 			} else {
@@ -1632,7 +1632,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
+		return getDefinition(tpl);
 	}
 
 	protected String toExpString(StringTemplate tpl) {

@@ -121,7 +121,7 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		if (event.getNativeButton() != NativeEvent.BUTTON_RIGHT) {
+		if (event.getNativeButton() != NativeEvent.BUTTON_RIGHT) {	
 			event.stopPropagation();
 		}
 		// curValue = getValue();

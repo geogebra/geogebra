@@ -1555,7 +1555,7 @@ kernel, left,
 		if (left.isGeoElement()) {
 			if (tpl.getStringType().equals(StringType.OGP)
 					&& expandForOGP(left)) {
-				leftStr = ((GeoElement) left).getCommandDescription(tpl);
+				leftStr = ((GeoElement) left).getDefinition(tpl);
 			} else
 				leftStr = ((GeoElement) left).getLabel(tpl);
 		} else {
@@ -1566,7 +1566,7 @@ kernel, left,
 			if (right.isGeoElement()) {
 				if (tpl.getStringType().equals(StringType.OGP)
 						&& expandForOGP(right)) {
-					rightStr = ((GeoElement) right).getCommandDescription(tpl);
+					rightStr = ((GeoElement) right).getDefinition(tpl);
 				} else
 					rightStr = ((GeoElement) right).getLabel(tpl);
 			} else {

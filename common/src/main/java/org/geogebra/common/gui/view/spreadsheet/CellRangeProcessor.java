@@ -848,7 +848,7 @@ public class CellRangeProcessor {
 				tempGeo = createListFromColumn(col, copyByValue, false, false,
 						GeoClass.NUMERIC, addToConstruction);
 				sb.append(tempGeo
-						.getCommandDescription(StringTemplate.defaultTemplate));
+						.getDefinition(StringTemplate.defaultTemplate));
 				sb.append(",");
 				tempGeo.remove();
 			}

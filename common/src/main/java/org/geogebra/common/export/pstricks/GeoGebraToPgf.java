@@ -3188,7 +3188,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	protected void drawHistogramOrBarChartBox(double[] y, double[] x,
 			int length, double width, GeoNumeric g) {
 		startBeamer(codeFilledObject);
-		String command = g.getCommandDescription(StringTemplate.noLocalDefault);
+		String command = g.getDefinition(StringTemplate.noLocalDefault);
 		if (command.contains("Binomial") && command.contains("true")) {
 			codeFilledObject.append("\\draw");
 			String s = LineOptionCode(g, true);

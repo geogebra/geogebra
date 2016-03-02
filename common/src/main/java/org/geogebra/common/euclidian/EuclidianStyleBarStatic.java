@@ -209,7 +209,7 @@ public class EuclidianStyleBarStatic {
 	private static String getDefinitonString(GeoElement geo) {
 		// needed for eg freehand functions
 		String definitonStr = geo
-				.getCommandDescription(StringTemplate.maxPrecision);
+				.getDefinition(StringTemplate.maxPrecision);
 
 		// everything else
 		if (definitonStr.equals("")) {

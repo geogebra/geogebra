@@ -946,9 +946,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 						.getToolbarIcon();
 				return (toolbarIcon == null) ? null : toolbarIcon.getImpl();
 			case 3:
-				return rowList.get(nRow).getDefinition();
+				return rowList.get(nRow).getDescription();
 			case 4:
-				return rowList.get(nRow).getCommand();
+				return rowList.get(nRow).getDefinition();
 			case 5:
 				return rowList.get(nRow).getAlgebra();
 			case 7:
@@ -979,7 +979,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 								StringTemplate.defaultTemplate);
 			case 4:
 				return rowList.get(nRow).getGeo()
-						.getCommandDescription(StringTemplate.defaultTemplate);
+						.getDefinition(StringTemplate.defaultTemplate);
 			case 5:
 				return rowList.get(nRow).getGeo()
 						.getAlgebraDescriptionDefault();
@@ -1042,10 +1042,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			}
 			case 3:
 				return rowList.get(nRow).getGeo()
-						.getDefinitionDescriptionHTML(false);
+						.getDescriptionHTML(false);
 			case 4:
 				return rowList.get(nRow).getGeo()
-						.getCommandDescriptionHTML(false);
+						.getDefinitionHTML(false);
 			case 5:
 				return rowList.get(nRow).getGeo()
 						.getAlgebraDescriptionHTMLDefault();

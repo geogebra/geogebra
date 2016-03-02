@@ -353,7 +353,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					} else {
 						// as GeoLocuses can not be converted to value strings
 						sb.append(geo.algoParent
-								.getCommandDescription(StringTemplate.latexTemplateCAS));
+								.getDefinition(StringTemplate.latexTemplateCAS));
 					}
 				}
 				sb.append("}");

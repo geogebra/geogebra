@@ -329,7 +329,7 @@ public abstract class TextPreviewer {
 					inputValue = "\"" + inputValue + "\"";
 				}
 			} else {
-				inputValue = previewGeoIndependent.getCommandDescription(null);// kernel.getStringTemplate());
+				inputValue = previewGeoIndependent.getDefinition(null);// kernel.getStringTemplate());
 			}
 		}
 

@@ -2404,7 +2404,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	@Override
 	protected void drawHistogramOrBarChartBox(double[] y, double[] x,
 			int length, double width, GeoNumeric g) {
-		String command = g.getCommandDescription(StringTemplate.noLocalDefault);
+		String command = g.getDefinition(StringTemplate.noLocalDefault);
 		startBeamer(codeFilledObject);
 		if (command.contains("Binomial") && command.contains("true")) {
 			codeFilledObject.append("\\psline");

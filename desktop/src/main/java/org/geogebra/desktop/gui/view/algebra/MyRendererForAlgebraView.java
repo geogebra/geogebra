@@ -52,7 +52,7 @@ public class MyRendererForAlgebraView extends MyRendererForAlgebraTree {
 			case Kernel.ALGEBRA_STYLE_COMMAND:
 				builder = new IndexHTMLBuilder(true);
 				geo.addLabelTextOrHTML(geo
-						.getCommandDescription(StringTemplate.defaultTemplate),
+						.getDefinition(StringTemplate.defaultTemplate),
 						builder);
 				text = builder.toString();
 				break;

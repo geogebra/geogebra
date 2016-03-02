@@ -405,12 +405,12 @@ public class ProverBotanasMethod {
 							geo.setCaption(null);
 						}
 						String command = geo
-								.getCommandDescription(StringTemplate.noLocalDefault);
+								.getDefinition(StringTemplate.noLocalDefault);
 						if (!("".equals(command))) {
 							Log.debug("/* Command definition */");
 							Log.debug(geo.getLabelSimple()
 									+ " = "
-									+ geo.getCommandDescription(StringTemplate.noLocalDefault)
+									+ geo.getDefinition(StringTemplate.noLocalDefault)
 									+ " /* "
 									+ geo.getDefinitionDescription(StringTemplate.noLocalDefault)
 									+ " */");

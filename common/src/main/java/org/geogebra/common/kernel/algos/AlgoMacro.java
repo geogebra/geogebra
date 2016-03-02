@@ -136,7 +136,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	}
 
 	@Override
-	public String getCommandName(StringTemplate tpl) {
+	public String getDefinitionName(StringTemplate tpl) {
 		return macro.getCommandName();
 	}
 

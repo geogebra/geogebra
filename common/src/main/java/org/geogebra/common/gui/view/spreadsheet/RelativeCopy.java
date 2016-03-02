@@ -438,11 +438,11 @@ public class RelativeCopy {
 		
 		StringTemplate highPrecision = StringTemplate.maxPrecision;
 		if (value.isPointOnPath() || value.isPointInRegion()) {
-			text = value.getCommandDescription(highPrecision);
+			text = value.getDefinition(highPrecision);
 		} else if (value.isChangeable()) {
 			text = value.toValueString(highPrecision);
 		} else {
-			text = value.getCommandDescription(highPrecision);
+			text = value.getDefinition(highPrecision);
 		}
 
 		// handle GeoText source value
@@ -496,7 +496,7 @@ public class RelativeCopy {
 			if (bool.isChangeable()) {
 				oldBoolText = bool.toValueString(highPrecision);
 			} else {
-				oldBoolText = bool.getCommandDescription(highPrecision);
+				oldBoolText = bool.getDefinition(highPrecision);
 			}
 		}
 
@@ -508,7 +508,7 @@ public class RelativeCopy {
 			if (dynamicColorList.isChangeable()) {
 				oldColorText = dynamicColorList.toValueString(highPrecision);
 			} else {
-				oldColorText = dynamicColorList.getCommandDescription(highPrecision);
+				oldColorText = dynamicColorList.getDefinition(highPrecision);
 			}
 		}
 

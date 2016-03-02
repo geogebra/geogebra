@@ -118,7 +118,7 @@ public final class MidiEventManager
     /**
      * Adds a MetaMessage to the current track.  
      *
-     * @param command the MIDI command represented by this message
+     * @param definition the MIDI command represented by this message
      * @param data1 the first data byte
      * @param data2 the second data byte
      */

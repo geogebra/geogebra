@@ -377,6 +377,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	public Column<RowData, ?> getColumn(String title) {
 		Column<RowData, ?> col = null;
+		boolean defAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
 		if ("No.".equals(title)) {
 			col = getColumnId();
 		} else if ("Name".equals(title)) {
@@ -385,11 +386,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			if (app.has(Feature.CP_NEW_COLUMNS)) {
 				col = getColumnToolbarIcon();
 			}
-		} else if ("Definition".equals(title)) {
-			col = getColumnDefinition();
-		} else if ("Command".equals(title)) {
+		} else if ((defAndValue && "Description".equals(title))
+				|| (!defAndValue && "Definition".equals(title))) {
+			col = getColumnDescription();
+		} else if ((defAndValue && "Definition".equals(title))
+				|| (!defAndValue && "Command".equals(title))) {
 			if (app.has(Feature.CP_NEW_COLUMNS)) {
-				col = getColumnCommand();
+				col = getColumnDefinition();
 			}
 		} else if ("Value".equals(title)) {
 			col = getColumnValue();
@@ -473,15 +476,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 
 	/*
-	 * Add a text column to show the definition.
+	 * Add a text column to show the description.
 	 */
-	private static Column<RowData, SafeHtml> getColumnDefinition() {
+	private static Column<RowData, SafeHtml> getColumnDescription() {
 		Column<RowData, SafeHtml> defColumn = new Column<RowData, SafeHtml>(
 		        new SafeHtmlCell()) {
 			
 			@Override
 			public SafeHtml getValue(RowData object) {
-				return SafeHtmlUtils.fromTrustedString(object.getDefinition());
+				return SafeHtmlUtils.fromTrustedString(object.getDescription());
 			}
 
 		};
@@ -507,13 +510,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	/*
 	 * Add a text column to show the command.
 	 */
-	private static Column<RowData, SafeHtml> getColumnCommand() {
+	private static Column<RowData, SafeHtml> getColumnDefinition() {
 		Column<RowData, SafeHtml> commandColumn = new Column<RowData, SafeHtml>(
 				new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
-				return SafeHtmlUtils.fromTrustedString(object.getCommand());
+				return SafeHtmlUtils.fromTrustedString(object.getDefinition());
 			}
 
 		};
