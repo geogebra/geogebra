@@ -12,6 +12,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -22,6 +24,8 @@ import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
+import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
+import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 
@@ -44,6 +48,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
  * NewRadioButtonTreeItem for creating new formulas in the algebra view
@@ -67,6 +72,10 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	private Label piecewiseLabel, matrixLabel, curveLabel;
 
+	InputBarHelpPopup helpPopup;
+
+	ToggleButton btnHelpToggle;
+
 	public InputTreeItem(Kernel kern) {
 		super(kern);
 
@@ -75,6 +84,30 @@ public class InputTreeItem extends RadioTreeItem implements
 
 		//should depend on number of previoous elements?
 		addHistoryPopup(true);
+
+		if (app.has(Feature.INPUT_SHOWN_IN_AV)) {
+			btnHelpToggle = new ToggleButton(new NoDragImage(
+					GuiResources.INSTANCE.menu_icon_help().getSafeUri()
+							.asString(), 20), new NoDragImage(
+					GuiResources.INSTANCE.menu_icon_help().getSafeUri()
+							.asString(), 20));
+
+			btnHelpToggle.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					if (btnHelpToggle.isDown()) {
+						setShowInputHelpPanel(true);
+					} else {
+						setShowInputHelpPanel(false);
+					}
+
+				}
+
+			});
+
+			btnHelpToggle.addStyleName("algebraHelpButton");
+			main.insert(btnHelpToggle, 0);
+		}
 
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
@@ -398,6 +431,40 @@ public class InputTreeItem extends RadioTreeItem implements
 				// or touch events are used (although we could use heuristic?)
 				tim.schedule(500);
 			}
+		}
+	}
+
+	public void setShowInputHelpPanel(boolean show) {
+
+		if (show) {
+			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
+					.getGuiManager().getInputHelpPanel();
+			helpPanel.updateGUI();
+
+			if (helpPopup == null && app != null) {
+				helpPopup = new InputBarHelpPopup(this.app, null);
+				helpPopup.addAutoHidePartner(this.getElement());
+
+				if (btnHelpToggle != null) {
+					helpPopup.setBtnHelpToggle(btnHelpToggle);
+				}
+			}
+
+			helpPopup
+					.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
+						public void setPosition(int offsetWidth,
+								int offsetHeight) {
+							helpPopup.getElement().getStyle()
+									.setProperty("left", (btnHelpToggle.getAbsoluteLeft()+btnHelpToggle.getOffsetWidth())+"");
+							helpPopup.getElement().getStyle()
+									.setProperty("top",
+											btnHelpToggle.getAbsoluteTop() + "");
+							helpPopup.show();
+						}
+					});
+
+		} else if (helpPopup != null) {
+			helpPopup.hide();
 		}
 	}
 

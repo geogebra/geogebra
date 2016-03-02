@@ -3726,6 +3726,10 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 	border: none;
 }
 
+.algebraHelpButton{
+	display: inline-block;
+}
+
 /* ========== Input Help  end ============ */
 /* first td of heading table should have width: 0% */
 .algebraView {

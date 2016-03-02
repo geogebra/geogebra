@@ -3838,6 +3838,7 @@ public abstract class App implements UpdateSelection {
 		case ANALYTICS:
 		case HANDWRITING:
 		case AV_DEFINITION_AND_VALUE:
+		case INPUT_SHOWN_IN_AV:
 			return prerelease;
 
 		case MOBILE_PROPERTIES_VIEW:
