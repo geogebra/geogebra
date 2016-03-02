@@ -229,6 +229,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 	private boolean drawFromScratch = true;
+	private boolean drawUpToDate = false;
 
 	/**
 	 * first corner from root mesh
@@ -242,6 +243,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		if (drawFromScratch){
 			
+			drawUpToDate = false;
+
 			if (levelOfDetail == LevelOfDetail.QUALITY && splitsStartedNotFinished){
 				draw();
 				drawOccured = true;
@@ -359,28 +362,39 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 		
 //		time = System.currentTimeMillis();
-		
-		switch (levelOfDetail){
+
+		if (drawUpToDate) {
+			// update is called for visual style, i.e. line thickness
+			drawWireframe(getView3D().getRenderer());
+			return true;
+		}
+
+		switch (levelOfDetail) {
 		case SPEED:
 		default:
 			draw();
 			// still room left and still split to do: still to update
-			return !splitsStartedNotFinished || !stillRoomLeft;
+			drawUpToDate = !splitsStartedNotFinished || !stillRoomLeft;
+			return drawUpToDate;
 		case QUALITY:
-			splitsStartedNotFinished = splitsStartedNotFinished && stillRoomLeft;
-			if (!splitsStartedNotFinished){
-				if (!drawOccured){
+			splitsStartedNotFinished = splitsStartedNotFinished
+					&& stillRoomLeft;
+			if (!splitsStartedNotFinished) {
+				if (!drawOccured) {
 					// no draw at start: can do the draw now
 					draw();
-					return true; 
+					drawUpToDate = true;
+					return true;
 				}
-				// no room left or no split too do: update is finished, but the object may change
-				return false; 
+				// no room left or no split to do: update is finished, but
+				// the
+				// object may change
+				return false;
 			}
 			// still room left and still split to do: still to update
 			return false;
 		}
-		
+
 //		time = System.currentTimeMillis() - time;
 //		if (time > 0){
 //			debug("draw : "+time);
@@ -468,9 +482,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		setSurfaceIndex(surface.end());
 
-		if (appFeaturesWireframe()) {
-			drawWireframe(renderer);
-		}
+		drawWireframe(renderer);
 	}
 
 	static final private boolean isDefinedForWireframe(Corner corner) {
@@ -482,6 +494,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 	private void drawWireframe(Renderer renderer) {
+
+		if (!appFeaturesWireframe()) {
+			return;
+		}
+
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
 		brush.start(getReusableGeometryIndex());
