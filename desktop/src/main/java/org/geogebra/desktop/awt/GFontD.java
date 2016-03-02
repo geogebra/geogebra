@@ -45,10 +45,12 @@ public class GFontD extends org.geogebra.common.awt.GFont {
 		return impl.canDisplayUpTo(textString);
 	}
 
+	@Override
 	public GFontD deriveFont(int style, int fontSize) {
 		return new GFontD(impl.deriveFont(style, fontSize));
 	}
 	
+	@Override
 	public GFontD deriveFont(int style, float fontSize) {
 		return new GFontD(impl.deriveFont(style, fontSize));
 	}
