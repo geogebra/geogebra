@@ -76,7 +76,9 @@ using namespace std;
 u32 PrimeGetNow();
 extern "C" uint32_t mainThreadStack[];
 #else
-//#include <time.h>
+#ifndef BESTA_OS
+#include <time.h>
+#endif
 #endif
 
 #ifndef NO_NAMESPACE_GIAC
