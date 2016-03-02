@@ -1457,6 +1457,16 @@ public class AlgoDispatcher {
 			GeoImplicitSurfaceND surf, GeoLineND line) {
 		return new GeoPoint[0];
 	}
+
+	// intersect path with point
+	public GeoPoint[] IntersectPathPoint(String label, Path path,
+			GeoPointND point) {
+		AlgoIntersectPathPoint algo = new AlgoIntersectPathPoint(cons, label,
+				path, point);
+		GeoPoint[] p = new GeoPoint[1];
+		p[0] = (GeoPoint) algo.getP();
+		return p;
+	}
 	// intersect polynomial and conic
 	public AlgoIntersectPolynomialConic getIntersectionAlgorithm(GeoFunction f,
 			GeoConic c) {

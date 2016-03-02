@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoIntersect;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectCurveCurve;
@@ -26,6 +27,7 @@ import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolys;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -36,7 +38,7 @@ import org.geogebra.common.main.MyError;
  * ] Intersect[ <GeoImplicitPoly>, <GeoImplicitPoly> ] Intersect[
  * <GeoImplicitPoly>, <GeoLine> ] Intersect[ <GeoImplicitPoly>,
  * <GeoFunction(Polynomial)> ] Intersect[ <GeoFunction>, <GeoFunction>,
- * <NumberValue>, <NumberValue> ]
+ * <NumberValue>, <NumberValue> ] Intersect[ <Path>, <Point> ]
  */
 public class CmdIntersect extends CommandProcessor {
 
@@ -395,6 +397,12 @@ public class CmdIntersect extends CommandProcessor {
 				return getAlgoDispatcher().IntersectImplicitSurfaceLine(
 						c.getLabels(), (GeoImplicitSurface) arg[0],
 						(GeoLineND) arg[1]);
+			}
+			// intersect path and point
+			else if ((ok[0] = arg[0] instanceof Path)
+					&& (ok[1] = arg[1].isGeoPoint())) {
+				return getAlgoDispatcher().IntersectPathPoint(c.getLabel(),
+						(Path) arg[0], (GeoPointND) arg[1]);
 			}
 			/*
 			 * moved to CmdIntersection to allow Intersect[List, List] to
