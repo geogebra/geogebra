@@ -1607,8 +1607,11 @@ public final class DrawList extends CanvasDrawable
 				return;
 			}
 
-			if (isControlHit(x, y)) {
-				setOptionsVisible(!isOptionsVisible());
+		DrawList opened = view.getOpenedComboBox();
+		if (!(opened != null && opened.isOptionsHit(x, y))
+				&& isControlHit(x, y)) {
+			boolean visible = isOptionsVisible();
+			setOptionsVisible(!visible);
 			}
 
 		// if (isControlHit(x, y)) {
