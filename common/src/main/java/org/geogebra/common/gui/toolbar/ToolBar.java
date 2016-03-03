@@ -55,6 +55,11 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_MIDPOINT);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_COMPLEX_NUMBER);
+		// sb.append(" ");
+		// sb.append(EuclidianConstants.MODE_EXTREMUM);
+		// sb.append(" ");
+		// sb.append(EuclidianConstants.MODE_ROOTS);
+
 
 		// basic lines
 		sb.append(" | ");
@@ -119,6 +124,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_FREEHAND_CIRCLE);
 
 		// conics
 		sb.append(" | ");

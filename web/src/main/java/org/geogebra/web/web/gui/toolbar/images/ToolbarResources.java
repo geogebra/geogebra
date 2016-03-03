@@ -93,11 +93,15 @@ public interface ToolbarResources {
 	
 	ResourcePrototype mode_expand_32();
 
+	ResourcePrototype mode_extremum_32();
+
 	
 	ResourcePrototype mode_factor_32();
 
 	
 	ResourcePrototype mode_fitline_32();
+
+	ResourcePrototype mode_freehandcircle_32();
 
 	
 	ResourcePrototype mode_freehandshape_32();
@@ -215,6 +219,8 @@ public interface ToolbarResources {
 
 	
 	ResourcePrototype mode_rigidpolygon_32();
+
+	ResourcePrototype mode_roots_32();
 
 	
 	ResourcePrototype mode_rotatebyangle_32();

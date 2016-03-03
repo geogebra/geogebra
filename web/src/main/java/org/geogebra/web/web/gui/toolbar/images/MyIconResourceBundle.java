@@ -100,11 +100,17 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_expand.png")
 	ImageResource mode_expand_32();
 
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_extremum.png")
+	ImageResource mode_extremum_32();
+
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_factor.png")
 	ImageResource mode_factor_32();
 
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_fitline.png")
 	ImageResource mode_fitline_32();
+
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_freehandcircle.png")
+	ImageResource mode_freehandcircle_32();
 
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_freehandshape.png")
 	ImageResource mode_freehandshape_32();
@@ -222,6 +228,9 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_rigidpolygon.png")
 	ImageResource mode_rigidpolygon_32();
+
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_roots.png")
+	ImageResource mode_roots_32();
 
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_rotatebyangle.png")
 	ImageResource mode_rotatebyangle_32();
