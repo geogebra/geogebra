@@ -36,8 +36,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	// number of intervals in root mesh (for each parameters, if parameters
 	// delta are equals)
 	private static final short ROOT_MESH_INTERVALS_SPEED = 10;
-	private static final short ROOT_MESH_INTERVALS_QUALITY = ROOT_MESH_INTERVALS_SPEED * 2;
-	private short rootMeshIntervals;
+	private static final short ROOT_MESH_INTERVALS_SPEED_SQUARE = ROOT_MESH_INTERVALS_SPEED
+			* ROOT_MESH_INTERVALS_SPEED;
+	private static final short ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR = 2;
 
 
 
@@ -154,13 +155,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
 			maxRWDistance = 5 * maxRWPixelDistance;
 			maxBend = getView3D().getMaxBendSpeedSurface();
-			rootMeshIntervals = ROOT_MESH_INTERVALS_SPEED;
 			break;
 		case QUALITY:
 			maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
 			maxRWDistance = 2 * maxRWPixelDistance;
 			maxBend = getView3D().getMaxBend();
-			rootMeshIntervals = ROOT_MESH_INTERVALS_QUALITY;
 			break;
 		}
 		
@@ -274,21 +273,21 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					vBorderMax = getView3D().getYmax();
 				}
 				// don't draw borders
-				drawWireframeBorderU = 0;
-				drawWireframeBorderV = 0;
+				wireframeBorderU = 0;
+				wireframeBorderV = 0;
 			}else if (((GeoSurfaceCartesian3D) surfaceGeo)
 					.isSurfaceOfRevolutionAroundOx()) {
 				// cartesian surface of revolution
 				uBorderMin = getView3D().getXmin();
 				uBorderMax = getView3D().getXmax();
 				// draw borders for v, not for u=x
-				drawWireframeBorderU = 0;
-				drawWireframeBorderV = 1;
+				wireframeBorderU = 0;
+				wireframeBorderV = 1;
 			}else{
 				// cartesian surface NOT of revolution
 				// draw borders for u and v
-				drawWireframeBorderU = 1;
-				drawWireframeBorderV = 1;
+				wireframeBorderU = 1;
+				wireframeBorderV = 1;
 			}
 
 			uDelta = uBorderMax - uBorderMin;
@@ -316,12 +315,27 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					+ maxRWDistanceNoAngleCheck);
 
 			// create root mesh
-			int uN = 1 + (int) (rootMeshIntervals * Math.sqrt(uDelta / vDelta));
-			int vN = 1 + rootMeshIntervals * rootMeshIntervals / uN;
+			int uN = 1 + (int) (ROOT_MESH_INTERVALS_SPEED * Math.sqrt(uDelta
+					/ vDelta));
+			int vN = 1 + ROOT_MESH_INTERVALS_SPEED_SQUARE / uN;
+			switch (levelOfDetail) {
+			case SPEED:
+				wireFrameStepU = 1;
+				wireFrameStepV = 1;
+				break;
+			case QUALITY:
+				wireFrameStepU = ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+				wireFrameStepV = ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+				uN *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+				vN *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+				break;
+			}
+
 			debug("grids: " + uN + ", " + vN);
 			cornerListIndex = 0;
 			double du = uDelta / uN;
 			double dv = vDelta / vN;
+
 			firstCorner = createRootMesh(uBorderMin, uBorderMax - du,
 					uBorderMax, uN, vBorderMin, vBorderMax - dv, vBorderMax, vN);
 
@@ -672,7 +686,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	// says if we draw borders for wireframe
 	// (we use short for array index shifting)
-	private short drawWireframeBorderU, drawWireframeBorderV;
+	private short wireframeBorderU, wireframeBorderV;
+
+	// steps to draw wireframe
+	private int wireFrameStepU, wireFrameStepV;
 
 	private class RootMeshManager {
 
@@ -710,22 +727,27 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			double vMax, double vBorderMax, int vN) {
 
 		if (appFeaturesWireframe()) {
-			wireframeBottomCorners = new Corner[uN - 1 + 2
-					* drawWireframeBorderU];
-			wireframeRightCorners = new Corner[vN - 1 + 2
-					* drawWireframeBorderV];
+			wireframeBottomCorners = new Corner[(uN - 1) / wireFrameStepU + 2
+					* wireframeBorderU];
+			wireframeRightCorners = new Corner[(vN - 1) / wireFrameStepV + 2
+					* wireframeBorderV];
 		}
 
 		Corner bottomRight = newCorner(uBorderMax, vBorderMax);
 		Corner first = bottomRight;
 
+		int wireframeIndexU = 0, wireframeIndexV = 0, wireFrameSetU = wireFrameStepU, wireFrameSetV = wireFrameStepV;
 		if (appFeaturesWireframe()) {
-			if (drawWireframeBorderU == 1) {
+			if (wireframeBorderU == 1) { // draw edges
 				wireframeBottomCorners[0] = first;
+				wireframeIndexU = 1;
 			}
-			if (drawWireframeBorderV == 1) {
+			wireFrameSetU = 1;
+			if (wireframeBorderV == 1) { // draw edges
 				wireframeRightCorners[0] = first;
+				wireframeIndexV = 1;
 			}
+			wireFrameSetV = 1;
 		}
 
 		// first row
@@ -733,13 +755,19 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		for (int i = 0; i < uN - 1; i++) {
 			right = addLeftToMesh(right, uMax - (uDelta * i) / uN, vBorderMax);
 			if (appFeaturesWireframe()) {
-				wireframeBottomCorners[i + drawWireframeBorderU] = right;
+				if (wireFrameSetU == wireFrameStepU) { // set wireframe
+					wireframeBottomCorners[wireframeIndexU] = right;
+					wireframeIndexU++;
+					wireFrameSetU = 1;
+				} else {
+					wireFrameSetU++;
+				}
 			}
 		}
 		right = addLeftToMesh(right, uBorderMin, vBorderMax);
 		if (appFeaturesWireframe()) {
-			if (drawWireframeBorderU == 1) {
-				wireframeBottomCorners[uN] = right;
+			if (wireframeBorderU == 1) {
+				wireframeBottomCorners[wireframeIndexU] = right;
 			}
 		}
 
@@ -748,7 +776,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			bottomRight = addRowAboveToMesh(bottomRight, vMax - (vDelta * j)
 					/ vN, uBorderMin, uBorderMax, uMax, uN);
 			if (appFeaturesWireframe()) {
-				wireframeRightCorners[j + drawWireframeBorderV] = bottomRight;
+				if (wireFrameSetV == wireFrameStepV) { // set wireframe
+					wireframeRightCorners[wireframeIndexV] = bottomRight;
+					wireframeIndexV++;
+					wireFrameSetV = 1;
+				} else {
+					wireFrameSetV++;
+				}
 			}
 		}
 
@@ -756,8 +790,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		bottomRight = addRowAboveToMesh(bottomRight, vBorderMin, uBorderMin,
 				uBorderMax, uMax, uN);
 		if (appFeaturesWireframe()) {
-			if (drawWireframeBorderV == 1) {
-				wireframeRightCorners[vN] = bottomRight;
+			if (wireframeBorderV == 1) {
+				wireframeRightCorners[wireframeIndexV] = bottomRight;
 			}
 		}
 
