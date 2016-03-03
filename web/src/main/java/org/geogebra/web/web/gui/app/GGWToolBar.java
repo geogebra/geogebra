@@ -346,6 +346,7 @@ pr.menu_header_undo(), null, 32);
 			if (e.type == "blur" && fullscreen == true) {
 				startCheating();
 			}
+
 		};
 		$wnd.onfocus = function(event) {
 			if (fullscreen == true) {
@@ -374,7 +375,7 @@ pr.menu_header_undo(), null, 32);
 		});
 
 		document.addEventListener("visibilitychange", function() {
-			$wnd.console.log("hidden = " + document.hidden);
+			//$wnd.console.log("hidden = " + document.hidden);
 			if (document.hidden == true) {
 				startCheating();
 			} else {
@@ -739,11 +740,17 @@ pr.menu_header_undo(), null, 32);
 		case EuclidianConstants.MODE_CAS_EXPAND:
 			return myIconResourceBundle.mode_expand_32();
 
+		case EuclidianConstants.MODE_EXTREMUM:
+			return myIconResourceBundle.mode_extremum_32();
+
 		case EuclidianConstants.MODE_CAS_FACTOR:
 			return myIconResourceBundle.mode_factor_32();
 
 		case EuclidianConstants.MODE_FITLINE:
 			return myIconResourceBundle.mode_fitline_32();
+
+		case EuclidianConstants.MODE_FREEHAND_CIRCLE:
+			return myIconResourceBundle.mode_freehandcircle_32();
 
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			return myIconResourceBundle.mode_freehandshape_32();
@@ -858,6 +865,9 @@ pr.menu_header_undo(), null, 32);
 
 		case EuclidianConstants.MODE_RIGID_POLYGON:
 			return myIconResourceBundle.mode_rigidpolygon_32();
+
+		case EuclidianConstants.MODE_ROOTS:
+			return myIconResourceBundle.mode_roots_32();
 
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 			return myIconResourceBundle.mode_rotatebyangle_32();
