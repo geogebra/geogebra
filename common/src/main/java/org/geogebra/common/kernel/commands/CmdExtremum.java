@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
@@ -21,7 +22,7 @@ public class CmdExtremum extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -64,7 +65,9 @@ public class CmdExtremum extends CommandProcessor {
 	}
 
 	/**
-	 * all Extrema of function f (works only for polynomials)
+	 * @return
+	 *      - all Extrema of function f (for polynomial functions)
+	 *      - all Extrema currently visible (for non-polynomial functions)
 	 */
 	final private GeoPoint[] Extremum(Command c, GeoFunction f) {
 
@@ -82,9 +85,15 @@ public class CmdExtremum extends CommandProcessor {
 
 		// check if this is a polynomial at the moment
 		// uninitialized CAS algo may return non-polynomial
-		if (!kernelA.getConstruction().isFileLoading() && f.isDefined()
-				&& !f.isPolynomialFunction(true))
-			return null;
+//		if (!kernelA.getConstruction().isFileLoading() && f.isDefined()
+//				&& !f.isPolynomialFunction(true))
+//			return null;
+
+		if(!f.isPolynomialFunction(true)){
+			EuclidianViewInterfaceCommon view = this.kernelA.getApplication().getActiveEuclidianView();
+			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, null, f, view);
+			return algo.getExtremumPoints();
+		}
 
 		AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons,
 				c.getLabels(), f);

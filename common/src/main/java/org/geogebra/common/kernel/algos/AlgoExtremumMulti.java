@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
@@ -66,10 +67,6 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	// Input-Output
 	private GeoFunction f1;
-	private NumberValue left; // input
-	private GeoElement geoleft;
-	private NumberValue right; // input
-	private GeoElement georight;
 
 	/** Computes "all" Extremums of f in <l,r> */
 	public AlgoExtremumMulti(Construction cons, String[] labels,
@@ -99,6 +96,15 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	}// constructor
 
+	public AlgoExtremumMulti(Construction cons, String[] labels,
+							 GeoFunction function, EuclidianViewInterfaceCommon view) {
+		this(cons, labels, function, view.getXminObject(), view.getXmaxObject());
+
+		// updates the area that is visible
+		cons.registerEuclidianViewCE(this);
+		intervalDefinedByEV = true;
+	}
+
 	@Override
 	public Commands getClassName() {
 		return Commands.Extremum;
@@ -127,6 +133,10 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	@Override
 	public final void compute() {
+
+		if(intervalDefinedByEV){
+			updateInterval();
+		}
 
 		double[] extremums = new double[0];
 		int numberOfExtremums = 0;

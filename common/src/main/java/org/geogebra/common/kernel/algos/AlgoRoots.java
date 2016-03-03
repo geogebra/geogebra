@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -62,10 +63,6 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	// Input-Output
 	// private GeoFunctionable function; // input
 	private GeoFunction f0, f1, f2, diff;
-	private NumberValue left; // input
-	private GeoElement geoleft;
-	private NumberValue right; // input
-	private GeoElement georight;
 
 	// Vars
 	private int type = TYPE_ROOTS;
@@ -97,6 +94,14 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 									// view
 
 	}// Constructor TYPE_ROOTS
+
+	public AlgoRoots(Construction cons, String[] labels, GeoFunction function, EuclidianViewInterfaceCommon view) {
+		this(cons, labels, function, view.getXminObject(), view.getXmaxObject());
+
+		// updates the area that is visible
+		cons.registerEuclidianViewCE(this);
+		intervalDefinedByEV = true;
+	}
 
 	public AlgoRoots(Construction cons, GeoFunction function, NumberValue left,
 			NumberValue right) {
@@ -178,6 +183,10 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	@Override
 	public final void compute() {
+		if(intervalDefinedByEV){
+			updateInterval();
+		}
+
 		boolean ok = false;
 		switch (type) {
 		case TYPE_ROOTS:
@@ -481,61 +490,61 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		}
 	}
 
-	@Override
-	protected void initPoints(int number) {
-		super.initPoints(number);
+    @Override
+    protected void initPoints(int number) {
+        super.initPoints(number);
 
-		// parentAlgorithm is set to null in some cases (see below)
-		for(int i= 0; i< points.length;i++){
-			points[i].setParentAlgorithm(this);
-		}
+        // parentAlgorithm is set to null in some cases (see below)
+        for (int i = 0; i < points.length; i++) {
+            points[i].setParentAlgorithm(this);
+        }
 
-		if (points.length > number) {
+        if (points.length > number) {
 
-			// no visible points left
-			if(number==0){
-				ArrayList<GeoPoint> temp = new ArrayList<GeoPoint>();
-				for(int i =0; i< points.length;i++){
-					if(!points[i].getAlgoUpdateSet().isEmpty()){
-						// store points that have dependent objects
-						temp.add(points[i]);
-					}
-				}
+            // no visible points left
+            if (number == 0) {
+                ArrayList<GeoPoint> temp = new ArrayList<GeoPoint>();
+                for (int i = 0; i < points.length; i++) {
+                    if (!points[i].getAlgoUpdateSet().isEmpty()) {
+                        // store points that have dependent objects
+                        temp.add(points[i]);
+                    }
+                }
 
-				// at least one point with dependencies was found
-				if(temp.size() > 0){
-					// delete all other points
-					for(int i =0; i< points.length;i++){
-						if(!temp.contains(points[i])){
-							points[i].setParentAlgorithm(null);
-							points[i].remove();
-						}
-					}
-					// do not reset points -> position of the not removed points is not changed
-					return;
-				}
+                // at least one point with dependencies was found
+                if (temp.size() > 0) {
+                    // delete all other points
+                    for (int i = 0; i < points.length; i++) {
+                        if (!temp.contains(points[i])) {
+                            points[i].setParentAlgorithm(null);
+                            points[i].remove();
+                        }
+                    }
+                    // do not reset points -> position of the not removed points is not changed
+                    return;
+                }
 
-				// there are no points with dependencies -> keep only one undefined point
-				number = 1;
-			}
+                // there are no points with dependencies -> keep only one undefined point
+                number = 1;
+            }
 
-			GeoPoint[] temp = new GeoPoint[number];
-			for (int i = 0; i < temp.length; i++) {
-				temp[i] = points[i];
-				temp[i].setCoords(0, 0, 1); // init as defined
-			}
+            GeoPoint[] temp = new GeoPoint[number];
+            for (int i = 0; i < temp.length; i++) {
+                temp[i] = points[i];
+                temp[i].setCoords(0, 0, 1); // init as defined
+            }
 
-			// delete the remaining points
-			for (int i = number; i < points.length; i++) {
-				if (points[i] != null) {
-					points[i].setParentAlgorithm(null);
-					points[i].remove();
-				}
-			}
-			points = temp;
-			super.setOutput(points);
-		}
-	}
+            // delete the remaining points
+            for (int i = number; i < points.length; i++) {
+                if (points[i] != null) {
+                    points[i].setParentAlgorithm(null);
+                    points[i].remove();
+                }
+            }
+            points = temp;
+            super.setOutput(points);
+        }
+    }
 
     @Override
     protected void removePoint(int pos) {

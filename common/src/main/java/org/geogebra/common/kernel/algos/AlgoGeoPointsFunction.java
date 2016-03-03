@@ -14,8 +14,10 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.Arrays;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -42,6 +44,13 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 	// remove? double[] curXValues = new double[30]; // current x-values
 	int numberOfXValues;
+
+	protected NumberValue left; // input
+	protected GeoElement geoleft;
+	protected NumberValue right; // input
+	protected GeoElement georight;
+
+	protected boolean intervalDefinedByEV = false;
 
 	/**
 	 * Computes all roots of f
@@ -240,6 +249,26 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	}// Test Constructor
 
 	// */ //--- SNIP end ---------------------------------------
+
+	protected void updateInterval(){
+		EuclidianViewInterfaceCommon ev = this.kernel.getApplication().getActiveEuclidianView();
+
+		geoleft = ev.getXminObject();
+		georight = ev.getXmaxObject();
+
+		left = ev.getXminObject();
+		right = ev.getXmaxObject();
+
+		setInputOutput();
+	}
+
+	@Override
+	protected int getInputLengthForXML() {
+		if(intervalDefinedByEV){
+			return 1;
+		}
+		return super.getInputLengthForXML();
+	}
 
 }// class AlgoGeoPontsFunction
 
