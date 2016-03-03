@@ -114,4 +114,9 @@ public class CASTableCellEditorW implements CASTableCellEditor, CASEditorW {
 		// TODO Auto-generated method stub
 
 	}
+
+	public void ensureEditing() {
+		// TODO Auto-generated method stub
+
+	}
 }
