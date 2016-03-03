@@ -2831,7 +2831,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			
 			// we use EvalVE here as it's more transparent to push the command to the input
 			// except Evaluate and KeepInput
-			ValidExpression ex = (ValidExpression) getEvalVE().deepCopy(kernel);
+			ValidExpression ex = getEvalVE().deepCopy(kernel);
 			CommandRemover remover;
 			if (input.startsWith("Numeric[")) {
 				remover = CommandRemover.getRemover("KeepInput", "Evaluate");
