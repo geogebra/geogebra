@@ -70,7 +70,8 @@ public class OptionsAlgebraW extends OptionsAdvanced
 				int idx = description.getSelectedIndex();
 				if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
 					app.getKernel()
-							.setAlgebraStyle(AlgebraSettings.styleModes[idx]);
+.setAlgebraStyle(
+							AlgebraSettings.getStyleModeAt(idx));
 				} else {
 					app.getKernel().setAlgebraStyle(idx);
 
@@ -103,7 +104,13 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		}
 
 		int descMode = app.getKernel().getAlgebraStyle();
-		description.setSelectedIndex(descMode);
+		if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
+			description.setSelectedIndex(
+					AlgebraSettings.indexOfStyleMode(descMode));
+		} else {
+			description.setSelectedIndex(descMode);
+		}
+
 		// ignoreActions = false;
 	}
 

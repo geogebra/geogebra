@@ -1,6 +1,8 @@
 package org.geogebra.common.main.settings;
 
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
@@ -17,10 +19,11 @@ public class AlgebraSettings extends AbstractSettings {
 	private boolean showAuxiliaryObjects = false;
 	private boolean modeChanged = false;
 	private int[] collapsedNodes = null;
-	public static int[] styleModes = {
+
+	private static List<Integer> styleModes = Arrays.asList(
 			Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE,
 			Kernel.ALGEBRA_STYLE_VALUE, Kernel.ALGEBRA_STYLE_DEFINITION,
-			Kernel.ALGEBRA_STYLE_DESCRIPTION };
+			Kernel.ALGEBRA_STYLE_DESCRIPTION);
 
 	public AlgebraSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
@@ -118,4 +121,28 @@ public class AlgebraSettings extends AbstractSettings {
 						app.getPlain("Definition"), app.getPlain("Command") };
 	}
 
+	/**
+	 * Gives the algebra style mode of an index used in listboxs.
+	 * 
+	 * @param idx
+	 *            listbox index
+	 * @return The style mode of that index.
+	 */
+	public static int getStyleModeAt(int idx) {
+		if (idx < 0 || idx > styleModes.size()) {
+			return -1;
+		}
+		return styleModes.get(idx);
+	}
+
+	/**
+	 * Gives the index of an algebra style mode within a listbox;
+	 * 
+	 * @param mode
+	 *            The algebra style mode.
+	 * @return The index of the mode.
+	 */
+	public static int indexOfStyleMode(int mode) {
+		return styleModes.indexOf(mode);
+	}
 }

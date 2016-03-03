@@ -226,7 +226,13 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			descriptionButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					int selectedMode = app.getKernel().getAlgebraStyle();
-					descriptionButton.setSelectedIndex(selectedMode);
+					if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
+						descriptionButton.setSelectedIndex(
+								AlgebraSettings.indexOfStyleMode(selectedMode));
+
+					} else {
+						descriptionButton.setSelectedIndex(selectedMode);
+					}
 				}
 			});
 
@@ -237,10 +243,16 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 					int i = descriptionButton.getSelectedIndex();
 					if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
 						app.getKernel()
-								.setAlgebraStyle(AlgebraSettings.styleModes[i]);
+.setAlgebraStyle(
+								AlgebraSettings.getStyleModeAt(i));
+
 					} else {
 						app.getKernel().setAlgebraStyle(i);
 
+					}
+
+					if (app.getGuiManager().hasPropertiesView()) {
+						app.getGuiManager().getPropertiesView().repaintView();
 					}
 					app.getKernel().updateConstruction();
 					app.closePopups();
