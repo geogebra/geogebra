@@ -442,7 +442,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			helpPanel.updateGUI();
 
 			if (helpPopup == null && app != null) {
-				helpPopup = new InputBarHelpPopup(this.app, null);
+				helpPopup = new InputBarHelpPopup(this.app, this);
 				helpPopup.addAutoHidePartner(this.getElement());
 
 				if (btnHelpToggle != null) {
@@ -869,6 +869,10 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	public void removeFromParent() {
 		main.removeFromParent();
+	}
+
+	public void autocomplete(String s) {
+		editor.autocomplete(s);
 	}
 
 }

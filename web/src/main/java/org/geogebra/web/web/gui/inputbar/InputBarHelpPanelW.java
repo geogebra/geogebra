@@ -14,7 +14,7 @@ import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 
@@ -51,7 +51,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private SplitLayoutPanel sp;
 	private InlineLabel lblSyntax;
 	private MyTreeItem itmFunction;
-	private AutoCompleteTextFieldW inputField;
+	private AutoCompleteW inputField;
 
 	/**
 	 * @param app
@@ -67,7 +67,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 	}
 	
-	public void setInputField(AutoCompleteTextFieldW field){
+	public void setInputField(AutoCompleteW field) {
 		this.inputField = field;
 	}
 
@@ -412,10 +412,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 	void insertText(String s){
 		if (this.inputField != null) {
-			this.inputField.getTextField().setText(s);
-			ArrayList<String> arr = new ArrayList<String>();
-			arr.add(s);
-			this.inputField.validateAutoCompletion(0, arr);
+			this.inputField.autocomplete(s);
 		}
 	}
 

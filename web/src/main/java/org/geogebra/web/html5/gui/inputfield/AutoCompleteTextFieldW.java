@@ -1718,4 +1718,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			}
 		});
 	}
+
+	public void autocomplete(String s) {
+		getTextField().setText(s);
+		ArrayList<String> arr = new ArrayList<String>();
+		arr.add(s);
+		validateAutoCompletion(0, arr);
+	}
 }

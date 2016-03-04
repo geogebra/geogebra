@@ -33,4 +33,6 @@ public interface AutoCompleteW {
 	public void requestFocus();
 
 	public Widget toWidget();
+
+	public void autocomplete(String s);
 }

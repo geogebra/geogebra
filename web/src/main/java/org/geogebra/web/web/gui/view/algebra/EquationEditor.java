@@ -24,27 +24,7 @@ public class EquationEditor {
 		public void onSuggestionSelected(Suggestion s) {
 
 			String sugg = s.getReplacementString();
-			// For now, we can assume that sugg is in LaTeX format,
-			// and if it will be wrong, we can revise it later
-			// at the moment we shall focus on replacing the current
-			// word in MathQuillGGB with it...
-
-			// Although MathQuillGGB could compute the current word,
-			// it might not be the same as the following, as
-			// maybe it can be done easily for English characters
-			// but current word shall be internationalized to e.g.
-			// Hungarian, or even Arabic, Korean, etc. which are
-			// known by GeoGebra but unknown by MathQuillGGB...
-			updateCurrentWord(false);
-			String currentWord = curWord.toString();
-
-			// So we also provide currentWord as a heuristic or helper:
-			org.geogebra.web.html5.main.DrawEquationW
-					.writeLatexInPlaceOfCurrentWord(null,
-			        component.getLaTeXSpan(), sugg, currentWord, true);
-
-			// not to forget making the popup disappear after success!
-			sug.hideSuggestions();
+			autocomplete(sugg);
 		}
 	};
 
@@ -80,6 +60,31 @@ public class EquationEditor {
 		popup = new CompletionsPopup();
 		popup.addTextField(component);
 		sug = new ScrollableSuggestionDisplay(this);
+
+	}
+
+	public void autocomplete(String sugg) {
+		// For now, we can assume that sugg is in LaTeX format,
+		// and if it will be wrong, we can revise it later
+		// at the moment we shall focus on replacing the current
+		// word in MathQuillGGB with it...
+
+		// Although MathQuillGGB could compute the current word,
+		// it might not be the same as the following, as
+		// maybe it can be done easily for English characters
+		// but current word shall be internationalized to e.g.
+		// Hungarian, or even Arabic, Korean, etc. which are
+		// known by GeoGebra but unknown by MathQuillGGB...
+		updateCurrentWord(false);
+		String currentWord = curWord.toString();
+
+		// So we also provide currentWord as a heuristic or helper:
+		org.geogebra.web.html5.main.DrawEquationW
+				.writeLatexInPlaceOfCurrentWord(null, component.getLaTeXSpan(),
+						sugg, currentWord, true);
+
+		// not to forget making the popup disappear after success!
+		sug.hideSuggestions();
 
 	}
 	/**

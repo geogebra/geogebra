@@ -407,4 +407,8 @@ public class NewCASTableCellEditorW extends Label implements
 		editor.setLaTeX(plain, latex);
 
 	}
+
+	public void autocomplete(String s) {
+		editor.autocomplete(s);
+	}
 }
