@@ -7,8 +7,10 @@ import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
@@ -1427,6 +1429,90 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public Kernel getKernel() {
 		return kernel;
+	}
+
+	public ExpressionValue handleElementOf(ExpressionValue lt,
+			ExpressionValue rt) {
+		// TODO not implemented #1115
+		// Application.debug(rt.getClass()+" "+rt.getClass());
+		if (lt instanceof GeoList && rt instanceof ListValue) {
+
+			GeoList sublist = ((GeoList) lt);
+			ListValue lv = (ListValue) rt;
+			int idx = -1;
+			// convert list1(1,2) into Element[Element[list1,1],2]
+			for (int i = 0; i < lv.size(); i++) {
+				ExpressionNode ith = (ExpressionNode) lv.getMyList()
+						.getListElement(i);
+				idx = (int) Math.round(ith.evaluateDouble()) - 1;
+				if (i < lv.size() - 1) {
+					GeoElement nextSublist;
+					if (idx < 0) {
+						idx = sublist.size() + 1 + idx;
+					}
+					if (idx >= 0 && idx < sublist.size()) {
+						nextSublist = sublist.get(idx);
+					} else {
+						nextSublist = sublist.createTemplateElement();
+					}
+					if (nextSublist instanceof GeoList) {
+						sublist = (GeoList) nextSublist;
+					} else if (i == lv.size() - 2
+							&& nextSublist instanceof GeoFunction) {
+
+						return new MyDouble(getKernel(),
+								((GeoFunction) nextSublist)
+										.evaluate(lv.getListElement(i + 1)
+												.evaluateDouble()));
+					} else if (nextSublist instanceof GeoFunctionNVar
+							&& i == lv.size()
+									- ((GeoFunctionNVar) nextSublist)
+											.getVarNumber() - 1) {
+
+						return new MyDouble(getKernel(),
+								((GeoFunctionNVar) nextSublist).evaluate(lv
+										.toDouble(1)));
+					} else {
+						Log.debug("Wrong depth for Element: " + nextSublist
+								+ " :" + (lv.size() - i - 1));
+						return new MyDouble(getKernel(), Double.NaN);
+					}
+
+				}
+
+			}
+			if (idx < 0) {
+				idx = sublist.size() + 1 + idx;
+			}
+			GeoElement ret;
+			if (idx >= 0 && idx < sublist.size()) {
+				ret = sublist.get(idx).copyInternal(sublist.getConstruction());
+			} else {
+				ret = sublist.createTemplateElement();
+
+				ret.setUndefined();
+			}
+			if (ret instanceof GeoFunction) {
+
+				MyList list = lv.getMyList();
+				FunctionVariable fv = new FunctionVariable(kernel);
+				list.addListElement(fv);
+				return new Function(new ExpressionNode(kernel, lt,
+						Operation.ELEMENT_OF, list), fv);
+			}
+			if (ret instanceof GeoFunctionNVar) {
+				MyList list = lv.getMyList();
+				FunctionVariable[] vars = ((GeoFunctionNVar) ret)
+						.getFunctionVariables();
+				for (int i = 0; i < vars.length; i++) {
+					list.addListElement(vars[i]);
+				}
+				return new FunctionNVar(new ExpressionNode(kernel, lt,
+						Operation.ELEMENT_OF, list), vars);
+			}
+			return ret;
+		}
+		return illegalArgument(lt);
 	}
 
 }
