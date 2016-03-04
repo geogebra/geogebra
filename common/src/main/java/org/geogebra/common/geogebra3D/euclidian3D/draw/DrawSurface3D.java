@@ -39,6 +39,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static final short ROOT_MESH_INTERVALS_SPEED_SQUARE = ROOT_MESH_INTERVALS_SPEED
 			* ROOT_MESH_INTERVALS_SPEED;
 	private static final short ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR = 2;
+	// max factor
+	private static final short ROOT_MESH_INTERVALS_MAX_FACTOR = 2;
+	private static final double ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE = 1.0 / ROOT_MESH_INTERVALS_MAX_FACTOR;
 
 
 
@@ -257,6 +260,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			double uBorderMax = surfaceGeo.getMaxParameter(0);
 			double vBorderMin = surfaceGeo.getMinParameter(1);
 			double vBorderMax = surfaceGeo.getMaxParameter(1);
+			double uStep = Double.NaN;
+			double vStep = Double.NaN;
 
 			if (((GeoElement) surfaceGeo).isGeoFunctionNVar()
 					|| (surfaceGeo instanceof GeoFunction)) {
@@ -275,6 +280,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				// don't draw borders
 				wireframeBorderU = 0;
 				wireframeBorderV = 0;
+
+				// wireframe follows the grid
+				uStep = getView3D().getAxisNumberingDistance(0);
+				vStep = getView3D().getAxisNumberingDistance(1);
 			}else if (((GeoSurfaceCartesian3D) surfaceGeo)
 					.isSurfaceOfRevolutionAroundOx()) {
 				// cartesian surface of revolution
@@ -283,6 +292,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				// draw borders for v, not for u=x
 				wireframeBorderU = 0;
 				wireframeBorderV = 1;
+
+				// wireframe follows the grid
+				uStep = getView3D().getAxisNumberingDistance(0);
 			}else{
 				// cartesian surface NOT of revolution
 				// draw borders for u and v
@@ -315,20 +327,86 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					+ maxRWDistanceNoAngleCheck);
 
 			// create root mesh
-			int uN = 1 + (int) (ROOT_MESH_INTERVALS_SPEED * Math.sqrt(uDelta
-					/ vDelta));
-			int vN = 1 + ROOT_MESH_INTERVALS_SPEED_SQUARE / uN;
-			switch (levelOfDetail) {
-			case SPEED:
-				wireFrameStepU = 1;
-				wireFrameStepV = 1;
-				break;
-			case QUALITY:
-				wireFrameStepU = ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-				wireFrameStepV = ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-				uN *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-				vN *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-				break;
+			wireFrameStepU = 1;
+			wireFrameStepV = 1;
+
+			double uOverVFactor = uDelta / vDelta;
+			if (uOverVFactor > ROOT_MESH_INTERVALS_SPEED) {
+				uOverVFactor = ROOT_MESH_INTERVALS_SPEED;
+			} else if (uOverVFactor < 1.0 / ROOT_MESH_INTERVALS_SPEED) {
+				uOverVFactor = 1.0 / ROOT_MESH_INTERVALS_SPEED;
+			}
+			int uN = (int) (ROOT_MESH_INTERVALS_SPEED * uOverVFactor);
+			int vN = ROOT_MESH_INTERVALS_SPEED_SQUARE / uN;
+			uN += 2;
+			vN += 2;
+
+			double uMin = Double.NaN;
+			double uMax = Double.NaN;
+			double vMin = Double.NaN;
+			double vMax = Double.NaN;
+			
+			if (!Double.isNaN(uStep)) {
+				double factor = uN * uStep / uDelta;
+				// Log.debug("factor = " + factor);
+				if (factor > 1) {
+					wireFrameStepU = (int) Math.ceil(factor);
+				} else if (factor < ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE) {
+					int stepFactor = (int) Math
+							.ceil(ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE
+									/ factor);
+					// Log.debug("stepFactor = " + stepFactor);
+					uStep *= stepFactor;
+				}
+				if (levelOfDetail == LevelOfDetail.QUALITY
+						&& wireFrameStepU == 1) {
+					wireFrameStepU *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+				}
+				uMax = Math.floor(uBorderMax / uStep) * uStep;
+				uMin = Math.ceil(uBorderMin / uStep) * uStep;
+				uDelta = uMax - uMin;
+				double ratio = uDelta / uStep;
+				int ratioInt = (int) ratio;
+				double mod = ratio - ratioInt;
+				uN = (ratioInt + 1) * wireFrameStepU + 1;
+				// delta has to widened a bit to start at a correct tick
+				uDelta += (1 + (1.0 - mod) / wireFrameStepU) * uStep;
+			} else {
+				if (levelOfDetail == LevelOfDetail.QUALITY) {
+					wireFrameStepU *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+					uN *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+				}
+			}
+			if (!Double.isNaN(vStep)) {
+				double factor = vN * vStep / vDelta;
+				// Log.debug("factor = " + factor);
+				if (factor > 1) {
+					wireFrameStepV = (int) Math.ceil(factor);
+				} else if (factor < ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE) {
+					int stepFactor = (int) Math
+							.ceil(ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE
+									/ factor);
+					// Log.debug("stepFactor = " + stepFactor);
+					vStep *= stepFactor;
+				}
+				if (levelOfDetail == LevelOfDetail.QUALITY
+						&& wireFrameStepV == 1) {
+					wireFrameStepV *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+				}
+				vMax = Math.floor(vBorderMax / vStep) * vStep;
+				vMin = Math.ceil(vBorderMin / vStep) * vStep;
+				vDelta = vMax - vMin;
+				double ratio = vDelta / vStep;
+				int ratioInt = (int) ratio;
+				double mod = ratio - ratioInt;
+				vN = (ratioInt + 1) * wireFrameStepV + 1;
+				// delta has to widened a bit to start at a correct tick
+				vDelta += (1 + (1.0 - mod) / wireFrameStepV) * vStep;
+			} else {
+				if (levelOfDetail == LevelOfDetail.QUALITY) {
+					wireFrameStepV *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+					vN *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+				}
 			}
 
 			debug("grids: " + uN + ", " + vN);
@@ -336,8 +414,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			double du = uDelta / uN;
 			double dv = vDelta / vN;
 
-			firstCorner = createRootMesh(uBorderMin, uBorderMax - du,
-					uBorderMax, uN, vBorderMin, vBorderMax - dv, vBorderMax, vN);
+			if (Double.isNaN(uMax)) {
+				uMax = uBorderMax - du;
+			}
+			if (Double.isNaN(vMax)) {
+				vMax = vBorderMax - dv;
+			}
+
+			firstCorner = createRootMesh(uBorderMin, uMax, uBorderMax, uN,
+					vBorderMin, vMax, vBorderMax, vN);
 
 			// split root mesh as start
 			currentSplitIndex = 0;
@@ -741,13 +826,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			if (wireframeBorderU == 1) { // draw edges
 				wireframeBottomCorners[0] = first;
 				wireframeIndexU = 1;
+				wireFrameSetU = 1;
 			}
-			wireFrameSetU = 1;
 			if (wireframeBorderV == 1) { // draw edges
 				wireframeRightCorners[0] = first;
 				wireframeIndexV = 1;
+				wireFrameSetV = 1;
 			}
-			wireFrameSetV = 1;
 		}
 
 		// first row
