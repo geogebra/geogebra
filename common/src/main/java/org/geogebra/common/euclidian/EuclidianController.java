@@ -10703,17 +10703,21 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoElement[] extremum(Hits hits) {
-		Hits h = hits.getHits(Test.GEOFUNCTION, new Hits());
-		if (h.size() > 0) {
-			GeoFunction function = (GeoFunction) h.get(0);
-			if(function.isPolynomialFunction(true)){
+		// find a function
+		addSelectedFunction(hits, 1, false);
+
+		if (selFunctions() > 0) {
+			// get the function and clear the selection
+			GeoFunction function = getSelectedFunctions()[0];
+
+			if (function.isPolynomialFunction(true)) {
 				// calculates all extremum points (e.g. x^2)
-				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(this.kernel.getConstruction(),
-						null, function);
+				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(
+						this.kernel.getConstruction(), null, function);
 				return algo.getExtremumPoints();
 			}
 			// calculates only the extremum points that are visible at the
-			// moment (e.g. sin(x))
+			// moment (e.g. for sin(x))
 			AlgoExtremumMulti algo = new AlgoExtremumMulti(
 					this.kernel.getConstruction(), null, function, this.view);
 			return algo.getExtremumPoints();
@@ -10722,26 +10726,31 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoElement[] roots(Hits hits) {
-		Hits h = hits.getHits(Test.GEOFUNCTION, new Hits());
+		// find a function
+		addSelectedFunction(hits, 1, false);
+
 		GeoFunction function = null;
-		if(h.size() == 0) {
-			h = hits.getHits(Test.GEOLINE, new Hits());
-			if(h.size() > 0) {
-				GeoLine line = (GeoLine) h.get(0);
-				function = line.getGeoFunction();
-			}
+		if (selFunctions() > 0) {
+			// get the function and clear the selection
+			function = getSelectedFunctions()[0];
 		} else {
-			function = (GeoFunction) h.get(0);
+			// if no function was found, test for lines
+			addSelectedLine(hits, 1, false);
+			if (selLines() > 0) {
+				// get the line and clear the selection
+				function = getSelectedLines()[0].getGeoFunction();
+			}
 		}
 
 		if (function != null) {
-			if(function.isPolynomialFunction(true)) {
+			if (function.isPolynomialFunction(true)) {
 				// calculates all root points (e.g. x^2 - 1)
-				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(this.kernel.getConstruction(), null, function);
+				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(
+						this.kernel.getConstruction(), null, function);
 				return algo.getRootPoints();
 			}
 			// calculates only the root points that are visible at the moment
-			// (e.g. sin(x))
+			// (e.g. for sin(x))
 			AlgoRoots algo = new AlgoRoots(this.kernel.getConstruction(), null,
 					function, this.view);
 			return algo.getRootPoints();
