@@ -3452,7 +3452,8 @@ namespace giac {
     l.erase(l.begin());
     gen res;
     gen tmp2(polynome2poly1(temp,1));
-    res=l.empty()?tmp2:r2e(tmp2,l,contextptr); // (tmp2.type==_FRAC?gen(fraction(r2e(tmp2._FRACptr->num,l,contextptr),r2e(tmp2._FRACptr->den,l,contextptr))):r2e(tmp2,l,contextptr));
+    //res=l.empty()?tmp2:r2e(tmp2,l,contextptr); 
+    res=l.empty()?tmp2:((tmp2.type==_FRAC && tmp2._FRACptr->den.type==_VECT && tmp2._FRACptr->den._VECTptr->size()>1)?gen(fraction(r2e(tmp2._FRACptr->num,l,contextptr),r2e(tmp2._FRACptr->den,l,contextptr))):r2e(tmp2,l,contextptr));
     if (res.type==_FRAC && res._FRACptr->num.type==_VECT && res._FRACptr->den.type<_POLY){
       res=inv(res._FRACptr->den,contextptr)*res._FRACptr->num;
     }
