@@ -1219,9 +1219,16 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		return (fun != null) && (fun.getVarNumber() == 2) && !isInequality();
 	}
 
+	private final boolean isInequalityOrFun2Var() {
+		return isInequality() || ((fun != null) && (fun.getVarNumber() == 2));
+	}
+
 	@Override
 	public int getMinimumLineThickness() {
-		return (isInequality != null && isInequality) ? 0 : 1;
+		if (isInequalityOrFun2Var()) {
+			return 0;
+		}
+		return 1;
 	}
 
 	public FunctionVariable[] getFunctionVariables() {
@@ -1366,4 +1373,19 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	public ValueType getValueType() {
 		return ValueType.FUNCTION;
 	}
+
+	@Override
+	public boolean showLineProperties() {
+		if (super.showLineProperties()) {
+			return true;
+		}
+
+		if (kernel.getApplication().has(Feature.SURFACE_WIREFRAME)) {
+			return isInequalityOrFun2Var();
+		}		
+		// remove this if we don't app always has Feature.SURFACE_WIREFRAME
+		return isInequality();
+		
+	}
+
 }

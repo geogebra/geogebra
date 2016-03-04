@@ -7910,14 +7910,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return whether line properties of this object should be editable by Prop. View
 	 */
 	public boolean showLineProperties(){
-		return isPath()
-		
-		// # 4212		
-		//		|| (isGeoNumeric() && (((GeoNumeric) this)
-		//				.isDrawable() 
-		//		|| this.getDefaultGeoType() >=0 ))
-				|| ((this instanceof GeoFunctionNVar) && ((GeoFunctionNVar) this)
-				.isInequality());
+		return isPath();
 	}
 	
 	public boolean evaluatesTo3DVector(){
