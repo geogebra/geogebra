@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Vector;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.StringTemplate;
@@ -574,6 +574,10 @@ public class ProverBotanasMethod {
 						}
 						/* T is not empty */
 						if (!(casResult.equals("{}"))) {
+							// casResult = casResult.substring(1,
+							// casResult.length() - 1);
+							// String factResult = cas.getCurrentCAS()
+							// .evaluateRaw("factor(" + casResult + ")");
 							ValidExpression resultVE = (geoStatement
 									.getKernel().getGeoGebraCAS())
 									.getCASparser()
@@ -700,10 +704,10 @@ public class ProverBotanasMethod {
 									}
 									/*
 									 * substitution list e.g. [a,v7],[b,v8]
-									 * where a name of segment and v7 the
+									 * where a is the segment and v7 the
 									 * variable
 									 */
-									ArrayList<Vector<String>> substitutions = ((AlgoDependentBoolean) algo)
+									ArrayList<Entry<GeoElement, String>> substitutions = ((AlgoDependentBoolean) algo)
 											.getVarSubstListOfSegs();
 									/* copy input expression */
 									ExpressionNode statementRootCopy = ((AlgoDependentBoolean) algo)
@@ -716,24 +720,26 @@ public class ProverBotanasMethod {
 									 */
 									String substOutput = new String();
 									if (substitutions != null) {
-										Iterator<Vector<String>> itSubst = substitutions
+										Iterator<Entry<GeoElement, String>> itSubst = substitutions
 												.iterator();
 										/* list of substitutions */
 										StringBuilder substListStr = new StringBuilder();
 										substListStr.append("{");
 										while (itSubst.hasNext()) {
-											Vector<String> currSubst = itSubst
+											Entry<GeoElement, String> currSubst = itSubst
 													.next();
 											/*
 											 * reserved var substitute with
 											 * calculated solution
 											 */
 											if (currSubst
-													.get(1)
+													.getValue()
 													.equals(geo
 															.toString(StringTemplate.defaultTemplate))) {
 												substListStr.append("ggbtmpvar"
-														+ currSubst.get(0)
+																+ currSubst
+																		.getKey()
+																		.getLabelSimple()
 														+ "=" + geoSol1 + ",");
 											} else {
 												/*
@@ -741,7 +747,9 @@ public class ProverBotanasMethod {
 												 * with 1
 												 */
 												substListStr.append("ggbtmpvar"
-														+ currSubst.get(0)
+																+ currSubst
+																		.getKey()
+																		.getLabelSimple()
 														+ "=1,");
 											}
 										}

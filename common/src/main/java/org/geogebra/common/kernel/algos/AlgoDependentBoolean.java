@@ -13,13 +13,15 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.math.BigInteger;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Vector;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.Construction;
@@ -65,7 +67,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	private ArrayList<Polynomial> extraPolys = new ArrayList<Polynomial>();
 	private int nrOfMaxDecimals;
 	// substitution list of segments with variables
-	private ArrayList<Vector<String>> varSubstListOfSegs;
+	private ArrayList<Map.Entry<GeoElement, String>> varSubstListOfSegs;
 
 	private boolean trustable = true;
 
@@ -742,15 +744,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	public String getStrForGiac() {
 		String[] labels = new String[allSegmentsFromExpression.size()];
 		botanaVars = new Variable[allSegmentsFromExpression.size()];
-		varSubstListOfSegs = new ArrayList<Vector<String>>();
+		varSubstListOfSegs = new ArrayList<Entry<GeoElement, String>>();
 		int index = 0;
 		for (GeoSegment segment : allSegmentsFromExpression) {
 			labels[index] = segment.getLabel(StringTemplate.giacTemplate);
 			botanaVars[index] = new Variable();
-			Vector<String> subst = new Vector<String>(2);
 			// collect substitution of segments with variables
-			subst.add(segment.getLabel(StringTemplate.defaultTemplate));
-			subst.add(botanaVars[index].toString());
+			Entry<GeoElement, String> subst = new AbstractMap.SimpleEntry<GeoElement, String>(
+					segment, botanaVars[index].toString());
 			varSubstListOfSegs.add(subst);
 			Variable[] thisSegBotanaVars = segment.getBotanaVars(segment);
 			Polynomial s = new Polynomial(botanaVars[index]);
@@ -872,7 +873,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	/**
 	 * @return substitution list of segments with variables
 	 */
-	public ArrayList<Vector<String>> getVarSubstListOfSegs() {
+	public ArrayList<Entry<GeoElement, String>> getVarSubstListOfSegs() {
 		return varSubstListOfSegs;
 	}
 
