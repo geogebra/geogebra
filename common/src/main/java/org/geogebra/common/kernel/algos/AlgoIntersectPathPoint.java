@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
@@ -21,7 +22,6 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -32,9 +32,17 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegionAlgo {
 
 	private Path path; // input
-	protected GeoPointND point; // input
-	protected GeoPointND P; // output
+	private GeoPointND point; // input
+	private GeoPointND P; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param path
+	 *            path
+	 * @param point
+	 *            point
+	 */
 	public AlgoIntersectPathPoint(Construction cons, Path path, GeoPointND point) {
 		super(cons);
 		this.path = path;
@@ -45,6 +53,8 @@ public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegi
 
 		// for AlgoElement
 		setInputOutput();
+		P.setVisualStyle(cons.getConstructionDefaults().getDefaultGeo(
+				ConstructionDefaults.DEFAULT_POINT_DEPENDENT));
 		compute();
 	}
 
@@ -57,10 +67,20 @@ public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegi
 	 *            path
 	 */
 	protected void createOutputPoint(Construction cons, Path path) {
-		P = new GeoPoint(cons);
-		((GeoPoint) P).setPath(path);
+		P = point.copy();
+		P.setPath(path);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param path
+	 *            path
+	 * @param point
+	 *            point
+	 */
 	public AlgoIntersectPathPoint(Construction cons, String label, Path path,
 			GeoPointND point) {
 		this(cons, path, point);
@@ -84,6 +104,10 @@ public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegi
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * 
+	 * @return resulting point (same coords as input, may be undefined)
+	 */
 	public GeoPointND getP() {
 		return P;
 	}
@@ -92,7 +116,7 @@ public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegi
 	 * set coords of closest point to input point coords
 	 */
 	protected void setCoords() {
-		((GeoPoint) P).setCoords((GeoPoint) point);
+		P.set(point);
 	}
 
 	@Override
@@ -101,13 +125,13 @@ public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegi
 		if (input[0].isDefined() && point.isDefined()) {
 			// get the closest point on path to input point
 			if (path instanceof GeoFunction) {
-				Function fun = (Function) ((GeoFunction) path).getFunction()
+				Function fun = ((GeoFunction) path).getFunction()
 						.deepCopy(kernel);
 				Coords coords = point.getCoordsInD2();
 				double val = AlgoDistancePointObject
 						.getClosestFunctionValueToPoint(fun, coords.getX(),
 								coords.getY());
-				((GeoPoint) P).setCoords(val, fun.evaluate(val), 1.0);
+				P.setCoords(val, fun.evaluate(val), 1.0);
 			} else {
 				setCoords();
 				path.pointChanged(P);
