@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
@@ -690,12 +691,16 @@ axesIcon, iconHeight);
 							.getPenLineStyle()));
 				} else {
 					boolean geosOK = (geos.length > 0);
+					int maxMinimumThickness = 0;
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
 						if (!geo.showLineProperties()) {
 							geosOK = false;
 							break;
+						}
+						if (geo.getMinimumLineThickness() == 1) {
+							maxMinimumThickness = 1;
 						}
 					}
 
@@ -704,12 +709,15 @@ axesIcon, iconHeight);
 					if (geosOK) {
 						// setFgColor(((GeoElement)geos[0]).getObjectColor());
 
+						removeThisActionListenerTo(this);
 						setFgColor(Color.black);
+						getMySlider().setMinimum(maxMinimumThickness);
 						setSliderValue(((GeoElement) geos[0])
 								.getLineThickness());
 
 						setSelectedIndex(lineStyleMap
 								.get(((GeoElement) geos[0]).getLineType()));
+						addThisActionListenerTo(this);
 
 						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 					}
@@ -1020,6 +1028,14 @@ axesIcon, iconHeight);
 		
 		
 
+	}
+
+	void addThisActionListenerTo(AbstractButton button) {
+		button.addActionListener(this);
+	}
+
+	void removeThisActionListenerTo(AbstractButton button) {
+		button.removeActionListener(this);
 	}
 
 	// ========================================
