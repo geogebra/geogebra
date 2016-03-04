@@ -8348,9 +8348,9 @@ namespace giac {
       it=unit_conversion_map().find(s.c_str());
     }
     if (it==itend)
-      return makevecteur(res*find_or_make_symbol("_"+s,false,contextptr));
+      return makevecteur(operator_times(res,find_or_make_symbol("_"+s,false,contextptr),contextptr));
     vecteur v=mksa_unit2vecteur(it->second);
-    v[0]=res*v[0];
+    v[0]=operator_times(res,v[0],contextptr);
     return v;
   }
 
@@ -8364,7 +8364,7 @@ namespace giac {
       vecteur res0=mksa_convert(v[1],contextptr);
       vecteur res1=mksa_convert(v[0],contextptr);
       vecteur res=addvecteur(res0,res1);
-      res.front()=res0.front()*res1.front();
+      res.front()=operator_times(res0.front(),res1.front(),contextptr);
       return res;
     }
     if (g._SYMBptr->sommet==at_inv){
@@ -8384,7 +8384,7 @@ namespace giac {
       res[0]=pow(res[0],e,contextptr);
       int s=int(res.size());
       for (int i=1;i<s;++i)
-	res[i]=e*res[i];
+	res[i]=operator_times(e,res[i],contextptr);
       return res;
     }
     if (g._SYMBptr->sommet==at_prod){
@@ -8396,7 +8396,7 @@ namespace giac {
       const_iterateur it=v.begin(),itend=v.end();
       for (;it!=itend;++it){
 	vecteur tmp(mksa_convert(*it,contextptr));
-	res[0]=res[0]*tmp[0];
+	res[0]=operator_times(res[0],tmp[0],contextptr);
 	iterateur it=res.begin()+1,itend=res.end(),jt=tmp.begin()+1,jtend=tmp.end();
 	for (;it!=itend && jt!=jtend;++it,++jt)
 	  *it=*it+*jt;

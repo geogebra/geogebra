@@ -1912,7 +1912,10 @@ namespace giac {
       }
       fn=c*fn;
     }
-    return rdiv(fn,fd,contextptr);
+    gen res=rdiv(fn,fd,contextptr);
+    if (has_inf_or_undef(res))
+      return fraction(fn,fd);
+    return res;
   }
 
   gen r2sym(const vecteur & v,const vecteur & l,GIAC_CONTEXT){

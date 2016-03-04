@@ -2419,7 +2419,9 @@ namespace giac {
 #endif
 	evaled=rdiv(_FRACptr->num.evalf(level,contextptr),_FRACptr->den.evalf(level,contextptr),contextptr);
       return true;
-    case _FUNC: case _MOD: case _ROOT:
+    case _FUNC: 
+      return in_eval_func(*this,&evaled,contextptr);     
+    case _MOD: case _ROOT:
       return false; // replace in RPN mode
     case _EXT:
       evaled=alg_evalf(_EXTptr->eval(level,contextptr),(_EXTptr+1)->eval(level,contextptr),contextptr);
@@ -4433,11 +4435,11 @@ namespace giac {
 	vecteur & va=*a._SYMBptr->feuille._VECTptr;
 	vecteur & vb=*b._SYMBptr->feuille._VECTptr;
 	if (va[1]==vb[1])
-	  return new_ref_symbolic(symbolic(at_unit,makenewvecteur(va[0]+vb[0],va[1])));
+	  return new_ref_symbolic(symbolic(at_unit,makenewvecteur(operator_plus(va[0],vb[0],contextptr),va[1])));
 	gen g=mksa_reduce(vb[1]/va[1],contextptr);
 	gen tmp=chk_not_unit(g);
 	if (is_undef(tmp)) return tmp;
-	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(va[0]+g*vb[0],va[1])));
+	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(operator_plus(va[0],operator_times(g,vb[0],contextptr),contextptr),va[1])));
       }
       if (lidnt(b).empty()){
 	gen g=mksa_reduce(a,contextptr);
@@ -6341,16 +6343,16 @@ namespace giac {
 	res=ratnormal(res);
 	if (is_one(res))
 	  return va[0]*v[0];
-	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(va[0]*v[0],res)));
+	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(operator_times(va[0],v[0],contextptr),res)));
       }
       else {
 	if (lidnt(b).empty())
-	  return new_ref_symbolic(symbolic(at_unit,makenewvecteur(va[0]*b,va[1])));
+	  return new_ref_symbolic(symbolic(at_unit,makenewvecteur(operator_times(va[0],b,contextptr),va[1])));
       }
     }
     if (b.is_symb_of_sommet(at_unit) && lidnt(a).empty()){
       vecteur & v=*b._SYMBptr->feuille._VECTptr;
-      return new_ref_symbolic(symbolic(at_unit,makenewvecteur(a*v[0],v[1])));
+      return new_ref_symbolic(symbolic(at_unit,makenewvecteur(operator_times(a,v[0],contextptr),v[1])));
     }
     gen var1,var2,res1,res2;
     if (is_algebraic_program(a,var1,res1)){
@@ -7202,7 +7204,7 @@ namespace giac {
       if (b.type==_FLOAT_)
 	return rdiv(a,evalf_double(b,1,contextptr),contextptr);      
       if (a.is_symb_of_sommet(at_unit) || b.is_symb_of_sommet(at_unit))
-	return a*inv(b,contextptr);
+	return operator_times(a,inv(b,contextptr),contextptr);
       if (is_one(b))
 	return chkmod(a,b);
       if (is_minus_one(b))
@@ -8033,7 +8035,7 @@ namespace giac {
     return superieur_egal(b,a,contextptr);
   }
 
-  static bool has_inf_or_undef(const gen & g){
+  bool has_inf_or_undef(const gen & g){
     if (g.type!=_VECT)
       return is_inf(g) || is_undef(g);
     const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();

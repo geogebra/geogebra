@@ -4952,6 +4952,8 @@ namespace giac {
       }
     }
     f=qf.eval(eval_level(contextptr),contextptr);
+    if (f.type<=_POLY || f.type==_FRAC || f.type==_FLOAT_)
+      *logptr(contextptr) << "Warning, constant function " << f << " applied to " << b << endl;
     if ( f.is_symb_of_sommet(at_program) && qf.type==_IDNT ){
       value=f._SYMBptr->feuille;
       if (value.type!=_VECT)

@@ -844,6 +844,7 @@ namespace giac {
   bool is_undef(const gen & e);
   bool is_undef(const polynome & p);
   bool is_undef(const vecteur & v);
+  bool has_inf_or_undef(const gen & g);
   bool is_undef(const sparse_poly1 & s);
   bool is_zero__VECT(const vecteur & a,GIAC_CONTEXT);
   bool has_denominator(const gen & n);
