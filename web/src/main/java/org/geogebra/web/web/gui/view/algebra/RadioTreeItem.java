@@ -215,6 +215,10 @@ public class RadioTreeItem extends AVTreeItem
 			add(lblStep);
 			add(tfStep);
 
+			tfMin.setDeferredFocus(true);
+			tfMax.setDeferredFocus(true);
+			tfStep.setDeferredFocus(true);
+
 			tfMin.addKeyHandler(this);
 			tfMax.addKeyHandler(this);
 			tfStep.addKeyHandler(this);
