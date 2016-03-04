@@ -1191,15 +1191,20 @@ public final class DrawList extends CanvasDrawable
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
 		if (geoList.drawAsComboBox()) {
-			// DrawList dl = view.getOpenedComboBox();
-			// if (dl != null && dl != this) {
-			// return false;
-			// }
 
-			return isDrawingOnCanvas()
-					? super.hit(x, y, hitThreshold) || isControlHit(x, y)
-							|| isOptionsHit(x, y)
-					: box.getBounds().contains(x, y);
+			if (isDrawingOnCanvas()) {
+				DrawList opened = view.getOpenedComboBox();
+				if (opened != null && opened != this
+						&& opened.isOptionsHit(x, y)) {
+					return false;
+				}
+
+				return super.hit(x, y, hitThreshold) || isControlHit(x, y)
+						|| isOptionsHit(x, y);
+			}
+
+			return box.getBounds().contains(x, y);
+
 		}
 
 		int size = drawables.size();
