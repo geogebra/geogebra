@@ -595,11 +595,7 @@ public class ConstructionDefaults {
 			break;
 
 		case FUNCTION_NVAR:
-			if (((GeoFunctionNVar) geo).isBooleanFunction()) {
-				type = DEFAULT_INEQUALITY;
-			} else {
-				type = DEFAULT_FUNCTION_NVAR;
-			}
+			type = getDefaultTypeForFunctionNVar((GeoFunctionNVar) geo);
 			break;
 		case FUNCTION:
 			if (((GeoFunction) geo).isBooleanFunction()) {
@@ -661,6 +657,22 @@ public class ConstructionDefaults {
 		}
 		
 
+		return type;
+	}
+
+	/**
+	 * 
+	 * @param geo
+	 *            function n var
+	 * @return default type for this geo
+	 */
+	protected int getDefaultTypeForFunctionNVar(GeoFunctionNVar geo) {
+		int type;
+		if (geo.isBooleanFunction()) {
+			type = DEFAULT_INEQUALITY;
+		} else {
+			type = DEFAULT_FUNCTION_NVAR;
+		}
 		return type;
 	}
 

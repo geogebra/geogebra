@@ -1216,11 +1216,19 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 
 	@Override
 	public boolean hasLevelOfDetail() {
-		return (fun != null) && (fun.getVarNumber() == 2) && !isInequality();
+		return isFun2Var();
 	}
 
 	private final boolean isInequalityOrFun2Var() {
 		return isInequality() || ((fun != null) && (fun.getVarNumber() == 2));
+	}
+
+	/**
+	 * 
+	 * @return true if it's a function 2 var (not inequality)
+	 */
+	public final boolean isFun2Var() {
+		return (fun != null) && (fun.getVarNumber() == 2) && !isInequality();
 	}
 
 	@Override

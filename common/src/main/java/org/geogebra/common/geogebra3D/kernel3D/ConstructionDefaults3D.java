@@ -16,6 +16,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -240,4 +241,13 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		return super.getDefaultType(geo);
 
 	}
+
+	@Override
+	protected int getDefaultTypeForFunctionNVar(GeoFunctionNVar geo) {
+		if (geo.isFun2Var()) {
+			return DEFAULT_SURFACECARTESIAN3D;
+		}
+		return super.getDefaultTypeForFunctionNVar(geo);
+	}
+
 }
