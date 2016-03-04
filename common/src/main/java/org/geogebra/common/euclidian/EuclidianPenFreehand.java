@@ -1,10 +1,8 @@
-package org.geogebra.web.html5.euclidian;
+package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.EuclidianPen;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
