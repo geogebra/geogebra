@@ -20,18 +20,21 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -208,15 +211,9 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 
 				// we do NOT expand GeoFunctionConditional objects in expression
 				// tree
-
-				Function fun = ((Functional) leftValue).getFunction();
-				FunctionVariable x = fun.getFunctionVariable();
-				// don't destroy the function
-				ExpressionNode funcExpression = fun.getExpression().getCopy(
-						fun.getKernel());
-				// now replace every x in function by the expanded argument
-				return funcExpression.replace(x,
-						expandFunctionDerivativeNodes(node.getRight())).wrap();
+				return substituteFunction((Functional) leftValue,
+						node.getRight());
+				
 			case FUNCTION_NVAR:
 				// make sure we expand $ in $A1(x,y)
 				if (leftValue.isExpressionNode()) {
@@ -263,7 +260,30 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				}
 				return ((Functional) leftValue).getGeoDerivative(order);
 			case ELEMENT_OF:
-				Log.debug("TODO: expand list1(x)");
+				Log.debug("expand");
+				  //list(x,x) cannot be expanded	
+				ExpressionValue rt = node.getRight().unwrap();
+				if (rt instanceof ListValue) {
+					ListValue list = (ListValue) rt;
+					for (int i = 0; i < list.size() - 1; i++) {
+					  if(list.getListElement(i).wrap().containsFreeFunctionVariable(null)){
+							Log.debug("volatile");
+						  return ev;
+					  }
+					}
+				 
+					ExpressionNodeEvaluator expev = ((GeoList) leftValue)
+							.getKernel().getExpressionNodeEvaluator();
+					ExpressionValue res = expev.handleElementOf(leftValue,
+							node.getRight(), 1);
+					if (res instanceof Functional) {
+						return substituteFunction(((Functional) res),list
+								.getListElement(list.size() - 1));
+					}
+					Log.debug("TODO: expand list1(x)");
+				}
+				// element of with no-list rhs: weird, don't expand
+				return node;
 				// remove spreadsheet $ references, i.e. $A1 -> A1
 			case $VAR_ROW:
 			case $VAR_COL:
@@ -286,6 +306,18 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 		return ev;
 	}
 
+	private static ExpressionValue substituteFunction(Functional leftValue,
+			ExpressionValue right) {
+		Function fun = leftValue.getFunction();
+		FunctionVariable x = fun.getFunctionVariable();
+		// don't destroy the function
+		ExpressionNode funcExpression = fun.getExpression().getCopy(
+				fun.getKernel());
+		// now replace every x in function by the expanded argument
+		return funcExpression.replace(x, expandFunctionDerivativeNodes(right)
+				.wrap());
+	}
+
 	/**
 	 * @param ev
 	 *            expression
@@ -303,7 +335,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 			}
 			// list(1,x) is function dependent, list(1,2) is not
 			if (op.equals(Operation.ELEMENT_OF)) {
-				return node.getRightTree().containsFreeFunctionVariable(null);
+				return node.containsFreeFunctionVariable(null);
 			}
 			return containsFunctions(node.getLeft())
 					|| containsFunctions(node.getRight());

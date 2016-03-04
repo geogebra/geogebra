@@ -1431,8 +1431,17 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		return kernel;
 	}
 
+	/**
+	 * @param lt
+	 *            list from which element is to be chosen
+	 * @param rt
+	 *            list of indices
+	 * @param skip
+	 *            0 to evaluate completely, >0 to skip last skip arguments
+	 * @return list element
+	 */
 	public ExpressionValue handleElementOf(ExpressionValue lt,
-			ExpressionValue rt) {
+			ExpressionValue rt, int skip) {
 		// TODO not implemented #1115
 		// Application.debug(rt.getClass()+" "+rt.getClass());
 		if (lt instanceof GeoList && rt instanceof ListValue) {
@@ -1454,12 +1463,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						nextSublist = sublist.get(idx);
 					} else {
 						nextSublist = sublist.createTemplateElement();
+						nextSublist.setUndefined();
 					}
 					if (nextSublist instanceof GeoList) {
 						sublist = (GeoList) nextSublist;
 					} else if (i == lv.size() - 2
 							&& nextSublist instanceof GeoFunction) {
-
+						if (skip > 0) {
+							return functionOrUndefined(nextSublist);
+						}
 						return new MyDouble(getKernel(),
 								((GeoFunction) nextSublist)
 										.evaluate(lv.getListElement(i + 1)
@@ -1513,6 +1525,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return ret;
 		}
 		return illegalArgument(lt);
+	}
+
+	private ExpressionValue functionOrUndefined(GeoElement nextSublist) {
+		return nextSublist.isDefined() ? nextSublist : new Function(
+				new ExpressionNode(getKernel(), Double.NaN),
+				new FunctionVariable(getKernel()));
 	}
 
 }
