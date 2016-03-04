@@ -1061,8 +1061,6 @@ public class DrawEquationW extends DrawEquation {
 		$wnd.$ggbQuery(elSecondInside).mathquillggb('revert');
 		elSecondInside.innerHTML = newFormula;
 
-		//console.log(newFormula);
-
 		// note: we use this from historyPopup, so it should not ask focus!
 		var whattofocus = $wnd.$ggbQuery(elSecondInside).mathquillggb(
 				'editable');

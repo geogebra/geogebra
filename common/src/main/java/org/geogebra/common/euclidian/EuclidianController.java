@@ -9230,6 +9230,7 @@ public abstract class EuclidianController {
 				textComponent.replaceSelection(sb.toString());
 			} else if (shift) {
 				processZoomRectangle();
+				stopCollectingMinorRepaints();
 				return;
 			}
 			break;
