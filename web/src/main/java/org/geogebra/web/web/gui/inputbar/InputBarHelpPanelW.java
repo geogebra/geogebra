@@ -352,7 +352,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		Localization loc = app.getLocalization();
 
 		String syntaxBasic = loc.getCommandSyntax(cmd);
-		String syntaxCAS = loc.getCommandSyntaxCAS(cmd);
+
 
 		if (GeoGebraConstants.CAS_VIEW_ENABLED
 		        && loc.isCASCommand(cmd)) {
@@ -364,7 +364,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			headCAS.addStyleName("inputHelp-headerCAS");
 			ret.add(headCAS);
 			
-			
+			String syntaxCAS = loc.getCommandSyntaxCAS(cmd);
 			formattedHTMLString(ret,syntaxCAS,true);
 			
 
