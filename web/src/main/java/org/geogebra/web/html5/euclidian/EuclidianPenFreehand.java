@@ -49,6 +49,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		resetParameters();
 		switch (expected) {
 		case circleThreePoints:
+			createCircleWithThreePoints = true;
 		case circle:
 			CIRCLE_MAX_SCORE = 0.15;
 			CIRCLE_MIN_DET = 0.9;
@@ -220,6 +221,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		RECTANGLE_LINEAR_TOLERANCE = 0.20;
 		POLYGON_LINEAR_TOLERANCE = 0.20;
 		RECTANGLE_ANGLE_TOLERANCE = 15 * Math.PI / 180;
+		createCircleWithThreePoints = false;
 	}
 
 }
