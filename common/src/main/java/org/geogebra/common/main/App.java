@@ -2985,7 +2985,8 @@ public abstract class App implements UpdateSelection {
 		sb.append("<!DOCTYPE html>\n");
 		sb.append("<html>\n");
 		sb.append("<head>\n");
-		sb.append("<script src=\"http://tube.geogebra.org/scripts/deployggb.js\"></script>\n\n");
+		sb.append(
+				"<script src=\"https://tube.geogebra.org/scripts/deployggb.js\"></script>\n\n");
 		sb.append("</head>\n");
 		sb.append("<body>\n");
 
