@@ -1190,7 +1190,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		super.getXMLtags(sb);
 
 		// needed for inequalities
-		if (isInequality()) {
+		if (showLineProperties()) {
 			getLineStyleXML(sb);
 		}
 

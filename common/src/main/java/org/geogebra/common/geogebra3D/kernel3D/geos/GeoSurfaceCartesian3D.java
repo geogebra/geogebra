@@ -333,6 +333,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 
+		// line style
+		getLineStyleXML(sb);
+
 		// level of detail
 		if (getLevelOfDetail() == LevelOfDetail.QUALITY){
 			sb.append("\t<levelOfDetailQuality val=\"true\"/>\n");
