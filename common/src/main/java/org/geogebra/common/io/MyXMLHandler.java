@@ -57,6 +57,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -365,6 +366,7 @@ public class MyXMLHandler implements DocHandler {
 		hasGuiElement = false;
 		sliderTagProcessed = false;
 		fontTagProcessed = false;
+		lineStyleTagProcessed = false;
 
 		initKernelVars();
 
@@ -3220,6 +3222,7 @@ public class MyXMLHandler implements DocHandler {
 				geo = getGeoElement(attrs);
 				sliderTagProcessed = false;
 				fontTagProcessed = false;
+				lineStyleTagProcessed = false;
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_COMMAND;
@@ -3292,6 +3295,10 @@ public class MyXMLHandler implements DocHandler {
 					((TextProperties) geo).setFontSizeMultiplier(1);
 					((TextProperties) geo).setSerifFont(false);
 					((TextProperties) geo).setFontStyle(GFont.PLAIN);
+				} else if (!lineStyleTagProcessed
+						&& ((geo.isGeoFunctionNVar() && ((GeoFunctionNVar) geo)
+								.isFun2Var()) || geo.isGeoSurfaceCartesian())) {
+					geo.setLineThickness(0);
 				}
 				constMode = MODE_CONSTRUCTION;
 			}
@@ -3941,8 +3948,11 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	private boolean lineStyleTagProcessed;
+
 	private boolean handleLineStyle(LinkedHashMap<String, String> attrs) {
 		try {
+			lineStyleTagProcessed = true;
 			geo.setLineType(Integer.parseInt(attrs.get("type")));
 			geo.setLineThickness(Integer.parseInt(attrs.get("thickness")));
 
