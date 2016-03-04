@@ -2122,6 +2122,16 @@ public class NoExceptionsTest {
 	}
 
 	@Test
+	public void cmdToolImage1() {
+		t("ToolImage[ n1, Pt1 ]");
+	}
+
+	@Test
+	public void cmdToolImage2() {
+		t("ToolImage[ n1, Pt1, Pt2 ]");
+	}
+
+	@Test
 	public void cmdTranslate() {
 		t("Translate[ obj,v1]");
 		t("Translate[v1 , Pt3 ]");
