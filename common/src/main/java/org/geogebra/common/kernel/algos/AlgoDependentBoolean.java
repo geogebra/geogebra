@@ -328,6 +328,16 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				polyNode.getRight());
 		}
 		if (expNode.getLeft() instanceof MyDouble
+				&& polyNode.getLeft().getPoly() == null) {
+			int coeff = (int) expNode.getLeft().evaluateDouble();
+			polyNode.getLeft().setPoly(new Polynomial(coeff));
+		}
+		if (expNode.getRight() instanceof MyDouble
+				&& polyNode.getRight().getPoly() == null) {
+			int coeff = (int) expNode.getRight().evaluateDouble();
+			polyNode.getRight().setPoly(new Polynomial(coeff));
+		}
+		if (expNode.getLeft() instanceof MyDouble
 				&& expNode.getRight() instanceof GeoDummyVariable) {
 			int coeff = (int) expNode.getLeft().evaluateDouble();
 			Variable v = getVariable(expNode.getRight().toString(
@@ -658,11 +668,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				root.setRight(((AlgoDependentNumber) algo).getExpression());
 			}
 		}
-
+		
 		// More difficult cases: sides are expressions:
-		if ((root.getLeft().isExpressionNode() || root.getRight()
-				.isExpressionNode())
-				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
+		if (((root.getLeft().isExpressionNode() || root.getRight()
+				.isExpressionNode()) && root.getOperation().equals(
+				Operation.EQUAL_BOOLEAN))
+				|| (root.getLeft() instanceof GeoElement
+						&& root.getRight() instanceof MyDouble
+				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN))){
 			TrustCheck rootCheck = traverseExpression(root);
 			// try to check substituted and expanded expression
 			if (!rootCheck.getTrustable()) {
@@ -690,6 +703,17 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				}
 				// traverse substituted expression to collect segments
 				traverseExpression(rootCopy);
+				
+				if (((rootCopy.getLeft() instanceof GeoSegment
+						&& rootCopy.getRight() instanceof MyDouble) || 
+						(rootCopy.getRight() instanceof GeoSegment
+								&& rootCopy.getLeft() instanceof MyDouble)) 
+						&& rootCopy.getOperation().equals(
+								Operation.EQUAL_BOOLEAN)) {
+					Polynomial[][] ret = null;
+					return ret;
+				}
+				
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 				try {
 					// get expanded expression of root
