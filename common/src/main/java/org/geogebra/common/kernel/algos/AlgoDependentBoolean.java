@@ -327,7 +327,29 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		expressionNodeToPolynomial((ExpressionNode) expNode.getRight(),
 				polyNode.getRight());
 		}
+		if (expNode.getLeft() instanceof MyDouble
+				&& expNode.getRight() instanceof GeoDummyVariable) {
+			int coeff = (int) expNode.getLeft().evaluateDouble();
+			Variable v = getVariable(expNode.getRight().toString(
+					StringTemplate.defaultTemplate));
+			if (v != null) {
+			org.geogebra.common.kernel.prover.polynomial.Term t = new org.geogebra.common.kernel.prover.polynomial.Term(v);
+				polyNode.setPoly(new Polynomial(coeff, t));
+				return;
+			}
+		}
+	}
 
+	// get Variable with given name
+	private Variable getVariable(String varStr) {
+		if (botanaVars != null) {
+			for (int i = 0; i < botanaVars.length; i++) {
+				if (varStr.equals(botanaVars[i].getName())) {
+					return botanaVars[i];
+				}
+			}
+		}
+		return null;
 	}
 
 	/**

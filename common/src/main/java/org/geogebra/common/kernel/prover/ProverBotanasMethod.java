@@ -616,7 +616,7 @@ public class ProverBotanasMethod {
 											.expressionNodeToPolynomial(
 													(ExpressionNode) resultVE,
 													polyRoot);
-									if (polyRoot.getPoly() == null) {
+									while (polyRoot.getPoly() == null) {
 										((AlgoDependentBoolean) algo)
 												.expressionNodeToPolynomial(
 														(ExpressionNode) resultVE,
