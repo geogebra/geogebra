@@ -289,6 +289,13 @@ public abstract class CASgiac implements CASGenericInterface {
 		String giacInput = casParser.translateToCAS(casInput,
 				StringTemplate.giacTemplate, this);
 
+		// if angle is forced to be sent as number to giac
+		if (casInput instanceof ExpressionNode
+				&& ((ExpressionNode) casInput).getForceDegree()) {
+			// remove *(pi/180) parts
+			giacInput = giacInput.replaceAll("\\*\\(pi/180\\)", "");
+		}
+
 		// App.error(casInput+"\n\n"+giacInput );
 
 		/*

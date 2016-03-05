@@ -1976,6 +1976,14 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 						arbconst = myArbconst;
 					}
 				}
+
+				// if degree symbol was found in input
+				if (input.contains("\u00B0")
+						&& expandedEvalVE instanceof ExpressionNode) {
+					// we force angle value to be sent as number to giac
+					((ExpressionNode) expandedEvalVE).setForceDegree(true);
+				}
+
 				// compute the result using CAS
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE, arbconst, StringTemplate.numericNoLocal,
 						this, kernel);

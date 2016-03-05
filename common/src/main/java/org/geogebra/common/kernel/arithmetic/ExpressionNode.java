@@ -62,7 +62,9 @@ public class ExpressionNode extends ValidExpression implements
 	private ExpressionValue left, right;
 	private Operation operation = Operation.NO_OPERATION;
 	private boolean forceVector = false, forcePoint = false,
-			forceFunction = false;
+			forceFunction = false, forceDegree = false; // true if we want to
+														// send angle in radian
+														// to CAS
 	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
 
@@ -169,6 +171,21 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	public void setOperation(Operation op) {
 		operation = op;
+	}
+
+	/**
+	 * @param forceDegree
+	 *            set forceDegree if we want to send to giac as number
+	 */
+	public void setForceDegree(boolean forceDegree) {
+		this.forceDegree = forceDegree;
+	}
+
+	/**
+	 * @return true-if we want to force degree false-otherwise
+	 */
+	public boolean getForceDegree() {
+		return this.forceDegree;
 	}
 
 	/**
