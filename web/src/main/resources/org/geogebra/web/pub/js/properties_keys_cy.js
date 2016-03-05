@@ -529,7 +529,7 @@ __GGB__keysVar.cy.command = {
     "Locus": "Locws",
     "Locus.Syntax": "[ <Point Creating Locus Line>, <Point> ]\n[ <Point Creating Locus Line>, <Slider> ]\n[ <Slopefield>, <Point> ]\n[ <f(x, y)>, <Point> ]",
     "LocusEquation": "LocusEquation",
-    "LocusEquation.Syntax": "[ <Locus> ]\n[ <Locus Point>, <Moving Point> ]",
+    "LocusEquation.Syntax": "[ <Locus> ]\n[ <Locus Point>, <Moving Point> ]\n[ <Boolean Expression>, <Free Point> ]",
     "LogNormal": "LogNormal",
     "LogNormal.Syntax": "[ <Cymedr>, <Gwyriad Safonol>, x ]\n[ <Cymedr>, <Gwyriad Safonol>, <Gwerth y Newidyn> ]\n[ <Cymedr>, <Gwyriad Safonol>, x, <CronnusBoolean> ]",
     "Logistic": "Logistig",

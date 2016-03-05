@@ -529,7 +529,7 @@ __GGB__keysVar.eo.command = {
     "Locus": "Loko",
     "Locus.Syntax": "[ <Punkto>, <Punkto> ]\n[ <Punkto>, <\u015covilo> ]\n[ <Vektora kampo>, <Punkto> ]\n[ <f(x y)>, <Punkto> ]",
     "LocusEquation": "LocusEquation",
-    "LocusEquation.Syntax": "[ <Locus> ]\n[ <Locus Point>, <Moving Point> ]",
+    "LocusEquation.Syntax": "[ <Locus> ]\n[ <Locus Point>, <Moving Point> ]\n[ <Boolean Expression>, <Free Point> ]",
     "LogNormal": "LogNormal",
     "LogNormal.Syntax": "[ <Mean>, <Standard Deviation>, x ]\n[ <Mean>, <Standard Deviation>, <Variable Value> ]\n[ <Mean>, <Standard Deviation>, x, <Boolean Cumulative> ]",
     "Logistic": "Logistic",

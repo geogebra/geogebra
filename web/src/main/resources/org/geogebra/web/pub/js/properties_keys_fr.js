@@ -529,7 +529,7 @@ __GGB__keysVar.fr.command = {
     "Locus": "Lieu",
     "Locus.Syntax": "[ <Point cr\xe9ant le lieu>, <Point> ]\n[ <Point cr\xe9ant le lieu>, <Curseur> ]\n[ <Champ vectoriel>, <Point> ]\n[ <f(x, y)>, <Point> ]",
     "LocusEquation": "EquationLieu",
-    "LocusEquation.Syntax": "[ <Lieu point-point> ]\n[ <Point Lieu>, <Point mobile> ]",
+    "LocusEquation.Syntax": "[ <Lieu point-point> ]\n[ <Point Lieu>, <Point mobile> ]\n[ <Bool\xe9en>, <Point Libre> ]",
     "LogNormal": "LogNormale",
     "LogNormal.Syntax": "[ <Moyenne>, <\xc9cart-Type>, x ]\n[ <Moyenne>, <\xc9cart-Type>, <Valeur Variable> ]\n[ <Moyenne>, <\xc9cart-Type>, x, <Bool\xe9en Cumul> ]",
     "Logistic": "Logistique",

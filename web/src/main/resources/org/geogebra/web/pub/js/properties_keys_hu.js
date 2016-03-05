@@ -529,7 +529,7 @@ __GGB__keysVar.hu.command = {
     "Locus": "M\xe9rtaniHely",
     "Locus.Syntax": "[ <Pont a m\xe9rtani hely kirajzol\xe1s\xe1hoz>, <Pont> ]\n[ <Pont a m\xe9rtani hely kirajzol\xe1s\xe1hoz>, <Cs\xfaszka> ]\n[ <Ir\xe1nymez\u0151>, <Pont> ]\n[ <f(x, y)>, <Pont> ]",
     "LocusEquation": "M\xe9rtanihelyEgyenlete",
-    "LocusEquation.Syntax": "[ <M\xe9rtani hely> ]\n[ <M\xe9rtani hely pontja>, <Mozg\xf3 pont> ]",
+    "LocusEquation.Syntax": "[ <M\xe9rtani hely> ]\n[ <M\xe9rtani hely pontja>, <Mozg\xf3 pont> ]\n[ <Logikai kifejez\xe9s>, <Szabad pont> ]",
     "LogNormal": "Lognorm\xe1lisEloszl\xe1s",
     "LogNormal.Syntax": "[ <K\xf6z\xe9p\xe9rt\xe9k>, <Sz\xf3r\xe1s>, x ]\n[ <K\xf6z\xe9p\xe9rt\xe9k>, <Sz\xf3r\xe1s>, <V\xe1ltoz\xf3 \xe9rt\xe9ke> ]\n[ <K\xf6z\xe9p\xe9rt\xe9k>, <Sz\xf3r\xe1s>, x, <Eloszl\xe1sf\xfcggv\xe9ny logikai \xe9rt\xe9ke> ]",
     "Logistic": "LogisztikusEloszl\xe1s",

@@ -529,7 +529,7 @@ __GGB__keysVar.ta.command = {
     "Locus": "\u0b92\u0bb4\u0bc1\u0b95\u0bcd\u0b95\u0bc1",
     "Locus.Syntax": "[ <Point Creating Locus Line>, <Point> ]\n[ <Point Creating Locus Line>, <Slider> ]\n[ <Slopefield>, <Point> ]\n[ <f(x, y)>, <Point> ]",
     "LocusEquation": "LocusEquation",
-    "LocusEquation.Syntax": "[ <Locus> ]\n[ <Locus Point>, <Moving Point> ]",
+    "LocusEquation.Syntax": "[ <Locus> ]\n[ <Locus Point>, <Moving Point> ]\n[ <Boolean Expression>, <Free Point> ]",
     "LogNormal": "LogNormal",
     "LogNormal.Syntax": "[ <Mean>, <Standard Deviation>, x ]\n[ <Mean>, <Standard Deviation>, <Variable Value> ]\n[ <Mean>, <Standard Deviation>, x, <Boolean Cumulative> ]",
     "Logistic": "Logistic",

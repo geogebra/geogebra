@@ -529,7 +529,7 @@ __GGB__keysVar.nl.command = {
     "Locus": "MeetkundigePlaats",
     "Locus.Syntax": "[ <Punt dat MP cre\xebert>, <Punt> ]\n[ <Punt vdat MP cre\xebert>, <Schuifknop> ]\n[ <Raakveld>, <Punt> ]\n[ <f(x, y)>, <Punt> ]",
     "LocusEquation": "VergelijkingMP",
-    "LocusEquation.Syntax": "[ <Meetkundige Plaats> ]\n[ <Punt dat MP bepaalt>, <Bewegend Punt> ]",
+    "LocusEquation.Syntax": "[ <Meetkundige Plaats> ]\n[ <Punt dat MP bepaalt>, <Bewegend Punt> ]\n[ <Booleaanse uitdrukking>, <Vrij Punt> ]",
     "LogNormal": "LogNormaal",
     "LogNormal.Syntax": "[ <Gemiddelde>, <Standaardafwijking>, x ]\n[ <Gemiddelde>, <Standaardafwijking>, <Variabele waarde> ]\n[ <Gemiddelde>, <Standaardafwijking>, x, <Boolean Cumulatief> ]",
     "Logistic": "Logistisch",
