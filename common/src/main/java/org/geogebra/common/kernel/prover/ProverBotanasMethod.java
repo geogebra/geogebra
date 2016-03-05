@@ -538,9 +538,7 @@ public class ProverBotanasMethod {
 					 * otherwise false theorems like Segment[A,B]==1 will be
 					 * proven.
 					 */
-					if (ProverSettings.transcext) {
-						maxFixcoords = 2;
-					}
+					maxFixcoords = 2;
 
 					AlgoElement algo = geoStatement.getParentAlgorithm();
 					/* get expression string for giac */
