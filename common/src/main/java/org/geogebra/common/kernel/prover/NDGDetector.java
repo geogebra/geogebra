@@ -140,9 +140,10 @@ public class NDGDetector {
 			}
 		}
 		if (qFormula) {
-			if (rhs.isEmpty()) {
+			if (lhs.isEmpty() || rhs.isEmpty()) {
 				// This must be a geometrically uninteresting case, e.g. a+b+c=0
-				Log.debug(p + " means " + lhs + "=0, uninteresting");
+				Log.debug(p + " means " + (lhs.isEmpty() ? rhs : lhs)
+						+ "=0, uninteresting");
 				return null;
 			}
 			ndgc = new NDGCondition();
