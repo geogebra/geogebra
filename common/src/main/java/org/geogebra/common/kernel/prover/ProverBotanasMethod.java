@@ -532,6 +532,16 @@ public class ProverBotanasMethod {
 
 				/* case input was an expression */
 				if (statements == null) {
+
+					/*
+					 * Disallow fixing the second point. This is crucial,
+					 * otherwise false theorems like Segment[A,B]==1 will be
+					 * proven.
+					 */
+					if (ProverSettings.transcext) {
+						maxFixcoords = 2;
+					}
+
 					AlgoElement algo = geoStatement.getParentAlgorithm();
 					/* get expression string for giac */
 					String strForGiac = ((AlgoDependentBoolean) algo)
