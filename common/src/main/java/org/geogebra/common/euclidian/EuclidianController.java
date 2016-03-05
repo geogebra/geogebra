@@ -10250,7 +10250,10 @@ public abstract class EuclidianController {
 			pen.resetPenOffsets();
 		}
 
-		view.closeDropdowns();
+		// GGB-545
+		// problem with
+		// http://tube-beta.geogebra.org/student/99999?cb=jenkins4576
+		// view.closeDropdowns();
 
 		if ((newMode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS)
 				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS)
