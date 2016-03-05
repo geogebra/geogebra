@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.geogebra.common.cas.GeoGebraCAS;
@@ -23,12 +22,7 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.arithmetic.Inspecting.MinusChecker;
-import org.geogebra.common.kernel.arithmetic.Inspecting.PlusChecker;
 import org.geogebra.common.kernel.arithmetic.MyList;
-import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -417,15 +411,9 @@ public class ProverBotanasMethod {
 						} else {
 							String description = geo
 									.getAlgebraDescriptionDefault();
-							if (!description.startsWith("xOyPlane")) { /*
-																		 * handling
-																		 * GeoGebra3D
-																		 * 's
-																		 * definition
-																		 * for
-																		 * xy
-																		 * -plane
-																		 */
+							/* handling GeoGebra3D 's definition for xy-plane */
+							if (!description.startsWith("xOyPlane")) {
+
 								Log.debug(description + " /* free point */");
 								Variable[] v = new Variable[2];
 								v = ((SymbolicParametersBotanaAlgo) geo)
@@ -573,48 +561,98 @@ public class ProverBotanasMethod {
 							return;
 						}
 						/* T is not empty */
+						/*
+						 * Put possible extended factors into the NDG list. Here
+						 * we simply parse the Giac output. This code is ugly,
+						 * TODO: use a more elegant way.
+						 */
 						if (!(casResult.equals("{}"))) {
-							// casResult = casResult.substring(1,
-							// casResult.length() - 1);
-							// String factResult = cas.getCurrentCAS()
-							// .evaluateRaw("factor(" + casResult + ")");
-							ValidExpression resultVE = (geoStatement
-									.getKernel().getGeoGebraCAS())
-									.getCASparser()
-									.parseGeoGebraCASInputAndResolveDummyVars(
-											casResult,
-											geoStatement.getKernel(), null);
-							if (resultVE instanceof ExpressionNode
-									&& ((ExpressionNode) resultVE).getLeft() instanceof MyList) {
-								ExpressionValue nodeToCheck = ((MyList) ((ExpressionNode) resultVE)
-										.getLeft()).getListElement(0);
-								Inspecting plusInsp = PlusChecker.INSTANCE;
-								Inspecting minusInsp = MinusChecker.INSTANCE;
-								/* check if T contains only plus */
-								boolean contPlus = plusInsp.check(nodeToCheck);
-								/* check if T contains only minus */
-								boolean contMinus = minusInsp
-										.check(nodeToCheck);
-								/*
-								 * user's expression is trustable if T contains
-								 * only plus or only minus
-								 */
-								if (contPlus || contMinus) {
+							// skip { and }
+							casResult = casResult.substring(1,
+									casResult.length() - 1);
+							// factorization of the result
+							String factResult = cas.getCurrentCAS()
+									.evaluateRaw("factor(" + casResult + ")");
+							// removing leading - from a product (if any)
+							if (factResult.length() > 1
+									&& factResult.substring(0, 2).equals("-(")) {
+								factResult = factResult.substring(1);
+							}
+							// split regarding to )*(
+							String[] factors = factResult.split("\\)\\*\\(");
+							// if there are more factors, the first and last
+							// still contain ( and ), trim them
+							if (factors.length > 1) {
+								factors[0] = factors[0].substring(1);
+								factors[factors.length - 1] = factors[factors.length - 1]
+										.substring(0,
+												factors[factors.length - 1]
+														.length() - 1);
+							}
+							boolean polyIsConst = false;
+							if (factors.length == 1
+									&& factors[0].matches("[-+]?\\d*\\.?\\d+")) {
+								polyIsConst = true; // poly is a number
+							}
+							// list of polynomial factors
+							ArrayList<Polynomial> polyListOfFactors = new ArrayList<Polynomial>();
+							if (!polyIsConst) {
+								for (int i = 0; i < factors.length; i++) {
+									// parse factors into expression
+									ValidExpression resultVE = (geoStatement
+											.getKernel().getGeoGebraCAS())
+											.getCASparser()
+											.parseGeoGebraCASInputAndResolveDummyVars(
+													factors[i],
+													geoStatement.getKernel(),
+													null);
+									PolynomialNode polyRoot = new PolynomialNode();
+									// build polynomial to parsed expression
 									((AlgoDependentBoolean) algo)
-											.setTrustable(true);
+											.buildPolynomialTree(
+													(ExpressionNode) resultVE,
+													polyRoot);
+									((AlgoDependentBoolean) algo)
+											.expressionNodeToPolynomial(
+													(ExpressionNode) resultVE,
+													polyRoot);
+									if (polyRoot.getPoly() == null) {
+										((AlgoDependentBoolean) algo)
+												.expressionNodeToPolynomial(
+														(ExpressionNode) resultVE,
+														polyRoot);
+									}
+									// add polynomial to list of polys
+									Polynomial poly = polyRoot.getPoly();
+									if (poly != null) {
+										polyListOfFactors.add(poly);
+									}
 								}
 							}
+
+							for (Polynomial p : polyListOfFactors) {
+								NDGCondition ndgc = new NDGDetector(geoProver,
+										null).detect(p);
+								if (ndgc != null) {
+									geoProver.addNDGcondition(ndgc);
+								}
+							}
+							/*
+							 * Put possible extended factors into the NDG list,
+							 * end.
+							 */
+
 						}
 						/* giac output is not empty */
 						if (!(output.equals("{}"))) {
-							// App.debug(output);
+							// Log.debug(output);
 							ValidExpression validExpression = (geoStatement
 									.getKernel().getGeoGebraCAS())
 									.getCASparser()
 									.parseGeoGebraCASInputAndResolveDummyVars(
 											output, geoStatement.getKernel(),
 											null);
-							// App.debug(validExpression
+							// Log.debug(validExpression
 							// .toString(StringTemplate.defaultTemplate));
 							PolynomialNode polyRoot = new PolynomialNode();
 							ExpressionNode expNode = new ExpressionNode(
@@ -629,165 +667,7 @@ public class ProverBotanasMethod {
 							if (list.getListElement(0).isExpressionNode()) {
 								root = (ExpressionNode) list.getListElement(0);
 							}
-							/* case giac output has form A^2-B^2 */
-							if (cas.getCurrentCAS()
-									.evaluateRaw(
-											"size("
-													+ root.toString(StringTemplate.giacTemplate)
-													+ ")").equals("2")) {
-								/* get variables of giac output */
-								HashSet<GeoElement> giacOutputVars = root
-										.getVariables();
-								if (giacOutputVars != null) {
-									Iterator<GeoElement> giacVarIt = giacOutputVars
-											.iterator();
-									/* reserve first var */
-									GeoElement geo = giacVarIt.next();
-									/* copy the expression of giac output */
-									ExpressionNode copyRoot = root
-											.deepCopy(geoStatement.getKernel());
-									while (giacVarIt.hasNext()) {
-										/* iterate through vars */
-										GeoElement currGeo = giacVarIt.next();
-										/* replace current var with 1 */
-										copyRoot.traverse(GeoDummyReplacer.getReplacer(
-												currGeo.getLabel(StringTemplate.defaultTemplate),
-												new ExpressionNode(geoStatement
-														.getKernel(), 1), true));
-									}
-									/*
-									 * get solution of expression with reserved
-									 * var parameter
-									 */
-									String solutionGeo = cas
-											.getCurrentCAS()
-											.evaluateRaw(
-													"ggbsort(normal(zeros("
-															+ copyRoot
-																	.toString(StringTemplate.giacTemplate)
-															+ "=0,"
-															+ geo.toString(StringTemplate.giacTemplate)
-															+ ")))");
-									/* skip { and } */
-									solutionGeo = solutionGeo.substring(1,
-											solutionGeo.length() - 1);
-									/* split solution list */
-									String[] solutionList = solutionGeo
-											.split(",");
-									/*
-									 * parse solutions into expression needed
-									 * e.g. 1/2 solution
-									 */
-									ValidExpression validSol1 = (geoStatement
-											.getKernel().getGeoGebraCAS())
-											.getCASparser()
-											.parseGeoGebraCASInputAndResolveDummyVars(
-													solutionList[0],
-													geoStatement.getKernel(),
-													null);
-									if (validSol1 == null) {
-										result = ProofResult.FALSE;
-										return;
-									}
-									ValidExpression validSol2 = (geoStatement
-											.getKernel().getGeoGebraCAS())
-											.getCASparser()
-											.parseGeoGebraCASInputAndResolveDummyVars(
-													solutionList[1],
-													geoStatement.getKernel(),
-													null);
-									double geoSol1 = validSol1.evaluateDouble();
-									double geoSol2 = validSol2.evaluateDouble();
-									/* make sure we use the positive root */
-									if (geoSol1 < 0) {
-										geoSol1 = geoSol2;
-									}
-									/*
-									 * substitution list e.g. [a,v7],[b,v8]
-									 * where a is the segment and v7 the
-									 * variable
-									 */
-									ArrayList<Entry<GeoElement, String>> substitutions = ((AlgoDependentBoolean) algo)
-											.getVarSubstListOfSegs();
-									/* copy input expression */
-									ExpressionNode statementRootCopy = ((AlgoDependentBoolean) algo)
-											.getExpression().deepCopy(
-													geoStatement.getKernel());
-									/*
-									 * result after substitution of solutions
-									 * into input expression using e.g.
-									 * subst(2a=b,{a=1,b=2})
-									 */
-									String substOutput = new String();
-									if (substitutions != null) {
-										Iterator<Entry<GeoElement, String>> itSubst = substitutions
-												.iterator();
-										/* list of substitutions */
-										StringBuilder substListStr = new StringBuilder();
-										substListStr.append("{");
-										while (itSubst.hasNext()) {
-											Entry<GeoElement, String> currSubst = itSubst
-													.next();
-											/*
-											 * reserved var substitute with
-											 * calculated solution
-											 */
-											if (currSubst
-													.getValue()
-													.equals(geo
-															.toString(StringTemplate.defaultTemplate))) {
-												substListStr.append("ggbtmpvar"
-																+ currSubst
-																		.getKey()
-																		.getLabelSimple()
-														+ "=" + geoSol1 + ",");
-											} else {
-												/*
-												 * everything else substitute
-												 * with 1
-												 */
-												substListStr.append("ggbtmpvar"
-																+ currSubst
-																		.getKey()
-																		.getLabelSimple()
-														+ "=1,");
-											}
-										}
-										/* cut unwanted "," */
-										substListStr.setLength(substListStr
-												.length() - 1);
-										substListStr.append("}");
-										/* call giac substitution */
-										substOutput = cas
-												.getCurrentCAS()
-												.evaluateRaw(
-														"subst("
-																+ statementRootCopy
-																		.getLeftTree()
-																		.toString(
-																				StringTemplate.giacTemplate)
-																+ "="
-																+ statementRootCopy
-																		.getRightTree()
-																		.toString(
-																				StringTemplate.giacTemplate)
-																+ ","
-																+ substListStr
-																		.toString()
-																+ ")");
-									}
-									/* check if equation is true e.g. 2=2 */
-									if (cas.getCurrentCAS()
-											.evaluateRaw(
-													"evalb(" + substOutput
-															+ ")").equals("0")) {
-										result = ProofResult.FALSE;
-										return;
-									}
-									((AlgoDependentBoolean) algo)
-											.setTrustable(true);
-								}
-							}
+
 							((AlgoDependentBoolean) algo).buildPolynomialTree(
 									root, polyRoot);
 							((AlgoDependentBoolean) algo)
@@ -834,8 +714,6 @@ public class ProverBotanasMethod {
 				if (algo instanceof AlgoDependentBoolean) {
 					Operation operation = ((AlgoDependentBoolean) algo)
 							.getOperation();
-					boolean trustable = ((AlgoDependentBoolean) algo)
-							.isTrustable();
 					if (operation == Operation.IS_ELEMENT_OF) {
 						if (algo.input[0] instanceof GeoConic
 								&& (((GeoConic) algo.input[0]).isEllipse() || ((GeoConic) algo.input[0])
@@ -847,8 +725,7 @@ public class ProverBotanasMethod {
 							interpretTrueAsUndefined = true;
 						}
 					} else if (operation == Operation.EQUAL_BOOLEAN) {
-						if ((algo.input[0] instanceof GeoAngle && algo.input[1] instanceof GeoAngle)
-								|| !trustable) {
+						if ((algo.input[0] instanceof GeoAngle && algo.input[1] instanceof GeoAngle)) {
 							interpretTrueAsUndefined = true;
 						}
 					}

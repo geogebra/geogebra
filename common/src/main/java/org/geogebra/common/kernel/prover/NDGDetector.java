@@ -1,18 +1,23 @@
 package org.geogebra.common.kernel.prover;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
+import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Term;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Prover.NDGCondition;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Detects polynomial NDG conditions and turns into human readable form
@@ -70,9 +75,85 @@ public class NDGDetector {
 			return ndgc;
 		}
 
-		App.debug("Trying to detect polynomial " + p);
-		List<GeoElement> freePoints = ProverBotanasMethod.getFreePoints(prover
-				.getStatement());
+		Log.debug("Trying to detect polynomial " + p);
+
+		GeoElement statement = prover.getStatement();
+		if (statement == null) {
+			return ndgc;
+		}
+		
+		// CHECKING FORMULA WITH QUANTITIES
+		
+		// list of segments -> variables
+		ArrayList<Entry<GeoElement, Variable>> varSubstListOfSegs = ((AlgoDependentBoolean) statement
+				.getParentAlgorithm()).getVarSubstListOfSegs();
+		// create list of variables -> segments
+		HashMap<Variable, GeoElement> geos = new HashMap<Variable, GeoElement>();
+		for (int i = 0; i < varSubstListOfSegs.size(); ++i) {
+			Entry<GeoElement, Variable> e = varSubstListOfSegs.get(i);
+			GeoElement g = e.getKey();
+			Variable v = e.getValue();
+			geos.put(v, g);
+		}
+
+		/* contains only geometric quantities (now segments)? */
+		boolean qFormula = true;
+		String lhs = "", rhs = "";
+		TreeMap<Term, Integer> tm1 = p.getTerms();
+
+		outerloop: for (Term t1 : tm1.keySet()) { // e.g. 5*v1^3*v2
+			Integer coeff = tm1.get(t1); // e.g. 5
+			if (coeff > 0 && !lhs.isEmpty()) { // bridging + on lhs
+				lhs += "+";
+			}
+			if (coeff > 1) { // writing out coeff on lhs
+				lhs += coeff;
+			}
+			if (coeff < 0 && !rhs.isEmpty()) { // bridging + on rhs
+				rhs += "+";
+			}
+			if (coeff < -1) { // writing out -coeff on rhs
+				rhs += (-coeff);
+			}
+			TreeMap<Variable, Integer> tm2 = t1.getTerm(); // e.g. v1->3, v2->1
+			for (Variable t2 : tm2.keySet()) { // e.g. v1
+				if (!geos.containsKey(t2)) {
+					qFormula = false;
+					break outerloop;
+				}
+				GeoElement g = geos.get(t2);
+				String label = g.getLabelSimple();
+				if (coeff > 0) {
+					lhs += label;
+				} else {
+					rhs += label;
+				}
+				int exponent = tm2.get(t2);
+				if (exponent > 1) {
+					String expString = "^" + exponent;
+					if (coeff > 0) {
+						lhs += expString;
+					} else {
+						rhs += expString;
+					}
+				}
+			}
+		}
+		if (qFormula) {
+			if (rhs.isEmpty()) {
+				// This must be a geometrically uninteresting case, e.g. a+b+c=0
+				Log.debug(p + " means " + lhs + "=0, uninteresting");
+				return null;
+			}
+			ndgc = new NDGCondition();
+			ndgc.setCondition(lhs + "=" + rhs);
+			ndgc.setReadability(2);
+			Log.debug(p + " means " + lhs + "=" + rhs);
+			return ndgc;
+		}
+
+		List<GeoElement> freePoints = ProverBotanasMethod
+				.getFreePoints(statement);
 		HashSet<GeoElement> freePointsSet = new HashSet<GeoElement>(freePoints);
 
 		// CHECKING COLLINEARITY
@@ -100,7 +181,7 @@ public class NDGDetector {
 			Polynomial coll = Polynomial.collinear(fv1[0], fv1[1], fv2[0],
 					fv2[1], fv3[0], fv3[1]).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, coll)) {
-				App.debug(p + " means collinearity for " + triplet);
+				Log.debug(p + " means collinearity for " + triplet);
 				ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
@@ -133,7 +214,7 @@ public class NDGDetector {
 			Polynomial eq = Polynomial.sqrDistance(fv1[0], fv1[1], fv2[0],
 					fv2[1]).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, eq)) {
-				App.debug(p + " means equality for " + pair);
+				Log.debug(p + " means equality for " + pair);
 				ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
@@ -190,7 +271,7 @@ public class NDGDetector {
 					.subtract(new Polynomial(coords[1])))
 					.substitute(substitutions);
 			if (Polynomial.areAssociates1(p, xeq)) {
-				App.debug(p + " means x-equality for " + pair);
+				Log.debug(p + " means x-equality for " + pair);
 				ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
@@ -222,7 +303,7 @@ public class NDGDetector {
 					.subtract(new Polynomial(coords[1])))
 					.substitute(substitutions);
 			if (Polynomial.areAssociates1(p, yeq)) {
-				App.debug(p + " means y-equality for " + pair);
+				Log.debug(p + " means y-equality for " + pair);
 				ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
@@ -276,7 +357,7 @@ public class NDGDetector {
 						fv2[0], fv2[1], fv3[0], fv3[1], fv4[0], fv4[1])
 						.substitute(substitutions);
 				if (Polynomial.areAssociates1(p, eq)) {
-					App.debug(p + " means perpendicularity for " + pair1
+					Log.debug(p + " means perpendicularity for " + pair1
 							+ " and " + pair2);
 					ndgc = new NDGCondition();
 					ndgc.setGeos(points);
@@ -290,7 +371,7 @@ public class NDGDetector {
 						fv3[0], fv3[1], fv4[0], fv4[1]).substitute(
 						substitutions);
 				if (Polynomial.areAssociates1(p, eq)) {
-					App.debug(p + " means parallelism for " + pair1 + " and "
+					Log.debug(p + " means parallelism for " + pair1 + " and "
 							+ pair2);
 					ndgc = new NDGCondition();
 					ndgc.setGeos(points);
@@ -330,7 +411,7 @@ public class NDGDetector {
 				Polynomial eq = Polynomial.equidistant(fv1[0], fv1[1], fv2[0],
 						fv2[1], fv3[0], fv3[1]).substitute(substitutions);
 				if (Polynomial.areAssociates1(p, eq)) {
-					App.debug(p + " means being isosceles triangle for base "
+					Log.debug(p + " means being isosceles triangle for base "
 							+ pair + " and opposite vertex " + points[1]);
 					ndgc = new NDGCondition();
 					ndgc.setGeos(points);
@@ -343,7 +424,7 @@ public class NDGDetector {
 		}
 
 		// Unsuccessful run:
-		App.debug("No human readable geometrical meaning found for " + p);
+		Log.debug("No human readable geometrical meaning found for " + p);
 		lookupTable.put(keyString, null);
 
 		return null;

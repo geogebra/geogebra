@@ -67,7 +67,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	private ArrayList<Polynomial> extraPolys = new ArrayList<Polynomial>();
 	private int nrOfMaxDecimals;
 	// substitution list of segments with variables
-	private ArrayList<Map.Entry<GeoElement, String>> varSubstListOfSegs;
+	private ArrayList<Map.Entry<GeoElement, Variable>> varSubstListOfSegs;
 
 	private boolean trustable = true;
 
@@ -744,14 +744,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	public String getStrForGiac() {
 		String[] labels = new String[allSegmentsFromExpression.size()];
 		botanaVars = new Variable[allSegmentsFromExpression.size()];
-		varSubstListOfSegs = new ArrayList<Entry<GeoElement, String>>();
+		varSubstListOfSegs = new ArrayList<Entry<GeoElement, Variable>>();
 		int index = 0;
 		for (GeoSegment segment : allSegmentsFromExpression) {
 			labels[index] = segment.getLabel(StringTemplate.giacTemplate);
 			botanaVars[index] = new Variable();
 			// collect substitution of segments with variables
-			Entry<GeoElement, String> subst = new AbstractMap.SimpleEntry<GeoElement, String>(
-					segment, botanaVars[index].toString());
+			Entry<GeoElement, Variable> subst = new AbstractMap.SimpleEntry<GeoElement, Variable>(
+					segment, botanaVars[index]);
 			varSubstListOfSegs.add(subst);
 			Variable[] thisSegBotanaVars = segment.getBotanaVars(segment);
 			Polynomial s = new Polynomial(botanaVars[index]);
@@ -873,7 +873,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	/**
 	 * @return substitution list of segments with variables
 	 */
-	public ArrayList<Entry<GeoElement, String>> getVarSubstListOfSegs() {
+	public ArrayList<Entry<GeoElement, Variable>> getVarSubstListOfSegs() {
 		return varSubstListOfSegs;
 	}
 
