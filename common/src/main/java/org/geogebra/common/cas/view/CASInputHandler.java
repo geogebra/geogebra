@@ -1,7 +1,10 @@
 package org.geogebra.common.cas.view;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
+import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -13,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
@@ -296,6 +300,32 @@ public class CASInputHandler {
 				sb.append(ggbcmd);
 				sb.append("[");
 				sb.append(evalText);
+				if ("NSolve".equals(ggbcmd)) {
+					GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+					try {
+						// check if input is polynomial
+						String casResult = cas.getCurrentCAS().evaluateRaw(
+								"ispolynomial(" + evalText + ")");
+						// case it is not
+						if (casResult.equals("false")) {
+							ValidExpression ve = cellValue.getEvalVE();
+							HashSet<GeoElement> vars = ve.getVariables();
+							if (!vars.isEmpty()) {
+								Iterator<GeoElement> it = vars.iterator();
+								// add var=1
+								String var = it.next().toString(
+										StringTemplate.defaultTemplate);
+								sb.append(",");
+								sb.append(var);
+								sb.append("=1");
+							}
+							vars.clear();
+						}
+					} catch (Throwable e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				sb.append("]");
 				evalText = sb.toString();
 			}
