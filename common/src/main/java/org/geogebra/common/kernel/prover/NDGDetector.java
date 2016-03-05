@@ -90,72 +90,73 @@ public class NDGDetector {
 					.getParentAlgorithm()).getVarSubstListOfSegs();
 			// create list of variables -> segments
 			HashMap<Variable, GeoElement> geos = new HashMap<Variable, GeoElement>();
-			for (int i = 0; i < varSubstListOfSegs.size(); ++i) {
-				Entry<GeoElement, Variable> e = varSubstListOfSegs.get(i);
-				GeoElement g = e.getKey();
-				Variable v = e.getValue();
-				geos.put(v, g);
-			}
+			if (varSubstListOfSegs != null) {
+				for (int i = 0; i < varSubstListOfSegs.size(); ++i) {
+					Entry<GeoElement, Variable> e = varSubstListOfSegs.get(i);
+					GeoElement g = e.getKey();
+					Variable v = e.getValue();
+					geos.put(v, g);
+				}
 
-			/* contains only geometric quantities (now segments)? */
-			boolean qFormula = true;
-			String lhs = "", rhs = "";
-			TreeMap<Term, Integer> tm1 = p.getTerms();
+				/* contains only geometric quantities (now segments)? */
+				boolean qFormula = true;
+				String lhs = "", rhs = "";
+				TreeMap<Term, Integer> tm1 = p.getTerms();
 
-			outerloop: for (Term t1 : tm1.keySet()) { // e.g. 5*v1^3*v2
-				Integer coeff = tm1.get(t1); // e.g. 5
-				if (coeff > 0 && !lhs.isEmpty()) { // bridging + on lhs
-					lhs += "+";
-				}
-				if (coeff > 1) { // writing out coeff on lhs
-					lhs += coeff;
-				}
-				if (coeff < 0 && !rhs.isEmpty()) { // bridging + on rhs
-					rhs += "+";
-				}
-				if (coeff < -1) { // writing out -coeff on rhs
-					rhs += (-coeff);
-				}
-				TreeMap<Variable, Integer> tm2 = t1.getTerm();
-				/* e.g. v1->3, v2->1 */
-				for (Variable t2 : tm2.keySet()) { // e.g. v1
-					if (!geos.containsKey(t2)) {
-						qFormula = false;
-						break outerloop;
+				outerloop: for (Term t1 : tm1.keySet()) { // e.g. 5*v1^3*v2
+					Integer coeff = tm1.get(t1); // e.g. 5
+					if (coeff > 0 && !lhs.isEmpty()) { // bridging + on lhs
+						lhs += "+";
 					}
-					GeoElement g = geos.get(t2);
-					String label = g.getLabelSimple();
-					if (coeff > 0) {
-						lhs += label;
-					} else {
-						rhs += label;
+					if (coeff > 1) { // writing out coeff on lhs
+						lhs += coeff;
 					}
-					int exponent = tm2.get(t2);
-					if (exponent > 1) {
-						String expString = "^" + exponent;
+					if (coeff < 0 && !rhs.isEmpty()) { // bridging + on rhs
+						rhs += "+";
+					}
+					if (coeff < -1) { // writing out -coeff on rhs
+						rhs += (-coeff);
+					}
+					TreeMap<Variable, Integer> tm2 = t1.getTerm();
+					/* e.g. v1->3, v2->1 */
+					for (Variable t2 : tm2.keySet()) { // e.g. v1
+						if (!geos.containsKey(t2)) {
+							qFormula = false;
+							break outerloop;
+						}
+						GeoElement g = geos.get(t2);
+						String label = g.getLabelSimple();
 						if (coeff > 0) {
-							lhs += expString;
+							lhs += label;
 						} else {
-							rhs += expString;
+							rhs += label;
+						}
+						int exponent = tm2.get(t2);
+						if (exponent > 1) {
+							String expString = "^" + exponent;
+							if (coeff > 0) {
+								lhs += expString;
+							} else {
+								rhs += expString;
+							}
 						}
 					}
 				}
-			}
-			if (qFormula) {
-				if (lhs.isEmpty() || rhs.isEmpty()) {
-					// This must be an uninteresting case, e.g. a+b+c=0
-					Log.debug(p + " means " + (lhs.isEmpty() ? rhs : lhs)
-							+ "=0, uninteresting");
-					return null;
+				if (qFormula) {
+					if (lhs.isEmpty() || rhs.isEmpty()) {
+						// This must be an uninteresting case, e.g. a+b+c=0
+						Log.debug(p + " means " + (lhs.isEmpty() ? rhs : lhs)
+								+ "=0, uninteresting");
+						return null;
+					}
+					ndgc = new NDGCondition();
+					ndgc.setCondition(lhs + "=" + rhs);
+					ndgc.setReadability(2);
+					Log.debug(p + " means " + lhs + "=" + rhs);
+					return ndgc;
 				}
-				ndgc = new NDGCondition();
-				ndgc.setCondition(lhs + "=" + rhs);
-				ndgc.setReadability(2);
-				Log.debug(p + " means " + lhs + "=" + rhs);
-				return ndgc;
+				Log.debug(p + " cannot be described by quantities only");
 			}
-			Log.debug(p + " cannot be described by quantities only");
-			return null; /* this formula cannot be translated to quantities */
 		}
 
 		List<GeoElement> freePoints = ProverBotanasMethod
