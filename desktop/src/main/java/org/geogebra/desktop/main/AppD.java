@@ -4872,12 +4872,12 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	// make sure still works in the future on eg Windows 10/11
 	// note Java 7u40 returns "Windows 8" for Windows 8.1 and Windows 10
-	private static boolean WINDOWS_STRICTLY_EARLIER_THAN_VISTA = OS.startsWith("windows 2000") || OS.startsWith("windows 95")
+	private static boolean WINDOWS_XP_OR_EARLIER = OS.startsWith("windows 2000") || OS.startsWith("windows 95")
 			|| OS.startsWith("windows 98") || OS.startsWith("windows nt") || OS.startsWith("windows xp");
 	
-	public static boolean WINDOWS_VISTA_OR_LATER = WINDOWS && !WINDOWS_STRICTLY_EARLIER_THAN_VISTA;
+	public static boolean WINDOWS_VISTA_OR_LATER = WINDOWS && !WINDOWS_XP_OR_EARLIER;
 
-	public static boolean WINDOWS_VISTA_OR_EARLIER = WINDOWS_STRICTLY_EARLIER_THAN_VISTA
+	public static boolean WINDOWS_VISTA_OR_EARLIER = WINDOWS_XP_OR_EARLIER
 			|| OS.startsWith("windows vista");
 
 	@Override
