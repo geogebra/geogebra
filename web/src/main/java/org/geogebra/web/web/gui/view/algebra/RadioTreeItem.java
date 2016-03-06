@@ -1491,7 +1491,7 @@ public class RadioTreeItem extends AVTreeItem
 					sliderPanel.add(slider);
 					styleContentPanel(true);
 				}
-				minMaxPanel.setVisible(false);
+
 				updateSliderColor();
 			} else if (sliderPanel != null) {
 				sliderPanel.remove(slider);
