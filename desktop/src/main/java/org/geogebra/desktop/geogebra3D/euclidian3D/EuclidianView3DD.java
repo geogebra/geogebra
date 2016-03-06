@@ -109,7 +109,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 		// we don't want shaders with win os < vista
 		if (app.has(Feature.SHADERS_IN_DESKTOP) && !app.isApplet()
-				&& (!app.isWindows() || app.isWindowsVistaOrLater())) {
+				&& !AppD.WINDOWS_VISTA_OR_EARLIER) {
 			return new RendererCheckGLVersionD(this, !app.isApplet());
 		}
 
