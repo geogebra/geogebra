@@ -529,7 +529,7 @@ __GGB__keysVar.zh_CN.command = {
     "Locus": "\u8f68\u8ff9",
     "Locus.Syntax": "[ <\u6784\u9020\u8f68\u8ff9\u7684\u70b9>, <\u63a7\u5236\u70b9> ]\n[ <\u6784\u9020\u8f68\u8ff9\u7684\u70b9>, <\u6ed1\u52a8\u6761> ]\n[ <\u659c\u7387\u573a>, <\u70b9> ]\n[ <f(x, y)>, <\u70b9> ]",
     "LocusEquation": "\u8f68\u8ff9\u65b9\u7a0b",
-    "LocusEquation.Syntax": "[ <\u8f68\u8ff9> ]\n[ <\u8f68\u8ff9\u70b9>, <\u52a8\u70b9> ]",
+    "LocusEquation.Syntax": "[ <\u8f68\u8ff9> ]\n[ <\u8f68\u8ff9\u70b9>, <\u52a8\u70b9> ]\n[ <\u5e03\u5c14\u8868\u8fbe\u5f0f>, <\u81ea\u7531\u70b9> ]",
     "LogNormal": "\u5bf9\u6570\u6b63\u6001\u5206\u5e03",
     "LogNormal.Syntax": "[ <\u5e73\u5747\u6570>, <\u6807\u51c6\u5dee>, x ]\n[ <\u5e73\u5747\u6570>, <\u6807\u51c6\u5dee>, <\u53d8\u91cf\u503c> ]\n[ <\u5e73\u5747\u6570>, <\u6807\u51c6\u5dee>, x, <\u662f\u5426\u7d2f\u79ef? true|false> ]",
     "Logistic": "\u903b\u8f91\u5206\u5e03",
