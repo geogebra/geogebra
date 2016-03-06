@@ -72,6 +72,7 @@ public class ExpressionNode extends ValidExpression implements
 	public boolean leaf = false;
 	private boolean brackets;
 	private ExpressionValue resolve;
+	private boolean isSecret;
 
 
 	/**
@@ -134,6 +135,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		leaf = node.leaf;
 		operation = node.operation;
+		isSecret = node.isSecret;
 		setLeft(node.left);
 		setRight(node.right);
 	}
@@ -182,10 +184,13 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * 
+	 * TRAC-3629
+	 * 
 	 * @return true-if we want to force degree false-otherwise
 	 */
 	public boolean getForceDegree() {
-		return this.forceDegree;
+		return false;// this.forceDegree;
 	}
 
 	/**
@@ -297,6 +302,7 @@ public class ExpressionNode extends ValidExpression implements
 		newNode.forcePoint = forcePoint;
 		newNode.forceFunction = forceFunction;
 		newNode.brackets = brackets;
+		newNode.isSecret = isSecret;
 		// Application.debug("getCopy() output: " + newNode);
 		return newNode;
 	}
@@ -1560,6 +1566,11 @@ kernel, left,
 	 */
 	@Override
 	final public String toString(StringTemplate tpl) {
+
+		if (isSecret()) {
+			return "secret";
+		}
+
 		if (leaf) { // leaf is GeoElement or not
 			if (left.isGeoElement()) {
 				return ((GeoElement) left).getLabel(tpl);
@@ -1602,6 +1613,11 @@ kernel, left,
 	/** like toString() but with current values of variables */
 	@Override
 	final public String toValueString(StringTemplate tpl) {
+
+		if (isSecret()) {
+			return "secret";
+		}
+
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
 				return left.toValueString(tpl);
@@ -4675,6 +4691,14 @@ kernel, left,
 
 	@Override
 	public ExpressionNode derivative(FunctionVariable fv, Kernel kernel0) {
+		ExpressionNode ret = derivativeNotSecret(fv, kernel0);
+		Log.error(ret.toValueString(StringTemplate.defaultTemplate));
+
+		return ret.setSecret();
+	}
+
+	public ExpressionNode derivativeNotSecret(FunctionVariable fv,
+			Kernel kernel0) {
 		// symbolic derivatives disabled in exam mode
 		if (kernel0.getApplication().isExam()
 				&& !kernel.getApplication().getExam().isCASAllowed()) {
@@ -6143,6 +6167,15 @@ kernel, left,
 			return true;
 		}
 		return false;
+	}
+
+	public ExpressionNode setSecret() {
+		this.isSecret = true;
+		return this;
+	}
+
+	public boolean isSecret() {
+		return isSecret;
 	}
 
 }
