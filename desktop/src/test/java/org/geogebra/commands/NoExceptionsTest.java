@@ -70,6 +70,7 @@ public class NoExceptionsTest {
 		t("curve1=Curve[sin(t),cos(t),t,0,3]");
 		t("matrix1={{1,2},{3,4}}");
 		t("seg1=Segment[Pt1,Pt2]");
+		t("seg2=Segment[Pt3,Pt4]");
 		t("l1:x+y=17");
 		t("l2:x=4");
 		t("b1=n1==n2");
@@ -1195,6 +1196,7 @@ public class NoExceptionsTest {
 	public void cmdLocusEquation() {
 		t("LocusEquation[ Depoint, ptonpath1 ]");
 		t("LocusEquation[ loc ]");
+		t("LocusEquation[ seg1==seg2, Pt4 ]");
 	}
 	
 	@Test
