@@ -2712,9 +2712,10 @@ public abstract class EuclidianController {
 			this.addSelectedFunction(hits, 1, false);
 		if (selFunctions() == 1) {
 			GeoFunction[] functions = getSelectedFunctions();
-
+			// set mode first to prevent concurrency issue
+			app.setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
 			getDialogManager().showFunctionInspector(functions[0]);
-			app.setMoveMode();
+
 		}
 
 		return false;
