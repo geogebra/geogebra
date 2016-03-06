@@ -993,12 +993,18 @@ public class StringUtil {
 						'=' }));
 
 		// first we iterate from left to right, and then backward
+		int topLevelBars = 0;
 		for (int dir = 0; dir < 2; dir++) {
 			boolean comment = false;
 			int bars = 0;
 			Character lastNonWhitespace = ' ';
-
+			int level = 0;
 			if (dir == 1) {
+				if (topLevelBars % 2 == 1) {
+					int lPos = sbFix.lastIndexOf("|");
+					sbFix.replace(lPos, lPos + 1, ")");
+					sbFix.insert(0, "(");
+				}
 				parseString = sbFix.reverse().toString();
 				ignoredIndices = ignoreIndices(parseString);
 				sbFix = new StringBuilder();
@@ -1034,7 +1040,12 @@ public class StringUtil {
 				if (ch.equals('"')) {
 					comment = !comment;
 				}
-
+ else if (ch.equals('{') || ch.equals('(') || ch.equals('[')) {
+					level++;
+				}
+ else if (ch.equals('}') || ch.equals(')') || ch.equals(']')) {
+					level--;
+				}
 				if (ch.equals('|')) {
 					// We separate bars if the previous symbol was in splitters
 					// or we have ||| and there were an odd number of bars so far
@@ -1048,6 +1059,9 @@ public class StringUtil {
 						sbFix.append(' ');
 					}
 					bars++;
+					if (level == 0) {
+						topLevelBars++;
+					}
 				}
 
 				lastNonWhitespace = ch;
