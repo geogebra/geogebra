@@ -172,6 +172,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		ExpressionNode leftHandSide = eqn.getLHS();
 		ExpressionNode rightHandSide = eqn.getRHS();
 
+		if (rightHandSide.getRight() == null
+				&& rightHandSide.getLeft() instanceof MyDouble
+				&& Kernel.isEqual(rightHandSide.getLeft().evaluateDouble(), 0)) {
+			ExpressionNode copyLeft = leftHandSide.deepCopy(kernel);
+			// get factors without power of left side
+			ArrayList<ExpressionNode> factors = copyLeft.getFactorsWithoutPow();
+			if (!factors.isEmpty()) {
+
+			}
+		}
 		ExpressionNode functionExpression = new ExpressionNode(kernel,
 				leftHandSide, Operation.MINUS, rightHandSide);
 		FunctionVariable x = new FunctionVariable(kernel, "x");

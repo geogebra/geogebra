@@ -74,6 +74,8 @@ public class ExpressionNode extends ValidExpression implements
 	private boolean brackets;
 	private ExpressionValue resolve;
 
+	private ArrayList<ExpressionNode> factors = new ArrayList<ExpressionNode>();
+
 	// used by NDerivative command
 	// (answer not displayed in Algebra View)
 	final public static String secretString = "sEcRet";
@@ -6203,6 +6205,65 @@ kernel, left,
 		}
 
 		return isSecret;
+	}
+
+	/**
+	 * @return list of factors
+	 */
+	public ArrayList<ExpressionNode> getFactors() {
+		return this.factors;
+	}
+
+	// collect factors of expression recursively
+	private void collectFactors() {
+		ExpressionNode copy = this.deepCopy(kernel);
+		boolean rightProcessed = false;
+		boolean leftProcessed = false;
+		if (!copy.getOperation().equals(Operation.MULTIPLY)) {
+			factors.add(copy);
+			return;
+		}
+		ExpressionNode leftSide = copy.getLeftTree();
+		ExpressionNode rightSide = copy.getRightTree();
+		if (!leftSide.getOperation().equals(Operation.MULTIPLY)) {
+			factors.add(leftSide);
+			leftProcessed = true;
+		}
+		if (!rightSide.getOperation().equals(Operation.MULTIPLY)) {
+			factors.add(rightSide);
+			rightProcessed = true;
+		}
+		if (leftSide != null && !leftProcessed) {
+			leftSide.collectFactors();
+			factors.addAll(leftSide.getFactors());
+		}
+		if (rightSide != null && !rightProcessed) {
+			rightSide.collectFactors();
+			factors.addAll(rightSide.getFactors());
+		}
+		return;
+	}
+
+	/**
+	 * @return list of factors without power
+	 */
+	public ArrayList<ExpressionNode> getFactorsWithoutPow() {
+		this.getFactors().clear();
+		collectFactors();
+		ArrayList<ExpressionNode> factorsWithoutPow = new ArrayList<ExpressionNode>(
+				factors.size());
+		if (!factors.isEmpty()) {
+			for (int i = 0; i < factors.size(); i++) {
+				if (factors.get(i).getOperation().equals(Operation.POWER)
+						&& (factors.get(i).getRight() instanceof MyDouble || factors
+								.get(i).getRight() instanceof MySpecialDouble)) {
+					factorsWithoutPow.add(factors.get(i).getLeftTree());
+				} else {
+					factorsWithoutPow.add(factors.get(i));
+				}
+			}
+		}
+		return factorsWithoutPow;
 	}
 
 }
