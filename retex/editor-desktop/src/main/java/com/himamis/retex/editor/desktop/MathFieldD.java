@@ -40,16 +40,19 @@ import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.desktop.IconHelper;
 import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.platform.Resource;
 
 public class MathFieldD extends JLabel implements MathField {
 	
 	private static final MetaModel metaModel;
 	
 	static {
-		metaModel = new MetaModel("octave.xml");
+		metaModel = new MetaModelParser()
+				.parse(new Resource().loadResource("Octave.xml"));
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -103,5 +106,9 @@ public class MathFieldD extends JLabel implements MathField {
 	@Override
 	public void requestLayout() {
 		invalidate();
+	}
+
+	public MetaModel getMetaModel() {
+		return metaModel;
 	}
 }
