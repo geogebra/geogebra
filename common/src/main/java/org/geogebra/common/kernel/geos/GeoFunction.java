@@ -2360,6 +2360,11 @@ CasEvaluableFunction, ParametricCurve,
 				ret = "-\\infty";
 		}
 
+		// GGB-605
+		if (ExpressionNode.secretString.equals(ret)) {
+			return algoParent.getDefinition(tpl);
+		}
+
 		return ret;
 
 	}
@@ -2926,6 +2931,13 @@ CasEvaluableFunction, ParametricCurve,
 	public void setLevelOfDetail(LevelOfDetail lod) {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * GGB-605
+	 */
+	public void setSecret() {
+		getFunction().setSecret();
 	}
 
 }

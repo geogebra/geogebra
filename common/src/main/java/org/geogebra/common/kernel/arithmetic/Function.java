@@ -921,7 +921,13 @@ public class Function extends FunctionNVar implements
 			if (factor) {
 				return getDerivativeNoCAS(n);
 			}
-			return polyDeriv.getFunction(kernel, getFunctionVariable());
+			Function ret = polyDeriv.getFunction(kernel, getFunctionVariable());
+
+			if (fast) {
+				ret.setSecret();
+			}
+
+			return ret;
 		}
 
 		if (fast || !kernel.useCASforDerivatives()) {
@@ -1202,6 +1208,10 @@ public class Function extends FunctionNVar implements
 	@Override
 	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel0) {
 		return expression.derivative(fv, kernel0);
+	}
+
+	public void setSecret() {
+		getExpression().setSecret();
 	}
 
 }

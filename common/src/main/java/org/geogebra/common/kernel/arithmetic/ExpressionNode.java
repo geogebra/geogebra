@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
@@ -72,6 +73,10 @@ public class ExpressionNode extends ValidExpression implements
 	public boolean leaf = false;
 	private boolean brackets;
 	private ExpressionValue resolve;
+
+	// used by NDerivative command
+	// (answer not displayed in Algebra View)
+	final public static String secretString = "sEcRet";
 	private boolean isSecret;
 
 
@@ -176,21 +181,23 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * TRAC-3629
+	 * 
 	 * @param forceDegree
 	 *            set forceDegree if we want to send to giac as number
 	 */
 	public void setForceDegree(boolean forceDegree) {
-		this.forceDegree = forceDegree;
+		this.forceDegree = false;// forceDegree;
 	}
 
 	/**
 	 * 
-	 * TRAC-3629
+	 * 
 	 * 
 	 * @return true-if we want to force degree false-otherwise
 	 */
 	public boolean getForceDegree() {
-		return false;// this.forceDegree;
+		return this.forceDegree;
 	}
 
 	/**
@@ -302,6 +309,7 @@ public class ExpressionNode extends ValidExpression implements
 		newNode.forcePoint = forcePoint;
 		newNode.forceFunction = forceFunction;
 		newNode.brackets = brackets;
+		newNode.isSecret = isSecret;
 		// Application.debug("getCopy() output: " + newNode);
 		return newNode;
 	}
@@ -1566,6 +1574,10 @@ kernel, left,
 	@Override
 	final public String toString(StringTemplate tpl) {
 
+		if (isSecret()) {
+			return secretString;
+		}
+
 		if (leaf) { // leaf is GeoElement or not
 			if (left.isGeoElement()) {
 				return ((GeoElement) left).getLabel(tpl);
@@ -1608,6 +1620,10 @@ kernel, left,
 	/** like toString() but with current values of variables */
 	@Override
 	final public String toValueString(StringTemplate tpl) {
+
+		if (isSecret()) {
+			return secretString;
+		}
 
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
@@ -4681,7 +4697,14 @@ kernel, left,
 	}
 
 	@Override
-	public ExpressionNode derivative(FunctionVariable fv,
+	public ExpressionNode derivative(FunctionVariable fv, Kernel kernel0) {
+		ExpressionNode ret = derivativeNotSecret(fv, kernel0);
+		Log.error(ret.toValueString(StringTemplate.defaultTemplate));
+
+		return ret.setSecret();
+	}
+
+	public ExpressionNode derivativeNotSecret(FunctionVariable fv,
 			Kernel kernel0) {
 		// symbolic derivatives disabled in exam mode
 		if (kernel0.getApplication().isExam()
@@ -6151,6 +6174,35 @@ kernel, left,
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * GGB-605
+	 * 
+	 * @return set when expression shouldn't be displayed to the user eg
+	 *         NDerivative
+	 */
+	public ExpressionNode setSecret() {
+
+		if (kernel.getApplication().has(Feature.NDERIVATIVE_COMMAND)) {
+			this.isSecret = true;
+		}
+
+		return this;
+	}
+
+	/**
+	 * GGB-605
+	 * 
+	 * @return true if expression shouldn't be displayed to the user
+	 */
+	public boolean isSecret() {
+
+		if (!kernel.getApplication().has(Feature.NDERIVATIVE_COMMAND)) {
+			return false;
+		}
+
+		return isSecret;
 	}
 
 }

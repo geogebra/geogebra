@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.cas.CmdSurdText;
 import org.geogebra.common.kernel.cas.CmdTrigCombine;
 import org.geogebra.common.kernel.cas.CmdTrigExpand;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet
@@ -62,6 +63,11 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 			return new CmdParametricDerivative(kernel);
 		case Derivative:
 			return new CmdDerivative(kernel);
+		case NDerivative:
+			if (!app.has(Feature.NDERIVATIVE_COMMAND)) {
+				return null;
+			}
+			return new CmdNDerivative(kernel);
 		case TrigExpand:
 			return new CmdTrigExpand(kernel);
 		case TrigCombine:

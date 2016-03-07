@@ -253,6 +253,8 @@ public enum Commands implements CommandsConstants,
 
 	Derivative(TABLE_FUNCTION),
 
+	NDerivative(TABLE_FUNCTION),
+
 	Integral(TABLE_FUNCTION),
 
 	IntegralBetween(TABLE_FUNCTION),

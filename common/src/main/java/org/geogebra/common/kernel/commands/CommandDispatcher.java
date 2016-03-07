@@ -764,6 +764,7 @@ public abstract class CommandDispatcher {
 			case SurdText:
 			case ParametricDerivative:
 			case Derivative:
+			case NDerivative:
 			case Integral:
 			case IntegralBetween:
 			case NIntegral:

@@ -438,6 +438,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
+
 		return expression.toValueString(tpl);
 	}
 

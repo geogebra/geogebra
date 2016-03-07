@@ -3910,6 +3910,9 @@ public abstract class App implements UpdateSelection {
 		case IMPLICIT_LOCUS:
 			return true;
 
+		case NDERIVATIVE_COMMAND:
+			return prerelease;
+
 		default:
 			return false;
 

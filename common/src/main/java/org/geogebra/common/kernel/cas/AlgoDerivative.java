@@ -62,6 +62,27 @@ public class AlgoDerivative extends AlgoCasBase {
 	/**
 	 * @param cons
 	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param f
+	 *            function
+	 * @param var
+	 *            variable (may be null)
+	 * @param order
+	 *            derivative order (may be null)
+	 * @param fast
+	 *            whether to use CAS
+	 */
+	public AlgoDerivative(Construction cons, String label,
+			CasEvaluableFunction f, GeoNumeric var, NumberValue order,
+			boolean fast) {
+		this(cons, f, var, order, fast);
+		g.toGeoElement().setLabel(label);
+	}
+
+	/**
+	 * @param cons
+	 *            construction
 	 * @param f
 	 *            function
 	 */
@@ -83,7 +104,7 @@ public class AlgoDerivative extends AlgoCasBase {
 	 */
 	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
 			GeoNumeric var, NumberValue order, boolean fast) {
-		super(cons, f, Commands.Derivative);
+		super(cons, f, fast ? Commands.NDerivative : Commands.Derivative);
 		this.var = var;
 		this.order = order;
 		this.fast = fast;
@@ -221,7 +242,7 @@ public class AlgoDerivative extends AlgoCasBase {
 			}
 		}
 
-		if (!f.toGeoElement().isIndependent()) { // show the symbolic
+		if (!fast && !f.toGeoElement().isIndependent()) { // show the symbolic
 													// representation too
 			sb.append(": ");
 			sb.append(g.toGeoElement().getLabel(tpl));

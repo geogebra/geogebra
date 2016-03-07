@@ -7927,7 +7927,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 
 	private ExpressionNode definition;
-	
+
 	/**
 	 * set this can (not) be removed when input of algo
 	 * @param flag flag
@@ -8088,4 +8088,5 @@ public abstract class GeoElement extends ConstructionElement implements
 		updateVisualStyle(prop);
 		kernel.notifyRepaint();
 	}
+
 }
