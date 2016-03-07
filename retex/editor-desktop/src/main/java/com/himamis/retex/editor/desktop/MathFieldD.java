@@ -31,7 +31,6 @@ import java.awt.Dimension;
 
 import javax.swing.JLabel;
 
-
 import com.himamis.retex.editor.desktop.event.ClickListenerAdapter;
 import com.himamis.retex.editor.desktop.event.FocusListenerAdapter;
 import com.himamis.retex.editor.desktop.event.KeyListenerAdapter;
@@ -60,8 +59,7 @@ public class MathFieldD extends JLabel implements MathField {
 	public MathFieldD() {
 		setBackground(Color.white);
 		setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-		mathFieldInternal = new MathFieldInternal();
-		mathFieldInternal.setMathField(this);
+		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 	}
 	

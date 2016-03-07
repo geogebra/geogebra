@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to="jlatexmath">
-  <inherits name="org.scilab.forge.JLaTeXMathGWT" />
-  <entry-point class='org.scilab.forge.jlatexmath.CreateLibrary' />
+  <inherits name="com.himamis.retex.renderer.web.JLaTeXMathGWT" />
+  <entry-point class='com.himamis.retex.renderer.web.CreateLibrary' />
   <collapse-all-properties />
   <!-- Single Script Linker -->
   <add-linker name="sso" />
