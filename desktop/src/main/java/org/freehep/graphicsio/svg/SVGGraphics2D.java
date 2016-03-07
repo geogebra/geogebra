@@ -48,7 +48,7 @@ import org.freehep.util.Value;
 import org.freehep.util.io.Base64OutputStream;
 import org.freehep.util.io.WriterOutputStream;
 import org.freehep.xml.util.XMLWriter;
-import org.geogebra.desktop.util.ScientificFormat;
+import org.geogebra.common.jre.util.ScientificFormat;
 
 /**
  * This class implements the Scalable Vector Graphics output. SVG specifications

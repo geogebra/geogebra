@@ -4,7 +4,7 @@ package org.freehep.graphicsio.pdf;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
-import org.geogebra.desktop.util.ScientificFormat;
+import org.geogebra.common.jre.util.ScientificFormat;
 
 
 /**
