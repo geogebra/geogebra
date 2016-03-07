@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.Matrix;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Simple matrix description with basic linear algebra methods.
@@ -926,7 +925,6 @@ public class CoordMatrix {
 		int size = res.getLength();
 		if (matrixForSolve == null || matrixForSolve.length != size
 				|| matrixForSolve[0].length != size) {
-			Log.debug("Solve: new matrix needed");
 			matrixForSolve = new double[size][size];
 		}
 
