@@ -529,7 +529,7 @@ __GGB__keysVar.it.command = {
     "Locus": "Luogo",
     "Locus.Syntax": "[ <Punto che genera il luogo>, <Punto> ]\n[ <Punto che genera il luogo>, <Slider> ]\n[ <Campo direzioni>, <Punto> ]\n[ <f(x, y)>, <Punto> ]",
     "LocusEquation": "EquazioneLuogo",
-    "LocusEquation.Syntax": "[ <Luogo> ]\n[ <Punto luogo>, <Punto in movimento> ]",
+    "LocusEquation.Syntax": "[ <Luogo> ]\n[ <Punto luogo>, <Punto in movimento> ]\n[ <Espressione booleana>, <Punto libero> ]",
     "LogNormal": "LogNormale",
     "LogNormal.Syntax": "[ <Media>, <Deviazione standard>, x ]\n[ <Media>, <Deviazione standard>, <Valore variabile> ]\n[ <Media>, <Deviazione standard>, x, <Booleano Cumulativa> ]",
     "Logistic": "Logistica",
