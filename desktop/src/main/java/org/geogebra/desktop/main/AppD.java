@@ -122,6 +122,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.GImageIcon;
+import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -167,7 +168,6 @@ import org.geogebra.desktop.export.GeoGebraTubeExportD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.FactoryD;
-import org.geogebra.desktop.factories.FormatFactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
 import org.geogebra.desktop.factories.SwingFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
@@ -682,7 +682,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	protected void initFactories() {
 
 		org.geogebra.common.factories.AwtFactory.prototype = new AwtFactoryD();
-		org.geogebra.common.factories.FormatFactory.prototype = new FormatFactoryD();
+		org.geogebra.common.factories.FormatFactory.prototype = new FormatFactoryJre();
 		org.geogebra.common.factories.LaTeXFactory.prototype = new LaTeXFactoryD();
 
 		// moved to getCASFactory() so that applets load quicker
