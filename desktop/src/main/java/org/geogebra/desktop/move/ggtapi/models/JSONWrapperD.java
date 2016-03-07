@@ -1,6 +1,7 @@
 package org.geogebra.desktop.move.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.models.JSONWrapper;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JSONWrapperD implements JSONWrapper {
@@ -15,7 +16,11 @@ public class JSONWrapperD implements JSONWrapper {
 	}
 
 	public Object get(String string) {
-		return impl.get(string);
+		try {
+			return impl.get(string);
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 
 }
