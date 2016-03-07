@@ -41,7 +41,7 @@ publishing {
 }
 
 dependencies {
-	compile project(':renderer-share')
+	compile project(':renderer-base')
 	testCompile 'junit:junit:4.11'
 }
 
