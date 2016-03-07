@@ -824,7 +824,9 @@ public class JSONObject {
 			if (o instanceof Collection) {
 				return new JSONArray((Collection) o);
 			} else if (o.getClass().isArray()) {
-				return new JSONArray(o);
+				// removed so that it will compile in GeoGebra/common
+				throw new JSONException("not supported");
+				// return new JSONArray(o);
 			}
 			if (o instanceof Map) {
 				return new JSONObject((Map) o);
@@ -836,9 +838,10 @@ public class JSONObject {
 					|| o instanceof String) {
 				return o;
 			}
-			if (o.getClass().getPackage().getName().startsWith("java.")) {
+			// removed so that it will compile in GeoGebra/common
+			// if (o.getClass().getPackage().getName().startsWith("java.")) {
 				return o.toString();
-            }
+			// }
 		} catch (Exception ignored) {
         }
 		return null;
