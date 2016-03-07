@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONString;
 import org.geogebra.common.plugin.SensorLogger;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.JSON;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 
@@ -48,7 +48,7 @@ public class WebsocketLogger extends SensorLogger {
 						+ ":" + GeoGebraConstants.DATA_LOGGING_WEBSOCKET_PORT;
 			}
 		}
-		App.debug(this.websocket_url);
+		Log.debug(this.websocket_url);
 	}
 
 	private void createConnection() {
@@ -64,7 +64,7 @@ public class WebsocketLogger extends SensorLogger {
 
 			});
 		} else {
-			App.debug("websocket connection is already established");
+			Log.debug("websocket connection is already established");
 		}
     }
 
@@ -89,14 +89,18 @@ public class WebsocketLogger extends SensorLogger {
 		connection.onError(new ErrorEventHandler() {
 
 			public void error(JavaScriptObject e) {
-				App.debug("Error with webSocket");
+				Log.debug("Error with webSocket");
 			}
 		});
 	}
 
 	private void startHandShake() {
 		JSONObject obj = new JSONObject();
-		obj.put("appID", new JSONString(appID));
+		try {
+			obj.put("appID", new JSONString(appID));
+		} catch (Exception e) {
+			Log.debug("JSON error: " + e.getMessage());
+		}
 		connection.send(obj.toString());
 	}
 
@@ -105,8 +109,12 @@ public class WebsocketLogger extends SensorLogger {
 	 */
 	public void triggerAvailableSensors() {
 		JSONObject obj = new JSONObject();
-		obj.put("appID", new JSONString(appID));
-		obj.put("availableSensors", new JSONString(""));
+		try {
+			obj.put("appID", new JSONString(appID));
+			obj.put("availableSensors", new JSONString(""));
+		} catch (Exception e) {
+			Log.debug("JSON error: " + e.getMessage());
+		}
 		connection.send(obj.toString());
 	}
 
@@ -115,8 +123,12 @@ public class WebsocketLogger extends SensorLogger {
 	 */
 	public void triggerFrequency() {
 		JSONObject obj = new JSONObject();
-		obj.put("appID", new JSONString(appID));
-		obj.put("frequency", new JSONString(""));
+		try {
+			obj.put("appID", new JSONString(appID));
+			obj.put("frequency", new JSONString(""));
+		} catch (Exception e) {
+			Log.debug("JSON error: " + e.getMessage());
+		}
 		connection.send(obj.toString());
 	}
 
@@ -124,7 +136,7 @@ public class WebsocketLogger extends SensorLogger {
 		connection.onClose(new CloseEventHandler() {
 
 			public void close(JavaScriptObject event) {
-				App.debug("Connection closed of Websocket");
+				Log.debug("Connection closed of Websocket");
 			}
 		});
 	}

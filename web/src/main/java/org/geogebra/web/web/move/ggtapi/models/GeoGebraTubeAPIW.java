@@ -26,7 +26,6 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONException;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
@@ -134,7 +133,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			// user.setGGTProfileURL(userinfo.getString("ggt_profile_url"));
 			// user.setGroup(userinfo.getString("group"));
 			// user.setDateCreated(userinfo.getString("date_created"));
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -164,7 +163,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			apiJSON.put("login", loginJSON);
 			apiJSON.put("api", new JSONString("1.0.0"));
 			requestJSON.put("request", apiJSON);
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return requestJSON.toString();

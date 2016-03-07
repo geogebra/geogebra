@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.debug.Log;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -95,7 +94,7 @@ public class UDPLoggerD extends SensorLogger {
 				// flush repainting of logs!
 				kernel.notifyRepaint();
 			}
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			Log.error("problem with EDAQ port: " + e.getMessage());
 		}
 	}

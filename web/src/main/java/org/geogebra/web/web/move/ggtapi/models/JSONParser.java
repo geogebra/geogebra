@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONString;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.JSON;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -24,7 +25,11 @@ public class JSONParser {
 		JSONObject ret = new JSONObject();
 		Set<String> keys = tmp.keySet();
 		for (String key : keys) {
-			ret.put(key, new JSONString(JSON.get(json, key)));
+			try {
+				ret.put(key, new JSONString(JSON.get(json, key)));
+			} catch (Exception e) {
+				Log.debug("error adding key: " + key + " " + e.getMessage());
+			}
 		}
 		return ret;
 	}

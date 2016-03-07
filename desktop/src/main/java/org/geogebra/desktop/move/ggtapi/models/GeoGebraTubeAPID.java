@@ -3,8 +3,8 @@ package org.geogebra.desktop.move.ggtapi.models;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
+import org.geogebra.common.util.debug.Log;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -75,7 +75,7 @@ public class GeoGebraTubeAPID extends
 			// user.setGGTProfileURL(userinfo.getString("ggt_profile_url"));
 			// user.setGroup(userinfo.getString("group"));
 			// user.setDateCreated(userinfo.getString("date_created"));
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -106,8 +106,9 @@ public class GeoGebraTubeAPID extends
 			apiJSON.put("login", loginJSON);
 			apiJSON.put("api", "1.0.0");
 			requestJSON.put("request", apiJSON);
-		} catch (JSONException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			Log.debug("problem building request: " + e.getMessage());
+			return null;
 		}
 		return requestJSON.toString();
 	}
