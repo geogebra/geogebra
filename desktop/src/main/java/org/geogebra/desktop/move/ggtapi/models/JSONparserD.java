@@ -3,12 +3,12 @@ package org.geogebra.desktop.move.ggtapi.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.debug.Log;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -24,28 +24,29 @@ public class JSONparserD {
 			try {
 				JSONTokener tokener = new JSONTokener(response);
 				responseObject = new JSONObject(tokener);
+				if (responseObject.has("responses")) {
+					JSONObject materialsObject = (JSONObject) ((JSONObject) responseObject
+							.get("responses")).get("response");
+					if (materialsObject.has(("meta"))) {
+						String content = ((JSONObject) materialsObject
+								.get("meta")).get("-content").toString();
+						meta = parseMeta(content);
+
+					}
+
+					if (materialsObject.has(("item"))) {
+						materialsArray = materialsObject.get("item");
+					} else {
+						// List is empty
+					}
+				} else if (responseObject.has("error")) {
+					// Show error
+				}
 			} catch (Throwable t) {
-				App.debug(t.getMessage());
-				App.debug("'" + response + "'");
+				Log.debug(t.getMessage());
+				Log.debug("'" + response + "'");
 			}
-			if (responseObject.has("responses")) {
-				JSONObject materialsObject = (JSONObject) ((JSONObject) responseObject
-						.get("responses")).get("response");
-				if (materialsObject.has(("meta"))) {
-					String content = ((JSONObject) materialsObject.get("meta"))
-							.get("-content").toString();
-					meta = parseMeta(content);
 
-				}
-
-				if (materialsObject.has(("item"))) {
-					materialsArray = materialsObject.get("item");
-				} else {
-					// List is empty
-				}
-			} else if (responseObject.has("error")) {
-				// Show error
-			}
 
 		} else {
 			// Response String was null
@@ -57,9 +58,13 @@ public class JSONparserD {
 		// >1 materials
 		if (materialsArray instanceof JSONArray) {
 			for (int i = 0; i < ((JSONArray) materialsArray).length(); i++) {
-				Object obj = ((JSONArray) materialsArray)
-						.get(i);
-				addToArray(result, obj);
+				Object obj;
+				try {
+					obj = ((JSONArray) materialsArray).get(i);
+					addToArray(result, obj);
+				} catch (Exception e) {
+					Log.debug("problem adding material " + i);
+				}
 
 			}
 		}
@@ -109,7 +114,12 @@ public class JSONparserD {
 				Log.error("Unknown material type:" + getString(obj, "type"));
 			}
 		}
-		int ID = Integer.parseInt(obj.get("id").toString());
+		int ID = 0;
+		try {
+			ID = Integer.parseInt(obj.get("id").toString());
+		} catch (Exception e) {
+			Log.error("problem getting ID");
+		}
 
 		Material material = new Material(ID, type);
 
@@ -152,32 +162,55 @@ public class JSONparserD {
 
 	private static boolean getBoolean(JSONObject obj, String string,
 			boolean def) {
-		if (obj.has(string) && obj.get(string) instanceof Boolean) {
-			return ((Boolean) obj.get(string)).booleanValue();
-		}
-		if (!obj.has(string) || obj.get(string) == null
-				|| obj.get(string).toString() == null
-				|| "".equals(obj.get(string).toString())) {
+
+		Object str;
+		try {
+			str = obj.get(string);
+		} catch (JSONException e) {
 			return def;
 		}
-		return Boolean.parseBoolean(obj.get(string).toString());
+
+		if (obj.has(string) && str instanceof Boolean) {
+			return ((Boolean) str).booleanValue();
+		}
+		if (!obj.has(string) || str == null || str.toString() == null
+				|| "".equals(str.toString())) {
+			return def;
+		}
+		return Boolean.parseBoolean(str.toString());
 	}
 
 	private static String getString(JSONObject obj, String string) {
 		if (!obj.has(string)) {
 			return "";
 		}
-		if (obj.get(string) == null) {
+
+		Object str;
+		try {
+			str = obj.get(string);
+		} catch (JSONException e) {
 			return "";
 		}
-		return obj.get(string).toString();
+
+		if (str == null) {
+			return "";
+		}
+		return str.toString();
 	}
 
 	private static int getInt(JSONObject obj, String string, int def) {
-		if (!obj.has(string) || obj.get(string) == null
-				|| "".equals(obj.get(string).toString())) {
+
+		Object str;
+
+		try {
+			str = obj.get(string);
+		} catch (JSONException e) {
 			return def;
 		}
-		return Integer.parseInt(obj.get(string).toString());
+
+		if (!obj.has(string) || str == null || "".equals(str.toString())) {
+			return def;
+		}
+		return Integer.parseInt(str.toString());
 	}
 }

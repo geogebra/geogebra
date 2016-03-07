@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.debug.Log;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -55,46 +56,47 @@ public class UDPLoggerD extends SensorLogger {
 	public void handleJSON(byte[] buffer, int length, String address,
 			boolean quicker) {
 		// TODO: convert to-from string by a specific encoding, e.g. UTF-8
-		JSONArray ja = new JSONArray(new String(buffer, 0, length));
-		JSONObject jo;
-		String key;
+		try {
+			JSONArray ja = new JSONArray(new String(buffer, 0, length));
+			JSONObject jo;
+			String key;
 
-		if ("EDAQ".equals(ja.getString(0))) {
-			// EDAQ 530
+			if ("EDAQ".equals(ja.getString(0))) {
+				// EDAQ 530
 
-			// "EDAQ;{sensor1},{doublebits8};{sensor},{doublebits};{sensor},{doublebits}"...
-			// we could even spare the ; and , but still left
+				// "EDAQ;{sensor1},{doublebits8};{sensor},{doublebits};{sensor},{doublebits}"...
+				// we could even spare the ; and , but still left
 
-			boolean atleast = true;
-			for (int bp = 1; bp < ja.length(); bp++, atleast = (bp + 1 < ja
-					.length())) {
-				jo = ja.getJSONObject(bp);
-				key = (String) jo.keys().next();
-				double timestamp = 0;
-				switch (Integer.parseInt(key)) {
-				case 0:
-					log(Types.EDAQ0, timestamp, jo.getDouble(key), false,
-							!quicker,
-							atleast);
-					break;
-				case 1:
-					log(Types.EDAQ1, timestamp, jo.getDouble(key), false,
-							!quicker,
-							atleast);
-					break;
-				case 2:
-					log(Types.EDAQ2, timestamp, jo.getDouble(key), false,
-							!quicker,
-							atleast);
-					break;
+				boolean atleast = true;
+				for (int bp = 1; bp < ja
+						.length(); bp++, atleast = (bp + 1 < ja.length())) {
+					jo = ja.getJSONObject(bp);
+					key = jo.keys().next();
+					double timestamp = 0;
+					switch (Integer.parseInt(key)) {
+					case 0:
+						log(Types.EDAQ0, timestamp, jo.getDouble(key), false,
+								!quicker, atleast);
+						break;
+					case 1:
+						log(Types.EDAQ1, timestamp, jo.getDouble(key), false,
+								!quicker, atleast);
+						break;
+					case 2:
+						log(Types.EDAQ2, timestamp, jo.getDouble(key), false,
+								!quicker, atleast);
+						break;
 
-				default:
-					Log.error("unknown EDAQ port!");
+					default:
+						Log.error("unknown EDAQ port!");
+					}
 				}
-			}
 
-			// flush repainting of logs!
-			kernel.notifyRepaint();
+				// flush repainting of logs!
+				kernel.notifyRepaint();
+			}
+		} catch (JSONException e) {
+			Log.error("problem with EDAQ port: " + e.getMessage());
 		}
 	}
 
