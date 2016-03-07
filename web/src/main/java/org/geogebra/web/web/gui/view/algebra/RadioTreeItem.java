@@ -732,6 +732,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	};
 	private MinMaxPanel minMaxPanel;
+	private boolean definitionAndValue;
 
 	public void updateOnNextRepaint() {
 		this.needsUpdate = true;
@@ -826,6 +827,7 @@ public class RadioTreeItem extends AVTreeItem
 		kernel = geo.getKernel();
 		app = (AppW) kernel.getApplication();
 		av = app.getAlgebraView();
+		definitionAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
 		selectionCtrl = getAV().getSelectionCtrl();
 
 		main.addStyleName("elem");
@@ -893,7 +895,10 @@ public class RadioTreeItem extends AVTreeItem
 		buildNoLatexString();
 		// if enabled, render with LaTeX
 		if (av.isRenderLaTeX()
-				&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+ && (kernel
+				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
+				|| (definitionAndValue && kernel
+						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE))) {
 			if (geo.isDefined()) {
 				String latexStr = geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplateMQ);
@@ -976,6 +981,15 @@ public class RadioTreeItem extends AVTreeItem
 				geo.addLabelTextOrHTML(geo
 						.getDefinition(StringTemplate.defaultTemplate),
 						getBuilder(seNoLatex));
+				break;
+			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
+				if (definitionAndValue == true) {
+					String definition = geo.getDefinitionDescription(
+							StringTemplate.defaultTemplate);
+					String value = geo.getValueForInputBar();
+					geo.addLabelTextOrHTML(definition + "  " + value,
+							getBuilder(seNoLatex));
+				}
 				break;
 			}
 		}
