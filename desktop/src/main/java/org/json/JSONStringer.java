@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.util.StringUtil;
+
 // Note: this class was written without inspecting the non-free org.json sourcecode.
 /**
  * Implements {@link JSONObject#toString} and {@link JSONArray#toString}. Most
@@ -324,7 +326,8 @@ public class JSONStringer {
 				break;
 			default:
 				if (c <= 0x1F) {
-					out.append(String.format("\\u%04x", (int) c));
+					out.append(StringUtil.toJavaString(c + ""));
+					//out.append(String.format("\\u%04x", (int) c));
 				} else {
 					out.append(c);
 				}
