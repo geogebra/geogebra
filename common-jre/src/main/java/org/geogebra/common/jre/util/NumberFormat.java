@@ -12,13 +12,13 @@ public class NumberFormat extends DecimalFormat implements NumberFormatAdapter {
 
 	public NumberFormat() {
 		super();
-		this.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+		setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 	}
 
 	public NumberFormat(String pattern, int i) {
 		super(pattern);
 		setMaximumFractionDigits(i);
-		this.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+		setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 	}
 
 }
