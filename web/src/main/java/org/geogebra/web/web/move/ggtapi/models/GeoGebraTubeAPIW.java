@@ -4,21 +4,20 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
-import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.move.ggtapi.requests.SyncRequest;
-import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.WindowW;
-import org.geogebra.web.html5.util.ggtapi.JSONparserGGT;
+import org.geogebra.web.html5.util.ggtapi.JSONParserGGTW;
+import org.geogebra.web.html5.util.ggtapi.JSONWrapperW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Request;
@@ -51,6 +50,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 */
 	public GeoGebraTubeAPIW(ClientInfo client, boolean beta) {
 		super(beta);
+		JSONParserGGT.prototype = new JSONParserGGTW();
 		this.client = client;
 	}
 
@@ -66,35 +66,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	// throw new UnsupportedOperationException();
 	// }
 
-	/**
-	 * @param requestString
-	 *            String
-	 * @param cb
-	 *            {@link MaterialCallback}
-	 */
-	@Override
-	protected void performRequest(String requestString,
-			final MaterialCallbackI cb) {
 
-		HttpRequest req = createHttpRequest();
-		req.sendRequestPost(getUrl(), requestString, new AjaxCallback() {
 
-			public void onSuccess(String response) {
-					ArrayList<Material> result = new ArrayList<Material>();
-					ArrayList<Chapter> meta = JSONparserGGT.parseResponse(
-response,
-						result);
-					cb.onLoaded(result, meta);
-
-				}
-
-			public void onError(String error) {
-				cb.onError(new Exception(error));
-
-			}
-		});
-
-	}
 
 	/**
 	 * Copies the user data from the API response to this user.
@@ -219,11 +192,16 @@ new SyncRequest(timestamp).toJSONString(client),
 
 					        if (array != null) {
 						        for (int i = 0; i < array.size(); i++) {
-							        addEvent(array.get(i).isObject(), events);
+									JSONParserGGT.prototype.addEvent(
+											new JSONWrapperW(
+													array.get(i).isObject()),
+											events);
 						        }
 					        }
  else if (items.isObject() != null) {
-						        addEvent(items.isObject(), events);
+								JSONParserGGT.prototype.addEvent(
+										new JSONWrapperW(items.isObject()),
+										events);
 					        }
 					        cb.onSync(events);
 				        } catch (Exception e) {
@@ -232,29 +210,7 @@ new SyncRequest(timestamp).toJSONString(client),
 
 			        }
 
-			        private void addEvent(JSONObject object,
-			                ArrayList<SyncEvent> events) {
-				        SyncEvent se = new SyncEvent(Integer.parseInt(object
-				                .get("id").isString().stringValue()), Long
-				                .parseLong(object.get("ts").isString()
-				                        .stringValue()));
-				        if (object.get("deleted") != null
-				                && object.get("deleted").isString() != null) {
-					        se.setDelete(true);
-				        }
-				        if (object.get("favorite") != null
-				                && object.get("favorite").isString()
-				                        .stringValue()
-				                        .equals("true")) {
-					        se.setFavorite(true);
-				        }
-				        if (object.get("unfavorited") != null
-				                && object.get("unfavorited").isString() != null) {
-					        se.setUnfavorite(true);
-				        }
-				        events.add(se);
 
-			        }
 
 					@Override
 			        public void onError(String error) {

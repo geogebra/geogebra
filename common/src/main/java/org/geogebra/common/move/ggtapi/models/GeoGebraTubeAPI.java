@@ -1,5 +1,7 @@
 package org.geogebra.common.move.ggtapi.models;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -316,8 +318,31 @@ public abstract class GeoGebraTubeAPI {
 				MaterialRequest.forCurrentUser(client).toJSONString(client), cb);
 	}
 
-	protected void performRequest(String jsonString, MaterialCallbackI cb) {
-		// TODO Auto-generated method stub
+	/**
+	 * @param requestString
+	 *            json string representing the request
+	 * @param cb
+	 *            {@link MaterialCallbackI}
+	 */
+	protected final void performRequest(String requestString,
+			final MaterialCallbackI cb) {
+
+		HttpRequest req = createHttpRequest();
+		req.sendRequestPost(getUrl(), requestString, new AjaxCallback() {
+
+			public void onSuccess(String response) {
+				ArrayList<Material> result = new ArrayList<Material>();
+				ArrayList<Chapter> meta = JSONParserGGT.prototype
+						.parseResponse(response, result);
+				cb.onLoaded(result, meta);
+
+			}
+
+			public void onError(String error) {
+				cb.onError(new Exception(error));
+
+			}
+		});
 
 	}
 
@@ -404,5 +429,9 @@ public abstract class GeoGebraTubeAPI {
 	public void getItem(String id, MaterialCallbackI callback) {
 		performRequest(MaterialRequest.forId(id, client).toJSONString(client),
 				callback);
+	}
+
+	public boolean isCheckDone() {
+		return availabilityCheckDone;
 	}
 }

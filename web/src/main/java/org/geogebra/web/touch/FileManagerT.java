@@ -10,7 +10,7 @@ import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
-import org.geogebra.web.html5.util.ggtapi.JSONparserGGT;
+import org.geogebra.web.html5.util.ggtapi.JSONParserGGTW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.main.FileManager;
 import org.geogebra.web.web.util.SaveCallback;
@@ -315,7 +315,7 @@ public class FileManagerT extends FileManager {
 									                @Override
 									                public void onSuccess(
 									                        String result) {
-										                Material mat = JSONparserGGT
+										                Material mat = JSONParserGGTW
 										                        .parseMaterial(result);
 										                if (mat == null) {
 											                mat = new Material(
@@ -718,7 +718,7 @@ public class FileManagerT extends FileManager {
 									                @Override
 									                public void onSuccess(
 									                        String result) {
-										                final Material mat = JSONparserGGT
+										                final Material mat = JSONParserGGTW
 										                        .parseMaterial(result);
 										                mat.setLocalID(FileManager
 										                        .getIDFromKey(key));

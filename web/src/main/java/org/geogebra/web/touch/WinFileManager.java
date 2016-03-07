@@ -2,12 +2,13 @@ package org.geogebra.web.touch;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
-import org.geogebra.web.html5.util.ggtapi.JSONparserGGT;
+import org.geogebra.web.html5.util.ggtapi.JSONWrapperW;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.main.FileManager;
@@ -195,8 +196,8 @@ public class WinFileManager extends FileManager {
 			public void handle(String jsString) {
 				JSONObject jv = JSONParser.parseLenient(jsString).isObject();
 				for (String key : jv.keySet()) {
-					Material mat = JSONparserGGT.toMaterial(jv.get(key)
-					        .isObject());
+					Material mat = JSONParserGGT.prototype.toMaterial(
+							new JSONWrapperW(jv.get(key).isObject()));
 					mat.setLocalID(FileManager.getIDFromKey(key));
 					if (getApp().getLoginOperation().owns(mat)) {
 
@@ -227,7 +228,8 @@ public class WinFileManager extends FileManager {
 	private void addMaterials(String jsString) {
 		JSONObject jv = JSONParser.parseLenient(jsString).isObject();
 		for (String key : jv.keySet()) {
-			Material mat = JSONparserGGT.toMaterial(jv.get(key).isObject());
+			Material mat = JSONParserGGT.prototype
+					.toMaterial(new JSONWrapperW(jv.get(key).isObject()));
 			mat.setLocalID(FileManager.getIDFromKey(key));
 			this.addMaterial(mat);
 		}
