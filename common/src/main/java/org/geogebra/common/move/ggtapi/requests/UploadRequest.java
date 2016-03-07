@@ -8,6 +8,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONBoolean;
 import org.geogebra.common.move.ggtapi.models.json.JSONNumber;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONString;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Upload request for GeoGebraTube
@@ -81,61 +82,67 @@ public class UploadRequest implements Request {
 
 	@Override
 	public String toJSONString(ClientInfo client) {
-		// TODO for save we only need title
-		// request
-		JSONObject request = new JSONObject();
+		try {
+			// TODO for save we only need title
+			// request
+			JSONObject request = new JSONObject();
 
-		JSONObject api = new JSONObject();
-		api.put("-api", new JSONString(this.API));
+			JSONObject api = new JSONObject();
+			api.put("-api", new JSONString(this.API));
 
-		// login
-		JSONObject login = new JSONObject();
-		login.put("-type", new JSONString(this.GGB));
-		login.put("-token", new JSONString(client.getModel()
-		        .getLoggedInUser().getLoginToken()));
-		api.put("login", login);
+			// login
+			JSONObject login = new JSONObject();
+			login.put("-type", new JSONString(this.GGB));
+			login.put("-token", new JSONString(
+					client.getModel().getLoggedInUser().getLoginToken()));
+			api.put("login", login);
 
-		// task
-		JSONObject task = new JSONObject();
-		task.put("-type", new JSONString(this.TASK));
+			// task
+			JSONObject task = new JSONObject();
+			task.put("-type", new JSONString(this.TASK));
 
-		if (this.uniqueID != 0) {
-			// ID
-			task.put("id", new JSONNumber(this.uniqueID));
+			if (this.uniqueID != 0) {
+				// ID
+				task.put("id", new JSONNumber(this.uniqueID));
+			}
+
+			// type
+			task.put("type", new JSONString(this.type));
+
+			// title
+			task.put("title", new JSONString(this.consTitle));
+
+			// language
+			task.put("language", new JSONString(client.getLanguage()));
+
+			// visibility
+			if (this.visibility != null) {
+				task.put("visibility", new JSONString(this.visibility));
+			}
+
+			// settings
+			JSONObject settings = new JSONObject();
+			settings.put("-toolbar", JSONBoolean.getInstance(false));
+			settings.put("-menubar", JSONBoolean.getInstance(false));
+			settings.put("-inputbar", JSONBoolean.getInstance(false));
+			task.put("settings", settings);
+
+			// file
+			if (this.base64 != null) {
+				JSONObject file = new JSONObject();
+				file.put("-base64", new JSONString(this.base64));
+				task.put("file", file);
+			}
+
+			api.put("task", task);
+			request.put("request", api);
+
+			return request.toString();
+		} catch (Exception e) {
+			Log.debug("problem building request: " + e.getMessage());
+			return null;
 		}
 
-		// type
-		task.put("type", new JSONString(this.type));
-
-		// title
-		task.put("title", new JSONString(this.consTitle));
-
-		// language
-		task.put("language", new JSONString(client.getLanguage()));
-
-		// visibility
-		if (this.visibility != null) {
-			task.put("visibility", new JSONString(this.visibility));
-		}
-
-		// settings
-		JSONObject settings = new JSONObject();
-		settings.put("-toolbar", JSONBoolean.getInstance(false));
-		settings.put("-menubar", JSONBoolean.getInstance(false));
-		settings.put("-inputbar", JSONBoolean.getInstance(false));
-		task.put("settings", settings);
-
-		// file
-		if (this.base64 != null) {
-			JSONObject file = new JSONObject();
-			file.put("-base64", new JSONString(this.base64));
-			task.put("file", file);
-		}
-
-		api.put("task", task);
-		request.put("request", api);
-
-		return request.toString();
 	}
 
 	/**

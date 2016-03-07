@@ -2,6 +2,7 @@ package org.geogebra.common.move.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONString;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author gabor
@@ -32,15 +33,19 @@ public class LoginRequest implements Request {
 
 	public String toJSONString(ClientInfo app) {
 		
+		try {
 		
-		this.loginJSON.put("-type", new JSONString(loginType));
-		this.loginJSON.put("-username", new JSONString(userName));
-		this.loginJSON.put("-password", new JSONString(password));
-		this.loginJSON.put("-exptime", new JSONString(exptime));
-		this.loginJSON.put("-info", new JSONString(info));
-		this.apiJSON.put("login", this.loginJSON);		
-		this.apiJSON.put("-api", new JSONString(api));
-		this.requestJSON.put("request", this.apiJSON);
+			this.loginJSON.put("-type", new JSONString(loginType));
+			this.loginJSON.put("-username", new JSONString(userName));
+			this.loginJSON.put("-password", new JSONString(password));
+			this.loginJSON.put("-exptime", new JSONString(exptime));
+			this.loginJSON.put("-info", new JSONString(info));
+			this.apiJSON.put("login", this.loginJSON);
+			this.apiJSON.put("-api", new JSONString(api));
+			this.requestJSON.put("request", this.apiJSON);
+		} catch (Exception e) {
+			Log.debug("problem building request: " + e.getMessage());
+		}
 		
 		
 		return this.requestJSON.toString();
