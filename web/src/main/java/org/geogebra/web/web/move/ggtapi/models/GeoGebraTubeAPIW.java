@@ -8,7 +8,6 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.MaterialRequest;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
@@ -55,54 +54,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		this.client = client;
 	}
 
-	/**
-	 * Search for materials containing the String query
-	 * 
-	 * @param query
-	 *            search String
-	 * @param callback
-	 *            {@link MaterialCallback}
-	 */
-	public void search(String query, MaterialCallback callback) {
-		performRequest(new MaterialRequest(query, client).toJSONString(client),
-		        callback);
-	}
 
-	/**
-	 * Returns materials in the given amount and order
-	 * 
-	 * @param callback
-	 *            {@link MaterialCallback}
-	 */
-	public void getFeaturedMaterials(MaterialCallback callback) {
-		performRequest(
-		        MaterialRequest.forFeatured(client).toJSONString(client),
-		        callback);
-	}
-
-	// /**
-	// * Returns a String-Array of popular tags fetched from the GGT API
-	// *
-	// */
-	// public String[] getPopularTags()
-	// {
-	// // TODO fetch popular tags from the API
-	// return new String[] { "algebra", "dment", "pythagorean", "circle",
-	// "triangle", "functions", "jerzy", "geometry", "trigonometry", "3d" };
-	// }
-
-	/**
-	 * Return a specific Material by its ID
-	 * 
-	 * @param id
-	 *            int
-	 * @param callback
-	 *            {@link MaterialCallback}
-	 */
-	public void getItem(String id, MaterialCallback callback) {
-		performRequest(MaterialRequest.forId(id, client).toJSONString(client),
-		        callback);
-	}
 
 	// /**
 	// * Return a list of all Materials from the specified author

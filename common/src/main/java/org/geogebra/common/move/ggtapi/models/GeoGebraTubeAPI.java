@@ -357,4 +357,52 @@ public abstract class GeoGebraTubeAPI {
 						base64, type).toJSONString(client), cb);
 
 	}
+
+	/**
+	 * Search for materials containing the String query
+	 * 
+	 * @param query
+	 *            search String
+	 * @param callback
+	 *            {@link MaterialCallbackI}
+	 */
+	public void search(String query, MaterialCallbackI callback) {
+		performRequest(new MaterialRequest(query, client).toJSONString(client),
+				callback);
+	}
+
+	/**
+	 * Returns materials in the given amount and order
+	 * 
+	 * @param callback
+	 *            {@link MaterialCallbackI}
+	 */
+	public void getFeaturedMaterials(MaterialCallbackI callback) {
+		performRequest(MaterialRequest.forFeatured(client).toJSONString(client),
+				callback);
+	}
+
+	// /**
+	// * Returns a String-Array of popular tags fetched from the GGT API
+	// *
+	// */
+	// public String[] getPopularTags()
+	// {
+	// // TODO fetch popular tags from the API
+	// return new String[] { "algebra", "dment", "pythagorean", "circle",
+	// "triangle", "functions", "jerzy", "geometry", "trigonometry", "3d" };
+	// }
+
+	/**
+	 * Return a specific Material by its ID
+	 * 
+	 * @param id
+	 *            int
+	 * @param callback
+	 *            {@link MaterialCallbackI}
+	 */
+	public void getItem(String id, MaterialCallbackI callback) {
+		performRequest(MaterialRequest.forId(id, client).toJSONString(client),
+				callback);
+	}
 }

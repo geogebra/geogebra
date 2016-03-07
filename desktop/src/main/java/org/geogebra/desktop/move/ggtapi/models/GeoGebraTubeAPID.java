@@ -1,7 +1,14 @@
 package org.geogebra.desktop.move.ggtapi.models;
 
+import java.util.ArrayList;
+
+import org.geogebra.common.move.ggtapi.models.AjaxCallback;
+import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
+import org.geogebra.common.util.HttpRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,8 +34,8 @@ public class GeoGebraTubeAPID extends
 	 * 
 	 * @return GeogebraTubeAPI singleton
 	 */
-	public GeoGebraTubeAPID(ClientInfo client) {
-		super(false);
+	public GeoGebraTubeAPID(boolean beta, ClientInfo client) {
+		super(beta);
 		this.client = client;
 	}
 
@@ -117,5 +124,28 @@ public class GeoGebraTubeAPID extends
 	@Override
 	protected String getToken() {
 		return client.getModel().getLoginToken();
+	}
+
+	@Override
+	protected void performRequest(String requestString,
+			final MaterialCallbackI cb) {
+
+		HttpRequest req = createHttpRequest();
+		req.sendRequestPost(getUrl(), requestString, new AjaxCallback() {
+
+			public void onSuccess(String response) {
+				ArrayList<Material> result = new ArrayList<Material>();
+				ArrayList<Chapter> meta = JSONparserD.parseResponse(response,
+						result);
+				cb.onLoaded(result, meta);
+
+			}
+
+			public void onError(String error) {
+				cb.onError(new Exception(error));
+
+			}
+		});
+
 	}
 }

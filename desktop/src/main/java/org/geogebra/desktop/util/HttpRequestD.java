@@ -110,7 +110,7 @@ public class HttpRequestD extends org.geogebra.common.util.HttpRequest {
 			success = false;
 			processed = true;
 			if (callback != null) {
-				callback.onError("Connection error");
+				callback.onError("Connection error: " + ex.getMessage());
 			}
 			Log.error(ex.getMessage());
 		}
