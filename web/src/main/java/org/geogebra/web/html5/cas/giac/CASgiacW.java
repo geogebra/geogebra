@@ -108,7 +108,7 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 			// fix for problem with eg SolveODE[y''=0,{(0,1), (1,3)}]
 			// sending all at once doesn't work from
 			// http://dev.geogebra.org/trac/changeset/42719
-			String[] sf = specialFunctions.split(";");
+			String[] sf = specialFunctions.split(";;");
 			for (int i = 0; i < sf.length; i++) {
 				nativeEvaluateRaw(sf[i], false);
 			}

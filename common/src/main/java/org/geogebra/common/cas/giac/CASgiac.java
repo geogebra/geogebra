@@ -75,16 +75,18 @@ public abstract class CASgiac implements CASGenericInterface {
 			// "proba_epsilon:=0;"+
 			// used for sorting output of Solve/Solutions/NSolve/NSolutions
 			// sort() doesn't work for list of lists
-			"ggbsort(x):=when(length(x)==0,{},when(type(x[0])==DOM_LIST,x,sort(x)));"
-			+ "atan2(y,x):=arg(x+i*y);"
-			+ "sech(x):=1/cosh(x);"
-			+ "csch(x):=1/sinh(x);"
+			// Note that functions are separated by ;; (we need single ;s for
+			// the last one)
+			"ggbsort(x):=when(length(x)==0,{},when(type(x[0])==DOM_LIST,x,sort(x)));;"
+			+ "atan2(y,x):=arg(x+i*y);;"
+			+ "sech(x):=1/cosh(x);;"
+			+ "csch(x):=1/sinh(x);;"
 			// Giac now supports coth()
 			// + "coth(x):=1/tanh(x);"
 			+
 			// Giac's fPart has problems, so use this
 			// http://wiki.geogebra.org/en/FractionalPart_Function
-			"fractionalPart(x):=sign(x)*(abs(x)-floor(abs(x)));"
+			"fractionalPart(x):=sign(x)*(abs(x)-floor(abs(x)));;"
 			+
 
 	// eg Integral[x ln(5x)^2]
@@ -95,37 +97,39 @@ public abstract class CASgiac implements CASGenericInterface {
 			// @size(point(1,2,3)[1]) gives 3
 			// @size(point((-(5))+(ggbtmpvark),(-(5))+(ggbtmpvark))[1]) gives 3
 			// so need to check subtype(x[1])==20 to distinguish 2D and 3D
-			"is3dpoint(x):=when(size(x[1])==3 && subtype(x[1])==20,true,false);"
+			"is3dpoint(x):=when(size(x[1])==3 && subtype(x[1])==20,true,false);;"
 			// chech whether a is polynomial
 			// special cases like y^2=1 also handled
 			+ "ispolynomial(a):=when(a[0] == '=', is_polynomial(a[1]) && is_polynomial(a[2]),"
-			+ "when (is_polynomial(a) == 1, true, false ) );"
+			+ "when (is_polynomial(a) == 1, true, false ) );;"
 			+
 			// xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac
-			"xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])));"
+			"xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])));;"
 			// altsymb(P) converted back to alt(P) in CommandDispatcherGiac
 			+ "ggbalt(x):=when(type(x)==DOM_IDENT,altsymb(x),"
-			+ "when(x[0]=='pnt',when(is3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?));"
+			+ "when(x[0]=='pnt',when(is3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?));;"
 
-			+ "ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])));"
+			+ "ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])));;"
 			+
 			// make sure z((1,2)) = 0
-			"zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))));"
+			"zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))));;"
 			+
 			// unicode0176u passes unaltered through Giac
 			// then gets decoded to degree sign in GeoGebra
 			// needed for "return angle from inverse trig function"
 			// see ExpressionNode.degFix()
-			"degasin(x):=normal(asin(x)/pi*180)*unicode0176u;"
-			+ "degacos(x):=normal(acos(x)/pi*180)*unicode0176u;"
-			+ "degatan(x):=normal(atan(x)/pi*180)*unicode0176u;"
-			+ "degatan2(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u;"
+			"degasin(x):=normal(asin(x)/pi*180)*unicode0176u;;"
+			+ "degacos(x):=normal(acos(x)/pi*180)*unicode0176u;;"
+			+ "degatan(x):=normal(atan(x)/pi*180)*unicode0176u;;"
+			+ "degatan2(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u;;"
 			+
 			// subtype 27 is ggbvect[]
-			"ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x));"
+			"ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x));;"
 			// check list befor equation to avoid out of bounds. flatten helps
 			// for {} and {{{0}}}
-			+ "ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]== 'pnt' && x[1] == ggbvect[0,0,0])));";
+			+ "ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]== 'pnt' && x[1] == ggbvect[0,0,0])));;"
+			+ "factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else return pf; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end;;";
+
 	/**
 	 * whether Giac has been set to GeoGebra mode yet
 	 */
@@ -488,9 +492,9 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		return script
 				.append("[")
-				.append("[aa:=")
+				.append("[aa:=factorsqrfree(")
 				.append(eliminateCommand)
-				.append("],")
+				.append(")],")
 				.
 				// Creating a matrix from the output to satisfy Sergio:
 				append("[bb:=coeffs(aa[0],x)], [sx:=size(bb)], [sy:=size(coeffs(aa[0],y))],")
