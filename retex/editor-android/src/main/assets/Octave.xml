@@ -1,0 +1,463 @@
+<?xml version='1.0'?>
+
+<!--
+ * octave.xml
+ * =========================================================================
+ * This file is part of the Mirai Math TN - http://mirai.sourceforge.net
+ *
+ * Copyright (C) 2008 Bea Petrovicova
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * A copy of the GNU General Public License can be found in the file
+ * LICENSE.txt provided with the source distribution of this program (see
+ * the META-INF directory in the source jar). This license can also be
+ * found on the GNU website at http://www.gnu.org/licenses/gpl.html.
+ *
+ * If you did not receive a copy of the GNU General Public License along
+ * with this program, contact the lead developer, or write to the Free
+ * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
+-->
+
+<Serializer>
+    <Arrays>
+        <Array name="curly">
+            <Open cas="{" tex="\lbrace " />
+            <Close cas="}" tex="\rbrace " />
+            <Field cas="," />
+            <Row cas=";" />
+        </Array>
+        <Array name="regular">
+            <Open cas="(" tex="\left( " />
+            <Close cas=")" tex="\right) " />
+            <Field cas="," />
+            <Row cas=";" />
+        </Array>
+        <Array name="square">
+            <Open cas="[" tex="\left[ " />
+            <Close cas="]" tex="\right] " />
+            <Field cas="," />
+            <Row cas=";" />
+        </Array>
+        <Array name="apostrophes">
+            <Open cas="&quot;" tex=" \text{&quot;" />
+            <Close cas="&quot;" tex="&quot;} " />
+            <Field cas="&#x0;" />
+            <Row cas="&#x0;" />
+        </Array>
+        <Array name="line">
+            <Open cas="|" tex="|" />
+            <Close cas="|" tex="|" />
+            <Field cas="," />
+            <Row cas=";" />
+        </Array>
+    </Arrays>
+
+    <Functions group="General">
+        <Function name="_" cas="_" tex="_">
+            <Parameter name="i" order="0" type="number" />
+        </Function>
+
+        <Function name="^" cas="^" tex="^">
+            <Parameter name="n" order="0" type="number" />
+        </Function>
+
+        <Function name="frac" cas="/" initial="1" tex="\frac">
+            <Parameter name="x" down="1" order="0" type="number" />
+            <Parameter name="y" order="1" type="number" up="0" />
+        </Function>
+
+        <Function name="sqrt" cas="sqrt" tex="\sqrt">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="nroot" cas="nroot" insert="1" tex="\sqrt">
+            <Parameter name="n" down="0" order="0" type="number" />
+            <Parameter name="x" order="1" type="number" up="1" />
+        </Function>
+
+        <!-- not yet implemented -
+        <Function name="nsum" cas="nsum" tex="\nsum" >
+            <Parameter name="v" type="string" order="0" />
+            <Parameter name="on" type="string" order="1" />
+            <Parameter name="x" type="number" order="2" />
+        </Function> -->
+
+        <Function name="sum" cas="sum" insert="3" tex="\sum">
+            <Parameter name="v" order="0" type="string" up="2" />
+            <Parameter name="fm" order="1" type="number" up="2" />
+            <Parameter name="to" down="0" order="2" type="number" />
+            <Parameter name="x" order="3" type="number" />
+        </Function>
+
+        <Function name="prod" cas="prod" insert="3" tex="\prod">
+            <Parameter name="v" order="0" type="string" up="2" />
+            <Parameter name="fm" order="1" type="number" up="2" />
+            <Parameter name="to" down="0" order="2" type="number" />
+            <Parameter name="x" order="3" type="number" />
+        </Function>
+
+        <!--
+        <Function name="factorial" cas="factorial" tex="!">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+        -->
+        <Function name="nint" cas="NaN" tex="\int">
+            <Parameter name="x" order="0" type="number" />
+            <Parameter name="v" order="1" type="string" />
+        </Function>
+
+        <Function name="int" cas="quad" insert="2" tex="\int">
+            <Parameter name="fm" order="0" type="number" up="1" />
+            <Parameter name="to" down="0" order="1" type="number" />
+            <Parameter name="x" order="2" type="number" />
+            <Parameter name="v" order="3" type="string" />
+        </Function>
+
+        <Function name="lim" cas="NaN" insert="2" tex="lim">
+            <Parameter name="v" order="0" type="string" />
+            <Parameter name="to" order="1" type="number" />
+            <Parameter name="x" order="2" type="number" />
+        </Function>
+
+        <Function name="function" cas="function" insert="2">
+            <Parameter name="name" order="0" type="string" />
+            <Parameter name="v" order="1" type="string" />
+            <Parameter name="x" order="2" type="number" />
+        </Function>
+
+        <Function name="abs" cas="abs" tex="abs">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+    </Functions>
+
+    <Functions>
+        <Function name="sin" cas="sin" tex="sin">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="cos" cas="cos" tex="cos">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="tan" cas="tan" tex="tan">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="asin" cas="asin" tex="sin^{-1}">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="acos" cas="acos" tex="cos^{-1}">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="atan" cas="atan" tex="tan^{-1}">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="arcsin" cas="asin" tex="sin^{-1}">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="arccos" cas="acos" tex="cos^{-1}">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="arctan" cas="atan" tex="tan^{-1}">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="sinh" cas="sinh" tex="sinh">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="cosh" cas="cosh" tex="cosh">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="tanh" cas="tanh" tex="tanh">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="asinh" cas="asin" tex="sinh^{-1}">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="acosh" cas="acos" tex="cosh^{-1}">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="atanh" cas="atan" tex="tanh^{-1}">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="ln" cas="log" tex="ln">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="log10" cas="log10" tex="log_{10}">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="log" cas="log" tex="log">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="exp" cas="exp" tex="exp">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <!-- Statistics -->
+
+        <Function name="corrcoef">
+            <Parameter name="x" order="0" type="number" />
+            <Parameter name="y" order="1" type="number" />
+        </Function>
+
+        <Function name="cov">
+            <Parameter name="x" order="0" type="number" />
+            <Parameter name="y" order="1" type="number" />
+        </Function>
+
+        <Function name="median">
+            <Parameter name="a" order="0" type="matrix" />
+        </Function>
+
+        <Function name="mean">
+            <Parameter name="a" order="0" type="matrix" />
+        </Function>
+
+        <Function name="std">
+            <Parameter name="a" order="0" type="matrix" />
+        </Function>
+
+        <Function name="var">
+            <Parameter name="a" order="0" type="matrix" />
+        </Function>
+
+        <Function name="cov">
+            <Parameter name="a" order="0" type="matrix" />
+        </Function>
+
+        <!-- Miscellaneous Functions -->
+
+        <Function name="mod" cas="mod" tex="mod">
+            <Parameter name="n" order="0" type="integer" />
+            <Parameter name="m" order="1" type="integer" />
+        </Function>
+
+        <Function name="floor" cas="floor" tex="floor">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="ceil" cas="ceil" tex="ceil">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="sign" cas="sign" tex="sign">
+            <Parameter name="x" order="0" type="number" />
+        </Function>
+
+        <Function name="gcd" cas="gcd" tex="gcd">
+            <Parameter name="x" order="0" type="number" />
+            <Parameter name="y" order="1" type="number" />
+        </Function>
+
+        <Function name="lcm" cas="lcm" tex="lcm">
+            <Parameter name="x" order="0" type="number" />
+            <Parameter name="y" order="1" type="number" />
+        </Function>
+
+        <Function name="rand"></Function>
+        <Function name="random"></Function>
+
+        <!-- Matrix Operations -->
+
+        <Function name="eye">
+            <Parameter name="n" order="0" type="integer" />
+            <Parameter name="m" order="0" type="integer" />
+        </Function>
+
+        <Function name="transpose">
+            <Parameter name="a" order="0" type="matrix" />
+        </Function>
+
+        <Function name="inverse" cas="inverse">
+            <Parameter name="a" order="0" type="matrix" />
+        </Function>
+
+        <Function name="det">
+            <Parameter name="a" order="0" type="matrix" />
+        </Function>
+
+        <Function name="min">
+            <Parameter name="a" order="0" type="array, matrix" />
+        </Function>
+
+        <Function name="max">
+            <Parameter name="a" order="0" type="array, matrix" />
+        </Function>
+
+        <Function name="rows">
+            <Parameter name="a" order="0" type="array, matrix" />
+        </Function>
+
+        <Function name="columns">
+            <Parameter name="a" order="0" type="array, matrix" />
+        </Function>
+
+        <!-- Graphics Operations -->
+
+        <Function name="plot">
+            <Parameter name="x" order="0" type="matrix" />
+            <Parameter name="y" order="1" type="matrix" />
+        </Function>
+
+        <Function name="meshgrid">
+            <Parameter name="x" order="0" type="matrix" />
+            <Parameter name="y" order="1" type="matrix" />
+        </Function>
+
+        <Function name="mesh">
+            <Parameter name="x" order="0" type="matrix" />
+            <Parameter name="y" order="1" type="matrix" />
+            <Parameter name="z" order="2" type="matrix" />
+        </Function>
+    </Functions>
+
+    <Operators>
+        <Operator name="-" unicode="-" />
+        <Operator name="+" unicode="+" />
+        <Operator name="*" tex="\cdot" unicode="*" />
+        <Operator name="/" unicode="/" />
+        <Operator name="\" unicode="\" />
+        <Operator name="'" unicode="'" />
+        <Operator name="!" unicode="!" />
+        <Operator name=":" unicode=":" />
+        <Operator name="≔" unicode="≔" />
+        <Operator name="percent" tex="\%" unicode="%" />
+        <Operator name="dollar" tex="\$" unicode="$" />
+        <Operator name="times" tex="\times" unicode="*" />
+        <Operator name="div" tex="\div" unicode="/" />
+        <Operator name="=" />
+        <Operator name="ne" cas="!=" tex="\ne" unicode="≠" />
+        <Operator name="equiv" cas="NaN" tex="\equiv" unicode="≡" />
+
+        <Operator name="neg" cas="!" tex="\neg" unicode="!" />
+        <Operator name="vee" cas="|" tex="\vee" unicode="∧" />
+        <Operator name="wedge" cas="&amp;" tex="\wedge" unicode="∨" />
+        <Operator name="implication" cas="->" tex="\implies" unicode="⇒" />
+
+        <Operator name="&lt;" cas="&lt;" unicode="&lt;" />
+        <Operator name="&gt;" cas="&gt;" unicode="&gt;" />
+        <Operator name="leq" cas="&lt;=" tex="\leq" unicode="≤" />
+        <Operator name="geq" cas="&gt;=" tex="\geq" unicode="≥" />
+        <Operator name="ll" cas="NaN" tex="\ll" unicode="≪" />
+        <Operator name="gg" cas="NaN" tex="\gg" unicode="≫" />
+
+        <Operator name="sim" cas="NaN" tex="\sim" unicode="∼" />
+        <Operator name="approx" cas="NaN" tex="\approx" unicode="≈" />
+        <Operator name="simeq" cas="NaN" tex="\simeq" unicode="≃" />
+        <Operator name="propto" cas="NaN" tex="\propto" unicode="∝" />
+
+        <Operator name="forall" cas="NaN" tex="\forall" unicode="∀" />
+        <Operator name="exists" cas="NaN" tex="\exists" unicode="∃" />
+
+        <Operator name="perpendicular" tex="\perp" unicode="⟂" />
+        <Operator name="parallel" tex="\parallel" unicode="∥" />
+
+
+        <Operator name="subset" cas="NaN" tex="\subset" unicode="⊂" />
+        <Operator name="supset" cas="NaN" tex="\supset" unicode="⊃" />
+        <Operator name="subseteq" cas="NaN" tex="\subseteq" unicode="⊆" />
+        <Operator name="supseteq" cas="NaN" tex="\supseteq" unicode="⊇" />
+        <Operator name="cup" cas="NaN" tex="\cup" unicode="∪" />
+        <Operator name="cap" cas="NaN" tex="\cap" unicode="∩" />
+        <Operator name="in" cas="NaN" tex="\in" unicode="∈" />
+        <Operator name="empty" cas="NaN" tex="\emptyset" unicode="∅" />
+
+        <Operator name="pm" cas="NaN" tex="\pm" unicode="±" />
+        <Operator name="prime" cas="NaN" tex="\prime" unicode="′" />
+        <Operator name="circ" cas="NaN" tex="\circ" unicode="∘" />
+        <Operator name="partial" cas="NaN" tex="\partial" unicode="∂" />
+
+        <Operator name="leftarrow" cas="NaN" tex="\leftarrow" unicode="←" />
+        <Operator name="rightarrow" cas="NaN" tex="\rightarrow" unicode="→" />
+        <Operator name="leftrightarrow" cas="NaN" tex="\leftrightarrow"
+            unicode="↔" />
+        <Operator name="notrightarrow" cas="NaN" tex="\not\rightarrow"
+            unicode="↛" />
+        <Operator name="notleftrightarrow" cas="NaN" tex="\not\leftrightarrow"
+            unicode="↮" />
+
+        <Operator name="vectorprod" tex="\times" unicode="⨯" />
+
+    </Operators>
+
+    <Symbols>
+        <Symbol name="inf" cas="inf" tex="\infty" unicode="∞" />
+
+        <Symbol name="alpha" tex="\alpha" unicode="α" />
+        <Symbol name="beta" tex="\beta" unicode="β" />
+        <Symbol name="gamma" tex="\gamma" unicode="γ" />
+        <Symbol name="delta" tex="\delta" unicode="δ" />
+        <Symbol name="epsilon" tex="\epsilon" unicode="ε" />
+        <Symbol name="vareps" tex="\varepsilon" unicode="ϵ" />
+        <Symbol name="zeta" tex="\zeta" unicode="ζ" />
+        <Symbol name="eta" tex="\eta" unicode="η" />
+        <Symbol name="theta" tex="\theta" unicode="θ" />
+        <Symbol name="varth" tex="\vartheta" unicode="θ" />
+        <Symbol name="iota" tex="\iota" unicode="ι" />
+        <Symbol name="kappa" tex="\kappa" unicode="κ" />
+        <Symbol name="lambda" tex="\lambda" unicode="λ" />
+        <Symbol name="mu" tex="\mu" unicode="μ" />
+        <Symbol name="nu" tex="\nu" unicode="ν" />
+        <Symbol name="xi" tex="\xi" unicode="ξ" />
+        <Symbol name="omicron" tex="\omicron" unicode="ο" />
+        <Symbol name="pi" tex="\pi" unicode="π" />
+        <Symbol name="varpi" tex="\varpi" unicode="π" />
+        <Symbol name="rho" tex="\rho" unicode="ρ" />
+        <Symbol name="varrho" tex="\varrho" unicode="ρ" />
+        <Symbol name="sigma" tex="\sigma" unicode="σ" />
+        <Symbol name="varsigma" tex="\varsigma" unicode="ς" />
+        <Symbol name="tau" tex="\tau" unicode="τ" />
+        <Symbol name="upsilon" tex="\upsilon" unicode="υ" />
+        <Symbol name="phi" tex="\phi" unicode="φ" />
+        <Symbol name="varphi" tex="\varphi" unicode="φ" />
+        <Symbol name="chi" tex="\chi" unicode="χ" />
+        <Symbol name="psi" tex="\psi" unicode="ψ" />
+        <Symbol name="omega" tex="\omega" unicode="ω" />
+
+        <Symbol name="Gamma" tex="\Gamma" unicode="Γ" />
+        <Symbol name="Delta" tex="\Delta" unicode="Δ" />
+        <Symbol name="Theta" tex="\Theta" unicode="Θ" />
+        <Symbol name="Lambda" tex="\Lambda" unicode="Λ" />
+        <Symbol name="Xi" tex="\Xi" unicode="Ξ" />
+        <Symbol name="Pi" tex="\Pi" unicode="Π" />
+        <Symbol name="Sigma" tex="\Sigma" unicode="Σ" />
+        <Symbol name="Upsilon" tex="\Upsilon" unicode="Υ" />
+        <Symbol name="Phi" tex="\Phi" unicode="Φ" />
+        <Symbol name="Psi" tex="\Psi" unicode="Ψ" />
+        <Symbol name="Omega" tex="\Omega" unicode="Ω" />
+
+        <Symbol name="nabla" cas="nabla" tex="\nabla" unicode="∇" />
+        <Symbol name="hbar" tex="\hbar" unicode="ħ" />
+        <Symbol name="ddagger" cas="ddagger" tex="\ddagger" unicode="‡" />
+        <Symbol name="paragraph" cas="paragraph" tex="\paragraph" />
+
+        <Symbol name="otimes" tex="\otimes" unicode="⊗" />
+        <Symbol name="degree" tex="\degree" unicode="°" />
+        <Symbol name="quotes" tex="&quot;" unicode="&quot;" />
+    </Symbols>
+
+</Serializer>

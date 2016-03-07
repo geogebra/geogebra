@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FormulaEditor">
+        <attr name="fe_size" format="float" />
+        <attr name="fe_foregroundColor" format="color" />
+        <attr name="fe_backgroundColor" format="color" />
+        <attr name="fe_text" format="string" />
+        <attr name="fe_type">
+            <flag name="serif" value="0"/>
+            <flag name="sansserif" value="1"/>
+            <flag name="bold" value="2"/>
+            <flag name="italic" value="4"/>
+            <flag name="roman" value="8"/>
+            <flag name="typewriter" value="16"/>
+        </attr>
+    </declare-styleable>
+</resources>

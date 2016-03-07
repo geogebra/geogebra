@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="LaTeXView">
+        <attr name="lv_latexText" format="string"/>
+        <attr name="lv_size" format="float"/>
+        <attr name="lv_style" format="enum">
+            <enum name="display" value="0"/>
+            <enum name="text" value="2"/>
+            <enum name="script" value="4"/>
+            <enum name="script_script" value="6"/>
+        </attr>
+        <attr name="lv_type">
+            <flag name="serif" value="0"/>
+            <flag name="sansserif" value="1"/>
+            <flag name="bold" value="2"/>
+            <flag name="italic" value="4"/>
+            <flag name="roman" value="8"/>
+            <flag name="typewriter" value="16"/>
+        </attr>
+        <attr name="lv_foregroundColor" format="color"/>
+        <attr name="lv_backgroundColor" format="color"/>
+    </declare-styleable>
+</resources>
