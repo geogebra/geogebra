@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.json;
+package org.geogebra.common.move.ggtapi.models.json;
 
 // Note: this class was written without inspecting the non-free org.json sourcecode.
 /**

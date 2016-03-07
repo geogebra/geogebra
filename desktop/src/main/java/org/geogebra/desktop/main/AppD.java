@@ -142,6 +142,8 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.Base64;
@@ -193,8 +195,6 @@ import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.Normalizer;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 public class AppD extends App implements KeyEventDispatcher {
 

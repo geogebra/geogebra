@@ -1,8 +1,8 @@
 package org.geogebra.desktop.move.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.models.JSONWrapper;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 
 public class JSONWrapperD implements JSONWrapper {
 	private JSONObject impl;

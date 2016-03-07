@@ -9,10 +9,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.debug.Log;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * @author michael
