@@ -172,6 +172,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		ExpressionNode leftHandSide = eqn.getLHS();
 		ExpressionNode rightHandSide = eqn.getRHS();
 
+		ExpressionNode expr = null;
+		// we want to simplify the factors if right side is 0
 		if (rightHandSide.getRight() == null
 				&& rightHandSide.getLeft() instanceof MyDouble
 				&& Kernel.isEqual(rightHandSide.getLeft().evaluateDouble(), 0)) {
@@ -179,11 +181,27 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			// get factors without power of left side
 			ArrayList<ExpressionNode> factors = copyLeft.getFactorsWithoutPow();
 			if (!factors.isEmpty()) {
-
+				expr = new ExpressionNode(factors.get(0));
+				// build expressionNode from factors by multiplying
+				if (factors.size() > 1) {
+					for (int i = 1; i < factors.size(); i++) {
+						ExpressionNode copy = expr.deepCopy(kernel);
+						expr = new ExpressionNode(kernel, copy,
+								Operation.MULTIPLY, factors.get(i));
+					}
+				}
 			}
 		}
-		ExpressionNode functionExpression = new ExpressionNode(kernel,
-				leftHandSide, Operation.MINUS, rightHandSide);
+
+		ExpressionNode functionExpression;
+		// if there was no simplify of factors
+		if (expr == null) {
+			functionExpression = new ExpressionNode(kernel, leftHandSide,
+					Operation.MINUS, rightHandSide);
+		} else {
+			// return simplified expression
+			functionExpression = expr;
+		}
 		FunctionVariable x = new FunctionVariable(kernel, "x");
 		FunctionVariable y = new FunctionVariable(kernel, "y");
 		VariableReplacer repl = VariableReplacer.getReplacer(kernel);
