@@ -492,12 +492,12 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		return script
 				.append("[")
-				.append("[aa:=factorsqrfree(")
+				.append("[aa:=")
 				.append(eliminateCommand)
-				.append(")],")
+				.append("],")
 				.
 				// Creating a matrix from the output to satisfy Sergio:
-				append("[bb:=coeffs(aa[0],x)], [sx:=size(bb)], [sy:=size(coeffs(aa[0],y))],")
+				append("[bb:=coeffs(factorsqrfree(aa[0]),x)], [sx:=size(bb)], [sy:=size(coeffs(aa[0],y))],")
 				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
 				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
 				.append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;")

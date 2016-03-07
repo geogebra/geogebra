@@ -360,10 +360,10 @@ public class AlgoLocusEquation extends AlgoElement {
 
 		// This piece of code has been directly copied from CASgiac.java:
 		StringBuilder script = new StringBuilder();
-		script.append("[[aa:=factorsqrfree(")
+		script.append("[[aa:=")
 				.append(implicitCurveString)
 				.append(")],")
-				.append("[bb:=coeffs(aa,x)], [sx:=size(bb)], [sy:=size(coeffs(aa,y))],")
+				.append("[bb:=coeffs(factorsqrfree(aa),x)], [sx:=size(bb)], [sy:=size(coeffs(aa,y))],")
 				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
 				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
 				.append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;")
