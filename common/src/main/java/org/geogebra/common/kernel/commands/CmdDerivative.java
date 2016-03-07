@@ -42,7 +42,7 @@ public class CmdDerivative extends CommandProcessor {
 				CasEvaluableFunction f = (CasEvaluableFunction) arg[0];
 				if (label == null)
 					label = getDerivLabel(f.toGeoElement(), 1);
-				GeoElement[] ret = { NDerivative(label, f, null, null) };
+				GeoElement[] ret = { Derivative(label, f, null, null) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -78,7 +78,7 @@ public class CmdDerivative extends CommandProcessor {
 						int iorder = (int) Math.round(order);
 						label = getDerivLabel(f.toGeoElement(), iorder);
 					}
-					GeoElement[] ret = { NDerivative(label, f, null,
+					GeoElement[] ret = { Derivative(label, f, null,
 							(GeoNumberValue) arg[1]) };
 					return ret;
 
@@ -112,7 +112,7 @@ public class CmdDerivative extends CommandProcessor {
 					}
 
 					if (ok) {
-						GeoElement[] ret = { NDerivative(label,
+						GeoElement[] ret = { Derivative(label,
 								(CasEvaluableFunction) arg2[0], // function
 								(GeoNumeric) arg2[1], null) }; // var
 						return ret;
@@ -130,7 +130,7 @@ public class CmdDerivative extends CommandProcessor {
 				GeoNumeric var = new GeoNumeric(cons);
 				var.setLocalVariableLabel(arg[1]
 						.toString(StringTemplate.defaultTemplate));
-				GeoElement[] ret = { NDerivative(label,
+				GeoElement[] ret = { Derivative(label,
 						(CasEvaluableFunction) arg[0], // function
 						var, null) }; // var
 				return ret;
@@ -146,7 +146,7 @@ public class CmdDerivative extends CommandProcessor {
 				if (arg[0] instanceof CasEvaluableFunction
 						&& arg[1].isGeoNumeric()
 						&& arg[2] instanceof GeoNumberValue) {
-					GeoElement[] ret = { NDerivative(label,
+					GeoElement[] ret = { Derivative(label,
 							(CasEvaluableFunction) arg[0], // function
 							(GeoNumeric) arg[1], (GeoNumberValue) arg[2]) }; // var
 					return ret;
@@ -162,7 +162,7 @@ public class CmdDerivative extends CommandProcessor {
 				GeoNumeric var = new GeoNumeric(cons);
 				var.setLocalVariableLabel(arg[1]
 						.toString(StringTemplate.defaultTemplate));
-				GeoElement[] ret = { NDerivative(label,
+				GeoElement[] ret = { Derivative(label,
 						(GeoFunctionNVar) arg[0], // function
 						var, (GeoNumberValue) arg[2]) }; // var
 				return ret;
@@ -201,7 +201,7 @@ public class CmdDerivative extends CommandProcessor {
 	 *            derivative degree
 	 * @return derivaive
 	 */
-	public GeoElement NDerivative(String label, CasEvaluableFunction f,
+	public GeoElement Derivative(String label, CasEvaluableFunction f,
 			GeoNumeric var, NumberValue n) {
 		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n);
 		return algo.getResult();
