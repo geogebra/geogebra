@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONString;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * For Generating a JSON String for specific GeoGebratube API Requests
@@ -113,58 +114,66 @@ public class MaterialRequest implements Request {
 	}
 
 	public String toJSONString(ClientInfo client) {
-		this.apiJSON.put("-api", new JSONString(MaterialRequest.api));
-		this.taskJSON.put("-type", new JSONString(this.task.toString()));
+		try {
+			this.apiJSON.put("-api", new JSONString(MaterialRequest.api));
+			this.taskJSON.put("-type", new JSONString(this.task.toString()));
 
-		for (int i = 0; i < this.fields.length; i++) {
-			JSONObject current = new JSONObject();
-			current.put("-name", new JSONString(this.fields[i].toString()));
-			this.fieldJSON.set(i, current);
-		}
-
-		this.fieldsJSON.put("field", this.fieldJSON);
-
-		for (int i = 0; i < this.filters.length; i++) {
-			JSONObject current = new JSONObject();
-			current.put("-name", new JSONString(this.filters[i].toString()));
-			if (this.negFilters.contains(filters[i])) {
-				current.put("-comp", new JSONString("neq"));
-			}
-			if (this.filterMap.get(this.filters[i]) != null) {
-				current.put("#text", new JSONString(this.filterMap
-						.get(this.filters[i])));
+			for (int i = 0; i < this.fields.length; i++) {
+				JSONObject current = new JSONObject();
+				current.put("-name", new JSONString(this.fields[i].toString()));
+				this.fieldJSON.put(current);
 			}
 
-			this.filterJSON.set(i, current);
+			this.fieldsJSON.put("field", this.fieldJSON);
+
+			for (int i = 0; i < this.filters.length; i++) {
+				JSONObject current = new JSONObject();
+				current.put("-name",
+						new JSONString(this.filters[i].toString()));
+				if (this.negFilters.contains(filters[i])) {
+					current.put("-comp", new JSONString("neq"));
+				}
+				if (this.filterMap.get(this.filters[i]) != null) {
+					current.put("#text", new JSONString(
+							this.filterMap.get(this.filters[i])));
+				}
+
+				this.filterJSON.put(current);
+			}
+
+			this.filtersJSON.put("field", this.filterJSON);
+
+			this.orderJSON.put("-by", new JSONString(this.by.toString()));
+			this.orderJSON.put("-type", new JSONString(this.type.toString()));
+			this.limitJSON.put("-num",
+					new JSONString(String.valueOf(this.limit)));
+
+			this.taskJSON.put("fields", this.fieldsJSON);
+			this.taskJSON.put("filters", this.filtersJSON);
+			this.taskJSON.put("order", this.orderJSON);
+			this.taskJSON.put("limit", this.limitJSON);
+			if (this.model != null && model.isLoggedIn()) {
+				JSONObject login = new JSONObject();
+				login.put("-token", model.getLoginToken());
+				this.apiJSON.put("login", login);
+			}
+			if (this.client != null) {
+				JSONObject clientJSON = new JSONObject();
+				clientJSON.put("-id", client.getId());
+				clientJSON.put("-width", client.getWidth() + "");
+				clientJSON.put("-height", client.getHeight() + "");
+				clientJSON.put("-type", client.getType());
+				clientJSON.put("-language", client.getLanguage());
+				this.apiJSON.put("client", clientJSON);
+			}
+			this.apiJSON.put("task", this.taskJSON);
+			this.requestJSON.put("request", this.apiJSON);
+			return this.requestJSON.toString();
+		} catch (Exception e) {
+			Log.debug("problem building request: " + e.getMessage());
+			return null;
 		}
 
-		this.filtersJSON.put("field", this.filterJSON);
-
-		this.orderJSON.put("-by", new JSONString(this.by.toString()));
-		this.orderJSON.put("-type", new JSONString(this.type.toString()));
-		this.limitJSON.put("-num", new JSONString(String.valueOf(this.limit)));
-
-		this.taskJSON.put("fields", this.fieldsJSON);
-		this.taskJSON.put("filters", this.filtersJSON);
-		this.taskJSON.put("order", this.orderJSON);
-		this.taskJSON.put("limit", this.limitJSON);
-		if (this.model != null && model.isLoggedIn()) {
-			JSONObject login = new JSONObject();
-			login.put("-token", model.getLoginToken());
-			this.apiJSON.put("login", login);
-		}
-		if (this.client != null) {
-			JSONObject clientJSON = new JSONObject();
-			clientJSON.put("-id", client.getId());
-			clientJSON.put("-width", client.getWidth() + "");
-			clientJSON.put("-height", client.getHeight() + "");
-			clientJSON.put("-type", client.getType());
-			clientJSON.put("-language", client.getLanguage());
-			this.apiJSON.put("client", clientJSON);
-		}
-		this.apiJSON.put("task", this.taskJSON);
-		this.requestJSON.put("request", this.apiJSON);
-		return this.requestJSON.toString();
 	}
 
 	public static MaterialRequest forUser(int userId, ClientInfo client) {

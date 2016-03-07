@@ -95,13 +95,11 @@ public class JSONArray extends JSONValue {
     return this;
   }
 
-  /**
-   * Sets the specified index to the given value.
-   * 
-   * @param index the index to set
-   * @param value the value to set
-   */
-	public void set(int index, JSONValue value) {
+	/**
+	 * Appends {@code value} to the end of this array.
+	 *
+	 */
+	public void put(JSONValue value) {
     jsArray.add(value);
   }
 
