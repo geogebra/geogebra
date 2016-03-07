@@ -396,6 +396,9 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			case POWER:
 				d = Math.pow(d1, d2);
 				break;
+			case DIVIDE:
+				d = d1;
+				break;
 			default:
 				throw new NoSymbolicParametersException();
 			}
