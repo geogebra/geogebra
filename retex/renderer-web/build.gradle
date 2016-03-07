@@ -1,0 +1,113 @@
+buildscript {
+	repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+    }
+}
+
+repositories {
+	mavenCentral()
+}
+
+apply plugin: 'gwt'
+apply plugin: 'java'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+gwt {
+	gwtVersion '2.7.0'
+	// only compilable module
+	modules 'org.scilab.forge.JLaTeXMathGWTExportedLibrary'
+	devModules 'org.scilab.forge.JLaTeXMathGWTDev'
+	/*compiler {
+        style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
+	}*/
+}
+
+
+dependencies {
+	compile project(':renderer-base')
+	compile files(project(':renderer-base').sourceSets.main.java.srcDirs)
+	compile 'com.google.gwt:gwt-dev:2.7.0'
+	compile 'com.google.gwt:gwt-user:2.7.0'
+	testCompile 'com.google.gwt:gwt-user:2.7.0'
+	testCompile 'junit:junit:4.12'
+}
+
+task runSuperDev(type: JavaExec, dependsOn: 'jar') {
+	description 'Starts a codeserver, and a simple webserver for development'
+	main 'com.google.gwt.dev.DevMode'
+	maxHeapSize '2048m'
+	classpath ((configurations.compile as Set<String>) 
+		+ (sourceSets.main.allSource.srcDirs as Set<String>) 
+		+ (jar.archivePath as String))
+	workingDir file('war')
+	args '-logLevel', 'INFO',
+		'-codeServerPort', '9997',
+		'-port', '8888',
+		'-superDevMode',
+		'-war', file('war'),
+		'org.scilab.forge.JLaTeXMathGWTDev'
+	systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
+}
+task jarAll(type: Jar) {
+	classifier = 'all'
+	from project.sourceSets.main.java
+	from project.sourceSets.main.output
+	from project(':renderer-base').sourceSets.main.java
+	from project(':renderer-base').sourceSets.main.output
+}
+
+task jarSources(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+    from sourceSets.main.allSource 
+}
+
+// exclude from the eclipse classpath the java files in the resources dir
+eclipse.classpath.file { 
+	whenMerged { classpath ->
+		classpath.entries.find { entry -> entry.kind == 'src' && entry.path == 'src/main/resources' }.excludes = ['**/*.java']
+	}
+}
+
+task cleanDist(type: Delete) {
+	delete 'dist'
+}
+
+task dist(type: Copy, dependsOn: cleanDist) {
+	from compileGwt
+	into 'dist'
+	doLast {
+		// rename library
+		File jsFile = file('dist/jlatexmath/jlatexmath.nocache.js')
+		File newFile = file('dist/jlatexmath/jlatexmath.js')
+		jsFile.renameTo(newFile)
+
+		// remove unneeded artifacts
+		File clearCacheGif = file('dist/jlatexmath/clear.cache.gif')
+		clearCacheGif.delete();
+		File webInfFolder = file('dist/WEB-INF')
+		deleteDir(webInfFolder)
+	}
+}
+
+task zipDist(type: Zip, dependsOn: dist) {
+	from 'dist/jlatexmath'
+	destinationDir file('dist/')
+}
+
+def deleteDir(dir) {
+	if (dir.isDirectory()) {
+        String[] children = dir.list();
+        for (int i = 0; i < children.length; i++) {
+            boolean success = deleteDir(new File(dir, children[i]));
+            if (!success) {
+                return false;
+            }
+        }
+    }
+    return dir.delete();
+}

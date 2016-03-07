@@ -1,0 +1,20 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+group 'com.himamis.retex'
+version '0.1'
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            from components.java
+        }
+    }
+}
+sourceCompatibility = 1.5
+targetCompatibility = 1.5
+
+task jarSources(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+    from sourceSets.main.allSource 
+}

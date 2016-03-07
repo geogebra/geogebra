@@ -1,0 +1,24 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+group 'com.himamis.retex'
+version '0.1'
+
+publishing {
+	publications {
+		library(MavenPublication) {
+			from components.java
+		}
+	}
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+dependencies {
+	compile project(':renderer-base')
+}

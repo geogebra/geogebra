@@ -1,0 +1,488 @@
+<?xml version='1.0'?>
+
+<!--
+ * octave.xml
+ * =========================================================================
+ * This file is part of the Mirai Math TN - http://mirai.sourceforge.net
+ *
+ * Copyright (C) 2008 Bea Petrovicova
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * A copy of the GNU General Public License can be found in the file
+ * LICENSE.txt provided with the source distribution of this program (see
+ * the META-INF directory in the source jar). This license can also be
+ * found on the GNU website at http://www.gnu.org/licenses/gpl.html.
+ *
+ * If you did not receive a copy of the GNU General Public License along
+ * with this program, contact the lead developer, or write to the Free
+ * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
+-->
+
+<Serializer>
+	<Array>
+		<Open cas="{" tex="\lbrace " />
+		<Close cas="}" tex="\rbrace " />
+		<Field cas="," />
+		<Row cas=";" />
+	</Array>
+
+	<Matrix>
+		<Open cas="[" tex="\begin{bmatrix} " />
+		<Close cas="]" tex=" \end{bmatrix}" />
+		<Field cas="," tex=" &amp; " />
+		<Row cas=";" tex=" \\ " />
+	</Matrix>
+
+	<Characters>
+		<Character name="a" />
+		<Character name="b" />
+		<Character name="c" />
+		<Character name="d" />
+		<Character name="e" />
+		<Character name="f" />
+		<Character name="g" />
+		<Character name="h" />
+		<!-- i and j means complex 1 in octave; but in math it is 
+			customarily used as counter in sums and products -->
+		<Character name="i" cas="ni" />
+		<Character name="j" cas="nj" />
+		<Character name="k" />
+		<Character name="l" />
+		<Character name="m" />
+		<Character name="n" />
+		<Character name="o" />
+		<Character name="p" />
+		<Character name="q" />
+		<Character name="r" />
+		<Character name="s" />
+		<Character name="t" />
+		<Character name="u" />
+		<Character name="v" />
+		<Character name="w" />
+		<Character name="x" />
+		<Character name="y" />
+		<Character name="z" />
+		<Character name="A" />
+		<Character name="B" />
+		<Character name="C" />
+		<Character name="D" />
+		<Character name="E" />
+		<Character name="F" />
+		<Character name="G" />
+		<Character name="H" />
+		<Character name="I" />
+		<Character name="J" />
+		<Character name="K" />
+		<Character name="L" />
+		<Character name="M" />
+		<Character name="N" />
+		<Character name="O" />
+		<Character name="P" />
+		<Character name="Q" />
+		<Character name="R" />
+		<Character name="S" />
+		<Character name="T" />
+		<Character name="U" />
+		<Character name="V" />
+		<Character name="W" />
+		<Character name="X" />
+		<Character name="Y" />
+		<Character name="Z" />
+		<Character name="0" />
+		<Character name="1" />
+		<Character name="2" />
+		<Character name="3" />
+		<Character name="4" />
+		<Character name="5" />
+		<Character name="6" />
+		<Character name="7" />
+		<Character name="8" />
+		<Character name="9" />
+		<Character name=":" />
+		<!-- command delimiter ';' is not regular character 
+			for more details see MathController.endField(ch) -->
+		<Character name=";" /> 
+		<Character name="." />
+		<Character name=" " />
+	</Characters>
+
+	<Functions name="CustomFunctions" group="General">
+		<Function name="_" cas="_" tex="_" key="_" img="sub.png" desc="subscript" >
+			<Parameter name="i" type="number" order="0" />
+		</Function>
+
+		<Function name="^" cas="^" tex="^" key="^" img="power.png" desc="power" >
+			<Parameter name="n" type="number" order="0" />
+		</Function>
+
+		<Function name="frac" cas="/" tex="\frac" key="\" img="frac.png" initial="1" desc="fraction" >
+			<Parameter name="x" type="number" order="0" down="1" />
+			<Parameter name="y" type="number" order="1" up="0" />
+		</Function>
+
+		<Function name="sqrt" cas="sqrt" tex="\sqrt" key="q" img="sqrt.png" desc="square root" >
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="nthroot" cas="nthroot" tex="\sqrt" key="r" img="nroot.png" insert="1" desc="nth root" >
+			<Parameter name="x" type="number" order="0" up="1" />
+			<Parameter name="n" type="number" order="1" down="0" />
+		</Function>
+
+		<!-- not yet implemented -
+		<Function name="nsum" cas="nsum" tex="\nsum" key="" img="nsum.png" desc="sum" >
+			<Parameter name="v" type="string" order="0" />
+			<Parameter name="on" type="string" order="1" />
+			<Parameter name="x" type="number" order="2" />
+		</Function> -->
+
+		<Function name="sum" cas="sum" tex="\sum" key="s" img="sum.png" insert="3" desc="sum" >
+			<Parameter name="v" type="string" order="0" up="2" />
+			<Parameter name="fm" type="number" order="1" up="2" />
+			<Parameter name="to" type="number" order="2" down="0" />
+			<Parameter name="x" type="number" order="3" />
+		</Function> 
+
+		<Function name="prod" cas="prod" tex="\prod" key="p" img="prod.png" insert="3" desc="product" >
+			<Parameter name="v" type="string" order="0" up="2" />
+			<Parameter name="fm" type="number" order="1" up="2"/>
+			<Parameter name="to" type="number" order="2" down="0" />
+			<Parameter name="x" type="number" order="3" />
+		</Function> 
+
+		<Function name="factorial" cas="factorial" tex="!" key="!" img="factorial.png" desc="n factorial" >
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+	</Functions> 
+	<Functions name="CustomFunctions2" group="General">
+		<!-- not yet implemented - 
+		<Function name="d" cas="d" tex="'" key="d" img="diff.png" desc="differentiate" >
+			<Parameter name="x" type="number" order="0" />
+		</Function> -->
+
+		<Function name="nint" cas="NaN" tex="\int" key="i" img="_nint.png" desc="integrate" >
+			<Parameter name="x" type="number" order="0" />
+			<Parameter name="v" type="string" order="1" />
+		</Function>
+
+		<Function name="int" cas="quad" tex="\int" img="int.png" insert="2" desc="integrate" >
+			<Parameter name="fm" type="number" order="0" up="1" />
+			<Parameter name="to" type="number" order="1" down="0" />
+			<Parameter name="x" type="number" order="2" />
+			<Parameter name="v" type="string" order="3" />
+		</Function>
+
+		<Function name="lim" cas="NaN" tex="lim" key="l" img="_lim.png" insert="2" desc="limit" >
+			<Parameter name="v" type="string" order="0" />
+			<Parameter name="to" type="number" order="1" />
+			<Parameter name="x" type="number" order="2" />
+		</Function>
+
+		<Function name="function" cas="function" key="f" img="function.png" insert="2" desc="user defined function" >
+			<Parameter name="name" type="string" order="0" />
+			<Parameter name="v" type="string" order="1" />
+			<Parameter name="x" type="number" order="2" />
+		</Function>
+	</Functions> 
+
+	<Operators columns="12">
+		<Operator name="-" code="123" fontId="1" img="minus.png" />
+		<Operator name="+" code="43" fontId="1" img="plus.png" />
+		<Operator name="*" tex="\cdot" code="162" fontId="3" img="cdot.png" />
+		<Operator name="/" code="54" fontId="3" img="sl.png" />
+		<Operator name="times" cas="*" tex="\times" key="" code="163" fontId="3" />
+		<Operator name="div" cas="/" tex="\div" key="" code="165" fontId="3" />
+		<Operator name="=" code="61" fontId="1" img="eq.png" />
+		<Operator name="ne" cas="!=" tex="\ne" key="" code="61" fontId="1" />
+		<Operator name="equiv" cas="NaN" tex="\equiv" key="" code="180" fontId="3" />
+
+		<Operator name="neg" cas="!" tex="\neg" key="" code="58" fontId="3" />
+		<Operator name="vee" cas="|" tex="\vee" key="" code="95" fontId="3" />
+		<Operator name="wedge" cas="&amp;" tex="\wedge" key="" code="94" fontId="3" />
+
+
+		<Operator name="&lt;" cas="&lt;" code="60" fontId="0" img="lt.png" />
+		<Operator name="&gt;" cas="&gt;" code="62" fontId="0" img="gt.png" />
+		<Operator name="leq" cas="&lt;=" tex="\leq" key="" code="183" fontId="3" />
+		<Operator name="geq" cas="&gt;=" tex="\geq" key="" code="184" fontId="3" />
+		<Operator name="ll" cas="NaN" tex="\ll" key="" code="191" fontId="3" />
+		<Operator name="gg" cas="NaN" tex="\gg" key="" code="192" fontId="3" />
+
+		<Operator name="sim" cas="NaN" tex="\sim" key="" code="187" fontId="3" />
+		<Operator name="approx" cas="NaN" tex="\approx" key="" code="188" fontId="3" />
+		<Operator name="simeq" cas="NaN" tex="\simeq" key="" code="39" fontId="3" />
+		<Operator name="propto" cas="NaN" tex="\propto" key="" code="47" fontId="3" />
+
+		<Operator name="forall" cas="NaN" tex="\forall" key="" code="56" fontId="3" />
+		<Operator name="exists" cas="NaN" tex="\exists" key="" code="57" fontId="3" />
+
+
+		<Operator name="subset" cas="NaN" tex="\subset" key="" code="189" fontId="3" />
+		<Operator name="supset" cas="NaN" tex="\supset" key="" code="190" fontId="3" />
+		<Operator name="subseteq" cas="NaN" tex="\subseteq" key="" code="181" fontId="3" />
+		<Operator name="supseteq" cas="NaN" tex="\supseteq" key="" code="182" fontId="3" />
+		<Operator name="cup" cas="NaN" tex="\cup" key="" code="91" fontId="3" />
+		<Operator name="cap" cas="NaN" tex="\cap" key="" code="92" fontId="3" />
+		<Operator name="in" cas="NaN" tex="\in" key="" code="50" fontId="3" />
+		<Operator name="empty" cas="NaN" tex="\emptyset" key="" code="59" fontId="3" />
+
+ 		<Operator name="pm" cas="NaN" tex="\pm" key="" code="167" fontId="3" />
+		<Operator name="prime" cas="NaN" tex="\prime" key="" code="48" fontId="3" />
+		<Operator name="circ" cas="NaN" tex="\circ" key="" code="177" fontId="3" />
+		<Operator name="partial" cas="NaN" tex="\partial" key="" code="64" fontId="0" />
+
+		<Operator name="leftarrow" cas="NaN" tex="\leftarrow" key="" code="195" fontId="3" />
+		<Operator name="rightarrow" cas="NaN" tex="\rightarrow" key="" code="33" fontId="3" />
+		<Operator name="leftrightarrow" cas="NaN" tex="\leftrightarrow" key="" code="36" fontId="3" />
+		<Operator name="notrightarrow" cas="NaN" tex="\not\rightarrow" key="" code="33" fontId="3" />
+		<Operator name="notleftrightarrow" cas="NaN" tex="\not\leftrightarrow" key="" code="36" fontId="3" />
+	</Operators>
+
+	<Symbols columns="12">
+ 		<Symbol name="inf" cas="inf" tex="\infty" key="" code="49"  fontId="3" /> 	
+		<Symbol name="ii" cas="i" tex="\mathrm{i}" key="i" code="105" fontId="1" />
+		<Symbol name="jj" cas="j" tex="\mathrm{j}" key="j" code="106" fontId="1" />
+
+		<Symbol name="alpha" tex="\alpha" key="a" code="174" fontId="0" />
+		<Symbol name="beta" tex="\beta" key="b" code="175" fontId="0" />
+		<Symbol name="gamma" tex="\gamma" key="g" code="176" fontId="0" />
+		<Symbol name="delta" tex="\delta" key="d" code="177" fontId="0" />
+		<Symbol name="epsilon" tex="\epsilon" key="e" code="178" fontId="0" />
+		<Symbol name="vareps" tex="\varepsilon" key="" code="34" fontId="0" />
+		<Symbol name="zeta" tex="\zeta" key="z" code="179" fontId="0" />
+		<Symbol name="eta" tex="\eta" key="e" code="180" fontId="0" />
+		<Symbol name="theta" tex="\theta" key="t" code="181" fontId="0" />
+		<Symbol name="varth" tex="\vartheta" key="" code="35"  fontId="0" />
+		<Symbol name="iota" tex="\iota" key="i" code="182" fontId="0" />
+		<Symbol name="kappa" tex="\kappa" key="k" code="183" fontId="0" />
+		<Symbol name="lambda" tex="\lambda" key="l" code="184" fontId="0" />
+		<Symbol name="mu" tex="\mu" key="m" code="185" fontId="0" />
+		<Symbol name="nu" tex="\nu" key="n" code="186" fontId="0" />
+		<Symbol name="xi" tex="\xi" key="x" code="187" fontId="0" />
+		<Symbol name="omicron" tex="\omicron" key="" code="111" fontId="0" />
+		<Symbol name="pi" tex="\pi" key="p" code="188" fontId="0" />
+		<Symbol name="varpi" tex="\varpi" key="" code="36"  fontId="0" />
+		<Symbol name="rho" tex="\rho" key="r" code="189" fontId="0" />
+		<Symbol name="varrho" tex="\varrho" key="" code="37"  fontId="0" />
+		<Symbol name="sigma" tex="\sigma" key="s" code="190" fontId="0" />
+		<Symbol name="varsigma" tex="\varsigma" key="" code="38"  fontId="0" />
+		<Symbol name="tau" tex="\tau" key="t" code="191" fontId="0" />
+		<Symbol name="upsilon" tex="\upsilon" key="u" code="192" fontId="0" />
+		<Symbol name="phi" tex="\phi" key="f" code="193" fontId="0" />
+		<Symbol name="varphi" tex="\varphi" key="j" code="39"  fontId="0" />
+		<Symbol name="chi" tex="\chi" key="c" code="194" fontId="0" />
+		<Symbol name="psi" tex="\psi" key="y" code="195" fontId="0" />
+		<Symbol name="omega" tex="\omega" key="o" code="33"  fontId="0" />
+ 
+		<Symbol name="Gamma" tex="\Gamma" key="G" code="161" fontId="1" img="_Gamma.png" />
+		<Symbol name="Delta" tex="\Delta" key="D" code="162" fontId="1" img="_Delta.png" />
+		<Symbol name="Theta" tex="\Theta" key="Q" code="163" fontId="1" img="_Theta.png" />
+		<Symbol name="Lambda" tex="\Lambda" key="L" code="164" fontId="1" img="_Lambda.png" />
+		<Symbol name="Xi" tex="\Xi" key="X" code="165" fontId="1" img="_Xi.png" />
+		<Symbol name="Pi" tex="\Pi" key="P" code="166" fontId="1" img="_Pi.png" />
+		<Symbol name="Sigma" tex="\Sigma"  key="S" code="167" fontId="1" img="_Sigma.png" />
+		<Symbol name="Upsilon" tex="\Upsilon" key="U" code="168" fontId="1" img="_Upsilon.png" />
+		<Symbol name="Phi" tex="\Phi" key="F" code="169" fontId="1" img="_Phi.png" />
+		<Symbol name="Psi" tex="\Psi" key="Y" code="170" fontId="1" img="_Psi.png" />
+		<Symbol name="Omega" tex="\Omega" key="O" code="173" fontId="1" img="_Omega.png" />
+
+		<Symbol name="nabla" cas="nabla" tex="\nabla" key="" code="114" fontId="3" img="nabla.png" />		
+		<Symbol name="hbar" tex="\hbar" key="" code="104"  fontId="0" img="hbar.png" /> 
+ 		<Symbol name="ddagger" cas="ddagger" tex="\ddagger" key="" code="122"  fontId="3" img="ddagger.png" /> 
+		<Symbol name="paragraph" cas="paragraph" tex="\paragraph" key="" code="120" fontId="3" img="paragraph.png" />
+	</Symbols>
+
+	<Functions columns="6">
+		<Function name="sin" cas="sin" tex="sin" key="s" desc="sine">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="cos" cas="cos" tex="cos" key="c" desc="cosine">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="tan" cas="tan" tex="tan" key="t" desc="tangent">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="asin" cas="asin" tex="sin^{-1}" desc="arc sinus">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="acos" cas="acos" tex="cos^{-1}" desc="arc cosine">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="atan" cas="atan" tex="tan^{-1}" desc="arc tangent">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="sinh" cas="sinh" tex="sinh" desc="hyperbolic sine">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="cosh" cas="cosh" tex="cosh" desc="hyperbolic cosine">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="tanh" cas="tanh" tex="tanh" desc="hyperbolic tangent">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="asinh" cas="asin" tex="sinh^{-1}" desc="hyperbolic arc sine">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="acosh" cas="acos" tex="cosh^{-1}" desc="hyperbolic arc cosine">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="atanh" cas="atan" tex="tanh^{-1}" desc="hyperbolic arc tangent">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="ln" cas="log" tex="ln" key="l" desc="natural logarithm">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="log10" cas="log10" tex="log_{10}" desc="base 10 logarithm">
+			<Parameter name="x" type="number" order="0" />
+		</Function> 
+
+		<Function name="exp" cas="exp" tex="exp" key="e" desc="exponential">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+	<!-- Statistics -->
+
+		<Function name="corrcoef" key="" desc="correlation coefficient">
+			<Parameter name="x" type="number" order="0" />
+			<Parameter name="y" type="number" order="1" />
+		</Function>
+
+		<Function name="cov" key="" desc="covariance">
+			<Parameter name="x" type="number" order="0" />
+			<Parameter name="y" type="number" order="1" />
+		</Function>
+
+		<Function name="median" key="" desc="median value">
+			<Parameter name="a" type="matrix" order="0" />
+		</Function>
+
+		<Function name="mean" key="m" desc="mean value">
+			<Parameter name="a" type="matrix" order="0" />
+		</Function>
+
+		<Function name="std" key="" desc="standard deviation">
+			<Parameter name="a" type="matrix" order="0" />
+		</Function>
+
+		<Function name="var" key="v" desc="variance">
+			<Parameter name="a" type="matrix" order="0" />
+		</Function>
+
+		<Function name="cov" key="" desc="covariance">
+			<Parameter name="a" type="matrix" order="0" />
+		</Function>
+
+	<!-- Miscellaneous Functions -->
+
+		<Function name="mod" cas="mod" tex="mod" desc="modulo">
+			<Parameter name="n" type="integer" order="0" />
+			<Parameter name="m" type="integer" order="1" />
+		</Function>
+
+		<Function name="floor" cas="floor" tex="floor" key="f" desc="round down to whole number">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="ceil" cas="ceil" tex="ceil" desc="round up to next whole number">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="abs" cas="abs" tex="abs" key="a" desc="absolute value">
+			<Parameter name="x" type="number" order="0" />
+		</Function>
+
+		<Function name="sign" cas="sign" tex="sign" desc="sign of x">
+			<Parameter name="x" type="number" order="0" />
+		</Function> 
+
+		<Function name="gcd" cas="gcd" tex="gcd" desc="greatest common divisor">
+			<Parameter name="x" type="number" order="0" />
+			<Parameter name="y" type="number" order="1" />
+		</Function> 
+
+		<Function name="lcm" cas="lcm" tex="lcm" desc="least common multiple">
+			<Parameter name="x" type="number" order="0" />
+			<Parameter name="y" type="number" order="1" />
+		</Function> 
+
+		<Function name="rand" key="r" desc="random number">
+		</Function>
+
+	<!-- Matrix Operations -->
+
+		<Function name="eye" key="" desc="create n by m identity matrix">
+			<Parameter name="n" type="integer" order="0" />
+			<Parameter name="m" type="integer" order="0" />
+		</Function>
+
+		<Function name="transpose" key="" desc="transpose a matrix">
+			<Parameter name="a" type="matrix" order="0" />
+		</Function>
+
+		<Function name="inverse" cas="inverse" key="i" desc="invert a square matrix">
+			<Parameter name="a" type="matrix" order="0" />
+		</Function>
+
+		<Function name="det" key="d" desc="determinant of a matrix">
+			<Parameter name="a" type="matrix" order="0" />
+		</Function>
+
+		<Function name="min" key="" desc="minimum value in a matrix">
+			<Parameter name="a" type="array, matrix" order="0" />
+		</Function>
+
+		<Function name="max" key="" desc="maximum value in a matrix">
+			<Parameter name="a" type="array, matrix" order="0" />
+		</Function>
+
+		<Function name="rows" key="" desc="returns number of rows">
+			<Parameter name="a" type="array, matrix" order="0" />
+		</Function>
+
+		<Function name="columns" key="" desc="returns number of columns">
+			<Parameter name="a" type="array, matrix" order="0" />
+		</Function>
+
+	<!-- Graphics Operations -->
+
+		<Function name="plot" key="" desc="2D plot">
+			<Parameter name="x" type="matrix" order="0" />
+			<Parameter name="y" type="matrix" order="1" />
+		</Function>
+
+		<Function name="meshgrid" key="" desc="grid for 3D mesh">
+			<Parameter name="x" type="matrix" order="0" />
+			<Parameter name="y" type="matrix" order="1" />
+		</Function>
+
+		<Function name="mesh" key="" desc="3D mesh">
+			<Parameter name="x" type="matrix" order="0" />
+			<Parameter name="y" type="matrix" order="1" />
+			<Parameter name="z" type="matrix" order="2" />
+		</Function>
+
+	</Functions>
+</Serializer>

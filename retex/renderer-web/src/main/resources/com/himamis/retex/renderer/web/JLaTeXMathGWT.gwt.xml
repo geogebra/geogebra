@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="jlatexmath">
+  <inherits name="com.google.gwt.xml.XML" />
+  <inherits name="com.google.gwt.resources.Resources" />
+  <inherits name="com.google.gwt.logging.Logging" />
+  <inherits name="org.scilab.forge.JLaTeXMath" />
+
+  <source path="jlatexmath" />
+  <public path="jlatexmath/public" />
+</module>

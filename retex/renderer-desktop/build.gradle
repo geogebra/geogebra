@@ -1,0 +1,13 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.5
+targetCompatibility = 1.5
+
+dependencies {
+	compile project(':renderer-base')
+	testCompile 'junit:junit:4.11'
+}

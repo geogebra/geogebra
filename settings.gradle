@@ -12,4 +12,21 @@ include 'input3D:impl'
 include 'web'
 include 'web:dev'
 
+include 'renderer-base'
+include 'renderer-desktop'
+include 'renderer-web'
+include 'editor-base'
+include 'editor-desktop'
+
 include 'test'
+
+rootProject.name = 'geogebra'
+rootProject.children.each { project ->
+    String projectName = project.name
+    if (projectName.startsWith('renderer') || projectName.startsWith('editor')) {
+    	String projectDirName = "retex/$projectName"
+    	project.projectDir = new File(settingsDir, projectDirName)
+    	assert project.projectDir.isDirectory()
+    }
+}
+
