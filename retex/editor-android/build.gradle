@@ -40,7 +40,7 @@ publishing {
 }
 
 dependencies {
-	compile project(':editor-share')
+	compile project(':editor-base')
     compile project(':renderer-android')
 	testCompile 'junit:junit:4.11'
 }
