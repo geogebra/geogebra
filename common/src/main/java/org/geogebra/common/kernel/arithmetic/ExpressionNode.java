@@ -192,12 +192,12 @@ public class ExpressionNode extends ValidExpression implements
 
 	/**
 	 * 
-	 * 
+	 * TRAC-3629
 	 * 
 	 * @return true-if we want to force degree false-otherwise
 	 */
 	public boolean getForceDegree() {
-		return this.forceDegree;
+		return false;// this.forceDegree;
 	}
 
 	/**
