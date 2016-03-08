@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.web.web.gui.layout.DockPanelW;
-import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolViewW.MyPanel;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -25,7 +24,7 @@ public class InnerPanel extends FlowPanel implements RequiresResize {
 			content.setHeight(height + "px");
 		}
 
-		((MyPanel) content).setHeaderSizes();
+		// ((MyPanel) content).setHeaderSizes();
 	}
 
 }
