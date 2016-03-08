@@ -757,8 +757,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		if (evaluate != null)
 			return new AlgoIntegralDefinite((GeoFunction) f.copy(),
 					(NumberValue) a.deepCopy(kernel),
-					(NumberValue) b.deepCopy(kernel),
- evaluate.copy());
+					(NumberValue) b.deepCopy(kernel), evaluate.copy());
 		return new AlgoIntegralDefinite((GeoFunction) f.copy(),
 				(NumberValue) a.deepCopy(kernel),
 				(NumberValue) b.deepCopy(kernel), null);
