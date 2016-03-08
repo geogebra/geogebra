@@ -11,9 +11,17 @@ the Free Software Foundation.
  */
 package org.geogebra.common.euclidian;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawList;
@@ -26,11 +34,11 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -112,13 +120,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.TreeSet;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -10694,12 +10695,99 @@ public abstract class EuclidianController {
 		return temporaryMode;
 	}
 
+	/**
+	 * rest all the settings that have been changed in setModeToFreehand().
+	 * 
+	 * no effect if setModeToFreehand() has not been called or had no effect
+	 * (e.g. because the selected tool is not supported)
+	 */
 	public void resetModeAfterFreehand() {
-		// not used in common, overwritten for other projects
+		if (freehandModePrepared) {
+			freehandModePrepared = false;
+			pen = null;
+		}
+		if (freehandModeSet) {
+			freehandModeSet = false;
+			this.mode = previousMode;
+			moveMode = MOVE_NONE;
+			view.setPreview(switchPreviewableForInitNewMode(this.mode));
+			pen = null;
+			this.previousMode = -1;
+			this.view.repaint();
+		}
 	}
 
+	protected boolean freehandModePrepared = false;
+	private boolean freehandModeSet = false;
+	private int previousMode = -1;
+
 	public void prepareModeForFreehand() {
-		// not used in common, overwritten for other projects
+		if (selectedPoints.size() != 0) {
+			// make sure to switch only for the first point
+			return;
+		}
+
+		// defined at the beginning, because it is modified for some modes
+		GeoPoint point = (GeoPoint) this.view.getHits()
+				.getFirstHit(Test.GEOPOINT);
+		if (point == null && this.movedGeoPoint instanceof GeoPoint) {
+			point = (GeoPoint) this.movedGeoPoint;
+		}
+
+		switch (this.mode) {
+		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			this.pen = new EuclidianPenFreehand(app, view);
+			((EuclidianPenFreehand) pen)
+					.setExpected(ShapeType.circleThreePoints);
+
+			// the point will be deleted if no circle can be built, therefore
+			// make sure that only a newly created point is set
+			point = (this.pointCreated != null)
+					&& movedGeoPoint instanceof GeoPoint
+							? (GeoPoint) movedGeoPoint : null;
+			break;
+		case EuclidianConstants.MODE_POLYGON:
+			this.pen = new EuclidianPenFreehand(app, view);
+			((EuclidianPenFreehand) pen).setExpected(ShapeType.polygon);
+			break;
+		case EuclidianConstants.MODE_RIGID_POLYGON:
+			this.pen = new EuclidianPenFreehand(app, view);
+			((EuclidianPenFreehand) pen).setExpected(ShapeType.rigidPolygon);
+			break;
+		case EuclidianConstants.MODE_VECTOR_POLYGON:
+			this.pen = new EuclidianPenFreehand(app, view);
+			((EuclidianPenFreehand) pen).setExpected(ShapeType.vectorPolygon);
+			break;
+		case EuclidianConstants.MODE_FREEHAND_CIRCLE:
+			this.pen = new EuclidianPenFreehand(app, view);
+			((EuclidianPenFreehand) pen).setExpected(ShapeType.circle);
+			point = null;
+			break;
+		default:
+			return;
+		}
+		freehandModePrepared = true;
+		((EuclidianPenFreehand) pen).setInitialPoint(point,
+				point != null && point.equals(pointCreated));
+	}
+
+	/**
+	 * sets the mode to freehand_shape with an expected shape depending on the
+	 * actual mode (has no effect if no mode is set that can be turned into
+	 * freehand_shape)
+	 * 
+	 * For some modes requires that view.setHits(...) has been called with the
+	 * correct parameters or movedGeoPoint is set correct in order to use other
+	 * GeoPoints (e.g. as the first point of a polygon). Also pointCreated needs
+	 * to be set correctly.
+	 * 
+	 */
+	protected void setModeToFreehand() {
+		// only executed if one of the specified modes is set
+		this.previousMode = this.mode;
+		this.mode = EuclidianConstants.MODE_FREEHAND_SHAPE;
+		moveMode = MOVE_NONE;
+		freehandModeSet = true;
 	}
 
 	/**

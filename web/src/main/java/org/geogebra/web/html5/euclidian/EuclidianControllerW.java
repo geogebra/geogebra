@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianPenFreehand;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.Hits;
-import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
@@ -18,9 +16,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -78,7 +74,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	 */
 	protected boolean moveAxesAllowed = true;
 
-	private int previousMode = -1;
+
 
 
 
@@ -413,100 +409,11 @@ public class EuclidianControllerW extends EuclidianController implements
 		return super.moveAxesPossible() && this.moveAxesAllowed;
 	}
 
-	private boolean freehandModePrepared = false;
-	private boolean freehandModeSet = false;
 
-	@Override
-	public void prepareModeForFreehand() {
-		if (selectedPoints.size() != 0) {
-			// make sure to switch only for the first point
-			return;
-		}
 
-		// defined at the beginning, because it is modified for some modes
-		GeoPoint point = (GeoPoint) this.view.getHits().getFirstHit(
-		        Test.GEOPOINT);
-		if (point == null && this.movedGeoPoint instanceof GeoPoint) {
-			point = (GeoPoint) this.movedGeoPoint;
-		}
 
-		switch (this.mode) {
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-			this.pen = new EuclidianPenFreehand(app, view);
-			((EuclidianPenFreehand) pen).setExpected(ShapeType.circleThreePoints);
 
-			// the point will be deleted if no circle can be built, therefore
-			// make sure that only a newly created point is set
-			point = (this.pointCreated != null)
-			        && movedGeoPoint instanceof GeoPoint ? (GeoPoint) movedGeoPoint
-			        : null;
-			break;
-		case EuclidianConstants.MODE_POLYGON:
-			this.pen = new EuclidianPenFreehand(app, view);
-			((EuclidianPenFreehand) pen).setExpected(ShapeType.polygon);
-			break;
-		case EuclidianConstants.MODE_RIGID_POLYGON:
-			this.pen = new EuclidianPenFreehand(app, view);
-			((EuclidianPenFreehand) pen).setExpected(ShapeType.rigidPolygon);
-			break;
-		case EuclidianConstants.MODE_VECTOR_POLYGON:
-			this.pen = new EuclidianPenFreehand(app, view);
-			((EuclidianPenFreehand) pen).setExpected(ShapeType.vectorPolygon);
-			break;
-		case EuclidianConstants.MODE_FREEHAND_CIRCLE:
-			this.pen = new EuclidianPenFreehand(app, view);
-			((EuclidianPenFreehand) pen).setExpected(ShapeType.circle);
-			point = null;
-			break;
-		default:
-			return;
-		}
-		freehandModePrepared = true;
-		((EuclidianPenFreehand) pen).setInitialPoint(point, point != null
-		        && point.equals(pointCreated));
-	}
 
-	/**
-	 * sets the mode to freehand_shape with an expected shape depending on the
-	 * actual mode (has no effect if no mode is set that can be turned into
-	 * freehand_shape)
-	 * 
-	 * For some modes requires that view.setHits(...) has been called with the
-	 * correct parameters or movedGeoPoint is set correct in order to use other
-	 * GeoPoints (e.g. as the first point of a polygon). Also pointCreated needs
-	 * to be set correctly.
-	 * 
-	 */
-	protected void setModeToFreehand() {
-		// only executed if one of the specified modes is set
-		this.previousMode = this.mode;
-		this.mode = EuclidianConstants.MODE_FREEHAND_SHAPE;
-		moveMode = MOVE_NONE;
-		freehandModeSet = true;
-	}
-
-	/**
-	 * rest all the settings that have been changed in setModeToFreehand().
-	 * 
-	 * no effect if setModeToFreehand() has not been called or had no effect
-	 * (e.g. because the selected tool is not supported)
-	 */
-	@Override
-	public void resetModeAfterFreehand() {
-		if (freehandModePrepared) {
-			freehandModePrepared = false;
-			pen = null;
-		}
-		if (freehandModeSet) {
-			freehandModeSet = false;
-			this.mode = previousMode;
-			moveMode = MOVE_NONE;
-			view.setPreview(switchPreviewableForInitNewMode(this.mode));
-			pen = null;
-			this.previousMode = -1;
-			this.view.repaint();
-		}
-	}
 
 
 
