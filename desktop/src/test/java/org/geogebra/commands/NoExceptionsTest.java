@@ -1772,7 +1772,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSetActiveView() {
 		t("SetActiveView[ gv ]");
-		t("SetActiveView[ poly1 ]");
+		t("SetActiveView[ Plane[(1,0),(2,3),(0,1)] ]");
 	}
 
 	@Test
