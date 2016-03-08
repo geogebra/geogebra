@@ -3573,7 +3573,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	background-color: #FFFFFF;
 }
 
-.cpScrollPanel thead th {
+.cpTable thead th {
 	text-shadow: none;
 	color: #666666;
 	border-bottom: 2px solid #666666;
@@ -3596,7 +3596,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	opacity: 0.9;
 }
 
-.cpScrollPanel td {
+.cpTable td {
 	border: none;
 	border-bottom: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
@@ -6209,3 +6209,17 @@ body.application[dir=rtl] .deleteAlgebra {
 	}
 }
 
+
+
+.headerTable2 tbody{
+	display: none;
+}
+
+.headerTable2{
+	width: 100%;
+}
+
+.headerTable2 th:FIRST-CHILD{
+	width: 35px;
+	max-width: 35px;
+}

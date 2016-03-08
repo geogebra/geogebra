@@ -41,6 +41,7 @@ import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -83,13 +84,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	GPopupMenuW popupMenu;
 	GCheckBoxMenuItem miShowOnlyBreakpoints = null;
 
+	CellTable<RowData> headerTable2;
+
 
 	/**
 	 * 
 	 * @param app {@link AppW}
 	 */
 	public ConstructionProtocolViewW(final AppW app) {
-		cpPanel = new FlowPanel();
+		cpPanel = new MyPanel();
 		this.app = app;
 		kernel = app.getKernel();
 		data = new ConstructionTableDataW(this);
@@ -110,8 +113,22 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 //		
 //		
 
-		ScrollPanel scrollPane = new ScrollPanel(table);
+		
+
+		headerTable2 = new CellTable<RowData>();
+		addColumnsForTable(headerTable2);
+		headerTable2.addStyleName("headerTable2");
+		headerTable2.addStyleName("cpTable");
+
+		FlowPanel holderPanel = new FlowPanel();
+		holderPanel.add(table);
+		ScrollPanel scrollPane = new ScrollPanel(holderPanel);
+
+
 		scrollPane.setStyleName("cpScrollPanel");
+		if (app.has(Feature.FIX_CP_HEADER)) {
+			cpPanel.add(headerTable2);
+		}
 		cpPanel.add(scrollPane);
 		
 		addDragDropHandlers();
@@ -126,6 +143,27 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		initGUI();
 	}
 	
+	public class MyPanel extends FlowPanel {
+
+		public void setHeaderSizes() {
+			NodeList<Element> tableRows = table.getElement()
+					.getElementsByTagName("tbody").getItem(0)
+					.getElementsByTagName("tr");
+			if (tableRows.getLength() == 0) {
+				return;
+			}
+
+			NodeList<Element> firstRow = tableRows.getItem(0)
+					.getElementsByTagName("td");
+
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				headerTable2.setColumnWidth(i, firstRow.getItem(i)
+						.getOffsetWidth() + "px");
+			}
+		}
+
+	}
+
 	/**
 	 * adds handlers for dragging rows. Overridden for touch. 
 	 */
