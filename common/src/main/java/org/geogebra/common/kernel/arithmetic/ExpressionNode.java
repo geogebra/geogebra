@@ -27,6 +27,7 @@ import java.util.Iterator;
 import org.geogebra.common.export.MathmlTemplate;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -78,7 +79,7 @@ public class ExpressionNode extends ValidExpression implements
 	// used by NDerivative command
 	// (answer not displayed in Algebra View)
 	final public static String secretString = "sEcRet";
-	private boolean isSecret;
+	private AlgoElement isSecret;
 
 
 	/**
@@ -1556,7 +1557,7 @@ kernel, left,
 	final public String toString(StringTemplate tpl) {
 
 		if (isSecret()) {
-			return secretString;
+			return isSecret.getDefinition(tpl);
 		}
 
 		if (leaf) { // leaf is GeoElement or not
@@ -1603,7 +1604,7 @@ kernel, left,
 	final public String toValueString(StringTemplate tpl) {
 
 		if (isSecret()) {
-			return secretString;
+			return isSecret.getDefinition(tpl);
 		}
 
 		if (isLeaf()) { // leaf is GeoElement or not
@@ -1639,6 +1640,9 @@ kernel, left,
 	}
 
 	final public String toOutputValueString(StringTemplate tpl) {
+		if (isSecret()) {
+			return isSecret.getDefinition(tpl);
+		}
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
 				return left.toOutputValueString(tpl);
@@ -1673,7 +1677,9 @@ kernel, left,
 	 */
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		String ret;
-
+		if (isSecret != null) {
+			return isSecret.getDefinition(tpl);
+		}
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
 				ret = left.toLaTeXString(symbolic, tpl);
@@ -4682,7 +4688,7 @@ kernel, left,
 		ExpressionNode ret = derivativeNotSecret(fv, kernel0);
 		Log.error(ret.toValueString(StringTemplate.defaultTemplate));
 
-		return ret.setSecret();
+		return ret;// .setSecret();
 	}
 
 	public ExpressionNode derivativeNotSecret(FunctionVariable fv,
@@ -6163,10 +6169,10 @@ kernel, left,
 	 * @return set when expression shouldn't be displayed to the user eg
 	 *         NDerivative
 	 */
-	public ExpressionNode setSecret() {
+	public ExpressionNode setSecret(AlgoElement algo) {
 
 		if (kernel.getApplication().has(Feature.NDERIVATIVE_COMMAND)) {
-			this.isSecret = true;
+			this.isSecret = algo;
 		}
 
 		return this;
@@ -6183,7 +6189,7 @@ kernel, left,
 			return false;
 		}
 
-		return isSecret;
+		return isSecret != null;
 	}
 
 	/**

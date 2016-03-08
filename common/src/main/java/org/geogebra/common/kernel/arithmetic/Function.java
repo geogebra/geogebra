@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -924,7 +925,7 @@ public class Function extends FunctionNVar implements
 			Function ret = polyDeriv.getFunction(kernel, getFunctionVariable());
 
 			if (fast) {
-				ret.setSecret();
+				// ret.setSecret();
 			}
 
 			return ret;
@@ -1210,8 +1211,8 @@ public class Function extends FunctionNVar implements
 		return expression.derivative(fv, kernel0);
 	}
 
-	public void setSecret() {
-		getExpression().setSecret();
+	public void setSecret(AlgoElement algo) {
+		getExpression().setSecret(algo);
 	}
 
 }

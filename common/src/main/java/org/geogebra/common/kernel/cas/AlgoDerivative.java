@@ -158,6 +158,9 @@ public class AlgoDerivative extends AlgoCasBase {
 
 			Function funDeriv = ((GeoFunction) f).getFunction().getDerivative(
 					orderInt, fast);
+			if (fast) {
+				funDeriv.setSecret(this);
+			}
 			((GeoFunction) g).setFunction(funDeriv);
 			((GeoFunction) g).setDefined(true);
 			return;
@@ -166,6 +169,10 @@ public class AlgoDerivative extends AlgoCasBase {
 		if (f instanceof GeoCurveCartesianND) {
 			((GeoCurveCartesianND) g).setDerivative((GeoCurveCartesianND) f,
 					orderInt);
+			for (int i = 0; fast
+					&& i < ((GeoCurveCartesianND) g).getDimension(); i++) {
+				((GeoCurveCartesianND) g).getFun(i).setSecret(this);
+			}
 			return;
 		}
 

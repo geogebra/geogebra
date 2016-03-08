@@ -2936,8 +2936,8 @@ CasEvaluableFunction, ParametricCurve,
 	/**
 	 * GGB-605
 	 */
-	public void setSecret() {
-		getFunction().setSecret();
+	public void setSecret(AlgoElement algo) {
+		getFunction().setSecret(algo);
 	}
 
 }
