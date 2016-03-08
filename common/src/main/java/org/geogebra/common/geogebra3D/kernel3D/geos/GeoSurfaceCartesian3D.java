@@ -1096,6 +1096,8 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 * 
 	 * @param x0
 	 *            origin x
+	 * @param xMax
+	 *            max x value
 	 * @param y0
 	 *            origin y
 	 * @param z0
@@ -1112,7 +1114,8 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 *            (x,y,z,u,v) best point coords and parameters
 	 * @return true if point found
 	 */
-	public boolean getBestColinear(double x0, double y0, double z0, double vx,
+	public boolean getBestColinear(double x0, double xMax, double y0,
+			double z0, double vx,
 			double vy, double vz, double vSquareNorm, double[] xyzuvOut) {
 		if (jacobian == null) {
 			jacobian = new CoordMatrix(2, 2);
@@ -1134,8 +1137,15 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		double gyc = x0 * vz - vx * z0;
 		double gzc = y0 * vx - vy * x0;
 
-		double uMin = getMinParameter(0);
-		double uMax = getMaxParameter(0);
+		double uMin, uMax;
+		if (isSurfaceOfRevolutionAroundOx) {
+			uMin = x0;
+			uMax = xMax;
+		} else {
+			uMin = getMinParameter(0);
+			uMax = getMaxParameter(0);
+		}
+
 		double vMin = getMinParameter(1);
 		double vMax = getMaxParameter(1);
 

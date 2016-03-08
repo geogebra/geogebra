@@ -3046,7 +3046,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				xyzuv = new double[5];
 			}
 			
-			boolean found = surface.getBestColinear(hitting.x0,
+			boolean found = surface.getBestColinear(hitting.x0, hitting.x1,
 					hitting.y0, hitting.z0, hitting.vx, hitting.vy, hitting.vz,
 					hitting.squareNorm, xyzuv);
 
