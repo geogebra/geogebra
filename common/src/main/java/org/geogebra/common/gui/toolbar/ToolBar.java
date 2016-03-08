@@ -55,10 +55,10 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_MIDPOINT);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_COMPLEX_NUMBER);
-		// sb.append(" ");
-		// sb.append(EuclidianConstants.MODE_EXTREMUM);
-		// sb.append(" ");
-		// sb.append(EuclidianConstants.MODE_ROOTS);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_EXTREMUM);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ROOTS);
 
 
 		// basic lines
