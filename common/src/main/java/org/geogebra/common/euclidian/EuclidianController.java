@@ -7738,7 +7738,7 @@ public abstract class EuclidianController {
 	 * @return true, if the freehand mode is prepared (e.g. polygons, circle)
 	 */
 	protected boolean freehandModePrepared() {
-		return false;
+		return freehandModePrepared;
 	}
 
 	protected final void handleMouseDragged(boolean repaint,
@@ -8150,8 +8150,7 @@ public abstract class EuclidianController {
 			// Set capture events only if the mouse is actually down,
 			// because we need to release the capture on mouse up.
 			if (startCapture) {
-				// Event.setCapture(((PointerEvent)
-				// event).getRelativeElement());
+				startCapture(event);
 			}
 			wrapMouseDraggedND(event, startCapture);
 		}
@@ -8170,6 +8169,11 @@ public abstract class EuclidianController {
 				&& event.getType() == PointerEventType.TOUCH) {
 			this.view.updatePreviewableForProcessMode();
 		}
+	}
+
+	protected void startCapture(AbstractEvent event) {
+		// for web
+
 	}
 
 	public void wrapMouseDraggedND(AbstractEvent event, boolean startCapture) {

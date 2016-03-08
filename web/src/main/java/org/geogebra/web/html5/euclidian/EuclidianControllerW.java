@@ -232,6 +232,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.onMouseDown(event);
 	}
 
+	@Override
 	public void onPointerEventStart(AbstractEvent event) {
 
 		if (temporaryMode) {
@@ -353,39 +354,10 @@ public class EuclidianControllerW extends EuclidianController implements
 
 
 
+
 	@Override
-	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
-		if (pen != null && !penDragged && freehandModePrepared) {
-			getPen().handleMouseDraggedForPenMode(event);
-		}
-
-
-		if (!shouldCancelDrag()) {
-			if (shouldSetToFreehandMode()) {
-				setModeToFreehand();
-			}
-			// Set capture events only if the mouse is actually down,
-			// because we need to release the capture on mouse up.
-			if (startCapture) {
-				Event.setCapture(((PointerEvent) event).getRelativeElement());
-			}
-			wrapMouseDraggedND(event, startCapture);
-		}
-		if (movedGeoPoint != null
-		        && (this.mode == EuclidianConstants.MODE_JOIN
-		                || this.mode == EuclidianConstants.MODE_SEGMENT
-		                || this.mode == EuclidianConstants.MODE_RAY
-		                || this.mode == EuclidianConstants.MODE_VECTOR
-		                || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		                || this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
-			// nothing was dragged
-			super.wrapMouseMoved(event);
-		}
-
-		if (view.getPreviewDrawable() != null
-		        && event.getType() == PointerEventType.TOUCH) {
-			this.view.updatePreviewableForProcessMode();
-		}
+	protected void startCapture(AbstractEvent event) {
+		Event.setCapture(((PointerEvent) event).getRelativeElement());
 	}
 
 
@@ -477,10 +449,12 @@ public class EuclidianControllerW extends EuclidianController implements
 	 * @param sticky
 	 *            keep the tool iff true
 	 */
+	@Override
 	public void setActualSticky(boolean sticky) {
 		this.actualSticky = sticky;
 	}
 
+	@Override
 	public void onDrop(DropEvent event) {
 		app.setActiveView(App.VIEW_EUCLIDIAN);
 		app.setActiveView(App.VIEW_EUCLIDIAN2);
@@ -518,6 +492,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		}
 	}
 
+	@Override
 	public LongTouchManager getLongTouchManager() {
 		return mtg.getLongTouchManager();
 	}
