@@ -37,8 +37,6 @@ public enum Feature {
 
 	SEQUENTIAL_COLORS,
 
-	GL_ELEMENTS,
-
 	RETINA,
 
 	AUTOMATIC_FONTSIZE,

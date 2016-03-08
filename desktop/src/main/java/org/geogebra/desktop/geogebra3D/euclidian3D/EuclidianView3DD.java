@@ -42,7 +42,6 @@ import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersionD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererGLPickingGL2;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererShaders;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererShadersElements;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.main.AppD;
@@ -114,10 +113,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		}
 
 		if (app.useShaders()) {
-			if (app.has(Feature.GL_ELEMENTS)) {
-				return new RendererShadersElements(this, !app.isApplet());
-			}
-			return new RendererShaders(this, !app.isApplet());
+			return new RendererShadersElements(this, !app.isApplet());
 		}
 		return new RendererGLPickingGL2(this, !app.isApplet());
 

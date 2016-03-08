@@ -101,7 +101,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -634,7 +633,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	final private DrawSurface3D newDrawSurface3D(SurfaceEvaluable surface) {
-		if (renderer.useShaders() && app.has(Feature.GL_ELEMENTS)) {
+		if (renderer.useShaders()) {
 			return new DrawSurface3DElements(this, surface);
 		}
 		return new DrawSurface3D(this, surface);

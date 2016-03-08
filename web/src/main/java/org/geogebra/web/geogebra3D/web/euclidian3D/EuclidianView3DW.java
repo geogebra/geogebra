@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererShadersElementsW;
@@ -454,10 +453,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	protected Renderer createRenderer() {
-		if (app.has(Feature.GL_ELEMENTS)) {
-			return new RendererShadersElementsW(this);
-		}
-		return new RendererW(this);
+		return new RendererShadersElementsW(this);
 	}
 
 	@Override
