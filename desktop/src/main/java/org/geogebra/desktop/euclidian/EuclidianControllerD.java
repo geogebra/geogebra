@@ -41,7 +41,7 @@ public class EuclidianControllerD extends
 	// protected MyPopupMenu popupMenu;
 
 	// boolean polygonRigid = false;
-
+	private int moveCounter = 0;
 	/***********************************************
 	 * Creates new EuclidianController
 	 **********************************************/
@@ -77,6 +77,7 @@ public class EuclidianControllerD extends
 		if (!app.isRightClick(event)) {
 			prepareModeForFreehand();
 		}
+		moveCounter = 0;
 		event.release();
 	}
 
@@ -84,11 +85,15 @@ public class EuclidianControllerD extends
 		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
 		// no capture in desktop
 		wrapMouseDragged(event, true);
+		moveCounter++;
 		event.release();
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		if (moveCounter < 2) {
+			this.resetModeAfterFreehand();
+		}
 		wrapMouseReleased(event);
 		event.release();
 	}
