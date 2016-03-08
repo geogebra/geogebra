@@ -4,6 +4,7 @@ import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Request;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONBoolean;
 import org.geogebra.common.move.ggtapi.models.json.JSONNumber;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -53,7 +54,7 @@ public class UploadRequest implements Request {
 	 * @param mat
 	 *            Material
 	 */
-	UploadRequest(Material mat) {
+	public UploadRequest(Material mat) {
 		this.consTitle = mat.getTitle();
 		this.type = mat.getType() == MaterialType.ggb ? "applet" : mat
 				.getType().name();
@@ -78,6 +79,49 @@ public class UploadRequest implements Request {
 		this.consTitle = newTitle;
 		this.uniqueID = id;
 		this.type = "applet"; // TODO can this be ignored
+	}
+
+	/**
+	 * to upload active construction
+	 *
+	 * @param app      AppW
+	 * @param filename title of construction
+	 * @param base64   String
+	 * @return the upload XML as JSON String
+	 */
+	public static UploadRequest getRequestElement(int tubeID,
+												  String visibility, String filename,
+												  String base64, MaterialType type) {
+		return new UploadRequest(tubeID, visibility, filename, base64, type);
+	}
+
+	/**
+	 * to upload local files
+	 *
+	 * @param app
+	 *            {@link AppW}
+	 * @param mat
+	 *            {@link Material}
+	 * @return the upload XML as JSON String
+	 */
+	public static UploadRequest getRequestElement(Material mat) {
+		return new UploadRequest(mat);
+	}
+
+	/**
+	 * to rename files with given id
+	 *
+	 * @param app
+	 *            AppW
+	 * @param newTitle
+	 *            String
+	 * @param id
+	 *            int
+	 * @return the upload XML as JSON String
+	 */
+	public static UploadRequest getRequestElement(String newTitle,
+												  int id) {
+		return new UploadRequest(newTitle, id);
 	}
 
 	@Override
@@ -132,6 +176,7 @@ public class UploadRequest implements Request {
 				JSONObject file = new JSONObject();
 				file.put("-base64", new JSONString(this.base64));
 				task.put("file", file);
+				addPhoneTag(task);
 			}
 
 			api.put("task", task);
@@ -145,49 +190,18 @@ public class UploadRequest implements Request {
 
 	}
 
-	/**
-	 * to upload active construction
-	 * 
-	 * @param app
-	 *            AppW
-	 * @param filename
-	 *            title of construction
-	 * @param base64
-	 *            String
-	 * @return the upload XML as JSON String
-	 */
-	public static UploadRequest getRequestElement(int tubeID,
-	        String visibility, String filename,
- String base64, MaterialType type) {
-		return new UploadRequest(tubeID, visibility, filename, base64, type);
-	}
+	private void addPhoneTag(JSONObject task) {
+		try {
+			JSONObject tag = new JSONObject();
+			tag.put("-name", "phone");
+			JSONArray tagArray = new JSONArray();
 
-	/**
-	 * to upload local files
-	 * 
-	 * @param app
-	 *            {@link AppW}
-	 * @param mat
-	 *            {@link Material}
-	 * @return the upload XML as JSON String
-	 */
-	public static UploadRequest getRequestElement(Material mat) {
-		return new UploadRequest(mat);
-	}
-
-	/**
-	 * to rename files with given id
-	 * 
-	 * @param app
-	 *            AppW
-	 * @param newTitle
-	 *            String
-	 * @param id
-	 *            int
-	 * @return the upload XML as JSON String
-	 */
-	public static UploadRequest getRequestElement(String newTitle,
-	        int id) {
-		return new UploadRequest(newTitle, id);
+			tagArray.put(0, tag);
+			JSONObject tags = new JSONObject();
+			tags.put("tag", tagArray);
+			task.put("tags", tags);
+		} catch (Exception e) {
+			Log.debug("adding phone tag: " + e.getMessage());
+		}
 	}
 }
