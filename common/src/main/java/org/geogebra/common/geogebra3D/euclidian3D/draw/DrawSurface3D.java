@@ -305,11 +305,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			uDelta = uBorderMax - uBorderMin;
 			if (Kernel.isZero(uDelta)) {
 				setSurfaceIndex(-1);
+				resetWireframe();
 				return true;
 			}
 			vDelta = vBorderMax - vBorderMin;
 			if (Kernel.isZero(vDelta)) {
 				setSurfaceIndex(-1);
+				resetWireframe();
 				return true;
 			}
 
@@ -590,6 +592,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		return corner.p.isDefined();
+	}
+
+	private void resetWireframe() {
+		setGeometryIndex(-1);
 	}
 
 	private void drawWireframe(Renderer renderer) {
