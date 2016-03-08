@@ -202,8 +202,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	public void drawGeometryHidden(Renderer renderer) {
 
 		if (appFeaturesWireframe()) {
-			if (!isVisible()
-					|| getGeoElement().getLineTypeHidden() == EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE) {
+			if (!isVisible()) {
+				return;
+			}
+
+			if (!wireframeVisible) {
+				return;
+			}
+
+			if (getGeoElement().getLineTypeHidden() == EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE) {
 				return;
 			}
 
@@ -219,6 +226,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	public void drawOutline(Renderer renderer) {
 		if (appFeaturesWireframe()) {
 			if (!isVisible()) {
+				return;
+			}
+
+			if (!wireframeVisible) {
 				return;
 			}
 
@@ -305,13 +316,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			uDelta = uBorderMax - uBorderMin;
 			if (Kernel.isZero(uDelta)) {
 				setSurfaceIndex(-1);
-				resetWireframe();
+				setWireframeInvisible();
 				return true;
 			}
 			vDelta = vBorderMax - vBorderMin;
 			if (Kernel.isZero(vDelta)) {
 				setSurfaceIndex(-1);
-				resetWireframe();
+				setWireframeInvisible();
 				return true;
 			}
 
@@ -470,6 +481,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			return true;
 		}
 
+		// set old thickness to force wireframe update
+		oldThickness = -1;
+
 		switch (levelOfDetail) {
 		case SPEED:
 		default:
@@ -594,8 +608,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return corner.p.isDefined();
 	}
 
-	private void resetWireframe() {
-		setGeometryIndex(-1);
+	// previously set thickness (-1 means needs update)
+	private int oldThickness = -1;
+
+	private boolean wireframeVisible = false;
+
+	private void setWireframeInvisible() {
+		wireframeVisible = false;
 	}
 
 	private void drawWireframe(Renderer renderer) {
@@ -604,10 +623,27 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			return;
 		}
 
+		int thickness = getGeoElement().getLineThickness();
+		if (thickness == 0) {
+			setWireframeInvisible();
+			return;
+		}
+
+		// wireframe is visible
+		wireframeVisible = true;
+
+		if (thickness == oldThickness) {
+			// surface and thickness have not changed
+			return;
+		}
+
+		oldThickness = thickness;
+
+
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
 		brush.start(getReusableGeometryIndex());
-		brush.setThickness(getGeoElement().getLineThickness(),
+		brush.setThickness(thickness,
 				(float) getView3D().getScale());
 		brush.setAffineTexture(0f, 0f);
 		brush.setLength(1f);
