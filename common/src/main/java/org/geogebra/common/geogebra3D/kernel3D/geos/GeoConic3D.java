@@ -547,6 +547,11 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 	private EuclidianViewForPlaneCompanion euclidianViewForPlane;
 
 	@Override
+	public int getViewID() {
+		return euclidianViewForPlane.getId();
+	}
+
+	@Override
 	public void createView2D() {
 		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) kernel
 				.getApplication().getCompanion()

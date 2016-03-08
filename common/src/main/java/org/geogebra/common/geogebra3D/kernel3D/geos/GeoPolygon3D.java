@@ -633,6 +633,11 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	private EuclidianViewForPlaneCompanion euclidianViewForPlane;
 
+	@Override
+	public int getViewID() {
+		return euclidianViewForPlane.getId();
+	}
+
 	public void createView2D() {
 		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) kernel
 				.getApplication().getCompanion()

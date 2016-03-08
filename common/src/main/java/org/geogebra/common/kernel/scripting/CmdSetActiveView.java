@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
@@ -84,6 +85,15 @@ public class CmdSetActiveView extends CmdScripting {
 				}
 
 				return arg;
+			} else {
+				GeoElement geo = arg[0];
+				if (geo instanceof ViewCreator) {
+					ViewCreator plane = (ViewCreator) geo;
+					if (plane.hasView2DVisible()) {
+						app.setActiveView(plane.getViewID());
+					}
+					return arg;
+				}
 			}
 			throw argErr(app, c.getName(), arg[0]);
 
