@@ -46,6 +46,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -978,18 +979,10 @@ public class RadioTreeItem extends AVTreeItem
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
+			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
 				geo.addLabelTextOrHTML(geo
 						.getDefinition(StringTemplate.defaultTemplate),
 						getBuilder(seNoLatex));
-				break;
-			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-				if (definitionAndValue == true) {
-					String definition = geo.getDefinitionDescription(
-							StringTemplate.defaultTemplate);
-					String value = geo.getValueForInputBar();
-					geo.addLabelTextOrHTML(definition + "  " + value,
-							getBuilder(seNoLatex));
-				}
 				break;
 			}
 		}
@@ -1134,7 +1127,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * Creates a new RadioButtonTreeItem for creating a brand new GeoElement or
+	 * Creates a new RadioTreeItem for creating a brand new GeoElement or
 	 * executing a new command which might not result in any GeoElement(s) ...
 	 * no marble, no input GeoElement here. But this will be called from
 	 * NewRadioButtonTreeItem(kernel), for there are many extras
@@ -1402,8 +1395,11 @@ public class RadioTreeItem extends AVTreeItem
 		} else if (this.checkBox != null) {
 			main.remove(checkBox);
 		}
+		boolean defVal = kernel
+				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
 		if (av.isRenderLaTeX()
-				&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+				&& (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
+						|| defVal)) {
 			String text = "";
 			if (geo != null) {
 				if (!newCreationMode) {
@@ -1517,18 +1513,41 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private Canvas c;
+	private Label lbValue = null;
 
 	private void renderLatex(String text0, Element old, boolean forceMQ) {
 		if (!forceMQ) {
 			c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
 			if (c != null && ihtml.getElement().isOrHasChild(old)) {
-				ihtml.getElement().replaceChild(c.getCanvasElement(), old);
+				if (definitionAndValue && kernel
+						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
+					Log.debug("Hey! I'm here!!!");
+					FlowPanel p = new FlowPanel();
+					lbValue = new Label(geo.getRedefineString(true, true));
+					p.add(c);
+					p.add(lbValue);
+					ihtml.getElement().replaceChild(p.getElement(), old);
+				} else {
+					ihtml.getElement().replaceChild(c.getCanvasElement(), old);
+				}
 			}
 		} else {
 			SpanElement se = DOM.createSpan().cast();
 			EquationEditor.updateNewStatic(se);
 			updateColor(se);
-			ihtml.getElement().replaceChild(se, old);
+			Label lbValue = null;
+			if (definitionAndValue && kernel
+					.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
+				Log.debug("Hey! I'm here too!!!");
+				lbValue = new Label(text0);
+				FlowPanel p = new FlowPanel();
+				p.add(new Label(geo.getDefinitionDescription(
+						StringTemplate.defaultTemplate)));
+				p.add(lbValue);
+				ihtml.getElement().replaceChild(p.getElement(), old);
+			} else {
+				ihtml.getElement().replaceChild(se, old);
+			}
 			String text = text0;
 			if (text0 == null) {
 				text = "";
@@ -1538,10 +1557,12 @@ public class RadioTreeItem extends AVTreeItem
 			if (newCreationMode) {
 				// in editing mode, we shall avoid letting an invisible, but
 				// harmful element!
-				DrawEquationW.drawEquationAlgebraView(seMayLatex, "",
+				DrawEquationW.drawEquationAlgebraView(
+						lbValue != null ? lbValue.getElement() : seMayLatex, "",
 						newCreationMode);
 			} else {
-				DrawEquationW.drawEquationAlgebraView(seMayLatex,
+				DrawEquationW.drawEquationAlgebraView(
+						lbValue != null ? lbValue.getElement() : seMayLatex,
 						"\\mathrm {" + text + "}", newCreationMode);
 			}
 		}
@@ -1550,6 +1571,10 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void updateLaTeX(String text0) {
 		c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
+		if (definitionAndValue && lbValue != null && kernel
+				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
+			lbValue.setText(geo.getRedefineString(true, true));
+		}
 	}
 
 	/**
