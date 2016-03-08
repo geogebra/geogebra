@@ -1,16 +1,19 @@
 package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.debug.Log;
 
-public abstract class JSONParserGGT {
-	public static JSONParserGGT prototype;
-	public abstract ArrayList<Chapter> parseResponse(String response,
-			ArrayList<Material> result);
+public class JSONParserGGT {
+	public static final JSONParserGGT prototype = new JSONParserGGT();
 
-	public Material toMaterial(JSONWrapper obj) {
+
+	public Material toMaterial(JSONObject obj) {
 		Material.MaterialType type = MaterialType.ggb;
 		if (getString(obj, "type").length() > 0) {
 			try {
@@ -60,61 +63,203 @@ public abstract class JSONParserGGT {
 		return material;
 	}
 
-	public boolean getBoolean(JSONWrapper obj, String string, boolean def) {
-		if (obj.has(string) && obj.get(string) instanceof Boolean) {
-			return ((Boolean) obj.get(string)).booleanValue();
-		}
-		if (!obj.has(string) || obj.get(string) == null
-				|| obj.get(string).toString() == null
-				|| "".equals(obj.get(string).toString())) {
+	private boolean getBoolean(JSONObject obj, String string, boolean def) {
+		if (!obj.has(string)) {
 			return def;
 		}
-		return Boolean.parseBoolean(obj.get(string).toString());
+		Object str = null;
+		try {
+			str = obj.get(string);
+		} catch (Exception e) {
+
+		}
+		if (str == null || "".equals(str)) {
+			return def;
+		}
+		return Boolean.parseBoolean(str.toString());
 	}
 
-	public String getString(JSONWrapper obj, String string) {
+	private String getString(JSONObject obj, String string) {
 		if (!obj.has(string)) {
 			return "";
 		}
-		if (obj.get(string) == null) {
+		Object str = null;
+		try {
+			str = obj.get(string);
+		} catch (Exception e) {
+
+		}
+		if (str == null) {
 			return "";
 		}
-		return obj.get(string).toString();
+		return str.toString();
 	}
 
-	public int getInt(JSONWrapper obj, String string, int def) {
-		if (!obj.has(string) || obj.get(string) == null
-				|| "".equals(obj.get(string).toString())) {
+	private int getInt(JSONObject obj, String string, int def) {
+		if (!obj.has(string)) {
 			return def;
 		}
-		return Integer.parseInt(obj.get(string).toString());
-	}
+		Object str = null;
+		try {
+			str = obj.get(string);
+		} catch (Exception e) {
 
-	public long getLong(JSONWrapper obj, String string, long def) {
-		if (!obj.has(string) || obj.get(string) == null
-				|| "".equals(obj.get(string).toString())) {
+		}
+		if (str == null || "".equals(str)) {
 			return def;
 		}
-		return Long.parseLong(obj.get(string).toString());
+		return Integer.parseInt(str.toString());
 	}
 
-	public void addEvent(JSONWrapper object, ArrayList<SyncEvent> events) {
+	public long getLong(JSONObject obj, String string, long def) {
+		if (!obj.has(string)) {
+			return def;
+		}
+		Object str = null;
+		try {
+			str = obj.get(string);
+		} catch (Exception e) {
+
+		}
+		if (str == null || "".equals(str)) {
+			return def;
+		}
+		return Long.parseLong(str.toString());
+	}
+
+	public void addEvent(JSONObject object, ArrayList<SyncEvent> events) {
 
 		SyncEvent se = new SyncEvent(
 				getInt(object, "id", 0), getLong(object, "ts", 0));
+		try {
 		if (object.get("deleted") != null
 				&& object.get("deleted") instanceof String) {
 			se.setDelete(true);
 		}
+		} catch (Exception e) {
+			Log.debug("error parsing deletion");
+		}
+		try {
 		if (object.get("favorite") != null
 				&& getBoolean(object, "favorite", false)) {
 			se.setFavorite(true);
 		}
+		} catch (Exception e) {
+			Log.debug("error parsing favorite");
+		}
+		try {
 		if (object.get("unfavorited") != null
 				&& object.get("unfavorited") instanceof String) {
 			se.setUnfavorite(true);
 		}
+		} catch (Exception e) {
+			Log.debug("error parsing unfavorite");
+		}
 		events.add(se);
 
+	}
+
+	public ArrayList<Chapter> parseResponse(String response,
+			ArrayList<Material> result) {
+		Object materialsArray = null;
+		ArrayList<Chapter> meta = null;
+
+		if (response != null) {
+			JSONObject responseObject = new JSONObject();
+			try {
+				JSONTokener tokener = new JSONTokener(response);
+				responseObject = new JSONObject(tokener);
+				if (responseObject.has("responses")) {
+					JSONObject materialsObject = (JSONObject) ((JSONObject) responseObject
+							.get("responses")).get("response");
+					if (materialsObject.has(("meta"))) {
+						String content = ((JSONObject) materialsObject
+								.get("meta")).get("-content").toString();
+						meta = parseMeta(content);
+
+					}
+
+					if (materialsObject.has(("item"))) {
+						materialsArray = materialsObject.get("item");
+					} else {
+						// List is empty
+					}
+				} else if (responseObject.has("error")) {
+					// Show error
+				}
+			} catch (Throwable t) {
+				Log.debug(t.getMessage());
+				Log.debug("'" + response + "'");
+			}
+
+		} else {
+			// Response String was null
+		}
+		// 0 materials
+		if (materialsArray == null) {
+			return meta;
+		}
+		// >1 materials
+		if (materialsArray instanceof JSONArray) {
+			for (int i = 0; i < ((JSONArray) materialsArray).length(); i++) {
+				Object obj;
+				try {
+					obj = ((JSONArray) materialsArray).get(i);
+					addToArray(result, obj);
+				} catch (Exception e) {
+					Log.debug("problem adding material " + i);
+				}
+
+			}
+		}
+		// 1 material
+		else if (materialsArray instanceof JSONObject) {
+			addToArray(result, (JSONObject) materialsArray);
+		}
+		return meta;
+	}
+
+	private static ArrayList<Chapter> parseMeta(String s) {
+		ArrayList<Chapter> ret = new ArrayList<Chapter>();
+		try {
+			JSONTokener tokener = new JSONTokener(s);
+			JSONArray parsed = new JSONArray(tokener);
+
+			for (int i = 0; i < parsed.length(); i++) {
+				String title = ((JSONObject) parsed.get(i)).get("title")
+						.toString();
+				JSONArray materials = (JSONArray) ((JSONObject) parsed.get(i))
+						.get("materials");
+				int[] mats = new int[materials.length()];
+				for (int m = 0; m < materials.length(); m++) {
+					mats[m] = (int) ((Double) materials.get(m)).doubleValue();
+				}
+				ret.add(new Chapter(title, mats));
+			}
+		} catch (Throwable t) {
+
+		}
+		return ret;
+	}
+
+	private void addToArray(List<Material> result, Object obj) {
+		if (!(obj instanceof JSONObject)) {
+			return;
+		}
+		result.add(toMaterial(((JSONObject) obj)));
+	}
+
+	public static Material parseMaterial(String item) {
+		JSONObject mat = null;
+		try {
+			JSONTokener tok = new JSONTokener(item);
+			mat = new JSONObject(tok);
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		if (mat == null) {
+			return null;
+		}
+		return prototype.toMaterial(mat);
 	}
 }

@@ -5,12 +5,18 @@ import java.util.ArrayList;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.DeleteRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
+import org.geogebra.common.move.ggtapi.requests.SyncCallback;
+import org.geogebra.common.move.ggtapi.requests.SyncRequest;
 import org.geogebra.common.move.ggtapi.requests.UploadRequest;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
+
 
 /**
  * @author gabor
@@ -137,7 +143,36 @@ public abstract class GeoGebraTubeAPI {
 
 	}
 
-	protected abstract String buildTokenLoginRequest(String loginToken, String cookie);
+	/**
+	 * Builds the request to check if the login token of a user is valid. This
+	 * request will send detailed user information as response.
+	 * 
+	 * @param token
+	 *            The user that should be logged in
+	 * @param cookie
+	 *            cookie (for web)
+	 * @return The JSONObject that contains the request.
+	 */
+	protected final String buildTokenLoginRequest(String token, String cookie) {
+		JSONObject requestJSON = new JSONObject();
+		JSONObject apiJSON = new JSONObject();
+		JSONObject loginJSON = new JSONObject();
+		try {
+			if (token != null) {
+				loginJSON.put("token", token);
+			} else {
+				loginJSON.put("cookie", cookie);
+			}
+			loginJSON.put("getuserinfo", "true");
+			apiJSON.put("login", loginJSON);
+			apiJSON.put("api", "1.0.0");
+			requestJSON.put("request", apiJSON);
+		} catch (Exception e) {
+			Log.debug("problem building request: " + e.getMessage());
+			return null;
+		}
+		return requestJSON.toString();
+	}
 
 	public boolean checkAvailable(LogInOperation op) {
 		if (this.availabilityCheckDone && op != null) {
@@ -239,7 +274,6 @@ public abstract class GeoGebraTubeAPI {
 				});
 	}
 
-	protected abstract String getToken();
 	public void favorite(int id, boolean favorite) {
 		performRequest("{\"request\": {" + "\"-api\":\"1.0.0\","
 				+ "\"login\": {\"-token\":\"" + getToken()
@@ -433,5 +467,51 @@ public abstract class GeoGebraTubeAPI {
 
 	public boolean isCheckDone() {
 		return availabilityCheckDone;
+	}
+
+	public void sync(long timestamp, final SyncCallback cb) {
+		this.performRequest(new SyncRequest(timestamp).toJSONString(client),
+				false, new AjaxCallback() {
+
+					@Override
+					public void onSuccess(String response) {
+						ArrayList<SyncEvent> events = new ArrayList<SyncEvent>();
+						try {
+							JSONTokener tok = new JSONTokener(response);
+							JSONObject responseObj = (JSONObject) ((JSONObject) new JSONObject(
+									tok).get("responses"))
+
+											.get("response");
+							Object items = responseObj.get("item");
+
+							if (items instanceof JSONArray) {
+								for (int i = 0; i < ((JSONArray)items).length(); i++) {
+									JSONParserGGT.prototype.addEvent(
+											(JSONObject) ((JSONArray) items)
+													.get(i),
+											events);
+								}
+							} else if (items instanceof JSONObject) {
+								JSONParserGGT.prototype.addEvent(
+										(JSONObject) items,
+										events);
+							}
+							cb.onSync(events);
+						} catch (Exception e) {
+							Log.error("SYNC parse error" + e.getMessage());
+						}
+
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.error("SYNCE error" + error);
+
+					}
+				});
+	}
+
+	protected String getToken() {
+		return client.getModel().getLoginToken();
 	}
 }

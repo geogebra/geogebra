@@ -6,16 +6,15 @@ import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
-import org.geogebra.web.html5.util.ggtapi.JSONWrapperW;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.main.FileManager;
 import org.geogebra.web.web.util.SaveCallback;
 
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONParser;
 
 public class WinFileManager extends FileManager {
 	private static final String META_PREFIX = "meta_";
@@ -194,16 +193,21 @@ public class WinFileManager extends FileManager {
 
 			@Override
 			public void handle(String jsString) {
-				JSONObject jv = JSONParser.parseLenient(jsString).isObject();
+				JSONTokener tok = new JSONTokener(jsString);
+				try {
+				JSONObject jv = new JSONObject(tok);
 				for (String key : jv.keySet()) {
 					Material mat = JSONParserGGT.prototype.toMaterial(
-							new JSONWrapperW(jv.get(key).isObject()));
+							(JSONObject) jv.get(key));
 					mat.setLocalID(FileManager.getIDFromKey(key));
 					if (getApp().getLoginOperation().owns(mat)) {
 
 						sync(mat, events);
 
 					}
+
+				}
+				} catch (Exception e) {
 
 				}
 			}
@@ -226,12 +230,17 @@ public class WinFileManager extends FileManager {
 
 
 	private void addMaterials(String jsString) {
-		JSONObject jv = JSONParser.parseLenient(jsString).isObject();
-		for (String key : jv.keySet()) {
-			Material mat = JSONParserGGT.prototype
-					.toMaterial(new JSONWrapperW(jv.get(key).isObject()));
-			mat.setLocalID(FileManager.getIDFromKey(key));
-			this.addMaterial(mat);
+		JSONTokener tok = new JSONTokener(jsString);
+		try {
+			JSONObject jv = new JSONObject(tok);
+			for (String key : jv.keySet()) {
+				Material mat = JSONParserGGT.prototype
+						.toMaterial((JSONObject) jv.get(key));
+				mat.setLocalID(FileManager.getIDFromKey(key));
+				this.addMaterial(mat);
+			}
+		} catch (Exception e) {
+
 		}
 
 	}

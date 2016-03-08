@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
@@ -12,7 +13,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
-import org.geogebra.web.html5.util.ggtapi.JSONParserGGTW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.util.SaveCallback;
 
@@ -102,7 +102,7 @@ public class FileManagerW extends FileManager {
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
 			if (key.startsWith(FileManager.FILE_PREFIX)) {
-				Material mat = JSONParserGGTW.parseMaterial(this.stockStore
+				Material mat = JSONParserGGT.parseMaterial(this.stockStore
 				        .getItem(key));
 				if (mat == null) {
 					mat = new Material(0, MaterialType.ggb);
@@ -124,7 +124,7 @@ public class FileManagerW extends FileManager {
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
 			if (key.startsWith(FILE_PREFIX)) {
-				final Material mat = JSONParserGGTW
+				final Material mat = JSONParserGGT
 				        .parseMaterial(this.stockStore.getItem(key));
 				if (getApp().getLoginOperation().owns(mat)) {
 						sync(mat, events);
@@ -207,7 +207,8 @@ public class FileManagerW extends FileManager {
 	 */
 	@Override
 	public void restoreAutoSavedFile() {
-		Material autoSaved = JSONParserGGTW.parseMaterial(stockStore
+		Material autoSaved = JSONParserGGT
+				.parseMaterial(stockStore
 		        .getItem(AUTO_SAVE_KEY));
 		// maybe another user restores the file, so reset
 		// sensitive data
@@ -239,7 +240,8 @@ public class FileManagerW extends FileManager {
 		if (this.stockStore == null) {
 			return;
 		}
-		final Material oldMat = JSONParserGGTW.parseMaterial(this.stockStore
+		final Material oldMat = JSONParserGGT
+				.parseMaterial(this.stockStore
 		        .getItem(localID));
 		mat.setBase64(oldMat.getBase64());
 		this.stockStore.setItem(localID, mat.toJson().toString());

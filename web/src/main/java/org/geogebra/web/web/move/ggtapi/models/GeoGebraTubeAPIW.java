@@ -1,23 +1,14 @@
 package org.geogebra.web.web.move.ggtapi.models;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
-import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
-import org.geogebra.common.move.ggtapi.requests.SyncCallback;
-import org.geogebra.common.move.ggtapi.requests.SyncRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.WindowW;
-import org.geogebra.web.html5.util.ggtapi.JSONParserGGTW;
-import org.geogebra.web.html5.util.ggtapi.JSONWrapperW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Request;
@@ -49,7 +40,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 */
 	public GeoGebraTubeAPIW(ClientInfo client, boolean beta) {
 		super(beta);
-		JSONParserGGT.prototype = new JSONParserGGTW();
 		this.client = client;
 	}
 
@@ -141,83 +131,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		return true;
 	}
 
-	/**
-	 * Builds the request to check if the login token of a user is valid. This
-	 * request will send detailed user information as response.
-	 * 
-	 * @return The JSONObject that contains the request.
-	 */
-	@Override
-	protected String buildTokenLoginRequest(String token, String cookie) {
-		JSONObject requestJSON = new JSONObject();
-		JSONObject apiJSON = new JSONObject();
-		JSONObject loginJSON = new JSONObject();
-		try {
-			if (token != null) {
-				loginJSON.put("token", new JSONString(token));
-			} else {
-				loginJSON.put("cookie", new JSONString(cookie));
-			}
-			loginJSON.put("getuserinfo", new JSONString("true"));
-			loginJSON.put("image", new JSONString("true"));
-			apiJSON.put("login", loginJSON);
-			apiJSON.put("api", new JSONString("1.0.0"));
-			requestJSON.put("request", apiJSON);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return requestJSON.toString();
-	}
 
-
-
-
-
-	public void sync(long timestamp, final SyncCallback cb) {
-		this.performRequest(
-new SyncRequest(timestamp).toJSONString(client),
-		        false, new AjaxCallback() {
-
-			        @Override
-			        public void onSuccess(String response) {
-				        ArrayList<SyncEvent> events = new ArrayList<SyncEvent>();
-				        try {
-					        JSONValue jv = JSONParser.parseStrict(response);
-					        JSONValue items = jv.isObject().get("responses")
-					                .isObject()
-.get("response").isObject()
-					                .get("item");
-					        JSONArray array = items.isArray();
-
-					        if (array != null) {
-						        for (int i = 0; i < array.size(); i++) {
-									JSONParserGGT.prototype.addEvent(
-											new JSONWrapperW(
-													array.get(i).isObject()),
-											events);
-						        }
-					        }
- else if (items.isObject() != null) {
-								JSONParserGGT.prototype.addEvent(
-										new JSONWrapperW(items.isObject()),
-										events);
-					        }
-					        cb.onSync(events);
-				        } catch (Exception e) {
-					        Log.error("SYNC parse error" + e.getMessage());
-				        }
-
-			        }
-
-
-
-					@Override
-			        public void onError(String error) {
-						Log.error("SYNCE error" + error);
-
-			        }
-		        });
-	}
 
 	/**
 	 * @param app
@@ -358,8 +272,5 @@ new SyncRequest(timestamp).toJSONString(client),
 	    return sb.toString();
     }
 
-	@Override
-	protected String getToken() {
-		return client.getModel().getLoginToken();
-	}
+
 }

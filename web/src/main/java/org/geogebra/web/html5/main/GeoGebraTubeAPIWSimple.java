@@ -30,11 +30,6 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	}
 
 	@Override
-	protected String buildTokenLoginRequest(String loginToken, String cookie) {
-		return "";
-	}
-
-	@Override
 	public String getClientInfo() {
 		if (!Browser.runningLocal()) {
 			return "";

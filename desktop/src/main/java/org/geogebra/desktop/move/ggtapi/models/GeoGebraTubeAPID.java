@@ -2,11 +2,9 @@ package org.geogebra.desktop.move.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
-import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * API Interface for GeoGebraTube requests and responses
@@ -30,7 +28,6 @@ public class GeoGebraTubeAPID extends
 	 */
 	public GeoGebraTubeAPID(boolean beta, ClientInfo client) {
 		super(beta);
-		JSONParserGGT.prototype = new JSONParserGGTD();
 		this.client = client;
 	}
 
@@ -81,36 +78,6 @@ public class GeoGebraTubeAPID extends
 		}
 
 		return true;
-	}
-
-	/**
-	 * Builds the request to check if the login token of a user is valid. This
-	 * request will send detailed user information as response.
-	 * 
-	 * @param user
-	 *            The user that should be logged in
-	 * @return The JSONObject that contains the request.
-	 */
-	@Override
-	protected String buildTokenLoginRequest(String token, String cookie) {
-		JSONObject requestJSON = new JSONObject();
-		JSONObject apiJSON = new JSONObject();
-		JSONObject loginJSON = new JSONObject();
-		try {
-			if (token != null) {
-				loginJSON.put("token", token);
-			} else {
-				loginJSON.put("cookie", cookie);
-			}
-			loginJSON.put("getuserinfo", "true");
-			apiJSON.put("login", loginJSON);
-			apiJSON.put("api", "1.0.0");
-			requestJSON.put("request", apiJSON);
-		} catch (Exception e) {
-			Log.debug("problem building request: " + e.getMessage());
-			return null;
-		}
-		return requestJSON.toString();
 	}
 
 	@Override
