@@ -96,7 +96,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	 *            3D view
 	 */
 	public RendererW(EuclidianView3DW view) {
-		super(view);
+		super(view, RendererType.SHADER);
 
 		hitting = new Hitting(view3D);
 

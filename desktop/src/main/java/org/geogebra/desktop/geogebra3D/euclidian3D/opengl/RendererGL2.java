@@ -31,7 +31,7 @@ public abstract class RendererGL2 extends RendererD {
 	 * @param useCanvas
 	 */
 	public RendererGL2(EuclidianView3D view, boolean useCanvas) {
-		super(view, useCanvas);
+		super(view, useCanvas, RendererType.GL2);
 
 		App.debug("Renderer without shaders created");
 	}

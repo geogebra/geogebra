@@ -52,8 +52,8 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	 * @param useCanvas
 	 *            true if we want to use Canvas (instead of JPanel)
 	 */
-	public RendererD(EuclidianView3D view, boolean useCanvas) {
-		super(view);
+	public RendererD(EuclidianView3D view, boolean useCanvas, RendererType type) {
+		super(view, type);
 
 		jogl = new RendererJogl();
 

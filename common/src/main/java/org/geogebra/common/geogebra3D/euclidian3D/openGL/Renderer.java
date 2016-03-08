@@ -31,6 +31,15 @@ import org.geogebra.common.main.App;
  */
 public abstract class Renderer {
 
+	/**
+	 * renderer type (shader or not)
+	 */
+	public enum RendererType {
+		SHADER, GL2, NOT_SPECIFIED
+	}
+
+	protected RendererType type;
+
 	/** default text scale factor */
 	private static final float DEFAULT_TEXT_SCALE_FACTOR = 0.8f;
 
@@ -95,11 +104,15 @@ public abstract class Renderer {
 	 * 
 	 * @param view
 	 *            the {@link EuclidianView3D} linked to
+	 * @param type
 	 */
-	public Renderer(EuclidianView3D view) {
+	public Renderer(EuclidianView3D view, RendererType type) {
 
 		// link to 3D view
 		this.view3D = view;
+
+		// type
+		this.type = type;
 
 		// textures
 		textures = new Textures(this, view3D.getApplication().getImageManager());

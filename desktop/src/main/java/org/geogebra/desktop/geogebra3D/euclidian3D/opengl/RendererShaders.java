@@ -56,7 +56,7 @@ public class RendererShaders extends RendererD implements
 	 *            says if we want a canvas
 	 */
 	public RendererShaders(EuclidianView3D view, boolean useCanvas) {
-		super(view, useCanvas);
+		super(view, useCanvas, RendererType.SHADER);
 		hitting = new Hitting(view3D);
 
 		Log.debug("Renderer with shaders created");

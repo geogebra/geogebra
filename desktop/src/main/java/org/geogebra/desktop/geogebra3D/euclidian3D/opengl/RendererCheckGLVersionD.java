@@ -43,7 +43,19 @@ public class RendererCheckGLVersionD extends RendererD implements
 	 * @param useCanvas
 	 */
 	public RendererCheckGLVersionD(EuclidianView3D view, boolean useCanvas) {
-		super(view, useCanvas);
+		this(view, useCanvas, RendererType.NOT_SPECIFIED);
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param view
+	 * @param useCanvas
+	 * @param type
+	 */
+	public RendererCheckGLVersionD(EuclidianView3D view, boolean useCanvas,
+			RendererType type) {
+		super(view, useCanvas, type);
 
 		if (((EuclidianController3D) view3D.getEuclidianController())
 				.useInputDepthForHitting()) {
@@ -58,22 +70,30 @@ public class RendererCheckGLVersionD extends RendererD implements
 	protected void initCheckShaders(GLAutoDrawable drawable) {
 		super.initCheckShaders(drawable);
 
-		try {
-			// retrieving version, which should be first char, e.g. "4.0 etc."
-			String[] version = GeoGebraMenuBar.glVersion.split("\\.");
-			int versionInt = Integer.parseInt(version[0]);
-			App.debug("==== GL version is " + GeoGebraMenuBar.glVersion
-					+ " which means GL>=" + versionInt);
-			if (versionInt < 2) {
-				// GL 1.x: can't use shaders
-				rendererImpl = new RendererImplGL2(this, view3D, jogl);
-			} else {
-				// GL 2.x or above: can use shaders
-				rendererImpl = new RendererImplShadersElements(this, view3D,
-						jogl);
+		if (type == RendererType.NOT_SPECIFIED) {
+			try {
+				// retrieving version, which should be first char, e.g.
+				// "4.0 etc."
+				String[] version = GeoGebraMenuBar.glVersion.split("\\.");
+				int versionInt = Integer.parseInt(version[0]);
+				App.debug("==== GL version is " + GeoGebraMenuBar.glVersion
+						+ " which means GL>=" + versionInt);
+				if (versionInt < 2) {
+					// GL 1.x: can't use shaders
+					type = RendererType.GL2;
+				} else {
+					// GL 2.x or above: can use shaders
+					type = RendererType.SHADER;
+				}
+			} catch (Exception e) {
+				// exception: don't use shaders
+				type = RendererType.GL2;
 			}
-		} catch (Exception e) {
-			// exception: don't use shaders
+		}
+
+		if (type == RendererType.SHADER) {
+			rendererImpl = new RendererImplShadersElements(this, view3D, jogl);
+		} else {
 			rendererImpl = new RendererImplGL2(this, view3D, jogl);
 		}
 
