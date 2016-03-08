@@ -5,7 +5,6 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRenderingHints;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -389,22 +388,36 @@ public class DrawLabel3D {
 
 	/**
 	 * 
-	 * @param pos
-	 *            mouse position
-	 * @return true if pos hits the label
+	 * @param x
+	 *            mouse x position
+	 * @param y
+	 *            mouse y position
+	 * @return true if mouse hits the label
 	 */
-	public boolean hit(GPoint pos) {
+	public boolean hit(double x, double y) {
 		if (backgroundColor != null) {
-			return drawX <= pos.x
-					&& drawX + width >= pos.x
-					&& drawY <= pos.y
-					&& drawY + height >= pos.y;
+			return drawX <= x && drawX + width >= x && drawY <= y
+					&& drawY + height >= y;
 		}
 
-		return drawX + pickingX <= pos.x
-				&& drawX + pickingX + pickingW >= pos.x
-				&& drawY + pickingY <= pos.y
-				&& drawY + pickingY + pickingH >= pos.y;
+		return drawX + pickingX <= x && drawX + pickingX + pickingW >= x
+				&& drawY + pickingY <= y && drawY + pickingY + pickingH >= y;
+	}
+
+	/**
+	 * 
+	 * @param o
+	 *            mouse origin
+	 * @param direction
+	 *            mouse direction
+	 * @return true if mouse hits the label
+	 */
+	public boolean hit(Coords o, Coords direction) {
+		double x = o.getX() + (drawZ - o.getZ()) * direction.getX()
+				/ direction.getZ();
+		double y = o.getY() + (drawZ - o.getZ()) * direction.getY()
+				/ direction.getZ();
+		return hit(x, y);
 	}
 
 	/**

@@ -1603,7 +1603,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return true if label is hitted
 	 */
 	protected boolean hitLabel(Hitting hitting, Hits3D hits) {
-		if (isLabelVisible() && label.hit(hitting.pos)) {
+		if (isLabelVisible() && hitting.hitLabel(label)) {
 			setZPick(label.getDrawZ(), label.getDrawZ());
 			hits.addDrawable3D(this, PickingType.LABEL);
 			return true;

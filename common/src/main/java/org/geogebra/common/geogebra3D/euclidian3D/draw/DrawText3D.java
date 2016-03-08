@@ -131,7 +131,7 @@ public class DrawText3D extends Drawable3DCurves {
 	@Override
 	public boolean hit(Hitting hitting) {
 
-		if (label.hit(hitting.pos)) {
+		if (hitting.hitLabel(label)) {
 			setZPick(label.getDrawZ(), label.getDrawZ());
 			return true;
 		}

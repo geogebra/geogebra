@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -703,17 +703,43 @@ public class Drawable3DLists {
 
 	/**
 	 * 
-	 * @param mouseLoc
-	 *            mouse location
+	 * @param x
+	 *            mouse x location
+	 * @param y
+	 *            mouse y location
 	 * @return first hitted label geo
 	 */
-	public GeoElement getLabelHit(GPoint mouseLoc) {
+	final public GeoElement getLabelHit(double x, double y) {
 		for (Drawable3DList list : lists) {
 			for (Drawable3D d : list) {
 				if (d.isVisible()) {
 					GeoElement geo = d.getGeoElement();
 					if (!geo.isGeoText() && geo.isPickable()
-							&& d.label.hit(mouseLoc)) {
+							&& d.label.hit(x, y)) {
+						return geo;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param origin
+	 *            mouse origin
+	 * @param direction
+	 *            mouse direction
+	 * @return first hitted label geo
+	 */
+	public GeoElement getLabelHit(Coords origin, Coords direction) {
+		for (Drawable3DList list : lists) {
+			for (Drawable3D d : list) {
+				if (d.isVisible()) {
+					GeoElement geo = d.getGeoElement();
+					if (!geo.isGeoText() && geo.isPickable()
+							&& d.label.hit(origin, direction)) {
 						return geo;
 					}
 				}

@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -23,9 +24,14 @@ public class Hitting {
 	public Coords direction;
 
 	/**
-	 * last mouse pos (centered)
+	 * origin of the ray (screen coords)
 	 */
-	public GPoint pos;
+	public Coords originScreen;
+
+	/**
+	 * direction of the ray (screen coords)
+	 */
+	public Coords directionScreen;
 
 	protected EuclidianView3D view;
 
@@ -42,12 +48,17 @@ public class Hitting {
 	 */
 	public Hitting(EuclidianView3D view) {
 		this.view = view;
-		pos = new GPoint();
 
 		origin = new Coords(4);
 		origin.setW(1);
 
 		direction = new Coords(4);
+
+		originScreen = new Coords(4);
+		originScreen.setW(1);
+
+		directionScreen = new Coords(4);
+
 	}
 
 	/**
@@ -60,7 +71,6 @@ public class Hitting {
 	 */
 	public void setHits(GPoint mouseLoc, int threshold) {
 
-		view.setCenteredPosition(mouseLoc, pos);
 		setOriginDirectionThreshold(view.getHittingOrigin(mouseLoc),
 				view.getHittingDirection(), threshold);
 
@@ -133,6 +143,12 @@ public class Hitting {
 		this.direction.set3(direction);
 		this.threshold = threshold;
 
+		// screen coords
+		originScreen.set3(origin);
+		view.toScreenCoords3D(originScreen);
+		directionScreen.set3(direction);
+		view.toScreenCoords3D(directionScreen);
+
 		// we need to update clipped values
 		clippedValuesUpdated = false;
 	}
@@ -163,8 +179,26 @@ public class Hitting {
 	 * @return first hitted label geo
 	 */
 	public GeoElement getLabelHit(GPoint mouseLoc) {
-		view.setCenteredPosition(mouseLoc, pos);
-		return view.getDrawList3D().getLabelHit(pos);
+		if (view.getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC) {
+			return view.getDrawList3D().getLabelHit(originScreen.getX(),
+				originScreen.getY());
+		}
+
+		return view.getDrawList3D().getLabelHit(originScreen, directionScreen);
+	}
+
+	/**
+	 * 
+	 * @param label
+	 *            label
+	 * @return true if this hits the label
+	 */
+	public boolean hitLabel(DrawLabel3D label) {
+		if (view.getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC) {
+			return label.hit(originScreen.getX(), originScreen.getY());
+		}
+
+		return label.hit(originScreen, directionScreen);
 	}
 
 	/**
