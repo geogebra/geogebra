@@ -1429,10 +1429,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		DecoSegmentModel decoSegment = new DecoSegmentModel();
 		
 
-		tab.addModel(ptSize).addModel(ptStyle).addModel(lineStyle)
-				.addModel(arcSize).addModel(slopeSize).addModel(ineqStyle)
-				.addModel(tfSize).addModel(buttonSize).addModel(filling)
-				.addModel(lod).addModel(interpol).addModel(decoAngle)
+		tab.addModel(ptSize).addModel(ptStyle).addModel(lod)
+				.addModel(lineStyle).addModel(arcSize).addModel(slopeSize)
+				.addModel(ineqStyle).addModel(tfSize).addModel(buttonSize)
+				.addModel(filling).addModel(interpol).addModel(decoAngle)
 				.addModel(decoSegment);
 		return tab;
 	}

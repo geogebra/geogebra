@@ -466,13 +466,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		styleTabList.add(slopeTriangleSizePanel);
 		styleTabList.add(pointSizePanel);
 		styleTabList.add(pointStylePanel);
+		styleTabList.add(lodPanel);
 		styleTabList.add(lineStylePanel);
 		styleTabList.add(ineqStylePanel);
 		styleTabList.add(arcSizePanel);
 		styleTabList.add(buttonSizePanel);
 		styleTabList.add(fillingPanel);
 		styleTabList.add(fadingPanel);
-		styleTabList.add(lodPanel);
 		styleTabList.add(checkBoxInterpolateImage);
 		styleTabList.add(textFieldSizePanel);
 		styleTabList.add(decoAnglePanel);
