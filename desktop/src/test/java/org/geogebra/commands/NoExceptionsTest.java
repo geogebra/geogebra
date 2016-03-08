@@ -1772,6 +1772,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSetActiveView() {
 		t("SetActiveView[ gv ]");
+		t("SetActiveView[ poly1 ]");
 	}
 
 	@Test
