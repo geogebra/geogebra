@@ -5207,6 +5207,19 @@ namespace giac {
 	return recursive_normal(((*g._SYMBptr->feuille._VECTptr)[2]-(*g._SYMBptr->feuille._VECTptr)[1])*rayon,contextptr);	
       return recursive_normal(cst_two_pi*rayon,contextptr);
     }
+    if (g.is_symb_of_sommet(at_curve)){ // -> arclen
+      gen f=g._SYMBptr->feuille;
+      if (f.type==_VECT && !f._VECTptr->empty())
+	f=f._VECTptr->front();
+      if (f.type==_VECT && f._VECTptr->size()>=4){
+	vecteur v=*f._VECTptr;
+	gen x,y;
+	reim(v[0],x,y,contextptr);
+	y=derive(y,v[1],contextptr);
+	x=derive(x,v[1],contextptr);
+	return _integrate(makesequence(symbolic(at_sqrt,x*x+y*y),v[1],v[2],v[3]),contextptr);
+      }
+    }
     if (g.type!=_VECT)
       return undef;
     vecteur v=*g._VECTptr;
@@ -9842,7 +9855,11 @@ namespace giac {
 	  else {
 	    origine=gen(curx)+cst_i*gen(cury);
 	  }
-	  res.push_back(pnt_attrib(gen(makevecteur(origine,origine+echelle*xp_eval+echelle*cst_i*yp_eval),is_one(xp)?_GROUP__VECT:_VECTOR__VECT),attributs,contextptr));
+	  // always return vectors now, before it was != in dimension 1
+	  res.push_back(pnt_attrib(gen(makevecteur(origine,origine+echelle*xp_eval+echelle*cst_i*yp_eval),
+				       //is_one(xp)?_GROUP__VECT:_VECTOR__VECT
+				       _VECTOR__VECT
+				       ),attributs,contextptr));
 	}
       }
     }

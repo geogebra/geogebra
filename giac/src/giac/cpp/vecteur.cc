@@ -13374,7 +13374,7 @@ namespace giac {
   bool mlu(const matrice & a0,vecteur & P,matrice & L,matrice & U,GIAC_CONTEXT){
     matrice a(a0);
     bool modular=false;
-    if (!is_squarematrix(a)){
+    if (!ckmatrix(a)){ // activate non-square matrix (instead of is_squarematrix)
       if (a.front().type==_VECT && !a.front()._VECTptr->empty() && (a.back()==at_irem || a.back()==at_ichinrem)){
 	modular=true;
 	a=*a.front()._VECTptr;
@@ -13401,7 +13401,7 @@ namespace giac {
       vecteur & v=*res[i]._VECTptr;
       L.push_back(new ref_vecteur(s));
       vecteur & wl=*L.back()._VECTptr;
-      for (int j=0;j<i;++j){ // L part
+      for (int j=0;j<i && j<C;++j){ // L part
 	wl[j]=v[j];
       }
       wl[i]=1;
