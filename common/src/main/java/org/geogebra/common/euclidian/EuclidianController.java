@@ -11,13 +11,6 @@ the Free Software Foundation.
  */
 package org.geogebra.common.euclidian;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -33,11 +26,12 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -119,6 +113,13 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.TreeSet;
+
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
 
@@ -132,18 +133,247 @@ public abstract class EuclidianController {
 	 * max value for alpha to consider an object visible
 	 */
 	public static final float MIN_VISIBLE_ALPHA_VALUE = 0.05f;
-
+	public static final int MOVE_NONE = 101;
+	public static final int MOVE_POINT = 102;
+	public static final int MOVE_VIEW = 106;
+	public static final int MOVE_ROTATE_VIEW = 120;
+	public static final int MOVE_PLANE = 126;
 	protected static final int POLYGON_NORMAL = 0;
-
 	protected static final int POLYGON_RIGID = 1;
-
 	protected static final int POLYGON_VECTOR = 2;
-
 	protected static final double MOUSE_DRAG_MAX_DIST_SQUARE = 36;
-
 	protected static final int MAX_CONTINUITY_STEPS = 4;
-
+	protected static final int MOVE_LINE = 103;
+	protected static final int MOVE_CONIC = 104;
+	protected static final int MOVE_VECTOR = 105;
+	protected static final int MOVE_VECTOR_STARTPOINT = 205;
+	protected static final int MOVE_FUNCTION = 107;
+	protected static final int MOVE_LABEL = 108;
+	protected static final int MOVE_TEXT = 109;
+	protected static final int MOVE_NUMERIC = 110;
+	protected static final int MOVE_SLIDER = 111;
+	protected static final int MOVE_IMAGE = 112;
+	protected static final int MOVE_ROTATE = 113;
+	protected static final int MOVE_DEPENDENT = 114;
+	protected static final int MOVE_MULTIPLE_OBJECTS = 115;
+	protected static final int MOVE_X_AXIS = 116;
+	protected static final int MOVE_Y_AXIS = 117;
+	protected static final int MOVE_BOOLEAN = 118;
+	protected static final int MOVE_BUTTON = 119;
+	protected static final int MOVE_IMPLICITPOLY = 121;
+	protected static final int MOVE_VECTOR_NO_GRID = 122;
+	protected static final int MOVE_POINT_WITH_OFFSET = 123;
+	protected static final int MOVE_FREEHAND = 124;
+	protected static final int MOVE_ATTACH_DETACH = 125;
+	protected static final int MOVE_IMPLICIT_CURVE = 127;
+	protected static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 	private static final float ZOOM_RECTANGLE_SNAP_RATIO = 1.2f;
+	private static final int ZOOM_RECT_THRESHOLD = 30;
+	private static final int DRAG_THRESHOLD = 10;
+	/**
+	 * factor by which hit-threshold is increased while dragging for
+	 * attachDetach (while the point is attached to a Path or Region)
+	 */
+	private static final int INCREASED_THRESHOLD_FACTOR = 2;
+	protected final ArrayList<GeoPointND> selectedPoints = new ArrayList<GeoPointND>();
+	protected final ArrayList<GeoNumeric> selectedNumbers = new ArrayList<GeoNumeric>();
+	protected final ArrayList<GeoNumberValue> selectedNumberValues = new ArrayList<GeoNumberValue>();
+	protected final ArrayList<GeoLineND> selectedLines = new ArrayList<GeoLineND>();
+	protected final ArrayList<GeoDirectionND> selectedDirections = new ArrayList<GeoDirectionND>();
+	protected final ArrayList<GeoSegmentND> selectedSegments = new ArrayList<GeoSegmentND>();
+	protected final ArrayList<Region> selectedRegions = new ArrayList<Region>();
+	protected final ArrayList<Path> selectedPaths = new ArrayList<Path>();
+	protected final ArrayList<GeoConicND> selectedConicsND = new ArrayList<GeoConicND>();
+	protected final ArrayList<GeoImplicit> selectedImplicitpoly = new ArrayList<GeoImplicit>();
+	protected final ArrayList<GeoImplicitSurfaceND> selectedImplicitSurface = new ArrayList<GeoImplicitSurfaceND>();
+	protected final ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
+	protected final ArrayList<GeoCurveCartesian> selectedCurves = new ArrayList<GeoCurveCartesian>();
+	protected final ArrayList<GeoVectorND> selectedVectors = new ArrayList<GeoVectorND>();
+	protected final ArrayList<GeoPolygon> selectedPolygons = new ArrayList<GeoPolygon>();
+	protected final ArrayList<GeoPolyLine> selectedPolyLines = new ArrayList<GeoPolyLine>();
+	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
+	protected final ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
+	protected final App app;
+	protected final SelectionManager selection;
+	protected final Localization l10n;
+	public double xRW;
+	public double yRW;
+	public GeoPointND movedGeoPoint;
+	public boolean movedGeoPointDragged = false;
+	public boolean hideIntersection = false;
+	public GeoElement resultedGeo;
+	public boolean draggingBeyondThreshold = false;
+	public Kernel kernel;
+	public GPoint mouseLoc;
+	public EuclidianView view;
+	public org.geogebra.common.euclidian.EuclidianPen pen;
+	public double oldDistance;
+	protected double xTemp;
+	protected double yTemp;
+	protected boolean useLineEndPoint = false;
+	protected GeoConic tempConic;
+	protected GeoImplicit tempImplicitPoly;
+	protected GeoImplicitCurve tempImplicitCurve;
+	protected ArrayList<GeoPoint> moveDependentPoints;
+	protected GeoFunction tempFunction;
+	protected GeoLineND movedGeoLine;
+	protected GeoConicND movedGeoConic;
+	protected GeoImplicit movedGeoImplicitPoly;
+	protected GeoImplicitCurve movedGeoImplicitCurve;
+	protected GeoVectorND movedGeoVector;
+	protected GeoText movedGeoText;
+	protected GeoImage oldImage;
+	protected GeoImage movedGeoImage;
+	protected GeoFunction movedGeoFunction;
+	protected GeoNumeric movedGeoNumeric;
+	protected boolean movedGeoNumericDragged = false;
+	protected GeoBoolean movedGeoBoolean;
+	protected Furniture movedGeoButton;
+	protected GeoElement movedLabelGeoElement;
+	protected GeoElement movedGeoElement;
+	protected MyDouble tempNum;
+	protected double rotationLastAngle;
+	protected ArrayList<GeoElement> translateableGeos;
+	protected Coords translationVec;
+	protected Hits tempArrayList = new Hits();
+	protected Hits tempArrayList2 = new Hits();
+	protected Hits tempArrayList3 = new Hits();
+	protected Hits highlightedGeos = new Hits();
+	protected ArrayList<GeoElement> justCreatedGeos = new ArrayList<GeoElement>();
+	protected boolean selectionPreview = false;
+	protected boolean temporaryMode = false;
+	protected boolean dontClearSelection = false;
+	protected boolean draggingOccured = false;
+	protected boolean draggingOccurredBeforeRelease = false;
+	protected GeoPointND pointCreated = null;
+											// may be omitted
+											protected boolean moveModeSelectionHandled;
+													// collectingRepaints set to
+													// 0
+													protected boolean highlightJustCreatedGeos = true;
+	protected ArrayList<GeoElement> pastePreviewSelected = null;
+	protected ArrayList<GeoElement> pastePreviewSelectedAndDependent;
+	protected int mode;
+	protected int oldMode;
+	protected int moveMode = MOVE_NONE;
+	protected Macro macro;
+	protected Test[] macroInput;
+	protected int defaultInitialDelay;
+	protected boolean toggleModeChangedKernel = false;
+	protected boolean altDown = false;
+	protected GeoElement rotGeoElement;
+	protected GeoPoint rotationCenter;
+	protected int polygonMode = POLYGON_NORMAL;
+	protected double[] transformCoordsOffset = new double[2];
+
+	// ==============================================
+	// Pen
+	protected boolean allowSelectionRectangleForTranslateByVector = true;
+
+	// ==============================================
+	// Delete tool
+
+	// private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
+	protected int previousPointCapturing;
+	protected ArrayList<GeoPointND> persistentStickyPointList = new ArrayList<GeoPointND>();
+	protected GPoint startLoc;
+	protected GPoint lastMouseLoc;
+	protected GPoint oldLoc = new GPoint();
+	protected GPoint2D.Double lineEndPoint = null;
+	protected GPoint selectionStartPoint = new GPoint();
+	protected ArrayList<Double> tempDependentPointX;
+	protected ArrayList<Double> tempDependentPointY;
+	protected boolean mouseIsOverLabel = false;
+	protected int collectingRepaints = 0; // if greater than 0, some repaints
+	protected boolean collectedRepaints = false; // whether to repaint when
+	protected EuclidianControllerCompanion companion;
+	/**
+	 * position of last mouseDown or touchStart
+	 */
+	protected GPoint startPosition;
+	protected GeoPointND firstSelectedPoint;
+	protected Hits handleAddSelectedArrayList = new Hits();
+	protected Coords tmpCoordsL3;
+	protected boolean penDragged;
+	protected boolean doubleClickStarted;
+	protected double twoTouchStartX, twoTouchStartY, twoTouchStartScaleX, twoTouchStartScaleY, twoTouchStartDistance,
+			twoTouchStartXZero, twoTouchStartYZero;
+	/**
+	 * conic which's size is changed
+	 */
+	protected GeoConic scaleConic;
+	/**
+	 * saves the actual position when the view is moved during drawing an element with preview
+	 * (e.g. a line or a segment)
+	 */
+	protected GPoint movePosition;
+	/**
+	 * coordinates of the center of the multitouch-event
+	 */
+	protected int oldCenterX, oldCenterY;
+	/**
+	 * the mode of the actual multitouch-event
+	 */
+	protected scaleMode multitouchMode;
+	/**
+	 * actual scale of the axes (has to be saved during multitouch)
+	 */
+	protected double scale;
+	protected double originalRadius;
+	/**
+	 * midpoint of scaleConic: [0] ... x-coordinate [1] ... y-coordinate
+	 */
+	protected double[] midpoint;
+	/**
+	 * x-coordinates of the points that define scaleConic
+	 */
+	protected double[] originalPointX;
+	/**
+	 * y-coordinates of the points that define scaleConic
+	 */
+	protected double[] originalPointY;
+	/**
+	 * threshold for moving in case of a multitouch-event (pixel)
+	 */
+	protected int MIN_MOVE;
+	protected Object detachFrom;
+	double xRWold = Double.NEGATIVE_INFINITY;
+	double yRWold = xRWold;
+
+	// ==============================================
+	// Paste preview
+	double temp;
+	int index;
+	double vertexX = Double.NaN, vertexY = Double.NaN;
+	private ModeDelete deleteMode;
+	private GPoint2D.Double startPoint = new GPoint2D.Double();
+	private boolean externalHandling;
+	private long lastMouseRelease;
+	private long lastTouchRelease;
+	private boolean animationButtonPressed = false;
+	private boolean textfieldHasFocus = false;
+	private MyButton pressedButton;
+	private Coords tmpCoordsL4;
+	private Coords mouseLocRW;
+	private TextDispatcher textDispatcher;
+	private double initxRW = Double.NaN;
+	private double initFactor = Double.NaN;
+	private boolean checkBoxOrButtonJustHitted = false;
+	// make sure scripts not run twice
+	private boolean scriptsHaveRun = false;
+	private GPoint lastMouseUpLoc;
+	private boolean checkboxChangeOccured = false;
+	private long lastMousePressedTime;
+	private PointerEventType defaultEventType = PointerEventType.MOUSE;
+	private boolean detachFromPath, detachFromRegion;
+	private boolean needsAttach = false;
+
+	public EuclidianController(App app) {
+		this.app = app;
+		this.selection = app.getSelectionManager();
+		this.l10n = app.getLocalization();
+		createCompanions();
+	}
 
 	protected static void removeAxes(ArrayList<GeoElement> geos) {
 
@@ -155,232 +385,65 @@ public abstract class EuclidianController {
 		}
 	}
 
-	private ModeDelete deleteMode;
-
-	protected double xTemp;
-
-	protected double yTemp;
-
-	public double xRW;
-
-	public double yRW;
-
-	double xRWold = Double.NEGATIVE_INFINITY;
-
-	double yRWold = xRWold;
-
-	double temp;
-
-	protected boolean useLineEndPoint = false;
-
-	protected GeoConic tempConic;
-
-	protected GeoImplicit tempImplicitPoly;
-
-	protected GeoImplicitCurve tempImplicitCurve;
-
-	protected ArrayList<GeoPoint> moveDependentPoints;
-
-	protected GeoFunction tempFunction;
-
-	public GeoPointND movedGeoPoint;
-
-	public boolean movedGeoPointDragged = false;
-
-	protected GeoLineND movedGeoLine;
-
-	protected GeoConicND movedGeoConic;
-
-	protected GeoImplicit movedGeoImplicitPoly;
-
-	protected GeoImplicitCurve movedGeoImplicitCurve;
-
-	protected GeoVectorND movedGeoVector;
-
-	protected GeoText movedGeoText;
-
-	protected GeoImage oldImage;
-
-	protected GeoImage movedGeoImage;
-
-	protected GeoFunction movedGeoFunction;
-
-	protected GeoNumeric movedGeoNumeric;
-
-	protected boolean movedGeoNumericDragged = false;
-
-	protected GeoBoolean movedGeoBoolean;
-
-	protected Furniture movedGeoButton;
-
-	protected GeoElement movedLabelGeoElement;
-
-	protected GeoElement movedGeoElement;
-
-	protected MyDouble tempNum;
-
-	protected double rotationLastAngle;
-
-	protected ArrayList<GeoElement> translateableGeos;
-
-	protected Coords translationVec;
-
-	protected Hits tempArrayList = new Hits();
-
-	protected Hits tempArrayList2 = new Hits();
-
-	protected Hits tempArrayList3 = new Hits();
-
-	protected final ArrayList<GeoPointND> selectedPoints = new ArrayList<GeoPointND>();
-
-	protected final ArrayList<GeoNumeric> selectedNumbers = new ArrayList<GeoNumeric>();
-
-	protected final ArrayList<GeoNumberValue> selectedNumberValues = new ArrayList<GeoNumberValue>();
-
-	protected final ArrayList<GeoLineND> selectedLines = new ArrayList<GeoLineND>();
-
-	protected final ArrayList<GeoDirectionND> selectedDirections = new ArrayList<GeoDirectionND>();
-
-	protected final ArrayList<GeoSegmentND> selectedSegments = new ArrayList<GeoSegmentND>();
-
-	protected final ArrayList<Region> selectedRegions = new ArrayList<Region>();
-
-	protected final ArrayList<Path> selectedPaths = new ArrayList<Path>();
-
-	protected final ArrayList<GeoConicND> selectedConicsND = new ArrayList<GeoConicND>();
-
-	protected final ArrayList<GeoImplicit> selectedImplicitpoly = new ArrayList<GeoImplicit>();
-
-	protected final ArrayList<GeoImplicitSurfaceND> selectedImplicitSurface = new ArrayList<GeoImplicitSurfaceND>();
-
-	protected final ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
-
-	protected final ArrayList<GeoCurveCartesian> selectedCurves = new ArrayList<GeoCurveCartesian>();
-
-	protected final ArrayList<GeoVectorND> selectedVectors = new ArrayList<GeoVectorND>();
-
-	protected final ArrayList<GeoPolygon> selectedPolygons = new ArrayList<GeoPolygon>();
-
-	protected final ArrayList<GeoPolyLine> selectedPolyLines = new ArrayList<GeoPolyLine>();
-
-	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
-
-	protected final ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
-	protected Hits highlightedGeos = new Hits();
-
-	protected ArrayList<GeoElement> justCreatedGeos = new ArrayList<GeoElement>();
-
-	protected boolean selectionPreview = false;
-
-	public boolean hideIntersection = false;
-
-	public GeoElement resultedGeo;
-
-	protected boolean temporaryMode = false;
-
-	protected boolean dontClearSelection = false;
-
-	protected boolean draggingOccured = false;
-
-	protected boolean draggingOccurredBeforeRelease = false;
-
-	public boolean draggingBeyondThreshold = false;
-
-	protected GeoPointND pointCreated = null;
-
-	protected boolean moveModeSelectionHandled;
-
-	protected boolean highlightJustCreatedGeos = true;
-
-	protected ArrayList<GeoElement> pastePreviewSelected = null;
-
-	protected ArrayList<GeoElement> pastePreviewSelectedAndDependent;
-
-	protected int mode;
-
-	protected int oldMode;
-
-	protected int moveMode = MOVE_NONE;
-
-	protected Macro macro;
-
-	protected Test[] macroInput;
-
-	protected int defaultInitialDelay;
-
-	protected boolean toggleModeChangedKernel = false;
-
-	protected boolean altDown = false;
-
-	protected GeoElement rotGeoElement;
-
-	protected GeoPoint rotationCenter;
-
-	protected int polygonMode = POLYGON_NORMAL;
-
-	protected double[] transformCoordsOffset = new double[2];
-
-	protected boolean allowSelectionRectangleForTranslateByVector = true;
-
-	protected int previousPointCapturing;
-
-	protected ArrayList<GeoPointND> persistentStickyPointList = new ArrayList<GeoPointND>();
-
-	protected final App app;
-
-	protected final SelectionManager selection;
-
-	protected final Localization l10n;
-
-	public Kernel kernel;
-
-	protected GPoint startLoc;
-
-	public GPoint mouseLoc;
-
-	protected GPoint lastMouseLoc;
-
-	protected GPoint oldLoc = new GPoint();
-
-	private GPoint2D.Double startPoint = new GPoint2D.Double();
-
-	protected GPoint2D.Double lineEndPoint = null;
-
-	protected GPoint selectionStartPoint = new GPoint();
-
-	protected ArrayList<Double> tempDependentPointX;
-
-	protected ArrayList<Double> tempDependentPointY;
-
-	protected boolean mouseIsOverLabel = false;
-
-	public EuclidianView view;
-
-	protected int collectingRepaints = 0; // if greater than 0, some repaints
-											// may be omitted
-
-	protected boolean collectedRepaints = false; // whether to repaint when
-													// collectingRepaints set to
-													// 0
-
-	private boolean externalHandling;
-
-	private long lastMouseRelease;
-
-	private long lastTouchRelease;
-
-	int index;
-
-	protected EuclidianControllerCompanion companion;
-
-	private boolean animationButtonPressed = false;
+	/**
+	 * ensure that the point will show 2D cartesion coords
+	 *
+	 * @param point point
+	 */
+	private static void checkCoordCartesian(GeoPointND point) {
+		if (point.getMode() != Kernel.COORD_CARTESIAN) {
+			point.setCartesian();
+			point.updateRepaint();
+		}
+	}
 
 	/**
-	 * position of last mouseDown or touchStart
+	 * update the moved geo
 	 */
-	protected GPoint startPosition;
+	protected final static void updateAfterMove(GeoElement geo, boolean repaint) {
+		if (repaint) {
+			geo.updateRepaint();
+		} else {
+			geo.updateCascade();
+		}
+	}
 
-	protected GeoPointND firstSelectedPoint;
+	protected static boolean penMode(int mode2) {
+		switch (mode2) {
+			case EuclidianConstants.MODE_PEN:
+				// case EuclidianConstants.MODE_PENCIL:
+			case EuclidianConstants.MODE_FREEHAND_SHAPE:
+				return true;
+		}
+		return false;
+	}
+
+	private static boolean modeCreatesHelperPoints(int mode2) {
+		switch (mode2) {
+			case EuclidianConstants.MODE_SEGMENT:
+			case EuclidianConstants.MODE_SEGMENT_FIXED:
+			case EuclidianConstants.MODE_JOIN:
+			case EuclidianConstants.MODE_RAY:
+			case EuclidianConstants.MODE_VECTOR:
+			case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
+			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+			case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_SEMICIRCLE:
+			case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+			case EuclidianConstants.MODE_POLYGON:
+			case EuclidianConstants.MODE_POLYLINE:
+			case EuclidianConstants.MODE_REGULAR_POLYGON:
+				return true;
+		}
+
+		return false;
+	}
 
 	ModeDelete getDeleteMode() {
 		if (deleteMode == null && view != null) {
@@ -389,14 +452,7 @@ public abstract class EuclidianController {
 		return deleteMode;
 	}
 
-	public EuclidianController(App app) {
-		this.app = app;
-		this.selection = app.getSelectionManager();
-		this.l10n = app.getLocalization();
-		createCompanions();
-	}
-
-	protected void createCompanions(){
+	protected void createCompanions() {
 		this.companion = newCompanion();
 	}
 
@@ -439,57 +495,6 @@ public abstract class EuclidianController {
 		}
 	}
 
-	// ==============================================
-	// Pen
-
-	public org.geogebra.common.euclidian.EuclidianPen pen;
-
-	// ==============================================
-	// Delete tool
-
-	// private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
-
-	protected Hits handleAddSelectedArrayList = new Hits();
-
-	private boolean textfieldHasFocus = false;
-
-	private MyButton pressedButton;
-
-	public static final int MOVE_NONE = 101;
-	public static final int MOVE_POINT = 102;
-	protected static final int MOVE_LINE = 103;
-	protected static final int MOVE_CONIC = 104;
-	protected static final int MOVE_VECTOR = 105;
-	protected static final int MOVE_VECTOR_STARTPOINT = 205;
-	public static final int MOVE_VIEW = 106;
-	protected static final int MOVE_FUNCTION = 107;
-	protected static final int MOVE_LABEL = 108;
-	protected static final int MOVE_TEXT = 109;
-	protected static final int MOVE_NUMERIC = 110;
-	protected static final int MOVE_SLIDER = 111;
-	protected static final int MOVE_IMAGE = 112;
-	protected static final int MOVE_ROTATE = 113;
-	protected static final int MOVE_DEPENDENT = 114;
-	protected static final int MOVE_MULTIPLE_OBJECTS = 115;
-	protected static final int MOVE_X_AXIS = 116;
-	protected static final int MOVE_Y_AXIS = 117;
-	protected static final int MOVE_BOOLEAN = 118;
-	protected static final int MOVE_BUTTON = 119;
-	public static final int MOVE_ROTATE_VIEW = 120;
-	protected static final int MOVE_IMPLICITPOLY = 121;
-	protected static final int MOVE_VECTOR_NO_GRID = 122;
-	protected static final int MOVE_POINT_WITH_OFFSET = 123;
-	protected static final int MOVE_FREEHAND = 124;
-	protected static final int MOVE_ATTACH_DETACH = 125;
-	public static final int MOVE_PLANE = 126;
-	protected static final int MOVE_IMPLICIT_CURVE = 127;
-
-	private static final int ZOOM_RECT_THRESHOLD = 30;
-	private static final int DRAG_THRESHOLD = 10;
-
-	// ==============================================
-	// Paste preview
-
 	protected void updatePastePreviewPosition() {
 		if (translationVec == null) {
 			translationVec = new Coords(2);
@@ -506,8 +511,6 @@ public abstract class EuclidianController {
 		GeoElement.moveObjects(pastePreviewSelected, translationVec,
 				tmpCoordsL3, null, view);
 	}
-
-	protected Coords tmpCoordsL3;
 
 	public final void setPastePreviewSelected() {
 
@@ -573,7 +576,7 @@ public abstract class EuclidianController {
 							} else {
 								loc = ((GeoImage) geo).getStartPoint();
 								if (loc != null) { // bottom left defined
-													// (default)
+									// (default)
 									// transformCoordsOffset[0]=loc.inhomX-xRW;
 									// transformCoordsOffset[1]=loc.inhomY-yRW;
 									setStartPointLocation(loc.inhomX,
@@ -656,7 +659,7 @@ public abstract class EuclidianController {
 		}
 		if (pastePreviewSelectedAndDependent != null) {
 			pastePreviewSelectedAndDependent = null;// new
-													// ArrayList<GeoElement>();
+			// ArrayList<GeoElement>();
 		}
 	}
 
@@ -671,7 +674,7 @@ public abstract class EuclidianController {
 					if (Kernel.isEqual(geo2.getInhomX(),
 							((GeoPoint) geo).getInhomX())
 							&& Kernel.isEqual(geo2.getInhomY(),
-									((GeoPoint) geo).getInhomY())) {
+							((GeoPoint) geo).getInhomY())) {
 						geo.setEuclidianVisible(false);
 						String geolabel = geo.getLabelSimple();
 						try {
@@ -698,29 +701,71 @@ public abstract class EuclidianController {
 		return mode;
 	}
 
+	public void setMode(int newMode) {
+		if (pen != null) {
+			pen.resetPenOffsets();
+		}
+
+		// GGB-545
+		// problem with
+		// http://tube-beta.geogebra.org/student/99999?cb=jenkins4576
+		// view.closeDropdowns();
+
+		if ((newMode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS)
+				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS)
+				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS)) {
+			return;
+		}
+
+		endOfMode(mode);
+
+		allowSelectionRectangleForTranslateByVector = true;
+
+		if (EuclidianView.usesSelectionRectangleAsInput(newMode)
+				&& (view.getSelectionRectangle() != null)) {
+			initNewMode(newMode);
+			if (app.getActiveEuclidianView() == view) {
+				processSelectionRectangle(false, false, false);
+			}
+		} else if (EuclidianView.usesSelectionAsInput(newMode)) {
+			initNewMode(newMode);
+			if (app.getActiveEuclidianView() == view) {
+				processSelection();
+			}
+		} else {
+			if (!temporaryMode) {
+				selection.clearSelectedGeos(false);
+				resetMovedGeoPoint();
+			}
+			initNewMode(newMode);
+		}
+
+		kernel.notifyRepaint();
+	}
+
 	public boolean isUndoableMode() {
 
-		switch(mode){
-		case EuclidianConstants.MODE_MOVE:
-		case EuclidianConstants.MODE_TEXT:
-		case EuclidianConstants.MODE_DELETE:
-		case EuclidianConstants.MODE_RELATION:
-		case EuclidianConstants.MODE_SLIDER:
-		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
-		case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
-		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
-		case EuclidianConstants.MODE_ZOOM_IN:
-		case EuclidianConstants.MODE_ZOOM_OUT:
-		case EuclidianConstants.MODE_SELECTION_LISTENER:
-		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
-		case EuclidianConstants.MODE_BUTTON_ACTION:
-		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
-		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_PROBABILITY_CALCULATOR:
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
-		case EuclidianConstants.MODE_FREEHAND_CIRCLE:
-		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
-			return false;
+		switch (mode) {
+			case EuclidianConstants.MODE_MOVE:
+			case EuclidianConstants.MODE_TEXT:
+			case EuclidianConstants.MODE_DELETE:
+			case EuclidianConstants.MODE_RELATION:
+			case EuclidianConstants.MODE_SLIDER:
+			case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
+			case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
+			case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
+			case EuclidianConstants.MODE_ZOOM_IN:
+			case EuclidianConstants.MODE_ZOOM_OUT:
+			case EuclidianConstants.MODE_SELECTION_LISTENER:
+			case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
+			case EuclidianConstants.MODE_BUTTON_ACTION:
+			case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+			case EuclidianConstants.MODE_PEN:
+			case EuclidianConstants.MODE_PROBABILITY_CALCULATOR:
+			case EuclidianConstants.MODE_FREEHAND_SHAPE:
+			case EuclidianConstants.MODE_FREEHAND_CIRCLE:
+			case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
+				return false;
 		}
 
 		return mode < EuclidianConstants.MODE_CAS_EVALUATE;
@@ -734,28 +779,28 @@ public abstract class EuclidianController {
 
 	protected void endOfMode(int endMode) {
 		switch (endMode) {
-		case EuclidianConstants.MODE_MOVE:
-			deletePastePreviewSelected();
-			break;
+			case EuclidianConstants.MODE_MOVE:
+				deletePastePreviewSelected();
+				break;
 
-		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
-			// take all selected objects and hide them
-			Collection<GeoElement> coll = getAppSelectedGeos();
-			Iterator<GeoElement> it = coll.iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				geo.setEuclidianVisible(false);
-				geo.updateRepaint();
-			}
-			break;
+			case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
+				// take all selected objects and hide them
+				Collection<GeoElement> coll = getAppSelectedGeos();
+				Iterator<GeoElement> it = coll.iterator();
+				while (it.hasNext()) {
+					GeoElement geo = it.next();
+					geo.setEuclidianVisible(false);
+					geo.updateRepaint();
+				}
+				break;
 
-		case EuclidianConstants.MODE_PEN:
-			// case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
-			getPen().resetPenOffsets();
+			case EuclidianConstants.MODE_PEN:
+				// case EuclidianConstants.MODE_PENCIL:
+			case EuclidianConstants.MODE_FREEHAND_SHAPE:
+				getPen().resetPenOffsets();
 
-			view.setSelectionRectangle(null);
-			break;
+				view.setSelectionRectangle(null);
+				break;
 		}
 
 		if (toggleModeChangedKernel) {
@@ -764,7 +809,7 @@ public abstract class EuclidianController {
 	}
 
 	protected final void clearSelection(ArrayList<?> selectionList,
-			boolean doUpdateSelection) {
+										boolean doUpdateSelection) {
 
 		// unselect
 		selectionList.clear();
@@ -1102,7 +1147,7 @@ public abstract class EuclidianController {
 
 	/***************************************************************************
 	 * mode implementations
-	 *
+	 * <p/>
 	 * the following methods return true if a factory method of the kernel was
 	 * called
 	 **************************************************************************/
@@ -1114,7 +1159,7 @@ public abstract class EuclidianController {
 	}
 
 	public GeoPointND createNewPoint2D(String label, boolean forPreviewable,
-			Path path, double x, double y, boolean complex, boolean coords2D) {
+									   Path path, double x, double y, boolean complex, boolean coords2D) {
 		checkZooming(forPreviewable);
 
 		return getAlgoDispatcher().Point(label, path, x, y, !forPreviewable,
@@ -1122,8 +1167,8 @@ public abstract class EuclidianController {
 	}
 
 	final protected GeoPointND createNewPoint2D(String label,
-			boolean forPreviewable, Region region, double x, double y,
-			boolean complex, boolean coords2D) {
+												boolean forPreviewable, Region region, double x, double y,
+												boolean complex, boolean coords2D) {
 		checkZooming(forPreviewable);
 
 		GeoPointND ret = getAlgoDispatcher().PointIn(label, region, x, y,
@@ -1132,8 +1177,8 @@ public abstract class EuclidianController {
 	}
 
 	final public GeoPointND createNewPoint(String label,
-			boolean forPreviewable, Region region, double x, double y,
-			double z, boolean complex, boolean coords2D) {
+										   boolean forPreviewable, Region region, double x, double y,
+										   double z, boolean complex, boolean coords2D) {
 
 		if (region.toGeoElement().isGeoElement3D()) {
 			checkZooming(forPreviewable);
@@ -1154,14 +1199,12 @@ public abstract class EuclidianController {
 				coords2D);
 	}
 
-	private Coords tmpCoordsL4;
+	public Kernel getKernel() {
+		return kernel;
+	}
 
 	public void setKernel(Kernel kernel) {
 		this.kernel = kernel;
-	}
-
-	public Kernel getKernel() {
-		return kernel;
 	}
 
 	public void clearJustCreatedGeos() {
@@ -1229,7 +1272,6 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 *
 	 * @return true if the mouse is over a label
 	 */
 	public boolean mouseIsOverLabel() {
@@ -1249,43 +1291,43 @@ public abstract class EuclidianController {
 			GeoElement geo = selGeos.get(i);
 
 			switch (geo.getGeoClassType()) {
-			case SEGMENT:
-			case RAY:
-				// remove start and end point of segment
-				GeoLine line = (GeoLine) geo;
-				tempArrayList.remove(line.getStartPoint());
-				tempArrayList.remove(line.getEndPoint());
-				break;
+				case SEGMENT:
+				case RAY:
+					// remove start and end point of segment
+					GeoLine line = (GeoLine) geo;
+					tempArrayList.remove(line.getStartPoint());
+					tempArrayList.remove(line.getEndPoint());
+					break;
 
-			case CONICPART:
-				GeoConicPart cp = (GeoConicPart) geo;
-				ArrayList<GeoPointND> ip = cp.getParentAlgorithm()
-						.getInputPoints();
-				tempArrayList.removeAll(ip);
-				break;
+				case CONICPART:
+					GeoConicPart cp = (GeoConicPart) geo;
+					ArrayList<GeoPointND> ip = cp.getParentAlgorithm()
+							.getInputPoints();
+					tempArrayList.removeAll(ip);
+					break;
 
-			case POLYGON:
-				// remove points and segments of poly
-				GeoPolygon poly = (GeoPolygon) geo;
-				GeoPointND[] points = poly.getPoints();
-				for (int k = 0; k < points.length; k++) {
-					tempArrayList.remove(points[k]);
-				}
-				GeoSegmentND[] segs = poly.getSegments();
-				for (int k = 0; k < segs.length; k++) {
-					tempArrayList.remove(segs[k]);
-				}
-				break;
+				case POLYGON:
+					// remove points and segments of poly
+					GeoPolygon poly = (GeoPolygon) geo;
+					GeoPointND[] points = poly.getPoints();
+					for (int k = 0; k < points.length; k++) {
+						tempArrayList.remove(points[k]);
+					}
+					GeoSegmentND[] segs = poly.getSegments();
+					for (int k = 0; k < segs.length; k++) {
+						tempArrayList.remove(segs[k]);
+					}
+					break;
 
-			case PENSTROKE:
-			case POLYLINE:
-				// remove points and segments of poly
-				GeoPolyLine polyl = (GeoPolyLine) geo;
-				points = polyl.getPoints();
-				for (int k = 0; k < points.length; k++) {
-					tempArrayList.remove(points[k]);
-				}
-				break;
+				case PENSTROKE:
+				case POLYLINE:
+					// remove points and segments of poly
+					GeoPolyLine polyl = (GeoPolyLine) geo;
+					points = polyl.getPoints();
+					for (int k = 0; k < points.length; k++) {
+						tempArrayList.remove(points[k]);
+					}
+					break;
 			}
 		}
 
@@ -1294,7 +1336,7 @@ public abstract class EuclidianController {
 	}
 
 	protected final <T> int addToSelectionList(ArrayList<T> selectionList,
-			T geo, int max) {
+											   T geo, int max) {
 		if (geo == null) {
 			return 0;
 		}
@@ -1322,7 +1364,7 @@ public abstract class EuclidianController {
 	}
 
 	protected final int addToHighlightedList(ArrayList<?> selectionList,
-			ArrayList<GeoElement> geos, int max) {
+											 ArrayList<GeoElement> geos, int max) {
 
 		if (geos == null) {
 			return 0;
@@ -1345,12 +1387,12 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoElement chooseGeo(ArrayList<GeoElement> geos,
-			boolean includeFixed) {
+								   boolean includeFixed) {
 		return chooseGeo(geos, includeFixed, true);
 	}
 
 	protected GeoElement chooseGeo(ArrayList<GeoElement> geos,
-			boolean includeFixed, boolean includeConstants) {
+								   boolean includeFixed, boolean includeConstants) {
 		if (geos == null) {
 			return null;
 		}
@@ -1366,120 +1408,120 @@ public abstract class EuclidianController {
 		GeoElement retSegment = null;
 
 		switch (geos.size()) {
-		case 0:
-			break;
+			case 0:
+				break;
 
-		case 1:
-			ret = geos.get(0);
+			case 1:
+				ret = geos.get(0);
 
-			if (!includeFixed && ret.isFixed()) {
-				return null;
-			}
-
-			break;
-
-		default:
-
-			int maxLayer = -1;
-
-			int layerCount = 0;
-
-			// work out max layer, and
-			// count no of objects in max layer
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = (geos.get(i));
-				int layer = geo.getLayer();
-
-				if ((layer > maxLayer) && (includeFixed || !geo.isFixed())) {
-					maxLayer = layer;
-					layerCount = 1;
-					ret = geo;
-				} else if (layer == maxLayer) {
-					layerCount++;
+				if (!includeFixed && ret.isFixed()) {
+					return null;
 				}
 
-			}
+				break;
 
-			// only one object in top layer, return it.
-			if (layerCount == 1) {
-				return ret;
-			}
+			default:
 
-			int pointCount = 0;
-			int freePointCount = 0;
-			int pointOnPathCount = 0;
-			int segmentCount = 0;
-			// int polygonCount = 0;
-			int minIndex = Integer.MAX_VALUE;
+				int maxLayer = -1;
 
-			// count no of points in top layer
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = (geos.get(i));
+				int layerCount = 0;
 
-				if (geo.isGeoPoint() && (geo.getLayer() == maxLayer)
-						&& (includeFixed || !geo.isFixed())) {
-					pointCount++;
-					ret = geo;
+				// work out max layer, and
+				// count no of objects in max layer
+				for (int i = 0; i < geos.size(); i++) {
+					GeoElement geo = (geos.get(i));
+					int layer = geo.getLayer();
 
-					// find point with the lowest construction index
-					// changed from highest so that tessellation works
-					// eg two points like (a + x(A), b + y(A))
-					// we want to drag the older one
-					int consIndex = geo.getConstructionIndex();
-					if (consIndex < minIndex) {
-						minIndex = consIndex;
-						retIndex = geo;
+					if ((layer > maxLayer) && (includeFixed || !geo.isFixed())) {
+						maxLayer = layer;
+						layerCount = 1;
+						ret = geo;
+					} else if (layer == maxLayer) {
+						layerCount++;
 					}
 
-					// find point-on-path/region with the highest construction
-					// index
-					if (((GeoPointND) geo).isPointOnPath()
-							|| ((GeoPointND) geo).isPointInRegion()) {
-						pointOnPathCount++;
-						if (retPath == null) {
-							retPath = geo;
-						} else {
-							if (geo.getConstructionIndex() > retPath
-									.getConstructionIndex()) {
+				}
+
+				// only one object in top layer, return it.
+				if (layerCount == 1) {
+					return ret;
+				}
+
+				int pointCount = 0;
+				int freePointCount = 0;
+				int pointOnPathCount = 0;
+				int segmentCount = 0;
+				// int polygonCount = 0;
+				int minIndex = Integer.MAX_VALUE;
+
+				// count no of points in top layer
+				for (int i = 0; i < geos.size(); i++) {
+					GeoElement geo = (geos.get(i));
+
+					if (geo.isGeoPoint() && (geo.getLayer() == maxLayer)
+							&& (includeFixed || !geo.isFixed())) {
+						pointCount++;
+						ret = geo;
+
+						// find point with the lowest construction index
+						// changed from highest so that tessellation works
+						// eg two points like (a + x(A), b + y(A))
+						// we want to drag the older one
+						int consIndex = geo.getConstructionIndex();
+						if (consIndex < minIndex) {
+							minIndex = consIndex;
+							retIndex = geo;
+						}
+
+						// find point-on-path/region with the highest construction
+						// index
+						if (((GeoPointND) geo).isPointOnPath()
+								|| ((GeoPointND) geo).isPointInRegion()) {
+							pointOnPathCount++;
+							if (retPath == null) {
 								retPath = geo;
+							} else {
+								if (geo.getConstructionIndex() > retPath
+										.getConstructionIndex()) {
+									retPath = geo;
+								}
 							}
 						}
-					}
 
-					// find free point with the highest construction index
-					if (geo.isIndependent()) {
-						freePointCount++;
-						if (retFree == null) {
-							retFree = geo;
-						} else {
-							if (geo.getConstructionIndex() > retFree
-									.getConstructionIndex()) {
+						// find free point with the highest construction index
+						if (geo.isIndependent()) {
+							freePointCount++;
+							if (retFree == null) {
 								retFree = geo;
+							} else {
+								if (geo.getConstructionIndex() > retFree
+										.getConstructionIndex()) {
+									retFree = geo;
+								}
 							}
 						}
 					}
 				}
-			}
 
-			// return point-on-path with highest index
-			if (pointOnPathCount > 0) {
-				return retPath;
-			}
+				// return point-on-path with highest index
+				if (pointOnPathCount > 0) {
+					return retPath;
+				}
 
-			// return free-point with highest index
-			if (freePointCount > 0) {
-				return retFree;
-			}
+				// return free-point with highest index
+				if (freePointCount > 0) {
+					return retFree;
+				}
 
-			// only one point in top layer, return it
-			if (pointCount == 1) {
-				return ret;
-			}
+				// only one point in top layer, return it
+				if (pointCount == 1) {
+					return ret;
+				}
 
-			// just return the most recently created point
-			if (pointCount > 1) {
-				return retIndex;
-			}
+				// just return the most recently created point
+				if (pointCount > 1) {
+					return retIndex;
+				}
 
 			/*
 			 * try { throw new Exception("choose"); } catch (Exception e) {
@@ -1488,78 +1530,78 @@ public abstract class EuclidianController {
 			 * }
 			 */
 
-			boolean allFixed = false;
+				boolean allFixed = false;
 
-			// remove fixed objects (if there are some not fixed)
-			if (!includeFixed && (geos.size() > 1)) {
+				// remove fixed objects (if there are some not fixed)
+				if (!includeFixed && (geos.size() > 1)) {
 
-				allFixed = true;
+					allFixed = true;
+					for (int i = 0; i < geos.size(); i++) {
+						if (!geos.get(i).isFixed()) {
+							allFixed = false;
+						}
+					}
+
+					if (!allFixed) {
+						for (int i = geos.size() - 1; i >= 0; i--) {
+							GeoElement geo = geos.get(i);
+							if (geo.isFixed()) {
+								geos.remove(i);
+							}
+						}
+					}
+
+					if (geos.size() == 1) {
+						return geos.get(0);
+					}
+				}
+
+				// int maxPolygonLayer = 0;
+				// count segments and polygons
 				for (int i = 0; i < geos.size(); i++) {
-					if (!geos.get(i).isFixed()) {
-						allFixed = false;
-					}
-				}
+					GeoElement geo = (geos.get(i));
 
-				if (!allFixed) {
-					for (int i = geos.size() - 1; i >= 0; i--) {
-						GeoElement geo = geos.get(i);
-						if (geo.isFixed()) {
-							geos.remove(i);
-						}
-					}
-				}
-
-				if (geos.size() == 1) {
-					return geos.get(0);
-				}
-			}
-
-			// int maxPolygonLayer = 0;
-			// count segments and polygons
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = (geos.get(i));
-
-				if (geo.isGeoSegment()) {
-					segmentCount++;
-					if (retSegment == null) {
-						retSegment = geo;
-					} else {
-
-						// select Segment with lowest layer (& construction
-						// index)
-						if ((retSegment.getLayer() < geo.getLayer())
-								|| ((retSegment.getLayer() == geo.getLayer()) && (retSegment
-										.getConstructionIndex() > geo
-										.getConstructionIndex()))) {
+					if (geo.isGeoSegment()) {
+						segmentCount++;
+						if (retSegment == null) {
 							retSegment = geo;
+						} else {
 
+							// select Segment with lowest layer (& construction
+							// index)
+							if ((retSegment.getLayer() < geo.getLayer())
+									|| ((retSegment.getLayer() == geo.getLayer()) && (retSegment
+									.getConstructionIndex() > geo
+									.getConstructionIndex()))) {
+								retSegment = geo;
+
+							}
 						}
+						// } else if (geo.isGeoPolygon()) {
+						// polygonCount++;
+						// if (geo.getLayer() > maxPolygonLayer) maxPolygonLayer =
+						// geo.getLayer();
 					}
-					// } else if (geo.isGeoPolygon()) {
-					// polygonCount++;
-					// if (geo.getLayer() > maxPolygonLayer) maxPolygonLayer =
-					// geo.getLayer();
 				}
-			}
 
-			// check for edge of polygon being selected (priority over polygon
-			// itself)
-			// if (segmentCount == 1 && (segmentCount + polygonCount ==
-			// geos.size())) {
-			// if (retSegment.getLayer() >= maxPolygonLayer) return retSegment;
-			// }
+				// check for edge of polygon being selected (priority over polygon
+				// itself)
+				// if (segmentCount == 1 && (segmentCount + polygonCount ==
+				// geos.size())) {
+				// if (retSegment.getLayer() >= maxPolygonLayer) return retSegment;
+				// }
 
-			// give segments priority over eg Polygons, Lines
-			// that they might be drawn on top of
-			if (segmentCount > 0) {
-				return retSegment;
-			}
+				// give segments priority over eg Polygons, Lines
+				// that they might be drawn on top of
+				if (segmentCount > 0) {
+					return retSegment;
+				}
 
-			// don't want a popup in this case
-			// eg multiple fixed images from Pen Tool
-			if (!includeFixed && allFixed) {
-				return null;
-			}
+				// don't want a popup in this case
+				// eg multiple fixed images from Pen Tool
+				if (!includeFixed && allFixed) {
+					return null;
+				}
 
 			/*
 			 * no points selected, multiple objects selected // popup a menu to
@@ -1571,15 +1613,15 @@ public abstract class EuclidianController {
 			 * ttm.setEnabled(true);
 			 */
 
-			// now just choose geo with highest drawing priority:
-			ret = geos.get(0);
+				// now just choose geo with highest drawing priority:
+				ret = geos.get(0);
 
-			for (int i = 0; i < geos.size(); i++) {
-				// other not drawn before = other is on top
-				if (!geos.get(i).drawBefore(ret, true)) {
-					ret = geos.get(i);
+				for (int i = 0; i < geos.size(); i++) {
+					// other not drawn before = other is on top
+					if (!geos.get(i).drawBefore(ret, true)) {
+						ret = geos.get(i);
+					}
 				}
-			}
 		}
 		return ret;
 
@@ -1598,10 +1640,8 @@ public abstract class EuclidianController {
 	 * selectionList may only contain max objects a choose dialog will be shown
 	 * if not all objects can be added
 	 *
-	 * @param geos
-	 *            a clone of the to-be-added list
-	 * @param addMoreThanOneAllowed
-	 *            it's possible to add several objects without choosing
+	 * @param geos                  a clone of the to-be-added list
+	 * @param addMoreThanOneAllowed it's possible to add several objects without choosing
 	 */
 	@SuppressWarnings("unchecked")
 	protected final <T extends GeoElementND> int addToSelectionList(
@@ -1721,7 +1761,7 @@ public abstract class EuclidianController {
 	}
 
 	protected int handleAddSelected(Hits hits, int max, boolean addMore,
-			ArrayList<? extends GeoElementND> list, Test geoClass) {
+									ArrayList<? extends GeoElementND> list, Test geoClass) {
 
 		if (selectionPreview) {
 			return addToHighlightedList(list,
@@ -1733,7 +1773,7 @@ public abstract class EuclidianController {
 	}
 
 	protected int handleAddSelectedRegions(Hits hits, int max, boolean addMore,
-			ArrayList<Region> list) {
+										   ArrayList<Region> list) {
 		if (selectionPreview) {
 			return addToHighlightedList(list,
 					hits.getRegionHits(handleAddSelectedArrayList), max);
@@ -1744,7 +1784,7 @@ public abstract class EuclidianController {
 	}
 
 	public final int addSelectedGeo(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+									boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedGeos, Test.GEOELEMENT);
 	}
@@ -1756,91 +1796,91 @@ public abstract class EuclidianController {
 	}
 
 	public final int addSelectedNumeric(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+										boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedNumbers, Test.GEONUMERIC);
 	}
 
 	public final int addSelectedNumberValue(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+											boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedNumberValues, Test.NUMBERVALUE);
 	}
 
 	protected final int addSelectedLine(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+										boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedLines, Test.GEOLINEND);
 	}
 
 	protected final int addSelectedSegment(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+										   boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedSegments, Test.GEOSEGMENTND);
 	}
 
 	protected final int addSelectedVector(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+										  boolean addMoreThanOneAllowed) {
 		return addSelectedVector(hits, max, addMoreThanOneAllowed,
 				Test.GEOVECTORND);
 	}
 
 	protected final int addSelectedVector(Hits hits, int max,
-			boolean addMoreThanOneAllowed, Test geoClass) {
+										  boolean addMoreThanOneAllowed, Test geoClass) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedVectors, geoClass);
 	}
 
 	protected final int addSelectedPath(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+										boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedPaths, Test.PATH);
 	}
 
 	protected final int addSelectedRegion(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+										  boolean addMoreThanOneAllowed) {
 		return handleAddSelectedRegions(hits, max, addMoreThanOneAllowed,
 				selectedRegions);
 	}
 
 	protected final int addSelectedImplicitpoly(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+												boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedImplicitpoly, Test.GEOIMPLICIT);
 	}
 
 	protected final int addSelectedImplicitSurface(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+												   boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedImplicitSurface, Test.GEOIMPLICITSURFACE);
 	}
 
 	protected final int addSelectedPolygon(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+										   boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedPolygons, Test.GEOPOLYGON);
 	}
 
 	protected final int addSelectedPolyLine(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+											boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedPolyLines, Test.GEOPOLYLINE);
 	}
 
 	protected final int addSelectedList(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+										boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedLists, Test.GEOLIST);
 	}
 
 	protected final int addSelectedDirection(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+											 boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedDirections, Test.GEODIRECTIONND);
 	}
 
 	protected final int addSelectedCircle(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+										  boolean addMoreThanOneAllowed) {
 		ArrayList<GeoConic> selectedCircles = new ArrayList<GeoConic>();
 		for (Object c : selectedConicsND) {
 			if (((GeoConic) c).isCircle()) {
@@ -1852,19 +1892,19 @@ public abstract class EuclidianController {
 	}
 
 	protected final int addSelectedConic(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+										 boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedConicsND, Test.GEOCONICND);
 	}
 
 	protected final int addSelectedFunction(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+											boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedFunctions, Test.GEOFUNCTION);
 	}
 
 	protected final int addSelectedCurve(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+										 boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedCurves, Test.GEOCURVECARTESIAN);
 	}
@@ -1906,11 +1946,9 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 *
-	 * @param notAlreadyStarted
-	 *            true current created geo is not already started
+	 * @param notAlreadyStarted true current created geo is not already started
 	 * @return true if dragging occurred before release, so maybe we don't want
-	 *         to start new geo
+	 * to start new geo
 	 */
 	protected boolean draggingOccurredBeforeRelease(boolean notAlreadyStarted) {
 		return false;
@@ -1918,7 +1956,7 @@ public abstract class EuclidianController {
 
 	protected GeoElement[] join() {
 		GeoPointND[] points = getSelectedPointsND();
-		GeoElement[] ret = { null };
+		GeoElement[] ret = {null};
 		if (((GeoElement) points[0]).isGeoElement3D()
 				|| ((GeoElement) points[1]).isGeoElement3D()) {
 			ret[0] = getKernel().getManager3D().Line3D(null, points[0],
@@ -1936,7 +1974,7 @@ public abstract class EuclidianController {
 
 	protected GeoElement[] ray() {
 		GeoPointND[] points = getSelectedPointsND();
-		GeoElement[] ret = { null };
+		GeoElement[] ret = {null};
 		if (((GeoElement) points[0]).isGeoElement3D()
 				|| ((GeoElement) points[1]).isGeoElement3D()) {
 			ret[0] = getKernel().getManager3D()
@@ -1985,7 +2023,7 @@ public abstract class EuclidianController {
 			// fetch the two selected points
 
 			GeoPointND[] points = getSelectedPointsND();
-			return new GeoElement[] { vector(points[0], points[1]) };
+			return new GeoElement[]{vector(points[0], points[1])};
 		}
 		return null;
 	}
@@ -2098,8 +2136,8 @@ public abstract class EuclidianController {
 		// points needed
 		if (((polygonMode == POLYGON_RIGID) || (polygonMode == POLYGON_VECTOR))
 				&& (selPoints() > 0)) { // only want free points withput
-										// children for rigid polys (apart from
-										// first)
+			// children for rigid polys (apart from
+			// first)
 			GeoElement geo = chooseGeo(hits, false);
 			if ((geo == null) || !geo.isGeoPoint() || !geo.isIndependent()
 					|| geo.hasChildren()) {
@@ -2139,7 +2177,7 @@ public abstract class EuclidianController {
 		checkZooming();
 
 		if (polygonMode == POLYGON_RIGID) {
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			GeoElement[] ret0 = kernel
 					.RigidPolygon(null, getSelectedPointsND());
 			if (ret0 != null) {
@@ -2147,7 +2185,7 @@ public abstract class EuclidianController {
 			}
 			return ret;
 		} else if (polygonMode == POLYGON_VECTOR) {
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			GeoElement[] ret0 = kernel.VectorPolygon(null,
 					getSelectedPointsND());
 			if (ret0 != null) {
@@ -2156,7 +2194,7 @@ public abstract class EuclidianController {
 			return ret;
 		} else {
 
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			GeoElement[] ret0 = kernel.Polygon(null, getSelectedPointsND());
 			if (ret0 != null) {
 				ret[0] = ret0[0];
@@ -2241,12 +2279,12 @@ public abstract class EuclidianController {
 			GeoPointND point = getAlgoDispatcher().IntersectLines(null,
 					lines[0], lines[1]);
 			checkCoordCartesian(point);
-			return new GeoElement[] { (GeoElement) point };
+			return new GeoElement[]{(GeoElement) point};
 		}
 		// two conics
 		else if (selConics() >= 2) {
 			GeoConicND[] conics = getSelectedConicsND();
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			if (singlePointWanted) {
 				checkZooming();
 
@@ -2270,16 +2308,16 @@ public abstract class EuclidianController {
 				initPoint.setCoords(xRW, yRW, 1.0);
 				checkZooming();
 
-				return new GeoElement[] { getAlgoDispatcher()
-						.IntersectFunctions(null, fun[0], fun[1], initPoint) };
+				return new GeoElement[]{getAlgoDispatcher()
+						.IntersectFunctions(null, fun[0], fun[1], initPoint)};
 			}
 			// polynomials
 			if (singlePointWanted) {
 				checkZooming();
 
-				return new GeoElement[] { getAlgoDispatcher()
+				return new GeoElement[]{getAlgoDispatcher()
 						.IntersectPolynomialsSingle(null, fun[0], fun[1], xRW,
-								yRW) };
+								yRW)};
 			}
 			return getAlgoDispatcher().IntersectPolynomials(null, fun[0],
 					fun[1]);
@@ -2288,7 +2326,7 @@ public abstract class EuclidianController {
 		else if ((selLines() >= 1) && (selConics() >= 1)) {
 			GeoConicND[] conic = getSelectedConicsND();
 			GeoLineND[] line = getSelectedLinesND();
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			checkZooming();
 
 			if (singlePointWanted) {
@@ -2309,58 +2347,58 @@ public abstract class EuclidianController {
 		else if ((selLines() >= 1) && (selPolyLines() >= 1)) {
 			GeoLine line = getSelectedLines()[0];
 			GeoPolyLine polyLine = getSelectedPolyLines()[0];
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			checkZooming();
 
 			ret = getAlgoDispatcher().IntersectLinePolyLine(
-					new String[] { null }, line, polyLine);
+					new String[]{null}, line, polyLine);
 			return ret;
 		}
 		// line and curve
 		else if ((selLines() >= 1) && (selCurves() >= 1)) {
 			GeoLine line = getSelectedLines()[0];
 			GeoCurveCartesian curve = getSelectedCurves()[0];
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			checkZooming();
 
-			ret = getAlgoDispatcher().IntersectLineCurve(new String[] { null },
+			ret = getAlgoDispatcher().IntersectLineCurve(new String[]{null},
 					line, curve);
 			return ret;
 		}
 		// curve-curve
 		else if ((selCurves() >= 2)) {
 			GeoCurveCartesian[] curves = getSelectedCurves();
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			checkZooming();
 
 			// multiple points disabled in ggb42, Reduce too slow
 			if (singlePointWanted) {
 				ret = getAlgoDispatcher().IntersectCurveCurveSingle(
-						new String[] { null }, curves[0], curves[1], xRW, yRW);
+						new String[]{null}, curves[0], curves[1], xRW, yRW);
 			} else {
 				ret = getAlgoDispatcher().IntersectCurveCurve(
-						new String[] { null }, curves[0], curves[1]);
+						new String[]{null}, curves[0], curves[1]);
 			}
 			return ret;
 		} // line and polygon
 		else if ((selLines() >= 1) && (selPolygons() >= 1)) {
 			GeoLine line = getSelectedLines()[0];
 			GeoPolygon polygon = getSelectedPolygons()[0];
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			checkZooming();
 
 			ret = getAlgoDispatcher().IntersectLinePolygon(
-					new String[] { null }, line, polygon);
+					new String[]{null}, line, polygon);
 			return ret;
 		}
 
 		// polyLine and polyLine
 		else if (selPolyLines() >= 2) {
 			GeoPolyLine[] polylines = getSelectedPolyLines();
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			checkZooming();
 
-			ret = getAlgoDispatcher().IntersectPolyLines(new String[] { null },
+			ret = getAlgoDispatcher().IntersectPolyLines(new String[]{null},
 					polylines[0], polylines[1]);
 			return ret;
 		}
@@ -2368,10 +2406,10 @@ public abstract class EuclidianController {
 		// polygon and polygon - both as boundary
 		else if (selPolygons() >= 2) {
 			GeoPolygon[] polygons = getSelectedPolygons();
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			checkZooming();
 
-			ret = getAlgoDispatcher().IntersectPolygons(new String[] { null },
+			ret = getAlgoDispatcher().IntersectPolygons(new String[]{null},
 					polygons[0], polygons[1], false);
 			return ret;
 		}
@@ -2380,7 +2418,7 @@ public abstract class EuclidianController {
 		else if ((selLines() >= 1) && (selFunctions() >= 1)) {
 			GeoLine[] line = getSelectedLines();
 			GeoFunction[] fun = getSelectedFunctions();
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			checkZooming();
 
 			if (fun[0].isPolynomialFunction(false)) {
@@ -2442,9 +2480,9 @@ public abstract class EuclidianController {
 			checkZooming();
 
 			if (singlePointWanted) {
-				return new GeoElement[] { getAlgoDispatcher()
+				return new GeoElement[]{getAlgoDispatcher()
 						.IntersectPolynomialConicSingle(null, fun[0], conic[0],
-								xRW, yRW) };
+								xRW, yRW)};
 			}
 			return getAlgoDispatcher().IntersectPolynomialConic(null, fun[0],
 					conic[0]);
@@ -2457,9 +2495,9 @@ public abstract class EuclidianController {
 				checkZooming();
 
 				if (singlePointWanted) {
-					return new GeoElement[] { getAlgoDispatcher()
+					return new GeoElement[]{getAlgoDispatcher()
 							.IntersectImplicitpolyPolynomialSingle(null, p,
-									fun, xRW, yRW) };
+									fun, xRW, yRW)};
 				}
 				return getAlgoDispatcher().IntersectImplicitpolyPolynomial(
 						null, p, fun);
@@ -2471,9 +2509,9 @@ public abstract class EuclidianController {
 				checkZooming();
 
 				if (singlePointWanted) {
-					return new GeoElement[] { getAlgoDispatcher()
+					return new GeoElement[]{getAlgoDispatcher()
 							.IntersectImplicitpolyLineSingle(null, p, l, xRW,
-									yRW) };
+									yRW)};
 				}
 				return getAlgoDispatcher()
 						.IntersectImplicitpolyLine(null, p, l);
@@ -2483,9 +2521,9 @@ public abstract class EuclidianController {
 				checkZooming();
 
 				if (singlePointWanted) {
-					return new GeoElement[] { getAlgoDispatcher()
+					return new GeoElement[]{getAlgoDispatcher()
 							.IntersectImplicitpolyConicSingle(null, p, c, xRW,
-									yRW) };
+									yRW)};
 				}
 				return getAlgoDispatcher().IntersectImplicitpolyConic(null, p,
 						c);
@@ -2494,9 +2532,9 @@ public abstract class EuclidianController {
 				checkZooming();
 
 				if (singlePointWanted) {
-					return new GeoElement[] { getAlgoDispatcher()
+					return new GeoElement[]{getAlgoDispatcher()
 							.IntersectImplicitpolysSingle(null, p[0], p[1],
-									xRW, yRW) };
+									xRW, yRW)};
 				}
 				return getAlgoDispatcher().IntersectImplicitpolys(null, p[0],
 						p[1]);
@@ -2573,19 +2611,6 @@ public abstract class EuclidianController {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * ensure that the point will show 2D cartesion coords
-	 *
-	 * @param point
-	 *            point
-	 */
-	private static void checkCoordCartesian(GeoPointND point) {
-		if (point.getMode() != Kernel.COORD_CARTESIAN) {
-			point.setCartesian();
-			point.updateRepaint();
-		}
 	}
 
 	protected final GeoElement[] parabola(Hits hits) {
@@ -3674,7 +3699,7 @@ public abstract class EuclidianController {
 		this.allowSelectionRectangleForTranslateByVector = oldTranslateRectangle;
 		if (highlightJustCreatedGeos) {
 			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
-														// created geos
+			// created geos
 		}
 
 		selectionPreview = false; // reactivate selection in mouseReleased()
@@ -3862,9 +3887,9 @@ public abstract class EuclidianController {
 
 		if (selPoints() == 1) {
 			if ((selPaths() == 1) && !isAltDown()) { // press alt to force
-														// region
-														// (ie inside) not path
-														// (edge)
+				// region
+				// (ie inside) not path
+				// (edge)
 				Path paths[] = getSelectedPaths();
 				GeoPointND[] points = getSelectedPointsND();
 
@@ -3874,7 +3899,7 @@ public abstract class EuclidianController {
 
 				if (((GeoElement) paths[0]).isGeoPolygon()
 						|| (((GeoElement) paths[0]).isGeoConic() && (((GeoConicND) paths[0])
-								.getLastHitType() == HitType.ON_FILLING))) {
+						.getLastHitType() == HitType.ON_FILLING))) {
 
 					checkZooming();
 					GeoPointND ret = getAlgoDispatcher().attach(points[0],
@@ -3925,8 +3950,6 @@ public abstract class EuclidianController {
 		}
 		return false;
 	}
-
-	private Coords mouseLocRW;
 
 	protected Coords getMouseLocRW() {
 
@@ -4138,7 +4161,7 @@ public abstract class EuclidianController {
 
 		addSelectedList(hits, 1, false);
 
-		GeoElement[] ret = { null };
+		GeoElement[] ret = {null};
 		checkZooming();
 
 		if (selLists() > 0) {
@@ -4176,7 +4199,7 @@ public abstract class EuclidianController {
 
 	protected final GeoElement[] createList(Hits hits) {
 		GeoList list;
-		GeoElement[] ret = { null };
+		GeoElement[] ret = {null};
 
 		if (!selectionPreview && (hits.size() > 1)) {
 			checkZooming();
@@ -4226,10 +4249,10 @@ public abstract class EuclidianController {
 
 	/**
 	 * COORD TRANSFORM SCREEN -> REAL WORLD
-	 *
+	 * <p/>
 	 * real world coords -> screen coords ( xscale 0 xZero ) T = ( 0 -yscale
 	 * yZero ) ( 0 0 1 )
-	 *
+	 * <p/>
 	 * screen coords -> real world coords ( 1/xscale 0 -xZero/xscale ) T^(-1) =
 	 * ( 0 -1/yscale yZero/yscale ) ( 0 0 1 )
 	 */
@@ -4251,7 +4274,7 @@ public abstract class EuclidianController {
 
 		if ((mode == EuclidianConstants.MODE_MOVE)
 				&& ((moveMode == MOVE_NUMERIC)
-						|| (moveMode == MOVE_VECTOR_NO_GRID) || (moveMode == MOVE_POINT_WITH_OFFSET))) {
+				|| (moveMode == MOVE_VECTOR_NO_GRID) || (moveMode == MOVE_POINT_WITH_OFFSET))) {
 			return;
 		}
 
@@ -4259,159 +4282,159 @@ public abstract class EuclidianController {
 		double pointCapturingPercentage = 1;
 		switch (view.getPointCapturingMode()) {
 
-		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
-			pointCapturingPercentage = 0.125;
-			ArrayList<GeoPointND> spl = view.getStickyPointList();
-			boolean captured = false;
-			if (spl != null) {
-				for (int i = 0; i < spl.size(); i++) {
-					GeoPoint gp = (GeoPoint) spl.get(i);
-					if ((Math.abs(gp.getInhomX() - xRW) < (view
-							.getGridDistances(0) * pointCapturingPercentage))
-							&& (Math.abs(gp.getInhomY() - yRW) < (view
-									.getGridDistances(1) * pointCapturingPercentage))) {
-						xRW = gp.getInhomX();
-						yRW = gp.getInhomY();
-						captured = true;
+			case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
+				pointCapturingPercentage = 0.125;
+				ArrayList<GeoPointND> spl = view.getStickyPointList();
+				boolean captured = false;
+				if (spl != null) {
+					for (int i = 0; i < spl.size(); i++) {
+						GeoPoint gp = (GeoPoint) spl.get(i);
+						if ((Math.abs(gp.getInhomX() - xRW) < (view
+								.getGridDistances(0) * pointCapturingPercentage))
+								&& (Math.abs(gp.getInhomY() - yRW) < (view
+								.getGridDistances(1) * pointCapturingPercentage))) {
+							xRW = gp.getInhomX();
+							yRW = gp.getInhomY();
+							captured = true;
+							break;
+						}
+					}
+				}
+				if (captured) {
+					break;
+				}
+
+				// fall through
+			case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
+				if (!view.isGridOrAxesShown()) {
+					break;
+				}
+
+				// fall through
+			case EuclidianStyleConstants.POINT_CAPTURING_ON:
+				pointCapturingPercentage = getPointCapturingPercentage();
+
+				// fall through
+			case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
+
+				xRW += getTransformCoordsOffset(0);
+				yRW += getTransformCoordsOffset(1);
+
+				switch (view.getGridType()) {
+					case EuclidianView.GRID_ISOMETRIC:
+
+						// isometric Michael Borcherds 2008-04-28
+						// iso grid is effectively two rectangular grids overlayed
+						// (offset)
+						// so first we decide which one we're on (oddOrEvenRow)
+						// then compress the grid by a scale factor of root3
+						// horizontally to make it square.
+
+						double root3 = Math.sqrt(3.0);
+						double isoGrid = view.getGridDistances(0);
+						int oddOrEvenRow = (int) Math.round((2.0 * Math.abs(yRW
+								- Kernel.roundToScale(yRW, isoGrid)))
+								/ isoGrid);
+
+						if (oddOrEvenRow == 0) {
+							// X = (x, y) ... next grid point
+							double x = Kernel.roundToScale(xRW / root3, isoGrid);
+							double y = Kernel.roundToScale(yRW, isoGrid);
+							// if |X - XRW| < gridInterval * pointCapturingPercentage
+							// then take the grid point
+							double a = Math.abs(x - (xRW / root3));
+							double b = Math.abs(y - yRW);
+							if ((a < (isoGrid * pointCapturingPercentage))
+									&& (b < (isoGrid * pointCapturingPercentage))) {
+								xRW = (x * root3) - getTransformCoordsOffset(0);
+								yRW = y - getTransformCoordsOffset(1);
+							} else {
+								xRW -= getTransformCoordsOffset(0);
+								yRW -= getTransformCoordsOffset(1);
+							}
+
+						} else {
+							// X = (x, y) ... next grid point
+							double x = Kernel.roundToScale(
+									(xRW / root3) - (view.getGridDistances(0) / 2),
+									isoGrid);
+							double y = Kernel
+									.roundToScale(yRW - (isoGrid / 2), isoGrid);
+							// if |X - XRW| < gridInterval * pointCapturingPercentage
+							// then take the grid point
+							double a = Math.abs(x - ((xRW / root3) - (isoGrid / 2)));
+							double b = Math.abs(y - (yRW - (isoGrid / 2)));
+							if ((a < (isoGrid * pointCapturingPercentage))
+									&& (b < (isoGrid * pointCapturingPercentage))) {
+								xRW = ((x + (isoGrid / 2)) * root3)
+										- getTransformCoordsOffset(0);
+								yRW = (y + (isoGrid / 2)) - getTransformCoordsOffset(1);
+							} else {
+								xRW -= getTransformCoordsOffset(0);
+								yRW -= getTransformCoordsOffset(1);
+							}
+
+						}
 						break;
-					}
-				}
-			}
-			if (captured) {
-				break;
-			}
 
-			// fall through
-		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
-			if (!view.isGridOrAxesShown()) {
-				break;
-			}
+					case EuclidianView.GRID_CARTESIAN:
 
-			// fall through
-		case EuclidianStyleConstants.POINT_CAPTURING_ON:
-			pointCapturingPercentage = getPointCapturingPercentage();
+						// X = (x, y) ... next grid point
 
-			// fall through
-		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
+						double x = Kernel.roundToScale(xRW, view.getGridDistances(0));
+						double y = Kernel.roundToScale(yRW, view.getGridDistances(1));
 
-			xRW += getTransformCoordsOffset(0);
-			yRW += getTransformCoordsOffset(1);
+						// if |X - XRW| < gridInterval * pointCapturingPercentage then
+						// take the grid point
+						double a = Math.abs(x - xRW);
+						double b = Math.abs(y - yRW);
 
-			switch (view.getGridType()) {
-			case EuclidianView.GRID_ISOMETRIC:
+						if ((a < (view.getGridDistances(0) * pointCapturingPercentage))
+								&& (b < (view.getGridDistances(1) * pointCapturingPercentage))) {
+							xRW = x - getTransformCoordsOffset(0);
+							yRW = y - getTransformCoordsOffset(1);
+						} else {
+							xRW -= getTransformCoordsOffset(0);
+							yRW -= getTransformCoordsOffset(1);
+						}
+						break;
 
-				// isometric Michael Borcherds 2008-04-28
-				// iso grid is effectively two rectangular grids overlayed
-				// (offset)
-				// so first we decide which one we're on (oddOrEvenRow)
-				// then compress the grid by a scale factor of root3
-				// horizontally to make it square.
+					case EuclidianView.GRID_POLAR:
 
-				double root3 = Math.sqrt(3.0);
-				double isoGrid = view.getGridDistances(0);
-				int oddOrEvenRow = (int) Math.round((2.0 * Math.abs(yRW
-						- Kernel.roundToScale(yRW, isoGrid)))
-						/ isoGrid);
+						// r = get nearest grid circle radius
+						double r = MyMath.length(xRW, yRW);
+						double r2 = Kernel.roundToScale(r, view.getGridDistances(0));
 
-				if (oddOrEvenRow == 0) {
-					// X = (x, y) ... next grid point
-					double x = Kernel.roundToScale(xRW / root3, isoGrid);
-					double y = Kernel.roundToScale(yRW, isoGrid);
-					// if |X - XRW| < gridInterval * pointCapturingPercentage
-					// then take the grid point
-					double a = Math.abs(x - (xRW / root3));
-					double b = Math.abs(y - yRW);
-					if ((a < (isoGrid * pointCapturingPercentage))
-							&& (b < (isoGrid * pointCapturingPercentage))) {
-						xRW = (x * root3) - getTransformCoordsOffset(0);
-						yRW = y - getTransformCoordsOffset(1);
-					} else {
-						xRW -= getTransformCoordsOffset(0);
-						yRW -= getTransformCoordsOffset(1);
-					}
+						// get nearest radial gridline angle
+						double angle = Math.atan2(yRW, xRW);
+						double angleOffset = angle % view.getGridDistances(2);
+						if (angleOffset < (view.getGridDistances(2) / 2)) {
+							angle = angle - angleOffset;
+						} else {
+							angle = (angle - angleOffset) + view.getGridDistances(2);
+						}
 
-				} else {
-					// X = (x, y) ... next grid point
-					double x = Kernel.roundToScale(
-							(xRW / root3) - (view.getGridDistances(0) / 2),
-							isoGrid);
-					double y = Kernel
-							.roundToScale(yRW - (isoGrid / 2), isoGrid);
-					// if |X - XRW| < gridInterval * pointCapturingPercentage
-					// then take the grid point
-					double a = Math.abs(x - ((xRW / root3) - (isoGrid / 2)));
-					double b = Math.abs(y - (yRW - (isoGrid / 2)));
-					if ((a < (isoGrid * pointCapturingPercentage))
-							&& (b < (isoGrid * pointCapturingPercentage))) {
-						xRW = ((x + (isoGrid / 2)) * root3)
-								- getTransformCoordsOffset(0);
-						yRW = (y + (isoGrid / 2)) - getTransformCoordsOffset(1);
-					} else {
-						xRW -= getTransformCoordsOffset(0);
-						yRW -= getTransformCoordsOffset(1);
-					}
+						// get grid point
+						double x1 = r2 * Math.cos(angle);
+						double y1 = r2 * Math.sin(angle);
 
-				}
-				break;
+						// if |X - XRW| < gridInterval * pointCapturingPercentage then
+						// take the grid point
+						double a1 = Math.abs(x1 - xRW);
+						double b1 = Math.abs(y1 - yRW);
 
-			case EuclidianView.GRID_CARTESIAN:
-
-				// X = (x, y) ... next grid point
-
-				double x = Kernel.roundToScale(xRW, view.getGridDistances(0));
-				double y = Kernel.roundToScale(yRW, view.getGridDistances(1));
-
-				// if |X - XRW| < gridInterval * pointCapturingPercentage then
-				// take the grid point
-				double a = Math.abs(x - xRW);
-				double b = Math.abs(y - yRW);
-
-				if ((a < (view.getGridDistances(0) * pointCapturingPercentage))
-						&& (b < (view.getGridDistances(1) * pointCapturingPercentage))) {
-					xRW = x - getTransformCoordsOffset(0);
-					yRW = y - getTransformCoordsOffset(1);
-				} else {
-					xRW -= getTransformCoordsOffset(0);
-					yRW -= getTransformCoordsOffset(1);
-				}
-				break;
-
-			case EuclidianView.GRID_POLAR:
-
-				// r = get nearest grid circle radius
-				double r = MyMath.length(xRW, yRW);
-				double r2 = Kernel.roundToScale(r, view.getGridDistances(0));
-
-				// get nearest radial gridline angle
-				double angle = Math.atan2(yRW, xRW);
-				double angleOffset = angle % view.getGridDistances(2);
-				if (angleOffset < (view.getGridDistances(2) / 2)) {
-					angle = angle - angleOffset;
-				} else {
-					angle = (angle - angleOffset) + view.getGridDistances(2);
+						if ((a1 < (view.getGridDistances(0) * pointCapturingPercentage))
+								&& (b1 < (view.getGridDistances(1) * pointCapturingPercentage))) {
+							xRW = x1 - getTransformCoordsOffset(0);
+							yRW = y1 - getTransformCoordsOffset(1);
+						} else {
+							xRW -= getTransformCoordsOffset(0);
+							yRW -= getTransformCoordsOffset(1);
+						}
+						break;
 				}
 
-				// get grid point
-				double x1 = r2 * Math.cos(angle);
-				double y1 = r2 * Math.sin(angle);
-
-				// if |X - XRW| < gridInterval * pointCapturingPercentage then
-				// take the grid point
-				double a1 = Math.abs(x1 - xRW);
-				double b1 = Math.abs(y1 - yRW);
-
-				if ((a1 < (view.getGridDistances(0) * pointCapturingPercentage))
-						&& (b1 < (view.getGridDistances(1) * pointCapturingPercentage))) {
-					xRW = x1 - getTransformCoordsOffset(0);
-					yRW = y1 - getTransformCoordsOffset(1);
-				} else {
-					xRW -= getTransformCoordsOffset(0);
-					yRW -= getTransformCoordsOffset(1);
-				}
-				break;
-			}
-
-		default:
+			default:
 		}
 	}
 
@@ -4563,7 +4586,7 @@ public abstract class EuclidianController {
 		}
 
 		if (angle != null) {
-			GeoElement[] ret = { angle };
+			GeoElement[] ret = {angle};
 			return ret;
 		} else if (angles != null) {
 			return angles;
@@ -4571,8 +4594,6 @@ public abstract class EuclidianController {
 			return null;
 		}
 	}
-
-	private TextDispatcher textDispatcher;
 
 	protected TextDispatcher getTextDispatcher() {
 		if (textDispatcher == null) {
@@ -4609,7 +4630,7 @@ public abstract class EuclidianController {
 			GeoPointND[] points = getSelectedPointsND();
 			checkZooming();
 
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			ret[0] = getTextDispatcher().createDistanceText(points[0],
 					points[1]);
 			return ret;
@@ -4620,7 +4641,7 @@ public abstract class EuclidianController {
 			GeoPointND[] points = getSelectedPointsND();
 			GeoLineND[] lines = getSelectedLinesND();
 
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			ret[0] = getTextDispatcher()
 					.createDistanceText(points[0], lines[0]);
 
@@ -4644,15 +4665,15 @@ public abstract class EuclidianController {
 			}
 			segments[0].setLabelVisible(true);
 			segments[0].updateRepaint();
-			GeoElement[] ret = { seg };
+			GeoElement[] ret = {seg};
 			return ret; // return this not null because the kernel has
-						// changed
+			// changed
 		}
 
 		// TWO LINES
 		else if (selLines() == 2) {
 			GeoLineND[] lines = getSelectedLinesND();
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			checkZooming();
 
 			ret[0] = getAlgoDispatcher().Distance(null, lines[0], lines[1]);
@@ -4713,7 +4734,7 @@ public abstract class EuclidianController {
 				// three points: center, distance between two points
 				GeoElement circle = CircleCompasses(centerPoint, points[0],
 						points[1]);
-				GeoElement[] ret = { circle };
+				GeoElement[] ret = {circle};
 				clearSelections();
 				return ret;
 			}
@@ -4739,7 +4760,7 @@ public abstract class EuclidianController {
 
 				// center point and circle which defines radius
 				GeoElement circlel = Circle(centerPoint, circle);
-				GeoElement ret[] = { circlel };
+				GeoElement ret[] = {circlel};
 				clearSelections();
 				return ret;
 			}
@@ -4765,7 +4786,7 @@ public abstract class EuclidianController {
 				// center point and segment
 				GeoElement circlel = companion.circle(kernel.getConstruction(),
 						centerPoint, segment);
-				GeoElement[] ret = { circlel };
+				GeoElement[] ret = {circlel};
 				clearSelections();
 				return ret;
 			}
@@ -4795,7 +4816,7 @@ public abstract class EuclidianController {
 	 * Borcherds 2008-03-14
 	 */
 	final private GeoConicND Circle(
-	// this is actually a macro
+			// this is actually a macro
 			GeoPointND A, GeoQuadricND c) {
 
 		Construction cons = kernel.getConstruction();
@@ -4814,7 +4835,7 @@ public abstract class EuclidianController {
 	 * circle with midpoint M and radius BC Michael Borcherds 2008-03-14
 	 */
 	final private GeoConicND CircleCompasses(GeoPointND A, GeoPointND B,
-			GeoPointND C) {
+											 GeoPointND C) {
 
 		Construction cons = kernel.getConstruction();
 
@@ -4847,7 +4868,7 @@ public abstract class EuclidianController {
 			GeoPointND[] points = getSelectedPointsND();
 			checkZooming();
 
-			GeoElement[] ret = { null };
+			GeoElement[] ret = { null};
 			ret[0] = companion.vectorPoint(points[0], vecs[0]);
 			return ret;
 		}
@@ -4871,14 +4892,29 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	/** return the current movedGeoPoint */
+	/**
+	 * return the current movedGeoPoint
+	 */
 	public GeoElement getMovedGeoPoint() {
 		return ((GeoElement) movedGeoPoint);
 	}
 
+	public void setMovedGeoPoint(GeoElement geo) {
+		movedGeoPoint = (GeoPointND) geo;
+
+		AlgoElement algo = ((GeoElement) movedGeoPoint).getParentAlgorithm();
+		if (algo instanceof AlgoDynamicCoordinatesInterface) {
+			movedGeoPoint = ((AlgoDynamicCoordinatesInterface) algo)
+					.getParentPoint();
+		}
+
+		view.setShowMouseCoords(!app.isApplet() && !movedGeoPoint.hasPath());
+		view.setDragCursor();
+	}
+
 	public final GeoPointND updateNewPoint(boolean forPreviewable, Hits hits,
-			boolean onPathPossible, boolean inRegionPossible,
-			boolean intersectPossible, boolean chooseGeo, boolean complex) {
+										   boolean onPathPossible, boolean inRegionPossible,
+										   boolean intersectPossible, boolean chooseGeo, boolean complex) {
 
 		// App.printStacktrace("\n"+hits);
 
@@ -4993,7 +5029,7 @@ public abstract class EuclidianController {
 							if (createNewPointInRegionPossible((GeoConicND) region)) {
 								createPoint = true;
 								hits.remove(region); // conic won't be treated
-														// as a path
+								// as a path
 							} else {
 								createPoint = true;
 							}
@@ -5003,8 +5039,8 @@ public abstract class EuclidianController {
 							if (((GeoFunction) region).isInequality()) {
 								createPoint = true;
 								hits.remove(region); // inequality won't be
-														// treated
-														// as a path
+								// treated
+								// as a path
 							} else {
 								createPoint = true;
 							}
@@ -5016,26 +5052,26 @@ public abstract class EuclidianController {
 						if (!sideInHits) {
 							createPoint = true;
 							hits.removePolygonsIfSideNotPresent(); // if a
-																	// polygon
-																	// is a
-																	// region,
-																	// need
-																	// only
-																	// polygons
-																	// that
-																	// should
-																	// be a
-																	// path
+							// polygon
+							// is a
+							// region,
+							// need
+							// only
+							// polygons
+							// that
+							// should
+							// be a
+							// path
 							if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
 								hits.removeSegmentsFromPolygons(); // remove
-																	// polygon's
-																	// segments
-																	// to
-																	// take
-																	// the
-																	// polygon
-																	// for
-																	// path
+								// polygon's
+								// segments
+								// to
+								// take
+								// the
+								// polygon
+								// for
+								// path
 							}
 
 						}
@@ -5104,15 +5140,15 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoPointND getNewPoint(Hits hits, boolean onPathPossible,
-			boolean inRegionPossible, boolean intersectPossible, boolean complex) {
+									 boolean inRegionPossible, boolean intersectPossible, boolean complex) {
 
 		return updateNewPoint(false, hits, onPathPossible, inRegionPossible,
 				intersectPossible, true, complex);
 	}
 
 	protected boolean createNewPointND(Hits hits, boolean onPathPossible,
-			boolean inRegionPossible, boolean intersectPossible,
-			boolean doSingleHighlighting, boolean complex) {
+									   boolean inRegionPossible, boolean intersectPossible,
+									   boolean doSingleHighlighting, boolean complex) {
 
 		pointCreated = null;
 
@@ -5142,7 +5178,7 @@ public abstract class EuclidianController {
 	}
 
 	protected final boolean createNewPoint(Hits hits, boolean onPathPossible,
-			boolean intersectPossible, boolean doSingleHighlighting) {
+										   boolean intersectPossible, boolean doSingleHighlighting) {
 
 		// inRegionpossible must be false so that the Segment Tool creates a
 		// point on the edge of a circle
@@ -5176,7 +5212,7 @@ public abstract class EuclidianController {
 		// only one point needed: try to create it
 		if (!objectFound
 				&& (macroInput[index].equals(Test.GEOPOINT) || macroInput[index]
-						.equals(Test.GEOPOINTND))) {
+				.equals(Test.GEOPOINTND))) {
 			if (createNewPoint(hits, true, true, false)) {
 				// take movedGeoPoint which is the newly created point
 				selectedGeos.add(getMovedGeoPoint());
@@ -5271,352 +5307,352 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean switchModeForProcessMode(Hits hits,
-			boolean isControlDown, final AsyncOperation callback) {
+											   boolean isControlDown, final AsyncOperation callback) {
 
 		Boolean changedKernel = false;
 		GeoElement[] ret = null;
 
 		switch (mode) {
-		// case EuclidianConstants.MODE_VISUAL_STYLE:
-		case EuclidianConstants.MODE_MOVE:
-			// highlight and select hits
-			if (selectionPreview) {
-				getSelectables(hits.getTopHits());
-			} else {
-				if (draggingOccured && (selection.selectedGeosSize() == 1)) {
-					selection.clearSelectedGeos();
+			// case EuclidianConstants.MODE_VISUAL_STYLE:
+			case EuclidianConstants.MODE_MOVE:
+				// highlight and select hits
+				if (selectionPreview) {
+					getSelectables(hits.getTopHits());
+				} else {
+					if (draggingOccured && (selection.selectedGeosSize() == 1)) {
+						selection.clearSelectedGeos();
+					}
+
 				}
+				break;
 
-			}
-			break;
-
-		case EuclidianConstants.MODE_MOVE_ROTATE:
-			// moveRotate() is a dummy function for highlighting only
-			if (selectionPreview) {
-				moveRotate(hits.getTopHits());
-			}
-			break;
-
-		case EuclidianConstants.MODE_POINT:
-		case EuclidianConstants.MODE_COMPLEX_NUMBER:
-		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-			// point() is dummy function for highlighting only
-			if (selectionPreview) {
-				if ((mode == EuclidianConstants.MODE_POINT)
-						|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)) {
-					hits.keepOnlyHitsForNewPointMode();
+			case EuclidianConstants.MODE_MOVE_ROTATE:
+				// moveRotate() is a dummy function for highlighting only
+				if (selectionPreview) {
+					moveRotate(hits.getTopHits());
 				}
+				break;
 
-				point(hits);
-			} else {
-				GeoElement[] ret0 = { null };
-				ret0[0] = hits.getFirstHit(Test.GEOPOINTND);
-				ret = ret0;
-				clearSelection(selectedPoints);
-			}
-			break;
+			case EuclidianConstants.MODE_POINT:
+			case EuclidianConstants.MODE_COMPLEX_NUMBER:
+			case EuclidianConstants.MODE_POINT_ON_OBJECT:
+				// point() is dummy function for highlighting only
+				if (selectionPreview) {
+					if ((mode == EuclidianConstants.MODE_POINT)
+							|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)) {
+						hits.keepOnlyHitsForNewPointMode();
+					}
 
-		// copy geo to algebra input
-		case EuclidianConstants.MODE_SELECTION_LISTENER:
-			boolean addToSelection = isControlDown;
-			geoElementSelected(hits.getTopHits(), addToSelection);
-			break;
-
-		// new line through two points
-		case EuclidianConstants.MODE_JOIN:
-			ret = join(hits);
-			break;
-
-		// new segment through two points
-		case EuclidianConstants.MODE_SEGMENT:
-			ret = segment(hits);
-			break;
-
-		// segment for point and number
-		case EuclidianConstants.MODE_SEGMENT_FIXED:
-			changedKernel = segmentFixed(hits);
-			break;
-
-		// angle for two points and number
-		case EuclidianConstants.MODE_ANGLE_FIXED:
-			ret = angleFixed(hits);
-			break;
-
-		case EuclidianConstants.MODE_MIDPOINT:
-			ret = midpoint(hits);
-			break;
-
-		// new ray through two points or point and vector
-		case EuclidianConstants.MODE_RAY:
-			ret = ray(hits);
-			break;
-
-		case EuclidianConstants.MODE_POLYLINE:
-			ret = polyline(hits);
-			break;
-
-		// new polygon through points
-		case EuclidianConstants.MODE_POLYGON:
-			polygonMode = POLYGON_NORMAL;
-			ret = polygon(hits);
-			break;
-
-		case EuclidianConstants.MODE_RIGID_POLYGON:
-			polygonMode = POLYGON_RIGID;
-			ret = polygon(hits);
-			break;
-
-		case EuclidianConstants.MODE_VECTOR_POLYGON:
-			polygonMode = POLYGON_VECTOR;
-			ret = polygon(hits);
-			break;
-
-		// new vector between two points
-		case EuclidianConstants.MODE_VECTOR:
-			ret = vector(hits);
-			break;
-
-		// intersect two objects
-		case EuclidianConstants.MODE_INTERSECT:
-			ret = intersect(hits);
-			break;
-
-		// new line through point with direction of vector or line
-		case EuclidianConstants.MODE_PARALLEL:
-			ret = parallel(hits);
-			break;
-
-		// Michael Borcherds 2008-04-08
-		case EuclidianConstants.MODE_PARABOLA:
-			ret = parabola(hits);
-			break;
-
-		// new line through point orthogonal to vector or line
-		case EuclidianConstants.MODE_ORTHOGONAL:
-		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
-			ret = orthogonal(hits);
-			break;
-
-		// new line bisector
-		case EuclidianConstants.MODE_LINE_BISECTOR:
-			ret = lineBisector(hits);
-			break;
-
-		// new angular bisector
-		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
-			ret = angularBisector(hits);
-			break;
-
-		// new circle (2 points)
-		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
-			// new semicircle (2 points)
-		case EuclidianConstants.MODE_SEMICIRCLE:
-			ret = circleOrSphere2(hits, mode);
-			break;
-
-		case EuclidianConstants.MODE_LOCUS:
-			ret = locus(hits);
-			break;
-
-		// new circle (3 points)
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-			ret = threePoints(hits, mode);
-			break;
-
-		// new conic (5 points)
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-			ret = conic5(hits);
-			break;
-
-		// relation query
-		case EuclidianConstants.MODE_RELATION:
-			relation(hits.getTopHits());
-			break;
-
-		// new tangents
-		case EuclidianConstants.MODE_TANGENTS:
-			ret = tangents(hits.getTopHits());
-			break;
-
-		case EuclidianConstants.MODE_POLAR_DIAMETER:
-			ret = polarLine(hits.getTopHits());
-			break;
-
-		// delete selected object
-		case EuclidianConstants.MODE_DELETE:
-			changedKernel = getDeleteMode().process(hits.getTopHits(),
-					isControlDown);
-			break;
-
-		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
-			if (showHideObject(hits.getTopHits())) {
-				toggleModeChangedKernel = true;
-			}
-			break;
-
-		case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
-			if (showHideLabel(hits.getTopHits())) {
-				toggleModeChangedKernel = true;
-			}
-			break;
-
-		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
-			if (copyVisualStyle(hits.getTopHits())) {
-				toggleModeChangedKernel = true;
-			}
-			break;
-
-		// new text
-		case EuclidianConstants.MODE_TEXT:
-			changedKernel = text(hits
-					.getOtherHits(Test.GEOIMAGE, tempArrayList));
-			break;
-
-		// new image
-		case EuclidianConstants.MODE_IMAGE:
-			changedKernel = image(hits.getOtherHits(Test.GEOIMAGE,
-					tempArrayList)); // e.isAltDown());
-			break;
-
-		// new slider
-		case EuclidianConstants.MODE_SLIDER:
-			changedKernel = slider();
-			break;
-
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-			ret = mirrorAtPoint(hits.getTopHits());
-			break;
-
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-			ret = mirrorAtLine(hits.getTopHits());
-			break;
-
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
-														// 2008-03-23
-			ret = mirrorAtCircle(hits.getTopHits());
-			break;
-
-		case EuclidianConstants.MODE_ATTACH_DETACH:
-			changedKernel = attachDetach(hits.getTopHits());
-			break;
-
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			ret = translateByVector(hits.getTopHits());
-			break;
-
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			ret = rotateByAngle(hits.getTopHits());
-			break;
-
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-			ret = dilateFromPoint(hits.getTopHits());
-			break;
-
-		case EuclidianConstants.MODE_FITLINE:
-			ret = fitLine(hits);
-			break;
-
-		case EuclidianConstants.MODE_CREATE_LIST:
-			ret = createList(hits);
-			break;
-
-		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
-			changedKernel = circlePointRadius(hits);
-			break;
-
-		case EuclidianConstants.MODE_ANGLE:
-			ret = angle(hits.getTopHits());
-			break;
-
-		case EuclidianConstants.MODE_VECTOR_FROM_POINT:
-			ret = vectorFromPoint(hits);
-			break;
-
-		case EuclidianConstants.MODE_DISTANCE:
-			ret = distance(hits);
-			break;
-
-		case EuclidianConstants.MODE_MACRO:
-			// TODO: is memorizeJustCreatedGeos... needed here?
-			// if not, wee needn't callback2 here, we can use the
-			// another callback object in macro, which we got
-			// in parameter.
-
-			AsyncOperation callback2 = new AsyncOperation() {
-				@Override
-				public void callback(Object arg) {
-					memorizeJustCreatedGeosAfterProcessMode(null);
-					if (callback != null)
-						callback.callback(arg);
+					point(hits);
+				} else {
+					GeoElement[] ret0 = {null};
+					ret0[0] = hits.getFirstHit(Test.GEOPOINTND);
+					ret = ret0;
+					clearSelection(selectedPoints);
 				}
-			};
+				break;
 
-			macro(hits, callback2);
-			return false;
+			// copy geo to algebra input
+			case EuclidianConstants.MODE_SELECTION_LISTENER:
+				boolean addToSelection = isControlDown;
+				geoElementSelected(hits.getTopHits(), addToSelection);
+				break;
+
+			// new line through two points
+			case EuclidianConstants.MODE_JOIN:
+				ret = join(hits);
+				break;
+
+			// new segment through two points
+			case EuclidianConstants.MODE_SEGMENT:
+				ret = segment(hits);
+				break;
+
+			// segment for point and number
+			case EuclidianConstants.MODE_SEGMENT_FIXED:
+				changedKernel = segmentFixed(hits);
+				break;
+
+			// angle for two points and number
+			case EuclidianConstants.MODE_ANGLE_FIXED:
+				ret = angleFixed(hits);
+				break;
+
+			case EuclidianConstants.MODE_MIDPOINT:
+				ret = midpoint(hits);
+				break;
+
+			// new ray through two points or point and vector
+			case EuclidianConstants.MODE_RAY:
+				ret = ray(hits);
+				break;
+
+			case EuclidianConstants.MODE_POLYLINE:
+				ret = polyline(hits);
+				break;
+
+			// new polygon through points
+			case EuclidianConstants.MODE_POLYGON:
+				polygonMode = POLYGON_NORMAL;
+				ret = polygon(hits);
+				break;
+
+			case EuclidianConstants.MODE_RIGID_POLYGON:
+				polygonMode = POLYGON_RIGID;
+				ret = polygon(hits);
+				break;
+
+			case EuclidianConstants.MODE_VECTOR_POLYGON:
+				polygonMode = POLYGON_VECTOR;
+				ret = polygon(hits);
+				break;
+
+			// new vector between two points
+			case EuclidianConstants.MODE_VECTOR:
+				ret = vector(hits);
+				break;
+
+			// intersect two objects
+			case EuclidianConstants.MODE_INTERSECT:
+				ret = intersect(hits);
+				break;
+
+			// new line through point with direction of vector or line
+			case EuclidianConstants.MODE_PARALLEL:
+				ret = parallel(hits);
+				break;
+
+			// Michael Borcherds 2008-04-08
+			case EuclidianConstants.MODE_PARABOLA:
+				ret = parabola(hits);
+				break;
+
+			// new line through point orthogonal to vector or line
+			case EuclidianConstants.MODE_ORTHOGONAL:
+			case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
+				ret = orthogonal(hits);
+				break;
+
+			// new line bisector
+			case EuclidianConstants.MODE_LINE_BISECTOR:
+				ret = lineBisector(hits);
+				break;
+
+			// new angular bisector
+			case EuclidianConstants.MODE_ANGULAR_BISECTOR:
+				ret = angularBisector(hits);
+				break;
+
+			// new circle (2 points)
+			case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+				// new semicircle (2 points)
+			case EuclidianConstants.MODE_SEMICIRCLE:
+				ret = circleOrSphere2(hits, mode);
+				break;
+
+			case EuclidianConstants.MODE_LOCUS:
+				ret = locus(hits);
+				break;
+
+			// new circle (3 points)
+			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+			case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+				ret = threePoints(hits, mode);
+				break;
+
+			// new conic (5 points)
+			case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+				ret = conic5(hits);
+				break;
+
+			// relation query
+			case EuclidianConstants.MODE_RELATION:
+				relation(hits.getTopHits());
+				break;
+
+			// new tangents
+			case EuclidianConstants.MODE_TANGENTS:
+				ret = tangents(hits.getTopHits());
+				break;
+
+			case EuclidianConstants.MODE_POLAR_DIAMETER:
+				ret = polarLine(hits.getTopHits());
+				break;
+
+			// delete selected object
+			case EuclidianConstants.MODE_DELETE:
+				changedKernel = getDeleteMode().process(hits.getTopHits(),
+						isControlDown);
+				break;
+
+			case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
+				if (showHideObject(hits.getTopHits())) {
+					toggleModeChangedKernel = true;
+				}
+				break;
+
+			case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
+				if (showHideLabel(hits.getTopHits())) {
+					toggleModeChangedKernel = true;
+				}
+				break;
+
+			case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
+				if (copyVisualStyle(hits.getTopHits())) {
+					toggleModeChangedKernel = true;
+				}
+				break;
+
+			// new text
+			case EuclidianConstants.MODE_TEXT:
+				changedKernel = text(hits
+						.getOtherHits(Test.GEOIMAGE, tempArrayList));
+				break;
+
+			// new image
+			case EuclidianConstants.MODE_IMAGE:
+				changedKernel = image(hits.getOtherHits(Test.GEOIMAGE,
+						tempArrayList)); // e.isAltDown());
+				break;
+
+			// new slider
+			case EuclidianConstants.MODE_SLIDER:
+				changedKernel = slider();
+				break;
+
+			case EuclidianConstants.MODE_MIRROR_AT_POINT:
+				ret = mirrorAtPoint(hits.getTopHits());
+				break;
+
+			case EuclidianConstants.MODE_MIRROR_AT_LINE:
+				ret = mirrorAtLine(hits.getTopHits());
+				break;
+
+			case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
+				// 2008-03-23
+				ret = mirrorAtCircle(hits.getTopHits());
+				break;
+
+			case EuclidianConstants.MODE_ATTACH_DETACH:
+				changedKernel = attachDetach(hits.getTopHits());
+				break;
+
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+				ret = translateByVector(hits.getTopHits());
+				break;
+
+			case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+				ret = rotateByAngle(hits.getTopHits());
+				break;
+
+			case EuclidianConstants.MODE_DILATE_FROM_POINT:
+				ret = dilateFromPoint(hits.getTopHits());
+				break;
+
+			case EuclidianConstants.MODE_FITLINE:
+				ret = fitLine(hits);
+				break;
+
+			case EuclidianConstants.MODE_CREATE_LIST:
+				ret = createList(hits);
+				break;
+
+			case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
+				changedKernel = circlePointRadius(hits);
+				break;
+
+			case EuclidianConstants.MODE_ANGLE:
+				ret = angle(hits.getTopHits());
+				break;
+
+			case EuclidianConstants.MODE_VECTOR_FROM_POINT:
+				ret = vectorFromPoint(hits);
+				break;
+
+			case EuclidianConstants.MODE_DISTANCE:
+				ret = distance(hits);
+				break;
+
+			case EuclidianConstants.MODE_MACRO:
+				// TODO: is memorizeJustCreatedGeos... needed here?
+				// if not, wee needn't callback2 here, we can use the
+				// another callback object in macro, which we got
+				// in parameter.
+
+				AsyncOperation callback2 = new AsyncOperation() {
+					@Override
+					public void callback(Object arg) {
+						memorizeJustCreatedGeosAfterProcessMode(null);
+						if (callback != null)
+							callback.callback(arg);
+					}
+				};
+
+				macro(hits, callback2);
+				return false;
 			// break;
 
-		case EuclidianConstants.MODE_AREA:
-			ret = area(hits);
-			break;
+			case EuclidianConstants.MODE_AREA:
+				ret = area(hits);
+				break;
 
-		case EuclidianConstants.MODE_SLOPE:
-			ret = slope(hits);
-			break;
+			case EuclidianConstants.MODE_SLOPE:
+				ret = slope(hits);
+				break;
 
-		case EuclidianConstants.MODE_REGULAR_POLYGON:
-			changedKernel = regularPolygon(hits);
-			break;
+			case EuclidianConstants.MODE_REGULAR_POLYGON:
+				changedKernel = regularPolygon(hits);
+				break;
 
-		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
-			changedKernel = showCheckBox();
-			break;
+			case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
+				changedKernel = showCheckBox();
+				break;
 
-		case EuclidianConstants.MODE_BUTTON_ACTION:
-			changedKernel = button(false);
-			break;
+			case EuclidianConstants.MODE_BUTTON_ACTION:
+				changedKernel = button(false);
+				break;
 
-		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
-			changedKernel = button(true);
-			break;
+			case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+				changedKernel = button(true);
+				break;
 
-		case EuclidianConstants.MODE_PEN:
-			// case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
-			// changedKernel = pen();
-			break;
+			case EuclidianConstants.MODE_PEN:
+				// case EuclidianConstants.MODE_PENCIL:
+			case EuclidianConstants.MODE_FREEHAND_SHAPE:
+				// changedKernel = pen();
+				break;
 
-		// Michael Borcherds 2008-03-13
-		case EuclidianConstants.MODE_COMPASSES:
-			ret = compasses(hits);
-			break;
+			// Michael Borcherds 2008-03-13
+			case EuclidianConstants.MODE_COMPASSES:
+				ret = compasses(hits);
+				break;
 
-		case EuclidianConstants.MODE_FUNCTION_INSPECTOR:
-			changedKernel = functionInspector(hits);
-			break;
+			case EuclidianConstants.MODE_FUNCTION_INSPECTOR:
+				changedKernel = functionInspector(hits);
+				break;
 
-		case EuclidianConstants.MODE_EXTREMUM:
-			ret = extremum(hits);
-			break;
+			case EuclidianConstants.MODE_EXTREMUM:
+				ret = extremum(hits);
+				break;
 
-		case EuclidianConstants.MODE_ROOTS:
-			ret = roots(hits);
-			break;
+			case EuclidianConstants.MODE_ROOTS:
+				ret = roots(hits);
+				break;
 
-		default:
-			// do nothing
+			default:
+				// do nothing
 		}
 
 		return endOfSwitchModeForProcessMode(ret, changedKernel, callback);
 	}
 
 	final protected boolean endOfSwitchModeForProcessMode(GeoElement[] ret,
-			boolean changedKernel, AsyncOperation callback) {
+														  boolean changedKernel, AsyncOperation callback) {
 		memorizeJustCreatedGeosAfterProcessMode(ret);
 
 		if (callback != null)
@@ -5674,18 +5710,18 @@ public abstract class EuclidianController {
 					storeUndoInfo();
 				}
 				endOfWrapMouseReleased(hits2, false, false, null); // type =
-																	// null is
-																	// not a
-																	// problem
-																	// since alt
-																	// = false
+				// null is
+				// not a
+				// problem
+				// since alt
+				// = false
 			}
 		};
 		return processMode(processHits, isControlDown, callback);
 	}
 
 	public final boolean processMode(Hits processHits, boolean isControlDown,
-			final AsyncOperation callback) {
+									 final AsyncOperation callback) {
 		Hits hits = processHits;
 		boolean changedKernel = false;
 
@@ -5709,7 +5745,7 @@ public abstract class EuclidianController {
 
 		changedKernel = switchModeForProcessMode(hits, isControlDown, callback2);
 
-		if(changedKernel){
+		if (changedKernel) {
 			toolCompleted();
 		}
 
@@ -5745,8 +5781,7 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * @param rightClick
-	 *            in 3D we need to check left/right click
+	 * @param rightClick in 3D we need to check left/right click
 	 */
 	protected void processReleaseForMovedGeoPoint(boolean rightClick) {
 
@@ -5822,17 +5857,6 @@ public abstract class EuclidianController {
 		// make parallel geoLine through (xRW, yRW)
 		movedGeoLine.setLineThrough(xRW, yRW);
 		updateAfterMove((GeoElement) movedGeoLine, repaint);
-	}
-
-	/**
-	 * update the moved geo
-	 */
-	protected final static void updateAfterMove(GeoElement geo, boolean repaint) {
-		if (repaint) {
-			geo.updateRepaint();
-		} else {
-			geo.updateCascade();
-		}
 	}
 
 	protected final void moveVector(boolean repaint) {
@@ -5944,7 +5968,7 @@ public abstract class EuclidianController {
 
 		if (isAltDown()
 				&& (movedGeoConic.getType() == GeoConicNDConstants.CONIC_PARABOLA || movedGeoConic
-						.getType() == GeoConicNDConstants.CONIC_DOUBLE_LINE)) {
+				.getType() == GeoConicNDConstants.CONIC_DOUBLE_LINE)) {
 
 			// drag a parabola bit keep the vertex fixed
 			// CONIC_DOUBLE_LINE needed for y=0x^2
@@ -6040,8 +6064,6 @@ public abstract class EuclidianController {
 
 	}
 
-	double vertexX = Double.NaN, vertexY = Double.NaN;
-
 	protected final void moveFreehand(boolean repaint) {
 
 		movedGeoFunction.set(tempFunction);
@@ -6057,9 +6079,6 @@ public abstract class EuclidianController {
 		}
 
 	}
-
-	private double initxRW = Double.NaN;
-	private double initFactor = Double.NaN;
 
 	protected final void moveFunction(boolean repaint) {
 
@@ -6288,8 +6307,7 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * @param repaint
-	 *            TODO ignored now -- on purpose ?
+	 * @param repaint TODO ignored now -- on purpose ?
 	 */
 	protected final void moveNumeric(boolean repaint, boolean click) {
 
@@ -6422,19 +6440,6 @@ public abstract class EuclidianController {
 		return startPoint.y;
 	}
 
-	public void setMovedGeoPoint(GeoElement geo) {
-		movedGeoPoint = (GeoPointND) geo;
-
-		AlgoElement algo = ((GeoElement) movedGeoPoint).getParentAlgorithm();
-		if (algo instanceof AlgoDynamicCoordinatesInterface) {
-			movedGeoPoint = ((AlgoDynamicCoordinatesInterface) algo)
-					.getParentPoint();
-		}
-
-		view.setShowMouseCoords(!app.isApplet() && !movedGeoPoint.hasPath());
-		view.setDragCursor();
-	}
-
 	/**
 	 * for some modes, polygons are not to be removed
 	 *
@@ -6442,123 +6447,123 @@ public abstract class EuclidianController {
 	 */
 	protected void switchModeForRemovePolygons(Hits hits) {
 		switch (mode) {
-		case EuclidianConstants.MODE_POINT:
-		case EuclidianConstants.MODE_COMPLEX_NUMBER:
-		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-		case EuclidianConstants.MODE_ATTACH_DETACH:
-			// removed: polygons can still be selected if they are the only
-			// object clicked on
-			// case EuclidianView.MODE_INTERSECT:
-			// case EuclidianView.MODE_INTERSECTION_CURVE:
-			break;
-		case EuclidianConstants.MODE_MOVE:
-			hits.removePolygonsIfSidePresent();
-			break;
-		default:
-			hits.removePolygons();
-			break;
+			case EuclidianConstants.MODE_POINT:
+			case EuclidianConstants.MODE_COMPLEX_NUMBER:
+			case EuclidianConstants.MODE_POINT_ON_OBJECT:
+			case EuclidianConstants.MODE_ATTACH_DETACH:
+				// removed: polygons can still be selected if they are the only
+				// object clicked on
+				// case EuclidianView.MODE_INTERSECT:
+				// case EuclidianView.MODE_INTERSECTION_CURVE:
+				break;
+			case EuclidianConstants.MODE_MOVE:
+				hits.removePolygonsIfSidePresent();
+				break;
+			default:
+				hits.removePolygons();
+				break;
 		}
 	}
 
 	protected boolean switchModeForMouseReleased(int evMode, Hits hitsReleased,
-			boolean kernelChanged, boolean controlDown, PointerEventType type) {
+												 boolean kernelChanged, boolean controlDown, PointerEventType type) {
 		Hits hits = hitsReleased;
 		boolean changedKernel = kernelChanged;
 		boolean focusNeeded = true;
 		switch (evMode) {
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
-														// 2008-03-23
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			setViewHits(type);
-			hits = view.getHits();
-			hits.removePolygons();
-			// hits = view.getHits(mouseLoc);
-			if (hits.isEmpty()) {
-				changedKernel = createNewPoint(hits, false, false, true);
-			} else {
-				changedKernel = (pointCreated != null);
-			}
-			break;
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+			case EuclidianConstants.MODE_DILATE_FROM_POINT:
+			case EuclidianConstants.MODE_MIRROR_AT_POINT:
+			case EuclidianConstants.MODE_MIRROR_AT_LINE:
+			case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
+				// 2008-03-23
+			case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+				setViewHits(type);
+				hits = view.getHits();
+				hits.removePolygons();
+				// hits = view.getHits(mouseLoc);
+				if (hits.isEmpty()) {
+					changedKernel = createNewPoint(hits, false, false, true);
+				} else {
+					changedKernel = (pointCreated != null);
+				}
+				break;
 
-		case EuclidianConstants.MODE_BUTTON_ACTION:
-		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
-			// make sure script not triggered
-			break;
-		case EuclidianConstants.MODE_ZOOM_IN:
-			view.zoom(mouseLoc.x, mouseLoc.y, EuclidianView.MODE_ZOOM_FACTOR,
-					15, false);
-			toggleModeChangedKernel = true;
-			break;
+			case EuclidianConstants.MODE_BUTTON_ACTION:
+			case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+				// make sure script not triggered
+				break;
+			case EuclidianConstants.MODE_ZOOM_IN:
+				view.zoom(mouseLoc.x, mouseLoc.y, EuclidianView.MODE_ZOOM_FACTOR,
+						15, false);
+				toggleModeChangedKernel = true;
+				break;
 
-		case EuclidianConstants.MODE_ZOOM_OUT:
-			view.zoom(mouseLoc.x, mouseLoc.y,
-					1d / EuclidianView.MODE_ZOOM_FACTOR, 15, false);
-			toggleModeChangedKernel = true;
-			break;
-		// case EuclidianConstants.MODE_VISUAL_STYLE:
-		case EuclidianConstants.MODE_TRANSLATEVIEW:
-			if (draggingOccured || !temporaryMode) {
-				changedKernel = true;
+			case EuclidianConstants.MODE_ZOOM_OUT:
+				view.zoom(mouseLoc.x, mouseLoc.y,
+						1d / EuclidianView.MODE_ZOOM_FACTOR, 15, false);
+				toggleModeChangedKernel = true;
+				break;
+			// case EuclidianConstants.MODE_VISUAL_STYLE:
+			case EuclidianConstants.MODE_TRANSLATEVIEW:
+				if (draggingOccured || !temporaryMode) {
+					changedKernel = true;
 
-			} else {
-				// Ctrl pressed, we need to select a point
+				} else {
+					// Ctrl pressed, we need to select a point
+					setViewHits(type);
+					handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
+							controlDown);
+				}
+				break;
+			case EuclidianConstants.MODE_MOVE:
+			case EuclidianConstants.MODE_SELECTION_LISTENER:
+				// handle selection click
 				setViewHits(type);
 				handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
 						controlDown);
-			}
-			break;
-		case EuclidianConstants.MODE_MOVE:
-		case EuclidianConstants.MODE_SELECTION_LISTENER:
-			// handle selection click
-			setViewHits(type);
-			handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
-					controlDown);
-		default:
+			default:
 
-			// change checkbox (boolean) state on mouse up only if there's been
-			// no drag
-			setViewHits(type);
-			hits = view.getHits().getTopHits();
-			// hits = view.getTopHits(mouseLoc);
-			if (!hits.isEmpty()) {
-				GeoElement hit = hits.get(0);
-				if (hit != null) {
-					if (hit.isGeoButton() && !(hit.isGeoTextField())) {
-						checkBoxOrButtonJustHitted = true;
-						selection.removeSelectedGeo(hit, true, false); // make
-																		// sure
-																		// doesn't
-																		// get
-																		// selected
-						app.updateSelection(false);
-					} else if (hit.isGeoBoolean()) {
-						GeoBoolean bool = (GeoBoolean) (hits.get(0));
-						if (!isCheckboxFixed(bool)) { // otherwise changed on
-														// mouse
-							// down
-							hitCheckBox(bool);
-							selection.removeSelectedGeo(bool, true, false); // make
-																			// sure
-																			// doesn't
-																			// get
-																			// selected
+				// change checkbox (boolean) state on mouse up only if there's been
+				// no drag
+				setViewHits(type);
+				hits = view.getHits().getTopHits();
+				// hits = view.getTopHits(mouseLoc);
+				if (!hits.isEmpty()) {
+					GeoElement hit = hits.get(0);
+					if (hit != null) {
+						if (hit.isGeoButton() && !(hit.isGeoTextField())) {
+							checkBoxOrButtonJustHitted = true;
+							selection.removeSelectedGeo(hit, true, false); // make
+							// sure
+							// doesn't
+							// get
+							// selected
 							app.updateSelection(false);
-							bool.updateCascade();
-						}
+						} else if (hit.isGeoBoolean()) {
+							GeoBoolean bool = (GeoBoolean) (hits.get(0));
+							if (!isCheckboxFixed(bool)) { // otherwise changed on
+								// mouse
+								// down
+								hitCheckBox(bool);
+								selection.removeSelectedGeo(bool, true, false); // make
+								// sure
+								// doesn't
+								// get
+								// selected
+								app.updateSelection(false);
+								bool.updateCascade();
+							}
 					} else {
-						GeoElement geo1 = chooseGeo(hits, true);
-						// ggb3D : geo1 may be null if it's axes or xOy plane
-						if (geo1 != null) {
-							focusNeeded = false;
-							runScriptsIfNeeded(geo1);
+							GeoElement geo1 = chooseGeo(hits, true);
+							// ggb3D : geo1 may be null if it's axes or xOy plane
+							if (geo1 != null) {
+								focusNeeded = false;
+								runScriptsIfNeeded(geo1);
+							}
 						}
 					}
 				}
-			}
 		}
 		if (focusNeeded && mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			view.requestFocusInWindow();
@@ -6566,10 +6571,6 @@ public abstract class EuclidianController {
 
 		return changedKernel;
 	}
-
-	private boolean checkBoxOrButtonJustHitted = false;
-
-	protected boolean penDragged;
 
 	protected void hitCheckBox(GeoBoolean bool) {
 		bool.setValue(!bool.getBoolean());
@@ -6807,7 +6808,7 @@ public abstract class EuclidianController {
 	}
 
 	protected void handleSelectClick(ArrayList<GeoElement> geos,
-			boolean ctrlDown) {
+									 boolean ctrlDown) {
 		if (geos == null) {
 			selection.clearSelectedGeos();
 		} else {
@@ -6828,17 +6829,8 @@ public abstract class EuclidianController {
 		}
 	}
 
-	// make sure scripts not run twice
-	private boolean scriptsHaveRun = false;
-
-	protected boolean doubleClickStarted;
-
-	private GPoint lastMouseUpLoc;
-
-	private boolean checkboxChangeOccured = false;
-
 	protected void wrapMouseclicked(boolean control, int clickCount,
-			PointerEventType type) {
+									PointerEventType type) {
 
 		// double-click on object selects MODE_MOVE and opens redefine dialog
 		if (clickCount == 2) {
@@ -6865,8 +6857,8 @@ public abstract class EuclidianController {
 						&& !(geo0.isGeoImage() && geo0.isIndependent())
 						&& !geo0.isGeoButton()
 						&& !(app.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS)
-								&& geo0.isGeoList()
-								&& ((GeoList) geo0).drawAsComboBox())) {
+						&& geo0.isGeoList()
+						&& ((GeoList) geo0).drawAsComboBox())) {
 					getDialogManager().showRedefineDialog(hits.get(0), true);
 				}
 				// }
@@ -6913,7 +6905,7 @@ public abstract class EuclidianController {
 	}
 
 	public void handleMovedElement(GeoElement geo, boolean multiple,
-			PointerEventType type) {
+								   PointerEventType type) {
 
 		resetMovedGeoPoint();
 		movedGeoElement = geo;
@@ -6929,8 +6921,7 @@ public abstract class EuclidianController {
 		// DEPENDENT object: changeable parents?
 		// move free parent points (e.g. for segments)
 		else if (!movedGeoElement.isMoveable(view)
-				&& ! (isMoveButtonExpected(geo) || isMoveTextFieldExpected(geo)))
-		{
+				&& !(isMoveButtonExpected(geo) || isMoveTextFieldExpected(geo))) {
 			handleMovedElementDependent();
 		}
 
@@ -7479,7 +7470,7 @@ public abstract class EuclidianController {
 			if (!isMoveCheckboxExpected()) {
 				movedGeoBoolean.setValue(!movedGeoBoolean.getBoolean());
 				selection.removeSelectedGeo(movedGeoBoolean); // make sure
-																// doesn't get
+				// doesn't get
 				// selected
 				movedGeoBoolean.updateCascade();
 				this.checkboxChangeOccured = true;
@@ -7520,8 +7511,8 @@ public abstract class EuclidianController {
 
 			if ((!app.isApplet() || temporaryMode)
 					&& (textFieldSelected || buttonSelected ||
-							(moveSelected && app.isRightClickEnabled())
-							)
+					(moveSelected && app.isRightClickEnabled())
+			)
 					) {
 				// ie Button Mode is really selected
 
@@ -7622,7 +7613,7 @@ public abstract class EuclidianController {
 		boolean hitSlider = ds.hitSlider(mouseLoc.x, mouseLoc.y, hitThreshold);
 		return ((temporaryMode && app.isRightClickEnabled()) || !movedGeoNumeric
 				.isSliderFixed())
- && !hitPoint && hitSlider;
+				&& !hitPoint && hitSlider;
 		// return ((temporaryMode && app.isRightClickEnabled()) ||
 		// !movedGeoNumeric
 		// .isSliderFixed())
@@ -7643,8 +7634,8 @@ public abstract class EuclidianController {
 		GeoButton button = (GeoButton) geo;
 		return (!button.isTextField() && ((temporaryMode
 				&& app.isRightClickEnabled() || !button.isFixed() || app
-					.getMode() == EuclidianConstants.MODE_BUTTON_ACTION)
-				));
+				.getMode() == EuclidianConstants.MODE_BUTTON_ACTION)
+		));
 	}
 
 	protected boolean isMoveTextFieldExpected(GeoElement geo) {
@@ -7655,10 +7646,9 @@ public abstract class EuclidianController {
 		return (textField.isTextField() && ((temporaryMode
 				&& app
 .isRightClickEnabled() || !textField.isFixed() || app
-					.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION)
-				));
+				.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION)
+		));
 	}
-
 
 	protected void setStartPointLocation(double x, double y) {
 		startPoint.setLocation(x, y);
@@ -7674,7 +7664,6 @@ public abstract class EuclidianController {
 		return geoBool.isCheckboxFixed()
 				|| (app.isHTML5Applet() && !App.isFullAppGui());
 	}
-
 
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
 		if (view.getSelectionRectangle() == null) {
@@ -7741,7 +7730,7 @@ public abstract class EuclidianController {
 	public boolean isDraggingBeyondThreshold(int threshold) {
 		return mouseLoc != null
 				&& (Math.abs(mouseLoc.x - selectionStartPoint.x) > threshold || Math
-						.abs(mouseLoc.y - selectionStartPoint.y) > threshold);
+				.abs(mouseLoc.y - selectionStartPoint.y) > threshold);
 	}
 
 	/**
@@ -7752,7 +7741,7 @@ public abstract class EuclidianController {
 	}
 
 	protected final void handleMouseDragged(boolean repaint,
-			AbstractEvent event, boolean manual) {
+											AbstractEvent event, boolean manual) {
 		startCollectingMinorRepaints();
 		if (!draggingBeyondThreshold && isDraggingBeyondThreshold()) {
 			draggingBeyondThreshold = true;
@@ -7775,192 +7764,192 @@ public abstract class EuclidianController {
 		}
 		// moveMode was set in mousePressed()
 		switch (moveMode) {
-		case MOVE_ROTATE:
-			rotateObject(repaint);
-			break;
+			case MOVE_ROTATE:
+				rotateObject(repaint);
+				break;
 
-		case MOVE_POINT:
-			companion.movePoint(repaint, event);
-			break;
+			case MOVE_POINT:
+				companion.movePoint(repaint, event);
+				break;
 
-		case MOVE_POINT_WITH_OFFSET:
-			movePointWithOffset(repaint);
-			break;
+			case MOVE_POINT_WITH_OFFSET:
+				movePointWithOffset(repaint);
+				break;
 
-		case MOVE_ATTACH_DETACH:
-			moveAttachDetach(repaint, event);
-			break;
+			case MOVE_ATTACH_DETACH:
+				moveAttachDetach(repaint, event);
+				break;
 
-		case MOVE_LINE:
-			moveLine(repaint);
-			break;
+			case MOVE_LINE:
+				moveLine(repaint);
+				break;
 
-		case MOVE_VECTOR:
-		case MOVE_VECTOR_NO_GRID:
-			moveVector(repaint);
-			break;
+			case MOVE_VECTOR:
+			case MOVE_VECTOR_NO_GRID:
+				moveVector(repaint);
+				break;
 
-		case MOVE_VECTOR_STARTPOINT:
-			moveVectorStartPoint(repaint);
-			break;
+			case MOVE_VECTOR_STARTPOINT:
+				moveVectorStartPoint(repaint);
+				break;
 
-		case MOVE_CONIC:
-			moveConic(repaint);
-			break;
+			case MOVE_CONIC:
+				moveConic(repaint);
+				break;
 
-		case MOVE_IMPLICITPOLY:
-			moveImplicitPoly(repaint);
-			break;
+			case MOVE_IMPLICITPOLY:
+				moveImplicitPoly(repaint);
+				break;
 
-		case MOVE_IMPLICIT_CURVE:
-			moveImplicitCurve(repaint);
-			break;
+			case MOVE_IMPLICIT_CURVE:
+				moveImplicitCurve(repaint);
+				break;
 
-		case MOVE_FREEHAND:
-			moveFreehand(repaint);
-			break;
+			case MOVE_FREEHAND:
+				moveFreehand(repaint);
+				break;
 
-		case MOVE_FUNCTION:
-			moveFunction(repaint);
-			break;
+			case MOVE_FUNCTION:
+				moveFunction(repaint);
+				break;
 
-		case MOVE_LABEL:
-			moveLabel();
-			break;
+			case MOVE_LABEL:
+				moveLabel();
+				break;
 
-		case MOVE_TEXT:
-			moveText(repaint);
-			break;
+			case MOVE_TEXT:
+				moveText(repaint);
+				break;
 
-		case MOVE_IMAGE:
-			moveImage(repaint);
-			break;
+			case MOVE_IMAGE:
+				moveImage(repaint);
+				break;
 
-		case MOVE_NUMERIC:
-			// view.incrementTraceRow(); // for spreadsheet/trace
+			case MOVE_NUMERIC:
+				// view.incrementTraceRow(); // for spreadsheet/trace
 
-			moveNumeric(repaint, !manual);
-			break;
+				moveNumeric(repaint, !manual);
+				break;
 
-		case MOVE_SLIDER:
-			moveSlider(repaint);
-			break;
+			case MOVE_SLIDER:
+				moveSlider(repaint);
+				break;
 
-		case MOVE_BOOLEAN:
-			moveBoolean(repaint);
-			break;
+			case MOVE_BOOLEAN:
+				moveBoolean(repaint);
+				break;
 
-		case MOVE_BUTTON:
-			moveButton(repaint);
-			break;
+			case MOVE_BUTTON:
+				moveButton(repaint);
+				break;
 
-		case MOVE_DEPENDENT:
-			if (movedGeoElement.getParentAlgorithm() != null
-					&& movedGeoElement.getParentAlgorithm().getClassName() == Commands.AttachCopyToView) {
-				moveAttached(repaint);
-			} else {
-				moveDependent(repaint);
-			}
-			break;
-
-		case MOVE_PLANE:
-			companion.movePlane(repaint, event);
-			break;
-
-		case MOVE_MULTIPLE_OBJECTS:
-			moveMultipleObjects(repaint);
-			break;
-
-		case MOVE_VIEW:
-			if (repaint) {
-				if (temporaryMode
-						&& mode != EuclidianConstants.MODE_TRANSLATEVIEW) {
-					view.setMoveCursor();
+			case MOVE_DEPENDENT:
+				if (movedGeoElement.getParentAlgorithm() != null
+						&& movedGeoElement.getParentAlgorithm().getClassName() == Commands.AttachCopyToView) {
+					moveAttached(repaint);
+				} else {
+					moveDependent(repaint);
 				}
+				break;
+
+			case MOVE_PLANE:
+				companion.movePlane(repaint, event);
+				break;
+
+			case MOVE_MULTIPLE_OBJECTS:
+				moveMultipleObjects(repaint);
+				break;
+
+			case MOVE_VIEW:
+				if (repaint) {
+					if (temporaryMode
+							&& mode != EuclidianConstants.MODE_TRANSLATEVIEW) {
+						view.setMoveCursor();
+					}
 				/*
 				 * view.setCoordSystem(xZeroOld + mouseLoc.x - startLoc.x,
 				 * yZeroOld + mouseLoc.y - startLoc.y, view.getXscale(),
 				 * view.getYscale());
 				 */
-				view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
-						mouseLoc.y - startLoc.y, MOVE_VIEW);
-			}
-			break;
-
-		case MOVE_X_AXIS:
-			if (repaint) {
-				if (temporaryMode) {
-					view.setResizeXAxisCursor();
+					view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
+							mouseLoc.y - startLoc.y, MOVE_VIEW);
 				}
+				break;
 
-				// check if zero is on the screen
-				double xzero = view.getXZero();
-				double xzeroRW = 0;
-				double newXZero = xzero;
-				if (xzero < 0) {
-					xzero = 0;
-					xzeroRW = view.getXmin();
-				} else if (xzero > view.getWidth()) {
-					xzero = view.getWidth();
-					xzeroRW = view.getXmax();
+			case MOVE_X_AXIS:
+				if (repaint) {
+					if (temporaryMode) {
+						view.setResizeXAxisCursor();
+					}
+
+					// check if zero is on the screen
+					double xzero = view.getXZero();
+					double xzeroRW = 0;
+					double newXZero = xzero;
+					if (xzero < 0) {
+						xzero = 0;
+						xzeroRW = view.getXmin();
+					} else if (xzero > view.getWidth()) {
+						xzero = view.getWidth();
+						xzeroRW = view.getXmax();
+					}
+
+					// take care when we get close to the origin
+					if (Math.abs(mouseLoc.x - xzero) < 2) {
+						mouseLoc.x = (int) Math
+								.round(mouseLoc.x > xzero ? xzero + 2 : xzero - 2);
+					}
+					double xscale = (mouseLoc.x - xzero) / (xTemp - xzeroRW);
+
+					// move zero if off screen
+					if (newXZero < 0) {
+						newXZero = -xzeroRW * xscale;
+					} else if (newXZero > view.getWidth()) {
+						newXZero = view.getWidth() - xzeroRW * xscale;
+					}
+
+					view.setCoordSystem(newXZero, view.getYZero(), xscale,
+							view.getYscale());
 				}
+				break;
 
-				// take care when we get close to the origin
-				if (Math.abs(mouseLoc.x - xzero) < 2) {
-					mouseLoc.x = (int) Math
-							.round(mouseLoc.x > xzero ? xzero + 2 : xzero - 2);
+			case MOVE_Y_AXIS:
+				if (repaint) {
+					if (temporaryMode) {
+						view.setResizeYAxisCursor();
+					}
+
+					// check if zero is on the screen
+					double yzero = view.getYZero();
+					double yzeroRW = 0;
+					double newYZero = yzero;
+					if (yzero < 0) {
+						yzero = 0;
+						yzeroRW = view.getYmax();
+					} else if (yzero > view.getHeight()) {
+						yzero = view.getHeight();
+						yzeroRW = view.getYmin();
+					}
+
+					// take care when we get close to the origin
+					if (Math.abs(mouseLoc.y - yzero) < 2) {
+						mouseLoc.y = (int) Math.round(mouseLoc.y > yzero ? view
+								.getYZero() + 2 : yzero - 2);
+					}
+					double yscale = (yzero - mouseLoc.y) / (yTemp - yzeroRW);
+
+					// move zero if off screen
+					if (newYZero < 0) {
+						newYZero = yzeroRW * yscale;
+					} else if (newYZero > view.getHeight()) {
+						newYZero = view.getHeight() + yzeroRW * yscale;
+					}
+					view.setCoordSystem(view.getXZero(), newYZero,
+							view.getXscale(), yscale);
 				}
-				double xscale = (mouseLoc.x - xzero) / (xTemp - xzeroRW);
+				break;
 
-				// move zero if off screen
-				if (newXZero < 0) {
-					newXZero = -xzeroRW * xscale;
-				} else if (newXZero > view.getWidth()) {
-					newXZero = view.getWidth() - xzeroRW * xscale;
-				}
-
-				view.setCoordSystem(newXZero, view.getYZero(), xscale,
-						view.getYscale());
-			}
-			break;
-
-		case MOVE_Y_AXIS:
-			if (repaint) {
-				if (temporaryMode) {
-					view.setResizeYAxisCursor();
-				}
-
-				// check if zero is on the screen
-				double yzero = view.getYZero();
-				double yzeroRW = 0;
-				double newYZero = yzero;
-				if (yzero < 0) {
-					yzero = 0;
-					yzeroRW = view.getYmax();
-				} else if (yzero > view.getHeight()) {
-					yzero = view.getHeight();
-					yzeroRW = view.getYmin();
-				}
-
-				// take care when we get close to the origin
-				if (Math.abs(mouseLoc.y - yzero) < 2) {
-					mouseLoc.y = (int) Math.round(mouseLoc.y > yzero ? view
-							.getYZero() + 2 : yzero - 2);
-				}
-				double yscale = (yzero - mouseLoc.y) / (yTemp - yzeroRW);
-
-				// move zero if off screen
-				if (newYZero < 0) {
-					newYZero = yzeroRW * yscale;
-				} else if (newYZero > view.getHeight()) {
-					newYZero = view.getHeight() + yzeroRW * yscale;
-				}
-				view.setCoordSystem(view.getXZero(), newYZero,
-						view.getXscale(), yscale);
-			}
-			break;
-
-		default: // do nothing
+			default: // do nothing
 		}
 		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
@@ -7981,57 +7970,57 @@ public abstract class EuclidianController {
 
 	protected boolean allowSelectionRectangle() {
 		switch (mode) {
-		case EuclidianConstants.MODE_ZOOM_IN:
-			// case EuclidianConstants.MODE_ZOOM_OUT:
-			return true;
-		// move objects
-		case EuclidianConstants.MODE_MOVE:
-			return moveMode == MOVE_NONE;
+			case EuclidianConstants.MODE_ZOOM_IN:
+				// case EuclidianConstants.MODE_ZOOM_OUT:
+				return true;
+			// move objects
+			case EuclidianConstants.MODE_MOVE:
+				return moveMode == MOVE_NONE;
 
 			// move rotate objects
-		case EuclidianConstants.MODE_MOVE_ROTATE:
-			return selPoints() > 0; // need rotation center
+			case EuclidianConstants.MODE_MOVE_ROTATE:
+				return selPoints() > 0; // need rotation center
 
 			// object selection mode
-		case EuclidianConstants.MODE_SELECTION_LISTENER:
-			GeoElementSelectionListener sel = app.getCurrentSelectionListener();
+			case EuclidianConstants.MODE_SELECTION_LISTENER:
+				GeoElementSelectionListener sel = app.getCurrentSelectionListener();
 			if (sel == null) {
 				return false;
 			}
-			if (app.isUsingFullGui() && app.getGuiManager() != null) {
-				return !app.getGuiManager().isInputFieldSelectionListener();
-			}
-			return true;
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					return !app.getGuiManager().isInputFieldSelectionListener();
+				}
+				return true;
 
 			// transformations
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			return allowSelectionRectangleForTranslateByVector;
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+				return allowSelectionRectangleForTranslateByVector;
 
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
-														// 2008-03-23
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-		case EuclidianConstants.MODE_FITLINE:
-		case EuclidianConstants.MODE_CREATE_LIST:
-			// case EuclidianConstants.MODE_VISUAL_STYLE:
-		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
-			return true;
+			case EuclidianConstants.MODE_DILATE_FROM_POINT:
+			case EuclidianConstants.MODE_MIRROR_AT_POINT:
+			case EuclidianConstants.MODE_MIRROR_AT_LINE:
+			case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
+				// 2008-03-23
+			case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+			case EuclidianConstants.MODE_FITLINE:
+			case EuclidianConstants.MODE_CREATE_LIST:
+				// case EuclidianConstants.MODE_VISUAL_STYLE:
+			case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
+				return true;
 
 			// checkbox, button
-		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
-		case EuclidianConstants.MODE_BUTTON_ACTION:
-		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
-			return true;
+			case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
+			case EuclidianConstants.MODE_BUTTON_ACTION:
+			case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+				return true;
 
-		default:
-			return false;
+			default:
+				return false;
 		}
 	}
 
 	final protected void handleMousePressedForMoveMode(AbstractEvent e,
-			boolean drag) {
+													   boolean drag) {
 
 		// fix for meta-click to work on Mac/Linux
 		if (app.isControlDown(e)) {
@@ -8108,7 +8097,7 @@ public abstract class EuclidianController {
 			geo = th.get(0);
 
 			if (geo.isFixed() && !isMoveButtonExpected(geo)
-				&& !isMoveTextFieldExpected(geo)) {
+					&& !isMoveTextFieldExpected(geo)) {
 				runScriptsIfNeeded(geo);
 				moveMode = MOVE_NONE;
 				resetMovedGeoPoint();
@@ -8143,22 +8132,6 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	private abstract class HitsFilter {
-		public HitsFilter() {
-		}
-
-		public void run() {
-			for (int i = 1; i < view.getHits().size(); i++) {
-				if (!isValid(view.getHits().get(i))) {
-					return;
-				}
-				view.getHits().remove(i);
-			}
-		}
-
-		public abstract boolean isValid(GeoElement geo);
-
-	}
 	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
 		// kill view moving when animation button pressed
 		if (shouldCancelDrag() || this.animationButtonPressed) {
@@ -8223,14 +8196,14 @@ public abstract class EuclidianController {
 				setViewHits(event.getType());
 				GeoElement geo0 = null;
 				Hits hits0 = view.getHits();
-				if (!hits0.isEmpty()){
+				if (!hits0.isEmpty()) {
 					geo0 = hits0.get(0);
 				}
 				if (!app.showToolBar()
 						&& geo0 != null
 						&& (geo0.isGeoTextField() || geo0.isGeoBoolean()
-								|| geo0.isGeoButton() || (geo0.isGeoNumeric() && ((GeoNumeric) geo0)
-								.isSlider()))) {
+						|| geo0.isGeoButton() || (geo0.isGeoNumeric() && ((GeoNumeric) geo0)
+						.isSlider()))) {
 					draggingOccured = false;
 					return;
 				}
@@ -8334,7 +8307,7 @@ public abstract class EuclidianController {
 					|| (view.getHits().size() == 0)
 					|| !view.getHits().get(0).isMoveable(view)
 					|| (!view.getHits().get(0).isGeoPoint() && view.getHits()
-							.get(0).hasDrawable3D())) {
+					.get(0).hasDrawable3D())) {
 				if (processRotate3DView()) { // in 2D view, return false
 					return;
 				}
@@ -8518,28 +8491,15 @@ public abstract class EuclidianController {
 	/**
 	 * set translate start infos
 	 *
-	 * @param geo
-	 *            needed in 3D
-	 * @param vec
-	 *            needed in 3D
+	 * @param geo needed in 3D
+	 * @param vec needed in 3D
 	 */
 	protected void setTranslateStart(GeoElement geo, GeoVectorND vec) {
 		transformCoordsOffset[0] = xRW;
 		transformCoordsOffset[1] = yRW;
 	}
 
-	protected static boolean penMode(int mode2) {
-		switch (mode2) {
-		case EuclidianConstants.MODE_PEN:
-			// case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
-			return true;
-		}
-		return false;
-	}
-
 	/**
-	 *
 	 * @return true if a view button has been pressed (see 3D)
 	 */
 	protected boolean handleMousePressedForViewButtons() {
@@ -8549,9 +8509,8 @@ public abstract class EuclidianController {
 	/**
 	 * right-press the mouse makes start 3D rotation
 	 *
-	 * @param event
-	 *            used by actual 3D controller
-	 * */
+	 * @param event used by actual 3D controller
+	 */
 	protected void processRightPressFor3D(AbstractEvent event) {
 		// 3D only
 	}
@@ -8559,22 +8518,22 @@ public abstract class EuclidianController {
 	protected void createNewPointForModePoint(Hits hits, boolean complex) {
 		if ((mode == EuclidianConstants.MODE_POINT)
 				|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)) {// remove
-																		// polygons
-																		// :
-																		// point
-																		// inside
-																		// a
-																		// polygon
-																		// is
-																		// created
-																		// free,
-																		// as in
-																		// v3.2
+			// polygons
+			// :
+			// point
+			// inside
+			// a
+			// polygon
+			// is
+			// created
+			// free,
+			// as in
+			// v3.2
 			hits.removeAllPolygons();
 			hits.removeConicsHittedOnFilling();
 			createNewPoint(hits, true, false, true, true, complex);
 		} else {// if mode==EuclidianView.MODE_POINT_ON_OBJECT, point can be in
-				// a region
+			// a region
 			createNewPoint(hits, true, true, true, true, complex);
 		}
 	}
@@ -8701,187 +8660,185 @@ public abstract class EuclidianController {
 		if (mode > 1000)
 			app.setMode(EuclidianConstants.MODE_MOVE);
 		switch (mode) {
-		// create new point at mouse location
-		// this point can be dragged: see mouseDragged() and mouseReleased()
-		case EuclidianConstants.MODE_COMPLEX_NUMBER:
-			setViewHits(type);
-			hits = view.getHits();
-			createNewPointForModePoint(hits, true);
-			break;
-		case EuclidianConstants.MODE_POINT:
-		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-			setViewHits(type);
-			hits = view.getHits();
-
-			// if mode==EuclidianView.MODE_POINT_ON_OBJECT, point can be in a
-			// region
-			createNewPointForModePoint(hits, false);
-			break;
-
-		case EuclidianConstants.MODE_SEGMENT:
-		case EuclidianConstants.MODE_SEGMENT_FIXED:
-		case EuclidianConstants.MODE_JOIN:
-		case EuclidianConstants.MODE_RAY:
-		case EuclidianConstants.MODE_VECTOR:
-		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_SEMICIRCLE:
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-		case EuclidianConstants.MODE_POLYGON:
-		case EuclidianConstants.MODE_POLYLINE:
-		case EuclidianConstants.MODE_REGULAR_POLYGON:
-			// hits = view.getHits(mouseLoc);
-			setViewHits(type);
-			hits = view.getHits();
-			hits.removePolygons();
-			createNewPointForModeOther(hits);
-			break;
-
-		case EuclidianConstants.MODE_VECTOR_POLYGON:
-		case EuclidianConstants.MODE_RIGID_POLYGON:
-			setViewHits(type);
-			hits = view.getHits();
-
-			// allow first object clicked on to be a Polygon -> create new
-			// Rigid/Vector Polygon from it
-			if (hits.size() > 1) {
-				hits.removePolygons();
-			}
-			if (hits.size() == 1 && hits.get(0).isGeoPolygon()) {
-				// do nothing
-			} else {
-				createNewPoint(hits, false, false, false, false, false);
-			}
-			break;
-
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			if (!allowSelectionRectangleForTranslateByVector) {
+			// create new point at mouse location
+			// this point can be dragged: see mouseDragged() and mouseReleased()
+			case EuclidianConstants.MODE_COMPLEX_NUMBER:
 				setViewHits(type);
 				hits = view.getHits();
-				// remove polygons even if just one is selected
-				hits.removeAllPolygons();
+				createNewPointForModePoint(hits, true);
+				break;
+			case EuclidianConstants.MODE_POINT:
+			case EuclidianConstants.MODE_POINT_ON_OBJECT:
+				setViewHits(type);
+				hits = view.getHits();
 
+				// if mode==EuclidianView.MODE_POINT_ON_OBJECT, point can be in a
+				// region
+				createNewPointForModePoint(hits, false);
+				break;
+
+			case EuclidianConstants.MODE_SEGMENT:
+			case EuclidianConstants.MODE_SEGMENT_FIXED:
+			case EuclidianConstants.MODE_JOIN:
+			case EuclidianConstants.MODE_RAY:
+			case EuclidianConstants.MODE_VECTOR:
+			case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
+			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+			case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_SEMICIRCLE:
+			case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+			case EuclidianConstants.MODE_POLYGON:
+			case EuclidianConstants.MODE_POLYLINE:
+			case EuclidianConstants.MODE_REGULAR_POLYGON:
+				// hits = view.getHits(mouseLoc);
+				setViewHits(type);
+				hits = view.getHits();
+				hits.removePolygons();
+				createNewPointForModeOther(hits);
+				break;
+
+			case EuclidianConstants.MODE_VECTOR_POLYGON:
+			case EuclidianConstants.MODE_RIGID_POLYGON:
+				setViewHits(type);
+				hits = view.getHits();
+
+				// allow first object clicked on to be a Polygon -> create new
+				// Rigid/Vector Polygon from it
+				if (hits.size() > 1) {
+					hits.removePolygons();
+				}
+				if (hits.size() == 1 && hits.get(0).isGeoPolygon()) {
+					// do nothing
+				} else {
+					createNewPoint(hits, false, false, false, false, false);
+				}
+				break;
+
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+				if (!allowSelectionRectangleForTranslateByVector) {
+				setViewHits(type);
+					hits = view.getHits();
+					// remove polygons even if just one is selected
+					hits.removeAllPolygons();
+
+					if (hits.size() == 0) {
+						createNewPoint(hits, false, true, true);
+					}
+				}
+				break;
+
+			case EuclidianConstants.MODE_PARALLEL:
+			case EuclidianConstants.MODE_ORTHOGONAL:
+			case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
+
+				setViewHits(type);
+				hits = view.getHits();
+				hits.removePolygons();
 				if (hits.size() == 0) {
 					createNewPoint(hits, false, true, true);
+				} else if (selLines() == 1 && hits.get(0).isPath()) {
+					// make sure clicking on line then line works #2610
+					createNewPointForModeOther(hits);
 				}
-			}
-			break;
 
-		case EuclidianConstants.MODE_PARALLEL:
-		case EuclidianConstants.MODE_ORTHOGONAL:
-		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
+				break;
 
-			setViewHits(type);
-			hits = view.getHits();
-			hits.removePolygons();
-			if (hits.size() == 0) {
-				createNewPoint(hits, false, true, true);
-			} else if (selLines() == 1 && hits.get(0).isPath()) {
-				// make sure clicking on line then line works #2610
-				createNewPointForModeOther(hits);
-			}
+			case EuclidianConstants.MODE_PARABOLA: // Michael Borcherds 2008-04-08
+				setViewHits(type);
+				hits = view.getHits();
 
-			break;
-
-		case EuclidianConstants.MODE_PARABOLA: // Michael Borcherds 2008-04-08
-			setViewHits(type);
-			hits = view.getHits();
-
-			// we clicked a line, we want it as a directrix
-			if (hits.size() > 0 && hits.get(0).isGeoLine()) {
-				// do nothing
-			} else {
-				createNewPoint(hits, false, false, false, false, false);
-			}
-			break;
+				// we clicked a line, we want it as a directrix
+				if (hits.size() > 0 && hits.get(0).isGeoLine()) {
+					// do nothing
+				} else {
+					createNewPoint(hits, false, false, false, false, false);
+				}
+				break;
 		case EuclidianConstants.MODE_LINE_BISECTOR:
-		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
-		case EuclidianConstants.MODE_TANGENTS:
-		case EuclidianConstants.MODE_POLAR_DIAMETER:
-			// hits = view.getHits(mouseLoc);
-			break;
+			case EuclidianConstants.MODE_ANGULAR_BISECTOR:
+			case EuclidianConstants.MODE_TANGENTS:
+			case EuclidianConstants.MODE_POLAR_DIAMETER:
+				// hits = view.getHits(mouseLoc);
+				break;
 
-		case EuclidianConstants.MODE_COMPASSES: // Michael Borcherds 2008-03-13
-			// hits = view.getHits(mouseLoc);
+			case EuclidianConstants.MODE_COMPASSES: // Michael Borcherds 2008-03-13
+				// hits = view.getHits(mouseLoc);
 
-			if (type == PointerEventType.TOUCH) {
-				view.setPreview(null);
-			}
+				if (type == PointerEventType.TOUCH) {
+					view.setPreview(null);
+				}
 
+				setViewHits(type);
+				hits = view.getHits();
+				hits.removePolygons();
+				if (hits.isEmpty()) {
+					createNewPoint(hits, false, true, true);
+				}
+				break;
+
+			case EuclidianConstants.MODE_ANGLE:
+				// hits = view.getTopHits(mouseLoc);
+				setViewHits(type);
+				hits = view.getHits().getTopHits();
+				// check if we got a polygon
+				if (hits.isEmpty()) {
+					createNewPoint(hits, false, false, true);
+				}
+				break;
+
+			case EuclidianConstants.MODE_ANGLE_FIXED:
+			case EuclidianConstants.MODE_MIDPOINT:
+				// hits = view.getHits(mouseLoc);
 			setViewHits(type);
-			hits = view.getHits();
-			hits.removePolygons();
-			if (hits.isEmpty()) {
-				createNewPoint(hits, false, true, true);
-			}
-			break;
+				hits = view.getHits();
+				hits.removePolygons();
+				if (hits.isEmpty()
+						|| (!hits.get(0).isGeoSegment() && !hits.get(0)
+						.isGeoConic())) {
+					createNewPoint(hits, false, false, true);
+				}
+				break;
 
-		case EuclidianConstants.MODE_ANGLE:
-			// hits = view.getTopHits(mouseLoc);
-			setViewHits(type);
-			hits = view.getHits().getTopHits();
-			// check if we got a polygon
-			if (hits.isEmpty()) {
-				createNewPoint(hits, false, false, true);
-			}
-			break;
+			case EuclidianConstants.MODE_MOVE_ROTATE:
+				handleMousePressedForRotateMode(type);
+				break;
 
-		case EuclidianConstants.MODE_ANGLE_FIXED:
-		case EuclidianConstants.MODE_MIDPOINT:
-			// hits = view.getHits(mouseLoc);
-			setViewHits(type);
-			hits = view.getHits();
-			hits.removePolygons();
-			if (hits.isEmpty()
-					|| (!hits.get(0).isGeoSegment() && !hits.get(0)
-							.isGeoConic())) {
-				createNewPoint(hits, false, false, true);
-			}
-			break;
+			// move an object
+			case EuclidianConstants.MODE_MOVE:
+				// case EuclidianConstants.MODE_VISUAL_STYLE:
+				handleMousePressedForMoveMode(e, false);
+				break;
 
-		case EuclidianConstants.MODE_MOVE_ROTATE:
-			handleMousePressedForRotateMode(type);
-			break;
+			// move drawing pad or axis
+			case EuclidianConstants.MODE_TRANSLATEVIEW:
 
-		// move an object
-		case EuclidianConstants.MODE_MOVE:
-			// case EuclidianConstants.MODE_VISUAL_STYLE:
-			handleMousePressedForMoveMode(e, false);
-			break;
+				mousePressedTranslatedView(type);
 
-		// move drawing pad or axis
-		case EuclidianConstants.MODE_TRANSLATEVIEW:
+				break;
 
-			mousePressedTranslatedView(type);
+			case EuclidianConstants.MODE_ATTACH_DETACH:
+				GeoPoint p = (GeoPoint) this.view.getHits().getFirstHit(
+						Test.GEOPOINT);
+				if (p != null && p.isMoveable()) {
+					// set movedGeoPoint etc.
+					handleMovedElement(p, false, PointerEventType.MOUSE);
+					this.moveMode = MOVE_ATTACH_DETACH;
+				}
+				break;
 
-			break;
+			case EuclidianConstants.MODE_DELETE:
+				getDeleteMode().mousePressed(type);
 
-		case EuclidianConstants.MODE_ATTACH_DETACH:
-			GeoPoint p = (GeoPoint) this.view.getHits().getFirstHit(
-					Test.GEOPOINT);
-			if (p != null && p.isMoveable()) {
-				// set movedGeoPoint etc.
-				handleMovedElement(p, false, PointerEventType.MOUSE);
-				this.moveMode = MOVE_ATTACH_DETACH;
-			}
-			break;
-
-		case EuclidianConstants.MODE_DELETE:
-			getDeleteMode().mousePressed(type);
-
-		default:
-			moveMode = MOVE_NONE;
+			default:
+				moveMode = MOVE_NONE;
 		}
 	}
-
-	private long lastMousePressedTime;
 
 	public void wrapMousePressed(AbstractEvent event) {
 
@@ -8889,7 +8846,7 @@ public abstract class EuclidianController {
 		if (last + EuclidianConstants.DOUBLE_CLICK_DELAY > System
 				.currentTimeMillis()
 				&& MyMath.length(event.getX() - lastMouseUpLoc.x, event.getY()
-						- lastMouseUpLoc.y) <= 3) {
+				- lastMouseUpLoc.y) <= 3) {
 			this.doubleClickStarted = true;
 			// return;
 		}
@@ -8938,7 +8895,6 @@ public abstract class EuclidianController {
 		}
 
 
-
 		if (handleMousePressedForViewButtons()) {
 			return;
 		}
@@ -8981,7 +8937,6 @@ public abstract class EuclidianController {
 		}
 
 
-
 		if (app.isRightClick(event)) {
 			// ggb3D - for 3D rotation
 			processRightPressFor3D(event);
@@ -9001,10 +8956,10 @@ public abstract class EuclidianController {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
 				if (mayPaste()) { // #5246 make sure we don't switch to
-									// translation if we have geos to paste
+					// translation if we have geos to paste
 					view.setMode(getModeForShallMoveView(event));
+				}
 			}
-		}
 			// if over an axis, force the correct cursor to be displayed
 			if (view.getHits().hasXAxis() || view.getHits().hasYAxis()) {
 				processMouseMoved(event);
@@ -9023,9 +8978,7 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 *
-	 * @param event
-	 *            event calling
+	 * @param event event calling
 	 * @return mode when "shall move view"
 	 */
 	protected int getModeForShallMoveView(AbstractEvent event) {
@@ -9039,17 +8992,17 @@ public abstract class EuclidianController {
 
 	private boolean specialMoveEvent(AbstractEvent event) {
 		return app.isShiftDragZoomEnabled() && (
-		// MacOS: shift-cmd-drag is zoom
+				// MacOS: shift-cmd-drag is zoom
 				(event.isShiftDown() && !app.isControlDown(event)) // All
-																	// Platforms:
-																	// Shift
-																	// key
+						// Platforms:
+						// Shift
+						// key
 						|| (event.isControlDown() && app.isWindows() // old
-																		// Windows
-																		// key:
+						// Windows
+						// key:
 						// Ctrl
 						// key
-						) || app.isMiddleClick(event));
+				) || app.isMiddleClick(event));
 	}
 
 	protected void runScriptsIfNeeded(GeoElement geo1) {
@@ -9076,7 +9029,7 @@ public abstract class EuclidianController {
 		if ((rect.getWidth() < ZOOM_RECT_THRESHOLD)
 				|| (rect.getHeight() < ZOOM_RECT_THRESHOLD)
 				|| !app.isShiftDragZoomEnabled() // Michael Borcherds 2007-12-11
-		) {
+				) {
 			view.setSelectionRectangle(null);
 			view.repaintView();
 			return false;
@@ -9102,18 +9055,16 @@ public abstract class EuclidianController {
 	/**
 	 * Removes geos that don't match given test from geos and updates selection
 	 *
-	 * @param hits
-	 *            srt of its geos, may not be null
-	 * @param test
-	 *            test to filter specific object types
+	 * @param hits srt of its geos, may not be null
+	 * @param test test to filter specific object types
 	 */
 	protected void processSelectionRectangleForTransformations(Hits hits,
-			Test test) {
+															   Test test) {
 		for (int i = 0; i < hits.size(); i++) {
 			GeoElement geo = hits.get(i);
 			if (!(test.check(geo))
-			// || geo.isGeoPolygon()
-			) {
+				// || geo.isGeoPolygon()
+					) {
 				hits.remove(i);
 			}
 		}
@@ -9124,7 +9075,7 @@ public abstract class EuclidianController {
 	}
 
 	protected void processSelectionRectangle(boolean alt,
-			boolean isControlDown, boolean shift) {
+											 boolean isControlDown, boolean shift) {
 		startCollectingMinorRepaints();
 
 		clearSelections();
@@ -9135,106 +9086,106 @@ public abstract class EuclidianController {
 		boolean changedKernel = false;
 
 		switch (mode) {
-		case EuclidianConstants.MODE_ZOOM_IN:
-			processZoomRectangle();
-			break;
-		case EuclidianConstants.MODE_SELECTION_LISTENER:
-			break;
+			case EuclidianConstants.MODE_ZOOM_IN:
+				processZoomRectangle();
+				break;
+			case EuclidianConstants.MODE_SELECTION_LISTENER:
+				break;
 
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
-														// 2008-03-23
-			processSelectionRectangleForTransformations(hits,
-					Test.TRANSFORMABLE);
-			break;
+			case EuclidianConstants.MODE_MIRROR_AT_POINT:
+			case EuclidianConstants.MODE_MIRROR_AT_LINE:
+			case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
+				// 2008-03-23
+				processSelectionRectangleForTransformations(hits,
+						Test.TRANSFORMABLE);
+				break;
 
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			processSelectionRectangleForTransformations(hits,
-					Test.TRANSFORMABLE);
-			break;
+			case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+				processSelectionRectangleForTransformations(hits,
+						Test.TRANSFORMABLE);
+				break;
 
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			processSelectionRectangleForTransformations(hits,
-					Test.TRANSFORMABLE);
-			break;
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+				processSelectionRectangleForTransformations(hits,
+						Test.TRANSFORMABLE);
+				break;
 
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-			processSelectionRectangleForTransformations(hits, Test.DILATEABLE);
-			break;
+			case EuclidianConstants.MODE_DILATE_FROM_POINT:
+				processSelectionRectangleForTransformations(hits, Test.DILATEABLE);
+				break;
 
-		case EuclidianConstants.MODE_CREATE_LIST:
-			removeParentPoints(hits);
-			selectedGeos.addAll(hits);
-			setAppSelectedGeos(hits);
-			changedKernel = processMode(hits, isControlDown, null);
-			view.setSelectionRectangle(null);
-			break;
-
-		case EuclidianConstants.MODE_FITLINE:
-
-			// check for list first
-			if (hits.size() == 1) {
-				if (hits.get(0).isGeoList()) {
-					selectedGeos.addAll(hits);
-					setAppSelectedGeos(hits);
-					changedKernel = processMode(hits, isControlDown, null);
-					view.setSelectionRectangle(null);
-					break;
-				}
-			}
-
-			// remove non-Points
-			for (int i = 0; i < hits.size(); i++) {
-				GeoElement geo = hits.get(i);
-				if (!(Test.GEOPOINT.check(geo))) {
-					hits.remove(i);
-				}
-			}
-
-			// Fit line makes sense only for more than 2 points (or one list)
-			if (hits.size() < 3) {
-				hits.clear();
-			} else {
+			case EuclidianConstants.MODE_CREATE_LIST:
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
 				setAppSelectedGeos(hits);
 				changedKernel = processMode(hits, isControlDown, null);
 				view.setSelectionRectangle(null);
-			}
-			break;
+				break;
 
-		default:
-			// STANDARD CASE
-			setAppSelectedGeos(hits, false);
-			app.updateSelection((hits != null));
+			case EuclidianConstants.MODE_FITLINE:
 
-			// if alt pressed, create list of objects as string and copy to
-			// input bar
-			if ((hits != null) && (hits.size() > 0) && alt
-					&& app.isUsingFullGui() && app.getGuiManager() != null
-					&& app.showAlgebraInput()) {
-
-				org.geogebra.common.javax.swing.GTextComponent textComponent = app
-						.getGuiManager().getAlgebraInputTextField();
-
-				StringBuilder sb = new StringBuilder();
-				sb.append(" {");
-				for (int i = 0; i < hits.size(); i++) {
-					sb.append(hits.get(i).getLabel(
-							StringTemplate.defaultTemplate));
-					if (i < (hits.size() - 1)) {
-						sb.append(", ");
+				// check for list first
+				if (hits.size() == 1) {
+					if (hits.get(0).isGeoList()) {
+						selectedGeos.addAll(hits);
+						setAppSelectedGeos(hits);
+						changedKernel = processMode(hits, isControlDown, null);
+						view.setSelectionRectangle(null);
+						break;
 					}
 				}
-				sb.append("} ");
-				textComponent.replaceSelection(sb.toString());
-			} else if (shift) {
-				processZoomRectangle();
-				stopCollectingMinorRepaints();
-				return;
-			}
-			break;
+
+				// remove non-Points
+				for (int i = 0; i < hits.size(); i++) {
+					GeoElement geo = hits.get(i);
+					if (!(Test.GEOPOINT.check(geo))) {
+						hits.remove(i);
+					}
+				}
+
+				// Fit line makes sense only for more than 2 points (or one list)
+				if (hits.size() < 3) {
+					hits.clear();
+				} else {
+					removeParentPoints(hits);
+					selectedGeos.addAll(hits);
+					setAppSelectedGeos(hits);
+					changedKernel = processMode(hits, isControlDown, null);
+					view.setSelectionRectangle(null);
+				}
+				break;
+
+			default:
+				// STANDARD CASE
+				setAppSelectedGeos(hits, false);
+				app.updateSelection((hits != null));
+
+				// if alt pressed, create list of objects as string and copy to
+				// input bar
+				if ((hits != null) && (hits.size() > 0) && alt
+						&& app.isUsingFullGui() && app.getGuiManager() != null
+						&& app.showAlgebraInput()) {
+
+					org.geogebra.common.javax.swing.GTextComponent textComponent = app
+							.getGuiManager().getAlgebraInputTextField();
+
+					StringBuilder sb = new StringBuilder();
+					sb.append(" {");
+					for (int i = 0; i < hits.size(); i++) {
+						sb.append(hits.get(i).getLabel(
+								StringTemplate.defaultTemplate));
+						if (i < (hits.size() - 1)) {
+							sb.append(", ");
+						}
+					}
+					sb.append("} ");
+					textComponent.replaceSelection(sb.toString());
+				} else if (shift) {
+					processZoomRectangle();
+					stopCollectingMinorRepaints();
+					return;
+				}
+				break;
 		}
 
 		if (changedKernel) {
@@ -9254,51 +9205,51 @@ public abstract class EuclidianController {
 		clearSelections();
 
 		switch (mode) {
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
-														// 2008-03-23
-			processSelectionRectangleForTransformations(hits,
-					Test.TRANSFORMABLE);
-			break;
+			case EuclidianConstants.MODE_MIRROR_AT_POINT:
+			case EuclidianConstants.MODE_MIRROR_AT_LINE:
+			case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
+				// 2008-03-23
+				processSelectionRectangleForTransformations(hits,
+						Test.TRANSFORMABLE);
+				break;
 
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			processSelectionRectangleForTransformations(hits,
-					Test.TRANSFORMABLE);
-			break;
+			case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+				processSelectionRectangleForTransformations(hits,
+						Test.TRANSFORMABLE);
+				break;
 
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			processSelectionRectangleForTransformations(hits,
-					Test.TRANSFORMABLE);
-			break;
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+				processSelectionRectangleForTransformations(hits,
+						Test.TRANSFORMABLE);
+				break;
 
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-			processSelectionRectangleForTransformations(hits, Test.DILATEABLE);
-			break;
+			case EuclidianConstants.MODE_DILATE_FROM_POINT:
+				processSelectionRectangleForTransformations(hits, Test.DILATEABLE);
+				break;
 
-		// case EuclidianConstants.MODE_CREATE_LIST:
-		case EuclidianConstants.MODE_FITLINE:
-			for (int i = 0; i < hits.size(); i++) {
-				GeoElement geo = hits.get(i);
-				if (!(Test.GEOPOINT.check(geo))) {
-					hits.remove(i);
+			// case EuclidianConstants.MODE_CREATE_LIST:
+			case EuclidianConstants.MODE_FITLINE:
+				for (int i = 0; i < hits.size(); i++) {
+					GeoElement geo = hits.get(i);
+					if (!(Test.GEOPOINT.check(geo))) {
+						hits.remove(i);
+					}
 				}
-			}
-			// Fit line makes sense only for more than 2 points
-			if (hits.size() < 3) {
-				hits.clear();
-			} else {
-				removeParentPoints(hits);
-				selectedGeos.addAll(hits);
-				setAppSelectedGeos(hits);
-				processMode(hits, false, null);
+				// Fit line makes sense only for more than 2 points
+				if (hits.size() < 3) {
+					hits.clear();
+				} else {
+					removeParentPoints(hits);
+					selectedGeos.addAll(hits);
+					setAppSelectedGeos(hits);
+					processMode(hits, false, null);
 
-				view.setSelectionRectangle(null);
-			}
-			break;
+					view.setSelectionRectangle(null);
+				}
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 
 		stopCollectingMinorRepaints();
@@ -9322,8 +9273,8 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
-			boolean inRegionPossible, boolean intersectPossible,
-			boolean doSingleHighlighting, boolean complex) {
+									 boolean inRegionPossible, boolean intersectPossible,
+									 boolean doSingleHighlighting, boolean complex) {
 		boolean newPointCreated = createNewPointND(hits, onPathPossible,
 				inRegionPossible, intersectPossible, doSingleHighlighting,
 				complex);
@@ -9333,11 +9284,11 @@ public abstract class EuclidianController {
 				&& !newPointCreated
 				&& this.selPoints() == 1
 				&& (this.mode == EuclidianConstants.MODE_JOIN
-						|| this.mode == EuclidianConstants.MODE_SEGMENT
-						|| this.mode == EuclidianConstants.MODE_RAY
-						|| this.mode == EuclidianConstants.MODE_VECTOR
-						|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-						|| this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
+				|| this.mode == EuclidianConstants.MODE_SEGMENT
+				|| this.mode == EuclidianConstants.MODE_RAY
+				|| this.mode == EuclidianConstants.MODE_VECTOR
+				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
 			handleMovedElement(point, false, PointerEventType.MOUSE);
 		}
 
@@ -9349,7 +9300,7 @@ public abstract class EuclidianController {
 		GeoPointND p = this.selPoints() == 1 ? selectedPoints.get(0) : null;
 
 		DrawList dl = view.getOpenedComboBox();// getComboBoxHit(event.getX(),
-												// event.getY());
+		// event.getY());
 		if (dl != null) {
 			dl.onMouseUp(event.getX(), event.getY());
 			return;
@@ -9429,9 +9380,9 @@ public abstract class EuclidianController {
 			wrapMouseclicked(control, 2, type);
 		}
 		this.doubleClickStarted = false;
-		if(type == PointerEventType.MOUSE){
+		if (type == PointerEventType.MOUSE) {
 			this.lastMouseRelease = System.currentTimeMillis();
-		}else{
+		} else {
 			this.lastTouchRelease = System.currentTimeMillis();
 		}
 		this.lastMouseUpLoc = new GPoint(x, y);
@@ -9571,7 +9522,7 @@ public abstract class EuclidianController {
 		// allow drag with right mouse button or ctrl
 		// make sure Ctrl still works for selection (when no dragging occured)
 		if (right || (control && draggingOccured))// &&
-													// !TEMPORARY_MODE)
+		// !TEMPORARY_MODE)
 		{
 			if (!temporaryMode) {
 				processRightReleased(right, alt, control, event.isShiftDown(),
@@ -9693,7 +9644,7 @@ public abstract class EuclidianController {
 		return view.getHits() != null
 				&& view.getHits().size() > 0
 				&& (view.getHits().getTopHits().get(0) instanceof GeoTextField || view
-						.getHits().getTopHits().get(0) instanceof GeoList);
+				.getHits().getTopHits().get(0) instanceof GeoList);
 	}
 
 	protected DrawList getComboBoxHit() {
@@ -9711,33 +9662,6 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	private static boolean modeCreatesHelperPoints(int mode2) {
-		switch (mode2) {
-		case EuclidianConstants.MODE_SEGMENT:
-		case EuclidianConstants.MODE_SEGMENT_FIXED:
-		case EuclidianConstants.MODE_JOIN:
-		case EuclidianConstants.MODE_RAY:
-		case EuclidianConstants.MODE_VECTOR:
-		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_SEMICIRCLE:
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-		case EuclidianConstants.MODE_POLYGON:
-		case EuclidianConstants.MODE_POLYLINE:
-		case EuclidianConstants.MODE_REGULAR_POLYGON:
-			return true;
-		}
-
-		return false;
-	}
-
 	public void endOfWrapMouseReleased(Hits hits, AbstractEvent event) {
 		boolean control = app.isControlDown(event);
 		boolean alt = event.isAltDown();
@@ -9746,7 +9670,7 @@ public abstract class EuclidianController {
 	}
 
 	public void endOfWrapMouseReleased(Hits hits, boolean control, boolean alt,
-			PointerEventType type) {
+									   PointerEventType type) {
 
 		if (!hits.isEmpty()) {
 			view.setDefaultCursor();
@@ -9763,13 +9687,13 @@ public abstract class EuclidianController {
 		view.setShowAxesRatio(false);
 
 		if (!setJustCreatedGeosSelected()) { // first try to set just created
-												// geos as selected
+			// geos as selected
 			// if none, do specific stuff for properties view
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {// prevent
-																		// objects
-																		// created
-																		// by a
-																		// script
+				// objects
+				// created
+				// by a
+				// script
 				if (checkBoxOrButtonJustHitted) // does nothing
 					checkBoxOrButtonJustHitted = false;
 				else
@@ -9807,8 +9731,8 @@ public abstract class EuclidianController {
 	}
 
 	private void processRightReleased(boolean right, boolean alt,
-			boolean control, boolean shift,
-			PointerEventType type) {
+									  boolean control, boolean shift,
+									  PointerEventType type) {
 
 		if (!app.isRightClickEnabled()) {
 			return;
@@ -9851,7 +9775,7 @@ public abstract class EuclidianController {
 			if (selection.selectedGeosSize() > 0) {
 
 				if (mode == EuclidianConstants.MODE_MOVE) { // only for move
-															// mode
+					// mode
 
 					// right click on already selected geos -> show menu for
 					// them
@@ -9861,7 +9785,7 @@ public abstract class EuclidianController {
 
 					if (!hits.intersect(getAppSelectedGeos())) {
 						selection.clearSelectedGeos(false); // repaint will be
-															// done next step
+						// done next step
 						selection.addSelectedGeos(hits, true);
 					} else {
 						// selection.addSelectedGeo(hits.get(0));
@@ -9872,7 +9796,7 @@ public abstract class EuclidianController {
 					}
 
 				} else { // other modes : want to apply tool of one of the hits
-							// (choose geo and show popup menu)
+					// (choose geo and show popup menu)
 					if (canShowPopupMenu()) {
 
 						GeoElement geo = chooseGeo(hits, true, false);
@@ -9924,7 +9848,7 @@ public abstract class EuclidianController {
 	}
 
 	public void wrapMouseWheelMoved(int x, int y, double delta,
-			boolean shiftOrMeta, boolean alt) {
+									boolean shiftOrMeta, boolean alt) {
 
 		if (isTextfieldHasFocus()) {
 			return;
@@ -9974,8 +9898,8 @@ public abstract class EuclidianController {
 		// make zooming a little bit smoother by having some steps
 
 		view.setAnimatedCoordSystem(
-		// px + dx * factor,
-		// py + dy * factor,
+				// px + dx * factor,
+				// py + dy * factor,
 				px, py, factor, view.getXscale() * factor, 4, false);
 		// view.yscale * factor);
 		app.setUnsaved();
@@ -10031,14 +9955,14 @@ public abstract class EuclidianController {
 		// init preview drawables
 		switch (mode1) {
 
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
-			getPen().setFreehand(true);
+			case EuclidianConstants.MODE_FREEHAND_SHAPE:
+				getPen().setFreehand(true);
 
-			break;
-		case EuclidianConstants.MODE_PEN:
-			getPen().setFreehand(false);
-			// getPen().setAbsoluteScreenPosition(true);
-			break;
+				break;
+			case EuclidianConstants.MODE_PEN:
+				getPen().setFreehand(false);
+				// getPen().setAbsoluteScreenPosition(true);
+				break;
 		/*
 		 * case EuclidianConstants.MODE_PENCIL: getPen().setFreehand(false);
 		 * getPen().setAbsoluteScreenPosition(false); break;
@@ -10068,141 +9992,141 @@ public abstract class EuclidianController {
 		 * pen.setPenGeo(geo); } }
 		 */
 
-		// no break;
+			// no break;
 
-		// case EuclidianConstants.MODE_VISUAL_STYLE:
+			// case EuclidianConstants.MODE_VISUAL_STYLE:
 
-		// openMiniPropertiesPanel();
+			// openMiniPropertiesPanel();
 
-		// break;
+			// break;
 
-		case EuclidianConstants.MODE_PARALLEL:
-			previewDrawable = view.createPreviewParallelLine(selectedPoints,
-					selectedLines);
-			break;
+			case EuclidianConstants.MODE_PARALLEL:
+				previewDrawable = view.createPreviewParallelLine(selectedPoints,
+						selectedLines);
+				break;
 
-		case EuclidianConstants.MODE_PARABOLA:
-			previewDrawable = view.createPreviewParabola(selectedPoints,
-					selectedLines);
-			break;
+			case EuclidianConstants.MODE_PARABOLA:
+				previewDrawable = view.createPreviewParabola(selectedPoints,
+						selectedLines);
+				break;
 
-		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
-			previewDrawable = view.createPreviewAngleBisector(selectedPoints);
-			break;
+			case EuclidianConstants.MODE_ANGULAR_BISECTOR:
+				previewDrawable = view.createPreviewAngleBisector(selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_ORTHOGONAL:
-		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
-			previewDrawable = view.createPreviewPerpendicularLine(
-					selectedPoints, selectedLines);
-			break;
+			case EuclidianConstants.MODE_ORTHOGONAL:
+			case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
+				previewDrawable = view.createPreviewPerpendicularLine(
+						selectedPoints, selectedLines);
+				break;
 
-		case EuclidianConstants.MODE_LINE_BISECTOR:
-			previewDrawable = view
-					.createPreviewPerpendicularBisector(selectedPoints);
-			break;
+			case EuclidianConstants.MODE_LINE_BISECTOR:
+				previewDrawable = view
+						.createPreviewPerpendicularBisector(selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-			previewDrawable = view.createPreviewConic(mode1, selectedPoints);
-			break;
+			case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+				previewDrawable = view.createPreviewConic(mode1, selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_JOIN: // line through two points
-			useLineEndPoint = false;
-			previewDrawable = view.createPreviewLine(selectedPoints);
-			break;
+			case EuclidianConstants.MODE_JOIN: // line through two points
+				useLineEndPoint = false;
+				previewDrawable = view.createPreviewLine(selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_SEGMENT:
-			useLineEndPoint = false;
-			previewDrawable = view.createPreviewSegment(selectedPoints);
-			break;
+			case EuclidianConstants.MODE_SEGMENT:
+				useLineEndPoint = false;
+				previewDrawable = view.createPreviewSegment(selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_RAY:
-			useLineEndPoint = false;
-			previewDrawable = view.createPreviewRay(selectedPoints);
-			break;
+			case EuclidianConstants.MODE_RAY:
+				useLineEndPoint = false;
+				previewDrawable = view.createPreviewRay(selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_VECTOR:
-			useLineEndPoint = false;
-			previewDrawable = view.createPreviewVector(selectedPoints);
-			break;
+			case EuclidianConstants.MODE_VECTOR:
+				useLineEndPoint = false;
+				previewDrawable = view.createPreviewVector(selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_POLYGON:
-		case EuclidianConstants.MODE_RIGID_POLYGON:
-		case EuclidianConstants.MODE_VECTOR_POLYGON:
-			previewDrawable = view.createPreviewPolygon(selectedPoints);
-			break;
+			case EuclidianConstants.MODE_POLYGON:
+			case EuclidianConstants.MODE_RIGID_POLYGON:
+			case EuclidianConstants.MODE_VECTOR_POLYGON:
+				previewDrawable = view.createPreviewPolygon(selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_POLYLINE:
-			previewDrawable = view.createPreviewPolyLine(selectedPoints);
-			break;
+			case EuclidianConstants.MODE_POLYLINE:
+				previewDrawable = view.createPreviewPolyLine(selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-			previewDrawable = view.createPreviewConic(mode1, selectedPoints);
-			break;
+			case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+			case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+				previewDrawable = view.createPreviewConic(mode1, selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_ANGLE:
-			previewDrawable = view.createPreviewAngle(selectedPoints);
-			break;
+			case EuclidianConstants.MODE_ANGLE:
+				previewDrawable = view.createPreviewAngle(selectedPoints);
+				break;
 
-		// preview for compass: radius first
-		case EuclidianConstants.MODE_COMPASSES:
-			previewDrawable = new DrawConic(view, mode1, selectedPoints,
-					selectedSegments, selectedConicsND);
-			break;
+			// preview for compass: radius first
+			case EuclidianConstants.MODE_COMPASSES:
+				previewDrawable = new DrawConic(view, mode1, selectedPoints,
+						selectedSegments, selectedConicsND);
+				break;
 
-		// preview for arcs and sectors
-		case EuclidianConstants.MODE_SEMICIRCLE:
-		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-			previewDrawable = new DrawConicPart(view, mode1, selectedPoints);
-			break;
+			// preview for arcs and sectors
+			case EuclidianConstants.MODE_SEMICIRCLE:
+			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+				previewDrawable = new DrawConicPart(view, mode1, selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			useLineEndPoint = false;
-			previewDrawable = view.createPreviewVector(selectedPoints);
-			break;
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+				useLineEndPoint = false;
+				previewDrawable = view.createPreviewVector(selectedPoints);
+				break;
 
-		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
-			// do the following only once, from last EuclidianView
-			// prevent clearSelections() from a next EV would break it all
-			if (view != kernel.getLastAttachedEV()){
-				return previewDrawable;
-			}
-			// select all hidden objects
-			Iterator<GeoElement> it = kernel.getConstruction()
-					.getGeoSetConstructionOrder().iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				// independent numbers should not be set visible
-				// as this would produce a slider
-				if (!geo.isSetEuclidianVisible()
-						&& !((geo instanceof NumberValue || geo instanceof BooleanValue) && geo
-								.isIndependent())) {
-					geo.setEuclidianVisible(true);
-					selection.addSelectedGeo(geo);
-					geo.updateRepaint();
+			case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
+				// do the following only once, from last EuclidianView
+				// prevent clearSelections() from a next EV would break it all
+				if (view != kernel.getLastAttachedEV()) {
+					return previewDrawable;
 				}
-			}
-			break;
+				// select all hidden objects
+				Iterator<GeoElement> it = kernel.getConstruction()
+						.getGeoSetConstructionOrder().iterator();
+				while (it.hasNext()) {
+					GeoElement geo = it.next();
+					// independent numbers should not be set visible
+					// as this would produce a slider
+					if (!geo.isSetEuclidianVisible()
+							&& !((geo instanceof NumberValue || geo instanceof BooleanValue) && geo
+							.isIndependent())) {
+						geo.setEuclidianVisible(true);
+						selection.addSelectedGeo(geo);
+						geo.updateRepaint();
+					}
+				}
+				break;
 
-		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
-			app.setGeoForCopyStyle(null); // this will be the active geo
-											// template
-			break;
+			case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
+				app.setGeoForCopyStyle(null); // this will be the active geo
+				// template
+				break;
 
-		case EuclidianConstants.MODE_MOVE_ROTATE:
-			rotationCenter = null; // this will be the active geo template
-			break;
+			case EuclidianConstants.MODE_MOVE_ROTATE:
+				rotationCenter = null; // this will be the active geo template
+				break;
 
-		default:
-			// macro mode?
-			if (mode1 >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-				// get ID of macro
-				int macroID = mode1 - EuclidianConstants.MACRO_MODE_ID_OFFSET;
+			default:
+				// macro mode?
+				if (mode1 >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+					// get ID of macro
+					int macroID = mode1 - EuclidianConstants.MACRO_MODE_ID_OFFSET;
 				macro = kernel.getMacro(macroID);
 				macroInput = macro.getInputTypes();
 				this.mode = EuclidianConstants.MODE_MACRO;
@@ -10244,48 +10168,6 @@ public abstract class EuclidianController {
 		}
 
 		kernel.storeStateForModeStarting();
-	}
-
-	public void setMode(int newMode) {
-		if (pen != null) {
-			pen.resetPenOffsets();
-		}
-
-		// GGB-545
-		// problem with
-		// http://tube-beta.geogebra.org/student/99999?cb=jenkins4576
-		// view.closeDropdowns();
-
-		if ((newMode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS)
-				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS)
-				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS)) {
-			return;
-		}
-
-		endOfMode(mode);
-
-		allowSelectionRectangleForTranslateByVector = true;
-
-		if (EuclidianView.usesSelectionRectangleAsInput(newMode)
-				&& (view.getSelectionRectangle() != null)) {
-			initNewMode(newMode);
-			if (app.getActiveEuclidianView() == view) {
-				processSelectionRectangle(false, false, false);
-			}
-		} else if (EuclidianView.usesSelectionAsInput(newMode)) {
-			initNewMode(newMode);
-			if (app.getActiveEuclidianView() == view) {
-				processSelection();
-			}
-		} else {
-			if (!temporaryMode) {
-				selection.clearSelectedGeos(false);
-				resetMovedGeoPoint();
-			}
-			initNewMode(newMode);
-		}
-
-		kernel.notifyRepaint();
 	}
 
 	public void zoomInOut(boolean altPressed, boolean minusPressed) {
@@ -10333,7 +10215,6 @@ public abstract class EuclidianController {
 				|| app.isShiftDragZoomEnabled();
 	}
 
-
 	public App getApplication() {
 		return app;
 	}
@@ -10373,7 +10254,6 @@ public abstract class EuclidianController {
 		}
 
 	}
-
 
 	public void checkZooming() {
 		checkZooming(false);
@@ -10439,34 +10319,116 @@ public abstract class EuclidianController {
 
 	}
 
-	public void setExternalHandling(boolean b) {
-		this.externalHandling = b;
-	}
-
 	public EnvironmentStyle getEnvironmentStyle() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/**
-	 * @param x
-	 *            x-coord
-	 * @param y
-	 *            y-coord
+	 * @param x x-coord
+	 * @param y y-coord
 	 */
-	public void onPinch(final int x, final int y, final double scaleFactor) {
-		this.mouseLoc = new GPoint(x, y);
-		zoomInOut(scaleFactor,
-				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2);
+	public void onPinch(int x, int y, double scaleFactor) {
+
+		if (app.has(Feature.MOBILE_SMOOTH_PINCH)) {
+			double newX = x + (twoTouchStartXZero - twoTouchStartX) * scaleFactor;
+			double newY = y + (twoTouchStartYZero - twoTouchStartY) * scaleFactor;
+			view.setCoordSystem(newX, newY,
+					twoTouchStartScaleX * scaleFactor, twoTouchStartScaleY * scaleFactor);
+		} else {
+			this.mouseLoc = new GPoint(x, y);
+			zoomInOut(scaleFactor,
+					scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2, x, y);
+		}
+
 	}
-
-	public double oldDistance;
-
-	private PointerEventType defaultEventType = PointerEventType.MOUSE;
-	protected static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
 		twoTouchStartCommon(x1, y1, x2, y2);
+	}
+
+	final protected void twoTouchStartPhone(double x1, double y1, double x2, double y2) {
+		scaleConic = null;
+
+		if (this.view.getPreviewDrawable() != null) {
+			mouseLoc = new GPoint((int) x1, (int) y1);
+			movePosition = new GPoint((int) x2, (int) y2);
+			return;
+		}
+
+		view.setHits(new GPoint((int) x1, (int) y1), PointerEventType.TOUCH);
+		// needs to be copied, because the reference is changed in the next step
+		Hits hits1 = new Hits();
+		for (GeoElement geo : view.getHits()) {
+			hits1.add(geo);
+		}
+
+		view.setHits(new GPoint((int) x2, (int) y2), PointerEventType.TOUCH);
+		Hits hits2 = view.getHits();
+
+		oldCenterX = (int) (x1 + x2) / 2;
+		oldCenterY = (int) (y1 + y2) / 2;
+
+		if (app.has(Feature.MOBILE_SMOOTH_PINCH)) {
+			twoTouchStartX = (x1 + x2) / 2;
+			twoTouchStartY = (y1 + y2) / 2;
+			twoTouchStartDistance = MyMath.length(x1 - x2, y1 - y2);
+
+			twoTouchStartXZero = view.getXZero();
+			twoTouchStartYZero = view.getYZero();
+			twoTouchStartScaleX = view.getXscale();
+			twoTouchStartScaleY = view.getYscale();
+		}
+
+
+		if (hits1.hasYAxis() && hits2.hasYAxis()) {
+			multitouchMode = scaleMode.zoomY;
+			oldDistance = y1 - y2;
+			scale = view.getYscale();
+		} else if (hits1.hasXAxis() && hits2.hasXAxis()) {
+			multitouchMode = scaleMode.zoomX;
+			oldDistance = x1 - x2;
+			scale = this.view.getXscale();
+		} else if (hits1.size() > 0 && hits2.size() > 0
+				&& hits1.get(0) == hits2.get(0)
+				&& hits1.get(0) instanceof GeoConic
+				// isClosedPath: true for circle and ellipse
+				&& ((GeoConic) hits1.get(0)).isClosedPath()
+				&& ((hits1.get(0).getFreeInputPoints(view) != null && hits1
+				.get(0).getFreeInputPoints(view).size() >= 2)
+				|| (hits1.get(0).getParentAlgorithm() != null && hits1.get(0)
+				.getParentAlgorithm().input[1].isIndependent()) || (hits1.get(0)
+				.getParentAlgorithm() != null && !hits1.get(0).getParentAlgorithm().input[1].labelSet))) {
+			scaleConic = (GeoConic) hits1.get(0);
+			// TODO: select scaleConic
+
+			if (hits1.get(0).getFreeInputPoints(this.view).size() >= 3) {
+				multitouchMode = scaleMode.circle3Points;
+			} else if (hits1.get(0).getFreeInputPoints(this.view).size() == 2) {
+				multitouchMode = scaleMode.circle2Points;
+			} else {
+				multitouchMode = scaleMode.circleRadius;
+				AlgoElement algo = scaleConic.getParentAlgorithm();
+				NumberValue radius = (NumberValue) algo.input[1];
+				this.originalRadius = radius.getDouble();
+			}
+			twoTouchStartCommon(x1, y1, x2, y2);
+
+			midpoint = new double[]{scaleConic.getMidpoint().getX(),
+					scaleConic.getMidpoint().getY()};
+
+			ArrayList<GeoPointND> points = scaleConic.getFreeInputPoints(this.view);
+			originalPointX = new double[points.size()];
+			originalPointY = new double[points.size()];
+			for (int i = 0; i < points.size(); i++) {
+				originalPointX[i] = points.get(i).getCoords().getX();
+				originalPointY[i] = points.get(i).getCoords().getY();
+			}
+		} else {
+			clearSelections();
+			multitouchMode = scaleMode.view;
+			twoTouchStartCommon(x1, y1, x2, y2);
+		}
 	}
 
 	final public void twoTouchStartCommon(double x1, double y1, double x2, double y2) {
@@ -10475,6 +10437,118 @@ public abstract class EuclidianController {
 
 	public void twoTouchMove(double x1, double y1, double x2, double y2) {
 		twoTouchMoveCommon(x1, y1, x2, y2);
+	}
+
+	protected AbstractEvent createTouchEvent(int x1, int y1) {
+		return null;
+	}
+
+	final public void twoTouchMovePhone(double x1d, double y1d, double x2d, double y2d) {
+		int x1 = (int) x1d;
+		int x2 = (int) x2d;
+		int y1 = (int) y1d;
+		int y2 = (int) y2d;
+
+		if (movePosition != null) {
+			// the view is moved while an element with preview is constructed (e.g. a line)
+
+			// move the view
+			view.rememberOrigins();
+			view.translateCoordSystemInPixels(x2 - movePosition.getX(), y2 - movePosition.getY(), 0,
+					EuclidianConstants.MODE_TRANSLATEVIEW);
+			movePosition = new GPoint(x2, y2);
+
+			// update the preview
+			mouseLoc = new GPoint(x1, y1);
+			updatePreview();
+			this.view.updatePreviewableForProcessMode();
+
+			// make sure the preview is redrawn
+			AbstractEvent e = createTouchEvent(x1, y1);
+			wrapMouseDragged(e, true);
+			return;
+		}
+
+		if ((x1 == x2 && y1 == y2) || this.oldDistance == 0) {
+			return;
+		}
+
+		switch (multitouchMode) {
+			case zoomY:
+				if (scale == 0) {
+					return;
+				}
+				double newRatioY = scale * (y1 - y2) / this.oldDistance;
+				view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale(), newRatioY);
+				break;
+			case zoomX:
+				if (scale == 0) {
+					return;
+				}
+				double newRatioX = scale * (x1 - x2) / oldDistance;
+				view.setCoordSystem(view.getXZero(), view.getYZero(), newRatioX, view.getYscale());
+				break;
+			case circle3Points:
+				double dist = MyMath.length(x1 - x2, y1 - y2);
+				scale = dist / oldDistance;
+				int i = 0;
+
+				for (GeoPointND p : scaleConic.getFreeInputPoints(view)) {
+					double newX = midpoint[0] + (originalPointX[i] - midpoint[0]) * scale;
+					double newY = midpoint[1] + (originalPointY[i] - midpoint[1]) * scale;
+					p.setCoords(newX, newY, 1.0);
+					p.updateCascade();
+					i++;
+				}
+				kernel.notifyRepaint();
+				break;
+			case circle2Points:
+				double dist2P = MyMath.length(x1 - x2, y1 - y2);
+				scale = dist2P / oldDistance;
+
+				// index 0 is the midpoint, index 1 is the point on the circle
+				GeoPointND p = scaleConic.getFreeInputPoints(view).get(1);
+				double newX = midpoint[0] + (originalPointX[1] - midpoint[0]) * scale;
+				double newY = midpoint[1] + (originalPointY[1] - midpoint[1]) * scale;
+				p.setCoords(newX, newY, 1.0);
+				p.updateCascade();
+				kernel.notifyRepaint();
+				break;
+			case circleRadius:
+				double distR = MyMath.length(x1 - x2, y1 - y2);
+				scale = distR / oldDistance;
+
+				GeoPoint center = (GeoPoint) scaleConic.getParentAlgorithm().input[0];
+				GeoNumeric newRadius = new GeoNumeric(kernel.getConstruction(), scale * originalRadius);
+
+				scaleConic.setParentAlgorithm(new AlgoCirclePointRadius(kernel.getConstruction(),
+						center, newRadius));
+				scaleConic.setCircle(center, newRadius.getDouble());
+				scaleConic.updateCascade();
+				kernel.notifyUpdate(scaleConic);
+				kernel.notifyRepaint();
+				break;
+			default:
+				// pinch
+				if (app.has(Feature.MOBILE_SMOOTH_PINCH)) {
+					double distance = MyMath.length(x1 - x2, y1 - y2);
+					onPinch((x1 + x2) / 2, (y1 + y2) / 2, distance / twoTouchStartDistance);
+				} else {
+					twoTouchMoveCommon(x1, y1, x2, y2);
+
+					int centerX = (x1 + x2) / 2;
+					int centerY = (y1 + y2) / 2;
+
+					if (MyMath.length(oldCenterX - centerX, oldCenterY - centerY) > MIN_MOVE) {
+						view.rememberOrigins();
+						view.translateCoordSystemInPixels(centerX - oldCenterX, centerY - oldCenterY, 0,
+								EuclidianConstants.MODE_TRANSLATEVIEW);
+
+						oldCenterX = centerX;
+						oldCenterY = centerY;
+					}
+				}
+		}
 	}
 
 	final public void twoTouchMoveCommon(double x1, double y1, double x2, double y2) {
@@ -10498,6 +10572,10 @@ public abstract class EuclidianController {
 		return externalHandling;
 	}
 
+	public void setExternalHandling(boolean b) {
+		this.externalHandling = b;
+	}
+
 	/**
 	 * in future 3 will be supported for 3rd 2D View
 	 *
@@ -10508,22 +10586,13 @@ public abstract class EuclidianController {
 		return this.view.evNo;
 	}
 
-	public final void setDefaultEventType(PointerEventType pointerEventType) {
-		this.defaultEventType = pointerEventType;
-	}
-
 	public final PointerEventType getDefaultEventType() {
 		return this.defaultEventType;
 	}
 
-	/**
-	 * factor by which hit-threshold is increased while dragging for
-	 * attachDetach (while the point is attached to a Path or Region)
-	 */
-	private static final int INCREASED_THRESHOLD_FACTOR = 2;
-	protected Object detachFrom;
-	private boolean detachFromPath, detachFromRegion;
-	private boolean needsAttach = false;
+	public final void setDefaultEventType(PointerEventType pointerEventType) {
+		this.defaultEventType = pointerEventType;
+	}
 
 	private void moveAttachDetach(boolean repaint, AbstractEvent event) {
 		if (movedGeoPoint.isPointOnPath() || movedGeoPoint.isPointInRegion()) {
@@ -10625,7 +10694,6 @@ public abstract class EuclidianController {
 		return temporaryMode;
 	}
 
-
 	public void resetModeAfterFreehand() {
 		// not used in common, overwritten for other projects
 	}
@@ -10635,8 +10703,7 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * @param e
-	 *            touch start / mouse down event
+	 * @param e touch start / mouse down event
 	 */
 	public void onPointerEventStart(AbstractEvent e) {
 		// not used in common, overwritten for other projects
@@ -10667,12 +10734,12 @@ public abstract class EuclidianController {
 
 		if (this.selPoints() == 0
 				&& (this.mode == EuclidianConstants.MODE_JOIN
-						|| this.mode == EuclidianConstants.MODE_SEGMENT
-						|| this.mode == EuclidianConstants.MODE_RAY
-						|| this.mode == EuclidianConstants.MODE_VECTOR
-						|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-						|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
-						|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON || this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS)) {
+				|| this.mode == EuclidianConstants.MODE_SEGMENT
+				|| this.mode == EuclidianConstants.MODE_RAY
+				|| this.mode == EuclidianConstants.MODE_VECTOR
+				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
+				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON || this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS)) {
 			startPosition = new GPoint(e.getX(), e.getY());
 			this.mouseLoc = new GPoint(e.getX(), e.getY());
 			this.view.setHits(this.mouseLoc, e.getType());
@@ -10765,11 +10832,58 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * @param type
-	 *            used in Web
+	 * @param type used in Web
 	 */
 	public void closePopups(int x, int y, PointerEventType type) {
 		app.closePopups(x, y);
+	}
+
+	/**
+	 * different modes of a multitouch-event
+	 */
+	protected enum scaleMode {
+		/**
+		 * scale x-axis (two TouchStartEvents on the x-axis)
+		 */
+		zoomX,
+		/**
+		 * scale y-axis (two TouchStartEvents on the y-axis)
+		 */
+		zoomY,
+		/**
+		 * scale a circle or ellipsis with three points or an ellipsis with 5
+		 * points
+		 */
+		circle3Points,
+		/**
+		 * scale a circle with 2 points
+		 */
+		circle2Points,
+		/**
+		 * scale a circle given with midpoint and a number-input as radius
+		 */
+		circleRadius,
+		/**
+		 * zooming
+		 */
+		view
+	}
+
+	private abstract class HitsFilter {
+		public HitsFilter() {
+		}
+
+		public void run() {
+			for (int i = 1; i < view.getHits().size(); i++) {
+				if (!isValid(view.getHits().get(i))) {
+					return;
+				}
+				view.getHits().remove(i);
+			}
+		}
+
+		public abstract boolean isValid(GeoElement geo);
+
 	}
 
 	// public abstract void closePopups(int x, int y, PointerEventType type);
