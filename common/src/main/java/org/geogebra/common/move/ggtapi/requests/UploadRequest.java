@@ -196,7 +196,7 @@ public class UploadRequest implements Request {
 			tag.put("-name", "phone");
 			JSONArray tagArray = new JSONArray();
 
-			tagArray.put(0, tag);
+			tagArray.put(tag);
 			JSONObject tags = new JSONObject();
 			tags.put("tag", tagArray);
 			task.put("tags", tags);
