@@ -369,7 +369,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			if (startCapture) {
 				Event.setCapture(((PointerEvent) event).getRelativeElement());
 			}
-			super.wrapMouseDragged(event, startCapture);
+			wrapMouseDraggedND(event, startCapture);
 		}
 		if (movedGeoPoint != null
 		        && (this.mode == EuclidianConstants.MODE_JOIN
@@ -448,9 +448,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		return distSqr > SELECTION_RECT_THRESHOLD_SQR;
 	}
 
-	private boolean shouldSetToFreehandMode() {
-		return (isDraggingBeyondThreshold() && pen != null && !penMode(mode) && freehandModePrepared);
-	}
+
 
 	@Override
 	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1,
@@ -459,11 +457,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		        && selectedGeos1.isEmpty() ? getAppSelectedGeos()
 		        : selectedGeos1;
 		app.getGuiManager().showPopupMenu(geos, view, mouseLoc);
-	}
-
-	@Override
-	protected boolean freehandModePrepared() {
-		return freehandModePrepared;
 	}
 
 	@Override

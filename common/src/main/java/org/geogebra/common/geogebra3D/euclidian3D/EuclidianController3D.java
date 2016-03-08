@@ -3490,7 +3490,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		setMouseMovedEvent(event);
 
-		super.wrapMouseDragged(event, startCapture);
+		wrapMouseDraggedND(event, startCapture);
 	}
 
 	// //////////////////////////////////////

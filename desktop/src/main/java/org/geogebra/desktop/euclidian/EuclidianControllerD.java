@@ -74,6 +74,9 @@ public class EuclidianControllerD extends
 		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
 		closePopups(event.getX(), event.getY(), null);
 		wrapMousePressed(event);
+		if (!app.isRightClick(event)) {
+			prepareModeForFreehand();
+		}
 		event.release();
 	}
 

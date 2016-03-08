@@ -8133,7 +8133,46 @@ public abstract class EuclidianController {
 		return false;
 	}
 
+	protected boolean shouldSetToFreehandMode() {
+		return (isDraggingBeyondThreshold() && pen != null && !penMode(mode)
+				&& freehandModePrepared);
+	}
+
 	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
+		if (pen != null && !penDragged && freehandModePrepared) {
+			getPen().handleMouseDraggedForPenMode(event);
+		}
+
+		if (!shouldCancelDrag()) {
+			if (shouldSetToFreehandMode()) {
+				setModeToFreehand();
+			}
+			// Set capture events only if the mouse is actually down,
+			// because we need to release the capture on mouse up.
+			if (startCapture) {
+				// Event.setCapture(((PointerEvent)
+				// event).getRelativeElement());
+			}
+			wrapMouseDraggedND(event, startCapture);
+		}
+		if (movedGeoPoint != null && (this.mode == EuclidianConstants.MODE_JOIN
+				|| this.mode == EuclidianConstants.MODE_SEGMENT
+				|| this.mode == EuclidianConstants.MODE_RAY
+				|| this.mode == EuclidianConstants.MODE_VECTOR
+				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
+				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
+			// nothing was dragged
+			wrapMouseMoved(event);
+		}
+
+		if (view.getPreviewDrawable() != null
+				&& event.getType() == PointerEventType.TOUCH) {
+			this.view.updatePreviewableForProcessMode();
+		}
+	}
+
+	public void wrapMouseDraggedND(AbstractEvent event, boolean startCapture) {
 		// kill view moving when animation button pressed
 		if (shouldCancelDrag() || this.animationButtonPressed) {
 			return;
