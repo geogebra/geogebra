@@ -4572,7 +4572,7 @@ namespace giac {
     }
     if (debug_infolevel>2)
       CERR << CLOCK() << " lcm deno done" << endl;
-#ifndef GIAC_HAS_STO_38
+#if !defined(GIAC_HAS_STO_38) && !defined(EMCC)
     if (
 	//a.front()._VECTptr->size()>=7 &&
 	is_integer_matrice(a) && is_integer_matrice(btran) && mmult_int(a,btran,res)
