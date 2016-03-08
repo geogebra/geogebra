@@ -816,7 +816,7 @@ __GGB__keysVar.km.command = {
     "Sequence": "Sequence",
     "Sequence.Syntax": "[ <End Value> ]\n[ <Start Value>, <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value>, <Increment> ]",
     "SetActiveView": "SetActiveView",
-    "SetActiveView.Syntax": "[ <View> ]",
+    "SetActiveView.Syntax": "[ <View> ]\n[ <Plane> ]",
     "SetAxesRatio": "SetAxesRatio",
     "SetAxesRatio.Syntax": "[ <Number>, <Number> ]",
     "SetAxesRatio.Syntax3D": "[ <Number>, <Number> ]\n[ <Number>, <Number>, <Number> ]",

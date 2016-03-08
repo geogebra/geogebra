@@ -2572,7 +2572,7 @@ __GGB__keysVar.zh_CN.plain = {
     "Integer": "\u6574\u6570",
     "IntegralOfA": "%0 \u7684\u79ef\u5206",
     "IntegralOfAfromBtoC": "\u51fd\u6570 %0 \u5728 [%1, %2] \u4e0a\u7684\u5b9a\u79ef\u5206",
-    "Interpolate": "\u4f7f\u7528\u63d2\u503c",
+    "Interpolate": "\u4f7f\u7528\u63d2\u503c\u7ed8\u56fe",
     "IntersectingLines": "\u76f8\u4ea4\u7ebf",
     "IntersectionCircleOfAB": "%0 \u4e0e %1 \u7684\u76f8\u4ea4\u5706",
     "IntersectionCurveOfAB": "%0 \u4e0e %1 \u7684\u76f8\u4ea4\u66f2\u7ebf",

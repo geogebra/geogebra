@@ -816,7 +816,7 @@ __GGB__keysVar.ta.command = {
     "Sequence": "\u0ba4\u0bca\u0b9f\u0bb0\u0bbf",
     "Sequence.Syntax": "[ <End Value> ]\n[ <Start Value>, <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value> ]\n[ <Expression>, <Variable>, <Start Value>, <End Value>, <Increment> ]",
     "SetActiveView": "SetActiveView",
-    "SetActiveView.Syntax": "[ <View> ]",
+    "SetActiveView.Syntax": "[ <View> ]\n[ <Plane> ]",
     "SetAxesRatio": "SetAxesRatio",
     "SetAxesRatio.Syntax": "[ <Number>, <Number> ]",
     "SetAxesRatio.Syntax3D": "[ <Number>, <Number> ]\n[ <Number>, <Number>, <Number> ]",
