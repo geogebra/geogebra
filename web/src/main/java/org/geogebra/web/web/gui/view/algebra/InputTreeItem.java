@@ -454,15 +454,24 @@ public class InputTreeItem extends RadioTreeItem implements
 					.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 						public void setPosition(int offsetWidth,
 								int offsetHeight) {
-							helpPopup.getElement().getStyle()
+							helpPopup
+									.getElement()
+									.getStyle()
 									.setProperty(
 											"left",
 											(btnHelpToggle.getAbsoluteLeft() + btnHelpToggle
 													.getOffsetWidth()) + "px");
-							helpPopup.getElement().getStyle()
-									.setProperty("top",
-											btnHelpToggle.getAbsoluteTop()
+							helpPopup
+									.getElement()
+									.getStyle()
+									.setProperty(
+											"top",
+											(btnHelpToggle.getParent()
+													.getAbsoluteTop() + btnHelpToggle
+													.getParent()
+													.getOffsetHeight())
 													+ "px");
+
 							helpPopup.show();
 						}
 					});
