@@ -10,6 +10,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -217,7 +218,7 @@ public class Drawable3DLists {
 
 		for (int i = 0; i < Drawable3D.DRAW_TYPE_MAX; i++) {
 			for (Iterator<Drawable3D> d = lists[i].iterator(); d.hasNext();) {
-				d.next().setWaitForUpdateVisualStyle();
+				d.next().setWaitForUpdateVisualStyle(null);
 			}
 		}
 

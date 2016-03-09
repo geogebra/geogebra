@@ -16,6 +16,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -432,7 +433,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * wait for reset color
 	 */
 	@Override
-	public void setWaitForUpdateVisualStyle() {
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
 		waitForUpdateVisualStyle = true;
 	}
 

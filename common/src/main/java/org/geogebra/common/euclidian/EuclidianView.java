@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
@@ -1963,7 +1964,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		repaint();
 	}
 
-	public void updateVisualStyle(GeoElement geo) {
+	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 		if (styleBar != null)
 			styleBar.updateVisualStyle(geo);

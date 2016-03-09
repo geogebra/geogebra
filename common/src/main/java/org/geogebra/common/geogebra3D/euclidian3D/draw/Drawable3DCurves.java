@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -104,8 +105,8 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	}
 
 	@Override
-	public void setWaitForUpdateVisualStyle() {
-		super.setWaitForUpdateVisualStyle();
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
+		super.setWaitForUpdateVisualStyle(prop);
 
 		// also update for e.g. line width
 		setWaitForUpdate();

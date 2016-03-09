@@ -842,7 +842,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			repaint();
 		}
 
-		final public void updateVisualStyle(GeoElement geo) {
+		final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 			update(geo);
 		}
 

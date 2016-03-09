@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.view.Gridable;
@@ -66,7 +67,7 @@ public class AssignmentView extends JPanel implements View, Gridable {
 
 	}
 
-	public void updateVisualStyle(GeoElement geo) {
+	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		// TODO Auto-generated method stub
 
 	}

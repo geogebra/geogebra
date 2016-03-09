@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 
@@ -259,7 +260,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		cellRangeManager.removeAll();
 	}
 
-	public void updateVisualStyle(GeoElement geo) {
+	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		updateWithoutTrace(geo);
 	}
 

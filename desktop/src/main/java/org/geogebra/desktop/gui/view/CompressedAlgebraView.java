@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.Timer;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.gui.view.algebra.AlgebraControllerD;
 import org.geogebra.desktop.gui.view.algebra.AlgebraViewD;
@@ -92,7 +93,7 @@ public class CompressedAlgebraView extends AlgebraViewD implements
 	}
 
 	@Override
-	final public void updateVisualStyle(GeoElement geo) {
+	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 

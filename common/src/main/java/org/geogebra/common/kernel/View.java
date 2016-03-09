@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -56,8 +57,10 @@ public interface View {
 	 * 
 	 * @param geo
 	 *            updated geo
+	 * @param prop
+	 *            property updated
 	 */
-	public void updateVisualStyle(GeoElement geo);
+	public void updateVisualStyle(GeoElement geo, GProperty prop);
 
 	/**
 	 * Notify this view about updated auxiliary geo

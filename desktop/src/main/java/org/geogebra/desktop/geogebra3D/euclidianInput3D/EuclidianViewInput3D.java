@@ -824,7 +824,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	public void resetAllVisualStyles() {
 		super.resetAllVisualStyles();
 		if (input3D.hasMouseDirection()) {
-			stylusBeamDrawable.setWaitForUpdateVisualStyle();
+			stylusBeamDrawable.setWaitForUpdateVisualStyle(null);
 		}
 	}
 

@@ -75,6 +75,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1411,12 +1412,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	public void updateVisualStyle(GeoElement geo) {
+	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		// Application.debug(geo);
 		if (geo.hasDrawable3D()) {
 			Drawable3D d = drawable3DMap.get(geo);
 			if (d != null) {
-				d.setWaitForUpdateVisualStyle();
+				d.setWaitForUpdateVisualStyle(prop);
 			}
 		}
 
@@ -3154,13 +3155,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public void resetAllVisualStyles() {
 
 		// own drawables
-		xOyPlaneDrawable.setWaitForUpdateVisualStyle();
+		xOyPlaneDrawable.setWaitForUpdateVisualStyle(null);
 
 		for (int i = 0; i < 3; i++) {
-			axisDrawable[i].setWaitForUpdateVisualStyle();
+			axisDrawable[i].setWaitForUpdateVisualStyle(null);
 		}
 
-		pointDecorations.setWaitForUpdateVisualStyle();
+		pointDecorations.setWaitForUpdateVisualStyle(null);
 
 		// other drawables
 		drawable3DLists.resetAllVisualStyles();

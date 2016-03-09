@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -3641,10 +3642,10 @@ public class Kernel {
 		// App.printStacktrace("notifyUpdate " + geo);
 	}
 
-	public final void notifyUpdateVisualStyle(GeoElement geo) {
+	public final void notifyUpdateVisualStyle(GeoElement geo, GProperty prop) {
 		if (notifyViewsActive) {
 			for (View view : views) {
-				view.updateVisualStyle(geo);
+				view.updateVisualStyle(geo, prop);
 			}
 		}
 	}

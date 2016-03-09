@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
+import org.geogebra.common.kernel.geos.GProperty;
 
 /**
  * Class for drawing quadrics.
@@ -122,11 +123,11 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	}
 
 	@Override
-	public void setWaitForUpdateVisualStyle() {
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
 
-		drawBottom.setWaitForUpdateVisualStyle();
-		drawTop.setWaitForUpdateVisualStyle();
-		drawSide.setWaitForUpdateVisualStyle();
+		drawBottom.setWaitForUpdateVisualStyle(prop);
+		drawTop.setWaitForUpdateVisualStyle(prop);
+		drawSide.setWaitForUpdateVisualStyle(prop);
 	}
 
 	@Override

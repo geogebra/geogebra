@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -431,8 +432,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 
 	@Override
-	public void setWaitForUpdateVisualStyle() {
-		super.setWaitForUpdateVisualStyle();
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
+		super.setWaitForUpdateVisualStyle(prop);
 
 		// also update for plane clip
 		setWaitForUpdate();

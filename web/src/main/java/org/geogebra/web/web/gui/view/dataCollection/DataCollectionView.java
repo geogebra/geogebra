@@ -8,6 +8,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.CmdDataFunction;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -646,7 +647,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	}
 
 	@Override
-	public void updateVisualStyle(GeoElement geo) {
+	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		// not used
 	}
 

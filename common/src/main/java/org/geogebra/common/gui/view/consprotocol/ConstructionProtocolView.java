@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -608,7 +609,7 @@ public class ConstructionProtocolView {
 
 		}
 
-		public void updateVisualStyle(GeoElement geo) {
+		public void updateVisualStyle(GeoElement geo, GProperty prop) {
 			// TODO Auto-generated method stub
 			
 		}

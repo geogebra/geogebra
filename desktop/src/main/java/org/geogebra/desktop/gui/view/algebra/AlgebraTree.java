@@ -13,6 +13,7 @@ import javax.swing.tree.TreePath;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.main.AppD;
@@ -364,7 +365,7 @@ public class AlgebraTree extends JTree {
 	}
 
 
-	public void updateVisualStyle(GeoElement geo) {
+	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 

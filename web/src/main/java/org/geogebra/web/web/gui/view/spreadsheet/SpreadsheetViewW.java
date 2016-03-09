@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -402,7 +403,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 	}
 
-	final public void updateVisualStyle(GeoElement geo) {
+	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
@@ -276,7 +277,7 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 		App.debug("update(geo)");
 	}
 
-	public void updateVisualStyle(GeoElement geo) {
+	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		// TODO Auto-generated method stub
 		App.debug("update visual style");
 		if(geo.isLabelSet()){

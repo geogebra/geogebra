@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -298,7 +299,7 @@ public abstract class CASView implements View, SetLabels {
 
 	}
 
-	final public void updateVisualStyle(GeoElement geo) {
+	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 

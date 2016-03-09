@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.properties.PropertiesStyleBar;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
@@ -606,13 +607,13 @@ public class PropertiesViewD extends
 	}
 
 	@Override
-	public void updateVisualStyle(GeoElement geo) {
+	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 
 		if (!isShowing())
 			return;
 
 		((OptionsObjectD) objectPanel).updateVisualStyle(geo);
-		((OptionsObjectD) objectPanel).getTree().updateVisualStyle(geo);
+		((OptionsObjectD) objectPanel).getTree().updateVisualStyle(geo, prop);
 
 	}
 

@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawList;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
@@ -88,8 +89,9 @@ public abstract class DrawableND {
 
 	/**
 	 * says that the drawable has to be updated for visual style
+	 * @param prop TODO
 	 */
-	public void setWaitForUpdateVisualStyle() {
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
 
 		setWaitForUpdate();
 

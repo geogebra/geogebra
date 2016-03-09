@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1579,7 +1580,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	}
 
 	@Override
-	final public void updateVisualStyle(GeoElement geo) {
+	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 

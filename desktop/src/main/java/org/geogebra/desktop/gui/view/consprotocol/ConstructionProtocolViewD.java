@@ -67,6 +67,7 @@ import org.geogebra.common.javax.swing.table.GAbstractTableModel;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -1138,7 +1139,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 
 		@Override
-		final public void updateVisualStyle(GeoElement geo) {
+		final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 			update(geo);
 		}
 

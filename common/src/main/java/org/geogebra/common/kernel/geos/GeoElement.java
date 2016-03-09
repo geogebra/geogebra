@@ -4050,7 +4050,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public void updateVisualStyle(GProperty prop) {
 		// updateGeo();
-		kernel.notifyUpdateVisualStyle(this);
+		kernel.notifyUpdateVisualStyle(this, prop);
 		// updateDependentObjects();
 		// kernel.notifyRepaint();
 	}

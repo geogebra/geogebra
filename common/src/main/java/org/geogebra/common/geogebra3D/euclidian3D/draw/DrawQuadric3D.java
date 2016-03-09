@@ -14,6 +14,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
@@ -998,7 +999,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	@Override
-	public void setWaitForUpdateVisualStyle() {
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
 
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		switch (quadric.getType()) {
@@ -1008,25 +1009,25 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
 		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
 			initDrawPlanes(quadric);
-			drawPlanes[0].setWaitForUpdateVisualStyle();
-			drawPlanes[1].setWaitForUpdateVisualStyle();
+			drawPlanes[0].setWaitForUpdateVisualStyle(prop);
+			drawPlanes[1].setWaitForUpdateVisualStyle(prop);
 			super.setWaitForUpdate();
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_PLANE:
 			initDrawPlanes(quadric);
-			drawPlanes[0].setWaitForUpdateVisualStyle();
+			drawPlanes[0].setWaitForUpdateVisualStyle(prop);
 			super.setWaitForUpdate();
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_LINE:
 			initDrawLine(quadric);
-			drawLine.setWaitForUpdateVisualStyle();
+			drawLine.setWaitForUpdateVisualStyle(prop);
 			super.setWaitForUpdate();
 			break;
 		}
 
-		super.setWaitForUpdateVisualStyle();
+		super.setWaitForUpdateVisualStyle(prop);
 
 	}
 

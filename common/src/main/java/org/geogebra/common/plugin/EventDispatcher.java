@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.ClientView;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -124,7 +125,7 @@ public class EventDispatcher implements ClientView {
 		GeoGebraProfiler.addEvent(System.currentTimeMillis() - start);
 	}
 
-	public void updateVisualStyle(GeoElement geo) {
+	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		dispatchEvent(EventType.UPDATE_STYLE, geo);
 	}
 
