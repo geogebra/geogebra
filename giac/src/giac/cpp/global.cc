@@ -4804,16 +4804,28 @@ unsigned int ConvertUTF8toUTF16 (
     }
     string s;
     int pos=0;
+#ifdef EMCC
+    *logptr(contextptr) << char(2) << endl; // start mixed text/mathml
+#endif
     for (unsigned i=0;i<v.size();++i){
       int p=int(format.find("%gen",pos));
       if (p<0 || p>=int(format.size()))
 	break;
       s += format.substr(pos,p-pos);
+#ifdef EMCC
+      gen tmp=_mathml(makesequence(v[i],1),contextptr);
+      s = s+((tmp.type==_STRNG)?(*tmp._STRNGptr):v[i].print(contextptr));
+#else
       s += v[i].print(contextptr);
+#endif
       pos=p+4;
     }
     s += format.substr(pos,format.size()-pos);
     *logptr(contextptr) << s << endl;
+#ifdef EMCC
+    *logptr(contextptr) << char(3) << endl; // end mixed text/mathml
+    *logptr(contextptr) << endl;
+#endif
   }
 
   void gprintf(const string & format,const vecteur & v,GIAC_CONTEXT){
