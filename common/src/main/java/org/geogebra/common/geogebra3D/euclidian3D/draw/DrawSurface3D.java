@@ -822,37 +822,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	// steps to draw wireframe
 	private int wireFrameStepU, wireFrameStepV;
 
-	private class RootMeshManager {
-
-		private double uBorderMin;
-		private double uMin;
-		private double uMax;
-		private int uN;
-		private double vBorderMin;
-		private double vMin;
-		private double vMax;
-		private int vN;
-
-		public void setValues(double uBorderMin, double uMin, double uMax,
-				int uN, double vBorderMin, double vMin, double vMax, int vN) {
-			this.uBorderMin = uBorderMin;
-			this.uMin = uMin;
-			this.uMax = uMax;
-			this.uN = uN;
-			this.vBorderMin = vBorderMin;
-			this.vMin = vMin;
-			this.vMax = vMax;
-			this.vN = vN;
-		}
-
-		// public double getU(int i) {
-		// if (i == 1) {
-		//
-		// }
-		// }
-	}
-
-
 	private Corner createRootMesh(double uBorderMin, double uMax,
 			double uBorderMax, int uN, double vBorderMin,
 			double vMax, double vBorderMax, int vN) {
