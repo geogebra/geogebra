@@ -525,8 +525,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
 		super.setWaitForUpdateVisualStyle(prop);
 
-		// also update for line width
-		super.setWaitForUpdate();
+		if (prop == GProperty.LINE_STYLE) {
+			// also update for line width
+			super.setWaitForUpdate();
+		}
 	}
 
 	/**
