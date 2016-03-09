@@ -122,7 +122,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -682,7 +681,7 @@ public class RadioTreeItem extends AVTreeItem
 	protected SpanElement seMayLatex;
 	private final SpanElement seNoLatex;
 
-	InlineHTML ihtml;
+	FlowPanel ihtml;
 	GTextBox tb;
 	private boolean needsUpdate;
 
@@ -805,6 +804,19 @@ public class RadioTreeItem extends AVTreeItem
 		return new RadioTreeItem(ge);
 	}
 
+	private void addDomHandlers(FlowPanel panel) {
+		panel.addDomHandler(this, DoubleClickEvent.getType());
+		panel.addDomHandler(this, ClickEvent.getType());
+		panel.addDomHandler(this, MouseOverEvent.getType());
+		panel.addDomHandler(this, MouseOutEvent.getType());
+		panel.addDomHandler(this, MouseMoveEvent.getType());
+		panel.addDomHandler(this, MouseDownEvent.getType());
+		panel.addDomHandler(this, MouseUpEvent.getType());
+		panel.addDomHandler(this, TouchStartEvent.getType());
+		panel.addDomHandler(this, TouchMoveEvent.getType());
+		panel.addDomHandler(this, TouchEndEvent.getType());
+
+	}
 	/**
 	 * Creates a new RadioTreeItem for displaying/editing an existing GeoElement
 	 * 
@@ -864,19 +876,10 @@ public class RadioTreeItem extends AVTreeItem
 		updateColor(seNoLatex);
 		updateFont(seNoLatex);
 
-		ihtml = new InlineHTML();
+		ihtml = new FlowPanel();
 		ihtml.addStyleName("elemText");
 
-		main.addDomHandler(this, DoubleClickEvent.getType());
-		main.addDomHandler(this, ClickEvent.getType());
-		main.addDomHandler(this, MouseOverEvent.getType());
-		main.addDomHandler(this, MouseOutEvent.getType());
-		main.addDomHandler(this, MouseMoveEvent.getType());
-		main.addDomHandler(this, MouseDownEvent.getType());
-		main.addDomHandler(this, MouseUpEvent.getType());
-		main.addDomHandler(this, TouchStartEvent.getType());
-		main.addDomHandler(this, TouchMoveEvent.getType());
-		main.addDomHandler(this, TouchEndEvent.getType());
+		addDomHandlers(main);
 
 		// Sliders
 		if (sliderNeeded()) {
@@ -1157,17 +1160,10 @@ public class RadioTreeItem extends AVTreeItem
 		SpanElement se = DOM.createSpan().cast();
 		EquationEditor.updateNewStatic(se);
 
-		ihtml = new InlineHTML();
-		ihtml.addDoubleClickHandler(this);
-		ihtml.addClickHandler(this);
-		ihtml.addMouseOverHandler(this);
-		ihtml.addMouseOutHandler(this);
-		ihtml.addMouseMoveHandler(this);
-		ihtml.addMouseDownHandler(this);
-		ihtml.addTouchStartHandler(this);
-		ihtml.addTouchMoveHandler(this);
-		ihtml.addTouchEndHandler(this);
+		ihtml = new FlowPanel();
+		addDomHandlers(ihtml);
 		main.add(ihtml);
+
 		ihtml.getElement().appendChild(se);
 		ihtml.getElement().addClassName("hasCursorPermanent");
 
@@ -1535,15 +1531,15 @@ public class RadioTreeItem extends AVTreeItem
 			SpanElement se = DOM.createSpan().cast();
 			EquationEditor.updateNewStatic(se);
 			updateColor(se);
-			Label lbValue = null;
+			lbValue = null;
 			if (definitionAndValue && kernel
 					.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
 				Log.debug("Hey! I'm here too!!!");
 				lbValue = new Label(text0);
 				FlowPanel p = new FlowPanel();
+				p.add(lbValue);
 				p.add(new Label(geo.getDefinitionDescription(
 						StringTemplate.defaultTemplate)));
-				p.add(lbValue);
 				ihtml.getElement().replaceChild(p.getElement(), old);
 			} else {
 				ihtml.getElement().replaceChild(se, old);
@@ -1571,10 +1567,10 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void updateLaTeX(String text0) {
 		c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
-		if (definitionAndValue && lbValue != null && kernel
-				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
-			lbValue.setText(geo.getRedefineString(true, true));
-		}
+		// if (definitionAndValue && lbValue != null && kernel
+		// .getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
+		// lbValue.setText(geo.getRedefineString(true, true));
+		// }
 	}
 
 	/**
