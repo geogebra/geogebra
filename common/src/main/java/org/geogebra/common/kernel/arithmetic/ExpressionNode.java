@@ -2716,9 +2716,10 @@ kernel, left,
 				sb.append('}');
 				break;
 			case GIAC:
-				sb.append("normal(ggbabs(");
+				// ggbabs needed for eg abs((-1,2,3))
+				sb.append("ggbabs(");
 				sb.append(leftStr);
-				sb.append("))");
+				sb.append(")");
 				break;
 
 			default:
