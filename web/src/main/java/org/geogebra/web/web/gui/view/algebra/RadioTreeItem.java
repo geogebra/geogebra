@@ -678,8 +678,8 @@ public class RadioTreeItem extends AVTreeItem
 	boolean newCreationMode = false;
 	boolean mout = false;
 
-	protected SpanElement seMayLatex;
-	private final SpanElement seNoLatex;
+	protected Label seMayLatex;
+	private final Label seNoLatex;
 
 	FlowPanel ihtml;
 	GTextBox tb;
@@ -738,7 +738,7 @@ public class RadioTreeItem extends AVTreeItem
 		this.needsUpdate = true;
 	}
 
-	private IndexHTMLBuilder getBuilder(final SpanElement se) {
+	private IndexHTMLBuilder getBuilder(final Widget w) {
 		return new IndexHTMLBuilder(false) {
 			Element sub = null;
 
@@ -746,7 +746,8 @@ public class RadioTreeItem extends AVTreeItem
 			public void append(String s) {
 
 				if (sub == null) {
-					se.appendChild(Document.get().createTextNode(s));
+					w.getElement()
+							.appendChild(Document.get().createTextNode(s));
 				} else {
 					sub.appendChild(Document.get().createTextNode(s));
 				}
@@ -762,7 +763,7 @@ public class RadioTreeItem extends AVTreeItem
 			@Override
 			public void endIndex() {
 				if (sub != null) {
-					se.appendChild(sub);
+					w.getElement().appendChild(sub);
 				}
 				sub = null;
 			}
@@ -772,12 +773,12 @@ public class RadioTreeItem extends AVTreeItem
 				if (sub != null) {
 					endIndex();
 				}
-				return se.getInnerHTML();
+				return w.getElement().getInnerHTML();
 			}
 
 			@Override
 			public void clear() {
-				se.removeAllChildren();
+				w.getElement().removeAllChildren();
 				sub = null;
 			}
 
@@ -869,10 +870,10 @@ public class RadioTreeItem extends AVTreeItem
 			});
 		}
 
-		seNoLatex = DOM.createSpan().cast();
+		seNoLatex = new Label();
 
-		seNoLatex.addClassName("sqrtFontFix");
-		EquationEditor.updateNewStatic(seNoLatex);
+		seNoLatex.addStyleName("sqrtFontFix");
+		EquationEditor.updateNewStatic(seNoLatex.getElement());
 		updateColor(seNoLatex);
 		updateFont(seNoLatex);
 
@@ -888,7 +889,7 @@ public class RadioTreeItem extends AVTreeItem
 			addAVEXWidget(ihtml);
 		}
 
-		ihtml.getElement().appendChild(seNoLatex);
+		ihtml.getElement().appendChild(seNoLatex.getElement());
 
 		SpanElement se2 = DOM.createSpan().cast();
 		se2.appendChild(Document.get().createTextNode(
@@ -991,8 +992,8 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	private void updateFont(Element seNoLatex2) {
-		seNoLatex2.getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
+	private void updateFont(Widget w) {
+		w.getElement().getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
 
 	}
 
@@ -1157,14 +1158,15 @@ public class RadioTreeItem extends AVTreeItem
 
 		// add(radio);
 
-		SpanElement se = DOM.createSpan().cast();
-		EquationEditor.updateNewStatic(se);
+		// SpanElement se = DOM.createSpan().cast();
+		Label label = new Label();
+		EquationEditor.updateNewStatic(label.getElement());
 
 		ihtml = new FlowPanel();
 		addDomHandlers(ihtml);
 		main.add(ihtml);
 
-		ihtml.getElement().appendChild(se);
+		ihtml.getElement().appendChild(label.getElement());
 		ihtml.getElement().addClassName("hasCursorPermanent");
 
 		getElement().getStyle().setWidth(100, Style.Unit.PCT);
@@ -1176,9 +1178,10 @@ public class RadioTreeItem extends AVTreeItem
 		ihtml.getElement().appendChild(se2);
 
 		// if enabled, render with LaTeX
-		seNoLatex = se;
-		seNoLatex.addClassName("sqrtFontFix");
-		seNoLatex.getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
+		seNoLatex = label;
+		seNoLatex.addStyleName("sqrtFontFix");
+		seNoLatex.getElement().getStyle().setFontSize(app.getFontSizeWeb(),
+				Unit.PX);
 		if (av.isRenderLaTeX()) {
 			this.needsUpdate = true;
 
@@ -1285,7 +1288,8 @@ public class RadioTreeItem extends AVTreeItem
 			return;
 		}
 		if (commonEditingCheck()) {
-			DrawEquationW.triggerKeydown(this, seMayLatex, key, alt, ctrl,
+			DrawEquationW.triggerKeydown(this, seMayLatex.getElement(), key,
+					alt, ctrl,
 					shift);
 		}
 	}
@@ -1316,7 +1320,8 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (commonEditingCheck()) {
-			DrawEquationW.triggerKeypress(this, seMayLatex, character, alt,
+			DrawEquationW.triggerKeypress(this, seMayLatex.getElement(),
+					character, alt,
 					ctrl, shift, more);
 		}
 	}
@@ -1342,7 +1347,8 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (commonEditingCheck()) {
-			DrawEquationW.triggerKeyUp(seMayLatex, key, alt, ctrl, shift);
+			DrawEquationW.triggerKeyUp(seMayLatex.getElement(), key, alt, ctrl,
+					shift);
 		}
 	}
 
@@ -1441,10 +1447,11 @@ public class RadioTreeItem extends AVTreeItem
 			} else {
 				updateColor(seNoLatex);
 				if (!newCreationMode && c != null) {
-					ihtml.getElement().replaceChild(seNoLatex,
+					ihtml.getElement().replaceChild(seNoLatex.getElement(),
 							c.getCanvasElement());
 				} else {
-					ihtml.getElement().replaceChild(seNoLatex, seMayLatex);
+					ihtml.getElement().replaceChild(seNoLatex.getElement(),
+							seMayLatex.getElement());
 				}
 
 				LaTeX = false;
@@ -1511,6 +1518,9 @@ public class RadioTreeItem extends AVTreeItem
 	private Canvas c;
 	private Label lbValue = null;
 
+	private void renderLatex(String text0, Widget w, boolean forceMQ) {
+		renderLatex(text0, w.getElement(), forceMQ);
+	}
 	private void renderLatex(String text0, Element old, boolean forceMQ) {
 		if (!forceMQ) {
 			c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
@@ -1528,9 +1538,9 @@ public class RadioTreeItem extends AVTreeItem
 				}
 			}
 		} else {
-			SpanElement se = DOM.createSpan().cast();
-			EquationEditor.updateNewStatic(se);
-			updateColor(se);
+			Label label = new Label();
+			EquationEditor.updateNewStatic(label.getElement());
+			updateColor(label);
 			lbValue = null;
 			if (definitionAndValue && kernel
 					.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
@@ -1542,23 +1552,26 @@ public class RadioTreeItem extends AVTreeItem
 						StringTemplate.defaultTemplate)));
 				ihtml.getElement().replaceChild(p.getElement(), old);
 			} else {
-				ihtml.getElement().replaceChild(se, old);
+				ihtml.getElement().replaceChild(label.getElement(), old);
 			}
 			String text = text0;
 			if (text0 == null) {
 				text = "";
 			}
 			text = DrawEquationW.inputLatexCosmetics(text);
-			seMayLatex = se;
+			seMayLatex = label;
 			if (newCreationMode) {
 				// in editing mode, we shall avoid letting an invisible, but
 				// harmful element!
 				DrawEquationW.drawEquationAlgebraView(
-						lbValue != null ? lbValue.getElement() : seMayLatex, "",
+								lbValue != null ? lbValue.getElement()
+										: seMayLatex.getElement(),
+								"",
 						newCreationMode);
 			} else {
 				DrawEquationW.drawEquationAlgebraView(
-						lbValue != null ? lbValue.getElement() : seMayLatex,
+						lbValue != null ? lbValue.getElement()
+								: seMayLatex.getElement(),
 						"\\mathrm {" + text + "}", newCreationMode);
 			}
 		}
@@ -1584,9 +1597,9 @@ public class RadioTreeItem extends AVTreeItem
 
 
 
-	private void updateColor(Element se) {
+	private void updateColor(Widget w) {
 		if (geo != null) {
-			se.getStyle()
+			w.getElement().getStyle()
 					.setColor(GColor.getColorString(geo.getAlgebraColor()));
 		}
 	}
@@ -1602,14 +1615,17 @@ public class RadioTreeItem extends AVTreeItem
 		// we can put an if check here safely for the present time
 		if (!newCreationMode) {
 			// if (LaTeX) {
-			DrawEquationW.endEditingEquationMathQuillGGB(this, seMayLatex);
+			DrawEquationW.endEditingEquationMathQuillGGB(this,
+					seMayLatex.getElement());
 			if (!this.newCreationMode && c != null) {
 				this.ihtml.getElement().replaceChild(c.getCanvasElement(),
-						seMayLatex);
+						seMayLatex.getElement());
 			}
 			if (!this.newCreationMode && !LaTeX && seNoLatex != null
-					&& ihtml.getElement().isOrHasChild(seMayLatex)) {
-				this.ihtml.getElement().replaceChild(seNoLatex, seMayLatex);
+ && ihtml
+					.getElement().isOrHasChild(seMayLatex.getElement())) {
+				this.ihtml.getElement().replaceChild(seNoLatex.getElement(),
+						seMayLatex.getElement());
 			}
 			// } else {
 			// removeSpecial(tb);
@@ -1635,7 +1651,8 @@ public class RadioTreeItem extends AVTreeItem
 		updateButtonPanel(true);
 		thisIsEdited = true;
 		if (newCreationMode) {
-			DrawEquationW.editEquationMathQuillGGB(this, seMayLatex, true);
+			DrawEquationW.editEquationMathQuillGGB(this,
+					seMayLatex.getElement(), true);
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
 			CancelEventTimer.keyboardSetVisible();
@@ -1652,7 +1669,8 @@ public class RadioTreeItem extends AVTreeItem
 			});
 		} else {
 			Element old = LaTeX ? (c != null ? c.getCanvasElement()
-					: seMayLatex) : seNoLatex;
+					: seMayLatex.getElement())
+					: seNoLatex.getElement();
 			String text = geo.getLaTeXAlgebraDescriptionWithFallback(
 					substituteNumbers || sliderNeeded(),
 					StringTemplate.latexTemplateMQedit,
@@ -1662,7 +1680,8 @@ public class RadioTreeItem extends AVTreeItem
 			}
 			renderLatex(text, old, true);
 
-			DrawEquationW.editEquationMathQuillGGB(this, seMayLatex, false);
+			DrawEquationW.editEquationMathQuillGGB(this,
+					seMayLatex.getElement(), false);
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
 			CancelEventTimer.keyboardSetVisible();
@@ -1744,13 +1763,14 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		}
 		if (!this.newCreationMode && c != null
-				&& ihtml.getElement().isOrHasChild(seMayLatex)) {
+				&& ihtml.getElement().isOrHasChild(seMayLatex.getElement())) {
 			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
-					seMayLatex);
+					seMayLatex.getElement());
 		}
 		if (!LaTeX && !this.newCreationMode && seNoLatex != null
-				&& ihtml.getElement().isOrHasChild(seMayLatex)) {
-			this.ihtml.getElement().replaceChild(seNoLatex, seMayLatex);
+				&& ihtml.getElement().isOrHasChild(seMayLatex.getElement())) {
+			this.ihtml.getElement().replaceChild(seNoLatex.getElement(),
+					seMayLatex.getElement());
 		}
 		// maybe it's possible to enter something which is non-LaTeX
 		if (ret)
@@ -2362,7 +2382,7 @@ marblePanel, evt))) {
 
 	@Override
 	public void setFocus(boolean b, boolean sv) {
-		DrawEquationW.focusEquationMathQuillGGB(seMayLatex, b);
+		DrawEquationW.focusEquationMathQuillGGB(seMayLatex.getElement(), b);
 	}
 
 	@Override
@@ -2372,7 +2392,8 @@ marblePanel, evt))) {
 		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
 		// seMayLatex, "" + text.charAt(i), "", false);
 
-		DrawEquationW.writeLatexInPlaceOfCurrentWord(this, seMayLatex, text,
+		DrawEquationW.writeLatexInPlaceOfCurrentWord(this,
+				seMayLatex.getElement(), text,
 				"", false);
 	}
 
@@ -2381,7 +2402,8 @@ marblePanel, evt))) {
 		if (seMayLatex == null)
 			return "";
 
-		String ret = DrawEquationW.getActualEditedValue(seMayLatex, false);
+		String ret = DrawEquationW.getActualEditedValue(seMayLatex.getElement(),
+				false);
 
 		if (ret == null)
 			return "";
@@ -2392,7 +2414,7 @@ marblePanel, evt))) {
 	@Override
 	public void scrollCursorIntoView() {
 		if (seMayLatex != null) {
-			DrawEquationW.scrollCursorIntoView(this, seMayLatex,
+			DrawEquationW.scrollCursorIntoView(this, seMayLatex.getElement(),
 					newCreationMode);
 		}
 	}
@@ -2539,8 +2561,8 @@ marblePanel, evt))) {
 	}
 
 	@Override
-	public final SpanElement getLaTeXSpan() {
-		return seMayLatex;
+	public final Element getLaTeXElement() {
+		return seMayLatex.getElement();
 	}
 
 	@Override

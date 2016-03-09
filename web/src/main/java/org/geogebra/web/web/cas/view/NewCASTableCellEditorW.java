@@ -220,7 +220,7 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	@Override
-	public SpanElement getLaTeXSpan() {
+	public SpanElement getLaTeXElement() {
 		return this.seMayLaTeX;
 	}
 

@@ -80,7 +80,7 @@ public class EquationEditor {
 
 		// So we also provide currentWord as a heuristic or helper:
 		org.geogebra.web.html5.main.DrawEquationW
-				.writeLatexInPlaceOfCurrentWord(null, component.getLaTeXSpan(),
+				.writeLatexInPlaceOfCurrentWord(null, component.getLaTeXElement(),
 						sugg, currentWord, true);
 
 		// not to forget making the popup disappear after success!
@@ -103,7 +103,7 @@ public class EquationEditor {
 
 	public int getCaretPosition() {
 		return org.geogebra.web.html5.main.DrawEquationW
-		        .getCaretPosInEditedValue(component.getLaTeXSpan());
+		        .getCaretPosInEditedValue(component.getLaTeXElement());
 	}
 	
 
@@ -324,7 +324,7 @@ public class EquationEditor {
 					.replace("\\right\\right)", "\\right)");
 		}
 		org.geogebra.web.html5.main.DrawEquationW.updateEditingMathQuillGGB(
-				component.getLaTeXSpan(), slatex, shallfocus);
+				component.getLaTeXElement(), slatex, shallfocus);
 	}
 
 	/**
@@ -384,7 +384,7 @@ public class EquationEditor {
 	 */
 	public void setFocus(boolean b) {
 		org.geogebra.web.html5.main.DrawEquationW.focusEquationMathQuillGGB(
-		        component.getLaTeXSpan(), b);
+		        component.getLaTeXElement(), b);
 
 		// as the focus operation sometimes also scrolls
 		// if (b)

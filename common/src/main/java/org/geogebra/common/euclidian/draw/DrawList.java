@@ -278,6 +278,7 @@ public final class DrawList extends CanvasDrawable
 
 			int rectLeft = (int) item.rect.getBounds().getX();
 			int rectTop = (int) item.rect.getBounds().getY();
+
 			if (this.isScrollNeeded()) {
 				int ctrlUpY = (int) (rectUp.getBounds().getY() + rectUp
 						.getBounds().getHeight());
@@ -322,6 +323,7 @@ public final class DrawList extends CanvasDrawable
 						false);
 			}
 			g2.setClip(0, 0, viewWidth, viewHeight);
+
 		}
 
 		private void drawBox() {

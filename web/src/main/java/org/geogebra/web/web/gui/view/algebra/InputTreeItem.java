@@ -513,8 +513,9 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	@Override
 	public void showOrHideSuggestions() {
-		if ((seMayLatex != null) && seMayLatex.hasParentElement()) {
-			DrawEquationW.showOrHideSuggestions(this, seMayLatex);
+		if ((seMayLatex != null)
+				&& seMayLatex.getElement().hasParentElement()) {
+			DrawEquationW.showOrHideSuggestions(this, seMayLatex.getElement());
 		}
 	}
 

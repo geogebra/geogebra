@@ -35,6 +35,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DrawEquationW extends DrawEquation {
 
@@ -818,10 +819,11 @@ public class DrawEquationW extends DrawEquation {
 		$wnd.$ggbQuery(elSecondInside).mathquillggb('simpaste', str);
 	}-*/;
 
-	/**
-	 * This method should add a new (zero) row to the first matrix in formula
-	 */
-	public static native void addNewRowToMatrix(Element parentElement) /*-{
+	public static void addNewRowToMatrix(Widget w) {
+		addNewRowToMatrix(w.getElement());
+	}
+
+	private static native void addNewRowToMatrix(Element parentElement) /*-{
 		if (parentElement) {
 			//var elfirst = parentElement.firstChild.firstChild;
 			var elSecond = parentElement.firstChild.firstChild.nextSibling;
@@ -832,9 +834,13 @@ public class DrawEquationW extends DrawEquation {
 	}-*/;
 
 	/**
-	 * This method should add a new (zero) column to the first matrix in formula
+	 * This method should add a new (zero) row to the first matrix in formula
 	 */
-	public static native void addNewColToMatrix(Element parentElement) /*-{
+	public static void addNewColToMatrix(Widget w) {
+		addNewColToMatrix(w.getElement());
+	}
+
+	private static native void addNewColToMatrix(Element parentElement) /*-{
 		if (parentElement) {
 			//var elfirst = parentElement.firstChild.firstChild;
 			var elSecond = parentElement.firstChild.firstChild.nextSibling;
@@ -843,6 +849,13 @@ public class DrawEquationW extends DrawEquation {
 			$wnd.$ggbQuery(elSecondInside).mathquillggb('matrixsize', 3);
 		}
 	}-*/;
+
+	/**
+	 * This method should add a new (zero) column to the first matrix in formula
+	 */
+	public static void removeColFromMatrix(Widget w) {
+		removeColFromMatrix(w.getElement());
+	}
 
 	/**
 	 * This method should add a new (zero) column to the first matrix in formula
@@ -857,10 +870,14 @@ public class DrawEquationW extends DrawEquation {
 		}
 	}-*/;
 
+	public static void removeRowFromMatrix(Widget w) {
+		removeRowFromMatrix(w.getElement());
+	}
+
 	/**
 	 * This method should add a new (zero) column to the first matrix in formula
 	 */
-	public static native void removeRowFromMatrix(Element parentElement) /*-{
+	private static native void removeRowFromMatrix(Element parentElement) /*-{
 		if (parentElement) {
 			//var elfirst = parentElement.firstChild.firstChild;
 			var elSecond = parentElement.firstChild.firstChild.nextSibling;
@@ -985,6 +1002,10 @@ public class DrawEquationW extends DrawEquation {
 		rbti.shuffleSuggestions(down);
 	}
 
+	public static void focusEquationMathQuillGGB(Widget w, boolean focus) {
+		focusEquationMathQuillGGB(w.getElement(), focus);
+	}
+
 	public static native void focusEquationMathQuillGGB(Element parentElement,
 	        boolean focus) /*-{
 		var edl = $wnd.$ggbQuery(parentElement).find(".mathquillggb-editable");
@@ -1019,6 +1040,9 @@ public class DrawEquationW extends DrawEquation {
 		// that originally belonged here: newFormulaCreatedMathQuillGGBCallback
 	}-*/;
 
+	public static void stornoFormulaMathQuillGGB(GeoContainer rbti, Widget w) {
+		stornoFormulaMathQuillGGB(rbti, w.getElement());
+	}
 	public static native void stornoFormulaMathQuillGGB(GeoContainer rbti,
 	        Element parentElement) /*-{
 		// in theory, this is only called from new formula creation mode!!!
@@ -1177,6 +1201,11 @@ public class DrawEquationW extends DrawEquation {
 		@org.geogebra.web.html5.main.DrawEquationW::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
 		thisjq.mathquillggb('revert').mathquillggb();
 	}-*/;
+
+	public static void endEditingEquationMathQuillGGB(GeoContainer rbti,
+			Widget w) {
+		endEditingEquationMathQuillGGB(rbti, w.getElement());
+	}
 
 	public static native void endEditingEquationMathQuillGGB(GeoContainer rbti,
 	        Element parentElement) /*-{
