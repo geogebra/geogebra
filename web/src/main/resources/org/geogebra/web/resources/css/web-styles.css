@@ -3615,9 +3615,20 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	box-shadow: none;
 }
 
+.cpUpperRightCorner{
+	width: 15px;
+	background-color: #F8F8F8;
+}
+
 .headerTable2 tbody{
 	display: none;
 }
+
+/*
+.CpHeaderContainer >*{
+	display: inline-block;
+}
+*/
 
 /* TOUCH */
 .dummyDragElem div {
@@ -3872,14 +3883,18 @@ body.application[dir=rtl] .algebraOpenButton {
 	/*margin: 0px !important;*/
 	position: absolute;
 	height: 100%;
-	border-right: 1px solid #DCDCDC;
-	padding: 1px 7px;
 	margin-top: -1px;
 	
 	/*box-sizing: border-box;
  	-moz-box-sizing: border-box;
  	-webkit-box-sizing: border-box;*/
 }
+
+.GeoGebraFrame .algebraHelpButton, .GeoGebraFrame .marblePanel {
+	border-right: 1px solid #DCDCDC;
+	padding: 1px 7px;
+}
+
 
 .avItem .marblePanel + * {
 	padding-left: 40px;
