@@ -816,7 +816,7 @@ __GGB__keysVar.it.command = {
     "Sequence": "Successione",
     "Sequence.Syntax": "[ <Valore finale> ]\n[ <Espressione>, <Variabile>, <Valore iniziale>, <Valore finale> ]\n[ <Espressione>, <Variabile>, <Valore iniziale>, <Valore finale>, <Incremento> ]",
     "SetActiveView": "ImpVistaAttiva",
-    "SetActiveView.Syntax": "[ <Vista> ]",
+    "SetActiveView.Syntax": "[ <Vista> ]\n[ <Piano> ]",
     "SetAxesRatio": "ImpRapportoAssi",
     "SetAxesRatio.Syntax": "[ <Numero>, <Numero> ]",
     "SetAxesRatio.Syntax3D": "[ <Numero>, <Numero> ]\n[ <Numero>, <Numero>, <Numero> ]",

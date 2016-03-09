@@ -816,7 +816,7 @@ __GGB__keysVar.zh_CN.command = {
     "Sequence": "\u5e8f\u5217",
     "Sequence.Syntax": "[ <\u7ec8\u6b62\u503c> ]\n[ <\u901a\u9879\u516c\u5f0f>, <\u53d8\u91cf>, <\u8d77\u59cb\u7d22\u5f15>, <\u7ec8\u6b62\u7d22\u5f15> ]\n[ <\u901a\u9879\u516c\u5f0f>, <\u53d8\u91cf>, <\u8d77\u59cb\u7d22\u5f15>, <\u7ec8\u6b62\u7d22\u5f15>, <\u589e\u91cf> ]",
     "SetActiveView": "\u6d3b\u52a8\u89c6\u56fe",
-    "SetActiveView.Syntax": "[ <\u89c6\u56fe\u7f16\u53f7 1/G_\u7ed8\u56fe\u533a|2/D_\u7ed8\u56fe\u533a2|-1/T_3D\u7ed8\u56fe\u533a|A_\u4ee3\u6570\u533a|S_\u8868\u683c\u533a|C_\u8fd0\u7b97\u533a> ]",
+    "SetActiveView.Syntax": "[ <\u89c6\u56fe\u7f16\u53f7 1/G_\u7ed8\u56fe\u533a|2/D_\u7ed8\u56fe\u533a2|-1/T_3D\u7ed8\u56fe\u533a|A_\u4ee3\u6570\u533a|S_\u8868\u683c\u533a|C_\u8fd0\u7b97\u533a> ]\n[ <\u5e73\u9762> ]",
     "SetAxesRatio": "\u5750\u6807\u8f74\u6bd4\u4f8b",
     "SetAxesRatio.Syntax": "[ <\u6570\u5b571>, <\u6570\u5b572> ]",
     "SetAxesRatio.Syntax3D": "[ <\u6570\u503c1>, <\u6570\u503c2> ]\n[ <\u6570\u503c1>, <\u6570\u503c2>, <\u6570\u503c3> ]",

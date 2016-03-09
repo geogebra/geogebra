@@ -2195,7 +2195,7 @@ __GGB__keysVar.ko.menu = {
  ***********************************************/
 
 __GGB__keysVar.ko.plain = {
-    "ACommand": "%0 Command",
+    "ACommand": "%0 \uba85\ub839\uc5b4",
     "ADecimalPlace": "%0 \uc18c\uc218\uc810 \uc544\ub798 \uc790\ub9ac",
     "ADecimalPlaces": "%0 \uc18c\uc218\uc810 \uc544\ub798 \uc790\ub9ac",
     "ADerivativeOfB": "%1 \uc758 %0 \ubc88\uc9f8 \ub3c4\ud568\uc218",
@@ -2798,8 +2798,8 @@ __GGB__keysVar.ko.plain = {
     "SMARTBoardDLLErrorA": "\ud30c\uc77c \"%0\" \uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
     "ScaleInCentimeter": "\ube44\uc728(cm, \uadf8\ub9bc:\uc6d0\ubcf8)",
     "Script": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uc2a4\ud06c\ub9bd\ud2b8",
-    "SearchCommands": "Search Commands",
-    "SearchInA": "Search in %0",
+    "SearchCommands": "\uba85\ub839\uc5b4 \uac80\uc0c9",
+    "SearchInA": "%0 \uc5d0\uc11c \uac80\uc0c9",
     "SecondAxisLengthOfA": "%0\uc758 \ub458\uc9f8\ucd95\uc758 \uae38\uc774",
     "SecondAxisOfA": "%0 \uc758 \ub458\uc9f8\ucd95",
     "Sector": "\ubd80\ucc44\uaf34",

@@ -816,7 +816,7 @@ __GGB__keysVar.fr.command = {
     "Sequence": "S\xe9quence",
     "Sequence.Syntax": "[ <Entier final> ]\n[ <Entier initial>, <Entier final> ]\n[ <Expression>, <Variable>, <de>, <\xe0> ]\n[ <Expression>, <Variable>, <de>, <\xe0>, <pas> ]",
     "SetActiveView": "SoitVueActive",
-    "SetActiveView.Syntax": "[ <Vue> ]",
+    "SetActiveView.Syntax": "[ <Vue> ]\n[ <Plan> ]",
     "SetAxesRatio": "SoitRapportAxes",
     "SetAxesRatio.Syntax": "[ <Nombre>, <Nombre> ]",
     "SetAxesRatio.Syntax3D": "[ <Nombre>, <Nombre> ]\n[ <Nombre>, <Nombre>, <Nombre> ]",
