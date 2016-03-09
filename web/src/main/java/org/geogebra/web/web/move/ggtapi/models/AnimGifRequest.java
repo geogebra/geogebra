@@ -4,7 +4,6 @@ import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Request;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONString;
 import org.geogebra.common.util.debug.Log;
 
 public class AnimGifRequest implements Request {
@@ -36,7 +35,7 @@ public class AnimGifRequest implements Request {
 		JSONObject api = new JSONObject();
 		StringBuilder params = new StringBuilder();
 		try {
-			api.put("-api", new JSONString(this.API));
+			api.put("-api", this.API);
 
 			// login
 			JSONObject login = new JSONObject();
@@ -50,7 +49,7 @@ public class AnimGifRequest implements Request {
 			JSONObject ggbBase64 = new JSONObject();
 			ggbBase64.put("-base64", base64);
 
-			task.put("-type", new JSONString(TYPE));
+			task.put("-type", TYPE);
 			task.put("file", ggbBase64);
 			params.append("--slider=");
 			params.append(sliderName);
@@ -58,7 +57,7 @@ public class AnimGifRequest implements Request {
 			params.append(isLoop);
 			params.append(" --delay=");
 			params.append(timing);
-			task.put("params", new JSONString(params.toString()));
+			task.put("params", params.toString());
 			api.put("task", task);
 			request.put("request", api);
 			return request.toString();

@@ -3,7 +3,6 @@ package org.geogebra.common.move.ggtapi.requests;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Request;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONString;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -37,21 +36,21 @@ public class SyncRequest implements Request {
 		JSONObject request = new JSONObject();
 
 		JSONObject api = new JSONObject();
-			api.put("-api", new JSONString(this.API));
+			api.put("-api", this.API);
 
 		// login
 		JSONObject login = new JSONObject();
-		login.put("-type", new JSONString(this.GGB));
-		login.put("-token", new JSONString(client.getModel()
-		        .getLoggedInUser().getLoginToken()));
+			login.put("-type", this.GGB);
+			login.put("-token",
+					client.getModel().getLoggedInUser().getLoginToken());
 		api.put("login", login);
 
 		// task
 		JSONObject task = new JSONObject();
-		task.put("-type", new JSONString(this.TASK));
+			task.put("-type", this.TASK);
 
 		// type
-		task.put("timestamp", new JSONString(this.timestamp + ""));
+			task.put("timestamp", this.timestamp + "");
 
 
 

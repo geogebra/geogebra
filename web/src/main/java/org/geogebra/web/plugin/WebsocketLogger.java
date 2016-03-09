@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONString;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.JSON;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.Window;
 
 /**
@@ -97,7 +97,7 @@ public class WebsocketLogger extends SensorLogger {
 	private void startHandShake() {
 		JSONObject obj = new JSONObject();
 		try {
-			obj.put("appID", new JSONString(appID));
+			obj.put("appID", appID);
 		} catch (Exception e) {
 			Log.debug("JSON error: " + e.getMessage());
 		}
@@ -110,8 +110,8 @@ public class WebsocketLogger extends SensorLogger {
 	public void triggerAvailableSensors() {
 		JSONObject obj = new JSONObject();
 		try {
-			obj.put("appID", new JSONString(appID));
-			obj.put("availableSensors", new JSONString(""));
+			obj.put("appID", appID);
+			obj.put("availableSensors", "");
 		} catch (Exception e) {
 			Log.debug("JSON error: " + e.getMessage());
 		}

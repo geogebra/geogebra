@@ -8,7 +8,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONBoolean;
 import org.geogebra.common.move.ggtapi.models.json.JSONNumber;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONString;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -132,18 +131,18 @@ public class UploadRequest implements Request {
 			JSONObject request = new JSONObject();
 
 			JSONObject api = new JSONObject();
-			api.put("-api", new JSONString(this.API));
+			api.put("-api", this.API);
 
 			// login
 			JSONObject login = new JSONObject();
-			login.put("-type", new JSONString(this.GGB));
-			login.put("-token", new JSONString(
-					client.getModel().getLoggedInUser().getLoginToken()));
+			login.put("-type", this.GGB);
+			login.put("-token", 
+					client.getModel().getLoggedInUser().getLoginToken());
 			api.put("login", login);
 
 			// task
 			JSONObject task = new JSONObject();
-			task.put("-type", new JSONString(this.TASK));
+			task.put("-type", this.TASK);
 
 			if (this.uniqueID != 0) {
 				// ID
@@ -151,17 +150,17 @@ public class UploadRequest implements Request {
 			}
 
 			// type
-			task.put("type", new JSONString(this.type));
+			task.put("type", this.type);
 
 			// title
-			task.put("title", new JSONString(this.consTitle));
+			task.put("title", this.consTitle);
 
 			// language
-			task.put("language", new JSONString(client.getLanguage()));
+			task.put("language", client.getLanguage());
 
 			// visibility
 			if (this.visibility != null) {
-				task.put("visibility", new JSONString(this.visibility));
+				task.put("visibility", this.visibility);
 			}
 
 			// settings
@@ -174,7 +173,7 @@ public class UploadRequest implements Request {
 			// file
 			if (this.base64 != null) {
 				JSONObject file = new JSONObject();
-				file.put("-base64", new JSONString(this.base64));
+				file.put("-base64", this.base64);
 				task.put("file", file);
 				addPhoneTag(task);
 			}

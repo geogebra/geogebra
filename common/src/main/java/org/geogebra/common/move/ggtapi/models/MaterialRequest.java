@@ -6,7 +6,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONString;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -115,12 +114,12 @@ public class MaterialRequest implements Request {
 
 	public String toJSONString(ClientInfo client) {
 		try {
-			this.apiJSON.put("-api", new JSONString(MaterialRequest.api));
-			this.taskJSON.put("-type", new JSONString(this.task.toString()));
+			this.apiJSON.put("-api", MaterialRequest.api);
+			this.taskJSON.put("-type", this.task.toString());
 
 			for (int i = 0; i < this.fields.length; i++) {
 				JSONObject current = new JSONObject();
-				current.put("-name", new JSONString(this.fields[i].toString()));
+				current.put("-name", this.fields[i].toString());
 				this.fieldJSON.put(current);
 			}
 
@@ -129,13 +128,12 @@ public class MaterialRequest implements Request {
 			for (int i = 0; i < this.filters.length; i++) {
 				JSONObject current = new JSONObject();
 				current.put("-name",
-						new JSONString(this.filters[i].toString()));
+						this.filters[i].toString());
 				if (this.negFilters.contains(filters[i])) {
-					current.put("-comp", new JSONString("neq"));
+					current.put("-comp", "neq");
 				}
 				if (this.filterMap.get(this.filters[i]) != null) {
-					current.put("#text", new JSONString(
-							this.filterMap.get(this.filters[i])));
+					current.put("#text", this.filterMap.get(this.filters[i]));
 				}
 
 				this.filterJSON.put(current);
@@ -143,10 +141,10 @@ public class MaterialRequest implements Request {
 
 			this.filtersJSON.put("field", this.filterJSON);
 
-			this.orderJSON.put("-by", new JSONString(this.by.toString()));
-			this.orderJSON.put("-type", new JSONString(this.type.toString()));
+			this.orderJSON.put("-by", this.by.toString());
+			this.orderJSON.put("-type", this.type.toString());
 			this.limitJSON.put("-num",
-					new JSONString(String.valueOf(this.limit)));
+					String.valueOf(this.limit));
 
 			this.taskJSON.put("fields", this.fieldsJSON);
 			this.taskJSON.put("filters", this.filtersJSON);

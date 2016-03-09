@@ -83,16 +83,6 @@ public abstract class JSONValue {
   }
 
   /**
-   * Returns a non-null reference if this JSONValue is really a JSONString.
-   * 
-   * @return a reference to a JSONString if this JSONValue is a JSONString or
-   *         <code>null</code> otherwise.
-   */
-  public JSONString isString() {
-    return null;
-  }
-
-  /**
    * Returns a JSON-encoded string for this entity. Use this method to create
    * JSON strings that can be sent from the client to a server.
    */

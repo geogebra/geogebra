@@ -1305,10 +1305,8 @@ public abstract class GlobalKeyDispatcher {
 		 * == '+') changeVal = base; else if (keyChar == '-') changeVal = -base;
 		 * }
 		 */
-		App.debug("not yet consumed");
 		// change all geoelements
 		if (changeVal != 0) {
-			App.debug("consumed");
 			boolean twoSliders = geos.size() == 2 && geos.get(0).isGeoNumeric()
 					&& geos.get(1).isGeoNumeric();
 

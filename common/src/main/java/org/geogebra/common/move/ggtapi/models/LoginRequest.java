@@ -1,7 +1,6 @@
 package org.geogebra.common.move.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONString;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -35,13 +34,13 @@ public class LoginRequest implements Request {
 		
 		try {
 		
-			this.loginJSON.put("-type", new JSONString(loginType));
-			this.loginJSON.put("-username", new JSONString(userName));
-			this.loginJSON.put("-password", new JSONString(password));
-			this.loginJSON.put("-exptime", new JSONString(exptime));
-			this.loginJSON.put("-info", new JSONString(info));
+			this.loginJSON.put("-type", loginType);
+			this.loginJSON.put("-username", userName);
+			this.loginJSON.put("-password", password);
+			this.loginJSON.put("-exptime", exptime);
+			this.loginJSON.put("-info", info);
 			this.apiJSON.put("login", this.loginJSON);
-			this.apiJSON.put("-api", new JSONString(api));
+			this.apiJSON.put("-api", api);
 			this.requestJSON.put("request", this.apiJSON);
 		} catch (Exception e) {
 			Log.debug("problem building request: " + e.getMessage());

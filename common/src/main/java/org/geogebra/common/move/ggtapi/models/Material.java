@@ -7,7 +7,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.json.JSONBoolean;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONString;
 
 /**
  * Material POJO
@@ -364,7 +363,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private void putString(JSONObject ret, String key, String value) {
 		if (value != null) {
 			try {
-				ret.put(key, new JSONString(value));
+				ret.put(key, value);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
