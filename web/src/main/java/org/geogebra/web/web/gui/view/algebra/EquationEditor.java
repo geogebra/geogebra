@@ -24,7 +24,7 @@ public class EquationEditor {
 		public void onSuggestionSelected(Suggestion s) {
 
 			String sugg = s.getReplacementString();
-			autocomplete(sugg);
+			autocomplete(sugg, true);
 		}
 	};
 
@@ -63,7 +63,7 @@ public class EquationEditor {
 
 	}
 
-	public void autocomplete(String sugg) {
+	public void autocomplete(String sugg, boolean replace) {
 		// For now, we can assume that sugg is in LaTeX format,
 		// and if it will be wrong, we can revise it later
 		// at the moment we shall focus on replacing the current
@@ -81,7 +81,7 @@ public class EquationEditor {
 		// So we also provide currentWord as a heuristic or helper:
 		org.geogebra.web.html5.main.DrawEquationW
 				.writeLatexInPlaceOfCurrentWord(null, component.getLaTeXElement(),
-						sugg, currentWord, true);
+						sugg, replace ? currentWord : "", true);
 
 		// not to forget making the popup disappear after success!
 		sug.hideSuggestions();

@@ -409,6 +409,6 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public void autocomplete(String s) {
-		editor.autocomplete(s);
+		editor.autocomplete(s, false);
 	}
 }
