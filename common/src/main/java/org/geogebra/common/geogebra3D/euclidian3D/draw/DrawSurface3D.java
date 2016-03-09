@@ -450,8 +450,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			// now splitted root mesh is ready
 			drawFromScratch = false;
 		}
-		
-		
+
+		if (appFeaturesWireframe()) {
+			if (drawUpToDate) {
+				// update is called for visual style, i.e. line thickness
+				drawWireframe(getView3D().getRenderer());
+				return true;
+			}
+		}
+
 		// start recursive split
 		loopSplitIndex = 0;
 //		long time = System.currentTimeMillis();
@@ -476,11 +483,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 //		time = System.currentTimeMillis();
 
-		if (drawUpToDate) {
-			// update is called for visual style, i.e. line thickness
-			drawWireframe(getView3D().getRenderer());
-			return true;
-		}
+
 
 		// set old thickness to force wireframe update
 		oldThickness = -1;
