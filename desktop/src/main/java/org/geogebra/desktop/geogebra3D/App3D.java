@@ -62,7 +62,6 @@ import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.GLFactoryD;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererD;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
 import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianControllerHand3D;
@@ -514,7 +513,7 @@ public class App3D extends AppD {
 	@Override
 	public void needThumbnailFor3D() {
 		if (euclidianView3D != null) {
-			((RendererD) getEuclidianView3D().getRenderer()).needExportImage();
+			getEuclidianView3D().getRenderer().needExportImage();
 		}
 	}
 
@@ -648,7 +647,7 @@ public class App3D extends AppD {
 			return;
 		}
 
-		((RendererD) getEuclidianView3D().getRenderer())
+		getEuclidianView3D().getRenderer()
 				.startAnimatedGIFExport(gifEncoder, num, n, val, min, max, step);
 	}
 
@@ -704,7 +703,7 @@ public class App3D extends AppD {
 		EuclidianView3D ev3D = getEuclidianView3D();
 
 		if (ev3D.isShowing()) {
-			return ((RendererD) getEuclidianView3D().getRenderer())
+			return (BufferedImage) getEuclidianView3D().getRenderer()
 					.getExportImage();
 		}
 

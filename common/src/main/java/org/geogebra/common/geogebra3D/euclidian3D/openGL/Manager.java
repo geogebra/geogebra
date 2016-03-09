@@ -61,6 +61,14 @@ abstract public class Manager {
 	 *            3D view
 	 */
 	public Manager(Renderer renderer, EuclidianView3D view3D) {
+		init(renderer, view3D);
+	}
+
+	public Manager() {
+		// empty constructor
+	}
+
+	protected void init(Renderer renderer, EuclidianView3D view3D) {
 
 		setRenderer(renderer);
 
@@ -84,6 +92,7 @@ abstract public class Manager {
 		this.view3D = view3D;
 
 	}
+
 
 	/**
 	 * set the 3D view

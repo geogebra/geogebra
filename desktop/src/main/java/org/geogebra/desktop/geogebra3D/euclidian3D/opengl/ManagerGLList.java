@@ -6,6 +6,7 @@ import javax.media.opengl.glu.GLUtessellator;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 /**
@@ -20,7 +21,9 @@ public class ManagerGLList extends ManagerD {
 	// GL
 	private GLUtessellator tesselator;
 
-	protected RendererD renderer;
+	protected Renderer renderer;
+
+	private JoglAndGluProvider joglAndGluProvider;
 
 	/**
 	 * common constructor
@@ -29,18 +32,32 @@ public class ManagerGLList extends ManagerD {
 	 * @param view3D
 	 *            3D view
 	 */
-	public ManagerGLList(Renderer renderer, EuclidianView3D view3D) {
-		super(renderer, view3D);
+	public ManagerGLList(Renderer renderer,
+			JoglAndGluProvider joglAndGluProvider, EuclidianView3D view3D) {
+
+		super();
+
+		Log.debug("ManagerGLList");
+		this.joglAndGluProvider = joglAndGluProvider;
+		init(renderer, view3D);
 	}
 
 	@Override
 	protected void setRenderer(Renderer renderer) {
-		this.renderer = (RendererD) renderer;
+		this.renderer = renderer;
 	}
 
 	@Override
-	protected RendererD getRenderer() {
+	protected Renderer getRenderer() {
 		return renderer;
+	}
+
+	public RendererJogl getJogl() {
+		return joglAndGluProvider.getJogl();
+	}
+
+	public GLU getGLU() {
+		return joglAndGluProvider.getGLU();
 	}
 
 	// ///////////////////////////////////////////
@@ -48,7 +65,7 @@ public class ManagerGLList extends ManagerD {
 	// ///////////////////////////////////////////
 
 	private int genLists(int nb) {
-		return renderer.jogl.getGL2().glGenLists(nb);
+		return getJogl().getGL2().glGenLists(nb);
 	}
 
 	// ///////////////////////////////////////////
@@ -60,28 +77,28 @@ public class ManagerGLList extends ManagerD {
 		// generates a new list
 		int ret = genLists(1);
 
-		renderer.jogl.getGL2().glNewList(ret, GLlocal.GL_COMPILE);
+		getJogl().getGL2().glNewList(ret, GLlocal.GL_COMPILE);
 
 		return ret;
 	}
 
 	private void newList(int index) {
-		renderer.jogl.getGL2().glNewList(index, GLlocal.GL_COMPILE);
+		getJogl().getGL2().glNewList(index, GLlocal.GL_COMPILE);
 	}
 
 	@Override
 	public void endList() {
-		renderer.jogl.getGL2().glEndList();
+		getJogl().getGL2().glEndList();
 	}
 
 	@Override
 	public void startGeometry(Type type) {
-		renderer.jogl.getGL2().glBegin(getGLType(type));
+		getJogl().getGL2().glBegin(getGLType(type));
 	}
 
 	@Override
 	public void endGeometry() {
-		renderer.jogl.getGL2().glEnd();
+		getJogl().getGL2().glEnd();
 	}
 
 	// ///////////////////////////////////////////
@@ -100,20 +117,19 @@ public class ManagerGLList extends ManagerD {
 		if (ret == 0)
 			return 0;
 
-		RendererTesselCallBack tessCallback = new RendererTesselCallBack(
-				renderer);
+		RendererTesselCallBack tessCallback = new RendererTesselCallBack(this);
 
-		tesselator = renderer.glu.gluNewTess();
+		tesselator = getGLU().gluNewTess();
 
-		renderer.glu.gluTessCallback(tesselator, GLU.GLU_TESS_VERTEX,
+		getGLU().gluTessCallback(tesselator, GLU.GLU_TESS_VERTEX,
 				tessCallback);// vertexCallback);
-		renderer.glu.gluTessCallback(tesselator, GLU.GLU_TESS_BEGIN,
+		getGLU().gluTessCallback(tesselator, GLU.GLU_TESS_BEGIN,
 				tessCallback);// beginCallback);
-		renderer.glu
+		getGLU()
 				.gluTessCallback(tesselator, GLU.GLU_TESS_END, tessCallback);// endCallback);
-		renderer.glu.gluTessCallback(tesselator, GLU.GLU_TESS_ERROR,
+		getGLU().gluTessCallback(tesselator, GLU.GLU_TESS_ERROR,
 				tessCallback);// errorCallback);
-		renderer.glu.gluTessCallback(tesselator, GLU.GLU_TESS_COMBINE,
+		getGLU().gluTessCallback(tesselator, GLU.GLU_TESS_COMBINE,
 				tessCallback);// combineCallback);
 
 		newList(ret);
@@ -125,14 +141,14 @@ public class ManagerGLList extends ManagerD {
 	public void drawPolygon(Coords n, Coords[] v) {
 
 		// starts the polygon
-		renderer.glu.gluTessBeginPolygon(tesselator, null);
-		renderer.glu.gluTessBeginContour(tesselator);
+		getGLU().gluTessBeginPolygon(tesselator, null);
+		getGLU().gluTessBeginContour(tesselator);
 
 		// set normal
 		float nx = (float) n.getX();
 		float ny = (float) n.getY();
 		float nz = (float) n.getZ();
-		renderer.glu.gluTessNormal(tesselator, nx, ny, nz);
+		getGLU().gluTessNormal(tesselator, nx, ny, nz);
 		normal(nx, ny, nz);
 
 		// set texture
@@ -141,20 +157,20 @@ public class ManagerGLList extends ManagerD {
 		// set vertices
 		for (int i = 0; i < v.length; i++) {
 			double[] point = v[i].get();
-			renderer.glu.gluTessVertex(tesselator, point, 0, point);
+			getGLU().gluTessVertex(tesselator, point, 0, point);
 		}
 
 		// end the polygon
-		renderer.glu.gluTessEndContour(tesselator);
-		renderer.glu.gluTessEndPolygon(tesselator);
+		getGLU().gluTessEndContour(tesselator);
+		getGLU().gluTessEndPolygon(tesselator);
 
 	}
 
 	@Override
 	public void endPolygons() {
 
-		renderer.jogl.getGL2().glEndList();
-		renderer.glu.gluDeleteTess(tesselator);
+		getJogl().getGL2().glEndList();
+		getGLU().gluDeleteTess(tesselator);
 	}
 
 	/**
@@ -165,7 +181,7 @@ public class ManagerGLList extends ManagerD {
 	@Override
 	public void remove(int index) {
 
-		renderer.jogl.getGL2().glDeleteLists(index, 1);
+		getJogl().getGL2().glDeleteLists(index, 1);
 	}
 
 	// ///////////////////////////////////////////
@@ -174,7 +190,7 @@ public class ManagerGLList extends ManagerD {
 
 	@Override
 	public void draw(int index) {
-		renderer.jogl.getGL2().glCallList(index);
+		getJogl().getGL2().glCallList(index);
 	}
 
 	@Override
@@ -184,7 +200,7 @@ public class ManagerGLList extends ManagerD {
 
 	@Override
 	protected void texture(double x, double y) {
-		renderer.jogl.getGL2().glTexCoord2d(x, y);
+		getJogl().getGL2().glTexCoord2d(x, y);
 	}
 
 	@Override
@@ -195,40 +211,40 @@ public class ManagerGLList extends ManagerD {
 	@Override
 	protected void normal(double x, double y, double z) {
 
-		renderer.jogl.getGL2().glNormal3d(x, y, z);
+		getJogl().getGL2().glNormal3d(x, y, z);
 	}
 
 	@Override
 	protected void vertex(double x, double y, double z) {
 
-		renderer.jogl.getGL2().glVertex3d(x, y, z);
+		getJogl().getGL2().glVertex3d(x, y, z);
 	}
 
 	@Override
 	protected void vertexInt(double x, double y, double z) {
 
-		//renderer.jogl.getGL2().glVertex3i(x, y, z);
+		// getJogl().getGL2().glVertex3i(x, y, z);
 		vertex(x,y,z);
 	}
 
 	@Override
 	protected void vertices(double[] vertices) {
-		renderer.jogl.getGL2().glVertex3dv(vertices, 0);
+		getJogl().getGL2().glVertex3dv(vertices, 0);
 	}
 
 	@Override
 	protected void color(double r, double g, double b) {
-		renderer.jogl.getGL2().glColor3d(r, g, b);
+		getJogl().getGL2().glColor3d(r, g, b);
 	}
 
 	@Override
 	protected void color(double r, double g, double b, double a) {
-		renderer.jogl.getGL2().glColor4d(r, g, b, a);
+		getJogl().getGL2().glColor4d(r, g, b, a);
 	}
 
 	@Override
 	protected void pointSize(double size) {
-		renderer.jogl.getGL2().glPointSize((float) size);
+		getJogl().getGL2().glPointSize((float) size);
 	}
 
 	@Override

@@ -106,6 +106,11 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	}
 
+	@Override
+	public Canvas getCanvas() {
+		return webGLCanvas;
+	}
+
 	/**
 	 * create the webGL context
 	 */

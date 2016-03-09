@@ -16,7 +16,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
@@ -73,6 +72,11 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		App.debug("start animator");
 		animator.start();
 
+	}
+
+	@Override
+	public Component3D getCanvas() {
+		return canvas;
 	}
 
 	@Override
@@ -624,25 +628,11 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	protected FrameCollector gifEncoder;
 
-	public void startAnimatedGIFExport(FrameCollector gifEncoder,
-			GeoNumeric num, int n, double val, double min, double max,
-			double step) {
-		exportType = ExportType.ANIMATEDGIF;
 
-		num.setValue(val);
-		num.updateRepaint();
-		export_i = 0;
 
-		this.export_n = n;
-		this.export_num = num;
-		this.export_val = val;
-		this.export_min = min;
-		this.export_max = max;
-		this.export_step = step;
-		this.gifEncoder = gifEncoder;
-		
-		needExportImage(1);
-
+	@Override
+	protected void setGIFEncoder(Object gifEncoder) {
+		this.gifEncoder = (FrameCollector) gifEncoder;
 	}
 
 	// ////////////////////////////////////
@@ -915,9 +905,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	}
 
-	/**
-	 * @return a BufferedImage containing last export image created
-	 */
+	@Override
 	final public BufferedImage getExportImage() {
 		return bi;
 	}

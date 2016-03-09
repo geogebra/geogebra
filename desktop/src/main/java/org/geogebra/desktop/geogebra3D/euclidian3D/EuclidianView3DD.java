@@ -40,7 +40,6 @@ import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersionD;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererGLPickingGL2;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererShadersElements;
 import org.geogebra.desktop.io.MyImageIO;
@@ -92,7 +91,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	protected void createPanel() {
 		evjpanel = new EuclidianViewJPanelD(this);
 
-		canvas = (Component) ((RendererD) renderer).canvas;
+		canvas = (Component) renderer.getCanvas();
 		getJPanel().setLayout(new BorderLayout());
 		getJPanel().add(BorderLayout.CENTER, canvas);
 
@@ -105,6 +104,13 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	@Override
 	protected Renderer createRenderer() {
+
+		// lines below for testing
+
+		// return new RendererCheckGLVersionD(this, !app.isApplet(),
+		// RendererType.GL2);
+
+		// return new RendererGLPickingGL2(this, !app.isApplet());
 
 		// we don't want shaders with win os < vista
 		if (app.has(Feature.SHADERS_IN_DESKTOP) && !app.isApplet()
@@ -506,9 +512,9 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	public BufferedImage getExportImage(double scale, boolean transparency)
 			throws OutOfMemoryError {
-		((RendererD) getRenderer()).needExportImage(scale);
+		getRenderer().needExportImage(scale);
 
-		return ((RendererD) getRenderer()).getExportImage();
+		return (BufferedImage) getRenderer().getExportImage();
 	}
 
 	private boolean exportToClipboard;
@@ -523,7 +529,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		exportFile = file;
 		this.exportToClipboard = exportToClipboard;
 
-		((RendererD) getRenderer()).needExportImage(scale);
+		getRenderer().needExportImage(scale);
 	}
 
 	/**
@@ -537,7 +543,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		}
 
 		try {
-			BufferedImage img = ((RendererD) getRenderer()).getExportImage();
+			BufferedImage img = (BufferedImage) getRenderer().getExportImage();
 			MyImageIO.write(img, "png", exportDPI, exportFile);
 			if (exportToClipboard) {
 				GraphicExportDialog.sendToClipboard(exportFile);

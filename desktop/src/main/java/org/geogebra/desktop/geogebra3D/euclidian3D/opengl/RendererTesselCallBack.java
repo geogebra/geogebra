@@ -5,18 +5,18 @@ import javax.media.opengl.glu.GLUtessellatorCallback;
 import org.geogebra.desktop.main.AppD;
 
 public class RendererTesselCallBack implements GLUtessellatorCallback {
-	private RendererD renderer;
+	private ManagerGLList manager;
 
-	public RendererTesselCallBack(RendererD renderer) {
-		this.renderer = renderer;
+	public RendererTesselCallBack(ManagerGLList manager) {
+		this.manager = manager;
 	}
 
 	public void begin(int type) {
-		renderer.jogl.getGL2().glBegin(type);
+		manager.getJogl().getGL2().glBegin(type);
 	}
 
 	public void end() {
-		renderer.jogl.getGL2().glEnd();
+		manager.getJogl().getGL2().glEnd();
 	}
 
 	public void vertex(Object vertexData) {
@@ -25,7 +25,7 @@ public class RendererTesselCallBack implements GLUtessellatorCallback {
 		if (vertexData instanceof double[]) {
 			pointer = (double[]) vertexData;
 			// if (pointer.length == 6) jogl.getGL2().glColor3dv(pointer, 3);
-			renderer.jogl.getGL2().glVertex3dv(pointer, 0);
+			manager.getJogl().getGL2().glVertex3dv(pointer, 0);
 		}
 
 	}
@@ -64,7 +64,7 @@ public class RendererTesselCallBack implements GLUtessellatorCallback {
 	public void error(int errnum) {
 		String estring;
 
-		estring = renderer.glu.gluErrorString(errnum);
+		estring = manager.getGLU().gluErrorString(errnum);
 		AppD.debug("Tessellation Error: " + estring);
 		// System.exit(0);
 	}

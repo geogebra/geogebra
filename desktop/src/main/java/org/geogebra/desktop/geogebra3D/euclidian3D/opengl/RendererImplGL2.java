@@ -3,6 +3,7 @@ package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 import java.nio.ByteBuffer;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.glu.GLU;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
@@ -24,7 +25,7 @@ import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
  * @author mathieu
  * 
  */
-public class RendererImplGL2 implements RendererImpl {
+public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 
 
 	private EuclidianView3D view3D;
@@ -339,7 +340,7 @@ public class RendererImplGL2 implements RendererImpl {
 	}
 
 	public Manager createManager() {
-		return new ManagerGLList(renderer, view3D);
+		return new ManagerGLList(renderer, this, view3D);
 	}
 
 	@Override
@@ -679,5 +680,13 @@ public class RendererImplGL2 implements RendererImpl {
 
 	public void enableShine() {
 		// only implemented with shaders
+	}
+
+	public RendererJogl getJogl() {
+		return jogl;
+	}
+
+	public GLU getGLU() {
+		return renderer.glu;
 	}
 }

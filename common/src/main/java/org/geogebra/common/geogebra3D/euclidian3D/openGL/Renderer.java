@@ -120,6 +120,12 @@ public abstract class Renderer {
 	}
 
 	/**
+	 * 
+	 * @return canvas (for desktop version at least)
+	 */
+	abstract public Object getCanvas();
+
+	/**
 	 * set the list of {@link Drawable3D} to be drawn
 	 * 
 	 * @param dl
@@ -407,6 +413,61 @@ public abstract class Renderer {
 		exportImageForThumbnail = false;
 		needExportImage(scale, (int) (getWidth() * scale),
 				(int) (getHeight() * scale));
+	}
+
+	/**
+	 * @return an image containing last export image created
+	 */
+	public Object getExportImage() {
+		return null;
+	}
+
+	/**
+	 * start animation for gif export
+	 * 
+	 * @param gifEncoder
+	 *            gif encoder
+	 * @param num
+	 *            slider to anime
+	 * @param n
+	 *            number of images
+	 * @param val
+	 *            start value
+	 * @param min
+	 *            slider min value
+	 * @param max
+	 *            slider max value
+	 * @param step
+	 *            slider step
+	 */
+	public void startAnimatedGIFExport(Object gifEncoder, GeoNumeric num,
+			int n, double val, double min, double max, double step) {
+		exportType = ExportType.ANIMATEDGIF;
+
+		num.setValue(val);
+		num.updateRepaint();
+		export_i = 0;
+
+		this.export_n = n;
+		this.export_num = num;
+		this.export_val = val;
+		this.export_min = min;
+		this.export_max = max;
+		this.export_step = step;
+		setGIFEncoder(gifEncoder);
+
+		needExportImage(1);
+
+	}
+
+	/**
+	 * set gif encoder
+	 * 
+	 * @param gifEncoder
+	 *            gif encoder
+	 */
+	protected void setGIFEncoder(Object gifEncoder) {
+		// TODO make it abstract
 	}
 
 	/**

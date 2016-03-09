@@ -34,6 +34,10 @@ public abstract class ManagerD extends Manager {
 		super(renderer, view3D);
 	}
 
+	public ManagerD() {
+		super();
+	}
+
 	/**
 	 * 
 	 * @param type
