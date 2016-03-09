@@ -2731,20 +2731,22 @@ kernel, left,
 		case SGN:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\sgn(");
+				sb.append("\\sgn");
 				break;
 
 			case GIAC:
-				sb.append("sign(");
+				sb.append("sign");
 				break;
 
 			case LIBRE_OFFICE:
 				sb.append("func ");
+				// fall through
 			default:
-				sb.append("sgn(");
+				sb.append("sgn");
 			}
+			sb.append(tpl.leftBracket());
 			sb.append(leftStr);
-			sb.append(')');
+			sb.append(tpl.rightBracket());
 			break;
 
 		case CONJUGATE:
