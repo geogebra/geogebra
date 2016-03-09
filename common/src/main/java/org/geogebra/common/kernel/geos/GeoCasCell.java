@@ -1482,7 +1482,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 		boolean isLine = false;
 		// case we have 3DLine
-		if (inputVE.getTopLevelCommand() != null
+		if (inputVE != null
+				&& inputVE.getTopLevelCommand() != null
 				&& inputVE.getTopLevelCommand().getName().equals("Line")
 				&& outputVE instanceof Equation
 				&& ((Equation) outputVE).getLHS().getLeft()

@@ -171,6 +171,41 @@ public class CASInputHandler {
 				cellValue.setInput(newPrefix + newEvalText + newPostfix);
 			}
 
+			if ("NSolve".equals(ggbcmd)) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(cellValue.getInput(StringTemplate.defaultTemplate));
+				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+				try {
+					// check if input is polynomial
+					String casResult = cas.getCurrentCAS().evaluateRaw(
+							"ispolynomial(" + evalText + ")");
+					// case it is not
+					if (casResult.equals("false")) {
+						ValidExpression ve = cellValue.getEvalVE();
+						HashSet<GeoElement> vars = ve.getVariables();
+						if (!vars.isEmpty()) {
+							Iterator<GeoElement> it = vars.iterator();
+							// add var=1
+							String var = it.next().toString(
+									StringTemplate.defaultTemplate);
+							sb.append(",");
+							sb.append(var);
+							sb.append("=1");
+						}
+						vars.clear();
+					}
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (!cellValue.getInput(StringTemplate.defaultTemplate).equals(
+						sb.toString())) {
+					cellValue.setInput(sb.toString());
+					selRowInput = sb.toString();
+					evalText = sb.toString();
+				}
+			}
+
 			// FIX common INPUT ERRORS in evalText
 			if (!hasSelectedText
 					&& (ggbcmd.equals("Evaluate") || ggbcmd.equals("KeepInput"))) {
@@ -300,32 +335,6 @@ public class CASInputHandler {
 				sb.append(ggbcmd);
 				sb.append("[");
 				sb.append(evalText);
-				if ("NSolve".equals(ggbcmd)) {
-					GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-					try {
-						// check if input is polynomial
-						String casResult = cas.getCurrentCAS().evaluateRaw(
-								"ispolynomial(" + evalText + ")");
-						// case it is not
-						if (casResult.equals("false")) {
-							ValidExpression ve = cellValue.getEvalVE();
-							HashSet<GeoElement> vars = ve.getVariables();
-							if (!vars.isEmpty()) {
-								Iterator<GeoElement> it = vars.iterator();
-								// add var=1
-								String var = it.next().toString(
-										StringTemplate.defaultTemplate);
-								sb.append(",");
-								sb.append(var);
-								sb.append("=1");
-							}
-							vars.clear();
-						}
-					} catch (Throwable e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
 				sb.append("]");
 				evalText = sb.toString();
 			}
