@@ -749,9 +749,6 @@ pr.menu_header_undo(), null, 32);
 		case EuclidianConstants.MODE_FITLINE:
 			return myIconResourceBundle.mode_fitline_32();
 
-		case EuclidianConstants.MODE_FREEHAND_CIRCLE:
-			return myIconResourceBundle.mode_freehandcircle_32();
-
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			return myIconResourceBundle.mode_freehandshape_32();
 

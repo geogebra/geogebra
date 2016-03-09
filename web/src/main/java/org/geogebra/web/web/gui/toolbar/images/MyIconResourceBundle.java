@@ -109,9 +109,6 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_fitline.png")
 	ImageResource mode_fitline_32();
 
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_freehandcircle.png")
-	ImageResource mode_freehandcircle_32();
-
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_freehandshape.png")
 	ImageResource mode_freehandshape_32();
 

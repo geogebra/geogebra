@@ -100,10 +100,8 @@ public interface ToolbarResources {
 
 	
 	ResourcePrototype mode_fitline_32();
-
-	ResourcePrototype mode_freehandcircle_32();
-
 	
+
 	ResourcePrototype mode_freehandshape_32();
 
 	
