@@ -124,8 +124,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_FREEHAND_CIRCLE);
+		// sb.append(" ");
+		// sb.append(EuclidianConstants.MODE_FREEHAND_CIRCLE);
 
 		// conics
 		sb.append(" | ");
