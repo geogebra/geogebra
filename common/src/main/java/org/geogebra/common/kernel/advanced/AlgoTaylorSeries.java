@@ -93,6 +93,11 @@ public class AlgoTaylorSeries extends AlgoElement {
 			return;
 		}
 
+		if (f.getFunction().getExpression().isSecret()) {
+			g.setUndefined();
+			return;
+		}
+
 		// check order
 		double nd = n.getDouble();
 		if (nd < 0) {
