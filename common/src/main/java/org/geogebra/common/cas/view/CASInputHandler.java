@@ -171,10 +171,9 @@ public class CASInputHandler {
 				cellValue.setInput(newPrefix + newEvalText + newPostfix);
 			}
 
-			boolean nsolveWraped = false;
 			if ("NSolve".equals(ggbcmd)) {
 				StringBuilder sb = new StringBuilder();
-				sb.append("NSolve[");
+				// sb.append("NSolve[");
 				sb.append(cellValue.getInput(StringTemplate.defaultTemplate));
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 				try {
@@ -195,18 +194,29 @@ public class CASInputHandler {
 							sb.append("=1");
 						}
 						vars.clear();
-						sb.append("]");
+					} else {
+						cellValue.setNSolveCmdNeeded(false);
 					}
 				} catch (Throwable e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				// sb.append("]");
 				if (!cellValue.getInput(StringTemplate.defaultTemplate).equals(
 						sb.toString())) {
-					nsolveWraped = true;
 					cellValue.setInput(sb.toString());
+					cellValue.setNSolveCmdNeeded(true);
 					selRowInput = sb.toString();
 					evalText = sb.toString();
+				}
+			}
+
+			if (cellValue.getNSolveCmdNeeded() && !ggbcmd.equals("NSolve")) {
+				if (cellValue.getInputVE() != null
+						&& cellValue.getInputVE().getTopLevelCommand() != null) {
+					cellValue.setNSolveCmdNeeded(false);
+				} else {
+					ggbcmd = "NSolve";
 				}
 			}
 
@@ -333,7 +343,7 @@ public class CASInputHandler {
 							|| evalText.startsWith("Numeric[") || evalText
 								.startsWith("Numeric(")));
 
-			if (wrapEvalText && !nsolveWraped) {
+			if (wrapEvalText) {
 				// prepare evalText as ggbcmd[ evalText, parameters ... ]
 				StringBuilder sb = new StringBuilder();
 				sb.append(ggbcmd);

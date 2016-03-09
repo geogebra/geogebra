@@ -150,6 +150,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	private boolean nativeOutput;
 
 	private ArrayList<Vector<String>> substList;
+	
+	private boolean nSolveCmdNeeded = false;
 
 	/**
 	 * Creates new CAS cell
@@ -390,6 +392,21 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		suppressOutput = useAsText;
 		// recalc row height
 		update();
+	}
+
+	/**
+	 * @param val
+	 *            true if we should set evalCmd to NSolve
+	 */
+	public void setNSolveCmdNeeded(boolean val) {
+		this.nSolveCmdNeeded = val;
+	}
+
+	/**
+	 * @return nSolveCmdNeeded
+	 */
+	public boolean getNSolveCmdNeeded() {
+		return this.nSolveCmdNeeded;
 	}
 
 	/**
