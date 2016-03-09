@@ -140,13 +140,14 @@ public class BrowseView extends AbstractView implements BrowseViewI,
 			} else if (!getLastSelected().isLocal()
 			        && getLastSelected().isOwn()) {
 				app.getKernel().getConstruction().setTitle(material.getTitle());
-				app.setTubeId(material.getId());
+				app.updateMaterialURL(material.getId(),
+						material.getSharingKeyOrId());
 			} else {
 				app.resetUniqueId();
-				app.setTubeId(0);
+				app.updateMaterialURL(0, material.getSharingKeyOrId());
 			}
 		} else {
-			app.setTubeId(0);
+			app.updateMaterialURL(0, null);
 			app.resetUniqueId(); // TODO
 		}
 		setMaterialsDefaultStyle();

@@ -3512,4 +3512,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public GTimer newTimer(GTimerListener listener, int delay) {
 		return new GTimerW(listener, delay);
 	}
+
+	public void updateMaterialURL(int i, String object) {
+		setTubeId(i);
+
+		Log.printStacktrace("SETTING" + i + "," + object);
+		if (articleElement.getDataParamApp()) {
+			Browser.changeUrl("o/" + object);
+		}
+
+	}
 }

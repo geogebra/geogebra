@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -87,6 +88,9 @@ public class PerspectivesMenuW extends GMenuBar {
 				.applyPerspective(org.geogebra.common.gui.Layout.defaultPerspectives[index]);
 		app.updateViewSizes();
 		app.getGuiManager().updateMenubar();
+		if (app.getTubeId() < 1 && app.getArticleElement().getDataParamApp()) {
+			Browser.changeUrl(Perspective.perspectiveSlugs[index]);
+		}
 		if (changed) {
 			app.storeUndoInfo();
 		}

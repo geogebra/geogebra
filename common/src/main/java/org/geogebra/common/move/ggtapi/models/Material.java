@@ -97,8 +97,8 @@ public class Material implements Comparable<Material>, Serializable {
 	private boolean propcalc;
 	private boolean dataanalysis;
 	private boolean funcinsp;
-	private boolean python;
 	private boolean macro;
+	private String sharingKey;
 
 	public boolean isDeleted() {
 		return deleted;
@@ -546,13 +546,6 @@ public class Material implements Comparable<Material>, Serializable {
 		this.funcinsp = funcinsp;
 	}
 
-	public boolean hasPython() {
-		return python;
-	}
-
-	public void setPython(boolean python) {
-		this.python = python;
-	}
 
 	public boolean hasMacro() {
 		return macro;
@@ -560,6 +553,19 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setMacro(boolean macro) {
 		this.macro = macro;
+	}
+
+	public void setSharingKey(String sharingKey) {
+		this.sharingKey = sharingKey;
+	}
+
+	public String getSharingKey() {
+		return sharingKey;
+	}
+
+	public String getSharingKeyOrId() {
+		return sharingKey == null || sharingKey.isEmpty() ? id + ""
+				: sharingKey;
 	}
 
 }

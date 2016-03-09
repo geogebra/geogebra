@@ -24,7 +24,7 @@ public class MaterialRequest implements Request {
 		url_direct, language, thumbnail, featured, likes, width, height,
 		instructions_pre, instructions_post, ggbBase64, toolbar, menubar,
 		inputbar, modified, visibility, favorite, is3d, spreadsheet, cas,
-		graphics2, constprot, propcalc, dataanalysis, funcinsp, python, macro;
+		graphics2, constprot, propcalc, dataanalysis, funcinsp, python, macro, sharing_key;
 	}
 
 	public enum Filters {
@@ -47,7 +47,8 @@ public class MaterialRequest implements Request {
 	public Fields[] fields = new Fields[] { Fields.id, Fields.title,
 			Fields.type, Fields.timestamp, Fields.author, Fields.author_id,
 			Fields.url, Fields.url_direct, Fields.thumbnail, Fields.featured,
-			Fields.likes, Fields.modified, Fields.visibility, Fields.favorite };
+			Fields.likes, Fields.modified, Fields.visibility, Fields.favorite,
+			Fields.sharing_key };
 	public Filters[] filters = { Filters.search };
 	public Map<Filters, String> filterMap = new HashMap<Filters, String>();
 	public Order by = Order.relevance;

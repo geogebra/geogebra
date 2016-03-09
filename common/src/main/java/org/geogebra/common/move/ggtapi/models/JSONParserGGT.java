@@ -38,6 +38,7 @@ public class JSONParserGGT {
 			material.setSyncStamp(Long.parseLong(getString(obj, "syncstamp")));
 		}
 		material.setVisibility(getString(obj, "visibility"));
+		material.setSharingKey(getString(obj, "sharing_key"));
 		material.setAuthor(getString(obj, "author"));
 		material.setAuthorId(getInt(obj, "author_id", -1));
 		material.setURL(getString(obj, "url"));

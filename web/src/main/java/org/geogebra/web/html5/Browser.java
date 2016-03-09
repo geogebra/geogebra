@@ -322,4 +322,18 @@ public class Browser {
 
 	}-*/;
 
+	public static void changeUrl(String string) {
+		if (Location.getHost() != null
+				&& Location.getHost().contains("geogebra.org")) {
+			nativeChangeUrl(string);
+		}
+
+	}
+
+	private static native void nativeChangeUrl(String name) /*-{
+		if (name && $wnd.history && $wnd.history.pushState) {
+			$wnd.history.pushState({}, "GeoGebra", "/" + name);
+		}
+	}-*/;
+
 }

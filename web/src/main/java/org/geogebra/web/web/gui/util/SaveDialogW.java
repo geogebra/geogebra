@@ -160,13 +160,15 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 					        .getActiveEuclidianView())
 					        .getCanvasBase64WithTypeString());
 					app.getKernel().getConstruction().setTitle(title.getText());
-					app.setTubeId(newMat.getId());
+					app.updateMaterialURL(newMat.getId(),
+							newMat.getSharingKeyOrId());
 					// last synchronization is equal to last modified
 					app.setSyncStamp(newMat.getModified());
 
 
 					newMat.setSyncStamp(newMat.getModified());
-					app.setTubeId(newMat.getId());
+					app.updateMaterialURL(newMat.getId(),
+							newMat.getSharingKeyOrId());
 					app.setActiveMaterial(newMat);
 					app.setSyncStamp(newMat.getModified());
 					saveLocalIfNeeded(newMat.getModified(),
@@ -427,7 +429,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				if (!SaveDialogW.this.title.getText().equals(
 				        app.getKernel().getConstruction().getTitle())) {
 					App.debug("SAVE filename changed");
-					app.setTubeId(0);
+					app.updateMaterialURL(0, null);
 					doUploadToGgt(app.getTubeId(), visibility, base64,
 					        initMaterialCB(base64, false));
 				} else if (app.getTubeId() == 0) {
@@ -506,7 +508,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 						        App.debug("SAVE MULTIPLE"
 						                + parseResponse.get(0).getModified()
 						                + ":" + app.getSyncStamp());
-						        app.setTubeId(0);
+								app.updateMaterialURL(0, null);
 						        materialCallback = initMaterialCB(base64, true);
 					        } else {
 						        materialCallback = initMaterialCB(base64, false);
