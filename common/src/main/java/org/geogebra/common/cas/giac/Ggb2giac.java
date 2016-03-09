@@ -71,29 +71,30 @@ public class Ggb2giac {
 		p("Coefficients.1", "when(is_polynomial(%0)," + "coeffs(%0)," + "{})");
 
 		p("Coefficients.2", "coeffs(%0,%1)");
-		p("CompleteSquare.1", " when ( size(simplify(%0)) <= 3 , "
+		p("CompleteSquare.1",
+				" [[ggbcmpsqarg0:=expand(%0)] , when ( size(simplify(%0)) <= 3 , "
 				// case max 3 terms
 				// hack for case like x^2 + x + 0.9
 				// needed for GGB-126
-						+ " when ( size(%0) == 2 && size(%0[2]) == 2 && (%0)[2][0] != '+' , "
+						+ " when ( size(ggbcmpsqarg0) == 2 && (size((ggbcmpsqarg0)[2]) == 2 || size((ggbcmpsqarg0)[2]) == 1) && (ggbcmpsqarg0)[2][0] != '+' , "
 						// case 2 terms
-						+ " when ( odd(degree(%0)) == 0 , when ( degree((%0)[2]) == 0 , "
+						+ " when ( odd(degree(ggbcmpsqarg0)) == 0 , when ( degree((ggbcmpsqarg0)[2]) == 0 , "
 				// case px^(2n) + r
-						+ " [ [ [n:=degree(ggbsort(%0)[1]) div 2] , [p:=coeffs(ggbsort(%0)[1])[0]] , [r:=coeffs(ggbsort(%0)[2])[0]] ] , equation(p*(lname(%0)[0]^(2n))+r) ][1] , "
+						+ " [ [ [n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2] , [p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]] , [r:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]] ] , equation(p*(lname(ggbcmpsqarg0)[0]^(2n))+r) ][1] , "
 						// case px^(2n) + qx^n
-						+ " [ [ [n:=degree(ggbsort(%0)[1]) div 2] , [p:=coeffs(ggbsort(%0)[1])[0]] , [q:=coeffs(ggbsort(%0)[2])[0]] , [h:=-q/(2*p)] , [k:=(-q^2)/(4*p)] ] , when ( degree((%0)[2]) == n , equation(p*((lname(%0)[0])^n-h)^2+k) , ? ) ][1] ) ,"
+						+ " [ [ [n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2] , [p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]] , [q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]] , [h:=-q/(2*p)] , [k:=(-q^2)/(4*p)] ] , when ( degree((ggbcmpsqarg0)[2]) == n , equation(p*((lname(ggbcmpsqarg0)[0])^n-h)^2+k) , ? ) ][1] ) ,"
 						// 2 terms with even degree
 						+ " ? ) , "
 				// case 3 term with degree 2
-				+ "when ( degree(%0) == 2 , canonical_form(%0) , "
+						+ "when ( degree(ggbcmpsqarg0) == 2 , canonical_form(ggbcmpsqarg0) , "
 				// case 3 term with degree > 2
-						+ " when ( odd(degree(%0)) == 0 && degree(ggbsort(%0)[2]) == degree(ggbsort(%0)[1]) div 2 && type(ggbsort(%0)[3]) == DOM_INT , "
+						+ " when ( odd(degree(ggbcmpsqarg0)) == 0 && degree(ggbsort(ggbcmpsqarg0)[2]) == degree(ggbsort(ggbcmpsqarg0)[1]) div 2 && type(ggbsort(ggbcmpsqarg0)[3]) == DOM_INT , "
 						// case px^(2n) + qx^n + r
-						+ " [ [ [[n:=degree(ggbsort(%0)[1]) div 2]] , [p:=coeffs(ggbsort(%0)[1])[0]] , [q:=coeffs(ggbsort(%0)[2])[0]] , [r:=coeffs(ggbsort(%0)[3])[0]] , [h:=-q/(2*p)] , [k:=r-(q^2)/(4*p)] ] , equation(p*((lname(%0)[0])^n-h)^2+k) ][1] , "
+						+ " [ [ [[n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2]] , [p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]] , [q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]] , [r:=coeffs(ggbsort(ggbcmpsqarg0)[3])[0]] , [h:=-q/(2*p)] , [k:=r-(q^2)/(4*p)] ] , equation(p*((lname(ggbcmpsqarg0)[0])^n-h)^2+k) ][1] , "
 						// invalid equation
 						+ "? ) ) ) , "
 				// term > 3
-				+ " ? ) ");
+						+ " ? )][1] ");
 
 		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
 
