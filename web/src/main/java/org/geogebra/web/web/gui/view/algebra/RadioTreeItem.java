@@ -889,12 +889,12 @@ public class RadioTreeItem extends AVTreeItem
 			addAVEXWidget(ihtml);
 		}
 
-		ihtml.getElement().appendChild(seNoLatex.getElement());
-
-		SpanElement se2 = DOM.createSpan().cast();
-		se2.appendChild(Document.get().createTextNode(
-				"\u00A0\u00A0\u00A0\u00A0"));
-		ihtml.getElement().appendChild(se2);
+		// ihtml.getElement().appendChild(seNoLatex.getElement());
+		ihtml.add(seNoLatex);
+		// SpanElement se2 = DOM.createSpan().cast();
+		// se2.appendChild(
+		// Document.get().createTextNode("\u00A0\u00A0\u00A0\u00A0"));
+		// ihtml.getElement().appendChild(se2);
 
 		// String text = "";
 		buildNoLatexString();
