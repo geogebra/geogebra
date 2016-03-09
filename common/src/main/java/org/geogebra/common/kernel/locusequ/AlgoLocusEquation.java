@@ -362,7 +362,7 @@ public class AlgoLocusEquation extends AlgoElement {
 		StringBuilder script = new StringBuilder();
 		script.append("[[aa:=")
 				.append(implicitCurveString)
-				.append(")],")
+				.append("],")
 				.append("[bb:=coeffs(factorsqrfree(aa),x)], [sx:=size(bb)], [sy:=size(coeffs(aa,y))],")
 				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
 				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
