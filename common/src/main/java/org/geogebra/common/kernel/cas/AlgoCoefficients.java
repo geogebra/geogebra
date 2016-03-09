@@ -96,6 +96,11 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 
 		Function inFun = f.getFunction();
 
+		if (inFun.getExpression().isSecret()) {
+			g.setUndefined();
+			return;
+		}
+
 		// check if it's a polynomial & get coefficients
 		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(),
 				false, false);
