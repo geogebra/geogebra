@@ -3902,6 +3902,7 @@ public abstract class App implements UpdateSelection {
 			return isWindows() || isMacOS() || prerelease;
 
 		case MOBILE_CIRCLE_FREEHAND_TOOL:
+			return false;
 		case MOBILE_EXTREMUM_TOOL:
 		case MOBILE_ROOTS_TOOL:
 		case MOBILE_SEGMENT_FIXED_TOOL:
