@@ -10205,13 +10205,15 @@ public abstract class EuclidianController {
 
 		view.setPreview(switchPreviewableForInitNewMode(newMode));
 		toggleModeChangedKernel = false;
+		if (!temporaryMode) {
+			// change tool: remove unfinished creation but not on move <=> move
+			// view switch
+			if (wasUndoableMode) {
+				kernel.restoreStateForInitNewMode();
+			}
 
-		// change tool: remove unfinished creation
-		if (wasUndoableMode) {
-			kernel.restoreStateForInitNewMode();
+			kernel.storeStateForModeStarting();
 		}
-
-		kernel.storeStateForModeStarting();
 	}
 
 	public void zoomInOut(boolean altPressed, boolean minusPressed) {
