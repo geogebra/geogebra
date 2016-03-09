@@ -48,6 +48,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
@@ -86,6 +87,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		addHistoryPopup(true);
 
 		if (app.has(Feature.INPUT_SHOWN_IN_AV)) {
+			SimplePanel sp = new SimplePanel();
 			btnHelpToggle = new ToggleButton(new NoDragImage(
 					GuiResources.INSTANCE.menu_icon_help().getSafeUri()
 							.asString(), 20), new NoDragImage(
@@ -104,9 +106,10 @@ public class InputTreeItem extends RadioTreeItem implements
 				}
 
 			});
-
+			sp.setStyleName("avHelpButtonParent");
+			sp.setWidget(btnHelpToggle);
 			btnHelpToggle.addStyleName("algebraHelpButton");
-			main.insert(btnHelpToggle, 0);
+			main.insert(sp, 0);
 		}
 
 		buttonPanel = new FlowPanel();
