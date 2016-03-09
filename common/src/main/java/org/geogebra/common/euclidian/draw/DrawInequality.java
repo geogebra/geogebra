@@ -100,7 +100,8 @@ public class DrawInequality extends Drawable {
 			left.update2();
 			return;
 		}
-		if (this.operation.equals(Operation.AND_INTERVAL)) {
+		if (this.operation.equals(Operation.AND_INTERVAL)
+				&& left.drawable instanceof DrawInequality1Var) {
 			ExpressionNode leftExp = ((DrawInequality1Var) left.drawable)
 					.getIneq().getNormalExpression();
 			if (leftExp.getOperation().equals(Operation.MINUS)) {
