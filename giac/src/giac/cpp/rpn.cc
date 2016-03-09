@@ -765,7 +765,8 @@ namespace giac {
 	  gen g=identificateur(it->first);
 	  if (!equalposcomp(*keywordsptr,g)){
 	    if (val){
-	      g=symb_sto(it->second,g);
+	      g=symbolic(at_equal,makesequence(g,it->second));
+	      //g=symb_sto(it->second,g);
 	    }
 	    res.push_back(g);
 	  }

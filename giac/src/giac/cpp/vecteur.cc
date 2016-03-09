@@ -14840,7 +14840,7 @@ namespace giac {
 	  nl=(*tmp._STRNGptr)[0];
       }
       if (s>3){
-	tmp=g[1];
+	tmp=g[3];
 	if (tmp.type==_STRNG && !tmp._STRNGptr->empty())
 	  decsep=(*tmp._STRNGptr)[0];
       }

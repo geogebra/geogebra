@@ -4727,6 +4727,7 @@ unsigned int ConvertUTF8toUTF16 (
     "pow2exp",
     "powexpand",
     "propfrac",
+    "quote",
     "regroup",
     "reorder",
     "series",
