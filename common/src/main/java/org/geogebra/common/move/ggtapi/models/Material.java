@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.move.ggtapi.models.json.JSONBoolean;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 
@@ -352,7 +351,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private void putBoolean(JSONObject ret, String key, boolean val) {
 		if (val) {
 			try {
-				ret.put(key, JSONBoolean.getInstance(val));
+				ret.put(key, Boolean.valueOf(val));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

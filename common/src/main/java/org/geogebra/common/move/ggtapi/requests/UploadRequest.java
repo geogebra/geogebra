@@ -5,8 +5,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Request;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
-import org.geogebra.common.move.ggtapi.models.json.JSONBoolean;
-import org.geogebra.common.move.ggtapi.models.json.JSONNumber;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 
@@ -146,7 +144,7 @@ public class UploadRequest implements Request {
 
 			if (this.uniqueID != 0) {
 				// ID
-				task.put("id", new JSONNumber(this.uniqueID));
+				task.put("id", this.uniqueID);
 			}
 
 			// type
@@ -165,9 +163,9 @@ public class UploadRequest implements Request {
 
 			// settings
 			JSONObject settings = new JSONObject();
-			settings.put("-toolbar", JSONBoolean.getInstance(false));
-			settings.put("-menubar", JSONBoolean.getInstance(false));
-			settings.put("-inputbar", JSONBoolean.getInstance(false));
+			settings.put("-toolbar", Boolean.valueOf(false));
+			settings.put("-menubar", Boolean.valueOf(false));
+			settings.put("-inputbar", Boolean.valueOf(false));
 			task.put("settings", settings);
 
 			// file
