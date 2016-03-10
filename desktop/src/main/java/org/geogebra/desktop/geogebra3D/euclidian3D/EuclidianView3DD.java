@@ -108,6 +108,9 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		// lines below for testing
 
 		// return new RendererCheckGLVersionD(this, !app.isApplet(),
+		// RendererType.SHADER);
+
+		// return new RendererCheckGLVersionD(this, !app.isApplet(),
 		// RendererType.GL2);
 
 		// return new RendererGLPickingGL2(this, !app.isApplet());
