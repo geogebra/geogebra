@@ -176,24 +176,7 @@ public abstract class EuclidianController {
 	 * attachDetach (while the point is attached to a Path or Region)
 	 */
 	private static final int INCREASED_THRESHOLD_FACTOR = 2;
-	protected final ArrayList<GeoPointND> selectedPoints = new ArrayList<GeoPointND>();
-	protected final ArrayList<GeoNumeric> selectedNumbers = new ArrayList<GeoNumeric>();
-	protected final ArrayList<GeoNumberValue> selectedNumberValues = new ArrayList<GeoNumberValue>();
-	protected final ArrayList<GeoLineND> selectedLines = new ArrayList<GeoLineND>();
-	protected final ArrayList<GeoDirectionND> selectedDirections = new ArrayList<GeoDirectionND>();
-	protected final ArrayList<GeoSegmentND> selectedSegments = new ArrayList<GeoSegmentND>();
-	protected final ArrayList<Region> selectedRegions = new ArrayList<Region>();
-	protected final ArrayList<Path> selectedPaths = new ArrayList<Path>();
-	protected final ArrayList<GeoConicND> selectedConicsND = new ArrayList<GeoConicND>();
-	protected final ArrayList<GeoImplicit> selectedImplicitpoly = new ArrayList<GeoImplicit>();
-	protected final ArrayList<GeoImplicitSurfaceND> selectedImplicitSurface = new ArrayList<GeoImplicitSurfaceND>();
-	protected final ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
-	protected final ArrayList<GeoCurveCartesian> selectedCurves = new ArrayList<GeoCurveCartesian>();
-	protected final ArrayList<GeoVectorND> selectedVectors = new ArrayList<GeoVectorND>();
-	protected final ArrayList<GeoPolygon> selectedPolygons = new ArrayList<GeoPolygon>();
-	protected final ArrayList<GeoPolyLine> selectedPolyLines = new ArrayList<GeoPolyLine>();
-	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
-	protected final ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
+
 	protected final App app;
 	protected final SelectionManager selection;
 	protected final Localization l10n;
@@ -814,7 +797,7 @@ public abstract class EuclidianController {
 
 		// unselect
 		selectionList.clear();
-		selectedGeos.clear();
+		getSelectedGeoList().clear();
 		if (doUpdateSelection) {
 			selection.clearSelectedGeos();
 		}
@@ -845,23 +828,23 @@ public abstract class EuclidianController {
 	 * helper functions for selection sets
 	 **************************************************************************/
 	public final GeoElement[] getSelectedGeos() {
-		GeoElement[] ret = new GeoElement[selectedGeos.size()];
+		GeoElement[] ret = new GeoElement[getSelectedGeoList().size()];
 		int i = 0;
-		Iterator<GeoElement> it = selectedGeos.iterator();
+		Iterator<GeoElement> it = getSelectedGeoList().iterator();
 		while (it.hasNext()) {
 			ret[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedGeos);
+		clearSelection(getSelectedGeoList());
 		return ret;
 	}
 
 	protected final void getSelectedPointsND(GeoPointND[] result) {
 
-		for (int i = 0; i < selectedPoints.size(); i++) {
-			result[i] = selectedPoints.get(i);
+		for (int i = 0; i < getSelectedPointList().size(); i++) {
+			result[i] = getSelectedPointList().get(i);
 		}
-		clearSelection(selectedPoints);
+		clearSelection(getSelectedPointList());
 
 	}
 
@@ -872,7 +855,7 @@ public abstract class EuclidianController {
 	 */
 	protected final GeoPointND[] getSelectedPointsND() {
 
-		GeoPointND[] ret = new GeoPointND[selectedPoints.size()];
+		GeoPointND[] ret = new GeoPointND[getSelectedPointList().size()];
 		getSelectedPointsND(ret);
 
 		return ret;
@@ -880,7 +863,7 @@ public abstract class EuclidianController {
 
 	protected final GeoPoint[] getSelectedPoints() {
 
-		GeoPoint[] ret = new GeoPoint[selectedPoints.size()];
+		GeoPoint[] ret = new GeoPoint[getSelectedPointList().size()];
 		getSelectedPointsND(ret);
 
 		return ret;
@@ -888,69 +871,69 @@ public abstract class EuclidianController {
 	}
 
 	protected final GeoNumeric[] getSelectedNumbers() {
-		GeoNumeric[] ret = new GeoNumeric[selectedNumbers.size()];
-		for (int i = 0; i < selectedNumbers.size(); i++) {
-			ret[i] = selectedNumbers.get(i);
+		GeoNumeric[] ret = new GeoNumeric[getSelectedNumberList().size()];
+		for (int i = 0; i < getSelectedNumberList().size(); i++) {
+			ret[i] = getSelectedNumberList().get(i);
 		}
-		clearSelection(selectedNumbers);
+		clearSelection(getSelectedNumberList());
 		return ret;
 	}
 
 	protected final NumberValue[] getSelectedNumberValues() {
-		NumberValue[] ret = new NumberValue[selectedNumberValues.size()];
-		for (int i = 0; i < selectedNumberValues.size(); i++) {
-			ret[i] = selectedNumberValues.get(i);
+		NumberValue[] ret = new NumberValue[getSelectedNumberValueList().size()];
+		for (int i = 0; i < getSelectedNumberValueList().size(); i++) {
+			ret[i] = getSelectedNumberValueList().get(i);
 		}
-		clearSelection(selectedNumberValues);
+		clearSelection(getSelectedNumberValueList());
 		return ret;
 	}
 
 	protected final GeoList[] getSelectedLists() {
-		GeoList[] ret = new GeoList[selectedLists.size()];
-		for (int i = 0; i < selectedLists.size(); i++) {
-			ret[i] = selectedLists.get(i);
+		GeoList[] ret = new GeoList[getSelectedListList().size()];
+		for (int i = 0; i < getSelectedListList().size(); i++) {
+			ret[i] = getSelectedListList().get(i);
 		}
-		clearSelection(selectedLists);
+		clearSelection(getSelectedListList());
 		return ret;
 	}
 
 	protected final GeoPolygon[] getSelectedPolygons() {
-		GeoPolygon[] ret = new GeoPolygon[selectedPolygons.size()];
-		for (int i = 0; i < selectedPolygons.size(); i++) {
-			ret[i] = selectedPolygons.get(i);
+		GeoPolygon[] ret = new GeoPolygon[getSelectedPolygonList().size()];
+		for (int i = 0; i < getSelectedPolygonList().size(); i++) {
+			ret[i] = getSelectedPolygonList().get(i);
 		}
-		clearSelection(selectedPolygons);
+		clearSelection(getSelectedPolygonList());
 		return ret;
 	}
 
 	protected final GeoPolyLine[] getSelectedPolyLines() {
-		GeoPolyLine[] ret = new GeoPolyLine[selectedPolyLines.size()];
-		for (int i = 0; i < selectedPolyLines.size(); i++) {
-			ret[i] = selectedPolyLines.get(i);
+		GeoPolyLine[] ret = new GeoPolyLine[getSelectedPolyLineList().size()];
+		for (int i = 0; i < getSelectedPolyLineList().size(); i++) {
+			ret[i] = getSelectedPolyLineList().get(i);
 		}
-		clearSelection(selectedPolyLines);
+		clearSelection(getSelectedPolyLineList());
 		return ret;
 	}
 
 	protected final void getSelectedLinesND(GeoLineND[] lines) {
 		int i = 0;
-		Iterator<GeoLineND> it = selectedLines.iterator();
+		Iterator<GeoLineND> it = getSelectedLineList().iterator();
 		while (it.hasNext()) {
 			lines[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedLines);
+		clearSelection(getSelectedLineList());
 	}
 
 	protected final GeoLineND[] getSelectedLinesND() {
-		GeoLineND[] lines = new GeoLineND[selectedLines.size()];
+		GeoLineND[] lines = new GeoLineND[getSelectedLineList().size()];
 		getSelectedLinesND(lines);
 
 		return lines;
 	}
 
 	protected final GeoLine[] getSelectedLines() {
-		GeoLine[] lines = new GeoLine[selectedLines.size()];
+		GeoLine[] lines = new GeoLine[getSelectedLineList().size()];
 		getSelectedLinesND(lines);
 
 		return lines;
@@ -958,23 +941,23 @@ public abstract class EuclidianController {
 
 	protected final void getSelectedSegmentsND(GeoSegmentND[] segments) {
 		int i = 0;
-		Iterator<GeoSegmentND> it = selectedSegments.iterator();
+		Iterator<GeoSegmentND> it = getSelectedSegmentList().iterator();
 		while (it.hasNext()) {
 			segments[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedSegments);
+		clearSelection(getSelectedSegmentList());
 	}
 
 	protected final GeoSegmentND[] getSelectedSegmentsND() {
-		GeoSegmentND[] segments = new GeoSegmentND[selectedSegments.size()];
+		GeoSegmentND[] segments = new GeoSegmentND[getSelectedSegmentList().size()];
 		getSelectedSegmentsND(segments);
 
 		return segments;
 	}
 
 	protected final GeoSegment[] getSelectedSegments() {
-		GeoSegment[] segments = new GeoSegment[selectedSegments.size()];
+		GeoSegment[] segments = new GeoSegment[getSelectedSegmentList().size()];
 		getSelectedSegmentsND(segments);
 
 		return segments;
@@ -982,44 +965,44 @@ public abstract class EuclidianController {
 
 	protected final void getSelectedVectorsND(GeoVectorND[] vectors) {
 		int i = 0;
-		Iterator<GeoVectorND> it = selectedVectors.iterator();
+		Iterator<GeoVectorND> it = getSelectedVectorList().iterator();
 		while (it.hasNext()) {
 			vectors[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedVectors);
+		clearSelection(getSelectedVectorList());
 	}
 
 	protected final GeoVectorND[] getSelectedVectorsND() {
-		GeoVectorND[] vectors = new GeoVectorND[selectedVectors.size()];
+		GeoVectorND[] vectors = new GeoVectorND[getSelectedVectorList().size()];
 		getSelectedVectorsND(vectors);
 
 		return vectors;
 	}
 
 	protected final GeoVector[] getSelectedVectors() {
-		GeoVector[] vectors = new GeoVector[selectedVectors.size()];
+		GeoVector[] vectors = new GeoVector[getSelectedVectorList().size()];
 		getSelectedVectorsND(vectors);
 
 		return vectors;
 	}
 
 	protected final GeoConic[] getSelectedConics() {
-		GeoConic[] conics = new GeoConic[selectedConicsND.size()];
+		GeoConic[] conics = new GeoConic[getSelectedConicNDList().size()];
 		int i = 0;
-		Iterator<GeoConicND> it = selectedConicsND.iterator();
+		Iterator<GeoConicND> it = getSelectedConicNDList().iterator();
 		while (it.hasNext()) {
 			conics[i] = (GeoConic) it.next();
 			i++;
 		}
-		clearSelection(selectedConicsND);
+		clearSelection(getSelectedConicNDList());
 		return conics;
 	}
 
 	protected final GeoConic[] getSelectedCircles() {
-		GeoConic[] circles = new GeoConic[selectedConicsND.size()];
+		GeoConic[] circles = new GeoConic[getSelectedConicNDList().size()];
 		int i = 0;
-		Iterator<GeoConicND> it = selectedConicsND.iterator();
+		Iterator<GeoConicND> it = getSelectedConicNDList().iterator();
 		while (it.hasNext()) {
 			GeoConicND c = it.next();
 			if (c.isCircle()) {
@@ -1027,14 +1010,14 @@ public abstract class EuclidianController {
 				i++;
 			}
 		}
-		clearSelection(selectedConicsND);
+		clearSelection(getSelectedConicNDList());
 		return circles;
 	}
 
 	protected final GeoConicND[] getSelectedCirclesND() {
-		GeoConicND[] circles = new GeoConicND[selectedConicsND.size()];
+		GeoConicND[] circles = new GeoConicND[getSelectedConicNDList().size()];
 		int i = 0;
-		Iterator<GeoConicND> it = selectedConicsND.iterator();
+		Iterator<GeoConicND> it = getSelectedConicNDList().iterator();
 		while (it.hasNext()) {
 			GeoConicND c = it.next();
 			if (c.isCircle()) {
@@ -1042,107 +1025,107 @@ public abstract class EuclidianController {
 				i++;
 			}
 		}
-		clearSelection(selectedConicsND);
+		clearSelection(getSelectedConicNDList());
 		return circles;
 	}
 
 	protected final GeoConicND[] getSelectedConicsND() {
-		GeoConicND[] conics = new GeoConicND[selectedConicsND.size()];
+		GeoConicND[] conics = new GeoConicND[getSelectedConicNDList().size()];
 		int i = 0;
-		Iterator<GeoConicND> it = selectedConicsND.iterator();
+		Iterator<GeoConicND> it = getSelectedConicNDList().iterator();
 		while (it.hasNext()) {
 			conics[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedConicsND);
+		clearSelection(getSelectedConicNDList());
 		return conics;
 	}
 
 	protected final GeoDirectionND[] getSelectedDirections() {
-		GeoDirectionND[] directions = new GeoDirectionND[selectedDirections
+		GeoDirectionND[] directions = new GeoDirectionND[getSelectedDirectionList()
 				.size()];
 		int i = 0;
-		Iterator<GeoDirectionND> it = selectedDirections.iterator();
+		Iterator<GeoDirectionND> it = getSelectedDirectionList().iterator();
 		while (it.hasNext()) {
 			directions[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedDirections);
+		clearSelection(getSelectedDirectionList());
 		return directions;
 	}
 
 	protected final Region[] getSelectedRegions() {
-		Region[] regions = new Region[selectedRegions.size()];
+		Region[] regions = new Region[getSelectedRegionList().size()];
 		int i = 0;
-		Iterator<Region> it = selectedRegions.iterator();
+		Iterator<Region> it = getSelectedRegionList().iterator();
 		while (it.hasNext()) {
 			regions[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedRegions);
+		clearSelection(getSelectedRegionList());
 		return regions;
 	}
 
 	protected final Path[] getSelectedPaths() {
-		Path[] paths = new Path[selectedPaths.size()];
+		Path[] paths = new Path[getSelectedPathList().size()];
 		int i = 0;
-		Iterator<Path> it = selectedPaths.iterator();
+		Iterator<Path> it = getSelectedPathList().iterator();
 		while (it.hasNext()) {
 			paths[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedPaths);
+		clearSelection(getSelectedPathList());
 		return paths;
 	}
 
 	protected final GeoImplicit[] getSelectedImplicitpoly() {
-		GeoImplicit[] implicitPoly = new GeoImplicit[selectedImplicitpoly
+		GeoImplicit[] implicitPoly = new GeoImplicit[getSelectedImplicitpolyList()
 				.size()];
 		int i = 0;
-		Iterator<GeoImplicit> it = selectedImplicitpoly.iterator();
+		Iterator<GeoImplicit> it = getSelectedImplicitpolyList().iterator();
 		while (it.hasNext()) {
 			implicitPoly[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedImplicitpoly);
+		clearSelection(getSelectedImplicitpolyList());
 		return implicitPoly;
 	}
 
 	protected final GeoImplicitSurfaceND[] getSelectedImplicitSurface() {
-		GeoImplicitSurfaceND[] implicitPoly = new GeoImplicitSurfaceND[selectedImplicitSurface
+		GeoImplicitSurfaceND[] implicitPoly = new GeoImplicitSurfaceND[getSelectedImplicitSurfaceList()
 				.size()];
 		int i = 0;
-		Iterator<GeoImplicitSurfaceND> it = selectedImplicitSurface.iterator();
+		Iterator<GeoImplicitSurfaceND> it = getSelectedImplicitSurfaceList().iterator();
 		while (it.hasNext()) {
 			implicitPoly[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedImplicitSurface);
+		clearSelection(getSelectedImplicitSurfaceList());
 		return implicitPoly;
 	}
 
 	protected final GeoFunction[] getSelectedFunctions() {
-		GeoFunction[] functions = new GeoFunction[selectedFunctions.size()];
+		GeoFunction[] functions = new GeoFunction[getSelectedFunctionList().size()];
 		int i = 0;
-		Iterator<GeoFunction> it = selectedFunctions.iterator();
+		Iterator<GeoFunction> it = getSelectedFunctionList().iterator();
 		while (it.hasNext()) {
 			functions[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedFunctions);
+		clearSelection(getSelectedFunctionList());
 		return functions;
 	}
 
 	protected final GeoCurveCartesian[] getSelectedCurves() {
-		GeoCurveCartesian[] curves = new GeoCurveCartesian[selectedCurves
+		GeoCurveCartesian[] curves = new GeoCurveCartesian[getSelectedCurveList()
 				.size()];
 		int i = 0;
-		Iterator<GeoCurveCartesian> it = selectedCurves.iterator();
+		Iterator<GeoCurveCartesian> it = getSelectedCurveList().iterator();
 		while (it.hasNext()) {
 			curves[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedCurves);
+		clearSelection(getSelectedCurveList());
 		return curves;
 	}
 
@@ -1345,15 +1328,15 @@ public abstract class EuclidianController {
 		int ret = 0;
 		if (selectionList.contains(geo)) { // remove from selection
 			selectionList.remove(geo);
-			if (!selectionList.equals(selectedGeos)) {
-				selectedGeos.remove(geo);
+			if (!selectionList.equals(getSelectedGeoList())) {
+				getSelectedGeoList().remove(geo);
 			}
 			ret = -1;
 		} else { // new element: add to selection
 			if (selectionList.size() < max) {
 				selectionList.add(geo);
-				if (!selectionList.equals(selectedGeos)) {
-					selectedGeos.add((GeoElement) geo);
+				if (!selectionList.equals(getSelectedGeoList())) {
+					getSelectedGeoList().add((GeoElement) geo);
 				}
 				ret = 1;
 			}
@@ -1694,71 +1677,71 @@ public abstract class EuclidianController {
 	}
 
 	public final int selGeos() {
-		return selectedGeos.size();
+		return getSelectedGeoList().size();
 	}
 
 	public final int selPoints() {
-		return selectedPoints.size();
+		return getSelectedPointList().size();
 	}
 
 	protected final int selNumbers() {
-		return selectedNumbers.size();
+		return getSelectedNumberList().size();
 	}
 
 	protected final int selNumberValues() {
-		return selectedNumberValues.size();
+		return getSelectedNumberValueList().size();
 	}
 
 	protected final int selLists() {
-		return selectedLists.size();
+		return getSelectedListList().size();
 	}
 
 	protected final int selPolyLines() {
-		return selectedPolyLines.size();
+		return getSelectedPolyLineList().size();
 	}
 
 	protected final int selPolygons() {
-		return selectedPolygons.size();
+		return getSelectedPolygonList().size();
 	}
 
 	protected final int selLines() {
-		return selectedLines.size();
+		return getSelectedLineList().size();
 	}
 
 	protected final int selDirections() {
-		return selectedDirections.size();
+		return getSelectedDirectionList().size();
 	}
 
 	protected final int selSegments() {
-		return selectedSegments.size();
+		return getSelectedSegmentList().size();
 	}
 
 	protected final int selVectors() {
-		return selectedVectors.size();
+		return getSelectedVectorList().size();
 	}
 
 	protected final int selConics() {
-		return selectedConicsND.size();
+		return getSelectedConicNDList().size();
 	}
 
 	protected final int selPaths() {
-		return selectedPaths.size();
+		return getSelectedPathList().size();
 	}
 
 	protected final int selRegions() {
-		return selectedRegions.size();
+		return getSelectedRegionList().size();
 	}
 
 	protected final int selImplicitpoly() {
-		return selectedImplicitpoly.size();
+		return getSelectedImplicitpolyList().size();
 	}
 
 	protected final int selFunctions() {
-		return selectedFunctions.size();
+		return getSelectedFunctionList().size();
 	}
 
 	protected final int selCurves() {
-		return selectedCurves.size();
+		return getSelectedCurveList().size();
 	}
 
 	protected int handleAddSelected(Hits hits, int max, boolean addMore,
@@ -1787,37 +1770,37 @@ public abstract class EuclidianController {
 	public final int addSelectedGeo(Hits hits, int max,
 									boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedGeos, Test.GEOELEMENT);
+				getSelectedGeoList(), Test.GEOELEMENT);
 	}
 
 	protected final int addSelectedPoint(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPoints, Test.GEOPOINTND);
+				getSelectedPointList(), Test.GEOPOINTND);
 	}
 
 	public final int addSelectedNumeric(Hits hits, int max,
 										boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedNumbers, Test.GEONUMERIC);
+				getSelectedNumberList(), Test.GEONUMERIC);
 	}
 
 	public final int addSelectedNumberValue(Hits hits, int max,
 											boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedNumberValues, Test.NUMBERVALUE);
+				getSelectedNumberValueList(), Test.NUMBERVALUE);
 	}
 
 	protected final int addSelectedLine(Hits hits, int max,
 										boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedLines, Test.GEOLINEND);
+				getSelectedLineList(), Test.GEOLINEND);
 	}
 
 	protected final int addSelectedSegment(Hits hits, int max,
 										   boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedSegments, Test.GEOSEGMENTND);
+				getSelectedSegmentList(), Test.GEOSEGMENTND);
 	}
 
 	protected final int addSelectedVector(Hits hits, int max,
@@ -1829,61 +1812,61 @@ public abstract class EuclidianController {
 	protected final int addSelectedVector(Hits hits, int max,
 										  boolean addMoreThanOneAllowed, Test geoClass) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedVectors, geoClass);
+				getSelectedVectorList(), geoClass);
 	}
 
 	protected final int addSelectedPath(Hits hits, int max,
 										boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPaths, Test.PATH);
+				getSelectedPathList(), Test.PATH);
 	}
 
 	protected final int addSelectedRegion(Hits hits, int max,
 										  boolean addMoreThanOneAllowed) {
 		return handleAddSelectedRegions(hits, max, addMoreThanOneAllowed,
-				selectedRegions);
+				getSelectedRegionList());
 	}
 
 	protected final int addSelectedImplicitpoly(Hits hits, int max,
 												boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedImplicitpoly, Test.GEOIMPLICIT);
+				getSelectedImplicitpolyList(), Test.GEOIMPLICIT);
 	}
 
 	protected final int addSelectedImplicitSurface(Hits hits, int max,
 												   boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedImplicitSurface, Test.GEOIMPLICITSURFACE);
+				getSelectedImplicitSurfaceList(), Test.GEOIMPLICITSURFACE);
 	}
 
 	protected final int addSelectedPolygon(Hits hits, int max,
 										   boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPolygons, Test.GEOPOLYGON);
+				getSelectedPolygonList(), Test.GEOPOLYGON);
 	}
 
 	protected final int addSelectedPolyLine(Hits hits, int max,
 											boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPolyLines, Test.GEOPOLYLINE);
+				getSelectedPolyLineList(), Test.GEOPOLYLINE);
 	}
 
 	protected final int addSelectedList(Hits hits, int max,
 										boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedLists, Test.GEOLIST);
+				getSelectedListList(), Test.GEOLIST);
 	}
 
 	protected final int addSelectedDirection(Hits hits, int max,
 											 boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedDirections, Test.GEODIRECTIONND);
+				getSelectedDirectionList(), Test.GEODIRECTIONND);
 	}
 
 	protected final int addSelectedCircle(Hits hits, int max,
 										  boolean addMoreThanOneAllowed) {
 		ArrayList<GeoConic> selectedCircles = new ArrayList<GeoConic>();
-		for (Object c : selectedConicsND) {
+		for (Object c : getSelectedConicNDList()) {
 			if (((GeoConic) c).isCircle()) {
 				selectedCircles.add((GeoConic) c);
 			}
@@ -1895,19 +1878,19 @@ public abstract class EuclidianController {
 	protected final int addSelectedConic(Hits hits, int max,
 										 boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedConicsND, Test.GEOCONICND);
+				getSelectedConicNDList(), Test.GEOCONICND);
 	}
 
 	protected final int addSelectedFunction(Hits hits, int max,
 											boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedFunctions, Test.GEOFUNCTION);
+				getSelectedFunctionList(), Test.GEOFUNCTION);
 	}
 
 	protected final int addSelectedCurve(Hits hits, int max,
 										 boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedCurves, Test.GEOCURVECARTESIAN);
+				getSelectedCurveList(), Test.GEOCURVECARTESIAN);
 	}
 
 	/**
@@ -2122,7 +2105,7 @@ public abstract class EuclidianController {
 		if (selPoints() > 2) {
 			// check if first point was clicked again
 			boolean finished = !selectionPreview
-					&& hits.contains(selectedPoints.get(0));
+					&& hits.contains(getSelectedPointList().get(0));
 			if (finished) {
 				// build polygon
 				this.kernel.addingPolygon();
@@ -2160,7 +2143,7 @@ public abstract class EuclidianController {
 		if (selPoints() > 2) {
 			// check if first point was clicked again
 			boolean finished = !selectionPreview
-					&& hits.contains(selectedPoints.get(0));
+					&& hits.contains(getSelectedPointList().get(0));
 			if (finished) {
 				// build polygon
 				checkZooming();
@@ -3561,10 +3544,10 @@ public abstract class EuclidianController {
 
 		// first selected GeoElement is GeoLine
 		if (count == 1 && selGeos() >= 1) {
-			GeoElement geo = selectedGeos.get(selectedGeos.size() - 1);
+			GeoElement geo = getSelectedGeoList().get(getSelectedGeoList().size() - 1);
 			if (geo instanceof GeoLineND) {
-				selectedLines.clear();
-				selectedLines.add((GeoLineND) geo);
+				getSelectedLineList().clear();
+				getSelectedLineList().add((GeoLineND) geo);
 			}
 		}
 
@@ -3779,20 +3762,20 @@ public abstract class EuclidianController {
 	}
 
 	public void clearSelected() {
-		clearSelection(selectedNumbers, false);
-		clearSelection(selectedNumberValues, false);
-		clearSelection(selectedPoints, false);
-		clearSelection(selectedLines, false);
-		clearSelection(selectedSegments, false);
-		clearSelection(selectedConicsND, false);
-		clearSelection(selectedVectors, false);
-		clearSelection(selectedPolygons, false);
-		clearSelection(selectedGeos, false);
-		clearSelection(selectedFunctions, false);
-		clearSelection(selectedCurves, false);
-		clearSelection(selectedLists, false);
-		clearSelection(selectedPaths, false);
-		clearSelection(selectedRegions, false);
+		clearSelection(getSelectedNumberList(), false);
+		clearSelection(getSelectedNumberValueList(), false);
+		clearSelection(getSelectedPointList(), false);
+		clearSelection(getSelectedLineList(), false);
+		clearSelection(getSelectedSegmentList(), false);
+		clearSelection(getSelectedConicNDList(), false);
+		clearSelection(getSelectedVectorList(), false);
+		clearSelection(getSelectedPolygonList(), false);
+		clearSelection(getSelectedGeoList(), false);
+		clearSelection(getSelectedFunctionList(), false);
+		clearSelection(getSelectedCurveList(), false);
+		clearSelection(getSelectedListList(), false);
+		clearSelection(getSelectedPathList(), false);
+		clearSelection(getSelectedRegionList(), false);
 	}
 
 	final protected boolean attachDetach(Hits hits) {
@@ -3863,9 +3846,9 @@ public abstract class EuclidianController {
 
 		addSelectedPoint(hits, 1, false);
 
-		if (selectedPoints.size() == 1) {
+		if (getSelectedPointList().size() == 1) {
 
-			GeoPointND p = selectedPoints.get(0);
+			GeoPointND p = getSelectedPointList().get(0);
 
 			if (p.isPointOnPath() || p.isPointInRegion()) {
 
@@ -3999,7 +3982,7 @@ public abstract class EuclidianController {
 		// create translation vector
 		if (count == 0) {
 			count = addSelectedPoint(hits, 2, false);
-			selectedGeos.removeAll(selectedPoints);
+			getSelectedGeoList().removeAll(getSelectedPointList());
 			allowSelectionRectangleForTranslateByVector = false;
 		}
 
@@ -4053,7 +4036,7 @@ public abstract class EuclidianController {
 		// Transformable
 		int count = 0;
 		if (selGeos() == 0
-				|| (selGeos() == 1 && selectedGeos.get(0) instanceof GeoPointND)
+				|| (selGeos() == 1 && getSelectedGeoList().get(0) instanceof GeoPointND)
 				&& !hits.containsGeoPoint()) {
 			// if the first geo to be selected is a point and the second is not,
 			// the point will be used as rotation center
@@ -4072,13 +4055,13 @@ public abstract class EuclidianController {
 		}
 
 		if (selGeos() > 1 && selPoints() == 0
-				&& selectedGeos.get(0) instanceof GeoPointND) {
+				&& getSelectedGeoList().get(0) instanceof GeoPointND) {
 			// If a point is selected as first geo, it is not added to
 			// selectedPoints, because the last point that is selected is used
 			// as rotation center.
 			// Therefore a point that was selected first has to be added to
 			// selecetedPoints, if another geo is selected in the second step
-			selectedPoints.add((GeoPointND) selectedGeos.get(0));
+			getSelectedPointList().add((GeoPointND) getSelectedGeoList().get(0));
 		}
 
 		// we got the rotation center point
@@ -4715,8 +4698,8 @@ public abstract class EuclidianController {
 		// we already have two points that define the radius
 		if (selPoints() == 2) {
 			GeoPointND[] points = new GeoPointND[2];
-			points[0] = selectedPoints.get(0);
-			points[1] = selectedPoints.get(1);
+			points[0] = getSelectedPointList().get(0);
+			points[1] = getSelectedPointList().get(1);
 
 			// check for centerPoint
 			GeoPointND centerPoint = (GeoPointND) chooseGeo(hits,
@@ -4727,7 +4710,7 @@ public abstract class EuclidianController {
 					// highlight the center point
 					tempArrayList.clear();
 					tempArrayList.add((GeoElement) centerPoint);
-					addToHighlightedList(selectedPoints, tempArrayList, 3);
+					addToHighlightedList(getSelectedPointList(), tempArrayList, 3);
 					return null;
 				}
 				checkZooming();
@@ -4743,7 +4726,7 @@ public abstract class EuclidianController {
 
 		// we already have a circle that defines the radius
 		else if (selConics() == 1) {
-			GeoConicND circle = selectedConicsND.get(0);
+			GeoConicND circle = getSelectedConicNDList().get(0);
 
 			// check for centerPoint
 			GeoPointND centerPoint = (GeoPointND) chooseGeo(hits,
@@ -4754,7 +4737,7 @@ public abstract class EuclidianController {
 					// highlight the center point
 					tempArrayList.clear();
 					tempArrayList.add((GeoElement) centerPoint);
-					addToHighlightedList(selectedPoints, tempArrayList, 3);
+					addToHighlightedList(getSelectedPointList(), tempArrayList, 3);
 					return null;
 				}
 				checkZooming();
@@ -4768,7 +4751,7 @@ public abstract class EuclidianController {
 		}
 		// we already have a segment that defines the radius
 		else if (selSegments() == 1) {
-			GeoSegmentND segment = selectedSegments.get(0);
+			GeoSegmentND segment = getSelectedSegmentList().get(0);
 
 			// check for centerPoint
 			GeoPointND centerPoint = (GeoPointND) chooseGeo(hits,
@@ -4779,7 +4762,7 @@ public abstract class EuclidianController {
 					// highlight the center point
 					tempArrayList.clear();
 					tempArrayList.add((GeoElement) centerPoint);
-					addToHighlightedList(selectedPoints, tempArrayList, 3);
+					addToHighlightedList(getSelectedPointList(), tempArrayList, 3);
 					return null;
 				}
 				checkZooming();
@@ -4800,10 +4783,10 @@ public abstract class EuclidianController {
 			addSelectedConic(hits, 1, false);
 
 			// don't allow conics other than circles to be selected
-			if (selectedConicsND.size() > 0) {
-				GeoConicND c = selectedConicsND.get(0);
+			if (getSelectedConicNDList().size() > 0) {
+				GeoConicND c = getSelectedConicNDList().get(0);
 				if (!c.isCircle()) {
-					selectedConicsND.remove(0);
+					getSelectedConicNDList().remove(0);
 					clearSelections();
 				}
 			}
@@ -5199,7 +5182,7 @@ public abstract class EuclidianController {
 
 		// standard case: try to get one object of needed input type
 		boolean objectFound = 1 == handleAddSelected(hits, macroInput.length,
-				false, selectedGeos, macroInput[index]);
+				false, getSelectedGeoList(), macroInput[index]);
 
 		// some old code for polygon removed in [6779]
 
@@ -5216,7 +5199,7 @@ public abstract class EuclidianController {
 				.equals(Test.GEOPOINTND))) {
 			if (createNewPoint(hits, true, true, false)) {
 				// take movedGeoPoint which is the newly created point
-				selectedGeos.add(getMovedGeoPoint());
+				getSelectedGeoList().add(getMovedGeoPoint());
 				selection.addSelectedGeo(getMovedGeoPoint());
 				objectFound = true;
 				pointCreated = null;
@@ -5244,7 +5227,7 @@ public abstract class EuclidianController {
 					// great, we got our number
 					if (num instanceof NumberValue
 							&& ((NumberValue) num).isGeoElement()) {
-						selectedGeos.add(((NumberValue) num).toGeoElement());
+						getSelectedGeoList().add(((NumberValue) num).toGeoElement());
 					}
 
 					readNumberOrAngleIfNeeded(this);
@@ -5349,7 +5332,7 @@ public abstract class EuclidianController {
 					GeoElement[] ret0 = {null};
 					ret0[0] = hits.getFirstHit(Test.GEOPOINTND);
 					ret = ret0;
-					clearSelection(selectedPoints);
+					clearSelection(getSelectedPointList());
 				}
 				break;
 
@@ -9113,7 +9096,7 @@ public abstract class EuclidianController {
 			}
 		}
 		removeParentPoints(hits);
-		selectedGeos.addAll(hits);
+		getSelectedGeoList().addAll(hits);
 		setAppSelectedGeos(hits, false);
 		app.updateSelection(hits.size() > 0);
 	}
@@ -9160,7 +9143,7 @@ public abstract class EuclidianController {
 
 			case EuclidianConstants.MODE_CREATE_LIST:
 				removeParentPoints(hits);
-				selectedGeos.addAll(hits);
+				getSelectedGeoList().addAll(hits);
 				setAppSelectedGeos(hits);
 				changedKernel = processMode(hits, isControlDown, null);
 				view.setSelectionRectangle(null);
@@ -9171,7 +9154,7 @@ public abstract class EuclidianController {
 				// check for list first
 				if (hits.size() == 1) {
 					if (hits.get(0).isGeoList()) {
-						selectedGeos.addAll(hits);
+						getSelectedGeoList().addAll(hits);
 						setAppSelectedGeos(hits);
 						changedKernel = processMode(hits, isControlDown, null);
 						view.setSelectionRectangle(null);
@@ -9192,7 +9175,7 @@ public abstract class EuclidianController {
 					hits.clear();
 				} else {
 					removeParentPoints(hits);
-					selectedGeos.addAll(hits);
+					getSelectedGeoList().addAll(hits);
 					setAppSelectedGeos(hits);
 					changedKernel = processMode(hits, isControlDown, null);
 					view.setSelectionRectangle(null);
@@ -9284,7 +9267,7 @@ public abstract class EuclidianController {
 					hits.clear();
 				} else {
 					removeParentPoints(hits);
-					selectedGeos.addAll(hits);
+					getSelectedGeoList().addAll(hits);
 					setAppSelectedGeos(hits);
 					processMode(hits, false, null);
 
@@ -9341,7 +9324,7 @@ public abstract class EuclidianController {
 
 	public void wrapMouseReleased(AbstractEvent event) {
 		// will be reset in wrapMouseReleased
-		GeoPointND p = this.selPoints() == 1 ? selectedPoints.get(0) : null;
+		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0) : null;
 
 		DrawList dl = view.getOpenedComboBox();// getComboBoxHit(event.getX(),
 		// event.getY());
@@ -9393,8 +9376,8 @@ public abstract class EuclidianController {
 			Hits hits = view.getHits();
 
 			if (p != null && hits.getFirstHit(Test.GEOPOINTND) == null) {
-				if (!selectedPoints.contains(p)) {
-					this.selectedPoints.add(p);
+				if (!getSelectedPointList().contains(p)) {
+					this.getSelectedPointList().add(p);
 				}
 				createNewPointForModeOther(hits);
 				this.view.setHits(new GPoint(event.getX(), event.getY()),
@@ -10045,79 +10028,79 @@ public abstract class EuclidianController {
 			// break;
 
 			case EuclidianConstants.MODE_PARALLEL:
-				previewDrawable = view.createPreviewParallelLine(selectedPoints,
-						selectedLines);
+				previewDrawable = view.createPreviewParallelLine(getSelectedPointList(),
+						getSelectedLineList());
 				break;
 
 			case EuclidianConstants.MODE_PARABOLA:
-				previewDrawable = view.createPreviewParabola(selectedPoints,
-						selectedLines);
+				previewDrawable = view.createPreviewParabola(getSelectedPointList(),
+						getSelectedLineList());
 				break;
 
 			case EuclidianConstants.MODE_ANGULAR_BISECTOR:
-				previewDrawable = view.createPreviewAngleBisector(selectedPoints);
+				previewDrawable = view.createPreviewAngleBisector(getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_ORTHOGONAL:
 			case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
 				previewDrawable = view.createPreviewPerpendicularLine(
-						selectedPoints, selectedLines);
+						getSelectedPointList(), getSelectedLineList());
 				break;
 
 			case EuclidianConstants.MODE_LINE_BISECTOR:
 				previewDrawable = view
-						.createPreviewPerpendicularBisector(selectedPoints);
+						.createPreviewPerpendicularBisector(getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-				previewDrawable = view.createPreviewConic(mode1, selectedPoints);
+				previewDrawable = view.createPreviewConic(mode1, getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_JOIN: // line through two points
 				useLineEndPoint = false;
-				previewDrawable = view.createPreviewLine(selectedPoints);
+				previewDrawable = view.createPreviewLine(getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_SEGMENT:
 				useLineEndPoint = false;
-				previewDrawable = view.createPreviewSegment(selectedPoints);
+				previewDrawable = view.createPreviewSegment(getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_RAY:
 				useLineEndPoint = false;
-				previewDrawable = view.createPreviewRay(selectedPoints);
+				previewDrawable = view.createPreviewRay(getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_VECTOR:
 				useLineEndPoint = false;
-				previewDrawable = view.createPreviewVector(selectedPoints);
+				previewDrawable = view.createPreviewVector(getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_POLYGON:
 			case EuclidianConstants.MODE_RIGID_POLYGON:
 			case EuclidianConstants.MODE_VECTOR_POLYGON:
-				previewDrawable = view.createPreviewPolygon(selectedPoints);
+				previewDrawable = view.createPreviewPolygon(getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_POLYLINE:
-				previewDrawable = view.createPreviewPolyLine(selectedPoints);
+				previewDrawable = view.createPreviewPolyLine(getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
 			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
 			case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
 			case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-				previewDrawable = view.createPreviewConic(mode1, selectedPoints);
+				previewDrawable = view.createPreviewConic(mode1, getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_ANGLE:
-				previewDrawable = view.createPreviewAngle(selectedPoints);
+				previewDrawable = view.createPreviewAngle(getSelectedPointList());
 				break;
 
 			// preview for compass: radius first
 			case EuclidianConstants.MODE_COMPASSES:
-				previewDrawable = new DrawConic(view, mode1, selectedPoints,
-						selectedSegments, selectedConicsND);
+				previewDrawable = new DrawConic(view, mode1, getSelectedPointList(),
+						getSelectedSegmentList(), getSelectedConicNDList());
 				break;
 
 			// preview for arcs and sectors
@@ -10126,12 +10109,12 @@ public abstract class EuclidianController {
 			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
 			case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
 			case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-				previewDrawable = new DrawConicPart(view, mode1, selectedPoints);
+				previewDrawable = new DrawConicPart(view, mode1, getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 				useLineEndPoint = false;
-				previewDrawable = view.createPreviewVector(selectedPoints);
+				previewDrawable = view.createPreviewVector(getSelectedPointList());
 				break;
 
 			case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
@@ -10664,7 +10647,7 @@ public abstract class EuclidianController {
 			if (detachFrom == null) {
 				detachFrom = movedGeoPoint.getPath();
 			}
-			this.addToSelectionList(selectedPaths, movedGeoPoint.getPath(), 1);
+			this.addToSelectionList(getSelectedPathList(), movedGeoPoint.getPath(), 1);
 			((GeoPoint) movedGeoPoint).removePath();
 			movedGeoPoint.setCoords(view.toRealWorldCoordX(event.getX()),
 					view.toRealWorldCoordY(event.getY()), 1);
@@ -10678,7 +10661,7 @@ public abstract class EuclidianController {
 			if (detachFrom == null) {
 				detachFrom = movedGeoPoint.getRegion();
 			}
-			this.addToSelectionList(selectedRegions, movedGeoPoint.getRegion(),
+			this.addToSelectionList(getSelectedRegionList(), movedGeoPoint.getRegion(),
 					1);
 			((GeoPoint) movedGeoPoint).setRegion(null);
 			movedGeoPoint.setCoords(view.toRealWorldCoordX(event.getX()),
@@ -10691,10 +10674,10 @@ public abstract class EuclidianController {
 			}
 
 			addSelectedPath(hits, 1, false);
-			if (selectedPaths.size() > 0) {
+			if (getSelectedPathList().size() > 0) {
 				// moved point to a Path -> attach
 				needsAttach = true;
-				movedGeoPoint.setPath(selectedPaths.get(0));
+				movedGeoPoint.setPath(getSelectedPathList().get(0));
 				movedGeoPoint.setCoords(view.toRealWorldCoordX(event.getX()),
 						view.toRealWorldCoordY(event.getY()), 1);
 			} else {
@@ -10767,7 +10750,7 @@ public abstract class EuclidianController {
 	private int previousMode = -1;
 
 	public void prepareModeForFreehand() {
-		if (selectedPoints.size() != 0) {
+		if (getSelectedPointList().size() != 0) {
 			// make sure to switch only for the first point
 			return;
 		}
@@ -10884,7 +10867,7 @@ public abstract class EuclidianController {
 
 			if (this.mode == EuclidianConstants.MODE_REGULAR_POLYGON
 					&& this.view.getPreviewDrawable() == null) {
-				this.view.setPreview(view.createPreviewSegment(selectedPoints));
+				this.view.setPreview(view.createPreviewSegment(getSelectedPointList()));
 			}
 
 			if (this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS
@@ -10969,6 +10952,78 @@ public abstract class EuclidianController {
 	 */
 	public void closePopups(int x, int y, PointerEventType type) {
 		app.closePopups(x, y);
+	}
+
+	protected ArrayList<GeoPointND> getSelectedPointList() {
+		return selection.getSelectedPointList();
+	}
+
+	protected ArrayList<GeoNumeric> getSelectedNumberList() {
+		return selection.getSelectedNumberList();
+	}
+
+	protected ArrayList<GeoNumberValue> getSelectedNumberValueList() {
+		return selection.getSelectedNumberValueList();
+	}
+
+	protected ArrayList<GeoLineND> getSelectedLineList() {
+		return selection.getSelectedLineList();
+	}
+
+	protected ArrayList<Path> getSelectedPathList() {
+		return selection.getSelectedPathList();
+	}
+
+	protected ArrayList<GeoConicND> getSelectedConicNDList() {
+		return selection.getSelectedConicNDList();
+	}
+
+	protected ArrayList<GeoDirectionND> getSelectedDirectionList() {
+		return selection.getSelectedDirectionList();
+	}
+
+	protected ArrayList<GeoSegmentND> getSelectedSegmentList() {
+		return selection.getSelectedSegmentList();
+	}
+
+	protected ArrayList<Region> getSelectedRegionList() {
+		return selection.getSelectedRegionList();
+	}
+
+	protected ArrayList<GeoImplicit> getSelectedImplicitpolyList() {
+		return selection.getSelectedImplicitpolyList();
+	}
+
+	protected ArrayList<GeoImplicitSurfaceND> getSelectedImplicitSurfaceList() {
+		return selection.getSelectedImplicitSurfaceList();
+	}
+
+	protected ArrayList<GeoFunction> getSelectedFunctionList() {
+		return selection.getSelectedFunctionList();
+	}
+
+	protected ArrayList<GeoCurveCartesian> getSelectedCurveList() {
+		return selection.getSelectedCurveList();
+	}
+
+	protected ArrayList<GeoVectorND> getSelectedVectorList() {
+		return selection.getSelectedVectorList();
+	}
+
+	protected ArrayList<GeoPolygon> getSelectedPolygonList() {
+		return selection.getSelectedPolygonList();
+	}
+
+	protected ArrayList<GeoPolyLine> getSelectedPolyLineList() {
+		return selection.getSelectedPolyLineList();
+	}
+
+	protected ArrayList<GeoElement> getSelectedGeoList() {
+		return selection.getSelectedGeoList();
+	}
+
+	protected ArrayList<GeoList> getSelectedListList() {
+		return selection.getSelectedListList();
 	}
 
 	/**

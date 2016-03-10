@@ -840,7 +840,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	final protected GeoPoint3D[] getSelectedPoints3D() {
 
-		GeoPoint3D[] ret = new GeoPoint3D[selectedPoints.size()];
+		GeoPoint3D[] ret = new GeoPoint3D[getSelectedPointList().size()];
 		getSelectedPointsND(ret);
 
 		// Application.printStacktrace("");
@@ -852,7 +852,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return selected 3D lines
 	 */
 	final protected GeoCoordSys1D[] getSelectedLines3D() {
-		GeoCoordSys1D[] lines = new GeoCoordSys1D[selectedLines.size()];
+		GeoCoordSys1D[] lines = new GeoCoordSys1D[getSelectedLineList().size()];
 		getSelectedLinesND(lines);
 
 		return lines;
@@ -1409,7 +1409,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				if (selPoints() > 2) {
 					// check if first point was clicked again
 					boolean finished = !selectionPreview
-							&& hits.contains(selectedPoints.get(0));
+							&& hits.contains(getSelectedPointList().get(0));
 					if (finished) {
 						// store basis
 						((DrawPolyhedron3D) view3D.getPreviewDrawable())
@@ -1422,8 +1422,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 				}
 
 				if (addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false) != 0
-						|| (!selectionPreview && !selectedPoints.isEmpty() && hits
-								.contains(selectedPoints.get(0)))) {
+						|| (!selectionPreview && !getSelectedPointList().isEmpty() && hits
+								.contains(getSelectedPointList().get(0)))) {
 					return null; // add/remove point : don't check polygon
 				}
 			}
@@ -1709,23 +1709,23 @@ public abstract class EuclidianController3D extends EuclidianController {
 		switch (mode) {
 
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-			previewDrawable = view3D.createPreviewSphere(selectedPoints);
+			previewDrawable = view3D.createPreviewSphere(getSelectedPointList());
 			break;
 
 		case EuclidianConstants.MODE_EXTRUSION:
-			previewDrawable = view3D.createPreviewExtrusion(selectedPolygons,
-					selectedConicsND);
+			previewDrawable = view3D.createPreviewExtrusion(getSelectedPolygonList(),
+					getSelectedConicNDList());
 			break;
 
 		case EuclidianConstants.MODE_CONIFY:
-			previewDrawable = view3D.createPreviewConify(selectedPolygons,
-					selectedConicsND);
+			previewDrawable = view3D.createPreviewConify(getSelectedPolygonList(),
+					getSelectedConicNDList());
 			break;
 
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
 			previewDrawable = view3D.createPreviewPyramidOrPrism(
-					selectedPoints, selectedPolygons, mode);
+					getSelectedPointList(), getSelectedPolygonList(), mode);
 			break;
 
 		case EuclidianConstants.MODE_INTERSECTION_CURVE: // line through two
@@ -2308,7 +2308,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			// remove incidence. TODO: test incidence by construction, instead
 			// of numerically.
-			GeoElement selected = selectedGeos.get(0);
+			GeoElement selected = getSelectedGeoList().get(0);
 			if (selected.isGeoLine()) {
 				while (goodHits.size() >= 1) {
 					if (goodHits.get(0).isGeoPlane()
@@ -2523,7 +2523,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			addSelectedQuadricLimited(goodHits, 1, false);
 
 		} else {
-			Hits firstSurface = hits.getFirstSurfaceBefore(selectedGeos);
+			Hits firstSurface = hits.getFirstSurfaceBefore(getSelectedGeoList());
 			addSelectedPolygon(firstSurface, 1, false);
 			addSelectedPlane(firstSurface, 2, false);
 			addSelectedQuadric(firstSurface, 2, false);
@@ -3081,7 +3081,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	final int selImplicitSurfaces() {
-		return selectedImplicitSurface.size();
+		return getSelectedImplicitSurfaceList().size();
 	}
 
 	/**

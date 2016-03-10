@@ -6,9 +6,26 @@ import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 
 public class SelectionManager {
@@ -20,6 +37,25 @@ public class SelectionManager {
 	private final UpdateSelection listener;
 
 	private ArrayList<GeoElementSelectionListener> selectionListeners;
+
+	private final ArrayList<GeoPointND> selectedPoints = new ArrayList<GeoPointND>();
+	private final ArrayList<GeoNumeric> selectedNumbers = new ArrayList<GeoNumeric>();
+	private final ArrayList<GeoNumberValue> selectedNumberValues = new ArrayList<GeoNumberValue>();
+	private final ArrayList<GeoLineND> selectedLines = new ArrayList<GeoLineND>();
+	private final ArrayList<GeoDirectionND> selectedDirections = new ArrayList<GeoDirectionND>();
+	private final ArrayList<GeoSegmentND> selectedSegments = new ArrayList<GeoSegmentND>();
+	private final ArrayList<Region> selectedRegions = new ArrayList<Region>();
+	private final ArrayList<Path> selectedPaths = new ArrayList<Path>();
+	private final ArrayList<GeoConicND> selectedConicsND = new ArrayList<GeoConicND>();
+	private final ArrayList<GeoImplicit> selectedImplicitpoly = new ArrayList<GeoImplicit>();
+	private final ArrayList<GeoImplicitSurfaceND> selectedImplicitSurface = new ArrayList<GeoImplicitSurfaceND>();
+	private final ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
+	private final ArrayList<GeoCurveCartesian> selectedCurves = new ArrayList<GeoCurveCartesian>();
+	private final ArrayList<GeoVectorND> selectedVectors = new ArrayList<GeoVectorND>();
+	private final ArrayList<GeoPolygon> selectedPolygons = new ArrayList<GeoPolygon>();
+	private final ArrayList<GeoPolyLine> selectedPolyLines = new ArrayList<GeoPolyLine>();
+	private final ArrayList<GeoElement> selectedGeosEuclidian = new ArrayList<GeoElement>();
+	private final ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
 
 	public SelectionManager(Kernel kernel, UpdateSelection app) {
 		this.kernel = kernel;
@@ -737,5 +773,77 @@ public class SelectionManager {
 	 */
 	public ArrayList<GeoElementSelectionListener> getSelectionListeners() {
 		return selectionListeners;
+	}
+
+	public ArrayList<GeoPointND> getSelectedPointList() {
+		return selectedPoints;
+	}
+
+	public ArrayList<GeoNumeric> getSelectedNumberList() {
+		return selectedNumbers;
+	}
+
+	public ArrayList<GeoNumberValue> getSelectedNumberValueList() {
+		return selectedNumberValues;
+	}
+
+	public ArrayList<GeoLineND> getSelectedLineList() {
+		return selectedLines;
+	}
+
+	public ArrayList<Path> getSelectedPathList() {
+		return selectedPaths;
+	}
+
+	public ArrayList<GeoConicND> getSelectedConicNDList() {
+		return selectedConicsND;
+	}
+
+	public ArrayList<GeoDirectionND> getSelectedDirectionList() {
+		return selectedDirections;
+	}
+
+	public ArrayList<GeoSegmentND> getSelectedSegmentList() {
+		return selectedSegments;
+	}
+
+	public ArrayList<Region> getSelectedRegionList() {
+		return selectedRegions;
+	}
+
+	public ArrayList<GeoImplicit> getSelectedImplicitpolyList() {
+		return selectedImplicitpoly;
+	}
+
+	public ArrayList<GeoImplicitSurfaceND> getSelectedImplicitSurfaceList() {
+		return selectedImplicitSurface;
+	}
+
+	public ArrayList<GeoFunction> getSelectedFunctionList() {
+		return selectedFunctions;
+	}
+
+	public ArrayList<GeoCurveCartesian> getSelectedCurveList() {
+		return selectedCurves;
+	}
+
+	public ArrayList<GeoVectorND> getSelectedVectorList() {
+		return selectedVectors;
+	}
+
+	public ArrayList<GeoPolygon> getSelectedPolygonList() {
+		return selectedPolygons;
+	}
+
+	public ArrayList<GeoPolyLine> getSelectedPolyLineList() {
+		return selectedPolyLines;
+	}
+
+	public ArrayList<GeoElement> getSelectedGeoList() {
+		return selectedGeos;
+	}
+
+	public ArrayList<GeoList> getSelectedListList() {
+		return selectedLists;
 	}
 }
