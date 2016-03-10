@@ -453,6 +453,7 @@ public class CASInputHandler {
 			casView.insertRow(cellValue, false);
 		}
 
+		ArrayList<GeoElement> vars = new ArrayList<GeoElement>();
 		// generates an array of references (e.g. $1,a,...) and
 		// an array of equations
 		int counter = 0;
@@ -461,7 +462,44 @@ public class CASInputHandler {
 			GeoCasCell selCellValue = consoleTable
 					.getGeoCasCell(selectedIndices[i]);
 			if (ggbcmd.equals("NSolve") && selCellValue != null) {
-				selCellValue.setNSolveCmdNeeded(true);
+				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+				try {
+					// check if input is polynomial
+					String casResult = cas.getCurrentCAS().evaluateRaw(
+							"ispolynomial(" + selCellValue.getInput(StringTemplate.defaultTemplate) + ")");
+					// case it is not
+					if (casResult.equals("false")) {
+						HashSet<GeoElement> cellVars = selCellValue
+								.getInputVE().getVariables();
+						Iterator<GeoElement> it = cellVars.iterator();
+						while (it.hasNext()) {
+							GeoElement curr = it.next();
+							if (vars.isEmpty()) {
+								vars.add(curr);
+							} else {
+								int j;
+								for (j = 0; j < vars.size(); j++) {
+									if (curr.toString(
+											StringTemplate.defaultTemplate)
+											.equals(vars
+													.get(j)
+													.toString(
+															StringTemplate.defaultTemplate))) {
+										break;
+									}
+								}
+								if (j == vars.size()) {
+									vars.add(curr);
+								}
+							}
+						}
+					} else {
+						cellValue.setNSolveCmdNeeded(false);
+					}
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			String cellText;
 			String assignedVariable = selCellValue.getAssignmentVariable();
@@ -491,6 +529,17 @@ public class CASInputHandler {
 			cellText.append(references[i]);
 		}
 		cellText.append("}");
+		if (!vars.isEmpty()) {
+			cellText.append(",{");
+			for (int i = 0; i < vars.size(); i++) {
+				if (i != 0)
+					cellText.append(",");
+				cellText.append(vars.get(i).toString(
+						StringTemplate.defaultTemplate)
+						+ "=1");
+			}
+			cellText.append("}");
+		}
 
 		// FIX common INPUT ERRORS in evalText
 		if ((ggbcmd.equals("Evaluate") || ggbcmd.equals("KeepInput"))) {
@@ -501,6 +550,9 @@ public class CASInputHandler {
 		}
 
 		cellValue.setInput(cellText.toString());
+		if (ggbcmd.equals("NSolve") && !vars.isEmpty()) {
+			cellValue.setNSolveCmdNeeded(true);
+		}
 
 		// prepare evalText as ggbcmd[ evalText, parameters ... ]
 		StringBuilder sb = new StringBuilder();
