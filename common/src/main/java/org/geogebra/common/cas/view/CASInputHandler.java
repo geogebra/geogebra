@@ -460,6 +460,9 @@ public class CASInputHandler {
 		for (int i = 0; i < selectedIndices.length; i++) {
 			GeoCasCell selCellValue = consoleTable
 					.getGeoCasCell(selectedIndices[i]);
+			if (ggbcmd.equals("NSolve") && selCellValue != null) {
+				selCellValue.setNSolveCmdNeeded(true);
+			}
 			String cellText;
 			String assignedVariable = selCellValue.getAssignmentVariable();
 			boolean inTheSelectedRow = currentRow == selectedIndices[i];
