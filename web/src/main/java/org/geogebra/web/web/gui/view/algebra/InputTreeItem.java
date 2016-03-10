@@ -12,7 +12,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -43,6 +42,7 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -442,6 +442,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	public void setShowInputHelpPanel(boolean show) {
 
 		if (show) {
+			dummyLabel.addStyleName("hidden");
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
 					.getGuiManager().getInputHelpPanel();
 			helpPanel.updateGUI();
@@ -449,6 +450,15 @@ public class InputTreeItem extends RadioTreeItem implements
 			if (helpPopup == null && app != null) {
 				helpPopup = new InputBarHelpPopup(this.app, this);
 				helpPopup.addAutoHidePartner(this.getElement());
+				helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
+
+					public void onClose(CloseEvent<GPopupPanel> event) {
+						dummyLabel.removeStyleName("hidden");
+						ihtml.getElement().getElementsByTagName("textarea")
+								.getItem(0).focus();
+					}
+					
+				});
 
 				if (btnHelpToggle != null) {
 					helpPopup.setBtnHelpToggle(btnHelpToggle);

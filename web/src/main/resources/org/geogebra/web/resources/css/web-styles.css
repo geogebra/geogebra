@@ -6232,3 +6232,9 @@ body.application[dir=rtl] .deleteAlgebra {
 	}
 }
 
+
+.hidden{
+	visibility: hidden;
+	position: absolute;
+	z-index: 10;
+}
