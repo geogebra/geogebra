@@ -139,7 +139,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				DrawEquationW.stornoFormulaMathQuillGGB(
-				        InputTreeItem.this, seMayLatex);
+				        InputTreeItem.this, latexItem);
 				InputTreeItem.this.setFocus(true);
 				event.stopPropagation();
 				// event.preventDefault();
@@ -151,7 +151,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			@Override
 			public void onTouchStart(TouchStartEvent event) {
 				DrawEquationW.stornoFormulaMathQuillGGB(
-						InputTreeItem.this, seMayLatex);
+						InputTreeItem.this, latexItem);
 				InputTreeItem.this.setFocus(true);
 				event.stopPropagation();
 				event.preventDefault();
@@ -536,9 +536,9 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	@Override
 	public void showOrHideSuggestions() {
-		if ((seMayLatex != null)
-				&& seMayLatex.getElement().hasParentElement()) {
-			DrawEquationW.showOrHideSuggestions(this, seMayLatex.getElement());
+		if ((latexItem != null)
+				&& latexItem.getElement().hasParentElement()) {
+			DrawEquationW.showOrHideSuggestions(this, latexItem.getElement());
 		}
 	}
 
@@ -633,12 +633,12 @@ public class InputTreeItem extends RadioTreeItem implements
 					false, true, false);
 
 			if (setFocusAllowed || !setFocusScheduled) {
-				DrawEquationW.focusEquationMathQuillGGB(seMayLatex, b);
+				DrawEquationW.focusEquationMathQuillGGB(latexItem, b);
 			}
 
 			app.getGuiManager().focusScheduled(true, false, true);
 		} else {
-			DrawEquationW.focusEquationMathQuillGGB(seMayLatex, b);
+			DrawEquationW.focusEquationMathQuillGGB(latexItem, b);
 		}
 	}
 

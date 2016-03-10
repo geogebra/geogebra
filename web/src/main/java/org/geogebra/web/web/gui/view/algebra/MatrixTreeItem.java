@@ -211,13 +211,13 @@ public class MatrixTreeItem extends RadioTreeItem {
 				if (!wasEditing)
 					ensureEditing();
 
-				DrawEquationW.addNewRowToMatrix(seMayLatex);
+				DrawEquationW.addNewRowToMatrix(latexItem);
 
 				// it is a good question whether shall we save the result
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
 				DrawEquationW.endEditingEquationMathQuillGGB(
-						MatrixTreeItem.this, seMayLatex);
+						MatrixTreeItem.this, latexItem);
 
 				if (wasEditing) {
 					av.startEditing(geo);
@@ -234,13 +234,13 @@ public class MatrixTreeItem extends RadioTreeItem {
 				if (!wasEditing)
 					ensureEditing();
 
-				DrawEquationW.addNewColToMatrix(seMayLatex);
+				DrawEquationW.addNewColToMatrix(latexItem);
 
 				// it is a good question whether shall we save the result
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
 				DrawEquationW.endEditingEquationMathQuillGGB(
-						MatrixTreeItem.this, seMayLatex);
+						MatrixTreeItem.this, latexItem);
 
 				if (wasEditing) {
 					av.startEditing(geo);
@@ -257,13 +257,13 @@ public class MatrixTreeItem extends RadioTreeItem {
 				if (!wasEditing)
 					ensureEditing();
 
-				DrawEquationW.removeColFromMatrix(seMayLatex);
+				DrawEquationW.removeColFromMatrix(latexItem);
 
 				// it is a good question whether shall we save the result
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
 				DrawEquationW.endEditingEquationMathQuillGGB(
-						MatrixTreeItem.this, seMayLatex);
+						MatrixTreeItem.this, latexItem);
 
 				if (wasEditing) {
 					av.startEditing(geo);
@@ -280,13 +280,13 @@ public class MatrixTreeItem extends RadioTreeItem {
 				if (!wasEditing)
 					ensureEditing();
 
-				DrawEquationW.removeRowFromMatrix(seMayLatex);
+				DrawEquationW.removeRowFromMatrix(latexItem);
 
 				// it is a good question whether shall we save the result
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
 				DrawEquationW.endEditingEquationMathQuillGGB(
-						MatrixTreeItem.this, seMayLatex);
+						MatrixTreeItem.this, latexItem);
 
 				if (wasEditing) {
 					av.startEditing(geo);

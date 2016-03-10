@@ -18,6 +18,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.user.client.ui.Widget;
 
 public class EquationEditor {
 	protected SuggestBox.SuggestionCallback sugCallback = new SuggestBox.SuggestionCallback() {
@@ -366,6 +367,10 @@ public class EquationEditor {
 	
 	public boolean isSuggesting() {
 		return sug.isSuggestionListShowing();
+	}
+
+	public static void updateNewStatic(Widget w) {
+		updateNewStatic(w.getElement());
 	}
 
 	public static void updateNewStatic(Element se) {
