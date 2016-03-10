@@ -61,23 +61,6 @@ public class EuclidianControllerW extends EuclidianController implements
         GestureStartHandler, GestureEndHandler, GestureChangeHandler,
 		IsEuclidianController, DropHandler {
 
-
-
-	/**
-	 * Threshold for the selection rectangle distance squared (10 pixel circle)
-	 */
-	public final static double SELECTION_RECT_THRESHOLD_SQR = 200.0;
-	public final static double FREEHAND_MODE_THRESHOLD_SQR = 200.0;
-
-	/**
-	 * flag for blocking the scaling of the axes
-	 */
-	protected boolean moveAxesAllowed = true;
-
-
-
-
-
 	/**
 	 * whether to keep the actual tool after successfully constructing an
 	 * element (if set to true) or to change back to the move tool (if set to
@@ -343,37 +326,10 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.twoTouchStart(x1, y1, x2, y2);
 	}
 
-
-	// /////////////////////////////////////////////////////
-	// specific methods for 2D controller
-	// /////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
 	@Override
 	protected void startCapture(AbstractEvent event) {
 		Event.setCapture(((PointerEvent) event).getRelativeElement());
 	}
-
-
-
-	@Override
-	protected boolean moveAxesPossible() {
-		return super.moveAxesPossible() && this.moveAxesAllowed;
-	}
-
-
-
-
-
-
-
-
 
 	@Override
 	protected boolean processZoomRectangle() {
@@ -384,27 +340,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		return processed;
 	}
 
-	@Override
-	protected void updateSelectionRectangle(boolean keepScreenRatio) {
-		if (!shouldUpdateSelectionRectangle()) {
-			return;
-		}
-		super.updateSelectionRectangle(keepScreenRatio);
-	}
-
-	/**
-	 * @return true if there is a selection rectangle, or the rectangle is
-	 *         bigger than a threshold.
-	 */
-	private boolean shouldUpdateSelectionRectangle() {
-		if (view.getSelectionRectangle() != null) {
-			return true;
-		}
-		int dx = mouseLoc.x - selectionStartPoint.x;
-		int dy = mouseLoc.y - selectionStartPoint.y;
-		double distSqr = (dx * dx) + (dy * dy);
-		return distSqr > SELECTION_RECT_THRESHOLD_SQR;
-	}
 
 
 

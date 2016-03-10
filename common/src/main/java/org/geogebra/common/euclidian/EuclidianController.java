@@ -177,6 +177,12 @@ public abstract class EuclidianController {
 	 */
 	private static final int INCREASED_THRESHOLD_FACTOR = 2;
 
+	/**
+	 * Threshold for the selection rectangle distance squared (10 pixel circle)
+	 */
+	public final static double SELECTION_RECT_THRESHOLD_SQR = 200.0;
+	public final static double FREEHAND_MODE_THRESHOLD_SQR = 200.0;
+
 	protected final App app;
 	protected final SelectionManager selection;
 	protected final Localization l10n;
@@ -7649,7 +7655,25 @@ public abstract class EuclidianController {
 				|| (app.isHTML5Applet() && !App.isFullAppGui());
 	}
 
+	/**
+	 * @return true if there is a selection rectangle, or the rectangle is
+	 *         bigger than a threshold.
+	 */
+	private boolean shouldUpdateSelectionRectangle() {
+		if (view.getSelectionRectangle() != null) {
+			return true;
+		}
+		int dx = mouseLoc.x - selectionStartPoint.x;
+		int dy = mouseLoc.y - selectionStartPoint.y;
+		double distSqr = (dx * dx) + (dy * dy);
+		return distSqr > SELECTION_RECT_THRESHOLD_SQR;
+	}
+
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
+		if (!shouldUpdateSelectionRectangle()) {
+			return;
+		}
+
 		if (view.getSelectionRectangle() == null) {
 			view.setSelectionRectangle(org.geogebra.common.factories.AwtFactory.prototype
 					.newRectangle(0, 0));
