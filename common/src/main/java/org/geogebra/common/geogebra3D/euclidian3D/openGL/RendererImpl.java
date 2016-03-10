@@ -2,7 +2,51 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.kernel.Matrix.Coords;
 
-public interface RendererImpl extends RendererShadersInterface{
+public interface RendererImpl extends RendererShadersInterface {
+
+	/**
+	 * enable flag
+	 * 
+	 * @param flag
+	 *            GL flag
+	 */
+	public abstract void glEnable(int flag);
+
+	/**
+	 * disable flag
+	 * 
+	 * @param flag
+	 *            GL flag
+	 */
+	public abstract void glDisable(int flag);
+	
+	/**
+	 * clear buffers corresponding to flag
+	 * 
+	 * @param flag
+	 *            buffers flag
+	 */
+	abstract public void glClear(int flag);
+
+
+	// GL flags getters
+	abstract public int getGL_ALPHA_TEST();
+	
+	abstract public int getGL_MULTISAMPLE();
+
+	abstract public int getGL_BLEND();
+	
+	abstract public int getGL_CULL_FACE();
+	
+	abstract public int getGL_COLOR_BUFFER_BIT();
+
+	abstract public int getGL_DEPTH_BUFFER_BIT();
+
+	abstract public int getGL_DEPTH_TEST();
+
+	abstract public int getGL_TEXTURE_2D();
+
+	abstract public void disableCulling();
 
 	public abstract void setClipPlanes(double[][] minMax);
 
@@ -21,8 +65,6 @@ public interface RendererImpl extends RendererShadersInterface{
 	public abstract void enableTextures();
 
 	public abstract void disableTextures();
-
-	public abstract void setLineWidth(int width);
 
 	public abstract void enableFading();
 
@@ -107,62 +149,34 @@ public interface RendererImpl extends RendererShadersInterface{
 
 	public abstract void drawTranspNotCurved();
 
-	public abstract void disableCulling();
-
 	public abstract void setCullFaceFront();
 
 	public abstract void setCullFaceBack();
 
-	public void initShaders();
+	abstract public void initShaders();
 
 	public abstract void disableShine();
 
 	public abstract void enableShine();
 
-	public void setBufferLeft();
+	abstract public void setBufferLeft();
 
-	public void setBufferRight();
+	abstract public void setBufferRight();
 
-	public void clearColorBuffer();
+	abstract public void setStencilFunc(int value);
 
-	public void clearDepthBuffer();
+	abstract public void enableDepthMask();
 
-	public void setStencilFunc(int value);
+	abstract public void disableDepthMask();
 
-	public void enableCulling();
+	abstract public void setColorMask(boolean r, boolean g, boolean b, boolean a);
 
-	public void disableBlending();
+	abstract public void setClearColor(float r, float g, float b, float a);
 
-	public void enableBlending();
+	abstract public void setPolygonOffset(float factor, float units);
 
-	public void enableMultisample();
+	abstract public void genTextures2D(int number, int[] index);
 
-	public void disableMultisample();
-
-	public void enableAlphaTest();
-
-	public void disableAlphaTest();
-
-	public void enableDepthMask();
-
-	public void disableDepthMask();
-
-	public void enableDepthTest();
-
-	public void disableDepthTest();
-
-	public void setColorMask(boolean r, boolean g, boolean b, boolean a);
-
-	public void setClearColor(float r, float g, float b, float a);
-
-	public void setPolygonOffset(float factor, float units);
-
-	public void enableTextures2D();
-
-	public void disableTextures2D();
-
-	public void genTextures2D(int number, int[] index);
-
-	public void bindTexture(int index);
+	abstract public void bindTexture(int index);
 
 }

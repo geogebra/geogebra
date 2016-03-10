@@ -156,15 +156,6 @@ public abstract class RendererWithImpl extends Renderer implements
 
 	}
 
-	/**
-	 * set line width
-	 * 
-	 * @param width
-	 *            width
-	 */
-	public void setLineWidth(int width) {
-		rendererImpl.setLineWidth(width);
-	}
 
 	@Override
 	protected void doPick() {
@@ -428,12 +419,12 @@ public abstract class RendererWithImpl extends Renderer implements
 
 	@Override
 	protected void clearColorBuffer() {
-		rendererImpl.clearColorBuffer();
+		rendererImpl.glClear(rendererImpl.getGL_COLOR_BUFFER_BIT());
 	}
 
 	@Override
 	protected void clearDepthBuffer() {
-		rendererImpl.clearDepthBuffer();
+		rendererImpl.glClear(rendererImpl.getGL_DEPTH_BUFFER_BIT());
 	}
 
 	@Override
@@ -443,37 +434,37 @@ public abstract class RendererWithImpl extends Renderer implements
 
 	@Override
 	public void enableCulling() {
-		rendererImpl.enableCulling();
+		rendererImpl.glEnable(rendererImpl.getGL_CULL_FACE());
 	}
 
 	@Override
 	public void disableBlending() {
-		rendererImpl.disableBlending();
+		rendererImpl.glDisable(rendererImpl.getGL_BLEND());
 	}
 
 	@Override
 	public void enableBlending() {
-		rendererImpl.enableBlending();
+		rendererImpl.glEnable(rendererImpl.getGL_BLEND());
 	}
 
 	@Override
 	public final void enableMultisample() {
-		rendererImpl.enableMultisample();
+		rendererImpl.glEnable(rendererImpl.getGL_MULTISAMPLE());
 	}
 
 	@Override
 	public final void disableMultisample() {
-		rendererImpl.disableMultisample();
+		rendererImpl.glDisable(rendererImpl.getGL_MULTISAMPLE());
 	}
 
 	@Override
 	public void enableAlphaTest() {
-		rendererImpl.enableAlphaTest();
+		rendererImpl.glEnable(rendererImpl.getGL_ALPHA_TEST());
 	}
 
 	@Override
 	public void disableAlphaTest() {
-		rendererImpl.disableAlphaTest();
+		rendererImpl.glDisable(rendererImpl.getGL_ALPHA_TEST());
 	}
 
 	@Override
@@ -488,12 +479,12 @@ public abstract class RendererWithImpl extends Renderer implements
 
 	@Override
 	public void enableDepthTest() {
-		rendererImpl.enableDepthTest();
+		rendererImpl.glEnable(rendererImpl.getGL_DEPTH_TEST());
 	}
 
 	@Override
 	public void disableDepthTest() {
-		rendererImpl.disableDepthTest();
+		rendererImpl.glDisable(rendererImpl.getGL_DEPTH_TEST());
 	}
 
 	@Override
@@ -521,12 +512,12 @@ public abstract class RendererWithImpl extends Renderer implements
 
 	@Override
 	public void enableTextures2D() {
-		rendererImpl.enableTextures2D();
+		rendererImpl.glEnable(rendererImpl.getGL_TEXTURE_2D());
 	}
 
 	@Override
 	public void disableTextures2D() {
-		rendererImpl.disableTextures2D();
+		rendererImpl.glDisable(rendererImpl.getGL_TEXTURE_2D());
 	}
 
 	@Override

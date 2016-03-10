@@ -361,11 +361,6 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	}
 
 	@Override
-	public void setLineWidth(int width) {
-		jogl.getGL2().glLineWidth(width);
-	}
-
-	@Override
 	public void enableFading() {
 		enableTextures();
 		renderer.getTextures().loadTextureLinear(Textures.FADING);
@@ -546,9 +541,11 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 		renderer.enableCulling();
 	}
 
+	@Override
 	public void disableCulling() {
-		getGL().glDisable(GLlocal.GL_CULL_FACE);
+		glDisable(getGL_CULL_FACE());
 	}
+
 
 	public void setCullFaceFront() {
 		getGL().glCullFace(GLlocal.GL_FRONT);
@@ -707,53 +704,8 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	}
 
 	@Override
-	public void clearColorBuffer() {
-		getGL().glClear(GLlocal.GL_COLOR_BUFFER_BIT);
-	}
-
-	@Override
-	public void clearDepthBuffer() {
-		getGL().glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
-	}
-
-	@Override
 	public void setStencilFunc(int value) {
 		getGL().glStencilFunc(GLlocal.GL_EQUAL, value, 0xFF);
-	}
-
-	@Override
-	public void enableCulling() {
-		getGL().glEnable(GLlocal.GL_CULL_FACE);
-	}
-
-	@Override
-	public void disableBlending() {
-		getGL().glDisable(GLlocal.GL_BLEND);
-	}
-
-	@Override
-	public void enableBlending() {
-		getGL().glEnable(GLlocal.GL_BLEND);
-	}
-
-	@Override
-	public final void enableMultisample() {
-		getGL().glEnable(GLlocal.GL_MULTISAMPLE);
-	}
-
-	@Override
-	public final void disableMultisample() {
-		getGL().glDisable(GLlocal.GL_MULTISAMPLE);
-	}
-
-	@Override
-	public void enableAlphaTest() {
-		getGL().glEnable(GLlocal.GL_ALPHA_TEST);
-	}
-
-	@Override
-	public void disableAlphaTest() {
-		getGL().glDisable(GLlocal.GL_ALPHA_TEST);
 	}
 
 	@Override
@@ -764,16 +716,6 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	@Override
 	public void disableDepthMask() {
 		getGL().glDepthMask(false);
-	}
-
-	@Override
-	public void enableDepthTest() {
-		getGL().glEnable(GLlocal.GL_DEPTH_TEST);
-	}
-
-	@Override
-	public void disableDepthTest() {
-		getGL().glDisable(GLlocal.GL_DEPTH_TEST);
 	}
 
 	@Override
@@ -792,16 +734,6 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	}
 
 	@Override
-	public void enableTextures2D() {
-		getGL().glEnable(GL.GL_TEXTURE_2D);
-	}
-
-	@Override
-	public void disableTextures2D() {
-		getGL().glDisable(GL.GL_TEXTURE_2D);
-	}
-
-	@Override
 	public void genTextures2D(int number, int[] index) {
 		getGL().glGenTextures(number, index, 0);
 	}
@@ -811,4 +743,58 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 		getGL().glBindTexture(GL.GL_TEXTURE_2D, index);
 	}
 
+	@Override
+	public void glEnable(int flag) {
+		getGL().glEnable(flag);
+	}
+
+	@Override
+	public void glDisable(int flag) {
+		getGL().glDisable(flag);
+	}
+
+	@Override
+	public int getGL_ALPHA_TEST() {
+		return GLlocal.GL_ALPHA_TEST;
+	}
+
+	@Override
+	public int getGL_MULTISAMPLE() {
+		return GLlocal.GL_MULTISAMPLE;
+	}
+
+	@Override
+	public int getGL_BLEND() {
+		return GLlocal.GL_BLEND;
+	}
+
+	@Override
+	public int getGL_CULL_FACE() {
+		return GLlocal.GL_CULL_FACE;
+	}
+
+	@Override
+	public void glClear(int flag) {
+		getGL().glClear(flag);
+	}
+
+	@Override
+	public int getGL_COLOR_BUFFER_BIT() {
+		return GLlocal.GL_COLOR_BUFFER_BIT;
+	}
+
+	@Override
+	public int getGL_DEPTH_BUFFER_BIT() {
+		return GLlocal.GL_DEPTH_BUFFER_BIT;
+	}
+
+	@Override
+	public int getGL_DEPTH_TEST() {
+		return GLlocal.GL_DEPTH_TEST;
+	}
+
+	@Override
+	public int getGL_TEXTURE_2D() {
+		return GL.GL_TEXTURE_2D;
+	}
 }
