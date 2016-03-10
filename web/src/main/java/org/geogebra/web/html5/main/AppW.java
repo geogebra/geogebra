@@ -1894,6 +1894,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		// update sizes
 		euclidianView.updateSize();
+		// needed: GGB-624
+		if (hasEuclidianView2(1)) {
+			getEuclidianView2(1).updateSize();
+		}
 
 		// update layout
 		if (updateComponentTreeUI) {
