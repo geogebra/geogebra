@@ -572,6 +572,8 @@ __GGB__keysVar.lt.command = {
     "Mod.Syntax": "[ <Skaitiklis>, <Vardiklis> ]\n[ <Dalinamasis daugianaris>, <Dalinantis daugianaris> ]",
     "Mode": "Moda",
     "Mode.Syntax": "[ <Skai\u010di\u0173 s\u0105ra\u0161as> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegralas",
     "NIntegral.SyntaxCAS": "[ <Funkcija>, <Prad\u017eios x reik\u0161m\u0117>, <Galo x reik\u0161m\u0117> ]\n[ <Funkcija>, <Kintamasis>, <Prad\u017eios vert\u0117>, <Galo vert\u0117> ]",
     "NSolutions": "NSprendiniai",

@@ -572,6 +572,8 @@ __GGB__keysVar.ms.command = {
     "Mod.Syntax": "[ <Nombor Dividen>, <Nombor Pembahagi> ]\n[ <Polinomial Dividen>, <Polinomial Pembahagi> ]",
     "Mode": "Mod",
     "Mode.Syntax": "[ <Senarai Nombor> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NKamiran",
     "NIntegral.SyntaxCAS": "[ <Fungsi>, <Mula Nilai-x>, <Tamat Nilai-x> ]\n[ <Fungsi>, <Pembolehubah>, <Nilai Mula>, <Nilai Tamat> ]",
     "NSolutions": "NPenyelesaian",

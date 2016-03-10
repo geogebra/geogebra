@@ -572,6 +572,8 @@ __GGB__keysVar.si.command = {
     "Mod.Syntax": "[ <Dividend Number>, <Divisor Number> ]\n[ <Dividend Polynomial>, <Divisor Polynomial> ]",
     "Mode": "\u0dc0\u0dd2\u0dbd\u0dcf\u0dc3\u0dba",
     "Mode.Syntax": "[ <\u0dc3\u0d82\u0d9b\u0dca\u200d\u0dba\u0dcf_\u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <\u0dc1\u0dca\u200d\u0dbb\u0dd2\u0dad\u0dba>, <\u0d86\u0dbb\u0db8\u0dca\u0db7\u0d9a x-\u0d85\u0d9c\u0dba>, <\u0d85\u0dc0\u0dc3\u0dcf\u0db1 x-\u0d85\u0d9c\u0dba> ]\n[ <\u0dc1\u0dca\u200d\u0dbb\u0dd2\u0dad\u0dba>, <\u0dc0\u0dd2\u0da0\u0dbd\u0dca\u200d\u0dba>, <\u0d86\u0dbb\u0db8\u0dca\u0db7\u0d9a \u0d85\u0d9c\u0dba>, <\u0d85\u0dc0\u0dc3\u0db1\u0dca \u0d85\u0d9c\u0dba> ]",
     "NSolutions": "NSolutions",

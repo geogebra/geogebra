@@ -572,6 +572,8 @@ __GGB__keysVar.is.command = {
     "Mod.Syntax": "[ <DeilistofnTala>, <DeilirTala> ]\n[ <DeilistofnMargli\xf0a>, <DeilirMargli\xf0a> ]",
     "Mode": "T\xed\xf0astaGildi",
     "Mode.Syntax": "[ <Listi af t\xf6lum> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "T\xf6lulegtHeildi",
     "NIntegral.SyntaxCAS": "[ <Fall>, <Upphafs-x-gildi>, <Loka-x-gildi> ]\n[ <Fall>, <Breyta>, <Upphafs-breytu-gildi>, <Loka-breytu-gildi> ]",
     "NSolutions": "T\xf6lulegarLausnir",

@@ -572,6 +572,8 @@ __GGB__keysVar.sq.command = {
     "Mod.Syntax": "[ <i Pjestueshmi>, <Pjestuesi> ]",
     "Mode": "Mode",
     "Mode.Syntax": "[ <Liste e Numrave> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <Funksion>, <x-Vlera e fillimit>, <x-Vlera e mbarimit> ]\n[ <Funksion>, <Variabli>, <Vlera e fillimit>, <Vlera e mbarimit> ]",
     "NSolutions": "NZgjidhje",

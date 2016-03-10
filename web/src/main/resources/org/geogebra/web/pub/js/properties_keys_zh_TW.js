@@ -572,6 +572,8 @@ __GGB__keysVar.zh_TW.command = {
     "Mod.Syntax": "[ <\u88ab\u9664\u6578>, <\u9664\u6578> ]\n[ <\u88ab\u9664\u5f0f>, <\u9664\u5f0f> ]",
     "Mode": "Mode",
     "Mode.Syntax": "[ <\u6578\u503c\u96c6\u5408> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start Value>, <End Value> ]",
     "NSolutions": "NSolutions",

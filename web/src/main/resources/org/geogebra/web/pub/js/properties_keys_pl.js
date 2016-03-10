@@ -572,6 +572,8 @@ __GGB__keysVar.pl.command = {
     "Mod.Syntax": "[ <Liczba>, <Liczba> ]\n[ <Wielomian>, <Wielomian> ]",
     "Mode": "Moda",
     "Mode.Syntax": "[ <Lista Liczb> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NCa\u0142ka",
     "NIntegral.SyntaxCAS": "[ <Funkcja>, <Warto\u015b\u0107 Pocz\u0105tkowa x>, <Warto\u015b\u0107 Ko\u0144cowa x> ]\n[ <Funkcja>, <Zmienna>, <Warto\u015b\u0107 Pocz\u0105tkowa Zmiennej>, <Warto\u015b\u0107 Ko\u0144cowa Zmiennej> ]",
     "NSolutions": "NRozwi\u0105zania",

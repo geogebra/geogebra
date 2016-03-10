@@ -572,6 +572,8 @@ __GGB__keysVar.et.command = {
     "Mod.Syntax": "[ <Jagatav>, <Jagaja> ]\n[ <Jagatav pol\xfcnoom>, <Jagaja pol\xfcnoom> ]",
     "Mode": "Mood",
     "Mode.Syntax": "[ <Arvude loend> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegraal",
     "NIntegral.SyntaxCAS": "[ <Funktsioon>, <x-algv\xe4\xe4rtus>, <x-l\xf5ppv\xe4\xe4rtus> ]\n[ <Funktsioon>, <Muutuja>, <Muutuja algv\xe4\xe4rtus>, <Muutuja l\xf5ppv\xe4\xe4rtus> ]",
     "NSolutions": "NLahendid",

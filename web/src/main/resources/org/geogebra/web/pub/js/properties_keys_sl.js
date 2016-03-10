@@ -572,6 +572,8 @@ __GGB__keysVar.sl.command = {
     "Mod.Syntax": "[ <deljenec>, <delitelj> ]\n[ <polinom deljenec>, <polinom delitelj> ]",
     "Mode": "Modus",
     "Mode.Syntax": "[ <seznam \u0161tevil> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "Numeri\u010dniIntegral",
     "NIntegral.SyntaxCAS": "[ <funkcija>, <za\u010detna vrednost x>, <kon\u010dna vrednost x> ]\n[ <funkcija>, <spremenljivka>, <za\u010detna vrednost>, <kon\u010dna vrednost> ]",
     "NSolutions": "Numeri\u010dneRe\u0161itve",

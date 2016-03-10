@@ -572,6 +572,8 @@ __GGB__keysVar.sr.command = {
     "Mod.Syntax": "[ <deljenik broj>, <delilac broj> ]\n[ <deljenik polinom>, <delilac polinom> ]",
     "Mode": "Modus",
     "Mode.Syntax": "[ <lista brojeva> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <funkcija>, <po\u010detna x-vrednost>, <krajnja x-vrednost> ]\n[ <funkcija>, <promenljiva>, <po\u010detna vrednost>, <krajnja vrednost> ]",
     "NSolutions": "NRe\u0161enja",

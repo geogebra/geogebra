@@ -572,6 +572,8 @@ __GGB__keysVar.tr.command = {
     "Mod.Syntax": "[ <B\xf6l\xfcnen Say\u0131>, <B\xf6len Say\u0131> ]\n[ <B\xf6l\xfcnen Polinom>, <B\xf6len Polinom> ]",
     "Mode": "Mod",
     "Mode.Syntax": "[ <Say\u0131 Listesi> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "S\u0130ntegral",
     "NIntegral.SyntaxCAS": "[ <\u0130\u015flev>, <Ba\u015flang\u0131\xe7 x-De\u011feri>, <Biti\u015f x-De\u011feri> ]\n[ <\u0130\u015flev>, <De\u011fi\u015fken>, <Ba\u015flang\u0131\xe7 De\u011feri>, <Biti\u015f De\u011feri> ]",
     "NSolutions": "S\xc7\xf6z\xfcmler",

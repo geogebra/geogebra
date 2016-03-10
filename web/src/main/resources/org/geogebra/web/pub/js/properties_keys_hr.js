@@ -572,6 +572,8 @@ __GGB__keysVar.hr.command = {
     "Mod.Syntax": "[ <broj djeljenik>, <broj djelitelj> ]\n[ <polinom djeljenik>, <polinom djelitelj> ]",
     "Mode": "Naj\u010de\u0161\u0107aVrijednost",
     "Mode.Syntax": "[ <lista brojeva> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <funkcija>, <po\u010detna vrijednost x>, <krajnja vrijednost x> ]\n[ <funkcija>, <varijabla>, <po\u010detna vrijednost>, <krajnja vrijednost> ]",
     "NSolutions": "NRje\u0161enja",

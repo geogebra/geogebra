@@ -572,6 +572,8 @@ __GGB__keysVar.sv.command = {
     "Mod.Syntax": "[ <T\xe4ljare>, <N\xe4mnare> ]\n[ <Polynom i t\xe4ljaren>, <Polynom i n\xe4mnaren> ]",
     "Mode": "Typtal",
     "Mode.Syntax": "[ <Lista med tal> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <Funktion>, <Fr\xe5n x>, <Till x> ]\n[ <Funktion>, <Variabel>, <Fr\xe5n>, <Till> ]",
     "NSolutions": "NL\xf6sningar",

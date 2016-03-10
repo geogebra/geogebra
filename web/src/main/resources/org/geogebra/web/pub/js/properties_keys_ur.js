@@ -572,6 +572,8 @@ __GGB__keysVar.ur.command = {
     "Mod.Syntax": "[ <Dividend Number>, <Divisor Number> ]\n[ <Dividend Polynomial>, <Divisor Polynomial> ]",
     "Mode": "Mode",
     "Mode.Syntax": "[ <List of Numbers> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start Value>, <End Value> ]",
     "NSolutions": "NSolutions",

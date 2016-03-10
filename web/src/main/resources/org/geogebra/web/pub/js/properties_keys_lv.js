@@ -572,6 +572,8 @@ __GGB__keysVar.lv.command = {
     "Mod.Syntax": "[ <Dal\u0101mais>, <Dal\u012bt\u0101js> ]\n[ <Dal\u0101mais Polinoms>, <Dal\u012bt\u0101js Polinoms> ]",
     "Mode": "Moda",
     "Mode.Syntax": "[ <Skait\u013cu saraksts> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NoteiktaisIntegr\u0101lis",
     "NIntegral.SyntaxCAS": "[ <Funkcija>, <S\u0101kuma x-V\u0113rt\u012bba>, <Beigu x-V\u0113rt\u012bba> ]\n[ <Funkcija>, <Main\u012bgais>, <S\u0101kuma V\u0113rt\u012bba>, <Beigu V\u0113rt\u012bba> ]",
     "NSolutions": "NAtrisin\u0101jums",

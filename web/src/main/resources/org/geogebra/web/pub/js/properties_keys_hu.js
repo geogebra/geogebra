@@ -572,6 +572,8 @@ __GGB__keysVar.hu.command = {
     "Mod.Syntax": "[ <Osztand\xf3 sz\xe1m>, <Oszt\xf3 sz\xe1m> ]\n[ \xedOsztand\xf3 polinom>, <Oszt\xf3 polinom> ]",
     "Mode": "M\xf3dusz",
     "Mode.Syntax": "[ <Sz\xe1mok list\xe1ja> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "Hat\xe1rozottIntegr\xe1l",
     "NIntegral.SyntaxCAS": "[ <F\xfcggv\xe9ny>, <Kezd\u0151 x-\xe9rt\xe9k>, <Lez\xe1r\xf3 x-\xe9rt\xe9k> ]\n[ <F\xfcggv\xe9ny>, <V\xe1ltoz\xf3>, <Kezd\u0151\xe9rt\xe9k>, <V\xe9g\xe9rt\xe9k> ]",
     "NSolutions": "NumerikusMegold\xe1s",

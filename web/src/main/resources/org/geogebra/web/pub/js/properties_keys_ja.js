@@ -572,6 +572,8 @@ __GGB__keysVar.ja.command = {
     "Mod.Syntax": "[ <\u5272\u3089\u308c\u308b\u6570\u5024>, <\u5272\u308b\u6570\u5024> ]\n[ <\u5272\u3089\u308c\u308b\u591a\u9805\u5f0f>, <\u5272\u308b\u591a\u9805\u5f0f> ]",
     "Mode": "Mode",
     "Mode.Syntax": "[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <\u95a2\u6570>, <x\u306e\u958b\u59cb\u5024>, <x\u306e\u7d42\u4e86\u5024> ]\n[ <\u95a2\u6570>, <\u5909\u6570>, <\u958b\u59cb\u5024>, <\u7d42\u4e86\u5024> ]",
     "NSolutions": "NSolutions",

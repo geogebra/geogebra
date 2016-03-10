@@ -572,6 +572,8 @@ __GGB__keysVar.cs.command = {
     "Mod.Syntax": "[ <D\u011blenec>, <D\u011blitel> ]\n[ <D\u011blenec - Polynom>, <D\u011blitel - Polynom> ]",
     "Mode": "Modus",
     "Mode.Syntax": "[ <Seznam \u010d\xedsel> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <Funce>, <Po\u010d\xe1te\u010dn\xed hodnota x>, <Koncov\xe1 hodnota x> ]\n[ <Funce>, <Prom\u011bnn\xe1>, <Po\u010d\xe1te\u010dn\xed hodnota prom\u011bnn\xe9>, <Koncov\xe1 hodnota prom\u011bnn\xe9> ]",
     "NSolutions": "NReseni",

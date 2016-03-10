@@ -572,6 +572,8 @@ __GGB__keysVar.mr.command = {
     "Mod.Syntax": "[ <\u092d\u093e\u091c\u094d\u092f> ]",
     "Mode": "\u092c\u0939\u0941\u0932\u0915",
     "Mode.Syntax": "[ <\u0938\u0902\u0916\u094d\u092f\u093e\u0902\u091a\u0940 \u092f\u093e\u0926\u0940> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start Value>, <End Value> ]",
     "NSolutions": "NSolutions",

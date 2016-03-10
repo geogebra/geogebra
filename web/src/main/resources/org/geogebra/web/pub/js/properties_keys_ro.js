@@ -572,6 +572,8 @@ __GGB__keysVar.ro.command = {
     "Mod.Syntax": "[ <De\xeemp\u0103r\u0163it>, <\xcemp\u0103r\u0163itor> ]",
     "Mode": "Modul",
     "Mode.Syntax": "[ <List\u0103 de numere> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <Func\u0163ie>, <Valoare-x \xeenceput>, <Valoare-x sf\xe2r\u015fit> ]\n[ <Func\u0163ie>, <Variabil\u0103>, <Valoare \xeenceput>, <Valoare sf\xe2r\u015fit> ]",
     "NSolutions": "NSolu\u021bii",

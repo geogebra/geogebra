@@ -572,6 +572,8 @@ __GGB__keysVar.in.command = {
     "Mod.Syntax": "[ <Angka Deviden>, <Angka Pembagi> ]",
     "Mode": "Modus",
     "Mode.Syntax": "[ <Daftar Angka> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "IntergralTerbatas",
     "NIntegral.SyntaxCAS": "[ <Fungsi>, <Nilai x Awal>, <Nilai x Akhir> ]\n[ <Fungsi>, <Variabel>, <Nilai Awal>, <Nilai Akhir> ]",
     "NSolutions": "NilaiSolusi",

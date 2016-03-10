@@ -572,6 +572,8 @@ __GGB__keysVar.gl.command = {
     "Mod.Syntax": "[ <Dividendo>, <Divisor> ]\n[ <Polinomio dividendo>, <Polinomio divisor> ]",
     "Mode": "Moda",
     "Mode.Syntax": "[ <Lista de n\xfameros> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "IntegralNum",
     "NIntegral.SyntaxCAS": "[ <Funci\xf3n>, <Valor inicial x>, <Valor final x> ]\n[ <Funci\xf3n>, <Variable>, <Valor inicial>, <Valor final> ]",
     "NSolutions": "Soluci\xf3nsNum",

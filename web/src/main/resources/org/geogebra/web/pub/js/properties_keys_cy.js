@@ -572,6 +572,8 @@ __GGB__keysVar.cy.command = {
     "Mod.Syntax": "[ <Rhif y rhannyn>, <Rhif y rhannydd> ]",
     "Mode": "Modd",
     "Mode.Syntax": "[ <Rhestr y rhifau> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "IntegrynN",
     "NIntegral.SyntaxCAS": "[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start Value>, <End Value> ]",
     "NSolutions": "NDatrysiad",

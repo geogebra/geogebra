@@ -572,6 +572,8 @@ __GGB__keysVar.ko.command = {
     "Mod.Syntax": "[ <\ub098\ub204\uc5b4\uc9c0\ub294 \uc218>, <\ub098\ub204\ub294 \uc218> ]\n[ <\ub098\ub204\uc5b4\uc9c0\ub294 \ub2e4\ud56d\uc2dd>, <\ub098\ub204\ub294 \ub2e4\ud56d\uc2dd> ]",
     "Mode": "\ucd5c\ube48\uac12",
     "Mode.Syntax": "[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "\uc218\uce58\ud574\uc11d\uc801\ubd84",
     "NIntegral.SyntaxCAS": "[ <\ud568\uc218>, <\ucc98\uc74c x-\uac12>, <\ub9c8\uc9c0\ub9c9 x-\uac12> ]\n[ <\ud568\uc218>, <\ubcc0\uc218>, <\ucc98\uc74c\uac12>, <\ub9c8\uc9c0\ub9c9\uac12> ]",
     "NSolutions": "\uc218\uce58\ud574\uc11d\ud574",

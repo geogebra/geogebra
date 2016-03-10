@@ -572,6 +572,8 @@ __GGB__keysVar.vi.command = {
     "Mod.Syntax": "[ <S\u1ed1 b\u1ecb chia>, <\u01af\u1edbc s\u1ed1> ]\n[ <\u0110a th\u1ee9c b\u1ecb chia>, <\u0110a th\u1ee9c chia h\u1ebft> ]",
     "Mode": "Mot",
     "Mode.Syntax": "[ <Danh s\xe1ch c\xe1c s\u1ed1> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "T\xedchPh\xe2nX\xe1c\u0110\u1ecbnh",
     "NIntegral.SyntaxCAS": "[ <H\xe0m s\u1ed1>, <C\u1eadn d\u01b0\u1edbi-x>, <C\u1eadn tr\xean-x> ]\n[ <H\xe0m s\u1ed1>, <Bi\u1ebfn s\u1ed1>, <Gi\xe1 tr\u1ecb \u0111\u1ea7u>, <Gi\xe1 tr\u1ecb cu\u1ed1i> ]",
     "NSolutions": "NghiemSo",

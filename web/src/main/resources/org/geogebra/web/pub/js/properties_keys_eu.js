@@ -572,6 +572,8 @@ __GGB__keysVar.eu.command = {
     "Mod.Syntax": "[ <Zenbaki Zatikizuna>, <Zenbaki Zatitzailea> ]\n[ <Polinomio Zatikizuna>, <Polinomio Zatitzailea> ]",
     "Mode": "Moda",
     "Mode.Syntax": "[ <Zenbakien Zerrenda> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegrala",
     "NIntegral.SyntaxCAS": "[ <Funtzioa>, <x-ren Hasierako Balioa>, <x-ren Amaierako Balioa> ]\n[ <Funtzioa>, <Aldagaia>, <Aldagaiaren Hasierako Balioa>, <Aldagaiaren Amaierako Balioa> ]",
     "NSolutions": "NSoluzioak",

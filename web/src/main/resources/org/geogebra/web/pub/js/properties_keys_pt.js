@@ -572,6 +572,8 @@ __GGB__keysVar.pt.command = {
     "Mod.Syntax": "[ <N\xfamero Dividendo>, <N\xfamero Divisor> ]\n[ <Polin\xf4mio Dividendo>, <Polin\xf4mio Divisor> ]",
     "Mode": "Moda",
     "Mode.Syntax": "[ <Lista de N\xfameros> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "IntegralNum\xe9rica",
     "NIntegral.SyntaxCAS": "[ <Fun\xe7\xe3o>, <Valor de x Inicial>, <Valor de x Final> ]\n[ <Fun\xe7\xe3o>, <Vari\xe1vel>, <Valor de x Inicial>, <Valor de x Final> ]",
     "NSolutions": "CalcularSolu\xe7\xf5esNumericamente",

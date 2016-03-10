@@ -572,6 +572,8 @@ __GGB__keysVar.da.command = {
     "Mod.Syntax": "[ <Tal>, <Tal> ]\n[ <polynomium>, <polynomium> ]",
     "Mode": "Typetal",
     "Mode.Syntax": "[ <liste> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <Funktion>, <Start x-V\xe6rdi>, <Slut x-V\xe6rdi> ]\n[ <Funktion>, <Variable>, <Start x-V\xe6rdi>, <Slut x-V\xe6rdi> ]",
     "NSolutions": "Nl\xf8sninger",

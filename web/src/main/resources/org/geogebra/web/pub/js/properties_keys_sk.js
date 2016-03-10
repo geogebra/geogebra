@@ -572,6 +572,8 @@ __GGB__keysVar.sk.command = {
     "Mod.Syntax": "[ <Delenec>, <Delite\u013e> ]\n[ <Delenec polyn\xf3m>, <Delite\u013e polyn\xf3m> ]",
     "Mode": "M\xf3dus",
     "Mode.Syntax": "[ <Zoznam> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NumIntegr\xe1l",
     "NIntegral.SyntaxCAS": "[ <Funkcia>, <x od>, <x do> ]\n[ <Funkcia>, <Premenn\xe1> <Premenn\xe1 od>, <Premenn\xe1 do> ]",
     "NSolutions": "NumRie\u0161enie",

@@ -572,6 +572,8 @@ __GGB__keysVar.eo.command = {
     "Mod.Syntax": "[ <Dividata Nombro>, <Dividanta Nombro> ]\n[ <Dividata Polinomo>, <Dividanta Polinomo> ]",
     "Mode": "Moduso",
     "Mode.Syntax": "[ <Listo de Nombroj> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegralo",
     "NIntegral.SyntaxCAS": "[ <Funkcio>, <Komenca Valoro>, <Fina Valoro> ]\n[ <Funkcio>, <Variablo>, <Komenca Valoro>, <Fina Valoro> ]",
     "NSolutions": "NSolvoj",

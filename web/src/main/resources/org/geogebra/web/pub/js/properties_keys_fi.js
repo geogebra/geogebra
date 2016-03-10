@@ -572,6 +572,8 @@ __GGB__keysVar.fi.command = {
     "Mod.Syntax": "[ <Jaettava>, <Jakaja> ]\n[ <Jaettava polynomi>, <Jakava polynomi> ]",
     "Mode": "Tyyppiarvo",
     "Mode.Syntax": "[ <Lukulista> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegraali",
     "NIntegral.SyntaxCAS": "[ <Funktio>, <X:n alaraja>, <X:n yl\xe4raja> ]\n[ <Funktio>, <Muuttuja>, <Alaraja>, <Yl\xe4raja> ]",
     "NSolutions": "NRatkaisut",

@@ -572,6 +572,8 @@ __GGB__keysVar.de_AT.command = {
     "Mod.Syntax": "[ <Dividend>, <Divisior> ]\n[ <Dividend Polynom>, <Divisor Polynom> ]",
     "Mode": "Modalwert",
     "Mode.Syntax": "[ <Liste von Zahlen> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NIntegral",
     "NIntegral.SyntaxCAS": "[ <Funktion>, <Startwert f\xfcr x>, <Endwert f\xfcr x> ]\n[ <Funktion>, <Variable>, <Startwert>, <Endwert> ]",
     "NSolutions": "NL\xf6sungen",

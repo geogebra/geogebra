@@ -572,6 +572,8 @@ __GGB__keysVar.ca.command = {
     "Mod.Syntax": "[ <Dividend>, <Divisor> ]\n[ <Polinomi dividend>, <Polinomi divisor> ]",
     "Mode": "Moda",
     "Mode.Syntax": "[ <Llista de Nombres> ]",
+    "NDerivative": "NDerivative",
+    "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "IntegralN",
     "NIntegral.SyntaxCAS": "[ <Funci\xf3>, <Valor x inicial>, <Valor x final> ]\n[ <Funci\xf3>, <Variable>, <Valor inicial de la variable>, <Valor final de la variable> ]",
     "NSolutions": "SolucionsN",
