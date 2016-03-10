@@ -18,8 +18,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImpl;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.Feature;
@@ -33,19 +32,9 @@ import org.geogebra.desktop.main.AppD;
  * @author mathieu
  *
  */
-public class RendererImplShadersD implements RendererImpl {
-
-	final static public int GLSL_ATTRIB_POSITION = 0;
-	final static public int GLSL_ATTRIB_COLOR = 1;
-	final static public int GLSL_ATTRIB_NORMAL = 2;
-	final static public int GLSL_ATTRIB_TEXTURE = 3;
-	final static public int GLSL_ATTRIB_INDEX = 4;
-
-	private EuclidianView3D view3D;
+public class RendererImplShadersD extends RendererImplShaders {
 
 	private RendererJogl jogl;
-
-	private Renderer renderer;
 
 	/**
 	 * Constructor
@@ -61,10 +50,10 @@ public class RendererImplShadersD implements RendererImpl {
 	public RendererImplShadersD(Renderer renderer,
 			EuclidianView3D view,
 			RendererJogl jogl) {
-		Log.debug("============== Renderer with shaders created (shaders checked ok)");
-		this.renderer = renderer;
-		this.view3D = view;
+		super(renderer, view);
 		this.jogl = jogl;
+		Log.debug("============== RendererImplShadersD: Renderer with shaders created (shaders checked ok)");
+
 	}
 
 	private GL getGL() {
@@ -82,20 +71,13 @@ public class RendererImplShadersD implements RendererImpl {
 			enableLightLocation, enableShineLocation; // light
 	private int eyePositionLocation; // eye position
 	private int cullingLocation; // culling type
-	private int dashValuesLocation; // values for dash
-	private int textureTypeLocation; // textures
 	private int colorLocation; // color
-	protected int normalLocation; // one normal for all vertices
 	private int centerLocation; // center
 	private int enableClipPlanesLocation, clipPlanesMinLocation,
 			clipPlanesMaxLocation; // enable / disable clip planes
 	private int labelRenderingLocation, labelOriginLocation;
 	// private int normalMatrixLocation;
 
-	final static private int TEXTURE_TYPE_NONE = 0;
-	final static private int TEXTURE_TYPE_FADING = 1;
-	final static private int TEXTURE_TYPE_TEXT = 2;
-	final static private int TEXTURE_TYPE_DASH = 4;
 
 	private int[] vboHandles;
 	protected int vboVertices;
@@ -111,6 +93,7 @@ public class RendererImplShadersD implements RendererImpl {
 						+ ".txt");
 	}
 
+	@Override
 	public void initShaders() {
 
 		/*
@@ -228,6 +211,12 @@ public class RendererImplShadersD implements RendererImpl {
 
 		// Associate attribute ids with the attribute names inside
 		// the vertex shader.
+		GLSL_ATTRIB_POSITION = 0;
+		GLSL_ATTRIB_COLOR = 1;
+		GLSL_ATTRIB_NORMAL = 2;
+		GLSL_ATTRIB_TEXTURE = 3;
+		GLSL_ATTRIB_INDEX = 4;
+
 		jogl.getGL2ES2().glBindAttribLocation(shaderProgram,
 				GLSL_ATTRIB_POSITION, "attribute_Position");
 		jogl.getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_COLOR,
@@ -319,7 +308,8 @@ public class RendererImplShadersD implements RendererImpl {
 	}
 
 
-	private void createBuffer(GPUBuffer buffer, Stack<Integer> stack) {
+	@Override
+	protected void createBuffer(GPUBuffer buffer, Stack<Integer> stack) {
 		if (stack.isEmpty()) {
 			int[] b = new int[1];
 			jogl.getGL2ES2().glGenBuffers(1, b, 0);
@@ -330,40 +320,16 @@ public class RendererImplShadersD implements RendererImpl {
 
 	}
 
-	public void createArrayBuffer(GPUBuffer buffer) {
-		createBuffer(buffer, removedBuffers);
-	}
-
-	public void createElementBuffer(GPUBuffer buffer) {
-		createBuffer(buffer, removedElementBuffers);
-	}
-
-	private Stack<Integer> removedBuffers = new Stack<Integer>();
-	private Stack<Integer> removedElementBuffers = new Stack<Integer>();
-
-	private static void removeBuffer(GPUBuffer buffer, Stack<Integer> stack) {
+	@Override
+	protected void removeBuffer(GPUBuffer buffer, Stack<Integer> stack) {
 		stack.push(((GPUBufferD) buffer).get());
 	}
 
-	public void removeArrayBuffer(GPUBuffer buffer) {
-		removeBuffer(buffer, removedBuffers);
-	}
 
-	public void removeElementBuffer(GPUBuffer buffer) {
-		removeBuffer(buffer, removedElementBuffers);
-	}
 
 	@Override
-	public void storeBuffer(GLBuffer fb, int length, int size,
-			GPUBuffer buffer, int attrib) {
-		// Select the VBO, GPU memory data
-		bindBuffer(buffer);
-
-		// transfer data to VBO, this perform the copy of data from CPU -> GPU
-		// memory
-		int numBytes = length * size * 4; // 4 bytes per float
-		glBufferData(numBytes, fb);
-
+	final protected int getStoreBufferNumBytes(int length, int size) {
+		return length * size * 4; // 4 bytes per float
 	}
 
 	@Override
@@ -379,136 +345,47 @@ public class RendererImplShadersD implements RendererImpl {
 
 	}
 
+
 	@Override
-	public void bindBufferForIndices(GPUBuffer buffer) {
-		// Select the VBO, GPU memory data
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER,
-				((GPUBufferD) buffer).get());
+	final protected void bindBuffer(int bufferType, GPUBuffer buffer) {
+		jogl.getGL2ES2().glBindBuffer(bufferType, ((GPUBufferD) buffer).get());
 	}
 
-	final private void bindBuffer(GPUBuffer buffer) {
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER,
-				((GPUBufferD) buffer).get());
+	@Override
+	final protected int getGL_ELEMENT_ARRAY_BUFFER() {
+		return GL.GL_ELEMENT_ARRAY_BUFFER;
 	}
 
-	/**
-	 * enable vertex attribute
-	 * 
-	 * @param attrib
-	 *            attribute
-	 */
+	@Override
+	final protected int getGL_ARRAY_BUFFER() {
+		return GL.GL_ARRAY_BUFFER;
+	}
+
+	@Override
 	protected void enableAttrib(int attrib) {
 		jogl.getGL2ES2().glEnableVertexAttribArray(attrib);
 	}
 
-	/**
-	 * disable vertex attribute
-	 * 
-	 * @param attrib
-	 *            attribute
-	 */
+	@Override
 	protected void disableAttrib(int attrib) {
 		jogl.getGL2ES2().glDisableVertexAttribArray(attrib);
 	}
 
-	/**
-	 * set vertex attribute pointer
-	 * 
-	 * @param attrib
-	 *            attribute
-	 * @param size
-	 *            size
-	 */
-	private void vertexAttribPointer(int attrib, int size) {
+	@Override
+	protected void vertexAttribPointer(int attrib, int size) {
 		jogl.getGL2ES2().glVertexAttribPointer(attrib, size, GL.GL_FLOAT,
 				false, 0, 0);
 	}
 
-	private void vertexAttribPointerGlobal(int attrib, int size) {
-		// vertexAttribPointer(attrib, size);
+	@Override
+	protected void glUniform3fv(Object location, float[] values) {
+		jogl.getGL2ES2().glUniform3fv((Integer) location, 1, values, 0);
 	}
 
 	@Override
-	public void bindBufferForVertices(GPUBuffer buffer, int size) {
-		// Select the VBO, GPU memory data
-		bindBuffer(buffer);
-		// Associate Vertex attribute 0 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_POSITION, 3);
-
-		// enable VBO
-		enableAttrib(GLSL_ATTRIB_POSITION);
-	}
-
-	@Override
-	public void bindBufferForColors(GPUBuffer buffer, int size,
-			GLBuffer fbColors) {
-		if (fbColors == null || fbColors.isEmpty()) {
-			disableAttrib(GLSL_ATTRIB_COLOR);
-			return;
-		}
-
-		// prevent use of global color
-		setColor(-1, -1, -1, -1);
-
-		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(buffer);
-
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_COLOR, 4);
-
-		enableAttrib(GLSL_ATTRIB_COLOR);
-	}
-
-	@Override
-	public void bindBufferForNormals(GPUBuffer buffer, int size,
-			GLBuffer fbNormals) {
-		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
-			disableAttrib(GLSL_ATTRIB_NORMAL);
-			return;
-		}
-
-		if (fbNormals.capacity() == 3) { // one normal for all vertices
-			fbNormals.array(tmpNormal3);
-			jogl.getGL2ES2().glUniform3fv(normalLocation, 1, tmpNormal3, 0);
-			oneNormalForAllVertices = true;
-			disableAttrib(GLSL_ATTRIB_NORMAL);
-			return;
-		}
-
-		// ///////////////////////////////////
-		// VBO - normals
-
-		if (oneNormalForAllVertices) {
-			resetOneNormalForAllVertices();
-		}
-
-		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(buffer);
-
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_NORMAL, 3);
-
-		enableAttrib(GLSL_ATTRIB_NORMAL);
-	}
-
-	@Override
-	public void bindBufferForTextures(GPUBuffer buffer, int size,
-			GLBuffer fbTextures) {
-		if (fbTextures == null || fbTextures.isEmpty()) {
-			setCurrentGeometryHasNoTexture();
-			disableAttrib(GLSL_ATTRIB_TEXTURE);
-			return;
-		}
-
-		setCurrentGeometryHasTexture();
-
-		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(buffer);
-
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
-
-		enableAttrib(GLSL_ATTRIB_TEXTURE);
+	protected void glUniform3f(Object location, float x, float y,
+			float z){
+		jogl.getGL2ES2().glUniform3f((Integer) location, x, y, z);
 	}
 
 
@@ -554,28 +431,14 @@ public class RendererImplShadersD implements RendererImpl {
 
 	}
 
-	private boolean oneNormalForAllVertices;
 
-	private void resetOneNormalForAllVertices() {
-		oneNormalForAllVertices = false;
-		jogl.getGL2ES2().glUniform3f(normalLocation, 2, 2, 2);
-	}
-
-	/**
-	 * push buffer data
-	 * 
-	 * @param numBytes
-	 *            data size
-	 * @param fb
-	 *            buffer array
-	 */
+	@Override
 	protected void glBufferData(int numBytes, GLBuffer fb) {
 		jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes,
 				((GLBufferD) fb).getBuffer(), RendererJogl.GL_STREAM_DRAW);
 
 	}
 
-	protected float[] tmpNormal3 = new float[3];
 
 	@Override
 	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
@@ -706,6 +569,7 @@ public class RendererImplShadersD implements RendererImpl {
 				tmpFloat16, 0);
 	}
 
+	@Override
 	public void draw() {
 
 		resetOneNormalForAllVertices();
@@ -737,6 +601,7 @@ public class RendererImplShadersD implements RendererImpl {
 	}
 
 
+	@Override
 	public void useShaderProgram() {
 		jogl.getGL2ES2().glUseProgram(shaderProgram);
 	}
@@ -774,6 +639,7 @@ public class RendererImplShadersD implements RendererImpl {
 															// GPU memory.
 	}
 
+	@Override
 	public void dispose() {
 
 		jogl.getGL2ES2().glUseProgram(0);
@@ -974,6 +840,7 @@ public class RendererImplShadersD implements RendererImpl {
 
 	}
 
+	@Override
 	public void updatePerspValues() {
 
 		projectionMatrix
@@ -1020,6 +887,7 @@ public class RendererImplShadersD implements RendererImpl {
 
 	private double perspXZ, glassesXZ;
 
+	@Override
 	public void updateGlassesValues() {
 		glassesXZ = (renderer.perspNear[renderer.eye]
 				* (renderer.glassesEyeX[Renderer.EYE_LEFT] - renderer.glassesEyeX[Renderer.EYE_RIGHT]) / renderer.perspFocus[renderer.eye])
@@ -1042,6 +910,7 @@ public class RendererImplShadersD implements RendererImpl {
 		// the projection matrix is updated in updateProjectionObliqueValues()
 	}
 
+	@Override
 	public void updateProjectionObliqueValues() {
 
 		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
@@ -1079,74 +948,15 @@ public class RendererImplShadersD implements RendererImpl {
 		return new ManagerShadersElementsGlobalBuffer(renderer, view3D);
 	}
 
-	private boolean texturesEnabled;
 
 	@Override
-	final public void enableTextures() {
-		texturesEnabled = true;
-		setCurrentGeometryHasNoTexture(); // let first geometry init textures
+	protected void glUniform1i(Object location, int value) {
+		jogl.getGL2ES2().glUniform1i((Integer) location, value);
 	}
 
 	@Override
-	final public void disableTextures() {
-		texturesEnabled = false;
-		setCurrentTextureType(TEXTURE_TYPE_NONE);
-	}
-
-	/**
-	 * tells that current geometry has a texture
-	 */
-	final public void setCurrentGeometryHasTexture() {
-		if (areTexturesEnabled() && currentTextureType == TEXTURE_TYPE_NONE) {
-			setCurrentTextureType(oldTextureType);
-		}
-	}
-
-	/**
-	 * tells that current geometry has no texture
-	 */
-	final public void setCurrentGeometryHasNoTexture() {
-		if (areTexturesEnabled() && currentTextureType != TEXTURE_TYPE_NONE) {
-			oldTextureType = currentTextureType;
-			setCurrentTextureType(TEXTURE_TYPE_NONE);
-
-		}
-	}
-
-	@Override
-	public void enableFading() {
-		enableTextures();
-		setCurrentTextureType(TEXTURE_TYPE_FADING);
-	}
-
-	private int currentDash = Textures.DASH_INIT;
-
-	@Override
-	public void enableDash() {
-		currentDash = Textures.DASH_INIT;
-		enableTextures();
-		setCurrentTextureType(TEXTURE_TYPE_DASH);
-	}
-
-	/**
-	 * enable text textures
-	 */
-	@Override
-	final public void enableTexturesForText() {
-		setCurrentTextureType(TEXTURE_TYPE_TEXT);
-	}
-
-	private int currentTextureType = TEXTURE_TYPE_NONE;
-	private int oldTextureType = TEXTURE_TYPE_NONE;
-
-	private void setCurrentTextureType(int type) {
-		currentTextureType = type;
-		jogl.getGL2ES2().glUniform1i(textureTypeLocation, type);
-	}
-
-	@Override
-	public boolean areTexturesEnabled() {
-		return texturesEnabled;
+	protected void glUniform1fv(Object location, int length, float[] values) {
+		jogl.getGL2ES2().glUniform1fv((Integer) location, length, values, 0);
 	}
 
 	@Override
@@ -1154,22 +964,7 @@ public class RendererImplShadersD implements RendererImpl {
 		return Renderer.LIGHT_POSITION_D;
 	}
 
-	@Override
-	public void setDashTexture(int index) {
-		if (currentDash == index) {
-			return;
-		}
 
-		currentDash = index;
-		if (index == Textures.DASH_NONE) {
-			disableTextures();
-		} else {
-			enableTextures();
-			setCurrentTextureType(TEXTURE_TYPE_DASH + index);
-			jogl.getGL2ES2().glUniform1fv(dashValuesLocation, 4,
-					Textures.DASH_SHADERS_VALUES[index - 1], 0);
-		}
-	}
 
 	@Override
 	public void drawSurfacesOutline() {
@@ -1260,6 +1055,7 @@ public class RendererImplShadersD implements RendererImpl {
 		}
 	}
 
+	@Override
 	public void disableShine() {
 		if (view3D.getApplication().has(Feature.SHINY_3D)) {
 			if (view3D.getUseLight()) {
@@ -1268,6 +1064,7 @@ public class RendererImplShadersD implements RendererImpl {
 		}
 	}
 
+	@Override
 	public void enableShine() {
 		if (view3D.getApplication().has(Feature.SHINY_3D)) {
 			if (view3D.getUseLight()) {
