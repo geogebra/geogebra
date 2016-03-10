@@ -72,6 +72,9 @@ public class DrawInequality extends Drawable {
 	}
 
 	public void update2() {
+		if (left == null || (operation != Operation.NOT && right == null)) {
+			return;
+		}
 		// recursive skip in case of OR
 		if (recUpdateNeeded) {
 			if (left.drawable instanceof DrawInequality1Var) {

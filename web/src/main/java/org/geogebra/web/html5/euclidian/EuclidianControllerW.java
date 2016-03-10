@@ -361,20 +361,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 
-	/**
-	 * selects a GeoElement; no effect, if it is already selected
-	 * 
-	 * @param geo
-	 *            the GeoElement to be selected
-	 */
-	public void select(GeoElement geo) {
-		if (geo != null && !selectedGeos.contains(geo)) {
-			Hits h = new Hits();
-			h.add(geo);
-			addSelectedGeo(h, 1, false);
-		}
-	}
-
 
 	@Override
 	protected boolean moveAxesPossible() {
