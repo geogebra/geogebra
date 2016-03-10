@@ -297,6 +297,7 @@ pr.menu_header_undo(), null, 32);
 	}
 
 
+
 	/**
 	 * check and log window resize and focus lost/gained window resize is
 	 * checked first - if window is not in full screen mode "cheating" can't be
@@ -312,7 +313,7 @@ pr.menu_header_undo(), null, 32);
 		//var screenHeight = screen.height - 5;
 
 		var fullscreen = true;
-		$wnd.console.log(fullscreen);
+		$wnd.console.log("fullscreen: " + fullscreen);
 		if ($wnd.innerHeight < screen.height - 5
 				|| $wnd.innerWidth < screen.width - 5) {
 			fullscreen = false;
@@ -325,10 +326,11 @@ pr.menu_header_undo(), null, 32);
 			that.@org.geogebra.web.web.gui.app.GGWToolBar::stopCheating()()
 		};
 
-		$wnd.visibilityEventMain(startCheating, stopCheating);
+		//$wnd.visibilityEventMain(startCheating, stopCheating);
 		// Suggested by Zbynek (Hero of the Day, 2015-01-22)
 		$wnd.onblur = function(event) {
 			// Borrowed from http://www.quirksmode.org/js/events_properties.html
+			//$wnd.console.log("4");
 			var e = event ? event : $wnd.event;
 			var targ;
 			if (e.target) {
@@ -340,21 +342,24 @@ pr.menu_header_undo(), null, 32);
 				targ = targ.parentNode;
 			}
 			console.log("Checking cheating: Type = " + e.type + ", Target = "
-					+ targ + ", " + targ.id + "CurrentTarget = "
+					+ targ + ", " + targ.id + " CurrentTarget = "
 					+ e.currentTarget + ", " + e.currentTarget.id);
 			// The focusout event should not be caught:
-			if (e.type == "blur" && fullscreen == true) {
+			if (e.type == "blur") { //&& fullscreen == true
+				//$wnd.console.log("5");
 				startCheating();
 			}
 
 		};
 		$wnd.onfocus = function(event) {
+			//$wnd.console.log("6");
 			if (fullscreen == true) {
 				stopCheating();
 			}
 		}
 		// window resize has 2 cases: full screen and not full screen
 		$wnd.addEventListener("resize", function() {
+			//$wnd.console.log("7");
 			var height = $wnd.innerHeight;
 			var width = $wnd.innerWidth;
 
@@ -374,14 +379,14 @@ pr.menu_header_undo(), null, 32);
 			}
 		});
 
-		document.addEventListener("visibilitychange", function() {
-			//$wnd.console.log("hidden = " + document.hidden);
-			if (document.hidden == true) {
-				startCheating();
-			} else {
-				stopCheating();
-			}
-		});
+		//document.addEventListener("visibilitychange", function() {
+		//$wnd.console.log("hidden = " + document.hidden);
+		//	if (document.hidden == true) {
+		//		startCheating();
+		//	} else {
+		//		stopCheating();
+		//	}
+		//});
 		//var interval = setInterval(function() {
 		//	if (fullscreen == true) {
 		//		if ($wnd.screenX != 0 || $wnd.screenY != 0) {

@@ -43,11 +43,15 @@ public class ExamEnvironment {
 
 	public void startCheating() {
 		maybeCheating = System.currentTimeMillis();
+		checkCheating(); // needed for ctr+win+down
+
 	}
 
 	public void checkCheating() {
-		if (maybeCheating > 0
-				&& maybeCheating < System.currentTimeMillis() - 100) {
+
+		// if (maybeCheating > 0 && maybeCheating < System.currentTimeMillis() -
+		// 100) {
+		if (maybeCheating > 0) {
 
 			maybeCheating = -1;
 			if (getStart() > 0) {
@@ -56,8 +60,9 @@ public class ExamEnvironment {
 						.get(cheatingEvents.size() - 1).booleanValue()) {
 					cheatingTimes.add(System.currentTimeMillis());
 					cheatingEvents.add(true);
+					App.debug("STARTED CHEATING");
 				}
-				App.debug("STARTED CHEATING");
+
 			}
 		}
 	}
@@ -88,11 +93,7 @@ public class ExamEnvironment {
 		return cheatingTimes != null;
 	}
 
-	private String getLocalizedTime(Localization loc, long time) {
-		// eg "Fri 23rd October 2015 14:08:48"
-		return CmdGetTime.buildLocalizedDate("\\D \\j\\S \\F \\Y \\H:\\i:\\s",
-				new Date(time), loc);
-	}
+
 
 	private String getLocalizedTimeOnly(Localization loc, long time) {
 		// eg "14:08:48"

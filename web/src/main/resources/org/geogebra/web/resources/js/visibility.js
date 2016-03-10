@@ -27,14 +27,17 @@ function isHidden() {
 // use the property name to generate the prefixed event name
 function visibilityEventMain(startCheating, stopCheating) {
 	var visProp = getHiddenProp();
+	window.console.log("1");
 
 	if (visProp) {
 		var evtname = visProp.replace(/[H|h]idden/,'') + 'visibilitychange';
-		document.addEventListener(evtname, function(){
+		document.addEventListener(evtname, function(){ 
 			if(window.innerHeight >= screen.height){
 				if(document[visProp]){
+					window.console.log("2");
 					startCheating();
 				}else {
+					window.console.log("3");
 					stopCheating();
 				}
 			}
