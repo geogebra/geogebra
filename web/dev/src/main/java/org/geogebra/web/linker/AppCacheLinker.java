@@ -32,7 +32,7 @@ public class AppCacheLinker extends SimpleAppCacheLinker {
 	@Override
 	protected String[] otherCachedFiles() {
 		return new String[] {
-
+				"https://app.geogebra.org/"
 		};
 	}
 }

@@ -145,6 +145,7 @@ public class SimpleAppCacheLinker extends AbstractLinker {
 					        || pathName.endsWith("compilation-mappings.txt")
 					        || pathName.endsWith(".php")
 					        || pathName.endsWith("README")
+							|| pathName.endsWith("COPYING") || pathName.endsWith("LICENSE")
 					        || pathName.endsWith("oauthWindow.html")
 					        || pathName.endsWith("windowslive.html")
 					        || pathName.endsWith("devmode.js")
@@ -181,7 +182,9 @@ public class SimpleAppCacheLinker extends AbstractLinker {
 		sb.append("\n\n");
 		sb.append("# All other resources require the user to be online.\n");
 		sb.append("NETWORK:\n");
-		sb.append("*\n");
+		sb.append("*\n\n");
+		sb.append("FALLBACK:\n");
+		sb.append("/ https://app.geogebra.org/\n");
 
 		logger.log(
 		        TreeLogger.INFO,
