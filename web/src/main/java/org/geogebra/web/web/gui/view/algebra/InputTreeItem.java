@@ -12,6 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -44,6 +45,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -464,16 +466,34 @@ public class InputTreeItem extends RadioTreeItem implements
 											"left",
 											(btnHelpToggle.getAbsoluteLeft() + btnHelpToggle
 													.getOffsetWidth()) + "px");
-							helpPopup
-									.getElement()
-									.getStyle()
-									.setProperty(
-											"top",
-											(btnHelpToggle.getParent()
-													.getAbsoluteTop() + btnHelpToggle
-													.getParent()
-													.getOffsetHeight())
-													+ "px");
+
+							if (btnHelpToggle.getAbsoluteTop() < Window
+									.getClientHeight() / 2) {
+								helpPopup
+										.getElement()
+										.getStyle()
+										.setProperty(
+												"top",
+												(btnHelpToggle.getParent()
+														.getAbsoluteTop() + btnHelpToggle
+														.getParent()
+														.getOffsetHeight())
+														+ "px");
+								helpPopup.getElement().getStyle()
+										.setProperty("bottom", "auto");
+							} else {
+								helpPopup
+										.getElement()
+										.getStyle()
+										.setProperty(
+												"bottom",
+												(Window.getClientHeight() - btnHelpToggle
+														.getParent()
+														.getAbsoluteTop())
+														+ "px");
+								helpPopup.getElement().getStyle()
+										.setProperty("top", "auto");
+							}
 
 							helpPopup.show();
 						}
