@@ -20,8 +20,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
-import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
-import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.FrameCollector;
 
 /**
@@ -227,70 +225,7 @@ public abstract class RendererDToPushDown extends Renderer implements GLEventLis
 		endNeedExportImage();
 	}
 
-	@Override
-	public void dispose(GLAutoDrawable arg0) {
-		// NOTHING TO DO HERE -- NEEDED TO AVOID ERRORS IN INSTALLED/PORTABLE
-		// VERSIONS
-	}
 
-	/**
-	 * init and check if shaders can be used
-	 * 
-	 * @param drawable
-	 *            GL drawable
-	 */
-	protected void initCheckShaders(GLAutoDrawable drawable) {
-		// reset picking
-		oldGeoToPickSize = -1;
-
-		// start init
-		String glInfo[] = RendererJogl.getGLInfos(drawable);
-
-		App.debug("Init on " + Thread.currentThread()
-				+ "\nChosen GLCapabilities: " + glInfo[0]
-				+ "\ndouble buffered: " + glInfo[1] + "\nstereo: " + glInfo[2]
-				+ "\nstencil: " + glInfo[3] + "\nINIT GL IS: " + glInfo[4]
-				+ "\nGL_VENDOR: " + glInfo[5] + "\nGL_RENDERER: " + glInfo[6]
-				+ "\nGL_VERSION: " + glInfo[7]);
-
-		GeoGebraMenuBar.glCard = glInfo[6];
-		GeoGebraMenuBar.glVersion = glInfo[7];
-
-		// this is abstract method: don't create old GL / shaders here
-	}
-
-	/**
-	 * Called by the drawable immediately after the OpenGL context is
-	 * initialized for the first time. Can be used to perform one-time OpenGL
-	 * initialization such as setup of lights and display lists.
-	 * 
-	 * @param drawable
-	 *            The GLAutoDrawable object.
-	 */
-	@Override
-	public void init(GLAutoDrawable drawable) {
-
-		initCheckShaders(drawable);
-
-		setGL(drawable);
-
-		// check openGL version
-		final String version = getGL().glGetString(GLlocal.GL_VERSION);
-
-		// Check For VBO support
-		final boolean VBOsupported = getGL().isFunctionAvailable(
-				"glGenBuffersARB")
-				&& getGL().isFunctionAvailable("glBindBufferARB")
-				&& getGL().isFunctionAvailable("glBufferDataARB")
-				&& getGL().isFunctionAvailable("glDeleteBuffersARB");
-
-		AppD.debug("openGL version : " + version + ", vbo supported : "
-				+ VBOsupported);
-		
-		initFBO();
-
-		init();
-	}
 
 	@Override
 	protected void setDepthFunc() {
@@ -520,20 +455,6 @@ public abstract class RendererDToPushDown extends Renderer implements GLEventLis
 		getGL().glEnable(GLlocal.GL_CULL_FACE);
 	}
 
-	@Override
-	public void disableCulling() {
-		getGL().glDisable(GLlocal.GL_CULL_FACE);
-	}
-
-	@Override
-	public void setCullFaceFront() {
-		getGL().glCullFace(GLlocal.GL_FRONT);
-	}
-
-	@Override
-	public void setCullFaceBack() {
-		getGL().glCullFace(GLlocal.GL_BACK);
-	}
 
 	@Override
 	public void disableBlending() {
@@ -906,15 +827,7 @@ public abstract class RendererDToPushDown extends Renderer implements GLEventLis
 		return bi;
 	}
 
-	/**
-	 * set line width
-	 * 
-	 * @param width
-	 *            width
-	 */
-	public void setLineWidth(int width) {
-		getGL().glLineWidth(width);
-	}
+
 	
 
 	@Override

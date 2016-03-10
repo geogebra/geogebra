@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
+import org.geogebra.desktop.main.AppD;
 
 /**
  * Renderer checking if we can use shaders or not
@@ -66,9 +67,57 @@ public class RendererCheckGLVersionD extends RendererDToPushDown implements
 
 	}
 
+	/**
+	 * Called by the drawable immediately after the OpenGL context is
+	 * initialized for the first time. Can be used to perform one-time OpenGL
+	 * initialization such as setup of lights and display lists.
+	 * 
+	 * @param drawable
+	 *            The GLAutoDrawable object.
+	 */
 	@Override
-	protected void initCheckShaders(GLAutoDrawable drawable) {
-		super.initCheckShaders(drawable);
+	public void init(GLAutoDrawable drawable) {
+
+		initCheckShaders(drawable);
+
+		setGL(drawable);
+
+		// check openGL version
+		final String version = getGL().glGetString(GLlocal.GL_VERSION);
+
+		// Check For VBO support
+		final boolean VBOsupported = getGL().isFunctionAvailable(
+				"glGenBuffersARB")
+				&& getGL().isFunctionAvailable("glBindBufferARB")
+				&& getGL().isFunctionAvailable("glBufferDataARB")
+				&& getGL().isFunctionAvailable("glDeleteBuffersARB");
+
+		AppD.debug("openGL version : " + version + ", vbo supported : "
+				+ VBOsupported);
+
+		initFBO();
+
+		init();
+	}
+
+	private void initCheckShaders(GLAutoDrawable drawable) {
+		// reset picking
+		oldGeoToPickSize = -1;
+
+		// start init
+		String glInfo[] = RendererJogl.getGLInfos(drawable);
+
+		App.debug("Init on " + Thread.currentThread()
+				+ "\nChosen GLCapabilities: " + glInfo[0]
+				+ "\ndouble buffered: " + glInfo[1] + "\nstereo: " + glInfo[2]
+				+ "\nstencil: " + glInfo[3] + "\nINIT GL IS: " + glInfo[4]
+				+ "\nGL_VENDOR: " + glInfo[5] + "\nGL_RENDERER: " + glInfo[6]
+				+ "\nGL_VERSION: " + glInfo[7]);
+
+		GeoGebraMenuBar.glCard = glInfo[6];
+		GeoGebraMenuBar.glVersion = glInfo[7];
+
+		// this is abstract method: don't create old GL / shaders here
 
 		if (type == RendererType.NOT_SPECIFIED) {
 			try {
@@ -234,7 +283,12 @@ public class RendererCheckGLVersionD extends RendererDToPushDown implements
 
 	}
 
-	@Override
+	/**
+	 * set line width
+	 * 
+	 * @param width
+	 *            width
+	 */
 	public void setLineWidth(int width) {
 		rendererImpl.setLineWidth(width);
 	}
@@ -385,6 +439,8 @@ public class RendererCheckGLVersionD extends RendererDToPushDown implements
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
+		// DO NOT REMOVE -- NEEDED TO AVOID ERRORS IN INSTALLED/PORTABLE
+		// VERSIONS
 		System.out.println("cleanup, remember to release shaders");
 
 		setGL(drawable);
@@ -472,19 +528,19 @@ public class RendererCheckGLVersionD extends RendererDToPushDown implements
 
 	@Override
 	public void disableCulling() {
-		super.disableCulling();
+		getGL().glDisable(GLlocal.GL_CULL_FACE);
 		rendererImpl.disableCulling();
 	}
 
 	@Override
 	public void setCullFaceFront() {
-		super.setCullFaceFront();
+		getGL().glCullFace(GLlocal.GL_FRONT);
 		rendererImpl.setCullFaceFront();
 	}
 
 	@Override
 	public void setCullFaceBack() {
-		super.setCullFaceBack();
+		getGL().glCullFace(GLlocal.GL_BACK);
 		rendererImpl.setCullFaceBack();
 	}
 
