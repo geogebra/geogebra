@@ -9,6 +9,7 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -140,8 +141,10 @@ public class BrowseView extends AbstractView implements BrowseViewI,
 			} else if (!getLastSelected().isLocal()
 			        && getLastSelected().isOwn()) {
 				app.getKernel().getConstruction().setTitle(material.getTitle());
-				app.updateMaterialURL(material.getId(),
+				if (material.getType() != MaterialType.ggt) {
+					app.updateMaterialURL(material.getId(),
 						material.getSharingKeyOrId());
+				}
 			} else {
 				app.resetUniqueId();
 				app.updateMaterialURL(0, material.getSharingKeyOrId());

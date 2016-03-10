@@ -133,7 +133,7 @@ public class JSONParserGGT {
 		SyncEvent se = new SyncEvent(
 				getInt(object, "id", 0), getLong(object, "ts", 0));
 		try {
-		if (object.get("deleted") != null
+			if (object.has("deleted")
 				&& object.get("deleted") instanceof String) {
 			se.setDelete(true);
 		}
@@ -141,7 +141,7 @@ public class JSONParserGGT {
 			Log.debug("error parsing deletion");
 		}
 		try {
-		if (object.get("favorite") != null
+			if (object.has("favorite")
 				&& getBoolean(object, "favorite", false)) {
 			se.setFavorite(true);
 		}
@@ -149,7 +149,7 @@ public class JSONParserGGT {
 			Log.debug("error parsing favorite");
 		}
 		try {
-		if (object.get("unfavorited") != null
+			if (object.has("unfavorited")
 				&& object.get("unfavorited") instanceof String) {
 			se.setUnfavorite(true);
 		}

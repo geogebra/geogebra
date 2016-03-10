@@ -422,9 +422,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 			driveBase64description = desc;
 		}
 		driveBase64FileName = fName;
-		((DialogManagerW) app.getDialogManager())
-		        .refreshAndShowCurrentFileDescriptors(driveBase64FileName,
-		                driveBase64description);
+
 
 	}
 
@@ -445,16 +443,17 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 * @return javascript function to called back;
 	 */
 	public native JavaScriptObject getPutFileCallback(String fileName,
-	        String description) /*-{
+			String description, boolean isggb) /*-{
 		var _this = this;
 		return function(base64) {
 			var fName = fileName, ds = description;
-			_this.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW::saveFileToGoogleDrive(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(fName,ds,base64);
+			_this.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW::saveFileToGoogleDrive(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)(fName,ds,base64,isggb);
 		};
 	}-*/;
 
 	private void saveFileToGoogleDrive(final String fileName,
-	        final String description, final String fileContent) {
+			final String description, final String fileContent,
+			boolean isggb) {
 		JavaScriptObject metaData = JavaScriptObject.createObject();
 		JSON.put(metaData, "title", fileName);
 		JSON.put(metaData, "description", description);
@@ -480,11 +479,12 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		JSON.put(thumbnail, "mimeType", "image/png");
 		JSON.putObject(metaData, "thumbnail", thumbnail);
 		Log.debug(metaData);
-		handleFileUploadToGoogleDrive(getCurrentFileId(), metaData, fileContent);
+		handleFileUploadToGoogleDrive(getCurrentFileId(), metaData, fileContent,
+				isggb);
 	}
 
 	private native void handleFileUploadToGoogleDrive(String id,
-	        JavaScriptObject metaData, String base64) /*-{
+			JavaScriptObject metaData, String base64, boolean isggb) /*-{
 		var _this = this, fId = id ? id : "";
 		function updateFile(fileId, fileMetadata, fileData) {
 			var boundary = '-------314159265358979323846';
@@ -516,7 +516,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 			request
 					.execute(function(resp) {
 						if (!resp.error) {
-							_this.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.id, resp.title, resp.description)
+							_this.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)(resp.id, resp.title, resp.description, isggb)
 						} else {
 							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("Error saving to Google Drive: " + resp.error);
 							_this.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW::showUploadError()();
@@ -533,13 +533,15 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	private void updateAfterGoogleDriveSave(String id, String fileName,
-	        String description) {
+			String description, boolean isggb) {
 		((DialogManagerW) app.getDialogManager()).getSaveDialog()
 		        .runAfterSaveCallback();
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
-		SaveCallback.onSaved(app, SaveState.OK);
-		refreshCurrentFileDescriptors(fileName, description);
-		setCurrentFileId(id);
+		if (isggb) {
+			SaveCallback.onSaved(app, SaveState.OK);
+			refreshCurrentFileDescriptors(fileName, description);
+			setCurrentFileId(id);
+		}
 	}
 
 	private void checkIfOpenedFromGoogleDrive() {
@@ -585,9 +587,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		driveBase64FileName = null;
 		driveBase64description = null;
 		currentFileId = null;
-		((DialogManagerW) app.getDialogManager())
-		        .refreshAndShowCurrentFileDescriptors(driveBase64FileName,
-		                driveBase64description);
+
 	}
 
 	private String currentFileId = null;

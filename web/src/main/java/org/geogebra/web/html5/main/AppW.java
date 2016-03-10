@@ -3517,7 +3517,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		setTubeId(i);
 
 		Log.printStacktrace("SETTING" + i + "," + object);
-		if (articleElement.getDataParamApp()) {
+		if (articleElement.getDataParamApp() && object !=null) {
 			Browser.changeUrl("o/" + object);
 		}
 

@@ -11,6 +11,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
@@ -299,8 +300,10 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 				        .setTitle(
 				                key.substring(key.indexOf("#",
 				                        key.indexOf("#") + 1) + 1));
+				if (material.getType() != MaterialType.ggt) {
 				app.updateMaterialURL(material.getId(),
 						material.getSharingKeyOrId());
+				}
 				app.setLocalID(material.getLocalID());
 			} else if (!getLastSelected().isLocal
 			        && getLastSelected().isOwnMaterial) {

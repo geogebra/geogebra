@@ -160,15 +160,16 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 					        .getActiveEuclidianView())
 					        .getCanvasBase64WithTypeString());
 					app.getKernel().getConstruction().setTitle(title.getText());
-					app.updateMaterialURL(newMat.getId(),
-							newMat.getSharingKeyOrId());
+
 					// last synchronization is equal to last modified
 					app.setSyncStamp(newMat.getModified());
 
 
 					newMat.setSyncStamp(newMat.getModified());
-					app.updateMaterialURL(newMat.getId(),
+					if (saveType != MaterialType.ggt) {
+						app.updateMaterialURL(newMat.getId(),
 							newMat.getSharingKeyOrId());
+					}
 					app.setActiveMaterial(newMat);
 					app.setSyncStamp(newMat.getModified());
 					saveLocalIfNeeded(newMat.getModified(),
@@ -486,7 +487,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		}
 		JavaScriptObject callback = ((GoogleDriveOperationW) app
 		        .getGoogleDriveOperation()).getPutFileCallback(saveName,
-		        "GeoGebra");
+						"GeoGebra", saveType == MaterialType.ggb);
 		if (saveType == MaterialType.ggt) {
 			app.getGgbApi().getMacrosBase64(true, callback);
 		} else {

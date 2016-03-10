@@ -33,14 +33,12 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.GDialogBox;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.export.AnimationExportDialogW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
-import org.geogebra.web.web.gui.util.GoogleFileDescriptors;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.util.WindowReference;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
@@ -342,35 +340,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		getSaveDialog().center();
 	}
 
-	private GoogleFileDescriptors googleFileDescriptors = null;
 
-	public void refreshAndShowCurrentFileDescriptors(
-			String driveBase64FileName, String driveBase64description) {
-		if (googleFileDescriptors == null) {
-			googleFileDescriptors = new GoogleFileDescriptors(
-					((AppW) app).getPanel());
-		}
-		if (driveBase64FileName == null) {
-			googleFileDescriptors.hide();
-		} else {
-			googleFileDescriptors.setFileName(driveBase64FileName);
-			googleFileDescriptors.setDescription(driveBase64description);
-			if(((AppW) app).getGuiManager() == null){
-				return;
-			}
-			//Steffi: In SMART the getSignIn()-Method returns NULL
-			googleFileDescriptors
-					.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-
-				        @Override
-				        public void setPosition(int offsetWidth,
-				                int offsetHeight) {
-					googleFileDescriptors.show();
-
-				}
-			});	
-		}
-	}
 
 	@Override
 	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
