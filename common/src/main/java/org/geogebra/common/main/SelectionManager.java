@@ -840,7 +840,7 @@ public class SelectionManager {
 	}
 
 	public ArrayList<GeoElement> getSelectedGeoList() {
-		return selectedGeos;
+		return selectedGeosEuclidian;
 	}
 
 	public ArrayList<GeoList> getSelectedListList() {
