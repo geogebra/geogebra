@@ -1,5 +1,6 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
+import java.awt.Component;
 import java.nio.ByteBuffer;
 
 import javax.media.opengl.GL;
@@ -32,7 +33,9 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 
 	private RendererJogl jogl;
 
-	private RendererD renderer;
+	private Renderer renderer;
+
+	private GLU glu = new GLU();
 
 	/**
 	 * Constructor
@@ -45,7 +48,7 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	 * @param jogl
 	 *            java openGL implementation
 	 */
-	public RendererImplGL2(RendererD renderer, EuclidianView3D view,
+	public RendererImplGL2(Renderer renderer, EuclidianView3D view,
 			RendererJogl jogl) {
 		App.debug("============== Renderer with old GL created (shaders failed)");
 		this.renderer = renderer;
@@ -209,7 +212,7 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 
 		jogl.getGL2().glMatrixMode(GLlocal.GL_PROJECTION);
 		jogl.getGL2().glLoadIdentity();
-		renderer.glu.gluOrtho2D(0, w, h, 0);
+		getGLU().gluOrtho2D(0, w, h, 0);
 
 		jogl.getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);
 		jogl.getGL2().glLoadIdentity();
@@ -251,9 +254,10 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 		// seems to be sensible to canvas location on screen and to parent
 		// relative location
 		// (try docked with neighboors / undocked or docked alone)
-		int y0 = (((RendererCheckGLVersionD) renderer).canvas.getParent()
-				.getLocation().y + ((RendererCheckGLVersionD) renderer).canvas
-				.getLocationOnScreen().y) % 2;
+		
+		int y0 = ((Component) renderer.getCanvas()).getParent().getLocation().y
+				+ (((Component) renderer.getCanvas()).getLocationOnScreen().y)
+				% 2;
 
 		// App.debug("\nparent.y="+canvas.getParent().getLocation().y+"\ncanvas.y="+canvas.getLocation().y+"\nscreen.y="+canvas.getLocationOnScreen().y+"\nh="+h+"\ny0="+y0);
 		// App.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
@@ -687,6 +691,6 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	}
 
 	public GLU getGLU() {
-		return renderer.glu;
+		return glu;
 	}
 }

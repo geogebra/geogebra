@@ -29,7 +29,7 @@ import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
  * @author mathieu
  * 
  */
-public class RendererCheckGLVersionD extends RendererD implements
+public class RendererCheckGLVersionD extends RendererDToPushDown implements
 		RendererShadersInterface {
 
 	private RendererImpl rendererImpl;

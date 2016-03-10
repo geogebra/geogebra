@@ -44,7 +44,7 @@ public class RendererImplShadersElements implements
 
 	private RendererJogl jogl;
 
-	private RendererD renderer;
+	private Renderer renderer;
 
 	/**
 	 * Constructor
@@ -57,7 +57,7 @@ public class RendererImplShadersElements implements
 	 * @param jogl
 	 *            java openGL implementation
 	 */
-	public RendererImplShadersElements(RendererD renderer,
+	public RendererImplShadersElements(Renderer renderer,
 			EuclidianView3D view,
 			RendererJogl jogl) {
 		Log.debug("============== Renderer with shaders created (shaders checked ok)");
