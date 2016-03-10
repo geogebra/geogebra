@@ -2292,7 +2292,7 @@ namespace giac {
     if (s==2)
       return geometric_cdf(v[0],v[1],contextptr);
     if (s==3)
-      return geometric_cdf(v[0],v[2],contextptr)-geometric_cdf(v[0],v[1],contextptr);
+      return geometric_cdf(v[0],v[2],contextptr)-geometric_cdf(v[0],v[1]-1,contextptr);
     return gensizeerr(contextptr);
   }
   static const char _geometric_cdf_s []="geometric_cdf";

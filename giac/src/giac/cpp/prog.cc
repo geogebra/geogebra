@@ -5635,7 +5635,11 @@ namespace giac {
     if (f.is_symb_of_sommet(at_unit)){
       if (f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2)
 	f=symbolic(at_unit,makesequence(1,f._SYMBptr->feuille._VECTptr->back()));
-      return chk_not_unit(mksa_reduce(evalf(g/f,1,contextptr),contextptr))*f;
+      g=chk_not_unit(mksa_reduce(evalf(g/f,1,contextptr),contextptr));
+      g=evalf_double(g,1,contextptr);
+      if (g.type!=_DOUBLE_ && g.type!=_CPLX && g.type!=_FLOAT_)
+	return gensizeerr(gettext("Some units could not be converted to MKSA"));
+      return g*f;
     }
     if (s==2 && f==at_interval)
       return convert_interval(g,int(decimal_digits(contextptr)*3.2),contextptr);
