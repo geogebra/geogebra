@@ -65,26 +65,12 @@ public class RendererImplShadersD extends RendererImplShaders {
 	private int vertShader;
 	private int fragShader;
 
-	// location values for shader fields
-	private int matrixLocation; // matrix
-	private int lightPositionLocation, ambiantDiffuseLocation,
-			enableLightLocation, enableShineLocation; // light
-	private int eyePositionLocation; // eye position
-	private int cullingLocation; // culling type
-	private int colorLocation; // color
-	private int centerLocation; // center
-	private int enableClipPlanesLocation, clipPlanesMinLocation,
-			clipPlanesMaxLocation; // enable / disable clip planes
-	private int labelRenderingLocation, labelOriginLocation;
+
 	// private int normalMatrixLocation;
 
 
 	private int[] vboHandles;
-	protected int vboVertices;
-	protected int vboColors;
-	protected int vboNormals;
-	protected int vboTextureCoords;
-	protected int vboIndices;
+
 
 	private String loadTextFile(String file) {
 
@@ -296,12 +282,17 @@ public class RendererImplShadersD extends RendererImplShaders {
 		 */
 		vboHandles = new int[5];
 		jogl.getGL2ES2().glGenBuffers(5, vboHandles, 0);
-		vboColors = vboHandles[GLSL_ATTRIB_COLOR];
-		vboVertices = vboHandles[GLSL_ATTRIB_POSITION];
-		vboNormals = vboHandles[GLSL_ATTRIB_NORMAL];
-		vboTextureCoords = vboHandles[GLSL_ATTRIB_TEXTURE];
-		vboIndices = vboHandles[GLSL_ATTRIB_INDEX];
-		// super.init(drawable);
+
+		vboColors = new GPUBufferD();
+		vboVertices = new GPUBufferD();
+		vboNormals = new GPUBufferD();
+		vboTextureCoords = new GPUBufferD();
+		vboIndices = new GPUBufferD();
+		((GPUBufferD) vboColors).set(vboHandles[GLSL_ATTRIB_COLOR]);
+		((GPUBufferD) vboVertices).set(vboHandles[GLSL_ATTRIB_POSITION]);
+		((GPUBufferD) vboNormals).set(vboHandles[GLSL_ATTRIB_NORMAL]);
+		((GPUBufferD) vboTextureCoords).set(vboHandles[GLSL_ATTRIB_TEXTURE]);
+		((GPUBufferD) vboIndices).set(vboHandles[GLSL_ATTRIB_INDEX]);
 
 		attribPointers();
 
@@ -391,44 +382,10 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 
 
-	@Override
-	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
-
-		// ///////////////////////////////////
-		// VBO - vertices
-
-		// Select the VBO, GPU memory data, to use for vertices
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboVertices);
-
-		// transfer data to VBO, this perform the copy of data from CPU -> GPU
-		// memory
-		int numBytes = length * 12; // 4 bytes per float * 3 coords per vertex
-		glBufferData(numBytes, fbVertices);
-
-		// Associate Vertex attribute 0 with the last bound VBO
-		vertexAttribPointerGlobal(GLSL_ATTRIB_POSITION, 3);
-
-		// VBO
-		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
-	}
 
 	@Override
-	public void loadIndicesBuffer(GLBufferIndices arrayI, int length) {
-
-		// ///////////////////////////////////
-		// VBO - indices
-
-		// Select the VBO, GPU memory data, to use for indices
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER,
-				vboIndices);
-
-
-		// transfer data to VBO, this perform the copy of data from CPU -> GPU
-		// memory
-		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2,
-				((GLBufferIndicesD) arrayI).getBuffer(),
-				RendererJogl.GL_STREAM_DRAW);
-
+	protected void glEnableVertexAttribArray(int attrib) {
+		jogl.getGL2ES2().glEnableVertexAttribArray(attrib);
 	}
 
 
@@ -439,97 +396,34 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	}
 
-
 	@Override
-	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
+	protected void glBufferDataIndices(int numBytes, GLBufferIndices arrayI) {
+		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, numBytes,
+				((GLBufferIndicesD) arrayI).getBuffer(),
+				RendererJogl.GL_STREAM_DRAW);
 
-		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
-			return;
-		}
-
-		if (fbNormals.capacity() == 3) { // one normal for all vertices
-			fbNormals.array(tmpNormal3);
-			jogl.getGL2ES2().glUniform3fv(normalLocation, 1, tmpNormal3, 0);
-			oneNormalForAllVertices = true;
-			return;
-		}
-
-		// ///////////////////////////////////
-		// VBO - normals
-
-		if (oneNormalForAllVertices) {
-			resetOneNormalForAllVertices();
-		}
-
-		// Select the VBO, GPU memory data, to use for normals
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboNormals);
-		int numBytes = length * 12; // 4 bytes per float * * 3 coords per normal
-		glBufferData(numBytes, fbNormals);
-
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointerGlobal(GLSL_ATTRIB_NORMAL, 3);
-
-		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 	}
 
-	@Override
-	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
-
-		if (fbTextures == null || fbTextures.isEmpty()) {
-			setCurrentGeometryHasNoTexture();
-			return;
-		}
-
-		setCurrentGeometryHasTexture();
-
-		// Select the VBO, GPU memory data, to use for normals
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboTextureCoords);
-		int numBytes = length * 8; // 4 bytes per float * 2 coords per texture
-		glBufferData(numBytes, fbTextures);
-
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointerGlobal(GLSL_ATTRIB_TEXTURE, 2);
-
-		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
-	}
-
-	@Override
-	public void loadColorBuffer(GLBuffer fbColors, int length) {
 
 
-		if (fbColors == null || fbColors.isEmpty()) {
-			return;
-		}
 
-		// prevent use of global color
-		setColor(-1, -1, -1, -1);
 
-		// Select the VBO, GPU memory data, to use for normals
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboColors);
-		int numBytes = length * 16; // 4 bytes per float * 4 color values (rgba)
-		glBufferData(numBytes, fbColors);
-
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointerGlobal(GLSL_ATTRIB_COLOR, 4);
-
-		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
-	}
 
 	/**
 	 * attribute vertex pointers
 	 */
 	private void attribPointers() {
 
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboVertices);
+		bindBuffer(vboVertices);
 		vertexAttribPointer(GLSL_ATTRIB_POSITION, 3);
 
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboNormals);
+		bindBuffer(vboNormals);
 		vertexAttribPointer(GLSL_ATTRIB_NORMAL, 3);
 
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboColors);
+		bindBuffer(vboColors);
 		vertexAttribPointer(GLSL_ATTRIB_COLOR, 4);
 
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboTextureCoords);
+		bindBuffer(vboTextureCoords);
 		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
 	}
 
@@ -966,22 +860,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 
 
-	@Override
-	public void drawSurfacesOutline() {
 
-		// TODO
-
-	}
-
-	@Override
-	public void enableClipPlanes() {
-		jogl.getGL2ES2().glUniform1i(enableClipPlanesLocation, 1);
-	}
-
-	@Override
-	public void disableClipPlanes() {
-		jogl.getGL2ES2().glUniform1i(enableClipPlanesLocation, 0);
-	}
 
 	private float[] clipPlanesMin = new float[3];
 	private float[] clipPlanesMax = new float[3];

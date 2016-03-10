@@ -23,9 +23,26 @@ public abstract class RendererImplShaders implements RendererImpl {
 	final static protected int TEXTURE_TYPE_TEXT = 2;
 	final static protected int TEXTURE_TYPE_DASH = 4;
 
+	// location values for shader fields
+	protected Integer matrixLocation; // matrix
+	protected Integer lightPositionLocation, ambiantDiffuseLocation,
+			enableLightLocation, enableShineLocation; // light
+	protected Integer eyePositionLocation; // eye position
+	protected Integer cullingLocation; // culling type
+	protected Integer colorLocation; // color
+	protected Integer centerLocation; // center
+	protected Integer enableClipPlanesLocation, clipPlanesMinLocation,
+			clipPlanesMaxLocation; // enable / disable clip planes
+	protected Integer labelRenderingLocation, labelOriginLocation;
 	protected Integer normalLocation; // one normal for all vertices
 	protected Integer textureTypeLocation; // textures
 	protected Integer dashValuesLocation; // values for dash
+
+	protected GPUBuffer vboVertices;
+	protected GPUBuffer vboColors;
+	protected GPUBuffer vboNormals;
+	protected GPUBuffer vboTextureCoords;
+	protected GPUBuffer vboIndices;
 
 	protected float[] tmpNormal3 = new float[3];
 
@@ -315,4 +332,135 @@ public abstract class RendererImplShaders implements RendererImpl {
 	abstract protected void glUniform1fv(Object location, int length,
 			float[] values);
 
+	abstract protected void glEnableVertexAttribArray(int attrib);
+
+	@Override
+	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
+
+		// ///////////////////////////////////
+		// VBO - vertices
+
+		// Select the VBO, GPU memory data, to use for vertices
+		bindBuffer(vboVertices);
+
+		// transfer data to VBO, this perform the copy of data from CPU -> GPU
+		// memory
+		int numBytes = length * 12; // 4 bytes per float * 3 coords per vertex
+		glBufferData(numBytes, fbVertices);
+
+		// Associate Vertex attribute 0 with the last bound VBO
+		vertexAttribPointerGlobal(GLSL_ATTRIB_POSITION, 3);
+
+		// VBO
+		glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
+	}
+
+	@Override
+	public void loadColorBuffer(GLBuffer fbColors, int length) {
+
+		if (fbColors == null || fbColors.isEmpty()) {
+			return;
+		}
+
+		// prevent use of global color
+		setColor(-1, -1, -1, -1);
+
+		// Select the VBO, GPU memory data, to use for normals
+		bindBuffer(vboColors);
+		int numBytes = length * 16; // 4 bytes per float * 4 color values (rgba)
+		glBufferData(numBytes, fbColors);
+
+		// Associate Vertex attribute 1 with the last bound VBO
+		vertexAttribPointerGlobal(GLSL_ATTRIB_COLOR, 4);
+
+		glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
+	}
+
+	@Override
+	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
+
+		if (fbTextures == null || fbTextures.isEmpty()) {
+			setCurrentGeometryHasNoTexture();
+			return;
+		}
+
+		setCurrentGeometryHasTexture();
+
+		// Select the VBO, GPU memory data, to use for normals
+		bindBuffer(vboTextureCoords);
+		int numBytes = length * 8; // 4 bytes per float * 2 coords per texture
+		glBufferData(numBytes, fbTextures);
+
+		// Associate Vertex attribute 1 with the last bound VBO
+		vertexAttribPointerGlobal(GLSL_ATTRIB_TEXTURE, 2);
+
+		glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+	}
+
+	@Override
+	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
+
+		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
+			return;
+		}
+
+		if (fbNormals.capacity() == 3) { // one normal for all vertices
+			fbNormals.array(tmpNormal3);
+			glUniform3fv(normalLocation, tmpNormal3);
+			oneNormalForAllVertices = true;
+			return;
+		}
+
+		// ///////////////////////////////////
+		// VBO - normals
+
+		if (oneNormalForAllVertices) {
+			resetOneNormalForAllVertices();
+		}
+
+		// Select the VBO, GPU memory data, to use for normals
+		bindBuffer(vboNormals);
+		int numBytes = length * 12; // 4 bytes per float * * 3 coords per normal
+		glBufferData(numBytes, fbNormals);
+
+		// Associate Vertex attribute 1 with the last bound VBO
+		vertexAttribPointerGlobal(GLSL_ATTRIB_NORMAL, 3);
+
+		glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+	}
+
+	@Override
+	public void drawSurfacesOutline() {
+
+		// TODO
+
+	}
+
+	@Override
+	public void enableClipPlanes() {
+		glUniform1i(enableClipPlanesLocation, 1);
+	}
+
+	@Override
+	public void disableClipPlanes() {
+		glUniform1i(enableClipPlanesLocation, 0);
+	}
+
+	@Override
+	public void loadIndicesBuffer(GLBufferIndices arrayI, int length) {
+
+		// ///////////////////////////////////
+		// VBO - indices
+
+		// Select the VBO, GPU memory data, to use for indices
+		bindBufferForIndices(vboIndices);
+
+		// transfer data to VBO, this perform the copy of data from CPU -> GPU
+		// memory
+		glBufferDataIndices(length * 2, arrayI);
+
+	}
+
+	abstract protected void glBufferDataIndices(int numBytes,
+			GLBufferIndices arrayI);
 }
