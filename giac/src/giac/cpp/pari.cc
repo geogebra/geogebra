@@ -95,7 +95,8 @@ namespace giac {
     // do not initialize INIT_JMP so that PARI error do not exit
     pari_init_opts(pari_mem_size,maxprime,INIT_SIGm | INIT_DFTm);
 #ifdef PARI_DYNAMIC_STACK
-    paristack_alloc(pari_mem_size, (1<<30)); // pari 2.8
+    paristack_setsize(pari_mem_size, (1<<30)); // pari 2.8
+    //paristack_alloc(pari_mem_size, (1<<30)); // pari 2.8
 #endif
     entree * ptr=functions_basic;
     for (;ptr->name;++ptr){

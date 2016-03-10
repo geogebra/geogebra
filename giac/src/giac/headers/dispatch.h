@@ -580,6 +580,8 @@ namespace giac {
     step_extrema6=30,
     step_extrema7=31,
     step_extrema8=32,
+    step_integrate_header=33,
+    step_derive_header=34,
   };
 
 #ifndef NO_NAMESPACE_GIAC

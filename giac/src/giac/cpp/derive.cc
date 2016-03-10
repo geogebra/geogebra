@@ -97,8 +97,9 @@ namespace giac {
       return zero;
     // rational operators are treated first for efficiency
     if (s.sommet==at_plus){
-      if (step_infolevel>1 && count_noncst(s.feuille,i)>1)
-	gprintf(gettext("Derivative of a sum: (u+v+...)'=u'+v'+...\n  with u,v,...=%gen"),makevecteur(s.feuille),contextptr);
+      bool do_step=step_infolevel>1 && count_noncst(s.feuille,i)>1;
+      if (do_step)
+	gprintf(gettext("Derivative of %gen apply linearity: (u+v+...)'=u'+v'+..."),makevecteur(s),contextptr);
       if (s.feuille.type!=_VECT)
 	return derive(s.feuille,i,contextptr);
       vecteur::const_iterator iti=s.feuille._VECTptr->begin(),itend=s.feuille._VECTptr->end();
@@ -119,11 +120,15 @@ namespace giac {
 	return v.front();
       if (v.empty())
 	return zero;
-      return _plus(gen(v,_SEQ__VECT),contextptr); // symbolic(at_plus,v);
+      gen res=_plus(gen(v,_SEQ__VECT),contextptr); // symbolic(at_plus,v);
+      if (do_step)
+	gprintf(gettext("Hence derivative of %gen by linearity is %gen"),makevecteur(g_orig,res),contextptr);
+      return res;
     }
     if (s.sommet==at_prod){
-      if (step_infolevel>1 && count_noncst(s.feuille,i)>1)
-	gprintf(gettext("Derivative of a product: (u*v*...)'=u'*v*...+u*v'*...+...\n  with u,v,...=%gen"),makevecteur(s.feuille),contextptr);
+      bool do_step=step_infolevel>1 && count_noncst(s.feuille,i)>1;
+      if (do_step)
+	gprintf(gettext("Derivative of %gen, apply product rule: (u*v*...)'=u'*v*...+u*v'*...+..."),makevecteur(s),contextptr);
       if (s.feuille.type!=_VECT)
 	return derive(s.feuille,i,contextptr);
       vecteur::const_iterator itbegin=s.feuille._VECTptr->begin(),itj,iti,itend=s.feuille._VECTptr->end();
@@ -153,7 +158,10 @@ namespace giac {
 	return v.front();
       if (v.empty())
 	return zero;
-      return symbolic(at_plus,gen(v,_SEQ__VECT));
+      gen res=symbolic(at_plus,gen(v,_SEQ__VECT));
+      if (do_step)
+	gprintf(gettext("Hence derivative of %gen by product rule is %gen"),makevecteur(g_orig,res),contextptr);
+      return res;
     }
     if (s.sommet==at_neg)
       return -derive(s.feuille,i,contextptr);
@@ -161,15 +169,15 @@ namespace giac {
       if (s.feuille.type!=_VECT || s.feuille._VECTptr->size()!=2)
 	return gensizeerr(contextptr);
       gen base = s.feuille._VECTptr->front(),exponent=s.feuille._VECTptr->back();
-      gen dbase=derive(base,i,contextptr),dexponent=derive(exponent,i,contextptr);
-      // diff(base^exponent)=diff(exp(exponent*ln(base)))
-      // =base^exponent*diff(exponent)*ln(base)+base^(exponent-1)*exponent*diff(base)
       if (step_infolevel>1){
-	if (is_zero(dexponent))
-	  gprintf(gettext("Derivative of a power: %gen'=(%gen)*(%gen)'*%gen"),makevecteur(symb_pow(base,exponent),exponent,base,symb_pow(base,exponent-1)),contextptr);
+	if (is_constant_wrt(exponent,i,contextptr))
+	  gprintf(gettext("Derivative of a power: (%gen)'=(%gen)*(%gen)'*%gen"),makevecteur(symb_pow(base,exponent),exponent,base,symb_pow(base,exponent-1)),contextptr);
 	else
 	  gprintf(gettext("Derivative of a power: (%gen)'=%gen*(%gen)'*ln(%gen)+(%gen)*(%gen)'*%gen"),makevecteur(symb_pow(base,exponent),symb_pow(base,exponent),exponent,base,exponent,base,symb_pow(base,exponent-1)),contextptr);
       }
+      gen dbase=derive(base,i,contextptr),dexponent=derive(exponent,i,contextptr);
+      // diff(base^exponent)=diff(exp(exponent*ln(base)))
+      // =base^exponent*diff(exponent)*ln(base)+base^(exponent-1)*exponent*diff(base)
       gen expm1=exponent+gen(-1);
       if (is_zero(dexponent))
 	return exponent*dbase*pow(base,expm1,contextptr);
@@ -219,10 +227,15 @@ namespace giac {
       return gensizeerr(gettext("Derivative of rootof currently not handled"));
     }
     if (step_infolevel>1 && s.feuille.type!=_VECT){
-      if (s.feuille==i)
-	gprintf(gettext("Derivative of function %gen"),makevecteur(s.sommet),contextptr);
+      if (s.feuille==i){
+	int save_step=step_infolevel;
+	step_infolevel=0;
+	gen der=derive_SYMB(g_orig,i,contextptr);
+	step_infolevel=save_step;
+	gprintf(gettext("Derivative of elementary function %gen is %gen"),makevecteur(g_orig,der),contextptr);
+      }
       else
-	gprintf(gettext("Derivative of a composition: (f(u))'=u'*f'(u)\n  where f=%gen and u=%gen"),makevecteur(s.sommet,s.feuille),contextptr);
+	gprintf(gettext("Derivative of a composition: (%gen)'=(%gen)'*f'(%gen) where f=%gen"),makevecteur(g_orig,s.feuille,s.feuille,s.sommet),contextptr);
     }
     if (s.sommet==at_UTPT){
       if (s.feuille.type!=_VECT || s.feuille._VECTptr->size()!=2)
@@ -605,6 +618,8 @@ namespace giac {
     if (calc_mode(contextptr)==1 && args.type!=_VECT)
       return _derive(makesequence(args,ggb_var(args)),contextptr);
 #endif
+    if (step_infolevel)
+      gprintf(step_derive_header,gettext("===== Step/step derive %gen ====="),makevecteur(args),contextptr);
     vecteur v;
     if (args.type==_VECT && args.subtype==_POLY1__VECT)
       return gen(derivative(*args._VECTptr),_POLY1__VECT);

@@ -4795,6 +4795,22 @@ unsigned int ConvertUTF8toUTF16 (
   int step_infolevel=0;
   void (*my_gprintf)(unsigned special,const string & format,const vecteur & v,GIAC_CONTEXT)=0;
 
+#ifdef EMCC
+  static void newlinestobr(string &s,const string & add){
+    int l=int(add.size());
+    for (int i=0;i<l;++i){
+      if (add[i]=='\n')
+	s+="<br>";
+      else
+	s+=add[i];
+    }
+  }
+#else
+  static void newlinestobr(string &s,const string & add){
+    s+=add;
+  }
+#endif
+
   void gprintf(unsigned special,const string & format,const vecteur & v,GIAC_CONTEXT){
     if (step_infolevel==0)
       return;
@@ -4811,7 +4827,7 @@ unsigned int ConvertUTF8toUTF16 (
       int p=int(format.find("%gen",pos));
       if (p<0 || p>=int(format.size()))
 	break;
-      s += format.substr(pos,p-pos);
+      newlinestobr(s,format.substr(pos,p-pos));
 #ifdef EMCC
       gen tmp=_mathml(makesequence(v[i],1),contextptr);
       s = s+((tmp.type==_STRNG)?(*tmp._STRNGptr):v[i].print(contextptr));
@@ -4820,7 +4836,7 @@ unsigned int ConvertUTF8toUTF16 (
 #endif
       pos=p+4;
     }
-    s += format.substr(pos,format.size()-pos);
+    newlinestobr(s,format.substr(pos,format.size()-pos));
     *logptr(contextptr) << s << endl;
 #ifdef EMCC
     *logptr(contextptr) << char(3) << endl; // end mixed text/mathml

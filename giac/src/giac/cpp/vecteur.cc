@@ -6745,7 +6745,7 @@ namespace giac {
 	    res = *r2sym(res,lv,contextptr)._VECTptr;
 	    pivot1 = r2sym(pivot1,lv,contextptr);
 	  }
-	  gprintf(step_rrefpivot,gettext("Matrix %gen\nReducing column %gen using pivot %gen at row %gen"),makevecteur(res,c+1,pivot1,pivotline+1),contextptr);
+	  gprintf(step_rrefpivot,gettext("%gen\nReduce column %gen with pivot %gen at row %gen"),makevecteur(res,c+1,pivot1,pivotline+1),contextptr);
 	}
 	// exchange lines if needed
 	if (l!=pivotline){
@@ -6778,7 +6778,7 @@ namespace giac {
 		coeff1=r2sym(coeff1,lv,contextptr);
 		coeff2=r2sym(coeff2,lv,contextptr);
 	      }
-	      gprintf(step_rrefpivot0,gettext("Matrix %gen\nRow operation L%gen <- (%gen)*L%gen-(%gen)*L%gen"),makevecteur(res,l+1,coeff1,ltemp+1,coeff2,l+1),contextptr);
+	      gprintf(step_rrefpivot0,gettext("L%gen <- (%gen)*L%gen-(%gen)*L%gen on %gen"),makevecteur(ltemp+1,coeff1,ltemp+1,coeff2,l+1,res),contextptr);
 	    }
 	    if (ltemp!=l){
 	      if (algorithm!=RREF_GAUSS_JORDAN) // M[ltemp] = rdiv( pivot * M[ltemp] - M[ltemp][pivotcol]* M[l], bareiss);
@@ -6803,7 +6803,7 @@ namespace giac {
 		coeff1=r2sym(coeff1,lv,contextptr);
 		coeff2=r2sym(coeff2,lv,contextptr);
 	      }
-	      gprintf(step_rrefpivot0,gettext("Matrix %gen\nRow operation L%gen <- (%gen)*L%gen-(%gen)*L%gen"),makevecteur(res,l+1,coeff1,ltemp+1,coeff2,l+1),contextptr);
+	      gprintf(step_rrefpivot0,gettext("L%gen <- (%gen)*L%gen-(%gen)*L%gen on %gen"),makevecteur(ltemp+1,coeff1,ltemp+1,coeff2,l+1,res),contextptr);
 	    }
 	    if (algorithm!=RREF_GAUSS_JORDAN)
 	      linear_combination(pivot,M[ltemp],-M[ltemp][pivotcol],M[l],bareiss,M[ltemp],eps,(c+1)*(rref_or_det_or_lu>0));
