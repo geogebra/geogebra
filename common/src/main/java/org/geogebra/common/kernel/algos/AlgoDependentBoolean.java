@@ -397,7 +397,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				d = Math.pow(d1, d2);
 				break;
 			case DIVIDE:
-				d = d1;
+				d = (double) 1;
 				break;
 			default:
 				throw new NoSymbolicParametersException();
@@ -476,7 +476,9 @@ public class AlgoDependentBoolean extends AlgoElement implements
 							i = (int) (polyNode.getLeft().getPoly()
 									.getConstant() * d);
 							break;
-
+						case DIVIDE:
+							i = 1;
+							break;
 						default:
 							throw new NoSymbolicParametersException();
 						}
