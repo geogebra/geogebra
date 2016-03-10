@@ -60,6 +60,7 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Web implementation of ConstructionProtocol
@@ -127,7 +128,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		scrollPane.setStyleName("cpScrollPanel");
 		if (app.has(Feature.FIX_CP_HEADER)) {
-			cpPanel.add(headerTable2);
+			SimplePanel headerTablePanel = new SimplePanel();
+			headerTablePanel.add(headerTable2);
+			cpPanel.add(headerTablePanel);
 		}
 		cpPanel.add(scrollPane);
 		
@@ -160,6 +163,14 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				headerTable2.setColumnWidth(i, firstRow.getItem(i)
 						.getOffsetWidth() + "px");
 			}
+
+			if (this.getElement().getClientWidth() > table.getElement()
+					.getClientWidth()) {
+				headerTable2.getParent().addStyleName("overflowYScroll");
+			} else {
+				headerTable2.getParent().removeStyleName("overflowYScroll");
+			}
+
 		}
 
 	}

@@ -3624,6 +3624,10 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	display: none;
 }
 
+.overflowYScroll{
+	overflow-y: scroll;
+}
+
 /*
 .CpHeaderContainer >*{
 	display: inline-block;
