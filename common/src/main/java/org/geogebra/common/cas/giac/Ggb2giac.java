@@ -726,7 +726,9 @@ public class Ggb2giac {
 		p("Solve.2",
 		// Solve[<Equation in x>,<assumption>]
 		// GGB-134
-				"when ( type(%0) == DOM_SYMBOLIC && type(%1) == DOM_SYMBOLIC , (assume(%1),solve(%0,x))[size(assume(%1),solve(%0,x))-1] , "
+		// hack needed for GGB-618
+		// aa(t) has symbolic type
+				"when ( type(%0) == DOM_SYMBOLIC && type(%1) == DOM_SYMBOLIC && (%1)[0] != 'of' , (assume(%1),solve(%0,x)) [size(assume(%1),solve(%0,x))-1] , "
 						// if input equation was only x, interpret as x=0
 						+ "when ( type(%0) == DOM_IDENT && type(%1) == DOM_SYMBOLIC && %0 == 'x', (assume(%1),solve(%0=0,x))[size(assume(%1),solve(%0=0,x))-1] ,"
 						+ "when ( size(%1) == 1,"
