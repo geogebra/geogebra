@@ -4620,8 +4620,9 @@ sb.toString(), getFontAxes(),
 		getEuclidianController().startCollectingMinorRepaints();
 		boolean changedKernel = euclidianController.processMode(tempArrayList,
 				isControlDown, null);
+
 		if (changedKernel) {
-			getApplication().storeUndoInfo();
+			getEuclidianController().storeUndoInfo();
 		}
 		kernel.notifyRepaint();
 		getEuclidianController().stopCollectingMinorRepaints();

@@ -1,11 +1,8 @@
 package org.geogebra.web.web.gui.view.algebra;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -16,12 +13,8 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -30,17 +23,21 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
 
+/**
+ * Algebra controller for web;
+ *
+ */
 public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.AlgebraController
  implements
         MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler,
-        LongTouchHandler, DragStartHandler {
+		LongTouchHandler {
 
-	//FIXME: make e.isControlDown like Application.isControlDown etc.
-	//FIXME: make something instead of the outcommented things, etc.
-	//FIXME: make event handling
-	
 	private LongTouchManager longTouchManager;
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public AlgebraControllerW(Kernel kernel) {
 		super(kernel);
 		longTouchManager = LongTouchManager.getInstance();
@@ -52,52 +49,8 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 		mousePressed(event);
 	}
 
-	/*
-	 * MouseListener implementation for popup menus
-	 */
 
-	public void mouseClicked(AbstractEvent e) {	
-		// right click is consumed in mousePressed, but in GeoGebra 3D,
-		// where heavyweight popup menus are enabled this doesn't work
-		// so make sure that this is no right click as well (ticket #302)
-		if (/*e.isConsumed() FIXME||*/ e.isRightClick()) {
-			return;
-		}
-
-		// get GeoElement at mouse location		
-		GeoElement geo = null;
-
-
-		// check double click
-		int clicks = e.getClickCount();
-		//EuclidianView ev = app.getEuclidianView();
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		if (clicks == 2) {										
-			selection.clearSelectedGeos();
-			ev.resetMode();
-
-			return;
-		} 	
-
-		int mode = ev.getMode();
-		if (!skipSelection && mode == EuclidianConstants.MODE_MOVE) {
-			// update selection	
-
-				selection.clearSelectedGeos();
-
-		} 
-		else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
-			// let euclidianView know about the click
-			ev.clickedGeo(geo, app.isControlDown(e));
-		} else 
-			// tell selection listener about click
-			app.geoElementSelected(geo, false);
-
-
-		ev.mouseMovedOver(null);		
-	}
-
-	public void mousePressed(AbstractEvent e) {
+	private void mousePressed(AbstractEvent e) {
 		view.cancelEditing();
 		
 		boolean rightClick = app.isRightClickEnabled() && e.isRightClick();
@@ -105,7 +58,6 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 		// RIGHT CLICK
 		if (rightClick) {
 			// The default algebra menu will be created here (not for GeoElements).
-			/*e.consume(); FIXME*/
 			// LEFT CLICK	
 		} else {
 			
@@ -127,43 +79,11 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 		}
 	}
 
-	public void mouseReleased(AbstractEvent e) {
-	}
-
-	public void mouseEntered(AbstractEvent p1) {
-	}
-
-	public void mouseExited(AbstractEvent p1) {		
-	}
-
-	// MOUSE MOTION LISTENER
-	public void mouseDragged(AbstractEvent arg0) {}
-
-	// tell EuclidianView
-	public void mouseMoved(AbstractEvent e) {		
-		if (view.isEditing())
-			return;
-
-
-		GeoElement geo = null;
-
-		// tell EuclidianView to handle mouse over
-		//EuclidianView ev = app.getEuclidianView();
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		ev.mouseMovedOver(geo);								
-
-	}
 
 
 	//=====================================================
 	// Drag and Drop 
 	//=====================================================
-
-	public void dragDropEnd(AbstractEvent e) {}
-	public void dragEnter(AbstractEvent e) {}
-	public void dragExit(AbstractEvent e) {}
-	public void dragOver(AbstractEvent e) {}
-	public void dropActionChanged(AbstractEvent e) {}
 
 	public void onMouseDown(MouseDownEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {
@@ -174,22 +94,7 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 		mousePressed(PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
 	}
 
-	public void onMouseUp(MouseUpEvent event) {
-		// TODO: make it care for mouse down too
-		// currently, this event is not used
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		mouseClicked(PointerEvent.wrapEvent(event, ZeroOffset.instance));
-	}
 
-	public void onMouseMove(MouseMoveEvent event) {
-		// currently, this event is not used
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		mouseMoved(PointerEvent.wrapEvent(event, ZeroOffset.instance));
-	}
 
 	public void onTouchMove(TouchMoveEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
@@ -218,8 +123,5 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 		mousePressed(e);
 		CancelEventTimer.touchEventOccured();
     }
-
-	public void onDragStart(DragStartEvent event) {
-	}
 
 }

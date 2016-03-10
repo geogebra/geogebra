@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.KeyEvent;
@@ -2256,8 +2257,14 @@ marblePanel, evt))) {
 			app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3,
 					geo);
 		}
-
-		app.getActiveEuclidianView().mouseMovedOver(null);
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		int mode = ev.getMode();
+		if (mode != EuclidianConstants.MODE_MOVE
+				&& mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
+			// let euclidianView know about the click
+			ev.clickedGeo(geo, app.isControlDown(event));
+		}
+		ev.mouseMovedOver(null);
 
 		// this should not give the focus to AV instead of the current formula!
 		// except if we are not in editing mode! That's why better condition was
