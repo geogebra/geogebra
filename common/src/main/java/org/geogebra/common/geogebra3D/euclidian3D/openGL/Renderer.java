@@ -51,7 +51,7 @@ public abstract class Renderer {
 	// other
 	public Drawable3DListsForView drawable3DLists;
 
-	protected EuclidianView3D view3D;
+	public EuclidianView3D view3D;
 
 	// for drawing
 	protected CoordMatrix4x4 m_drawingMatrix; // matrix for drawing
@@ -361,24 +361,26 @@ public abstract class Renderer {
 	 */
 	abstract protected void setExportImageEquirectangularFromTiles();
 
-	protected boolean needExportImage = false, exportImageForThumbnail = false;
+	public boolean needExportImage = false;
+
+	public boolean exportImageForThumbnail = false;
 
 	protected boolean exportImageEquirectangular = false;
 	protected double exportImageEquirectangularAngle = 0;
 
 	/** max latitude viewed -- must be factor of 9 */
-	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX = 54;
-	protected static double EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN = Math
+	public static int EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX = 54;
+	public static double EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN = Math
 			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX * Math.PI / 180);
 
-	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT = 2000;
-	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT
+	public static int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT = 2000;
+	public static int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT
 			* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX / 90;
 
-	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH = 2 * EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT;
-	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS = 200;
+	public static int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH = 2 * EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT;
+	public static int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS = 200;
 
-	protected static int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH
+	public static int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH
 			/ EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
 
 	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA = 360.0 / EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
@@ -1469,7 +1471,7 @@ public abstract class Renderer {
 	/**
 	 * does the picking to sets which objects are under the mouse coordinates.
 	 */
-	abstract protected void doPick();
+	protected abstract void doPick();
 
 	public enum PickingType {
 		POINT_OR_CURVE, SURFACE, LABEL
@@ -1635,10 +1637,10 @@ public abstract class Renderer {
 
 	// projection mode
 
-	protected int left = 0;
-	protected int right = 640;
-	protected int bottom = 0;
-	protected int top = 480;
+	public int left = 0;
+	public int right = 640;
+	public int bottom = 0;
+	public int top = 480;
 
 	/** factor for drawing more than between front and back */
 	private final static int DEPTH_FACTOR = 2;
@@ -1746,7 +1748,7 @@ public abstract class Renderer {
 	 */
 	abstract protected void setView();
 
-	protected boolean waitForDisableStencilLines = false;
+	public boolean waitForDisableStencilLines = false;
 
 	public void setWaitForDisableStencilLines() {
 		waitForDisableStencilLines = true;
@@ -1942,7 +1944,7 @@ public abstract class Renderer {
 
 	}
 
-	protected enum ExportType {
+	public enum ExportType {
 		NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD, UPLOAD_TO_GEOGEBRATUBE
 	};
 
@@ -1950,14 +1952,14 @@ public abstract class Renderer {
 	public double obliqueY;
 	private Coords obliqueOrthoDirection; // direction "orthogonal" to the
 											// screen (i.e. not visible)
-	protected ExportType exportType = ExportType.NONE;
-	protected int export_n;
-	protected double export_val;
-	protected double export_min;
-	protected double export_max;
-	protected double export_step;
-	protected int export_i;
-	protected GeoNumeric export_num;
+	public ExportType exportType = ExportType.NONE;
+	public int export_n;
+	public double export_val;
+	public double export_min;
+	public double export_max;
+	public double export_step;
+	public int export_i;
+	public GeoNumeric export_num;
 
 	public void updateProjectionObliqueValues() {
 		double angle = Math.toRadians(view3D.getProjectionObliqueAngle());

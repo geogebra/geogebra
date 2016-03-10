@@ -13,6 +13,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImpl;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -546,18 +547,15 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	}
 
 	public void disableCulling() {
-		// TODO Auto-generated method stub
-
+		getGL().glDisable(GLlocal.GL_CULL_FACE);
 	}
 
 	public void setCullFaceFront() {
-		// TODO Auto-generated method stub
-
+		getGL().glCullFace(GLlocal.GL_FRONT);
 	}
 
 	public void setCullFaceBack() {
-		// TODO Auto-generated method stub
-
+		getGL().glCullFace(GLlocal.GL_BACK);
 	}
 
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
@@ -693,4 +691,124 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	public GLU getGLU() {
 		return glu;
 	}
+
+	@Override
+	public void setBufferLeft() {
+		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
+		// zspace seems to be swapped
+		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
+	}
+
+	@Override
+	public void setBufferRight() {
+		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
+		// zspace seems to be swapped
+		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
+	}
+
+	@Override
+	public void clearColorBuffer() {
+		getGL().glClear(GLlocal.GL_COLOR_BUFFER_BIT);
+	}
+
+	@Override
+	public void clearDepthBuffer() {
+		getGL().glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
+	}
+
+	@Override
+	public void setStencilFunc(int value) {
+		getGL().glStencilFunc(GLlocal.GL_EQUAL, value, 0xFF);
+	}
+
+	@Override
+	public void enableCulling() {
+		getGL().glEnable(GLlocal.GL_CULL_FACE);
+	}
+
+	@Override
+	public void disableBlending() {
+		getGL().glDisable(GLlocal.GL_BLEND);
+	}
+
+	@Override
+	public void enableBlending() {
+		getGL().glEnable(GLlocal.GL_BLEND);
+	}
+
+	@Override
+	public final void enableMultisample() {
+		getGL().glEnable(GLlocal.GL_MULTISAMPLE);
+	}
+
+	@Override
+	public final void disableMultisample() {
+		getGL().glDisable(GLlocal.GL_MULTISAMPLE);
+	}
+
+	@Override
+	public void enableAlphaTest() {
+		getGL().glEnable(GLlocal.GL_ALPHA_TEST);
+	}
+
+	@Override
+	public void disableAlphaTest() {
+		getGL().glDisable(GLlocal.GL_ALPHA_TEST);
+	}
+
+	@Override
+	public void enableDepthMask() {
+		getGL().glDepthMask(true);
+	}
+
+	@Override
+	public void disableDepthMask() {
+		getGL().glDepthMask(false);
+	}
+
+	@Override
+	public void enableDepthTest() {
+		getGL().glEnable(GLlocal.GL_DEPTH_TEST);
+	}
+
+	@Override
+	public void disableDepthTest() {
+		getGL().glDisable(GLlocal.GL_DEPTH_TEST);
+	}
+
+	@Override
+	public void setColorMask(boolean r, boolean g, boolean b, boolean a) {
+		getGL().glColorMask(r, g, b, a);
+	}
+
+	@Override
+	public void setClearColor(float r, float g, float b, float a) {
+		getGL().glClearColor(r, g, b, a);
+	}
+
+	@Override
+	public void setPolygonOffset(float factor, float units) {
+		getGL().glPolygonOffset(factor, units);
+	}
+
+	@Override
+	public void enableTextures2D() {
+		getGL().glEnable(GL.GL_TEXTURE_2D);
+	}
+
+	@Override
+	public void disableTextures2D() {
+		getGL().glDisable(GL.GL_TEXTURE_2D);
+	}
+
+	@Override
+	public void genTextures2D(int number, int[] index) {
+		getGL().glGenTextures(number, index, 0);
+	}
+
+	@Override
+	public void bindTexture(int index) {
+		getGL().glBindTexture(GL.GL_TEXTURE_2D, index);
+	}
+
 }

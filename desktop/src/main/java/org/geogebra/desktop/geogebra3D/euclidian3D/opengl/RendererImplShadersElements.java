@@ -18,11 +18,13 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImpl;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -1299,16 +1301,19 @@ public class RendererImplShadersElements implements
 
 	@Override
 	public void disableCulling() {
+		getGL().glDisable(GLlocal.GL_CULL_FACE);
 		jogl.getGL2ES2().glUniform1i(cullingLocation, 1);
 	}
 
 	@Override
 	public void setCullFaceFront() {
+		getGL().glCullFace(GLlocal.GL_FRONT);
 		jogl.getGL2ES2().glUniform1i(cullingLocation, -1);
 	}
 
 	@Override
 	public void setCullFaceBack() {
+		getGL().glCullFace(GLlocal.GL_BACK);
 		jogl.getGL2ES2().glUniform1i(cullingLocation, 1);
 	}
 
@@ -1337,6 +1342,125 @@ public class RendererImplShadersElements implements
 	@Override
 	public boolean useShaders() {
 		return true;
+	}
+
+	@Override
+	public void setBufferLeft() {
+		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
+		// zspace seems to be swapped
+		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
+	}
+
+	@Override
+	public void setBufferRight() {
+		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
+		// zspace seems to be swapped
+		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
+	}
+
+	@Override
+	public void clearColorBuffer() {
+		getGL().glClear(GLlocal.GL_COLOR_BUFFER_BIT);
+	}
+
+	@Override
+	public void clearDepthBuffer() {
+		getGL().glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
+	}
+
+	@Override
+	public void setStencilFunc(int value) {
+		getGL().glStencilFunc(GLlocal.GL_EQUAL, value, 0xFF);
+	}
+
+	@Override
+	public void enableCulling() {
+		getGL().glEnable(GLlocal.GL_CULL_FACE);
+	}
+
+	@Override
+	public void disableBlending() {
+		getGL().glDisable(GLlocal.GL_BLEND);
+	}
+
+	@Override
+	public void enableBlending() {
+		getGL().glEnable(GLlocal.GL_BLEND);
+	}
+
+	@Override
+	public final void enableMultisample() {
+		getGL().glEnable(GLlocal.GL_MULTISAMPLE);
+	}
+
+	@Override
+	public final void disableMultisample() {
+		getGL().glDisable(GLlocal.GL_MULTISAMPLE);
+	}
+
+	@Override
+	public void enableAlphaTest() {
+		getGL().glEnable(GLlocal.GL_ALPHA_TEST);
+	}
+
+	@Override
+	public void disableAlphaTest() {
+		getGL().glDisable(GLlocal.GL_ALPHA_TEST);
+	}
+
+	@Override
+	public void enableDepthMask() {
+		getGL().glDepthMask(true);
+	}
+
+	@Override
+	public void disableDepthMask() {
+		getGL().glDepthMask(false);
+	}
+
+	@Override
+	public void enableDepthTest() {
+		getGL().glEnable(GLlocal.GL_DEPTH_TEST);
+	}
+
+	@Override
+	public void disableDepthTest() {
+		getGL().glDisable(GLlocal.GL_DEPTH_TEST);
+	}
+
+	@Override
+	public void setColorMask(boolean r, boolean g, boolean b, boolean a) {
+		getGL().glColorMask(r, g, b, a);
+	}
+
+	@Override
+	public void setClearColor(float r, float g, float b, float a) {
+		getGL().glClearColor(r, g, b, a);
+	}
+
+	@Override
+	public void setPolygonOffset(float factor, float units) {
+		getGL().glPolygonOffset(factor, units);
+	}
+
+	@Override
+	public void enableTextures2D() {
+		getGL().glEnable(GL.GL_TEXTURE_2D);
+	}
+
+	@Override
+	public void disableTextures2D() {
+		getGL().glDisable(GL.GL_TEXTURE_2D);
+	}
+
+	@Override
+	public void genTextures2D(int number, int[] index) {
+		getGL().glGenTextures(number, index, 0);
+	}
+
+	@Override
+	public void bindTexture(int index) {
+		getGL().glBindTexture(GL.GL_TEXTURE_2D, index);
 	}
 
 

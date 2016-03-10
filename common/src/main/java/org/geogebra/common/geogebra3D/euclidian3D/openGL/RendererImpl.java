@@ -1,7 +1,5 @@
-package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
+package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import org.geogebra.common.kernel.Matrix.Coords;
 
 public interface RendererImpl extends RendererShadersInterface{
@@ -120,5 +118,51 @@ public interface RendererImpl extends RendererShadersInterface{
 	public abstract void disableShine();
 
 	public abstract void enableShine();
+
+	public void setBufferLeft();
+
+	public void setBufferRight();
+
+	public void clearColorBuffer();
+
+	public void clearDepthBuffer();
+
+	public void setStencilFunc(int value);
+
+	public void enableCulling();
+
+	public void disableBlending();
+
+	public void enableBlending();
+
+	public void enableMultisample();
+
+	public void disableMultisample();
+
+	public void enableAlphaTest();
+
+	public void disableAlphaTest();
+
+	public void enableDepthMask();
+
+	public void disableDepthMask();
+
+	public void enableDepthTest();
+
+	public void disableDepthTest();
+
+	public void setColorMask(boolean r, boolean g, boolean b, boolean a);
+
+	public void setClearColor(float r, float g, float b, float a);
+
+	public void setPolygonOffset(float factor, float units);
+
+	public void enableTextures2D();
+
+	public void disableTextures2D();
+
+	public void genTextures2D(int number, int[] index);
+
+	public void bindTexture(int index);
 
 }

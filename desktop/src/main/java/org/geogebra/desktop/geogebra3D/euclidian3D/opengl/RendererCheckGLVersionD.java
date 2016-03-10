@@ -19,14 +19,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.HittingSphere;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
@@ -43,10 +36,9 @@ import org.geogebra.desktop.util.FrameCollector;
  * @author mathieu
  * 
  */
-public class RendererCheckGLVersionD extends Renderer implements
-		RendererShadersInterface, GLEventListener {
+public class RendererCheckGLVersionD extends RendererWithImpl implements
+		GLEventListener {
 
-	private RendererImpl rendererImpl;
 
 	private Hitting hitting;
 
@@ -212,150 +204,7 @@ public class RendererCheckGLVersionD extends Renderer implements
 
 	}
 
-	@Override
-	public void setClipPlanes(double[][] minMax) {
-		rendererImpl.setClipPlanes(minMax);
-	}
 
-
-	@Override
-	protected void setMatrixView() {
-		rendererImpl.setMatrixView();
-	}
-
-	@Override
-	protected void unsetMatrixView() {
-		rendererImpl.unsetMatrixView();
-	}
-
-	@Override
-	public void setColor(float r, float g, float b, float a) {
-		rendererImpl.setColor(r, g, b, a);
-	}
-
-
-	@Override
-	public void initMatrix() {
-		rendererImpl.initMatrix();
-	}
-
-	@Override
-	public void initMatrixForFaceToScreen() {
-		rendererImpl.initMatrixForFaceToScreen();
-	}
-
-	@Override
-	public void resetMatrix() {
-		rendererImpl.resetMatrix();
-	}
-
-
-
-	@Override
-	protected void setGLForPicking() {
-		// not used anymore
-	}
-
-	@Override
-	protected void pushSceneMatrix() {
-		rendererImpl.pushSceneMatrix();
-	}
-
-	@Override
-	public void glLoadName(int loop) {
-		rendererImpl.glLoadName(loop);
-	}
-
-	@Override
-	protected void setLightPosition(float[] values) {
-		rendererImpl.setLightPosition(values);
-	}
-
-	@Override
-	protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
-			float ambiant1, float diffuse1) {
-
-		rendererImpl.setLightAmbiantDiffuse(ambiant0, diffuse0, ambiant1,
-				diffuse1);
-	}
-
-	@Override
-	protected void setLight(int light) {
-		rendererImpl.setLight(light);
-	}
-
-	@Override
-	protected void setColorMaterial() {
-		rendererImpl.setColorMaterial();
-	}
-
-	@Override
-	protected void setLightModel() {
-		rendererImpl.setLightModel();
-	}
-
-	@Override
-	protected void setAlphaFunc() {
-		rendererImpl.setAlphaFunc();
-	}
-
-	@Override
-	protected void setView() {
-		rendererImpl.setView();
-	}
-	
-
-	@Override
-	protected void setStencilLines() {
-		rendererImpl.setStencilLines();
-	}
-
-
-	@Override
-	protected void viewOrtho() {
-		rendererImpl.viewOrtho();
-	}
-
-	@Override
-	protected void viewPersp() {
-		rendererImpl.viewPersp();
-	}
-
-	@Override
-	protected void viewGlasses() {
-		rendererImpl.viewGlasses();
-	}
-
-	@Override
-	protected void viewOblique() {
-		rendererImpl.viewOblique();
-	}
-
-	@Override
-	protected Manager createManager() {
-		return rendererImpl.createManager();
-	}
-
-	@Override
-	final public void enableTextures() {
-		rendererImpl.enableTextures();
-	}
-
-	@Override
-	final public void disableTextures() {
-		rendererImpl.disableTextures();
-
-	}
-
-	/**
-	 * set line width
-	 * 
-	 * @param width
-	 *            width
-	 */
-	public void setLineWidth(int width) {
-		rendererImpl.setLineWidth(width);
-	}
 
 	@Override
 	public void setLineWidth(double width) {
@@ -364,74 +213,13 @@ public class RendererCheckGLVersionD extends Renderer implements
 
 	}
 
-	@Override
-	public void enableFading() {
-		rendererImpl.enableFading();
-	}
-
-
-	@Override
-	public void enableDash() {
-		rendererImpl.enableDash();
-	}
-
-	@Override
-	protected float[] getLightPosition() {
-		return rendererImpl.getLightPosition();
-	}
-
-	@Override
-	public void setDashTexture(int index) {
-		rendererImpl.setDashTexture(index);
-	}
-
-	@Override
-	protected void drawSurfacesOutline() {
-		rendererImpl.drawSurfacesOutline();
-	}
 
 	protected static final int[] GL_CLIP_PLANE = { GLlocal.GL_CLIP_PLANE0,
 			GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2,
 			GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4,
 			GLlocal.GL_CLIP_PLANE5 };
 
-	@Override
-	protected void enableClipPlanes() {
-		rendererImpl.enableClipPlanes();
-	}
 
-	@Override
-	protected void disableClipPlanes() {
-		rendererImpl.disableClipPlanes();
-	}
-
-
-	@Override
-	public void setLabelOrigin(Coords origin) {
-		rendererImpl.setLabelOrigin(origin);
-	}
-
-	@Override
-	public void enableLighting() {
-		rendererImpl.enableLighting();
-	}
-
-	@Override
-	public void disableLighting() {
-		rendererImpl.disableLighting();
-	}
-
-
-	@Override
-	public void initLighting() {
-		rendererImpl.initLighting();
-	}
-	
-
-	@Override
-	public boolean useShaders() {
-		return rendererImpl.useShaders();
-	}
 
 	@Override
 	public Hitting getHitting() {
@@ -487,26 +275,6 @@ public class RendererCheckGLVersionD extends Renderer implements
 
 	}
 
-	@Override
-	protected void doPick() {
-		// no need here
-	}
-
-	@Override
-	public boolean useLogicalPicking() {
-		return true;
-	}
-
-	@Override
-	protected void useShaderProgram() {
-		rendererImpl.useShaderProgram();
-	}
-
-	@Override
-	protected void draw() {
-		rendererImpl.draw();
-		super.draw();
-	}
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
@@ -520,238 +288,7 @@ public class RendererCheckGLVersionD extends Renderer implements
 
 	}
 
-	@Override
-	protected void updatePerspValues() {
 
-		super.updatePerspValues();
-		if (rendererImpl != null) {
-			rendererImpl.updatePerspValues();
-		}
-
-	}
-
-	@Override
-	public void updateGlassesValues() {
-		super.updateGlassesValues();
-
-		if (rendererImpl != null) {
-			rendererImpl.updateGlassesValues();
-		}
-
-	}
-
-	@Override
-	public void updateProjectionObliqueValues() {
-		super.updateProjectionObliqueValues();
-		if (rendererImpl != null) {
-			rendererImpl.updateProjectionObliqueValues();
-		}
-
-	}
-
-	@Override
-	final public void updateOrthoValues() {
-		if (rendererImpl != null) {
-			rendererImpl.updateOrthoValues();
-		}
-	}
-
-	@Override
-	final public void enableTexturesForText() {
-		super.enableTexturesForText();
-		rendererImpl.enableTexturesForText();
-	}
-
-	@Override
-	protected void initRenderingValues() {
-		super.initRenderingValues();
-		rendererImpl.initRenderingValues();
-	}
-
-	@Override
-	protected void drawFaceToScreen() {
-		rendererImpl.drawFaceToScreenAbove();
-		super.drawFaceToScreen();
-		rendererImpl.drawFaceToScreenBelow();
-	}
-
-	@Override
-	protected void drawFaceToScreenEnd() {
-		rendererImpl.drawFaceToScreenAbove();
-		super.drawFaceToScreenEnd();
-		rendererImpl.drawFaceToScreenBelow();
-	}
-
-	@Override
-	protected void enableLightingOnInit() {
-		rendererImpl.enableLightingOnInit();
-	}
-
-	@Override
-	protected void initCulling() {
-		rendererImpl.initCulling();
-	}
-
-	@Override
-	protected void drawTranspNotCurved() {
-		rendererImpl.drawTranspNotCurved();
-	}
-
-	@Override
-	public void disableCulling() {
-		getGL().glDisable(GLlocal.GL_CULL_FACE);
-		rendererImpl.disableCulling();
-	}
-
-	@Override
-	public void setCullFaceFront() {
-		getGL().glCullFace(GLlocal.GL_FRONT);
-		rendererImpl.setCullFaceFront();
-	}
-
-	@Override
-	public void setCullFaceBack() {
-		getGL().glCullFace(GLlocal.GL_BACK);
-		rendererImpl.setCullFaceBack();
-	}
-
-	@Override
-	public void loadColorBuffer(GLBuffer fbColors, int length) {
-		rendererImpl.loadColorBuffer(fbColors, length);
-
-	}
-
-	@Override
-	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
-		rendererImpl.loadNormalBuffer(fbNormals, length);
-
-	}
-
-	@Override
-	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
-		rendererImpl.loadTextureBuffer(fbTextures, length);
-
-	}
-
-	@Override
-	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
-		rendererImpl.loadVertexBuffer(fbVertices, length);
-
-	}
-
-	@Override
-	public void loadIndicesBuffer(GLBufferIndices arrayI, int length) {
-		rendererImpl.loadIndicesBuffer(arrayI, length);
-
-	}
-
-	@Override
-	public void setCenter(Coords center) {
-		rendererImpl.setCenter(center);
-
-	}
-
-	@Override
-	public void resetCenter() {
-		rendererImpl.resetCenter();
-	}
-
-	@Override
-	public boolean areTexturesEnabled() {
-		return rendererImpl.areTexturesEnabled();
-	}
-
-	@Override
-	public void draw(Type type, int length) {
-		rendererImpl.draw(type, length);
-
-	}
-
-	@Override
-	public void storeBuffer(GLBuffer fb, int length, int size,
-			GPUBuffer buffers, int attrib) {
-		rendererImpl.storeBuffer(fb, length, size, buffers, attrib);
-
-	}
-
-	@Override
-	public void storeElementBuffer(short[] fb, int length, GPUBuffer buffers) {
-		rendererImpl.storeElementBuffer(fb, length, buffers);
-
-	}
-
-	@Override
-	public void bindBufferForIndices(GPUBuffer buffer) {
-		rendererImpl.bindBufferForIndices(buffer);
-
-	}
-
-	@Override
-	public void createArrayBuffer(GPUBuffer buffer) {
-		rendererImpl.createArrayBuffer(buffer);
-
-	}
-
-	@Override
-	public void createElementBuffer(GPUBuffer buffer) {
-		rendererImpl.createElementBuffer(buffer);
-
-	}
-
-	@Override
-	public void removeArrayBuffer(GPUBuffer buffer) {
-		rendererImpl.removeArrayBuffer(buffer);
-
-	}
-
-	@Override
-	public void removeElementBuffer(GPUBuffer buffer) {
-		rendererImpl.removeElementBuffer(buffer);
-
-	}
-
-	@Override
-	public void bindBufferForVertices(GPUBuffer buffer, int size) {
-		rendererImpl.bindBufferForVertices(buffer, size);
-
-	}
-
-	@Override
-	public void bindBufferForColors(GPUBuffer buffer, int size,
-			GLBuffer fbColors) {
-		rendererImpl.bindBufferForColors(buffer, size, fbColors);
-
-	}
-
-	@Override
-	public void bindBufferForNormals(GPUBuffer buffer, int size,
-			GLBuffer fbNormals) {
-		rendererImpl.bindBufferForNormals(buffer, size, fbNormals);
-
-	}
-
-	@Override
-	public void bindBufferForTextures(GPUBuffer buffer, int size,
-			GLBuffer fbTextures) {
-		rendererImpl.bindBufferForTextures(buffer, size, fbTextures);
-
-	}
-
-
-	@Override
-	protected void initShaders() {
-		rendererImpl.initShaders();
-	}
-
-	@Override
-	public void disableShine() {
-		rendererImpl.disableShine();
-	}
-
-	@Override
-	public void enableShine() {
-		rendererImpl.enableShine();
-	}
 
 	@Override
 	public Component3D getCanvas() {
@@ -794,21 +331,6 @@ public class RendererCheckGLVersionD extends Renderer implements
 		setGL(gLDrawable);
 	
 		drawScene();
-	}
-
-	@Override
-	protected void clearColorBuffer() {
-		getGL().glClear(GLlocal.GL_COLOR_BUFFER_BIT);
-	}
-
-	@Override
-	protected void clearDepthBuffer() {
-		getGL().glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
-	}
-
-	@Override
-	protected void setStencilFunc(int value) {
-		getGL().glStencilFunc(GLlocal.GL_EQUAL, value, 0xFF);
 	}
 
 	@Override
@@ -952,25 +474,6 @@ public class RendererCheckGLVersionD extends Renderer implements
 	public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
 	}
 
-	@Override
-	public void enableTextures2D() {
-		getGL().glEnable(GL.GL_TEXTURE_2D);
-	}
-
-	@Override
-	public void disableTextures2D() {
-		getGL().glDisable(GL.GL_TEXTURE_2D);
-	}
-
-	@Override
-	public void genTextures2D(int number, int[] index) {
-		getGL().glGenTextures(number, index, 0);
-	}
-
-	@Override
-	public void bindTexture(int index) {
-		getGL().glBindTexture(GL.GL_TEXTURE_2D, index);
-	}
 
 	/**
 	 * remove texture at index
@@ -1076,85 +579,6 @@ public class RendererCheckGLVersionD extends Renderer implements
 		jogl.setGL(gLDrawable);
 	}
 
-	@Override
-	public void enableCulling() {
-		getGL().glEnable(GLlocal.GL_CULL_FACE);
-	}
-
-	@Override
-	public void disableBlending() {
-		getGL().glDisable(GLlocal.GL_BLEND);
-	}
-
-	@Override
-	public void enableBlending() {
-		getGL().glEnable(GLlocal.GL_BLEND);
-	}
-
-	@Override
-	public final void enableMultisample() {
-		getGL().glEnable(GLlocal.GL_MULTISAMPLE);
-	}
-
-	@Override
-	public final void disableMultisample() {
-		getGL().glDisable(GLlocal.GL_MULTISAMPLE);
-	}
-
-	@Override
-	public void enableAlphaTest() {
-		getGL().glEnable(GLlocal.GL_ALPHA_TEST);
-	}
-
-	@Override
-	public void disableAlphaTest() {
-		getGL().glDisable(GLlocal.GL_ALPHA_TEST);
-	}
-
-	@Override
-	public void enableDepthMask() {
-		getGL().glDepthMask(true);
-	}
-
-	@Override
-	public void disableDepthMask() {
-		getGL().glDepthMask(false);
-	}
-
-	@Override
-	public void enableDepthTest() {
-		getGL().glEnable(GLlocal.GL_DEPTH_TEST);
-	}
-
-	@Override
-	public void disableDepthTest() {
-		getGL().glDisable(GLlocal.GL_DEPTH_TEST);
-	}
-
-	@Override
-	public void setColorMask(boolean r, boolean g, boolean b,
-			boolean a) {
-				getGL().glColorMask(r, g, b, a);
-			}
-
-	@Override
-	public void setLayer(float l) {
-	
-		// 0<=l<10
-		// l2-l1>=1 to see something
-		// l=l/3f;
-		getGL().glPolygonOffset(-l * 0.05f, -l * 10);
-	
-		// getGL().glPolygonOffset(-l*0.75f, -l*0.5f);
-	
-		// getGL().glPolygonOffset(-l, 0);
-	}
-
-	@Override
-	public void setClearColor(float r, float g, float b,
-			float a) {
-				getGL().glClearColor(r, g, b, a);
-			}
 
 	@Override
 	protected void disableStencilLines() {
@@ -1413,20 +837,6 @@ public class RendererCheckGLVersionD extends Renderer implements
 	@Override
 	public final BufferedImage getExportImage() {
 		return bi;
-	}
-
-	@Override
-	protected void setBufferLeft() {
-		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT); 
-		//zspace seems to be swapped
-		//jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT); 
-	}
-
-	@Override
-	protected void setBufferRight() {
-		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT); 
-		//zspace seems to be swapped
-		//jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT); 
 	}
 
 	/** shift for getting alpha value */
