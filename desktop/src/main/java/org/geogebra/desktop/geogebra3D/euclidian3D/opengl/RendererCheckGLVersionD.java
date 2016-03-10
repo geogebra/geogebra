@@ -197,7 +197,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		}
 
 		if (type == RendererType.SHADER) {
-			rendererImpl = new RendererImplShadersElements(this, view3D, jogl);
+			rendererImpl = new RendererImplShadersD(this, view3D, jogl);
 		} else {
 			rendererImpl = new RendererImplGL2(this, view3D, jogl);
 		}

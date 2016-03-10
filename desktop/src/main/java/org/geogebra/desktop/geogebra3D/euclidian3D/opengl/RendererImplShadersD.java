@@ -33,7 +33,7 @@ import org.geogebra.desktop.main.AppD;
  * @author mathieu
  *
  */
-public class RendererImplShadersElements implements RendererImpl {
+public class RendererImplShadersD implements RendererImpl {
 
 	final static public int GLSL_ATTRIB_POSITION = 0;
 	final static public int GLSL_ATTRIB_COLOR = 1;
@@ -58,7 +58,7 @@ public class RendererImplShadersElements implements RendererImpl {
 	 * @param jogl
 	 *            java openGL implementation
 	 */
-	public RendererImplShadersElements(Renderer renderer,
+	public RendererImplShadersD(Renderer renderer,
 			EuclidianView3D view,
 			RendererJogl jogl) {
 		Log.debug("============== Renderer with shaders created (shaders checked ok)");
