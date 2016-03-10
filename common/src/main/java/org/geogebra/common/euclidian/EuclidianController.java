@@ -11,13 +11,6 @@ the Free Software Foundation.
  */
 package org.geogebra.common.euclidian;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -34,11 +27,11 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -121,6 +114,13 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.TreeSet;
+
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
 
@@ -139,6 +139,11 @@ public abstract class EuclidianController {
 	public static final int MOVE_VIEW = 106;
 	public static final int MOVE_ROTATE_VIEW = 120;
 	public static final int MOVE_PLANE = 126;
+	/**
+	 * Threshold for the selection rectangle distance squared (10 pixel circle)
+	 */
+	public final static double SELECTION_RECT_THRESHOLD_SQR = 200.0;
+	public final static double FREEHAND_MODE_THRESHOLD_SQR = 200.0;
 	protected static final int POLYGON_NORMAL = 0;
 	protected static final int POLYGON_RIGID = 1;
 	protected static final int POLYGON_VECTOR = 2;
@@ -176,13 +181,6 @@ public abstract class EuclidianController {
 	 * attachDetach (while the point is attached to a Path or Region)
 	 */
 	private static final int INCREASED_THRESHOLD_FACTOR = 2;
-
-	/**
-	 * Threshold for the selection rectangle distance squared (10 pixel circle)
-	 */
-	public final static double SELECTION_RECT_THRESHOLD_SQR = 200.0;
-	public final static double FREEHAND_MODE_THRESHOLD_SQR = 200.0;
-
 	protected final App app;
 	protected final SelectionManager selection;
 	protected final Localization l10n;
@@ -327,9 +325,9 @@ public abstract class EuclidianController {
 	 */
 	protected int MIN_MOVE;
 	protected Object detachFrom;
+	protected boolean freehandModePrepared = false;
 	double xRWold = Double.NEGATIVE_INFINITY;
 	double yRWold = xRWold;
-
 	// ==============================================
 	// Paste preview
 	double temp;
@@ -357,6 +355,8 @@ public abstract class EuclidianController {
 	private PointerEventType defaultEventType = PointerEventType.MOUSE;
 	private boolean detachFromPath, detachFromRegion;
 	private boolean needsAttach = false;
+	private boolean freehandModeSet = false;
+	private int previousMode = -1;
 
 	public EuclidianController(App app) {
 		this.app = app;
@@ -10749,7 +10749,7 @@ public abstract class EuclidianController {
 
 	/**
 	 * rest all the settings that have been changed in setModeToFreehand().
-	 * 
+	 *
 	 * no effect if setModeToFreehand() has not been called or had no effect
 	 * (e.g. because the selected tool is not supported)
 	 */
@@ -10757,6 +10757,7 @@ public abstract class EuclidianController {
 		if (freehandModePrepared) {
 			freehandModePrepared = false;
 			pen = null;
+			resetModeAfterFreehandClearCanvas();
 		}
 		if (freehandModeSet) {
 			freehandModeSet = false;
@@ -10769,9 +10770,9 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected boolean freehandModePrepared = false;
-	private boolean freehandModeSet = false;
-	private int previousMode = -1;
+	protected void resetModeAfterFreehandClearCanvas() {
+		// DO NOT REMOVE: USED IN ANDROID
+	}
 
 	public void prepareModeForFreehand() {
 		if (getSelectedPointList().size() != 0) {
