@@ -1101,8 +1101,8 @@ namespace giac {
 	    return sol;
 	  }
 	}
-	// Lagrange-> fa/fb/fc dependent de t uniquement
-	if (is_zero(derive(makevecteur(fa,fb,fc),x,contextptr))){
+	// Lagrange-> fa/fb/fc dependent de t uniquement, if fb==0 -> separate var or homogeneous
+	if (is_zero(derive(makevecteur(fa,fb,fc),x,contextptr)) && !is_zero(fb)){
 	  // y+fa/fc*x+fb/fc=0
 	  fa=fa/fc; fb=fb/fc;
 	  // y+fa*x+fb=0
@@ -1114,10 +1114,31 @@ namespace giac {
 	    sing[i]=subst(-fa*x-fb,t,sing[i],false,contextptr);
 	  }
 	  // should deparametrize like for homogeneous if possible
-	  sing.push_back(makevecteur(res,-fa*res+fb));
+#ifdef NO_STDEXCEPT	  
+	  vecteur newsol=solve(res-x,*t._IDNTptr,3,contextptr);
+	  if (is_undef(newsol)){
+	    newsol.clear();
+	    *logptr(contextptr) << "Unable to solve implicit equation "<< res-x << "=0 in " << t << endl;
+	  }
+#else
+	  vecteur newsol;
+	  try {
+	    newsol=solve(res-x,*t._IDNTptr,3,contextptr);
+	  } catch(std::runtime_error & err){
+	    newsol.clear();
+	    *logptr(contextptr) << "Unable to solve implicit equation "<< res-x << "=0 in " << t << endl;
+	  }
+#endif
+	  if (newsol.empty())
+	    sing.push_back(makevecteur(res,-fa*res+fb));
+	  else {
+	    for (int i=0;i<int(newsol.size());++i){
+	      sing.push_back(subst(-fa*x+fb,t,newsol[i],false,contextptr));
+	    }
+	  }
 	  return sing;
 	}
-      }
+      } // end Lagrange-Clairault
       vecteur v(solve(f,t,3,contextptr)); // now solve y'=v[i](y)
       const_iterateur it=v.begin(),itend=v.end();
       for (;it!=itend;++it){
@@ -1160,7 +1181,7 @@ namespace giac {
 #endif
 	  sol=mergevecteur(sol,newsol);
 	  continue;
-	}
+	} // end separate variables
 	if (is_zero(derive(*it,x,contextptr))){ // x incomplete
 	  if (debug_infolevel)
 	    *logptr(contextptr) << gettext("Incomplete") << endl;

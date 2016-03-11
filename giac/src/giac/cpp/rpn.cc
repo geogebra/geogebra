@@ -2995,6 +2995,11 @@ namespace giac {
   static define_unary_function_eval (__VIEWS,&_VIEWS,_VIEWS_s);
   define_unary_function_ptr5( at_VIEWS ,alias_at_VIEWS,&__VIEWS,_QUOTE_ARGUMENTS,T_RETURN);
   
+#ifdef USE_GMP_REPLACEMENTS
+  unsigned long long mpz_get_ull(mpz_t n){
+    return 0; // FIXME!!!!
+  }
+#else
   unsigned long long mpz_get_ull(mpz_t n){
     unsigned int lo, hi;
     mpz_t tmp;
@@ -3010,6 +3015,7 @@ namespace giac {
 
     return (((unsigned long long)hi) << 32) + lo;
   }
+#endif
 
   gen _pointer(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT || args._VECTptr->size()!=2)
