@@ -3752,7 +3752,8 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 }
 
 .algebraHelpButton img{
-	width: 26px;	
+	width: 26px;
+	padding-top: 15px;	
 }
 
 /* ========== Input Help  end ============ */
