@@ -454,6 +454,7 @@ public class CASInputHandler {
 		}
 
 		ArrayList<GeoElement> vars = new ArrayList<GeoElement>();
+		boolean foundNonPolynomial = false;
 		// generates an array of references (e.g. $1,a,...) and
 		// an array of equations
 		int counter = 0;
@@ -464,37 +465,61 @@ public class CASInputHandler {
 			if (ggbcmd.equals("NSolve") && selCellValue != null) {
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 				try {
-					// check if input is polynomial
-					String casResult = cas.getCurrentCAS().evaluateRaw(
-							"ispolynomial(" + selCellValue.getInput(StringTemplate.defaultTemplate) + ")");
-					// case it is not
-					if (casResult.equals("false")) {
-						HashSet<GeoElement> cellVars = selCellValue
-								.getInputVE().getVariables();
-						Iterator<GeoElement> it = cellVars.iterator();
-						while (it.hasNext()) {
-							GeoElement curr = it.next();
-							if (vars.isEmpty()) {
-								vars.add(curr);
-							} else {
-								int j;
-								for (j = 0; j < vars.size(); j++) {
-									if (curr.toString(
-											StringTemplate.defaultTemplate)
-											.equals(vars
-													.get(j)
-													.toString(
-															StringTemplate.defaultTemplate))) {
-										break;
-									}
+					StringBuilder inputStr = new StringBuilder();
+					inputStr.append("ispolynomial");
+					if (vars.isEmpty() || i == 0) {
+						// check if input is polynomial
+						inputStr.append("(");
+						inputStr.append(selCellValue
+								.getInput(StringTemplate.defaultTemplate));
+					} else {
+						inputStr.append("2(");
+						inputStr.append(selCellValue
+								.getInput(StringTemplate.defaultTemplate));
+						inputStr.append(",");
+						if (vars.size() == 1) {
+							inputStr.append(vars.get(0));
+						} else {
+							inputStr.append("[");
+							for (int j = 0; j < vars.size(); j++) {
+								if (j != 0) {
+									inputStr.append(",");
 								}
-								if (j == vars.size()) {
-									vars.add(curr);
+								inputStr.append(vars.get(j).toString(
+										StringTemplate.defaultTemplate));
+							}
+							inputStr.append("]");
+						}
+					}
+					inputStr.append(")");
+
+					String casResult = cas.getCurrentCAS().evaluateRaw(
+							inputStr.toString());
+					HashSet<GeoElement> cellVars = selCellValue.getInputVE()
+							.getVariables();
+					Iterator<GeoElement> it = cellVars.iterator();
+					while (it.hasNext()) {
+						GeoElement curr = it.next();
+						if (vars.isEmpty()) {
+							vars.add(curr);
+						} else {
+							int j;
+							for (j = 0; j < vars.size(); j++) {
+								if (curr.toString(
+										StringTemplate.defaultTemplate)
+										.equals(vars.get(j).toString(
+												StringTemplate.defaultTemplate))) {
+									break;
 								}
 							}
+							if (j == vars.size()) {
+								vars.add(curr);
+							}
 						}
-					} else {
-						cellValue.setNSolveCmdNeeded(false);
+					}
+					// case it is not
+					if (casResult.equals("false")) {
+						foundNonPolynomial = true;
 					}
 				} catch (Throwable e) {
 					// TODO Auto-generated catch block
@@ -529,7 +554,7 @@ public class CASInputHandler {
 			cellText.append(references[i]);
 		}
 		cellText.append("}");
-		if (!vars.isEmpty()) {
+		if (!vars.isEmpty() && foundNonPolynomial) {
 			cellText.append(",{");
 			for (int i = 0; i < vars.size(); i++) {
 				if (i != 0)
