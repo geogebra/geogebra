@@ -48,7 +48,13 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 		super(c, false);
 		Polynomial lhs = equ.getNormalForm();
 		coeff = lhs.getCoeff();
-		PolynomialUtils.checkNumericCoeff(coeff, simplify);
+		try {
+			PolynomialUtils.checkNumericCoeff(coeff, simplify);
+		} catch (RuntimeException e) {
+			if (!c.getKernel().getApplication().has(Feature.IMPLICIT_CURVES)) {
+				throw e;
+			}
+		}
 		c.addToConstructionList(this, false);
 
 			switch (equ.preferredDegree()) {
