@@ -178,8 +178,14 @@ public class CASInputHandler {
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 				try {
 					// check if input is polynomial
+					ValidExpression expandValidExp = (kernel.getGeoGebraCAS())
+							.getCASparser().parseGeoGebraCASInput(evalText,
+									null);
 					String casResult = cas.getCurrentCAS().evaluateRaw(
-							"ispolynomial(" + evalText + ")");
+									"ispolynomial("
+											+ expandValidExp
+													.toString(StringTemplate.giacTemplate)
+											+ ")");
 					// case it is not
 					if (casResult.equals("false")) {
 						ValidExpression ve = cellValue.getEvalVE();
@@ -470,15 +476,16 @@ public class CASInputHandler {
 					if (vars.isEmpty() || i == 0) {
 						// check if input is polynomial
 						inputStr.append("(");
-						inputStr.append(selCellValue
-								.getInput(StringTemplate.defaultTemplate));
+						inputStr.append(selCellValue.getInputVE().toString(
+								StringTemplate.giacTemplate));
 					} else {
 						inputStr.append("2(");
-						inputStr.append(selCellValue
-								.getInput(StringTemplate.defaultTemplate));
+						inputStr.append(selCellValue.getInputVE().toString(
+								StringTemplate.giacTemplate));
 						inputStr.append(",");
 						if (vars.size() == 1) {
-							inputStr.append(vars.get(0));
+							inputStr.append(vars.get(0).toString(
+									StringTemplate.giacTemplate));
 						} else {
 							inputStr.append("[");
 							for (int j = 0; j < vars.size(); j++) {
@@ -486,7 +493,7 @@ public class CASInputHandler {
 									inputStr.append(",");
 								}
 								inputStr.append(vars.get(j).toString(
-										StringTemplate.defaultTemplate));
+										StringTemplate.giacTemplate));
 							}
 							inputStr.append("]");
 						}
@@ -520,7 +527,7 @@ public class CASInputHandler {
 					// case it is not
 					if (casResult.equals("false")) {
 						foundNonPolynomial = true;
-					}
+					} 
 				} catch (Throwable e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

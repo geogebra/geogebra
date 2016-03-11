@@ -3802,6 +3802,8 @@ public abstract class App implements UpdateSelection {
 		case ALL_LANGUAGES:
 		case EXERCISES:
 		case IMPLICIT_CURVES:
+			// return true;
+			// return prerelease;
 
 			// when moved to stable, move ImplicitSurface[] from TABLE_ENGLISH
 			// in Command.Java
