@@ -3626,6 +3626,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .overflowYScroll{
 	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 /*
