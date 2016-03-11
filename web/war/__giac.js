@@ -1894,7 +1894,7 @@ var __giac = [ {},
 { cat:"Integral", cmd:"Integral[x^(-2/3), -1, 0]", result:"3", notes:"#4920" },
 { cat:"EvaluateLogic", cmd:"Evaluate[{aa,b,c}!={aa,b,c}]", result:"false", notes:"#3385" },
 { cat:"EvaluateLogic", cmd:"Evaluate[{}!={}]", result:"false", notes:"GGB-218" },
-{ cat:"EvaluateLogic", cmd:"Evaluate[{aa,c,b}!={aa,b,c}]", result:"true", notes:"#3385" }
+{ cat:"EvaluateLogic", cmd:"Evaluate[{aa,c,b}!={aa,b,c}]", result:"true", notes:"#3385" },
 { cat: "CompleteSquare", cmd:"CompleteSquare[(x+1)^2+1]", result:"(x + 1)\u00B2 + 1", notes:"GGB-617" },
 { cat: "CompleteSquare", cmd:"CompleteSquare[(x-1)^2+1]", result:"(x - 1)\u00B2 + 1", notes:"GGB-617" },
 { cat: "CompleteSquare", cmd:"CompleteSquare[((-9) * x^(10)) + 4]", result:"", notes:"GGB-617" },
