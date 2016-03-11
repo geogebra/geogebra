@@ -509,6 +509,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 
 			bottomParameter = quadric.bottomParameter;
 			topParameter = quadric.topParameter;
+			quadric.calcVolume();
 			volume = quadric.volume;
 
 			bottom.set(quadric.bottom);
