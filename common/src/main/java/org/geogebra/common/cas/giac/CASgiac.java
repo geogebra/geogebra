@@ -100,8 +100,9 @@ public abstract class CASgiac implements CASGenericInterface {
 			"is3dpoint(x):=when(size(x[1])==3 && subtype(x[1])==20,true,false);;"
 			// chech whether a is polynomial
 			// special cases like y^2=1 also handled
-			+ "ispolynomial(a):=when(a[0] == '=' && ((type(a[1]) == DOM_IDENT && type(a[2]) == DOM_INT) || (type(a[1]) == DOM_INT && type(a[2]) == DOM_IDENT)), true,"
+			+ "ispolynomial(a):=when(a[0] == '=' ,is_polynomial(a[1]) && is_polynomial(a[2]),"
 			+ "when (is_polynomial(a) == 1, true, false ) );;"
+			+ "ispolynomial2(a,b):= when(is_polynomial(a,b) == 1 , true , false);;"
 			+
 			// xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac
 			"xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])));;"
