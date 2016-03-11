@@ -48,6 +48,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
@@ -3223,6 +3224,9 @@ public class MyXMLHandler implements DocHandler {
 				sliderTagProcessed = false;
 				fontTagProcessed = false;
 				lineStyleTagProcessed = false;
+				if (geo instanceof VectorNDValue) {
+					((VectorNDValue) geo).setMode(Kernel.COORD_CARTESIAN);
+				}
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_COMMAND;

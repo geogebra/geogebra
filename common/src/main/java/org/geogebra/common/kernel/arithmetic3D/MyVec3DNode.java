@@ -423,4 +423,9 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 				Double.NaN);
 	}
 
+	public void setMode(int mode) {
+		this.mode = mode;
+
+	}
+
 }

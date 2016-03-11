@@ -29,4 +29,6 @@ public interface VectorNDValue extends ExpressionValue {
 
 	public double[] getPointAsDouble();
 
+	public void setMode(int coordCartesian);
+
 }
