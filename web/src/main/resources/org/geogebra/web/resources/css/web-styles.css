@@ -3748,6 +3748,11 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 
 .algebraHelpButton{
 	display: inline-block;
+	padding: 1px 3px 1px 5px;
+}
+
+.algebraHelpButton img{
+	width: 26px;	
 }
 
 /* ========== Input Help  end ============ */
@@ -3889,6 +3894,8 @@ body.application[dir=rtl] .algebraOpenButton {
 	position: absolute;
 	height: 100%;
 	margin-top: -1px;
+	padding: 1px 7px;
+	
 	
 	/*box-sizing: border-box;
  	-moz-box-sizing: border-box;
@@ -3897,7 +3904,6 @@ body.application[dir=rtl] .algebraOpenButton {
 
 .GeoGebraFrame .algebraHelpButton, .GeoGebraFrame .marblePanel {
 	border-right: 1px solid #DCDCDC;
-	padding: 1px 7px;
 }
 
 

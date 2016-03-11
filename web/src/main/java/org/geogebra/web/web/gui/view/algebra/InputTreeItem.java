@@ -92,9 +92,9 @@ public class InputTreeItem extends RadioTreeItem implements
 			SimplePanel sp = new SimplePanel();
 			btnHelpToggle = new ToggleButton(new NoDragImage(
 					GuiResources.INSTANCE.menu_icon_help().getSafeUri()
-							.asString(), 20), new NoDragImage(
+							.asString()), new NoDragImage(
 					GuiResources.INSTANCE.menu_icon_help().getSafeUri()
-							.asString(), 20));
+.asString()));
 
 			btnHelpToggle.addClickHandler(new ClickHandler() {
 
