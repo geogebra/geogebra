@@ -1525,7 +1525,7 @@ var __giac = [ {},
 { cat:"Cross", cmd:"Cross[(a, b, c), (d, e)]", result:"(-c e, c d, a e - b d)" },
 { cat:"Cross", cmd:"Cross[(a, b), (d, e, f)]", result:"(b f, -a f, a e - b d)" },
 { cat:"Sequence", cmd:"Sequence[Sequence[i, i, 1, j], j, 1, 5]", result:"{{1}, {1, 2}, {1, 2, 3}, {1, 2, 3, 4}, {1, 2, 3, 4, 5}}" },
-{ cat:"Integral", cmd:"Integral[((x-2)(x-3))^2,2,3]", result:"1/30"},
+{ cat:"Integral", cmd:"Integral[((x-2)(x-3))^2,2,3]", result:"1/30" },
 { cat:"Solve", cmd:"Solve[{y=60x,y=200-40*(x-1/3)}]", result:"{{x = 32 / 15, y = 128}}|OR|{{y = 128, x = 32 / 15}}" },
 { cat:"Solve", cmd:"Solve[{t=60s,t=200-40*(s-1/3)}]", result:"{{s = 32 / 15, t = 128}}|OR|{{t = 128, s = 32 / 15}}" },
 { cat:"Derivative", cmd:"Derivative[1]", result:"0" },
@@ -1689,7 +1689,7 @@ var __giac = [ {},
 { cat: "Solve", cmd:"Solve[{sin(x)=1,x>0,x<pi},x]", result:"{x = 1 / 2 \u03C0}", notes:"#4146" },
 { cat: "Solve", cmd:"Solve[{sin(x)=1,x>0,x<10pi},x]", result:"{x = 1 / 2 \u03C0, x = 5 / 2 \u03C0, x = 9 / 2 \u03C0, x = 13 / 2 \u03C0, x = 17 / 2 \u03C0}", notes:"#4146" },
 { cat: "Evaluate", cmd:"Evaluate[{{1,2},{3,4}} + {{1,2,3},{4,5,6},{7,8,9}}]", result:"{{2, 4, 3}, {7, 9, 6}, {7, 8, 9}}", notes:"different to Input Bar" },
-{ cat: "Evaluate", cmd:"SolveODE[y' = k*y*a]", result:"y = c_0 \u212F^(a k x)", notes:"same as SolveODE[y' = k*y*a,y,x] #5099" },
+{ cat: "Evaluate", cmd:"SolveODE[y' = k*y*aa]", result:"y = c_0 \u212F^(aa k x)", notes:"same as SolveODE[y' = k*y*a,y,x] #5099" },
 { cat: "SolveODE2", cmd:"SolveODE[y''+y'+ a y=0]", result:"y = c_0 \u212F^((x sqrt(-4 a + 1) - x) / 2) + c_1 \u212F^((-x sqrt(-4 a + 1) - x) / 2)", notes:"#5099" },
 { cat: "SolveODE2", cmd:"SolveODE[y''+y'+ a y=0,y,x]", result:"y = c_0 \u212F^((x sqrt(-4 a + 1) - x) / 2) + c_1 \u212F^((-x sqrt(-4 a + 1) - x) / 2)", notes:"#5099" },
 { cat: "SolveODE", cmd:"SolveODE[y''=0,{(0,1)},(1,3)]", result:"y = 3x + 1", notes:"#5064" },
@@ -1895,6 +1895,11 @@ var __giac = [ {},
 { cat:"EvaluateLogic", cmd:"Evaluate[{aa,b,c}!={aa,b,c}]", result:"false", notes:"#3385" },
 { cat:"EvaluateLogic", cmd:"Evaluate[{}!={}]", result:"false", notes:"GGB-218" },
 { cat:"EvaluateLogic", cmd:"Evaluate[{aa,c,b}!={aa,b,c}]", result:"true", notes:"#3385" }
+{ cat: "CompleteSquare", cmd:"CompleteSquare[(x+1)^2+1]", result:"(x + 1)\u00B2 + 1", notes:"GGB-617" },
+{ cat: "CompleteSquare", cmd:"CompleteSquare[(x-1)^2+1]", result:"(x - 1)\u00B2 + 1", notes:"GGB-617" },
+{ cat: "CompleteSquare", cmd:"CompleteSquare[((-9) * x^(10)) + 4]", result:"", notes:"GGB-617" },
+{ cat: "Evaluate", cmd:"SolveODE[2*y*y'=2*x]", result:"", notes:"" },
+// 
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 //{ cat: "Integral", cmd:"Integral[sqrt(sin(x))]", result:"?", notes:"" },
@@ -2036,6 +2041,7 @@ var problems = [
 { cat:"PROBLEM", cmd:"Integrate(sin(asin(cos(acos(log(tan(atan(log10(log2((abs(floor(ceiling(round(sinh(asinh(cosh(acosh(tanh(atanh(x)))))))))))))))))))),x)", result:"" },
 // doesn't work in tests in giac.js seems OK in GUI - odd
 { cat:"Integral", cmd:"Integral(cos(x/2)^2/(x+sin(x)),x)", result:"1 / 2 ln(2abs(x tan(1 / 2 x)\u2074 + 2tan(1 / 2 x)\u00B3 + 2x tan(1 / 2 x)\u00B2 + 2tan(1 / 2 x) + x) / (tan(1 / 2 x)\u2074 + 2tan(1 / 2 x)\u00B2 + 1)) + c_0", notes:"from Giac's tests" },
+{ cat:"Integral", cmd:"Integral[exp(-(x/s)^2)]", result:"(((((-1)) / 2 * s) * sqrt(π)) * erf(((-x)) / s)) + c_2", notes:"kills Giac.js" },
 
 // 
 
