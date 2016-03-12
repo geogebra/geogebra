@@ -813,7 +813,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 */
 	private void hyperboloidOneSheet(double val0, double val1, double val2,
 			double beta) {
-		// App.debug("hyperboloidOneSheet : " + val0 + "," + val1 + "," + val2);
+		// Log.debug("hyperboloidOneSheet : " + val0 + "," + val1 + "," + val2);
 
 		eigenval[0] = val0;
 		eigenval[1] = val1;
@@ -876,14 +876,29 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		type = QUADRIC_HYPERBOLOID_TWO_SHEETS;
 	}
 
+	/**
+	 * 1st and 2nd eigenvalues are equal
+	 * 
+	 * @param ev0
+	 *            old eigenvector, 1st value
+	 * @param ev1
+	 *            old eigenvector, 2nd value
+	 * @param ev2
+	 *            updated eigenvector, 3rd value
+	 */
 	private void completeOrthonormalRatioEqualTo1(Coords ev0, Coords ev1,
 			Coords ev2) {
 		// try to keep ev0
 		tmpCoords.setCrossProduct(ev2, ev0);
 		if (!tmpCoords.isZero(3)) {
+			// we can set ev1 to this cross product
 			ev1.setValues(tmpCoords, 3);
 			ev1.normalize();
+			// update ev0 to get orthonormal vectors
+			ev0.setCrossProduct(ev1, ev2);
+			ev0.normalize();
 		} else if (!ev1.isZero()) { // ev1 and ev2 are already orthogonal
+			// since ev1 was orthogonal to ev0 and ev0 and ev2 are parallel
 			ev0.setCrossProduct(ev1, ev2);
 			ev0.normalize();
 		} else {
