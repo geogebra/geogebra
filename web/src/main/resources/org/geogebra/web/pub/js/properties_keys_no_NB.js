@@ -2345,7 +2345,7 @@ __GGB__keysVar.no_NB.plain = {
     "Clipboard.Moodle": "Utklippstavle: Moodle",
     "Clipboard.iframe": "Utklippstavle: <iframe>",
     "Clipping": "Klipping",
-    "CloseApplicationLoseUnsavedData": "N\xe5 er du i ferd med \xe5 lukke GeoGebra-applikasjonen, og \xe5 miste alle ulagrede data.",
+    "CloseApplicationLoseUnsavedData": "N\xe5 er du i ferd med \xe5 lukke GeoGebra-applikasjonen og \xe5 miste alle ulagrede data.",
     "CollapseRows": "Skjul rader",
     "ColorfulConstructionProtocol": "Farger i forklaringen av fremgangsm\xe5ten",
     "ColumnPercent": "Kolonne %",

@@ -651,7 +651,7 @@ __GGB__keysVar.nl.command = {
     "Periods": "Perioden",
     "Periods.Syntax": "[ <Rentevoet>, <Termijn>, <Aanvangswaarde>, <Eindwaarde (optie)>, <Type (optie)> ]",
     "Plane": "Vlak",
-    "Plane.Syntax": "[ <Veelhoek> ]\n[ <Kegelsnede> ]\n[ <Punt>, <Vlak> ]\n[ <Punt>, <Rechte> ]\n[ <Rechte>, <Rechte> ]\n[ <Punt>, <Punt>, <Punt> ]\n[ <Punt>, <Richtingsvector>, <Richtingsvector> ]",
+    "Plane.Syntax": "[ <Kegelsnede> ]\n[ <Veelhoek> ]\n[ <Punt>, <Vlak> ]\n[ <Punt>, <Rechte> ]\n[ <Rechte>, <Rechte> ]\n[ <Punt>, <Punt>, <Punt> ]\n[ <Punt>, <Richtingsvector>, <Richtingsvector> ]",
     "PlaneBisector": "Deelvlak",
     "PlaneBisector.Syntax": "[ <Lijnstuk> ]\n[ <Punt>, <Punt> ]",
     "PlaySound": "PlaySound",
