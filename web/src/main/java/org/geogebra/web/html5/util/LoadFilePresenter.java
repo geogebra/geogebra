@@ -90,7 +90,8 @@ public class LoadFilePresenter {
 
 		boolean undoActive = (showToolBar || showMenuBar
 		        || view.getDataParamApp() || app.getScriptManager()
-		        .getStoreUndoListeners().size() > 0);
+						.getStoreUndoListeners().size() > 0)
+				&& view.getDataParamEnableUndoRedo();
 
 		app.setUndoActive(undoActive);
 

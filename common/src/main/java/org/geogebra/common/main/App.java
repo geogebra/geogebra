@@ -1420,6 +1420,10 @@ public abstract class App implements UpdateSelection {
 		Log.debug("undoRedoEnabled = " + undoRedoEnabled);
 	}
 
+	public boolean isUndoRedoEnabled() {
+		return undoRedoEnabled;
+	}
+
 	/**
 	 * @param b
 	 */

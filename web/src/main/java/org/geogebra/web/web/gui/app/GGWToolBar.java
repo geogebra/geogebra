@@ -43,14 +43,23 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Toolbar for web, includes ToolbarW, undo panel and search / menu
+ */
 public class GGWToolBar extends Composite implements RequiresResize,
 		ToolBarInterface, SetLabels {
 
 	private static final int MENU_ICONS_WIDTH = 200;
 	private static final int UNDO_ICONS_WIDTH = 90;
-	static protected ToolbarResources myIconResourceBundle = ((ImageFactory) GWT
-	        .create(ImageFactory.class)).getToolbarResources();
 
+	static private ToolbarResources myIconResourceBundle = ((ImageFactory) GWT
+			.create(ImageFactory.class)).getToolbarResources();
+	
+	/**
+	 * PNG or SVG resource bundle
+	 * 
+	 * @return bundle
+	 */
 	static public ToolbarResources getMyIconResourceBundle() {
 		return myIconResourceBundle;
 	}
@@ -154,8 +163,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		// }
 		// });
 
-		redoButton = new StandardButton(
-pr.menu_header_redo(), null, 32);
+		redoButton = new StandardButton(pr.menu_header_redo(), null, 32);
 		redoButton.getUpHoveringFace().setImage(
 				getImage(pr.menu_header_redo_hover(), 32));
 
@@ -208,8 +216,12 @@ pr.menu_header_undo(), null, 32);
 
 	public void setLabels() {
 		Localization loc = app.getLocalization();
-		redoButton.setTitle(loc.getMenu("Redo"));
-		undoButton.setTitle(loc.getMenu("Undo"));
+		if (redoButton != null) {
+			redoButton.setTitle(loc.getMenu("Redo"));
+		}
+		if (undoButton != null) {
+			undoButton.setTitle(loc.getMenu("Undo"));
+		}
 
 	}
 
@@ -440,8 +452,8 @@ pr.menu_header_undo(), null, 32);
 			}
 			rightButtonPanel.add(getTimer());
 		}
-
-		if(app.getLAF().undoRedoSupported()){
+		if (app.getLAF().undoRedoSupported()
+				&& app.isUndoRedoEnabled()) {
 			addUndoPanel();
 		}
 		if(app.getArticleElement().getDataParamShowMenuBar(false) || 
@@ -592,10 +604,11 @@ pr.menu_header_undo(), null, 32);
 	}
 
 	/**
-	 * Gets an HTML fragment that displays the image belonging to mode
-	 * given in parameter
+	 * Gets an HTML fragment that displays the image belonging to mode given in
+	 * parameter
 	 * 
 	 * @param mode
+	 *            mode ID
 	 * @return HTML fragment
 	 */
 	public String getImageHtml(int mode){
