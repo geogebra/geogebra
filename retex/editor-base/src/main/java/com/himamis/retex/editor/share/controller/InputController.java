@@ -16,7 +16,7 @@ public class InputController {
     public static final char FUNCTION_OPEN_KEY = '('; // probably universal
     public static final char FUNCTION_CLOSE_KEY = ')';
     public static final char DELIMITER_KEY = ';';
-    final static private Exception NOT_A_LETTER_EXCEPTION = new Exception("Math component is not a character");
+
     private MetaModel metaModel;
     private CursorController cursorController;
     private ArgumentHelper argumentHelper;
@@ -29,22 +29,21 @@ public class InputController {
 
     final static private char getLetter(MathComponent component) throws Exception {
         if (!(component instanceof MathCharacter)) {
-            throw NOT_A_LETTER_EXCEPTION;
+            throw new Exception("Math component is not a character");
         }
 
         MathCharacter mathCharacter = (MathCharacter) component;
         if (!mathCharacter.isCharacter()) {
-            throw NOT_A_LETTER_EXCEPTION;
+            throw new Exception("Math component is not a character");
         }
 
         char c = mathCharacter.getUnicode();
 
-        if (Character.isLetter(c)) {
-            return c;
+        if (!Character.isLetter(c)) {
+            throw new Exception("Math component is not a character");
         }
 
-        throw NOT_A_LETTER_EXCEPTION;
-
+        return c;
     }
 
     /**
