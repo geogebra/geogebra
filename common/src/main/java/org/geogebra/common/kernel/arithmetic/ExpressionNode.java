@@ -2137,20 +2137,20 @@ kernel, left,
 
 		case ARCCOS:
 			trig(kernel, left, leftStr, sb, "<arccos/>", "\\arccos", "ACOS(",
-					"acos", "arccos", degFix("acos", kernel), tpl, loc,
-					false);
+					"acos", "arccos", degFix("acos", kernel), tpl, loc, false,
+					true);
 			break;
 
 		case ARCSIN:
 			trig(kernel, left, leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(",
-					"asin", "arcsin", degFix("asin", kernel), tpl, loc,
-					false);
+					"asin", "arcsin", degFix("asin", kernel), tpl, loc, false,
+					true);
 			break;
 
 		case ARCTAN:
 			trig(kernel, left, leftStr, sb, "<arctan/>", "\\arctan", "ATAN(",
-					"atan", "arctan", degFix("atan", kernel), tpl, loc,
-					false);
+					"atan", "arctan", degFix("atan", kernel), tpl, loc, false,
+					true);
 			break;
 
 		case ARCTAN2:
@@ -3703,6 +3703,15 @@ kernel, left,
 
 	}
 
+	private static void trig(Kernel kernel, ExpressionValue left,
+			String leftStr, StringBuilder sb, String mathml, String latex,
+			String psTricks2, String key, String libreOffice, String giac,
+			StringTemplate tpl, Localization loc, boolean needDegrees) {
+
+		trig(kernel, left, leftStr, sb, mathml, latex, psTricks2, key,
+				libreOffice, giac, tpl, loc, needDegrees, false);
+	}
+
 	/**
 	 * @param left
 	 *            left expression (might need context-aware serialization for
@@ -3711,7 +3720,9 @@ kernel, left,
 	private static void trig(Kernel kernel, ExpressionValue left,
 			String leftStr, StringBuilder sb, String mathml, String latex,
 			String psTricks, String key, String libreOffice, String giac,
-			StringTemplate tpl, Localization loc, boolean needDegrees) {
+			StringTemplate tpl, Localization loc, boolean needDegrees,
+			boolean inverseNeedsDegrees) {
+		
 		if (tpl.hasType(StringType.MATHML)) {
 			MathmlTemplate.mathml(sb, mathml, leftStr, null);
 		} else {
@@ -3789,6 +3800,10 @@ kernel, left,
 				sb.append('(');
 				break;
 			case PGF:
+				// http://tex.stackexchange.com/questions/12951/incorrect-plot-using-pgfplots
+				if (inverseNeedsDegrees) {
+					sb.append("rad(");
+				} 
 				sb.append(key);
 				sb.append('(');
 				break;
@@ -3808,7 +3823,13 @@ kernel, left,
 			} else {
 				sb.append(leftStr);
 			}
+			
 			sb.append(tpl.rightBracket());
+
+			// extra closing bracket for rad(atan(...))
+			if (inverseNeedsDegrees && tpl.hasType(StringType.PGF)) {
+				sb.append(")");
+			} 
 		}
 
 	}
@@ -5980,18 +6001,16 @@ kernel, left,
 				ExpressionValue exponent = ((ExpressionNode) left).getRight()
 						.unwrap();
 				if (exponent.isConstant()
-						&& Kernel.isEqual(-1,
- exponent.evaluateDouble())) {
+						&& Kernel.isEqual(-1, exponent.evaluateDouble())) {
 					return kernel.inverseTrig(op, right);
 				}
 				return new ExpressionNode(kernel, right, op, null)
-.power(exponent);
+						.power(exponent);
 
 			}
 			// a * b * f -- check if b*f needs special handling
-		} else if (left instanceof ExpressionNode
-				&& ((ExpressionNode) left).getOperation() == Operation.MULTIPLY
-) {
+		} else if (left instanceof ExpressionNode && ((ExpressionNode) left)
+				.getOperation() == Operation.MULTIPLY) {
 			ExpressionValue bf = multiplySpecial(
 					((ExpressionNode) left).getRight(), right, kernel,
 					giacParsing);
@@ -6056,10 +6075,10 @@ kernel, left,
 				return;
 			}
 			// halftrusted expression, eg. a/b
-			if ((this.getLeft() instanceof Variable || this.getLeft()
- instanceof GeoElement)
-					&& (this.getRight() instanceof Variable || this.getRight()
- instanceof GeoElement)
+			if ((this.getLeft() instanceof Variable
+					|| this.getLeft() instanceof GeoElement)
+					&& (this.getRight() instanceof Variable
+							|| this.getRight() instanceof GeoElement)
 					&& (operation == Operation.MULTIPLY || operation == Operation.DIVIDE)) {
 				trustCheck.setHalfTrustable(true);
 				return;
