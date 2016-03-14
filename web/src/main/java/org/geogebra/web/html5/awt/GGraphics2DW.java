@@ -956,7 +956,9 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 						.getOffsetWidth(), this.getOffsetHeight());
 
 			} else {
-				context.drawImage(bi.getImageElement(), x, y);
+				context.drawImage(bi.getImageElement(), 0, 0, bi.getWidth(),
+						bi.getHeight(), x, y, this.getOffsetWidth(),
+						this.getOffsetHeight());
 			}
 		} catch (Exception e) {
 			Log.error("error in context.drawImage method");
