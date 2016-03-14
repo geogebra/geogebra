@@ -3834,8 +3834,9 @@ public abstract class App implements UpdateSelection {
 		case LOG_AXES:
 			return prerelease;
 
+		// GGB-568
 		case SURFACE_WIREFRAME:
-			return prerelease;
+			return true;
 
 		case SURFACE_IS_REGION:
 		case HIT_PARAMETRIC_SURFACE:
