@@ -671,7 +671,7 @@ public abstract class Prover {
 
 		StatementFeatures(GeoElement statement) {
 			/*
-			 * collecting algos, generating sample and computing basic
+			 * collecting algos, generating population and computing basic
 			 * statistics
 			 */
 			HashMap<String, Integer> population = new HashMap<String, Integer>();
@@ -697,7 +697,7 @@ public abstract class Prover {
 			/* computing rest of statistics */
 			minimum = maximum;
 			maximum /= size;
-			mean = 1.0 / NO_ALGOS;
+			mean = (double) size / NO_ALGOS;
 			int zeros = NO_ALGOS - population.size();
 			/* ((3/7-1/23)^2+(1/7-1/23)^2*4+18*(1/23)^2)/23 == .00925 */
 			variation_coefficient = 0;
