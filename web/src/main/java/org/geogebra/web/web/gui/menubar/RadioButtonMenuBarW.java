@@ -48,6 +48,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 		RadioButton radioButton = new RadioButton(menubarID, text, true);		
 		radioButton.setValue(selected);
 		radioButton.addStyleName("RadioButtonMenuItem");
+		radioButton.addStyleName("GeoGebraFrame");
 		return super.addItem(radioButton.toString(), true, com);
 	}
 	
