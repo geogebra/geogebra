@@ -39,8 +39,6 @@ public enum Feature {
 
 	RETINA,
 
-	AUTOMATIC_FONTSIZE,
-
 	LOG_AXES,
 
 	DRAW_INPUTBOXES_TO_CANVAS,
