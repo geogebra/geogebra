@@ -11,8 +11,8 @@ public class GPUBufferW implements GPUBuffer {
 	public GPUBufferW() {
 	}
 
-	public void set(WebGLBuffer index) {
-		impl = index;
+	public void set(Object index) {
+		impl = (WebGLBuffer) index;
 	}
 
 	public WebGLBuffer get() {

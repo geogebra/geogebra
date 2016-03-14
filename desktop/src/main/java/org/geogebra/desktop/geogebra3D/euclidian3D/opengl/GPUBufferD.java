@@ -4,16 +4,16 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 
 public class GPUBufferD implements GPUBuffer {
 
-	private int impl;
+	private Integer impl;
 
 	public GPUBufferD() {
 	}
 
-	public void set(int index) {
-		impl = index;
+	public void set(Object index) {
+		impl = (Integer) index;
 	}
 
-	public int get() {
+	public Integer get() {
 		return impl;
 	}
 

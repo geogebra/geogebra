@@ -3,6 +3,11 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import java.util.Stack;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.Feature;
 
 /**
  * implementation for renderer using shaders
@@ -24,19 +29,19 @@ public abstract class RendererImplShaders implements RendererImpl {
 	final static protected int TEXTURE_TYPE_DASH = 4;
 
 	// location values for shader fields
-	protected Integer matrixLocation; // matrix
-	protected Integer lightPositionLocation, ambiantDiffuseLocation,
+	protected Object matrixLocation; // matrix
+	protected Object lightPositionLocation, ambiantDiffuseLocation,
 			enableLightLocation, enableShineLocation; // light
-	protected Integer eyePositionLocation; // eye position
-	protected Integer cullingLocation; // culling type
-	protected Integer colorLocation; // color
-	protected Integer centerLocation; // center
-	protected Integer enableClipPlanesLocation, clipPlanesMinLocation,
+	protected Object eyePositionLocation; // eye position
+	protected Object cullingLocation; // culling type
+	protected Object colorLocation; // color
+	protected Object centerLocation; // center
+	protected Object enableClipPlanesLocation, clipPlanesMinLocation,
 			clipPlanesMaxLocation; // enable / disable clip planes
-	protected Integer labelRenderingLocation, labelOriginLocation;
-	protected Integer normalLocation; // one normal for all vertices
-	protected Integer textureTypeLocation; // textures
-	protected Integer dashValuesLocation; // values for dash
+	protected Object labelRenderingLocation, labelOriginLocation;
+	protected Object normalLocation; // one normal for all vertices
+	protected Object textureTypeLocation; // textures
+	protected Object dashValuesLocation; // values for dash
 
 	protected GPUBuffer vboVertices;
 	protected GPUBuffer vboColors;
@@ -46,7 +51,18 @@ public abstract class RendererImplShaders implements RendererImpl {
 
 	protected float[] tmpNormal3 = new float[3];
 
+	protected CoordMatrix4x4 projectionMatrix = new CoordMatrix4x4();
+
+	protected CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4(),
+			tmpMatrix2 = new CoordMatrix4x4();
+
+	protected float[] tmpFloat16 = new float[16];
+
 	protected boolean oneNormalForAllVertices;
+
+	protected Integer shaderProgram;
+	protected Integer vertShader;
+	protected Integer fragShader;
 
 	protected EuclidianView3D view3D;
 
@@ -57,10 +73,18 @@ public abstract class RendererImplShaders implements RendererImpl {
 		this.view3D = view;
 	}
 
-	protected abstract void createBuffer(GPUBuffer buffer, Stack<Integer> stack);
+	abstract protected void createBufferFor(GPUBuffer buffer);
 
-	private Stack<Integer> removedBuffers = new Stack<Integer>();
-	private Stack<Integer> removedElementBuffers = new Stack<Integer>();
+	final private void createBuffer(GPUBuffer buffer, Stack<Object> stack) {
+		if (stack.isEmpty()) {
+			createBufferFor(buffer);
+		} else {
+			buffer.set(stack.pop());
+		}
+	}
+
+	private Stack<Object> removedBuffers = new Stack<Object>();
+	private Stack<Object> removedElementBuffers = new Stack<Object>();
 
 	final public void createArrayBuffer(GPUBuffer buffer) {
 		createBuffer(buffer, removedBuffers);
@@ -70,7 +94,9 @@ public abstract class RendererImplShaders implements RendererImpl {
 		createBuffer(buffer, removedElementBuffers);
 	}
 
-	abstract protected void removeBuffer(GPUBuffer buffer, Stack<Integer> stack);
+	final private static void removeBuffer(GPUBuffer buffer, Stack<Object> stack) {
+		stack.push(buffer.get());
+	}
 
 	public void removeArrayBuffer(GPUBuffer buffer) {
 		removeBuffer(buffer, removedBuffers);
@@ -463,4 +489,555 @@ public abstract class RendererImplShaders implements RendererImpl {
 
 	abstract protected void glBufferDataIndices(int numBytes,
 			GLBufferIndices arrayI);
+
+	/**
+	 * attribute vertex pointers
+	 */
+	protected void attribPointers() {
+
+		bindBuffer(vboVertices);
+		vertexAttribPointer(GLSL_ATTRIB_POSITION, 3);
+
+		bindBuffer(vboNormals);
+		vertexAttribPointer(GLSL_ATTRIB_NORMAL, 3);
+
+		bindBuffer(vboColors);
+		vertexAttribPointer(GLSL_ATTRIB_COLOR, 4);
+
+		bindBuffer(vboTextureCoords);
+		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
+	}
+
+
+	abstract protected int getGLType(Type type);
+
+	protected final void setModelViewIdentity() {
+		projectionMatrix.getForGL(tmpFloat16);
+		glUniformMatrix4fv(matrixLocation, tmpFloat16);
+	}
+
+	abstract protected void glUniformMatrix4fv(Object location, float[] values);
+
+	@Override
+	public void draw() {
+
+		resetOneNormalForAllVertices();
+		disableTextures();
+
+		setModelViewIdentity();
+
+	}
+
+	@Override
+	public void useShaderProgram() {
+		glUseProgram(shaderProgram);
+	}
+
+	abstract protected void glUseProgram(Object program);
+
+	@Override
+	public void dispose() {
+
+		glUseProgram(0);
+		glDetachAndDeleteShader(shaderProgram, vertShader);
+		glDetachAndDeleteShader(shaderProgram, fragShader);
+		glDeleteProgram(shaderProgram);
+	}
+
+	abstract protected void glDetachAndDeleteShader(Object program,
+			Object shader);
+
+	abstract protected void glDeleteProgram(Object program);
+
+	@Override
+	public void setMatrixView() {
+
+		if (renderer.isExportingImageEquirectangular()) {
+			tmpMatrix2.set(view3D.getToScreenMatrix());
+			tmpMatrix2.set(3, 4,
+					tmpMatrix2.get(3, 4) + renderer.getEyeToScreenDistance());
+			tmpMatrix1.setMul(projectionMatrix, tmpMatrix2);
+		} else {
+			tmpMatrix1.setMul(projectionMatrix, view3D.getToScreenMatrix());
+		}
+
+		tmpMatrix1.getForGL(tmpFloat16);
+
+		glUniformMatrix4fv(matrixLocation, tmpFloat16);
+	}
+
+	@Override
+	public void unsetMatrixView() {
+		setModelViewIdentity();
+	}
+
+	abstract protected void glUniform4f(Object location, float a, float b,
+			float c, float d);
+
+	@Override
+	public void setColor(float r, float g, float b, float a) {
+		glUniform4f(colorLocation, r, g, b, a);
+	}
+
+	@Override
+	public void initMatrix() {
+
+		if (renderer.isExportingImageEquirectangular()) {
+			tmpMatrix1.set(view3D.getToScreenMatrix());
+			tmpMatrix1.set(3, 4,
+					tmpMatrix1.get(3, 4) + renderer.getEyeToScreenDistance());
+			tmpMatrix2.setMul(tmpMatrix1, renderer.getMatrix());
+		} else {
+			tmpMatrix2.setMul(view3D.getToScreenMatrix(), renderer.getMatrix());
+		}
+
+		tmpMatrix1.setMul(projectionMatrix, tmpMatrix2);
+		tmpMatrix1.getForGL(tmpFloat16);
+
+		glUniformMatrix4fv(matrixLocation, tmpFloat16);
+	}
+
+	@Override
+	public void initMatrixForFaceToScreen() {
+
+		tmpMatrix1.setMul(projectionMatrix, renderer.getMatrix());
+		tmpMatrix1.getForGL(tmpFloat16);
+
+		glUniformMatrix4fv(matrixLocation, tmpFloat16);
+	}
+
+	@Override
+	public void resetMatrix() {
+		setMatrixView();
+	}
+
+	@Override
+	public void pushSceneMatrix() {
+		// not used with shaders
+
+	}
+
+	@Override
+	public void glLoadName(int loop) {
+		// not used with shaders
+
+	}
+
+	@Override
+	public void setLightPosition(float[] values) {
+		glUniform3fv(lightPositionLocation, values);
+		if (view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE
+				|| view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE) {
+			glUniform4fv(eyePositionLocation, view3D.getViewDirection()
+					.get4ForGL());
+		} else {
+			glUniform4fv(eyePositionLocation, view3D.getEyePosition()
+					.get4ForGL());
+		}
+	}
+
+	abstract protected void glUniform4fv(Object location, float[] values);
+
+	private float[][] ambiantDiffuse;
+
+	@Override
+	public void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
+			float ambiant1, float diffuse1) {
+
+		float coeff = 1.414f;
+
+		float a0 = ambiant0 * coeff;
+		float d0 = 1 - a0;
+		float a1 = ambiant1 * coeff;
+		float d1 = 1 - a1;
+
+		ambiantDiffuse = new float[][] { { a0, d0 }, { a1, d1 } };
+
+	}
+
+	abstract protected void glUniform2fv(Object location, float[] values);
+
+	@Override
+	public void setLight(int light) {
+
+		glUniform2fv(ambiantDiffuseLocation, ambiantDiffuse[light]);
+	}
+
+
+	@Override
+	public void setLightModel() {
+		// not used with shaders
+	}
+
+	@Override
+	public void setAlphaFunc() {
+		// not used with shaders
+	}
+
+	@Override
+	public void setView() {
+		renderer.setProjectionMatrix();
+	}
+
+	@Override
+	public void viewOrtho() {
+		// the projection matrix is updated in updateOrthoValues()
+	}
+
+	@Override
+	final public void updateOrthoValues() {
+
+		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
+		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
+		projectionMatrix.set(3, 3, -2.0 / renderer.getVisibleDepth());
+		projectionMatrix.set(4, 4, 1);
+
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(4, 1, 0);
+
+		projectionMatrix.set(1, 2, 0);
+		projectionMatrix.set(3, 2, 0);
+		projectionMatrix.set(4, 2, 0);
+
+		projectionMatrix.set(1, 3, 0);
+		projectionMatrix.set(2, 3, 0);
+		projectionMatrix.set(4, 3, 0);
+
+		projectionMatrix.set(1, 4, 0);
+		projectionMatrix.set(2, 4, 0);
+		projectionMatrix.set(3, 4, 0);
+
+	}
+
+	@Override
+	public void viewPersp() {
+		// the projection matrix is updated in updatePerspValues()
+
+	}
+
+	@Override
+	public void updatePerspValues() {
+
+		projectionMatrix
+				.set(1,
+						1,
+						2
+								* renderer.perspNear[renderer.eye]
+								/ (renderer.perspRight[renderer.eye] - renderer.perspLeft[renderer.eye]));
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(4, 1, 0);
+
+		projectionMatrix.set(1, 2, 0);
+		projectionMatrix
+				.set(2,
+						2,
+						2
+								* renderer.perspNear[renderer.eye]
+								/ (renderer.perspTop[renderer.eye] - renderer.perspBottom[renderer.eye]));
+		projectionMatrix.set(3, 2, 0);
+		projectionMatrix.set(4, 2, 0);
+
+		perspXZ = (renderer.perspRight[renderer.eye] + renderer.perspLeft[renderer.eye])
+				/ (renderer.perspRight[renderer.eye] - renderer.perspLeft[renderer.eye]);
+
+		projectionMatrix.set(1, 3, perspXZ);
+		projectionMatrix
+				.set(2,
+						3,
+						(renderer.perspTop[renderer.eye] + renderer.perspBottom[renderer.eye])
+								/ (renderer.perspTop[renderer.eye] - renderer.perspBottom[renderer.eye]));
+		projectionMatrix.set(3, 3, 2 * renderer.perspFocus[renderer.eye]
+				/ renderer.getVisibleDepth());
+		projectionMatrix.set(4, 3, -1);
+
+		projectionMatrix.set(1, 4, 0);// (perspRight+perspLeft)/(perspRight-perspLeft)
+										// * perspFocus);
+		projectionMatrix.set(2, 4, 0);// (perspTop+perspBottom)/(perspTop-perspBottom)
+										// * perspFocus);
+		projectionMatrix.set(3, 4, renderer.getVisibleDepth() / 2);
+		projectionMatrix.set(4, 4, -renderer.perspFocus[renderer.eye]);
+
+	}
+
+	protected double perspXZ, glassesXZ;
+
+	@Override
+	public void updateGlassesValues() {
+		glassesXZ = (renderer.perspNear[renderer.eye]
+				* (renderer.glassesEyeX[Renderer.EYE_LEFT] - renderer.glassesEyeX[Renderer.EYE_RIGHT]) / renderer.perspFocus[renderer.eye])
+				/ (renderer.perspRight[renderer.eye] - renderer.perspLeft[renderer.eye]);
+	}
+
+	@Override
+	public void viewGlasses() {
+
+		if (renderer.eye == Renderer.EYE_LEFT) {
+			projectionMatrix.set(1, 3, perspXZ + glassesXZ);
+		} else {
+			projectionMatrix.set(1, 3, perspXZ - glassesXZ);
+		}
+
+	}
+
+	@Override
+	public void viewOblique() {
+		// the projection matrix is updated in updateProjectionObliqueValues()
+	}
+
+	@Override
+	public void updateProjectionObliqueValues() {
+
+		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(4, 1, 0);
+
+		projectionMatrix.set(1, 2, 0);
+		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
+		projectionMatrix.set(3, 2, 0);
+		projectionMatrix.set(4, 2, 0);
+
+		projectionMatrix.set(1, 3,
+				renderer.obliqueX * 2.0 / renderer.getWidth());
+		projectionMatrix.set(2, 3,
+				renderer.obliqueY * 2.0 / renderer.getHeight());
+		projectionMatrix.set(3, 3, -2.0 / renderer.getVisibleDepth());
+		projectionMatrix.set(4, 3, 0);
+
+		projectionMatrix.set(1, 4, 0);
+		projectionMatrix.set(2, 4, 0);
+		projectionMatrix.set(3, 4, 0);
+		projectionMatrix.set(4, 4, 1);
+
+	}
+	
+
+
+
+	private float[] clipPlanesMin = new float[3];
+	private float[] clipPlanesMax = new float[3];
+
+	@Override
+	public void setClipPlanes(double[][] minMax) {
+		for (int i = 0; i < 3; i++) {
+			clipPlanesMin[i] = (float) minMax[i][0];
+			clipPlanesMax[i] = (float) minMax[i][1];
+		}
+
+	}
+
+	final private void setClipPlanesToShader() {
+
+		glUniform3fv(clipPlanesMinLocation, clipPlanesMin);
+		glUniform3fv(clipPlanesMaxLocation, clipPlanesMax);
+
+	}
+
+
+
+	@Override
+	public void initRenderingValues() {
+
+		// clip planes
+		setClipPlanesToShader();
+	}
+
+	@Override
+	public void drawFaceToScreenAbove() {
+		glUniform1i(labelRenderingLocation, 1);
+		resetCenter();
+	}
+
+	@Override
+	public void drawFaceToScreenBelow() {
+		glUniform1i(labelRenderingLocation, 0);
+	}
+
+	@Override
+	public void setLabelOrigin(Coords origin) {
+		glUniform3fv(labelOriginLocation, origin.get3ForGL());
+	}
+
+	@Override
+	public void enableLighting() {
+		if (view3D.getUseLight()) {
+			glUniform1i(enableLightLocation, 1);
+		}
+	}
+
+	@Override
+	public void initLighting() {
+		if (view3D.getUseLight()) {
+			glUniform1i(enableLightLocation, 1);
+		} else {
+			glUniform1i(enableLightLocation, 0);
+		}
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			glUniform1i(enableShineLocation, 0);
+		}
+	}
+
+	@Override
+	public void disableLighting() {
+		if (view3D.getUseLight()) {
+			glUniform1i(enableLightLocation, 0);
+		}
+	}
+
+	@Override
+	public void disableShine() {
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			if (view3D.getUseLight()) {
+				glUniform1i(enableShineLocation, 0);
+			}
+		}
+	}
+
+	@Override
+	public void enableShine() {
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			if (view3D.getUseLight()) {
+				glUniform1i(enableShineLocation, 1);
+			}
+		}
+	}
+
+	@Override
+	final public void setCenter(Coords center) {
+		float[] c = center.get4ForGL();
+		// set radius info
+		c[3] *= DrawPoint3D.DRAW_POINT_FACTOR / view3D.getScale();
+		glUniform4fv(centerLocation, c);
+	}
+
+	private float[] resetCenter = { 0f, 0f, 0f, 0f };
+
+	@Override
+	final public void resetCenter() {
+		glUniform4fv(centerLocation, resetCenter);
+	}
+
+	@Override
+	final public void disableCulling() {
+		glDisable(getGL_CULL_FACE());
+		glUniform1i(cullingLocation, 1);
+	}
+
+	abstract protected void glCullFace(int flag);
+
+	abstract protected int getGL_FRONT();
+
+	abstract protected int getGL_BACK();
+
+	@Override
+	final public void setCullFaceFront() {
+		glCullFace(getGL_FRONT());
+		glUniform1i(cullingLocation, -1);
+	}
+
+	@Override
+	final public void setCullFaceBack() {
+		glCullFace(getGL_BACK());
+		glUniform1i(cullingLocation, 1);
+	}
+
+	@Override
+	public void drawTranspNotCurved() {
+		renderer.enableCulling();
+		renderer.setCullFaceFront();
+		renderer.drawable3DLists.drawTransp(renderer);
+		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
+		renderer.setCullFaceBack();
+		renderer.drawable3DLists.drawTransp(renderer);
+		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
+
+	}
+
+	@Override
+	public void enableLightingOnInit() {
+		// no need for shaders
+	}
+
+	@Override
+	public void initCulling() {
+		// no need for shaders
+	}
+
+	@Override
+	public boolean useShaders() {
+		return true;
+	}
+
+	abstract protected void glDepthMask(boolean flag);
+
+	@Override
+	final public void enableDepthMask() {
+		glDepthMask(true);
+	}
+
+	@Override
+	final public void disableDepthMask() {
+		glDepthMask(false);
+	}
+
+	@Override
+	public void setStencilLines() {
+		// not implemented yet with shaders
+	}
+
+	abstract protected Object glGetUniformLocation(String name);
+
+	/**
+	 * set uniform locations for shaders
+	 */
+	final protected void setShaderLocations() {
+		matrixLocation = glGetUniformLocation("matrix");
+		lightPositionLocation = glGetUniformLocation("lightPosition");
+		ambiantDiffuseLocation = glGetUniformLocation("ambiantDiffuse");
+		eyePositionLocation = glGetUniformLocation("eyePosition");
+		enableLightLocation = glGetUniformLocation("enableLight");
+		if (view3D.getApplication().has(Feature.SHINY_3D)) {
+			enableShineLocation = glGetUniformLocation("enableShine");
+		}
+
+		cullingLocation = glGetUniformLocation("culling");
+
+		dashValuesLocation = glGetUniformLocation("dashValues");
+
+		// texture
+		textureTypeLocation = glGetUniformLocation("textureType");
+
+		// color
+		colorLocation = glGetUniformLocation("color");
+
+		// normal
+		normalLocation = glGetUniformLocation("normal");
+
+		// center
+		centerLocation = glGetUniformLocation("center");
+
+		// clip planes
+		enableClipPlanesLocation = glGetUniformLocation("enableClipPlanes");
+		clipPlanesMinLocation = glGetUniformLocation("clipPlanesMin");
+		clipPlanesMaxLocation = glGetUniformLocation("clipPlanesMax");
+
+		// label rendering
+		labelRenderingLocation = glGetUniformLocation("labelRendering");
+		labelOriginLocation = glGetUniformLocation("labelOrigin");
+	}
+
+	@Override
+	final public void initShaders() {
+		initShadersProgram();
+		setShaderLocations();
+		createVBOs();
+		attribPointers();
+	}
+
+	abstract protected void initShadersProgram();
+
+	abstract protected void createVBOs();
+
 }
