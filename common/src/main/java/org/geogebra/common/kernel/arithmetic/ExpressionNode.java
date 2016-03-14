@@ -4689,7 +4689,6 @@ kernel, left,
 	@Override
 	public ExpressionNode derivative(FunctionVariable fv, Kernel kernel0) {
 		ExpressionNode ret = derivativeNotSecret(fv, kernel0);
-		Log.error(ret.toValueString(StringTemplate.defaultTemplate));
 
 		return ret;// .setSecret();
 	}
