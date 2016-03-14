@@ -231,14 +231,14 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 					// if( ((y[i-1]-y[i-2])/deltax)<MAX_GRADIENT) {
 					xval = extrfinder.findMaximum(curleft, curright, rrfunc,
 							3.0E-8); // debug("Gradient for "+xval+": "+gradient(rrfunc,xval,curleft,curright));
-					if (gradient(rrfunc, xval, curleft, curright) < 1.0E-4) {
+					if (gradientChangesSign(rrfunc, xval, curleft, curright)) {
 						xlist.add(new Double(xval));
 					}// If not too large gradient
 				} else if ((!grad[i - 2]) && (grad[i - 1])) { // min
 					// if( ((y[i-2]-y[i-1])/deltax) < MAX_GRADIENT ) {
 					xval = extrfinder.findMinimum(curleft, curright, rrfunc,
 							3.0E-8); // debug("Gradient for "+xval+": "+gradient(rrfunc,xval,curleft,curright));
-					if (gradient(rrfunc, xval, curleft, curright) < 1.0E-4) {
+					if (gradientChangesSign(rrfunc, xval, curleft, curright)) {
 						xlist.add(new Double(xval));
 
 					}// if not too large gradient
@@ -284,11 +284,23 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	}// findNumberOfSamples()
 
-	private final static double gradient(RealRootFunction rrf, double x,
+	private final static boolean gradientChangesSign(RealRootFunction rrf,
+			double x,
 			double l, double r) {
 		double dx = (r - l) / 1E8;
-		return Math.abs((rrf.evaluate(x + dx) - rrf.evaluate(x)) / dx);
-	}// gradient(
+		double vx = rrf.evaluate(x);
+		double vxRight = rrf.evaluate(x + dx);
+		double vxLeft = rrf.evaluate(x - dx);
+		if (vxRight > vx && vxLeft > vx) {
+			return true;
+		}
+		if (vxRight < vx && vxLeft < vx) {
+			return true;
+		}
+		// to stay compatible with old versions check the gradient; the 1E-4
+		// constant is arbitrary and not good enough for fast growing functions
+		return Math.abs((vxRight - vx) / dx) < 1E-4;
+	}
 
 	// * //--- SNIP (after debugging and testing) -------------------------
 	// / --- Test interface --- ///
