@@ -126,9 +126,11 @@ public abstract class CASgiac implements CASGenericInterface {
 			+
 			// subtype 27 is ggbvect[]
 			"ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x));;"
-			// check list befor equation to avoid out of bounds. flatten helps
+			// check list before equation to avoid out of bounds. flatten helps
 			// for {} and {{{0}}}
 			+ "ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]== 'pnt' && x[1] == ggbvect[0,0,0])));;"
+			// convert the polys into primitive polys in the input list:
+			+ "primpoly(x):=begin local pps,ii; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end;;"
 			+ "factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else return pf; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end;;";
 
 	/**
@@ -587,8 +589,8 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	public String createEliminateScript(String polys, String elimVars) {
-		return "eliminate([" + polys + "],revlist(["
-				+ elimVars + "]))";
+		return "primpoly(eliminate([" + polys + "],revlist([" + elimVars
+				+ "])))";
 	}
 
 	public String createGroebnerSolvableScript(
