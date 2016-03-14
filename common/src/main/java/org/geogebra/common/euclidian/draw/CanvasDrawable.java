@@ -16,7 +16,7 @@ import org.geogebra.common.main.App;
 public abstract class CanvasDrawable extends Drawable {
 	private static final int HIGHLIGHT_MARGIN = 2;
 
-	private boolean drawingOnCanvas;
+	// private boolean drawingOnCanvas;
 	private GFont labelFont;
 	GPoint labelSize = new GPoint(0, 0);
 	private int labelFontSize;
@@ -26,14 +26,6 @@ public abstract class CanvasDrawable extends Drawable {
 	int boxTop;
 	int boxWidth;
 	int boxHeight;
-
-	public boolean isDrawingOnCanvas() {
-		return drawingOnCanvas;
-	}
-
-	public void setDrawingOnCanvas(boolean drawOnCanvas) {
-		this.drawingOnCanvas = drawOnCanvas;
-	}
 
 	public static boolean isLatexString(String text) {
 		return text.startsWith("$") && text.trim().endsWith("$");
@@ -205,19 +197,15 @@ public abstract class CanvasDrawable extends Drawable {
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
 		boolean res = false;
-		if (isDrawingOnCanvas()) {
-			int left = xLabel;
-			int top = boxTop;
-			int right = left + labelSize.x + boxWidth;
-			int bottom = top + boxHeight;
-			//
-			res = (x > left && x < right && y > top && y < bottom)
-					|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel
-							&& y < yLabel + labelSize.y);
+		int left = xLabel;
+		int top = boxTop;
+		int right = left + labelSize.x + boxWidth;
+		int bottom = top + boxHeight;
+		//
+		res = (x > left && x < right && y > top && y < bottom)
+				|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel
+						&& y < yLabel + labelSize.y);
 
-		} else {
-			res = box.getBounds().contains(x, y);
-		}
 		return res;
 	}
 	public GFont getLabelFont() {
@@ -285,9 +273,6 @@ public abstract class CanvasDrawable extends Drawable {
 	protected abstract void hideWidget();
 
 	public void setWidgetVisible(boolean show) {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
 		if (show) {
 			showWidget();
 		} else {

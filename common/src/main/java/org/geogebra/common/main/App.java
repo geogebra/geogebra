@@ -3906,7 +3906,6 @@ public abstract class App implements UpdateSelection {
 		case ADD_NEW_OBJECT_BUTTON:
 		case CAS_EDITOR:
 		case RETINA:
-		case DRAW_INPUTBOXES_TO_CANVAS:
 		case UNDO_FOR_TOOLS:
 			return true;
 
@@ -3928,10 +3927,6 @@ public abstract class App implements UpdateSelection {
 
 		// enabled from 5.0.210.0
 		case COMBOSCROLLING:
-			return true;
-
-		// enabled from 5.0.200.0
-		case DRAW_DROPDOWNLISTS_TO_CANVAS:
 			return true;
 
 		// not supported in applets

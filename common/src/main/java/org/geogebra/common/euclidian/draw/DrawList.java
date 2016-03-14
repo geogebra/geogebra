@@ -917,16 +917,12 @@ public final class DrawList extends CanvasDrawable
 		this.view = view;
 		this.geoList = geoList;
 		geo = geoList;
-		setDrawingOnCanvas(view.getApplication()
-				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS));
-		if (isDrawingOnCanvas()) {
-			drawOptions = new DrawOptions(view);
-			dropDown = new DropDownList(view.getApplication(), this);
+		drawOptions = new DrawOptions(view);
+		dropDown = new DropDownList(view.getApplication(), this);
 
-			GBox ctrlBox = geo.getKernel().getApplication().getSwingFactory()
-					.createHorizontalBox(view.getEuclidianController());
-			ctrlRect = ctrlBox.getBounds();
-		}
+		GBox ctrlBox = geo.getKernel().getApplication().getSwingFactory()
+				.createHorizontalBox(view.getEuclidianController());
+		ctrlRect = ctrlBox.getBounds();
 		reset();
 
 		update();
@@ -934,15 +930,9 @@ public final class DrawList extends CanvasDrawable
 
 	private void resetComboBox() {
 
-		if (!isDrawingOnCanvas() && label == null) {
-			label = view.getApplication().getSwingFactory().newJLabel("Label",
-					true);
-			label.setVisible(true);
-		}
-
 		if (comboBox == null) {
 			comboBox = geoList.getComboBox(view.getViewID());
-			comboBox.setVisible(!isDrawingOnCanvas());
+			comboBox.setVisible(false);
 			comboBox.addActionListener(AwtFactory.prototype
 					.newActionListener(new DrawList.ActionListener()));
 		}
@@ -950,9 +940,6 @@ public final class DrawList extends CanvasDrawable
 		if (box == null) {
 			box = view.getApplication().getSwingFactory()
 					.createHorizontalBox(view.getEuclidianController());
-			if (!isDrawingOnCanvas()) {
-				box.add(label);
-			}
 			box.add(comboBox);
 		}
 		view.add(box);
@@ -974,11 +961,9 @@ public final class DrawList extends CanvasDrawable
 		isVisible = geo.isEuclidianVisible() && geoList.size() != 0;
 		int fontSize = (int) (view.getFontSize()
 				* geoList.getFontSizeMultiplier());
-		if (isDrawingOnCanvas()) {
-			setLabelFontSize(fontSize);
-			if (geo.doHighlighting() == false) {
-				hideWidget();
-			}
+		setLabelFontSize(fontSize);
+		if (geo.doHighlighting() == false) {
+			hideWidget();
 		}
 		box.setVisible(isVisible);
 
@@ -996,17 +981,6 @@ public final class DrawList extends CanvasDrawable
 		org.geogebra.common.awt.GFont font = app.getFontCanDisplay(
 				comboBox.getItemAt(0).toString(), false, vFont.getStyle(),
 				fontSize);
-
-		if (!isDrawingOnCanvas()) {
-			label.setText(labelDesc);
-
-			if (!geo.isLabelVisible()) {
-				label.setText("");
-			}
-			label.setOpaque(false);
-			label.setFont(font);
-			label.setForeground(geo.getObjectColor());
-		}
 
 		comboBox.setFont(font);
 		comboBox.setForeground(geo.getObjectColor());
@@ -1034,15 +1008,9 @@ public final class DrawList extends CanvasDrawable
 
 		if (geo.getRawCaption() != null) {
 			String caption = geo.getCaption(StringTemplate.defaultTemplate);
-			if (isDrawingOnCanvas()) {
-				oldCaption = caption;
-				return caption;
+			oldCaption = caption;
+			return caption;
 
-			} else if (!caption.equals(oldCaption)) {
-				oldCaption = caption;
-				labelDesc = GeoElement.indicesToHTML(caption, true);
-			}
-			return labelDesc;
 		}
 
 		// make sure there's something to drag
@@ -1149,38 +1117,24 @@ public final class DrawList extends CanvasDrawable
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible && geoList.drawAsComboBox()) {
-			if (isDrawingOnCanvas()) {
-				drawOnCanvas(g2, "");
-				return;
-			}
+			drawOnCanvas(g2, "");
+			return;
 
-			if (isVisible) {
-				if (geo.doHighlighting()) {
-					label.setOpaque(true);
-					label.setBackground(GColor.LIGHT_GRAY);
+		}
+		if (isVisible) {
+			boolean doHighlight = geoList.doHighlighting();
 
-				} else {
-					label.setOpaque(false);
-				}
-			}
-
-		} else {
-			if (isVisible) {
-				boolean doHighlight = geoList.doHighlighting();
-
-				int size = drawables.size();
-				for (int i = 0; i < size; i++) {
-					Drawable d = (Drawable) drawables.get(i);
-					// draw only those drawables that have been created by this
-					// list;
-					// if d belongs to another object, we don't want to mess
-					// with it
-					// here
-					if (createdByDrawList()
-							|| !d.getGeoElement().isLabelSet()) {
-						d.getGeoElement().setHighlighted(doHighlight);
-						d.draw(g2);
-					}
+			int size = drawables.size();
+			for (int i = 0; i < size; i++) {
+				Drawable d = (Drawable) drawables.get(i);
+				// draw only those drawables that have been created by this
+				// list;
+				// if d belongs to another object, we don't want to mess
+				// with it
+				// here
+				if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
+					d.getGeoElement().setHighlighted(doHighlight);
+					d.draw(g2);
 				}
 			}
 		}
@@ -1194,18 +1148,14 @@ public final class DrawList extends CanvasDrawable
 	final public boolean hit(int x, int y, int hitThreshold) {
 		if (geoList.drawAsComboBox()) {
 
-			if (isDrawingOnCanvas()) {
-				DrawList opened = view.getOpenedComboBox();
-				if (opened != null && opened != this
-						&& opened.isOptionsHit(x, y)) {
-					return false;
-				}
-
-				return super.hit(x, y, hitThreshold) || isControlHit(x, y)
-						|| isOptionsHit(x, y);
+			DrawList opened = view.getOpenedComboBox();
+			if (opened != null && opened != this && opened.isOptionsHit(x, y)) {
+				return false;
 			}
 
-			return box.getBounds().contains(x, y);
+			return super.hit(x, y, hitThreshold) || isControlHit(x, y)
+					|| isOptionsHit(x, y);
+
 
 		}
 
@@ -1257,7 +1207,7 @@ public final class DrawList extends CanvasDrawable
 	@Override
 	final public org.geogebra.common.awt.GRectangle getBounds() {
 		if (geoList.drawAsComboBox()) {
-			return isDrawingOnCanvas() ? box.getBounds() : null;
+			return box.getBounds();
 
 		}
 
@@ -1575,9 +1525,6 @@ public final class DrawList extends CanvasDrawable
 	 * @return true if options rectangle hit by mouse.
 	 */
 	public boolean isOptionsHit(int x, int y) {
-		if (!isDrawingOnCanvas()) {
-			return false;
-		}
 
 		return drawOptions.isHit(x, y);
 	}
@@ -1591,9 +1538,6 @@ public final class DrawList extends CanvasDrawable
 	 *            mouse y-coord
 	 */
 	public void onOptionOver(int x, int y) {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
 
 		drawOptions.onMouseOver(x, y);
 	}
@@ -1607,12 +1551,9 @@ public final class DrawList extends CanvasDrawable
 	 *            Mouse y coordinate.
 	 */
 	public void onMouseDown(int x, int y) {
-		if (!isDrawingOnCanvas()) {
+		if (drawOptions.onMouseDown(x, y)) {
 			return;
 		}
-			if (drawOptions.onMouseDown(x, y)) {
-				return;
-			}
 
 		DrawList opened = view.getOpenedComboBox();
 		if (!(opened != null && opened.isOptionsHit(x, y))
@@ -1640,9 +1581,6 @@ public final class DrawList extends CanvasDrawable
 	 * Open dropdown
 	 */
 	public void openOptions() {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
 		setOptionsVisible(false);
 	}
 
@@ -1650,9 +1588,6 @@ public final class DrawList extends CanvasDrawable
 	 * Close dropdown
 	 */
 	public void closeOptions() {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
 		setOptionsVisible(false);
 	}
 
@@ -1664,9 +1599,6 @@ public final class DrawList extends CanvasDrawable
 	 * @return whether control rectangle was hit
 	 */
 	public boolean isControlHit(int x, int y) {
-		if (!isDrawingOnCanvas()) {
-			return false;
-		}
 
 		return ctrlRect != null && ctrlRect.contains(x, y);
 	}
@@ -1675,9 +1607,6 @@ public final class DrawList extends CanvasDrawable
 	 * @return whether dropdown is visible
 	 */
 	public boolean isOptionsVisible() {
-		if (!isDrawingOnCanvas()) {
-			return false;
-		}
 		return drawOptions.isVisible();
 	}
 
@@ -1686,9 +1615,6 @@ public final class DrawList extends CanvasDrawable
 	 *            change visibility of dropdown items
 	 */
 	private void setOptionsVisible(boolean optionsVisible) {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
 
 		drawOptions.setVisible(optionsVisible);
 
@@ -1698,9 +1624,6 @@ public final class DrawList extends CanvasDrawable
 	 * toggle visibility of dropdown items
 	 */
 	public void toggleOptions() {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
 		drawOptions.toggle();
 
 	}
@@ -1738,9 +1661,6 @@ public final class DrawList extends CanvasDrawable
 	 *            Sets if selection indicator should move down or up.
 	 */
 	public void moveSelectorVertical(boolean down) {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
 
 		drawOptions.moveSelectorVertical(down);
 	}
@@ -1752,9 +1672,6 @@ public final class DrawList extends CanvasDrawable
 	 *            Indicates that selector should move left or right.
 	 */
 	public void moveSelectorHorizontal(boolean left) {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
 
 		drawOptions.moveSelectorHorizontal(left);
 	}
@@ -1763,9 +1680,6 @@ public final class DrawList extends CanvasDrawable
 	 * @return if combo have more columns than one.
 	 */
 	public boolean isMultiColumn() {
-		if (!isDrawingOnCanvas()) {
-			return false;
-		}
 
 		return drawOptions.getColCount() > 1;
 	}
@@ -1779,22 +1693,14 @@ public final class DrawList extends CanvasDrawable
 	}
 
 	public boolean onDrag(int x, int y) {
-		if (!isDrawingOnCanvas()) {
-			return false;
-		}
 
 		return drawOptions.onDrag(x, y);
 	}
 	public void onScroll(int x, int y) {
-		if (isDrawingOnCanvas()) {
-			drawOptions.scroll();
-		}
+		drawOptions.scroll();
 	}
 
 	public void onMouseWheel(double delta) {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
 
 		if (delta > 0) {
 			drawOptions.scrollDown();
@@ -1809,9 +1715,6 @@ public final class DrawList extends CanvasDrawable
 	}
 
 	void updateOpenedComboBox() {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
 
 		DrawList dl = view.getOpenedComboBox();
 		if (drawOptions.isVisible()) {
@@ -1822,9 +1725,6 @@ public final class DrawList extends CanvasDrawable
 	}
 
 	public void onMouseUp(int x, int y) {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
 		drawOptions.onMouseUp(x, y);
 	}
 

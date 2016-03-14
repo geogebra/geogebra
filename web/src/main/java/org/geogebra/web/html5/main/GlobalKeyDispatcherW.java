@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.KeyCodes;
 import org.geogebra.common.util.Unicode;
@@ -275,9 +274,8 @@ public class GlobalKeyDispatcherW extends
 	 * cycle
 	 */
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
-		if (app.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS)) {
-			app.getActiveEuclidianView().closeDropdowns();
-		}
+
+		app.getActiveEuclidianView().closeDropdowns();
 		
 		if (isShiftDown) {
 			selection.selectLastGeo(app.getActiveEuclidianView());

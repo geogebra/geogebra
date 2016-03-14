@@ -16,7 +16,6 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.KeyCodes;
 import org.geogebra.common.util.FileExtensions;
@@ -215,9 +214,8 @@ public class GlobalKeyDispatcherD extends
 	@Override
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown,
 			boolean cycle) {
-		if (app.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS)) {
-			app.getActiveEuclidianView().closeDropdowns();
-		}
+
+		app.getActiveEuclidianView().closeDropdowns();
 
 		if (isControlDown && app.isUsingFullGui()) {
 

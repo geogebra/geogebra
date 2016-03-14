@@ -787,9 +787,9 @@ public abstract class GlobalKeyDispatcher {
 	 * @return whether key was consumed
 	 */
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
-		if (app.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS)) {
-			app.getActiveEuclidianView().closeDropdowns();
-		}
+
+		app.getActiveEuclidianView().closeDropdowns();
+
 		if (isShiftDown) {
 			selection.selectLastGeo(app.getActiveEuclidianView());
 		} else {
@@ -1388,8 +1388,7 @@ public abstract class GlobalKeyDispatcher {
 	 * @return handles enter
 	 */
 	protected boolean handleEnter() {
-		if (app.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS)
-				&& selection.getSelectedGeos().size() == 1) {
+		if (selection.getSelectedGeos().size() == 1) {
 			GeoElement geo = selection.getSelectedGeos().get(0);
 			if (geo.isGeoList()) {
 				DrawList.asDrawable(app, geo).selectCurrentItem();

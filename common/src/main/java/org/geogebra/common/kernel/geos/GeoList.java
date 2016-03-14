@@ -51,7 +51,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -3041,8 +3040,7 @@ AngleProperties {
 
 	@Override
 	public boolean hasBackgroundColor() {
-		return (kernel.getApplication()
-				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS) && drawAsComboBox);
+		return drawAsComboBox;
 	}
 
 	/**
