@@ -3811,26 +3811,41 @@ public abstract class App implements UpdateSelection {
 	
 	public final boolean has(Feature f) {
 		switch (f) {
+
+		// leave as prerelease
+		case TUBE_BETA:
+			return prerelease;
+
+		// leave as prerelease
 		case ALL_LANGUAGES:
+			return prerelease;
+
 		case EXERCISES:
+			return prerelease;
 		case IMPLICIT_CURVES:
-			// return true;
-			// return prerelease;
+			return prerelease;
 
 			// when moved to stable, move ImplicitSurface[] from TABLE_ENGLISH
 			// in Command.Java
 		case IMPLICIT_SURFACES:
+			return prerelease;
 
 		case KOREAN_KEYBOARD:
+			return prerelease;
 		case LOCALSTORAGE_FILES:
+			return prerelease;
 		case POLYGON_TRIANGULATION:
+			return prerelease;
 
 			// when moved to stable, move Difference[] from TABLE_ENGLISH in
 			// Command.Java
 		case POLYGON_OPS:
+			return prerelease;
 
 		case TOOL_EDITOR:
-		case TUBE_BETA:
+			return prerelease;
+
+		// TRAC-4845
 		case LOG_AXES:
 			return prerelease;
 
@@ -3839,6 +3854,8 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case SURFACE_IS_REGION:
+			return true;
+
 		case HIT_PARAMETRIC_SURFACE:
 			return true;
 
@@ -3846,14 +3863,27 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case SHINY_3D:
+			return prerelease;
 
 		case WEB_PRINT_ALGEBRA_VIEW:
-		case WEB_PRINT_CP_VIEW:
+			return prerelease;
 
+		case WEB_PRINT_CP_VIEW:
+			return prerelease;
+
+		// MOB-270
 		case ACRA:
+			return prerelease;
+
 		case ANALYTICS:
+
+			return prerelease;
 		case HANDWRITING:
+			return prerelease;
+
 		case AV_DEFINITION_AND_VALUE:
+			return prerelease;
+
 		case INPUT_SHOWN_IN_AV:
 			return prerelease;
 
@@ -3886,8 +3916,11 @@ public abstract class App implements UpdateSelection {
 
 			// in web
 		case PRINT_MENU:
+			return true;
 		case CP_POPUP:
+			return true;
 		case CP_NEW_COLUMNS:
+			return true;
 
 			// in web (not tablet apps yet)
 			// File -> Enter Exam Mode
@@ -3920,9 +3953,9 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_CIRCLE_FREEHAND_TOOL:
 			return false;
 
+		// MOB-353 MOB-352
 		case MOBILE_EXTREMUM_TOOL:
 		case MOBILE_ROOTS_TOOL:
-			// change to true, if you want to enable these tools for the Android app:
 			return true;
 
 			// MOB-311
@@ -3936,7 +3969,6 @@ public abstract class App implements UpdateSelection {
 
 		case FIX_CP_HEADER:
 			return prerelease;
-
 
 		case NDERIVATIVE_COMMAND:
 			return true;
