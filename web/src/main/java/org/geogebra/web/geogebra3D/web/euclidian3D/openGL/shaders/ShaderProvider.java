@@ -1,5 +1,8 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders;
 
+import org.geogebra.common.geogebra3D.main.FragmentShader;
+import org.geogebra.common.geogebra3D.main.VertexShader;
+
 import com.google.gwt.resources.client.TextResource;
 
 /**
@@ -18,7 +21,8 @@ public class ShaderProvider {
 			boolean shiny) {
 		TextResource resource = null;
 		if (!needsSmallFragmentShader && shiny) {
-			resource = Shaders.INSTANCE.fragmentShaderShiny();
+			return FragmentShader.getFragmentShaderShiny(0.2f, true);
+			//resource = Shaders.INSTANCE.fragmentShaderShiny();
 		} else {
 			resource = Shaders.INSTANCE.fragmentShader();
 		}
@@ -36,7 +40,8 @@ public class ShaderProvider {
 			boolean shiny) {
 		TextResource resource = null;
 		if (!needsSmallFragmentShader && shiny) {
-			resource = Shaders.INSTANCE.vertexShaderShiny();
+			return VertexShader.getVertexShaderShiny(true);
+			//resource = Shaders.INSTANCE.vertexShaderShiny();
 		} else {
 			resource = Shaders.INSTANCE.vertexShader();
 		}

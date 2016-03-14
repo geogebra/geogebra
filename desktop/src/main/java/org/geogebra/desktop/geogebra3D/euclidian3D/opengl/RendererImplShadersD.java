@@ -17,6 +17,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
+import org.geogebra.common.geogebra3D.main.FragmentShader;
+import org.geogebra.common.geogebra3D.main.VertexShader;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
@@ -77,23 +80,31 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 		String vertexShaderString, fragmentShaderString;
 
-		if (view3D.getApplication().has(Feature.SHINY_3D)) {
-			vertexShaderString = loadTextFile("vertexShaderSpecular");
-			fragmentShaderString = loadTextFile("fragmentShaderSpecular");
+		App app = view3D.getApplication();
+
+		if (app.has(Feature.SHINY_3D)) {
+			vertexShaderString = VertexShader.getVertexShaderShiny(false);
+			// vertexShaderString = loadTextFile("vertexShaderSpecular");
+			fragmentShaderString = FragmentShader.getFragmentShaderShiny(0.2f,
+					false);
+			// fragmentShaderString = loadTextFile("fragmentShaderSpecular");
 		} else {
-			vertexShaderString = loadTextFile("vertexShader");
-			fragmentShaderString = loadTextFile("fragmentShader");
+			vertexShaderString = VertexShader.getVertexShader(false);
+			// vertexShaderString = loadTextFile("vertexShader");
+			fragmentShaderString = FragmentShader.getFragmentShader(false);
+			// fragmentShaderString = loadTextFile("fragmentShader");
 		}
 
 
 		if (jogl.getGL2ES2().isGL3core()) {
-			Log.debug("GL3 core detected: explicit add #version 130 to shaders");
+			Log.debug(
+					"GL3 core detected: explicitly add #version 130 to shaders");
 			vertexShaderString = "#version 130\n" + vertexShaderString;
 			fragmentShaderString = "#version 130\n" + fragmentShaderString;
 		}
 
 		// Create GPU shader handles
-		// OpenGL ES retuns a index id to be stored for future reference.
+		// OpenGL ES returns an index id to be stored for future reference.
 		vertShader = jogl.getGL2ES2().glCreateShader(
 				javax.media.opengl.GL2ES2.GL_VERTEX_SHADER);
 		fragShader = jogl.getGL2ES2().glCreateShader(
