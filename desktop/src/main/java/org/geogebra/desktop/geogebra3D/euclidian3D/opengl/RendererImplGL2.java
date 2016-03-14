@@ -754,13 +754,24 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	}
 
 	@Override
-	public int getGL_ALPHA_TEST() {
-		return GLlocal.GL_ALPHA_TEST;
+	public void enableAlphaTest() {
+		glEnable(GLlocal.GL_ALPHA_TEST);
 	}
 
 	@Override
-	public int getGL_MULTISAMPLE() {
-		return GLlocal.GL_MULTISAMPLE;
+	public void disableAlphaTest() {
+		glDisable(GLlocal.GL_ALPHA_TEST);
+	}
+
+
+	@Override
+	public final void enableMultisample() {
+		glEnable(GLlocal.GL_MULTISAMPLE);
+	}
+
+	@Override
+	public final void disableMultisample() {
+		glDisable(GLlocal.GL_MULTISAMPLE);
 	}
 
 	@Override

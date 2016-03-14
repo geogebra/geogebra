@@ -1530,7 +1530,7 @@ public abstract class Renderer {
 	// ////////////////////////////////
 
 	static final private float SQRT2_DIV2 = (float) Math.sqrt(2) / 2;
-	static final protected float[] LIGHT_POSITION_W = { SQRT2_DIV2, 0f,
+	public static final float[] LIGHT_POSITION_W = { SQRT2_DIV2, 0f,
 			SQRT2_DIV2 };
 	static final public float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f,
 			SQRT2_DIV2, 0f };

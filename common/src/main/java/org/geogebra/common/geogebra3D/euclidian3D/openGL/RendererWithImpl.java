@@ -449,22 +449,22 @@ public abstract class RendererWithImpl extends Renderer implements
 
 	@Override
 	public final void enableMultisample() {
-		rendererImpl.glEnable(rendererImpl.getGL_MULTISAMPLE());
+		rendererImpl.enableMultisample();
 	}
 
 	@Override
 	public final void disableMultisample() {
-		rendererImpl.glDisable(rendererImpl.getGL_MULTISAMPLE());
+		rendererImpl.disableMultisample();
 	}
 
 	@Override
 	public void enableAlphaTest() {
-		rendererImpl.glEnable(rendererImpl.getGL_ALPHA_TEST());
+		rendererImpl.enableAlphaTest();
 	}
 
 	@Override
 	public void disableAlphaTest() {
-		rendererImpl.glDisable(rendererImpl.getGL_ALPHA_TEST());
+		rendererImpl.disableAlphaTest();
 	}
 
 	@Override

@@ -72,7 +72,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 	}
 
 	@Override
-	final protected void initShadersProgram() {
+	final protected void compileShadersProgram() {
 
 
 		String vertexShaderString, fragmentShaderString;
@@ -106,24 +106,26 @@ public class RendererImplShadersD extends RendererImplShaders {
 		// System.out.println(vlines[i]);
 
 		int[] vlengths = new int[] { vlines[0].length() };
-		jogl.getGL2ES2().glShaderSource(vertShader, vlines.length, vlines,
+		jogl.getGL2ES2().glShaderSource((Integer) vertShader, vlines.length,
+				vlines,
 				vlengths, 0);
-		jogl.getGL2ES2().glCompileShader(vertShader);
+		jogl.getGL2ES2().glCompileShader((Integer) vertShader);
 
 		// Check compile status.
 		int[] compiled = new int[1];
-		jogl.getGL2ES2().glGetShaderiv(vertShader,
+		jogl.getGL2ES2().glGetShaderiv((Integer) vertShader,
 				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS,
 				compiled, 0);
 		if (compiled[0] != 0) {
 			Log.debug("Vertex shader compiled");
 		} else {
 			int[] logLength = new int[1];
-			jogl.getGL2ES2().glGetShaderiv(vertShader,
+			jogl.getGL2ES2().glGetShaderiv((Integer) vertShader,
 					javax.media.opengl.GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
-			jogl.getGL2ES2().glGetShaderInfoLog(vertShader, logLength[0],
+			jogl.getGL2ES2().glGetShaderInfoLog((Integer) vertShader,
+					logLength[0],
 					(int[]) null, 0, log, 0);
 
 			Log.error("Error compiling the vertex shader: "
@@ -134,23 +136,25 @@ public class RendererImplShadersD extends RendererImplShaders {
 		// Compile the fragmentShader String into a program.
 		String[] flines = new String[] { fragmentShaderString };
 		int[] flengths = new int[] { flines[0].length() };
-		jogl.getGL2ES2().glShaderSource(fragShader, flines.length, flines,
+		jogl.getGL2ES2().glShaderSource((Integer) fragShader, flines.length,
+				flines,
 				flengths, 0);
-		jogl.getGL2ES2().glCompileShader(fragShader);
+		jogl.getGL2ES2().glCompileShader((Integer) fragShader);
 
 		// Check compile status.
-		jogl.getGL2ES2().glGetShaderiv(fragShader,
+		jogl.getGL2ES2().glGetShaderiv((Integer) fragShader,
 				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS,
 				compiled, 0);
 		if (compiled[0] != 0) {
 			Log.debug("Fragment shader compiled");
 		} else {
 			int[] logLength = new int[1];
-			jogl.getGL2ES2().glGetShaderiv(fragShader,
+			jogl.getGL2ES2().glGetShaderiv((Integer) fragShader,
 					javax.media.opengl.GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
-			jogl.getGL2ES2().glGetShaderInfoLog(fragShader, logLength[0],
+			jogl.getGL2ES2().glGetShaderInfoLog((Integer) fragShader,
+					logLength[0],
 					(int[]) null, 0, log, 0);
 
 			Log.error("Error compiling the fragment shader: "
@@ -158,36 +162,36 @@ public class RendererImplShadersD extends RendererImplShaders {
 			System.exit(1);
 		}
 
-		// Each shaderProgram must have
-		// one vertex shader and one fragment shader.
-		shaderProgram = jogl.getGL2ES2().glCreateProgram();
-		jogl.getGL2ES2().glAttachShader(shaderProgram, vertShader);
-		jogl.getGL2ES2().glAttachShader(shaderProgram, fragShader);
 
-		// Associate attribute ids with the attribute names inside
-		// the vertex shader.
-		GLSL_ATTRIB_POSITION = 0;
-		GLSL_ATTRIB_COLOR = 1;
-		GLSL_ATTRIB_NORMAL = 2;
-		GLSL_ATTRIB_TEXTURE = 3;
-		GLSL_ATTRIB_INDEX = 4;
-
-		jogl.getGL2ES2().glBindAttribLocation(shaderProgram,
-				GLSL_ATTRIB_POSITION, "attribute_Position");
-		jogl.getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_COLOR,
-				"attribute_Color");
-		jogl.getGL2ES2().glBindAttribLocation(shaderProgram,
-				GLSL_ATTRIB_NORMAL, "attribute_Normal");
-		jogl.getGL2ES2().glBindAttribLocation(shaderProgram,
-				GLSL_ATTRIB_TEXTURE, "attribute_Texture");
-
-		jogl.getGL2ES2().glLinkProgram(shaderProgram);
 
 	}
 
 	@Override
+	final protected Object glCreateProgram() {
+		return jogl.getGL2ES2().glCreateProgram();
+	}
+
+	@Override
+	final protected void glAttachShader(Object shader) {
+		jogl.getGL2ES2().glAttachShader((Integer) shaderProgram,
+				(Integer) shader);
+	}
+
+	@Override
+	final protected void glBindAttribLocation(int index, String name) {
+		jogl.getGL2ES2().glBindAttribLocation((Integer) shaderProgram, index,
+				name);
+	}
+
+	@Override
+	final protected void glLinkProgram() {
+		jogl.getGL2ES2().glLinkProgram((Integer) shaderProgram);
+	}
+
+	@Override
 	final protected Object glGetUniformLocation(String name) {
-		return jogl.getGL2ES2().glGetUniformLocation(shaderProgram, name);
+		return jogl.getGL2ES2().glGetUniformLocation((Integer) shaderProgram,
+				name);
 	}
 
 
@@ -202,11 +206,11 @@ public class RendererImplShadersD extends RendererImplShaders {
 		vboNormals = new GPUBufferD();
 		vboTextureCoords = new GPUBufferD();
 		vboIndices = new GPUBufferD();
-		((GPUBufferD) vboColors).set(vboHandles[GLSL_ATTRIB_COLOR]);
-		((GPUBufferD) vboVertices).set(vboHandles[GLSL_ATTRIB_POSITION]);
-		((GPUBufferD) vboNormals).set(vboHandles[GLSL_ATTRIB_NORMAL]);
-		((GPUBufferD) vboTextureCoords).set(vboHandles[GLSL_ATTRIB_TEXTURE]);
-		((GPUBufferD) vboIndices).set(vboHandles[GLSL_ATTRIB_INDEX]);
+		vboColors.set(vboHandles[GLSL_ATTRIB_COLOR]);
+		vboVertices.set(vboHandles[GLSL_ATTRIB_POSITION]);
+		vboNormals.set(vboHandles[GLSL_ATTRIB_NORMAL]);
+		vboTextureCoords.set(vboHandles[GLSL_ATTRIB_TEXTURE]);
+		vboIndices.set(vboHandles[GLSL_ATTRIB_INDEX]);
 	}
 
 
@@ -552,14 +556,15 @@ public class RendererImplShadersD extends RendererImplShaders {
 	}
 
 	@Override
-	public int getGL_ALPHA_TEST() {
-		return GLlocal.GL_ALPHA_TEST;
+	public final void enableMultisample() {
+		glEnable(GLlocal.GL_MULTISAMPLE);
 	}
 
 	@Override
-	public int getGL_MULTISAMPLE() {
-		return GLlocal.GL_MULTISAMPLE;
+	public final void disableMultisample() {
+		glDisable(GLlocal.GL_MULTISAMPLE);
 	}
+
 
 	@Override
 	public int getGL_BLEND() {

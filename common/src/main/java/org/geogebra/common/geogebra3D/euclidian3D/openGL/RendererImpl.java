@@ -30,10 +30,6 @@ public interface RendererImpl extends RendererShadersInterface {
 
 
 	// GL flags getters
-	abstract public int getGL_ALPHA_TEST();
-	
-	abstract public int getGL_MULTISAMPLE();
-
 	abstract public int getGL_BLEND();
 	
 	abstract public int getGL_CULL_FACE();
@@ -178,5 +174,13 @@ public interface RendererImpl extends RendererShadersInterface {
 	abstract public void genTextures2D(int number, int[] index);
 
 	abstract public void bindTexture(int index);
+
+	abstract public void enableAlphaTest();
+
+	abstract public void disableAlphaTest();
+
+	abstract public void enableMultisample();
+
+	abstract public void disableMultisample();
 
 }

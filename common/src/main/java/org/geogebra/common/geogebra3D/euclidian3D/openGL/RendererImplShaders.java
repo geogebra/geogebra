@@ -60,9 +60,9 @@ public abstract class RendererImplShaders implements RendererImpl {
 
 	protected boolean oneNormalForAllVertices;
 
-	protected Integer shaderProgram;
-	protected Integer vertShader;
-	protected Integer fragShader;
+	protected Object shaderProgram;
+	protected Object vertShader;
+	protected Object fragShader;
 
 	protected EuclidianView3D view3D;
 
@@ -1030,14 +1030,55 @@ public abstract class RendererImplShaders implements RendererImpl {
 
 	@Override
 	final public void initShaders() {
-		initShadersProgram();
+		compileShadersProgram();
+
+		// Each shaderProgram must have
+		// one vertex shader and one fragment shader.
+		shaderProgram = glCreateProgram();
+		glAttachShader(vertShader);
+		glAttachShader(fragShader);
+
+		// Associate attribute ids with the attribute names inside
+		// the vertex shader.
+		GLSL_ATTRIB_POSITION = 0;
+		GLSL_ATTRIB_COLOR = 1;
+		GLSL_ATTRIB_NORMAL = 2;
+		GLSL_ATTRIB_TEXTURE = 3;
+		GLSL_ATTRIB_INDEX = 4;
+
+		glBindAttribLocation(GLSL_ATTRIB_POSITION, "attribute_Position");
+		glBindAttribLocation(GLSL_ATTRIB_COLOR, "attribute_Color");
+		glBindAttribLocation(GLSL_ATTRIB_NORMAL, "attribute_Normal");
+		glBindAttribLocation(GLSL_ATTRIB_TEXTURE, "attribute_Texture");
+
+		glLinkProgram();
+
 		setShaderLocations();
 		createVBOs();
 		attribPointers();
 	}
 
-	abstract protected void initShadersProgram();
+	abstract protected void compileShadersProgram();
+
+	abstract protected Object glCreateProgram();
+
+	abstract protected void glAttachShader(Object shader);
+
+	abstract protected void glBindAttribLocation(int index, String name);
+
+	abstract protected void glLinkProgram();
 
 	abstract protected void createVBOs();
+
+	@Override
+	public void enableAlphaTest() {
+		// done by shader
+	}
+
+	@Override
+	public void disableAlphaTest() {
+		// done by shader
+	}
+
 
 }
