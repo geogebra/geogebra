@@ -291,10 +291,10 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		double vx = rrf.evaluate(x);
 		double vxRight = rrf.evaluate(x + dx);
 		double vxLeft = rrf.evaluate(x - dx);
-		if (vxRight > vx && vxLeft > vx) {
+		if (vxRight >= vx && vxLeft >= vx) {
 			return true;
 		}
-		if (vxRight < vx && vxLeft < vx) {
+		if (vxRight <= vx && vxLeft <= vx) {
 			return true;
 		}
 		// to stay compatible with old versions check the gradient; the 1E-4
