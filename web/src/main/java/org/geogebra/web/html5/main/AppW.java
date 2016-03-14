@@ -199,6 +199,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super();
 		setPrerelease(ae.getDataParamPrerelease());
+		setUndoRedoEnabled(
+				ae.getDataParamEnableUndoRedo() && laf.undoRedoSupported());
 		if (ae.getDataParamPerspective().startsWith("exam")) {
 			setExam(new ExamEnvironment());
 			ae.setAttribute("data-param-perspective", "");

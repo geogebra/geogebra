@@ -53,7 +53,7 @@ public class EditMenuW extends GMenuBar {
 
 		clearItems();
 
-		if (app.getLAF().undoRedoSupported() && app.isUndoRedoEnabled()) {
+		if (app.isUndoRedoEnabled()) {
 			addUndoRedo();
 			// separator
 			addSeparator();

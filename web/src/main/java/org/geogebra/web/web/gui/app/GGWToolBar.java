@@ -452,8 +452,7 @@ pr.menu_header_undo(), null, 32);
 			}
 			rightButtonPanel.add(getTimer());
 		}
-		if (app.getLAF().undoRedoSupported()
-				&& app.isUndoRedoEnabled()) {
+		if (app.isUndoRedoEnabled()) {
 			addUndoPanel();
 		}
 		if(app.getArticleElement().getDataParamShowMenuBar(false) || 
@@ -1134,7 +1133,7 @@ pr.menu_header_undo(), null, 32);
 
 	private int getMaxButtons() {
 		int extraButtons = 0;
-		 if(app.getLAF().undoRedoSupported()){
+		if (app.isUndoRedoEnabled()) {
 			extraButtons = 90;
 		 }
 		 if(app.showMenuBar()){
