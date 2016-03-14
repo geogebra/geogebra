@@ -4687,13 +4687,7 @@ kernel, left,
 	}
 
 	@Override
-	public ExpressionNode derivative(FunctionVariable fv, Kernel kernel0) {
-		ExpressionNode ret = derivativeNotSecret(fv, kernel0);
-
-		return ret;// .setSecret();
-	}
-
-	public ExpressionNode derivativeNotSecret(FunctionVariable fv,
+	public ExpressionNode derivative(FunctionVariable fv,
 			Kernel kernel0) {
 		// symbolic derivatives disabled in exam mode
 		if (kernel0.getApplication().isExam()
