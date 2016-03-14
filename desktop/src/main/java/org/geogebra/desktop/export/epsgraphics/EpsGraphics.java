@@ -129,8 +129,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * close() method is called.
 	 */
 	public EpsGraphics(String title, OutputStream outputStream, int minX,
-			int minY, int maxX, int maxY, ColorMode colorMode)
-			throws IOException {
+			int minY, int maxX, int maxY, ColorMode colorMode) {
 		_document = new EpsDocument(title, outputStream, minX, minY, maxX, maxY);
 		this.colorMode = colorMode;
 		_backgroundColor = Color.white;

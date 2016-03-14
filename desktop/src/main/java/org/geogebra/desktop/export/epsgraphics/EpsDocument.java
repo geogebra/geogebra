@@ -34,6 +34,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Date;
 
+import org.geogebra.common.util.debug.Log;
+
 /**
  * This represents an EPS document. Several EpsGraphics2D objects may point to
  * the same EpsDocument.
@@ -47,7 +49,7 @@ final class EpsDocument {
 	 * be set before use.
 	 */
 	EpsDocument(String title, OutputStream outputStream, int minX, int minY,
-			int maxX, int maxY) throws IOException {
+			int maxX, int maxY) {
 		this.title = title;
 		this.minX = minX;
 		this.minY = minY;
@@ -119,28 +121,33 @@ final class EpsDocument {
 	 * Outputs the contents of the EPS document to the specified Writer,
 	 * complete with headers and bounding box.
 	 */
-	public synchronized void write(Writer writer) throws IOException {
+	public synchronized void write(Writer writer) {
 		float offsetX = -minX;
 		float offsetY = -minY;
-		writer.write("%!PS-Adobe-3.0 EPSF-3.0\n");
-		writer.write("%%Creator: EpsGraphics " + EpsGraphics.VERSION
-				+ " by Thomas Abeel, http://www.sourceforge.net/epsgraphics/\n");
-		writer.write("%%Title: " + title + "\n");
-		writer.write("%%CreationDate: " + new Date() + "\n");
-		writer.write("%%BoundingBox: 0 0 " + ((int) Math.ceil(maxX + offsetX))
-				+ " " + ((int) Math.ceil(maxY + offsetY)) + "\n");
-		writer.write("%%DocumentData: Clean7Bit\n");
-		writer.write("%%LanguageLevel: 2\n");
-		writer.write("%%DocumentProcessColors: Black\n");
-		writer.write("%%ColorUsage: Color\n");
-		writer.write("%%Origin: 0 0\n");
-		writer.write("%%Pages: 1\n");
-		writer.write("%%Page: 1 1\n");
-		writer.write("%%EndComments\n\n");
-		writer.write("gsave\n");
-		writer.write(offsetX + " " + (maxY + offsetY) + " translate\n");
+		try {
+			writer.write("%!PS-Adobe-3.0 EPSF-3.0\n");
+			writer.write("%%Creator: EpsGraphics " + EpsGraphics.VERSION
+					+ " by Thomas Abeel, http://www.sourceforge.net/epsgraphics/\n");
+			writer.write("%%Title: " + title + "\n");
+			writer.write("%%CreationDate: " + new Date() + "\n");
+			writer.write(
+					"%%BoundingBox: 0 0 " + ((int) Math.ceil(maxX + offsetX))
+							+ " " + ((int) Math.ceil(maxY + offsetY)) + "\n");
+			writer.write("%%DocumentData: Clean7Bit\n");
+			writer.write("%%LanguageLevel: 2\n");
+			writer.write("%%DocumentProcessColors: Black\n");
+			writer.write("%%ColorUsage: Color\n");
+			writer.write("%%Origin: 0 0\n");
+			writer.write("%%Pages: 1\n");
+			writer.write("%%Page: 1 1\n");
+			writer.write("%%EndComments\n\n");
+			writer.write("gsave\n");
+			writer.write(offsetX + " " + (maxY + offsetY) + " translate\n");
 
-		writer.flush();
+			writer.flush();
+		} catch (Exception e) {
+			Log.debug("problem writing EPS header: " + e.getMessage());
+		}
 	}
 
 	private void writeFooter(Writer writer) throws IOException {

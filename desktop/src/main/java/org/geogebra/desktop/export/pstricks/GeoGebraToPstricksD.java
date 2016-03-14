@@ -1,6 +1,5 @@
 package org.geogebra.desktop.export.pstricks;
 
-import java.io.IOException;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPathIterator;
@@ -35,7 +34,7 @@ public class GeoGebraToPstricksD extends GeoGebraToPstricks {
 	class MyGraphicsPstricks extends MyGraphics {
 
 		public MyGraphicsPstricks(FunctionalNVar geo, Inequality ineq,
-				EuclidianView euclidianView) throws IOException {
+				EuclidianView euclidianView) {
 
 			super(geo, ineq, euclidianView);
 		}

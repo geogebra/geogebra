@@ -1,7 +1,5 @@
 package org.geogebra.desktop.export.pstricks;
 
-import java.io.IOException;
-
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -21,7 +19,7 @@ abstract class MyGraphics extends GGraphics2DD {
 	protected FunctionalNVar geo;
 
 	public MyGraphics(FunctionalNVar geo, Inequality ineq,
-			EuclidianView euclidianView) throws IOException {
+			EuclidianView euclidianView) {
 		super(new MyGraphics2D(null, System.out, 0, 0, 0, 0,
 				ColorMode.COLOR_RGB));
 		view = euclidianView;

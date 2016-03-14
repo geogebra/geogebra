@@ -1,6 +1,5 @@
 package org.geogebra.desktop.export.pstricks;
 
-import java.io.IOException;
 import java.io.OutputStream;
 
 import org.geogebra.desktop.export.epsgraphics.ColorMode;
@@ -11,8 +10,7 @@ import org.geogebra.desktop.export.epsgraphics.EpsGraphics;
 class MyGraphics2D extends EpsGraphics {
 
 	public MyGraphics2D(String title, OutputStream outputStream, int minX,
-			int minY, int maxX, int maxY, ColorMode colorMode)
-			throws IOException {
+			int minY, int maxX, int maxY, ColorMode colorMode) {
 		super(title, outputStream, minX, minY, maxX, maxY, colorMode);
 	}
 }
