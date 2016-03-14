@@ -1417,7 +1417,6 @@ public abstract class App implements UpdateSelection {
 		if (!undoRedoEnabled && kernel != null) {
 			kernel.setUndoActive(false);
 		}
-		Log.debug("undoRedoEnabled = " + undoRedoEnabled);
 	}
 
 	public boolean isUndoRedoEnabled() {

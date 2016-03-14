@@ -3797,7 +3797,6 @@ public class Kernel {
 	}
 
 	public boolean isUndoActive() {
-		Log.debug("undoActive = " + undoActive);
 		return undoActive;
 	}
 
