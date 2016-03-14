@@ -8,7 +8,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
-import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
@@ -20,7 +20,7 @@ public abstract class CanvasDrawable extends Drawable {
 	private GFont labelFont;
 	GPoint labelSize = new GPoint(0, 0);
 	private int labelFontSize;
-	GBox box;
+	GRectangle box = AwtFactory.prototype.newRectangle();
 	GDimension preferredSize;
 	int boxLeft;
 	int boxTop;
@@ -238,6 +238,11 @@ public abstract class CanvasDrawable extends Drawable {
 
 	public void setPreferredSize(GDimension preferredSize) {
 		this.preferredSize = preferredSize;
+	}
+
+	public void setPreferredSize(GRectangle box) {
+		this.preferredSize = AwtFactory.prototype
+				.newDimension((int) box.getWidth(), (int) box.getHeight());
 	}
 
 	@Override

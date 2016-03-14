@@ -73,8 +73,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		this.view = view;
 		this.geoTextField = geo;
 		this.geo = geo;
-		box = geo.getKernel().getApplication().getSwingFactory()
-				.createHorizontalBox(view.getEuclidianController());
+
 		// action listener for checkBox
 		// bl = new ButtonListener();
 		ifListener = new InputFieldListener();
@@ -100,9 +99,6 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		// label.addMouseListener(bl);
 		// label.addMouseMotionListener(bl);
 		textField.addKeyHandler(ifKeyListener);
-		box.add(textField);
-
-		view.add(box);
 
 		// Add mouse listeners to textField so that it becomes draggable
 		// on a right click. These listeners are registered first to prevent
@@ -255,7 +251,6 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		isVisible = geo.isEuclidianVisible();
 		if (!forView) {
 			textField.setVisible(false);
-			box.setVisible(false);
 		}
 
 		int length = geoTextField.getLength();
@@ -303,12 +298,9 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		textField.setEditable(true);
 
 		geoTextField.updateText(textField);
-		box.revalidate();
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
-
-		setPreferredSize(box.getPreferredSize());
 
 		labelRectangle.setBounds(xLabel, yLabel, getPreferredSize().getWidth(),
 				getPreferredSize().getHeight());
@@ -402,7 +394,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	 * Removes button from view again
 	 */
 	final public void remove() {
-		view.remove(box);
+		// view.remove(box);
 	}
 
 	/**
@@ -424,7 +416,6 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		view.cancelBlur();
 		textField.setVisible(true);
 
-		box.setVisible(true);
 		if (!view.getEuclidianController().isTemporaryMode()) {
 			textField.requestFocus();
 		}
@@ -432,7 +423,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void hideWidget() {
-		textField.hideDeferred(box);
+		// textField.hideDeferred(box);
 
 	}
 }
