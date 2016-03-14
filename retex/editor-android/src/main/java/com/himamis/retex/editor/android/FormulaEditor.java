@@ -1,8 +1,24 @@
 package com.himamis.retex.editor.android;
 
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.text.InputType;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.BaseInputConnection;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
+
 import com.himamis.retex.editor.android.event.ClickListenerAdapter;
 import com.himamis.retex.editor.android.event.FocusListenerAdapter;
 import com.himamis.retex.editor.android.event.KeyListenerAdapter;
+import com.himamis.retex.editor.share.controller.EditorState;
+import com.himamis.retex.editor.share.controller.InputController;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
@@ -21,20 +37,6 @@ import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.Resource;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
-
-import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.text.InputType;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.inputmethod.BaseInputConnection;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
 
 public class FormulaEditor extends View implements MathField {
 
@@ -307,5 +309,13 @@ public class FormulaEditor extends View implements MathField {
     @Override
     public MetaModel getMetaModel() {
         return sMetaModel;
+    }
+
+    public InputController getInputController() {
+        return mMathFieldInternal.getInputController();
+    }
+
+    public EditorState getEditorState() {
+        return mMathFieldInternal.getEditorState();
     }
 }

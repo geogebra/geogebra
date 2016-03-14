@@ -16,7 +16,7 @@ public class InputController {
     public static final char FUNCTION_OPEN_KEY = '('; // probably universal
     public static final char FUNCTION_CLOSE_KEY = ')';
     public static final char DELIMITER_KEY = ';';
-
+    final static private Exception NOT_A_LETTER_EXCEPTION = new Exception("Math component is not a character");
     private MetaModel metaModel;
     private CursorController cursorController;
     private ArgumentHelper argumentHelper;
@@ -25,6 +25,26 @@ public class InputController {
         this.metaModel = metaModel;
         this.cursorController = cursorController;
         this.argumentHelper = new ArgumentHelper();
+    }
+
+    final static private char getLetter(MathComponent component) throws Exception {
+        if (!(component instanceof MathCharacter)) {
+            throw NOT_A_LETTER_EXCEPTION;
+        }
+
+        MathCharacter mathCharacter = (MathCharacter) component;
+        if (!mathCharacter.isCharacter()) {
+            throw NOT_A_LETTER_EXCEPTION;
+        }
+
+        char c = mathCharacter.getUnicode();
+
+        if (Character.isLetter(c)) {
+            return c;
+        }
+
+        throw NOT_A_LETTER_EXCEPTION;
+
     }
 
     /**
@@ -539,4 +559,65 @@ public class InputController {
         }
         editorState.setCurrentOffset(currentOffset);
     }
+
+    /**
+     * remove characters before and after cursor
+     *
+     * @param editorState
+     * @param lengthBeforeCursor
+     * @param lengthAfterCursor
+     */
+    public void removeCharacters(EditorState editorState, int lengthBeforeCursor, int lengthAfterCursor) {
+        if (lengthBeforeCursor == 0 && lengthAfterCursor == 0) {
+            return; // nothing to delete
+        }
+        MathSequence seq = editorState.getCurrentField();
+        for (int i = 0; i < lengthBeforeCursor; i++) {
+            editorState.decCurrentOffset();
+            seq.delArgument(editorState.getCurrentOffset());
+        }
+        for (int i = 0; i < lengthAfterCursor; i++) {
+            seq.delArgument(editorState.getCurrentOffset());
+        }
+    }
+
+    /**
+     * set ret to characters (no digit) around cursor
+     *
+     * @param ret
+     * @return word length before cursor
+     */
+    public int getWordAroundCursor(EditorState editorState, StringBuilder ret) {
+        int pos = editorState.getCurrentOffset();
+        MathSequence seq = editorState.getCurrentField();
+
+        StringBuilder before = new StringBuilder();
+        int i;
+        for (i = pos - 1; i >= 0; i--) {
+            try {
+                before.append(getLetter(seq.getArgument(i)));
+            } catch (Exception e) {
+                break;
+            }
+        }
+        int lengthBefore = pos - i - 1;
+
+        StringBuilder after = new StringBuilder();
+        for (i = pos; i < seq.size(); i++) {
+            try {
+                after.append(getLetter(seq.getArgument(i)));
+            } catch (Exception e) {
+                break;
+            }
+        }
+        before.reverse();
+        ret.append(before);
+        ret.append(after);
+
+        return lengthBefore;
+
+    }
+
+
+
 }
