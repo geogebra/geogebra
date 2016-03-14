@@ -83,19 +83,16 @@ public class EditMenuD extends BaseMenu {
 
 		addSeparator();
 
-		// doesn't work in unsigned applets
-		if (AppD.hasFullPermissions()) {
-			// insert image from...
-			JMenu submenu = new JMenu(app.getMenu("InsertImageFrom"));
-			submenu.addMenuListener(this);
-			submenu.setIcon(app.getEmptyIcon());
-			add(submenu);
+		// insert image from...
+		JMenu submenu = new JMenu(app.getMenu("InsertImageFrom"));
+		submenu.addMenuListener(this);
+		submenu.setIcon(app.getEmptyIcon());
+		add(submenu);
 
-			submenu.add(insertImageFromFileAction);
-			clipboardMenu = submenu.add(insertImageFromClipboardAction);
+		submenu.add(insertImageFromFileAction);
+		clipboardMenu = submenu.add(insertImageFromClipboardAction);
 
-			addSeparator();
-		}
+		addSeparator();
 
 		if (app.letShowPropertiesDialog()) {
 			mi = add(propertiesAction);
@@ -363,12 +360,6 @@ public class EditMenuD extends BaseMenu {
 		super.menuSelected(e);
 
 		if (!e.getSource().equals(this)) { // ie submenu opened
-
-			// disable for unsigned applets
-			if (app.isApplet() && !AppD.hasFullPermissions()) {
-				clipboardMenu.setEnabled(false);
-				return;
-			}
 
 			// check if there's an image on the clipboard
 			String[] fileName = ((GuiManagerD) app.getGuiManager())

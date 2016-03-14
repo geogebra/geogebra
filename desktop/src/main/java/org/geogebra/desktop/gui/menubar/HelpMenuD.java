@@ -44,24 +44,22 @@ class HelpMenuD extends BaseMenu {
 
 		removeAll();
 
-		// doesn't work in unsigned applets
-		if (AppD.hasFullPermissions()) {
-			add(tutorialAction);
-			if (input3DTutorialAction != null) {
-				add(input3DTutorialAction);
-			}
-			JMenuItem mi = add(helpAction);
-			KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0);
-			mi.setAccelerator(ks);
-
-			add(forumAction);
-
-			addSeparator();
-
-			add(reportBugAction);
-
-			addSeparator();
+		add(tutorialAction);
+		if (input3DTutorialAction != null) {
+			add(input3DTutorialAction);
 		}
+		JMenuItem mi = add(helpAction);
+		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0);
+		mi.setAccelerator(ks);
+
+		add(forumAction);
+
+		addSeparator();
+
+		add(reportBugAction);
+
+		addSeparator();
+
 
 		add(infoAction);
 

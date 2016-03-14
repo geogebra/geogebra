@@ -77,87 +77,86 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		// "New": reset
 		add(deleteAll);
 
-		if (AppD.hasFullPermissions()) {
-			mi = add(loadAction);
-			setMenuShortCutAccelerator(mi, 'O'); // open
+		mi = add(loadAction);
+		setMenuShortCutAccelerator(mi, 'O'); // open
 
-			LoginOperationD signIn = (LoginOperationD) app.getLoginOperation();
+		LoginOperationD signIn = (LoginOperationD) app.getLoginOperation();
 
-			if (!app.isApplet()
-					&& (signIn.isTubeAvailable() || !signIn.isTubeCheckDone())) {
-				loadURLMenuItem = add(loadURLAction);
+		if (!app.isApplet()
+				&& (signIn.isTubeAvailable() || !signIn.isTubeCheckDone())) {
+			loadURLMenuItem = add(loadURLAction);
 
-				// If GeoGebraTube is not available we disable the item and
-				// listen to the event that tube becomes available
-				if (!signIn.isTubeAvailable()) {
-					loadURLAction.setEnabled(false);
-					signIn.getView().add(this);
-				}
-
+			// If GeoGebraTube is not available we disable the item and
+			// listen to the event that tube becomes available
+			if (!signIn.isTubeAvailable()) {
+				loadURLAction.setEnabled(false);
+				signIn.getView().add(this);
 			}
 
-			// recent SubMenu
-			JMenu submenuRecent = new JMenu(app.getMenu("Recent"));
-			submenuRecent.setIcon(app.getEmptyIcon());
-			add(submenuRecent);
-
-			// Recent files list
-			int size = AppD.getFileListSize();
-			if (size > 0) {
-				for (int i = 0; i < AppD.MAX_RECENT_FILES; i++) {
-					File file = AppD.getFromFileList(i);
-					if (file != null) {
-						mi = new JMenuItem(file.getName());
-						mi.setIcon(app.getMenuIcon("geogebra.png"));
-						ActionListener al = new LoadFileListener(app, file);
-						mi.addActionListener(al);
-						submenuRecent.add(mi);
-					}
-				}
-			}
-
-			addSeparator();
-			mi = add(saveAction);
-			setMenuShortCutAccelerator(mi, 'S');
-			mi = add(saveAsAction);
-			addSeparator();
-
-			mi = add(shareAction);
-			mi.setIcon(app.getMenuIcon("export_small.png"));
-
-			// export
-			JMenu submenu = new JMenu(app.getMenu("Export"));
-			submenu.setIcon(app.getEmptyIcon());
-			add(submenu);
-
-			mi = submenu.add(exportWorksheet);
-			setMenuShortCutShiftAccelerator(mi, 'W');
-
-			mi = submenu.add(exportGraphicAction);
-			setMenuShortCutShiftAccelerator(mi, 'U');
-
-			mi = submenu.add(exportAnimationAction);
-
-			// Graphical clipboard is not working under Mac when Java == 7:
-			if (!app.isMacOS() || !app.isJava7()) {
-				mi = submenu.add(drawingPadToClipboardAction);
-				setMenuShortCutShiftAccelerator(mi, 'C');
-			}
-
-			submenu.addSeparator();
-			mi = submenu.add(exportPSTricksAction);
-			setMenuShortCutShiftAccelerator(mi, 'T');
-
-			mi = submenu.add(exportPgfAction);
-			mi = submenu.add(exportAsymptoteAction);
-
-			addSeparator();
-
-			mi = add(printEuclidianViewAction);
-			mi.setText(app.getMenu("PrintPreview"));
-			mi.setIcon(app.getMenuIcon("document-print-preview.png"));
-			setMenuShortCutAccelerator(mi, 'P');
 		}
+
+		// recent SubMenu
+		JMenu submenuRecent = new JMenu(app.getMenu("Recent"));
+		submenuRecent.setIcon(app.getEmptyIcon());
+		add(submenuRecent);
+
+		// Recent files list
+		int size = AppD.getFileListSize();
+		if (size > 0) {
+			for (int i = 0; i < AppD.MAX_RECENT_FILES; i++) {
+				File file = AppD.getFromFileList(i);
+				if (file != null) {
+					mi = new JMenuItem(file.getName());
+					mi.setIcon(app.getMenuIcon("geogebra.png"));
+					ActionListener al = new LoadFileListener(app, file);
+					mi.addActionListener(al);
+					submenuRecent.add(mi);
+				}
+			}
+		}
+
+		addSeparator();
+		mi = add(saveAction);
+		setMenuShortCutAccelerator(mi, 'S');
+		mi = add(saveAsAction);
+		addSeparator();
+
+		mi = add(shareAction);
+		mi.setIcon(app.getMenuIcon("export_small.png"));
+
+		// export
+		JMenu submenu = new JMenu(app.getMenu("Export"));
+		submenu.setIcon(app.getEmptyIcon());
+		add(submenu);
+
+		mi = submenu.add(exportWorksheet);
+		setMenuShortCutShiftAccelerator(mi, 'W');
+
+		mi = submenu.add(exportGraphicAction);
+		setMenuShortCutShiftAccelerator(mi, 'U');
+
+		mi = submenu.add(exportAnimationAction);
+
+		// Graphical clipboard is not working under Mac when Java == 7:
+		if (!app.isMacOS() || !app.isJava7()) {
+			mi = submenu.add(drawingPadToClipboardAction);
+			setMenuShortCutShiftAccelerator(mi, 'C');
+		}
+
+		submenu.addSeparator();
+		mi = submenu.add(exportPSTricksAction);
+		setMenuShortCutShiftAccelerator(mi, 'T');
+
+		mi = submenu.add(exportPgfAction);
+		mi = submenu.add(exportAsymptoteAction);
+
+		addSeparator();
+
+		mi = add(printEuclidianViewAction);
+		mi.setText(app.getMenu("PrintPreview"));
+		mi.setIcon(app.getMenuIcon("document-print-preview.png"));
+		setMenuShortCutAccelerator(mi, 'P');
+
 
 		// End Export SubMenu
 

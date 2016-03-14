@@ -1764,9 +1764,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		setFontSize(16, true);
 		// setLabelDragsEnabled(false);
 
-		// make sure undo allowed
-		hasFullPermissions = true;
-
 		getScriptManager();// .ggbOnInit();//this is not called here because we
 		// have to delay it
 		// until the canvas is first drawn
@@ -2829,28 +2826,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	// Undo/Redo
 	// ========================================================
 
-	@Override
-	public void setUndoActive(boolean flag) {
-		// don't allow undo when running with restricted permissions
-		/*
-		 * if (flag && !hasFullPermissions) { flag = false; }
-		 */
-
-		if (kernel.isUndoActive() == flag) {
-			return;
-		}
-
-		kernel.setUndoActive(flag);
-		if (flag) {
-			kernel.initUndoInfo();
-		}
-
-		if (getGuiManager() != null) {
-			getGuiManager().updateActions();
-		}
-
-		// isSaved = true;
-	}
 
 	@Override
 	public final void storeUndoInfo() {

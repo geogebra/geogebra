@@ -199,7 +199,7 @@ public abstract class ScriptManager implements EventListener {
 	 * name of the newly created object as a single argument.
 	 */
 	public synchronized void registerStoreUndoListener(String JSFunctionName) {
-		if (!app.getKernel().isUndoActive()) {
+		if (!app.isUndoActive()) {
 			app.getKernel().setUndoActive(true);
 			app.getKernel().initUndoInfo();
 		}

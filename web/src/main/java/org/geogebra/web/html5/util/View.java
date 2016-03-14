@@ -88,6 +88,10 @@ public class View {
 		return ((ArticleElement) container).getDataParamEnableLabelDrags();
 	}
 
+	public boolean getDataParamEnableUndoRedo() {
+		return ((ArticleElement) container).getDataParamEnableUndoRedo();
+	}
+
 	public boolean getDataParamEnableRightClick() {
 		return ((ArticleElement) container).getDataParamEnableRightClick();
 	}

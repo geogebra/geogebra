@@ -190,11 +190,7 @@ public abstract class App implements UpdateSelection {
 			"5 figures", "10 figures", "15 figures"};
 	/** Singular web service (CAS) */
 	public static SingularWebService singularWS;
-	/**
-	 * True when we are running standalone app or signed applet, false for
-	 * unsigned applet
-	 */
-	protected static boolean hasFullPermissions = false;
+
 	protected static boolean useFullAppGui = false;
 	private static String CASVersionString = "";
 	private static boolean CASViewEnabled = true;
@@ -362,6 +358,7 @@ public abstract class App implements UpdateSelection {
 	 */
 	private int booleanSize = EuclidianConstants.DEFAULT_CHECKBOX_SIZE;
 	private boolean labelDragsEnabled = true;
+	private boolean undoRedoEnabled = true;
 	private HashMap<String, String> translateCommandTable;
 	// command dictionary
 	private LowerCaseDictionary commandDict;
@@ -1406,6 +1403,21 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void setLabelDragsEnabled(boolean flag) {
 		labelDragsEnabled = flag;
+	}
+
+	/**
+	 * Enables or disables undo/redo in this application. This is useful for
+	 * applets.
+	 *
+	 * @param flag
+	 *            true to allow Undo / Redo
+	 */
+	public void setUndoRedoEnabled(boolean flag) {
+		undoRedoEnabled = flag;
+		if (!undoRedoEnabled) {
+			kernel.setUndoActive(false);
+		}
+		Log.debug("undoRedoEnabled = " + undoRedoEnabled);
 	}
 
 	/**
@@ -2629,8 +2641,8 @@ public abstract class App implements UpdateSelection {
 
 	public void setUndoActive(boolean undoActive) {
 		boolean flag = undoActive;
-		// don't allow undo when running with restricted permissions
-		if (flag && !hasFullPermissions) {
+		// don't allow undo when data-param-EnableUndoRedo = false
+		if (flag && !undoRedoEnabled) {
 			flag = false;
 		}
 

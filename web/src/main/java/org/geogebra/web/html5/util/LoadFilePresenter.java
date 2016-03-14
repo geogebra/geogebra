@@ -111,6 +111,7 @@ public class LoadFilePresenter {
 		app.setUseBrowserForJavaScript(view.getDataParamUseBrowserForJS());
 
 		app.setLabelDragsEnabled(view.getDataParamEnableLabelDrags());
+		app.setUndoRedoEnabled(view.getDataParamEnableUndoRedo());
 		app.setRightClickEnabled(view.getDataParamEnableRightClick());
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled()
 		        || view.getDataParamApp());

@@ -105,6 +105,17 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
+	 * Determines if the "data-param-enableUndoRedo" article attribute is set to
+	 * true
+	 * 
+	 * @return the data-param-enableUndoRedo (default: true)
+	 */
+	public boolean getDataParamEnableUndoRedo() {
+		return (!"false"
+				.equals(this.getAttribute("data-param-enableUndoRedo")));
+	}
+
+	/**
 	 * Determines if the "data-param-enableRightClick" article attribute is set
 	 * to true
 	 * 

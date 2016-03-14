@@ -4035,10 +4035,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			// set codebase
 			codebase = new URL(path);
-			hasFullPermissions = true;
 		} catch (Exception e) {
 			Log.info("GeoGebra is running with restricted permissions.");
-			hasFullPermissions = false;
 
 			// make sure temporary files not used
 			// eg ggbApi.getPNGBase64()
@@ -4050,10 +4048,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		}
 
-	}
-
-	final public static boolean hasFullPermissions() {
-		return hasFullPermissions;
 	}
 
 	// **************************************************************************

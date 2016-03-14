@@ -222,31 +222,42 @@ public class EditMenuW extends GMenuBar {
 	}
 
 	private void addUndoRedo() {
-		// undo menu
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-		        .menu_icon_edit_undo().getSafeUri().asString(),
-		        app.getMenu("Undo"), true), true, new MenuCommand(app) {
 
-			@Override
-			public void execute() {
-				if (app.getKernel().undoPossible()) {
-					app.getGuiManager().undo();
+		if (app.isUndoActive()) {
+
+			// undo menu
+			addItem(MainMenu
+					.getMenuBarHtml(
+							GuiResources.INSTANCE.menu_icon_edit_undo()
+									.getSafeUri().asString(),
+							app.getMenu("Undo"), true),
+					true, new MenuCommand(app) {
+
+						@Override
+						public void execute() {
+							if (app.getKernel().undoPossible()) {
+								app.getGuiManager().undo();
+							}
 				}
-			}
-		});
+					});
 
-		// redo menu
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-		        .menu_icon_edit_redo().getSafeUri().asString(),
-		        app.getMenu("Redo"), true), true, new MenuCommand(app) {
+			// redo menu
+			addItem(MainMenu
+					.getMenuBarHtml(
+							GuiResources.INSTANCE.menu_icon_edit_redo()
+									.getSafeUri().asString(),
+							app.getMenu("Redo"), true),
+					true, new MenuCommand(app) {
 
-			@Override
-			public void execute() {
-				if (app.getKernel().redoPossible()) {
-					app.getGuiManager().redo();
+						@Override
+						public void execute() {
+							if (app.getKernel().redoPossible()) {
+								app.getGuiManager().redo();
+							}
 				}
-			}
-		});
+					});
+
+		}
 	}
 
 	/**

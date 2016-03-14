@@ -354,8 +354,7 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 	public synchronized boolean writePNGtoFile(String filename,
 			final double exportScale, final boolean transparent,
 			final double DPI) {
-		if (!AppD.hasFullPermissions())
-			return false;
+
 		File file1 = null;
 		try {
 			file1 = new File(filename);

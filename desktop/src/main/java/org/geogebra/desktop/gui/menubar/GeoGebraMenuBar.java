@@ -574,25 +574,24 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		JPanel systemInfoPanel = new JPanel(new BorderLayout(5, 5));
 		systemInfoPanel.add(new JLabel(sb.toString()), BorderLayout.CENTER);
 
-		if (AppD.hasFullPermissions()) {
-			// copy system information to clipboard
 
-			systemInfoPanel.add(
-					new JButton(new AbstractAction(loc
-							.getPlain("SystemInformation")) {
+		// copy system information to clipboard
 
-						private static final long serialVersionUID = 1L;
+		systemInfoPanel.add(new JButton(
+				new AbstractAction(loc.getPlain("SystemInformation")) {
 
-						public void actionPerformed(ActionEvent arg0) {
+					private static final long serialVersionUID = 1L;
 
-							copyDebugInfoToClipboard(app);
+					public void actionPerformed(ActionEvent arg0) {
 
-							app.showMessage(loc
-									.getPlain("SystemInformationMessage"));
-						}
-					}), loc.borderEast());
+						copyDebugInfoToClipboard(app);
 
-		}
+						app.showMessage(
+								loc.getPlain("SystemInformationMessage"));
+					}
+				}), loc.borderEast());
+
+
 
 		JPanel panel = new JPanel(new BorderLayout(5, 5));
 		panel.add(systemInfoPanel, BorderLayout.NORTH);

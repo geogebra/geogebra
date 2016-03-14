@@ -21,10 +21,10 @@ public class CallJavaScript {
 
 		// No class loader for unsigned applets so don't try and optimize.
 		// http://www.mail-archive.com/batik-dev@xmlgraphics.apache.org/msg00108.html
-		if (!AppD.hasFullPermissions()) {
-			cx.setOptimizationLevel(-1);
-			Context.setCachingEnabled(false);
-		}
+		// if (!AppD.hasFullPermissions()) {
+		// cx.setOptimizationLevel(-1);
+		// Context.setCachingEnabled(false);
+		// }
 
 		Scriptable scope = cx.initStandardObjects();
 
@@ -62,10 +62,10 @@ public class CallJavaScript {
 
 		// No class loader for unsigned applets so don't try and optimize.
 		// http://www.mail-archive.com/batik-dev@xmlgraphics.apache.org/msg00108.html
-		if (!AppD.hasFullPermissions()) {
-			cx.setOptimizationLevel(-1);
-			Context.setCachingEnabled(false);
-		}
+		// if (!AppD.hasFullPermissions()) {
+		// cx.setOptimizationLevel(-1);
+		// Context.setCachingEnabled(false);
+		// }
 
 		// Create a new scope that shares the global scope
 		Scriptable newScope = cx.newObject(globalScope);

@@ -50,7 +50,7 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 	 */
 	@Override
 	public boolean enableDataImport() {
-		return isEmptySelection() && AppD.hasFullPermissions();
+		return isEmptySelection();
 	}
 
 	/**
