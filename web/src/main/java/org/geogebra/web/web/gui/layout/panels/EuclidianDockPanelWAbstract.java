@@ -5,6 +5,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -123,10 +124,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 		int oldWidth = 0;
 
 		public EuclidianPanel(EuclidianDockPanelWAbstract dockPanel) {
-			super();
-			this.dockPanel = dockPanel;
-			add(absoluteEuclidianPanel = new AbsolutePanel());
-			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
+			this(dockPanel, new AbsolutePanel());
 		}
 
 		public EuclidianPanel(EuclidianDockPanelWAbstract dockPanel,
@@ -135,6 +133,8 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 			this.dockPanel = dockPanel;
 			add(absoluteEuclidianPanel = absPanel);
 			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
+			absoluteEuclidianPanel.getElement().getStyle()
+					.setOverflow(Overflow.VISIBLE);
 		}
 
 		public void onResize() {
