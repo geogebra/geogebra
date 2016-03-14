@@ -3,6 +3,7 @@ package org.geogebra.common.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -502,6 +503,8 @@ public abstract class Prover {
 			return;
 		}
 
+		new StatementFeatures(statement);
+
 		// Step 3: Non-AUTO provers
 		if (engine != ProverEngine.AUTO) {
 			callEngine(engine);
@@ -540,7 +543,7 @@ public abstract class Prover {
 	}
 
 	private void callEngine(ProverEngine currentEngine) {
-		App.debug("Using " + currentEngine);
+		Log.debug("Using " + currentEngine);
 		ndgConditions = new HashSet<NDGCondition>(); // reset
 		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
 			ProverBotanasMethod pbm = new org.geogebra.common.kernel.prover.ProverBotanasMethod();
@@ -662,4 +665,68 @@ public abstract class Prover {
 		this.returnExtraNDGs = returnExtraNDGs;
 	}
 
+	private static class StatementFeatures {
+		double mean, variation_coefficient, minimum, maximum, entropy;
+		int NO_ALGOS = 23; // TODO: get this number automatically
+
+		StatementFeatures(GeoElement statement) {
+			/*
+			 * collecting algos, generating sample and computing basic
+			 * statistics
+			 */
+			HashMap<String, Integer> population = new HashMap<String, Integer>();
+			Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
+			int size = 0;
+			maximum = 1;
+			while (it.hasNext()) {
+				size++;
+				int freq = 1;
+				GeoElement geo = it.next();
+				AlgoElement ae = geo.getParentAlgorithm();
+				String algo = "null";
+				if (ae != null) {
+					algo = ae.getClassName().getCommand();
+				}
+				if (population.containsKey(algo)) {
+					freq = population.get(algo) + 1;
+				}
+				population.put(algo, freq);
+				maximum = Math.max(maximum, freq);
+			}
+
+			/* computing rest of statistics */
+			minimum = maximum;
+			maximum /= size;
+			mean = 1.0 / NO_ALGOS;
+			int zeros = NO_ALGOS - population.size();
+			/* ((3/7-1/23)^2+(1/7-1/23)^2*4+18*(1/23)^2)/23 == .00925 */
+			variation_coefficient = 0;
+			/*
+			 * -((3/7)*log(3/7;A)+(1/7)*log(1/7;A)+(1/7)*log(1/7;A)+(1/7)*log(1/7
+			 * ;A)+(1/7)*log(1/7;A))
+			 */
+			entropy = 0;
+			Iterator<String> it2 = population.keySet().iterator();
+			while (it2.hasNext()) {
+				String algo = it2.next();
+				int freq = population.get(algo);
+				if (freq < minimum) {
+					minimum = freq;
+				}
+				double rel_freq = freq / (double) size;
+				double value = rel_freq - 1.0 / NO_ALGOS;
+				variation_coefficient += value * value;
+				entropy -= rel_freq * Math.log(rel_freq) / Math.log(2);
+			}
+			minimum /= size;
+
+			double value = 1.0 / NO_ALGOS;
+			variation_coefficient += zeros * value * value;
+			variation_coefficient /= NO_ALGOS;
+			Log.debug("population=" + population);
+			Log.debug("minimum=" + minimum + " maximum=" + maximum + " mean="
+					+ mean + " variation_coefficient=" + variation_coefficient
+					+ " entropy=" + entropy);
+		}
+	}
 }
