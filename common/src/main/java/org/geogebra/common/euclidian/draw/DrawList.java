@@ -32,8 +32,6 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RemoveNeeded;
-import org.geogebra.common.euclidian.event.ActionEvent;
-import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.gui.util.DropDownList.DropDownListener;
@@ -61,8 +59,6 @@ public final class DrawList extends CanvasDrawable
 	private DrawListArray drawables;
 	boolean isVisible;
 	private String oldCaption = "";
-	/** combobox */
-	org.geogebra.common.javax.swing.AbstractJComboBox comboBox;
 	private org.geogebra.common.javax.swing.GLabel label;
 	DropDownList dropDown = null;
 	String selectedText;
@@ -930,17 +926,9 @@ public final class DrawList extends CanvasDrawable
 
 	private void resetComboBox() {
 
-		if (comboBox == null) {
-			comboBox = geoList.getComboBox(view.getViewID());
-			comboBox.setVisible(false);
-			comboBox.addActionListener(AwtFactory.prototype
-					.newActionListener(new DrawList.ActionListener()));
-		}
-
 		if (box == null) {
 			box = view.getApplication().getSwingFactory()
 					.createHorizontalBox(view.getEuclidianController());
-			box.add(comboBox);
 		}
 		view.add(box);
 	}
@@ -972,24 +960,9 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		// eg size changed etc
-		geoList.rebuildComboxBoxIfNecessary(comboBox);
 		labelDesc = getLabelText();
 
 		App app = view.getApplication();
-
-		org.geogebra.common.awt.GFont vFont = view.getFont();
-		org.geogebra.common.awt.GFont font = app.getFontCanDisplay(
-				comboBox.getItemAt(0).toString(), false, vFont.getStyle(),
-				fontSize);
-
-		comboBox.setFont(font);
-		comboBox.setForeground(geo.getObjectColor());
-		org.geogebra.common.awt.GColor bgCol = geo.getBackgroundColor();
-		comboBox.setBackground(
-				bgCol != null ? bgCol : view.getBackgroundCommon());
-
-		comboBox.setFocusable(true);
-		comboBox.setEditable(false);
 
 		box.validate();
 
@@ -1232,25 +1205,6 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		return result;
-
-	}
-
-	/**
-	 * Listens to events in this combobox
-	 * 
-	 * @author Michael + Judit
-	 */
-	public class ActionListener
-			extends org.geogebra.common.euclidian.event.ActionListener
-			implements ActionListenerI {
-
-		/**
-		 * @param e
-		 *            action event
-		 */
-		public void actionPerformed(ActionEvent e) {
-			geoList.setSelectedIndex(comboBox.getSelectedIndex(), true);
-		}
 
 	}
 

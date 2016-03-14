@@ -19,7 +19,6 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import org.geogebra.common.javax.swing.AbstractJComboBox;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
@@ -50,7 +49,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -596,9 +594,6 @@ AngleProperties {
 	 */
 	public final void clear() {
 		geoList.clear();
-
-		comboBox = null;
-		comboBox2 = null;
 	}
 
 	/**
@@ -672,9 +667,6 @@ AngleProperties {
 			geo.setVisibleInView3D(this);
 			geo.setVisibleInViewForPlane(this);
 		}		
-		rebuildComboBoxes();
-
-
 	}
 
 	/**
@@ -687,7 +679,6 @@ AngleProperties {
 	public final void remove(final GeoElement geo) {
 		geoList.remove(geo);
 		
-		rebuildComboBoxes();
 	}
 
 	/**
@@ -712,8 +703,6 @@ AngleProperties {
 	 */
 	public final void remove(final int index) {
 		geoList.remove(index);
-
-		rebuildComboBoxes();
 
 	}
 
@@ -1622,8 +1611,6 @@ AngleProperties {
 
 	private int closestPointIndex;
 
-	private AbstractJComboBox comboBox, comboBox2;
-
 	/**
 	 * @return selected index
 	 */
@@ -1651,13 +1638,6 @@ AngleProperties {
 			updateCascade();
 			getKernel().notifyRepaint(); 
 			getKernel().storeUndoInfo();
-
-			if (comboBox != null) {
-				comboBox.setSelectedIndex(getSelectedIndex());
-			}
-			if (comboBox2 != null) {
-				comboBox2.setSelectedIndex(getSelectedIndex());
-			}
 
 		}
 
@@ -2286,91 +2266,6 @@ AngleProperties {
 	 */
 	public void setDrawAsComboBox(boolean b) {
 		drawAsComboBox = b;
-	}
-	/**
-	 * 
-	 * @param viewID view ID (AbstractApplication.VIEW_EUCLIDIAN or AbstractApplication.VIEW_EUCLIDIAN2)
-	 * @return combobox for given view
-	 */
-	public AbstractJComboBox getComboBox(int viewID) {
-
-		if (comboBox == null) {
-			comboBox = buildComboBox(App.VIEW_EUCLIDIAN);
-		}
-
-		if (viewID != App.VIEW_EUCLIDIAN2) {
-			return comboBox;		
-		}
-
-		if (comboBox2 == null) {
-			comboBox2 = buildComboBox(App.VIEW_EUCLIDIAN2);
-		}
-
-		return comboBox2;
-
-	}
-
-	private AbstractJComboBox buildComboBox(AbstractJComboBox cb) {
-
-		//AbstractJComboBox cb = SwingFactory.prototype.newJComboBox();
-
-		cb.removeAllItems();
-
-		cb.setEditable(false);
-
-		if (size() > 0) {
-			for (int i = 0 ; i < size() ; i++) {
-				String item;
-				item = get(i).toValueString(StringTemplate.defaultTemplate);
-				cb.addItem(item);
-			}
-			cb.setSelectedIndex(getSelectedIndex());			
-		}
-
-
-		return cb;
-
-
-	}
-
-	private AbstractJComboBox buildComboBox(int view) {
-		return buildComboBox(kernel.getApplication().getSwingFactory().newJComboBox(kernel.getApplication(), view));
-	}
-	/**
-	 * Rebuilds combobox if some items changed
-	 * @param cb combo box
-	 */
-	public void rebuildComboxBoxIfNecessary(AbstractJComboBox cb) {
-
-		if (cb.getItemCount() != size()) {
-			// definitely needs rebuilding
-			buildComboBox(cb);
-			return;
-		}
-
-
-		if (size() > 0) {
-			for (int i = 0 ; i < size() ; i++) {
-				String item;
-				
-				item = get(i).toValueString(StringTemplate.defaultTemplate);
-
-				if (!cb.getItemAt(i).toString().equals(item)) {
-					// list changed, so rebuild
-					buildComboBox(cb);
-					return;
-				}
-			}
-		}
-
-	}
-
-	private void rebuildComboBoxes() {
-		if(comboBox==null)
-			return;
-		comboBox = buildComboBox(App.VIEW_EUCLIDIAN);
-		comboBox2 = buildComboBox(App.VIEW_EUCLIDIAN);
-
 	}
 
 	@Override
