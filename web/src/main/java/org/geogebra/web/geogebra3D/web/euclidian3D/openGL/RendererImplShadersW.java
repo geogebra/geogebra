@@ -48,13 +48,21 @@ public class RendererImplShadersW extends RendererImplShaders {
 	 * @param jogl
 	 *            java openGL implementation
 	 */
-	public RendererImplShadersW(Renderer renderer,
-			EuclidianView3D view,
-			WebGLRenderingContext glContext) {
+	public RendererImplShadersW(Renderer renderer, EuclidianView3D view) {
 		super(renderer, view);
-		this.glContext = glContext;
 		Log.debug("============== RendererImplShadersW: Renderer with shaders created");
 
+	}
+
+	/**
+	 * set GL context
+	 * 
+	 * @param glContext
+	 *            GL context
+	 */
+	public void setGL(WebGLRenderingContext glContext) {
+		this.glContext = glContext;
+		Log.debug("============== RendererImplShadersW: set GL context");
 	}
 
 	private WebGLRenderingContext getGL() {

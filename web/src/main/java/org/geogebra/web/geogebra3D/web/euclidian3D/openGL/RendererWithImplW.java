@@ -40,6 +40,8 @@ public class RendererWithImplW extends RendererWithImpl implements
 
 		webGLCanvas = Canvas.createIfSupported();
 
+		rendererImpl = new RendererImplShadersW(this, view3D);
+
 		createGLContext(false);
 
 	}
@@ -234,12 +236,13 @@ public class RendererWithImplW extends RendererWithImpl implements
 		} else {
 			glContext = (WebGLRenderingContext) webGLCanvas
 					.getContext("experimental-webgl");
+			((RendererImplShadersW) rendererImpl).setGL(glContext);
 		}
 		if (glContext == null) {
 			Window.alert("Sorry, Your Browser doesn't support WebGL!");
 		}
 
-		rendererImpl = new RendererImplShadersW(this, view3D, glContext);
+
 
 	}
 
