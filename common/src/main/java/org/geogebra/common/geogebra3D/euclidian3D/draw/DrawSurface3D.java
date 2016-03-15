@@ -528,6 +528,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		if (prop == GProperty.LINE_STYLE) {
 			// also update for line width
 			super.setWaitForUpdate();
+		} else if (prop == GProperty.VISIBLE) {
+			if (isVisible()) {
+				setWaitForUpdate();
+			}
 		}
 	}
 
@@ -718,6 +722,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 	}
 	
+
 	@Override
 	public void setWaitForUpdate() {
 		drawFromScratch = true;
