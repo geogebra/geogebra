@@ -213,6 +213,11 @@ public class DrawAxis3D extends DrawLine3D {
 
 	}
 
+	@Override
+	protected void setAffineTexture(PlotterBrush brush, double[] minmax) {
+		brush.setAffineTexture(0f, 0f);
+	}
+
 	private int numbersXOffset, numbersYOffset;
 
 	/**

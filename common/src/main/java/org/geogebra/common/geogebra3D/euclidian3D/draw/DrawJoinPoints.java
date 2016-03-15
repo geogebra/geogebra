@@ -137,13 +137,23 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements
 		setArrowTypeBefore(brush);
 		brush.start(getReusableGeometryIndex());
 		brush.setThickness(getLineThickness(), (float) getView3D().getScale());
-		brush.setAffineTexture(
-				(float) ((0.5 - minmax[0]) / (minmax[1] - minmax[0])), 0.25f);
+		setAffineTexture(brush, minmax);
 
 		brush.segment(p1, p2);
 		setArrowTypeAfter(brush);
 		setGeometryIndex(brush.end());
 
+	}
+
+	/**
+	 * set affine texture
+	 * 
+	 * @param brush
+	 * @param minmax
+	 */
+	protected void setAffineTexture(PlotterBrush brush, double[] minmax) {
+		brush.setAffineTexture(
+				(float) ((0.5 - minmax[0]) / (minmax[1] - minmax[0])), 0.25f);
 	}
 
 	/**
