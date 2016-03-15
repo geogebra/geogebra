@@ -920,6 +920,92 @@ namespace giac {
   static define_unary_function_eval (__implicit_diff,&_implicit_diff,_implicit_diff_s);
   define_unary_function_ptr5( at_implicit_diff ,alias_at_implicit_diff,&__implicit_diff,0,true);
 
+  void domain(const gen & f,const gen & x,vecteur & eqs,vecteur &excluded,GIAC_CONTEXT){
+    vecteur v=lvarxwithinv(f,x,contextptr);
+    lvar(f,v);
+    for (int i=0;i<int(v.size());++i){
+      gen g=v[i];
+      if (g.is_symb_of_sommet(at_nop))
+	g=g._SYMBptr->feuille;
+      if (is_constant_wrt(g,x,contextptr))
+	continue;
+      if (g.type!=_SYMB)
+	continue;
+      gen gf=g._SYMBptr->feuille;
+      domain(gf,x,eqs,excluded,contextptr);
+      unary_function_ptr & u=g._SYMBptr->sommet;
+      if (u==at_inv){
+	excluded=mergevecteur(excluded,gen2vecteur(_solve(makesequence(symb_equal(gf,0),x),contextptr)));
+	continue;
+      }
+      if (u==at_pow){
+	if (is_greater(gf[1],0,contextptr))
+	  eqs.push_back(symb_superieur_egal(gf[0],0));
+	else
+	  eqs.push_back(symb_superieur_strict(gf[0],0));
+	continue;
+      }
+      if (u==at_ln){
+	eqs.push_back(symb_superieur_strict(gf,0));
+	continue;
+      }
+      if (u==at_tan){
+	eqs.push_back(symb_cos(gf));
+	continue;
+      }
+      if (u!=at_sin && u!=at_cos && u!=at_exp && u!=at_atan)
+	*logptr(contextptr) << g << " function not supported, doing like if it was defined" << endl;
+    }
+  }
+  gen domain(const gen & f,const gen & x,GIAC_CONTEXT){
+    // domain of expression f with respect to variable x
+    if (x.type!=_IDNT){
+      gen domainx(identificateur("domainx"));
+      return domain(subst(f,x,domainx,false,contextptr),domainx,contextptr);
+    }
+    vecteur eqs,excluded,res;
+    bool b=complex_mode(contextptr);
+    complex_mode(false,contextptr);
+#ifndef NO_STDEXCEPT
+    try {
+#endif
+      domain(f,x,eqs,excluded,contextptr);
+      res=gen2vecteur(_solve(makesequence(eqs,x),contextptr));
+#ifndef NO_STDEXCEPT
+    } catch (std::runtime_error & e ) { *logptr(contextptr) << e.what() << endl;}
+#endif
+    complex_mode(b,contextptr);
+    comprim(excluded);
+    if (excluded.empty())
+      return res.size()==1?res.front():symbolic(at_ou,gen(res,_SEQ__VECT));
+    vecteur tmp;
+    for (int i=0;i<excluded.size();++i){
+      tmp.push_back(symbolic(at_different,makesequence(x,excluded[i])));
+    }
+    if (res.size()==1 && res.front()==x)
+      return tmp.size()==1?tmp.front():symbolic(at_and,gen(tmp,_SEQ__VECT));
+    else {
+      // try to check if excluded values are solutions inside res
+    }
+    if (res.size()==1){
+      tmp.insert(tmp.begin(),res.front());
+      return symbolic(at_and,gen(tmp,_SEQ__VECT));
+    }
+    tmp.insert(tmp.begin(),symbolic(at_ou,gen(res,_SEQ__VECT)));
+    return symbolic(at_and,gen(tmp,_SEQ__VECT));
+  }
+  gen _domain(const gen & args,GIAC_CONTEXT){
+    if (is_undef(args)) return args;
+    if (args.type!=_VECT || args.subtype!=_SEQ__VECT)
+      return domain(args,vx_var,contextptr);
+    if (args._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    return domain(args._VECTptr->front(),args._VECTptr->back(),contextptr);
+  }
+  static const char _domain_s []="domain";
+  static define_unary_function_eval (__domain,&_domain,_domain_s);
+  define_unary_function_ptr5( at_domain ,alias_at_domain,&__domain,0,true);
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
