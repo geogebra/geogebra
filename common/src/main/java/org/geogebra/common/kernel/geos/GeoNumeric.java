@@ -73,6 +73,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	private static final double AUTO_STEP_MUL_ANGLE = 0.0025;
 	/** placeholder for autostep */
 	public static final double AUTO_STEP = Double.NaN;
+
+	public static final int MODE_FRACTION = 1;
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
 	/** default slider width in pixels */
 	public static int DEFAULT_SLIDER_WIDTH_PIXEL = 200;
@@ -119,6 +121,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	boolean hasAbsoluteScreenLocation = true;
 
 	private boolean autoStep = false;
+	private int toStringMode = 0;
 
 	/**
 	 * Creates new GeoNumeric
@@ -672,7 +675,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			}
 			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
-		
+		if (toStringMode == GeoNumeric.MODE_FRACTION && getDefinition() != null
+				&& getDefinition().isExpressionNode()) {
+			return getDefinition().wrap().toFractionString(tpl);
+		}
 		return kernel.format(value, tpl);
 	}
 
@@ -703,6 +709,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		if (geo.isGeoNumeric()) {
 			slopeTriangleSize = ((GeoNumeric) geo).slopeTriangleSize;
 			setAutoStep(((GeoNumeric) geo).autoStep);
+			toStringMode = ((GeoNumeric) geo).toStringMode;
 		}
 	}
 
@@ -1762,6 +1769,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public ValidExpression toValidExpression() {
 		return getNumber();
+	}
+
+	public void setMode(int mode) {
+		this.toStringMode = mode;
 	}
 
 }

@@ -481,6 +481,9 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	@Override
 	public ExpressionValue evaluate(StringTemplate tpl) {
+		if (resolve instanceof ExpressionNode) {
+			resolve = null;
+		}
 		return kernel.getExpressionNodeEvaluator().evaluate(this, tpl);
 	}
 
@@ -1200,6 +1203,7 @@ kernel, left,
 	private ExpressionValue computeResolve() {
 		Resolution res = new Resolution();
 		res.setType(ValueType.resolve(operation, left, right, res));
+
 		return res;
 	}
 
@@ -5933,6 +5937,10 @@ kernel, left,
 			parts[0] = multiplyCheck(denR,numL);
 			parts[1] = multiplyCheck(denL,numR);
 			return;
+		case POWER:
+			parts[0] = powerCheck(numL, right);
+			parts[1] = powerCheck(denL, right);
+			return;
 		case PLUS:
 			if(expandPlus){
 				parts[0] = multiplyCheck(denR,numL).wrap().plus(multiplyCheck(denL,numR));
@@ -5955,7 +5963,14 @@ kernel, left,
 
 	private static ExpressionValue multiplyCheck(ExpressionValue denR,
 			ExpressionValue denL) {
-		return denL == null ? denR : (denR== null ? denL : denL.wrap().multiply(denR));
+		return denL == null ? denR
+				: (denR == null ? denL : denL.wrap().multiply(denR));
+	}
+
+	private static ExpressionValue powerCheck(ExpressionValue base,
+			ExpressionValue exp) {
+		return exp == null ? base
+				: (base == null ? null : base.wrap().power(exp));
 	}
 
 
@@ -6106,7 +6121,7 @@ kernel, left,
 
 			resolve = computeResolve();
 		}
-		return ((Resolution) resolve).getValueType();
+		return resolve.getValueType();
 	}
 
 	@Override
@@ -6114,7 +6129,7 @@ kernel, left,
 		if (resolve == null) {
 			resolve = computeResolve();
 		}
-		return ((Resolution) resolve).getListDepth();
+		return resolve.getListDepth();
 	}
 
 	/**
@@ -6265,5 +6280,39 @@ kernel, left,
 		}
 		return factorsWithoutPow;
 	}
+
+	public String toFractionString(StringTemplate tpl) {
+
+		if (resolve == null || !resolve.isExpressionNode()) {
+			ExpressionValue[] fraction = new ExpressionValue[2];
+			getFraction(fraction, true);
+			if (fraction[0] != null && fraction[1] != null) {
+				double lt = fraction[0].evaluateDouble();
+				double rt = fraction[1].evaluateDouble();
+				if (Kernel.isInteger(rt) && Kernel.isInteger(lt)) {
+					double g = Kernel.gcd((long) lt, (long) rt);
+					resolve = new ExpressionNode(kernel, lt / g).divide(rt / g);
+				} else {
+					resolve = new ExpressionNode(kernel, lt / rt);
+				}
+			} else {
+				resolve = evaluate(tpl).wrap();
+			}
+		}
+
+		return ((ExpressionNode) resolve).toFractionStringFlat(tpl);
+
+	}
+
+	private String toFractionStringFlat(StringTemplate tpl) {
+		if (operation == Operation.DIVIDE) {
+			return tpl.divideString(left, right, left.toValueString(tpl),
+					right.toValueString(tpl), true);
+		}
+
+		return toValueString(tpl);
+	}
+
+
 
 }

@@ -3901,7 +3901,8 @@ public abstract class App implements UpdateSelection {
 
 		case MOBILE_SMOOTH_PINCH:
 			return prerelease;
-
+		case FRACTIONS:
+			return prerelease;
 		case AV_EXTENSIONS:
 		case DATA_COLLECTION:
 		case SEQUENTIAL_COLORS:

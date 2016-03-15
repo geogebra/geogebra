@@ -108,5 +108,7 @@ public enum Feature {
 	// /GGB-605
 	NDERIVATIVE_COMMAND,
 	
-	FIX_CP_HEADER
+	FIX_CP_HEADER,
+
+	FRACTIONS
 }
