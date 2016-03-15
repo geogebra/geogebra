@@ -53,7 +53,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 			WebGLRenderingContext glContext) {
 		super(renderer, view);
 		this.glContext = glContext;
-		Log.debug("============== RendererImplShadersD: Renderer with shaders created (shaders checked ok)");
+		Log.debug("============== RendererImplShadersW: Renderer with shaders created");
 
 	}
 
