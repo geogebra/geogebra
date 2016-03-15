@@ -924,10 +924,19 @@ public final class DrawList extends CanvasDrawable
 		update();
 	}
 
+	private void resetComboBox() {
+
+		if (box == null) {
+			box = view.getApplication().getSwingFactory()
+					.createHorizontalBox(view.getEuclidianController());
+		}
+		view.add(box);
+	}
+
 	private void reset() {
 
 		if (geoList.drawAsComboBox()) {
-			// resetComboBox();
+			resetComboBox();
 		} else {
 
 			if (drawables == null) {
@@ -944,6 +953,7 @@ public final class DrawList extends CanvasDrawable
 		if (geo.doHighlighting() == false) {
 			hideWidget();
 		}
+		box.setVisible(isVisible);
 
 		if (!isVisible) {
 			return;
@@ -954,11 +964,13 @@ public final class DrawList extends CanvasDrawable
 
 		App app = view.getApplication();
 
+		box.validate();
+
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
-
-		labelRectangle.setBounds(xLabel, yLabel, (int) box.getWidth(),
-				(int) box.getHeight());
+		org.geogebra.common.awt.GDimension prefSize = box.getPreferredSize();
+		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
+				prefSize.getHeight());
 		box.setBounds(labelRectangle);
 
 	}
@@ -1040,7 +1052,7 @@ public final class DrawList extends CanvasDrawable
 	final public void remove() {
 
 		if (geoList.drawAsComboBox()) {
-			// view.remove(box);
+			view.remove(box);
 		} else {
 			for (int i = drawables.size() - 1; i >= 0; i--) {
 				GeoElement currentGeo = drawables.get(i).getGeoElement();
@@ -1212,7 +1224,7 @@ public final class DrawList extends CanvasDrawable
 			drawables.clear();
 			}
 		} else {
-			// view.remove(box);
+			view.remove(box);
 		}
 
 		reset();
