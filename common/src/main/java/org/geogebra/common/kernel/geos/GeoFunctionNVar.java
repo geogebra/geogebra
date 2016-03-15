@@ -284,7 +284,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	 */
 	public double evaluate(double[] vals) {
 		// Application.printStacktrace("");
-		if (fun == null)
+		if (fun == null || !isDefined)
 			return Double.NaN;
 		return fun.evaluate(vals);
 	}
