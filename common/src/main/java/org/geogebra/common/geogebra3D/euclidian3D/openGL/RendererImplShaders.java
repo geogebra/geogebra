@@ -180,7 +180,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 		// Select the VBO, GPU memory data
 		bindBuffer(buffer);
 		// Associate Vertex attribute 0 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_POSITION, 3);
+		vertexAttribPointer(GLSL_ATTRIB_POSITION, size);
 
 		// enable VBO
 		enableAttrib(GLSL_ATTRIB_POSITION);
@@ -201,7 +201,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 		bindBuffer(buffer);
 
 		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_COLOR, 4);
+		vertexAttribPointer(GLSL_ATTRIB_COLOR, size);
 
 		enableAttrib(GLSL_ATTRIB_COLOR);
 	}
@@ -241,7 +241,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 		bindBuffer(buffer);
 
 		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_NORMAL, 3);
+		vertexAttribPointer(GLSL_ATTRIB_NORMAL, size);
 
 		enableAttrib(GLSL_ATTRIB_NORMAL);
 	}
@@ -261,7 +261,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 		bindBuffer(buffer);
 
 		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
+		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, size);
 
 		enableAttrib(GLSL_ATTRIB_TEXTURE);
 	}
@@ -278,6 +278,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 	final public void disableTextures() {
 		texturesEnabled = false;
 		setCurrentTextureType(TEXTURE_TYPE_NONE);
+		glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 	}
 
 	/**
@@ -360,6 +361,8 @@ public abstract class RendererImplShaders implements RendererImpl {
 
 	abstract protected void glEnableVertexAttribArray(int attrib);
 
+	abstract protected void glDisableVertexAttribArray(int attrib);
+
 	@Override
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
 
@@ -385,6 +388,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
 
 		if (fbColors == null || fbColors.isEmpty()) {
+			glDisableVertexAttribArray(GLSL_ATTRIB_COLOR);
 			return;
 		}
 
@@ -407,6 +411,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 
 		if (fbTextures == null || fbTextures.isEmpty()) {
 			setCurrentGeometryHasNoTexture();
+			glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 			return;
 		}
 
@@ -427,10 +432,12 @@ public abstract class RendererImplShaders implements RendererImpl {
 	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
 
 		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
+			glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 			return;
 		}
 
 		if (fbNormals.capacity() == 3) { // one normal for all vertices
+			glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 			fbNormals.array(tmpNormal3);
 			glUniform3fv(normalLocation, tmpNormal3);
 			oneNormalForAllVertices = true;
@@ -1038,17 +1045,11 @@ public abstract class RendererImplShaders implements RendererImpl {
 		glAttachShader(vertShader);
 		glAttachShader(fragShader);
 
-		// Associate attribute ids with the attribute names inside
-		// the vertex shader.
-		GLSL_ATTRIB_POSITION = 0;
-		GLSL_ATTRIB_COLOR = 1;
-		GLSL_ATTRIB_NORMAL = 2;
-		GLSL_ATTRIB_TEXTURE = 3;
-		GLSL_ATTRIB_INDEX = 4;
+		setPredefinedAttributes();
 
 		glBindAttribLocation(GLSL_ATTRIB_POSITION, "attribute_Position");
-		glBindAttribLocation(GLSL_ATTRIB_COLOR, "attribute_Color");
 		glBindAttribLocation(GLSL_ATTRIB_NORMAL, "attribute_Normal");
+		glBindAttribLocation(GLSL_ATTRIB_COLOR, "attribute_Color");
 		glBindAttribLocation(GLSL_ATTRIB_TEXTURE, "attribute_Texture");
 
 		glLinkProgram();
@@ -1057,6 +1058,8 @@ public abstract class RendererImplShaders implements RendererImpl {
 		createVBOs();
 		attribPointers();
 	}
+
+	abstract protected void setPredefinedAttributes();
 
 	abstract protected void compileShadersProgram();
 

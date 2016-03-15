@@ -4,30 +4,22 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
 import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.HittingSphere;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
-import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.FrameCollector;
 
 /**
@@ -39,8 +31,6 @@ import org.geogebra.desktop.util.FrameCollector;
 public class RendererCheckGLVersionD extends RendererWithImpl implements
 		GLEventListener {
 
-
-	private Hitting hitting;
 
 	protected RendererJogl jogl;
 
@@ -114,13 +104,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		Log.debug("start animator");
 		animator.start();
 
-		if (((EuclidianController3D) view3D.getEuclidianController())
-				.useInputDepthForHitting()) {
-			hitting = new HittingSphere(view3D);
-		} else {
-			hitting = new Hitting(view3D);
-		}
-
 	}
 
 	/**
@@ -148,7 +131,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 				&& getGL().isFunctionAvailable("glBufferDataARB")
 				&& getGL().isFunctionAvailable("glDeleteBuffersARB");
 
-		AppD.debug("openGL version : " + version + ", vbo supported : "
+		Log.debug("openGL version : " + version + ", vbo supported : "
 				+ VBOsupported);
 
 		initFBO();
@@ -163,7 +146,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		// start init
 		String glInfo[] = RendererJogl.getGLInfos(drawable);
 
-		App.debug("Init on " + Thread.currentThread()
+		Log.debug("Init on " + Thread.currentThread()
 				+ "\nChosen GLCapabilities: " + glInfo[0]
 				+ "\ndouble buffered: " + glInfo[1] + "\nstereo: " + glInfo[2]
 				+ "\nstencil: " + glInfo[3] + "\nINIT GL IS: " + glInfo[4]
@@ -181,7 +164,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 				// "4.0 etc."
 				String[] version = GeoGebraMenuBar.glVersion.split("\\.");
 				int versionInt = Integer.parseInt(version[0]);
-				App.debug("==== GL version is " + GeoGebraMenuBar.glVersion
+				Log.debug("==== GL version is " + GeoGebraMenuBar.glVersion
 						+ " which means GL>=" + versionInt);
 				if (versionInt < 2) {
 					// GL 1.x: can't use shaders
@@ -221,59 +204,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 
 
 
-	@Override
-	public Hitting getHitting() {
-		return hitting;
-	}
 
-	@Override
-	public void setHits(GPoint mouseLoc, int threshold) {
-
-		if (mouseLoc == null) {
-			return;
-		}
-
-		hitting.setHits(mouseLoc, threshold);
-
-	}
-
-	@Override
-	public GeoElement getLabelHit(GPoint mouseLoc) {
-		if (mouseLoc == null) {
-			return null;
-		}
-
-		return hitting.getLabelHit(mouseLoc);
-	}
-
-	@Override
-	public void pickIntersectionCurves() {
-
-		ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D
-				.getEuclidianController()).getIntersectionCurves();
-
-		// picking objects
-		for (IntersectionCurve intersectionCurve : curves) {
-			Drawable3D d = intersectionCurve.drawable;
-			d.updateForHitting(); // we may need an update
-			if (!d.hit(hitting)
-					|| d.getPickingType() != PickingType.POINT_OR_CURVE) { // we
-																			// assume
-																			// that
-																			// hitting
-																			// infos
-																			// are
-																			// updated
-																			// from
-																			// last
-																			// mouse
-																			// move
-				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
-			}
-
-		}
-
-	}
 
 
 	@Override
@@ -898,4 +829,13 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 
 	private static final int INT_RGB_WHITE = ((255 << 16) | (255 << 8) | 255);
 
+	@Override
+	final public void enableTextures2D() {
+		rendererImpl.glEnable(GL.GL_TEXTURE_2D);
+	}
+
+	@Override
+	final public void disableTextures2D() {
+		rendererImpl.glDisable(GL.GL_TEXTURE_2D);
+	}
 }

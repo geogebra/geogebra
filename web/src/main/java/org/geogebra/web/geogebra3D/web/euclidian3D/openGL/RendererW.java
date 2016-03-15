@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.GpuBlacklist;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
@@ -53,7 +54,8 @@ import com.googlecode.gwtgl.binding.WebGLUniformLocation;
  * @author mathieu
  *
  */
-public class RendererW extends Renderer implements RendererShadersInterface {
+public class RendererW extends Renderer implements RendererShadersInterface,
+		RendererWInterface {
 
 	protected WebGLRenderingContext glContext;
 
@@ -245,7 +247,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		GLSL_ATTRIB_TEXTURE = glContext.getAttribLocation(shaderProgram,
 		        "attribute_Texture");
 
-		App.debug("vertexPositionAttribute=" + GLSL_ATTRIB_POSITION + ","
+		Log.debug("vertexPositionAttribute=" + GLSL_ATTRIB_POSITION + ","
 		        + "normalAttribute=" + GLSL_ATTRIB_NORMAL + ","
 				+ "colorAttribute=" + GLSL_ATTRIB_COLOR + ","
 		        + "textureAttribute=" + GLSL_ATTRIB_TEXTURE);
@@ -1025,13 +1027,6 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		}
 	}
 
-	/**
-	 * 
-	 * @return the 3D view attached
-	 */
-	public EuclidianView3D getView() {
-		return view3D;
-	}
 
 	/**
 	 * create alpha texture from image for the label

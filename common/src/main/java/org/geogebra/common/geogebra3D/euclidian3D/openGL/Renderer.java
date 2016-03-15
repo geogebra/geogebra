@@ -2273,4 +2273,12 @@ public abstract class Renderer {
 		// only used with shaders
 	}
 
+	/**
+	 * 
+	 * @return the 3D view attached
+	 */
+	final public EuclidianView3D getView() {
+		return view3D;
+	}
+
 }

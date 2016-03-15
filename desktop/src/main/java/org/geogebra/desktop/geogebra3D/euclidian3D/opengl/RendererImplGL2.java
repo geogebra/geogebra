@@ -804,8 +804,4 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 		return GLlocal.GL_DEPTH_TEST;
 	}
 
-	@Override
-	public int getGL_TEXTURE_2D() {
-		return GL.GL_TEXTURE_2D;
-	}
 }

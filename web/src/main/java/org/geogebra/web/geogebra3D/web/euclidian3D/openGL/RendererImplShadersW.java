@@ -3,6 +3,7 @@ package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
@@ -16,7 +17,10 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.GpuBlacklist;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
+import org.geogebra.web.html5.gawt.GBufferedImageW;
 
+import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.dom.client.ImageElement;
 import com.googlecode.gwtgl.binding.WebGLProgram;
 import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 import com.googlecode.gwtgl.binding.WebGLShader;
@@ -81,11 +85,11 @@ public class RendererImplShadersW extends RendererImplShaders {
 		boolean needsSmallFragmentShader = GpuBlacklist
 				.isCurrentGpuBlacklisted(glContext);
 		boolean shiny = view3D.getApplication().has(Feature.SHINY_3D);
-		WebGLShader fragmentShader = getShader(
+		fragShader = getShader(
 				WebGLRenderingContext.FRAGMENT_SHADER,
 				ShaderProvider.getFragmentShader(needsSmallFragmentShader,
 						shiny));
-		WebGLShader vertexShader = getShader(
+		vertShader = getShader(
 				WebGLRenderingContext.VERTEX_SHADER,
 				ShaderProvider.getVertexShader(needsSmallFragmentShader, shiny));
 
@@ -112,6 +116,17 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
+	final protected void setPredefinedAttributes() {
+		// Associate attribute ids with the attribute names inside
+		// the vertex shader.
+		GLSL_ATTRIB_POSITION = 0;
+		GLSL_ATTRIB_COLOR = 2;
+		GLSL_ATTRIB_NORMAL = 1;
+		GLSL_ATTRIB_TEXTURE = 3;
+		GLSL_ATTRIB_INDEX = 4;
+	}
+
+	@Override
 	final protected void glLinkProgram() {
 		glContext.linkProgram((WebGLProgram) shaderProgram);
 
@@ -122,6 +137,22 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 		// use the program
 		glContext.useProgram((WebGLProgram) shaderProgram);
+
+		// attributes : note that vertex shader must use it, otherwise
+		// getAttribLocation will return -1 (undefined)
+		GLSL_ATTRIB_POSITION = getAttribLocation("attribute_Position");
+		GLSL_ATTRIB_NORMAL = getAttribLocation("attribute_Normal");
+		GLSL_ATTRIB_COLOR = getAttribLocation("attribute_Color");
+		GLSL_ATTRIB_TEXTURE = getAttribLocation("attribute_Texture");
+
+		Log.debug("vertexPositionAttribute=" + GLSL_ATTRIB_POSITION + ","
+				+ "normalAttribute=" + GLSL_ATTRIB_NORMAL + ","
+				+ "colorAttribute=" + GLSL_ATTRIB_COLOR + ","
+				+ "textureAttribute=" + GLSL_ATTRIB_TEXTURE);
+	}
+
+	private int getAttribLocation(String name) {
+		return glContext.getAttribLocation((WebGLProgram) shaderProgram, name);
 	}
 
 	@Override
@@ -287,41 +318,11 @@ public class RendererImplShadersW extends RendererImplShaders {
 		glContext.useProgram((WebGLProgram) program);
 	}
 
-	final private void glDisableVertexAttribArray(int attrib) {
+	@Override
+	final protected void glDisableVertexAttribArray(int attrib) {
 		glContext.disableVertexAttribArray(attrib);
 	}
 
-	final private void releaseVBOs() {
-		glDisableVertexAttribArray(GLSL_ATTRIB_POSITION); // Allow
-															// release
-															// of
-															// vertex
-															// position
-															// memory
-		glDisableVertexAttribArray(GLSL_ATTRIB_COLOR); // Allow
-														// release
-														// of
-														// vertex
-														// color
-														// memory
-		glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL); // Allow
-														// release
-														// of
-														// vertex
-														// normal
-														// memory
-		glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE); // Allow
-															// release
-															// of
-															// vertex
-															// texture
-															// memory
-
-		// glDeleteBuffers(4, vboHandles); // Release VBO,
-		// // color and
-		// // vertices, buffer
-		// // GPU memory.
-	}
 
 	@Override
 	final protected void glDetachAndDeleteShader(Object program, Object shader) {
@@ -510,9 +511,71 @@ public class RendererImplShadersW extends RendererImplShaders {
 		return WebGLRenderingContext.DEPTH_TEST;
 	}
 
-	@Override
-	public int getGL_TEXTURE_2D() {
-		return WebGLRenderingContext.TEXTURE_2D;
+
+	/**
+	 * create alpha texture from image for the label
+	 * 
+	 * @param label
+	 *            label
+	 * @param image
+	 *            image
+	 * @param bimg
+	 *            buffered image
+	 */
+	public void createAlphaTexture(DrawLabel3D label, ImageElement image,
+			GBufferedImageW bimg) {
+
+		if (label.isPickable()) {
+			// values for picking (ignore transparent bytes)
+			ImageData data = bimg.getImageData();
+			int xmin = label.getWidth(), xmax = 0, ymin = label.getHeight(), ymax = 0;
+			for (int y = 0; y < label.getHeight(); y++) {
+				for (int x = 0; x < label.getWidth(); x++) {
+					int alpha = data.getAlphaAt(x, y);
+					if (alpha != 0) {
+						if (x < xmin) {
+							xmin = x;
+						}
+						if (x > xmax) {
+							xmax = x;
+						}
+						if (y < ymin) {
+							ymin = y;
+						}
+						if (y > ymax) {
+							ymax = y;
+						}
+					}
+				}
+			}
+			label.setPickingDimension(xmin, ymin, xmax - xmin + 1, ymax - ymin
+					+ 1);
+		}
+
+		// create texture
+		WebGLTexture texture;
+
+		int textureIndex = label.getTextureIndex();
+
+		if (textureIndex == -1) {
+			textureIndex = texturesArray.size();
+			texture = glContext.createTexture();
+			texturesArray.add(texture);
+		} else {
+			texture = texturesArray.get(textureIndex);
+		}
+
+		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
+
+		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0,
+				WebGLRenderingContext.RGBA, WebGLRenderingContext.RGBA,
+				WebGLRenderingContext.UNSIGNED_BYTE, image);
+
+		glContext.generateMipmap(WebGLRenderingContext.TEXTURE_2D);
+
+		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, null);
+
+		label.setTextureIndex(textureIndex);
 	}
 
 }

@@ -40,8 +40,6 @@ public interface RendererImpl extends RendererShadersInterface {
 
 	abstract public int getGL_DEPTH_TEST();
 
-	abstract public int getGL_TEXTURE_2D();
-
 	abstract public void disableCulling();
 
 	public abstract void setClipPlanes(double[][] minMax);

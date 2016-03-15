@@ -1,8 +1,17 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import java.util.ArrayList;
+
+import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
+import org.geogebra.common.geogebra3D.euclidian3D.HittingSphere;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Renderer using "implementation" for java/web/android/etc.
@@ -25,6 +34,13 @@ public abstract class RendererWithImpl extends Renderer implements
 	 */
 	public RendererWithImpl(EuclidianView3D view, RendererType type) {
 		super(view, type);
+
+		if (((EuclidianController3D) view3D.getEuclidianController())
+				.useInputDepthForHitting()) {
+			hitting = new HittingSphere(view3D);
+		} else {
+			hitting = new Hitting(view3D);
+		}
 	}
 
 	@Override
@@ -511,15 +527,6 @@ public abstract class RendererWithImpl extends Renderer implements
 		// getGL().glPolygonOffset(-l, 0);
 	}
 
-	@Override
-	final public void enableTextures2D() {
-		rendererImpl.glEnable(rendererImpl.getGL_TEXTURE_2D());
-	}
-
-	@Override
-	final public void disableTextures2D() {
-		rendererImpl.glDisable(rendererImpl.getGL_TEXTURE_2D());
-	}
 
 	@Override
 	final public void genTextures2D(int number, int[] index) {
@@ -590,5 +597,61 @@ public abstract class RendererWithImpl extends Renderer implements
 	@Override
 	final protected void drawSurfacesOutline() {
 		rendererImpl.drawSurfacesOutline();
+	}
+
+	@Override
+	final public void setHits(GPoint mouseLoc, int threshold) {
+
+		if (mouseLoc == null) {
+			return;
+		}
+
+		hitting.setHits(mouseLoc, threshold);
+
+	}
+
+	private Hitting hitting;
+
+	@Override
+	final public Hitting getHitting() {
+		return hitting;
+	}
+
+	@Override
+	final public GeoElement getLabelHit(GPoint mouseLoc) {
+		if (mouseLoc == null) {
+			return null;
+		}
+
+		return hitting.getLabelHit(mouseLoc);
+	}
+
+	@Override
+	final public void pickIntersectionCurves() {
+
+		ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D
+				.getEuclidianController()).getIntersectionCurves();
+
+		// picking objects
+		for (IntersectionCurve intersectionCurve : curves) {
+			Drawable3D d = intersectionCurve.drawable;
+			d.updateForHitting(); // we may need an update
+			if (!d.hit(hitting)
+					|| d.getPickingType() != PickingType.POINT_OR_CURVE) { // we
+																			// assume
+																			// that
+																			// hitting
+																			// infos
+																			// are
+																			// updated
+																			// from
+																			// last
+																			// mouse
+																			// move
+				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+			}
+
+		}
+
 	}
 }

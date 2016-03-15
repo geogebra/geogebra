@@ -224,6 +224,16 @@ public class RendererImplShadersD extends RendererImplShaders {
 		vboIndices.set(vboHandles[GLSL_ATTRIB_INDEX]);
 	}
 
+	@Override
+	final protected void setPredefinedAttributes() {
+		// Associate attribute ids with the attribute names inside
+		// the vertex shader.
+		GLSL_ATTRIB_POSITION = 0;
+		GLSL_ATTRIB_COLOR = 1;
+		GLSL_ATTRIB_NORMAL = 2;
+		GLSL_ATTRIB_TEXTURE = 3;
+		GLSL_ATTRIB_INDEX = 4;
+	}
 
 	@Override
 	final protected void createBufferFor(GPUBuffer buffer) {
@@ -304,6 +314,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 	}
 
 
+
 	@Override
 	protected void glBufferData(int numBytes, GLBuffer fb) {
 		jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes,
@@ -382,7 +393,8 @@ public class RendererImplShadersD extends RendererImplShaders {
 		jogl.getGL2ES2().glUseProgram((Integer) program);
 	}
 
-	final private void glDisableVertexAttribArray(int attrib) {
+	@Override
+	final protected void glDisableVertexAttribArray(int attrib) {
 		jogl.getGL2ES2().glDisableVertexAttribArray(attrib);
 	}
 
@@ -607,9 +619,5 @@ public class RendererImplShadersD extends RendererImplShaders {
 		return GLlocal.GL_DEPTH_TEST;
 	}
 
-	@Override
-	public int getGL_TEXTURE_2D() {
-		return GL.GL_TEXTURE_2D;
-	}
 
 }

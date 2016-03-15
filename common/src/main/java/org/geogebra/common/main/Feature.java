@@ -53,6 +53,8 @@ public enum Feature {
 
 	SHADERS_IN_DESKTOP,
 
+	SHADERS_WITH_IMPL_IN_WEB,
+
 	CP_POPUP,
 
 	CP_NEW_COLUMNS,

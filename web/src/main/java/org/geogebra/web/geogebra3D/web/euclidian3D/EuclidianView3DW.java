@@ -18,10 +18,12 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererShadersElementsW;
-import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererW;
+import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWInterface;
+import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
@@ -355,7 +357,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private class MyEuclidianViewPanel3D extends MyEuclidianViewPanel implements
 	        RequiresResize {
 
-		private RendererW renderer;
+		private Renderer renderer;
 
 		/**
 		 * constructor
@@ -369,8 +371,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		@Override
 		protected void createCanvas() {
-			renderer = (RendererW) getRenderer();
-			canvas = renderer.getGLCanvas();
+			renderer = getRenderer();
+			canvas = (Canvas) renderer.getCanvas();
 		}
 
 		@Override
@@ -453,7 +455,11 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	protected Renderer createRenderer() {
+		if (app.has(Feature.SHADERS_WITH_IMPL_IN_WEB)) {
+			return new RendererWithImplW(this);
+		}
 		return new RendererShadersElementsW(this);
+
 	}
 
 	@Override
@@ -534,7 +540,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
 		if (renderer != null) {
-			((RendererW) renderer).setPixelRatio(getPixelRatio());
+			((RendererWInterface) renderer).setPixelRatio(getPixelRatio());
 			renderer.setView(0, 0, preferredSize.getWidth(),
 					preferredSize.getHeight());
 		}
@@ -575,7 +581,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private void setCursorClass(String className) {
 		// IMPORTANT: do nothing if we already have the classname,
 		// app.resetCursor is VERY expensive in IE
-		Canvas canvas = ((RendererW) this.getRenderer()).getGLCanvas();
+		Canvas canvas = (Canvas) this.getRenderer().getCanvas();
 		if (!canvas.getElement().hasClassName(className)) {
 			((AppW) this.app).resetCursor();
 			canvas.setStyleName("");
@@ -733,22 +739,22 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public String getExportImageDataUrl(double scale, boolean b) {
-		((RendererW) this.renderer).setBuffering(true);
+		((RendererWInterface) this.renderer).setBuffering(true);
 		this.doRepaint2();
 
-		String url = ((RendererW) renderer).getGLCanvas().toDataUrl();
-		((RendererW) this.renderer).setBuffering(false);
+		String url = ((Canvas) renderer.getCanvas()).toDataUrl();
+		((RendererWInterface) this.renderer).setBuffering(false);
 		return url;
 	}
 
 	@Override
 	public String getCanvasBase64WithTypeString() {
-		((RendererW) this.renderer).setBuffering(true);
+		((RendererWInterface) this.renderer).setBuffering(true);
 		this.doRepaint2();
 		String ret = EuclidianViewW.getCanvasBase64WithTypeString(
-		        this.getWidth(),
-		        getHeight(), null, ((RendererW) renderer).getGLCanvas());
-		((RendererW) this.renderer).setBuffering(false);
+				this.getWidth(), getHeight(), null,
+				(Canvas) renderer.getCanvas());
+		((RendererWInterface) this.renderer).setBuffering(false);
 		return ret;
 		
 	}
@@ -804,9 +810,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 		if (alt instanceof GeoText) {
 			String altStr = ((GeoText) alt).getTextString();
-			if (renderer != null
-					&& ((RendererW) renderer).getGLCanvas() != null) {
-				((RendererW) renderer).getGLCanvas().getElement()
+			if (renderer != null && renderer.getCanvas() != null) {
+				((Canvas) renderer.getCanvas()).getElement()
 						.setInnerText(altStr);
 
 			} else {
