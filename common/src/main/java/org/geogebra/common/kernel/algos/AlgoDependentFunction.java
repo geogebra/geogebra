@@ -225,22 +225,9 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				if (!(leftValue instanceof FunctionalNVar)) {
 					return null;
 				}
-				FunctionNVar funN = ((FunctionalNVar) leftValue).getFunction();
-				FunctionVariable[] xy = funN.getFunctionVariables();
-				// don't destroy the function
-				ExpressionNode funNExpression = funN.getExpression().getCopy(
-						funN.getKernel());
-				// with f(A) where A is a point we should not get there, but
-				// still
-				if (!(node.getRight() instanceof MyList))
-					return ev;
-				// now replace every x in function by the expanded argument
-				for (int i = 0; i < xy.length; i++)
-					funNExpression = funNExpression.replace(
-							xy[i],
-							expandFunctionDerivativeNodes(((MyList) node
-									.getRight()).getListElement(i))).wrap();
-				return (funNExpression);
+				ExpressionValue ret = expandFunctionalNVar(leftValue,
+						node.getRight(), 0);
+				return ret == null ? ev : ret;
 			case DERIVATIVE:
 				// don't expand derivative of GeoFunctionConditional
 				if (leftValue.isGeoElement()
@@ -265,10 +252,11 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				ExpressionValue rt = node.getRight().unwrap();
 				if (rt instanceof ListValue) {
 					ListValue list = (ListValue) rt;
+					int constants = list.size();
 					for (int i = 0; i < list.size() - 1; i++) {
 					  if(list.getListElement(i).wrap().containsFreeFunctionVariable(null)){
-							Log.debug("volatile");
-						  return ev;
+							constants = i;
+							break;
 					  }
 					}
 				 
@@ -276,11 +264,20 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 							.getKernel().getExpressionNodeEvaluator();
 					ExpressionValue res = expev.handleElementOf(leftValue,
 							node.getRight(), 1);
-					if (res instanceof Functional) {
+					if (res instanceof Functional
+							&& constants >= list.size() - 1) {
 						return substituteFunction(((Functional) res),list
 								.getListElement(list.size() - 1));
 					}
-					Log.debug("TODO: expand list1(x)");
+					if (res instanceof FunctionalNVar
+							&& constants >= list.size() - ((FunctionalNVar) res)
+									.getFunctionVariables().length) {
+						ret = expandFunctionalNVar(res, node.getRight(),
+								list.size() - ((FunctionalNVar) res)
+										.getFunctionVariables().length);
+						return ret == null ? ev : ret;
+					}
+					Log.debug("Cannot expand");
 				}
 				// element of with no-list rhs: weird, don't expand
 				return node;
@@ -304,6 +301,27 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 							.getY()));
 		}
 		return ev;
+	}
+
+	private static ExpressionValue expandFunctionalNVar(
+			ExpressionValue leftValue, ExpressionValue right, int offset) {
+
+		FunctionNVar funN = ((FunctionalNVar) leftValue).getFunction();
+		FunctionVariable[] xy = funN.getFunctionVariables();
+		// don't destroy the function
+		ExpressionNode funNExpression = funN.getExpression()
+				.getCopy(funN.getKernel());
+		// with f(A) where A is a point we should not get there, but
+		// still
+		if (!(right instanceof MyList))
+			return null;
+		// now replace every x in function by the expanded argument
+		for (int i = 0; i < xy.length; i++)
+			funNExpression = funNExpression
+					.replace(xy[i], expandFunctionDerivativeNodes(
+							((MyList) right).getListElement(i + offset)))
+					.wrap();
+		return (funNExpression);
 	}
 
 	private static ExpressionValue substituteFunction(Functional leftValue,

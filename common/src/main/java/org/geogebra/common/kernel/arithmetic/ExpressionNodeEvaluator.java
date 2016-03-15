@@ -1480,7 +1480,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 							&& i == lv.size()
 									- ((GeoFunctionNVar) nextSublist)
 											.getVarNumber() - 1) {
-
+						if (skip > 0) {
+							return functionNvarOrUndefined(nextSublist);
+						}
 						return new MyDouble(getKernel(),
 								((GeoFunctionNVar) nextSublist).evaluate(lv
 										.toDouble(1)));
@@ -1531,6 +1533,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		return nextSublist.isDefined() ? nextSublist : new Function(
 				new ExpressionNode(getKernel(), Double.NaN),
 				new FunctionVariable(getKernel()));
+	}
+
+	private ExpressionValue functionNvarOrUndefined(GeoElement nextSublist) {
+		return nextSublist.isDefined() ? nextSublist
+				: new FunctionNVar(new ExpressionNode(getKernel(), Double.NaN),
+						new FunctionVariable[] {});
 	}
 
 }
