@@ -25,7 +25,7 @@ public class ShaderProvider {
 			return FragmentShader.getFragmentShaderShiny(0.2f, true);
 		}
 
-		return Shaders.INSTANCE.fragmentShader().getText();
+		return FragmentShader.getFragmentShader(true);
 	}
 
 	/**
@@ -40,6 +40,6 @@ public class ShaderProvider {
 		if (!needsSmallFragmentShader && shiny) {
 			return VertexShader.getVertexShaderShiny(true);
 		}
-		return Shaders.INSTANCE.vertexShader().getText();
+		return VertexShader.getVertexShader(true);
 	}
 }
