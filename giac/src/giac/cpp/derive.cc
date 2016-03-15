@@ -618,8 +618,6 @@ namespace giac {
     if (calc_mode(contextptr)==1 && args.type!=_VECT)
       return _derive(makesequence(args,ggb_var(args)),contextptr);
 #endif
-    if (step_infolevel)
-      gprintf(step_derive_header,gettext("===== Step/step derive %gen ====="),makevecteur(args),contextptr);
     vecteur v;
     if (args.type==_VECT && args.subtype==_POLY1__VECT)
       return gen(derivative(*args._VECTptr),_POLY1__VECT);
@@ -631,6 +629,8 @@ namespace giac {
       v[1]=eval(v[1],1,contextptr);
     if (is_undef(v))
       return v;
+    if (step_infolevel && v.size()==2)
+      gprintf(step_derive_header,gettext("===== Derive %gen with respect to %gen ====="),makevecteur(v[0],v[1]),contextptr);
     gen var,res;
     if (args.type!=_VECT && is_algebraic_program(v[0],var,res)){
       if (var.type==_VECT && var.subtype==_SEQ__VECT && var._VECTptr->size()==1)
@@ -746,13 +746,17 @@ namespace giac {
       arg=g._VECTptr->front();
       var=(*g._VECTptr)[1];
     }
+    int savestep=step_infolevel;
+    gprintf(gettext("===== Critical points for %gen ====="),makevecteur(arg),contextptr);
+    step_infolevel=0;
     gen d=_derive(makesequence(arg,var),contextptr);
     gen deq=_equal(makesequence(d,0*var),contextptr);
-    gprintf(step_extrema1,gettext("Critical points for %gen: solving %gen with respect to %gen"),makevecteur(arg,deq,var),contextptr);
     // *logptr(contextptr) << "Critical points for "<< arg <<": solving " << deq << " with respect to " << var << endl;
     int c=calc_mode(contextptr);
     calc_mode(0,contextptr);
     gen s=_solve(makesequence(deq,var),contextptr);
+    step_infolevel=savestep;
+    gprintf(step_extrema1,gettext("Derivative of %gen with respect to %gen is %gen\nSolving %gen with respect to %gen answer %gen"),makevecteur(arg,var,d,deq,var,s.type==_VECT?change_subtype(s,_SEQ__VECT):s),contextptr);
     calc_mode(c,contextptr);
     vecteur ls=lidnt(s);
     for (int i=0;i<int(ls.size());++i){
@@ -761,14 +765,16 @@ namespace giac {
     }
     if (s.type==_VECT){
       vecteur res;
+      step_infolevel=0;
       gen d2=_derive(makesequence(d,var),contextptr);
-      gprintf(step_extrema2,gettext("Hessian %gen"),makevecteur(d2),contextptr);
+      step_infolevel=savestep;
+      gprintf(step_extrema2,gettext("Hessian at %gen : %gen"),makevecteur(var,d2),contextptr);
       // *logptr(contextptr) << "Hessian " << d2 << endl;
       vecteur v=*s._VECTptr;
       int vs=int(v.size());
       for (int i=0;i<vs;++i){
 	gen g=simplify(subst(d2,var,v[i],false,contextptr),contextptr);
-	gprintf(step_extrema3,gettext("Hessian at %gen : % gen"),makevecteur(v[i],g),contextptr);
+	gprintf(step_extrema3,gettext("Hessian at %gen : %gen"),makevecteur(v[i],g),contextptr);
 	// *logptr(contextptr) << "Hessian at " << v[i] << ": " << g << endl;
 	if (ckmatrix(g)){
 	  g=evalf(g,1,contextptr);
@@ -791,7 +797,7 @@ namespace giac {
 	      break;
 	    }
 	    if (is_positive(-w[0][0]*w[j][j],contextptr)){
-	      gprintf(step_extrema5,gettext("%gen saddle point (2 eigenvalues with oppositie sign) %gen"),makevecteur(v[i],_diag(w,contextptr)),contextptr);
+	      gprintf(step_extrema5,gettext("%gen is a saddle point (2 eigenvalues with opposite sign) %gen"),makevecteur(v[i],_diag(w,contextptr)),contextptr);
 	      // *logptr(contextptr) << v[i] << " saddle point (2 eigenvalues with opposite sign) " << _diag(w,contextptr) << endl;
 	      break;
 	    }
@@ -799,11 +805,11 @@ namespace giac {
 	  if (j==ws){
 	    res.push_back(v[i]);
 	    if (is_positive(w[0][0],contextptr)){
-	      gprintf(step_extrema6,gettext("%gen local minimum %gen"),makevecteur(v[i],_diag(w,contextptr)),contextptr);
+	      gprintf(step_extrema6,gettext("%gen is a local minimum %gen"),makevecteur(v[i],_diag(w,contextptr)),contextptr);
 	      // *logptr(contextptr) << v[i] << " local minimum " << _diag(w,contextptr) << endl;
 	    }
 	    else {
-	      gprintf(step_extrema6,gettext("%gen local maximum %gen"),makevecteur(v[i],_diag(w,contextptr)),contextptr);
+	      gprintf(step_extrema6,gettext("%gen is a local maximum %gen"),makevecteur(v[i],_diag(w,contextptr)),contextptr);
 	      // *logptr(contextptr) << v[i] << " local maximum " << _diag(w,contextptr) << endl;
 	    }
 	  }
@@ -820,23 +826,23 @@ namespace giac {
 	  }
 	}
 	if (d%2==0 && is_strictly_positive(g,contextptr)){
-	  gprintf(step_extrema7,gettext("%gen local minimum"),makevecteur(v[i]),contextptr);
+	  gprintf(step_extrema7,gettext("%gen is a local minimum"),makevecteur(v[i]),contextptr);
 	  // *logptr(contextptr) << v[i] << " local minimum" << endl;
 	  res.push_back(v[i]);
 	  continue;
 	}
 	if (d%2==0 && is_strictly_positive(-g,contextptr)){
-	  gprintf(step_extrema7,gettext("%gen local maximum"),makevecteur(v[i]),contextptr);
+	  gprintf(step_extrema7,gettext("%gen is a local maximum"),makevecteur(v[i]),contextptr);
 	  // *logptr(contextptr) << v[i] << " local maximum" << endl;
 	  res.push_back(v[i]);
 	  continue;
 	}
 	if (d==NEWTON_DEFAULT_ITERATION){
-	  gprintf(step_extrema4,gettext("%gen critical point (unknown type)"),makevecteur(v[i]),contextptr);
+	  gprintf(step_extrema4,gettext("%gen is a critical point (unknown type)"),makevecteur(v[i]),contextptr);
 	  //*logptr(contextptr) << v[i] << " critical point (unknown type)" << endl;
 	}
 	else {
-	  gprintf(step_extrema8,gettext("%gen inflection point"),makevecteur(v[i]),contextptr);
+	  gprintf(step_extrema8,gettext("%gen is an inflection point"),makevecteur(v[i]),contextptr);
 	  // *logptr(contextptr) << v[i] << " inflection point" << endl;
 	}
       }

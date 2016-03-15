@@ -2135,7 +2135,7 @@ namespace giac {
       // find all constant terms in the product
       vecteur non_constant;
       gen prod_constant;
-      decompose_prod(*arg._VECTptr,x,non_constant,prod_constant,contextptr);
+      decompose_prod(*arg._VECTptr,x,non_constant,prod_constant,true,contextptr);
       if (non_constant.empty()) return gensizeerr(gettext("in linear_apply 2")); // otherwise the product would be constant
       if (non_constant.size()==1)
 	res = linear_apply(non_constant.front(),x,l,remains,contextptr,f);

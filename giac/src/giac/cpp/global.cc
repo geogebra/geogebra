@@ -4829,7 +4829,11 @@ unsigned int ConvertUTF8toUTF16 (
 	break;
       newlinestobr(s,format.substr(pos,p-pos));
 #ifdef EMCC
-      gen tmp=_mathml(makesequence(v[i],1),contextptr);
+      gen tmp;
+      if (v[i].is_symb_of_sommet(at_pnt))
+	tmp=_svg(v[i],contextptr);
+      else
+	tmp=_mathml(makesequence(v[i],1),contextptr);
       s = s+((tmp.type==_STRNG)?(*tmp._STRNGptr):v[i].print(contextptr));
 #else
       s += v[i].print(contextptr);

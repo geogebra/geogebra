@@ -106,7 +106,7 @@ namespace giac {
   gen sum_loop(const gen & e,const gen & x,int i,int j,GIAC_CONTEXT);
 
   void decompose_plus(const vecteur & arg,const gen & x,vecteur & non_constant,gen & plus_constant,GIAC_CONTEXT);
-  void decompose_prod(const vecteur & arg,const gen & x,vecteur & non_constant,gen & prod_constant,GIAC_CONTEXT);
+  void decompose_prod(const vecteur & arg,const gen & x,vecteur & non_constant,gen & prod_constant,bool signcst,GIAC_CONTEXT);
 
   gen bernoulli(const gen & x);
   gen _bernoulli(const gen & args,GIAC_CONTEXT);

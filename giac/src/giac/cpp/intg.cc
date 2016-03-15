@@ -200,12 +200,15 @@ namespace giac {
     }
   }
 
-  void decompose_prod(const vecteur & arg,const gen & x,vecteur & non_constant,gen & prod_constant,GIAC_CONTEXT){
+  void decompose_prod(const vecteur & arg,const gen & x,vecteur & non_constant,gen & prod_constant,bool signcst,GIAC_CONTEXT){
     non_constant.clear();
     prod_constant=plus_one;
     const_iterateur it=arg.begin(),itend=arg.end();
     for (;it!=itend;++it){
-      if (is_constant_wrt(*it,x,contextptr))
+      gen tst=*it;
+      if (!signcst && it->is_symb_of_sommet(at_sign))
+	tst=it->_SYMBptr->feuille;
+      if (is_constant_wrt(tst,x,contextptr))
 	prod_constant=prod_constant*(*it);
       else
 	non_constant.push_back(*it);
@@ -253,7 +256,7 @@ namespace giac {
       // find all constant terms in the product
       vecteur non_constant;
       gen prod_constant;
-      decompose_prod(*arg._VECTptr,x,non_constant,prod_constant,contextptr);
+      decompose_prod(*arg._VECTptr,x,non_constant,prod_constant,false,contextptr);
       if (non_constant.empty()) return gensizeerr(gettext("in linear_apply 2")); // otherwise the product would be constant
       if (non_constant.size()==1)
 	res = linear_apply(non_constant.front(),x,remains,contextptr,f);
@@ -1942,7 +1945,7 @@ namespace giac {
       if (u._SYMBptr->sommet==at_prod ){
 	if (u._SYMBptr->feuille.type!=_VECT)
 	  return is_rewritable_as_f_of(fu,u._SYMBptr->feuille,fx,gen_x,contextptr);
-	decompose_prod(*u._SYMBptr->feuille._VECTptr,gen_x,non_constant,alpha,contextptr);
+	decompose_prod(*u._SYMBptr->feuille._VECTptr,gen_x,non_constant,alpha,true,contextptr);
 	if (non_constant.empty()) return false; // setsizeerr(gettext("in is_rewritable_as_f_of_f"));
 	if (!is_one(alpha)){
 	  gen tmpu,tmpfx;

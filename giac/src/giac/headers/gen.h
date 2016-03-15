@@ -651,6 +651,9 @@ namespace giac {
     gen evalf2double(int level,const context * contextptr) const;
     gen & operator = (const gen & a);
     int to_int() const ;
+    double to_double(const context * contextptr) const;
+    bool is_vector_of_size(size_t n) const;
+    bool is_identificateur_with_name(const char * s) const;
     bool is_real(GIAC_CONTEXT) const ;
     bool is_cinteger() const ;
     bool is_integer() const ;

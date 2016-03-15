@@ -1586,6 +1586,31 @@ namespace giac {
     return *this;
   }
   
+  double gen::to_double(GIAC_CONTEXT) const {
+    if (type==_DOUBLE_)
+      return _DOUBLE_val;
+    if (type==_INT_)
+      return double(val);
+    gen tmp=evalf_double(1,contextptr);
+    if (tmp.type==_DOUBLE_)
+      return tmp._DOUBLE_val;
+#ifdef NAN
+    return NAN;
+#else
+    double d=1.0;
+    d=d-d/double(1ULL<<53);
+    return d*2.0/d;
+#endif
+  }
+
+  bool gen::is_vector_of_size(size_t n) const {
+    return type==_VECT && _VECTptr->size()==n;
+  }
+
+  bool gen::is_identificateur_with_name(const char * s) const {
+    return type==_IDNT && strcmp(_IDNTptr->id_name,s)==0;
+  }
+
   
   int gen::to_int() const {
     switch (type ) {
