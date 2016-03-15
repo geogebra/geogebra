@@ -176,5 +176,32 @@ public class PlotterBrushElements extends PlotterBrush {
 		super.start(old);
 	}
 
+	@Override
+	protected void drawTick(Coords p1b, Coords p2b, float i,
+			float ticksThickness, float lineThickness) {
+		// setTextureType(TEXTURE_AFFINE);
+		setTextureX(i / length);
+		moveTo(p1b);
+		setTextureX(0); //
+		moveTo(p1b); //
+		setThickness(ticksThickness);
+		// setTextureType(TEXTURE_CONSTANT_0);
+		setTextureX(0); //
+		moveTo(p1b);
+		moveTo(p2b);
+		setThickness(lineThickness);
+		moveTo(p2b);
+		setTextureX(i / length); //
+		moveTo(p2b); //
+	}
+	
+	@Override
+	protected void drawArrowBase(float arrowPos, Coords arrowBase) {
+		setTextureX(1 - arrowPos);
+		moveTo(arrowBase);
+		setTextureX(0);
+		moveTo(arrowBase);
+	}
+
 
 }

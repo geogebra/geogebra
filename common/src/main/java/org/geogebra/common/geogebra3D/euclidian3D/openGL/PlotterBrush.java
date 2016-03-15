@@ -43,7 +43,7 @@ public class PlotterBrush implements PathPlotter {
 	private float scale;
 
 	/** global length of the curve */
-	private float length;
+	protected float length;
 
 	// color
 	/** color r, g, b, a */
@@ -59,7 +59,7 @@ public class PlotterBrush implements PathPlotter {
 	/** type of texture */
 	static final public int TEXTURE_CONSTANT_0 = 0;
 	static final private int TEXTURE_ID = 1;
-	static final private int TEXTURE_AFFINE = 2;
+	protected static final int TEXTURE_AFFINE = 2;
 	static final private int TEXTURE_LINEAR = 3;
 	private int textureTypeX = TEXTURE_ID;
 	private int textureTypeY = TEXTURE_CONSTANT_0;
@@ -373,13 +373,13 @@ public class PlotterBrush implements PathPlotter {
 				case MAJOR:
 				default:
 					Coords d = p2.sub(p1).normalized();
-					float thickness = this.thickness;
+					float lineThickness = this.thickness;
 
 					float i = ticksOffset * length
 							- ((int) (ticksOffset * length / ticksDistance))
 							* ticksDistance;
-					float ticksDelta = thickness;
-					float ticksThickness = 4 * thickness;
+					float ticksDelta = lineThickness;
+					float ticksThickness = 4 * lineThickness;
 					if (i <= ticksDelta)
 						i += ticksDistance;
 
@@ -388,28 +388,20 @@ public class PlotterBrush implements PathPlotter {
 						Coords p1b = p1.add(d.mul(i - ticksDelta));
 						Coords p2b = p1.add(d.mul(i + ticksDelta));
 
-						setTextureType(TEXTURE_AFFINE);
-						setTextureX(i / length);
-						moveTo(p1b);
-						setThickness(ticksThickness);
-						setTextureType(TEXTURE_CONSTANT_0);
-						moveTo(p1b);
-						moveTo(p2b);
-						setThickness(thickness);
-						moveTo(p2b);
+						drawTick(p1b, p2b, i, ticksThickness, lineThickness);
 
 					}
 					break;
 				case MAJOR_AND_MINOR:
 					d = p2.sub(p1).normalized();
-					thickness = this.thickness;
+					lineThickness = this.thickness;
 
 					i = ticksOffset * length
 							- ((int) (ticksOffset * length / ticksDistance))
 							* ticksDistance;
-					ticksDelta = thickness;
-					ticksThickness = 4 * thickness;
-					float ticksMinorThickness = 2.5f * thickness;
+					ticksDelta = lineThickness;
+					ticksThickness = 4 * lineThickness;
+					float ticksMinorThickness = 2.5f * lineThickness;
 					boolean minor = false;
 					if (i > ticksDistance / 2 + ticksDelta) {
 						minor = true;
@@ -424,19 +416,8 @@ public class PlotterBrush implements PathPlotter {
 						Coords p1b = p1.add(d.mul(i - ticksDelta));
 						Coords p2b = p1.add(d.mul(i + ticksDelta));
 
-						setTextureType(TEXTURE_AFFINE);
-						setTextureX(i / length);
-						moveTo(p1b);
-						if (minor) {
-							setThickness(ticksMinorThickness);
-						} else {
-							setThickness(ticksThickness);
-						}
-						setTextureType(TEXTURE_CONSTANT_0);
-						moveTo(p1b);
-						moveTo(p2b);
-						setThickness(thickness);
-						moveTo(p2b);
+						drawTick(p1b, p2b, i, minor ? ticksMinorThickness
+								: ticksThickness, lineThickness);
 
 						minor = !minor;
 					}
@@ -446,9 +427,7 @@ public class PlotterBrush implements PathPlotter {
 				}
 			}
 
-			setTextureType(TEXTURE_AFFINE);
-			setTextureX(1 - arrowPos);
-			moveTo(arrowBase);
+			drawArrowBase(arrowPos, arrowBase);
 
 			textureTypeX = TEXTURE_ID;
 			setTextureX(0, 0);
@@ -463,6 +442,40 @@ public class PlotterBrush implements PathPlotter {
 			setThickness(0);
 			moveTo(p2);
 		}
+	}
+
+	/**
+	 * draw a tick
+	 * 
+	 * @param p1b
+	 * @param p2b
+	 * @param i
+	 * @param ticksThickness
+	 * @param lineThickness
+	 */
+	protected void drawTick(Coords p1b, Coords p2b, float i,
+			float ticksThickness, float lineThickness) {
+		setTextureType(TEXTURE_AFFINE);
+		setTextureX(i / length);
+		moveTo(p1b);
+		setThickness(ticksThickness);
+		setTextureType(TEXTURE_CONSTANT_0);
+		moveTo(p1b);
+		moveTo(p2b);
+		setThickness(lineThickness);
+		moveTo(p2b);
+	}
+
+	/**
+	 * draw arrow base
+	 * 
+	 * @param arrowPos
+	 * @param arrowBase
+	 */
+	protected void drawArrowBase(float arrowPos, Coords arrowBase) {
+		setTextureType(TEXTURE_AFFINE);
+		setTextureX(1 - arrowPos);
+		moveTo(arrowBase);
 	}
 
 	/**
@@ -965,7 +978,7 @@ public class PlotterBrush implements PathPlotter {
 		this.textureX[1] = x1;
 	}
 
-	private void setTextureX(float x) {
+	protected void setTextureX(float x) {
 		setTextureX(textureX[1], x);
 	}
 
