@@ -26,6 +26,8 @@ import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawPoint;
+import org.geogebra.common.euclidian.draw.DrawPolyLine;
+import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -10392,6 +10394,52 @@ public abstract class EuclidianController {
 
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
 		twoTouchStartCommon(x1, y1, x2, y2);
+	}
+
+	protected void touchStartPhone(AbstractEvent e) {
+		this.mouseLoc = new GPoint(e.getX(), e.getY());
+
+		if (view.getPreviewDrawable() == null) {
+			view.setPreview(switchPreviewableForInitNewMode(mode));
+			updatePreview();
+			this.view.updatePreviewableForProcessMode();
+		}
+
+		this.view.setHits(mouseLoc, e.getType());
+		wrapMousePressed(e);
+
+		if (mode == EuclidianConstants.MODE_POLYGON || mode == EuclidianConstants.MODE_RIGID_POLYGON ||
+				mode == EuclidianConstants.MODE_VECTOR_POLYGON) {
+			this.moveMode = EuclidianController.MOVE_NONE;
+		}
+
+		prepareModeForFreehand();
+	}
+
+	protected void touchEndPhone(AbstractEvent e) {
+		wrapMouseReleased(e);
+		resetModeAfterFreehand();
+		if (penMode(mode)) {
+			app.refreshViews();
+		}
+		movePosition = null;
+
+		if (!(view.getPreviewDrawable() instanceof DrawPolyLine) &&
+				!(view.getPreviewDrawable() instanceof DrawPolygon)) {
+			view.setPreview(null);
+		}
+	}
+
+	protected void touchMovePhone(AbstractEvent e) {
+		if (shouldSetToFreehandMode()) {
+			setModeToFreehand();
+		}
+
+		wrapMouseDragged(e, true);
+
+		if (penMode(mode)) {
+			view.repaint();
+		}
 	}
 
 	final protected void twoTouchStartPhone(double x1, double y1, double x2, double y2) {
