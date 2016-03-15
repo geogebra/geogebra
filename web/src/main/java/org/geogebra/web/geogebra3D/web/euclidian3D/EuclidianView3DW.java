@@ -196,55 +196,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	public void updateFirstAndLast(boolean attach, boolean anyway) {
 		if (attach) {
-			getCanvas().setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
-
-			if (EuclidianViewW.firstInstance == null) {
-				EuclidianViewW.firstInstance = this;
-			} else if (getCanvas().isAttached()) {
-				if (EuclidianViewW.compareDocumentPosition(getCanvas()
-						.getCanvasElement(), EuclidianViewW.firstInstance
-						.getCanvas().getCanvasElement())) {
-					EuclidianViewW.firstInstance = this;
-				}
-			} else if (anyway) {
-				if (EuclidianViewW.compareDocumentPosition(((AppW) app)
-						.getFrameElement(), EuclidianViewW.firstInstance
-						.getCanvas().getCanvasElement())) {
-					EuclidianViewW.firstInstance = this;
-				}
-			}
-
-			if (EuclidianViewW.lastInstance == null) {
-				EuclidianViewW.lastInstance = this;
-			} else if (getCanvas().isAttached()) {
-				if (EuclidianViewW.compareDocumentPosition(
-						EuclidianViewW.lastInstance.getCanvas()
-								.getCanvasElement(), getCanvas()
-								.getCanvasElement())) {
-					EuclidianViewW.lastInstance = this;
-				}
-			} else if (anyway) {
-				if (EuclidianViewW.compareDocumentPosition(
-						EuclidianViewW.lastInstance.getCanvas()
-								.getCanvasElement(), ((AppW) app)
-								.getFrameElement())) {
-					EuclidianViewW.lastInstance = this;
-				}
-			}
+			EuclidianViewW.updateFirstAndLast(this, anyway);
 		} else {
-			// TODO: shall we unset tabindex?
-			if (EuclidianViewW.firstInstance == this) {
-				// note that we shall set it to another EV, probably
-				// TODO: how to do it?
-				// now setting it to null, because compareDocumentPosition
-				// will not work anyway...
-				// EuclidianViewW.firstInstance = null;
-			}
-			if (EuclidianViewW.lastInstance == this) {
-				// note that we shall set it to another EV, probably
-				// TODO: how to do it?
-				// EuclidianViewW.lastInstance = null;
-			}
+			// ?
 		}
 	}
 

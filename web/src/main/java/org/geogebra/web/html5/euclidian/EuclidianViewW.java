@@ -766,45 +766,57 @@ public class EuclidianViewW extends EuclidianView implements
 
 	}
 
+	/**
+	 * @param ev
+	 * @param anyway
+	 */
+	static final public void updateFirstAndLast(EuclidianViewWInterface ev,
+			boolean anyway) {
+		ev.getCanvas().setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+		if (firstInstance == null) {
+			firstInstance = ev;
+		} else if (ev.getCanvas().isAttached()) {
+			if (compareDocumentPosition(ev.getCanvas().getCanvasElement(),
+					firstInstance.getCanvas().getCanvasElement())) {
+				firstInstance = ev;
+			}
+		} else if (anyway) {
+			// then compare to something equivalent!
+			// if we are in different applet;
+			// ... anything from this applet is right
+			// if we are in the same applet;
+			// ... does it matter? (yes, but just a little bit)
+			// TODO: to be fixed in a better way later,
+			// after it is seen whether this is really a little fix...
+			if (compareDocumentPosition(
+					((AppW) ev.getApplication()).getFrameElement(),
+					firstInstance
+					.getCanvas().getCanvasElement())) {
+				firstInstance = ev;
+			}
+		}
+
+		if (lastInstance == null) {
+			lastInstance = ev;
+		} else if (ev.getCanvas().isAttached()) {
+			if (compareDocumentPosition(lastInstance.getCanvas()
+					.getCanvasElement(), ev.getCanvas().getCanvasElement())) {
+				lastInstance = ev;
+			}
+		} else if (anyway) {
+			if (compareDocumentPosition(lastInstance.getCanvas()
+					.getCanvasElement(),
+					((AppW) ev.getApplication()).getFrameElement())) {
+				lastInstance = ev;
+			}
+		}
+	}
+
 	@Override
 	public void updateFirstAndLast(boolean attach, boolean anyway) {
 		if (attach) {
 			if ((evNo == 1) || (evNo == 2) || isViewForPlane()) {
-				getCanvas().setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
-				if (firstInstance == null) {
-					firstInstance = this;
-				} else if (getCanvas().isAttached()) {
-					if (compareDocumentPosition(getCanvas().getCanvasElement(),
-							firstInstance.getCanvas().getCanvasElement())) {
-						firstInstance = this;
-					}
-				} else if (anyway) {
-					// then compare to something equivalent!
-					// if we are in different applet;
-					// ... anything from this applet is right
-					// if we are in the same applet;
-					// ... does it matter? (yes, but just a little bit)
-					// TODO: to be fixed in a better way later,
-					// after it is seen whether this is really a little fix...
-					if (compareDocumentPosition(app.getFrameElement(),
-						firstInstance.getCanvas().getCanvasElement())) {
-						firstInstance = this;
-					}
-				}
-
-				if (lastInstance == null) {
-					lastInstance = this;
-				} else if (getCanvas().isAttached()) {
-					if (compareDocumentPosition(lastInstance.getCanvas()
-							.getCanvasElement(), getCanvas().getCanvasElement())) {
-						lastInstance = this;
-					}
-				} else if (anyway) {
-					if (compareDocumentPosition(lastInstance.getCanvas()
-							.getCanvasElement(), app.getFrameElement())) {
-						lastInstance = this;
-					}
-				}
+				updateFirstAndLast(this, anyway);
 			} else {
 				// is this the best?
 				getCanvas().setTabIndex(
