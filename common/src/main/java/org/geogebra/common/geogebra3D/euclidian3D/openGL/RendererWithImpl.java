@@ -28,62 +28,62 @@ public abstract class RendererWithImpl extends Renderer implements
 	}
 
 	@Override
-	public void setClipPlanes(double[][] minMax) {
+	final public void setClipPlanes(double[][] minMax) {
 		rendererImpl.setClipPlanes(minMax);
 	}
 
 	@Override
-	protected void setMatrixView() {
+	final protected void setMatrixView() {
 		rendererImpl.setMatrixView();
 	}
 
 	@Override
-	protected void unsetMatrixView() {
+	final protected void unsetMatrixView() {
 		rendererImpl.unsetMatrixView();
 	}
 
 	@Override
-	public void setColor(float r, float g, float b, float a) {
+	final public void setColor(float r, float g, float b, float a) {
 		rendererImpl.setColor(r, g, b, a);
 	}
 
 	@Override
-	public void initMatrix() {
+	final public void initMatrix() {
 		rendererImpl.initMatrix();
 	}
 
 	@Override
-	public void initMatrixForFaceToScreen() {
+	final public void initMatrixForFaceToScreen() {
 		rendererImpl.initMatrixForFaceToScreen();
 	}
 
 	@Override
-	public void resetMatrix() {
+	final public void resetMatrix() {
 		rendererImpl.resetMatrix();
 	}
 
 	@Override
-	protected void setGLForPicking() {
+	final protected void setGLForPicking() {
 		// not used anymore
 	}
 
 	@Override
-	protected void pushSceneMatrix() {
+	final protected void pushSceneMatrix() {
 		rendererImpl.pushSceneMatrix();
 	}
 
 	@Override
-	public void glLoadName(int loop) {
+	final public void glLoadName(int loop) {
 		rendererImpl.glLoadName(loop);
 	}
 
 	@Override
-	protected void setLightPosition(float[] values) {
+	final protected void setLightPosition(float[] values) {
 		rendererImpl.setLightPosition(values);
 	}
 
 	@Override
-	protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
+	final protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
 			float ambiant1, float diffuse1) {
 
 		rendererImpl.setLightAmbiantDiffuse(ambiant0, diffuse0, ambiant1,
@@ -91,57 +91,57 @@ public abstract class RendererWithImpl extends Renderer implements
 	}
 
 	@Override
-	protected void setLight(int light) {
+	final protected void setLight(int light) {
 		rendererImpl.setLight(light);
 	}
 
 	@Override
-	protected void setColorMaterial() {
+	final protected void setColorMaterial() {
 		rendererImpl.setColorMaterial();
 	}
 
 	@Override
-	protected void setLightModel() {
+	final protected void setLightModel() {
 		rendererImpl.setLightModel();
 	}
 
 	@Override
-	protected void setAlphaFunc() {
+	final protected void setAlphaFunc() {
 		rendererImpl.setAlphaFunc();
 	}
 
 	@Override
-	protected void setView() {
+	final protected void setView() {
 		rendererImpl.setView();
 	}
 
 	@Override
-	protected void setStencilLines() {
+	final protected void setStencilLines() {
 		rendererImpl.setStencilLines();
 	}
 
 	@Override
-	protected void viewOrtho() {
+	final protected void viewOrtho() {
 		rendererImpl.viewOrtho();
 	}
 
 	@Override
-	protected void viewPersp() {
+	final protected void viewPersp() {
 		rendererImpl.viewPersp();
 	}
 
 	@Override
-	protected void viewGlasses() {
+	final protected void viewGlasses() {
 		rendererImpl.viewGlasses();
 	}
 
 	@Override
-	protected void viewOblique() {
+	final protected void viewOblique() {
 		rendererImpl.viewOblique();
 	}
 
 	@Override
-	protected Manager createManager() {
+	final protected Manager createManager() {
 		return rendererImpl.createManager();
 	}
 
@@ -158,28 +158,28 @@ public abstract class RendererWithImpl extends Renderer implements
 
 
 	@Override
-	protected void doPick() {
+	final protected void doPick() {
 		// no need here
 	}
 
 	@Override
-	public boolean useLogicalPicking() {
+	final public boolean useLogicalPicking() {
 		return true;
 	}
 
 	@Override
-	protected void useShaderProgram() {
+	final protected void useShaderProgram() {
 		rendererImpl.useShaderProgram();
 	}
 
 	@Override
-	protected void draw() {
+	final protected void draw() {
 		rendererImpl.draw();
 		super.draw();
 	}
 
 	@Override
-	protected void updatePerspValues() {
+	final protected void updatePerspValues() {
 
 		super.updatePerspValues();
 		if (rendererImpl != null) {
@@ -189,7 +189,7 @@ public abstract class RendererWithImpl extends Renderer implements
 	}
 
 	@Override
-	public void updateGlassesValues() {
+	final public void updateGlassesValues() {
 		super.updateGlassesValues();
 
 		if (rendererImpl != null) {
@@ -199,7 +199,7 @@ public abstract class RendererWithImpl extends Renderer implements
 	}
 
 	@Override
-	public void updateProjectionObliqueValues() {
+	final public void updateProjectionObliqueValues() {
 		super.updateProjectionObliqueValues();
 		if (rendererImpl != null) {
 			rendererImpl.updateProjectionObliqueValues();
@@ -221,234 +221,235 @@ public abstract class RendererWithImpl extends Renderer implements
 	}
 
 	@Override
-	protected void initRenderingValues() {
+	final protected void initRenderingValues() {
 		super.initRenderingValues();
 		rendererImpl.initRenderingValues();
 	}
 
 	@Override
-	protected void drawFaceToScreen() {
+	final protected void drawFaceToScreen() {
 		rendererImpl.drawFaceToScreenAbove();
 		super.drawFaceToScreen();
 		rendererImpl.drawFaceToScreenBelow();
 	}
 
 	@Override
-	protected void drawFaceToScreenEnd() {
+	final protected void drawFaceToScreenEnd() {
 		rendererImpl.drawFaceToScreenAbove();
 		super.drawFaceToScreenEnd();
 		rendererImpl.drawFaceToScreenBelow();
 	}
 
 	@Override
-	protected void enableLightingOnInit() {
+	final protected void enableLightingOnInit() {
 		rendererImpl.enableLightingOnInit();
 	}
 
 	@Override
-	protected void initCulling() {
+	final protected void initCulling() {
 		rendererImpl.initCulling();
 	}
 
 	@Override
-	protected void drawTranspNotCurved() {
+	final protected void drawTranspNotCurved() {
 		rendererImpl.drawTranspNotCurved();
 	}
 
 	@Override
-	public void disableCulling() {
+	final public void disableCulling() {
 		rendererImpl.disableCulling();
 	}
 
 	@Override
-	public void setCullFaceFront() {
+	final public void setCullFaceFront() {
 		rendererImpl.setCullFaceFront();
 	}
 
 	@Override
-	public void setCullFaceBack() {
+	final public void setCullFaceBack() {
 		rendererImpl.setCullFaceBack();
 	}
 
 	@Override
-	public void loadColorBuffer(GLBuffer fbColors, int length) {
+	final public void loadColorBuffer(GLBuffer fbColors, int length) {
 		rendererImpl.loadColorBuffer(fbColors, length);
 
 	}
 
 	@Override
-	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
+	final public void loadNormalBuffer(GLBuffer fbNormals, int length) {
 		rendererImpl.loadNormalBuffer(fbNormals, length);
 
 	}
 
 	@Override
-	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
+	final public void loadTextureBuffer(GLBuffer fbTextures, int length) {
 		rendererImpl.loadTextureBuffer(fbTextures, length);
 
 	}
 
 	@Override
-	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
+	final public void loadVertexBuffer(GLBuffer fbVertices, int length) {
 		rendererImpl.loadVertexBuffer(fbVertices, length);
 
 	}
 
 	@Override
-	public void loadIndicesBuffer(GLBufferIndices arrayI, int length) {
+	final public void loadIndicesBuffer(GLBufferIndices arrayI, int length) {
 		rendererImpl.loadIndicesBuffer(arrayI, length);
 
 	}
 
 	@Override
-	public void setCenter(Coords center) {
+	final public void setCenter(Coords center) {
 		rendererImpl.setCenter(center);
 
 	}
 
 	@Override
-	public void resetCenter() {
+	final public void resetCenter() {
 		rendererImpl.resetCenter();
 	}
 
 	@Override
-	public boolean areTexturesEnabled() {
+	final public boolean areTexturesEnabled() {
 		return rendererImpl.areTexturesEnabled();
 	}
 
 	@Override
-	public void draw(Type type, int length) {
+	final public void draw(Type type, int length) {
 		rendererImpl.draw(type, length);
 
 	}
 
 	@Override
-	public void storeBuffer(GLBuffer fb, int length, int size,
+	final public void storeBuffer(GLBuffer fb, int length, int size,
 			GPUBuffer buffers, int attrib) {
 		rendererImpl.storeBuffer(fb, length, size, buffers, attrib);
 
 	}
 
 	@Override
-	public void storeElementBuffer(short[] fb, int length, GPUBuffer buffers) {
+	final public void storeElementBuffer(short[] fb, int length,
+			GPUBuffer buffers) {
 		rendererImpl.storeElementBuffer(fb, length, buffers);
 
 	}
 
 	@Override
-	public void bindBufferForIndices(GPUBuffer buffer) {
+	final public void bindBufferForIndices(GPUBuffer buffer) {
 		rendererImpl.bindBufferForIndices(buffer);
 
 	}
 
 	@Override
-	public void createArrayBuffer(GPUBuffer buffer) {
+	final public void createArrayBuffer(GPUBuffer buffer) {
 		rendererImpl.createArrayBuffer(buffer);
 
 	}
 
 	@Override
-	public void createElementBuffer(GPUBuffer buffer) {
+	final public void createElementBuffer(GPUBuffer buffer) {
 		rendererImpl.createElementBuffer(buffer);
 
 	}
 
 	@Override
-	public void removeArrayBuffer(GPUBuffer buffer) {
+	final public void removeArrayBuffer(GPUBuffer buffer) {
 		rendererImpl.removeArrayBuffer(buffer);
 
 	}
 
 	@Override
-	public void removeElementBuffer(GPUBuffer buffer) {
+	final public void removeElementBuffer(GPUBuffer buffer) {
 		rendererImpl.removeElementBuffer(buffer);
 
 	}
 
 	@Override
-	public void bindBufferForVertices(GPUBuffer buffer, int size) {
+	final public void bindBufferForVertices(GPUBuffer buffer, int size) {
 		rendererImpl.bindBufferForVertices(buffer, size);
 
 	}
 
 	@Override
-	public void bindBufferForColors(GPUBuffer buffer, int size,
+	final public void bindBufferForColors(GPUBuffer buffer, int size,
 			GLBuffer fbColors) {
 		rendererImpl.bindBufferForColors(buffer, size, fbColors);
 
 	}
 
 	@Override
-	public void bindBufferForNormals(GPUBuffer buffer, int size,
+	final public void bindBufferForNormals(GPUBuffer buffer, int size,
 			GLBuffer fbNormals) {
 		rendererImpl.bindBufferForNormals(buffer, size, fbNormals);
 
 	}
 
 	@Override
-	public void bindBufferForTextures(GPUBuffer buffer, int size,
+	final public void bindBufferForTextures(GPUBuffer buffer, int size,
 			GLBuffer fbTextures) {
 		rendererImpl.bindBufferForTextures(buffer, size, fbTextures);
 
 	}
 
 	@Override
-	protected void initShaders() {
+	final protected void initShaders() {
 		rendererImpl.initShaders();
 	}
 
 	@Override
-	public void disableShine() {
+	final public void disableShine() {
 		rendererImpl.disableShine();
 	}
 
 	@Override
-	public void enableShine() {
+	final public void enableShine() {
 		rendererImpl.enableShine();
 	}
 
 	@Override
-	protected void setBufferLeft() {
+	final protected void setBufferLeft() {
 		rendererImpl.setBufferLeft();
 	}
 
 	@Override
-	protected void setBufferRight() {
+	final protected void setBufferRight() {
 		rendererImpl.setBufferRight();
 	}
 
 	@Override
-	protected void clearColorBuffer() {
+	final protected void clearColorBuffer() {
 		rendererImpl.glClear(rendererImpl.getGL_COLOR_BUFFER_BIT());
 	}
 
 	@Override
-	protected void clearDepthBuffer() {
+	final protected void clearDepthBuffer() {
 		rendererImpl.glClear(rendererImpl.getGL_DEPTH_BUFFER_BIT());
 	}
 
 	@Override
-	protected void setStencilFunc(int value) {
+	final protected void setStencilFunc(int value) {
 		rendererImpl.setStencilFunc(value);
 	}
 
 	@Override
-	public void enableCulling() {
+	final public void enableCulling() {
 		rendererImpl.glEnable(rendererImpl.getGL_CULL_FACE());
 	}
 
 	@Override
-	public void disableBlending() {
+	final public void disableBlending() {
 		rendererImpl.glDisable(rendererImpl.getGL_BLEND());
 	}
 
 	@Override
-	public void enableBlending() {
+	final public void enableBlending() {
 		rendererImpl.glEnable(rendererImpl.getGL_BLEND());
 	}
 
 	@Override
-	public final void enableMultisample() {
+	final public void enableMultisample() {
 		rendererImpl.enableMultisample();
 	}
 
@@ -458,47 +459,47 @@ public abstract class RendererWithImpl extends Renderer implements
 	}
 
 	@Override
-	public void enableAlphaTest() {
+	final public void enableAlphaTest() {
 		rendererImpl.enableAlphaTest();
 	}
 
 	@Override
-	public void disableAlphaTest() {
+	final public void disableAlphaTest() {
 		rendererImpl.disableAlphaTest();
 	}
 
 	@Override
-	public void enableDepthMask() {
+	final public void enableDepthMask() {
 		rendererImpl.enableDepthMask();
 	}
 
 	@Override
-	public void disableDepthMask() {
+	final public void disableDepthMask() {
 		rendererImpl.disableDepthMask();
 	}
 
 	@Override
-	public void enableDepthTest() {
+	final public void enableDepthTest() {
 		rendererImpl.glEnable(rendererImpl.getGL_DEPTH_TEST());
 	}
 
 	@Override
-	public void disableDepthTest() {
+	final public void disableDepthTest() {
 		rendererImpl.glDisable(rendererImpl.getGL_DEPTH_TEST());
 	}
 
 	@Override
-	public void setColorMask(boolean r, boolean g, boolean b, boolean a) {
+	final public void setColorMask(boolean r, boolean g, boolean b, boolean a) {
 		rendererImpl.setColorMask(r, g, b, a);
 	}
 
 	@Override
-	public void setClearColor(float r, float g, float b, float a) {
+	final public void setClearColor(float r, float g, float b, float a) {
 		rendererImpl.setClearColor(r, g, b, a);
 	}
 
 	@Override
-	public void setLayer(float l) {
+	final public void setLayer(float l) {
 
 		// 0<=l<10
 		// l2-l1>=1 to see something
@@ -511,83 +512,83 @@ public abstract class RendererWithImpl extends Renderer implements
 	}
 
 	@Override
-	public void enableTextures2D() {
+	final public void enableTextures2D() {
 		rendererImpl.glEnable(rendererImpl.getGL_TEXTURE_2D());
 	}
 
 	@Override
-	public void disableTextures2D() {
+	final public void disableTextures2D() {
 		rendererImpl.glDisable(rendererImpl.getGL_TEXTURE_2D());
 	}
 
 	@Override
-	public void genTextures2D(int number, int[] index) {
+	final public void genTextures2D(int number, int[] index) {
 		rendererImpl.genTextures2D(number, index);
 	}
 
 	@Override
-	public void bindTexture(int index) {
+	final public void bindTexture(int index) {
 		rendererImpl.bindTexture(index);
 	}
 
 	@Override
-	protected void enableClipPlanes() {
+	final protected void enableClipPlanes() {
 		rendererImpl.enableClipPlanes();
 	}
 
 	@Override
-	protected void disableClipPlanes() {
+	final protected void disableClipPlanes() {
 		rendererImpl.disableClipPlanes();
 	}
 
 	@Override
-	public void setLabelOrigin(Coords origin) {
+	final public void setLabelOrigin(Coords origin) {
 		rendererImpl.setLabelOrigin(origin);
 	}
 
 	@Override
-	public void enableLighting() {
+	final public void enableLighting() {
 		rendererImpl.enableLighting();
 	}
 
 	@Override
-	public void disableLighting() {
+	final public void disableLighting() {
 		rendererImpl.disableLighting();
 	}
 
 	@Override
-	public void initLighting() {
+	final public void initLighting() {
 		rendererImpl.initLighting();
 	}
 
 	@Override
-	public boolean useShaders() {
+	final public boolean useShaders() {
 		return rendererImpl.useShaders();
 	}
 
 
 	@Override
-	public void enableFading() {
+	final public void enableFading() {
 		rendererImpl.enableFading();
 	}
 
 	@Override
-	public void enableDash() {
+	final public void enableDash() {
 		rendererImpl.enableDash();
 	}
 
 	@Override
-	protected float[] getLightPosition() {
+	final protected float[] getLightPosition() {
 		return rendererImpl.getLightPosition();
 	}
 
 	@Override
-	public void setDashTexture(int index) {
+	final public void setDashTexture(int index) {
 		rendererImpl.setDashTexture(index);
 	}
 
 	@Override
-	protected void drawSurfacesOutline() {
+	final protected void drawSurfacesOutline() {
 		rendererImpl.drawSurfacesOutline();
 	}
 }
