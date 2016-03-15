@@ -350,7 +350,6 @@ public class PlotterBrush implements PathPlotter {
 		down(p1);
 
 		float factor, arrowPos;
-		Coords arrowBase;
 
 		switch (arrowType) {
 		case ARROW_TYPE_NONE:
@@ -364,44 +363,46 @@ public class PlotterBrush implements PathPlotter {
 				factor = 0.9f * length / ARROW_LENGTH;
 			}
 			arrowPos = ARROW_LENGTH / length * factor;
-			arrowBase = start.getCenter().mul(arrowPos)
-					.add(p2.mul(1 - arrowPos));
+			tmpCoords3.setAdd(tmpCoords4.setMul(start.getCenter(), arrowPos),
+					tmpCoords3.setMul(p2, 1 - arrowPos));
 
 			setTextureX(0);
 			if (ticksDistance > 0) {
 				switch (ticks) {
 				case MAJOR:
 				default:
-					Coords d = p2.sub(p1).normalized();
-					float lineThickness = this.thickness;
+					tmpCoords4.setSub(p2, p1);
+					tmpCoords4.normalize();
+					float thicknessOld = this.thickness;
 
 					float i = ticksOffset * length
 							- ((int) (ticksOffset * length / ticksDistance))
 							* ticksDistance;
-					float ticksDelta = lineThickness;
-					float ticksThickness = 4 * lineThickness;
+					float ticksDelta = thicknessOld;
+					float ticksThickness = 4 * thicknessOld;
 					if (i <= ticksDelta)
 						i += ticksDistance;
 
 					for (; i <= length * (1 - arrowPos); i += ticksDistance) {
+						tmpCoords.setAdd(p1,
+								tmpCoords.setMul(tmpCoords4, i - ticksDelta));
+						tmpCoords2.setAdd(p1,
+								tmpCoords2.setMul(tmpCoords4, i + ticksDelta));
 
-						Coords p1b = p1.add(d.mul(i - ticksDelta));
-						Coords p2b = p1.add(d.mul(i + ticksDelta));
-
-						drawTick(p1b, p2b, i, ticksThickness, lineThickness);
-
+						drawTick(tmpCoords, tmpCoords2, i, ticksThickness, thicknessOld);
 					}
 					break;
 				case MAJOR_AND_MINOR:
-					d = p2.sub(p1).normalized();
-					lineThickness = this.thickness;
+					tmpCoords4.setSub(p2, p1);
+					tmpCoords4.normalize();
+					thicknessOld = this.thickness;
 
 					i = ticksOffset * length
 							- ((int) (ticksOffset * length / ticksDistance))
 							* ticksDistance;
-					ticksDelta = lineThickness;
-					ticksThickness = 4 * lineThickness;
-					float ticksMinorThickness = 2.5f * lineThickness;
+					ticksDelta = thicknessOld;
+					ticksThickness = 4 * thicknessOld;
+					float ticksMinorThickness = 2.5f * thicknessOld;
 					boolean minor = false;
 					if (i > ticksDistance / 2 + ticksDelta) {
 						minor = true;
@@ -412,12 +413,14 @@ public class PlotterBrush implements PathPlotter {
 					}
 
 					for (; i <= length * (1 - arrowPos); i += ticksDistance / 2) {
+						tmpCoords.setAdd(p1,
+								tmpCoords.setMul(tmpCoords4, i - ticksDelta));
+						tmpCoords2.setAdd(p1,
+								tmpCoords2.setMul(tmpCoords4, i + ticksDelta));
 
-						Coords p1b = p1.add(d.mul(i - ticksDelta));
-						Coords p2b = p1.add(d.mul(i + ticksDelta));
-
-						drawTick(p1b, p2b, i, minor ? ticksMinorThickness
-								: ticksThickness, lineThickness);
+						drawTick(tmpCoords, tmpCoords2, i,
+								minor ? ticksMinorThickness
+								: ticksThickness, thicknessOld);
 
 						minor = !minor;
 					}
@@ -427,12 +430,12 @@ public class PlotterBrush implements PathPlotter {
 				}
 			}
 
-			drawArrowBase(arrowPos, arrowBase);
+			drawArrowBase(arrowPos, tmpCoords3);
 
 			textureTypeX = TEXTURE_ID;
 			setTextureX(0, 0);
 			setThickness(factor * ARROW_WIDTH);
-			moveTo(arrowBase);
+			moveTo(tmpCoords3);
 			setThickness(0);
 			moveTo(p2);
 			break;
@@ -451,10 +454,10 @@ public class PlotterBrush implements PathPlotter {
 	 * @param p2b
 	 * @param i
 	 * @param ticksThickness
-	 * @param lineThickness
+	 * @param thicknessOld
 	 */
 	protected void drawTick(Coords p1b, Coords p2b, float i,
-			float ticksThickness, float lineThickness) {
+			float ticksThickness, float thicknessOld) {
 		setTextureType(TEXTURE_AFFINE);
 		setTextureX(i / length);
 		moveTo(p1b);
@@ -462,7 +465,7 @@ public class PlotterBrush implements PathPlotter {
 		setTextureType(TEXTURE_CONSTANT_0);
 		moveTo(p1b);
 		moveTo(p2b);
-		setThickness(lineThickness);
+		setThickness(thicknessOld);
 		moveTo(p2b);
 	}
 
@@ -969,7 +972,7 @@ public class PlotterBrush implements PathPlotter {
 	 * 
 	 * @param type
 	 */
-	private void setTextureType(int type) {
+	protected void setTextureType(int type) {
 		textureTypeX = type;
 	}
 
