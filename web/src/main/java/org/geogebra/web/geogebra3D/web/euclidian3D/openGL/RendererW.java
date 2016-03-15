@@ -183,13 +183,13 @@ public class RendererW extends Renderer implements RendererShadersInterface,
 
 		((EuclidianView3DW) view3D).setReadyToRender();
 
+		// use loop timer for e.g. automatic rotation
 		loopTimer = new Timer() {
 			@Override
 			public void run() {
 				if (view3D.isAnimated()) {
 					view3D.repaintView();
 				}
-				// drawScene();
 			}
 		};
 		loopTimer.scheduleRepeating(MyZoomer.DELAY);
