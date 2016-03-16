@@ -62,6 +62,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 *            construction
 	 * @param fun
 	 *            input function
+	 * @param addToConsList
+	 *            whether to add this to construction list
 	 */
 	public AlgoDependentFunction(Construction cons, Function fun,
 			boolean addToConsList) {
@@ -259,7 +261,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 							break;
 					  }
 					}
-				 
+					Log.debug(constants + "/" + list.size());
 					ExpressionNodeEvaluator expev = ((GeoList) leftValue)
 							.getKernel().getExpressionNodeEvaluator();
 					ExpressionValue res = expev.handleElementOf(leftValue,
@@ -276,6 +278,9 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 								list.size() - ((FunctionalNVar) res)
 										.getFunctionVariables().length);
 						return ret == null ? ev : ret;
+					}
+					if (!(res instanceof FunctionalNVar)) {
+						return res;
 					}
 					Log.debug("Cannot expand");
 				}
@@ -353,7 +358,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 			}
 			// list(1,x) is function dependent, list(1,2) is not
 			if (op.equals(Operation.ELEMENT_OF)) {
-				return node.containsFreeFunctionVariable(null);
+				return true;
 			}
 			return containsFunctions(node.getLeft())
 					|| containsFunctions(node.getRight());
