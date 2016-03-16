@@ -2360,11 +2360,6 @@ CasEvaluableFunction, ParametricCurve,
 				ret = "-\\infty";
 		}
 
-		// GGB-605
-		if (ExpressionNode.secretString.equals(ret)) {
-			return algoParent.getDefinition(tpl);
-		}
-
 		return ret;
 
 	}

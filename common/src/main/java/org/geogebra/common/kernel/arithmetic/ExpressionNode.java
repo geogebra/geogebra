@@ -78,7 +78,6 @@ public class ExpressionNode extends ValidExpression implements
 
 	// used by NDerivative command
 	// (answer not displayed in Algebra View)
-	final public static String secretString = "sEcRet";
 	private AlgoElement isSecret;
 
 
@@ -5905,6 +5904,19 @@ kernel, left,
 		}
 	}
 	
+	private static boolean checkFraction(ExpressionValue[] parts,
+			ExpressionValue left1, boolean expandPlus) {
+		if (left1 instanceof ExpressionNode) {
+			((ExpressionNode) left1).getFraction(parts, expandPlus);
+			return true;
+		} else if (left1 instanceof GeoNumeric
+				&& ((GeoNumeric) left1).getDefinition() != null) {
+			((GeoElement) left1).getDefinition().getFraction(parts, expandPlus);
+			return true;
+		}
+		return false;
+
+	}
 	/**
 	 * @param parts
 	 *            output parameter
@@ -5913,16 +5925,14 @@ kernel, left,
 	 */
 	public void getFraction(ExpressionValue[] parts, boolean expandPlus){
 		ExpressionValue numL, numR, denL = null, denR = null;
-		if(left instanceof ExpressionNode){
-			((ExpressionNode) left).getFraction(parts, expandPlus);
+		if (checkFraction(parts, left, expandPlus)) {
+
 			numL = parts[0];
 			denL = parts[1];
-		}else{
+		} else {
 			numL = left;
 		}
-		
-		if(right instanceof ExpressionNode){
-			((ExpressionNode) right).getFraction(parts, expandPlus);
+		if (checkFraction(parts, right, expandPlus)) {
 			numR = parts[0];
 			denR = parts[1];
 		}else{
