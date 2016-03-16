@@ -123,16 +123,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 				name);
 	}
 
-	@Override
-	final protected void setPredefinedAttributes() {
-		// Associate attribute ids with the attribute names inside
-		// the vertex shader.
-		GLSL_ATTRIB_POSITION = 0;
-		GLSL_ATTRIB_COLOR = 2;
-		GLSL_ATTRIB_NORMAL = 1;
-		GLSL_ATTRIB_TEXTURE = 3;
-		GLSL_ATTRIB_INDEX = 4;
-	}
 
 	@Override
 	final protected void glLinkProgram() {
