@@ -268,15 +268,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 		return GL.GL_ARRAY_BUFFER;
 	}
 
-	@Override
-	protected void enableAttrib(int attrib) {
-		jogl.getGL2ES2().glEnableVertexAttribArray(attrib);
-	}
-
-	@Override
-	protected void disableAttrib(int attrib) {
-		jogl.getGL2ES2().glDisableVertexAttribArray(attrib);
-	}
 
 	@Override
 	protected void vertexAttribPointer(int attrib, int size) {

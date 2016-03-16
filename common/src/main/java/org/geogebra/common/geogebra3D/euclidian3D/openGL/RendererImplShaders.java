@@ -145,21 +145,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 
 	abstract protected int getGL_ARRAY_BUFFER();
 
-	/**
-	 * enable vertex attribute
-	 * 
-	 * @param attrib
-	 *            attribute
-	 */
-	abstract protected void enableAttrib(int attrib);
 
-	/**
-	 * disable vertex attribute
-	 * 
-	 * @param attrib
-	 *            attribute
-	 */
-	abstract protected void disableAttrib(int attrib);
 
 	/**
 	 * set vertex attribute pointer
@@ -183,14 +169,14 @@ public abstract class RendererImplShaders implements RendererImpl {
 		vertexAttribPointer(GLSL_ATTRIB_POSITION, size);
 
 		// enable VBO
-		enableAttrib(GLSL_ATTRIB_POSITION);
+		glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
 	}
 
 	@Override
 	final public void bindBufferForColors(GPUBuffer buffer, int size,
 			GLBuffer fbColors) {
 		if (fbColors == null || fbColors.isEmpty()) {
-			disableAttrib(GLSL_ATTRIB_COLOR);
+			glDisableVertexAttribArray(GLSL_ATTRIB_COLOR);
 			return;
 		}
 
@@ -203,7 +189,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 		// Associate Vertex attribute 1 with the last bound VBO
 		vertexAttribPointer(GLSL_ATTRIB_COLOR, size);
 
-		enableAttrib(GLSL_ATTRIB_COLOR);
+		glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
 	}
 	
 	abstract protected void glUniform3fv(Object location, float[] values);
@@ -218,7 +204,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 	final public void bindBufferForNormals(GPUBuffer buffer, int size,
 			GLBuffer fbNormals) {
 		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
-			disableAttrib(GLSL_ATTRIB_NORMAL);
+			glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 			return;
 		}
 
@@ -226,7 +212,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 			fbNormals.array(tmpNormal3);
 			glUniform3fv(normalLocation, tmpNormal3);
 			oneNormalForAllVertices = true;
-			disableAttrib(GLSL_ATTRIB_NORMAL);
+			glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 			return;
 		}
 
@@ -243,7 +229,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 		// Associate Vertex attribute 1 with the last bound VBO
 		vertexAttribPointer(GLSL_ATTRIB_NORMAL, size);
 
-		enableAttrib(GLSL_ATTRIB_NORMAL);
+		glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 	}
 
 	@Override
@@ -251,7 +237,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 			GLBuffer fbTextures) {
 		if (fbTextures == null || fbTextures.isEmpty()) {
 			setCurrentGeometryHasNoTexture();
-			disableAttrib(GLSL_ATTRIB_TEXTURE);
+			glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 			return;
 		}
 
@@ -263,7 +249,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 		// Associate Vertex attribute 1 with the last bound VBO
 		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, size);
 
-		enableAttrib(GLSL_ATTRIB_TEXTURE);
+		glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 	}
 
 	private boolean texturesEnabled;

@@ -217,15 +217,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 		return WebGLRenderingContext.ARRAY_BUFFER;
 	}
 
-	@Override
-	protected void enableAttrib(int attrib) {
-		glContext.enableVertexAttribArray(attrib);
-	}
-
-	@Override
-	protected void disableAttrib(int attrib) {
-		glContext.disableVertexAttribArray(attrib);
-	}
 
 	@Override
 	protected void vertexAttribPointer(int attrib, int size) {
