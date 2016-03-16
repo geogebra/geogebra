@@ -207,7 +207,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 
 	@Override
 	protected void enableNormalNormalized() {
-		// TODO Auto-generated method stub
+		// no need
 
 	}
 
