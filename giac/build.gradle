@@ -260,7 +260,8 @@ model {
                     cppCompiler.define 'NO_BSD'
 
                     cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
-                    cppCompiler.args '-I', file('src/giac/headers/android').toString()
+                    // overwrite standard headers with custom android headers
+                    cppCompiler.args '-iquote', file('src/giac/headers/android').toString()
                     cppCompiler.args '-fno-strict-aliasing' // maybe not needed
                     cppCompiler.args '-DPIC' // maybe not needed
                     cppCompiler.args '-fPIC' // android 6.0 doesn't load libraries which have text relocations
