@@ -49,7 +49,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -72,7 +71,6 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JsArray;
@@ -281,7 +279,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 		public void show() {
-			setAnimating(false);
+			geo.setAnimating(false);
 			expandSize();
 			sliderPanel.setVisible(false);
 			setVisible(true);
@@ -435,186 +433,6 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	private class AnimPanel extends FlowPanel implements ClickHandler {
-		private MyToggleButton2 btnSpeedDown;
-		private PushButton btnSpeedValue;
-		private MyToggleButton2 btnSpeedUp;
-		private MyToggleButton2 btnPlay;
-		private boolean speedButtons = false;
-		private boolean play = false;
-		public AnimPanel() {
-			super();
-			addStyleName("elemRow");
-
-			btnSpeedDown = new MyToggleButton2(
-					GuiResources.INSTANCE.icons_play_rewind());
-			btnSpeedDown.getUpHoveringFace().setImage(
-					new Image(GuiResources.INSTANCE.icons_play_rewind_hover()));
-
-			btnSpeedDown.setStyleName("avSpeedButton");
-			btnSpeedDown.addStyleName("slideIn");
-
-			btnSpeedUp = new MyToggleButton2(
-					GuiResources.INSTANCE.icons_play_fastforward());
-			btnSpeedUp.getUpHoveringFace().setImage(new Image(
-					GuiResources.INSTANCE.icons_play_fastforward_hover()));
-
-			btnSpeedUp.setStyleName("avSpeedButton");
-			btnSpeedUp.addStyleName("slideIn");
-			// btnSpeedUp.removeStyleName("MyToggleButton");
-
-			btnSpeedDown.addClickHandler(this);
-			btnSpeedUp.addClickHandler(this);
-			btnSpeedValue = new PushButton("");
-			btnSpeedValue.addStyleName("speedValue");
-			btnSpeedValue.addStyleName("slideIn");
-			btnSpeedValue.addClickHandler(this);
-			setSpeedText(geo.getAnimationSpeed());
-			createPlayButton();
-			add(btnSpeedDown);
-			add(btnSpeedValue);
-			add(btnSpeedUp);
-			add(btnPlay);
-			showSpeedValue(false);
-		}
-
-		private void createPlayButton() {
-			btnPlay = new MyToggleButton2(
-					GuiResourcesSimple.INSTANCE.icons_play_circle(),
-					GuiResourcesSimple.INSTANCE.icons_play_pause_circle());
-			btnPlay.getUpHoveringFace().setImage(
-					new Image(GuiResourcesSimple.INSTANCE
-							.icons_play_circle_hover()));
-			btnPlay.getDownHoveringFace()
-					.setImage(new Image(GuiResourcesSimple.INSTANCE
-							.icons_play_pause_circle_hover()));
-			btnPlay.setStyleName("avPlayButton");
-
-			ClickStartHandler.init(btnPlay, new ClickStartHandler() {
-				@Override
-				public boolean onClickStart(int x, int y, PointerEventType type,
-						boolean right) {
-					if (right) {
-						return true;
-					}
-
-					boolean value = !(geo.isAnimating() && app.getKernel()
-							.getAnimatonManager().isRunning());
-
-					geo.setAnimating(value);
-					setPlay(value);
-					geo.updateRepaint();
-
-					setAnimating(geo.isAnimating());
-					return true;
-				}
-
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					onClickStart(x, y, type, false);
-				}
-			});
-
-		}
-
-		private void setPlay(boolean value) {
-			play = value;
-			showSpeedButtons(false);
-
-			if (value) {
-				showSpeedValue(true);
-			} else {
-				showSpeedValue(false);
-
-			}
-		}
-
-		private void showSpeedValue(boolean value) {
-			setSpeedText(geo.getAnimationSpeed());
-			if (value) {
-				btnSpeedValue.removeStyleName("hidden");
-			} else {
-				btnSpeedValue.addStyleName("hidden");
-				showSpeedButtons(false);
-			}
-		}
-
-		public void showPlay(boolean value) {
-			btnPlay.setVisible(value);
-		}
-
-		public void showSpeedButtons(boolean value) {
-			if (value) {
-				setSpeedText(geo.getAnimationSpeed());
-				btnSpeedUp.removeStyleName("hidden");
-				btnSpeedDown.removeStyleName("hidden");
-			} else {
-				btnSpeedUp.addStyleName("hidden");
-				btnSpeedDown.addStyleName("hidden");
-			}
-			speedButtons = value;
-		}
-
-		private void setSpeed() {
-			double speed = animSpeeds[speedIndex];
-			geo.setAnimationSpeed(speed);
-			setSpeedText(speed);
-		}
-
-		private void setSpeedText(double speed) {
-			String speedStr = speed + " " + MUL_SIGN;
-			btnSpeedValue.getUpFace().setText(speedStr);
-			btnSpeedValue.getUpHoveringFace().setText(speedStr);
-			btnSpeedValue.getDownFace().setText(speedStr);
-			btnSpeedValue.getDownHoveringFace().setText(speedStr);
-			btnSpeedValue.setText(speedStr);
-		}
-
-		public void onClick(ClickEvent event) {
-			if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
-				return;
-			}
-			Object source = event.getSource();
-			if (source == btnSpeedDown) {
-				speedDown();
-				selectItem(true);
-			} else if (source == btnSpeedUp) {
-				speedUp();
-				selectItem(true);
-			} else if (source == btnSpeedValue) {
-				showSpeedButtons(!speedButtons);
-			}
-		}
-
-		private void speedUp() {
-			if (speedIndex < animSpeeds.length - 1) {
-				speedIndex++;
-				setSpeed();
-			}
-		}
-
-		private void speedDown() {
-			if (speedIndex > 0) {
-				speedIndex--;
-				setSpeed();
-
-			}
-		}
-
-		public void update() {
-			if (geo.isAnimating() != play) {
-				boolean v = geo.isAnimating();
-				setPlay(v);
-				btnPlay.setDown(v);
-			}
-		}
-
-		public void reset() {
-			showSpeedButtons(false);
-			showSpeedValue(geo.isAnimating());
-		}
-	}
-
 	private class MarblePanel extends FlowPanel {
 		private static final int BACKGROUND_ALPHA = 60;
 		private Marble marble;
@@ -688,10 +506,8 @@ public class RadioTreeItem extends AVTreeItem
 	GTextBox tb;
 	private boolean needsUpdate;
 
-	private int speedIndex = 6;
-	private final static double animSpeeds[] = { 0.05, 0.1, 0.15, 0.2, 0.35,
-			0.75, 1, 1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
-	private static final String MUL_SIGN = "\u00d7";
+
+
 	private static final String GTE_SIGN = "\u2264";
 	private LongTouchManager longTouchManager;
 
@@ -1193,7 +1009,7 @@ public class RadioTreeItem extends AVTreeItem
 	// methods for AV Slider
 
 	private void createAnimPanel() {
-		animPanel = geo.isAnimatable() ? new AnimPanel() : null;
+		animPanel = geo.isAnimatable() ? new AnimPanel(this) : null;
 
 	}
 
@@ -1981,7 +1797,7 @@ marblePanel, evt))) {
 		ev.resetMode();
 		if (geo != null && !ctrl) {
 			if (!isThisEdited()) {
-				setAnimating(false);
+				geo.setAnimating(false);
 				av.startEditing(geo);
 			}
 			app.showKeyboard(this);
@@ -2633,13 +2449,7 @@ marblePanel, evt))) {
 
 	}
 
-	private void setAnimating(boolean value) {
-		if (!(geo.isAnimatable())) {
-			return;
-		}
-		geo.setAnimating(value);
-		geo.getKernel().getAnimatonManager().startAnimation();
-	}
+
 
 	public static void closeMinMaxPanel() {
 		closeMinMaxPanel(true);
