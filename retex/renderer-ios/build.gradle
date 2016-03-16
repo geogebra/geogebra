@@ -1,0 +1,17 @@
+plugins {
+	id 'org.openbakery.xcode-plugin' version '0.12.7'
+}
+
+description 'ReTeX renderer project for iOS.'
+
+apply from: rootProject.file('ios.gradle')
+
+dependencies {
+	library 'com.himamis.retex:renderer-share:0.1@zip'
+}
+
+xcodebuild {
+	scheme = 'ReTeX'
+	target = 'ReTeX'
+	configuration = 'Release'
+}
