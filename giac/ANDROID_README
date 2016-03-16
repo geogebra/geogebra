@@ -33,12 +33,14 @@ Prerequisites
 
    This step requires additional 300-500 MB disk space.
 
-8. Repeat the steps 4-7 above but instead of step 4 use
+8. The static and shared libraries can be found in $CC_DIR/$ARCH/sysroot/usr/lib
+
+9. Repeat the steps 4-8 above but instead in step 4 use
 
    $ ARCH=x86
    $ HOST=i686-linux-android
 
-9. Now you may remove the $NDK_DIR folder and save some disk space.
+10. Now you may remove the $NDK_DIR folder and save some disk space.
 
 Compilation
 -----------
