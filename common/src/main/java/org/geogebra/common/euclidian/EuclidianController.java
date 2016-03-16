@@ -9550,7 +9550,7 @@ public abstract class EuclidianController {
 				for (GeoElement geo : kernel.getConstruction()
 						.getGeoSetConstructionOrder()) {
 					if (geo instanceof GeoNumeric) {
-						geo.setAnimating(kernel.isAnimationRunning());
+					//	geo.setAnimating(kernel.isAnimationRunning());
 						geo.updateRepaint();
 					}
 				}
