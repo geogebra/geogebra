@@ -322,14 +322,16 @@ pr.menu_header_undo(), null, 32);
 		// fix for firefox and iexplorer (e.g. fullscreen goes to 1079px instead of 1080px)
 		//var screenHeight = screen.height - 5;
 
-		var focus;
-		$wnd.console.log("focus 1: " + focus);
+		//var focus;
+		//$wnd.console.log("focus 1: " + focus);
 		var fullscreen = true;
 		$wnd.console.log("fullscreen: " + fullscreen);
 		if ($wnd.innerHeight < screen.height - 5
 				|| $wnd.innerWidth < screen.width - 5) {
 			fullscreen = false;
 		}
+		//var fullHeight = $wnd.innerHeight;
+		//var fullWidth = $wnd.innerWidth;
 
 		var startCheating = function() {
 			that.@org.geogebra.web.web.gui.app.GGWToolBar::startCheating()()
@@ -365,8 +367,8 @@ pr.menu_header_undo(), null, 32);
 			if (e.type == "blur") { //&& fullscreen == true
 				//$wnd.console.log("5");
 				startCheating();
-				focus = false;
-				console.log("focus 2 " + focus);
+				//focus = false;
+				//console.log("focus 2 " + focus);
 			}
 
 		};
@@ -374,8 +376,8 @@ pr.menu_header_undo(), null, 32);
 			//$wnd.console.log("6");
 			if (fullscreen == true) {
 				stopCheating();
-				focus = true;
-				console.log("focus 3 " + focus);
+				//	focus = true;
+				//	console.log("focus 3 " + focus);
 			}
 		}
 		// window resize has 2 cases: full screen and not full screen
@@ -402,15 +404,23 @@ pr.menu_header_undo(), null, 32);
 			}
 		});
 
+		//$wnd.console.log("x= " + $wnd.screenX + "; y= " + $wnd.screenY);
 		var interval = setInterval(function() {
-			if ($wnd.screenX != 0 || $wnd.screenY != 0) {
-				startCheating();
-				$wnd.console.log('moved! ' + $wnd.screenX);
-			} else if (fullscreen == true && focus == true) {
-				stopCheating();
-				$wnd.console.log('focus 4 ' + focus + ' stop!');
 
-			}
+			$wnd.console.log("innerHeight = " + $wnd.innerHeight
+					+ ", screen.height = " + screen.height + "; screenx= "
+					+ $wnd.screenX + "; screeny= " + $wnd.screenY
+					+ "; availHeight = " + screen.availHeight);
+
+			//if ($wnd.screenX != 0 || $wnd.screenY != 0) {
+			//	startCheating();
+			//	$wnd.console.log('moved! ' + "x= " + $wnd.screenX + "; y= "
+			//			+ $wnd.screenY);
+			//} else if ($wnd.innerHeight >= fullHeight && focus == true) {
+			//	stopCheating();
+			//$wnd.console.log('focus 4 ' + focus + ' stop!');
+
+			//}
 		}, 3000);
 		// TODO find a way to stop interval on exit exam
 		//if (!examActive) {
@@ -418,7 +428,7 @@ pr.menu_header_undo(), null, 32);
 		//	clearInterval(interval);
 		//}
 
-	}-*/;
+	}-*/ ;
 
 	
 
