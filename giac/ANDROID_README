@@ -29,7 +29,7 @@ Prerequisites
 
 7. Optionally check out GMP and MPFR and make them with the following command (for versions see src/jni/prebuilt/android/README.txt):
 
-   $ CFLAGS="-fPIC" ./configure --host=arm-linux-androideabi --prefix=$CC_DIR/$ARCH/sysroot/usr && make && make install
+   $ CFLAGS="-fPIC" ./configure --host=arm-linux-androideabi --prefix=$CC_DIR/$ARCH/sysroot/usr --disable-assembly && make && make install
 
    This step requires additional 300-500 MB disk space.
 
