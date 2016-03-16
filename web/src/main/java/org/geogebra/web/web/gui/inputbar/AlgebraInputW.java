@@ -10,6 +10,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -181,7 +182,8 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		}
 
 		inputField.setDictionary(false);
-		inputField.getTextField().getElement().setAttribute("placeholder",app.getPlain("InputLabel"));
+		inputField.getTextField().getElement().setAttribute("placeholder",
+				app.getPlain("InputLabel") + Unicode.ellipsis);
 	}
 
 	/**
