@@ -934,7 +934,7 @@ namespace giac {
       gen gf=g._SYMBptr->feuille;
       domain(gf,x,eqs,excluded,contextptr);
       unary_function_ptr & u=g._SYMBptr->sommet;
-      if (u==at_inv){
+      if (u==at_inv || u==at_Ei){
 	excluded=mergevecteur(excluded,gen2vecteur(_solve(makesequence(symb_equal(gf,0),x),contextptr)));
 	continue;
       }
@@ -945,16 +945,29 @@ namespace giac {
 	  eqs.push_back(symb_superieur_strict(gf[0],0));
 	continue;
       }
-      if (u==at_ln){
+      if (u==at_ln || u==at_log10 || u==at_Ci){
 	eqs.push_back(symb_superieur_strict(gf,0));
+	continue;
+      }
+      if (u==at_acosh){
+	eqs.push_back(symb_superieur_egal(gf,1));
+	continue;
+      }
+      if (u==at_asin || u==at_acos || u==at_atanh){
+	eqs.push_back(symb_inferieur_egal(pow(gf,2,contextptr),1));
 	continue;
       }
       if (u==at_tan){
 	eqs.push_back(symb_cos(gf));
 	continue;
       }
-      if (u!=at_sin && u!=at_cos && u!=at_exp && u!=at_atan)
-	*logptr(contextptr) << g << " function not supported, doing like if it was defined" << endl;
+      if (u==at_sin || u==at_cos || u==at_exp || u==at_atan)
+	continue;
+      if (u==at_sinh || u==at_cosh || u==at_tanh)
+	continue;
+      if (u==at_floor || u==at_ceil || u==at_round || u==at_abs || u==at_sign || u==at_max || u==at_min)
+	continue;
+      *logptr(contextptr) << g << " function not supported, doing like if it was defined" << endl;
     }
   }
   gen domain(const gen & f,const gen & x,GIAC_CONTEXT){
@@ -977,7 +990,7 @@ namespace giac {
     complex_mode(b,contextptr);
     comprim(excluded);
     if (excluded.empty())
-      return res.size()==1?res.front():symbolic(at_ou,gen(res,_SEQ__VECT));
+      return res.size()==1?res.front():res;
     vecteur tmp;
     for (int i=0;i<excluded.size();++i){
       tmp.push_back(symbolic(at_different,makesequence(x,excluded[i])));
@@ -985,8 +998,25 @@ namespace giac {
     if (res.size()==1 && res.front()==x)
       return tmp.size()==1?tmp.front():symbolic(at_and,gen(tmp,_SEQ__VECT));
     else {
-      // try to check if excluded values are solutions inside res
+      // check if excluded values are solutions inside res
+      for (int i=0;i<int(res.size());++i){
+	for (int j=0;j<int(excluded.size());++j){
+	  gen resi=subst(res[i],x,excluded[j],false,contextptr);
+	  resi=eval(resi,1,contextptr);
+	  if (is_zero(resi))
+	    continue;
+	  if (!res[i].is_symb_of_sommet(at_and)){
+	    res[i]=symbolic(at_and,makesequence(res[i],tmp));
+	    continue;
+	  }
+	  vecteur v=gen2vecteur(res[i]._SYMBptr->feuille);
+	  v.push_back(tmp[j]);
+	  res[i]=symbolic(at_and,gen(v,_SEQ__VECT));
+	}
+      }
+      return res;
     }
+    // not reached
     if (res.size()==1){
       tmp.insert(tmp.begin(),res.front());
       return symbolic(at_and,gen(tmp,_SEQ__VECT));

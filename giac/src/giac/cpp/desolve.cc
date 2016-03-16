@@ -1586,7 +1586,7 @@ namespace giac {
 	  vecteur vnum;
 	  polynome2poly1(it->num,1,vnum);
 	  for (int i=0;i<mult;++i){
-	    res0 += r2e(vnum[i],lprime,contextptr)*symbolic(at_Dirac,s-i);
+	    res0 += r2e(vnum[i],lprime,contextptr)*symbolic(at_Dirac,s-i); // symb_when(symb_equal(s,i),1,0) will not be handled correctly by ztrans
 	  }
 	  res += res0/B;
 	}
