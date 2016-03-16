@@ -27,6 +27,10 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.dnd.DropTarget;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.image.BufferedImage;
@@ -50,6 +54,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
@@ -84,7 +89,7 @@ import org.geogebra.desktop.util.Util;
  * GeoGebra's main window.
  */
 public class GeoGebraFrame extends JFrame implements WindowFocusListener,
-		Printable {
+		Printable, ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -101,9 +106,14 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 	protected AppD app;
 
+	private Timer timer;
+	private long born;
+
 	public GeoGebraFrame() {
 		instances.add(this);
 		activeInstance = this;
+		born = System.currentTimeMillis();
+		this.addComponentListener(this);
 	}
 
 	// public static void printInstances() {
@@ -213,6 +223,37 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				updateAllTitles();
 			}
 		}
+	}
+
+	/**
+	 * Provide temporary information about window size (for applet designers)
+	 */
+	public void componentResized(ComponentEvent e) {
+		if (System.currentTimeMillis() < born + 5000) {
+			return;
+		}
+		this.setTitle(getPreferredTitle() + " (" +
+		 this.getSize().getWidth() + " x " + this.getSize().getHeight()+")");
+		if (timer == null) {
+			timer = new Timer(3000, new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					String title = getPreferredTitle();
+					setTitle(title);
+
+				}
+
+			});
+		}
+		timer.setRepeats(false);
+		timer.restart();
+
+	}
+
+	String getPreferredTitle() {
+		// TODO Auto-generated method stub
+		return app.getCurrentFile() == null ? "GeoGebra"
+				: app.getCurrentFile().getName();
 	}
 
 	public void updateSize() {
@@ -1049,6 +1090,21 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			});
 
 		}
+	}
+
+	public void componentMoved(ComponentEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void componentShown(ComponentEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void componentHidden(ComponentEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
