@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -85,7 +86,18 @@ public class CmdIntersect3D extends CmdIntersect {
 							.getManager3D()
 							.IntersectPlaneConic(c.getLabels(),
 									(GeoCoordSys2D) arg[1], (GeoConicND) arg[0]);
-
+				else if ((arg[0] instanceof GeoPlane3D)
+						&& (arg[1] instanceof GeoCurveCartesianND))
+					return (GeoElement[]) kernelA.getManager3D()
+							.IntersectPlaneCurve(c.getLabels(),
+									(GeoCoordSys2D) arg[0],
+									(GeoCurveCartesianND) arg[1]);
+				else if ((arg[0] instanceof GeoCurveCartesianND)
+						&& (arg[1] instanceof GeoPlane3D))
+					return (GeoElement[]) kernelA.getManager3D()
+							.IntersectPlaneCurve(c.getLabels(),
+									(GeoCoordSys2D) arg[1],
+									(GeoCurveCartesianND) arg[0]);
 				// intersection plane/polygon
 				else if ((arg[0] instanceof GeoPlane3D)
 						&& (arg[1] instanceof GeoPolygon))

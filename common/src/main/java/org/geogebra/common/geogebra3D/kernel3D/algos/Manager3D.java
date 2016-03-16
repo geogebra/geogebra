@@ -1340,9 +1340,34 @@ public class Manager3D implements Manager3DInterface {
 		return algo;
 	}
 
+	private AlgoIntersectPlaneCurve getIntersectionAlgorithmCurve(
+			GeoCoordSys2D A, GeoCurveCartesianND B) {
+		AlgoElement existingAlgo = kernel.getAlgoDispatcher()
+				.findExistingIntersectionAlgorithm((GeoElement) A, B);
+		if (existingAlgo != null)
+			return (AlgoIntersectPlaneCurve) existingAlgo;
+
+		// we didn't find a matching algorithm, so create a new one
+		AlgoIntersectPlaneCurve algo = new AlgoIntersectPlaneCurve(cons, A, B);
+		algo.setPrintedInXML(false);
+		kernel.getAlgoDispatcher().addIntersectionAlgorithm(algo); // remember
+																	// this
+																	// algorithm
+		return algo;
+	}
+
 	public GeoPointND[] IntersectPlaneConic(String[] labels, GeoCoordSys2D A,
 			GeoConicND B) {
 		AlgoIntersectPlaneConic algo = getIntersectionAlgorithm(A, B);
+		algo.setPrintedInXML(true);
+		GeoPoint3D[] points = algo.getIntersectionPoints();
+		GeoElement.setLabels(labels, points);
+		return points;
+	}
+
+	public GeoPointND[] IntersectPlaneCurve(String[] labels, GeoCoordSys2D A,
+			GeoCurveCartesianND B) {
+		AlgoIntersectPlaneCurve algo = getIntersectionAlgorithmCurve(A, B);
 		algo.setPrintedInXML(true);
 		GeoPoint3D[] points = algo.getIntersectionPoints();
 		GeoElement.setLabels(labels, points);

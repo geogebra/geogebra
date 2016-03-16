@@ -638,6 +638,9 @@ public interface Manager3DInterface {
 	public GeoPointND[] IntersectPlaneConic(String[] labels, GeoCoordSys2D A,
 			GeoConicND B);
 
+	public GeoPointND[] IntersectPlaneCurve(String[] labels, GeoCoordSys2D A,
+			GeoCurveCartesianND B);
+
 	public GeoElement IntersectPlanes(String label, GeoPlaneND cs1,
 			GeoPlaneND cs2);
 
