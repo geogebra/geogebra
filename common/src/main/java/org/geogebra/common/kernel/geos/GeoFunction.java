@@ -1953,7 +1953,12 @@ CasEvaluableFunction, ParametricCurve,
 		// get function and function variable string using temp variable
 		// prefixes,
 		// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
-		String[] funVarStr = f.getTempVarCASString(false);
+		StringTemplate tpl = StringTemplate.prefixedDefault;
+		ExpressionNode exp = getFunctionExpression();
+
+		exp = getSubexpForAsymptote(exp);
+		String[] funVarStr = { exp.getCASstring(tpl, false),
+				getVarString(tpl) };
 
 		// solve 1/f(x) == 0 to find vertical asymptotes
 		if (sb == null)
@@ -2073,6 +2078,26 @@ CasEvaluableFunction, ParametricCurve,
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
+	}
+
+	private ExpressionNode getSubexpForAsymptote(ExpressionNode exp) {
+		if (exp.getOperation() == Operation.EXP) {
+			return getSubexpForAsymptote(exp.getLeftTree());
+		} else if (exp.getOperation() == Operation.PLUS
+				|| exp.getOperation() == Operation.MINUS) {
+			if (!exp.getLeftTree().containsFreeFunctionVariable(null)) {
+				return getSubexpForAsymptote(exp.getRightTree());
+			}
+			if (!exp.getRightTree().containsFreeFunctionVariable(null)) {
+				return getSubexpForAsymptote(exp.getLeftTree());
+			}
+
+		} else if (exp.getOperation() == Operation.POWER
+				&& !exp.getLeftTree().containsFreeFunctionVariable(null)) {
+			return getSubexpForAsymptote(exp.getRightTree());
+
+		}
+		return exp;
 	}
 
 	final private static boolean CASError(String str, boolean allowInfinity) {
