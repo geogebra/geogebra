@@ -17,6 +17,7 @@ Prerequisites
 4. Set
 
    $ ARCH=arm
+   $ $HOST=arm-linux-androideabi
 
 5. Run
 
@@ -26,15 +27,16 @@ Prerequisites
 
    $ export PATH=$CC_DIR/$ARCH/bin/:$PATH
 
-7. Optionally check out GMP and MPFR and make them with the following command:
+7. Optionally check out GMP and MPFR and make them with the following command (for versions see src/jni/prebuilt/android/README.txt):
 
-   $ ./configure --host=arm-linux-androideabi --prefix=$CC_DIR/$ARCH/sysroot/usr && make && make install
+   $ CFLAGS="-fPIC" ./configure --host=arm-linux-androideabi --prefix=$CC_DIR/$ARCH/sysroot/usr && make && make install
 
    This step requires additional 300-500 MB disk space.
 
 8. Repeat the steps 4-7 above but instead of step 4 use
 
    $ ARCH=x86
+   $ HOST=i686-linux-android
 
 9. Now you may remove the $NDK_DIR folder and save some disk space.
 
