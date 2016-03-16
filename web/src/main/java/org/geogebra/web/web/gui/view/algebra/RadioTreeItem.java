@@ -146,6 +146,8 @@ public class RadioTreeItem extends AVTreeItem
 		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
 		EquationEditorListener, RequiresResize {
 
+	private static final String REFX = "[AVR]";
+
 	private static final int SLIDER_EXT = 15;
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
 	static final String CLEAR_COLOR_STR = GColor
@@ -679,8 +681,8 @@ public class RadioTreeItem extends AVTreeItem
 	boolean newCreationMode = false;
 	boolean mout = false;
 
-	protected Label latexItem;
-	private final Label plainTextItem;
+	protected FlowPanel latexItem;
+	private final FlowPanel plainTextItem;
 
 	FlowPanel ihtml;
 	GTextBox tb;
@@ -867,7 +869,7 @@ public class RadioTreeItem extends AVTreeItem
 			});
 		}
 
-		plainTextItem = new Label();
+		plainTextItem = new FlowPanel();
 
 		plainTextItem.addStyleName("sqrtFontFix");
 		EquationEditor.updateNewStatic(plainTextItem);
@@ -1151,14 +1153,14 @@ public class RadioTreeItem extends AVTreeItem
 		// add(radio);
 
 		// SpanElement se = DOM.createSpan().cast();
-		Label label = new Label();
-		EquationEditor.updateNewStatic(label);
+		FlowPanel item = new FlowPanel();
+		EquationEditor.updateNewStatic(item);
 
 		ihtml = new FlowPanel();
 		addDomHandlers(ihtml);
 		main.add(ihtml);
 
-		ihtml.getElement().appendChild(label.getElement());
+		ihtml.getElement().appendChild(item.getElement());
 		ihtml.getElement().addClassName("hasCursorPermanent");
 
 		getElement().getStyle().setWidth(100, Style.Unit.PCT);
@@ -1170,7 +1172,7 @@ public class RadioTreeItem extends AVTreeItem
 		ihtml.getElement().appendChild(se2);
 
 		// if enabled, render with LaTeX
-		plainTextItem = label;
+		plainTextItem = item;
 		plainTextItem.addStyleName("sqrtFontFix");
 		plainTextItem.getElement().getStyle().setFontSize(app.getFontSizeWeb(),
 				Unit.PX);
@@ -1403,6 +1405,7 @@ public class RadioTreeItem extends AVTreeItem
 				&& (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
 						|| defVal)) {
 			String text = "";
+			Log.debug(REFX + "newCreationMode is " + newCreationMode);
 			if (geo != null) {
 				if (!newCreationMode) {
 					text = geo.getLaTeXAlgebraDescription(true,
@@ -1414,11 +1417,15 @@ public class RadioTreeItem extends AVTreeItem
 
 				if ((text != null) && text.length() < 1500
 						&& geo.isLaTeXDrawableGeo() && geo.isDefined()) {
+					Log.debug(REFX + "text is " + text);
 					newLaTeX = true;
 				}
 			} else {
 				newLaTeX = true;
 			}
+
+			Log.debug(REFX + "LaTeX is " + LaTeX);
+			Log.debug(REFX + "newLaTeX is " + newLaTeX);
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (LaTeX && newLaTeX) {
 				if (newCreationMode) {
@@ -1429,6 +1436,8 @@ public class RadioTreeItem extends AVTreeItem
 				updateLaTeX(text);
 
 			} else if (newLaTeX) {
+
+				Log.debug(REFX + "only newLaTeX is true");
 				renderLatex(text, plainTextItem, newCreationMode);
 				LaTeX = true;
 			}
@@ -1467,53 +1476,60 @@ public class RadioTreeItem extends AVTreeItem
 
 		}
 
-		if (geo instanceof GeoNumeric
-				&& (slider != null && sliderPanel != null) || sliderNeeded()) {
-			if (slider == null) {
-				createContentPanel();
+		updateNumerics();
+	}
 
-				addAVEXWidget(ihtml);
-				initSlider();
+	private void updateNumerics() {
+		if (!(geo instanceof GeoNumeric
+				&& (slider != null && sliderPanel != null) || sliderNeeded())) {
+			return;
+		}
+
+		if (slider == null) {
+			createContentPanel();
+
+			addAVEXWidget(ihtml);
+			initSlider();
+			styleContentPanel(true);
+			getElement().setDraggable(Element.DRAGGABLE_FALSE);
+		} else {
+			slider.setScale(app.getArticleElement().getDataParamScale());
+		}
+
+		boolean hasMinMax = false;
+		if (((GeoNumeric) geo).getIntervalMaxObject() != null
+				&& ((GeoNumeric) geo).getIntervalMinObject() != null) {
+			double min = ((GeoNumeric) geo).getIntervalMin();
+			double max = ((GeoNumeric) geo).getIntervalMax();
+			hasMinMax = MyDouble.isFinite(min) && MyDouble.isFinite(max);
+			if (hasMinMax) {
+				boolean degree = geo.isGeoAngle()
+						&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
+				slider.setMinimum(min, degree);
+				slider.setMaximum(max, degree);
+
+				slider.setStep(geo.getAnimationStep());
+				slider.setValue(((GeoNumeric) geo).value);
+				if (minMaxPanel != null) {
+					minMaxPanel.update();
+				}
+			}
+		}
+
+		if (hasMinMax && ((HasExtendedAV) geo).isShowingExtendedAV()) {
+			if (!slider.isAttached()) {
+				sliderPanel.add(slider);
 				styleContentPanel(true);
-				getElement().setDraggable(Element.DRAGGABLE_FALSE);
-			} else {
-				slider.setScale(app.getArticleElement().getDataParamScale());
-			}
-			boolean hasMinMax = false;
-			if (((GeoNumeric) geo).getIntervalMaxObject() != null
-					&& ((GeoNumeric) geo).getIntervalMinObject() != null) {
-				double min = ((GeoNumeric) geo).getIntervalMin();
-				double max = ((GeoNumeric) geo).getIntervalMax();
-				hasMinMax = MyDouble.isFinite(min) && MyDouble.isFinite(max);
-				if (hasMinMax) {
-					boolean degree = geo.isGeoAngle()
-							&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
-					slider.setMinimum(min, degree);
-					slider.setMaximum(max, degree);
-
-					slider.setStep(geo.getAnimationStep());
-					slider.setValue(((GeoNumeric) geo).value);
-					if (minMaxPanel != null) {
-						minMaxPanel.update();
-					}
-				}
-			}
-			if (hasMinMax
-					&& ((HasExtendedAV) geo).isShowingExtendedAV()) {
-				if (!slider.isAttached()) {
-					sliderPanel.add(slider);
-					styleContentPanel(true);
-				}
-
-				updateSliderColor();
-			} else if (sliderPanel != null) {
-				sliderPanel.remove(slider);
-				styleContentPanel(false);
 			}
 
+			updateSliderColor();
+		} else if (sliderPanel != null) {
+			sliderPanel.remove(slider);
+			styleContentPanel(false);
 		}
 
 	}
+
 
 	private Canvas c;
 	private Label lbValue = null;
@@ -1538,9 +1554,9 @@ public class RadioTreeItem extends AVTreeItem
 				}
 			}
 		} else {
-			Label label = new Label();
-			EquationEditor.updateNewStatic(label.getElement());
-			updateColor(label);
+			FlowPanel item = new FlowPanel();
+			EquationEditor.updateNewStatic(item.getElement());
+			updateColor(item);
 			lbValue = null;
 			if (definitionAndValue && kernel
 					.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
@@ -1552,14 +1568,14 @@ public class RadioTreeItem extends AVTreeItem
 						StringTemplate.defaultTemplate)));
 				ihtml.getElement().replaceChild(p.getElement(), old);
 			} else {
-				ihtml.getElement().replaceChild(label.getElement(), old);
+				ihtml.getElement().replaceChild(item.getElement(), old);
 			}
 			String text = text0;
 			if (text0 == null) {
 				text = "";
 			}
 			text = DrawEquationW.inputLatexCosmetics(text);
-			latexItem = label;
+			latexItem = item;
 			if (newCreationMode) {
 				// in editing mode, we shall avoid letting an invisible, but
 				// harmful element!
@@ -2713,5 +2729,6 @@ marblePanel, evt))) {
 	public void autocomplete(String s) {
 
 	}
+
 }
 
