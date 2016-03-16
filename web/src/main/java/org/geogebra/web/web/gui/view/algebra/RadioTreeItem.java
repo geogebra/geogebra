@@ -872,7 +872,7 @@ public class RadioTreeItem extends AVTreeItem
 		plainTextItem = new FlowPanel();
 
 		plainTextItem.addStyleName("sqrtFontFix");
-		EquationEditor.updateNewStatic(plainTextItem);
+		plainTextItem.addStyleName("avTextItem");
 		updateColor(plainTextItem);
 		updateFont(plainTextItem);
 
@@ -1154,7 +1154,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		// SpanElement se = DOM.createSpan().cast();
 		FlowPanel item = new FlowPanel();
-		EquationEditor.updateNewStatic(item);
+		item.addStyleName("avTextItem");
 
 		ihtml = new FlowPanel();
 		addDomHandlers(ihtml);
@@ -1555,7 +1555,7 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		} else {
 			FlowPanel item = new FlowPanel();
-			EquationEditor.updateNewStatic(item.getElement());
+			item.addStyleName("avTextItem");
 			updateColor(item);
 			lbValue = null;
 			if (definitionAndValue && kernel

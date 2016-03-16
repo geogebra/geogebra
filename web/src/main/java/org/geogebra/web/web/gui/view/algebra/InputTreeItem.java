@@ -797,8 +797,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		if (dummyLabel == null) {
 			dummyLabel = new Label(app.getPlain("InputLabel")
 					+ Unicode.ellipsis);
-			dummyLabel.getElement().getStyle().setColor("#999999");
-			EquationEditor.updateNewStatic(dummyLabel.getElement());
+			dummyLabel.addStyleName("avDummyLabel");
 		}
 		//if (dummyLabel.getElement() != null) {
 			//if (dummyLabel.getElement().hasParentElement()) {

@@ -18,7 +18,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.user.client.ui.Widget;
 
 public class EquationEditor {
 	protected SuggestBox.SuggestionCallback sugCallback = new SuggestBox.SuggestionCallback() {
@@ -369,10 +368,7 @@ public class EquationEditor {
 		return sug.isSuggestionListShowing();
 	}
 
-	public static void updateNewStatic(Widget w) {
-		updateNewStatic(w.getElement());
-	}
-
+	@Deprecated
 	public static void updateNewStatic(Element se) {
 		se.getStyle().setProperty("display", "-moz-inline-box");
 		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
