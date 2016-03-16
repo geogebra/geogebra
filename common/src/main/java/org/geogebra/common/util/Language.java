@@ -570,7 +570,6 @@ public enum Language {
 		// eg change en_GB to enGB
 		ggbLangCode = ggbLangCode.replaceAll("_", "");
 
-		Log.debug("looking for: " + ggbLangCode);
 		for (Language l : Language.values()) {
 			if (l.locale.equals(ggbLangCode)
 					|| l.localeGWT.replaceAll("_", "").equals(ggbLangCode)) {
