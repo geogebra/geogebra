@@ -472,11 +472,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		return true;
 	}
 
-	@Override
-	public void paintBackground(GGraphics2D g2) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void drawActionObjects(GGraphics2D g) {

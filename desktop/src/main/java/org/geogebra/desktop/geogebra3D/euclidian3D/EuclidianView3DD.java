@@ -165,10 +165,6 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		evjpanel.repaint();
 	}
 
-	@Override
-	public void paintBackground(org.geogebra.common.awt.GGraphics2D g2) {
-		g2.drawImage(bgImage, null, 0, 0);
-	}
 
 	@Override
 	public void add(org.geogebra.common.javax.swing.GBox box) {

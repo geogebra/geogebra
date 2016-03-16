@@ -4360,5 +4360,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		}
 	}
 
+	@Override
+	final public void paintBackground(org.geogebra.common.awt.GGraphics2D g2) {
+		// not used in 3D
+	}
+
 
 }
