@@ -3332,6 +3332,9 @@ public class MyXMLHandler implements DocHandler {
 			if ("defaults".equals(eName)) {
 				mode = MODE_GEOGEBRA;
 				constMode = MODE_CONSTRUCTION;
+				this.processMinMaxList();
+				this.processAnimationStepList();
+				this.processAnimationSpeedList();
 			}
 			break;
 
