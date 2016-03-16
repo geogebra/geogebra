@@ -308,8 +308,6 @@ pr.menu_header_undo(), null, 32);
 		}
 	}
 
-
-
 	/**
 	 * check and log window resize and focus lost/gained window resize is
 	 * checked first - if window is not in full screen mode "cheating" can't be
@@ -324,6 +322,8 @@ pr.menu_header_undo(), null, 32);
 		// fix for firefox and iexplorer (e.g. fullscreen goes to 1079px instead of 1080px)
 		//var screenHeight = screen.height - 5;
 
+		var focus;
+		$wnd.console.log("focus 1: " + focus);
 		var fullscreen = true;
 		$wnd.console.log("fullscreen: " + fullscreen);
 		if ($wnd.innerHeight < screen.height - 5
@@ -337,8 +337,13 @@ pr.menu_header_undo(), null, 32);
 		var stopCheating = function() {
 			that.@org.geogebra.web.web.gui.app.GGWToolBar::stopCheating()()
 		};
+		//	var examActive = function() {
+		//	that.@org.geogebra.common.main.App::isExam()()
+		//};
+		//$wnd.console.log("examActive " + examActive);
 
 		//$wnd.visibilityEventMain(startCheating, stopCheating);
+
 		// Suggested by Zbynek (Hero of the Day, 2015-01-22)
 		$wnd.onblur = function(event) {
 			// Borrowed from http://www.quirksmode.org/js/events_properties.html
@@ -360,6 +365,8 @@ pr.menu_header_undo(), null, 32);
 			if (e.type == "blur") { //&& fullscreen == true
 				//$wnd.console.log("5");
 				startCheating();
+				focus = false;
+				console.log("focus 2 " + focus);
 			}
 
 		};
@@ -367,6 +374,8 @@ pr.menu_header_undo(), null, 32);
 			//$wnd.console.log("6");
 			if (fullscreen == true) {
 				stopCheating();
+				focus = true;
+				console.log("focus 3 " + focus);
 			}
 		}
 		// window resize has 2 cases: full screen and not full screen
@@ -384,36 +393,35 @@ pr.menu_header_undo(), null, 32);
 			if (height < screenHeight || width < screenWidth) {
 				startCheating();
 				fullscreen = false;
+
 			}
 			if (height >= screenHeight && width >= screenWidth) {
 				stopCheating();
 				fullscreen = true;
+
 			}
 		});
 
-		//document.addEventListener("visibilitychange", function() {
-		//$wnd.console.log("hidden = " + document.hidden);
-		//	if (document.hidden == true) {
-		//		startCheating();
-		//	} else {
-		//		stopCheating();
-		//	}
-		//});
-		//var interval = setInterval(function() {
-		//	if (fullscreen == true) {
-		//		if ($wnd.screenX != 0 || $wnd.screenY != 0) {
-		//			startCheating();
-		//			$wnd.console.log('moved! ' + $wnd.screenX);
-		//		} else {
-		//			stopCheating();
-		//			$wnd.console.log('stop!');
-		//		}
-		//	}
-		//}, 1000);
+		var interval = setInterval(function() {
+			if ($wnd.screenX != 0 || $wnd.screenY != 0) {
+				startCheating();
+				$wnd.console.log('moved! ' + $wnd.screenX);
+			} else if (fullscreen == true && focus == true) {
+				stopCheating();
+				$wnd.console.log('focus 4 ' + focus + ' stop!');
+
+			}
+		}, 3000);
+		// TODO find a way to stop interval on exit exam
+		//if (!examActive) {
+		//	$wnd.console.log("interval cleared");
+		//	clearInterval(interval);
+		//}
 
 	}-*/;
+
 	
-	
+
 	// Undo, redo, open, menu (and exam mode)
 	private void addRightButtonPanel(){
 
