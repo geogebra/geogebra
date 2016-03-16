@@ -1,9 +1,7 @@
-package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
+package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
-
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 
 /**
  * buffers for openGL
@@ -11,13 +9,13 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
  * @author matthieu
  *
  */
-public class GLBufferIndicesD implements GLBufferIndices {
+public class GLBufferIndicesJavaNio implements GLBufferIndices {
 	private ShortBuffer impl;
 
 	/**
 	 * constructor from float array
 	 */
-	public GLBufferIndicesD() {
+	public GLBufferIndicesJavaNio() {
 		isEmpty = true;
 	}
 

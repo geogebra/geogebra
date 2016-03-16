@@ -11,6 +11,7 @@ import javax.media.opengl.fixedfunc.GLLightingFunc;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndicesJavaNio;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
@@ -325,7 +326,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 	@Override
 	protected void glBufferDataIndices(int numBytes, GLBufferIndices arrayI) {
 		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, numBytes,
-				((GLBufferIndicesD) arrayI).getBuffer(),
+				((GLBufferIndicesJavaNio) arrayI).getBuffer(),
 				RendererJogl.GL_STREAM_DRAW);
 
 	}

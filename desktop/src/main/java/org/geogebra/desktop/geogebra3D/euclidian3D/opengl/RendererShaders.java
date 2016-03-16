@@ -19,6 +19,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndicesJavaNio;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersWithTemplates;
@@ -586,7 +587,7 @@ public class RendererShaders extends RendererD implements
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
 		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2,
-				((GLBufferIndicesD) arrayI).getBuffer(),
+				((GLBufferIndicesJavaNio) arrayI).getBuffer(),
 				RendererJogl.GL_STREAM_DRAW);
 
 	}

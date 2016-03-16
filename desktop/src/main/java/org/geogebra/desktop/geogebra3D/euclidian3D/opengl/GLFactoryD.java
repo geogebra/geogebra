@@ -2,6 +2,7 @@ package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndicesJavaNio;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 
@@ -32,6 +33,6 @@ public class GLFactoryD extends GLFactory {
 
 	@Override
 	public GLBufferIndices newBufferIndices() {
-		return new GLBufferIndicesD();
+		return new GLBufferIndicesJavaNio();
 	}
 }
