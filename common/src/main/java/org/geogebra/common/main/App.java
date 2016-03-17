@@ -2307,6 +2307,7 @@ public abstract class App implements UpdateSelection {
 	 *            selection listener
 	 */
 	public void setSelectionListenerMode(GeoElementSelectionListener sl) {
+		kernel.setGeoToggled(false); // prevent undo current tool construction
 		currentSelectionListener = sl;
 		if (sl != null) {
 			setMode(EuclidianConstants.MODE_SELECTION_LISTENER);

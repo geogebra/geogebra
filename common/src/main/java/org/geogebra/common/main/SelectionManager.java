@@ -502,7 +502,7 @@ public class SelectionManager {
 			return;
 		}
 
-		kernel.setGeoToggled();
+		kernel.setGeoToggled(true);
 
 		boolean contains = selectedGeos.contains(geo);
 		if (contains) {

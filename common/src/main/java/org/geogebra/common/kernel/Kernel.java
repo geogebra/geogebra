@@ -3880,8 +3880,8 @@ public class Kernel {
 
 	private boolean geoToggled = false;
 
-	public void setGeoToggled() {
-		geoToggled = true;
+	public void setGeoToggled(boolean flag) {
+		geoToggled = flag;
 	}
 
 	private void restoreStateForModeStarting() {
