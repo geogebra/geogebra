@@ -3901,6 +3901,10 @@ public abstract class App implements UpdateSelection {
 
 		case MOBILE_SMOOTH_PINCH:
 			return prerelease;
+
+		case MOBILE_TEST_3D_VIEW:
+			return false;
+
 		case FRACTIONS:
 			return prerelease;
 		case AV_EXTENSIONS:
