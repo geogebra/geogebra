@@ -6241,7 +6241,7 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 
 
-.hidden{
+.hiddenInputLabel{
 	visibility: hidden;
 	position: absolute;
 	z-index: 10;

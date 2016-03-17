@@ -483,7 +483,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	public void setShowInputHelpPanel(boolean show) {
 
 		if (show) {
-			dummyLabel.addStyleName("hidden");
+			dummyLabel.addStyleName("hiddenInputLabel");
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
 					.getGuiManager().getInputHelpPanel();
 			helpPanel.updateGUI();
@@ -494,7 +494,7 @@ public class InputTreeItem extends RadioTreeItem implements
 				helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
 					public void onClose(CloseEvent<GPopupPanel> event) {
-						dummyLabel.removeStyleName("hidden");
+						dummyLabel.removeStyleName("hiddenInputLabel");
 						ihtml.getElement().getElementsByTagName("textarea")
 								.getItem(0).focus();
 					}
