@@ -330,24 +330,16 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
         super.initPoints(number);
 
         if (points.length > number) {
-            // if there are no points left, there needs to be one "undefined" point
-            number = Math.max(1, number);
-
-            GeoPoint[] temp = new GeoPoint[number];
-            for (int i = 0; i < temp.length; i++) {
-                temp[i] = points[i];
-                temp[i].setCoords(0, 0, 1); // init as defined
-            }
-
-            // delete the remaining points
             for (int i = number; i < points.length; i++) {
-                if (points[i] != null) {
-                    points[i].setParentAlgorithm(null);
-                    points[i].remove();
-                }
+				if (!points[i].getAlgoUpdateSet().isEmpty()){
+					points[i].setCoords(0, 0, 1); // init as defined
+				} else{
+					points[i].setParentAlgorithm(null);
+					points[i].remove();
+				}
             }
-            points = temp;
-            super.setOutput(points);
+
+			super.setOutput(points);
         }
     }
 

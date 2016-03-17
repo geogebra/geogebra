@@ -523,25 +523,17 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
                     // do not reset points -> position of the not removed points is not changed
                     return;
                 }
-
-                // there are no points with dependencies -> keep only one undefined point
-                number = 1;
             }
 
-            GeoPoint[] temp = new GeoPoint[number];
-            for (int i = 0; i < temp.length; i++) {
-                temp[i] = points[i];
-                temp[i].setCoords(0, 0, 1); // init as defined
-            }
+			for (int i = number; i < points.length; i++) {
+				if(!points[i].getAlgoUpdateSet().isEmpty()){
+					points[i].setCoords(0, 0, 1); // init as defined
+				} else{
+					points[i].setParentAlgorithm(null);
+					points[i].remove();
+				}
+			}
 
-            // delete the remaining points
-            for (int i = number; i < points.length; i++) {
-                if (points[i] != null) {
-                    points[i].setParentAlgorithm(null);
-                    points[i].remove();
-                }
-            }
-            points = temp;
             super.setOutput(points);
         }
     }
