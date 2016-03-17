@@ -372,6 +372,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		case TEXT:
 		case LOCUS:
 		case CURVE_CARTESIAN3D:
+		case LIST:
 			return geo.isVisibleInViewForPlane();
 		case ANGLE:
 			if (geo.isIndependent()) { // no slider in view for plane (for now)
