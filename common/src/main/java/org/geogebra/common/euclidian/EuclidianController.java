@@ -11,13 +11,6 @@ the Free Software Foundation.
  */
 package org.geogebra.common.euclidian;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -36,11 +29,11 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -122,6 +115,13 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.TreeSet;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -400,7 +400,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected static boolean penMode(int mode2) {
+	public static boolean penMode(int mode2) {
 		switch (mode2) {
 			case EuclidianConstants.MODE_PEN:
 				// case EuclidianConstants.MODE_PENCIL:
@@ -10346,7 +10346,7 @@ public abstract class EuclidianController {
 		return app.getDialogManager();
 	}
 
-	protected ArrayList<GeoElement> getAppSelectedGeos() {
+	public ArrayList<GeoElement> getAppSelectedGeos() {
 		return selection.getSelectedGeos();
 	}
 
@@ -10396,7 +10396,7 @@ public abstract class EuclidianController {
 		twoTouchStartCommon(x1, y1, x2, y2);
 	}
 
-	protected void touchStartPhone(AbstractEvent e) {
+	public void touchStartPhone(AbstractEvent e) {
 		this.mouseLoc = new GPoint(e.getX(), e.getY());
 
 		if (view.getPreviewDrawable() == null) {
@@ -10416,7 +10416,7 @@ public abstract class EuclidianController {
 		prepareModeForFreehand();
 	}
 
-	protected void touchEndPhone(AbstractEvent e) {
+	public void touchEndPhone(AbstractEvent e) {
 		wrapMouseReleased(e);
 		resetModeAfterFreehand();
 		if (penMode(mode)) {
@@ -10430,7 +10430,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected void touchMovePhone(AbstractEvent e) {
+	public void touchMovePhone(AbstractEvent e) {
 		if (shouldSetToFreehandMode()) {
 			setModeToFreehand();
 		}
@@ -10442,7 +10442,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	final protected void twoTouchStartPhone(double x1, double y1, double x2, double y2) {
+	final public void twoTouchStartPhone(double x1, double y1, double x2, double y2) {
 		scaleConic = null;
 
 		if (this.view.getPreviewDrawable() != null) {
@@ -10756,14 +10756,6 @@ public abstract class EuclidianController {
 		((GeoElement) movedGeoPoint).updateCascade();
 	}
 
-	/**
-	 * set the view attached to this
-	 *
-	 * @param view
-	 *            view
-	 */
-	public abstract void setView(EuclidianView view);
-
 	public void setDialogOccurred() {
 		// use in 3D
 	}
@@ -10870,12 +10862,12 @@ public abstract class EuclidianController {
 	 * sets the mode to freehand_shape with an expected shape depending on the
 	 * actual mode (has no effect if no mode is set that can be turned into
 	 * freehand_shape)
-	 * 
+	 *
 	 * For some modes requires that view.setHits(...) has been called with the
 	 * correct parameters or movedGeoPoint is set correct in order to use other
 	 * GeoPoints (e.g. as the first point of a polygon). Also pointCreated needs
 	 * to be set correctly.
-	 * 
+	 *
 	 */
 	protected void setModeToFreehand() {
 		// only executed if one of the specified modes is set
@@ -11091,6 +11083,29 @@ public abstract class EuclidianController {
 
 	protected ArrayList<GeoList> getSelectedListList() {
 		return selection.getSelectedListList();
+	}
+
+	public EuclidianView getView() {
+		return view;
+	}
+
+	/**
+	 * set the view attached to this
+	 *
+	 * @param view view
+	 */
+	public abstract void setView(EuclidianView view);
+
+	public GPoint getMovePosition() {
+		return movePosition;
+	}
+
+	public void setMovePosition(GPoint pos) {
+		movePosition = pos;
+	}
+
+	public void setMIN_MOVE(int value) {
+		MIN_MOVE = value;
 	}
 
 	/**
