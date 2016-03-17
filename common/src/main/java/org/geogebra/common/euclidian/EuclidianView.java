@@ -4858,7 +4858,7 @@ sb.toString(), getFontAxes(),
 		// eg ev1 just closed
 		GetViewId evp = gui.getLayout().getDockManager()
 				.getFocusedEuclidianPanel();
-		if (evp == null) {
+		if (evp == null || evp.getViewId() == App.VIEW_EUCLIDIAN3D) {
 			return isPrimaryEV();
 		}
 
