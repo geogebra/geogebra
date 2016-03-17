@@ -794,16 +794,39 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	 */
 	public String getStrForGiac() {
 		String[] labels = new String[allSegmentsFromExpression.size()];
-		botanaVars = new Variable[allSegmentsFromExpression.size()];
-		varSubstListOfSegs = new ArrayList<Entry<GeoElement, Variable>>();
+		if (botanaVars == null) {
+			botanaVars = new Variable[allSegmentsFromExpression.size()];
+		}
+		if (varSubstListOfSegs == null) {
+			varSubstListOfSegs = new ArrayList<Entry<GeoElement, Variable>>();
+		}
 		int index = 0;
 		for (GeoSegment segment : allSegmentsFromExpression) {
 			labels[index] = segment.getLabel(StringTemplate.giacTemplate);
-			botanaVars[index] = new Variable();
+			if (botanaVars[index] == null) {
+				botanaVars[index] = new Variable();
+			}
 			// collect substitution of segments with variables
 			Entry<GeoElement, Variable> subst = new AbstractMap.SimpleEntry<GeoElement, Variable>(
 					segment, botanaVars[index]);
-			varSubstListOfSegs.add(subst);
+			if (!varSubstListOfSegs.isEmpty()) {
+				Iterator<Entry<GeoElement, Variable>> it = varSubstListOfSegs
+						.iterator();
+				int k = 0;
+				while (it.hasNext()) {
+					Entry<GeoElement, Variable> curr = it.next();
+					if (curr.getKey().equals(segment)
+							&& curr.getValue().equals(botanaVars[index])) {
+						break;
+					}
+					k++;
+				}
+				if (k == varSubstListOfSegs.size()) {
+					varSubstListOfSegs.add(subst);
+				}
+			} else {
+				varSubstListOfSegs.add(subst);
+			}
 			Variable[] thisSegBotanaVars = segment.getBotanaVars(segment);
 			Polynomial s = new Polynomial(botanaVars[index]);
 			Polynomial currPoly = s.multiply(s).subtract(
