@@ -1573,6 +1573,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	private void redefine(GeoElement geo) {
 		if (geo.getParentAlgorithm() instanceof AlgoDependentText) {
 			app.getDialogManager().showRedefineDialog(geo, true);
+			return;
 		}
 		TreeItem node = nodeTable.get(geo);
 

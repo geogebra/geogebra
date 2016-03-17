@@ -4919,7 +4919,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (!isDefined() || !isGeoText()) {
 			ret = getLaTeXAlgebraDescription(substituteNumbers, tpl);
 		}
-		if ((ret == null) && isGeoText() && fallback) {
+		if ((ret == null || "".equals(ret)) && isGeoText() && fallback) {
 			ret = getAlgebraDescription(tpl);
 		}
 		return ret;
