@@ -20,6 +20,7 @@ import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
 import org.geogebra.web.html5.gui.util.BasicIcons;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
+import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
@@ -30,7 +31,11 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 
 import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -81,6 +86,46 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	public InputTreeItem(Kernel kern) {
 		super(kern);
+		// this method is still not able to show an editing box!
+		newCreationMode = true;
+
+		this.setStyleName("elem");
+		this.addStyleName("NewRadioButtonTreeItem");
+
+		FlowPanel item = new FlowPanel();
+		item.addStyleName("avTextItem");
+
+		addDomHandlers(ihtml);
+		main.add(ihtml);
+
+		ihtml.getElement().appendChild(item.getElement());
+		ihtml.getElement().addClassName("hasCursorPermanent");
+
+		getElement().getStyle().setWidth(100, Style.Unit.PCT);
+
+		// making room for the TitleBarPanel (top right of the AV)
+		SpanElement se2 = DOM.createSpan().cast();
+		se2.appendChild(Document.get()
+				.createTextNode("\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"));
+		ihtml.getElement().appendChild(se2);
+
+		// if enabled, render with LaTeX
+
+		item.addStyleName("sqrtFontFix");
+		item.getElement().getStyle().setFontSize(app.getFontSizeWeb(),
+				Unit.PX);
+
+		setPlainTextItem(item);
+
+		if (av.isRenderLaTeX()) {
+			setNeedsUpdate(true);
+
+			// here it complains that geo is undefined
+			doUpdate();
+		}
+
+		setLongTouchManager(LongTouchManager.getInstance());
+		setDraggable();
 
 		editor = new EquationEditor(app, this);
 

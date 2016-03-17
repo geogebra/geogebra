@@ -79,7 +79,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
@@ -115,7 +114,6 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -500,7 +498,7 @@ public class RadioTreeItem extends AVTreeItem
 	boolean mout = false;
 
 	protected FlowPanel latexItem;
-	private final FlowPanel plainTextItem;
+	private FlowPanel plainTextItem;
 
 	FlowPanel ihtml;
 	GTextBox tb;
@@ -554,7 +552,7 @@ public class RadioTreeItem extends AVTreeItem
 	private boolean definitionAndValue;
 
 	public void updateOnNextRepaint() {
-		this.needsUpdate = true;
+		this.setNeedsUpdate(true);
 	}
 
 	private IndexHTMLBuilder getBuilder(final Widget w) {
@@ -613,18 +611,25 @@ public class RadioTreeItem extends AVTreeItem
 		};
 	}
 
-	public static RadioTreeItem create(GeoElement ge) {
-		if (ge.isMatrix()) {
-			return new MatrixTreeItem(ge);
-		} else if (ge.isGeoCurveCartesian()) {
-			return new ParCurveTreeItem(ge);
-		} else if (ge.isGeoFunctionConditional()) {
-			return new CondFunctionTreeItem(ge);
+	/**
+	 * Creates the specific tree item due to the type of the geo element.
+	 * 
+	 * @param geo0
+	 *            the geo element which is the item for.
+	 * @return The appropriate RadioTreeItem descendant.
+	 */
+	public static RadioTreeItem create(GeoElement geo0) {
+		if (geo0.isMatrix()) {
+			return new MatrixTreeItem(geo0);
+		} else if (geo0.isGeoCurveCartesian()) {
+			return new ParCurveTreeItem(geo0);
+		} else if (geo0.isGeoFunctionConditional()) {
+			return new CondFunctionTreeItem(geo0);
 		}
-		return new RadioTreeItem(ge);
+		return new RadioTreeItem(geo0);
 	}
 
-	private void addDomHandlers(FlowPanel panel) {
+	protected void addDomHandlers(FlowPanel panel) {
 		panel.addDomHandler(this, DoubleClickEvent.getType());
 		panel.addDomHandler(this, ClickEvent.getType());
 		panel.addDomHandler(this, MouseOverEvent.getType());
@@ -637,32 +642,38 @@ public class RadioTreeItem extends AVTreeItem
 		panel.addDomHandler(this, TouchEndEvent.getType());
 
 	}
-	/**
-	 * Creates a new RadioTreeItem for displaying/editing an existing GeoElement
-	 * 
-	 * @param ge
-	 *            the existing GeoElement to display/edit
-	 */
-	public RadioTreeItem(final GeoElement ge) {
+	
+
+	public RadioTreeItem(Kernel kernel) {
 		super();
+		this.kernel = kernel;
+		app = (AppW) kernel.getApplication();
+		av = app.getAlgebraView();
 
 		main = new FlowPanel();
 		setWidget(main);
 		border = Dom.querySelectorForElement(getElement(), "gwt-TreeItem")
 				.getStyle();
-
-
-		geo = ge;
-		kernel = geo.getKernel();
-		app = (AppW) kernel.getApplication();
-		av = app.getAlgebraView();
 		definitionAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
 		selectionCtrl = getAV().getSelectionCtrl();
+		setPlainTextItem(new FlowPanel());
+		ihtml = new FlowPanel();
 
+	}
+	/**
+	 * Creates a new RadioTreeItem for displaying/editing an existing GeoElement
+	 * 
+	 * @param geo0
+	 *            the existing GeoElement to display/edit
+	 */
+	public RadioTreeItem(final GeoElement geo0) {
+		this(geo0.getKernel());
+
+		geo = geo0;
 		main.addStyleName("elem");
 		main.addStyleName("panelRow");
 
-		marblePanel = new MarblePanel(ge);
+		marblePanel = new MarblePanel(geo0);
 
 		main.add(marblePanel);
 
@@ -685,14 +696,12 @@ public class RadioTreeItem extends AVTreeItem
 			});
 		}
 
-		plainTextItem = new FlowPanel();
 
-		plainTextItem.addStyleName("sqrtFontFix");
-		plainTextItem.addStyleName("avTextItem");
-		updateColor(plainTextItem);
-		updateFont(plainTextItem);
+		getPlainTextItem().addStyleName("sqrtFontFix");
+		getPlainTextItem().addStyleName("avPlainTextItem");
+		updateColor(getPlainTextItem());
+		updateFont(getPlainTextItem());
 
-		ihtml = new FlowPanel();
 		ihtml.addStyleName("elemText");
 
 		addDomHandlers(main);
@@ -704,7 +713,7 @@ public class RadioTreeItem extends AVTreeItem
 			addAVEXWidget(ihtml);
 		}
 
-		ihtml.add(plainTextItem);
+		ihtml.add(getPlainTextItem());
 		buildPlainTextItem();
 		// if enabled, render with LaTeX
 		if (av.isRenderLaTeX()
@@ -716,7 +725,7 @@ public class RadioTreeItem extends AVTreeItem
 				String latexStr = geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplateMQ);
 				if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
-					this.needsUpdate = true;
+					this.setNeedsUpdate(true);
 					av.repaintView();
 				}
 			}
@@ -727,7 +736,7 @@ public class RadioTreeItem extends AVTreeItem
 		// geo.getKernel().getApplication().setTooltipFlag();
 		// se.setTitle(geo.getLongDescription());
 		// geo.getKernel().getApplication().clearTooltipFlag();
-		longTouchManager = LongTouchManager.getInstance();
+		setLongTouchManager(LongTouchManager.getInstance());
 		setDraggable();
 
 		buttonPanel = new FlowPanel();
@@ -778,25 +787,36 @@ public class RadioTreeItem extends AVTreeItem
 	private void buildPlainTextItem() {
 		if (geo.isIndependent() && geo.getDefinition() == null) {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
-					getBuilder(plainTextItem));
+					getBuilder(getPlainTextItem()));
 		} else {
 			switch (kernel.getAlgebraStyle()) {
 			case Kernel.ALGEBRA_STYLE_VALUE:
 				geo.getAlgebraDescriptionTextOrHTMLDefault(
-						getBuilder(plainTextItem));
+						getBuilder(getPlainTextItem()));
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DESCRIPTION:
 				geo.addLabelTextOrHTML(
 						geo.getDefinitionDescription(StringTemplate.defaultTemplate),
-						getBuilder(plainTextItem));
+						getBuilder(getPlainTextItem()));
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
+				geo.addLabelTextOrHTML(
+						geo.getDefinition(StringTemplate.defaultTemplate),
+						getBuilder(getPlainTextItem()));
+				break;
 			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
+				FlowPanel def = new FlowPanel();
+				FlowPanel val = new FlowPanel();
 				geo.addLabelTextOrHTML(geo
 						.getDefinition(StringTemplate.defaultTemplate),
-						getBuilder(plainTextItem));
+						getBuilder(def));
+
+				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(val));
+				getPlainTextItem().clear();
+				getPlainTextItem().add(def);
+				getPlainTextItem().add(val);
 				break;
 			}
 		}
@@ -946,62 +966,6 @@ public class RadioTreeItem extends AVTreeItem
 	 * no marble, no input GeoElement here. But this will be called from
 	 * NewRadioButtonTreeItem(kernel), for there are many extras
 	 */
-	public RadioTreeItem(Kernel kern) {
-		super();
-		main = new FlowPanel();
-		setWidget(main);
-		border = Dom.querySelectorForElement(getElement(), "gwt-TreeItem")
-				.getStyle();
-
-		// this method is still not able to show an editing box!
-		newCreationMode = true;
-
-		kernel = kern;
-		app = (AppW) kernel.getApplication();
-		av = app.getAlgebraView();
-		this.setStyleName("elem");
-		this.addStyleName("NewRadioButtonTreeItem");
-		selectionCtrl = getAV().getSelectionCtrl();
-
-		// setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		// setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-
-		// add(radio);
-
-		// SpanElement se = DOM.createSpan().cast();
-		FlowPanel item = new FlowPanel();
-		item.addStyleName("avTextItem");
-
-		ihtml = new FlowPanel();
-		addDomHandlers(ihtml);
-		main.add(ihtml);
-
-		ihtml.getElement().appendChild(item.getElement());
-		ihtml.getElement().addClassName("hasCursorPermanent");
-
-		getElement().getStyle().setWidth(100, Style.Unit.PCT);
-
-		// making room for the TitleBarPanel (top right of the AV)
-		SpanElement se2 = DOM.createSpan().cast();
-		se2.appendChild(Document.get().createTextNode(
-				"\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"));
-		ihtml.getElement().appendChild(se2);
-
-		// if enabled, render with LaTeX
-		plainTextItem = item;
-		plainTextItem.addStyleName("sqrtFontFix");
-		plainTextItem.getElement().getStyle().setFontSize(app.getFontSizeWeb(),
-				Unit.PX);
-		if (av.isRenderLaTeX()) {
-			this.needsUpdate = true;
-
-			// here it complains that geo is undefined
-			doUpdate();
-		}
-
-		longTouchManager = LongTouchManager.getInstance();
-		setDraggable();
-	}
 
 
 	// AV EXTENSIONS
@@ -1175,7 +1139,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public void repaint() {
-		if (needsUpdate
+		if (isNeedsUpdate()
 				|| playButtonValue != (geo.isAnimating() && app.getKernel()
 						.getAnimatonManager().isRunning())) {
 			doUpdate();
@@ -1200,20 +1164,20 @@ public class RadioTreeItem extends AVTreeItem
 
 			// reset the label text
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
-					getBuilder(plainTextItem));
-			updateFont(plainTextItem);
-			updateColor(plainTextItem);
+					getBuilder(getPlainTextItem()));
+			updateFont(getPlainTextItem());
+			updateColor(getPlainTextItem());
 		} else {
 			main.remove(checkBox);
 		}
 
 	}
 
-	private void doUpdate() {
+	protected void doUpdate() {
 		updateCheckbox();
 
 		// check for new LaTeX
-		needsUpdate = false;
+		setNeedsUpdate(false);
 		boolean newLaTeX = false;
 		boolean defVal = kernel
 				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
@@ -1254,7 +1218,7 @@ public class RadioTreeItem extends AVTreeItem
 			} else if (newLaTeX) {
 
 				Log.debug(REFX + "only newLaTeX is true");
-				renderLatex(text, plainTextItem, newCreationMode);
+				renderLatex(text, getPlainTextItem(), newCreationMode);
 				LaTeX = true;
 			}
 
@@ -1267,15 +1231,15 @@ public class RadioTreeItem extends AVTreeItem
 			buildPlainTextItem();
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (!LaTeX) {
-				updateColor(plainTextItem);
-				updateFont(plainTextItem);
+				updateColor(getPlainTextItem());
+				updateFont(getPlainTextItem());
 			} else {
-				updateColor(plainTextItem);
+				updateColor(getPlainTextItem());
 				if (!newCreationMode && c != null) {
-					ihtml.getElement().replaceChild(plainTextItem.getElement(),
+					ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
 							c.getCanvasElement());
 				} else {
-					ihtml.getElement().replaceChild(plainTextItem.getElement(),
+					ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
 							latexItem.getElement());
 				}
 
@@ -1453,11 +1417,11 @@ public class RadioTreeItem extends AVTreeItem
 				this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 						latexItem.getElement());
 			}
-			if (!this.newCreationMode && !LaTeX && plainTextItem != null
+			if (!this.newCreationMode && !LaTeX && getPlainTextItem() != null
  && ihtml
 .getElement()
 							.isOrHasChild(latexItem.getElement())) {
-				this.ihtml.getElement().replaceChild(plainTextItem.getElement(),
+				this.ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
 						latexItem.getElement());
 			}
 			// } else {
@@ -1504,7 +1468,7 @@ public class RadioTreeItem extends AVTreeItem
 		} else {
 			Element old = LaTeX ? (c != null ? c.getCanvasElement()
 							: latexItem.getElement())
-					: plainTextItem.getElement();
+					: getPlainTextItem().getElement();
 			String text = geo.getLaTeXAlgebraDescriptionWithFallback(
 					substituteNumbers || sliderNeeded(),
 					StringTemplate.latexTemplateMQedit,
@@ -1602,9 +1566,9 @@ public class RadioTreeItem extends AVTreeItem
 			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 					latexItem.getElement());
 		}
-		if (!LaTeX && !this.newCreationMode && plainTextItem != null
+		if (!LaTeX && !this.newCreationMode && getPlainTextItem() != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
-			this.ihtml.getElement().replaceChild(plainTextItem.getElement(),
+			this.ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
 					latexItem.getElement());
 		}
 		// maybe it's possible to enter something which is non-LaTeX
@@ -1997,7 +1961,7 @@ marblePanel, evt))) {
 		} else {
 			latestTouchEndTime = time;
 		}
-		longTouchManager.cancelTimer();
+		getLongTouchManager().cancelTimer();
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event,
 				ZeroOffset.instance);
 		onPointerUp(wrappedEvent);
@@ -2013,7 +1977,7 @@ marblePanel, evt))) {
 		// event.preventDefault();
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
-		longTouchManager.rescheduleTimerIfRunning(this, x, y);
+		getLongTouchManager().rescheduleTimerIfRunning(this, x, y);
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0),
 				ZeroOffset.instance);
@@ -2036,7 +2000,7 @@ marblePanel, evt))) {
 		// event.preventDefault();
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
-		longTouchManager.scheduleTimer(this, x, y);
+		getLongTouchManager().scheduleTimer(this, x, y);
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(event,
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
@@ -2538,6 +2502,30 @@ marblePanel, evt))) {
 
 	public void autocomplete(String s) {
 
+	}
+
+	public FlowPanel getPlainTextItem() {
+		return plainTextItem;
+	}
+
+	public void setPlainTextItem(FlowPanel plainTextItem) {
+		this.plainTextItem = plainTextItem;
+	}
+
+	public boolean isNeedsUpdate() {
+		return needsUpdate;
+	}
+
+	public void setNeedsUpdate(boolean needsUpdate) {
+		this.needsUpdate = needsUpdate;
+	}
+
+	public LongTouchManager getLongTouchManager() {
+		return longTouchManager;
+	}
+
+	public void setLongTouchManager(LongTouchManager longTouchManager) {
+		this.longTouchManager = longTouchManager;
 	}
 
 }
