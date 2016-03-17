@@ -30,11 +30,18 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		App app = kernel.getApplication();
 
+		// syntaxes ALLOWED in exam mode
 		switch (c) {
 		case Integral:
 		case IntegralBetween:
 		case NIntegral:
 			return new CmdIntegral(kernel, c);
+
+		case NDerivative:
+			if (!app.has(Feature.NDERIVATIVE_COMMAND)) {
+				return null;
+			}
+			return new CmdNDerivative(kernel);
 
 		}
 
@@ -63,11 +70,6 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 			return new CmdParametricDerivative(kernel);
 		case Derivative:
 			return new CmdDerivative(kernel);
-		case NDerivative:
-			if (!app.has(Feature.NDERIVATIVE_COMMAND)) {
-				return null;
-			}
-			return new CmdNDerivative(kernel);
 		case TrigExpand:
 			return new CmdTrigExpand(kernel);
 		case TrigCombine:
