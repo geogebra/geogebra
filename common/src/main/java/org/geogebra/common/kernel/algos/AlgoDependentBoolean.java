@@ -622,7 +622,10 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
 		// Easy cases: both sides are GeoElements:
-		if (root.getLeft().isGeoElement() && root.getRight().isGeoElement()) {
+		if (root.getLeft().isGeoElement()
+				&& !(root.getLeft() instanceof GeoNumeric)
+				&& root.getRight().isGeoElement()
+				&& !(root.getRight() instanceof GeoNumeric)) {
 
 			GeoElement left = (GeoElement) root.getLeft();
 			GeoElement right = (GeoElement) root.getRight();
