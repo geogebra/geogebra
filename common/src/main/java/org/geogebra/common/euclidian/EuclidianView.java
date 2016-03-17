@@ -4102,7 +4102,7 @@ sb.toString(), getFontAxes(),
 			sbxml.append(style);
 			sbxml.append("\"");
 			
-			sbxml.append("serif=\"");
+			sbxml.append(" serif=\"");
 			sbxml.append(serif);
 			sbxml.append("\"");
 			
