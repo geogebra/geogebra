@@ -11,17 +11,6 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 
 public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
 
-	public AlgoIntersectPlaneConic(Construction cons, String[] labels,
-			GeoConicND c, GeoCoordSys2D plane) {
-		this(cons, labels, plane, c);
-	}
-
-	public AlgoIntersectPlaneConic(Construction cons, String[] labels,
-			GeoCoordSys2D plane, GeoConicND c) {
-		this(cons, plane, c);
-		GeoElement.setLabels(labels, P);
-	}
-
 	public AlgoIntersectPlaneConic(Construction cons, GeoCoordSys2D plane,
 			GeoConicND c) {
 		super(cons, (GeoElement) plane, c);

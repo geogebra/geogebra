@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -638,7 +639,7 @@ public interface Manager3DInterface {
 	public GeoPointND[] IntersectPlaneConic(String[] labels, GeoCoordSys2D A,
 			GeoConicND B);
 
-	public GeoPointND[] IntersectPlaneCurve(String[] labels, GeoCoordSys2D A,
+	public GeoElementND[] IntersectPlaneCurve(String[] labels, GeoCoordSys2D A,
 			GeoCurveCartesianND B);
 
 	public GeoElement IntersectPlanes(String label, GeoPlaneND cs1,

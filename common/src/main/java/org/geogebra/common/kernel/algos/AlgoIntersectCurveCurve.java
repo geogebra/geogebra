@@ -16,9 +16,9 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
@@ -73,7 +73,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 
 		setInputOutput(); // for AlgoElement
 
-		setLabels(labels);
+		outputPoints.setLabelsMulti(labels);
 
 		update();
 	}
@@ -111,7 +111,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 
 		setInputOutput(); // for AlgoElement
 
-		setLabels(labels);
+		outputPoints.setLabelsMulti(labels);
 
 		update();
 	}
@@ -167,9 +167,9 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 			// to find where curves cross
 			// http://introcs.cs.princeton.edu/java/96optimization/
 
-			Function funx1 = curve.getFunX();
+			Function funx1 = curve.getFun(0);
 			Function funx2 = curve2.getFunX();
-			Function funy1 = curve.getFunY();
+			Function funy1 = curve.getFun(0);
 			Function funy2 = curve2.getFunY();
 
 			ExpressionNode enx1 = funx1.getExpression();
@@ -265,9 +265,9 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 			// use CAS Solver
 			// works well for polynomials to get all roots
 
-			String fv1 = curve.getFunX().getFunctionVariable()
+			String fv1 = curve.getFun(0).getFunctionVariable()
 					.toString(StringTemplate.defaultTemplate);
-			String fv2 = curve2.getFunX().getFunctionVariable()
+			String fv2 = curve2.getFun(1).getFunctionVariable()
 					.toString(StringTemplate.defaultTemplate);
 
 			// toString() returns with variables in
@@ -278,9 +278,9 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 			// * can get equations that we can't solve exactly
 
 			// use StringTemplate that gives 3 not 3.00000000000000
-			String c1X = curve.getFunX().toValueString(
+			String c1X = curve.getFun(0).toValueString(
 					StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
-			String c1Y = curve.getFunY().toValueString(
+			String c1Y = curve.getFun(1).toValueString(
 					StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
 			String c2X = curve2.getFunX().toValueString(
 					StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
@@ -417,8 +417,8 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 				&& Kernel.isGreaterEqual(p2, curve2.getMinParameter())
 				&& Kernel.isGreaterEqual(curve2.getMaxParameter(), p2)) {
 
-			double x = curve.getFunX().evaluate(p1);
-			double y = curve.getFunY().evaluate(p1);
+			double x = curve.getFun(0).evaluate(p1);
+			double y = curve.getFun(1).evaluate(p1);
 			// App.debug("in range: ("+x+", "+y+")");
 
 			point.setCoords(x, y, 1.0);

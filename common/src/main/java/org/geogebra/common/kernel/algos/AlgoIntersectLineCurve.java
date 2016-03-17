@@ -18,10 +18,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -30,13 +26,12 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -45,11 +40,10 @@ import org.geogebra.common.plugin.Operation;
  * 
  * @author Michael
  */
-public class AlgoIntersectLineCurve extends AlgoElement {
+public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 
 	private GeoLine line; // input
-	@SuppressWarnings("javadoc")
-	protected GeoCurveCartesian curve;
+
 	@SuppressWarnings("javadoc")
 	protected OutputHandler<GeoElement> outputPoints; // output
 
@@ -79,7 +73,7 @@ public class AlgoIntersectLineCurve extends AlgoElement {
 
 		setInputOutput(); // for AlgoElement
 
-		setLabels(labels);
+		outputPoints.setLabelsMulti(labels);
 
 		update();
 	}
@@ -92,24 +86,7 @@ public class AlgoIntersectLineCurve extends AlgoElement {
 		super(c);
 	}
 
-	/**
-	 * @param labels
-	 *            labels
-	 */
-	protected void setLabels(String[] labels) {
-		// if only one label (e.g. "A") for more than one output, new labels
-		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 &&
-		// outputPoints.size() > 1 &&
-				labels[0] != null && !labels[0].equals("")) {
-			outputPoints.setIndexLabels(labels[0]);
-		} else {
 
-			outputPoints.setLabels(labels);
-			outputPoints.setIndexLabels(outputPoints.getElement(0).getLabel(
-					StringTemplate.defaultTemplate));
-		}
-	}
 
 	/**
 	 * 
@@ -117,6 +94,7 @@ public class AlgoIntersectLineCurve extends AlgoElement {
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(cons);
 				p.setCoords(0, 0, 1);
@@ -151,10 +129,10 @@ public class AlgoIntersectLineCurve extends AlgoElement {
 
 		Coords coeffs = line.getCoords();
 
-		ExpressionNode xFun = curve.getFunX().getExpression();
-		ExpressionNode yFun = curve.getFunY().getExpression();
+		ExpressionNode xFun = curve.getFun(0).getExpression();
+		ExpressionNode yFun = curve.getFun(1).getExpression();
 
-		FunctionVariable fv = curve.getFunX().getFunctionVariable();
+		FunctionVariable fv = curve.getFun(0).getFunctionVariable();
 
 		// substitute x = x(t), y=y(t) into
 		// ax + by + c
@@ -179,107 +157,25 @@ public class AlgoIntersectLineCurve extends AlgoElement {
 
 		}
 
-		// wrap in a function
-		GeoFunction geoFun = enx.buildFunction(fv);
+		findIntersections(enx, fv);
+	}
 
-		double[] roots = null;
-		int outputSize = -1;
 
-		ArrayList<Double> polyRoots = new ArrayList<Double>();
 
-		if (geoFun.isPolynomialFunction(true)) {
-			// AbstractApplication.debug("trying polynomial");
+	@Override
+	protected void updatePoint(GeoPointND point, double paramVal,
+			FunctionVariable fv) {
+		ExpressionNode xFun = curve.getFun(0).getExpression();
+		ExpressionNode yFun = curve.getFun(1).getExpression();
+		fv.set(paramVal);
+		point.setCoords(xFun.evaluateDouble(), yFun.evaluateDouble(), 1.0);
 
-			LinkedList<PolyFunction> factorList = geoFun.getFunction()
-					.getPolynomialFactors(false);
+	}
 
-			if (factorList != null) {
-				// compute the roots of every single factor
-				Iterator<PolyFunction> it = factorList.iterator();
-				while (it.hasNext()) {
-					PolyFunction polyFun = it.next();
-
-					if (polyFun.updateCoeffValues()) {
-						// now let's compute the roots of this factor
-						// compute all roots of polynomial polyFun
-						roots = polyFun.getCoeffsCopy();
-						int n = cons.getKernel().getEquationSolver()
-								.polynomialRoots(roots, true);
-
-						for (int i = 0; i < n; i++) {
-							polyRoots.add(roots[i]);
-						}
-					} else {
-						outputSize = -1;
-						break;
-					}
-
-				}
-			}
-
-		}
-
-		if (polyRoots.size() > 0) {
-
-			outputSize = polyRoots.size();
-
-			roots = new double[outputSize];
-
-			for (int i = 0; i < outputSize; i++) {
-				roots[i] = polyRoots.get(i);
-			}
-		} else {
-			// polynomial method hasn't worked
-			// AbstractApplication.debug("trying non-polynomial");
-
-			// solve a x(t) + b y(t) + c = 0 (for t)
-			roots = AlgoRoots.findRoots(geoFun, curve.getMinParameter(),
-					curve.getMaxParameter(), 100);
-
-			outputSize = roots == null || roots.length == 0 ? 1 : roots.length;
-
-		}
-
-		// update and/or create points
-		outputPoints.adjustOutputSize(outputSize);
-
-		// affect new computed points
-		int index = 0;
-		if (roots != null) {
-			for (index = 0; index < outputSize; index++) {
-				double paramVal = roots[index];
-				GeoPoint point = (GeoPoint) outputPoints.getElement(index);
-
-				if (paramVal < curve.getMinParameter()
-						|| paramVal > curve.getMaxParameter()) {
-					// intersection is not on the curve
-					point.setUndefined();
-				} else {
-
-					// substitute parameter back into curve to get cartesian
-					// coords
-					fv.set(paramVal);
-					point.setCoords(xFun.evaluateDouble(),
-							yFun.evaluateDouble(), 1.0);
-
-					// test the intersection point
-					// this is needed for the intersection of Segments, Rays
-					if (!(line.isIntersectionPointIncident(point,
-							Kernel.MIN_PRECISION))) {
-						point.setUndefined();
-					}
-				}
-
-				// AbstractApplication.debug(xFun.evaluateDouble()+","+
-				// yFun.evaluateDouble());
-			}
-		}
-
-		// other points are undefined
-		for (; index < outputPoints.size(); index++) {
-			// AbstractApplication.debug("setting undefined "+index);
-			outputPoints.getElement(index).setUndefined();
-		}
+	@Override
+	protected boolean inCoordSys(GeoPointND point) {
+		return line.isIntersectionPointIncident((GeoPoint) point,
+				Kernel.MIN_PRECISION);
 	}
 
 	@Override
@@ -287,6 +183,11 @@ public class AlgoIntersectLineCurve extends AlgoElement {
 		return getLoc().getPlain("IntersectionPointOfAB",
 				((GeoElement) line).getLabel(tpl),
 				((GeoElement) curve).getLabel(tpl));
+	}
+
+	@Override
+	protected OutputHandler getOutputPoints() {
+		return outputPoints;
 	}
 
 	// TODO Consider locusequability

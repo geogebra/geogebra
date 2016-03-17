@@ -389,4 +389,8 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	public void updateVisualStyleRepaint(GProperty prop);
 
 	void setVisualStyle(GeoElement geoElement);
+
+	boolean isParametric();
+
+	void setLabelSimple(String labelSimple);
 }

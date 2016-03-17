@@ -68,6 +68,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -1341,14 +1342,15 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	private AlgoIntersectPlaneCurve getIntersectionAlgorithmCurve(
-			GeoCoordSys2D A, GeoCurveCartesianND B) {
+			GeoCoordSys2D A, GeoCurveCartesianND B, String[] labels) {
 		AlgoElement existingAlgo = kernel.getAlgoDispatcher()
 				.findExistingIntersectionAlgorithm((GeoElement) A, B);
 		if (existingAlgo != null)
 			return (AlgoIntersectPlaneCurve) existingAlgo;
 
 		// we didn't find a matching algorithm, so create a new one
-		AlgoIntersectPlaneCurve algo = new AlgoIntersectPlaneCurve(cons, A, B);
+		AlgoIntersectPlaneCurve algo = new AlgoIntersectPlaneCurve(cons, A, B,
+				labels);
 		algo.setPrintedInXML(false);
 		kernel.getAlgoDispatcher().addIntersectionAlgorithm(algo); // remember
 																	// this
@@ -1365,12 +1367,13 @@ public class Manager3D implements Manager3DInterface {
 		return points;
 	}
 
-	public GeoPointND[] IntersectPlaneCurve(String[] labels, GeoCoordSys2D A,
+	public GeoElementND[] IntersectPlaneCurve(String[] labels, GeoCoordSys2D A,
 			GeoCurveCartesianND B) {
-		AlgoIntersectPlaneCurve algo = getIntersectionAlgorithmCurve(A, B);
+		AlgoIntersectPlaneCurve algo = getIntersectionAlgorithmCurve(A, B,
+				labels);
 		algo.setPrintedInXML(true);
-		GeoPoint3D[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		GeoElementND[] points = algo.getOutput();
+
 		return points;
 	}
 
