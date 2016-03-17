@@ -119,4 +119,10 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	}
 
+	@Override
+	protected boolean needsResetIcon() {
+		return app.showResetIcon() && !app.showView(App.VIEW_EUCLIDIAN)
+				&& !app.showView(App.VIEW_EUCLIDIAN2);
+	}
+
 }

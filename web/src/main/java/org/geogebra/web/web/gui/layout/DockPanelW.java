@@ -13,6 +13,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -542,7 +543,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (hasStyleBar()) {
 
 			if (app.getSettings().getLayout().showTitleBar()
-					&& app.allowStylebar()) {
+					&& (app.allowStylebar() || needsResetIcon())) {
 				
 				dockPanel.addNorth(titleBarPanel, 0);
 			}
@@ -556,7 +557,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 			}
 			updateStyleBarVisibility();
 		}
-
+		if (!app.allowStylebar() && needsResetIcon()) {
+			showResetIcon();
+		}
 		dockPanel.addSouth(kbButtonSpace, 0);
 
 		if (component != null) {
@@ -570,6 +573,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 		} else {
 			onResize();
 		}
+	}
+
+	protected boolean needsResetIcon() {
+		return false;
 	}
 
 	public int getComponentInteriorHeight() {
@@ -1465,6 +1472,26 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	public int navHeightIfShown() {
 		return app.showConsProtNavigation(getViewId()) ? navHeight() : 0;
+
+	}
+
+	public void showResetIcon() {
+
+		StandardButton resetIcon = new StandardButton(
+				GuiResourcesSimple.INSTANCE.viewRefresh(), null, 24);
+		resetIcon.addFastClickHandler(new FastClickHandler() {
+
+			public void onClick(Widget source) {
+				app.reset();
+
+			}
+		});
+		if (!app.allowStylebar()) {
+			titleBarPanel.clear();
+			titleBarPanel.add(resetIcon);
+		} else {
+			titleBarPanelContent.add(resetIcon);
+		}
 
 	}
 }
