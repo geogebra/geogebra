@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -35,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -3186,5 +3188,29 @@ public class Construction {
 		return counter;
 	}
 
+	/**
+	 * @param A
+	 *            - start point of segment
+	 * @param B
+	 *            - end point of segment
+	 * @return segment defined by A and B
+	 */
+	public GeoSegment getSegmentFromAlgoList(GeoPoint A, GeoPoint B) {
+		if (!algoList.isEmpty()) {
+			Iterator<AlgoElement> it = algoList.iterator();
+			while (it.hasNext()) {
+				AlgoElement curr = it.next();
+				if (curr instanceof AlgoJoinPointsSegment) {
+					if ((curr.getInput(0).equals(A) && curr.getInput(1).equals(
+							B))
+							|| (curr.getInput(0).equals(B) && curr.getInput(1)
+									.equals(A))) {
+						return ((AlgoJoinPointsSegment) curr).getSegment();
+					}
+				}
+			}
+		}
+		return null;
+	}
 
 }

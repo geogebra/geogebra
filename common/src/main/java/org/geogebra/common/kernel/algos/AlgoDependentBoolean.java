@@ -621,6 +621,35 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
+
+		// replace Distance[A,B] with geoSegment
+		if (!(root.getLeft().isExpressionNode())
+				&& root.getLeft() instanceof GeoNumeric) {
+			AlgoElement algo = ((GeoElement) root.getLeft())
+					.getParentAlgorithm();
+			if (algo instanceof AlgoDistancePoints) {
+				GeoSegment geo = cons.getSegmentFromAlgoList(
+						(GeoPoint) algo.getInput(0),
+						(GeoPoint) algo.getInput(1));
+				if (geo != null) {
+					root.setLeft(geo);
+				}
+			}
+		}
+		if (!(root.getRight().isExpressionNode())
+				&& root.getRight() instanceof GeoNumeric) {
+			AlgoElement algo = ((GeoElement) root.getRight())
+					.getParentAlgorithm();
+			if (algo instanceof AlgoDistancePoints) {
+				GeoSegment geo = cons.getSegmentFromAlgoList(
+						(GeoPoint) algo.getInput(0),
+						(GeoPoint) algo.getInput(1));
+				if (geo != null) {
+					root.setRight(geo);
+				}
+			}
+		}
+
 		// Easy cases: both sides are GeoElements:
 		if (root.getLeft().isGeoElement()
 				&& !(root.getLeft() instanceof GeoNumeric)
