@@ -826,6 +826,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	 */
 	public String getStrForGiac() {
 		String[] labels = new String[allSegmentsFromExpression.size()];
+		extraPolys.clear();
 		if (botanaVars == null) {
 			botanaVars = new Variable[allSegmentsFromExpression.size()];
 		}
