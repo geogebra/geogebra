@@ -349,12 +349,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void repaintView() {
-
-		repaint();
-	}
-
-	@Override
 	public void setToolTipText(String plainTooltip) {
 		// TODO Auto-generated method stub
 

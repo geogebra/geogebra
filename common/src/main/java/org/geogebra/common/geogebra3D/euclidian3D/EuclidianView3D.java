@@ -1367,13 +1367,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// TODO auto-generated
 	}
 
-	@Override
-	public void repaintView() {
-
-		// Application.debug("repaint View3D");
-		// super.repaintView();
-	}
-
 	/**
 	 * says we want a new repaint after current repaint
 	 */

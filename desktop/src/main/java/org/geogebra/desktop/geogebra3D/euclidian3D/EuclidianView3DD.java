@@ -574,4 +574,9 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void repaintView() {
+		// done by FPS animator
+	}
 }
