@@ -20,7 +20,6 @@ import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
 import org.geogebra.web.html5.gui.util.BasicIcons;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
-import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
@@ -123,9 +122,6 @@ public class InputTreeItem extends RadioTreeItem implements
 			// here it complains that geo is undefined
 			doUpdate();
 		}
-
-		setLongTouchManager(LongTouchManager.getInstance());
-		setDraggable();
 
 		editor = new EquationEditor(app, this);
 

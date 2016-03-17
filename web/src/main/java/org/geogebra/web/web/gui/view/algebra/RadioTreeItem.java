@@ -551,6 +551,10 @@ public class RadioTreeItem extends AVTreeItem
 	private MinMaxPanel minMaxPanel;
 	private boolean definitionAndValue;
 
+	private FlowPanel valuePanel;
+
+	private FlowPanel definitionPanel;
+
 	public void updateOnNextRepaint() {
 		this.setNeedsUpdate(true);
 	}
@@ -644,6 +648,11 @@ public class RadioTreeItem extends AVTreeItem
 	}
 	
 
+	/**
+	 * Minimal constructor
+	 *
+	 * @param kernel
+	 */
 	public RadioTreeItem(Kernel kernel) {
 		super();
 		this.kernel = kernel;
@@ -658,8 +667,11 @@ public class RadioTreeItem extends AVTreeItem
 		selectionCtrl = getAV().getSelectionCtrl();
 		setPlainTextItem(new FlowPanel());
 		ihtml = new FlowPanel();
+		setLongTouchManager(LongTouchManager.getInstance());
+		setDraggable();
 
 	}
+
 	/**
 	 * Creates a new RadioTreeItem for displaying/editing an existing GeoElement
 	 * 
@@ -725,7 +737,7 @@ public class RadioTreeItem extends AVTreeItem
 				String latexStr = geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplateMQ);
 				if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
-					this.setNeedsUpdate(true);
+					setNeedsUpdate(true);
 					av.repaintView();
 				}
 			}
@@ -736,8 +748,6 @@ public class RadioTreeItem extends AVTreeItem
 		// geo.getKernel().getApplication().setTooltipFlag();
 		// se.setTitle(geo.getLongDescription());
 		// geo.getKernel().getApplication().clearTooltipFlag();
-		setLongTouchManager(LongTouchManager.getInstance());
-		setDraggable();
 
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
@@ -807,16 +817,17 @@ public class RadioTreeItem extends AVTreeItem
 						getBuilder(getPlainTextItem()));
 				break;
 			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-				FlowPanel def = new FlowPanel();
-				FlowPanel val = new FlowPanel();
+				definitionPanel = new FlowPanel();
+				valuePanel = new FlowPanel();
 				geo.addLabelTextOrHTML(geo
 						.getDefinition(StringTemplate.defaultTemplate),
-						getBuilder(def));
+						getBuilder(definitionPanel));
 
-				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(val));
+				geo.getAlgebraDescriptionTextOrHTMLDefault(
+						getBuilder(valuePanel));
 				getPlainTextItem().clear();
-				getPlainTextItem().add(def);
-				getPlainTextItem().add(val);
+				getPlainTextItem().add(definitionPanel);
+				getPlainTextItem().add(valuePanel);
 				break;
 			}
 		}
@@ -1312,43 +1323,39 @@ public class RadioTreeItem extends AVTreeItem
 
 
 	private Canvas c;
-	private Label lbValue = null;
 
 	private void renderLatex(String text0, Widget w, boolean forceMQ) {
 		renderLatex(text0, w.getElement(), forceMQ);
 	}
 	private void renderLatex(String text0, Element old, boolean forceMQ) {
 		if (!forceMQ) {
+			Log.debug(REFX + "renderLatex 1");
 			c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
 			if (c != null && ihtml.getElement().isOrHasChild(old)) {
 				if (definitionAndValue && kernel
 						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
 					Log.debug("Hey! I'm here!!!");
-					FlowPanel p = new FlowPanel();
-					lbValue = new Label(geo.getRedefineString(true, true));
-					p.add(c);
-					p.add(lbValue);
-					ihtml.getElement().replaceChild(p.getElement(), old);
+					ihtml.getElement()
+							.replaceChild(definitionPanel.getElement(), old);
 				} else {
 					ihtml.getElement().replaceChild(c.getCanvasElement(), old);
 				}
 			}
 		} else {
+			Log.debug(REFX + "renderLatex 2");
 			FlowPanel item = new FlowPanel();
 			item.addStyleName("avTextItem");
 			updateColor(item);
-			lbValue = null;
+
+			ihtml.clear();
+
 			if (definitionAndValue && kernel
 					.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
-				Log.debug("Hey! I'm here too!!!");
-				lbValue = new Label(text0);
-				FlowPanel p = new FlowPanel();
-				p.add(lbValue);
-				p.add(new Label(geo.getDefinitionDescription(
-						StringTemplate.defaultTemplate)));
-				ihtml.getElement().replaceChild(p.getElement(), old);
+				Log.debug(REFX + "renderLatex 3");
+				ihtml.add(definitionPanel);
 			} else {
-				ihtml.getElement().replaceChild(item.getElement(), old);
+				Log.debug(REFX + "renderLatex 4");
+				ihtml.add(item);
 			}
 			String text = text0;
 			if (text0 == null) {
@@ -1359,15 +1366,14 @@ public class RadioTreeItem extends AVTreeItem
 			if (newCreationMode) {
 				// in editing mode, we shall avoid letting an invisible, but
 				// harmful element!
-				DrawEquationW.drawEquationAlgebraView(
-								lbValue != null ? lbValue.getElement()
-										: latexItem.getElement(),
+				Log.debug(REFX + "renderLatex 5");
+				DrawEquationW.drawEquationAlgebraView(latexItem.getElement(),
 								"",
 						newCreationMode);
 			} else {
+				Log.debug(REFX + "renderLatex 6");
 				DrawEquationW.drawEquationAlgebraView(
-						lbValue != null ? lbValue.getElement()
-								: latexItem.getElement(),
+latexItem.getElement(),
 						"\\mathrm {" + text + "}", newCreationMode);
 			}
 		}
@@ -1476,6 +1482,7 @@ public class RadioTreeItem extends AVTreeItem
 			if (text == null) {
 				return false;
 			}
+
 			renderLatex(text, old, true);
 
 			DrawEquationW.editEquationMathQuillGGB(this,
@@ -1497,7 +1504,7 @@ public class RadioTreeItem extends AVTreeItem
 			});
 		}
 
-		scrollIntoView();
+
 
 		buttonPanel.setVisible(true);
 		maybeSetPButtonVisibility(true);
