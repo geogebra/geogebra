@@ -7,6 +7,7 @@ import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.Animatable;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -241,7 +242,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 							        fixObjectNumericCmd(num);
 						        }
 							}, true);
-					cbItem.setSelected(num.isSlider());
+					cbItem.setSelected(num.isSliderFixed());
 					wrappedPopup.addItem(cbItem);
 				}
 			} else if (geo.isGeoBoolean()) {
@@ -253,7 +254,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 						fixCheckboxCmd();
 					}
 				}, true);
-				cbItem.setSelected(geo.isFixed());
+				cbItem.setSelected(((GeoBoolean) geo).isCheckboxFixed());
 				wrappedPopup.addItem(cbItem);
 			}
 
