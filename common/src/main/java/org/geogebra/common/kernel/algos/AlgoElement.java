@@ -479,15 +479,14 @@ public abstract class AlgoElement extends ConstructionElement implements
 		public void setLabelsMulti(String[] labels2) {
 			// if only one label (e.g. "A") for more than one output, new labels
 			// will be A_1, A_2, ...
-			if (labels != null && labels.length == 1 &&
+			if (labels2 != null && labels2.length == 1 &&
 			// outputPoints.size() > 1 &&
 					labels2[0] != null && !labels2[0].equals("")) {
 				this.setIndexLabels(labels2[0]);
 			} else {
 
 				this.setLabels(labels2);
-				this.setIndexLabels(getElement(0).getLabel(
-						StringTemplate.defaultTemplate));
+				this.setIndexLabels(getElement(0).getLabelSimple());
 			}
 
 		}
