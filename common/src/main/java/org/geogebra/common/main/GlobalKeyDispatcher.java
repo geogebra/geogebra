@@ -705,8 +705,8 @@ public abstract class GlobalKeyDispatcher {
 						GeoElement geo = it.next();
 
 						if (geo instanceof Furniture
-								|| (geo.isGeoNumeric() && ((GeoNumeric) geo)
-										.isSlider())
+								|| (geo.isGeoNumeric()
+										&& geo.isIndependent())
 								|| (geo.isGeoList() && ((GeoList) geo)
 										.drawAsComboBox())
 								|| geo.isGeoBoolean()
