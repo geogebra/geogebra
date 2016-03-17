@@ -52,7 +52,7 @@ public class PolynomialNode {
 		return poly;
 	}
 
-	public Integer evaluateInteger() {
+	public Long evaluateLong() {
 		return this.poly.getConstant();
 	}
 }

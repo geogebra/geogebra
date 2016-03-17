@@ -595,7 +595,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	public String createGroebnerSolvableScript(
-			HashMap<Variable, Integer> substitutions, String polys,
+			HashMap<Variable, Long> substitutions, String polys,
 			String freeVars, String dependantVars, boolean transcext) {
 		/*
 		 * Example syntax (from Groebner basis tester; but in GeoGebra v1, v2,
@@ -649,19 +649,19 @@ public abstract class CASgiac implements CASGenericInterface {
 	/**
 	 * Converts substitutions to giac strings
 	 * 
-	 * @param subst
+	 * @param substitutions
 	 *            input as a HashMap
 	 * @return the parameters for giac (e.g. "v1=0,v2=0,v3=0,v4=1")
 	 * 
 	 *         Taken from prover.Polynomial, one character difference. Maybe
 	 *         commonize.
 	 */
-	static String substitutionsString(HashMap<Variable, Integer> subst) {
+	static String substitutionsString(HashMap<Variable, Long> substitutions) {
 		String ret = "";
-		Iterator<Variable> it = subst.keySet().iterator();
+		Iterator<Variable> it = substitutions.keySet().iterator();
 		while (it.hasNext()) {
 			Variable v = it.next();
-			ret += "," + v.toString() + "=" + subst.get(v);
+			ret += "," + v.toString() + "=" + substitutions.get(v);
 		}
 		if (ret.length() > 0)
 			return ret.substring(1);

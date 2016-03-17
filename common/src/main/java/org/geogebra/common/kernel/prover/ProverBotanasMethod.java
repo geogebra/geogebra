@@ -232,9 +232,9 @@ public class ProverBotanasMethod {
 	 *            number of fixed coordinates
 	 * @return a HashMap, containing the substitutions
 	 */
-	static HashMap<Variable, Integer> fixValues(Prover prover, int coords) {
+	static HashMap<Variable, Long> fixValues(Prover prover, int coords) {
 
-		int[] fixCoords = { 0, 0, 0, 1 };
+		long[] fixCoords = { 0, 0, 0, 1 };
 
 		GeoElement statement = prover.getStatement();
 		List<GeoElement> freePoints = getFreePoints(statement);
@@ -244,7 +244,7 @@ public class ProverBotanasMethod {
 			fixedPoints.add(ge);
 		}
 
-		HashMap<Variable, Integer> ret = new HashMap<Variable, Integer>();
+		HashMap<Variable, Long> ret = new HashMap<Variable, Long>();
 
 		Iterator<GeoElement> it = fixedPoints.iterator();
 		GeoElement[] geos = new GeoElement[2];
@@ -886,7 +886,7 @@ public class ProverBotanasMethod {
 		}
 
 		/* Set substitutions. */
-		HashMap<Variable, Integer> substitutions = null;
+		HashMap<Variable, Long> substitutions = null;
 		int fixcoords = 0;
 		if (prover.isReturnExtraNDGs())
 			fixcoords = ProverSettings.useFixCoordinatesProveDetails;

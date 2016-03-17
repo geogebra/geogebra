@@ -29,7 +29,7 @@ public class NDGDetector {
 
 	private HashMap<String, NDGCondition> lookupTable;
 	private Prover prover;
-	private HashMap<Variable, Integer> substitutions;
+	private HashMap<Variable, Long> substitutions;
 
 	/**
 	 * Creates an NDGDetector instance. The NDG detector will try to detect
@@ -38,13 +38,13 @@ public class NDGDetector {
 	 * 
 	 * @param prover
 	 *            The prover we are create this instance for.
-	 * @param substitutions
+	 * @param substitutions2
 	 *            Fix substitutions.
 	 */
-	NDGDetector(Prover prover, HashMap<Variable, Integer> substitutions) {
+	NDGDetector(Prover prover, HashMap<Variable, Long> substitutions2) {
 		lookupTable = new HashMap<String, NDGCondition>();
 		this.prover = prover;
-		this.substitutions = substitutions;
+		this.substitutions = substitutions2;
 	}
 
 	/**
@@ -101,10 +101,10 @@ public class NDGDetector {
 				/* contains only geometric quantities (now segments)? */
 				boolean qFormula = true;
 				String lhs = "", rhs = "";
-				TreeMap<Term, Integer> tm1 = p.getTerms();
+				TreeMap<Term, Long> tm1 = p.getTerms();
 
 				outerloop: for (Term t1 : tm1.keySet()) { // e.g. 5*v1^3*v2
-					Integer coeff = tm1.get(t1); // e.g. 5
+					Long coeff = tm1.get(t1); // e.g. 5
 					if (coeff > 0 && !lhs.isEmpty()) { // bridging + on lhs
 						lhs += "+";
 					}

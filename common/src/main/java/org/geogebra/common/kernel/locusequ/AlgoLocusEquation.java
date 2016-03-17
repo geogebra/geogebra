@@ -284,7 +284,7 @@ public class AlgoLocusEquation extends AlgoElement {
 		AlgebraicStatement as = pbm.new AlgebraicStatement(implicitLocus, p);
 		Set<Set<Polynomial>> eliminationIdeal;
 
-		HashMap<Variable, Integer> substitutions = new HashMap<Variable, Integer>();
+		HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
 		List<GeoElement> freePoints = ProverBotanasMethod
 				.getFreePoints(implicitLocus);
 		Iterator<GeoElement> it = freePoints.iterator();
@@ -296,7 +296,7 @@ public class AlgoLocusEquation extends AlgoElement {
 			if (!movingPoint.equals(freePoint)) {
 				double x = ((GeoPoint) freePoint).getInhomX();
 				if ((x % 1) == 0) { // integer
-					substitutions.put(vars[0], (int) x);
+					substitutions.put(vars[0], (long) x);
 					vars[0].setFree(true);
 				} else { // fractional
 					/*
@@ -312,7 +312,7 @@ public class AlgoLocusEquation extends AlgoElement {
 				}
 				double y = ((GeoPoint) freePoint).getInhomY();
 				if ((y % 1) == 0) {
-					substitutions.put(vars[1], (int) y);
+					substitutions.put(vars[1], (long) y);
 					vars[1].setFree(true);
 				} else { // fractional
 					/*

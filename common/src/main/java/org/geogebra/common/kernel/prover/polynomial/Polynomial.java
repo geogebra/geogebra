@@ -24,13 +24,13 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class Polynomial implements Comparable<Polynomial> {
-	private TreeMap<Term, Integer> terms;
+	private TreeMap<Term, Long> terms;
 
 	/**
 	 * Creates the 0 polynomial
 	 */
 	public Polynomial() {
-		terms = new TreeMap<Term, Integer>();
+		terms = new TreeMap<Term, Long>();
 	}
 
 	/**
@@ -40,10 +40,10 @@ public class Polynomial implements Comparable<Polynomial> {
 	 *            the polynomial to copy
 	 */
 	public Polynomial(final Polynomial poly) {
-		terms = new TreeMap<Term, Integer>(poly.getTerms());
+		terms = new TreeMap<Term, Long>(poly.getTerms());
 	}
 
-	private Polynomial(final TreeMap<Term, Integer> terms) {
+	private Polynomial(final TreeMap<Term, Long> terms) {
 		this.terms = terms;
 	}
 
@@ -53,7 +53,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * 
 	 * @return the map
 	 */
-	public TreeMap<Term, Integer> getTerms() {
+	public TreeMap<Term, Long> getTerms() {
 		return terms;
 	}
 
@@ -75,7 +75,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public Polynomial(final Variable fv) {
 		this();
-		terms.put(new Term(fv), 1);
+		terms.put(new Term(fv), 1L);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param variable
 	 *            the variable
 	 */
-	public Polynomial(final int coeff, final Variable variable) {
+	public Polynomial(final long coeff, final Variable variable) {
 		this();
 		if (coeff != 0)
 			terms.put(new Term(variable), coeff);
@@ -102,7 +102,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param power
 	 *            the exponent
 	 */
-	public Polynomial(final int coeff, final Variable variable,
+	public Polynomial(final long coeff, final Variable variable,
 			final int power) {
 		this();
 		if (coeff != 0)
@@ -117,7 +117,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public Polynomial(final Term t) {
 		this();
-		terms.put(t, 1);
+		terms.put(t, 1L);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param t
 	 *            the term
 	 */
-	public Polynomial(final int coeff, final Term t) {
+	public Polynomial(final long coeff, final Term t) {
 		this();
 		if (coeff != 0)
 			terms.put(t, coeff);
@@ -142,13 +142,13 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the sum
 	 */
 	public Polynomial add(final Polynomial poly) {
-		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>(terms);
-		TreeMap<Term, Integer> terms2 = poly.getTerms();
+		TreeMap<Term, Long> result = new TreeMap<Term, Long>(terms);
+		TreeMap<Term, Long> terms2 = poly.getTerms();
 		Iterator<Term> it = terms2.keySet().iterator();
 		while (it.hasNext()) {
 			Term t = it.next();
 			if (terms.containsKey(t)) {
-				int coefficient = terms.get(t) + terms2.get(t);
+				long coefficient = terms.get(t) + terms2.get(t);
 				if (coefficient == 0) {
 					result.remove(t);
 				} else {
@@ -167,7 +167,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the negation of the polynomial
 	 */
 	public Polynomial negate() {
-		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
+		TreeMap<Term, Long> result = new TreeMap<Term, Long>();
 		Iterator<Term> it = terms.keySet().iterator();
 		while (it.hasNext()) {
 			Term t = it.next();
@@ -207,8 +207,8 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		*/
 		
-		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
-		TreeMap<Term, Integer> terms2 = poly.getTerms();
+		TreeMap<Term, Long> result = new TreeMap<Term, Long>();
+		TreeMap<Term, Long> terms2 = poly.getTerms();
 		Iterator<Term> it1 = terms.keySet().iterator();
 		while (it1.hasNext()) {
 			Term t1 = it1.next();
@@ -216,9 +216,9 @@ public class Polynomial implements Comparable<Polynomial> {
 			while (it2.hasNext()) {
 				Term t2 = it2.next();
 				Term product = t1.times(t2);
-				int productCoefficient = terms.get(t1) * terms2.get(t2);
+				long productCoefficient = terms.get(t1) * terms2.get(t2);
 				if (result.containsKey(product)) {
-					int sum = result.get(product) + productCoefficient;
+					long sum = result.get(product) + productCoefficient;
 					if (sum == 0) {
 						result.remove(product);
 					} else {
@@ -239,7 +239,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			return 0;
 		}
 
-		TreeMap<Term, Integer> polyVars=poly.getTerms();
+		TreeMap<Term, Long> polyVars = poly.getTerms();
 		if (polyVars.isEmpty()) {
 			if (terms.isEmpty()) {
 				return 0;
@@ -264,8 +264,8 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		
 		do {
-			SortedMap<Term, Integer> termsSub = terms.headMap(termsLastKey);
-			SortedMap<Term, Integer> oSub = polyVars.headMap(polyVarsLastKey);
+			SortedMap<Term, Long> termsSub = terms.headMap(termsLastKey);
+			SortedMap<Term, Long> oSub = polyVars.headMap(polyVarsLastKey);
 			if (termsSub.isEmpty()) {
 				if (oSub.isEmpty()) {
 					return 0;
@@ -296,7 +296,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		while (it.hasNext()) {
 			Term t = it.next();
-			int c = terms.get(t);
+			long c = terms.get(t);
 			if (!t.getTerm().isEmpty()) {
 				if (c != 1)
 					sb.append(c + "*");
@@ -321,7 +321,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		while (it.hasNext()) {
 			Term t = it.next();
-			int c = terms.get(t);
+			long c = terms.get(t);
 			if (!t.getTerm().isEmpty()) {
 				if (c != 1) {
 					if (c != -1) {
@@ -635,12 +635,12 @@ public class Polynomial implements Comparable<Polynomial> {
 	 *            A map of the substitutions
 	 * @return a new polynomial with the variables substituted.
 	 */
-	public Polynomial substitute(Map<Variable, Integer> substitutions) {
+	public Polynomial substitute(Map<Variable, Long> substitutions) {
 		
 		if (substitutions == null)
 			return this;
 			
-		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
+		TreeMap<Term, Long> result = new TreeMap<Term, Long>();
 
 		Iterator<Term> it = terms.keySet().iterator();
 		while (it.hasNext()) {
@@ -666,17 +666,17 @@ public class Polynomial implements Comparable<Polynomial> {
 //					throw new ArithmeticException(
 //							"Integer Overflow in polynomial class");
 //				}
-				if (sum.intValue() == 0) {
+				if (sum.longValue() == 0) {
 					result.remove(t);
 				} else {
-					result.put(t, sum.intValue());
+					result.put(t, sum.longValue());
 				}
 			} else if (product.intValue() != 0){
 //				if (product.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > -1) {
 //					throw new ArithmeticException(
 //							"Integer Overflow in polynomial class");
 //				}
-				result.put(t, product.intValue());
+				result.put(t, product.longValue());
 			}
 		}
 		return new Polynomial(result);
@@ -722,7 +722,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	/**
 	 * @return Integer value of Polynomial if it is constant
 	 */
-	public Integer getConstant() {
+	public Long getConstant() {
 		if (terms.size() > 1) {
 			return null;
 		}
@@ -751,15 +751,17 @@ public class Polynomial implements Comparable<Polynomial> {
 
 	/**
 	 * Converts substitutions to Singular strings
-	 * @param subst input as a HashMap
+	 * 
+	 * @param substitutions
+	 *            input as a HashMap
 	 * @return the parameters for Singular (e.g. "v1,0,v2,0,v3,0,v4,1")
 	 */
-	static String substitutionsString(HashMap<Variable,Integer> subst) {
+	static String substitutionsString(HashMap<Variable, Long> substitutions) {
 		String ret = "";
-		Iterator<Variable> it = subst.keySet().iterator();
+		Iterator<Variable> it = substitutions.keySet().iterator();
 		while (it.hasNext()) {
 			Variable v = it.next();
-			ret += "," + v.toString() + "," + subst.get(v);
+			ret += "," + v.toString() + "," + substitutions.get(v);
 		}
 		if (ret.length()>0)
 			return ret.substring(1);
@@ -800,7 +802,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param transcext use coefficients from a transcendental extension
 	 * @return the Singular program code
 	 */
-	public static String createGroebnerSolvableScript(HashMap<Variable,Integer> substitutions, String polys,
+	public static String createGroebnerSolvableScript(
+			HashMap<Variable, Long> substitutions, String polys,
 			String fieldVars, String ringVars, boolean transcext) {
 		
 		String ringVariable = "r";
@@ -943,7 +946,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param transcext use coefficients from transcendent extension if possible 
 	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
 	 */
-	public static Boolean solvable(Polynomial[] polys, HashMap<Variable,Integer> substitutions, Kernel kernel,
+	public static Boolean solvable(Polynomial[] polys,
+			HashMap<Variable, Long> substitutions, Kernel kernel,
 			boolean transcext) {
 		
 		HashSet<Variable> substVars = null;
@@ -1052,7 +1056,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return elements of the elimination ideal or null if computation failed
 	 */
 	public static Set<Set<Polynomial>> eliminate(Polynomial[] eqSystem,
-			HashMap<Variable, Integer> substitutions, Kernel kernel,
+			HashMap<Variable, Long> substitutions, Kernel kernel,
 			int permutation, boolean factorized) {
 
 		TreeSet<Variable> dependentVariables = new TreeSet<Variable>();

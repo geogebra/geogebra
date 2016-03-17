@@ -304,7 +304,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				polyNode.setPoly(leftPoly.multiply(rightPoly));
 				break;
 			case POWER:
-				Integer pow = polyNode.getRight().evaluateInteger();
+				Long pow = polyNode.getRight().evaluateLong();
 				if (pow != null) {
 					Polynomial poly = leftPoly;
 					for (Integer i = 1; i < pow; i++) {

@@ -163,7 +163,7 @@ public interface CASGenericInterface extends SettingListener {
 	 * @return the program code
 	 */
 	public String createGroebnerSolvableScript(
-			HashMap<Variable, Integer> substitutions, String polys,
+			HashMap<Variable, Long> substitutions, String polys,
 			String freeVars, String dependantVars, boolean transcext);
 
 	/**
