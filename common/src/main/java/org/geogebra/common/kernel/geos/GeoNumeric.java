@@ -723,7 +723,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			sb.append(" random=\"true\"");
 		}
 		sb.append("/>\n");
-
+		if (symbolicMode) {
+			sb.append("\t<symbolic val=\"true\" />\n");
+		}
 		// colors
 		getXMLvisualTags(sb);
 

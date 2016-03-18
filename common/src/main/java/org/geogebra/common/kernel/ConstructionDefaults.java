@@ -399,9 +399,7 @@ public class ConstructionDefaults {
 		// number.setLocalVariableLabel(app.getPlain("Numeric"));
 		number.setLocalVariableLabel("Numeric");
 		number.setSliderFixed(true);
-		if (cons.getKernel().getApplication().has(Feature.FRACTIONS)) {
-			number.setSymbolicMode(true);
-		}
+
 		/*
 		 * we have to set min/max/increment/speed here because
 		 * SetEuclideanVisible takes these from default geo

@@ -60,7 +60,7 @@ import org.geogebra.common.util.debug.Log;
 public class GeoList extends GeoElement implements ListValue,
 PointProperties, TextProperties, Traceable, Path, Transformable,
 SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
-AngleProperties {
+		AngleProperties, HasSymbolicMode {
 
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
@@ -2958,6 +2958,20 @@ AngleProperties {
 	@Override
 	public ValidExpression toValidExpression() {
 		return getMyList();
+	}
+
+	public void setSymbolicMode(boolean mode) {
+		for (int i = 0; i < this.size(); i++) {
+			if (get(i) instanceof HasSymbolicMode) {
+				((HasSymbolicMode) get(i)).setSymbolicMode(mode);
+			}
+		}
+
+	}
+
+	public boolean isSymboicMode() {
+		return size() > 0 && get(0) instanceof HasSymbolicMode
+				&& ((HasSymbolicMode) get(0)).isSymboicMode();
 	}
 
 }

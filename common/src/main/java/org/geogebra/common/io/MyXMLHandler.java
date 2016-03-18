@@ -67,6 +67,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.kernel.geos.GeoUserInputElement;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
@@ -3685,6 +3686,9 @@ public class MyXMLHandler implements DocHandler {
 				} else if ("slider".equals(eName)) {
 					ok = handleSlider(attrs);
 					break;
+				}else if ("symbolic".equals(eName)) {
+					ok = handleSymbolic(attrs);
+					break;
 				} else if ("slopeTriangleSize".equals(eName)) {
 					ok = handleSlopeTriangleSize(attrs);
 					break;
@@ -4846,7 +4850,22 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
+	private boolean handleSymbolic(
+			LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof HasSymbolicMode)) {
+			Log.error("wrong element type for <symbolic>: "
+					+ geo.getClass());
+			return false;
+		}
 
+		try {
+			HasSymbolicMode num = (HasSymbolicMode) geo;
+			num.setSymbolicMode(parseBoolean(attrs.get("val")));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 	private boolean handleSlopeTriangleSize(
 			LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoNumeric())) {
