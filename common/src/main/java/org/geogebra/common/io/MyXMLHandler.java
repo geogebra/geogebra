@@ -3225,7 +3225,10 @@ public class MyXMLHandler implements DocHandler {
 				fontTagProcessed = false;
 				lineStyleTagProcessed = false;
 				if (geo instanceof VectorNDValue) {
-					((VectorNDValue) geo).setMode(Kernel.COORD_CARTESIAN);
+					((VectorNDValue) geo)
+							.setMode(((VectorNDValue) geo).getDimension() == 3
+									? Kernel.COORD_CARTESIAN_3D
+									: Kernel.COORD_CARTESIAN);
 				}
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
