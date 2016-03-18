@@ -6299,8 +6299,10 @@ kernel, left,
 			if (fraction[0] != null && fraction[1] != null) {
 				double lt = fraction[0].evaluateDouble();
 				double rt = fraction[1].evaluateDouble();
-				if (Kernel.isInteger(rt) && Kernel.isInteger(lt)) {
-					double g = Kernel.gcd((long) lt, (long) rt);
+				if (Kernel.isInteger(rt) && Kernel.isInteger(lt)
+						&& !Kernel.isZero(rt)) {
+					double g = Math.abs(Kernel.gcd((long) lt, (long) rt))
+							* Math.signum(rt);
 					resolve = new ExpressionNode(kernel, lt / g).divide(rt / g);
 				} else {
 					resolve = new ExpressionNode(kernel, lt / rt);

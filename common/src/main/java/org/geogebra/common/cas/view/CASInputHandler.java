@@ -10,10 +10,12 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
+import org.geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -21,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles CAS input
@@ -178,9 +181,11 @@ public class CASInputHandler {
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 				try {
 					// check if input is polynomial
-					ValidExpression expandValidExp = (kernel.getGeoGebraCAS())
+					ExpressionValue expandValidExp = (kernel.getGeoGebraCAS())
 							.getCASparser().parseGeoGebraCASInput(evalText,
-									null);
+									null)
+							.traverse(FunctionExpander.getCollector());
+					Log.debug(expandValidExp);
 					String casResult = cas.getCurrentCAS().evaluateRaw(
 									"ispolynomial("
 											+ expandValidExp
