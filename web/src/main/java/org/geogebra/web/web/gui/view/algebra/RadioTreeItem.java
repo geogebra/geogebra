@@ -1329,12 +1329,10 @@ public class RadioTreeItem extends AVTreeItem
 	}
 	private void renderLatex(String text0, Element old, boolean forceMQ) {
 		if (!forceMQ) {
-			Log.debug(REFX + "renderLatex 1");
 			c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
 			if (c != null && ihtml.getElement().isOrHasChild(old)) {
 				if (definitionAndValue && kernel
 						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
-					Log.debug("Hey! I'm here!!!");
 					ihtml.getElement()
 							.replaceChild(definitionPanel.getElement(), old);
 				} else {
@@ -1342,7 +1340,7 @@ public class RadioTreeItem extends AVTreeItem
 				}
 			}
 		} else {
-			Log.debug(REFX + "renderLatex 2");
+			// Log.debug(REFX + "renderLatex 2");
 			FlowPanel item = new FlowPanel();
 			item.addStyleName("avTextItem");
 			updateColor(item);
@@ -1351,10 +1349,8 @@ public class RadioTreeItem extends AVTreeItem
 
 			if (definitionAndValue && kernel
 					.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
-				Log.debug(REFX + "renderLatex 3");
 				ihtml.add(definitionPanel);
 			} else {
-				Log.debug(REFX + "renderLatex 4");
 				ihtml.add(item);
 			}
 			String text = text0;
@@ -1363,19 +1359,10 @@ public class RadioTreeItem extends AVTreeItem
 			}
 			text = DrawEquationW.inputLatexCosmetics(text);
 			latexItem = item;
-			if (newCreationMode) {
-				// in editing mode, we shall avoid letting an invisible, but
-				// harmful element!
-				Log.debug(REFX + "renderLatex 5");
-				DrawEquationW.drawEquationAlgebraView(latexItem.getElement(),
-								"",
-						newCreationMode);
-			} else {
-				Log.debug(REFX + "renderLatex 6");
-				DrawEquationW.drawEquationAlgebraView(
-latexItem.getElement(),
-						"\\mathrm {" + text + "}", newCreationMode);
-			}
+			DrawEquationW.drawEquationAlgebraView(latexItem,
+					newCreationMode ? "" : "\\mathrm {" + text + "}",
+					newCreationMode);
+
 		}
 
 	}
@@ -1454,9 +1441,7 @@ latexItem.getElement(),
 		updateButtonPanel(true);
 		thisIsEdited = true;
 		if (newCreationMode) {
-			DrawEquationW.editEquationMathQuillGGB(this,
- latexItem.getElement(),
-					true);
+			DrawEquationW.editEquationMathQuillGGB(this, latexItem, true);
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
 			CancelEventTimer.keyboardSetVisible();
@@ -1475,10 +1460,15 @@ latexItem.getElement(),
 			Element old = LaTeX ? (c != null ? c.getCanvasElement()
 							: latexItem.getElement())
 					: getPlainTextItem().getElement();
-			String text = geo.getLaTeXAlgebraDescriptionWithFallback(
+			String text = null;
+			if (isDefinitionAndValue()) {
+				text = "BINGOOW!";
+			} else {
+				text = geo.getLaTeXAlgebraDescriptionWithFallback(
 					substituteNumbers || sliderNeeded(),
 					StringTemplate.latexTemplateMQedit,
 					true);
+			}
 			if (text == null) {
 				return false;
 			}
@@ -1486,7 +1476,7 @@ latexItem.getElement(),
 			renderLatex(text, old, true);
 
 			DrawEquationW.editEquationMathQuillGGB(this,
- latexItem.getElement(),
+					isDefinitionAndValue() ? definitionPanel : latexItem,
 					false);
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
@@ -1509,6 +1499,11 @@ latexItem.getElement(),
 		buttonPanel.setVisible(true);
 		maybeSetPButtonVisibility(true);
 		return true;
+	}
+
+	private boolean isDefinitionAndValue() {
+		return definitionAndValue && kernel
+				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
 	}
 
 	private static String stopCommon(String newValue0) {

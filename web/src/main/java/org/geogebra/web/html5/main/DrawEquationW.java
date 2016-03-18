@@ -65,8 +65,13 @@ public class DrawEquationW extends DrawEquation {
 	 * @param latexString
 	 *            the equation in LaTeX
 	 */
+	public static void drawEquationAlgebraView(Widget w, String latexString,
+			boolean nonGeneral) {
+		drawEquationAlgebraView(w.getElement(), latexString, nonGeneral);
+	}
+
 	public static void drawEquationAlgebraView(Element parentElement,
-	        String latexString, boolean nonGeneral) {
+			String latexString, boolean nonGeneral) {
 		// no scriptloaded check yet (is it necessary?)
 
 		// logging takes too much time
@@ -552,6 +557,11 @@ public class DrawEquationW extends DrawEquation {
 	 *            the same element as in drawEquationMathQuillGGB
 	 * @param newCreationMode
 	 */
+	public static void editEquationMathQuillGGB(GeoContainer rbti, Widget w,
+			boolean newCreationMode) {
+		editEquationMathQuillGGB(rbti, w.getElement(), newCreationMode);
+	}
+
 	public static native void editEquationMathQuillGGB(GeoContainer rbti,
 			Element parentElement, boolean newCreationMode) /*-{
 
