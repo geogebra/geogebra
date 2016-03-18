@@ -18,12 +18,12 @@ import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles CAS input
@@ -185,7 +185,6 @@ public class CASInputHandler {
 							.getCASparser().parseGeoGebraCASInput(evalText,
 									null)
 							.traverse(FunctionExpander.getCollector());
-					Log.debug(expandValidExp);
 					String casResult = cas.getCurrentCAS().evaluateRaw(
 									"ispolynomial("
 											+ expandValidExp
@@ -197,12 +196,18 @@ public class CASInputHandler {
 						HashSet<GeoElement> vars = ve.getVariables();
 						if (!vars.isEmpty()) {
 							Iterator<GeoElement> it = vars.iterator();
-							// add var=1
-							String var = it.next().toString(
-									StringTemplate.defaultTemplate);
-							sb.append(",");
-							sb.append(var);
-							sb.append("=1");
+							while (it.hasNext()) {
+								GeoElement next = it.next();
+								if (next instanceof GeoDummyVariable) {
+									// add var=1
+									String var = next.toString(
+											StringTemplate.defaultTemplate);
+									sb.append(",");
+									sb.append(var);
+									sb.append("=1");
+									break;
+								}
+							}
 						}
 						vars.clear();
 					} else {
@@ -477,15 +482,16 @@ public class CASInputHandler {
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 				try {
 					StringBuilder inputStr = new StringBuilder();
-					inputStr.append("ispolynomial");
 					if (vars.isEmpty() || i == 0) {
 						// check if input is polynomial
-						inputStr.append("(");
-						inputStr.append(selCellValue.getInputVE().toString(
+						inputStr.append("ispolynomial(");
+						inputStr.append(selCellValue.getOutputValidExpression()
+								.toString(
 								StringTemplate.giacTemplate));
 					} else {
-						inputStr.append("2(");
-						inputStr.append(selCellValue.getInputVE().toString(
+						inputStr.append("ispolynomial2(");
+						inputStr.append(selCellValue.getOutputValidExpression()
+								.toString(
 								StringTemplate.giacTemplate));
 						inputStr.append(",");
 						if (vars.size() == 1) {
@@ -568,12 +574,16 @@ public class CASInputHandler {
 		cellText.append("}");
 		if (!vars.isEmpty() && foundNonPolynomial) {
 			cellText.append(",{");
+			boolean first = true;
 			for (int i = 0; i < vars.size(); i++) {
-				if (i != 0)
+				if (!first)
 					cellText.append(",");
-				cellText.append(vars.get(i).toString(
+				if (vars.get(i) instanceof GeoDummyVariable) {
+					first = false;
+					cellText.append(vars.get(i).toString(
 						StringTemplate.defaultTemplate)
 						+ "=1");
+				}
 			}
 			cellText.append("}");
 		}

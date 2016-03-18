@@ -54,7 +54,8 @@ public class AlgoDependentCasCell extends AlgoElement implements
 		// setLabel of twinGeo if we got one
 		casCell.setLabelOfTwinGeo();
 
-		if (casCell.getInputVE().isTopLevelCommand()) {
+		if (casCell.getInputVE() != null
+				&& casCell.getInputVE().isTopLevelCommand()) {
 			if ("SlopeField".equals(casCell.getInputVE().getTopLevelCommand()
 					.getName())) {
 				cons.registerEuclidianViewCE(this);
