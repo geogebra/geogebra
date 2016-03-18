@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -5269,6 +5270,10 @@ sb.toString(), getFontAxes(),
 
 		return (getSettings() != null && getWidth() > 2 && (getWidth() < getSettings()
 				.getFileWidth() || getHeight() < getSettings().getFileHeight()));
+	}
+
+	public boolean isInPlane(CoordSys sys) {
+		return companion.isInPlane(sys);
 	}
 
 }

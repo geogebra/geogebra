@@ -36,6 +36,7 @@ public class DrawLocus extends Drawable {
 	private boolean isVisible, labelVisible;
 	private GeneralPathClippedForCurvePlotter gp;
 	private double[] lastPointCoords;
+	private CoordSys coordSys;
 
 	/**
 	 * Creates new drawable for given locus
@@ -45,10 +46,12 @@ public class DrawLocus extends Drawable {
 	 * @param locus
 	 *            locus
 	 */
-	public DrawLocus(EuclidianView view, GeoLocusND<? extends MyPoint> locus) {
+	public DrawLocus(EuclidianView view, GeoLocusND<? extends MyPoint> locus,
+			CoordSys sys) {
 		this.view = view;
 		this.locus = locus;
 		geo = locus;
+		this.coordSys = sys;
 
 		update();
 	}
@@ -116,7 +119,7 @@ public class DrawLocus extends Drawable {
 		else
 			gp.reset();
 
-		lastPointCoords = CurvePlotter.draw(gp, pointList, CoordSys.Identity3D);
+		lastPointCoords = CurvePlotter.draw(gp, pointList, coordSys);
 	}
 
 	@Override

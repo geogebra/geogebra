@@ -33,6 +33,7 @@ import org.geogebra.common.euclidian.draw.DrawUpperLowerSum;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoBoxPlot;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -288,7 +289,8 @@ public class EuclidianDraw {
 			break;
 
 		case LOCUS:
-			d = new DrawLocus(ev, ((GeoLocusNDInterface) geo).getLocus());
+			d = new DrawLocus(ev, ((GeoLocusNDInterface) geo).getLocus(),
+					CoordSys.Identity3D);
 			break;
 
 		case CURVE_CARTESIAN:

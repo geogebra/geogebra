@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.implicit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -21,7 +22,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm to find intersection of implicit with line, function, conic and
@@ -49,8 +49,22 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	/**
 	 * Root Precision
 	 */
-	private static final double EPS = Kernel.MIN_PRECISION;
+	private static final double EPS = Kernel.STANDARD_PRECISION_SQRT;
 
+	// FIXME 0.1 and -0.1 both are different of root of x^10 = 0 with satisfied
+	// standard precision accuracy and root accuracy condition
+	private static final double ROOT_ACCURACY = 1e-3;
+
+	/**
+	 * We want a very accurate solution
+	 */
+	private static final double ACCURACY = Kernel.STANDARD_PRECISION;
+
+	private static final double DECAY_RATE = 0.9;
+	
+	private static final double MOMENT_RATE = 0.92;
+
+	private static final double MIN_LAMBDA = 0.0001;
 	/**
 	 * First Equation {@link GeoImplicitCurve}
 	 */
@@ -154,7 +168,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		List<double[]> roots = new ArrayList<double[]>();
 		findIntersections(curve, (GeoImplicitCurve) equation, SAMPLE_SIZE_2D,
 				OUTPUT_SIZE, roots);
-		if (roots == null || roots.size() == 0) {
+		if (roots.size() == 0) {
 			outputs.adjustOutputSize(0);
 			return;
 		}
@@ -323,7 +337,8 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 *            maximum number of samples for initial points
 	 * @param outputs
 	 *            maximum size of output
-	 * @return points at which two implicit curves intersects
+	 * @param vals
+	 *            List that would have the final solution
 	 */
 	public static void findIntersections(GeoImplicitCurve c1,
 			GeoImplicitCurve c2, int samples, int outputs, List<double[]> vals) {
@@ -399,17 +414,11 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 			FunctionVariable y2 = fun2.getFunctionVariables()[1];
 			FunctionNVar[] f = new FunctionNVar[6];
 			f[0] = fun1;
-			Log.debug(f[0]);
 			f[1] = fun2;
-			Log.debug(f[1]);
 			f[2] = fun1.getDerivativeNoCAS(x, 1);
-			Log.debug(f[2]);
 			f[3] = fun1.getDerivativeNoCAS(y, 1);
-			Log.debug(f[3]);
 			f[4] = fun2.getDerivativeNoCAS(x2, 1);
-			Log.debug(f[4]);
 			f[5] = fun2.getDerivativeNoCAS(y2, 1);
-			Log.debug(f[5]);
 			derivative = true;
 			intersections(f, params, guess, outputs, vals);
 			return;
@@ -435,7 +444,6 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 *            {xMin, yMin, xMax, yMax}
 	 * @param outputs
 	 *            number of samples in output
-	 * @return
 	 */
 	private static void intersections(FunctionNVar[] f, double[] params,
 			List<Coords> guess, int outputs, List<double[]> vals) {
@@ -443,13 +451,13 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		// double[][] out = new double[outputs][2];
 
 		double f1, f2, jx1, jx2, jy1, jy2, det, x, y;
-		double delta1, delta2, lamda, dx, dy, evals[];
-
+		double delta1, delta2, lambda = 1.0, dx = 0.0, dy = 0.0, evals[], moment;
 		boolean add = true;
 
 		// papers suggest that Newton's method converges in at most 2n
-		// steps, n being number of variables
-		int maxStep = 8, n = 0;
+		// steps for linear equation, n being number of variables
+
+		int maxStep = 12, minStep = 4, smooth, n = 0;
 		for (int i = 0; i < guess.size() && n < outputs; i++) {
 			evals = guess.get(i).val;
 
@@ -460,9 +468,9 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 			f1 = f[0].evaluate(evals);
 			f2 = f[1].evaluate(evals);
 			// More efficient but less accurate way to find sqrt(f1^2+f2^2)
+			smooth = 0;
 			delta1 = Math.abs(f1) + Math.abs(f2);
-
-			for (int j = 0; j < maxStep && !Kernel.isZero(delta1, EPS); j++) {
+			for (int j = 0; j < maxStep && smooth < minStep; j++) {
 				x = evals[0];
 				y = evals[1];
 				// evaluate Jacobians
@@ -482,26 +490,30 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 				// find deviation
 				dx = (jy1 * f2 - jy2 * f1) / det;
 				dy = (jx2 * f1 - jx1 * f2) / det;
-				lamda = 1.0;
-				// Armijo line search
+				lambda = 1.0;
+				moment = 1.0;
+				// Armijo line search with some simple tweaks
 				do {
-					evals[0] = x + lamda * dx;
-					evals[1] = y + lamda * dy;
+					evals[0] = x + lambda * dx;
+					evals[1] = y + lambda * dy;
 					f1 = f[0].evaluate(evals);
 					f2 = f[1].evaluate(evals);
 					delta2 = Math.abs(f1) + Math.abs(f2);
-					lamda *= 0.5;
-				} while ((lamda > 0.05) && (delta2 > delta1));
+					lambda *= moment * DECAY_RATE;
+					moment *= MOMENT_RATE;
+				} while ((lambda > MIN_LAMBDA) && (delta2 > delta1));
 
 				if (delta2 > delta1) {
-					// the function in not converging even for lamda ~ 0.5
+					// the function in not converging even for lambda ~ 0.0
 					break;
 				}
-
 				delta1 = delta2;
+				if (Kernel.isZero(delta1, ACCURACY)) {
+					smooth++;
+				}
 			}
 
-			if (!Kernel.isZero(delta1, EPS)) {
+			if (!Kernel.isZero(delta1, ACCURACY)) {
 				// unfortunately our guess was very bad, repeat with other guess
 				continue;
 			}
@@ -511,16 +523,32 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 					&& (evals[1] >= params[1] && evals[1] <= params[3]);
 
 			// check if we have already calculated the same root
-			for (int j = 0; j < n && j < vals.size() && add; j++) {
-				add = !Kernel.isEqual(vals.get(j)[0], evals[0], EPS)
-						|| !Kernel.isEqual(vals.get(j)[1], evals[1], EPS);
-			}
-
-			if (add) {
-				vals.add(new double[] { evals[0], evals[1] });
-				n++;
+			if(add) {
+				insert(new double[] { evals[0], evals[1] }, vals);
 			}
 		}
+
+	}
+
+	private static void insert(double[] pair, List<double[]> pairs) {
+		ListIterator<double[]> it = pairs.listIterator();
+		double eps = ROOT_ACCURACY; // find good value...
+		while (it.hasNext()) {
+			double[] p = it.next();
+			if (Kernel.isGreater(p[0], pair[0], eps)) {
+				it.previous();
+				break;
+			}
+			if (Kernel.isEqual(p[0], pair[0], eps)) {
+				if (Kernel.isGreater(p[1], pair[1], eps)) {
+					it.previous();
+					break;
+				}
+				if (Kernel.isEqual(p[1], pair[1], eps))
+					return; // do not add
+			}
+		}
+		it.add(pair);
 	}
 
 	/**
@@ -547,9 +575,9 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 
 		double[] evals;
 		double jx1, jy1, jx2, jy2, delta1, delta2, det, Dx, Dy, dx, dy;
-		double x, y, f1, f2, fPrev1, fPrev2, df1, df2, lamda, norm;
+		double x, y, f1, f2, fPrev1, fPrev2, df1, df2, lambda, norm, moment;
 
-		int steps = 10, size = guess.size(), n = 0;
+		int steps = 10, size = guess.size();
 
 		for (int i = 0; i < size; i++) {
 			evals = guess.get(i).val;
@@ -563,7 +591,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 
 			delta1 = Math.abs(f1) + Math.abs(f2);
 
-			if (!Kernel.isZero(delta1, EPS)) {
+			if (!Kernel.isZero(delta1, ACCURACY)) {
 
 				x = evals[0];
 				y = evals[1];
@@ -586,23 +614,25 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 
 					dx = (jy1 * f2 - jy2 * f1) / det;
 					dy = (jx2 * f1 - jx1 * f2) / det;
-					lamda = 1.0;
+					lambda = 1.0;
+					moment = 1.0;
 
 					do {
 
-						evals[0] = x + lamda * dx;
-						evals[1] = y + lamda * dy;
+						evals[0] = x + lambda * dx;
+						evals[1] = y + lambda * dy;
 
 						f1 = fn1.evaluate(evals);
 						f2 = fn2.evaluate(evals);
 
 						delta2 = Math.abs(f1) + Math.abs(f2);
 
-						lamda *= 0.5;
+						lambda *= moment * DECAY_RATE;
+						moment *= MOMENT_RATE;
 
-					} while (delta2 >= delta1 && lamda > 0.005);
+					} while (delta2 >= delta1 && lambda > MIN_LAMBDA);
 
-					if (delta2 >= delta1 || Kernel.isZero(delta2, EPS)) {
+					if (delta2 >= delta1 || Kernel.isZero(delta2, ACCURACY)) {
 						delta1 = delta2;
 						break;
 					}
@@ -634,7 +664,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 				}
 			}
 
-			if (!Kernel.isZero(delta1, EPS)) {
+			if (!Kernel.isZero(delta1, ACCURACY)) {
 				// unfortunately our guess was very bad, repeat with other guess
 				continue;
 			}
@@ -643,20 +673,10 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 			add = (evals[0] >= params[0]) && (evals[0] <= params[2])
 					&& (evals[1] >= params[1] && evals[1] <= params[3]);
 
-			// check if we have already calculated the same root
-			for (int j = 0; j < n && j < vals.size() && add; j++) {
-				add = !Kernel.isEqual(vals.get(j)[0], evals[0], EPS)
-						|| !Kernel.isEqual(vals.get(j)[1], evals[1], EPS);
-			}
-
 			if (add) {
-				vals.add(new double[] { evals[0], evals[1] });
-				n++;
+				insert(new double[] { evals[0], evals[1] }, vals);
 			}
 		}
-
-
-
 	}
 
 	private static double finiteDiffX(FunctionNVar func, double x, double y) {

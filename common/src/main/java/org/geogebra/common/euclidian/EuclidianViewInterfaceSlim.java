@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.kernel.LayerView;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -211,5 +212,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	public EuclidianSettings getSettings();
 
 	public int getComboOffsetY();
+
+	public boolean isInPlane(CoordSys sys);
 
 }

@@ -18,6 +18,7 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 
 /**
@@ -39,7 +40,7 @@ public class DrawImplicitPoly extends DrawLocus {
 	 *            implicit polynomial
 	 */
 	public DrawImplicitPoly(EuclidianView view, GeoImplicit implicitPoly) {
-		super(view, implicitPoly.getLocus());
+		super(view, implicitPoly.getLocus(), CoordSys.Identity3D);
 		this.view = view;
 		this.implicitPoly = implicitPoly;
 		this.geo = implicitPoly.toGeoElement();

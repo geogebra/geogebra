@@ -186,7 +186,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	}
 
 	public boolean supports(CoordSys sys) {
-		return sys == null || sys == CoordSys.Identity3D;
+		return sys == null || view.isInPlane(sys);
 	}
 
 }

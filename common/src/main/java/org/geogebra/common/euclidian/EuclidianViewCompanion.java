@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -413,5 +414,10 @@ public class EuclidianViewCompanion {
 	 */
 	protected void updateSizeKeepDrawables() {
 		view.updateSizeKeepDrawables();
+	}
+
+	public boolean isInPlane(CoordSys sys) {
+		return sys.getEquationVector()
+				.isEqual(CoordSys.Identity3D.getEquationVector());
 	}
 }
