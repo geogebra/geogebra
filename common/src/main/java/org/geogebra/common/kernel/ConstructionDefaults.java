@@ -400,7 +400,7 @@ public class ConstructionDefaults {
 		number.setLocalVariableLabel("Numeric");
 		number.setSliderFixed(true);
 		if (cons.getKernel().getApplication().has(Feature.FRACTIONS)) {
-			number.setMode(GeoNumeric.MODE_FRACTION);
+			number.setSymbolicMode(true);
 		}
 		/*
 		 * we have to set min/max/increment/speed here because

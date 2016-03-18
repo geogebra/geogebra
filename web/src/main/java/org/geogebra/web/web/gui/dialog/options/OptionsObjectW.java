@@ -52,6 +52,7 @@ import org.geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import org.geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
+import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TooltipModel;
@@ -1483,6 +1484,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		tab = makeOptionsTab("Properties.Algebra");
 		tab.addModel(new CoordsModel());
 		tab.addModel(new LineEqnModel());
+		tab.addModel(new SymbolicModel());
 		tab.addModel(new ConicEqnModel(loc));
 		tab.addModel(new AnimationSpeedModel(getAppW()));
 

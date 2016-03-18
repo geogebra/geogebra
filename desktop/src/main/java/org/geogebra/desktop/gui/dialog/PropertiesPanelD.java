@@ -123,6 +123,7 @@ import org.geogebra.common.gui.dialog.options.model.ShowObjectModel;
 import org.geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectListener;
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
+import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel.ITextOptionsListener;
@@ -197,6 +198,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private LayerPanel layerPanel; // Michael Borcherds 2008-02-26
 	private CoordsPanel coordPanel;
 	private LineEqnPanel lineEqnPanel;
+	private SymbolicPanel symbolicPanel;
 	private ConicEqnPanel conicEqnPanel;
 	private PointSizePanel pointSizePanel;
 	private PointStylePanel pointStylePanel; // Florian Sonner 2008-07-17
@@ -336,6 +338,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		// showView2D = new ShowView2D();
 		auxPanel = new AuxiliaryObjectPanel();
 		animStepPanel = new AnimationStepPanel(app);
+		symbolicPanel = new SymbolicPanel();
 		textFieldSizePanel = new TextfieldSizePanel(app);
 		animSpeedPanel = new AnimationSpeedPanel(app);
 		allowOutlyingIntersectionsPanel = new AllowOutlyingIntersectionsPanel();
@@ -509,6 +512,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		algebraTabList.add(conicEqnPanel);
 		algebraTabList.add(animStepPanel);
 		algebraTabList.add(animSpeedPanel);
+		algebraTabList.add(symbolicPanel);
 		algebraTab = new TabPanel(algebraTabList);
 		tabPanelList.add(algebraTab);
 
@@ -571,6 +575,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		// update the labels of the panels
 		showObjectPanel.setLabels();
+		symbolicPanel.setLabels();
 		selectionAllowed.setLabels();
 		showTrimmedIntersectionLines.setLabels();
 		colChooser.setLabels();
@@ -1131,7 +1136,30 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			enableFilling(value);
 		}
 
-	} // IneqPanel
+	}
+
+	private class SymbolicPanel extends CheckboxPanel
+			implements IBooleanOptionListener {
+
+		private static final long serialVersionUID = 1L;
+
+		public SymbolicPanel() {
+			super("Symbolic");
+			SymbolicModel model = new SymbolicModel();
+			model.setListener(this);
+			setModel(model);
+			app.setFlowLayoutOrientation(this);
+		}
+
+
+
+		@Override
+		public void apply(boolean value) {
+			super.apply(value);
+		}
+
+
+	}// IneqPanel
 
 	/**
 	 * panel with label properties

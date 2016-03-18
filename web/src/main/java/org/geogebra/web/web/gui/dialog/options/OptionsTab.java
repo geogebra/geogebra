@@ -38,6 +38,7 @@ import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
+import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.kernel.Kernel;
@@ -219,6 +220,12 @@ class OptionsTab extends FlowPanel {
 		}
 		if(m instanceof LodModel){
 			return new LodPanel((LodModel) m, app);
+		}
+		if (m instanceof SymbolicModel) {
+			CheckboxPanel ret = new CheckboxPanel("Symbolic",
+					app.getLocalization());
+			ret.setModel(m);
+			return ret;
 		}
 		if(m instanceof InterpolateImageModel){
 			return new InterpolateImagePanel((InterpolateImageModel) m, app);
@@ -980,6 +987,7 @@ class OptionsTab extends FlowPanel {
 		// }
 
 	} // IneqPanel
+
 
 	private class TextFieldSizePanel extends OptionPanel implements
 			ITextFieldListener {
