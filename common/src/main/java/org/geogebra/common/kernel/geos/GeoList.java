@@ -2935,7 +2935,11 @@ AngleProperties {
 
 	@Override
 	public boolean hasBackgroundColor() {
-		return drawAsComboBox;
+		if (drawAsComboBox
+				|| (this.size() > 0 && this.get(0).hasBackgroundColor())) {
+			return true;
+		}
+		return createTemplateElement().hasBackgroundColor();
 	}
 
 	/**

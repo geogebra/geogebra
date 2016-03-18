@@ -256,7 +256,8 @@ class ColorPanel extends JPanel implements ActionListener,
 
 		rbtnBackgroundColor.setVisible(model.hasBackground());
 		rbtnForegroundColor.setVisible(model.hasBackground());
-		btnClearBackground.setVisible(rbtnBackgroundColor.isSelected());
+		btnClearBackground.setVisible(
+				rbtnBackgroundColor.isSelected() && model.hasBackground());
 		btnClearBackground.setEnabled(rbtnBackgroundColor.isSelected());
 		// hide the color chooser and preview if we have an image
 		colorChooserContainer.setVisible(!model.hasImageGeo()
