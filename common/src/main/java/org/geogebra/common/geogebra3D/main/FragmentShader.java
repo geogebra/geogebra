@@ -12,8 +12,8 @@ public class FragmentShader {
 
 	final private static String fragmentHeaderHTML5 = "precision mediump float;\n";
 
-	final private static String regular = "precision mediump float;\r\n"
-			+ "\r\n" + "// uniform\r\n" + "uniform int textureType;\r\n"
+	final private static String regular = "// uniform\r\n"
+			+ "uniform int textureType;\r\n"
 			+ "\r\n" + "uniform int enableClipPlanes;\r\n"
 			+ "uniform vec3 clipPlanesMin;\r\n"
 			+ "uniform vec3 clipPlanesMax;\r\n" + "\r\n"
@@ -58,7 +58,7 @@ public class FragmentShader {
 
 	final public static String getFragmentShader(boolean isHTML5) {
 
-		if (isHTML5) {
+		if (!isHTML5) {
 			return regular;
 		}
 
