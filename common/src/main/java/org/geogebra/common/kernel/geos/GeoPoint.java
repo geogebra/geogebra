@@ -1165,9 +1165,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 */
 	public static final double affineRatio(GeoPointND A, GeoPointND B,
 			GeoPointND C) {
-		Coords cA = A.getCoordsInD3();
-		Coords cB = B.getCoordsInD3();
-		Coords cC = C.getCoordsInD3();
+		Coords cA = A.getInhomCoordsInD3();
+		Coords cB = B.getInhomCoordsInD3();
+		Coords cC = C.getInhomCoordsInD3();
 
 		double ABx = cB.getX() - cA.getX();
 		double ABy = cB.getY() - cA.getY();
