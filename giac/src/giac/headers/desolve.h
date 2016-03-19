@@ -51,7 +51,9 @@ namespace giac {
   gen _invztrans(const gen & args,GIAC_CONTEXT);
 
   gen integrate_without_lnabs(const gen & e,const gen & x,GIAC_CONTEXT);
-
+  extern const unary_function_ptr * const  at_Kronecker ;
+  gen _Kronecker(const gen & args,GIAC_CONTEXT);
+  
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

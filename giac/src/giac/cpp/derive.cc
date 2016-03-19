@@ -920,7 +920,8 @@ namespace giac {
   static define_unary_function_eval (__implicit_diff,&_implicit_diff,_implicit_diff_s);
   define_unary_function_ptr5( at_implicit_diff ,alias_at_implicit_diff,&__implicit_diff,0,true);
 
-  void domain(const gen & f,const gen & x,vecteur & eqs,vecteur &excluded,GIAC_CONTEXT){
+  // mode==0 for domain, ==1 for singular values
+  void domain(const gen & f,const gen & x,vecteur & eqs,vecteur &excluded,int mode,GIAC_CONTEXT){
     vecteur v=lvarxwithinv(f,x,contextptr);
     lvar(f,v);
     for (int i=0;i<int(v.size());++i){
@@ -932,13 +933,17 @@ namespace giac {
       if (g.type!=_SYMB)
 	continue;
       gen gf=g._SYMBptr->feuille;
-      domain(gf,x,eqs,excluded,contextptr);
+      domain(gf,x,eqs,excluded,mode,contextptr);
       unary_function_ptr & u=g._SYMBptr->sommet;
-      if (u==at_inv || u==at_Ei){
+      if (u==at_inv || u==at_Ei || (mode==1 && (u==at_ln || u==at_log10 || u==at_Ci))){
 	excluded=mergevecteur(excluded,gen2vecteur(_solve(makesequence(symb_equal(gf,0),x),contextptr)));
 	continue;
       }
       if (u==at_pow){
+	if (mode==1){
+	  excluded=mergevecteur(excluded,gen2vecteur(_solve(makesequence(symb_equal(gf[0],0),x),contextptr)));
+	  continue;
+	}
 	if (is_greater(gf[1],0,contextptr))
 	  eqs.push_back(symb_superieur_egal(gf[0],0));
 	else
@@ -950,15 +955,24 @@ namespace giac {
 	continue;
       }
       if (u==at_acosh){
-	eqs.push_back(symb_superieur_egal(gf,1));
+	if (mode==1)
+	  excluded=mergevecteur(excluded,gen2vecteur(_solve(makesequence(symb_equal(gf,0),x),contextptr)));
+	else
+	  eqs.push_back(symb_superieur_egal(gf,1));
 	continue;
       }
       if (u==at_asin || u==at_acos || u==at_atanh){
-	eqs.push_back(symb_inferieur_egal(pow(gf,2,contextptr),1));
+	if (mode==1)
+	  excluded=mergevecteur(excluded,gen2vecteur(_solve(makesequence(symb_equal(pow(gf,2,contextptr),0),x),contextptr)));
+	else
+	  eqs.push_back(symb_inferieur_egal(pow(gf,2,contextptr),1));
 	continue;
       }
       if (u==at_tan){
-	eqs.push_back(symb_cos(gf));
+	if (mode==1)
+	  excluded=mergevecteur(excluded,gen2vecteur(_solve(makesequence(symb_equal(symb_cos(gf),0),x),contextptr)));
+	else
+	  eqs.push_back(symb_cos(gf));
 	continue;
       }
       if (u==at_sin || u==at_cos || u==at_exp || u==at_atan)
@@ -970,11 +984,11 @@ namespace giac {
       *logptr(contextptr) << g << " function not supported, doing like if it was defined" << endl;
     }
   }
-  gen domain(const gen & f,const gen & x,GIAC_CONTEXT){
+  gen domain(const gen & f,const gen & x,int mode,GIAC_CONTEXT){
     // domain of expression f with respect to variable x
     if (x.type!=_IDNT){
       gen domainx(identificateur("domainx"));
-      return domain(subst(f,x,domainx,false,contextptr),domainx,contextptr);
+      return domain(subst(f,x,domainx,false,contextptr),domainx,mode,contextptr);
     }
     vecteur eqs,excluded,res;
     bool b=complex_mode(contextptr);
@@ -982,13 +996,15 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     try {
 #endif
-      domain(f,x,eqs,excluded,contextptr);
+      domain(f,x,eqs,excluded,mode,contextptr);
       res=gen2vecteur(_solve(makesequence(eqs,x),contextptr));
 #ifndef NO_STDEXCEPT
     } catch (std::runtime_error & e ) { *logptr(contextptr) << e.what() << endl;}
 #endif
     complex_mode(b,contextptr);
     comprim(excluded);
+    if (mode==1)
+      return excluded;
     if (excluded.empty())
       return res.size()==1?res.front():res;
     vecteur tmp;
@@ -1027,10 +1043,17 @@ namespace giac {
   gen _domain(const gen & args,GIAC_CONTEXT){
     if (is_undef(args)) return args;
     if (args.type!=_VECT || args.subtype!=_SEQ__VECT)
-      return domain(args,vx_var,contextptr);
-    if (args._VECTptr->size()!=2)
+      return domain(args,vx_var,0,contextptr);
+    vecteur v=*args._VECTptr;
+    if (v.size()<2)
       return gensizeerr(contextptr);
-    return domain(args._VECTptr->front(),args._VECTptr->back(),contextptr);
+    if (is_integral(v[1]))
+      v.insert(v.begin()+1,vx_var);
+    if (v.size()==2)
+      v.push_back(0);
+    if (v[2].type!=_INT_)
+      return gensizeerr(contextptr);
+    return domain(v[0],v[1],v[2].val,contextptr);
   }
   static const char _domain_s []="domain";
   static define_unary_function_eval (__domain,&_domain,_domain_s);

@@ -1007,6 +1007,7 @@ namespace giac {
       bool ie=false; // detect here if we are using IE
 #if defined EMCC && !defined GIAC_GGB
       ie=EM_ASM_INT_V({
+	  if (Module.worker) return 0;
 	  var ua = window.navigator.userAgent;
 	  var old_ie = ua.indexOf('MSIE ');
 	  var new_ie = ua.indexOf('Trident/');

@@ -1526,7 +1526,7 @@ namespace giac {
     int varxs=int(varx.size());
     gen res;
     if (varxs==0)
-      res=f*symb_when(t,1,0);
+      res=f*_Kronecker(t,contextptr);
     else {
       if (varxs>1)
 	return invztranserr(contextptr);
@@ -1586,7 +1586,7 @@ namespace giac {
 	  vecteur vnum;
 	  polynome2poly1(it->num,1,vnum);
 	  for (int i=0;i<mult;++i){
-	    res0 += r2e(vnum[i],lprime,contextptr)*symbolic(at_Dirac,s-i); // symb_when(symb_equal(s,i),1,0) will not be handled correctly by ztrans
+	    res0 += r2e(vnum[i],lprime,contextptr)*symbolic(at_Kronecker,s-i); // symb_when(symb_equal(s,i),1,0) will not be handled correctly by ztrans
 	  }
 	  res += res0/B;
 	}
@@ -1613,7 +1613,19 @@ namespace giac {
     }
     if (s==x)
       res=subst(res,t,x,false,contextptr);
-    return ratnormal(res);    
+    res=ratnormal(res);
+    // replace discrete Kronecker by Heaviside in some very simple situations
+    vecteur vD=lop(res,at_Kronecker);
+    gen A,B,a,b;
+    if (vD.size()==1 && is_linear_wrt(res,vD.front(),A,B,contextptr) && is_linear_wrt(vD.front()._SYMBptr->feuille,s,a,b,contextptr)){
+      // res==A*Kronecker(a*x+b)+B
+      if (is_one(a) && is_zero(b)){
+	gen B0=subst(B,s,0,false,contextptr);
+	if (is_zero(ratnormal(B0+A)))
+	  res=B*symbolic(at_Heaviside,s-1);
+      }
+    }
+    return res;
   }
   
   gen _invztrans(const gen & args,GIAC_CONTEXT){
@@ -1631,6 +1643,21 @@ namespace giac {
   static const char _invztrans_s []="invztrans";
   static define_unary_function_eval (__invztrans,&_invztrans,_invztrans_s);
   define_unary_function_ptr5( at_invztrans ,alias_at_invztrans,&__invztrans,0,true);
+
+  gen _Kronecker(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return args;
+    if (args.type==_VECT) 
+      return apply(args,_Kronecker,contextptr);
+    if (!is_integer(args))
+      return symbolic(at_Kronecker,args);
+    if (is_zero(args))
+      return 1;
+    else
+      return 0;
+  }
+  static const char _Kronecker_s []="Kronecker";
+  static define_unary_function_eval (__Kronecker,&_Kronecker,_Kronecker_s);
+  define_unary_function_ptr5( at_Kronecker ,alias_at_Kronecker,&__Kronecker,0,true);
 
 
 #ifndef NO_NAMESPACE_GIAC

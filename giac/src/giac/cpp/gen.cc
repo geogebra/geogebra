@@ -2951,7 +2951,7 @@ namespace giac {
 	  }
 	}
       }
-      if (equalposcomp(plot_sommets,_SYMBptr->sommet) || equalposcomp(analytic_sommets,_SYMBptr->sommet) || _SYMBptr->sommet==at_surd)
+      if (equalposcomp(plot_sommets,_SYMBptr->sommet) || equalposcomp(analytic_sommets,_SYMBptr->sommet) || _SYMBptr->sommet==at_surd || _SYMBptr->sommet==at_erf)
 	return new_ref_symbolic(symbolic(_SYMBptr->sommet,_SYMBptr->feuille.conj(contextptr)));
       else
 	return new_ref_symbolic(symbolic(at_conj,*this));
@@ -3263,6 +3263,12 @@ namespace giac {
     }
     if (u==at_Ci && is_zero(imf) && is_greater(ref,0,contextptr)){
       r=_Ci(ref,contextptr); return;
+    }
+    if (u==at_erf){ // works for analytic functions
+      gen conjf=symbolic(u,ref-cst_i*imf);
+      r=(s+conjf)/2;
+      i=-cst_i*(s-conjf)/2;
+      return;
     }
     r=new_ref_symbolic(symbolic(at_re,gen(s)));
     i=new_ref_symbolic(symbolic(at_im,gen(s)));
@@ -7202,7 +7208,7 @@ namespace giac {
       if (is_undef(b))
 	return b;
       if (a.type==_STRNG || b.type==_STRNG)
-	return gensizeerr(contextptr);
+	return gensizeerr("string /");
       {
 	gen var1,var2,res1,res2;
 	if (is_algebraic_program(a,var1,res1)){
@@ -14694,6 +14700,11 @@ namespace giac {
     if (calc_mode(&C)!=1 && last.is_symb_of_sommet(at_pnt)){
 #ifndef GIAC_GGB
       if (is3d(last)){
+	bool worker=false;
+	worker=EM_ASM_INT_V({
+	    if (Module.worker) return 1; else return 0;
+	});
+	if (worker) return "3d not supported if workers are enabled";
 	//giac_renderer(last.print(&C).c_str());
 	int n=giac_gen_renderer(g,&C);
 	S="gl3d "+print_INT_(n);

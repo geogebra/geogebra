@@ -717,7 +717,10 @@ namespace giac {
 	continue;
       }
       if (!is_zero(rex2)){
-	if (is_zero(im(rex2,contextptr)) && is_positive(-rex2,contextptr)){
+	if (1 
+	    //&&is_zero(im(rex2,contextptr)) 
+	    //&& is_positive(-rex2,contextptr)
+	    ){
 	  const vecteur & vx2=lvarxpow(coeff,gen_x);
 	  if ( vx2.size()>1 || (!vx2.empty() && vx2.front()!=gen_x) ){
 	    remains_to_integrate = remains_to_integrate + coeff*exp(reaxb,contextptr);
@@ -801,7 +804,15 @@ namespace giac {
 	  imaxb=0;
 	// check polynomial
 	const vecteur vx2=lvarxpow(coeff,gen_x);
-	if ( (vx2.size()>1) || ( (!vx2.empty()) && (vx2.front()!=gen_x))  || ( (imaxb.type==_SYMB) && !is_linear_wrt(imaxb._SYMBptr->feuille,gen_x,ima,imb,contextptr) ) ){
+	bool coeffnotpoly=(vx2.size()>1) || ( (!vx2.empty()) && (vx2.front()!=gen_x));
+	gen imc;
+	bool quad=imaxb.type==_SYMB && is_quadratic_wrt(imaxb._SYMBptr->feuille,gen_x,ima,imb,imc,contextptr);
+	if (!coeffnotpoly && quad && !is_zero(ima)){
+	  imc=_trig2exp(coeff*imaxb,contextptr);
+	  res += integrate_linearizable(imc,gen_x,remains_to_integrate,intmode,contextptr);
+	  continue;
+	}
+	if ( coeffnotpoly || ( imaxb.type==_SYMB && !is_linear_wrt(imaxb._SYMBptr->feuille,gen_x,ima,imb,contextptr)) ) {
 	  if (trig_type) imaxb=imaxb._SYMBptr->feuille;
 	  gen tmp(plus_one);
 	  if (trig_type==1)
@@ -879,7 +890,7 @@ namespace giac {
     gen tmp=remains_to_integrate;
     remains_to_integrate=0;
     res=res+risch(tmp,id_x,remains_to_integrate,contextptr);
-    if (is_zero(im(e,contextptr)) &&has_i(res)){
+    if (is_zero(im(e,contextptr)) &&has_i(res) && lop(res,at_erf).empty()){
       remains_to_integrate=re(remains_to_integrate,contextptr);
       res=ratnormal(re(res,contextptr));
     }
@@ -4127,7 +4138,10 @@ namespace giac {
     lrdm(vP,p);
     m.push_back(vP);
     m=mtran(m);
+    int st=step_infolevel;
+    step_infolevel=0;
     m=mrref(m,contextptr);
+    step_infolevel=st;
     vecteur res(y+1);
     for (int i=0;i<=y;++i){
       if (is_zero(m[i][i]))
