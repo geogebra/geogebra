@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.AlgoFitImplicit;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles pen and freehand tool
@@ -1654,6 +1655,17 @@ public class EuclidianPen {
 	}
 
 	private void incr_inertia(int start, Inertia s, int coeff) {
+
+		// defensive code
+		// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_30_DAYS&ecn=java.lang.ArrayIndexOutOfBoundsException&tf=SourceFile&tc=org.geogebra.a.c.v&tm=a&nid&an&c&s=new_status_desc
+		if (start + 1 >= penPoints.size()) {
+			// Log.error("problem in incr_inertia "+ start + " " + s + " " +
+			// coeff);
+			Log.printStacktrace("problem in EuclidianPen.incr_inertia " + start
+					+ " " + s + " " + coeff);
+			return;
+		}
+
 		double pt1_x = penPoints.get(start).x;
 		double pt1_y = penPoints.get(start).y;
 		double pt2_x = penPoints.get(start + 1).x;
