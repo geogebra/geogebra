@@ -2774,7 +2774,9 @@ namespace giac {
       return exactvalue;
     gen tmp=evalf_double(exactvalue,1,contextptr);
 #if defined HAVE_LIBMPFR && !defined NO_STDEXCEPT
-    if (tmp.type==_DOUBLE_ || tmp.type==_CPLX){
+    if ( (tmp.type==_DOUBLE_ || tmp.type==_CPLX) 
+	 && !has_i(lop(exactvalue,at_erf)) // otherwise it's slow
+	 ){
       try {
 	tmp=evalf_double(accurate_evalf(exactvalue,256),1,contextptr);
       } catch (std::runtime_error & err){

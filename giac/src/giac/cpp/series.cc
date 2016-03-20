@@ -2558,7 +2558,7 @@ namespace giac {
 	return false;
       }
       gen l=in_limit(temp._SYMBptr->feuille,x,plus_inf,0,contextptr);
-      if (is_undef(l) || (l==unsigned_inf && temp._SYMBptr->sommet!=at_cos && temp._SYMBptr->sommet!=at_sin)){
+      if (is_undef(l) || (l==unsigned_inf && temp._SYMBptr->sommet!=at_cos && temp._SYMBptr->sommet!=at_sin && temp._SYMBptr->sommet!=at_erfs)){
 	*logptr(contextptr) << gettext("Undef/Unsigned Inf encountered in limit") << endl;
 	return false;
       }

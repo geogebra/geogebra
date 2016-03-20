@@ -1089,7 +1089,7 @@ namespace giac {
       sort(v.begin(),v.end());
       m=v[s/10];
       M=v[9*s/10];
-      if (fullview || 2*(M-m)>(v[s-1]-v[0])){
+      if (fullview || 2*(M-m)>(v[s-1]-v[0]) || (M-m)<0.01*(v[s-1]-v[0])){
 	M=v[s-1];
 	m=v[0];
 	zoom(m,M,1.1);
