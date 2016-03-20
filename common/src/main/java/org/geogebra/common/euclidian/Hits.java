@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DPartInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.HasVolume;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -288,7 +287,6 @@ public class Hits extends ArrayList<GeoElement> {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isGeoNumeric() && ((GeoNumeric) geo).isSlider()) {
-				Log.debug("remove");
 
 				remove(geo);
 			}
