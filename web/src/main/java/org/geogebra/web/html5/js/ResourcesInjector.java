@@ -9,6 +9,7 @@ import org.geogebra.web.keyboard.KeyboardResources;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.user.client.Window.Location;
 
 /**
  * @author gabor
@@ -60,7 +61,9 @@ public class ResourcesInjector {
 
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 
-		Browser.webWorkerSupported = Browser.checkWorkerSupport(GWT
+		Browser.webWorkerSupported = Location
+				.getParameter("GeoGebraDebug") == null
+				&& Browser.checkWorkerSupport(GWT
 		        .getModuleBaseURL());
 		if (!Browser.webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
