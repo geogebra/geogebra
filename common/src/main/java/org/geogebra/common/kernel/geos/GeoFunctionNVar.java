@@ -693,7 +693,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 
 	@Override
 	public Coords getLabelPosition() {
-		return new Coords(0, 0, 0, 1); // TODO
+		return Coords.O; // TODO
 	}
 
 	/** to be able to fill it with an alpha value */

@@ -253,7 +253,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	@Override
 	public Coords getLabelPosition() {
-		return new Coords(4); // TODO
+		return Coords.O; // TODO
 	}
 
 	@Override

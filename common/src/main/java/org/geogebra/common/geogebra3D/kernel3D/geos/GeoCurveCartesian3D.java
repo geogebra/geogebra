@@ -219,7 +219,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	@Override
 	public Coords getLabelPosition() {
-		return new Coords(4); // TODO
+		return Coords.O; // TODO
 	}
 
 	@Override

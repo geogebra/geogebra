@@ -729,7 +729,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return the label position (2D or 3D vector)
 	 */
 	public Coords getLabelPosition() {
-		return new Coords(0, 0, 0, 1);
+		return Coords.O;
 	}
 
 	/**
