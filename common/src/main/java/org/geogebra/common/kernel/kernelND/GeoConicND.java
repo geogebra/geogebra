@@ -3942,7 +3942,7 @@ FromMeta
 		return "Conic";                       
 	}
 	
-	private Coords labelPosition;
+	private Coords labelPosition, labelPosition3D;
 	private PathParameter labelParameter;
 
 	@Override
@@ -3950,12 +3950,13 @@ FromMeta
 		if (labelPosition == null){
 			labelPosition = new Coords(0,0,1);
 			labelParameter = new PathParameter(0);
+			labelPosition3D = Coords.createInhomCoorsInD3();
 		}
 
 		pathChangedWithoutCheck(labelPosition, labelParameter, true);
 		
 		
-		return getCoordSys().getPoint(labelPosition);
+		return getCoordSys().getPoint(labelPosition, labelPosition3D);
 	}
 	
 	

@@ -134,8 +134,15 @@ public class CoordSys {
 		return getV(2);
 	}
 
-	public Coords getPoint(Coords coords2D) {
-		return getPoint(coords2D.getX(), coords2D.getY());
+	public Coords getPoint(Coords coords2D, Coords result) {
+		return getPoint(coords2D.getX(), coords2D.getY(), result);
+	}
+
+
+	public Coords getPoint(double x, double y, Coords result) {
+		result.setAdd(matrixOrthonormal.getOrigin(),
+				getVector(x, y, tmpCoords2));
+		return result;
 	}
 
 	public Coords getPoint(double x, double y) {
@@ -165,6 +172,12 @@ public class CoordSys {
 	public Coords getVector(double x, double y) {
 		return matrixOrthonormal.getVx().mul(x)
 				.add(matrixOrthonormal.getVy().mul(y));
+	}
+
+	public Coords getVector(double x, double y, Coords result) {
+		result.setAdd(result.setMul(matrixOrthonormal.getVx(), x),
+				tmpCoords1.setMul(matrixOrthonormal.getVy(), y));
+		return result;
 	}
 
 	public Coords getNormal() {

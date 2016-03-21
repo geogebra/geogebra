@@ -71,6 +71,12 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 		super(c, 2, isIntersection);
 	}
 
+	@Override
+	protected void createFields(int dimension) {
+		midpoint3D = Coords.createInhomCoorsInD3();
+		super.createFields(dimension);
+	}
+
 	// ///////////////////////////////////////
 	// link with the 2D coord sys
 
@@ -128,9 +134,11 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 		return getMidpoint3D();
 	}
 
+	private Coords midpoint3D;
+
 	@Override
 	public Coords getMidpoint3D() {
-		return coordSys.getPoint(super.getMidpoint2D());
+		return coordSys.getPoint(super.getMidpoint2D(), midpoint3D);
 	}
 
 	@Override
