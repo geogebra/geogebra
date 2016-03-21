@@ -784,8 +784,9 @@ CasEvaluableFunction, ParametricCurve,
 
 	@Override
 	protected boolean showInEuclidianView() {
-		if (fun != null && isInequality == null && isBooleanFunction())
+		if (fun != null && isInequality == null && isBooleanFunction()) {
 			getIneqs();
+		}
 		return isDefined() && (!isBooleanFunction() || isInequality);
 	}
 
@@ -2293,6 +2294,8 @@ CasEvaluableFunction, ParametricCurve,
 	public IneqTree getIneqs() {
 		if (fun.getIneqs() == null) {
 			isInequality = fun.initIneqs(fun.getExpression(), this);
+		} else if (isInequality == null) {
+			isInequality = fun.getIneqs().isValid();
 		}
 		return fun.getIneqs();
 	}
