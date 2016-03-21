@@ -1194,7 +1194,22 @@ public class RadioTreeItem extends AVTreeItem
 	protected void doUpdate() {
 		updateCheckbox();
 
-		// check for new LaTeX
+
+		updateItemText();
+
+		if (marblePanel != null) {
+			marblePanel.update();
+		}
+
+		if (animPanel != null) {
+			animPanel.update();
+
+		}
+
+		updateNumerics();
+	}
+
+	private void updateItemText() {
 		setNeedsUpdate(false);
 		boolean newLaTeX = false;
 
@@ -1202,7 +1217,6 @@ public class RadioTreeItem extends AVTreeItem
 				&& (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
 						|| isDefinitionAndValue())) {
 			String text = "";
-			Log.debug(REFX + "newCreationMode is " + isInputTreeItem());
 			if (geo != null) {
 				if (isInputTreeItem()) {
 					text = geo.getLaTeXAlgebraDescription(true,
@@ -1264,18 +1278,7 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		}
 
-		if (marblePanel != null) {
-			marblePanel.update();
-		}
-
-		if (animPanel != null) {
-			animPanel.update();
-
-		}
-
-		updateNumerics();
 	}
-
 	private void updateNumerics() {
 		if (!(geo instanceof GeoNumeric
 				&& (slider != null && sliderPanel != null) || sliderNeeded())) {
