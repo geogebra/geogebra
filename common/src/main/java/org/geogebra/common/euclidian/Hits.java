@@ -287,8 +287,7 @@ public class Hits extends ArrayList<GeoElement> {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isGeoNumeric() && ((GeoNumeric) geo).isSlider()) {
-
-				remove(geo);
+				it.remove();
 			}
 		}
 	}
