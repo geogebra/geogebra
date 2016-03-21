@@ -145,10 +145,16 @@ public class CoordSys {
 		return result;
 	}
 
+	/**
+	 * @deprecated use {@link #getPoint(double, double, Coords)} instead
+	 */
 	public Coords getPoint(double x, double y) {
 		return matrixOrthonormal.getOrigin().add(getVector(x, y));
 	}
 	
+	/**
+	 * @deprecated use {@link #getPoint(double, double, double, Coords)} instead
+	 */
 	public Coords getPoint(double x, double y, double z) {
 		if (Kernel.isZero(z)){
 			return getVector(x, y);
@@ -156,19 +162,59 @@ public class CoordSys {
 		return getPoint(x/z, y/z);
 	}
 
+	public Coords getPoint(double x, double y, double z, Coords result) {
+		if (Kernel.isZero(z)) {
+			return getVector(x, y, result);
+		}
+		return getPoint(x / z, y / z, result);
+	}
 
+
+	/**
+	 * 
+	 * @deprecated use {@link #getPointForDrawing(double, double, Coords)}
+	 *             instead
+	 */
 	public Coords getPointForDrawing(double x, double y) {
 		return drawingMatrix.mul(new Coords(x, y, 0, 1));
 	}
 
+	public Coords getPointForDrawing(double x, double y, Coords result) {
+		tmpCoords1.setX(x);
+		tmpCoords1.setY(y);
+		tmpCoords1.setZ(0);
+		tmpCoords1.setW(1);
+		return result.setMul(drawingMatrix, tmpCoords1);
+	}
+
+	/**
+	 * 
+	 * @deprecated use {@link #getPoint(double, Coords)} instead
+	 */
 	public Coords getPoint(double x) {
 		return getOrigin().add(getVx().mul(x));
 	}
 
+	public Coords getPoint(double x, Coords result) {
+		return result.setAdd(getOrigin(), result.setMul(getVx(), x));
+	}
+
+	/**
+	 * 
+	 * @deprecated use {@link #getVector(Coords, Coords)} instead
+	 */
 	public Coords getVector(Coords coords2D) {
 		return getVector(coords2D.getX(), coords2D.getY());
 	}
 
+	public Coords getVector(Coords coords2D, Coords result) {
+		return getVector(coords2D.getX(), coords2D.getY(), result);
+	}
+
+	/**
+	 * 
+	 * @deprecated use {@link #getVector(double, double, Coords)} instead
+	 */
 	public Coords getVector(double x, double y) {
 		return matrixOrthonormal.getVx().mul(x)
 				.add(matrixOrthonormal.getVy().mul(y));
