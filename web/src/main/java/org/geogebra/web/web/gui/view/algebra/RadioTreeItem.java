@@ -67,7 +67,6 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
-import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
@@ -496,6 +495,7 @@ public class RadioTreeItem extends AVTreeItem
 	protected AlgebraView av;
 	private boolean LaTeX = false;
 	private boolean thisIsEdited = false;
+	boolean mout = false;
 
 	protected FlowPanel latexItem;
 	private FlowPanel plainTextItem;
@@ -532,12 +532,16 @@ public class RadioTreeItem extends AVTreeItem
 	 */
 	private CheckBox checkBox;
 
+	/**
+	 * whether the playButton currently shows a play or a pause icon
+	 */
+	private boolean playButtonValue;
 
 	/**
 	 * panel to display animation related controls
 	 */
-	private AnimPanel animPanel;
 
+	private AnimPanel animPanel;
 	private ScheduledCommand resizeSliderCmd = new ScheduledCommand() {
 
 		public void execute() {
@@ -685,8 +689,22 @@ public class RadioTreeItem extends AVTreeItem
 
 		main.add(marblePanel);
 
+
 		if (geo instanceof GeoBoolean && geo.isSimple()) {
-			createCheckbox();
+			// CheckBoxes
+			checkBox = new CheckBox();
+			checkBox.setValue(((GeoBoolean) geo).getBoolean());
+			main.add(checkBox);
+			checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+				@Override
+				public void onValueChange(ValueChangeEvent<Boolean> event) {
+					((GeoBoolean) geo).setValue(event.getValue());
+					geo.updateCascade();
+					// updates other views (e.g. Euclidian)
+					kernel.notifyRepaint();
+
+				}
+			});
 		}
 
 
@@ -707,15 +725,23 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		ihtml.add(getPlainTextItem());
-
 		buildPlainTextItem();
-
-		if (checkLatex()) {
-			setNeedsUpdate(true);
-			av.repaintView();
-
+		// if enabled, render with LaTeX
+		if (av.isRenderLaTeX() && (kernel
+				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
+				|| (definitionAndValue && kernel
+						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE))) {
+			if (geo.isDefined()) {
+				String latexStr = geo.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplateMQ);
+				if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
+					setNeedsUpdate(true);
+					av.repaintView();
+				}
+			}
+		} else {
+			// nothing to do, senolatex already up to date
 		}
-
 		// FIXME: geo.getLongDescription() doesn't work
 		// geo.getKernel().getApplication().setTooltipFlag();
 		// se.setTitle(geo.getLongDescription());
@@ -728,52 +754,18 @@ public class RadioTreeItem extends AVTreeItem
 
 		buttonPanel.setVisible(false);
 
-		main.add(buttonPanel);
+		main.add(buttonPanel);// dirty hack of adding it two times!
+
+		// pButton should be added before xButton is added!
+		// also, the place of buttonPanel should also be changed!
+		// so these things are moved to replaceXbuttonDOM!
+		// buttonPanel.add(xButton);
 
 		deferredResizeSlider();
 
 	}
 
-	private void createCheckbox() {
-		checkBox = new CheckBox();
-		checkBox.setValue(((GeoBoolean) geo).getBoolean());
-		main.add(checkBox);
-		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				((GeoBoolean) geo).setValue(event.getValue());
-				geo.updateCascade();
-				// updates other views (e.g. Euclidian)
-				kernel.notifyRepaint();
-
-			}
-		});
-
-	}
-
-	private boolean checkLatex() {
-		if (!av.isRenderLaTeX()
-				|| (kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
-						|| !isDefinitionAndValue())
-				|| !geo.isDefined()) {
-			return false;
-		}
-
-		String latexStr = geo.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplateMQ);
-
-		if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
-			return true;
-		}
-
-		return false;
-
-	}
-
-	/**
-	 * @return The Delete "X" button.
-	 */
-	protected PushButton getDeleteButton() {
+	protected PushButton getXbutton() {
 		if (btnDelete == null) {
 			btnDelete = new PushButton(
 					new Image(
@@ -840,9 +832,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-
 	private void updateFont(Widget w) {
-		// TODO move it to css
 		w.getElement().getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
 
 	}
@@ -1159,7 +1149,8 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public void repaint() {
-		if (isNeedsUpdate()) {
+		if (isNeedsUpdate() || playButtonValue != (geo.isAnimating()
+				&& app.getKernel().getAnimatonManager().isRunning())) {
 			doUpdate();
 		}
 	}
@@ -1194,22 +1185,7 @@ public class RadioTreeItem extends AVTreeItem
 	protected void doUpdate() {
 		updateCheckbox();
 
-
-		updateItemText();
-
-		if (marblePanel != null) {
-			marblePanel.update();
-		}
-
-		if (animPanel != null) {
-			animPanel.update();
-
-		}
-
-		updateNumerics();
-	}
-
-	private void updateItemText() {
+		// check for new LaTeX
 		setNeedsUpdate(false);
 		boolean newLaTeX = false;
 
@@ -1217,13 +1193,14 @@ public class RadioTreeItem extends AVTreeItem
 				&& (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
 						|| isDefinitionAndValue())) {
 			String text = "";
+			Log.debug(REFX + "newCreationMode is " + isInputTreeItem());
 			if (geo != null) {
-				if (isInputTreeItem()) {
-					text = geo.getLaTeXAlgebraDescription(true,
-							StringTemplate.latexTemplateMQ);
-				} else {
+				if (!isInputTreeItem()) {
 					text = geo.getLaTeXAlgebraDescription(true,
 							StringTemplate.latexTemplate);
+				} else {
+					text = geo.getLaTeXAlgebraDescription(true,
+							StringTemplate.latexTemplateMQ);
 				}
 
 				if ((text != null) && text.length() < 1500
@@ -1278,7 +1255,18 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		}
 
+		if (marblePanel != null) {
+			marblePanel.update();
+		}
+
+		if (animPanel != null) {
+			animPanel.update();
+
+		}
+
+		updateNumerics();
 	}
+
 	private void updateNumerics() {
 		if (!(geo instanceof GeoNumeric
 				&& (slider != null && sliderPanel != null) || sliderNeeded())) {
@@ -1841,7 +1829,6 @@ marblePanel, evt))) {
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
-		SliderWJquery.stopSliders();
 		event.stopPropagation();
 	}
 
@@ -2124,7 +2111,7 @@ marblePanel, evt))) {
 				buttonPanel.add(getPButton());
 			}
 			if (showX) {
-				buttonPanel.add(getDeleteButton());
+				buttonPanel.add(getXbutton());
 			}
 			buttonPanel.setVisible(true);
 
