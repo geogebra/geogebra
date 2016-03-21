@@ -127,7 +127,6 @@ public class DrawSlider extends Drawable {
 
 			double param = (number.getValue() - min) / (max - min);
 			setPointSize(2 + (number.getLineThickness() + 1) / 3);
-			labelVisible = geo.isLabelVisible();
 
 			// horizontal slider
 			if (horizontal) {
@@ -293,7 +292,10 @@ public class DrawSlider extends Drawable {
 
 		// circle might be needed at least for tracing
 		circle.setFrame(xUL, yUL, diameter, diameter);
-
+		if (xUL + diameter < 0 || xUL > view.getWidth() || yUL + diameter < 0
+				|| yUL > view.getHeight()) {
+			labelVisible = false;
+		}
 		// selection area
 		circleHighlight.setFrame(xUL - 2 * HIGHLIGHT_OFFSET, yUL
 				- HIGHLIGHT_OFFSET * 2, hightlightDiameter + 2
