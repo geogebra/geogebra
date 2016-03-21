@@ -84,35 +84,28 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	@Override
 	public void drawGeometry(Renderer renderer) {
 
-		if (getPlane().isPlateVisible())
-			drawPlate(renderer);
+		drawPlate(renderer);
 
 	}
+
 
 	@Override
 	protected void drawSurfaceGeometry(Renderer renderer) {
 		drawGeometry(renderer);
 	}
 
-	private void drawPlate(Renderer renderer) {
-		renderer.setLayer(getLayer() - 1f); // -1f for z-fighting with planes
-		renderer.getGeometryManager().draw(getSurfaceIndex());
-		renderer.setLayer(0);
+	protected void drawPlate(Renderer renderer) {
+		if (getPlane().isPlateVisible()) {
+			renderer.setLayer(getLayer() - 1f); // -1f for z-fighting with
+												// planes
+			renderer.getGeometryManager().draw(getSurfaceIndex());
+			renderer.setLayer(0);
+		}
 	}
 
 	@Override
 	public void drawGeometryHiding(Renderer renderer) {
-		GeoPlane3D plane = getPlane();
-		if (plane.isPlateVisible()) {// || plane.isGridVisible())
-			drawPlate(renderer);
-			/*
-			 * renderer.setLayer(getGeoElement().getLayer()-1f); //-1f for
-			 * z-fighting with planes
-			 * renderer.getGeometryManager().draw(getGeometryIndex());
-			 * renderer.getGeometryManager().draw(hidingIndex);
-			 * renderer.setLayer(0);
-			 */
-		}
+		drawPlate(renderer);
 	}
 
 	@Override
@@ -158,7 +151,16 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	protected boolean updateForItSelf() {
 		getPlane().setGridCorners(minmaxXFinal[0],
 				minmaxYFinal[0], minmaxXFinal[1], minmaxYFinal[1]);
+		if (isGridVisible()) {
+			updateGridDistances();
+		}
 		return updateGeometry();
+	}
+
+	private void updateGridDistances() {
+		getPlane().setGridDistances(getView3D().getGridDistances(0),
+				getView3D()
+				.getGridDistances(1));
 	}
 
 	// private int hidingIndex = -1;

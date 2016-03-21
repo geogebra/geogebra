@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 
 /**
@@ -67,6 +68,13 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	@Override
 	protected boolean isGridVisible() {
 		return ((GeoPlane3D) getGeoElement()).isGridVisible();
+	}
+
+	@Override
+	public void drawGeometry(Renderer renderer) {
+
+		drawPlate(renderer);
+
 	}
 
 }

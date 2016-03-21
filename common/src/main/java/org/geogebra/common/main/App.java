@@ -3857,6 +3857,9 @@ public abstract class App implements UpdateSelection {
 		case SURFACE_WIREFRAME:
 			return true;
 
+		case ALL_PLANES_GRID:
+			return prerelease;
+
 		case SURFACE_IS_REGION:
 			return true;
 

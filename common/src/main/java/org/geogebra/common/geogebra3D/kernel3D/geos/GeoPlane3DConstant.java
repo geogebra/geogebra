@@ -101,4 +101,24 @@ public class GeoPlane3DConstant extends GeoPlane3D implements
 	public boolean is6dofMoveable() {
 		return false;
 	}
+
+	@Override
+	public boolean showLineProperties() {
+		return false;
+	}
+
+	private boolean gridVisible;
+
+	/** returns if there is a grid to plot or not */
+	public boolean isGridVisible() {
+		return gridVisible && isEuclidianVisible();
+	}
+
+	public boolean setGridVisible(boolean grid) {
+		if (gridVisible == grid) {
+			return false;
+		}
+		gridVisible = grid;
+		return true;
+	}
 }

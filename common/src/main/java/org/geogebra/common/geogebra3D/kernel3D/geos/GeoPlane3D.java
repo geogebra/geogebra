@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 
 public class GeoPlane3D extends GeoElement3D implements Functional2Var,
@@ -43,7 +44,6 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	double xPlateMin, xPlateMax, yPlateMin, yPlateMax; // values for plate
 
 	// grid and plate
-	boolean gridVisible = false;
 	boolean plateVisible = true;
 	double dx = Double.NaN; // distance between two marks on the grid //TODO use
 							// object
@@ -78,7 +78,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		this.ymax = 2.5;
 
 		// grid
-		setGridVisible(false);
+		// setGridVisible(true);
 
 	}
 
@@ -274,15 +274,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	/** returns if there is a grid to plot or not */
 	public boolean isGridVisible() {
-		return gridVisible && isEuclidianVisible();
-	}
-
-	public boolean setGridVisible(boolean grid) {
-		if (gridVisible == grid) {
-			return false;
-		}
-		gridVisible = grid;
-		return true;
+		return getLineThickness() > 0 && isEuclidianVisible();
 	}
 
 	/** returns if there is a plate visible */
@@ -831,6 +823,16 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	@Override
 	protected char getLabelDelimiter() {
 		return ':';
+	}
+
+	@Override
+	public boolean showLineProperties() {
+		return kernel.getApplication().has(Feature.ALL_PLANES_GRID);
+	}
+
+	@Override
+	public int getMinimumLineThickness() {
+		return 0;
 	}
 
 }

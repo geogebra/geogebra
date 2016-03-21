@@ -71,6 +71,8 @@ public enum Feature {
 
 	SURFACE_WIREFRAME,
 
+	ALL_PLANES_GRID,
+
 	ACRA,
 
 	ANALYTICS,

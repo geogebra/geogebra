@@ -184,7 +184,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private Coords eyePosition = new Coords(4);
 
 	// axis and xOy plane
-	private GeoPlane3D xOyPlane;
+	private GeoPlane3DConstant xOyPlane;
 	private GeoAxisND[] axis;
 	private GeoClippingCube3D clippingCube;
 
@@ -2984,7 +2984,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 
-	public GeoPlane3D getxOyPlane() {
+	public GeoPlane3DConstant getxOyPlane() {
 
 		return xOyPlane;
 
