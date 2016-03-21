@@ -94,6 +94,12 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		drawGeometry(renderer);
 	}
 
+	/**
+	 * draw the plate if visible
+	 * 
+	 * @param renderer
+	 *            GL renderer
+	 */
 	protected void drawPlate(Renderer renderer) {
 		if (getPlane().isPlateVisible()) {
 			renderer.setLayer(getLayer() - 1f); // -1f for z-fighting with
@@ -147,6 +153,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 				|| viewDirectionIsParallel;
 	}
 
+
 	@Override
 	protected boolean updateForItSelf() {
 		getPlane().setGridCorners(minmaxXFinal[0],
@@ -158,9 +165,30 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 
 	private void updateGridDistances() {
-		getPlane().setGridDistances(getView3D().getGridDistances(0),
-				getView3D()
-				.getGridDistances(1));
+		CoordMatrix drawingMatrix = getPlane().getCoordSys().getDrawingMatrix();
+		// getPlane().setGridDistances(getView3D().getGridDistances(0),
+		// getView3D()
+		// .getGridDistances(1));
+		getPlane().setGridDistances(
+				getView3D().getGridDistances(
+						getMaxLengthIndex(drawingMatrix.getVx())),
+				getView3D().getGridDistances(
+						getMaxLengthIndex(drawingMatrix.getVy())));
+	}
+
+	final private static int getMaxLengthIndex(Coords v) {
+		int ret = 0;
+		double max = Math.abs(v.getX());
+		double l = Math.abs(v.getY());
+		if (l > max) {
+			max = l;
+			ret = 1;
+		}
+		l = Math.abs(v.getZ());
+		if (l > max) {
+			ret = 2;
+		}
+		return ret;
 	}
 
 	// private int hidingIndex = -1;

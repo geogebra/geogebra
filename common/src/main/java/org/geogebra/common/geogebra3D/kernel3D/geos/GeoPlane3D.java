@@ -274,7 +274,9 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	/** returns if there is a grid to plot or not */
 	public boolean isGridVisible() {
-		return getLineThickness() > 0 && isEuclidianVisible();
+		return kernel.getApplication().has(Feature.ALL_PLANES_GRID)
+				&& getLineThickness() > 0
+				&& isEuclidianVisible();
 	}
 
 	/** returns if there is a plate visible */
