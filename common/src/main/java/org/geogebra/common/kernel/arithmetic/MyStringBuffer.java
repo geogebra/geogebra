@@ -63,7 +63,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		StringBuilder temp = new StringBuilder();
 		if (tpl.isMathQuill()) {
 			temp.append("\\quotation{");
-			temp.append(sb);
+			temp.append(sb.toString().replace("}", "\\}"));
 			temp.append("}");
 		} else {
 			temp.append("\"");
