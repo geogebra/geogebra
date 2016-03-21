@@ -1207,6 +1207,7 @@ __GGB__keysVar.none.menu = {
     "Area": "Area",
     "Area.Help": "Select polygon, circle, or conic",
     "Ascending": "Ascending",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Attach / Detach Point",
     "AttachDetachPoint.Help": "Click on a Point (and an Object to attach)",
@@ -2198,9 +2199,6 @@ __GGB__keysVar.none.menu = {
  ***********************************************/
 
 __GGB__keysVar.none.plain = {
-		"Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
-		"Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
-		"Keyboard.row3": "zZxXcCvVbBnNmM",
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Decimal Place",
     "ADecimalPlaces": "%0 Decimal Places",

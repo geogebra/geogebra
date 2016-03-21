@@ -1207,6 +1207,7 @@ __GGB__keysVar.hr.menu = {
     "Area": "Povr\u0161ina",
     "Area.Help": "Odaberite mnogokut, kru\u017enicu ili koniku",
     "Ascending": "Rastu\u0107i",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Uredi zadatak",
     "AttachDetachPoint": "Prive\u017ei / Odvoji to\u010dku",
     "AttachDetachPoint.Help": "Kliknite na to\u010dku (i na objekt za koji se ve\u017ee)",

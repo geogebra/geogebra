@@ -1207,6 +1207,7 @@ __GGB__keysVar.fr.menu = {
     "Area": "Aire",
     "Area.Help": "Polygone, disque ou conique[cr\xe9\xe9s]",
     "Ascending": "Croissant",
+    "AskAQuestion": "Poser Question",
     "Assignment.Edit": "\xc9diter la t\xe2che",
     "AttachDetachPoint": "Lier/Lib\xe9rer Point",
     "AttachDetachPoint.Help": "Clic sur un Point (et sur un Objet pour l'y attacher)",

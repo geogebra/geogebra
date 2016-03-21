@@ -1207,6 +1207,7 @@ __GGB__keysVar.hu_gm.menu = {
     "Area": "Ter\xfclet",
     "Area.Help": "Soksz\xf6g, k\xf6r vagy k\xfapszelet",
     "Ascending": "N\xf6vekv\u0151",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Feladat szerkeszt\xe9se",
     "AttachDetachPoint": "Pont alakzathoz csatol\xe1sa",
     "AttachDetachPoint.Help": "Kattint\xe1s a ponton, majd az alakzaton",

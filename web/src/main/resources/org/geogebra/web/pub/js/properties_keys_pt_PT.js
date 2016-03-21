@@ -1207,6 +1207,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Area": "\xc1rea",
     "Area.Help": "Selecione pol\xedgono, circunfer\xeancia ou c\xf3nica",
     "Ascending": "Crescente",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Editar Atribui\xe7\xe3o",
     "AttachDetachPoint": "Ligar/Desligar Ponto",
     "AttachDetachPoint.Help": "Clique num ponto (e num Objeto para fixar)",

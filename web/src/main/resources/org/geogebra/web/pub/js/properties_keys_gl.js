@@ -1207,6 +1207,7 @@ __GGB__keysVar.gl.menu = {
     "Area": "\xc1rea",
     "Area.Help": "Escoller pol\xedgono, c\xedrculo ou c\xf3nica",
     "Ascending": "Ascendente",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Editar avaliaci\xf3n",
     "AttachDetachPoint": "Encosta / Libera Punto",
     "AttachDetachPoint.Help": "Clic sobre un punto (e un obxecto a encostar)",

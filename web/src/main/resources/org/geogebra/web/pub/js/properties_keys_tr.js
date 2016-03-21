@@ -1207,6 +1207,7 @@ __GGB__keysVar.tr.menu = {
     "Area": "Alan",
     "Area.Help": "\xc7okgen, \xe7ember veya konik se\xe7in",
     "Ascending": "Artan",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "G\xf6revi D\xfczenle",
     "AttachDetachPoint": "Noktay\u0131 Ba\u011fla / Ay\u0131r",
     "AttachDetachPoint.Help": "Bir noktaya (ve ba\u011flan\u0131lacak bir nesneye) t\u0131klay\u0131n",

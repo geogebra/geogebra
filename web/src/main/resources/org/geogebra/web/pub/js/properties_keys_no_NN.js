@@ -1207,6 +1207,7 @@ __GGB__keysVar.no_NN.menu = {
     "Area": "Areal",
     "Area.Help": "Vel mangekant, sirkel eller kjeglesnitt",
     "Ascending": "Aukande",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Rediger oppg\xe5ve",
     "AttachDetachPoint": "Fest / frigjer punkt",
     "AttachDetachPoint.Help": "Klikk p\xe5 eit punkt (og eit objekt for \xe5 feste punktet)",

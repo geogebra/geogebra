@@ -1207,6 +1207,7 @@ __GGB__keysVar.si.menu = {
     "Area": "\u0dc0\u0dbb\u0dca\u0d9c\u0db5\u0dbd\u0dba",
     "Area.Help": "\u0dc0\u0dbb\u0dca\u0d9c\u0db5\u0dbd\u0dba.\u0d8b\u0daf\u0dc0\u0dd4",
     "Ascending": "Ascending",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Attach / Detach Point",
     "AttachDetachPoint.Help": "Click on a Point (and an Object to attach)",

@@ -1207,6 +1207,7 @@ __GGB__keysVar.cs.menu = {
     "Area": "Obsah",
     "Area.Help": "Mnoho\xfaheln\xedk, kru\u017enice nebo ku\u017eelose\u010dka",
     "Ascending": "Vzestupn\u011b",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Upravit \xfalohy",
     "AttachDetachPoint": "P\u0159ipojit / Odd\u011blit bod",
     "AttachDetachPoint.Help": "Kliknout na bod (a p\u0159id\u011blit k objektu)",

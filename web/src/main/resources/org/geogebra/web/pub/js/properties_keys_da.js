@@ -1207,6 +1207,7 @@ __GGB__keysVar.da.menu = {
     "Area": "Areal",
     "Area.Help": "Polygon, cirkel eller keglesnit",
     "Ascending": "Tiltagende",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Forbind / frig\xf8r punkt",
     "AttachDetachPoint.Help": "Klik p\xe5 et punkt (og et objekt for at forbinde)",

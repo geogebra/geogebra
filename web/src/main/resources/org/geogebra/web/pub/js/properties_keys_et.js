@@ -1207,6 +1207,7 @@ __GGB__keysVar.et.menu = {
     "Area": "Pindala",
     "Area.Help": "Valige hulknurk, ring v\xf5i koonusel\xf5ige",
     "Ascending": "Kasvav",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Redigeeri \xfclesannet",
     "AttachDetachPoint": "Kinnita / vabasta punkt",
     "AttachDetachPoint.Help": "Kl\xf5psa punktile ja objektile, millele kinnitada",

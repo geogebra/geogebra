@@ -1207,6 +1207,7 @@ __GGB__keysVar.ro.menu = {
     "Area": "Arie",
     "Area.Help": "Selecta\u0163i poligon, cerc sau conic\u0103",
     "Ascending": "Ascendent",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Editare atribuire",
     "AttachDetachPoint": "Ata\u015feaz\u0103 / Deta\u015feaz\u0103 punctul",
     "AttachDetachPoint.Help": "Click pe un punct (\u015fi un obiect pentru ata\u015fare)",

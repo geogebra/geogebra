@@ -1207,6 +1207,7 @@ __GGB__keysVar.no_NB.menu = {
     "Area": "Areal",
     "Area.Help": "Velg mangekant, sirkel eller kjeglesnitt",
     "Ascending": "\xd8kende",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Rediger oppgave",
     "AttachDetachPoint": "Fest / frigj\xf8r punkt",
     "AttachDetachPoint.Help": "Klikk p\xe5 et punkt (og et objekt for \xe5 feste punktet)",

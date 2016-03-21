@@ -1207,6 +1207,7 @@ __GGB__keysVar.ms.menu = {
     "Area": "Luas",
     "Area.Help": "Pilih poligon, bulatan, atau keratan kon",
     "Ascending": "Menaik",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Edit Tugasan",
     "AttachDetachPoint": "Lampir / Asing Titik",
     "AttachDetachPoint.Help": "Klik pada Titik (dan Objek untuk melampirkannya)",

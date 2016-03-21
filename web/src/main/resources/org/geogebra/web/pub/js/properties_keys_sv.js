@@ -1207,6 +1207,7 @@ __GGB__keysVar.sv.menu = {
     "Area": "Area",
     "Area.Help": "Polygon, cirkel eller k\xe4gelsnitt",
     "Ascending": "Stigande",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Redigera \xf6vning",
     "AttachDetachPoint": "F\xe4st / Lossa Punkt",
     "AttachDetachPoint.Help": "Klicka p\xe5 en punkt (och ett objekt att f\xe4sta den i)",

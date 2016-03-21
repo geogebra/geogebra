@@ -1207,6 +1207,7 @@ __GGB__keysVar.xh.menu = {
     "Area": "UbukhuluBangaphandle",
     "Area.Help": "Khetha umacalamaninzi, isangqa, okanye iconic",
     "Ascending": "Enyukayo",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Ncamathelisa / Susa iChaphaza",
     "AttachDetachPoint.Help": "Klikha phezu kwe Chaphaza (kunye neNto ozakuyincamathelisa)",

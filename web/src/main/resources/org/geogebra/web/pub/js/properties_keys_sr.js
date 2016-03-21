@@ -1207,6 +1207,7 @@ __GGB__keysVar.sr.menu = {
     "Area": "Povr\u0161ina",
     "Area.Help": "Izaberite poligon, kru\u017enicu ili konusni presek",
     "Ascending": "Rastu\u0107e",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Edit Task",
     "AttachDetachPoint": "Zaka\u010di / otka\u010di ta\u010dku",
     "AttachDetachPoint.Help": "Klikni na ta\u010dku (i na objekat da zaka\u010di\u0161)",

@@ -1207,6 +1207,7 @@ __GGB__keysVar.it.menu = {
     "Area": "Area",
     "Area.Help": "Selezionare un poligono, una circonferenza o una conica",
     "Ascending": "Crescente",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Modifica attivit\xe0",
     "AttachDetachPoint": "Vincola / Svincola punto",
     "AttachDetachPoint.Help": "Fare clic su un punto e sull'oggetto che rappresenta il vincolo",

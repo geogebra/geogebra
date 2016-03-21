@@ -1207,6 +1207,7 @@ __GGB__keysVar.fi.menu = {
     "Area": "Pinta-ala",
     "Area.Help": "Valitse monikulmio, ympyr\xe4 tai kartioleikkaus",
     "Ascending": "Nouseva",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Muokkaa teht\xe4v\xe4\xe4",
     "AttachDetachPoint": "Kiinnit\xe4 / vapauta piste",
     "AttachDetachPoint.Help": "Valitse piste (ja objekti, johon piste kiinnitet\xe4\xe4n)",

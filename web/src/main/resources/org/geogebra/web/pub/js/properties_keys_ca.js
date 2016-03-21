@@ -1207,6 +1207,7 @@ __GGB__keysVar.ca.menu = {
     "Area": "\xc0rea",
     "Area.Help": "Seleccioneu un pol\xedgon, un cercle o una c\xf2nica",
     "Ascending": "Ascendent",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Edita tasca",
     "AttachDetachPoint": "Posa punt en un objecte / separa'l",
     "AttachDetachPoint.Help": "Cliqueu a un punt i a un objecte per adjuntar-lo",

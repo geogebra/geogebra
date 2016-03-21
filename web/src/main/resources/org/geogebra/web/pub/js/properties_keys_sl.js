@@ -1207,6 +1207,7 @@ __GGB__keysVar.sl.menu = {
     "Area": "Plo\u0161\u010dina",
     "Area.Help": "Mnogokotnik, krog ali sto\u017enica",
     "Ascending": "Nara\u0161\u010dajo\u010de",
+    "AskAQuestion": "Ask a Question",
     "Assignment.Edit": "Uredi nalogo",
     "AttachDetachPoint": "Pripni / sprosti to\u010dko",
     "AttachDetachPoint.Help": "Izberi to\u010dko (in objekt kateremu jo pripne\u0161)",
