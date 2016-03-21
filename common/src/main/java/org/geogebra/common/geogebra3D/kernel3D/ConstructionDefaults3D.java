@@ -65,7 +65,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	/** default alpha for 3D planes */
 	public static final float DEFAULT_PLANE3D_ALPHA = 0.5f;
 	/** default grid thickness for 3D planes */
-	public static final int DEFAULT_PLANE3D_GRID_THICKNESS = 1;
+	public static final int DEFAULT_PLANE3D_GRID_THICKNESS = 0;
 	/** default fading for 3D planes */
 	public static final float DEFAULT_PLANE3D_FADING = 0.10f;
 

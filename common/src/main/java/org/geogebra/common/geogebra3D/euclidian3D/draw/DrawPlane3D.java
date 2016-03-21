@@ -116,7 +116,15 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	@Override
 	public void drawOutline(Renderer renderer) {
-		// no outline
+
+		if (!isGridVisible())
+			return;
+
+		if (!viewDirectionIsParallel) {
+			renderer.getTextures().setDashFromLineType(
+					getGeoElement().getLineType());
+			renderer.getGeometryManager().draw(gridIndex);
+		}
 	}
 
 	@Override
@@ -132,7 +140,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			renderer.setDashTexture(Textures.DASH_LONG);
 			renderer.getGeometryManager().draw(gridOutlineIndex);
 		} else {
-			renderer.setDashTexture(Textures.DASH_SHORT);
+			setLineTextureHidden(renderer);
 			renderer.getGeometryManager().draw(gridIndex);
 		}
 

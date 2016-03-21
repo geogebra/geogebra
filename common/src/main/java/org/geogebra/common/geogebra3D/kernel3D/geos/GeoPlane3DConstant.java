@@ -42,6 +42,8 @@ public class GeoPlane3DConstant extends GeoPlane3D implements
 		}
 
 		setFixed(true);
+
+		setLineThickness(1);
 	}
 
 	/*
@@ -121,4 +123,5 @@ public class GeoPlane3DConstant extends GeoPlane3D implements
 		gridVisible = grid;
 		return true;
 	}
+
 }

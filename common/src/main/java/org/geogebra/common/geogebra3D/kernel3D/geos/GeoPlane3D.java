@@ -523,6 +523,11 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		sb.append(getFading());
 		sb.append("\"/>\n");
 
+		if (kernel.getApplication().has(Feature.ALL_PLANES_GRID)) {
+			// grid line style
+			getLineStyleXML(sb);
+		}
+
 	}
 
 	@Override
@@ -836,5 +841,6 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	public int getMinimumLineThickness() {
 		return 0;
 	}
+
 
 }
