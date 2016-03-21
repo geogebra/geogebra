@@ -13,12 +13,25 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FocusWidget;
+
+/**
+ * GWT wrapper for JQuery UI slider
+ */
 public class SliderWJquery extends FocusWidget implements SliderWI {
 
 	private Element range;
 	private boolean valueChangeHandlerInitialized;
 	private Double curValue;
+	private static SliderWJquery currentSlider;
 
+	/**
+	 * Creates new slider
+	 * 
+	 * @param min
+	 *            min
+	 * @param max
+	 *            max
+	 */
 	public SliderWJquery(double min, double max) {
 		range = Document.get().createElement("div");
 		range.getStyle().setWidth(200, Unit.PX);
@@ -63,11 +76,20 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 		return getRangeValue(range);
 	}
 
+	private void stop() {
+		stopNative(range);
+	}
+
+	private native void stopNative(Element range1) /*-{
+		$wnd.$ggbQuery(range1).slider("doCancel");
+	}-*/;
+
 	private native double getRangeValue(Element range1) /*-{
 		return $wnd.$ggbQuery(range1).slider("values")[0];
 	}-*/;
 
-	public native void setProperty(Element range1, String prop, double val) /*-{
+	private native void setProperty(Element range1, String prop,
+			double val) /*-{
 		$wnd.$ggbQuery(range1).slider("option", prop, val);
 	}-*/;
 
@@ -123,6 +145,7 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	public void onMouseDown(MouseDownEvent event) {
 		if (event.getNativeButton() != NativeEvent.BUTTON_RIGHT) {	
 			event.stopPropagation();
+			currentSlider = this;
 		}
 		// curValue = getValue();
 	}
@@ -143,5 +166,15 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 
 	public static SliderWJquery as(SliderWI obj) {
 		return (SliderWJquery) obj;
+	}
+
+	/**
+	 * Cancels current slider
+	 */
+	public static void stopSliders() {
+		if (currentSlider != null) {
+			currentSlider.stop();
+		}
+
 	}
 }

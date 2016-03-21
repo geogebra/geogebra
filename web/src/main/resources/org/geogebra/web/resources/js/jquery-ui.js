@@ -1295,6 +1295,9 @@ var slider = $.widget( "ui.slider", $.ui.mouse, {
 	},
 	
 	_mouseCancel: function( event ) {
+		this.doCancel();
+	},
+	doCancel: function(){
 		this.document
 		.unbind( "mousemove." + this.widgetName, this._mouseMoveDelegate )
 		.unbind( "mouseup." + this.widgetName, this._mouseUpDelegate );
@@ -1308,7 +1311,6 @@ var slider = $.widget( "ui.slider", $.ui.mouse, {
 		mouseHandled = false;
 		return false;
 	},
-
 	_detectOrientation: function() {
 		this.orientation = ( this.options.orientation === "vertical" ) ? "vertical" : "horizontal";
 	},

@@ -67,6 +67,7 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
+import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
@@ -1837,6 +1838,7 @@ marblePanel, evt))) {
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
+		SliderWJquery.stopSliders();
 		event.stopPropagation();
 	}
 
