@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Language;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -203,21 +204,73 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 	@Override
 	protected void updateKeys(String updateSection, String language) {
 		// update letter keys
+
 		ArrayList<KeyBoardButtonBase> buttons = this.letters.getButtons();
-		for (int i = 0; i < NUM_LETTER_BUTTONS; i++) {
-			KeyBoardButtonBase button = buttons.get(i);
-			if (!(button instanceof KeyBoardButtonFunctionalBase)) {
-				String newCaption = getNewCaption(generateKey(i),
-						updateSection, language);
-				if (newCaption.equals("")) {
-					button.setVisible(false);
-					button.getElement().getParentElement()
+
+		if (app.has(Feature.WEB_KEYBOARD_IN_GGBTRANS)) {
+
+			int key = 0;
+
+			boolean upperCase = updateSection.equals("shiftDown");
+			int offset = upperCase ? 1 : 0;
+
+			// eg
+			// "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
+			// "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
+			// "Keyboard.row3": "zZxXcCvVbBnNmM",
+
+			String[] keys = { loc.getPlain("Keyboard.row1"),
+					loc.getPlain("Keyboard.row2"),
+					// first key is shift, so need "  " otherwise 'z' is hidden
+					"  " + loc.getPlain("Keyboard.row3") };
+
+			for (int row = 0; row <= 2; row++) {
+				for (int i = 0; i < KEY_PER_ROW; i++) {
+
+					KeyBoardButtonBase button = buttons.get(key++);
+
+					if (!(button instanceof KeyBoardButtonFunctionalBase)) {
+
+						String newCaption = "";
+
+						int index = 2 * i + offset;
+
+						// not all 12 keys are used in all languages
+						if (index < keys[row].length()) {
+							newCaption = "" + keys[row].charAt(2 * i + offset);
+						}
+
+						if ("".equals(newCaption)) {
+							button.setVisible(false);
+							button.getElement().getParentElement()
 							.addClassName("hidden");
-				} else {
-					button.setVisible(true);
-					button.getElement().getParentElement()
+						} else {
+							button.setVisible(true);
+							button.getElement().getParentElement()
 							.removeClassName("hidden");
-					button.setCaption(newCaption);
+							button.setCaption(newCaption);
+						}
+					}
+
+				}
+			}
+
+		} else {
+			for (int i = 0; i < NUM_LETTER_BUTTONS; i++) {
+				KeyBoardButtonBase button = buttons.get(i);
+				if (!(button instanceof KeyBoardButtonFunctionalBase)) {
+					String newCaption = getNewCaption(generateKey(i),
+							updateSection, language);
+					if (newCaption.equals("")) {
+						button.setVisible(false);
+						button.getElement().getParentElement()
+								.addClassName("hidden");
+					} else {
+						button.setVisible(true);
+						button.getElement().getParentElement()
+								.removeClassName("hidden");
+						button.setCaption(newCaption);
+					}
 				}
 			}
 		}

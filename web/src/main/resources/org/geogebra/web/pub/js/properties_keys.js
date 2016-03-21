@@ -2198,6 +2198,9 @@ __GGB__keysVar.none.menu = {
  ***********************************************/
 
 __GGB__keysVar.none.plain = {
+		"Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
+		"Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
+		"Keyboard.row3": "zZxXcCvVbBnNmM",
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Decimal Place",
     "ADecimalPlaces": "%0 Decimal Places",

@@ -3982,6 +3982,12 @@ public abstract class App implements UpdateSelection {
 		case NDERIVATIVE_COMMAND:
 			return true;
 
+		case WEB_KEYBOARD_IN_GGBTRANS:
+			return prerelease;
+
+		case MOBILE_KEYBOARD_IN_GGBTRANS:
+			return false;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
