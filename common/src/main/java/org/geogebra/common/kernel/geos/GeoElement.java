@@ -5874,6 +5874,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
+	/**
+	 * @return true if can change fill type (e.g. hatching)
+	 */
+	public boolean hasFillType() {
+		return isFillable();
+	}
+
 	public boolean isRegion3D() {
 		return isGeoElement3D();
 	}

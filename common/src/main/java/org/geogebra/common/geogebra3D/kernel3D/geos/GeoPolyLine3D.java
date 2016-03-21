@@ -65,6 +65,11 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		return true;
 	}
 
+	@Override
+	public boolean hasFillType() {
+		return false;
+	}
+
 	// ///////////////////////////////////////
 	// Overwrite GeoPolyLine
 

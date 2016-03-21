@@ -705,8 +705,13 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	}
 
 	@Override
+	public boolean hasFillType() {
+		return isInequality();
+	}
+
+	@Override
 	public boolean isInverseFillable() {
-		return isFillable();
+		return isInequality();
 	}
 
 	/**

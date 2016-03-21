@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -142,6 +143,11 @@ public abstract class GeoElement3D extends GeoElement {
 	@Override
 	public boolean isGeoElement3D() {
 		return true;
+	}
+
+	@Override
+	public boolean hasFillType() {
+		return false;
 	}
 
 	@Override

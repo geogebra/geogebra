@@ -65,6 +65,11 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 		return true;
 	}
 
+	@Override
+	public boolean hasFillType() {
+		return false;
+	}
+
 	public void pointChanged(GeoPointND P) {
 
 		Coords coords = P.getInhomCoordsInD3();

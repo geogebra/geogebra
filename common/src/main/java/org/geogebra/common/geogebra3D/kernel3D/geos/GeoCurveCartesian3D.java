@@ -227,6 +227,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return true;
 	}
 
+	@Override
+	public boolean hasFillType() {
+		return false;
+	}
+
 	// ////////////////
 	// TRACE
 	// ////////////////

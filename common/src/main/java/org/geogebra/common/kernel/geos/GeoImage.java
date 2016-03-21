@@ -491,6 +491,11 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	@Override
+	public boolean hasFillType() {
+		return false;
+	}
+
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}

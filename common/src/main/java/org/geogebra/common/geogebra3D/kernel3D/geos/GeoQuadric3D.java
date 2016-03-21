@@ -1805,6 +1805,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return true;
 	}
 
+	@Override
+	public boolean hasFillType() {
+		return false;
+	}
+
 	// ///////////////////////////////////////
 	// SURFACE (u,v)->(x,y,z) INTERFACE
 	// ///////////////////////////////////////

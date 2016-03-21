@@ -161,6 +161,11 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 	}
 
 	@Override
+	public boolean hasFillType() {
+		return false;
+	}
+
+	@Override
 	public String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = new StringBuilder();

@@ -1330,4 +1330,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return 0;
 	}
 
+	@Override
+	public boolean hasFillType() {
+		return false;
+	}
+
 }

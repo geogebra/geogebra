@@ -131,6 +131,11 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		return true;
 	}
 
+	@Override
+	public boolean hasFillType() {
+		return false;
+	}
+
 	// ///////////////////////////////////////
 	// Overwrite GeoPolygon
 

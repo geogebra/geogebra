@@ -669,6 +669,11 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 	}
 
 	@Override
+	public boolean hasFillType() {
+		return false;
+	}
+
+	@Override
 	protected void setColorVisualStyle(final GeoElement geo) {
 		setObjColor(geo.getObjectColor());
 		setAlphaValue(geo.getAlphaValue());
