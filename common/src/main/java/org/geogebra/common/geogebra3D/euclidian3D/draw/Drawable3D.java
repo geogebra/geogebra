@@ -499,7 +499,7 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	public Coords getLabelPosition() {
 
-		return getGeoElement().getLabelPosition().copyVector();
+		return getGeoElement().getLabelPosition();
 	}
 
 	/**
