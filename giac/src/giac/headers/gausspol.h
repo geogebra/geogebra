@@ -421,8 +421,10 @@ namespace giac {
   template<class T,class U> void convert_from(const std::vector< T_unsigned<T,U> > & p,std::vector< T_unsigned<gen,U> > & pd){
     typename std::vector< T_unsigned<T,U> >::const_iterator it=p.begin(),itend=p.end();
     pd.reserve(itend-it);
-    for (;it!=itend;++it)
-      pd.push_back(T_unsigned<gen,U>(gen(it->g),it->u));
+    for (;it!=itend;++it){
+      if (it->g)
+	pd.push_back(T_unsigned<gen,U>(gen(it->g),it->u));
+    }
   }
 
   // mode=0: fill both, =1 fill the gen part, =2 fill the index_m part

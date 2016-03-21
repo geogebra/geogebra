@@ -9081,6 +9081,10 @@ namespace giac {
 	    isneg=!isneg;
 	    hasneg=true;
 	  }
+	  if (!vsorted.empty() && basis==vsorted.back()){
+	    vsorted.pop_back();
+	    expo+=1;
+	  }
 	  if (basis==precbasis)
 	    precexpo=precexpo+expo;
 	  else {

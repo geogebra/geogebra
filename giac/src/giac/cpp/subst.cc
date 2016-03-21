@@ -333,11 +333,19 @@ namespace giac {
   }
 
   gen exptopower(const gen & g,GIAC_CONTEXT){
+    if (is_zero(g)) return 1;
+    gen a,ar,ai,b;
+    if (has_i(g) && !complex_mode(contextptr) && contains(g,cst_pi) && is_linear_wrt(g,cst_pi,a,b,contextptr) && !is_zero(a)){
+      // exp(pi*a+b)
+      reim(a,ar,ai,contextptr);
+      if (is_zero(ar))
+	return exptopower(b,contextptr)*pow(-1,ai,contextptr);
+    }
     vecteur l(lop(g,at_ln));
     if (l.size()!=1)
       return symbolic(at_exp,g);
     identificateur tmp(" x");
-    gen gg=subst(g,l,vecteur(1,tmp),false,contextptr),a,b;
+    gen gg=subst(g,l,vecteur(1,tmp),false,contextptr);
     if (!is_linear_wrt(gg,tmp,a,b,contextptr) || has_i(a)) 
       return symbolic(at_exp,g);
     return exp(b,contextptr)*pow(l[0]._SYMBptr->feuille,a,contextptr);

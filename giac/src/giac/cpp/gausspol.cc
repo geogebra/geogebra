@@ -748,6 +748,16 @@ namespace giac {
     mpz_clear(z2);
   }
 
+#ifdef INT128
+  template<class U>
+  static void smod(vector< T_unsigned<int128_t,U> > & target,int prime){
+    typename vector< T_unsigned<int128_t,U> >::iterator it=target.begin(),itend=target.end();
+    for (;it!=itend;++it){
+      it->g %= prime;
+    }
+  }
+#endif
+
   template<class U>
   static void smod(const vector< T_unsigned<longlong,U> > & source,vector< T_unsigned<longlong,U> > & target,int prime){
     if (&target==&source){
@@ -1003,6 +1013,12 @@ namespace giac {
       if (c1c2> (1<<24) )
 	c1c2 = 1 << 24;
       int t1=th.coord.front().value.type,t2=other.coord.front().value.type;
+      // Possible improvement for modular product mod p in an array
+      // make one of the argument with negative coeffs, the other with positive
+      // init array with p^2, then type_operator_plus_times_reduce
+      // could do += p1[]*p2[] and if result <0 add p^2
+      // ?encode reduce as -p^2, and check sign in do_threadmult in threaded.h
+      // OR use int128
       if (ans<=RAND_MAX) {
 	if (reduce.type==_INT_ && reduce.val<46340 && reduce.val>0){ 
 	  // Modular multiplication, convert everything to integers
@@ -1023,7 +1039,7 @@ namespace giac {
 	  // should be T_unsigned<long,unsigned>
 	  // instead tmp_operator_times converts longlong args of * to long
 	  vector< T_unsigned<longlong,unsigned> > p1d,p2d,pd;
-	  if (convert_int(th,d,p1d,maxp1) && convert_int(other,d,p2d,maxp2) ){
+	  if (convert_int(th,d,p1d,maxp1) && convert_int(other,d,p2d,maxp2) ) {
 	    double maxp1p2=double(maxp1)*maxp2;
 	    unsigned minc1c2=giacmin(c1,c2);
 	    double un63=double(ulonglong (1) << 63);
@@ -1074,7 +1090,7 @@ namespace giac {
 	      if (debug_infolevel>5) CERR << CLOCK() << endl;
 	      return;
 	    }
-#endif
+#endif // INT128
 	    if (
 #ifdef HAVE_GMPXX_H
 		mpzclass_allowed?nprimes<3.5:nprimes<4.5
@@ -1145,7 +1161,7 @@ namespace giac {
 	      } // end else (some primes are required)
 	      // */
 	    } // end nprimes<something
-	  } // end conversion possible
+	  } // end conversion to longlong possible
 	} // end t1==_INT_
 	if (t1==_MOD || t2==_MOD){
 	  gen modulo;
@@ -1168,12 +1184,27 @@ namespace giac {
 		if (th.dim==1 || !threadmult<longlong,unsigned>(p1d,p2d,pd,unsigned(ans/d[0]),0,size_t(c1c2)))
 		  smallmult(p1d,p2d,pd,0,size_t(c1c2));
 		smod(pd,pd,modulo.val);
+		convert_from<longlong,unsigned>(pd,d,res,false);
 	      }
 	      else {
-		if (th.dim==1 || !threadmult<longlong,unsigned>(p1d,p2d,pd,unsigned(ans/d[0]),modulo.val,size_t(c1c2)))
-		  smallmult(p1d,p2d,pd,modulo.val,size_t(c1c2));
+#ifdef INT128
+		if (res_size<un63){
+		  vector< T_unsigned<int128_t,unsigned> > p1D,p2D,pD;
+		  convert_int128(p1d,p1D);
+		  convert_int128(p2d,p2D);
+		  if (th.dim==1 || !threadmult<int128_t,unsigned>(p1D,p2D,pD,ans/d[0],0,c1c2))
+		    smallmult<int128_t,unsigned>(p1D,p2D,pD,0,c1c2);
+		  smod(pD,modulo.val);
+		  convert_from<int128_t,unsigned>(pD,d,res,false);
+		}
+		else
+#endif 
+		  {
+		    if (th.dim==1 || !threadmult<longlong,unsigned>(p1d,p2d,pd,unsigned(ans/d[0]),modulo.val,size_t(c1c2)))
+		      smallmult(p1d,p2d,pd,modulo.val,size_t(c1c2));
+		    convert_from<longlong,unsigned>(pd,d,res,false);
+		  }
 	      }
-	      convert_from<longlong,unsigned>(pd,d,res,false);
 	      // modularize
 	      gen g=makemod(res,modulo);
 	      if (g.type==_POLY)
@@ -1182,8 +1213,8 @@ namespace giac {
 		res.coord.clear();
 	      return;
 	    }
-	  }
-	}
+	  } // end modulo.type==_INT_
+	} // end _MOD types
 	if (t1==_DOUBLE_ && t2==_DOUBLE_){
 	  vector< T_unsigned<double,unsigned> > p1d,p2d,pd;
 	  if (convert_double(th,d,p1d) && convert_double(other,d,p2d) ){
