@@ -133,6 +133,7 @@ import com.google.gwt.user.client.ui.Widget;
  * File created by Arpad Fekete
  * 
  * 
+ * 
  */
 
 public class RadioTreeItem extends AVTreeItem
@@ -486,7 +487,7 @@ public class RadioTreeItem extends AVTreeItem
 	protected FlowPanel main;
 
 	protected FlowPanel buttonPanel;
-	protected PushButton xButton;
+	protected PushButton btnDelete;
 
 	GeoElement geo;
 	Kernel kernel;
@@ -494,7 +495,6 @@ public class RadioTreeItem extends AVTreeItem
 	protected AlgebraView av;
 	private boolean LaTeX = false;
 	private boolean thisIsEdited = false;
-	boolean newCreationMode = false;
 	boolean mout = false;
 
 	protected FlowPanel latexItem;
@@ -768,14 +768,15 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	protected PushButton getXbutton() {
-		if (xButton == null) {
-			xButton = new PushButton(new Image(
+		if (btnDelete == null) {
+			btnDelete = new PushButton(
+					new Image(
 					GuiResources.INSTANCE.algebra_delete()));
-			xButton.getUpHoveringFace().setImage(
+			btnDelete.getUpHoveringFace().setImage(
 					new Image(GuiResources.INSTANCE.algebra_delete_hover()));
-			xButton.addStyleName("XButton");
-			xButton.addStyleName("shown");
-			xButton.addMouseDownHandler(new MouseDownHandler() {
+			btnDelete.addStyleName("XButton");
+			btnDelete.addStyleName("shown");
+			btnDelete.addMouseDownHandler(new MouseDownHandler() {
 				// ClickHandler changed to MouseDownHandler
 				// in order to fix a bug in Internet Explorer,
 				// where the button disappeared earlier than
@@ -790,7 +791,7 @@ public class RadioTreeItem extends AVTreeItem
 				}
 			});
 		}
-		return xButton;
+		return btnDelete;
 
 	}
 
@@ -1158,7 +1159,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public boolean commonEditingCheck() {
-		return av.isEditing() || isThisEdited() || newCreationMode;
+		return av.isEditing() || isThisEdited() || isInputTreeItem();
 	}
 
 	private void updateCheckbox() {
@@ -1190,15 +1191,14 @@ public class RadioTreeItem extends AVTreeItem
 		// check for new LaTeX
 		setNeedsUpdate(false);
 		boolean newLaTeX = false;
-		boolean defVal = kernel
-				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
+
 		if (av.isRenderLaTeX()
 				&& (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
-						|| defVal)) {
+						|| isDefinitionAndValue())) {
 			String text = "";
-			Log.debug(REFX + "newCreationMode is " + newCreationMode);
+			Log.debug(REFX + "newCreationMode is " + isInputTreeItem());
 			if (geo != null) {
-				if (!newCreationMode) {
+				if (!isInputTreeItem()) {
 					text = geo.getLaTeXAlgebraDescription(true,
 							StringTemplate.latexTemplate);
 				} else {
@@ -1219,7 +1219,7 @@ public class RadioTreeItem extends AVTreeItem
 			Log.debug(REFX + "newLaTeX is " + newLaTeX);
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (LaTeX && newLaTeX) {
-				if (newCreationMode) {
+				if (isInputTreeItem()) {
 					text = geo.getLaTeXAlgebraDescription(true,
 							StringTemplate.latexTemplateMQ);
 					// or false? well, in theory, it should not matter
@@ -1229,7 +1229,7 @@ public class RadioTreeItem extends AVTreeItem
 			} else if (newLaTeX) {
 
 				Log.debug(REFX + "only newLaTeX is true");
-				renderLatex(text, getPlainTextItem(), newCreationMode);
+				renderLatex(text, getPlainTextItem(), isInputTreeItem());
 				LaTeX = true;
 			}
 
@@ -1246,7 +1246,7 @@ public class RadioTreeItem extends AVTreeItem
 				updateFont(getPlainTextItem());
 			} else {
 				updateColor(getPlainTextItem());
-				if (!newCreationMode && c != null) {
+				if (!isInputTreeItem() && c != null) {
 					ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
 							c.getCanvasElement());
 				} else {
@@ -1360,8 +1360,8 @@ public class RadioTreeItem extends AVTreeItem
 			text = DrawEquationW.inputLatexCosmetics(text);
 			latexItem = item;
 			DrawEquationW.drawEquationAlgebraView(latexItem,
-					newCreationMode ? "" : "\\mathrm {" + text + "}",
-					newCreationMode);
+					isInputTreeItem() ? "" : "\\mathrm {" + text + "}",
+					isInputTreeItem());
 
 		}
 
@@ -1402,15 +1402,15 @@ public class RadioTreeItem extends AVTreeItem
 		// and in that context, this should not cancel editing in case of
 		// newCreationMode,
 		// we can put an if check here safely for the present time
-		if (!newCreationMode) {
+		if (!isInputTreeItem()) {
 			// if (LaTeX) {
 			DrawEquationW.endEditingEquationMathQuillGGB(this,
 					latexItem.getElement());
-			if (!this.newCreationMode && c != null) {
+			if (!this.isInputTreeItem() && c != null) {
 				this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 						latexItem.getElement());
 			}
-			if (!this.newCreationMode && !LaTeX && getPlainTextItem() != null
+			if (!this.isInputTreeItem() && !LaTeX && getPlainTextItem() != null
  && ihtml
 .getElement()
 							.isOrHasChild(latexItem.getElement())) {
@@ -1440,7 +1440,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 		updateButtonPanel(true);
 		thisIsEdited = true;
-		if (newCreationMode) {
+		if (isInputTreeItem()) {
 			DrawEquationW.editEquationMathQuillGGB(this, latexItem, true);
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
@@ -1563,12 +1563,12 @@ public class RadioTreeItem extends AVTreeItem
 
 			}
 		}
-		if (!this.newCreationMode && c != null
+		if (!this.isInputTreeItem() && c != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
 			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 					latexItem.getElement());
 		}
-		if (!LaTeX && !this.newCreationMode && getPlainTextItem() != null
+		if (!LaTeX && !this.isInputTreeItem() && getPlainTextItem() != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
 			this.ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
 					latexItem.getElement());
@@ -1674,7 +1674,7 @@ public class RadioTreeItem extends AVTreeItem
 								@Override
 								public void execute() {
 									scrollIntoView();
-									if (newCreationMode) {
+							if (isInputTreeItem()) {
 										setFocus(true);
 									}
 								}
@@ -1724,7 +1724,7 @@ public class RadioTreeItem extends AVTreeItem
 			@Override
 			public void run() {
 				scrollIntoView();
-				if (newCreationMode) {
+				if (isInputTreeItem()) {
 					setFocus(true);
 				}
 			}
@@ -1947,7 +1947,7 @@ marblePanel, evt))) {
 		}
 		event.stopPropagation();
 		// event.preventDefault();
-		if (newCreationMode) {
+		if (isInputTreeItem()) {
 			// this might cause strange behaviour
 			setFocus(true);
 		}
@@ -2023,7 +2023,7 @@ marblePanel, evt))) {
 			app.showKeyboard(this);
 			PointerEvent pointerEvent = (PointerEvent) event;
 			pointerEvent.getWrappedEvent().stopPropagation();
-			if (newCreationMode) {
+			if (isInputTreeItem()) {
 				// put earlier, maybe it freezes afterwards?
 				setFocus(true);
 			}
@@ -2040,7 +2040,7 @@ marblePanel, evt))) {
 			return;
 		}
 		if (commonEditingCheck()) {
-			if (newCreationMode) {
+			if (isInputTreeItem()) {
 				AlgebraStyleBarW styleBar = getAV().getStyleBar(false);
 				if (styleBar != null) {
 					styleBar.update(null);
@@ -2222,7 +2222,7 @@ marblePanel, evt))) {
 	public void scrollCursorIntoView() {
 		if (latexItem != null) {
 			DrawEquationW.scrollCursorIntoView(this, latexItem.getElement(),
-					newCreationMode);
+					isInputTreeItem());
 		}
 	}
 
@@ -2528,6 +2528,14 @@ marblePanel, evt))) {
 
 	public void setLongTouchManager(LongTouchManager longTouchManager) {
 		this.longTouchManager = longTouchManager;
+	}
+
+	/**
+	 * 
+	 * @return if the item is the input or not.
+	 */
+	public boolean isInputTreeItem() {
+		return false;
 	}
 
 }

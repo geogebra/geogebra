@@ -86,7 +86,6 @@ public class InputTreeItem extends RadioTreeItem implements
 	public InputTreeItem(Kernel kern) {
 		super(kern);
 		// this method is still not able to show an editing box!
-		newCreationMode = true;
 
 		this.setStyleName("elem");
 		this.addStyleName("NewRadioButtonTreeItem");
@@ -163,18 +162,18 @@ public class InputTreeItem extends RadioTreeItem implements
 
 		// code copied from AutoCompleteTextFieldW,
 		// with some modifications!
-		xButton = new PushButton(new Image(
+		btnDelete = new PushButton(new Image(
 				GuiResources.INSTANCE.algebra_delete()));
-		xButton.getUpHoveringFace().setImage(
+		btnDelete.getUpHoveringFace().setImage(
 				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
 		String id = DOM.createUniqueId();
 		// textField.setShowSymbolElement(this.XButton.getElement());
-		xButton.getElement().setId(id + "_SymbolButton");
-		xButton.getElement().setAttribute("data-visible", "false");
+		btnDelete.getElement().setId(id + "_SymbolButton");
+		btnDelete.getElement().setAttribute("data-visible", "false");
 		// XButton.getElement().setAttribute("style", "display: none");
 		// XButton.setText("X");
-		xButton.addStyleName("XButton");
-		xButton.addMouseDownHandler(new MouseDownHandler() {
+		btnDelete.addStyleName("XButton");
+		btnDelete.addMouseDownHandler(new MouseDownHandler() {
 			// ClickHandler changed to MouseDownHandler,
 			// but maybe it's not that important here
 			@Override
@@ -186,7 +185,7 @@ public class InputTreeItem extends RadioTreeItem implements
 				// event.preventDefault();
 			}
 		});
-		xButton.addTouchStartHandler(new TouchStartHandler() {
+		btnDelete.addTouchStartHandler(new TouchStartHandler() {
 			// ClickHandler changed to MouseDownHandler,
 			// but maybe it's not that important here
 			@Override
@@ -366,7 +365,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			itemList.add(actual);
 		}
 
-		ClickStartHandler.init(xButton, new ClickStartHandler(false, true) {
+		ClickStartHandler.init(btnDelete, new ClickStartHandler(false, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				// nothing to do here; just makes sure that
@@ -386,7 +385,7 @@ public class InputTreeItem extends RadioTreeItem implements
 
 		try{
 			//TRY-CATCH needed for Win8 app //TODO find better solution
-			xButton.setFocus(false);
+			btnDelete.setFocus(false);
 			if (pButton != null) {
 				pButton.setFocus(false);
 			}
@@ -404,13 +403,13 @@ public class InputTreeItem extends RadioTreeItem implements
 			this.buttonPanel.add(pButton);
 		}
 
-		this.buttonPanel.add(xButton);
+		this.buttonPanel.add(btnDelete);
 
 		// this was necessary earlier in conjuction with add(xButton)
 		// ihtml.getElement().appendChild(xButton.getElement());
 		// but later this.replaceXButtonDOM() should be used instead
 
-		xButton.getElement().setAttribute("data-visible", "true");
+		btnDelete.getElement().setAttribute("data-visible", "true");
 		if (pButton != null) {
 			pButton.getElement().setAttribute("data-visible", "true");
 		}
@@ -914,14 +913,14 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	@Override
 	public void typing(boolean heuristic) {
-		if (xButton != null) {
+		if (btnDelete != null) {
 			if (heuristic || !isEmpty()) {
 				if (pButton == null) {
 					buttonPanel.setVisible(true);
 				}
-				setButtonVisible(xButton, true);
+				setButtonVisible(btnDelete, true);
 			} else {
-				setButtonVisible(xButton, false);
+				setButtonVisible(btnDelete, false);
 				if (pButton == null) {
 					buttonPanel.setVisible(false);
 				}
@@ -958,4 +957,8 @@ public class InputTreeItem extends RadioTreeItem implements
 		editor.autocomplete(s, false);
 	}
 
+	@Override
+	public boolean isInputTreeItem() {
+		return true;
+	}
 }
