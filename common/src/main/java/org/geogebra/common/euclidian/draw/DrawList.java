@@ -57,22 +57,22 @@ public final class DrawList extends CanvasDrawable
 	/** coresponding list as geo */
 	GeoList geoList;
 	private DrawListArray drawables;
+	/** whether this is visible */
 	boolean isVisible;
-	private String oldCaption = "";
-	private org.geogebra.common.javax.swing.GLabel label;
+	/** dropdown */
 	DropDownList dropDown = null;
+	/** selcted text */
 	String selectedText;
 	private int selectedHeight;
 	private GRectangle ctrlRect;
 	private GDimension selectedDimension;
 	private boolean latexLabel;
-	int viewHeight = 0;
-	int viewWidth = 0;
+
 
 	private DrawOptions drawOptions;
 	private boolean seLatex;
 
-	enum ScrollMode {
+	private enum ScrollMode {
 		UP, DOWN, NONE
 	}
 
@@ -81,6 +81,8 @@ public final class DrawList extends CanvasDrawable
 
 		private static final int ROUND = 8;
 		final EuclidianView viewOpt;
+		private int viewHeight = 0;
+		private int viewWidth = 0;
 
 //		private static final int MAX_COLS_NO_FONT_CHANGE = 5;
 
@@ -379,7 +381,7 @@ public final class DrawList extends CanvasDrawable
 			if (startIdx + diff >= 0 && endIdx + diff < items.size() + 1) {
 				startIdx += diff;
 				update();
-				getView().getKernel().notifyRepaint();
+				getView().repaintView();
 			}
 		}
 
@@ -436,7 +438,6 @@ public final class DrawList extends CanvasDrawable
 			if (item == null) {
 				return false;
 			}
-			Log.debug(SCROLL_PFX + " Click on item " + item.text);
 			selectedIndex = item.index;
 			selectCurrentItem();
 			setDragging(false);
@@ -805,8 +806,16 @@ public final class DrawList extends CanvasDrawable
 			viewOpt.repaintView();
 		}
 
-		public void onResize() {
-			itemHovered = null;
+		public void onResize(int w, int h) {
+			int dW = viewWidth - w;
+			int dH = viewHeight - h;
+
+			if (dW != 0 || dH != 0) {
+				viewHeight = h;
+				viewWidth = w;
+				itemHovered = null;
+			}
+
 		}
 
 		public void toggle() {
@@ -839,7 +848,8 @@ public final class DrawList extends CanvasDrawable
 			if (update) {
 				itemHovered = items.get(idx);
 				selectedIndex = idx;
-				getGeoElement().updateRepaint();
+				update();
+				getView().repaintView();
 			}
 		}
 
@@ -964,7 +974,6 @@ public final class DrawList extends CanvasDrawable
 
 		if (geo.getRawCaption() != null) {
 			String caption = geo.getCaption(StringTemplate.defaultTemplate);
-			oldCaption = caption;
 			return caption;
 
 		}
@@ -1333,17 +1342,8 @@ public final class DrawList extends CanvasDrawable
 
 	private void updateMetrics(GGraphics2D g2) {
 
-		int dW = viewWidth - view.getWidth();
-		int dH = viewHeight - view.getHeight();
 
-		if (dW != 0 || dH != 0) {
-			if (dW != 0 || dH != 0) {
-				viewHeight = view.getHeight();
-				viewWidth = view.getWidth();
-				drawOptions.onResize();
-			}
-
-		}
+		drawOptions.onResize(view.getWidth(), view.getHeight());
 
 		GeoElement geoItem = geoList.getSelectedElement();
 		// boolean latex = false;
