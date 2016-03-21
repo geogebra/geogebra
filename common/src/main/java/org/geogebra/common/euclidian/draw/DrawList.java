@@ -368,33 +368,18 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		void scrollUp() {
-			scrollUpBy(1);
+			scrollBy(-1);
 		}
 
 		void scrollDown() {
-			scrollDownBy(1);
+			scrollBy(1);
 		}
 
 		void scrollBy(int diff) {
-			if (diff > 0) {
-				scrollDownBy(diff);
-			} else if (diff < 0) {
-				scrollUpBy(-diff);
-			}
-		}
-
-		void scrollUpBy(int diff) {
-			if (startIdx - diff >= 0) {
-				startIdx -= diff;
-				getGeoElement().updateRepaint();
-
-			}
-		}
-
-		void scrollDownBy(int diff) {
-			if (endIdx + diff < items.size() + 1) {
+			if (startIdx + diff >= 0 && endIdx + diff < items.size() + 1) {
 				startIdx += diff;
-				getGeoElement().updateRepaint();
+				update();
+				getView().getKernel().notifyRepaint();
 			}
 		}
 
@@ -962,8 +947,6 @@ public final class DrawList extends CanvasDrawable
 		// eg size changed etc
 		labelDesc = getLabelText();
 
-		App app = view.getApplication();
-
 		box.validate();
 
 		xLabel = geo.labelOffsetX;
@@ -1510,25 +1493,15 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		DrawList opened = view.getOpenedComboBox();
-		if (!(opened != null && opened.isOptionsHit(x, y))
+		if ((opened == null || !opened.isOptionsHit(x, y))
 				&& isControlHit(x, y)) {
 			boolean visible = isOptionsVisible();
-			setOptionsVisible(!visible);
+			if (!visible) {
+				// make sure keyboard controls work for the dropdown
+				view.requestFocus();
 			}
-
-		// if (isControlHit(x, y)) {
-		// Log.debug("Control was hit!");
-		// if (!drawOptions.isHit(x, y)) {
-		// setOptionsVisible(!isOptionsVisible());
-		// }
-		// return;
-		// }
-		//
-		// if (drawOptions.onMouseDown(x, y)) {
-		// return;
-		// }
-
-
+			setOptionsVisible(!visible);
+		}
 	}
 
 	/**
@@ -1646,6 +1619,13 @@ public final class DrawList extends CanvasDrawable
 		return geo.doHighlighting();
 	}
 
+	/**
+	 * @param x
+	 *            drag end x
+	 * @param y
+	 *            drag end y
+	 * @return whether scroll was needed
+	 */
 	public boolean onDrag(int x, int y) {
 
 		return drawOptions.onDrag(x, y);
@@ -1654,6 +1634,10 @@ public final class DrawList extends CanvasDrawable
 		drawOptions.scroll();
 	}
 
+	/**
+	 * @param delta
+	 *            wheel scroll value; only sign matters
+	 */
 	public void onMouseWheel(double delta) {
 
 		if (delta > 0) {
@@ -1668,6 +1652,9 @@ public final class DrawList extends CanvasDrawable
 		drawOptions.onClick(x, y);
 	}
 
+	/**
+	 * Update the opened comobox variable for enclosing view
+	 */
 	void updateOpenedComboBox() {
 
 		DrawList dl = view.getOpenedComboBox();
@@ -1678,6 +1665,12 @@ public final class DrawList extends CanvasDrawable
 		}
 	}
 
+	/**
+	 * @param x
+	 *            mouse x (within view)
+	 * @param y
+	 *            mouse y (within view)
+	 */
 	public void onMouseUp(int x, int y) {
 		drawOptions.onMouseUp(x, y);
 	}
