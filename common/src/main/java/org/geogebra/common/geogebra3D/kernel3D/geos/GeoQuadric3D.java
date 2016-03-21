@@ -2218,7 +2218,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public Coords getLabelPosition() {
-		return new Coords(4); // TODO
+		return Coords.O; // TODO
 	}
 
 	@Override
