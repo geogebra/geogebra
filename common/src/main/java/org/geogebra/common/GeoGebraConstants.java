@@ -109,6 +109,9 @@ public interface GeoGebraConstants {
 	/** license URL */
 	public static final String GGW_ABOUT_LICENSE_URL = "https://www.geogebra.org/info/?action=AboutLicense";
 
+	/** help page */
+	public static final String GGW_HELP_PAGE = "https://www.geogebra.org/help/";
+
 	// //////////////////////////////////////////////////////////////////////////
 	// AUTHENTICATING WITH GOOGLE
 	// ///////////////////////////////////////////////
