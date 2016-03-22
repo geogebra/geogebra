@@ -1207,7 +1207,7 @@ __GGB__keysVar.de.menu = {
     "Area": "Fl\xe4che",
     "Area.Help": "W\xe4hlen Sie ein Vieleck, Kreis oder Kegelschnitt, um dessen Fl\xe4cheninhalt anzuzeigen.",
     "Ascending": "Aufsteigend",
-    "AskAQuestion": "Ask a Question",
+    "AskAQuestion": "Frage stellen",
     "Assignment.Edit": "Aufgabe bearbeiten",
     "AttachDetachPoint": "Punkt anh\xe4ngen / losl\xf6sen",
     "AttachDetachPoint.Help": "Klicken Sie auf einen Punkt und danach auf jenes Objekt, an das er angeh\xe4ngt / von dem er losgel\xf6st werden soll.",
