@@ -7,334 +7,294 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BBC6770A1C98392700F09B13 /* ReTeX.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677091C98392700F09B13 /* ReTeX.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BBC677121C98440F00F09B13 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC677111C98440F00F09B13 /* UIKit.framework */; };
-		BBC677531C999C7800F09B13 /* FactoryProviderIos.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677141C999C7800F09B13 /* FactoryProviderIos.h */; };
-		BBC677541C999C7800F09B13 /* FactoryProviderIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677151C999C7800F09B13 /* FactoryProviderIos.m */; };
-		BBC677551C999C7800F09B13 /* FontFactoryIos.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677171C999C7800F09B13 /* FontFactoryIos.h */; };
-		BBC677561C999C7800F09B13 /* FontFactoryIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677181C999C7800F09B13 /* FontFactoryIos.m */; };
-		BBC677571C999C7800F09B13 /* FontI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677191C999C7800F09B13 /* FontI.h */; };
-		BBC677581C999C7800F09B13 /* FontI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC6771A1C999C7800F09B13 /* FontI.m */; };
-		BBC677591C999C7800F09B13 /* FontLoaderI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC6771B1C999C7800F09B13 /* FontLoaderI.h */; };
-		BBC6775A1C999C7800F09B13 /* FontLoaderI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC6771C1C999C7800F09B13 /* FontLoaderI.m */; };
-		BBC6775B1C999C7800F09B13 /* FontRenderContextI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC6771D1C999C7800F09B13 /* FontRenderContextI.h */; };
-		BBC6775C1C999C7800F09B13 /* FontRenderContextI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC6771E1C999C7800F09B13 /* FontRenderContextI.m */; };
-		BBC6775D1C999C7800F09B13 /* TextAttributeI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC6771F1C999C7800F09B13 /* TextAttributeI.h */; };
-		BBC6775E1C999C7800F09B13 /* TextAttributeI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677201C999C7800F09B13 /* TextAttributeI.m */; };
-		BBC6775F1C999C7800F09B13 /* TextAttributeProviderI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677211C999C7800F09B13 /* TextAttributeProviderI.h */; };
-		BBC677601C999C7800F09B13 /* TextAttributeProviderI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677221C999C7800F09B13 /* TextAttributeProviderI.m */; };
-		BBC677611C999C7800F09B13 /* TextLayoutI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677231C999C7800F09B13 /* TextLayoutI.h */; };
-		BBC677621C999C7800F09B13 /* TextLayoutI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677241C999C7800F09B13 /* TextLayoutI.m */; };
-		BBC677631C999C7800F09B13 /* GeomFactoryIos.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677261C999C7800F09B13 /* GeomFactoryIos.h */; };
-		BBC677641C999C7800F09B13 /* GeomFactoryIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677271C999C7800F09B13 /* GeomFactoryIos.m */; };
-		BBC677651C999C7800F09B13 /* Line2DI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677281C999C7800F09B13 /* Line2DI.h */; };
-		BBC677661C999C7800F09B13 /* Line2DI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677291C999C7800F09B13 /* Line2DI.m */; };
-		BBC677671C999C7800F09B13 /* Point2DI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC6772A1C999C7800F09B13 /* Point2DI.h */; };
-		BBC677681C999C7800F09B13 /* Point2DI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC6772B1C999C7800F09B13 /* Point2DI.m */; };
-		BBC677691C999C7800F09B13 /* Rectangle2DI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC6772C1C999C7800F09B13 /* Rectangle2DI.h */; };
-		BBC6776A1C999C7800F09B13 /* Rectangle2DI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC6772D1C999C7800F09B13 /* Rectangle2DI.m */; };
-		BBC6776B1C999C7800F09B13 /* RoundRectangle2DI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC6772E1C999C7800F09B13 /* RoundRectangle2DI.h */; };
-		BBC6776C1C999C7800F09B13 /* RoundRectangle2DI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC6772F1C999C7800F09B13 /* RoundRectangle2DI.m */; };
-		BBC6776D1C999C7800F09B13 /* BasicStrokeI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677311C999C7800F09B13 /* BasicStrokeI.h */; };
-		BBC6776E1C999C7800F09B13 /* BasicStrokeI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677321C999C7800F09B13 /* BasicStrokeI.m */; };
-		BBC6776F1C999C7800F09B13 /* ColorI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677331C999C7800F09B13 /* ColorI.h */; };
-		BBC677701C999C7800F09B13 /* ColorI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677341C999C7800F09B13 /* ColorI.m */; };
-		BBC677711C999C7800F09B13 /* Graphics2DI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677351C999C7800F09B13 /* Graphics2DI.h */; };
-		BBC677721C999C7800F09B13 /* Graphics2DI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677361C999C7800F09B13 /* Graphics2DI.m */; };
-		BBC677731C999C7800F09B13 /* GraphicsFactoryIos.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677371C999C7800F09B13 /* GraphicsFactoryIos.h */; };
-		BBC677741C999C7800F09B13 /* GraphicsFactoryIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677381C999C7800F09B13 /* GraphicsFactoryIos.m */; };
-		BBC677751C999C7800F09B13 /* ImageI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677391C999C7800F09B13 /* ImageI.h */; };
-		BBC677761C999C7800F09B13 /* ImageI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC6773A1C999C7800F09B13 /* ImageI.m */; };
-		BBC677771C999C7800F09B13 /* TransformI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC6773B1C999C7800F09B13 /* TransformI.h */; };
-		BBC677781C999C7800F09B13 /* TransformI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC6773C1C999C7800F09B13 /* TransformI.m */; };
-		BBC677791C999C7800F09B13 /* AttrI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC6773E1C999C7800F09B13 /* AttrI.h */; };
-		BBC6777A1C999C7800F09B13 /* AttrI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC6773F1C999C7800F09B13 /* AttrI.m */; };
-		BBC6777B1C999C7800F09B13 /* DocumentI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677401C999C7800F09B13 /* DocumentI.h */; };
-		BBC6777C1C999C7800F09B13 /* DocumentI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677411C999C7800F09B13 /* DocumentI.m */; };
-		BBC6777D1C999C7800F09B13 /* ElementI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677421C999C7800F09B13 /* ElementI.h */; };
-		BBC6777E1C999C7800F09B13 /* ElementI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677431C999C7800F09B13 /* ElementI.m */; };
-		BBC6777F1C999C7800F09B13 /* NamedNodeMapI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677441C999C7800F09B13 /* NamedNodeMapI.h */; };
-		BBC677801C999C7800F09B13 /* NamedNodeMapI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677451C999C7800F09B13 /* NamedNodeMapI.m */; };
-		BBC677811C999C7800F09B13 /* NodeI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677461C999C7800F09B13 /* NodeI.h */; };
-		BBC677821C999C7800F09B13 /* NodeI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677471C999C7800F09B13 /* NodeI.m */; };
-		BBC677831C999C7800F09B13 /* NodeListI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677481C999C7800F09B13 /* NodeListI.h */; };
-		BBC677841C999C7800F09B13 /* NodeListI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677491C999C7800F09B13 /* NodeListI.m */; };
-		BBC677851C999C7800F09B13 /* ParserFactoryIos.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC6774A1C999C7800F09B13 /* ParserFactoryIos.h */; };
-		BBC677861C999C7800F09B13 /* ParserFactoryIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC6774B1C999C7800F09B13 /* ParserFactoryIos.m */; };
-		BBC677871C999C7800F09B13 /* ParserI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC6774C1C999C7800F09B13 /* ParserI.h */; };
-		BBC677881C999C7800F09B13 /* ParserI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC6774D1C999C7800F09B13 /* ParserI.m */; };
-		BBC677891C999C7800F09B13 /* ResourceLoaderFactoryIos.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC6774F1C999C7800F09B13 /* ResourceLoaderFactoryIos.h */; };
-		BBC6778A1C999C7800F09B13 /* ResourceLoaderFactoryIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677501C999C7800F09B13 /* ResourceLoaderFactoryIos.m */; };
-		BBC6778B1C999C7800F09B13 /* ResourceLoaderI.h in Headers */ = {isa = PBXBuildFile; fileRef = BBC677511C999C7800F09B13 /* ResourceLoaderI.h */; };
-		BBC6778C1C999C7800F09B13 /* ResourceLoaderI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC677521C999C7800F09B13 /* ResourceLoaderI.m */; };
-		BBC6778E1C999CBE00F09B13 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = BBC6778D1C999CBE00F09B13 /* Resources */; };
-		BBC677901C999DB300F09B13 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BBC6778F1C999DB300F09B13 /* Config.xcconfig */; };
+		BBD1D6011CA025610084AA03 /* FactoryProviderIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5C11CA025610084AA03 /* FactoryProviderIos.m */; };
+		BBD1D6021CA025610084AA03 /* FontFactoryIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5C41CA025610084AA03 /* FontFactoryIos.m */; };
+		BBD1D6031CA025610084AA03 /* FontI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5C61CA025610084AA03 /* FontI.m */; };
+		BBD1D6041CA025610084AA03 /* FontLoaderI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5C81CA025610084AA03 /* FontLoaderI.m */; };
+		BBD1D6051CA025610084AA03 /* FontRenderContextI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5CA1CA025610084AA03 /* FontRenderContextI.m */; };
+		BBD1D6061CA025610084AA03 /* TextAttributeI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5CC1CA025610084AA03 /* TextAttributeI.m */; };
+		BBD1D6071CA025610084AA03 /* TextAttributeProviderI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5CE1CA025610084AA03 /* TextAttributeProviderI.m */; };
+		BBD1D6081CA025610084AA03 /* TextLayoutI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5D01CA025610084AA03 /* TextLayoutI.m */; };
+		BBD1D6091CA025610084AA03 /* GeomFactoryIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5D31CA025610084AA03 /* GeomFactoryIos.m */; };
+		BBD1D60A1CA025610084AA03 /* Line2DI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5D51CA025610084AA03 /* Line2DI.m */; };
+		BBD1D60B1CA025610084AA03 /* Point2DI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5D71CA025610084AA03 /* Point2DI.m */; };
+		BBD1D60C1CA025610084AA03 /* Rectangle2DI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5D91CA025610084AA03 /* Rectangle2DI.m */; };
+		BBD1D60D1CA025610084AA03 /* RoundRectangle2DI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5DB1CA025610084AA03 /* RoundRectangle2DI.m */; };
+		BBD1D60E1CA025610084AA03 /* BasicStrokeI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5DE1CA025610084AA03 /* BasicStrokeI.m */; };
+		BBD1D60F1CA025610084AA03 /* ColorI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5E01CA025610084AA03 /* ColorI.m */; };
+		BBD1D6101CA025610084AA03 /* Graphics2DI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5E21CA025610084AA03 /* Graphics2DI.m */; };
+		BBD1D6111CA025610084AA03 /* GraphicsFactoryIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5E41CA025610084AA03 /* GraphicsFactoryIos.m */; };
+		BBD1D6121CA025610084AA03 /* ImageI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5E61CA025610084AA03 /* ImageI.m */; };
+		BBD1D6131CA025610084AA03 /* TransformI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5E81CA025610084AA03 /* TransformI.m */; };
+		BBD1D6141CA025610084AA03 /* LaTexView.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5EA1CA025610084AA03 /* LaTexView.m */; };
+		BBD1D6151CA025610084AA03 /* AttrI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5ED1CA025610084AA03 /* AttrI.m */; };
+		BBD1D6161CA025610084AA03 /* DocumentI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5EF1CA025610084AA03 /* DocumentI.m */; };
+		BBD1D6171CA025610084AA03 /* ElementI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5F11CA025610084AA03 /* ElementI.m */; };
+		BBD1D6181CA025610084AA03 /* NamedNodeMapI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5F31CA025610084AA03 /* NamedNodeMapI.m */; };
+		BBD1D6191CA025610084AA03 /* NodeI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5F51CA025610084AA03 /* NodeI.m */; };
+		BBD1D61A1CA025610084AA03 /* NodeListI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5F71CA025610084AA03 /* NodeListI.m */; };
+		BBD1D61B1CA025610084AA03 /* ParserFactoryIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5F91CA025610084AA03 /* ParserFactoryIos.m */; };
+		BBD1D61C1CA025610084AA03 /* ParserI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5FB1CA025610084AA03 /* ParserI.m */; };
+		BBD1D61D1CA025610084AA03 /* ResourceLoaderFactoryIos.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D5FE1CA025610084AA03 /* ResourceLoaderFactoryIos.m */; };
+		BBD1D61E1CA025610084AA03 /* ResourceLoaderI.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD1D6001CA025610084AA03 /* ResourceLoaderI.m */; };
+		BBD1D6AA1CA13C170084AA03 /* FactoryProviderIos.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBD1D5C01CA025610084AA03 /* FactoryProviderIos.h */; };
+		BBD1D6C31CA13DB80084AA03 /* LaTexView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBD1D5E91CA025610084AA03 /* LaTexView.h */; };
+		BBD1D6DC1CA142250084AA03 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = BBD1D6DB1CA142250084AA03 /* Resources */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		BBD1D6A91CA13BD20084AA03 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				BBD1D6AA1CA13C170084AA03 /* FactoryProviderIos.h in CopyFiles */,
+				BBD1D6C31CA13DB80084AA03 /* LaTexView.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		BBC677061C98392700F09B13 /* ReTeX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReTeX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BBC677091C98392700F09B13 /* ReTeX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReTeX.h; sourceTree = "<group>"; };
-		BBC6770B1C98392700F09B13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BBC677111C98440F00F09B13 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		BBC677141C999C7800F09B13 /* FactoryProviderIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoryProviderIos.h; sourceTree = "<group>"; };
-		BBC677151C999C7800F09B13 /* FactoryProviderIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryProviderIos.m; sourceTree = "<group>"; };
-		BBC677171C999C7800F09B13 /* FontFactoryIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontFactoryIos.h; sourceTree = "<group>"; };
-		BBC677181C999C7800F09B13 /* FontFactoryIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontFactoryIos.m; sourceTree = "<group>"; };
-		BBC677191C999C7800F09B13 /* FontI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontI.h; sourceTree = "<group>"; };
-		BBC6771A1C999C7800F09B13 /* FontI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontI.m; sourceTree = "<group>"; };
-		BBC6771B1C999C7800F09B13 /* FontLoaderI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontLoaderI.h; sourceTree = "<group>"; };
-		BBC6771C1C999C7800F09B13 /* FontLoaderI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontLoaderI.m; sourceTree = "<group>"; };
-		BBC6771D1C999C7800F09B13 /* FontRenderContextI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontRenderContextI.h; sourceTree = "<group>"; };
-		BBC6771E1C999C7800F09B13 /* FontRenderContextI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontRenderContextI.m; sourceTree = "<group>"; };
-		BBC6771F1C999C7800F09B13 /* TextAttributeI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextAttributeI.h; sourceTree = "<group>"; };
-		BBC677201C999C7800F09B13 /* TextAttributeI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextAttributeI.m; sourceTree = "<group>"; };
-		BBC677211C999C7800F09B13 /* TextAttributeProviderI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextAttributeProviderI.h; sourceTree = "<group>"; };
-		BBC677221C999C7800F09B13 /* TextAttributeProviderI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextAttributeProviderI.m; sourceTree = "<group>"; };
-		BBC677231C999C7800F09B13 /* TextLayoutI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextLayoutI.h; sourceTree = "<group>"; };
-		BBC677241C999C7800F09B13 /* TextLayoutI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextLayoutI.m; sourceTree = "<group>"; };
-		BBC677261C999C7800F09B13 /* GeomFactoryIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeomFactoryIos.h; sourceTree = "<group>"; };
-		BBC677271C999C7800F09B13 /* GeomFactoryIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeomFactoryIos.m; sourceTree = "<group>"; };
-		BBC677281C999C7800F09B13 /* Line2DI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line2DI.h; sourceTree = "<group>"; };
-		BBC677291C999C7800F09B13 /* Line2DI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Line2DI.m; sourceTree = "<group>"; };
-		BBC6772A1C999C7800F09B13 /* Point2DI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Point2DI.h; sourceTree = "<group>"; };
-		BBC6772B1C999C7800F09B13 /* Point2DI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Point2DI.m; sourceTree = "<group>"; };
-		BBC6772C1C999C7800F09B13 /* Rectangle2DI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle2DI.h; sourceTree = "<group>"; };
-		BBC6772D1C999C7800F09B13 /* Rectangle2DI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rectangle2DI.m; sourceTree = "<group>"; };
-		BBC6772E1C999C7800F09B13 /* RoundRectangle2DI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundRectangle2DI.h; sourceTree = "<group>"; };
-		BBC6772F1C999C7800F09B13 /* RoundRectangle2DI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundRectangle2DI.m; sourceTree = "<group>"; };
-		BBC677311C999C7800F09B13 /* BasicStrokeI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicStrokeI.h; sourceTree = "<group>"; };
-		BBC677321C999C7800F09B13 /* BasicStrokeI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicStrokeI.m; sourceTree = "<group>"; };
-		BBC677331C999C7800F09B13 /* ColorI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorI.h; sourceTree = "<group>"; };
-		BBC677341C999C7800F09B13 /* ColorI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorI.m; sourceTree = "<group>"; };
-		BBC677351C999C7800F09B13 /* Graphics2DI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics2DI.h; sourceTree = "<group>"; };
-		BBC677361C999C7800F09B13 /* Graphics2DI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Graphics2DI.m; sourceTree = "<group>"; };
-		BBC677371C999C7800F09B13 /* GraphicsFactoryIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicsFactoryIos.h; sourceTree = "<group>"; };
-		BBC677381C999C7800F09B13 /* GraphicsFactoryIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphicsFactoryIos.m; sourceTree = "<group>"; };
-		BBC677391C999C7800F09B13 /* ImageI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageI.h; sourceTree = "<group>"; };
-		BBC6773A1C999C7800F09B13 /* ImageI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageI.m; sourceTree = "<group>"; };
-		BBC6773B1C999C7800F09B13 /* TransformI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformI.h; sourceTree = "<group>"; };
-		BBC6773C1C999C7800F09B13 /* TransformI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransformI.m; sourceTree = "<group>"; };
-		BBC6773E1C999C7800F09B13 /* AttrI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttrI.h; sourceTree = "<group>"; };
-		BBC6773F1C999C7800F09B13 /* AttrI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttrI.m; sourceTree = "<group>"; };
-		BBC677401C999C7800F09B13 /* DocumentI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentI.h; sourceTree = "<group>"; };
-		BBC677411C999C7800F09B13 /* DocumentI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentI.m; sourceTree = "<group>"; };
-		BBC677421C999C7800F09B13 /* ElementI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElementI.h; sourceTree = "<group>"; };
-		BBC677431C999C7800F09B13 /* ElementI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ElementI.m; sourceTree = "<group>"; };
-		BBC677441C999C7800F09B13 /* NamedNodeMapI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamedNodeMapI.h; sourceTree = "<group>"; };
-		BBC677451C999C7800F09B13 /* NamedNodeMapI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamedNodeMapI.m; sourceTree = "<group>"; };
-		BBC677461C999C7800F09B13 /* NodeI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeI.h; sourceTree = "<group>"; };
-		BBC677471C999C7800F09B13 /* NodeI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeI.m; sourceTree = "<group>"; };
-		BBC677481C999C7800F09B13 /* NodeListI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeListI.h; sourceTree = "<group>"; };
-		BBC677491C999C7800F09B13 /* NodeListI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeListI.m; sourceTree = "<group>"; };
-		BBC6774A1C999C7800F09B13 /* ParserFactoryIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParserFactoryIos.h; sourceTree = "<group>"; };
-		BBC6774B1C999C7800F09B13 /* ParserFactoryIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParserFactoryIos.m; sourceTree = "<group>"; };
-		BBC6774C1C999C7800F09B13 /* ParserI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParserI.h; sourceTree = "<group>"; };
-		BBC6774D1C999C7800F09B13 /* ParserI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParserI.m; sourceTree = "<group>"; };
-		BBC6774F1C999C7800F09B13 /* ResourceLoaderFactoryIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceLoaderFactoryIos.h; sourceTree = "<group>"; };
-		BBC677501C999C7800F09B13 /* ResourceLoaderFactoryIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceLoaderFactoryIos.m; sourceTree = "<group>"; };
-		BBC677511C999C7800F09B13 /* ResourceLoaderI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceLoaderI.h; sourceTree = "<group>"; };
-		BBC677521C999C7800F09B13 /* ResourceLoaderI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceLoaderI.m; sourceTree = "<group>"; };
-		BBC6778D1C999CBE00F09B13 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
-		BBC6778F1C999DB300F09B13 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = SOURCE_ROOT; };
+		BB84DD321CA02482001D8A0B /* libReTeX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libReTeX.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBD1D5C01CA025610084AA03 /* FactoryProviderIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoryProviderIos.h; sourceTree = "<group>"; };
+		BBD1D5C11CA025610084AA03 /* FactoryProviderIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoryProviderIos.m; sourceTree = "<group>"; };
+		BBD1D5C31CA025610084AA03 /* FontFactoryIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontFactoryIos.h; sourceTree = "<group>"; };
+		BBD1D5C41CA025610084AA03 /* FontFactoryIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontFactoryIos.m; sourceTree = "<group>"; };
+		BBD1D5C51CA025610084AA03 /* FontI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontI.h; sourceTree = "<group>"; };
+		BBD1D5C61CA025610084AA03 /* FontI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontI.m; sourceTree = "<group>"; };
+		BBD1D5C71CA025610084AA03 /* FontLoaderI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontLoaderI.h; sourceTree = "<group>"; };
+		BBD1D5C81CA025610084AA03 /* FontLoaderI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontLoaderI.m; sourceTree = "<group>"; };
+		BBD1D5C91CA025610084AA03 /* FontRenderContextI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontRenderContextI.h; sourceTree = "<group>"; };
+		BBD1D5CA1CA025610084AA03 /* FontRenderContextI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontRenderContextI.m; sourceTree = "<group>"; };
+		BBD1D5CB1CA025610084AA03 /* TextAttributeI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextAttributeI.h; sourceTree = "<group>"; };
+		BBD1D5CC1CA025610084AA03 /* TextAttributeI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextAttributeI.m; sourceTree = "<group>"; };
+		BBD1D5CD1CA025610084AA03 /* TextAttributeProviderI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextAttributeProviderI.h; sourceTree = "<group>"; };
+		BBD1D5CE1CA025610084AA03 /* TextAttributeProviderI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextAttributeProviderI.m; sourceTree = "<group>"; };
+		BBD1D5CF1CA025610084AA03 /* TextLayoutI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextLayoutI.h; sourceTree = "<group>"; };
+		BBD1D5D01CA025610084AA03 /* TextLayoutI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextLayoutI.m; sourceTree = "<group>"; };
+		BBD1D5D21CA025610084AA03 /* GeomFactoryIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeomFactoryIos.h; sourceTree = "<group>"; };
+		BBD1D5D31CA025610084AA03 /* GeomFactoryIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeomFactoryIos.m; sourceTree = "<group>"; };
+		BBD1D5D41CA025610084AA03 /* Line2DI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line2DI.h; sourceTree = "<group>"; };
+		BBD1D5D51CA025610084AA03 /* Line2DI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Line2DI.m; sourceTree = "<group>"; };
+		BBD1D5D61CA025610084AA03 /* Point2DI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Point2DI.h; sourceTree = "<group>"; };
+		BBD1D5D71CA025610084AA03 /* Point2DI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Point2DI.m; sourceTree = "<group>"; };
+		BBD1D5D81CA025610084AA03 /* Rectangle2DI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle2DI.h; sourceTree = "<group>"; };
+		BBD1D5D91CA025610084AA03 /* Rectangle2DI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rectangle2DI.m; sourceTree = "<group>"; };
+		BBD1D5DA1CA025610084AA03 /* RoundRectangle2DI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundRectangle2DI.h; sourceTree = "<group>"; };
+		BBD1D5DB1CA025610084AA03 /* RoundRectangle2DI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundRectangle2DI.m; sourceTree = "<group>"; };
+		BBD1D5DD1CA025610084AA03 /* BasicStrokeI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicStrokeI.h; sourceTree = "<group>"; };
+		BBD1D5DE1CA025610084AA03 /* BasicStrokeI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicStrokeI.m; sourceTree = "<group>"; };
+		BBD1D5DF1CA025610084AA03 /* ColorI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorI.h; sourceTree = "<group>"; };
+		BBD1D5E01CA025610084AA03 /* ColorI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorI.m; sourceTree = "<group>"; };
+		BBD1D5E11CA025610084AA03 /* Graphics2DI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics2DI.h; sourceTree = "<group>"; };
+		BBD1D5E21CA025610084AA03 /* Graphics2DI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Graphics2DI.m; sourceTree = "<group>"; };
+		BBD1D5E31CA025610084AA03 /* GraphicsFactoryIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicsFactoryIos.h; sourceTree = "<group>"; };
+		BBD1D5E41CA025610084AA03 /* GraphicsFactoryIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphicsFactoryIos.m; sourceTree = "<group>"; };
+		BBD1D5E51CA025610084AA03 /* ImageI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageI.h; sourceTree = "<group>"; };
+		BBD1D5E61CA025610084AA03 /* ImageI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageI.m; sourceTree = "<group>"; };
+		BBD1D5E71CA025610084AA03 /* TransformI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformI.h; sourceTree = "<group>"; };
+		BBD1D5E81CA025610084AA03 /* TransformI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransformI.m; sourceTree = "<group>"; };
+		BBD1D5E91CA025610084AA03 /* LaTexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaTexView.h; sourceTree = "<group>"; };
+		BBD1D5EA1CA025610084AA03 /* LaTexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaTexView.m; sourceTree = "<group>"; };
+		BBD1D5EC1CA025610084AA03 /* AttrI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttrI.h; sourceTree = "<group>"; };
+		BBD1D5ED1CA025610084AA03 /* AttrI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttrI.m; sourceTree = "<group>"; };
+		BBD1D5EE1CA025610084AA03 /* DocumentI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentI.h; sourceTree = "<group>"; };
+		BBD1D5EF1CA025610084AA03 /* DocumentI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentI.m; sourceTree = "<group>"; };
+		BBD1D5F01CA025610084AA03 /* ElementI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElementI.h; sourceTree = "<group>"; };
+		BBD1D5F11CA025610084AA03 /* ElementI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ElementI.m; sourceTree = "<group>"; };
+		BBD1D5F21CA025610084AA03 /* NamedNodeMapI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamedNodeMapI.h; sourceTree = "<group>"; };
+		BBD1D5F31CA025610084AA03 /* NamedNodeMapI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamedNodeMapI.m; sourceTree = "<group>"; };
+		BBD1D5F41CA025610084AA03 /* NodeI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeI.h; sourceTree = "<group>"; };
+		BBD1D5F51CA025610084AA03 /* NodeI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeI.m; sourceTree = "<group>"; };
+		BBD1D5F61CA025610084AA03 /* NodeListI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeListI.h; sourceTree = "<group>"; };
+		BBD1D5F71CA025610084AA03 /* NodeListI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeListI.m; sourceTree = "<group>"; };
+		BBD1D5F81CA025610084AA03 /* ParserFactoryIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParserFactoryIos.h; sourceTree = "<group>"; };
+		BBD1D5F91CA025610084AA03 /* ParserFactoryIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParserFactoryIos.m; sourceTree = "<group>"; };
+		BBD1D5FA1CA025610084AA03 /* ParserI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParserI.h; sourceTree = "<group>"; };
+		BBD1D5FB1CA025610084AA03 /* ParserI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParserI.m; sourceTree = "<group>"; };
+		BBD1D5FD1CA025610084AA03 /* ResourceLoaderFactoryIos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceLoaderFactoryIos.h; sourceTree = "<group>"; };
+		BBD1D5FE1CA025610084AA03 /* ResourceLoaderFactoryIos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceLoaderFactoryIos.m; sourceTree = "<group>"; };
+		BBD1D5FF1CA025610084AA03 /* ResourceLoaderI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceLoaderI.h; sourceTree = "<group>"; };
+		BBD1D6001CA025610084AA03 /* ResourceLoaderI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceLoaderI.m; sourceTree = "<group>"; };
+		BBD1D6D31CA140990084AA03 /* ReTeXResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReTeXResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBD1D6D51CA140990084AA03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBD1D6DA1CA142140084AA03 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = SOURCE_ROOT; };
+		BBD1D6DB1CA142250084AA03 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		BBC677021C98392700F09B13 /* Frameworks */ = {
+		BB84DD2F1CA02482001D8A0B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBC677121C98440F00F09B13 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBD1D6D01CA140990084AA03 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BBC676FC1C98392700F09B13 = {
+		BB84DD291CA02482001D8A0B = {
 			isa = PBXGroup;
 			children = (
-				BBC677111C98440F00F09B13 /* UIKit.framework */,
-				BBC677081C98392700F09B13 /* ReTeX */,
-				BBC677071C98392700F09B13 /* Products */,
+				BB84DD341CA02482001D8A0B /* ReTeX */,
+				BBD1D6D41CA140990084AA03 /* ReTeXResources */,
+				BB84DD331CA02482001D8A0B /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		BBC677071C98392700F09B13 /* Products */ = {
+		BB84DD331CA02482001D8A0B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BBC677061C98392700F09B13 /* ReTeX.framework */,
+				BB84DD321CA02482001D8A0B /* libReTeX.a */,
+				BBD1D6D31CA140990084AA03 /* ReTeXResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BBC677081C98392700F09B13 /* ReTeX */ = {
+		BB84DD341CA02482001D8A0B /* ReTeX */ = {
 			isa = PBXGroup;
 			children = (
-				BBC677131C999C7800F09B13 /* Classes */,
-				BBC6778D1C999CBE00F09B13 /* Resources */,
-				BBC677091C98392700F09B13 /* ReTeX.h */,
-				BBC6770B1C98392700F09B13 /* Info.plist */,
-				BBC6778F1C999DB300F09B13 /* Config.xcconfig */,
+				BBD1D6DA1CA142140084AA03 /* Config.xcconfig */,
+				BBD1D5BF1CA025610084AA03 /* Classes */,
 			);
 			path = ReTeX;
 			sourceTree = "<group>";
 		};
-		BBC677131C999C7800F09B13 /* Classes */ = {
+		BBD1D5BF1CA025610084AA03 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				BBC677141C999C7800F09B13 /* FactoryProviderIos.h */,
-				BBC677151C999C7800F09B13 /* FactoryProviderIos.m */,
-				BBC677161C999C7800F09B13 /* font */,
-				BBC677251C999C7800F09B13 /* geom */,
-				BBC677301C999C7800F09B13 /* graphics */,
-				BBC6773D1C999C7800F09B13 /* parser */,
-				BBC6774E1C999C7800F09B13 /* resources */,
+				BBD1D5C01CA025610084AA03 /* FactoryProviderIos.h */,
+				BBD1D5C11CA025610084AA03 /* FactoryProviderIos.m */,
+				BBD1D5E91CA025610084AA03 /* LaTexView.h */,
+				BBD1D5EA1CA025610084AA03 /* LaTexView.m */,
+				BBD1D5C21CA025610084AA03 /* font */,
+				BBD1D5D11CA025610084AA03 /* geom */,
+				BBD1D5DC1CA025610084AA03 /* graphics */,
+				BBD1D5EB1CA025610084AA03 /* parser */,
+				BBD1D5FC1CA025610084AA03 /* resources */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		BBC677161C999C7800F09B13 /* font */ = {
+		BBD1D5C21CA025610084AA03 /* font */ = {
 			isa = PBXGroup;
 			children = (
-				BBC677171C999C7800F09B13 /* FontFactoryIos.h */,
-				BBC677181C999C7800F09B13 /* FontFactoryIos.m */,
-				BBC677191C999C7800F09B13 /* FontI.h */,
-				BBC6771A1C999C7800F09B13 /* FontI.m */,
-				BBC6771B1C999C7800F09B13 /* FontLoaderI.h */,
-				BBC6771C1C999C7800F09B13 /* FontLoaderI.m */,
-				BBC6771D1C999C7800F09B13 /* FontRenderContextI.h */,
-				BBC6771E1C999C7800F09B13 /* FontRenderContextI.m */,
-				BBC6771F1C999C7800F09B13 /* TextAttributeI.h */,
-				BBC677201C999C7800F09B13 /* TextAttributeI.m */,
-				BBC677211C999C7800F09B13 /* TextAttributeProviderI.h */,
-				BBC677221C999C7800F09B13 /* TextAttributeProviderI.m */,
-				BBC677231C999C7800F09B13 /* TextLayoutI.h */,
-				BBC677241C999C7800F09B13 /* TextLayoutI.m */,
+				BBD1D5C31CA025610084AA03 /* FontFactoryIos.h */,
+				BBD1D5C41CA025610084AA03 /* FontFactoryIos.m */,
+				BBD1D5C51CA025610084AA03 /* FontI.h */,
+				BBD1D5C61CA025610084AA03 /* FontI.m */,
+				BBD1D5C71CA025610084AA03 /* FontLoaderI.h */,
+				BBD1D5C81CA025610084AA03 /* FontLoaderI.m */,
+				BBD1D5C91CA025610084AA03 /* FontRenderContextI.h */,
+				BBD1D5CA1CA025610084AA03 /* FontRenderContextI.m */,
+				BBD1D5CB1CA025610084AA03 /* TextAttributeI.h */,
+				BBD1D5CC1CA025610084AA03 /* TextAttributeI.m */,
+				BBD1D5CD1CA025610084AA03 /* TextAttributeProviderI.h */,
+				BBD1D5CE1CA025610084AA03 /* TextAttributeProviderI.m */,
+				BBD1D5CF1CA025610084AA03 /* TextLayoutI.h */,
+				BBD1D5D01CA025610084AA03 /* TextLayoutI.m */,
 			);
 			path = font;
 			sourceTree = "<group>";
 		};
-		BBC677251C999C7800F09B13 /* geom */ = {
+		BBD1D5D11CA025610084AA03 /* geom */ = {
 			isa = PBXGroup;
 			children = (
-				BBC677261C999C7800F09B13 /* GeomFactoryIos.h */,
-				BBC677271C999C7800F09B13 /* GeomFactoryIos.m */,
-				BBC677281C999C7800F09B13 /* Line2DI.h */,
-				BBC677291C999C7800F09B13 /* Line2DI.m */,
-				BBC6772A1C999C7800F09B13 /* Point2DI.h */,
-				BBC6772B1C999C7800F09B13 /* Point2DI.m */,
-				BBC6772C1C999C7800F09B13 /* Rectangle2DI.h */,
-				BBC6772D1C999C7800F09B13 /* Rectangle2DI.m */,
-				BBC6772E1C999C7800F09B13 /* RoundRectangle2DI.h */,
-				BBC6772F1C999C7800F09B13 /* RoundRectangle2DI.m */,
+				BBD1D5D21CA025610084AA03 /* GeomFactoryIos.h */,
+				BBD1D5D31CA025610084AA03 /* GeomFactoryIos.m */,
+				BBD1D5D41CA025610084AA03 /* Line2DI.h */,
+				BBD1D5D51CA025610084AA03 /* Line2DI.m */,
+				BBD1D5D61CA025610084AA03 /* Point2DI.h */,
+				BBD1D5D71CA025610084AA03 /* Point2DI.m */,
+				BBD1D5D81CA025610084AA03 /* Rectangle2DI.h */,
+				BBD1D5D91CA025610084AA03 /* Rectangle2DI.m */,
+				BBD1D5DA1CA025610084AA03 /* RoundRectangle2DI.h */,
+				BBD1D5DB1CA025610084AA03 /* RoundRectangle2DI.m */,
 			);
 			path = geom;
 			sourceTree = "<group>";
 		};
-		BBC677301C999C7800F09B13 /* graphics */ = {
+		BBD1D5DC1CA025610084AA03 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
-				BBC677311C999C7800F09B13 /* BasicStrokeI.h */,
-				BBC677321C999C7800F09B13 /* BasicStrokeI.m */,
-				BBC677331C999C7800F09B13 /* ColorI.h */,
-				BBC677341C999C7800F09B13 /* ColorI.m */,
-				BBC677351C999C7800F09B13 /* Graphics2DI.h */,
-				BBC677361C999C7800F09B13 /* Graphics2DI.m */,
-				BBC677371C999C7800F09B13 /* GraphicsFactoryIos.h */,
-				BBC677381C999C7800F09B13 /* GraphicsFactoryIos.m */,
-				BBC677391C999C7800F09B13 /* ImageI.h */,
-				BBC6773A1C999C7800F09B13 /* ImageI.m */,
-				BBC6773B1C999C7800F09B13 /* TransformI.h */,
-				BBC6773C1C999C7800F09B13 /* TransformI.m */,
+				BBD1D5DD1CA025610084AA03 /* BasicStrokeI.h */,
+				BBD1D5DE1CA025610084AA03 /* BasicStrokeI.m */,
+				BBD1D5DF1CA025610084AA03 /* ColorI.h */,
+				BBD1D5E01CA025610084AA03 /* ColorI.m */,
+				BBD1D5E11CA025610084AA03 /* Graphics2DI.h */,
+				BBD1D5E21CA025610084AA03 /* Graphics2DI.m */,
+				BBD1D5E31CA025610084AA03 /* GraphicsFactoryIos.h */,
+				BBD1D5E41CA025610084AA03 /* GraphicsFactoryIos.m */,
+				BBD1D5E51CA025610084AA03 /* ImageI.h */,
+				BBD1D5E61CA025610084AA03 /* ImageI.m */,
+				BBD1D5E71CA025610084AA03 /* TransformI.h */,
+				BBD1D5E81CA025610084AA03 /* TransformI.m */,
 			);
 			path = graphics;
 			sourceTree = "<group>";
 		};
-		BBC6773D1C999C7800F09B13 /* parser */ = {
+		BBD1D5EB1CA025610084AA03 /* parser */ = {
 			isa = PBXGroup;
 			children = (
-				BBC6773E1C999C7800F09B13 /* AttrI.h */,
-				BBC6773F1C999C7800F09B13 /* AttrI.m */,
-				BBC677401C999C7800F09B13 /* DocumentI.h */,
-				BBC677411C999C7800F09B13 /* DocumentI.m */,
-				BBC677421C999C7800F09B13 /* ElementI.h */,
-				BBC677431C999C7800F09B13 /* ElementI.m */,
-				BBC677441C999C7800F09B13 /* NamedNodeMapI.h */,
-				BBC677451C999C7800F09B13 /* NamedNodeMapI.m */,
-				BBC677461C999C7800F09B13 /* NodeI.h */,
-				BBC677471C999C7800F09B13 /* NodeI.m */,
-				BBC677481C999C7800F09B13 /* NodeListI.h */,
-				BBC677491C999C7800F09B13 /* NodeListI.m */,
-				BBC6774A1C999C7800F09B13 /* ParserFactoryIos.h */,
-				BBC6774B1C999C7800F09B13 /* ParserFactoryIos.m */,
-				BBC6774C1C999C7800F09B13 /* ParserI.h */,
-				BBC6774D1C999C7800F09B13 /* ParserI.m */,
+				BBD1D5EC1CA025610084AA03 /* AttrI.h */,
+				BBD1D5ED1CA025610084AA03 /* AttrI.m */,
+				BBD1D5EE1CA025610084AA03 /* DocumentI.h */,
+				BBD1D5EF1CA025610084AA03 /* DocumentI.m */,
+				BBD1D5F01CA025610084AA03 /* ElementI.h */,
+				BBD1D5F11CA025610084AA03 /* ElementI.m */,
+				BBD1D5F21CA025610084AA03 /* NamedNodeMapI.h */,
+				BBD1D5F31CA025610084AA03 /* NamedNodeMapI.m */,
+				BBD1D5F41CA025610084AA03 /* NodeI.h */,
+				BBD1D5F51CA025610084AA03 /* NodeI.m */,
+				BBD1D5F61CA025610084AA03 /* NodeListI.h */,
+				BBD1D5F71CA025610084AA03 /* NodeListI.m */,
+				BBD1D5F81CA025610084AA03 /* ParserFactoryIos.h */,
+				BBD1D5F91CA025610084AA03 /* ParserFactoryIos.m */,
+				BBD1D5FA1CA025610084AA03 /* ParserI.h */,
+				BBD1D5FB1CA025610084AA03 /* ParserI.m */,
 			);
 			path = parser;
 			sourceTree = "<group>";
 		};
-		BBC6774E1C999C7800F09B13 /* resources */ = {
+		BBD1D5FC1CA025610084AA03 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				BBC6774F1C999C7800F09B13 /* ResourceLoaderFactoryIos.h */,
-				BBC677501C999C7800F09B13 /* ResourceLoaderFactoryIos.m */,
-				BBC677511C999C7800F09B13 /* ResourceLoaderI.h */,
-				BBC677521C999C7800F09B13 /* ResourceLoaderI.m */,
+				BBD1D5FD1CA025610084AA03 /* ResourceLoaderFactoryIos.h */,
+				BBD1D5FE1CA025610084AA03 /* ResourceLoaderFactoryIos.m */,
+				BBD1D5FF1CA025610084AA03 /* ResourceLoaderI.h */,
+				BBD1D6001CA025610084AA03 /* ResourceLoaderI.m */,
 			);
 			path = resources;
 			sourceTree = "<group>";
 		};
+		BBD1D6D41CA140990084AA03 /* ReTeXResources */ = {
+			isa = PBXGroup;
+			children = (
+				BBD1D6DB1CA142250084AA03 /* Resources */,
+				BBD1D6D51CA140990084AA03 /* Info.plist */,
+			);
+			path = ReTeXResources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		BBC677031C98392700F09B13 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BBC677811C999C7800F09B13 /* NodeI.h in Headers */,
-				BBC677531C999C7800F09B13 /* FactoryProviderIos.h in Headers */,
-				BBC6777D1C999C7800F09B13 /* ElementI.h in Headers */,
-				BBC677671C999C7800F09B13 /* Point2DI.h in Headers */,
-				BBC677831C999C7800F09B13 /* NodeListI.h in Headers */,
-				BBC677731C999C7800F09B13 /* GraphicsFactoryIos.h in Headers */,
-				BBC6775B1C999C7800F09B13 /* FontRenderContextI.h in Headers */,
-				BBC677851C999C7800F09B13 /* ParserFactoryIos.h in Headers */,
-				BBC677571C999C7800F09B13 /* FontI.h in Headers */,
-				BBC6775F1C999C7800F09B13 /* TextAttributeProviderI.h in Headers */,
-				BBC677791C999C7800F09B13 /* AttrI.h in Headers */,
-				BBC677551C999C7800F09B13 /* FontFactoryIos.h in Headers */,
-				BBC6776F1C999C7800F09B13 /* ColorI.h in Headers */,
-				BBC6777B1C999C7800F09B13 /* DocumentI.h in Headers */,
-				BBC677631C999C7800F09B13 /* GeomFactoryIos.h in Headers */,
-				BBC6778B1C999C7800F09B13 /* ResourceLoaderI.h in Headers */,
-				BBC677651C999C7800F09B13 /* Line2DI.h in Headers */,
-				BBC677891C999C7800F09B13 /* ResourceLoaderFactoryIos.h in Headers */,
-				BBC677711C999C7800F09B13 /* Graphics2DI.h in Headers */,
-				BBC6775D1C999C7800F09B13 /* TextAttributeI.h in Headers */,
-				BBC6777F1C999C7800F09B13 /* NamedNodeMapI.h in Headers */,
-				BBC6776D1C999C7800F09B13 /* BasicStrokeI.h in Headers */,
-				BBC6776B1C999C7800F09B13 /* RoundRectangle2DI.h in Headers */,
-				BBC6770A1C98392700F09B13 /* ReTeX.h in Headers */,
-				BBC677591C999C7800F09B13 /* FontLoaderI.h in Headers */,
-				BBC677611C999C7800F09B13 /* TextLayoutI.h in Headers */,
-				BBC677691C999C7800F09B13 /* Rectangle2DI.h in Headers */,
-				BBC677871C999C7800F09B13 /* ParserI.h in Headers */,
-				BBC677751C999C7800F09B13 /* ImageI.h in Headers */,
-				BBC677771C999C7800F09B13 /* TransformI.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
-		BBC677051C98392700F09B13 /* ReTeX */ = {
+		BB84DD311CA02482001D8A0B /* ReTeX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BBC6770E1C98392700F09B13 /* Build configuration list for PBXNativeTarget "ReTeX" */;
+			buildConfigurationList = BB84DD3B1CA02482001D8A0B /* Build configuration list for PBXNativeTarget "ReTeX" */;
 			buildPhases = (
-				BBC677011C98392700F09B13 /* Sources */,
-				BBC677021C98392700F09B13 /* Frameworks */,
-				BBC677031C98392700F09B13 /* Headers */,
-				BBC677041C98392700F09B13 /* Resources */,
+				BB84DD2E1CA02482001D8A0B /* Sources */,
+				BB84DD2F1CA02482001D8A0B /* Frameworks */,
+				BBD1D6A91CA13BD20084AA03 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -342,95 +302,122 @@
 			);
 			name = ReTeX;
 			productName = ReTeX;
-			productReference = BBC677061C98392700F09B13 /* ReTeX.framework */;
-			productType = "com.apple.product-type.framework";
+			productReference = BB84DD321CA02482001D8A0B /* libReTeX.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		BBD1D6D21CA140990084AA03 /* ReTeXResources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BBD1D6D81CA140990084AA03 /* Build configuration list for PBXNativeTarget "ReTeXResources" */;
+			buildPhases = (
+				BBD1D6CF1CA140990084AA03 /* Sources */,
+				BBD1D6D01CA140990084AA03 /* Frameworks */,
+				BBD1D6D11CA140990084AA03 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReTeXResources;
+			productName = ReTeXResources;
+			productReference = BBD1D6D31CA140990084AA03 /* ReTeXResources.bundle */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		BBC676FD1C98392700F09B13 /* Project object */ = {
+		BB84DD2A1CA02482001D8A0B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = GeoGebra;
 				TargetAttributes = {
-					BBC677051C98392700F09B13 = {
+					BB84DD311CA02482001D8A0B = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					BBD1D6D21CA140990084AA03 = {
 						CreatedOnToolsVersion = 7.2.1;
 					};
 				};
 			};
-			buildConfigurationList = BBC677001C98392700F09B13 /* Build configuration list for PBXProject "ReTeX" */;
+			buildConfigurationList = BB84DD2D1CA02482001D8A0B /* Build configuration list for PBXProject "ReTeX" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = BBC676FC1C98392700F09B13;
-			productRefGroup = BBC677071C98392700F09B13 /* Products */;
+			mainGroup = BB84DD291CA02482001D8A0B;
+			productRefGroup = BB84DD331CA02482001D8A0B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BBC677051C98392700F09B13 /* ReTeX */,
+				BB84DD311CA02482001D8A0B /* ReTeX */,
+				BBD1D6D21CA140990084AA03 /* ReTeXResources */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		BBC677041C98392700F09B13 /* Resources */ = {
+		BBD1D6D11CA140990084AA03 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBC677901C999DB300F09B13 /* Config.xcconfig in Resources */,
-				BBC6778E1C999CBE00F09B13 /* Resources in Resources */,
+				BBD1D6DC1CA142250084AA03 /* Resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		BBC677011C98392700F09B13 /* Sources */ = {
+		BB84DD2E1CA02482001D8A0B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBC677841C999C7800F09B13 /* NodeListI.m in Sources */,
-				BBC6777C1C999C7800F09B13 /* DocumentI.m in Sources */,
-				BBC677581C999C7800F09B13 /* FontI.m in Sources */,
-				BBC677681C999C7800F09B13 /* Point2DI.m in Sources */,
-				BBC677801C999C7800F09B13 /* NamedNodeMapI.m in Sources */,
-				BBC6778C1C999C7800F09B13 /* ResourceLoaderI.m in Sources */,
-				BBC6777A1C999C7800F09B13 /* AttrI.m in Sources */,
-				BBC6777E1C999C7800F09B13 /* ElementI.m in Sources */,
-				BBC6776E1C999C7800F09B13 /* BasicStrokeI.m in Sources */,
-				BBC677761C999C7800F09B13 /* ImageI.m in Sources */,
-				BBC677641C999C7800F09B13 /* GeomFactoryIos.m in Sources */,
-				BBC677821C999C7800F09B13 /* NodeI.m in Sources */,
-				BBC677701C999C7800F09B13 /* ColorI.m in Sources */,
-				BBC677881C999C7800F09B13 /* ParserI.m in Sources */,
-				BBC6775E1C999C7800F09B13 /* TextAttributeI.m in Sources */,
-				BBC677661C999C7800F09B13 /* Line2DI.m in Sources */,
-				BBC677541C999C7800F09B13 /* FactoryProviderIos.m in Sources */,
-				BBC677721C999C7800F09B13 /* Graphics2DI.m in Sources */,
-				BBC6775C1C999C7800F09B13 /* FontRenderContextI.m in Sources */,
-				BBC677621C999C7800F09B13 /* TextLayoutI.m in Sources */,
-				BBC6778A1C999C7800F09B13 /* ResourceLoaderFactoryIos.m in Sources */,
-				BBC6776C1C999C7800F09B13 /* RoundRectangle2DI.m in Sources */,
-				BBC677861C999C7800F09B13 /* ParserFactoryIos.m in Sources */,
-				BBC677741C999C7800F09B13 /* GraphicsFactoryIos.m in Sources */,
-				BBC677561C999C7800F09B13 /* FontFactoryIos.m in Sources */,
-				BBC6776A1C999C7800F09B13 /* Rectangle2DI.m in Sources */,
-				BBC6775A1C999C7800F09B13 /* FontLoaderI.m in Sources */,
-				BBC677781C999C7800F09B13 /* TransformI.m in Sources */,
-				BBC677601C999C7800F09B13 /* TextAttributeProviderI.m in Sources */,
+				BBD1D6091CA025610084AA03 /* GeomFactoryIos.m in Sources */,
+				BBD1D6071CA025610084AA03 /* TextAttributeProviderI.m in Sources */,
+				BBD1D60B1CA025610084AA03 /* Point2DI.m in Sources */,
+				BBD1D6131CA025610084AA03 /* TransformI.m in Sources */,
+				BBD1D61B1CA025610084AA03 /* ParserFactoryIos.m in Sources */,
+				BBD1D6101CA025610084AA03 /* Graphics2DI.m in Sources */,
+				BBD1D60E1CA025610084AA03 /* BasicStrokeI.m in Sources */,
+				BBD1D6011CA025610084AA03 /* FactoryProviderIos.m in Sources */,
+				BBD1D61A1CA025610084AA03 /* NodeListI.m in Sources */,
+				BBD1D6051CA025610084AA03 /* FontRenderContextI.m in Sources */,
+				BBD1D61C1CA025610084AA03 /* ParserI.m in Sources */,
+				BBD1D6031CA025610084AA03 /* FontI.m in Sources */,
+				BBD1D61D1CA025610084AA03 /* ResourceLoaderFactoryIos.m in Sources */,
+				BBD1D6141CA025610084AA03 /* LaTexView.m in Sources */,
+				BBD1D6111CA025610084AA03 /* GraphicsFactoryIos.m in Sources */,
+				BBD1D6081CA025610084AA03 /* TextLayoutI.m in Sources */,
+				BBD1D6191CA025610084AA03 /* NodeI.m in Sources */,
+				BBD1D61E1CA025610084AA03 /* ResourceLoaderI.m in Sources */,
+				BBD1D6161CA025610084AA03 /* DocumentI.m in Sources */,
+				BBD1D6121CA025610084AA03 /* ImageI.m in Sources */,
+				BBD1D6021CA025610084AA03 /* FontFactoryIos.m in Sources */,
+				BBD1D6171CA025610084AA03 /* ElementI.m in Sources */,
+				BBD1D60A1CA025610084AA03 /* Line2DI.m in Sources */,
+				BBD1D6151CA025610084AA03 /* AttrI.m in Sources */,
+				BBD1D60F1CA025610084AA03 /* ColorI.m in Sources */,
+				BBD1D60D1CA025610084AA03 /* RoundRectangle2DI.m in Sources */,
+				BBD1D6061CA025610084AA03 /* TextAttributeI.m in Sources */,
+				BBD1D60C1CA025610084AA03 /* Rectangle2DI.m in Sources */,
+				BBD1D6181CA025610084AA03 /* NamedNodeMapI.m in Sources */,
+				BBD1D6041CA025610084AA03 /* FontLoaderI.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBD1D6CF1CA140990084AA03 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		BBC6770C1C98392700F09B13 /* Debug */ = {
+		BB84DD391CA02482001D8A0B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BBC6778F1C999DB300F09B13 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -448,7 +435,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -466,19 +452,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		BBC6770D1C98392700F09B13 /* Release */ = {
+		BB84DD3A1CA02482001D8A0B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BBC6778F1C999DB300F09B13 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -496,7 +478,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -508,72 +489,96 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		BBC6770F1C98392700F09B13 /* Debug */ = {
+		BB84DD3C1CA02482001D8A0B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BBD1D6DA1CA142140084AA03 /* Config.xcconfig */;
 			buildSettings = {
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ReTeX/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.geogebra.ReTeX;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
-		BBC677101C98392700F09B13 /* Release */ = {
+		BB84DD3D1CA02482001D8A0B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BBD1D6DA1CA142140084AA03 /* Config.xcconfig */;
 			buildSettings = {
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ReTeX/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.geogebra.ReTeX;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		BBD1D6D61CA140990084AA03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ReTeXResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = org.geogebra.ReTeXResources;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		BBD1D6D71CA140990084AA03 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ReTeXResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = org.geogebra.ReTeXResources;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BBC677001C98392700F09B13 /* Build configuration list for PBXProject "ReTeX" */ = {
+		BB84DD2D1CA02482001D8A0B /* Build configuration list for PBXProject "ReTeX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BBC6770C1C98392700F09B13 /* Debug */,
-				BBC6770D1C98392700F09B13 /* Release */,
+				BB84DD391CA02482001D8A0B /* Debug */,
+				BB84DD3A1CA02482001D8A0B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BBC6770E1C98392700F09B13 /* Build configuration list for PBXNativeTarget "ReTeX" */ = {
+		BB84DD3B1CA02482001D8A0B /* Build configuration list for PBXNativeTarget "ReTeX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BBC6770F1C98392700F09B13 /* Debug */,
-				BBC677101C98392700F09B13 /* Release */,
+				BB84DD3C1CA02482001D8A0B /* Debug */,
+				BB84DD3D1CA02482001D8A0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BBD1D6D81CA140990084AA03 /* Build configuration list for PBXNativeTarget "ReTeXResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBD1D6D61CA140990084AA03 /* Debug */,
+				BBD1D6D71CA140990084AA03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = BBC676FD1C98392700F09B13 /* Project object */;
+	rootObject = BB84DD2A1CA02482001D8A0B /* Project object */;
 }

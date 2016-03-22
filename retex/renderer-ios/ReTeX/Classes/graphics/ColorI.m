@@ -41,8 +41,8 @@
     jint color = 0;
 
     for (int i = 0; i < CGColorGetNumberOfComponents(_color); i++) {
-        NSUInteger component = (NSUInteger) (components[i] * 255 + 0.5);
-        color = color << 8 | component;
+        int component = (int) (components[i] * 255 + 0.5);
+        color = (color << 8) | component;
     }
     return color;
 }
