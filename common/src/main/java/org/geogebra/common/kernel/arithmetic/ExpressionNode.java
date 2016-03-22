@@ -74,7 +74,6 @@ public class ExpressionNode extends ValidExpression implements
 	private boolean brackets;
 	private ExpressionValue resolve;
 
-	private ArrayList<ExpressionNode> factors = new ArrayList<ExpressionNode>();
 
 	// used by NDerivative command
 	// (answer not displayed in Algebra View)
@@ -829,7 +828,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		switch (operation) {
 		case XCOORD:
-			if (xVar != null) {
+			if (xVar != null && !left.evaluatesToNDVector()) {
 				undecided.add(this);
 				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
@@ -838,7 +837,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case YCOORD:
-			if (yVar != null) {
+			if (yVar != null && !left.evaluatesToNDVector()) {
 				undecided.add(this);
 				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
@@ -847,7 +846,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case ZCOORD:
-			if (zVar != null) {
+			if (zVar != null && !left.evaluatesToNDVector()) {
 				undecided.add(this);
 				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
@@ -6236,15 +6235,8 @@ kernel, left,
 		return isSecret != null;
 	}
 
-	/**
-	 * @return list of factors
-	 */
-	public ArrayList<ExpressionNode> getFactors() {
-		return this.factors;
-	}
-
 	// collect factors of expression recursively
-	private void collectFactors() {
+	private void collectFactors(ArrayList<ExpressionNode> factors) {
 		ExpressionNode copy = this.deepCopy(kernel);
 		boolean rightProcessed = false;
 		boolean leftProcessed = false;
@@ -6263,12 +6255,10 @@ kernel, left,
 			rightProcessed = true;
 		}
 		if (leftSide != null && !leftProcessed) {
-			leftSide.collectFactors();
-			factors.addAll(leftSide.getFactors());
+			leftSide.collectFactors(factors);
 		}
 		if (rightSide != null && !rightProcessed) {
-			rightSide.collectFactors();
-			factors.addAll(rightSide.getFactors());
+			rightSide.collectFactors(factors);
 		}
 		return;
 	}
@@ -6277,8 +6267,8 @@ kernel, left,
 	 * @return list of factors without power
 	 */
 	public ArrayList<ExpressionNode> getFactorsWithoutPow() {
-		this.getFactors().clear();
-		collectFactors();
+		ArrayList<ExpressionNode> factors = new ArrayList<ExpressionNode>();
+		collectFactors(factors);
 		ArrayList<ExpressionNode> factorsWithoutPow = new ArrayList<ExpressionNode>(
 				factors.size());
 		if (!factors.isEmpty()) {

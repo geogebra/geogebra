@@ -269,6 +269,11 @@ public class Equation extends ValidExpression {
 		// simplify the both sides to single polynomials
 		this.isPolynomial = true;
 		this.variableDegrees = null;
+		FunctionVariable xVar = new FunctionVariable(kernel, "x"),
+				yVar = new FunctionVariable(kernel, "y"),
+				zVar = new FunctionVariable(kernel, "z");
+		fixStructure(lhs, xVar, yVar, zVar);
+		fixStructure(rhs, xVar, yVar, zVar);
 		leftPoly = Polynomial.fromNode(lhs, this);
 		rightPoly = Polynomial.fromNode(rhs, this);
 
@@ -277,6 +282,19 @@ public class Equation extends ValidExpression {
 		normalForm.multiply(-1.0d);
 		normalForm.add(leftPoly, this);
 	}
+
+	private static void fixStructure(ExpressionNode expression,
+			FunctionVariable xVar,
+			FunctionVariable yVar, FunctionVariable zVar) {
+		// try to replace x(x+1) by x*(x+1)
+		undecided.clear();
+		expression.replaceXYZnodes(xVar, yVar, zVar, undecided);
+		for (ExpressionNode en : undecided)
+			en.setOperation(Operation.MULTIPLY);
+		undecided.clear();
+	}
+
+	private static ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode>();
 
 	/**
 	 * @param isFunctionDependent
