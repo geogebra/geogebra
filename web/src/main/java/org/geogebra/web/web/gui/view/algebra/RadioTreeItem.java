@@ -1184,6 +1184,21 @@ public class RadioTreeItem extends AVTreeItem
 
 	protected void doUpdate() {
 		updateCheckbox();
+		updateTextItems();
+
+		if (marblePanel != null) {
+			marblePanel.update();
+		}
+
+		if (animPanel != null) {
+			animPanel.update();
+
+		}
+
+		updateNumerics();
+	}
+
+	private void updateTextItems() {
 
 		// check for new LaTeX
 		setNeedsUpdate(false);
@@ -1205,15 +1220,12 @@ public class RadioTreeItem extends AVTreeItem
 
 				if ((text != null) && text.length() < 1500
 						&& geo.isLaTeXDrawableGeo() && geo.isDefined()) {
-					Log.debug(REFX + "text is " + text);
 					newLaTeX = true;
 				}
 			} else {
 				newLaTeX = true;
 			}
 
-			Log.debug(REFX + "LaTeX is " + LaTeX);
-			Log.debug(REFX + "newLaTeX is " + newLaTeX);
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (LaTeX && newLaTeX) {
 				if (isInputTreeItem()) {
@@ -1225,7 +1237,6 @@ public class RadioTreeItem extends AVTreeItem
 
 			} else if (newLaTeX) {
 
-				Log.debug(REFX + "only newLaTeX is true");
 				renderLatex(text, getPlainTextItem(), isInputTreeItem());
 				LaTeX = true;
 			}
@@ -1255,18 +1266,7 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		}
 
-		if (marblePanel != null) {
-			marblePanel.update();
-		}
-
-		if (animPanel != null) {
-			animPanel.update();
-
-		}
-
-		updateNumerics();
 	}
-
 	private void updateNumerics() {
 		if (!(geo instanceof GeoNumeric
 				&& (slider != null && sliderPanel != null) || sliderNeeded())) {
