@@ -131,7 +131,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 
 	}
 	private AutoCompleteTextFieldW tfCaption;
-	private Button btApply, btCancel;
+	private Button btOK, btCancel;
 	private PushButton btnRemove;
 	private FlowPanel optionPane, btPanel;
 	private GeoListBox gbObjects;
@@ -234,11 +234,11 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 			}
 		});
 		// buttons
-		btApply = new Button(loc.getPlain("Apply"));
-		btApply.addClickHandler(new ClickHandler() {
+		btOK = new Button(loc.getPlain("OK"));
+		btOK.addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
-				actionPerformed(btApply);
+				actionPerformed(btOK);
 			}
 		});
 		
@@ -254,8 +254,9 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		btPanel = new FlowPanel();
 		btPanel.setStyleName("DialogButtonPanel");
 
+		btPanel.add(btOK);
 		btPanel.add(btCancel);
-		btPanel.add(btApply);
+
 
 		// Create the JOptionPane.
 		optionPane = new FlowPanel();
@@ -273,7 +274,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 	public void actionPerformed(Object src) {
 		if (src == btCancel) {
 			hide();
-		} else if (src == btApply) {
+		} else if (src == btOK) {
 			apply();
 			hide();
 		}

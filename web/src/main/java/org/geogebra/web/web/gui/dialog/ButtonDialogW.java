@@ -147,8 +147,8 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 		btCancel.addClickHandler(this);
 		btCancel.addStyleName("cancelBtn");
 		btPanel = new FlowPanel();
-		btPanel.add(btCancel);
 		btPanel.add(btOK);
+		btPanel.add(btCancel);
 		btPanel.addStyleName("DialogButtonPanel");
 			
 		optionPane = new FlowPanel();
