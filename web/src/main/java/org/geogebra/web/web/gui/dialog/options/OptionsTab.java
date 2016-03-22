@@ -225,6 +225,7 @@ class OptionsTab extends FlowPanel {
 			CheckboxPanel ret = new CheckboxPanel("Symbolic",
 					app.getLocalization());
 			ret.setModel(m);
+			((SymbolicModel) m).setListener(ret);
 			return ret;
 		}
 		if(m instanceof InterpolateImageModel){
@@ -253,8 +254,8 @@ class OptionsTab extends FlowPanel {
 			return new CornerPointsPanel((CornerPointsModel) m, app);
 		}
 		if (m instanceof AbsoluteScreenLocationModel) {
-			return new AbsoluteScreenLocationPanel(
-					(AbsoluteScreenLocationModel) m, app);
+			return new CheckboxPanel("AbsoluteScreenLocation",
+					app.getLocalization(), (AbsoluteScreenLocationModel) m);
 		}
 		if (m instanceof CoordsModel) {
 			return new CoordsPanel((CoordsModel) m, app);
@@ -1318,15 +1319,7 @@ class OptionsTab extends FlowPanel {
 		}
 	}
 
-	private class AbsoluteScreenLocationPanel extends CheckboxPanel {
-		public AbsoluteScreenLocationPanel(AbsoluteScreenLocationModel model,
-				App app) {
-			super("AbsoluteScreenLocation", app.getLocalization());
-			model.setListener(this);
-			setModel(model);
-		}
 
-	}
 
 	private class StartPointPanel extends ComboBoxPanel {
 

@@ -15,6 +15,12 @@ public class CheckboxPanel extends OptionPanel implements
 	private final String titleId;
 	private Localization loc;
 
+	public CheckboxPanel(final String title, Localization loc,
+			BooleanOptionModel m) {
+		this(title, loc);
+		setModel(m);
+		m.setListener(this);
+	}
 	public CheckboxPanel(final String title, Localization loc) {
 		this.loc = loc;
 		checkbox = new CheckBox();

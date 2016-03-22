@@ -106,7 +106,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private TracePanel tracePanel;
 	private LabelPanel labelPanel;
 	private FixPanel fixPanel;
-	private AuxPanel auxPanel;
+	private CheckboxPanel auxPanel;
 	private AnimatingPanel animatingPanel;
 	private BackgroundImagePanel bgImagePanel;
 	private ReflexAnglePanel reflexAnglePanel;
@@ -114,7 +114,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private ListAsComboPanel listAsComboPanel;
 	private ShowTrimmedIntersectionLinesPanel trimmedIntersectionLinesPanel;
 	private AllowOutlyingIntersectionsPanel allowOutlyingIntersectionsPanel;
-	private FixCheckboxPanel fixCheckboxPanel;
+	private CheckboxPanel fixCheckboxPanel;
 	//Color picker
 
 	// Style
@@ -272,15 +272,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			super("FixObject", loc);
 			setModel(new FixObjectModel(this));
 		}
-	}
-
-	private class AuxPanel extends CheckboxPanel {
-
-		public AuxPanel() {
-			super("AuxiliaryObject", loc);
-			setModel(new AuxObjectModel(this));
-		}
-
 	}
 
 	private class ShowConditionPanel extends OptionPanel implements	IShowConditionListener {
@@ -811,14 +802,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	}
 
-	private class FixCheckboxPanel extends CheckboxPanel {
 
-		public FixCheckboxPanel() {
-			super("FixCheckbox", loc);
-			setModel(new FixCheckboxModel(this));
-		}
-
-	}
 
 
 	private class ColorFunctionPanel extends OptionPanel implements IColorFunctionListener {
@@ -1360,7 +1344,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		fixPanel = new FixPanel();
 		checkboxPanel.add(fixPanel.getWidget());
 
-		auxPanel = new AuxPanel();
+		auxPanel = new CheckboxPanel("AuxiliaryObject", loc,
+				new AuxObjectModel(null));
 		checkboxPanel.add(auxPanel.getWidget());
 
 		if (!isDefaults) {
@@ -1382,7 +1367,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		allowOutlyingIntersectionsPanel = new AllowOutlyingIntersectionsPanel();
 		basicTab.add(allowOutlyingIntersectionsPanel.getWidget());
 
-		fixCheckboxPanel = new FixCheckboxPanel();
+		fixCheckboxPanel = new CheckboxPanel("FixCheckbox", loc,
+				new FixCheckboxModel(null));
 		basicTab.add(fixCheckboxPanel.getWidget());
 
 		basicTab.addPanelList(Arrays.asList(namePanel, showObjectPanel,

@@ -60,14 +60,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	private boolean widthUnit = false;
 
-	private ExtendedAVPanel avPanel;
+	private CheckboxPanel avPanel;
 
-	private class ExtendedAVPanel extends CheckboxPanel {
-		public ExtendedAVPanel() {
-			super("ShowSliderInAlgebraView", app.getLocalization());
-			setModel(new ExtendedAVModel(this));
-		}
-	}
+	
 
 	public SliderPanelW(AppW app,
 			boolean useTabbedPane, boolean includeRandom) {
@@ -88,7 +83,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		animationPanel = new FlowPanel();
 
 		if (app.has(Feature.AV_EXTENSIONS)) {
-			avPanel = new ExtendedAVPanel();
+			avPanel = new CheckboxPanel("ShowSliderInAlgebraView",
+					app.getLocalization(), new ExtendedAVModel(null));
 		}
 
 		cbSliderFixed = new CheckBox();
