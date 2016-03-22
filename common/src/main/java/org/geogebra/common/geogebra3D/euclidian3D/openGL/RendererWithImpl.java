@@ -712,4 +712,9 @@ public abstract class RendererWithImpl extends Renderer implements
 
 		return bytes;
 	}
+
+	@Override
+	protected void enableNormalNormalized() {
+		// only need for non-shader renderers
+	}
 }

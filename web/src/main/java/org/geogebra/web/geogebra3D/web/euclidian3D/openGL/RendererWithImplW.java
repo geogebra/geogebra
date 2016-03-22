@@ -205,11 +205,6 @@ public class RendererWithImplW extends RendererWithImpl implements
 				WebGLRenderingContext.ONE_MINUS_SRC_ALPHA);
 	}
 
-	@Override
-	protected void enableNormalNormalized() {
-		// no need
-
-	}
 
 	@Override
 	public void enableTextures2D() {
