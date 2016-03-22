@@ -47,7 +47,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -142,6 +141,8 @@ public class RadioTreeItem extends AVTreeItem
 		MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
 		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
 		EquationEditorListener, RequiresResize {
+
+	private static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
 	private static final String REFX = "[AVR]";
 
@@ -493,7 +494,7 @@ public class RadioTreeItem extends AVTreeItem
 	Kernel kernel;
 	protected AppW app;
 	protected AlgebraView av;
-	private boolean LaTeX = false;
+	private boolean latex = false;
 	private boolean thisIsEdited = false;
 
 	protected FlowPanel latexItem;
@@ -709,7 +710,7 @@ public class RadioTreeItem extends AVTreeItem
 		buildPlainTextItem();
 		// if enabled, render with LaTeX
 
-		if (checkLatex()) {
+		if (getLatexString(true, null) != null) {
 			setNeedsUpdate(true);
 			av.repaintView();
 
@@ -744,21 +745,23 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
-	private boolean checkLatex() {
+	private String getLatexString(boolean mathquill, Integer limit) {
 		if (!av.isRenderLaTeX()
 				|| (kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
 						&& !isDefinitionAndValue())
 				|| !geo.isDefined() || !geo.isLaTeXDrawableGeo()) {
-			return false;
+			return null;
 		}
 
-		String latexStr = geo.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplateMQ);
-		if ((latexStr != null)) {
-			return true;
+		String text = geo.getLaTeXAlgebraDescription(true,
+				mathquill ? StringTemplate.latexTemplateMQ
+						: StringTemplate.latexTemplate);
+
+		if ((text != null) && (limit == null || (text.length() < limit))) {
+			return text;
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
@@ -1211,57 +1214,48 @@ public class RadioTreeItem extends AVTreeItem
 
 		// check for new LaTeX
 		setNeedsUpdate(false);
-		boolean newLaTeX = false;
+		boolean latexAfterEdit = false;
 
 		if (av.isRenderLaTeX()
 				&& (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
 						|| isDefinitionAndValue())) {
 			String text = "";
-			Log.debug(REFX + "newCreationMode is " + isInputTreeItem());
 			if (geo != null) {
-				if (!isInputTreeItem()) {
-					text = geo.getLaTeXAlgebraDescription(true,
-							StringTemplate.latexTemplate);
-				} else {
-					text = geo.getLaTeXAlgebraDescription(true,
-							StringTemplate.latexTemplateMQ);
-				}
-
-				if ((text != null) && text.length() < 1500
-						&& geo.isLaTeXDrawableGeo() && geo.isDefined()) {
-					newLaTeX = true;
-				}
+				text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+				latexAfterEdit = (text != null);
 			} else {
-				newLaTeX = true;
+				latexAfterEdit = true;
 			}
 
-			// now we have text and how to display it (newLaTeX/LaTeX)
-			if (LaTeX && newLaTeX) {
+			if (latex && latexAfterEdit) {
+				// Both original and edited text is LaTeX
 				if (isInputTreeItem()) {
 					text = geo.getLaTeXAlgebraDescription(true,
 							StringTemplate.latexTemplateMQ);
-					// or false? well, in theory, it should not matter
 				}
 				updateLaTeX(text);
 
-			} else if (newLaTeX) {
-
+			} else if (latexAfterEdit) {
+				// Edited text is latex now, but the original is not.
 				renderLatex(text, getPlainTextItem(), isInputTreeItem());
-				LaTeX = true;
+				latex = true;
 			}
 
 		} else if (geo == null) {
 			return;
 		}
-		// check for new text
-		if (!newLaTeX) {
+		// edited text is plain
+		if (!latexAfterEdit) {
 
 			buildPlainTextItem();
-			// now we have text and how to display it (newLaTeX/LaTeX)
-			if (!LaTeX) {
+			if (!latex) {
+				// original text was plain
+
 				updateColor(getPlainTextItem());
 				updateFont(getPlainTextItem());
 			} else {
+				// original text was latex.
+
 				updateColor(getPlainTextItem());
 				if (!isInputTreeItem() && c != null) {
 					ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
@@ -1271,7 +1265,7 @@ public class RadioTreeItem extends AVTreeItem
 							latexItem.getElement());
 				}
 
-				LaTeX = false;
+				latex = false;
 			}
 		}
 
@@ -1412,7 +1406,7 @@ public class RadioTreeItem extends AVTreeItem
 				this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 						latexItem.getElement());
 			}
-			if (!this.isInputTreeItem() && !LaTeX && getPlainTextItem() != null
+			if (!this.isInputTreeItem() && !latex && getPlainTextItem() != null
  && ihtml
 .getElement()
 							.isOrHasChild(latexItem.getElement())) {
@@ -1459,7 +1453,7 @@ public class RadioTreeItem extends AVTreeItem
 				}
 			});
 		} else {
-			Element old = LaTeX ? (c != null ? c.getCanvasElement()
+			Element old = latex ? (c != null ? c.getCanvasElement()
 							: latexItem.getElement())
 					: getPlainTextItem().getElement();
 			String text = null;
@@ -1570,7 +1564,7 @@ public class RadioTreeItem extends AVTreeItem
 			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 					latexItem.getElement());
 		}
-		if (!LaTeX && !this.isInputTreeItem() && getPlainTextItem() != null
+		if (!latex && !this.isInputTreeItem() && getPlainTextItem() != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
 			this.ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
 					latexItem.getElement());
