@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -773,7 +774,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	@Override
 	public void refreshCASResults() {
 		if (!evaluateNumerically) {
-			AlgoIntegral algoInt = new AlgoIntegral(cons, f, null, false);
+			AlgoIntegral algoInt = new AlgoIntegral(cons, f, null, false,
+					new EvalInfo(false));
 			symbIntegral = (GeoFunction) algoInt.getResult();
 			cons.removeFromConstructionList(algoInt);
 			// make sure algo is removed properly

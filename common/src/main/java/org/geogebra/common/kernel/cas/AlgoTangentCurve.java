@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.algos.TangentAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -105,7 +106,7 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		tangent.setStartPoint(T);
 
 		// First derivative of curve f
-		algo = new AlgoDerivative(cons, f, true);
+		algo = new AlgoDerivative(cons, f, true, new EvalInfo(false));
 		this.df = (GeoCurveCartesian) algo.getResult();
 		cons.removeFromConstructionList(algo);
 	}

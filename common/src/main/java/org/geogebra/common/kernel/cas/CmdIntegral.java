@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -39,7 +40,7 @@ public class CmdIntegral extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		if (c.getArgumentNumber() < 3 && app.isExam()
 				&& !app.getExam().isCASAllowed()) {
 			throw new MyError(kernelA.getLocalization(), "UnknownCommand");
@@ -53,7 +54,8 @@ public class CmdIntegral extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoFunctionable()) {
 				GeoElement[] ret = { Integral(c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(), null) };
+						((GeoFunctionable) arg[0]).getGeoFunction(), null,
+						info) };
 				return ret;
 			}
 			throw argErr(app, internalCommandName, arg[0]);
@@ -65,7 +67,7 @@ public class CmdIntegral extends CommandProcessor {
 					&& (ok[1] = arg[1].isGeoNumeric())) {
 				GeoElement[] ret = { Integral(c.getLabel(),
 						(CasEvaluableFunction) arg[0], // function
-						(GeoNumeric) arg[1]) }; // var
+						(GeoNumeric) arg[1], info) }; // var
 				return ret;
 			}
 			throw argErr(app, internalCommandName, getBadArg(ok, arg));
@@ -161,8 +163,8 @@ public class CmdIntegral extends CommandProcessor {
 	 * @return integral of given function wrt given variable
 	 */
 	final public GeoElement Integral(String label, CasEvaluableFunction f,
-			GeoNumeric var) {
-		AlgoIntegral algo = new AlgoIntegral(cons, label, f, var);
+			GeoNumeric var, EvalInfo info) {
+		AlgoIntegral algo = new AlgoIntegral(cons, label, f, var, info);
 		return algo.getResult();
 	}
 }

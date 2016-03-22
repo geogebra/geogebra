@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -65,13 +66,14 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	}
 
 	private void cas() {
+		EvalInfo info = new EvalInfo(false);
 		// First derivative of curve f
-		algoCAS = new AlgoDerivative(cons, f, true);
+		algoCAS = new AlgoDerivative(cons, f, true, info);
 		cons.removeFromConstructionList(algoCAS);
 		this.f1 = (GeoCurveCartesian) algoCAS.getResult();
 
 		// Second derivative of curve f
-		algoCAS2 = new AlgoDerivative(cons, f1, true);
+		algoCAS2 = new AlgoDerivative(cons, f1, true, info);
 		cons.removeFromConstructionList(algoCAS2);
 		this.f2 = (GeoCurveCartesian) algoCAS2.getResult();
 	}

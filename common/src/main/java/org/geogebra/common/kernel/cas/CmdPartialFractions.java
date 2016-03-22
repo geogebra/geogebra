@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.cas;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
@@ -23,7 +24,7 @@ public class CmdPartialFractions extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
@@ -33,7 +34,7 @@ public class CmdPartialFractions extends CommandProcessor {
 			if (arg[0] instanceof CasEvaluableFunction) {
 
 				AlgoPartialFractions algo = new AlgoPartialFractions(cons,
-						c.getLabel(), (CasEvaluableFunction) arg[0]);
+						c.getLabel(), (CasEvaluableFunction) arg[0], info);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

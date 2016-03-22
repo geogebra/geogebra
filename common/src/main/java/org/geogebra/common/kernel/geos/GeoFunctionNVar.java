@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import java.util.TreeMap;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -1401,8 +1403,12 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		
 	}
 
-	public void printCASevalMapXML(StringBuilder sb) {
+	public void printCASEvalMapXML(StringBuilder sb) {
 		fun.printCASevalMapXML(sb);
+	}
+
+	public void updateCASEvalMap(TreeMap<String, String> map) {
+		fun.updateCASEvalMap(map);
 	}
 
 }

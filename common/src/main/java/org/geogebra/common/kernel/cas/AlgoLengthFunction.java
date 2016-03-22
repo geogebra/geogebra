@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -101,7 +102,7 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 	@Override
 	public void refreshCASResults() {
 		// First derivative of function f
-		algoCAS = new AlgoDerivative(cons, f);
+		algoCAS = new AlgoDerivative(cons, f, new EvalInfo(false));
 		GeoFunction f1 = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
 
 		// Integral of length function

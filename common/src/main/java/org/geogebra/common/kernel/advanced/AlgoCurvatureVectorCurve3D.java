@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -88,13 +89,14 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 
 
 	private void cas() {
+		EvalInfo info = new EvalInfo(false);
 		// First derivative of curve f
-		algoCAS = new AlgoDerivative(cons, f, true);
+		algoCAS = new AlgoDerivative(cons, f, true, info);
 		cons.removeFromConstructionList(algoCAS);
 		this.f1 = (GeoCurveCartesian3D) algoCAS.getResult();
 
 		// Second derivative of curve f
-		algoCAS2 = new AlgoDerivative(cons, f1, true);
+		algoCAS2 = new AlgoDerivative(cons, f1, true, info);
 		cons.removeFromConstructionList(algoCAS2);
 		this.f2 = (GeoCurveCartesian3D) algoCAS2.getResult();
 	}

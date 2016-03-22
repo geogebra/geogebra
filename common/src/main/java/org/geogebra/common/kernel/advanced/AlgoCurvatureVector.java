@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -49,14 +50,14 @@ public class AlgoCurvatureVector extends AlgoElement {
 			v.setStartPoint(A);
 		} catch (CircularDefinitionException e) {
 		}
-
+		EvalInfo info = new EvalInfo(false);
 		// First derivative of function f
-		algoCAS = new AlgoDerivative(cons, f);
+		algoCAS = new AlgoDerivative(cons, f, info);
 		cons.removeFromConstructionList(algoCAS);
 		this.f1 = (GeoFunction) algoCAS.getResult();
 
 		// Second derivative of function f
-		algoCAS2 = new AlgoDerivative(cons, f1);
+		algoCAS2 = new AlgoDerivative(cons, f1, info);
 		cons.removeFromConstructionList(algoCAS2);
 		this.f2 = (GeoFunction) algoCAS2.getResult();
 

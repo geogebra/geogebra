@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoLengthFunction;
 import org.geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -797,14 +798,16 @@ public class FunctionInspectorModel {
 		pointTabGeoList.add(oscCircle);
 
 		// derivative
-		AlgoDerivative deriv = new AlgoDerivative(cons, f, true);
+		AlgoDerivative deriv = new AlgoDerivative(cons, f, true,
+				new EvalInfo(false));
 		cons.removeFromConstructionList(deriv);
 		derivative = (GeoFunction) deriv.getGeoElements()[0];
 		derivative.setEuclidianVisible(false);
 		hiddenGeoList.add(derivative);
 
 		// 2nd derivative
-		AlgoDerivative deriv2 = new AlgoDerivative(cons, derivative, true);
+		AlgoDerivative deriv2 = new AlgoDerivative(cons, derivative, true,
+				new EvalInfo(false));
 		cons.removeFromConstructionList(deriv2);
 		derivative2 = (GeoFunction) deriv2.getGeoElements()[0];
 		derivative2.setEuclidianVisible(false);

@@ -39,7 +39,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.locusequ.EquationScope;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * AlgoElement is the superclass of all algorithms.
@@ -1486,8 +1485,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		if (getInputLength() > 0
 				&& getInput(0) instanceof CasEvaluableFunction) {
 
-			((CasEvaluableFunction) getInput(0)).printCASevalMapXML(sb);
-			Log.error("CAS map included" + sb);
+			((CasEvaluableFunction) getInput(0)).printCASEvalMapXML(sb);
 		}
 		// add input information
 		if (input != null) {

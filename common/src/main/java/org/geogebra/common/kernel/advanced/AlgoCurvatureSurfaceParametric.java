@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -79,40 +80,40 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		v.setLocalVariableLabel(vars[1].getSetVarString());
 
 		MyDouble one = new MyDouble(kernel, 1);
-
-		algoCASeu = new AlgoDerivative(cons, e, u, one, false);
+		EvalInfo info = new EvalInfo(false);
+		algoCASeu = new AlgoDerivative(cons, e, u, one, false, info);
 		cons.removeFromConstructionList(algoCASeu);
 		this.eu = (GeoFunctionNVar) algoCASeu.getResult();
 
-		algoCASfu = new AlgoDerivative(cons, f, u, one, false);
+		algoCASfu = new AlgoDerivative(cons, f, u, one, false, info);
 		cons.removeFromConstructionList(algoCASfu);
 		this.fu = (GeoFunctionNVar) algoCASfu.getResult();
 
-		algoCASgu = new AlgoDerivative(cons, g, u, one, false);
+		algoCASgu = new AlgoDerivative(cons, g, u, one, false, info);
 		cons.removeFromConstructionList(algoCASgu);
 		this.gu = (GeoFunctionNVar) algoCASgu.getResult();
 
-		algoCASev = new AlgoDerivative(cons, e, v, one, false);
+		algoCASev = new AlgoDerivative(cons, e, v, one, false, info);
 		cons.removeFromConstructionList(algoCASev);
 		this.ev = (GeoFunctionNVar) algoCASev.getResult();
 
-		algoCASfv = new AlgoDerivative(cons, f, v, one, false);
+		algoCASfv = new AlgoDerivative(cons, f, v, one, false, info);
 		cons.removeFromConstructionList(algoCASfv);
 		this.fv = (GeoFunctionNVar) algoCASfv.getResult();
 
-		algoCASgv = new AlgoDerivative(cons, g, v, one, false);
+		algoCASgv = new AlgoDerivative(cons, g, v, one, false, info);
 		cons.removeFromConstructionList(algoCASgv);
 		this.gv = (GeoFunctionNVar) algoCASgv.getResult();
 
-		algoCASevv = new AlgoDerivative(cons, ev, v, one, false);
+		algoCASevv = new AlgoDerivative(cons, ev, v, one, false, info);
 		cons.removeFromConstructionList(algoCASevv);
 		this.evv = (GeoFunctionNVar) algoCASevv.getResult();
 
-		algoCASfuv = new AlgoDerivative(cons, fu, v, one, false);
+		algoCASfuv = new AlgoDerivative(cons, fu, v, one, false, info);
 		cons.removeFromConstructionList(algoCASfuv);
 		this.fuv = (GeoFunctionNVar) algoCASfuv.getResult();
 
-		algoCASguu = new AlgoDerivative(cons, gu, u, one, false);
+		algoCASguu = new AlgoDerivative(cons, gu, u, one, false, info);
 		cons.removeFromConstructionList(algoCASguu);
 		this.guu = (GeoFunctionNVar) algoCASguu.getResult();
 

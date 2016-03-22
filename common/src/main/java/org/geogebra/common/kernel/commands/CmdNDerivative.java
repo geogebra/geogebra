@@ -64,7 +64,8 @@ public class CmdNDerivative extends CommandProcessor {
 	 */
 	public GeoElement NDerivative(String label, CasEvaluableFunction f,
 			GeoNumeric var, NumberValue n) {
-		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n, true);
+		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n, true,
+				new EvalInfo(false));
 		return algo.getResult();
 	}
 

@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -54,8 +55,9 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            derivative order (may be null)
 	 */
 	public AlgoDerivative(Construction cons, String label,
-			CasEvaluableFunction f, GeoNumeric var, NumberValue order) {
-		this(cons, f, var, order, false);
+			CasEvaluableFunction f, GeoNumeric var, NumberValue order,
+			EvalInfo info) {
+		this(cons, f, var, order, false, info);
 		g.toGeoElement().setLabel(label);
 	}
 
@@ -75,8 +77,8 @@ public class AlgoDerivative extends AlgoCasBase {
 	 */
 	public AlgoDerivative(Construction cons, String label,
 			CasEvaluableFunction f, GeoNumeric var, NumberValue order,
-			boolean fast) {
-		this(cons, f, var, order, fast);
+			boolean fast, EvalInfo info) {
+		this(cons, f, var, order, fast, info);
 		g.toGeoElement().setLabel(label);
 	}
 
@@ -86,8 +88,9 @@ public class AlgoDerivative extends AlgoCasBase {
 	 * @param f
 	 *            function
 	 */
-	public AlgoDerivative(Construction cons, CasEvaluableFunction f) {
-		this(cons, f, null, null, false);
+	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
+			EvalInfo info) {
+		this(cons, f, null, null, false, info);
 	}
 
 	/**
@@ -103,8 +106,8 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            true to avoid CAS
 	 */
 	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
-			GeoNumeric var, NumberValue order, boolean fast) {
-		super(cons, f, fast ? Commands.NDerivative : Commands.Derivative);
+			GeoNumeric var, NumberValue order, boolean fast, EvalInfo info) {
+		super(cons, f, fast ? Commands.NDerivative : Commands.Derivative, info);
 		this.var = var;
 		this.order = order;
 		this.fast = fast;
@@ -122,8 +125,8 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            true to avoid CAS
 	 */
 	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
-			boolean fast) {
-		this(cons, f, null, null, fast);
+			boolean fast, EvalInfo info) {
+		this(cons, f, null, null, fast, info);
 	}
 
 	// for AlgoElement

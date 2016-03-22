@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import java.util.TreeMap;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Region;
@@ -1335,8 +1337,12 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return false;
 	}
 
-	public void printCASevalMapXML(StringBuilder sb) {
+	public void printCASEvalMapXML(StringBuilder sb) {
 		// fun.printCASevalMapXML(sb);
+	}
+
+	public void updateCASEvalMap(TreeMap<String, String> map) {
+		// TODO
 	}
 
 }

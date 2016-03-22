@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -3325,13 +3326,13 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_CONST_COMMAND:
 			if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
+				casMap = null;
 				constMode = MODE_CONSTRUCTION;
 			}
 			break;
 		case MODE_CAS_MAP:
 			if ("casMap".equals(eName)) {
 				constMode = MODE_CONST_COMMAND;
-				casMap = null;
 			}
 			break;
 		case MODE_CONST_CAS_CELL:
@@ -5540,9 +5541,9 @@ public class MyXMLHandler implements DocHandler {
 			// THUS: let's not process commands with no labels for their output
 			if (countLabels == 0)
 				return true;
-
 			// process the command
-			cmdOutput = kernel.getAlgebraProcessor().processCommand(cmd, true);
+			cmdOutput = kernel.getAlgebraProcessor().processCommand(cmd,
+					new EvalInfo(true, casMap));
 			cons.registerFunctionVariable(null);
 			String cmdName = cmd.getName();
 			if (cmdOutput == null) {

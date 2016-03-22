@@ -145,16 +145,17 @@ public abstract class CommandDispatcher {
 	 *             in case command execution fails
 	 * @return Geos created by the command
 	 */
-	final public GeoElement[] processCommand(Command c, boolean labelOutput)
+	final public GeoElement[] processCommand(Command c,
+			EvalInfo info)
 			throws MyError {
 
 		CommandProcessor cmdProc = getProcessor(c);
 
-		return process(cmdProc, c, labelOutput);
+		return process(cmdProc, c, info);
 	}
 
 	private GeoElement[] process(CommandProcessor cmdProc, Command c,
-			boolean labelOutput) {
+			EvalInfo info) {
 		if (cmdProc == null)
 			throw new MyError(app.getLocalization(), app.getLocalization()
 					.getError("UnknownCommand")
@@ -164,12 +165,13 @@ public abstract class CommandDispatcher {
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		if (!labelOutput)
+		if (info != null && !info.isLabelOutput()) {
 			cons.setSuppressLabelCreation(true);
+		}
 
 		GeoElement[] ret = null;
 		try {
-			ret = cmdProc.process(c);
+			ret = cmdProc.process(c, info);
 		} catch (MyError e) {
 			throw e;
 		} catch (Exception e) {
@@ -863,7 +865,7 @@ public abstract class CommandDispatcher {
 	 *            whether output needs label
 	 * @return command result
 	 */
-	public ExpressionValue simplifyCommand(Command c, boolean labelOutput) {
+	public ExpressionValue simplifyCommand(Command c, EvalInfo info) {
 		CommandProcessor cmdProc = getProcessor(c);
 		if (cmdProc != null) {
 			ExpressionValue simple = cmdProc.simplify(c);
@@ -871,6 +873,6 @@ public abstract class CommandDispatcher {
 				return simple;
 			}
 		}
-		return process(cmdProc, c, labelOutput)[0];
+		return process(cmdProc, c, info)[0];
 	}
 }

@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -120,7 +121,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements
 		} else {
 			// derivative of f
 			// use fast non-CAS derivative
-			algo = new AlgoDerivative(cons, f, true);
+			algo = new AlgoDerivative(cons, f, true, new EvalInfo(false));
 			deriv = (GeoFunction) algo.getResult();
 			cons.removeFromConstructionList(algo);
 		}

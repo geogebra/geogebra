@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -407,9 +408,9 @@ public class Command extends ValidExpression implements
 	/**
 	 * @return array of resulting geos
 	 */
-	public GeoElement[] evaluateMultiple() {
+	public GeoElement[] evaluateMultiple(EvalInfo info) {
 		GeoElement[] geos = null;
-		geos = kernel.getAlgebraProcessor().processCommand(this, false);
+		geos = kernel.getAlgebraProcessor().processCommand(this, info);
 		return geos;
 	}
 
@@ -417,7 +418,7 @@ public class Command extends ValidExpression implements
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		// not yet evaluated: process command
 		if (evalGeos == null) {
-			evalGeos = evaluateMultiple();
+			evalGeos = evaluateMultiple(new EvalInfo(false));
 		}
 		if (evalGeos != null && evalGeos.length >= 1) {
 			return evalGeos[0];
@@ -438,7 +439,7 @@ public class Command extends ValidExpression implements
 	public ExpressionValue simplify(StringTemplate tpl) {
 		// not yet evaluated: process command
 		ExpressionValue result = kernel.getAlgebraProcessor().simplifyCommand(
-				this, false);
+				this, new EvalInfo(false));
 		if (result instanceof GeoElement) {
 			evalGeos = new GeoElement[]{(GeoElement)result};
 		}
@@ -475,7 +476,7 @@ public class Command extends ValidExpression implements
 
 		// not yet evaluated: process command
 		if (evalGeos == null)
-			evalGeos = evaluateMultiple();
+			evalGeos = evaluateMultiple(new EvalInfo(false));
 
 		if (evalGeos == null || evalGeos.length == 0)
 			throw new MyError(app.getLocalization(), app.getLocalization()

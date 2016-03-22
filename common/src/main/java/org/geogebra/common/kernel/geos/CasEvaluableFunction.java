@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import java.util.TreeMap;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -64,5 +66,7 @@ public interface CasEvaluableFunction extends GeoElementND {
 	 */
 	public void replaceChildrenByValues(GeoElement var);
 
-	public void printCASevalMapXML(StringBuilder sb);
+	public void printCASEvalMapXML(StringBuilder sb);
+
+	public void updateCASEvalMap(TreeMap<String, String> casMap);
 }

@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
@@ -104,9 +105,9 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 			T = new GeoPoint3D(cons);
 		}
 		tangent.setStartPoint(T);
-
+		EvalInfo info = new EvalInfo(false);
 		// First derivative of curve f
-		algo = new AlgoDerivative(cons, f, true);
+		algo = new AlgoDerivative(cons, f, true, info);
 		this.df = (GeoCurveCartesian3D) algo.getResult();
 		cons.removeFromConstructionList(algo);
 	}

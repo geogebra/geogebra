@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -43,8 +44,8 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 	 *            input function
 	 */
 	protected AlgoCasBase(Construction cons, String label,
-			CasEvaluableFunction f, Commands cmd) {
-		this(cons, f, cmd);
+			CasEvaluableFunction f, Commands cmd, EvalInfo info) {
+		this(cons, f, cmd, info);
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -60,8 +61,9 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 	 *            input function
 	 */
 	protected AlgoCasBase(Construction cons, CasEvaluableFunction f,
-			Commands cmd) {
+			Commands cmd, EvalInfo info) {
 		super(cons);
+		f.updateCASEvalMap(info.getCASMap());
 		this.f = f;
 		this.cmd = cmd;
 		cons.addCASAlgo(this);

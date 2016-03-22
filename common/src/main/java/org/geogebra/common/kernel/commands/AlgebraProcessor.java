@@ -183,9 +183,10 @@ public class AlgebraProcessor {
 	 * @throws MyError
 	 *             e.g. on syntax error
 	 */
-	final public GeoElement[] processCommand(Command c, boolean labelOutput)
+	final public GeoElement[] processCommand(Command c,
+			EvalInfo info)
 			throws MyError {
-		return cmdDispatcher.processCommand(c, labelOutput);
+		return cmdDispatcher.processCommand(c, info);
 	}
 
 	/**
@@ -198,9 +199,9 @@ public class AlgebraProcessor {
 	 *             error
 	 */
 	final public ExpressionValue simplifyCommand(Command c,
-			boolean labelOutput)
+			EvalInfo info)
 			throws MyError {
-		return cmdDispatcher.simplifyCommand(c, labelOutput);
+		return cmdDispatcher.simplifyCommand(c, info);
 	}
 
 	/**
@@ -1642,7 +1643,7 @@ public class AlgebraProcessor {
 	 * @throws CircularDefinitionException
 	 *             if circular definition occurs
 	 */
-	public GeoElement[] doProcessValidExpression(final ValidExpression ve)
+	public final GeoElement[] doProcessValidExpression(final ValidExpression ve)
 			throws MyError, CircularDefinitionException {
 		GeoElement[] ret = null;
 
@@ -1664,7 +1665,8 @@ public class AlgebraProcessor {
 
 		// Command
 		else if (ve instanceof Command) {
-			ret = cmdDispatcher.processCommand((Command) ve, true);
+			ret = cmdDispatcher.processCommand((Command) ve,
+					new EvalInfo(true));
 		}
 
 		// Equation in x,y (linear or quadratic are valid): line or conic
@@ -2457,7 +2459,7 @@ public class AlgebraProcessor {
 			if (leaf instanceof Command) {
 				Command c = (Command) leaf;
 				c.setLabels(n.getLabels());
-				return cmdDispatcher.processCommand(c, true);
+				return cmdDispatcher.processCommand(c, new EvalInfo(true));
 			} else if (leaf instanceof Equation) {
 				Equation eqn = (Equation) leaf;
 				eqn.setLabels(n.getLabels());

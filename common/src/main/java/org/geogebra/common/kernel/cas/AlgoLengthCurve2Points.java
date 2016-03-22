@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.LengthCurve;
@@ -93,7 +94,7 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 	@Override
 	public void refreshCASResults() {
 		// First derivative of curve f
-		algoCAS = new AlgoDerivative(cons, c);
+		algoCAS = new AlgoDerivative(cons, c, new EvalInfo(false));
 		derivative = (GeoCurveCartesianND) ((AlgoDerivative) algoCAS)
 				.getResult();
 		cons.removeFromConstructionList(algoCAS);

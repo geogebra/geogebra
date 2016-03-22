@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -46,8 +47,8 @@ public class AlgoIntegral extends AlgoCasBase {
 	 *            variable
 	 */
 	public AlgoIntegral(Construction cons, String label,
-			CasEvaluableFunction f, GeoNumeric var) {
-		this(cons, f, var, true);
+			CasEvaluableFunction f, GeoNumeric var, EvalInfo info) {
+		this(cons, f, var, true, info);
 		g.toGeoElement().setLabel(label);
 	}
 
@@ -62,8 +63,8 @@ public class AlgoIntegral extends AlgoCasBase {
 	 *            whether arbitrary constants are allowed
 	 */
 	public AlgoIntegral(Construction cons, CasEvaluableFunction f,
-			GeoNumeric var, boolean allowConstant) {
-		super(cons, f, Commands.Integral);
+			GeoNumeric var, boolean allowConstant, EvalInfo info) {
+		super(cons, f, Commands.Integral, info);
 		this.var = var;
 		this.allowConstant = allowConstant;
 

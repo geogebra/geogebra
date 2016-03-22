@@ -165,7 +165,7 @@ public class CmdFunction extends CommandProcessor {
 						condFun = (GeoFunction) kernelA.getAlgebraProcessor()
 								.processCommand(
 										(Command) c.getArgument(0).unwrap(),
-										true)[0];
+										new EvalInfo(true))[0];
 					} else {
 						c.getArgument(0).resolveVariables();
 						condFun = (GeoFunction) kernelA.getAlgebraProcessor()

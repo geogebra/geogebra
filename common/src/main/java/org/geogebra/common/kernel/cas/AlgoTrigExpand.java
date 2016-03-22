@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -27,8 +28,8 @@ public class AlgoTrigExpand extends AlgoCasBase {
 	 *            target function (ie sin or cos)
 	 */
 	public AlgoTrigExpand(Construction cons, String label,
-			CasEvaluableFunction f, GeoFunction target) {
-		super(cons, f, Commands.TrigExpand);
+			CasEvaluableFunction f, GeoFunction target, EvalInfo info) {
+		super(cons, f, Commands.TrigExpand, info);
 		this.target = target;
 		setInputOutput();
 		compute();

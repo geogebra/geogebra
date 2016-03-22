@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 
 /**
@@ -35,8 +36,8 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase {
 	 *            function
 	 */
 	public AlgoCasBaseSingleArgument(Construction cons, String label,
-			CasEvaluableFunction f, Commands cmd) {
-		super(cons, label, f, cmd);
+			CasEvaluableFunction f, Commands cmd, EvalInfo info) {
+		super(cons, label, f, cmd, info);
 	}
 
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);

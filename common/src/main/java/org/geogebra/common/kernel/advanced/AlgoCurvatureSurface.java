@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -69,29 +70,29 @@ public class AlgoCurvatureSurface extends AlgoElement {
 		y.setLocalVariableLabel(vars[1].getSetVarString());
 
 		MyDouble one = new MyDouble(kernel, 1);
-
+		EvalInfo info = new EvalInfo(false);
 		// First derivative of function f
-		algoCASfx = new AlgoDerivative(cons, f, x, one, false);
+		algoCASfx = new AlgoDerivative(cons, f, x, one, false, info);
 		cons.removeFromConstructionList(algoCASfx);
 		this.fx = (GeoFunctionNVar) algoCASfx.getResult();
 
 		// Second derivative of function f
-		algoCASfxx = new AlgoDerivative(cons, fx, x, one, false);
+		algoCASfxx = new AlgoDerivative(cons, fx, x, one, false, info);
 		cons.removeFromConstructionList(algoCASfxx);
 		this.fxx = (GeoFunctionNVar) algoCASfxx.getResult();
 
 		// First derivative of function f
-		algoCASfy = new AlgoDerivative(cons, f, y, one, false);
+		algoCASfy = new AlgoDerivative(cons, f, y, one, false, info);
 		cons.removeFromConstructionList(algoCASfy);
 		this.fy = (GeoFunctionNVar) algoCASfy.getResult();
 
 		// Second derivative of function f
-		algoCASfyy = new AlgoDerivative(cons, fy, y, one, false);
+		algoCASfyy = new AlgoDerivative(cons, fy, y, one, false, info);
 		cons.removeFromConstructionList(algoCASfyy);
 		this.fyy = (GeoFunctionNVar) algoCASfyy.getResult();
 
 		// Second derivative of function f
-		algoCASfxy = new AlgoDerivative(cons, fx, y, one, false);
+		algoCASfxy = new AlgoDerivative(cons, fx, y, one, false, info);
 		cons.removeFromConstructionList(algoCASfxy);
 		this.fxy = (GeoFunctionNVar) algoCASfxy.getResult();
 

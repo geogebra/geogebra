@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.arithmetic;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Kernel;
@@ -25,13 +26,14 @@ import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Function of N variables that returns either a number or a boolean. This
@@ -505,7 +507,12 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 			// Derivative(g(x,y), x)
 			// where we cannot cache the derivative of g because g may have
 			// changed
-			useCaching = symbolic && !expression.containsCasEvaluableFunction();
+			if (kernel.getApplication().has(Feature.XML_CAS_CACHE)) {
+				useCaching = !expression.containsCasEvaluableFunction();
+			} else {
+				useCaching = symbolic
+						&& !expression.containsCasEvaluableFunction();
+			}
 		}
 
 		// build command string for CAS
@@ -523,12 +530,10 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 
 				resultFun = lookupCasEvalMap(casString);
 				if (resultFun != null) {
-					Log.error("lookup hit:" + casString);
 					// System.out.println("caching worked: " + casString +
 					// " -> " + resultFun);
 					return resultFun;
 				}
-				Log.error("lookup miss:" + casString);
 			}
 			// evaluate expression by CAS
 			String result = symbolic ? kernel.evaluateGeoGebraCAS(casString,
@@ -577,7 +582,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	private ExpressionNode casEvalExpression;
 	private String casEvalStringSymbolic;
 
-	private MaxSizeHashMap<String, FunctionNVar> getCasEvalMap() {
+	protected MaxSizeHashMap<String, FunctionNVar> getCasEvalMap() {
 		if (casEvalMap == null) {
 			casEvalMap = new MaxSizeHashMap<String, FunctionNVar>(
 					MAX_CAS_EVAL_MAP_SIZE);
@@ -1124,6 +1129,21 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	@Override
 	public ValueType getValueType() {
 		return ValueType.FUNCTION;
+	}
+
+	public void updateCASEvalMap(TreeMap<String, String> map) {
+		if (map == null
+				|| !kernel.getApplication().has(Feature.XML_CAS_CACHE)) {
+			return;
+		}
+
+		for(Entry<String,String> entry: map.entrySet()){
+			GeoFunctionNVar gfun = kernel.getAlgebraProcessor()
+					.evaluateToFunctionNVar(entry.getValue(), true);
+			if (gfun != null) {
+				getCasEvalMap().put(entry.getKey(), gfun.getFunction());
+			}
+		}
 	}
 
 }

@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.kernelND;
 
+import java.util.TreeMap;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.DistanceFunction;
 import org.geogebra.common.kernel.Path;
@@ -315,10 +317,14 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		}		
 	}
 
-	public void printCASevalMapXML(StringBuilder sb) {
+	public void printCASEvalMapXML(StringBuilder sb) {
 		for (int k = 0; k < getDimension(); k++) {
 			// getFun(k).printCasEvalMap(sb);
 		}
+	}
+
+	public void updateCASEvalMap(TreeMap<String, String> map) {
+		// TODO
 	}
 
 	protected void setFun(int i, Function f) {

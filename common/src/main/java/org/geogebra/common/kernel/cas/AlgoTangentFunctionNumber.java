@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.TangentAlgo;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -69,7 +70,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement implements
 
 		// derivative of f
 		// now uses special non-CAS version of algo
-		algo = new AlgoDerivative(cons, f, true);
+		algo = new AlgoDerivative(cons, f, true, new EvalInfo(false));
 		deriv = (GeoFunction) algo.getResult();
 		cons.removeFromConstructionList(algo);
 

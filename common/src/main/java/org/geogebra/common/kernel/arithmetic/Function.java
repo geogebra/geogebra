@@ -14,6 +14,8 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -23,6 +25,7 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.roots.RealRootDerivFunction;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -1217,6 +1220,22 @@ public class Function extends FunctionNVar implements
 	 */
 	public void setSecret(AlgoElement algo) {
 		getExpression().setSecret(algo);
+	}
+
+	@Override
+	public void updateCASEvalMap(TreeMap<String, String> map) {
+		if (map == null
+				|| !kernel.getApplication().has(Feature.XML_CAS_CACHE)) {
+			return;
+		}
+
+		for (Entry<String, String> entry : map.entrySet()) {
+			GeoFunction gfun = kernel.getAlgebraProcessor()
+					.evaluateToFunction(entry.getValue(), true);
+			if (gfun != null) {
+				getCasEvalMap().put(entry.getKey(), gfun.getFunction());
+			}
+		}
 	}
 
 }

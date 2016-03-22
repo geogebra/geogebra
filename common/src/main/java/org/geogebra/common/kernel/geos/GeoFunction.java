@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
@@ -2963,8 +2964,12 @@ CasEvaluableFunction, ParametricCurve,
 		getFunction().setSecret(algo);
 	}
 
-	public void printCASevalMapXML(StringBuilder sb) {
+	public void printCASEvalMapXML(StringBuilder sb) {
 		fun.printCASevalMapXML(sb);
+	}
+
+	public void updateCASEvalMap(TreeMap<String, String> map) {
+		fun.updateCASEvalMap(map);
 	}
 
 }

@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
@@ -27,7 +28,7 @@ public class CmdSimplify extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
@@ -38,14 +39,14 @@ public class CmdSimplify extends CommandProcessor {
 
 				algo = new AlgoCasBaseSingleArgument(
 						cons, c.getLabel(), (CasEvaluableFunction) arg[0],
-						Commands.Simplify);
+						Commands.Simplify, info);
 
 
 			} else if (arg[0] instanceof GeoFunctionable) {
 				algo = new AlgoCasBaseSingleArgument(
 						cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						Commands.Simplify);
+						Commands.Simplify, info);
 
 
 			} else if ((arg[0].isGeoText())) {

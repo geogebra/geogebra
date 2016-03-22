@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -25,7 +26,7 @@ public class CmdTrigCombine extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError,
 			CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
@@ -36,7 +37,7 @@ public class CmdTrigCombine extends CommandProcessor {
 			if ((arg[0].isCasEvaluableObject())) {
 				AlgoTrigCombine algo = new AlgoTrigCombine(
 						kernelA.getConstruction(), c.getLabel(),
-						(CasEvaluableFunction) arg[0], null);
+						(CasEvaluableFunction) arg[0], null, info);
 				return new GeoElement[] { algo.getResult() };
 			}
 		case 2:
@@ -44,7 +45,8 @@ public class CmdTrigCombine extends CommandProcessor {
 					&& (arg[1] instanceof GeoFunction)) {
 				AlgoTrigCombine algo = new AlgoTrigCombine(
 						kernelA.getConstruction(), c.getLabel(),
-						(CasEvaluableFunction) arg[0], (GeoFunction) arg[1]);
+						(CasEvaluableFunction) arg[0], (GeoFunction) arg[1],
+						info);
 				return new GeoElement[] { algo.getResult() };
 			}
 			throw argErr(app, c.getName(), arg[0]);
