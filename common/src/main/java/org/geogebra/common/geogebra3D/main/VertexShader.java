@@ -114,20 +114,20 @@ public class VertexShader {
 	final public static String getVertexShaderShiny(boolean isHTML5) {
 
 		if (isHTML5) {
-			return vertexHeaderDesktop + shiny;
+			return shiny;
 		}
 
-		return shiny;
+		return vertexHeaderDesktop + shiny;
 
 	}
 
 	final public static String getVertexShader(boolean isHTML5) {
 
 		if (isHTML5) {
-			return vertexHeaderDesktop + regular;
+			return regular;
 		}
 
-		return regular;
+		return vertexHeaderDesktop + regular;
 
 	}
 
