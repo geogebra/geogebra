@@ -3865,7 +3865,7 @@ public class Kernel {
 	public void restoreStateForInitNewMode() {
 		if (app.has(Feature.UNDO_FOR_TOOLS)
 				&& app.has(Feature.UNDO_WHEN_CHANGE_TOOL)) {
-			if (geoToggled) {
+			if (undoActive && geoToggled) {
 				restoreStateForModeStarting();
 			}
 		}

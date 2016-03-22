@@ -11,6 +11,13 @@ the Free Software Foundation.
  */
 package org.geogebra.common.euclidian;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -29,11 +36,11 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -115,13 +122,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.TreeSet;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -10215,7 +10215,9 @@ public abstract class EuclidianController {
 				kernel.restoreStateForInitNewMode();
 			}
 
-			kernel.storeStateForModeStarting();
+			if (kernel.isUndoActive()) {
+				kernel.storeStateForModeStarting();
+			}
 		}
 	}
 
