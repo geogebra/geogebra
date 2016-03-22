@@ -1280,7 +1280,7 @@ public class RadioTreeItem extends AVTreeItem
 			styleContentPanel(true);
 			getElement().setDraggable(Element.DRAGGABLE_FALSE);
 		} else {
-			slider.setScale(app.getArticleElement().getDataParamScale());
+			slider.setScale(app.getArticleElement().getScaleX());
 		}
 
 		boolean hasMinMax = false;

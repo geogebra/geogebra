@@ -38,7 +38,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		add(minLabel);
 		slider = new SliderWJquery(min, max);
 		slider.setScale(((AppW) kernel.getApplication()).getArticleElement()
-				.getDataParamScale());
+				.getScaleX());
 		add(slider);
 		maxLabel = new Label();
 		setMinimum(min, degrees);
