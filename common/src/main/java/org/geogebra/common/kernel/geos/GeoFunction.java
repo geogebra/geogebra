@@ -2963,4 +2963,8 @@ CasEvaluableFunction, ParametricCurve,
 		getFunction().setSecret(algo);
 	}
 
+	public void printCASevalMapXML(StringBuilder sb) {
+		fun.printCASevalMapXML(sb);
+	}
+
 }

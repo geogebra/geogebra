@@ -1401,4 +1401,8 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		
 	}
 
+	public void printCASevalMapXML(StringBuilder sb) {
+		fun.printCASevalMapXML(sb);
+	}
+
 }

@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
@@ -38,6 +39,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.locusequ.EquationScope;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * AlgoElement is the superclass of all algorithms.
@@ -1481,7 +1483,12 @@ public abstract class AlgoElement extends ConstructionElement implements
 			}
 		}
 		sb.append(">\n");
+		if (getInputLength() > 0
+				&& getInput(0) instanceof CasEvaluableFunction) {
 
+			((CasEvaluableFunction) getInput(0)).printCASevalMapXML(sb);
+			Log.error("CAS map included" + sb);
+		}
 		// add input information
 		if (input != null) {
 			sb.append("\t<input");

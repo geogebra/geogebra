@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Kernel;
@@ -29,6 +30,8 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Function of N variables that returns either a number or a boolean. This
@@ -517,12 +520,15 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		try {
 			if (useCaching) {
 				// check if result is in cache
+
 				resultFun = lookupCasEvalMap(casString);
 				if (resultFun != null) {
+					Log.error("lookup hit:" + casString);
 					// System.out.println("caching worked: " + casString +
 					// " -> " + resultFun);
 					return resultFun;
 				}
+				Log.error("lookup miss:" + casString);
 			}
 			// evaluate expression by CAS
 			String result = symbolic ? kernel.evaluateGeoGebraCAS(casString,
@@ -577,6 +583,21 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 					MAX_CAS_EVAL_MAP_SIZE);
 		}
 		return casEvalMap;
+	}
+
+	public void printCASevalMapXML(StringBuilder sb) {
+		if (casEvalMap != null) {
+			sb.append("<casMap>\n");
+			for (Entry<String, FunctionNVar> entry : casEvalMap.entrySet()) {
+				sb.append("\t<entry key=\"");
+				StringUtil.encodeXML(sb, entry.getKey());
+				sb.append("\" val=\"");
+				StringUtil.encodeXML(sb,
+						entry.getValue().toString(StringTemplate.xmlTemplate));
+				sb.append("\"/>\n");
+			}
+			sb.append("</casMap>\n");
+		}
 	}
 
 	private FunctionNVar lookupCasEvalMap(String casString) {

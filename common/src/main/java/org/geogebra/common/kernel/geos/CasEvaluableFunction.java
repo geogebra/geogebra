@@ -63,4 +63,6 @@ public interface CasEvaluableFunction extends GeoElementND {
 	 *            variable whose children need replacing
 	 */
 	public void replaceChildrenByValues(GeoElement var);
+
+	public void printCASevalMapXML(StringBuilder sb);
 }

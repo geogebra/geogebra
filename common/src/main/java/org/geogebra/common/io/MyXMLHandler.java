@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.TreeMap;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
@@ -128,6 +129,7 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_CAS_INPUT_CELL = 163;
 	private static final int MODE_CAS_OUTPUT_CELL = 164;
 	private static final int MODE_CAS_TEXT_CELL = 165;
+	private static final int MODE_CAS_MAP = 166;
 	private static final int MODE_PROBABILITY_CALCULATOR = 170;
 	private static final int MODE_KERNEL = 200;
 	private static final int MODE_CONSTRUCTION = 300;
@@ -3254,7 +3256,9 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_CONST_COMMAND:
 			startCommandElement(eName, attrs);
 			break;
-
+		case MODE_CAS_MAP:
+			handleMapEntry(attrs);
+			break;
 		case MODE_CONST_CAS_CELL:
 			startCasCell(eName, attrs);
 			break;
@@ -3262,6 +3266,11 @@ public class MyXMLHandler implements DocHandler {
 		default:
 			Log.error("unknown construction mode:" + constMode);
 		}
+	}
+
+	private void handleMapEntry(LinkedHashMap<String, String> attrs) {
+		this.casMap.put(attrs.get("key"), attrs.get("val"));
+
 	}
 
 	private void endConstructionElement(String eName) {
@@ -3319,7 +3328,12 @@ public class MyXMLHandler implements DocHandler {
 				constMode = MODE_CONSTRUCTION;
 			}
 			break;
-
+		case MODE_CAS_MAP:
+			if ("casMap".equals(eName)) {
+				constMode = MODE_CONST_COMMAND;
+				casMap = null;
+			}
+			break;
 		case MODE_CONST_CAS_CELL:
 			endCasCell(eName);
 			break;
@@ -3963,6 +3977,8 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean lineStyleTagProcessed;
+
+	private TreeMap<String, String> casMap;
 
 	private boolean handleLineStyle(LinkedHashMap<String, String> attrs) {
 		try {
@@ -5423,6 +5439,10 @@ public class MyXMLHandler implements DocHandler {
 			ok = handleCmdOutput(attrs);
 		} else if ("outputSizes".equals(eName)) {
 			ok = handleCmdOutputSizes(attrs);
+		} else if ("casMap".equals(eName)) {
+			casMap = new TreeMap<String, String>();
+			constMode = MODE_CAS_MAP;
+			ok = true;
 		} else
 			Log.error("unknown tag in <command>: " + eName);
 

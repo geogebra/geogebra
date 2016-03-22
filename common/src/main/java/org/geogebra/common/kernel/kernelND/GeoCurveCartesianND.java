@@ -315,6 +315,12 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		}		
 	}
 
+	public void printCASevalMapXML(StringBuilder sb) {
+		for (int k = 0; k < getDimension(); k++) {
+			// getFun(k).printCasEvalMap(sb);
+		}
+	}
+
 	protected void setFun(int i, Function f) {
 		this.fun[i] = f;
 		this.funExpanded[i]=null;
