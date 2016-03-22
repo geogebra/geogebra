@@ -550,7 +550,7 @@ public class RadioTreeItem extends AVTreeItem
 	private FlowPanel definitionPanel;
 
 	public void updateOnNextRepaint() {
-		this.setNeedsUpdate(true);
+		needsUpdate = true;
 	}
 
 	private IndexHTMLBuilder getBuilder(final Widget w) {
@@ -946,12 +946,15 @@ public class RadioTreeItem extends AVTreeItem
 				: width);
 	}
 
-	public final void replaceXButtonDOM(TreeItem item) {
-		// in subclasses pButton will be added first!
-		// also, this method should be overridden in NewRadioButtonTreeItem
-		// buttonPanel.add(pButton);
-		getElement().addClassName("XButtonPanelParent");
-		getElement().appendChild(buttonPanel.getElement());
+	/**
+	 * Adds the "X" button to the AV item
+	 * 
+	 * @param item
+	 *            the AV item delete button must be added.
+	 */
+	public final void addDeleteButton(TreeItem item) {
+		addStyleName("XButtonPanelParent");
+		main.add(buttonPanel);
 
 
 	}
@@ -972,7 +975,7 @@ public class RadioTreeItem extends AVTreeItem
 	 * Creates a new RadioTreeItem for creating a brand new GeoElement or
 	 * executing a new command which might not result in any GeoElement(s) ...
 	 * no marble, no input GeoElement here. But this will be called from
-	 * NewRadioButtonTreeItem(kernel), for there are many extras
+	 * InputTreeItem(kernel), for there are many extras
 	 */
 
 
@@ -1012,7 +1015,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	// END OF AV Slider methods
 	/**
-	 * Method to be overridden in NewRadioButtonTreeItem
+	 * Method to be overridden in InputTreeItem
 	 */
 	@Override
 	public boolean popupSuggestions() {
@@ -1020,7 +1023,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * Method to be overridden in NewRadioButtonTreeItem
+	 * Method to be overridden in InputTreeItem
 	 */
 	@Override
 	public boolean hideSuggestions() {
@@ -1028,7 +1031,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * Method to be overridden in NewRadioButtonTreeItem
+	 * Method to be overridden in InputTreeItem
 	 * 
 	 * @return
 	 */
@@ -1037,7 +1040,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * Method to be overridden in NewRadioButtonTreeItem
+	 * Method to be overridden in InputTreeItem
 	 */
 	@Override
 	public void shuffleSuggestions(boolean down) {
@@ -1045,7 +1048,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * Method to be overridden in NewRadioButtonTreeItem
+	 * Method to be overridden in InputTreeItem
 	 */
 	public void addToHistory(String str, String latexx) {
 	}
@@ -1156,10 +1159,7 @@ public class RadioTreeItem extends AVTreeItem
 		return av.isEditing() || isThisEdited() || isInputTreeItem();
 	}
 
-	private void updateCheckbox() {
-		if (checkBox == null) {
-			return;
-		}
+	private void updateCheckBox() {
 
 		if (((HasExtendedAV) geo).isShowingExtendedAV()) {
 			// adds the checkBox at the right side
@@ -1179,20 +1179,32 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
+	/**
+	 * Updates all the contents of the AV Item
+	 */
 	protected void doUpdate() {
-		updateCheckbox();
-		updateTextItems();
 
-		if (marblePanel != null) {
+		if (hasMarblePanel()) {
 			marblePanel.update();
 		}
 
-		if (animPanel != null) {
+		if (hasAnimPanel()) {
 			animPanel.update();
 
 		}
 
-		updateNumerics();
+		if (isItemChecBox()) {
+			updateCheckBox();
+		}
+
+		if (isItemNumeric()) {
+			updateNumerics();
+		}
+
+		updateTextItems();
+
+
+
 	}
 
 	private void updateTextItems() {
@@ -1265,10 +1277,6 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 	private void updateNumerics() {
-		if (!(geo instanceof GeoNumeric
-				&& (slider != null && sliderPanel != null) || sliderNeeded())) {
-			return;
-		}
 
 		if (slider == null) {
 			createContentPanel();
@@ -1591,7 +1599,7 @@ public class RadioTreeItem extends AVTreeItem
 	public boolean stopNewFormulaCreation(String newValue0,
 			final String latexx, final AsyncOperation cb) {
 
-		// TODO: move to NewRadioButtonTreeItem? Wouldn't help much...
+		// TODO: move to InputTreeItem? Wouldn't help much...
 
 		String newValue = newValue0;
 
@@ -2227,7 +2235,7 @@ marblePanel, evt))) {
 
 	@Override
 	public void typing(boolean heuristic) {
-		// to be overridden in NewRadioButtonTreeItem,
+		// to be overridden in InputTreeItem,
 		// to know whether it's empty, whether to show Xbutton
 	}
 
@@ -2236,10 +2244,6 @@ marblePanel, evt))) {
 		buttonPanel.setVisible(false);
 	}
 
-	/*
-	 * void removeSpecial(Widget w) { remove(w); if (sliderPanel != null) {
-	 * sliderPanel.remove(w); } }
-	 */
 
 	void addAVEXWidget(Widget w) {
 		if (geo != null && geo instanceof GeoNumeric && slider != null
@@ -2379,12 +2383,12 @@ marblePanel, evt))) {
 
 	@Override
 	public void onBlur(BlurEvent be) {
-		// to be overridden in NewRadioButtonTreeItem
+		// to be overridden in InputTreeItem
 	}
 
 	@Override
 	public void onFocus(FocusEvent be) {
-		// to be overridden in NewRadioButtonTreeItem
+		// to be overridden in InputTreeItem
 		// AppW.anyAppHasFocus = true;
 	}
 
@@ -2530,6 +2534,23 @@ marblePanel, evt))) {
 	 */
 	public boolean isInputTreeItem() {
 		return false;
+	}
+
+	private boolean hasAnimPanel() {
+		return animPanel != null;
+	}
+
+	private boolean hasMarblePanel() {
+		return marblePanel != null;
+	}
+
+	private boolean isItemNumeric() {
+		return (geo instanceof GeoNumeric
+				&& (slider != null && sliderPanel != null) || sliderNeeded());
+	}
+
+	private boolean isItemChecBox() {
+		return checkBox != null;
 	}
 
 }

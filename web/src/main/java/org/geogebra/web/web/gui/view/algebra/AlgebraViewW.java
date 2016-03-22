@@ -1030,7 +1030,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			if (node instanceof RadioTreeItem
 					&& !(node instanceof InputTreeItem)) {
 				RadioTreeItem.as(node)
-				.replaceXButtonDOM(node);
+				.addDeleteButton(node);
 			}
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);
