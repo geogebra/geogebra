@@ -53,58 +53,6 @@ public class RendererWithImplW extends RendererWithImpl implements
 		return webGLCanvas;
 	}
 
-	@Override
-	public void display() {
-		// not needed in web
-	}
-
-	@Override
-	protected void exportImageEquirectangular() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void initExportImageEquirectangularTiles() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void setExportImageEquirectangularTileLeft(int i) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void setExportImageEquirectangularTileRight(int i) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void setExportImageEquirectangularFromTiles() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void needExportImage(double scale, int w, int h) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void setExportImageDimension(int w, int h) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void exportImage() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void setLineWidth(double width) {

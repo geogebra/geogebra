@@ -717,4 +717,53 @@ public abstract class RendererWithImpl extends Renderer implements
 	protected void enableNormalNormalized() {
 		// only need for non-shader renderers
 	}
+
+	// //////////////////////////////////////////////////
+	// TODO implement methods below for export image (see
+	// RendererCheckGLVersionD)
+
+	@Override
+	public void display() {
+		// used in desktop and for export image
+	}
+
+	@Override
+	protected void exportImageEquirectangular() {
+
+	}
+
+	@Override
+	protected void initExportImageEquirectangularTiles() {
+
+	}
+
+	@Override
+	protected void setExportImageEquirectangularTileLeft(int i) {
+
+	}
+
+	@Override
+	protected void setExportImageEquirectangularTileRight(int i) {
+
+	}
+
+	@Override
+	protected void setExportImageEquirectangularFromTiles() {
+
+	}
+
+	@Override
+	protected void needExportImage(double scale, int w, int h) {
+
+	}
+
+	@Override
+	protected void setExportImageDimension(int w, int h) {
+
+	}
+
+	@Override
+	protected void exportImage() {
+
+	}
 }
