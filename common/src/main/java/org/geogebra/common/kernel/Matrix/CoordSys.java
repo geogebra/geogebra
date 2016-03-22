@@ -454,7 +454,10 @@ public class CoordSys {
 	 * @param cC third point
 	 */
 	public void setEquationVector(Coords cA, Coords cB, Coords cC){
-		setEquationVector(cA, cB.sub(cA).crossProduct(cC.sub(cA)));
+		tmpCoords1.setSub(cB, cA);
+		tmpCoords2.setSub(cC, cA);
+		tmpCoords3.setCrossProduct(tmpCoords1, tmpCoords2);
+		setEquationVector(cA, tmpCoords3);
 	}
 	
 
