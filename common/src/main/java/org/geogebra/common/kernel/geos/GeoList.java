@@ -886,8 +886,13 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			sb.append(" label =\"");
 			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
-			StringUtil
+			if (getDefinition() != null) {
+				StringUtil.encodeXML(sb,
+						getDefinition().toString(StringTemplate.xmlTemplate));
+			} else {
+				StringUtil
 					.encodeXML(sb, toValueString(StringTemplate.xmlTemplate));
+			}
 			sb.append("\"/>\n");
 		}
 
@@ -960,6 +965,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			sb.append("\t<emphasizeRightAngle val=\"");
 			sb.append(emphasizeRightAngle);
 			sb.append("\"/>\n");		
+		}
+		if (isSymboicMode()) {
+			sb.append("\t<symbolic val=\"true\" />\n");
 		}
 		// AngleProperties end
 

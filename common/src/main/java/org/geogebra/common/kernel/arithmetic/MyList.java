@@ -463,7 +463,11 @@ public class MyList extends ValidExpression implements ListValue,
 
 		// Application.debug("        tempNode : " + tempNode + ", result: "
 		// + operationResult);
-
+		if (operationResult instanceof NumberValue) {
+			operationResult = ((NumberValue) operationResult).toGeoElement();
+			((GeoElement) operationResult)
+					.setDefinition(tempNode.deepCopy(kernel));
+		}
 		// set listElement to operation result
 		if (!operationResult.isExpressionNode()) {
 			operationResult = new ExpressionNode(kernel, operationResult);
