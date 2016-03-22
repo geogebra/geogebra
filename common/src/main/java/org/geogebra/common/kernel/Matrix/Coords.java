@@ -636,6 +636,33 @@ public class Coords {
 	}
 
 	/**
+	 * Assuming this is a 3D vector
+	 * 
+	 * @param v
+	 *            vector
+	 * @return true if this and v are linear independent
+	 */
+	final public boolean isLinearIndependent(Coords v) {
+		double value;
+
+		value = val[1] * v.val[2] - val[2] * v.val[1];
+		if (!Kernel.isZero(value)) {
+			return true;
+		}
+		value = val[2] * v.val[0] - val[0] * v.val[2];
+		if (!Kernel.isZero(value)) {
+			return true;
+		}
+		value = val[0] * v.val[1] - val[1] * v.val[0];
+		if (!Kernel.isZero(value)) {
+			return true;
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * returns the scalar norm.
 	 * <p>
 	 * If this={x1,x2,...}, then norm=sqrt(x1*x1+x2*x2+...). Same result as

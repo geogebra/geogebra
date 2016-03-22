@@ -365,11 +365,12 @@ public class CoordSys {
 			}
 			break;
 		case 1: // add second vector
-			// calculate normal vector to check if v1 depends to vx
-			Coords vn = getVx().crossProduct(v);
-			// check if vn==0
-			if (!Kernel.isEqual(vn.norm(), 0,
-					Kernel.STANDARD_PRECISION)) {
+//			// calculate normal vector to check if v1 depends to vx
+//			Coords vn = getVx().crossProduct(v);
+//			// check if vn==0
+//			if (!Kernel.isEqual(vn.norm(), 0,
+//					Kernel.STANDARD_PRECISION)) {
+			if (getVx().isLinearIndependent(v)) {
 				setVy(v);
 				getVz().setCrossProduct(getVx(), getVy());
 				setMadeCoordSys(2);
@@ -377,7 +378,8 @@ public class CoordSys {
 			break;
 		}
 
-		// Application.printStacktrace("v["+getMadeCoordSys()+"]=\n"+v);
+		// Log.debug("v[" + getMadeCoordSys() + "]=\n"
+		// + getV(getMadeCoordSys() - 1));
 	}
 
 	/**
