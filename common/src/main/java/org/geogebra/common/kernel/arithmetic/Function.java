@@ -1211,6 +1211,10 @@ public class Function extends FunctionNVar implements
 		return expression.derivative(fv, kernel0);
 	}
 
+	/**
+	 * @param algo
+	 *            secret parent algo
+	 */
 	public void setSecret(AlgoElement algo) {
 		getExpression().setSecret(algo);
 	}

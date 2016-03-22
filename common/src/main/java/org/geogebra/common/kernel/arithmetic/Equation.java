@@ -399,6 +399,7 @@ public class Equation extends ValidExpression {
 		return lhs.contains(ev) || rhs.contains(ev);
 	}
 
+	@Override
 	public Equation deepCopy(Kernel kernel1) {
 		Equation ret = new Equation(kernel1, lhs.getCopy(kernel1),
 				rhs.getCopy(kernel1));
@@ -411,6 +412,9 @@ public class Equation extends ValidExpression {
 		return ret;
 	}
 
+	/**
+	 * Reset flags for forcing result type
+	 */
 	public void resetFlags() {
 		forceConic = false;
 		forceLine = false;

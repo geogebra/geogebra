@@ -148,6 +148,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	}
 
+	@Override
 	public MyDouble deepCopy(Kernel kernel1) {
 		MyDouble ret = new MyDouble(this);
 		ret.kernel = kernel1;

@@ -27,8 +27,15 @@ public interface VectorNDValue extends ExpressionValue {
 	 */
 	public GeoVecInterface getVector();
 
+	/**
+	 * @return array of coordinates
+	 */
 	public double[] getPointAsDouble();
 
-	public void setMode(int coordCartesian);
+	/**
+	 * @param mode
+	 *            one of Kernel.COORD_* constants
+	 */
+	public void setMode(int mode);
 
 }

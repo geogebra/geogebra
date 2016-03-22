@@ -254,6 +254,7 @@ public class ExpressionNode extends ValidExpression implements
 		return new ExpressionNode(kernel, right);
 	}
 
+	@Override
 	public ExpressionNode deepCopy(Kernel kernel1) {
 		return getCopy(kernel1);
 	}
@@ -6204,10 +6205,13 @@ kernel, left,
 	}
 
 	/**
-	 * GGB-605
+	 * GGB-605 set when expression shouldn't be displayed to the user eg
+	 * NDerivative
 	 * 
-	 * @return set when expression shouldn't be displayed to the user eg
-	 *         NDerivative
+	 * @param algo
+	 *            secret algo
+	 * 
+	 * @return this
 	 */
 	public ExpressionNode setSecret(AlgoElement algo) {
 
@@ -6291,6 +6295,11 @@ kernel, left,
 		return factorsWithoutPow;
 	}
 
+	/**
+	 * @param tpl
+	 *            template
+	 * @return this as fraction
+	 */
 	public String toFractionString(StringTemplate tpl) {
 
 		if (resolve == null || !resolve.isExpressionNode()) {

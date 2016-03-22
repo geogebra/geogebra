@@ -139,6 +139,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return kernel;
 	}
 
+	@Override
 	public FunctionNVar deepCopy(Kernel kernel1) {
 		return new FunctionNVar(this, kernel1);
 	}
