@@ -495,7 +495,6 @@ public class RadioTreeItem extends AVTreeItem
 	protected AlgebraView av;
 	private boolean LaTeX = false;
 	private boolean thisIsEdited = false;
-	boolean mout = false;
 
 	protected FlowPanel latexItem;
 	private FlowPanel plainTextItem;
@@ -531,11 +530,6 @@ public class RadioTreeItem extends AVTreeItem
 	 * checkbox displaying boolean variables
 	 */
 	private CheckBox checkBox;
-
-	/**
-	 * whether the playButton currently shows a play or a pause icon
-	 */
-	private boolean playButtonValue;
 
 	/**
 	 * panel to display animation related controls
@@ -691,20 +685,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 		if (geo instanceof GeoBoolean && geo.isSimple()) {
-			// CheckBoxes
-			checkBox = new CheckBox();
-			checkBox.setValue(((GeoBoolean) geo).getBoolean());
-			main.add(checkBox);
-			checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-				@Override
-				public void onValueChange(ValueChangeEvent<Boolean> event) {
-					((GeoBoolean) geo).setValue(event.getValue());
-					geo.updateCascade();
-					// updates other views (e.g. Euclidian)
-					kernel.notifyRepaint();
-
-				}
-			});
+			createCheckbox();
 		}
 
 
@@ -727,20 +708,11 @@ public class RadioTreeItem extends AVTreeItem
 		ihtml.add(getPlainTextItem());
 		buildPlainTextItem();
 		// if enabled, render with LaTeX
-		if (av.isRenderLaTeX() && (kernel
-				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
-				|| (definitionAndValue && kernel
-						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE))) {
-			if (geo.isDefined()) {
-				String latexStr = geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplateMQ);
-				if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
-					setNeedsUpdate(true);
-					av.repaintView();
-				}
-			}
-		} else {
-			// nothing to do, senolatex already up to date
+
+		if (checkLatex()) {
+			setNeedsUpdate(true);
+			av.repaintView();
+
 		}
 		// FIXME: geo.getLongDescription() doesn't work
 		// geo.getKernel().getApplication().setTooltipFlag();
@@ -763,6 +735,39 @@ public class RadioTreeItem extends AVTreeItem
 
 		deferredResizeSlider();
 
+	}
+
+	private void createCheckbox() {
+		checkBox = new CheckBox();
+		checkBox.setValue(((GeoBoolean) geo).getBoolean());
+		main.add(checkBox);
+		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				((GeoBoolean) geo).setValue(event.getValue());
+				geo.updateCascade();
+				kernel.notifyRepaint();
+
+			}
+		});
+
+	}
+
+	private boolean checkLatex() {
+		if (av.isRenderLaTeX() && (kernel
+				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
+				|| (definitionAndValue && kernel
+						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE))) {
+			if (geo.isDefined()) {
+				String latexStr = geo.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplateMQ);
+				if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
+					return true;
+				}
+			}
+
+		}
+		return false;
 	}
 
 	protected PushButton getXbutton() {
@@ -1149,8 +1154,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public void repaint() {
-		if (isNeedsUpdate() || playButtonValue != (geo.isAnimating()
-				&& app.getKernel().getAnimatonManager().isRunning())) {
+		if (isNeedsUpdate()) {
 			doUpdate();
 		}
 	}
