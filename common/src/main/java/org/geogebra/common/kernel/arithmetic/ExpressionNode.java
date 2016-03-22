@@ -5905,7 +5905,8 @@ kernel, left,
 	}
 	
 	private static boolean checkFraction(ExpressionValue[] parts,
-			ExpressionValue left1, boolean expandPlus) {
+			ExpressionValue lt, boolean expandPlus) {
+		ExpressionValue left1 = lt.unwrap();
 		if (left1 instanceof ExpressionNode) {
 			((ExpressionNode) left1).getFraction(parts, expandPlus);
 			return true;

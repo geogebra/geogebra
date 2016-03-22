@@ -138,6 +138,8 @@ public class AlgoDependentListExpression extends AlgoElement implements
 
 			// number result
 			if (element instanceof NumberValue) {
+				ExpressionNode definition = element.isGeoElement()
+						? ((GeoElement) element).getDefinition() : null;
 				double val = ((NumberValue) element).getDouble();
 
 				// try to use cached element of same type
@@ -155,7 +157,7 @@ public class AlgoDependentListExpression extends AlgoElement implements
 				if (geo == null) {
 					geo = new GeoNumeric(cons, val);
 				}
-
+				geo.setDefinition(definition);
 				// add number to list
 				list.add(geo);
 			}
