@@ -2183,7 +2183,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public void updatePreviewableForProcessMode() {
-		updatePreviewable();
+		if (getPreviewDrawable() != null) {
+			updatePreviewable();
+		}
 	}
 
 	/**
