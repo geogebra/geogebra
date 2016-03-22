@@ -714,10 +714,6 @@ public class RadioTreeItem extends AVTreeItem
 			av.repaintView();
 
 		}
-		// FIXME: geo.getLongDescription() doesn't work
-		// geo.getKernel().getApplication().setTooltipFlag();
-		// se.setTitle(geo.getLongDescription());
-		// geo.getKernel().getApplication().clearTooltipFlag();
 
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
@@ -726,12 +722,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		buttonPanel.setVisible(false);
 
-		main.add(buttonPanel);// dirty hack of adding it two times!
-
-		// pButton should be added before xButton is added!
-		// also, the place of buttonPanel should also be changed!
-		// so these things are moved to replaceXbuttonDOM!
-		// buttonPanel.add(xButton);
+		main.add(buttonPanel);
 
 		deferredResizeSlider();
 
@@ -754,23 +745,29 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private boolean checkLatex() {
-		if (av.isRenderLaTeX() && (kernel
-				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
-				|| (definitionAndValue && kernel
-						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE))) {
-			if (geo.isDefined()) {
-				String latexStr = geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplateMQ);
-				if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
-					return true;
-				}
-			}
-
+		if (!av.isRenderLaTeX()
+				|| (kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
+						&& !isDefinitionAndValue())
+				|| !geo.isDefined() || !geo.isLaTeXDrawableGeo()) {
+			return false;
 		}
+
+		String latexStr = geo.getLaTeXAlgebraDescription(true,
+				StringTemplate.latexTemplateMQ);
+		if ((latexStr != null)) {
+			return true;
+		}
+
 		return false;
 	}
 
-	protected PushButton getXbutton() {
+	/**
+	 * Gets (and creates if there is not yet) the delete button which geo item
+	 * can be removed with from AV.
+	 * 
+	 * @return The "X" button.
+	 */
+	protected PushButton getDeleteButton() {
 		if (btnDelete == null) {
 			btnDelete = new PushButton(
 					new Image(
@@ -780,10 +777,6 @@ public class RadioTreeItem extends AVTreeItem
 			btnDelete.addStyleName("XButton");
 			btnDelete.addStyleName("shown");
 			btnDelete.addMouseDownHandler(new MouseDownHandler() {
-				// ClickHandler changed to MouseDownHandler
-				// in order to fix a bug in Internet Explorer,
-				// where the button disappeared earlier than
-				// this method (onClick) could execute
 				@Override
 				public void onMouseDown(MouseDownEvent event) {
 					if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
@@ -2115,7 +2108,7 @@ marblePanel, evt))) {
 				buttonPanel.add(getPButton());
 			}
 			if (showX) {
-				buttonPanel.add(getXbutton());
+				buttonPanel.add(getDeleteButton());
 			}
 			buttonPanel.setVisible(true);
 
