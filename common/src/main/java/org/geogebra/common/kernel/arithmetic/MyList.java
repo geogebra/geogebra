@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.debug.Log;
@@ -463,7 +464,8 @@ public class MyList extends ValidExpression implements ListValue,
 
 		// Application.debug("        tempNode : " + tempNode + ", result: "
 		// + operationResult);
-		if (operationResult instanceof NumberValue) {
+		if (kernel.getApplication().has(Feature.FRACTIONS)
+				&& operationResult instanceof NumberValue) {
 			operationResult = ((NumberValue) operationResult).toGeoElement();
 			((GeoElement) operationResult)
 					.setDefinition(tempNode.deepCopy(kernel));
