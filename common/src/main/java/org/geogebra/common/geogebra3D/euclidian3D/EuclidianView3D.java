@@ -2024,7 +2024,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		if (renderer.useLogicalPicking()) {
 			renderer.setHits(p, getCapturingThreshold(type));
-			if (type == PointerEventType.TOUCH && this.hits.size() == 0) {
+			if (type == PointerEventType.TOUCH && hitsEmptyOrOnlyContainsXOYPlane()) {
 				renderer.setHits(p, getCapturingThresholdForTouch(type));
 			}
 
@@ -2032,6 +2032,18 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			updateCursor3D();
 		}
 
+	}
+
+	private boolean hitsEmptyOrOnlyContainsXOYPlane(){
+		if (hits.size() == 0){
+			return true;
+		}
+
+		if (hits.size() == 1){
+			return hits.get(0) == getxOyPlane();
+		}
+
+		return false;
 	}
 
 	public int getCapturingThreshold(PointerEventType type) {
