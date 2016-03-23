@@ -300,6 +300,8 @@ public class GeoTextEditor extends RichTextArea {
 		elem.getStyle().setCursor(Cursor.POINTER);
 		elem.getStyle().setFontSize(font.getSize(), Unit.PX);
 		elem.getStyle().setBackgroundColor("wheat");
+		elem.getStyle().setMarginLeft(2, Unit.PX);
+		elem.getStyle().setMarginRight(2, Unit.PX);
 
 		return elem;
 
