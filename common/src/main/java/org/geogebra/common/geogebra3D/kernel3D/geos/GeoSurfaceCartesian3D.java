@@ -1337,6 +1337,11 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return false;
 	}
 
+	@Override
+	public void setLineThicknessOrVisibility(final int th) {
+		setLineThickness(th);
+	}
+
 	public void printCASEvalMapXML(StringBuilder sb) {
 		// fun.printCASevalMapXML(sb);
 	}
