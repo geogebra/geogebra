@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class InputDialogW extends InputDialog implements ClickHandler,
         SetLabels, KeyUpHandler, ErrorHandler {
 
-	protected AppW app;
+	protected final AppW app;
 
 	public static final int DEFAULT_COLUMNS = 30;
 	public static final int DEFAULT_ROWS = 10;
@@ -81,7 +81,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 		this(modal, app);
 
-		this.app = app;
 		this.geo = geo;
 		this.inputHandler = handler;
 		this.initString = initString;
@@ -89,7 +88,12 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true,
 		        selectInitText, geo != null, geo != null, type);
 
-		centerOnScreen();
+		centerAndFocus(selectInitText);
+
+	}
+
+	protected void centerAndFocus(final boolean selectInitText) {
+		wrappedPopup.center();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			public void execute() {
@@ -110,7 +114,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 		this(false, app);
 
-		this.app = app;
 		this.geo = geo;
 		this.inputHandler = handler;
 		this.initString = initString;
@@ -118,18 +121,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, geo != null, showApply,
 				DialogType.GeoGebraEditor);
 
-		centerOnScreen();
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			public void execute() {
-				inputPanel.getTextComponent().setFocus(true);
-				// Firefox: correct cursor position #5419
-				// if (!selectInitText) {
-				// inputPanel.getTextComponent().setCaretPosition(inputPanel.getText().length());
-				// }
-
-			}
-		});
+		centerAndFocus(false);
 
 	}
 
@@ -147,7 +139,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
     }
 
 	protected void centerOnScreen() {
-		wrappedPopup.center();
+
 	}
 
 	/**
@@ -164,7 +156,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	 */
 	protected void createGUI(String title, String message,
 	        boolean autoComplete, int columns, int rows,
-	        boolean showSymbolPopupIcon, boolean selectInitText,
+			boolean showSymbolPopupIcon, boolean selectInitText,
 	        boolean showProperties, boolean showApply, DialogType type) {
 
 		this.title = title;

@@ -62,7 +62,6 @@ import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
-import org.geogebra.web.web.gui.dialog.InputDialogOpenURL;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
@@ -1025,12 +1024,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void showPropertiesViewSliderTab() {
 		App.debug("unimplemented");
-	}
-
-	@Override
-	public void openURL() {
-		final InputDialogOpenURL id = new InputDialogOpenURL((AppW) app);
-		id.setVisible(true);
 	}
 
 	@Override

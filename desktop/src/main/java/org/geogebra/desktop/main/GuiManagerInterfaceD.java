@@ -48,4 +48,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	void resetCasView();
 
 	void exitAllCurrent();
+
+	void openURL();
 }

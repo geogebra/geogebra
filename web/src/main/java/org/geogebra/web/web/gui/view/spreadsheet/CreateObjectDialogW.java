@@ -75,7 +75,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 		coModel = new CreateObjectModel(app, view, objectType, this);
 		coModel.setCellRangeProcessor(table.getCellRangeProcessor());
 		coModel.setSelectedCellRanges(table.selectedCellRanges);
-		this.app = app;
 		// cp = table.getCellRangeProcessor();
 		// selectedCellRanges = table.selectedCellRanges;
 		//
@@ -97,7 +96,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		typeList.setSelectedIndex(objectType);
 		objectTypeChanged();
 		
-		centerOnScreen();//
+		centerAndFocus(false);//
 	
 		updateGUI();
 		

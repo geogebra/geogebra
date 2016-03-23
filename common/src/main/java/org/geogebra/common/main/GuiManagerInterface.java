@@ -156,8 +156,6 @@ public interface GuiManagerInterface {
 	 */
 	public void showPropertiesViewSliderTab();
 
-	public void openURL();
-
 	public boolean loadURL(String urlString);
 
 	/**

@@ -32,7 +32,6 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
             GeoPointND startPoint, boolean rw, int cols, int rows, boolean isTextMode) {
 	    // TODO Auto-generated constructor stub
 		super(false, (AppW) app2);
-		this.app = (AppW) app2;
 		this.startPoint = startPoint;
 		this.rw = rw;
 		dialogTitle = title;

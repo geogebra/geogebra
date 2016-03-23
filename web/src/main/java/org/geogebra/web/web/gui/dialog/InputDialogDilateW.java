@@ -25,7 +25,6 @@ public class InputDialogDilateW extends InputDialogW {
 	
 		super(app, app.getMenu("Dilate.Factor"), title, null, false, handler, false);
 		
-		this.app = app;
 		inputHandler = handler;
 
 		this.points = points;
