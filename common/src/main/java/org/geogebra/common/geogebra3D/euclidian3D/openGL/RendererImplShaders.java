@@ -668,9 +668,14 @@ public abstract class RendererImplShaders implements RendererImpl {
 	}
 
 	@Override
-	public void setView() {
+	final public void setView() {
 		renderer.setProjectionMatrix();
+
+		// this part is needed for export image
+		glViewPort(renderer.getWidthInPixels(), renderer.getHeightInPixels());
 	}
+
+	abstract protected void glViewPort(int width, int height);
 
 	@Override
 	public void viewOrtho() {

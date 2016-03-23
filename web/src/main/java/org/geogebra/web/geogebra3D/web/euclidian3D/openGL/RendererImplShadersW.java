@@ -347,16 +347,11 @@ public class RendererImplShadersW extends RendererImplShaders {
 		// not used in WebGL
 	}
 
-
-	@Override
-	public void setView() {
-		super.setView();
-
-		// // this part is needed for export image (pull up?)
-		// glContext.viewport(0, 0, renderer.getWidth(),
-		// renderer.getHeight());
-	}
 	
+	@Override
+	protected void glViewPort(int width, int height) {
+		glContext.viewport(0, 0, width, height);
+	}
 
 	@Override
 	public Manager createManager() {

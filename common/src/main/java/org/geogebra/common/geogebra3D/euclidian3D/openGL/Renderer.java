@@ -1657,6 +1657,15 @@ public abstract class Renderer {
 		return right - left;
 	}
 
+	/**
+	 * Used for dip density devices
+	 * 
+	 * @return height in pixels
+	 */
+	public int getWidthInPixels() {
+		return getWidth();
+	}
+
 	public int getBottom() {
 		return bottom;
 	}
@@ -1667,6 +1676,15 @@ public abstract class Renderer {
 
 	public int getHeight() {
 		return top - bottom;
+	}
+
+	/**
+	 * Used for dip density devices
+	 * 
+	 * @return height in pixels
+	 */
+	public int getHeightInPixels() {
+		return getHeight();
 	}
 
 	public int getVisibleDepth() {

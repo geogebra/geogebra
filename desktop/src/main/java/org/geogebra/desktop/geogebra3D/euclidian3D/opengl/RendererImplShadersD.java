@@ -450,17 +450,11 @@ public class RendererImplShadersD extends RendererImplShaders {
 		getGL().glEnable(GLLightingFunc.GL_COLOR_MATERIAL);
 
 	}
-
-
-	@Override
-	public void setView() {
-		super.setView();
-
-		// this part is needed for export image (pull up?)
-		jogl.getGL2ES2().glViewport(0, 0, renderer.getWidth(),
-				renderer.getHeight());
-	}
 	
+	@Override
+	protected void glViewPort(int width, int height) {
+		jogl.getGL2ES2().glViewport(0, 0, width, height);
+	}
 
 	@Override
 	public Manager createManager() {
