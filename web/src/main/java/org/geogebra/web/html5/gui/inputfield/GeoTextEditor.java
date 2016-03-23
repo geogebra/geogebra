@@ -450,6 +450,7 @@ public class GeoTextEditor extends RichTextArea {
 					                });
 				        }
 			        });
+			textEditPopup.getElement().getStyle().setZIndex(1000);
 		} else {
 			textEditPopup.hide();
 		}
