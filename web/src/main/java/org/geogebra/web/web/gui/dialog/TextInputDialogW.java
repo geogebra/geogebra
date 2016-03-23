@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -22,7 +23,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 	GeoText editGeo;
 	GeoPointND startPoint;
-	private boolean rw;
+	boolean rw;
 	private TextEditPanel editor;
 	private int cols;
 	private int rows;
@@ -30,7 +31,6 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 	public TextInputDialogW(App app2, String title, GeoText editGeo,
             GeoPointND startPoint, boolean rw, int cols, int rows, boolean isTextMode) {
-	    // TODO Auto-generated constructor stub
 		super(false, (AppW) app2);
 		this.startPoint = startPoint;
 		this.rw = rw;
@@ -44,16 +44,16 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 //		isIniting = true;		
 
-		createGUI(title, "", false, cols, rows, /*false*/ true, false, false, false,
+		createTextGUI(title, "", false, cols, rows, /* false */ true, false,
+				false, false,
 				DialogType.DynamicText);
 	}
 
-	@Override
-	protected void createGUI(String title, String message,
-			boolean autoComplete, int columns, int rows,
+	private void createTextGUI(String title, String message,
+			boolean autoComplete, int columns, int rows1,
 			boolean showSymbolPopupIcon, boolean selectInitText,
 			boolean showProperties, boolean showApply, DialogType type) {
-		super.createGUI(title, message, autoComplete, columns, rows,
+		super.createGUI(title, message, autoComplete, columns, rows1,
 				showSymbolPopupIcon, selectInitText, showProperties, showApply,
 				type);
 
@@ -73,33 +73,47 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		wrappedPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
 			public void onClose(CloseEvent<GPopupPanel> event) {
-				App.debug("MOST ZARNAK BEFELE");
-				editor = null;
+				resetEditor();
 			}
 		});
 	}
 
-	int getFontStyle() {
-		if(editor == null){
-			App.debug("null editor");
+	/**
+	 * Removes current editor
+	 */
+	void resetEditor() {
+		editor = null;
+	}
+	/**
+	 * Updates latex / serif / font size of the text from GUI
+	 * 
+	 * @param t
+	 *            text
+	 */
+	void updateTextStyle(GeoText t) {
+		if (editor == null) {
+			Log.debug("null editor");
+			return;
 		}
-		return editor.getFontStyle();
+		t.setLaTeX(editor.isLatex(), true);
+		t.setFontStyle(editor.getFontStyle());
+		t.setSerifFont(editor.isSerif());
+		// make sure for new LaTeX texts we get nice "x"s
+		if (editor.isLatex())
+			t.setSerifFont(true);
+
 	}
 
-
+	/**
+	 * @return whether latex checkbox is active
+	 */
 	boolean isLatex() {
-		if(editor == null){
-			App.debug("null editor");
+		if (editor == null) {
+			Log.debug("null editor");
 		}
 		return editor.isLatex();
 	}
-
-	boolean isSerif() {
-		if(editor == null){
-			App.debug("null editor");
-		}
-		return editor.isSerif();
-	}
+	
 	// =============================================================
 	// TextInputHandler
 	// =============================================================
@@ -116,10 +130,11 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			kernel = app.getKernel();
 		}
 
-		public boolean processInput(String inputValue) {
-			if (inputValue == null)
+		public boolean processInput(String input) {
+			if (input == null) {
 				return false;
-
+			}
+			String inputValue = input;
 			// no quotes?
 			if (inputValue.indexOf('"') < 0) {
 				// this should become either
@@ -154,12 +169,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 						.processAlgebraCommand(inputValue, false);
 				if (ret != null && ret[0] instanceof GeoText) {
 					GeoText t = (GeoText) ret[0];
-					t.setLaTeX(isLatex(), true);
-					t.setFontStyle(getFontStyle());
-					t.setSerifFont(isSerif());
-					// make sure for new LaTeX texts we get nice "x"s
-					if (isLatex())
-						t.setSerifFont(true);
+					updateTextStyle(t);
 
 					EuclidianViewInterfaceCommon activeView = kernel
 							.getApplication().getActiveEuclidianView();
@@ -169,6 +179,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 						try {
 							t.setStartPoint(startPoint);
 						} catch (Exception e) {
+							// circular definition
 						}
 					} else {
 
@@ -261,7 +272,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		}
 	}
 
-	public void focus() {
+	private void focus() {
 		if (inputPanel.getTextAreaComponent() != null) {
 			// probably this branch will run (rows > 1)
 			if (Browser.isFirefox()) {
@@ -282,26 +293,27 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		}
 	}
 
-	public void reInitEditor(GeoText text, GeoPointND startPoint2, boolean rw) {
+	public void reInitEditor(GeoText text, GeoPointND startPoint2,
+			boolean rw1) {
 		if (editor == null) {
-			createGUI(dialogTitle, "", false, cols, rows, /* false */true, false,
+			createTextGUI(dialogTitle, "", false, cols, rows, /* false */true,
+					false,
 					false, false, DialogType.DynamicText);
 
 			// return;
 		}
 		this.startPoint = startPoint2;
-		this.rw = rw;
+		this.rw = rw1;
 		setGeoText(text);
 		focus();
     }
 
-	public void setGeoText(GeoText geo) {
+	private void setGeoText(GeoText geo) {
 
 //		handlingDocumentEventOff = true;
 
 		editGeo = geo;
 		editor.setEditGeo(geo);
-		boolean createText = geo == null;
 		
 		
 		//isLaTeX = geo == null ? false : geo.isLaTeX();
