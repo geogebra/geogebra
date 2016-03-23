@@ -1030,7 +1030,12 @@ public class StringUtil {
 					sbFix.setLength(sbFix.length() - 1);
 					sbFix.append(Unicode.ellipsis);
 				} else {
-					sbFix.append(parseString.charAt(i));
+					char write = parseString.charAt(i);
+					if (write == '\u00b5') {
+						sbFix.append(Unicode.mu);
+					} else {
+						sbFix.append(write);
+					}
 				}
 
 				if (StringUtil.isWhitespace(ch) || (comment && !ch.equals('"'))) {
