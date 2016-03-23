@@ -751,6 +751,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::writePNGtoFile(Ljava/lang/String;DZD)(filename, exportScale, transparent, DPI);
 		};
 
+		api.exportPGF = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPGF()();
+		};
+
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
 		// other methods from the Wiki (consider to implement here)

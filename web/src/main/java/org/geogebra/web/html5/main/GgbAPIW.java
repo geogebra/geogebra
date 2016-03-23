@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
+import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
@@ -22,9 +23,11 @@ import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.export.GeoGebraToPgfW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
@@ -785,6 +788,8 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	 */
 	public synchronized boolean evalCommand(final String cmdString,
 			boolean waitForResult) {
+
+
 		return evalCommand(cmdString);
 	}
 
@@ -799,11 +804,24 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		});
 	}
 
+	public String exportPGF() {
+		Log.debug("starting");
+		GeoGebraToPgfW export = new GeoGebraToPgfW(app);
+		ExportFrameMinimal frame = new ExportFrameMinimal();
+		export.setFrame(frame);
+		export.generateAllCode();
+		Log.debug("ending");
+
+		return frame.getCode();
+
+	}
+
 	/**
 	 * @param width
-	 *            setst the applet widht
+	 *            setst the applet width
 	 */
 	public void setWidth(int width) {
+
 		((AppW) app).getAppletFrame().setWidth(width);
 	}
 
