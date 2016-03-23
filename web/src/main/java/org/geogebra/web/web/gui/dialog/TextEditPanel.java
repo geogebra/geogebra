@@ -177,7 +177,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		btnBold.setText(loc.getMenu("Bold.Short"));
 		btnItalic.setText(loc.getMenu("Italic.Short"));
 		btnLatex.setText(loc.getPlain("LaTeXFormula"));
-		btnSerif.setText("Serif");
+		btnSerif.setText(loc.getMenu("Serif"));
 		if (advancedPanel != null) {
 			advancedPanel.setLabels();
 		}
@@ -248,15 +248,15 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short"));
 		btnBold.addClickHandler(this);
-
 		btnBold.addStyleName("btnBold");
 
 		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short"));
 		btnItalic.addClickHandler(this);
-
 		btnItalic.addStyleName("btnItalic");
+		
 		btnSerif = new MyToggleButton2(loc.getMenu("Serif"));
 		btnSerif.addClickHandler(this);
+		btnSerif.addStyleName("btnSerif");
 		
 		String latexTr = loc.getPlain("LaTeXFormula");
 		btnLatex = new MyToggleButton2(latexTr);

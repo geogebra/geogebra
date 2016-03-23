@@ -2085,9 +2085,12 @@ body.application[dir=rtl] .MyCanvasButton-rightaligned {
 	font-style: italic;
 	color: #999999;
 }
+.btnSerif {
+	width: auto;
+}
 
 .btnLatex {
-	width: 110px;
+	width: auto;
 }
 
 .SelectionTable .gwt-Label {
