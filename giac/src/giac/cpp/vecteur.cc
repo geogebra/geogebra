@@ -5888,10 +5888,11 @@ namespace giac {
     return true;
   }
 
-  bool is_integer_vecteur(const vecteur & m){
+  bool is_integer_vecteur(const vecteur & m,bool intonly){
     const_iterateur it=m.begin(),itend=m.end();
     for (;it!=itend;++it){
       if (it->type==_INT_) continue;
+      if (intonly) return false;
       if (it->type==_ZINT) continue;
       if (it->type==_CPLX && is_exactly_zero(*(it->_CPLXptr+1))) continue;
       return false;
@@ -5900,10 +5901,10 @@ namespace giac {
     return true;
   }
 
-  bool is_integer_matrice(const matrice & m){
+  bool is_integer_matrice(const matrice & m,bool intonly){
     const_iterateur it=m.begin(),itend=m.end();
     for (;it!=itend;++it)
-      if (it->type!=_VECT || !is_integer_vecteur(*it->_VECTptr)) return false;
+      if (it->type!=_VECT || !is_integer_vecteur(*it->_VECTptr,intonly)) return false;
     return true;
   }
 

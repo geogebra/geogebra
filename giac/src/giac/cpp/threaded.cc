@@ -2547,6 +2547,8 @@ mpz_class smod(const mpz_class & a,int reduce){
 	CERR << "Using " << nthreads << " threads " << nth << " " << todo/nth << endl;
     }
     for (alpha=-1;;){
+      // Possible improvement: if gcddeg is high, cofactors will stabilize
+      // soon, then gcd could be obtained by division instead of interp
       // First check if we are ready to interpolate
       if (!compute_cof && e>gcddeg_plus_delta){
 	if (dim2)

@@ -507,6 +507,13 @@ namespace giac {
 	return gensizeerr(gettext("Incompatible characteristics"));
       return *this*(*g._MODptr);
     }
+    if (g.type==_VECT){
+      vecteur v=*g._VECTptr;
+      int s=int(v.size());
+      for (int i=0;i<s;++i)
+	v[i]=*this*v[i];
+      return gen(v,g.subtype);
+    }
     if (g.type!=_USER)
       return sym_mult(*this,g,context0); // ok symbolic(at_prod,makesequence(g,*this));
     if (galois_field * gptr=dynamic_cast<galois_field *>(g._USERptr)){

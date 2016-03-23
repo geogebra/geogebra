@@ -703,6 +703,8 @@ namespace giac {
     }
     // if (e.is_symb_of_sommet(at_inv)) return sign(e._SYMBptr->feuille,contextptr)*cst_pi/2-atan(e._SYMBptr->feuille,contextptr);
     if (e.is_symb_of_sommet(at_tan)){
+      if (atan_tan_no_floor(contextptr))
+	return e._SYMBptr->feuille;
       gen tmp=cst_pi;
       if(!angle_radian(contextptr))
       {

@@ -475,8 +475,8 @@ namespace giac {
       return false;
     if (d!=n){ 
       // rescale and check cyclotomic
-      gen tw=pow(*it/v.front(),-n/d)*v.back();
-      if (tw.type!=_INT_)
+      gen tw=v.back()/pow(*it/v.front(),n/d);
+      if (tw.type!=_INT_ && tw.type!=_POLY)
 	return false;
       tw=r2e(v/v.front(),lprime,contextptr);
       if (tw.type!=_VECT)
@@ -2334,11 +2334,11 @@ namespace giac {
     if (rvarsize>1){
       gen e2=_texpand(e,contextptr);
       vecteur v2(1,gen_x);
-      rlvarx(e,gen_x,v2);
-      if (v2.size()==1){
+      rlvarx(e2,gen_x,v2);
+      if (v2.size()<rvarsize){
 	e=e2;
 	v=v2;
-	rvarsize=1;
+	rvarsize=v2.size();
       }
     }
     vecteur rvar=v;
@@ -2386,7 +2386,10 @@ namespace giac {
 #else
 	  e=linear_integrate_nostep(fx,gen_x,tmprem,intmode,contextptr);
 	  remains_to_integrate=remains_to_integrate+complex_subst(tmprem,gen_x,*it,contextptr)*df;
+	  bool batan=atan_tan_no_floor(contextptr);
+	  atan_tan_no_floor(true,contextptr);
 	  e=complex_subst(e,gen_x,*it,contextptr);
+	  atan_tan_no_floor(batan,contextptr);
 	  // additional check for integrals like
 	  // int(sqrt (1+x^(-2/3)),x,-1,0)
 	  if (it->is_symb_of_sommet(at_pow)){
@@ -2575,7 +2578,8 @@ namespace giac {
 	if ( (intmode & 2)==0)
 	  gprintf(step_bypart1,gettext("Integration of %gen by part of u*v' where u=1 and v=%gen'"),makevecteur(e,e),contextptr);
 	gen tmpres,tmprem;
-	tmpres=linear_integrate_nostep(gen_x*derive(e,gen_x,contextptr),gen_x,tmprem,intmode,contextptr);
+	tmpres=normal(derive(e,gen_x,contextptr),contextptr);
+	tmpres=linear_integrate_nostep(gen_x*tmpres,gen_x,tmprem,intmode,contextptr);
 	if (!has_i(e) && has_i(tmpres)){
 	  remains_to_integrate=e;
 	  return 0;
@@ -5254,6 +5258,8 @@ namespace giac {
       // accept or reject current step and compute dt
       double err=rk_error(y_final4,y_final5,yt,contextptr);
       gen hopt=.9*tstep*pow(tolerance/err,.2,contextptr);
+      if (err==0 || is_undef(hopt))
+	break;
       if (debug_infolevel>5)
 	CERR << nstep << ":" << t_e << ",y5=" << y_final5 << ",y4=" << y_final4 << " " << tstep << " hopt=" << hopt << " err=" << err << endl;
       if (is_strictly_greater(err,tolerance,contextptr)){

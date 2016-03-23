@@ -479,8 +479,8 @@ namespace giac {
   void matrice2std_matrix_gen(const matrice & m,std_matrix<gen> & M);
   void std_matrix_gen2matrice(const std_matrix<gen> & M,matrice & m);
 
-  bool is_integer_vecteur(const vecteur & m);
-  bool is_integer_matrice(const matrice & m);
+  bool is_integer_vecteur(const vecteur & m,bool intonly=false);
+  bool is_integer_matrice(const matrice & m,bool intonly=false);
   bool is_mod_vecteur(const vecteur & m,std::vector<int> & v,int & p);
   bool is_mod_matrice(const matrice & m,std::vector< std::vector<int> > & M,int & p);
 

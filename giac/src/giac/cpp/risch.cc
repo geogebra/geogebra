@@ -818,6 +818,14 @@ namespace giac {
   static gen risch_lin(const gen & e_orig,const identificateur & x,gen & remains_to_integrate,GIAC_CONTEXT){
     vecteur v;
     gen e=e_orig;
+    vecteur vatan=lop(e,at_atan);
+    vecteur vln;
+    for (int i=0;i<int(vatan.size());++i){
+      gen ga=vatan[i];
+      gen g=ga._SYMBptr->feuille;
+      vln.push_back(ln(ratnormal(rdiv(cst_i+g,cst_i-g)),contextptr));
+      vatan[i]=-2*ga*cst_i;
+    }
     if (!risch_tower(x,e,v,contextptr)){
       remains_to_integrate=e_orig;
       return zero;
@@ -835,6 +843,8 @@ namespace giac {
 	prim=recursive_normal(prim,contextptr);
       }
     }
+    if (!vatan.empty())
+      prim=ratnormal(subst(recursive_ratnormal(prim,contextptr),vln,vatan,false,contextptr));
     if (is_zero(prim))
       remains_to_integrate=e_orig;
     return prim;

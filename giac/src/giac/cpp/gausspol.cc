@@ -1060,7 +1060,9 @@ namespace giac {
 	      unsigned pds=pD.size();
 	      res_size=double(minc1c2)*maxp1p2/std::pow(2.0,127);
 	      if (res_size<1){
+		if (debug_infolevel>5) CERR << CLOCK() << " begin result conversion" << endl;
 		convert_from<int128_t,unsigned>(pD,d,res,false);
+		if (debug_infolevel>5) CERR << CLOCK() << " end result conversion" << endl;
 		return;
 	      }
 	      vector< T_unsigned<gen,unsigned> > target;
@@ -1085,9 +1087,9 @@ namespace giac {
 		res_size /= prime2;
 		prime2=prevprime(prime2-2).val;
 	      }
-	      if (debug_infolevel>5) CERR << CLOCK() << endl;
+	      if (debug_infolevel>5) CERR << CLOCK() << " begin result conversion" << endl;
 	      convert_from<gen,unsigned>(target,d,res,true);
-	      if (debug_infolevel>5) CERR << CLOCK() << endl;
+	      if (debug_infolevel>5) CERR << CLOCK() << " end result conversion" << endl;
 	      return;
 	    }
 #endif // INT128
@@ -1311,7 +1313,9 @@ namespace giac {
 	      unsigned pds=pD.size();
 	      res_size=double(minc1c2)*maxp1p2/std::pow(2.0,127);
 	      if (res_size<1){
+		if (debug_infolevel>5) CERR << CLOCK() << " begin result conversion" << endl;
 		convert_from<int128_t,ulonglong>(pD,d,res,false);
+		if (debug_infolevel>5) CERR << CLOCK() << " end result conversion" << endl;
 		return;
 	      }
 	      vector< T_unsigned<gen,ulonglong> > target;
@@ -1336,9 +1340,9 @@ namespace giac {
 		res_size /= prime2;
 		prime2=prevprime(prime2-2).val;
 	      }
-	      if (debug_infolevel>5) CERR << CLOCK() << endl;
+	      if (debug_infolevel>5) CERR << CLOCK() << " begin result conversion" << endl;
 	      convert_from<gen,ulonglong>(target,d,res,false);
-	      if (debug_infolevel>5) CERR << CLOCK() << endl;
+	      if (debug_infolevel>5) CERR << CLOCK() << " end result conversion" << endl;
 	      return;
 	    }
 #endif

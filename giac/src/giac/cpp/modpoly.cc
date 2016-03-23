@@ -4202,6 +4202,23 @@ namespace giac {
   // return [f(1),f(omega),...,f(omega^[n-1]) [it's indeed n, not m]
   // WARNING f is given in ascending power
   void fft(const modpoly & f,const modpoly & w ,modpoly & res,environment * env){
+    if (env && env->moduloon && env->modulo.type==_INT_ && is_integer_vecteur(f,true) && is_integer_vecteur(w,true)){
+      vector<int> F=vecteur_2_vector_int(f);
+      vector<int> W=vecteur_2_vector_int(w);
+      vector<int> RES(F.size());
+      int m=env->modulo.val;
+      fft(F,W,RES,m);
+      unsigned n=RES.size();
+      res.clear();
+      res.reserve(n);
+      for (unsigned i=0;i<n;++i){
+	if (RES[i]<0)
+	  res.push_back(RES[i]+m);
+	else
+	  res.push_back(RES[i]);
+      }
+      return;
+    }
     unsigned long n=long(f.size()); // unsigned long does not parse with gcc
     if (n==1){
       res = f;
@@ -4291,6 +4308,200 @@ namespace giac {
     modpoly r0f(n2),r1f(n2);
     fft(r0,w,r0f,env);
     fft(r1,w,r1f,env);
+    // Return a mix of r0/r1
+    res.clear();
+    res.reserve(n);
+    it=r0f.begin(); itend=it+n2; itn=r1f.begin();
+    for (;it!=itend;){
+      res.push_back(*it);
+      ++it;
+      res.push_back(*itn);
+      ++itn;
+    }
+  }
+
+  void fft(const vector< complex<double> >& f,const vector< complex<double> > & w ,vector<complex< double> > & res){
+    unsigned long n=long(f.size()); // unsigned long does not parse with gcc
+    if (n==1){
+      res = f;
+      return ;
+    }
+    unsigned long m=long(w.size());
+    unsigned long step=m/n;
+    unsigned k=0;
+    if (n%2){
+      for (k=3;k*k<=n;k++){
+	if (!(n%k))
+	  break;
+      }
+    }
+    else
+      k=2;
+    if (k*k>n){ 
+      // prime size, slow discrete Fourier transform
+      res.clear();
+      res.reserve(n);
+      unsigned pos;
+      for (unsigned i=0;i<n;++i){
+	complex<double> tmp (0,0);
+	pos = 0;
+	for (unsigned j=0;j<n;++j){
+	  tmp +=  f[j]*w[pos];
+	  pos = (pos+i*step)%m;
+	}
+	res.push_back(tmp);
+      }
+      return;
+    }
+    if (k!=2){
+      // assumes n is divisible by k, nk=n/k
+      // P(X)=P_k(X)*[X^nk]^(k-1)+...+P_1(X) degree(P_k)<nk
+      // P(w^(kj+l))= Q_l ( (w^k)^j )
+      // with Q_l=P_1^(w^l)+w^(nk)*P_2^(w^l)+...
+      unsigned long n2=n/k;
+      vector< vector< complex<double> > > Q(k),Qfft(k);
+      for (unsigned j=0;j<k;++j)
+	Q[j]=vector< complex<double> >(n2,0);
+      for (unsigned j=0;j<k;j++){
+	// find Q[j]
+	for (unsigned i=0;i<n2;i++){
+	  complex<double> tmp(0,0);
+	  for (unsigned J=0;J<k;J++){
+	    tmp += f[J*n2+i]*w[(J*j*n2*step)%m];
+	  }
+	  tmp *= w[j*step*i];
+	  Q[j][i]=tmp;
+	}
+	fft(Q[j],w,Qfft[j]);
+      }
+      // build fft
+      res.clear();
+      res.reserve(n);
+      for (unsigned i=0;i<n2;++i){
+	for (unsigned j=0;j<k;++j)
+	  res.push_back(Qfft[j][i]);
+      }
+      return;
+    }
+    // Compute r0=sum_[j<n/2] (f_j+f_(j+n/2))*x^j
+    // and r1=sum_[j<n/2] (f_j-f_(j+n/2))*omega^[step*j]*x^j
+    unsigned long n2=n/2;
+    vector< complex<double> > r0,r1;
+    r0.reserve(n2); r1.reserve(n2);
+    vector< complex<double> >::const_iterator it=f.begin(),itn=it+n2,itend=itn,itk=w.begin();
+    for (;it!=itend;++itn,itk+=step,++it){
+      r0.push_back(*it+*itn);
+      r1.push_back((*it-*itn)*(*itk));
+    }
+    // Recursive call
+    vector< complex<double> > r0f(n2),r1f(n2);
+    fft(r0,w,r0f);
+    fft(r1,w,r1f);
+    // Return a mix of r0/r1
+    res.clear();
+    res.reserve(n);
+    it=r0f.begin(); itend=it+n2; itn=r1f.begin();
+    for (;it!=itend;){
+      res.push_back(*it);
+      ++it;
+      res.push_back(*itn);
+      ++itn;
+    }
+  }
+
+  // Interesting primes (from A parallel implementation for polynomial multiplication modulo a prime, Law & Monagan, pasco 2015)
+  // p1 := 2013265921 ; r:=1227303670; root of unity order 2^27 
+  // p2 := 1811939329 ; r:=814458146; order 2^26 
+  // p3 := 469762049 ; r:=2187; order 2^26
+  // p4 := 2113929217 ; ( 63×2^25 +1)
+  // p5 := 1711276033 ; ( 51×2^25 +1 )
+  // For polynomial multiplication applications mod a prime p <2^32
+  // with degree product<2^26
+  // make multiplication in Z[x] before reducing modulo p
+  // multiplication in Z[x] is computed by chinrem 
+  // from multiplication in Z/p1, Z/p2, Z/p3 using fft
+  // of size 2^k>degree(product), root of unity from a power of r
+  // For multiplication in Z[x], do it mod sufficiently many primes<2^32
+  void fft(const vector<int> & f,const vector<int> & w ,vector<int> & res,int modulo){
+    // longlong M=longlong(modulo)*modulo;
+    unsigned long n=long(f.size()); // unsigned long does not parse with gcc
+    if (n==1){
+      res = f;
+      return ;
+    }
+    unsigned long m=long(w.size());
+    unsigned long step=m/n;
+    unsigned k=0;
+    if (n%2){
+      for (k=3;k*k<=n;k++){
+	if (!(n%k))
+	  break;
+      }
+    }
+    else
+      k=2;
+    if (k*k>n){ 
+      // prime size, slow discrete Fourier transform
+      res.clear();
+      res.reserve(n);
+      longlong tmp;
+      unsigned pos;
+      for (unsigned i=0;i<n;++i){
+	tmp = 0;
+	pos = 0;
+	for (unsigned j=0;j<n;++j){
+	  tmp = (tmp + longlong(f[j])*w[pos])%modulo;
+	  pos = (pos+i*step)%m;
+	}
+	res.push_back(tmp);
+      }
+      return;
+    }
+    if (k!=2){
+      // assumes n is divisible by k, nk=n/k
+      // P(X)=P_k(X)*[X^nk]^(k-1)+...+P_1(X) degree(P_k)<nk
+      // P(w^(kj+l))= Q_l ( (w^k)^j )
+      // with Q_l=P_1^(w^l)+w^(nk)*P_2^(w^l)+...
+      unsigned long n2=n/k;
+      vector< vector<int> > Q(k),Qfft(k);
+      for (unsigned j=0;j<k;++j)
+	Q[j]=vector<int>(n2,0);
+      longlong tmp;
+      for (unsigned j=0;j<k;j++){
+	// find Q[j]
+	for (unsigned i=0;i<n2;i++){
+	  tmp=0;
+	  for (unsigned J=0;J<k;J++){
+	    tmp = (tmp+longlong(f[J*n2+i])*w[(J*j*n2*step)%m])%modulo;
+	  }
+	  tmp=(tmp*w[j*step*i])%modulo;
+	  Q[j][i]=tmp;
+	}
+	fft(Q[j],w,Qfft[j],modulo);
+      }
+      // build fft
+      res.clear();
+      res.reserve(n);
+      for (unsigned i=0;i<n2;++i){
+	for (unsigned j=0;j<k;++j)
+	  res.push_back(Qfft[j][i]);
+      }
+      return;
+    }
+    // Compute r0=sum_[j<n/2] (f_j+f_(j+n/2))*x^j
+    // and r1=sum_[j<n/2] (f_j-f_(j+n/2))*omega^[step*j]*x^j
+    unsigned long n2=n/2;
+    vector<int> r0,r1;
+    r0.reserve(n2); r1.reserve(n2);
+    vector<int>::const_iterator it=f.begin(),itn=it+n2,itend=itn,itk=w.begin();
+    for (;it!=itend;++itn,itk+=step,++it){
+      r0.push_back((longlong(*it)+*itn)%modulo);
+      r1.push_back(((longlong(*it)-*itn)*(*itk))%modulo);
+    }
+    // Recursive call
+    vector<int> r0f(n2),r1f(n2);
+    fft(r0,w,r0f,modulo);
+    fft(r1,w,r1f,modulo);
     // Return a mix of r0/r1
     res.clear();
     res.reserve(n);

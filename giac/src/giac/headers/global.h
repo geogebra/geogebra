@@ -525,6 +525,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     bool _rpn_mode_;
     bool _try_parse_i_;
     bool _specialtexprint_double_;
+    bool _atan_tan_no_floor_;
     int _angle_mode_;
     int _bounded_function_no_;
     int _series_flags_; // bit1= full simplify, bit2=1 for truncation, bit3=atan does not rewrite sin/cos to tan
@@ -671,6 +672,9 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
 
   bool & specialtexprint_double(GIAC_CONTEXT);
   void specialtexprint_double(bool b,GIAC_CONTEXT);
+
+  bool & atan_tan_no_floor(GIAC_CONTEXT);
+  void atan_tan_no_floor(bool b,GIAC_CONTEXT);
 
   bool & do_lnabs(GIAC_CONTEXT);
   void do_lnabs(bool b,GIAC_CONTEXT);

@@ -636,6 +636,21 @@ extern "C" void Sleep(unsigned int miliSecond);
       _specialtexprint_double_=b;
   }
 
+  static bool _atan_tan_no_floor_=false; 
+  bool & atan_tan_no_floor(GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      return contextptr->globalptr->_atan_tan_no_floor_;
+    else
+      return _atan_tan_no_floor_;
+  }
+
+  void atan_tan_no_floor(bool b,GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      contextptr->globalptr->_atan_tan_no_floor_=b;
+    else
+      _atan_tan_no_floor_=b;
+  }
+
   static bool _lexer_close_parenthesis_=true; 
   bool & lexer_close_parenthesis(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -3232,6 +3247,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_complex_mode_=_complex_mode_;
      ptr->globalptr->_try_parse_i_=_try_parse_i_;
      ptr->globalptr->_specialtexprint_double_=_specialtexprint_double_;
+     ptr->globalptr->_atan_tan_no_floor_=_atan_tan_no_floor_;
      ptr->globalptr->_complex_variables_=_complex_variables_;
      ptr->globalptr->_increasing_power_=_increasing_power_;
      ptr->globalptr->_approx_mode_=_approx_mode_;
@@ -3644,10 +3660,10 @@ extern "C" void Sleep(unsigned int miliSecond);
 		     _all_trig_sol_(false),
 #ifdef WITH_MYOSTREAM
 		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0)
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0)
 #else
 		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), 
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), 
 #ifdef EMCC
 		     _logptr_(&COUT), 
 #else

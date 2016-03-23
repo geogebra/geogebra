@@ -1345,7 +1345,7 @@ namespace giac {
     if (e.type!=_SYMB)
       return;
 #endif
-    if ( complex_mode(contextptr)==0 && (lvarx(e,x).size()>1) ){
+    if ( complex_mode(contextptr)==0 && lvarx(e,x).size()>1 ){
       gen es=simplify(e,contextptr);
       if (lvarx(es,x).size()==1){
 	e=es;
@@ -2092,6 +2092,10 @@ namespace giac {
       if (e._SYMBptr->sommet==at_equal || e._SYMBptr->sommet==at_equal2 || e._SYMBptr->sommet==at_same)
 	expr = e._SYMBptr->feuille._VECTptr->front()-e._SYMBptr->feuille._VECTptr->back();
     }
+    vecteur v=lvarx(expr,x);
+    v=lop(v,at_of);
+    if (!v.empty())
+      return vecteur(1,gensizeerr("Invalid function "+v.front().print(contextptr)+" perhaps a missing * for multiplication"));
     clean(expr,x,contextptr);
     vecteur res= solve_cleaned(expr,e,x,isolate_mode,contextptr);
     if (has_op(expr,*at_unit)){

@@ -210,6 +210,9 @@ namespace giac {
   // return [f(1),f(omega),...,f(omega^[n-1])
   // WARNING f is given in ascending power
   void fft(const modpoly & f,const modpoly & w ,modpoly & res,environment * env);
+  void fft(const std::vector< std::complex<double> >& f,const std::vector< std::complex<double> > & w ,std::vector<std::complex< double> > & res);
+  void fft(const std::vector<int> & f,const std::vector<int> & w ,std::vector<int> & res,int modulo);
+
   // Convolution of p and q, omega a n-th root of unity, n=2^k
   // WARNING p0 and q0 are given in ascending power
   void fftconv(const modpoly & p,const modpoly & q,unsigned long k,unsigned long n,const gen & omega,modpoly & pq,environment * env);

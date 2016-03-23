@@ -237,6 +237,7 @@ namespace giac {
   gen asin2ln(const gen & g_orig,GIAC_CONTEXT);
   gen acos2ln(const gen & g_orig,GIAC_CONTEXT);
   gen atan2ln(const gen & g_orig,GIAC_CONTEXT);
+  gen _atrig2ln(const gen & args,GIAC_CONTEXT);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
