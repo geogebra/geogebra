@@ -97,7 +97,7 @@ namespace giac {
       return zero;
     // rational operators are treated first for efficiency
     if (s.sommet==at_plus){
-      bool do_step=step_infolevel>1 && count_noncst(s.feuille,i)>1;
+      bool do_step=step_infolevel(contextptr)>1 && count_noncst(s.feuille,i)>1;
       if (do_step)
 	gprintf(gettext("Derivative of %gen apply linearity: (u+v+...)'=u'+v'+..."),makevecteur(s),contextptr);
       if (s.feuille.type!=_VECT)
@@ -126,7 +126,7 @@ namespace giac {
       return res;
     }
     if (s.sommet==at_prod){
-      bool do_step=step_infolevel>1 && count_noncst(s.feuille,i)>1;
+      bool do_step=step_infolevel(contextptr)>1 && count_noncst(s.feuille,i)>1;
       if (do_step)
 	gprintf(gettext("Derivative of %gen, apply product rule: (u*v*...)'=u'*v*...+u*v'*...+..."),makevecteur(s),contextptr);
       if (s.feuille.type!=_VECT)
@@ -169,7 +169,7 @@ namespace giac {
       if (s.feuille.type!=_VECT || s.feuille._VECTptr->size()!=2)
 	return gensizeerr(contextptr);
       gen base = s.feuille._VECTptr->front(),exponent=s.feuille._VECTptr->back();
-      if (step_infolevel>1){
+      if (step_infolevel(contextptr)>1){
 	if (is_constant_wrt(exponent,i,contextptr))
 	  gprintf(gettext("Derivative of a power: (%gen)'=(%gen)*(%gen)'*%gen"),makevecteur(symb_pow(base,exponent),exponent,base,symb_pow(base,exponent-1)),contextptr);
 	else
@@ -184,7 +184,7 @@ namespace giac {
       return dexponent*ln(base,contextptr)*s+exponent*dbase*pow(base,expm1,contextptr);
     }
     if (s.sommet==at_inv){
-      if (step_infolevel>1)
+      if (step_infolevel(contextptr)>1)
 	gprintf(gettext("Derivative of inv(u)=-u'/u^2 with u=%gen"),makevecteur(s.feuille),contextptr);
       if (s.feuille.is_symb_of_sommet(at_pow)){
 	gen & f = s.feuille._SYMBptr->feuille;
@@ -226,12 +226,12 @@ namespace giac {
       }
       return gensizeerr(gettext("Derivative of rootof currently not handled"));
     }
-    if (step_infolevel>1 && s.feuille.type!=_VECT){
+    if (step_infolevel(contextptr)>1 && s.feuille.type!=_VECT){
       if (s.feuille==i){
-	int save_step=step_infolevel;
-	step_infolevel=0;
+	int save_step=step_infolevel(contextptr);
+	step_infolevel(contextptr)=0;
 	gen der=derive_SYMB(g_orig,i,contextptr);
-	step_infolevel=save_step;
+	step_infolevel(contextptr)=save_step;
 	gprintf(gettext("Derivative of elementary function %gen is %gen"),makevecteur(g_orig,der),contextptr);
       }
       else
@@ -629,7 +629,7 @@ namespace giac {
       v[1]=eval(v[1],1,contextptr);
     if (is_undef(v))
       return v;
-    if (step_infolevel && v.size()==2)
+    if (step_infolevel(contextptr) && v.size()==2)
       gprintf(step_derive_header,gettext("===== Derive %gen with respect to %gen ====="),makevecteur(v[0],v[1]),contextptr);
     gen var,res;
     if (args.type!=_VECT && is_algebraic_program(v[0],var,res)){
@@ -669,8 +669,8 @@ namespace giac {
   }
   // "unary" version
   gen step_derive(const gen & args,GIAC_CONTEXT){
-    if (step_infolevel)
-      ++step_infolevel;
+    if (step_infolevel(contextptr))
+      ++step_infolevel(contextptr);
     gen res;
 #ifndef NO_STDEXCEPT
     try {
@@ -682,8 +682,8 @@ namespace giac {
 #else
     res=_derive(args,contextptr);
 #endif
-    if (step_infolevel)
-      --step_infolevel;
+    if (step_infolevel(contextptr))
+      --step_infolevel(contextptr);
     return res;
   }
   static const char _derive_s []="diff";
@@ -746,16 +746,16 @@ namespace giac {
       arg=g._VECTptr->front();
       var=(*g._VECTptr)[1];
     }
-    int savestep=step_infolevel;
+    int savestep=step_infolevel(contextptr);
     gprintf(gettext("===== Critical points for %gen ====="),makevecteur(arg),contextptr);
-    step_infolevel=0;
+    step_infolevel(contextptr)=0;
     gen d=_derive(makesequence(arg,var),contextptr);
     gen deq=_equal(makesequence(d,0*var),contextptr);
     // *logptr(contextptr) << "Critical points for "<< arg <<": solving " << deq << " with respect to " << var << endl;
     int c=calc_mode(contextptr);
     calc_mode(0,contextptr);
     gen s=_solve(makesequence(deq,var),contextptr);
-    step_infolevel=savestep;
+    step_infolevel(contextptr)=savestep;
     gprintf(step_extrema1,gettext("Derivative of %gen with respect to %gen is %gen\nSolving %gen with respect to %gen answer %gen"),makevecteur(arg,var,d,deq,var,s.type==_VECT?change_subtype(s,_SEQ__VECT):s),contextptr);
     calc_mode(c,contextptr);
     vecteur ls=lidnt(s);
@@ -765,9 +765,9 @@ namespace giac {
     }
     if (s.type==_VECT){
       vecteur res;
-      step_infolevel=0;
+      step_infolevel(contextptr)=0;
       gen d2=_derive(makesequence(d,var),contextptr);
-      step_infolevel=savestep;
+      step_infolevel(contextptr)=savestep;
       gprintf(step_extrema2,gettext("Hessian at %gen : %gen"),makevecteur(var,d2),contextptr);
       // *logptr(contextptr) << "Hessian " << d2 << endl;
       vecteur v=*s._VECTptr;

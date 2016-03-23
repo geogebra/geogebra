@@ -529,6 +529,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     int _angle_mode_;
     int _bounded_function_no_;
     int _series_flags_; // bit1= full simplify, bit2=1 for truncation, bit3=atan does not rewrite sin/cos to tan
+    int _step_infolevel_; 
     int _default_color_;
     double _epsilon_;
     double _proba_epsilon_; // if not 0, probabilistic algo may be used
@@ -741,6 +742,9 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   int & series_flags(GIAC_CONTEXT);
   void series_flags(int b,GIAC_CONTEXT);
 
+  int & step_infolevel(GIAC_CONTEXT);
+  void step_infolevel(int b,GIAC_CONTEXT);
+
   bool & local_eval(GIAC_CONTEXT);
   void local_eval(bool b,GIAC_CONTEXT);
 
@@ -950,7 +954,6 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
 
   gen add_autosimplify(const gen & g,GIAC_CONTEXT);
 
-  extern int step_infolevel;
   extern void (*my_gprintf)(unsigned special,const std::string & format,const vecteur & v,GIAC_CONTEXT);
   void gprintf(const std::string & format,const vecteur & v,GIAC_CONTEXT);
   void gprintf(unsigned special,const std::string & format,const vecteur & v,GIAC_CONTEXT);

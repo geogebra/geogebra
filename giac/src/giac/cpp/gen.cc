@@ -8208,7 +8208,7 @@ namespace giac {
     case _FLOAT_:
       return a._FLOAT_val==giac_float(1);
     case _REAL:
-      return is_zero(a-1);
+      return is_exactly_zero(a-1);
     case _VECT:
       return a._VECTptr->size()==1 && is_one(a._VECTptr->front());
     case _POLY:
@@ -8237,7 +8237,7 @@ namespace giac {
     case _FLOAT_:
       return a._FLOAT_val==giac_float(-1);
     case _REAL:
-      return is_zero(a+1);
+      return is_exactly_zero(a+1);
     case _VECT:
       return a._VECTptr->size()==1 && is_minus_one(a._VECTptr->front());
     case _POLY:

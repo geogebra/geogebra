@@ -6353,7 +6353,7 @@ namespace giac {
     double eps=epsilon(contextptr);
     unsigned as=unsigned(a.size()),a0s=unsigned(a.front()._VECTptr->size());
     bool step_rref=false;
-    if (algorithm==RREF_GUESS && step_infolevel && as<5 && a0s<7){
+    if (algorithm==RREF_GUESS && step_infolevel(contextptr) && as<5 && a0s<7){
       algorithm=RREF_GAUSS_JORDAN;
       step_rref=true;
     }

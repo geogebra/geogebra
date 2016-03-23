@@ -83,8 +83,8 @@ mpz_class smod(const mpz_class & a,int reduce){
     if ( g0.type==_STRNG && g0.subtype==-1) return  g0;
     gen g=evalf_double(g0,1,contextptr);
     if (g.type!=_DOUBLE_)
-      return step_infolevel;
-    return step_infolevel=int(g._DOUBLE_val);
+      return step_infolevel(contextptr);
+    return step_infolevel(contextptr)=int(g._DOUBLE_val);
   }
   static const char _step_infolevel_s []="step_infolevel";
   static define_unary_function_eval (__step_infolevel,&_step_infolevel,_step_infolevel_s);

@@ -860,7 +860,7 @@ namespace giac {
 	fxnd(in_rea+cst_i*in_ima,in_anum,in_aden);
 	solve_aPprime_plus_P(in_anum,in_aden,in_coeffnumv,resnum,resden);
 	resplus=rdiv(r2e(poly12polynome(resnum,1,les_vars),les_var,contextptr),r2e(poly12polynome(vecteur(1,resden*in_coeffden),1,les_vars),les_var,contextptr),contextptr);
-	if (step_infolevel){
+	if (step_infolevel(contextptr)){
 	  gprintf(step_polyexp,gettext("Primitive of %gen is polynomial of same degree*same exponential %gen"),makevecteur(coeff*symb_exp(reaxb+cst_i*imaxb),resplus*symb_exp(reaxb+cst_i*imaxb)),contextptr);
 	}
 	if (!trig_type){
@@ -1117,10 +1117,10 @@ namespace giac {
 	    col0.push_back(zero);
 	  }
 	  sys=mtran(sys);
-	  int st=step_infolevel;
-	  step_infolevel=0;
+	  int st=step_infolevel(contextptr);
+	  step_infolevel(contextptr)=0;
 	  col0=linsolve(sys,colP,contextptr);
-	  step_infolevel=st;
+	  step_infolevel(contextptr)=st;
 	  if (!col0.empty() && is_undef(col0.front())){
 	    res= col0.front();
 	    return true;
@@ -2671,16 +2671,16 @@ namespace giac {
   }
 
   gen linear_integrate_nostep(const gen & e,const gen & x,gen & remains_to_integrate,int intmode,GIAC_CONTEXT){
-    int step_infolevelsave=step_infolevel;
+    int step_infolevelsave=step_infolevel(contextptr);
     if ((intmode & 2)==2) 
-      step_infolevel=0;
+      step_infolevel(contextptr)=0;
     // temporarily remove assumptions by changing integration variable
     identificateur t("t_nostep");
     gen tt(t);
     gen ee=quotesubst(e,x,tt,contextptr);
     ee=normalize_sqrt(ee,contextptr);
     gen res=linear_apply(ee,tt,remains_to_integrate,contextptr,integrate_gen_rem);
-    step_infolevel=step_infolevelsave;
+    step_infolevel(contextptr)=step_infolevelsave;
     res=quotesubst(res,tt,x,contextptr);
     remains_to_integrate=quotesubst(remains_to_integrate,tt,x,contextptr);
     return res;
@@ -2729,7 +2729,7 @@ namespace giac {
   }
 
   static gen integrate0(const gen & e,const identificateur & x,gen & remains_to_integrate,GIAC_CONTEXT){
-    if (step_infolevel)
+    if (step_infolevel(contextptr))
       gprintf(step_integrate_header,gettext("===== Step/step primitive of %gen with respect to %gen ====="),makevecteur(e,x),contextptr);
     if (e.type==_VECT){
       vecteur w;
@@ -2742,7 +2742,7 @@ namespace giac {
     ee=rewrite_minmax(ee,contextptr);
     gen res=linear_integrate(ee,x,tmprem,contextptr);
     remains_to_integrate=remains_to_integrate+tmprem;
-    if (step_infolevel && is_zero(remains_to_integrate))
+    if (step_infolevel(contextptr) && is_zero(remains_to_integrate))
       gprintf(gettext("Hence primitive of %gen with respect to %gen is %gen"),makevecteur(e,x,res),contextptr);
     return res;
   }
@@ -4144,10 +4144,10 @@ namespace giac {
     lrdm(vP,p);
     m.push_back(vP);
     m=mtran(m);
-    int st=step_infolevel;
-    step_infolevel=0;
+    int st=step_infolevel(contextptr);
+    step_infolevel(contextptr)=0;
     m=mrref(m,contextptr);
-    step_infolevel=st;
+    step_infolevel(contextptr)=st;
     vecteur res(y+1);
     for (int i=0;i<=y;++i){
       if (is_zero(m[i][i]))

@@ -910,6 +910,21 @@ extern "C" void Sleep(unsigned int miliSecond);
       _series_flags_=b;
   }
 
+  static int _step_infolevel_=0;
+  int & step_infolevel(GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      return contextptr->globalptr->_step_infolevel_;
+    else
+      return _step_infolevel_;
+  }
+
+  void step_infolevel(int b,GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      contextptr->globalptr->_step_infolevel_=b;
+    else
+      _step_infolevel_=b;
+  }
+
   static bool _local_eval_=true;
   bool & local_eval(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -3256,6 +3271,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_variables_are_files_=_variables_are_files_;
      ptr->globalptr->_bounded_function_no_=_bounded_function_no_;
      ptr->globalptr->_series_flags_=_series_flags_; // bit1= full simplify, bit2=1 for truncation
+     ptr->globalptr->_step_infolevel_=_step_infolevel_; // bit1= full simplify, bit2=1 for truncation
      ptr->globalptr->_local_eval_=_local_eval_;
      ptr->globalptr->_default_color_=_default_color_;
      ptr->globalptr->_epsilon_=_epsilon_<=0?1e-12:_epsilon_;
@@ -3660,10 +3676,10 @@ extern "C" void Sleep(unsigned int miliSecond);
 		     _all_trig_sol_(false),
 #ifdef WITH_MYOSTREAM
 		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0)
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0)
 #else
 		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), 
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), 
 #ifdef EMCC
 		     _logptr_(&COUT), 
 #else
@@ -3715,9 +3731,11 @@ _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_ma
      _increasing_power_=g._increasing_power_;
      _approx_mode_=g._approx_mode_;
      _angle_mode_=g._angle_mode_;
+     _atan_tan_no_floor_=g._atan_tan_no_floor_;
      _variables_are_files_=g._variables_are_files_;
      _bounded_function_no_=g._bounded_function_no_;
      _series_flags_=g._series_flags_; // bit1= full simplify, bit2=1 for truncation
+     _step_infolevel_=g._step_infolevel_; // bit1= full simplify, bit2=1 for truncation
      _local_eval_=g._local_eval_;
      _default_color_=g._default_color_;
      _epsilon_=g._epsilon_;
@@ -4808,7 +4826,6 @@ unsigned int ConvertUTF8toUTF16 (
     return g;
   }
 
-  int step_infolevel=0;
   void (*my_gprintf)(unsigned special,const string & format,const vecteur & v,GIAC_CONTEXT)=0;
 
 #ifdef EMCC
@@ -4828,7 +4845,7 @@ unsigned int ConvertUTF8toUTF16 (
 #endif
 
   void gprintf(unsigned special,const string & format,const vecteur & v,GIAC_CONTEXT){
-    if (step_infolevel==0)
+    if (step_infolevel(contextptr)==0)
       return;
     if (my_gprintf){
       my_gprintf(special,format,v,contextptr);

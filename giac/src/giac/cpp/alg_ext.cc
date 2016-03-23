@@ -595,15 +595,15 @@ namespace giac {
       matrice m_red;
       vecteur pivots;
       gen det;
-      int st=step_infolevel;
-      step_infolevel=0;
+      int st=step_infolevel(contextptr);
+      step_infolevel(contextptr)=0;
       if (!mrref(m,m_red,pivots,det,0,na*nb,0,na*nb+3,
 		 /* fullreduction */1,0,true,1,0,
 		 contextptr)){
-	step_infolevel=st;
+	step_infolevel(contextptr)=st;
 	return gensizeerr(contextptr);
       }
-      step_infolevel=st;
+      step_infolevel(contextptr)=st;
       m=m_red;
       // the reduced matrix m should have the form
       // * 0      ... 0 * * *
