@@ -12,6 +12,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -70,7 +71,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		implements SetLabels, SettingListener, PrintableW {
 
 	/** contains a scrollPanel with the {@link #table constructionstep-table} **/
-	public FlowPanel cpPanel;
+	public MyPanel cpPanel;
 	/** table with constructionsteps **/
 	protected CellTable<RowData> table;
 	private StyleBarW styleBar;
@@ -116,11 +117,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		
 
-		headerTable2 = new CellTable<RowData>();
-		addColumnsForTable(headerTable2);
-		headerTable2.addStyleName("headerTable2");
-		headerTable2.addStyleName("cpTable");
-
 		FlowPanel holderPanel = new FlowPanel();
 		holderPanel.add(table);
 		ScrollPanel scrollPane = new ScrollPanel(holderPanel);
@@ -128,9 +124,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		scrollPane.setStyleName("cpScrollPanel");
 		if (app.has(Feature.FIX_CP_HEADER)) {
+			headerTable2 = new CellTable<RowData>();
+			addColumnsForTable(headerTable2);
+			headerTable2.addStyleName("headerTable2");
+			headerTable2.addStyleName("cpTable");
 			SimplePanel headerTablePanel = new SimplePanel();
 			headerTablePanel.add(headerTable2);
 			cpPanel.add(headerTablePanel);
+			// table.getElement().getElementsByTagName("thead").getItem(0).getStyle().setDisplay(com.google.gwt.dom.client.Style.Display.NONE);
+			table.addStyleName("head_hide");
 		}
 		cpPanel.add(scrollPane);
 		
@@ -149,27 +151,47 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	public class MyPanel extends FlowPanel {
 
 		public void setHeaderSizes() {
-			NodeList<Element> tableRows = table.getElement()
-					.getElementsByTagName("tbody").getItem(0)
-					.getElementsByTagName("tr");
-			if (tableRows.getLength() == 0) {
+
+			if (!app.has(Feature.FIX_CP_HEADER)) {
 				return;
 			}
 
-			NodeList<Element> firstRow = tableRows.getItem(0)
-					.getElementsByTagName("td");
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
-			for (int i = 0; i < table.getColumnCount(); i++) {
-				headerTable2.setColumnWidth(i, firstRow.getItem(i)
-						.getOffsetWidth() + "px");
-			}
+				public void execute() {
+					// TODO Auto-generated method stub
+					NodeList<Element> tableRows = table.getElement()
+							.getElementsByTagName("tbody").getItem(0)
+							.getElementsByTagName("tr");
+					Log.debug("tableRows.getLength(): " + tableRows.getLength());
+					if (tableRows.getLength() == 0) {
+						return;
+					}
 
-			if (this.getElement().getClientWidth() > table.getElement()
-					.getClientWidth()) {
-				headerTable2.getParent().addStyleName("overflowYScroll");
-			} else {
-				headerTable2.getParent().removeStyleName("overflowYScroll");
-			}
+
+					if (MyPanel.this.getElement().getClientWidth() > table
+							.getElement()
+							.getClientWidth()) {
+						headerTable2.getParent()
+								.addStyleName("overflowYScroll");
+					} else {
+						headerTable2.getParent().removeStyleName(
+								"overflowYScroll");
+					}
+
+					NodeList<Element> firstRow = tableRows.getItem(0)
+							.getElementsByTagName("td");
+
+					int sum = 0;
+					for (int i = 0; i < table.getColumnCount(); i++) {
+						int w = firstRow.getItem(i).getOffsetWidth();
+						headerTable2.setColumnWidth(i, w + "px");
+						Log.debug("w: " + w);
+						sum += w;
+					}
+				}
+
+			});
 
 		}
 
@@ -971,6 +993,8 @@ myCell) {
 				needsUpdate = false;
 				tableInit();
 			}
+			cpPanel.setHeaderSizes();
+
 		}
 
 		@Override
