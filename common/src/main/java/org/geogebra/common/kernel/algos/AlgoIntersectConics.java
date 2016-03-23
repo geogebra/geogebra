@@ -1034,7 +1034,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		for (int i = 0; i < 6 && Double.isNaN(m2); i++) {
 			double m1 = c1matrix[i];
 			if (!Kernel.isZero(m1, eps)) {
-				m2 = Math.abs(c2matrix[i]) / m1;
+				m2 = c2matrix[i] / m1;
 			}
 		}
 
