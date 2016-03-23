@@ -75,6 +75,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	private boolean substNeeded = false;
 
+	private boolean leftWasDist = false, rightWasDist = false;
+
 	/**
 	 * @param cons
 	 *            construction
@@ -515,7 +517,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	// procedure to traverse inorder the expression
 	private TrustCheck traverseExpression(ExpressionNode node)
 			throws NoSymbolicParametersException {
-		if (node.getLeft().isGeoElement()
+		if (node.getLeft() != null && node.getLeft().isGeoElement()
 				&& node.getLeft() instanceof GeoSegment) {
 			// if segment was given with command, eg. Segment[A,B]
 			// set new name for segment (which giac will use later)
@@ -525,7 +527,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getLeft());
 		}
-		if (node.getRight().isGeoElement()
+		if (node.getRight() != null && node.getRight().isGeoElement()
 				&& node.getRight() instanceof GeoSegment) {
 			// if segment was given with command, eg. Segment[A,B]
 			// set new name for segment (which giac will use later)
@@ -536,16 +538,16 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			allSegmentsFromExpression.add((GeoSegment) node.getRight());
 		}
 		TrustCheck leftCheck = null, rightCheck = null;
-		if (node.getLeft().isExpressionNode()) {
+		if (node.getLeft() != null && node.getLeft().isExpressionNode()) {
 			leftCheck = traverseExpression((ExpressionNode) node.getLeft());
 		}
-		if (node.getRight().isExpressionNode()) {
+		if (node.getRight() != null && node.getRight().isExpressionNode()) {
 			rightCheck = traverseExpression((ExpressionNode) node.getRight());
 		}
 		TrustCheck nodeCheck = new TrustCheck();
 		node.isTrustableExpression(nodeCheck);
 		// expression is trusted, if children are trusted
-		if (node.getLeft().isExpressionNode()
+		if (node.getLeft() != null && node.getLeft().isExpressionNode()
  && leftCheck.getTrustable()
 				&& node.getRight().isExpressionNode()
 				&& rightCheck.getTrustable()) {
@@ -599,7 +601,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			nodeCheck.setHalfTrustable(true);
 		}
 		// 2*h*j or k*h*j halfTrusted
-		if (node.getRight().isExpressionNode()
+		if (node.getRight() != null
+				&& node.getRight().isExpressionNode()
 				&& rightCheck.getHalfTrustable()
 				&& node.getLeft() instanceof NumberValue
 				&& (node.getOperation() == Operation.DIVIDE || node
@@ -607,7 +610,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			nodeCheck.setHalfTrustable(true);
 		}
 		// h*j*k*l halfTrusted
-		if (node.getLeft().isExpressionNode()
+		if (node.getLeft() != null
+				&& node.getLeft().isExpressionNode()
 				&& node.getRight().isExpressionNode()
 				&& leftCheck.getHalfTrustable()
 				&& rightCheck.getHalfTrustable()
@@ -633,6 +637,12 @@ public class AlgoDependentBoolean extends AlgoElement implements
 						(GeoPoint) algo.getInput(1));
 				if (geo != null) {
 					root.setLeft(geo);
+				} else {
+					geo = new GeoSegment(cons, (GeoPoint) algo.input[0],
+							(GeoPoint) algo.input[1]);
+					geo.setParentAlgorithm(algo);
+					root.setLeft(geo);
+					leftWasDist = true;
 				}
 			}
 		}
@@ -646,6 +656,12 @@ public class AlgoDependentBoolean extends AlgoElement implements
 						(GeoPoint) algo.getInput(1));
 				if (geo != null) {
 					root.setRight(geo);
+				} else {
+					geo = new GeoSegment(cons, (GeoPoint) algo.input[0],
+							(GeoPoint) algo.input[1]);
+					geo.setParentAlgorithm(algo);
+					root.setRight(geo);
+					rightWasDist = true;
 				}
 			}
 		}
@@ -677,6 +693,12 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				algo.remove();
+				if (leftWasDist) {
+					left.doRemove();
+				}
+				if (rightWasDist) {
+					right.doRemove();
+				}
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.IS_ELEMENT_OF)) {
