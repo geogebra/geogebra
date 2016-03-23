@@ -3986,7 +3986,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case WEB_KEYBOARD_IN_GGBTRANS:
-			return prerelease;
+			return true;
 
 		case MOBILE_KEYBOARD_IN_GGBTRANS:
 			return false;
