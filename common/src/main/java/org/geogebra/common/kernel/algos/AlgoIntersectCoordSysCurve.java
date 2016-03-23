@@ -32,7 +32,7 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 			// AbstractApplication.debug("trying polynomial");
 
 			LinkedList<PolyFunction> factorList = geoFun.getFunction()
-					.getPolynomialFactors(false);
+					.getPolynomialFactors(false, false);
 
 			if (factorList != null) {
 				// compute the roots of every single factor

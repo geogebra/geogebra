@@ -432,14 +432,15 @@ public class Function extends FunctionNVar implements
 	 * 
 	 */
 	final public LinkedList<PolyFunction> getPolynomialFactors(
-			boolean rootFindingSimplification) {
+			boolean rootFindingSimplification, boolean avoidCAS) {
 		// try to get symbolic polynomial factors
 		LinkedList<PolyFunction> result = getSymbolicPolynomialFactors(
 				rootFindingSimplification, false);
 
 		// if this didn't work try to get numeric polynomial factors
 		if (result == null) {
-			result = getNumericPolynomialFactors(rootFindingSimplification);
+			result = getNumericPolynomialFactors(rootFindingSimplification,
+					avoidCAS);
 		}
 		return result;
 	}
@@ -567,14 +568,15 @@ public class Function extends FunctionNVar implements
 	 *            be simplified to x
 	 */
 	private LinkedList<PolyFunction> getNumericPolynomialFactors(
-			boolean rootFindingSimplification) {
+			boolean rootFindingSimplification, boolean avoidCAS) {
 		if (numericPolyFactorList == null)
 			numericPolyFactorList = new LinkedList<PolyFunction>();
 		else
 			numericPolyFactorList.clear();
 
 		boolean success = addPolynomialFactors(expression,
-				numericPolyFactorList, false, rootFindingSimplification, false);
+				numericPolyFactorList, false, rootFindingSimplification,
+				avoidCAS);
 		if (success && numericPolyFactorList.size() > 0) {
 			return numericPolyFactorList;
 		}

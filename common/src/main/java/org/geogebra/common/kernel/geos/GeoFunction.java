@@ -681,7 +681,8 @@ CasEvaluableFunction, ParametricCurve,
 		}
 		return fun.isConstantFunction()
 				|| (symbolic ? fun.getSymbolicPolynomialFactors(forRootFinding,false)
-						: fun.getPolynomialFactors(forRootFinding)) != null;
+						: fun.getPolynomialFactors(forRootFinding,
+								false)) != null;
 	}
 
 	/**

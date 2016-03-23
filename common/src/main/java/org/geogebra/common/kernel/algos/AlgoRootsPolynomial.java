@@ -401,7 +401,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			}
 		} else {
 			// standard case
-			factorList = fun.getPolynomialFactors(false);
+			factorList = fun.getPolynomialFactors(false, false);
 		}
 
 		double[] roots;

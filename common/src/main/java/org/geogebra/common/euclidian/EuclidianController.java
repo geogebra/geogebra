@@ -7364,11 +7364,10 @@ public abstract class EuclidianController {
 
 				initxRW = Double.NaN;
 				initFactor = Double.NaN;
+				LinkedList<PolyFunction> factors = movedGeoFunction
+						.getFunction().getPolynomialFactors(false, true);
+				if (factors != null) {
 
-				if (movedGeoFunction.getFunction()
-						.getSymbolicPolynomialFactors(false, true) != null) {
-					LinkedList<PolyFunction> factors = movedGeoFunction
-							.getFunction().getPolynomialFactors(false);
 					if (factors.size() == 1 && factors.get(0).getDegree() == 2) {
 						double c = movedGeoFunction.evaluate(0);
 						double s = movedGeoFunction.evaluate(1);

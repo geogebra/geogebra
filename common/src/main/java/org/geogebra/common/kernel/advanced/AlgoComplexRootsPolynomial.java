@@ -48,7 +48,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 
 		// get polynomial factors for this function
 
-		factorList = fun.getPolynomialFactors(true);
+		factorList = fun.getPolynomialFactors(true, false);
 
 		double[] real, complex;
 		int noOfRoots;
