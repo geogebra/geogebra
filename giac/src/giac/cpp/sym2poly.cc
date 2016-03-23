@@ -2081,7 +2081,10 @@ namespace giac {
     if (!ckmatrix(m))
       return gensizeerr(contextptr);
     m=mtran(m); // d-1 rows, d columns
+    int st=step_infolevel;
+    step_infolevel=0;
     vecteur mk=mker(m,contextptr);
+    step_infolevel=st;
     gen pm(mk.front()); // min poly= 1st kernel element
     if (pm.type==_VECT){
       mk=*pm._VECTptr;

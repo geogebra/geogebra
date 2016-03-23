@@ -632,7 +632,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_plotseq;
   extern const unary_function_ptr * const  at_seqplot;
 
-  gen plotimplicit(const gen& f_orig,const gen&x,const gen & y,double xmin,double xmax,double ymin,double ymax,int nxstep,int nystep,double eps,const vecteur & attributs,bool unfactored,bool ckgeo2d,const context * contextptr);
+  gen plotimplicit(const gen& f_orig,const gen&x,const gen & y,double xmin,double xmax,double ymin,double ymax,int nxstep,int nystep,double eps,const vecteur & attributs,bool unfactored,const context * contextptr,int ckgeo2d);
   gen _plotimplicit(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_plotimplicit;
   extern const unary_function_ptr * const  at_implicitplot;

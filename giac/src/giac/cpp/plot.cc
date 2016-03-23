@@ -5823,7 +5823,10 @@ namespace giac {
   define_unary_function_ptr5( at_as_function_of ,alias_at_as_function_of,&__as_function_of,_QUOTE_ARGUMENTS,true);
 
   // equation f -> geometric object g
-  static bool equation2geo2d(const gen & f0,const gen & x,const gen & y,gen & g,double tmin,double tmax,double tstep,const gen & pointon,const context * contextptr){
+  // allowed 1 lines
+  // 2 lines and circles
+  // >2 all conics
+  static bool equation2geo2d(const gen & f0,const gen & x,const gen & y,gen & g,double tmin,double tmax,double tstep,const gen & pointon,int allowed,const context * contextptr){
     gen f=_fxnd(remove_equal(f0),contextptr)._VECTptr->front();
     gen eq=subst(f,makevecteur(x,y),makevecteur(x__IDNT_e,y__IDNT_e),false,contextptr);
     if (!lop(f,at_abs).empty() || !lop(f,at_sign).empty())
@@ -5857,7 +5860,8 @@ namespace giac {
 	    g=gen(makevecteur(tmp*cst_i,tmp*cst_i+fy-fx*cst_i),_LINE__VECT);
 	  }
 	  return true;
-	}
+	} // fxx==0 && fyy==0
+	if (allowed<=1) return false;
 	if (is_zero(fxx-fyy,contextptr)){
 	  fx=ratnormal(subst(fx,vxy,v0,false,contextptr));
 	  fy=ratnormal(subst(fy,vxy,v0,false,contextptr));
@@ -5878,6 +5882,7 @@ namespace giac {
 	  return true;
 	}
       }
+      if (allowed<=2) return false;      
       // conique
       gen x0,y0,propre,equation_reduite,ratparam;
       vecteur V0,V1,param_curves;
@@ -6255,7 +6260,7 @@ namespace giac {
 	  if (!doublify(tmin,tmax,T,tmin_d,tmax_d,contextptr))
 	    return gensizeerr(contextptr);
 	  double tstep_d=tstep_defined?tstep:(tmax_d-tmin_d)/80;
-	  if (equation2geo2d(lieu_eq,x,y,geoobj,tmin_d,tmax_d,tstep_d,undef,contextptr)){
+	  if (equation2geo2d(lieu_eq,x,y,geoobj,tmin_d,tmax_d,tstep_d,undef,3,contextptr)){
 	    vecteur lieu_vect;
 	    if (geoobj.type==_VECT && geoobj.subtype==_SEQ__VECT)
 	      lieu_vect=*geoobj._VECTptr;
@@ -9406,7 +9411,7 @@ namespace giac {
       identificateur x(" x"),y(" y");
       gen eq=res[0]*x*x+res[1]*x*y+res[2]*y*y+res[3]*x+res[4]*y+res[5];
       gen g;
-      if (equation2geo2d(eq,x,y,g,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,w[0],contextptr))
+      if (equation2geo2d(eq,x,y,g,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,w[0],3,contextptr))
 	return put_attributs(g,attributs,contextptr);
       else
 	return gensizeerr(gettext("Bug in conique, equation ")+eq.print(contextptr));	
@@ -10946,7 +10951,7 @@ namespace giac {
   }
   
   // FIXME: this function is using absolute constants 0.1 and 0.2 for checking singular points, they should use better estimates depending on f_orig (search for dfxyabs2)
-  static gen in_plotimplicit(const gen& f_orig,const gen&x,const gen & y,double xmin,double xmax,double ymin,double ymax,int nxstep,int nystep,double eps,const vecteur & attributs,bool ckgeo2d,const context * contextptr){
+  static gen in_plotimplicit(const gen& f_orig,const gen&x,const gen & y,double xmin,double xmax,double ymin,double ymax,int nxstep,int nystep,double eps,const vecteur & attributs,int ckgeo2d,const context * contextptr){
 #ifdef RTOS_THREADX
     return undef;
 #else
@@ -10984,7 +10989,7 @@ namespace giac {
     }
     gen attribut=attributs.empty()?default_color(contextptr):attributs[0];
     gen lieu_geo;
-    if (ckgeo2d && equation2geo2d(f_orig,x,y,lieu_geo,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,undef,contextptr))
+    if (ckgeo2d && equation2geo2d(f_orig,x,y,lieu_geo,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,undef,ckgeo2d,contextptr))
       return put_attributs(lieu_geo,attributs,contextptr);
     // make a lattice between gnuplot_xmin/gnuplot_xmax and ymin/ymax
     // find zeros of f inside each square and follow the branches
@@ -11586,7 +11591,7 @@ namespace giac {
 #endif // RTOS_THREADX
   }
 
-  gen plotimplicit(const gen& f_orig,const gen&x,const gen & y,double xmin,double xmax,double ymin,double ymax,int nxstep,int nystep,double eps,const vecteur & attributs,bool unfactored,bool ckgeo2d,const context * contextptr){
+  gen plotimplicit(const gen& f_orig,const gen&x,const gen & y,double xmin,double xmax,double ymin,double ymax,int nxstep,int nystep,double eps,const vecteur & attributs,bool unfactored,const context * contextptr,int ckgeo2d){
     if ( (x.type!=_IDNT) || (y.type!=_IDNT) )
       return gensizeerr(gettext("Variables must be free"));
     bool cplx=complex_mode(contextptr);
@@ -11607,7 +11612,7 @@ namespace giac {
   gen _plotimplicit(const gen & args,const context * contextptr){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
-      return plotimplicit(remove_equal(args),vx_var,y__IDNT_e,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,20*gnuplot_pixels_per_eval,0,epsilon(contextptr),vecteur(1,default_color(contextptr)),false,true,contextptr);
+      return plotimplicit(remove_equal(args),vx_var,y__IDNT_e,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,20*gnuplot_pixels_per_eval,0,epsilon(contextptr),vecteur(1,default_color(contextptr)),false,contextptr,3);
     // vecteur v(plotpreprocess(args));
     vecteur v(*args._VECTptr);
     if (v.size()<2)
@@ -11643,7 +11648,7 @@ namespace giac {
     if (dim3)
       return plotimplicit(remove_equal(v[0]),x,y,z,xmin,xmax,ymin,ymax,zmin,zmax,nstep,jstep,kstep,epsilon(contextptr),attributs,unfactored,contextptr);
     else
-      return plotimplicit(remove_equal(v[0]),x,y,xmin,xmax,ymin,ymax,nstep,jstep,epsilon(contextptr),attributs,unfactored,true,contextptr);
+      return plotimplicit(remove_equal(v[0]),x,y,xmin,xmax,ymin,ymax,nstep,jstep,epsilon(contextptr),attributs,unfactored,contextptr,3);
   }
   static const char _plotimplicit_s []="plotimplicit";
   static define_unary_function_eval (__plotimplicit,&giac::_plotimplicit,_plotimplicit_s);

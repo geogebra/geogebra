@@ -595,10 +595,15 @@ namespace giac {
       matrice m_red;
       vecteur pivots;
       gen det;
+      int st=step_infolevel;
+      step_infolevel=0;
       if (!mrref(m,m_red,pivots,det,0,na*nb,0,na*nb+3,
-	    /* fullreduction */1,0,true,1,0,
-		contextptr))
+		 /* fullreduction */1,0,true,1,0,
+		 contextptr)){
+	step_infolevel=st;
 	return gensizeerr(contextptr);
+      }
+      step_infolevel=st;
       m=m_red;
       // the reduced matrix m should have the form
       // * 0      ... 0 * * *
@@ -1624,7 +1629,11 @@ namespace giac {
     // = sign(a) if a^2-c*b^2 > 0, 
     // = sign(b) if a^2-c*b^2 < 0
     int s=int(v.size());
-    if (!s)
+    if (!s
+#ifdef EMCC
+	|| s>1
+#endif
+	)
       return fastsign(g,contextptr);
     gen v0(v[0]);
     for (int i=0;i<s;++i){ // replace by first idnt with an assumption
