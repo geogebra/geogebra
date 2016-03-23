@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ToolNameIconPanel;
 
@@ -400,12 +401,9 @@ public class ToolCreationDialog extends DialogBoxW implements
 				toolHelp, showInToolBar, iconFileName);
 		if (success) {
 			if (returnHandler == null) {
-				app.getGuiManager()
-						.getOptionPane()
-						.showConfirmDialog(app,
-								app.getMenu("Tool.CreationSuccess"),
-								app.getMenu("Info"), GOptionPane.OK_OPTION,
-								GOptionPane.INFORMATION_MESSAGE, null);
+				ToolTipManagerW.sharedInstance().showBottomMessage(
+						app.getMenu("Tool.CreationSuccess"), true, app);
+
 			}
 		} else {
 			app.getGuiManager()
@@ -415,10 +413,9 @@ public class ToolCreationDialog extends DialogBoxW implements
 							GOptionPane.OK_OPTION, GOptionPane.ERROR_MESSAGE,
 							null);
 		}
-		AppW w = (AppW) app;
 
-		if (w.isToolLoadedFromStorage()) {
-			w.storeMacro(app.getMacro(), true);
+		if (app.isToolLoadedFromStorage()) {
+			app.storeMacro(app.getMacro(), true);
 		}
 		if (success) {
 			setVisible(false);

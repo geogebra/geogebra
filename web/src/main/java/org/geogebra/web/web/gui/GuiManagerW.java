@@ -707,14 +707,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 			return;
 		}
-		boolean currentNeedsUpdate = false;
 		if (generalToolbarDefinition != null) {
 			generalToolbarDefinition = ToolBar.addMode(
 					generalToolbarDefinition, mode);
 		}
-		if (currentNeedsUpdate) {
-			strCustomToolbarDefinition = generalToolbarDefinition;
-		}
+		strCustomToolbarDefinition = generalToolbarDefinition;
 	}
 
 	@Override
