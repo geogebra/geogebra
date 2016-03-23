@@ -10443,6 +10443,26 @@ public abstract class EuclidianController {
 		}
 	}
 
+	static final private boolean parentAlgoSecondInputIsFreeOrNotLabelSet(GeoElement geo){
+		AlgoElement algo = geo.getParentAlgorithm();
+		if (algo == null){
+			return false;
+		}
+
+		if (algo.getInputLength() < 2){
+			return false;
+		}
+
+		GeoElement input = algo.input[1];
+		if (input.isIndependent()){
+			return true;
+		}
+		if (input.isLabelSet()){
+			return false;
+		}
+		return true;
+	}
+
 	final public void twoTouchStartPhone(double x1, double y1, double x2, double y2) {
 		scaleConic = null;
 
@@ -10492,9 +10512,7 @@ public abstract class EuclidianController {
 				&& ((GeoConic) hits1.get(0)).isClosedPath()
 				&& ((hits1.get(0).getFreeInputPoints(view) != null && hits1
 				.get(0).getFreeInputPoints(view).size() >= 2)
-				|| (hits1.get(0).getParentAlgorithm() != null && hits1.get(0)
-				.getParentAlgorithm().input[1].isIndependent()) || (hits1.get(0)
-				.getParentAlgorithm() != null && !hits1.get(0).getParentAlgorithm().input[1].labelSet))) {
+				|| parentAlgoSecondInputIsFreeOrNotLabelSet(hits1.get(0)))) {
 			scaleConic = (GeoConic) hits1.get(0);
 			// TODO: select scaleConic
 
