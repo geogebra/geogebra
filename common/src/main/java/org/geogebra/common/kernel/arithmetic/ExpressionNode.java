@@ -5906,7 +5906,7 @@ kernel, left,
 	
 	private static boolean checkFraction(ExpressionValue[] parts,
 			ExpressionValue lt, boolean expandPlus) {
-		ExpressionValue left1 = lt.unwrap();
+		ExpressionValue left1 = lt == null ? null : lt.unwrap();
 		if (left1 instanceof ExpressionNode) {
 			((ExpressionNode) left1).getFraction(parts, expandPlus);
 			return true;
@@ -6238,28 +6238,21 @@ kernel, left,
 
 	// collect factors of expression recursively
 	private void collectFactors(ArrayList<ExpressionNode> factors) {
-		ExpressionNode copy = this.deepCopy(kernel);
-		boolean rightProcessed = false;
-		boolean leftProcessed = false;
-		if (!copy.getOperation().equals(Operation.MULTIPLY)) {
-			factors.add(copy);
+		if (!getOperation().equals(Operation.MULTIPLY)) {
+			factors.add(deepCopy(kernel));
 			return;
 		}
-		ExpressionNode leftSide = copy.getLeftTree();
-		ExpressionNode rightSide = copy.getRightTree();
-		if (!leftSide.getOperation().equals(Operation.MULTIPLY)) {
-			factors.add(leftSide);
-			leftProcessed = true;
+		
+		if (left instanceof ExpressionNode){
+			((ExpressionNode)left).collectFactors(factors);
+		} else if (left != null) {
+			factors.add(left.deepCopy(kernel).wrap());
 		}
-		if (!rightSide.getOperation().equals(Operation.MULTIPLY)) {
-			factors.add(rightSide);
-			rightProcessed = true;
-		}
-		if (leftSide != null && !leftProcessed) {
-			leftSide.collectFactors(factors);
-		}
-		if (rightSide != null && !rightProcessed) {
-			rightSide.collectFactors(factors);
+
+		if (right instanceof ExpressionNode) {
+			((ExpressionNode) right).collectFactors(factors);
+		} else if (right != null) {
+			factors.add(right.deepCopy(kernel).wrap());
 		}
 		return;
 	}
