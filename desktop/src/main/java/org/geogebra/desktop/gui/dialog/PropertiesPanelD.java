@@ -541,12 +541,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		// javascript tab
 		if (!isDefaults) {
-			ArrayList<JPanel> scriptTabList = new ArrayList<JPanel>();
-			// scriptTabList.add(scriptOptionsPanel);
-
-			scriptTabList.add(scriptEditPanel);
-
-			scriptTab = new TabPanel(scriptTabList);
+			scriptTab = new TabPanel(scriptEditPanel);
 			tabPanelList.add(scriptTab);
 		}
 
@@ -1024,6 +1019,25 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			JScrollPane scrollPane = new JScrollPane(panel);
 			scrollPane.setBorder(BorderFactory.createEmptyBorder());
 			add(scrollPane, BorderLayout.CENTER);
+		}
+
+		public TabPanel(JPanel panel) {
+			panelList = new ArrayList<JPanel>();
+			panelList.add(panel);
+
+			setLayout(new BorderLayout());
+			/*
+			 * JPanel panel = new JPanel();
+			 * panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+			 * 
+			 * panel.setLayout(new FullWidthLayout());
+			 * 
+			 * for (int i = 0; i < pVec.size(); i++) { panel.add(pVec.get(i)); }
+			 * 
+			 * JScrollPane scrollPane = new JScrollPane(panel);
+			 * scrollPane.setBorder(BorderFactory.createEmptyBorder());
+			 */
+			add(panel, BorderLayout.CENTER);
 		}
 
 		public void setTitle(String title) {
@@ -1977,23 +1991,23 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// add(td2.getInputPanel(), BorderLayout.CENTER);
 			clickScriptPanel = new JPanel(new BorderLayout(0, 0));
 			clickScriptPanel.add(clickDialog.getInputPanel(row, column, true),
-					BorderLayout.NORTH);
+					BorderLayout.CENTER);
 			clickScriptPanel
-					.add(clickDialog.getButtonPanel(), loc.borderEast());
+					.add(clickDialog.getButtonPanel(), BorderLayout.SOUTH);
 
 			updateScriptPanel = new JPanel(new BorderLayout(0, 0));
 			updateScriptPanel.add(
 					updateDialog.getInputPanel(row, column, true),
-					BorderLayout.NORTH);
+					BorderLayout.CENTER);
 			updateScriptPanel.add(updateDialog.getButtonPanel(),
-					loc.borderEast());
+					BorderLayout.SOUTH);
 
 			globalScriptPanel = new JPanel(new BorderLayout(0, 0));
 			globalScriptPanel.add(
 					globalDialog.getInputPanel(row, column, true),
-					BorderLayout.NORTH);
+					BorderLayout.CENTER);
 			globalScriptPanel.add(globalDialog.getButtonPanel(),
-					loc.borderEast());
+					BorderLayout.SOUTH);
 
 			add(tabbedPane, BorderLayout.CENTER);
 
