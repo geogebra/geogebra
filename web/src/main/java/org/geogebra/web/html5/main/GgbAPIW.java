@@ -23,11 +23,12 @@ import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.export.GeoGebraToAsymptoteW;
 import org.geogebra.web.html5.export.GeoGebraToPgfW;
+import org.geogebra.web.html5.export.GeoGebraToPstricksW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
@@ -805,12 +806,30 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	public String exportPGF() {
-		Log.debug("starting");
 		GeoGebraToPgfW export = new GeoGebraToPgfW(app);
 		ExportFrameMinimal frame = new ExportFrameMinimal();
 		export.setFrame(frame);
 		export.generateAllCode();
-		Log.debug("ending");
+
+		return frame.getCode();
+
+	}
+
+	public String exportPSTricks() {
+		GeoGebraToPstricksW export = new GeoGebraToPstricksW(app);
+		ExportFrameMinimal frame = new ExportFrameMinimal();
+		export.setFrame(frame);
+		export.generateAllCode();
+
+		return frame.getCode();
+
+	}
+
+	public String exportAsymptote() {
+		GeoGebraToAsymptoteW export = new GeoGebraToAsymptoteW(app);
+		ExportFrameMinimal frame = new ExportFrameMinimal();
+		export.setFrame(frame);
+		export.generateAllCode();
 
 		return frame.getCode();
 

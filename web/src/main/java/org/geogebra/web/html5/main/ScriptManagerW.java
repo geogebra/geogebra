@@ -755,6 +755,14 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPGF()();
 		};
 
+		api.exportPSTricks = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPSTricks()();
+		};
+
+		api.exportAsymptote = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportAsymptote()();
+		};
+
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
 		// other methods from the Wiki (consider to implement here)

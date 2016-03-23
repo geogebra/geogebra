@@ -18,6 +18,8 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.factories.AwtFactory;
@@ -35,6 +37,8 @@ import org.geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import org.geogebra.common.kernel.algos.AlgoSlope;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -58,6 +62,7 @@ import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -3810,4 +3815,81 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		code.append(fill);
 		return true;
 	}
+
+	public void superFill(GShape s, Inequality ineq, FunctionalNVar geo,
+			double[] ds) {
+		importpackage.add("patterns");
+		GColor c = ((GeoElement) geo).getObjectColor();
+		int lineType = ((GeoElement) geo).getLineType();
+		((GeoElement) geo).setLineType(ineq.getBorder().lineType);
+		code.append("\npen border=" + penStyle((GeoElement) geo));
+		ColorCode(c, code);
+		((GeoElement) geo).setLineType(lineType);
+		code.append(";\npen fillstyle=" + penStyle((GeoElement) geo));
+		ColorCode(c, code);
+		if (((GeoElement) geo).getFillType() != FillType.STANDARD) {
+			code.append(";\nadd(\"hatch\",hatch(2mm,NW,fillstyle));\n");
+		} else {
+			code.append(";\nadd(\"hatch\",hatch(0.5mm,NW,fillstyle));\n");
+		}
+		switch (ineq.getType()) {
+		case INEQUALITY_CONIC:
+			GeoConicND conic = ineq.getConicBorder();
+			if (conic.getType() == GeoConicNDConstants.CONIC_ELLIPSE
+					|| conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
+				conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
+				((GeoElement) conic)
+						.setObjColor(((GeoElement) geo).getObjectColor());
+				conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
+				((GeoElement) conic)
+						.setAlphaValue(((GeoElement) geo).getAlphaValue());
+				conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
+				((GeoElement) conic).setHatchingAngle(
+						(int) ((GeoElement) geo).getHatchingAngle());
+				((GeoElement) conic).setHatchingDistance(
+						((GeoElement) geo).getHatchingDistance());
+				((GeoElement) conic)
+						.setFillType(((GeoElement) geo).getFillType());
+				fillInequality = true;
+				drawGeoConic((GeoConic) conic);
+				fillInequality = false;
+				break;
+			}
+		case INEQUALITY_PARAMETRIC_Y:
+		case INEQUALITY_PARAMETRIC_X:
+		case INEQUALITY_1VAR_X:
+		case INEQUALITY_1VAR_Y:
+		case INEQUALITY_LINEAR:
+			double[] coords = new double[2];
+			double zeroY = ds[5] * ds[3];
+			double zeroX = ds[4] * (-ds[0]);
+			GPathIterator path = s.getPathIterator(null);
+			code.append("filldraw(");
+			double precX = Integer.MAX_VALUE;
+			double precY = Integer.MAX_VALUE;
+			while (!path.isDone()) {
+				path.currentSegment(coords);
+
+				if (coords[0] == precX && coords[1] == precY) {
+					code.append("cycle,pattern(\"hatch\"),border);\n");
+					code.append("filldraw(");
+
+				} else {
+					code.append("(");
+					code.append(format((coords[0] - zeroX) / ds[4]));
+					code.append(",");
+					code.append(format(-(coords[1] - zeroY) / ds[5]));
+					code.append(")--");
+				}
+				precX = coords[0];
+				precY = coords[1];
+				path.next();
+			}
+			int i = code.lastIndexOf(")");
+			code.delete(i + 1, code.length());
+			code.append(";\n");
+			break;
+		}
+	}
+
 }
