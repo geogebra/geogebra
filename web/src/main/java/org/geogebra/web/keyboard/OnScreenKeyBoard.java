@@ -127,13 +127,13 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
-				Scheduler.get().scheduleDeferred(
-						new Scheduler.ScheduledCommand() {
-							@Override
-							public void execute() {
-								processField.scrollCursorIntoView();
-							}
-						});
+				Scheduler.get()
+						.scheduleDeferred(new Scheduler.ScheduledCommand() {
+					@Override
+					public void execute() {
+						processField.scrollCursorIntoView();
+					}
+				});
 			}
 		});
 	}
@@ -156,7 +156,6 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 	 */
 	public void setTextField(MathKeyboardListener textField) {
 		if (textField instanceof KeyboardListener) {
-			this.processField = (KeyboardListener) textField;
 		} else {
 			this.processField = new TextFieldProcessing();
 			((TextFieldProcessing) this.processField).setField(textField);

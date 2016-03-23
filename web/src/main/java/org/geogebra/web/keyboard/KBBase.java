@@ -1,6 +1,5 @@
 package org.geogebra.web.keyboard;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -15,9 +14,7 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
-import org.geogebra.web.keyboard.KeyboardListener.ArrowType;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -32,7 +29,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 /**
  * on screen keyboard containing mathematical symbols and formulas
  */
-public class KBBase extends PopupPanel {
+public abstract class KBBase extends PopupPanel {
 
 	private static final int LOWER_HEIGHT = 350;
 
@@ -811,85 +808,7 @@ public class KBBase extends PopupPanel {
 	 * @param type
 	 *            the type of click (mouse vs. touch)
 	 */
-	public void onClick(KeyBoardButtonBase btn,
-			@SuppressWarnings("unused") PointerEventType type) {
-		if (btn instanceof KeyBoardButtonFunctionalBase) {
-			KeyBoardButtonFunctionalBase button = (KeyBoardButtonFunctionalBase) btn;
-
-			switch (button.getAction()) {
-			case SHIFT:
-				removeAccents();
-				processShift();
-				break;
-			case BACKSPACE:
-				processField.onBackSpace();
-				break;
-			case ENTER:
-				processField.onEnter();
-				if (processField.resetAfterEnter()) {
-					updateKeyBoardListener.keyBoardNeeded(false, null);
-				}
-				break;
-			case ARROW_LEFT:
-				processField.onArrow(ArrowType.left);
-				break;
-			case ARROW_RIGHT:
-				processField.onArrow(ArrowType.right);
-				break;
-			case SWITCH_KEYBOARD:
-				String caption = button.getCaption();
-				if (caption.equals(GREEK)) {
-					setToGreekLetters();
-				} else if (caption.equals(NUMBER)) {
-					setKeyboardMode(KeyboardMode.NUMBER);
-				} else if (caption.equals(TEXT)) {
-					if (greekActive) {
-						greekActive = false;
-						switchABCGreek.setCaption(GREEK);
-						loadLanguage(keyboardLocale);
-					}
-					if (shiftIsDown) {
-						processShift();
-					}
-					if (accentDown) {
-						removeAccents();
-					}
-					setKeyboardMode(KeyboardMode.TEXT);
-				} else if (caption.equals(SPECIAL_CHARS)) {
-					setKeyboardMode(KeyboardMode.SPECIAL_CHARS);
-				}
-			}
-		} else {
-
-			String text = btn.getFeedback();
-
-			if (isAccent(text)) {
-				processAccent(text, btn);
-			} else {
-				processField.insertString(text);
-				if (accentDown) {
-					removeAccents();
-				}
-			}
-
-			if (shiftIsDown && !isAccent(text)) {
-				processShift();
-			}
-
-			processField.setFocus(true);
-		}
-
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			public void execute() {
-				Scheduler.get().scheduleDeferred(
-						new Scheduler.ScheduledCommand() {
-							public void execute() {
-								processField.scrollCursorIntoView();
-							}
-						});
-			}
-		});
-	}
+	public abstract void onClick(KeyBoardButtonBase btn, PointerEventType type);
 
 	/**
 	 * set the text field that will receive the input from the keyboard
@@ -1030,24 +949,7 @@ public class KBBase extends PopupPanel {
 	 * @param mode
 	 *            the keyboard mode
 	 */
-	public void setKeyboardMode(final KeyboardMode mode) {
-		this.mode = mode;
-		if (mode == KeyboardMode.NUMBER) {
-			contentNumber.setVisible(true);
-			contentLetters.setVisible(false);
-			contentSpecialChars.setVisible(false);
-		} else if (mode == KeyboardMode.TEXT) {
-			greekActive = false;
-			contentNumber.setVisible(false);
-			contentLetters.setVisible(true);
-			contentSpecialChars.setVisible(false);
-			// updateKeyBoardListener.showInputField();
-		} else if (mode == KeyboardMode.SPECIAL_CHARS) {
-			contentNumber.setVisible(false);
-			contentLetters.setVisible(false);
-			contentSpecialChars.setVisible(true);
-		}
-	}
+	public abstract void setKeyboardMode(final KeyboardMode mode);
 
 	protected void setToGreekLetters() {
 		setKeyboardMode(KeyboardMode.TEXT);
@@ -1094,49 +996,7 @@ public class KBBase extends PopupPanel {
 	 * @param language
 	 *            String
 	 */
-	protected void updateKeys(String updateSection, String language) {
-		// update letter keys
-		ArrayList<KeyBoardButtonBase> buttons = this.letters.getButtons();
-		for (int i = 0; i < NUM_LETTER_BUTTONS; i++) {
-			KeyBoardButtonBase button = buttons.get(i);
-			if (!(button instanceof KeyBoardButtonFunctionalBase)) {
-
-				String newCaption = getNewCaption(generateKey(i),
-						updateSection, language);
-
-				if (newCaption.equals("")) {
-					button.setVisible(false);
-					button.getElement().getParentElement()
-							.addClassName("hidden");
-				} else {
-					button.setVisible(true);
-					button.getElement().getParentElement()
-							.removeClassName("hidden");
-					button.setCaption(newCaption);
-				}
-			}
-		}
-
-		// update e.g. button with sin/cos/tan according to the new language
-		for (KeyBoardButtonBase b : updateButton.keySet()) {
-			String captionPlain = updateButton.get(b);
-			if (captionPlain.endsWith("^-1")) {
-				// e.g. for "sin^-1" only "sin" is translated
-				captionPlain = captionPlain.substring(0,
-						captionPlain.lastIndexOf("^-1"));
-				// always use the English output (e.g. "arcsin")
-				b.setCaption(loc.getPlain(captionPlain) + "^-1", false);
-			} else {
-				// use language specific output
-				b.setCaption(loc.getPlain(captionPlain), true);
-			}
-		}
-		if (processField != null) {
-			processField.updateForNewLanguage(loc);
-		}
-
-		checkStyle();
-	}
+	abstract protected void updateKeys(String updateSection, String language);
 
 	/**
 	 * get translations for the onScreenKeyboard-buttons
