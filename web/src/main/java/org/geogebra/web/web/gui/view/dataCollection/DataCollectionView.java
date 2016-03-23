@@ -19,6 +19,7 @@ import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.SensorLogger.Types;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -327,7 +328,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 	private void addMagneticField() {
 		this.magField = new MagFieldSetting(this.app, this, "MagneticField",
-				"\u00B5T");
+				Unicode.micro + "T");
 		this.sensors.add(this.magField);
 		this.sensorSettings.add(this.magField);
 	}

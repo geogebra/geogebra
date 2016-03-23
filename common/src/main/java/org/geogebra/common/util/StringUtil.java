@@ -1031,7 +1031,7 @@ public class StringUtil {
 					sbFix.append(Unicode.ellipsis);
 				} else {
 					char write = parseString.charAt(i);
-					if (write == '\u00b5') {
+					if (write == Unicode.micro) {
 						sbFix.append(Unicode.mu);
 					} else {
 						sbFix.append(write);

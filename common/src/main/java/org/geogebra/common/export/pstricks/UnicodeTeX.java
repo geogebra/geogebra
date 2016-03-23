@@ -25,7 +25,7 @@ public class UnicodeTeX {
 		p('\u00ae', "circledR");
 		p('\u00b1', "pm");
 		p('\u00b4', "textasciiacute");
-		p('\u00b5', "mu");
+		p(Unicode.micro, "mu");
 		p('\u00b7', "cdotp");
 		p('\u00bb', "gg");
 		p('\u00bc', "frac 14");

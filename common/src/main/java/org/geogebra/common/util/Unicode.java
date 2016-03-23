@@ -186,6 +186,7 @@ public class Unicode {
 	public static final String CAS_OUTPUT_PREFIX_RTL = "\u2190";
 	public static final String CAS_OUTPUT_KEEPINPUT = "\u2713";
 	public static final String CAS_OUTPUT_NUMERIC = "\u2248";
+	public static final char micro = '\u00b5';
 
 	/*
 	 * converts an integer to a unicode superscript string (including minus
