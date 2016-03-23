@@ -105,6 +105,34 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	}
 
+	public InputDialogW(AppW app, String message, String title, String initString, boolean autoComplete,
+			InputHandler handler, GeoElement geo, boolean showApply) {
+
+		this(false, app);
+
+		this.app = app;
+		this.geo = geo;
+		this.inputHandler = handler;
+		this.initString = initString;
+
+		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, geo != null, showApply,
+				DialogType.GeoGebraEditor);
+
+		centerOnScreen();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				inputPanel.getTextComponent().setFocus(true);
+				// Firefox: correct cursor position #5419
+				// if (!selectInitText) {
+				// inputPanel.getTextComponent().setCaretPosition(inputPanel.getText().length());
+				// }
+
+			}
+		});
+
+	}
+
 	public InputDialogW(AppW app, String message, String title,
 	        String initString, boolean autoComplete, InputHandler handler,
 	        GeoElement geo) {

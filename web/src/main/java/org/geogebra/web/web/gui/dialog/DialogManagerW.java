@@ -534,6 +534,11 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	    		initString, autoComplete, handler, geo);
     }
 
+	public InputDialog newInputDialog(App app, String message, String title, String initString, boolean autoComplete,
+			InputHandler handler, GeoElement geo, boolean showApply) {
+		return new InputDialogW((AppW) app, message, title, initString, autoComplete, handler, geo, showApply);
+	}
+
 	public void showAnimGifExportDialog() {
 		GDialogBox dialog = new AnimationExportDialogW((AppW) app);
 		dialog.center();

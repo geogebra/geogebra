@@ -83,13 +83,18 @@ public abstract class DialogManager {
 		InputHandler handler = new RedefineInputHandler(app, geo, str);
 
 		newInputDialog(app, geo.getNameDescription(), app.getPlain("Redefine"),
-				str, true, handler, geo);
+ str, true, handler, geo, false);
+
 
 	}
 
 	public abstract InputDialog newInputDialog(App app, String message,
 			String title, String initString, boolean autoComplete,
 			InputHandler handler, GeoElement geo);
+
+	public abstract InputDialog newInputDialog(App app, String message, String title, String initString,
+			boolean autoComplete, InputHandler handler, GeoElement geo, boolean showApply);
+
 
 	public abstract void showNumberInputDialogSegmentFixed(String menu,
 			GeoPointND geoPoint2);
