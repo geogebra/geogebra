@@ -10957,8 +10957,9 @@ public abstract class EuclidianController {
 		if (selFunctions() > 0) {
 			// get the function and clear the selection
 			GeoFunction function = getSelectedFunctions()[0];
-
-			if (function.isPolynomialFunction(true)) {
+			// not for rootfinding: x*sqrt(1-x^2) does not have polynomial
+			// derivative
+			if (function.isPolynomialFunction(false)) {
 				// calculates all extremum points (e.g. x^2)
 				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(
 						this.kernel.getConstruction(), null, function);
