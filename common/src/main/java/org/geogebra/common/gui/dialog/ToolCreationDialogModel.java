@@ -10,8 +10,8 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.GeoAssignment;
 import org.geogebra.common.util.Exercise;
+import org.geogebra.common.util.GeoAssignment;
 
 /**
  * Model for the ToolCreationDialog
@@ -310,7 +310,9 @@ public class ToolCreationDialogModel {
 	}
 
 	public void addToOutput(int selectedIndex) {
-		addToOutput(outputAddList.get(selectedIndex));
+		if (selectedIndex >= 0) {
+			addToOutput(outputAddList.get(selectedIndex));
+		}
 	}
 
 	public void addToInput(GeoElement geo) {
@@ -319,7 +321,9 @@ public class ToolCreationDialogModel {
 	}
 
 	public void addToInput(int selectedIndex) {
-		addToInput(inputAddList.get(selectedIndex));
+		if (selectedIndex >= 0) {
+			addToInput(inputAddList.get(selectedIndex));
+		}
 	}
 
 	public void removeFromOutput(ArrayList<Integer> selIndices) {
