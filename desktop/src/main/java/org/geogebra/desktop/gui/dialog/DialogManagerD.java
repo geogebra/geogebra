@@ -681,7 +681,7 @@ public class DialogManagerD extends org.geogebra.common.main.DialogManager {
 	@Override
 	public InputDialog newInputDialog(App app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
-			GeoElement geo) {
+			GeoElement geo, boolean showApply) {
 		return new InputDialogD((AppD) app, message, title, initString,
 				autoComplete, handler, geo);
 	}

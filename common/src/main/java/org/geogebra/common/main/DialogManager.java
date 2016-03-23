@@ -88,10 +88,6 @@ public abstract class DialogManager {
 
 	}
 
-	public abstract InputDialog newInputDialog(App app, String message,
-			String title, String initString, boolean autoComplete,
-			InputHandler handler, GeoElement geo);
-
 	public abstract InputDialog newInputDialog(App app, String message, String title, String initString,
 			boolean autoComplete, InputHandler handler, GeoElement geo, boolean showApply);
 

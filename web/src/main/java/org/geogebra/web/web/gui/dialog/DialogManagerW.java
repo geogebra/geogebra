@@ -526,14 +526,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	        6, app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
 
-	@Override
-    public InputDialog newInputDialog(App app, String message, String title,
-            String initString, boolean autoComplete, InputHandler handler,
-            GeoElement geo) {
-		return new InputDialogW((AppW)app, message, title,
-	    		initString, autoComplete, handler, geo);
-    }
 
+	@Override
 	public InputDialog newInputDialog(App app, String message, String title, String initString, boolean autoComplete,
 			InputHandler handler, GeoElement geo, boolean showApply) {
 		return new InputDialogW((AppW) app, message, title, initString, autoComplete, handler, geo, showApply);
