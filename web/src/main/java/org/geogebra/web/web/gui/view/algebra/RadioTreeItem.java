@@ -47,6 +47,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -496,7 +497,7 @@ public class RadioTreeItem extends AVTreeItem
 	protected AppW app;
 	protected AlgebraView av;
 	private boolean latex = false;
-	private boolean thisIsEdited = false;
+	private boolean editing = false;
 
 	protected FlowPanel latexItem;
 	private FlowPanel plainTextItem;
@@ -818,12 +819,8 @@ public class RadioTreeItem extends AVTreeItem
 						getBuilder(getPlainTextItem()));
 				break;
 			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-				definitionPanel = new FlowPanel();
+				createDefinitionPanel();
 				valuePanel = new FlowPanel();
-				geo.addLabelTextOrHTML(geo
-						.getDefinition(StringTemplate.defaultTemplate),
-						getBuilder(definitionPanel));
-
 				geo.getAlgebraDescriptionTextOrHTMLDefault(
 						getBuilder(valuePanel));
 				getPlainTextItem().clear();
@@ -834,6 +831,13 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
+	private void createDefinitionPanel() {
+		definitionPanel = new FlowPanel();
+		geo.addLabelTextOrHTML(
+				geo.getDefinition(StringTemplate.defaultTemplate),
+				getBuilder(definitionPanel));
+
+	}
 	private void updateFont(Widget w) {
 		w.getElement().getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
 
@@ -1160,7 +1164,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public boolean commonEditingCheck() {
-		return av.isEditing() || isThisEdited() || isInputTreeItem();
+		return av.isEditing() || isEditing() || isInputTreeItem();
 	}
 
 	private void updateCheckBox() {
@@ -1330,9 +1334,12 @@ public class RadioTreeItem extends AVTreeItem
 			if (c != null && ihtml.getElement().isOrHasChild(old)) {
 				if (definitionAndValue && kernel
 						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
+					Log.debug(REFX + " D&V LATEX edit!");
+					createDefinitionPanel();
 					ihtml.getElement()
 							.replaceChild(definitionPanel.getElement(), old);
 				} else {
+					Log.debug(REFX + "Normal LATEX edit!");
 					ihtml.getElement().replaceChild(c.getCanvasElement(), old);
 				}
 			}
@@ -1343,13 +1350,15 @@ public class RadioTreeItem extends AVTreeItem
 			updateColor(item);
 
 			ihtml.clear();
-
-			if (definitionAndValue && kernel
-					.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
-				ihtml.add(definitionPanel);
-			} else {
+			//
+			// if (definitionAndValue && kernel
+			// .getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE)
+			// {
+			// createDefinitionPanel();
+			// ihtml.add(definitionPanel);
+			// } else {
 				ihtml.add(item);
-			}
+			// }
 			String text = text0;
 			if (text0 == null) {
 				text = "";
@@ -1390,8 +1399,8 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	public boolean isThisEdited() {
-		return thisIsEdited;
+	public boolean isEditing() {
+		return editing;
 	}
 
 	public void cancelEditing() {
@@ -1432,11 +1441,11 @@ public class RadioTreeItem extends AVTreeItem
 	public boolean startEditing(boolean substituteNumbers) {
 		// buttonPanel.setVisible(true);
 
-		if (isThisEdited()) {
+		if (isEditing()) {
 			return true;
 		}
 		updateButtonPanel(true);
-		thisIsEdited = true;
+		editing = true;
 		if (isInputTreeItem()) {
 			DrawEquationW.editEquationMathQuillGGB(this, latexItem, true);
 
@@ -1458,14 +1467,11 @@ public class RadioTreeItem extends AVTreeItem
 							: latexItem.getElement())
 					: getPlainTextItem().getElement();
 			String text = null;
-			if (isDefinitionAndValue()) {
-				text = "BINGOOW!";
-			} else {
-				text = geo.getLaTeXAlgebraDescriptionWithFallback(
+			text = geo.getLaTeXAlgebraDescriptionWithFallback(
 					substituteNumbers || sliderNeeded(),
 					StringTemplate.latexTemplateMQedit,
 					true);
-			}
+
 			if (text == null) {
 				return false;
 			}
@@ -1473,7 +1479,7 @@ public class RadioTreeItem extends AVTreeItem
 			renderLatex(text, old, true);
 
 			DrawEquationW.editEquationMathQuillGGB(this,
-					isDefinitionAndValue() ? definitionPanel : latexItem,
+ latexItem,
 					false);
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
@@ -1538,7 +1544,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		removeCloseButton();
 
-		thisIsEdited = false;
+		editing = false;
 		av.cancelEditing();
 
 		if (newValue0 != null) {
@@ -1759,7 +1765,7 @@ marblePanel, evt))) {
 		selectionCtrl.clear();
 		ev.resetMode();
 		if (geo != null && !ctrl) {
-			if (!isThisEdited()) {
+			if (!isEditing()) {
 				geo.setAnimating(false);
 				av.startEditing(geo);
 			}
@@ -2116,7 +2122,7 @@ marblePanel, evt))) {
 			}
 			buttonPanel.setVisible(true);
 
-			if (!isThisEdited()) {
+			if (!isEditing()) {
 				maybeSetPButtonVisibility(false);
 			}
 
@@ -2295,7 +2301,7 @@ marblePanel, evt))) {
 
 	@Override
 	public void ensureEditing() {
-		if (!isThisEdited()) {
+		if (!isEditing()) {
 			startEditing(true);
 
 			if (av != null && ((AlgebraViewW) av).isNodeTableEmpty()) {
