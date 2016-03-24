@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
@@ -202,6 +204,27 @@ public class CASInputHandler {
 									// add var=1
 									String var = next.toString(
 											StringTemplate.defaultTemplate);
+									sb.append(",");
+									sb.append(var);
+									sb.append("=1");
+									break;
+								}
+								if (next instanceof GeoCasCell) {
+									String var = next
+											.toString(StringTemplate.defaultTemplate);
+									GeoElement geo = kernel.getConstruction()
+											.lookupLabel(var);
+									if (geo instanceof GeoFunction) {
+										FunctionVariable[] varsOfFunc = ((GeoFunction) geo)
+												.getFunction()
+												.getFunctionVariables();
+										if (varsOfFunc.length > 0) {
+											var = varsOfFunc[0]
+													.toString(StringTemplate.defaultTemplate);
+										}
+									} else {
+										break;
+									}
 									sb.append(",");
 									sb.append(var);
 									sb.append("=1");
