@@ -10378,19 +10378,20 @@ public abstract class EuclidianController {
 	 * @param x x-coord
 	 * @param y y-coord
 	 */
+	public void onPinchPhone(int x, int y, double scaleFactor) {
+
+		double newX = x + (twoTouchStartXZero - twoTouchStartX) * scaleFactor;
+		double newY = y + (twoTouchStartYZero - twoTouchStartY) * scaleFactor;
+		view.setCoordSystem(newX, newY, twoTouchStartScaleX * scaleFactor,
+				twoTouchStartScaleY * scaleFactor);
+
+	}
+
 	public void onPinch(int x, int y, double scaleFactor) {
-
-		if (app.has(Feature.MOBILE_SMOOTH_PINCH)) {
-			double newX = x + (twoTouchStartXZero - twoTouchStartX) * scaleFactor;
-			double newY = y + (twoTouchStartYZero - twoTouchStartY) * scaleFactor;
-			view.setCoordSystem(newX, newY,
-					twoTouchStartScaleX * scaleFactor, twoTouchStartScaleY * scaleFactor);
-		} else {
-			this.mouseLoc = new GPoint(x, y);
-			zoomInOut(scaleFactor,
-					scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2, x, y);
-		}
-
+		this.mouseLoc = new GPoint(x, y);
+		zoomInOut(scaleFactor,
+				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2, x,
+				y);
 	}
 
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
@@ -10646,7 +10647,8 @@ public abstract class EuclidianController {
 				// pinch
 				if (app.has(Feature.MOBILE_SMOOTH_PINCH)) {
 					double distance = MyMath.length(x1 - x2, y1 - y2);
-					onPinch((x1 + x2) / 2, (y1 + y2) / 2, distance / twoTouchStartDistance);
+					onPinchPhone((x1 + x2) / 2, (y1 + y2) / 2, distance
+							/ twoTouchStartDistance);
 				} else {
 					twoTouchMoveCommon(x1, y1, x2, y2);
 
