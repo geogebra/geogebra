@@ -4164,4 +4164,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return false;
 	}
 
+	public void onPinchPhone(int x, int y, double scaleFactor) {
+		view3D.scale(twoTouchStartScaleX * scaleFactor);
+	}
+
 }

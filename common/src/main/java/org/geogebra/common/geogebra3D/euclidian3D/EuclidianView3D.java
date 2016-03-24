@@ -4332,5 +4332,19 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// not used in 3D
 	}
 
+	public void scale(double newScale){
+		setScale(newScale);
+//		getSettings().updateOriginFromView(getXZero(), getYZero(),
+//				getZZero());
+
+		updateMatrix();
+		setViewChangedByZoom();
+//		setViewChangedByTranslate();
+
+//		setWaitForUpdateOwnDrawables();
+
+		setWaitForUpdate();
+
+	}
 
 }
