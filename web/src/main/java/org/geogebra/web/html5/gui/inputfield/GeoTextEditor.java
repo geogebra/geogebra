@@ -44,6 +44,7 @@ import com.google.gwt.user.client.ui.RichTextArea;
  */
 public class GeoTextEditor extends RichTextArea {
 
+	private static final String DYNAMIC_TEXT_CLASS = "dynamicText";
 	private AppW app;
 	boolean initialized = false;
 	protected ArrayList<DynamicTextElement> dynamicList = null;
@@ -128,7 +129,8 @@ public class GeoTextEditor extends RichTextArea {
 				Element target = Element.as(event.getNativeEvent()
 				        .getEventTarget());
 
-				if ("input".equalsIgnoreCase(target.getTagName())) {
+				if (DYNAMIC_TEXT_CLASS
+						.equalsIgnoreCase(target.getClassName())) {
 					editBox.setText(target.getAttribute("value"));
 					editBox.setTarget(target);
 					showEditPopup(true);
@@ -285,6 +287,7 @@ public class GeoTextEditor extends RichTextArea {
 	public Element createValueElement(String value) {
 
 		Element elem = getDocument().createElement("input");
+		elem.setClassName(DYNAMIC_TEXT_CLASS);
 		elem.setPropertyString("type", "button");
 		elem.setPropertyString("value", value);
 
@@ -300,8 +303,8 @@ public class GeoTextEditor extends RichTextArea {
 		elem.getStyle().setCursor(Cursor.POINTER);
 		elem.getStyle().setFontSize(font.getSize(), Unit.PX);
 		elem.getStyle().setBackgroundColor("wheat");
-		elem.getStyle().setMarginLeft(2, Unit.PX);
-		elem.getStyle().setMarginRight(2, Unit.PX);
+		elem.getStyle().setMarginLeft(1, Unit.PX);
+		elem.getStyle().setMarginRight(1, Unit.PX);
 
 		return elem;
 
@@ -404,7 +407,8 @@ public class GeoTextEditor extends RichTextArea {
 				String tagName = ((Element) child).getTagName();
 
 				// convert input element to dynamic text string
-				if ("input".equalsIgnoreCase(tagName)) {
+				if (DYNAMIC_TEXT_CLASS
+						.equals(((Element) child).getClassName())) {
 					list.add(new DynamicTextElement(((Element) child)
 					        .getPropertyString("value"), DynamicTextType.VALUE));
 
