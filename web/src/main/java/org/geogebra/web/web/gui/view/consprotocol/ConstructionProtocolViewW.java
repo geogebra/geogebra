@@ -12,7 +12,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -126,13 +125,12 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		if (app.has(Feature.FIX_CP_HEADER)) {
 			headerTable2 = new CellTable<RowData>();
 			addColumnsForTable(headerTable2);
-			headerTable2.addStyleName("headerTable2");
+			headerTable2.addStyleName("headerTable");
 			headerTable2.addStyleName("cpTable");
 			SimplePanel headerTablePanel = new SimplePanel();
 			headerTablePanel.add(headerTable2);
 			cpPanel.add(headerTablePanel);
-			// table.getElement().getElementsByTagName("thead").getItem(0).getStyle().setDisplay(com.google.gwt.dom.client.Style.Display.NONE);
-			table.addStyleName("head_hide");
+			table.addStyleName("hiddenheader");
 		}
 		cpPanel.add(scrollPane);
 		
@@ -163,7 +161,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					NodeList<Element> tableRows = table.getElement()
 							.getElementsByTagName("tbody").getItem(0)
 							.getElementsByTagName("tr");
-					Log.debug("tableRows.getLength(): " + tableRows.getLength());
 					if (tableRows.getLength() == 0) {
 						return;
 					}
@@ -186,7 +183,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					for (int i = 0; i < table.getColumnCount(); i++) {
 						int w = firstRow.getItem(i).getOffsetWidth();
 						headerTable2.setColumnWidth(i, w + "px");
-						Log.debug("w: " + w);
 						sum += w;
 					}
 				}

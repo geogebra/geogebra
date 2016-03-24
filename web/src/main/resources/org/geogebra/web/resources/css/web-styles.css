@@ -3623,13 +3623,22 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	background-color: #F8F8F8;
 }
 
-.headerTable2 tbody{
+.headerTable tbody{
 	display: none;
 }
 
 .overflowYScroll{
 	overflow-y: scroll;
 	overflow-x: hidden;
+}
+
+.hiddenheader{
+	position: relative;
+	top: -30px;
+}
+
+.hiddenheader thead{
+	visibility: hidden;
 }
 
 /*
