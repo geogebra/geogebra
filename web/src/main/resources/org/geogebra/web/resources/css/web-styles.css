@@ -3555,9 +3555,9 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	width: 100%
 }
 
-.cpTable th:FIRST-CHILD{
-	width: 35px;
+.cpTable th:FIRST-CHILD, .cpTable td:FIRST-CHILD{
 	max-width: 35px;
+	min-width: 35px;
 }
 
 .cpTable .isDragging {
