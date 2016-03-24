@@ -339,7 +339,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			 * won't work then (ticket #151).
 			 */
 			if (isEditing()) {
-				if (item.isThisEdited()) {
+				if (item.isEditing()) {
 					item.cancelEditing();
 				}
 			}
