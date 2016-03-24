@@ -12,6 +12,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -124,7 +125,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		scrollPane.setStyleName("cpScrollPanel");
 		if (app.has(Feature.FIX_CP_HEADER)) {
 			headerTable2 = new CellTable<RowData>();
-			addColumnsForTable(headerTable2);
 			headerTable2.addStyleName("headerTable");
 			headerTable2.addStyleName("cpTable");
 			SimplePanel headerTablePanel = new SimplePanel();
@@ -146,6 +146,37 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		initGUI();
 	}
 	
+	void initGUI() {
+
+		if (app.has(Feature.FIX_CP_HEADER)) {
+			clearTable(headerTable2);
+			addColumnsForTable(headerTable2);
+		}
+
+		clearTable(table);
+
+		if (!app.has(Feature.CP_POPUP)) { // old source inserted back here
+			for (int i = 0; i < data.getColumnCount(); i++) {
+				if (data.columns[i].isVisible()) {
+					String title = data.columns[i].getTitle();
+					Column<RowData, ?> col = getColumn(title);
+					if (col != null) {
+						table.addColumn(col, app.getPlain(title));
+					}
+				}
+			}
+			tableInit();
+			rowCountChanged();
+			return;
+		}
+
+		initPopupMenu();
+		addColumnsForTable(table);
+
+		tableInit();
+		rowCountChanged();
+	}
+
 	public class MyPanel extends FlowPanel {
 
 		public void setHeaderSizes() {
@@ -284,30 +315,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		}
 	}
 
-	void initGUI() {
-		clearTable(table);
-		
-		if (!app.has(Feature.CP_POPUP)) {  //old source inserted back here
-			for (int i = 0; i < data.getColumnCount(); i++) {
-				if (data.columns[i].isVisible()) {
-					String title = data.columns[i].getTitle();
-					Column<RowData, ?> col = getColumn(title);
-					if (col != null) {
-						table.addColumn(col, app.getPlain(title));
-					}
-				}
-			}
-			tableInit();
-			rowCountChanged();
-			return;
-		}
 
-		initPopupMenu();
-		addColumnsForTable(table);
-
-		tableInit();
-		rowCountChanged();
-	}
 
 	private void addColumnsForTable(CellTable<RowData> tb) {
 		
@@ -318,12 +326,20 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				if (col != null) {
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
 					if (i == 0) {
-						sb.append(SafeHtmlUtils
-								.fromSafeConstant("<div id = \"CP_popupImage\">"));
-						sb.append(AbstractImagePrototype.create(
-								GuiResources.INSTANCE.menu_dots())
-								.getSafeHtml());
-						sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
+						Log.debug("tb stylename: " + tb.getStyleName()
+								+ "-----"
+								+ tb.getStyleName().indexOf("headerTable"));
+						// if cp header fixed, we must insert the popup button
+						// only in headertable
+						if (!app.has(Feature.FIX_CP_HEADER)
+								|| tb.getStyleName().indexOf("headerTable") > 0) {
+							sb.append(SafeHtmlUtils
+									.fromSafeConstant("<div id = \"CP_popupImage\">"));
+							sb.append(AbstractImagePrototype.create(
+									GuiResources.INSTANCE.menu_dots())
+									.getSafeHtml());
+							sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
+						}
 
 					} else {
 						String headerTitle;
@@ -424,22 +440,28 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	}
 
 	private void addHeaderClickHandler() {
-		table.addHandler(new ClickHandler() {
+		ClickHandler popupMenuClickHandler = new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				Element el = Element
 						.as(event.getNativeEvent().getEventTarget());
 				Element imgElement = DOM.getElementById("CP_popupImage")
 						.getElementsByTagName("img").getItem(0);
+				Log.debug("imgElement: " + imgElement.toString());
 
 				if (el.equals(imgElement)) { // three-dot menu
 					popupMenu.show(new GPoint(el.getAbsoluteLeft(), el
 							.getAbsoluteBottom()));
-
 				}
 			}
+		};
 
-		}, ClickEvent.getType());
+		if (app.has(Feature.FIX_CP_HEADER)) {
+			headerTable2
+					.addHandler(popupMenuClickHandler, ClickEvent.getType());
+		} else {
+			table.addHandler(popupMenuClickHandler, ClickEvent.getType());
+		}
 	}
 
 	public Column<RowData, ?> getColumn(String title) {
