@@ -1415,6 +1415,21 @@ public interface Traversing {
 							en.setLeft(expand(geo));
 						}
 					}
+					if (en.getLeft() instanceof Variable) {
+						geo = ((Variable) en.getLeft())
+								.getKernel()
+								.getConstruction()
+								.lookupLabel(
+										en.getLeft().toString(
+												StringTemplate.defaultTemplate));
+						if (geo != null) {
+							ExpressionNode en2 = (ExpressionNode) ((FunctionalNVar) geo)
+									.getFunctionExpression()
+									.getCopy(((FunctionalNVar) geo).getKernel())
+									.traverse(this);
+							return en2;
+						}
+					}
 
 				}
 				if (en.getRight() != null) {
