@@ -6,8 +6,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -15,7 +13,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
@@ -23,7 +20,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 
 	private AppW app;
 	private FlowPanel optionsPanel;
-	private ListBox description;
+	private AlgebraStyleListBox description;
 	private Label descriptionLabel;
 
 	private CheckBox cbShowFormulaBar, cbShowGrid, cbShowRowHeader,
@@ -79,7 +76,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 
 		// spacer
 		// layoutOptions.add(Box.createVerticalStrut(16));
-		description = new ListBox();
+		description = new AlgebraStyleListBox(app);
 		descriptionLabel = new Label();
 		HorizontalPanel descriptionPanel = new HorizontalPanel();
 		descriptionPanel.add(descriptionLabel);
@@ -94,31 +91,8 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 
 		setLabels();
 		updateGUI();
-		description.addChangeHandler(new ChangeHandler() {
-
-			public void onChange(ChangeEvent event) {
-				app.getKernel().setAlgebraStyleSpreadsheet(
-						description.getSelectedIndex());
-				app.getKernel().updateConstruction();
-			}
-
-		});
 	}
 
-	private void updateDescription() {
-		// ignoreActions = true;
-		String[] modes = new String[] { app.getPlain("Value"),
-				app.getPlain("Definition"), app.getPlain("Command") };
-		description.clear();
-
-		for (int i = 0; i < modes.length; i++) {
-			description.addItem(app.getPlain(modes[i]));
-		}
-
-		int descMode = app.getKernel().getAlgebraStyleSpreadsheet();
-		description.setSelectedIndex(descMode);
-		// ignoreActions = false;
-	}
 	private CheckBox newCheckBox() {
 		CheckBox cb = new CheckBox();
 		cb.addClickHandler(this);
@@ -140,7 +114,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		updateCheckBox(cbEnableAutoComplete, settings().isEnableAutoComplete());
 		updateCheckBox(cbShowNavigation,
 				app.showConsProtNavigation(App.VIEW_SPREADSHEET));
-		updateDescription();
+		description.update();
 	}
 
 	private static void updateCheckBox(CheckBox cb, boolean value) {
@@ -164,7 +138,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		cbPrependCommands.setText(app.getMenu("RequireEquals"));
 		cbEnableAutoComplete.setText(app.getMenu("UseAutoComplete"));
 		cbShowNavigation.setText(app.getMenu("NavigationBar"));
-		updateDescription();
+		description.update();
 		descriptionLabel.setText(app.getMenu("AlgebraDescriptions"));
 	}
 
