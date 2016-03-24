@@ -175,6 +175,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		tableInit();
 		rowCountChanged();
+
+		if (app.has(Feature.FIX_CP_HEADER)) {
+			cpPanel.setHeaderSizes();
+		}
 	}
 
 	public class MyPanel extends FlowPanel {
@@ -216,6 +220,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 						headerTable2.setColumnWidth(i, w + "px");
 						sum += w;
 					}
+
+					int tableWidth = table.getOffsetWidth();
+						headerTable2.getElement().getStyle()
+								.setWidth(tableWidth, Unit.PX);
 				}
 
 			});
