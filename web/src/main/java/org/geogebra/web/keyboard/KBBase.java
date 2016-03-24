@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -35,6 +36,12 @@ public abstract class KBBase extends PopupPanel {
 
 	private HasKeyboard hasKeyboard;
 	private KeyboardLocalization localization;
+
+	final String[] keysGreek = {
+			"\u03D5\u03A6\u03C2\u03A3\u03B5\u0395\u03C1\u03A1\u03C4\u03A4\u03C5\u03A5\u03B8\u0398\u03B9\u0399\u03BF\u039F\u03C0\u03A0",
+			"\u03B1\u0391\u03C3\u03A3\u03B4\u0394\u03C6\u03A6\u03B3\u0393\u03B7\u0397\u03BE\u039E\u03BA\u039A\u03BB\u039B",
+			// double-space at start for where <Shift> is
+			"  \u03B6\u0396\u03C7\u03A7\u03C8\u03A8\u03C9\u03A9\u03B2\u0392\u03BD\u039D\u03BC\u039C''" };
 
 	/**
 	 * all supported locales and the associated keyboardLocal, e.g. en_UK - en,
@@ -952,12 +959,31 @@ public abstract class KBBase extends PopupPanel {
 	public abstract void setKeyboardMode(final KeyboardMode mode);
 
 	protected void setToGreekLetters() {
-		setKeyboardMode(KeyboardMode.TEXT);
-		greekActive = true;
-		switchABCGreek.setCaption(KeyboardMode.TEXT.getInternalName());
-		loadLanguage(Language.Greek.localeGWT);
-		if (shiftIsDown) {
-			processShift();
+
+		if (app.has(Feature.WEB_KEYBOARD_IN_GGBTRANS)) {
+
+			setKeyboardMode(KeyboardMode.TEXT);
+			greekActive = true;
+			switchABCGreek.setCaption(KeyboardMode.TEXT.getInternalName());
+
+			// loadLanguage(Language.Greek.localeGWT);
+			updateKeys("lowerCase", Language.Greek.localeGWT);
+			setStyleName();
+
+			if (shiftIsDown) {
+				processShift();
+			}
+
+		} else {
+
+			setKeyboardMode(KeyboardMode.TEXT);
+			greekActive = true;
+			switchABCGreek.setCaption(KeyboardMode.TEXT.getInternalName());
+			loadLanguage(Language.Greek.localeGWT);
+			if (shiftIsDown) {
+				processShift();
+			}
+
 		}
 	}
 
@@ -1083,7 +1109,14 @@ public abstract class KBBase extends PopupPanel {
 		} else {
 			this.keyboardLocale = Language.English_US.localeGWT;
 		}
-		loadLanguage(keyboardLocale);
+
+		if (app.has(Feature.WEB_KEYBOARD_IN_GGBTRANS)) {
+			updateKeys("lowerCase", keyboardLocale);
+			setStyleName();
+		} else {
+			loadLanguage(keyboardLocale);
+		}
+
 	}
 
 	/**

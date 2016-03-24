@@ -87,7 +87,12 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 					if (greekActive) {
 						greekActive = false;
 						switchABCGreek.setCaption(GREEK);
-						loadLanguage(this.keyboardLocale);
+						if (!app.has(Feature.WEB_KEYBOARD_IN_GGBTRANS)) {
+							loadLanguage(this.keyboardLocale);
+						} else {
+							updateKeys("lowerCase", this.keyboardLocale);
+							setStyleName();
+						}
 					}
 					if (shiftIsDown) {
 						processShift();
@@ -222,6 +227,10 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 					loc.getPlain("Keyboard.row2"),
 					// first key is shift, so need "  " otherwise 'z' is hidden
 					"  " + loc.getPlain("Keyboard.row3") };
+
+			if (Language.Greek.localeGWT.equals(language)) {
+				keys = keysGreek;
+			}
 
 			for (int row = 0; row <= 2; row++) {
 				for (int i = 0; i < KEY_PER_ROW; i++) {
