@@ -801,6 +801,7 @@ public class RadioTreeItem extends AVTreeItem
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
 					getBuilder(getPlainTextItem()));
 		} else {
+			IndexHTMLBuilder sb;
 			switch (kernel.getAlgebraStyle()) {
 			case Kernel.ALGEBRA_STYLE_VALUE:
 				geo.getAlgebraDescriptionTextOrHTMLDefault(
@@ -820,9 +821,6 @@ public class RadioTreeItem extends AVTreeItem
 				break;
 			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
 				createDefinitionPanel();
-				valuePanel = new FlowPanel();
-				geo.getAlgebraDescriptionTextOrHTMLDefault(
-						getBuilder(valuePanel));
 				getPlainTextItem().clear();
 				getPlainTextItem().add(definitionPanel);
 				getPlainTextItem().add(valuePanel);
@@ -833,9 +831,13 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void createDefinitionPanel() {
 		definitionPanel = new FlowPanel();
+		definitionPanel.addStyleName("avDefinition");
 		geo.addLabelTextOrHTML(
 				geo.getDefinition(StringTemplate.defaultTemplate),
 				getBuilder(definitionPanel));
+		valuePanel = new FlowPanel();
+		valuePanel.addStyleName("avValue");
+		geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
 
 	}
 	private void updateFont(Widget w) {
