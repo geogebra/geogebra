@@ -1433,6 +1433,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			
 			// parse output into valid expression
 			ValidExpression parsed = parseGeoGebraCASInputAndResolveDummyVars(res);
+			if (evalCmd.equals("NSolve")
+					|| (inputVE.getTopLevelCommand() != null && inputVE
+							.getTopLevelCommand().getName().equals("NSolve"))) {
+				parsed = removeComplexResults(parsed);
+			}
 			outputVE = parsed == null ? null : (ValidExpression) parsed
 					.traverse(Traversing.GgbVectRemover.getInstance());
 			if(outputVE!=null){
@@ -1470,6 +1475,32 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				}
 			}
 		}
+	}
+
+	private ValidExpression removeComplexResults(ValidExpression ve) {
+		if (ve instanceof ExpressionNode
+				&& ((ExpressionNode) ve).getLeft() instanceof MyList
+				&& ((ExpressionNode) ve).getRight() == null) {
+			ArrayList<ExpressionValue> results = new ArrayList<ExpressionValue>();
+			for (int i = 0; i < ((MyList) ((ExpressionNode) ve).getLeft())
+					.getLength(); i++) {
+				boolean isComplex = ((MyList) ((ExpressionNode) ve).getLeft())
+						.getListElement(i).inspect(
+								Inspecting.ComplexChecker.INSTANCE);
+				if (!isComplex) {
+					results.add(((MyList) ((ExpressionNode) ve).getLeft())
+							.getListElement(i));
+				}
+			}
+			MyList filteredResultList = new MyList(kernel, results.size());
+			if (!results.isEmpty()) {
+				for (ExpressionValue ev : results) {
+					filteredResultList.addListElement(ev);
+				}
+			}
+			return new ExpressionNode(kernel, filteredResultList);
+		}
+		return ve;
 	}
 
 	/**
