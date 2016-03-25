@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.plugin.Operation;
 
@@ -45,6 +46,15 @@ public interface Inspecting {
 		INSTANCE;
 		public boolean check(ExpressionValue v) {
 			return v instanceof Command;
+		}
+	}
+	
+	/** Checks presence of complex number */
+	public enum ComplexChecker implements Inspecting {
+		/** singleton instance */
+		INSTANCE;
+		public boolean check(ExpressionValue v) {
+			return v instanceof GeoVec2D && ((GeoVec2D) v).isImaginaryUnit();
 		}
 	}
 
