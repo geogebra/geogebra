@@ -3936,6 +3936,9 @@ public abstract class App implements UpdateSelection {
 		case CP_NEW_COLUMNS:
 			return true;
 
+		case ZOOM_MENU_3D:
+			return false;
+
 			// in web (not tablet apps yet)
 			// File -> Enter Exam Mode
 		case EXAM:

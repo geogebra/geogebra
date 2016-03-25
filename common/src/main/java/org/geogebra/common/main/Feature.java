@@ -67,6 +67,8 @@ public enum Feature {
 
 	WEB_PRINT_CP_VIEW,
 
+	ZOOM_MENU_3D,
+
 	SHINY_3D,
 
 	SURFACE_WIREFRAME,
