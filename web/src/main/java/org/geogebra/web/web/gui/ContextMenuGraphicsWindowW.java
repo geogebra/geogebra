@@ -43,16 +43,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		addNavigationBar();
 
-
-
-		// zoom for both axes
-		MenuBar zoomMenu = new MenuBar(true);
-		MenuItem zoomMenuItem = new MenuItem(MainMenu.getMenuBarHtml(
-		        AppResources.INSTANCE.zoom16().getSafeUri().asString(),
-		        app.getMenu("Zoom")), true, zoomMenu);
-		zoomMenuItem.addStyleName("mi_with_image");
-		wrappedPopup.addItem(zoomMenuItem);
-		addZoomItems(zoomMenu);
+		addZoomMenu();
 
 		RadioButtonMenuBar yaxisMenu = new org.geogebra.web.web.gui.menubar.RadioButtonMenuBarW(
 		        app, false);
@@ -85,7 +76,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		wrappedPopup.addItem(miStandardView);
 
 		if (!ev.isZoomable()) {
-			zoomMenuItem.setEnabled(false);
 			((MenuItem) yaxisMenu).setEnabled(false);
 			miShowAllObjectsView.setEnabled(false);
 			miStandardView.setEnabled(false);
@@ -181,6 +171,22 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	protected void zoomYaxis(double axesRatio) {
 		app.zoomAxesRatio(axesRatio);
+	}
+
+	protected void addZoomMenu() {
+		// zoom for both axes
+		MenuBar zoomMenu = new MenuBar(true);
+		MenuItem zoomMenuItem = new MenuItem(MainMenu.getMenuBarHtml(
+				AppResources.INSTANCE.zoom16().getSafeUri().asString(),
+				app.getMenu("Zoom")), true, zoomMenu);
+		zoomMenuItem.addStyleName("mi_with_image");
+		wrappedPopup.addItem(zoomMenuItem);
+		addZoomItems(zoomMenu);
+
+		if (!app.getActiveEuclidianView().isZoomable()) {
+			zoomMenuItem.setEnabled(false);
+		}
+
 	}
 
 	private void addZoomItems(MenuBar menu) {
