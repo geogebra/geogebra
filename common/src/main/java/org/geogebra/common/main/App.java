@@ -3903,8 +3903,9 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_WEB_VIEW:
 			return prerelease;
 
+			// MOB-331
 		case MOBILE_INPUT_BAR_HELP_PANEL:
-			return prerelease;
+			return true;
 
 		case MOBILE_SMOOTH_PINCH:
 			return prerelease;
