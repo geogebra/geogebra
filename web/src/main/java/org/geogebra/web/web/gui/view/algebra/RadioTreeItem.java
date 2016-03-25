@@ -127,16 +127,6 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * RadioButtonTreeItem for the items of the algebra view tree and also for the
- * event handling which is copied from Desktop/AlgebraController.java
- *
- * File created by Arpad Fekete
- * 
- * 
- * 
- */
-
 public class RadioTreeItem extends AVTreeItem
  implements DoubleClickHandler,
 		ClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
@@ -820,25 +810,29 @@ public class RadioTreeItem extends AVTreeItem
 						getBuilder(getPlainTextItem()));
 				break;
 			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-				createDefinitionPanel();
-				getPlainTextItem().clear();
-				getPlainTextItem().add(definitionPanel);
-				getPlainTextItem().add(valuePanel);
+				createDefinitionAndValue();
 				break;
 			}
 		}
 	}
 
-	private void createDefinitionPanel() {
+	private void createDefinitionAndValue() {
 		definitionPanel = new FlowPanel();
-		definitionPanel.addStyleName("avDefinition");
+		IndexHTMLBuilder sb = getBuilder(definitionPanel);
 		geo.addLabelTextOrHTML(
-				geo.getDefinition(StringTemplate.defaultTemplate),
-				getBuilder(definitionPanel));
+				geo.getDefinition(StringTemplate.defaultTemplate), sb);
+		String def = sb.toString();
 		valuePanel = new FlowPanel();
-		valuePanel.addStyleName("avValue");
-		geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
-
+		String val = geo
+				.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
+		Log.debug(REFX + " def: " + def + " val: " + val);
+		plainTextItem.clear();
+		plainTextItem.add(definitionPanel);
+		if (!val.equals(def)) {
+			definitionPanel.addStyleName("avDefinition");
+			valuePanel.addStyleName("avValue");
+			plainTextItem.add(valuePanel);
+		}
 	}
 	private void updateFont(Widget w) {
 		w.getElement().getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
@@ -981,14 +975,6 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	/**
-	 * Creates a new RadioTreeItem for creating a brand new GeoElement or
-	 * executing a new command which might not result in any GeoElement(s) ...
-	 * no marble, no input GeoElement here. But this will be called from
-	 * InputTreeItem(kernel), for there are many extras
-	 */
-
-
 	// AV EXTENSIONS
 	//
 	// methods for AV Slider
@@ -1011,7 +997,7 @@ public class RadioTreeItem extends AVTreeItem
 		return (openedMinMaxPanel != null && openedMinMaxPanel != minMaxPanel);
 	}
 
-	private boolean isClicketOutMinMax(int x, int y) {
+	private boolean isClickedOutMinMax(int x, int y) {
 		return (openedMinMaxPanel == minMaxPanel
 				&& !isWidgetHit(minMaxPanel, x, y));
 	}
@@ -1337,7 +1323,7 @@ public class RadioTreeItem extends AVTreeItem
 				if (definitionAndValue && kernel
 						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
 					Log.debug(REFX + " D&V LATEX edit!");
-					createDefinitionPanel();
+					createDefinitionAndValue();
 					ihtml.getElement()
 							.replaceChild(definitionPanel.getElement(), old);
 				} else {
@@ -1882,7 +1868,7 @@ marblePanel, evt))) {
 		boolean maxHit = sliderPanel != null
 				&& isWidgetHit(slider.getWidget(2), x, y);
 		// Min max panel should be closed
-		if (isAnotherMinMaxOpen() || isClicketOutMinMax(x, y)) {
+		if (isAnotherMinMaxOpen() || isClickedOutMinMax(x, y)) {
 			closeMinMaxPanel(!(minHit || maxHit));
 		}
 
