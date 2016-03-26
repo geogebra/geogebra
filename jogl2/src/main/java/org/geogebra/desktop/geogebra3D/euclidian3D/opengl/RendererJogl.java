@@ -47,9 +47,9 @@ public class RendererJogl {
 	 * 
 	 * @return current GL (as GL2ES2)
 	 */
-	public javax.media.opengl.GL2ES2 getGL2ES2(){
+	public javax.media.opengl.GL2ES2 getGL2ES2() {
 		
-		return gLDrawable.getGL().getGL2ES2(); 
+		return gLDrawable.getGL().getGL2ES2();
 	}
 	
 	
@@ -82,20 +82,20 @@ public class RendererJogl {
 
 	static private GLProfile profile;
 
-	static private boolean hasGLSL;
+	static private boolean isGL2ES2;
 
 	/**
 	 * set the default profile to current profile
 	 * 
-	 * @return true if default profile supports shader language
+	 * @return true if default profile supports shader language (GL2ES2)
 	 */
 	final static public boolean setDefaultProfile() {
 		if (profile == null) {
 			profile = GLProfile.getDefault();
-			hasGLSL = profile.hasGLSL();
+			isGL2ES2 = profile.isGL2ES2();
 		}
 		
-		return hasGLSL;
+		return isGL2ES2;
 	}
 
 

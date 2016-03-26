@@ -75,6 +75,8 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		this(view, useCanvas, RendererType.NOT_SPECIFIED);
 	}
 
+	private boolean isGL2ES2;
+
 	/**
 	 * Constructor
 	 * 
@@ -87,6 +89,9 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		super(view, type);
 
 		jogl = new RendererJogl();
+
+		// init jogl profile
+		isGL2ES2 = RendererJogl.setDefaultProfile();
 
 		// canvas = view;
 		Log.debug("create 3D component -- use Canvas : " + useCanvas);
@@ -151,7 +156,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 				+ "\ndouble buffered: " + glInfo[1] + "\nstereo: " + glInfo[2]
 				+ "\nstencil: " + glInfo[3] + "\nINIT GL IS: " + glInfo[4]
 				+ "\nGL_VENDOR: " + glInfo[5] + "\nGL_RENDERER: " + glInfo[6]
-				+ "\nGL_VERSION: " + glInfo[7]);
+				+ "\nGL_VERSION: " + glInfo[7] + "\nisGL2ES2: " + isGL2ES2);
 
 		GeoGebraMenuBar.glCard = glInfo[6];
 		GeoGebraMenuBar.glVersion = glInfo[7];
@@ -159,22 +164,28 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		// this is abstract method: don't create old GL / shaders here
 
 		if (type == RendererType.NOT_SPECIFIED) {
-			try {
-				// retrieving version, which should be first char, e.g.
-				// "4.0 etc."
-				String[] version = GeoGebraMenuBar.glVersion.split("\\.");
-				int versionInt = Integer.parseInt(version[0]);
-				Log.debug("==== GL version is " + GeoGebraMenuBar.glVersion
-						+ " which means GL>=" + versionInt);
-				if (versionInt < 2) {
-					// GL 1.x: can't use shaders
+			if (isGL2ES2) {
+				try {
+					// retrieving version, which should be first char, e.g.
+					// "4.0 etc."
+					String[] version = GeoGebraMenuBar.glVersion.split("\\.");
+					int versionInt = Integer.parseInt(version[0]);
+					Log.debug("==== GL version is " + GeoGebraMenuBar.glVersion
+							+ " which means GL>=" + versionInt);
+					if (versionInt < 2) {
+						// GL 1.x: can't use shaders
+						type = RendererType.GL2;
+					} else {
+						// GL 2.x or above: can use shaders
+						type = RendererType.SHADER;
+					}
+				} catch (Exception e) {
+					// exception: don't use shaders
 					type = RendererType.GL2;
-				} else {
-					// GL 2.x or above: can use shaders
-					type = RendererType.SHADER;
 				}
-			} catch (Exception e) {
-				// exception: don't use shaders
+			} else {
+				// not GL2ES2 capable
+				Log.debug("==== not GL2ES2 capable");
 				type = RendererType.GL2;
 			}
 		}
