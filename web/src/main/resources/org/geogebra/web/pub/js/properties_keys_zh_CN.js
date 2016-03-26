@@ -2141,7 +2141,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Webcam.Firefox": "\u8bf7\u5728\u5f39\u51fa\u680f\u4e2d\u5355\u51fb\"\u5206\u4eab\u9009\u5b9a\u8bbe\u5907\"",
     "Webcam.Problem": "\u7528\u6444\u50cf\u5934\u8fdb\u884c\u95ee\u9898\u6c9f\u901a",
     "WelcomeExam": "\u8bf7\u7a0d\u7b49, \u76f4\u5230\u8001\u5e08\u8ba9\u4f60\u5f00\u59cb\u68c0\u6d4b.",
-    "Width": "\u5bbd\u5ea6",
+    "Width": "\u957f\u5ea6",
     "Window": "\u7a97\u53e3",
     "Windows": "\u7a97\u53e3",
     "WithOpacityPen": "\u7528\u4e0d\u900f\u660e\u753b\u7b14\u586b\u5145",
