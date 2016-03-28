@@ -42,7 +42,6 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 	protected final Widget loadComponent() {
 		setViewImage(getViewIcon());
 		innerPanel = new InnerPanel(this, getViewPanel());
-		setViewImage(getResources().styleBar_ConstructionProtocol());
 
 		addNavigationBar();
 		return innerPanel;
