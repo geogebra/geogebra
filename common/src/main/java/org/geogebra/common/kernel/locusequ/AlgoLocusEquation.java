@@ -291,6 +291,7 @@ public class AlgoLocusEquation extends AlgoElement {
 		String vx = "", vy = "";
 		while (it.hasNext()) {
 			GeoElement freePoint = it.next();
+			freePoint.addToUpdateSetOnly(this);
 			Variable[] vars = ((SymbolicParametersBotanaAlgo) freePoint)
 					.getBotanaVars(freePoint);
 			if (!movingPoint.equals(freePoint)) {
