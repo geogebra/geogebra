@@ -3995,6 +3995,9 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_KEYBOARD_IN_GGBTRANS:
 			return false;
 
+		case MORE_ACCURATE_ELLIPSE_CIRCUMFERENCE:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.main.Feature;
 
 /**
  * Algorithm to compute the circumference of a
@@ -82,8 +83,9 @@ public class AlgoCircumferenceConic extends AlgoElement {
 	 */
 	@Override
 	public final void compute() {
-		if (!conic.isDefined())
+		if (!conic.isDefined()) {
 			circum.setUndefined();
+		}
 
 		// conic type
 		int type = conic.getType();
@@ -132,9 +134,17 @@ public class AlgoCircumferenceConic extends AlgoElement {
 			break;
 
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			if (ellipticArcLength == null)
-				ellipticArcLength = new EllipticArcLength(conic);
-			circum.setValue(ellipticArcLength.compute(0, 2 * Math.PI));
+
+			if (kernel.getApplication()
+					.has(Feature.MORE_ACCURATE_ELLIPSE_CIRCUMFERENCE)) {
+				circum.setValue(conic.getEllipseCircumference());
+
+			} else {
+				if (ellipticArcLength == null)
+					ellipticArcLength = new EllipticArcLength(conic);
+				circum.setValue(ellipticArcLength.compute(0, 2 * Math.PI));
+			}
+
 			break;
 
 		default:

@@ -122,6 +122,9 @@ public enum Feature {
 
 	MOBILE_KEYBOARD_IN_GGBTRANS,
 
-	XML_CAS_CACHE
+	XML_CAS_CACHE,
+
+	// https://jira.geogebra.org/browse/GGB-692
+	MORE_ACCURATE_ELLIPSE_CIRCUMFERENCE
 
 }

@@ -4303,4 +4303,75 @@ FromMeta
 		sbBuildValueString.append(')');
 	}
 
+	public double getEllipseCircumference() {
+		
+		double a = halfAxes[0];
+		double b = halfAxes[1];
+
+		// Gauss-KummerSeries doesn't converge fast so use Cayley in this case
+		if (eccentricity > 0.96) {
+
+			double k = b / a;
+			double q = Math.log(4 / k) - 0.5;
+			k = k * k;
+			double p = 0.5 * k;
+			double sum = 1 + p * q;
+			double n = 1;
+			double r = 0.5;
+			double s = 0.5;
+			double oldSum = sum + 1;
+
+			// stop when there's no change, or after 20
+			while (sum != oldSum && n < 40) {
+				n += 2;
+
+				// eg (1^2*3^2*5)/(2^2*4^2*6)
+				p = p * r;
+				r = n / (n + 1);
+				p = p * k * r;
+
+				// eg ln(k/4) - (2)/(1*2) - (2)/(3*4) - (1)/(5*6)
+				q = q - s;
+				s = 1 / (n * n + n);
+				q = q - s;
+
+				oldSum = sum;
+				sum = sum + p * q;
+			}
+
+			// Log.debug("Cayley = " + 4 * a * sum + " after " + i);
+			return 4 * a * sum;
+		}
+
+		
+		double h = (a - b) / (a + b);
+		double h2 = h * h;
+		double hn = h2;
+		
+		// http://mathworld.wolfram.com/Gauss-KummerSeries.html
+		// http://oeis.org/A056981
+		// http://oeis.org/A056982
+		double[] a056981 = { 1, 1, 1, 1, 25, 49, 441, 1089, 184041, 511225,
+				5909761, 17631601, 863948449, 2704312009l, 34493775625l,
+				111759833025l, 93990019574025l, 312541206957225l,
+				4201942893536025l, 14258670483605625l, 780804795682244025l };
+		double[] a056982 = { 1, 4, 64, 256, 16384, 65536, 1048576, 4194304,
+				1073741824, 4294967296l, 68719476736l, 274877906944l,
+				17592186044416l, 70368744177664l, 1125899906842624l,
+				4503599627370496l, 4611686018427387904l };
+
+		double ret = 1;
+
+		for (int i = 1; i < 17; i++) {
+			ret += a056981[i] / a056982[i] * hn;
+
+			hn = hn * h2;
+
+		}
+
+		ret *= (a + b) * Math.PI;
+		// Log.debug("GK = " + ret);
+		return ret;
+	}
+
 }
