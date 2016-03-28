@@ -71,6 +71,9 @@ public class DrawInequality extends Drawable {
 		}
 	}
 
+	/**
+	 * method to remove extra borders of inequality
+	 */
 	public void update2() {
 		if (left == null || (operation != Operation.NOT && right == null)) {
 			return;
