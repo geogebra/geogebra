@@ -82,30 +82,19 @@ public class CreateLibrary implements EntryPoint {
 			if (!opts.latex) {
 				throw ("drawLatex(opts): opts.latex must not be null");
 			}
-			var ctx = opts.context, 
-			latex = opts.latex, 
-			size = opts.size || 12, 
-			type = opts.type || 0, 
-			x = opts.x || 0, 
-			y = opts.y || 0, 
-			insets = opts.insets
+			var ctx = opts.context, latex = opts.latex, size = opts.size || 12, type = opts.type || 0, x = opts.x || 0, y = opts.y || 0, insets = opts.insets
 					|| {
 						top : 0,
 						bottom : 0,
 						left : 0,
 						right : 0
-					}, 
-			topInset = insets.top || 0, 
-			bottomInset = insets.bottom || 0, 
-			leftInset = insets.left || 0, 
-			rightInset = insets.right || 0, 
-			fgColor = opts.foregroundColor || "#000000", 
-			bgColor = opts.backgroundColor, // undefined === invisible
+					}, topInset = insets.top || 0, bottomInset = insets.bottom || 0, leftInset = insets.left || 0, rightInset = insets.right || 0, fgColor = opts.foregroundColor
+					|| "#000000", bgColor = opts.backgroundColor, // undefined === invisible
 			cb = opts.callback;
 
 			return library.@com.himamis.retex.renderer.web.JlmLib::drawLatex(Lcom/google/gwt/canvas/dom/client/Context2d;Ljava/lang/String;FIIIIIIILjava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ctx, latex, size, type, x, y, topInset, leftInset, bottomInset, rightInset, fgColor, bgColor, cb);
 		});
-		
+
 		$wnd.jlmlib.setFontBaseUrl = $entry(function(url) {
 			opentype.@com.himamis.retex.renderer.web.font.opentype.Opentype::setFontBaseUrl(Ljava/lang/String;)(url);
 		});

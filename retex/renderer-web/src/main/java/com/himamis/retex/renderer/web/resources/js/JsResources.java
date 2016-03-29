@@ -51,10 +51,10 @@ public interface JsResources extends ClientBundle {
 
 	public static final JsResources INSTANCE = GWT.create(JsResources.class);
 
-	@Source("opentype.min.js")
+	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/js/opentype.min.js")
 	public TextResource opentypeJs();
 	
-	@Source("base64.min.js")
+	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/js/base64.min.js")
 	public TextResource base64Js();
 
 }
