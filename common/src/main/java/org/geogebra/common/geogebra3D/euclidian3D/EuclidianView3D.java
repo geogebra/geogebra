@@ -1250,6 +1250,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public void update() {
 
 		updateAnimation();
+		doScale();
 
 		if (waitForUpdate || !drawable3DListToBeRemoved.isEmpty()
 				|| !drawable3DListToBeAdded.isEmpty()) {
@@ -4332,18 +4333,24 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// not used in 3D
 	}
 
-	public void scale(double newScale){
-		setScale(newScale);
-//		getSettings().updateOriginFromView(getXZero(), getYZero(),
-//				getZZero());
+	private double newScale;
+	private boolean waitForScale = false;
 
-		updateMatrix();
-		setViewChangedByZoom();
-//		setViewChangedByTranslate();
+	public void scale(double newScale) {
+		this.newScale = newScale;
+		waitForScale = true;
+	}
 
-//		setWaitForUpdateOwnDrawables();
+	private void doScale(){
+		if (waitForScale) {
 
-		setWaitForUpdate();
+			setScale(newScale);
+			updateMatrix();
+			setViewChangedByZoom();
+			setWaitForUpdate();
+
+			waitForScale = false;
+		}
 
 	}
 
