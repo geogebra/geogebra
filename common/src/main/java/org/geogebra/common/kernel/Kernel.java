@@ -5168,7 +5168,6 @@ public class Kernel {
 	 * 
 	 * @param input
 	 *            current algebra input
-	 * @return true if input is valid
 	 */
 	public void updatePreviewFromInputBar(String input) {
 		
