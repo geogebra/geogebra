@@ -1,8 +1,8 @@
-/* URLAlphabetRegistration.java
+/* JLaTeXMathCache.java
  * =========================================================================
- * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
+ * This file is part of the JLaTeXMath Library - http://forge.scilab.org/p/jlatexmath
  *
- * Copyright (C) 2009 DENIZET Calixte
+ * Copyright (C) 2010 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,26 +43,31 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package com.himamis.retex.renderer.share.jlatexmath.cache;
 
-import org.scilab.forge.jlatexmath.character.Character;
-import org.scilab.forge.jlatexmath.exception.AlphabetRegistrationException;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class URLAlphabetRegistration implements AlphabetRegistration {
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.exception.ParseException;
+import com.himamis.retex.renderer.share.platform.Graphics;
+import com.himamis.retex.renderer.share.platform.graphics.Color;
+import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
+import com.himamis.retex.renderer.share.platform.graphics.Image;
+import com.himamis.retex.renderer.share.platform.graphics.Insets;
+import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
-	private URLAlphabetRegistration() {
-		throw new UnsupportedOperationException("URLAlphabetRegistration is not supported for browsers.");
+/**
+ * No caching in javascript
+ */
+public final class JLaTeXMathCache {
+
+	private JLaTeXMathCache() {
 	}
 
-	public Character.UnicodeBlock[] getUnicodeBlock() {
-		return null;
-	}
-
-	public Object getPackage() throws AlphabetRegistrationException {
-		return null;
-	}
-
-	public String getTeXFontFileName() {
-		return null;
-	}
 }

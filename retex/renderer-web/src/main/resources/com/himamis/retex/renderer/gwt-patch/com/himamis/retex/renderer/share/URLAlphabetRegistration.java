@@ -1,8 +1,8 @@
-/* JLaTeXMathCache.java
+/* URLAlphabetRegistration.java
  * =========================================================================
- * This file is part of the JLaTeXMath Library - http://forge.scilab.org/p/jlatexmath
+ * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
- * Copyright (C) 2010 DENIZET Calixte
+ * Copyright (C) 2009 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,31 +43,26 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath.cache;
+package com.himamis.retex.renderer.share;
 
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.util.Iterator;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentHashMap;
+import com.himamis.retex.renderer.share.character.Character;
+import com.himamis.retex.renderer.share.exception.AlphabetRegistrationException;
 
-import org.scilab.forge.jlatexmath.TeXFormula;
-import org.scilab.forge.jlatexmath.TeXIcon;
-import org.scilab.forge.jlatexmath.exception.ParseException;
-import org.scilab.forge.jlatexmath.platform.Graphics;
-import org.scilab.forge.jlatexmath.platform.graphics.Color;
-import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
-import org.scilab.forge.jlatexmath.platform.graphics.Image;
-import org.scilab.forge.jlatexmath.platform.graphics.Insets;
-import org.scilab.forge.jlatexmath.platform.graphics.Transform;
+public class URLAlphabetRegistration implements AlphabetRegistration {
 
-/**
- * No caching in javascript
- */
-public final class JLaTeXMathCache {
-
-	private JLaTeXMathCache() {
+	private URLAlphabetRegistration() {
+		throw new UnsupportedOperationException("URLAlphabetRegistration is not supported for browsers.");
 	}
 
+	public Character.UnicodeBlock[] getUnicodeBlock() {
+		return null;
+	}
+
+	public Object getPackage() throws AlphabetRegistrationException {
+		return null;
+	}
+
+	public String getTeXFontFileName() {
+		return null;
+	}
 }

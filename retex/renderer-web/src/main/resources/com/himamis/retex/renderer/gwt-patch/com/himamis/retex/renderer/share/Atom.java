@@ -47,7 +47,7 @@
 /* Modified by Calixte Denizet */
 
 
-package org.scilab.forge.jlatexmath;
+package com.himamis.retex.renderer.share;
 import com.google.gwt.core.client.impl.Impl;
 
 
