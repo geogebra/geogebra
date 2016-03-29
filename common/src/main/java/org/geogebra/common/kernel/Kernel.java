@@ -5146,12 +5146,18 @@ public class Kernel {
 			GeoElement[] geos = getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, false,
 							false, true, false);
-			Log.debug("geo: " + geos[0]);
+			if (geos != null) {
+				for (GeoElement geo : geos) {
+					geo.setSelectionAllowed(false);
+				}
+			}
 			setSilentMode(silentModeOld);
 			notifyUpdatePreviewFromInputBar(geos);
 			return true;
 		} catch (Throwable ee) {
 			Log.debug("-- invalid input");
+			setSilentMode(true);
+			notifyUpdatePreviewFromInputBar(null);
 			setSilentMode(silentModeOld);
 			return false;
 		}
