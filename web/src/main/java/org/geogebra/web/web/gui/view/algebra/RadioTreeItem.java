@@ -1257,8 +1257,14 @@ public class RadioTreeItem extends AVTreeItem
 
 				updateColor(getPlainTextItem());
 				if (!isInputTreeItem() && c != null) {
-					ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
-							c.getCanvasElement());
+					ihtml.clear();
+					if (!isInputTreeItem() && isDefinitionAndValue()) {
+						createDefinitionAndValue();
+						ihtml.add(valuePanel);
+					}
+					ihtml.add(c);
+					// ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
+					// c.getCanvasElement());
 				} else {
 					ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
 							latexItem.getElement());
@@ -1326,39 +1332,37 @@ public class RadioTreeItem extends AVTreeItem
 		if (!forceMQ) {
 			c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
 			if (c != null && ihtml.getElement().isOrHasChild(old)) {
-				if (definitionAndValue && kernel
-						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
-					Log.debug(REFX + " D&V LATEX edit!");
-					createDefinitionAndValue();
-					ihtml.getElement()
-							.replaceChild(definitionPanel.getElement(), old);
-				} else {
-					Log.debug(REFX + "Normal LATEX edit!");
 					ihtml.getElement().replaceChild(c.getCanvasElement(), old);
 				}
-			}
-		} else {
+
+		} 
+ else {
 			// Log.debug(REFX + "renderLatex 2");
-			FlowPanel item = new FlowPanel();
-			item.addStyleName("avTextItem");
-			updateColor(item);
+			if (latexItem == null) {
+				latexItem = new FlowPanel();
+			}
+			latexItem.clear();
+			latexItem.addStyleName("avTextItem");
+			updateColor(latexItem);
 
 			ihtml.clear();
-			//
-			// if (definitionAndValue && kernel
-			// .getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE)
-			// {
-			// createDefinitionPanel();
-			// ihtml.add(definitionPanel);
-			// } else {
-				ihtml.add(item);
-			// }
+			if (!isInputTreeItem() && isDefinitionAndValue()) {
+				createDefinitionAndValue();
+				ihtml.add(valuePanel);
+				ihtml.add(new Label(getOutputPrefix()));
+
+			}
+
+			ihtml.add(latexItem);
+
+
+
 			String text = text0;
 			if (text0 == null) {
 				text = "";
 			}
 			text = DrawEquationW.inputLatexCosmetics(text);
-			latexItem = item;
+
 			String latexString = "";
 			if (!isInputTreeItem()) {
 				latexString = isDefinitionAndValue() ? "\\mathrm {"
@@ -1367,7 +1371,6 @@ public class RadioTreeItem extends AVTreeItem
 
 			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
-
 		}
 
 	}
@@ -1378,6 +1381,7 @@ public class RadioTreeItem extends AVTreeItem
 		// .getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
 		// lbValue.setText(geo.getRedefineString(true, true));
 		// }
+
 	}
 
 	/**
