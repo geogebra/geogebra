@@ -131,7 +131,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			+ "ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]== 'pnt' && x[1] == ggbvect[0,0,0])));;"
 			// convert the polys into primitive polys in the input list
 			// (contains temporary fix for primpart also):
-			+ "primpoly(x):=begin if (x==[0]) return [0]; local pps,ii; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end;;"
+			+ "primpoly(x):=begin local pps,ii; if (x==[0]) return [0]; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end;;"
 			// strange why sommet(-x)!='-' (so we do an ugly hack here, FIXME)
 			+ "factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end;;";
 
