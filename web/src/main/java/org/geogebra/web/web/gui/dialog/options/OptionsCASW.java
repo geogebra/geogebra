@@ -33,8 +33,12 @@ public class OptionsCASW extends OptionsCAS implements OptionPanelW,
 	private void createGUI() {
 		showRoots = new CheckBox();
 		showRoots.addClickHandler(this);
+		showRoots.setStyleName("checkBoxPanel");
+
 		showNavigation = new CheckBox();
 		showNavigation.addClickHandler(this);
+		showNavigation.setStyleName("checkBoxPanel");
+
 		optionsPanel = new FlowPanel();
 		optionsPanel.addStyleName("objectPropertiesPanel");
 
