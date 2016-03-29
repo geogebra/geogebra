@@ -1,16 +1,18 @@
 package org.geogebra.desktop.util;
 
 import org.geogebra.common.util.LaTeXCache;
-import org.scilab.forge.jlatexmath.ParseException;
-import org.scilab.forge.jlatexmath.TeXConstants;
-import org.scilab.forge.jlatexmath.cache.JLaTeXMathCache;
+
+import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
+import com.himamis.retex.renderer.share.exception.ParseException;
+import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 public class GeoLaTeXCache implements LaTeXCache {
 	// used by Captions, GeoText and DrawParametricCurve to cache LaTeX formulae
 	public Object keyLaTeX = null;
 
 	public Object getCachedLaTeXKey(String latex, int fontSize, int style,
-			org.geogebra.common.awt.GColor fgColor) {
+			Object fgColor) {
 		Object newKey;
 		try {
 
@@ -20,7 +22,7 @@ public class GeoLaTeXCache implements LaTeXCache {
 																	 * around
 																	 * the label
 																	 */,
-					org.geogebra.desktop.awt.GColorD.getAwtColor(fgColor));
+					(Color) fgColor);
 		} catch (ParseException e) {
 			if (keyLaTeX != null) {
 				// remove old key from cache

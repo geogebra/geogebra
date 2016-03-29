@@ -52,6 +52,14 @@ import com.himamis.retex.renderer.share.platform.resources.ResourceLoader;
 public class ResourceLoaderD implements ResourceLoader {
 
 	public InputStream loadResource(Object base, String path) throws ResourceParseException {
+		InputStream is = FactoryProviderDesktop.class.getResourceAsStream(
+				"/com/himamis/retex/renderer/desktop/" + path);
+		if (is != null) {
+			System.out.println("absolute path used for:" + path);
+			return is;
+		}
+
+
 		if (base != null) {
 			return ((Class<?>) base).getResourceAsStream(path);
 		} else {

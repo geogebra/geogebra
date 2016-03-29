@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
@@ -23,13 +21,19 @@ import org.geogebra.common.util.Language;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.main.AppD;
-import org.scilab.forge.jlatexmath.AlphabetRegistration;
-import org.scilab.forge.jlatexmath.DefaultTeXFont;
-import org.scilab.forge.jlatexmath.TeXConstants;
-import org.scilab.forge.jlatexmath.TeXFormula;
-import org.scilab.forge.jlatexmath.TeXIcon;
-import org.scilab.forge.jlatexmath.WebStartAlphabetRegistration;
-import org.scilab.forge.jlatexmath.cache.JLaTeXMathCache;
+
+import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
+import com.himamis.retex.renderer.desktop.graphics.ColorD;
+import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
+import com.himamis.retex.renderer.share.DefaultTeXFont;
+import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
+import com.himamis.retex.renderer.share.platform.graphics.Image;
+import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 public class DrawEquationD extends DrawEquation {
 	private final JLabel jl = new JLabel();
@@ -88,7 +92,7 @@ public class DrawEquationD extends DrawEquation {
 
 				if (maxWidth == null) {
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, fgColor);
+							font.getSize() + 3, style, new ColorD(fgColor));
 				} else {
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 							font.getSize() + 3, TeXConstants.UNIT_CM,
@@ -102,7 +106,7 @@ public class DrawEquationD extends DrawEquation {
 
 				formula = TeXFormula.getPartialTeXFormula(text);
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, fgColor);
+						font.getSize() + 3, style, new ColorD(fgColor));
 
 				formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
 						TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
@@ -119,7 +123,7 @@ public class DrawEquationD extends DrawEquation {
 					formula = TeXFormula.getPartialTeXFormula(text);
 
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, fgColor);
+							font.getSize() + 3, style, new ColorD(fgColor));
 				} catch (Exception e2) {
 					Log.debug("LaTeX parse exception: " + e.getMessage() + "\n"
 							+ text);
@@ -127,7 +131,7 @@ public class DrawEquationD extends DrawEquation {
 							+ app.getLocalization().getError(
 									"CAS.GeneralErrorMessage") + "}");
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, fgColor);
+							font.getSize() + 3, style, new ColorD(fgColor));
 				}
 				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
 				// x, y + g2.getFont().getSize(), g2);
@@ -136,7 +140,13 @@ public class DrawEquationD extends DrawEquation {
 			icon.setInsets(new Insets(1, 1, 1, 1));
 
 			jl.setForeground(fgColor);
-			icon.paintIcon(jl, g2, x, y);
+			icon.paintIcon(new HasForegroundColor() {
+
+				public com.himamis.retex.renderer.share.platform.graphics.Color getForegroundColor() {
+					return new ColorD(fgColor);
+				}
+
+			}, new Graphics2DD(g2), x, y);
 			return new Dimension(icon.getIconWidth(), icon.getIconHeight());
 
 		}
@@ -152,13 +162,12 @@ public class DrawEquationD extends DrawEquation {
 				key = JLaTeXMathCache.getCachedTeXFormula(text,
 						TeXConstants.STYLE_DISPLAY, style,
 						font.getSize() + 3 /* font size */, 1 /*
-																 * inset around
-																 * the label
-																 */, fgColor);
+							 * inset around the label
+							 */, new ColorD(fgColor));
 			} else {
 				key = geo.getLaTeXCache().getCachedLaTeXKey(text,
 						font.getSize() + 3, style,
-						new org.geogebra.desktop.awt.GColorD(fgColor));
+						new ColorD(fgColor));
 			}
 
 			im = JLaTeXMathCache.getCachedTeXFormulaImage(key);
@@ -175,7 +184,8 @@ public class DrawEquationD extends DrawEquation {
 
 			final TeXFormula formula = TeXFormula.getPartialTeXFormula(text);
 			im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, Color.black, Color.white);
+					font.getSize() + 3, new ColorD(Color.black),
+					new ColorD(Color.white));
 
 			// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text, x, y
 			// + g2.getFont().getSize(), g2);
@@ -183,13 +193,13 @@ public class DrawEquationD extends DrawEquation {
 
 		}
 
-		g2.drawImage(im, x, y, null);
+		new Graphics2DD(g2).drawImage(im, x, y);
 
 		if (width == -1) {
-			width = im.getWidth(null);
+			width = im.getWidth();
 		}
 		if (height == -1) {
-			height = im.getHeight(null);
+			height = im.getHeight();
 		}
 
 		return new Dimension(width, height);
@@ -225,7 +235,7 @@ public class DrawEquationD extends DrawEquation {
 
 				if (maxWidth == null) {
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, fgColor);
+						font.getSize() + 3, style, new ColorD(fgColor));
 				} else {
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 							font.getSize() + 3, TeXConstants.UNIT_CM,
@@ -239,7 +249,7 @@ public class DrawEquationD extends DrawEquation {
 
 				formula = TeXFormula.getPartialTeXFormula(text);
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, fgColor);
+					font.getSize() + 3, style, new ColorD(fgColor));
 
 				formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
 						TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
@@ -255,7 +265,7 @@ public class DrawEquationD extends DrawEquation {
 
 				formula = TeXFormula.getPartialTeXFormula(text);
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, fgColor);
+					font.getSize() + 3, style, new ColorD(fgColor));
 
 				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
 				// x, y + g2.getFont().getSize(), g2);
@@ -279,6 +289,7 @@ public class DrawEquationD extends DrawEquation {
 			if (initJLaTeXMath == null) {
 
 				StringBuilder initJLM = getJLMCommands();
+				FactoryProvider.INSTANCE = new FactoryProviderDesktop();
 				initJLaTeXMath = new TeXFormula(initJLM.toString());
 			}
 
@@ -294,52 +305,54 @@ public class DrawEquationD extends DrawEquation {
 					final Font testFont = app.getFontCanDisplayAwt(l.testChar,
 							true, Font.PLAIN, 12);
 					if (testFont != null) {
-						TeXFormula
-								.registerExternalFont(Character.UnicodeBlock
-										.of(l.testChar.charAt(0)), testFont
-										.getFontName());
+						// TeXFormula
+						// .registerExternalFont(Character.UnicodeBlock
+						// .of(l.testChar.charAt(0)), testFont
+						// .getFontName());
 						// Application.debug("LaTeX font registering: "+l.name+" "+testFont.getFontName());
 					}
 
 				}
 			}
 
-			// Arabic is in standard Java fonts, so we don't need to search for
-			// a font
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u0681'), "Sans Serif", "Serif");
-			// Korean is in standard Java fonts, so we don't need to search for
-			// a font
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\uB458'), "Sans Serif", "Serif");
-			// Japanese is in standard Java fonts, so we don't need to search
+			// // Arabic is in standard Java fonts, so we don't need to search
 			// for
-			// a font
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u30ea'), "Sans Serif", "Serif");
-
-			// Other codeblocks (currency, symbols etc)
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u20a0'), "Sans Serif", "Serif");
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u2600'), "Sans Serif", "Serif");
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u2700'), "Sans Serif", "Serif");
-
-			try {
-				WebStartAlphabetRegistration
-						.register(AlphabetRegistration.JLM_GREEK);
-				WebStartAlphabetRegistration
-						.register(AlphabetRegistration.JLM_CYRILLIC);
-				// URLAlphabetRegistration.register(new
-				// URL(app.getCodeBase()+"jlm_greek.jar"),
-				// "greek",URLAlphabetRegistration.JLM_GREEK);
-				// URLAlphabetRegistration.register(new
-				// URL(app.getCodeBase()+"jlm_cyrillic.jar"),
-				// "cyrillic",URLAlphabetRegistration.JLM_CYRILLIC);
-			} catch (final Exception e) {
-				e.printStackTrace();
-			}
+			// // a font
+			// TeXFormula.registerExternalFont(
+			// Character.UnicodeBlock.of('\u0681'), "Sans Serif", "Serif");
+			// // Korean is in standard Java fonts, so we don't need to search
+			// for
+			// // a font
+			// TeXFormula.registerExternalFont(
+			// Character.UnicodeBlock.of('\uB458'), "Sans Serif", "Serif");
+			// // Japanese is in standard Java fonts, so we don't need to search
+			// // for
+			// // a font
+			// TeXFormula.registerExternalFont(
+			// Character.UnicodeBlock.of('\u30ea'), "Sans Serif", "Serif");
+			//
+			// // Other codeblocks (currency, symbols etc)
+			// TeXFormula.registerExternalFont(
+			// Character.UnicodeBlock.of('\u20a0'), "Sans Serif", "Serif");
+			// TeXFormula.registerExternalFont(
+			// Character.UnicodeBlock.of('\u2600'), "Sans Serif", "Serif");
+			// TeXFormula.registerExternalFont(
+			// Character.UnicodeBlock.of('\u2700'), "Sans Serif", "Serif");
+			//
+			// try {
+			// WebStartAlphabetRegistration
+			// .register(AlphabetRegistration.JLM_GREEK);
+			// WebStartAlphabetRegistration
+			// .register(AlphabetRegistration.JLM_CYRILLIC);
+			// // URLAlphabetRegistration.register(new
+			// // URL(app.getCodeBase()+"jlm_greek.jar"),
+			// // "greek",URLAlphabetRegistration.JLM_GREEK);
+			// // URLAlphabetRegistration.register(new
+			// // URL(app.getCodeBase()+"jlm_cyrillic.jar"),
+			// // "cyrillic",URLAlphabetRegistration.JLM_CYRILLIC);
+			// } catch (final Exception e) {
+			// e.printStackTrace();
+			// }
 
 		}
 
