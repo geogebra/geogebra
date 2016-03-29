@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Converts GeoGebra constructions to strings and vice versa
@@ -64,6 +65,30 @@ public abstract class MyXMLio {
 	protected Kernel kernel;
 	/** construction */
 	protected Construction cons;
+
+	protected MyXMLHandler handler;
+
+	public MyXMLio(Kernel kernel, Construction cons) {
+		this.kernel = kernel;
+		this.cons = cons;
+		app = kernel.getApplication();
+
+		createXMLParser();
+		handler = getGGBHandler();
+	}
+
+	/**
+	 * create XML parser
+	 */
+	abstract protected void createXMLParser();
+
+	protected MyXMLHandler getGGBHandler() {
+		if (handler == null)
+			// ggb3D : to create also a MyXMLHandler3D
+			// ggbDocHandler = new MyXMLHandler(kernel, cons);
+			handler = kernel.newMyXMLHandler(cons);
+		return handler;
+	}
 
 	/**
 	 * Returns XML representation of all settings and construction needed for
@@ -135,21 +160,7 @@ public abstract class MyXMLio {
 		cons.setFileLoading(false);
 	}
 
-	/**
-	 * @param xml
-	 *            XML string
-	 * @param clearConstruction
-	 *            true to clear construction before processing
-	 * @param isGgtFile
-	 *            true for macro files
-	 * @param settingsBatch
-	 *            true to process ettings changes as a batch
-	 * @throws Exception
-	 *             if XML is invalid or there was a problem while processing
-	 */
-	public abstract void processXMLString(String xml,
-			boolean clearConstruction, boolean isGgtFile, boolean settingsBatch)
-			throws Exception;
+
 
 	/**
 	 * Appends the &lt;geogebra> tag to given builder, including XSD link and
@@ -275,8 +286,138 @@ public abstract class MyXMLio {
 		return sb.toString();
 	}
 	
-	public void parsePerspectiveXML(String perspectiveXML) {
+
+	/**
+	 * @param xml
+	 *            XML string
+	 * @param clearConstruction
+	 *            true to clear construction before processing
+	 * @param isGgtFile
+	 *            true for macro files
+	 * @param settingsBatch
+	 *            true to process ettings changes as a batch
+	 * @throws Exception
+	 *             if XML is invalid or there was a problem while processing
+	 */
+	final public void processXMLString(String str, boolean clearAll,
+			boolean isGGTOrDefaults, boolean settingsBatch) throws Exception {
+		doParseXML(createXMLStreamString(str), clearAll, isGGTOrDefaults,
+				clearAll, settingsBatch);
+	}
+
+	final protected void doParseXML(XMLStream stream,
+			boolean clearConstruction,
+			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch)
+			throws Exception {
+		boolean oldVal = kernel.isNotifyViewsActive();
+		boolean oldVal2 = kernel.isUsingInternalCommandNames();
+		kernel.setUseInternalCommandNames(true);
+
+		if (!isGGTOrDefaults && mayZoom) {
+			kernel.setNotifyViewsActive(false);
+		}
+
+		if (clearConstruction) {
+			// clear construction
+			kernel.clearConstruction(false);
+		}
+
+		try {
+			kernel.setLoadingMode(true);
+			if (settingsBatch && !isGGTOrDefaults) {
+				app.getSettings().beginBatch();
+				parseXML(handler, stream);
+				app.getSettings().endBatch();
+			} else {
+				parseXML(handler, stream);
+			}
+			resetXMLParser();
+			kernel.setLoadingMode(false);
+		} catch (Error e) {
+			Log.error(e.getMessage());
+			if (!isGGTOrDefaults) {
+				throw e;
+			}
+		} catch (Exception e) {
+			Log.error(e.getMessage());
+			if (!isGGTOrDefaults) {
+				throw e;
+			}
+		} finally {
+			kernel.setUseInternalCommandNames(oldVal2);
+			if (!isGGTOrDefaults && mayZoom) {
+				kernel.updateConstruction();
+				kernel.setNotifyViewsActive(oldVal);
+			}
+
+			// #2153
+			if (!isGGTOrDefaults && cons.hasSpreadsheetTracingGeos()) {
+				// needs to be done after call to updateConstruction() to avoid
+				// spurious traces
+				app.getTraceManager().loadTraceGeoCollection();
+			}
+		}
+
+		// handle construction step stored in XMLhandler
+		// do this only if the construction protocol navigation is showing
+		if (!isGGTOrDefaults && oldVal && app.showConsProtNavigation()) {
+			// ((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
+
+			if (app.getGuiManager() != null) {
+				// if there is a ConstructionProtocolView, then update its
+				// navigation bars
+				app.getGuiManager().getConstructionProtocolView()
+						.setConstructionStep(handler.getConsStep());
+			} else {
+				// otherwise this is not needed
+				app.getKernel().getConstruction()
+						.setStep(handler.getConsStep());
+			}
+
+		}
 
 	}
 
+	/**
+	 * reset XML parser
+	 */
+	abstract protected void resetXMLParser();
+
+	/**
+	 * parse XML string
+	 * 
+	 * @param stream
+	 *            XML stream
+	 * @throws Exception
+	 *             exception
+	 */
+	abstract protected void parseXML(MyXMLHandler xmlHandler, XMLStream stream)
+			throws Exception;
+
+	public void parsePerspectiveXML(String perspectiveXML) {
+		try {
+			MyXMLHandler h = getGGBHandler();
+			parseXML(h, createXMLStreamString(perspectiveXML));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
+	 * class for XML content streams (zip, buffers, String, etc.)
+	 * @author mathieu
+	 *
+	 */
+	protected interface XMLStream {
+
+	}
+
+	/**
+	 * 
+	 * @param str
+	 *            XML string
+	 * @return XML stream for string
+	 */
+	abstract protected XMLStream createXMLStreamString(String str);
 }

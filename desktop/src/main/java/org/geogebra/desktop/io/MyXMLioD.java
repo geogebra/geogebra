@@ -53,10 +53,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.main.GuiManagerInterfaceD;
 import org.geogebra.desktop.util.Util;
 
 /**
@@ -68,25 +66,19 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 	// Use the default (non-validating) parser
 	// private static XMLReaderFactory factory;
 
-	private MyXMLHandler handler;
+
 	private QDParser xmlParser;
 
 	public MyXMLioD(Kernel kernel, Construction cons) {
-		this.kernel = kernel;
-		this.cons = cons;
-		app = kernel.getApplication();
+		super(kernel, cons);
+	}
 
+	@Override
+	protected void createXMLParser() {
 		xmlParser = new QDParser();
-		handler = getGGBHandler();
 	}
 
-	private MyXMLHandler getGGBHandler() {
-		if (handler == null)
-			// ggb3D : to create also a MyXMLHandler3D
-			// ggbDocHandler = new MyXMLHandler(kernel, cons);
-			handler = kernel.newMyXMLHandler(cons);
-		return handler;
-	}
+
 
 	/**
 	 * Reads zipped file from input stream that includes the construction saved
@@ -283,96 +275,16 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 			boolean isGGTOrDefaults) throws Exception {
 		// handle the data in the memory buffer
 		ByteArrayInputStream bs = new ByteArrayInputStream(buffer);
-		InputStreamReader ir = new InputStreamReader(bs, "UTF8");
+		XMLStreamInputStream ir = new XMLStreamInputStream(bs);
 
 		// process xml file
 		doParseXML(ir, clearConstruction, isGGTOrDefaults, true, true);
 
-		ir.close();
 		bs.close();
 	}
 
-	public void parsePerspectiveXML(String perspectiveXML) {
-		StringReader ir = new StringReader(perspectiveXML);
-		try {
-			MyXMLHandler h = getGGBHandler();
 
-			xmlParser.parse(h, ir);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
-	}
-	private void doParseXML(Reader ir, boolean clearConstruction,
-			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch)
-			throws Exception {
-		boolean oldVal = kernel.isNotifyViewsActive();
-		boolean oldVal2 = kernel.isUsingInternalCommandNames();
-		kernel.setUseInternalCommandNames(true);
-
-		if (!isGGTOrDefaults && mayZoom) {
-			kernel.setNotifyViewsActive(false);
-		}
-
-		if (clearConstruction) {
-			// clear construction
-			kernel.clearConstruction(false);
-		}
-
-		try {
-			kernel.setLoadingMode(true);
-			if (settingsBatch && !isGGTOrDefaults) {
-				app.getSettings().beginBatch();
-				xmlParser.parse(handler, ir);
-				app.getSettings().endBatch();
-			} else
-				xmlParser.parse(handler, ir);
-			xmlParser.reset();
-			kernel.setLoadingMode(false);
-		} catch (Error e) {
-			Log.error(e.getMessage());
-			if (!isGGTOrDefaults) {
-				throw e;
-			}
-		} catch (Exception e) {
-			Log.error(e.getMessage());
-			if (!isGGTOrDefaults) {
-				throw e;
-			}
-		} finally {
-			kernel.setUseInternalCommandNames(oldVal2);
-			if (!isGGTOrDefaults && mayZoom) {
-				kernel.updateConstruction();
-				kernel.setNotifyViewsActive(oldVal);
-			}
-
-			// #2153
-			if (!isGGTOrDefaults && cons.hasSpreadsheetTracingGeos()) {
-				// needs to be done after call to updateConstruction() to avoid
-				// spurious traces
-				app.getTraceManager().loadTraceGeoCollection();
-			}
-		}
-
-		// handle construction step stored in XMLhandler
-		// do this only if the construction protocol navigation is showing
-		if (!isGGTOrDefaults && oldVal && ((AppD) app).showConsProtNavigation()) {
-			// ((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
-
-			if (((GuiManagerInterfaceD) app.getGuiManager()) != null)
-				// if there is a ConstructionProtocolView, then update its
-				// navigation bars
-				((GuiManagerD) app.getGuiManager())
-						.getConstructionProtocolView().setConstructionStep(
-								handler.getConsStep());
-			else
-				// otherwise this is not needed
-				app.getKernel().getConstruction()
-						.setStep(handler.getConsStep());
-
-		}
-
-	}
 
 	/**
 	 * Reads from a zipped input stream that includes only the construction
@@ -386,7 +298,7 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 		if (entry != null && entry.getName().equals(XML_FILE)) {
 			// process xml file
 			kernel.getConstruction().setFileLoading(true);
-			doParseXML(new InputStreamReader(zip, "UTF8"), true, false, true,
+			doParseXML(new XMLStreamInputStream(zip), true, false, true,
 					true);
 			kernel.getConstruction().setFileLoading(false);
 			zip.close();
@@ -397,13 +309,7 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 
 	}
 
-	@Override
-	public void processXMLString(String str, boolean clearAll,
-			boolean isGGTOrDefaults, boolean settingsBatch) throws Exception {
-		StringReader rs = new StringReader(str);
-		doParseXML(rs, clearAll, isGGTOrDefaults, clearAll, settingsBatch);
-		rs.close();
-	}
+
 
 	/**
 	 * Creates a zipped file containing the construction and all settings saved
@@ -722,5 +628,68 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 		}
 		w.close();
 		z.close();
+	}
+
+	@Override
+	protected void resetXMLParser() {
+		xmlParser.reset();
+	}
+
+	@Override
+	protected void parseXML(MyXMLHandler xmlHandler, XMLStream stream)
+			throws Exception {
+		XMLStreamD streamD = (XMLStreamD) stream;
+		xmlParser.parse(xmlHandler, streamD.getReader());
+		streamD.closeReader();
+
+	}
+
+	protected interface XMLStreamD extends XMLStream {
+		public Reader getReader() throws Exception;
+
+		public void closeReader() throws Exception;
+	}
+
+	protected class XMLStreamStringD implements XMLStreamD {
+
+		private String str;
+		private StringReader rs;
+
+		public XMLStreamStringD(String str) {
+			this.str = str;
+		}
+
+		public Reader getReader() throws Exception {
+			rs = new StringReader(str);
+			return rs;
+		}
+
+		public void closeReader() throws Exception {
+			rs.close();
+		}
+	}
+
+	@Override
+	protected XMLStream createXMLStreamString(String str) {
+		return new XMLStreamStringD(str);
+	}
+
+	protected class XMLStreamInputStream implements XMLStreamD {
+
+		private InputStream is;
+		private InputStreamReader reader;
+
+		public XMLStreamInputStream(InputStream is) {
+			this.is = is;
+		}
+
+		public Reader getReader() throws Exception {
+			reader = new InputStreamReader(is, "UTF8");
+			return reader;
+		}
+
+		public void closeReader() throws Exception {
+			reader.close();
+		}
 	}
 }
