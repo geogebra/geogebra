@@ -125,6 +125,8 @@ public enum Feature {
 	XML_CAS_CACHE,
 
 	// https://jira.geogebra.org/browse/GGB-692
-	MORE_ACCURATE_ELLIPSE_CIRCUMFERENCE
+	MORE_ACCURATE_ELLIPSE_CIRCUMFERENCE,
+
+	WEB_SHARE_DIALOG
 
 }

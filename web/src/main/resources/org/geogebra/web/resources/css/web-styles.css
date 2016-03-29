@@ -2980,6 +2980,12 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	color: #FFFFFF;
 } */
 
+
+.GeoGebraShareDialog {
+	width: 300px;
+	height: 300px;
+}
+
 /*-------- RECOVER AUTO SAVED DIALOG ------------*/
 
 .RecoverAutoSavedDialog .buttonPanel {

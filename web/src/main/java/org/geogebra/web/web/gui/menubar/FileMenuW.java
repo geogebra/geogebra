@@ -17,6 +17,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.export.PrintPreviewW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.gui.util.ShareDialogW;
 import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.user.client.ui.MenuItem;
@@ -153,20 +154,35 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		addSeparator();
 
+		if (app.has(Feature.WEB_SHARE_DIALOG)) {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),
+				app.getMenu("Share"), true), true, new MenuCommand(app) {
+
+					@Override
+					public void doExecute() {
+						new ShareDialogW(app);
+					}
+				});
+
+		} else {
 		// this is enabled always
-	    uploadToGGT = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),app.getMenu("Share"), true),true,new MenuCommand(app) {
-	    	
-	    	
-	    	@Override
-	    	public void doExecute() {
-	    		if(!nativeShareSupported()){
-	    			app.uploadToGeoGebraTube();
-	    		} else {
-							app.getGgbApi().getBase64(true,
-									getShareStringHandler());
-	    		}
-	    	}
-	    });
+
+			uploadToGGT = addItem(
+					MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),
+							app.getMenu("Share"), true),
+					true, new MenuCommand(app) {
+
+						@Override
+						public void doExecute() {
+							if (!nativeShareSupported()) {
+								app.uploadToGeoGebraTube();
+							} else {
+								app.getGgbApi().getBase64(true, getShareStringHandler());
+							}
+						}
+					});
+		}
+
 		if (app.getLAF().exportSupported()) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 				        .menu_icons_file_export()

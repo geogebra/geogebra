@@ -487,12 +487,13 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-file-open.png")
 	ImageResource zoom16();
 	
-	/*@Source("org/geogebra/web/web/gui/images/drive_icon_16.png")
-	ImageResource drive_icon_16();
-	
-	@Source("org/geogebra/web/web/gui/images/skydrive_icon_16.png")
-	ImageResource skydrive_icon_16();
-	
+	/*
+	 * @Source("org/geogebra/web/web/gui/images/drive_icon_16.png")
+	 * ImageResource drive_icon_16();
+	 * 
+	 * @Source("org/geogebra/web/web/gui/images/skydrive_icon_16.png")
+	 * ImageResource skydrive_icon_16();
+	 */
 	@Source("org/geogebra/web/web/gui/images/social-facebook.png")
 	ImageResource social_facebook();
 	
@@ -503,7 +504,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	ImageResource social_openid();
 	
 	@Source("org/geogebra/web/web/gui/images/social-twitter.png")
-	ImageResource social_twitter();*/
+	ImageResource social_twitter();
 
 	/*@Source("org/geogebra/web/web/gui/images/stylingbar_graphicsview_standardview.png")
 	ImageResource standard_view();*/
