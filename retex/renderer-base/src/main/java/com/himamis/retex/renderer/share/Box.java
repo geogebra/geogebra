@@ -299,7 +299,8 @@ public abstract class Box {
 		prevColor = g2.getColor();
 		if (background != null) { // draw background
 			g2.setColor(background);
-			// g2.fill(new Rectangle2D.Float(x, y - height, width, height + depth));
+			// was commented out https://jira.geogebra.org/browse/TRAC-4421
+			g2.fill(geom.createRectangle2D(x, y - height, width, height + depth));
 		}
 		if (foreground == null) {
 			g2.setColor(prevColor); // old foreground color
