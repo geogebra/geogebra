@@ -208,20 +208,18 @@ public class MatrixTreeItem extends RadioTreeItem {
 			public void execute() {
 				boolean wasEditing = commonEditingCheck();
 
-				if (!wasEditing)
+				if (!wasEditing) {
 					ensureEditing();
+				}
 
 				DrawEquationW.addNewRowToMatrix(latexItem);
 
-				// it is a good question whether shall we save the result
-				// in a permanent way, and in which case (wasEditing?)
-				// why not?
-				DrawEquationW.endEditingEquationMathQuillGGB(
-						MatrixTreeItem.this, latexItem);
-
-				if (wasEditing) {
-					av.startEditing(geo);
-				}
+				// DrawEquationW.endEditingEquationMathQuillGGB(
+				// MatrixTreeItem.this, latexItem);
+				//
+				// if (wasEditing) {
+				// av.startEditing(geo);
+				// }
 			}
 		});
 	}
@@ -231,20 +229,18 @@ public class MatrixTreeItem extends RadioTreeItem {
 			public void execute() {
 				boolean wasEditing = commonEditingCheck();
 
-				if (!wasEditing)
+				if (!wasEditing) {
 					ensureEditing();
+				}
 
 				DrawEquationW.addNewColToMatrix(latexItem);
 
-				// it is a good question whether shall we save the result
-				// in a permanent way, and in which case (wasEditing?)
-				// why not?
-				DrawEquationW.endEditingEquationMathQuillGGB(
-						MatrixTreeItem.this, latexItem);
-
-				if (wasEditing) {
-					av.startEditing(geo);
-				}
+				// DrawEquationW.endEditingEquationMathQuillGGB(
+				// MatrixTreeItem.this, latexItem);
+				//
+				// if (wasEditing) {
+				// av.startEditing(geo);
+				// }
 			}
 		});
 	}
@@ -254,20 +250,21 @@ public class MatrixTreeItem extends RadioTreeItem {
 			public void execute() {
 				boolean wasEditing = commonEditingCheck();
 
-				if (!wasEditing)
+				if (!wasEditing) {
 					ensureEditing();
+				}
 
 				DrawEquationW.removeColFromMatrix(latexItem);
 
 				// it is a good question whether shall we save the result
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
-				DrawEquationW.endEditingEquationMathQuillGGB(
-						MatrixTreeItem.this, latexItem);
-
-				if (wasEditing) {
-					av.startEditing(geo);
-				}
+				// DrawEquationW.endEditingEquationMathQuillGGB(
+				// MatrixTreeItem.this, latexItem);
+				//
+				// if (wasEditing) {
+				// av.startEditing(geo);
+				// }
 			}
 		});
 	}
@@ -277,20 +274,21 @@ public class MatrixTreeItem extends RadioTreeItem {
 			public void execute() {
 				boolean wasEditing = commonEditingCheck();
 
-				if (!wasEditing)
+				if (!wasEditing) {
 					ensureEditing();
+				}
 
 				DrawEquationW.removeRowFromMatrix(latexItem);
 
 				// it is a good question whether shall we save the result
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
-				DrawEquationW.endEditingEquationMathQuillGGB(
-						MatrixTreeItem.this, latexItem);
-
-				if (wasEditing) {
-					av.startEditing(geo);
-				}
+				// DrawEquationW.endEditingEquationMathQuillGGB(
+				// MatrixTreeItem.this, latexItem);
+				//
+				// if (wasEditing) {
+				// av.startEditing(geo);
+				// }
 			}
 		});
 	}
