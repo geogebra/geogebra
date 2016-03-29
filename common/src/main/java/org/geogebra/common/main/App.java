@@ -4292,4 +4292,11 @@ public abstract class App implements UpdateSelection {
 	protected void hideDockBarPopup() {
 		// only used in desktop
 	}
+
+	public void schedulePreview(Runnable scheduledPreview) {
+		// this is basic implementation with no scheduled delay
+		scheduledPreview.run();
+	}
+
+	static final protected long SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS = 500;
 }

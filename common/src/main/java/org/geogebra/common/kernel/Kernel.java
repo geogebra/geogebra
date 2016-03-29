@@ -5116,6 +5116,53 @@ public class Kernel {
 
 	private String previewFromInputBarOldInput = "";
 
+	private ScheduledPreviewFromInputBar scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar();
+
+	private class ScheduledPreviewFromInputBar implements Runnable {
+
+		private String input = "";
+
+		public void setInput(String str) {
+			this.input = str;
+		}
+
+		public String getInput() {
+			return input;
+		}
+
+		public void run() {
+			// TODO Auto-generated method stub
+			if (input.length() == 0) {
+				// remove preview (empty input)
+				Log.debug("remove preview (empty input)");
+				notifyUpdatePreviewFromInputBar(null);
+				return;
+			}
+
+			Log.debug("preview for: " + input);
+			boolean silentModeOld = isSilentMode();
+			try {
+				setSilentMode(true);
+				GeoElement[] geos = getAlgebraProcessor()
+						.processAlgebraCommandNoExceptionHandling(input, false,
+								false, true, false);
+				if (geos != null) {
+					for (GeoElement geo : geos) {
+						geo.setSelectionAllowed(false);
+					}
+				}
+				setSilentMode(silentModeOld);
+				notifyUpdatePreviewFromInputBar(geos);
+			} catch (Throwable ee) {
+				Log.debug("-- invalid input");
+				setSilentMode(true);
+				notifyUpdatePreviewFromInputBar(null);
+				setSilentMode(silentModeOld);
+			}
+		}
+
+	}
+
 	/**
 	 * try to create/update preview for input typed
 	 * 
@@ -5123,44 +5170,17 @@ public class Kernel {
 	 *            current algebra input
 	 * @return true if input is valid
 	 */
-	public boolean updatePreviewFromInputBar(String input) {
+	public void updatePreviewFromInputBar(String input) {
 		
-		if (previewFromInputBarOldInput == input){
+		if (scheduledPreviewFromInputBar.getInput().equals(input)) {
 			Log.debug("no update needed (same input)");
-			return false;
+			return;
 		}
 		
-		previewFromInputBarOldInput = input;
+		scheduledPreviewFromInputBar.setInput(input);
 
-		if (previewFromInputBarOldInput.length() == 0) {
-			// remove preview (empty input)
-			Log.debug("remove preview (empty input)");
-			notifyUpdatePreviewFromInputBar(null);
-			return true;
-		}
+		app.schedulePreview(scheduledPreviewFromInputBar);
 
-		Log.debug("preview for: " + input);
-		boolean silentModeOld = isSilentMode();
-		try {
-			setSilentMode(true);
-			GeoElement[] geos = getAlgebraProcessor()
-					.processAlgebraCommandNoExceptionHandling(input, false,
-							false, true, false);
-			if (geos != null) {
-				for (GeoElement geo : geos) {
-					geo.setSelectionAllowed(false);
-				}
-			}
-			setSilentMode(silentModeOld);
-			notifyUpdatePreviewFromInputBar(geos);
-			return true;
-		} catch (Throwable ee) {
-			Log.debug("-- invalid input");
-			setSilentMode(true);
-			notifyUpdatePreviewFromInputBar(null);
-			setSilentMode(silentModeOld);
-			return false;
-		}
 	}
 
 	public final void notifyUpdatePreviewFromInputBar(GeoElement[] geos) {

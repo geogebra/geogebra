@@ -71,6 +71,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.LogManager;
@@ -5482,6 +5486,22 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public GTimer newTimer(GTimerListener listener, int delay) {
 		return new GTimerD(listener, delay);
+	}
+
+	private final ScheduledExecutorService scheduler = Executors
+			.newScheduledThreadPool(1);
+
+	private ScheduledFuture<?> handler;
+
+	public void schedulePreview(Runnable scheduledPreview) {
+		
+		if (handler != null) {
+			handler.cancel(false);
+		}
+
+		handler = scheduler.schedule(scheduledPreview,
+				SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS,
+				TimeUnit.MILLISECONDS);
 	}
 
 }
