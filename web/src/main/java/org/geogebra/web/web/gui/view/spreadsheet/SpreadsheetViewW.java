@@ -407,6 +407,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		update(geo);
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// TODO
+	}
+
 	private boolean scrollToShow = false;
 
 	public void setScrollToShow(boolean scrollToShow) {

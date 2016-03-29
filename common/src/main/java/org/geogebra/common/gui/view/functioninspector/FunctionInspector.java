@@ -206,6 +206,10 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	public void add(GeoElement geo) {
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// TODO
+	}
+
 	public void remove(GeoElement geo) {
 	}
 

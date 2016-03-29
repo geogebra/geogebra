@@ -3998,6 +3998,9 @@ public abstract class App implements UpdateSelection {
 		case MORE_ACCURATE_ELLIPSE_CIRCUMFERENCE:
 			return prerelease;
 
+		case INPUT_BAR_PREVIEW:
+			return prerelease;
+
 		case WEB_SHARE_DIALOG:
 			return prerelease;
 

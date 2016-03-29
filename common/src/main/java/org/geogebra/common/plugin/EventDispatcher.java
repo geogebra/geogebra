@@ -129,6 +129,10 @@ public class EventDispatcher implements ClientView {
 		dispatchEvent(EventType.UPDATE_STYLE, geo);
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// not used
+	}
+
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// Ignore
 	}

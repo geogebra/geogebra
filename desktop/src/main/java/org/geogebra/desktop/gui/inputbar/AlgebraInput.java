@@ -31,6 +31,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
@@ -39,6 +41,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -55,10 +58,10 @@ public class AlgebraInput extends JPanel implements ActionListener,
 		KeyListener, FocusListener, SetLabels, MouseListener {
 	private static final long serialVersionUID = 1L;
 
-	private AppD app;
+	protected AppD app;
 
 	// autocompletion text field
-	private AutoCompleteTextFieldD inputField;
+	protected AutoCompleteTextFieldD inputField;
 
 	private JLabel inputLabel;
 	private JToggleButton btnHelpToggle;
@@ -81,10 +84,37 @@ public class AlgebraInput extends JPanel implements ActionListener,
 		addMouseListener(this);
 	}
 
+	private void addPreviewListener() {
+		inputPanel.getTextComponent().getDocument()
+				.addDocumentListener(new DocumentListener() {
+
+					public void changedUpdate(DocumentEvent e) {
+						preview();
+					}
+
+					public void removeUpdate(DocumentEvent e) {
+						preview();
+					}
+
+					public void insertUpdate(DocumentEvent e) {
+						preview();
+					}
+
+					public void preview() {
+						app.getKernel().updatePreviewFromInputBar(
+								inputField.getText());
+					}
+				});
+	}
+
 	public void initGUI() {
 		removeAll();
 		inputLabel = new JLabel();
 		inputPanel = new InputPanelD(null, app, 30, true);
+
+		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
+			addPreviewListener();
+		}
 
 		// create and set up the input field
 		inputField = (AutoCompleteTextFieldD) inputPanel.getTextComponent();
@@ -401,10 +431,13 @@ public class AlgebraInput extends JPanel implements ActionListener,
 
 			break;
 		default:
-			app.getGlobalKeyDispatcher().handleGeneralKeys(e); // handle eg
-																// ctrl-tab
+			app.getGlobalKeyDispatcher()
+					.handleGeneralKeys(e); // handle eg ctrl-tab
 		}
 	}
+
+
+
 
 	public void keyReleased(KeyEvent e) {
 		//

@@ -652,6 +652,10 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		// not used
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// not used
+	}
+
 	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// not used

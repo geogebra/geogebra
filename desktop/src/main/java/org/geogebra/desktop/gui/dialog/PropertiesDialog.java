@@ -846,6 +846,10 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			update(geo);
 		}
 
+		public void updatePreviewFromInputBar(GeoElement[] geos) {
+			// no need
+		}
+
 		public void updateAuxiliaryObject(GeoElement geo) {
 			repaint();
 		}

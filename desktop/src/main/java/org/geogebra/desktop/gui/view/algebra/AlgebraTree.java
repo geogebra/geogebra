@@ -364,6 +364,10 @@ public class AlgebraTree extends JTree {
 		}
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// TODO
+	}
+
 
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);

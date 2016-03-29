@@ -574,6 +574,10 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		update(geo);
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// TODO
+	}
+
 	public void add(GeoElement geo) {
 		// do nothing
 	}

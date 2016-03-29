@@ -72,6 +72,10 @@ public class AssignmentView extends JPanel implements View, Gridable {
 
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// TODO
+	}
+
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// TODO Auto-generated method stub
 

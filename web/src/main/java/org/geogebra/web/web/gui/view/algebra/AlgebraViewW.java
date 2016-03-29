@@ -1503,6 +1503,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// TODO
+	}
+
 	public boolean isShowing() {
 		return isVisible() && isAttached();
 	}

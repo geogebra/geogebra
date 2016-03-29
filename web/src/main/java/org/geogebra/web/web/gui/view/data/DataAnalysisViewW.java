@@ -452,6 +452,10 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		update(geo);
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// TODO
+	}
+
 	public void add(GeoElement geo) {
 		// do nothing
 	}

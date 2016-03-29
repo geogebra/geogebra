@@ -268,6 +268,10 @@ public abstract class CASView implements View, SetLabels {
 		ensureOneEmptyRow();
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// TODO
+	}
+
 	/**
 	 * Removes function definitions from the CAS
 	 */

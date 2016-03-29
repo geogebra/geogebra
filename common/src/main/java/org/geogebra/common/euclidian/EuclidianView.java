@@ -74,6 +74,7 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * View containing graphic representation of construction elements
@@ -1595,6 +1596,28 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			repaint();
 		}
 
+	}
+
+	private GeoElement[] previewFromInputBarGeos;
+
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		if (previewFromInputBarGeos != null) {
+			for (GeoElement geo : previewFromInputBarGeos) {
+				remove(geo);
+			}
+		}
+		previewFromInputBarGeos = geos;
+
+		if (previewFromInputBarGeos != null) {
+			for (GeoElement geo : previewFromInputBarGeos) {
+				DrawableND d = createDrawable(geo);
+				if (d != null) {
+					Log.debug("preview for geo: " + geo);
+					addToDrawableLists((Drawable) d);
+				}
+			}
+		}
+		repaint();
 	}
 
 	private boolean drawableNeeded(GeoElement geo) {

@@ -127,6 +127,9 @@ public enum Feature {
 	// https://jira.geogebra.org/browse/GGB-692
 	MORE_ACCURATE_ELLIPSE_CIRCUMFERENCE,
 
+	// MOB-321
+	INPUT_BAR_PREVIEW,
+
 	WEB_SHARE_DIALOG
 
 }

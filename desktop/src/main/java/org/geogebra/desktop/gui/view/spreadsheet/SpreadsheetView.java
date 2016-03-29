@@ -451,6 +451,10 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 		update(geo);
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// TODO
+	}
+
 	public boolean isShowing() {
 		return spreadsheetWrapper.isShowing();
 	}

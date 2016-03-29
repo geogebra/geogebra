@@ -5114,4 +5114,56 @@ public class Kernel {
 		return geoFactory;
 	}
 
+	private String previewFromInputBarOldInput = "";
+
+	/**
+	 * try to create/update preview for input typed
+	 * 
+	 * @param input
+	 *            current algebra input
+	 * @return true if input is valid
+	 */
+	public boolean updatePreviewFromInputBar(String input) {
+		
+		if (previewFromInputBarOldInput == input){
+			Log.debug("no update needed (same input)");
+			return false;
+		}
+		
+		previewFromInputBarOldInput = input;
+
+		if (previewFromInputBarOldInput.length() == 0) {
+			// remove preview (empty input)
+			Log.debug("remove preview (empty input)");
+			notifyUpdatePreviewFromInputBar(null);
+			return true;
+		}
+
+		Log.debug("preview for: " + input);
+		boolean silentModeOld = isSilentMode();
+		try {
+			setSilentMode(true);
+			GeoElement[] geos = getAlgebraProcessor()
+					.processAlgebraCommandNoExceptionHandling(input, false,
+							false, true, false);
+			Log.debug("geo: " + geos[0]);
+			setSilentMode(silentModeOld);
+			notifyUpdatePreviewFromInputBar(geos);
+			return true;
+		} catch (Throwable ee) {
+			Log.debug("-- invalid input");
+			setSilentMode(silentModeOld);
+			return false;
+		}
+	}
+
+	public final void notifyUpdatePreviewFromInputBar(GeoElement[] geos) {
+		// event dispatcher should not collect calls to stay compatible with 4.0
+		if (notifyViewsActive) {
+			for (View view : views) {
+				view.updatePreviewFromInputBar(geos);
+			}
+		}
+	}
+
 }

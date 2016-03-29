@@ -547,6 +547,10 @@ public class ConstructionProtocolView {
 			}
 		}
 
+		public void updatePreviewFromInputBar(GeoElement[] geos) {
+			// TODO
+		}
+
 		public void remove(GeoElement geo) {
 			RowData row = geoMap.get(geo);
 			// lookup row for GeoElement

@@ -110,4 +110,6 @@ public interface View {
 	public void startBatchUpdate();
 
 	public void endBatchUpdate();
+
+	public void updatePreviewFromInputBar(GeoElement[] geos);
 }

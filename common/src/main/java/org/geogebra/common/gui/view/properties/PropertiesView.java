@@ -465,5 +465,9 @@ public abstract class PropertiesView implements View {
 	 */
 	abstract public void updateStyleBar();
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// TODO
+	}
+
 
 }

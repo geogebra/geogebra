@@ -264,6 +264,10 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		updateWithoutTrace(geo);
 	}
 
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// not used
+	}
+
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// ignore
 	}
