@@ -13,6 +13,7 @@ repositories {
 
 apply plugin: 'gwt'
 apply plugin: 'java'
+apply plugin: 'eclipse'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
