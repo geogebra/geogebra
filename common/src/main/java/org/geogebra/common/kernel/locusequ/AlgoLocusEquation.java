@@ -351,12 +351,18 @@ public class AlgoLocusEquation extends AlgoElement {
 		}
 
 		if (result == null) {
-			Log.warn("No implicit locus equation found");
-			return null;
+			Log.warn("No such implicit curve exists (0=-1)");
+			return "1,1,1";
 		}
 
-		String implicitCurveString = result.toString().replaceAll(vx, "x")
-				.replaceAll(vy, "y");
+		// Replacing variables to have x and y instead of vx and vy:
+		String implicitCurveString = result.toString();
+		if (!vx.equals("")) {
+			implicitCurveString = implicitCurveString.replaceAll(vx, "x");
+		}
+		if (!vy.equals("")) {
+			implicitCurveString = implicitCurveString.replaceAll(vy, "y");
+		}
 		Log.debug("Implicit locus equation: " + implicitCurveString);
 
 		// This piece of code has been directly copied from CASgiac.java:
