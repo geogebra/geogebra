@@ -304,7 +304,7 @@ public abstract class EuclidianController {
 	/**
 	 * the mode of the actual multitouch-event
 	 */
-	protected scaleMode multitouchMode;
+	protected scaleMode multitouchMode = scaleMode.view;
 	/**
 	 * actual scale of the axes (has to be saved during multitouch)
 	 */
@@ -10464,6 +10464,8 @@ public abstract class EuclidianController {
 		return true;
 	}
 
+	private GeoNumeric circleRadius;
+
 	final public void twoTouchStartPhone(double x1, double y1, double x2, double y2) {
 		scaleConic = null;
 
@@ -10522,10 +10524,16 @@ public abstract class EuclidianController {
 			} else if (hits1.get(0).getFreeInputPoints(this.view).size() == 2) {
 				multitouchMode = scaleMode.circle2Points;
 			} else {
-				multitouchMode = scaleMode.circleRadius;
 				AlgoElement algo = scaleConic.getParentAlgorithm();
-				NumberValue radius = (NumberValue) algo.input[1];
-				this.originalRadius = radius.getDouble();
+				if (algo instanceof AlgoCirclePointRadius) {
+					AlgoCirclePointRadius algoCirclePointRadius = (AlgoCirclePointRadius) algo;
+					GeoElement radiusGeo = algoCirclePointRadius.getRadiusGeo();
+					if (radiusGeo instanceof GeoNumeric && radiusGeo.isIndependent()) {
+						multitouchMode = scaleMode.circleRadius;
+						circleRadius = (GeoNumeric) radiusGeo;
+						this.originalRadius = circleRadius.getDouble();
+					}
+				}
 			}
 			twoTouchStartCommon(x1, y1, x2, y2);
 
@@ -10633,14 +10641,9 @@ public abstract class EuclidianController {
 				double distR = MyMath.length(x1 - x2, y1 - y2);
 				scale = distR / oldDistance;
 
-				GeoPoint center = (GeoPoint) scaleConic.getParentAlgorithm().input[0];
-				GeoNumeric newRadius = new GeoNumeric(kernel.getConstruction(), scale * originalRadius);
+				circleRadius.setValue(scale * originalRadius);
+				circleRadius.updateCascade();
 
-				scaleConic.setParentAlgorithm(new AlgoCirclePointRadius(kernel.getConstruction(),
-						center, newRadius));
-				scaleConic.setCircle(center, newRadius.getDouble());
-				scaleConic.updateCascade();
-				kernel.notifyUpdate(scaleConic);
 				kernel.notifyRepaint();
 				break;
 			default:
