@@ -4257,4 +4257,33 @@ public abstract class App implements UpdateSelection {
 	public interface ViewCallback {
 		public void run(int viewID, String viewName);
 	}
+
+	final public boolean loadXML(byte[] zipFile) {
+		try {
+
+			// make sure objects are displayed in the correct View
+			setActiveView(App.VIEW_EUCLIDIAN);
+
+			getXMLio().readZipFromString(zipFile);
+
+			kernel.initUndoInfo();
+			setSaved();
+			setCurrentFile(null);
+			// command list may have changed due to macros
+			updateCommandDictionary();
+
+			hideDockBarPopup();
+			return true;
+		} catch (Exception err) {
+			setCurrentFile(null);
+			err.printStackTrace();
+			return false;
+		}
+	}
+
+	abstract public void setCurrentFile(Object file);
+
+	protected void hideDockBarPopup() {
+		// only used in desktop
+	}
 }

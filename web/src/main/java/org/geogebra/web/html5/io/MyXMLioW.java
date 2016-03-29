@@ -58,4 +58,9 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 		return new XMLStreamStringW(str);
 	}
 
+	@Override
+	public final void readZipFromString(byte[] zipFile) throws Exception {
+		// not implemented in web
+	}
+
 }

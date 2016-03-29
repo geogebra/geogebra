@@ -420,4 +420,11 @@ public abstract class MyXMLio {
 	 * @return XML stream for string
 	 */
 	abstract protected XMLStream createXMLStreamString(String str);
+
+	/**
+	 * Reads zipped file from String that includes the construction saved in xml
+	 * format and maybe image files.
+	 */
+	abstract public void readZipFromString(byte[] zipFile)
+			throws Exception;
 }

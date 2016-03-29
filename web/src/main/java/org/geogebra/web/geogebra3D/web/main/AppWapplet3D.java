@@ -1,7 +1,5 @@
 package org.geogebra.web.geogebra3D.web.main;
 
-import java.util.HashMap;
-
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -137,7 +135,7 @@ public class AppWapplet3D extends AppWapplet {
 	}
 
 	@Override
-	public void setCurrentFile(HashMap<String, String> file) {
+	public void setCurrentFile(Object file) {
 		super.setCurrentFile(file);
 		if (this.isEuclidianView3Dinited()) {
 			((EuclidianView3DW) getEuclidianView3D()).setCurrentFile(file);

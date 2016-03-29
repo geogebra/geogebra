@@ -93,10 +93,7 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 
 	}
 
-	/**
-	 * Reads zipped file from String that includes the construction saved in xml
-	 * format and maybe image files.
-	 */
+	@Override
 	public final void readZipFromString(byte[] zipFile) throws Exception {
 
 		ZipInputStream zip = new ZipInputStream(new ByteArrayInputStream(

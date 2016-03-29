@@ -62,7 +62,8 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	}
 
 	@Override
-	public void setCurrentFile(HashMap<String, String> file) {
+	public void setCurrentFile(Object f) {
+		HashMap<String, String> file = (HashMap<String, String>) f;
 		if (file != null && file.get("geogebra_thumbnail.png") != null) {
 			ImageElement img = Document.get().createImageElement();
 			img.setSrc(file.get("geogebra_thumbnail.png"));

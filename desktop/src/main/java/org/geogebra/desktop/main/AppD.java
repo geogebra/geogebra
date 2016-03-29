@@ -1398,12 +1398,13 @@ public class AppD extends App implements KeyEventDispatcher {
 		currentPath = file;
 	}
 
-	public void setCurrentFile(File file) {
+	@Override
+	public void setCurrentFile(Object file) {
 		if (currentFile == file) {
 			return;
 		}
 
-		currentFile = file;
+		currentFile = (File) file;
 		if (currentFile != null) {
 			currentPath = currentFile.getParentFile();
 			addToFileList(currentFile);
@@ -1540,6 +1541,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			if (i > 0) { // load in new Window
 				SwingUtilities.invokeLater(new Runnable() {
+					@Override
 					public void run() {
 
 						org.geogebra.desktop.gui.app.GeoGebraFrame.createNewWindow(args
@@ -1937,6 +1939,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	}
 
+	@Override
 	public void setGUIFontSize(int size) {
 
 		// TRAC-4770
@@ -1948,6 +1951,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		super.setGUIFontSize(size);
 	}
 
+	@Override
 	public void setFontSize(int points, boolean update) {
 
 		if (guiFontSize == -1) {
@@ -2546,6 +2550,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				.parseInt(MyXMLHandler.tooltipTimeouts[MyXMLHandler.tooltipTimeouts.length - 2]);
 	}
 
+	@Override
 	public void setLanguage(String s) {
 		String[] parts = s.split("_");
 		String language = parts[0];
@@ -3167,11 +3172,13 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
+	@Override
 	public boolean showMenuBar() {
 		return showMenuBar;
 	}
 
-	private void hideDockBarPopup() {
+	@Override
+	protected void hideDockBarPopup() {
 		if (getDockBar() != null)
 			getDockBar().hidePopup();
 	}
@@ -3234,6 +3241,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param mode
 	 *            : tool ID
 	 */
+	@Override
 	public String getToolTooltipHTML(int mode) {
 
 		if (loc.getTooltipLocale() != null) {
@@ -3661,29 +3669,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
-	public boolean loadXML(byte[] zipFile) {
-		try {
-
-			// make sure objects are displayed in the correct View
-			setActiveView(App.VIEW_EUCLIDIAN);
-
-			getXMLio().readZipFromString(zipFile);
-
-			kernel.initUndoInfo();
-			setSaved();
-			setCurrentFile(null);
-			// command list may have changed due to macros
-			updateCommandDictionary();
-
-			hideDockBarPopup();
-			return true;
-		} catch (Exception err) {
-			setCurrentFile(null);
-			err.printStackTrace();
-			return false;
-		}
-	}
-
 	/*
 	 * loads an XML file as a String
 	 */
@@ -3940,6 +3925,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
+	@Override
 	protected int getWindowWidth() {
 		if ((frame != null) && (frame.getWidth() > 0)) {
 			return frame.getWidth();
@@ -3948,6 +3934,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
+	@Override
 	protected int getWindowHeight() {
 		if ((frame != null) && (frame.getHeight() > 0)) {
 			return frame.getHeight();
@@ -4119,6 +4106,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * KeyEventDispatcher implementation to handle key events globally for the
 	 * application
 	 */
+	@Override
 	public boolean dispatchKeyEvent(KeyEvent e) {
 		// make sure the event is not consumed
 		if (e.isConsumed()) {
@@ -4386,6 +4374,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// use SwingUtilities to make sure this gets executed in the correct
 		// (=GUI) thread.
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				// TODO investigate why this freezes Firefox sometimes
 				JOptionPane
@@ -4410,6 +4399,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// use SwingUtilities to make sure this gets executed in the correct
 		// (=GUI) thread.
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				JOptionPane.showConfirmDialog(mainComp, message,
 						GeoGebraConstants.APPLICATION_NAME + " - "
@@ -5009,6 +4999,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void runScripts(final GeoElement geo1, final String string) {
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				geo1.runClickScripts(string);
 			}
@@ -5125,6 +5116,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		public initializeSingularWS_thread() {
 		}
 
+		@Override
 		public void run() {
 			// Display info about this particular thread
 			App.debug(Thread.currentThread() + " running");
@@ -5201,6 +5193,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
+	@Override
 	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
 		if (kimberlingw != null) {
 			return kimberlingw;
@@ -5209,11 +5202,13 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
+	@Override
 	public double kimberlingWeight(AlgoKimberlingWeightsParams kw) {
 		return getAlgoKimberlingWeights().weight(kw);
 	}
 
 	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
+	@Override
 	public AlgoCubicSwitchInterface getAlgoCubicSwitch() {
 		if (cubicw != null) {
 			return cubicw;
@@ -5222,6 +5217,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
+	@Override
 	public String cubicSwitch(AlgoCubicSwitchParams kw) {
 		return getAlgoCubicSwitch().getEquation(kw);
 	}
@@ -5267,6 +5263,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private String perspectiveParam = "";
 
+	@Override
 	public SensorLogger getSensorLogger() {
 		if (udpLogger == null) {
 			udpLogger = new UDPLoggerD(getKernel());
@@ -5360,6 +5357,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	
 
+	@Override
 	public void showPopUps() {
 		LoginOperationD signIn = (LoginOperationD) getLoginOperation();
 		if (!signIn.isTubeCheckDone()) {
@@ -5373,6 +5371,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				popupsDone = true;
 
 				java.awt.EventQueue.invokeLater(new Runnable() {
+					@Override
 					@SuppressWarnings("synthetic-access")
 					public void run() {
 						boolean showDockPopup = true;
@@ -5469,6 +5468,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	public static final int HUGE_UNDO_BUTTON_SIZE = 36;
 
+	@Override
 	public String getVersionSuffix() {
 		return "-2D";
 	}

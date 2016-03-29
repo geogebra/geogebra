@@ -803,12 +803,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
-	public void setCurrentFile(HashMap<String, String> file) {
+	@Override
+	public void setCurrentFile(Object file) {
 		if (currentFile == file) {
 			return;
 		}
 
-		currentFile = file;
+		currentFile = (HashMap<String, String>) file;
 
 
 		// if (!isIniting() && isUsingFullGui()) {
