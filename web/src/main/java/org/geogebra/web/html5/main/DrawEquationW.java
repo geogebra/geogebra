@@ -12,17 +12,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
-import org.scilab.forge.jlatexmath.DrawingFinishedCallback;
-import org.scilab.forge.jlatexmath.FactoryProviderGWT;
-import org.scilab.forge.jlatexmath.TeXConstants;
-import org.scilab.forge.jlatexmath.TeXFormula;
-import org.scilab.forge.jlatexmath.TeXIcon;
-import org.scilab.forge.jlatexmath.graphics.Graphics2DW;
-import org.scilab.forge.jlatexmath.platform.FactoryProvider;
-import org.scilab.forge.jlatexmath.platform.graphics.Color;
-import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
-import org.scilab.forge.jlatexmath.platform.graphics.HasForegroundColor;
-import org.scilab.forge.jlatexmath.platform.graphics.Insets;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -36,6 +25,17 @@ import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.graphics.Color;
+import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
+import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
+import com.himamis.retex.renderer.share.platform.graphics.Insets;
+import com.himamis.retex.renderer.web.DrawingFinishedCallback;
+import com.himamis.retex.renderer.web.FactoryProviderGWT;
+import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
 public class DrawEquationW extends DrawEquation {
 

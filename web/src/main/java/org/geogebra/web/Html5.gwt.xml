@@ -6,10 +6,9 @@
   <inherits name="com.google.gwt.json.JSON" />
   <inherits name='org.geogebra.Common'/>
   <inherits name='org.geogebra.GgbJdk'/>
-  <inherits name="org.scilab.forge.JLaTeXMath" />
-  <inherits name='org.scilab.forge.JLaTeXMathGWT'/>
   <inherits name='org.geogebra.web.AppCacheLinker' />
   <inherits name='org.geogebra.web.Keyboard' />
+  <inherits name="com.himamis.retex.renderer.JLaTeXMathGWT" />
   
   <!-- Specify the paths for translatable code                    -->
   <source path='html5'/>

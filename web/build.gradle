@@ -26,9 +26,11 @@ repositories {
 dependencies {
 	compile project(':web:dev'), 
 		project(':common'),
+		project(':renderer-web'),
 		project(':ggbjdk'),
 		files(project(':common').sourceSets.main.allSource.srcDirs),
 		files(project(':ggbjdk').sourceSets.main.java.srcDirs),
+		files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
 		'com.googlecode.gwtphonegap:gwtphonegap:3.5.0.1',
 		'com.googlecode.gwtquery:gwtquery:1.4.3',
 		'com.googlecode:gwtgl:0.9.1',
