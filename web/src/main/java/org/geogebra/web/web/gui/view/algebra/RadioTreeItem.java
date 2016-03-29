@@ -542,6 +542,8 @@ public class RadioTreeItem extends AVTreeItem
 
 	private FlowPanel definitionPanel;
 
+	private FlowPanel outputPanel;
+
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
 	}
@@ -822,16 +824,20 @@ public class RadioTreeItem extends AVTreeItem
 		geo.addLabelTextOrHTML(
 				geo.getDefinition(StringTemplate.defaultTemplate), sb);
 		String def = sb.toString();
+		outputPanel = new FlowPanel();
 		valuePanel = new FlowPanel();
 		String val = geo
 				.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
+		outputPanel.add(new Label(getOutputPrefix()));
+		outputPanel.add(valuePanel);
+		outputPanel.addStyleName("avOutput");
 		Log.debug(REFX + " def: " + def + " val: " + val);
 		plainTextItem.clear();
 		plainTextItem.add(definitionPanel);
 		if (!val.equals(def)) {
 			definitionPanel.addStyleName("avDefinition");
 			valuePanel.addStyleName("avValue");
-			plainTextItem.add(valuePanel);
+			plainTextItem.add(outputPanel);
 		}
 	}
 	private void updateFont(Widget w) {
@@ -1353,8 +1359,13 @@ public class RadioTreeItem extends AVTreeItem
 			}
 			text = DrawEquationW.inputLatexCosmetics(text);
 			latexItem = item;
-			DrawEquationW.drawEquationAlgebraView(latexItem,
-					isInputTreeItem() ? "" : "\\mathrm {" + text + "}",
+			String latexString = "";
+			if (!isInputTreeItem()) {
+				latexString = isDefinitionAndValue() ? "\\mathrm {"
+						: " \\mathbf {" + text + "}";
+			}
+
+			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
 
 		}
@@ -1466,9 +1477,13 @@ public class RadioTreeItem extends AVTreeItem
 
 			renderLatex(text, old, true);
 
-			DrawEquationW.editEquationMathQuillGGB(this,
- latexItem,
-					false);
+
+			if (false && isDefinitionAndValue()) {
+				DrawEquationW.editEquationMathQuillGGB(this, definitionPanel,
+						false);
+			} else {
+				DrawEquationW.editEquationMathQuillGGB(this, latexItem, false);
+			}
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
 			CancelEventTimer.keyboardSetVisible();
@@ -2543,5 +2558,11 @@ marblePanel, evt))) {
 		return checkBox != null;
 	}
 
+	private String getOutputPrefix() {
+		if (kernel.getLocalization().rightToLeftReadingOrder) {
+			return Unicode.CAS_OUTPUT_PREFIX_RTL;
+		}
+		return Unicode.CAS_OUTPUT_PREFIX;
+	}
 }
 

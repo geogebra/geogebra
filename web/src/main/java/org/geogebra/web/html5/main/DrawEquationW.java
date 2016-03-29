@@ -567,11 +567,11 @@ public class DrawEquationW extends DrawEquation {
 
 		var DrawEquation = @org.geogebra.web.html5.main.DrawEquationW::getNonStaticCopy(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
 
-		var elfirst = parentElement.firstChild.firstChild;
+		var elfirst = parentElement.firstChild.firstChild || parentElement.firstChild;
 
 		elfirst.style.display = 'none';
 
-		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecond = elfirst.nextSibling;
 
 		var elSecondInside = elSecond.lastChild;
 
@@ -785,7 +785,7 @@ public class DrawEquationW extends DrawEquation {
 								}
 							});
 		}
-	}-*/;
+	}-*/ ;
 
 	public static boolean specKeyDown(int keyCode, boolean altDown,
 			boolean ctrlDown, boolean shiftDown, Element parentElement) {
