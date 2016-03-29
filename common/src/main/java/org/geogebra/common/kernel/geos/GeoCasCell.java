@@ -977,6 +977,14 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			}
 
 			assignmentVar = var;
+		}
+		// needed for GGB-450
+		else if (cons.isFileLoading() && inputVE.getLabel().equals(var)) {
+			if (!LabelManager.validVar(var)) {
+				setError("CAS.VariableIsDynamicReference");
+			}
+
+			assignmentVar = var;
 		} else {
 			
 			changeAssignmentVar(var,
@@ -1691,6 +1699,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		// remove the label
 		// but keep it in the underlying CAS
 		cons.removeCasCellLabel(assignmentVar);
+		// needed for GGB-450
+		if (cons.isFileLoading()) {
+			cons.removeLabel(cons.geoTableVarLookup(assignmentVar));
+		}
 		// set Label of twinGeo
 		twinGeo.setLabel(assignmentVar);
 		// set back CAS cell label
