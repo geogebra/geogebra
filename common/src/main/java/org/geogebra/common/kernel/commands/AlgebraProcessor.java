@@ -570,9 +570,6 @@ public class AlgebraProcessor {
 	 */
 	protected ParametricProcessor paramProcessor;
 
-	// G.Sturr 2010-7-5
-	// added 'allowErrorDialog' flag to handle the case of unquoted text
-	// entries in the spreadsheet
 	/**
 	 * @param cmd
 	 *            string to process
@@ -593,6 +590,40 @@ public class AlgebraProcessor {
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(
 			final String cmd, final boolean storeUndo,
 			final boolean allowErrorDialog, final boolean throwMyError,
+			boolean autoCreateSliders, final AsyncOperation callback0)
+			throws Exception {
+
+		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
+				allowErrorDialog, throwMyError, true, autoCreateSliders,
+				callback0);
+	}
+
+	// G.Sturr 2010-7-5
+	// added 'allowErrorDialog' flag to handle the case of unquoted text
+	// entries in the spreadsheet
+	/**
+	 * @param cmd
+	 *            string to process
+	 * @param storeUndo
+	 *            true to make undo step
+	 * @param allowErrorDialog
+	 *            true to allow dialogs
+	 * @param throwMyError
+	 *            true to throw MyErrors (if dialogs are not allowed)
+	 * @param printStackTrace
+	 *            true to print stack trace in console
+	 * @param autoCreateSliders
+	 *            whether to show a popup for undefined variables
+	 * @param callback0
+	 *            callback after the geos are created
+	 * @return resulting geos
+	 * @throws Exception
+	 *             e.g. circular definition or parse exception
+	 */
+	public GeoElement[] processAlgebraCommandNoExceptionHandling(
+			final String cmd, final boolean storeUndo,
+			final boolean allowErrorDialog, final boolean throwMyError,
+			final boolean printStackTrace,
 			boolean autoCreateSliders, final AsyncOperation callback0)
 			throws Exception {
 
@@ -780,7 +811,9 @@ public class AlgebraProcessor {
 
 		} catch (Exception e) {
 
-			e.printStackTrace();
+			if (printStackTrace) {
+				e.printStackTrace();
+			}
 			if (allowErrorDialog) {
 				app.showError(loc.getError("InvalidInput") + ":\n" + cmd);
 				return null;
@@ -788,14 +821,18 @@ public class AlgebraProcessor {
 			throw new MyException(loc.getError("InvalidInput") + ":\n" + cmd,
 					MyException.INVALID_INPUT);
 		} catch (BracketsError e) {
-			e.printStackTrace();
+			if (printStackTrace) {
+				e.printStackTrace();
+			}
 			if (allowErrorDialog) {
 				app.showError(e.getLocalizedMessage());
 				return null;
 			}
 			throw new MyException(e, MyException.IMBALANCED_BRACKETS);
 		} catch (Error e) {
-			e.printStackTrace();
+			if (printStackTrace) {
+				e.printStackTrace();
+			}
 			if (allowErrorDialog) {
 				app.showError(loc.getError("InvalidInput") + ":\n" + cmd);
 				return null;

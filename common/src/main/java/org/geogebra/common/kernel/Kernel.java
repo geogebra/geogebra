@@ -5145,7 +5145,7 @@ public class Kernel {
 				setSilentMode(true);
 				GeoElement[] geos = getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(input, false,
-								false, true, false);
+								false, true, false, false, null);
 				if (geos != null) {
 					for (GeoElement geo : geos) {
 						geo.setSelectionAllowed(false);
