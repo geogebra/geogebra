@@ -24,11 +24,6 @@ for (location in ['lib/jfxrt.jar', 'jre/lib/jfxrt.jar', 'jre/lib/ext/jfxrt.jar']
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
-List jlatexmath = [
-	'org.scilab.forge:jlatexmath-minimal:1.0.3b',
-	'org.scilab.forge:jlm_cyrillic:1.0.3',
-	'org.scilab.forge:jlm_greek:1.0.3']
-
 List ext = [
 	'netscape.javascript:jsobject:1', 
 	'com.apple:mac_extensions:20040714', 
@@ -43,7 +38,7 @@ dependencies {
 	compile project(':jogl2')
 	compile project(':input3D:impl')
 	compile project(':giac-jni')
-	compile jlatexmath, ext, files(jfxrtLocation)
+	compile ext, files(jfxrtLocation)
 
 	runtime "com.jogamp:jogl-all:$joglVersion:natives-linux-amd64",
         "com.jogamp:jogl-all:$joglVersion:natives-windows-i586",
