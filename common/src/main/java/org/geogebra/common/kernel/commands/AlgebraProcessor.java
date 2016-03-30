@@ -570,34 +570,6 @@ public class AlgebraProcessor {
 	 */
 	protected ParametricProcessor paramProcessor;
 
-	/**
-	 * @param cmd
-	 *            string to process
-	 * @param storeUndo
-	 *            true to make undo step
-	 * @param allowErrorDialog
-	 *            true to allow dialogs
-	 * @param throwMyError
-	 *            true to throw MyErrors (if dialogs are not allowed)
-	 * @param autoCreateSliders
-	 *            whether to show a popup for undefined variables
-	 * @param callback0
-	 *            callback after the geos are created
-	 * @return resulting geos
-	 * @throws Exception
-	 *             e.g. circular definition or parse exception
-	 */
-	public GeoElement[] processAlgebraCommandNoExceptionHandling(
-			final String cmd, final boolean storeUndo,
-			final boolean allowErrorDialog, final boolean throwMyError,
-			boolean autoCreateSliders, final AsyncOperation callback0)
-			throws Exception {
-
-		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
-				allowErrorDialog, throwMyError, true, autoCreateSliders,
-				callback0);
-	}
-
 	// G.Sturr 2010-7-5
 	// added 'allowErrorDialog' flag to handle the case of unquoted text
 	// entries in the spreadsheet
@@ -610,8 +582,6 @@ public class AlgebraProcessor {
 	 *            true to allow dialogs
 	 * @param throwMyError
 	 *            true to throw MyErrors (if dialogs are not allowed)
-	 * @param printStackTrace
-	 *            true to print stack trace in console
 	 * @param autoCreateSliders
 	 *            whether to show a popup for undefined variables
 	 * @param callback0
@@ -623,7 +593,6 @@ public class AlgebraProcessor {
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(
 			final String cmd, final boolean storeUndo,
 			final boolean allowErrorDialog, final boolean throwMyError,
-			final boolean printStackTrace,
 			boolean autoCreateSliders, final AsyncOperation callback0)
 			throws Exception {
 
@@ -648,172 +617,13 @@ public class AlgebraProcessor {
 				}
 				return new GeoElement[0];
 			}
-			// collect undefined variables
-			CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
-			ve.traverse(collecter);
-			final TreeSet<String> undefinedVariables = collecter.getResult();
-
-
-			// check if there's already an "x" in expression. Create one if not.
-			// eg sinx + x -> sin(x) + x
-			CollectFunctionVariables fvCollecter = new Traversing.CollectFunctionVariables();
-			ve.traverse(fvCollecter);
-			ArrayList<FunctionVariable> fvTree = fvCollecter.getResult();
-			FunctionVariable fvX = null;
-			Iterator<FunctionVariable> fvIt = fvTree.iterator();
-			while (fvIt.hasNext()) {
-				FunctionVariable fv = fvIt.next();
-				if ("x".equals(fv.getLabel())) {
-					fvX = fv;
-					break;
-				}
-			}
-			if (fvX == null) {
-				fvX = new FunctionVariable(kernel, "x");
-			}
-			GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
-					undefinedVariables, autoCreateSliders, callback0);
-			if (ret != null) {
-				if (storeUndo) {
-					app.storeUndoInfo();
-				}
-				if (callback0 != null) {
-					callback0.callback(ret);
-				}
-				return ret;
-			}
-			if (undefinedVariables.size() > 0) {
-
-				// ==========================
-				// step0: check if there's an error on processing
-				// eg we don't want to create slider 't' for
-				// Curve[t^3,t^2,t,0,2]
-				// ==========================
-				GeoElement[] geoElements = null;
-				try {
-					geoElements = processValidExpression(ve.deepCopy(kernel));
-					if (storeUndo && geoElements != null)
-						app.storeUndoInfo();
-				} catch (Throwable ex) {
-					// ex.printStackTrace();
-					// do nothing
-				}
-
-				if (geoElements != null) {
-					kernel.getConstruction().registerFunctionVariable(null);
-
-					// this was forgotten to do here, added by Arpad
-					// TODO: maybe need to add this to more places here?
-					if (callback0 != null) {
-						callback0.callback(geoElements);
-					}
-
-					return geoElements;
-				}
-
-				StringBuilder sb = new StringBuilder();
-
-
-				// ==========================
-				// step3: make a list of undefined variables so we can ask the
-				// user
-				// ==========================
-				Iterator<String> it = undefinedVariables.iterator();
-				while (it.hasNext()) {
-					String label = it.next();
-					if (kernel.lookupLabel(label) == null) {
-						Log.debug("not found" + label);
-						sb.append(label);
-						sb.append(", ");
-					} else {
-						Log.debug("found" + label);
-					}
-				}
-
-				if (sb.toString().endsWith(", ")) {
-					sb.setLength(sb.length() - 2);
-				}
-
-				// ==========================
-				// step4: ask user
-				// ==========================
-				if (sb.length() > 0) {
-					// eg from Spreadsheet we don't want a popup
-					if (!autoCreateSliders) {
-						rett = tryReplacingProducts(ve);
-						if (callback0 != null && rett != null) {
-							callback0.callback(rett);
-						}
-						return rett;
-					}
-
-					// boolean autoCreateSlidersAnswer = false;
-
-					// "Create sliders for a, b?" Create Sliders / Cancel
-					// Yes: create sliders and draw line
-					// No: go back into input bar and allow user to change input
-					if (app.getGuiManager() != null) {
-						AsyncOperation callback = null;
-						if (callback0 != null) {
-
-							//final FunctionVariable fvX2 = fvX;
-							final ValidExpression ve2 = ve;
-
-							callback = new AsyncOperation() {
-
-								@Override
-								public void callback(Object obj) {
-									String[] dialogResult = (String[]) obj;
-									GeoElement[] geos = null;
-
-									// TODO: need we to catch the Exception
-									// here,
-									// which can throw the
-									// processAlgebraInputCommandNoExceptionHandling
-									// function?
-									if (CREATE_SLIDER.equals(dialogResult[0])) {
-										// insertStarIfNeeded(undefinedVariables,
-										// ve2, fvX2);
-										replaceUndefinedVariables(ve2,
-												new TreeSet<GeoNumeric>(), null);
-										try {
-											geos = processValidExpression(
-													storeUndo,
-													allowErrorDialog,
-													throwMyError, ve2);
-										} catch (Exception ee) {
-											AlgebraProcessor.this.app
-													.showError(ee.getMessage());
-											return;
-										}
-									}
-									callback0.callback(geos);
-								}
-
-							};
-						}
-						boolean autoCreateSlidersAnswer = this.app
-								.getGuiManager().checkAutoCreateSliders(
-										sb.toString(), callback);
-						if (!autoCreateSlidersAnswer) {
-							return null;
-						}
-					}
-				}
-
-				// App.debug("list of variables: "+sb.toString());
-
-				// ==========================
-				// step5: replace undefined variables
-				// ==========================
-				replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null);
-			}
+			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
+					allowErrorDialog, throwMyError,
+					autoCreateSliders, callback0);
 
 		} catch (Exception e) {
 
-			if (printStackTrace) {
-				e.printStackTrace();
-			}
+			e.printStackTrace();
 			if (allowErrorDialog) {
 				app.showError(loc.getError("InvalidInput") + ":\n" + cmd);
 				return null;
@@ -821,23 +631,205 @@ public class AlgebraProcessor {
 			throw new MyException(loc.getError("InvalidInput") + ":\n" + cmd,
 					MyException.INVALID_INPUT);
 		} catch (BracketsError e) {
-			if (printStackTrace) {
-				e.printStackTrace();
-			}
+			e.printStackTrace();
 			if (allowErrorDialog) {
 				app.showError(e.getLocalizedMessage());
 				return null;
 			}
 			throw new MyException(e, MyException.IMBALANCED_BRACKETS);
 		} catch (Error e) {
-			if (printStackTrace) {
-				e.printStackTrace();
-			}
+			e.printStackTrace();
 			if (allowErrorDialog) {
 				app.showError(loc.getError("InvalidInput") + ":\n" + cmd);
 				return null;
 			}
 			throw new Exception(loc.getError("InvalidInput") + ":\n" + cmd);
+		}
+
+
+	}
+
+	/**
+	 * @param ve
+	 *            valid expression (already pasted)
+	 * @param storeUndo
+	 *            true to make undo step
+	 * @param allowErrorDialog
+	 *            true to allow dialogs
+	 * @param throwMyError
+	 *            true to throw MyErrors (if dialogs are not allowed)
+	 * @param printStackTrace
+	 *            true to print stack trace in console
+	 * @param autoCreateSliders
+	 *            whether to show a popup for undefined variables
+	 * @param callback0
+	 *            callback after the geos are created
+	 * @return resulting geos
+	 * @throws Exception
+	 *             e.g. circular definition or parse exception
+	 */
+	public GeoElement[] processAlgebraCommandNoExceptionHandling(
+			ValidExpression ve, final boolean storeUndo,
+			final boolean allowErrorDialog, final boolean throwMyError,
+			boolean autoCreateSliders,
+			final AsyncOperation callback0) throws Exception {
+		// collect undefined variables
+		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
+		ve.traverse(collecter);
+		final TreeSet<String> undefinedVariables = collecter.getResult();
+
+
+		// check if there's already an "x" in expression. Create one if not.
+		// eg sinx + x -> sin(x) + x
+		CollectFunctionVariables fvCollecter = new Traversing.CollectFunctionVariables();
+		ve.traverse(fvCollecter);
+		ArrayList<FunctionVariable> fvTree = fvCollecter.getResult();
+		FunctionVariable fvX = null;
+		Iterator<FunctionVariable> fvIt = fvTree.iterator();
+		while (fvIt.hasNext()) {
+			FunctionVariable fv = fvIt.next();
+			if ("x".equals(fv.getLabel())) {
+				fvX = fv;
+				break;
+			}
+		}
+		if (fvX == null) {
+			fvX = new FunctionVariable(kernel, "x");
+		}
+		GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
+				undefinedVariables, autoCreateSliders, callback0);
+		if (ret != null) {
+			if (storeUndo) {
+				app.storeUndoInfo();
+			}
+			if (callback0 != null) {
+				callback0.callback(ret);
+			}
+			return ret;
+		}
+		if (undefinedVariables.size() > 0) {
+
+			// ==========================
+			// step0: check if there's an error on processing
+			// eg we don't want to create slider 't' for
+			// Curve[t^3,t^2,t,0,2]
+			// ==========================
+			GeoElement[] geoElements = null;
+			try {
+				geoElements = processValidExpression(ve.deepCopy(kernel));
+				if (storeUndo && geoElements != null)
+					app.storeUndoInfo();
+			} catch (Throwable ex) {
+				// ex.printStackTrace();
+				// do nothing
+			}
+
+			if (geoElements != null) {
+				kernel.getConstruction().registerFunctionVariable(null);
+
+				// this was forgotten to do here, added by Arpad
+				// TODO: maybe need to add this to more places here?
+				if (callback0 != null) {
+					callback0.callback(geoElements);
+				}
+
+				return geoElements;
+			}
+
+			StringBuilder sb = new StringBuilder();
+
+
+			// ==========================
+			// step3: make a list of undefined variables so we can ask the
+			// user
+			// ==========================
+			Iterator<String> it = undefinedVariables.iterator();
+			while (it.hasNext()) {
+				String label = it.next();
+				if (kernel.lookupLabel(label) == null) {
+					Log.debug("not found" + label);
+					sb.append(label);
+					sb.append(", ");
+				} else {
+					Log.debug("found" + label);
+				}
+			}
+
+			if (sb.toString().endsWith(", ")) {
+				sb.setLength(sb.length() - 2);
+			}
+
+			// ==========================
+			// step4: ask user
+			// ==========================
+			if (sb.length() > 0) {
+				// eg from Spreadsheet we don't want a popup
+				if (!autoCreateSliders) {
+					GeoElement[] rett = tryReplacingProducts(ve);
+					if (callback0 != null && rett != null) {
+						callback0.callback(rett);
+					}
+					return rett;
+				}
+
+				// boolean autoCreateSlidersAnswer = false;
+
+				// "Create sliders for a, b?" Create Sliders / Cancel
+				// Yes: create sliders and draw line
+				// No: go back into input bar and allow user to change input
+				if (app.getGuiManager() != null) {
+					AsyncOperation callback = null;
+					if (callback0 != null) {
+
+						// final FunctionVariable fvX2 = fvX;
+						final ValidExpression ve2 = ve;
+
+						callback = new AsyncOperation() {
+
+							@Override
+							public void callback(Object obj) {
+								String[] dialogResult = (String[]) obj;
+								GeoElement[] geos = null;
+
+								// TODO: need we to catch the Exception
+								// here,
+								// which can throw the
+								// processAlgebraInputCommandNoExceptionHandling
+								// function?
+								if (CREATE_SLIDER.equals(dialogResult[0])) {
+									// insertStarIfNeeded(undefinedVariables,
+									// ve2, fvX2);
+									replaceUndefinedVariables(ve2,
+											new TreeSet<GeoNumeric>(), null);
+									try {
+										geos = processValidExpression(
+												storeUndo, allowErrorDialog,
+												throwMyError, ve2);
+									} catch (Exception ee) {
+										AlgebraProcessor.this.app.showError(ee
+												.getMessage());
+										return;
+									}
+								}
+								callback0.callback(geos);
+							}
+
+						};
+					}
+					boolean autoCreateSlidersAnswer = this.app.getGuiManager()
+							.checkAutoCreateSliders(sb.toString(), callback);
+					if (!autoCreateSlidersAnswer) {
+						return null;
+					}
+				}
+			}
+
+			// App.debug("list of variables: "+sb.toString());
+
+			// ==========================
+			// step5: replace undefined variables
+			// ==========================
+			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null);
 		}
 
 		// process ValidExpression (built by parser)
@@ -846,9 +838,23 @@ public class AlgebraProcessor {
 		if (callback0 != null)
 			callback0.callback(geos);
 		return geos;
+
 	}
 
+	/**
+	 * create valid expression (if possible) from command string
+	 * 
+	 * @param cmd
+	 *            command
+	 * @return valid expression
+	 * @throws Exception
+	 *             exception
+	 */
+	public ValidExpression getValidExpressionNoExceptionHandling(
+			final String cmd) throws Exception {
 
+		return parser.parseGeoGebraExpression(cmd);
+	}
 
 	/**
 	 * @param label

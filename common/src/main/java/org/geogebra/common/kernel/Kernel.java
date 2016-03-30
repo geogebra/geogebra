@@ -5143,16 +5143,33 @@ public class Kernel {
 			boolean silentModeOld = isSilentMode();
 			try {
 				setSilentMode(true);
-				GeoElement[] geos = getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(input, false,
-								false, true, false, false, null);
-				if (geos != null) {
-					for (GeoElement geo : geos) {
-						geo.setSelectionAllowed(false);
+				ValidExpression ve = getAlgebraProcessor()
+						.getValidExpressionNoExceptionHandling(input);
+				GeoCasCell casEval = getAlgebraProcessor().checkCasEval(
+						ve.getLabel(), input, null);
+				if (casEval == null) {
+					GeoElement existingGeo = lookupLabel(ve.getLabel());
+					if (existingGeo == null) {
+						GeoElement[] geos = getAlgebraProcessor()
+								.processAlgebraCommandNoExceptionHandling(ve,
+										false, false, true,
+										false, null);
+						if (geos != null) {
+							for (GeoElement geo : geos) {
+								geo.setSelectionAllowed(false);
+							}
+						}
+						notifyUpdatePreviewFromInputBar(geos);
+					} else {
+						Log.debug("existing geo: " + existingGeo);
+						notifyUpdatePreviewFromInputBar(null);
 					}
+				} else {
+					Log.debug("cas cell ");
+					notifyUpdatePreviewFromInputBar(null);
 				}
 				setSilentMode(silentModeOld);
-				notifyUpdatePreviewFromInputBar(geos);
+
 			} catch (Throwable ee) {
 				Log.debug("-- invalid input");
 				setSilentMode(true);
