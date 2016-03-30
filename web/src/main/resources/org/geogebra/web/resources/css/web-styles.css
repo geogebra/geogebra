@@ -2980,11 +2980,30 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	color: #FFFFFF;
 } */
 
-
-.GeoGebraShareDialog {
-	width: 300px;
-	height: 300px;
+/*---------------- SHARE DIALOG -------------*/
+.GeoGebraTabLayout {
+	width: 500px;
+	height: 200px;
 }
+.GeoGebraLinkPanel {	
+	height: 100%;
+}
+.GeoGebraIconPanel {
+	display: block;
+}
+.GeoGebraIconPanel img {
+	margin: 5px;
+}
+.GeoGebraEmailPanel {
+	height: 100%;
+}
+.GeoGebraEmbedPanel{
+	height: 100%;
+}
+.GeoGebraEmailPanel textarea {
+	width: 100%;
+}
+
 
 /*-------- RECOVER AUTO SAVED DIALOG ------------*/
 

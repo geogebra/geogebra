@@ -10,11 +10,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ShareDialogW extends DialogBoxW implements ClickHandler {
@@ -24,7 +25,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private TabLayoutPanel tabPanel;
 	private VerticalPanel linkPanel;
 	private HorizontalPanel iconPanel;
-	private FlowPanel copyLinkPanel;
+	private HorizontalPanel copyLinkPanel;
 	private VerticalPanel emailPanel;
 	private VerticalPanel embedPanel;
 	private FlowPanel buttonPanel;
@@ -33,37 +34,34 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	public ShareDialogW(final AppW app) {
 		super(app.getPanel());
 		this.app = app;
-		this.addStyleName("GeoGebraShareDialog");
 		this.setGlassEnabled(true);
 		this.setVisible(true);
 		center();
 
 		this.getCaption().setText(app.getMenu("Share"));
 		this.contentPanel = new VerticalPanel();
-
 		this.contentPanel.add(getTabPanel());
-		this.contentPanel.add(new HTML("<hr>"));
 		this.contentPanel.add(getButtonPanel());
 		this.add(this.contentPanel);
-
 	}
 
 	private TabLayoutPanel getTabPanel() {
 		tabPanel = new TabLayoutPanel(30, Unit.PX);
+		tabPanel.addStyleName("GeoGebraTabLayout");
+
 		tabPanel.add(getLinkPanel(), app.getPlain("Link"));
 		tabPanel.add(getEmailPanel(), app.getPlain("Email"));
 		tabPanel.add(getEmbedPanel(), app.getPlain("Embed"));
 		tabPanel.selectTab(0);
 
 		return tabPanel;
-
 	}
 
 	private VerticalPanel getLinkPanel() {
 		linkPanel = new VerticalPanel();
-		linkPanel.setWidth("100%");
-		linkPanel.setHeight("100%");
+		linkPanel.addStyleName("GeoGebraLinkPanel");
 
+		linkPanel.add(new Label(""));
 		linkPanel.add(getIconPanel());
 		linkPanel.add(getCopyLinkPanel());
 
@@ -72,30 +70,37 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 	private HorizontalPanel getIconPanel() {
 		iconPanel = new HorizontalPanel();
+		iconPanel.addStyleName("GeoGebraIconPanel");
 
-		// Google+
-
+		// Geogebra
+		iconPanel.add(new NoDragImage(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString()));
 		// Facebook
-		Image imgFB = new NoDragImage(AppResources.INSTANCE.social_facebook().getSafeUri().asString());
-		iconPanel.add(imgFB);
+		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_facebook().getSafeUri().asString()));
 		// Twitter
-		Image imgTW = new Image();
-		iconPanel.add(imgTW);
-		// Delicious
+		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_twitter().getSafeUri().asString()));
+		// Google+
+		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_google().getSafeUri().asString()));
+		// Pinterest
+		// iconPanel.add(new
+		// NoDragImage(AppResources.INSTANCE.social_twitter().getSafeUri().asString()));
 		// OneNote
+		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_onenote().getSafeUri().asString()));
 		// Edmodo
+		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_edmodo().getSafeUri().asString()));
 		// Classroom
-		// Email
+		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_google_classroom().getSafeUri().asString()));
+
 		// Download
+		iconPanel.add(new NoDragImage(AppResources.INSTANCE.icon_download().getSafeUri().asString()));
 
 		return iconPanel;
 	}
 
-	private FlowPanel getCopyLinkPanel() {
-		copyLinkPanel = new FlowPanel();
+	private HorizontalPanel getCopyLinkPanel() {
+		copyLinkPanel = new HorizontalPanel();
 
-		Label lblLink = new Label(app.getPlain("Link") + " :");
-		Label link = new Label("set link to copy here");
+		Label lblLink = new Label(app.getPlain("Link") + ": ");
+		Label link = new Label("i.e. http://tube-test.geogebra.org/m/simple/id/123666");
 		Image copyToClipboardIcon = new NoDragImage(AppResources.INSTANCE.edit_copy().getSafeUri().asString());
 
 		copyLinkPanel.add(lblLink);
@@ -105,11 +110,23 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		return copyLinkPanel;
 	}
 
-	// TODO implement
 	private VerticalPanel getEmailPanel() {
 		emailPanel = new VerticalPanel();
-		emailPanel.setWidth("100%");
-		emailPanel.setHeight("100%");
+		emailPanel.addStyleName("GeoGebraEmailPanel");
+
+		Label lblRecipient = new Label(app.getPlain("share_recipient") + ":");
+		TextBox recipient = new TextBox();
+		recipient.getElement().setPropertyString("placeholder", app.getPlain("share_to"));
+
+		Label lblMessage = new Label(app.getPlain("share_message") + ":");
+		TextArea message = new TextArea();
+		message.getElement().setPropertyString("placeholder", app.getPlain("share_message_text"));
+		message.setVisibleLines(3);
+
+		emailPanel.add(lblRecipient);
+		emailPanel.add(recipient);
+		emailPanel.add(lblMessage);
+		emailPanel.add(message);
 
 		return emailPanel;
 	}
@@ -117,8 +134,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	// TODO implement
 	private VerticalPanel getEmbedPanel() {
 		embedPanel = new VerticalPanel();
-		embedPanel.setWidth("100%");
-		embedPanel.setHeight("100%");
+		embedPanel.addStyleName("GeoGebraEmbedPanel");
+		embedPanel.add(new Label(""));
 
 		return embedPanel;
 	}
@@ -142,10 +159,10 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		return buttonPanel;
 	}
 
-
+	// TODO implement
 	@Override
 	public void onClick(ClickEvent event) {
-		// TODO implement
+
 		Object source = event.getSource();
 		if (source == btOK) {
 			hide();
