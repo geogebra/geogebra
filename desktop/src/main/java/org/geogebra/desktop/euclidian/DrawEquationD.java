@@ -100,7 +100,8 @@ public class DrawEquationD extends DrawEquation {
 				}
 			} catch (final MyError e) {
 				// e.printStackTrace();
-				// Application.debug("MyError LaTeX parse exception: "+e.getMessage()+"\n"+text);
+				// Application.debug("MyError LaTeX parse exception:
+				// "+e.getMessage()+"\n"+text);
 				// Write error message to Graphics View
 
 				formula = TeXFormula.getPartialTeXFormula(text);
@@ -116,7 +117,8 @@ public class DrawEquationD extends DrawEquation {
 				// return new Dimension(rec.width, rec.height);
 			} catch (final Exception e) {
 				// e.printStackTrace();
-				// Application.debug("LaTeX parse exception: "+e.getMessage()+"\n"+text);
+				// Application.debug("LaTeX parse exception:
+				// "+e.getMessage()+"\n"+text);
 				// Write error message to Graphics View
 				try {
 					formula = TeXFormula.getPartialTeXFormula(text);
@@ -126,9 +128,9 @@ public class DrawEquationD extends DrawEquation {
 				} catch (Exception e2) {
 					Log.debug("LaTeX parse exception: " + e.getMessage() + "\n"
 							+ text);
-					formula = TeXFormula.getPartialTeXFormula("\text{"
-							+ app.getLocalization().getError(
-									"CAS.GeneralErrorMessage") + "}");
+					formula = TeXFormula.getPartialTeXFormula(
+							"\text{" + app.getLocalization()
+									.getError("CAS.GeneralErrorMessage") + "}");
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 							font.getSize() + 3, style, ColorD.get(fgColor));
 				}
@@ -160,13 +162,13 @@ public class DrawEquationD extends DrawEquation {
 			if (geo == null) {
 				key = JLaTeXMathCache.getCachedTeXFormula(text,
 						TeXConstants.STYLE_DISPLAY, style,
-						font.getSize() + 3 /* font size */, 1 /*
+						font.getSize() + 3 /* font size */,
+						1 /*
 							 * inset around the label
 							 */, ColorD.get(fgColor));
 			} else {
 				key = geo.getLaTeXCache().getCachedLaTeXKey(text,
-						font.getSize() + 3, style,
-						ColorD.get(fgColor));
+						font.getSize() + 3, style, ColorD.get(fgColor));
 			}
 
 			im = JLaTeXMathCache.getCachedTeXFormulaImage(key);
@@ -178,7 +180,8 @@ public class DrawEquationD extends DrawEquation {
 			// depth = ret[2];
 
 		} catch (final Exception e) {
-			// Application.debug("LaTeX parse exception: "+e.getMessage()+"\n"+text);
+			// Application.debug("LaTeX parse exception:
+			// "+e.getMessage()+"\n"+text);
 			// Write error message to Graphics View
 
 			final TeXFormula formula = TeXFormula.getPartialTeXFormula(text);
@@ -205,8 +208,7 @@ public class DrawEquationD extends DrawEquation {
 	}
 
 	final public Dimension measureEquationJLaTeXMath(final AppD app,
-			final GeoElement geo, final int x,
-			final int y, final String text,
+			final GeoElement geo, final int x, final int y, final String text,
 			final org.geogebra.common.awt.GFont font, final boolean serif,
 
 			final Integer maxWidth, final Float lineSpace) {
@@ -229,54 +231,53 @@ public class DrawEquationD extends DrawEquation {
 		TeXFormula formula;
 		TeXIcon icon;
 
-			try {
-				formula = new TeXFormula(text);
+		try {
+			formula = new TeXFormula(text);
 
-				if (maxWidth == null) {
-					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+			if (maxWidth == null) {
+				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 						font.getSize() + 3, style, ColorD.get(fgColor));
-				} else {
-					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, TeXConstants.UNIT_CM,
-							maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
-							TeXConstants.UNIT_CM, lineSpace.floatValue());
-				}
-			} catch (final MyError e) {
-				// e.printStackTrace();
-				// Application.debug("MyError LaTeX parse exception: "+e.getMessage()+"\n"+text);
-				// Write error message to Graphics View
-
-				formula = TeXFormula.getPartialTeXFormula(text);
+			} else {
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, style, ColorD.get(fgColor));
-
-				formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
-						TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
-						TeXConstants.UNIT_CM, 0.5f);
-
-				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
-				// x, y + g2.getFont().getSize(), g2);
-				// return new Dimension(rec.width, rec.height);
-			} catch (final Exception e) {
-				// e.printStackTrace();
-				// Application.debug("LaTeX parse exception: "+e.getMessage()+"\n"+text);
-				// Write error message to Graphics View
-
-				formula = TeXFormula.getPartialTeXFormula(text);
-				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, style, ColorD.get(fgColor));
-
-				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
-				// x, y + g2.getFont().getSize(), g2);
-				// return new Dimension(rec.width, rec.height);
+						font.getSize() + 3, TeXConstants.UNIT_CM,
+						maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
+						TeXConstants.UNIT_CM, lineSpace.floatValue());
 			}
-			icon.setInsets(new Insets(1, 1, 1, 1));
+		} catch (final MyError e) {
+			// e.printStackTrace();
+			// Application.debug("MyError LaTeX parse exception:
+			// "+e.getMessage()+"\n"+text);
+			// Write error message to Graphics View
 
-			return new Dimension(icon.getIconWidth(), icon.getIconHeight());
+			formula = TeXFormula.getPartialTeXFormula(text);
+			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+					font.getSize() + 3, style, ColorD.get(fgColor));
 
+			formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
+					TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
+					TeXConstants.UNIT_CM, 0.5f);
 
+			// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
+			// x, y + g2.getFont().getSize(), g2);
+			// return new Dimension(rec.width, rec.height);
+		} catch (final Exception e) {
+			// e.printStackTrace();
+			// Application.debug("LaTeX parse exception:
+			// "+e.getMessage()+"\n"+text);
+			// Write error message to Graphics View
 
-		
+			formula = TeXFormula.getPartialTeXFormula(text);
+			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+					font.getSize() + 3, style, ColorD.get(fgColor));
+
+			// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
+			// x, y + g2.getFont().getSize(), g2);
+			// return new Dimension(rec.width, rec.height);
+		}
+		icon.setInsets(new Insets(1, 1, 1, 1));
+
+		return new Dimension(icon.getIconWidth(), icon.getIconHeight());
+
 	}
 
 	private void checkFirstCall(AppD app) {
@@ -360,15 +361,17 @@ public class DrawEquationD extends DrawEquation {
 
 	final public org.geogebra.common.awt.GDimension drawEquation(final App app,
 			final GeoElementND geo,
-			final org.geogebra.common.awt.GGraphics2D g2,
-			final int x, final int y, final String text,
+			final org.geogebra.common.awt.GGraphics2D g2, final int x,
+			final int y, final String text,
 			final org.geogebra.common.awt.GFont font, final boolean serif,
 			final org.geogebra.common.awt.GColor fgColor,
-			final org.geogebra.common.awt.GColor bgColor, final boolean useCache,
- boolean updateAgain, Runnable callback) {
+			final org.geogebra.common.awt.GColor bgColor,
+			final boolean useCache, boolean updateAgain, Runnable callback) {
+
 		Dimension d = drawEquation((AppD) app, geo,
-				org.geogebra.desktop.awt.GGraphics2DD.getAwtGraphics(g2), x, y, text, font,
- serif, fgColor, bgColor, useCache, null, null);
+				org.geogebra.desktop.awt.GGraphics2DD.getAwtGraphics(g2), x, y,
+				text, font, serif, fgColor, bgColor, useCache, null, null);
+
 		if (callback != null) {
 			callback.run();
 		}
@@ -380,13 +383,15 @@ public class DrawEquationD extends DrawEquation {
 			final int y, final String text,
 			final org.geogebra.common.awt.GFont font, final boolean serif,
 			final org.geogebra.common.awt.GColor fgColor,
-			final org.geogebra.common.awt.GColor bgColor, final boolean useCache,
-			final Integer maxWidth, final Float lineSpace) {
+			final org.geogebra.common.awt.GColor bgColor,
+			final boolean useCache, final Integer maxWidth,
+			final Float lineSpace) {
 		// if (useJLaTeXMath)
 		return app.getDrawEquation().drawEquationJLaTeXMath(app, geo, g2, x, y,
-				text, font, serif, org.geogebra.desktop.awt.GColorD.getAwtColor(fgColor),
-				org.geogebra.desktop.awt.GColorD.getAwtColor(bgColor), useCache, maxWidth,
-				lineSpace);
+				text, font, serif,
+				org.geogebra.desktop.awt.GColorD.getAwtColor(fgColor),
+				org.geogebra.desktop.awt.GColorD.getAwtColor(bgColor), useCache,
+				maxWidth, lineSpace);
 		// else return drawEquationHotEqn(app, g2, x, y, text, font, fgColor,
 		// bgColor);
 	}
@@ -427,8 +432,9 @@ public class DrawEquationD extends DrawEquation {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		org.geogebra.common.awt.GDimension d = new org.geogebra.desktop.awt.GDimensionD();
-		d = drawEquation(app, null, new org.geogebra.desktop.awt.GGraphics2DD(g2image), 0,
-				0, latex, new org.geogebra.desktop.awt.GFontD(font), serif,
+		d = drawEquation(app, null,
+				new org.geogebra.desktop.awt.GGraphics2DD(g2image), 0, 0, latex,
+				new org.geogebra.desktop.awt.GFontD(font), serif,
 				new org.geogebra.desktop.awt.GColorD(fgColor),
 				new org.geogebra.desktop.awt.GColorD(bgColor), true, false,
 				null);
@@ -443,8 +449,9 @@ public class DrawEquationD extends DrawEquation {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		d = drawEquation(app, null, new org.geogebra.desktop.awt.GGraphics2DD(g2image), 0,
-				0, latex, new org.geogebra.desktop.awt.GFontD(font), serif,
+		d = drawEquation(app, null,
+				new org.geogebra.desktop.awt.GGraphics2DD(g2image), 0, 0, latex,
+				new org.geogebra.desktop.awt.GFontD(font), serif,
 				new org.geogebra.desktop.awt.GColorD(fgColor),
 				new org.geogebra.desktop.awt.GColorD(bgColor), true, false,
 				null);
@@ -453,10 +460,9 @@ public class DrawEquationD extends DrawEquation {
 	}
 
 	@Override
-	public GDimension measureEquation(App app, GeoElement geo0, 
- int minValue,
-			int minValue2, String text, GFont font, boolean b
-			 ) {
+	public GDimension measureEquation(App app, GeoElement geo0, int minValue,
+			int minValue2, String text, GFont font, boolean b) {
+
 		return new GDimensionD(this.measureEquationJLaTeXMath((AppD) app, geo0,
 				0, 0, text, font, b, null, null));
 	}
