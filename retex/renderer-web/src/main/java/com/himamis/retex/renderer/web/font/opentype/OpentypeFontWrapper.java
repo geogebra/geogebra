@@ -43,8 +43,12 @@
  */
 package com.himamis.retex.renderer.web.font.opentype;
 
+
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayNumber;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.web.font.FontWrapper;
 
 public class OpentypeFontWrapper implements FontWrapper {
@@ -59,6 +63,27 @@ public class OpentypeFontWrapper implements FontWrapper {
 	public void drawGlyph(String c, int x, int y, int size, Context2d ctx) {
 		drawGlyphNative(c, x, y, size, ctx);
 	}
+
+	public Rectangle2D measureGlyph(String c) {
+		JsArrayNumber obj = JavaScriptObject.createArray(4).cast();
+		measureNative(c, obj);
+		Rectangle2D ret = FactoryProvider.INSTANCE.getGeomFactory()
+				.createRectangle2D(obj.get(0), obj.get(1),
+						obj.get(2) - obj.get(0), obj.get(3) - obj.get(1));
+		return ret;
+	}
+
+	private native void measureNative(String text, JsArrayNumber arr) /*-{
+		var that = this;
+		var font = that.@com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper::impl;
+		var glyph = font.charToGlyph(text);
+		arr[0] = glyph.xMin;
+		arr[1] = glyph.yMin;
+		arr[2] = glyph.xMax;
+
+		arr[3] = glyph.yMax;
+		$wnd.console.log(arr);
+	}-*/;
 
 	private native void drawGlyphNative(String c, int x, int y, int size, Context2d ctx) /*-{
 		var that = this;
