@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.util.Language;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.main.AppD;
@@ -299,21 +298,22 @@ public class DrawEquationD extends DrawEquation {
 			// disable \magnification{factor} (makes Algebra View not work)
 			DefaultTeXFont.enableMagnification(false);
 
-			for (Language l : Language.values()) {
-
-				if (l.testChar != null) {
-					final Font testFont = app.getFontCanDisplayAwt(l.testChar,
-							true, Font.PLAIN, 12);
-					if (testFont != null) {
-						// TeXFormula
-						// .registerExternalFont(Character.UnicodeBlock
-						// .of(l.testChar.charAt(0)), testFont
-						// .getFontName());
-						// Application.debug("LaTeX font registering: "+l.name+" "+testFont.getFontName());
-					}
-
-				}
-			}
+			// for (Language l : Language.values()) {
+			//
+			// if (l.testChar != null) {
+			// final Font testFont = app.getFontCanDisplayAwt(l.testChar,
+			// true, Font.PLAIN, 12);
+			// if (testFont != null) {
+			// TeXFormula
+			// .registerExternalFont(Character.UnicodeBlock
+			// .of(l.testChar.charAt(0)), testFont
+			// .getFontName());
+			// Application.debug("LaTeX font registering: "+l.name+"
+			// "+testFont.getFontName());
+			// }
+			//
+			// }
+			// }
 
 			// // Arabic is in standard Java fonts, so we don't need to search
 			// for
