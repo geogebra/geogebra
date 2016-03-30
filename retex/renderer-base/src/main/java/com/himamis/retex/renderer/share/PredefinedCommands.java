@@ -249,7 +249,7 @@ final class PredefinedCommands {
 		MacroInfo.Commands.put("k", new PredefMacroInfo(195, 1));
 		MacroInfo.Commands.put("cong", new PredefMacroInfo(196, 0));
 		MacroInfo.Commands.put("doteq", new PredefMacroInfo(197, 0));
-		MacroInfo.Commands.put("jlmDynamic", new PredefMacroInfo(198, 1, 1));
+		//MacroInfo.Commands.put("jlmDynamic", new PredefMacroInfo(198, 1, 1));
 		MacroInfo.Commands.put("jlmExternalFont", new PredefMacroInfo(199, 1));
 		MacroInfo.Commands.put("jlmText", new PredefMacroInfo(200, 1));
 		MacroInfo.Commands.put("jlmTextit", new PredefMacroInfo(201, 1));

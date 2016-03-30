@@ -1439,13 +1439,13 @@ public class PredefMacros {
 		return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
 	}
 
-	public static final Atom jlmDynamic_macro(final TeXParser tp, final String[] args) throws ParseException {
-		if (DynamicAtom.hasAnExternalConverterFactory()) {
-			return new DynamicAtom(args[1], args[2]);
-		} else {
-			throw new ParseException("No ExternalConverterFactory set !");
-		}
-	}
+//	public static final Atom jlmDynamic_macro(final TeXParser tp, final String[] args) throws ParseException {
+//		if (DynamicAtom.hasAnExternalConverterFactory()) {
+//			return new DynamicAtom(args[1], args[2]);
+//		} else {
+//			throw new ParseException("No ExternalConverterFactory set !");
+//		}
+//	}
 
 	public static final Atom jlmExternalFont_macro(final TeXParser tp, final String[] args)
 			throws ParseException {

@@ -432,8 +432,8 @@ class PredefMacroInfo extends MacroInfo {
 				return PredefMacros.cong_macro(tp, args);
 			case 197:
 				return PredefMacros.doteq_macro(tp, args);
-			case 198:
-				return PredefMacros.jlmDynamic_macro(tp, args);
+			//case 198:
+			//	return PredefMacros.jlmDynamic_macro(tp, args);
 			case 199:
 				return PredefMacros.jlmExternalFont_macro(tp, args);
 			case 200:

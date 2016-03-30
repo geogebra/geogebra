@@ -134,7 +134,7 @@ public class TeXParser {
 
 	private static final Set<String> unparsedContents = new HashSet<String>(6);
 	static {
-		unparsedContents.add("jlmDynamic");
+		//unparsedContents.add("jlmDynamic");
 		unparsedContents.add("jlmText");
 		unparsedContents.add("jlmTextit");
 		unparsedContents.add("jlmTextbf");
