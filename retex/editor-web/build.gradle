@@ -21,8 +21,8 @@ targetCompatibility = 1.6
 gwt {
 	gwtVersion '2.7.0'
 	// only compilable module
-	modules 'com.himamis.retex.renderer.JLaTeXMathGWTExportedLibrary'
-	devModules 'com.himamis.retex.renderer.JLaTeXMathGWTDev'
+	modules 'com.himamis.retex.editor.JLMEditorExportedLibrary'
+	devModules 'com.himamis.retex.editor.JLMEditorGWTDev'
 	/*compiler {
         style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
 	}*/
@@ -30,8 +30,10 @@ gwt {
 
 
 dependencies {
-	compile project(':renderer-base')
+	compile project(':renderer-web')
+        compile project(':editor-base')
 	compile files(project(':renderer-base').sourceSets.main.java.srcDirs)
+        compile files(project(':renderer-web').sourceSets.main.java.srcDirs)
 	compile 'com.google.gwt:gwt-dev:2.7.0'
 	compile 'com.google.gwt:gwt-user:2.7.0'
 	testCompile 'com.google.gwt:gwt-user:2.7.0'

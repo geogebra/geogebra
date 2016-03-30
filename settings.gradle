@@ -17,6 +17,7 @@ include 'renderer-desktop'
 include 'renderer-web'
 include 'editor-base'
 include 'editor-desktop'
+include 'editor-web'
 
 include 'test'
 
