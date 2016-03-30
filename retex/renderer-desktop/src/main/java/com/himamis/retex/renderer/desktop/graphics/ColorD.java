@@ -73,4 +73,9 @@ public class ColorD extends Color implements com.himamis.retex.renderer.share.pl
 		}
 		return false;
 	}
+
+	public static com.himamis.retex.renderer.share.platform.graphics.Color get(
+			Color bgColor) {
+		return bgColor == null ? null : new ColorD(bgColor);
+	}
 }
