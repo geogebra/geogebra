@@ -213,13 +213,15 @@ public class MatrixTreeItem extends RadioTreeItem {
 				}
 
 				DrawEquationW.addNewRowToMatrix(latexItem);
-
-				// DrawEquationW.endEditingEquationMathQuillGGB(
-				// MatrixTreeItem.this, latexItem);
+				Construction cons = kernel.getConstruction();
+				GeoList row = new GeoList(cons);
+				row.add(new GeoNumeric(cons, 1));
+				row.add(new GeoNumeric(cons, 0));
+				((GeoList) geo).add(row);
 				//
-				// if (wasEditing) {
-				// av.startEditing(geo);
-				// }
+				if (wasEditing) {
+					av.startEditing(geo);
+				}
 			}
 		});
 	}
@@ -234,13 +236,18 @@ public class MatrixTreeItem extends RadioTreeItem {
 				}
 
 				DrawEquationW.addNewColToMatrix(latexItem);
-
+				GeoList mtx = (GeoList) geo;
+				Construction cons = kernel.getConstruction();
+				for (int i = 0; i < mtx.size(); i++) {
+					GeoList row = (GeoList) mtx.get(i);
+					row.add(new GeoNumeric(cons, 0));
+				}
 				// DrawEquationW.endEditingEquationMathQuillGGB(
 				// MatrixTreeItem.this, latexItem);
 				//
-				// if (wasEditing) {
-				// av.startEditing(geo);
-				// }
+				if (wasEditing) {
+					av.startEditing(geo);
+				}
 			}
 		});
 	}
