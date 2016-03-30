@@ -1,10 +1,8 @@
 package org.geogebra.web.html5.sound;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.sound.SoundManager;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.sound.MidiSoundW.MidiSoundListenerW;
@@ -27,7 +25,7 @@ public class SoundManagerW implements SoundManager, MidiSoundListenerW {
 	}
 
 	public void pauseResumeSound(boolean b) {
-		App.debug("unimplemented 1");
+		Log.debug("unimplemented 1");
 
 	}
 
@@ -40,7 +38,7 @@ public class SoundManagerW implements SoundManager, MidiSoundListenerW {
 	}
 
 	public void playSequenceFromString(String string, int double1) {
-		App.debug("playSequenceFromString");
+		Log.debug("playSequenceFromString");
 
 	}
 
@@ -56,25 +54,16 @@ public class SoundManagerW implements SoundManager, MidiSoundListenerW {
 		if (fmtMp3 || fmtMidi) {
 			String id = url.substring(1);
 
-			if (app.has(Feature.TUBE_BETA)) {
-				url = GeoGebraConstants.GEOGEBRATUBE_WEBSITE_BETA;
-			} else {
-				url = GeoGebraConstants.GEOGEBRATUBE_WEBSITE;
-			}
-
-			// something like
-			// http://tube-beta.geogebra.org/files/material-1264825.mp3
-
-			url = url + "files/material-" + id + (fmtMp3 ? ".mp3" : ".mid");
+			url = app.getURLforID(id);
 
 		} 
 
 		if (fmtMidi || url.endsWith(".mid") || url.endsWith(".midi")) {
-			App.debug("MIDI not supported");
+			Log.debug("MIDI not supported");
 			return;
 		}
 
-		App.debug("playing URL as MP3: " + url);
+		Log.debug("playing URL as MP3: " + url);
 		playMP3(url);
 
 		// TODO check extension, play MIDI .mid files

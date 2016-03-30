@@ -12,10 +12,8 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.SourceDataLine;
 import javax.swing.SwingUtilities;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.sound.mp3transform.Decoder;
 
@@ -147,17 +145,7 @@ public class SoundManagerD implements org.geogebra.common.sound.SoundManager {
 							// eg PlaySound["#12345"] to play from GeoGebraTube
 							String id = fileName.substring(1);
 
-							String url;
-
-							if (app.has(Feature.TUBE_BETA)) {
-								url = GeoGebraConstants.GEOGEBRATUBE_WEBSITE_BETA;
-							} else {
-								url = GeoGebraConstants.GEOGEBRATUBE_WEBSITE;
-							}
-
-							// something like
-							// http://tube.geogebra.org/files/material-1264825.mp3
-							url = url + "files/material-" + id + ".mp3";
+							String url = app.getURLforID(id);
 
 							// #5094
 							is = new URL(url)

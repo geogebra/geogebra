@@ -4299,4 +4299,18 @@ public abstract class App implements UpdateSelection {
 	}
 
 	static final protected long SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS = 500;
+
+	public String getURLforID(String id) {
+		String url;
+		if (has(Feature.TUBE_BETA)) {
+			url = GeoGebraConstants.GEOGEBRATUBE_WEBSITE_BETA;
+		} else {
+			url = GeoGebraConstants.GEOGEBRATUBE_WEBSITE;
+		}
+
+		// something like
+		// http://tube.geogebra.org/files/material-1264825.mp3
+		url = url + "material/download/format/file/id/" + id;
+		return url;
+	}
 }
