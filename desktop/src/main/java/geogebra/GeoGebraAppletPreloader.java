@@ -119,7 +119,8 @@ public class GeoGebraAppletPreloader extends JApplet {
 				System.out.print("loading jlatexmath.jar... ");
 				System.out.flush();
 				try {
-					org.scilab.forge.jlatexmath.TeXFormula.class.getClass();
+					com.himamis.retex.renderer.share.TeXFormula.class
+							.getClass();
 					System.out.println("done");
 				} catch (Exception e) {
 					System.out.println("failed");
@@ -131,31 +132,21 @@ public class GeoGebraAppletPreloader extends JApplet {
 				// load jlm_greek jar
 				System.out.print("loading jlm_greek.jar... ");
 				System.out.flush();
-				try {
-					org.scilab.forge.jlatexmath.greek.GreekRegistration.class
-							.getClass();
-					System.out.println("done");
-				} catch (Exception e) {
-					System.out.println("failed");
-				} catch (Throwable e) {
-					System.out.println("failed");
-				}
-				System.out.flush();
-
-				// load jlm_cyrillic jar
-				System.out.print("loading jlm_cyrillic.jar... ");
-				System.out.flush();
-				try {
-					org.scilab.forge.jlatexmath.cyrillic.CyrillicRegistration.class
-							.getClass();
-					System.out.println("done");
-				} catch (Exception e) {
-					System.out.println("failed");
-				} catch (Throwable e) {
-					System.out.println("failed");
-				}
-				System.out.flush();
-
+				/*
+				 * try {
+				 * org.scilab.forge.jlatexmath.greek.GreekRegistration.class
+				 * .getClass(); System.out.println("done"); } catch (Exception
+				 * e) { System.out.println("failed"); } catch (Throwable e) {
+				 * System.out.println("failed"); } System.out.flush();
+				 * 
+				 * // load jlm_cyrillic jar System.out.print(
+				 * "loading jlm_cyrillic.jar... "); System.out.flush(); try {
+				 * org.scilab.forge.jlatexmath.cyrillic.CyrillicRegistration.
+				 * class .getClass(); System.out.println("done"); } catch
+				 * (Exception e) { System.out.println("failed"); } catch
+				 * (Throwable e) { System.out.println("failed"); }
+				 * System.out.flush();
+				 */
 				if (loadJavaScriptJAR) {
 					// load javascript jar
 					System.out.print("loading geogebra_javascript.jar... ");

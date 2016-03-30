@@ -21,8 +21,10 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.desktop.main.AppD;
-import org.scilab.forge.jlatexmath.TeXConstants;
-import org.scilab.forge.jlatexmath.TeXFormula;
+
+import com.himamis.retex.renderer.desktop.graphics.ColorD;
+import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.TeXFormula;
 
 /**
  * A JPanel to preview LaTeX on typing !
@@ -78,7 +80,7 @@ public class LaTeXPreviewerPanel extends JPanel {
 
 		im = (BufferedImage) TeXFormula.getPartialTeXFormula(f)
 				.createBufferedImage(TeXConstants.STYLE_DISPLAY, defaultSize,
-						Color.black, Color.white);
+						new ColorD(Color.black), new ColorD(Color.white));
 
 		/*
 		 * icon = TeXFormula.getPartialTeXFormula(f).createTeXIcon(

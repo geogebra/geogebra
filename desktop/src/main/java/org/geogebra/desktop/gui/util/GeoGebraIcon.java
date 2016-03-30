@@ -26,8 +26,10 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.euclidian.EuclidianStaticD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageManagerD;
-import org.scilab.forge.jlatexmath.TeXConstants;
-import org.scilab.forge.jlatexmath.TeXFormula;
+
+import com.himamis.retex.renderer.desktop.graphics.ColorD;
+import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.TeXFormula;
 
 /**
  * Creates various ImageIcons for use in lists and tables.
@@ -621,15 +623,18 @@ public class GeoGebraIcon {
 	 */
 	public static ImageIcon createLatexIcon(AppD app, String latex, Font font,
 			boolean serif, Color fgColor, Color bgColor) {
-		return new ImageIcon(TeXFormula.createBufferedImage(latex,
-				TeXConstants.STYLE_DISPLAY, font.getSize() + 3, fgColor,
-				bgColor));
+		return new ImageIcon(
+				(BufferedImage) TeXFormula.createBufferedImage(latex,
+						TeXConstants.STYLE_DISPLAY, font.getSize() + 3,
+						ColorD.get(fgColor), ColorD.get(bgColor)));
 	}
 
 	public static ImageIcon createLatexIcon(AppD app, String latex,
 			boolean serif, Color fgColor, Color bgColor, int height) {
-		ImageIcon ic = new ImageIcon(TeXFormula.createBufferedImage(latex,
-				TeXConstants.STYLE_DISPLAY, height - 6, fgColor, bgColor));
+		ImageIcon ic = new ImageIcon(
+				(BufferedImage) TeXFormula.createBufferedImage(latex,
+						TeXConstants.STYLE_DISPLAY, height - 6,
+						ColorD.get(fgColor), ColorD.get(bgColor)));
 		ensureIconSize(ic, new Dimension(ic.getIconWidth(), height));
 		return ic;
 	}

@@ -92,7 +92,7 @@ public class DrawEquationD extends DrawEquation {
 
 				if (maxWidth == null) {
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, new ColorD(fgColor));
+							font.getSize() + 3, style, ColorD.get(fgColor));
 				} else {
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 							font.getSize() + 3, TeXConstants.UNIT_CM,
@@ -106,7 +106,7 @@ public class DrawEquationD extends DrawEquation {
 
 				formula = TeXFormula.getPartialTeXFormula(text);
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, new ColorD(fgColor));
+						font.getSize() + 3, style, ColorD.get(fgColor));
 
 				formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
 						TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
@@ -123,7 +123,7 @@ public class DrawEquationD extends DrawEquation {
 					formula = TeXFormula.getPartialTeXFormula(text);
 
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, new ColorD(fgColor));
+							font.getSize() + 3, style, ColorD.get(fgColor));
 				} catch (Exception e2) {
 					Log.debug("LaTeX parse exception: " + e.getMessage() + "\n"
 							+ text);
@@ -131,7 +131,7 @@ public class DrawEquationD extends DrawEquation {
 							+ app.getLocalization().getError(
 									"CAS.GeneralErrorMessage") + "}");
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, new ColorD(fgColor));
+							font.getSize() + 3, style, ColorD.get(fgColor));
 				}
 				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
 				// x, y + g2.getFont().getSize(), g2);
@@ -143,7 +143,7 @@ public class DrawEquationD extends DrawEquation {
 			icon.paintIcon(new HasForegroundColor() {
 
 				public com.himamis.retex.renderer.share.platform.graphics.Color getForegroundColor() {
-					return new ColorD(fgColor);
+					return ColorD.get(fgColor);
 				}
 
 			}, new Graphics2DD(g2), x, y);
@@ -163,11 +163,11 @@ public class DrawEquationD extends DrawEquation {
 						TeXConstants.STYLE_DISPLAY, style,
 						font.getSize() + 3 /* font size */, 1 /*
 							 * inset around the label
-							 */, new ColorD(fgColor));
+							 */, ColorD.get(fgColor));
 			} else {
 				key = geo.getLaTeXCache().getCachedLaTeXKey(text,
 						font.getSize() + 3, style,
-						new ColorD(fgColor));
+						ColorD.get(fgColor));
 			}
 
 			im = JLaTeXMathCache.getCachedTeXFormulaImage(key);
@@ -235,7 +235,7 @@ public class DrawEquationD extends DrawEquation {
 
 				if (maxWidth == null) {
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, new ColorD(fgColor));
+						font.getSize() + 3, style, ColorD.get(fgColor));
 				} else {
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 							font.getSize() + 3, TeXConstants.UNIT_CM,
@@ -249,7 +249,7 @@ public class DrawEquationD extends DrawEquation {
 
 				formula = TeXFormula.getPartialTeXFormula(text);
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, style, new ColorD(fgColor));
+					font.getSize() + 3, style, ColorD.get(fgColor));
 
 				formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
 						TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
@@ -265,7 +265,7 @@ public class DrawEquationD extends DrawEquation {
 
 				formula = TeXFormula.getPartialTeXFormula(text);
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, style, new ColorD(fgColor));
+					font.getSize() + 3, style, ColorD.get(fgColor));
 
 				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
 				// x, y + g2.getFont().getSize(), g2);
