@@ -200,7 +200,7 @@ final class PredefinedCommands {
 		MacroInfo.Commands.put("underset", new PredefMacroInfo(146, 2));
 		MacroInfo.Commands.put("boldsymbol", new PredefMacroInfo(147, 1));
 		MacroInfo.Commands.put("LaTeX", new PredefMacroInfo(148, 0));
-		MacroInfo.Commands.put("GeoGebra", new PredefMacroInfo(149, 0));
+		//MacroInfo.Commands.put("GeoGebra", new PredefMacroInfo(149, 0));
 		MacroInfo.Commands.put("big", new PredefMacroInfo(150, 1));
 		MacroInfo.Commands.put("Big", new PredefMacroInfo(151, 1));
 		MacroInfo.Commands.put("bigg", new PredefMacroInfo(152, 1));

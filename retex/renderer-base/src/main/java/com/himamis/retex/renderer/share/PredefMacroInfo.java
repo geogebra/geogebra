@@ -334,8 +334,8 @@ class PredefMacroInfo extends MacroInfo {
 				return PredefMacros.boldsymbol_macro(tp, args);
 			case 148:
 				return PredefMacros.LaTeX_macro(tp, args);
-			case 149:
-				return PredefMacros.GeoGebra_macro(tp, args);
+			//case 149:
+			//	return PredefMacros.GeoGebra_macro(tp, args);
 			case 150:
 				return PredefMacros.big_macro(tp, args);
 			case 151:
