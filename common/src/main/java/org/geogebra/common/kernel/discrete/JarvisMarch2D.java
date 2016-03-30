@@ -6,7 +6,7 @@
 package org.geogebra.common.kernel.discrete;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.geogebra.common.awt.GPoint2D;
 
@@ -31,7 +31,8 @@ public class JarvisMarch2D {
      * @param points list of points
      * @return convex hull
      */
-    public static ArrayList<GPoint2D.Double> convexHull(Collection<? extends GPoint2D.Double> points) {
+	public static ArrayList<GPoint2D.Double> convexHull(
+			List<? extends GPoint2D.Double> points) {
         // Init iteration on points
     	GPoint2D.Double lowestPoint = null;
         double y;
@@ -56,7 +57,7 @@ public class JarvisMarch2D {
             	}
             }
         }
-
+		boolean used[] = new boolean[points.size()];
         // initialize array of points located on convex hull
         ArrayList<GPoint2D.Double> hullPoints = new ArrayList<GPoint2D.Double>();
 
@@ -69,7 +70,7 @@ public class JarvisMarch2D {
         // to previous line
         do {
             hullPoints.add(currentPoint);
-            nextPoint = findNextPoint(currentPoint, angle, points);
+			nextPoint = findNextPoint(currentPoint, angle, points, used);
             angle = horizontalAngle(currentPoint, nextPoint);
             currentPoint = nextPoint;
         } while (currentPoint!=lowestPoint);
@@ -79,14 +80,16 @@ public class JarvisMarch2D {
     }
 
     private static GPoint2D.Double findNextPoint(GPoint2D.Double basePoint, double startAngle,
-            Collection<? extends GPoint2D.Double> points) {
+			List<? extends GPoint2D.Double> points, boolean[] used) {
     	GPoint2D.Double minPoint = null;
         double minAngle = Double.MAX_VALUE;
+		int minIdx = -1;
         double angle;
 
-        for (GPoint2D.Double point : points) {
+		for (int i = 0; i < points.size(); i++) {
+			GPoint2D.Double point = points.get(i);
             // Avoid to test same point
-            if (basePoint.equals(point))
+			if (basePoint.equals(point) || used[i])
                 continue;
 
             // Compute angle between current direction and next point
@@ -97,9 +100,10 @@ public class JarvisMarch2D {
             if (angle<minAngle) {
                 minAngle = angle;
                 minPoint = point;
+				minIdx = i;
             }
         }
-
+		used[minIdx] = true;
         return minPoint;
     }
     
