@@ -296,6 +296,12 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("org/geogebra/web/web/gui/images/object_unfixed.png")
 	ImageResource unlock();
 
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_object_fixed.png")
+	ImageResource objectFixed();
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_object_unfixed.png")
+	ImageResource objectUnfixed();
+
 	/*@Source("org/geogebra/web/web/gui/images/stylingbar_graphicsview_point_capturing.png")
 	ImageResource magnet();*/
 	

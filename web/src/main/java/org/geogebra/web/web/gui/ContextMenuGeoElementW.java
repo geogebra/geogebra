@@ -221,7 +221,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 			        && (geo.isGeoText() || geo.isGeoImage() || geo
 			                .isGeoButton())) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
-				        AppResources.INSTANCE.empty().getSafeUri().asString(),
+AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				        app.getPlain("FixObject")), new Command() {
 
 					public void execute() {
