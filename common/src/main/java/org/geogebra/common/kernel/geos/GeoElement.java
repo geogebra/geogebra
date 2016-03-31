@@ -2597,6 +2597,17 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
+	/**
+	 * Gets LaTeX string including the label for edit
+	 * 
+	 * @param symbolic
+	 * @param tpl
+	 * @return
+	 */
+	public String toEditableLaTeXString(final boolean symbolic,
+			StringTemplate tpl) {
+		return getLabel(tpl) + " = " + toLaTeXString(symbolic, tpl);
+	}
 	public String toLaTeXString(final boolean symbolic,StringTemplate tpl) {
 		return getFormulaString(tpl, !symbolic);
 		// if (symbolic)
