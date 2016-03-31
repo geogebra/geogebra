@@ -100,6 +100,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// Label lblLink = new Label(app.getPlain("Link") + ": ");
 		TextBox link = new TextBox();
 		link.setValue("i.e. http://tube-test.geogebra.org/m/simple/id/123666");
+		link.setReadOnly(true);
 		Image copyToClipboardIcon = new NoDragImage(AppResources.INSTANCE.edit_copy().getSafeUri().asString());
 
 		// copyLinkPanel.add(lblLink);

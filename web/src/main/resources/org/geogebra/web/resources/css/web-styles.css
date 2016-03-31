@@ -2987,6 +2987,7 @@ body.application[dir=rtl] .DialogButtonPanel button {
 }
 .GeoGebraLinkPanel {	
 	height: 100%;
+	
 }
 .GeoGebraCopyLinkPanel img {	
 	margin-top: 10px;
@@ -3003,6 +3004,11 @@ body.application[dir=rtl] .DialogButtonPanel button {
 .GeoGebraEmailPanel {
 	height: 100%;
 }
+.GeoGebraEmailPanel textarea {
+	resize: none;
+	width: 100%;
+}
+
 .GeoGebraImagePanel{
 	height: 100%;
 }
