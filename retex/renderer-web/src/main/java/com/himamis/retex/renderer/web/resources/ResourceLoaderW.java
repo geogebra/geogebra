@@ -43,6 +43,9 @@
  */
 package com.himamis.retex.renderer.web.resources;
 
+import java.util.HashMap;
+
+import com.google.gwt.resources.client.TextResource;
 import com.himamis.retex.renderer.share.cyrillic.CyrillicRegistration;
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
 import com.himamis.retex.renderer.share.greek.GreekRegistration;
@@ -52,235 +55,244 @@ import com.himamis.retex.renderer.web.resources.xml.XmlResources;
 public class ResourceLoaderW implements ResourceLoader {
 
 	private static final XmlResources XML_RESOURCES = XmlResources.INSTANCE;
-
+	private static HashMap<String, TextResource> map = new HashMap<String, TextResource>();
+	static {
+		initResources();
+	}
 	@Override
 	public Object loadResource(Object base, String path)
 			throws ResourceParseException {
 		// base object is either a class or null
 		String fullPath = getPath((Class<?>) base) + path;
-		return getResource(fullPath);
+		if (!map.containsKey(fullPath)) {
+			throw new ResourceParseException(
+					"Resource not found, please regenerate XmlResource file and ResourceLoader.getResource() methods"
+							+ fullPath);
+		}
+		return map.get(fullPath).getText();
+
 	}
 
 	private String getPath(Class<?> clazz) {
 		if (CyrillicRegistration.class.equals(clazz)) {
 			return "cyrillic/";
-		}
+	}
 		if (GreekRegistration.class.equals(clazz)) {
 			return "greek/";
 		}
 		return "";
 	}
 
+	public static void addResource(String path, TextResource res) {
+		map.put(path, res);
+	}
+
 	/*
 	 * This method was generated based on the available source xml at that time.
 	 * Please regenerate this if you add/delete/rename xmls.
 	 */
-	private static final String getResource(String source) {
-		if (source.equals("cyrillic/fonts/jlm_cyrillic.map.xml")) {
-			return XML_RESOURCES.fontsjlm_cyrillic_map().getText();
-		}
-		if (source.equals("cyrillic/fonts/jlm_wnbx10.xml")) {
-			return XML_RESOURCES.fontsjlm_wnbx10().getText();
-		}
-		if (source.equals("cyrillic/fonts/jlm_wnbxti10.xml")) {
-			return XML_RESOURCES.fontsjlm_wnbxti10().getText();
-		}
-		if (source.equals("cyrillic/fonts/jlm_wnr10.xml")) {
-			return XML_RESOURCES.fontsjlm_wnr10().getText();
-		}
-		if (source.equals("cyrillic/fonts/jlm_wnss10.xml")) {
-			return XML_RESOURCES.fontsjlm_wnss10().getText();
-		}
-		if (source.equals("cyrillic/fonts/jlm_wnssbx10.xml")) {
-			return XML_RESOURCES.fontsjlm_wnssbx10().getText();
-		}
-		if (source.equals("cyrillic/fonts/jlm_wnssi10.xml")) {
-			return XML_RESOURCES.fontsjlm_wnssi10().getText();
-		}
-		if (source.equals("cyrillic/fonts/jlm_wnti10.xml")) {
-			return XML_RESOURCES.fontsjlm_wnti10().getText();
-		}
-		if (source.equals("cyrillic/fonts/jlm_wntt10.xml")) {
-			return XML_RESOURCES.fontsjlm_wntt10().getText();
-		}
-		if (source.equals("cyrillic/fonts/language_cyrillic.xml")) {
-			return XML_RESOURCES.fontslanguage_cyrillic().getText();
-		}
-		if (source.equals("cyrillic/fonts/mappings_cyrillic.xml")) {
-			return XML_RESOURCES.fontsmappings_cyrillic().getText();
-		}
-		if (source.equals("cyrillic/fonts/symbols_cyrillic.xml")) {
-			return XML_RESOURCES.fontssymbols_cyrillic().getText();
-		}
-		if (source.equals("DefaultTeXFont.xml")) {
-			return XML_RESOURCES.DefaultTeXFont().getText();
-		}
-		if (source.equals("fonts/base/jlm_amsfonts.map.xml")) {
-			return XML_RESOURCES.basejlm_amsfonts_map().getText();
-		}
-		if (source.equals("fonts/base/jlm_amssymb.map.xml")) {
-			return XML_RESOURCES.basejlm_amssymb_map().getText();
-		}
-		if (source.equals("fonts/base/jlm_base.map.xml")) {
-			return XML_RESOURCES.basejlm_base_map().getText();
-		}
-		if (source.equals("fonts/base/jlm_cmex10.xml")) {
-			return XML_RESOURCES.basejlm_cmex10().getText();
-		}
-		if (source.equals("fonts/base/jlm_cmmi10.xml")) {
-			return XML_RESOURCES.basejlm_cmmi10().getText();
-		}
-		if (source.equals("fonts/base/jlm_cmmi10_unchanged.xml")) {
-			return XML_RESOURCES.basejlm_cmmi10_unchanged().getText();
-		}
-		if (source.equals("fonts/base/jlm_cmmib10.xml")) {
-			return XML_RESOURCES.basejlm_cmmib10().getText();
-		}
-		if (source.equals("fonts/base/jlm_cmmib10_unchanged.xml")) {
-			return XML_RESOURCES.basejlm_cmmib10_unchanged().getText();
-		}
-		if (source.equals("fonts/base/jlm_moustache.xml")) {
-			return XML_RESOURCES.basejlm_moustache().getText();
-		}
-		if (source.equals("fonts/euler/jlm_eufb10.xml")) {
-			return XML_RESOURCES.eulerjlm_eufb10().getText();
-		}
-		if (source.equals("fonts/euler/jlm_eufm10.xml")) {
-			return XML_RESOURCES.eulerjlm_eufm10().getText();
-		}
-		if (source.equals("fonts/latin/jlm_cmr10.xml")) {
-			return XML_RESOURCES.latinjlm_cmr10().getText();
-		}
-		if (source.equals("fonts/latin/jlm_jlmbi10.xml")) {
-			return XML_RESOURCES.latinjlm_jlmbi10().getText();
-		}
-		if (source.equals("fonts/latin/jlm_jlmbx10.xml")) {
-			return XML_RESOURCES.latinjlm_jlmbx10().getText();
-		}
-		if (source.equals("fonts/latin/jlm_jlmi10.xml")) {
-			return XML_RESOURCES.latinjlm_jlmi10().getText();
-		}
-		if (source.equals("fonts/latin/jlm_jlmr10.xml")) {
-			return XML_RESOURCES.latinjlm_jlmr10().getText();
-		}
-		if (source.equals("fonts/latin/jlm_jlmr10_unchanged.xml")) {
-			return XML_RESOURCES.latinjlm_jlmr10_unchanged().getText();
-		}
-		if (source.equals("fonts/latin/jlm_jlmsb10.xml")) {
-			return XML_RESOURCES.latinjlm_jlmsb10().getText();
-		}
-		if (source.equals("fonts/latin/jlm_jlmsbi10.xml")) {
-			return XML_RESOURCES.latinjlm_jlmsbi10().getText();
-		}
-		if (source.equals("fonts/latin/jlm_jlmsi10.xml")) {
-			return XML_RESOURCES.latinjlm_jlmsi10().getText();
-		}
-		if (source.equals("fonts/latin/jlm_jlmss10.xml")) {
-			return XML_RESOURCES.latinjlm_jlmss10().getText();
-		}
-		if (source.equals("fonts/latin/jlm_jlmtt10.xml")) {
-			return XML_RESOURCES.latinjlm_jlmtt10().getText();
-		}
-		if (source.equals("fonts/latin/optional/jlm_cmbx10.xml")) {
-			return XML_RESOURCES.optionaljlm_cmbx10().getText();
-		}
-		if (source.equals("fonts/latin/optional/jlm_cmbxti10.xml")) {
-			return XML_RESOURCES.optionaljlm_cmbxti10().getText();
-		}
-		if (source.equals("fonts/latin/optional/jlm_cmss10.xml")) {
-			return XML_RESOURCES.optionaljlm_cmss10().getText();
-		}
-		if (source.equals("fonts/latin/optional/jlm_cmssbx10.xml")) {
-			return XML_RESOURCES.optionaljlm_cmssbx10().getText();
-		}
-		if (source.equals("fonts/latin/optional/jlm_cmssi10.xml")) {
-			return XML_RESOURCES.optionaljlm_cmssi10().getText();
-		}
-		if (source.equals("fonts/latin/optional/jlm_cmti10.xml")) {
-			return XML_RESOURCES.optionaljlm_cmti10().getText();
-		}
-		if (source.equals("fonts/latin/optional/jlm_cmti10_unchanged.xml")) {
-			return XML_RESOURCES.optionaljlm_cmti10_unchanged().getText();
-		}
-		if (source.equals("fonts/latin/optional/jlm_cmtt10.xml")) {
-			return XML_RESOURCES.optionaljlm_cmtt10().getText();
-		}
-		if (source.equals("fonts/maths/jlm_cmbsy10.xml")) {
-			return XML_RESOURCES.mathsjlm_cmbsy10().getText();
-		}
-		if (source.equals("fonts/maths/jlm_cmsy10.xml")) {
-			return XML_RESOURCES.mathsjlm_cmsy10().getText();
-		}
-		if (source.equals("fonts/maths/jlm_msam10.xml")) {
-			return XML_RESOURCES.mathsjlm_msam10().getText();
-		}
-		if (source.equals("fonts/maths/jlm_msbm10.xml")) {
-			return XML_RESOURCES.mathsjlm_msbm10().getText();
-		}
-		if (source.equals("fonts/maths/jlm_rsfs10.xml")) {
-			return XML_RESOURCES.mathsjlm_rsfs10().getText();
-		}
-		if (source.equals("fonts/maths/jlm_special.map.xml")) {
-			return XML_RESOURCES.mathsjlm_special_map().getText();
-		}
-		if (source.equals("fonts/maths/jlm_special.xml")) {
-			return XML_RESOURCES.mathsjlm_special().getText();
-		}
-		if (source.equals("fonts/maths/jlm_stmary10.xml")) {
-			return XML_RESOURCES.mathsjlm_stmary10().getText();
-		}
-		if (source.equals("fonts/maths/jlm_stmaryrd.map.xml")) {
-			return XML_RESOURCES.mathsjlm_stmaryrd_map().getText();
-		}
-		if (source.equals("fonts/maths/optional/jlm_dsrom10.xml")) {
-			return XML_RESOURCES.optionaljlm_dsrom10().getText();
-		}
-		if (source.equals("GlueSettings.xml")) {
-			return XML_RESOURCES.GlueSettings().getText();
-		}
-		if (source.equals("greek/fonts/jlm_fcmbipg.xml")) {
-			return XML_RESOURCES.fontsjlm_fcmbipg().getText();
-		}
-		if (source.equals("greek/fonts/jlm_fcmbpg.xml")) {
-			return XML_RESOURCES.fontsjlm_fcmbpg().getText();
-		}
-		if (source.equals("greek/fonts/jlm_fcmripg.xml")) {
-			return XML_RESOURCES.fontsjlm_fcmripg().getText();
-		}
-		if (source.equals("greek/fonts/jlm_fcmrpg.xml")) {
-			return XML_RESOURCES.fontsjlm_fcmrpg().getText();
-		}
-		if (source.equals("greek/fonts/jlm_fcsbpg.xml")) {
-			return XML_RESOURCES.fontsjlm_fcsbpg().getText();
-		}
-		if (source.equals("greek/fonts/jlm_fcsropg.xml")) {
-			return XML_RESOURCES.fontsjlm_fcsropg().getText();
-		}
-		if (source.equals("greek/fonts/jlm_fcsrpg.xml")) {
-			return XML_RESOURCES.fontsjlm_fcsrpg().getText();
-		}
-		if (source.equals("greek/fonts/jlm_fctrpg.xml")) {
-			return XML_RESOURCES.fontsjlm_fctrpg().getText();
-		}
-		if (source.equals("greek/fonts/jlm_greek.map.xml")) {
-			return XML_RESOURCES.fontsjlm_greek_map().getText();
-		}
-		if (source.equals("greek/fonts/language_greek.xml")) {
-			return XML_RESOURCES.fontslanguage_greek().getText();
-		}
-		if (source.equals("greek/fonts/mappings_greek.xml")) {
-			return XML_RESOURCES.fontsmappings_greek().getText();
-		}
-		if (source.equals("greek/fonts/symbols_greek.xml")) {
-			return XML_RESOURCES.fontssymbols_greek().getText();
-		}
-		if (source.equals("TeXFormulaSettings.xml")) {
-			return XML_RESOURCES.TeXFormulaSettings().getText();
-		}
-		if (source.equals("TeXSymbols.xml")) {
-			return XML_RESOURCES.TeXSymbols().getText();
-		}
-		throw new ResourceParseException(
-				"Resource not found, please regenerate XmlResource file and ResourceLoader.getResource() methods");
+	private static final void initResources() {
+		addResource("cyrillic/fonts/jlm_cyrillic.map.xml",
+				XML_RESOURCES.fontsjlm_cyrillic_map());
+
+		addResource("cyrillic/fonts/jlm_wnbx10.xml",
+				XML_RESOURCES.fontsjlm_wnbx10());
+
+		addResource("cyrillic/fonts/jlm_wnbxti10.xml",
+				XML_RESOURCES.fontsjlm_wnbxti10());
+
+		addResource("cyrillic/fonts/jlm_wnr10.xml",
+				XML_RESOURCES.fontsjlm_wnr10());
+
+		addResource("cyrillic/fonts/jlm_wnss10.xml",
+				XML_RESOURCES.fontsjlm_wnss10());
+
+		addResource("cyrillic/fonts/jlm_wnssbx10.xml",
+				XML_RESOURCES.fontsjlm_wnssbx10());
+
+		addResource("cyrillic/fonts/jlm_wnssi10.xml",
+				XML_RESOURCES.fontsjlm_wnssi10());
+
+		addResource("cyrillic/fonts/jlm_wnti10.xml",
+				XML_RESOURCES.fontsjlm_wnti10());
+
+		addResource("cyrillic/fonts/jlm_wntt10.xml",
+				XML_RESOURCES.fontsjlm_wntt10());
+
+		addResource("cyrillic/fonts/language_cyrillic.xml",
+				XML_RESOURCES.fontslanguage_cyrillic());
+
+		addResource("cyrillic/fonts/mappings_cyrillic.xml",
+				XML_RESOURCES.fontsmappings_cyrillic());
+
+		addResource("cyrillic/fonts/symbols_cyrillic.xml",
+				XML_RESOURCES.fontssymbols_cyrillic());
+
+		addResource("DefaultTeXFont.xml", XML_RESOURCES.DefaultTeXFont());
+
+		addResource("fonts/base/jlm_amsfonts.map.xml",
+				XML_RESOURCES.basejlm_amsfonts_map());
+
+		addResource("fonts/base/jlm_amssymb.map.xml",
+				XML_RESOURCES.basejlm_amssymb_map());
+
+		addResource("fonts/base/jlm_base.map.xml",
+				XML_RESOURCES.basejlm_base_map());
+
+		addResource("fonts/base/jlm_cmex10.xml",
+				XML_RESOURCES.basejlm_cmex10());
+
+		addResource("fonts/base/jlm_cmmi10.xml",
+				XML_RESOURCES.basejlm_cmmi10());
+
+		addResource("fonts/base/jlm_cmmi10_unchanged.xml",
+				XML_RESOURCES.basejlm_cmmi10_unchanged());
+
+		addResource("fonts/base/jlm_cmmib10.xml",
+				XML_RESOURCES.basejlm_cmmib10());
+
+		addResource("fonts/base/jlm_cmmib10_unchanged.xml",
+				XML_RESOURCES.basejlm_cmmib10_unchanged());
+
+		addResource("fonts/base/jlm_moustache.xml",
+				XML_RESOURCES.basejlm_moustache());
+
+		addResource("fonts/euler/jlm_eufb10.xml",
+				XML_RESOURCES.eulerjlm_eufb10());
+
+		addResource("fonts/euler/jlm_eufm10.xml",
+				XML_RESOURCES.eulerjlm_eufm10());
+
+		addResource("fonts/latin/jlm_cmr10.xml",
+				XML_RESOURCES.latinjlm_cmr10());
+
+		addResource("fonts/latin/jlm_jlmbi10.xml",
+				XML_RESOURCES.latinjlm_jlmbi10());
+
+		addResource("fonts/latin/jlm_jlmbx10.xml",
+				XML_RESOURCES.latinjlm_jlmbx10());
+
+		addResource("fonts/latin/jlm_jlmi10.xml",
+				XML_RESOURCES.latinjlm_jlmi10());
+
+		addResource("fonts/latin/jlm_jlmr10.xml",
+				XML_RESOURCES.latinjlm_jlmr10());
+
+		addResource("fonts/latin/jlm_jlmr10_unchanged.xml",
+				XML_RESOURCES.latinjlm_jlmr10_unchanged());
+
+		addResource("fonts/latin/jlm_jlmsb10.xml",
+				XML_RESOURCES.latinjlm_jlmsb10());
+
+		addResource("fonts/latin/jlm_jlmsbi10.xml",
+				XML_RESOURCES.latinjlm_jlmsbi10());
+
+		addResource("fonts/latin/jlm_jlmsi10.xml",
+				XML_RESOURCES.latinjlm_jlmsi10());
+
+		addResource("fonts/latin/jlm_jlmss10.xml",
+				XML_RESOURCES.latinjlm_jlmss10());
+
+		addResource("fonts/latin/jlm_jlmtt10.xml",
+				XML_RESOURCES.latinjlm_jlmtt10());
+
+		addResource("fonts/latin/optional/jlm_cmbx10.xml",
+				XML_RESOURCES.optionaljlm_cmbx10());
+
+		addResource("fonts/latin/optional/jlm_cmbxti10.xml",
+				XML_RESOURCES.optionaljlm_cmbxti10());
+
+		addResource("fonts/latin/optional/jlm_cmss10.xml",
+				XML_RESOURCES.optionaljlm_cmss10());
+
+		addResource("fonts/latin/optional/jlm_cmssbx10.xml",
+				XML_RESOURCES.optionaljlm_cmssbx10());
+
+		addResource("fonts/latin/optional/jlm_cmssi10.xml",
+				XML_RESOURCES.optionaljlm_cmssi10());
+
+		addResource("fonts/latin/optional/jlm_cmti10.xml",
+				XML_RESOURCES.optionaljlm_cmti10());
+
+		addResource("fonts/latin/optional/jlm_cmti10_unchanged.xml",
+				XML_RESOURCES.optionaljlm_cmti10_unchanged());
+
+		addResource("fonts/latin/optional/jlm_cmtt10.xml",
+				XML_RESOURCES.optionaljlm_cmtt10());
+
+		addResource("fonts/maths/jlm_cmbsy10.xml",
+				XML_RESOURCES.mathsjlm_cmbsy10());
+
+		addResource("fonts/maths/jlm_cmsy10.xml",
+				XML_RESOURCES.mathsjlm_cmsy10());
+
+		addResource("fonts/maths/jlm_msam10.xml",
+				XML_RESOURCES.mathsjlm_msam10());
+
+		addResource("fonts/maths/jlm_msbm10.xml",
+				XML_RESOURCES.mathsjlm_msbm10());
+
+		addResource("fonts/maths/jlm_rsfs10.xml",
+				XML_RESOURCES.mathsjlm_rsfs10());
+
+		addResource("fonts/maths/jlm_special.map.xml",
+				XML_RESOURCES.mathsjlm_special_map());
+
+		addResource("fonts/maths/jlm_special.xml",
+				XML_RESOURCES.mathsjlm_special());
+
+		addResource("fonts/maths/jlm_stmary10.xml",
+				XML_RESOURCES.mathsjlm_stmary10());
+
+		addResource("fonts/maths/jlm_stmaryrd.map.xml",
+				XML_RESOURCES.mathsjlm_stmaryrd_map());
+
+		addResource("fonts/maths/optional/jlm_dsrom10.xml",
+				XML_RESOURCES.optionaljlm_dsrom10());
+
+		addResource("GlueSettings.xml", XML_RESOURCES.GlueSettings());
+
+		addResource("greek/fonts/jlm_fcmbipg.xml",
+				XML_RESOURCES.fontsjlm_fcmbipg());
+
+		addResource("greek/fonts/jlm_fcmbpg.xml",
+				XML_RESOURCES.fontsjlm_fcmbpg());
+
+		addResource("greek/fonts/jlm_fcmripg.xml",
+				XML_RESOURCES.fontsjlm_fcmripg());
+
+		addResource("greek/fonts/jlm_fcmrpg.xml",
+				XML_RESOURCES.fontsjlm_fcmrpg());
+
+		addResource("greek/fonts/jlm_fcsbpg.xml",
+				XML_RESOURCES.fontsjlm_fcsbpg());
+
+		addResource("greek/fonts/jlm_fcsropg.xml",
+				XML_RESOURCES.fontsjlm_fcsropg());
+
+		addResource("greek/fonts/jlm_fcsrpg.xml",
+				XML_RESOURCES.fontsjlm_fcsrpg());
+
+		addResource("greek/fonts/jlm_fctrpg.xml",
+				XML_RESOURCES.fontsjlm_fctrpg());
+
+		addResource("greek/fonts/jlm_greek.map.xml",
+				XML_RESOURCES.fontsjlm_greek_map());
+
+		addResource("greek/fonts/language_greek.xml",
+				XML_RESOURCES.fontslanguage_greek());
+
+		addResource("greek/fonts/mappings_greek.xml",
+				XML_RESOURCES.fontsmappings_greek());
+
+		addResource("greek/fonts/symbols_greek.xml",
+				XML_RESOURCES.fontssymbols_greek());
+
+		addResource("TeXFormulaSettings.xml",
+				XML_RESOURCES.TeXFormulaSettings());
+
+		addResource("TeXSymbols.xml", XML_RESOURCES.TeXSymbols());
+
+
 	}
 }

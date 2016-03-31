@@ -60,7 +60,8 @@ public class CreateLibrary implements EntryPoint {
 		exportLibrary(library, opentype);
 	}
 
-	private static native void exportLibrary(JlmLib library, Opentype opentype) /*-{
+	public static native void exportLibrary(JlmLib library,
+			Opentype opentype) /*-{
 		$wnd.jlmlib = {};
 
 		$wnd.jlmlib.initWith = $entry(function(str) {

@@ -6,4 +6,5 @@
   <!-- Single Script Linker -->
   <add-linker name="sso" />
   <source path="web" />
+  <source path="share" />
 </module>

@@ -81,6 +81,13 @@ public class JlmLib {
 		}
 		// create icon and graphics objects
 		TeXIcon icon = createIcon(latex, size, type, new Insets(topInset, leftInset, bottomInset, rightInset));
+		return draw(icon, ctx, x, y, fgColorString, bgColorString, callback);
+	}
+
+	public static JavaScriptObject draw(TeXIcon icon, Context2d ctx,
+			final int x,
+			final int y, final String fgColorString, final String bgColorString,
+			final JavaScriptObject callback) {
 		Graphics2DW g2 = new Graphics2DW(ctx);
 
 		// fill the background color

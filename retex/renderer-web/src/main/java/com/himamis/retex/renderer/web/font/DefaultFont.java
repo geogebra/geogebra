@@ -45,6 +45,7 @@ package com.himamis.retex.renderer.web.font;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.himamis.retex.renderer.share.platform.font.Font;
+import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 
 public class DefaultFont extends FontW implements FontWrapper {
 
@@ -78,6 +79,10 @@ public class DefaultFont extends FontW implements FontWrapper {
 	@Override
 	public boolean isLoaded() {
 		return true;
+	}
+
+	public Rectangle2D measureGlyph(String string) {
+		return null;
 	}
 
 }
