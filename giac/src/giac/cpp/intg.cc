@@ -2842,6 +2842,14 @@ namespace giac {
     vecteur v(gen2vecteur(args));
     if (v.size()==1){
       gen a,b,c=eval(args,1,contextptr);
+      if (c.type==_VECT && c.subtype==_POLY1__VECT){
+	vecteur v=*c._VECTptr;
+	reverse(v.begin(),v.end());
+	v=integrate(v,1);
+	reverse(v.begin(),v.end());      
+	v.push_back(0);
+	return gen(v,_POLY1__VECT);
+      }
       if (is_algebraic_program(c,a,b) && a.type!=_VECT)
 	return symbolic(at_program,makesequence(a,0,_integrate(gen(makevecteur(b,a),_SEQ__VECT),contextptr)));
       if (calc_mode(contextptr)==1)

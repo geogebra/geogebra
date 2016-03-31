@@ -4393,104 +4393,6 @@ namespace giac {
       CERR << CLOCK()*1e-6 << " end fft C " << n << " memory " << memory_usage()*1e-6 << "M" << endl;
   }
 
-#if 0
-  void fft(vector< complex<double> >& f,const vector< complex<double> > & w ,vector<complex< double> > & res){
-    unsigned long n=long(f.size()); // unsigned long does not parse with gcc
-    if (n==1){
-      res = f;
-      return ;
-    }
-    unsigned long m=long(w.size());
-    res.resize(n);
-    fft(&f[0],n,&w[0],m,&res[0]);
-    res=f;
-    return;
-    unsigned long step=m/n;
-    unsigned k=0;
-    if (n%2){
-      for (k=3;k*k<=n;k++){
-	if (!(n%k))
-	  break;
-      }
-    }
-    else
-      k=2;
-    if (k*k>n){ 
-      // prime size, slow discrete Fourier transform
-      res.clear();
-      res.reserve(n);
-      const complex<double> * fbeg=&f[0], *fj,*fend=fbeg+n;
-      for (unsigned i=0;i<n;++i){
-	complex<double> tmp (0,0);
-	int pos=0,istep=i*step;
-	for (fj=fbeg;fj<fend;++fj){
-	  tmp +=  (*fj)*w[pos];
-	  pos += istep-m; pos += (unsigned(pos)>>31)*m;// pos = (pos+istep)%m;
-	}
-	res.push_back(tmp);
-      }
-      return;
-    }
-    if (k!=2){
-      // assumes n is divisible by k, nk=n/k
-      // P(X)=P_k(X)*[X^nk]^(k-1)+...+P_1(X) degree(P_k)<nk
-      // P(w^(kj+l))= Q_l ( (w^k)^j )
-      // with Q_l=P_1^(w^l)+w^(nk)*P_2^(w^l)+...
-      unsigned long n2=n/k;
-      vector< vector< complex<double> > > Q(k),Qfft(k);
-      for (unsigned j=0;j<k;++j)
-	Q[j]=vector< complex<double> >(n2,0);
-      for (unsigned j=0;j<k;j++){
-	// find Q[j]
-	vector< complex<double> > & Qj=Q[j];
-	for (unsigned i=0;i<n2;i++){
-	  complex<double> tmp(0,0);
-	  int pos=0,jn2step=j*n2*step;
-	  const complex<double> * fi=&f[i], *fiend=fi+k*n2;
-	  for (;fi<fiend;fi+=n2){
-	    tmp += (*fi)*w[pos];
-	    pos += jn2step-m; pos += (unsigned(pos)>>31)*m;
-	  }
-	  Qj[i]=tmp*w[j*step*i];
-	}
-	fft(Q[j],w,Qfft[j]);
-      }
-      // build fft
-      res.clear();
-      res.reserve(n);
-      for (unsigned i=0;i<n2;++i){
-	for (unsigned j=0;j<k;++j)
-	  res.push_back(Qfft[j][i]);
-      }
-      return;
-    }
-    // Compute r0=sum_[j<n/2] (f_j+f_(j+n/2))*x^j
-    // and r1=sum_[j<n/2] (f_j-f_(j+n/2))*omega^[step*j]*x^j
-    unsigned long n2=n/2;
-    vector< complex<double> > r0,r1;
-    r0.reserve(n2); r1.reserve(n2);
-    vector< complex<double> >::const_iterator it=f.begin(),itn=it+n2,itend=itn,itk=w.begin();
-    for (;it!=itend;++itn,itk+=step,++it){
-      r0.push_back(*it+*itn);
-      r1.push_back((*it-*itn)*(*itk));
-    }
-    // Recursive call
-    vector< complex<double> > r0f(n2),r1f(n2);
-    fft(r0,w,r0f);
-    fft(r1,w,r1f);
-    // Return a mix of r0/r1
-    res.clear();
-    res.reserve(n);
-    it=r0f.begin(); itend=it+n2; itn=r1f.begin();
-    for (;it!=itend;){
-      res.push_back(*it);
-      ++it;
-      res.push_back(*itn);
-      ++itn;
-    }
-  }
-#endif
-
   void fft(std::complex<double> * f,int n,const std::complex<double> * w,int m,complex< double> * t){
     if (n==1)
       return ;
@@ -4734,7 +4636,7 @@ namespace giac {
       CERR << CLOCK()*1e-6 << " end fft int " << n << " memory " << memory_usage()*1e-6 << "M" << endl;
   }
 
-  void fft(int * f,int n,int * w,int m,int * t,int p){
+  void fft(int * f,int n,const int * w,int m,int * t,int p){
     if (n==1)
       return ;
     int step=m/n;
@@ -4784,14 +4686,14 @@ namespace giac {
 	// find Q[j]
 	int * Qj=t+n2*j;
 	for (unsigned i=0;i<n2;i++){
-	  int tmp(0);
+	  longlong tmp(0);
 	  int pos=0,jn2step=j*n2*step;
 	  const int * fi=&f[i], *fiend=fi+k*n2;
 	  for (;fi<fiend;fi+=n2){
 	    tmp = (tmp+longlong(*fi)*w[pos]) % p;
 	    pos += jn2step-m; pos += (unsigned(pos)>>31)*m;
 	  }
-	  Qj[i]=tmp*w[j*step*i];
+	  Qj[i]=(tmp*w[j*step*i])%p;
 	}
       }
       for (int j=0;j<k;++j){
@@ -4830,6 +4732,12 @@ namespace giac {
   }
 
   void fft(const vector<int> & f,const vector<int> & w ,vector<int> & res,int modulo){
+#if 1
+    res=f;
+    vector<int> tmp(w.size());
+    fft(&res.front(),res.size(),&w.front(),w.size(),&tmp.front(),modulo);
+    return;
+#endif
     // longlong M=longlong(modulo)*modulo;
     unsigned long n=long(f.size()); // unsigned long does not parse with gcc
     if (n==4){
