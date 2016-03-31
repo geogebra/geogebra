@@ -103,18 +103,26 @@ public class MathFieldW implements MathField {
 		html.addDomHandler(new KeyUpHandler() {
 
 			public void onKeyUp(KeyUpEvent event) {
+				int code = event.getNativeEvent().getKeyCode();
 				keyListener.onKeyPressed(
-						new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
+						new KeyEvent(code, 0,
 								getChar(event.getNativeEvent())));
+				if (code == 8 || code == 27) {
+					event.preventDefault();
+				}
 
 			}
 		}, KeyUpEvent.getType());
 		html.addDomHandler(new KeyDownHandler() {
 
 			public void onKeyDown(KeyDownEvent event) {
+				int code = event.getNativeEvent().getKeyCode();
 				keyListener.onKeyReleased(
-						new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
+						new KeyEvent(code, 0,
 								getChar(event.getNativeEvent())));
+				if (code == 8 || code == 27) {
+					event.preventDefault();
+				}
 
 			}
 		}, KeyDownEvent.getType());
