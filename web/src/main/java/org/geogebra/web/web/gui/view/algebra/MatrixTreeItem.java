@@ -251,8 +251,7 @@ public class MatrixTreeItem extends RadioTreeItem {
 	}
 
 	void changeSize(MatrixOps op) {
-		DrawEquationW.endEditingEquationMathQuillGGB(MatrixTreeItem.this,
-				latexItem);
+
 		boolean edit = commonEditingCheck();
 
 		if (!edit) {
@@ -278,6 +277,10 @@ public class MatrixTreeItem extends RadioTreeItem {
 			break;
 
 		}
+
+		DrawEquationW.endEditingEquationMathQuillGGB(MatrixTreeItem.this,
+				latexItem);
+
 		if (edit) {
 			av.startEditing(geo);
 		}
