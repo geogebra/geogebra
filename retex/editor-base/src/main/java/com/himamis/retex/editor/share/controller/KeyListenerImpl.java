@@ -66,7 +66,10 @@ public class KeyListenerImpl implements KeyListener {
         char ch = keyEvent.getUnicodeKeyChar();
         MetaModel metaModel = editorState.getMetaModel();
         boolean handled = false;
-
+		// backspace is handled for key down
+		if (ch == 8) {
+			return true;
+		}
         if (isArrayCloseKey(ch) || ch == InputController.FUNCTION_CLOSE_KEY) {
             inputController.endField(editorState, ch);
             handled = true;
