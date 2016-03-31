@@ -2988,6 +2988,12 @@ body.application[dir=rtl] .DialogButtonPanel button {
 .GeoGebraLinkPanel {	
 	height: 100%;
 }
+.GeoGebraCopyLinkPanel img {	
+	margin-top: 10px;
+	margin-left: 5px;
+	margin-bottom: 10px;
+}
+
 .GeoGebraIconPanel {
 	display: block;
 }
@@ -2997,12 +3003,10 @@ body.application[dir=rtl] .DialogButtonPanel button {
 .GeoGebraEmailPanel {
 	height: 100%;
 }
-.GeoGebraEmbedPanel{
+.GeoGebraImagePanel{
 	height: 100%;
 }
-.GeoGebraEmailPanel textarea {
-	width: 100%;
-}
+
 
 
 /*-------- RECOVER AUTO SAVED DIALOG ------------*/

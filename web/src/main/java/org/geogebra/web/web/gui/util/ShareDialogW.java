@@ -27,7 +27,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private HorizontalPanel iconPanel;
 	private HorizontalPanel copyLinkPanel;
 	private VerticalPanel emailPanel;
-	private VerticalPanel embedPanel;
+	// private HorizontalPanel imagePanel; for future use - to share images
 	private FlowPanel buttonPanel;
 	private Button btOK, btCancel;
 
@@ -36,7 +36,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		this.app = app;
 		this.setGlassEnabled(true);
 		this.setVisible(true);
-		center();
+		this.center();
 
 		this.getCaption().setText(app.getMenu("Share"));
 		this.contentPanel = new VerticalPanel();
@@ -51,7 +51,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 		tabPanel.add(getLinkPanel(), app.getPlain("Link"));
 		tabPanel.add(getEmailPanel(), app.getPlain("Email"));
-		tabPanel.add(getEmbedPanel(), app.getPlain("Embed"));
+		// tabPanel.add(getImagePanel(), app.getPlain("Image"));
 		tabPanel.selectTab(0);
 
 		return tabPanel;
@@ -90,20 +90,19 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// Classroom
 		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_google_classroom().getSafeUri().asString()));
 
-		// Download
-		iconPanel.add(new NoDragImage(AppResources.INSTANCE.icon_download().getSafeUri().asString()));
-
 		return iconPanel;
 	}
 
 	private HorizontalPanel getCopyLinkPanel() {
 		copyLinkPanel = new HorizontalPanel();
+		copyLinkPanel.addStyleName("GeoGebraCopyLinkPanel");
 
-		Label lblLink = new Label(app.getPlain("Link") + ": ");
-		Label link = new Label("i.e. http://tube-test.geogebra.org/m/simple/id/123666");
+		// Label lblLink = new Label(app.getPlain("Link") + ": ");
+		TextBox link = new TextBox();
+		link.setValue("i.e. http://tube-test.geogebra.org/m/simple/id/123666");
 		Image copyToClipboardIcon = new NoDragImage(AppResources.INSTANCE.edit_copy().getSafeUri().asString());
 
-		copyLinkPanel.add(lblLink);
+		// copyLinkPanel.add(lblLink);
 		copyLinkPanel.add(link);
 		copyLinkPanel.add(copyToClipboardIcon);
 
@@ -131,15 +130,14 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		return emailPanel;
 	}
 
-	// TODO implement
-	private VerticalPanel getEmbedPanel() {
-		embedPanel = new VerticalPanel();
-		embedPanel.addStyleName("GeoGebraEmbedPanel");
-		embedPanel.add(new Label(""));
-
-		return embedPanel;
-	}
-
+	// TODO implement in the future - share images
+	/*
+	 * private HorizontalPanel getImagePanel() { imagePanel = new
+	 * HorizontalPanel(); imagePanel.addStyleName("GeoGebraImagePanel");
+	 * imagePanel.add(new Label(""));
+	 * 
+	 * return imagePanel; }
+	 */
 	private FlowPanel getButtonPanel() {
 
 		btOK = new Button(app.getPlain("OK"));
