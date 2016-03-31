@@ -4612,6 +4612,10 @@ namespace giac {
       gen af=evalf_double(v[2],1,contextptr),bf=evalf_double(v[3],1,contextptr);
       if (v[1].type==_IDNT && (is_inf(af) || af.type==_DOUBLE_) && (is_inf(bf) || bf.type==_DOUBLE_)){
 	vecteur w;
+#ifndef NSPIRE
+	my_ostream * ptr=logptr(contextptr);
+	logptr(0,contextptr);
+#endif
 #ifdef NO_STDEXCEPT
 	gen v0=eval(v[0],1,contextptr);
 	if (is_undef(v0)) 
@@ -4628,8 +4632,11 @@ namespace giac {
 	  v0=v[0];
 	}
 #endif
+#ifndef NSPIRE
+	logptr(ptr,contextptr);
+#endif
 	for (unsigned i=0;i<w.size();++i){
-	  if (is_greater((v[3]-w[i])*(w[i]-v[2]),0,contextptr)){
+	  if (is_integer(w[i]) && is_greater((v[3]-w[i])*(w[i]-v[2]),0,contextptr)) {
 	    gen v0w=subst(v0,v[1],w[i],false,contextptr);
 	    if (is_undef(v0w) || is_inf(v0w))
 	      return gensizeerr("Pole at "+w[i].print(contextptr));

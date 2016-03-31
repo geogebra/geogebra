@@ -27,6 +27,7 @@ using namespace std;
 #include "prog.h"
 #include "derive.h"
 #include "ezgcd.h"
+#include "cocoa.h" // for memory_usage
 #include "giacintl.h"
 #include <stdlib.h>
 #include <cmath>
@@ -35,7 +36,7 @@ using namespace std;
 #ifdef HAVE_SYS_TIME_H
 #include <time.h>
 #else
-#ifndef BESTA_OS
+#if !defined BESTA_OS && !defined EMCC
 #define clock_t int
 #define CLOCK() 0
 #endif
@@ -4207,7 +4208,11 @@ namespace giac {
       vector<int> W=vecteur_2_vector_int(w);
       vector<int> RES(F.size());
       int m=env->modulo.val;
+      if (debug_infolevel)
+	CERR << CLOCK()*1e-6 << " begin fft int " << W.size() << " memory " << memory_usage()*1e-6 << "M" << endl;
       fft(F,W,RES,m);
+      if (debug_infolevel)
+	CERR << CLOCK()*1e-6 << " end fft int " << W.size() << " memory " << memory_usage()*1e-6 << "M" << endl;
       unsigned n=RES.size();
       res.clear();
       res.reserve(n);
@@ -4320,13 +4325,86 @@ namespace giac {
     }
   }
 
-  void fft(const vector< complex<double> >& f,const vector< complex<double> > & w ,vector<complex< double> > & res){
+  static void fft2( complex<double> *A, int n, complex<double> *W, complex<double> *T ) {  
+    if ( n==1 ) return;
+    // if p is fixed, the code is about 2* faster
+    if (n==4){
+      complex<double> w1=W[1];
+      complex<double> f0=A[0],f1=A[1],f2=A[2],f3=A[3],f01=(f1-f3)*w1;
+      A[0]=(f0+f1+f2+f3);
+      A[1]=(f0-f2+f01);
+      A[2]=(f0-f1+f2-f3);
+      A[3]=(f0-f2-f01);
+      return;
+    }
+    if (n==2){
+      complex<double> f0=A[0],f1=A[1];
+      A[0]=(f0+f1);
+      A[1]=(f0-f1);
+      return;
+    }
+    int i,n2;
+    n2 = n/2;
+    // Step 1 : arithmetic
+    complex<double> * Tn2=T+n2,*An2=A+n2;
+    for( i=0; i<n2; ++i ) {
+      complex<double> Ai,An2i;
+      Ai=A[i];
+      An2i=An2[i];
+      T[i] = Ai+An2i; // addmod(Ai,An2i,p);
+      Tn2[i] = (Ai-An2i)*W[i]; // submod(Ai,An2i,p); mulmod(t,W[i],p); 
+      i++;
+      Ai=A[i];
+      An2i=An2[i];
+      T[i] = Ai+An2i; // addmod(Ai,An2i,p);
+      Tn2[i] = (Ai-An2i)*W[i]; // submod(Ai,An2i,p); mulmod(t,W[i],p); 
+    }
+    // Step 2 : recursive calls
+    fft2( T,    n2, W+n2, A    );
+    fft2( Tn2, n2, W+n2, A+n2 );
+    // Step 3 : permute
+    for( i=0; i<n2; ++i ) {
+      A[  2*i] = T[i];
+      A[2*i+1] = Tn2[i]; 
+      ++i;
+      A[  2*i] = T[i];
+      A[2*i+1] = Tn2[i]; 
+    }
+    return;
+  }  
+
+  void fft2( complex<double> * A, int n, double theta){
+    if (debug_infolevel)
+      CERR << CLOCK()*1e-6 << " begin fft2 C " << n << " memory " << memory_usage()*1e-6 << "M" << endl;
+    vector< complex<double> > W,T(n);
+    W.reserve(n); 
+    double thetak(theta);
+    for (int N=n/2;N;N/=2,thetak*=2){
+      complex<double> ww(1);
+      complex<double> wk(std::cos(thetak),std::sin(thetak));
+      for (int i=0;i<N;ww=ww*wk,++i){
+	if (i%64==0)
+	  ww=complex<double>(std::cos(i*thetak),std::sin(i*thetak));
+	W.push_back(ww);
+      }
+    }
+    fft2(A,n,&W.front(),&T.front());
+    if (debug_infolevel)
+      CERR << CLOCK()*1e-6 << " end fft C " << n << " memory " << memory_usage()*1e-6 << "M" << endl;
+  }
+
+#if 0
+  void fft(vector< complex<double> >& f,const vector< complex<double> > & w ,vector<complex< double> > & res){
     unsigned long n=long(f.size()); // unsigned long does not parse with gcc
     if (n==1){
       res = f;
       return ;
     }
     unsigned long m=long(w.size());
+    res.resize(n);
+    fft(&f[0],n,&w[0],m,&res[0]);
+    res=f;
+    return;
     unsigned long step=m/n;
     unsigned k=0;
     if (n%2){
@@ -4341,13 +4419,13 @@ namespace giac {
       // prime size, slow discrete Fourier transform
       res.clear();
       res.reserve(n);
-      unsigned pos;
+      const complex<double> * fbeg=&f[0], *fj,*fend=fbeg+n;
       for (unsigned i=0;i<n;++i){
 	complex<double> tmp (0,0);
-	pos = 0;
-	for (unsigned j=0;j<n;++j){
-	  tmp +=  f[j]*w[pos];
-	  pos = (pos+i*step)%m;
+	int pos=0,istep=i*step;
+	for (fj=fbeg;fj<fend;++fj){
+	  tmp +=  (*fj)*w[pos];
+	  pos += istep-m; pos += (unsigned(pos)>>31)*m;// pos = (pos+istep)%m;
 	}
 	res.push_back(tmp);
       }
@@ -4364,13 +4442,16 @@ namespace giac {
 	Q[j]=vector< complex<double> >(n2,0);
       for (unsigned j=0;j<k;j++){
 	// find Q[j]
+	vector< complex<double> > & Qj=Q[j];
 	for (unsigned i=0;i<n2;i++){
 	  complex<double> tmp(0,0);
-	  for (unsigned J=0;J<k;J++){
-	    tmp += f[J*n2+i]*w[(J*j*n2*step)%m];
+	  int pos=0,jn2step=j*n2*step;
+	  const complex<double> * fi=&f[i], *fiend=fi+k*n2;
+	  for (;fi<fiend;fi+=n2){
+	    tmp += (*fi)*w[pos];
+	    pos += jn2step-m; pos += (unsigned(pos)>>31)*m;
 	  }
-	  tmp *= w[j*step*i];
-	  Q[j][i]=tmp;
+	  Qj[i]=tmp*w[j*step*i];
 	}
 	fft(Q[j],w,Qfft[j]);
       }
@@ -4408,6 +4489,119 @@ namespace giac {
       ++itn;
     }
   }
+#endif
+
+  void fft(std::complex<double> * f,int n,const std::complex<double> * w,int m,complex< double> * t){
+    if (n==1)
+      return ;
+    int step=m/n;
+    int k=0;
+    if (n%2){
+      for (k=3;k*k<=n;k++){
+	if (!(n%k))
+	  break;
+      }
+    }
+    else
+      k=2;
+    if (k*k>n){ 
+      // prime size, slow discrete Fourier transform
+      complex<double> *fj,*fend_=f+n-3,*fend=f+n;
+      complex<double> * res=t;
+      for (unsigned i=0;i<n;++i){
+	complex<double> tmp (0,0);
+	int pos=0,istep=i*step;
+	for (fj=f;fj<fend_;fj+=3){
+	  tmp +=  fj[0]*w[pos];
+	  pos += istep-m; pos += (unsigned(pos)>>31)*m;// pos = (pos+istep)%m;
+	  tmp +=  fj[1]*w[pos];
+	  pos += istep-m; pos += (unsigned(pos)>>31)*m;// pos = (pos+istep)%m;
+	  tmp +=  fj[2]*w[pos];
+	  pos += istep-m; pos += (unsigned(pos)>>31)*m;// pos = (pos+istep)%m;
+	}
+	for (;fj<fend;++fj){
+	  tmp +=  (*fj)*w[pos];
+	  pos += istep-m; pos += (unsigned(pos)>>31)*m;// pos = (pos+istep)%m;
+	}
+	*res=tmp;
+	++res;
+      }
+      for (fj=f,res=t;fj<fend;++fj,++res){
+	*fj=*res;
+      }
+      return;
+    }
+    if (k!=2){
+      // assumes n is divisible by k, nk=n/k
+      // P(X)=P_k(X)*[X^nk]^(k-1)+...+P_1(X) degree(P_k)<nk
+      // P(w^(kj+l))= Q_l ( (w^k)^j )
+      // with Q_l=P_1^(w^l)+w^(nk)*P_2^(w^l)+...
+      unsigned long n2=n/k;
+      for (unsigned j=0;j<k;j++){
+	// find Q[j]
+	complex<double> * Qj=t+n2*j;
+	for (unsigned i=0;i<n2;i++){
+	  complex<double> tmp(0,0);
+	  int pos=0,jn2step=j*n2*step;
+	  const complex<double> * fi=&f[i], *fiend=fi+k*n2;
+	  for (;fi<fiend;fi+=n2){
+	    tmp += (*fi)*w[pos];
+	    pos += jn2step-m; pos += (unsigned(pos)>>31)*m;
+	  }
+	  Qj[i]=tmp*w[j*step*i];
+	}
+      }
+      for (int j=0;j<k;++j){
+	fft(t+n2*j,n2,w,m,f+n2*j);
+      }
+      // build fft
+      for (unsigned i=0;i<n2;++i){
+	for (unsigned j=0;j<k;++j,++f)
+	  *f=t[n2*j+i];
+      }
+      return;
+    }
+    // Compute r0=sum_[j<n/2] (f_j+f_(j+n/2))*x^j
+    // and r1=sum_[j<n/2] (f_j-f_(j+n/2))*omega^[step*j]*x^j
+    unsigned long n2=n/2;
+    complex<double> * r0=t, *r1=t+n2;
+    complex<double> * it=f,*itn=f+n2,*itend=itn;
+    const complex<double> *itk=w;
+    for (;it!=itend;++itn,itk+=step,++it,++r0,++r1){
+      *r0=*it+*itn;
+      *r1=(*it-*itn)*(*itk);
+    }
+    // Recursive call
+    complex<double> * r0f=f,*r1f=f+n2;
+    fft(t,n2,w,m,r0f);
+    fft(t+n2,n2,w,m,r1f);
+    // Return a mix of r0/r1
+    it=t; itend=t+n2; itn=t+n2;
+    for (;it!=itend;){
+      *f=*it;
+      ++it; ++f;
+      *f=*itn;
+      ++itn; ++f;
+    }
+  }
+
+  // inplace fft with positive representant
+  static inline int addmod(int a, int b, int p) { 
+    int t=(a-p)+b;
+    //if (t<0) return t+p; else return t;
+    t += (unsigned(t)>>31)*p;
+    return t; 
+  }
+  static inline int submod(int a, int b, int p) { 
+    int t=a-b;
+    //if (t<0) return t+p; else return t;
+    t += (unsigned(t)>>31)*p;
+    return t; 
+  }
+
+  static inline int mulmod(int a, int b, int p) { 
+    return (longlong(a)*b) % p;
+  }
 
   // Interesting primes (from A parallel implementation for polynomial multiplication modulo a prime, Law & Monagan, pasco 2015)
   // p1 := 2013265921 ; r:=1227303670; root of unity order 2^27 
@@ -4422,9 +4616,232 @@ namespace giac {
   // from multiplication in Z/p1, Z/p2, Z/p3 using fft
   // of size 2^k>degree(product), root of unity from a power of r
   // For multiplication in Z[x], do it mod sufficiently many primes<2^32
+  // input A with positive int, output fft in A
+  // W must contain 
+  // [1,w,...,w^(n/2-1),1,w^2,w^4,...,w^(n/2-2),1,w^4,...,w^(n/2-4)...,1,w^(n/4),1]
+  static void fft2p1( int *A, int n, int *W, int *T ) {  
+    int i,n2,t;
+    if ( n==1 ) return;
+    // if p is fixed, the code is about 2* faster
+    int p = 2013265921 ;
+    if (n==4){
+      int w1=W[1];
+      longlong f0=A[0],f1=A[1],f2=A[2],f3=A[3],f01=(f1-f3)*w1;
+      A[0]=(f0+f1+f2+f3)%p;
+      A[1]=(f0-f2+f01)%p;
+      A[2]=(f0-f1+f2-f3)%p;
+      A[3]=(f0-f2-f01)%p;
+      return;
+    }
+    if (n==2){
+      longlong f0=A[0],f1=A[1];
+      A[0]=(f0+f1)%p;
+      A[1]=(f0-f1)%p;
+      return;
+    }
+    n2 = n/2;
+    // Step 1 : arithmetic
+    int * Tn2=T+n2,*An2=A+n2;
+    for( i=0; i<n2; ++i ) {
+      int Ai,An2i;
+      Ai=A[i];
+      An2i=An2[i];
+      T[i] = addmod(Ai,An2i,p);
+      t = submod(Ai,An2i,p);
+      Tn2[i] = mulmod(t,W[i],p); 
+      i++;
+      Ai=A[i];
+      An2i=An2[i];
+      T[i] = addmod(Ai,An2i,p);
+      t = submod(Ai,An2i,p);
+      Tn2[i] = mulmod(t,W[i],p); 
+    }
+    // Step 2 : recursive calls
+    fft2p1( T,    n2, W+n2, A    );
+    fft2p1( Tn2, n2, W+n2, A+n2 );
+    // Step 3 : permute
+    for( i=0; i<n2; ++i ) {
+      A[  2*i] = T[i];
+      A[2*i+1] = Tn2[i]; 
+      ++i;
+      A[  2*i] = T[i];
+      A[2*i+1] = Tn2[i]; 
+    }
+    return;
+  }  
+
+  static void fft2( int *A, int n, int *W, int p, int *T ) {  
+    int i,n2,t;
+    if ( n==1 ) return;
+    if (p == 2013265921){
+      fft2p1(A,n,W,T);
+      return;
+    }
+#if 1
+    if (n==4){
+      int w1=W[1];
+      longlong f0=A[0],f1=A[1],f2=A[2],f3=A[3],f01=(f1-f3)*w1;
+      A[0]=(f0+f1+f2+f3)%p;
+      A[1]=(f0-f2+f01)%p;
+      A[2]=(f0-f1+f2-f3)%p;
+      A[3]=(f0-f2-f01)%p;
+      return;
+    }
+#endif
+    n2 = n/2;
+    // Step 1 : arithmetic
+    int * Tn2=T+n2,*An2=A+n2;
+    for( i=0; i<n2; i++ ) {
+      int Ai,An2i;
+      Ai=A[i];
+      An2i=An2[i];
+      T[i] = addmod(Ai,An2i,p);
+      t = submod(Ai,An2i,p);
+      Tn2[i] = mulmod(t,W[i],p); 
+    }
+    // Step 2 : recursive calls
+    fft2( T,    n2, W+n2, p, A    );
+    fft2( Tn2, n2, W+n2, p, A+n2 );
+    // Step 3 : permute
+    for( i=0; i<n2; i++ ) {
+      A[  2*i] = T[i];
+      A[2*i+1] = Tn2[i]; 
+    }
+    return;
+  }  
+
+  void fft2( int * A, int n, int w, int p ){
+    if (debug_infolevel)
+      CERR << CLOCK()*1e-6 << " begin fft2 int " << n << " memory " << memory_usage()*1e-6 << "M" << endl;
+    vector<int> W,T(n);
+    W.reserve(n); 
+    w=w % p;
+    if (w<0) w += p;
+    longlong wk=w;
+    for (int N=n/2;N;N/=2,wk=(wk*wk)%p){
+      int ww=1;
+      for (int i=0;i<N;ww=(ww*wk)%p,++i){
+	W.push_back(ww);
+      }
+    }
+    int * Aend=A+n;
+    for (int * a=A;a<Aend;++a)
+      if (*a<0) *a += p;
+    fft2(A,n,&W.front(),p,&T.front());
+    for (int * a=A;a<Aend;++a)
+      if (*a<0) *a += p;    
+    if (debug_infolevel)
+      CERR << CLOCK()*1e-6 << " end fft int " << n << " memory " << memory_usage()*1e-6 << "M" << endl;
+  }
+
+  void fft(int * f,int n,int * w,int m,int * t,int p){
+    if (n==1)
+      return ;
+    int step=m/n;
+    int k=0;
+    if (n%2){
+      for (k=3;k*k<=n;k++){
+	if (!(n%k))
+	  break;
+      }
+    }
+    else
+      k=2;
+    if (k*k>n){ 
+      // prime size, slow discrete Fourier transform
+      int *fj,*fend_=f+n-3,*fend=f+n;
+      int * res=t;
+      for (unsigned i=0;i<n;++i){
+	int tmp (0);
+	int pos=0,istep=i*step;
+	for (fj=f;fj<fend_;fj+=3){
+	  tmp =  (tmp + longlong(fj[0])*w[pos])%p;
+	  pos += istep-m; pos += (unsigned(pos)>>31)*m;// pos = (pos+istep)%m;
+	  tmp =  (tmp + longlong(fj[1])*w[pos])%p;
+	  pos += istep-m; pos += (unsigned(pos)>>31)*m;// pos = (pos+istep)%m;
+	  tmp =  (tmp + longlong(fj[2])*w[pos])%p;
+	  pos += istep-m; pos += (unsigned(pos)>>31)*m;// pos = (pos+istep)%m;
+	}
+	for (;fj<fend;++fj){
+	  tmp =  (tmp + longlong(fj[0])*w[pos])%p;
+	  pos += istep-m; pos += (unsigned(pos)>>31)*m;// pos = (pos+istep)%m;
+	}
+	*res=tmp;
+	++res;
+      }
+      for (fj=f,res=t;fj<fend;++fj,++res){
+	*fj=*res;
+      }
+      return;
+    }
+    if (k!=2){
+      // assumes n is divisible by k, nk=n/k
+      // P(X)=P_k(X)*[X^nk]^(k-1)+...+P_1(X) degree(P_k)<nk
+      // P(w^(kj+l))= Q_l ( (w^k)^j )
+      // with Q_l=P_1^(w^l)+w^(nk)*P_2^(w^l)+...
+      unsigned long n2=n/k;
+      for (unsigned j=0;j<k;j++){
+	// find Q[j]
+	int * Qj=t+n2*j;
+	for (unsigned i=0;i<n2;i++){
+	  int tmp(0);
+	  int pos=0,jn2step=j*n2*step;
+	  const int * fi=&f[i], *fiend=fi+k*n2;
+	  for (;fi<fiend;fi+=n2){
+	    tmp = (tmp+longlong(*fi)*w[pos]) % p;
+	    pos += jn2step-m; pos += (unsigned(pos)>>31)*m;
+	  }
+	  Qj[i]=tmp*w[j*step*i];
+	}
+      }
+      for (int j=0;j<k;++j){
+	fft(t+n2*j,n2,w,m,f+n2*j,p);
+      }
+      // build fft
+      for (unsigned i=0;i<n2;++i){
+	for (unsigned j=0;j<k;++j,++f)
+	  *f=t[n2*j+i];
+      }
+      return;
+    }
+    // Compute r0=sum_[j<n/2] (f_j+f_(j+n/2))*x^j
+    // and r1=sum_[j<n/2] (f_j-f_(j+n/2))*omega^[step*j]*x^j
+    unsigned long n2=n/2;
+    int * r0=t, *r1=t+n2;
+    int * it=f,*itn=f+n2,*itend=itn;
+    const int *itk=w;
+    for (;it!=itend;++itn,itk+=step,++it,++r0,++r1){
+      longlong a(*it),b(*itn);
+      *r0=(a+b)%p;
+      *r1=((a-b)*(*itk))%p;
+    }
+    // Recursive call
+    int * r0f=f,*r1f=f+n2;
+    fft(t,n2,w,m,r0f,p);
+    fft(t+n2,n2,w,m,r1f,p);
+    // Return a mix of r0/r1
+    it=t; itend=t+n2; itn=t+n2;
+    for (;it!=itend;){
+      *f=*it;
+      ++it; ++f;
+      *f=*itn;
+      ++itn; ++f;
+    }
+  }
+
   void fft(const vector<int> & f,const vector<int> & w ,vector<int> & res,int modulo){
     // longlong M=longlong(modulo)*modulo;
     unsigned long n=long(f.size()); // unsigned long does not parse with gcc
+    if (n==4){
+      int w1=w[w.size()/4];
+      longlong f0=f[0],f1=f[1],f2=f[2],f3=f[3],f01=(f1-f3)*w1;
+      res.resize(4);
+      res[0]=(f0+f1+f2+f3)%modulo;
+      res[1]=(f0-f2+f01)%modulo;
+      res[2]=(f0-f1+f2-f3)%modulo;
+      res[3]=(f0-f2-f01)%modulo;
+      return;
+    }
     if (n==1){
       res = f;
       return ;
@@ -4495,17 +4912,18 @@ namespace giac {
     r0.reserve(n2); r1.reserve(n2);
     vector<int>::const_iterator it=f.begin(),itn=it+n2,itend=itn,itk=w.begin();
     for (;it!=itend;++itn,itk+=step,++it){
-      r0.push_back((longlong(*it)+*itn)%modulo);
-      r1.push_back(((longlong(*it)-*itn)*(*itk))%modulo);
+      longlong a(*it),b(*itn);
+      r0.push_back((a+b)%modulo);
+      r1.push_back(((a-b)*(*itk))%modulo);
     }
     // Recursive call
-    vector<int> r0f(n2),r1f(n2);
-    fft(r0,w,r0f,modulo);
-    fft(r1,w,r1f,modulo);
+    vector<int> r0f(n2);
+    fft(r0,w,r0f,modulo); // r0 is not used anymore, alias for r1f
+    fft(r1,w,r0,modulo);
     // Return a mix of r0/r1
     res.clear();
     res.reserve(n);
-    it=r0f.begin(); itend=it+n2; itn=r1f.begin();
+    it=r0f.begin(); itend=it+n2; itn=r0.begin();
     for (;it!=itend;){
       res.push_back(*it);
       ++it;
@@ -4513,6 +4931,7 @@ namespace giac {
       ++itn;
     }
   }
+
 
   // Convolution of p and q, omega a n-th root of unity, n=2^k
   // WARNING p0 and q0 are given in ascending power

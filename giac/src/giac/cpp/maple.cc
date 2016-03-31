@@ -1250,15 +1250,53 @@ namespace giac {
       int n=int(v.size());
       if (n<2)
 	return gendimerr();
-      vecteur w(n),res;
-      iterateur it=w.begin(),itend=w.end();
       gen omega=(*g_orig._VECTptr)[1];
       gen modulo=(*g_orig._VECTptr)[2];
       if (direct==1)
 	omega=invmod(omega,modulo);
-      gen omegan=1;
-      for (;it!=itend;++it,omegan=smod(omega*omegan,modulo)){
-	*it=omegan;
+      if (omega.type==_INT_ && modulo.type==_INT_ && n==(1<<(sizeinbase2(n)-1))){
+	if (debug_infolevel)
+	  CERR << clock()*1e-6 << " fft start" << endl;
+	vector<int> A; A.reserve(n);
+	for (int i=0;i<n;++i){
+	  if (v[i].type==_INT_)
+	    A.push_back(v[i].val);
+	  else
+	    A.push_back(smod(v[i],modulo).val);
+	}
+	int p=modulo.val;
+	fft2(&A.front(),n,omega.val,p);
+	gen r=vecteur(0);
+	vecteur & res=*r._VECTptr;
+	res.reserve(n);
+	if (direct){
+	  for (int i=0;i<n;++i)
+	    res.push_back(A[i]);
+	}
+	else {
+	  longlong ninv=invmod(n,p);
+	  if (ninv<0) ninv += p;
+	  for (int i=0;i<n;++i)
+	    res.push_back((ninv*A[i])%p);
+	}
+	if (debug_infolevel)
+	  CERR << clock()*1e-6 << "fft end" << endl;
+	return r;
+      }
+      vecteur w(n),res;
+      iterateur it=w.begin(),itend=w.end();
+      if (omega.type==_INT_ && modulo.type==_INT_){
+	int Omega=omega.val,m=modulo.val;
+	longlong omegan=1;
+	for (;it!=itend;++it,omegan=(Omega*omegan) %m){
+	  *it=int(omegan);
+	}
+      }
+      else {
+	gen omegan=1;
+	for (;it!=itend;++it,omegan=smod(omega*omegan,modulo)){
+	  *it=omegan;
+	}
       }
       environment * env = new environment;
       env->moduloon=true;
@@ -1270,13 +1308,61 @@ namespace giac {
       else
 	return smod(invmod(n,modulo)*res,modulo);
     }
-    gen g=evalf_double(g_orig,1,contextptr);
+    gen g=g_orig;
     if (g.type!=_VECT)
       return gensizeerr();
-    vecteur v =*g._VECTptr;
-    int n=int(v.size());
+    int n=int(g._VECTptr->size());
     if (n<2)
       return gendimerr();
+    vector< complex<double> > vd;
+    if (convert(*g._VECTptr,vd,true)){
+      if (debug_infolevel)
+	CERR << clock()*1e-6 << " fft start" << endl;
+      double theta=2.0*M_PI/n;
+      if (direct) theta=-theta;
+      bool done=false;
+      if (n==(1<<(sizeinbase2(n)-1))){
+	fft2(&vd.front(),n,theta);
+	done=true;
+      }
+#if 1 //ndef HAVE_LIBGSL
+      if (!done){
+	complex<double> w(std::cos(theta),std::sin(theta));
+	vector< complex<double> > W(n),res(n);
+	for (int i=0;i<n;++i){
+	  if ( i % 64==0)
+	    W[i]=complex<double>(std::cos(i*theta),std::sin(i*theta));
+	  else
+	    W[i]=W[i-1]*w;
+	}
+	fft(&vd[0],n,&W[0],n,&res[0]);
+	done=true;
+      }
+#endif
+      if (done){
+	gen r=vecteur(0);
+	vecteur & v=*r._VECTptr;
+	v.reserve(n);
+	if (direct){
+	  for (int i=0;i<n;++i){
+	    v.push_back(vd[i]);
+	  }
+	}
+	else {
+	  double invn=1.0/n;
+	  for (int i=0;i<n;++i){
+	    v.push_back(gen(invn*vd[i].real(),invn*vd[i].imag()));
+	  }
+	}
+	if (debug_infolevel)
+	  CERR << clock()*1e-6 << " fft end" << endl;
+	return r;
+      }
+    }
+    g=evalf_double(g_orig,1,contextptr);
+    if (debug_infolevel)
+      CERR << clock()*1e-6 << " fft start" << endl;
+    vecteur v =*g._VECTptr;
 #ifdef HAVE_LIBGSL
     if (direct && is_zero(im(v,contextptr))){
       double * data=new double[n];
@@ -1314,6 +1400,8 @@ namespace giac {
 	}
       }
       delete [] data;
+      if (debug_infolevel)
+	CERR << clock()*1e-6 << " fft end" << endl;
       return v;
     }
     // Could be improved by keeping the wavetable
@@ -1354,6 +1442,8 @@ namespace giac {
       }
     }
     delete [] data;
+    if (debug_infolevel)
+      CERR << clock()*1e-6 << " fft end" << endl;
     return v;
 #endif
     /* 

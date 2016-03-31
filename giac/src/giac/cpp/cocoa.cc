@@ -2923,22 +2923,8 @@ namespace giac {
   }
   
   template<class tdeg_t>
-  void reduce(const poly8<tdeg_t> & p,const vectpoly8<tdeg_t> & res,const vector<unsigned> & G,unsigned excluded,vectpoly8<tdeg_t> & quo,poly8<tdeg_t> & rem,poly8<tdeg_t> & TMP1, poly8<tdeg_t> & TMP2,environment * env){
-#if 0
-    // heap_reduce is not interesting here because there are too few terms
-    // but could be used for a modular division in integer case
-    // since it compute quotients
-    if (env && env->moduloon){
-      heap_reduce(p,res,G,excluded,quo,rem,TMP1,env);
-      return;
-    }
-#endif
-#if 0 // heap_reduce is not interesting here, arithmetic takes longer
-    if (!env || !env->moduloon){
-      heap_reduce(p,res,G,excluded,quo,rem,TMP1,env);
-      return;
-    }
-#endif
+  void reduce(const poly8<tdeg_t> & p,const vectpoly8<tdeg_t> & res,const vector<unsigned> & G,unsigned excluded,vectpoly8<tdeg_t> & quo,poly8<tdeg_t> & rem,poly8<tdeg_t> & TMP1, poly8<tdeg_t> & TMP2,gen & lambda,environment * env){
+    lambda=1;
     // last chance of improving = modular method for reduce or modular algo
     if (&p!=&rem)
       rem=p;
@@ -2995,14 +2981,18 @@ namespace giac {
 	  a=-a;
 	}
 	gen c=-b;
-	if (a.type==_ZINT && c.type==_ZINT && !is_one(a) && !is_one(b))
+	if (a.type==_ZINT && c.type==_ZINT && !is_one(a) && !is_one(b)){
 	  linear_combination<tdeg_t>(c,rem,0,a,res[G[i]],&resshift,TMP2,0);
+	  lambda=c*lambda;
+	}
 	else {
 	  smallshift(res[G[i]].coord,resshift,TMP1.coord);
 	  if (!is_one(a))
 	    inplace_mult(a,TMP1.coord);
-	  if (!is_one(b))
+	  if (!is_one(b)){
 	    inplace_mult(b,rem.coord);
+	    lambda=b*lambda;
+	  }
 	  sub(rem,TMP1,TMP2,0); 
 	}
 	//if (count % 6==5) inplace_ppz(TMP2,true,true); // quick gcd check
@@ -3016,12 +3006,19 @@ namespace giac {
       return;
     }    
     gen g=inplace_ppz(rem);
+    lambda=lambda/g;
     if (debug_infolevel>2){
       if (rem.coord.empty())
 	CERR << "0 reduction" << endl;
       if (g.type==_ZINT && mpz_sizeinbase(*g._ZINTptr,2)>16)
 	CERR << "ppz size was " << mpz_sizeinbase(*g._ZINTptr,2) << endl;
     }
+  }
+
+  template<class tdeg_t>
+  void reduce(const poly8<tdeg_t> & p,const vectpoly8<tdeg_t> & res,const vector<unsigned> & G,unsigned excluded,vectpoly8<tdeg_t> & quo,poly8<tdeg_t> & rem,poly8<tdeg_t> & TMP1, poly8<tdeg_t> & TMP2,environment * env){
+    gen lambda;
+    reduce(p,res,G,excluded,quo,rem,TMP1,TMP2,lambda,env);
   }
 
   template<class tdeg_t>
@@ -15940,36 +15937,15 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       quo.clear();
       rem.coord.clear();
       dim=red[i].dim;
-      // adjust constant coeff to 1
-      gen c_in,c_out;
-      index_t idx;
-      if (!red[i].coord.empty()){
-	get_index(red[i].coord.back().u,idx,order,dim);
-	if (is_zero(idx)){
-	  c_in=red[i].coord.back().g;
-	  red[i].coord.back().g=1;
-	}
-	else {
-	  red[i].coord.push_back(T_unsigned<gen,tdeg_t64>(1,tdeg_t64(dim,order)));
-	}
-      }
       if (debug_infolevel>1)
 	COUT << CLOCK()*1e-6 << " begin reduce poly no " << i << " #monomials " << red[i].coord.size() << endl;
-      reduce(red[i],gb,G,-1,quo,rem,TMP1,TMP2,env);
+      gen lambda;
+      reduce(red[i],gb,G,-1,quo,rem,TMP1,TMP2,lambda,env);
       if (debug_infolevel>1)
 	COUT << CLOCK()*1e-6 << " end reduce poly no " << i << " #monomials " << rem.coord.size() << endl;
-      get_index(rem.coord.back().u,idx,order,dim);
-      if (is_zero(idx))
-	c_out=rem.coord.back().g;
-      else 
-	return false;
       for (int j=0;j<int(rem.coord.size());++j){
-	rem.coord[j].g=rem.coord[j].g/c_out;
+	rem.coord[j].g=rem.coord[j].g/lambda;
       }
-      if (is_zero(c_in))
-	rem.coord.pop_back();
-      else
-	rem.coord.back().g=c_in;
       red[i]=rem;
     }
     newres=vectpoly(v.size(),polynome(v.front().dim,v.front()));

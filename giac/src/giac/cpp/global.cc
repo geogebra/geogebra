@@ -4730,6 +4730,7 @@ unsigned int ConvertUTF8toUTF16 (
     "Rem",
     "animate",
     "animation",
+    "archive",
     "autosimplify",
     "canonical_form",
     "cfactor",

@@ -210,7 +210,8 @@ namespace giac {
   // return [f(1),f(omega),...,f(omega^[n-1])
   // WARNING f is given in ascending power
   void fft(const modpoly & f,const modpoly & w ,modpoly & res,environment * env);
-  void fft(const std::vector< std::complex<double> >& f,const std::vector< std::complex<double> > & w ,std::vector<std::complex< double> > & res);
+  // void fft(std::vector< std::complex<double> >& f,const std::vector< std::complex<double> > & w ,std::vector<std::complex< double> > & res);
+  void fft(std::complex<double> * f,int n,const std::complex<double> * w,int m,std::complex< double> * t);
   void fft(const std::vector<int> & f,const std::vector<int> & w ,std::vector<int> & res,int modulo);
 
   // Convolution of p and q, omega a n-th root of unity, n=2^k
@@ -221,6 +222,11 @@ namespace giac {
   void fftconv(const modpoly & p0,const modpoly & q0,unsigned long k,const gen & omega,modpoly & pq,environment * env);
   void fftmult(const modpoly & p,const modpoly & q,modpoly & pq);
   modpoly fftmult(const modpoly & p,const modpoly & q);
+  // input A with positive int, output fft in A
+  // w a 2^n-th root of unity mod p
+  void fft2( int *A, int n, int w, int p );
+  // float fft, theta should be +/-2*M_PI/n
+  void fft2( std::complex<double> * A, int n, double theta );
 
 #ifdef HAVE_LIBNTL
 #ifdef HAVE_LIBPTHREAD
