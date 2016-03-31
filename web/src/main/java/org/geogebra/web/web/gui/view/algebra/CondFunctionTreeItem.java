@@ -94,7 +94,7 @@ public class CondFunctionTreeItem extends RadioTreeItem {
 				if (!commonEditingCheck())
 					ensureEditing();
 
-				DrawEquationW.addNewRowToMatrix(latexItem);
+				DrawEquationW.appendRowToMatrix(latexItem);
 			}
 		});
 	}

@@ -31,6 +31,9 @@ import com.google.gwt.user.client.ui.PushButton;
  */
 public class MatrixTreeItem extends RadioTreeItem {
 
+	enum MatrixOps {
+		APPEND_ROW, APPEND_COLUMN, REMOVE_LAST_ROW, REMOVE_LAST_COLUMN
+	}
 	PushButton pButton;
 	ButtonPopupMenu specialPopup;
 
@@ -126,7 +129,7 @@ public class MatrixTreeItem extends RadioTreeItem {
 				specialPopup.setVisible(false);
 				EuclidianStyleBarW.CURRENT_POP_UP = null;
 
-				increaseRows();
+				appendRow();
 			}
 		}, ClickEvent.getType());
 		itemList.add(actual);
@@ -141,7 +144,7 @@ public class MatrixTreeItem extends RadioTreeItem {
 				specialPopup.setVisible(false);
 				EuclidianStyleBarW.CURRENT_POP_UP = null;
 
-				diminishRows();
+				removeLastRow();
 			}
 		}, ClickEvent.getType());
 		itemList.add(actual);
@@ -156,7 +159,7 @@ public class MatrixTreeItem extends RadioTreeItem {
 				specialPopup.setVisible(false);
 				EuclidianStyleBarW.CURRENT_POP_UP = null;
 
-				increaseCols();
+				appendColumn();
 			}
 		}, ClickEvent.getType());
 		itemList.add(actual);
@@ -171,7 +174,7 @@ public class MatrixTreeItem extends RadioTreeItem {
 				specialPopup.setVisible(false);
 				EuclidianStyleBarW.CURRENT_POP_UP = null;
 
-				diminishCols();
+				removeLastColumn();
 			}
 		}, ClickEvent.getType());
 		itemList.add(actual);
@@ -203,100 +206,80 @@ public class MatrixTreeItem extends RadioTreeItem {
 		return ret;
 	}
 
-	public void increaseRows() {
+	/**
+	 * Appends a new row to the matrix.
+	 */
+	public void appendRow() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				boolean wasEditing = commonEditingCheck();
-
-				if (!wasEditing) {
-					ensureEditing();
-				}
-
-				DrawEquationW.addNewRowToMatrix(latexItem);
-				Construction cons = kernel.getConstruction();
-				GeoList row = new GeoList(cons);
-				row.add(new GeoNumeric(cons, 1));
-				row.add(new GeoNumeric(cons, 0));
-				((GeoList) geo).add(row);
-				//
-				if (wasEditing) {
-					av.startEditing(geo);
-				}
+				changeSize(MatrixOps.APPEND_ROW);
 			}
 		});
 	}
 
-	public void increaseCols() {
+	/**
+	 * Removes the last row from the matrix.
+	 */
+	public void removeLastRow() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				boolean wasEditing = commonEditingCheck();
-
-				if (!wasEditing) {
-					ensureEditing();
-				}
-
-				DrawEquationW.addNewColToMatrix(latexItem);
-				GeoList mtx = (GeoList) geo;
-				Construction cons = kernel.getConstruction();
-				for (int i = 0; i < mtx.size(); i++) {
-					GeoList row = (GeoList) mtx.get(i);
-					row.add(new GeoNumeric(cons, 0));
-				}
-				// DrawEquationW.endEditingEquationMathQuillGGB(
-				// MatrixTreeItem.this, latexItem);
-				//
-				if (wasEditing) {
-					av.startEditing(geo);
-				}
+				changeSize(MatrixOps.REMOVE_LAST_ROW);
 			}
 		});
 	}
 
-	public void diminishCols() {
+	/**
+	 * Appends a new column to the matrix.
+	 */
+	public void appendColumn() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				boolean wasEditing = commonEditingCheck();
-
-				if (!wasEditing) {
-					ensureEditing();
-				}
-
-				DrawEquationW.removeColFromMatrix(latexItem);
-
-				// it is a good question whether shall we save the result
-				// in a permanent way, and in which case (wasEditing?)
-				// why not?
-				// DrawEquationW.endEditingEquationMathQuillGGB(
-				// MatrixTreeItem.this, latexItem);
-				//
-				// if (wasEditing) {
-				// av.startEditing(geo);
-				// }
+				changeSize(MatrixOps.APPEND_COLUMN);
 			}
 		});
 	}
 
-	public void diminishRows() {
+	/**
+	 * Removes the last column from the matrix.
+	 */
+	public void removeLastColumn() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				boolean wasEditing = commonEditingCheck();
-
-				if (!wasEditing) {
-					ensureEditing();
-				}
-
-				DrawEquationW.removeRowFromMatrix(latexItem);
-
-				// it is a good question whether shall we save the result
-				// in a permanent way, and in which case (wasEditing?)
-				// why not?
-				// DrawEquationW.endEditingEquationMathQuillGGB(
-				// MatrixTreeItem.this, latexItem);
-				//
-				// if (wasEditing) {
-				// av.startEditing(geo);
-				// }
+				changeSize(MatrixOps.REMOVE_LAST_COLUMN);
 			}
 		});
+	}
+
+	void changeSize(MatrixOps op) {
+		DrawEquationW.endEditingEquationMathQuillGGB(MatrixTreeItem.this,
+				latexItem);
+		boolean edit = commonEditingCheck();
+
+		if (!edit) {
+			ensureEditing();
+		}
+
+		switch (op) {
+		case APPEND_COLUMN:
+			DrawEquationW.appendColToMatrix(latexItem);
+
+			break;
+		case APPEND_ROW:
+			DrawEquationW.appendRowToMatrix(latexItem);
+
+			break;
+		case REMOVE_LAST_COLUMN:
+			DrawEquationW.removeLastColFromMatrix(latexItem);
+			break;
+		case REMOVE_LAST_ROW:
+			DrawEquationW.removeLastRowFromMatrix(latexItem);
+			break;
+		default:
+			break;
+
+		}
+		if (edit) {
+			av.startEditing(geo);
+		}
 	}
 }

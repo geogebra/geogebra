@@ -1470,14 +1470,19 @@ public class RadioTreeItem extends AVTreeItem
 							: latexItem.getElement())
 					: getPlainTextItem().getElement();
 			String text = null;
-			text = geo.getLaTeXAlgebraDescriptionWithFallback(
+			text = geo.isMatrix()
+					? geo.toEditableLaTeXString(substituteNumbers,
+							StringTemplate.latexTemplateMQedit)
+					: geo.getLaTeXAlgebraDescriptionWithFallback(
 					substituteNumbers || sliderNeeded(),
 					StringTemplate.latexTemplateMQedit,
 					true);
 
+
 			if (text == null) {
 				return false;
 			}
+
 
 			renderLatex(text, old, true);
 

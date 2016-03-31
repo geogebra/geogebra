@@ -829,7 +829,7 @@ public class DrawEquationW extends DrawEquation {
 		$wnd.$ggbQuery(elSecondInside).mathquillggb('simpaste', str);
 	}-*/;
 
-	public static void addNewRowToMatrix(Widget w) {
+	public static void appendRowToMatrix(Widget w) {
 		addNewRowToMatrix(w.getElement());
 	}
 
@@ -846,7 +846,7 @@ public class DrawEquationW extends DrawEquation {
 	/**
 	 * This method should add a new (zero) row to the first matrix in formula
 	 */
-	public static void addNewColToMatrix(Widget w) {
+	public static void appendColToMatrix(Widget w) {
 		addNewColToMatrix(w.getElement());
 	}
 
@@ -863,7 +863,7 @@ public class DrawEquationW extends DrawEquation {
 	/**
 	 * This method should add a new (zero) column to the first matrix in formula
 	 */
-	public static void removeColFromMatrix(Widget w) {
+	public static void removeLastColFromMatrix(Widget w) {
 		removeColFromMatrix(w.getElement());
 	}
 
@@ -880,7 +880,7 @@ public class DrawEquationW extends DrawEquation {
 		}
 	}-*/;
 
-	public static void removeRowFromMatrix(Widget w) {
+	public static void removeLastRowFromMatrix(Widget w) {
 		removeRowFromMatrix(w.getElement());
 	}
 
