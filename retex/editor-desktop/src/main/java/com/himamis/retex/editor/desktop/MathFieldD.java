@@ -52,7 +52,8 @@ public class MathFieldD extends JLabel implements MathField {
 	
 	static {
 		metaModel = new MetaModelParser()
-				.parse(new Resource().loadResource("Octave.xml"));
+				.parse(new Resource().loadResource(
+						"/com/himamis/retex/editor/desktop/meta/Octave.xml"));
 	}
 
 	private static final long serialVersionUID = 1L;

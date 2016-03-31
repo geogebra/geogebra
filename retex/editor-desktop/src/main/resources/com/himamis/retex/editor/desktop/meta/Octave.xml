@@ -29,12 +29,33 @@
 -->
 
 <Serializer>
-	<Array>
-		<Open cas="{" tex="\lbrace " />
-		<Close cas="}" tex="\rbrace " />
-		<Field cas="," />
-		<Row cas=";" />
-	</Array>
+	    <Arrays>
+        <Array name="curly">
+            <Open cas="{" tex="\lbrace " />
+            <Close cas="}" tex="\rbrace " />
+            <Field cas="," />
+            <Row cas=";" />
+        </Array>
+        <Array name="regular">
+            <Open cas="(" tex="\left( " />
+            <Close cas=")" tex="\right) " />
+            <Field cas="," />
+            <Row cas=";" />
+        </Array>
+        <Array name="square">
+            <Open cas="[" tex="\left[ " />
+            <Close cas="]" tex="\right] " />
+            <Field cas="," />
+            <Row cas=";" />
+        </Array>
+        
+        <Array name="line">
+            <Open cas="|" tex="|" />
+            <Close cas="|" tex="|" />
+            <Field cas="," />
+            <Row cas=";" />
+        </Array>
+    </Arrays>
 
 	<Matrix>
 		<Open cas="[" tex="\begin{bmatrix} " />
