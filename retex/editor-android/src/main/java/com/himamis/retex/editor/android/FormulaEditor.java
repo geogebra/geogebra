@@ -93,7 +93,7 @@ public class FormulaEditor extends View implements MathField {
         }
     }
 
-    private void init() {
+    protected void init() {
         initFactoryProvider();
         initMetaModel();
         setFocusable(true);

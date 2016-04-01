@@ -3913,6 +3913,14 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_TEST_3D_VIEW:
 			return false;
 
+		case MOBILE_COPY_PASTE:
+			return prerelease;
+
+		case MOBILE_HIDE_KEYBOARD_ON_TOUCH_OUTSIDE:
+			return !prerelease; // true in current release version
+			// incompatible with MOBILE_COPY_PASTE as we don't want
+			// to hide keyboard when copy/paste button is hit
+
 		case FRACTIONS:
 			return prerelease;
 		case AV_EXTENSIONS:
