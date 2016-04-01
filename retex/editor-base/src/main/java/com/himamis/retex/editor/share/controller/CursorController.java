@@ -1,11 +1,11 @@
 package com.himamis.retex.editor.share.controller;
 
-import java.util.ArrayList;
-
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+
+import java.util.ArrayList;
 
 public class CursorController {
 
@@ -188,7 +188,12 @@ public class CursorController {
 
 	public void setPath(ArrayList<Integer> list) {
 		// TODO Auto-generated method stub
-
 	}
+
+    private ArrayList<Integer> currentPath = new ArrayList<Integer>();
+
+    public ArrayList<Integer> getPath(){
+        return currentPath;
+    }
 
 }

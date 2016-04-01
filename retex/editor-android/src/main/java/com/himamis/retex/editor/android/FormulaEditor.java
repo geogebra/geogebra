@@ -318,4 +318,8 @@ public class FormulaEditor extends View implements MathField {
     public EditorState getEditorState() {
         return mMathFieldInternal.getEditorState();
     }
+
+    public MathFieldInternal getMathFieldInternal(){
+        return mMathFieldInternal;
+    }
 }
