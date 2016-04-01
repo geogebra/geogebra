@@ -14,6 +14,6 @@ public class ClickListenerAdapter implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        mClickListener.onClick();
+        mClickListener.onClick(0,0);
     }
 }
