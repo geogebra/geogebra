@@ -359,12 +359,20 @@ public abstract class Box {
 		g2.setColor(prevColor);
 	}
 
-	public void getPath(float x, float y, ArrayList<Integer> list) {
-		if (0 < x && x <= width && 0 < y - shift && y - shift < height) {
-			list.add(0);
-			System.out.println("hit" + this + ":" + x + "," + y + "," + width
-					+ "," + height);
+	public void getPath(float x, float y, ArrayList<Integer> list, int index) {
+		if (0 < x && x <= width && 0 < y - shift
+				&& y - shift < height + depth) {
+			list.add(index);
+			System.out.println(
+					"hit" + this + ":" + x + "," + y + "," + shift + ","
+					+ width
+							+ "," + height + "," + depth);
 		}
+
+	}
+
+	public void getSelectedPath(ArrayList<Integer> list, int i) {
+		// TODO Auto-generated method stub
 
 	}
 }

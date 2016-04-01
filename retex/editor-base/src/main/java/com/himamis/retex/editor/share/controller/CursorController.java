@@ -186,8 +186,24 @@ public class CursorController {
         return false;
     }
 
-	public void setPath(ArrayList<Integer> list) {
-		// TODO Auto-generated method stub
+	public void setPath(ArrayList<Integer> list, MathContainer ct,
+			EditorState editorState) {
+		MathContainer current = ct;
+		for (int i = 1; i < list.size(); i++) {
+			System.out.println(list.get(i));
+			if (list.get(i) < current.size()) {
+				if (ct.getArgument(list.get(i)) instanceof MathSequence) {
+					current = (MathSequence) ct.getArgument(list.get(i));
+					editorState.setCurrentField((MathSequence) current);
+				} else {
+					editorState.setCurrentOffset(list.get(i));
+					return;
+				}
+			} else {
+				return;
+			}
+		}
+
 	}
 
     private ArrayList<Integer> currentPath = new ArrayList<Integer>();

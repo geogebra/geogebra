@@ -163,8 +163,13 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public void onClick(int x, int y) {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		mathFieldController.getPath(mathFormula, x, y, list);
-		cursorController.setPath(list);
-        mathField.requestViewFocus();
+
+		mathFieldController.getSelectedPath(mathFormula, list);
+
+		cursorController.setPath(list, mathFormula.getRootComponent(),
+				editorState);
+		mathFieldController.update(mathFormula, editorState, false);
+		mathField.requestViewFocus();
     }
 
 }

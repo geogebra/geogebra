@@ -46,6 +46,7 @@
 
 package com.himamis.retex.renderer.share;
 
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
@@ -134,5 +135,15 @@ class VerticalBox extends Box {
 			fontId = ((Box) it.previous()).getLastFontId();
 
 		return fontId;
+	}
+
+	@Override
+	public void getPath(float x, float y, ArrayList<Integer> list, int index) {
+		super.getPath(x, y, list, index);
+		float yPos = 0;
+		for (Box box : children) {
+			box.getPath(x, y - yPos, list, children.indexOf(box));
+			yPos += box.getWidth();
+		}
 	}
 }

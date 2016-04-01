@@ -52,7 +52,7 @@ public class MathFieldController {
 
     private void updateFormula(MathFormula mathFormula, MathSequence currentField, int currentOffset) {
         String serializedFormula = texSerializer.serialize(mathFormula, currentField, currentOffset);
-
+		System.out.println(serializedFormula);
         TeXFormula texFormula = new TeXFormula(serializedFormula);
         TeXIcon renderer = texFormula.new TeXIconBuilder()
                 .setStyle(TeXConstants.STYLE_DISPLAY)
@@ -72,7 +72,20 @@ public class MathFieldController {
 		TeXIcon renderer = texFormula.new TeXIconBuilder()
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 				.setType(type).build();
-		renderer.getBox().getPath(x / size, y / size, list);
+		renderer.getBox().getPath(x / size, y / size, list, 0);
+		mathField.setTeXIcon(renderer);
+	}
+
+	public void getSelectedPath(MathFormula mathFormula,
+			ArrayList<Integer> list) {
+		String serializedFormula = texSerializer.serialize(mathFormula, null,
+				0);
+
+		TeXFormula texFormula = new TeXFormula(serializedFormula);
+		TeXIcon renderer = texFormula.new TeXIconBuilder()
+				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
+				.setType(type).build();
+		renderer.getBox().getSelectedPath(list, 0);
 		mathField.setTeXIcon(renderer);
 	}
 }
