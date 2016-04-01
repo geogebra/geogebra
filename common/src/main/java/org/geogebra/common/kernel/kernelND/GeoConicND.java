@@ -2099,7 +2099,7 @@ FromMeta
 		matrix[3] = -g.x * g.y;
 		matrix[4] = - (lsq * fx + g.x * g.z);
 		matrix[5] = - (lsq * fy + g.y * g.z);
-				
+		normalizeMatrix();
 		classifyConic();
 
 		// avoid flip
@@ -2115,6 +2115,26 @@ FromMeta
 
 	}
 	
+	private void normalizeMatrix() {
+		double norm = 1;
+		for (int i = 0; i < 6; i++) {
+			double entry = Math.abs(matrix[i]);
+			if (Math.abs(norm) < entry && 1000 < entry) {
+				norm = entry;
+			}
+			if (Math.abs(norm) > entry && 0.001 > entry
+					&& !Kernel.isZero(entry)) {
+				norm = entry;
+			}
+		}
+		if (norm != 1) {
+			for (int i = 0; i < 6; i++) {
+				matrix[i] = matrix[i] / norm;
+			}
+		}
+
+	}
+
 	/**
 	 *  set Parabola from focus (0,0) and line y = y0
 	 *  @param y0 y coord for line
