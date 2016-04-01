@@ -3910,6 +3910,9 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_CLEAR_INPUT_BUTTON:
 			return prerelease;
 
+		case MOBILE_PERSIST_INPUT_CONTENT_ON_ROTATE:
+			return prerelease;
+
 		case MOBILE_SMOOTH_PINCH:
 			return prerelease;
 
@@ -3920,8 +3923,8 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case MOBILE_HIDE_KEYBOARD_ON_TOUCH_OUTSIDE:
-			return !prerelease; // true in current release version
-			// incompatible with MOBILE_COPY_PASTE as we don't want
+			return true; // true in current release version
+			// needs some work for MOBILE_COPY_PASTE as we don't want
 			// to hide keyboard when copy/paste button is hit
 
 		case FRACTIONS:
