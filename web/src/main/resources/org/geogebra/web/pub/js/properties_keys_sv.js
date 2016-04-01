@@ -2667,7 +2667,7 @@ __GGB__keysVar.sv.plain = {
     "Name.slopefield": "riktningsf\xe4lt",
     "Name.text": "Text",
     "Name.textfield": "Inmatningsf\xe4lt",
-    "Name.turtle": "turtle",
+    "Name.turtle": "Turtle",
     "NameAndValue": "Namn och V\xe4rde",
     "Net": "N\xe4t",
     "NewExpression": "Nytt uttryck",
