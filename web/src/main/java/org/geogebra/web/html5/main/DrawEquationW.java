@@ -567,7 +567,7 @@ public class DrawEquationW extends DrawEquation {
 
 		var DrawEquation = @org.geogebra.web.html5.main.DrawEquationW::getNonStaticCopy(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
 
-		var elfirst = parentElement.firstChild.firstChild || parentElement.firstChild;
+		var elfirst = parentElement.firstChild.firstChild || parentElement.firstChild || parentElement;
 
 		elfirst.style.display = 'none';
 

@@ -828,6 +828,11 @@ public class RadioTreeItem extends AVTreeItem
 		valuePanel = new FlowPanel();
 		String val = geo
 				.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
+		if (geo.isIndependent()) {
+			def = geo.getAlgebraDescriptionTextOrHTMLDefault(
+					getBuilder(definitionPanel));
+
+		}
 		outputPanel.add(new Label(getOutputPrefix()));
 		outputPanel.add(valuePanel);
 		outputPanel.addStyleName("avOutput");
@@ -1346,14 +1351,8 @@ public class RadioTreeItem extends AVTreeItem
 			updateColor(latexItem);
 
 			ihtml.clear();
-			if (!isInputTreeItem() && isDefinitionAndValue()) {
-				createDefinitionAndValue();
-				ihtml.add(valuePanel);
-				ihtml.add(new Label(getOutputPrefix()));
 
-			}
 
-			ihtml.add(latexItem);
 
 
 
@@ -1369,8 +1368,18 @@ public class RadioTreeItem extends AVTreeItem
 						: " \\mathbf {" + text + "}";
 			}
 
+
+			if (!isInputTreeItem() && isDefinitionAndValue()) {
+				createDefinitionAndValue();
+				ihtml.add(geo.isMatrix() ? valuePanel : definitionPanel);
+
+			}
+
+			ihtml.add(latexItem);
 			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
+
+
 		}
 
 	}
@@ -1487,12 +1496,12 @@ public class RadioTreeItem extends AVTreeItem
 			renderLatex(text, old, true);
 
 
-			if (false && isDefinitionAndValue()) {
-				DrawEquationW.editEquationMathQuillGGB(this, definitionPanel,
-						false);
-			} else {
-				DrawEquationW.editEquationMathQuillGGB(this, latexItem, false);
-			}
+			// if (isDefinitionAndValue()) {
+			// DrawEquationW.editEquationMathQuillGGB(this, definitionPanel,
+			// false);
+			// } else {
+			DrawEquationW.editEquationMathQuillGGB(this, latexItem, false);
+			// }
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
 			CancelEventTimer.keyboardSetVisible();
