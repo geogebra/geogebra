@@ -26,6 +26,11 @@ public interface MyTable extends MyTableInterface {
 	public void updateTableCellValue(Object value, int i, int j);
 
 
+	public boolean setSelection(CellRange targetRange);
+
+	public void changeSelection(int y, int x, boolean b);
+
+	public int getTableMode();
 		
 	
 	

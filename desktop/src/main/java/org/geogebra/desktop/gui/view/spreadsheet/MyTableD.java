@@ -34,7 +34,6 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
@@ -42,10 +41,10 @@ import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetModeProcessor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -94,7 +93,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	private CellFormat formatHandler;
 
-	private GeoElement targetCell;
+
 
 	/**
 	 * All currently selected cell ranges are held in this list. Cell ranges are
@@ -486,7 +485,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	// ===============================================================
 	// Selection
 	// ===============================================================
-
+	public void changeSelection(int rowIndex, int columnIndex, boolean extend) {
+		this.changeSelection(rowIndex, columnIndex, false, extend);
+	}
 	/**
 	 * JTable does not support non-contiguous cell selection. It treats
 	 * ctrl-down cell selection as if it was shift-extend. To prevent this
@@ -654,7 +655,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		if (changed) {
 
 			if (getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
-				this.updateAutoFunction();
+				getSpreadsheetModeProcessor().updateAutoFunction();
 			}
 
 			if (view.isVisibleStyleBar())
@@ -1374,6 +1375,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	private boolean allowEditing = false;
 
+	private SpreadsheetModeProcessor spredsheetModeProcessor;
+
 	public boolean isAllowEditing() {
 		return allowEditing;
 	}
@@ -1719,10 +1722,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			// Set targetCell as a GeoNumeric that can be used to preview the
 			// autofunction result
 			// (later it will be set as a GeoList)
-			targetCell = new GeoNumeric(kernel.getConstruction(), 0);
-			targetCell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(
-					minSelectionColumn, minSelectionRow));
-			targetCell.setUndefined();
+			getSpreadsheetModeProcessor().initTargetCell(minSelectionColumn,
+					minSelectionRow);
 
 			// Set the targetcellFrame so the Paint method can use it to draw a
 			// dashed frame
@@ -1744,7 +1745,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		else if (selectedCellRanges.size() == 1) {
 
 			try {
-				performAutoFunctionCreation(selectedCellRanges.get(0));
+				getSpreadsheetModeProcessor()
+						.performAutoFunctionCreation(selectedCellRanges.get(0),
+								AppD.getShiftDown());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1760,171 +1763,13 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return true;
 	}
 
-	/**
-	 * Creates autofunction cells based on the given cell range and the current
-	 * autofunction mode.
-	 */
-	protected void performAutoFunctionCreation(CellRange cr) {
 
-		if (cr.isColumn() || cr.isRow())
-			return;
 
-		boolean isOK = true;
-		GeoElement targetCell = null;
-		CellRange targetRange;
 
-		// Case 1: Partial row, targetCell created beneath the column
-		if (cr.isPartialRow() || (!cr.isPartialColumn() && AppD.getShiftDown())) {
-			targetRange = new CellRange(app, cr.getMaxColumn() + 1,
-					cr.getMinRow(), cr.getMaxColumn() + 1, cr.getMaxRow());
-			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
 
-				// try to clear the target cell, exit if this is not possible
-				if (RelativeCopy.getValue(app, cr.getMaxColumn() + 1, row) != null) {
-					isOK = copyPasteCut.delete(cr.getMaxColumn() + 1, row,
-							cr.getMaxColumn() + 1, row);
-				}
-				// create new targetCell
-				if (isOK) {
-					targetCell = new GeoNumeric(kernel.getConstruction(), 0);
-					targetCell
-							.setLabel(GeoElementSpreadsheet
-									.getSpreadsheetCellName(
-											cr.getMaxColumn() + 1, row));
-					createAutoFunctionCell(
-							targetCell,
-							new CellRange(app, cr.getMinColumn(), row, cr
-									.getMaxColumn(), row));
-				}
-			}
 
-			app.setMoveMode();
-			setSelection(targetRange);
-			repaint();
-		} else {
 
-			targetRange = new CellRange(app, cr.getMinColumn(),
-					cr.getMaxRow() + 1, cr.getMaxColumn(), cr.getMaxRow() + 1);
-			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
 
-				// try to clear the target cell, exit if this is not possible
-				if (RelativeCopy.getValue(app, col, cr.getMaxRow() + 1) != null) {
-					isOK = copyPasteCut.delete(col, cr.getMaxRow() + 1, col,
-							cr.getMaxRow() + 1);
-				}
-				// create new targetCell
-				if (isOK) {
-					targetCell = new GeoNumeric(kernel.getConstruction(), 0);
-					targetCell.setLabel(GeoElementSpreadsheet
-							.getSpreadsheetCellName(col, cr.getMaxRow() + 1));
-					createAutoFunctionCell(targetCell, new CellRange(app, col,
-							cr.getMinRow(), col, cr.getMaxRow()));
-				}
-			}
-
-			app.setMoveMode();
-			setSelection(targetRange);
-			repaint();
-		}
-	}
-
-	/**
-	 * Stops the autofunction from updating and creates a new geo for the target
-	 * cell based on the current autofunction mode.
-	 */
-	protected void stopAutoFunction() {
-
-		setTableMode(MyTable.TABLE_MODE_STANDARD);
-
-		if (createAutoFunctionCell(targetCell, selectedCellRanges.get(0))) {
-			// select the new geo
-			app.setMoveMode();
-			GPoint coords = targetCell.getSpreadsheetCoords();
-			changeSelection(coords.y, coords.x, false, false);
-			repaint();
-		}
-	}
-
-	/**
-	 * Creates an autofunction in the given target cell based on the current
-	 * autofunction mode and the given cell range.
-	 */
-	protected boolean createAutoFunctionCell(GeoElement targetCell, CellRange cr) {
-
-		boolean success = true;
-
-		// Get the targetCell label and the selected cell range
-		String targetCellLabel = targetCell.getLabelSimple();
-		String cellRangeString = getCellRangeProcessor().getCellRangeString(cr);
-
-		// Create a String expression for the new autofunction command geo
-		String cmd = null;
-		if (view.getMode() == EuclidianConstants.MODE_SPREADSHEET_SUM)
-			cmd = "Sum";
-		else if (view.getMode() == EuclidianConstants.MODE_SPREADSHEET_COUNT)
-			cmd = "Length";
-		else if (view.getMode() == EuclidianConstants.MODE_SPREADSHEET_AVERAGE)
-			cmd = "Mean";
-		else if (view.getMode() == EuclidianConstants.MODE_SPREADSHEET_MAX)
-			cmd = "Max";
-		else if (view.getMode() == EuclidianConstants.MODE_SPREADSHEET_MIN)
-			cmd = "Min";
-
-		String expr = targetCellLabel + " = " + cmd + "[" + cellRangeString
-				+ "]";
-
-		// Create the new geo
-		if (!selectedCellRanges.get(0).contains(targetCell)) {
-			kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(
-					expr, false);
-		} else {
-			targetCell.setUndefined();
-			success = false;
-		}
-
-		return success;
-	}
-
-	/**
-	 * Updates the autofunction by recalculating the autofunction value as the
-	 * user drags the mouse to create a selection. The current autofunction
-	 * value is displayed in the targetCell.
-	 */
-	public void updateAutoFunction() {
-
-		if (targetCell == null || selectedCellRanges.get(0).isEmpty()
-				|| tableMode != MyTable.TABLE_MODE_AUTOFUNCTION) {
-			app.setMoveMode();
-			return;
-		}
-
-		// Get a string representation of the seleced range (e.g. A1:B3)
-		String cellRangeString = getCellRangeProcessor().getCellRangeString(
-				selectedCellRanges.get(0));
-
-		// Build a String expression for the autofunction
-		String cmd = null;
-		if (view.getMode() == EuclidianConstants.MODE_SPREADSHEET_SUM)
-			cmd = "Sum";
-		else if (view.getMode() == EuclidianConstants.MODE_SPREADSHEET_COUNT)
-			cmd = "Length";
-		else if (view.getMode() == EuclidianConstants.MODE_SPREADSHEET_AVERAGE)
-			cmd = "Mean";
-		else if (view.getMode() == EuclidianConstants.MODE_SPREADSHEET_MAX)
-			cmd = "Max";
-		else if (view.getMode() == EuclidianConstants.MODE_SPREADSHEET_MIN)
-			cmd = "Min";
-
-		String expr = cmd + "[" + cellRangeString + "]";
-
-		// Evaluate the autofunction and put the result in targetCell
-		if (!selectedCellRanges.get(0).contains(targetCell)) {
-			((GeoNumeric) targetCell).setValue(kernel.getAlgebraProcessor()
-					.evaluateToDouble(expr));
-		} else {
-			((GeoNumeric) targetCell).setUndefined();
-		}
-	}
 
 	// ===========================================
 	// copy/paste/cut/delete methods
@@ -1982,6 +1827,15 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public void repaintAll() {
 		repaint();
 		// method for web, do nothing else here
+	}
+
+
+	public SpreadsheetModeProcessor getSpreadsheetModeProcessor() {
+		if (this.spredsheetModeProcessor == null) {
+			this.spredsheetModeProcessor = new SpreadsheetModeProcessor(app,
+					this);
+		}
+		return this.spredsheetModeProcessor;
 	}
 
 }

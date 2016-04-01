@@ -294,7 +294,7 @@ public class SpreadsheetMouseListener implements MouseListener,
 		boolean rightClick = AppD.isRightClick(e);
 
 		if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
-			table.stopAutoFunction();
+			table.getSpreadsheetModeProcessor().stopAutoFunction();
 			return;
 		}
 

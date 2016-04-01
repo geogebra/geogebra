@@ -317,7 +317,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		GPoint point = getIndexFromEvent(event);
 
 		if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
-			table.stopAutoFunction();
+			table.getSpreadsheetModeProcessor().stopAutoFunction();
 			return;
 		}
 		if (isRightClick(event) && app.letShowPopupMenu()) {
