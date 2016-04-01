@@ -3907,6 +3907,9 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_INPUT_BAR_HELP_PANEL:
 			return true;
 
+		case MOBILE_CLEAR_INPUT_BUTTON:
+			return prerelease;
+
 		case MOBILE_SMOOTH_PINCH:
 			return prerelease;
 
