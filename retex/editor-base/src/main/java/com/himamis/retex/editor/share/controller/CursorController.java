@@ -186,6 +186,12 @@ public class CursorController {
         return false;
     }
 
+    /**
+     * set position in editor state from tree path
+     * @param list tree path
+     * @param ct starting container
+     * @param editorState
+     */
 	public void setPath(ArrayList<Integer> list, MathContainer ct,
 			EditorState editorState) {
 		MathContainer current = ct;
@@ -205,6 +211,15 @@ public class CursorController {
 		}
 
 	}
+
+    /**
+     * set position in editor state from tree path, starting at root component
+     * @param list tree path
+     * @param editorState
+     */
+    public void setPath(ArrayList<Integer> list, EditorState editorState) {
+        setPath(list, editorState.getRootComponent(), editorState);
+    }
 
     private ArrayList<Integer> currentPath = new ArrayList<Integer>();
 
