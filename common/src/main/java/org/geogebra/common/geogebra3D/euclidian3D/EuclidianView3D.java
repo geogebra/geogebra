@@ -4366,22 +4366,5 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 
-	/**
-	 * magnify value for resolution (for px/dip devices)
-	 * @param value
-	 * @return value magnified
-	 */
-	public float magnifyForResolution(float value){
-		return value;
-	}
-
-	/**
-	 * shrink value for resolution (for px/dip devices)
-	 * @param value
-	 * @return value shrinked
-	 */
-	public float shrinkForResolution(float value){
-		return value;
-	}
 
 }

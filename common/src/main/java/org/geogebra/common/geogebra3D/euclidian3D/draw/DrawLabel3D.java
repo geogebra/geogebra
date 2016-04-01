@@ -193,12 +193,8 @@ public class DrawLabel3D {
 
 		GAffineTransform gt = org.geogebra.common.factories.AwtFactory.prototype
 				.newAffineTransform();
-		double scale = view.shrinkForResolution(1);
-		gt.scale(scale, -scale);
-		gt.translate(
-				view.shrinkForResolution(-xOffset2),
-				view.shrinkForResolution(yOffset2)); // put the baseline on the label
-											// anchor
+		gt.scale(1, -1d);
+		gt.translate(-xOffset2, yOffset2);// put the baseline on the label anchor
 		g2d.transform(gt);
 
 		g2d.setColor(GColor.BLACK);
@@ -472,12 +468,6 @@ public class DrawLabel3D {
 	 * 
 	 * @param renderer
 	 *            renderer
-	 * @param x
-	 *            x
-	 * @param y
-	 *            y
-	 * @param z
-	 *            z
 	 */
 	protected void drawText(Renderer renderer) {
 		// draw text
@@ -577,6 +567,15 @@ public class DrawLabel3D {
 	public void setDimensionPowerOfTwo(int w, int h) {
 		width2 = w;
 		height2 = h;
+	}
+
+	public void scaleRenderingDimensions(float scale){
+		width2 *= scale;
+		height2 *= scale;
+		pickingX *= scale;
+		pickingY *= scale;
+		pickingW *= scale;
+		pickingH *= scale;
 	}
 
 	private int pickingX, pickingY, pickingW, pickingH;

@@ -665,11 +665,15 @@ public abstract class RendererWithImpl extends Renderer implements
 	 * @param pix
 	 * @return the alpha channel of the array ARGB description
 	 */
-	protected static byte[] ARGBtoAlpha(DrawLabel3D label, int[] pix) {
+ 	protected static byte[] ARGBtoAlpha(DrawLabel3D label, int[] pix) {
+		return ARGBtoAlpha(label, label.getWidth(), label.getHeight(), pix);
+	}
+
+	protected static byte[] ARGBtoAlpha(DrawLabel3D label, int labelWidthRes, int labelHeightRes, int[] pix) {
 
 		// calculates 2^n dimensions
-		int w = firstPowerOfTwoGreaterThan(label.getWidth());
-		int h = firstPowerOfTwoGreaterThan(label.getHeight());
+		int w = firstPowerOfTwoGreaterThan(labelWidthRes);
+		int h = firstPowerOfTwoGreaterThan(labelHeightRes);
 
 		// Application.debug("width="+width+",height="+height+"--w="+w+",h="+h);
 
@@ -679,8 +683,8 @@ public abstract class RendererWithImpl extends Renderer implements
 		int bytesIndex = 0;
 		int pixIndex = 0;
 		int xmin = w, xmax = 0, ymin = h, ymax = 0;
-		for (int y = 0; y < label.getHeight(); y++) {
-			for (int x = 0; x < label.getWidth(); x++) {
+		for (int y = 0; y < labelHeightRes; y++) {
+			for (int x = 0; x < labelWidthRes; x++) {
 				b = (byte) (pix[pixIndex] >> ALPHA_SHIFT);
 				if (b != 0) {
 					if (x < xmin) {
@@ -701,7 +705,7 @@ public abstract class RendererWithImpl extends Renderer implements
 				bytesIndex++;
 				pixIndex++;
 			}
-			bytesIndex += w - label.getWidth();
+			bytesIndex += w - labelWidthRes;
 		}
 
 		// values for picking (ignore transparent bytes)
@@ -712,6 +716,7 @@ public abstract class RendererWithImpl extends Renderer implements
 
 		return bytes;
 	}
+
 
 	@Override
 	protected void enableNormalNormalized() {
