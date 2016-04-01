@@ -150,41 +150,6 @@ public class GlobalKeyDispatcherD extends
 				event.isAltDown(), event.getSource() instanceof JTable);
 	}
 
-	/**
-	 * Handles function key for given GeoElement: F3: copy definition to input
-	 * field F4: copy value to input field F5: copy name to input field
-	 * 
-	 * @param fkey
-	 *            number
-	 * @param geo
-	 *            geo
-	 */
-	@Override
-	public void handleFunctionKeyForAlgebraInput(int fkey, GeoElement geo) {
-		if (!app.isUsingFullGui() || !app.showAlgebraInput())
-			return;
-		JTextComponent textComponent = ((org.geogebra.desktop.javax.swing.GTextComponentD) ((GuiManagerD) app
-				.getGuiManager()).getAlgebraInputTextField()).getImpl();
-
-		switch (fkey) {
-		case 3: // F3 key: copy definition to input field
-			textComponent.setText(geo.getDefinitionForInputBar());
-			break;
-
-		case 4: // F4 key: copy value to input field
-			textComponent.replaceSelection(" " + geo.getValueForInputBar()
-					+ " ");
-			break;
-
-		case 5: // F5 key: copy name to input field
-			textComponent.replaceSelection(" "
-					+ geo.getLabel(StringTemplate.defaultTemplate) + " ");
-			break;
-		}
-
-		textComponent.requestFocusInWindow();
-	}
-
 	@Override
 	protected boolean handleEnter() {
 		if (super.handleEnter()) {
@@ -368,8 +333,8 @@ public class GlobalKeyDispatcherD extends
 
 	@Override
 	protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
-		JTextComponent textComponent = ((org.geogebra.desktop.javax.swing.GTextComponentD) ((GuiManagerD) app
-				.getGuiManager()).getAlgebraInputTextField()).getImpl();
+		JTextComponent textComponent = ((AlgebraInput) ((GuiManagerD) app
+				.getGuiManager()).getAlgebraInput()).getTextField();
 
 		StringBuilder sb = new StringBuilder();
 		sb.append('{');

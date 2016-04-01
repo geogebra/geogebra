@@ -78,7 +78,6 @@ public interface GuiManagerInterface {
 
 	public boolean isInputFieldSelectionListener();
 
-	public org.geogebra.common.javax.swing.GTextComponent getAlgebraInputTextField();
 
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 			GPoint mouseLoc);

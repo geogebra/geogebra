@@ -700,12 +700,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return algebraInput;
 	}
 
-	public org.geogebra.common.javax.swing.GTextComponent getAlgebraInputTextField() {
-		getAlgebraInput();
-		return org.geogebra.desktop.javax.swing.GTextComponentD.wrap(algebraInput
-				.getTextField());
-	}
-
 	/**
 	 * use Application.getDialogManager() instead
 	 */
@@ -3344,16 +3338,16 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	}
 
 	public void replaceInputSelection(String string) {
-		JTextComponent textComponent = ((org.geogebra.desktop.javax.swing.GTextComponentD) ((GuiManagerD) app
-				.getGuiManager()).getAlgebraInputTextField()).getImpl();
+		JTextComponent textComponent = ((AlgebraInput) getAlgebraInput())
+				.getTextField();
 		textComponent.replaceSelection(string);
 		textComponent.requestFocusInWindow();
 
 	}
 
 	public void setInputText(String string) {
-		JTextComponent textComponent = ((org.geogebra.desktop.javax.swing.GTextComponentD) ((GuiManagerD) app
-				.getGuiManager()).getAlgebraInputTextField()).getImpl();
+		JTextComponent textComponent = ((AlgebraInput) getAlgebraInput())
+				.getTextField();
 		textComponent.setText(string);
 		textComponent.requestFocusInWindow();
 

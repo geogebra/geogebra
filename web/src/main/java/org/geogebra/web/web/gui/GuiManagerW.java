@@ -20,7 +20,6 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.javax.swing.GOptionPane;
-import org.geogebra.common.javax.swing.GTextComponent;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -471,13 +470,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// TODO Auto-generated method stub
 		// App.debug("unimplemented method");
 		return false;
-	}
-
-	@Override
-	public GTextComponent getAlgebraInputTextField() {
-		// App.debug("unimplemented method");
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -2153,7 +2145,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
 					.autocomplete(string);
 			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
+					.setFocus(true, true);
+			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
 					.ensureEditing();
+		} else if (getAlgebraInput() != null) {
+			getAlgebraInput().getTextField().autocomplete(string);
+			getAlgebraInput().getTextField().setFocus(true);
 		}
 
 	}
@@ -2165,7 +2162,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
 					.setText(string);
 			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
+					.setFocus(true, true);
+			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
 					.ensureEditing();
+		} else if (getAlgebraInput() != null) {
+			getAlgebraInput().setText(string);
+			getAlgebraInput().getTextField().setFocus(true);
 		}
 
 	}
