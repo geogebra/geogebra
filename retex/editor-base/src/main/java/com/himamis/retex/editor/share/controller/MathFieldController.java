@@ -1,5 +1,7 @@
 package com.himamis.retex.editor.share.controller;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -60,4 +62,17 @@ public class MathFieldController {
 
         mathField.setTeXIcon(renderer);
     }
+
+	public void getPath(MathFormula mathFormula, int x, int y,
+			ArrayList<Integer> list) {
+		String serializedFormula = texSerializer
+				.serialize(mathFormula, null, 0);
+
+		TeXFormula texFormula = new TeXFormula(serializedFormula);
+		TeXIcon renderer = texFormula.new TeXIconBuilder()
+				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
+				.setType(type).build();
+		renderer.getBox().getPath(x / size, y / size, list);
+		mathField.setTeXIcon(renderer);
+	}
 }

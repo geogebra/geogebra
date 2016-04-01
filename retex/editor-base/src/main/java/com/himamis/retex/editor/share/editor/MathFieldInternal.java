@@ -27,6 +27,8 @@
  */
 package com.himamis.retex.editor.share.editor;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
@@ -158,7 +160,10 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
     }
 
     @Override
-    public void onClick() {
+	public void onClick(int x, int y) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		mathFieldController.getPath(mathFormula, x, y, list);
+		cursorController.setPath(list);
         mathField.requestViewFocus();
     }
 

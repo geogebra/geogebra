@@ -30,6 +30,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import com.himamis.retex.editor.desktop.event.ClickListenerAdapter;
 import com.himamis.retex.editor.desktop.event.FocusListenerAdapter;
@@ -65,6 +66,7 @@ public class MathFieldD extends JLabel implements MathField {
 		setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
+		this.setVerticalAlignment(SwingConstants.TOP);
 	}
 	
 	public MathFieldD(String latex) {

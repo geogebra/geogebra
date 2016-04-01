@@ -25,10 +25,10 @@
  */
 package com.himamis.retex.editor.desktop.event;
 
-import com.himamis.retex.editor.share.event.ClickListener;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import com.himamis.retex.editor.share.event.ClickListener;
 
 public class ClickListenerAdapter extends MouseAdapter {
 
@@ -40,6 +40,6 @@ public class ClickListenerAdapter extends MouseAdapter {
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		clickListener.onClick();
+		clickListener.onClick(e.getX(), e.getY());
 	}
 }

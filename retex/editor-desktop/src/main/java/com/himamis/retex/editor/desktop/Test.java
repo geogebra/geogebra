@@ -25,10 +25,12 @@
  */
 package com.himamis.retex.editor.desktop;
 
-import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
+
+import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class Test {
 
@@ -40,7 +42,7 @@ public class Test {
 		MathFieldD mathField = new MathFieldD();
 		
 		JFrame frame = new JFrame();
-
+		frame.setPreferredSize(new Dimension(200, 200));
 		frame.getContentPane().add(mathField);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -48,16 +48,14 @@
 
 package com.himamis.retex.renderer.share;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.Geom;
 import com.himamis.retex.renderer.share.platform.Graphics;
-import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 
 /**
@@ -359,5 +357,14 @@ public abstract class Box {
 	 */
 	protected void endDraw(Graphics2DInterface g2) {
 		g2.setColor(prevColor);
+	}
+
+	public void getPath(float x, float y, ArrayList<Integer> list) {
+		if (0 < x && x <= width && 0 < y - shift && y - shift < height) {
+			list.add(0);
+			System.out.println("hit" + this + ":" + x + "," + y + "," + width
+					+ "," + height);
+		}
+
 	}
 }
