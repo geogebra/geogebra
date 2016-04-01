@@ -1256,7 +1256,7 @@ namespace giac {
 	omega=invmod(omega,modulo);
       if (omega.type==_INT_ && modulo.type==_INT_ && n==(1<<(sizeinbase2(n)-1))){
 	if (debug_infolevel)
-	  CERR << clock()*1e-6 << " fft start" << endl;
+	  CERR << CLOCK()*1e-6 << " fft start" << endl;
 	vector<int> A; A.reserve(n);
 	for (int i=0;i<n;++i){
 	  if (v[i].type==_INT_)
@@ -1280,7 +1280,7 @@ namespace giac {
 	    res.push_back((ninv*A[i])%p);
 	}
 	if (debug_infolevel)
-	  CERR << clock()*1e-6 << "fft end" << endl;
+	  CERR << CLOCK()*1e-6 << "fft end" << endl;
 	return r;
       }
       vecteur w(n),res;
@@ -1317,7 +1317,7 @@ namespace giac {
     vector< complex<double> > vd;
     if (convert(*g._VECTptr,vd,true)){
       if (debug_infolevel)
-	CERR << clock()*1e-6 << " fft start" << endl;
+	CERR << CLOCK()*1e-6 << " fft start" << endl;
       double theta=2.0*M_PI/n;
       if (direct) theta=-theta;
       bool done=false;
@@ -1355,13 +1355,13 @@ namespace giac {
 	  }
 	}
 	if (debug_infolevel)
-	  CERR << clock()*1e-6 << " fft end" << endl;
+	  CERR << CLOCK()*1e-6 << " fft end" << endl;
 	return r;
       }
     }
     g=evalf_double(g_orig,1,contextptr);
     if (debug_infolevel)
-      CERR << clock()*1e-6 << " fft start" << endl;
+      CERR << CLOCK()*1e-6 << " fft start" << endl;
     vecteur v =*g._VECTptr;
 #ifdef HAVE_LIBGSL
     if (direct && is_zero(im(v,contextptr))){
@@ -1401,7 +1401,7 @@ namespace giac {
       }
       delete [] data;
       if (debug_infolevel)
-	CERR << clock()*1e-6 << " fft end" << endl;
+	CERR << CLOCK()*1e-6 << " fft end" << endl;
       return v;
     }
     // Could be improved by keeping the wavetable
@@ -1443,7 +1443,7 @@ namespace giac {
     }
     delete [] data;
     if (debug_infolevel)
-      CERR << clock()*1e-6 << " fft end" << endl;
+      CERR << CLOCK()*1e-6 << " fft end" << endl;
     return v;
 #endif
     /* 
