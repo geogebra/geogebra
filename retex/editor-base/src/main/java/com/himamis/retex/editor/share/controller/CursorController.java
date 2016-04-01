@@ -1,5 +1,6 @@
 package com.himamis.retex.editor.share.controller;
 
+import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
@@ -195,16 +196,33 @@ public class CursorController {
 	public void setPath(ArrayList<Integer> list, MathContainer ct,
 			EditorState editorState) {
 		MathContainer current = ct;
-		for (int i = 1; i < list.size(); i++) {
-			System.out.println(list.get(i));
-			if (list.get(i) < current.size()) {
-				if (ct.getArgument(list.get(i)) instanceof MathSequence) {
-					current = (MathSequence) ct.getArgument(list.get(i));
-					editorState.setCurrentField((MathSequence) current);
-				} else {
-					editorState.setCurrentOffset(list.get(i));
-					return;
-				}
+        int i = list.size() - 1;
+		while (i >=0) {
+            int index = list.get(i);
+            System.out.println("index: "+index+" / "+current.size());
+			if (index < current.size()) {
+                MathComponent child = current.getArgument(index);
+                System.out.println("child: "+child);
+                if (child instanceof MathCharacter){
+                    editorState.setCurrentField((MathSequence) current);
+                    editorState.setCurrentOffset(index);
+                    System.out.println("-- offset");
+                    return;
+                }else if (child instanceof MathSequence) {
+                    System.out.println("-- MathSequence");
+					current = (MathSequence) child;
+                    i--;
+				} else  {
+                    System.out.println("-- MathContainer (MathArray or MathSequence)");
+                    i--;
+                    current = (MathSequence) ((MathContainer) child).getArgument(list.get(i));
+                    i--;
+                }
+            } else if (index == current.size()){
+                editorState.setCurrentField((MathSequence) current);
+                editorState.setCurrentOffset(index);
+                System.out.println("-- offset");
+                return;
 			} else {
 				return;
 			}
@@ -218,13 +236,25 @@ public class CursorController {
      * @param editorState
      */
     public void setPath(ArrayList<Integer> list, EditorState editorState) {
+        editorState.setCurrentOffset(0);
         setPath(list, editorState.getRootComponent(), editorState);
     }
 
-    private ArrayList<Integer> currentPath = new ArrayList<Integer>();
 
-    public ArrayList<Integer> getPath(){
-        return currentPath;
+    public ArrayList<Integer> getPath(EditorState editorState){
+
+        ArrayList<Integer> path = new ArrayList<Integer>();
+
+        path.add(editorState.getCurrentOffset());
+        MathContainer field = editorState.getCurrentField();
+        MathContainer parent = field.getParent();
+        while (parent != null){
+            path.add(field.getParentIndex());
+            field = parent;
+            parent = field.getParent();
+        }
+
+        return path;
     }
 
 }

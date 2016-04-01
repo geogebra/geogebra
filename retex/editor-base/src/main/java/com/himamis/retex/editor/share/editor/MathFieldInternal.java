@@ -98,6 +98,15 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         mathFieldController.update(formula, editorState, false);
     }
 
+    public void setFormula(MathFormula formula, ArrayList<Integer> path) {
+        mathFormula = formula;
+        editorState = new EditorState(mathField.getMetaModel());
+        editorState.setRootComponent(formula.getRootComponent());
+        cursorController.setPath(path, getEditorState());
+        keyListener.setEditorState(editorState);
+        mathFieldController.update(formula, editorState, false);
+    }
+
     public InputController getInputController() {
         return inputController;
     }
