@@ -74,7 +74,6 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * View containing graphic representation of construction elements
@@ -1590,12 +1589,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return;
 		}
 
-		d = createDrawable(geo);
-		if (d != null) {
-			addToDrawableLists((Drawable) d);
+		if (createAndAddDrawable(geo)) {
 			repaint();
 		}
 
+	}
+
+	/**
+	 * create and add geo to this view
+	 * 
+	 * @param geo
+	 *            geo
+	 * @return true if drawable created
+	 */
+	protected boolean createAndAddDrawable(GeoElement geo) {
+		DrawableND d = createDrawable(geo);
+		if (d != null) {
+			addToDrawableLists((Drawable) d);
+			return true;
+		}
+		return false;
 	}
 
 	private GeoElement[] previewFromInputBarGeos;
@@ -1608,15 +1621,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		previewFromInputBarGeos = geos;
 
+		boolean needsRepaint = false;
 		if (previewFromInputBarGeos != null) {
 			for (GeoElement geo : previewFromInputBarGeos) {
-				DrawableND d = createDrawable(geo);
-				if (d != null) {
-					Log.debug("preview for geo: " + geo);
-					addToDrawableLists((Drawable) d);
-				}
+				needsRepaint = createAndAddDrawable(geo) || needsRepaint;
 			}
 		}
+		repaintForPreviewFromInputBar();
+	}
+
+	protected void repaintForPreviewFromInputBar() {
 		repaint();
 	}
 

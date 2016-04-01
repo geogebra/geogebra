@@ -1,5 +1,11 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -103,12 +109,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -522,6 +522,18 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			geosToBeAdded.add(geo);
 			repaintView();
 		}
+	}
+
+	@Override
+	protected boolean createAndAddDrawable(GeoElement geo) {
+		geosToBeAdded.add(geo);
+		return true;
+	}
+
+	@Override
+	protected void repaintForPreviewFromInputBar() {
+		setWaitForUpdate();
+		repaintView();
 	}
 
 	/**
