@@ -547,11 +547,10 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		this.padding = padding;
 
 		int x = MARGIN_X;
-		leftTable = new ColorTable(x, MARGIN_TOP, 2, 8, 
+		leftTable = new ColorTable(x, MARGIN_TOP, 2, 8,
 				Arrays.asList(
 						0xffffff, 0xff0000,
-						0xe0e0e0, 0xff7f00,
-						0xc0c0c0, 0xffff00,
+						0xc0e0e0, 0xff7f00,
 						0xa0a0a0, 0xbfff00,
 						0x808080, 0x00ff00,
 						0x606060, 0x00ffff,
