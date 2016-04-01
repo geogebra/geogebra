@@ -2077,8 +2077,10 @@ marblePanel, evt))) {
 		// Alt click: copy definition to input field
 		if (geo != null && event.isAltDown() && app.showAlgebraInput()) {
 			// F3 key: copy definition to input bar
-			app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3,
-					geo);
+			if (!commonEditingCheck()) {
+				onDoubleClickAction(event.isControlDown());
+				return;
+			}
 		}
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		int mode = ev.getMode();
@@ -2089,10 +2091,9 @@ marblePanel, evt))) {
 		}
 		ev.mouseMovedOver(null);
 
-		// this should not give the focus to AV instead of the current formula!
-		// except if we are not in editing mode! That's why better condition was
-		// needed at the beginning of this method!
-		av.setFocus(true);
+		// previously av.setFocus, but that scrolls AV and seems not to be
+		// necessary
+		getElement().focus();
 
 		AlgebraStyleBarW styleBar = getAV().getStyleBar(false);
 

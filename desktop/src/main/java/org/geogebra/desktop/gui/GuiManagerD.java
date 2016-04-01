@@ -46,6 +46,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.text.JTextComponent;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -3340,6 +3341,22 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 	public EuclidianViewInterfaceCommon getPlotPanelEuclidanView() {
 		return null;
+	}
+
+	public void replaceInputSelection(String string) {
+		JTextComponent textComponent = ((org.geogebra.desktop.javax.swing.GTextComponentD) ((GuiManagerD) app
+				.getGuiManager()).getAlgebraInputTextField()).getImpl();
+		textComponent.replaceSelection(string);
+		textComponent.requestFocusInWindow();
+
+	}
+
+	public void setInputText(String string) {
+		JTextComponent textComponent = ((org.geogebra.desktop.javax.swing.GTextComponentD) ((GuiManagerD) app
+				.getGuiManager()).getAlgebraInputTextField()).getImpl();
+		textComponent.setText(string);
+		textComponent.requestFocusInWindow();
+
 	}
 
 }

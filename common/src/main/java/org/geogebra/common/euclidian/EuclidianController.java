@@ -9212,8 +9212,7 @@ public abstract class EuclidianController {
 						&& app.isUsingFullGui() && app.getGuiManager() != null
 						&& app.showAlgebraInput()) {
 
-					org.geogebra.common.javax.swing.GTextComponent textComponent = app
-							.getGuiManager().getAlgebraInputTextField();
+
 
 					StringBuilder sb = new StringBuilder();
 					sb.append(" {");
@@ -9225,7 +9224,8 @@ public abstract class EuclidianController {
 						}
 					}
 					sb.append("} ");
-					textComponent.replaceSelection(sb.toString());
+
+				app.getGuiManager().replaceInputSelection(sb.toString());
 				} else if (shift) {
 					processZoomRectangle();
 					stopCollectingMinorRepaints();

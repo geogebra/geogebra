@@ -57,12 +57,6 @@ public class GlobalKeyDispatcherW extends
 		super(app);
 	}
 
-	@Override
-	public void handleFunctionKeyForAlgebraInput(int i, GeoElement geo) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void onKeyPress(KeyPressEvent event) {
 		App.debug("Key pressed:" + event.getCharCode());
 		setDownKeys(event);

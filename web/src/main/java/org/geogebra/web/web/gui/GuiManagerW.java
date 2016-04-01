@@ -2136,4 +2136,38 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				&& (app.getExam() == null || app.getExam().getStart() > 0);
 	}
 
+	public void handleFKeyForAlgebra(int fkey, GeoElement geo) {
+		if (app.showView(App.VIEW_ALGEBRA)
+				&& ((AlgebraViewW) app.getAlgebraView())
+						.getInputTreeItem() != null) {
+		((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
+				.handleFKey(fkey, geo);
+		}
+
+	}
+
+	public void replaceInputSelection(String string) {
+		if (app.showView(App.VIEW_ALGEBRA)
+				&& ((AlgebraViewW) app.getAlgebraView())
+						.getInputTreeItem() != null) {
+			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
+					.autocomplete(string);
+			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
+					.ensureEditing();
+		}
+
+	}
+
+	public void setInputText(String string) {
+		if (app.showView(App.VIEW_ALGEBRA)
+				&& ((AlgebraViewW) app.getAlgebraView())
+						.getInputTreeItem() != null) {
+			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
+					.setText(string);
+			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
+					.ensureEditing();
+		}
+
+	}
+
 }

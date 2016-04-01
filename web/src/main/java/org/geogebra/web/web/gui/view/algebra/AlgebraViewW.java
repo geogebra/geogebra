@@ -1283,7 +1283,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * @return the RadioButtonTreeItem containing the input-box
 	 */
-	public RadioTreeItem getInputTreeItem() {
+	public InputTreeItem getInputTreeItem() {
 		return inputPanelLatex;
 	}
 

@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.Furniture;
@@ -46,7 +47,26 @@ public abstract class GlobalKeyDispatcher {
 	 * @param geo
 	 *            selected geo
 	 */
-	public abstract void handleFunctionKeyForAlgebraInput(int i, GeoElement geo);
+	public void handleFunctionKeyForAlgebraInput(int fkey, GeoElement geo) {
+		if (!app.showAlgebraInput() || app.getGuiManager() == null)
+			return;
+
+		switch (fkey) {
+		case 3: // F3 key: copy definition to input field
+			app.getGuiManager().setInputText(geo.getDefinitionForInputBar());
+			break;
+
+		case 4: // F4 key: copy value to input field
+			app.getGuiManager().replaceInputSelection(
+					" " + geo.getValueForInputBar() + " ");
+			break;
+
+		case 5: // F5 key: copy name to input field
+			app.getGuiManager().replaceInputSelection(
+					" " + geo.getLabel(StringTemplate.defaultTemplate) + " ");
+			break;
+		}
+	}
 
 	/** application */
 	protected final App app;

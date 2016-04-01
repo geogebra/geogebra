@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
@@ -960,5 +962,27 @@ public class InputTreeItem extends RadioTreeItem implements
 	@Override
 	public boolean isInputTreeItem() {
 		return true;
+	}
+
+	public void handleFKey(int fkey, GeoElement geo2) {
+		switch (fkey) {
+		case 3: // F3 key: copy definition to input field
+			editor.setText(geo2.getDefinitionForInputBar(), true);
+			ensureEditing();
+			break;
+
+		case 4: // F4 key: copy value to input field
+			editor.autocomplete(" " + geo2.getValueForInputBar() + " ", false);
+			ensureEditing();
+			break;
+
+		case 5: // F5 key: copy name to input field
+			editor.autocomplete(
+					" " + geo2.getLabel(StringTemplate.defaultTemplate) + " ",
+					false);
+			ensureEditing();
+			break;
+		}
+
 	}
 }

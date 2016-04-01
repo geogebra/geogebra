@@ -782,4 +782,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 	}
 
+	public void replaceInputSelection(String string) {
+
+	}
+
+	public void setInputText(String string) {
+
+	}
+
 }

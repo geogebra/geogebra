@@ -380,4 +380,8 @@ public interface GuiManagerInterface {
 	 * redraw Navigation Bars if necessary (eg step changed)
 	 */
 	public void updateNavBars();
+
+	public void replaceInputSelection(String string);
+
+	public void setInputText(String definitionForInputBar);
 }
