@@ -193,8 +193,11 @@ public class DrawLabel3D {
 
 		GAffineTransform gt = org.geogebra.common.factories.AwtFactory.prototype
 				.newAffineTransform();
-		gt.scale(1, -1d);
-		gt.translate(-xOffset2, yOffset2); // put the baseline on the label
+		double scale = view.shrinkForResolution(1);
+		gt.scale(scale, -scale);
+		gt.translate(
+				view.shrinkForResolution(-xOffset2),
+				view.shrinkForResolution(yOffset2)); // put the baseline on the label
 											// anchor
 		g2d.transform(gt);
 
