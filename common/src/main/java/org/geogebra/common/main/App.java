@@ -3861,7 +3861,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case ALL_PLANES_GRID:
-			return prerelease;
+			return true;
 
 		case SURFACE_IS_REGION:
 			return true;
@@ -4010,7 +4010,7 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		case MORE_ACCURATE_ELLIPSE_CIRCUMFERENCE:
-			return prerelease;
+			return true;
 
 		case INPUT_BAR_PREVIEW:
 			return prerelease;
