@@ -1604,7 +1604,7 @@ __GGB__keysVar.fr.menu = {
     "LineGraph": "Diagramme en b\xe2tons",
     "LineMenu": "Droite",
     "LineOpacity": "Opacit\xe9 Trac\xe9",
-    "Linear": "affine",
+    "Linear": "Lin\xe9aire",
     "LinkedFiles": "Fichiers li\xe9s",
     "List": "Liste",
     "ListOfPoints": "Liste de points",
