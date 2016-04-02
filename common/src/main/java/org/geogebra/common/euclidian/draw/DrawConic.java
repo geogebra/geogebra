@@ -1448,14 +1448,10 @@ public class DrawConic extends Drawable implements Previewable {
 							* conic.eigenvec[0].getX()),
 					Math.abs(conic.linearEccentricity
 							* conic.eigenvec[0].getY()));
-			int xmin = view.toScreenCoordX(midpoint.getX()
- - focX);
-			int xmax = view.toScreenCoordX(midpoint.getX()
- + focX);
-			int ymin = view.toScreenCoordY(midpoint.getY()
- - focX);
-			int ymax = view.toScreenCoordY(midpoint.getY()
- + focX);
+			int xmin = view.toScreenCoordX(midpoint.getX() - focX);
+			int xmax = view.toScreenCoordX(midpoint.getX() + focX);
+			int ymin = view.toScreenCoordY(midpoint.getY() - focX);
+			int ymax = view.toScreenCoordY(midpoint.getY() + focX);
 
 			return AwtFactory.prototype.newRectangle(xmin, ymax, xmax - xmin,
 					ymin - ymax);
