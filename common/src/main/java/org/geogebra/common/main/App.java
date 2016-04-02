@@ -3861,7 +3861,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case ALL_PLANES_GRID:
-			return true;
+			return prerelease;
 
 		case SURFACE_IS_REGION:
 			return true;
