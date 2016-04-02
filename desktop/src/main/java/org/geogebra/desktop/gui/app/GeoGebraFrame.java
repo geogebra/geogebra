@@ -68,6 +68,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.DownloadManager;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.AppId;
 import org.geogebra.desktop.CommandLineArguments;
@@ -232,8 +233,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		if (System.currentTimeMillis() < born + 5000) {
 			return;
 		}
-		this.setTitle(getPreferredTitle() + " (" +
-		 this.getSize().getWidth() + " x " + this.getSize().getHeight()+")");
+
+		this.setTitle(getPreferredTitle() + " (" + this.getSize().getWidth()
+				+ " " + Unicode.MULTIPLY + " " + this.getSize().getHeight()
+				+ ")");
+
 		if (timer == null) {
 			timer = new Timer(3000, new ActionListener() {
 
