@@ -95,29 +95,29 @@ public class SpreadsheetModeProcessor {
 		if (cr.isRow() || cr.isColumn()) {
 			return cr.getMaxColumn();
 		}
-		for (int maxCol = cr.getMaxColumn(); maxCol > cr.getMinColumn(); maxCol--) {
-			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
-				if (kernel.getGeoAt(maxCol, row) != null) {
-					return maxCol;
+
+		for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
+			if (kernel.getGeoAt(cr.getMaxColumn(), row) != null) {
+				return cr.getMaxColumn();
 				}
-			}
 		}
-		return cr.getMinColumn();
+
+		return cr.getMaxColumn() - 1;
 	}
 
 	private int getMaxUsedRow(CellRange cr) {
 
 		if (cr.isRow() || cr.isColumn()) {
-			return cr.getMaxColumn();
+			return cr.getMaxRow();
 		}
-		for (int maxRow = cr.getMaxRow(); maxRow > cr.getMinRow(); maxRow--) {
-			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
-				if (kernel.getGeoAt(col, maxRow) != null) {
-					return maxRow;
-				}
+
+		for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
+			if (kernel.getGeoAt(col, cr.getMaxRow()) != null) {
+				return cr.getMaxRow();
 			}
 		}
-		return cr.getMinColumn();
+
+		return cr.getMaxRow() - 1;
 	}
 	/**
 	 * Creates an autofunction in the given target cell based on the current
