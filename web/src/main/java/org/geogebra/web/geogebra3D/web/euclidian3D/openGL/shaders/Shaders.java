@@ -10,16 +10,4 @@ public interface Shaders extends ClientBundle {
 	@Source(value = { "fragment-shader-smaller.txt" })
 	TextResource fragmentShaderSmaller(); // used for blacklisted GPUs
 
-	@Source(value = { "fragment-shader.txt" })
-	TextResource fragmentShader();
-
-	@Source(value = { "fragment-shader-specular.txt" })
-	TextResource fragmentShaderShiny();
-
-	@Source(value = { "vertex-shader.txt" })
-	TextResource vertexShader();
-
-	@Source(value = { "vertex-shader-specular.txt" })
-	TextResource vertexShaderShiny();
-
 }
