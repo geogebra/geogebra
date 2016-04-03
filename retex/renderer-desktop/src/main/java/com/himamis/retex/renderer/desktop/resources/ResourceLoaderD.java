@@ -55,7 +55,7 @@ public class ResourceLoaderD implements ResourceLoader {
 		InputStream is = FactoryProviderDesktop.class.getResourceAsStream(
 				"/com/himamis/retex/renderer/desktop/" + path);
 		if (is != null) {
-			System.out.println("absolute path used for:" + path);
+			//System.out.println("absolute path used for:" + path);
 			return is;
 		}
 
