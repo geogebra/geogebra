@@ -49,11 +49,10 @@ public class CmdPrism extends CommandProcessor {
 			GeoPointND[] points = new GeoPointND[n];
 			// check arguments
 			for (int i = 0; i < n; i++) {
-				if (!(arg[i].isGeoPoint()))
+				if (!(arg[i].isGeoPoint())) {
 					throw argErr(app, c.getName(), arg[i]);
-				else {
-					points[i] = (GeoPointND) arg[i];
 				}
+				points[i] = (GeoPointND) arg[i];
 			}
 			// everything ok
 			GeoElement[] ret = kernelA.getManager3D().Prism(c.getLabels(),
