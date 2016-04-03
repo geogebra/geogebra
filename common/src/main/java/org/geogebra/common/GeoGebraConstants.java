@@ -52,14 +52,6 @@ public interface GeoGebraConstants {
 	/** XSD for ggt (macro) files */
 	public static final String GGT_XSD_FILENAME = "ggt.xsd";
 	// URLs
-	/** URL of GeoGebraWeb main js file */
-	public static final String GEOGEBRA_HTML5_BASE = "https://www.geogebra.org/web/"
-			+ SHORT_VERSION_STRING + "/web/web.nocache.js";
-	/** URL of GeoGebraWeb zip file */
-	// public static final String GEOGEBRAWEB_ZIP_URL =
-	// "http://dev.geogebra.org/download/web/GeoGebraWeb-latest.zip";
-	/** Destination filename for GeoGebraWeb zip file */
-	public static final String GEOGEBRAWEB_ZIP_LOCAL = "GeoGebraWeb-latest.zip";
 	/** URL of GeoGebraWeb main js file (offline version) */
 	// public static final String GEOGEBRA_HTML5_BASE_OFFLINE =
 	// "web/web.nocache.js";
@@ -88,9 +80,6 @@ public interface GeoGebraConstants {
 	/** max possible heap space for applets in MB */
 	public final static int MAX_HEAP_SPACE = 1024;
 
-	public static final String URL_PARAM_GGB_FILE = "ggb-file";
-	public static final String URL_PARAM_PROXY = "url";
-	public static final String PROXY_SERVING_LOCATION = "proxy";
 	/** CSS class name for GeoGebraWeb &article> tag */
 	public static final String GGM_CLASS_NAME = "geogebraweb";
 	/** mimetype of GGB files */
@@ -98,22 +87,14 @@ public interface GeoGebraConstants {
 
 	/** Splash timeout in miliseconds */
 	public static final int SPLASH_DIALOG_DELAY = 1000;
-	/** team page URL */
-	public static final String GGW_ABOUT_TEAM_URL = "https://www.geogebra.org/team";
 
 	/** license URL */
 	public static final String GGW_ABOUT_LICENSE_URL = "https://www.geogebra.org/info/?action=AboutLicense";
-
-	/** help page */
-	public static final String GGW_HELP_PAGE = "https://www.geogebra.org/help/";
 
 	// //////////////////////////////////////////////////////////////////////////
 	// AUTHENTICATING WITH GOOGLE
 	// ///////////////////////////////////////////////
 	// //////////////////////////////////////////////////////////////////////////
-
-	/** google auth url */
-	public static final String GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
 
 	/**
 	 * This app's personal client ID assigned by the Google APIs Console
@@ -121,7 +102,6 @@ public interface GeoGebraConstants {
 	 */
 	public static final String GOOGLE_CLIENT_ID = "656990710877.apps.googleusercontent.com";
 	public static final String GOOGLE_TEST_CLIENT_ID = "300173001758.apps.googleusercontent.com";
-	public static final String SKYDRIVE_CLIENT_ID = "00000000440E9093";
 
 	// The auth scope being requested. This scope will allow the application to
 	// identify who the authenticated user is.
@@ -131,10 +111,9 @@ public interface GeoGebraConstants {
 	public static final String USERINFO_PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
-	public static final String FORUM_URL = "https://forum.geogebra.org/";
+	public static final String FORUM_URL = "https://www.geogebra.org/help";
 	public static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
 	public static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
-	public static final String WEB_CUSTOM_HTML_ELEMENT_NAME = "geogebra-web";
 	public static final boolean SINGULARWS_ENABLED_BY_DEFAULT = false;
 
 	public static final String DATA_LOGGING_WEBSOCKET_URL = "//data-logger.geogebra.org";
