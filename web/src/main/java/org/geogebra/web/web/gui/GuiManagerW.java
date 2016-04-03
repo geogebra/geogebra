@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -744,8 +743,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		layout.registerPanel(new AlgebraDockPanelW());
 
 		// register CAS view
-		if (GeoGebraConstants.CAS_VIEW_ENABLED)
-			layout.registerPanel(new CASDockPanelW(app));
+		layout.registerPanel(new CASDockPanelW(app));
 
 		// register EuclidianView2
 		layout.registerPanel(getEuclidianView2DockPanel(1));

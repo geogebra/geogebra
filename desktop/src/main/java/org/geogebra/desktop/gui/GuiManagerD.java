@@ -276,9 +276,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		layout.registerPanel(new AlgebraDockPanel((AppD) app));
 
 		// register CAS view
-		if (GeoGebraConstants.CAS_VIEW_ENABLED
-				&& app.supportsView(App.VIEW_CAS))
+		if (app.supportsView(App.VIEW_CAS)) {
 			layout.registerPanel(new CasDockPanel((AppD) app));
+		}
 
 		// register EuclidianView2
 		layout.registerPanel(newEuclidian2DockPanel(1));

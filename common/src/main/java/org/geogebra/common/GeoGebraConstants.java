@@ -46,8 +46,6 @@ public interface GeoGebraConstants {
 	// archive
 	/** short version, for online archive */
 	public static final String SHORT_VERSION_STRING = "5.0";
-	/** true if CAS is enabled */
-	public static final boolean CAS_VIEW_ENABLED = true;
 	// File format versions
 	/** XSD for ggb files */
 	public static final String GGB_XSD_FILENAME = "ggb.xsd";

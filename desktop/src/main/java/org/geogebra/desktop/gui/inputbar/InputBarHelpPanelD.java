@@ -48,7 +48,6 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -697,7 +696,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		doc.setParagraphAttributes(0, doc.getLength(), attrs, false);
 
-		if (GeoGebraConstants.CAS_VIEW_ENABLED && loc.isCASCommand(cmd)) {
+		if (loc.isCASCommand(cmd)) {
 			if (!description.equals(cmd + Localization.syntaxStr))
 				try {
 					doc.insertString(doc.getLength(), description + "\n",

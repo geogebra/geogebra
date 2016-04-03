@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.commands;
 
 import java.util.HashMap;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -48,8 +47,7 @@ public abstract class CommandDispatcher {
 	/** Similar to cmdTable, but for CAS */
 
 	/** number of visible tables */
-	public static final int tableCount = GeoGebraConstants.CAS_VIEW_ENABLED ? 20
-			: 19;
+	public static final int tableCount = 20;
 
 	/**
 	 * Returns localized name of given command set

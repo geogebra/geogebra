@@ -702,8 +702,10 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "  --showAlgebraInputTop=BOOLEAN\tshow algebra input at top/bottom\n"
 							+ "  --showAlgebraWindow=BOOLEAN\tshow/hide algebra window\n"
 							+ "  --showSpreadsheet=BOOLEAN\tshow/hide spreadsheet\n"
-							+ (GeoGebraConstants.CAS_VIEW_ENABLED ? "  --showCAS=BOOLEAN\tshow/hide CAS window\n"
-									: "") // here "disable" is also accepted
+					+ "  --showCAS=BOOLEAN\tshow/hide CAS window\n" // here
+																	// "disable"
+																	// is also
+																	// accepted
 							+ "  --show3D=BOOLEAN\tshow/hide 3D window\n" // here
 																			// "disable"
 																			// is

@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputbar.InputBarHelpPanel;
 import org.geogebra.common.gui.util.TableSymbols;
@@ -354,8 +353,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		String syntaxBasic = loc.getCommandSyntax(cmd);
 
 
-		if (GeoGebraConstants.CAS_VIEW_ENABLED
-		        && loc.isCASCommand(cmd)) {
+		if (loc.isCASCommand(cmd)) {
 
 			if (!syntaxBasic.equals(cmd + Localization.syntaxStr)) {
 				formattedHTMLString(ret,syntaxBasic, false);
