@@ -183,7 +183,10 @@ import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.gui.dialog.AxesStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
+import org.geogebra.desktop.gui.inputbar.AlgebraInput;
+import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.kernel.UndoManagerD;
@@ -596,7 +599,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (appletImpl != null) {
 			appletImpl.reset();
 		} else if (currentFile != null) {
-			AppD2.loadFile(this, currentFile, false);
+			loadFile(this, currentFile, false);
 		} else {
 			clearConstruction();
 		}
@@ -838,7 +841,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		setWaitCursor();
 		guiManager = newGuiManager();
 
-		AppD2.newLayout(this);
+		newLayout(this);
 		// guiManager.setLayout(new geogebra.gui.layout.LayoutD());
 
 		guiManager.initialize();
@@ -1803,7 +1806,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void setActiveView(int view) {
 		if (getGuiManager() != null) {
-			AppD2.setActiveView(this, view);
+			setActiveView(this, view);
 		}
 	}
 
@@ -2812,7 +2815,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 
 			if (dockBar == null) {
-				dockBar = AppD2.newDockBar(this);
+				dockBar = newDockBar(this);
 				dockBar.setEastOrientation(isDockBarEast);
 			}
 
@@ -2872,7 +2875,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			// If the main component is a JPanel, we need to add the
 			// menubar manually to the north
 			if (showMenuBar() && (mainComp instanceof JPanel)) {
-				return AppD2.getMenuBarPanel(this, applicationPanel);
+				return getMenuBarPanel(this, applicationPanel);
 			}
 
 			resetFonts();
@@ -2940,12 +2943,12 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// handle input bar
 		if (showAlgebraInput) {
-			AppD2.initInputBar(this, super.showInputTop(), northPanel,
+			initInputBar(this, super.showInputTop(), northPanel,
 					southPanel);
 		}
 
 		if (showToolBar) {
-			AppD2.initToolbar(this, getToolbarPosition(), showToolBarHelp,
+			initToolbar(this, getToolbarPosition(), showToolBarHelp,
 					northPanel, eastPanel, southPanel, westPanel);
 		}
 
@@ -2964,7 +2967,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		centerPanel.removeAll();
 
 		if (isUsingFullGui()) {
-			centerPanel.add(AppD2.getRootComponent(this), BorderLayout.CENTER);
+			centerPanel.add(getRootComponent(this), BorderLayout.CENTER);
 		} else {
 			centerPanel.add(getEuclidianView1().getJPanel(),
 					BorderLayout.CENTER);
@@ -3050,7 +3053,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	// **************************************************************************
 
 	protected GuiManagerInterfaceD newGuiManager() {
-		return AppD2.newGuiManager(this);
+		return newGuiManager(this);
 	}
 
 	/**
@@ -4107,7 +4110,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 
 			// key event came from another window or applet: ignore it
-			if (isApplet() || !AppD2.inExternalWindow(this, eventPane)) {
+			if (isApplet() || !inExternalWindow(this, eventPane)) {
 				return false;
 			}
 
@@ -5473,6 +5476,101 @@ public class AppD extends App implements KeyEventDispatcher {
 		handler = scheduler.schedule(scheduledPreview,
 				SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS,
 				TimeUnit.MILLISECONDS);
+	}
+
+	private static GuiManagerD getGuiManager(AppD app) {
+		return (GuiManagerD) app.getGuiManager();
+	}
+
+	public static void initToolbar(AppD app, int toolbarPosition,
+			boolean showToolBarHelp, JPanel northPanel, JPanel eastPanel,
+			JPanel southPanel, JPanel westPanel) {
+
+		GuiManagerD guiManager = getGuiManager(app);
+		LocalizationD loc = app.getLocalization();
+		// initialize toolbar panel even if it's not used (hack)
+		guiManager.getToolbarPanelContainer();
+
+		ToolbarContainer toolBarContainer = (ToolbarContainer) guiManager
+				.getToolbarPanelContainer();
+		JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
+		toolBarContainer.setOrientation(toolbarPosition);
+		ToolbarContainer.setShowHelp(showToolBarHelp);
+
+		switch (toolbarPosition) {
+		case SwingConstants.NORTH:
+			northPanel.add(toolBarContainer, BorderLayout.NORTH);
+			break;
+		case SwingConstants.SOUTH:
+			southPanel.add(toolBarContainer, BorderLayout.NORTH);
+			break;
+		case SwingConstants.EAST:
+			eastPanel.add(toolBarContainer, loc.borderEast());
+			if (showToolBarHelp && helpPanel != null) {
+				northPanel.add(helpPanel, BorderLayout.NORTH);
+			}
+			break;
+		case SwingConstants.WEST:
+			westPanel.add(toolBarContainer, loc.borderWest());
+			if (showToolBarHelp && helpPanel != null) {
+				northPanel.add(helpPanel, BorderLayout.NORTH);
+			}
+			break;
+		}
+
+		northPanel.revalidate();
+		southPanel.revalidate();
+		westPanel.revalidate();
+		eastPanel.revalidate();
+		toolBarContainer.buildGui();
+		helpPanel.revalidate();
+	}
+
+	public static void initInputBar(AppD app, boolean showInputTop,
+			JPanel northPanel, JPanel southPanel) {
+		GuiManagerD gui = (GuiManagerD) app.getGuiManager();
+		if (showInputTop) {
+			northPanel.add(gui.getAlgebraInput(), BorderLayout.SOUTH);
+		} else {
+			southPanel.add(gui.getAlgebraInput(), BorderLayout.SOUTH);
+		}
+		((AlgebraInput) gui.getAlgebraInput()).updateOrientation(showInputTop);
+	}
+
+	public static JPanel getMenuBarPanel(AppD appD, JPanel applicationPanel) {
+		JPanel menuBarPanel = new JPanel(new BorderLayout());
+		menuBarPanel.add(appD.getGuiManager().getMenuBar(), BorderLayout.NORTH);
+		menuBarPanel.add(applicationPanel, BorderLayout.CENTER);
+		return menuBarPanel;
+	}
+
+	public static GuiManagerD newGuiManager(AppD appD) {
+		return new GuiManagerD(appD);
+	}
+
+	public static void loadFile(AppD app, File currentFile, boolean b) {
+		app.getGuiManager().loadFile(currentFile, false);
+	}
+
+	public static void setActiveView(AppD app, int view) {
+		getGuiManager(app).getLayout().getDockManager().setFocusedPanel(view);
+	}
+
+	public static boolean inExternalWindow(AppD app, Component eventPane) {
+		return getGuiManager(app).getLayout().inExternalWindow(eventPane);
+	}
+
+	public static Component getRootComponent(AppD app) {
+		return getGuiManager(app).getLayout().getRootComponent();
+	}
+
+	public static void newLayout(AppD app) {
+		app.guiManager
+				.setLayout(new org.geogebra.desktop.gui.layout.LayoutD(app));
+	}
+
+	public static DockBarInterface newDockBar(AppD app) {
+		return new DockBar(app);
 	}
 
 }
