@@ -2767,7 +2767,7 @@ __GGB__keysVar.hr.plain = {
     "Prism": "Prizma",
     "ProbabilityCalculator": "Kalkulator vjerojatnosti",
     "Projection": "Projekcija",
-    "Properties": "Svojstva",
+    "Properties": "Svojstva objekta",
     "PropertiesOfA": "Svojstva - %0",
     "Pyramid": "Piramida",
     "Quadrangle": "\u010cetverokut",
