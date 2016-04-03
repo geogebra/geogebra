@@ -216,37 +216,12 @@ public class AppD extends App implements KeyEventDispatcher {
 	// JAR fields
 	// ==============================================================
 
-	public final static String CAS_JAR_NAME = "geogebra_cas.jar";
-	public final static String JAVASCRIPT_JAR_NAME = "geogebra_javascript.jar";
-	// We cannot use platform transparent JARs only with JOGL2:
-	public final static String GEOGEBRA_JAR_NAME = "geogebra-jogl2.jar";
-	public final static String GEOGEBRA_3D_JAR_NAME = "geogebra_3d-jogl2.jar";
-
 	/**
 	 * Possible alternative names for geogebra.jar. Used for 3D webstart at the
 	 * moment.
 	 */
-	public final static String[] GEOGEBRA_JAR_ALT = { "geogebra-jogl1.jar",
+	public final static String[] GEOGEBRA_JAR_ALT = { "geogebra.jar",
 			"geogebra-jogl2.jar" };
-
-	/**
-	 * Jar file names
-	 */
-	public static final String[] JAR_FILES = { GEOGEBRA_JAR_NAME,
-			"geogebra_main.jar", "geogebra_gui.jar", CAS_JAR_NAME,
-			"geogebra_algos.jar", "geogebra_export.jar", JAVASCRIPT_JAR_NAME,
-			// don't put at end (sometimes omitted, see WorksheetExportDialog)
-			"jlatexmath.jar", // LaTeX
-			"jlm_greek.jar", // Greek Unicode codeblock (for LaTeX texts)
-			"jlm_cyrillic.jar", // Cyrillic Unicode codeblock (for LaTeX texts)
-			"geogebra_properties.jar",
-			// 5.0 specific JARs :
-			"OpenGeoProver.jar"
-	// GEOGEBRA_3D_JAR_NAME, "jogl.all.jar" and "gluegen-rt.jar" and maybe
-	// others
-	// will be required for 3D View support
-
-	};
 
 	// ==============================================================
 	// LOCALE fields
@@ -4010,12 +3985,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 
 			// remove "geogebra.jar" from end of codebase string
-			if (path.endsWith(JAR_FILES[0])) {
-				runningFromJar = true;
-				path = path.substring(0, path.length() - JAR_FILES[0].length());
-			}
-
-			// Forcing 3D webstart alternative JAR name to detect:
 			for (int i = 0; i < GEOGEBRA_JAR_ALT.length; ++i) {
 				if (path.endsWith(GEOGEBRA_JAR_ALT[i])) {
 					runningFromJar = true;
