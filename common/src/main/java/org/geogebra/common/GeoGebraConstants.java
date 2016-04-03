@@ -39,7 +39,7 @@ public interface GeoGebraConstants {
 	// DON'T change to https (causes problems)
 	public static final String VERSION_URL = "http://www.geogebra.org/download/version.txt";
 
-	public static final String INSTALLERS_URL = "https://www.geogebra.org/installers";
+	public static final String INSTALLERS_URL = "https://www.geogebra.org/download";
 
 	/** Splash filename -- used for online */
 	public static final String SPLASH_STRING = "splash.png";
