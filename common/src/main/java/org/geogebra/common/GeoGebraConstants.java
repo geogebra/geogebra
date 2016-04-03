@@ -14,9 +14,6 @@ public interface GeoGebraConstants {
 	/** complete version string */
 	public static final String VERSION_STRING = "5.0.220.0";
 
-	/** true for beta versions/release candidates */
-	public static final boolean IS_PRE_RELEASE = false;// VERSION_STRING.startsWith(XML_FILE_FORMAT);
-
 	// proper noun, should NOT be translated / transliterated
 	public static final String APPLICATION_NAME = "GeoGebra";
 

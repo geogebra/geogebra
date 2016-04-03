@@ -5,7 +5,6 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Language;
@@ -282,7 +281,7 @@ public class LocalizationD extends Localization {
 	private static ArrayList<Locale> supportedLocales = null;
 
 	public static ArrayList<Locale> getSupportedLocales() {
-		return getSupportedLocales(GeoGebraConstants.IS_PRE_RELEASE);
+		return getSupportedLocales(false);
 	}
 
 	public static ArrayList<Locale> getSupportedLocales(boolean prerelease) {

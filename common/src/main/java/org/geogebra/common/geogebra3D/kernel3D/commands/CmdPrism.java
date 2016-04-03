@@ -1,6 +1,5 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -8,7 +7,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
 /*
@@ -60,11 +58,8 @@ public class CmdPrism extends CommandProcessor {
 			// everything ok
 			GeoElement[] ret = kernelA.getManager3D().Prism(c.getLabels(),
 					points);
-			// for older version, make forcing labels not working
-			if (GeoGebraConstants.IS_PRE_RELEASE
-					&& app.fileVersionBefore(App.getSubValues("4.9.10.0")))
-				return new GeoElement[] { ret[0] };
 			return ret;
+
 		} else {
 			throw argNumErr(app, c.getName(), n);
 		}
