@@ -114,7 +114,6 @@ public interface GeoGebraConstants {
 	public static final String FORUM_URL = "https://www.geogebra.org/help";
 	public static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
 	public static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
-	public static final boolean SINGULARWS_ENABLED_BY_DEFAULT = false;
 
 	public static final String DATA_LOGGING_WEBSOCKET_URL = "//data-logger.geogebra.org";
 	public static final String DATA_LOGGING_WEBSOCKET_PORT = "80";
