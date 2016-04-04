@@ -125,7 +125,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	            
             }}, KeyDownEvent.getType());
 		}
-		this.menuPanel = new StackPanel(){
+		this.menuPanel = new StackPanel() {
 			@Override
 			public void showStack(int index) {
 				super.showStack(index);
@@ -149,13 +149,26 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 						app.toggleMenu();
 						return;
 					}
+
 					if (index != -1) {
+
+						if (index == this.getSelectedIndex()) {
+							closeAll(this);
+							return;
+						}
 						showStack(index);
 					}
 				}
 				super.onBrowserEvent(event);
 			}
-			
+
+			// violator pattern from
+			// https://code.google.com/archive/p/google-web-toolkit/issues/1188
+			private native void closeAll(StackPanel stackPanel) /*-{
+		          stackPanel.@com.google.gwt.user.client.ui.StackPanel::setStackVisible(IZ)(stackPanel. @com.google.gwt.user.client.ui.StackPanel::visibleStack, false);
+		          stackPanel.@com.google.gwt.user.client.ui.StackPanel::visibleStack = -1; 
+		     }-*/;
+
 			private int findDividerIndex(Element elemSource) {
 				Element elem = elemSource;
 				    while (elem != null && elem != getElement()) {
@@ -375,4 +388,6 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
     private void addUserMenu() {
 	    this.menuPanel.add(this.userMenu, getHTML(GuiResources.INSTANCE.menu_icon_signed_in_f(), app.getLoginOperation().getUserName()), true);
     }
+
+
 }
