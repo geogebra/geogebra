@@ -4875,7 +4875,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	protected LowerCaseDictionary newLowerCaseDictionary() {
+	public LowerCaseDictionary newLowerCaseDictionary() {
 		return new LowerCaseDictionary(Normalizer.getInstance());
 	}
 

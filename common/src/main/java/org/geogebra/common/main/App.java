@@ -555,7 +555,7 @@ public abstract class App implements UpdateSelection {
 	 *
 	 * @return new lowercase dictionary
 	 */
-	protected LowerCaseDictionary newLowerCaseDictionary() {
+	public LowerCaseDictionary newLowerCaseDictionary() {
 		return new LowerCaseDictionary(new NormalizerMinimal());
 	}
 
