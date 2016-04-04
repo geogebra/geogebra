@@ -18,7 +18,7 @@ public class FragmentShader {
 
 			+ "precision mediump int; \n"
 
-			+ "#endif ";
+			+ "#endif \n";
 
 	final private static String fragmentHeaderHTML5 = "precision mediump float;\n";
 
@@ -116,11 +116,7 @@ public class FragmentShader {
 
 		String header = isHTML5 ? fragmentHeaderHTML5 : fragmentHeaderDesktop;
 
-		return header
-
-				// uniform
-
-				+ "uniform intenableShine; \n"
+		return header + "uniform int enableShine; \n"
 				+ "uniform int textureType;\n"
 				+ "uniform int enableClipPlanes;\n"
 				+ "uniform vec3 clipPlanesMin;\n"
