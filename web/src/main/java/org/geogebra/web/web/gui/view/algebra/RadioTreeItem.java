@@ -829,8 +829,7 @@ public class RadioTreeItem extends AVTreeItem
 		String val = geo
 				.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
 		Label lblDefinition = new Label(getOutputPrefix());
-		lblDefinition.getElement().getStyle()
-				.setColor(GColor.getColorString(geo.getObjectColor()));
+		updateColor(lblDefinition);
 		outputPanel.add(lblDefinition);
 		outputPanel.add(valuePanel);
 		outputPanel.addStyleName("avOutput");
