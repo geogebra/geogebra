@@ -209,13 +209,22 @@ public class RendererWithImplW extends RendererWithImpl implements
 		}
 		webGLCanvas.setCoordinateSpaceWidth((int) (w * ratio));
 		webGLCanvas.setCoordinateSpaceHeight((int) (h * ratio));
-		glContext.viewport(0, 0, (int) (w * ratio), (int) (h * ratio));
-		webGLCanvas.setHeight(h + "px");
 		webGLCanvas.setWidth(w + "px");
+		webGLCanvas.setHeight(h + "px");
 		super.setView(x, y, w, h);
 
 		start();
 
+	}
+
+	@Override
+	public int getWidthInPixels() {
+		return (int) (getWidth() * ratio);
+	}
+
+	@Override
+	public int getHeightInPixels() {
+		return (int) (getHeight() * ratio);
 	}
 
 	private Timer loopTimer;
