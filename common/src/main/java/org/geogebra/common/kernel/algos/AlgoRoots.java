@@ -525,7 +525,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
                 }
             }
 
-			for (int i = number; i < points.length; i++) {
+			for (int i = Math.max(number, 1); i < points.length; i++) {
 				if(!points[i].getAlgoUpdateSet().isEmpty()){
 					points[i].setCoords(0, 0, 1); // init as defined
 				} else{
