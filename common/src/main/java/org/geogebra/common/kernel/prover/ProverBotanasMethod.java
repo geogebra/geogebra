@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.StringTemplate;
@@ -386,9 +387,13 @@ public class ProverBotanasMethod {
 		private void setHypotheses() {
 			polynomials = new HashSet<Polynomial>();
 			int nHypotheses = 0;
+			TreeSet<GeoElement> predecessors = geoStatement
+					.getAllPredecessors();
+			if (geoProver.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
+				predecessors.add(geoStatement);
+			}
 
-			Iterator<GeoElement> it = geoStatement.getAllPredecessors()
-					.iterator();
+			Iterator<GeoElement> it = predecessors.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
 				if (geo instanceof SymbolicParametersBotanaAlgo) {
@@ -751,6 +756,9 @@ public class ProverBotanasMethod {
 					for (int j = 0; j < statements[i].length - minus; ++j) {
 						Log.debug((k + 1) + ". " + statements[i][j]);
 						polynomials.add(statements[i][j]);
+						if (ProverSettings.captionAlgebra) {
+							geoStatement.addCaptionBotanaPolynomial(statements[i][j].toTeX());
+						}
 						k++;
 					}
 				}
@@ -788,6 +796,9 @@ public class ProverBotanasMethod {
 				polynomials.add(spoly);
 				Log.debug("that is,");
 				Log.debug((k + 1) + ". " + spoly);
+				if (ProverSettings.captionAlgebra) {
+					geoStatement.addCaptionBotanaPolynomial(spoly.toTeX());
+				}
 
 			} catch (NoSymbolicParametersException e) {
 				Log.debug("Unsuccessful run, statement is UNKNOWN at the moment");
@@ -805,6 +816,9 @@ public class ProverBotanasMethod {
 				return;
 			}
 			updateBotanaVarsInv(statement);
+			if (prover.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
+				return;
+			}
 			setThesis();
 			if (result != null) {
 				return;

@@ -3997,6 +3997,10 @@ public abstract class App implements UpdateSelection {
 		case IMPLICIT_LOCUS:
 			return true;
 
+			// GGB-641
+		case EXPLICIT_LOCUS_VIA_BOTANA:
+			return prerelease;
+
 		case FIX_CP_HEADER:
 			return prerelease;
 
