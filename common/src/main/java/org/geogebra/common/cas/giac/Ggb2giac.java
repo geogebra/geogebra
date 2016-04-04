@@ -378,16 +378,33 @@ public class Ggb2giac {
 						+ "[ggbinarg0:=%0],"
 						+ "[ggbinarg1:=%1],"
 						// first parameter is point
-						+ "[ggbinterans:=when( ggbinarg0[0] == 'pnt' , "
+						+ "[ggbinterans:="
+						+ "when( ggbinarg0[0] == 'pnt' && (ggbinarg0)[1][0] != 'hyperplan', "
 						+ "same((subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[1],(subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[2]) ,"
 						// second parameter is point
-						+ "when (ggbinarg1[0] == 'pnt' , "
+						+ "when (ggbinarg1[0] == 'pnt' && (ggbinarg1)[1][0] != 'hyperplan', "
 						+ "same(subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[1],subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[2]),"
-						+ "normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1))) ))],"
-						+ "[ggbinterans:= when(ggbinarg0[0] == 'pnt' || ggbinarg1[0] == 'pnt', when(ggbinterans == true,"
-						+ "when(ggbinarg0[0]=='pnt',ggbinarg0,ggbinarg1),?) ,"
-						+ "when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans))) )],"
-						+ "ggbinterans][5]");
+						// Intersect[plane, plane]
+						+ "when (ggbinarg0[0] == 'pnt' && (ggbinarg0)[1][0] == 'hyperplan' && ggbinarg1[0] == 'pnt' && (ggbinarg1)[1][0] == 'hyperplan',"
+						// the intersection is empty
+						+ "when (xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]) == '?', ?,"
+						// create 3d line for intersection
+						+ "regroup(equation(cat(\"X=\","
+						+ "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][0])),"
+						+ "\"+\u03BB*\","
+						+ "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]))))) ),"
+						+ "normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1))) ) ))],"
+						+ "[ggbinterans:= when (ggbinarg0[0] == 'pnt' && (ggbinarg0)[1][0] == 'hyperplan' && ggbinarg1[0] == 'pnt' && (ggbinarg1)[1][0] == 'hyperplan',"
+						+ "ggbinterans,"
+						+ "when(ggbinarg0[0] == 'pnt' || ggbinarg1[0] == 'pnt', "
+						+ "when(ggbinterans == true,"
+						+ "when(ggbinarg0[0]=='pnt',ggbinarg0,ggbinarg1),? ) ,"
+						+ "when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans))) ) )],"
+						+ "ggbinterans ][5]");
 
 		// Giac currently uses approximation for this
 		// p("Conic.5", "equation(conic((%0),(%1),(%2),(%3),(%4)))");
