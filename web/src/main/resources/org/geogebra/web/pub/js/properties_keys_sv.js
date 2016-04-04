@@ -1778,7 +1778,7 @@ __GGB__keysVar.sv.menu = {
     "Power": "Potensfunktion a\u2022x^b",
     "Preview": "F\xf6rhandsvisa",
     "Print": "Skriv ut",
-    "PrintPreview": "F\xf6rhandsvisning",
+    "PrintPreview": "Skriv ut...",
     "Prism": "Prisma",
     "Prism.Help": "V\xe4lj eller skapa en polygon som prismats bottenyta, d\xe4refter v\xe4lj eller skapa den f\xf6rsta punkten i prismats \xf6vre yta",
     "Private": "Privat",

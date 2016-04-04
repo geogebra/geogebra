@@ -1967,7 +1967,7 @@ __GGB__keysVar.it.menu = {
     "SpecialObjectTools": "Strumenti Oggetti speciali",
     "Sphere2": "Sfera - dato il centro e un punto",
     "Sphere2.Help": "Selezionare il punto del centro, quindi un punto sulla sfera",
-    "SpherePointRadius": "Sfera - dato il centro e il raggio",
+    "SpherePointRadius": "Sfera - dato centro e raggio",
     "SpherePointRadius.Help": "Selezionare il centro della sfera e inserire la misura del raggio",
     "Split": "Dividi le celle delle colonne",
     "Split.Help": "Selezionare le colonne da dividere",
