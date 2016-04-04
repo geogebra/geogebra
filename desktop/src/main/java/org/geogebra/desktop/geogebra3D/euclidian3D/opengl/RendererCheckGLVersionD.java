@@ -172,11 +172,12 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 					int versionInt = Integer.parseInt(version[0]);
 					Log.debug("==== GL version is " + GeoGebraMenuBar.glVersion
 							+ " which means GL>=" + versionInt);
-					if (versionInt < 2) {
+					if (versionInt < 3) {
 						// GL 1.x: can't use shaders
+						// GL 2.x so GLSL < 1.3: not supported
 						type = RendererType.GL2;
 					} else {
-						// GL 2.x or above: can use shaders
+						// GL 2.x or above: can use shaders (GLSL >= 1.3)
 						type = RendererType.SHADER;
 					}
 				} catch (Exception e) {
