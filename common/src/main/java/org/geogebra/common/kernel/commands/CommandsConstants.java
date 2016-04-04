@@ -22,6 +22,11 @@ public interface CommandsConstants {
 	 */
 	public static final int ALL_COMMANDS_INDEX = -1;
 
+	/**
+	 * Index for math commands
+	 */
+	public static final int MATH_FUNC_INDEX = -2;
+
 	/** Geometry commands */
 	public static final int TABLE_GEOMETRY = 0;
 	/** Algebra commands */
