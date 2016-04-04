@@ -1568,7 +1568,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			editing = true;
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
-				RadioTreeItem.as(node).startEditing(
+				RadioTreeItem.as(node).enterEditMode(
 						geo.isPointOnPath() || geo.isPointInRegion());
 			}
 		}
@@ -1587,7 +1587,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			editing = true;
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
-				if (!RadioTreeItem.as(node).startEditing(false)) {
+				if (!RadioTreeItem.as(node).enterEditMode(false)) {
 					cancelEditing();
 					app.getDialogManager().showRedefineDialog(geo, true);
 				}

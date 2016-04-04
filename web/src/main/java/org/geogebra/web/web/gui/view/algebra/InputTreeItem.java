@@ -20,6 +20,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
 import org.geogebra.web.html5.gui.util.BasicIcons;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
@@ -985,4 +986,29 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 
 	}
+
+	/**
+	 * Starts editing of the input.
+	 */
+	@Override
+	protected boolean startEditing(boolean b) {
+		// argument is not used.
+		DrawEquationW.editEquationMathQuillGGB(this, latexItem, true);
+
+		app.getGuiManager().setOnScreenKeyboardTextField(this);
+		CancelEventTimer.keyboardSetVisible();
+		ClickStartHandler.init(main, new ClickStartHandler(false, false) {
+			@Override
+			public void onClickStart(int x, int y,
+					final PointerEventType type) {
+				app.getGuiManager()
+						.setOnScreenKeyboardTextField(InputTreeItem.this);
+				// prevent that keyboard is closed on clicks (changing
+				// cursor position)
+				CancelEventTimer.keyboardSetVisible();
+			}
+		});
+		return true;
+	}
+
 }

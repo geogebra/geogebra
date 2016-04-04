@@ -1252,12 +1252,12 @@ public class RadioTreeItem extends AVTreeItem
 			if (!latex) {
 				// original text was plain
 
-				updateColor(getPlainTextItem());
+				updateItemColor();
 				updateFont(getPlainTextItem());
 			} else {
 				// original text was latex.
 
-				updateColor(getPlainTextItem());
+				updateItemColor();
 				if (!isInputTreeItem() && c != null) {
 					ihtml.clear();
 					if (!isInputTreeItem() && isDefinitionAndValue()) {
@@ -1277,6 +1277,14 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 	}
+
+	private void updateItemColor() {
+		updateColor(getPlainTextItem());
+		if (isDefinitionAndValue() && definitionPanel != null) {
+			updateColor(definitionPanel);
+		}
+	}
+
 	private void updateNumerics() {
 
 		if (slider == null) {
@@ -1447,78 +1455,65 @@ public class RadioTreeItem extends AVTreeItem
 	 *            whether value should be used
 	 * @return whether it was successful
 	 */
-	public boolean startEditing(boolean substituteNumbers) {
-		// buttonPanel.setVisible(true);
-
+	public boolean enterEditMode(boolean substituteNumbers) {
 		if (isEditing()) {
 			return true;
 		}
+
 		updateButtonPanel(true);
+
 		editing = true;
-		if (isInputTreeItem()) {
-			DrawEquationW.editEquationMathQuillGGB(this, latexItem, true);
-
-			app.getGuiManager().setOnScreenKeyboardTextField(this);
-			CancelEventTimer.keyboardSetVisible();
-			ClickStartHandler.init(main, new ClickStartHandler(false, false) {
-				@Override
-				public void onClickStart(int x, int y,
-						final PointerEventType type) {
-					app.getGuiManager().setOnScreenKeyboardTextField(
-							RadioTreeItem.this);
-					// prevent that keyboard is closed on clicks (changing
-					// cursor position)
-					CancelEventTimer.keyboardSetVisible();
-				}
-			});
-		} else {
-			Element old = latex ? (c != null ? c.getCanvasElement()
-							: latexItem.getElement())
-					: getPlainTextItem().getElement();
-			String text = null;
-			text = geo.isMatrix()
-					? geo.toEditableLaTeXString(substituteNumbers,
-							StringTemplate.latexTemplateMQedit)
-					: geo.getLaTeXAlgebraDescriptionWithFallback(
-					substituteNumbers || sliderNeeded(),
-					StringTemplate.latexTemplateMQedit,
-					true);
-
-
-			if (text == null) {
-				return false;
-			}
-
-
-			renderLatex(text, old, true);
-
-
-			// if (isDefinitionAndValue()) {
-			// DrawEquationW.editEquationMathQuillGGB(this, definitionPanel,
-			// false);
-			// } else {
-			DrawEquationW.editEquationMathQuillGGB(this, latexItem, false);
-			// }
-
-			app.getGuiManager().setOnScreenKeyboardTextField(this);
-			CancelEventTimer.keyboardSetVisible();
-			ClickStartHandler.init(main, new ClickStartHandler(false, false) {
-				@Override
-				public void onClickStart(int x, int y,
-						final PointerEventType type) {
-					app.getGuiManager().setOnScreenKeyboardTextField(
-							RadioTreeItem.this);
-					// prevent that keyboard is closed on clicks (changing
-					// cursor position)
-					CancelEventTimer.keyboardSetVisible();
-				}
-			});
+		if (startEditing(substituteNumbers) == false) {
+			return false;
 		}
-
-
 
 		buttonPanel.setVisible(true);
 		maybeSetPButtonVisibility(true);
+		return true;
+	}
+
+	protected boolean startEditing(boolean substituteNumbers) {
+		Element old = latex
+				? (c != null ? c.getCanvasElement() : latexItem.getElement())
+				: getPlainTextItem().getElement();
+		String text = null;
+		text = geo.isMatrix()
+				? geo.toEditableLaTeXString(substituteNumbers,
+						StringTemplate.latexTemplateMQedit)
+				: geo.getLaTeXAlgebraDescriptionWithFallback(
+						substituteNumbers || sliderNeeded(),
+						StringTemplate.latexTemplateMQedit, true);
+
+
+		if (text == null) {
+			return false;
+		}
+
+
+		renderLatex(text, old, true);
+
+
+		// if (isDefinitionAndValue()) {
+		// DrawEquationW.editEquationMathQuillGGB(this, definitionPanel,
+		// false);
+		// } else {
+		DrawEquationW.editEquationMathQuillGGB(this, latexItem, false);
+		// }
+
+		app.getGuiManager().setOnScreenKeyboardTextField(this);
+		CancelEventTimer.keyboardSetVisible();
+		ClickStartHandler.init(main, new ClickStartHandler(false, false) {
+			@Override
+			public void onClickStart(int x, int y,
+					final PointerEventType type) {
+				app.getGuiManager()
+						.setOnScreenKeyboardTextField(RadioTreeItem.this);
+				// prevent that keyboard is closed on clicks (changing
+				// cursor position)
+				CancelEventTimer.keyboardSetVisible();
+			}
+		});
+
 		return true;
 	}
 
@@ -2321,7 +2316,7 @@ marblePanel, evt))) {
 	@Override
 	public void ensureEditing() {
 		if (!isEditing()) {
-			startEditing(true);
+			enterEditMode(true);
 
 			if (av != null && ((AlgebraViewW) av).isNodeTableEmpty()) {
 				updateGUIfocus(this, false);
