@@ -3867,7 +3867,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case HIT_PARAMETRIC_SURFACE:
-			return prerelease;
+			return false;
 
 		case PARAMETRIC_SURFACE_IS_REGION:
 			return prerelease;
