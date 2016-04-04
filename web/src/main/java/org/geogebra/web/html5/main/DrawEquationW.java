@@ -87,8 +87,7 @@ public class DrawEquationW extends DrawEquation {
 		        el == eqstring.length(), true, 0, nonGeneral);
 	}
 	
-	public static TeXIcon createIcon(String latex, int size, int style,
-			boolean serif) {
+	public static TeXIcon createIcon(String latex, int size, int texIconStyle) {
 		ensureJLMFactoryExists();
 		if (initJLaTeXMath == null) {
 
@@ -103,18 +102,6 @@ public class DrawEquationW extends DrawEquation {
 			formula = new TeXFormula("\\text{" + msg[msg.length - 1] + "}");
 		}
 
-		int texIconStyle = 0;
-		if (style == GFont.BOLD) {
-			texIconStyle = TeXFormula.BOLD;
-		} else if (style == GFont.ITALIC) {
-			texIconStyle = TeXFormula.ITALIC;
-		} else if (style == GFont.BOLD + GFont.ITALIC) {
-			texIconStyle = TeXFormula.BOLD | TeXFormula.ITALIC;
-		}
-
-		if (!serif) {
-			texIconStyle = texIconStyle | TeXFormula.SANSSERIF;
-		}
 		TeXIcon icon = null;
 		try {
 			icon = formula.new TeXIconBuilder()
@@ -144,7 +131,7 @@ public class DrawEquationW extends DrawEquation {
 			String eqstring = latexString0;
 
 			TeXIcon icon = createIcon(eqstring, font.getSize() + 3,
-					font.getStyle(), serif);
+				font.getLaTeXStyle(serif));
 			Graphics2DW g3 = new Graphics2DW(((GGraphics2DW) g2).getContext());
 			g3.setDrawingFinishedCallback(new DrawingFinishedCallback() {
 
@@ -1414,7 +1401,8 @@ public class DrawEquationW extends DrawEquation {
 		}
 		Context2d ctx = c.getContext2d();
 		TeXIcon icon = DrawEquationW.createIcon("\\mathsf{\\mathrm {" + text0
-				+ "}}", fontSize, GFont.PLAIN, false);
+ + "}}", fontSize,
+				TeXFormula.SANSSERIF);
 		Graphics2DInterface g3 = new Graphics2DW(ctx);
 		double ratio = ((AppW) geo.getKernel().getApplication())
 				.getPixelRatio() * printScale;
@@ -1555,8 +1543,8 @@ public class DrawEquationW extends DrawEquation {
 	@Override
 	public GDimension measureEquation(App app, GeoElement geo0, int minValue,
 			int minValue2, String text, GFont font, boolean serif) {
-		TeXIcon icon = createIcon(text, font.getSize() + 3, font.getStyle(),
-				serif);
+		TeXIcon icon = createIcon(text, font.getSize() + 3,
+				font.getLaTeXStyle(serif));
 		return new GDimensionW(icon.getIconWidth(), icon.getIconHeight());
 	}
 }
