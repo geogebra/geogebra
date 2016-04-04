@@ -828,12 +828,10 @@ public class RadioTreeItem extends AVTreeItem
 		valuePanel = new FlowPanel();
 		String val = geo
 				.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
-		if (geo.isIndependent()) {
-			def = geo.getAlgebraDescriptionTextOrHTMLDefault(
-					getBuilder(definitionPanel));
-
-		}
-		outputPanel.add(new Label(getOutputPrefix()));
+		Label lblDefinition = new Label(getOutputPrefix());
+		lblDefinition.getElement().getStyle()
+				.setColor(GColor.getColorString(geo.getObjectColor()));
+		outputPanel.add(lblDefinition);
 		outputPanel.add(valuePanel);
 		outputPanel.addStyleName("avOutput");
 		Log.debug(REFX + " def: " + def + " val: " + val);
