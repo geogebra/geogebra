@@ -343,7 +343,10 @@ public class AlgebraInput extends JPanel implements ActionListener,
 			return;
 		case KeyEvent.VK_ENTER:
 			app.getKernel().clearJustCreatedGeosInViews();
-			String input = inputField.getText();
+			String lastInput = app.getKernel().getLastValidInput();
+			String input = lastInput == null
+					? inputField.getText()
+					: lastInput;
 			if (input == null || input.length() == 0) {
 				app.getActiveEuclidianView().requestFocus(); // Michael
 																// Borcherds

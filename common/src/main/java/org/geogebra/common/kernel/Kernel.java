@@ -5118,9 +5118,15 @@ public class Kernel {
 
 	private ScheduledPreviewFromInputBar scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar();
 
+	public String getLastValidInput() {
+		String ret = scheduledPreviewFromInputBar.validInput;
+		scheduledPreviewFromInputBar.validInput = null;
+		return ret;
+	}
 	private class ScheduledPreviewFromInputBar implements Runnable {
 
 		private String input = "";
+		private String validInput = "";
 
 		public void setInput(String str) {
 			this.input = str;
@@ -5159,6 +5165,7 @@ public class Kernel {
 								geo.setSelectionAllowed(false);
 							}
 						}
+						validInput = input;
 						notifyUpdatePreviewFromInputBar(geos);
 					} else {
 						Log.debug("existing geo: " + existingGeo);
@@ -5173,7 +5180,7 @@ public class Kernel {
 			} catch (Throwable ee) {
 				Log.debug("-- invalid input");
 				setSilentMode(true);
-				notifyUpdatePreviewFromInputBar(null);
+				// notifyUpdatePreviewFromInputBar(null);
 				setSilentMode(silentModeOld);
 			}
 		}
