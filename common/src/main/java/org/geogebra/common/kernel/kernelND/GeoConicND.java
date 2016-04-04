@@ -4381,11 +4381,18 @@ FromMeta
 				4503599627370496l, 4611686018427387904l };
 
 		double ret = 1;
+		double lastAnswer;
 
 		for (int i = 1; i < 17; i++) {
+			lastAnswer = ret;
 			ret += a056981[i] / a056982[i] * hn;
 
 			hn = hn * h2;
+
+			// stop when answer has converged to 15 sig figs
+			if (lastAnswer == ret) {
+				break;
+			}
 
 		}
 
