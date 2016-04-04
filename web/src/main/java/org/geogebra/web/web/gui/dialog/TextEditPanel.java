@@ -368,4 +368,11 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	public int getFontStyle() {
 		return TextOptionsModel.getFontStyle(isBold(), isItalic());
 	}
+
+	public void ensureLaTeX() {
+		btnLatex.setValue(true);
+		editGeo.setLaTeX(true, false);
+		updatePreviewPanel();
+
+	}
 }

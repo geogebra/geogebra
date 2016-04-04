@@ -444,4 +444,10 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 
 	}
 
+	public void ensureLaTeX() {
+		btnLatex.setValue(true);
+		model.getEditGeo().setLaTeX(true, false);
+		updatePreviewPanel();
+	}
+
 }

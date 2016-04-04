@@ -12,4 +12,6 @@ public interface ITextEditPanel {
 
 	GeoText getEditGeo();
 
+	void ensureLaTeX();
+
 }

@@ -281,7 +281,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 
 					public void handle(String s) {
 						editPanel.insertTextString(s, true);
-
+						editPanel.ensureLaTeX();
 					}
 				});
 
