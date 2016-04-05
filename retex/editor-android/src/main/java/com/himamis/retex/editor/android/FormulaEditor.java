@@ -1,19 +1,5 @@
 package com.himamis.retex.editor.android;
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.text.InputType;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.inputmethod.BaseInputConnection;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
-
 import com.himamis.retex.editor.android.event.ClickListenerAdapter;
 import com.himamis.retex.editor.android.event.FocusListenerAdapter;
 import com.himamis.retex.editor.android.event.KeyListenerAdapter;
@@ -27,6 +13,7 @@ import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.parser.Parser;
 import com.himamis.retex.renderer.android.FactoryProviderAndroid;
 import com.himamis.retex.renderer.android.graphics.ColorA;
@@ -37,6 +24,22 @@ import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.Resource;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
+
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.InputType;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.BaseInputConnection;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 
 public class FormulaEditor extends View implements MathField {
 
@@ -319,7 +322,81 @@ public class FormulaEditor extends View implements MathField {
         return mMathFieldInternal.getEditorState();
     }
 
-    public MathFieldInternal getMathFieldInternal(){
+    public MathFieldInternal getMathFieldInternal() {
         return mMathFieldInternal;
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        FormulaEditorState state = new FormulaEditorState(superState);
+
+        EditorState editorState = getEditorState();
+
+        state.currentOffset = editorState.getCurrentOffset();
+        state.currentField = editorState.getCurrentField();
+        state.rootComponent = editorState.getRootComponent();
+
+        return state;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof FormulaEditorState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        FormulaEditorState formulaEditorState = (FormulaEditorState) state;
+        super.onRestoreInstanceState(formulaEditorState.getSuperState());
+
+        // Set the formula
+        MathFormula mathFormula = MathFormula.newFormula(sMetaModel);
+        mathFormula.setRootComponent(formulaEditorState.rootComponent);
+        mMathFieldInternal.setFormula(mathFormula);
+
+        // Change the editor state
+        EditorState editorState = getEditorState();
+        editorState.setRootComponent(formulaEditorState.rootComponent);
+        editorState.setCurrentField(formulaEditorState.currentField);
+        editorState.setCurrentOffset(formulaEditorState.currentOffset);
+    }
+
+    static class FormulaEditorState extends BaseSavedState {
+
+        public static final Parcelable.Creator<FormulaEditorState> CREATOR =
+                new Parcelable.Creator<FormulaEditorState>() {
+                    public FormulaEditorState createFromParcel(Parcel in) {
+                        return new FormulaEditorState(in);
+                    }
+
+                    public FormulaEditorState[] newArray(int size) {
+                        return new FormulaEditorState[size];
+                    }
+                };
+
+        MathSequence rootComponent;
+        MathSequence currentField;
+        Integer currentOffset;
+
+        public FormulaEditorState(Parcelable superState) {
+            super(superState);
+        }
+
+        public FormulaEditorState(Parcel source) {
+            super(source);
+            rootComponent = (MathSequence) source.readValue(null);
+            currentField = (MathSequence) source.readValue(null);
+            currentOffset = source.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeValue(rootComponent);
+            out.writeValue(currentField);
+            out.writeInt(currentOffset);
+        }
+
     }
 }
