@@ -4393,6 +4393,7 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	margin-right: 10px;
 }
 
+
 .optionsPanelCell {
 	display: block;
 }
@@ -4547,7 +4548,7 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 
 .advanced-TextButtonPanel input[disabled=""],.advanced-TextButtonPanel .choice-button-up-disabled
 	{
-	opacity: 0.4;
+	opacity: 1;
 	cursor: default;
 }
 
