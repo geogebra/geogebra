@@ -9,13 +9,13 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
@@ -109,7 +109,7 @@ public class DrawInequality extends Drawable {
 			ExpressionNode leftExp = ((DrawInequality1Var) left.drawable)
 					.getIneq().getNormalExpression();
 			if (leftExp.getOperation().equals(Operation.MINUS)) {
-				if (leftExp.getRight() instanceof MySpecialDouble) {
+				if (isNumber(leftExp.getRight())) {
 					Double minLeft = leftExp.getRight().evaluateDouble();
 					if (Kernel.isGreater(minLeft, minBound)) {
 						minBound = minLeft;
@@ -125,7 +125,7 @@ public class DrawInequality extends Drawable {
 			ExpressionNode rightExp = ((DrawInequality1Var) right.drawable)
 					.getIneq().getNormalExpression();
 			if (rightExp.getOperation().equals(Operation.MINUS)) {
-				if (rightExp.getLeft() instanceof MySpecialDouble) {
+				if (isNumber(rightExp.getLeft())) {
 					Double maxRight = rightExp.getLeft().evaluateDouble();
 					if (Kernel.isGreater(maxBound, maxRight)) {
 						maxBound = maxRight;
@@ -156,9 +156,7 @@ public class DrawInequality extends Drawable {
 			ExpressionNode leftExp = ((DrawInequality1Var) left.drawable)
 					.getIneq().getNormalExpression();
 			if (leftExp.getOperation().equals(Operation.MINUS)) {
-				if (leftExp.getRight() instanceof MySpecialDouble
-						|| (leftExp.getRight() instanceof MyDouble && !(leftExp
-								.getRight() instanceof FunctionVariable))) {
+				if (isNumber(leftExp.getRight())) {
 					if (((DrawInequality1Var) left.drawable).getIneq()
 							.getOperation().equals(Operation.GREATER)
 							|| ((DrawInequality1Var) left.drawable).getIneq().getOperation()
@@ -186,9 +184,7 @@ public class DrawInequality extends Drawable {
 							this.max = left.drawable;
 						}
 					}
-				} else if (leftExp.getLeft() instanceof MySpecialDouble
-						|| (leftExp.getLeft() instanceof MyDouble && !(leftExp
-								.getLeft() instanceof FunctionVariable))) {
+				} else if (isNumber(leftExp.getLeft())) {
 					if (((DrawInequality1Var) left.drawable).getIneq()
 							.getOperation().equals(Operation.GREATER)
 							|| ((DrawInequality1Var) left.drawable).getIneq().getOperation()
@@ -234,9 +230,7 @@ public class DrawInequality extends Drawable {
 			ExpressionNode rightExp = ((DrawInequality1Var) right.drawable)
 					.getIneq().getNormalExpression();
 			if (rightExp.getOperation().equals(Operation.MINUS)) {
-				if (rightExp.getRight() instanceof MySpecialDouble
-						|| (rightExp.getRight() instanceof MyDouble && !(rightExp
-								.getRight() instanceof FunctionVariable))) {
+				if (isNumber(rightExp.getRight())) {
 					if (((DrawInequality1Var) right.drawable).getIneq()
 							.getOperation().equals(Operation.GREATER)
 							|| ((DrawInequality1Var) right.drawable).getIneq().getOperation()
@@ -265,9 +259,7 @@ public class DrawInequality extends Drawable {
 						}
 					}
 				}
-				if (rightExp.getLeft() instanceof MySpecialDouble
-						|| (rightExp.getLeft() instanceof MyDouble && !(rightExp
-								.getLeft() instanceof FunctionVariable))) {
+				if (isNumber(rightExp.getLeft())) {
 					if (((DrawInequality1Var) right.drawable).getIneq()
 							.getOperation().equals(Operation.GREATER)
 							|| ((DrawInequality1Var) right.drawable).getIneq().getOperation()
@@ -300,6 +292,11 @@ public class DrawInequality extends Drawable {
 				}
 			}
 		}
+
+	private boolean isNumber(ExpressionValue left2) {
+		return left2 instanceof NumberValue
+				&& !(left2 instanceof FunctionVariable);
+	}
 
 	private DrawInequality(IneqTree tree, EuclidianView view, GeoElement geo) {
 		this.view = view;
