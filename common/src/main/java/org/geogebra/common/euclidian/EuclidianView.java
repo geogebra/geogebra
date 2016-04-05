@@ -70,6 +70,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
@@ -4656,8 +4657,16 @@ sb.toString(), getFontAxes(),
 		tempArrayList.add(geo);
 
 		getEuclidianController().startCollectingMinorRepaints();
+		AsyncOperation callback = new AsyncOperation() {
+			@Override
+			public void callback(Object arg) {
+				if (arg.equals(true)) {
+					euclidianController.storeUndoInfo();
+				}
+			}
+		};
 		boolean changedKernel = euclidianController.processMode(tempArrayList,
-				isControlDown, null);
+				isControlDown, callback);
 
 		if (changedKernel) {
 			getEuclidianController().storeUndoInfo();
