@@ -1,27 +1,6 @@
 package org.geogebra.web.keyboard;
 
-import org.geogebra.web.html5.util.DynamicScriptElement;
-import org.geogebra.web.html5.util.ScriptLoadCallback;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-
 public class KeyboardLocalization {
-
-	/**
-	 * loads the javascript file and updates the keys to the given language
-	 * 
-	 * @param lang
-	 *            the language
-	 */
-	public void loadLang(final String lang, ScriptLoadCallback callback) {
-		DynamicScriptElement script = (DynamicScriptElement) Document.get()
-				.createScriptElement();
-		script.setSrc(GWT.getModuleBaseURL() + "js/keyboard_" + lang + ".js");
-
-		script.addLoadHandler(callback);
-		Document.get().getBody().appendChild(script);
-	}
 
 	/**
 	 * get translations for the onScreenKeyboard-buttons

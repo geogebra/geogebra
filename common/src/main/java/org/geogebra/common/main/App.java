@@ -4007,9 +4007,6 @@ public abstract class App implements UpdateSelection {
 		case NDERIVATIVE_COMMAND:
 			return true;
 
-		case WEB_KEYBOARD_IN_GGBTRANS:
-			return true;
-
 		case MOBILE_KEYBOARD_IN_GGBTRANS:
 			return false;
 

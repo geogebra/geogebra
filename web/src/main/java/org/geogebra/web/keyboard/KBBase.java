@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -960,31 +959,17 @@ public abstract class KBBase extends PopupPanel {
 
 	protected void setToGreekLetters() {
 
-		if (app.has(Feature.WEB_KEYBOARD_IN_GGBTRANS)) {
+		setKeyboardMode(KeyboardMode.TEXT);
+		greekActive = true;
+		switchABCGreek.setCaption(KeyboardMode.TEXT.getInternalName());
 
-			setKeyboardMode(KeyboardMode.TEXT);
-			greekActive = true;
-			switchABCGreek.setCaption(KeyboardMode.TEXT.getInternalName());
+		updateKeys("lowerCase", Language.Greek.localeGWT);
+		setStyleName();
 
-			// loadLanguage(Language.Greek.localeGWT);
-			updateKeys("lowerCase", Language.Greek.localeGWT);
-			setStyleName();
-
-			if (shiftIsDown) {
-				processShift();
-			}
-
-		} else {
-
-			setKeyboardMode(KeyboardMode.TEXT);
-			greekActive = true;
-			switchABCGreek.setCaption(KeyboardMode.TEXT.getInternalName());
-			loadLanguage(Language.Greek.localeGWT);
-			if (shiftIsDown) {
-				processShift();
-			}
-
+		if (shiftIsDown) {
+			processShift();
 		}
+
 	}
 
 	/**
@@ -1110,12 +1095,8 @@ public abstract class KBBase extends PopupPanel {
 			this.keyboardLocale = Language.English_US.localeGWT;
 		}
 
-		if (app.has(Feature.WEB_KEYBOARD_IN_GGBTRANS)) {
-			updateKeys("lowerCase", keyboardLocale);
-			setStyleName();
-		} else {
-			loadLanguage(keyboardLocale);
-		}
+		updateKeys("lowerCase", keyboardLocale);
+		setStyleName();
 
 	}
 
@@ -1150,8 +1131,5 @@ public abstract class KBBase extends PopupPanel {
 		};
 	}
 
-	protected void loadLanguage(String language) {
-		localization.loadLang(language, createLanguageLoadedCallback(language));
-	}
 
 }
