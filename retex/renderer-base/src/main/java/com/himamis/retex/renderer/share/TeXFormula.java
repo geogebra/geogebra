@@ -881,22 +881,8 @@ public class TeXFormula {
 	public static Image createBufferedImage(String formula, int style, float size, Color fg, Color bg)
 			throws ParseException {
 		TeXFormula f = new TeXFormula(formula);
-		TeXIcon icon = f.createTeXIcon(style, size);
-		icon.setInsets(new Insets(2, 2, 2, 2));
-		int w = icon.getIconWidth(), h = icon.getIconHeight();
-
-		Image image = new Graphics().createImage(w, h, bg == null ? Image.TYPE_INT_ARGB : Image.TYPE_INT_RGB);
-		Graphics2DInterface g2 = image.createGraphics2D();
-		if (bg != null) {
-			g2.setColor(bg);
-			g2.fillRect(0, 0, w, h);
-		}
-
-		icon.setForeground(fg == null ? ColorUtil.BLACK : fg);
-		icon.paintIcon(null, g2, 0, 0);
-		g2.dispose();
-
-		return image;
+		
+		return f.createBufferedImage(style, size, fg, bg);
 	}
 
 	/**
