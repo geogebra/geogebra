@@ -1338,8 +1338,15 @@ public class RadioTreeItem extends AVTreeItem
 	private Canvas c;
 
 	private void renderLatex(String text0, Widget w, boolean forceMQ) {
-		renderLatex(text0, w.getElement(), forceMQ);
+		Log.debug("[old]" + text0 + ": " + w);
+		if (definitionAndValue) {
+			renderLatexDV(text0, w, forceMQ);
+
+		} else {
+			renderLatex(text0, w.getElement(), forceMQ);
+		}
 	}
+
 	private void renderLatex(String text0, Element old, boolean forceMQ) {
 		if (!forceMQ) {
 			c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
@@ -1386,6 +1393,57 @@ public class RadioTreeItem extends AVTreeItem
 			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
 
+
+		}
+
+	}
+
+	private boolean hasExtendedValueRow() {
+		return !isInputTreeItem() && isDefinitionAndValue()
+				&& (!latex || !geo.isIndependent());
+	}
+
+	private void renderLatexDV(String text0, Widget old, boolean forceMQ) {
+		if (!forceMQ) {
+			c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
+			int idx = ihtml.getWidgetIndex(old);
+			if (c != null && idx != -1) {
+				ihtml.remove(idx);
+				ihtml.insert(c, idx);
+			}
+
+		} else {
+			// Log.debug(REFX + "renderLatex 2");
+			if (latexItem == null) {
+				latexItem = new FlowPanel();
+			}
+			latexItem.clear();
+			latexItem.addStyleName("avTextItem");
+			updateColor(latexItem);
+
+			ihtml.clear();
+
+			String text = text0;
+			if (text0 == null) {
+				text = "";
+			}
+			text = DrawEquationW.inputLatexCosmetics(text);
+
+			String latexString = "";
+			if (!isInputTreeItem()) {
+				latexString = (isDefinitionAndValue() ? "\\mathrm {"
+						: " \\mathbf {") + text + "}";
+			}
+
+			if (!isInputTreeItem() && isDefinitionAndValue()) {
+				createDefinitionAndValue();
+				ihtml.add(geo.isMatrix() ? valuePanel : definitionPanel);
+
+			}
+
+			ihtml.add(latexItem);
+			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
+					isInputTreeItem());
 
 		}
 
