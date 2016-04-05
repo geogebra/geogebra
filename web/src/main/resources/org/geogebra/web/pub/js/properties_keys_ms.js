@@ -3016,7 +3016,7 @@ __GGB__keysVar.ms.plain = {
     "polar": "kutub",
     "resetConstruction": "Set Semula pembinaan",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Masukkan satu mesej pendek peribadi",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "ruang",

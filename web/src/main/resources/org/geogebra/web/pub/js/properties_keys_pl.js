@@ -3016,7 +3016,7 @@ __GGB__keysVar.pl.plain = {
     "polar": "biegunowy",
     "resetConstruction": "Reset konstrukcji",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Wpisz kr\xf3tk\u0105 wiadomo\u015b\u0107",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "przestrze\u0144",

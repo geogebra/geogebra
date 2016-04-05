@@ -3016,7 +3016,7 @@ __GGB__keysVar.ug.plain = {
     "polar": "\u0642\u06c7\u062a\u06c7\u067e \u0643\u0648\u0626\u0648\u0631\u062f\u0649\u0646\u0627\u062a",
     "resetConstruction": "\u0642\u0627\u064a\u062a\u0649\u062f\u0649\u0646 \u0642\u06c7\u0631\u06c7\u0634",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Enter a short personal message",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "space",

@@ -3016,7 +3016,7 @@ __GGB__keysVar.hu_gm.plain = {
     "polar": "pol\xe1r",
     "resetConstruction": "Szerkeszt\xe9s t\xf6rl\xe9se",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "\xcdrjon be egy r\xf6vid szem\xe9lyes \xfczenetet",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "t\xe9r",

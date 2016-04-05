@@ -3016,7 +3016,7 @@ __GGB__keysVar.vi.plain = {
     "polar": "c\u1ef1c",
     "resetConstruction": "x\xe1c l\u1eadp l\u1ea1i c\xe1ch d\u1ef1ng h\xecnh",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Nh\u1eadp tin nh\u1eafn c\xe1 nh\xe2n ng\u1eafn",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "space",

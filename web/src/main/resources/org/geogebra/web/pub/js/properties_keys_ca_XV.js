@@ -3016,7 +3016,7 @@ __GGB__keysVar.ca_XV.plain = {
     "polar": "forma polar",
     "resetConstruction": "Reinicia la construcci\xf3",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Introdu\xefu un breu missatge personal",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "espai",

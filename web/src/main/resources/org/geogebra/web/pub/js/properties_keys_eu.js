@@ -3016,7 +3016,7 @@ __GGB__keysVar.eu.plain = {
     "polar": "polarra",
     "resetConstruction": "Hasi eraikuntza berriro",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Idatzi mezu pertsonal laburra",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "hutsunea",

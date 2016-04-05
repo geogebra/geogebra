@@ -3016,7 +3016,7 @@ __GGB__keysVar.de.plain = {
     "polar": "polar",
     "resetConstruction": "Konstruktion zur\xfccksetzen",
     "share_message": "Nachricht",
-    "share_message_text": "Erstellen Sie eine kurze pers\xf6nliche Nachricht (optional)",
+    "share_message_text": "Erstellen Sie eine kurze pers\xf6nliche Nachricht",
     "share_recipient": "Empf\xe4nger/in",
     "share_to": "An",
     "space": "Raum",

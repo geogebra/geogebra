@@ -3016,7 +3016,7 @@ __GGB__keysVar.ko.plain = {
     "polar": "\uadf9\uc88c\ud45c",
     "resetConstruction": "\uad6c\uc131 \ub418\ub3cc\ub9ac\uae30",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "\uac04\ub2e8\ud788 \ud558\uace0 \uc2f6\uc740 \uc774\uc57c\uae30\ub97c \uc801\uc5b4\uc8fc\uc138\uc694.",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "3\ucc28\uc6d0\uacf5\uac04",

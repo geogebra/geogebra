@@ -3016,7 +3016,7 @@ __GGB__keysVar.ta.plain = {
     "polar": "\u0bae\u0bc1\u0ba9\u0bc8\u0bb5\u0bae\u0bcd",
     "resetConstruction": "\u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc8 \u0bae\u0bc0\u0bb3 \u0b85\u0bae\u0bc8\u0b95\u0bcd\u0b95",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Enter a short personal message",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "space",

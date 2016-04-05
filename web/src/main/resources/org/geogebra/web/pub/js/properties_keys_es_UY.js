@@ -3016,7 +3016,7 @@ __GGB__keysVar.es_UY.plain = {
     "polar": "polar",
     "resetConstruction": "Reinicio de construcci\xf3n",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Ingresar un breve mensaje personal",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "espacio",

@@ -3016,7 +3016,7 @@ __GGB__keysVar.ji.plain = {
     "polar": "\u05e4\u05bc\u05d0\u05b8\u05dc\u05d0\u05b7\u05e8",
     "resetConstruction": "\u05d0\u05b8\u05e0\u05d4\u05d9\u05d9\u05d1\u05df \u05e4\u05bf\u05d5\u05df \u05d3\u05d0\u05b8\u05e1 \u05e0\u05f2\u05b7",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Enter a short personal message",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "\u05e8\u05d5\u05d9\u05dd",

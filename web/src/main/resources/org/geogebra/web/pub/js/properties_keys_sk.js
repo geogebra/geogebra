@@ -3016,7 +3016,7 @@ __GGB__keysVar.sk.plain = {
     "polar": "pol\xe1rne",
     "resetConstruction": "resetova\u0165 kon\u0161trukciu",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Zadajte kr\xe1tku s\xfakromn\xfa spr\xe1vu",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "priestor",

@@ -3016,7 +3016,7 @@ __GGB__keysVar.xh.plain = {
     "polar": "ipolar",
     "resetConstruction": "Phinda ulungise uLwakhiwo",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Faka umyalezo wakho omfutshane",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "ispace",

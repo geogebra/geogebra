@@ -3016,7 +3016,7 @@ __GGB__keysVar.et.plain = {
     "polar": "polaar",
     "resetConstruction": "Taasalusta konstruktsiooni",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Sisestage l\xfchike personaalne s\xf5num",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "ruum",

@@ -3016,7 +3016,7 @@ __GGB__keysVar.ro.plain = {
     "polar": "polar",
     "resetConstruction": "Reseteaz\u0103 construc\u021bie",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Introduce\u0163i un scurt mesaj personal",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "spatiu",

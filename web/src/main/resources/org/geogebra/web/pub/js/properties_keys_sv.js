@@ -3016,7 +3016,7 @@ __GGB__keysVar.sv.plain = {
     "polar": "pol\xe4r",
     "resetConstruction": "Nollst\xe4ll konstruktion",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Ange ett kort personligt meddelande",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "3Drymden",

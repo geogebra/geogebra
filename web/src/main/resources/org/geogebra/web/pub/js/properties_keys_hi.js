@@ -3016,7 +3016,7 @@ __GGB__keysVar.hi.plain = {
     "polar": "\u0927\u094d\u0930\u0941\u0935\u0940\u092f",
     "resetConstruction": "\u0930\u091a\u0928\u093e \u0930\u0940\u0938\u0947\u091f \u0915\u0930\u0947\u0902",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "\u090f\u0915 \u091b\u094b\u091f\u093e \u0938\u0902\u0915\u094d\u0937\u093f\u092a\u094d\u0924 \u0928\u093f\u091c\u0940 \u0938\u0902\u0926\u0947\u0936 \u0926\u0930\u094d\u091c \u0915\u0930\u0947\u0902\u0964",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "\u0938\u094d\u092a\u0947\u0938",

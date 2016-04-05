@@ -3016,7 +3016,7 @@ __GGB__keysVar.sl.plain = {
     "polar": "polarni",
     "resetConstruction": "Ponovno za\u010dni konstrukcijo",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Vpi\u0161i kratko osebno sporo\u010dilo",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "prostor",

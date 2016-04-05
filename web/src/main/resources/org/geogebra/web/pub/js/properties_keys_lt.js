@@ -3016,7 +3016,7 @@ __GGB__keysVar.lt.plain = {
     "polar": "polinis",
     "resetConstruction": "Atstatyti konstrukcij\u0105",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "\u012eveskite trump\u0105 \u017einut\u0119",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "tarpas",

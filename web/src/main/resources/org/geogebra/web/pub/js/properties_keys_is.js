@@ -3016,7 +3016,7 @@ __GGB__keysVar.is.plain = {
     "polar": "skaut",
     "resetConstruction": "Endursetja sm\xed\xf0",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Enter a short personal message",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "space",

@@ -3016,7 +3016,7 @@ __GGB__keysVar.pt_PT.plain = {
     "polar": "polar",
     "resetConstruction": "Reiniciar a constru\xe7\xe3o",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Escreva uma breve mensagem pessoal",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "3D",

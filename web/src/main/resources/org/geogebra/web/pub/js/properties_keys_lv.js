@@ -3016,7 +3016,7 @@ __GGB__keysVar.lv.plain = {
     "polar": "pol\u0101rs",
     "resetConstruction": "p\u0101rl\u0101d\u0113t konstrukcijas",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Ievadi \u0161iu person\u012bgo zi\u0146u",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "telpa",

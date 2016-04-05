@@ -3016,7 +3016,7 @@ __GGB__keysVar.tr.plain = {
     "polar": "kutupsal",
     "resetConstruction": "\u0130n\u015fay\u0131 s\u0131f\u0131rla",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "K\u0131sa bir ki\u015fisel mesaj girin",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "uzay",

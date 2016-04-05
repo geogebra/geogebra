@@ -3016,7 +3016,7 @@ __GGB__keysVar.hr.plain = {
     "polar": "polarno",
     "resetConstruction": "Vrati po\u010detno stanje konstrukcije",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Unesite kratku osobnu poruku",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "prostor",

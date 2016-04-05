@@ -3016,7 +3016,7 @@ __GGB__keysVar.cy.plain = {
     "polar": "pegynlin",
     "resetConstruction": "Ailosod y lluniad",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Enter a short personal message",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "space",

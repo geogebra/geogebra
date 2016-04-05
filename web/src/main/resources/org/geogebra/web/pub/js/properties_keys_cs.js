@@ -3016,7 +3016,7 @@ __GGB__keysVar.cs.plain = {
     "polar": "pol\xe1rn\xed",
     "resetConstruction": "znovunastaven\xed konstrukce",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Vlo\u017ete kr\xe1tk\xfd osobn\xed vzkaz",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "prostor",

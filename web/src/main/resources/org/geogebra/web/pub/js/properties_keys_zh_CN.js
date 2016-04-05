@@ -3016,7 +3016,7 @@ __GGB__keysVar.zh_CN.plain = {
     "polar": "\u6781\u5750\u6807",
     "resetConstruction": "\u91cd\u7f6e\u6784\u9020",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "\u8f93\u5165\u7b80\u77ed\u7684\u4e2a\u4eba\u4fe1\u606f",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "space",

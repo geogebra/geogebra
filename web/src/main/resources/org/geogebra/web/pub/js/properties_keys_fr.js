@@ -3016,7 +3016,7 @@ __GGB__keysVar.fr.plain = {
     "polar": "polaire",
     "resetConstruction": "R\xe9initialiser la construction",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Entrez un court message personnel",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "Espace",

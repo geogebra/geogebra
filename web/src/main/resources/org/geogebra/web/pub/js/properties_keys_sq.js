@@ -3016,7 +3016,7 @@ __GGB__keysVar.sq.plain = {
     "polar": "Polare",
     "resetConstruction": "Rivendos Ndertimin",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Fut nje mesazh personal te shkurter",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "hapesire",

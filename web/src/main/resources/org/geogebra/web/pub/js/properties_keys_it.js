@@ -3016,7 +3016,7 @@ __GGB__keysVar.it.plain = {
     "polar": "polare",
     "resetConstruction": "Reimposta costruzione",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Inserisci un breve messaggio personale",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "spazio",

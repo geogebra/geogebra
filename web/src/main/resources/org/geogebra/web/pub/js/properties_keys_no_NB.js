@@ -3016,7 +3016,7 @@ __GGB__keysVar.no_NB.plain = {
     "polar": "polar",
     "resetConstruction": "Tilbakestill figuren",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Skriv en kort personlig melding",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "rom",

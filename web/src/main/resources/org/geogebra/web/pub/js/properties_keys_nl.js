@@ -3016,7 +3016,7 @@ __GGB__keysVar.nl.plain = {
     "polar": "polair",
     "resetConstruction": "Constructie herbeginnen",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Geef een korte persoonlijke boodschap",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "spatie",

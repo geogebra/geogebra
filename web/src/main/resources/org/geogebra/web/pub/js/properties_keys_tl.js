@@ -3016,7 +3016,7 @@ __GGB__keysVar.tl.plain = {
     "polar": "polar",
     "resetConstruction": "Ulitin ang gawain",
     "share_message": "Message",
-    "share_message_text": "Enter a short personal message (optional)",
+    "share_message_text": "Magpasok ng isang maikling personal na mensahe",
     "share_recipient": "Recipient",
     "share_to": "To",
     "space": "space",
