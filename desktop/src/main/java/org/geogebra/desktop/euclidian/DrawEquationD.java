@@ -24,15 +24,13 @@ import org.geogebra.desktop.main.AppD;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
-import com.himamis.retex.renderer.share.ColorUtil;
 import com.himamis.retex.renderer.share.DefaultTeXFont;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.Graphics;
-import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
+import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
@@ -132,17 +130,18 @@ public class DrawEquationD extends DrawEquation {
 				// return new Dimension(rec.width, rec.height);
 			}
 			icon.setInsets(new Insets(1, 1, 1, 1));
-			int w = icon.getIconWidth(), h = icon.getIconHeight();
+			HasForegroundColor fg = new HasForegroundColor() {
 
-			Image image = new Graphics().createImage(w, h, Image.TYPE_INT_ARGB);
-			Graphics2DInterface g3 = image.createGraphics2D();
+				public com.himamis.retex.renderer.share.platform.graphics.Color getForegroundColor() {
+					return ColorD.get(fgColor);
+				}
 
-			icon.setForeground(fgColor == null ? ColorUtil.BLACK : ColorD
-					.get(fgColor));
-			icon.paintIcon(null, g3, 0, 0);
-			g3.dispose();
+			};
 
-			g2.drawImage((java.awt.Image) image, x, y, null);
+			jl.setForeground(fgColor);
+
+			icon.paintIcon(fg, new Graphics2DD(g2), x, y);
+			
 			return new Dimension(icon.getIconWidth(), icon.getIconHeight());
 
 		}
