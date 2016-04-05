@@ -8,17 +8,21 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GDimensionD;
+import org.geogebra.desktop.awt.GFontD;
+import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
 
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
@@ -35,8 +39,9 @@ import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 public class DrawEquationD extends DrawEquation {
-	private final JLabel jl = new JLabel();
+
 	boolean drawEquationJLaTeXMathFirstCall = true;
+
 	private Object initJLaTeXMath;
 
 	/**
@@ -55,8 +60,8 @@ public class DrawEquationD extends DrawEquation {
 	 */
 	final public Dimension drawEquationJLaTeXMath(final AppD app,
 			final GeoElementND geo, final Graphics2D g2, final int x,
-			final int y, final String text,
-			final org.geogebra.common.awt.GFont font, final boolean serif,
+			final int y, final String text, final GFont font,
+			final boolean serif,
 			final Color fgColor, final Color bgColor, final boolean useCache,
 			final Integer maxWidth, final Float lineSpace) {
 		// TODO uncomment when \- works
@@ -103,9 +108,6 @@ public class DrawEquationD extends DrawEquation {
 						TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
 						TeXConstants.UNIT_CM, 0.5f);
 
-				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
-				// x, y + g2.getFont().getSize(), g2);
-				// return new Dimension(rec.width, rec.height);
 			} catch (final Exception e) {
 				// e.printStackTrace();
 				// Application.debug("LaTeX parse exception:
@@ -125,9 +127,6 @@ public class DrawEquationD extends DrawEquation {
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 							font.getSize() + 3, style, ColorD.get(fgColor));
 				}
-				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
-				// x, y + g2.getFont().getSize(), g2);
-				// return new Dimension(rec.width, rec.height);
 			}
 			icon.setInsets(new Insets(1, 1, 1, 1));
 			HasForegroundColor fg = new HasForegroundColor() {
@@ -138,10 +137,8 @@ public class DrawEquationD extends DrawEquation {
 
 			};
 
-			jl.setForeground(fgColor);
-
 			icon.paintIcon(fg, new Graphics2DD(g2), x, y);
-			
+
 			return new Dimension(icon.getIconWidth(), icon.getIconHeight());
 
 		}
@@ -182,11 +179,6 @@ public class DrawEquationD extends DrawEquation {
 			im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
 					font.getSize() + 3, new ColorD(Color.black),
 					new ColorD(Color.white));
-
-			// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text, x, y
-			// + g2.getFont().getSize(), g2);
-			// return new Dimension(rec.width, rec.height);
-
 		}
 
 		new Graphics2DD(g2).drawImage(im, x, y);
@@ -203,8 +195,7 @@ public class DrawEquationD extends DrawEquation {
 
 	final public Dimension measureEquationJLaTeXMath(final AppD app,
 			final GeoElement geo, final int x, final int y, final String text,
-			final org.geogebra.common.awt.GFont font, final boolean serif,
-
+			final GFont font, final boolean serif,
 			final Integer maxWidth, final Float lineSpace) {
 
 		checkFirstCall(app);
@@ -240,9 +231,6 @@ public class DrawEquationD extends DrawEquation {
 					TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
 					TeXConstants.UNIT_CM, 0.5f);
 
-			// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
-			// x, y + g2.getFont().getSize(), g2);
-			// return new Dimension(rec.width, rec.height);
 		} catch (final Exception e) {
 			// e.printStackTrace();
 			// Application.debug("LaTeX parse exception:
@@ -253,9 +241,6 @@ public class DrawEquationD extends DrawEquation {
 			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 					font.getSize() + 3, style, ColorD.get(fgColor));
 
-			// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
-			// x, y + g2.getFont().getSize(), g2);
-			// return new Dimension(rec.width, rec.height);
 		}
 		icon.setInsets(new Insets(1, 1, 1, 1));
 
@@ -282,102 +267,37 @@ public class DrawEquationD extends DrawEquation {
 			// disable \magnification{factor} (makes Algebra View not work)
 			DefaultTeXFont.enableMagnification(false);
 
-			// for (Language l : Language.values()) {
-			//
-			// if (l.testChar != null) {
-			// final Font testFont = app.getFontCanDisplayAwt(l.testChar,
-			// true, Font.PLAIN, 12);
-			// if (testFont != null) {
-			// TeXFormula
-			// .registerExternalFont(Character.UnicodeBlock
-			// .of(l.testChar.charAt(0)), testFont
-			// .getFontName());
-			// Application.debug("LaTeX font registering: "+l.name+"
-			// "+testFont.getFontName());
-			// }
-			//
-			// }
-			// }
-
-			// // Arabic is in standard Java fonts, so we don't need to search
-			// for
-			// // a font
-			// TeXFormula.registerExternalFont(
-			// Character.UnicodeBlock.of('\u0681'), "Sans Serif", "Serif");
-			// // Korean is in standard Java fonts, so we don't need to search
-			// for
-			// // a font
-			// TeXFormula.registerExternalFont(
-			// Character.UnicodeBlock.of('\uB458'), "Sans Serif", "Serif");
-			// // Japanese is in standard Java fonts, so we don't need to search
-			// // for
-			// // a font
-			// TeXFormula.registerExternalFont(
-			// Character.UnicodeBlock.of('\u30ea'), "Sans Serif", "Serif");
-			//
-			// // Other codeblocks (currency, symbols etc)
-			// TeXFormula.registerExternalFont(
-			// Character.UnicodeBlock.of('\u20a0'), "Sans Serif", "Serif");
-			// TeXFormula.registerExternalFont(
-			// Character.UnicodeBlock.of('\u2600'), "Sans Serif", "Serif");
-			// TeXFormula.registerExternalFont(
-			// Character.UnicodeBlock.of('\u2700'), "Sans Serif", "Serif");
-			//
-			// try {
-			// WebStartAlphabetRegistration
-			// .register(AlphabetRegistration.JLM_GREEK);
-			// WebStartAlphabetRegistration
-			// .register(AlphabetRegistration.JLM_CYRILLIC);
-			// // URLAlphabetRegistration.register(new
-			// // URL(app.getCodeBase()+"jlm_greek.jar"),
-			// // "greek",URLAlphabetRegistration.JLM_GREEK);
-			// // URLAlphabetRegistration.register(new
-			// // URL(app.getCodeBase()+"jlm_cyrillic.jar"),
-			// // "cyrillic",URLAlphabetRegistration.JLM_CYRILLIC);
-			// } catch (final Exception e) {
-			// e.printStackTrace();
-			// }
-
 		}
 
 	}
 
-	final public org.geogebra.common.awt.GDimension drawEquation(final App app,
-			final GeoElementND geo,
-			final org.geogebra.common.awt.GGraphics2D g2, final int x,
-			final int y, final String text,
-			final org.geogebra.common.awt.GFont font, final boolean serif,
-			final org.geogebra.common.awt.GColor fgColor,
-			final org.geogebra.common.awt.GColor bgColor,
+	final public GDimension drawEquation(final App app,
+			final GeoElementND geo, final GGraphics2D g2, final int x,
+			final int y, final String text, final GFont font,
+			final boolean serif, final GColor fgColor, final GColor bgColor,
 			final boolean useCache, boolean updateAgain, Runnable callback) {
 
 		Dimension d = drawEquation((AppD) app, geo,
-				org.geogebra.desktop.awt.GGraphics2DD.getAwtGraphics(g2), x, y,
+				GGraphics2DD.getAwtGraphics(g2), x, y,
 				text, font, serif, fgColor, bgColor, useCache, null, null);
 
 		if (callback != null) {
 			callback.run();
 		}
-		return new org.geogebra.desktop.awt.GDimensionD(d);
+		return new GDimensionD(d);
 	}
 
 	final public static Dimension drawEquation(final AppD app,
 			final GeoElementND geo, final Graphics2D g2, final int x,
-			final int y, final String text,
-			final org.geogebra.common.awt.GFont font, final boolean serif,
-			final org.geogebra.common.awt.GColor fgColor,
-			final org.geogebra.common.awt.GColor bgColor,
+			final int y, final String text, final GFont font,
+			final boolean serif, final GColor fgColor, final GColor bgColor,
 			final boolean useCache, final Integer maxWidth,
 			final Float lineSpace) {
-		// if (useJLaTeXMath)
+
 		return app.getDrawEquation().drawEquationJLaTeXMath(app, geo, g2, x, y,
-				text, font, serif,
-				org.geogebra.desktop.awt.GColorD.getAwtColor(fgColor),
-				org.geogebra.desktop.awt.GColorD.getAwtColor(bgColor),
-				useCache,
+				text, font, serif, GColorD.getAwtColor(fgColor),
+				GColorD.getAwtColor(bgColor), useCache,
 				maxWidth, lineSpace);
-		// else return drawEquationHotEqn(app, g2, x, y, text, font, fgColor,
-		// bgColor);
 	}
 
 	/**
@@ -387,7 +307,7 @@ public class DrawEquationD extends DrawEquation {
 	 * 
 	 * @param app
 	 *            needed for
-	 *            {@link #drawEquationJLaTeXMath(AppD, GeoElement, Graphics2D, int, int, String, org.geogebra.common.awt.GFont, boolean, Color, Color, boolean, Integer, Float)}
+	 *            {@link #drawEquationJLaTeXMath(AppD, GeoElement, Graphics2D, int, int, String, GFont, boolean, Color, Color, boolean, Integer, Float)}
 	 * @param latexIcon
 	 *            the LaTeX String will be drawn there
 	 * @param latex
@@ -415,12 +335,10 @@ public class DrawEquationD extends DrawEquation {
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		org.geogebra.common.awt.GDimension d = new org.geogebra.desktop.awt.GDimensionD();
-		d = drawEquation(app, null, new org.geogebra.desktop.awt.GGraphics2DD(
-				g2image), 0, 0, latex,
-				new org.geogebra.desktop.awt.GFontD(font), serif,
-				new org.geogebra.desktop.awt.GColorD(fgColor),
-				new org.geogebra.desktop.awt.GColorD(bgColor), true, false,
+		GDimension d = new GDimensionD();
+		d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
+				new GFontD(font), serif, new GColorD(fgColor),
+				new GColorD(bgColor), true, false,
 				null);
 
 		// Now use this size and draw again to get the final image
@@ -433,11 +351,10 @@ public class DrawEquationD extends DrawEquation {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		d = drawEquation(app, null, new org.geogebra.desktop.awt.GGraphics2DD(
-				g2image), 0, 0, latex,
-				new org.geogebra.desktop.awt.GFontD(font), serif,
-				new org.geogebra.desktop.awt.GColorD(fgColor),
-				new org.geogebra.desktop.awt.GColorD(bgColor), true, false,
+
+		d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
+				new GFontD(font), serif, new GColorD(fgColor),
+				new GColorD(bgColor), true, false,
 				null);
 
 		latexIcon.setImage(image);
