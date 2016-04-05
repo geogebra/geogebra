@@ -5183,7 +5183,7 @@ public abstract class EuclidianController {
 	 * @param hits
 	 * @return
 	 */
-	protected final void macro(Hits hits, final AsyncOperation callback2) {
+	protected final boolean macro(Hits hits, final AsyncOperation callback2) {
 		// try to get next needed type of macroInput
 		index = selGeos();
 
@@ -5197,7 +5197,7 @@ public abstract class EuclidianController {
 		if (selectionPreview) {
 			if (callback2 != null)
 				callback2.callback(false);
-			return;
+			return false;
 		}
 
 		// only one point needed: try to create it
@@ -5249,7 +5249,7 @@ public abstract class EuclidianController {
 			readNumberOrAngleIfNeeded(callback3);
 		}
 
-		macroProcess(callback2);
+		return macroProcess(callback2);
 
 	}
 
@@ -5275,18 +5275,20 @@ public abstract class EuclidianController {
 
 	}
 
-	public void macroProcess(AsyncOperation callback2) {
+	public boolean macroProcess(AsyncOperation callback2) {
 		// do we have everything we need?
 		if (selGeos() == macroInput.length) {
 			checkZooming();
 
-			kernel.useMacro(null, macro, getSelectedGeos());
+			GeoElement[] res = kernel.useMacro(null, macro, getSelectedGeos());
 			if (callback2 != null)
 				callback2.callback(true);
-			return;
+			return res != null;
 		}
-		if (callback2 != null)
+		if (callback2 != null) {
 			callback2.callback(false);
+		}
+		return false;
 	}
 
 	protected final boolean button(boolean textfield) {
@@ -5584,8 +5586,7 @@ public abstract class EuclidianController {
 					}
 				};
 
-				macro(hits, callback2);
-				return false;
+			return macro(hits, callback2);
 			// break;
 
 			case EuclidianConstants.MODE_AREA:
