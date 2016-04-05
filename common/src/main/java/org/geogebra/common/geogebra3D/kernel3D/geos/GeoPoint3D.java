@@ -915,8 +915,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		// boolean isVisibleInView2D = false;
 		Coords p = getInhomCoordsInD3();
 
-		sbToString.setLength(0);
-
 		if (getMode() == Kernel.COORD_CARTESIAN_3D) {
 			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, p.getX(),
 					p.getY(), p.getZ(), sbToString);

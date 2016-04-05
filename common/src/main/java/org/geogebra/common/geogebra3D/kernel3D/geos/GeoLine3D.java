@@ -128,7 +128,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 	private StringBuilder buildValueString(StringTemplate tpl) {
 
 		StringBuilder sbToString = getSbBuildValueString();
-		sbToString.setLength(0);
 
 		if (!isDefined()) {
 			sbToString.append("X = (?, ?, ?)");

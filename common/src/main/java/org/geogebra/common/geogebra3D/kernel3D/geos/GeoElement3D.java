@@ -172,16 +172,20 @@ public abstract class GeoElement3D extends GeoElement {
 	private StringBuilder sbToString;
 
 	protected StringBuilder getSbToString() {
-		if (sbToString == null)
+		if (sbToString == null) {
 			sbToString = new StringBuilder(50);
+		}
 		return sbToString;
 	}
 
 	private StringBuilder sbBuildValueString = new StringBuilder(50);
 
 	protected StringBuilder getSbBuildValueString() {
-		if (sbBuildValueString == null)
-			sbBuildValueString = new StringBuilder(50);
+		if (sbBuildValueString == null) {
+			sbBuildValueString = new StringBuilder();
+		} else {
+			sbBuildValueString.setLength(0);
+		}
 		return sbBuildValueString;
 	}
 
