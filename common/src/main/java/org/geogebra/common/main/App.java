@@ -3954,7 +3954,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case ZOOM_MENU_3D:
-			return false;
+			return prerelease;
 
 			// in web (not tablet apps yet)
 			// File -> Enter Exam Mode
