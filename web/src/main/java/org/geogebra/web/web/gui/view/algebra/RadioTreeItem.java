@@ -1157,6 +1157,8 @@ public class RadioTreeItem extends AVTreeItem
 		if (isNeedsUpdate()) {
 			doUpdate();
 		}
+		setSelected(geo.doHighlighting());
+		selectItem(geo.doHighlighting());
 	}
 
 	public boolean commonEditingCheck() {

@@ -360,7 +360,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			geo = getItem(i).getUserObject();
 			if (geo instanceof GeoElement) {
 				RadioTreeItem.as(ti).repaint();
-				ti.setSelected(((GeoElement) geo).doHighlighting());
 			} else if (ti.getWidget() instanceof GroupHeader) {				
 				((GroupHeader) ti.getWidget()).setText(ti.getUserObject().toString());
 				if (ti.getState()) {
@@ -418,7 +417,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				&& geo.isIndependent()
 				&& ti instanceof RadioTreeItem) {
 			RadioTreeItem.as(ti).repaint();
-			ti.setSelected(geo.doHighlighting());
 				}
 
 	}
@@ -427,12 +425,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		for (int j = 0; j < item.getChildCount(); j++) {
 			if (item.getChild(j) instanceof RadioTreeItem) {
 				RadioTreeItem.as(item.getChild(j)).repaint();
-			}
-			Object geo = item.getChild(j).getUserObject();
-			if (geo instanceof GeoElement) {
-				item.getChild(j).setSelected(
-						((GeoElement) geo).doHighlighting());
-
 			}
 		}
 	}
