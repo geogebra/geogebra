@@ -886,6 +886,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (tpl.hasCASType()) {
 			if (getDefinition() != null) {
 				StringBuilder sb = getSbBuildValueString();
+				// clear before add definition
+				// needed for GGB-719
+				sb.setLength(0);
 				sb.append(getDefinition().toValueString(tpl));
 				return sb;
 			}
