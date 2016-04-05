@@ -52,10 +52,6 @@ public class DrawEquationW extends DrawEquation {
 	public DrawEquationW() {
 	}
 
-	protected native void cvmBoxInit(String moduleBaseURL) /*-{
-		$wnd.cvm.box.init(moduleBaseURL);
-	}-*/;
-
 	/**
 	 * Draws an equation on the algebra view in display mode (not editing).
 	 * Color is supposed to be handled in outer span element.
@@ -1339,15 +1335,13 @@ public class DrawEquationW extends DrawEquation {
 			        - joel.getAbsoluteRight() < 50) {
 				// InputTreeItem class in theory
 				el.setScrollLeft(el.getScrollWidth() - el.getClientWidth());
-			} else if (joel.getAbsoluteLeft()
- - el.getAbsoluteLeft() < 50) {
+			} else if (joel.getAbsoluteLeft() - el.getAbsoluteLeft() < 50) {
 				// we cannot show the "X" sign all the time anyway!
 				// but it would be good not to keep the cursor on the
 				// edge...
 				// so if it is around the edge by now, scroll!
 				el.setScrollLeft(el.getScrollLeft() - 50
-				                + joel.getAbsoluteLeft()
- - el.getAbsoluteLeft());
+						+ joel.getAbsoluteLeft() - el.getAbsoluteLeft());
 			} else if (el.getAbsoluteRight()
 			        - joel.getAbsoluteRight() < 50) {
 				// similarly
@@ -1400,8 +1394,8 @@ public class DrawEquationW extends DrawEquation {
 					c.getCoordinateSpaceHeight());
 		}
 		Context2d ctx = c.getContext2d();
-		TeXIcon icon = DrawEquationW.createIcon("\\mathsf{\\mathrm {" + text0
- + "}}", fontSize,
+		TeXIcon icon = DrawEquationW.createIcon(
+				"\\mathsf{\\mathrm {" + text0 + "}}", fontSize,
 				TeXFormula.SANSSERIF);
 		Graphics2DInterface g3 = new Graphics2DW(ctx);
 		double ratio = ((AppW) geo.getKernel().getApplication())
