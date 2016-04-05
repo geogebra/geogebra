@@ -1014,7 +1014,9 @@ public class ConstructionDefaults {
 
 	public GColor getNextColor() {
 		GColor color = colorSequence[colorIndex];
+		if (!cons.getKernel().isSilentMode()) {
 		colorIndex = (colorIndex + 1) % colorSequence.length;
+		}
 		return color;
 	}
 

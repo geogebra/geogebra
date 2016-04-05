@@ -74,6 +74,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -5118,11 +5119,6 @@ public class Kernel {
 
 	private ScheduledPreviewFromInputBar scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar();
 
-	public String getLastValidInput() {
-		String ret = scheduledPreviewFromInputBar.validInput;
-		scheduledPreviewFromInputBar.validInput = null;
-		return ret;
-	}
 	private class ScheduledPreviewFromInputBar implements Runnable {
 
 		private String input = "";
@@ -5130,6 +5126,14 @@ public class Kernel {
 
 		public void setInput(String str) {
 			this.input = str;
+			try {
+
+				ValidExpression ve = getAlgebraProcessor()
+						.getValidExpressionNoExceptionHandling(input);
+				validInput = input;
+			} catch (Throwable t) {
+
+			}
 		}
 
 		public String getInput() {
@@ -5147,15 +5151,17 @@ public class Kernel {
 
 			Log.debug("preview for: " + input);
 			boolean silentModeOld = isSilentMode();
+
 			try {
 				setSilentMode(true);
 				ValidExpression ve = getAlgebraProcessor()
-						.getValidExpressionNoExceptionHandling(input);
+						.getValidExpressionNoExceptionHandling(validInput);
 				GeoCasCell casEval = getAlgebraProcessor().checkCasEval(
 						ve.getLabel(), input, null);
 				if (casEval == null) {
 					GeoElement existingGeo = lookupLabel(ve.getLabel());
 					if (existingGeo == null) {
+
 						GeoElement[] geos = getAlgebraProcessor()
 								.processAlgebraCommandNoExceptionHandling(ve,
 										false, false, true,
@@ -5163,6 +5169,10 @@ public class Kernel {
 						if (geos != null) {
 							for (GeoElement geo : geos) {
 								geo.setSelectionAllowed(false);
+								if (!input.equals(validInput)) {
+									geo.setLineType(
+											EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
+								}
 							}
 						}
 						validInput = input;
@@ -5180,7 +5190,7 @@ public class Kernel {
 			} catch (Throwable ee) {
 				Log.debug("-- invalid input");
 				setSilentMode(true);
-				// notifyUpdatePreviewFromInputBar(null);
+				notifyUpdatePreviewFromInputBar(null);
 				setSilentMode(silentModeOld);
 			}
 		}
