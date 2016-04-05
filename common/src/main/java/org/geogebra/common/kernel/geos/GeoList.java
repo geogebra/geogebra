@@ -415,7 +415,6 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	@Override
 	public void setObjColor(final GColor color) {
 		super.setObjColor(color);
-
 		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
 		}
@@ -2946,6 +2945,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		if (drawAsComboBox
 				|| (this.size() > 0 && this.get(0).hasBackgroundColor())) {
 			return true;
+		}
+		if (this.size() > 0 && !this.get(0).hasBackgroundColor()) {
+			return false;
 		}
 		return createTemplateElement().hasBackgroundColor();
 	}

@@ -596,7 +596,7 @@ public class PropertiesViewD extends
 	@Override
 	public void update(GeoElement geo) {
 
-		if (!isShowing())
+		if (!isShowing() || (!geo.isLabelSet() && !geo.isGeoCasCell()))
 			return;
 
 		// updateSelection();
@@ -609,7 +609,7 @@ public class PropertiesViewD extends
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 
-		if (!isShowing())
+		if (!isShowing() || (!geo.isLabelSet() && !geo.isGeoCasCell()))
 			return;
 
 		((OptionsObjectD) objectPanel).updateVisualStyle(geo);
