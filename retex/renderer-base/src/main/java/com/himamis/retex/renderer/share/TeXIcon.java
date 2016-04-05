@@ -55,7 +55,6 @@ import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Icon;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 
 /**
@@ -244,7 +243,7 @@ public class TeXIcon implements Icon {
         // copy graphics settings
     	// TODO implement getRenderingHints
         //RenderingHints oldHints = g2.getRenderingHints();
-        //g2.saveTransformation();
+		g2.saveTransformation();
         Color oldColor = g2.getColor();
 
         // new settings
@@ -268,12 +267,10 @@ public class TeXIcon implements Icon {
         box.draw(g2, (x + insets.left) / size, (y + insets.top) / size+ box.getHeight());
         
         // quick fix for export problem
-        // TODO: check why g2.restoreTransformation(); doesn't work
-		g2.scale(1 / size, 1 / size);
 
         // restore graphics settings
         //g2.setRenderingHints(oldHints);
-        //g2.restoreTransformation();
+		g2.restoreTransformation();
         g2.setColor(oldColor);
     }
 }

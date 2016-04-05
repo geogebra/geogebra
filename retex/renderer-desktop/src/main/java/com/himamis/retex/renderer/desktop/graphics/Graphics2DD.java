@@ -47,6 +47,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints.Key;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.util.LinkedList;
 
 import com.himamis.retex.renderer.desktop.font.FontD;
 import com.himamis.retex.renderer.desktop.font.FontRenderContextD;
@@ -65,6 +66,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Transform;
 public class Graphics2DD implements Graphics2DInterface {
 
 	private Graphics2D impl;
+	private LinkedList<TransformD> transformationStack = new LinkedList<TransformD>();
 
 	public Graphics2DD(Graphics2D impl) {
 		this.impl = impl;
@@ -215,13 +217,13 @@ public class Graphics2DD implements Graphics2DInterface {
 		}
 	}
 
-	private AffineTransform savedTransformation;
 
 	public void saveTransformation() {
-		savedTransformation = impl.getTransform();
+		transformationStack.add(new TransformD(impl.getTransform()));
 	}
 
 	public void restoreTransformation() {
-		impl.setTransform(savedTransformation);
+		TransformD last = transformationStack.removeLast();
+		impl.setTransform(last);
 	}
 }
