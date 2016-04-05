@@ -387,7 +387,21 @@ public class Ggb2giac {
 						+ "[ggbinterans:= when(ggbinarg0[0] == 'pnt' || ggbinarg1[0] == 'pnt', when(ggbinterans == true,"
 						+ "when(ggbinarg0[0]=='pnt',ggbinarg0,ggbinarg1),?) ,"
 						+ "when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans))) )],"
-						+ "ggbinterans][5]");
+						+ "[ggbinterans:= when (ggbinterans != '?', ggbinterans,"
+						// Intersect[plane, plane]
+						+ "when (ggbinarg0[0] == 'pnt' && (ggbinarg0)[1][0] == 'hyperplan' && ggbinarg1[0] == 'pnt' && (ggbinarg1)[1][0] == 'hyperplan',"
+						// the intersection is empty
+						+ "when (xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]) == '?', ?,"
+						// create 3d line for intersection
+						+ "regroup(equation(cat(\"X=\","
+						+ "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][0])),"
+						+ "\"+\u03BB*\","
+						+ "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]))))) ) , ? ) )],"
+						+ "ggbinterans][6]");
 
 		// Giac currently uses approximation for this
 		// p("Conic.5", "equation(conic((%0),(%1),(%2),(%3),(%4)))");
