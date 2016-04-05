@@ -244,7 +244,7 @@ public class TeXIcon implements Icon {
         // copy graphics settings
     	// TODO implement getRenderingHints
         //RenderingHints oldHints = g2.getRenderingHints();
-        g2.saveTransformation();
+        //g2.saveTransformation();
         Color oldColor = g2.getColor();
 
         // new settings
@@ -273,7 +273,7 @@ public class TeXIcon implements Icon {
 
         // restore graphics settings
         //g2.setRenderingHints(oldHints);
-        g2.restoreTransformation();
+        //g2.restoreTransformation();
         g2.setColor(oldColor);
     }
 }
