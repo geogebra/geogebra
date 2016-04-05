@@ -62,6 +62,7 @@ import java.util.zip.GZIPInputStream;
 
 import javax.imageio.ImageIO;
 
+import org.geogebra.common.util.Base64;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -196,7 +197,7 @@ public class SVGUniverse implements Serializable
                 content = content.substring(6);
                 try
                 {
-                    byte[] buf = new sun.misc.BASE64Decoder().decodeBuffer(content);
+					byte[] buf = Base64.decode(content);
                     ByteArrayInputStream bais = new ByteArrayInputStream(buf);
                     BufferedImage img = ImageIO.read(bais);
 
@@ -216,7 +217,7 @@ public class SVGUniverse implements Serializable
                     loadedImages.put(url, ref);
 
                     return url;
-                } catch (IOException ex)
+				} catch (IOException ex)
                 {
                     Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING,
                         "Could not decode inline image", ex);
