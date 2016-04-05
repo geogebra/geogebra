@@ -1737,8 +1737,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		if (!showExtendedAV) {
 			return;
 		}
+		SliderPosition old = sliderPos;
 		setEuclidianVisible(true);
 		setEuclidianVisible(false);
+		sliderPos = old;
 
 	}
 
