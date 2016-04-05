@@ -106,7 +106,7 @@ public class TeXFormula {
 			{ "Updownarrow", "Updownarrow" }, { "vert", "vert" }, { "Vert", "Vert" } };
 
 	// point-to-pixel conversion
-	public static float PIXELS_PER_POINT = 1f;
+	final public static float PIXELS_PER_POINT = 1f;
 
 	// used as second index in "delimiterNames" table (over or under)
 	private static final int OVER_DEL = 0;
@@ -184,20 +184,20 @@ public class TeXFormula {
 	 * 
 	 * @param dpi the target DPI
 	 */
-	public static void setDPITarget(float dpi) {
-		PIXELS_PER_POINT = dpi / 72f;
-	}
+//	public static void setDPITarget(float dpi) {
+//		PIXELS_PER_POINT = dpi / 72f;
+//	}
 
 	/**
 	 * Set the default target DPI to the screen dpi (only if we're in non-headless mode)
 	 */
-	public static void setDefaultDPI() {
+	//public static void setDefaultDPI() {
 		// TODO
 		/*
 		 * if (!GraphicsEnvironment.isHeadless()) { setDPITarget((float)
 		 * Toolkit.getDefaultToolkit().getScreenResolution()); }
 		 */
-	}
+	//}
 
 	// the root atom of the "atom tree" that represents the formula
 	public Atom root = null;

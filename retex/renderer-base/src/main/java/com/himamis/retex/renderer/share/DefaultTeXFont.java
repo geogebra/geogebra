@@ -90,7 +90,7 @@ public class DefaultTeXFont implements TeXFont {
 	private static Map<String, Float> parameters;
 	private static Map<String, Number> generalSettings;
 
-	private static boolean magnificationEnable = true;
+	//private static boolean magnificationEnable = true;
 
 	protected static final int TOP = 0, MID = 1, REP = 2, BOT = 3;
 
@@ -561,23 +561,23 @@ public class DefaultTeXFont implements TeXFont {
 	}
 
 	public static void setMathSizes(float ds, float ts, float ss, float sss) {
-		if (magnificationEnable) {
-			generalSettings.put("scriptfactor", Math.abs(ss / ds));
-			generalSettings.put("scriptscriptfactor", Math.abs(sss / ds));
-			generalSettings.put("textfactor", Math.abs(ts / ds));
-			TeXIcon.defaultSize = Math.abs(ds);
-		}
+//		if (magnificationEnable) {
+//			generalSettings.put("scriptfactor", Math.abs(ss / ds));
+//			generalSettings.put("scriptscriptfactor", Math.abs(sss / ds));
+//			generalSettings.put("textfactor", Math.abs(ts / ds));
+//			TeXIcon.defaultSize = Math.abs(ds);
+//		}
 	}
 
 	public static void setMagnification(float mag) {
-		if (magnificationEnable) {
-			TeXIcon.magFactor = mag / 1000f;
-		}
+//		if (magnificationEnable) {
+//			TeXIcon.magFactor = mag / 1000f;
+//		}
 	}
 
-	public static void enableMagnification(boolean b) {
-		magnificationEnable = b;
-	}
+//	public static void enableMagnification(boolean b) {
+//		magnificationEnable = b;
+//	}
 
 	private static float getParameter(String parameterName) {
 		Object param = parameters.get(parameterName);

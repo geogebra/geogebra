@@ -28,7 +28,6 @@ import org.geogebra.desktop.main.AppD;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
-import com.himamis.retex.renderer.share.DefaultTeXFont;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
@@ -265,7 +264,8 @@ public class DrawEquationD extends DrawEquation {
 			JLaTeXMathCache.setMaxCachedObjects(100);
 
 			// disable \magnification{factor} (makes Algebra View not work)
-			DefaultTeXFont.enableMagnification(false);
+			// now removed from JLaTeXMath
+			// DefaultTeXFont.enableMagnification(false);
 
 		}
 
