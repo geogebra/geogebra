@@ -210,19 +210,8 @@ public class DrawEquationD extends DrawEquation {
 
 		checkFirstCall(app);
 		Color fgColor = Color.BLACK;
-		int style = 0;
-		if (font.isBold()) {
-			style = style | TeXFormula.BOLD;
-		}
-		if (font.isItalic()) {
-			style = style | TeXFormula.ITALIC;
-		}
-		if (!serif) {
-			style = style | TeXFormula.SANSSERIF;
-		}
+		int style = font.getLaTeXStyle(serif);
 
-		// if we're exporting, we want to draw it full resolution
-		// Application.debug("creating new icon for: "+text);
 		TeXFormula formula;
 		TeXIcon icon;
 
