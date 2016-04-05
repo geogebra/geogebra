@@ -415,6 +415,7 @@ public class ConstructionDefaults {
 		number.setDefaultGeoType(DEFAULT_NUMBER);
 		number.setLineThickness(GeoNumeric.DEFAULT_THICKNESS);
 		number.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL);
+		number.setSliderFixed(true);
 		defaultGeoElements.put(DEFAULT_NUMBER, number);
 
 		// angle

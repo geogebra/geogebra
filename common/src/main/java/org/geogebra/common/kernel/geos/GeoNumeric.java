@@ -708,6 +708,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			slopeTriangleSize = ((GeoNumeric) geo).slopeTriangleSize;
 			setAutoStep(((GeoNumeric) geo).autoStep);
 			symbolicMode = ((GeoNumeric) geo).symbolicMode;
+			sliderFixed = ((GeoNumeric) geo).sliderFixed;
 		}
 	}
 
