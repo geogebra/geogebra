@@ -266,6 +266,10 @@ public class TeXIcon implements Icon {
 
         // draw formula box
         box.draw(g2, (x + insets.left) / size, (y + insets.top) / size+ box.getHeight());
+        
+        // quick fix for export problem
+        // TODO: check why g2.restoreTransformation(); doesn't work
+		g2.scale(1 / size, 1 / size);
 
         // restore graphics settings
         //g2.setRenderingHints(oldHints);
