@@ -886,9 +886,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (tpl.hasCASType()) {
 			if (getDefinition() != null) {
 				StringBuilder sb = getSbBuildValueString();
-				// clear before add definition
-				// needed for GGB-719
-				sb.setLength(0);
 				sb.append(getDefinition().toValueString(tpl));
 				return sb;
 			}
@@ -898,7 +895,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			numbers[2] = z;
 			double gcd = Kernel.gcd(numbers);
 			StringBuilder sb = getSbBuildValueString();
-			sb.setLength(0);
 			sb.append("(");
 			if (gcd != 1 && !Kernel.isZero(gcd)) {
 				sb.append(kernel.format(x / gcd, tpl));
@@ -941,7 +937,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		case PARAMETRIC:
 			getInhomPointOnLine(P); // point
 			StringBuilder sbBuildValueStr = getSbBuildValueString();
-			sbBuildValueStr.setLength(0);
 			GeoCasCell casCell = getCorrespondingCasCell();
 			if (casCell == null || !casCell.isAssignmentVariableDefined()) {
 				sbBuildValueStr.append("X = ");
@@ -988,8 +983,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	private StringBuilder sbBuildValueString = new StringBuilder(50);
 
 	private StringBuilder getSbBuildValueString() {
-		if (sbBuildValueString == null)
-			sbBuildValueString = new StringBuilder(50);
+		if (sbBuildValueString == null) {
+			sbBuildValueString = new StringBuilder();
+		} else {
+			// needed for GGB-719
+			sbBuildValueString.setLength(0);
+		}
 		return sbBuildValueString;
 	}
 
