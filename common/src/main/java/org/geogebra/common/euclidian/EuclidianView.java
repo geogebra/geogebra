@@ -1091,7 +1091,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected double[] axesNumberingDistances;
 	private boolean needsAllDrawablesUpdate;
-	private boolean batchUpdate;
+	protected boolean batchUpdate;
 
 	/**
 	 * @param flag
@@ -1404,12 +1404,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.batchUpdate = true;
 	}
 
-	final public void endBatchUpdate() {
+	public void endBatchUpdate() {
 		this.batchUpdate = false;
 		if (this.needsAllDrawablesUpdate) {
 			allDrawableList.updateAll();
 			repaint();
 		}
+	}
+
+	/**
+	 * 
+	 * @return true if currently batch update
+	 */
+	public boolean isBatchUpdate() {
+		return this.batchUpdate;
 	}
 
 	/**
