@@ -1396,7 +1396,7 @@ class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			getLabel().setText(getTitle());
+			getLabel().setText(loc.getPlain(getTitle()) + ":");
 		}
 	} // StartPointPanel
 
