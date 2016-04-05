@@ -66,9 +66,7 @@ public class DrawInequality extends Drawable {
 		if (function.getIneqs().getIneq() != null)
 			ineq = function.getIneqs().getIneq();
 		update();
-		if (left != null && right != null) {
-			update2();
-		}
+
 	}
 
 	/**
@@ -354,8 +352,12 @@ public class DrawInequality extends Drawable {
 				last = zero;
 			}
 			updateStrokes(geo);
-		} else
+		} else {
 			gpAxis = null;
+		}
+		if (left != null && right != null) {
+			update2();
+		}
 
 	}
 

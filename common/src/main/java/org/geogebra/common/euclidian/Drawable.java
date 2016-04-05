@@ -30,7 +30,6 @@ import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.draw.DrawInequality;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -712,11 +711,5 @@ public abstract class Drawable extends DrawableND {
 
 	public void updateForView() {
 		update();
-		// needed for TRAC-4610
-		// call update after zoom
-		if (this instanceof DrawInequality) {
-			((DrawInequality) this).update2();
-		}
-
 	}
 }
