@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -32,7 +35,7 @@ public final class DrawText extends Drawable {
 	/**
 	 * color used to draw rectangle around text when highlighted
 	 */
-	public static final org.geogebra.common.awt.GColor HIGHLIGHT_COLOR = org.geogebra.common.awt.GColor.LIGHT_GRAY;
+	public static final GColor HIGHLIGHT_COLOR = GColor.LIGHT_GRAY;
 
 	// private static final int SELECTION_DIAMETER_ADD = 4;
 	// private static final int SELECTION_OFFSET = SELECTION_DIAMETER_ADD / 2;
@@ -42,7 +45,7 @@ public final class DrawText extends Drawable {
 	private int fontSize = -1;
 	private int fontStyle = -1;
 	private boolean serifFont;
-	private org.geogebra.common.awt.GFont textFont;
+	private GFont textFont;
 	private GeoPointND loc; // text location
 
 	// private Image eqnImage;
@@ -65,7 +68,7 @@ public final class DrawText extends Drawable {
 		textFont = view
 				.getApplication()
 				.getPlainFontCommon()
-				.deriveFont(org.geogebra.common.awt.GFont.PLAIN, view.getFontSize());
+				.deriveFont(GFont.PLAIN, view.getFontSize());
 
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
 		// at this stage
@@ -157,10 +160,10 @@ public final class DrawText extends Drawable {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 
-			org.geogebra.common.awt.GColor bg = geo.getBackgroundColor();
+			GColor bg = geo.getBackgroundColor();
 
 			if (bg != null) {
 
@@ -199,24 +202,6 @@ public final class DrawText extends Drawable {
 		}
 	}
 
-	/*
-	 * final public void drawEquation(Graphics2D g2, int x, int y) { if
-	 * (!JarManager.JSMATHTEX_LOADED) { eqn = new sHotEqn(labelDesc);
-	 * eqn.setDoubleBuffered(false); eqn.setEditable(false);
-	 * eqn.removeMouseListener(eqn); eqn.removeMouseMotionListener(eqn);
-	 * eqn.setDebug(false); eqn.setOpaque(false);
-	 * eqn.setFontname(Application.STANDARD_FONT_NAME); setEqnFontSize();
-	 * eqn.paintComponent(g2,xLabel,yLabel); } else { // TEST CODE FOR JMathTeX
-	 * TeXFormula formula; Icon icon; try{ formula = new TeXFormula(labelDesc);
-	 * icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,fontSize); }
-	 * catch (Exception e) { formula = new TeXFormula("LaTeXerror"); icon =
-	 * formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,fontSize);
-	 * 
-	 * } icon.paintIcon(new JLabel(), g2, x, y); // component can't be null }
-	 * 
-	 * }
-	 */
-
 	/**
 	 * was this object clicked at? (mouse pointer location (x,y) in screen
 	 * coords)
@@ -227,7 +212,7 @@ public final class DrawText extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return rect.contains(labelRectangle);
 	}
 
@@ -284,25 +269,11 @@ public final class DrawText extends Drawable {
 		return false;
 	}
 
-	/*
-	 * private void setEqnFontSize() {
-	 * 
-	 * // hot eqn may only have even font sizes from 10 to 28 int size =
-	 * (fontSize / 2) * 2; if (size < 10) size = 10; else if (size > 28) size =
-	 * 28;
-	 * 
-	 * eqn.setFontname(serifFont ? "Serif" : "SansSerif");
-	 * eqn.setFontsizes(size, size - 2, size - 4, size - 6);
-	 * eqn.setFontStyle(fontStyle);
-	 * 
-	 * }
-	 */
-
 	/**
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public org.geogebra.common.awt.GRectangle getBounds() {
+	final public GRectangle getBounds() {
 		if (!geo.isDefined() || ((GeoText) geo).isAbsoluteScreenLocActive()
 				|| !geo.isEuclidianVisible()) {
 			return null;
