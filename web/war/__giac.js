@@ -1897,7 +1897,7 @@ var __giac = [ {},
 { cat:"EvaluateLogic", cmd:"Evaluate[{aa,c,b}!={aa,b,c}]", result:"true", notes:"#3385" },
 { cat: "CompleteSquare", cmd:"CompleteSquare[(x+1)^2+1]", result:"(x + 1)\u00B2 + 1", notes:"GGB-617" },
 { cat: "CompleteSquare", cmd:"CompleteSquare[(x-1)^2+1]", result:"(x - 1)\u00B2 + 1", notes:"GGB-617" },
-{ cat: "CompleteSquare", cmd:"CompleteSquare[((-9) * x^(10)) + 4]", result:"", notes:"GGB-617" },
+{ cat: "CompleteSquare", cmd:"CompleteSquare[((-9) * x^(10)) + 4]", result:"-9 x\u00B9\u2070 + 4", notes:"GGB-617" },
 { cat: "Evaluate", cmd:"SolveODE[2*y*y'=2*x]", result:"", notes:"" },
 // 
 // JSONEND
