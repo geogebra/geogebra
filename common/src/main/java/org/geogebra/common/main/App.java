@@ -3913,9 +3913,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_CLEAR_INPUT_BUTTON:
 			return prerelease;
 
-		case MOBILE_PERSIST_INPUT_CONTENT_ON_ROTATE:
-			return prerelease;
-
 		case MOBILE_SMOOTH_PINCH:
 			return prerelease;
 
