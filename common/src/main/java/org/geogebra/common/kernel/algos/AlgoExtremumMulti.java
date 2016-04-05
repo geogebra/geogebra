@@ -330,14 +330,29 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
         super.initPoints(number);
 
         if (points.length > number) {
+
+			// count points with dependent elements
+			boolean foundDependency = false;
+
 			for (int i = Math.max(number, 1); i < points.length; i++) {
 				if (!points[i].getAlgoUpdateSet().isEmpty()){
 					points[i].setCoords(0, 0, 1); // init as defined
+					foundDependency = true;
 				} else{
 					points[i].setParentAlgorithm(null);
 					points[i].remove();
 				}
             }
+
+			// at least one point is kept for its dependent elements -> no need to keep the first point
+			if(number == 0 && foundDependency){
+				if (!points[0].getAlgoUpdateSet().isEmpty()){
+					points[0].setCoords(0, 0, 1); // init as defined
+				} else{
+					points[0].setParentAlgorithm(null);
+					points[0].remove();
+				}
+			}
 
 			super.setOutput(points);
         }
