@@ -4025,6 +4025,9 @@ public abstract class App implements UpdateSelection {
 		case WEB_SHARE_DIALOG:
 			return prerelease;
 
+		case MOBILE_CIRCLE_POINT_RADIUS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
