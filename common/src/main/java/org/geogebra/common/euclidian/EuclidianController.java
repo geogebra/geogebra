@@ -9383,6 +9383,8 @@ public abstract class EuclidianController {
 
 				if (this.selPoints() == 1 && !view.getHits().contains(p)) {
 					wrapMouseReleasedND(event, true);
+				} else {
+					checkResetOrAnimationHit(event.getX(), event.getY());
 				}
 
 				return;
@@ -9535,28 +9537,7 @@ public abstract class EuclidianController {
 		transformCoords();
 		Hits hits = null;
 
-		if (hitResetIcon()) {
-			app.reset();
-			return;
-		} else if (view.hitAnimationButton(x, y) || this.animationButtonPressed) {
-			this.animationButtonPressed = false;
-			if (kernel.isAnimationRunning()) {
-				kernel.getAnimatonManager().stopAnimation();
-			} else {
-				kernel.getAnimatonManager().startAnimation();
-			}
-			if (app.getGuiManager().hasAlgebraView()) {
-				for (GeoElement geo : kernel.getConstruction()
-						.getGeoSetConstructionOrder()) {
-					if (geo instanceof GeoNumeric) {
-					//	geo.setAnimating(kernel.isAnimationRunning());
-						geo.updateRepaint();
-					}
-				}
-			}
-			view.repaintView();
-
-			app.setUnsaved();
+		if (checkResetOrAnimationHit(x, y)) {
 			return;
 		}
 
@@ -9684,6 +9665,34 @@ public abstract class EuclidianController {
 
 		draggingOccurredBeforeRelease = false;
 
+	}
+
+	private boolean checkResetOrAnimationHit(int x, int y) {
+		if (hitResetIcon()) {
+			app.reset();
+			return true;
+		} else if (view.hitAnimationButton(x, y) || this.animationButtonPressed) {
+			this.animationButtonPressed = false;
+			if (kernel.isAnimationRunning()) {
+				kernel.getAnimatonManager().stopAnimation();
+			} else {
+				kernel.getAnimatonManager().startAnimation();
+			}
+			if (app.getGuiManager().hasAlgebraView()) {
+				for (GeoElement geo : kernel.getConstruction()
+						.getGeoSetConstructionOrder()) {
+					if (geo instanceof GeoNumeric) {
+					//	geo.setAnimating(kernel.isAnimationRunning());
+						geo.updateRepaint();
+					}
+				}
+			}
+			view.repaintView();
+
+			app.setUnsaved();
+			return true;
+		}
+		return false;
 	}
 
 	private boolean hitComboBoxOrTextfield() {
