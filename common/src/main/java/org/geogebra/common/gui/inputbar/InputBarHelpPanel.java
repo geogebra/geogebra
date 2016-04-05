@@ -99,7 +99,6 @@ public class InputBarHelpPanel {
 
 		// math functions
 		String[] translatedFunctions = TableSymbols.getTranslatedFunctions(mApp);
-		mMathFunc = new ArrayList<String>();
 		mMathFuncDict = mApp.newLowerCaseDictionary();
 		for (String function : translatedFunctions){
 			//remove start space char
@@ -110,10 +109,9 @@ public class InputBarHelpPanel {
 			}else{
 				insert = function.substring(index + 1);
 			}
-			Log.debug("function="+function+", insert="+insert+", index="+index);
-			mMathFunc.add(insert);
 			mMathFuncDict.addEntry(insert);
 		}
+		mMathFunc = mMathFuncDict.getAllCommands();
 
 		// all commands dictionary (with math functions)
 		if (mApp.has(Feature.MOBILE_INPUT_BAR_HELP_MATH_FUNC)) {
