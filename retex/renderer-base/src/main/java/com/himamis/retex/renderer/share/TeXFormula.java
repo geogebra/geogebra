@@ -223,7 +223,6 @@ public class TeXFormula {
 	 */
 	public TeXFormula(String s, Map<String, String> map) throws ParseException {
 		this.jlmXMLMap = map;
-		this.textStyle = textStyle;
 		parser = new TeXParser(s, this);
 		parser.parse();
 	}
