@@ -5240,7 +5240,9 @@ public abstract class EuclidianController {
 					readNumberOrAngleIfNeeded(this);
 
 					if (selGeos() == macroInput.length) {
-						macroProcess(callback2);
+						if(macroProcess(callback2)){
+							storeUndoInfo();
+						}
 					}
 				}
 
