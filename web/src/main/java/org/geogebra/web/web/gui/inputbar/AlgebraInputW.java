@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AsyncOperation;
@@ -254,6 +255,9 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		//then it don't come here if (e.isConsumed()) return;
 
 		int keyCode = event.getNativeKeyCode();
+		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
+			app.getKernel().updatePreviewFromInputBar(inputField.getText());
+		}
 		if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
 			app.getKernel().clearJustCreatedGeosInViews();
 			final String input = inputField.getText();					   
