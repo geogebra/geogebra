@@ -47,8 +47,9 @@ public class AlgoIntegral extends AlgoCasBase {
 	 *            variable
 	 */
 	public AlgoIntegral(Construction cons, String label,
-			CasEvaluableFunction f, GeoNumeric var, EvalInfo info) {
-		this(cons, f, var, true, info);
+			CasEvaluableFunction f, GeoNumeric var, EvalInfo info,
+			boolean numeric) {
+		this(cons, f, var, true, info, numeric);
 		g.toGeoElement().setLabel(label);
 	}
 
@@ -63,8 +64,9 @@ public class AlgoIntegral extends AlgoCasBase {
 	 *            whether arbitrary constants are allowed
 	 */
 	public AlgoIntegral(Construction cons, CasEvaluableFunction f,
-			GeoNumeric var, boolean allowConstant, EvalInfo info) {
-		super(cons, f, Commands.Integral, info);
+			GeoNumeric var, boolean allowConstant, EvalInfo info,
+			boolean numeric) {
+		super(cons, f, numeric ? Commands.NIntegral : Commands.Integral, info);
 		this.var = var;
 		this.allowConstant = allowConstant;
 
@@ -108,6 +110,7 @@ public class AlgoIntegral extends AlgoCasBase {
 
 				((GeoFunction) g).setFunction(inFun);
 				((GeoFunction) g).setDefined(true);
+				updateSecret();
 				computedSymbolically = false;
 				return;
 			}
@@ -127,6 +130,7 @@ public class AlgoIntegral extends AlgoCasBase {
 				((GeoFunction) g).setFunction(funDeriv);
 				((GeoFunction) g).setDefined(true);
 				computedSymbolically = false;
+				updateSecret();
 				return;
 			}
 		}
@@ -145,6 +149,14 @@ public class AlgoIntegral extends AlgoCasBase {
 		// find symbolic derivative of f
 		g.setUsingCasCommand(sbAE.toString(), f, true,
 				this.allowConstant ? arbconst : null);
+		updateSecret();
+	}
+
+	private void updateSecret() {
+		if (g instanceof GeoFunction) {
+			((GeoFunction) g).setSecret(this);
+		}
+
 	}
 
 	@Override

@@ -164,7 +164,8 @@ public class CmdIntegral extends CommandProcessor {
 	 */
 	final public GeoElement Integral(String label, CasEvaluableFunction f,
 			GeoNumeric var, EvalInfo info) {
-		AlgoIntegral algo = new AlgoIntegral(cons, label, f, var, info);
+		AlgoIntegral algo = new AlgoIntegral(cons, label, f, var, info,
+				"NIntegral".equals(internalCommandName));
 		return algo.getResult();
 	}
 }

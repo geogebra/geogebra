@@ -775,7 +775,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	public void refreshCASResults() {
 		if (!evaluateNumerically) {
 			AlgoIntegral algoInt = new AlgoIntegral(cons, f, null, false,
-					new EvalInfo(false));
+					new EvalInfo(false), false);
 			symbIntegral = (GeoFunction) algoInt.getResult();
 			cons.removeFromConstructionList(algoInt);
 			// make sure algo is removed properly

@@ -1089,7 +1089,7 @@ public enum Commands implements CommandsConstants,
 
 	GroebnerLexDeg(TABLE_CAS),
 
-	NIntegral(TABLE_CAS),
+	NIntegral(TABLE_FUNCTION),
 
 	NSolve(TABLE_CAS),
 
