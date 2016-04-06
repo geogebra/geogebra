@@ -51,6 +51,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -1014,7 +1015,8 @@ public class EuclidianViewD extends EuclidianView implements
 
 		// real world values
 		companion.setXYMinMaxForUpdateSize();
-		app.getKernel().getConstruction().notifyEuclidianViewCE(true);
+		app.getKernel().getConstruction()
+				.notifyEuclidianViewCE(EVProperty.SIZE);
 		setRealWorldBounds();
 
 		// ================================================
