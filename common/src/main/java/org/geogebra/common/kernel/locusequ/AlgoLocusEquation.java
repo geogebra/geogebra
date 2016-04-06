@@ -140,14 +140,15 @@ public class AlgoLocusEquation extends AlgoElement {
 	public void compute() {
 
 		if (implicitLocus != null) {
-			computeImplicit();
+			computeExplicitImplicit(true);
+			;
 			return;
 		}
 
 		if (implicitLocus == null
 				&& movingPoint.getKernel().getApplication()
 						.has(Feature.EXPLICIT_LOCUS_VIA_BOTANA)) {
-			computeExplicit();
+			computeExplicitImplicit(false);
 			return;
 		}
 
@@ -285,16 +286,22 @@ public class AlgoLocusEquation extends AlgoElement {
 		return ret;
 	}
 
-	private String getImplicitPoly() throws Throwable {
+	private String getImplicitPoly(boolean implicit) throws Throwable {
 		Prover p = UtilFactory.prototype.newProver();
-		p.setProverEngine(ProverEngine.LOCUS_IMPLICIT);
+		p.setProverEngine(implicit ? ProverEngine.LOCUS_IMPLICIT
+				: ProverEngine.LOCUS_EXPLICIT);
 		ProverBotanasMethod pbm = new ProverBotanasMethod();
-		AlgebraicStatement as = pbm.new AlgebraicStatement(implicitLocus, p);
+		AlgebraicStatement as = pbm.new AlgebraicStatement(
+				implicit ? implicitLocus : locusPoint, p);
 		Set<Set<Polynomial>> eliminationIdeal;
 
 		HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
 		List<GeoElement> freePoints = ProverBotanasMethod
-				.getFreePoints(implicitLocus);
+				.getFreePoints(implicit ? implicitLocus : locusPoint);
+		if (!implicit) {
+			freePoints.add(movingPoint);
+			freePoints.add(locusPoint);
+		}
 		Iterator<GeoElement> it = freePoints.iterator();
 		String vx = "", vy = "";
 		while (it.hasNext()) {
@@ -302,7 +309,11 @@ public class AlgoLocusEquation extends AlgoElement {
 			freePoint.addToUpdateSetOnly(this);
 			Variable[] vars = ((SymbolicParametersBotanaAlgo) freePoint)
 					.getBotanaVars(freePoint);
-			if (!movingPoint.equals(freePoint)) {
+			boolean condition = !movingPoint.equals(freePoint);
+			if (!implicit) {
+				condition &= !locusPoint.equals(freePoint);
+			}
+			if (condition) {
 				double x = ((GeoPoint) freePoint).getInhomX();
 				if ((x % 1) == 0) { // integer
 					substitutions.put(vars[0], (long) x);
@@ -336,122 +347,11 @@ public class AlgoLocusEquation extends AlgoElement {
 					as.addPolynomial(ph);
 				}
 			} else {
-				vx = vars[0].toString();
-				vy = vars[1].toString();
-				vars[0].setFree(true);
-				vars[1].setFree(true);
-			}
-		}
-
-		eliminationIdeal = Polynomial.eliminate(
-				as.getPolynomials().toArray(
-						new Polynomial[as.getPolynomials().size()]),
-				substitutions, kernel, 0, false);
-
-		Polynomial result = null;
-		Iterator<Set<Polynomial>> it1 = eliminationIdeal.iterator();
-		if (it1.hasNext()) {
-			Set<Polynomial> results1 = it1.next();
-			Iterator<Polynomial> it2 = results1.iterator();
-			if (it2.hasNext()) {
-				result = it2.next();
-			}
-		}
-
-		if (result == null) {
-			Log.warn("No such implicit curve exists (0=-1)");
-			return "1,1,1";
-		}
-
-		// Replacing variables to have x and y instead of vx and vy:
-		String implicitCurveString = result.toString();
-		if (!vx.equals("")) {
-			implicitCurveString = implicitCurveString.replaceAll(vx, "x");
-		}
-		if (!vy.equals("")) {
-			implicitCurveString = implicitCurveString.replaceAll(vy, "y");
-		}
-		Log.debug("Implicit locus equation: " + implicitCurveString);
-
-		// This piece of code has been directly copied from CASgiac.java:
-		StringBuilder script = new StringBuilder();
-		script.append("[[aa:=")
-				.append(implicitCurveString)
-				.append("],")
-				.append("[bb:=coeffs(factorsqrfree(aa),x)], [sx:=size(bb)], [sy:=size(coeffs(aa,y))],")
-				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
-				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
-				.append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;")
-				.append("cc:=append(cc,ee); od; od],cc][6]");
-
-		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-		try {
-			String impccoeffs = cas.getCurrentCAS().evaluateRaw(
-					script.toString());
-			Log.debug("Output from giac: " + impccoeffs);
-			return impccoeffs.substring(1, impccoeffs.length() - 1);
-		} catch (Exception ex) {
-			Log.warn("Error computing locus equation");
-			return null;
-		}
-	}
-
-	/* This is almost the same as getImplicitPoly(). TODO: Unify. */
-	private String getExplicitPoly() throws Throwable {
-		Prover p = UtilFactory.prototype.newProver();
-		p.setProverEngine(ProverEngine.LOCUS_EXPLICIT);
-		ProverBotanasMethod pbm = new ProverBotanasMethod();
-		AlgebraicStatement as = pbm.new AlgebraicStatement(locusPoint, p);
-		Set<Set<Polynomial>> eliminationIdeal;
-
-		HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
-		List<GeoElement> freePoints = ProverBotanasMethod
-				.getFreePoints(locusPoint);
-		freePoints.add(movingPoint);
-		freePoints.add(locusPoint);
-
-		Iterator<GeoElement> it = freePoints.iterator();
-		String vx = "", vy = "";
-		while (it.hasNext()) {
-			GeoElement freePoint = it.next();
-			freePoint.addToUpdateSetOnly(this);
-			Variable[] vars = ((SymbolicParametersBotanaAlgo) freePoint)
-					.getBotanaVars(freePoint);
-			if (!locusPoint.equals(freePoint) && !movingPoint.equals(freePoint)) {
-				double x = ((GeoPoint) freePoint).getInhomX();
-				if ((x % 1) == 0) { // integer
-					substitutions.put(vars[0], (long) x);
-					vars[0].setFree(true);
-				} else { // fractional
-					/*
-					 * Use the fraction P/Q according to the current kernel
-					 * setting. We use the P/Q=x <=> P-Q*x=0 equation.
-					 */
-					long[] q = doubleToRational(x);
-					vars[0].setFree(false);
-					Polynomial ph = new Polynomial((int) q[0])
-							.subtract(new Polynomial(
-							vars[0]).multiply(new Polynomial((int) q[1])));
-					as.addPolynomial(ph);
+				condition = true;
+				if (!implicit) {
+					condition = locusPoint.equals(freePoint);
 				}
-				double y = ((GeoPoint) freePoint).getInhomY();
-				if ((y % 1) == 0) {
-					substitutions.put(vars[1], (long) y);
-					vars[1].setFree(true);
-				} else { // fractional
-					/*
-					 * Use the fraction P/Q according to the current kernel
-					 * setting. We use the P/Q=x <=> P-Q*x=0 equation.
-					 */
-					long[] q = doubleToRational(y);
-					vars[1].setFree(false);
-					Polynomial ph = new Polynomial((int) q[0])
-							.subtract(new Polynomial(
-							vars[1]).multiply(new Polynomial((int) q[1])));
-					as.addPolynomial(ph);
-				}
-			} else {
-				if (locusPoint.equals(freePoint)) {
+				if (condition) {
 					vx = vars[0].toString();
 					vy = vars[1].toString();
 					vars[0].setFree(true);
@@ -516,7 +416,6 @@ public class AlgoLocusEquation extends AlgoElement {
 		}
 	}
 
-
 	protected void setInputOutputImplicit() {
 
 		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
@@ -545,33 +444,10 @@ public class AlgoLocusEquation extends AlgoElement {
 
 	}
 
-	public void computeImplicit() {
+	public void computeExplicitImplicit(boolean implicit) {
 		String result = null;
 		try {
-			result = getImplicitPoly();
-		} catch (Throwable ex) {
-			Log.warn("Error computing implicit curve");
-		}
-
-		if (result != null) {
-			try {
-				this.geoPoly.setCoeff(CASTranslator
-						.getBivarPolyCoefficientsSingular(result));
-				this.geoPoly.setDefined();
-
-				// Timeout => set undefined
-			} catch (Exception e) {
-				this.geoPoly.setUndefined();
-			}
-		} else {
-			this.geoPoly.setUndefined();
-		}
-	}
-
-	public void computeExplicit() {
-		String result = null;
-		try {
-			result = getExplicitPoly();
+			result = getImplicitPoly(implicit);
 		} catch (Throwable ex) {
 			Log.warn("Error computing implicit curve");
 		}
