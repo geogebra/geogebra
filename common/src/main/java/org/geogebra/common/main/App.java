@@ -3951,6 +3951,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case ZOOM_MENU_3D:
+		case EXPAND_AV_FOR_LONG_EQUATIONS:
 			return prerelease;
 
 			// in web (not tablet apps yet)

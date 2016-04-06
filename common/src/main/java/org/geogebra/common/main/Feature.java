@@ -69,6 +69,8 @@ public enum Feature {
 
 	ZOOM_MENU_3D,
 
+	EXPAND_AV_FOR_LONG_EQUATIONS,
+
 	SHINY_3D,
 
 	SURFACE_WIREFRAME,

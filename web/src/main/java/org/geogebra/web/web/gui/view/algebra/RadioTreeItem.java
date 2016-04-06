@@ -140,6 +140,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private static final int SLIDER_EXT = 15;
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
+	private static final int EDIT_WIDTH = 350;
 	static final String CLEAR_COLOR_STR = GColor
 			.getColorString(new GColorW(255, 255, 255, 0));
 	static final String CLEAR_COLOR_STR_BORDER = GColor
@@ -177,6 +178,32 @@ public class RadioTreeItem extends AVTreeItem
 			e.stopPropagation();
 		}
 
+	}
+
+	public void expandSize(int newWidth) {
+		if (getAV().getOriginalWidth() != null) {
+			return;
+		}
+		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
+		int w = avDockPanel.asWidget().getOffsetWidth();
+		if (w < newWidth) {
+			getAV().setOriginalWidth(w);
+			avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel,
+					newWidth);
+			avDockPanel.deferredOnResize();
+		} else {
+			getAV().setOriginalWidth(null);
+		}
+	}
+
+	public void restoreSize() {
+		Integer w = getAV().getOriginalWidth();
+		if (w != null) {
+			AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
+			avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
+			avDockPanel.deferredOnResize();
+			getAV().setOriginalWidth(null);
+		}
 	}
 
 	private class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
@@ -272,7 +299,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		public void show() {
 			geo.setAnimating(false);
-			expandSize();
+			expandSize(MINMAX_MIN_WIDHT);
 			sliderPanel.setVisible(false);
 			setVisible(true);
 			setKeepOpen(true);
@@ -296,30 +323,7 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		}
 
-		public void expandSize() {
-			if (getAV().getOriginalWidth() != null) {
-				return;
-			}
-			AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
-			int w = avDockPanel.asWidget().getOffsetWidth();
-			if (w < MINMAX_MIN_WIDHT) {
-				getAV().setOriginalWidth(w);
-				avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, MINMAX_MIN_WIDHT);
-				avDockPanel.deferredOnResize();
-			} else {
-				getAV().setOriginalWidth(null);
-			}
-		}
 
-		public void restoreSize() {
-			Integer w = getAV().getOriginalWidth();
-			if (w != null) {
-				AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
-				avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
-				avDockPanel.deferredOnResize();
-				getAV().setOriginalWidth(null);
-			}
-		}
 		public void keyReleased(KeyEvent e) {
 			if (e.isEnterKey()) {
 				apply();
@@ -1634,6 +1638,10 @@ public class RadioTreeItem extends AVTreeItem
 	@Override
 	public boolean stopEditing(String newValue0) {
 
+		if (app.has(Feature.EXPAND_AV_FOR_LONG_EQUATIONS)) {
+			restoreSize();
+		}
+
 		boolean ret = false;
 
 		removeCloseButton();
@@ -1862,6 +1870,10 @@ marblePanel, evt))) {
 			if (!isEditing()) {
 				geo.setAnimating(false);
 				av.startEditing(geo);
+				Log.debug("---------");
+				if (app.has(Feature.EXPAND_AV_FOR_LONG_EQUATIONS)) {
+					expandSize(EDIT_WIDTH);
+				}
 			}
 			app.showKeyboard(this);
 			this.setFocus(true);
