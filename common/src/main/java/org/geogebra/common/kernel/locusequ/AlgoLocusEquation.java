@@ -95,13 +95,6 @@ public class AlgoLocusEquation extends AlgoElement {
 			return;
 		}
 
-		if (implicitLocus == null
-				&& movingPoint.getKernel().getApplication()
-						.has(Feature.EXPLICIT_LOCUS_VIA_BOTANA)) {
-			setInputOutputExplicit();
-			return;
-		}
-
 		// it is inefficient to have Q and P as input
         // let's take all independent parents of Q
         // and the path as input
@@ -543,34 +536,6 @@ public class AlgoLocusEquation extends AlgoElement {
 
 		standardInput = new GeoElement[2];
 		standardInput[0] = this.implicitLocus;
-		standardInput[1] = this.movingPoint;
-
-		setOutputLength(1);
-		setOutput(0, this.geoPoly.toGeoElement());
-
-		setEfficientDependencies(standardInput, efficientInput);
-
-	}
-
-	protected void setInputOutputExplicit() {
-
-		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
-		inSet.add(this.movingPoint);
-		Iterator<GeoElement> it = this.locusPoint.getAllPredecessors()
-				.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (geo.isIndependent() || geo.isPointOnPath()) {
-				inSet.add(geo);
-			}
-		}
-		inSet.remove(movingPoint);
-
-		efficientInput = new GeoElement[inSet.size()];
-		efficientInput = inSet.toArray(efficientInput);
-
-		standardInput = new GeoElement[2];
-		standardInput[0] = this.locusPoint;
 		standardInput[1] = this.movingPoint;
 
 		setOutputLength(1);
