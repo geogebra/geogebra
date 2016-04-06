@@ -411,6 +411,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	void insertText(String s){
 		if (this.inputField != null) {
 			this.inputField.autocomplete(s);
+			this.inputField.setFocus(true, true);
 		}
 	}
 
