@@ -6,7 +6,6 @@ import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
-import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
@@ -216,10 +215,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 				public void execute() {
 					zoom(zoomFactors[index]);
-					if (app.getActiveEuclidianView().isEuclidianView3D()) {
-						((EuclidianView3DW) app.getActiveEuclidianView())
-								.doRepaint();
-					}
 				}
 			});
 			menu.addItem(mi);
@@ -227,7 +222,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	}
 
-	private void zoom(double zoomFactor) {
+	protected void zoom(double zoomFactor) {
 		app.zoom(px, py, zoomFactor);
 	}
 

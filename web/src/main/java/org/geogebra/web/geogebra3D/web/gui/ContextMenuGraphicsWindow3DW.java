@@ -103,4 +103,11 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 	}
 
+	protected void zoom(double zoomFactor) {
+		app.zoom(px, py, zoomFactor);
+		if (app.getActiveEuclidianView().isEuclidianView3D()) {
+			((EuclidianView3DW) app.getActiveEuclidianView()).doRepaint();
+		}
+	}
+
 }
