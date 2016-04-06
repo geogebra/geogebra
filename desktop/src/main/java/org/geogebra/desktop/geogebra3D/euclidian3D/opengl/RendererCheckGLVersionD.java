@@ -176,9 +176,25 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 						// GL 1.x: can't use shaders
 						// GL 2.x so GLSL < 1.3: not supported
 						type = RendererType.GL2;
-					} else {
-						// GL 2.x or above: can use shaders (GLSL >= 1.3)
+					} else if (versionInt >= 4) {
+						// GL 4.x or above: can use shaders (GLSL >= 4.0)
 						type = RendererType.SHADER;
+					} else {
+						// GL 3.x so GLSL < 1.3: not supported
+						if (version.length > 1) {
+							versionInt = Integer.parseInt(version[1]);
+							Log.debug("==== GL minor version is " + versionInt);
+							if (versionInt < 3) {
+								// GL 3.0 -- 3.2 so GLSL < 3.3: not supported
+								type = RendererType.GL2;
+							} else {
+								// GL 3.3: can use shaders (GLSL = 3.3)
+								type = RendererType.SHADER;
+							}
+						} else {
+							// probably GL 3.0 so GLSL = 1.3: not supported
+							type = RendererType.GL2;
+						}
 					}
 				} catch (Exception e) {
 					// exception: don't use shaders
