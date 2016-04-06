@@ -1,15 +1,30 @@
 package org.geogebra.common.euclidian;
 
+
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
+
+import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.TeXIcon;
+//import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
+import com.himamis.retex.renderer.share.platform.graphics.Color;
+import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
+import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
+import com.himamis.retex.renderer.share.platform.graphics.Image;
+import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 public abstract class DrawEquation {
 
@@ -130,6 +145,148 @@ public abstract class DrawEquation {
 		}
 		return initJLM;
 	}
+
+
+	/**
+	 * Renders LaTeX equation using JLaTeXMath
+	 * 
+	 * @param app
+	 * @param g2
+	 * @param x
+	 * @param y
+	 * @param text
+	 * @param font
+	 * @param serif
+	 * @param fgColor
+	 * @param bgColor
+	 * @return dimension of rendered equation
+	 */
+	final public GDimension drawEquation(final App app, final GeoElementND geo,
+			final Graphics2DInterface g2, final int x, final int y,
+			final String text,
+			final GFont font, final boolean serif,
+			final com.himamis.retex.renderer.share.platform.graphics.Color fgColor,
+			final com.himamis.retex.renderer.share.platform.graphics.Color bgColor,
+			final boolean useCache, final Integer maxWidth,
+			final Float lineSpace) {
+		// TODO uncomment when \- works
+		// text=addPossibleBreaks(text);
+
+		int width = -1;
+		int height = -1;
+		// int depth = 0;
+
+		checkFirstCall(app);
+
+		int style = font.getLaTeXStyle(serif);
+
+		// if we're exporting, we want to draw it full resolution
+		if (app.isExporting() || !useCache) {
+
+			// Application.debug("creating new icon for: "+text);
+			TeXFormula formula;
+			TeXIcon icon;
+
+			try {
+				formula = new TeXFormula(text);
+
+				if (maxWidth == null) {
+					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+							font.getSize() + 3, style, fgColor);
+				} else {
+					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+							font.getSize() + 3, TeXConstants.UNIT_CM,
+							maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
+							TeXConstants.UNIT_CM, lineSpace.floatValue());
+				}
+			} catch (final MyError e) {
+				// e.printStackTrace();
+				// Application.debug("MyError LaTeX parse exception:
+				// "+e.getMessage()+"\n"+text);
+				// Write error message to Graphics View
+
+				formula = TeXFormula.getPartialTeXFormula(text);
+				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, style, fgColor);
+
+				formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
+						TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
+						TeXConstants.UNIT_CM, 0.5f);
+
+			} catch (final Exception e) {
+				// e.printStackTrace();
+				// Application.debug("LaTeX parse exception:
+				// "+e.getMessage()+"\n"+text);
+				// Write error message to Graphics View
+				try {
+					formula = TeXFormula.getPartialTeXFormula(text);
+
+					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+							font.getSize() + 3, style, fgColor);
+				} catch (Exception e2) {
+					Log.debug("LaTeX parse exception: " + e.getMessage() + "\n"
+							+ text);
+					formula = TeXFormula.getPartialTeXFormula(
+							"\text{" + app.getLocalization()
+									.getError("CAS.GeneralErrorMessage") + "}");
+					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+							font.getSize() + 3, style, fgColor);
+				}
+			}
+			icon.setInsets(new Insets(1, 1, 1, 1));
+			HasForegroundColor fg = new HasForegroundColor() {
+
+				public com.himamis.retex.renderer.share.platform.graphics.Color getForegroundColor() {
+					return fgColor;
+				}
+
+			};
+
+			icon.paintIcon(fg, g2, x, y);
+
+			return AwtFactory.prototype.newDimension(icon.getIconWidth(),
+					icon.getIconHeight());
+
+		}
+
+
+		Image im = null;
+		try {
+			final int ret[] = new int[2];
+			im = getCachedDimensions(text, geo, fgColor, font, style, ret);
+
+			width = ret[0];
+			height = ret[1];
+			// depth = ret[2];
+
+		} catch (final Exception e) {
+			// Application.debug("LaTeX parse exception:
+			// "+e.getMessage()+"\n"+text);
+			// Write error message to Graphics View
+
+			final TeXFormula formula = TeXFormula.getPartialTeXFormula(text);
+			im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
+					font.getSize() + 3, convertColor(GColor.BLACK),
+					convertColor(GColor.WHITE));
+		}
+
+		g2.drawImage(im, x, y);
+
+		if (width == -1) {
+			width = im.getWidth();
+		}
+		if (height == -1) {
+			height = im.getHeight();
+		}
+
+		return AwtFactory.prototype.newDimension(width, height);
+	}
+
+	protected abstract Image getCachedDimensions(String text, GeoElementND geo,
+			Color fgColor, GFont font, int style, int[] ret);
+
+	protected abstract void checkFirstCall(App app);
+	protected abstract Color convertColor(GColor bLACK);
 
 	public abstract GDimension measureEquation(App app, GeoElement geo0,
 			int minValue,

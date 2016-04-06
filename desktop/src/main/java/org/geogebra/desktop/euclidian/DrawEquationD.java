@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
@@ -33,7 +32,6 @@ import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
@@ -43,154 +41,7 @@ public class DrawEquationD extends DrawEquation {
 
 	private Object initJLaTeXMath;
 
-	/**
-	 * Renders LaTeX equation using JLaTeXMath
-	 * 
-	 * @param app
-	 * @param g2
-	 * @param x
-	 * @param y
-	 * @param text
-	 * @param font
-	 * @param serif
-	 * @param fgColor
-	 * @param bgColor
-	 * @return dimension of rendered equation
-	 */
-	final public Dimension drawEquationJLaTeXMath(final AppD app,
-			final GeoElementND geo, final Graphics2D g2, final int x,
-			final int y, final String text, final GFont font,
-			final boolean serif,
-			final Color fgColor, final Color bgColor, final boolean useCache,
-			final Integer maxWidth, final Float lineSpace) {
-		// TODO uncomment when \- works
-		// text=addPossibleBreaks(text);
 
-		int width = -1;
-		int height = -1;
-		// int depth = 0;
-
-		checkFirstCall(app);
-
-		int style = font.getLaTeXStyle(serif);
-
-		// if we're exporting, we want to draw it full resolution
-		if (app.isExporting() || !useCache) {
-
-			// Application.debug("creating new icon for: "+text);
-			TeXFormula formula;
-			TeXIcon icon;
-
-			try {
-				formula = new TeXFormula(text);
-
-				if (maxWidth == null) {
-					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, ColorD.get(fgColor));
-				} else {
-					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, TeXConstants.UNIT_CM,
-							maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
-							TeXConstants.UNIT_CM, lineSpace.floatValue());
-				}
-			} catch (final MyError e) {
-				// e.printStackTrace();
-				// Application.debug("MyError LaTeX parse exception:
-				// "+e.getMessage()+"\n"+text);
-				// Write error message to Graphics View
-
-				formula = TeXFormula.getPartialTeXFormula(text);
-				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, ColorD.get(fgColor));
-
-				formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
-						TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
-						TeXConstants.UNIT_CM, 0.5f);
-
-			} catch (final Exception e) {
-				// e.printStackTrace();
-				// Application.debug("LaTeX parse exception:
-				// "+e.getMessage()+"\n"+text);
-				// Write error message to Graphics View
-				try {
-					formula = TeXFormula.getPartialTeXFormula(text);
-
-					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, ColorD.get(fgColor));
-				} catch (Exception e2) {
-					Log.debug("LaTeX parse exception: " + e.getMessage() + "\n"
-							+ text);
-					formula = TeXFormula.getPartialTeXFormula(
-							"\text{" + app.getLocalization()
-									.getError("CAS.GeneralErrorMessage") + "}");
-					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, ColorD.get(fgColor));
-				}
-			}
-			icon.setInsets(new Insets(1, 1, 1, 1));
-			HasForegroundColor fg = new HasForegroundColor() {
-
-				public com.himamis.retex.renderer.share.platform.graphics.Color getForegroundColor() {
-					return ColorD.get(fgColor);
-				}
-
-			};
-
-			icon.paintIcon(fg, new Graphics2DD(g2), x, y);
-
-			return new Dimension(icon.getIconWidth(), icon.getIconHeight());
-
-		}
-
-		Object key = null;
-		Image im = null;
-		try {
-			// if geoText != null then keep track of which key goes with the
-			// GeoText
-			// so that we can remove it from the cache if it changes
-			// eg for a (regular) dynamic LaTeX text eg "\sqrt{"+a+"}"
-			if (geo == null) {
-				key = JLaTeXMathCache.getCachedTeXFormula(text,
-						TeXConstants.STYLE_DISPLAY, style,
-						font.getSize() + 3 /* font size */,
-						1 /*
-							 * inset around the label
-							 */, ColorD.get(fgColor));
-			} else {
-				key = geo.getLaTeXCache().getCachedLaTeXKey(text,
-						font.getSize() + 3, style, ColorD.get(fgColor));
-			}
-
-			im = JLaTeXMathCache.getCachedTeXFormulaImage(key);
-
-			final int ret[] = JLaTeXMathCache
-					.getCachedTeXFormulaDimensions(key);
-			width = ret[0];
-			height = ret[1];
-			// depth = ret[2];
-
-		} catch (final Exception e) {
-			// Application.debug("LaTeX parse exception:
-			// "+e.getMessage()+"\n"+text);
-			// Write error message to Graphics View
-
-			final TeXFormula formula = TeXFormula.getPartialTeXFormula(text);
-			im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, new ColorD(Color.black),
-					new ColorD(Color.white));
-		}
-
-		new Graphics2DD(g2).drawImage(im, x, y);
-
-		if (width == -1) {
-			width = im.getWidth();
-		}
-		if (height == -1) {
-			height = im.getHeight();
-		}
-
-		return new Dimension(width, height);
-	}
 
 	final public Dimension measureEquationJLaTeXMath(final AppD app,
 			final GeoElement geo, final int x, final int y, final String text,
@@ -247,7 +98,7 @@ public class DrawEquationD extends DrawEquation {
 
 	}
 
-	private void checkFirstCall(AppD app) {
+	protected void checkFirstCall(App app) {
 		if (drawEquationJLaTeXMathFirstCall) { // first call
 
 			drawEquationJLaTeXMathFirstCall = false;
@@ -277,27 +128,15 @@ public class DrawEquationD extends DrawEquation {
 			final boolean serif, final GColor fgColor, final GColor bgColor,
 			final boolean useCache, boolean updateAgain, Runnable callback) {
 
-		Dimension d = drawEquation((AppD) app, geo,
-				GGraphics2DD.getAwtGraphics(g2), x, y,
-				text, font, serif, fgColor, bgColor, useCache, null, null);
 
+		GDimension d = drawEquation(app, geo,
+				new Graphics2DD(GGraphics2DD.getAwtGraphics(g2)), x, y, text,
+				font, serif, ColorD.get(GColorD.getAwtColor(fgColor)),
+				ColorD.get(GColorD.getAwtColor(bgColor)), useCache, null, null);
 		if (callback != null) {
 			callback.run();
 		}
-		return new GDimensionD(d);
-	}
-
-	final public static Dimension drawEquation(final AppD app,
-			final GeoElementND geo, final Graphics2D g2, final int x,
-			final int y, final String text, final GFont font,
-			final boolean serif, final GColor fgColor, final GColor bgColor,
-			final boolean useCache, final Integer maxWidth,
-			final Float lineSpace) {
-
-		return app.getDrawEquation().drawEquationJLaTeXMath(app, geo, g2, x, y,
-				text, font, serif, GColorD.getAwtColor(fgColor),
-				GColorD.getAwtColor(bgColor), useCache,
-				maxWidth, lineSpace);
+		return d;
 	}
 
 	/**
@@ -366,6 +205,39 @@ public class DrawEquationD extends DrawEquation {
 
 		return new GDimensionD(this.measureEquationJLaTeXMath((AppD) app, geo0,
 				0, 0, text, font, b, null, null));
+	}
+
+	@Override
+	protected com.himamis.retex.renderer.share.platform.graphics.Color convertColor(
+			GColor color) {
+		return ColorD.get(GColorD.getAwtColor(color));
+	}
+
+	@Override
+	protected Image getCachedDimensions(String text, GeoElementND geo,
+			com.himamis.retex.renderer.share.platform.graphics.Color fgColor,
+			GFont font, int style, int[] ret) {
+		Object key = null;
+		// if geoText != null then keep track of which key goes with the
+		// GeoText
+		// so that we can remove it from the cache if it changes
+		// eg for a (regular) dynamic LaTeX text eg "\sqrt{"+a+"}"
+		if (geo == null) {
+			key = JLaTeXMathCache.getCachedTeXFormula(text,
+					TeXConstants.STYLE_DISPLAY, style,
+					font.getSize() + 3 /* font size */,
+					1 /*
+						 * inset around the label
+						 */, fgColor);
+		} else {
+			key = geo.getLaTeXCache().getCachedLaTeXKey(text,
+					font.getSize() + 3, style, fgColor);
+		}
+
+		int[] ret2 = JLaTeXMathCache.getCachedTeXFormulaDimensions(key);
+		ret[0] = ret2[0];
+		ret[1] = ret2[1];
+		return JLaTeXMathCache.getCachedTeXFormulaImage(key);
 	}
 
 }

@@ -32,9 +32,11 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
+import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.web.DrawingFinishedCallback;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
+import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
 public class DrawEquationW extends DrawEquation {
@@ -1542,5 +1544,23 @@ public class DrawEquationW extends DrawEquation {
 		TeXIcon icon = createIcon(text, font.getSize() + 3,
 				font.getLaTeXStyle(serif));
 		return new GDimensionW(icon.getIconWidth(), icon.getIconHeight());
+	}
+
+	@Override
+	protected void checkFirstCall(App app) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected Color convertColor(GColor color) {
+		return new ColorW(color.getRed(), color.getGreen(), color.getBlue());
+	}
+
+	@Override
+	protected Image getCachedDimensions(String text, GeoElementND geo,
+			Color fgColor, GFont font, int style, int[] ret) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

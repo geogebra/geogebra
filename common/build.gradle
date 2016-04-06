@@ -21,6 +21,10 @@ buildscript {
 	}
 }
 
+dependencies {
+	compile project(':renderer-base')
+}
+
 apply plugin: 'ca.coglinc.javacc'
 apply plugin: 'java'
 
