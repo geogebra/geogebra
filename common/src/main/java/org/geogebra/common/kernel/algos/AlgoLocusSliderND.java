@@ -244,7 +244,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		Iterator<GeoElement> it = Qin.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isIndependent() || geo.isPointOnPath()) {
+			if (geo.isChangeable()) {
 				inSet.add(geo);
 			}
 		}
