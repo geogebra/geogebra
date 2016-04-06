@@ -6,6 +6,7 @@ import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
@@ -199,14 +200,12 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			perc = (int) (zoomFactors[i] * 100.0);
 			// build text like "125%" or "75%"
 			sb.setLength(0);
-			if (perc > 100) {
 
-			} else {
-				if (!separatorAdded) {
-					menu.addSeparator();
-					separatorAdded = true;
-				}
+			if ((perc <= 100) && (!separatorAdded)) {
+				menu.addSeparator();
+				separatorAdded = true;
 			}
+
 			sb.append(perc);
 			sb.append('%');
 			final int index = i;
@@ -217,6 +216,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 				public void execute() {
 					zoom(zoomFactors[index]);
+					if (app.getActiveEuclidianView().isEuclidianView3D()) {
+						((EuclidianView3DW) app.getActiveEuclidianView())
+								.doRepaint();
+					}
 				}
 			});
 			menu.addItem(mi);
