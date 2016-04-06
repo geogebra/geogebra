@@ -234,7 +234,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				final GeoNumeric num = (GeoNumeric) geo;
 				if (num.isSlider()) {
 					cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
-					        AppResources.INSTANCE.empty().getSafeUri()
+							AppResources.INSTANCE.objectFixed().getSafeUri()
 					                .asString(), app.getPlain("FixObject")),
 					        new Command() {
 
@@ -247,7 +247,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				}
 			} else if (geo.isGeoBoolean()) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
-				        AppResources.INSTANCE.empty().getSafeUri().asString(),
+						AppResources.INSTANCE.objectFixed().getSafeUri()
+								.asString(),
 				        app.getPlain("FixCheckbox")), new Command() {
 
 					public void execute() {
