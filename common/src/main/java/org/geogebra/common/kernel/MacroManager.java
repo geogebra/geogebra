@@ -143,12 +143,15 @@ public class MacroManager {
 
 	/**
 	 * Updates all macros that need to be
+	 * 
+	 * @param prop
+	 *            what property changed
 	 */
-	public final void notifyEuclidianViewCE() {
+	public final void notifyEuclidianViewCE(EVProperty prop) {
 		// save selected macros
 		for (int i = 0; i < macroList.size(); i++) {
 			Macro macro = macroList.get(i);
-			macro.getMacroConstruction().notifyEuclidianViewCE(false);
+			macro.getMacroConstruction().notifyEuclidianViewCE(prop);
 		}
 	}
 

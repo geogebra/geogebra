@@ -42,7 +42,16 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		corner.setEuclidianVisible(false); // hidden by default
 		corner.setLabel(label);
 
+		registerEV(absCorner);
+
+	}
+
+	private void registerEV(double absCorner) {
 		cons.registerEuclidianViewCE(this);
+		if (Kernel.isEqual(number.getDouble(), 11)) {
+			cons.registerCorner11(this);
+			return;
+		}
 		if (Kernel.isEqual(number.getDouble(), absCorner)) {
 			cons.registerCorner5(this);
 		}
@@ -60,10 +69,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		compute();
 		corner.setEuclidianVisible(false); // hidden by default
 
-		cons.registerEuclidianViewCE(this);
-		if (Kernel.isEqual(number.getDouble(), absCorner)) {
-			cons.registerCorner5(this);
-		}
+		registerEV(absCorner);
 
 	}
 

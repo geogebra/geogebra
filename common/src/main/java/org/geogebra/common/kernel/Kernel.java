@@ -2743,7 +2743,7 @@ public class Kernel {
 		this.yscale[view] = yscale;
 
 		graphicsView2showing = getApplication().isShowingMultipleEVs();
-		notifyEuclidianViewCE();
+		notifyEuclidianViewCE(EVProperty.ZOOM);
 	}
 
 	protected double[] prolong(double[] xmin2, int viewNo) {
@@ -2804,11 +2804,11 @@ public class Kernel {
 		return getViewBoundsForGeo(geo)[5];
 	}
 
-	public void notifyEuclidianViewCE() {
+	public void notifyEuclidianViewCE(EVProperty prop) {
 		if (macroManager != null)
-			macroManager.notifyEuclidianViewCE();
+			macroManager.notifyEuclidianViewCE(prop);
 
-		cons.notifyEuclidianViewCE(false);
+		cons.notifyEuclidianViewCE(prop);
 	}
 
 	/**
@@ -3348,7 +3348,7 @@ public class Kernel {
 					notifyAddAll(view);
 				}
 
-				notifyEuclidianViewCE();
+				notifyEuclidianViewCE(EVProperty.ZOOM);
 				notifyReset();
 				// algebra settings need to be applied after remaking tree
 				if (app.getGuiManager() != null)

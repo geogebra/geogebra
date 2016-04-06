@@ -38,6 +38,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Manager3DInterface;
@@ -430,7 +431,7 @@ public class Kernel3D extends Kernel {
 		this.yscale[2] = yscale;
 		this.zscale3 = zscale;
 
-		notifyEuclidianViewCE();
+		notifyEuclidianViewCE(EVProperty.ZOOM);
 	}
 
 	@Override

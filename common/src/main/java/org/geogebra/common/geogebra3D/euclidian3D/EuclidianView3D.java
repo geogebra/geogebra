@@ -68,6 +68,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
+import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -3327,7 +3328,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			clippingCubeDrawable.setWaitForUpdate();
 
 			// update e.g. Corner[]
-			kernel.notifyEuclidianViewCE();
+			kernel.notifyEuclidianViewCE(EVProperty.ZOOM);
 
 			// xOy plane wait for update
 			xOyPlaneDrawable.setWaitForUpdate();
@@ -3352,7 +3353,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			}
 
 			// update e.g. Corner[]
-			kernel.notifyEuclidianViewCE();
+			kernel.notifyEuclidianViewCE(EVProperty.ROTATION);
 
 		}
 

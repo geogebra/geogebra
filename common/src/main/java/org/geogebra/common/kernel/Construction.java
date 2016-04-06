@@ -171,6 +171,7 @@ public class Construction {
 	// list of algorithms that need to be updated when EuclidianView changes
 	private ArrayList<EuclidianViewCE> euclidianViewCE;
 	private ArrayList<EuclidianViewCE> corner5Algos;
+	private ArrayList<EuclidianViewCE> corner11Algos;
 
 	/** Table for (label, GeoElement) pairs, contains local variables */
 	protected HashMap<String, GeoElement> localVariableTable;
@@ -967,6 +968,9 @@ public class Construction {
 		if (this.corner5Algos != null) {
 			this.corner5Algos.remove(elem);
 		}
+		if (this.corner11Algos != null) {
+			this.corner11Algos.remove(elem);
+		}
 	}
 
 	/**
@@ -974,12 +978,17 @@ public class Construction {
 	 * elements Those elements which return true, will also get an update of
 	 * their dependent objects.
 	 * 
+	 * @param type
+	 *            changed property
+	 * 
 	 * @return true iff there were any elements to update
 	 */
-	public boolean notifyEuclidianViewCE(boolean onlyCorner5) {
+	public boolean notifyEuclidianViewCE(EVProperty type) {
 		boolean didUpdate = false;
-		ArrayList<EuclidianViewCE> toUpdate = onlyCorner5 ? this.corner5Algos
-				: this.euclidianViewCE;
+		ArrayList<EuclidianViewCE> toUpdate = type == EVProperty.SIZE
+				? this.corner5Algos
+				: (type == EVProperty.ROTATION ? this.corner11Algos
+						: this.euclidianViewCE);
 		if (toUpdate == null) {
 			return false;
 		}
@@ -2774,6 +2783,7 @@ public class Construction {
 		geoSetsTypeMap.clear();
 		euclidianViewCE.clear();
 		this.corner5Algos = null;
+		this.corner11Algos = null;
 		this.casDummies.clear();
 		initGeoTables();
 
@@ -3156,6 +3166,17 @@ public class Construction {
 			this.corner5Algos = new ArrayList<EuclidianViewCE>();
 		}
 		this.corner5Algos.add(algo);
+	}
+
+	/**
+	 * 
+	 * @param algo
+	 */
+	public void registerCorner11(EuclidianViewCE algo) {
+		if (this.corner11Algos == null) {
+			this.corner11Algos = new ArrayList<EuclidianViewCE>();
+		}
+		this.corner11Algos.add(algo);
 	}
 
 	public String[] getRegisteredFunctionVariables() {
