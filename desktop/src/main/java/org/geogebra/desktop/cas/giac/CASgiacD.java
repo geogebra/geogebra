@@ -3,10 +3,6 @@ package org.geogebra.desktop.cas.giac;
 import java.util.LinkedList;
 import java.util.List;
 
-import javagiac.context;
-import javagiac.gen;
-import javagiac.giac;
-
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.cas.Evaluate;
@@ -22,6 +18,10 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
+
+import javagiac.context;
+import javagiac.gen;
+import javagiac.giac;
 
 /**
  * @author michael
@@ -116,7 +116,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 
 	@Override
-	public String evaluate(String input, long timeoutMillis0) throws Throwable {
+	synchronized public String evaluate(String input, long timeoutMillis0)
+			throws Throwable {
 
 		// don't need to replace Unicode when sending to JNI
 		String exp = casParser.replaceIndices(input, false);
@@ -306,7 +307,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	 *            timeout in milliseconds
 	 * @return String from Giac
 	 */
-	String evalRaw(String exp0, long timeoutMilliseconds) {
+	synchronized String evalRaw(String exp0, long timeoutMilliseconds) {
 
 		// #5439
 		// reset Giac before each call

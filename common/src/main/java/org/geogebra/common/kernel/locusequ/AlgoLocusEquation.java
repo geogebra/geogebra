@@ -141,7 +141,6 @@ public class AlgoLocusEquation extends AlgoElement {
 
 		if (implicitLocus != null) {
 			computeExplicitImplicit(true);
-			;
 			return;
 		}
 
