@@ -1469,14 +1469,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	public void reset() {
 
-		// Application.debug("reset View3D");
 		resetAllDrawables();
-		// updateAllDrawables();
-		viewChangedOwnDrawables();
 		setViewChanged();
+		viewChangedOwnDrawables();
 		setWaitForUpdate();
 
-		// update();
 	}
 
 	@Override
@@ -3322,7 +3319,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private void viewChangedOwnDrawables() {
 
 		// update, but not in case where view changed by rotation
-		if (!viewChanged() || viewChangedByTranslate() || viewChangedByZoom()) {
+		if (viewChangedByTranslate() || viewChangedByZoom()) {
 			// update clipping cube
 			double[][] minMax = clippingCubeDrawable.updateMinMax();
 			clippingCubeDrawable.setWaitForUpdate();
@@ -3342,7 +3339,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				axisDrawable[i].setWaitForUpdate();
 
 			}
-		} else {
+		} else if (viewChangedByRotate()) {
 			// we need to update renderer clip planes, since they are in screen
 			// coordinates
 			clippingCubeDrawable.updateRendererClipPlanes();
@@ -3538,9 +3535,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	public void setViewChanged() {
-		viewChangedByZoom = true;
-		viewChangedByTranslate = true;
-		viewChangedByRotate = true;
+		setViewChangedByZoom();
+		setViewChangedByTranslate();
+		setViewChangedByRotate();
 	}
 
 	public boolean viewChangedByZoom() {
