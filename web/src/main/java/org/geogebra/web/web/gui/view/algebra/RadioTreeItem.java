@@ -499,6 +499,8 @@ public class RadioTreeItem extends AVTreeItem
 
 
 	private static final String GTE_SIGN = "\u2264";
+
+	private static final String DV = "[DV]";
 	private LongTouchManager longTouchManager;
 
 	/**
@@ -1338,7 +1340,6 @@ public class RadioTreeItem extends AVTreeItem
 	private Canvas c;
 
 	private void renderLatex(String text0, Widget w, boolean forceMQ) {
-		Log.debug("[old]" + text0 + ": " + w);
 		if (definitionAndValue) {
 			renderLatexDV(text0, w, forceMQ);
 
@@ -1413,6 +1414,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void replaceToCanvas(String text, Widget old) {
+		Log.debug(DV + "replaceToCanvas: " + old + " to latex " + text);
 		c = DrawEquationW.paintOnCanvas(geo, text, c, getFontSize());
 		int idx = ihtml.getWidgetIndex(old);
 		if (c != null && idx != -1) {
@@ -1422,6 +1424,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void renderLatexMQ(String text0) {
+		Log.debug(DV + "renderLatexMQ: " + text0);
 		if (latexItem == null) {
 			latexItem = new FlowPanel();
 		}
@@ -1543,11 +1546,8 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	protected boolean startEditing(boolean substituteNumbers) {
-		Element old = latex
-				? (c != null ? c.getCanvasElement() : latexItem.getElement())
-				: getPlainTextItem().getElement();
 		String text = null;
-		text = geo.isMatrix()
+		text = geo.isMatrix() && geo.isIndependent()
 				? geo.toEditableLaTeXString(substituteNumbers,
 						StringTemplate.latexTemplateMQedit)
 				: geo.getLaTeXAlgebraDescriptionWithFallback(
@@ -1559,8 +1559,19 @@ public class RadioTreeItem extends AVTreeItem
 			return false;
 		}
 
+		if (isDefinitionAndValue()) {
+			Widget old = latex ? (c != null ? c : latexItem)
+					: getPlainTextItem();
 
-		renderLatex(text, old, true);
+			renderLatex(text, old, true);
+
+		} else {
+			Element old = latex
+					? (c != null ? c.getCanvasElement()
+							: latexItem.getElement())
+					: getPlainTextItem().getElement();
+			renderLatex(text, old, true);
+		}
 
 
 		// if (isDefinitionAndValue()) {
