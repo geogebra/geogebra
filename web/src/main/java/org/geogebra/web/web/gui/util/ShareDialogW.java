@@ -35,14 +35,15 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		super(app.getPanel());
 		this.app = app;
 		this.setGlassEnabled(true);
-		this.setVisible(true);
-		this.center();
 
 		this.getCaption().setText(app.getMenu("Share"));
 		this.contentPanel = new VerticalPanel();
 		this.contentPanel.add(getTabPanel());
 		this.contentPanel.add(getButtonPanel());
 		this.add(this.contentPanel);
+
+		this.setVisible(true);
+		this.center();
 	}
 
 	private TabLayoutPanel getTabPanel() {
