@@ -5330,4 +5330,17 @@ sb.toString(), getFontAxes(),
 		return companion.isInPlane(sys);
 	}
 
+	/**
+	 * this method can be called to say the view rendering should be paused
+	 */
+	public void onPause() {
+		// only used in android for now
+	}
+
+	/**
+	 * this method can be called to say the view rendering should be resumed
+	 */
+	public void onResume() {
+		// only used in android for now
+	}
 }
