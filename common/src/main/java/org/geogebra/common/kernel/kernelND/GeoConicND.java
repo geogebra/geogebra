@@ -4329,7 +4329,8 @@ FromMeta
 		double b = halfAxes[1];
 
 		// Gauss-KummerSeries doesn't converge fast so use Cayley in this case
-		if (eccentricity > 0.96) {
+		// http://www.geogebra.org/help/topic/inaccurate-circumference-of-ellipse
+		if (eccentricity > 0.92) {
 
 			double k = b / a;
 			double q = Math.log(4 / k) - 0.5;
