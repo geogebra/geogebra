@@ -550,14 +550,16 @@ public class DrawEquationW extends DrawEquation {
 
 		var DrawEquation = @org.geogebra.web.html5.main.DrawEquationW::getNonStaticCopy(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
 
-		var elfirst = parentElement.firstChild.firstChild || parentElement.firstChild || parentElement;
+		var elfirst = parentElement.firstChild.firstChild || parentElement;
 
-		elfirst.style.display = 'none';
-
+		
 		var elSecond = elfirst.nextSibling;
 
 		var elSecondInside = elSecond.lastChild;
 
+		console.log(elSecond);
+		console.log(elSecondInside);
+		
 		// if we go to editing mode, this timer is not relevant any more,
 		// and also harmful in case it runs after editing mode is set
 		if (elSecondInside.timeoutId) {

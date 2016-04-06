@@ -1404,49 +1404,59 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void renderLatexDV(String text0, Widget old, boolean forceMQ) {
-		if (!forceMQ) {
-			c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
-			int idx = ihtml.getWidgetIndex(old);
-			if (c != null && idx != -1) {
-				ihtml.remove(idx);
-				ihtml.insert(c, idx);
-			}
-
+		if (forceMQ) {
+			renderLatexMQ(text0);
 		} else {
-			// Log.debug(REFX + "renderLatex 2");
-			if (latexItem == null) {
-				latexItem = new FlowPanel();
-			}
-			latexItem.clear();
-			latexItem.addStyleName("avTextItem");
-			updateColor(latexItem);
+			replaceToCanvas(text0, old);
+		}
 
-			ihtml.clear();
+	}
 
-			String text = text0;
-			if (text0 == null) {
-				text = "";
-			}
-			text = DrawEquationW.inputLatexCosmetics(text);
+	private void replaceToCanvas(String text, Widget old) {
+		c = DrawEquationW.paintOnCanvas(geo, text, c, getFontSize());
+		int idx = ihtml.getWidgetIndex(old);
+		if (c != null && idx != -1) {
+			ihtml.remove(idx);
+			ihtml.insert(c, idx);
+		}
+	}
 
-			String latexString = "";
-			if (!isInputTreeItem()) {
-				latexString = (isDefinitionAndValue() ? "\\mathrm {"
-						: " \\mathbf {") + text + "}";
-			}
+	private void renderLatexMQ(String text0) {
+		if (latexItem == null) {
+			latexItem = new FlowPanel();
+		}
+		latexItem.clear();
+		latexItem.addStyleName("avTextItem");
+		updateColor(latexItem);
 
-			if (!isInputTreeItem() && isDefinitionAndValue()) {
-				createDefinitionAndValue();
-				ihtml.add(geo.isMatrix() ? valuePanel : definitionPanel);
+		ihtml.clear();
 
-			}
+		String text = text0;
+		if (text0 == null) {
+			text = "";
+		}
+		text = DrawEquationW.inputLatexCosmetics(text);
 
+		String latexString = "";
+		if (!isInputTreeItem()) {
+			latexString = (isDefinitionAndValue() ? "\\mathrm {"
+					: " \\mathbf {") + text + "}";
+		}
+
+		if (hasExtendedValueRow()) {
+			createDefinitionAndValue();
+			ihtml.add(definitionPanel);
+			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
+					isInputTreeItem());
+			outputPanel.clear();
+			outputPanel.add(new Label(getOutputPrefix()));
+			outputPanel.add(latexItem);
+			ihtml.add(outputPanel);
+		} else {
 			ihtml.add(latexItem);
 			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
-
 		}
-
 	}
 
 	private void updateLaTeX(String text0) {
