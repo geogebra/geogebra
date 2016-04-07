@@ -1454,14 +1454,14 @@ public class RadioTreeItem extends AVTreeItem
 
 		if (!isInputTreeItem() && geo.needToShowBothRowsInAV()) {
 			createDefinitionAndValue();
-			ihtml.add(definitionPanel);
+			ihtml.add(latexItem);
+			latexItem.addStyleName("avDefinition");
+
 			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
-			outputPanel.clear();
-			outputPanel.add(new Label(getOutputPrefix()));
-			outputPanel.add(latexItem);
 			ihtml.add(outputPanel);
 		} else {
+			latexItem.removeStyleName("avDefinition");
 			ihtml.add(latexItem);
 			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
