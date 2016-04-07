@@ -441,7 +441,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			} else if (format.equals("svg")) {
 				formatID = Format.SVG;
 			}
-			cbFormat.setSelectedIndex(formatID.ordinal());
+			if (formatID.ordinal() < cbFormat.getItemCount()) {
+				cbFormat.setSelectedIndex(formatID.ordinal());
+			}
 
 			// dpi
 			if (cbDPI.isEnabled()) {
