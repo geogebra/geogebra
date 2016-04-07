@@ -8107,4 +8107,22 @@ public abstract class GeoElement extends ConstructionElement implements
 		kernel.notifyRepaint();
 	}
 
+	/**
+	 * Decides if definition differs from value as String. If so, AV should
+	 * display both rows.
+	 * 
+	 * @return true, only if AV should display 2 rows in 'Definition And Value'
+	 *         style.
+	 */
+	public boolean needToShowBothRowsInAV() {
+
+		IndexHTMLBuilder sbDef = new IndexHTMLBuilder(false);
+		IndexHTMLBuilder sbVal = new IndexHTMLBuilder(false);
+		addLabelTextOrHTML(getDefinition(StringTemplate.defaultTemplate),
+				sbDef);
+		String def = sbDef.toString();
+		String val = getAlgebraDescriptionTextOrHTMLDefault(sbVal);
+		return !def.equals(val);
+	}
+
 }
