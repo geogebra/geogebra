@@ -668,11 +668,13 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 			}
 			return Double.NaN;
 		}
-		if (tmp[0] < this.from[0] || tmp[0] > this.to[0]) {
-			return Double.NaN;
-		}
-		if (tmp[1] < this.from[1] || tmp[1] > this.to[1]) {
-			return Double.NaN;
+		if (from != null && to != null) {
+			if (tmp[0] < this.from[0] || tmp[0] > this.to[0]) {
+				return Double.NaN;
+			}
+			if (tmp[1] < this.from[1] || tmp[1] > this.to[1]) {
+				return Double.NaN;
+			}
 		}
 		return fun.evaluate(tmp);
 	}
