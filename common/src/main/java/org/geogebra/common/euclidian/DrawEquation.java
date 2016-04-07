@@ -291,4 +291,60 @@ public abstract class DrawEquation {
 	public abstract GDimension measureEquation(App app, GeoElement geo0,
 			int minValue,
 			int minValue2, String text, GFont font, boolean b);
+
+	final public GDimension measureEquationJLaTeXMath(final App app,
+			final GeoElement geo, final int x, final int y, final String text,
+			final GFont font, final boolean serif, final Integer maxWidth,
+			final Float lineSpace) {
+
+		checkFirstCall(app);
+		GColor fgColor = GColor.BLACK;
+		int style = font.getLaTeXStyle(serif);
+
+		TeXFormula formula;
+		TeXIcon icon;
+
+		try {
+			formula = new TeXFormula(text);
+
+			if (maxWidth == null) {
+				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, style, convertColor(fgColor));
+			} else {
+				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, TeXConstants.UNIT_CM,
+						maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
+						TeXConstants.UNIT_CM, lineSpace.floatValue());
+			}
+		} catch (final MyError e) {
+			// e.printStackTrace();
+			// Application.debug("MyError LaTeX parse exception:
+			// "+e.getMessage()+"\n"+text);
+			// Write error message to Graphics View
+
+			formula = TeXFormula.getPartialTeXFormula(text);
+			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+					font.getSize() + 3, style, convertColor(fgColor));
+
+			formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
+					TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
+					TeXConstants.UNIT_CM, 0.5f);
+
+		} catch (final Exception e) {
+			// e.printStackTrace();
+			// Application.debug("LaTeX parse exception:
+			// "+e.getMessage()+"\n"+text);
+			// Write error message to Graphics View
+
+			formula = TeXFormula.getPartialTeXFormula(text);
+			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+					font.getSize() + 3, style, convertColor(fgColor));
+
+		}
+		icon.setInsets(new Insets(1, 1, 1, 1));
+
+		return AwtFactory.prototype.newDimension(icon.getIconWidth(),
+				icon.getIconHeight());
+
+	}
 }
