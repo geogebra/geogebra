@@ -162,8 +162,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	public abstract String evaluateCAS(String exp);
 
-	final public synchronized String evaluateRaw(final String input)
-			throws Throwable {
+	final public String evaluateRaw(final String input) throws Throwable {
 
 		String exp = input;
 
@@ -273,8 +272,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	}
 
-	synchronized private String getPlainResult(ValidExpression casInput,
-			Kernel kernel) {
+	private String getPlainResult(ValidExpression casInput, Kernel kernel) {
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
 		Command cmd = casInput.getTopLevelCommand();
@@ -831,7 +829,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *            output from Giac
 	 * @return result that GeoGebra can parse
 	 */
-	synchronized protected String postProcess(String s) {
+	protected String postProcess(String s) {
 
 		if (s.indexOf("GIAC_ERROR:") > -1) {
 			// GIAC_ERROR: canonical_form(3*ggbtmpvarx^4+ggbtmpvarx^2) Error:
