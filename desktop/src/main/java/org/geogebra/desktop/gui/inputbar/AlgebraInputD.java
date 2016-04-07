@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.desktop.gui.inputbar;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.dnd.DropTarget;
@@ -44,6 +45,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.view.algebra.AlgebraInputDropTargetListener;
@@ -103,7 +105,17 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 					public void preview() {
 						app.getKernel().getInputPreviewHelper()
 								.updatePreviewFromInputBar(
-								inputField.getText());
+										inputField.getText(),
+										new AsyncOperation<Boolean>() {
+
+											@Override
+											public void callback(Boolean obj) {
+												inputField.setBackground(
+														obj ? Color.WHITE
+																: Color.ORANGE);
+
+											}
+										});
 					}
 				});
 	}

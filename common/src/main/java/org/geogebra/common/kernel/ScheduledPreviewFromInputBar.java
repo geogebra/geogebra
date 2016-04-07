@@ -3,7 +3,7 @@ package org.geogebra.common.kernel;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
 public class ScheduledPreviewFromInputBar implements Runnable {
@@ -22,9 +22,11 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 	private String input = "";
 	private String validInput = "";
+	private AsyncOperation<Boolean> validation;
 
-	public void setInput(String str) {
+	public void setInput(String str, AsyncOperation<Boolean> validation) {
 		this.input = str;
+		this.validation = validation;
 		try {
 
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
@@ -57,7 +59,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 		Log.debug("preview for: " + input);
 		boolean silentModeOld = this.kernel.isSilentMode();
-
+		GeoElement[] geos = null;
 		try {
 			this.kernel.setSilentMode(true);
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
@@ -68,19 +70,18 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				GeoElement existingGeo = this.kernel.lookupLabel(ve.getLabel());
 				if (existingGeo == null) {
 
-					GeoElement[] geos = this.kernel.getAlgebraProcessor()
+					geos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(ve,
 									false, false, true,
 									false, null);
 					if (geos != null) {
 						for (GeoElement geo : geos) {
 							geo.setSelectionAllowed(false);
-							if (!input.equals(validInput)) {
-								geo.setLineType(
-										EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-							}
+
 						}
 					}
+
+
 
 					this.kernel.notifyUpdatePreviewFromInputBar(geos);
 				} else {
@@ -91,6 +92,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				Log.debug("cas cell ");
 				this.kernel.notifyUpdatePreviewFromInputBar(null);
 			}
+			validation.callback(
+					new Boolean(input.equals(validInput) && geos != null));
 			this.kernel.setSilentMode(silentModeOld);
 
 		} catch (Throwable ee) {
@@ -107,14 +110,15 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	 * @param input
 	 *            current algebra input
 	 */
-	public void updatePreviewFromInputBar(String input) {
+	public void updatePreviewFromInputBar(String input,
+			AsyncOperation warning) {
 
 		if (this.input.equals(input)) {
 			Log.debug("no update needed (same input)");
 			return;
 		}
 
-		setInput(input);
+		setInput(input, warning);
 
 		kernel.getApplication().schedulePreview(this);
 

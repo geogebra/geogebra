@@ -4665,9 +4665,9 @@ sb.toString(), getFontAxes(),
 		tempArrayList.add(geo);
 
 		getEuclidianController().startCollectingMinorRepaints();
-		AsyncOperation callback = new AsyncOperation() {
+		AsyncOperation<Boolean> callback = new AsyncOperation<Boolean>() {
 			@Override
-			public void callback(Object arg) {
+			public void callback(Boolean arg) {
 				if (arg.equals(true)) {
 					euclidianController.storeUndoInfo();
 				}

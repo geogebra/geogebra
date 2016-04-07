@@ -5183,7 +5183,8 @@ public abstract class EuclidianController {
 	 * @param hits
 	 * @return
 	 */
-	protected final boolean macro(Hits hits, final AsyncOperation callback2) {
+	protected final boolean macro(Hits hits,
+			final AsyncOperation<Boolean> callback2) {
 		// try to get next needed type of macroInput
 		index = selGeos();
 
@@ -5715,7 +5716,7 @@ public abstract class EuclidianController {
 	}
 
 	public final boolean processMode(Hits processHits, boolean isControlDown,
-									 final AsyncOperation callback) {
+			final AsyncOperation<Boolean> callback) {
 		Hits hits = processHits;
 		boolean changedKernel = false;
 
@@ -5727,10 +5728,10 @@ public abstract class EuclidianController {
 		if (callback == null) {
 			callback2 = null;
 		} else {
-			callback2 = new AsyncOperation() {
+			callback2 = new AsyncOperation<Boolean>() {
 
 				@Override
-				public void callback(Object ret) {
+				public void callback(Boolean ret) {
 					callback.callback(ret);
 					updatePreview();
 				}

@@ -23,6 +23,7 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -257,7 +258,19 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		int keyCode = event.getNativeKeyCode();
 		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
 			app.getKernel().getInputPreviewHelper()
-					.updatePreviewFromInputBar(inputField.getText());
+					.updatePreviewFromInputBar(inputField.getText(),
+							new AsyncOperation<Boolean>() {
+
+								@Override
+								public void callback(Boolean obj) {
+									((Element) inputField.getElement()
+											.getChild(0))
+													.getStyle()
+													.setBorderColor(obj ? ""
+													: "#FFA500");
+
+								}
+							});
 		}
 		if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
 			app.getKernel().clearJustCreatedGeosInViews();
