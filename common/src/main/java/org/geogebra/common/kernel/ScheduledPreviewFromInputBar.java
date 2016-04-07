@@ -6,6 +6,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Periodically tries evaluating current input and creates preview
+ * 
+ * @author Mathieu + Zbynek
+ */
 public class ScheduledPreviewFromInputBar implements Runnable {
 
 	/**
@@ -15,6 +20,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 	/**
 	 * @param kernel
+	 *            kernel
 	 */
 	ScheduledPreviewFromInputBar(Kernel kernel) {
 		this.kernel = kernel;
@@ -24,7 +30,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private String validInput = "";
 	private AsyncOperation<Boolean> validation;
 
-	public void setInput(String str, AsyncOperation<Boolean> validation) {
+	private void setInput(String str, AsyncOperation<Boolean> validation) {
 		this.input = str;
 		this.validation = validation;
 		try {
@@ -35,10 +41,15 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				validInput = input;
 			}
 		} catch (Throwable t) {
-
+			// input is invalid quite often
 		}
 	}
 
+	/**
+	 * @param fallback
+	 *            what to return if no input is valid
+	 * @return last valid value of input
+	 */
 	public String getInput(String fallback) {
 		String ret = validInput;
 		validInput = null;
@@ -107,18 +118,20 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	/**
 	 * try to create/update preview for input typed
 	 * 
-	 * @param input
+	 * @param newInput
 	 *            current algebra input
+	 * @param validate
+	 *            validation callback
 	 */
-	public void updatePreviewFromInputBar(String input,
-			AsyncOperation warning) {
+	public void updatePreviewFromInputBar(String newInput,
+			AsyncOperation<Boolean> validate) {
 
-		if (this.input.equals(input)) {
+		if (this.input.equals(newInput)) {
 			Log.debug("no update needed (same input)");
 			return;
 		}
 
-		setInput(input, warning);
+		setInput(newInput, validate);
 
 		kernel.getApplication().schedulePreview(this);
 
