@@ -17,8 +17,12 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.events.StayLoggedOutEvent;
+import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -612,10 +616,34 @@ public abstract class AppWFull extends AppW {
 		return getAppletFrame().getElement();
 	}
 
+	/** material ID waiting for login */
+	String toOpen = "";
 	@Override
-	public final void openMaterial(String s, final Runnable onError) {
+	public final void openMaterial(final String id, final Runnable onError) {
+		if (((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI())
+				.isCheckDone()) {
+			doOpenMaterial(id, onError);
+		} else {
+			toOpen = id;
+		getLoginOperation().getView().add(new EventRenderable() {
+
+			public void renderEvent(BaseEvent event) {
+				if (event instanceof LoginEvent
+						|| event instanceof StayLoggedOutEvent) {
+						if (toOpen != null && toOpen.length() > 0) {
+							doOpenMaterial(toOpen, onError);
+							toOpen = "";
+						}
+				}
+			}
+		});
+		}
+
+	}
+
+	public void doOpenMaterial(String id, final Runnable onError) {
 		((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI()).getItem(
-				s, new MaterialCallback() {
+				id, new MaterialCallback() {
 
 					@Override
 					public void onLoaded(final List<Material> parseResponse,
@@ -636,9 +664,7 @@ public abstract class AppWFull extends AppW {
 						onError.run();
 					}
 				});
-
 	}
-
 	@Override
 	public final boolean isOffline() {
 		return getDevice().isOffline(this);
