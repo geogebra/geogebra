@@ -331,10 +331,12 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 
 			} catch (Exception ee) {
+				inputField.addToHistory(getTextField().getText());
 				GOptionPaneW.setCaller(inputField.getTextBox());
 				app.showError(ee, inputField);
 				return;
 			} catch (MyError ee) {
+				inputField.addToHistory(getTextField().getText());
 				GOptionPaneW.setCaller(inputField.getTextBox());
 				inputField.showError(ee);
 				return;
