@@ -5,6 +5,8 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.Widget;
@@ -54,6 +56,21 @@ public abstract class ClickStartHandler {
 				CancelEventTimer.touchEventOccured();
 			}
 		}, TouchStartEvent.getType());
+		
+		w.addDomHandler(new TouchMoveHandler() {
+			public void onTouchMove(TouchMoveEvent event) {
+				if (handler.preventDefault) {
+					event.preventDefault();
+				}
+				if (handler.stopPropagation) {
+					event.stopPropagation();
+				}
+				handler.onClickStart(event.getTouches().get(0).getClientX(), event.getTouches().get(0).getClientY(),
+						PointerEventType.TOUCH);
+				CancelEventTimer.touchEventOccured();
+			}
+
+		}, TouchMoveEvent.getType());
 	}
 
 	boolean preventDefault = false;
