@@ -1451,21 +1451,12 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void replaceToCanvas(String text, Widget old) {
-		String eqn = text;
-		boolean twoRows = false;
-
-		if (geo.needToShowBothRowsInAV()) {
-			buildDefinitionAndValue(true);
-			eqn = getTextForEditing(false);
-			twoRows = true;
-		}
-
-		c = DrawEquationW.paintOnCanvas(geo, eqn, c, getFontSize());
+		updateLaTeX(text);
 		int idx = ihtml.getWidgetIndex(old);
 		if (c != null && idx != -1) {
 			ihtml.remove(idx);
 			ihtml.insert(c, idx);
-			if (twoRows) {
+			if (geo.needToShowBothRowsInAV()) {
 				buildLatexOutput(text);
 				ihtml.add(outputPanel);
 			}
