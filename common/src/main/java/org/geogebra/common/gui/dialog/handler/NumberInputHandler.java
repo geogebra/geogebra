@@ -10,7 +10,7 @@ import org.geogebra.common.util.AsyncOperation;
 public class NumberInputHandler implements InputHandler {
   private AlgebraProcessor algebraProcessor;
   private GeoNumberValue num = null;
-  private AsyncOperation callback;
+	private AsyncOperation<GeoNumberValue> callback;
   private boolean oldVal;
   private App app;
   
@@ -19,7 +19,8 @@ public class NumberInputHandler implements InputHandler {
   	this.algebraProcessor = algebraProcessor;
   }
 
-  public NumberInputHandler(AlgebraProcessor algebraProcessor, AsyncOperation cb,
+	public NumberInputHandler(AlgebraProcessor algebraProcessor,
+			AsyncOperation<GeoNumberValue> cb,
 		  App appl, boolean oldValue) {
 	this(algebraProcessor);
 	callback = cb;

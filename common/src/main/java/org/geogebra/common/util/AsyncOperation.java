@@ -11,20 +11,4 @@ public abstract class AsyncOperation<T> {
 
 	public abstract void callback(T obj);
 
-	public Object getData() {
-		return this.properties.get("data");
-	}
-
-	public void setData(Object d) {
-		this.properties.put("data", d);
-	}
-
-	public void setProperty(String propertyName, Object prop) {
-		this.properties.put(propertyName, prop);
-	}
-
-	public Object getProperty(String propertyName) {
-		return this.properties.get(propertyName);
-	}
-
 }

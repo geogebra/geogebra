@@ -1933,16 +1933,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		getOptionPane().showSaveDialog(app, app.getPlain("Save"),
 				app.getExportTitle() + ".ggb",
 				null,
-				new AsyncOperation() {
+				new AsyncOperation<String[]>() {
 
 					@Override
-					public void callback(Object obj) {
+					public void callback(String[] obj) {
 
-						String[] dialogResult = (String[]) obj;
 
-						if (Integer.parseInt(dialogResult[0]) == 0) {
+
+						if (Integer.parseInt(obj[0]) == 0) {
 							((AppW) app).getGgbApi().getGGB(true,
-									getDownloadCallback(dialogResult[1]));
+									getDownloadCallback(obj[1]));
 						}
 					}
 				}, app.getPlain("Save"));

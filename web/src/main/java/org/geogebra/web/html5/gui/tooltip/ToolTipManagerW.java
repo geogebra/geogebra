@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.tooltip;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -12,10 +11,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
@@ -28,7 +23,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * <p>
@@ -642,44 +636,7 @@ public class ToolTipManagerW {
 		enabled = allowToolTips;
 	}
 
-	public void registerWidget(final Widget widget,
-			final AsyncOperation toolTipHandler, final boolean alignToElement,
-			final boolean showImmediately1) {
 
-		MouseOverHandler mouseOverHandler = new MouseOverHandler() {
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				boolean oldDelay = false;
-				if (showImmediately1) {
-					oldDelay = sharedInstance().enableDelay;
-					sharedInstance().setEnableDelay(false);
-				}
-				toolTipHandler.callback(null);
-				if (alignToElement) {
-					sharedInstance().showToolTip(widget.getElement(),
-							(String) toolTipHandler.getData());
-				} else {
-					sharedInstance().showToolTip(
-							(String) toolTipHandler.getData());
-				}
-
-				if (showImmediately1) {
-					sharedInstance().setEnableDelay(oldDelay);
-				}
-
-			}
-		};
-
-		MouseOutHandler mouseOutHandler = new MouseOutHandler() {
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				ToolTipManagerW.sharedInstance().showToolTip(null);
-			}
-		};
-
-		widget.addDomHandler(mouseOverHandler, MouseOverEvent.getType());
-		widget.addDomHandler(mouseOutHandler, MouseOutEvent.getType());
-	}
 
 	public static void hideAllToolTips() {
 

@@ -233,12 +233,11 @@ public class ToolManagerDialogW extends DialogBoxW implements
 					.getOptionPane()
 					.showOptionDialog(app, message, question,
 					GOptionPane.CUSTOM_OPTION, GOptionPane.QUESTION_MESSAGE,
-					null, options, new AsyncOperation() {
+							null, options, new AsyncOperation<String[]>() {
 
 						@Override
-						public void callback(Object obj) {
+								public void callback(String[] dialogResult) {
 
-							String[] dialogResult = (String[]) obj;
 							if ("0".equals(dialogResult[0])) {
 
 								List<Macro> macros = toolList

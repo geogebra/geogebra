@@ -5221,10 +5221,10 @@ public abstract class EuclidianController {
 				index--;
 			}
 
-			AsyncOperation callback3 = new AsyncOperation() {
+			AsyncOperation<GeoNumberValue> callback3 = new AsyncOperation<GeoNumberValue>() {
 
 				@Override
-				public void callback(Object num) {
+				public void callback(GeoNumberValue num) {
 					if (num == null) {
 						// no success: reset mode
 						view.resetMode();
@@ -5233,8 +5233,7 @@ public abstract class EuclidianController {
 						return;
 					}
 					// great, we got our number
-					if (num instanceof NumberValue
-							&& ((NumberValue) num).isGeoElement()) {
+					if (((NumberValue) num).isGeoElement()) {
 						getSelectedGeoList().add(((NumberValue) num).toGeoElement());
 					}
 
@@ -5256,7 +5255,8 @@ public abstract class EuclidianController {
 
 	}
 
-	public void readNumberOrAngleIfNeeded(AsyncOperation callback3) {
+	public void readNumberOrAngleIfNeeded(
+			AsyncOperation<GeoNumberValue> callback3) {
 		if (++index < macroInput.length) {
 
 			// maybe we need a number
@@ -5278,7 +5278,7 @@ public abstract class EuclidianController {
 
 	}
 
-	public boolean macroProcess(AsyncOperation callback2) {
+	public boolean macroProcess(AsyncOperation<Boolean> callback2) {
 		// do we have everything we need?
 		if (selGeos() == macroInput.length) {
 			checkZooming();
@@ -5303,7 +5303,7 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean switchModeForProcessMode(Hits hits,
-											   boolean isControlDown, final AsyncOperation callback) {
+			boolean isControlDown, final AsyncOperation<Boolean> callback) {
 
 		Boolean changedKernel = false;
 		GeoElement[] ret = null;
@@ -5580,9 +5580,9 @@ public abstract class EuclidianController {
 				// another callback object in macro, which we got
 				// in parameter.
 
-				AsyncOperation callback2 = new AsyncOperation() {
+			AsyncOperation<Boolean> callback2 = new AsyncOperation<Boolean>() {
 					@Override
-					public void callback(Object arg) {
+				public void callback(Boolean arg) {
 						memorizeJustCreatedGeosAfterProcessMode(null);
 						if (callback != null)
 							callback.callback(arg);
@@ -5647,7 +5647,7 @@ public abstract class EuclidianController {
 	}
 
 	final protected boolean endOfSwitchModeForProcessMode(GeoElement[] ret,
-														  boolean changedKernel, AsyncOperation callback) {
+			boolean changedKernel, AsyncOperation<Boolean> callback) {
 		memorizeJustCreatedGeosAfterProcessMode(ret);
 
 		if (callback != null)
@@ -9651,10 +9651,10 @@ public abstract class EuclidianController {
 		// also needed for right-drag
 		else {
 			final Hits hits2 = hits;
-			AsyncOperation callback = new AsyncOperation() {
+			AsyncOperation<Boolean> callback = new AsyncOperation<Boolean>() {
 
 				@Override
-				public void callback(Object arg) {
+				public void callback(Boolean arg) {
 					if (arg.equals(true)) {
 						storeUndoInfo();
 					}

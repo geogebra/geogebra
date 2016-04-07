@@ -282,17 +282,17 @@ public class FileManagerW extends FileManager {
 		app.getGuiManager()
 				.getOptionPane()
 				.showSaveDialog(getApp(), getApp().getPlain("ExportAsPicture"),
-						filename + ".png", null, new AsyncOperation() {
+						filename + ".png", null,
+						new AsyncOperation<String[]>() {
 
 							@Override
-							public void callback(Object obj) {
-								String[] dialogResult = (String[]) obj;
+							public void callback(String[] obj) {
 
-								if (Integer.parseInt(dialogResult[0]) != 0) {
+								if (Integer.parseInt(obj[0]) != 0) {
 									return;
 								}
 
-								exportImage(url, dialogResult[1]);
+								exportImage(url, obj[1]);
 
 							}
 						}, getApp().getPlain("Export"));

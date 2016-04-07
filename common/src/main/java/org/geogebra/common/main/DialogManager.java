@@ -213,11 +213,11 @@ public abstract class DialogManager {
 			GeoPointND geoPointND, EuclidianView view);
 
 	public abstract void showNumberInputDialog(String title, String message,
-			String initText, AsyncOperation callback);
+			String initText, AsyncOperation<GeoNumberValue> callback);
 
 	public abstract void showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText,
-			AsyncOperation callback);
+			AsyncOperation<GeoNumberValue> callback);
 
 	public abstract void showAngleInputDialog(String title, String message,
 			String initText, AsyncOperation callback);

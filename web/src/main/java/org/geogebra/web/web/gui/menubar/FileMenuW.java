@@ -106,11 +106,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 									app.getMenu("exam_exit_confirmation"), //ExitExamConfirm
 									app.getMenu("exam_exit_header"), //ExitExamConfirmTitle
 					        GOptionPane.CUSTOM_OPTION, GOptionPane.WARNING_MESSAGE, null,
-					        optionNames, new AsyncOperation() {
+											optionNames,
+											new AsyncOperation<String[]>() {
 										@Override
-										public void callback(Object obj) {
-											String[] dialogResult = (String[]) obj;
-											if ("1".equals(dialogResult[0])) {
+												public void callback(
+														String[] obj) {
+													if ("1".equals(obj[0])) {
 												exitAndResetExam();
 											}
 										}

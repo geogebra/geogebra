@@ -110,11 +110,12 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 									app,
 									app
 							.getLocalization().getPlain("EnterPercentage"),
-							currentSize, null, new AsyncOperation() {
+									currentSize, null,
+									new AsyncOperation<String[]>() {
 
 								@Override
-								public void callback(Object obj) {
-									String[] dialogResult = (String[]) obj;
+										public void callback(
+												String[] dialogResult) {
 									model.applyFontSizeFromString(dialogResult[1]);
 								}
 							});

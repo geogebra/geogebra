@@ -255,7 +255,8 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 	private CreatePolyhedronCallback callback;
 
-	private class CreatePolyhedronCallback extends AsyncOperation {
+	private class CreatePolyhedronCallback
+			extends AsyncOperation<GeoNumberValue> {
 
 		private GeoElement basis;
 		private EuclidianView3D view;
@@ -272,7 +273,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 		}
 
 		@Override
-		public void callback(Object obj) {
+		public void callback(GeoNumberValue obj) {
 			GeoNumberValue num = (GeoNumberValue) obj;
 
 			// App.debug("callback : "+num + "," + basis + " , "+extrusionComputer);

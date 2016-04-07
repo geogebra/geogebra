@@ -368,11 +368,10 @@ public class ToolCreationDialog extends DialogBoxW implements
 							app.getPlain("Question"),
 							GOptionPane.CUSTOM_OPTION,
 							GOptionPane.QUESTION_MESSAGE, null, options,
-							new AsyncOperation() {
+							new AsyncOperation<String[]>() {
 
 								@Override
-								public void callback(Object obj) {
-									String[] dialogResult = (String[]) obj;
+								public void callback(String[] dialogResult) {
 									if ("0".equals(dialogResult[0])) {
 										saveMacro(appToSave);
 									}

@@ -9,7 +9,6 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -655,13 +654,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		return p.getElement().getInnerHTML();
 	}
-
-	private AsyncOperation toolTipHandler = new AsyncOperation() {
-		@Override
-		public void callback(Object obj) {
-			setData(getToolTip());
-		}
-	};
 
 	private boolean longStyleBar = false;
 

@@ -41,7 +41,7 @@ public class GOptionPaneW extends GDialogBox implements
 	private int optionType, messageType;
 	private boolean requiresReturnValue;
 	private Localization loc;
-	private AsyncOperation returnHandler;
+	private AsyncOperation<String[]> returnHandler;
 
 	private AutoCompleteTextFieldW inputField;
 	private FlowPanel mainPanel;
@@ -394,7 +394,7 @@ public class GOptionPaneW extends GDialogBox implements
 	 */
 	public void showOptionDialog(App app, String message, String title,
 			int optionType, int messageType, Object icon, String[] optionNames,
-			AsyncOperation handler) {
+			AsyncOperation<String[]> handler) {
 
 		this.app = app;
 		this.message = message;
@@ -420,7 +420,8 @@ public class GOptionPaneW extends GDialogBox implements
 	 * 
 	 */
 	public void showInputDialog(App app, String message,
-			String initialSelectionValue, Object icon, AsyncOperation handler,
+			String initialSelectionValue, Object icon,
+			AsyncOperation<String[]> handler,
 			boolean autoComplete) {
 
 		this.app = app;
@@ -439,7 +440,8 @@ public class GOptionPaneW extends GDialogBox implements
 	}
 
 	public void showSaveDialog(App app, String title,
-			String initialSelectionValue, Object icon, AsyncOperation handler,
+			String initialSelectionValue, Object icon,
+			AsyncOperation<String[]> handler,
 			String okLabel) {
 
 		this.app = app;
@@ -469,7 +471,8 @@ public class GOptionPaneW extends GDialogBox implements
 	 */
 	public void showInputDialog(App app, String message, String title,
 			String initialSelectionValue, int optionType, int messageType,
-			Object icon, String[] optionNames, AsyncOperation handler) {
+			Object icon, String[] optionNames,
+			AsyncOperation<String[]> handler) {
 
 		this.app = app;
 		this.message = message;
@@ -488,7 +491,8 @@ public class GOptionPaneW extends GDialogBox implements
 	}
 
 	public void showInputDialog(App app, String message,
-			String initialSelectionValue, Object icon, AsyncOperation handler) {
+			String initialSelectionValue, Object icon,
+			AsyncOperation<String[]> handler) {
 
 		showInputDialog(app, message, initialSelectionValue, icon, handler,
 				true);
