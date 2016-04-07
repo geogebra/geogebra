@@ -37,7 +37,8 @@ import java.util.List;
 public class ListMetaGroup implements MetaGroup {
 
     private List<MetaComponent> components;
-    private String name, group;
+    private String name;
+    private String group;
 
     ListMetaGroup(String name, String group, List<MetaComponent> components, int columns) {
         this.name = name;
@@ -47,7 +48,7 @@ public class ListMetaGroup implements MetaGroup {
 
     public MetaComponent getComponent(String name) {
         for (MetaComponent component : components) {
-            if (component.getName().equals(name) || name.equals(component.getUnicode()+"")) {
+            if (component.getName().equals(name) || name.equals(component.getUnicode() + "")) {
                 return component;
             }
         }

@@ -36,7 +36,10 @@ public class MetaArray extends MetaComponent {
     public static final String SQUARE = "square";
     public static final String APOSTROPHES = "apostrophes";
 
-    private MetaComponent open, close, field, row;
+    private MetaComponent open;
+    private MetaComponent close;
+    private MetaComponent field;
+    private MetaComponent row;
     private String tagName;
 
     MetaArray(String tagName, String name, List<MetaComponent> metaComponents) {

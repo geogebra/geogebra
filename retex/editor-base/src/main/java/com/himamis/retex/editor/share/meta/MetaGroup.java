@@ -1,9 +1,11 @@
 package com.himamis.retex.editor.share.meta;
 
+import java.io.Serializable;
+
 /**
- * Created by Balazs on 7/21/2015.
+ * Describes a group of meta objects.
  */
-public interface MetaGroup {
+public interface MetaGroup extends Serializable {
 
     /**
      * @return the name of the group

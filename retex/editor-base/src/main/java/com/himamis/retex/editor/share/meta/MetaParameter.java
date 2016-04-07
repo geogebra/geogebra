@@ -27,11 +27,15 @@
  */
 package com.himamis.retex.editor.share.meta;
 
-public class MetaParameter {
+import java.io.Serializable;
 
-    private String name, desc = null;
+public class MetaParameter implements Serializable {
+
+    private String name;
+    private String desc;
     private int order;
-    private int up = -1, down = -1;
+    private int up = -1;
+    private int down = -1;
 
     public MetaParameter(String name, int order) {
         this.name = name;
