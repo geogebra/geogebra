@@ -101,7 +101,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 					}
 
 					public void preview() {
-						app.getKernel().updatePreviewFromInputBar(
+						app.getKernel().getInputPreviewHelper()
+								.updatePreviewFromInputBar(
 								inputField.getText());
 					}
 				});
@@ -343,7 +344,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			return;
 		case KeyEvent.VK_ENTER:
 			app.getKernel().clearJustCreatedGeosInViews();
-			String input = inputField.getText();
+			String input = app.getKernel().getInputPreviewHelper()
+					.getInput(getTextField().getText());
+
 			if (input == null || input.length() == 0) {
 				app.getActiveEuclidianView().requestFocus(); // Michael
 																// Borcherds
@@ -427,6 +430,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			app.setScrollToShow(false);
 
 			inputField.addToHistory(input);
+			if (!getTextField().getText().equals(input)) {
+				inputField.addToHistory(getTextField().getText());
+			}
 			inputField.setText(null);
 
 			break;

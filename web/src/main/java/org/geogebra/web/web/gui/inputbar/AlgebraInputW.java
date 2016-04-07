@@ -256,11 +256,14 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 		int keyCode = event.getNativeKeyCode();
 		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
-			app.getKernel().updatePreviewFromInputBar(inputField.getText());
+			app.getKernel().getInputPreviewHelper()
+					.updatePreviewFromInputBar(inputField.getText());
 		}
 		if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
 			app.getKernel().clearJustCreatedGeosInViews();
-			final String input = inputField.getText();					   
+			final String input = app.getKernel().getInputPreviewHelper()
+					.getInput(getTextField().getText());
+
 			if (input == null || input.length() == 0)
 			{
 				app.getActiveEuclidianView().requestFocusInWindow(); // Michael Borcherds 2008-05-12
@@ -314,6 +317,9 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 
 						inputField.addToHistory(input);
+						if (!getTextField().getText().equals(input)) {
+							inputField.addToHistory(getTextField().getText());
+						}
 						inputField.setText(null);
 
 						inputField.setIsSuggestionJustHappened(false);

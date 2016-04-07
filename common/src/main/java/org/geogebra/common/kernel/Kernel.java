@@ -74,7 +74,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -5115,87 +5114,8 @@ public class Kernel {
 		return geoFactory;
 	}
 
-	private String previewFromInputBarOldInput = "";
 
-	private ScheduledPreviewFromInputBar scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar();
-
-	private class ScheduledPreviewFromInputBar implements Runnable {
-
-		private String input = "";
-		private String validInput = "";
-
-		public void setInput(String str) {
-			this.input = str;
-			try {
-
-				ValidExpression ve = getAlgebraProcessor()
-						.getValidExpressionNoExceptionHandling(input);
-				validInput = input;
-			} catch (Throwable t) {
-
-			}
-		}
-
-		public String getInput() {
-			return input;
-		}
-
-		public void run() {
-			// TODO Auto-generated method stub
-			if (input.length() == 0) {
-				// remove preview (empty input)
-				Log.debug("remove preview (empty input)");
-				notifyUpdatePreviewFromInputBar(null);
-				return;
-			}
-
-			Log.debug("preview for: " + input);
-			boolean silentModeOld = isSilentMode();
-
-			try {
-				setSilentMode(true);
-				ValidExpression ve = getAlgebraProcessor()
-						.getValidExpressionNoExceptionHandling(validInput);
-				GeoCasCell casEval = getAlgebraProcessor().checkCasEval(
-						ve.getLabel(), input, null);
-				if (casEval == null) {
-					GeoElement existingGeo = lookupLabel(ve.getLabel());
-					if (existingGeo == null) {
-
-						GeoElement[] geos = getAlgebraProcessor()
-								.processAlgebraCommandNoExceptionHandling(ve,
-										false, false, true,
-										false, null);
-						if (geos != null) {
-							for (GeoElement geo : geos) {
-								geo.setSelectionAllowed(false);
-								if (!input.equals(validInput)) {
-									geo.setLineType(
-											EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-								}
-							}
-						}
-						validInput = input;
-						notifyUpdatePreviewFromInputBar(geos);
-					} else {
-						Log.debug("existing geo: " + existingGeo);
-						notifyUpdatePreviewFromInputBar(null);
-					}
-				} else {
-					Log.debug("cas cell ");
-					notifyUpdatePreviewFromInputBar(null);
-				}
-				setSilentMode(silentModeOld);
-
-			} catch (Throwable ee) {
-				Log.debug("-- invalid input");
-				setSilentMode(true);
-				notifyUpdatePreviewFromInputBar(null);
-				setSilentMode(silentModeOld);
-			}
-		}
-
-	}
+	private ScheduledPreviewFromInputBar scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar(this);
 
 	/**
 	 * try to create/update preview for input typed
@@ -5203,16 +5123,8 @@ public class Kernel {
 	 * @param input
 	 *            current algebra input
 	 */
-	public void updatePreviewFromInputBar(String input) {
-		
-		if (scheduledPreviewFromInputBar.getInput().equals(input)) {
-			Log.debug("no update needed (same input)");
-			return;
-		}
-		
-		scheduledPreviewFromInputBar.setInput(input);
-
-		app.schedulePreview(scheduledPreviewFromInputBar);
+	public ScheduledPreviewFromInputBar getInputPreviewHelper() {
+		return scheduledPreviewFromInputBar;
 
 	}
 
