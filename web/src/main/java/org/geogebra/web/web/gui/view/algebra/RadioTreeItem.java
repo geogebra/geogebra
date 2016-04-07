@@ -820,14 +820,14 @@ public class RadioTreeItem extends AVTreeItem
 						getBuilder(getPlainTextItem()));
 				break;
 			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-				buildDefinitionAndValue();
+				buildDefinitionAndValue(false);
 				break;
 			}
 		}
 	}
 
 
-	private void buildDefinitionAndValue() {
+	private void buildDefinitionAndValue(boolean asLatex) {
 		definitionPanel = new FlowPanel();
 		IndexHTMLBuilder sb = getBuilder(definitionPanel);
 		geo.addLabelTextOrHTML(
@@ -835,7 +835,15 @@ public class RadioTreeItem extends AVTreeItem
 		definitionText = sb.toString();
 		outputPanel = new FlowPanel();
 		valuePanel = new FlowPanel();
-		geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
+		String val = geo
+				.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
+		//
+		// if (asLatex) {
+		// valuePanel.clear();
+		// Log.debug("EEEEEEEEEEEEEEEEEEEEEEEEE");
+		// DrawEquationW.paintOnCanvas(geo, val, valC, getFontSize());
+		// valuePanel.add(valC);
+		// }
 
 		Label lblDefinition = new Label(getOutputPrefix());
 		updateColor(lblDefinition);
@@ -1273,7 +1281,7 @@ public class RadioTreeItem extends AVTreeItem
 				if (!isInputTreeItem() && c != null) {
 					ihtml.clear();
 					if (!isInputTreeItem() && isDefinitionAndValue()) {
-						buildDefinitionAndValue();
+						buildDefinitionAndValue(false);
 						ihtml.add(valuePanel);
 					}
 					ihtml.add(c);
@@ -1346,6 +1354,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 	private Canvas c;
+	private Canvas valC;
 
 	private void renderLatex(String text0, Widget w, boolean forceMQ) {
 		if (definitionAndValue) {
@@ -1393,7 +1402,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 			if (!isInputTreeItem() && isDefinitionAndValue()) {
-				buildDefinitionAndValue();
+				buildDefinitionAndValue(false);
 				ihtml.add(geo.isMatrix() ? valuePanel : definitionPanel);
 
 			}
@@ -1416,14 +1425,23 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
+	private void buildLatexOutput(String text) {
+		outputPanel.clear();
+		outputPanel.add(new Label(getOutputPrefix()));
+		valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
+		if (valC != null) {
+			outputPanel.add(valC);
+		}
+
+	}
+
 	private void replaceToCanvas(String text, Widget old) {
 		String eqn = text;
 		boolean twoRows = false;
 
 		if (geo.needToShowBothRowsInAV()) {
-			buildDefinitionAndValue();
-			eqn = geo.getLaTeXAlgebraDescriptionWithFallback(false,
-					StringTemplate.latexTemplateMQedit, true);
+			buildDefinitionAndValue(true);
+			eqn = getTextForEditing(false);
 			twoRows = true;
 		}
 
@@ -1433,7 +1451,7 @@ public class RadioTreeItem extends AVTreeItem
 			ihtml.remove(idx);
 			ihtml.insert(c, idx);
 			if (twoRows) {
-				buildDefinitionAndValue();
+				buildLatexOutput(text);
 				ihtml.add(outputPanel);
 			}
 		}
@@ -1463,7 +1481,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (!isInputTreeItem() && geo.needToShowBothRowsInAV()) {
-			buildDefinitionAndValue();
+			buildDefinitionAndValue(false);
 			ihtml.add(latexItem);
 			latexItem.addStyleName("avDefinition");
 
@@ -1556,16 +1574,18 @@ public class RadioTreeItem extends AVTreeItem
 		return true;
 	}
 
-	protected boolean startEditing(boolean substituteNumbers) {
-		String text = null;
-		text = geo.isMatrix() && geo.isIndependent()
+	private String getTextForEditing(boolean substituteNumbers) {
+		return geo.isMatrix() && geo.isIndependent()
 				? geo.toEditableLaTeXString(substituteNumbers,
 						StringTemplate.latexTemplateMQedit)
 				: geo.getLaTeXAlgebraDescriptionWithFallback(
 						substituteNumbers || sliderNeeded(),
 						StringTemplate.latexTemplateMQedit, true);
 
+	}
 
+	protected boolean startEditing(boolean substituteNumbers) {
+		String text = getTextForEditing(substituteNumbers);
 		if (text == null) {
 			return false;
 		}
