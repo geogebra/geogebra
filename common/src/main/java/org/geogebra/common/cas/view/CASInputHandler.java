@@ -407,20 +407,14 @@ public class CASInputHandler {
 				return;
 			}
 
-			// needed for GGB-729
-			// in case the evalText starts with N
-			// check in construction if there is a geo with that label
-			GeoElement geo = kernel.getConstruction().lookupLabel("N");
-
 			// standard case: build eval command
 			// don't wrap Numeric[pi, 20] with a second Numeric command
 			// as this would remove precision
 			// don't wrap in KeepInput neither
 			boolean wrapEvalText = !isEvaluate
 					&& !isKeepInput
-					&& !(isNumeric && (evalText.startsWith("N[")
-							|| (evalText.startsWith("N(") && geo == null)
-							|| evalText.startsWith("Numeric[") || evalText
+					&& !(isNumeric && (evalText.startsWith("Numeric[")
+							|| evalText
 								.startsWith("Numeric(")));
 
 
