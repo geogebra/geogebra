@@ -78,11 +78,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		addNavigationBar();
 
 		// zoom for both axes
-		JMenu zoomMenu = new JMenu(app.getMenu("Zoom"));
-		zoomMenu.setIcon(iconZoom);
-		zoomMenu.setBackground(wrappedPopup.getBackground());
-		addZoomItems(zoomMenu);
-		wrappedPopup.add(zoomMenu);
+		addZoomMenu(ev);
 
 		// zoom for y-axis
 		JMenu yaxisMenu = new JMenu(app.getPlain("xAxis") + " : "
@@ -98,7 +94,6 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 
 		wrappedPopup.addSeparator();
 		if (!ev.isZoomable()) {
-			zoomMenu.setEnabled(false);
 			yaxisMenu.setEnabled(false);
 			miShowAllObjectsView.setEnabled(false);
 			miStandardView.setEnabled(false);
@@ -111,6 +106,18 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		addMiProperties();
 
 		app.setComponentOrientation(wrappedPopup);
+
+	}
+
+	protected void addZoomMenu(EuclidianViewInterfaceCommon ev) {
+		JMenu zoomMenu = new JMenu(app.getMenu("Zoom"));
+		zoomMenu.setIcon(iconZoom);
+		zoomMenu.setBackground(wrappedPopup.getBackground());
+		addZoomItems(zoomMenu);
+		if (!ev.isZoomable()) {
+			zoomMenu.setEnabled(false);
+		}
+		wrappedPopup.add(zoomMenu);
 
 	}
 

@@ -33,7 +33,7 @@ public class ContextMenuGraphicsWindow3DD extends ContextMenuGraphicsWindowD {
 		addAxesAndGridCheckBoxes();
 		
 		addNavigationBar();
-
+		addZoomMenu(app.getActiveEuclidianView());
 		// getWrappedPopup().addSeparator();
 
 		addShowAllObjectsView(app);
