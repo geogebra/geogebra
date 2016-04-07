@@ -33,7 +33,7 @@ import javax.swing.border.Border;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
-import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetView;
+import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -45,7 +45,7 @@ public class OptionsSpreadsheetD extends
 		OptionPanelD, ActionListener, FocusListener, SetLabels {
 
 	private AppD app;
-	private SpreadsheetView view;
+	private SpreadsheetViewD view;
 
 	private JCheckBox cbShowFormulaBar, cbShowGrid, cbShowRowHeader,
 			cbShowColumnHeader, cbShowHScrollbar, cbShowVScrollbar,
@@ -60,7 +60,7 @@ public class OptionsSpreadsheetD extends
 	/**
 	 * Creates a new dialog for the properties of the spreadsheet view.
 	 */
-	public OptionsSpreadsheetD(AppD app, SpreadsheetView view) {
+	public OptionsSpreadsheetD(AppD app, SpreadsheetViewD view) {
 		this.app = app;
 		this.view = view;
 

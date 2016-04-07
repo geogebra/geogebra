@@ -15,12 +15,12 @@ import org.geogebra.desktop.main.AppD;
 public class SpreadsheetToolbarManager {
 
 	private AppD app;
-	private SpreadsheetView view;
+	private SpreadsheetViewD view;
 	private MyTableD table;
 
 	private CreateObjectDialog id;
 
-	public SpreadsheetToolbarManager(AppD app, SpreadsheetView view) {
+	public SpreadsheetToolbarManager(AppD app, SpreadsheetViewD view) {
 
 		this.app = app;
 		this.view = view;

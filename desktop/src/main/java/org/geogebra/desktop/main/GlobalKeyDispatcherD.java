@@ -23,7 +23,7 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.gui.app.MyFileFilter;
-import org.geogebra.desktop.gui.inputbar.AlgebraInput;
+import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.util.Util;
@@ -213,7 +213,7 @@ public class GlobalKeyDispatcherD extends
 	protected void handleCtrlC() {
 		if (!(((GuiManagerD) app.getGuiManager()).getSpreadsheetView()
 				.hasFocus())
-				&& !(((AlgebraInput) ((GuiManagerD) app.getGuiManager())
+				&& !(((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
 						.getAlgebraInput()).getTextField().hasFocus())) {
 
 			super.handleCtrlC();
@@ -225,7 +225,7 @@ public class GlobalKeyDispatcherD extends
 	protected void handleCtrlV() {
 		if (!(((GuiManagerD) app.getGuiManager()).getSpreadsheetView()
 				.hasFocus())
-				&& !(((AlgebraInput) ((GuiManagerD) app.getGuiManager())
+				&& !(((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
 						.getAlgebraInput()).getTextField().hasFocus())) {
 
 			super.handleCtrlV();
@@ -333,7 +333,7 @@ public class GlobalKeyDispatcherD extends
 
 	@Override
 	protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
-		JTextComponent textComponent = ((AlgebraInput) ((GuiManagerD) app
+		JTextComponent textComponent = ((AlgebraInputD) ((GuiManagerD) app
 				.getGuiManager()).getAlgebraInput()).getTextField();
 
 		StringBuilder sb = new StringBuilder();

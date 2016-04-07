@@ -831,12 +831,12 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	private void doPaste() {
 
 		if (selectedFunction != null) {
-			((AlgebraInput) ((GuiManagerD) app.getGuiManager())
+			((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
 					.getAlgebraInput()).insertString(selectedFunction);
 		}
 
 		if (selectedCommand != null) {
-			((AlgebraInput) ((GuiManagerD) app.getGuiManager())
+			((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
 					.getAlgebraInput()).insertCommand(selectedCommand);
 		}
 	}

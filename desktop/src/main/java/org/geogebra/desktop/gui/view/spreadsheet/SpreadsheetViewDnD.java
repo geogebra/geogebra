@@ -36,7 +36,7 @@ import org.geogebra.desktop.util.AlgebraViewTransferHandler;
 public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListener, DropTargetListener{
 
 	private AppD app;
-	private SpreadsheetView view;
+	private SpreadsheetViewD view;
 	private MyTableD table;
 
 	private DragSource ds;
@@ -65,7 +65,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 	 * @param app
 	 * @param view
 	 */
-	public SpreadsheetViewDnD(AppD app, SpreadsheetView view){
+	public SpreadsheetViewDnD(AppD app, SpreadsheetViewD view){
 		this.app = app;
 		this.view = view;
 		this.table = (MyTableD) view.getSpreadsheetTable();

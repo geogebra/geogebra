@@ -116,7 +116,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		this.app = app;
 		kernel = app.getKernel();
-		data = new ConstructionTableData(this);
+		data = new ConstructionTableDataD(this);
 		useColors = true;
 		addIcons = false;
 
@@ -155,7 +155,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		tableColumns[0].setMaxWidth(tableColumns[0].getMinWidth());
 
 		table.getColumnModel().addColumnModelListener(
-				((ConstructionTableData) data).new ColumnMovementListener());
+				((ConstructionTableDataD) data).new ColumnMovementListener());
 
 		scrollPane = new JScrollPane(table);
 		scrollPane.getViewport().setBackground(Color.white);
@@ -211,14 +211,14 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 	public void unregisterNavigationBar(ConstructionProtocolNavigationD nb) {
 		navigationBars.remove(nb);
-		((ConstructionTableData) data).detachView(); // only done if there are
+		((ConstructionTableDataD) data).detachView(); // only done if there are
 														// no more navigation
 														// bars
 	}
 
 	public void initProtocol() {
 		if (!isViewAttached)
-			((ConstructionTableData) data).initView();
+			((ConstructionTableDataD) data).initView();
 	}
 
 
@@ -241,19 +241,19 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 		table.updateUI();
 		table.setFont(((AppD) app).getPlainFont());
-		((ConstructionTableData) data).updateAll();
+		((ConstructionTableDataD) data).updateAll();
 		getStyleBar().reinit();
 		// protNavBar.updateIcons();
 	}
 
 	public void setUseColors(boolean flag) {
 		useColors = flag;
-		((ConstructionTableData) data).updateAll();
+		((ConstructionTableDataD) data).updateAll();
 	}
 
 	public void setAddIcons(boolean flag) {
 		addIcons = flag;
-		((ConstructionTableData) data).updateAll();
+		((ConstructionTableDataD) data).updateAll();
 	}
 
 	public boolean getAddIcons() {
@@ -262,7 +262,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 	// Michael Borcherds 2008-05-15
 	public void update() {
-		((ConstructionTableData) data).updateAll();
+		((ConstructionTableDataD) data).updateAll();
 	}
 
 	public TableColumn[] getTableColumns() {
@@ -291,9 +291,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 */
 	public void setVisible(boolean flag) {
 		if (flag) {
-			((ConstructionTableData) data).attachView();
+			((ConstructionTableDataD) data).attachView();
 		} else {
-			((ConstructionTableData) data).detachView();
+			((ConstructionTableDataD) data).detachView();
 		}
 		scrollPane.setVisible(flag);
 	}
@@ -489,7 +489,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 				// right click
 				if (AppD.isRightClick(e)) {
-					GeoElement geo = ((ConstructionTableData) data)
+					GeoElement geo = ((ConstructionTableDataD) data)
 							.getGeoElement(row);
 					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 					temp.add(geo);
@@ -558,7 +558,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				return;
 			int row = table.rowAtPoint(e.getPoint());
 			if (row >= 0) { // init drag
-				GeoElement geo = ((ConstructionTableData) data)
+				GeoElement geo = ((ConstructionTableDataD) data)
 						.getGeoElement(row);
 				dragIndex = geo.getConstructionIndex();
 				minIndex = geo.getMinConstructionIndex();
@@ -578,7 +578,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			int row = table.rowAtPoint(e.getPoint());
 			if (row >= 0) {
 				dropIndex = data.getConstructionIndex(row);
-				boolean kernelChanged = ((ConstructionTableData) data)
+				boolean kernelChanged = ((ConstructionTableDataD) data)
 						.moveInConstructionList(dragIndex, dropIndex);
 				if (kernelChanged)
 					app.storeUndoInfo();
@@ -676,7 +676,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 					.getImpl()).getImpl()));
 
 			// reinit view to update possible breakpoint changes
-			((ConstructionTableData) data).initView();
+			((ConstructionTableDataD) data).initView();
 			SwingUtilities.updateComponentTreeUI(view.scrollPane);
 		}
 	}
@@ -705,7 +705,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		public Component getTableCellEditorComponent(JTable table1,
 				Object value, boolean isSelected, int rowIndex, int columnIndex) {
 
-			geo = ((ConstructionTableData) data).getGeoElement(rowIndex);
+			geo = ((ConstructionTableDataD) data).getGeoElement(rowIndex);
 			String val = geo
 					.getCaptionDescription(StringTemplate.defaultTemplate);
 			inputPanel = new InputPanelD("", (AppD) app, 20, false);
@@ -847,7 +847,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 							data.getRowCount() - 1, 0);
 					Component c = r.getTableCellRendererComponent(
 							table,
-							((ConstructionTableData) data).getValueAt(
+							((ConstructionTableDataD) data).getValueAt(
 									data.getRowCount() - 1, 0), false, false,
 							data.getRowCount() - 1, 0);
 					// width = Math.max(width, c.getPreferredSize().width +2);
@@ -866,13 +866,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 	}
 
-	public class ConstructionTableData
+	public class ConstructionTableDataD
 			extends
 			org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData {
 
 		protected MyGAbstractTableModel ctDataImpl;
 
-		public ConstructionTableData(SetLabels gui) {
+		public ConstructionTableDataD(SetLabels gui) {
 			super(gui);
 			ctDataImpl = new MyGAbstractTableModel();
 			// rowList = new ArrayList<RowData>();
@@ -1215,7 +1215,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 			@Override
 			public Object getValueAt(int nRow, int nCol) {
-				return ((ConstructionTableData) ctData).getValueAt(nRow, nCol);
+				return ((ConstructionTableDataD) ctData).getValueAt(nRow, nCol);
 			}
 
 			@Override
@@ -1230,7 +1230,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 			@Override
 			public void setValueAt(Object value, int row, int col) {
-				((ConstructionTableData) ctData).setValueAt(value, row, col);
+				((ConstructionTableDataD) ctData).setValueAt(value, row, col);
 			}
 
 		}
@@ -1453,13 +1453,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 					int col = table.getColumnModel().getColumn(nCol)
 							.getModelIndex();
 					String str = StringUtil.toHTMLString(
-							((ConstructionTableData) data).getPlainHTMLAt(nRow,
+							((ConstructionTableDataD) data).getPlainHTMLAt(nRow,
 									col), false);
 					sb.append("<td>");
 					if (str.equals(""))
 						sb.append("&nbsp;"); // space
 					else {
-						Color color = ((ConstructionTableData) data)
+						Color color = ((ConstructionTableDataD) data)
 								.getColorAt(nRow, col);
 						if (color != Color.black) {
 							sb.append("<span style=\"color:#");
@@ -1551,7 +1551,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				setColsVisibility(gcv);
 
 		update();
-		((ConstructionTableData) getData()).initView();
+		((ConstructionTableDataD) getData()).initView();
 		repaintScrollpane();
 
 	}

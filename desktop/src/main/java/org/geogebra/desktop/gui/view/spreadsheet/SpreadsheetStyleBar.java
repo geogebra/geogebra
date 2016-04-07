@@ -27,7 +27,7 @@ import org.geogebra.desktop.main.LocalizationD;
  */
 public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private SpreadsheetView view;
+	private SpreadsheetViewD view;
 	private AppD app;
 	private MyTableD table;
 	private CellFormat formatHandler;
@@ -44,7 +44,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 	private Dimension iconDimension = new Dimension(16, iconHeight);
 	private LocalizationD loc;
 
-	public SpreadsheetStyleBar(SpreadsheetView view) {
+	public SpreadsheetStyleBar(SpreadsheetViewD view) {
 
 		this.view = view;
 		this.app = view.getApplication();

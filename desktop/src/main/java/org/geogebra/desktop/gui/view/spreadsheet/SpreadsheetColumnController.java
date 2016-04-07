@@ -35,7 +35,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 		MouseMotionListener {
 
 	private AppD app;
-	private SpreadsheetView view;
+	private SpreadsheetViewD view;
 	private Kernel kernel;
 	private MyTableD table;
 	private DefaultTableModel model;

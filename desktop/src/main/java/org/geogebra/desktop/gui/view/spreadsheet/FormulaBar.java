@@ -30,7 +30,7 @@ import org.geogebra.desktop.main.AppD;
 public class FormulaBar extends JToolBar implements ActionListener, FocusListener{
 	private static final long serialVersionUID = 1L;
 	private AppD app;
-	private SpreadsheetView view;
+	private SpreadsheetViewD view;
 	private MyTableD table;
 
 	private JButton btnCancelFormula;
@@ -46,7 +46,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 
 
 
-	public FormulaBar(AppD app, SpreadsheetView view){
+	public FormulaBar(AppD app, SpreadsheetViewD view){
 
 		this.app = app;
 		this.view = view;

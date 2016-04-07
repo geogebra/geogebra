@@ -60,7 +60,7 @@ import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.gui.util.SpecialNumberFormat;
 import org.geogebra.desktop.gui.util.SpecialNumberFormatInterface;
-import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetView;
+import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -652,7 +652,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 	@Override
 	protected void doCopyToSpreadsheet() {
 
-		SpreadsheetView sp = ((GuiManagerD) getAppD().getGuiManager())
+		SpreadsheetViewD sp = ((GuiManagerD) getAppD().getGuiManager())
 				.getSpreadsheetView();
 
 		if (sp == null) {

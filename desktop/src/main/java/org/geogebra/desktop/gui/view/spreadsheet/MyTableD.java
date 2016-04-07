@@ -86,7 +86,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	protected RelativeCopy relativeCopy;
 	public CopyPasteCutD copyPasteCut;
 	protected SpreadsheetColumnController.ColumnHeaderRenderer headerRenderer;
-	protected SpreadsheetView view;
+	protected SpreadsheetViewD view;
 	protected DefaultTableModel tableModel;
 	private CellRangeProcessor crProcessor;
 	private MyTableColumnModelListener columnModelListener;
@@ -181,7 +181,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	/*******************************************************************
 	 * Construct table
 	 */
-	public MyTableD(SpreadsheetView view, DefaultTableModel tableModel) {
+	public MyTableD(SpreadsheetViewD view, DefaultTableModel tableModel) {
 		super(tableModel);
 
 		cellResizeHeightSet = new HashSet<GPoint>();
@@ -331,7 +331,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * 
 	 * @return SpreadsheetView
 	 */
-	public SpreadsheetView getView() {
+	public SpreadsheetViewD getView() {
 		return view;
 	}
 

@@ -79,7 +79,7 @@ implements
 	private static final long serialVersionUID = 1L;
 	// external components
 	private final AppD app;
-	private SpreadsheetView view;
+	private SpreadsheetViewD view;
 	private SpreadsheetTraceManager traceManager;
 	
 	private GeoElement geo;
@@ -123,7 +123,7 @@ implements
 		
 		this.app = app;
 		this.loc = app.getLocalization();
-		this.view = (SpreadsheetView) app.getGuiManager().getSpreadsheetView();	
+		this.view = (SpreadsheetViewD) app.getGuiManager().getSpreadsheetView();	
 		geo = selectedGeo;
 		traceManager = app.getTraceManager();
 		traceGeoList = new JList();

@@ -183,7 +183,7 @@ import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.gui.dialog.AxesStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
-import org.geogebra.desktop.gui.inputbar.AlgebraInput;
+import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
@@ -5534,7 +5534,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		} else {
 			southPanel.add(gui.getAlgebraInput(), BorderLayout.SOUTH);
 		}
-		((AlgebraInput) gui.getAlgebraInput()).updateOrientation(showInputTop);
+		((AlgebraInputD) gui.getAlgebraInput()).updateOrientation(showInputTop);
 	}
 
 	public static JPanel getMenuBarPanel(AppD appD, JPanel applicationPanel) {

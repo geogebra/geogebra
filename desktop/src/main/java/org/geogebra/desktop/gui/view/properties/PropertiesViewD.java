@@ -45,7 +45,7 @@ import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.layout.panels.PropertiesDockPanel;
-import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetView;
+import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -439,7 +439,7 @@ public class PropertiesViewD extends
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
 				spreadsheetPanel = new OptionsSpreadsheetD((AppD) app,
-						(SpreadsheetView) app.getGuiManager()
+						(SpreadsheetViewD) app.getGuiManager()
 								.getSpreadsheetView());
 			}
 			return spreadsheetPanel;

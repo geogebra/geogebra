@@ -48,7 +48,7 @@ import org.geogebra.desktop.gui.view.Gridable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.SpreadsheetTableModelD;
 
-public class SpreadsheetView implements SpreadsheetViewInterface,
+public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		ComponentListener, FocusListener, Gridable, SettingListener {
 
 	private static final long serialVersionUID = 1L;
@@ -100,7 +100,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	/******************************************************
 	 * Construct spreadsheet view.
 	 */
-	public SpreadsheetView(AppD app) {
+	public SpreadsheetViewD(AppD app) {
 
 		this.app = app;
 		kernel = app.getKernel();

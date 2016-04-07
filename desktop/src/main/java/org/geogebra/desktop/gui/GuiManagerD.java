@@ -102,7 +102,7 @@ import org.geogebra.desktop.gui.dialog.DialogManagerD;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.gui.dialog.InputDialogOpenURL;
 import org.geogebra.desktop.gui.dialog.ToolCreationDialog;
-import org.geogebra.desktop.gui.inputbar.AlgebraInput;
+import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.inputbar.InputBarHelpPanelD;
 import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.gui.layout.LayoutD;
@@ -128,11 +128,11 @@ import org.geogebra.desktop.gui.view.algebra.AlgebraViewD;
 import org.geogebra.desktop.gui.view.assignment.AssignmentView;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
-import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ConstructionTableData;
+import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ConstructionTableDataD;
 import org.geogebra.desktop.gui.view.data.DataAnalysisViewD;
 import org.geogebra.desktop.gui.view.probcalculator.ProbabilityCalculatorViewD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
-import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetView;
+import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
 import org.geogebra.desktop.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import org.geogebra.desktop.main.AppD;
@@ -154,11 +154,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	protected DialogManagerD dialogManager;
 	protected DialogManagerD.Factory dialogManagerFactory;
 
-	private AlgebraInput algebraInput;
+	private AlgebraInputD algebraInput;
 	private AlgebraControllerD algebraController;
 	private AlgebraViewD algebraView;
 	private CASViewD casView;
-	private SpreadsheetView spreadsheetView;
+	private SpreadsheetViewD spreadsheetView;
 	private ArrayList<EuclidianViewD> euclidianView2 = new ArrayList<EuclidianViewD>();
 	private ConstructionProtocolViewD constructionProtocolView;
 	private AssignmentView assignmentView;
@@ -507,10 +507,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return dataView;
 	}
 
-	public SpreadsheetView getSpreadsheetView() {
+	public SpreadsheetViewD getSpreadsheetView() {
 		// init spreadsheet view
 		if (spreadsheetView == null) {
-			spreadsheetView = new SpreadsheetView((AppD) app);
+			spreadsheetView = new SpreadsheetViewD((AppD) app);
 		}
 
 		return spreadsheetView;
@@ -631,13 +631,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public void attachConstructionProtocolView() {
 		getConstructionProtocolView();
-		((ConstructionTableData) (constructionProtocolView.getData()))
+		((ConstructionTableDataD) (constructionProtocolView.getData()))
 				.attachView();
 	}
 
 	public void detachConstructionProtocolView() {
 		if (constructionProtocolView != null)
-			((ConstructionTableData) (constructionProtocolView.getData()))
+			((ConstructionTableDataD) (constructionProtocolView.getData()))
 					.detachView();
 	}
 
@@ -695,7 +695,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public JComponent getAlgebraInput() {
 		if (algebraInput == null)
-			algebraInput = new AlgebraInput((AppD) app);
+			algebraInput = new AlgebraInputD((AppD) app);
 
 		return algebraInput;
 	}
@@ -3171,7 +3171,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	}
 
 	public void clearInputbar() {
-		((AlgebraInput) getAlgebraInput()).clear();
+		((AlgebraInputD) getAlgebraInput()).clear();
 	}
 
 	public int getInputHelpPanelMinimumWidth() {
@@ -3338,7 +3338,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	}
 
 	public void replaceInputSelection(String string) {
-		JTextComponent textComponent = ((AlgebraInput) getAlgebraInput())
+		JTextComponent textComponent = ((AlgebraInputD) getAlgebraInput())
 				.getTextField();
 		textComponent.replaceSelection(string);
 		textComponent.requestFocusInWindow();
@@ -3346,7 +3346,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	}
 
 	public void setInputText(String string) {
-		JTextComponent textComponent = ((AlgebraInput) getAlgebraInput())
+		JTextComponent textComponent = ((AlgebraInputD) getAlgebraInput())
 				.getTextField();
 		textComponent.setText(string);
 		textComponent.requestFocusInWindow();

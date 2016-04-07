@@ -61,7 +61,7 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 
 		File dataFile = ((AppD) app).getGuiManager().getDataFile();
 		if (dataFile != null) {
-			((SpreadsheetView) table.getView())
+			((SpreadsheetViewD) table.getView())
 					.loadSpreadsheetFromURL(dataFile);
 		}
 	}

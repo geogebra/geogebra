@@ -70,7 +70,7 @@ public class CreateObjectDialog extends InputDialogD implements
 	private JList typeList;
 	boolean showApply = false;
 
-	public CreateObjectDialog(AppD app, SpreadsheetView view, int objectType) {
+	public CreateObjectDialog(AppD app, SpreadsheetViewD view, int objectType) {
 
 		super(app.getFrame(), false, app.getLocalization());
 		this.table = (MyTableD) view.getSpreadsheetTable();

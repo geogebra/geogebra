@@ -36,7 +36,7 @@ public class SpreadsheetRowHeader extends JList implements MouseListener,
 {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
-	private SpreadsheetView view;
+	private SpreadsheetViewD view;
 	private MyTableD table;
 	private MyListModel listModel;
 
@@ -72,7 +72,7 @@ public class SpreadsheetRowHeader extends JList implements MouseListener,
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
-		setFixedCellWidth(SpreadsheetView.ROW_HEADER_WIDTH);
+		setFixedCellWidth(SpreadsheetViewD.ROW_HEADER_WIDTH);
 
 		setCellRenderer(new RowHeaderRenderer(table, this));
 

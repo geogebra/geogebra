@@ -32,7 +32,7 @@ public class SpreadsheetMouseListener implements MouseListener,
 	protected String prefix0, postfix0;
 
 	private AppD app;
-	private SpreadsheetView view;
+	private SpreadsheetViewD view;
 	private Kernel kernel;
 	private MyTableD table;
 	private DefaultTableModel model;

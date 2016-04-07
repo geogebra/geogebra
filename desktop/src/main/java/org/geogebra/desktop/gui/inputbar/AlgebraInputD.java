@@ -54,7 +54,7 @@ import org.geogebra.desktop.main.LocalizationD;
 /**
  * @author Markus Hohenwarter
  */
-public class AlgebraInput extends JPanel implements ActionListener,
+public class AlgebraInputD extends JPanel implements ActionListener,
 		KeyListener, FocusListener, SetLabels, MouseListener {
 	private static final long serialVersionUID = 1L;
 
@@ -73,7 +73,7 @@ public class AlgebraInput extends JPanel implements ActionListener,
 	 * 
 	 * @param app
 	 */
-	public AlgebraInput(AppD app) {
+	public AlgebraInputD(AppD app) {
 		this.app = app;
 		this.loc = app.getLocalization();
 
