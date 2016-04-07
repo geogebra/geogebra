@@ -8115,11 +8115,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *         style.
 	 */
 	public boolean needToShowBothRowsInAV() {
-
+		String def0 = getDefinition(StringTemplate.defaultTemplate);
+		if ("".equals(def0)) {
+			return false;
+		}
 		IndexHTMLBuilder sbDef = new IndexHTMLBuilder(false);
 		IndexHTMLBuilder sbVal = new IndexHTMLBuilder(false);
-		addLabelTextOrHTML(getDefinition(StringTemplate.defaultTemplate),
-				sbDef);
+		addLabelTextOrHTML(def0, sbDef);
 		String def = sbDef.toString();
 		String val = getAlgebraDescriptionTextOrHTMLDefault(sbVal);
 		return !def.equals(val);

@@ -2984,4 +2984,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 				&& ((HasSymbolicMode) get(0)).isSymboicMode();
 	}
 
+	@Override
+	public boolean needToShowBothRowsInAV() {
+		if (isMatrix() && isIndependent()) {
+			return false;
+		}
+		return super.needToShowBothRowsInAV();
+	}
 }

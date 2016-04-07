@@ -824,25 +824,27 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
+
 	private void createDefinitionAndValue() {
 		definitionPanel = new FlowPanel();
 		IndexHTMLBuilder sb = getBuilder(definitionPanel);
 		geo.addLabelTextOrHTML(
 				geo.getDefinition(StringTemplate.defaultTemplate), sb);
-		String def = sb.toString();
+		Log.debug("2row !!!!: " + sb.toString());
 		outputPanel = new FlowPanel();
 		valuePanel = new FlowPanel();
-		String val = geo
-				.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
+		geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
+
 		Label lblDefinition = new Label(getOutputPrefix());
 		updateColor(lblDefinition);
 		outputPanel.add(lblDefinition);
 		outputPanel.add(valuePanel);
 		outputPanel.addStyleName("avOutput");
-		Log.debug(REFX + " def: " + def + " val: " + val);
 		plainTextItem.clear();
 		plainTextItem.add(definitionPanel);
-		if (!val.equals(def)) {
+
+		if (geo.needToShowBothRowsInAV()) {
+
 			definitionPanel.addStyleName("avDefinition");
 			valuePanel.addStyleName("avValue");
 			plainTextItem.add(outputPanel);
@@ -1450,7 +1452,7 @@ public class RadioTreeItem extends AVTreeItem
 					: " \\mathbf {") + text + "}";
 		}
 
-		if (hasExtendedValueRow()) {
+		if (!isInputTreeItem() && geo.needToShowBothRowsInAV()) {
 			createDefinitionAndValue();
 			ihtml.add(definitionPanel);
 			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
@@ -1577,13 +1579,7 @@ public class RadioTreeItem extends AVTreeItem
 			renderLatex(text, old, true);
 		}
 
-
-		// if (isDefinitionAndValue()) {
-		// DrawEquationW.editEquationMathQuillGGB(this, definitionPanel,
-		// false);
-		// } else {
 		DrawEquationW.editEquationMathQuillGGB(this, latexItem, false);
-		// }
 
 		app.getGuiManager().setOnScreenKeyboardTextField(this);
 		CancelEventTimer.keyboardSetVisible();
