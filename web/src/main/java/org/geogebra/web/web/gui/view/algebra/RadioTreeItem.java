@@ -1435,6 +1435,21 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
+	private void updateLaTeX(String text) {
+		String eqn = text;
+		boolean twoRows = false;
+		if (geo.needToShowBothRowsInAV()) {
+			buildDefinitionAndValue(true);
+			eqn = getTextForEditing(false);
+			twoRows = true;
+		}
+
+		c = DrawEquationW.paintOnCanvas(geo, eqn, c, getFontSize());
+		if (twoRows) {
+			valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
+		}
+	}
+
 	private void replaceToCanvas(String text, Widget old) {
 		String eqn = text;
 		boolean twoRows = false;
@@ -1496,9 +1511,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	private void updateLaTeX(String text0) {
-		c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
-	}
+
 
 	/**
 	 * @return size for JLM texts. Due to different fonts we need a bit more
