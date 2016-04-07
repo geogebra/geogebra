@@ -41,7 +41,7 @@ public class DrawEquationD extends DrawEquation {
 
 
 
-	protected void checkFirstCall(App app) {
+	public void checkFirstCall(App app) {
 		if (drawEquationJLaTeXMathFirstCall) { // first call
 
 			drawEquationJLaTeXMathFirstCall = false;
@@ -151,7 +151,7 @@ public class DrawEquationD extends DrawEquation {
 	}
 
 	@Override
-	protected com.himamis.retex.renderer.share.platform.graphics.Color convertColor(
+	public com.himamis.retex.renderer.share.platform.graphics.Color convertColor(
 			GColor color) {
 		return ColorD.get(GColorD.getAwtColor(color));
 	}

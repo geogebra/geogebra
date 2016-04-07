@@ -176,7 +176,7 @@ public abstract class DrawEquation {
 		int height = -1;
 		// int depth = 0;
 
-		checkFirstCall(app);
+
 
 		int style = font.getLaTeXStyle(serif);
 
@@ -184,56 +184,9 @@ public abstract class DrawEquation {
 		if (app.isExporting() || !useCache) {
 
 			// Application.debug("creating new icon for: "+text);
-			TeXFormula formula;
-			TeXIcon icon;
+			TeXIcon icon = createIcon(text, fgColor, font, style,
+					maxWidth, lineSpace, app);
 
-			try {
-				formula = new TeXFormula(text);
-
-				if (maxWidth == null) {
-					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, fgColor);
-				} else {
-					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, TeXConstants.UNIT_CM,
-							maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
-							TeXConstants.UNIT_CM, lineSpace.floatValue());
-				}
-			} catch (final MyError e) {
-				// e.printStackTrace();
-				// Application.debug("MyError LaTeX parse exception:
-				// "+e.getMessage()+"\n"+text);
-				// Write error message to Graphics View
-
-				formula = TeXFormula.getPartialTeXFormula(text);
-				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, fgColor);
-
-				formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
-						TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
-						TeXConstants.UNIT_CM, 0.5f);
-
-			} catch (final Exception e) {
-				// e.printStackTrace();
-				// Application.debug("LaTeX parse exception:
-				// "+e.getMessage()+"\n"+text);
-				// Write error message to Graphics View
-				try {
-					formula = TeXFormula.getPartialTeXFormula(text);
-
-					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, fgColor);
-				} catch (Exception e2) {
-					Log.debug("LaTeX parse exception: " + e.getMessage() + "\n"
-							+ text);
-					formula = TeXFormula.getPartialTeXFormula(
-							"\text{" + app.getLocalization()
-									.getError("CAS.GeneralErrorMessage") + "}");
-					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							font.getSize() + 3, style, fgColor);
-				}
-			}
-			icon.setInsets(new Insets(1, 1, 1, 1));
 			HasForegroundColor fg = new HasForegroundColor() {
 
 				public com.himamis.retex.renderer.share.platform.graphics.Color getForegroundColor() {
@@ -263,7 +216,7 @@ public abstract class DrawEquation {
 			// Application.debug("LaTeX parse exception:
 			// "+e.getMessage()+"\n"+text);
 			// Write error message to Graphics View
-
+			checkFirstCall(app);
 			final TeXFormula formula = TeXFormula.getPartialTeXFormula(text);
 			im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
 					font.getSize() + 3, convertColor(GColor.BLACK),
@@ -282,11 +235,71 @@ public abstract class DrawEquation {
 		return AwtFactory.prototype.newDimension(width, height);
 	}
 
+	public TeXIcon createIcon(String text, Color fgColor, GFont font,
+			int style, Integer maxWidth,
+			Float lineSpace, App app) {
+		checkFirstCall(app);
+		TeXFormula formula;
+		TeXIcon icon;
+
+		try {
+			formula = new TeXFormula(text);
+
+			if (maxWidth == null) {
+				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, style, fgColor);
+			} else {
+				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, TeXConstants.UNIT_CM,
+						maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
+						TeXConstants.UNIT_CM, lineSpace.floatValue());
+			}
+		} catch (final MyError e) {
+			// e.printStackTrace();
+			// Application.debug("MyError LaTeX parse exception:
+			// "+e.getMessage()+"\n"+text);
+			// Write error message to Graphics View
+
+			formula = TeXFormula.getPartialTeXFormula(text);
+			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+					font.getSize() + 3, style, fgColor);
+
+			formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
+					TeXConstants.UNIT_CM, 4f, TeXConstants.ALIGN_LEFT,
+					TeXConstants.UNIT_CM, 0.5f);
+
+		} catch (final Exception e) {
+			// e.printStackTrace();
+			// Application.debug("LaTeX parse exception:
+			// "+e.getMessage()+"\n"+text);
+			// Write error message to Graphics View
+			try {
+				formula = TeXFormula.getPartialTeXFormula(text);
+
+				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, style, fgColor);
+			} catch (Exception e2) {
+				Log.debug("LaTeX parse exception: " + e.getMessage() + "\n"
+						+ text);
+				formula = TeXFormula
+						.getPartialTeXFormula("\text{"
+								+ app.getLocalization().getError(
+										"CAS.GeneralErrorMessage")
+								+ "}");
+				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, style, fgColor);
+			}
+		}
+		icon.setInsets(new Insets(1, 1, 1, 1));
+		return icon;
+	}
+
 	protected abstract Image getCachedDimensions(String text, GeoElementND geo,
 			Color fgColor, GFont font, int style, int[] ret);
 
-	protected abstract void checkFirstCall(App app);
-	protected abstract Color convertColor(GColor bLACK);
+	public abstract void checkFirstCall(App app);
+
+	public abstract Color convertColor(GColor bLACK);
 
 	public abstract GDimension measureEquation(App app, GeoElement geo0,
 			int minValue,

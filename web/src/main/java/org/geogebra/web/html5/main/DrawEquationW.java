@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -85,13 +86,9 @@ public class DrawEquationW extends DrawEquation {
 		        el == eqstring.length(), true, 0, nonGeneral);
 	}
 	
-	public static TeXIcon createIcon(String latex, int size, int texIconStyle) {
-		ensureJLMFactoryExists();
-		if (initJLaTeXMath == null) {
+	public static TeXIcon xcreateIcon(String latex, int size,
+			int texIconStyle) {
 
-			StringBuilder initJLM = DrawEquation.getJLMCommands();
-			initJLaTeXMath = new TeXFormula(initJLM.toString());
-		}
 		TeXFormula formula = null;
 		try {
 			formula = new TeXFormula(latex);
@@ -128,8 +125,9 @@ public class DrawEquationW extends DrawEquation {
 
 			String eqstring = latexString0;
 
-			TeXIcon icon = createIcon(eqstring, font.getSize() + 3,
-				font.getLaTeXStyle(serif));
+		TeXIcon icon = createIcon(eqstring, convertColor(fgColor), font,
+				font.getLaTeXStyle(serif),
+				null, null, app1);
 			Graphics2DW g3 = new Graphics2DW(((GGraphics2DW) g2).getContext());
 			g3.setDrawingFinishedCallback(new DrawingFinishedCallback() {
 
@@ -1398,16 +1396,22 @@ public class DrawEquationW extends DrawEquation {
 					c.getCoordinateSpaceHeight());
 		}
 		Context2d ctx = c.getContext2d();
-		TeXIcon icon = DrawEquationW.createIcon(
-				"\\mathsf{\\mathrm {" + text0 + "}}", fontSize,
-				TeXFormula.SANSSERIF);
+		AppW app = ((AppW) geo.getKernel().getApplication());
+		app.getDrawEquation().checkFirstCall(app);
+		GFont font = AwtFactory.prototype.newFont("geogebra", GFont.PLAIN,
+				fontSize - 3);
+		TeXIcon icon = app.getDrawEquation().createIcon(
+				"\\mathsf{\\mathrm {" + text0 + "}}",
+				app.getDrawEquation().convertColor(fgColor),
+				font, font.getLaTeXStyle(false),
+				null, null, app);
 		Graphics2DInterface g3 = new Graphics2DW(ctx);
-		double ratio = ((AppW) geo.getKernel().getApplication())
-				.getPixelRatio() * printScale;
+		double ratio = app.getPixelRatio() * printScale;
 		c.setCoordinateSpaceWidth((int) (icon.getIconWidth() * ratio));
 		c.setCoordinateSpaceHeight((int) (icon.getIconHeight() * ratio));
 		c.getElement().getStyle().setWidth(icon.getIconWidth(), Unit.PX);
 		c.getElement().getStyle().setHeight(icon.getIconHeight(), Unit.PX);
+		c.getElement().getStyle().setMargin(4, Unit.PX);
 		ctx.scale(ratio, ratio);
 
 		icon.paintIcon(new HasForegroundColor() {
@@ -1541,19 +1545,23 @@ public class DrawEquationW extends DrawEquation {
 	@Override
 	public GDimension measureEquation(App app, GeoElement geo0, int minValue,
 			int minValue2, String text, GFont font, boolean serif) {
-		TeXIcon icon = createIcon(text, font.getSize() + 3,
-				font.getLaTeXStyle(serif));
-		return new GDimensionW(icon.getIconWidth(), icon.getIconHeight());
+		return this.measureEquationJLaTeXMath(app, geo0, 0, 0, text, font,
+				serif, null, null);
 	}
 
 	@Override
-	protected void checkFirstCall(App app) {
-		// TODO Auto-generated method stub
+	public void checkFirstCall(App app) {
+		ensureJLMFactoryExists();
+		if (initJLaTeXMath == null) {
+
+			StringBuilder initJLM = DrawEquation.getJLMCommands();
+			initJLaTeXMath = new TeXFormula(initJLM.toString());
+		}
 
 	}
 
 	@Override
-	protected Color convertColor(GColor color) {
+	public Color convertColor(GColor color) {
 		return new ColorW(color.getRed(), color.getGreen(), color.getBlue());
 	}
 
