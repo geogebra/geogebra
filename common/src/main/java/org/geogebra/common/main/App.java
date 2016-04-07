@@ -3897,28 +3897,34 @@ public abstract class App implements UpdateSelection {
 		case INPUT_SHOWN_IN_AV:
 			return prerelease;
 
+		// MOB-356 and MOB-503
 		case MOBILE_PROPERTIES_VIEW:
 			return false;
 
+		// MOB-369
 		case MOBILE_WEB_VIEW:
 			return prerelease;
 
-			// MOB-331
+		// MOB-331
 		case MOBILE_INPUT_BAR_HELP_PANEL:
 			return true;
 
+		// MOB-526
 		case MOBILE_INPUT_BAR_HELP_MATH_FUNC:
 			return prerelease;
 
+		// MOB-524
 		case MOBILE_CLEAR_INPUT_BUTTON:
 			return prerelease;
 
+		// MOB-427
 		case MOBILE_SMOOTH_PINCH:
 			return prerelease;
 
 		case MOBILE_TEST_3D_VIEW:
 			return false;
 
+		// MOB-520
 		case MOBILE_COPY_PASTE:
 			return prerelease;
 
@@ -3926,6 +3932,23 @@ public abstract class App implements UpdateSelection {
 			return true; // true in current release version
 			// needs some work for MOBILE_COPY_PASTE as we don't want
 			// to hide keyboard when copy/paste button is hit
+
+		case MOBILE_CIRCLE_FREEHAND_TOOL:
+			return false;
+
+		// MOB-353 MOB-352
+		case MOBILE_EXTREMUM_TOOL:
+		case MOBILE_ROOTS_TOOL:
+			return true;
+
+		// MOB-311
+		case MOBILE_SEGMENT_FIXED_TOOL:
+			// add if you want to enable these tools for Android app:
+			return true;
+
+		// MOB-310
+		case MOBILE_CIRCLE_POINT_RADIUS:
+			return prerelease;
 
 		case FRACTIONS:
 			return prerelease;
@@ -3981,19 +4004,6 @@ public abstract class App implements UpdateSelection {
 			// not enabled for linux
 			return isWindows() || isMacOS() || prerelease;
 
-		case MOBILE_CIRCLE_FREEHAND_TOOL:
-			return false;
-
-		// MOB-353 MOB-352
-		case MOBILE_EXTREMUM_TOOL:
-		case MOBILE_ROOTS_TOOL:
-			return true;
-
-			// MOB-311
-		case MOBILE_SEGMENT_FIXED_TOOL:
-			// add if you want to enable these tools for Android app:
-			return true;
-
 			// GGB-541
 		case IMPLICIT_LOCUS:
 			return true;
@@ -4018,9 +4028,6 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case WEB_SHARE_DIALOG:
-			return prerelease;
-
-		case MOBILE_CIRCLE_POINT_RADIUS:
 			return prerelease;
 
 		default:
