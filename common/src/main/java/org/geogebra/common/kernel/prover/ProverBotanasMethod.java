@@ -579,7 +579,8 @@ public class ProverBotanasMethod {
 						 * we simply parse the Giac output. This code is ugly,
 						 * TODO: use a more elegant way.
 						 */
-						if (!(casResult.equals("{}"))) {
+						if (geoProver.getProverEngine() != ProverEngine.LOCUS_IMPLICIT
+								&& !(casResult.equals("{}"))) {
 							// skip { and }
 							casResult = casResult.substring(1,
 									casResult.length() - 1);
@@ -808,7 +809,8 @@ public class ProverBotanasMethod {
 
 		}
 
-		private void algebraicTranslation(GeoElement statement, Prover prover) {
+		private void algebraicTranslation(GeoElement statement,
+				Prover prover) {
 			geoStatement = statement;
 			geoProver = prover;
 			setHypotheses();

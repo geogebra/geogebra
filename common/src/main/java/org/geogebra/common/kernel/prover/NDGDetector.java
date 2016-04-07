@@ -58,6 +58,11 @@ public class NDGDetector {
 	 */
 	public NDGCondition detect(Polynomial p) {
 
+		GeoElement statement = prover.getStatement();
+		if (statement == null) {
+			return null;
+		}
+
 		/*
 		 * Maybe this condition was already detected, or marked as unreadable.
 		 * By using the lookup table, we don't have to do heavy computations
@@ -76,11 +81,6 @@ public class NDGDetector {
 		}
 
 		Log.debug("Trying to detect polynomial " + p);
-
-		GeoElement statement = prover.getStatement();
-		if (statement == null) {
-			return ndgc;
-		}
 		
 		// CHECKING FORMULA WITH QUANTITIES
 		
