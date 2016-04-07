@@ -550,6 +550,8 @@ public class RadioTreeItem extends AVTreeItem
 
 	private FlowPanel outputPanel;
 
+	private String definitionText;
+
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
 	}
@@ -818,19 +820,19 @@ public class RadioTreeItem extends AVTreeItem
 						getBuilder(getPlainTextItem()));
 				break;
 			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-				createDefinitionAndValue();
+				buildDefinitionAndValue();
 				break;
 			}
 		}
 	}
 
 
-	private void createDefinitionAndValue() {
+	private void buildDefinitionAndValue() {
 		definitionPanel = new FlowPanel();
 		IndexHTMLBuilder sb = getBuilder(definitionPanel);
 		geo.addLabelTextOrHTML(
 				geo.getDefinition(StringTemplate.defaultTemplate), sb);
-		Log.debug("2row !!!!: " + sb.toString());
+		definitionText = sb.toString();
 		outputPanel = new FlowPanel();
 		valuePanel = new FlowPanel();
 		geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
@@ -1271,7 +1273,7 @@ public class RadioTreeItem extends AVTreeItem
 				if (!isInputTreeItem() && c != null) {
 					ihtml.clear();
 					if (!isInputTreeItem() && isDefinitionAndValue()) {
-						createDefinitionAndValue();
+						buildDefinitionAndValue();
 						ihtml.add(valuePanel);
 					}
 					ihtml.add(c);
@@ -1391,7 +1393,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 			if (!isInputTreeItem() && isDefinitionAndValue()) {
-				createDefinitionAndValue();
+				buildDefinitionAndValue();
 				ihtml.add(geo.isMatrix() ? valuePanel : definitionPanel);
 
 			}
@@ -1405,11 +1407,6 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
-	private boolean hasExtendedValueRow() {
-		return !isInputTreeItem() && isDefinitionAndValue()
-				&& (!latex || !geo.isIndependent());
-	}
-
 	private void renderLatexDV(String text0, Widget old, boolean forceMQ) {
 		if (forceMQ) {
 			renderLatexMQ(text0);
@@ -1420,12 +1417,25 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void replaceToCanvas(String text, Widget old) {
-		Log.debug(DV + "replaceToCanvas: " + old + " to latex " + text);
-		c = DrawEquationW.paintOnCanvas(geo, text, c, getFontSize());
+		String eqn = text;
+		boolean twoRows = false;
+
+		if (geo.needToShowBothRowsInAV()) {
+			buildDefinitionAndValue();
+			eqn = geo.getLaTeXAlgebraDescriptionWithFallback(false,
+					StringTemplate.latexTemplateMQedit, true);
+			twoRows = true;
+		}
+
+		c = DrawEquationW.paintOnCanvas(geo, eqn, c, getFontSize());
 		int idx = ihtml.getWidgetIndex(old);
 		if (c != null && idx != -1) {
 			ihtml.remove(idx);
 			ihtml.insert(c, idx);
+			if (twoRows) {
+				buildDefinitionAndValue();
+				ihtml.add(outputPanel);
+			}
 		}
 	}
 
@@ -1453,7 +1463,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (!isInputTreeItem() && geo.needToShowBothRowsInAV()) {
-			createDefinitionAndValue();
+			buildDefinitionAndValue();
 			ihtml.add(latexItem);
 			latexItem.addStyleName("avDefinition");
 
@@ -1470,11 +1480,6 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void updateLaTeX(String text0) {
 		c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
-		// if (definitionAndValue && lbValue != null && kernel
-		// .getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
-		// lbValue.setText(geo.getRedefineString(true, true));
-		// }
-
 	}
 
 	/**
