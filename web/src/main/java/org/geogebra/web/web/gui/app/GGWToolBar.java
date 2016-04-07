@@ -1167,7 +1167,7 @@ pr.menu_header_undo(), null, 32);
 				extraButtons += 55;
 			}
 		}
-		return ((int) app.getWidth() - extraButtons - 15) / 45;
+		return ((int) app.getWidth() - extraButtons - 20) / 45;
 	}
 
 	/**
