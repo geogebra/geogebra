@@ -3950,6 +3950,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_CIRCLE_POINT_RADIUS:
 			return prerelease;
 
+		// MOB-527
+		case MOBILE_LANDSCAPE_FULLSCREEN_INPUT:
+			return false;
+
 		case FRACTIONS:
 			return prerelease;
 		case AV_EXTENSIONS:
