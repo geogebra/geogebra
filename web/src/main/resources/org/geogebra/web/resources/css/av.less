@@ -28,6 +28,15 @@
 		padding-left: 10px;
 	}
 	
+	/*
+	tempHasCursorPermanent used only because before releasing of inputhelp showing in AV (GGB-574)
+	hasCursorPermanent has different padding in stable and in prereleased version. Later
+	.NewRadioButtonTreeItemParent .hasCursorPermanent will have this padding
+	*/
+	.NewRadioButtonTreeItemParent .tempHasCursorPermanent{
+		padding-left: 40px;
+	}
+	
 	.avTextItem {
 		display: inline-block;
 	}

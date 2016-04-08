@@ -102,6 +102,10 @@ public class InputTreeItem extends RadioTreeItem implements
 		ihtml.getElement().appendChild(item.getElement());
 		ihtml.getElement().addClassName("hasCursorPermanent");
 
+		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
+			ihtml.getElement().addClassName("tempHasCursorPermanent");
+		}
+
 		getElement().getStyle().setWidth(100, Style.Unit.PCT);
 
 		// making room for the TitleBarPanel (top right of the AV)
@@ -131,7 +135,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		//should depend on number of previoous elements?
 		addHistoryPopup(true);
 
-		if (app.has(Feature.INPUT_SHOWN_IN_AV)) {
+		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
 			SimplePanel sp = new SimplePanel();
 			btnHelpToggle = new ToggleButton(new NoDragImage(
 					GuiResources.INSTANCE.menu_icon_help().getSafeUri()

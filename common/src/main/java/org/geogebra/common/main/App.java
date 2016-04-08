@@ -3894,7 +3894,7 @@ public abstract class App implements UpdateSelection {
 		case AV_DEFINITION_AND_VALUE:
 			return prerelease;
 
-		case INPUT_SHOWN_IN_AV:
+		case INPUTHELP_SHOWN_IN_AV:
 			return prerelease;
 
 		// MOB-356 and MOB-503
