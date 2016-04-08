@@ -308,6 +308,15 @@ for i in `find -name '*.ggb' | sort`; do
    accepted=0
   else
    RESULT=`cat $REGRESSIONFILE | grep Prove | sed s/" null ="//g | sed s/'"'//g | sed 's/\(.*\) == \(.*\)/\2/' | sed 's/\(.*\) = \(.*\)/\2/'`
+   # In some cases the $REGRESSIONFILE does not contain the output of the Prove* command. So, a workaround (copied from "Web"):
+   if [ "$RESULT" = "" ]; then
+   grep --silent "OUTPUT for Prove:" $MYDIR/tmp/.test.stdout && \
+    tac $MYDIR/tmp/.test.stdout | grep "OUTPUT for Prove:" | head -1 | sed 's/\(.*\) = \(.*\)/OUTPUT for Prove or ProveDetails == null = \2/' > $REGRESSIONFILE
+   grep --silent "OUTPUT for ProveDetails:" $MYDIR/tmp/.test.stdout && \
+    tac $MYDIR/tmp/.test.stdout | grep "OUTPUT for ProveDetails:" | head -1 | sed 's/\(.*\) = \(.*\)/\2/' |\
+    sed s/{//g | sed s/}//g | sed s/", "/" "/g | awk '{printf "ProveDetails == null = %s", $0}' > $REGRESSIONFILE
+   # FIXME in GeoGebra.
+    fi
    TIME=`cat $LOGFILE | grep Benchmarking | awk '{s=s+$5; print s}' | tail -1` # collecting all entries
    if [ $DEBUG = 1 ]; then
     cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j-$PROVEDETAILS
