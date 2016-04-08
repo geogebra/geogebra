@@ -185,15 +185,16 @@ public class AlgoMirror extends AlgoTransformation implements
 
 		inGeo = in;
 		outGeo = getResultTemplate(inGeo);
-		if (outGeo instanceof Mirrorable)
+		if (outGeo instanceof Mirrorable) {
 			out = (Mirrorable) outGeo;
+		}
 		setInputOutput();
 
-		cons.registerEuclidianViewCE(this);
 		transformedPoint = new GeoPoint(cons);
 		compute();
-		if (inGeo.isGeoFunction())
+		if (inGeo.isGeoFunction()) {
 			cons.registerEuclidianViewCE(this);
+		}
 	}
 
 	@Override
