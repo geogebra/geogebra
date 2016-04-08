@@ -3911,7 +3911,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-526
 		case MOBILE_INPUT_BAR_HELP_MATH_FUNC:
-			return prerelease;
+			return true;
 
 		// MOB-524
 		case MOBILE_CLEAR_INPUT_BUTTON:
