@@ -352,9 +352,9 @@ public class DrawInequality extends Drawable {
 		} else {
 			gpAxis = null;
 		}
-		if (left != null && right != null) {
-			update2();
-		}
+		// if (left != null && right != null) {
+		// update2();
+		// }
 
 	}
 
