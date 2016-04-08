@@ -146,6 +146,7 @@ public class RadioTreeItem extends AVTreeItem
 			.getColorString(new GColorW(255, 255, 255, 0));
 	static final String CLEAR_COLOR_STR_BORDER = GColor
 			.getColorString(new GColorW(220, 220, 220));
+	Boolean stylebarShown;
 
 	interface CancelListener {
 		void cancel();
@@ -1686,6 +1687,10 @@ public class RadioTreeItem extends AVTreeItem
 
 		if (app.has(Feature.EXPAND_AV_FOR_LONG_EQUATIONS)) {
 			restoreSize();
+			if (stylebarShown != null) {
+				getAlgebraDockPanel().showStyleBarPanel(stylebarShown);
+				stylebarShown = null;
+			}
 		}
 
 		boolean ret = false;
@@ -1948,6 +1953,12 @@ marblePanel, evt))) {
 									// contentPanel
 									expandSize(Math.max(EDIT_WIDTH,
 											ihtml.getOffsetWidth()) + 40);
+									if (RadioTreeItem.this.first) {
+										stylebarShown = getAlgebraDockPanel()
+												.isStyleBarPanelShown();
+										getAlgebraDockPanel()
+												.showStyleBarPanel(false);
+									}
 								}
 
 							});

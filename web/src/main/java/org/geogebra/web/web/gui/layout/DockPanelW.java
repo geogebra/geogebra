@@ -1384,6 +1384,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 		}
 	}
 	
+	public boolean isStyleBarPanelShown() {
+		return this.titleBarPanel.isVisible();
+	}
+
 	protected PerspectiveResources getResources(){
 		return ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 	}
