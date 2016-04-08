@@ -1217,6 +1217,7 @@ public class Polynomial implements Comparable<Polynomial> {
 					elimResult, variables);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
+			Log.debug(elimResult);
 			e.printStackTrace();
 		}
 

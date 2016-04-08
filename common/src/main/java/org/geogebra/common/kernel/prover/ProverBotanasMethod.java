@@ -427,9 +427,11 @@ public class ProverBotanasMethod {
 									geo.setCaptionBotanaVars("(" + v[0].toTeX()
 											+ "," + v[1].toTeX() + ")");
 								}
+								if (v != null) {
 								Log.debug("// Free point "
 										+ geo.getLabelSimple() + "(" + v[0]
 										+ "," + v[1] + ")");
+								}
 							}
 						}
 						Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo)

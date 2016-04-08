@@ -1158,7 +1158,9 @@ public interface Traversing {
 
 		private void add(ExpressionValue geoNum) {
 			String str = ((GeoNumeric) geoNum).getLabelSimple();
-			labels.add(str);
+			if (str != null) {
+				labels.add(str);
+			}
 
 		}
 
