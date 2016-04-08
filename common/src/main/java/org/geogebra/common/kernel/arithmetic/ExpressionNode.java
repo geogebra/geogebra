@@ -3875,7 +3875,7 @@ kernel, left,
 	}
 
 	public boolean isNumberValue() {
-		return evaluate(StringTemplate.defaultTemplate).isNumberValue();
+		return this.evaluatesToNumber(false);
 	}
 
 
@@ -3886,7 +3886,8 @@ kernel, left,
 	}
 
 	/**
-	 * Returns true iff ev1 and ev2 are equal
+	 * Returns true iff ev1 and ev2 are
+	 * equalhttp://tube.geogebra.org/m/1199093?cb=jenkins4310
 	 * 
 	 * @param ev1
 	 *            first value to compare
@@ -5721,7 +5722,7 @@ kernel, left,
 		case DIVIDE:
 			return left.evaluateDouble() / right.evaluateDouble();
 		case POWER:
-			if (!left.isNumberValue()) {
+			if (!left.evaluatesToNumber(false)) {
 				return super.evaluateDouble();
 			}
 			lt = left.evaluateDouble();
