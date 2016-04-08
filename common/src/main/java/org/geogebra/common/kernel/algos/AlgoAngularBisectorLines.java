@@ -28,6 +28,10 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -36,7 +40,8 @@ import org.geogebra.common.util.MyMath;
  * @author Markus
  * @version
  */
-public class AlgoAngularBisectorLines extends AlgoElement {
+public class AlgoAngularBisectorLines extends AlgoElement implements
+		SymbolicParametersBotanaAlgo {
 
 	private GeoLine g, h; // input
 	private GeoLine[] bisector; // output
@@ -47,6 +52,9 @@ public class AlgoAngularBisectorLines extends AlgoElement {
 	private GeoPoint B; // intersection point of g, h
 	private boolean infiniteB;
 	private int index;
+
+	private Polynomial[] botanaPolynomials;
+	private Variable[] botanaVars;
 
 	/**
 	 * Creates new AlgoAngularBisectorLines
@@ -303,5 +311,99 @@ public class AlgoAngularBisectorLines extends AlgoElement {
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnAngularBisectorLines(geo, this, scope);
+	}
+
+	public Variable[] getBotanaVars(GeoElementND geo) {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+			throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		
+		GeoLine lg = getg();
+		GeoLine lh = geth();
+		GeoPoint A, B, C;
+
+		if (lg != null && lh != null) {
+			A = this.B;
+			GeoPoint gStart = lg.getStartPoint();
+			GeoPoint gEnd = lg.getEndPoint();
+			GeoPoint hStart = lh.getStartPoint();
+			GeoPoint hEnd = lh.getEndPoint();
+			
+			if (gStart.isEqual(this.B)) {
+				B = gEnd;
+				A = gStart;
+			} else {
+				B = gStart;
+				A = gEnd;
+			}
+
+			if (hStart.isEqual(this.B)) {
+				C = hEnd;
+			} else {
+				C = hStart;
+			}
+		
+		
+			if (A != null && B != null && C != null) {
+				Variable[] vA = B.getBotanaVars(B);
+				Variable[] vB = C.getBotanaVars(C);
+				Variable[] vC = A.getBotanaVars(A);
+
+				if (botanaVars == null) {
+					botanaVars = new Variable[4];
+					// M
+					botanaVars[0] = new Variable();
+					botanaVars[1] = new Variable();
+					// A
+					botanaVars[2] = vC[0];
+					botanaVars[3] = vC[1];
+				}
+
+				botanaPolynomials = new Polynomial[2];
+
+				Polynomial a1 = new Polynomial(vA[0]);
+				Polynomial a2 = new Polynomial(vA[1]);
+				Polynomial b1 = new Polynomial(vB[0]);
+				Polynomial b2 = new Polynomial(vB[1]);
+				Polynomial c1 = new Polynomial(vC[0]);
+				Polynomial c2 = new Polynomial(vC[1]);
+				Polynomial m1 = new Polynomial(botanaVars[0]); // d1
+				Polynomial m2 = new Polynomial(botanaVars[1]); // d2
+
+				// A,M,B collinear (needed for easing computations)
+				botanaPolynomials[0] = Polynomial.collinear(vA[0], vA[1],
+						vB[0], vB[1], botanaVars[0], botanaVars[1]);
+
+				// (b1-c1)*(c1-d1)
+				Polynomial p1 = b1.subtract(c1).multiply(c1.subtract(m1));
+				// (b2-c2)*(c2-d2)
+				Polynomial p2 = b2.subtract(c2).multiply(c2.subtract(m2));
+				// (a1-c1)^2+(a2-c2)^2
+				Polynomial p3 = (Polynomial.sqr(a1.subtract(c1)))
+						.add(Polynomial.sqr(a2.subtract(c2)));
+				// (a1-c1)*(c1-d1)
+				Polynomial p4 = a1.subtract(c1).multiply(c1.subtract(m1));
+				// (a2-c2)*(c2-d2)
+				Polynomial p5 = a2.subtract(c2).multiply(c2.subtract(m2));
+				// (b1-c1)^2+(b2-c2)^2
+				Polynomial p6 = Polynomial.sqr(b1.subtract(c1)).add(
+						Polynomial.sqr(b2.subtract(c2)));
+				// ((b1-c1)*(c1-d1)+(b2-c2)*(c2-d2))^2*((a1-c1)^2+(a2-c2)^2)
+				// -((a1-c1)*(c1-d1)+(a2-c2)*(c2-d2))^2*((b1-c1)^2+(b2-c2)^2)
+				botanaPolynomials[1] = Polynomial.sqr((p1.add(p2)))
+						.multiply(p3)
+						.subtract(Polynomial.sqr(p4.add(p5)).multiply(p6));
+
+			}
+			return botanaPolynomials;
+
+		}
+		throw new NoSymbolicParametersException();
+
 	}
 }
