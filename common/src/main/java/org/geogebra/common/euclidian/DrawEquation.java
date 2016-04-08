@@ -206,6 +206,7 @@ public abstract class DrawEquation {
 		Image im = null;
 		try {
 			final int ret[] = new int[2];
+			checkFirstCall(app);
 			im = getCachedDimensions(text, geo, fgColor, font, style, ret);
 
 			width = ret[0];
