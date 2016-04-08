@@ -35,6 +35,7 @@ public class AlgoIntegral extends AlgoCasBase {
 	private GeoNumeric var;
 	private boolean allowConstant;
 	private boolean computedSymbolically = true;
+	private boolean numeric;
 
 	/**
 	 * @param cons
@@ -69,7 +70,7 @@ public class AlgoIntegral extends AlgoCasBase {
 		super(cons, f, numeric ? Commands.NIntegral : Commands.Integral, info);
 		this.var = var;
 		this.allowConstant = allowConstant;
-
+		this.numeric = numeric;
 		setInputOutput(); // for AlgoElement
 		compute();
 	}
@@ -99,7 +100,7 @@ public class AlgoIntegral extends AlgoCasBase {
 		if (f instanceof GeoFunction) {
 			Function inFun = ((GeoFunction) f).getFunction();
 
-			if (!kernel.useCASforIntegrals()) {
+			if (!kernel.useCASforIntegrals() || numeric) {
 
 				inFun = inFun.getIntegralNoCAS();
 
@@ -154,7 +155,7 @@ public class AlgoIntegral extends AlgoCasBase {
 
 	private void updateSecret() {
 		if (g instanceof GeoFunction) {
-			((GeoFunction) g).setSecret(this);
+			((GeoFunction) g).setSecret(numeric ? this : null);
 		}
 
 	}
