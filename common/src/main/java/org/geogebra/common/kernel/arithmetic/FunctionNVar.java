@@ -421,8 +421,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	final public boolean evaluateBoolean(double[] vals) {
 		for (int i = 0; i < fVars.length; i++)
 			fVars[i].set(vals[i]);
-		return ((BooleanValue) expression
-				.evaluate(StringTemplate.defaultTemplate)).getBoolean();
+		return expression.evaluateBoolean();
 	}
 
 	public HashSet<GeoElement> getVariables() {
@@ -582,6 +581,10 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	private ExpressionNode casEvalExpression;
 	private String casEvalStringSymbolic;
 
+	/**
+	 * 
+	 * @return CAS map command -> result
+	 */
 	protected MaxSizeHashMap<String, FunctionNVar> getCasEvalMap() {
 		if (casEvalMap == null) {
 			casEvalMap = new MaxSizeHashMap<String, FunctionNVar>(
@@ -590,6 +593,11 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return casEvalMap;
 	}
 
+	/**
+	 * 
+	 * @param sb
+	 *            XML builder
+	 */
 	public void printCASevalMapXML(StringBuilder sb) {
 		if (casEvalMap != null) {
 			sb.append("<casMap>\n");
@@ -1131,6 +1139,10 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return ValueType.FUNCTION;
 	}
 
+	/**
+	 * @param map
+	 *            map from XML in the string -> string form
+	 */
 	public void updateCASEvalMap(TreeMap<String, String> map) {
 		if (map == null
 				|| !kernel.getApplication().has(Feature.XML_CAS_CACHE)) {

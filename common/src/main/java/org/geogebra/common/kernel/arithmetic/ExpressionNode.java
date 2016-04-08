@@ -6318,6 +6318,13 @@ kernel, left,
 		return toValueString(tpl);
 	}
 
+	/**
+	 * @return true if it evals to true, false if it's false or invalid
+	 */
+	public boolean evaluateBoolean() {
+		ExpressionValue ev = evaluate(StringTemplate.defaultTemplate);
+		return ev instanceof BooleanValue && ((BooleanValue) ev).getBoolean();
+	}
 
 
 }
