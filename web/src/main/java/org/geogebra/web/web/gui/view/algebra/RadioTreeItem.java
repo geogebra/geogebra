@@ -522,7 +522,7 @@ public class RadioTreeItem extends AVTreeItem
 	 */
 	private MarblePanel marblePanel;
 
-	private FlowPanel contentPanel;
+	FlowPanel contentPanel;
 
 
 	/**
@@ -1896,9 +1896,42 @@ marblePanel, evt))) {
 			if (!isEditing()) {
 				geo.setAnimating(false);
 				av.startEditing(geo);
-				Log.debug("---------");
 				if (app.has(Feature.EXPAND_AV_FOR_LONG_EQUATIONS)) {
-					expandSize(EDIT_WIDTH);
+					Scheduler.get().scheduleDeferred(
+							new Scheduler.ScheduledCommand() {
+
+								public void execute() {
+									// Log.debug("left padding: "
+									// + contentPanel
+									// .getElement()
+									// .getStyle()
+									// .getPaddingLeft());
+									// Log.debug("left padding 2 : "
+									// + contentPanel.getElement()
+									// .getPropertyInt(
+									// "padding-left"));
+									// Log.debug("left padding 3 : "
+									// + contentPanel.getElement()
+									// .getPropertyString(
+									// "padding-left"));
+									// Log.debug("left padding 4 : "
+									// + contentPanel.getElement()
+									// .getAttribute(
+									// "padding-left"));
+									// Log.debug("left padding 5 : "
+									// + contentPanel.getElement()
+									// .getStyle().getPadding());
+									// Log.debug("contentPanel: "
+									// + contentPanel.toString());
+
+									// TODO: change 40 for left padding of
+									// contentPanel
+									expandSize(Math.max(EDIT_WIDTH,
+											ihtml.getOffsetWidth()) + 40);
+								}
+
+							});
+
 				}
 			}
 			app.showKeyboard(this);
