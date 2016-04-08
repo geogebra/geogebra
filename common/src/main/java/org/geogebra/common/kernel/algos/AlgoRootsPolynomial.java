@@ -561,12 +561,4 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		return getLoc().getPlain("RootOfA", f.getLabel(tpl));
 	}
 
-	@Override
-	protected void updateDependentGeos() {
-		// update dependent objects
-		for (int i = 0; i < getOutputLength(); i++) {
-			getOutput(i).updateCascade();
-		}
-	}
-
 }

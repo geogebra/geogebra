@@ -482,12 +482,14 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	// TODO Consider locusequability
 
-	@Override
-	protected void updateDependentGeos() {
-		// update dependent objects
-		for (int i = 0; i < getOutputLength(); i++) {
-			getOutput(i).updateCascade();
-		}
+	/*
+	 * @Override protected void updateDependentGeos() { // update dependent
+	 * objects for (int i = 0; i < getOutputLength(); i++) {
+	 * getOutput(i).updateCascade(); } }
+	 */
+	public boolean euclidianViewUpdate() {
+		compute();
+		return true;
 	}
 
     @Override
