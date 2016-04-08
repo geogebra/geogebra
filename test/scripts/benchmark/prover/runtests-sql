@@ -310,10 +310,10 @@ for i in `find -name '*.ggb' | sort`; do
    RESULT=`cat $REGRESSIONFILE | grep Prove | sed s/" null ="//g | sed s/'"'//g | sed 's/\(.*\) == \(.*\)/\2/' | sed 's/\(.*\) = \(.*\)/\2/'`
    # In some cases the $REGRESSIONFILE does not contain the output of the Prove* command. So, a workaround (copied from "Web"):
    if [ "$RESULT" = "" -o "$RESULT" = "?" ]; then
-   grep --silent "OUTPUT for Prove:" $MYDIR/tmp/.test.stdout && \
-    tac $MYDIR/tmp/.test.stdout | grep "OUTPUT for Prove:" | head -1 | sed 's/\(.*\) = \(.*\)/OUTPUT for Prove or ProveDetails == null = \2/' > $REGRESSIONFILE
-   grep --silent "OUTPUT for ProveDetails:" $MYDIR/tmp/.test.stdout && \
-    tac $MYDIR/tmp/.test.stdout | grep "OUTPUT for ProveDetails:" | head -1 | sed 's/\(.*\) = \(.*\)/\2/' |\
+   grep --silent "OUTPUT for Prove:" $LOGFILE && \
+    tac $LOGFILE | grep "OUTPUT for Prove:" | head -1 | sed 's/\(.*\) = \(.*\)/OUTPUT for Prove or ProveDetails == null = \2/' > $REGRESSIONFILE
+   grep --silent "OUTPUT for ProveDetails:" $LOGFILE && \
+    tac $LOGFILE | grep "OUTPUT for ProveDetails:" | head -1 | sed 's/\(.*\) = \(.*\)/\2/' |\
     sed s/{//g | sed s/}//g | sed s/", "/" "/g | awk '{printf "ProveDetails == null = %s", $0}' > $REGRESSIONFILE
    # FIXME in GeoGebra.
     fi
