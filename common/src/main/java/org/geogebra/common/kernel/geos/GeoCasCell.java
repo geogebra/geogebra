@@ -977,14 +977,14 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			}
 
 			assignmentVar = var;
-			// }
+		}
 		// needed for GGB-450
-		// else if (cons.isFileLoading() && inputVE.getLabel().equals(var)) {
-		// if (!LabelManager.validVar(var)) {
-		// setError("CAS.VariableIsDynamicReference");
-		// }
-		//
-		// assignmentVar = var;
+		else if (cons.isFileLoading() && inputVE.getLabel().equals(var)) {
+		if (!LabelManager.validVar(var)) {
+		setError("CAS.VariableIsDynamicReference");
+		}
+	
+		 assignmentVar = var;
 		} else {
 			
 			changeAssignmentVar(var,
@@ -1570,6 +1570,14 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 						.isReserved(assignmentVar))
 			return;
 
+		// needed for GGB-450
+		GeoElement geo = null;
+		// if file is loading check for already existent
+		// twingeo with assignmentVar label
+		if (cons.isFileLoading() && assignmentVar != null) {
+			geo = kernel.lookupLabel(assignmentVar);
+		}
+
 		// try to create twin geo for assignment, e.g. m := c + 3
 		ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
 		arbconst.reset();
@@ -1617,6 +1625,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				}
 			}
 			newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
+			// twingeo exists
+			// change newTwinGeo
+			if (geo != null) {
+				newTwinGeo = geo;
+			}
 			// update newTwinGeo as multivariable function
 			if (isFunctionProducingCommand() && !fVarSet.isEmpty()
 					&& newTwinGeo instanceof GeoFunction) {
@@ -1699,10 +1712,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		// remove the label
 		// but keep it in the underlying CAS
 		cons.removeCasCellLabel(assignmentVar);
-		// needed for GGB-450
-		// if (cons.isFileLoading()) {
-		// cons.removeLabel(cons.geoTableVarLookup(assignmentVar));
-		// }
 		// set Label of twinGeo
 		twinGeo.setLabel(assignmentVar);
 		// set back CAS cell label
