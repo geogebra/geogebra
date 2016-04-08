@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
@@ -845,7 +846,17 @@ public class RadioTreeItem extends AVTreeItem
 		// valuePanel.add(valC);
 		// }
 
-		Label lblDefinition = new Label(getOutputPrefix());
+		final Label lblDefinition = new Label(getOutputPrefix());
+		if (app.has(Feature.FRACTIONS)) {
+			ClickStartHandler.init(lblDefinition, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					toggleSymbolic(lblDefinition);
+
+				}
+			});
+		}
 		updateColor(lblDefinition);
 		outputPanel.add(lblDefinition);
 		outputPanel.add(valuePanel);
@@ -858,6 +869,15 @@ public class RadioTreeItem extends AVTreeItem
 			definitionPanel.addStyleName("avDefinition");
 			valuePanel.addStyleName("avValue");
 			plainTextItem.add(outputPanel);
+		}
+	}
+
+	void toggleSymbolic(Label lbl) {
+		if (geo instanceof HasSymbolicMode) {
+			((HasSymbolicMode) geo)
+					.setSymbolicMode(!((HasSymbolicMode) geo).isSymboicMode());
+			geo.updateRepaint();
+			lbl.setText(getOutputPrefix());
 		}
 	}
 	private void updateFont(Widget w) {
@@ -2722,6 +2742,10 @@ marblePanel, evt))) {
 	}
 
 	private String getOutputPrefix() {
+		if (geo instanceof HasSymbolicMode
+				&& !((HasSymbolicMode) geo).isSymboicMode()) {
+			return Unicode.CAS_OUTPUT_NUMERIC;
+		}
 		if (kernel.getLocalization().rightToLeftReadingOrder) {
 			return Unicode.CAS_OUTPUT_PREFIX_RTL;
 		}
