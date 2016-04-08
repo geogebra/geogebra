@@ -1953,7 +1953,9 @@ marblePanel, evt))) {
 									// contentPanel
 									expandSize(Math.max(EDIT_WIDTH,
 											ihtml.getOffsetWidth()) + 40);
-									if (RadioTreeItem.this.first) {
+									if ((RadioTreeItem.this.first)
+											&& (!getAlgebraDockPanel()
+													.isStyleBarVisible())) {
 										stylebarShown = getAlgebraDockPanel()
 												.isStyleBarPanelShown();
 										getAlgebraDockPanel()

@@ -108,5 +108,9 @@ public class AlgebraDockPanelW extends DockPanelW {
 		return ((AlgebraViewW) app.getAlgebraView()).getInputTreeItem();
 	}
 
+	@Override
+	public boolean isStyleBarVisible() {
+		return super.isStyleBarVisible();
+	}
 
 }
