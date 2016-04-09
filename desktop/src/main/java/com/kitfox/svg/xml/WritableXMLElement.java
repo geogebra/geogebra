@@ -36,11 +36,6 @@
 
 package com.kitfox.svg.xml;
 
-import org.w3c.dom.*;
-import java.net.*;
-import java.util.*;
-import java.lang.reflect.*;
-
 /**
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>

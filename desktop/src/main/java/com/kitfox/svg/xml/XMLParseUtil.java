@@ -36,15 +36,24 @@
 
 package com.kitfox.svg.xml;
 
-import com.kitfox.svg.SVGConst;
-import org.w3c.dom.*;
-import java.awt.*;
-import java.net.*;
-import java.util.*;
-import java.util.regex.*;
-import java.lang.reflect.*;
+import java.awt.Toolkit;
+//import java.lang.reflect.Array;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+
+import com.kitfox.svg.SVGConst;
 
 /**
  * @author Mark McKay
@@ -698,21 +707,24 @@ public class XMLParseUtil
         return elementCache;
     }
 
-    public static Object[] getElementArray(Class classType, Element root, String name, URL docRoot)
-    {
-        if (root == null) return null;
-
-        //Do not process if not a LoadableObject
-        if (!ReadableXMLElement.class.isAssignableFrom(classType))
-        {
-            return null;
-        }
-
-        LinkedList elementCache = getElementLinkedList(classType, root, name, docRoot);
-
-        Object[] retArr = (Object[])Array.newInstance(classType, elementCache.size());
-        return elementCache.toArray(retArr);
-    }
+	// public static Object[] getElementArray(Class classType, Element root,
+	// String name, URL docRoot)
+	// {
+	// if (root == null) return null;
+	//
+	// //Do not process if not a LoadableObject
+	// if (!ReadableXMLElement.class.isAssignableFrom(classType))
+	// {
+	// return null;
+	// }
+	//
+	// LinkedList elementCache = getElementLinkedList(classType, root, name,
+	// docRoot);
+	//
+	// Object[] retArr = (Object[])Array.newInstance(classType,
+	// elementCache.size());
+	// return elementCache.toArray(retArr);
+	// }
 
     /**
      * Takes a number of tags of name 'name' that are children of 'root', and

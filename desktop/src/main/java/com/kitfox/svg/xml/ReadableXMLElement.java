@@ -36,10 +36,9 @@
 
 package com.kitfox.svg.xml;
 
-import org.w3c.dom.*;
-import java.net.*;
-import java.util.*;
-import java.lang.reflect.*;
+import java.net.URL;
+
+import org.w3c.dom.Element;
 
 /**
  * @author Mark McKay
