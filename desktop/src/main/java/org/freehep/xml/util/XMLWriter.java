@@ -9,9 +9,7 @@ import java.util.Hashtable;
 import java.util.Stack;
 
 import org.freehep.util.io.IndentPrintWriter;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+
 
 /**
  * A class that makes it easy to write XML documents.
@@ -288,72 +286,73 @@ public class XMLWriter implements XMLTagWriter
 		if (extraIndent) writer.outdent();
 	}
 
-    /**
-     * Prints a DOM node, recursively.
-     * No support for a document node
-     */
-    public void print(Node node)
-    {
-        if ( node == null ) return;
-
-        int type = node.getNodeType();
-        switch ( type ) {
-            // print document
-            case Node.DOCUMENT_NODE:
-                throw new RuntimeException("No support for printing nodes of type Document");
-
-            // print element with attributes
-            case Node.ELEMENT_NODE:
-                NamedNodeMap attributes = node.getAttributes();
-                for ( int i = 0; i < attributes.getLength(); i++ ) {
-                    Node attr = attributes.item(i);
-                    setAttribute(attr.getNodeName(), attr.getNodeValue());
-                }
-                NodeList children = node.getChildNodes();
-                if ( children == null ) {
-                    printTag(node.getNodeName());
-                } else {
-                    openTag(node.getNodeName());
-                    int len = children.getLength();
-                    for ( int i = 0; i < len; i++ ) {
-                        print(children.item(i));
-                    }
-                    closeTag();
-                }
-                break;
-
-            // handle entity reference nodes
-            case Node.ENTITY_REFERENCE_NODE:
-                writer.print('&');
-                writer.print(node.getNodeName());
-                writer.print(';');
-                break;
-
-            // print cdata sections
-            case Node.CDATA_SECTION_NODE:
-                writer.print("<![CDATA[");
-                writer.print(node.getNodeValue());
-                writer.print("]]>");
-                break;
-
-            // print text
-            case Node.TEXT_NODE:
-                print(node.getNodeValue());
-                break;
-
-            // print processing instruction
-            case Node.PROCESSING_INSTRUCTION_NODE:
-                writer.print("<?");
-                writer.print(node.getNodeName());
-                String data = node.getNodeValue();
-                if ( data != null && data.length() > 0 ) {
-                    writer.print(' ');
-                    writer.print(data);
-                }
-                writer.print("?>");
-                break;
-        }
-    } // print(Node)
+	// /**
+	// * Prints a DOM node, recursively.
+	// * No support for a document node
+	// */
+	// public void print(Node node)
+	// {
+	// if ( node == null ) return;
+	//
+	// int type = node.getNodeType();
+	// switch ( type ) {
+	// // print document
+	// case Node.DOCUMENT_NODE:
+	// throw new RuntimeException("No support for printing nodes of type
+	// Document");
+	//
+	// // print element with attributes
+	// case Node.ELEMENT_NODE:
+	// NamedNodeMap attributes = node.getAttributes();
+	// for ( int i = 0; i < attributes.getLength(); i++ ) {
+	// Node attr = attributes.item(i);
+	// setAttribute(attr.getNodeName(), attr.getNodeValue());
+	// }
+	// NodeList children = node.getChildNodes();
+	// if ( children == null ) {
+	// printTag(node.getNodeName());
+	// } else {
+	// openTag(node.getNodeName());
+	// int len = children.getLength();
+	// for ( int i = 0; i < len; i++ ) {
+	// print(children.item(i));
+	// }
+	// closeTag();
+	// }
+	// break;
+	//
+	// // handle entity reference nodes
+	// case Node.ENTITY_REFERENCE_NODE:
+	// writer.print('&');
+	// writer.print(node.getNodeName());
+	// writer.print(';');
+	// break;
+	//
+	// // print cdata sections
+	// case Node.CDATA_SECTION_NODE:
+	// writer.print("<![CDATA[");
+	// writer.print(node.getNodeValue());
+	// writer.print("]]>");
+	// break;
+	//
+	// // print text
+	// case Node.TEXT_NODE:
+	// print(node.getNodeValue());
+	// break;
+	//
+	// // print processing instruction
+	// case Node.PROCESSING_INSTRUCTION_NODE:
+	// writer.print("<?");
+	// writer.print(node.getNodeName());
+	// String data = node.getNodeValue();
+	// if ( data != null && data.length() > 0 ) {
+	// writer.print(' ');
+	// writer.print(data);
+	// }
+	// writer.print("?>");
+	// break;
+	// }
+	// } // print(Node)
 
     /** Normalizes the given string for an Attribute value*/
     public static String normalize(String s)
