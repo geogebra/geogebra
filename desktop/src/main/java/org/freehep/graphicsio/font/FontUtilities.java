@@ -1,10 +1,7 @@
 package org.freehep.graphicsio.font;
 
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 import org.freehep.graphics2d.font.CharTable;
@@ -16,10 +13,10 @@ public class FontUtilities {
     private FontUtilities() {
     }
 
-    public static List getAllAvailableFonts() {
-        return Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getAvailableFontFamilyNames());
-    }
+	// public static List getAllAvailableFonts() {
+	// return Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment()
+	// .getAvailableFontFamilyNames());
+	// }
 
     private static final Properties windowsFonts = new Properties();
     static {
