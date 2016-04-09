@@ -6,9 +6,6 @@
 
 package org.freehep.util;
 
-import java.lang.reflect.Constructor;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -335,51 +332,56 @@ public class Value {
     }
      
     /**
-     * Set to value from the external respresentation
-     */
-    public Value fromExternal(String external) throws IllegalArgumentException {
-        String[] part = external.split(":", 2);
-        if (part.length != 2) 
-            throw new IllegalArgumentException(getClass()+": External '"+external+
-                                               "'does not contain ':' to separate type from value.");
-        
-        if (part[0].equals(TYPE_STRING.getName())) {
-            return set(part[1]);
-        } else if (part[0].equals(TYPE_SHORT.getName())) {
-            return set(Short.parseShort(part[1]));
-        } else if (part[0].equals(TYPE_LONG.getName())) {
-            return set(Long.parseLong(part[1]));
-        } else if (part[0].equals(TYPE_FLOAT.getName())) {
-            return set(Float.parseFloat(part[1]));
-        } else if (part[0].equals(TYPE_DOUBLE.getName())) {
-            return set(Double.parseDouble(part[1]));
-        } else if (part[0].equals(TYPE_BOOLEAN.getName())) {
-            return set(Boolean.getBoolean(part[1]));
-        } else if (part[0].equals(TYPE_BYTE.getName())) {
-            return set(Byte.parseByte(part[1]));
-        } else if (part[0].equals(TYPE_CHAR.getName())) {
-            return set(part[1].charAt(0));
-        } else if (part[0].equals(TYPE_INTEGER.getName())) {
-            return set(Integer.parseInt(part[1]));
-        } else if (part[0].equals(TYPE_DATE.getName())) {
-            try {
-                return set(new SimpleDateFormat().parse(part[1]));
-            } catch (ParseException e) {
-                throw new IllegalArgumentException(e.getMessage());
-            }
-        } else if (part[0].equals(Object.class.getName()) && part[1].equals("null")) {
-            return set((Object)null);
-        } else {
-            // FIXME will not work for arrays, which are encoded as "[Lpackagename.classname;"
-            try {
-                Class<?> cls = Class.forName(part[0]);
-                Constructor<?> ctor = cls.getDeclaredConstructor(new Class[] { String.class });
-                ctor.setAccessible(true);
-                return set(ctor.newInstance(new Object[] { part[1] }));
-            } catch (Exception e) {
-                throw new IllegalArgumentException(getClass()+": Cannot reconstruct value from type: "+part[0]+", "
-                                                   +"and value "+part[1]+", due to "+e.getMessage());
-            }
-        }
-    } 
+	 * Set to value from the external representation
+	 */
+	// public Value fromExternal(String external) throws
+	// IllegalArgumentException {
+	// String[] part = external.split(":", 2);
+	// if (part.length != 2)
+	// throw new IllegalArgumentException(getClass()+": External '"+external+
+	// "'does not contain ':' to separate type from value.");
+	//
+	// if (part[0].equals(TYPE_STRING.getName())) {
+	// return set(part[1]);
+	// } else if (part[0].equals(TYPE_SHORT.getName())) {
+	// return set(Short.parseShort(part[1]));
+	// } else if (part[0].equals(TYPE_LONG.getName())) {
+	// return set(Long.parseLong(part[1]));
+	// } else if (part[0].equals(TYPE_FLOAT.getName())) {
+	// return set(Float.parseFloat(part[1]));
+	// } else if (part[0].equals(TYPE_DOUBLE.getName())) {
+	// return set(Double.parseDouble(part[1]));
+	// } else if (part[0].equals(TYPE_BOOLEAN.getName())) {
+	// return set(Boolean.getBoolean(part[1]));
+	// } else if (part[0].equals(TYPE_BYTE.getName())) {
+	// return set(Byte.parseByte(part[1]));
+	// } else if (part[0].equals(TYPE_CHAR.getName())) {
+	// return set(part[1].charAt(0));
+	// } else if (part[0].equals(TYPE_INTEGER.getName())) {
+	// return set(Integer.parseInt(part[1]));
+	// } else if (part[0].equals(TYPE_DATE.getName())) {
+	// try {
+	// return set(new SimpleDateFormat().parse(part[1]));
+	// } catch (ParseException e) {
+	// throw new IllegalArgumentException(e.getMessage());
+	// }
+	// } else if (part[0].equals(Object.class.getName()) &&
+	// part[1].equals("null")) {
+	// return set((Object)null);
+	// } else {
+	// // FIXME will not work for arrays, which are encoded as
+	// "[Lpackagename.classname;"
+	// try {
+	// Class<?> cls = Class.forName(part[0]);
+	// Constructor<?> ctor = cls.getDeclaredConstructor(new Class[] {
+	// String.class });
+	// ctor.setAccessible(true);
+	// return set(ctor.newInstance(new Object[] { part[1] }));
+	// } catch (Exception e) {
+	// throw new IllegalArgumentException(getClass()+": Cannot reconstruct value
+	// from type: "+part[0]+", "
+	// +"and value "+part[1]+", due to "+e.getMessage());
+	// }
+	// }
+	// }
 }
