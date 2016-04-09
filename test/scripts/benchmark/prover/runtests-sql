@@ -315,6 +315,7 @@ for i in `find -name '*.ggb' | sort`; do
     grep --silent "OUTPUT for ProveDetails:" $LOGFILE && \
      RESULT=`tac $LOGFILE | grep "OUTPUT for ProveDetails:" | head -1 | sed 's/\(.*\) = \(.*\)/\2/' |\
      sed s/{//g | sed s/}//g | sed s/", "/" "/g`
+    RESULT=`echo $RESULT | sed s/\"//g`
     # FIXME in GeoGebra.
     fi
    TIME=`cat $LOGFILE | grep Benchmarking | awk '{s=s+$5; print s}' | tail -1` # collecting all entries
