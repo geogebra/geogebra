@@ -28,8 +28,6 @@ import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
 import java.awt.print.PrinterGraphics;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.AttributedCharacterIterator;
 import java.util.HashMap;
 import java.util.Map;
@@ -84,46 +82,46 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 
 	private WebColor webColor;
 
-	// graphics environment stuff
-	private static boolean displayX11;
-
-	private static boolean displayLocal;
+	// make final (GeoGebra)
+	final private static boolean displayLocal = true;
 
 	static {
 		symbols = new HashMap();
 
-		displayX11 = false;
-		displayLocal = false;
-		try {
-			Class clazz = Class.forName("sun.awt.X11GraphicsEnvironment");
-			displayX11 = true;
-			Method method = clazz.getMethod("isDisplayLocal", (Class<?>)null);
-			Boolean result = (Boolean) method.invoke((Object[])null, (Object[])null);
-			displayLocal = result.booleanValue();
-		} catch (ClassNotFoundException e) {
-			// Windows case...
-			displayLocal = true;
-		} catch (IllegalAccessException e) {
-			// ignored
-		} catch (NoSuchMethodException e) {
-			// ignored
-		} catch (InvocationTargetException e) {
-			// ignored
-		} catch (ClassCastException e) {
-			// ignored
-		} catch (SecurityException e) {
-			// ignored
-		} catch (NullPointerException e) {
-			// method.invoke throws ExceptionInInitializerError on Ubuntu 12.10.
-			// Seems to be a bug in the initialization of a static variable
-			// inside
-			// the method isDisplayLocal. See
-			// http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/sun/awt/X11GraphicsEnvironment.java#X11GraphicsEnvironment.isDisplayLocal()
-			// Also oracle jdk 1.7
-
-			// Here is the "official" fix, needs Java 7 though
-			// https://github.com/freehep/freehep-vectorgraphics/issues/6
-		}
+		// displayX11 = false;
+		// displayLocal = false;
+		// try {
+		// Class clazz = Class.forName("sun.awt.X11GraphicsEnvironment");
+		// displayX11 = true;
+		// Method method = clazz.getMethod("isDisplayLocal", (Class<?>)null);
+		// Boolean result = (Boolean) method.invoke((Object[])null,
+		// (Object[])null);
+		// displayLocal = result.booleanValue();
+		// } catch (ClassNotFoundException e) {
+		// // Windows case...
+		// displayLocal = true;
+		// } catch (IllegalAccessException e) {
+		// // ignored
+		// } catch (NoSuchMethodException e) {
+		// // ignored
+		// } catch (InvocationTargetException e) {
+		// // ignored
+		// } catch (ClassCastException e) {
+		// // ignored
+		// } catch (SecurityException e) {
+		// // ignored
+		// } catch (NullPointerException e) {
+		// // method.invoke throws ExceptionInInitializerError on Ubuntu 12.10.
+		// // Seems to be a bug in the initialization of a static variable
+		// // inside
+		// // the method isDisplayLocal. See
+		// //
+		// http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/sun/awt/X11GraphicsEnvironment.java#X11GraphicsEnvironment.isDisplayLocal()
+		// // Also oracle jdk 1.7
+		//
+		// // Here is the "official" fix, needs Java 7 though
+		// // https://github.com/freehep/freehep-vectorgraphics/issues/6
+		// }
 	}
 
 	public PixelGraphics2D(Graphics graphics) {
@@ -614,9 +612,9 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 		return "PixelGraphics2D[" + hostGraphics.toString() + "]";
 	}
 
-	public static boolean isDisplayX11() {
-		return displayX11;
-	}
+	// public static boolean isDisplayX11() {
+	// return displayX11;
+	// }
 
 	public static boolean isDisplayLocal() {
 		return displayLocal;
