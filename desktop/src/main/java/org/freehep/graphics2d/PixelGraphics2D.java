@@ -1,7 +1,6 @@
 // Copyright 2000-2006, FreeHEP.
 package org.freehep.graphics2d;
 
-import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Composite;
@@ -17,7 +16,6 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.Transparency;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
@@ -296,80 +294,83 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 		hostGraphics.fillRect(x, y, width, height);
 	}
 
-	public void drawSymbol(double x, double y, double size, int symbol) {
-		if (size <= 0)
-			return;
+	// public void drawSymbol(double x, double y, double size, int symbol) {
+	// if (size <= 0)
+	// return;
+	//
+	// int intSize = (int) Math.ceil(size);
+	// if ((intSize > MAX_BLIT_SIZE)
+	// || (lineWidth != 1.0)
+	// || !isDisplayLocal()
+	// || (getRenderingHint(RenderingHints.KEY_ANTIALIASING) ==
+	// RenderingHints.VALUE_ANTIALIAS_ON)
+	// || (getRenderingHint(KEY_SYMBOL_BLIT) == VALUE_SYMBOL_BLIT_OFF)) {
+	// super.drawSymbol(x, y, size, symbol);
+	// return;
+	// }
+	//
+	// blitSymbol(x, y, intSize, symbol, false);
+	// }
 
-		int intSize = (int) Math.ceil(size);
-		if ((intSize > MAX_BLIT_SIZE)
-				|| (lineWidth != 1.0)
-				|| !isDisplayLocal()
-				|| (getRenderingHint(RenderingHints.KEY_ANTIALIASING) == RenderingHints.VALUE_ANTIALIAS_ON)
-				|| (getRenderingHint(KEY_SYMBOL_BLIT) == VALUE_SYMBOL_BLIT_OFF)) {
-			super.drawSymbol(x, y, size, symbol);
-			return;
-		}
-
-		blitSymbol(x, y, intSize, symbol, false);
-	}
-
-	public void fillSymbol(double x, double y, double size, int symbol) {
-		if (size <= 0)
-			return;
-
-		int intSize = (int) Math.ceil(size);
-		if ((intSize > MAX_BLIT_SIZE)
-				|| (lineWidth != 1.0)
-				|| !isDisplayLocal()
-				|| (getRenderingHint(RenderingHints.KEY_ANTIALIASING) == RenderingHints.VALUE_ANTIALIAS_ON)
-				|| (getRenderingHint(KEY_SYMBOL_BLIT) == VALUE_SYMBOL_BLIT_OFF)) {
-			super.fillSymbol(x, y, size, symbol);
-			return;
-		}
-
-		blitSymbol(x, y, intSize, symbol, true);
-	}
+	// public void fillSymbol(double x, double y, double size, int symbol) {
+	// if (size <= 0)
+	// return;
+	//
+	// int intSize = (int) Math.ceil(size);
+	// if ((intSize > MAX_BLIT_SIZE)
+	// || (lineWidth != 1.0)
+	// || !isDisplayLocal()
+	// || (getRenderingHint(RenderingHints.KEY_ANTIALIASING) ==
+	// RenderingHints.VALUE_ANTIALIAS_ON)
+	// || (getRenderingHint(KEY_SYMBOL_BLIT) == VALUE_SYMBOL_BLIT_OFF)) {
+	// super.fillSymbol(x, y, size, symbol);
+	// return;
+	// }
+	//
+	// blitSymbol(x, y, intSize, symbol, true);
+	// }
 
 	// FIXME: overridden to avoid blitting
-	public void fillAndDrawSymbol(double x, double y, double size, int symbol,
-			Color fillColor) {
-		Color color = getColor();
-		setColor(fillColor);
-		super.fillSymbol(x, y, size, symbol);
-		setColor(color);
-		super.drawSymbol(x, y, size, symbol);
-	}
+	// public void fillAndDrawSymbol(double x, double y, double size, int
+	// symbol,
+	// Color fillColor) {
+	// Color color = getColor();
+	// setColor(fillColor);
+	// super.fillSymbol(x, y, size, symbol);
+	// setColor(color);
+	// super.drawSymbol(x, y, size, symbol);
+	// }
 
-	private void blitSymbol(double x, double y, int size, int symbol,
-			boolean fill) {
-		Image[][][] images = (Image[][][]) symbols.get(webColor);
-		if (images == null) {
-			images = new Image[2][NUMBER_OF_SYMBOLS][MAX_BLIT_SIZE];
-			symbols.put(webColor, images);
-		}
-
-		Image image = images[fill ? 1 : 0][symbol][size - 1];
-		int imageSize = size + 1;
-		double imageSize2 = imageSize / 2.0;
-		if (image == null) {
-			image = getDeviceConfiguration().createCompatibleImage(
-					imageSize + 1, imageSize + 1, Transparency.BITMASK);
-			VectorGraphics imageGraphics = VectorGraphics.create(image
-					.getGraphics());
-			Composite composite = imageGraphics.getComposite();
-			imageGraphics.setComposite(AlphaComposite.Clear);
-			imageGraphics.fillRect(0, 0, size, size);
-			imageGraphics.setComposite(composite);
-			imageGraphics.setColor(getColor());
-			if (fill) {
-				fillSymbol(imageGraphics, imageSize2, imageSize2, size, symbol);
-			} else {
-				drawSymbol(imageGraphics, imageSize2, imageSize2, size, symbol);
-			}
-			images[fill ? 1 : 0][symbol][size - 1] = image;
-		}
-		drawImage(image, (int) (x - imageSize2), (int) (y - imageSize2), null);
-	}
+	// private void blitSymbol(double x, double y, int size, int symbol,
+	// boolean fill) {
+	// Image[][][] images = (Image[][][]) symbols.get(webColor);
+	// if (images == null) {
+	// images = new Image[2][NUMBER_OF_SYMBOLS][MAX_BLIT_SIZE];
+	// symbols.put(webColor, images);
+	// }
+	//
+	// Image image = images[fill ? 1 : 0][symbol][size - 1];
+	// int imageSize = size + 1;
+	// double imageSize2 = imageSize / 2.0;
+	// if (image == null) {
+	// image = getDeviceConfiguration().createCompatibleImage(
+	// imageSize + 1, imageSize + 1, Transparency.BITMASK);
+	// VectorGraphics imageGraphics = VectorGraphics.create(image
+	// .getGraphics());
+	// Composite composite = imageGraphics.getComposite();
+	// imageGraphics.setComposite(AlphaComposite.Clear);
+	// imageGraphics.fillRect(0, 0, size, size);
+	// imageGraphics.setComposite(composite);
+	// imageGraphics.setColor(getColor());
+	// if (fill) {
+	// fillSymbol(imageGraphics, imageSize2, imageSize2, size, symbol);
+	// } else {
+	// drawSymbol(imageGraphics, imageSize2, imageSize2, size, symbol);
+	// }
+	// images[fill ? 1 : 0][symbol][size - 1] = image;
+	// }
+	// drawImage(image, (int) (x - imageSize2), (int) (y - imageSize2), null);
+	// }
 
 	public void setLineWidth(double width) {
 		super.setLineWidth(width);

@@ -169,102 +169,103 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
         currentFont = font;
     }
 
-    public void drawSymbol(int x, int y, int size, int symbol) {
-	drawSymbol((double) x, (double) y, (double) size, symbol);
-    }
+	// public void drawSymbol(int x, int y, int size, int symbol) {
+	// drawSymbol((double) x, (double) y, (double) size, symbol);
+	// }
 
-    public void fillSymbol(int x, int y, int size, int symbol) {
-        fillSymbol((double) x, (double) y, (double) size, symbol);
-    }
+	// public void fillSymbol(int x, int y, int size, int symbol) {
+	// fillSymbol((double) x, (double) y, (double) size, symbol);
+	// }
+	//
+	// public void fillAndDrawSymbol(int x, int y, int size, int symbol,
+	// Color fillColor) {
+	// fillAndDrawSymbol((double) x, (double) y, (double) size, symbol,
+	// fillColor);
+	// }
 
-    public void fillAndDrawSymbol(int x, int y, int size, int symbol,
-            Color fillColor) {
-        fillAndDrawSymbol((double) x, (double) y, (double) size, symbol,
-                fillColor);
-    }
+	// public void drawSymbol(double x, double y, double size, int symbol) {
+	// if (size <= 0)
+	// return;
+	// drawSymbol(this, x, y, size, symbol);
+	// }
 
-    public void drawSymbol(double x, double y, double size, int symbol) {
-        if (size <= 0)
-            return;
-        drawSymbol(this, x, y, size, symbol);
-    }
+	// protected void drawSymbol(VectorGraphics g, double x, double y,
+	// double size, int symbol) {
+	// switch (symbol) {
+	// case SYMBOL_VLINE:
+	// case SYMBOL_STAR:
+	// case SYMBOL_HLINE:
+	// case SYMBOL_PLUS:
+	// case SYMBOL_CROSS:
+	// case SYMBOL_BOX:
+	// case SYMBOL_UP_TRIANGLE:
+	// case SYMBOL_DN_TRIANGLE:
+	// case SYMBOL_DIAMOND:
+	// cachedShape.create(symbol, x, y, size);
+	// g.draw(cachedShape);
+	// break;
+	//
+	// case SYMBOL_CIRCLE: {
+	// double diameter = Math.max(1, size);
+	// diameter += (diameter % 2);
+	// g.drawOval(x - diameter / 2, y - diameter / 2, diameter, diameter);
+	// break;
+	// }
+	// }
+	// }
 
-    protected void drawSymbol(VectorGraphics g, double x, double y,
-            double size, int symbol) {
-        switch (symbol) {
-        case SYMBOL_VLINE:
-        case SYMBOL_STAR:
-        case SYMBOL_HLINE:
-        case SYMBOL_PLUS:
-        case SYMBOL_CROSS:
-        case SYMBOL_BOX:
-        case SYMBOL_UP_TRIANGLE:
-        case SYMBOL_DN_TRIANGLE:
-        case SYMBOL_DIAMOND:
-            cachedShape.create(symbol, x, y, size);
-            g.draw(cachedShape);
-            break;
+	// public void fillSymbol(double x, double y, double size, int symbol) {
+	// if (size <= 0)
+	// return;
+	// fillSymbol(this, x, y, size, symbol);
+	// }
+	//
+	// protected void fillSymbol(VectorGraphics g, double x, double y,
+	// double size, int symbol) {
+	// switch (symbol) {
+	// case SYMBOL_VLINE:
+	// case SYMBOL_STAR:
+	// case SYMBOL_HLINE:
+	// case SYMBOL_PLUS:
+	// case SYMBOL_CROSS:
+	// cachedShape.create(symbol, x, y, size);
+	// g.draw(cachedShape);
+	// break;
+	//
+	// case SYMBOL_BOX:
+	// case SYMBOL_UP_TRIANGLE:
+	// case SYMBOL_DN_TRIANGLE:
+	// case SYMBOL_DIAMOND:
+	// cachedShape.create(symbol, x, y, size);
+	// g.fill(cachedShape);
+	// break;
+	//
+	// case SYMBOL_CIRCLE: {
+	// double diameter = Math.max(1, size);
+	// diameter += (diameter % 2);
+	// g.fillOval(x - diameter / 2, y - diameter / 2, diameter, diameter);
+	// break;
+	// }
+	// }
+	// }
 
-        case SYMBOL_CIRCLE: {
-            double diameter = Math.max(1, size);
-            diameter += (diameter % 2);
-            g.drawOval(x - diameter / 2, y - diameter / 2, diameter, diameter);
-            break;
-        }
-        }
-    }
+	// public void fillAndDrawSymbol(double x, double y, double size, int
+	// symbol,
+	// Color fillColor) {
+	// Color color = getColor();
+	// setColor(fillColor);
+	// fillSymbol(x, y, size, symbol);
+	// setColor(color);
+	// drawSymbol(x, y, size, symbol);
+	// }
 
-    public void fillSymbol(double x, double y, double size, int symbol) {
-        if (size <= 0)
-            return;
-        fillSymbol(this, x, y, size, symbol);
-    }
-
-    protected void fillSymbol(VectorGraphics g, double x, double y,
-            double size, int symbol) {
-        switch (symbol) {
-        case SYMBOL_VLINE:
-        case SYMBOL_STAR:
-        case SYMBOL_HLINE:
-        case SYMBOL_PLUS:
-        case SYMBOL_CROSS:
-            cachedShape.create(symbol, x, y, size);
-            g.draw(cachedShape);
-            break;
-
-        case SYMBOL_BOX:
-        case SYMBOL_UP_TRIANGLE:
-        case SYMBOL_DN_TRIANGLE:
-        case SYMBOL_DIAMOND:
-            cachedShape.create(symbol, x, y, size);
-            g.fill(cachedShape);
-            break;
-
-        case SYMBOL_CIRCLE: {
-            double diameter = Math.max(1, size);
-            diameter += (diameter % 2);
-            g.fillOval(x - diameter / 2, y - diameter / 2, diameter, diameter);
-            break;
-        }
-        }
-    }
-
-    public void fillAndDrawSymbol(double x, double y, double size, int symbol,
-            Color fillColor) {
-        Color color = getColor();
-        setColor(fillColor);
-        fillSymbol(x, y, size, symbol);
-        setColor(color);
-        drawSymbol(x, y, size, symbol);
-    }
-
-    public void fillAndDraw(Shape s, Color fillColor) {
-        Color color = getColor();
-        setColor(fillColor);
-        fill(s);
-        setColor(color);
-        draw(s);
-    }
+	// public void fillAndDraw(Shape s, Color fillColor) {
+	// Color color = getColor();
+	// setColor(fillColor);
+	// fill(s);
+	// setColor(color);
+	// draw(s);
+	// }
 
     // ---------------------------------------------------------
     // -------------------- WRAPPER METHODS --------------------

@@ -371,19 +371,22 @@ public abstract class VectorGraphics extends Graphics2D implements
     public abstract void drawRoundRect(double x, double y, double width,
             double height, double arcWidth, double arcHeight);
 
-    public abstract void drawSymbol(int x, int y, int size, int symbol);
+	// public abstract void drawSymbol(int x, int y, int size, int symbol);
+	//
+	// public abstract void drawSymbol(double x, double y, double size, int
+	// symbol);
+	//
+	// public abstract void fillSymbol(int x, int y, int size, int symbol);
+	//
+	// public abstract void fillSymbol(double x, double y, double size, int
+	// symbol);
 
-    public abstract void drawSymbol(double x, double y, double size, int symbol);
-
-    public abstract void fillSymbol(int x, int y, int size, int symbol);
-
-    public abstract void fillSymbol(double x, double y, double size, int symbol);
-
-    public abstract void fillAndDrawSymbol(int x, int y, int size, int symbol,
-            Color fillColor);
-
-    public abstract void fillAndDrawSymbol(double x, double y, double size,
-            int symbol, Color fillColor);
+	// public abstract void fillAndDrawSymbol(int x, int y, int size, int
+	// symbol,
+	// Color fillColor);
+	//
+	// public abstract void fillAndDrawSymbol(double x, double y, double size,
+	// int symbol, Color fillColor);
 
     /**
      * Draws a string.
@@ -437,7 +440,7 @@ public abstract class VectorGraphics extends Graphics2D implements
 
     public abstract void endExport();
 
-    public abstract void fillAndDraw(Shape s, Color fillColor);
+	// public abstract void fillAndDraw(Shape s, Color fillColor);
 
     /**
      * Fills an arc. Uses Arc2D to call fill(Shape).
