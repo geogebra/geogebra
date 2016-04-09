@@ -15,7 +15,6 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.TexturePaint;
-import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.image.RenderedImage;
@@ -220,8 +219,12 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO implements
     /* 3.1 Header & Trailer */
     public void writeHeader() throws IOException {
         ros = new BufferedOutputStream(ros);
-        Dimension device = isDeviceIndependent() ? new Dimension(1024, 768)
-                : Toolkit.getDefaultToolkit().getScreenSize();
+
+		// GeoGebra: disabled
+		// Dimension device = isDeviceIndependent() ? new Dimension(1024, 768)
+		// : Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension device = new Dimension(1024, 768);
+
         String producer = getClass().getName();
         if (!isDeviceIndependent()) {
             producer += " " + version.substring(1, version.length() - 1);
