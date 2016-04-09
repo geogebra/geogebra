@@ -41,7 +41,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
     private String creator;
 
-    private boolean isDeviceIndependent;
+	final private boolean isDeviceIndependent = true;
 
     private SymbolShape cachedShape;
 
@@ -58,7 +58,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
     public AbstractVectorGraphics() {
         properties = new UserProperties();
         creator = "FreeHEP Graphics2D Driver";
-        isDeviceIndependent = false;
+		// isDeviceIndependent = false;
         cachedShape = new SymbolShape();
         colorMode = PrintColor.COLOR;
 
@@ -73,7 +73,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
         super();
         properties = graphics.properties;
         creator = graphics.creator;
-        isDeviceIndependent = graphics.isDeviceIndependent;
+		// isDeviceIndependent = graphics.isDeviceIndependent;
         cachedShape = graphics.cachedShape;
 
         backgroundColor = graphics.backgroundColor;
@@ -145,7 +145,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
     }
 
     public void setDeviceIndependent(boolean isDeviceIndependent) {
-        this.isDeviceIndependent = isDeviceIndependent;
+		// this.isDeviceIndependent = isDeviceIndependent;
     }
 
     /**
