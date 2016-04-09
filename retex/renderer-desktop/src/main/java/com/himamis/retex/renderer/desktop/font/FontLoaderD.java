@@ -46,7 +46,6 @@ package com.himamis.retex.renderer.desktop.font;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
 import com.himamis.retex.renderer.share.exception.XMLResourceParseException;
