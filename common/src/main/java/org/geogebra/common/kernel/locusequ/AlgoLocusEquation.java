@@ -18,8 +18,10 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -301,6 +303,42 @@ public class AlgoLocusEquation extends AlgoElement {
 			freePoints.add(movingPoint);
 			freePoints.add(locusPoint);
 		}
+
+		/* axis support */
+		Iterator<GeoElement> geos = (implicit ? implicitLocus : locusPoint)
+				.getAllPredecessors().iterator();
+		while (geos.hasNext()) {
+			GeoElement geo = geos.next();
+			if (geo instanceof GeoAxis) {
+				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
+						.getBotanaVars(geo);
+				// Coordinates for the origin:
+				substitutions.put(vars[0], 0l);
+				substitutions.put(vars[1], 0l);
+				if (((GeoAxis) geo).getY() != 0) {
+					substitutions.put(vars[2], 1l);
+					substitutions.put(vars[3], 0l);
+				}
+				if (((GeoAxis) geo).getX() != 0) {
+					substitutions.put(vars[2], 0l);
+					substitutions.put(vars[3], 1l);
+				}
+			}
+			AlgoElement algo = geo.getParentAlgorithm();
+			boolean condition;
+			if (implicit) {
+				condition = true;
+			} else {
+				condition = geo != locusPoint;
+			}
+			if (condition && algo instanceof AlgoPointOnPath) {
+				GeoElement[] elems = algo.getInput();
+				if (elems != null && elems[0] instanceof GeoAxis) {
+					freePoints.add(geo);
+				}
+			}
+		}
+
 		Iterator<GeoElement> it = freePoints.iterator();
 		String vx = "", vy = "";
 		while (it.hasNext()) {

@@ -95,6 +95,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	private static boolean KEEP_LEADING_SIGN = true;
 	private static final String[] vars = { "x", "y" };
 
+	private Variable[] botanaVars; // only for an axis
+
 	/**
 	 * Creates new line
 	 * @param c construction
@@ -1623,15 +1625,31 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
 		}
+		if (geo instanceof GeoAxis) {
+			if (botanaVars == null) {
+				botanaVars = new Variable[4];
+				botanaVars[0] = new Variable(true);
+				botanaVars[1] = new Variable(true);
+				botanaVars[2] = new Variable(true);
+				botanaVars[3] = new Variable(true);
+				// we substitute them in AlgoLocusEquation, not here
+			}
+			return botanaVars;
+		}
 		return null;
 	}
 	
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
-		return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
+		if (algoParent != null
+				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+			return ((SymbolicParametersBotanaAlgo) algoParent)
+					.getBotanaPolynomials(this);
 		}
-	throw new NoSymbolicParametersException();
+		if (geo instanceof GeoAxis) {
+			return null;
+		}
+		throw new NoSymbolicParametersException();
 	}
 
 	public double distance(GeoLineND g) {

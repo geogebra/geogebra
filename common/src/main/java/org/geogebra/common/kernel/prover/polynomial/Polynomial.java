@@ -411,8 +411,11 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public static String getPolysAsCommaSeparatedString(Polynomial[] polys) {
 		StringBuilder sb = new StringBuilder();
-		for (int i=0; i<polys.length; ++i)
-			sb.append("," + polys[i].toString());
+		for (int i = 0; i < polys.length; ++i) {
+			if (!polys[i].isZero()) { // avoid sending 0 to Giac's eliminate
+				sb.append("," + polys[i].toString());
+			}
+		}
 		if (sb.length()>0)
 			return sb.substring(1); // removing first "," character
 		return "";

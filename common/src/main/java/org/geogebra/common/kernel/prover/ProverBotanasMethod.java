@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -398,6 +399,13 @@ public class ProverBotanasMethod {
 				GeoElement geo = it.next();
 				if (geo instanceof SymbolicParametersBotanaAlgo) {
 					try {
+						if (geo instanceof GeoAxis
+								&& !(geoProver.getProverEngine() == ProverEngine.LOCUS_EXPLICIT || geoProver
+										.getProverEngine() == ProverEngine.LOCUS_IMPLICIT)) {
+							Log.debug("Statements containing axes are unsupported");
+							result = ProofResult.UNKNOWN;
+							return;
+						}
 						Log.debug("/* PROCESSING OBJECT "
 								+ geo.getLabelSimple() + " */");
 						if (ProverSettings.captionAlgebra) {
@@ -416,9 +424,12 @@ public class ProverBotanasMethod {
 						} else {
 							String description = geo
 									.getAlgebraDescriptionDefault();
-							/* handling GeoGebra3D 's definition for xy-plane */
-							if (!description.startsWith("xOyPlane")) {
-
+							if (geo instanceof GeoAxis) {
+								Log.debug(description);
+							} else if (!description.startsWith("xOyPlane")) {
+								/*
+								 * handling GeoGebra3D's definition for xy-plane
+								 */
 								Log.debug(description + " /* free point */");
 								Variable[] v = new Variable[2];
 								v = ((SymbolicParametersBotanaAlgo) geo)
