@@ -27,7 +27,6 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
-import java.awt.print.PrinterGraphics;
 import java.text.AttributedCharacterIterator;
 import java.util.HashMap;
 import java.util.Map;
@@ -146,7 +145,11 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 
 	protected void setHostGraphics(Graphics graphics) {
 		hostGraphics = (Graphics2D) graphics;
-		resolution = (graphics instanceof PrinterGraphics) ? 0 : 1;
+
+		// GeoGebra, can't be PrinterGraphics
+		// resolution = (graphics instanceof PrinterGraphics) ? 0 : 1;
+		resolution = 1;
+
 		tagHandler = new GenericTagHandler(hostGraphics);
 
 		super.setBackground(hostGraphics.getBackground());
