@@ -37,8 +37,10 @@
 package com.kitfox.svg.pathcmd;
 
 //import org.apache.batik.ext.awt.geom.ExtendedGeneralPath;
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Arc2D;
+import java.awt.geom.GeneralPath;
 
 /**
  * This is a little used SVG function, as most editors will save curves as 

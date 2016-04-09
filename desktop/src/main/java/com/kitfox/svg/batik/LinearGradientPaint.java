@@ -8,7 +8,6 @@
 
 package com.kitfox.svg.batik;
 
-import com.kitfox.svg.SVGConst;
 import java.awt.Color;
 import java.awt.PaintContext;
 import java.awt.Rectangle;
@@ -20,6 +19,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.ColorModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.kitfox.svg.SVGConst;
 
 /**
  * The <code>LinearGradientPaint</code> class provides a way to fill

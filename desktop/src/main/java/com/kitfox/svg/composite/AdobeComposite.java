@@ -36,11 +36,14 @@
 
 package com.kitfox.svg.composite;
 
-import com.kitfox.svg.SVGConst;
-import java.awt.*;
-import java.awt.image.*;
+import java.awt.Composite;
+import java.awt.CompositeContext;
+import java.awt.RenderingHints;
+import java.awt.image.ColorModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.kitfox.svg.SVGConst;
 
 /**
  * @author Mark McKay

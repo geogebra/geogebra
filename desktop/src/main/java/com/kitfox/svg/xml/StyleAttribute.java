@@ -36,13 +36,19 @@
 
 package com.kitfox.svg.xml;
 
-import com.kitfox.svg.SVGConst;
-import java.awt.*;
-import java.io.*;
-import java.net.*;
+import java.awt.Color;
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
+import java.io.File;
+import java.io.Serializable;
+import java.net.URI;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.kitfox.svg.SVGConst;
 
 /**
  * @author Mark McKay

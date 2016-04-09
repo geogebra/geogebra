@@ -36,12 +36,17 @@
 
 package com.kitfox.svg.pattern;
 
-import com.kitfox.svg.SVGConst;
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
+import java.awt.PaintContext;
+import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.Raster;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.kitfox.svg.SVGConst;
 
 /**
  * @author Mark McKay

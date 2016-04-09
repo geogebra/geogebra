@@ -37,7 +37,7 @@
 package com.kitfox.svg.pathcmd;
 
 //import org.apache.batik.ext.awt.geom.ExtendedGeneralPath;
-import java.awt.geom.*;
+import java.awt.geom.GeneralPath;
 
 /**
  * This is the element of a path and contains instructions for rendering a

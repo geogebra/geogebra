@@ -36,13 +36,6 @@
 
 package com.kitfox.svg.app;
 
-import com.kitfox.svg.SVGCache;
-import com.kitfox.svg.SVGConst;
-import com.kitfox.svg.SVGDiagram;
-import com.kitfox.svg.SVGDisplayPanel;
-import com.kitfox.svg.SVGElement;
-import com.kitfox.svg.SVGException;
-import com.kitfox.svg.SVGUniverse;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;
@@ -59,8 +52,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import com.kitfox.svg.SVGCache;
+import com.kitfox.svg.SVGConst;
+import com.kitfox.svg.SVGDiagram;
+import com.kitfox.svg.SVGDisplayPanel;
+import com.kitfox.svg.SVGElement;
+import com.kitfox.svg.SVGException;
+import com.kitfox.svg.SVGUniverse;
 
 
 /**

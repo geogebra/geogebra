@@ -36,9 +36,9 @@
 
 package com.kitfox.svg.app.beans;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
+import java.awt.Rectangle;
+
+import javax.swing.JOptionPane;
 
 /**
  * Panel based on the null layout.  Allows editing with absolute layout.  When

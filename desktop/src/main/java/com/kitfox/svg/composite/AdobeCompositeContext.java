@@ -36,8 +36,9 @@
 
 package com.kitfox.svg.composite;
 
-import java.awt.*;
-import java.awt.image.*;
+import java.awt.CompositeContext;
+import java.awt.image.Raster;
+import java.awt.image.WritableRaster;
 
 /**
  * @author Mark McKay

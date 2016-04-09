@@ -36,12 +36,24 @@
 
 package com.kitfox.svg.app.beans;
 
-import com.kitfox.svg.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.beans.*;
-import java.net.*;
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.net.URI;
+
+import javax.swing.Icon;
+
+import com.kitfox.svg.SVGCache;
+import com.kitfox.svg.SVGDiagram;
+import com.kitfox.svg.SVGException;
+import com.kitfox.svg.SVGUniverse;
 
 /**
  *

@@ -36,8 +36,10 @@
 
 package com.kitfox.svg.xml;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Color;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

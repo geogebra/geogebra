@@ -37,7 +37,8 @@
 
 package com.kitfox.svg.app;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  *

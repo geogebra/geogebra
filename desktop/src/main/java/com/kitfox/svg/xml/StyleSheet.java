@@ -4,10 +4,11 @@
  */
 package com.kitfox.svg.xml;
 
-import com.kitfox.svg.SVGConst;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.kitfox.svg.SVGConst;
 
 /**
  *

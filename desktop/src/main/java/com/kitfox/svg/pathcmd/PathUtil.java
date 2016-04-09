@@ -36,7 +36,9 @@
 
 package com.kitfox.svg.pathcmd;
 
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.PathIterator;
 
 /**
  *
