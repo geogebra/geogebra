@@ -94,21 +94,5 @@ public class DownloadManager {
 		}
 	}
 
-	private static String tempDir = null;
-
-	public static String getTempDir() {
-
-		if (tempDir == null) {
-			tempDir = System.getProperty("java.io.tmpdir");
-
-			// Mac OS doesn't add "/" at the end of directory path name
-			if (!tempDir.endsWith(File.separator)) {
-				tempDir += File.separator;
-			}
-		}
-
-		return tempDir;
-
-	}
 
 }

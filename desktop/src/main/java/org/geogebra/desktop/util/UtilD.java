@@ -54,10 +54,10 @@ import org.geogebra.desktop.main.AppD;
  * @author Markus Hohenwarter
  * @version
  */
-public class Util extends org.geogebra.common.util.Util {
+public class UtilD extends org.geogebra.common.util.Util {
 
 	/** Creates new Util */
-	public Util() {
+	public UtilD() {
 	}
 
 	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
@@ -398,6 +398,23 @@ public class Util extends org.geogebra.common.util.Util {
 			Log.error("problem writing file " + filename);
 			e.printStackTrace();
 		}
+
+	}
+
+	private static String tempDir = null;
+
+	public static String getTempDir() {
+
+		if (tempDir == null) {
+			tempDir = System.getProperty("java.io.tmpdir");
+
+			// Mac OS doesn't add "/" at the end of directory path name
+			if (!tempDir.endsWith(File.separator)) {
+				tempDir += File.separator;
+			}
+		}
+
+		return tempDir;
 
 	}
 

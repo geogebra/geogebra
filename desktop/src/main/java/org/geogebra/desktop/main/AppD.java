@@ -152,7 +152,6 @@ import org.geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.CopyPaste;
-import org.geogebra.common.util.DownloadManager;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimer.GTimerListener;
@@ -202,6 +201,7 @@ import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.Normalizer;
+import org.geogebra.desktop.util.UtilD;
 
 public class AppD extends App implements KeyEventDispatcher {
 
@@ -4501,7 +4501,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		logFile = new StringBuilder(30);
 
-		logFile.append(DownloadManager.getTempDir());
+		logFile.append(UtilD.getTempDir());
 		logFile.append("GeoGebraLog_");
 		// randomize filename
 		for (int i = 0; i < 10; i++) {
@@ -4563,7 +4563,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// initialize logging to go to rolling log file
 		StringBuilder logFile = new StringBuilder(30);
 
-		logFile.append(DownloadManager.getTempDir());
+		logFile.append(UtilD.getTempDir());
 		logFile.append("GeoGebraLog_");
 		// randomize filename
 		for (int i = 0; i < 10; i++) {

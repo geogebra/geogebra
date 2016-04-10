@@ -55,7 +55,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.Util;
+import org.geogebra.desktop.util.UtilD;
 
 /**
  * 
@@ -130,32 +130,32 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 			String name = entry.getName();
 			if (name.equals(XML_FILE)) {
 				// load xml file into memory first
-				xmlFileBuffer = Util.loadIntoMemory(zip);
+				xmlFileBuffer = UtilD.loadIntoMemory(zip);
 				xmlFound = true;
 				ggbHandler = true;
 				handler = getGGBHandler();
 			} else if (name.equals(XML_FILE_DEFAULTS_2D)) {
 				// load defaults xml file into memory first
-				defaults2dXmlFileBuffer = Util.loadIntoMemory(zip);
+				defaults2dXmlFileBuffer = UtilD.loadIntoMemory(zip);
 				ggbHandler = true;
 				handler = getGGBHandler();
 			} else if (app.is3D() && name.equals(XML_FILE_DEFAULTS_3D)) {
 				// load defaults xml file into memory first
-				defaults3dXmlFileBuffer = Util.loadIntoMemory(zip);
+				defaults3dXmlFileBuffer = UtilD.loadIntoMemory(zip);
 				ggbHandler = true;
 				handler = getGGBHandler();
 			} else if (name.equals(XML_FILE_MACRO)) {
 				// load macro xml file into memory first
-				macroXmlFileBuffer = Util.loadIntoMemory(zip);
+				macroXmlFileBuffer = UtilD.loadIntoMemory(zip);
 				macroXMLfound = true;
 				ggbHandler = true;
 				handler = getGGBHandler();
 			} else if (name.equals(JAVASCRIPT_FILE)) {
 				// load JavaScript
-				kernel.setLibraryJavaScript(Util.loadIntoString(zip));
+				kernel.setLibraryJavaScript(UtilD.loadIntoString(zip));
 				javaScriptFound = true;
 			} else if (name.toLowerCase(Locale.US).endsWith("svg")) {
-				String svg = Util.loadIntoString(zip);
+				String svg = UtilD.loadIntoString(zip);
 
 				MyImageD img = new MyImageD(svg, name);
 

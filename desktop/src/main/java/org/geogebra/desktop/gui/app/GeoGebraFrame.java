@@ -84,7 +84,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.util.FrameCollector;
 import org.geogebra.desktop.util.HttpRequestD;
-import org.geogebra.desktop.util.Util;
+import org.geogebra.desktop.util.UtilD;
 
 /**
  * GeoGebra's main window.
@@ -303,7 +303,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		}
 
 		// check java version
-		double javaVersion = Util.getJavaVersion();
+		double javaVersion = UtilD.getJavaVersion();
 		if (javaVersion < 1.5) {
 			JOptionPane
 					.showMessageDialog(

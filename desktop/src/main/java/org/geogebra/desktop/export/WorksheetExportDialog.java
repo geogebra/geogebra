@@ -37,7 +37,7 @@ import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.GuiManagerInterfaceD;
-import org.geogebra.desktop.util.Util;
+import org.geogebra.desktop.util.UtilD;
 
 /**
  * Dialog which provides for exporting into an HTML page enriched with an
@@ -156,7 +156,7 @@ public class WorksheetExportDialog extends JDialog {
 		getContentPane().add(modeUploadPanel, BorderLayout.CENTER);
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-		Util.registerForDisposeOnEscape(this);
+		UtilD.registerForDisposeOnEscape(this);
 
 		setTitle(app.getMenu("UploadGeoGebraTube"));
 		setResizable(true);

@@ -24,7 +24,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.util.Util;
+import org.geogebra.desktop.util.UtilD;
 
 /**
  * Stores user settings and options as preferences.
@@ -399,10 +399,10 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 			// make sure folder exists
 			new File(PREFS_PATH).mkdirs();
 
-			Util.writeStringToFile(userPrefsXML, WINDOWS_USERS_PREFS);
-			Util.writeStringToFile(objectPrefsXML, WINDOWS_OBJECTS_PREFS);
+			UtilD.writeStringToFile(userPrefsXML, WINDOWS_USERS_PREFS);
+			UtilD.writeStringToFile(objectPrefsXML, WINDOWS_OBJECTS_PREFS);
 
-			Util.writeByteArrayToFile(macros, WINDOWS_MACROS_PREFS);
+			UtilD.writeByteArrayToFile(macros, WINDOWS_MACROS_PREFS);
 
 			return;
 
@@ -543,12 +543,12 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 
 		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
 
-			String userPrefsXML = Util
+			String userPrefsXML = UtilD
 .loadFileIntoString(WINDOWS_USERS_PREFS);
-			String objectPrefsXML = Util.loadFileIntoString(
+			String objectPrefsXML = UtilD.loadFileIntoString(
 WINDOWS_OBJECTS_PREFS);
 
-			byte[] ggtFile = Util.loadFileIntoByteArray(
+			byte[] ggtFile = UtilD.loadFileIntoByteArray(
 WINDOWS_MACROS_PREFS);
 
 			if (ggtFile != null) {

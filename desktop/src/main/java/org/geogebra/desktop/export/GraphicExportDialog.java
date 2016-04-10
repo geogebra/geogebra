@@ -51,7 +51,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.util.DownloadManager;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.awt.GGraphics2DD;
@@ -61,7 +60,7 @@ import org.geogebra.desktop.export.epsgraphics.ColorMode;
 import org.geogebra.desktop.gui.util.FileTransferable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
-import org.geogebra.desktop.util.Util;
+import org.geogebra.desktop.util.UtilD;
 
 
 /**
@@ -369,7 +368,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		buttonPanel.add(cancelButton);
 		cp.add(buttonPanel, BorderLayout.SOUTH);
 
-		Util.addKeyListenerToAll(this, this);
+		UtilD.addKeyListenerToAll(this, this);
 
 		updateSizeLabel();
 		setPreferredSize(new Dimension(getPreferredSize().width
@@ -603,7 +602,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		File file;
 		if (exportToClipboard) {
-			final String tempDir = DownloadManager.getTempDir();
+			final String tempDir = UtilD.getTempDir();
 			// os = new ByteArrayOutputStream();
 			// use file to get the correct filetype (so eg pasting into Word
 			// works)
@@ -643,7 +642,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		// Michael Borcherds 2008-03-02 BEGIN
 		File file;
-		String tempDir = DownloadManager.getTempDir();
+		String tempDir = UtilD.getTempDir();
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.emf");
 		} else {
@@ -682,7 +681,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	final private boolean exportPDF(boolean exportToClipboard) {
 		// Michael Borcherds 2008-03-02 BEGIN
 		File file;
-		String tempDir = DownloadManager.getTempDir();
+		String tempDir = UtilD.getTempDir();
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.pdf");
 		} else {
@@ -726,7 +725,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		EuclidianView ev = (EuclidianView) getEuclidianView();
 
 		File file;
-		String tempDir = DownloadManager.getTempDir();
+		String tempDir = UtilD.getTempDir();
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.svg");
 		} else {
@@ -776,7 +775,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			boolean transparent0, int dpi, double exportScale0, AppD app,
 			EuclidianViewInterfaceD ev) {
 		File file;
-		String tempDir = DownloadManager.getTempDir();
+		String tempDir = UtilD.getTempDir();
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.png");
 		} else {

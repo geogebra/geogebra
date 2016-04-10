@@ -41,7 +41,7 @@ import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.plugin.GgbAPID;
-import org.geogebra.desktop.util.Util;
+import org.geogebra.desktop.util.UtilD;
 
 public class ConstructionProtocolExportDialog extends JDialog implements
 		KeyListener {
@@ -205,7 +205,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		southPanel.add(buttonPanel, BorderLayout.SOUTH);
 		cp.add(southPanel, BorderLayout.SOUTH);
 
-		Util.addKeyListenerToAll(this, this);
+		UtilD.addKeyListenerToAll(this, this);
 		centerOnScreen();
 	}
 

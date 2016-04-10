@@ -37,7 +37,7 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.Util;
+import org.geogebra.desktop.util.UtilD;
 
 /**
  * An enhanced file chooser for GeoGebra which can be used to load images or ggb
@@ -442,7 +442,7 @@ public class GeoGebraFileChooser extends JFileChooser implements
 
 						if (fileName.endsWith(".svg")) {
 
-							String svg = Util
+							String svg = UtilD
 									.loadIntoString(new FileInputStream(file));
 
 							tmpImage = new MyImageD(svg, fileName);

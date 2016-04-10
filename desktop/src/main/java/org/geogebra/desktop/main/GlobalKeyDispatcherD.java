@@ -26,7 +26,7 @@ import org.geogebra.desktop.gui.app.MyFileFilter;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
-import org.geogebra.desktop.util.Util;
+import org.geogebra.desktop.util.UtilD;
 
 /**
  * Handles global keys like ESC, DELETE, and function keys.
@@ -283,7 +283,7 @@ public class GlobalKeyDispatcherD extends
 				}
 
 				TreeSet<File> sortedSet = new TreeSet<File>(
-						Util.getFileComparator());
+						UtilD.getFileComparator());
 				for (int i = 0; i < options.length; i++) {
 					if (options[i].isFile())
 						sortedSet.add(options[i]);

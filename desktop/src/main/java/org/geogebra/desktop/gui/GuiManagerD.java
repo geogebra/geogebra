@@ -140,7 +140,7 @@ import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.GuiManagerInterfaceD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.ImageManagerD;
-import org.geogebra.desktop.util.Util;
+import org.geogebra.desktop.util.UtilD;
 /**
  * Handles all geogebra.gui package related objects and methods for Application.
  * This is done to be able to put class files of geogebra.gui.* packages into a
@@ -1902,11 +1902,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				if (fileExtension.equals(FileExtensions.HTML)) {
 					file = removeExtension(file);
 					file = new File(file.getParent(),
-							Util.keepOnlyLettersAndDigits(file.getName()));
+							UtilD.keepOnlyLettersAndDigits(file.getName()));
 				}
 
 				// remove "*<>/\?|:
-				file = new File(file.getParent(), Util.processFilename(file
+				file = new File(file.getParent(), UtilD.processFilename(file
 						.getName())); // Michael
 										// Borcherds
 										// 2007-11-23
