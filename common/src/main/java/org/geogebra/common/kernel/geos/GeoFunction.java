@@ -2962,7 +2962,9 @@ CasEvaluableFunction, ParametricCurve,
 	 * GGB-605
 	 */
 	public void setSecret(AlgoElement algo) {
-		getFunction().setSecret(algo);
+		if (getFunction() != null) {
+			getFunction().setSecret(algo);
+		}
 	}
 
 	public void printCASEvalMapXML(StringBuilder sb) {
