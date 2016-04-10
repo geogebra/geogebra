@@ -3792,8 +3792,9 @@ FromMeta
 		ExpressionNode y = new ExpressionNode(kernel, v2, Operation.MULTIPLY, d);
 		ExpressionNode lhs = x.square().multiply(matrix[0])
 				.plus(y.square().multiply(matrix[1])).plus(matrix[2])
-				.plus(x.multiply(y).multiply(matrix[3]))
-				.plus(x.multiply(matrix[4])).plus(y.multiply(matrix[5]));
+				.plus(x.multiply(y).multiply(2 * matrix[3]))
+				.plus(x.multiply(2 * matrix[4]))
+				.plus(y.multiply(2 * matrix[5]));
 		ExpressionNode rhs = new ExpressionNode(kernel, 0.0);
 
 		double coeff[][] = new double[3][3];
