@@ -41,7 +41,6 @@ import org.geogebra.common.kernel.algos.AlgoClosestPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -352,120 +351,17 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 		return true;
 	}
 
-	private static void addPow(StringBuilder sb, int exp, StringTemplate tpl) {
-		if (exp > 1) {
-			if (tpl.getStringType().equals(StringType.LATEX)) {
-				sb.append('^');
-				sb.append('{');
-				sb.append(exp);
-				sb.append('}');
-			} else if ((tpl.getStringType().equals(StringType.GEOGEBRA_XML))
-					|| (tpl.hasCASType())) {
-				sb.append('^');
-				sb.append(exp);
-			} else {
-				String p = "";
-				int i = exp;
-				while (i > 0) {
-					int c = i % 10;
-					switch (c) {
-					case 1:
-						p = '\u00b9' + p;
-						break;
-					case 2:
-						p = '\u00b2' + p;
-						break;
-					case 3:
-						p = '\u00b3' + p;
-						break;
-					default:
-						p = (char) ('\u2070' + c) + p;
-					}
-					i = i / 10;
-				}
-				sb.append(p);
-			}
-		}
-	}
+
 
 	@Override
 	protected String toRawValueString(StringTemplate tpl) {
 		if (coeff == null)
 			return "";
-		StringBuilder sb = new StringBuilder();
-		boolean first = true;
-		for (int i = coeff.length - 1; i >= 0; i--) {
-			for (int j = coeff[i].length - 1; j >= 0; j--) {
-				if (i == 0 && j == 0) {
-					if (first) {
-						sb.append("0");
-					}
-					sb.append("= ");
-					sb.append(kernel.format(-coeff[0][0], tpl));
-				} else {
-					String number = kernel.format(coeff[i][j], tpl);
-					boolean pos = true;
-					if (number.charAt(0) == '-') {
-						pos = false;
-						number = number.substring(1);
-					}
-					// don't use Kernel.isEqual as a small coefficient can be
-					// significant
-					// check for "0" doesn't work for 0.00
-					if (!number.equals("0") && coeff[i][j] != 0) {
-						if (pos) {
-							if (!first) {
-								sb.append('+');
-							}
-						} else {
-							sb.append('-');
-						}
-						if (!first) {
-							sb.append(' ');
-						}
-						first = false;
-						// check both in case of 1.000
-						if (!number.equals("1") && coeff[i][j] != 1) {
-							sb.append(number);
-							if (tpl.hasCASType()) {
-								appendMultiply(sb);
-							}
-						}
-						if (i > 0) {
-							sb.append(tpl.printVariableName("x"));
-						}
-						addPow(sb, i, tpl);
-						if (j > 0) {
-							if (tpl.hasCASType()) {
-								appendMultiply(sb);
-							} else if (i > 0) { // insert blank after x^i
-								sb.append(' ');
-							}
-							sb.append(tpl.printVariableName("y"));
-						}
-						addPow(sb, j, tpl);
-						sb.append(' ');
-					}
-				}
-			}
-		}
+		return GeoImplicitCurve.toRawValueString(coeff, kernel, tpl);
 
-		return sb.toString();
-	}
-
-	private static void appendMultiply(StringBuilder sb) {
-
-		if (sb.length() == 0) {
-			return;
-		}
-
-		char ch = sb.charAt(sb.length() - 1);
-
-		if (ch != '*' && ch != ' ') {
-			sb.append('*');
-		}
 
 	}
+
 
 	/**
 	 * @param c

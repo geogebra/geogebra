@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -410,6 +411,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
+		if (!inputForm && coeff != null) {
+			return toRawValueString(coeff, kernel, tpl);
+		}
 		return getDefinition() == null ? "" : getDefinition()
 				.toValueString(tpl);
 	}
@@ -663,11 +667,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void translate(Coords v) {
 		expression.translate(v);
+		updateCoeffFromExpr();
+		euclidianViewUpdate();
+	}
+
+	private void updateCoeffFromExpr() {
 		if (coeff != null) {
 			updateCoeff(new Equation(kernel,
 					expression.getFunctionExpression(), new MyDouble(kernel, 0)));
 		}
-		euclidianViewUpdate();
+
 	}
 
 	/**
@@ -685,12 +694,14 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void mirror(Coords Q) {
 		expression.mirror(Q);
+		updateCoeffFromExpr();
 		euclidianViewUpdate();
 	}
 
 	@Override
 	public void mirror(GeoLineND g) {
 		expression.mirror(g);
+		updateCoeffFromExpr();
 		euclidianViewUpdate();
 	}
 
@@ -703,35 +714,19 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void rotate(NumberValue phi) {
 		expression.rotate(phi);
+		updateCoeffFromExpr();
 		euclidianViewUpdate();
 	}
 
 	@Override
 	public void rotate(NumberValue phi, GeoPointND S) {
 		expression.rotate(phi, S);
+		updateCoeffFromExpr();
 		euclidianViewUpdate();
 	}
 
 	public void mirror(GeoConic c) {
-		MyDouble r2 = new MyDouble(kernel, c.getHalfAxis(0) * c.getHalfAxis(0));
-		expression.translate(c.getMidpoint2D().mul(-1));
-		FunctionVariable x = expression.getFunctionVariables()[0];
-		FunctionVariable y = expression.getFunctionVariables()[1];
-		ExpressionNode expr = expression.getFunctionExpression().deepCopy(kernel);
-		FunctionVariable x2 = new FunctionVariable(kernel, "x");
-		FunctionVariable y2 = new FunctionVariable(kernel, "y");
-		ExpressionValue newX = x2.wrap().multiply(r2)
-				.divide(x2.wrap().power(2).plus(y2.wrap().power(2)));
-		ExpressionValue newY = y2.wrap().multiply(r2)
-				.divide(x2.wrap().power(2).plus(y2.wrap().power(2)));
-		expr.replace(x, newX);
-		expr.replace(y, newY);
-		FunctionNVar f2 = new FunctionNVar(expr, new FunctionVariable[] { x2,
-				y2 });
-		expression.setFunction(f2);
-		expression.translate(c.getMidpoint2D());
-		setDefinition(new Equation(kernel, expr, new MyDouble(kernel, 0))
-				.wrap());
+
 
 		if (getCoeff() != null) {
 			double cx = c.getMidpoint().getX();
@@ -750,6 +745,27 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					{ cx * cx + cy * cy, -2 * cy, 1 }, { -2 * cx, 0, 0 },
 					{ 1, 0, 0 } });
 		} else {
+			MyDouble r2 = new MyDouble(kernel,
+					c.getHalfAxis(0) * c.getHalfAxis(0));
+			expression.translate(c.getMidpoint2D().mul(-1));
+			FunctionVariable x = expression.getFunctionVariables()[0];
+			FunctionVariable y = expression.getFunctionVariables()[1];
+			ExpressionNode expr = expression.getFunctionExpression()
+					.deepCopy(kernel);
+			FunctionVariable x2 = new FunctionVariable(kernel, "x");
+			FunctionVariable y2 = new FunctionVariable(kernel, "y");
+			ExpressionValue newX = x2.wrap().multiply(r2)
+					.divide(x2.wrap().power(2).plus(y2.wrap().power(2)));
+			ExpressionValue newY = y2.wrap().multiply(r2)
+					.divide(x2.wrap().power(2).plus(y2.wrap().power(2)));
+			expr.replace(x, newX);
+			expr.replace(y, newY);
+			FunctionNVar f2 = new FunctionNVar(expr,
+					new FunctionVariable[] { x2, y2 });
+			expression.setFunction(f2);
+			expression.translate(c.getMidpoint2D());
+			setDefinition(
+					new Equation(kernel, expr, new MyDouble(kernel, 0)).wrap());
 			// for polynomials pluhIn does that
 			euclidianViewUpdate();
 		}
@@ -904,7 +920,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			degY = Math.max(degY, coeff[i].length - 1);
 		}
 
-		updatePath();
+		setCoeff(coeff, true);
 		if (algoUpdateSet != null) {
 			double a = 0, ax = 0, ay = 0, b = 0, bx = 0, by = 0;
 			if (qX == null && qY == null && degXpX <= 1 && degYpX <= 1
@@ -1673,7 +1689,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	private void setCoeff(double[][] coeffMatrix, boolean updatePath) {
-		// TODO Auto-generated method stub ImplicitCurve[{A,B,C,D,E,F,G,H,I}]
 		doSetCoeff(coeffMatrix);
 		setDefined();
 		FunctionVariable x = new FunctionVariable(kernel, "x");
@@ -1686,7 +1701,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					expr = new ExpressionNode(kernel, coeff[0][0]);
 				} else {
 					expr = expr.plus(x.wrap().power(i)
-							.multiply(y.wrap().power(j)).multiply(coeff[i][j]));
+							.multiply(y.wrap().power(j))
+							.multiplyR(coeff[i][j]));
 				}
 			}
 		}
@@ -1708,6 +1724,120 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	public CoordSys getCoordSys() {
 		return CoordSys.Identity3D;
+	}
+
+	protected static String toRawValueString(double[][] coeff, Kernel kernel,
+			StringTemplate tpl) {
+		if (coeff == null)
+			return "";
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for (int i = coeff.length - 1; i >= 0; i--) {
+			for (int j = coeff[i].length - 1; j >= 0; j--) {
+				if (i == 0 && j == 0) {
+					if (first) {
+						sb.append("0");
+					}
+					sb.append("= ");
+					sb.append(kernel.format(-coeff[0][0], tpl));
+				} else {
+					String number = kernel.format(coeff[i][j], tpl);
+					boolean pos = true;
+					if (number.charAt(0) == '-') {
+						pos = false;
+						number = number.substring(1);
+					}
+					// don't use Kernel.isEqual as a small coefficient can be
+					// significant
+					// check for "0" doesn't work for 0.00
+					if (!number.equals("0") && coeff[i][j] != 0) {
+						if (pos) {
+							if (!first) {
+								sb.append('+');
+							}
+						} else {
+							sb.append('-');
+						}
+						if (!first) {
+							sb.append(' ');
+						}
+						first = false;
+						// check both in case of 1.000
+						if (!number.equals("1") && coeff[i][j] != 1) {
+							sb.append(number);
+							if (tpl.hasCASType()) {
+								appendMultiply(sb);
+							}
+						}
+						if (i > 0) {
+							sb.append(tpl.printVariableName("x"));
+						}
+						addPow(sb, i, tpl);
+						if (j > 0) {
+							if (tpl.hasCASType()) {
+								appendMultiply(sb);
+							} else if (i > 0) { // insert blank after x^i
+								sb.append(' ');
+							}
+							sb.append(tpl.printVariableName("y"));
+						}
+						addPow(sb, j, tpl);
+						sb.append(' ');
+					}
+				}
+			}
+		}
+
+		return sb.toString();
+	}
+
+	private static void addPow(StringBuilder sb, int exp, StringTemplate tpl) {
+		if (exp > 1) {
+			if (tpl.getStringType().equals(StringType.LATEX)) {
+				sb.append('^');
+				sb.append('{');
+				sb.append(exp);
+				sb.append('}');
+			} else if ((tpl.getStringType().equals(StringType.GEOGEBRA_XML))
+					|| (tpl.hasCASType())) {
+				sb.append('^');
+				sb.append(exp);
+			} else {
+				String p = "";
+				int i = exp;
+				while (i > 0) {
+					int c = i % 10;
+					switch (c) {
+					case 1:
+						p = '\u00b9' + p;
+						break;
+					case 2:
+						p = '\u00b2' + p;
+						break;
+					case 3:
+						p = '\u00b3' + p;
+						break;
+					default:
+						p = (char) ('\u2070' + c) + p;
+					}
+					i = i / 10;
+				}
+				sb.append(p);
+			}
+		}
+	}
+	private static void appendMultiply(StringBuilder sb) {
+
+		if (sb.length() == 0) {
+			return;
+		}
+
+		char ch = sb.charAt(sb.length() - 1);
+
+		if (ch != '*' && ch != ' ') {
+			sb.append('*');
+		}
+
 	}
 
 }
