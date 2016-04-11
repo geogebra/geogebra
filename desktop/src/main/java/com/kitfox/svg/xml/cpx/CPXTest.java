@@ -36,10 +36,15 @@
 
 package com.kitfox.svg.xml.cpx;
 
-import com.kitfox.svg.SVGConst;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.kitfox.svg.SVGConst;
 
 /**
  * @author Mark McKay
