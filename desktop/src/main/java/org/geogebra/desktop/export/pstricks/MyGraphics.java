@@ -20,7 +20,7 @@ abstract class MyGraphics extends GGraphics2DD {
 
 	public MyGraphics(FunctionalNVar geo, Inequality ineq,
 			EuclidianView euclidianView) {
-		super(new MyGraphics2D(null, System.out, 0, 0, 0, 0,
+		super(new MyGraphics2D(null, new StringBuilder(), 0, 0, 0, 0,
 				ColorMode.COLOR_RGB));
 		view = euclidianView;
 		this.geo = geo;

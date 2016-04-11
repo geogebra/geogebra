@@ -27,11 +27,6 @@
  */
 package org.geogebra.desktop.export.epsgraphics;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.Date;
 
 import org.geogebra.common.util.debug.Log;
@@ -42,23 +37,21 @@ import org.geogebra.common.util.debug.Log;
  */
 final class EpsDocument {
 
-	private OutputStream stream;
+	private StringBuilder epsContent;
 
 	/**
 	 * Constructs an empty EpsDevice that writes directly to a file. Bounds must
 	 * be set before use.
 	 */
-	EpsDocument(String title, OutputStream outputStream, int minX, int minY,
+	EpsDocument(String title, StringBuilder sb, int minX, int minY,
 			int maxX, int maxY) {
 		this.title = title;
 		this.minX = minX;
 		this.minY = minY;
 		this.maxX = maxX;
 		this.maxY = maxY;
-		bufferedWriter = new BufferedWriter(
-				new OutputStreamWriter(outputStream));
-		this.stream = outputStream;
-		write(bufferedWriter);
+		epsContent = sb;
+		write(epsContent);
 	}
 
 	/**
@@ -90,8 +83,8 @@ final class EpsDocument {
 				g.setBackground(g.getBackground());
 			}
 
-			System.err.println("append g: " + g.hashCode());
-			System.err.println("append lastg: " + lastG.hashCode());
+			// System.err.println("append g: " + g.hashCode());
+			// System.err.println("append lastg: " + lastG.hashCode());
 			// FIXME this is weird code
 			if (!g.getPaint().equals(lastG.getPaint())) {
 				g.setPaint(g.getPaint());
@@ -109,66 +102,54 @@ final class EpsDocument {
 			}
 		}
 		_lastG = g;
-		try {
-			bufferedWriter.write(line + "\n");
-		} catch (IOException e) {
-			throw new RuntimeException("Could not write to the output file: "
-					+ e);
-		}
+		epsContent.append(line + "\n");
 	}
 
 	/**
 	 * Outputs the contents of the EPS document to the specified Writer,
 	 * complete with headers and bounding box.
 	 */
-	public synchronized void write(Writer writer) {
+	public synchronized void write(StringBuilder writer) {
 		float offsetX = -minX;
 		float offsetY = -minY;
 		try {
-			writer.write("%!PS-Adobe-3.0 EPSF-3.0\n");
-			writer.write("%%Creator: EpsGraphics " + EpsGraphics.VERSION
+			writer.append("%!PS-Adobe-3.0 EPSF-3.0\n");
+			writer.append("%%Creator: EpsGraphics " + EpsGraphics.VERSION
 					+ " by Thomas Abeel, http://www.sourceforge.net/epsgraphics/\n");
-			writer.write("%%Title: " + title + "\n");
-			writer.write("%%CreationDate: " + new Date() + "\n");
-			writer.write(
+			writer.append("%%Title: " + title + "\n");
+			writer.append("%%CreationDate: " + new Date() + "\n");
+			writer.append(
 					"%%BoundingBox: 0 0 " + ((int) Math.ceil(maxX + offsetX))
 							+ " " + ((int) Math.ceil(maxY + offsetY)) + "\n");
-			writer.write("%%DocumentData: Clean7Bit\n");
-			writer.write("%%LanguageLevel: 2\n");
-			writer.write("%%DocumentProcessColors: Black\n");
-			writer.write("%%ColorUsage: Color\n");
-			writer.write("%%Origin: 0 0\n");
-			writer.write("%%Pages: 1\n");
-			writer.write("%%Page: 1 1\n");
-			writer.write("%%EndComments\n\n");
-			writer.write("gsave\n");
-			writer.write(offsetX + " " + (maxY + offsetY) + " translate\n");
+			writer.append("%%DocumentData: Clean7Bit\n");
+			writer.append("%%LanguageLevel: 2\n");
+			writer.append("%%DocumentProcessColors: Black\n");
+			writer.append("%%ColorUsage: Color\n");
+			writer.append("%%Origin: 0 0\n");
+			writer.append("%%Pages: 1\n");
+			writer.append("%%Page: 1 1\n");
+			writer.append("%%EndComments\n\n");
+			writer.append("gsave\n");
+			writer.append(offsetX + " " + (maxY + offsetY) + " translate\n");
 
-			writer.flush();
 		} catch (Exception e) {
 			Log.debug("problem writing EPS header: " + e.getMessage());
 		}
 	}
 
-	private void writeFooter(Writer writer) throws IOException {
-		writer.write("grestore\n");
+	private void writeFooter(StringBuilder writer) {
+		writer.append("grestore\n");
 		if (isClipSet()) {
-			writer.write("grestore\n");
+			writer.append("grestore\n");
 		}
-		writer.write("showpage\n");
-		writer.write("\n");
-		writer.write("%%EOF");
-		writer.flush();
+		writer.append("showpage\n");
+		writer.append("\n");
+		writer.append("%%EOF");
 	}
 
-	public synchronized void flush() throws IOException {
-		bufferedWriter.flush();
-	}
 
-	public synchronized void close() throws IOException {
-		writeFooter(bufferedWriter);
-		bufferedWriter.flush();
-		bufferedWriter.close();
+	public synchronized void close() {
+		writeFooter(epsContent);
 
 	}
 
@@ -192,8 +173,6 @@ final class EpsDocument {
 
 	private String title;
 
-	private BufferedWriter bufferedWriter = null;
-
 	// We need to remember which was the last EpsGraphics2D object to use
 	// us, as we need to replace the clipping region if another EpsGraphics2D
 	// object tries to use us.
@@ -215,7 +194,7 @@ final class EpsDocument {
 		return minY;
 	}
 
-	public OutputStream getStream() {
-		return stream;
+	public StringBuilder getStream() {
+		return epsContent;
 	}
 }

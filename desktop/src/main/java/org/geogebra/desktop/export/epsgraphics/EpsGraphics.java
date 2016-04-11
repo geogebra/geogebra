@@ -65,9 +65,6 @@ import java.awt.image.PixelGrabber;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 import java.awt.image.renderable.RenderableImage;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.StringWriter;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.text.CharacterIterator;
@@ -128,7 +125,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * minX,minY,maxX,maxY. The output stream is flushed and closed when the
 	 * close() method is called.
 	 */
-	public EpsGraphics(String title, OutputStream outputStream, int minX,
+	public EpsGraphics(String title, StringBuilder outputStream, int minX,
 			int minY, int maxX, int maxY, ColorMode colorMode) {
 		_document = new EpsDocument(title, outputStream, minX, minY, maxX, maxY);
 		this.colorMode = colorMode;
@@ -148,8 +145,8 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	/**
 	 * Copy constructor. Creates a copy of this EPSGraphics object.
 	 */
-	public EpsGraphics(EpsGraphics g) throws IOException {
-		System.err.println("G: " + g._document);
+	public EpsGraphics(EpsGraphics g) {
+		// System.err.println("G: " + g._document);
 		EpsDocument doc = g._document;
 		this._document = doc;
 		this.colorMode = g.colorMode;
@@ -202,25 +199,6 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	public boolean getAccurateTextMode() {
 		return _accurateTextMode;
-	}
-
-	/**
-	 * Flushes the buffered contents of this EPS document to the underlying
-	 * OutputStream it is being written to.
-	 */
-	public void flush() throws IOException {
-		_document.flush();
-	}
-
-	/**
-	 * Closes the EPS file being output to the underlying OutputStream. The
-	 * OutputStream is automatically flushed before being closed. If you forget
-	 * to do this, the file may be incomplete.
-	 */
-	public void close() throws IOException {
-		flush();
-		_document.close();
-		System.err.println("Document is closed");
 	}
 
 	/**
@@ -1313,7 +1291,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	@Override
 	public void dispose() {
-		System.err.println("Dispose");
+		// System.err.println("Dispose");
 		// _document = null;
 	}
 
@@ -1332,17 +1310,11 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	@Override
 	public String toString() {
-		if (_document == null)
+		if (_document == null) {
 			return null;
-		StringWriter writer = new StringWriter();
-		try {
-			_document.write(writer);
-			_document.flush();
-			_document.close();
-		} catch (IOException e) {
-			throw new RuntimeException(e.toString());
 		}
-		return writer.toString();
+
+		return _document.getStream().toString();
 	}
 
 	/**
@@ -1401,13 +1373,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 
 	@Override
 	public Graphics create() {
-		try {
-			return new EpsGraphics(this);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Could not create EpsGraphics object.");
-
-		}
+		return new EpsGraphics(this);
 	}
 
 }

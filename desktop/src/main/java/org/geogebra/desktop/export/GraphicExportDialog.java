@@ -16,13 +16,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -603,38 +603,30 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		final EuclidianView ev = (EuclidianView) getEuclidianView();
 
-		File file;
+		StringBuilder epsOutput = new StringBuilder();
+		exportEPS(app, (EuclidianViewD) ev, epsOutput, textAsShapes, pixelWidth,
+				pixelHeight, exportScale);
+
 		if (exportToClipboard) {
-			final String tempDir = UtilD.getTempDir();
-			// os = new ByteArrayOutputStream();
-			// use file to get the correct filetype (so eg pasting into Word
-			// works)
-			// NB pasting into WordPad *won't* work with this method
-			file = new File(tempDir + "geogebra.eps");
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+					new StringSelection(epsOutput.toString()), null);
+
 		} else {
-			file = app.getGuiManager().showSaveDialog(FileExtensions.EPS, null,
+			File file = app.getGuiManager().showSaveDialog(FileExtensions.EPS,
+					null,
 					app.getPlain("eps") + " " + app.getMenu("Files"), true,
 					false);
 
 			if (file == null) {
 				return false;
 			}
+
+			UtilD.writeStringToFile(epsOutput.toString(), file);
+
 		}
-		try {
 
-			exportEPS(app, (EuclidianViewD) ev, file, exportToClipboard, pixelWidth,
-					pixelHeight, exportScale);
+		return true;
 
-			if (exportToClipboard) {
-				sendToClipboard(file);
-			}
-
-			return true;
-		} catch (final Exception ex) {
-			app.showError("SaveFileFailed");
-			App.debug(ex.toString());
-			return false;
-		}
 	}
 
 	/**
@@ -1055,25 +1047,22 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param exportScale
 	 *            scale units / cm
 	 */
-	public static void exportEPS(AppD app, EuclidianViewD ev, File file,
+	public static void exportEPS(AppD app, EuclidianViewD ev,
+			StringBuilder epsOutput,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
 			double exportScale) {
-		org.geogebra.desktop.export.epsgraphics.EpsGraphics g;
-		try {
-			g = new EpsGraphics(
-					GeoGebraConstants.APPLICATION_NAME + ", "
-							+ GeoGebraConstants.GEOGEBRA_WEBSITE,
-					new FileOutputStream(file), 0, 0, pixelWidth, pixelHeight,
-					ColorMode.COLOR_RGB);
 
-			// draw to epsGraphics2D
-			ev.exportPaint(g, exportScale, ExportType.EPS);
-			g.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		EpsGraphics g;
+
+		g = new EpsGraphics(
+				GeoGebraConstants.APPLICATION_NAME + ", "
+						+ GeoGebraConstants.GEOGEBRA_WEBSITE,
+				epsOutput, 0, 0, pixelWidth, pixelHeight, ColorMode.COLOR_RGB);
+
+
+		// draw to epsGraphics2D
+		ev.exportPaint(g, exportScale, ExportType.EPS);
+
 
 	}
 
@@ -1110,9 +1099,14 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					exportScale, false);
 
 		} else if (extension.equals("eps")) {
-			GraphicExportDialog.exportEPS(app, (EuclidianViewD) ev, file,
+
+			StringBuilder sb = new StringBuilder();
+
+			GraphicExportDialog.exportEPS(app, (EuclidianViewD) ev, sb,
 					textAsShapes,
 					pixelWidth, pixelHeight, exportScale);
+
+			UtilD.writeStringToFile(sb.toString(), file);
 
 		} else if (extension.equals("pdf")) {
 			GraphicExportDialog.exportPDF(app, (EuclidianViewD) ev, file,

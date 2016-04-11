@@ -378,6 +378,36 @@ public class UtilD extends org.geogebra.common.util.Util {
 	}
 
 	/**
+	 * 
+	 * Writes file as UTF-8
+	 * 
+	 * @param s
+	 *            string to write
+	 * @param filename
+	 *            filename
+	 */
+	public static void writeStringToFile(String s, File file) {
+
+		Writer out;
+		try {
+
+			out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(file), "UTF-8"));
+
+			try {
+				out.write(s);
+			} finally {
+				out.close();
+			}
+
+		} catch (Exception e) {
+			Log.error("problem writing file " + file.getName());
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
 	 * @param bytes
 	 *            to write
 	 * @param filename
