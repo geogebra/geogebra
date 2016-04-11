@@ -1514,7 +1514,7 @@ public class RadioTreeItem extends AVTreeItem
 
 			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
-			buildLatexOutput(text);
+			// buildLatexOutput(text);
 			ihtml.add(outputPanel);
 		} else {
 			latexItem.removeStyleName("avDefinition");
