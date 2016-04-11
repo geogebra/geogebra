@@ -1,4 +1,4 @@
-project.setDescription('Java Native Interface to connect Giac and GeoGebra')
+description 'Java Native Interface to connect Giac and GeoGebra'
 
 apply plugin: 'java'
 
