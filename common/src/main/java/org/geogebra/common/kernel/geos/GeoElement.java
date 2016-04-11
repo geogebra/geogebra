@@ -858,7 +858,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private EuclidianViewInterfaceSlim viewForValueString;
 
-	private boolean sequentialColor;
+	private boolean autoColor;
 
 	/**
 	 * sets a view for building the value string
@@ -1571,7 +1571,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geo source geo
 	 */
 	protected void setColorVisualStyle(final GeoElement geo){
-		if (geo.isSequentialColor()) {
+		if (geo.isAutoColor()) {
 			setObjColor(cons.getConstructionDefaults().getNextColor());
 		} else {
 			objColor = geo.objColor;
@@ -1580,7 +1580,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		
 
 		if (geo.isFillable()) {
-			if (geo.isSequentialColor()) {
+			if (geo.isAutoColor()) {
 				fillColor = objColor;
 				setAlphaValue(geo.getAlphaValue());
 			} else {
@@ -1604,8 +1604,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return whether sequential color is used, makes sense only for default
 	 *         geos
 	 */
-	public boolean isSequentialColor() {
-		return this.sequentialColor;
+	public boolean isAutoColor() {
+		return this.autoColor;
 	}
 
 	/**
@@ -1613,8 +1613,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *            whether sequential color is used, makes sense only for default
 	 *            geos
 	 */
-	public void setSequentialColor(boolean sequential) {
-		this.sequentialColor = sequential;
+	public void setAutoColor(boolean sequential) {
+		this.autoColor = sequential;
 	}
 
 
@@ -5499,6 +5499,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (isDrawable) {
 			sb.append("\t<layer ");
 			sb.append("val=\"" + layer + "\"");
+			sb.append("/>\n");
+		}
+
+		if (isDefaultGeo()) {
+			sb.append("\t<autocolor ");
+			sb.append("val=\"" + isAutoColor() + "\"");
 			sb.append("/>\n");
 		}
 

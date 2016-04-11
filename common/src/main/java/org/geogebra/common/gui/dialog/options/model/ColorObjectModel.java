@@ -209,7 +209,7 @@ public class ColorObjectModel extends OptionsModel {
 		GeoElement geo;
 		for (int i = 0; i < getGeosLength(); i++) {
 			geo = getGeoAt(i);
-			geo.setSequentialColor(b);
+			geo.setAutoColor(b);
 			geo.updateVisualStyle(GProperty.COLOR);
 		}
 		kernel.notifyRepaint();
@@ -218,7 +218,7 @@ public class ColorObjectModel extends OptionsModel {
 
 	public boolean isSequentialColor() {
 		for (int i = 0; i < getGeosLength(); i++) {
-			if (!getGeoAt(i).isSequentialColor()) {
+			if (!getGeoAt(i).isAutoColor()) {
 				return false;
 			}
 		}

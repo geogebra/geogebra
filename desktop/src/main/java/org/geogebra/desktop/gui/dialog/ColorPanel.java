@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
@@ -150,9 +149,8 @@ class ColorPanel extends JPanel implements ActionListener,
 
 		// put the sub-panels together
 		setLayout(new BorderLayout());
-		if (propertiesPanelD.app.has(Feature.SEQUENTIAL_COLORS)) {
-			southPanel.add(automatic);
-		}
+		southPanel.add(automatic);
+
 		add(colorChooserContainer, BorderLayout.NORTH);
 		add(southPanel, this.propertiesPanelD.loc.borderWest());
 	}
@@ -576,7 +574,7 @@ class ColorPanel extends JPanel implements ActionListener,
 				geo.setAlphaValue(alpha);
 			}
 		}
-		automatic.setSelected(geo.isSequentialColor());
+		automatic.setSelected(geo.isAutoColor());
 
 	}
 

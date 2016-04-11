@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.color;
 import java.util.HashMap;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
@@ -41,16 +40,13 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	 */
 	public ColorPopupMenuButton(AppW app, GDimensionW iconSize, int colorSetType, boolean hasSlider) {
 
-		super(app, createDummyIcons(app.has(Feature.SEQUENTIAL_COLORS) ? 10
-				: 27), -1,
-				app.has(Feature.SEQUENTIAL_COLORS) ? 5 : 9,
+		super(app, createDummyIcons(10), -1, 5,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		this.app = app;
 		this.iconSize = iconSize;
 		this.colorSetType = colorSetType;
 		this.hasSlider = hasSlider;
-		colorSet = getColorArray(colorSetType,
-				app.has(Feature.SEQUENTIAL_COLORS));
+		colorSet = GeoGebraColorConstants.getSimplePopupArray(colorSetType);
 		defaultColor = colorSet[0];
 
 		lookupMap = new HashMap<String,Integer>();
@@ -133,13 +129,6 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		} else {
 			return colorSet[index];
 		}
-	}
-
-	private static org.geogebra.common.awt.GColor[] getColorArray(
-			int colorSetType, boolean simple) {
-		return simple ? GeoGebraColorConstants
-				.getSimplePopupArray(colorSetType)
-				: GeoGebraColorConstants.getPopupArray(colorSetType);
 	}
 
 	protected void setDefaultColor(float alpha, org.geogebra.common.awt.GColor gc) {

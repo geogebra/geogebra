@@ -3958,7 +3958,6 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case AV_EXTENSIONS:
 		case DATA_COLLECTION:
-		case SEQUENTIAL_COLORS:
 		case INPUT_SHOWN_IN_INPUTBAR:
 		case ADD_NEW_OBJECT_BUTTON:
 		case CAS_EDITOR:

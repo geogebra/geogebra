@@ -455,9 +455,8 @@ public class ConstructionDefaults {
 		function.setDefaultGeoType(DEFAULT_FUNCTION);
 		function.setLineThickness(3);
 		function.remove();
-		if (cons.getKernel().getApplication().has(Feature.SEQUENTIAL_COLORS)) {
-			function.setSequentialColor(true);
-		}
+		function.setAutoColor(true);
+
 		defaultGeoElements.put(DEFAULT_FUNCTION, function);
 
 		// locus

@@ -3516,6 +3516,10 @@ public class MyXMLHandler implements DocHandler {
 				if ("auxiliary".equals(eName)) {
 					ok = handleAuxiliary(attrs);
 					break;
+				}
+				if ("autocolor".equals(eName)) {
+					ok = handleAutocolor(attrs);
+					break;
 				} else if ("animation".equals(eName)) {
 					ok = handleAnimation(attrs);
 					break;
@@ -4691,6 +4695,15 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleAuxiliary(LinkedHashMap<String, String> attrs) {
 		try {
 			geo.setAuxiliaryObject(parseBoolean(attrs.get("val")));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	private boolean handleAutocolor(LinkedHashMap<String, String> attrs) {
+		try {
+			geo.setAutoColor(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
