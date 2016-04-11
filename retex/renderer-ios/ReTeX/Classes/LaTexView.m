@@ -18,6 +18,8 @@
 
 - (void)ensureTexIconExists;
 
+- (void)setup;
+
 @end
 
 @implementation LaTexView
@@ -31,17 +33,29 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _latexText = @"";
-        _size = 20;
-        _style = RXTeXConstants_STYLE_DISPLAY;
-        _latexForegroundColor = [UIColor blackColor];
-        _backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0
-                                           alpha:0.0];
-        _type = RXTeXFormula_SERIF;
-
-        sizeScale_ = [UIScreen mainScreen].scale;
+        [self setup];
     }
     return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+- (void) setup {
+    _latexText = @"";
+    _size = 20;
+    _style = RXTeXConstants_STYLE_DISPLAY;
+    _latexForegroundColor = [UIColor blackColor];
+    _backgroundColor = [UIColor whiteColor];
+    
+    _type = RXTeXFormula_SERIF;
+    
+    sizeScale_ = [UIScreen mainScreen].scale;
 }
 
 - (void)ensureTexIconExists {
@@ -49,7 +63,7 @@
         @try {
             formula_ = [[RXTeXFormula alloc] initWithNSString:_latexText];
         }
-        @catch (RXParseException *exception) {
+        @catch (NSException *exception) {
             formula_ = [RXTeXFormula getPartialTeXFormulaWithNSString:_latexText];
         }
     }
@@ -60,7 +74,12 @@
         [texIconBuilder_ setSizeWithFloat:_size * sizeScale_];
         [texIconBuilder_ setStyleWithInt:_style];
         [texIconBuilder_ setTypeWithInt:_type];
+        @try {
         texIcon_ = [texIconBuilder_ build];
+        }
+        @catch (NSException* ex) {
+            NSLog(@"%s", [ex reason]);
+        }
     }
 }
 
