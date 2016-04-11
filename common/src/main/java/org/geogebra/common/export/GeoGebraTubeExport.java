@@ -7,6 +7,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 
 /**
@@ -20,7 +21,8 @@ public abstract class GeoGebraTubeExport {
 	 * test GeoGebraTube uploads on a test server, use a test IP URL instead,
 	 * e.g.: "http://140.78.116.131:8082/upload"
 	 */
-	protected static final String uploadURL = "https://tube.geogebra.org/upload";
+	private static final String uploadURL = "https://www.geogebra.org/upload";
+	private static final String uploadURLBeta = "https://www-beta.geogebra.org/upload";
 
 	/**
 	 * Application instance.
@@ -168,4 +170,17 @@ public abstract class GeoGebraTubeExport {
 	protected abstract void setValue(int end);
 
 	protected abstract void setEnabled(boolean b);
+
+	/**
+	 * @param app
+	 *            determines whether we need TUBE_BETA flag
+	 * @return base upload URL for GeoGebraTube
+	 */
+	protected String getUploadURL(App app) {
+		if (app.has(Feature.TUBE_BETA)) {
+			return uploadURLBeta;
+		}
+
+		return uploadURL;
+	}
 }

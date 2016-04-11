@@ -24,6 +24,7 @@ import javax.swing.JProgressBar;
 
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -108,7 +109,7 @@ public class GeoGebraTubeExportD extends
 
 			setIndeterminate(true);
 
-			url = new URL(uploadURL);
+			url = new URL(getUploadURL(app));
 
 			urlConn = (HttpURLConnection) url.openConnection();
 			urlConn.setDoInput(true);
@@ -198,10 +199,11 @@ public class GeoGebraTubeExportD extends
 								results.getErrorMessage()));
 						setEnabled(false);
 
-						App.debug("Upload failed. Response: "
+						Log.debug("Upload failed. Response: "
 								+ output.toString());
 					} else {
-						String createMaterialURL = uploadURL + "/"
+
+						String createMaterialURL = getUploadURL(app) + "/"
 								+ results.getUID();
 
 						// Add the login token to the URL if a user is logged in

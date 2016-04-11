@@ -93,9 +93,10 @@ public class GeoGebraTubeExportW extends
 							Log.debug("Upload failed. Response: "
 							        + response.getText());
 						} else {
-							Log.debug("Opening URL: " + uploadURL + "/"
+							Log.debug("Opening URL: " + getUploadURL(app) + "/"
 							        + results.getUID());
-							pba.openURL(uploadURL + "/"
+							pba.openURL(
+									getUploadURL(app) + "/"
 									+ results.getUID());
 							hideDialog();
 						}
@@ -135,7 +136,7 @@ public class GeoGebraTubeExportW extends
 		try {
 
 			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
-			        uploadURL);
+					getUploadURL(app));
 			rb.setHeader("Content-Type",
 			        "application/x-www-form-urlencoded; charset=utf-8");
 			// rb.setHeader("Accept-Language", "app.getLocaleStr()");
@@ -167,7 +168,7 @@ public class GeoGebraTubeExportW extends
 
 		try {
 			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
-			        uploadURL);
+					getUploadURL(app));
 			rb.setHeader("Content-Type",
 			        "application/x-www-form-urlencoded; charset=utf-8");
 			// rb.setHeader("Accept-Language", "app.getLocaleStr()");
