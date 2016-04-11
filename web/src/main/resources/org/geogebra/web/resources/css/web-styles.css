@@ -2831,31 +2831,12 @@ body.application[dir=rtl] .dialogContent .gwt-CheckBox {
 	margin-left: 10px;
 }
 
-.Dialog-messagePanel {
-	margin-bottom: 10px;
-}
-
-.Dialog-errorPanel {
-	color: red;
-}
-
-.Dialog-messagePanel img {
-	/* margin: 10px; */
-	margin-right: 10px;
-}
 body.application[dir=rtl] .Dialog-messagePanel img {
 	/* margin: 10px; */
 	margin-left: 10px;
 	margin-right: 0px;
 }
 
-.DialogRbPanel {
-	margin-top: 10px;
-}
-
-.DialogRbPanel td {
-	padding-right: 20px;
-}
 body.application[dir=rtl] .DialogRbPanel td {
 	padding-right: 0px;
 	padding-left: 20px;
@@ -2879,25 +2860,7 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	margin-right: 5px;
 }
 
-.DialogBox .infoText {
-	padding-bottom: 10px;
-}
 
-.DialogBox .dialogToolIcon {
-	padding: 3px;
-	border-radius: 5px;
-	border: 1px solid #DCDCDC;
-	background-color: #FFF;
-}
-
-.DialogBox .DialogButtonPanel .gwt-Button.button-up-disabled,
-.DialogBox .buttonPanel .button.button-up-disabled,
-.DialogBox .buttonPanel .button.button-up-disabled:hover,
-.DialogBox .buttonPanel .button.button-up-disabled:active {
-	opacity: 0.3;
-    filter: alpha(opacity=30); /* For IE8 and earlier */
-    cursor: default;
-} 
 
 .DialogBox .gwt-Button,
 .DialogBox .saveButton {
