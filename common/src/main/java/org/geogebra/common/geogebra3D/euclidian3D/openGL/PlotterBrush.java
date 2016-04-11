@@ -1117,10 +1117,25 @@ public class PlotterBrush implements PathPlotter {
 			 */
 			// z=d/c-a/c*x-b/c*y
 			Coords eq = sys.getEquationVector();
+			if (Kernel.isZero(eq.getZ())) {
+				// curve in ax = d plane
+				if (Kernel.isZero(eq.getY())) {
+					ret[0] = -eq.getW() / eq.getX();
+					ret[1] = point.x;
+					ret[2] = point.y;
+				} else {
+					ret[0] = point.x;
+					ret[1] = -point.x * eq.getX() / eq.getY()
+							- point.y * eq.getZ() / eq.getY()
+							- eq.getW() / eq.getY();
+					ret[2] = point.y;
+				}
+			} else {
 			ret[0] = point.x;
 			ret[1] = point.y;
 			ret[2] = -point.x * eq.getX() / eq.getZ() - point.y * eq.getY()
 					/ eq.getZ() - eq.getW() / eq.getZ();
+			}
 		}
 
 		return true;

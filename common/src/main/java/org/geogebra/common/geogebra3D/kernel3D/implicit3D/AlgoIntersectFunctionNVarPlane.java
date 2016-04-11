@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -54,22 +55,40 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 
 	@Override
 	public void compute() {
-		VariableReplacer vr = VariableReplacer.getReplacer(kernel);
+
 		curve.getCoordSys().set(plane.getCoordSys());
 		// a*x+b*y+c*z=d, z=d/c-a/c*x-b/c*y
 		Coords norm = plane.getCoordSys().getEquationVector();
 		FunctionVariable x = surface.getFunctionVariables()[0];
 		FunctionVariable y = surface.getFunctionVariables()[1];
+		ExpressionNode exp;
+		if (!Kernel.isZero(norm.getZ())) {
+			exp = x.wrap().multiply(-norm.getX() / norm.getZ())
+					.plus(y.wrap().multiply(-norm.getY() / norm.getZ())
+							.plus(surface.getFunctionExpression())
+							.plus(norm.getW() / norm.getZ()));
+		} else {
+			VariableReplacer vr = VariableReplacer.getReplacer(kernel);
+			exp = surface.getFunctionExpression().getCopy(kernel);
+			if (!Kernel.isZero(norm.getY())) {
 
-		ExpressionNode exp = x
-				.wrap()
-				.multiply(-norm.getX() / norm.getZ())
-				.plus(y.wrap().multiply(-norm.getY() / norm.getZ())
-						.plus(surface.getFunctionExpression())
-						.plus(norm.getW() / norm.getZ()));
+				ExpressionNode substY = x.wrap()
+						.multiply(-norm.getX() / norm.getY())
+						.plus(-norm.getW() / norm.getY());
+				VariableReplacer.addVars("y", substY);
 
-		curve.fromEquation(new Equation(kernel, exp, new ExpressionNode(kernel,
-				0)), null);
+			} else {
+				ExpressionNode substY = new ExpressionNode(kernel,
+						-norm.getW() / norm.getX());
+				VariableReplacer.addVars("x", substY);
+				VariableReplacer.addVars("y",
+						new FunctionVariable(kernel, "x"));
+			}
+			exp = exp.traverse(vr).wrap()
+					.subtract(new FunctionVariable(kernel, "y"));
+		}
+		curve.fromEquation(
+				new Equation(kernel, exp, new ExpressionNode(kernel, 0)), null);
 		
 		// TODO Auto-generated method stub
 
