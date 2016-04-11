@@ -679,24 +679,27 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
 						left, right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
-				algo.remove();
+				cons.removeFromConstructionList(algo);
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.PARALLEL)) {
 				AlgoAreParallel algo = new AlgoAreParallel(cons, left,
 						right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
-				algo.remove();
+				cons.removeFromConstructionList(algo);
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 				AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
-				algo.remove();
+				cons.removeFromConstructionList(algo);
+				algo.setProtectedInput(true);
 				if (leftWasDist) {
+					left.getParentAlgorithm().setProtectedInput(true);
 					left.doRemove();
 				}
 				if (rightWasDist) {
+					right.getParentAlgorithm().setProtectedInput(true);
 					right.doRemove();
 				}
 				return ret;
@@ -705,7 +708,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				AlgoIsOnPath algo = new AlgoIsOnPath(cons, (GeoPoint) left,
 						(Path) right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
-				algo.remove();
+				cons.removeFromConstructionList(algo);
 				return ret;
 			}
 		}
