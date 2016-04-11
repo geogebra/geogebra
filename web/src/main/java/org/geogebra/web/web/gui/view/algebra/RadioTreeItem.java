@@ -1461,7 +1461,7 @@ public class RadioTreeItem extends AVTreeItem
 		boolean twoRows = false;
 		if (geo.needToShowBothRowsInAV()) {
 			buildDefinitionAndValue(true);
-			eqn = getTextForEditing(false);
+			eqn = getTextForEditing(false, StringTemplate.latexTemplate);
 			twoRows = true;
 		}
 
@@ -1600,18 +1600,20 @@ public class RadioTreeItem extends AVTreeItem
 		return true;
 	}
 
-	private String getTextForEditing(boolean substituteNumbers) {
+	private String getTextForEditing(boolean substituteNumbers,
+			StringTemplate tpl) {
 		return geo.isMatrix() && geo.isIndependent()
 				? geo.toEditableLaTeXString(substituteNumbers,
-						StringTemplate.latexTemplateMQedit)
+						tpl)
 				: geo.getLaTeXAlgebraDescriptionWithFallback(
 						substituteNumbers || sliderNeeded(),
-						StringTemplate.latexTemplateMQedit, true);
+						tpl, true);
 
 	}
 
 	protected boolean startEditing(boolean substituteNumbers) {
-		String text = getTextForEditing(substituteNumbers);
+		String text = getTextForEditing(substituteNumbers,
+				StringTemplate.latexTemplateMQedit);
 		if (text == null) {
 			return false;
 		}
