@@ -1,10 +1,10 @@
 // Copyright 2004, FreeHEP.
 package org.freehep.graphicsio.pdf;
 
-import java.text.DecimalFormat;
-import java.util.Calendar;
+import java.util.Date;
 
 import org.geogebra.common.jre.util.ScientificFormat;
+import org.geogebra.common.kernel.commands.CmdGetTime;
 
 
 /**
@@ -41,24 +41,41 @@ public class PDFUtil implements PDFConstants {
         return escape.toString();
     }
 
-    public static String date(Calendar date) {
-        int offset = date.get(Calendar.ZONE_OFFSET)
-                + date.get(Calendar.DST_OFFSET);
+	public static String date(Date date) {
 
-        String tz;
-        if (offset == 0) {
-            tz = "Z";
-        } else {
-            DecimalFormat fmt = new DecimalFormat("00");
-            int tzh = Math.abs(offset / 3600000);
-            int tzm = Math.abs(offset % 3600000);
-            if (offset > 0) {
-                tz = "+" + fmt.format(tzh) + "'" + fmt.format(tzm) + "'";
-            } else {
-                tz = "-" + fmt.format(tzh) + "'" + fmt.format(tzm) + "'";
-            }
-        }
-        return "(D:" + dateFormat.format(date.getTime()) + tz + ")";
+		// GeoGebra: change from Calendar to Date (GWT-friendly but no
+		// timezones)
+		// int offset = date.get(Calendar.ZONE_OFFSET)
+		// + date.get(Calendar.DST_OFFSET);
+		//
+		// String tz;
+		// if (offset == 0) {
+		// tz = "Z";
+		// } else {
+		// DecimalFormat fmt = new DecimalFormat("00");
+		// int tzh = Math.abs(offset / 3600000);
+		// int tzm = Math.abs(offset % 3600000);
+		// if (offset > 0) {
+		// tz = "+" + fmt.format(tzh) + "'" + fmt.format(tzm) + "'";
+		// } else {
+		// tz = "-" + fmt.format(tzh) + "'" + fmt.format(tzm) + "'";
+		// }
+		// }
+
+		// http://www.verypdf.com/pdfinfoeditor/pdf-date-format.htm
+		// (D:YYYYMMDDHHmmSSOHH'mm')
+		// eg D:19981223195200-08'00'
+
+		// get this bit
+		// YYYYMMDDHHmmSS
+		String now = CmdGetTime.buildLocalizedDate("\\Y\\m\\d\\H\\i\\s", date,
+				null);
+
+		// assume GMT
+		String tz = "+00'00'";
+
+		// return "(D:" + dateFormat.format(date.getTime()) + tz + ")";
+		return "(D:" + now + tz + ")";
     }
 
     private static final ScientificFormat scientific = new ScientificFormat(5,

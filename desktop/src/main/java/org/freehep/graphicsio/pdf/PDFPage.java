@@ -1,7 +1,7 @@
 package org.freehep.graphicsio.pdf;
 
 import java.io.IOException;
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Implements the Page Object (see Table 3.17). Inheritable Page Attributes are
@@ -69,7 +69,7 @@ public class PDFPage extends PDFPageBase {
         entry("PieceInfo", pdf.ref(pieceInfo));
     }
 
-    public void setLastModified(Calendar date) throws IOException {
+	public void setLastModified(Date date) throws IOException {
         entry("LastModified", date);
     }
 

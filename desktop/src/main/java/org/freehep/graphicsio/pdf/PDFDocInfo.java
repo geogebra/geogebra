@@ -1,7 +1,7 @@
 package org.freehep.graphicsio.pdf;
 
 import java.io.IOException;
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Implements the Document Information Dictionary (see Table 8.2).
@@ -41,12 +41,12 @@ public class PDFDocInfo extends PDFDictionary {
         entry("Producer", producer);
     }
 
-    public void setCreationDate(Calendar date) throws IOException {
-        entry("CreationDate", date);
+	public void setCreationDate(Date now) throws IOException {
+		entry("CreationDate", now);
     }
 
-    public void setModificationDate(Calendar date) throws IOException {
-        entry("ModDate", date);
+	public void setModificationDate(Date now) throws IOException {
+		entry("ModDate", now);
     }
 
     public void setTrapped(String name) throws IOException {

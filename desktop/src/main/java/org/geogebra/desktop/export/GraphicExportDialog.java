@@ -57,6 +57,7 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.epsgraphics.ColorMode;
+import org.geogebra.desktop.export.epsgraphics.EpsGraphics;
 import org.geogebra.desktop.gui.util.FileTransferable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
@@ -72,6 +73,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	private static final int EXTRA_MARGIN = 4;
 
 	private static final long serialVersionUID = 1L;
+
+	private static final String CREATOR = "GeoGebra / FreeHEP Graphics2D Driver";
 
 	private final AppD app;
 	@SuppressWarnings("rawtypes")
@@ -871,6 +874,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			g = new SVGExtensions(file, new Dimension(
 					(int) (pixelWidth / exportScale),
 					(int) (pixelHeight / exportScale)), cmWidth, cmHeight);
+			g.setCreator(CREATOR);
+
 			// make sure LaTeX exported at hi res
 			app.setExporting(ExportType.SVG, exportScale);
 
@@ -938,6 +943,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 				g = new EMFGraphics2D(file, new Dimension(pixelWidth,
 						pixelHeight));
 			}
+
+			g.setCreator(CREATOR);
 
 			// fix problem with aspect ratio in eg MS Word
 			// https://community.oracle.com/thread/1264130
@@ -1007,6 +1014,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					* printingScale / factor));
 
 			g = new PDFGraphics2D(file, size);
+			g.setCreator(CREATOR);
 
 			// g.
 			//
@@ -1052,11 +1060,12 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			double exportScale) {
 		org.geogebra.desktop.export.epsgraphics.EpsGraphics g;
 		try {
-			g = new org.geogebra.desktop.export.epsgraphics.EpsGraphics(
+			g = new EpsGraphics(
 					GeoGebraConstants.APPLICATION_NAME + ", "
 							+ GeoGebraConstants.GEOGEBRA_WEBSITE,
 					new FileOutputStream(file), 0, 0, pixelWidth, pixelHeight,
 					ColorMode.COLOR_RGB);
+
 			// draw to epsGraphics2D
 			ev.exportPaint(g, exportScale, ExportType.EPS);
 			g.close();

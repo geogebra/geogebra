@@ -27,7 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -346,11 +346,13 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 
 		info.setCreator(getCreator());
 		info.setProducer(producer);
-		if (!isDeviceIndependent()) {
-			Calendar now = Calendar.getInstance();
+		//if (!isDeviceIndependent()) {
+
+			// Calendar now = Calendar.getInstance();
+			Date now = new Date();
 			info.setCreationDate(now);
 			info.setModificationDate(now);
-		}
+		//}
 		info.setTrapped("False");
 		os.close(info);
 

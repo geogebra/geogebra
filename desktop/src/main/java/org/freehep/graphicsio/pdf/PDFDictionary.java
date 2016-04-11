@@ -1,7 +1,7 @@
 package org.freehep.graphicsio.pdf;
 
 import java.io.IOException;
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Implements a PDF Dictionary. All PDFObjects (including java Strings and
@@ -84,7 +84,7 @@ public class PDFDictionary implements PDFConstants {
         out.println("/" + key + " " + ref);
     }
 
-    public void entry(String key, Calendar date) throws IOException {
+	public void entry(String key, Date date) throws IOException {
         if (!ok)
             System.err.println("PDFWriter error: 'PDFDictionary' was closed");
         out.println("/" + key + " " + PDFUtil.date(date));
