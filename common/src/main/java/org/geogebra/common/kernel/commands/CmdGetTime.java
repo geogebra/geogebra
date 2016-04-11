@@ -137,8 +137,8 @@ public class CmdGetTime extends CommandProcessor {
 		int mins = cal.getMinutes();
 		int secs = cal.getSeconds();
 		int yearday = 0;
-		String dayStr = loc.getPlain("Day." + d);
-		String monthStr = loc.getPlain("Month." + m);
+		String dayStr = loc == null ? "" : loc.getPlain("Day." + d);
+		String monthStr = loc == null ? "" : loc.getPlain("Month." + m);
 
 		switch (c) {
 
@@ -166,7 +166,8 @@ public class CmdGetTime extends CommandProcessor {
 			}
 			break;
 		case 'S':
-			String ordinal = new String(loc.getOrdinalNumber(date));
+			String ordinal = loc == null ? ""
+					: (loc.getOrdinalNumber(date) + "");
 			ordinal = ordinal.replaceFirst(String.valueOf(date), "");
 			sb.append(ordinal);
 			break;
