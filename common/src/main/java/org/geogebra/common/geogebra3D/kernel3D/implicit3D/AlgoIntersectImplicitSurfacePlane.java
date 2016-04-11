@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -59,13 +60,30 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement {
 		Coords norm = plane.getCoordSys().getEquationVector();
 		FunctionVariable x = surface.getExpression().getFunctionVariables()[0];
 		FunctionVariable y = surface.getExpression().getFunctionVariables()[1];
+		if (!Kernel.isZero(norm.getZ())) {
+			ExpressionNode substZ = x.wrap()
+					.multiply(-norm.getX() / norm.getZ())
+					.plus(y.wrap().multiply(-norm.getY() / norm.getZ())
+							.plus(-norm.getW() / norm.getZ()));
+			VariableReplacer.addVars("z", substZ);
+		} else {
+			if (Kernel.isZero(norm.getY())) {
+				ExpressionNode substX = new ExpressionNode(kernel,
+						norm.getW() / norm.getX());
+				VariableReplacer.addVars("x", substX);
+				VariableReplacer.addVars("y",
+						new FunctionVariable(kernel, "x"));
+				VariableReplacer.addVars("z",
+						new FunctionVariable(kernel, "y"));
 
-		ExpressionNode substZ = x
-				.wrap()
-				.multiply(-norm.getX() / norm.getZ())
-				.plus(y.wrap().multiply(-norm.getY() / norm.getZ())
-						.plus(-norm.getW() / norm.getZ()));
-		VariableReplacer.addVars("z", substZ);
+			} else {
+			ExpressionNode substY = x.wrap()
+					.multiply(-norm.getX() / norm.getY())
+					.plus(-norm.getW() / norm.getY());
+			VariableReplacer.addVars("y", substY);
+			VariableReplacer.addVars("z", new FunctionVariable(kernel, "y"));
+			}
+		}
 		ExpressionNode exp = surface.getExpression().getFunctionExpression()
 				.getCopy(kernel);
 		exp = exp.traverse(vr).wrap();
