@@ -189,11 +189,15 @@ public class HorizontalBox extends Box {
 	}
 
 	@Override
-	public void getPath(float x, float y, ArrayList<Integer> list, int index) {
-		super.getPath(x, y, list, index);
+	public void getPath(float x, float y, ArrayList<Integer> list) {
+
 		float xPos = 0;
 		for (Box box : children) {
-			box.getPath(x - xPos, y, list, children.indexOf(box));
+			if (xPos + box.getWidth() > x) {
+				list.add(children.indexOf(box));
+				box.getPath(x - xPos, y, list);
+				return;
+			}
 			xPos += box.getWidth();
 		}
 	}

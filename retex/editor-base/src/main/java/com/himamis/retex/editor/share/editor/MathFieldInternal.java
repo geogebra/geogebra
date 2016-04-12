@@ -172,13 +172,43 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public void onClick(int x, int y) {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		mathFieldController.getPath(mathFormula, x, y, list);
+		System.out.println("Current");
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+		System.out.println(";");
 
-		mathFieldController.getSelectedPath(mathFormula, list);
 
-		cursorController.setPath(list, mathFormula.getRootComponent(),
-				editorState);
+		cursorController.firstField(editorState);
+
+		while (cursorController.nextCharacter(editorState)) {
+			ArrayList<Integer> list2 = new ArrayList<Integer>();
+			mathFieldController.getSelectedPath(mathFormula, list2,
+					editorState.getCurrentField(),
+					editorState.getCurrentOffset());
+			System.out.println("NEXT");
+			for (int i = 0; i < list2.size(); i++) {
+				System.out.println(list2.get(i));
+			}
+			if (compare(list, list2)) {
+				break;
+			}
+		}
+
 		mathFieldController.update(mathFormula, editorState, false);
 		mathField.requestViewFocus();
     }
+
+	private boolean compare(ArrayList<Integer> list, ArrayList<Integer> list2) {
+		for (int i = 0; i < list.size() && i < list2.size(); i++) {
+			if (list.get(i) > list2.get(i)) {
+				return false;
+			}
+			if (list.get(i) < list2.get(i)) {
+				return true;
+			}
+		}
+		return list2.size() > list.size();
+	}
 
 }

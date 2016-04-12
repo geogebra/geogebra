@@ -138,12 +138,15 @@ class VerticalBox extends Box {
 	}
 
 	@Override
-	public void getPath(float x, float y, ArrayList<Integer> list, int index) {
-		super.getPath(x, y, list, index);
+	public void getPath(float x, float y, ArrayList<Integer> list) {
 		float yPos = 0;
 		for (Box box : children) {
-			box.getPath(x, y - yPos, list, children.indexOf(box));
-			yPos += box.getWidth();
+			if (yPos + box.getHeight() > y) {
+				list.add(children.indexOf(box));
+				box.getPath(x, y - yPos, list);
+				return;
+			}
+			yPos += box.getHeight();
 		}
 	}
 }

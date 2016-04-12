@@ -1,17 +1,17 @@
 package com.himamis.retex.editor.share.controller;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 
-import java.util.ArrayList;
-
 public class CursorController {
 
     /** Next character -> key. */
-    public void nextCharacter(EditorState editorState) {
+	public boolean nextCharacter(EditorState editorState) {
         int currentOffset = editorState.getCurrentOffset();
         MathSequence currentField = editorState.getCurrentField();
         if (currentOffset < currentField.size() &&
@@ -20,11 +20,12 @@ public class CursorController {
                 ((MathContainer) currentField.getArgument(currentOffset)).hasChildren()) {
             MathComponent component = currentField.getArgument(currentOffset);
             firstField(editorState, (MathContainer) component);
-
+			return true;
         } else if (currentOffset < currentField.size()) {
             editorState.incCurrentOffset();
+			return true;
         } else {
-            nextField(editorState);
+			return nextField(editorState);
         }
     }
 
@@ -74,11 +75,11 @@ public class CursorController {
         editorState.setCurrentOffset(component.size());
     }
 
-    public void nextField(EditorState editorState) {
-        nextField(editorState, editorState.getCurrentField());
+	public boolean nextField(EditorState editorState) {
+		return nextField(editorState, editorState.getCurrentField());
     }
 
-    public void nextField(EditorState editorState, MathContainer component) {
+	public boolean nextField(EditorState editorState, MathContainer component) {
         // retrieve parent
         MathContainer container = component.getParent();
         int current = component.getParentIndex();
@@ -87,19 +88,24 @@ public class CursorController {
             // this component has no parent
             // previous component doesn't exist
             // no-op
+			System.out.println("no container");
+			return false;
         } else if (container instanceof MathSequence) {
             editorState.setCurrentField((MathSequence) container);
             editorState.setCurrentOffset(component.getParentIndex() + 1);
-
+			System.out.println("size check" + container.size() + " >"
+					+ component.getParentIndex());
+			return container.size() > component.getParentIndex();
             // try to find next sibling
         } else if (container.hasNext(current)) {
             current = container.next(current);
             component = (MathContainer) container.getArgument(current);
             firstField(editorState, component);
-
+			System.out.println("has next");
+			return true;
             // try to delve down the tree
         } else {
-            nextField(editorState, container);
+			return nextField(editorState, container);
         }
     }
 

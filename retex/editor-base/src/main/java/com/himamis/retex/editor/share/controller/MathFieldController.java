@@ -1,5 +1,7 @@
 package com.himamis.retex.editor.share.controller;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -7,8 +9,6 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
-
-import java.util.ArrayList;
 
 public class MathFieldController {
 
@@ -71,15 +71,16 @@ public class MathFieldController {
 		TeXIcon renderer = texFormula.new TeXIconBuilder()
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 				.setType(type).build();
-		renderer.getBox().getPath(x / size, y / size, list, 0);
+		renderer.getBox().getPath(x / size, y / size, list);
 		mathField.setTeXIcon(renderer);
 	}
 
 	public void getSelectedPath(MathFormula mathFormula,
-			ArrayList<Integer> list) {
-		String serializedFormula = texSerializer.serialize(mathFormula, null,
-				0);
-
+			ArrayList<Integer> list, MathSequence currentField,
+			int currentOffset) {
+		String serializedFormula = texSerializer.serialize(mathFormula,
+				currentField, currentOffset);
+		System.out.println(serializedFormula);
 		TeXFormula texFormula = new TeXFormula(serializedFormula);
 		TeXIcon renderer = texFormula.new TeXIconBuilder()
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
