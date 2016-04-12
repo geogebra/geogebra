@@ -1457,6 +1457,11 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void updateLaTeX(String text) {
+		if (!isDefinitionAndValue()) {
+			c = DrawEquationW.paintOnCanvas(geo, text, c, getFontSize());
+			return;
+		}
+
 		String eqn = text;
 		boolean twoRows = false;
 		if (geo.needToShowBothRowsInAV()) {
@@ -1611,6 +1616,13 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
+	/**
+	 * Starts the equation editor for the item.
+	 * 
+	 * @param substituteNumbers
+	 *            Sets that variables must be substituted or not
+	 * @return
+	 */
 	protected boolean startEditing(boolean substituteNumbers) {
 		String text = getTextForEditing(substituteNumbers,
 				StringTemplate.latexTemplateMQedit);
