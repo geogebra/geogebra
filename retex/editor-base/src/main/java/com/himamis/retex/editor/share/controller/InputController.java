@@ -628,8 +628,11 @@ public class InputController {
 					parent.delArgument(i);
 					nonempty = true;
 				}
+
+				editorState.setCurrentOffset(start);
 			}
 		}
+		editorState.resetSelection();
 		return nonempty;
 
 	}

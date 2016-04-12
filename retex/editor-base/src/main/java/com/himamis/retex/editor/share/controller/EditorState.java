@@ -3,6 +3,7 @@ package com.himamis.retex.editor.share.controller;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
+import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 
 public class EditorState {
@@ -98,8 +99,7 @@ public class EditorState {
 			currentSelEnd = cursorField;
 			return;
 		}
-		System.out.println("ANCHOR" + selectionAnchor);
-		System.out.println("CURSOR" + cursorField);
+
 		currentSelStart = selectionAnchor;
 		// go from selection start to the root until we find common root
 		MathContainer commonParent = currentSelStart.getParent();
@@ -108,33 +108,33 @@ public class EditorState {
 			commonParent = currentSelStart.getParent();
 		}
 		if (commonParent == null) {
-			System.out.println("parent is root");
 			commonParent = rootComponent;
 		}
 
 		currentSelEnd = cursorField;
 		// special case: start is inside end -> select single component
-		if (currentSelEnd == commonParent) {
-			currentSelStart = currentSelEnd;
+		if (currentSelEnd == commonParent
+				|| commonParent instanceof MathFunction
+				&& "\\frac".equals(((MathFunction) commonParent).getTexName())) {
+			currentSelStart = commonParent;
+			currentSelEnd = commonParent;
 			return;
 		}
+
 		// go from selection end to the root
 		while (currentSelEnd != null
 				&& commonParent.indexOf(currentSelEnd) < 0) {
 			currentSelEnd = currentSelEnd.getParent();
 		}
-		System.out.println("START" + currentSelStart);
-		System.out.println("END" + currentSelEnd);
+
 		// swap start and end when necessary
 		int to = commonParent.indexOf(currentSelEnd);
 		int from = commonParent.indexOf(currentSelStart);
-		System.out.println(from + "..." + to);
 		if (from > to) {
 			MathComponent swap = currentSelStart;
 			currentSelStart = currentSelEnd;
 			currentSelEnd = swap;
 		}
-		// 1+ {\frac{\bgcolor{#CCCCFF}{2+ 5+ 6}{\textcolor{red}{|}3}}}+ 4+ 5
 
 	}
 

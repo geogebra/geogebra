@@ -65,6 +65,8 @@ public class KeyListenerImpl implements KeyListener {
 				inputController.bkspCharacter(editorState);
 			}
 			return true;
+		case KeyEvent.VK_SHIFT:
+			return false;
 		default:
 			inputController.deleteSelection(editorState);
 			return false;
