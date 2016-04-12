@@ -172,12 +172,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public void onClick(int x, int y) {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		mathFieldController.getPath(mathFormula, x, y, list);
-		System.out.println("Current");
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
-		}
-		System.out.println(";");
-
 
 		cursorController.firstField(editorState);
 
@@ -186,10 +180,12 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
 					editorState.getCurrentOffset());
-			System.out.println("NEXT");
-			for (int i = 0; i < list2.size(); i++) {
-				System.out.println(list2.get(i));
+			for (int i = 0; i < list2.size() / 2; i++) {
+				int tmp = list2.get(i);
+				list2.set(i, list2.get(list2.size() - 1 - i));
+				list2.set(list2.size() - 1 - i, tmp);
 			}
+
 			if (compare(list, list2)) {
 				break;
 			}

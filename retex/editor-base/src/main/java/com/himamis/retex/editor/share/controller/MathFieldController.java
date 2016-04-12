@@ -80,6 +80,7 @@ public class MathFieldController {
 			int currentOffset) {
 		String serializedFormula = texSerializer.serialize(mathFormula,
 				currentField, currentOffset);
+
 		System.out.println(serializedFormula);
 		TeXFormula texFormula = new TeXFormula(serializedFormula);
 		TeXIcon renderer = texFormula.new TeXIconBuilder()
