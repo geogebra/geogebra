@@ -21,7 +21,7 @@
  *  
  * Project: http://sourceforge.net/projects/epsgraphics/
  */
-package org.geogebra.desktop.export.epsgraphics;
+package org.geogebra.common.export.epsgraphics;
 
 /**
  * Constants for color modes. Currently supported are: rgb, cmyk, grayscale and

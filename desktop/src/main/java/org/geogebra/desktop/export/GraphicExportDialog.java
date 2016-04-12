@@ -48,6 +48,8 @@ import org.freehep.graphicsio.svg.SVGGraphics2D;
 import org.freehep.util.UserProperties;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.export.epsgraphics.ColorMode;
+import org.geogebra.common.export.epsgraphics.EpsGraphics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -56,8 +58,7 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
-import org.geogebra.desktop.export.epsgraphics.ColorMode;
-import org.geogebra.desktop.export.epsgraphics.EpsGraphics;
+import org.geogebra.desktop.export.epsgraphics.EpsGraphicsD;
 import org.geogebra.desktop.gui.util.FileTransferable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
@@ -1054,7 +1055,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		EpsGraphics g;
 
-		g = new EpsGraphics(
+		g = new EpsGraphicsD(
 				GeoGebraConstants.APPLICATION_NAME + ", "
 						+ GeoGebraConstants.GEOGEBRA_WEBSITE,
 				epsOutput, 0, 0, pixelWidth, pixelHeight, ColorMode.COLOR_RGB);
