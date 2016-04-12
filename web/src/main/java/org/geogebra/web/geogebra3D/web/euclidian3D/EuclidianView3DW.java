@@ -472,13 +472,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	protected void setAntialiasing(GGraphics2D g2) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	@Override
 	public void setPreferredSize(GDimension preferredSize) {
 		if (renderer != null) {
 			((RendererWInterface) renderer).setPixelRatio(getPixelRatio());

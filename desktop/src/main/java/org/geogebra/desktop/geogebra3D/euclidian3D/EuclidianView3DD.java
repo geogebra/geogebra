@@ -33,7 +33,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
-import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidian.EuclidianViewJPanelD;
 import org.geogebra.desktop.euclidian.MyZoomerD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
@@ -460,12 +459,6 @@ public class EuclidianView3DD extends EuclidianView3D implements
 																// bugfix for
 		// Corner[text,n]
 		return new org.geogebra.desktop.awt.GGraphics2DD(g2Dtemp);
-	}
-
-	@Override
-	final public void setAntialiasing(org.geogebra.common.awt.GGraphics2D g2) {
-		EuclidianViewD.setAntialiasing(org.geogebra.desktop.awt.GGraphics2DD
-				.getAwtGraphics(g2));
 	}
 
 	@Override

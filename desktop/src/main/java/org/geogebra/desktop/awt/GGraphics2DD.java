@@ -33,7 +33,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.MyImageD;
 
 import com.kitfox.svg.SVGException;
@@ -359,8 +358,14 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public void setAntialiasing() {
-		EuclidianViewD.setAntialiasing(impl);
+		setAntialiasing(impl);
+	}
 
+	public static void setAntialiasing(Graphics2D g2) {
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 	}
 
 	public void setTransparent() {

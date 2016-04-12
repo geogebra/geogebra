@@ -3099,7 +3099,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			clearBackground(g);
 		}
 
-		setAntialiasing(g);
+		g.setAntialiasing();
 
 		// handle drawing axes near the screen edge
 		if (drawBorderAxes[0] || drawBorderAxes[1]) {
@@ -3588,7 +3588,9 @@ sb.toString(), getFontAxes(),
 	 * @param g2
 	 *            graphics
 	 */
-	protected abstract void setAntialiasing(GGraphics2D g2);
+	final public void setAntialiasing(GGraphics2D g2) {
+		g2.setAntialiasing();
+	}
 
 	/**
 	 * @param g2

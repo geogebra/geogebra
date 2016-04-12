@@ -323,7 +323,7 @@ public class EuclidianViewCompanion {
 
 		// FOREGROUND
 		if (view.antiAliasing) {
-			view.setAntialiasing(g2);
+			g2.setAntialiasing();
 		}
 
 		// draw equations, checkboxes and all geo objects

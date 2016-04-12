@@ -45,7 +45,6 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -499,7 +498,7 @@ public class EuclidianViewD extends EuclidianView implements
 		}
 		// else eg Eps Export
 
-		setAntialiasing(g2d);
+		g2d.setAntialiasing();
 	}
 
 	/**
@@ -689,7 +688,7 @@ public class EuclidianViewD extends EuclidianView implements
 		}
 		Graphics2D g2d = (Graphics2D) penImage2.getGraphics();
 
-		setAntialiasing(g2d);
+		GGraphics2DD.setAntialiasing(g2d);
 		g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
 
@@ -1048,7 +1047,7 @@ public class EuclidianViewD extends EuclidianView implements
 					gc.createCompatibleImage(getWidth(), getHeight()));
 			bgGraphics = bgImage.createGraphics();
 			if (antiAliasing) {
-				setAntialiasing(bgGraphics);
+				bgGraphics.setAntialiasing();
 			}
 		}
 	}
@@ -1109,27 +1108,6 @@ public class EuclidianViewD extends EuclidianView implements
 		return new org.geogebra.desktop.awt.GGraphics2DD(g2Dtemp);
 	}
 
-	/**
-	 * Sets antialiasing of given graphics to ON (both for text and drawings)
-	 * 
-	 * @param g2
-	 *            graphics
-	 */
-	final public static void setAntialiasing(Graphics2D g2) {
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-	}
-
-	@Override
-	final public void setAntialiasing(GGraphics2D g2) {
-		if (g2 instanceof GGraphics2DD) {
-			setAntialiasing(
-					org.geogebra.desktop.awt.GGraphics2DD.getAwtGraphics(g2));
-		}
-		// else eg EpsGraphics
-	}
 
 	@Override
 	final protected void setHeight(int height) {

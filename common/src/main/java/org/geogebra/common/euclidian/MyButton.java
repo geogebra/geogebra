@@ -72,7 +72,7 @@ public class MyButton implements Observer {
 
 		boolean latex = CanvasDrawable.isLatexString(getCaption());
 
-		view.setAntialiasing(g);
+		g.setAntialiasing();
 
 		font = font.deriveFont(geoButton.getFontStyle(),
 				(int) (multiplier * 12));

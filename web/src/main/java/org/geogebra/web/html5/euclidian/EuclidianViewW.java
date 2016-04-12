@@ -231,11 +231,6 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	protected final void setAntialiasing(GGraphics2D g2) {
-		// always on
-	}
-
-	@Override
 	public final GFont getFont() {
 		return new GFontW(g2p.getFont());
 	}
