@@ -68,10 +68,6 @@ public class MathSequence extends MathContainer {
         arguments.add(i, argument);
     }
 
-    public void delArgument(int i) {
-        arguments.remove(i);
-    }
-
 	@Override
 	public MathSequence copy() {
         MathSequence sequence = new MathSequence();

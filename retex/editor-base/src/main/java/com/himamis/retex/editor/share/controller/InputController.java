@@ -617,6 +617,22 @@ public class InputController {
 
     }
 
+	public boolean deleteSelection(EditorState editorState) {
+		boolean nonempty = false;
+		if (editorState.getSelectionStart() != null) {
+			MathContainer parent = editorState.getSelectionStart().getParent();
+			int end = parent.indexOf(editorState.getSelectionEnd());
+			int start = parent.indexOf(editorState.getSelectionStart());
+			if (end >= 0 && start >= 0) {
+				for (int i = end; i >= start; i--) {
+					parent.delArgument(i);
+					nonempty = true;
+				}
+			}
+		}
+		return nonempty;
+
+	}
 
 
 }

@@ -222,4 +222,8 @@ abstract public class MathContainer extends MathComponent {
 		return arguments.indexOf(argument);
 	}
 
+	public void delArgument(int i) {
+		arguments.remove(i);
+	}
+
 }

@@ -23,46 +23,51 @@ public class KeyListenerImpl implements KeyListener {
 
     @Override
     public boolean onKeyPressed(KeyEvent keyEvent) {
-        switch (keyEvent.getKeyCode()) {
-            case KeyEvent.VK_ESCAPE:
-                inputController.escSymbol(editorState);
-                return true;
-            case KeyEvent.VK_HOME:
-                cursorController.firstField(editorState);
-                return true;
-            case KeyEvent.VK_END:
-                cursorController.lastField(editorState);
-                return true;
-            case KeyEvent.VK_LEFT:
-                cursorController.prevCharacter(editorState);
+		switch (keyEvent.getKeyCode()) {
+		case KeyEvent.VK_ESCAPE:
+			inputController.escSymbol(editorState);
+			return true;
+		case KeyEvent.VK_HOME:
+			cursorController.firstField(editorState);
+			return true;
+		case KeyEvent.VK_END:
+			cursorController.lastField(editorState);
+			return true;
+		case KeyEvent.VK_LEFT:
+			cursorController.prevCharacter(editorState);
 			if ((keyEvent.getKeyModifiers() & 1) > 0) {
 				editorState.extendSelection(true);
 			} else {
 				editorState.resetSelection();
 			}
-                return true;
-            case KeyEvent.VK_RIGHT:
-                cursorController.nextCharacter(editorState);
+			return true;
+		case KeyEvent.VK_RIGHT:
+			cursorController.nextCharacter(editorState);
 			if ((keyEvent.getKeyModifiers() & 1) > 0) {
 				editorState.extendSelection(false);
 			} else {
 				editorState.resetSelection();
 			}
-                return true;
-            case KeyEvent.VK_UP:
-                cursorController.upField(editorState);
-                return true;
-            case KeyEvent.VK_DOWN:
-                cursorController.downField(editorState);
-                return true;
-            case KeyEvent.VK_DELETE:
-                inputController.delCharacter(editorState);
-                return true;
-            case KeyEvent.VK_BACK_SPACE:
-                inputController.bkspCharacter(editorState);
-                return true;
-            default:
-                return false;
+			return true;
+		case KeyEvent.VK_UP:
+			cursorController.upField(editorState);
+			return true;
+		case KeyEvent.VK_DOWN:
+			cursorController.downField(editorState);
+			return true;
+		case KeyEvent.VK_DELETE:
+			if (!inputController.deleteSelection(editorState)) {
+				inputController.delCharacter(editorState);
+			}
+			return true;
+		case KeyEvent.VK_BACK_SPACE:
+			if (!inputController.deleteSelection(editorState)) {
+				inputController.bkspCharacter(editorState);
+			}
+			return true;
+		default:
+			inputController.deleteSelection(editorState);
+			return false;
         }
     }
 
@@ -76,8 +81,8 @@ public class KeyListenerImpl implements KeyListener {
         char ch = keyEvent.getUnicodeKeyChar();
         MetaModel metaModel = editorState.getMetaModel();
         boolean handled = false;
-		// backspace is handled for key down
-		if (ch == 8) {
+		// backspace, delete and escape are handled for key down
+		if (ch == 8 || ch == 127 || ch == 27) {
 			return true;
 		}
         if (isArrayCloseKey(ch) || ch == InputController.FUNCTION_CLOSE_KEY) {
