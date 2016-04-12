@@ -130,9 +130,4 @@ public class MathSequence extends MathContainer {
                 ((MathCharacter) getArgument(i)).isSymbol();
     }
 
-	@Override
-	public String toString() {
-		return super.toString() + " " + size();
-	}
-
 }

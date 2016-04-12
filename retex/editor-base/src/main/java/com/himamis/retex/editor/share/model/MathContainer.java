@@ -226,4 +226,18 @@ abstract public class MathContainer extends MathComponent {
 		arguments.remove(i);
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+		sb.append('[');
+		for (int i = 0; i < size(); i++) {
+			if (i > 0) {
+				sb.append(", ");
+			}
+			sb.append(getArgument(i));
+		}
+		sb.append(']');
+		return sb.toString();
+	}
+
 }

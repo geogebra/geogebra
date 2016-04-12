@@ -34,21 +34,17 @@ public class MathFieldController {
 
     public void update(MathFormula mathFormula, EditorState editorState, boolean focusEvent) {
         if (mathField.hasFocus()) {
-			updateEditor(mathFormula, editorState.getCurrentField(),
+			updateFormula(mathFormula, editorState.getCurrentField(),
 					editorState.getCurrentOffset(),
 					editorState.getSelectionStart(),
-					editorState.getSelectionEnd(), focusEvent);
+					editorState.getSelectionEnd());
         } else {
-			updateEditor(mathFormula, null, 0, null, null, focusEvent);
+			updateFormula(mathFormula, null, 0, null, null);
         }
+		updateMathField(focusEvent);
     }
 
-	private void updateEditor(MathFormula mathFormula,
-			MathSequence currentField, int currentOffset,
-			MathComponent selectionStart, MathComponent selectionEnd,
-			boolean focusEvent) {
-		updateFormula(mathFormula, currentField, currentOffset, selectionStart,
-				selectionEnd);
+	private void updateMathField(boolean focusEvent) {
         if (mathField.hasParent()) {
             if (!focusEvent) {
                 // prevent infinite focusChanged <-> requestLayout event cycle
@@ -63,15 +59,20 @@ public class MathFieldController {
 			MathComponent selectionStart, MathComponent selectionEnd) {
 		String serializedFormula = texSerializer.serialize(mathFormula,
 				currentField, currentOffset, selectionStart, selectionEnd);
-		System.out.println(serializedFormula);
+
+		try {
         TeXFormula texFormula = new TeXFormula(serializedFormula);
         TeXIcon renderer = texFormula.new TeXIconBuilder()
-                .setStyle(TeXConstants.STYLE_DISPLAY)
-                .setSize(size)
-                .setType(type)
-                .build();
+					.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
+					.setType(type).build();
 
-        mathField.setTeXIcon(renderer);
+			mathField.setTeXIcon(renderer);
+		} catch (Exception e) {
+			System.out.println(selectionStart);
+			System.out.println(selectionEnd);
+			System.out.println(serializedFormula);
+		}
+
     }
 
 	public void getPath(MathFormula mathFormula, int x, int y,

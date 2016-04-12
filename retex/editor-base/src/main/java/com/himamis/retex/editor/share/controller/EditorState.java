@@ -98,6 +98,8 @@ public class EditorState {
 			currentSelEnd = cursorField;
 			return;
 		}
+		System.out.println("ANCHOR" + selectionAnchor);
+		System.out.println("CURSOR" + cursorField);
 		currentSelStart = selectionAnchor;
 		// go from selection start to the root until we find common root
 		MathContainer commonParent = currentSelStart.getParent();
@@ -106,14 +108,23 @@ public class EditorState {
 			commonParent = currentSelStart.getParent();
 		}
 		if (commonParent == null) {
+			System.out.println("parent is root");
 			commonParent = rootComponent;
 		}
-		// go from selection end to the root
+
 		currentSelEnd = cursorField;
+		// special case: start is inside end -> select single component
+		if (currentSelEnd == commonParent) {
+			currentSelStart = currentSelEnd;
+			return;
+		}
+		// go from selection end to the root
 		while (currentSelEnd != null
 				&& commonParent.indexOf(currentSelEnd) < 0) {
 			currentSelEnd = currentSelEnd.getParent();
 		}
+		System.out.println("START" + currentSelStart);
+		System.out.println("END" + currentSelEnd);
 		// swap start and end when necessary
 		int to = commonParent.indexOf(currentSelEnd);
 		int from = commonParent.indexOf(currentSelStart);

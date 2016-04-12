@@ -53,11 +53,13 @@ public class MathCharacter extends MathComponent {
     /**
      * Gets parent of this component.
      */
-    public MathSequence getParent() {
+	@Override
+	public MathSequence getParent() {
         return (MathSequence) super.getParent();
     }
 
-    public MathCharacter copy() {
+	@Override
+	public MathCharacter copy() {
         return new MathCharacter(meta);
     }
 
@@ -94,7 +96,8 @@ public class MathCharacter extends MathComponent {
         return meta.getType() == MetaCharacter.SYMBOL;
     }
 
-    public MathComponent traverse(Traversing traversing) {
+	@Override
+	public MathComponent traverse(Traversing traversing) {
         return traversing.process(this);
     }
 
@@ -102,4 +105,9 @@ public class MathCharacter extends MathComponent {
     public boolean inspect(Inspecting inspecting) {
         return inspecting.check(this);
     }
+
+	@Override
+	public String toString() {
+		return meta.getUnicode() + "";
+	}
 }
