@@ -1061,7 +1061,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 
 		// draw to epsGraphics2D
-		ev.exportPaint(g, exportScale, ExportType.EPS);
+		ev.exportPaint(g, exportScale, false, ExportType.EPS);
 
 
 	}

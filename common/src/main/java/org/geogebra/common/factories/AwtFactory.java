@@ -122,5 +122,16 @@ public abstract class AwtFactory {
 	public abstract GFont newFont(String name, int style, int size);
 
 	public abstract GPolygon newPolygon();
-}
 
+	public static GAffineTransform getTranslateInstance(double tx, double ty) {
+		GAffineTransform Tx = prototype.newAffineTransform();
+		Tx.setToTranslation(tx, ty);
+		return Tx;
+	}
+
+	public static GAffineTransform getScaleInstance(double sx, double sy) {
+		GAffineTransform Tx = prototype.newAffineTransform();
+		Tx.setToScale(sx, sy);
+		return Tx;
+	}
+}

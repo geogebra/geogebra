@@ -27,49 +27,41 @@
  */
 package org.geogebra.desktop.export.epsgraphics;
 
-import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Paint;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ColorModel;
-import java.awt.image.ImageObserver;
 import java.awt.image.PixelGrabber;
-import java.awt.image.RenderedImage;
-import java.awt.image.WritableRaster;
-import java.awt.image.renderable.RenderableImage;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
-import java.text.CharacterIterator;
-import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.Map;
+
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.awt.GBufferedImageOp;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GComposite;
+import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GFontRenderContext;
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GImageObserver;
+import org.geogebra.common.awt.GKey;
+import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GPaint;
+import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.awt.GPolygon;
+import org.geogebra.common.awt.GShape;
+import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.awt.font.GTextLayout;
+import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.desktop.awt.GBufferedImageD;
+import org.geogebra.desktop.awt.GFontRenderContextD;
+import org.geogebra.desktop.awt.GGenericShapeD;
+import org.geogebra.desktop.awt.GTextLayoutD;
+import org.geogebra.desktop.gui.MyImageD;
 
 /**
  * EpsGraphics is suitable for creating high quality EPS graphics for use in
@@ -109,12 +101,12 @@ import java.util.Map;
  * <p>
  * You do not need to worry about the size of the canvas when drawing on a
  * EpsGraphics object. The bounding box of the EPS document will automatically
- * resize to accomodate new items that you draw.
+ * resize to accommodate new items that you draw.
  * <p>
  * Not all methods are implemented yet. Those that are not are clearly labelled.
  * 
  */
-public class EpsGraphics extends java.awt.Graphics2D {
+public class EpsGraphics implements GGraphics2D {
 	public static final String VERSION = "1.0.0";
 
 	/**
@@ -129,16 +121,16 @@ public class EpsGraphics extends java.awt.Graphics2D {
 			int minY, int maxX, int maxY, ColorMode colorMode) {
 		_document = new EpsDocument(title, outputStream, minX, minY, maxX, maxY);
 		this.colorMode = colorMode;
-		_backgroundColor = Color.white;
+		_backgroundColor = GColor.WHITE;
 		_clip = null;
-		_transform = new AffineTransform();
-		_clipTransform = new AffineTransform();
+		_transform = AwtFactory.prototype.newAffineTransform();
+		_clipTransform = AwtFactory.prototype.newAffineTransform();
 		_accurateTextMode = true;
-		setColor(Color.black);
-		setPaint(Color.black);
-		setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
-		setFont(Font.decode(null));
-		setStroke(new BasicStroke());
+		setColor(GColor.BLACK);
+		setPaint(GColor.BLACK);
+		// setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+		// setFont(GFont.decode(null));
+		setStroke(AwtFactory.prototype.newBasicStroke(1));
 
 	}
 
@@ -157,7 +149,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		_accurateTextMode = true;
 		setColor(g.getColor());
 		setPaint(g.getPaint());
-		setComposite(g.getComposite());
+		// setComposite(g.getComposite());
 		setFont(g.getFont());
 		setStroke(g.getStroke());
 	}
@@ -212,8 +204,8 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	/**
 	 * Returns the point after it has been transformed by the transformation.
 	 */
-	private Point2D transform(double x, double y) {
-		Point2D result = new Point2D.Double(x, y);
+	private GPoint2D transform(double x, double y) {
+		GPoint2D result = AwtFactory.prototype.newPoint2D(x, y);
 		result = _transform.transform(result, result);
 		result.setLocation(result.getX(), -result.getY());
 		return result;
@@ -222,7 +214,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	/**
 	 * Appends the commands required to draw a shape on the EPS document.
 	 */
-	private void draw(Shape s, String action) {
+	private void draw(GShape s, String action) {
 		if (s != null) {
 
 			// 20120115 bugfix: stroke needs to be appended each time
@@ -234,7 +226,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 			append("newpath");
 			int type = 0;
 			double[] coords = new double[6];
-			PathIterator it = s.getPathIterator(null);
+			GPathIterator it = s.getPathIterator(null);
 			double x0 = 0;
 			double y0 = 0;
 			while (!it.isDone()) {
@@ -245,22 +237,22 @@ public class EpsGraphics extends java.awt.Graphics2D {
 				double y2 = -coords[3];
 				double x3 = coords[4];
 				double y3 = -coords[5];
-				if (type == PathIterator.SEG_CLOSE) {
+				if (type == GPathIterator.SEG_CLOSE) {
 					append("closepath");
-				} else if (type == PathIterator.SEG_CUBICTO) {
+				} else if (type == GPathIterator.SEG_CUBICTO) {
 					append(x1 + " " + y1 + " " + x2 + " " + y2 + " " + x3 + " "
 							+ y3 + " curveto");
 					x0 = x3;
 					y0 = y3;
-				} else if (type == PathIterator.SEG_LINETO) {
+				} else if (type == GPathIterator.SEG_LINETO) {
 					append(x1 + " " + y1 + " lineto");
 					x0 = x1;
 					y0 = y1;
-				} else if (type == PathIterator.SEG_MOVETO) {
+				} else if (type == GPathIterator.SEG_MOVETO) {
 					append(x1 + " " + y1 + " moveto");
 					x0 = x1;
 					y0 = y1;
-				} else if (type == PathIterator.SEG_QUADTO) {
+				} else if (type == GPathIterator.SEG_QUADTO) {
 					// Convert the quad curve into a cubic.
 					double _x1 = x0 + 2 / 3f * (x1 - x0);
 					double _y1 = y0 + 2 / 3f * (y1 - y0);
@@ -272,9 +264,9 @@ public class EpsGraphics extends java.awt.Graphics2D {
 							+ " " + _y3 + " curveto");
 					x0 = _x3;
 					y0 = _y3;
-				} else if (type == PathIterator.WIND_EVEN_ODD) {
+				} else if (type == GPathIterator.WIND_EVEN_ODD) {
 					// Ignore.
-				} else if (type == PathIterator.WIND_NON_ZERO) {
+				} else if (type == GPathIterator.WIND_NON_ZERO) {
 					// Ignore.
 				}
 				it.next();
@@ -301,60 +293,63 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Draws a 3D rectangle outline. If it is raised, light appears to come from
 	 * the top left.
 	 */
-	@Override
-	public void draw3DRect(int x, int y, int width, int height, boolean raised) {
-		Color originalColor = getColor();
-		Stroke originalStroke = getStroke();
-		setStroke(new BasicStroke(1.0f));
-		if (raised) {
-			setColor(originalColor.brighter());
-		} else {
-			setColor(originalColor.darker());
-		}
-		drawLine(x, y, x + width, y);
-		drawLine(x, y, x, y + height);
-		if (raised) {
-			setColor(originalColor.darker());
-		} else {
-			setColor(originalColor.brighter());
-		}
-		drawLine(x + width, y + height, x, y + height);
-		drawLine(x + width, y + height, x + width, y);
-		setColor(originalColor);
-		setStroke(originalStroke);
-	}
+	// @Override
+	// public void draw3DRect(int x, int y, int width, int height, boolean
+	// raised) {
+	// Color originalColor = getColor();
+	// Stroke originalStroke = getStroke();
+	// setStroke(new BasicStroke(1.0f));
+	// if (raised) {
+	// setColor(originalColor.brighter());
+	// } else {
+	// setColor(originalColor.darker());
+	// }
+	// drawLine(x, y, x + width, y);
+	// drawLine(x, y, x, y + height);
+	// if (raised) {
+	// setColor(originalColor.darker());
+	// } else {
+	// setColor(originalColor.brighter());
+	// }
+	// drawLine(x + width, y + height, x, y + height);
+	// drawLine(x + width, y + height, x + width, y);
+	// setColor(originalColor);
+	// setStroke(originalStroke);
+	// }
 
 	/**
 	 * Fills a 3D rectangle. If raised, it has bright fill and light appears to
 	 * come from the top left.
 	 */
-	@Override
-	public void fill3DRect(int x, int y, int width, int height, boolean raised) {
-		Color originalColor = getColor();
-		if (raised) {
-			setColor(originalColor.brighter());
-		} else {
-			setColor(originalColor.darker());
-		}
-		draw(new Rectangle(x, y, width, height), "fill");
-		setColor(originalColor);
-		draw3DRect(x, y, width, height, raised);
-	}
+	// @Override
+	// public void fill3DRect(int x, int y, int width, int height, boolean
+	// raised) {
+	// Color originalColor = getColor();
+	// if (raised) {
+	// setColor(originalColor.brighter());
+	// } else {
+	// setColor(originalColor.darker());
+	// }
+	// draw(new Rectangle(x, y, width, height), "fill");
+	// setColor(originalColor);
+	// draw3DRect(x, y, width, height, raised);
+	// }
 
 	/**
 	 * Draws a Shape on the EPS document.
 	 */
 	@Override
-	public void draw(Shape s) {
+	public void draw(GShape s) {
 		draw(s, "stroke");
 	}
 
 	/**
 	 * Draws an Image on the EPS document.
 	 */
-	@Override
-	public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
-		AffineTransform at = getTransform();
+	// @Override
+	public boolean drawImage(GBufferedImage img, GAffineTransform xform,
+			GImageObserver obs) {
+		GAffineTransform at = getTransform();
 		transform(xform);
 		boolean st = drawImage(img, 0, 0, obs);
 		setTransform(at);
@@ -365,38 +360,43 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Draws a BufferedImage on the EPS document.
 	 */
 	@Override
-	public void drawImage(BufferedImage img, BufferedImageOp op, int x, int y) {
-		BufferedImage img1 = op.filter(img, null);
-		drawImage(img1, new AffineTransform(1f, 0f, 0f, 1f, x, y), null);
+	public void drawImage(GBufferedImage img, GBufferedImageOp op, int x,
+			int y) {
+		GAffineTransform transform = AwtFactory.prototype.newAffineTransform();
+		transform.setTransform(1f, 0f, 0f, 1f, x, y);
+		// drawImage(op.filter(img, null), transform, null);
+		drawImage(img, transform, null);
 	}
 
 	/**
 	 * Draws a RenderedImage on the EPS document.
 	 */
-	@Override
-	public void drawRenderedImage(RenderedImage img, AffineTransform xform) {
-		Hashtable<String, Object> properties = new Hashtable<String, Object>();
-		String[] names = img.getPropertyNames();
-		for (int i = 0; i < names.length; i++) {
-			properties.put(names[i], img.getProperty(names[i]));
-		}
-		ColorModel cm = img.getColorModel();
-		WritableRaster wr = img.copyData(null);
-		BufferedImage img1 = new BufferedImage(cm, wr,
-				cm.isAlphaPremultiplied(), properties);
-		AffineTransform at = AffineTransform.getTranslateInstance(
-				img.getMinX(), img.getMinY());
-		at.preConcatenate(xform);
-		drawImage(img1, at, null);
-	}
+	// @Override
+	// public void drawRenderedImage(GRenderedImage img, GAffineTransform xform)
+	// {
+	// Hashtable<String, Object> properties = new Hashtable<String, Object>();
+	// String[] names = img.getPropertyNames();
+	// for (int i = 0; i < names.length; i++) {
+	// properties.put(names[i], img.getProperty(names[i]));
+	// }
+	// GColorModel cm = img.getColorModel();
+	// GWritableRaster wr = img.copyData(null);
+	// GBufferedImage img1 = new BufferedImage(cm, wr,
+	// cm.isAlphaPremultiplied(), properties);
+	// GAffineTransform at = GAffineTransform.getTranslateInstance(
+	// img.getMinX(), img.getMinY());
+	// at.preConcatenate(xform);
+	// drawImage(img1, at, null);
+	// }
 
 	/**
 	 * Draws a RenderableImage by invoking its createDefaultRendering method.
 	 */
-	@Override
-	public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
-		drawRenderedImage(img.createDefaultRendering(), xform);
-	}
+	// @Override
+	// public void drawRenderableImage(GRenderableImage img, GAffineTransform
+	// xform) {
+	// drawRenderedImage(img.createDefaultRendering(), xform);
+	// }
 
 	/**
 	 * Draws a string at (x,y)
@@ -412,9 +412,10 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	@Override
 	public void drawString(String s, float x, float y) {
 		if (s != null && s.length() > 0) {
-			AttributedString as = new AttributedString(s);
-			as.addAttribute(TextAttribute.FONT, getFont());
-			drawString(as.getIterator(), x, y);
+			// AttributedString as = new AttributedString(s);
+			// as.addAttribute(TextAttribute.FONT, getFont());
+			// drawString(as.getIterator(), x, y);
+			drawString(s, x, y, getFont());
 		}
 	}
 
@@ -422,30 +423,34 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Draws the characters of an AttributedCharacterIterator, starting from
 	 * (x,y).
 	 */
-	@Override
-	public void drawString(AttributedCharacterIterator iterator, int x, int y) {
-		drawString(iterator, (float) x, (float) y);
-	}
-
-	/**
-	 * Draws the characters of an AttributedCharacterIterator, starting from
-	 * (x,y).
-	 */
-	@Override
-	public void drawString(AttributedCharacterIterator iterator, float x,
-			float y) {
+	// @Override
+	public void drawString(String s, float x, float y, GFont font) {
 		if (getAccurateTextMode()) {
-			TextLayout layout = new TextLayout(iterator, getFontRenderContext());
-			Shape shape = layout.getOutline(AffineTransform
-					.getTranslateInstance(x, y));
+			GTextLayout layout = AwtFactory.prototype.newTextLayout(s, font,
+					getFontRenderContext());
+			
+			// methodNotSupported();
+			//GShape shape = layout
+			//		.getOutline(AwtFactory.getTranslateInstance(x, y));
+
+			GTextLayoutD layoutD = (GTextLayoutD) layout;
+			TextLayout layoutNative = layoutD.getImpl();
+			Shape shapeNative = layoutNative
+					.getOutline(AffineTransform.getTranslateInstance(x, y));
+			GShape shape = new GGenericShapeD(shapeNative);
+
 			draw(shape, "fill");
 		} else {
 			append("newpath");
-			Point2D location = transform(x, y);
+			GPoint2D location = transform(x, y);
 			append(location.getX() + " " + location.getY() + " moveto");
-			StringBuffer buffer = new StringBuffer();
-			for (char ch = iterator.first(); ch != CharacterIterator.DONE; ch = iterator
-					.next()) {
+			StringBuilder buffer = new StringBuilder();
+			// for (char ch = iterator.first(); ch != CharacterIterator.DONE; ch
+			// = iterator
+			// .next()) {
+			for (int i = 0; i < s.length(); i++) {
+
+				char ch = s.charAt(i);
 				if (ch == '(' || ch == ')') {
 					buffer.append('\\');
 				}
@@ -458,17 +463,17 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	/**
 	 * Draws a GlyphVector at (x,y)
 	 */
-	@Override
-	public void drawGlyphVector(GlyphVector g, float x, float y) {
-		Shape shape = g.getOutline(x, y);
-		draw(shape, "fill");
-	}
+	// @Override
+	// public void drawGlyphVector(GGlyphVector g, float x, float y) {
+	// GShape shape = g.getOutline(x, y);
+	// draw(shape, "fill");
+	// }
 
 	/**
 	 * Fills a Shape on the EPS document.
 	 */
 	@Override
-	public void fill(Shape s) {
+	public void fill(GShape s) {
 		draw(s, "fill");
 	}
 
@@ -476,37 +481,37 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Checks whether or not the specified Shape intersects the specified
 	 * Rectangle, which is in device space.
 	 */
-	@Override
-	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
-		return s.intersects(rect);
-	}
+	// @Override
+	// public boolean hit(GRectangle rect, GShape s, boolean onStroke) {
+	// return s.intersects(rect);
+	// }
 
 	/**
 	 * Returns the device configuration associated with this EpsGraphics2D
 	 * object.
 	 */
-	@Override
-	public GraphicsConfiguration getDeviceConfiguration() {
-		GraphicsConfiguration gc = null;
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-		GraphicsDevice[] gds = ge.getScreenDevices();
-		for (int i = 0; i < gds.length; i++) {
-			GraphicsDevice gd = gds[i];
-			GraphicsConfiguration[] gcs = gd.getConfigurations();
-			if (gcs.length > 0) {
-				return gcs[0];
-			}
-		}
-		return gc;
-	}
+	// @Override
+	// public GraphicsConfiguration getDeviceConfiguration() {
+	// GraphicsConfiguration gc = null;
+	// GraphicsEnvironment ge = GraphicsEnvironment
+	// .getLocalGraphicsEnvironment();
+	// GraphicsDevice[] gds = ge.getScreenDevices();
+	// for (int i = 0; i < gds.length; i++) {
+	// GraphicsDevice gd = gds[i];
+	// GraphicsConfiguration[] gcs = gd.getConfigurations();
+	// if (gcs.length > 0) {
+	// return gcs[0];
+	// }
+	// }
+	// return gc;
+	// }
 
 	/**
 	 * Sets the Composite to be used by this EpsGraphics2D. EpsGraphics2D does
 	 * not make use of these.
 	 */
 	@Override
-	public void setComposite(Composite comp) {
+	public void setComposite(GComposite comp) {
 		_composite = comp;
 	}
 
@@ -515,10 +520,10 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * of type Color are respected by EpsGraphics2D.
 	 */
 	@Override
-	public void setPaint(Paint paint) {
+	public void setPaint(GPaint paint) {
 		_paint = paint;
-		if (paint instanceof Color) {
-			setColor((Color) paint);
+		if (paint instanceof GColor) {
+			setColor((GColor) paint);
 		}
 	}
 
@@ -528,19 +533,19 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * @see java.awt.Graphics2D#setStroke(java.awt.Stroke)
 	 */
 	@Override
-	public void setStroke(final Stroke currentStroke) {
+	public void setStroke(final GBasicStroke currentStroke) {
 		this.currentStroke = currentStroke;
 	}
 
-	Stroke currentStroke = null;
+	GBasicStroke currentStroke = null;
 
 	/**
 	 * Sets the stroke. Only accepts BasicStroke objects (or subclasses of
 	 * BasicStroke).
 	 */
 	public void appendStroke() {
-		if (currentStroke instanceof BasicStroke) {
-			_stroke = (BasicStroke) currentStroke;
+		if (currentStroke instanceof GBasicStroke) {
+			_stroke = (GBasicStroke) currentStroke;
 			append(_stroke.getLineWidth() + " setlinewidth");
 			double miterLimit = _stroke.getMiterLimit();
 			if (miterLimit < 1.0f) {
@@ -566,7 +571,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Sets a rendering hint. These are not used by EpsGraphics2D.
 	 */
 	@Override
-	public void setRenderingHint(RenderingHints.Key hintKey, Object hintValue) {
+	public void setRenderingHint(GKey hintKey, Object hintValue) {
 		// Do nothing.
 	}
 
@@ -575,7 +580,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Rendering hints are not used by EpsGraphics2D.
 	 */
 	@Override
-	public Object getRenderingHint(RenderingHints.Key hintKey) {
+	public Object getRenderingHint(GKey hintKey) {
 		return null;
 	}
 
@@ -590,27 +595,27 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	/**
 	 * Adds rendering hints. These are ignored by EpsGraphics2D.
 	 */
-	@Override
-	public void addRenderingHints(Map<?, ?> hints) {
-		// Do nothing.
-	}
+	// @Override
+	// public void addRenderingHints(Map<?, ?> hints) {
+	// // Do nothing.
+	// }
 
 	/**
 	 * Returns the preferences for the rendering algorithms.
 	 */
-	@Override
-	public RenderingHints getRenderingHints() {
-		return new RenderingHints(null);
-	}
+	// @Override
+	// public GRenderingHints getRenderingHints() {
+	// return new GRenderingHints(null);
+	// }
 
 	/**
 	 * Translates the origin of the EpsGraphics2D context to the point (x,y) in
 	 * the current coordinate system.
 	 */
-	@Override
-	public void translate(int x, int y) {
-		translate((double) x, (double) y);
-	}
+	// @Override
+	// public void translate(int x, int y) {
+	// translate((double) x, (double) y);
+	// }
 
 	/**
 	 * Concatenates the current EpsGraphics2D Transformation with a translation
@@ -618,26 +623,26 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	@Override
 	public void translate(double tx, double ty) {
-		transform(AffineTransform.getTranslateInstance(tx, ty));
+		transform(AwtFactory.getTranslateInstance(tx, ty));
 	}
 
 	/**
 	 * Concatenates the current EpsGraphics2D Transform with a rotation
 	 * transform.
 	 */
-	@Override
-	public void rotate(double theta) {
-		rotate(theta, 0, 0);
-	}
+	// @Override
+	// public void rotate(double theta) {
+	// rotate(theta, 0, 0);
+	// }
 
 	/**
 	 * Concatenates the current EpsGraphics2D Transform with a translated
 	 * rotation transform.
 	 */
-	@Override
-	public void rotate(double theta, double x, double y) {
-		transform(AffineTransform.getRotateInstance(theta, x, y));
-	}
+	// @Override
+	// public void rotate(double theta, double x, double y) {
+	// transform(AffineTransform.getRotateInstance(theta, x, y));
+	// }
 
 	/**
 	 * Concatenates the current EpsGraphics2D Transform with a scaling
@@ -645,24 +650,24 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	@Override
 	public void scale(double sx, double sy) {
-		transform(AffineTransform.getScaleInstance(sx, sy));
+		transform(AwtFactory.getScaleInstance(sx, sy));
 	}
 
 	/**
 	 * Concatenates the current EpsGraphics2D Transform with a shearing
 	 * transform.
 	 */
-	@Override
-	public void shear(double shx, double shy) {
-		transform(AffineTransform.getShearInstance(shx, shy));
-	}
+	// @Override
+	// public void shear(double shx, double shy) {
+	// transform(AffineTransform.getShearInstance(shx, shy));
+	// }
 
 	/**
 	 * Composes an AffineTransform object with the Transform in this
 	 * EpsGraphics2D according to the rule last-specified-first-applied.
 	 */
 	@Override
-	public void transform(AffineTransform Tx) {
+	public void transform(GAffineTransform Tx) {
 		_transform.concatenate(Tx);
 		setTransform(getTransform());
 	}
@@ -670,12 +675,13 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	/**
 	 * Sets the AffineTransform to be used by this EpsGraphics2D.
 	 */
-	@Override
-	public void setTransform(AffineTransform Tx) {
+	// @Override
+	public void setTransform(GAffineTransform Tx) {
 		if (Tx == null) {
-			_transform = new AffineTransform();
+			_transform = AwtFactory.prototype.newAffineTransform();
 		} else {
-			_transform = new AffineTransform(Tx);
+			_transform = AwtFactory.prototype.newAffineTransform();
+			_transform.setTransform(Tx);
 		}
 		// Need to update the stroke and font so they know the scale changed
 		setStroke(getStroke());
@@ -685,18 +691,21 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	/**
 	 * Gets the AffineTransform used by this EpsGraphics2D.
 	 */
-	@Override
-	public AffineTransform getTransform() {
-		return new AffineTransform(_transform);
+	// @Override
+	public GAffineTransform getTransform() {
+		GAffineTransform ret = AwtFactory.prototype.newAffineTransform();
+		ret.setTransform(_transform);
+		return ret;
 	}
 
 	/**
 	 * Returns the current Paint of the EpsGraphics2D object.
 	 */
-	@Override
-	public Paint getPaint() {
-		if (_paint == null)
-			return Color.black;
+	// @Override
+	public GPaint getPaint() {
+		if (_paint == null) {
+			return GColor.BLACK;
+		}
 		return _paint;
 	}
 
@@ -704,17 +713,17 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * returns the current Composite of the EpsGraphics2D object.
 	 */
 	@Override
-	public Composite getComposite() {
+	public GComposite getComposite() {
 		return _composite;
 	}
 
 	/**
 	 * Sets the background color to be used by the clearRect method.
 	 */
-	@Override
-	public void setBackground(Color color) {
+	// @Override
+	public void setBackground(GColor color) {
 		if (color == null) {
-			color = Color.black;
+			color = GColor.BLACK;
 		}
 		_backgroundColor = color;
 	}
@@ -723,7 +732,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Gets the background color that is used by the clearRect method.
 	 */
 	@Override
-	public Color getBackground() {
+	public GColor getBackground() {
 		return _backgroundColor;
 	}
 
@@ -732,7 +741,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * BasicStroke.
 	 */
 	@Override
-	public Stroke getStroke() {
+	public GBasicStroke getStroke() {
 		return _stroke;
 	}
 
@@ -741,12 +750,12 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * sets the clip to the resulting intersection.
 	 */
 	@Override
-	public void clip(Shape s) {
+	public void clip(GShape s) {
 		if (_clip == null) {
 			setClip(s);
 		} else {
-			Area area = new Area(_clip);
-			area.intersect(new Area(s));
+			GArea area = AwtFactory.prototype.newArea(_clip);
+			area.intersect(AwtFactory.prototype.newArea(s));
 			setClip(area);
 		}
 	}
@@ -755,7 +764,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Returns the FontRenderContext.
 	 */
 	@Override
-	public FontRenderContext getFontRenderContext() {
+	public GFontRenderContext getFontRenderContext() {
 		return _fontRenderContext;
 	}
 
@@ -765,22 +774,23 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Returns an EpsGraphics2D object based on this Graphics object, but with a
 	 * new translation and clip area.
 	 */
-	@Override
-	public Graphics create(int x, int y, int width, int height) {
-		Graphics g = create();
-		g.translate(x, y);
-		g.clipRect(0, 0, width, height);
-		return g;
-	}
+	// @Override
+	// public Graphics create(int x, int y, int width, int height) {
+	// Graphics g = create();
+	// g.translate(x, y);
+	// g.clipRect(0, 0, width, height);
+	// return g;
+	// }
 
 	/**
 	 * Returns the current Color. This will be a default value (black) until it
 	 * is changed using the setColor method.
 	 */
 	@Override
-	public Color getColor() {
-		if (color == null)
-			return Color.black;
+	public GColor getColor() {
+		if (color == null) {
+			return GColor.BLACK;
+		}
 		return color;
 	}
 
@@ -788,9 +798,9 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Sets the Color to be used when drawing all future shapes, text, etc.
 	 */
 	@Override
-	public void setColor(Color color) {
+	public void setColor(GColor color) {
 		if (color == null) {
-			color = Color.BLACK;
+			color = GColor.BLACK;
 		}
 		this.color = color;
 		switch (colorMode) {
@@ -811,7 +821,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 					+ " " + (color.getBlue() / 255f) + " setrgbcolor");
 			break;
 		case COLOR_CMYK:
-			if (color.equals(Color.BLACK)) {
+			if (color.equals(GColor.BLACK)) {
 				append("0.0 0.0 0.0 1.0 setcmykcolor");
 			} else {
 				double c = 1 - (color.getRed() / 255f);
@@ -832,25 +842,25 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Sets the paint mode of this EpsGraphics2D object to overwrite the
 	 * destination EpsDocument with the current color.
 	 */
-	@Override
-	public void setPaintMode() {
-		// Do nothing - paint mode is the only method supported anyway.
-	}
+	// @Override
+	// public void setPaintMode() {
+	// // Do nothing - paint mode is the only method supported anyway.
+	// }
 
 	/**
 	 * <b><i><font color="red">Not implemented</font></i></b> - performs no
 	 * action.
 	 */
-	@Override
-	public void setXORMode(Color c1) {
-		methodNotSupported();
-	}
+	// @Override
+	// public void setXORMode(GColor c1) {
+	// methodNotSupported();
+	// }
 
 	/**
 	 * Returns the Font currently being used.
 	 */
 	@Override
-	public Font getFont() {
+	public GFont getFont() {
 		return _font;
 	}
 
@@ -858,55 +868,55 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Sets the Font to be used in future text.
 	 */
 	@Override
-	public void setFont(Font font) {
-		if (font == null) {
-			font = Font.decode(null);
-		}
+	public void setFont(GFont font) {
+		// if (font == null) {
+		// font = GFont.decode(null);
+		// }
 		_font = font;
-		if (!getAccurateTextMode()) {
-			append("/" + _font.getPSName() + " findfont " + _font.getSize()
-					+ " scalefont setfont");
-		}
+		// if (!getAccurateTextMode()) {
+		// append("/" + _font.getPSName() + " findfont " + _font.getSize()
+		// + " scalefont setfont");
+		// }
 	}
 
 	/**
 	 * Gets the font metrics of the current font.
 	 */
-	@Override
-	public FontMetrics getFontMetrics() {
-		return getFontMetrics(getFont());
-	}
+	// @Override
+	// public FontMetrics getFontMetrics() {
+	// return getFontMetrics(getFont());
+	// }
 
 	/**
 	 * Gets the font metrics for the specified font.
 	 */
-	@Override
-	public FontMetrics getFontMetrics(Font f) {
-		BufferedImage image = new BufferedImage(1, 1,
-				BufferedImage.TYPE_INT_RGB);
-		Graphics g = image.getGraphics();
-		return g.getFontMetrics(f);
-	}
+	// @Override
+	// public FontMetrics getFontMetrics(GFont f) {
+	// BufferedImage image = new BufferedImage(1, 1,
+	// BufferedImage.TYPE_INT_RGB);
+	// Graphics g = image.getGraphics();
+	// return g.getFontMetrics(f);
+	// }
 
 	/**
 	 * Returns the bounding rectangle of the current clipping area.
 	 */
-	@Override
-	public Rectangle getClipBounds() {
-		if (_clip == null) {
-			return null;
-		}
-		Rectangle rect = getClip().getBounds();
-		return rect;
-	}
+	// @Override
+	// public GRectangle getClipBounds() {
+	// if (_clip == null) {
+	// return null;
+	// }
+	// Rectangle rect = getClip().getBounds();
+	// return rect;
+	// }
 
 	/**
 	 * Intersects the current clip with the specified rectangle.
 	 */
-	@Override
-	public void clipRect(int x, int y, int width, int height) {
-		clip(new Rectangle(x, y, width, height));
-	}
+	// @Override
+	// public void clipRect(int x, int y, int width, int height) {
+	// clip(AwtFactory.prototype.newRectangle(x, y, width, height));
+	// }
 
 	/**
 	 * Sets the current clip to the rectangle specified by the given
@@ -914,19 +924,19 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	@Override
 	public void setClip(int x, int y, int width, int height) {
-		setClip(new Rectangle(x, y, width, height));
+		setClip(AwtFactory.prototype.newRectangle(x, y, width, height));
 	}
 
 	/**
 	 * Gets the current clipping area.
 	 */
 	@Override
-	public Shape getClip() {
+	public GShape getClip() {
 		if (_clip == null) {
 			return null;
 		}
 		try {
-			AffineTransform t = _transform.createInverse();
+			GAffineTransform t = _transform.createInverse();
 			t.concatenate(_clipTransform);
 			return t.createTransformedShape(_clip);
 		} catch (Exception e) {
@@ -939,7 +949,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Sets the current clipping area to an arbitrary clip shape.
 	 */
 	@Override
-	public void setClip(Shape clip) {
+	public void setClip(GShape clip) {
 		if (clip != null) {
 			if (_document.isClipSet()) {
 				append("grestore");
@@ -950,7 +960,9 @@ public class EpsGraphics extends java.awt.Graphics2D {
 			}
 			draw(clip, "clip");
 			_clip = clip;
-			_clipTransform = (AffineTransform) _transform.clone();
+			// _clipTransform = (GAffineTransform) _transform.clone();
+			_clipTransform = AwtFactory.prototype.newAffineTransform();
+			_clipTransform.setTransform(_transform);
 		} else {
 			if (_document.isClipSet()) {
 				append("grestore");
@@ -964,18 +976,20 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * <b><i><font color="red">Not implemented</font></i></b> - performs no
 	 * action.
 	 */
-	@Override
-	public void copyArea(int x, int y, int width, int height, int dx, int dy) {
-		methodNotSupported();
-	}
+	// @Override
+	// public void copyArea(int x, int y, int width, int height, int dx, int dy)
+	// {
+	// methodNotSupported();
+	// }
 
 	/**
 	 * Draws a straight line from (x1,y1) to (x2,y2).
 	 */
 	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) {
-		Shape shape = new Line2D.Double(x1, y1, x2, y2);
-		draw(shape);
+		GLine2D line = AwtFactory.prototype.newLine2D();
+		line.setLine(x1, y1, x2, y2);
+		draw(line);
 	}
 
 	/**
@@ -983,7 +997,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	@Override
 	public void fillRect(int x, int y, int width, int height) {
-		Shape shape = new Rectangle(x, y, width, height);
+		GShape shape = AwtFactory.prototype.newRectangle(x, y, width, height);
 		draw(shape, "fill");
 	}
 
@@ -992,7 +1006,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	@Override
 	public void drawRect(int x, int y, int width, int height) {
-		Shape shape = new Rectangle(x, y, width, height);
+		GShape shape = AwtFactory.prototype.newRectangle(x, y, width, height);
 		draw(shape);
 	}
 
@@ -1002,9 +1016,9 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	@Override
 	public void clearRect(int x, int y, int width, int height) {
-		Color originalColor = getColor();
+		GColor originalColor = getColor();
 		setColor(getBackground());
-		Shape shape = new Rectangle(x, y, width, height);
+		GShape shape = AwtFactory.prototype.newRectangle(x, y, width, height);
 		draw(shape, "fill");
 		setColor(originalColor);
 	}
@@ -1013,165 +1027,174 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Draws a rounded rectangle.
 	 */
 	@Override
-	public void drawRoundRect(int x, int y, int width, int height,
-			int arcWidth, int arcHeight) {
-		Shape shape = new RoundRectangle2D.Double(x, y, width, height,
-				arcWidth, arcHeight);
-		draw(shape);
+	public void drawRoundRect(int x, int y, int width, int height, int arcWidth,
+			int arcHeight) {
+		methodNotSupported();
+		// GShape shape = new RoundRectangle2D.Double(x, y, width, height,
+		// arcWidth,
+		// arcHeight);
+		// draw(shape);
 	}
 
 	/**
 	 * Fills a rounded rectangle.
 	 */
 	@Override
-	public void fillRoundRect(int x, int y, int width, int height,
-			int arcWidth, int arcHeight) {
-		Shape shape = new RoundRectangle2D.Double(x, y, width, height,
-				arcWidth, arcHeight);
-		draw(shape, "fill");
+	public void fillRoundRect(int x, int y, int width, int height, int arcWidth,
+			int arcHeight) {
+		methodNotSupported();
+		// GShape shape = new RoundRectangle2D.Double(x, y, width, height,
+		// arcWidth,
+		// arcHeight);
+		// draw(shape, "fill");
 	}
 
 	/**
 	 * Draws an oval.
 	 */
-	@Override
-	public void drawOval(int x, int y, int width, int height) {
-		Shape shape = new Ellipse2D.Double(x, y, width, height);
-		draw(shape);
-	}
+	// @Override
+	// public void drawOval(int x, int y, int width, int height) {
+	// Shape shape = new Ellipse2D.Double(x, y, width, height);
+	// draw(shape);
+	// }
 
 	/**
 	 * Fills an oval.
 	 */
-	@Override
-	public void fillOval(int x, int y, int width, int height) {
-		Shape shape = new Ellipse2D.Double(x, y, width, height);
-		draw(shape, "fill");
-	}
+	// @Override
+	// public void fillOval(int x, int y, int width, int height) {
+	// Shape shape = new Ellipse2D.Double(x, y, width, height);
+	// draw(shape, "fill");
+	// }
 
 	/**
 	 * Draws an arc.
 	 */
-	@Override
-	public void drawArc(int x, int y, int width, int height, int startAngle,
-			int arcAngle) {
-		Shape shape = new Arc2D.Double(x, y, width, height, startAngle,
-				arcAngle, Arc2D.OPEN);
-		draw(shape);
-	}
+	// @Override
+	// public void drawArc(int x, int y, int width, int height, int startAngle,
+	// int arcAngle) {
+	// Shape shape = new Arc2D.Double(x, y, width, height, startAngle,
+	// arcAngle, Arc2D.OPEN);
+	// draw(shape);
+	// }
 
 	/**
 	 * Fills an arc.
 	 */
-	@Override
-	public void fillArc(int x, int y, int width, int height, int startAngle,
-			int arcAngle) {
-		Shape shape = new Arc2D.Double(x, y, width, height, startAngle,
-				arcAngle, Arc2D.PIE);
-		draw(shape, "fill");
-	}
+	// @Override
+	// public void fillArc(int x, int y, int width, int height, int startAngle,
+	// int arcAngle) {
+	// Shape shape = new Arc2D.Double(x, y, width, height, startAngle,
+	// arcAngle, Arc2D.PIE);
+	// draw(shape, "fill");
+	// }
 
 	/**
 	 * Draws a polyline.
 	 */
-	@Override
-	public void drawPolyline(int[] xPoints, int[] yPoints, int nPoints) {
-		if (nPoints > 0) {
-			GeneralPath path = new GeneralPath();
-			path.moveTo(xPoints[0], yPoints[0]);
-			for (int i = 1; i < nPoints; i++) {
-				path.lineTo(xPoints[i], yPoints[i]);
-			}
-			draw(path);
-		}
-	}
+	// @Override
+	// public void drawPolyline(int[] xPoints, int[] yPoints, int nPoints) {
+	// if (nPoints > 0) {
+	// GeneralPath path = new GeneralPath();
+	// path.moveTo(xPoints[0], yPoints[0]);
+	// for (int i = 1; i < nPoints; i++) {
+	// path.lineTo(xPoints[i], yPoints[i]);
+	// }
+	// draw(path);
+	// }
+	// }
 
 	/**
 	 * Draws a polygon made with the specified points.
 	 */
-	@Override
-	public void drawPolygon(int[] xPoints, int[] yPoints, int nPoints) {
-		Shape shape = new Polygon(xPoints, yPoints, nPoints);
-		draw(shape);
-	}
+	// @Override
+	// public void drawPolygon(int[] xPoints, int[] yPoints, int nPoints) {
+	// Shape shape = new Polygon(xPoints, yPoints, nPoints);
+	// draw(shape);
+	// }
 
 	/**
 	 * Draws a polygon.
 	 */
-	@Override
-	public void drawPolygon(Polygon p) {
+	// @Override
+	public void drawPolygon(GPolygon p) {
 		draw(p);
 	}
 
 	/**
 	 * Fills a polygon made with the specified points.
 	 */
-	@Override
-	public void fillPolygon(int[] xPoints, int[] yPoints, int nPoints) {
-		Shape shape = new Polygon(xPoints, yPoints, nPoints);
-		draw(shape, "fill");
-	}
+	// @Override
+	// public void fillPolygon(int[] xPoints, int[] yPoints, int nPoints) {
+	// Shape shape = new Polygon(xPoints, yPoints, nPoints);
+	// draw(shape, "fill");
+	// }
 
 	/**
 	 * Fills a polygon.
 	 */
-	@Override
-	public void fillPolygon(Polygon p) {
+	// @Override
+	public void fillPolygon(GPolygon p) {
 		draw(p, "fill");
 	}
 
 	/**
 	 * Draws the specified characters, starting from (x,y)
 	 */
-	@Override
-	public void drawChars(char[] data, int offset, int length, int x, int y) {
-		String string = new String(data, offset, length);
-		drawString(string, x, y);
-	}
+	// @Override
+	// public void drawChars(char[] data, int offset, int length, int x, int y)
+	// {
+	// String string = new String(data, offset, length);
+	// drawString(string, x, y);
+	// }
 
 	/**
 	 * Draws the specified bytes, starting from (x,y)
 	 */
-	@Override
-	public void drawBytes(byte[] data, int offset, int length, int x, int y) {
-		String string = new String(data, offset, length);
-		drawString(string, x, y);
+	// @Override
+	// public void drawBytes(byte[] data, int offset, int length, int x, int y)
+	// {
+	// String string = new String(data, offset, length);
+	// drawString(string, x, y);
+	// }
+
+	/**
+	 * Draws an image.
+	 */
+	// @Override
+	public boolean drawImage(GBufferedImage img, int x, int y,
+			GImageObserver observer) {
+		return drawImage(img, x, y, GColor.WHITE, observer);
 	}
 
 	/**
 	 * Draws an image.
 	 */
-	@Override
-	public boolean drawImage(Image img, int x, int y, ImageObserver observer) {
-		return drawImage(img, x, y, Color.white, observer);
+	// @Override
+	public boolean drawImage(GBufferedImage img, int x, int y, int width,
+			int height,
+			GImageObserver observer) {
+		return drawImage(img, x, y, width, height, GColor.WHITE, observer);
 	}
 
 	/**
 	 * Draws an image.
 	 */
-	@Override
-	public boolean drawImage(Image img, int x, int y, int width, int height,
-			ImageObserver observer) {
-		return drawImage(img, x, y, width, height, Color.white, observer);
-	}
-
-	/**
-	 * Draws an image.
-	 */
-	@Override
-	public boolean drawImage(Image img, int x, int y, Color bgcolor,
-			ImageObserver observer) {
-		int width = img.getWidth(null);
-		int height = img.getHeight(null);
+	// @Override
+	public boolean drawImage(GBufferedImage img, int x, int y, GColor bgcolor,
+			GImageObserver observer) {
+		int width = img.getWidth();
+		int height = img.getHeight();
 		return drawImage(img, x, y, width, height, bgcolor, observer);
 	}
 
 	/**
 	 * Draws an image.
 	 */
-	@Override
-	public boolean drawImage(Image img, int x, int y, int width, int height,
-			Color bgcolor, ImageObserver observer) {
+	// @Override
+	public boolean drawImage(GBufferedImage img, int x, int y, int width,
+			int height,
+			GColor bgcolor, GImageObserver observer) {
 		return drawImage(img, x, y, x + width, y + height, 0, 0, width, height,
 				bgcolor, observer);
 	}
@@ -1179,20 +1202,22 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	/**
 	 * Draws an image.
 	 */
-	@Override
-	public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2,
-			int sx1, int sy1, int sx2, int sy2, ImageObserver observer) {
+	// @Override
+	public boolean drawImage(GBufferedImage img, int dx1, int dy1, int dx2,
+			int dy2,
+			int sx1, int sy1, int sx2, int sy2, GImageObserver observer) {
 		return drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
-				Color.white, observer);
+				GColor.WHITE, observer);
 	}
 
 	/**
 	 * Draws an image.
 	 */
-	@Override
-	public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2,
-			int sx1, int sy1, int sx2, int sy2, Color bgcolor,
-			ImageObserver observer) {
+	// @Override
+	public boolean drawImage(GBufferedImage img, int dx1, int dy1, int dx2,
+			int dy2,
+			int sx1, int sy1, int sx2, int sy2, GColor bgcolor,
+			GImageObserver observer) {
 		if (dx1 >= dx2) {
 			throw new IllegalArgumentException("dx1 >= dx2");
 		}
@@ -1211,14 +1236,17 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		int destWidth = dx2 - dx1;
 		int destHeight = dy2 - dy1;
 		int[] pixels = new int[width * height];
-		PixelGrabber pg = new PixelGrabber(img, sx1, sy1, sx2 - sx1, sy2 - sy1,
+		PixelGrabber pg = new PixelGrabber(
+				GBufferedImageD.getAwtBufferedImage(img), sx1, sy1, sx2 - sx1,
+				sy2 - sy1,
 				pixels, 0, width);
 		try {
 			pg.grabPixels();
 		} catch (InterruptedException e) {
 			return false;
 		}
-		AffineTransform matrix = new AffineTransform(_transform);
+		GAffineTransform matrix = AwtFactory.prototype.newAffineTransform();
+		matrix.setTransform(_transform);
 		matrix.translate(dx1, dy1);
 		matrix.scale(destWidth / (double) width, destHeight / (double) height);
 		double[] m = new double[6];
@@ -1239,7 +1267,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 				+ m[1] + " " + m[2] + " " + m[3] + " " + m[4] + " " + m[5]
 				+ "]");
 		// Fill the background to update the bounding box.
-		Color oldColor = getColor();
+		GColor oldColor = getColor();
 		setColor(getBackground());
 		fillRect(dx1, dy1, destWidth, destHeight);
 		setColor(oldColor);
@@ -1256,7 +1284,8 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		StringBuffer line = new StringBuffer();
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				Color color = new Color(pixels[x + width * y]);
+				GColor color = AwtFactory.prototype
+						.newColor(pixels[x + width * y]);
 				if (this.colorMode.equals(ColorMode.BLACK_AND_WHITE)) {
 					if (color.getRed() + color.getGreen() + color.getBlue() > 255 * 1.5 - 1) {
 						line.append("ff");
@@ -1285,25 +1314,6 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	}
 
 	/**
-	 * Disposes of all resources used by this EpsGraphics object. If this is the
-	 * only remaining EpsGraphics instance pointing at a EpsDocument object,
-	 * then the EpsDocument object shall become eligible for garbage collection.
-	 */
-	@Override
-	public void dispose() {
-		// System.err.println("Dispose");
-		// _document = null;
-	}
-
-	/**
-	 * Finalizes the object.
-	 */
-	@Override
-	public void finalize() {
-		super.finalize();
-	}
-
-	/**
 	 * Returns the entire contents of the EPS document, complete with headers
 	 * and bounding box. The returned String is suitable for being written
 	 * directly to disk as an EPS file.
@@ -1321,59 +1331,140 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Returns true if the specified rectangular area might intersect the
 	 * current clipping area.
 	 */
-	@Override
-	public boolean hitClip(int x, int y, int width, int height) {
-		if (_clip == null) {
-			return true;
-		}
-		Rectangle rect = new Rectangle(x, y, width, height);
-		return hit(rect, _clip, true);
-	}
+	// @Override
+	// public boolean hitClip(int x, int y, int width, int height) {
+	// if (_clip == null) {
+	// return true;
+	// }
+	// Rectangle rect = new Rectangle(x, y, width, height);
+	// return hit(rect, _clip, true);
+	// }
 
 	/**
 	 * Returns the bounding rectangle of the current clipping area.
 	 */
-	@Override
-	public Rectangle getClipBounds(Rectangle r) {
-		if (_clip == null) {
-			return r;
-		}
-		Rectangle rect = getClipBounds();
-		r.setLocation((int) rect.getX(), (int) rect.getY());
-		r.setSize((int) rect.getWidth(), (int) rect.getHeight());
-		return r;
-	}
+	// @Override
+	// public GRectangle getClipBounds(GRectangle r) {
+	// if (_clip == null) {
+	// return r;
+	// }
+	// GRectangle rect = getClipBounds();
+	// r.setLocation((int) rect.getX(), (int) rect.getY());
+	// r.setSize((int) rect.getWidth(), (int) rect.getHeight());
+	// return r;
+	// }
 
-	private Color color;
+	private GColor color;
 
-	private AffineTransform _clipTransform;
+	private GAffineTransform _clipTransform;
 
-	private Color _backgroundColor;
+	private GColor _backgroundColor;
 
-	private Paint _paint;
+	private GPaint _paint;
 
-	private Composite _composite;
+	private GComposite _composite;
 
-	private BasicStroke _stroke;
+	private GBasicStroke _stroke;
 
-	private Font _font;
+	private GFont _font;
 
-	private Shape _clip;
+	private GShape _clip;
 
-	private AffineTransform _transform = new AffineTransform();
+	private GAffineTransform _transform = AwtFactory.prototype
+			.newAffineTransform();
 
 	private boolean _accurateTextMode;
 
 	private EpsDocument _document;
 
-	private static FontRenderContext _fontRenderContext = new FontRenderContext(
-			null, false, true);
+	private static GFontRenderContext _fontRenderContext = new GFontRenderContextD(
+			new FontRenderContext(null, false, true));
 
 	private ColorMode colorMode = ColorMode.COLOR_RGB;
 
-	@Override
-	public Graphics create() {
+	// @Override
+	public GGraphics2D create() {
 		return new EpsGraphics(this);
+	}
+
+	public void drawImage(MyImage img, GBufferedImageOp op, int x, int y) {
+		methodNotSupported();
+	}
+
+	public void drawImage(GBufferedImage img, int x, int y) {
+		drawImage(img, x, y, null);
+	}
+
+	public void drawImage(MyImage img, int x, int y) {
+
+		MyImageD imgd = (MyImageD) img;
+		BufferedImage bi = (BufferedImage) imgd.getImage();
+
+		drawImage(new GBufferedImageD(bi), x, y);
+
+	}
+
+	@Override
+	public void setAntialiasing() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setTransparent() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void drawWithValueStrokePure(GShape shape) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void fillWithValueStrokePure(GShape shape) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Object setInterpolationHint(
+			boolean needsInterpolationRenderingHint) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void resetInterpolationHint(Object oldInterpolationHint) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void updateCanvasColor() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private GLine2D line = AwtFactory.prototype.newLine2D();
+
+	@Override
+	public void drawStraightLine(double x1, double y1, double x2, double y2) {
+		line.setLine(x1, y1, x2, y2);
+		this.draw(line);
+	}
+
+	private LinkedList<GAffineTransform> transformationStack = new LinkedList<GAffineTransform>();
+
+	@Override
+	public void saveTransform() {
+		transformationStack.add(getTransform());
+	}
+
+	@Override
+	public void restoreTransform() {
+		_transform = transformationStack.removeLast();
 	}
 
 }

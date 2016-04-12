@@ -45,6 +45,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -491,9 +492,12 @@ public class EuclidianViewD extends EuclidianView implements
 			drawBackground(g2d, !transparency);
 		}
 
-		GGraphics2DD.getAwtGraphics(g2d).setRenderingHint(
-				RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_QUALITY);
+		if (g2d instanceof GGraphics2DD) {
+			GGraphics2DD.getAwtGraphics(g2d).setRenderingHint(
+					RenderingHints.KEY_RENDERING,
+					RenderingHints.VALUE_RENDER_QUALITY);
+		}
+		// else eg Eps Export
 
 		setAntialiasing(g2d);
 	}
@@ -1056,10 +1060,12 @@ public class EuclidianViewD extends EuclidianView implements
 		// properly, see #442
 		g2.setStroke(org.geogebra.common.euclidian.EuclidianStatic
 				.getDefaultStroke());
-		evjpanel.paintChildren(org.geogebra.desktop.awt.GGraphics2DD.getAwtGraphics(g2)); // draws
-																				// Buttons
-																				// and
-																				// Textfields
+
+		if (g2 instanceof GGraphics2DD) {
+			// (used to) draw buttons and TextFields
+			evjpanel.paintChildren(
+					org.geogebra.desktop.awt.GGraphics2DD.getAwtGraphics(g2));
+		}
 		super.drawActionObjects(g2);
 	}
 
@@ -1117,8 +1123,12 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	@Override
-	final public void setAntialiasing(org.geogebra.common.awt.GGraphics2D g2) {
-		setAntialiasing(org.geogebra.desktop.awt.GGraphics2DD.getAwtGraphics(g2));
+	final public void setAntialiasing(GGraphics2D g2) {
+		if (g2 instanceof GGraphics2DD) {
+			setAntialiasing(
+					org.geogebra.desktop.awt.GGraphics2DD.getAwtGraphics(g2));
+		}
+		// else eg EpsGraphics
 	}
 
 	@Override

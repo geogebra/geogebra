@@ -5,10 +5,11 @@ import java.awt.Shape;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.GeneralPathClipped;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
-public class GGenericShapeD implements org.geogebra.desktop.awt.GShapeD {
+public class GGenericShapeD implements GShapeD {
 	private java.awt.Shape impl;
 
 	private GGenericShapeD() {
@@ -18,15 +19,16 @@ public class GGenericShapeD implements org.geogebra.desktop.awt.GShapeD {
 		return impl.intersects(i, j, k, l);
 	}
 
-	public static java.awt.Shape getAwtShape(org.geogebra.common.awt.GShape s) {
-		if (s instanceof org.geogebra.desktop.awt.GShapeD)
-			return ((org.geogebra.desktop.awt.GShapeD) s).getAwtShape();
+	public static Shape getAwtShape(GShape s) {
+		if (s instanceof GShapeD)
+			return ((GShapeD) s).getAwtShape();
 		if (s instanceof GeneralPathClipped)
 			return org.geogebra.desktop.awt.GGeneralPathD
 					.getAwtGeneralPath(((GeneralPathClipped) s)
 							.getGeneralPath());
-		if (s != null)
-			AppD.debug("other type " + s);
+		if (s != null) {
+			Log.error("other type " + s);
+		}
 		return null;
 	}
 

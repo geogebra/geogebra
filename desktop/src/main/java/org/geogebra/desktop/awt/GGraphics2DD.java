@@ -18,6 +18,7 @@ import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGlyphVector;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GGraphicsConfiguration;
 import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.GImageObserver;
@@ -43,7 +44,7 @@ import com.kitfox.svg.SVGException;
  * @author kondr
  * 
  */
-public class GGraphics2DD implements org.geogebra.common.awt.GGraphics2D {
+public class GGraphics2DD implements GGraphics2D {
 	private java.awt.Graphics2D impl;
 
 	public GGraphics2DD(java.awt.Graphics2D g2Dtemp) {

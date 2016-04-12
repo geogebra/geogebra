@@ -2881,10 +2881,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            graphics
 	 */
-	protected void drawObjects(org.geogebra.common.awt.GGraphics2D g2) {
+	protected void drawObjects(GGraphics2D g2) {
 
 		drawGeometricObjects(g2);
-		drawActionObjects(g2);
+		// drawActionObjects(g2);
 
 		if (previewDrawable != null) {
 			previewDrawable.drawPreview(g2);
@@ -5204,7 +5204,7 @@ sb.toString(), getFontAxes(),
 	 *            SVG, PNG etc
 	 * 
 	 */
-	public void exportPaint(org.geogebra.common.awt.GGraphics2D g2d,
+	public void exportPaint(GGraphics2D g2d,
 			double scale, boolean transparency, ExportType exportType) {
 		getApplication().setExporting(exportType, scale);
 		exportPaintPre(g2d, scale, transparency);

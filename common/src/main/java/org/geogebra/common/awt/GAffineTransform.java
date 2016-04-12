@@ -41,4 +41,12 @@ public interface GAffineTransform {
 			int j, int k);
 
 	public void rotate(double theta);
+
+	public boolean isIdentity();
+
+	public void setToTranslation(double tx, double ty);
+
+	public void setToScale(double sx, double sy);
+
+	public void getMatrix(double[] m);
 }

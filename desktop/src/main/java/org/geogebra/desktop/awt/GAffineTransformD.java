@@ -1,17 +1,20 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.geom.AffineTransform;
+
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GShape;
 
-public class GAffineTransformD implements org.geogebra.common.awt.GAffineTransform {
+public class GAffineTransformD implements GAffineTransform {
 
-	private java.awt.geom.AffineTransform at;
+	private AffineTransform at;
 
 	public GAffineTransformD() {
-		at = new java.awt.geom.AffineTransform();
+		at = new AffineTransform();
 	}
 
-	public GAffineTransformD(java.awt.geom.AffineTransform a) {
+	public GAffineTransformD(AffineTransform a) {
 		at = a;
 	}
 
@@ -19,7 +22,7 @@ public class GAffineTransformD implements org.geogebra.common.awt.GAffineTransfo
 		return at;
 	}
 
-	public void setTransform(org.geogebra.common.awt.GAffineTransform a) {
+	public void setTransform(GAffineTransform a) {
 		at.setTransform(((GAffineTransformD) a).getImpl());
 	}
 
@@ -118,5 +121,21 @@ public class GAffineTransformD implements org.geogebra.common.awt.GAffineTransfo
 	@Override
 	public void rotate(double theta) {
 		at.rotate(theta);
+	}
+
+	public boolean isIdentity() {
+		return at.isIdentity();
+	}
+
+	public void setToTranslation(double tx, double ty) {
+		at.setToTranslation(tx, ty);
+	}
+
+	public void setToScale(double sx, double sy) {
+		at.setToScale(sx, sy);
+	}
+
+	public void getMatrix(double[] flatmatrix) {
+		at.getMatrix(flatmatrix);
 	}
 }

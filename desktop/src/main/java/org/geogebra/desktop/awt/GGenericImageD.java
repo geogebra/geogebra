@@ -2,7 +2,10 @@ package org.geogebra.desktop.awt;
 
 import java.awt.Image;
 
-public class GGenericImageD implements org.geogebra.common.awt.GImage {
+import org.geogebra.common.awt.GImage;
+import org.geogebra.common.awt.GImageObserver;
+
+public class GGenericImageD implements GImage {
 	private java.awt.Image impl;
 
 	public GGenericImageD(Image im) {
@@ -15,5 +18,13 @@ public class GGenericImageD implements org.geogebra.common.awt.GImage {
 		if (img instanceof GBufferedImageD)
 			GBufferedImageD.getAwtBufferedImage((GBufferedImageD) img);
 		return null;
+	}
+
+	public int getWidth(GImageObserver im) {
+		return impl.getWidth(null);
+	}
+
+	public int getHeight(GImageObserver im) {
+		return impl.getHeight(null);
 	}
 }
