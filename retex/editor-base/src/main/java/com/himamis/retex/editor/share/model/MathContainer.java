@@ -27,10 +27,10 @@
  */
 package com.himamis.retex.editor.share.model;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.editor.share.model.inspect.Inspecting;
 import com.himamis.retex.editor.share.model.traverse.Traversing;
-
-import java.util.ArrayList;
 
 /**
  * This class represents abstract model element.
@@ -217,5 +217,9 @@ abstract public class MathContainer extends MathComponent {
     }
 
     public abstract MathContainer copy();
+
+	public int indexOf(MathComponent argument) {
+		return arguments.indexOf(argument);
+	}
 
 }

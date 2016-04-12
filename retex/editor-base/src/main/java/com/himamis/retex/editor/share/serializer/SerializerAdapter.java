@@ -10,18 +10,26 @@ import com.himamis.retex.editor.share.model.MathSequence;
 
 public abstract class SerializerAdapter implements Serializer {
 
-    protected MathSequence currentField = null;
+	protected MathContainer currentField = null;
+	protected MathComponent currentSelStart = null;
+	protected MathComponent currentSelEnd = null;
     protected int currentOffset = 0;
     protected boolean currentBraces = true;
 
     public String serialize(MathFormula formula) {
-        return serialize(formula, null, 0);
+		return serialize(formula, null, 0, null, null);
     }
-
     public String serialize(MathFormula formula, MathSequence currentField,
-                            int currentOffset) {
+			int currentOffset) {
+		return serialize(formula, currentField, currentOffset, null, null);
+	}
+
+	public String serialize(MathFormula formula, MathSequence currentField,
+			int currentOffset, MathComponent selStart, MathComponent selEnd) {
         this.currentField = currentField;
         this.currentOffset = currentOffset;
+		this.currentSelEnd = selEnd;
+		this.currentSelStart = selStart;
         currentBraces = currentField != null;
         StringBuilder buffer = new StringBuilder();
         serialize(formula.getRootComponent(), buffer);

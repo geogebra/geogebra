@@ -172,7 +172,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public void onClick(int x, int y) {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		mathFieldController.getPath(mathFormula, x, y, list);
-
+		editorState.resetSelection();
 		cursorController.firstField(editorState);
 
 		while (cursorController.nextCharacter(editorState)) {
@@ -190,7 +190,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				break;
 			}
 		}
-
 		mathFieldController.update(mathFormula, editorState, false);
 		mathField.requestViewFocus();
     }

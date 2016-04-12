@@ -13,6 +13,8 @@ import com.himamis.retex.renderer.share.util.LaTeXUtil;
 public class TeXSerializer extends SerializerAdapter {
 
     private static final String cursor = "\\textcolor{red}{|}";
+	private static final String selection_start = "\\bgcolor{#CCCCFF}{";
+	private static final String selection_end = "}";
 
     private static final String latexFunctions[] = {"sin", "cos", "tan",
             "sec", "csc", "cot", "sinh", "cosh", "tanh", "coth", "lim",
@@ -31,7 +33,9 @@ public class TeXSerializer extends SerializerAdapter {
     @Override
     public void serialize(MathCharacter mathCharacter, StringBuilder stringBuilder) {
         // jmathtex v0.7: incompatibility
-
+		if (mathCharacter == currentSelStart) {
+			stringBuilder.append(selection_start);
+		}
         if (" ".equals(mathCharacter.getName())) {
             stringBuilder.append((jmathtex ? "\\nbsp" : "\\ ") + " ");
         } else {
@@ -46,6 +50,9 @@ public class TeXSerializer extends SerializerAdapter {
                 stringBuilder.append(texName);
             }
         }
+		if (mathCharacter == currentSelEnd) {
+			stringBuilder.append(selection_end);
+		}
 
         // safety space after operator / symbol
         if (mathCharacter.isOperator() || mathCharacter.isSymbol()) {
@@ -62,14 +69,16 @@ public class TeXSerializer extends SerializerAdapter {
                 (sequence.size() == 1 && sequence == currentField))
                 && // {a|}
                 (stringBuilder.length() > 0 && stringBuilder.charAt(stringBuilder.length() - 1) != '{');
-
+		if (sequence == currentSelStart) {
+			stringBuilder.append(selection_start);
+		}
         if (addBraces) {
             // when necessary add curly braces
             stringBuilder.append('{');
         }
 
         if (sequence.size() == 0) {
-            if (sequence == currentField) {
+			if (sequence == currentField) {
                 stringBuilder.append(cursor);
             } else {
                 if (sequence.getParent() == null
@@ -100,6 +109,9 @@ public class TeXSerializer extends SerializerAdapter {
             // when necessary add curly braces
             stringBuilder.append('}');
         }
+		if (sequence == currentSelEnd) {
+			stringBuilder.append(selection_end);
+		}
     }
 
     @Override
@@ -111,6 +123,9 @@ public class TeXSerializer extends SerializerAdapter {
 
     @Override
     public void serialize(MathFunction function, StringBuilder stringBuilder) {
+		if (function == currentSelStart) {
+			stringBuilder.append(selection_start);
+		}
         if (metaModel.isGeneral(function.getName())) {
 
             if ("^".equals(function.getName())
@@ -301,6 +316,9 @@ public class TeXSerializer extends SerializerAdapter {
             stringBuilder.append(function.getClosingBracket());
             stringBuilder.append("}");
         }
+		if (function == currentSelEnd) {
+			stringBuilder.append(selection_end);
+		}
     }
 
     @Override

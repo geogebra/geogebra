@@ -35,9 +35,19 @@ public class KeyListenerImpl implements KeyListener {
                 return true;
             case KeyEvent.VK_LEFT:
                 cursorController.prevCharacter(editorState);
+			if ((keyEvent.getKeyModifiers() & 1) > 0) {
+				editorState.extendSelection(true);
+			} else {
+				editorState.resetSelection();
+			}
                 return true;
             case KeyEvent.VK_RIGHT:
                 cursorController.nextCharacter(editorState);
+			if ((keyEvent.getKeyModifiers() & 1) > 0) {
+				editorState.extendSelection(false);
+			} else {
+				editorState.resetSelection();
+			}
                 return true;
             case KeyEvent.VK_UP:
                 cursorController.upField(editorState);

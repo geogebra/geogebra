@@ -52,14 +52,16 @@ public class MathSequence extends MathContainer {
         ensureArguments(0);
     }
 
-    public void addArgument(MathComponent argument) {
+	@Override
+	public void addArgument(MathComponent argument) {
         if (argument != null) {
             argument.setParent(this);
         }
         arguments.add(argument);
     }
 
-    public void addArgument(int i, MathComponent argument) {
+	@Override
+	public void addArgument(int i, MathComponent argument) {
         if (argument != null) {
             argument.setParent(this);
         }
@@ -70,7 +72,8 @@ public class MathSequence extends MathContainer {
         arguments.remove(i);
     }
 
-    public MathSequence copy() {
+	@Override
+	public MathSequence copy() {
         MathSequence sequence = new MathSequence();
         for (int i = 0; i < arguments.size(); i++) {
             MathComponent component = getArgument(i);
@@ -130,5 +133,10 @@ public class MathSequence extends MathContainer {
                 getArgument(i) instanceof MathCharacter &&
                 ((MathCharacter) getArgument(i)).isSymbol();
     }
+
+	@Override
+	public String toString() {
+		return super.toString() + " " + size();
+	}
 
 }

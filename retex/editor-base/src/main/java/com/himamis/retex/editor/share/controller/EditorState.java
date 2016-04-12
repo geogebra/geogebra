@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.controller;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathComponent;
+import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathSequence;
 
 public class EditorState {
@@ -11,6 +12,9 @@ public class EditorState {
 
     private MathSequence currentField;
     private Integer currentOffset;
+
+	private MathComponent currentSelStart, currentSelEnd;
+	private MathComponent selectionAnchor;
 
     public EditorState(MetaModel metaModel) {
         this.metaModel = metaModel;
@@ -60,4 +64,84 @@ public class EditorState {
     public MetaModel getMetaModel() {
         return metaModel;
     }
+
+	public MathComponent getSelectionStart() {
+		return currentSelStart;
+	}
+
+	public MathComponent getSelectionEnd() {
+		return currentSelEnd;
+	}
+
+	public void setSelectionStart(MathComponent selStart) {
+		currentSelStart = selStart;
+	}
+
+	public void setSelectionEnd(MathComponent selEnd) {
+		currentSelEnd = selEnd;
+	}
+
+	/**
+	 * Extends selection from current cursor position
+	 * 
+	 * @param left
+	 *            true to go to the left from cursor
+	 */
+	public void extendSelection(boolean left) {
+		MathComponent cursorField = getCurrentField()
+				.getArgument(Math.max(0,
+						Math.min(getCurrentOffset() + (left ? 0 : -1),
+								getCurrentField().size() - 1)));
+		if (selectionAnchor == null) {
+			selectionAnchor = cursorField;
+			currentSelStart = cursorField;
+			currentSelEnd = cursorField;
+			return;
+		}
+		currentSelStart = selectionAnchor;
+		// go from selection start to the root until we find common root
+		MathContainer commonParent = currentSelStart.getParent();
+		while (commonParent != null && !contains(commonParent, cursorField)) {
+			currentSelStart = currentSelStart.getParent();
+			commonParent = currentSelStart.getParent();
+		}
+		if (commonParent == null) {
+			commonParent = rootComponent;
+		}
+		// go from selection end to the root
+		currentSelEnd = cursorField;
+		while (currentSelEnd != null
+				&& commonParent.indexOf(currentSelEnd) < 0) {
+			currentSelEnd = currentSelEnd.getParent();
+		}
+		// swap start and end when necessary
+		int to = commonParent.indexOf(currentSelEnd);
+		int from = commonParent.indexOf(currentSelStart);
+		System.out.println(from + "..." + to);
+		if (from > to) {
+			MathComponent swap = currentSelStart;
+			currentSelStart = currentSelEnd;
+			currentSelEnd = swap;
+		}
+		// 1+ {\frac{\bgcolor{#CCCCFF}{2+ 5+ 6}{\textcolor{red}{|}3}}}+ 4+ 5
+
+	}
+
+	private boolean contains(MathContainer commonParent,
+			MathComponent cursorField) {
+		while (cursorField != null) {
+			if (cursorField == commonParent) {
+				return true;
+			}
+			cursorField = cursorField.getParent();
+		}
+		return false;
+	}
+
+	public void resetSelection() {
+		selectionAnchor = null;
+		currentSelEnd = null;
+		currentSelStart = null;
+
+	}
 }

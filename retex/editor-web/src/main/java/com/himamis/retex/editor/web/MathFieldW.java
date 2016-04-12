@@ -29,6 +29,8 @@ package com.himamis.retex.editor.web;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -86,7 +88,13 @@ public class MathFieldW implements MathField {
 
 	@Override
 	public void setClickListener(ClickListener clickListener) {
-		// addMouseListener(new ClickListenerAdapterW(clickListener));
+		html.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				mathFieldInternal.onClick(event.getX(), event.getY());
+
+			}
+		});
 	}
 
 	@Override
@@ -105,7 +113,7 @@ public class MathFieldW implements MathField {
 			public void onKeyUp(KeyUpEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
 				keyListener.onKeyPressed(
-						new KeyEvent(code, 0,
+						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
 				if (code == 8 || code == 27) {
 					event.preventDefault();
@@ -118,7 +126,7 @@ public class MathFieldW implements MathField {
 			public void onKeyDown(KeyDownEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
 				keyListener.onKeyReleased(
-						new KeyEvent(code, 0,
+						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
 				if (code == 8 || code == 27) {
 					event.preventDefault();
@@ -127,6 +135,10 @@ public class MathFieldW implements MathField {
 			}
 		}, KeyDownEvent.getType());
 
+	}
+
+	protected int getModifiers(com.google.gwt.event.dom.client.KeyEvent event) {
+		return event.isShiftKeyDown() ? 1 : 0;
 	}
 
 	protected char getChar(NativeEvent nativeEvent) {

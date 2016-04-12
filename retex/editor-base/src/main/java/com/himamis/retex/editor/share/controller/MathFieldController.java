@@ -3,6 +3,7 @@ package com.himamis.retex.editor.share.controller;
 import java.util.ArrayList;
 
 import com.himamis.retex.editor.share.editor.MathField;
+import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
@@ -33,14 +34,21 @@ public class MathFieldController {
 
     public void update(MathFormula mathFormula, EditorState editorState, boolean focusEvent) {
         if (mathField.hasFocus()) {
-            updateEditor(mathFormula, editorState.getCurrentField(), editorState.getCurrentOffset(), focusEvent);
+			updateEditor(mathFormula, editorState.getCurrentField(),
+					editorState.getCurrentOffset(),
+					editorState.getSelectionStart(),
+					editorState.getSelectionEnd(), focusEvent);
         } else {
-            updateEditor(mathFormula, null, 0, focusEvent);
+			updateEditor(mathFormula, null, 0, null, null, focusEvent);
         }
     }
 
-    private void updateEditor(MathFormula mathFormula, MathSequence currentField, int currentOffset, boolean focusEvent) {
-        updateFormula(mathFormula, currentField, currentOffset);
+	private void updateEditor(MathFormula mathFormula,
+			MathSequence currentField, int currentOffset,
+			MathComponent selectionStart, MathComponent selectionEnd,
+			boolean focusEvent) {
+		updateFormula(mathFormula, currentField, currentOffset, selectionStart,
+				selectionEnd);
         if (mathField.hasParent()) {
             if (!focusEvent) {
                 // prevent infinite focusChanged <-> requestLayout event cycle
@@ -50,8 +58,12 @@ public class MathFieldController {
         }
     }
 
-    private void updateFormula(MathFormula mathFormula, MathSequence currentField, int currentOffset) {
-        String serializedFormula = texSerializer.serialize(mathFormula, currentField, currentOffset);
+	private void updateFormula(MathFormula mathFormula,
+			MathSequence currentField, int currentOffset,
+			MathComponent selectionStart, MathComponent selectionEnd) {
+		String serializedFormula = texSerializer.serialize(mathFormula,
+				currentField, currentOffset, selectionStart, selectionEnd);
+		System.out.println(serializedFormula);
         TeXFormula texFormula = new TeXFormula(serializedFormula);
         TeXIcon renderer = texFormula.new TeXIconBuilder()
                 .setStyle(TeXConstants.STYLE_DISPLAY)

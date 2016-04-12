@@ -92,9 +92,7 @@ public class CursorController {
 			return false;
         } else if (container instanceof MathSequence) {
             editorState.setCurrentField((MathSequence) container);
-            editorState.setCurrentOffset(component.getParentIndex() + 1);
-			System.out.println("size check" + container.size() + " >"
-					+ component.getParentIndex());
+			editorState.setCurrentOffset(component.getParentIndex() + 1);
 			return container.size() > component.getParentIndex();
             // try to find next sibling
         } else if (container.hasNext(current)) {
