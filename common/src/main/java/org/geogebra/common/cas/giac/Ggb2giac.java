@@ -445,8 +445,15 @@ public class Ggb2giac {
 						+ "point(re(subst(parameq(line(ggbinarg1),u),u=2)),"
 						+ "im(subst(parameq(line(ggbinarg1),u),u=2)),0)) ),"
 						+ " ? ) ) ) ),"
-						// Intersect[3dLine, Cmd3dLine]
+						// Intersect[3dLine, Plane]
 						+ "when ((xcoord(ggbinarg0))[0] == '=' && string((xcoord(ggbinarg0))[1]) == string(X),"
+						+ "when ( (ggbinarg1)[0] == 'pnt',"
+						+ "line_inter( line( point( (ggbinarg0)[0][2] , (ggbinarg0)[1][2] , (ggbinarg0)[2][2][1] ) ,"
+						+ "point( (ggbinarg0[2][2][2])[2][0] + (ggbinarg0)[0][2], "
+						+ "(ggbinarg0[2][2][2])[2][1] +  (ggbinarg0)[1][2] ,"
+						+ " (ggbinarg0[2][2][2])[2][2] + (ggbinarg0)[2][2][1] ) ) ,"
+						+ "ggbinarg1) ,"
+						// Intersect[3dLine, Cmd3dLine]
 						+ "when (xcoord(ggbinarg1) == string(X),"
 						+ "line_inter( line( point( (ggbinarg0)[0][2] , (ggbinarg0)[1][2] , (ggbinarg0)[2][2][1] ) ,"
 						+ "point( (ggbinarg0[2][2][2])[2][0] + (ggbinarg0)[0][2], "
@@ -479,10 +486,18 @@ public class Ggb2giac {
 						+ "line( point( (ggbinarg1)[0][2] , (ggbinarg1)[1][2] , (ggbinarg1)[2][2][1] ) ,"
 						+ "point( (ggbinarg1[2][2][2])[2][0] + (ggbinarg1)[0][2], "
 						+ "(ggbinarg1[2][2][2])[2][1] +  (ggbinarg1)[1][2] ,"
-						+ " (ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) )  , ? ) )) ,"
+						+ " (ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) )  , ? ) ) ) ) ,"
+						// Intersect[2dLine, Plane]
+						// Intersect[Cmd2dLine, Plane]
+						+ "when ( type(xcoord(ggbinarg0)) == DOM_INT && type(grad(ggbinarg0,x)[1]) == DOM_INT,"
+						+ "when ( (ggbinarg1)[0] == 'pnt' ,"
+						+ "line_inter(line(point(re(subst(parameq(line(ggbinarg0),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg0),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=2)),0)),"
+						+ "ggbinarg1) , "
 						// Intersect[2dLine, Cmd3dLine]
 						// Intersect[Cmd2dLine, Cmd3dLine]
-						+ "when ( type(xcoord(ggbinarg0)) == DOM_INT && type(grad(ggbinarg0,x)[1]) == DOM_INT,"
 						+ "when(xcoord(ggbinarg1) == string(X),"
 						+ "line_inter(line(point(re(subst(parameq(line(ggbinarg0),u),u=1)),"
 						+ "im(subst(parameq(line(ggbinarg0),u),u=1)),0),"
@@ -510,7 +525,7 @@ public class Ggb2giac {
 						+ "line( point( (ggbinarg1)[0][2] , (ggbinarg1)[1][2] , (ggbinarg1)[2][2][1] ) ,"
 						+ "point( (ggbinarg1[2][2][2])[2][0] + (ggbinarg1)[0][2], "
 						+ "(ggbinarg1[2][2][2])[2][1] +  (ggbinarg1)[1][2] ,"
-						+ " (ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) ) , ? ) )),"
+						+ " (ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) ) , ? ) ) ) ),"
 						// Intersect[Cmd2dLine, 2dLine]
 						+ "when ((ggbinarg0)[0] == '=' && (ggbinarg0)[1] == 'y',"
 						+ "when( type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT,"
