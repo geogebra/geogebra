@@ -39,7 +39,6 @@ package com.kitfox.svg.xml.cpx;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.SecureRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.DataFormatException;
@@ -61,8 +60,6 @@ import com.kitfox.svg.SVGConst;
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
 public class CPXInputStream extends FilterInputStream implements CPXConsts {
-
-	SecureRandom sec = new SecureRandom();
 
 	Inflater inflater = new Inflater();
 
