@@ -17,9 +17,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
-import org.geogebra.common.awt.GGlyphVector;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GGraphicsConfiguration;
 import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.GImageObserver;
 import org.geogebra.common.awt.GLine2D;
@@ -92,16 +90,6 @@ public class GGraphics2DD implements GGraphics2D {
 			float y) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public void drawGlyphVector(GGlyphVector g, float x, float y) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public GGraphicsConfiguration getDeviceConfiguration() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public void setComposite(GComposite comp) {
