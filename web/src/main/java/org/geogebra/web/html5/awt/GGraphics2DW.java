@@ -10,7 +10,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFontRenderContext;
-import org.geogebra.common.awt.GKey;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
@@ -322,14 +321,10 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	}-*/;
 
-	public void setRenderingHint(GKey hintKey, Object hintValue) {
-		//
+	@Override
+	public void setRenderingHint(int hintKey, int hintValue) {
+		// nothing to do
 
-	}
-
-	public Object getRenderingHint(GKey hintKey) {
-		//
-		return null;
 	}
 
 	public void setRenderingHints(Map<?, ?> hints) {
@@ -1002,5 +997,6 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		canvas.getElement().setInnerText(altStr);
 
 	}
+
 
 }

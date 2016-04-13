@@ -41,7 +41,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GImageObserver;
-import org.geogebra.common.awt.GKey;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPathIterator;
@@ -520,23 +519,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 			dashes.append("]");
 			append(dashes.toString() + " 0 setdash");
 		}
-	}
-
-	/**
-	 * Sets a rendering hint. These are not used by EpsGraphics2D.
-	 */
-	@Override
-	public void setRenderingHint(GKey hintKey, Object hintValue) {
-		// Do nothing.
-	}
-
-	/**
-	 * Returns the value of a single preference for the rendering algorithms.
-	 * Rendering hints are not used by EpsGraphics2D.
-	 */
-	@Override
-	public Object getRenderingHint(GKey hintKey) {
-		return null;
 	}
 
 	/**

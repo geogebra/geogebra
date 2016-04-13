@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRenderingHints;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
@@ -15,6 +14,8 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+
+import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 
 /**
  * Class for drawing labels of 3D elements
@@ -199,8 +200,8 @@ public class DrawLabel3D {
 
 		g2d.setColor(GColor.BLACK);
 		g2d.setFont(font);
-		g2d.setRenderingHint(GRenderingHints.KEY_ANTIALIASING,
-				GRenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		return g2d;
 	}

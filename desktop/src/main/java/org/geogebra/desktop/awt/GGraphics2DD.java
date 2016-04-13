@@ -3,6 +3,7 @@ package org.geogebra.desktop.awt;
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.RenderingHints.Key;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
@@ -22,12 +23,10 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GGraphicsConfiguration;
 import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.GImageObserver;
-import org.geogebra.common.awt.GKey;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GRenderableImage;
 import org.geogebra.common.awt.GRenderedImage;
-import org.geogebra.common.awt.GRenderingHints;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -125,14 +124,45 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	public void setRenderingHint(GKey hintKey, Object hintValue) {
-		// TODO Auto-generated method stub
+	private Key getAwtHintKey(int key) {
 
+		switch (key) {
+		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_ANTIALIASING:
+			return RenderingHints.KEY_ANTIALIASING;
+		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING:
+			return RenderingHints.KEY_RENDERING;
+		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_TEXT_ANTIALIASING:
+			return RenderingHints.KEY_TEXT_ANTIALIASING;
+		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_INTERPOLATION:
+			return RenderingHints.KEY_INTERPOLATION;
+		}
+
+		return null;
 	}
 
-	public Object getRenderingHint(GKey hintKey) {
-		// TODO Auto-generated method stub
+	private Object getAwtHintValue(int value) {
+
+		switch (value) {
+		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_ANTIALIAS_ON:
+			return RenderingHints.VALUE_ANTIALIAS_ON;
+		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY:
+			return RenderingHints.VALUE_RENDER_QUALITY;
+		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_TEXT_ANTIALIAS_ON:
+			return RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
+		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_INTERPOLATION_BILINEAR:
+			return RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR:
+			return RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_INTERPOLATION_BICUBIC:
+			return RenderingHints.VALUE_INTERPOLATION_BICUBIC;
+
+		}
+
 		return null;
+	}
+
+	public void setRenderingHint(int key, int value) {
+		impl.setRenderingHint(getAwtHintKey(key), getAwtHintValue(value));
 	}
 
 	public void setRenderingHints(Map<?, ?> hints) {
@@ -143,11 +173,6 @@ public class GGraphics2DD implements GGraphics2D {
 	public void addRenderingHints(Map<?, ?> hints) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public GRenderingHints getRenderingHints() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public void translate(int x, int y) {

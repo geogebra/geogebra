@@ -10,8 +10,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GImage;
-import org.geogebra.common.awt.GKey;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GShape;
@@ -23,7 +23,7 @@ import org.geogebra.common.factories.AwtFactory;
  * PGF, ASY, EPS, SVG) in the future.
  *
  */
-public class TextGraphics implements org.geogebra.common.awt.GGraphics2D {
+public class TextGraphics implements GGraphics2D {
 
 	public void draw3DRect(int x, int y, int width, int height, boolean raised) {
 		// intentionaly left blank
@@ -88,16 +88,6 @@ public class TextGraphics implements org.geogebra.common.awt.GGraphics2D {
 	public void setStroke(GBasicStroke s) {
 		// intentionaly left blank
 
-	}
-
-	public void setRenderingHint(GKey hintKey, Object hintValue) {
-		// intentionaly left blank
-
-	}
-
-	public Object getRenderingHint(GKey hintKey) {
-		// intentionaly left blank
-		return null;
 	}
 
 	public void setRenderingHints(Map<?, ?> hints) {
@@ -278,6 +268,11 @@ public class TextGraphics implements org.geogebra.common.awt.GGraphics2D {
 	@Override
 	public void restoreTransform() {
 		// TODO Auto-generated method stub
+	}
+
+	public void setRenderingHint(int hintKey, int hintValue) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -207,27 +207,9 @@ public interface GGraphics2D {
 	 * @param hintValue
 	 *            the value indicating preferences for the specified hint
 	 *            category.
-	 * @see #getRenderingHint(GKey)
-	 * @see GRenderingHints
+	 * @see com.himamis.retex.renderer.share.platform.graphics.RenderingHints
 	 */
-	public abstract void setRenderingHint(GKey hintKey, Object hintValue);
-
-	/**
-	 * Returns the value of a single preference for the rendering algorithms.
-	 * Hint categories include controls for rendering quality and overall
-	 * time/quality trade-off in the rendering process. Refer to the
-	 * <code>RenderingHints</code> class for definitions of some common keys and
-	 * values.
-	 * 
-	 * @param hintKey
-	 *            the key corresponding to the hint to get.
-	 * @return an object representing the value for the specified hint key. Some
-	 *         of the keys and their associated values are defined in the
-	 *         <code>RenderingHints</code> class.
-	 * @see GRenderingHints
-	 * @see #setRenderingHint(GKey, Object)
-	 */
-	public abstract Object getRenderingHint(GKey hintKey);
+	public abstract void setRenderingHint(int hintKey, int hintValue);
 
 	/**
 	 * Replaces the values of all preferences for the rendering algorithms with

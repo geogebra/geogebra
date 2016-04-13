@@ -1,9 +1,5 @@
 package org.geogebra.desktop.euclidian;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -61,18 +57,6 @@ public class EuclidianStaticD extends org.geogebra.common.euclidian.EuclidianSta
 		// labelRectangle.setBounds(xLabel, yLabel - fontSize, xoffset, height
 		// );
 
-	}
-
-	/**
-	 * @param shape
-	 * @param g2
-	 */
-	final public static void drawWithValueStrokePure(Shape shape, Graphics2D g2) {
-		Object oldHint = g2.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
-		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_PURE);
-		g2.draw(shape);
-		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 	}
 
 	static public java.awt.BasicStroke getDefaultStrokeAwt() {

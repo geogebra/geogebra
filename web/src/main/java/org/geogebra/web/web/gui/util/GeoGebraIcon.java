@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.util;
 
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GRenderingHints;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -12,6 +11,7 @@ import org.geogebra.web.web.gui.images.StyleBarResources;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.resources.client.ImageResource;
+import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 
 public class GeoGebraIcon extends BasicIcons{
 
@@ -129,7 +129,8 @@ public class GeoGebraIcon extends BasicIcons{
 		Canvas c = getTmpCanvas(width, height);
 
 		GGraphics2DW g2 = new GGraphics2DW(c);
-		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		g2.setPaint(GColor.GRAY);
 		// draw a rectangle with an x inside

@@ -478,9 +478,14 @@ public class EuclidianViewD extends EuclidianView implements
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);
 			} else {
-				GGraphics2DD.getAwtGraphics(g2d).setRenderingHint(
-						RenderingHints.KEY_RENDERING,
-						RenderingHints.VALUE_RENDER_QUALITY);
+
+				g2d.setRenderingHint(
+						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
+						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
+
+				g2d.setRenderingHint(
+						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
+						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
 				GGraphics2DD.getAwtGraphics(g2d).drawImage(
 						GBufferedImageD.getAwtBufferedImage(bgImage), 0, 0,
 						getJPanel());
@@ -491,12 +496,9 @@ public class EuclidianViewD extends EuclidianView implements
 			drawBackground(g2d, !transparency);
 		}
 
-		if (g2d instanceof GGraphics2DD) {
-			GGraphics2DD.getAwtGraphics(g2d).setRenderingHint(
-					RenderingHints.KEY_RENDERING,
-					RenderingHints.VALUE_RENDER_QUALITY);
-		}
-		// else eg Eps Export
+		g2d.setRenderingHint(
+				com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
+				com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
 
 		g2d.setAntialiasing();
 	}

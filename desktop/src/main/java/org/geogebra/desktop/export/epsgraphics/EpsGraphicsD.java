@@ -193,4 +193,9 @@ public class EpsGraphicsD extends EpsGraphics {
 
 	}
 
+	public void setRenderingHint(int hintKey, int hintValue) {
+		// nothing to do
+
+	}
+
 }
