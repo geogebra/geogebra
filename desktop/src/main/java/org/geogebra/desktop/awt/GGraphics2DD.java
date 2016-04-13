@@ -21,8 +21,6 @@ import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.GImageObserver;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
-import org.geogebra.common.awt.GRenderableImage;
-import org.geogebra.common.awt.GRenderedImage;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -58,16 +56,6 @@ public class GGraphics2DD implements GGraphics2D {
 			GImageObserver obs) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	public void drawRenderedImage(GRenderedImage img, GAffineTransform xform) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void drawRenderableImage(GRenderableImage img, GAffineTransform xform) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void drawString(String str, int x, int y) {
