@@ -7,7 +7,6 @@ import java.awt.RenderingHints.Key;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.Map;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GAttributedCharacterIterator;
@@ -163,11 +162,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 	public void setRenderingHint(int key, int value) {
 		impl.setRenderingHint(getAwtHintKey(key), getAwtHintValue(value));
-	}
-
-	public void addRenderingHints(Map<?, ?> hints) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void translate(int x, int y) {
