@@ -18,7 +18,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GImage;
-import org.geogebra.common.awt.GImageObserver;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GShape;
@@ -50,12 +49,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 	public void fill3DRect(int x, int y, int width, int height, boolean raised) {
 		impl.fill3DRect(x, y, width, height, raised);
-	}
-
-	public boolean drawImage(GImage img, GAffineTransform xform,
-			GImageObserver obs) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public void drawString(String str, int x, int y) {
