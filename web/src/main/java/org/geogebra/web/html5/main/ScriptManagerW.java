@@ -94,7 +94,13 @@ public class ScriptManagerW extends ScriptManager {
 		//$doc[ggbApplet] = $wnd[ggbApplet] = {};
 
 		var api = {};
-
+		var getId = function(obj) {
+			if (typeof obj == 'string') {
+				return obj;
+			}
+			api.listeners[api.listeners.length]=obj;
+			return api.listeners.length+"";
+		}
 		api.getXML = function(objName) {
 			if (objName) {
 				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getXML(Ljava/lang/String;)(objName);
@@ -534,67 +540,67 @@ public class ScriptManagerW extends ScriptManager {
 		//};
 
 		api.registerAddListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerAddListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerAddListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.registerStoreUndoListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerStoreUndoListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerStoreUndoListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.unregisterAddListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterAddListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterAddListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.registerRemoveListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerRemoveListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerRemoveListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.unregisterRemoveListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterRemoveListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterRemoveListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.registerClearListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerClearListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerClearListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.unregisterClearListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterClearListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterClearListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.registerRenameListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerRenameListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerRenameListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.unregisterRenameListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerRenameListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerRenameListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.registerUpdateListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerUpdateListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerUpdateListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.unregisterUpdateListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterUpdateListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterUpdateListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.registerClientListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerClientListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerClientListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.unregisterClientListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterClientListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterClientListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.registerObjectUpdateListener = function(objname, JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerObjectUpdateListener(Ljava/lang/String;Ljava/lang/String;)(objname, JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerObjectUpdateListener(Ljava/lang/String;Ljava/lang/String;)(objname, getId(JSFunctionName));
 		};
 
 		api.unregisterObjectUpdateListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterObjectUpdateListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterObjectUpdateListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.registerObjectClickListener = function(objname, JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerObjectClickListener(Ljava/lang/String;Ljava/lang/String;)(objname, JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerObjectClickListener(Ljava/lang/String;Ljava/lang/String;)(objname, getId(JSFunctionName));
 		};
 
 		api.unregisterObjectClickListener = function(objname) {
@@ -602,11 +608,11 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.registerClickListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerClickListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerClickListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.unregisterClickListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterClickListener(Ljava/lang/String;)(JSFunctionName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterClickListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.undo = function(repaint) {

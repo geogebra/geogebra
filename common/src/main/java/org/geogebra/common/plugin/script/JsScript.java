@@ -83,6 +83,8 @@ public class JsScript extends Script {
 	public static JsScript fromName(App app, String string) {
 		if(nameToScript == null){
 			nameToScript = new HashMap<String, JsScript>();
+		} else if (nameToScript.containsKey(string)) {
+			return nameToScript.get(string);
 		}
 		JsScript script = new JsScript(app, string);
 		nameToScript.put(string,script);
