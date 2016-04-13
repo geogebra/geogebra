@@ -165,11 +165,6 @@ public class GGraphics2DD implements GGraphics2D {
 		impl.setRenderingHint(getAwtHintKey(key), getAwtHintValue(value));
 	}
 
-	public void setRenderingHints(Map<?, ?> hints) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void addRenderingHints(Map<?, ?> hints) {
 		// TODO Auto-generated method stub
 

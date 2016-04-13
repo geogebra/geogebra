@@ -325,11 +325,6 @@ public class EuclidianViewD extends EuclidianView implements
 		return null;
 	}
 
-	@Override
-	public void setDefRenderingHints(org.geogebra.common.awt.GGraphics2D g2) {
-		g2.setRenderingHints(defRenderingHints);
-	}
-
 	public static int printTitle(Graphics2D g2d, String scaleString,
 			PageFormat pageFormat, AppD app) {
 		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());

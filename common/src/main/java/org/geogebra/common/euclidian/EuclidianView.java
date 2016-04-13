@@ -3575,14 +3575,6 @@ sb.toString(), getFontAxes(),
 	}
 
 	/**
-	 * @param g2
-	 *            graphics whose hints should be set
-	 */
-	public void setDefRenderingHints(GGraphics2D g2) {
-		// for Desktop only
-	}
-
-	/**
 	 * Switch antialiasing to true for given graphics
 	 * 
 	 * @param g2

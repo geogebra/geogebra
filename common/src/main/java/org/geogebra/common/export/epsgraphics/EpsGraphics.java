@@ -28,7 +28,6 @@
 package org.geogebra.common.export.epsgraphics;
 
 import java.util.LinkedList;
-import java.util.Map;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArea;
@@ -519,14 +518,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 			dashes.append("]");
 			append(dashes.toString() + " 0 setdash");
 		}
-	}
-
-	/**
-	 * Sets the rendering hints. These are ignored by EpsGraphics2D.
-	 */
-	@Override
-	public void setRenderingHints(Map<?, ?> hints) {
-		// Do nothing.
 	}
 
 	/**

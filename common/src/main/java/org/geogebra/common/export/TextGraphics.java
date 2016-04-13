@@ -1,7 +1,5 @@
 package org.geogebra.common.export;
 
-import java.util.Map;
-
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
@@ -86,11 +84,6 @@ public class TextGraphics implements GGraphics2D {
 	}
 
 	public void setStroke(GBasicStroke s) {
-		// intentionaly left blank
-
-	}
-
-	public void setRenderingHints(Map<?, ?> hints) {
 		// intentionaly left blank
 
 	}

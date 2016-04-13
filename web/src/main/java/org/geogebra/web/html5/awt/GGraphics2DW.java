@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.awt;
 
-import java.util.Map;
-
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
@@ -324,11 +322,6 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 	@Override
 	public void setRenderingHint(int hintKey, int hintValue) {
 		// nothing to do
-
-	}
-
-	public void setRenderingHints(Map<?, ?> hints) {
-		//
 
 	}
 

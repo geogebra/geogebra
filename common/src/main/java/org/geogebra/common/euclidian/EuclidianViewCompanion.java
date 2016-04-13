@@ -313,11 +313,6 @@ public class EuclidianViewCompanion {
 	 *            graphics
 	 */
 	public void paint(org.geogebra.common.awt.GGraphics2D g2) {
-		// Graphics2D g2 = (Graphics2D) g;
-		// lastGraphics2D = g2;
-
-		view.setDefRenderingHints(g2);
-		// g2.setClip(0, 0, width, height);
 
 		view.paintTheBackground(g2);
 

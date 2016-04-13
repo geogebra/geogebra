@@ -1,7 +1,5 @@
 package org.geogebra.common.awt;
 
-import java.util.Map;
-
 public interface GGraphics2D {
 
 	/**
@@ -210,22 +208,6 @@ public interface GGraphics2D {
 	 * @see com.himamis.retex.renderer.share.platform.graphics.RenderingHints
 	 */
 	public abstract void setRenderingHint(int hintKey, int hintValue);
-
-	/**
-	 * Replaces the values of all preferences for the rendering algorithms with
-	 * the specified <code>hints</code>. The existing values for all rendering
-	 * hints are discarded and the new set of known hints and values are
-	 * initialized from the specified {@link Map} object. Hint categories
-	 * include controls for rendering quality and overall time/quality trade-off
-	 * in the rendering process. Refer to the <code>RenderingHints</code> class
-	 * for definitions of some common keys and values.
-	 * 
-	 * @param hints
-	 *            the rendering hints to be set
-	 * @see #getRenderingHints
-	 * @see GRenderingHints
-	 */
-	public abstract void setRenderingHints(Map<?, ?> hints);
 
 	/**
 	 * Concatenates the current <code>Graphics2D</code> <code>Transform</code>
