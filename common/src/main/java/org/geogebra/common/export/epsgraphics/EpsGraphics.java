@@ -333,7 +333,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Draws an Image on the EPS document.
 	 */
-	// @Override
 	public boolean drawImage(GBufferedImage img, GAffineTransform xform,
 			GImageObserver obs) {
 		GAffineTransform at = getTransform();
@@ -410,7 +409,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Draws the characters of an AttributedCharacterIterator, starting from
 	 * (x,y).
 	 */
-	// @Override
 	public abstract void drawString(String s, float x, float y, GFont font);
 
 	/**
@@ -603,7 +601,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Sets the AffineTransform to be used by this EpsGraphics2D.
 	 */
-	// @Override
 	public void setTransform(GAffineTransform Tx) {
 		if (Tx == null) {
 			_transform = AwtFactory.prototype.newAffineTransform();
@@ -619,7 +616,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Gets the AffineTransform used by this EpsGraphics2D.
 	 */
-	// @Override
 	public GAffineTransform getTransform() {
 		GAffineTransform ret = AwtFactory.prototype.newAffineTransform();
 		ret.setTransform(_transform);
@@ -629,7 +625,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Returns the current Paint of the EpsGraphics2D object.
 	 */
-	// @Override
 	public GPaint getPaint() {
 		if (_paint == null) {
 			return GColor.BLACK;
@@ -648,7 +643,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Sets the background color to be used by the clearRect method.
 	 */
-	// @Override
 	public void setBackground(GColor color) {
 		if (color == null) {
 			color = GColor.BLACK;
@@ -1044,7 +1038,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Draws a polygon.
 	 */
-	// @Override
 	public void drawPolygon(GPolygon p) {
 		draw(p);
 	}
@@ -1061,7 +1054,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Fills a polygon.
 	 */
-	// @Override
 	public void fillPolygon(GPolygon p) {
 		draw(p, "fill");
 	}
@@ -1089,7 +1081,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Draws an image.
 	 */
-	// @Override
 	public boolean drawImage(GBufferedImage img, int x, int y,
 			GImageObserver observer) {
 		return drawImage(img, x, y, GColor.WHITE, observer);
@@ -1098,7 +1089,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Draws an image.
 	 */
-	// @Override
 	public boolean drawImage(GBufferedImage img, int x, int y, int width,
 			int height,
 			GImageObserver observer) {
@@ -1108,7 +1098,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Draws an image.
 	 */
-	// @Override
 	public boolean drawImage(GBufferedImage img, int x, int y, GColor bgcolor,
 			GImageObserver observer) {
 		int width = img.getWidth();
@@ -1119,7 +1108,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Draws an image.
 	 */
-	// @Override
 	public boolean drawImage(GBufferedImage img, int x, int y, int width,
 			int height,
 			GColor bgcolor, GImageObserver observer) {
@@ -1130,7 +1118,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Draws an image.
 	 */
-	// @Override
 	public boolean drawImage(GBufferedImage img, int dx1, int dy1, int dx2,
 			int dy2,
 			int sx1, int sy1, int sx2, int sy2, GImageObserver observer) {
@@ -1141,12 +1128,9 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Draws an image.
 	 */
-	// @Override
 	abstract public boolean drawImage(GBufferedImage img, int dx1, int dy1,
-			int dx2,
-			int dy2,
-			int sx1, int sy1, int sx2, int sy2, GColor bgcolor,
- GImageObserver observer);
+			int dx2, int dy2, int sx1, int sy1, int sx2, int sy2,
+			GColor bgcolor, GImageObserver observer);
 
 	/**
 	 * Returns the entire contents of the EPS document, complete with headers
@@ -1216,11 +1200,10 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 	protected ColorMode colorMode = ColorMode.COLOR_RGB;
 
-	// @Override
 	abstract public GGraphics2D create();
 
 	public void drawImage(MyImage img, GBufferedImageOp op, int x, int y) {
-		methodNotSupported();
+		drawImage(img, x, y);
 	}
 
 	public void drawImage(GBufferedImage img, int x, int y) {
@@ -1243,27 +1226,23 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 	@Override
 	public void drawWithValueStrokePure(GShape shape) {
-		// TODO Auto-generated method stub
-
+		draw(shape);
 	}
 
 	@Override
 	public void fillWithValueStrokePure(GShape shape) {
-		// TODO Auto-generated method stub
-
+		fill(shape);
 	}
 
 	@Override
 	public Object setInterpolationHint(
 			boolean needsInterpolationRenderingHint) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void resetInterpolationHint(Object oldInterpolationHint) {
-		// TODO Auto-generated method stub
-
+		//
 	}
 
 	@Override
