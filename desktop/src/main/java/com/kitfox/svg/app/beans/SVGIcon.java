@@ -48,8 +48,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.net.URI;
 
-import javax.swing.Icon;
-
 import com.kitfox.svg.SVGCache;
 import com.kitfox.svg.SVGDiagram;
 import com.kitfox.svg.SVGException;
@@ -59,8 +57,8 @@ import com.kitfox.svg.SVGUniverse;
  *
  * @author kitfox
  */
-public class SVGIcon implements Icon
-{
+public class SVGIcon {
+
     public static final long serialVersionUID = 1;
 
     public static final String PROP_AUTOSIZE = "PROP_AUTOSIZE";
