@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 import org.geogebra.common.awt.GAffineTransform;
-import org.geogebra.common.awt.GAttributedCharacterIterator;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GBufferedImageOp;
@@ -78,17 +77,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 	public void drawString(String str, float x, float y) {
 		impl.drawString(str, x, y);
-
-	}
-
-	public void drawString(GAttributedCharacterIterator iterator, int x, int y) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void drawString(GAttributedCharacterIterator iterator, float x,
-			float y) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -416,11 +404,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 	public void resetInterpolationHint(Object hint) {
 		impl.setRenderingHint(RenderingHints.KEY_INTERPOLATION, hint);
-	}
-
-	public Graphics2D getImpl() {
-		// TODO Auto-generated method stub
-		return impl;
 	}
 
 	@Override
