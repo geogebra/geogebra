@@ -397,7 +397,7 @@ public class Ggb2giac {
 						// "when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans))) )],"
 						// Intersect[Cmd3dLine, Cmd3dLine]
 						+ "[ggbinterans:= when ( xcoord(ggbinarg0) == string(X) ,"
-						+ "when (xcoord(ggbinarg1) == string(X),"
+						+ "when (xcoord(ggbinarg1) == string(X) ,"
 						+ "line_inter(line( point(expr(ggbinarg0)[0][2][1] , "
 						+ "expr(ggbinarg0)[1][2][1],"
 						+ "expr(ggbinarg0)[2][2][1] ),"
@@ -426,10 +426,20 @@ public class Ggb2giac {
 						+ "when ( (type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT)"
 						// Intersect[Cmd3dLine, Cmd2dLine]
 						+ "|| ((ggbinarg1)[0] == '=' && (ggbinarg1)[1] == 'y') ,"
-						+ "?,?) )),"
+						+ "line_inter(line( point(expr(ggbinarg0)[0][2][1] , "
+						+ "expr(ggbinarg0)[1][2][1],"
+						+ "expr(ggbinarg0)[2][2][1] ),"
+						+ "point(coeff(expr(ggbinarg0)[0][2],\u03BB,1) + expr(ggbinarg0)[0][2][1], "
+						+ "coeff(expr(ggbinarg0)[1][2],\u03BB,1) + expr(ggbinarg0)[1][2][1] , "
+						+ "coeff(expr(ggbinarg0)[2][2],\u03BB,1) + expr(ggbinarg0)[2][2][1]) ) ,"
+						+ "line(point(re(subst(parameq(line(ggbinarg1),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg1),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=2)),0)) ),"
+						+ "?) )),"
 						// Intersect[3dLine, Cmd3dLine]
-						+ "when ((xcoord(ggbinarg0))[0] == '=' && string((xcoord(ggbinarg0))[1]) == string(X)"
-						+ "&& xcoord(ggbinarg1) == string(X),"
+						+ "when ((xcoord(ggbinarg0))[0] == '=' && string((xcoord(ggbinarg0))[1]) == string(X),"
+						+ "when (xcoord(ggbinarg1) == string(X),"
 						+ "line_inter( line( point( (ggbinarg0)[0][2] , (ggbinarg0)[1][2] , (ggbinarg0)[2][2][1] ) ,"
 						+ "point( (ggbinarg0[2][2][2])[2][0] + (ggbinarg0)[0][2], "
 						+ "(ggbinarg0[2][2][2])[2][1] +  (ggbinarg0)[1][2] ,"
@@ -439,29 +449,66 @@ public class Ggb2giac {
 						+ "expr(ggbinarg1)[2][2][1] ),"
 						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
 						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
-						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) )) ,"
-						// Intersect[2dLine, 2dLine]
-						+ "when ( (type(xcoord(ggbinarg0)) == DOM_INT && type(grad(ggbinarg0,x)[1]) == DOM_INT"
-						+ "&& type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT)"
-						// Intersect[2dLine, Cmd2dLine]
-						+ "|| (type(xcoord(ggbinarg0)) == DOM_INT && type(grad(ggbinarg0,x)[1]) == DOM_INT "
-						+ "&& (ggbinarg1)[0] == '=' && (ggbinarg1)[1] == 'y' )"
-						// Intersect[Cmd2dLine, 2dLine]
-						+ "|| ((ggbinarg0)[0] == '=' && (ggbinarg0)[1] == 'y'"
-						+ "&& type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT),"
-						+ "line_inter(ggbinarg0,ggbinarg1) , "
-						// Intersect[3dLine, 3dLine]
-						+ "when ( (xcoord(ggbinarg0))[0] == '=' && string((xcoord(ggbinarg0))[1]) == string(X) "
-						+ "&& (xcoord(ggbinarg1))[0] == '=' && string((xcoord(ggbinarg1))[1]) == string(X),"
+						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) )),"
+						// Intersect[3dLine, 2dLine]
+						+ "when ( (type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT) "
+						// Intersect[3dLine, Cmd2dLine]
+						+ "|| ((ggbinarg1)[0] == '=' && (ggbinarg1)[1] == 'y'),"
 						+ "line_inter( line( point( (ggbinarg0)[0][2] , (ggbinarg0)[1][2] , (ggbinarg0)[2][2][1] ) ,"
+						+ "point( (ggbinarg0[2][2][2])[2][0] + (ggbinarg0)[0][2], "
+						+ "(ggbinarg0[2][2][2])[2][1] +  (ggbinarg0)[1][2] ,"
+						+ "(ggbinarg0[2][2][2])[2][2] + (ggbinarg0)[2][2][1] ) ) ,"
+						+ "line(point(re(subst(parameq(line(ggbinarg1),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg1),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=2)),0)) ) , "
+						// Intersect[3dLine, 3dLine]
+						+ "when ( (xcoord(ggbinarg1))[0] == '=' && string((xcoord(ggbinarg1))[1]) == string(X) ,"
+						+ " line_inter( line( point( (ggbinarg0)[0][2] , (ggbinarg0)[1][2] , (ggbinarg0)[2][2][1] ) ,"
 						+ "point( (ggbinarg0[2][2][2])[2][0] + (ggbinarg0)[0][2], "
 						+ "(ggbinarg0[2][2][2])[2][1] +  (ggbinarg0)[1][2] ,"
 						+ " (ggbinarg0[2][2][2])[2][2] + (ggbinarg0)[2][2][1] ) ) ,"
 						+ "line( point( (ggbinarg1)[0][2] , (ggbinarg1)[1][2] , (ggbinarg1)[2][2][1] ) ,"
 						+ "point( (ggbinarg1[2][2][2])[2][0] + (ggbinarg1)[0][2], "
 						+ "(ggbinarg1[2][2][2])[2][1] +  (ggbinarg1)[1][2] ,"
-						+ " (ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) ) ,"
-						+ "?" + " ) ) ) ) ],"
+						+ " (ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) )  , ? ) )) ,"
+						// Intersect[2dLine, Cmd3dLine]
+						// Intersect[Cmd2dLine, Cmd3dLine]
+						+ "when ( type(xcoord(ggbinarg0)) == DOM_INT && type(grad(ggbinarg0,x)[1]) == DOM_INT,"
+						+ "when(xcoord(ggbinarg1) == string(X),"
+						+ "line_inter(line(point(re(subst(parameq(line(ggbinarg0),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg0),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=2)),0)),"
+						+ "line( point(expr(ggbinarg1)[0][2][1] , "
+						+ "expr(ggbinarg1)[1][2][1],"
+						+ "expr(ggbinarg1)[2][2][1] ),"
+						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
+						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
+						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) ) ) , "
+						// Intersect[2dLine, 2dLine]
+						+ "when ( (type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT)"
+						// Intersect[2dLine, Cmd2dLine]
+						// Intersect[Cmd2dLine, Cmd2dLine]
+						+ "|| ((ggbinarg1)[0] == '=' && (ggbinarg1)[1] == 'y') ,"
+						+ "line_inter(ggbinarg0,ggbinarg1) ,"
+						// Intersect[2dLine, 3dLine]
+						// Intersect[Cmd2dLine, 3dLine]
+						+ "when ( (xcoord(ggbinarg1))[0] == '=' && string((xcoord(ggbinarg1))[1]) == string(X) ,"
+						+ "line_inter(line(point(re(subst(parameq(line(ggbinarg0),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg0),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=2)),0)),"
+						+ "line( point( (ggbinarg1)[0][2] , (ggbinarg1)[1][2] , (ggbinarg1)[2][2][1] ) ,"
+						+ "point( (ggbinarg1[2][2][2])[2][0] + (ggbinarg1)[0][2], "
+						+ "(ggbinarg1[2][2][2])[2][1] +  (ggbinarg1)[1][2] ,"
+						+ " (ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) ) , ? ) )),"
+						// Intersect[Cmd2dLine, 2dLine]
+						+ "when ((ggbinarg0)[0] == '=' && (ggbinarg0)[1] == 'y',"
+						+ "when( type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT,"
+						+ "line_inter(ggbinarg0,ggbinarg1),"
+						+ "? ),"
+						+ "? ) ) ) ) ],"
 						/*
 						 * +
 						 * "[ggbinterans:= when (ggbinterans != '?', ggbinterans,"
