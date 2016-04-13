@@ -1049,22 +1049,6 @@ public class EuclidianViewD extends EuclidianView implements
 		}
 	}
 
-	@Override
-	public void drawActionObjects(org.geogebra.common.awt.GGraphics2D g2) {
-		// TODO layers for Buttons and Textfields
-		// for cross-platform UI the stroke must be reset to show buttons
-		// properly, see #442
-		g2.setStroke(org.geogebra.common.euclidian.EuclidianStatic
-				.getDefaultStroke());
-
-		if (g2 instanceof GGraphics2DD) {
-			// (used to) draw buttons and TextFields
-			evjpanel.paintChildren(
-					org.geogebra.desktop.awt.GGraphics2DD.getAwtGraphics(g2));
-		}
-		super.drawActionObjects(g2);
-	}
-
 	public void clearView() {
 		evjpanel.removeAll(); // remove hotEqns
 		resetLists();
