@@ -45,7 +45,6 @@ import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.ExamEnvironment;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
@@ -3427,12 +3426,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return atob(base64);
 	}-*/;
 
+	/**
+	 * 
+	 * @return Pixel ratio including external transforms
+	 */
 	public float getPixelRatio() {
-		if (!has(Feature.RETINA)) {
-			return 1;
-		}
 		return Browser.getPixelRatio()
-				* (float) articleElement.getDataParamScale();
+				* (float) articleElement.getScaleX();
 	}
 
 	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<MouseTouchGestureControllerW>();

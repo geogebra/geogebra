@@ -392,13 +392,7 @@ public final class ArticleElement extends Element {
 				|| style.msTransform || style.oTransform || "";
 	}-*/;
 
-	private float getEnvScaleX() {
-		return envScale("x");
-	}
 
-	private float getEnvScaleY() {
-		return envScale("y");
-	}
 
 	private native float envScale(String type) /*-{
 		var current = this;
@@ -437,7 +431,7 @@ public final class ArticleElement extends Element {
 		// no instance fields in subclasses of Element, so no way to asign it to
 		// a simple field
 		if ("".equals(this.getAttribute("data-scalex"))) {
-			this.setAttribute("data-scalex", String.valueOf(getEnvScaleX()));
+			this.setAttribute("data-scalex", String.valueOf(envScale("x")));
 		}
 		return Float.parseFloat(this.getAttribute("data-scalex"));
 	}
@@ -450,7 +444,7 @@ public final class ArticleElement extends Element {
 		// no instance fields in subclasses of Element, so no way to asign it to
 		// a simple field
 		if ("".equals(this.getAttribute("data-scaley"))) {
-			this.setAttribute("data-scaley", String.valueOf(getEnvScaleY()));
+			this.setAttribute("data-scaley", String.valueOf(envScale("y")));
 		}
 		return Float.parseFloat(this.getAttribute("data-scaley"));
 	}
@@ -526,6 +520,10 @@ public final class ArticleElement extends Element {
 
 	}
 
+	/**
+	 * Sync data-scale params with external environment
+	 * 
+	 */
 	public void adjustScale() {
 		if (getDataParamApp()
 		        || (getAttribute("data-scalex") != null && !""

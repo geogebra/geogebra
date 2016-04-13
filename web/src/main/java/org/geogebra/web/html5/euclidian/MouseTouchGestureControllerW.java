@@ -10,7 +10,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -97,9 +96,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		style.setScaleY(app.getArticleElement().getScaleY());
 		style.setScrollLeft(Window.getScrollLeft());
 		style.setScrollTop(Window.getScrollTop());
-		if (app.has(Feature.RETINA)) {
-			ec.view.setPixelRatio(app.getPixelRatio());
-		}
+		ec.view.setPixelRatio(app.getPixelRatio());
+
 	}
 
 	private float getEnvWidthScale() {

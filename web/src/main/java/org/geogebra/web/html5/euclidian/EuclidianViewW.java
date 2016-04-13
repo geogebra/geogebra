@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -576,8 +575,7 @@ public class EuclidianViewW extends EuclidianView implements
 	public void createImage() {
 		bgImage = new GBufferedImageW(g2p.getOffsetWidth(),
 				g2p.getOffsetHeight(),
-				app == null
- || !app.has(Feature.RETINA) ? 1 : app
+				app == null ? 1 : app
 						.getPixelRatio(),
 				false);
 		bgGraphics = bgImage.createGraphics();

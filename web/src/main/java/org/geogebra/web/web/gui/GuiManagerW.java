@@ -2083,9 +2083,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public void setPixelRatio(double ratio) {
-		if (!app.has(Feature.RETINA)) {
-			return;
-		}
 		if (hasAlgebraView()) {
 			this.getAlgebraView().setPixelRatio(ratio);
 		}

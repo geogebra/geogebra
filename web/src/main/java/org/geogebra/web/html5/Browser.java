@@ -275,7 +275,7 @@ public class Browser {
 				|| testCtx.msBackingStorePixelRatio
 				|| testCtx.oBackingStorePixelRatio
 				|| testCtx.backingStorePixelRatio || 1;
-		return devicePixelRatio / backingStorePixelRatio;
+		return 2 * devicePixelRatio / backingStorePixelRatio;
 	}-*/;
 
 	public static native void exportImage(String url, String title) /*-{

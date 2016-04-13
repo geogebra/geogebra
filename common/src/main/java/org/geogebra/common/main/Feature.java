@@ -35,8 +35,6 @@ public enum Feature {
 
 	ADD_NEW_OBJECT_BUTTON,
 
-	RETINA,
-
 	LOG_AXES,
 
 	REALSENSE,
