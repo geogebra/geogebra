@@ -85,6 +85,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.LaTeXCache;
@@ -5290,12 +5291,13 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	}
 	
-	private void getListenerTagXML(StringBuilder sb, HashMap<GeoElement, String> map, String type){
+	private void getListenerTagXML(StringBuilder sb,
+			HashMap<GeoElement, JsScript> map, String type) {
 		if (map != null) {
-			String objectListener = map.get(this);
+			JsScript objectListener = map.get(this);
 			if (objectListener != null){
 				sb.append("\t<listener type=\""+type+"\" val=\"");
-				sb.append(objectListener);
+				sb.append(objectListener.getText());
 				sb.append("\"/>\n");
 			}
 		}	

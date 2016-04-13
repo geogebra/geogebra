@@ -94,6 +94,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.SensorLogger.Types;
+import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
@@ -4120,11 +4121,11 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			if (attrs.get("type") == "objectUpdate") {
 				app.getScriptManager().getUpdateListenerMap().put(geo,
-						attrs.get("val"));
+						JsScript.fromName(app, attrs.get("val")));
 			}
 			if (attrs.get("type") == "objectClick") {
 				app.getScriptManager().getClickListenerMap().put(geo,
-						attrs.get("val"));
+						JsScript.fromName(app, attrs.get("val")));
 			}
 			return true;
 		} catch (Exception e) {

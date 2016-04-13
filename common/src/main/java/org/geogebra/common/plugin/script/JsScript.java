@@ -1,5 +1,7 @@
 package org.geogebra.common.plugin.script;
 
+import java.util.HashMap;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
@@ -75,5 +77,15 @@ public class JsScript extends Script {
 		// as JavaScript might contain many kinds of strings
 		// which may clash with oldLabel...
 		return false;
+	}
+
+	static HashMap<String, JsScript> nameToScript = new HashMap<String, JsScript>();
+	public static JsScript fromName(App app, String string) {
+		if(nameToScript == null){
+			nameToScript = new HashMap<String, JsScript>();
+		}
+		JsScript script = new JsScript(app, string);
+		nameToScript.put(string,script);
+		return script;
 	}
 }
