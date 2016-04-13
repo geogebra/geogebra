@@ -556,10 +556,6 @@ public class DrawEquationW extends DrawEquation {
 		var elSecond = elfirst.nextSibling;
 
 		var elSecondInside = elSecond.lastChild;
-
-		console.log(elSecond);
-		console.log(elSecondInside);
-		
 		// if we go to editing mode, this timer is not relevant any more,
 		// and also harmful in case it runs after editing mode is set
 		if (elSecondInside.timeoutId) {
@@ -770,7 +766,8 @@ public class DrawEquationW extends DrawEquation {
 								}
 							});
 		}
-	}-*/ ;
+	}-*/
+			;
 
 	public static boolean specKeyDown(int keyCode, boolean altDown,
 			boolean ctrlDown, boolean shiftDown, Element parentElement) {

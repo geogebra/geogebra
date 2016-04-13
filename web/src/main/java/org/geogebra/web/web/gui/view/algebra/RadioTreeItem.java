@@ -48,7 +48,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -843,7 +842,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 	private void buildDefinitionAndValue(boolean asLatex) {
-		Log.debug("buildDefinitionAndValue");
+		// // Log.debug("buildDefinitionAndValue");
 		createDVPanels();
 
 		IndexHTMLBuilder sb = getBuilder(definitionPanel);
@@ -851,7 +850,8 @@ public class RadioTreeItem extends AVTreeItem
 				geo.getDefinition(StringTemplate.defaultTemplate), sb);
 
 		valuePanel.clear();
-		geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
+		String val = geo
+				.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
 
 		final Label lblDefinition = new Label(getOutputPrefix());
 		if (app.has(Feature.FRACTIONS)) {
@@ -865,9 +865,15 @@ public class RadioTreeItem extends AVTreeItem
 			});
 		}
 		updateColor(lblDefinition);
-		outputPanel.clear();
-		outputPanel.add(lblDefinition);
-		outputPanel.add(valuePanel);
+		if (isDefinitionAndValue() && geo.needToShowBothRowsInAV() && latex) {
+			// // Log.debug("[avout] LaTeX: " + val);
+			buildLatexOutput(val);
+		} else {
+			// // Log.debug("[avout] plain: " + val);
+			outputPanel.clear();
+			outputPanel.add(lblDefinition);
+			outputPanel.add(valuePanel);
+		}
 		outputPanel.addStyleName("avOutput");
 
 		plainTextItem.clear();
@@ -1315,6 +1321,7 @@ public class RadioTreeItem extends AVTreeItem
 				if (!isInputTreeItem() && c != null) {
 					ihtml.clear();
 					if (isDefinitionAndValue()) {
+						// Log.debug("[avout] hejehuja!");
 						buildDefinitionAndValue(false);
 						ihtml.add(valuePanel);
 					}
@@ -1408,7 +1415,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		} 
  else {
-			// Log.debug(REFX + "renderLatex 2");
+			// // Log.debug(REFX + "renderLatex 2");
 			if (latexItem == null) {
 				latexItem = new FlowPanel();
 			}
@@ -1488,6 +1495,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		c = DrawEquationW.paintOnCanvas(geo, eqn, c, getFontSize());
+
 		if (twoRows) {
 			valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
 		}
@@ -1496,17 +1504,19 @@ public class RadioTreeItem extends AVTreeItem
 	private void replaceToCanvas(String text, Widget old) {
 		updateLaTeX(text);
 
-		if (LayoutUtil.replace(ihtml, c, old)) {
+		if (true) {// {
 			if (isDefinitionAndValue() && geo.needToShowBothRowsInAV()) {
 				buildLatexOutput(text);
-				Log.debug("ihtml.add(outputPanel) in replaceCanvas");
+				// Log.debug("ihtml.add(outputPanel) in replaceCanvas");
 				ihtml.add(outputPanel);
+			} else {
+				LayoutUtil.replace(ihtml, c, old);
 			}
 		}
 	}
 
 	private void renderLatexMQ(String text0) {
-		Log.debug(DV + "renderLatexMQ: " + text0);
+		// Log.debug(DV + "renderLatexMQ: " + text0);
 		if (latexItem == null) {
 			latexItem = new FlowPanel();
 		}
@@ -1537,7 +1547,7 @@ public class RadioTreeItem extends AVTreeItem
 					isInputTreeItem());
 			// buildLatexOutput(text);
 
-			Log.debug("ihtml.add(outputPanel) in renderLatexMQ");
+			// Log.debug("ihtml.add(outputPanel) in renderLatexMQ");
 			ihtml.add(outputPanel);
 		} else {
 			latexItem.removeStyleName("avDefinition");
@@ -1950,27 +1960,27 @@ marblePanel, evt))) {
 							new Scheduler.ScheduledCommand() {
 
 								public void execute() {
-									// Log.debug("left padding: "
+									// // Log.debug("left padding: "
 									// + contentPanel
 									// .getElement()
 									// .getStyle()
 									// .getPaddingLeft());
-									// Log.debug("left padding 2 : "
+									// // Log.debug("left padding 2 : "
 									// + contentPanel.getElement()
 									// .getPropertyInt(
 									// "padding-left"));
-									// Log.debug("left padding 3 : "
+									// // Log.debug("left padding 3 : "
 									// + contentPanel.getElement()
 									// .getPropertyString(
 									// "padding-left"));
-									// Log.debug("left padding 4 : "
+									// // Log.debug("left padding 4 : "
 									// + contentPanel.getElement()
 									// .getAttribute(
 									// "padding-left"));
-									// Log.debug("left padding 5 : "
+									// // Log.debug("left padding 5 : "
 									// + contentPanel.getElement()
 									// .getStyle().getPadding());
-									// Log.debug("contentPanel: "
+									// // Log.debug("contentPanel: "
 									// + contentPanel.toString());
 
 									// TODO: change 40 for left padding of
