@@ -81,59 +81,7 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 		algebraprocessor = kernel.getAlgebraProcessor();
 		construction = kernel.getConstruction();
 		// pluginmanager=app.getPluginManager();
-	}// Constructor
-
-	/** Returns reference to PluginManager */
-	// public PluginManager getPluginManager() {
-	// if(pluginmanager==null){
-	// this.pluginmanager=app.getPluginManager();
-	// }//if not initialized
-	// return this.pluginmanager;
-	// }//getPluginManager()
-
-	/**
-	 * TODO decide whether we can remove this method Returns reference to
-	 * ClassPathManipulator
-	 * 
-	 * @deprecated always returns null
-	 * @return null
-	 */
-	@Deprecated
-	public ClassPathManipulator getClassPathManipulator() {
-		return null;// ClassPathManipulator;
-	}// getClassPathManipulator()
-
-	/**
-	 * Executes a GeoGebra command 29.05.08 commented out as the right one is
-	 * copied from applet interface. I never saw that it should return boolean
-	 * before now...
-	 * 
-	 * public void evalCommand(String cmd) { if(algebraprocessor!=null) {
-	 * algebraprocessor.processAlgebraCommand(cmd, true); }else{
-	 * Application.debug("Cannot find the GeoGebra AlgebraProcessor!"); }//if
-	 * ggb not null }//evalCommand(String)
-	 */
-	// / --- 17.02.09 Ulven: --- ///
-	/**
-	 * MathPiper console in Java Console public void mathPiperJavaConsole(){
-	 * System.out.println("---MathPiper Console---");
-	 * org.mathpiper.ui.text.consoles.Console cons=new
-	 * org.mathpiper.ui.text.consoles.Console();
-	 * cons.repl(System.in,System.out); }//mathPiperJavaConsole()
-	 */
-
-	/**
-	 * Making MathPiper available for Plugins (Silent version, without debug to
-	 * console)
-	 * 
-	 * @deprecated since GeoGebra 4.0
-	 * 
-	 *             public String evaluateMathPiper(String cmdString){ return
-	 *             kernel.evaluateMathPiper(cmdString);
-	 *             }//evaluateMathPiper(String)
-	 */
-
-	// / --- 29.05.08 Ulven: --- ///
+	}
 
 	// /* JAVA SCRIPT INTERFACE */
 
@@ -186,48 +134,6 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	/**
-	 * Evaluates the given string as if it was entered into MathPiper's input
-	 * text field.
-	 * 
-	 * @deprecated since GeoGebra 4.0, use evalGeoGebraCAS() instead
-	 * 
-	 *             public synchronized String evalMathPiper(String cmdString) {
-	 * 
-	 *             String ret = kernel.evaluateMathPiper(cmdString);
-	 * 
-	 *             // useful for debugging JavaScript // do not remove!
-	 *             Application
-	 *             .debug("evalMathPiper\n input:"+cmdString+"\n"+"output: "
-	 *             +ret);
-	 * 
-	 *             return ret;
-	 * 
-	 *             }
-	 */
-
-	/**
-	 * Evaluates the given string as if it was entered into Maxima's input text
-	 * field.
-	 * 
-	 * @author Ulven
-	 * @version 2010-03-10
-	 * @deprecated since GeoGebra 4.0, use evalGeoGebraCAS() instead
-	 * 
-	 *             public synchronized String evalMaxima(String cmdString) {
-	 * 
-	 *             String ret = kernel.evaluateMaxima(cmdString);
-	 * 
-	 *             // useful for debugging JavaScript // do not remove!
-	 *             Application
-	 *             .debug("evalMaxima\n input:"+cmdString+"\n"+"output: "+ret);
-	 * 
-	 *             return ret;
-	 * 
-	 *             }//evalMaxima(String cmdString)
-	 */
-
-
-	/**
 	 * Turns showing of error dialogs on (true) or (off). Note: this is
 	 * especially useful together with evalCommand().
 	 */
@@ -263,15 +169,6 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 			e.printStackTrace();
 		}
 	}
-
-	/*
-	 * public synchronized void setLanguage(String isoLanguageString) {
-	 * app.setLanguage(new Locale(isoLanguageString)); }
-	 * 
-	 * public synchronized void setLanguage(String isoLanguageString, String
-	 * isoCountryString) { app.setLanguage(new Locale(isoLanguageString,
-	 * isoCountryString)); }
-	 */
 
 	private static MessageDigest messageDigestMD5 = null;
 
