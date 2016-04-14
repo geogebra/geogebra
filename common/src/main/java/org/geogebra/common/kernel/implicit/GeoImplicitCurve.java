@@ -446,18 +446,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * @return the value of the function
 	 */
 	public double evaluateImplicitCurve(double x, double y) {
+		if (coeff != null) {
+			return GeoImplicitCurve.evalPolyCoeffAt(x, y, coeff);
+		}
 		evalArray[0] = x;
 		evalArray[1] = y;
-		return evaluateImplicitCurve(evalArray);
-	}
-
-	/**
-	 * @param values
-	 *            function variables ({x, y})
-	 * @return the value of the function
-	 */
-	public double evaluateImplicitCurve(double[] values) {
-		return expression.evaluate(values);
+		return this.expression.evaluate(evalArray);
 	}
 
 	/**
