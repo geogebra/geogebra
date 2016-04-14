@@ -1504,13 +1504,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return defined && locus.isDefined() && locus.getPoints().size() > 0;
 	}
 
-	public double evalPolyAt(double x, double y) {
-		if (coeff != null) {
-			return GeoImplicitCurve.evalPolyCoeffAt(x, y, coeff);
-		}
-		return this.expression.evaluate(x, y, 0);
-	}
-
 	public int getDegX() {
 		return degX;
 	}
@@ -1522,29 +1515,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	public void setInputForm() {
 		inputForm = true;
 
-	}
-
-	public double evalDiffXPolyAt(double x, double y) {
-		if (coeff != null) {
-			return GeoImplicitPoly.evalDiffXPolyAt(x, y, coeff);
-		}
-		return evallDiff(0, x, y);
-	}
-
-	private double evallDiff(int i, double inhomX, double inhomY) {
-		ExpressionNode diffEx = expression.getFunctionExpression()
-				.derivative(expression.getFunctionVariables()[i], kernel);
-		expression.getFunctionVariables()[0].set(inhomX);
-		expression.getFunctionVariables()[1].set(inhomY);
-		return diffEx.evaluateDouble();
-
-	}
-
-	public double evalDiffYPolyAt(double x, double y) {
-		if (coeff != null) {
-			return GeoImplicitPoly.evalDiffYPolyAt(x, y, coeff);
-		}
-		return evallDiff(1, x, y);
 	}
 
 	/**

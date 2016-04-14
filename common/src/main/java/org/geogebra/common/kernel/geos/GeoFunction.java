@@ -207,7 +207,7 @@ CasEvaluableFunction, ParametricCurve,
 				@Override
 				public double evaluate(double x) {
 
-					return GeoFunction.this.iPoly.evalPolyAt(x,
+					return GeoFunction.this.iPoly.evaluateImplicitCurve(x,
 							substituteFunctions[1].getFunction().evaluate(x));
 				}
 			};
@@ -247,7 +247,8 @@ CasEvaluableFunction, ParametricCurve,
 				public double evaluate(double x) {
 
 					return GeoFunction.this.iPoly
-							.evalPolyAt(substituteFunctions[0].getFunction()
+							.evaluateImplicitCurve(substituteFunctions[0]
+									.getFunction()
 									.evaluate(x), x);
 				}
 			};
@@ -263,7 +264,7 @@ CasEvaluableFunction, ParametricCurve,
 				@Override
 				public double evaluate(double x) {
 
-					return GeoFunction.this.iPoly.evalPolyAt(
+					return GeoFunction.this.iPoly.evaluateImplicitCurve(
 							substituteFunctions[0].getFunction().evaluate(x),
 							substituteFunctions[1].getFunction().evaluate(x));
 				}

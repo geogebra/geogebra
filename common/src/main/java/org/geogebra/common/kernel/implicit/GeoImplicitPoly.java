@@ -473,7 +473,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 *            y
 	 * @return value of poly at (x,y)
 	 */
-	public double evalPolyAt(double x, double y) {
+	public double evaluateImplicitCurve(double x, double y) {
 		return evalPolyAt(x, y, false);
 	}
 
@@ -499,7 +499,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 *            y
 	 * @return value of dthis/dx at (x,y)
 	 */
-	public double evalDiffXPolyAt(double x, double y) {
+	public double derivativeX(double x, double y) {
 		return evalDiffXPolyAt(x, y, getCoeff(false));
 	}
 
@@ -535,7 +535,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 *            y
 	 * @return value of dthis/dy at (x,y)
 	 */
-	public double evalDiffYPolyAt(double x, double y) {
+	public double derivativeY(double x, double y) {
 		return evalDiffYPolyAt(x, y, getCoeff(false));
 	}
 
@@ -993,8 +993,8 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 		double y = PI.getY2D();
 
 		double dx, dy;
-		dx = evalDiffXPolyAt(x, y);
-		dy = evalDiffYPolyAt(x, y);
+		dx = derivativeX(x, y);
+		dy = derivativeY(x, y);
 		double d = Math.abs(dx) + Math.abs(dy);
 		if (Kernel.isZero(d))
 			return;
@@ -1069,7 +1069,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	}
 
 	private boolean isOnPath(double px, double py) {
-		double value = this.evalPolyAt(px, py);
+		double value = this.evaluateImplicitCurve(px, py);
 
 		return Math.abs(value) < Kernel.MIN_PRECISION;
 	}

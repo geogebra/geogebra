@@ -29,17 +29,11 @@ public interface GeoImplicit extends GeoElementND {
 
 	public TreeSet<GeoElement> getAllChildren();
 
-	double evalPolyAt(double evaluate, double x);
-
 	int getDegX();
 
 	int getDegY();
 
 	void setInputForm();
-
-	double evalDiffXPolyAt(double inhomX, double inhomY);
-
-	double evalDiffYPolyAt(double inhomX, double inhomY);
 
 	boolean isOnPath(GeoPointND r);
 
@@ -63,4 +57,11 @@ public interface GeoImplicit extends GeoElementND {
 
 	CoordSys getCoordSys();
 
+	double derivativeX(double x, double y);
+
+	double derivativeY(double x, double y);
+
+	double evaluateImplicitCurve(double x, double y);
+
 }
+

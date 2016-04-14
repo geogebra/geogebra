@@ -166,8 +166,8 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 		int n = 0;
 		if (p.isOnPath(R)) {
 			tangents.adjustOutputSize(n + 1);
-			double dfdx = this.p.evalDiffXPolyAt(R.getInhomX(), R.getInhomY());
-			double dfdy = this.p.evalDiffYPolyAt(R.getInhomX(), R.getInhomY());
+			double dfdx = this.p.derivativeX(R.getInhomX(), R.getInhomY());
+			double dfdy = this.p.derivativeY(R.getInhomX(), R.getInhomY());
 			if (!Kernel.isEqual(dfdx, 0, 1E-5)
 					|| !Kernel.isEqual(dfdy, 0, 1E-5)) {
 				tangents.getElement(n).setCoords(dfdx, dfdy,
@@ -202,10 +202,10 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 			// TODO: have a more reasonable choice; also we use standard
 			// precision rather than working precision (might not be a problem)
 			if (Kernel.isEqual(0,
-					this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY),
+					this.p.derivativeX(ip[i].inhomX, ip[i].inhomY),
 					Kernel.STANDARD_PRECISION_SQRT)
 					&& Kernel.isEqual(0,
-							this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY),
+							this.p.derivativeX(ip[i].inhomX, ip[i].inhomY),
 							Kernel.STANDARD_PRECISION_SQRT))
 				continue;
 

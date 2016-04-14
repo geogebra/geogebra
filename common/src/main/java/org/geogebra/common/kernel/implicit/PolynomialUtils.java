@@ -234,9 +234,9 @@ public class PolynomialUtils {
 		if (p2 == null && (line == null || line.length != 3)) {
 			return false;
 		}
-		p = p1.evalPolyAt(x, y);
+		p = p1.evaluateImplicitCurve(x, y);
 		if (p2 != null)
-			q = p2.evalPolyAt(x, y);
+			q = p2.evaluateImplicitCurve(x, y);
 		else
 			q = line[0] + x * line[1] + y * line[2];
 		double lastErr = Double.MAX_VALUE;
@@ -247,11 +247,11 @@ public class PolynomialUtils {
 				&& ++n < MAX_ITERATIONS) {
 			double px, py;
 			double qx, qy;
-			px = p1.evalDiffXPolyAt(x, y);
-			py = p1.evalDiffYPolyAt(x, y);
+			px = p1.derivativeX(x, y);
+			py = p1.derivativeY(x, y);
 			if (p2 != null) {
-				qx = p2.evalDiffXPolyAt(x, y);
-				qy = p2.evalDiffYPolyAt(x, y);
+				qx = p2.derivativeX(x, y);
+				qy = p2.derivativeY(x, y);
 			} else {
 				qx = line[1];
 				qy = line[2];
@@ -263,9 +263,9 @@ public class PolynomialUtils {
 			x -= (p * qy - q * py) / det;
 			y -= (q * px - p * qx) / det;
 			lastErr = err;
-			p = p1.evalPolyAt(x, y);
+			p = p1.evaluateImplicitCurve(x, y);
 			if (p2 != null) {
-				q = p2.evalPolyAt(x, y);
+				q = p2.evaluateImplicitCurve(x, y);
 			} else {
 				q = line[0] + x * line[1] + y * line[2];
 			}
