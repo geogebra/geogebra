@@ -853,18 +853,7 @@ public class RadioTreeItem extends AVTreeItem
 		String val = geo
 				.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
 
-		final Label lblDefinition = new Label(getOutputPrefix());
-		if (app.has(Feature.FRACTIONS)) {
-			ClickStartHandler.init(lblDefinition, new ClickStartHandler() {
-
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					toggleSymbolic(lblDefinition);
-
-				}
-			});
-		}
-		updateColor(lblDefinition);
+		final Label lblDefinition = getDefinitionPrefixLabel();
 		if (isDefinitionAndValue() && geo.needToShowBothRowsInAV() && latex) {
 			// // Log.debug("[avout] LaTeX: " + val);
 			buildLatexOutput(val);
@@ -886,6 +875,22 @@ public class RadioTreeItem extends AVTreeItem
 			valuePanel.addStyleName("avValue");
 			plainTextItem.add(outputPanel);
 		}
+	}
+
+	private Label getDefinitionPrefixLabel() {
+		final Label lblDefinition = new Label(getOutputPrefix());
+		if (app.has(Feature.FRACTIONS)) {
+			ClickStartHandler.init(lblDefinition, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					toggleSymbolic(lblDefinition);
+
+				}
+			});
+		}
+		updateColor(lblDefinition);
+		return lblDefinition;
 	}
 
 	void toggleSymbolic(Label lbl) {
@@ -1472,7 +1477,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		outputPanel.clear();
-		outputPanel.add(new Label(getOutputPrefix()));
+		outputPanel.add(getDefinitionPrefixLabel());
 		valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
 		if (valC != null) {
 			outputPanel.add(valC);
