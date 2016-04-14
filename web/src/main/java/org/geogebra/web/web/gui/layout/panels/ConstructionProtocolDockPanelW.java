@@ -59,7 +59,10 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	protected Panel getViewPanel() {
-		// TODO Auto-generated method stub
+		if (app.has(Feature.FIX_CP_HEADER)) {
+			return ((ConstructionProtocolViewW) app.getGuiManager()
+					.getConstructionProtocolView()).getOuterScrollPanel();
+		}
 		return ((ConstructionProtocolViewW) app.getGuiManager()
 				.getConstructionProtocolView()).getCpPanel();
 	}

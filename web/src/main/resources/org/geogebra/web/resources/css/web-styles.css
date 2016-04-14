@@ -3646,6 +3646,11 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .cpPanel .cpScrollPanel{
 	flex-grow: 1;
+	overflow-x: hidden !important; 
+}
+
+.outerScrollPanel{
+	overflow-y: hidden !important;
 }
 
 /*

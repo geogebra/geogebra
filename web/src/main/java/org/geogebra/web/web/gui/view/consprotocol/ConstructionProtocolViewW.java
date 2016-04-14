@@ -86,6 +86,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	GCheckBoxMenuItem miShowOnlyBreakpoints = null;
 
 	CellTable<RowData> headerTable;
+	private ScrollPanel outerScrollPanel;
 
 
 	/**
@@ -127,6 +128,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			headerTable.addStyleName("headerTable");
 			headerTable.addStyleName("cpTable");
 			cpPanel.add(headerTable);
+			outerScrollPanel = new ScrollPanel(cpPanel); // used for horizontal
+														// scrolling
 			table.addStyleName("hiddenheader");
 		}
 		cpPanel.add(scrollPane);
@@ -943,6 +946,9 @@ myCell) {
 		return cpPanel;
 	}
 
+	public ScrollPanel getOuterScrollPanel() {
+		return outerScrollPanel;
+	}
 	
 	/**
 	 * Make all currrent rows draggable
