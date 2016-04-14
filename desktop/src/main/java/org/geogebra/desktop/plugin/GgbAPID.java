@@ -302,37 +302,6 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 	 * isoCountryString)); }
 	 */
 
-	/*
-	 * used by the automatic file tester (from JavaScript) returns a checksum of
-	 * the graphics view to check it is the same as the baseline version
-	 */
-	public String getGraphicsViewCheckSum(String algorithm, String format) {
-
-		if (!algorithm.equals("MD5"))
-			return "";
-
-		try {
-
-			BufferedImage img = ((AppD) app).getEuclidianView1()
-					.getExportImage(1);
-
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(img, StringUtil.toLowerCase(format), baos);
-
-			MessageDigest md5 = getMessageDigestMD5();
-			byte[] bytesOut = baos.toByteArray();
-			md5.update(bytesOut);
-			byte[] md5hash = new byte[32];
-			md5hash = md5.digest();
-			return StringUtil.convertToHex(md5hash);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
-
-	}
-
 	private static MessageDigest messageDigestMD5 = null;
 
 	/**

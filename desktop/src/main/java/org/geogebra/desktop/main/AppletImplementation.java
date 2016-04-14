@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.main;
 
-import geogebra.GeoGebraAppletPreloader;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -37,8 +35,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import netscape.javascript.JSObject;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
@@ -50,6 +46,9 @@ import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.plugin.GgbAPID;
+
+import geogebra.GeoGebraAppletPreloader;
+import netscape.javascript.JSObject;
 
 /**
  * GeoGebra applet implementation operating on a given JApplet object.
@@ -1026,23 +1025,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 	public synchronized void setFilling(String objName, double filling) {
 		ggbApi.setFilling(objName, filling);
-	}
-
-	/*
-	 * used by the automatic file tester (from JavaScript)
-	 */
-	public synchronized String getGraphicsViewCheckSum(final String algorithm,
-			final String format) {
-		// avoid security problems calling from JavaScript
-		return (String) AccessController
-				.doPrivileged(new PrivilegedAction<Object>() {
-					public Object run() {
-						// perform the security-sensitive operation here
-						return ggbApi
-								.getGraphicsViewCheckSum(algorithm, format);
-					}
-				});
-
 	}
 
 	/**

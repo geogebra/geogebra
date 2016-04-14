@@ -542,12 +542,6 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getAppletImplementation().setFilling(objName, filling);
 	}
 
-	public synchronized String getGraphicsViewCheckSum(String algorithm,
-			String format) {
-		return getAppletImplementation().getGraphicsViewCheckSum(algorithm,
-				format);
-	}
-
 	public synchronized void setPointStyle(String objName, int style) {
 		getAppletImplementation().setPointStyle(objName, style);
 	}

@@ -108,11 +108,6 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		view.processFileName(filename);
 	}
 
-	public String getGraphicsViewCheckSum(String algorithm, String format) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public boolean writePNGtoFile(String filename, double exportScale,
 			boolean transparent, double DPI) {
 
