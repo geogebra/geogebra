@@ -1522,8 +1522,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// after closing some panels, this may need to be done
 		// even if the following need not
 		// only do this if toolbar string not null, otherwise this may
-		String def = layout.getDockManager().getPanel(toolbarID)
-		        .getToolbarString();
+		DockPanel dp = layout.getDockManager().getPanel(toolbarID);
+		String def = dp == null ? null : dp.getToolbarString();
 		if ((def == null || "".equals(def))
 		        && this.generalToolbarDefinition != null) {
 			def = this.generalToolbarDefinition;
