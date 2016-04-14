@@ -308,7 +308,7 @@ public class AppWapplet extends AppWFull {
 				useFullGui = true;
 			}
 		}
-
+		frame.setApplication(this);
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
 		} else {
