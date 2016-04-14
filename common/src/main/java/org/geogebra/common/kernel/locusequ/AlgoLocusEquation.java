@@ -453,6 +453,9 @@ public class AlgoLocusEquation extends AlgoElement {
 		}
 	}
 
+	/**
+	 * Set up dependencies for the input and output objects.
+	 */
 	protected void setInputOutputImplicit() {
 
 		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
@@ -481,6 +484,12 @@ public class AlgoLocusEquation extends AlgoElement {
 
 	}
 
+	/**
+	 * Compute the locus equation curve and put into geoPoly.
+	 * 
+	 * @param implicit
+	 *            if the computation will be done for an implicit locus
+	 */
 	public void computeExplicitImplicit(boolean implicit) {
 		String result = null;
 		try {

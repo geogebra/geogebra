@@ -5,16 +5,23 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
+import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Prover.ProofResult;
+import org.geogebra.common.util.Prover.ProverEngine;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * A prover which uses Tomas Recios method to prove geometric theorems.
@@ -36,24 +43,65 @@ public abstract class AbstractProverReciosMethod {
 	 */
 	public ProofResult prove(Prover prover) {
 
-		SymbolicParameters s;
+		SymbolicParameters s = null;
+		boolean B = false; // use Botana's method or not
+		if (ProverSettings.proverMethod.equals("groebner")) {
+			B = true;
+		}
+		AlgebraicStatement as = null;
+		GeoElement statement = prover.getStatement();
+		Prover p;
 
-		if (prover.getStatement() instanceof SymbolicParametersAlgo)
-			s = (((SymbolicParametersAlgo) prover.getStatement())
+		if (statement instanceof SymbolicParametersAlgo)
+			s = (((SymbolicParametersAlgo) statement)
 					.getSymbolicParameters());
-		else if (prover.getStatement().getParentAlgorithm() instanceof SymbolicParametersAlgo)
-			s = (((SymbolicParametersAlgo) prover.getStatement()
+		else if (statement.getParentAlgorithm() instanceof SymbolicParametersAlgo)
+			s = (((SymbolicParametersAlgo) statement
 					.getParentAlgorithm()).getSymbolicParameters());
-		else
-			return ProofResult.UNKNOWN;
-
-		HashSet<Variable> variables;
-
-		try {
-			variables = s.getFreeVariables();
-		} catch (NoSymbolicParametersException e) {
+		else {
 			return ProofResult.UNKNOWN;
 		}
+		if (B) {
+			// use Botana's method if there is no native support
+			p = UtilFactory.prototype.newProver();
+			p.setProverEngine(ProverEngine.RECIOS_PROVER);
+			ProverBotanasMethod pbm = new ProverBotanasMethod();
+			as = pbm.new AlgebraicStatement(statement, p);
+		}
+
+		HashSet<Variable> variables = new HashSet<Variable>();
+
+		if (!B) {
+			try {
+				variables = s.getFreeVariables();
+			} catch (NoSymbolicParametersException e) {
+				return ProofResult.UNKNOWN;
+			}
+		} else {
+			List<GeoElement> freePoints = ProverBotanasMethod
+					.getFreePoints(statement);
+			Iterator<GeoElement> it = freePoints.iterator();
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
+						.getBotanaVars(geo);
+				variables.add(vars[0]);
+				variables.add(vars[1]);
+				/*
+				 * This is not automatically set in Botana's prover. Consider do
+				 * this setting there instead of here. TODO.
+				 */
+				vars[0].setTwin(vars[1]);
+				vars[1].setTwin(vars[0]);
+				vars[0].setParent(geo);
+				vars[1].setParent(geo);
+				/*
+				 * Consider using the same way also in Botana's prover for the
+				 * other method. TODO.
+				 */
+			}
+		}
+
 
 		// setting two points fixed (the first to (0,0) and the second to (0,1))
 		// all other variables are stored in freeVariables
@@ -132,7 +180,7 @@ public abstract class AbstractProverReciosMethod {
 			// TODO: This is not a problem in the method, it is in the
 			// implementation.
 			// FIXME: Make the implementation faster.
-			App.debug("Recio's method is currently disabled when # of free variables > 5");
+			Log.debug("Recio's method is currently disabled when # of free variables > 5");
 			return ProofResult.UNKNOWN;
 		}
 
@@ -149,19 +197,35 @@ public abstract class AbstractProverReciosMethod {
 
 		switch (nrFreeVariables) {
 		case 0:
-			return compute0d(values, s);
+			return compute0d(values, s, as);
 		case 1:
-			return compute1d(freeVariables, values, deg, s);
+			return compute1d(freeVariables, values, deg, s, as);
 		case 2:
-			return compute2d(freeVariables, values, deg, s);
+			return compute2d(freeVariables, values, deg, s, as);
 		default:
-			return computeNd(freeVariables, values, deg, s);
+			return computeNd(freeVariables, values, deg, s, as);
 		}
 
 	}
 
 	private static ProofResult compute0d(HashMap<Variable, BigInteger> values,
-			SymbolicParameters s) {
+			SymbolicParameters s, AlgebraicStatement as) {
+		if (as != null) {
+			// use Botana's method
+			HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
+			for (Variable v : values.keySet()) {
+				// FIXME: Change Long in Variable to BigInteger
+				substitutions.put(v, values.get(v).longValue());
+			}
+			Boolean solvable = Polynomial.solvable(as.polynomials
+					.toArray(new Polynomial[as.polynomials.size()]),
+					substitutions, as.geoStatement.getKernel(),
+					ProverSettings.transcext);
+			Log.debug("Recio meets Botana:" + substitutions);
+			if (solvable) {
+				return ProofResult.FALSE;
+			}
+		} else
 		try {
 			BigInteger[] exactCoordinates = s.getExactCoordinates(values);
 			for (BigInteger result : exactCoordinates) {
@@ -177,11 +241,27 @@ public abstract class AbstractProverReciosMethod {
 
 	private static ProofResult compute1d(final HashSet<Variable> freeVariables,
 			final HashMap<Variable, BigInteger> values, final int deg,
-			final SymbolicParameters s) {
+			final SymbolicParameters s, AlgebraicStatement as) {
 		Variable variable = freeVariables.iterator().next();
 		for (int i = 1; i <= deg + 2; i++) {
 			values.put(variable, BigInteger.valueOf(i));
-			try {
+			if (as != null) {
+				// use Botana's method
+				HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
+				for (Variable v : values.keySet()) {
+					// FIXME: Change Long in Variable to BigInteger
+					substitutions.put(v, values.get(v).longValue());
+				}
+				Boolean solvable = Polynomial.solvable(as.polynomials
+						.toArray(new Polynomial[as.polynomials.size()]),
+						substitutions, as.geoStatement.getKernel(),
+						ProverSettings.transcext);
+				Log.debug("Recio meets Botana: #" + i + " " + substitutions);
+				if (solvable) {
+					return ProofResult.FALSE;
+				}
+			} else
+				try {
 				BigInteger[] exactCoordinates = s.getExactCoordinates(values);
 				for (BigInteger result : exactCoordinates) {
 					if (!result.equals(BigInteger.ZERO)) {
@@ -197,7 +277,7 @@ public abstract class AbstractProverReciosMethod {
 
 	private static ProofResult compute2d(final HashSet<Variable> freeVariables,
 			final HashMap<Variable, BigInteger> values, final int deg,
-			final SymbolicParameters s) {
+			final SymbolicParameters s, AlgebraicStatement as) {
 		Variable[] variables = new Variable[freeVariables.size()];
 		Iterator<Variable> it = freeVariables.iterator();
 		for (int i = 0; i < variables.length; i++) {
@@ -205,13 +285,33 @@ public abstract class AbstractProverReciosMethod {
 		}
 
 		int nrOfTests = ((deg + 2) * (deg + 1)) / 2;
-		App.debug("nr of tests: " + nrOfTests);
-		for (int i = 1; i <= deg + 2; i++) {
+		Log.debug("nr of tests: " + nrOfTests);
+		int caseno = 0;
+		for (int i = 1; i < /* = */deg + 2; i++) {
 			for (int j = 1; j <= i; j++) {
+				caseno++;
 				values.put(variables[0],
 						BigInteger.valueOf((deg + 2 - i) * (deg + 2 - j)));
 				values.put(variables[1], BigInteger.valueOf(i * j));
-				try {
+
+				if (as != null) {
+					// use Botana's method
+					HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
+					for (Variable v : values.keySet()) {
+						// FIXME: Change Long in Variable to BigInteger
+						substitutions.put(v, values.get(v).longValue());
+					}
+					Boolean solvable = Polynomial.solvable(as.polynomials
+							.toArray(new Polynomial[as.polynomials.size()]),
+							substitutions, as.geoStatement.getKernel(),
+							ProverSettings.transcext);
+					Log.debug("Recio meets Botana: #" + caseno + " "
+							+ substitutions);
+					if (solvable) {
+						return ProofResult.FALSE;
+					}
+				} else
+					try {
 					BigInteger[] exactCoordinates = s
 							.getExactCoordinates(values);
 					for (BigInteger result : exactCoordinates) {
@@ -240,13 +340,17 @@ public abstract class AbstractProverReciosMethod {
 	 * @param s
 	 *            The Symbolic parameters class that is used to test the
 	 *            statement for a fixed point
+	 * @param as
+	 *            The algebraic translation of the statement, if null, use
+	 *            native computations (by Weitzhofer), otherwise use the Botana
+	 *            equations (by Kovacs/Solyom-Gecse)
 	 * @return the result of the proof
 	 */
 
 	protected abstract ProofResult computeNd(
 			final HashSet<Variable> freeVariables,
 			final HashMap<Variable, BigInteger> values, final int deg,
-			final SymbolicParameters s);
+			final SymbolicParameters s, AlgebraicStatement as);
 
 	/**
 	 * Returns the elements which are fixed by Recio's method prover

@@ -8,15 +8,24 @@ import java.util.Iterator;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.Prover.ProofResult;
+import org.geogebra.common.util.debug.Log;
 
+/**
+ * A non-threaded version of Recio's method.
+ * 
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
+ */
 public class ProverReciosMethod extends AbstractProverReciosMethod {
 
 	@Override
 	protected final ProofResult computeNd(HashSet<Variable> freeVariables,
-	        HashMap<Variable, BigInteger> values, int deg, SymbolicParameters s) {
+			HashMap<Variable, BigInteger> values, int deg,
+			SymbolicParameters s, AlgebraicStatement as) {
 		int n = freeVariables.size();
 
 		Variable[] variables = new Variable[n];
@@ -56,6 +65,24 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 
 			nrOfTests++;
 
+			if (as != null) {
+				// use Botana's method
+				HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
+				for (Variable v : values.keySet()) {
+					// FIXME: Change Long in Variable to BigInteger
+					substitutions.put(v, values.get(v).longValue());
+				}
+				Boolean solvable = Polynomial.solvable(as.polynomials
+						.toArray(new Polynomial[as.polynomials.size()]),
+						substitutions, as.geoStatement.getKernel(),
+						ProverSettings.transcext);
+				Log.debug("Recio meets Botana #" + nrOfTests + ": "
+						+ substitutions);
+				if (solvable) {
+					return ProofResult.FALSE;
+				}
+			} else
+
 			try {
 				BigInteger[] exactCoordinates = s.getExactCoordinates(values);
 				for (BigInteger result : exactCoordinates) {
@@ -83,9 +110,9 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 
 		} while (indicesChanged);
 
-		App.debug(nrOfTests + " tests performed.");
-		App.debug("n: " + n);
-		App.debug("deg: " + deg);
+		Log.debug(nrOfTests + " tests performed.");
+		Log.debug("n: " + n);
+		Log.debug("deg: " + deg);
 
 		return ProofResult.TRUE;
 	}

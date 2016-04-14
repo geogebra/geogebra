@@ -324,7 +324,7 @@ public class ProverBotanasMethod {
 		/**
 		 * The statement in geometric form, e.g. AreCollinear[D,E,F].
 		 */
-		GeoElement geoStatement;
+		public GeoElement geoStatement;
 		/**
 		 * The prover which uses this class.
 		 */
@@ -333,7 +333,7 @@ public class ProverBotanasMethod {
 		 * The set of polynomials which are the translations of the geometric
 		 * hypotheses and the thesis. The thesis is stored reductio ad absurdum.
 		 */
-		Set<Polynomial> polynomials;
+		public Set<Polynomial> polynomials;
 		/**
 		 * Should the "false" result be interpreted as undefined?
 		 */
@@ -826,6 +826,11 @@ public class ProverBotanasMethod {
 				Prover prover) {
 			geoStatement = statement;
 			geoProver = prover;
+			/*
+			 * Make sure that the prover has the same statement. FIXME: this is
+			 * redundant, it would be enough to set the prover here.
+			 */
+			prover.setStatement(statement);
 			setHypotheses();
 			if (result != null) {
 				return;
@@ -843,7 +848,7 @@ public class ProverBotanasMethod {
 			 * Only for the Prove command makes sense to set up extra NDG
 			 * conditions
 			 */
-			if (prover != null
+			if (prover.getProverEngine() != ProverEngine.RECIOS_PROVER
 					&& ProverSettings.freePointsNeverCollinear != null
 					&& ProverSettings.freePointsNeverCollinear
 					&& !(prover.isReturnExtraNDGs())) {

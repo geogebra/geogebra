@@ -20,11 +20,11 @@ import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Prover.ProofResult;
 import org.geogebra.common.util.Prover.ProverEngine;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algo for the Prove command.
@@ -124,14 +124,14 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		int elapsedTime = (int) (cons.getApplication().getMillisecondTime() - startTime);
 		
 		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
-		App.debug("Benchmarking: " + elapsedTime + " ms");
+		Log.debug("Benchmarking: " + elapsedTime + " ms");
 
 		result = p.getProofResult();
 		if (result == ProofResult.PROCESSING) {
 			processing = 1;
 		}
 
-		App.debug("STATEMENT IS " + result);
+		Log.debug("STATEMENT IS " + result);
 	}
 
 	@Override
@@ -143,13 +143,13 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 	@Override
 	public void compute() {
 		if (processing == 1) {
-			App.debug("PROCESSING mode: list undefined (1->2)");
+			Log.trace("PROCESSING mode: list undefined (1->2)");
 			bool.setUndefinedProverOnly();
 			processing = 2; // Next time we should call initialCompute()
 			return;
 		}
 		if (processing == 2) {
-			App.debug("PROCESSING mode: list should be created (2->3)");
+			Log.trace("PROCESSING mode: list should be created (2->3)");
 			processing = 3; // Next time we don't need to do anything
 			initialCompute();
 		}
@@ -169,7 +169,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		}
 		
 		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
-		App.debug("OUTPUT for Prove: " + bool);
+		Log.debug("OUTPUT for Prove: " + bool);
 		
 	}
 

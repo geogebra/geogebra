@@ -10,9 +10,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.Prover.ProofResult;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * This class can prove a statement by a bounded number of checks. In this
@@ -82,7 +85,8 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 
 	@Override
 	protected final ProofResult computeNd(HashSet<Variable> freeVariables,
-			HashMap<Variable, BigInteger> values, int deg, SymbolicParameters s) {
+			HashMap<Variable, BigInteger> values, int deg,
+			SymbolicParameters s, AlgebraicStatement as) {
 		int n = freeVariables.size();
 		Variable[] variables = new Variable[n];
 		Iterator<Variable> it = freeVariables.iterator();
@@ -205,7 +209,25 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 			for (int i = 0; i < coordinates.length; i++) {
 				values.put(variables[i], coordinates[i]);
 			}
-			try {
+
+			if (as != null) {
+				// use Botana's method
+				HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
+				for (Variable v : values.keySet()) {
+					// FIXME: Change Long in Variable to BigInteger
+					substitutions.put(v, values.get(v).longValue());
+				}
+				Boolean solvable = Polynomial.solvable(as.polynomials
+						.toArray(new Polynomial[as.polynomials.size()]),
+						substitutions, as.geoStatement.getKernel(),
+						ProverSettings.transcext);
+				Log.debug("Recio meets Botana (threaded): " + substitutions);
+				if (solvable) {
+					wrong = true;
+					break;
+				}
+			} else
+				try {
 				BigInteger[] exactCoordinates = s.getExactCoordinates(values);
 
 				wrong = false;
@@ -240,9 +262,9 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 		interruptThreads();
 
 		for (int i = 0; i < pointTesters.length; i++) {
-			App.debug(pointTesters[i].nrOfTests + " tests done by thread " + i);
+			Log.debug(pointTesters[i].nrOfTests + " tests done by thread " + i);
 		}
-		App.debug(nrOfChecks + " tests done by main thread");
+		Log.debug(nrOfChecks + " tests done by main thread");
 
 		return ProofResult.TRUE;
 

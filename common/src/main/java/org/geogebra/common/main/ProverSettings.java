@@ -18,7 +18,8 @@ public class ProverSettings {
 	 */
 	public static int maxTerms = 10000;
 	/**
-	 * Sub-engine in the defined engine. Used by OpenGeoProver at the moment.
+	 * Sub-engine in the defined engine. Used by OpenGeoProver/Recio at the
+	 * moment.
 	 */
 	public static String proverMethod = "Wu";
 	/**

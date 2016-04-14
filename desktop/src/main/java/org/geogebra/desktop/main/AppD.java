@@ -752,7 +752,7 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "] (OpenGeoProver only)\n"
 							+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
 							+ ProverSettings.proverMethod
-							+ "] (OpenGeoProver only)\n"
+							+ "] (OpenGeoProver/Recio only)\n"
 							/*
 							 * +
 							 * "      fpnevercoll:BOOLEAN\tassume three free points are never collinear for Prove ["
