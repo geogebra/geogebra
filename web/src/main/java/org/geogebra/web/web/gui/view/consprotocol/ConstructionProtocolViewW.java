@@ -61,7 +61,6 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Web implementation of ConstructionProtocol
@@ -86,7 +85,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	GPopupMenuW popupMenu;
 	GCheckBoxMenuItem miShowOnlyBreakpoints = null;
 
-	CellTable<RowData> headerTable2;
+	CellTable<RowData> headerTable;
 
 
 	/**
@@ -124,15 +123,14 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		scrollPane.setStyleName("cpScrollPanel");
 		if (app.has(Feature.FIX_CP_HEADER)) {
-			headerTable2 = new CellTable<RowData>();
-			headerTable2.addStyleName("headerTable");
-			headerTable2.addStyleName("cpTable");
-			SimplePanel headerTablePanel = new SimplePanel();
-			headerTablePanel.add(headerTable2);
-			cpPanel.add(headerTablePanel);
+			headerTable = new CellTable<RowData>();
+			headerTable.addStyleName("headerTable");
+			headerTable.addStyleName("cpTable");
+			cpPanel.add(headerTable);
 			table.addStyleName("hiddenheader");
 		}
 		cpPanel.add(scrollPane);
+		cpPanel.addStyleName("cpPanel");
 		
 		addDragDropHandlers();
 		if (app.has(Feature.CP_POPUP)) {
@@ -149,8 +147,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	void initGUI() {
 
 		if (app.has(Feature.FIX_CP_HEADER)) {
-			clearTable(headerTable2);
-			addColumnsForTable(headerTable2);
+			clearTable(headerTable);
+			addColumnsForTable(headerTable);
 		}
 
 		clearTable(table);
@@ -204,10 +202,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					if (MyPanel.this.getElement().getClientWidth() > table
 							.getElement()
 							.getClientWidth()) {
-						headerTable2.getParent()
+						headerTable.getParent()
 								.addStyleName("overflowYScroll");
 					} else {
-						headerTable2.getParent().removeStyleName(
+						headerTable.getParent().removeStyleName(
 								"overflowYScroll");
 					}
 
@@ -217,12 +215,12 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					int sum = 0;
 					for (int i = 0; i < table.getColumnCount(); i++) {
 						int w = firstRow.getItem(i).getOffsetWidth();
-						headerTable2.setColumnWidth(i, w + "px");
+						headerTable.setColumnWidth(i, w + "px");
 						sum += w;
 					}
 
 					int tableWidth = table.getOffsetWidth();
-						headerTable2.getElement().getStyle()
+						headerTable.getElement().getStyle()
 								.setWidth(tableWidth, Unit.PX);
 				}
 
@@ -465,7 +463,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		};
 
 		if (app.has(Feature.FIX_CP_HEADER)) {
-			headerTable2
+			headerTable
 					.addHandler(popupMenuClickHandler, ClickEvent.getType());
 		} else {
 			table.addHandler(popupMenuClickHandler, ClickEvent.getType());
