@@ -294,6 +294,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * 
 	 */
 	public double derivativeX(double x, double y) {
+		if (coeff != null) {
+			return GeoImplicitPoly.evalDiffXPolyAt(x, y, coeff);
+		}
 		return derivative(diffExp[0], x, y);
 	}
 
@@ -307,6 +310,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 *         otherwise
 	 */
 	public double derivativeY(double x, double y) {
+		if (coeff != null) {
+			return GeoImplicitPoly.evalDiffYPolyAt(x, y, coeff);
+		}
 		return derivative(diffExp[1], x, y);
 	}
 
