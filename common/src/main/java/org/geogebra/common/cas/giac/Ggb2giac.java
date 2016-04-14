@@ -395,8 +395,47 @@ public class Ggb2giac {
 						// "when(ggbinarg0[0]=='pnt',ggbinarg0,ggbinarg1),?) ,"
 						// +
 						// "when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans))) )],"
+						// Intersect[Plane, Plane]
+						+ "[ggbinterans:= when ( (ggbinarg0)[0] == 'pnt',"
+						+ "when ( (ggbinarg1)[0] == 'pnt',"
+						// intersection is empty
+						+ "when (xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]) == '?', ?,"
+						// create 3d line for intersection
+						+ "regroup(equation(cat(\"X=\","
+						+ "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][0])),"
+						+ "\"+\u03BB*\","
+						+ "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
+						+ "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0])))))), "
+						// Intersect[Plane, Cmd3dLine]
+						+ "when (xcoord(ggbinarg1) == string(X) ,"
+						+ "line_inter(ggbinarg0 ,"
+						+ "line( point(expr(ggbinarg1)[0][2][1] , "
+						+ "expr(ggbinarg1)[1][2][1],"
+						+ "expr(ggbinarg1)[2][2][1] ),"
+						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
+						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
+						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) ) ), "
+						// Intersect[Plane, 3dLine]
+						+ "when ( (xcoord(ggbinarg1))[0] == '=' && string((xcoord(ggbinarg1))[1]) == string(X) ,"
+						+ "line_inter(ggbinarg0,"
+						+ "line( point( (ggbinarg1)[0][2] , (ggbinarg1)[1][2] , (ggbinarg1)[2][2][1] ) ,"
+						+ "point( (ggbinarg1[2][2][2])[2][0] + (ggbinarg1)[0][2], "
+						+ "(ggbinarg1[2][2][2])[2][1] +  (ggbinarg1)[1][2] ,"
+						+ "(ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) ), "
+						// Intersect[Plane, 2dLine]
+						// Intersect[Plane, Cmd2dLine]
+						+ "when ( type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT ,"
+						+ "line_inter(ggbinarg0,"
+						+ "line(point(re(subst(parameq(line(ggbinarg1),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg1),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=2)),0)) )  ,"
+						+ "? ) ) ) ),"
 						// Intersect[Cmd3dLine, Plane]
-						+ "[ggbinterans:= when ( xcoord(ggbinarg0) == string(X) ,"
+						+ "when ( xcoord(ggbinarg0) == string(X) ,"
 						+ "when ( (ggbinarg1)[0] == 'pnt' ,"
 						+ "line_inter(line( point(expr(ggbinarg0)[0][2][1] , "
 						+ "expr(ggbinarg0)[1][2][1],"
@@ -444,7 +483,7 @@ public class Ggb2giac {
 						+ "im(subst(parameq(line(ggbinarg1),u),u=1)),0),"
 						+ "point(re(subst(parameq(line(ggbinarg1),u),u=2)),"
 						+ "im(subst(parameq(line(ggbinarg1),u),u=2)),0)) ),"
-						+ " ? ) ) ) ),"
+						+ " ? ) ) ) ) ,"
 						// Intersect[3dLine, Plane]
 						+ "when ((xcoord(ggbinarg0))[0] == '=' && string((xcoord(ggbinarg0))[1]) == string(X),"
 						+ "when ( (ggbinarg1)[0] == 'pnt',"
@@ -531,32 +570,15 @@ public class Ggb2giac {
 						+ "when( type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT,"
 						+ "line_inter(ggbinarg0,ggbinarg1),"
 						+ "? ),"
-						+ "? ) ) ) ) ],"
+						+ "? ) ) ) ) ) ],"
 						/*
-						 * +
 						 * "[ggbinterans:= when (ggbinterans != '?', ggbinterans,"
 						 * // Intersect[plane, plane] +
 						 * "when ( (xcoord(ggbinarg0))[0] == '=' && string((xcoord(ggbinarg0))[1]) == string(X) && (xcoord(ggbinarg1))[0] == '=' && string((xcoord(ggbinarg1))[1]) == string(X), "
 						 * + "111, " +
 						 * "when (ggbinarg0[0] == 'pnt' && (ggbinarg0)[1][0] == 'hyperplan' && ggbinarg1[0] == 'pnt' && (ggbinarg1)[1][0] == 'hyperplan',"
-						 * // the intersection is empty +
-						 * "when (xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]) == '?', ?,"
-						 * // create 3d line for intersection +
-						 * "regroup(equation(cat(\"X=\"," +
-						 * "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]),"
-						 * + "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][0]),"
-						 * + "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][0])),"
-						 * + "\"+\u03BB*\"," +
-						 * "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
-						 * +
-						 * "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
-						 * +
-						 * "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]))))) ) , "
-						 * // Intersect[3d line, 3d line] + "  ? ) ) )],"
 						 */
 						+ "ggbinterans][4]");
-						//+ "[ggbinterans:= when( ((ggbinarg0)[1][0] != 'hyperplan' || (ggbinarg1)[1][0] != 'hyperplan') ,"
-						//+ " line_inter(ggbinarg0,ggbinarg1), ?)][7]");
 
 		// Giac currently uses approximation for this
 		// p("Conic.5", "equation(conic((%0),(%1),(%2),(%3),(%4)))");
