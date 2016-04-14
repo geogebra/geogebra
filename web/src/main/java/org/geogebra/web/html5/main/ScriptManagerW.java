@@ -81,8 +81,21 @@ public class ScriptManagerW extends ScriptManager {
 
 	@Override
 	public void callJavaScript(String jsFunction, Object[] args) {
+		if (jsFunction != null && jsFunction.length() > 0
+				&& jsFunction.charAt(0) <= '9') {
+			String singleArg = args != null && args.length > 0
+					? (String) args[0] : null;
+			callListenerNative(this.api, jsFunction,
+					singleArg);
+		}
 		app.callAppletJavaScript(jsFunction, args);
 	}
+
+	private native void callListenerNative(JavaScriptObject api2,
+			String jsFunction, String object) /*-{
+		api2.listeners[jsFunction * 1](object);
+
+	}-*/;
 
 	// TODO - needed for every ggm instance
 	private native JavaScriptObject initAppletFunctions(
@@ -93,13 +106,13 @@ public class ScriptManagerW extends ScriptManager {
 		//set the reference
 		//$doc[ggbApplet] = $wnd[ggbApplet] = {};
 
-		var api = {};
+		var api = {listeners:[]};
 		var getId = function(obj) {
 			if (typeof obj == 'string') {
 				return obj;
 			}
 			api.listeners[api.listeners.length]=obj;
-			return api.listeners.length+"";
+			return (api.listeners.length-1)+"";
 		}
 		api.getXML = function(objName) {
 			if (objName) {
