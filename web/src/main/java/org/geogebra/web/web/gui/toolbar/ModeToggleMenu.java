@@ -45,7 +45,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 
 	private FlowPanel tbutton;
-	protected ToolbarSubemuW submenu;
+	protected ToolbarSubmenuW submenu;
 
 	private AppW app;
 
@@ -165,8 +165,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		hideMenu();
 	}
 
-	protected ToolbarSubemuW createToolbarSubmenu(AppW app, int order) {
-		return new ToolbarSubemuW(app, order);
+	protected ToolbarSubmenuW createToolbarSubmenu(AppW app, int order) {
+		return new ToolbarSubmenuW(app, order);
 	}
 
 	public void setButtonTabIndex(int index){
