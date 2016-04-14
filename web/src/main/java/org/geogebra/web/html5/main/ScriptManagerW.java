@@ -195,8 +195,12 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalGeoGebraCAS(Ljava/lang/String;)(cmdString);
 		};
 
-		api.setFixed = function(objName, flag, flag) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFixed(Ljava/lang/String;ZZ)(objName,flag,flag);
+		api.setFixed = function(objName, flag, selection) {
+			if(typeof selection === 'undefined'){
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFixed(Ljava/lang/String;Z)(objName,flag);
+			}else{
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFixed(Ljava/lang/String;ZZ)(objName,flag,selection);
+			}
 		};
 
 		api.setOnTheFlyPointCreationActive = function(flag) {
