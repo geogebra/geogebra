@@ -249,6 +249,10 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 	 *            y-coord
 	 */
 	final public void addPoint(int pos, double x, double y) {
+		if(Double.isNaN(y)){
+			return;
+		}
+
 		MyPoint p = new MyPoint(x, y, true);
 		updateBounds(p);
 		pathPoints.ensureCapacity(pos + 1);
@@ -262,6 +266,10 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 	 * Adds point to point list and keeps track of largest coordinate.
 	 */
 	private void addPoint(double x, double y, boolean lineTo) {
+		if(Double.isNaN(y)){
+			return;
+		}
+
 		MyPoint p = new MyPoint(x, y, lineTo);
 		updateBounds(p);
 		pathPoints.add(p);
