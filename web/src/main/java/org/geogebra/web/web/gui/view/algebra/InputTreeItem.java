@@ -920,16 +920,25 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	@Override
 	public void typing(boolean heuristic) {
-		if (btnDelete != null) {
-			if (heuristic || !isEmpty()) {
-				if (pButton == null) {
-					buttonPanel.setVisible(true);
-				}
-				setButtonVisible(btnDelete, true);
+		if (app.has(Feature.EXPAND_AV_FOR_LONG_EQUATIONS)) {
+			// setButtonVisible(btnDelete, false);
+			if (isEmpty()) {
+				buttonPanel.setVisible(true);
 			} else {
-				setButtonVisible(btnDelete, false);
-				if (pButton == null) {
-					buttonPanel.setVisible(false);
+				buttonPanel.setVisible(false);
+			}
+		} else {
+			if (btnDelete != null) {
+				if (heuristic || !isEmpty()) {
+					if (pButton == null) {
+						buttonPanel.setVisible(true);
+					}
+					setButtonVisible(btnDelete, true);
+				} else {
+					setButtonVisible(btnDelete, false);
+					if (pButton == null) {
+						buttonPanel.setVisible(false);
+					}
 				}
 			}
 		}
