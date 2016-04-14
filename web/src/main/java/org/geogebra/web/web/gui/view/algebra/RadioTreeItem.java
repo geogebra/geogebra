@@ -535,7 +535,7 @@ public class RadioTreeItem extends AVTreeItem
 	 * panel to display animation related controls
 	 */
 
-	private AnimPanel animPanel;
+	AnimPanel animPanel;
 	private ScheduledCommand resizeSliderCmd = new ScheduledCommand() {
 
 		public void execute() {
@@ -1994,6 +1994,11 @@ marblePanel, evt))) {
 												.isStyleBarPanelShown();
 										getAlgebraDockPanel()
 												.showStyleBarPanel(false);
+									}
+
+									if (animPanel != null
+											&& buttonPanel != null) {
+										buttonPanel.remove(animPanel);
 									}
 								}
 
