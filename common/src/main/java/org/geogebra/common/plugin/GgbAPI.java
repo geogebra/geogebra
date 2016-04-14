@@ -28,7 +28,9 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -187,6 +189,18 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public synchronized boolean evalCommand(String cmdString) {
 
+		String labels = evalCommandGetLabels(cmdString);
+
+		return labels != null;
+
+	}
+
+	/**
+	 * Evaluates the given string as if it was entered into GeoGebra's input
+	 * text field.
+	 */
+	public synchronized String evalCommandGetLabels(String cmdString) {
+
 		// Application.debug("evalCommand called..."+cmdString);
 		GeoElement[] result;
 
@@ -196,27 +210,53 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		boolean oldVal = kernel.isUsingInternalCommandNames();
 		kernel.setUseInternalCommandNames(true);
 
-		boolean ret = true;
+		StringBuilder ret = new StringBuilder();
 
 		if (cmdString.indexOf('\n') == -1) {
 			result = kernel.getAlgebraProcessor().processAlgebraCommand(
 					cmdString, false);
 			// return success
-			ret = result != null;
-
-		} else {
-
-			String[] cmdStrings = cmdString.split("[\\n]+");
-			for (int i = 0; i < cmdStrings.length; i++) {
-				result = kernel.getAlgebraProcessor().processAlgebraCommand(
-						cmdStrings[i], false);
-				ret = ret & (result != null);
+			if (result == null) {
+				return null;
 			}
+
+			for (int i = 0; i < result.length; i++) {
+				ret.append(result[i].getLabelSimple());
+				ret.append(",");
+			}
+
+			// remove last comma
+			ret.setLength(ret.length() - 1);
+
+			kernel.setUseInternalCommandNames(oldVal);
+			return ret.toString();
+
+		}
+
+		String[] cmdStrings = cmdString.split("[\\n]+");
+		for (int i = 0; i < cmdStrings.length; i++) {
+			result = kernel.getAlgebraProcessor()
+					.processAlgebraCommand(cmdStrings[i], false);
+
+			if (result != null) {
+				for (int j = 0; j < result.length; j++) {
+					ret.append(result[j].getLabelSimple());
+					ret.append(",");
+				}
+			}
+
 		}
 
 		kernel.setUseInternalCommandNames(oldVal);
 
-		return ret;
+		if (ret.length() == 0) {
+			return null;
+		}
+
+		// remove last comma
+		ret.setLength(ret.length() - 1);
+
+		return ret.toString();
 	}
 
 	/**
@@ -376,6 +416,23 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo != null && geo.isFixable()) {
 			geo.setFixed(flag);
 			geo.updateRepaint();
+		}
+	}
+
+	/**
+	 * Sets the fixed state of the object with the given name.
+	 */
+	public synchronized void setFixed(String objName, boolean fixed,
+			boolean selectionAllowed) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo != null) {
+
+			geo.setSelectionAllowed(selectionAllowed);
+
+			if (geo.isFixable()) {
+				geo.setFixed(fixed);
+				geo.updateRepaint();
+			}
 		}
 	}
 
@@ -1576,4 +1633,43 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public String getVersion() {
 		return GeoGebraConstants.VERSION_STRING;
 	}
+
+	public void setDisplayStyle(String objName, String style) {
+		GeoElement geo = kernel.lookupLabel(objName);
+
+		if (geo instanceof GeoLine) {
+
+			GeoLine line = (GeoLine) geo;
+
+			if (style.equals("parametric")) {
+				line.setMode(GeoLine.PARAMETRIC);
+			} else if (style.equals("explicit")) {
+				line.setMode(GeoLine.EQUATION_EXPLICIT);
+			} else if (style.equals("implicit")) {
+				line.setMode(GeoLine.EQUATION_IMPLICIT);
+			}
+
+			geo.updateRepaint();
+
+		} else if (geo instanceof GeoConic) {
+
+			GeoConic conic = (GeoConic) geo;
+
+			if (style.equals("parametric")) {
+				conic.setToStringMode(GeoConic.EQUATION_PARAMETRIC);
+			} else if (style.equals("explicit")) {
+				conic.setToStringMode(GeoConic.EQUATION_EXPLICIT);
+			} else if (style.equals("implicit")) {
+				conic.setToStringMode(GeoConic.EQUATION_IMPLICIT);
+			} else if (style.equals("specific")) {
+				conic.setToStringMode(GeoConic.EQUATION_SPECIFIC);
+			}
+
+			geo.updateRepaint();
+
+		}
+
+
+	}
+
 }

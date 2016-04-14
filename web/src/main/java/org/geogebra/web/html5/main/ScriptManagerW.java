@@ -151,6 +151,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setBase64(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(base64string, callback);
 		}
 
+		api.openFile = function(filename) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::openFile(Ljava/lang/String;)(filename);
+		}
+
 		api.getContext2D = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getContext2D()();
 		};
@@ -171,8 +175,16 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalXML(Ljava/lang/String;)(xmlString);
 		};
 
+		api.setDisplayStyle = function(objName, style) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setDisplayStyle(Ljava/lang/String;Ljava/lang/String;)(objName, style);
+		};
+
 		api.evalCommand = function(cmdString) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalCommand(Ljava/lang/String;)(cmdString);
+		};
+
+		api.evalCommandGetLabels = function(cmdString) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalCommandGetLabels(Ljava/lang/String;)(cmdString);
 		};
 
 		api.evalCommandCAS = function(cmdString) {
@@ -183,8 +195,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalGeoGebraCAS(Ljava/lang/String;)(cmdString);
 		};
 
-		api.setFixed = function(objName, flag) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFixed(Ljava/lang/String;Z)(objName,flag);
+		api.setFixed = function(objName, flag, flag) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFixed(Ljava/lang/String;ZZ)(objName,flag,flag);
 		};
 
 		api.setOnTheFlyPointCreationActive = function(flag) {
@@ -789,7 +801,6 @@ public class ScriptManagerW extends ScriptManager {
 		//
 		// 
 		// boolean writePNGtoFile(String filename, double exportScale, boolean transparent, double DPI)
-		// void openFile(String strURL)
 		// String getIPAddress()
 		// String getHostname()
 	}-*/;

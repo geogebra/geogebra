@@ -96,9 +96,10 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		app.refreshViews();
 	}
 
-	public void openFile(String strURL) {
-		// TODO Auto-generated method stub
-
+	public void openFile(String filename) {
+		View view = new View(RootPanel.getBodyElement(), (AppW) app);
+		view.showLoadAnimation();
+		view.processFileName(filename);
 	}
 
 	public String getGraphicsViewCheckSum(String algorithm, String format) {
