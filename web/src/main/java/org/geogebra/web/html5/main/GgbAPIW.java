@@ -66,12 +66,17 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	public void setBase64(String base64) {
+		resetPerspective();
+		View view = new View(RootPanel.getBodyElement(), (AppW) app);
+		view.processBase64String(base64);
+	}
+
+	private void resetPerspective() {
 		if (((AppW) app).getArticleElement() != null) {
 			((AppW) app).getArticleElement().setAttribute(
 					"data-param-perspective", "");
 		}
-		View view = new View(RootPanel.getBodyElement(), (AppW) app);
-		view.processBase64String(base64);
+
 	}
 
 	public void setBase64(String base64, final JavaScriptObject callback) {
@@ -97,6 +102,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	public void openFile(String filename) {
+		resetPerspective();
 		View view = new View(RootPanel.getBodyElement(), (AppW) app);
 		view.showLoadAnimation();
 		view.processFileName(filename);
