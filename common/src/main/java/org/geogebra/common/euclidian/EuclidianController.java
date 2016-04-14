@@ -9928,7 +9928,8 @@ public abstract class EuclidianController {
 		boolean allowMouseWheel = !app.isApplet()
 				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
 				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
-				|| (app.isShiftDragZoomEnabled() && app.hasFocus() || shiftOrMeta);
+				|| (app.isShiftDragZoomEnabled()
+						&& (app.hasFocus() || shiftOrMeta));
 		if (!allowMouseWheel) {
 			return;
 		}
