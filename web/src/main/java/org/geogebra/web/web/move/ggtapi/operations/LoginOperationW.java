@@ -20,6 +20,7 @@ import org.geogebra.web.web.move.ggtapi.models.GeoGebraTubeAPIW;
 public class LoginOperationW extends LogInOperation {
 
 	private AppW app;
+	private GeoGebraTubeAPIW api;
 
 	/**
 	 * Initializes the SignInOperation for Web by creating the corresponding
@@ -56,8 +57,13 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	public GeoGebraTubeAPI getGeoGebraTubeAPI() {
-		return new GeoGebraTubeAPIW(app.getClientInfo(),
+		if (this.api == null) {
+			this.api = new GeoGebraTubeAPIW(app.getClientInfo(),
 				app.has(Feature.TUBE_BETA));
+		} else {
+			api.setClient(app.getClientInfo());
+		}
+		return this.api;
 
 	}
 
