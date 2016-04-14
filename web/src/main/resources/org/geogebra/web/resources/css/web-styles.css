@@ -3639,6 +3639,15 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	visibility: hidden;
 }
 
+.cpPanel{
+	display: flex;
+	flex-direction: column;
+}
+
+.cpPanel .cpScrollPanel{
+	flex-grow: 1;
+}
+
 /*
 .CpHeaderContainer >*{
 	display: inline-block;
