@@ -783,19 +783,6 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		archive.put(filename, base64img);
 	}
 
-	/*
-	 * waitForResult = false not implemented in web (non-Javadoc)
-	 * 
-	 * @see geogebra.common.plugin.JavaScriptAPI#evalCommand(java.lang.String,
-	 * boolean)
-	 */
-	public synchronized boolean evalCommand(final String cmdString,
-			boolean waitForResult) {
-
-
-		return evalCommand(cmdString);
-	}
-
 	public void openMaterial(final String material) {
 		((AppW) app).openMaterial(material, new Runnable() {
 

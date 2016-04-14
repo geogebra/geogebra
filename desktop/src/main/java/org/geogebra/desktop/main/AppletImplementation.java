@@ -37,7 +37,6 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
@@ -672,7 +671,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 	public synchronized boolean evalCommand(final String cmdString) {
-		return evalCommand(cmdString, true);
+		return app.getGgbApi().evalCommand(cmdString);
 	}
 
 	public synchronized String evalCommandCAS(final String cmdString) {
@@ -708,59 +707,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		});
 	}
 
-	/**
-	 * Evaluates the given string as if it was entered into GeoGebra's input
-	 * text field.
-	 */
-	public synchronized boolean evalCommand(final String cmdString,
-			final boolean waitForResult) {
-		// waitForCAS();
-
-		// avoid security problems calling from JavaScript
-		MyBoolean ret = AccessController
-				.doPrivileged(new PrivilegedAction<MyBoolean>() {
-					public MyBoolean run() {
-						// perform the security-sensitive operation here
-
-						// make sure translated command names are loaded
-						app.initTranslatedCommands();
-
-						return new MyBoolean(kernel, app.getGgbApi()
-								.evalCommand(cmdString, waitForResult));
-
-					}
-				});
-
-		// return success
-		return ret.getBoolean();
-	}
-
-	/**
-	 * Evaluates the given string using the MathPiper CAS.
-	 * 
-	 * @deprecated since GeoGebra 4.0, use evalGeoGebraCAS() instead
-	 * 
-	 *             public synchronized String evalMathPiper(String cmdString) {
-	 *             //waitForCAS();
-	 * 
-	 *             final String str = cmdString;
-	 * 
-	 *             // avoid security problems calling from JavaScript return
-	 *             (String)AccessController.doPrivileged(new PrivilegedAction()
-	 *             { public Object run() { // perform the security-sensitive
-	 *             operation here return kernel.evaluateMathPiper(str);
-	 * 
-	 *             } }); }
-	 */
-
-	/**
-	 * Evaluates the given string using the Yacas CAS.
-	 * 
-	 * @deprecated since GeoGebra 4.0, use evalGeoGebraCAS() instead
-	 * 
-	 *             public synchronized String evalYacas(String cmdString) {
-	 *             return evalMathPiper(cmdString); }
-	 */
 
 	/**
 	 * prints a string to the Java Console
@@ -768,25 +714,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 	public synchronized void debug(String string) {
 		App.debug(string);
 	}
-
-	// /**
-	// * Waits until the GeoGebraCAS has been loaded in the background.
-	// * Note: the GeoGebraCAS is automatically inited in
-	// Application.initInBackground();
-	// */
-	// private synchronized void waitForCAS() {
-	// if (kernel.isGeoGebraCASready()) return;
-	//
-	// // TODO: remove
-	// System.out.println("waiting for CAS to be inited ...");
-	//
-	// while (!kernel.isGeoGebraCASready()) {
-	// try { Thread.sleep(50); } catch (Exception e) {}
-	// }
-	//
-	// // TODO: remove
-	// System.out.println("   CAS loaded!");
-	// }
 
 	/**
 	 * Turns on the fly creation of points in graphics view on (true) or off

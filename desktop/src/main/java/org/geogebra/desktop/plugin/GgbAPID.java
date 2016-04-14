@@ -40,7 +40,6 @@ import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.io.MyImageIO;
-import org.geogebra.desktop.kernel.EvalCommandQueue;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -227,34 +226,6 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 	 *             }//evalMaxima(String cmdString)
 	 */
 
-	/*
-	 * Not needed, see next command: public synchronized
-	 * geogebra.cas.GeoGebraCAS getCurrentCAS(){ return
-	 * (geogebra.cas.GeoGebraCAS) kernel.getGeoGebraCAS(); }//getCurrentCas()
-	 */
-
-	public synchronized boolean evalCommand(final String cmdString,
-			boolean waitForResult) {
-		if (waitForResult) {
-			return evalCommand(cmdString);
-		}
-
-		// evalCommand(cmdString);
-		getEvalCommandQueue().addCommand(cmdString);
-
-		return true;
-
-	}
-
-	EvalCommandQueue evq;
-
-	private EvalCommandQueue getEvalCommandQueue() {
-		if (evq == null) {
-			evq = new EvalCommandQueue(this);
-		}
-
-		return evq;
-	}
 
 	/**
 	 * Turns showing of error dialogs on (true) or (off). Note: this is

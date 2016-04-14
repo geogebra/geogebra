@@ -82,12 +82,6 @@ public interface JavaScriptAPI {
 	public String evalGeoGebraCAS(String cmdString);
 
 	/**
-	 * Evaluates the given string as if it was entered into GeoGebra's input
-	 * text field.
-	 */
-	public boolean evalCommand(String cmdString, boolean waitForResult);
-
-	/**
 	 * prints a string to the Java Console
 	 */
 	public void debug(String string);
