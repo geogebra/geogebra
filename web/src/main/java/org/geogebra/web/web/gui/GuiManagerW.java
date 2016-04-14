@@ -1083,7 +1083,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void openFile() {
-		App.debug("unimplemented");
+		if (!app.isExam()) {
+			app.openSearch("");
+		}
 	}
 
 	@Override

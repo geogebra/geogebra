@@ -166,9 +166,13 @@ public class GlobalKeyDispatcherW extends
 			return true;
 		}
 
-		return handleGeneralKeys(kc,
+		boolean handled = handleGeneralKeys(kc,
 		        event.isShiftKeyDown(), event.isControlKeyDown(),
 		        event.isAltKeyDown(), false, true);
+		if (handled) {
+			event.preventDefault();
+		}
+		return handled;
 
 	}
 
@@ -249,17 +253,27 @@ public class GlobalKeyDispatcherW extends
 		} else if (kc == KeyCodes.ESCAPE) {
 			keydownPreventsDefaultKeypressTAB = true;
 			// EuclidianViewW.tabPressed = false;
-			app.loseFocus();
+			if (app.isApplet()) {
+				app.loseFocus();
+			}
+			app.setMoveMode();
 			// here we shall focus on a dummy element that is
 			// after all graphics views by one:
 			if (GeoGebraFrame.lastDummy != null) {
 				GeoGebraFrame.lastDummy.focus();
 			}
+		} else if (InFocus && preventBrowserCtrl(kc)
+				&& event.isControlKeyDown()) {
+			event.preventDefault();
 		}
 
 		if (keydownPreventsDefaultKeypressTAB) {
 			event.preventDefault();
 		}
+	}
+
+	private boolean preventBrowserCtrl(KeyCodes kc) {
+		return kc == KeyCodes.S || kc == KeyCodes.O;
 	}
 
 	/**
