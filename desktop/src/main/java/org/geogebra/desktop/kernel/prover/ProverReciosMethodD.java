@@ -25,7 +25,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Simon
  * 
  */
-public class ProverReciosMethod extends AbstractProverReciosMethod {
+public class ProverReciosMethodD extends AbstractProverReciosMethod {
 
 	private enum TestPointResult {
 
@@ -273,11 +273,11 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 	private final class PointTester implements Runnable {
 		HashMap<Variable, BigInteger> values;
 		Variable[] variables;
-		ProverReciosMethod prover;
+		ProverReciosMethodD prover;
 		SymbolicParameters s;
 		public int nrOfTests;
 
-		public PointTester(final ProverReciosMethod prover,
+		public PointTester(final ProverReciosMethodD prover,
 				final HashMap<Variable, BigInteger> values,
 				final Variable[] variables, final SymbolicParameters s) {
 			this.prover = prover;

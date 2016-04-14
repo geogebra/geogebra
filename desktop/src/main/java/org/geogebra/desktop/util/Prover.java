@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.kernel.prover.ProverReciosMethod;
+import org.geogebra.desktop.kernel.prover.ProverReciosMethodD;
 
 import com.ogprover.api.GeoGebraOGPInterface;
 import com.ogprover.main.OGPConfigurationSettings;
@@ -23,7 +23,7 @@ import com.ogprover.utilities.logger.ILogger;
 public class Prover extends org.geogebra.common.util.Prover {
 
 	static {
-		reciosProver = new ProverReciosMethod();
+		reciosProver = new ProverReciosMethodD();
 	}
 
 	/**

@@ -20,7 +20,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
-public class ProverReciosMethod extends AbstractProverReciosMethod {
+public class ProverReciosMethodW extends AbstractProverReciosMethod {
 
 	@Override
 	protected final ProofResult computeNd(HashSet<Variable> freeVariables,

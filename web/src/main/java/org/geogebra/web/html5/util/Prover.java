@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.util;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.kernel.ProverReciosMethod;
+import org.geogebra.web.html5.kernel.ProverReciosMethodW;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org> Implements web dependent parts of
@@ -10,7 +10,7 @@ import org.geogebra.web.html5.kernel.ProverReciosMethod;
 public class Prover extends org.geogebra.common.util.Prover {
 
 	static {
-		reciosProver = new ProverReciosMethod();
+		reciosProver = new ProverReciosMethodW();
 	}
 
 	@Override
