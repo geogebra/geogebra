@@ -1966,29 +1966,6 @@ marblePanel, evt))) {
 							new Scheduler.ScheduledCommand() {
 
 								public void execute() {
-									// // Log.debug("left padding: "
-									// + contentPanel
-									// .getElement()
-									// .getStyle()
-									// .getPaddingLeft());
-									// // Log.debug("left padding 2 : "
-									// + contentPanel.getElement()
-									// .getPropertyInt(
-									// "padding-left"));
-									// // Log.debug("left padding 3 : "
-									// + contentPanel.getElement()
-									// .getPropertyString(
-									// "padding-left"));
-									// // Log.debug("left padding 4 : "
-									// + contentPanel.getElement()
-									// .getAttribute(
-									// "padding-left"));
-									// // Log.debug("left padding 5 : "
-									// + contentPanel.getElement()
-									// .getStyle().getPadding());
-									// // Log.debug("contentPanel: "
-									// + contentPanel.toString());
-
 									// TODO: change 40 for left padding of
 									// contentPanel
 									expandSize(Math.max(EDIT_WIDTH,

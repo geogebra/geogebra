@@ -926,7 +926,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * @return If the style bar should be visible.
 	 */
-	protected boolean isStyleBarVisible() {
+	public boolean isStyleBarVisible() {
 		if (id == App.VIEW_EUCLIDIAN || id == App.VIEW_EUCLIDIAN2
 		        || id == App.VIEW_ALGEBRA) {
 			if (!app.getSettings().getLayout().isAllowingStyleBar()) {
