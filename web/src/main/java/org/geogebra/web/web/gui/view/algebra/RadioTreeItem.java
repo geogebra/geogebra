@@ -2000,6 +2000,10 @@ marblePanel, evt))) {
 												.isStyleBarPanelShown();
 										getAlgebraDockPanel()
 												.showStyleBarPanel(false);
+										if (buttonPanel != null) {
+											buttonPanel
+													.removeStyleName("positionedObjectStyleBar");
+										}
 									}
 
 									if (animPanel != null
