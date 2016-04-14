@@ -2976,4 +2976,8 @@ CasEvaluableFunction, ParametricCurve,
 		fun.updateCASEvalMap(map);
 	}
 
+	public double evaluate(double x, double y) {
+		return fun.evaluate(x);
+	}
+
 }

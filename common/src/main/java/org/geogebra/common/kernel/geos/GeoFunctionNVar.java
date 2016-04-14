@@ -312,11 +312,11 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	 *            z
 	 * @return value at (x,y,z)
 	 */
-	public double evaluate(double x, double y, double z) {
+	public double evaluate(double x, double y) {
 		// Application.printStacktrace("");
 		if (fun == null)
 			return Double.NaN;
-		return fun.evaluate(new double[] { x, y, z });
+		return fun.evaluate(x, y);
 	}
 
 	/**

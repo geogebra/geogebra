@@ -410,6 +410,19 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return expression.evaluateDouble();
 	}
 
+	final public double evaluate(double x, double y) {
+		if (isBooleanFunction) {
+			// BooleanValue
+			return evaluateBoolean(new double[] { x, y }) ? 1 : 0;
+		}
+		// NumberValue
+
+		fVars[0].set(x);
+		fVars[1].set(y);
+
+		return expression.evaluateDouble();
+	}
+
 	/**
 	 * Returns this function's value at position vals. (Note: use this method if
 	 * isBooleanFunction() returns true.

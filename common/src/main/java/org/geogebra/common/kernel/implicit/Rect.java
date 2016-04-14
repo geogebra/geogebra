@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.implicit;
 
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 
 class Rect {
 	/**
@@ -43,7 +43,7 @@ class Rect {
 		}
 	}
 
-	public Rect[] split(FunctionalNVar geoImplicitCurve) {
+	public Rect[] split(Evaluate2Var geoImplicitCurve) {
 		if (this.children == null) {
 			this.children = new Rect[4];
 			for (int i = 0; i < 4; i++) {
@@ -67,12 +67,9 @@ class Rect {
 		rect[3].coords.val[1] += fy2;
 		rect[1].evals[0] = geoImplicitCurve.evaluate(rect[1].coords.val);
 		rect[2].evals[0] = geoImplicitCurve.evaluate(rect[2].coords.val);
-		rect[2].evals[1] = geoImplicitCurve.evaluate(new double[] { x1 + fx,
-				y1 + fy2 });
-		rect[2].evals[3] = geoImplicitCurve.evaluate(new double[] { x1 + fx2,
-				y1 + fy });
-		rect[3].evals[0] = geoImplicitCurve
-.evaluate(rect[3].coords.val);
+		rect[2].evals[1] = geoImplicitCurve.evaluate(x1 + fx, y1 + fy2);
+		rect[2].evals[3] = geoImplicitCurve.evaluate(x1 + fx2, y1 + fy);
+		rect[3].evals[0] = geoImplicitCurve.evaluate(rect[3].coords.val);
 		rect[3].evals[1] = rect[0].evals[2] = rect[1].evals[3] = rect[2].evals[0];
 		rect[0].evals[1] = rect[1].evals[0];
 		rect[0].evals[3] = rect[3].evals[0];

@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -56,7 +57,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Traceable, Path, Translateable, Dilateable, Mirrorable, ConicMirrorable,
-		Transformable, PointRotateable, GeoImplicit {
+		Transformable, PointRotateable, GeoImplicit, Evaluate2Var {
 	/**
 	 * Movements around grid [TOP, BOTTOM, LEFT, RIGHT]
 	 */
@@ -1371,7 +1372,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		public void createTree(Rect r, int depth) {
-			Rect[] n = r.split(GeoImplicitCurve.this.getExpression());
+			Rect[] n = r.split(GeoImplicitCurve.this);
 			plot(n[0], depth);
 			plot(n[1], depth);
 			plot(n[2], depth);
@@ -1808,6 +1809,14 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			sb.append('*');
 		}
 
+	}
+
+	public double evaluate(double x, double y) {
+		return this.evaluateImplicitCurve(x, y);
+	}
+
+	public double evaluate(double[] val) {
+		return evaluateImplicitCurve(val[0], val[1]);
 	}
 
 }

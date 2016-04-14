@@ -244,7 +244,7 @@ public class AlgoSlopeField extends AlgoElement {
 			for (double xx = xmin; xx < xmax + xStep / 2; xx += xStep) {
 				for (double yy = ymin; yy < ymax + yStep / 2; yy += yStep) {
 
-					double[] input1 = { xx, yy };
+					// double[] input1 = { xx, yy };
 					// double gradient = func.evaluate(input1);
 
 					// AbstractApplication.debug(num.isDefined()+" "+den.isDefined());
@@ -261,9 +261,9 @@ public class AlgoSlopeField extends AlgoElement {
 								&& ((GeoFunction) den).isFunctionOfY();
 
 						double numD = numfuncOfJustY ? ((GeoFunction) num)
-								.evaluate(input1[1]) : num.evaluate(input1);
+								.evaluate(yy) : num.evaluate(xx, yy);
 						double denD = denfuncOfJustY ? ((GeoFunction) den)
-								.evaluate(input1[1]) : den.evaluate(input1);
+								.evaluate(yy) : den.evaluate(xx, yy);
 
 						if (Kernel.isZero(denD)) {
 							if (Kernel.isZero(numD)) {
@@ -286,10 +286,10 @@ public class AlgoSlopeField extends AlgoElement {
 
 						if (funcOfJustY) {
 							// eg SlopeField[y]
-							gradient = ((GeoFunction) func).evaluate(input1[1]);
+							gradient = ((GeoFunction) func).evaluate(yy);
 						} else {
 							// standard case
-							gradient = func.evaluate(input1);
+							gradient = func.evaluate(xx, yy);
 						}
 						drawLine(1, gradient, length, xx, yy);
 
