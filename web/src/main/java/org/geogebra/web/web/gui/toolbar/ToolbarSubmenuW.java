@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Label;
  * this FlowPanel can act as a popup.
  * @author bencze
  */
-public class ToolbarSubemuW extends FlowPanel {
+public class ToolbarSubmenuW extends FlowPanel {
 	
 	/**
 	 * Application
@@ -45,7 +45,7 @@ public class ToolbarSubemuW extends FlowPanel {
 	 * Creates the sub menu, sets the stylename, and creates the
 	 * child elements.
 	 */
-	public ToolbarSubemuW(AppW app, int order) {
+	public ToolbarSubmenuW(AppW app, int order) {
 		this.app = app;
 		this.order = order;
 		this.maxHeight = app.getHeight() - 40;
@@ -81,8 +81,8 @@ public class ToolbarSubemuW extends FlowPanel {
 
 				@Override
                 public void run() {
-					if(itemList.getOffsetWidth() + ToolbarSubemuW.this.order * 45 > app.getWidth()){
-						itemList.getElement().getStyle().setLeft(app.getWidth() - 45 * ToolbarSubemuW.this.order - itemList.getOffsetWidth() -10, Unit.PX);
+					if(itemList.getOffsetWidth() + ToolbarSubmenuW.this.order * 45 > app.getWidth()){
+						itemList.getElement().getStyle().setLeft(app.getWidth() - 45 * ToolbarSubmenuW.this.order - itemList.getOffsetWidth() -10, Unit.PX);
 					}
                 }});
 		}
@@ -113,6 +113,7 @@ public class ToolbarSubemuW extends FlowPanel {
 		Image image = createImage(mode);
 		Label label = createLabel(mode);
 		listItem.add(image);
+		// listItem.setStyleName("submenu_button");
 		listItem.add(label);
 		return listItem;
 	}

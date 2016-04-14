@@ -2,11 +2,11 @@ package org.geogebra.web.phone.gui.view.euclidian.toolbar;
 
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.toolbar.ToolbarSubemuW;
+import org.geogebra.web.web.gui.toolbar.ToolbarSubmenuW;
 
 import com.google.gwt.user.client.ui.Image;
 
-public class ToolbarSubmenuP extends ToolbarSubemuW {
+public class ToolbarSubmenuP extends ToolbarSubmenuW {
 
 	public ToolbarSubmenuP(AppW app, int order) {
 		super(app, order);

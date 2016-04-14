@@ -5,7 +5,7 @@ import java.util.Vector;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.toolbar.ModeToggleMenu;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
-import org.geogebra.web.web.gui.toolbar.ToolbarSubemuW;
+import org.geogebra.web.web.gui.toolbar.ToolbarSubmenuW;
 
 public class ModeToggleMenuP extends ModeToggleMenu {
 
@@ -15,7 +15,7 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 	}
 	
 	@Override
-	protected ToolbarSubemuW createToolbarSubmenu(AppW app, int order) {
+	protected ToolbarSubmenuW createToolbarSubmenu(AppW app, int order) {
 		return new ToolbarSubmenuP(app, order);
 	}
 
