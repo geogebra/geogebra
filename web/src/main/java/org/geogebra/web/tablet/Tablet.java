@@ -6,7 +6,6 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
-import org.geogebra.web.html5.cas.giac.PNaCl;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -77,9 +76,6 @@ public class Tablet implements EntryPoint {
 		// setLocaleToQueryParam();
 
 		run();
-
-		// just debug for now
-		PNaCl.exportPNaCltoConsole();
 
 		// phoneGap.initializePhoneGap();
 		WebSimple.registerSuperdevExceptionHandler();

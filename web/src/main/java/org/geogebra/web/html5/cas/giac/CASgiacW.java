@@ -52,11 +52,6 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 			Log.debug("switching to external");
 			// CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 			this.jsLoaded = true;
-		} else
-		// asynchronous initialization, runs update as callback
-		// try NaCl first
-		if (org.geogebra.web.html5.cas.giac.PNaCl.isEnabled()) {
-			org.geogebra.web.html5.cas.giac.PNaCl.get().initialize();
 		} else if (Browser.supportsJsCas()) {
 			initialize();
 		}
