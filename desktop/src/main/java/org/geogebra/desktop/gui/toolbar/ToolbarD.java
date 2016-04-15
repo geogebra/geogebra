@@ -18,7 +18,7 @@ import java.util.Vector;
 
 import javax.swing.JToolBar;
 
-import org.geogebra.common.awt.Component;
+import org.geogebra.common.awt.GComponent;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -295,7 +295,7 @@ public class ToolbarD extends JToolBar {
 	/**
 	 * @return The top-most panel of the window this toolbar belongs to.
 	 */
-	public Component getMainComponent() {
+	public GComponent getMainComponent() {
 		// if this is the general toolbar the main component is the application
 		// main
 		// component (not true for toolbars in EV)

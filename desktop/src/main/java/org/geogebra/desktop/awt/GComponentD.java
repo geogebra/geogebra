@@ -2,7 +2,7 @@ package org.geogebra.desktop.awt;
 
 import org.geogebra.common.util.debug.Log;
 
-public class GComponentD implements org.geogebra.common.awt.Component {
+public class GComponentD implements org.geogebra.common.awt.GComponent {
 	private java.awt.Component impl;
 
 	public GComponentD(Object component) {

@@ -112,7 +112,7 @@ public abstract class AwtFactory {
 
 	public abstract ActionListener newActionListener(ActionListenerI listener);
 
-	public abstract org.geogebra.common.awt.Component newComponent(Object component);
+	public abstract org.geogebra.common.awt.GComponent newComponent(Object component);
 
 	public abstract GPaint newTexturePaint(GBufferedImage subimage,
 			GRectangle rect);

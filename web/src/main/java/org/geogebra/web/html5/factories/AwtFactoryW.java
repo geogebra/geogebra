@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.factories;
 
-import org.geogebra.common.awt.Component;
+import org.geogebra.common.awt.GComponent;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GAlphaComposite;
 import org.geogebra.common.awt.GArc2D;
@@ -253,7 +253,7 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public Component newComponent(Object component) {
+	public GComponent newComponent(Object component) {
 		App.debug("newComponent: implementation needed really"); // TODO
 																 // Auto-generated
 		return null;

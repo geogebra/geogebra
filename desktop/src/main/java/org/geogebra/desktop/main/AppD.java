@@ -3092,7 +3092,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * 
 	 * @return wrapped mainComp
 	 */
-	public org.geogebra.common.awt.Component wrapGetMainComponent() {
+	public org.geogebra.common.awt.GComponent wrapGetMainComponent() {
 		return AwtFactory.prototype.newComponent(mainComp);
 	}
 

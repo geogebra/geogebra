@@ -4,7 +4,7 @@ import java.awt.Font;
 import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 
-import org.geogebra.common.awt.Component;
+import org.geogebra.common.awt.GComponent;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GAlphaComposite;
 import org.geogebra.common.awt.GArc2D;
@@ -248,7 +248,7 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public Component newComponent(Object component) {
+	public GComponent newComponent(Object component) {
 		return new org.geogebra.desktop.awt.GComponentD(component);
 	}
 
