@@ -25,13 +25,24 @@ public class CmdSetFixed extends CmdScripting {
 	@Override
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
+		GeoElement[] arg = resArgs(c);
+		GeoElement arg2 = null;
 
 		switch (n) {
+		case 3:
+			arg2 = arg[2];
+
+			if (!arg2.isGeoBoolean()) {
+				throw argErr(app, c.getName(), arg2);
+			}
 		case 2:
-			GeoElement[] arg = resArgs(c);
 			if (arg[1].isGeoBoolean()) {
 
 				GeoElement geo = arg[0];
+
+				if (arg2 != null) {
+					geo.setSelectionAllowed(((GeoBoolean) arg2).getBoolean());
+				}
 
 				geo.setFixed(((GeoBoolean) arg[1]).getBoolean());
 				geo.updateRepaint();
