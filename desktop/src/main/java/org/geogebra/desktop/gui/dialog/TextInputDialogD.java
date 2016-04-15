@@ -89,13 +89,13 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author hohenwarter
  */
-public class TextInputDialog extends InputDialogD implements DocumentListener,
+public class TextInputDialogD extends InputDialogD implements DocumentListener,
 		org.geogebra.common.gui.dialog.TextInputDialog {
 
 	// editor and preview panels
 	private DynamicTextInputPane editor;
 	private TextPreviewPanelD textPreviewer;
-	private TextInputDialog textInputDialog;
+	private TextInputDialogD textInputDialog;
 
 	// GUI
 	private JCheckBox cbLaTeX;
@@ -138,7 +138,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 	 * @param rows
 	 * @param isTextMode
 	 */
-	public TextInputDialog(App app2, String title, GeoText editGeo,
+	public TextInputDialogD(App app2, String title, GeoText editGeo,
 			GeoPointND startPoint, boolean rw, int cols, int rows,
 			boolean isTextMode) {
 

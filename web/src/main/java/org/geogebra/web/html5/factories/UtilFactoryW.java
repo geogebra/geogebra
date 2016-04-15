@@ -21,7 +21,7 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
 	public URLEncoder newURLEncoder() {
-		return new org.geogebra.web.html5.util.URLEncoder();
+		return new org.geogebra.web.html5.util.URLEncoderW();
 	}
 
 	@Override
@@ -31,6 +31,6 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
 	public Prover newProver() {
-		return new org.geogebra.web.html5.util.Prover();
+		return new org.geogebra.web.html5.util.ProverW();
 	}
 }

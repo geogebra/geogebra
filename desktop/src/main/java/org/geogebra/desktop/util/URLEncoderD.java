@@ -2,7 +2,7 @@ package org.geogebra.desktop.util;
 
 import java.io.UnsupportedEncodingException;
 
-public class URLEncoder extends org.geogebra.common.util.URLEncoder {
+public class URLEncoderD extends org.geogebra.common.util.URLEncoder {
 
 	public String encode(String decodedURL) {
 

@@ -1880,11 +1880,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private TextInputDialog td;
+		private TextInputDialogD td;
 		private JPanel editPanel;
 
 		public TextEditPanel() {
-			td = new TextInputDialog(app, app.getPlain("Text"), null, null,
+			td = new TextInputDialogD(app, app.getPlain("Text"), null, null,
 					true, 30,
 					5, false);
 			setLayout(new BorderLayout());

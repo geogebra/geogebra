@@ -36,7 +36,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.desktop.gui.dialog.TextInputDialog;
+import org.geogebra.desktop.gui.dialog.TextInputDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.main.AppD;
 
@@ -112,7 +112,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 * @return dynamic text field
 	 */
 	public DynamicTextField insertDynamicText(String text,
-			TextInputDialog inputDialog) {
+			TextInputDialogD inputDialog) {
 		return insertDynamicText(text, this.getCaretPosition(), inputDialog);
 	}
 
@@ -129,7 +129,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 * @return dynamic text field
 	 */
 	public DynamicTextField insertDynamicText(String text, int pos,
-			TextInputDialog inputDialog) {
+			TextInputDialogD inputDialog) {
 
 		if (pos == -1) {
 			pos = getDocument().getLength(); // insert at end
@@ -255,7 +255,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 * @param id
 	 *            id
 	 */
-	public void setText(GeoText geo, TextInputDialog id) {
+	public void setText(GeoText geo, TextInputDialogD id) {
 
 		super.setText("");
 
@@ -282,7 +282,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 * @param id
 	 *            id
 	 */
-	public void splitString(ExpressionNode en, TextInputDialog id) {
+	public void splitString(ExpressionNode en, TextInputDialogD id) {
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
 		StringTemplate tpl = StringTemplate.defaultTemplate;
@@ -407,7 +407,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		public static final int MODE_DEFINITION = 1;
 		public static final int MODE_FORMULATEXT = 2;
 		int mode = MODE_VALUE;
-		TextInputDialog id;
+		TextInputDialogD id;
 
 		JPopupMenu contextMenu;
 
@@ -415,7 +415,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		 * @param app
 		 * @param id
 		 */
-		public DynamicTextField(AppD app, TextInputDialog id) {
+		public DynamicTextField(AppD app, TextInputDialogD id) {
 			super(app);
 			this.id = id;
 			// see ticket #1339

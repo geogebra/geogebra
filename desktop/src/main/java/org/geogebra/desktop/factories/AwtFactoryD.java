@@ -262,7 +262,7 @@ public class AwtFactoryD extends AwtFactory {
 
 	@Override
 	public FocusListener newFocusListener(Object listener) {
-		return new org.geogebra.desktop.euclidian.event.FocusListener(listener);
+		return new org.geogebra.desktop.euclidian.event.FocusListenerD(listener);
 	}
 
 	@Override

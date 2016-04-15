@@ -6,11 +6,11 @@ import java.awt.event.FocusEvent;
  * @author judit
  *
  */
-public class FocusListener extends
+public class FocusListenerD extends
 		org.geogebra.common.euclidian.event.FocusListener implements
 		java.awt.event.FocusListener {
 
-	public FocusListener(Object listener) {
+	public FocusListenerD(Object listener) {
 		setListenerClass(listener);
 	}
 

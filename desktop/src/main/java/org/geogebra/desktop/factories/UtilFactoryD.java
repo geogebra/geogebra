@@ -20,7 +20,7 @@ public class UtilFactoryD extends org.geogebra.common.factories.UtilFactory {
 
 	@Override
 	public URLEncoder newURLEncoder() {
-		return new org.geogebra.desktop.util.URLEncoder();
+		return new org.geogebra.desktop.util.URLEncoderD();
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class UtilFactoryD extends org.geogebra.common.factories.UtilFactory {
 
 	@Override
 	public Prover newProver() {
-		return new org.geogebra.desktop.util.Prover();
+		return new org.geogebra.desktop.util.ProverD();
 	}
 
 }

@@ -9,7 +9,7 @@ import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.desktop.move.ggtapi.views.BaseSwingEventView;
-import org.geogebra.desktop.util.URLEncoder;
+import org.geogebra.desktop.util.URLEncoderD;
 
 /**
  * The desktop version of the login operation. uses an own AuthenticationModel
@@ -79,7 +79,7 @@ public class LoginOperationD extends LogInOperation {
 
 	@Override
 	protected String getURLClientInfo() {
-		URLEncoder enc = new URLEncoder();
+		URLEncoderD enc = new URLEncoderD();
 		return enc.encode("GeoGebra Desktop Application V"
 				+ GeoGebraConstants.VERSION_STRING);
 	}

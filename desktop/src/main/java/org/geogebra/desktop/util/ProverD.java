@@ -20,7 +20,7 @@ import com.ogprover.utilities.logger.ILogger;
  * @author Zoltan Kovacs <zoltan@geogebra.org> Implements desktop dependent
  *         parts of the Prover
  */
-public class Prover extends org.geogebra.common.util.Prover {
+public class ProverD extends org.geogebra.common.util.Prover {
 
 	static {
 		reciosProver = new ProverReciosMethodD();

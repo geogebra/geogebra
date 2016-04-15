@@ -187,7 +187,7 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
-		return new org.geogebra.desktop.gui.dialog.TextInputDialog(app,
+		return new org.geogebra.desktop.gui.dialog.TextInputDialogD(app,
 				app.getPlain("Text"), text, startPoint, rw, 30, 6,
 				app.getMode() == EuclidianConstants.MODE_TEXT);
 	}

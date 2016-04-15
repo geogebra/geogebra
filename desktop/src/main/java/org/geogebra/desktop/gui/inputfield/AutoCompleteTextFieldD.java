@@ -1005,7 +1005,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 	}
 
 	public void addFocusListener(FocusListener focusListener) {
-		super.addFocusListener((org.geogebra.desktop.euclidian.event.FocusListener) focusListener);
+		super.addFocusListener((org.geogebra.desktop.euclidian.event.FocusListenerD) focusListener);
 	}
 
 	public void wrapSetText(final String s) {

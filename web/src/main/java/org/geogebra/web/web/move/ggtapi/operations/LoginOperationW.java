@@ -7,7 +7,7 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.BaseEventView;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.URLEncoder;
+import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.web.move.ggtapi.models.AuthenticationModelW;
 import org.geogebra.web.web.move.ggtapi.models.GeoGebraTubeAPIW;
 
@@ -74,7 +74,7 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	protected String getURLClientInfo() {
-		URLEncoder enc = new URLEncoder();
+		URLEncoderW enc = new URLEncoderW();
 		return enc.encode("GeoGebra Web Application V"
 		        + GeoGebraConstants.VERSION_STRING);
 	}
