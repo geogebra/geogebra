@@ -110,13 +110,17 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
+import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.SwingFactory;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -663,9 +667,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	protected void initFactories() {
 
-		org.geogebra.common.factories.AwtFactory.prototype = new AwtFactoryD();
-		org.geogebra.common.factories.FormatFactory.prototype = new FormatFactoryJre();
-		org.geogebra.common.factories.LaTeXFactory.prototype = new LaTeXFactoryD();
+		AwtFactory.prototype = new AwtFactoryD();
+		FormatFactory.prototype = new FormatFactoryJre();
+		LaTeXFactory.prototype = new LaTeXFactoryD();
 
 		// moved to getCASFactory() so that applets load quicker
 		// geogebra.common.factories.CASFactory.prototype = new CASFactoryD();
@@ -674,17 +678,17 @@ public class AppD extends App implements KeyEventDispatcher {
 		// geogebra.common.factories.SwingFactory.prototype = new
 		// SwingFactoryD();
 
-		org.geogebra.common.factories.UtilFactory.prototype = new UtilFactoryD();
+		UtilFactory.prototype = new UtilFactoryD();
 
 		// moved to getFactory() so that applets load quicker
 		// geogebra.common.factories.Factory.prototype = new FactoryD();
 
-		org.geogebra.common.util.StringUtil.prototype = new org.geogebra.desktop.util.StringUtilD();
+		StringUtil.prototype = new org.geogebra.desktop.util.StringUtilD();
 
-		org.geogebra.common.euclidian.EuclidianStatic.prototype = new org.geogebra.desktop.euclidian.EuclidianStaticD();
+		EuclidianStatic.prototype = new org.geogebra.desktop.euclidian.EuclidianStaticD();
 
 		if (!is3D()) {
-			org.geogebra.common.util.CopyPaste.INSTANCE = new CopyPaste();
+			CopyPaste.INSTANCE = new CopyPaste();
 		}
 	}
 

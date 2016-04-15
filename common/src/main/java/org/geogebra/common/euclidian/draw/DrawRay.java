@@ -21,6 +21,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -280,8 +281,7 @@ public class DrawRay extends Drawable implements Previewable {
 		}
 	}
 
-	private org.geogebra.common.awt.GPoint2D endPoint = org.geogebra.common.factories.AwtFactory.prototype
-			.newPoint2D();
+	private GPoint2D endPoint = AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;

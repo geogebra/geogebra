@@ -180,7 +180,7 @@ public class AlgoDensityPlot extends AlgoElement {
 		}
 		g.setColor(GColor.BLACK);
 		for (i = offset; i <= imagePlusOffset; i += gridPixel * 5) {
-			t = org.geogebra.common.factories.AwtFactory.prototype.newTextLayout(
+			t = AwtFactory.prototype.newTextLayout(
 					df.format(xx), font, g.getFontRenderContext());
 			g.drawString(df.format(xx), i - t.getAdvance() / 2, imageSize + 2
 					* offset - offset / 3);

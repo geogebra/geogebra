@@ -493,8 +493,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return;
-		geo.setObjColor(org.geogebra.common.factories.AwtFactory.prototype
-				.newColor(red, green, blue));
+		geo.setObjColor(AwtFactory.prototype.newColor(red, green, blue));
 		geo.updateRepaint();
 	}
 

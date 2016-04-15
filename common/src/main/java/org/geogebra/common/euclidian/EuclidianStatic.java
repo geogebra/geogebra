@@ -33,10 +33,10 @@ public abstract class EuclidianStatic {
 	 */
 	public static EuclidianStatic prototype;
 	/** standardstroke */
-	protected static GBasicStroke standardStroke = org.geogebra.common.factories.AwtFactory.prototype
+	protected static GBasicStroke standardStroke = AwtFactory.prototype
 			.newMyBasicStroke(1.0f);
 	/** stroke for selected geos */
-	protected static GBasicStroke selStroke = org.geogebra.common.factories.AwtFactory.prototype
+	protected static GBasicStroke selStroke = AwtFactory.prototype
 			.newMyBasicStroke(1.0f + EuclidianStyleConstants.SELECTION_ADD);
 
 	/**
@@ -123,7 +123,7 @@ public abstract class EuclidianStatic {
 		int endCap = dash != null ? GBasicStroke.CAP_BUTT : standardStroke
 				.getEndCap();
 
-		return org.geogebra.common.factories.AwtFactory.prototype.newBasicStroke(
+		return AwtFactory.prototype.newBasicStroke(
 				width, endCap, standardStroke.getLineJoin(),
 				standardStroke.getMiterLimit(), dash, 0.0f);
 	}

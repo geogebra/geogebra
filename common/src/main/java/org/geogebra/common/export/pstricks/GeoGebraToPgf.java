@@ -3051,8 +3051,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			int green = c.getGreen();
 			int blue = c.getBlue();
 			int grayscale = (red + green + blue) / 3;
-			c = org.geogebra.common.factories.AwtFactory.prototype.newColor(
-					grayscale, grayscale, grayscale);
+			c = AwtFactory.prototype.newColor(grayscale, grayscale, grayscale);
 			if (CustomColor.containsKey(c)) {
 				colorname = CustomColor.get(c).toString();
 			} else {

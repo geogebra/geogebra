@@ -547,17 +547,16 @@ public abstract class Drawable extends DrawableND {
 			lineThickness = fromGeo.getLineThickness();
 
 			float width = lineThickness / 2.0f;
-			objStroke = org.geogebra.common.factories.AwtFactory.prototype
-					.newBasicStroke(width, objStroke.getEndCap(),
+			objStroke = AwtFactory.prototype.newBasicStroke(width,
+					objStroke.getEndCap(),
 							objStroke.getLineJoin(), objStroke.getMiterLimit(),
 							objStroke.getDashArray(), 0.0f);
-			decoStroke = org.geogebra.common.factories.AwtFactory.prototype
-					.newBasicStroke(width, objStroke.getEndCap(),
+			decoStroke = AwtFactory.prototype.newBasicStroke(width,
+					objStroke.getEndCap(),
 							objStroke.getLineJoin(), objStroke.getMiterLimit(),
 							decoStroke.getDashArray(), 0.0f);
-			selStroke = org.geogebra.common.factories.AwtFactory.prototype
-					.newBasicStroke(width
-							+ EuclidianStyleConstants.SELECTION_ADD,
+			selStroke = AwtFactory.prototype.newBasicStroke(
+					width + EuclidianStyleConstants.SELECTION_ADD,
 							objStroke.getEndCap(), objStroke.getLineJoin(),
 							objStroke.getMiterLimit(),
 							selStroke.getDashArray(), 0.0f);

@@ -16,6 +16,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
@@ -50,11 +51,10 @@ public class DrawSlider extends Drawable {
 	private int diameter, hightlightDiameter, pointSize;
 
 	// for dot and selection
-	private org.geogebra.common.awt.GEllipse2DDouble circle = org.geogebra.common.factories.AwtFactory.prototype
+	private GEllipse2DDouble circle = AwtFactory.prototype.newEllipse2DDouble();
+	private GEllipse2DDouble circleOuter = AwtFactory.prototype
 			.newEllipse2DDouble();
-	private org.geogebra.common.awt.GEllipse2DDouble circleOuter = org.geogebra.common.factories.AwtFactory.prototype
-			.newEllipse2DDouble();
-	private org.geogebra.common.awt.GEllipse2DDouble circleHighlight = org.geogebra.common.factories.AwtFactory.prototype
+	private GEllipse2DDouble circleHighlight = AwtFactory.prototype
 			.newEllipse2DDouble();
 
 	private static org.geogebra.common.awt.GBasicStroke borderStroke = EuclidianStatic

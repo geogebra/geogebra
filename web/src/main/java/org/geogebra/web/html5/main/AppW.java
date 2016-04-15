@@ -13,10 +13,13 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.MenuInterface;
@@ -80,8 +83,13 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
+import org.geogebra.web.html5.euclidian.EuclidianStaticW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
+import org.geogebra.web.html5.factories.AwtFactoryW;
+import org.geogebra.web.html5.factories.CASFactoryW;
+import org.geogebra.web.html5.factories.FormatFactoryW;
+import org.geogebra.web.html5.factories.SwingFactoryW;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
@@ -306,14 +314,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * inits factories
 	 */
 	protected void initFactories() {
-		org.geogebra.common.factories.FormatFactory.prototype = new org.geogebra.web.html5.factories.FormatFactoryW();
-		org.geogebra.common.factories.AwtFactory.prototype = new org.geogebra.web.html5.factories.AwtFactoryW();
-		org.geogebra.common.euclidian.EuclidianStatic.prototype = new org.geogebra.web.html5.euclidian.EuclidianStaticW();
-		org.geogebra.common.factories.SwingFactory
-		        .setPrototype(new org.geogebra.web.html5.factories.SwingFactoryW());
-		org.geogebra.common.util.StringUtil.prototype = new org.geogebra.common.util.StringUtil();
-		org.geogebra.common.factories.CASFactory
-		        .setPrototype(new org.geogebra.web.html5.factories.CASFactoryW());
+		FormatFactory.prototype = new FormatFactoryW();
+		AwtFactory.prototype = new AwtFactoryW();
+		EuclidianStatic.prototype = new EuclidianStaticW();
+		SwingFactory.setPrototype(new SwingFactoryW());
+		StringUtil.prototype = new StringUtil();
+		CASFactory.setPrototype(new CASFactoryW());
 		if (!is3D()) {
 			org.geogebra.common.util.CopyPaste.INSTANCE = new CopyPaste();
 		}

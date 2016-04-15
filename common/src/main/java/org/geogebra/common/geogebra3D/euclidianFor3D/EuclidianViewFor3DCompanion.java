@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -67,7 +68,7 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	public GAffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev) {
 
 		// use already computed for this view middlepoint M and eigen vecs ev
-		GAffineTransform transform = org.geogebra.common.factories.AwtFactory.prototype
+		GAffineTransform transform = AwtFactory.prototype
 				.newAffineTransform();
 		transform.setTransform(ev[0].getX(), ev[0].getY(), ev[1].getX(),
 				ev[1].getY(), M.getX(), M.getY());

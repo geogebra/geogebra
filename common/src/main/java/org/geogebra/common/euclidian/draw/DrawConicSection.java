@@ -337,7 +337,7 @@ public class DrawConicSection extends DrawConic {
 						lines = new GLine2D[4];
 					}
 					if (lines[numPoints] == null)
-						lines[numPoints] = org.geogebra.common.factories.AwtFactory.prototype
+						lines[numPoints] = AwtFactory.prototype
 								.newLine2D();
 					lines[numPoints].setLine(x1, y1, x2, y2);
 					x1 = x2;
@@ -350,7 +350,7 @@ public class DrawConicSection extends DrawConic {
 		if (numPoints > 0) {// close path only if at least two points
 			path.closePath();
 			if (lines[numPoints] == null)
-				lines[numPoints] = org.geogebra.common.factories.AwtFactory.prototype
+				lines[numPoints] = AwtFactory.prototype
 						.newLine2D();
 			lines[numPoints].setLine(x1, y1, tx0, ty0);
 		}

@@ -123,7 +123,7 @@ public abstract class GeoGebraExport {
 		int x2 = euclidianView.toScreenCoordX(xmax);
 		int y1 = euclidianView.toScreenCoordY(ymin);
 		int y2 = euclidianView.toScreenCoordY(ymax);
-		org.geogebra.common.awt.GRectangle rec = org.geogebra.common.factories.AwtFactory.prototype
+		org.geogebra.common.awt.GRectangle rec = AwtFactory.prototype
 				.newRectangle(x1, y2, x2 - x1, y1 - y2);
 		// Application.debug(x1+" "+x2+" "+y1+" "+y2);
 		euclidianView.setSelectionRectangle(rec);

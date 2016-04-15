@@ -21,6 +21,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -269,7 +270,7 @@ public class DrawLine extends Drawable implements Previewable {
 		}
 
 		if (line == null)
-			line = org.geogebra.common.factories.AwtFactory.prototype.newLine2D();
+			line = AwtFactory.prototype.newLine2D();
 		line.setLine(x1, y1, x2, y2);
 	}
 
@@ -469,8 +470,7 @@ public class DrawLine extends Drawable implements Previewable {
 
 	}
 
-	private org.geogebra.common.awt.GPoint2D endPoint = org.geogebra.common.factories.AwtFactory.prototype
-			.newPoint2D();
+	private GPoint2D endPoint = AwtFactory.prototype.newPoint2D();
 	private final Coords coordsForMousePos = new Coords(4);
 	public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;

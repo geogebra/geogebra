@@ -14,6 +14,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -461,11 +462,10 @@ public class EuclidianPen {
 
 	private static void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
 			GPoint point2) {
-		GLine2D line = org.geogebra.common.factories.AwtFactory.prototype
-				.newLine2D();
+		GLine2D line = AwtFactory.prototype.newLine2D();
 		line.setLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
-		g2D.setStroke(org.geogebra.common.factories.AwtFactory.prototype
-				.newBasicStroke(12, GBasicStroke.CAP_ROUND,
+		g2D.setStroke(AwtFactory.prototype.newBasicStroke(12,
+				GBasicStroke.CAP_ROUND,
 						GBasicStroke.JOIN_ROUND));
 		g2D.setColor(GColor.GRAY);
 		g2D.fill(line);

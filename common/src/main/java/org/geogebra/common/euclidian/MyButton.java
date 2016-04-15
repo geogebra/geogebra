@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoButton.Observer;
@@ -102,8 +103,7 @@ public class MyButton implements Observer {
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 			} else {
-				t = org.geogebra.common.factories.AwtFactory.prototype
-						.newTextLayout(getCaption(), font,
+				t = AwtFactory.prototype.newTextLayout(getCaption(), font,
 								g.getFontRenderContext());
 				textHeight = t.getAscent() + t.getDescent();
 				textWidth = t.getAdvance();
@@ -198,11 +198,11 @@ public class MyButton implements Observer {
 			bg2 = bg.brighter();
 		}
 		if (!pressed) {
-			p = org.geogebra.common.factories.AwtFactory.prototype
-					.newGradientPaint(x, y, bg2, x, y + (getHeight() / 2), bg);
+			p = AwtFactory.prototype.newGradientPaint(x, y, bg2, x,
+					y + (getHeight() / 2), bg);
 		} else {
-			p = org.geogebra.common.factories.AwtFactory.prototype
-					.newGradientPaint(x, y, bg.darker(), x, y + getHeight(), bg);
+			p = AwtFactory.prototype.newGradientPaint(x, y, bg.darker(), x,
+					y + getHeight(), bg);
 		}
 
 		// =======================================
@@ -303,8 +303,7 @@ public class MyButton implements Observer {
 				textWidth = d.getWidth();
 
 			} else {
-				t = org.geogebra.common.factories.AwtFactory.prototype
-						.newTextLayout(getCaption(), font,
+				t = AwtFactory.prototype.newTextLayout(getCaption(), font,
 								g.getFontRenderContext());
 				textHeight = t.getAscent() + t.getDescent();
 				textWidth = t.getAdvance();
@@ -326,8 +325,7 @@ public class MyButton implements Observer {
 				textWidth = d.getWidth();
 
 			} else {
-				t = org.geogebra.common.factories.AwtFactory.prototype
-						.newTextLayout(getCaption(), font,
+				t = AwtFactory.prototype.newTextLayout(getCaption(), font,
 								g.getFontRenderContext());
 				textHeight = t.getAscent() + t.getDescent();
 				textWidth = t.getAdvance();
@@ -383,7 +381,7 @@ public class MyButton implements Observer {
 	 * @return bounds of this button
 	 */
 	public GRectangle getBounds() {
-		return org.geogebra.common.factories.AwtFactory.prototype.newRectangle(x,
+		return AwtFactory.prototype.newRectangle(x,
 				y, geoButton.getWidth(), geoButton.getHeight());
 	}
 

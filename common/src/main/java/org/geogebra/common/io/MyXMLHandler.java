@@ -605,7 +605,7 @@ public class MyXMLHandler implements DocHandler {
 						height = app.getAppCanvasHeight();
 					}
 					evSet.setPreferredSize(
-							org.geogebra.common.factories.AwtFactory.prototype
+							AwtFactory.prototype
 									.newDimension(width, height));
 				}
 			}
@@ -1442,9 +1442,9 @@ public class MyXMLHandler implements DocHandler {
 				height = app.getAppCanvasHeight();
 			}
 			ev.setPreferredSize(
-					org.geogebra.common.factories.AwtFactory.prototype
+					AwtFactory.prototype
 							.newDimension(width, height));
-			ev.setSizeFromFile(org.geogebra.common.factories.AwtFactory.prototype
+			ev.setSizeFromFile(AwtFactory.prototype
 					.newDimension(Integer.parseInt(attrs.get("width")),
 							Integer.parseInt(attrs.get("height"))));
 			return true;
@@ -1461,7 +1461,7 @@ public class MyXMLHandler implements DocHandler {
 			int width = Integer.parseInt(attrs.get("width"));
 			int height = Integer.parseInt(attrs.get("height"));
 			app.getSettings().getSpreadsheet().setPreferredSize(
-					org.geogebra.common.factories.AwtFactory.prototype
+					AwtFactory.prototype
 							.newDimension(width, height));
 			return true;
 		} catch (Exception e) {
@@ -2104,18 +2104,18 @@ public class MyXMLHandler implements DocHandler {
 		// store the layout xml.
 		DockPanelData[] dpXml = new DockPanelData[] {
 				new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false,
-						org.geogebra.common.factories.AwtFactory.prototype
+						AwtFactory.prototype
 								.newRectangle(400, 400),
 						defEV, width),
 				new DockPanelData(App.VIEW_ALGEBRA, null, tmp_showAlgebra,
 						false, false,
-						org.geogebra.common.factories.AwtFactory.prototype
+						AwtFactory.prototype
 								.newRectangle(200, 400),
 						defAV, (tmp_showAlgebra && tmp_sp2 > 0) ? tmp_sp2
 								: 200),
 				new DockPanelData(App.VIEW_SPREADSHEET, null,
 						tmp_showSpreadsheet, false, false,
-						org.geogebra.common.factories.AwtFactory.prototype
+						AwtFactory.prototype
 								.newRectangle(400, 400),
 						defSV, ssize) };
 		tmp_perspective.setDockPanelData(dpXml);
@@ -2179,7 +2179,7 @@ public class MyXMLHandler implements DocHandler {
 
 		tmp_perspectives = new ArrayList<Perspective>();
 		tmp_perspectives.add(tmp_perspective);
-		app.setPreferredSize(org.geogebra.common.factories.AwtFactory.prototype
+		app.setPreferredSize(AwtFactory.prototype
 				.newDimension(width, height));
 		app.setTmpPerspectives(tmp_perspectives);
 	}
@@ -2485,7 +2485,7 @@ public class MyXMLHandler implements DocHandler {
 	private static boolean handleWindowSize(App app,
 			LinkedHashMap<String, String> attrs) {
 		try {
-			org.geogebra.common.awt.GDimension size = org.geogebra.common.factories.AwtFactory.prototype
+			org.geogebra.common.awt.GDimension size = AwtFactory.prototype
 					.newDimension(Integer.parseInt(attrs.get("width")),
 							Integer.parseInt(attrs.get("height")));
 			app.setPreferredSize(size);
@@ -2762,7 +2762,7 @@ public class MyXMLHandler implements DocHandler {
 
 			// the window rectangle is given in the format "x,y,width,height"
 			String[] window = attrs.get("window").split(",");
-			org.geogebra.common.awt.GRectangle windowRect = org.geogebra.common.factories.AwtFactory.prototype
+			org.geogebra.common.awt.GRectangle windowRect = AwtFactory.prototype
 					.newRectangle(Integer.parseInt(window[0]),
 							Integer.parseInt(window[1]),
 							Integer.parseInt(window[2]),
@@ -3177,7 +3177,7 @@ public class MyXMLHandler implements DocHandler {
 			String b = attrs.get("b");
 			String g = attrs.get("g");
 			geoCasCell.setFontColor(
-					org.geogebra.common.factories.AwtFactory.prototype.newColor(
+					AwtFactory.prototype.newColor(
 							Integer.parseInt(r), Integer.parseInt(g),
 							Integer.parseInt(b)));
 		} else
@@ -3958,7 +3958,7 @@ public class MyXMLHandler implements DocHandler {
 			int red = Integer.parseInt(attrs.get("r"));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
-			return org.geogebra.common.factories.AwtFactory.prototype
+			return AwtFactory.prototype
 					.newColor(red, green, blue);
 		} catch (Exception e) {
 			return null;
@@ -3975,7 +3975,7 @@ public class MyXMLHandler implements DocHandler {
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
 			int alpha = Integer.parseInt(attrs.get("alpha"));
-			return org.geogebra.common.factories.AwtFactory.prototype
+			return AwtFactory.prototype
 					.newColor(red, green, blue, alpha);
 		} catch (Exception e) {
 			return null;

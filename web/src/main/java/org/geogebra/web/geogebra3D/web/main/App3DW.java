@@ -1,6 +1,7 @@
 package org.geogebra.web.geogebra3D.web.main;
 
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.kernel.Kernel;
@@ -118,11 +119,8 @@ public class App3DW {
 	 */
 	static final public void ggwGraphicsView3DDimChanged(AppW app, int width,
 			int height) {
-		app.getSettings()
-				.getEuclidian(3)
-				.setPreferredSize(
-				org.geogebra.common.factories.AwtFactory.prototype
-						.newDimension(width, height));
+		app.getSettings().getEuclidian(3).setPreferredSize(
+				AwtFactory.prototype.newDimension(width, height));
 
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
 		view.synCanvasSize();

@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianStatic;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -59,7 +60,7 @@ public class DrawLabel3D {
 	private boolean waitForReset;
 
 	/** temp graphics used for calculate bounds */
-	protected GGraphics2D tempGraphics = org.geogebra.common.factories.AwtFactory.prototype
+	protected GGraphics2D tempGraphics = AwtFactory.prototype
 			.newBufferedImage(1, 1, 1)
 			.createGraphics();
 
@@ -192,7 +193,7 @@ public class DrawLabel3D {
 	protected GGraphics2D createGraphics2D(GBufferedImage bimg) {
 		GGraphics2D g2d = bimg.createGraphics();
 
-		GAffineTransform gt = org.geogebra.common.factories.AwtFactory.prototype
+		GAffineTransform gt = AwtFactory.prototype
 				.newAffineTransform();
 		gt.scale(1, -1d);
 		gt.translate(-xOffset2, yOffset2);// put the baseline on the label anchor

@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.io;
 import java.util.LinkedHashMap;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
@@ -443,7 +444,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			int red = Integer.parseInt(attrs.get("r"));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
-			return org.geogebra.common.factories.AwtFactory.prototype.newColor(red,
+			return AwtFactory.prototype.newColor(red,
 					green, blue);
 		} catch (Exception e) {
 			return null;

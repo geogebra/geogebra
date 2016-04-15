@@ -19,6 +19,10 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GEllipse2DDouble;
+import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -67,17 +71,17 @@ public final class DrawPoint extends Drawable {
 	private int diameter, hightlightDiameter, pointSize;
 	private boolean isVisible, labelVisible;
 	// for dot and selection
-	private org.geogebra.common.awt.GEllipse2DDouble circle = org.geogebra.common.factories.AwtFactory.prototype
+	private GEllipse2DDouble circle = AwtFactory.prototype
 			.newEllipse2DDouble();
-	private org.geogebra.common.awt.GEllipse2DDouble circleHighlight = org.geogebra.common.factories.AwtFactory.prototype
+	private GEllipse2DDouble circleHighlight = AwtFactory.prototype
 			.newEllipse2DDouble();
-	private org.geogebra.common.awt.GLine2D line1, line2, line3, line4;// for cross
-	private org.geogebra.common.awt.GGeneralPath gp = null;
+	private GLine2D line1, line2, line3, line4;// for cross
+	private GGeneralPath gp = null;
 
-	private static org.geogebra.common.awt.GBasicStroke borderStroke = EuclidianStatic
+	private static GBasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
-	private static org.geogebra.common.awt.GBasicStroke[] fillStrokes = new org.geogebra.common.awt.GBasicStroke[10];
-	private static org.geogebra.common.awt.GBasicStroke[] emptyStrokes = new org.geogebra.common.awt.GBasicStroke[10];
+	private static GBasicStroke[] fillStrokes = new GBasicStroke[10];
+	private static GBasicStroke[] emptyStrokes = new GBasicStroke[10];
 
 	private boolean isPreview;
 

@@ -163,8 +163,7 @@ public class DrawInequality1Var extends Drawable {
 				lines[2 * i + 1] = AwtFactory.prototype.newLine2D();
 				lines[2 * i + 1].setLine(-10, x[2 * i + j + 1],
 						view.getWidth() + 10, x[2 * i + j + 1]);
-				a.add(org.geogebra.common.factories.AwtFactory.prototype
-						.newArea(gp[i]));
+				a.add(AwtFactory.prototype.newArea(gp[i]));
 			}
 			setShape(a);
 		} else {
@@ -201,7 +200,7 @@ public class DrawInequality1Var extends Drawable {
 						continue;
 					if (x[i] > view.getWidth())
 						break;
-					circle[circleCount] = org.geogebra.common.factories.AwtFactory.prototype
+					circle[circleCount] = AwtFactory.prototype
 							.newEllipse2DDouble();
 					double radius = geo.getLineThickness() * DOT_RADIUS;
 					circle[circleCount].setFrame(x[i] - radius,
@@ -227,8 +226,7 @@ public class DrawInequality1Var extends Drawable {
 					lines[2 * i + 1] = AwtFactory.prototype.newLine2D();
 					lines[2 * i + 1].setLine(x[2 * i + 1 + j], -10, x[2 * i + 1
 							+ j], view.getHeight() + 10);
-					a.add(org.geogebra.common.factories.AwtFactory.prototype
-							.newArea(gp[i]));
+					a.add(AwtFactory.prototype.newArea(gp[i]));
 				}
 			}
 			setShape(a);

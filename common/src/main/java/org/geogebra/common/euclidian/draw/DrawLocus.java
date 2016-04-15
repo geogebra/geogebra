@@ -19,6 +19,7 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -96,10 +97,9 @@ public class DrawLocus extends Drawable {
 			}
 		}
 		if (geo.isInverseFill()) {
-			setShape(org.geogebra.common.factories.AwtFactory.prototype
+			setShape(AwtFactory.prototype
 					.newArea(view.getBoundingPath()));
-			getShape().subtract(
-					org.geogebra.common.factories.AwtFactory.prototype.newArea(gp));
+			getShape().subtract(AwtFactory.prototype.newArea(gp));
 		}
 
 	}

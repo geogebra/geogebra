@@ -1186,9 +1186,10 @@ public final class DrawList extends CanvasDrawable
 			Drawable d = (Drawable) drawables.get(i);
 			org.geogebra.common.awt.GRectangle bb = d.getBounds();
 			if (bb != null) {
-				if (result == null)
-					result = org.geogebra.common.factories.AwtFactory.prototype
-							.newRectangle(bb); // changed () to (bb) bugfix,
+				if (result == null) {
+					result = AwtFactory.prototype.newRectangle(bb);
+				}
+				// changed () to (bb) bugfix,
 				// otherwise top-left of screen
 				// is always included
 				// add bounding box of list element

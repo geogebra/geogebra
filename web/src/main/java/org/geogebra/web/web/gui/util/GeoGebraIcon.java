@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.util;
 
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -89,11 +90,13 @@ public class GeoGebraIcon extends BasicIcons{
 		float[] rgb = new float[3];
 		if(fgColor!=null){
 			fgColor.getRGBColorComponents(rgb);
-			ret.setFgColor(org.geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha));
+			ret.setFgColor(AwtFactory.prototype.newColor(rgb[0], rgb[1], rgb[2],
+					alpha));
 		}
 		if(bgColor!=null){
 			bgColor.getRGBColorComponents(rgb);
-			ret.setBgColor(org.geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha));
+			ret.setBgColor(AwtFactory.prototype.newColor(rgb[0], rgb[1], rgb[2],
+					alpha));
 		}
 		return ret;
 	}

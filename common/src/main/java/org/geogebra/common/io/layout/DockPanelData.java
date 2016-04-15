@@ -3,6 +3,7 @@ package org.geogebra.common.io.layout;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.factories.AwtFactory;
 
 /**
  * A storage container with all information which need to be stored for a
@@ -114,9 +115,9 @@ public class DockPanelData {
 			boolean inFrame, boolean showStyleBar, int windowX, int windowY,
 			int windowWidth, int windowHeight, String embeddedDef,
 			int embeddedSize) {
-		this(viewId, toolbar, isVisible, inFrame, showStyleBar,
-				org.geogebra.common.factories.AwtFactory.prototype.newRectangle(
-						windowX, windowY, windowWidth, windowHeight),
+		this(viewId, toolbar, isVisible, inFrame,
+				showStyleBar, AwtFactory.prototype.newRectangle(windowX,
+						windowY, windowWidth, windowHeight),
 				embeddedDef, embeddedSize, null);
 	}
 
@@ -145,7 +146,7 @@ public class DockPanelData {
 			boolean inFrame, boolean showStyleBar, GPoint windowLoc,
 			GDimension windowSize, String embeddedDef, int embeddedSize) {
 		this(viewId, toolbar, isVisible, inFrame, showStyleBar,
-				org.geogebra.common.factories.AwtFactory.prototype.newRectangle(
+				AwtFactory.prototype.newRectangle(
 						windowLoc.getX(), windowLoc.getY(),
 						windowSize.getWidth(), windowSize.getHeight()),
 				embeddedDef, embeddedSize, null);

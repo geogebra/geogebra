@@ -32,6 +32,7 @@ import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDelete;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -7674,8 +7675,7 @@ public abstract class EuclidianController {
 		}
 
 		if (view.getSelectionRectangle() == null) {
-			view.setSelectionRectangle(org.geogebra.common.factories.AwtFactory.prototype
-					.newRectangle(0, 0));
+			view.setSelectionRectangle(AwtFactory.prototype.newRectangle(0, 0));
 		}
 
 		int dx = mouseLoc.x - selectionStartPoint.x;

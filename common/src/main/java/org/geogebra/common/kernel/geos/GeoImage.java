@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Locateable;
@@ -964,7 +965,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	public void clearFillImage() {
 		this.getGraphicsAdapter().setImageOnly(
-				org.geogebra.common.factories.AwtFactory.prototype
+AwtFactory.prototype
 						.newMyImage(pixelWidth, pixelHeight,
 								GBufferedImage.TYPE_INT_ARGB));
 		this.updateRepaint();

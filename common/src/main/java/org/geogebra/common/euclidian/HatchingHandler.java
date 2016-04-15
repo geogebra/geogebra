@@ -163,8 +163,8 @@ public class HatchingHandler {
 		case SYMBOLS:
 			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN,
 					(int) (dist * 2.5)));
-			GTextLayout t = org.geogebra.common.factories.AwtFactory.prototype
-					.newTextLayout(symbol, g2d.getFont(),
+			GTextLayout t = AwtFactory.prototype.newTextLayout(symbol,
+					g2d.getFont(),
 							g2d.getFontRenderContext());
 			g2d = createImage(objStroke, color, bgColor,
 					backgroundTransparency,
