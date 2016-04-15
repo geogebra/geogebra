@@ -6,7 +6,7 @@ import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.GImageObserver;
 
 public class GGenericImageD implements GImage {
-	private java.awt.Image impl;
+	private Image impl;
 
 	public GGenericImageD(Image im) {
 		this.impl = im;

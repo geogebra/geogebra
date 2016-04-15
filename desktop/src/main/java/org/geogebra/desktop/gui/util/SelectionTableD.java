@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.main.AppD;
 
@@ -66,7 +67,7 @@ public class SelectionTableD extends JTable {
 
 	private Dimension iconSize;
 
-	private org.geogebra.common.gui.util.SelectionTable mode;
+	private SelectionTable mode;
 
 	private Color fgColor, bgColor;
 	private float alpha;
@@ -119,7 +120,7 @@ public class SelectionTableD extends JTable {
 		this.app = app;
 		this.mode = mode;
 		this.iconSize = iconSize;
-		if (mode == org.geogebra.common.gui.util.SelectionTable.MODE_LATEX)
+		if (mode == SelectionTable.MODE_LATEX)
 			data = createLatexIconArray((String[]) data);
 		this.data = data;
 
@@ -221,7 +222,8 @@ public class SelectionTableD extends JTable {
 
 		// match row height to specified icon height
 		// when mode=text then let font size adjust row height automatically
-		if (!(mode == org.geogebra.common.gui.util.SelectionTable.MODE_TEXT || mode == org.geogebra.common.gui.util.SelectionTable.MODE_LATEX)) {
+		if (!(mode == SelectionTable.MODE_TEXT
+				|| mode == SelectionTable.MODE_LATEX)) {
 			rowHeight = iconSize.height + padding;
 		} else {
 			rowHeight = getMaxRowHeight(this) + padding;
@@ -235,8 +237,8 @@ public class SelectionTableD extends JTable {
 		for (int i = 0; i < getColumnCount(); ++i) {
 			// for mode=text, adjust column width to the maximum width in the
 			// column
-			if (mode == org.geogebra.common.gui.util.SelectionTable.MODE_TEXT
-					|| mode == org.geogebra.common.gui.util.SelectionTable.MODE_LATEX) {
+			if (mode == SelectionTable.MODE_TEXT
+					|| mode == SelectionTable.MODE_LATEX) {
 				w = getMaxColumnWidth(this, i);
 				getColumnModel().getColumn(i).setPreferredWidth(w);
 				columnWidth = Math.max(w, columnWidth);
@@ -378,7 +380,7 @@ public class SelectionTableD extends JTable {
 
 			rollOverBorder = BorderFactory.createLineBorder(Color.GRAY, 3);
 			normalBorder = BorderFactory.createLineBorder(Color.GRAY, 1);
-			if (mode == org.geogebra.common.gui.util.SelectionTable.MODE_LATEX)
+			if (mode == SelectionTable.MODE_LATEX)
 				selectedBorder = rollOverBorder;
 			else
 				selectedBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
@@ -395,7 +397,7 @@ public class SelectionTableD extends JTable {
 			setAlignmentX(CENTER_ALIGNMENT);
 			setAlignmentY(CENTER_ALIGNMENT);
 
-			if (mode == org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+			if (mode == SelectionTable.MODE_TEXT) {
 				this.setHorizontalAlignment(horizontalAlignment);
 				this.setVerticalAlignment(SwingConstants.CENTER);
 				setText((String) value);

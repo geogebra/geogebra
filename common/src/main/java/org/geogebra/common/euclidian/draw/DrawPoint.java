@@ -565,8 +565,7 @@ public final class DrawPoint extends Drawable {
 	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
 	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT see #1699
 	 */
-	final private static org.geogebra.common.awt.GBasicStroke getEmptyStroke(
-			int pointSize) {
+	final private static GBasicStroke getEmptyStroke(int pointSize) {
 		if (pointSize > 9)
 			return AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
 
@@ -581,8 +580,7 @@ public final class DrawPoint extends Drawable {
 	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
 	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT see #1699
 	 */
-	final private static org.geogebra.common.awt.GBasicStroke getFillStroke(
-			int pointSize) {
+	final private static GBasicStroke getFillStroke(int pointSize) {
 
 		if (pointSize > 9)
 			return AwtFactory.prototype.newBasicStroke(pointSize / 2f);

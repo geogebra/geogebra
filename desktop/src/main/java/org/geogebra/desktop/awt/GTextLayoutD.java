@@ -3,15 +3,15 @@ package org.geogebra.desktop.awt;
 import java.awt.font.TextLayout;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 
 public class GTextLayoutD implements org.geogebra.common.awt.font.GTextLayout {
-	private java.awt.font.TextLayout impl;
+	private TextLayout impl;
 	private String str;
 	private GFont font;
 
-	public GTextLayoutD(String string, GFont font,
-			org.geogebra.common.awt.GFontRenderContext frc) {
+	public GTextLayoutD(String string, GFont font, GFontRenderContext frc) {
 		this.font = font;
 		this.str = string;
 		impl = new TextLayout(string, GFontD.getAwtFont(font),

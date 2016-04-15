@@ -8,10 +8,10 @@ import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 
-public class GEllipse2DDoubleD implements org.geogebra.desktop.awt.GRectangularShapeD,
+public class GEllipse2DDoubleD implements GRectangularShapeD,
 		org.geogebra.common.awt.GEllipse2DDouble {
 
-	private java.awt.geom.Ellipse2D.Double impl;
+	private Ellipse2D.Double impl;
 
 	/*
 	 * public Double(java.awt.geom.Ellipse2D.Double ellipse2d) { impl =
@@ -59,14 +59,12 @@ public class GEllipse2DDoubleD implements org.geogebra.desktop.awt.GRectangularS
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new GPathIteratorD(
-impl.getPathIterator(
+		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new GPathIteratorD(
-impl.getPathIterator(
+		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(at),
 				flatness));
 	}
@@ -83,7 +81,7 @@ impl.getPathIterator(
 		return impl;
 	}
 
-	public static java.awt.geom.Ellipse2D.Double getAwtEllipse2DDouble(
+	public static Ellipse2D.Double getAwtEllipse2DDouble(
 			Ellipse2D.Double ellipse) {
 
 		if (ellipse == null) {

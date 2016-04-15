@@ -36,9 +36,9 @@ import com.kitfox.svg.SVGException;
  * 
  */
 public class GGraphics2DD implements GGraphics2D {
-	private java.awt.Graphics2D impl;
+	private Graphics2D impl;
 
-	public GGraphics2DD(java.awt.Graphics2D g2Dtemp) {
+	public GGraphics2DD(Graphics2D g2Dtemp) {
 		impl = g2Dtemp;
 	}
 

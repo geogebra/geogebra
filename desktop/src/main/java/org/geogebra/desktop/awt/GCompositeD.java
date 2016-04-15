@@ -1,14 +1,17 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.Composite;
+
+import org.geogebra.common.awt.GComposite;
+
 public class GCompositeD implements org.geogebra.common.awt.GComposite {
-	private java.awt.Composite impl;
+	private Composite impl;
 
 	public GCompositeD(java.awt.Composite composite) {
 		impl = composite;
 	}
 
-	public static java.awt.Composite getAwtComposite(
-			org.geogebra.common.awt.GComposite c) {
+	public static Composite getAwtComposite(GComposite c) {
 		if (!(c instanceof GCompositeD))
 			return null;
 		return ((GCompositeD) c).impl;

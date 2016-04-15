@@ -6874,7 +6874,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return isSpreadsheetTraceable();
 	}
 
-	private org.geogebra.common.util.SpreadsheetTraceSettings traceSettings;
+	private SpreadsheetTraceSettings traceSettings;
 
 	/**
 	 * @return spreadsheet trace settings

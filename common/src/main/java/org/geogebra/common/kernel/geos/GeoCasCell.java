@@ -430,7 +430,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	/**
 	 * @return font color
 	 */
-	public org.geogebra.common.awt.GColor getFontColor() {
+	public GColor getFontColor() {
 		return this.getObjectColor();
 	}
 

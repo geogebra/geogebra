@@ -1,6 +1,7 @@
 package org.geogebra.desktop.euclidian.event;
 
 import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
 import org.geogebra.common.awt.GPoint;
@@ -11,7 +12,7 @@ import org.geogebra.common.main.App;
 public class MouseEventD extends AbstractEvent implements MouseEventND {
 
 	public static LinkedList<MouseEventD> pool = new LinkedList<MouseEventD>();
-	private java.awt.event.MouseEvent event;
+	private MouseEvent event;
 	private int id;
 
 	private MouseEventD(java.awt.event.MouseEvent e) {
@@ -45,7 +46,7 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 		return event.isShiftDown();
 	}
 
-	public static java.awt.event.MouseEvent getEvent(AbstractEvent e) {
+	public static MouseEvent getEvent(AbstractEvent e) {
 		return ((MouseEventD) e).event;
 	}
 

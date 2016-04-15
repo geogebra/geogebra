@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.TreeMap;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint;
@@ -3953,7 +3954,7 @@ new GPoint(row, column));
 	/*
 	 * expects r, g, b attributes to build a color
 	 */
-	private static org.geogebra.common.awt.GColor handleColorAttrs(
+	private static GColor handleColorAttrs(
 			LinkedHashMap<String, String> attrs) {
 		try {
 			int red = Integer.parseInt(attrs.get("r"));
@@ -3969,7 +3970,7 @@ new GPoint(row, column));
 	/*
 	 * expects r, g, b, alpha attributes to build a color
 	 */
-	private static org.geogebra.common.awt.GColor handleColorAlphaAttrs(
+	private static GColor handleColorAlphaAttrs(
 			LinkedHashMap<String, String> attrs) {
 		try {
 			int red = Integer.parseInt(attrs.get("r"));

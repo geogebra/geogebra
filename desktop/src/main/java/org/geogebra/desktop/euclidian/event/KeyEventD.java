@@ -1,33 +1,33 @@
 package org.geogebra.desktop.euclidian.event;
 
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
 
-public class KeyEvent extends org.geogebra.common.euclidian.event.KeyEvent {
+public class KeyEventD extends org.geogebra.common.euclidian.event.KeyEvent {
 
-	public static LinkedList<KeyEvent> pool = new LinkedList<KeyEvent>();
-	private java.awt.event.KeyEvent event;
+	public static LinkedList<KeyEventD> pool = new LinkedList<KeyEventD>();
+	private KeyEvent event;
 
-	public KeyEvent(java.awt.event.KeyEvent e) {
+	public KeyEventD(KeyEvent e) {
 		App.debug("possible missing release()");
 		this.event = e;
 	}
 
-	public static org.geogebra.desktop.euclidian.event.KeyEvent wrapEvent(
-			java.awt.event.KeyEvent e) {
+	public static KeyEventD wrapEvent(KeyEvent e) {
 		if (!pool.isEmpty()) {
-			KeyEvent wrap = pool.getLast();
+			KeyEventD wrap = pool.getLast();
 			wrap.event = e;
 			pool.removeLast();
 			return wrap;
 		}
-		return new KeyEvent(e);
+		return new KeyEventD(e);
 	}
 
 	public void release() {
-		KeyEvent.pool.add(this);
+		KeyEventD.pool.add(this);
 	}
 
 	@Override

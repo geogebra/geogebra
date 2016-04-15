@@ -31,7 +31,7 @@ public class GPoint2DW extends GPoint2D {
 		impl.setLocation(getX(), y);
 	}
 
-	public double distance(org.geogebra.common.awt.GPoint2D q) {
+	public double distance(GPoint2D q) {
 		return impl.distance(q.getX(), q.getY());
 	}
 
@@ -39,8 +39,7 @@ public class GPoint2DW extends GPoint2D {
 		return impl.distance(x, y);
 	}
 
-	public static org.geogebra.ggbjdk.java.awt.geom.Point2D.Double getGawtPoint2D(
-	        org.geogebra.common.awt.GPoint2D p) {
+	public static Point2D.Double getGawtPoint2D(GPoint2D p) {
 		if (p == null)
 			return null;
 		return new Point2D.Double(p.getX(),

@@ -80,9 +80,8 @@ public class ClipLine {
 	 *            upper right y of rectangle
 	 * @return <code>null</code> (does not clip) or array of two points
 	 */
-	public static org.geogebra.common.awt.GPoint2D[] getClipped(double x1,
-			double y1, double x2, double y2, int xmin, int xmax, int ymin,
-			int ymax) {
+	public static GPoint2D[] getClipped(double x1, double y1, double x2,
+			double y2, int xmin, int xmax, int ymin, int ymax) {
 		int mask1 = 0; // position mask for first point
 		int mask2 = 0; // position mask for second point
 
@@ -163,9 +162,9 @@ public class ClipLine {
 	 *            upper right y of rectangle
 	 * @return <code>null</code> (does not clip) or array of two points
 	 */
-	protected static org.geogebra.common.awt.GPoint2D[] getClipped(double x1,
-			double y1, int mask1, double x2, double y2, int mask2, double xmin,
-			double xmax, double ymin, double ymax) {
+	protected static GPoint2D[] getClipped(double x1, double y1, int mask1,
+			double x2, double y2, int mask2, double xmin, double xmax,
+			double ymin, double ymax) {
 		int mask = mask1 ^ mask2;
 		org.geogebra.common.awt.GPoint2D p1 = null;
 
@@ -315,9 +314,8 @@ public class ClipLine {
 	 *            ending y of 2nd line
 	 * @return intersection point or <code>null</code>
 	 */
-	private static org.geogebra.common.awt.GPoint2D intersect(double x11,
-			double y11, double x12, double y12, double x21, double y21,
-			double x22, double y22) {
+	private static GPoint2D intersect(double x11, double y11, double x12,
+			double y12, double x21, double y21, double x22, double y22) {
 		double dx1 = x12 - x11;
 		double dy1 = y12 - y11;
 		double dx2 = x22 - x21;

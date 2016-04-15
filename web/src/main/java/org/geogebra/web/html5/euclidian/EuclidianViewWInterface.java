@@ -1,11 +1,13 @@
 package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
 
@@ -29,7 +31,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	public boolean hasStyleBar();
 
-	public org.geogebra.common.euclidian.EuclidianStyleBar getStyleBar();
+	public EuclidianStyleBar getStyleBar();
 
 	public int getViewWidth();
 
@@ -68,7 +70,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	public int getAbsoluteTop();
 
-	public org.geogebra.web.html5.awt.GGraphics2DW getG2P();
+	public GGraphics2DW getG2P();
 
 	public void resetMsZoomer();
 

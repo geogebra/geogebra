@@ -11,7 +11,7 @@ import org.geogebra.common.awt.GRectangle2D;
 public class GEllipse2DFloatD implements org.geogebra.desktop.awt.GRectangularShapeD,
 		org.geogebra.common.awt.GEllipse2DFloat {
 
-	private java.awt.geom.Ellipse2D.Float impl;
+	private Ellipse2D.Float impl;
 
 	public GEllipse2DFloatD(int i, int j, int k, int l) {
 		impl = new Ellipse2D.Float(i, j, k, l);

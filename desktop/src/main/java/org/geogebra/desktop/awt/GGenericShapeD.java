@@ -10,7 +10,7 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.util.debug.Log;
 
 public class GGenericShapeD implements GShapeD {
-	private java.awt.Shape impl;
+	private Shape impl;
 
 	private GGenericShapeD() {
 	}
@@ -58,7 +58,7 @@ public class GGenericShapeD implements GShapeD {
 		return impl.contains(xTry, yTry);
 	}
 
-	public void setImpl(java.awt.Shape newImpl) {
+	public void setImpl(Shape newImpl) {
 		impl = newImpl;
 	}
 

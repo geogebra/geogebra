@@ -9,7 +9,7 @@ import org.geogebra.common.main.App;
 public class GFocusEventD extends GFocusEvent {
 
 	public static LinkedList<GFocusEventD> pool = new LinkedList<GFocusEventD>();
-	private java.awt.event.FocusEvent event;
+	private FocusEvent event;
 
 	private GFocusEventD(FocusEvent e) {
 		App.debug("possible missing release()");

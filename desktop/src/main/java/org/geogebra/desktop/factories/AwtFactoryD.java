@@ -273,8 +273,7 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public org.geogebra.desktop.euclidian.event.ActionListenerD newActionListener(
-			ActionListenerI listener) {
+	public ActionListenerD newActionListener(ActionListenerI listener) {
 		return new ActionListenerD(listener);
 	}
 

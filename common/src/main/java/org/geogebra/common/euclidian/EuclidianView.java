@@ -125,11 +125,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/** background image */
 	protected GBufferedImage bgImage;
 	/** g2d of bgImage: used for axis, grid, background images and object traces */
-	protected org.geogebra.common.awt.GGraphics2D bgGraphics;
+	protected GGraphics2D bgGraphics;
 	// zoom rectangle colors
-	private static final org.geogebra.common.awt.GColor colZoomRectangle = AwtFactory.prototype
+	private static final GColor colZoomRectangle = AwtFactory.prototype
 			.newColor(200, 200, 230);
-	private static final org.geogebra.common.awt.GColor colZoomRectangleFill = AwtFactory.prototype
+	private static final GColor colZoomRectangleFill = AwtFactory.prototype
 			.newColor(200, 200, 230, 50);
 
 	// deletion square design
@@ -140,15 +140,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected GRectangle deletionRectangle;
 
 	// colors: axes, grid, background
-	org.geogebra.common.awt.GColor axesColor;
+	GColor axesColor;
 	private GColor gridColor;
 	protected GRectangle selectionRectangle;
 	/**
 	 * default axes stroke
 	 */
-	static GBasicStroke defAxesStroke = AwtFactory.prototype
-			.newBasicStroke(1.0f, org.geogebra.common.awt.GBasicStroke.CAP_BUTT,
-					org.geogebra.common.awt.GBasicStroke.JOIN_MITER);
+	static GBasicStroke defAxesStroke = AwtFactory.prototype.newBasicStroke(
+			1.0f, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
 
 	// changed from 1.8f (same as bold grid) Michael Borcherds 2008-04-12
 	static GBasicStroke boldAxesStroke = AwtFactory.prototype
@@ -157,8 +156,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
 
 	// axes and grid stroke
-	org.geogebra.common.awt.GBasicStroke axesStroke;
-	org.geogebra.common.awt.GBasicStroke tickStroke;
+	GBasicStroke axesStroke;
+	GBasicStroke tickStroke;
 	private GBasicStroke gridStroke;
 	/** kernel */
 	protected Kernel kernel;

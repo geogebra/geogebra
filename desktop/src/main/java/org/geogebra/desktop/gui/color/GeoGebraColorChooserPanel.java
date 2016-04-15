@@ -344,7 +344,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 		private static final long serialVersionUID = 1L;
 
-		protected org.geogebra.common.awt.GColor[] colors;
+		protected GColor[] colors;
 
 		protected Dimension swatchSize = new Dimension(largeSwatchSize,
 				largeSwatchSize);

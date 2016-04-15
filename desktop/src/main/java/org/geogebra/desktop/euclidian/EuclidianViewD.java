@@ -45,6 +45,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
@@ -1060,7 +1061,7 @@ public class EuclidianViewD extends EuclidianView implements
 		// We call this on file loading, so we don't want to mess up the settings we have just loaded using initView
 	}
 
-	public org.geogebra.common.awt.GColor getBackgroundCommon() {
+	public GColor getBackgroundCommon() {
 		return new GColorD(evjpanel.getBackground());
 	}
 

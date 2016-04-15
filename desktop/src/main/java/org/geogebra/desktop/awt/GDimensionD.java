@@ -5,9 +5,9 @@ import java.awt.Dimension;
 import org.geogebra.common.awt.GDimension;
 
 public class GDimensionD extends GDimension {
-	private java.awt.Dimension impl;
+	private Dimension impl;
 
-	public GDimensionD(java.awt.Dimension dim) {
+	public GDimensionD(Dimension dim) {
 		impl = dim;
 	}
 
@@ -26,7 +26,6 @@ public class GDimensionD extends GDimension {
 
 	@Override
 	public int getHeight() {
-		// TODO Auto-generated method stub
 		return impl.height;
 	}
 
@@ -35,10 +34,12 @@ public class GDimensionD extends GDimension {
 	 *            dimension, must be of the type geogebra.awt.Dimension
 	 * @return AWT implementation wrapped in d
 	 */
-	public static java.awt.Dimension getAWTDimension(
-			org.geogebra.common.awt.GDimension d) {
-		if (!(d instanceof GDimensionD))
+	public static java.awt.Dimension getAWTDimension(GDimension d) {
+
+		if (!(d instanceof GDimensionD)) {
 			return null;
+		}
+
 		return ((GDimensionD) d).impl;
 	}
 

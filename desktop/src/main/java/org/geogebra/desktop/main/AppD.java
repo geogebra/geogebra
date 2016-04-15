@@ -107,6 +107,9 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GComponent;
+import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -2199,7 +2202,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GImage getInternalImageAdapter(String filename) {
+	public GImage getInternalImageAdapter(String filename) {
 		MyImageD im = imageManager.getInternalImage(filename);
 		if (im == null || im.isSVG())
 			return null;
@@ -3099,7 +3102,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * 
 	 * @return wrapped mainComp
 	 */
-	public org.geogebra.common.awt.GComponent wrapGetMainComponent() {
+	public GComponent wrapGetMainComponent() {
 		return AwtFactory.prototype.newComponent(mainComp);
 	}
 
@@ -3268,7 +3271,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	final public org.geogebra.common.awt.GFont getPlainFontCommon() {
+	final public GFont getPlainFontCommon() {
 		return new GFontD(fontManager.getPlainFont(true));
 	}
 
@@ -4746,11 +4749,11 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GFont getFontCommon(boolean b, int i, int size) {
+	public GFont getFontCommon(boolean b, int i, int size) {
 		return new GFontD(getFont(b, i, size));
 	}
 
-	public org.geogebra.common.awt.GFont getBoldFontCommon() {
+	public GFont getBoldFontCommon() {
 		return new GFontD(getBoldFont());
 	}
 

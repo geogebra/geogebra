@@ -18,7 +18,7 @@ public class KeyListenerW implements KeyPressHandler {
 		                                    // Auto-generated
 		                                    // method stub
 
-		org.geogebra.web.html5.event.KeyEvent event = org.geogebra.web.html5.event.KeyEvent
+		org.geogebra.web.html5.event.KeyEventW event = org.geogebra.web.html5.event.KeyEventW
 		        .wrapEvent(e);
 		handler.keyReleased(event);
 		event.release();

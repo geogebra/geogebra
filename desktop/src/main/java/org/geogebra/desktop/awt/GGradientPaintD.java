@@ -6,9 +6,9 @@ import java.awt.GradientPaint;
 import org.geogebra.common.awt.GColor;
 
 public class GGradientPaintD implements org.geogebra.common.awt.GGradientPaint {
-	private java.awt.GradientPaint impl;
+	private GradientPaint impl;
 
-	public GGradientPaintD(java.awt.GradientPaint copyg) {
+	public GGradientPaintD(GradientPaint copyg) {
 		impl = new GradientPaint((float) copyg.getPoint1().getX(),
 				(float) copyg.getPoint1().getY(),
 				new Color(copyg

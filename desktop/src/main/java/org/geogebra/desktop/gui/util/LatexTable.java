@@ -10,6 +10,7 @@ import javax.swing.MenuElement;
 import javax.swing.MenuSelectionManager;
 import javax.swing.SwingConstants;
 
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.gui.dialog.TextInputDialogD;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
@@ -24,11 +25,11 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 	private String[] latexArray;
 	private PopupMenuButton popupButton;
 	private int caretPosition = 0;
-	private org.geogebra.common.gui.util.SelectionTable mode;
+	private SelectionTable mode;
 
 	public LatexTable(AppD app, TextInputDialogD textInputDialog,
 			PopupMenuButton popupButton, String[] latexArray, int rows,
-			int columns, org.geogebra.common.gui.util.SelectionTable mode) {
+			int columns, SelectionTable mode) {
 
 		super(app, latexArray, rows, columns, new Dimension(24, 24), mode);
 		this.inputDialog = textInputDialog;

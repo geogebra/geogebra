@@ -8,7 +8,7 @@ import org.geogebra.common.awt.GGraphics2D;
 
 public class GBufferedImageD implements org.geogebra.common.awt.GBufferedImage {
 	public int TYPE_INT_ARGB = java.awt.image.BufferedImage.TYPE_INT_ARGB;
-	private java.awt.image.BufferedImage impl;
+	private BufferedImage impl;
 
 	public GBufferedImageD(int width, int height, int imageType) {
 		impl = new BufferedImage(width, height, imageType);

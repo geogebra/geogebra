@@ -8,7 +8,7 @@ public class GColorD extends GColor {
 
 	private static final double FACTOR = 0.7;
 
-	private java.awt.Color adaptedColor = new Color(0, 0, 0);
+	private Color adaptedColor = new Color(0, 0, 0);
 
 	public GColorD(int r, int g, int b, int alpha) {
 		adaptedColor = new Color(r, g, b, alpha);

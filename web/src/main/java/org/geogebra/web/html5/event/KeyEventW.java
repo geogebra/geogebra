@@ -4,29 +4,29 @@ import java.util.LinkedList;
 
 import org.geogebra.common.main.App;
 
-public class KeyEvent extends org.geogebra.common.euclidian.event.KeyEvent {
+public class KeyEventW extends org.geogebra.common.euclidian.event.KeyEvent {
 
-	public static LinkedList<KeyEvent> pool = new LinkedList<KeyEvent>();
+	public static LinkedList<KeyEventW> pool = new LinkedList<KeyEventW>();
 	private com.google.gwt.event.dom.client.KeyPressEvent event;
 
-	private KeyEvent(com.google.gwt.event.dom.client.KeyPressEvent e) {
+	private KeyEventW(com.google.gwt.event.dom.client.KeyPressEvent e) {
 		App.debug("possible missing release()");
 		this.event = e;
 	}
 
-	public static KeyEvent wrapEvent(
+	public static KeyEventW wrapEvent(
 	        com.google.gwt.event.dom.client.KeyPressEvent e) {
 		if (!pool.isEmpty()) {
-			KeyEvent wrap = pool.getLast();
+			KeyEventW wrap = pool.getLast();
 			wrap.event = e;
 			pool.removeLast();
 			return wrap;
 		}
-		return new KeyEvent(e);
+		return new KeyEventW(e);
 	}
 
 	public void release() {
-		KeyEvent.pool.add(this);
+		KeyEventW.pool.add(this);
 	}
 
 	@Override

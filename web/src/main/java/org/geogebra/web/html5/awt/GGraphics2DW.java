@@ -38,7 +38,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	protected final Canvas canvas;
 	private final MyContext2d context;
-	protected org.geogebra.common.awt.GShape clipShape = null;
+	protected GShape clipShape = null;
 
 	private GFontW currentFont = new GFontW("normal");
 	private GColor color = new GColorW(255, 255, 255, 255);

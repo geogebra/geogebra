@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -10,6 +11,7 @@ import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -85,8 +87,7 @@ public abstract class EuclidianStatic {
 	 *            stroke type (EuclidianStyleConstants.LINE_TYPE_*)
 	 * @return stroke
 	 */
-	public static org.geogebra.common.awt.GBasicStroke getStroke(float width,
-			int type) {
+	public static GBasicStroke getStroke(float width, int type) {
 		float[] dash;
 
 		switch (type) {
@@ -447,7 +448,7 @@ public abstract class EuclidianStatic {
 	 *            true to use serif font
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static org.geogebra.common.awt.GPoint drawIndexedString(App app,
+	public static GPoint drawIndexedString(App app,
 			org.geogebra.common.awt.GGraphics2D g3, String str, float xPos,
 			float yPos, boolean serif, boolean precise) {
 
@@ -476,17 +477,17 @@ public abstract class EuclidianStatic {
 	 *            true to draw, false to measure only.
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static org.geogebra.common.awt.GPoint drawIndexedString(App app,
-			org.geogebra.common.awt.GGraphics2D g3, String str, float xPos,
-			float yPos, boolean serif, boolean precise, boolean doDraw) {
+	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
+			float xPos, float yPos, boolean serif, boolean precise,
+			boolean doDraw) {
 
-		org.geogebra.common.awt.GFont g2font = g3.getFont();
+		GFont g2font = g3.getFont();
 		g2font = app.getFontCanDisplay(str, serif, g2font.getStyle(),
 				g2font.getSize());
-		org.geogebra.common.awt.GFont indexFont = getIndexFont(g2font);
-		org.geogebra.common.awt.GFont font = g2font;
-		// geogebra.common.awt.font.GTextLayout layout;
-		org.geogebra.common.awt.GFontRenderContext frc = g3
+		GFont indexFont = getIndexFont(g2font);
+		GFont font = g2font;
+		// GTextLayout layout;
+		GFontRenderContext frc = g3
 				.getFontRenderContext();
 
 		int indexOffset = indexFont.getSize() / 2;
@@ -599,9 +600,8 @@ public abstract class EuclidianStatic {
 	/**
 	 * This hack was needed for ticket #3265
 	 */
-	public static void fillAfterImageLoaded(org.geogebra.common.awt.GShape shape,
-			org.geogebra.common.awt.GGraphics2D g3,
-			org.geogebra.common.awt.GBufferedImage gi, App app) {
+	public static void fillAfterImageLoaded(GShape shape, GGraphics2D g3,
+			GBufferedImage gi, App app) {
 		prototype.doFillAfterImageLoaded(shape, g3, gi, app);
 	}
 
@@ -621,18 +621,18 @@ public abstract class EuclidianStatic {
 	 * @param textFont
 	 * @return border of resulting text drawing
 	 */
-	public final static org.geogebra.common.awt.GRectangle drawMultiLineText(
-			App app, String labelDesc, int xLabel, int yLabel,
-			org.geogebra.common.awt.GGraphics2D g2, boolean serif, GFont textFont) {
+	public final static GRectangle drawMultiLineText(App app, String labelDesc,
+			int xLabel, int yLabel, GGraphics2D g2, boolean serif,
+			GFont textFont) {
 
 		int lines = 0;
 		int fontSize = textFont.getSize();
 		float lineSpread = fontSize * 1.5f;
 
-		org.geogebra.common.awt.GFont font = app.getFontCanDisplay(labelDesc,
-				serif, textFont.getStyle(), fontSize);
+		GFont font = app.getFontCanDisplay(labelDesc, serif,
+				textFont.getStyle(), fontSize);
 
-		org.geogebra.common.awt.GFontRenderContext frc = g2.getFontRenderContext();
+		GFontRenderContext frc = g2.getFontRenderContext();
 		int xoffset = 0;
 
 		// draw text line by line

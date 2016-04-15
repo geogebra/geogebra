@@ -16,6 +16,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
@@ -57,7 +58,7 @@ public class DrawSlider extends Drawable {
 	private GEllipse2DDouble circleHighlight = AwtFactory.prototype
 			.newEllipse2DDouble();
 
-	private static org.geogebra.common.awt.GBasicStroke borderStroke = EuclidianStatic
+	private static GBasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
 
 	private double[] coords = new double[2];

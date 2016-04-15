@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -36,7 +37,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 
 	private static final int CLICK_DOWN_ARROW_WIDTH = 20;
 
-	private org.geogebra.common.gui.util.SelectionTable mode;
+	private SelectionTable mode;
 	private Object[] data;
 	private AppD app;
 	private PopupMenuButton thisButton;
