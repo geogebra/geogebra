@@ -840,7 +840,7 @@ __GGB__keysVar.fr.command = {
     "SetFilling": "SoitRemplissage",
     "SetFilling.Syntax": "[ <Objet>, <Nombre> ]",
     "SetFixed": "SoitFix\xe9",
-    "SetFixed.Syntax": "[ <Objet>, <true | false> ]",
+    "SetFixed.Syntax": "[ <Objet>, <true | false> ]\n[ <Objet>, <fix\xe9 true | false>, <s\xe9lectionnable true | false> ]",
     "SetLabelMode": "SoitOptionEtiquette",
     "SetLabelMode.Syntax": "[ <Objet>, <Num\xe9ro> ]",
     "SetLayer": "SoitCalque",

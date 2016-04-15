@@ -840,7 +840,7 @@ __GGB__keysVar.en_GB.command = {
     "SetFilling": "SetFilling",
     "SetFilling.Syntax": "[ <Object>, <Number> ]",
     "SetFixed": "SetFixed",
-    "SetFixed.Syntax": "[ <Object>, <true | false> ]",
+    "SetFixed.Syntax": "[ <Object>, <true | false> ]\n[ <Object>, <true | false>, <true | false> ]",
     "SetLabelMode": "SetLabelMode",
     "SetLabelMode.Syntax": "[ <Object>, <Number> ]",
     "SetLayer": "SetLayer",

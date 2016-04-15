@@ -840,7 +840,7 @@ __GGB__keysVar.xh.command = {
     "SetFilling": "LungisaIFilling",
     "SetFilling.Syntax": "[ <Object>, <Number> ]",
     "SetFixed": "SetFixed",
-    "SetFixed.Syntax": "[ <Object>, <true | false> ]",
+    "SetFixed.Syntax": "[ <Object>, <true | false> ]\n[ <Object>, <true | false>, <true | false> ]",
     "SetLabelMode": "SetLabelMode",
     "SetLabelMode.Syntax": "[ <into>, <inani> ]",
     "SetLayer": "SetLayer",
