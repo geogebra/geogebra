@@ -2,6 +2,7 @@ package org.geogebra.desktop.gui.infobar;
 
 import javax.swing.JFrame;
 
+import org.geogebra.common.gui.infobar.InfoBar;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
@@ -12,7 +13,7 @@ import org.geogebra.desktop.main.AppD;
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 
-public class InfoBarD extends org.geogebra.common.gui.infobar.InfoBar {
+public class InfoBarD extends InfoBar {
 
 	/**
 	 * Global object for announcements for user's interest.

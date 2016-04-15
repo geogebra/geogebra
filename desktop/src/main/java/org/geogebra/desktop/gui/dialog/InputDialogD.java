@@ -33,6 +33,7 @@ import javax.swing.text.JTextComponent;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.VirtualKeyboardListener;
+import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -47,9 +48,9 @@ import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class InputDialogD extends org.geogebra.common.gui.dialog.InputDialog
-		implements ActionListener, WindowFocusListener,
-		VirtualKeyboardListener, UpdateFonts, WindowListener {
+public class InputDialogD extends InputDialog
+		implements ActionListener, WindowFocusListener, VirtualKeyboardListener,
+		UpdateFonts, WindowListener {
 
 	protected AppD app;
 	protected final LocalizationD loc;

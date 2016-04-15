@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.gui.layout.DockComponent;
+import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
@@ -33,7 +34,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Florian Sonner
  */
-public class DockManagerD extends org.geogebra.common.gui.layout.DockManager
+public class DockManagerD extends DockManager
 		implements AWTEventListener {
 	private AppD app;
 	private LayoutD layout;

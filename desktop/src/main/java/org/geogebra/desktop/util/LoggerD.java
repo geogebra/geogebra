@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.geogebra.common.util.debug.Log;
+
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org> Web implementation for the
  *         GeoGebraLogger
  */
-public class LoggerD extends org.geogebra.common.util.debug.Log {
+public class LoggerD extends Log {
 
 	private File logFile = null; // default
 	private FileWriter logFileWriter = null;

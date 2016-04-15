@@ -15,7 +15,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GComboBoxW extends org.geogebra.common.javax.swing.AbstractJComboBox {
+public class GComboBoxW extends AbstractJComboBox {
 
 	private ListBox impl = null;
 

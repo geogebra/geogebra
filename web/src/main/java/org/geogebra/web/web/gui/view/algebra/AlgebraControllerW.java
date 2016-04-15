@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -27,10 +28,9 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
  * Algebra controller for web;
  *
  */
-public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.AlgebraController
- implements
-        MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler,
-		LongTouchHandler {
+public class AlgebraControllerW extends AlgebraController
+		implements MouseDownHandler, TouchStartHandler, TouchEndHandler,
+		TouchMoveHandler, LongTouchHandler {
 
 	private LongTouchManager longTouchManager;
 

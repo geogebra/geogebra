@@ -2,23 +2,26 @@ package org.geogebra.web.html5.javax.swing;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.javax.swing.GLabel;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 
-public class GLabelW extends org.geogebra.common.javax.swing.GLabel {
+public class GLabelW extends GLabel {
 
-	private com.google.gwt.user.client.ui.HTML impl;
+	private HTML impl;
 	private GColor color = GColor.WHITE;
 	private boolean opaque = false;
 
 	GLabelW() {
-		impl = new com.google.gwt.user.client.ui.HTML();
+		impl = new HTML();
 		impl.addStyleName("ggw_glabel");
 	}
 
 	public GLabelW(String string) {
-		impl = new com.google.gwt.user.client.ui.HTML(string);
+		impl = new HTML(string);
 		impl.addStyleName("ggw_glabel");
 	}
 
@@ -29,7 +32,7 @@ public class GLabelW extends org.geogebra.common.javax.swing.GLabel {
 		}
 	}
 
-	public static com.google.gwt.user.client.ui.Label getImpl(GLabelW label) {
+	public static Label getImpl(GLabelW label) {
 		if (label == null)
 			return null;
 		return label.impl;

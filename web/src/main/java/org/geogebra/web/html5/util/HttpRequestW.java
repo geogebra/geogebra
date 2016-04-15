@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
+import org.geogebra.common.util.HttpRequest;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -15,7 +16,7 @@ import com.google.gwt.xhr.client.XMLHttpRequest;
  * @author Zoltan Kovacs <zoltan@geogebra.org> Implements HTTP requests and
  *         responses for web.
  */
-public class HttpRequestW extends org.geogebra.common.util.HttpRequest {
+public class HttpRequestW extends HttpRequest {
 
 	/*
 	 * The following code has been copied mostly from

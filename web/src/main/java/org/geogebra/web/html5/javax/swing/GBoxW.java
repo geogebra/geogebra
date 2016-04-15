@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
-public class GBoxW extends org.geogebra.common.javax.swing.GBox {
+public class GBoxW extends GBox {
 
 	private HorizontalPanel impl;
 	private EuclidianController style;

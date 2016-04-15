@@ -1,20 +1,25 @@
 package org.geogebra.desktop.javax.swing;
 
+import javax.swing.Box;
+
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.AbstractJComboBox;
+import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GRectangleD;
+import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 
 /**
  * Wrapper for javax.swing.Box
  * 
  * @author Judit Elias
  */
-public class BoxD extends org.geogebra.common.javax.swing.GBox {
+public class GBoxD extends GBox {
 
-	private javax.swing.Box impl = null;
+	private Box impl = null;
 
 	/**
 	 * Creates new wrapper Box
@@ -22,7 +27,7 @@ public class BoxD extends org.geogebra.common.javax.swing.GBox {
 	 * @param box
 	 *            box to be wrapped
 	 */
-	public BoxD(javax.swing.Box box) {
+	public GBoxD(Box box) {
 		this.impl = box;
 	}
 
@@ -31,18 +36,18 @@ public class BoxD extends org.geogebra.common.javax.swing.GBox {
 	 * 
 	 * @return wrapped box
 	 */
-	public javax.swing.Box getImpl() {
+	public Box getImpl() {
 		return this.impl;
 	}
 
 	@Override
-	public void add(org.geogebra.common.javax.swing.GLabel label) {
-		impl.add(((org.geogebra.desktop.javax.swing.GLabelD) label).getImpl());
+	public void add(GLabel label) {
+		impl.add(((GLabelD) label).getImpl());
 	}
 
 	@Override
 	public void add(AutoCompleteTextField textField) {
-		impl.add((org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD) textField);
+		impl.add((AutoCompleteTextFieldD) textField);
 
 	}
 
@@ -53,7 +58,7 @@ public class BoxD extends org.geogebra.common.javax.swing.GBox {
 
 	@Override
 	public void setBounds(GRectangle rect) {
-		impl.setBounds(org.geogebra.desktop.awt.GRectangleD.getAWTRectangle(rect));
+		impl.setBounds(GRectangleD.getAWTRectangle(rect));
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.CASSettings;
@@ -22,7 +23,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Options for the CAS view.
  */
-public class OptionsCASD extends org.geogebra.common.gui.dialog.options.OptionsCAS
+public class OptionsCASD extends OptionsCAS
 		implements OptionPanelD, ActionListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;

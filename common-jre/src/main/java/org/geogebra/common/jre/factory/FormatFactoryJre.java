@@ -1,11 +1,12 @@
 package org.geogebra.common.jre.factory;
 
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.jre.util.NumberFormat;
 import org.geogebra.common.jre.util.ScientificFormat;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.ScientificFormatAdapter;
 
-public class FormatFactoryJre extends org.geogebra.common.factories.FormatFactory {
+public class FormatFactoryJre extends FormatFactory {
 
 	@Override
 	public ScientificFormatAdapter getScientificFormat(int sigDigit,

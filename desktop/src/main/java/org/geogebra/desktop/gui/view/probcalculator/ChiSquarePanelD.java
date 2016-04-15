@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.probcalculator.ChiSquareCell;
+import org.geogebra.common.gui.view.probcalculator.ChiSquarePanel;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
@@ -33,8 +34,8 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class ChiSquarePanelD extends org.geogebra.common.gui.view.probcalculator.ChiSquarePanel implements ActionListener,
-		FocusListener {
+public class ChiSquarePanelD extends ChiSquarePanel
+		implements ActionListener, FocusListener {
 
 	private static final long serialVersionUID = 1L;
 

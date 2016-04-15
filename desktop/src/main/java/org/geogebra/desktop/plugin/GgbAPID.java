@@ -34,6 +34,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
@@ -66,7 +67,7 @@ import org.geogebra.desktop.main.AppD;
  *          ones) from GeoGebraAppletBase
  */
 
-public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
+public class GgbAPID extends GgbAPI {
 
 	/**
 	 * Constructor: Makes the api with a reference to the GeoGebra program.

@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
@@ -7,7 +8,7 @@ import org.geogebra.web.html5.util.ImageWrapper;
 
 import com.google.gwt.core.client.Scheduler;
 
-public class EuclidianStaticW extends org.geogebra.common.euclidian.EuclidianStatic {
+public class EuclidianStaticW extends EuclidianStatic {
 
 	public EuclidianStaticW() {
 

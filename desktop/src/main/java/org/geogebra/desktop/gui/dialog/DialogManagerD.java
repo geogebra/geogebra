@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -56,7 +57,7 @@ import org.geogebra.desktop.main.MyResourceBundle;
  * GeoGebra. Supports (explicit) lazy initialization so that dialogs have to be
  * created manually if needed.
  */
-public class DialogManagerD extends org.geogebra.common.main.DialogManager {
+public class DialogManagerD extends DialogManager {
 
 	/**
 	 * Dialog to view properties of a function.

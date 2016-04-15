@@ -28,6 +28,8 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -38,7 +40,8 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class StatisticsCalculatorD extends org.geogebra.common.gui.view.probcalculator.StatisticsCalculator implements ActionListener,
+public class StatisticsCalculatorD extends StatisticsCalculator
+		implements ActionListener,
 		FocusListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;

@@ -794,12 +794,12 @@ public class EuclidianViewD extends EuclidianView implements
 
 	@Override
 	public void add(org.geogebra.common.javax.swing.GBox box) {
-		evjpanel.add(((org.geogebra.desktop.javax.swing.BoxD) box).getImpl());
+		evjpanel.add(((org.geogebra.desktop.javax.swing.GBoxD) box).getImpl());
 	}
 
 	@Override
 	public void remove(org.geogebra.common.javax.swing.GBox box) {
-		evjpanel.remove(((org.geogebra.desktop.javax.swing.BoxD) box).getImpl());
+		evjpanel.remove(((org.geogebra.desktop.javax.swing.GBoxD) box).getImpl());
 	}
 
 	/**

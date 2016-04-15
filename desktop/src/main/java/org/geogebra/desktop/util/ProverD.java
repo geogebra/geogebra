@@ -6,6 +6,7 @@ import java.util.Vector;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ProverSettings;
+import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.kernel.prover.ProverReciosMethodD;
 
@@ -20,7 +21,7 @@ import com.ogprover.utilities.logger.ILogger;
  * @author Zoltan Kovacs <zoltan@geogebra.org> Implements desktop dependent
  *         parts of the Prover
  */
-public class ProverD extends org.geogebra.common.util.Prover {
+public class ProverD extends Prover {
 
 	static {
 		reciosProver = new ProverReciosMethodD();

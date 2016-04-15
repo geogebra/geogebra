@@ -9,13 +9,14 @@ import java.net.URL;
 import javax.swing.SwingWorker;
 
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
+import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org> Implements HTTP requests and
  *         responses for desktop.
  */
-public class HttpRequestD extends org.geogebra.common.util.HttpRequest {
+public class HttpRequestD extends HttpRequest {
 	private String answer;
 
 	@Override

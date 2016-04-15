@@ -43,6 +43,7 @@ import java.util.zip.ZipOutputStream;
 import javax.imageio.ImageIO;
 
 import org.geogebra.common.io.MyXMLHandler;
+import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.QDParser;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -61,7 +62,7 @@ import org.geogebra.desktop.util.UtilD;
  * 
  * @author Markus Hohenwarter
  */
-public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
+public class MyXMLioD extends MyXMLio {
 
 	// Use the default (non-validating) parser
 	// private static XMLReaderFactory factory;

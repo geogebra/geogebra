@@ -46,6 +46,7 @@ import javax.swing.JDialog;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
+import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
@@ -54,7 +55,7 @@ import org.geogebra.desktop.main.AppD;
  * @author Markus Hohenwarter
  * @version
  */
-public class UtilD extends org.geogebra.common.util.Util {
+public class UtilD extends Util {
 
 	/** Creates new Util */
 	public UtilD() {

@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
@@ -47,7 +48,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
+public class GgbAPIW extends GgbAPI {
 
 	public GgbAPIW(App app) {
 		this.app = app;

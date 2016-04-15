@@ -1,15 +1,20 @@
 package org.geogebra.desktop.javax.swing;
 
+import javax.swing.JLabel;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.javax.swing.GLabel;
+import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.GFontD;
 
 /**
  * Wrapper for javax.swing.JLabel
  * 
  * @author Judit Elias
  */
-public class GLabelD extends org.geogebra.common.javax.swing.GLabel {
-	private javax.swing.JLabel impl;
+public class GLabelD extends GLabel {
+	private JLabel impl;
 
 	/**
 	 * Creates label wrapper
@@ -18,21 +23,21 @@ public class GLabelD extends org.geogebra.common.javax.swing.GLabel {
 	 *            text of the label
 	 */
 	public GLabelD(String string) {
-		impl = new javax.swing.JLabel(string);
+		impl = new JLabel(string);
 	}
 
 	/**
 	 * Creates new label wrapper
 	 */
 	public GLabelD() {
-		impl = new javax.swing.JLabel();
+		impl = new JLabel();
 
 	}
 
 	/**
 	 * @return unwrapped label
 	 */
-	public javax.swing.JLabel getImpl() {
+	public JLabel getImpl() {
 		return impl;
 	}
 
@@ -56,19 +61,19 @@ public class GLabelD extends org.geogebra.common.javax.swing.GLabel {
 
 	@Override
 	public void setFont(GFont font) {
-		impl.setFont(org.geogebra.desktop.awt.GFontD.getAwtFont(font));
+		impl.setFont(GFontD.getAwtFont(font));
 
 	}
 
 	@Override
 	public void setForeground(GColor color) {
-		impl.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(color));
+		impl.setForeground(GColorD.getAwtColor(color));
 
 	}
 
 	@Override
 	public void setBackground(GColor color) {
-		impl.setBackground(org.geogebra.desktop.awt.GColorD.getAwtColor(color));
+		impl.setBackground(GColorD.getAwtColor(color));
 
 	}
 }

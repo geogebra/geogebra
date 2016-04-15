@@ -2,19 +2,24 @@ package org.geogebra.desktop.javax.swing;
 
 import java.awt.Component;
 
+import javax.swing.JComboBox;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.event.ActionListener;
 import org.geogebra.common.javax.swing.AbstractJComboBox;
+import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.GFontD;
+import org.geogebra.desktop.euclidian.event.ActionListenerD;
 
 /**
  * Wrapper for javax.swing.Box
  * 
  * @author Judit Elias, Michael
  */
-public class GComboBoxD extends org.geogebra.common.javax.swing.AbstractJComboBox {
+public class GComboBoxD extends AbstractJComboBox {
 
-	private javax.swing.JComboBox impl = null;
+	private JComboBox impl = null;
 
 	int selectedIndex = -1;
 
@@ -22,7 +27,7 @@ public class GComboBoxD extends org.geogebra.common.javax.swing.AbstractJComboBo
 	 * Creates new wrapper Box
 	 */
 	public GComboBoxD() {
-		this.impl = new javax.swing.JComboBox();
+		this.impl = new JComboBox();
 	}
 
 	@Override
@@ -38,19 +43,19 @@ public class GComboBoxD extends org.geogebra.common.javax.swing.AbstractJComboBo
 
 	@Override
 	public void setFont(GFont font) {
-		impl.setFont(org.geogebra.desktop.awt.GFontD.getAwtFont(font));
+		impl.setFont(GFontD.getAwtFont(font));
 
 	}
 
 	@Override
 	public void setForeground(GColor color) {
-		impl.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(color));
+		impl.setForeground(GColorD.getAwtColor(color));
 
 	}
 
 	@Override
 	public void setBackground(GColor color) {
-		impl.setBackground(org.geogebra.desktop.awt.GColorD.getAwtColor(color));
+		impl.setBackground(GColorD.getAwtColor(color));
 	}
 
 	@Override
@@ -91,7 +96,7 @@ public class GComboBoxD extends org.geogebra.common.javax.swing.AbstractJComboBo
 
 	@Override
 	public void addActionListener(ActionListener newActionListener) {
-		impl.addActionListener((org.geogebra.desktop.euclidian.event.ActionListenerD) newActionListener);
+		impl.addActionListener((ActionListenerD) newActionListener);
 	}
 
 	@Override

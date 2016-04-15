@@ -7,7 +7,7 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.main.AppD;
 
-public class EuclidianStaticD extends org.geogebra.common.euclidian.EuclidianStatic {
+public class EuclidianStaticD extends EuclidianStatic {
 
 	// This has to be made singleton or use prototype,
 	// while its static methods be made non-static,

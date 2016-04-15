@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.io;
 
 import org.geogebra.common.io.MyXMLHandler;
+import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 
@@ -8,7 +9,7 @@ import org.geogebra.common.kernel.Kernel;
  * Web implementation of XML parser
  *
  */
-public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
+public class MyXMLioW extends MyXMLio {
 
 	private XmlParser xmlParser;
 

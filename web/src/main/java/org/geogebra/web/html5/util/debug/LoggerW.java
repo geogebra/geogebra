@@ -15,7 +15,7 @@ import com.google.gwt.user.client.Window;
  * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
-public class LoggerW extends org.geogebra.common.util.debug.Log {
+public class LoggerW extends Log {
 
 	/**
 	 * Constructor
