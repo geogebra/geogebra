@@ -5576,8 +5576,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public static void newLayout(AppD app) {
-		app.guiManager
-.setLayout(new LayoutD(app));
+		app.guiManager.setLayout(new LayoutD(app));
 	}
 
 	public static DockBarInterface newDockBar(AppD app) {
