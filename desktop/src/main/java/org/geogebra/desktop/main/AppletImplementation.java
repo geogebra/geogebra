@@ -19,6 +19,7 @@ import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -98,7 +99,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		this.applet = applet;
 
 		// Allow rescaling eg ctrl+ ctrl- in Firefox
-		applet.addComponentListener(new java.awt.event.ComponentAdapter() {
+		applet.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 

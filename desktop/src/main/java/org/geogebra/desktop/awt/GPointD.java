@@ -1,5 +1,7 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.Point;
+
 import org.geogebra.common.awt.GPoint;
 
 public class GPointD extends GPoint {
@@ -12,8 +14,8 @@ public class GPointD extends GPoint {
 		super();
 	}
 
-	public java.awt.Point getAwtPoint() {
-		return new java.awt.Point(x, y);
+	public Point getAwtPoint() {
+		return new Point(x, y);
 	}
 
 }

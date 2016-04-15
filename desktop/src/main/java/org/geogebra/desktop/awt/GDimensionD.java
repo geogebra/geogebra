@@ -1,5 +1,7 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.Dimension;
+
 import org.geogebra.common.awt.GDimension;
 
 public class GDimensionD extends GDimension {
@@ -10,11 +12,11 @@ public class GDimensionD extends GDimension {
 	}
 
 	public GDimensionD(int a, int b) {
-		impl = new java.awt.Dimension(a, b);
+		impl = new Dimension(a, b);
 	}
 
 	public GDimensionD() {
-		impl = new java.awt.Dimension();
+		impl = new Dimension();
 	}
 
 	@Override

@@ -1,18 +1,19 @@
 package org.geogebra.desktop.awt;
 
 import java.awt.Shape;
+import java.awt.geom.QuadCurve2D;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GRectangle2D;
 
-public class GQuadCurve2DD implements org.geogebra.common.awt.GQuadCurve2D,
-		org.geogebra.desktop.awt.GShapeD {
+public class GQuadCurve2DD implements GQuadCurve2D, GShapeD {
 
-	private java.awt.geom.QuadCurve2D.Double impl;
+	private QuadCurve2D.Double impl;
 
 	public GQuadCurve2DD() {
-		impl = new java.awt.geom.QuadCurve2D.Double();
+		impl = new QuadCurve2D.Double();
 	}
 
 	public void setCurve(double[] parpoints, int i) {
@@ -44,8 +45,7 @@ public class GQuadCurve2DD implements org.geogebra.common.awt.GQuadCurve2D,
 	}
 
 	public boolean contains(GRectangle2D rectangle) {
-		return impl.contains(org.geogebra.desktop.awt.GRectangleD
-				.getAWTRectangle2D(rectangle));
+		return impl.contains(GRectangleD.getAWTRectangle2D(rectangle));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {

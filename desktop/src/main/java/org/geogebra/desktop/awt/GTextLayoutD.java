@@ -14,9 +14,8 @@ public class GTextLayoutD implements org.geogebra.common.awt.font.GTextLayout {
 			org.geogebra.common.awt.GFontRenderContext frc) {
 		this.font = font;
 		this.str = string;
-		impl = new java.awt.font.TextLayout(string,
-				org.geogebra.desktop.awt.GFontD.getAwtFont(font),
-				org.geogebra.desktop.awt.GFontRenderContextD.getAwtFrc(frc));
+		impl = new TextLayout(string, GFontD.getAwtFont(font),
+				GFontRenderContextD.getAwtFrc(frc));
 	}
 
 	public float getAdvance() {

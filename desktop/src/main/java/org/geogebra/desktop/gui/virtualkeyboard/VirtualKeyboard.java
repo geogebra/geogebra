@@ -346,8 +346,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			SpaceButton.setRequestFocusEnabled(false);
 			updateSpaceButton();
 			SpaceButton.setMargin(new Insets(0, 0, 0, 0));
-			SpaceButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
+			SpaceButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 					insertText(" ");
 				}
 			});
@@ -510,8 +510,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			updateCapsLockButton();
 			CapsLockButton.setMargin(new Insets(0, 0, 0, 0));
 			CapsLockButton
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
+.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 							updateButtons();
 						}
 					});
@@ -526,8 +526,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			updateAltButton();
 			AltButton.setMargin(new Insets(0, 0, 0, 0));
 
-			AltButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
+			AltButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 					// altPressed = !altPressed;
 					updateAltButton();
 				}
@@ -543,8 +543,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			updateAltGrButton();
 			AltGrButton.setMargin(new Insets(0, 0, 0, 0));
 
-			AltGrButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
+			AltGrButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 					updateButtons();
 					updateAltGrButton();
 				}
@@ -560,8 +560,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			updateCtrlButton();
 			CtrlButton.setMargin(new Insets(0, 0, 0, 0));
 
-			CtrlButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
+			CtrlButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 					updateCtrlButton();
 				}
 			});
@@ -576,8 +576,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			updateMathButton();
 			MathButton.setMargin(new Insets(0, 0, 0, 0));
 			MathButton.setToolTipText(app.getMenu("Keyboard.Math"));
-			MathButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
+			MathButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 
 					getGreekButton().setSelected(false);
 					getEnglishButton().setSelected(false);
@@ -606,8 +606,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			updateNumericButton();
 			NumericButton.setMargin(new Insets(0, 0, 0, 0));
 			NumericButton
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
+.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 
 							getGreekButton().setSelected(false);
 							getEnglishButton().setSelected(false);
@@ -634,8 +634,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			updateGreekButton();
 			GreekButton.setMargin(new Insets(0, 0, 0, 0));
 			GreekButton.setToolTipText(app.getMenu("Keyboard.Greek"));
-			GreekButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
+			GreekButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 					setMode(KEYBOARD_NORMAL, null);
 					if (greek())
 						readConf(app, new Locale("el"), false);
@@ -662,8 +662,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			EnglishButton.setToolTipText(app.getMenu("Keyboard.Standard"));
 			EnglishButton.setMargin(new Insets(0, 0, 0, 0));
 			EnglishButton
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
+.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 							setMode(KEYBOARD_NORMAL, null);
 							if (english())
 								readConf(app, new Locale("en"), false);
@@ -981,9 +981,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				}
 			});
 
-			Buttons[i][j]
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
+			Buttons[i][j].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 							buttonPressed(i, j);
 						}
 					});

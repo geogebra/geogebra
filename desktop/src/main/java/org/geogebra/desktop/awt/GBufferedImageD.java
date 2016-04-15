@@ -1,5 +1,6 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import org.geogebra.common.awt.GBufferedImage;
@@ -10,8 +11,7 @@ public class GBufferedImageD implements org.geogebra.common.awt.GBufferedImage {
 	private java.awt.image.BufferedImage impl;
 
 	public GBufferedImageD(int width, int height, int imageType) {
-		impl = new java.awt.image.BufferedImage(width, height, imageType);
-		// TODO Auto-generated constructor stub
+		impl = new BufferedImage(width, height, imageType);
 	}
 
 	public GBufferedImageD(java.awt.image.BufferedImage image) {
@@ -27,7 +27,7 @@ public class GBufferedImageD implements org.geogebra.common.awt.GBufferedImage {
 	}
 
 	public static java.awt.image.BufferedImage getAwtBufferedImage(
-			org.geogebra.common.awt.GBufferedImage im) {
+			GBufferedImage im) {
 		if (im == null)
 			return null;
 		return ((GBufferedImageD) im).impl;

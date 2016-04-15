@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
@@ -1800,10 +1801,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		java.awt.Point cursorHotSpot;
 		if (center) {
-			cursorHotSpot = new java.awt.Point(cursorImage.getWidth(null) / 2,
+			cursorHotSpot = new Point(cursorImage.getWidth(null) / 2,
 					cursorImage.getHeight(null) / 2);
 		} else {
-			cursorHotSpot = new java.awt.Point(0, 0);
+			cursorHotSpot = new Point(0, 0);
 		}
 		Cursor cursor = toolkit.createCustomCursor(cursorImage, cursorHotSpot,
 				null);

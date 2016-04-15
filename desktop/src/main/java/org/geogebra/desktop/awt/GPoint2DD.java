@@ -23,7 +23,7 @@ public class GPoint2DD extends GPoint2D {
 	public static Point2D getAwtPoint2D(GPoint2D p) {
 		if (p == null)
 			return null;
-		return new java.awt.geom.Point2D.Double(p.getX(), p.getY());
+		return new Point2D.Double(p.getX(), p.getY());
 	}
 
 	@Override
@@ -49,7 +49,6 @@ public class GPoint2DD extends GPoint2D {
 
 	@Override
 	public double distance(org.geogebra.common.awt.GPoint2D q) {
-		// TODO Auto-generated method stub
 		return impl.distance(q.getX(), q.getY());
 	}
 

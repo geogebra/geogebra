@@ -1,5 +1,6 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
@@ -16,22 +17,22 @@ public class GRectangleD implements org.geogebra.desktop.awt.GRectangle2DD,
 	java.awt.Rectangle impl;
 
 	public GRectangleD() {
-		impl = new java.awt.Rectangle();
+		impl = new Rectangle();
 	}
 
-	public GRectangleD(org.geogebra.common.awt.GRectangle r) {
+	public GRectangleD(GRectangle r) {
 		impl = ((GRectangleD) r).impl;
 	}
 
 	public GRectangleD(int x, int y, int w, int h) {
-		impl = new java.awt.Rectangle(x, y, w, h);
+		impl = new Rectangle(x, y, w, h);
 	}
 
 	public GRectangleD(int w, int h) {
-		impl = new java.awt.Rectangle(w, h);
+		impl = new Rectangle(w, h);
 	}
 
-	public GRectangleD(java.awt.Rectangle frameBounds) {
+	public GRectangleD(Rectangle frameBounds) {
 		impl = frameBounds;
 	}
 
@@ -76,8 +77,7 @@ public class GRectangleD implements org.geogebra.desktop.awt.GRectangle2DD,
 	 *            Common rectangle to unwrap
 	 * @return java.awt.Rectangle from the wrapper or null for wrong input type
 	 */
-	public static java.awt.Rectangle getAWTRectangle(
-			org.geogebra.common.awt.GRectangle rect) {
+	public static Rectangle getAWTRectangle(GRectangle rect) {
 		if (!(rect instanceof GRectangleD)) {
 			if (rect != null)
 				AppD.debug("other type");
@@ -86,12 +86,12 @@ public class GRectangleD implements org.geogebra.desktop.awt.GRectangle2DD,
 		return ((GRectangleD) rect).impl;
 	}
 
-	public boolean contains(org.geogebra.common.awt.GRectangle labelRectangle) {
+	public boolean contains(GRectangle labelRectangle) {
 		return impl.contains(getAWTRectangle(labelRectangle));
 
 	}
 
-	public void add(org.geogebra.common.awt.GRectangle bb) {
+	public void add(GRectangle bb) {
 		impl.add(((GRectangleD) bb).impl);
 
 	}
@@ -128,7 +128,7 @@ public class GRectangleD implements org.geogebra.desktop.awt.GRectangle2DD,
 		return impl.intersects(x, y, lengthX, lengthY);
 	}
 
-	public boolean intersects(org.geogebra.common.awt.GRectangle viewRect) {
+	public boolean intersects(GRectangle viewRect) {
 		return impl.intersects(GRectangleD.getAWTRectangle(viewRect));
 	}
 

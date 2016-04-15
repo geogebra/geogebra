@@ -1,5 +1,6 @@
 package org.geogebra.desktop.factories;
 
+import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
@@ -114,8 +115,8 @@ public class AwtFactoryD extends AwtFactory {
 
 	@Override
 	public MyImage newMyImage(int pixelWidth, int pixelHeight, int typeIntArgb) {
-		return new MyImageD(new java.awt.image.BufferedImage(pixelWidth,
-				pixelHeight, typeIntArgb));
+		return new MyImageD(
+				new BufferedImage(pixelWidth, pixelHeight, typeIntArgb));
 	}
 
 	@Override
@@ -159,8 +160,8 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public GBasicStroke newBasicStroke(float width, int endCap, int lineJoin,
 			float miterLimit, float[] dash, float f) {
-		java.awt.BasicStroke s = new java.awt.BasicStroke(width, endCap,
-				lineJoin, miterLimit, dash, f);
+		BasicStroke s = new BasicStroke(width, endCap, lineJoin,
+				miterLimit, dash, f);
 		return new GBasicStrokeD(s);
 	}
 

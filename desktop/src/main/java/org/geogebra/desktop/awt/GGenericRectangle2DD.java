@@ -9,15 +9,15 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.desktop.main.AppD;
 
-public class GGenericRectangle2DD implements org.geogebra.desktop.awt.GRectangle2DD {
+public class GGenericRectangle2DD implements GRectangle2DD {
 
-	private java.awt.geom.Rectangle2D impl;
+	private Rectangle2D impl;
 
 	public GGenericRectangle2DD() {
-		impl = new java.awt.geom.Rectangle2D.Double();
+		impl = new Rectangle2D.Double();
 	}
 
-	public GGenericRectangle2DD(java.awt.geom.Rectangle2D bounds2d) {
+	public GGenericRectangle2DD(Rectangle2D bounds2d) {
 		impl = bounds2d;
 	}
 
@@ -53,16 +53,15 @@ public class GGenericRectangle2DD implements org.geogebra.desktop.awt.GRectangle
 	}
 
 	public boolean intersects(GRectangle viewRect) {
-		return impl.intersects(org.geogebra.desktop.awt.GRectangleD
-				.getAWTRectangle(viewRect));
+		return impl.intersects(GRectangleD.getAWTRectangle(viewRect));
 	}
 
 	public static java.awt.geom.Rectangle2D getAWTRectangle2D(
 			org.geogebra.common.awt.GRectangle2D r2d) {
-		if (r2d instanceof org.geogebra.desktop.awt.GGenericRectangle2DD) {
-			return ((org.geogebra.desktop.awt.GGenericRectangle2DD) r2d).impl;
-		} else if (r2d instanceof org.geogebra.desktop.awt.GRectangleD) {
-			return ((org.geogebra.desktop.awt.GRectangleD) r2d).impl;
+		if (r2d instanceof GGenericRectangle2DD) {
+			return ((GGenericRectangle2DD) r2d).impl;
+		} else if (r2d instanceof GRectangleD) {
+			return ((GRectangleD) r2d).impl;
 		}
 		if (r2d != null)
 			AppD.debug("other type");
@@ -91,26 +90,24 @@ public class GGenericRectangle2DD implements org.geogebra.desktop.awt.GRectangle
 	}
 
 	public boolean contains(GRectangle rectangle) {
-		return impl.contains(org.geogebra.desktop.awt.GRectangleD
-				.getAWTRectangle(rectangle));
+		return impl.contains(GRectangleD.getAWTRectangle(rectangle));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(
-				impl.getPathIterator(org.geogebra.desktop.awt.GAffineTransformD
-						.getAwtAffineTransform(affineTransform)));
+impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
 		return new GPathIteratorD(
-				impl.getPathIterator(
-				org.geogebra.desktop.awt.GAffineTransformD.getAwtAffineTransform(at),
+impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(at),
 				flatness));
 	}
 
 	public boolean intersects(GRectangle2D r) {
-		return impl.intersects(org.geogebra.desktop.awt.GGenericRectangle2DD
-				.getAWTRectangle2D(r));
+		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));
 	}
 
 	public Shape getAwtShape() {
@@ -118,8 +115,8 @@ public class GGenericRectangle2DD implements org.geogebra.desktop.awt.GRectangle
 	}
 
 	public GRectangle2D createIntersection(GRectangle2D r) {
-		return new GGenericRectangle2DD(
-				impl.createIntersection(org.geogebra.desktop.awt.GGenericRectangle2DD
+		return new GGenericRectangle2DD(impl
+				.createIntersection(GGenericRectangle2DD
 						.getAWTRectangle2D(r)));
 	}
 

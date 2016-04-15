@@ -1,6 +1,7 @@
 package org.geogebra.desktop.awt;
 
 import java.awt.Shape;
+import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 
 import org.geogebra.common.awt.GAffineTransform;
@@ -11,10 +12,10 @@ import org.geogebra.common.awt.GRectangle2D;
 
 public class GArc2DD implements GRectangularShapeD, GArc2D {
 
-	private java.awt.geom.Arc2D.Double impl;
+	private Arc2D.Double impl;
 
 	public GArc2DD() {
-		impl = new java.awt.geom.Arc2D.Double();
+		impl = new Arc2D.Double();
 	}
 
 	public boolean contains(double xTry, double yTry) {

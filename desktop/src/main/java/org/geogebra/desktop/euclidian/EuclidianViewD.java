@@ -23,6 +23,7 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.Transparency;
@@ -315,7 +316,8 @@ public class EuclidianViewD extends EuclidianView implements
 			try {
 				// Create custom cursor from the image
 				Cursor cursor = tk.createCustomCursor(image,
-						new java.awt.Point(16, 16), "custom cursor");
+ new Point(16, 16),
+						"custom cursor");
 				return cursor;
 			} catch (Exception exc) {
 				// Catch exceptions so that we don't try to set a null

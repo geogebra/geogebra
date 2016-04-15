@@ -1,8 +1,10 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.BasicStroke;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.main.App;
 
@@ -18,15 +20,14 @@ public class GBasicStrokeD implements org.geogebra.common.awt.GBasicStroke {
 	}
 
 	public GBasicStrokeD(float f, int cap, int join) {
-		impl = new java.awt.BasicStroke(f, cap, join);
+		impl = new BasicStroke(f, cap, join);
 	}
 
 	public GBasicStrokeD(float f) {
-		impl = new java.awt.BasicStroke(f);
+		impl = new BasicStroke(f);
 	}
 
-	public static java.awt.BasicStroke getAwtStroke(
-			org.geogebra.common.awt.GBasicStroke s) {
+	public static java.awt.BasicStroke getAwtStroke(GBasicStroke s) {
 		if (!(s instanceof GBasicStrokeD)) {
 			if (s != null)
 				App.debug("other type");
@@ -48,7 +49,7 @@ public class GBasicStrokeD implements org.geogebra.common.awt.GBasicStroke {
 	}
 
 	public GShape createStrokedShape(GShape shape) {
-		Shape shapeD = org.geogebra.desktop.awt.GGenericShapeD.getAwtShape(shape);
+		Shape shapeD = GGenericShapeD.getAwtShape(shape);
 		if (shapeD instanceof Path2D) {
 			Path2D p2d = (Path2D) shapeD;
 			if (p2d.getCurrentPoint() != null

@@ -1,20 +1,21 @@
 package org.geogebra.desktop.awt;
 
 import java.awt.Shape;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 
-public class GLine2DD implements org.geogebra.common.awt.GLine2D,
-		org.geogebra.desktop.awt.GShapeD {
-	private java.awt.geom.Line2D impl;
+public class GLine2DD implements GLine2D, GShapeD {
+	private Line2D impl;
 
 	public GLine2DD() {
-		impl = new java.awt.geom.Line2D.Double();
+		impl = new Line2D.Double();
 	}
 
 	public boolean intersects(int i, int j, int k, int l) {
@@ -34,8 +35,7 @@ public class GLine2DD implements org.geogebra.common.awt.GLine2D,
 	}
 
 	public boolean contains(GRectangle2D rectangle) {
-		return impl.contains(org.geogebra.desktop.awt.GRectangleD
-				.getAWTRectangle2D(rectangle));
+		return impl.contains(GRectangleD.getAWTRectangle2D(rectangle));
 	}
 
 	public boolean contains(double xTry, double yTry) {
@@ -53,29 +53,24 @@ public class GLine2DD implements org.geogebra.common.awt.GLine2D,
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		// TODO Auto-generated method stub
 		return new GPathIteratorD(
-				impl.getPathIterator(org.geogebra.desktop.awt.GAffineTransformD
-						.getAwtAffineTransform(affineTransform)));
+impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		// TODO Auto-generated method stub
 		return new GPathIteratorD(
-				impl.getPathIterator(
-				org.geogebra.desktop.awt.GAffineTransformD.getAwtAffineTransform(at),
+impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(at),
 				flatness));
 	}
 
 	public boolean intersects(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
 		return impl.intersects(x, y, w, h);
 	}
 
 	public boolean intersects(GRectangle2D r) {
-		// TODO Auto-generated method stub
-		return impl.intersects(org.geogebra.desktop.awt.GGenericRectangle2DD
-				.getAWTRectangle2D(r));
+		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));
 	}
 
 	public GPoint2D getP1() {

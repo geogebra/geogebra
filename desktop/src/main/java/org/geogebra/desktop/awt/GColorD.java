@@ -1,31 +1,33 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.Color;
+
 import org.geogebra.common.awt.GColor;
 
 public class GColorD extends GColor {
 
 	private static final double FACTOR = 0.7;
 
-	private java.awt.Color adaptedColor = new java.awt.Color(0, 0, 0);
+	private java.awt.Color adaptedColor = new Color(0, 0, 0);
 
 	public GColorD(int r, int g, int b, int alpha) {
-		adaptedColor = new java.awt.Color(r, g, b, alpha);
+		adaptedColor = new Color(r, g, b, alpha);
 	}
 
 	public GColorD(float r, float g, float b, float alpha) {
-		adaptedColor = new java.awt.Color(r, g, b, alpha);
+		adaptedColor = new Color(r, g, b, alpha);
 	}
 
 	public GColorD(int r, int g, int b) {
-		adaptedColor = new java.awt.Color(r, g, b);
+		adaptedColor = new Color(r, g, b);
 	}
 
 	public GColorD(int r, float g, int b) {
-		adaptedColor = new java.awt.Color(r, g, b);
+		adaptedColor = new Color(r, g, b);
 	}
 
 	public GColorD(int rgb) {
-		adaptedColor = new java.awt.Color(rgb);
+		adaptedColor = new Color(rgb);
 	}
 
 	public GColorD(java.awt.Color hsbColor) {
@@ -34,7 +36,7 @@ public class GColorD extends GColor {
 	}
 
 	public GColorD(float f, float g, float h) {
-		adaptedColor = new java.awt.Color(f, g, h);
+		adaptedColor = new Color(f, g, h);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package org.geogebra.desktop.awt;
 
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
@@ -17,15 +18,15 @@ public class GEllipse2DDoubleD implements org.geogebra.desktop.awt.GRectangularS
 	 * ellipse2d; }
 	 */
 	public GEllipse2DDoubleD() {
-		impl = new java.awt.geom.Ellipse2D.Double();
+		impl = new Ellipse2D.Double();
 	}
 
-	public GEllipse2DDoubleD(java.awt.geom.Ellipse2D.Double ellipse) {
+	public GEllipse2DDoubleD(Ellipse2D.Double ellipse) {
 		impl = ellipse;
 	}
 
 	public GEllipse2DDoubleD(int i, int j, int k, int l) {
-		impl = new java.awt.geom.Ellipse2D.Double(i, j, k, l);
+		impl = new Ellipse2D.Double(i, j, k, l);
 	}
 
 	public void setFrame(double xUL, double yUL, double diameter,
@@ -50,8 +51,7 @@ public class GEllipse2DDoubleD implements org.geogebra.desktop.awt.GRectangularS
 	}
 
 	public boolean contains(GRectangle2D rectangle) {
-		return impl.contains(org.geogebra.desktop.awt.GRectangleD
-				.getAWTRectangle2D(rectangle));
+		return impl.contains(GRectangleD.getAWTRectangle2D(rectangle));
 	}
 
 	public boolean contains(double xTry, double yTry) {
@@ -60,14 +60,14 @@ public class GEllipse2DDoubleD implements org.geogebra.desktop.awt.GRectangularS
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(
-				impl.getPathIterator(org.geogebra.desktop.awt.GAffineTransformD
-						.getAwtAffineTransform(affineTransform)));
+impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
 		return new GPathIteratorD(
-				impl.getPathIterator(
-				org.geogebra.desktop.awt.GAffineTransformD.getAwtAffineTransform(at),
+impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(at),
 				flatness));
 	}
 
@@ -76,8 +76,7 @@ public class GEllipse2DDoubleD implements org.geogebra.desktop.awt.GRectangularS
 	}
 
 	public boolean intersects(GRectangle2D r) {
-		return impl.intersects(org.geogebra.desktop.awt.GGenericRectangle2DD
-				.getAWTRectangle2D(r));
+		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));
 	}
 
 	public Shape getAwtShape() {
@@ -85,11 +84,14 @@ public class GEllipse2DDoubleD implements org.geogebra.desktop.awt.GRectangularS
 	}
 
 	public static java.awt.geom.Ellipse2D.Double getAwtEllipse2DDouble(
-			java.awt.geom.Ellipse2D.Double ellipse) {
-		if (ellipse == null)
+			Ellipse2D.Double ellipse) {
+
+		if (ellipse == null) {
 			return null;
-		return new java.awt.geom.Ellipse2D.Double(ellipse.getX(),
-				ellipse.getY(), ellipse.getWidth(), ellipse.getHeight());
+		}
+
+		return new Ellipse2D.Double(ellipse.getX(), ellipse.getY(),
+				ellipse.getWidth(), ellipse.getHeight());
 
 		/*
 		 * if(ellipse instanceof geogebra.awt.Shape) return
