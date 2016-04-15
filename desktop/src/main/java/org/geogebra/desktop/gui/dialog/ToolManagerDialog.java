@@ -40,6 +40,7 @@ import org.geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogLi
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.desktop.export.GeoGebraTubeExportD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.gui.ToolNameIconPanel;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -401,7 +402,7 @@ public class ToolManagerDialog extends javax.swing.JDialog implements
 
 	public void uploadWorksheet(ArrayList<Macro> macros) {
 		// create new exporter
-		org.geogebra.desktop.export.GeoGebraTubeExportD exporter = new org.geogebra.desktop.export.GeoGebraTubeExportD(
+		GeoGebraTubeExportD exporter = new GeoGebraTubeExportD(
 				app);
 
 		exporter.uploadWorksheet(macros);

@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.clipping;
 
+import org.geogebra.common.awt.GPoint2D;
+
 //============================================================================
 //File:               Clipping.java
 //
@@ -119,7 +121,7 @@ public class ClipLine {
 
 		if ((mask & OUTSIDE) == 0) {
 			// fine. everything's internal
-			org.geogebra.common.awt.GPoint2D[] ret = new org.geogebra.common.awt.GPoint2D[2];
+			org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
 			ret[0] = AwtFactory.prototype.newPoint2D(x1, y1);
 			ret[1] = AwtFactory.prototype.newPoint2D(x2, y2);
 			return ret;
@@ -178,7 +180,7 @@ public class ClipLine {
 			p1 = AwtFactory.prototype.newPoint2D((x1 + 0.5), (y1 + 0.5));
 			if (mask == 0) {
 				// both masks are the same, so the second point is inside, too
-				org.geogebra.common.awt.GPoint2D[] ret = new org.geogebra.common.awt.GPoint2D[2];
+				org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
 				ret[0] = p1;
 				ret[1] = AwtFactory.prototype
 						.newPoint2D((x2 + 0.5), (y2 + 0.5));
@@ -202,7 +204,7 @@ public class ClipLine {
 				if (p1 == null) {
 					p1 = p;
 				} else {
-					org.geogebra.common.awt.GPoint2D[] ret = new org.geogebra.common.awt.GPoint2D[2];
+					org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
 					ret[0] = p1;
 					ret[1] = p;
 					return ret;
@@ -218,7 +220,7 @@ public class ClipLine {
 				if (p1 == null) {
 					p1 = p;
 				} else {
-					org.geogebra.common.awt.GPoint2D[] ret = new org.geogebra.common.awt.GPoint2D[2];
+					org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
 					ret[0] = p1;
 					ret[1] = p;
 					return ret;
@@ -235,7 +237,7 @@ public class ClipLine {
 				org.geogebra.common.awt.GPoint2D p = intersect(x1, y1, x2, y2,
 						xmin, ymax, xmax, ymax);
 				if (p != null) {
-					org.geogebra.common.awt.GPoint2D[] ret = new org.geogebra.common.awt.GPoint2D[2];
+					org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
 					ret[0] = p1;
 					ret[1] = p;
 					return ret;
@@ -247,7 +249,7 @@ public class ClipLine {
 				org.geogebra.common.awt.GPoint2D p = intersect(x1, y1, x2, y2,
 						xmin, ymin, xmax, ymin);
 				if (p != null) {
-					org.geogebra.common.awt.GPoint2D[] ret = new org.geogebra.common.awt.GPoint2D[2];
+					org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
 					ret[0] = p1;
 					ret[1] = p;
 					return ret;
@@ -263,7 +265,7 @@ public class ClipLine {
 					if (p1 == null) {
 						p1 = p;
 					} else {
-						org.geogebra.common.awt.GPoint2D[] ret = new org.geogebra.common.awt.GPoint2D[2];
+						org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
 						ret[0] = p1;
 						ret[1] = p;
 						return ret;
@@ -279,7 +281,7 @@ public class ClipLine {
 					if (p1 == null) {
 						p1 = p;
 					} else {
-						org.geogebra.common.awt.GPoint2D[] ret = new org.geogebra.common.awt.GPoint2D[2];
+						org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
 						ret[0] = p1;
 						ret[1] = p;
 						return ret;

@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.options.AxisPanel;
 import org.geogebra.desktop.gui.dialog.options.OptionsEuclidianD;
@@ -627,7 +628,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 	@Override
 	protected void actionBtBackgroundColor() {
-		view.setBackground(new org.geogebra.desktop.awt.GColorD(((GuiManagerD) (app
+		view.setBackground(new GColorD(((GuiManagerD) (app
 				.getGuiManager())).showColorChooser(((EuclidianView3D) view)
 				.getBackground())));
 	}

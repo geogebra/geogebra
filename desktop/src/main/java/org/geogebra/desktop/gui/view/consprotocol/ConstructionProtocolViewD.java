@@ -61,6 +61,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.javax.swing.table.GAbstractTableModel;
@@ -76,6 +77,8 @@ import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.export.ConstructionProtocolExportDialog;
 import org.geogebra.desktop.export.PrintPreview;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
@@ -360,8 +363,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				Thread runner = new Thread() {
 					@Override
 					public void run() {
-						JDialog d = new org.geogebra.desktop.export.ConstructionProtocolExportDialog(
-								view);
+						JDialog d = new ConstructionProtocolExportDialog(view);
 						d.setVisible(true);
 					}
 				};
@@ -481,7 +483,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			Object ob = e.getSource();
 			if (ob == table) {
 				Point origin = e.getPoint();
-				org.geogebra.common.awt.GPoint mouseCoords = new org.geogebra.common.awt.GPoint(
+				org.geogebra.common.awt.GPoint mouseCoords = new GPoint(
 						e.getPoint().x, e.getPoint().y);
 				int row = table.rowAtPoint(origin);
 				if (row < 0)
@@ -1464,7 +1466,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 						if (color != Color.black) {
 							sb.append("<span style=\"color:#");
 							sb.append(StringUtil
-									.toHexString(new org.geogebra.desktop.awt.GColorD(color)));
+.toHexString(new GColorD(color)));
 							sb.append("\">");
 							sb.append(str);
 							sb.append("</span>");

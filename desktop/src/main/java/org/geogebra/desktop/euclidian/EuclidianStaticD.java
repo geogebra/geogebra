@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianStatic;
+import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.main.AppD;
 
 public class EuclidianStaticD extends org.geogebra.common.euclidian.EuclidianStatic {
@@ -52,7 +53,7 @@ public class EuclidianStaticD extends org.geogebra.common.euclidian.EuclidianSta
 		// labelHasIndex = yoffset > 0;
 		int height = (int) ((lines + 1) * lineSpread);
 
-		return new org.geogebra.desktop.awt.GRectangleD(xLabel - 3, yLabel - fontSize - 3,
+		return new GRectangleD(xLabel - 3, yLabel - fontSize - 3,
 				xoffset + 6, height + 6);
 		// labelRectangle.setBounds(xLabel, yLabel - fontSize, xoffset, height
 		// );

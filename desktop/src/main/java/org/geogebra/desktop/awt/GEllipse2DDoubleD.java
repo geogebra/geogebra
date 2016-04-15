@@ -42,11 +42,11 @@ public class GEllipse2DDoubleD implements org.geogebra.desktop.awt.GRectangularS
 	}
 
 	public GRectangle getBounds() {
-		return new org.geogebra.desktop.awt.GRectangleD(impl.getBounds());
+		return new GRectangleD(impl.getBounds());
 	}
 
 	public GRectangle2D getBounds2D() {
-		return new org.geogebra.desktop.awt.GGenericRectangle2DD(impl.getBounds2D());
+		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
 
 	public boolean contains(GRectangle2D rectangle) {
@@ -59,13 +59,14 @@ public class GEllipse2DDoubleD implements org.geogebra.desktop.awt.GRectangularS
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new org.geogebra.desktop.awt.GPathIteratorD(
+		return new GPathIteratorD(
 				impl.getPathIterator(org.geogebra.desktop.awt.GAffineTransformD
 						.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new org.geogebra.desktop.awt.GPathIteratorD(impl.getPathIterator(
+		return new GPathIteratorD(
+				impl.getPathIterator(
 				org.geogebra.desktop.awt.GAffineTransformD.getAwtAffineTransform(at),
 				flatness));
 	}

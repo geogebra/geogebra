@@ -168,8 +168,11 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.Log.LogDestination;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.GeoGebra;
+import org.geogebra.desktop.awt.GFontD;
+import org.geogebra.desktop.awt.GGenericImageD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
+import org.geogebra.desktop.euclidian.EuclidianStaticD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
@@ -189,9 +192,12 @@ import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
+import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
+import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
@@ -205,6 +211,7 @@ import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.Normalizer;
+import org.geogebra.desktop.util.StringUtilD;
 import org.geogebra.desktop.util.UtilD;
 
 public class AppD extends App implements KeyEventDispatcher {
@@ -683,9 +690,9 @@ public class AppD extends App implements KeyEventDispatcher {
 		// moved to getFactory() so that applets load quicker
 		// geogebra.common.factories.Factory.prototype = new FactoryD();
 
-		StringUtil.prototype = new org.geogebra.desktop.util.StringUtilD();
+		StringUtil.prototype = new StringUtilD();
 
-		EuclidianStatic.prototype = new org.geogebra.desktop.euclidian.EuclidianStaticD();
+		EuclidianStatic.prototype = new EuclidianStaticD();
 
 		if (!is3D()) {
 			CopyPaste.INSTANCE = new CopyPaste();
@@ -2196,7 +2203,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		MyImageD im = imageManager.getInternalImage(filename);
 		if (im == null || im.isSVG())
 			return null;
-		return new org.geogebra.desktop.awt.GGenericImageD(im.getImage());
+		return new GGenericImageD(im.getImage());
 	}
 
 	public void addExternalImage(String filename, MyImageD image) {
@@ -2205,7 +2212,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public GImageIcon wrapGetModeIcon(int mode) {
-		return new org.geogebra.desktop.javax.swing.GImageIconD(getModeIcon(mode));
+		return new GImageIconD(getModeIcon(mode));
 	}
 
 	public ImageIcon getModeIcon(int mode) {
@@ -2441,7 +2448,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// copy drawing pad to the system clipboard
 		Image img = ((EuclidianViewD) ev).getExportImage(scale);
-		org.geogebra.desktop.gui.util.ImageSelection imgSel = new org.geogebra.desktop.gui.util.ImageSelection(
+		ImageSelection imgSel = new ImageSelection(
 				img);
 		Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(imgSel, null);
@@ -3262,7 +3269,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	final public org.geogebra.common.awt.GFont getPlainFontCommon() {
-		return new org.geogebra.desktop.awt.GFontD(fontManager.getPlainFont(true));
+		return new GFontD(fontManager.getPlainFont(true));
 	}
 
 	final public Font getSerifFont() {
@@ -4740,11 +4747,11 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public org.geogebra.common.awt.GFont getFontCommon(boolean b, int i, int size) {
-		return new org.geogebra.desktop.awt.GFontD(getFont(b, i, size));
+		return new GFontD(getFont(b, i, size));
 	}
 
 	public org.geogebra.common.awt.GFont getBoldFontCommon() {
-		return new org.geogebra.desktop.awt.GFontD(getBoldFont());
+		return new GFontD(getBoldFont());
 	}
 
 	@Override
@@ -5570,7 +5577,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public static void newLayout(AppD app) {
 		app.guiManager
-				.setLayout(new org.geogebra.desktop.gui.layout.LayoutD(app));
+.setLayout(new LayoutD(app));
 	}
 
 	public static DockBarInterface newDockBar(AppD app) {

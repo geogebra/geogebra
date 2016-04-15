@@ -55,6 +55,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -94,6 +95,8 @@ import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
+import org.geogebra.desktop.export.GraphicExportDialog;
+import org.geogebra.desktop.export.WorksheetExportDialog;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
 import org.geogebra.desktop.export.pstricks.PstricksFrame;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -1039,8 +1042,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * of euclidianView
 	 */
 	public void toggleDrawingPadPopup(Component invoker, Point p) {
-		org.geogebra.common.awt.GPoint loc = new org.geogebra.common.awt.GPoint(p.x,
-				p.y);
+		GPoint loc = new GPoint(p.x, p.y);
 		if (drawingPadpopupMenu == null
 				|| !drawingPadpopupMenu.getWrappedPopup().isVisible()) {
 			showDrawingPadPopup(invoker, loc);
@@ -1114,8 +1116,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 */
 	public void togglePopupMenu(ArrayList<GeoElement> geos, Component invoker,
 			Point p) {
-		org.geogebra.common.awt.GPoint loc = new org.geogebra.common.awt.GPoint(p.x,
-				p.y);
+		GPoint loc = new GPoint(p.x, p.y);
 		if (popupMenu == null || !popupMenu.getWrappedPopup().isVisible()) {
 			showPopupMenu(geos, invoker, loc);
 			return;
@@ -3150,7 +3151,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		app.getSelectionManager().clearSelectedGeos(true, false);
 		app.updateSelection(false);
 
-		JDialog d = new org.geogebra.desktop.export.GraphicExportDialog((AppD) app);
+		JDialog d = new GraphicExportDialog((AppD) app);
 
 		d.setVisible(true);
 
@@ -3165,7 +3166,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	public void showWebpageExport() {
 		app.getSelectionManager().clearSelectedGeos(true, false);
 		app.updateSelection(false);
-		org.geogebra.desktop.export.WorksheetExportDialog d = new org.geogebra.desktop.export.WorksheetExportDialog(
+		WorksheetExportDialog d = new WorksheetExportDialog(
 				(AppD) app);
 
 		d.setVisible(true);

@@ -159,9 +159,9 @@ public class GGraphics2DD implements GGraphics2D {
 	public GPaint getPaint() {
 		java.awt.Paint paint = impl.getPaint();
 		if (paint instanceof java.awt.Color)
-			return new org.geogebra.desktop.awt.GColorD((java.awt.Color) paint);
+			return new GColorD((java.awt.Color) paint);
 		else if (paint instanceof java.awt.GradientPaint)
-			return new org.geogebra.desktop.awt.GGradientPaintD(
+			return new GGradientPaintD(
 					(java.awt.GradientPaint) paint);
 
 		// other types of paint are currently not used in setPaint
@@ -169,7 +169,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public GComposite getComposite() {
-		return new org.geogebra.desktop.awt.GCompositeD(impl.getComposite());
+		return new GCompositeD(impl.getComposite());
 	}
 
 	public void setBackground(GColor color) {
@@ -177,19 +177,19 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public GColor getBackground() {
-		return new org.geogebra.desktop.awt.GColorD(impl.getBackground());
+		return new GColorD(impl.getBackground());
 	}
 
 	public GFontRenderContext getFontRenderContext() {
-		return new org.geogebra.desktop.awt.GFontRenderContextD(impl.getFontRenderContext());
+		return new GFontRenderContextD(impl.getFontRenderContext());
 	}
 
 	public GColor getColor() {
-		return new org.geogebra.desktop.awt.GColorD(impl.getColor());
+		return new GColorD(impl.getColor());
 	}
 
 	public GFont getFont() {
-		return new org.geogebra.desktop.awt.GFontD(impl.getFont());
+		return new GFontD(impl.getFont());
 	}
 
 	public static java.awt.Graphics2D getAwtGraphics(

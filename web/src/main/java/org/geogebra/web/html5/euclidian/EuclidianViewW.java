@@ -32,6 +32,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GBasicStrokeW;
+import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.awt.PrintableW;
@@ -249,10 +250,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public final GGraphics2D getTempGraphics2D(GFont fontForGraphics) {
-		// TODO
-		if (this.g2dtemp == null)
-			this.g2dtemp = new org.geogebra.web.html5.awt.GGraphics2DW(
-			        Canvas.createIfSupported());
+		if (this.g2dtemp == null) {
+			this.g2dtemp = new GGraphics2DW(Canvas.createIfSupported());
+		}
 		this.g2dtemp.setFont(fontForGraphics);
 		return this.g2dtemp;
 	}
@@ -350,7 +350,7 @@ public class EuclidianViewW extends EuclidianView implements
 		c4.setCoordinateSpaceHeight(height);
 		c4.setWidth(width + "px");
 		c4.setHeight(height + "px");
-		g4copy = new org.geogebra.web.html5.awt.GGraphics2DW(c4);
+		g4copy = new GGraphics2DW(c4);
 		this.app.setExporting(ExportType.PNG, scale);
 		exportPaintPre(g4copy, scale, transparency);
 		drawObjects(g4copy);
@@ -903,18 +903,18 @@ public class EuclidianViewW extends EuclidianView implements
 		evPanel.addDomHandler(euclidiancontroller, DropEvent.getType());
 	}
 	// STROKES
-	protected static org.geogebra.web.html5.awt.GBasicStrokeW standardStroke = new org.geogebra.web.html5.awt.GBasicStrokeW(
+	protected static GBasicStrokeW standardStroke = new GBasicStrokeW(
 	        1.0f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
-	protected static org.geogebra.web.html5.awt.GBasicStrokeW selStroke = new org.geogebra.web.html5.awt.GBasicStrokeW(
-	        1.0f + EuclidianStyleConstants.SELECTION_ADD,
+	protected static GBasicStrokeW selStroke = new GBasicStrokeW(
+			1.0f + EuclidianStyleConstants.SELECTION_ADD,
 	        GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
 	protected boolean unitAxesRatio;
 
 	private Object preferredSize;
 
-	static public org.geogebra.web.html5.awt.GBasicStrokeW getDefaultStroke() {
+	static public GBasicStrokeW getDefaultStroke() {
 		return standardStroke;
 	}
 
@@ -1110,7 +1110,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 *            the new height (in pixel)
 	 */
 	public void setPreferredSize(int width, int height) {
-		setPreferredSize(new org.geogebra.web.html5.awt.GDimensionW(width, height));
+		setPreferredSize(new GDimensionW(width, height));
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 import org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.boundaryproblem.BoundaryProblemRepresentation;
 import org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.simpletriangulation.SimpleTriangulationRepresentation;
 import org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.triangulation.TriangulationRepresentation;
+import org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.triangulation.VVertex2;
 import org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.voronoicell.VVoronoiCell;
 import org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.voronoicell.VoronoiCellRepresentation;
 
@@ -56,7 +57,7 @@ public class RepresentationFactory {
     	org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.triangulation.VVertex2.uniqueid = 1;
         ArrayList<VPoint> newarraylist = new ArrayList<VPoint>();
         for ( VPoint point : points ) {
-            newarraylist.add( new org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.triangulation.VVertex2(point) );
+			newarraylist.add(new VVertex2(point));
         }
         return newarraylist;
     }
@@ -68,7 +69,7 @@ public class RepresentationFactory {
     public static ArrayList<VPoint> convertPointsToBoundaryProblemPoints(ArrayList<VPoint> points) {
         ArrayList<VPoint> newarraylist = new ArrayList<VPoint>();
         for ( VPoint point : points ) {
-            newarraylist.add( new org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.boundaryproblem.voronoicell.VVoronoiCell(point) );
+			newarraylist.add(new VVoronoiCell(point));
         }
         return newarraylist;
     }

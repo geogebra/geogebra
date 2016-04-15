@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.NumberComboBox;
 import org.geogebra.desktop.gui.dialog.AxesStyleListRenderer;
@@ -747,11 +748,12 @@ public class OptionsEuclidianD extends
 		if (source == btBackgroundColor) {
 			actionBtBackgroundColor();
 		} else if (source == btAxesColor) {
-			model.applyAxesColor(new org.geogebra.desktop.awt.GColorD(((GuiManagerD) app
+			model.applyAxesColor(new GColorD(((GuiManagerD) app
 					.getGuiManager()).showColorChooser(view.getAxesColor())));
 
 		} else if (source == btGridColor) {
-			model.applyGridColor(new org.geogebra.desktop.awt.GColorD(((GuiManagerD) (app
+			model.applyGridColor(
+					new GColorD(((GuiManagerD) (app
 					.getGuiManager())).showColorChooser(view.getGridColor())));
 
 		} else if (source == cbTooltips) {
@@ -1095,7 +1097,7 @@ public class OptionsEuclidianD extends
 	};
 
 	public GColor getEuclidianBackground(int viewNumber) {
-		return new org.geogebra.desktop.awt.GColorD(
+		return new GColorD(
 				((GuiManagerD) (app.getGuiManager()))
 						.showColorChooser(app.getSettings()
 								.getEuclidian(viewNumber).getBackground()));

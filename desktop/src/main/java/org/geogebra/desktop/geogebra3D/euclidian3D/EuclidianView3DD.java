@@ -32,6 +32,8 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GBufferedImageD;
+import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewJPanelD;
@@ -192,8 +194,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	@Override
 	public GFont getFont() {
-		// TODO Auto-generated method stub
-		return new org.geogebra.desktop.awt.GFontD(evjpanel.getFont());
+		return new GFontD(evjpanel.getFont());
 	}
 
 	/**
@@ -417,7 +418,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	private void createImage(GraphicsConfiguration gc) {
 		if (gc != null) {
-			bgImage = new org.geogebra.desktop.awt.GBufferedImageD(
+			bgImage = new GBufferedImageD(
 					gc.createCompatibleImage(getWidth(), getHeight()));
 			bgGraphics = bgImage.createGraphics();
 			if (antiAliasing) {

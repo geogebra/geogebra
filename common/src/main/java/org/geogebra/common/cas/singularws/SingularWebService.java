@@ -2,6 +2,7 @@ package org.geogebra.common.cas.singularws;
 
 import java.util.Date;
 
+import org.geogebra.common.cas.error.ComputationException;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.util.HttpRequest;
@@ -80,8 +81,7 @@ public class SingularWebService {
 			// Intuitive detection of error in computation. TODO: be more
 			// strict.
 			Log.error("Computation error in SingularWS: " + response);
-			throw new org.geogebra.common.cas.error.ComputationException(
-					"Computation error in SingularWS");
+			throw new ComputationException("Computation error in SingularWS");
 		}
 		return response;
 	}

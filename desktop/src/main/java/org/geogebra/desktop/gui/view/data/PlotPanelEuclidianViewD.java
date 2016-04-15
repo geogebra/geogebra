@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
+import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
@@ -432,7 +433,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 							getApplication().updateSelection(false);
 
 							// use reflection for
-							JDialog d = new org.geogebra.desktop.export.GraphicExportDialog(
+							JDialog d = new GraphicExportDialog(
 									getApplication(), plotPanelEV);
 							d.setVisible(true);
 

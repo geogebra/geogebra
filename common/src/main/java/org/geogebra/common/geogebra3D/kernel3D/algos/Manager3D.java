@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.Construction3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.Geo3DVec;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicPart3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
@@ -1770,8 +1771,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	public Geo3DVecInterface newGeo3DVec(double x, double y, double z) {
-		return new org.geogebra.common.geogebra3D.kernel3D.geos.Geo3DVec(kernel, x,
-				y, z);
+		return new Geo3DVec(kernel, x, y, z);
 	}
 
 	final public GeoElement[] Rotate3D(String label, GeoElement geoRot,

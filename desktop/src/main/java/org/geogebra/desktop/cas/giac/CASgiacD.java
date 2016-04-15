@@ -3,10 +3,6 @@ package org.geogebra.desktop.cas.giac;
 import java.util.LinkedList;
 import java.util.List;
 
-import javagiac.context;
-import javagiac.gen;
-import javagiac.giac;
-
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.cas.Evaluate;
@@ -22,6 +18,10 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
+
+import javagiac.context;
+import javagiac.gen;
+import javagiac.giac;
 
 /**
  * @author michael
@@ -146,8 +146,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			// eg Solve[sin(5/4 pi+x)-cos(x-3/4 pi)=sqrt(6) *
 			// cos(x)-sqrt(2)]
 			if (threadResult == null) {
-				throw new org.geogebra.common.cas.error.TimeoutException(
-						"Thread timeout from Giac");
+				throw new TimeoutException("Thread timeout from Giac");
 			}
 		} else {
 			threadResult = evalRaw(exp, timeoutMillis0);
@@ -157,8 +156,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 		Log.debug("giac output: " + ret);
 		if (ret.contains("user interruption")) {
-			throw new org.geogebra.common.cas.error.TimeoutException(
-					"Standard timeout from Giac");
+			throw new TimeoutException("Standard timeout from Giac");
 		}
 
 		return ret;

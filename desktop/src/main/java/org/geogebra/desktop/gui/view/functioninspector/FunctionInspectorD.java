@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
@@ -773,7 +774,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 			break;
 
 		}
-		return new org.geogebra.desktop.awt.GColorD(color);
+		return new GColorD(color);
 	}
 
 	public int getSelectedXYRow() {

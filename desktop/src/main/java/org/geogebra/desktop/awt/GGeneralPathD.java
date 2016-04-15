@@ -71,11 +71,11 @@ public class GGeneralPathD implements org.geogebra.common.awt.GGeneralPath,
 	}
 
 	public GRectangle getBounds() {
-		return new org.geogebra.desktop.awt.GRectangleD(impl.getBounds());
+		return new GRectangleD(impl.getBounds());
 	}
 
 	public GRectangle2D getBounds2D() {
-		return new org.geogebra.desktop.awt.GGenericRectangle2DD(impl.getBounds2D());
+		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
 
 	public boolean contains(GRectangle rectangle) {
@@ -93,7 +93,7 @@ public class GGeneralPathD implements org.geogebra.common.awt.GGeneralPath,
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		// TODO Auto-generated method stub
-		return new org.geogebra.desktop.awt.GPathIteratorD(
+		return new GPathIteratorD(
 				impl.getPathIterator(org.geogebra.desktop.awt.GAffineTransformD
 						.getAwtAffineTransform(affineTransform)));
 	}
@@ -118,7 +118,8 @@ public class GGeneralPathD implements org.geogebra.common.awt.GGeneralPath,
 		if (impl.getCurrentPoint() == null) {
 			return null;
 		}
-		return new org.geogebra.desktop.awt.GPoint2DD(impl.getCurrentPoint().getX(), impl
+		return new GPoint2DD(impl.getCurrentPoint().getX(),
+				impl
 				.getCurrentPoint().getY());
 	}
 

@@ -74,11 +74,11 @@ public class GAreaD implements GArea, GShapeD {
 	}
 
 	public GRectangle getBounds() {
-		return new org.geogebra.desktop.awt.GRectangleD(impl.getBounds());
+		return new GRectangleD(impl.getBounds());
 	}
 
 	public GRectangle2D getBounds2D() {
-		return new org.geogebra.desktop.awt.GGenericRectangle2DD(impl.getBounds2D());
+		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
 
 	public boolean contains(GRectangle2D rectangle) {
@@ -96,7 +96,7 @@ public class GAreaD implements GArea, GShapeD {
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		// TODO Auto-generated method stub
-		return new org.geogebra.desktop.awt.GPathIteratorD(impl.getPathIterator(
+		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD
 						.getAwtAffineTransform(affineTransform)));
 	}

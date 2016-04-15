@@ -54,10 +54,10 @@ public class GBasicStrokeD implements org.geogebra.common.awt.GBasicStroke {
 			if (p2d.getCurrentPoint() != null
 					&& Double.isNaN(p2d.getCurrentPoint().getX())) {
 				App.debug("fix kicks in");
-				return new org.geogebra.desktop.awt.GGenericShapeD(shapeD);
+				return new GGenericShapeD(shapeD);
 			}
 		}
-		return new org.geogebra.desktop.awt.GGenericShapeD(impl.createStrokedShape(shapeD));
+		return new GGenericShapeD(impl.createStrokedShape(shapeD));
 	}
 
 	public float getLineWidth() {

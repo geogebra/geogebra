@@ -20,6 +20,7 @@ import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
+import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.util.FrameCollector;
 
 /**
@@ -339,7 +340,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 			if (bi == null) {
 				Log.error("image null");
 			} else {
-				org.geogebra.desktop.gui.util.ImageSelection imgSel = new org.geogebra.desktop.gui.util.ImageSelection(
+				ImageSelection imgSel = new ImageSelection(
 						bi);
 				Toolkit.getDefaultToolkit().getSystemClipboard()
 						.setContents(imgSel, null);
@@ -383,7 +384,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		if (bi == null) {
 			Log.error("image null");
 		} else {
-			org.geogebra.desktop.gui.util.ImageSelection imgSel = new org.geogebra.desktop.gui.util.ImageSelection(
+			ImageSelection imgSel = new ImageSelection(
 					bi);
 			Toolkit.getDefaultToolkit().getSystemClipboard()
 					.setContents(imgSel, null);

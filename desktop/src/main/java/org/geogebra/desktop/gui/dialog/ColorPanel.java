@@ -319,7 +319,7 @@ class ColorPanel extends JPanel implements ActionListener,
 	 */
 	public String getToolTipText(App app, Color color) {
 		return ColorObjectModel.getColorAsString(app,
-				new org.geogebra.desktop.awt.GColorD(
+ new GColorD(
 				color));
 	}
 
@@ -334,13 +334,13 @@ class ColorPanel extends JPanel implements ActionListener,
 			}
 			geo.setAlphaValue(alpha);
 			if (!updateAlphaOnly) {
-				geo.setObjColor(new org.geogebra.desktop.awt.GColorD(col));
+				geo.setObjColor(new GColorD(col));
 			}
 			algo.setBarAlpha(alpha, selectedBarButton);
 			return;
 		}
 		if (!updateAlphaOnly) {
-			algo.setBarColor(new org.geogebra.desktop.awt.GColorD(col),
+			algo.setBarColor(new GColorD(col),
 					selectedBarButton);
 		}
 		algo.setBarAlpha(alpha, selectedBarButton);
@@ -399,7 +399,7 @@ class ColorPanel extends JPanel implements ActionListener,
 	public void stateChanged(ChangeEvent e) {
 
 		float alpha = opacitySlider.getValue() / 100.0f;
-		GColor color = new org.geogebra.desktop.awt.GColorD(this.propertiesPanelD.colChooser.getColor());
+		GColor color = new GColorD(this.propertiesPanelD.colChooser.getColor());
 		if (e.getSource() == opacitySlider)
 			model.applyChanges(color, alpha, true);
 		else

@@ -5,6 +5,8 @@ import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.URLEncoder;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.util.HttpRequestW;
+import org.geogebra.web.html5.util.debug.LoggerW;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org> Web implementations for various
@@ -14,7 +16,7 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
 	public HttpRequest newHttpRequest() {
-		return new org.geogebra.web.html5.util.HttpRequestW();
+		return new HttpRequestW();
 	}
 
 	@Override
@@ -24,7 +26,7 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
 	public Log newGeoGebraLogger() {
-		return new org.geogebra.web.html5.util.debug.LoggerW();
+		return new LoggerW();
 	}
 
 	@Override

@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -82,10 +84,10 @@ public class LaTeXPanel extends JPanel {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		org.geogebra.common.awt.GDimension fd = app.getDrawEquation().drawEquation(
-				app, null, new org.geogebra.desktop.awt.GGraphics2DD(g2image), 0, 0, latex,
+app, null, new GGraphics2DD(g2image), 0, 0, latex,
 				app.getPlainFontCommon(), false,
-				new org.geogebra.desktop.awt.GColorD(getForeground()),
-						new org.geogebra.desktop.awt.GColorD(getBackground()),
+						new GColorD(getForeground()),
+						new GColorD(getBackground()),
 						true, false, null);
 
 		return new Dimension(fd.getWidth(), fd.getHeight());
@@ -116,10 +118,9 @@ public class LaTeXPanel extends JPanel {
 			app.getDrawEquation();
 			// draw full resolution image directly on g
 			app.getDrawEquation().drawEquation(app, null,
-					new org.geogebra.desktop.awt.GGraphics2DD((Graphics2D) g), 0, 0, latex,
+					new GGraphics2DD((Graphics2D) g), 0, 0, latex,
 					app.getPlainFontCommon(), false,
-					new org.geogebra.desktop.awt.GColorD(getForeground()),
-					new org.geogebra.desktop.awt.GColorD(getBackground()),
+					new GColorD(getForeground()), new GColorD(getBackground()),
 					true, false, null);
 		} else {
 			// draw part of image that contains equation

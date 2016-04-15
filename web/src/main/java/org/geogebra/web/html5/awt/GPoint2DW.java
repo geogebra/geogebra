@@ -43,7 +43,7 @@ public class GPoint2DW extends GPoint2D {
 	        org.geogebra.common.awt.GPoint2D p) {
 		if (p == null)
 			return null;
-		return new org.geogebra.ggbjdk.java.awt.geom.Point2D.Double(p.getX(),
+		return new Point2D.Double(p.getX(),
 		        p.getY());
 	}
 

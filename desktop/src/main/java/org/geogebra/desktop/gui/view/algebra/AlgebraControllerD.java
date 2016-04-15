@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -83,7 +84,7 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 		view.cancelEditing();
 		boolean rightClick = app.isRightClickEnabled() && AppD.isRightClick(e);
 		if (rightClick) {// RIGHT CLICK
-			org.geogebra.common.awt.GPoint mouseCoords = new org.geogebra.common.awt.GPoint(
+			org.geogebra.common.awt.GPoint mouseCoords = new GPoint(
 					e.getPoint().x, e.getPoint().y);
 			rightPress(e, mouseCoords);
 		} else {// LEFT CLICK

@@ -12,6 +12,7 @@ import javax.swing.JToolBar;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.MyToggleButton;
@@ -237,7 +238,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR,
 
 			// could simply be btnBgColor.getSelectedColor(), not sure...
-					bgCol == null ? null : new org.geogebra.desktop.awt.GColorD(bgCol)
+					bgCol == null ? null : new GColorD(bgCol)
 
 			);
 
@@ -250,7 +251,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 					if (bgCol == null) {
 						geo.setBackgroundColor(null);
 					} else {
-						geo.setBackgroundColor(new org.geogebra.desktop.awt.GColorD(bgCol));
+						geo.setBackgroundColor(new GColorD(bgCol));
 					}
 					geo.updateRepaint();
 				}

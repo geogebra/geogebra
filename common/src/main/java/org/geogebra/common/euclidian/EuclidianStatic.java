@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -575,7 +576,7 @@ public abstract class EuclidianStatic {
 		if (doDraw) {
 			g3.setFont(g2font);
 		}
-		return new org.geogebra.common.awt.GPoint(Math.round(x - xPos),
+		return new GPoint(Math.round(x - xPos),
 				Math.round(maxY - yPos));
 
 	}

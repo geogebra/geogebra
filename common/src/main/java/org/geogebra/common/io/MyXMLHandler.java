@@ -29,6 +29,7 @@ import java.util.TreeMap;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
@@ -1561,12 +1562,12 @@ public class MyXMLHandler implements DocHandler {
 			int hScroll = Integer.parseInt(attrs.get("hScroll"));
 			int vScroll = Integer.parseInt(attrs.get("vScroll"));
 			settings.setScrollPosition(
-					new org.geogebra.common.awt.GPoint(hScroll, vScroll));
+new GPoint(hScroll, vScroll));
 
 			int row = Integer.parseInt(attrs.get("row"));
 			int column = Integer.parseInt(attrs.get("column"));
 			settings.setScrollPosition(
-					new org.geogebra.common.awt.GPoint(row, column));
+new GPoint(row, column));
 
 			return true;
 

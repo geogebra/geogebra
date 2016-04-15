@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.factories;
 
-import org.geogebra.common.awt.GComponent;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GAlphaComposite;
 import org.geogebra.common.awt.GArc2D;
@@ -8,6 +7,7 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GComponent;
 import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
@@ -37,6 +37,7 @@ import org.geogebra.ggbjdk.java.awt.geom.Area;
 import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Line2D;
+import org.geogebra.ggbjdk.java.awt.geom.Polygon;
 import org.geogebra.ggbjdk.java.awt.geom.QuadCurve2D;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
@@ -291,7 +292,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GPolygon newPolygon() {
-		return new org.geogebra.ggbjdk.java.awt.geom.Polygon();
+		return new Polygon();
 	}
 
 }

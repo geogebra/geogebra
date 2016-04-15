@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.prover.AlgoIsOnPath;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.PolynomialNode;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Term;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
@@ -345,7 +346,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			Variable v = getVariable(expNode.getRight().toString(
 					StringTemplate.defaultTemplate));
 			if (v != null) {
-			org.geogebra.common.kernel.prover.polynomial.Term t = new org.geogebra.common.kernel.prover.polynomial.Term(v);
+				Term t = new Term(v);
 				polyNode.setPoly(new Polynomial(coeff, t));
 				return;
 			}

@@ -4,6 +4,8 @@ import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.URLEncoder;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.util.HttpRequestD;
+import org.geogebra.desktop.util.LoggerD;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org> Desktop implementations for
@@ -13,7 +15,7 @@ public class UtilFactoryD extends org.geogebra.common.factories.UtilFactory {
 
 	@Override
 	public HttpRequest newHttpRequest() {
-		return new org.geogebra.desktop.util.HttpRequestD();
+		return new HttpRequestD();
 	}
 
 	@Override
@@ -23,7 +25,7 @@ public class UtilFactoryD extends org.geogebra.common.factories.UtilFactory {
 
 	@Override
 	public Log newGeoGebraLogger() {
-		return new org.geogebra.desktop.util.LoggerD();
+		return new LoggerD();
 	}
 
 	@Override

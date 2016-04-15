@@ -5,6 +5,7 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.desktop.util.HttpRequestD;
 
 /**
  * API Interface for GeoGebraTube requests and responses
@@ -18,7 +19,7 @@ public class GeoGebraTubeAPID extends
 
 	@Override
 	protected org.geogebra.common.util.HttpRequest createHttpRequest() {
-		return new org.geogebra.desktop.util.HttpRequestD();
+		return new HttpRequestD();
 	}
 
 	/**

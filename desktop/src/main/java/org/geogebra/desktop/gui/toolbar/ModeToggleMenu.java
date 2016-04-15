@@ -43,6 +43,7 @@ import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 
 import org.geogebra.common.main.App;
+import org.geogebra.desktop.javax.swing.GPopupMenuD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -210,7 +211,7 @@ public class ModeToggleMenu extends JPanel {
 	// shows popup menu
 	public void setPopupVisible(boolean flag) {
 		if (flag) {
-			bg.setActivePopupMenu(new org.geogebra.desktop.javax.swing.GPopupMenuD(popMenu));
+			bg.setActivePopupMenu(new GPopupMenuD(popMenu));
 			if (popMenu.isShowing())
 				return;
 			Point locButton = tbutton.getLocationOnScreen();

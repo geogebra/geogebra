@@ -28,6 +28,7 @@ import javax.swing.border.Border;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 
@@ -487,7 +488,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 			Color color = getColorForLocation(e.getX(), e.getY());
 			String name = GeoGebraColorConstants.getGeogebraColorName(app,
-					new org.geogebra.desktop.awt.GColorD(color));
+					new GColorD(color));
 			String rgbStr = color.getRed() + ", " + color.getGreen() + ", "
 					+ color.getBlue();
 			if (name != null) {
@@ -619,7 +620,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 			colors = new org.geogebra.common.awt.GColor[numColors];
 			for (int i = 0; i < numColors; i++) {
-				colors[i] = new org.geogebra.desktop.awt.GColorD(defaultRecentColor);
+				colors[i] = new GColorD(defaultRecentColor);
 			}
 		}
 
@@ -631,7 +632,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		public void setMostRecentColor(Color c) {
 
 			System.arraycopy(colors, 0, colors, 1, colors.length - 1);
-			colors[0] = new org.geogebra.desktop.awt.GColorD(c);
+			colors[0] = new GColorD(c);
 			if (swatchCount < swatchSize.width * swatchSize.height)
 				swatchCount++;
 
@@ -667,7 +668,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 			colors = new org.geogebra.common.awt.GColor[numColors];
 			for (int i = 0; i < numColors; i++) {
-				colors[i] = new org.geogebra.desktop.awt.GColorD(defaultRecentColor);
+				colors[i] = new GColorD(defaultRecentColor);
 			}
 		}
 
@@ -679,7 +680,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 				repaint();
 			} else {
 				System.arraycopy(colors, 0, colors, 1, colors.length - 1);
-				colors[0] = new org.geogebra.desktop.awt.GColorD(color);
+				colors[0] = new GColorD(color);
 				myChooser.setSwatchPanelSelection(color);
 				repaint();
 

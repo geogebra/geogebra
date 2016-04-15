@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
@@ -198,7 +199,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell) {
 				((GeoCasCell) geo)
-						.setFontColor(new org.geogebra.desktop.awt.GColorD(color));
+.setFontColor(new GColorD(color));
 				geo.updateRepaint();
 				needUndo = true;
 			}

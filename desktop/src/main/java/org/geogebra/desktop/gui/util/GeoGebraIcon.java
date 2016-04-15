@@ -23,6 +23,9 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.GFontD;
+import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianStaticD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageManagerD;
@@ -930,9 +933,8 @@ public class GeoGebraIcon {
 		DrawText draw = new DrawText(app.getActiveEuclidianView(), geo);
 		draw.drawMultilineLaTeX(
 				app.getActiveEuclidianView().getTempGraphics2D(
-						new org.geogebra.desktop.awt.GFontD(font)),
-				new org.geogebra.desktop.awt.GFontD(font),
-				new org.geogebra.desktop.awt.GColorD(fgColor), new org.geogebra.desktop.awt.GColorD(
+new GFontD(font)),
+				new GFontD(font), new GColorD(fgColor), new GColorD(
 						bgColor));
 		Rectangle d = org.geogebra.desktop.awt.GRectangleD
 				.getAWTRectangle(draw.getBounds());
@@ -949,9 +951,8 @@ public class GeoGebraIcon {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		draw.drawMultilineLaTeX(new org.geogebra.desktop.awt.GGraphics2DD(g2image),
-				new org.geogebra.desktop.awt.GFontD(font),
-				new org.geogebra.desktop.awt.GColorD(fgColor), new org.geogebra.desktop.awt.GColorD(
+		draw.drawMultilineLaTeX(new GGraphics2DD(g2image), new GFontD(font),
+				new GColorD(fgColor), new GColorD(
 						bgColor));
 
 		latexIcon.setImage(image);

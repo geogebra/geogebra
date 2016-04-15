@@ -16,9 +16,14 @@ import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.export.AnimationExportDialog;
+import org.geogebra.desktop.export.WorksheetExportDialog;
+import org.geogebra.desktop.export.pstricks.AsymptoteFrame;
 import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
+import org.geogebra.desktop.export.pstricks.PgfFrame;
+import org.geogebra.desktop.export.pstricks.PstricksFrame;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
@@ -400,7 +405,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new org.geogebra.desktop.export.AnimationExportDialog(app);
+					new AnimationExportDialog(app);
 				} catch (Exception ex) {
 					Log.debug("AnimationExportDialog not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
@@ -419,7 +424,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					GeoGebraToPstricksD export = new GeoGebraToPstricksD(app);
-					new org.geogebra.desktop.export.pstricks.PstricksFrame(export);
+					new PstricksFrame(export);
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToPstricks not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
@@ -437,7 +442,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					GeoGebraToPgfD export = new GeoGebraToPgfD(app);
-					new org.geogebra.desktop.export.pstricks.PgfFrame(export);
+					new PgfFrame(export);
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToPGF not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
@@ -458,7 +463,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				try {
 					org.geogebra.common.export.pstricks.GeoGebraToAsymptote export = new GeoGebraToAsymptoteD(
 							app);
-					new org.geogebra.desktop.export.pstricks.AsymptoteFrame(export);
+					new AsymptoteFrame(export);
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToAsymptote not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
@@ -488,7 +493,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 								app.getSelectionManager().clearSelectedGeos(
 										true, false);
 								app.updateSelection(false);
-								org.geogebra.desktop.export.WorksheetExportDialog d = new org.geogebra.desktop.export.WorksheetExportDialog(
+								WorksheetExportDialog d = new WorksheetExportDialog(
 										app);
 
 								d.setVisible(true);

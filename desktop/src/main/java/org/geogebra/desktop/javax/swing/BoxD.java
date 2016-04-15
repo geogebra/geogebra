@@ -4,6 +4,8 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.AbstractJComboBox;
+import org.geogebra.desktop.awt.GDimensionD;
+import org.geogebra.desktop.awt.GRectangleD;
 
 /**
  * Wrapper for javax.swing.Box
@@ -56,12 +58,12 @@ public class BoxD extends org.geogebra.common.javax.swing.GBox {
 
 	@Override
 	public GDimension getPreferredSize() {
-		return new org.geogebra.desktop.awt.GDimensionD(impl.getPreferredSize());
+		return new GDimensionD(impl.getPreferredSize());
 	}
 
 	@Override
 	public GRectangle getBounds() {
-		return new org.geogebra.desktop.awt.GRectangleD(impl.getBounds());
+		return new GRectangleD(impl.getBounds());
 	}
 
 	@Override

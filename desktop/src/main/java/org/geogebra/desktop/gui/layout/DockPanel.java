@@ -39,6 +39,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.gui.layout.panels.EuclidianDockPanelAbstract;
@@ -1165,7 +1166,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 */
 	public DockPanelData createInfo() {
 		return new DockPanelData(id, toolbarString, visible, openInFrame,
-				showStyleBar, new org.geogebra.desktop.awt.GRectangleD(frameBounds),
+				showStyleBar, new GRectangleD(frameBounds),
 				embeddedDef, embeddedSize);
 	}
 

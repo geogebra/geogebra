@@ -34,12 +34,12 @@ public class GBufferedImageD implements org.geogebra.common.awt.GBufferedImage {
 	}
 
 	public GGraphics2D createGraphics() {
-		return new org.geogebra.desktop.awt.GGraphics2DD(
+		return new GGraphics2DD(
 				(java.awt.Graphics2D) impl.getGraphics());
 	}
 
 	public GBufferedImage getSubimage(int i, int j, int size, int size2) {
-		return new org.geogebra.desktop.awt.GBufferedImageD(impl.getSubimage(i, j, size,
+		return new GBufferedImageD(impl.getSubimage(i, j, size,
 				size2));
 	}
 

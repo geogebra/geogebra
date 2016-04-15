@@ -1630,8 +1630,7 @@ CasEvaluableFunction, ParametricCurve,
 			GeoFunction fun) {
 
 		Kernel kernel = fun.getKernel();
-		org.geogebra.common.kernel.arithmetic.MyDouble num = new org.geogebra.common.kernel.arithmetic.MyDouble(
-				kernel, number);
+		MyDouble num = new MyDouble(kernel, number);
 
 		FunctionVariable xold = fun.getFunction().getFunctionVariable();
 		FunctionVariable x = new FunctionVariable(kernel);

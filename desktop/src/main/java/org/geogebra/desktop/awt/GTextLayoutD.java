@@ -24,7 +24,7 @@ public class GTextLayoutD implements org.geogebra.common.awt.font.GTextLayout {
 	}
 
 	public GRectangle2DD getBounds() {
-		return new org.geogebra.desktop.awt.GGenericRectangle2DD(impl.getBounds());
+		return new GGenericRectangle2DD(impl.getBounds());
 	}
 
 	public float getAscent() {

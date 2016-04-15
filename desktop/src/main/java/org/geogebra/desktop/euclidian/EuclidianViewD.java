@@ -816,7 +816,7 @@ public class EuclidianViewD extends EuclidianView implements
 	@Override
 	public GFont getFont() {
 		// TODO Auto-generated method stub
-		return new org.geogebra.desktop.awt.GFontD(evjpanel.getFont());
+		return new GFontD(evjpanel.getFont());
 	}
 
 	/**
@@ -1042,7 +1042,7 @@ public class EuclidianViewD extends EuclidianView implements
 
 	private void createImage(GraphicsConfiguration gc) {
 		if (gc != null) {
-			bgImage = new org.geogebra.desktop.awt.GBufferedImageD(
+			bgImage = new GBufferedImageD(
 					gc.createCompatibleImage(getWidth(), getHeight()));
 			bgGraphics = bgImage.createGraphics();
 			if (antiAliasing) {
@@ -1059,7 +1059,7 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	public org.geogebra.common.awt.GColor getBackgroundCommon() {
-		return new org.geogebra.desktop.awt.GColorD(evjpanel.getBackground());
+		return new GColorD(evjpanel.getBackground());
 	}
 
 	@Override

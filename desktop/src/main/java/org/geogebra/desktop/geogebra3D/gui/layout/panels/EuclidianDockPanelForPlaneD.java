@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.io.layout.DockPanelDataForPlane;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
+import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.geogebra3D.euclidianForPlane.EuclidianViewForPlaneD;
 import org.geogebra.desktop.gui.layout.panels.EuclidianDockPanelAbstract;
 import org.geogebra.desktop.main.AppD;
@@ -81,7 +82,7 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 	@Override
 	public DockPanelData createInfo() {
 		return new DockPanelDataForPlane(id, toolbarString, visible,
-				openInFrame, showStyleBar, new org.geogebra.desktop.awt.GRectangleD(
+				openInFrame, showStyleBar, new GRectangleD(
 						frameBounds), embeddedDef, embeddedSize,
 				view.getFromPlaneString());
 	}

@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -119,7 +120,7 @@ public class MiniStyle {
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			geo.setObjColor(new org.geogebra.desktop.awt.GColorD(color));
+			geo.setObjColor(new GColorD(color));
 			geo.updateRepaint();
 		}
 	}
@@ -164,8 +165,7 @@ public class MiniStyle {
 	 * geo; p.setPointSize(pointSize); }
 	 * 
 	 * geo.setLineThickness(lineSize); geo.setLineType(lineStyle);
-	 * geo.setObjColor(new org.geogebra.desktop.awt.GColorD(color));
-	 * geo.setAlphaValue(alpha);
+	 * geo.setObjColor(new GColorD(color)); geo.setAlphaValue(alpha);
 	 * 
 	 * geo.updateVisualStyle();
 	 * 

@@ -546,7 +546,7 @@ public abstract class Prover {
 		Log.debug("Using " + currentEngine);
 		ndgConditions = new HashSet<NDGCondition>(); // reset
 		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
-			ProverBotanasMethod pbm = new org.geogebra.common.kernel.prover.ProverBotanasMethod();
+			ProverBotanasMethod pbm = new ProverBotanasMethod();
 			result = override(pbm.prove(this));
 			return;
 		} else if (currentEngine == ProverEngine.RECIOS_PROVER) {

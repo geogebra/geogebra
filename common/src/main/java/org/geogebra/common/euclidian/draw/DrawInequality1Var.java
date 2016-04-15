@@ -195,7 +195,7 @@ public class DrawInequality1Var extends Drawable {
 			int circleCount = 0;
 			if ((geo instanceof GeoFunction)
 					&& ((GeoFunction) geo).showOnAxis()) {
-				circle = new org.geogebra.common.awt.GEllipse2DDouble[numOfX];
+				circle = new GEllipse2DDouble[numOfX];
 				for (int i = 0; i < numOfX; i++) {
 					if (x[i] < 0)
 						continue;

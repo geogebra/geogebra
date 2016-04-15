@@ -7,7 +7,11 @@ import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.javax.swing.GPanel;
 import org.geogebra.common.main.App;
+import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
+import org.geogebra.desktop.javax.swing.BoxD;
 import org.geogebra.desktop.javax.swing.GComboBoxD;
+import org.geogebra.desktop.javax.swing.GLabelD;
+import org.geogebra.desktop.javax.swing.GPanelD;
 
 public class SwingFactoryD extends org.geogebra.common.factories.SwingFactory {
 
@@ -15,29 +19,29 @@ public class SwingFactoryD extends org.geogebra.common.factories.SwingFactory {
 	@Override
 	public AutoCompleteTextField newAutoCompleteTextField(int length,
 			App application, Drawable drawTextField) {
-		return new org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD(length,
+		return new AutoCompleteTextFieldD(length,
 				application, drawTextField);
 	}
 
 	@Override
 	public GLabel newJLabel(String string, boolean bool) {
-		return new org.geogebra.desktop.javax.swing.GLabelD(string);
+		return new GLabelD(string);
 	}
 
 	@Override
 	public GBox createHorizontalBox(EuclidianController style) {
-		return new org.geogebra.desktop.javax.swing.BoxD(
+		return new BoxD(
 				javax.swing.Box.createHorizontalBox());
 	}
 
 	@Override
 	public GComboBoxD newJComboBox(App app, int ev) {
-		return new org.geogebra.desktop.javax.swing.GComboBoxD();
+		return new GComboBoxD();
 	}
 
 	@Override
 	public GPanel newGPanel() {
-		return new org.geogebra.desktop.javax.swing.GPanelD();
+		return new GPanelD();
 	}
 
 }
