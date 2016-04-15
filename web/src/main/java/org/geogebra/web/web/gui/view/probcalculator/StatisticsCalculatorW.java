@@ -783,8 +783,10 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	public void onKeyUp(KeyUpEvent event) {
 		TextBox source = (TextBox) event.getSource();
 		String value = source.getValue();
+		char last = value.charAt(value.length() - 1);
 		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT && event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) && 
-				value != null && !value.equals("") && value.charAt(value.length() - 1) != '.' && !value.equals("-")) {
+ value != null && !value.equals("") && !value.equals("-")
+				&& last != '.' && last != '0') {
 			doTextFieldActionPerformed();
 		}
     }
