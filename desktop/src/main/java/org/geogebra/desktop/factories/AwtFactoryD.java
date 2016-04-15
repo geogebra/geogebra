@@ -56,6 +56,7 @@ import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.awt.GTextLayoutD;
 import org.geogebra.desktop.awt.GTexturePaintD;
 import org.geogebra.desktop.euclidian.event.ActionListenerD;
+import org.geogebra.desktop.euclidian.event.FocusListenerD;
 import org.geogebra.desktop.gui.MyImageD;
 
 public class AwtFactoryD extends AwtFactory {
@@ -262,7 +263,7 @@ public class AwtFactoryD extends AwtFactory {
 
 	@Override
 	public FocusListener newFocusListener(Object listener) {
-		return new org.geogebra.desktop.euclidian.event.FocusListenerD(listener);
+		return new FocusListenerD(listener);
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.SwingFactory;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -80,6 +81,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
@@ -88,8 +90,10 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.factories.AwtFactoryW;
 import org.geogebra.web.html5.factories.CASFactoryW;
+import org.geogebra.web.html5.factories.FactoryW;
 import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.factories.SwingFactoryW;
+import org.geogebra.web.html5.factories.UtilFactoryW;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
@@ -103,6 +107,7 @@ import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
+import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
@@ -284,7 +289,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public GgbAPIW getGgbApi() {
 		if (ggbapi == null) {
-			ggbapi = new org.geogebra.web.html5.main.GgbAPIW(this);
+			ggbapi = new GgbAPIW(this);
 		}
 		return ggbapi;
 	}
@@ -960,7 +965,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public final GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
-		return new org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW(this);
+		return new GeoElementGraphicsAdapterW(this);
 	}
 
 	@Override
@@ -1724,9 +1729,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	protected void initCommonObjects() {
 		initFactories();
-		org.geogebra.common.factories.UtilFactory.prototype = new org.geogebra.web.html5.factories.UtilFactoryW();
-		org.geogebra.common.factories.Factory
-		        .setPrototype(new org.geogebra.web.html5.factories.FactoryW());
+		UtilFactory.prototype = new UtilFactoryW();
+		Factory.setPrototype(new FactoryW());
 		// App.initializeSingularWS();
 
 		// neded to not overwrite anything already exists
@@ -2338,7 +2342,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public GFont getPlainFontCommon() {
-		return new org.geogebra.web.html5.awt.GFontW("normal");
+		return new GFontW("normal");
 	}
 
 	// ============================================

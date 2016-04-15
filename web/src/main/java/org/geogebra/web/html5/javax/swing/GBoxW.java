@@ -9,6 +9,7 @@ import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.web.html5.awt.GDimensionW;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -63,8 +64,7 @@ public class GBoxW extends org.geogebra.common.javax.swing.GBox {
 
 	@Override
 	public GDimension getPreferredSize() {
-		return new org.geogebra.web.html5.awt.GDimensionW(impl.getOffsetWidth(),
-		        impl.getOffsetHeight());
+		return new GDimensionW(impl.getOffsetWidth(), impl.getOffsetHeight());
 	}
 
 	@Override

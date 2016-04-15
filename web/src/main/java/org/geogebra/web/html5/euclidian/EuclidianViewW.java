@@ -635,7 +635,7 @@ public class EuclidianViewW extends EuclidianView implements
 		final Canvas canvas = euclidianViewPanel.getCanvas();
 		this.evNo = evNo;
 
-		this.g2p = new org.geogebra.web.html5.awt.GGraphics2DW(canvas);
+		this.g2p = new GGraphics2DW(canvas);
 		g2p.devicePixelRatio = app.getPixelRatio();
 		g2p.setView(this);
 

@@ -10,6 +10,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
+import org.geogebra.web.web.gui.menubar.RadioButtonMenuBarW;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
 
 import com.google.gwt.user.client.Command;
@@ -45,8 +46,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		addZoomMenu();
 
-		RadioButtonMenuBar yaxisMenu = new org.geogebra.web.web.gui.menubar.RadioButtonMenuBarW(
-		        app, false);
+		RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW(app, false);
 		addAxesRatioItems(yaxisMenu);
 
 		MenuItem mi = new MenuItem(app.getPlain("xAxis") + " : "

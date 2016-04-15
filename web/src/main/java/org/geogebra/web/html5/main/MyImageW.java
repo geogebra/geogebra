@@ -71,7 +71,7 @@ public final class MyImageW implements MyImage {
 	}
 
 	public GGraphics2D createGraphics() {
-		return new org.geogebra.web.html5.awt.GGraphics2DW(getCanvas(), true);
+		return new GGraphics2DW(getCanvas(), true);
 	}
 
 	public ImageElement getImage() {

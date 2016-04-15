@@ -141,8 +141,8 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GBasicStroke newMyBasicStroke(float f) {
-		return new org.geogebra.web.html5.awt.GBasicStrokeW(f,
-				GBasicStrokeW.CAP_ROUND, GBasicStrokeW.JOIN_ROUND);
+		return new GBasicStrokeW(f, GBasicStrokeW.CAP_ROUND,
+				GBasicStrokeW.JOIN_ROUND);
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class AwtFactoryW extends AwtFactory {
 	// CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
 	// see #1699
 	public GBasicStroke newBasicStrokeJoinMitre(float f) {
-		return new org.geogebra.web.html5.awt.GBasicStrokeW(f, GBasicStroke.CAP_SQUARE,
+		return new GBasicStrokeW(f, GBasicStroke.CAP_SQUARE,
 		        GBasicStroke.JOIN_MITER);
 	}
 

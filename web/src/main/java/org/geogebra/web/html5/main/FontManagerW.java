@@ -2,6 +2,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.main.FontManager;
+import org.geogebra.web.html5.awt.GFontW;
 
 /**
  * This class takes care of storing and creating fonts.
@@ -20,7 +21,7 @@ public class FontManagerW extends FontManager {
 	@Override
 	public GFont getFontCanDisplay(String testString, boolean serif,
 	        int fontStyle, int fontSize1) {
-		org.geogebra.web.html5.awt.GFontW ret = new org.geogebra.web.html5.awt.GFontW(
+		GFontW ret = new GFontW(
 				serif ? "geogebra-serif, serif"
 						: "geogebra-sans-serif, sans-serif", fontStyle,
 				fontSize1);

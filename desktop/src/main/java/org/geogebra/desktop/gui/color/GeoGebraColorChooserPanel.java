@@ -27,6 +27,7 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -618,7 +619,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 					.getColor("ColorChooser.swatchesDefaultRecentColor");
 			int numColors = numSwatches.width * numSwatches.height;
 
-			colors = new org.geogebra.common.awt.GColor[numColors];
+			colors = new GColor[numColors];
 			for (int i = 0; i < numColors; i++) {
 				colors[i] = new GColorD(defaultRecentColor);
 			}
@@ -666,7 +667,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 					.getColor("ColorChooser.swatchesDefaultRecentColor");
 			int numColors = numSwatches.width * numSwatches.height;
 
-			colors = new org.geogebra.common.awt.GColor[numColors];
+			colors = new GColor[numColors];
 			for (int i = 0; i < numColors; i++) {
 				colors[i] = new GColorD(defaultRecentColor);
 			}

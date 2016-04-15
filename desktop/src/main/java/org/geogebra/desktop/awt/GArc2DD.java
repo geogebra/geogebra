@@ -1,6 +1,7 @@
 package org.geogebra.desktop.awt;
 
 import java.awt.Shape;
+import java.awt.geom.Point2D;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArc2D;
@@ -45,14 +46,14 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new org.geogebra.desktop.awt.GPathIteratorD(
-				impl.getPathIterator(org.geogebra.desktop.awt.GAffineTransformD
+		return new GPathIteratorD(impl.getPathIterator(
+				GAffineTransformD
 						.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new org.geogebra.desktop.awt.GPathIteratorD(impl.getPathIterator(
-				org.geogebra.desktop.awt.GAffineTransformD.getAwtAffineTransform(at),
+		return new GPathIteratorD(impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(at),
 				flatness));
 	}
 
@@ -74,13 +75,11 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 	public GPoint2D getStartPoint() {
 		// impl.getStartPoint() return-type is java.awt.geom.Point2D
 		// but it returns with java.awt.geom.Point2D.Double
-		return new org.geogebra.desktop.awt.GPoint2DD(
-				(java.awt.geom.Point2D.Double) impl.getStartPoint());
+		return new GPoint2DD((Point2D.Double) impl.getStartPoint());
 	}
 
 	public GPoint2D getEndPoint() {
-		return new org.geogebra.desktop.awt.GPoint2DD(
-				(java.awt.geom.Point2D.Double) impl.getEndPoint());
+		return new GPoint2DD((Point2D.Double) impl.getEndPoint());
 	}
 
 	public void setArcByCenter(double x, double y, double radius, double angSt,

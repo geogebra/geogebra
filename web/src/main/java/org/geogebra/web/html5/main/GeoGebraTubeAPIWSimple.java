@@ -5,6 +5,8 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.util.HttpRequestIE;
+import org.geogebra.web.html5.util.HttpRequestW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONString;
@@ -19,8 +21,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	}
 	@Override
 	protected HttpRequest createHttpRequest() {
-		return Browser.isIE9() ? new org.geogebra.web.html5.util.HttpRequestIE()
-				: new org.geogebra.web.html5.util.HttpRequestW();
+		return Browser.isIE9() ? new HttpRequestIE() : new HttpRequestW();
 	}
 
 	@Override

@@ -50,6 +50,7 @@ import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
@@ -135,8 +136,7 @@ public abstract class AppWFull extends AppW {
 		// this should not be called from AppWsimple!
 		setWaitCursor();
 		guiManager = newGuiManager();
-		getGuiManager().setLayout(
-				new org.geogebra.web.web.gui.layout.LayoutW(this));
+		getGuiManager().setLayout(new LayoutW(this));
 		getGuiManager().initialize();
 		setDefaultCursor();
 	}
