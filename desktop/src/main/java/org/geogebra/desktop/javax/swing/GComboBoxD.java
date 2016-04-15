@@ -7,7 +7,7 @@ import javax.swing.JComboBox;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.event.ActionListener;
-import org.geogebra.common.javax.swing.AbstractJComboBox;
+import org.geogebra.common.javax.swing.GComboBox;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.event.ActionListenerD;
@@ -17,7 +17,7 @@ import org.geogebra.desktop.euclidian.event.ActionListenerD;
  * 
  * @author Judit Elias, Michael
  */
-public class GComboBoxD extends AbstractJComboBox {
+public class GComboBoxD extends GComboBox {
 
 	private JComboBox impl = null;
 
@@ -88,7 +88,7 @@ public class GComboBoxD extends AbstractJComboBox {
 		return impl.getSelectedIndex();
 	}
 
-	public static Component getJComboBox(AbstractJComboBox comboBox) {
+	public static Component getJComboBox(GComboBox comboBox) {
 		if (!(comboBox instanceof GComboBoxD))
 			return null;
 		return ((GComboBoxD) comboBox).impl;

@@ -2,7 +2,7 @@ package org.geogebra.common.javax.swing;
 
 import org.geogebra.common.awt.GFont;
 
-public abstract class AbstractJComboBox {
+public abstract class GComboBox {
 
 	public abstract void setVisible(boolean b);
 

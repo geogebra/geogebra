@@ -3,7 +3,7 @@ package org.geogebra.web.html5.javax.swing;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.event.ActionListener;
-import org.geogebra.common.javax.swing.AbstractJComboBox;
+import org.geogebra.common.javax.swing.GComboBox;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 
@@ -15,7 +15,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GComboBoxW extends AbstractJComboBox {
+public class GComboBoxW extends GComboBox {
 
 	private ListBox impl = null;
 
@@ -111,7 +111,7 @@ public class GComboBoxW extends AbstractJComboBox {
 
 	}
 
-	public static Widget getImpl(AbstractJComboBox comboBox) {
+	public static Widget getImpl(GComboBox comboBox) {
 		if (!(comboBox instanceof GComboBoxW))
 			return null;
 		return ((GComboBoxW) comboBox).impl;

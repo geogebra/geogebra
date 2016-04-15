@@ -3,7 +3,7 @@ package org.geogebra.common.factories;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
-import org.geogebra.common.javax.swing.AbstractJComboBox;
+import org.geogebra.common.javax.swing.GComboBox;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.javax.swing.GPanel;
@@ -18,7 +18,7 @@ public abstract class SwingFactory {
 
 	public abstract GLabel newJLabel(String string, boolean bool);
 
-	public abstract AbstractJComboBox newJComboBox(App app, int ev);
+	public abstract GComboBox newJComboBox(App app, int ev);
 
 	public abstract GBox createHorizontalBox(EuclidianController style);
 

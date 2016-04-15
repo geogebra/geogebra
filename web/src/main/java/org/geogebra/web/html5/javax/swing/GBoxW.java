@@ -4,7 +4,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
-import org.geogebra.common.javax.swing.AbstractJComboBox;
+import org.geogebra.common.javax.swing.GComboBox;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.main.App;
@@ -93,7 +93,7 @@ public class GBoxW extends GBox {
 	}
 
 	@Override
-	public void add(AbstractJComboBox comboBox) {
+	public void add(GComboBox comboBox) {
 		impl.add(GComboBoxW.getImpl(comboBox));
 	}
 

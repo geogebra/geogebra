@@ -22,14 +22,14 @@ public abstract class GBox {
 
 	public abstract void revalidate();
 
-	public abstract void add(AbstractJComboBox comboBox);
+	public abstract void add(GComboBox comboBox);
 
 	public void doLayout() {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void remove(AbstractJComboBox comboBox) {
+	public void remove(GComboBox comboBox) {
 		// TODO Auto-generated method stub
 
 	}
