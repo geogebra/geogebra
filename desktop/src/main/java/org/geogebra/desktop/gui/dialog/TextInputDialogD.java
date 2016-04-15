@@ -59,6 +59,7 @@ import javax.swing.undo.UndoManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.InputHandler;
+import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.gui.util.TableSymbolsLaTeX;
@@ -89,8 +90,8 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author hohenwarter
  */
-public class TextInputDialogD extends InputDialogD implements DocumentListener,
-		org.geogebra.common.gui.dialog.TextInputDialog {
+public class TextInputDialogD extends InputDialogD
+		implements DocumentListener, TextInputDialog {
 
 	// editor and preview panels
 	private DynamicTextInputPane editor;

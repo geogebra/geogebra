@@ -21,7 +21,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RemoveNeeded;
-import org.geogebra.common.euclidian.event.FocusEvent;
+import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.GFocusEvent;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.factories.AwtFactory;
@@ -136,8 +137,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	 * 
 	 * @author Michael + Judit
 	 */
-	public class InputFieldListener
-			extends org.geogebra.common.euclidian.event.FocusListener {
+	public class InputFieldListener extends FocusListener {
 
 		private String initialText;
 
@@ -152,7 +152,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		 * @param e
 		 *            focus event
 		 */
-		public void focusGained(FocusEvent e) {
+		public void focusGained(GFocusEvent e) {
 			getView().getEuclidianController().textfieldHasFocus(true);
 			geoTextField.updateText(textField);
 
@@ -163,7 +163,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		 * @param e
 		 *            focus event
 		 */
-		public void focusLost(FocusEvent e) {
+		public void focusLost(GFocusEvent e) {
 			getView().getEuclidianController().textfieldHasFocus(false);
 
 			// GGB-22 revert r43455

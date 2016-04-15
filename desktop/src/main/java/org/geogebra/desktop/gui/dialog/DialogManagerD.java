@@ -94,8 +94,7 @@ public class DialogManagerD extends org.geogebra.common.main.DialogManager {
 			functionInspector.updateFonts();
 
 		if (textInputDialog != null)
-			((org.geogebra.desktop.gui.dialog.TextInputDialogD) textInputDialog)
-					.updateFonts();
+			((TextInputDialogD) textInputDialog).updateFonts();
 
 		if (fileChooser != null) {
 			fileChooser.setFont(((AppD) app).getPlainFont());
@@ -116,7 +115,7 @@ public class DialogManagerD extends org.geogebra.common.main.DialogManager {
 			functionInspector.setLabels();
 
 		if (textInputDialog != null)
-			((org.geogebra.desktop.gui.dialog.TextInputDialogD) textInputDialog).setLabels();
+			((TextInputDialogD) textInputDialog).setLabels();
 
 		if (fileChooser != null)
 			updateJavaUILanguage();
@@ -674,7 +673,7 @@ public class DialogManagerD extends org.geogebra.common.main.DialogManager {
 
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
-		return new org.geogebra.desktop.gui.dialog.TextInputDialogD(app,
+		return new TextInputDialogD(app,
 				app.getPlain("Text"), text, startPoint, rw, 30, 6,
 				app.getMode() == EuclidianConstants.MODE_TEXT);
 	}

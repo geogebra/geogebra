@@ -7,7 +7,7 @@ public class FocusListener {
 
 	private Object listenerClass;
 
-	protected void wrapFocusGained(FocusEvent event) {
+	protected void wrapFocusGained(GFocusEvent event) {
 		if (listenerClass instanceof DrawTextField.InputFieldListener) {
 			((DrawTextField.InputFieldListener) listenerClass)
 					.focusGained(event);
@@ -20,7 +20,7 @@ public class FocusListener {
 		wrapFocusGained(null);
 	}
 
-	protected void wrapFocusLost(FocusEvent event) {
+	protected void wrapFocusLost(GFocusEvent event) {
 		if (listenerClass instanceof DrawTextField.InputFieldListener) {
 			((DrawTextField.InputFieldListener) listenerClass).focusLost(event);
 		} else {

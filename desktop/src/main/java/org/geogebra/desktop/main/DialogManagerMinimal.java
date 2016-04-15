@@ -23,6 +23,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
+import org.geogebra.desktop.gui.dialog.TextInputDialogD;
 
 public class DialogManagerMinimal extends DialogManager {
 
@@ -187,7 +188,7 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
-		return new org.geogebra.desktop.gui.dialog.TextInputDialogD(app,
+		return (TextInputDialog) new TextInputDialogD(app,
 				app.getPlain("Text"), text, startPoint, rw, 30, 6,
 				app.getMode() == EuclidianConstants.MODE_TEXT);
 	}

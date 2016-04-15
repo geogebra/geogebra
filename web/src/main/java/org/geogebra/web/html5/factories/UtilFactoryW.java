@@ -6,6 +6,7 @@ import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.URLEncoder;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.HttpRequestW;
+import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 /**
@@ -21,7 +22,7 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
 	public URLEncoder newURLEncoder() {
-		return new org.geogebra.web.html5.util.URLEncoderW();
+		return new URLEncoderW();
 	}
 
 	@Override

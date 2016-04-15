@@ -6,6 +6,7 @@ import org.geogebra.common.util.URLEncoder;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.util.HttpRequestD;
 import org.geogebra.desktop.util.LoggerD;
+import org.geogebra.desktop.util.URLEncoderD;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org> Desktop implementations for
@@ -20,7 +21,7 @@ public class UtilFactoryD extends org.geogebra.common.factories.UtilFactory {
 
 	@Override
 	public URLEncoder newURLEncoder() {
-		return new org.geogebra.desktop.util.URLEncoderD();
+		return new URLEncoderD();
 	}
 
 	@Override
