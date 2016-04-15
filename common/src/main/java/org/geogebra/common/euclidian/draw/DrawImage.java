@@ -18,6 +18,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GAlphaComposite;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
@@ -40,14 +43,14 @@ public final class DrawImage extends Drawable {
 	private MyImage image;
 
 	private boolean absoluteLocation;
-	private org.geogebra.common.awt.GAlphaComposite alphaComp;
+	private GAlphaComposite alphaComp;
 	private float alpha = -1;
 	private boolean isInBackground = false;
-	private org.geogebra.common.awt.GAffineTransform at, atInverse, tempAT;
+	private GAffineTransform at, atInverse, tempAT;
 	private boolean needsInterpolationRenderingHint;
 	private int screenX, screenY;
-	private org.geogebra.common.awt.GRectangle boundingBox;
-	private org.geogebra.common.awt.GGeneralPath highlighting;
+	private GRectangle boundingBox;
+	private GGeneralPath highlighting;
 
 	/**
 	 * Creates new drawable image

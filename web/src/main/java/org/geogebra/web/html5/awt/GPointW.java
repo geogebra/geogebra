@@ -1,15 +1,17 @@
 package org.geogebra.web.html5.awt;
 
+import org.geogebra.ggbjdk.java.awt.geom.Point;
+
 public class GPointW extends org.geogebra.common.awt.GPoint {
 
-	private org.geogebra.ggbjdk.java.awt.geom.Point impl;
+	private Point impl;
 
 	public GPointW() {
-		impl = new org.geogebra.ggbjdk.java.awt.geom.Point();
+		impl = new Point();
 	}
 
 	public GPointW(int x, int y) {
-		impl = new org.geogebra.ggbjdk.java.awt.geom.Point(x, y);
+		impl = new Point(x, y);
 	}
 
 	public int getX() {

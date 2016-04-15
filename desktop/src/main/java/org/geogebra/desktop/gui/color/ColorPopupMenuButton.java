@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
@@ -34,8 +35,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 	public static final int COLORSET_DEFAULT = 0;
 	public static final int COLORSET_BGCOLOR = 1;
 	private int colorSetType;
-	private org.geogebra.common.awt.GColor[] colorSet;
-	private org.geogebra.common.awt.GColor defaultColor;
+	private GColor[] colorSet;
+	private GColor defaultColor;
 	private HashMap<Color, Integer> lookupMap;
 
 	private boolean hasSlider;

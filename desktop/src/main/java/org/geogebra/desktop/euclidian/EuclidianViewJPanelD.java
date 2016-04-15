@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewJPanel;
+import org.geogebra.desktop.awt.GGraphics2DD;
 
 public class EuclidianViewJPanelD extends JPanel
 		implements EuclidianViewJPanel {
@@ -85,7 +86,7 @@ public class EuclidianViewJPanelD extends JPanel
 		super.setToolTipText(plain);
 	}
 
-	private org.geogebra.desktop.awt.GGraphics2DD g2 = new org.geogebra.desktop.awt.GGraphics2DD(null);
+	private GGraphics2DD g2 = new GGraphics2DD(null);
 
 	@Override
 	final public void paint(Graphics g) {

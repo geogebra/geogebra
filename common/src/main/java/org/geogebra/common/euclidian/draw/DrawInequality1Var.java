@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -24,7 +25,7 @@ public class DrawInequality1Var extends Drawable {
 	private Inequality ineq;
 	private GeneralPathClipped[] gp;
 	private GLine2D[] lines;
-	private org.geogebra.common.awt.GEllipse2DDouble[] circle;
+	private GEllipse2DDouble[] circle;
 	private boolean varIsY;
 
 	/**

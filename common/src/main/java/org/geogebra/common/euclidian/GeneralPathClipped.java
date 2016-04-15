@@ -2,6 +2,8 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
@@ -22,11 +24,11 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 													// points
 
 	private ArrayList<MyPoint> pathPoints;
-	private org.geogebra.common.awt.GGeneralPath gp;
+	private GGeneralPath gp;
 	protected EuclidianViewInterfaceSlim view;
 	private double largestCoord;
 	private boolean needClosePath;
-	private org.geogebra.common.awt.GRectangle bounds;
+	private GRectangle bounds;
 
 	/**
 	 * Creates new clipped general path
@@ -177,7 +179,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 		}
 	}
 
-	private org.geogebra.common.awt.GPoint2D getPointCloseToScreen(double ptx,
+	private GPoint2D getPointCloseToScreen(double ptx,
 			double pty) {
 		double x = ptx;
 		double y = pty;

@@ -31,7 +31,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	private TreeSet<GeoElement> metas;
 
 	private ArrayList<GeoElement> selectedGeos;
-	private org.geogebra.common.awt.GPoint loc;
+	private GPoint loc;
 	private MenuBar selectAnotherMenu;
 
 	/**

@@ -89,7 +89,7 @@ public class EuclidianViewW extends EuclidianView implements
 	public org.geogebra.web.html5.awt.GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;
 	public org.geogebra.web.html5.awt.GGraphics2DW g4copy = null;
-	private org.geogebra.common.awt.GColor backgroundColor = GColor.WHITE;
+	private GColor backgroundColor = GColor.WHITE;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		@Override

@@ -2,7 +2,9 @@ package org.geogebra.desktop.util;
 
 import java.util.Locale;
 
-public class StringUtilD extends org.geogebra.common.util.StringUtil {
+import org.geogebra.common.util.StringUtil;
+
+public class StringUtilD extends StringUtil {
 	@Override
 	protected boolean isRightToLeftChar(char c) {
 		// CharTableImpl c;

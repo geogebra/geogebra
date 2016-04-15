@@ -1,15 +1,17 @@
 package org.geogebra.web.html5.awt;
 
+import org.geogebra.ggbjdk.java.awt.geom.Point2D;
+
 public class GPoint2DW extends org.geogebra.common.awt.GPoint2D {
 
-	private org.geogebra.ggbjdk.java.awt.geom.Point2D.Double impl;
+	private Point2D.Double impl;
 
 	public GPoint2DW() {
-		impl = new org.geogebra.ggbjdk.java.awt.geom.Point2D.Double();
+		impl = new Point2D.Double();
 	}
 
 	public GPoint2DW(double x, double y) {
-		impl = new org.geogebra.ggbjdk.java.awt.geom.Point2D.Double(x, y);
+		impl = new Point2D.Double(x, y);
 	}
 
 	public double getX() {

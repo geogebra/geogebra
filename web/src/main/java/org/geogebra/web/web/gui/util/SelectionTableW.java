@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class SelectionTableW extends Grid implements ClickHandler {
 	private int selectedColumn = -1;
 	private int selectedRow = -1;
-	private org.geogebra.common.gui.util.SelectionTable mode;
+	private SelectionTable mode;
 	private int numRows, numColumns;
 	private boolean isIniting = true;
 	private ImageOrText[] values;

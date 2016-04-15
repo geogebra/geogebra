@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
@@ -140,7 +141,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	// colors: axes, grid, background
 	org.geogebra.common.awt.GColor axesColor;
-	private org.geogebra.common.awt.GColor gridColor;
+	private GColor gridColor;
 	protected GRectangle selectionRectangle;
 	/**
 	 * default axes stroke
@@ -158,7 +159,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	// axes and grid stroke
 	org.geogebra.common.awt.GBasicStroke axesStroke;
 	org.geogebra.common.awt.GBasicStroke tickStroke;
-	private org.geogebra.common.awt.GBasicStroke gridStroke;
+	private GBasicStroke gridStroke;
 	/** kernel */
 	protected Kernel kernel;
 
@@ -192,7 +193,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	// end
 	private int fontSize;
-	private org.geogebra.common.awt.GAffineTransform coordTransform = AwtFactory.prototype
+	private GAffineTransform coordTransform = AwtFactory.prototype
 			.newAffineTransform();
 	protected double[] AxesTickInterval; // for axes =
 	/** number formats for axes */

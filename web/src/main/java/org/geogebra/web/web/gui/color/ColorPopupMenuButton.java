@@ -20,8 +20,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	public static final int COLORSET_DEFAULT = 0;
 	public static final int COLORSET_BGCOLOR = 1;
 	private int colorSetType;
-	private org.geogebra.common.awt.GColor[]  colorSet; 
-	private org.geogebra.common.awt.GColor defaultColor;
+	private GColor[] colorSet;
+	private GColor defaultColor;
 	private HashMap<String,Integer> lookupMap; 
 
 	private boolean enableTable;

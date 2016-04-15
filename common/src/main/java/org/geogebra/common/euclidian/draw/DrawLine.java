@@ -21,6 +21,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
@@ -70,7 +71,7 @@ public class DrawLine extends Drawable implements Previewable {
 	private GeoLineND g;
 	// private double [] coeffs = new double[3];
 
-	private org.geogebra.common.awt.GLine2D line;
+	private GLine2D line;
 	/** y-coord of first endpoint */
 	public double y1;
 	/** y-coord of second endpoint */

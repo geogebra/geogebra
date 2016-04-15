@@ -180,7 +180,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 				org.geogebra.common.factories.AwtFactory.prototype.newArea(gp));
 
 	}
-	private org.geogebra.common.kernel.discrete.PolygonTriangulation pt = new PolygonTriangulation();
+
+	private PolygonTriangulation pt = new PolygonTriangulation();
 
 	private void triangularize() {
 

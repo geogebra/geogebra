@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
@@ -43,7 +44,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	private TreeSet<GeoElement> metas;
 
 	private ArrayList<GeoElement> selectedGeos;
-	private org.geogebra.common.awt.GPoint loc;
+	private GPoint loc;
 
 	private JMenu selectAnotherMenu;
 

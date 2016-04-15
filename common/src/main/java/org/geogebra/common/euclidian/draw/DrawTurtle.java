@@ -45,7 +45,7 @@ public class DrawTurtle extends Drawable {
 
 	private double turnAngle = 0.0;
 
-	private org.geogebra.common.awt.GRectangle turtleImageBounds = AwtFactory.prototype
+	private GRectangle turtleImageBounds = AwtFactory.prototype
 			.newRectangle();
 	private double imageSize = 10;
 	private double[] currentCoords = new double[2];

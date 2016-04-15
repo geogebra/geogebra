@@ -905,7 +905,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnTextColor = new ColorPopupMenuButton(app, textColorIconSize,
 		        ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
-			private org.geogebra.common.awt.GColor geoColor;
+			private GColor geoColor;
 
 			@Override
 			public void update(Object[] geos) {
