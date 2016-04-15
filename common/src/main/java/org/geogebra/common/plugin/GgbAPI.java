@@ -217,6 +217,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 					cmdString, false);
 			// return success
 			if (result == null) {
+				kernel.setUseInternalCommandNames(oldVal);
 				return null;
 			}
 
@@ -225,8 +226,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				ret.append(",");
 			}
 
-			// remove last comma
-			ret.setLength(ret.length() - 1);
+			if (ret.length() > 0) {
+				// remove last comma
+				ret.setLength(ret.length() - 1);
+			}
 
 			kernel.setUseInternalCommandNames(oldVal);
 			return ret.toString();
