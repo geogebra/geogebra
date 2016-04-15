@@ -298,22 +298,6 @@ public abstract class CASgiac implements CASGenericInterface {
 		String giacInput = casParser.translateToCAS(casInput,
 				StringTemplate.giacTemplate, this);
 
-		// App.error(casInput+"\n\n"+giacInput );
-
-		/*
-		 * // tell MPReduce whether it should use the keep input flag, // e.g.
-		 * important for Substitute StringBuilder sb = new StringBuilder();
-		 * 
-		 * sb.append("<<resetsettings("); sb.append(keepInput ? 1 : 0);
-		 * sb.append(","); sb.append(taylorToStd ? 1 : 0); sb.append(","); //
-		 * sb.append(
-		 * "$ numeric!!:=0$ precision 30$ print\\_precision 16$ on pri, rationalize  $ off complex, rounded, numval, factor, exp, allfac, div, combinelogs, expandlogs, revpri $ currentx!!:= "
-		 * ); sb.append("ggbtmpvarx,ggbtmpvary);");
-		 * 
-		 * 
-		 * sb.append(mpreduceInput); sb.append(">>");
-		 */
-
 		// evaluate in Giac
 		String plainResult = evaluateCAS(giacInput);
 		// get initial nr of vars

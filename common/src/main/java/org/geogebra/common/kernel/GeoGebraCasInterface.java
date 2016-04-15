@@ -66,7 +66,7 @@ public interface GeoGebraCasInterface {
 	public boolean isCommandAvailable(final Command cmd);
 
 	/**
-	 * Expands the given MPreduce expression and tries to get its polynomial
+	 * Expands the given Giac expression and tries to get its polynomial
 	 * coefficients. The coefficients are returned in ascending order. If exp is
 	 * not a polynomial, null is returned.
 	 * 

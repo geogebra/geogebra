@@ -3163,7 +3163,7 @@ public class Kernel {
 	 * in ascending order. If exp is not a polynomial null is returned.
 	 * 
 	 * @param exp
-	 *            expression in MPreduce syntax, e.g. "3*a*x^2 + b*x"
+	 *            expression in Giac syntax, e.g. "3*a*x^2 + b*x"
 	 * @param variable
 	 *            e.g "x"
 	 * @return array of coefficients, e.g. ["0", "b", "3*a"]
