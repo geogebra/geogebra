@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -38,7 +39,7 @@ class DrawParametricInequality extends Drawable {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GArea getShape() {
+	public GArea getShape() {
 		return AwtFactory.prototype.newArea(gp);
 	}
 

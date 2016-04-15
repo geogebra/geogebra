@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -112,7 +113,7 @@ public class DrawBarGraph extends Drawable {
 	}
 
 	@Override
-	public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	public void draw(GGraphics2D g2) {
 		// Save fill, color and alfa of object
 		GColor color = geo.getSelColor();
 		FillType fillType = geo.getFillType();

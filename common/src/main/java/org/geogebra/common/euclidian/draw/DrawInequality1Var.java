@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -146,7 +147,7 @@ public class DrawInequality1Var extends Drawable {
 			initGP(numOfX);
 			int j = ineq.getFunBorder().evaluate(
 					view.toRealWorldCoordY(view.getHeight() + 10)) <= 0 ? 1 : 0;
-			org.geogebra.common.awt.GArea a = org.geogebra.common.factories.AwtFactory.prototype
+			GArea a = AwtFactory.prototype
 					.newArea();
 			for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
 				gp[i] = new GeneralPathClipped(view);
@@ -189,7 +190,7 @@ public class DrawInequality1Var extends Drawable {
 
 			initGP(numOfX);
 
-			org.geogebra.common.awt.GArea a = org.geogebra.common.factories.AwtFactory.prototype
+			GArea a = AwtFactory.prototype
 					.newArea();
 			int circleCount = 0;
 			if ((geo instanceof GeoFunction)

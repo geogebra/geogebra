@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GArea;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 
@@ -42,7 +43,7 @@ public class DrawImplicitCurve extends DrawLocus {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GArea getShape() {
+	public GArea getShape() {
 		return org.geogebra.common.factories.AwtFactory.prototype.newArea();
 	}
 

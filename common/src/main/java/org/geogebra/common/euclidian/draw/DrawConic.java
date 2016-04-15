@@ -163,8 +163,8 @@ public class DrawConic extends Drawable implements Previewable {
 	private boolean ignoreSingularities;
 
 	@Override
-	public org.geogebra.common.awt.GArea getShape() {
-		org.geogebra.common.awt.GArea area = super.getShape() != null ? super
+	public GArea getShape() {
+		GArea area = super.getShape() != null ? super
 				.getShape() : (shape == null ? AwtFactory.prototype.newArea()
 				: AwtFactory.prototype.newArea(shape));
 		// Log.debug(conic.isInverseFill() + "," + shape +
@@ -540,14 +540,14 @@ public class DrawConic extends Drawable implements Previewable {
 
 			shape = drawLines[0].getShape(true);
 			if (conic.type != GeoConicNDConstants.CONIC_LINE)
-				((org.geogebra.common.awt.GArea) shape).exclusiveOr(drawLines[1]
+				((GArea) shape).exclusiveOr(drawLines[1]
 						.getShape(true));
 			// FIXME: buggy when conic(RW(0),RW(0))=0
 
 			if (negativeColored()) {
-				org.geogebra.common.awt.GArea complement = AwtFactory.prototype
+				GArea complement = AwtFactory.prototype
 						.newArea(view.getBoundingPath());
-				complement.subtract((org.geogebra.common.awt.GArea) shape);
+				complement.subtract((GArea) shape);
 				shape = complement;
 
 			}
@@ -1405,11 +1405,9 @@ public class DrawConic extends Drawable implements Previewable {
 
 	private void fillHyperbola(GGraphics2D g2) {
 		if (conic.isInverseFill()) {
-			org.geogebra.common.awt.GArea a1 = AwtFactory.prototype
-					.newArea(hypLeft);
-			org.geogebra.common.awt.GArea a2 = AwtFactory.prototype
-					.newArea(hypRight);
-			org.geogebra.common.awt.GArea complement = AwtFactory.prototype
+			GArea a1 = AwtFactory.prototype.newArea(hypLeft);
+			GArea a2 = AwtFactory.prototype.newArea(hypRight);
+			GArea complement = AwtFactory.prototype
 					.newArea(view.getBoundingPath());
 			complement.subtract(a1);
 			complement.subtract(a2);

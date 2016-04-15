@@ -132,7 +132,7 @@ public abstract class CanvasDrawable extends Drawable {
 
 	}
 
-	protected void drawOnCanvas(org.geogebra.common.awt.GGraphics2D g2,
+	protected void drawOnCanvas(GGraphics2D g2,
 			String text) {
 		App app = view.getApplication();
 		setPreferredSize(getPreferredSize());
@@ -241,7 +241,7 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	@Override
-	public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	public boolean isInside(GRectangle rect) {
 		return rect.contains(labelRectangle);
 	}
 

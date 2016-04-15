@@ -118,7 +118,7 @@ public abstract class CASView implements View, SetLabels {
 	 */
 	final public synchronized GeoGebraCAS getCAS() {
 		if (cas == null) {
-			cas = (org.geogebra.common.cas.GeoGebraCAS) kernel.getGeoGebraCAS();
+			cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		}
 
 		return cas;

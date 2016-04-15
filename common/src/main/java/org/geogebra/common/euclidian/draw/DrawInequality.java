@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.TreeSet;
 
+import org.geogebra.common.awt.GArea;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -387,7 +388,7 @@ public class DrawInequality extends Drawable {
 			yLabel = drawable.yLabel;
 		}
 		if (geo.isInverseFill() && !isForceNoFill()) {
-			org.geogebra.common.awt.GArea b = AwtFactory.prototype.newArea(view
+			GArea b = AwtFactory.prototype.newArea(view
 					.getBoundingPath());
 			b.subtract(getShape());
 			setShape(b);

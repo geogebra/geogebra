@@ -20,6 +20,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -678,7 +679,7 @@ public class DrawLine extends Drawable implements Previewable {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GArea getShape() {
+	public GArea getShape() {
 		return getShape(false);
 	}
 
@@ -688,7 +689,7 @@ public class DrawLine extends Drawable implements Previewable {
 	 *            corner. otherwise we pick the one above the line.
 	 * @return one halfplane wrt this line
 	 */
-	public org.geogebra.common.awt.GArea getShape(boolean forConic) {
+	public GArea getShape(boolean forConic) {
 		GeneralPathClipped gpc = new GeneralPathClipped(view);
 		boolean invert = g.isInverseFill();
 		if (x1 > x2) {
@@ -730,10 +731,10 @@ public class DrawLine extends Drawable implements Previewable {
 
 		}
 		gpc.closePath();
-		org.geogebra.common.awt.GArea gpcArea = AwtFactory.prototype.newArea(gpc);
+		GArea gpcArea = AwtFactory.prototype.newArea(gpc);
 		if (!invert)
 			return gpcArea;
-		org.geogebra.common.awt.GArea complement = AwtFactory.prototype
+		GArea complement = AwtFactory.prototype
 				.newArea(view.getBoundingPath());
 		complement.subtract(gpcArea);
 		return complement;

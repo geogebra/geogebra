@@ -12,6 +12,7 @@
 
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -174,7 +175,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 
 		if (isVisible) {
 			myButton.setSelected(geo.doHighlighting());

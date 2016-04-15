@@ -17,7 +17,9 @@ the Free Software Foundation.
  */
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GArea;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 
@@ -48,8 +50,8 @@ public class DrawImplicitPoly extends DrawLocus {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GArea getShape() {
-		return org.geogebra.common.factories.AwtFactory.prototype.newArea();
+	public GArea getShape() {
+		return AwtFactory.prototype.newArea();
 	}
 
 	/**
