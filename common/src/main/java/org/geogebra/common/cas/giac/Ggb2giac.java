@@ -1385,15 +1385,11 @@ public class Ggb2giac {
 						+ "when((ggbtanarg1)[0]=='=',"
 						+
 						// Tangent[conic/implicit, point on curve]
-						"when (type(equation(tangent(ggbtanarg1,ggbtanarg0))) == DOM_LIST,"
-						+ "equation(tangent(ggbtanarg1,ggbtanarg0)),"
-						// needed for TRAC-2635
-						// convert to list
-						+ "cat(\"{\" + equation(tangent(ggbtanarg1,ggbtanarg0)) + \"}\") ),"
+						"equation(tangent(ggbtanarg1,ggbtanarg0)),"
 						+
 						// Tangent[point, function]
 						// just use x-coordinate real(%0[1])
-		"y= normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,ggbtanvar=real(%0[1]))))"
+		"y=normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,ggbtanvar=real(%0[1]))))"
 						+ ","
 						+
 						// Tangent[x-value, function]

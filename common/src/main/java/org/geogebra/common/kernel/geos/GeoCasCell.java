@@ -430,7 +430,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	/**
 	 * @return font color
 	 */
-	public GColor getFontColor() {
+	public org.geogebra.common.awt.GColor getFontColor() {
 		return this.getObjectColor();
 	}
 
@@ -438,7 +438,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * @param c
 	 *            font color
 	 */
-	public void setFontColor(GColor c) {
+	public void setFontColor(org.geogebra.common.awt.GColor c) {
 		this.setObjColor(c);
 	}
 
@@ -1786,8 +1786,31 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 									.getLabel(StringTemplate.defaultTemplate);
 						}
 					} else {
+						// needed for TRAC-2635
+						// list wanted but we get line from giac
+						if (inputVE != null
+								&& inputVE.getTopLevelCommand() != null
+								&& inputVE.getTopLevelCommand().getName()
+										.equals("Tangent")
+								&& twinGeo instanceof GeoList
+								&& !(lastOutputEvaluationGeo instanceof GeoList)) {
+							if (((Command) ((ExpressionNode) inputVE).getLeft())
+									.getArgumentNumber() == 2) {
+								ExpressionNode[] args = ((Command) ((ExpressionNode) inputVE)
+										.getLeft()).getArguments();
+								// Tangent[Point, Conic]
+								if (args[0].getLeft() instanceof GeoPoint
+										&& args[1]
+												.getLeft() instanceof GeoConic) {
+									((GeoList) twinGeo).clear();
+									((GeoList) twinGeo)
+											.add(lastOutputEvaluationGeo);
+								}
+							}
+						} else {
 						twinGeo = lastOutputEvaluationGeo;
 						cons.replace(twinGeo, lastOutputEvaluationGeo);
+						}
 					}
 				}
 				if(outputVE.unwrap() instanceof GeoElement && ((GeoElement)outputVE.unwrap()).getDrawAlgorithm() instanceof DrawInformationAlgo){
