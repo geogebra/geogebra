@@ -318,9 +318,7 @@ class ColorPanel extends JPanel implements ActionListener,
 	 * @return
 	 */
 	public String getToolTipText(App app, Color color) {
-		return ColorObjectModel.getColorAsString(app,
- new GColorD(
-				color));
+		return ColorObjectModel.getColorAsString(app, new GColorD(color));
 	}
 
 	// Add tag for color and alpha or remove if selected all bars
