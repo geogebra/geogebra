@@ -48,6 +48,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -820,7 +821,7 @@ public class RadioTreeItem extends AVTreeItem
 						getBuilder(getPlainTextItem()));
 				break;
 			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-				buildDefinitionAndValue(false);
+				buildDefinitionAndValue();
 				break;
 			}
 		}
@@ -829,53 +830,108 @@ public class RadioTreeItem extends AVTreeItem
 	private void createDVPanels() {
 		if (definitionPanel == null) {
 			definitionPanel = new FlowPanel();
+			definitionPanel.addStyleName("avDefinition");
 		}
 
 		if (outputPanel == null) {
 			outputPanel = new FlowPanel();
+			outputPanel.addStyleName("avOutput");
 		}
 
 		if (valuePanel == null) {
 			valuePanel = new FlowPanel();
+			valuePanel.addStyleName("avValue");
 		}
 
 
 	}
-	private void buildDefinitionAndValue(boolean asLatex) {
-		// // Log.debug("buildDefinitionAndValue");
-		createDVPanels();
 
-		IndexHTMLBuilder sb = getBuilder(definitionPanel);
-		geo.addLabelTextOrHTML(
-				geo.getDefinition(StringTemplate.defaultTemplate), sb);
+	private String lastDefinition = "";
 
-		valuePanel.clear();
-		String val = geo
-				.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(valuePanel));
+	private boolean buildDefinition() {
 
-		final Label lblDefinition = getDefinitionPrefixLabel();
-		if (isDefinitionAndValue() && geo.needToShowBothRowsInAV() && latex) {
-			// // Log.debug("[avout] LaTeX: " + val);
-			buildLatexOutput(val);
+		if (latex) {
+			String text = getTextForEditing(false,
+					StringTemplate.latexTemplate);
+			if (lastDefinition.equals(text)) {
+				return false;
+			}
+
+			definitionPanel.clear();
+			c = latexToCanvas(text);
+			definitionPanel.add(c);
+			lastDefinition = text;
 		} else {
-			// // Log.debug("[avout] plain: " + val);
-			outputPanel.clear();
-			outputPanel.add(lblDefinition);
-			outputPanel.add(valuePanel);
+
+			IndexHTMLBuilder sb = getBuilder(definitionPanel);
+			geo.addLabelTextOrHTML(
+					geo.getDefinition(StringTemplate.defaultTemplate), sb);
+
 		}
-		outputPanel.addStyleName("avOutput");
 
-		plainTextItem.clear();
+		return true;
+	}
+	private void buildDefinitionAndValue() {
+		Log.debug("buildDefinitionAndValue");
+		createDVPanels();
+		String text = "";
+		if (geo != null) {
+			text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+			latex = text != null;
+		}
 
-		plainTextItem.add(definitionPanel);
+		if (buildDefinition()) {
+			plainTextItem.clear();
+			plainTextItem.add(definitionPanel);
+
+		}
+
+
 
 		if (geo.needToShowBothRowsInAV()) {
+			final Label lblDefinition = new Label(getOutputPrefix());
+			if (app.has(Feature.FRACTIONS)) {
+				ClickStartHandler.init(lblDefinition, new ClickStartHandler() {
 
-			definitionPanel.addStyleName("avDefinition");
-			valuePanel.addStyleName("avValue");
+					@Override
+					public void onClickStart(int x, int y,
+							PointerEventType type) {
+						toggleSymbolic(lblDefinition);
+
+					}
+				});
+			}
+
+			updateColor(lblDefinition);
+			outputPanel.clear();
+			outputPanel.add(lblDefinition);
+
+			valuePanel.clear();
+			String val = geo.getAlgebraDescriptionTextOrHTMLDefault(
+					getBuilder(valuePanel));
+
+			if (latex) {
+				valuePanel.clear();
+				buildLatexOutput(text);
+			}
+
+			outputPanel.add(valuePanel);
 			plainTextItem.add(outputPanel);
 		}
+			
+
 	}
+
+
+	private void buildLatexOutput(String text) {
+		valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
+		if (valC != null) {
+			valuePanel.clear();
+			valuePanel.add(valC);
+		}
+
+	}
+
 
 	private Label getDefinitionPrefixLabel() {
 		final Label lblDefinition = new Label(getOutputPrefix());
@@ -1264,7 +1320,11 @@ public class RadioTreeItem extends AVTreeItem
 		} else if (isItemNumeric()) {
 			updateNumerics();
 		} else {
-			updateTextItems();
+			if (isDefinitionAndValue()) {
+				buildDefinitionAndValue();
+			} else {
+				updateTextItems();
+			}
 
 		}
 
@@ -1328,7 +1388,7 @@ public class RadioTreeItem extends AVTreeItem
 					ihtml.clear();
 					if (isDefinitionAndValue()) {
 						// Log.debug("[avout] hejehuja!");
-						buildDefinitionAndValue(false);
+						buildDefinitionAndValue();
 						ihtml.add(valuePanel);
 					}
 					ihtml.add(c);
@@ -1449,7 +1509,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 			if (!isInputTreeItem() && isDefinitionAndValue()) {
-				buildDefinitionAndValue(false);
+				buildDefinitionAndValue();
 				ihtml.add(geo.isMatrix() ? valuePanel : definitionPanel);
 
 			}
@@ -1472,18 +1532,8 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
-	private void buildLatexOutput(String text) {
-		if (outputPanel == null) {
-			outputPanel = new FlowPanel();
-		}
-
-		outputPanel.clear();
-		outputPanel.add(getDefinitionPrefixLabel());
-		valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
-		if (valC != null) {
-			outputPanel.add(valC);
-		}
-
+	private Canvas latexToCanvas(String text) {
+		return DrawEquationW.paintOnCanvas(geo, text, c, getFontSize());
 	}
 
 	private void updateLaTeX(String text) {
@@ -1492,33 +1542,33 @@ public class RadioTreeItem extends AVTreeItem
 			return;
 		}
 
-		String eqn = text;
-		boolean twoRows = false;
-		if (geo.needToShowBothRowsInAV()) {
-			buildDefinitionAndValue(true);
-			eqn = getTextForEditing(false, StringTemplate.latexTemplate);
-			twoRows = true;
-		}
-
-		c = DrawEquationW.paintOnCanvas(geo, eqn, c, getFontSize());
-
-		if (twoRows) {
-			valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
-		}
+		// String eqn = text;
+		// boolean twoRows = false;
+		// if (geo.needToShowBothRowsInAV()) {
+		// buildDefinitionAndValue();
+		// eqn = getTextForEditing(false, StringTemplate.latexTemplate);
+		// twoRows = true;
+		// }
+		//
+		// c = DrawEquationW.paintOnCanvas(geo, eqn, c, getFontSize());
+		//
+		// if (twoRows) {
+		// valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
+		// }
 	}
 
 	private void replaceToCanvas(String text, Widget old) {
 		updateLaTeX(text);
 
-		if (true) {// {
-			if (isDefinitionAndValue() && geo.needToShowBothRowsInAV()) {
-				buildLatexOutput(text);
-				// Log.debug("ihtml.add(outputPanel) in replaceCanvas");
-				ihtml.add(outputPanel);
-			} else {
-				LayoutUtil.replace(ihtml, c, old);
-			}
-		}
+		// if (true) {// {
+		// if (isDefinitionAndValue() && geo.needToShowBothRowsInAV()) {
+		// buildLatexOutput(text);
+		// // Log.debug("ihtml.add(outputPanel) in replaceCanvas");
+		// ihtml.add(outputPanel);
+		// } else {
+		// LayoutUtil.replace(ihtml, c, old);
+		// }
+		// }
 	}
 
 	private void renderLatexMQ(String text0) {
@@ -1545,13 +1595,13 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (!isInputTreeItem() && geo.needToShowBothRowsInAV()) {
-			buildDefinitionAndValue(false);
+			buildDefinitionAndValue();
 			ihtml.add(latexItem);
 			latexItem.addStyleName("avDefinition");
 
 			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
-			// buildLatexOutput(text);
+			buildLatexOutput(text);
 
 			// Log.debug("ihtml.add(outputPanel) in renderLatexMQ");
 			ihtml.add(outputPanel);
@@ -1593,18 +1643,19 @@ public class RadioTreeItem extends AVTreeItem
 		}
 			// if (LaTeX) {
 		DrawEquationW.endEditingEquationMathQuillGGB(this, latexItem);
-		if (c != null) {
-			LayoutUtil.replace(ihtml, c, latexItem);
-			// ihtml.getElement().replaceChild(c.getCanvasElement(),
-			// latexItem.getElement());
-		}
-
-		if (!latex && getPlainTextItem() != null) {
-			LayoutUtil.replace(ihtml, getPlainTextItem(), latexItem);
-			// this.ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
-			// latexItem.getElement());
-		}
-
+		// if (c != null) {
+		// LayoutUtil.replace(ihtml, c, latexItem);
+		// // ihtml.getElement().replaceChild(c.getCanvasElement(),
+		// // latexItem.getElement());
+		// }
+		//
+		// if (!latex && getPlainTextItem() != null) {
+		// LayoutUtil.replace(ihtml, getPlainTextItem(), latexItem);
+		// //
+		// this.ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
+		// // latexItem.getElement());
+		// }
+		//
 	}
 
 	/**
