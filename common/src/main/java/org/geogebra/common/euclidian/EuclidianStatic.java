@@ -406,55 +406,21 @@ public abstract class EuclidianStatic {
 	}
 
 	/**
+	 * eg FormulaText["\text{Price (\$)}"]
 	 * 
 	 * @param str
 	 *            String to split
 	 * @return str split on $ but not \$
 	 */
 	private String[] blockSplit(String str) {
-		String[] ret = str.split("\\$", -1);
-		for (int i = 0; i < ret.length; i++) {
-			int slashes = 0;
-			while (ret[i].length() > slashes
-					&& ret[i].charAt(ret[i].length() - 1 - slashes) == '\\') {
-				slashes++;
-			}
-			if (slashes % 2 == 1) {
-				if (i == ret.length - 1) {
-					ret[i] = ret[i] + '$';
-				} else {
-					ret[i] = ret[i] + '$' + ret[i + 1];
-					ret[i + 1] = null;
-					i++;
-				}
-			}
-		}
-
-		ArrayList<String> retAl = new ArrayList<String>();
-
-		// make sure we don't return any null values
-		// eg FormulaText["\text{Price (\$)}"]
-		for (int i = 0; i < ret.length; i++) {
-			if (ret[i] != null) {
-				retAl.add(ret[i]);
-			}
-		}
-
-		// same length, no need to remove nulls
-		if (ret.length == retAl.size()) {
-			return ret;
-		}
-
-		ret = new String[retAl.size()];
-		for (int i = 0; i < retAl.size(); i++) {
-			ret[i] = retAl.get(i);
-		}
-
-		return ret;
+		
+		// http://stackoverflow.com/questions/2709839/how-do-i-express-but-not-preceded-by-in-a-java-regular-expression
+		// negative lookbehind
+		return str.split("(?<!\\\\)$");
+		
 	}
 
-	private static org.geogebra.common.awt.GFont getIndexFont(
-			org.geogebra.common.awt.GFont f) {
+	private static GFont getIndexFont(GFont f) {
 		// index font size should be at least 8pt
 		int newSize = Math.max((int) (f.getSize() * 0.9), 8);
 		return f.deriveFont(f.getStyle(), newSize);
