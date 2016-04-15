@@ -316,7 +316,7 @@ public class ConstructionProtocolView {
 	}
 
 
-	public org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData getData() {
+	public ConstructionProtocolView.ConstructionTableData getData() {
 		return data;
 	}
 

@@ -1426,7 +1426,7 @@ public class DrawConic extends Drawable implements Previewable {
 	 * @return null when this Drawable is infinite or undefined
 	 */
 	@Override
-	final public org.geogebra.common.awt.GRectangle getBounds() {
+	final public GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible())
 			return null;
 

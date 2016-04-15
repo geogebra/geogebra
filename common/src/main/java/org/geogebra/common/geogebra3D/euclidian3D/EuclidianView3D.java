@@ -3959,7 +3959,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	public org.geogebra.common.awt.GGraphics2D getGraphicsForPen() {
+	public GGraphics2D getGraphicsForPen() {
 		return null;
 	}
 

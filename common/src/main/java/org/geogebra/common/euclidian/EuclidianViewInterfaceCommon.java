@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -262,7 +263,7 @@ public interface EuclidianViewInterfaceCommon extends
 	/**
 	 * @return background color of this view
 	 */
-	public org.geogebra.common.awt.GColor getBackgroundCommon();
+	public GColor getBackgroundCommon();
 
 	/**
 	 * @return array of flags determining whether axes are drawn next to border

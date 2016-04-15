@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
@@ -114,7 +115,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 		return index;
 	}
 
-	public org.geogebra.common.awt.GColor getSelectedColor() {
+	public GColor getSelectedColor() {
 		int index = getSelectedIndex();
 		if (index <= -1) {
 			return defaultColor;
@@ -126,7 +127,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 		}
 	}
 
-	private static org.geogebra.common.awt.GColor[] getColorArray(int colorSetType) {
+	private static GColor[] getColorArray(int colorSetType) {
 		return GeoGebraColorConstants.getPopupArray(colorSetType);
 	}
 
@@ -134,7 +135,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 		defaultColor = gc;
 		if (gc != null)
 			this.setIcon(GeoGebraIcon.createColorSwatchIcon(alpha, iconSize,
-					org.geogebra.desktop.awt.GColorD.getAwtColor(gc), null));
+					GColorD.getAwtColor(gc), null));
 		else
 			this.setIcon(GeoGebraIcon.createNullSymbolIcon(iconSize.width,
 					iconSize.height));

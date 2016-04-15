@@ -58,7 +58,7 @@ public class GFontD extends GFont {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GFont deriveFont(int i) {
+	public GFont deriveFont(int i) {
 		return new GFontD(impl.deriveFont(i));
 	}
 

@@ -45,6 +45,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -63,6 +64,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
@@ -659,7 +661,7 @@ public class EuclidianViewD extends EuclidianView implements
 	 * @return graphics of the underlying component
 	 */
 	@Override
-	public org.geogebra.common.awt.GGraphics2D getGraphicsForPen() {
+	public GGraphics2D getGraphicsForPen() {
 		return new GGraphics2DD((Graphics2D) evjpanel.getGraphics());
 
 	}
@@ -1079,14 +1081,10 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	@Override
-	final public org.geogebra.common.awt.GGraphics2D getTempGraphics2D(
-			org.geogebra.common.awt.GFont font) {
-		g2Dtemp.setFont(org.geogebra.desktop.awt.GFontD.getAwtFont(font)); // Michael
-																// Borcherds
-																// 2008-06-11
-																// bugfix for
-		// Corner[text,n]
-		return new org.geogebra.desktop.awt.GGraphics2DD(g2Dtemp);
+	final public GGraphics2D getTempGraphics2D(GFont font) {
+		g2Dtemp.setFont(GFontD.getAwtFont(font));
+
+		return new GGraphics2DD(g2Dtemp);
 	}
 
 

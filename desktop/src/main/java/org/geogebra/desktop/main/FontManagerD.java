@@ -10,9 +10,11 @@ import java.util.Locale;
 
 import javax.swing.UIManager;
 
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.desktop.awt.GFontD;
 
 /**
  * Manages fonts for different languages. Use setLanguage() and setFontSize() to
@@ -419,10 +421,10 @@ public class FontManagerD extends FontManager {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GFont getFontCanDisplay(final String testString,
+	public GFont getFontCanDisplay(final String testString,
 			final boolean serif, final int fontStyle, final int fontSize) {
-		return new org.geogebra.desktop.awt.GFontD(getFontCanDisplayAwt(testString, serif,
-				fontStyle, fontSize));
+		return new GFontD(
+				getFontCanDisplayAwt(testString, serif, fontStyle, fontSize));
 	}
 
 }

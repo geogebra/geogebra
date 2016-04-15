@@ -595,7 +595,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		}
 	}
 
-	public org.geogebra.common.awt.GShape getClip() {
+	public GShape getClip() {
 		return clipShape;
 	}
 

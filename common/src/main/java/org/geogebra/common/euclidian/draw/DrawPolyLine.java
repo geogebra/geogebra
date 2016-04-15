@@ -293,7 +293,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public org.geogebra.common.awt.GRectangle getBounds() {
+	final public GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}

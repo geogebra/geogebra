@@ -44,12 +44,11 @@ public class PolynomialNode {
 		this.operation = operation;
 	}
 
-	public void setPoly(
-			org.geogebra.common.kernel.prover.polynomial.Polynomial poly) {
+	public void setPoly(Polynomial poly) {
 		this.poly = poly;
 	}
 
-	public org.geogebra.common.kernel.prover.polynomial.Polynomial getPoly() {
+	public Polynomial getPoly() {
 		return poly;
 	}
 

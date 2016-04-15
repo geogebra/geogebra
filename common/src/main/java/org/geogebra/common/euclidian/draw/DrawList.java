@@ -1170,7 +1170,7 @@ public final class DrawList extends CanvasDrawable
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public org.geogebra.common.awt.GRectangle getBounds() {
+	final public GRectangle getBounds() {
 		if (geoList.drawAsComboBox()) {
 			return box.getBounds();
 

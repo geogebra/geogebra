@@ -36,6 +36,8 @@ import org.geogebra.desktop.awt.GEllipse2DDoubleD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GPolygonD;
 import org.geogebra.desktop.awt.GRectangleD;
+import org.geogebra.desktop.awt.GTexturePaintD;
+import org.geogebra.desktop.euclidian.event.ActionListenerD;
 import org.geogebra.desktop.gui.MyImageD;
 
 public class AwtFactoryD extends AwtFactory {
@@ -253,17 +255,17 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public org.geogebra.desktop.euclidian.event.ActionListenerD newActionListener(
 			ActionListenerI listener) {
-		return new org.geogebra.desktop.euclidian.event.ActionListenerD(listener);
+		return new ActionListenerD(listener);
 	}
 
 	@Override
 	public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
-		return new org.geogebra.desktop.awt.GTexturePaintD(subimage, rect);
+		return new GTexturePaintD(subimage, rect);
 	}
 
 	@Override
 	public GPaint newTexturePaint(MyImage subimage, GRectangle rect) {
-		return new org.geogebra.desktop.awt.GTexturePaintD(new TexturePaint(
+		return new GTexturePaintD(new TexturePaint(
 				(BufferedImage) ((MyImageD) subimage).getImage(),
 				GRectangleD.getAWTRectangle(rect)));
 	}

@@ -1,5 +1,7 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.Shape;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle2D;
@@ -33,12 +35,12 @@ public class GQuadCurve2DD implements org.geogebra.common.awt.GQuadCurve2D,
 		return impl.contains(x, y);
 	}
 
-	public org.geogebra.desktop.awt.GRectangleD getBounds() {
-		return new org.geogebra.desktop.awt.GRectangleD(impl.getBounds());
+	public GRectangleD getBounds() {
+		return new GRectangleD(impl.getBounds());
 	}
 
 	public GRectangle2D getBounds2D() {
-		return new org.geogebra.desktop.awt.GGenericRectangle2DD(impl.getBounds2D());
+		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
 
 	public boolean contains(GRectangle2D rectangle) {
@@ -47,23 +49,23 @@ public class GQuadCurve2DD implements org.geogebra.common.awt.GQuadCurve2D,
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new org.geogebra.desktop.awt.GPathIteratorD(
-				impl.getPathIterator(org.geogebra.desktop.awt.GAffineTransformD
+		return new GPathIteratorD(impl.getPathIterator(
+				GAffineTransformD
 						.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new org.geogebra.desktop.awt.GPathIteratorD(impl.getPathIterator(
-				org.geogebra.desktop.awt.GAffineTransformD.getAwtAffineTransform(at),
+		return new GPathIteratorD(impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(at),
 				flatness));
 	}
 
 	public boolean intersects(GRectangle2D r) {
-		return impl.intersects(org.geogebra.desktop.awt.GGenericRectangle2DD
+		return impl.intersects(GGenericRectangle2DD
 				.getAWTRectangle2D(r));
 	}
 
-	public java.awt.Shape getAwtShape() {
+	public Shape getAwtShape() {
 		return impl;
 	}
 

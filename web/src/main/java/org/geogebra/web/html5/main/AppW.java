@@ -282,7 +282,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	public org.geogebra.web.html5.main.GgbAPIW getGgbApi() {
+	public GgbAPIW getGgbApi() {
 		if (ggbapi == null) {
 			ggbapi = new org.geogebra.web.html5.main.GgbAPIW(this);
 		}

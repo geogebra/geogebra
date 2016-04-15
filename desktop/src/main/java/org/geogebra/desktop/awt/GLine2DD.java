@@ -1,9 +1,11 @@
 package org.geogebra.desktop.awt;
 
 import java.awt.Shape;
+import java.awt.geom.Point2D;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 
@@ -75,15 +77,15 @@ public class GLine2DD implements org.geogebra.common.awt.GLine2D,
 				.getAWTRectangle2D(r));
 	}
 
-	public org.geogebra.common.awt.GPoint2D getP1() {
-		java.awt.geom.Point2D p1 = impl.getP1();
+	public GPoint2D getP1() {
+		Point2D p1 = impl.getP1();
 		if (p1 == null)
 			return null;
 		return new GPoint2DD(p1.getX(), p1.getY());
 	}
 
-	public org.geogebra.common.awt.GPoint2D getP2() {
-		java.awt.geom.Point2D p2 = impl.getP2();
+	public GPoint2D getP2() {
+		Point2D p2 = impl.getP2();
 		if (p2 == null)
 			return null;
 		return new GPoint2DD(p2.getX(), p2.getY());

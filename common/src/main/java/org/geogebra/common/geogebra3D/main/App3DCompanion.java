@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCom
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
+import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -169,7 +170,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	}
 
 	@Override
-	public org.geogebra.common.gui.layout.DockPanel createEuclidianDockPanelForPlane(
+	public DockPanel createEuclidianDockPanelForPlane(
 			int id, String plane) {
 
 		GeoElement geo = app.getKernel().lookupLabel(plane);
@@ -187,7 +188,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	 * 
 	 * @return current dockpanel for plane
 	 */
-	abstract public org.geogebra.common.gui.layout.DockPanel getPanelForPlane();
+	abstract public DockPanel getPanelForPlane();
 
 	@Override
 	public Settings newSettings() {

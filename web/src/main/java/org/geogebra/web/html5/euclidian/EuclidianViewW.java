@@ -31,6 +31,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.awt.GBasicStrokeW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.awt.PrintableW;
@@ -86,9 +87,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 	public static final int DELAY_BETWEEN_MOVE_EVENTS = 30;
 
-	public org.geogebra.web.html5.awt.GGraphics2DW g2p = null;
+	public GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;
-	public org.geogebra.web.html5.awt.GGraphics2DW g4copy = null;
+	public GGraphics2DW g4copy = null;
 	private GColor backgroundColor = GColor.WHITE;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
@@ -917,7 +918,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return standardStroke;
 	}
 
-	static public org.geogebra.web.html5.awt.GBasicStrokeW getDefaultSelectionStroke() {
+	static public GBasicStrokeW getDefaultSelectionStroke() {
 		return selStroke;
 	}
 
@@ -1224,7 +1225,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return g2p.getCanvas();
 	}
 
-	public org.geogebra.web.html5.awt.GGraphics2DW getG2P() {
+	public GGraphics2DW getG2P() {
 		return g2p;
 	}
 

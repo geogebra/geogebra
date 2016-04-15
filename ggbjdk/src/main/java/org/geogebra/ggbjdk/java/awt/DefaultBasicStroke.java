@@ -1,6 +1,7 @@
 package org.geogebra.ggbjdk.java.awt;
 
 import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 
 public class DefaultBasicStroke implements org.geogebra.common.awt.GBasicStroke {
@@ -212,8 +213,7 @@ public class DefaultBasicStroke implements org.geogebra.common.awt.GBasicStroke 
 		return width * width * Math.sin(Math.PI * CORNER_ZERO / 180.0);
 	}
 
-	public org.geogebra.common.awt.GShape createStrokedShape(
-			org.geogebra.common.awt.GShape s) {
+	public GShape createStrokedShape(GShape s) {
 		w2 = width / 2.0;
 		curveDelta = getCurveDelta(w2);
 		cornerDelta = getCornerDelta(w2);

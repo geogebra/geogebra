@@ -24,6 +24,7 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWInterface;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -101,7 +102,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	}
 
-	public org.geogebra.web.html5.awt.GGraphics2DW g2p = null;
+	public GGraphics2DW g2p = null;
 
 	private MsZoomer msZoomer;
 
@@ -111,7 +112,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		Canvas canvas = euclidianViewPanel.getCanvas();
 		setEvNo(canvas);
 
-		this.g2p = new org.geogebra.web.html5.awt.GGraphics2DW(canvas);
+		this.g2p = new GGraphics2DW(canvas);
 		g2p.setView(this);
 
 		updateFonts();
@@ -663,7 +664,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	}
 
-	public org.geogebra.web.html5.awt.GGraphics2DW getG2P() {
+	public GGraphics2DW getG2P() {
 		return g2p;
 	}
 

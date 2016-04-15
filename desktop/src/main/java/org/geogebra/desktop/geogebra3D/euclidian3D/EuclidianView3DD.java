@@ -32,6 +32,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewJPanelD;
 import org.geogebra.desktop.euclidian.MyZoomerD;
@@ -451,14 +452,10 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	}
 
 	@Override
-	final public org.geogebra.common.awt.GGraphics2D getTempGraphics2D(
-			org.geogebra.common.awt.GFont font) {
-		g2Dtemp.setFont(org.geogebra.desktop.awt.GFontD.getAwtFont(font)); // Michael
-																// Borcherds
-																// 2008-06-11
-																// bugfix for
-		// Corner[text,n]
-		return new org.geogebra.desktop.awt.GGraphics2DD(g2Dtemp);
+	final public GGraphics2D getTempGraphics2D(GFont font) {
+		g2Dtemp.setFont(org.geogebra.desktop.awt.GFontD.getAwtFont(font));
+
+		return new GGraphics2DD(g2Dtemp);
 	}
 
 	@Override

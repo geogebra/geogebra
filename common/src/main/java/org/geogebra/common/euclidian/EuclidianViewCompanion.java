@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -387,7 +388,7 @@ public class EuclidianViewCompanion {
 	 *            eigenvectors
 	 * @return affine transform of the conic for this view
 	 */
-	public org.geogebra.common.awt.GAffineTransform getTransform(GeoConicND conic,
+	public GAffineTransform getTransform(GeoConicND conic,
 			Coords M, Coords[] ev) {
 		return conic.getAffineTransform();
 	}

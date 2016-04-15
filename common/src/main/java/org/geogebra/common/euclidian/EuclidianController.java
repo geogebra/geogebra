@@ -197,7 +197,7 @@ public abstract class EuclidianController {
 	public Kernel kernel;
 	public GPoint mouseLoc;
 	public EuclidianView view;
-	public org.geogebra.common.euclidian.EuclidianPen pen;
+	public EuclidianPen pen;
 	public double oldDistance;
 	protected double xTemp;
 	protected double yTemp;

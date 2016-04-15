@@ -41,7 +41,7 @@ public class GGenericShapeD implements GShapeD {
 		return impl.contains(x, y);
 	}
 
-	public org.geogebra.desktop.awt.GRectangleD getBounds() {
+	public GRectangleD getBounds() {
 		return new org.geogebra.desktop.awt.GRectangleD(impl.getBounds());
 	}
 

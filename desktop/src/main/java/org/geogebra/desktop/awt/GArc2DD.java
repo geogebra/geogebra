@@ -32,17 +32,16 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 		return impl.contains(x, y);
 	}
 
-	public org.geogebra.desktop.awt.GRectangleD getBounds() {
-		return new org.geogebra.desktop.awt.GRectangleD(impl.getBounds());
+	public GRectangleD getBounds() {
+		return new GRectangleD(impl.getBounds());
 	}
 
 	public GRectangle2D getBounds2D() {
-		return new org.geogebra.desktop.awt.GGenericRectangle2DD(impl.getBounds2D());
+		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
 
 	public boolean contains(GRectangle2D rectangle) {
-		return impl.contains(org.geogebra.desktop.awt.GRectangleD
-				.getAWTRectangle2D(rectangle));
+		return impl.contains(GRectangleD.getAWTRectangle2D(rectangle));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {

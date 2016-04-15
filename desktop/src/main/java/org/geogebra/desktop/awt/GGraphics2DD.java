@@ -298,8 +298,8 @@ public class GGraphics2DD implements GGraphics2D {
 		}
 	}
 
-	public org.geogebra.common.awt.GShape getClip() {
-		return new org.geogebra.desktop.awt.GGenericShapeD(impl.getClip());
+	public GShape getClip() {
+		return new GGenericShapeD(impl.getClip());
 	}
 
 	public void drawRect(int x, int y, int width, int height) {

@@ -89,7 +89,7 @@ public class GAffineTransformD implements GAffineTransform {
 
 	}
 
-	public org.geogebra.common.awt.GAffineTransform createInverse()
+	public GAffineTransform createInverse()
 			throws Exception {
 		return new GAffineTransformD(at.createInverse());
 	}

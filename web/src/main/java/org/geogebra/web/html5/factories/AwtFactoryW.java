@@ -40,9 +40,19 @@ import org.geogebra.ggbjdk.java.awt.geom.Line2D;
 import org.geogebra.ggbjdk.java.awt.geom.QuadCurve2D;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
+import org.geogebra.web.html5.awt.GAlphaCompositeW;
+import org.geogebra.web.html5.awt.GBasicStrokeW;
+import org.geogebra.web.html5.awt.GColorW;
+import org.geogebra.web.html5.awt.GCubicCurve2DW;
+import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.awt.GFontRenderContextW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGradientPaintW;
+import org.geogebra.web.html5.awt.GPoint2DW;
 import org.geogebra.web.html5.awt.GTexturePaintW;
+import org.geogebra.web.html5.awt.font.GTextLayoutW;
+import org.geogebra.web.html5.event.ActionListenerW;
+import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
 
@@ -58,27 +68,27 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GColor newColor(int RGB) {
-		return new org.geogebra.web.html5.awt.GColorW(RGB);
+		return new GColorW(RGB);
 	}
 
 	@Override
 	public GColor newColor(int red, int green, int blue) {
-		return new org.geogebra.web.html5.awt.GColorW(red, green, blue);
+		return new GColorW(red, green, blue);
 	}
 
 	@Override
 	public GColor newColor(int red, int green, int blue, int alpha) {
-		return new org.geogebra.web.html5.awt.GColorW(red, green, blue, alpha);
+		return new GColorW(red, green, blue, alpha);
 	}
 
 	@Override
 	public GColor newColor(float red, float green, float blue, float alpha) {
-		return new org.geogebra.web.html5.awt.GColorW(red, green, blue, alpha);
+		return new GColorW(red, green, blue, alpha);
 	}
 
 	@Override
 	public GColor newColor(float red, float green, float blue) {
-		return new org.geogebra.web.html5.awt.GColorW(red, green, blue);
+		return new GColorW(red, green, blue);
 	}
 
 	@Override
@@ -104,17 +114,17 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GDimension newDimension(int width, int height) {
-		return new org.geogebra.web.html5.awt.GDimensionW(width, height);
+		return new GDimensionW(width, height);
 	}
 
 	@Override
 	public GPoint2D newPoint2D() {
-		return new org.geogebra.web.html5.awt.GPoint2DW();
+		return new GPoint2DW();
 	}
 
 	@Override
 	public GPoint2D newPoint2D(double x, double y) {
-		return new org.geogebra.web.html5.awt.GPoint2DW(x, y);
+		return new GPoint2DW(x, y);
 	}
 
 	@Override
@@ -125,21 +135,19 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
 	public GGeneralPath newGeneralPath() {
 		// default winding rule changed for ggb50 (for Polygons) #3983
-		return new GeneralPath(
-		        org.geogebra.ggbjdk.java.awt.geom.GeneralPath.WIND_EVEN_ODD);
+		return new GeneralPath(GeneralPath.WIND_EVEN_ODD);
 	}
 
 	@Override
 	public GBasicStroke newMyBasicStroke(float f) {
 		return new org.geogebra.web.html5.awt.GBasicStrokeW(f,
-		        org.geogebra.web.html5.awt.GBasicStrokeW.CAP_ROUND,
-		        org.geogebra.web.html5.awt.GBasicStrokeW.JOIN_ROUND);
+				GBasicStrokeW.CAP_ROUND, GBasicStrokeW.JOIN_ROUND);
 	}
 
 	@Override
 	public GBasicStroke newBasicStroke(float width, int endCap, int lineJoin,
 	        float miterLimit, float[] dash, float f) {
-		return new org.geogebra.web.html5.awt.GBasicStrokeW(width, endCap, lineJoin,
+		return new GBasicStrokeW(width, endCap, lineJoin,
 		        miterLimit, dash, f);
 	}
 
@@ -165,7 +173,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GBasicStroke newBasicStroke(float f) {
-		return new org.geogebra.web.html5.awt.GBasicStrokeW(f);
+		return new GBasicStrokeW(f);
 	}
 
 	@Override
@@ -214,24 +222,23 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GCubicCurve2D newCubicCurve2D() {
-		return new org.geogebra.web.html5.awt.GCubicCurve2DW();
+		return new GCubicCurve2DW();
 	}
 
 	@Override
 	public GBasicStroke newBasicStroke(float f, int cap, int join) {
-		return new org.geogebra.web.html5.awt.GBasicStrokeW(f, cap, join);
+		return new GBasicStrokeW(f, cap, join);
 	}
 
 	@Override
 	public GTextLayout newTextLayout(String string, GFont fontLine,
 	        GFontRenderContext frc) {
-		return new org.geogebra.web.html5.awt.font.GTextLayoutW(string, fontLine,
-		        (org.geogebra.web.html5.awt.GFontRenderContextW) frc);
+		return new GTextLayoutW(string, fontLine, (GFontRenderContextW) frc);
 	}
 
 	@Override
 	public GAlphaComposite newAlphaComposite(int srcOver, float alpha) {
-		return new org.geogebra.web.html5.awt.GAlphaCompositeW(srcOver, alpha);
+		return new GAlphaCompositeW(srcOver, alpha);
 	}
 
 	@Override
@@ -242,7 +249,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public FocusListener newFocusListener(Object listener) {
-		return new org.geogebra.web.html5.event.FocusListenerW(listener);
+		return new FocusListenerW(listener);
 	}
 
 	@Override
@@ -254,7 +261,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public ActionListener newActionListener(ActionListenerI listener) {
-		return new org.geogebra.web.html5.event.ActionListenerW(listener);
+		return new ActionListenerW(listener);
 	}
 
 	@Override

@@ -5,6 +5,8 @@ import java.awt.geom.Rectangle2D;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.desktop.main.AppD;
 
@@ -143,33 +145,33 @@ public class GRectangleD implements org.geogebra.desktop.awt.GRectangle2DD,
 		return impl.contains(x, y);
 	}
 
-	public org.geogebra.desktop.awt.GRectangleD getBounds() {
-		return new org.geogebra.desktop.awt.GRectangleD(impl.getBounds());
+	public GRectangleD getBounds() {
+		return new GRectangleD(impl.getBounds());
 	}
 
 	public GRectangle2D getBounds2D() {
-		return new org.geogebra.desktop.awt.GGenericRectangle2DD(impl.getBounds2D());
+		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
 
 	public boolean contains(GRectangleD rectangle) {
-		return impl.contains(org.geogebra.desktop.awt.GRectangleD
+		return impl.contains(GRectangleD
 				.getAWTRectangle(rectangle));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new org.geogebra.desktop.awt.GPathIteratorD(
-				impl.getPathIterator(org.geogebra.desktop.awt.GAffineTransformD
+		return new GPathIteratorD(impl.getPathIterator(
+				GAffineTransformD
 						.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new org.geogebra.desktop.awt.GPathIteratorD(impl.getPathIterator(
-				org.geogebra.desktop.awt.GAffineTransformD.getAwtAffineTransform(at),
+		return new GPathIteratorD(impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(at),
 				flatness));
 	}
 
 	public boolean intersects(GRectangle2D r) {
-		return impl.intersects(org.geogebra.desktop.awt.GGenericRectangle2DD
+		return impl.intersects(GGenericRectangle2DD
 				.getAWTRectangle2D(r));
 	}
 
@@ -177,19 +179,18 @@ public class GRectangleD implements org.geogebra.desktop.awt.GRectangle2DD,
 		return impl;
 	}
 
-	public boolean contains(org.geogebra.common.awt.GPoint2D p1) {
-		return impl.contains(org.geogebra.desktop.awt.GPoint2DD.getAwtPoint2D(p1));
+	public boolean contains(GPoint2D p1) {
+		return impl.contains(GPoint2DD.getAwtPoint2D(p1));
 	}
 
-	public org.geogebra.common.awt.GRectangle union(
-			org.geogebra.common.awt.GRectangle bounds) {
-		return new org.geogebra.desktop.awt.GRectangleD(impl.union(GRectangleD
+	public GRectangle union(GRectangle bounds) {
+		return new GRectangleD(impl.union(GRectangleD
 				.getAWTRectangle(bounds)));
 	}
 
 	public GRectangle2D createIntersection(GRectangle2D r) {
-		return new org.geogebra.desktop.awt.GGenericRectangle2DD(
-				impl.createIntersection(org.geogebra.desktop.awt.GGenericRectangle2DD
+		return new GGenericRectangle2DD(impl
+				.createIntersection(GGenericRectangle2DD
 						.getAWTRectangle2D(r)));
 	}
 

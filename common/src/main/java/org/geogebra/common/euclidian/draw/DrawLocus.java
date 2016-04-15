@@ -215,7 +215,7 @@ public class DrawLocus extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public org.geogebra.common.awt.GRectangle getBounds() {
+	final public GRectangle getBounds() {
 		if (!geo.isDefined() || !locus.isClosedPath()
 				|| !geo.isEuclidianVisible()) {
 			return null;

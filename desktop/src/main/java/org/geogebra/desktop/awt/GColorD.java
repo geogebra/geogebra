@@ -94,7 +94,7 @@ public class GColorD extends GColor {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GColor brighter() {
+	public GColor brighter() {
 		return new GColorD(Math.min((int) (getRed() / FACTOR), 255), Math.min(
 				(int) (getGreen() / FACTOR), 255), Math.min(
 				(int) (getBlue() / FACTOR), 255));

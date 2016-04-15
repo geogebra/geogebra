@@ -127,7 +127,7 @@ public class GFontW extends GFont {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GFont deriveFont(int plain2, int newFontSize) {
+	public GFont deriveFont(int plain2, int newFontSize) {
 		GFontW ret = new GFontW(fontStyle);
 		ret.fontFamily = fontFamily;
 		ret.setFontStyle(plain2);
@@ -136,12 +136,12 @@ public class GFontW extends GFont {
 	}
 
 	@Override
-	public org.geogebra.common.awt.GFont deriveFont(int plain2, float fontSize) {
+	public GFont deriveFont(int plain2, float fontSize) {
 		return deriveFont(plain2, (int) fontSize);
 	}
 
 	@Override
-	public org.geogebra.common.awt.GFont deriveFont(int i) {
+	public GFont deriveFont(int i) {
 		GFontW ret = new GFontW(fontStyle);
 		ret.setFontStyle(i);
 		ret.fontSize = fontSize;

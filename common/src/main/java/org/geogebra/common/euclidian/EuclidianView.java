@@ -2037,7 +2037,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return plain font
 	 */
-	public org.geogebra.common.awt.GFont getFontPoint() {
+	public GFont getFontPoint() {
 		if (fontPoint == null) {
 			return app.getPlainFontCommon();
 		}
@@ -2052,7 +2052,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return font for lines
 	 */
-	public org.geogebra.common.awt.GFont getFontLine() {
+	public GFont getFontLine() {
 		return getFontPoint();
 	}
 
@@ -2094,7 +2094,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return font for angles
 	 */
-	public org.geogebra.common.awt.GFont getFontAngle() {
+	public GFont getFontAngle() {
 		return getFontPoint();
 	}
 
@@ -2296,7 +2296,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return RW => EV transform; created (but not initialized) when null
 	 */
-	public org.geogebra.common.awt.GAffineTransform getCoordTransform() {
+	public GAffineTransform getCoordTransform() {
 		if (coordTransform == null)
 			coordTransform = AwtFactory.prototype.newAffineTransform();
 		return coordTransform;
@@ -5148,7 +5148,7 @@ sb.toString(), getFontAxes(),
 		return -1;
 	}
 
-	final public org.geogebra.common.euclidian.EuclidianStyleBar getStyleBar() {
+	final public EuclidianStyleBar getStyleBar() {
 		if (styleBar == null) {
 			styleBar = newEuclidianStyleBar();
 		}

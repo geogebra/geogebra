@@ -26,8 +26,7 @@ public interface GAffineTransform {
 	public void transform(float[] labelCoords, int i, float[] labelCoords2,
 			int j, int k);
 
-	public org.geogebra.common.awt.GAffineTransform createInverse()
-			throws Exception;
+	public GAffineTransform createInverse() throws Exception;
 
 	public void scale(double xscale, double d);
 

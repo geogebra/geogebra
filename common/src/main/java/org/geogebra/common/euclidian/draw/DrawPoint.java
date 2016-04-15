@@ -533,7 +533,7 @@ public final class DrawPoint extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public org.geogebra.common.awt.GRectangle getBounds() {
+	final public GRectangle getBounds() {
 		// return selection circle's bounding box
 		if (!geo.isEuclidianVisible()) {
 			return null;

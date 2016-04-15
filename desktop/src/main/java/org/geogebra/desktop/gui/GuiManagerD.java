@@ -67,6 +67,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
+import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
@@ -417,7 +418,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return new AlgebraViewD(algc);
 	}
 
-	public org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView getConstructionProtocolView() {
+	public ConstructionProtocolView getConstructionProtocolView() {
 		if (constructionProtocolView == null) {
 			constructionProtocolView = new ConstructionProtocolViewD((AppD) app);
 		}

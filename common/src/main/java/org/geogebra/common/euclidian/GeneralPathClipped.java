@@ -2,9 +2,12 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
@@ -77,7 +80,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 	/**
 	 * @return this as GeneralPath
 	 */
-	public org.geogebra.common.awt.GGeneralPath getGeneralPath() {
+	public GGeneralPath getGeneralPath() {
 		if (pathPoints.size() == 0)
 			return gp;
 
@@ -295,7 +298,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 	/**
 	 * @return current point
 	 */
-	public org.geogebra.common.awt.GPoint2D getCurrentPoint() {
+	public GPoint2D getCurrentPoint() {
 		if (pathPoints.size() == 0) {
 			return null;
 		}
@@ -363,11 +366,11 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 		return getGeneralPath().contains(rectangle);
 	}
 
-	public org.geogebra.common.awt.GRectangle getBounds() {
+	public GRectangle getBounds() {
 		return bounds == null ? AwtFactory.prototype.newRectangle() : bounds;
 	}
 
-	public org.geogebra.common.awt.GRectangle2D getBounds2D() {
+	public GRectangle2D getBounds2D() {
 		return bounds == null ? AwtFactory.prototype.newRectangle() : bounds;
 	}
 
@@ -378,9 +381,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 	 * (arg0); }
 	 */
 
-	public org.geogebra.common.awt.GPathIterator getPathIterator(
-			org.geogebra.common.awt.GAffineTransform arg0) {
-		// TODO Auto-generated method stub
+	public GPathIterator getPathIterator(GAffineTransform arg0) {
 		return getGeneralPath().getPathIterator(arg0);
 	}
 

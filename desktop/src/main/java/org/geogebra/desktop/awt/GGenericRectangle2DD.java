@@ -82,7 +82,7 @@ public class GGenericRectangle2DD implements org.geogebra.desktop.awt.GRectangle
 		return impl.contains(x, y);
 	}
 
-	public org.geogebra.desktop.awt.GRectangleD getBounds() {
+	public GRectangleD getBounds() {
 		return new org.geogebra.desktop.awt.GRectangleD(impl.getBounds());
 	}
 

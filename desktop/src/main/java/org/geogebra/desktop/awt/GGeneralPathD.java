@@ -107,7 +107,7 @@ public class GGeneralPathD implements org.geogebra.common.awt.GGeneralPath,
 				.getAWTRectangle2D(r));
 	}
 
-	public org.geogebra.common.awt.GShape createTransformedShape(
+	public GShape createTransformedShape(
 			GAffineTransform affineTransform) {
 		return new GGenericShapeD(
 				impl.createTransformedShape(((GAffineTransformD) affineTransform)
