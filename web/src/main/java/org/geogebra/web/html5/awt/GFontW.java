@@ -1,7 +1,8 @@
 package org.geogebra.web.html5.awt;
 
+import org.geogebra.common.awt.GFont;
 
-public class GFontW extends org.geogebra.common.awt.GFont {
+public class GFontW extends GFont {
 	public static final int BOLD = 1;
 	public static final int ITALIC = 2;
 	private static final String NORMAL_STR = "normal";

@@ -1,6 +1,8 @@
 package org.geogebra.desktop.awt;
 
-public class GPointD extends org.geogebra.common.awt.GPoint {
+import org.geogebra.common.awt.GPoint;
+
+public class GPointD extends GPoint {
 
 	public GPointD(double x, double y) {
 		super((int) x, (int) y);

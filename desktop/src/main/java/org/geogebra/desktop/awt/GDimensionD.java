@@ -1,6 +1,8 @@
 package org.geogebra.desktop.awt;
 
-public class GDimensionD extends org.geogebra.common.awt.GDimension {
+import org.geogebra.common.awt.GDimension;
+
+public class GDimensionD extends GDimension {
 	private java.awt.Dimension impl;
 
 	public GDimensionD(java.awt.Dimension dim) {

@@ -1,17 +1,18 @@
 package org.geogebra.web.html5.awt;
 
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 
-public class GDimensionW extends org.geogebra.common.awt.GDimension {
+public class GDimensionW extends GDimension {
 
 	private Dimension impl;
 
-	public GDimensionW(org.geogebra.ggbjdk.java.awt.geom.Dimension dim) {
+	public GDimensionW(Dimension dim) {
 		impl = dim;
 	}
 
 	public GDimensionW(int w, int h) {
-		impl = new org.geogebra.ggbjdk.java.awt.geom.Dimension(w, h);
+		impl = new Dimension(w, h);
 	}
 
 	@Override

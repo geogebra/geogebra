@@ -1,8 +1,9 @@
 package org.geogebra.web.html5.awt;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.ggbjdk.java.awt.geom.Point;
 
-public class GPointW extends org.geogebra.common.awt.GPoint {
+public class GPointW extends GPoint {
 
 	private Point impl;
 

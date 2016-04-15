@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.MyMath;
 
@@ -19,7 +20,7 @@ import org.geogebra.common.util.MyMath;
  * Lightweight point with lineTo flag that can be easily transformed into
  * GeoPoint
  */
-public class MyPoint extends org.geogebra.common.awt.GPoint2D {
+public class MyPoint extends GPoint2D {
 	/** x-coord */
 	public double x;
 	/** y-coord */

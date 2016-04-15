@@ -1,23 +1,26 @@
 package org.geogebra.desktop.awt;
 
-public class GPoint2DD extends org.geogebra.common.awt.GPoint2D {
-	private java.awt.geom.Point2D.Double impl;
+import java.awt.geom.Point2D;
+
+import org.geogebra.common.awt.GPoint2D;
+
+public class GPoint2DD extends GPoint2D {
+	private Point2D.Double impl;
 
 	public GPoint2DD() {
-		impl = new java.awt.geom.Point2D.Double();
+		impl = new Point2D.Double();
 	}
 
 	public GPoint2DD(double x, double y) {
-		impl = new java.awt.geom.Point2D.Double(x, y);
+		impl = new Point2D.Double(x, y);
 	}
 
-	public GPoint2DD(java.awt.geom.Point2D.Double point) {
+	public GPoint2DD(Point2D.Double point) {
 		this();
 		impl = point;
 	}
 
-	public static java.awt.geom.Point2D getAwtPoint2D(
-			org.geogebra.common.awt.GPoint2D p) {
+	public static Point2D getAwtPoint2D(GPoint2D p) {
 		if (p == null)
 			return null;
 		return new java.awt.geom.Point2D.Double(p.getX(), p.getY());

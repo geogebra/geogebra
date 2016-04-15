@@ -1,6 +1,8 @@
 package org.geogebra.desktop.awt;
 
-public class GColorD extends org.geogebra.common.awt.GColor {
+import org.geogebra.common.awt.GColor;
+
+public class GColorD extends GColor {
 
 	private static final double FACTOR = 0.7;
 

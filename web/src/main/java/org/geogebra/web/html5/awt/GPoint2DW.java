@@ -1,8 +1,9 @@
 package org.geogebra.web.html5.awt;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.ggbjdk.java.awt.geom.Point2D;
 
-public class GPoint2DW extends org.geogebra.common.awt.GPoint2D {
+public class GPoint2DW extends GPoint2D {
 
 	private Point2D.Double impl;
 

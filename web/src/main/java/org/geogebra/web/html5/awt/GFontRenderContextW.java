@@ -1,9 +1,11 @@
 package org.geogebra.web.html5.awt;
 
+import org.geogebra.common.awt.GFontRenderContext;
+
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.TextMetrics;
 
-public class GFontRenderContextW extends org.geogebra.common.awt.GFontRenderContext {
+public class GFontRenderContextW extends GFontRenderContext {
 
 	private Context2d context;
 
