@@ -47,7 +47,7 @@ class PerspectivesMenuD extends BaseMenu {
 			return;
 		}
 
-		Perspective[] defaultPerspectives = org.geogebra.common.gui.Layout.defaultPerspectives;
+		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
 			JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);

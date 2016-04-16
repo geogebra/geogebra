@@ -58,7 +58,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
@@ -1022,7 +1022,7 @@ public class RadioTreeItem extends AVTreeItem
 			styleContentPanel(true);
 
 			addAVEXWidget(ihtml);
-			contentPanel.add(LayoutUtil.panelRow(sliderPanel, minMaxPanel));
+			contentPanel.add(LayoutUtilW.panelRow(sliderPanel, minMaxPanel));
 			main.add(contentPanel);
 		}
 

@@ -7,7 +7,7 @@ import org.geogebra.common.gui.view.data.TwoVarInferenceModel.TwoVarInferenceLis
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel.UpdatePanel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -157,11 +157,11 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		// test panel
 		testPanel = new FlowPanel();
 
-		testPanel.add(LayoutUtil.panelRow(lblNull, lblHypParameter));
-		testPanel.add(LayoutUtil.panelRow(lblTailType, lbAltHyp));
+		testPanel.add(LayoutUtilW.panelRow(lblNull, lblHypParameter));
+		testPanel.add(LayoutUtilW.panelRow(lblTailType, lbAltHyp));
 
 		intPanel = new FlowPanel();
-		intPanel.add(LayoutUtil.panelRow(lblConfLevel, fldConfLevel));
+		intPanel.add(LayoutUtilW.panelRow(lblConfLevel, fldConfLevel));
 
 		twoStatPanel = new TwoVarStatPanelW(app, daView, model.isPairedData(), this);
 

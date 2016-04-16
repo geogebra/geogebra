@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -214,14 +214,14 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		tfCaption.setAutoComplete(false);
 		tfCaption.showPopupSymbolButton(true);
 		FlowPanel captionPanel = new FlowPanel();
-		captionPanel.add(LayoutUtil.panelRow(captionLabel, ip));
+		captionPanel.add(LayoutUtilW.panelRow(captionLabel, ip));
 
 		FlowPanel listPanel = new FlowPanel();
 		listPanel.add(gbObjects);
 		gbList.getElement().addClassName("cbCreationList");
 		btnRemove = new PushButton(new Image(AppResources.INSTANCE.delete_small()));
 		listPanel.add(lblSelectObjects);
-		listPanel.add(LayoutUtil.panelRow(gbList, btnRemove));
+		listPanel.add(LayoutUtilW.panelRow(gbList, btnRemove));
 		
 		btnRemove.addClickHandler(new ClickHandler() {
 			

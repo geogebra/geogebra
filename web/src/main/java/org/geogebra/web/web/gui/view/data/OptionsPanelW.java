@@ -10,7 +10,7 @@ import org.geogebra.common.gui.view.data.StatPanelSettings;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
@@ -269,26 +269,26 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		freqPanel = new FlowPanel();
 		freqPanel.add(lbFreqTitle);
 		freqPanel.add(ckCumulative);
-		freqPanel.add(LayoutUtil.panelRowIndent(rbFreq));
-		freqPanel.add(LayoutUtil.panelRowIndent(rbRelative));
-		freqPanel.add(LayoutUtil.panelRowIndent(rbNormalized));
+		freqPanel.add(LayoutUtilW.panelRowIndent(rbFreq));
+		freqPanel.add(LayoutUtilW.panelRowIndent(rbRelative));
+		freqPanel.add(LayoutUtilW.panelRowIndent(rbNormalized));
 
 		// create show panel
 		showPanel = new FlowPanel();
 		showPanel.add(lbShowTitle);
-		showPanel.add(LayoutUtil.panelRowIndent(ckShowHistogram));
-		showPanel.add(LayoutUtil.panelRowIndent(ckShowFrequencyTable));
-		showPanel.add(LayoutUtil.panelRowIndent(ckOverlayPolygon));
-		showPanel.add(LayoutUtil.panelRowIndent(ckOverlayNormal));
+		showPanel.add(LayoutUtilW.panelRowIndent(ckShowHistogram));
+		showPanel.add(LayoutUtilW.panelRowIndent(ckShowFrequencyTable));
+		showPanel.add(LayoutUtilW.panelRowIndent(ckOverlayPolygon));
+		showPanel.add(LayoutUtilW.panelRowIndent(ckOverlayNormal));
 
 		// create classes panel
 		classesPanel = new FlowPanel();
 		classesPanel.setStyleName("daOptionsGroup");
 		classesPanel.add(lbClassTitle);
-		classesPanel.add(LayoutUtil.panelRowIndent(ckManual));
+		classesPanel.add(LayoutUtilW.panelRowIndent(ckManual));
 		classesPanel.add(lblClassRule);
-		classesPanel.add(LayoutUtil.panelRowIndent(rbLeftRule));
-		classesPanel.add(LayoutUtil.panelRowIndent(rbRightRule));
+		classesPanel.add(LayoutUtilW.panelRowIndent(rbLeftRule));
+		classesPanel.add(LayoutUtilW.panelRowIndent(rbRightRule));
 		layoutHistogramPanel();
 
 		PropertyChangeHandler handler = new PropertyChangeHandler();
@@ -342,7 +342,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		// barChartWidthPanel
 		barChartWidthPanel = new FlowPanel();
 		barChartWidthPanel.add(ckAutoBarWidth);
-		barChartWidthPanel.add(LayoutUtil.panelRow(lblBarWidth,
+		barChartWidthPanel.add(LayoutUtilW.panelRow(lblBarWidth,
 				fldBarWidth));
 
 		layoutBarChartPanel();
@@ -443,14 +443,14 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 		// create window dimensions panel
 		dimPanel = new FlowPanel();
-		dimPanel.add(LayoutUtil.panelRow(lblXMin, fldXMin));
-		dimPanel.add(LayoutUtil.panelRow(lblXMax, fldXMax));
-		dimPanel.add(LayoutUtil.panelRow(lblXInterval, fldXInterval));
+		dimPanel.add(LayoutUtilW.panelRow(lblXMin, fldXMin));
+		dimPanel.add(LayoutUtilW.panelRow(lblXMax, fldXMax));
+		dimPanel.add(LayoutUtilW.panelRow(lblXInterval, fldXInterval));
 
 		// y dimensions
-		dimPanel.add(LayoutUtil.panelRow(lblYMin, fldYMin));
-		dimPanel.add(LayoutUtil.panelRow(lblYMax, fldYMax));
-		dimPanel.add(LayoutUtil.panelRow(lblYInterval, fldYInterval));
+		dimPanel.add(LayoutUtilW.panelRow(lblYMin, fldYMin));
+		dimPanel.add(LayoutUtilW.panelRow(lblYMax, fldYMax));
+		dimPanel.add(LayoutUtilW.panelRow(lblYInterval, fldYInterval));
 
 		// put the sub-panels together
 		graphPanel = new FlowPanel();

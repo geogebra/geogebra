@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianStatic;
+import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.main.AppD;
 
@@ -61,8 +62,7 @@ public class EuclidianStaticD extends EuclidianStatic {
 	}
 
 	static public java.awt.BasicStroke getDefaultStrokeAwt() {
-		return org.geogebra.desktop.awt.GBasicStrokeD.getAwtStroke(EuclidianStatic
-				.getDefaultStroke());
+		return GBasicStrokeD.getAwtStroke(EuclidianStatic.getDefaultStroke());
 	}
 
 }

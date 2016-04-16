@@ -1895,7 +1895,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				file = fileChooser.getSelectedFile();
 
-				if (fileChooser.getFileFilter() instanceof org.geogebra.desktop.gui.app.MyFileFilter) {
+				if (fileChooser.getFileFilter() instanceof MyFileFilter) {
 					fileFilter = (MyFileFilter) fileChooser.getFileFilter();
 					fileExtension = fileFilter.getExtension();
 				} else {

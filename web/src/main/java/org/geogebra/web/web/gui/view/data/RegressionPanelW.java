@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.LocalizationW;
@@ -143,7 +143,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		// put it all together
 		regressionPanel = new FlowPanel();
 		regressionPanel.add(regressionTitle);
-		regressionPanel.add(LayoutUtil.panelRow(lbPanel, modelPanel));
+		regressionPanel.add(LayoutUtilW.panelRow(lbPanel, modelPanel));
 
 		
 		add(regressionPanel);
@@ -179,7 +179,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 		predictionPanel = new FlowPanel();
 		
-		predictionPanel.add(LayoutUtil.panelRow(lblEvaluate, new Label("x = "), fldInputX, 
+		predictionPanel.add(LayoutUtilW.panelRow(lblEvaluate, new Label("x = "), fldInputX, 
 				new Label("y = "), lblOutputY, fldOutputY));
 	}
 

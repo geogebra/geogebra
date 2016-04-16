@@ -21,7 +21,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.GeoGebraIcon;
@@ -228,11 +228,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			yMaxPanel.add(dimLabel[3]);
 			yMaxPanel.add(tfMaxY);
 			
-			dimPanel.add(LayoutUtil.panelRow(xMinPanel, xMaxPanel));
-			dimPanel.add(LayoutUtil.panelRow(yMinPanel, yMaxPanel));
+			dimPanel.add(LayoutUtilW.panelRow(xMinPanel, xMaxPanel));
+			dimPanel.add(LayoutUtilW.panelRow(yMinPanel, yMaxPanel));
 			
-			dimPanel.add(LayoutUtil.panelRow(axesRatioLabel));
-			dimPanel.add(LayoutUtil.panelRow(tfAxesRatioX, new Label(" : "),
+			dimPanel.add(LayoutUtilW.panelRow(axesRatioLabel));
+			dimPanel.add(LayoutUtilW.panelRow(tfAxesRatioX, new Label(" : "),
 					tfAxesRatioY, tbLockRatio));
 			
 			indentDimPanel();
@@ -410,11 +410,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		protected void fillAxesOptionsPanel(){
-			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes,
+			axesOptionsPanel.add(LayoutUtilW.panelRow(cbShowAxes,
 					 cbBoldAxes));
-			axesOptionsPanel.add(LayoutUtil.panelRow(colorLabel, btAxesColor,
+			axesOptionsPanel.add(LayoutUtilW.panelRow(colorLabel, btAxesColor,
 					 lineStyle, axesStylePopup));
-			axesOptionsPanel.add(LayoutUtil.panelRow(lblAxisLabelStyle,
+			axesOptionsPanel.add(LayoutUtilW.panelRow(lblAxisLabelStyle,
 					cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
 
 		}
@@ -583,9 +583,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 		
 		protected void fillMiscPanel(){
-			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel, btBackgroundColor));
-			miscPanel.add(LayoutUtil.panelRow(tooltips, lbTooltips));
-			miscPanel.add(LayoutUtil.panelRow(cbShowMouseCoords));
+			miscPanel.add(LayoutUtilW.panelRow(backgroundColorLabel, btBackgroundColor));
+			miscPanel.add(LayoutUtilW.panelRow(tooltips, lbTooltips));
+			miscPanel.add(LayoutUtilW.panelRow(cbShowMouseCoords));
 		}
 
 
@@ -864,14 +864,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			ncbGridTickAnglePanel.add(gridLabel3);
 			ncbGridTickAnglePanel.add(lbGridTickAngle);
 		
-			FlowPanel tickPanel = LayoutUtil.panelRow(cbGridManualTick, ncbGridTickXPanel, 
+			FlowPanel tickPanel = LayoutUtilW.panelRow(cbGridManualTick, ncbGridTickXPanel, 
 					ncbGridTickYPanel, ncbGridTickAnglePanel);
 			mainPanel.add(tickPanel);
 			
 			FlowPanel typePanel = new FlowPanel();
 			typePanel.add(gridTickAnglePanel);
 			typePanel.add(cbGridManualTick);
-			typePanel.add(LayoutUtil.panelRowIndent(
+			typePanel.add(LayoutUtilW.panelRowIndent(
 					ncbGridTickXPanel, ncbGridTickYPanel, ncbGridTickAnglePanel));
 
 			lbGridTickAngle.addChangeHandler(new ChangeHandler(){
@@ -966,8 +966,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// style panel
 			FlowPanel stylePanel = new FlowPanel();
 
-			stylePanel.add(LayoutUtil.panelRowIndent(btnGridStyle));
-			stylePanel.add(LayoutUtil.panelRowIndent(lblColor, btGridColor, cbBoldGrid));
+			stylePanel.add(LayoutUtilW.panelRowIndent(btnGridStyle));
+			stylePanel.add(LayoutUtilW.panelRowIndent(lblColor, btGridColor, cbBoldGrid));
 			
 			addOnlyFor2D(stylePanel);
 		}

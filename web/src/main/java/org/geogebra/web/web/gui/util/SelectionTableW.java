@@ -72,9 +72,8 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		addClickHandler(this);
 		addStyleName("SelectionTable");
 
-		if (this.mode.equals(org.geogebra.common.gui.util.SelectionTable.MODE_ICON)
-		        || this.mode
-		                .equals(org.geogebra.common.gui.util.SelectionTable.MODE_IMAGE)) {
+		if (this.mode.equals(SelectionTable.MODE_ICON)
+				|| this.mode.equals(SelectionTable.MODE_IMAGE)) {
 			setBorderStyleForCells();
 		}
     }
@@ -200,7 +199,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 				}
 			}
 			isIniting = false;
-	    } else if(mode != org.geogebra.common.gui.util.SelectionTable.MODE_TEXT){
+		} else if (mode != SelectionTable.MODE_TEXT) {
 	    	for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
 				if (getWidget(r, c) instanceof Label) {
 					data[i].applyToLabel((Label) getWidget(r, c));

@@ -201,7 +201,7 @@ public class ModeToggleMenu extends JPanel {
 
 	public void mouseOver() {
 		// popup menu is showing
-		JPopupMenu activeMenu = org.geogebra.desktop.javax.swing.GPopupMenuD.getImpl(bg
+		JPopupMenu activeMenu = GPopupMenuD.getImpl(bg
 				.getActivePopupMenu());
 		if (activeMenu != null && activeMenu.isShowing()) {
 			setPopupVisible(true);

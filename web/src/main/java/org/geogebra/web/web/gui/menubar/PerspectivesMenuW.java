@@ -43,7 +43,7 @@ public class PerspectivesMenuW extends GMenuBar {
 	private void initActions() {
 
 		
-	    Perspective[] defaultPerspectives = org.geogebra.common.gui.Layout.defaultPerspectives;
+		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
 	    ArrayList<ResourcePrototype> icons = new ArrayList<ResourcePrototype>();
 	    PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 	    icons.add(pr.menu_icon_algebra());
@@ -85,7 +85,7 @@ public class PerspectivesMenuW extends GMenuBar {
 	void setPerspective(int index) {
 		app.persistWidthAndHeight();
 		boolean changed = layout
-				.applyPerspective(org.geogebra.common.gui.Layout.defaultPerspectives[index]);
+				.applyPerspective(Layout.defaultPerspectives[index]);
 		app.updateViewSizes();
 		app.getGuiManager().updateMenubar();
 		if (app.getTubeId() < 1 && app.getArticleElement().getDataParamApp()) {

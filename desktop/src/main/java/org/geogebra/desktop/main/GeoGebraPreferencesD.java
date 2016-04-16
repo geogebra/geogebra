@@ -178,7 +178,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		 */
 		if (singleton == null) {
 			if (!(PROPERTY_FILEPATH == null)) { // Application.debug(PROPERTY_FILENAME);
-				singleton = org.geogebra.desktop.main.GeoGebraPortablePreferences.getPref();
+				singleton = GeoGebraPortablePreferences.getPref();
 			}// if (else leave it to original)
 		}// if
 			// --- New code end

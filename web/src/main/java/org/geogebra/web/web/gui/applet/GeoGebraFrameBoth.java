@@ -255,7 +255,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 				&& app.getInputPosition() == InputPositon.algebraView) {
 			((AlgebraDockPanelW) (app.getGuiManager().getLayout()
 					.getDockManager()
-					.getPanel(org.geogebra.common.main.App.VIEW_ALGEBRA)))
+.getPanel(App.VIEW_ALGEBRA)))
 					.scrollToBottom();
 		}
 	}

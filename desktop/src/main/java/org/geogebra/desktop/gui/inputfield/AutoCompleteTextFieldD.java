@@ -37,10 +37,12 @@ import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
+import org.geogebra.desktop.euclidian.event.FocusListenerD;
 import org.geogebra.desktop.euclidian.event.KeyListenerD;
 import org.geogebra.desktop.gui.autocompletion.CommandCompletionListCellRenderer;
 import org.geogebra.desktop.gui.autocompletion.CompletionsPopup;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.javax.swing.GLabelD;
 import org.geogebra.desktop.main.AppD;
 
 public class AutoCompleteTextFieldD extends MathTextField
@@ -1004,11 +1006,11 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	public void setLabel(GLabel label) {
-		((org.geogebra.desktop.javax.swing.GLabelD) label).getImpl().setLabelFor(this);
+		((GLabelD) label).getImpl().setLabelFor(this);
 	}
 
 	public void addFocusListener(FocusListener focusListener) {
-		super.addFocusListener((org.geogebra.desktop.euclidian.event.FocusListenerD) focusListener);
+		super.addFocusListener((FocusListenerD) focusListener);
 	}
 
 	public void wrapSetText(final String s) {

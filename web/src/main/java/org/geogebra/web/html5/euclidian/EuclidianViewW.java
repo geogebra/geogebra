@@ -263,14 +263,14 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public final void paintBackground(org.geogebra.common.awt.GGraphics2D g2) {
+	public final void paintBackground(GGraphics2D g2) {
 		if (this.isGridOrAxesShown() || this.hasBackgroundImages()
 		        || this.tracing || app.showResetIcon()
 		        || kernel.needToShowAnimationButton()) {
-			((org.geogebra.web.html5.awt.GGraphics2DW) g2).drawImage(bgImage,
+			((GGraphics2DW) g2).drawImage(bgImage,
 					0, 0);
 		} else {
-			((org.geogebra.web.html5.awt.GGraphics2DW) g2).fillWith(this
+			((GGraphics2DW) g2).fillWith(this
 			        .getBackgroundCommon());
 		}
 
@@ -382,7 +382,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void exportPaintPre(org.geogebra.common.awt.GGraphics2D g2d,
+	public void exportPaintPre(GGraphics2D g2d,
 	        double scale, boolean transparency) {
 		g2d.scale(scale, scale);
 
@@ -1063,7 +1063,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	final protected void drawAnimationButtons(
-	        final org.geogebra.common.awt.GGraphics2D g2) {
+final GGraphics2D g2) {
 
 		// draw button in focused EV only
 		if (!drawPlayButtonInThisView()) {
@@ -1174,7 +1174,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	protected void drawResetIcon(org.geogebra.common.awt.GGraphics2D g) {
+	protected void drawResetIcon(GGraphics2D g) {
 		int w = getWidth();
 		((GGraphics2DW) g).getCanvas().getContext2d()
 		        .drawImage(getResetImage(), w - 24, 2);

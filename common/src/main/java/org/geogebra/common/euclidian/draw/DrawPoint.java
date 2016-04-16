@@ -264,15 +264,15 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = org.geogebra.common.factories.AwtFactory.prototype
+				line1 = AwtFactory.prototype
 						.newLine2D();
-				line2 = org.geogebra.common.factories.AwtFactory.prototype
+				line2 = AwtFactory.prototype
 						.newLine2D();
 			}
 			if (line3 == null) {
-				line3 = org.geogebra.common.factories.AwtFactory.prototype
+				line3 = AwtFactory.prototype
 						.newLine2D();
-				line4 = org.geogebra.common.factories.AwtFactory.prototype
+				line4 = AwtFactory.prototype
 						.newLine2D();
 			}
 			line1.setLine((xUL + xR) / 2, yUL, xUL, (yB + yUL) / 2);
@@ -286,9 +286,9 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = org.geogebra.common.factories.AwtFactory.prototype
+				line1 = AwtFactory.prototype
 						.newLine2D();
-				line2 = org.geogebra.common.factories.AwtFactory.prototype
+				line2 = AwtFactory.prototype
 						.newLine2D();
 			}
 			line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
@@ -300,9 +300,9 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = org.geogebra.common.factories.AwtFactory.prototype
+				line1 = AwtFactory.prototype
 						.newLine2D();
-				line2 = org.geogebra.common.factories.AwtFactory.prototype
+				line2 = AwtFactory.prototype
 						.newLine2D();
 			}
 			line1.setLine(xUL, yUL, xR, yB);
@@ -391,7 +391,7 @@ public final class DrawPoint extends Drawable {
 
 			view.toScreenCoords(coords1);
 
-			GEllipse2DFloat circleClip = org.geogebra.common.factories.AwtFactory.prototype
+			GEllipse2DFloat circleClip = AwtFactory.prototype
 					.newEllipse2DFloat((int) coords1[0] - 30,
 							(int) coords1[1] - 30, 60, 60);
 			g2.clip(circleClip);

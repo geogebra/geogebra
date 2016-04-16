@@ -7,7 +7,9 @@ import org.geogebra.common.awt.GBufferedImageOp;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
@@ -17,6 +19,7 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
+import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.PathIterator;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
@@ -34,7 +37,7 @@ import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 
-public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
+public class GGraphics2DW implements GGraphics2D {
 
 	protected final Canvas canvas;
 	private final MyContext2d context;
@@ -437,7 +440,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		return canvas.getAbsoluteLeft();
 	}
 
-	public void setFont(org.geogebra.common.awt.GFont font) {
+	public void setFont(GFont font) {
 		if (font instanceof GFontW) {
 			currentFont = (GFontW) font;
 			// TODO: pass other parameters here as well
@@ -477,7 +480,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	}
 
-	public void clip(org.geogebra.common.awt.GShape shape) {
+	public void clip(GShape shape) {
 		if (shape == null) {
 			Log.error("Error in Graphics2D.clip");
 			return;
@@ -525,7 +528,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	}
 
-	public void setClip(org.geogebra.common.awt.GShape shape) {
+	public void setClip(GShape shape) {
 		clipShape = shape;
 		if (shape == null) {
 			// this may be an intentional call to restore the context
@@ -546,7 +549,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		context.clip();
 	}
 
-	public void draw(org.geogebra.common.awt.GShape shape) {
+	public void draw(GShape shape) {
 		if (shape == null) {
 			Log.error("Error in EuclidianView.draw");
 			return;
@@ -560,7 +563,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		context.stroke();
 	}
 
-	public void fill(org.geogebra.common.awt.GShape gshape) {
+	public void fill(GShape gshape) {
 		if (gshape == null) {
 			Log.error("Error in EuclidianView.draw");
 			return;
@@ -581,10 +584,10 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		 */
 
 		// default winding rule changed for ggb50 (for Polygons) #3983
-		if (shape instanceof org.geogebra.ggbjdk.java.awt.geom.GeneralPath) {
-			org.geogebra.ggbjdk.java.awt.geom.GeneralPath gp = (org.geogebra.ggbjdk.java.awt.geom.GeneralPath) shape;
+		if (shape instanceof GeneralPath) {
+			GeneralPath gp = (GeneralPath) shape;
 			int rule = gp.getWindingRule();
-			if (rule == org.geogebra.ggbjdk.java.awt.geom.GeneralPath.WIND_EVEN_ODD) {
+			if (rule == GeneralPath.WIND_EVEN_ODD) {
 				context.fill("evenodd");
 			} else {
 				// context.fill("") differs between browsers
@@ -610,7 +613,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 		float[] dash_array_save = dash_array;
 		dash_array = null;
-		org.geogebra.common.awt.GShape sh = AwtFactory.prototype.newRectangle(x, y,
+		GShape sh = AwtFactory.prototype.newRectangle(x, y,
 		        width, height);
 		setClip(sh);
 		dash_array = dash_array_save;
@@ -930,7 +933,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	}
 
-	public void drawImage(org.geogebra.common.awt.GBufferedImage img,
+	public void drawImage(GBufferedImage img,
 	        GBufferedImageOp op, int x, int y) {
 		GBufferedImageW bi = (GBufferedImageW) img;
 		if (bi == null)

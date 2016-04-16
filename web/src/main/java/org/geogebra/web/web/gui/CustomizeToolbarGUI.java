@@ -8,7 +8,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.NoDragImage;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.CustomizeToolbarHeaderPanel.CustomizeToolbarListener;
@@ -520,7 +520,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			String str = app.getMenu(app.getToolName(mode));
 			setTitle(str);
 			Label text = new Label(str);
-			add(LayoutUtil.panelRow(btn, text));
+			add(LayoutUtilW.panelRow(btn, text));
 			getElement().setAttribute("mode", mode + " ");
 			getElement().setDraggable(Element.DRAGGABLE_TRUE);
 			initDrag();

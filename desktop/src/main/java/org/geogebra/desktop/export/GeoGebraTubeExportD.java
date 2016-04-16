@@ -24,6 +24,7 @@ import javax.swing.JProgressBar;
 
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
@@ -335,7 +336,7 @@ public class GeoGebraTubeExportD extends
 	protected String getBase64Tools(ArrayList<Macro> macros) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		((AppD) app).getXMLio().writeMacroStream(baos, macros);
-		return org.geogebra.common.util.Base64.encode(baos.toByteArray(), 0);
+		return Base64.encode(baos.toByteArray(), 0);
 	}
 
 }

@@ -19,6 +19,7 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.MacroKernel;
@@ -74,9 +75,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 	// private Line2D.Double tempLine = new Line2D.Double();
 	private GRectangle2D[] nearToScreenRect = {
-			org.geogebra.common.factories.AwtFactory.prototype.newRectangle2D(),
-			org.geogebra.common.factories.AwtFactory.prototype.newRectangle2D(),
-			org.geogebra.common.factories.AwtFactory.prototype.newRectangle2D() };
+			AwtFactory.prototype.newRectangle2D(),
+			AwtFactory.prototype.newRectangle2D(),
+			AwtFactory.prototype.newRectangle2D() };
 
 	private boolean continuous;
 	protected boolean[] lastFarAway = { false, false, false };

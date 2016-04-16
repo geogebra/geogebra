@@ -125,8 +125,7 @@ public class AppWsimple extends AppW {
 	public void focusLost(View v, Element el) {
 		super.focusLost(v, el);
 		hasFocus = true;
-		GeoGebraFrame.useDataParamBorder(getArticleElement(),
- frame);
+		GeoGebraFrame.useDataParamBorder(getArticleElement(), frame);
 		this.getGlobalKeyDispatcher().InFocus = false;
 	}
 

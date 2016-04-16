@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
@@ -111,7 +112,7 @@ public class GgbAPID extends GgbAPI {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			((AppD) app).getXMLio().writeGeoGebraFile(baos, includeThumbnail);
-			return org.geogebra.common.util.Base64.encode(baos.toByteArray(), 0);
+			return Base64.encode(baos.toByteArray(), 0);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -125,7 +126,7 @@ public class GgbAPID extends GgbAPI {
 	public synchronized void setBase64(String base64) {
 		byte[] zipFile;
 		try {
-			zipFile = org.geogebra.common.util.Base64.decode(base64);
+			zipFile = Base64.decode(base64);
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -295,8 +296,7 @@ public class GgbAPID extends GgbAPI {
 
 			MyImageIO.writeImage(writer, img, DPI);
 
-			String ret = org.geogebra.common.util.Base64.encode(baos.toByteArray(),
-					0);
+			String ret = Base64.encode(baos.toByteArray(), 0);
 
 			baos.close();
 

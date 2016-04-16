@@ -14,6 +14,7 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 
 /**
@@ -44,7 +45,7 @@ public class DrawImplicitCurve extends DrawLocus {
 
 	@Override
 	public GArea getShape() {
-		return org.geogebra.common.factories.AwtFactory.prototype.newArea();
+		return AwtFactory.prototype.newArea();
 	}
 
 	/**

@@ -10,7 +10,7 @@ import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.options.OptionsEuclidianW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
@@ -76,9 +76,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		@Override
 		protected void fillMiscPanel() {
-			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel,
+			miscPanel.add(LayoutUtilW.panelRow(backgroundColorLabel,
 			        btBackgroundColor));
-			miscPanel.add(LayoutUtil.panelRow(cbUseLight));
+			miscPanel.add(LayoutUtilW.panelRow(cbUseLight));
 		}
 		
 		
@@ -127,9 +127,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		@Override
 		protected void fillAxesOptionsPanel() {
-			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes));
-			axesOptionsPanel.add(LayoutUtil.panelRow(cbYAxisVertical));
-			axesOptionsPanel.add(LayoutUtil.panelRow(lblAxisLabelStyle,
+			axesOptionsPanel.add(LayoutUtilW.panelRow(cbShowAxes));
+			axesOptionsPanel.add(LayoutUtilW.panelRow(cbYAxisVertical));
+			axesOptionsPanel.add(LayoutUtilW.panelRow(lblAxisLabelStyle,
 					cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
 
 		}
@@ -399,7 +399,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfPerspPanel.setStyleName("panelRowCell");
 			tfPerspPanel.add(tfPerspLabel);
 			tfPerspPanel.add(tfPersp);
-			perspPanel.add(LayoutUtil.panelRow(projectionButtons
+			perspPanel.add(LayoutUtilW.panelRow(projectionButtons
 			        .getButton(EuclidianView3D.PROJECTION_PERSPECTIVE),
 			        tfPerspPanel));
 			add(perspTitle);
@@ -453,7 +453,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfGlassesPanel.add(tfGlassesEyeSep);
 			tfGlassesPanel.add(cbGlassesGray);
 			tfGlassesPanel.add(cbGlassesShutDownGreen);
-			glassesPanel.add(LayoutUtil.panelRow(projectionButtons
+			glassesPanel.add(LayoutUtilW.panelRow(projectionButtons
 			        .getButton(EuclidianView3D.PROJECTION_GLASSES),
 			        tfGlassesPanel));
 			add(glassesTitle);
@@ -505,7 +505,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfObliquePanel.add(tfObliqueAngle);
 			tfObliquePanel.add(tfObliqueFactorLabel);
 			tfObliquePanel.add(tfObliqueFactor);
-			obliquePanel.add(LayoutUtil.panelRow(projectionButtons
+			obliquePanel.add(LayoutUtilW.panelRow(projectionButtons
 			        .getButton(EuclidianView3D.PROJECTION_OBLIQUE),
 			        tfObliquePanel));
 			add(obliqueTitle);

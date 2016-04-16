@@ -1033,7 +1033,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// selColor = getInverseColor(objColor);
 		if (color != null) {
-			selColor = org.geogebra.common.factories.AwtFactory.prototype.newColor(
+			selColor = AwtFactory.prototype.newColor(
 					color.getRed(), color.getGreen(), color.getBlue(), 100);
 		}
 	}

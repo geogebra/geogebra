@@ -5,7 +5,7 @@ import org.geogebra.common.gui.view.data.TwoVarInferenceModel.UpdatePanel;
 import org.geogebra.common.gui.view.data.TwoVarStatModel.TwoVarStatListener;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -91,7 +91,7 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	    listBox.setSelectedIndex(selectedIdx);
 	    
 	    FlowPanel p = new FlowPanel();
-	    p.add(LayoutUtil.panelRow(label, listBox));
+	    p.add(LayoutUtilW.panelRow(label, listBox));
 	    getTable().setWidget(row, col, p);
     }
 

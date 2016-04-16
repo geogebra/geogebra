@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.common.util.Util;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
@@ -152,7 +153,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 				fn = fn.substring(index + 1, fn.length()); // filename without
 			}
 			// path
-			fn = org.geogebra.common.util.Util.processFilename(fn);
+			fn = Util.processFilename(fn);
 
 			// filename will be of form
 			// "a04c62e6a065b47476607ac815d022cc\liar.gif"
@@ -346,7 +347,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		if (index != -1) {
 			fn = fn.substring(index + 1, fn.length()); // filename without
 		}
-		fn = org.geogebra.common.util.Util.processFilename(fn);
+		fn = Util.processFilename(fn);
 
 		// filename will be of form
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"

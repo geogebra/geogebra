@@ -12,6 +12,7 @@ import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.DrawEquationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -102,8 +103,8 @@ public class EquationEditor {
 	}
 
 	public int getCaretPosition() {
-		return org.geogebra.web.html5.main.DrawEquationW
-		        .getCaretPosInEditedValue(component.getLaTeXElement());
+		return DrawEquationW
+				.getCaretPosInEditedValue(component.getLaTeXElement());
 	}
 	
 

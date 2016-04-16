@@ -2,6 +2,8 @@ package org.geogebra.desktop.util;
 
 import java.lang.reflect.Method;
 
+import org.geogebra.common.util.StringUtil;
+
 /**
  * Normalizer to get string to lower case (and without accents if Java >= 1.6)
  * 
@@ -28,7 +30,7 @@ public class Normalizer6 extends Normalizer {
 
 	@Override
 	public String transform(String s) {
-		String ret = org.geogebra.common.util.StringUtil.toLowerCase(s);
+		String ret = StringUtil.toLowerCase(s);
 		try {
 			return ((String) normalize.invoke(null, ret, NFD)).replaceAll(
 					"[\u0300-\u036F]", "");

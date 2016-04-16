@@ -23,8 +23,7 @@ public class KeyListenerD implements java.awt.event.KeyListener {
 	}
 
 	public void keyReleased(KeyEvent e) {
-		org.geogebra.desktop.euclidian.event.KeyEventD event = org.geogebra.desktop.euclidian.event.KeyEventD
-				.wrapEvent(e);
+		KeyEventD event = KeyEventD.wrapEvent(e);
 		handler.keyReleased(event);
 		event.release();
 

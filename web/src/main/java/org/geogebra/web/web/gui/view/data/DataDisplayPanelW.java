@@ -19,7 +19,7 @@ import org.geogebra.common.util.Validation;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -215,11 +215,11 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 			FlowPanel buttonPanel = new FlowPanel();
 			buttonPanel.setStyleName("daOptionButtons");
-			buttonPanel.add(LayoutUtil.panelRow(btnOptions, btnExport));
+			buttonPanel.add(LayoutUtilW.panelRow(btnOptions, btnExport));
 
 			// control panel
 			controlPanel = new FlowPanel();
-			controlPanel.add(LayoutUtil.panelRow(lbDisplayType, controlDecks, buttonPanel));
+			controlPanel.add(LayoutUtilW.panelRow(lbDisplayType, controlDecks, buttonPanel));
 		}
 
 		createExportToEvAction();
@@ -271,7 +271,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		if (hasControlPanel) {
 			mainPanel.add(controlPanel);
 		}
-		mainPanel.add(LayoutUtil.panelRow(displayDeckPanel, optionsPanel));
+		mainPanel.add(LayoutUtilW.panelRow(displayDeckPanel, optionsPanel));
 
 		add(mainPanel);
 		createExportMenu();
@@ -413,7 +413,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		none.setValue(true);
 
 		stemAdjustPanel = new FlowPanel();
-		stemAdjustPanel.add(LayoutUtil.panelRow(minus, none, plus));
+		stemAdjustPanel.add(LayoutUtilW.panelRow(minus, none, plus));
 	}
 	/**
 	 * Creates a control panel for manually setting classes
@@ -432,7 +432,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		fldWidth.setText("" + (int) getModel().getSettings().getClassWidth());
 
 		manualClassesPanel = new FlowPanel();
-		manualClassesPanel.add(LayoutUtil.panelRow(lblStart, fldStart,
+		manualClassesPanel.add(LayoutUtilW.panelRow(lblStart, fldStart,
 				lblWidth, fldWidth));
 		fldStart.addBlurHandler(new BlurHandler() {
 
@@ -638,8 +638,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		plotPanelNorth.clear();
 		plotPanelSouth.clear();
 		
-		plotPanelSouth.add(LayoutUtil.panelRow(lblTitleX, fldTitleX));
-		plotPanelNorth.add(LayoutUtil.panelRow(lblTitleY, fldTitleY));
+		plotPanelSouth.add(LayoutUtilW.panelRow(lblTitleX, fldTitleX));
+		plotPanelNorth.add(LayoutUtilW.panelRow(lblTitleY, fldTitleY));
 		
 		metaPlotPanel.add(plotPanelNorth);
 		metaPlotPanel.add(plotPanel.getComponent());

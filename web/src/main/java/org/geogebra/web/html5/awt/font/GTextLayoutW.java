@@ -7,6 +7,7 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GFontRenderContextW;
+import org.geogebra.web.html5.awt.GFontW;
 
 public class GTextLayoutW implements GTextLayout {
 
@@ -36,7 +37,7 @@ public class GTextLayoutW implements GTextLayout {
 	public float getAdvance() {
 		if (advance < 0)
 			advance = frc.measureText(str,
-			        ((org.geogebra.web.html5.awt.GFontW) font).getFullFontString());
+ ((GFontW) font).getFullFontString());
 		return advance;
 	}
 

@@ -95,7 +95,7 @@ public class PerspectivePanel extends JPopupMenu {
 		add(title);
 		add(Box.createVerticalStrut(5));
 
-		Perspective[] defaultPerspectives = org.geogebra.common.gui.Layout.defaultPerspectives;
+		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
 			if (defaultPerspectives[i] == null) {

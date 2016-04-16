@@ -63,6 +63,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
+import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.Furniture;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -4167,8 +4168,8 @@ public abstract class EuclidianController {
 
 			if (selPoints() > 1) {
 				GeoPoint[] points = getSelectedPoints();
-				list = org.geogebra.common.kernel.commands.CommandProcessor
-						.wrapInList(kernel, points, points.length,
+				list = CommandProcessor.wrapInList(kernel, points,
+						points.length,
 								GeoClass.POINT);
 				if (list != null) {
 					ret[0] = FitLineY(null, list);

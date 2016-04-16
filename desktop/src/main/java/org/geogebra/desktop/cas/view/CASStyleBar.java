@@ -193,13 +193,11 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 	private void applyTextColor(ArrayList<GeoElement> geos) {
 
-		Color color = org.geogebra.desktop.awt.GColorD.getAwtColor(btnTextColor
-				.getSelectedColor());
+		Color color = GColorD.getAwtColor(btnTextColor.getSelectedColor());
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell) {
-				((GeoCasCell) geo)
-.setFontColor(new GColorD(color));
+				((GeoCasCell) geo).setFontColor(new GColorD(color));
 				geo.updateRepaint();
 				needUndo = true;
 			}
@@ -345,7 +343,7 @@ kbdIcon, iconHeight);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
-					geoColor = org.geogebra.desktop.awt.GColorD
+					geoColor = GColorD
 							.getAwtColor(((GeoCasCell) geo).getFontColor());
 					updateColorTable();
 

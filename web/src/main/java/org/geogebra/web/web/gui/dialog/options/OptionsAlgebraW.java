@@ -10,7 +10,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -58,11 +58,11 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		description = new AlgebraStyleListBox(app);
 
 		optionsPanel.add(lblShow);
-		optionsPanel.add(LayoutUtil.panelRowIndent(showAuxiliaryObjects));
+		optionsPanel.add(LayoutUtilW.panelRowIndent(showAuxiliaryObjects));
 		optionsPanel.add(lblSortMode);
-		optionsPanel.add(LayoutUtil.panelRowIndent(sortMode));
+		optionsPanel.add(LayoutUtilW.panelRowIndent(sortMode));
 		optionsPanel.add(lblDescriptionMode);
-		optionsPanel.add(LayoutUtil.panelRowIndent(description));
+		optionsPanel.add(LayoutUtilW.panelRowIndent(description));
 		sortMode.addChangeHandler(this);
 		description.addChangeHandler(new ChangeHandler() {
 

@@ -177,10 +177,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	private void createShape() {
-		setShape(org.geogebra.common.factories.AwtFactory.prototype
+		setShape(AwtFactory.prototype
 				.newArea(view.getBoundingPath()));
 		getShape().subtract(
-				org.geogebra.common.factories.AwtFactory.prototype.newArea(gp));
+AwtFactory.prototype.newArea(gp));
 
 	}
 
@@ -270,13 +270,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 					
 					// create the shape
 					if (geo.isInverseFill()) {
-						setShape(org.geogebra.common.factories.AwtFactory.prototype
+						setShape(AwtFactory.prototype
 								.newArea(view.getBoundingPath()));
 						getShape().subtract(
-								org.geogebra.common.factories.AwtFactory.prototype
+								AwtFactory.prototype
 										.newArea(gpTriangularize));
 					}else{
-						setShape(org.geogebra.common.factories.AwtFactory.prototype
+						setShape(AwtFactory.prototype
 								.newArea(gpTriangularize));
 					}
 				}

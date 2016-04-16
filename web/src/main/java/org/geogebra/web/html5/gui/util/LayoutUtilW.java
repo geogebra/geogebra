@@ -3,7 +3,7 @@ package org.geogebra.web.html5.gui.util;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 
-public class LayoutUtil {
+public class LayoutUtilW {
 
 	public static FlowPanel panelRow(IsWidget... widgets) {
 		FlowPanel p = new FlowPanel();

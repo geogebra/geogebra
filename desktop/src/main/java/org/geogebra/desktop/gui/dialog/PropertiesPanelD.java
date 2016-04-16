@@ -5040,7 +5040,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 	}
 
 	public void setDefaultValues(GeoElement geo) {
-		Color col = org.geogebra.desktop.awt.GColorD.getAwtColor(geo.getObjectColor());
+		Color col = GColorD.getAwtColor(geo.getObjectColor());
 		defaultR = "" + col.getRed() / 255.0;
 		defaultG = "" + col.getGreen() / 255.0;
 		defaultB = "" + col.getBlue() / 255.0;

@@ -29,6 +29,7 @@ import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
 import org.geogebra.web.html5.gui.util.BasicIcons;
@@ -666,10 +667,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void addFocusListener(FocusListener listener) {
-		textField.getValueBox().addFocusHandler(
-		        (org.geogebra.web.html5.event.FocusListenerW) listener);
-		textField.getValueBox().addBlurHandler(
-		        (org.geogebra.web.html5.event.FocusListenerW) listener);
+		textField.getValueBox().addFocusHandler((FocusListenerW) listener);
+		textField.getValueBox().addBlurHandler((FocusListenerW) listener);
 	}
 
 	@Override

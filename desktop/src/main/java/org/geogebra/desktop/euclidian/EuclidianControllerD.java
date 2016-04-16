@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -71,7 +72,7 @@ public class EuclidianControllerD extends
 	}
 
 	public void mousePressed(MouseEvent e) {
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		AbstractEvent event = MouseEventD.wrapEvent(e);
 		closePopups(event.getX(), event.getY(), null);
 		wrapMousePressed(event);
 		if (!app.isRightClick(event)) {
@@ -82,7 +83,7 @@ public class EuclidianControllerD extends
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		AbstractEvent event = MouseEventD.wrapEvent(e);
 		// no capture in desktop
 		wrapMouseDragged(event, true);
 		moveCounter++;
@@ -90,7 +91,7 @@ public class EuclidianControllerD extends
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		AbstractEvent event = MouseEventD.wrapEvent(e);
 		if (moveCounter < 2) {
 			this.resetModeAfterFreehand();
 		}
@@ -99,7 +100,7 @@ public class EuclidianControllerD extends
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMouseMoved(event);
 		event.release();
 	}
@@ -109,7 +110,7 @@ public class EuclidianControllerD extends
 	}
 
 	public void mouseExited(MouseEvent e) {
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMouseExited(event);
 		event.release();
 	}

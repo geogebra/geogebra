@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.event;
 
 import org.geogebra.common.euclidian.event.KeyHandler;
-import org.geogebra.common.main.App;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
@@ -14,12 +13,8 @@ public class KeyListenerW implements KeyPressHandler {
 	}
 
 	public void onKeyPress(KeyPressEvent e) {
-		App.debug("implementation needed"); // TODO
-		                                    // Auto-generated
-		                                    // method stub
 
-		org.geogebra.web.html5.event.KeyEventW event = org.geogebra.web.html5.event.KeyEventW
-		        .wrapEvent(e);
+		KeyEventW event = KeyEventW.wrapEvent(e);
 		handler.keyReleased(event);
 		event.release();
 	}

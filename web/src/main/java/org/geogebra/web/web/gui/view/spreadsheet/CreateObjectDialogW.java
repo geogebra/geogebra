@@ -6,7 +6,7 @@ import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectL
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CardPanel;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.gui.dialog.InputDialogW;
@@ -206,7 +206,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		lblPreviewHeader.setStyleName("panelTitle");
 		pp.add(previewPanel);
 		pp.setStyleName("createObjectsPreview");
-		centerPanel.add(LayoutUtil.panelRow(optionPane, pp));
+		centerPanel.add(LayoutUtilW.panelRow(optionPane, pp));
 	}
 
 	private void buildOptionsPanel() {

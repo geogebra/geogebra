@@ -534,8 +534,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 		private Color getColorForCell(int column, int row) {
 			if ((row * numSwatches.width) + column < colors.length) {
-				return org.geogebra.desktop.awt.GColorD
-						.getAwtColor(colors[(row * numSwatches.width) + column]);
+				return GColorD.getAwtColor(
+						colors[(row * numSwatches.width) + column]);
 			}
 			return Color.WHITE;
 		}

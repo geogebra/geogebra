@@ -8,7 +8,7 @@ import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ComboBoxW;
 import org.geogebra.web.web.gui.util.NumberListBox;
@@ -211,7 +211,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 			}});
 
 
-		FlowPanel crossPanel = LayoutUtil.panelRow(crossAt, tfCross, cbDrawAtBorder);
+		FlowPanel crossPanel = LayoutUtilW.panelRow(crossAt, tfCross, cbDrawAtBorder);
 
 		cbShowAxis.setStyleName("checkBoxPanel");
 		cbAxisNumber.setStyleName("checkBoxPanel");

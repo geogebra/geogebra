@@ -71,7 +71,7 @@ public abstract class EuclidianStatic {
 			GFontRenderContext frc) {
 		if (str.equals(""))
 			return 0f;
-		GTextLayout layout = org.geogebra.common.factories.AwtFactory.prototype
+		GTextLayout layout = AwtFactory.prototype
 				.newTextLayout(str, font, frc);
 		return layout.getAdvance();
 

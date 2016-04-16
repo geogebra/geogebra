@@ -3,6 +3,7 @@ package org.geogebra.web.html5.javax.swing;
 import org.geogebra.common.gui.util.RelationMore;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -64,7 +65,7 @@ public class RelationPaneW extends DialogBox implements RelationPane,
 				btnCallbacks[i].addClickHandler(this);
 				buttons[i].add(btnCallbacks[i]);
 			}
-			fp.add(org.geogebra.web.html5.gui.util.LayoutUtil.panelRow(texts[i],
+			fp.add(LayoutUtilW.panelRow(texts[i],
 			        buttons[i]));
 		}
 

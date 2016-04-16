@@ -108,6 +108,7 @@ import javax.swing.WindowConstants;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GComponent;
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.MyImage;
@@ -171,12 +172,14 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.Log.LogDestination;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.GeoGebra;
+import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGenericImageD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianStaticD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
+import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GeoGebraTubeExportD;
@@ -1579,7 +1582,7 @@ public class AppD extends App implements KeyEventDispatcher {
 					} else if (lowerCase.startsWith("base64://")) {
 
 						// substring to strip off base64://
-						byte[] zipFile = org.geogebra.common.util.Base64
+						byte[] zipFile = Base64
 								.decode(fileArgument.substring(9));
 						success = loadXML(zipFile);
 
@@ -2278,7 +2281,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				fn = fn.substring(index + 1, fn.length()); // filename without
 			}
 			// path
-			fn = org.geogebra.common.util.Util.processFilename(fn);
+			fn = Util.processFilename(fn);
 
 			// filename will be of form
 			// "a04c62e6a065b47476607ac815d022cc\liar.gif"
@@ -3111,8 +3114,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public void setPreferredSize(org.geogebra.common.awt.GDimension size) {
-		preferredSize = org.geogebra.desktop.awt.GDimensionD.getAWTDimension(size);
+	public void setPreferredSize(GDimension size) {
+		preferredSize = GDimensionD.getAWTDimension(size);
 	}
 
 	public Container getContentPane() {
@@ -4789,7 +4792,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public boolean isRightClick(AbstractEvent e) {
-		return isRightClick(org.geogebra.desktop.euclidian.event.MouseEventD.getEvent(e));
+		return isRightClick(MouseEventD.getEvent(e));
 	}
 
 	@Override
@@ -4803,16 +4806,16 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public Font getFontCanDisplayAwt(String string, boolean b, int plain, int i) {
-		return org.geogebra.desktop.awt.GFontD.getAwtFont(getFontCanDisplay(string, b,
+		return GFontD.getAwtFont(getFontCanDisplay(string, b,
 				plain, i));
 	}
 
 	public Font getFontCanDisplayAwt(String string) {
-		return org.geogebra.desktop.awt.GFontD.getAwtFont(getFontCanDisplay(string));
+		return GFontD.getAwtFont(getFontCanDisplay(string));
 	}
 
 	public Font getFontCanDisplayAwt(String value, int plain) {
-		return org.geogebra.desktop.awt.GFontD.getAwtFont(getFontCanDisplay(value, plain));
+		return GFontD.getAwtFont(getFontCanDisplay(value, plain));
 	}
 
 	@Override

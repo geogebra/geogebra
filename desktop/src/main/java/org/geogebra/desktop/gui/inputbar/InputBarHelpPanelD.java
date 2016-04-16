@@ -56,6 +56,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.SelectionTableD;
@@ -111,8 +112,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		thisPanel = this;
 		this.setOpaque(true);
 		// this.setBackground(Color.blue);
-		titleColor = org.geogebra.desktop.awt.GColorD
-				.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
+		titleColor = GColorD.getAwtColor(
+				GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
 		bgColor = this.getBackground().brighter();
 
 		createFunctionPanel();
@@ -740,8 +741,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		public MyRenderer() {
 			update();
-			selectionColor = org.geogebra.desktop.awt.GColorD
-					.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
+			selectionColor = GColorD.getAwtColor(
+					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
 			// this.getBackgroundSelectionColor()
 			rollOverColor = Color.LIGHT_GRAY;
 

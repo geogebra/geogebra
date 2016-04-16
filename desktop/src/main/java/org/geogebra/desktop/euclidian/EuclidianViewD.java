@@ -56,6 +56,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.Kernel;
@@ -77,6 +78,7 @@ import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.export.PrintPreview;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyImageIO;
+import org.geogebra.desktop.javax.swing.GBoxD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -640,8 +642,7 @@ public class EuclidianViewD extends EuclidianView implements
 		 * button g2.setColor(GColor.DARK_GRAY); } else {
 		 * g2.setColor(GColor.LIGHT_GRAY); }
 		 * 
-		 * g2.setStroke(org.geogebra.common.euclidian.EuclidianStatic
-		 * .getDefaultStroke());
+		 * g2.setStroke(EuclidianStatic .getDefaultStroke());
 		 * 
 		 * // draw pause or play button g2.drawRect(x - 2, y - 2, 18, 18);
 		 */
@@ -796,13 +797,13 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	@Override
-	public void add(org.geogebra.common.javax.swing.GBox box) {
-		evjpanel.add(((org.geogebra.desktop.javax.swing.GBoxD) box).getImpl());
+	public void add(GBox box) {
+		evjpanel.add(((GBoxD) box).getImpl());
 	}
 
 	@Override
-	public void remove(org.geogebra.common.javax.swing.GBox box) {
-		evjpanel.remove(((org.geogebra.desktop.javax.swing.GBoxD) box).getImpl());
+	public void remove(GBox box) {
+		evjpanel.remove(((GBoxD) box).getImpl());
 	}
 
 	/**

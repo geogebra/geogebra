@@ -31,7 +31,7 @@ public class GPointW extends GPoint {
 		impl.setLocation(getX(), y);
 	}
 
-	public double distance(org.geogebra.common.awt.GPoint q) {
+	public double distance(GPoint q) {
 		return impl.distance(q.getX(), q.getY());
 	}
 

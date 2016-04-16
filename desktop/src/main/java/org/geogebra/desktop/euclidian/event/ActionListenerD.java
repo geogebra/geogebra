@@ -11,7 +11,7 @@ public class ActionListenerD extends ActionListener implements
 	}
 
 	public void actionPerformed(java.awt.event.ActionEvent e) {
-		org.geogebra.desktop.euclidian.event.ActionEventD event = org.geogebra.desktop.euclidian.event.ActionEventD
+		ActionEventD event = ActionEventD
 				.wrapEvent(e);
 		wrapActionPerformed(event);
 	}

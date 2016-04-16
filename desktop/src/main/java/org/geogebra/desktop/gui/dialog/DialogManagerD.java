@@ -613,7 +613,7 @@ public class DialogManagerD extends DialogManager {
 	 */
 	private class FileFilterChangedListener implements PropertyChangeListener {
 		public void propertyChange(PropertyChangeEvent evt) {
-			if (getFileChooser().getFileFilter() instanceof org.geogebra.desktop.gui.app.MyFileFilter) {
+			if (getFileChooser().getFileFilter() instanceof MyFileFilter) {
 				String fileName = null;
 				if (getFileChooser().getSelectedFile() != null) {
 					fileName = getFileChooser().getSelectedFile().getName();

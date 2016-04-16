@@ -42,6 +42,7 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.export.PrintPreview;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.DialogManagerD;
 import org.geogebra.desktop.gui.layout.DockManagerD;
@@ -492,14 +493,13 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 						DockManagerD dm = gui.getLayout().getDockManager();
 						int viewId = (dm.getFocusedPanel() == null) ? -1 : dm.getFocusedPanel().getViewId();
-						org.geogebra.desktop.export.PrintPreview pre = org.geogebra.desktop.export.PrintPreview
-								.get(app, viewId,
+						PrintPreview pre = PrintPreview.get(app, viewId,
 										PageFormat.LANDSCAPE);
 
 						pre.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
-						App.debug("Print preview not available");
+						Log.debug("Print preview not available");
 					} finally {
 						app.setDefaultCursor();
 					}

@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.data;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -23,7 +24,7 @@ public class PlotPanelEuclidianControllerW extends EuclidianControllerW {
     }
 	
 	@Override
-	public void showDrawingPadPopup(org.geogebra.common.awt.GPoint mouseLoc){
+	public void showDrawingPadPopup(GPoint mouseLoc) {
 		// do nothing		
 	}
 	

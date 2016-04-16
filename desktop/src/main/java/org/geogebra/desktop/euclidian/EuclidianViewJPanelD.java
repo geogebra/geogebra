@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewJPanel;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.awt.GRectangleD;
 
 public class EuclidianViewJPanelD extends JPanel
 		implements EuclidianViewJPanel {
@@ -78,7 +79,7 @@ public class EuclidianViewJPanelD extends JPanel
 
 	@Override
 	public Rectangle getBounds() {
-		return org.geogebra.desktop.awt.GRectangleD.getAWTRectangle(view.getBounds());
+		return GRectangleD.getAWTRectangle(view.getBounds());
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
@@ -186,13 +186,13 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		lblResultHeader.setStyleName("panelTitle");
 
 		sigmaPanel = new FlowPanel();
-		sigmaPanel.add(LayoutUtil.panelRowIndent(lblSigma, fldSigma));
+		sigmaPanel.add(LayoutUtilW.panelRowIndent(lblSigma, fldSigma));
 //		// test panel	
 		testPanel = new FlowPanel();
 		testPanel.add(lblNull);
-		testPanel.add(LayoutUtil.panelRowIndent(lblHypParameter, fldNullHyp));
+		testPanel.add(LayoutUtilW.panelRowIndent(lblHypParameter, fldNullHyp));
 		testPanel.add(lblTailType);
-		testPanel.add(LayoutUtil.panelRowIndent(lbAltHyp));
+		testPanel.add(LayoutUtilW.panelRowIndent(lbAltHyp));
 //		// CI panel	
 		intPanel = new FlowPanel();
 		intPanel.add(lblConfLevel);

@@ -39,6 +39,7 @@ import javax.swing.JPanel;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.AppletImplementationInterface;
@@ -752,8 +753,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		if (fileStr.startsWith("base64://")) {
 			byte[] zipFile;
 			try {
-				zipFile = org.geogebra.common.util.Base64.decode(fileStr
-						.substring(9));
+				zipFile = Base64.decode(fileStr.substring(9));
 			} catch (IOException e) {
 				e.printStackTrace();
 				return;

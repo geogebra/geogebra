@@ -75,6 +75,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.awt.GColorD;
@@ -1511,7 +1512,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			app.getXMLio().writeGeoGebraFile(baos, false);
-			sb.append(org.geogebra.common.util.Base64.encode(baos.toByteArray(), 0));
+			sb.append(Base64.encode(baos.toByteArray(), 0));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;

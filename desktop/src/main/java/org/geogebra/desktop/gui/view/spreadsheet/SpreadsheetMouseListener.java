@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 
@@ -115,8 +116,7 @@ public class SpreadsheetMouseListener implements MouseListener,
 			int col = table.columnAtPoint(e.getPoint());
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);
 			// let euclidianView know about the click
-			AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD
-					.wrapEvent(e);
+			AbstractEvent event = MouseEventD.wrapEvent(e);
 			app.getActiveEuclidianView().clickedGeo(geo,
 					app.isControlDown(event));
 			event.release();

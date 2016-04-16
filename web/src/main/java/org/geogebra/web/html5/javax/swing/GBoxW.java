@@ -4,12 +4,13 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
-import org.geogebra.common.javax.swing.GComboBox;
 import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.javax.swing.GComboBox;
 import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -41,7 +42,7 @@ public class GBoxW extends GBox {
 
 	@Override
 	public void add(AutoCompleteTextField textField) {
-		impl.add((org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW) textField);
+		impl.add((AutoCompleteTextFieldW) textField);
 
 	}
 

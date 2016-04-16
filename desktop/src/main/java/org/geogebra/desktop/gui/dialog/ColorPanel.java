@@ -467,7 +467,7 @@ class ColorPanel extends JPanel implements ActionListener,
 		float alpha = 1;
 		GeoElement geo0 = model.getGeoAt(0);
 		if (equalObjColorBackground) {
-			selectedBGColor = org.geogebra.desktop.awt.GColorD.getAwtColor(geo0
+			selectedBGColor = GColorD.getAwtColor(geo0
 					.getBackgroundColor());
 		}
 
@@ -477,8 +477,7 @@ class ColorPanel extends JPanel implements ActionListener,
 			// set selectedColor if all selected geos have the same color
 			if (equalObjColor) {
 				if (allFillable) {
-					selectedColor = org.geogebra.desktop.awt.GColorD.getAwtColor(geo0
-							.getFillColor());
+					selectedColor = GColorD.getAwtColor(geo0.getFillColor());
 					alpha = geo0.getAlphaValue();
 
 					// can be -1 for lists

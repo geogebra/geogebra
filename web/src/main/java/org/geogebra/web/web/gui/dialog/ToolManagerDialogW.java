@@ -25,7 +25,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.gui.util.LayoutUtil;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
@@ -307,7 +307,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 		toolList.setVisibleItemCount(6);
 
-		FlowPanel centerPanel = LayoutUtil.panelRow(toolList, createListUpDownRemovePanel());
+		FlowPanel centerPanel = LayoutUtilW.panelRow(toolList, createListUpDownRemovePanel());
 		centerPanel.setStyleName("manageToolsList");
 		toolListPanel.add(centerPanel);
 

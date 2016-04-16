@@ -309,7 +309,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	/** Respond to changes in mode sent by GUI manager */
 	public void setMode(int mode, ModeSetter m) {
-		if (m != org.geogebra.common.kernel.ModeSetter.TOOLBAR) {
+		if (m != ModeSetter.TOOLBAR) {
 			return;
 		}
 

@@ -27,6 +27,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
+import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -74,26 +75,26 @@ public class EuclidianController3DD extends EuclidianController3D implements
 	}
 
 	public void mousePressed(MouseEvent e) {
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMousePressed(event);
 		event.release();
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		AbstractEvent event = MouseEventD.wrapEvent(e);
 		// no capture in desktop
 		wrapMouseDragged(event, false);
 		event.release();
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMouseReleased(event);
 		event.release();
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMouseMoved(event);
 		event.release();
 	}
@@ -103,7 +104,7 @@ public class EuclidianController3DD extends EuclidianController3D implements
 	}
 
 	public void mouseExited(MouseEvent e) {
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMouseExited(event);
 		event.release();
 	}

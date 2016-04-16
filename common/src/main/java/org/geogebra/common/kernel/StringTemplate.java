@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel;
 
 import org.geogebra.common.export.MathmlTemplate;
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -81,7 +82,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		prefixedDefault.internationalizeDigits = false;
 		prefixedDefault.forceNF = true;
 		prefixedDefault.usePrefix = true;
-		prefixedDefault.nf = org.geogebra.common.factories.FormatFactory.prototype
+		prefixedDefault.nf = FormatFactory.prototype
 				.getNumberFormat(15);
 	}
 	/**
@@ -190,10 +191,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		latexTemplateMQedit.setType(StringType.LATEX);
 		latexTemplateMQedit.allowMoreDigits = true;
-		latexTemplateMQedit.sf = org.geogebra.common.factories.FormatFactory.prototype
+		latexTemplateMQedit.sf = FormatFactory.prototype
 				.getScientificFormat(GeoElement.MIN_EDITING_PRINT_PRECISION,
 						20, false);
-		latexTemplateMQedit.nf = org.geogebra.common.factories.FormatFactory.prototype
+		latexTemplateMQedit.nf = FormatFactory.prototype
 				.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 	}
 
@@ -227,7 +228,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		giacTemplate.forceNF = true;
 		giacTemplate.localizeCmds = false;
 		giacTemplate.setType(StringType.GIAC);
-		giacTemplate.nf = org.geogebra.common.factories.FormatFactory.prototype
+		giacTemplate.nf = FormatFactory.prototype
 				.getNumberFormat(15);
 	}
 
@@ -247,7 +248,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		xmlTemplate.internationalizeDigits = false;
 		xmlTemplate.setType(StringType.GEOGEBRA_XML);
 		xmlTemplate.localizeCmds = false;
-		xmlTemplate.sf = org.geogebra.common.factories.FormatFactory.prototype
+		xmlTemplate.sf = FormatFactory.prototype
 				.getScientificFormat(15, 20, false);
 		xmlTemplate.questionMarkForNaN = false;
 	}
@@ -267,7 +268,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		casCopyTemplate.internationalizeDigits = false;
 		casCopyTemplate.setType(StringType.GEOGEBRA_XML);
 		casCopyTemplate.localizeCmds = false;
-		casCopyTemplate.sf = org.geogebra.common.factories.FormatFactory.prototype
+		casCopyTemplate.sf = FormatFactory.prototype
 				.getScientificFormat(15, 20, false);
 		casCopyTemplate.questionMarkForNaN = true;
 	}
@@ -288,10 +289,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * need more engines in one app
 	 */
 	static {
-		editTemplate.sf = org.geogebra.common.factories.FormatFactory.prototype
+		editTemplate.sf = FormatFactory.prototype
 				.getScientificFormat(GeoElement.MIN_EDITING_PRINT_PRECISION,
 						20, false);
-		editTemplate.nf = org.geogebra.common.factories.FormatFactory.prototype
+		editTemplate.nf = FormatFactory.prototype
 				.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 		editTemplate.allowMoreDigits = true;
 		editTemplate.hideLHS = true;
@@ -309,9 +310,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public static final StringTemplate regression = new StringTemplate(
 			"regression");
 	static {
-		regression.sf = org.geogebra.common.factories.FormatFactory.prototype
+		regression.sf = FormatFactory.prototype
 				.getScientificFormat(6, 20, false);
-		regression.nf = org.geogebra.common.factories.FormatFactory.prototype
+		regression.nf = FormatFactory.prototype
 				.getNumberFormat(6);
 		regression.forceSF = true;
 		regression.setType(StringType.GEOGEBRA_XML);
@@ -326,7 +327,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		ogpTemplate.internationalizeDigits = false;
 		ogpTemplate.setType(StringType.OGP);
 		ogpTemplate.localizeCmds = false;
-		ogpTemplate.nf = org.geogebra.common.factories.FormatFactory.prototype
+		ogpTemplate.nf = FormatFactory.prototype
 				.getNumberFormat(0);
 	}
 	/**
@@ -335,7 +336,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public static final StringTemplate maxPrecision = new StringTemplate(
 			"maxPrecision");
 	static {
-		maxPrecision.sf = org.geogebra.common.factories.FormatFactory.prototype
+		maxPrecision.sf = FormatFactory.prototype
 				.getScientificFormat(15, 20, false);
 		maxPrecision.allowMoreDigits = true;
 		maxPrecision.forceSF = true;
@@ -349,7 +350,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public static final StringTemplate maxPrecision13 = new StringTemplate(
 			"maxPrecision13");
 	static {
-		maxPrecision13.sf = org.geogebra.common.factories.FormatFactory.prototype
+		maxPrecision13.sf = FormatFactory.prototype
 				.getScientificFormat(13, 20, false);
 		maxPrecision13.allowMoreDigits = true;
 		maxPrecision13.forceSF = true;
@@ -400,7 +401,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		testTemplate.internationalizeDigits = false;
 		testTemplate.setType(StringType.GEOGEBRA_XML);
 		// testTemplate.localizeCmds = false;
-		testTemplate.sf = org.geogebra.common.factories.FormatFactory.prototype
+		testTemplate.sf = FormatFactory.prototype
 				.getScientificFormat(15, 20, false);
 	}
 	public static final StringTemplate testTemplateJSON = new StringTemplate(
@@ -408,7 +409,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		testTemplate.internationalizeDigits = false;
 		// testTemplate.localizeCmds = false;
-		testTemplate.sf = org.geogebra.common.factories.FormatFactory.prototype
+		testTemplate.sf = FormatFactory.prototype
 				.getScientificFormat(15, 20, false);
 	}
 	/** Template for CAS tests involving Numeric command */
@@ -419,7 +420,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		testNumeric.setType(StringType.GEOGEBRA_XML);
 		// testNumeric.localizeCmds = false;
 		testNumeric.allowMoreDigits = true;
-		testNumeric.sf = org.geogebra.common.factories.FormatFactory.prototype
+		testNumeric.sf = FormatFactory.prototype
 				.getScientificFormat(15, 20, false);
 	}
 
@@ -747,7 +748,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		tpl.forceNF = true;
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(type);
-		tpl.nf = org.geogebra.common.factories.FormatFactory.prototype
+		tpl.nf = FormatFactory.prototype
 				.getNumberFormat(decimals);
 		return tpl;
 	}
@@ -768,7 +769,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		tpl.forceSF = true;
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(type);
-		tpl.sf = org.geogebra.common.factories.FormatFactory.prototype
+		tpl.sf = FormatFactory.prototype
 				.getScientificFormat(decimals, 20, false);
 		return tpl;
 	}
@@ -786,7 +787,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		tpl.allowMoreDigits = true;
 		tpl.setType(type);
 		// 308 doesn't seem to work for 1E-300, 350 seems OK
-		tpl.sf = org.geogebra.common.factories.FormatFactory.prototype
+		tpl.sf = FormatFactory.prototype
 				.getScientificFormat(16, 350, false);
 		return tpl;
 	}
@@ -809,7 +810,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		tpl.forceSF = true;
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(type);
-		tpl.sf = org.geogebra.common.factories.FormatFactory.prototype
+		tpl.sf = FormatFactory.prototype
 				.getScientificFormat(decimals, 20, true);
 		return tpl;
 	}
