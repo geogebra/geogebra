@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -226,7 +226,7 @@ public class PrintScalePanel extends JPanel {
 
 
 	private static JTextField getNumberField(AppD app, final Runnable run) {
-		JTextField ret = new MyTextField(app);
+		JTextField ret = new MyTextFieldD(app);
 		ret.setColumns(maxFracDigits);
 		ret.setHorizontalAlignment(SwingConstants.RIGHT);
 		FocusListener flst = new FocusListener() {

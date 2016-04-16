@@ -24,7 +24,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.options.AxisPanel;
 import org.geogebra.desktop.gui.dialog.options.OptionsEuclidianD;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 
@@ -367,7 +367,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		perspPanel.add(projectionLabel[1]);
 		tfPerspLabel = new JLabel("");
 		perspPanel.add(tfPerspLabel);
-		tfPersp = new MyTextField(app, 5);
+		tfPersp = new MyTextFieldD(app, 5);
 		tfPersp.addActionListener(this);
 		tfPersp.addFocusListener(this);
 		perspPanel.add(tfPersp);
@@ -378,7 +378,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		glassesPanel.add(projectionLabel[2]);
 		tfGlassesLabel = new JLabel("");
 		glassesPanel.add(tfGlassesLabel);
-		tfGlassesEyeSep = new MyTextField(app, 3);
+		tfGlassesEyeSep = new MyTextFieldD(app, 3);
 		tfGlassesEyeSep.addActionListener(this);
 		tfGlassesEyeSep.addFocusListener(this);
 		glassesPanel.add(tfGlassesEyeSep);
@@ -399,13 +399,13 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		cavPanel.add(projectionLabel[EuclidianView3D.PROJECTION_OBLIQUE]);
 		tfObliqueAngleLabel = new JLabel("");
 		cavPanel.add(tfObliqueAngleLabel);
-		tfObliqueAngle = new MyTextField(app, 4);
+		tfObliqueAngle = new MyTextFieldD(app, 4);
 		tfObliqueAngle.addActionListener(this);
 		tfObliqueAngle.addFocusListener(this);
 		cavPanel.add(tfObliqueAngle);
 		tfObliqueFactorLabel = new JLabel("");
 		cavPanel.add(tfObliqueFactorLabel);
-		tfObliqueFactor = new MyTextField(app, 4);
+		tfObliqueFactor = new MyTextFieldD(app, 4);
 		tfObliqueFactor.addActionListener(this);
 		tfObliqueFactor.addFocusListener(this);
 		cavPanel.add(tfObliqueFactor);

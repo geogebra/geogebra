@@ -17,7 +17,7 @@ import javax.swing.table.TableColumn;
 
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.awt.GColorD;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
 public class InspectorTable extends JTable {
@@ -237,7 +237,7 @@ public class InspectorTable extends JTable {
 		private static final long serialVersionUID = 1L;
 
 		public MyEditor() {
-			super(new MyTextField(app));
+			super(new MyTextFieldD(app));
 			this.setClickCountToStart(1);
 		}
 

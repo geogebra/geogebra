@@ -1,20 +1,20 @@
 package org.geogebra.web.web.presenter;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.util.View;
+import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.web.jso.JsUint8Array;
 
 import com.google.gwt.dom.client.Element;
 
 public abstract class BasePresenter {
 
-	private View view;
+	private ViewW view;
 
-	public View getView() {
+	public ViewW getView() {
 		return view;
 	}
 
-	public void setView(View view) {
+	public void setView(ViewW view) {
 		this.view = view;
 	}
 

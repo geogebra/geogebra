@@ -31,7 +31,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.gui.util.ListSeparatorRenderer;
 import org.geogebra.desktop.main.AppD;
@@ -58,8 +58,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	// =========================================
 
 	// text fields
-	private MyTextField[] fldSampleStat1, fldSampleStat2;
-	private MyTextField fldNullHyp, fldConfLevel, fldSigma;
+	private MyTextFieldD[] fldSampleStat1, fldSampleStat2;
+	private MyTextFieldD fldNullHyp, fldConfLevel, fldSigma;
 	private int fieldWidth = 6;
 
 	// labels
@@ -316,19 +316,19 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		lblHypParameter = new JLabel();
 		lblTailType = new JLabel();
 
-		fldNullHyp = new MyTextField((AppD) app);
+		fldNullHyp = new MyTextFieldD((AppD) app);
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.addActionListener(this);
 		fldNullHyp.addFocusListener(this);
 
 		lblConfLevel = new JLabel();
-		fldConfLevel = new MyTextField((AppD) app);
+		fldConfLevel = new MyTextFieldD((AppD) app);
 		fldConfLevel.setColumns(fieldWidth);
 		fldConfLevel.addActionListener(this);
 		fldConfLevel.addFocusListener(this);
 
 		lblSigma = new JLabel();
-		fldSigma = new MyTextField((AppD) app);
+		fldSigma = new MyTextFieldD((AppD) app);
 		fldSigma.setColumns(fieldWidth);
 		fldSigma.addActionListener(this);
 		fldSigma.addFocusListener(this);
@@ -338,9 +338,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			lblSampleStat1[i] = new JLabel();
 		}
 
-		fldSampleStat1 = new MyTextField[3];
+		fldSampleStat1 = new MyTextFieldD[3];
 		for (int i = 0; i < fldSampleStat1.length; i++) {
-			fldSampleStat1[i] = new MyTextField((AppD) app);
+			fldSampleStat1[i] = new MyTextFieldD((AppD) app);
 			fldSampleStat1[i].setColumns(fieldWidth);
 			fldSampleStat1[i].addActionListener(this);
 			fldSampleStat1[i].addFocusListener(this);
@@ -351,9 +351,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			lblSampleStat2[i] = new JLabel();
 		}
 
-		fldSampleStat2 = new MyTextField[3];
+		fldSampleStat2 = new MyTextFieldD[3];
 		for (int i = 0; i < fldSampleStat2.length; i++) {
-			fldSampleStat2[i] = new MyTextField((AppD) app);
+			fldSampleStat2[i] = new MyTextFieldD((AppD) app);
 			fldSampleStat2[i].setColumns(fieldWidth);
 			fldSampleStat2[i].addActionListener(this);
 			fldSampleStat2[i].addFocusListener(this);
@@ -789,15 +789,15 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	
 
 	public void focusGained(FocusEvent e) {
-		if (e.getSource() instanceof MyTextField) {
-			((MyTextField) e.getSource()).selectAll();
+		if (e.getSource() instanceof MyTextFieldD) {
+			((MyTextFieldD) e.getSource()).selectAll();
 		}
 
 	}
 
 	public void focusLost(FocusEvent e) {
-		if (e.getSource() instanceof MyTextField)
-			doTextFieldActionPerformed((MyTextField) e.getSource());
+		if (e.getSource() instanceof MyTextFieldD)
+			doTextFieldActionPerformed((MyTextFieldD) e.getSource());
 
 	}
 

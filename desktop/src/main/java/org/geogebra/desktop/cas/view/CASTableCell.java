@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -28,7 +28,7 @@ public abstract class CASTableCell extends JPanel {
 	/** output panel */
 	protected CASOutputPanel outputPanel;
 	/** dummy label used to get preferred size; */
-	protected MyTextField dummyField;
+	protected MyTextFieldD dummyField;
 	/** application */
 	protected AppD app;
 	/** CAS view */
@@ -48,7 +48,7 @@ public abstract class CASTableCell extends JPanel {
 
 		inputPanel = new CASInputPanel(app);
 		inputPanel.getInputArea().setColoringLabels(true);
-		dummyField = new MyTextField(app);
+		dummyField = new MyTextFieldD(app);
 
 		// The inputPanel needs to have variable width so that it fits the
 		// JScrollPane

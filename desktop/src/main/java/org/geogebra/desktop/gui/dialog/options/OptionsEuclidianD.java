@@ -57,7 +57,7 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.NumberComboBox;
 import org.geogebra.desktop.gui.dialog.AxesStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.DashListRenderer;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
@@ -262,22 +262,22 @@ public class OptionsEuclidianD extends
 		for (int i = 0; i < 4; i++)
 			dimLabel[i] = new JLabel("");
 
-		tfMinX = new MyTextField(app, 8);
-		tfMaxX = new MyTextField(app, 8);
+		tfMinX = new MyTextFieldD(app, 8);
+		tfMaxX = new MyTextFieldD(app, 8);
 		tfMinX.addActionListener(this);
 		tfMaxX.addActionListener(this);
 		tfMinX.addFocusListener(this);
 		tfMaxX.addFocusListener(this);
 
-		tfMinY = new MyTextField(app, 8);
-		tfMaxY = new MyTextField(app, 8);
+		tfMinY = new MyTextFieldD(app, 8);
+		tfMaxY = new MyTextFieldD(app, 8);
 		tfMinY.addActionListener(this);
 		tfMaxY.addActionListener(this);
 		tfMinY.addFocusListener(this);
 		tfMaxY.addFocusListener(this);
 
-		tfAxesRatioX = new MyTextField(app, 6);
-		tfAxesRatioY = new MyTextField(app, 6);
+		tfAxesRatioX = new MyTextFieldD(app, 6);
+		tfAxesRatioY = new MyTextFieldD(app, 6);
 		tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
 		tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
 		tfAxesRatioX.addActionListener(this);

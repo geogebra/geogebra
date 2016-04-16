@@ -34,7 +34,7 @@ import javax.swing.JTextField;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.desktop.gui.dialog.ToolManagerDialog;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -124,7 +124,7 @@ public class ToolNameIconPanel extends JPanel {
 			}
 		};
 		{
-			tfToolName = new MyTextField(app);
+			tfToolName = new MyTextFieldD(app);
 			int n = app.getKernel().getMacroNumber() + 1;
 			tfToolName.setText(app.getMenu("Tool") + n);
 			add(tfToolName, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
@@ -133,7 +133,7 @@ public class ToolNameIconPanel extends JPanel {
 			tfToolName.addKeyListener(kl);
 		}
 		{
-			tfCmdName = new MyTextField(app);
+			tfCmdName = new MyTextFieldD(app);
 			tfCmdName.setText(tfToolName.getText());
 			add(tfCmdName, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
@@ -149,7 +149,7 @@ public class ToolNameIconPanel extends JPanel {
 			tfCmdName.addFocusListener(fl);
 		}
 		{
-			tfToolHelp = new MyTextField(app);
+			tfToolHelp = new MyTextFieldD(app);
 			add(tfToolHelp, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
 					new Insets(0, 0, 0, 0), 0, 0));

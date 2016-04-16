@@ -183,7 +183,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	public void showPopupSymbolButton(boolean showPopupSymbolButton) {
-		((MyTextField) this).setShowSymbolTableIcon(showPopupSymbolButton
+		((MyTextFieldD) this).setShowSymbolTableIcon(showPopupSymbolButton
 				&& !popupSymbolDisabled);
 	}
 

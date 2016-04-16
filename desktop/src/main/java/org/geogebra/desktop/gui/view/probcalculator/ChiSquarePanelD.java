@@ -25,7 +25,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedur
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.awt.GColorD;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 
@@ -344,15 +344,15 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	}
 
 	public void focusGained(FocusEvent e) {
-		if (e.getSource() instanceof MyTextField) {
-			((MyTextField) e.getSource()).selectAll();
+		if (e.getSource() instanceof MyTextFieldD) {
+			((MyTextFieldD) e.getSource()).selectAll();
 		}
 
 	}
 
 	public void focusLost(FocusEvent e) {
-		if (e.getSource() instanceof MyTextField)
-			doTextFieldActionPerformed((MyTextField) e.getSource());
+		if (e.getSource() instanceof MyTextFieldD)
+			doTextFieldActionPerformed((MyTextFieldD) e.getSource());
 
 	}
 
@@ -372,7 +372,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 		private JPanel wrappedPanel;
 		
-		private MyTextField fldInput;
+		private MyTextFieldD fldInput;
 		private JLabel[] label;
 
 		/**
@@ -394,7 +394,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			wrappedPanel.setOpaque(true);
 			wrappedPanel.setLayout(new BoxLayout(this.wrappedPanel, BoxLayout.Y_AXIS));
 
-			fldInput = new MyTextField((AppD) app);
+			fldInput = new MyTextFieldD((AppD) app);
 			fldInput.addActionListener(this);
 			fldInput.addFocusListener(this);
 			wrappedPanel.add(LayoutUtil.flowPanelCenter(0, 0, 0, fldInput));
@@ -440,7 +440,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		/**
 		 * @return input field
 		 */
-		public MyTextField getInputField() {
+		public MyTextFieldD getInputField() {
 			return fldInput;
 		}
 
@@ -513,8 +513,8 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		}
 
 		public void focusGained(FocusEvent e) {
-			if (e.getSource() instanceof MyTextField) {
-				((MyTextField) e.getSource()).selectAll();
+			if (e.getSource() instanceof MyTextFieldD) {
+				((MyTextFieldD) e.getSource()).selectAll();
 			}
 		}
 

@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 import java.util.Locale;
 
 import org.geogebra.common.util.Unicode;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
 /*
@@ -17,7 +17,7 @@ import org.geogebra.desktop.main.AppD;
  * Ctrl-o Ctrl-p on Mac OSX
  */
 
-public class AngleTextField extends MyTextField implements KeyListener {
+public class AngleTextField extends MyTextFieldD implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 

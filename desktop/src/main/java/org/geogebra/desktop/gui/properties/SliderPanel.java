@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.gui.AngleTextField;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -92,9 +92,9 @@ public class SliderPanel extends JPanel implements ActionListener,
 
 		tfMin = new AngleTextField(6, app);
 		tfMax = new AngleTextField(6, app);
-		tfWidth = new MyTextField(app, 4);
+		tfWidth = new MyTextFieldD(app, 4);
 		lbWidthUnit = new JLabel("");
-		tfields = new MyTextField[3];
+		tfields = new MyTextFieldD[3];
 		tLabels = new JLabel[3];
 		tfields[0] = tfMin;
 		tfields[1] = tfMax;

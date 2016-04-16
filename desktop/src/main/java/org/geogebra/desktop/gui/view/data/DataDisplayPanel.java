@@ -50,7 +50,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.Validation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -111,7 +111,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	private JPanel imagePanel;
 
 	private JLabel lblTitleX, lblTitleY;
-	private MyTextField fldTitleX, fldTitleY;
+	private MyTextFieldD fldTitleX, fldTitleY;
 	private FrequencyTablePanel frequencyTable;
 	private JToggleButton btnExport;
 	private JTextField fldNumClasses;
@@ -231,8 +231,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		plotPanelSouth.setBackground(bgColor);
 		lblTitleX = new JLabel();
 		lblTitleY = new JLabel();
-		fldTitleX = new MyTextField(app, 20);
-		fldTitleY = new MyTextField(app, 20);
+		fldTitleX = new MyTextFieldD(app, 20);
+		fldTitleY = new MyTextFieldD(app, 20);
 		fldTitleX.setEditable(false);
 		fldTitleX.setBorder(BorderFactory.createEmptyBorder());
 		fldTitleY.setEditable(false);

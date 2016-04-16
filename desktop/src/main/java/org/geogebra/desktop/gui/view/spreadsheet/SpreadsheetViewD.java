@@ -43,7 +43,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.desktop.awt.GDimensionD;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.view.Gridable;
 import org.geogebra.desktop.main.AppD;
@@ -546,7 +546,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 		Font font = app.getPlainFont();
 
-		MyTextField dummy = new MyTextField(app);
+		MyTextFieldD dummy = new MyTextFieldD(app);
 		dummy.setFont(font);
 		dummy.setText("9999"); // for row header width
 		int h = dummy.getPreferredSize().height;

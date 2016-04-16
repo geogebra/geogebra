@@ -14,7 +14,7 @@ import org.geogebra.desktop.main.AppD;
  * (ctrl on MacOS)
  */
 
-public class MathTextField extends MyTextField implements KeyListener {
+public class MathTextField extends MyTextFieldD implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 

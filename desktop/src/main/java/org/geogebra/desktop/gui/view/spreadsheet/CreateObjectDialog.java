@@ -32,7 +32,7 @@ import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -58,7 +58,7 @@ public class CreateObjectDialog extends InputDialogD implements
 	private JPanel optionsPanel;
 	private JPanel typePanel;
 
-	private MyTextField fldName;
+	private MyTextFieldD fldName;
 
 	private JScrollPane previewPanel;
 
@@ -114,7 +114,7 @@ public class CreateObjectDialog extends InputDialogD implements
 		typeList.addListSelectionListener(this);
 
 		lblName = new JLabel();
-		fldName = new MyTextField(app);
+		fldName = new MyTextFieldD(app);
 		fldName.setShowSymbolTableIcon(true);
 		fldName.addFocusListener(this);
 

@@ -37,7 +37,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.dialog.TextInputDialogD;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -399,7 +399,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 * 
 	 */
 	@SuppressWarnings("javadoc")
-	public class DynamicTextField extends MyTextField {
+	public class DynamicTextField extends MyTextFieldD {
 
 		private static final long serialVersionUID = 1L;
 

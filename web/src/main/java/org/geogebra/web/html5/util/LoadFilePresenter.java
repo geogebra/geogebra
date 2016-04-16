@@ -23,19 +23,19 @@ public class LoadFilePresenter {
 
 	}
 
-	private View view;
+	private ViewW view;
 
-	public View getView() {
+	public ViewW getView() {
 		return view;
 	}
 
-	public void setView(View view) {
+	public void setView(ViewW view) {
 		this.view = view;
 	}
 
 	public void onPageLoad() {
 
-		View view = getView();
+		ViewW view = getView();
 		String base64String;
 		String filename;
 		view.adjustScale();

@@ -120,7 +120,7 @@ import org.geogebra.web.html5.util.MyDictionary;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
-import org.geogebra.web.html5.util.View;
+import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
 
@@ -672,13 +672,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	public void loadGgbFileAsBase64Again(String dataUrl) {
 		prepareReloadGgbFile();
-		View view = new View(null, this);
+		ViewW view = new ViewW(null, this);
 		view.processBase64String(dataUrl);
 	}
 
 	public void loadGgbFileAsBinaryAgain(JavaScriptObject binary) {
 		prepareReloadGgbFile();
-		View view = new View(null, this);
+		ViewW view = new ViewW(null, this);
 		view.processBinaryString(binary);
 	}
 

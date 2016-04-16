@@ -34,7 +34,7 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
 import org.geogebra.web.html5.util.ImageManagerW;
-import org.geogebra.web.html5.util.View;
+import org.geogebra.web.html5.util.ViewW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -68,7 +68,7 @@ public class GgbAPIW extends GgbAPI {
 
 	public void setBase64(String base64) {
 		resetPerspective();
-		View view = new View(RootPanel.getBodyElement(), (AppW) app);
+		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
 		view.processBase64String(base64);
 	}
 
@@ -104,7 +104,7 @@ public class GgbAPIW extends GgbAPI {
 
 	public void openFile(String filename) {
 		resetPerspective();
-		View view = new View(RootPanel.getBodyElement(), (AppW) app);
+		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
 		view.showLoadAnimation();
 		view.processFileName(filename);
 	}

@@ -54,7 +54,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.Validation;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.inputfield.MathTextField;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -85,7 +85,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	private JPanel mainPanel, classesPanel, controlPanel;
 	private JLabel lblTitle, lblStart, lblWidth;
 	private MyButton btnAdd, btnClear, btnDelete, btnOptions;
-	private MyTextField fldStart, fldWidth;
+	private MyTextFieldD fldStart, fldWidth;
 
 	// flags and other fields
 	private double classStart = 0, classWidth = 1;
@@ -175,7 +175,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		lblStart = new JLabel();
 		lblWidth = new JLabel();
 
-		fldStart = new MyTextField(app, 4);
+		fldStart = new MyTextFieldD(app, 4);
 		Dimension d = fldStart.getMaximumSize();
 		d.height = fldStart.getPreferredSize().height;
 		fldStart.setMaximumSize(d);
@@ -183,7 +183,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		fldStart.setText("" + 0.0);
 		fldStart.addFocusListener(this);
 
-		fldWidth = new MyTextField(app, 4);
+		fldWidth = new MyTextFieldD(app, 4);
 		fldWidth.setMaximumSize(d);
 		fldStart.setColumns(4);
 		fldWidth.setColumns(4);

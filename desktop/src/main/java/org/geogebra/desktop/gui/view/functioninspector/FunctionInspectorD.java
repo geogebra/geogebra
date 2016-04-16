@@ -56,7 +56,7 @@ import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.gui.util.SpecialNumberFormat;
@@ -94,7 +94,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 
 	// GUI
 	private JLabel lblGeoName, lblStep, lblInterval;
-	private MyTextField fldStep, fldLow, fldHigh;
+	private MyTextFieldD fldStep, fldLow, fldHigh;
 	private JButton btnRemoveColumn, btnHelp;
 	private JToggleButton btnOscCircle, btnTangent, btnXYSegments, btnTable;
 	private PopupMenuButton btnAddColumn, btnOptions;
@@ -256,17 +256,17 @@ public class FunctionInspectorD extends FunctionInspector implements
 		lblGeoName.setFont(app.getBoldFont());
 
 		lblStep = new JLabel();
-		fldStep = new MyTextField(app);
+		fldStep = new MyTextFieldD(app);
 		fldStep.addActionListener(this);
 		fldStep.addFocusListener(this);
 		fldStep.setColumns(6);
 
 		lblInterval = new JLabel();
-		fldLow = new MyTextField(app);
+		fldLow = new MyTextFieldD(app);
 		fldLow.addActionListener(this);
 		fldLow.addFocusListener(this);
 		fldLow.setColumns(6);
-		fldHigh = new MyTextField(app);
+		fldHigh = new MyTextFieldD(app);
 		fldHigh.addActionListener(this);
 		fldHigh.addFocusListener(this);
 		fldHigh.setColumns(6);
@@ -490,8 +490,8 @@ public class FunctionInspectorD extends FunctionInspector implements
 	}
 
 	public void focusGained(FocusEvent e) {
-		if (e.getSource() instanceof MyTextField) {
-			((MyTextField) e.getSource()).selectAll();
+		if (e.getSource() instanceof MyTextFieldD) {
+			((MyTextFieldD) e.getSource()).selectAll();
 		}
 	}
 
@@ -591,7 +591,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 		wrappedDialog.setFont(app.getPlainFont());
 		tableXY.setFont(app.getPlainFont());
 		tableInterval.setFont(app.getPlainFont());
-		MyTextField dummyField = new MyTextField(app);
+		MyTextFieldD dummyField = new MyTextFieldD(app);
 		tableXY.setRowHeight(dummyField.getPreferredSize().height);
 		tableInterval.setRowHeight(dummyField.getPreferredSize().height);
 		updateIcons();

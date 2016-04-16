@@ -41,7 +41,7 @@ import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.gui.util.ListSeparatorRenderer;
 import org.geogebra.desktop.gui.view.data.PlotPanelEuclidianViewD;
@@ -316,7 +316,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		for (int i = 0; i < maxParameterCount; ++i) {
 			lblParameterArray[i] = new JLabel();
-			fldParameterArray[i] = new MyTextField((AppD) app);
+			fldParameterArray[i] = new MyTextFieldD((AppD) app);
 			fldParameterArray[i].setColumns(5);
 			fldParameterArray[i].addActionListener(this);
 			fldParameterArray[i].addFocusListener(this);
@@ -331,17 +331,17 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		lblProbOf = new JLabel();
 		lblBetween = new JLabel(); // <= X <=
 		lblEndProbOf = new JLabel();
-		fldLow = new MyTextField((AppD) app);
+		fldLow = new MyTextFieldD((AppD) app);
 		fldLow.setColumns(5);
 		fldLow.addActionListener(this);
 		fldLow.addFocusListener(this);
 
-		fldHigh = new MyTextField((AppD) app);
+		fldHigh = new MyTextFieldD((AppD) app);
 		fldHigh.setColumns(6);
 		fldHigh.addActionListener(this);
 		fldHigh.addFocusListener(this);
 
-		fldResult = new MyTextField((AppD) app);
+		fldResult = new MyTextFieldD((AppD) app);
 		fldResult.setColumns(6);
 		fldResult.addActionListener(this);
 		fldResult.addFocusListener(this);
@@ -554,8 +554,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	}
 
 	public void focusGained(FocusEvent e) {
-		if (e.getSource() instanceof MyTextField) {
-			((MyTextField) e.getSource()).selectAll();
+		if (e.getSource() instanceof MyTextFieldD) {
+			((MyTextFieldD) e.getSource()).selectAll();
 		}
 	}
 

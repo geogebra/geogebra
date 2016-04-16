@@ -19,7 +19,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import org.geogebra.desktop.gui.NumberComboBox;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
@@ -121,7 +121,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 				axisUnitLabel, cbUnitLabel);
 
 		// cross at and stick to edge
-		tfCross = new MyTextField(app, 6);
+		tfCross = new MyTextFieldD(app, 6);
 		tfCross.addActionListener(this);
 		crossAt = new JLabel(app.getPlain("CrossAt") + ":");
 		cbDrawAtBorder = new JCheckBox();

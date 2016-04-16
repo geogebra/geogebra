@@ -12,7 +12,7 @@ import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.LoadFilePresenter;
-import org.geogebra.web.html5.util.View;
+import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
@@ -275,7 +275,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 
 	private static void handleLoadFile(final ArticleElement articleElement,
 			final AppW app) {
-		final View view = new View(articleElement, app);
+		final ViewW view = new ViewW(articleElement, app);
 		fileLoader.setView(view);
 		fileLoader.onPageLoad();
 	}

@@ -57,7 +57,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SpreadsheetTraceManager;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -310,7 +310,7 @@ implements
 		
 		// start row panel
 		lblStartRow = new JLabel(loc.getMenu("StartRow"+": "));
-		firstRowField = new MyTextField(app);
+		firstRowField = new MyTextFieldD(app);
 		firstRowField.setColumns(3);
 		firstRowField.addActionListener(this);
 		firstRowField.addFocusListener(this);
@@ -325,7 +325,7 @@ implements
 		cbRowLimit = new JCheckBox(loc.getMenu("RowLimit"+": "));  
 		cbRowLimit.addActionListener(this);
 
-		numRowsField = new MyTextField(app);
+		numRowsField = new MyTextFieldD(app);
 		numRowsField.setAlignmentX(0.0f);
         numRowsField.setColumns(3);
         numRowsField.addActionListener(this);

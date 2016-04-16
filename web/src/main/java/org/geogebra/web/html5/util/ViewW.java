@@ -13,14 +13,14 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 
-public class View {
+public class ViewW {
 
 	private HashMap<String, String> archiveContent;
 
 	private Element container;
 	private AppW app;
 
-	public View(Element container, AppW app) {
+	public ViewW(Element container, AppW app) {
 		this.app = app;
 		this.container = container;
 	}
@@ -215,7 +215,7 @@ public class View {
 		String workerUrls = prepareFileReading();
 		populateArchiveContent(workerUrls, this, ggbReader);
 	}
-	private native void populateArchiveContent(String workerUrls, View view,
+	private native void populateArchiveContent(String workerUrls, ViewW view,
 			JavaScriptObject ggbReader) /*-{
 	                                                      
 	                                                      
@@ -284,7 +284,7 @@ public class View {
       
       var readerCallback = function(reader) {
 	      reader.getEntries(function(entries) {
-		      view.@org.geogebra.web.html5.util.View::zippedLength = entries.length;
+		      view.@org.geogebra.web.html5.util.ViewW::zippedLength = entries.length;
 		      for (var i = 0, l = entries.length; i < l; i++) {
 			      (function(entry){	            		
 			      var filename = entry.filename;
@@ -292,7 +292,7 @@ public class View {
 				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(filename+" : image");
 				      var filenameParts = filename.split(".");
 				      entry.getData(new $wnd.zip.Data64URIWriter("image/"+filenameParts[filenameParts.length - 1]), function (data) {
-				      view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
+				      view.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
 				      });
 			      } else {
 				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(entry.filename+" : text");
@@ -300,12 +300,12 @@ public class View {
 					      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
 					      entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 					      var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
-					      view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
+					      view.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
 					      });
 				      } else {
 					      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("worker");
 					      entry.getData(new ASCIIWriter(), function(text) {
-					      view.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
+					      view.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
 					      });
 				      }
 	      
@@ -408,9 +408,9 @@ public class View {
 	public native void processJSON(String encoded) /*-{
 
 		var content = JSON.parse(encoded).archive;
-		this.@org.geogebra.web.html5.util.View::prepare(I)(content.length);
+		this.@org.geogebra.web.html5.util.ViewW::prepare(I)(content.length);
 		for (var k = 0; k < content.length; k++) {
-			this.@org.geogebra.web.html5.util.View::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(content[k].fileName,content[k].fileContent);
+			this.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(content[k].fileName,content[k].fileContent);
 		}
 
 	}-*/;

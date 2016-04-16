@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.TitlePanel;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -61,7 +61,7 @@ public class WorksheetExportDialog extends JDialog {
 	boolean kernelChanged = false;
 	private GeoGebraPreferencesD ggbPref;
 	private GuiManagerInterfaceD guiManager;
-	MyTextField titleField;
+	MyTextFieldD titleField;
 	private TitlePanel titlePanel;
 
 	// private JTabbedPane modeSwitch;
@@ -168,7 +168,7 @@ public class WorksheetExportDialog extends JDialog {
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// title textfield
-		titleField = new MyTextField(app);
+		titleField = new MyTextFieldD(app);
 
 		titleField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

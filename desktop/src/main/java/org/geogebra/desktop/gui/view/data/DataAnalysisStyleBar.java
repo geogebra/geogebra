@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.main.AppD;
 
@@ -31,9 +31,9 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private JButton btnRounding, btnPrint;
 	private MyToggleButton btnShowStatistics, btnShowPlot2, btnShowData;
 	private JPopupMenu roundingPopup;
-	private MyTextField fldSource;
+	private MyTextFieldD fldSource;
 	private MyToggleButton btnDataSource;
-	private MyTextField fldDataSource;
+	private MyTextFieldD fldDataSource;
 	private MyToggleButton btnExport;
 	private MyToggleButton btnSwapXY;
 
@@ -160,7 +160,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 				app.getScaledIcon("arrow_cursor_grabbing.png"), iconHeight); // app.getImageIcon("go-previous.png"));
 
 		btnDataSource.addActionListener(this);
-		fldDataSource = new MyTextField(app);
+		fldDataSource = new MyTextFieldD(app);
 
 		JPanel dataSourcePanel = new JPanel(new BorderLayout(5, 0));
 		// dataSourcePanel.add(btnDataSource, app.borderWest());

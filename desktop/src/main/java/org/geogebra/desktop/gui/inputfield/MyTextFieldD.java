@@ -44,7 +44,7 @@ import org.geogebra.desktop.main.AppD;
  * press.
  * 
  */
-public class MyTextField extends JTextField implements ActionListener,
+public class MyTextFieldD extends JTextField implements ActionListener,
 		FocusListener, VirtualKeyboardListener, CaretListener, SetLabels,
 		TextObject {
 
@@ -54,7 +54,7 @@ public class MyTextField extends JTextField implements ActionListener,
 
 	// symbol table popup fields
 	private SymbolTablePopupD tablePopup;
-	private MyTextField thisField = this;
+	private MyTextFieldD thisField = this;
 
 	private ImageIcon icon = GeoGebraIcon.createSymbolTableIcon(this.getFont(),
 			false);
@@ -85,7 +85,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	/************************************
 	 * Construct an instance of MyTextField without a fixed column width
 	 */
-	public MyTextField(AppD app) {
+	public MyTextFieldD(AppD app) {
 		super();
 		this.app = app;
 		initField();
@@ -96,7 +96,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	 * 
 	 * @param columns
 	 */
-	public MyTextField(AppD app, int columns) {
+	public MyTextFieldD(AppD app, int columns) {
 		super(columns);
 		this.app = app;
 		initField();

@@ -33,7 +33,7 @@ import org.geogebra.desktop.main.AppD;
  */
 public class SymbolTablePopupD {
 
-	private MyTextField textField;
+	private MyTextFieldD textField;
 	private JPopupMenu popup;
 
 	private KeyListener keyListener;
@@ -50,7 +50,7 @@ public class SymbolTablePopupD {
 	 * @param app
 	 * @param textField
 	 */
-	public SymbolTablePopupD(AppD app, MyTextField textField) {
+	public SymbolTablePopupD(AppD app, MyTextFieldD textField) {
 
 		this.app = app;
 		this.textField = textField;

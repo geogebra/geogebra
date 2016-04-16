@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
@@ -47,7 +47,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 	private JComboBox cbRegression, cbPolyOrder;
 	private JLabel lblEvaluate;
-	private MyTextField fldInputX;
+	private MyTextFieldD fldInputX;
 	private JLabel lblOutputY;
 
 	private String[] regressionLabels;
@@ -140,7 +140,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		lblEvaluate = new JLabel();
-		fldInputX = new MyTextField(app);
+		fldInputX = new MyTextFieldD(app);
 		fldInputX.addActionListener(this);
 
 		fldInputX.setColumns(6);

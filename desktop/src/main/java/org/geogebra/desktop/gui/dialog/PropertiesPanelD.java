@@ -159,7 +159,7 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.GeoGebraComboBoxEditor;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.properties.AnimationSpeedPanel;
 import org.geogebra.desktop.gui.properties.AnimationStepPanel;
 import org.geogebra.desktop.gui.properties.SliderPanel;
@@ -4595,7 +4595,7 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 
 	private TextFieldSizeModel model;
 	private JLabel label;
-	private MyTextField tfTextfieldSize;
+	private MyTextFieldD tfTextfieldSize;
 	private AppD app;
 
 	public TextfieldSizePanel(AppD app) {
@@ -4604,7 +4604,7 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 		model.setListener(this);
 		// text field for textfield size
 		label = new JLabel();
-		tfTextfieldSize = new MyTextField(app, 5);
+		tfTextfieldSize = new MyTextFieldD(app, 5);
 		label.setLabelFor(tfTextfieldSize);
 		tfTextfieldSize.addActionListener(this);
 		tfTextfieldSize.addFocusListener(this);
@@ -5206,8 +5206,8 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 	private static final long serialVersionUID = 1L;
 	private ButtonSizeModel model;
 
-	private MyTextField tfButtonWidth;
-	private MyTextField tfButtonHeight;
+	private MyTextFieldD tfButtonWidth;
+	private MyTextFieldD tfButtonHeight;
 	private JLabel labelWidth;
 	private JLabel labelHeight;
 	private JLabel labelPixelW;
@@ -5226,8 +5226,8 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 		labelPixelH = new JLabel(loc.getMenu("Pixels.short"));
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		cbUseFixedSize = new JCheckBox(loc.getPlain("fixed"));
-		tfButtonWidth = new MyTextField(app, 3);
-		tfButtonHeight = new MyTextField(app, 3);
+		tfButtonWidth = new MyTextFieldD(app, 3);
+		tfButtonHeight = new MyTextFieldD(app, 3);
 		tfButtonHeight.setInputVerifier(new SizeVerify());
 		tfButtonWidth.setInputVerifier(new SizeVerify());
 		cbUseFixedSize.addChangeListener(this);
@@ -5303,7 +5303,7 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 
 	class SizeVerify extends InputVerifier {
 		public boolean verify(JComponent input) {
-			MyTextField tf = (MyTextField) input;
+			MyTextFieldD tf = (MyTextFieldD) input;
 			String s = tf.getText();
 			if (!s.matches("\\d{2,3}"))
 				return false;

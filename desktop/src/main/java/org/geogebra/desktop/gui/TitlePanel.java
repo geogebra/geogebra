@@ -32,7 +32,7 @@ import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.inputfield.MyFormattedTextField;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -63,8 +63,8 @@ public class TitlePanel extends JPanel {
 		loc = app.getLocalization();
 
 		setLayout(new BorderLayout(5, 5));
-		titleField = new MyTextField(app);
-		authorField = new MyTextField(app);
+		titleField = new MyTextFieldD(app);
+		authorField = new MyTextFieldD(app);
 		dateField = new MyFormattedTextField((GuiManagerD) app.getGuiManager(),
 				DateFormat.getDateInstance(DateFormat.LONG));
 		dateField.setColumns(12);

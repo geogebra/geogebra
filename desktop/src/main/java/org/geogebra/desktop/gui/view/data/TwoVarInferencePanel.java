@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel;
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel.TwoVarInferenceListener;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.desktop.gui.inputfield.MyTextField;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
 public class TwoVarInferencePanel extends JPanel implements ActionListener,
@@ -41,10 +41,10 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	private JLabel lblTitle1, lblTitle2, lblHypParameter, lblTailType, lblNull,
 			lblCI, lblConfLevel, lblResultHeader;
 	private JButton btnCalc;
-	private MyTextField fldNullHyp;
+	private MyTextFieldD fldNullHyp;
 	private JPanel cardProcedure, resultPanel;
 	private JCheckBox ckEqualVariances;
-	private MyTextField fldConfLevel;
+	private MyTextFieldD fldConfLevel;
 
 	private boolean isIniting;
 	private JPanel testPanel;
@@ -102,14 +102,14 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		lblHypParameter = new JLabel();
 		lblTailType = new JLabel();
 
-		fldNullHyp = new MyTextField(app);
+		fldNullHyp = new MyTextFieldD(app);
 		fldNullHyp.setColumns(4);
 		fldNullHyp.setText("" + 0);
 		fldNullHyp.addActionListener(this);
 		fldNullHyp.addFocusListener(this);
 
 		lblConfLevel = new JLabel();
-		fldConfLevel = new MyTextField(app);
+		fldConfLevel = new MyTextFieldD(app);
 		fldConfLevel.setColumns(4);
 		fldConfLevel.addActionListener(this);
 		fldConfLevel.addFocusListener(this);
