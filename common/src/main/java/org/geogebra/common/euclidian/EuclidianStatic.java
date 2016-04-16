@@ -418,7 +418,37 @@ public abstract class EuclidianStatic {
 		
 		// http://stackoverflow.com/questions/2709839/how-do-i-express-but-not-preceded-by-in-a-java-regular-expression
 		// negative lookbehind
-		return str.split("(?<!\\\\)$");
+		// return str.split("(?<!\\\\)$");
+
+		// JavaScript GWT compatible version
+		// reverse string and use a lookahead
+		// http://stackoverflow.com/questions/641407/javascript-negative-lookbehind-equivalent
+		String reverse = new StringBuilder(str).reverse().toString();
+		String[] split = reverse.split("\\$(?!([\\\\]))");
+
+		// special case: need an extra "" at the start
+		if (str.startsWith("$")) {
+			String[] normal = new String[split.length + 1];
+
+			normal[0] = "";
+
+			for (int i = 0; i < split.length; i++) {
+				normal[split.length - i] = new StringBuilder(split[i]).reverse()
+						.toString();
+			}
+
+			return normal;
+
+		}
+
+		String[] normal = new String[split.length];
+
+		for (int i = 0; i < split.length; i++) {
+			normal[split.length - i - 1] = new StringBuilder(split[i]).reverse()
+					.toString();
+		}
+
+		return normal;
 		
 	}
 
