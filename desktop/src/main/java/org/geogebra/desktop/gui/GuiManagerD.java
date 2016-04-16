@@ -108,7 +108,7 @@ import org.geogebra.desktop.gui.dialog.InputDialogOpenURL;
 import org.geogebra.desktop.gui.dialog.ToolCreationDialog;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.inputbar.InputBarHelpPanelD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.layout.panels.AlgebraDockPanel;
 import org.geogebra.desktop.gui.layout.panels.CasDockPanel;
@@ -2543,7 +2543,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 	public void addToToolbarDefinition(int mode) {
 		if (this.getActiveEuclidianView().getDimension() > 2) {
-			DockPanel panel = this.getLayout().getDockManager()
+			DockPanelD panel = this.getLayout().getDockManager()
 					.getPanel(this.getActiveEuclidianView().getViewID());
 			panel.addToToolbar(mode);
 			panel.updateToolbar();
@@ -2977,7 +2977,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 	}
 
-	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView) {
+	public void setFocusedPanel(DockPanelD panel, boolean updatePropertiesView) {
 
 		if (panel != null) {
 			getLayout().getDockManager().setFocusedPanel(panel,

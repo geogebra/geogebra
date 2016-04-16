@@ -48,6 +48,7 @@ import javax.swing.border.Border;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -670,9 +671,8 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	@Override
-	protected void doDrawPoints(GeoImage gi,
-			List<org.geogebra.common.awt.GPoint> penPoints2,
-			org.geogebra.common.awt.GColor penColor, int penLineStyle, int penSize) {
+	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
+			GColor penColor, int penLineStyle, int penSize) {
 		PolyBezier pb = new PolyBezier(penPoints2);
 		BufferedImage penImage2 = gi.getFillImage() == null ? null
 				: (BufferedImage) ((MyImageD) gi.getFillImage()).getImage();

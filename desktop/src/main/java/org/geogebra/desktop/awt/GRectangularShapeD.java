@@ -1,7 +1,8 @@
 package org.geogebra.desktop.awt;
 
-public interface GRectangularShapeD extends
-		org.geogebra.common.awt.GRectangularShape, org.geogebra.desktop.awt.GShapeD {
+import org.geogebra.common.awt.GRectangularShape;
+
+public interface GRectangularShapeD extends GRectangularShape, GShapeD {
 
 	// java.awt.geom.RectangularShape impl=null;
 

@@ -115,7 +115,7 @@ public class SelectionTableD extends JTable {
 	 * @param mode
 	 */
 	public SelectionTableD(AppD app, Object[] data, int rows, int columns,
-			Dimension iconSize, org.geogebra.common.gui.util.SelectionTable mode) {
+			Dimension iconSize, SelectionTable mode) {
 
 		this.app = app;
 		this.mode = mode;

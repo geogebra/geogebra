@@ -94,8 +94,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 		ImageIcon icon = super.getButtonIcon();
 		if (icon == null && this.hasSlider) {
 			icon = GeoGebraIcon.createColorSwatchIcon(getSliderValue() / 100f,
-					iconSize, org.geogebra.desktop.awt.GColorD.getAwtColor(defaultColor),
-					null);
+					iconSize, GColorD.getAwtColor(defaultColor), null);
 		}
 		return icon;
 	}
@@ -131,7 +130,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 		return GeoGebraColorConstants.getPopupArray(colorSetType);
 	}
 
-	public void setDefaultColor(float alpha, org.geogebra.common.awt.GColor gc) {
+	public void setDefaultColor(float alpha, GColor gc) {
 		defaultColor = gc;
 		if (gc != null)
 			this.setIcon(GeoGebraIcon.createColorSwatchIcon(alpha, iconSize,

@@ -224,11 +224,9 @@ public abstract class EuclidianStatic {
 	 *            true touseserif font
 	 * @return bounds of resulting LaTeX formula
 	 */
-	public static final org.geogebra.common.awt.GRectangle drawMultilineLaTeX(
-			App app, org.geogebra.common.awt.GGraphics2D tempGraphics,
-			GeoElementND geo, org.geogebra.common.awt.GGraphics2D g2,
-			org.geogebra.common.awt.GFont font, org.geogebra.common.awt.GColor fgColor,
-			org.geogebra.common.awt.GColor bgColor, String labelDesc,
+	public static final GRectangle drawMultilineLaTeX(App app,
+			GGraphics2D tempGraphics, GeoElementND geo, GGraphics2D g2,
+			GFont font, GColor fgColor, GColor bgColor, String labelDesc,
 			int xLabel, int yLabel, boolean serif, Runnable callback) {
 		return prototype.doDrawMultilineLaTeX(app, tempGraphics, geo, g2, font,
 				fgColor, bgColor, labelDesc, xLabel, yLabel, serif, callback);

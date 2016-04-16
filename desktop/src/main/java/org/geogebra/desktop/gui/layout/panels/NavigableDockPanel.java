@@ -9,10 +9,10 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 
-public abstract class NavigableDockPanel extends DockPanel {
+public abstract class NavigableDockPanel extends DockPanelD {
 	private JPanel panel = null;
 	private ConstructionProtocolNavigationD consProtNav;
 	public NavigableDockPanel(int id, String title, String toolbar,

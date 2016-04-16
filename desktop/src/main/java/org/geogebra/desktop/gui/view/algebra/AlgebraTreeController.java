@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.view.algebra.AlgebraController;
@@ -204,7 +205,7 @@ public class AlgebraTreeController extends AlgebraController
 	 * @param e event
 	 * @param mouseCoords mouse coords
 	 */
-	final protected void rightPress(java.awt.event.MouseEvent e, org.geogebra.common.awt.GPoint mouseCoords){
+	final protected void rightPress(MouseEvent e, GPoint mouseCoords) {
 		e.consume();
 
 		// get GeoElement at mouse location		

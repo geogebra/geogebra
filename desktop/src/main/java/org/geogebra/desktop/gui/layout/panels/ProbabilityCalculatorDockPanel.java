@@ -5,14 +5,14 @@ import javax.swing.JComponent;
 
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.view.probcalculator.ProbabilityCalculatorViewD;
 import org.geogebra.desktop.main.AppD;
 
 /**
  * Dock panel for the probability calculator.
  */
-public class ProbabilityCalculatorDockPanel extends DockPanel {
+public class ProbabilityCalculatorDockPanel extends DockPanelD {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 

@@ -58,7 +58,7 @@ public class DockManagerD extends DockManager
 	/**
 	 * The dock panel which has the focus at the moment.
 	 */
-	private DockPanel focusedDockPanel;
+	private DockPanelD focusedDockPanel;
 
 	/**
 	 * The euclidian dock panel which had the focus the last.
@@ -68,7 +68,7 @@ public class DockManagerD extends DockManager
 	/**
 	 * A list with all registered dock panels.
 	 */
-	private ArrayList<DockPanel> dockPanels;
+	private ArrayList<DockPanelD> dockPanels;
 
 	/**
 	 * List of DockPanelListeners, informed when some dockpanel is shown.
@@ -82,7 +82,7 @@ public class DockManagerD extends DockManager
 		this.layout = layout;
 		this.app = layout.getApplication();
 
-		dockPanels = new ArrayList<DockPanel>();
+		dockPanels = new ArrayList<DockPanelD>();
 		showDockPanelListener = new ArrayList<ShowDockPanelListener>();
 		glassPane = new DockGlassPane(this);
 
@@ -106,7 +106,7 @@ public class DockManagerD extends DockManager
 	 * 
 	 * @param dockPanel
 	 */
-	public void registerPanel(DockPanel dockPanel) {
+	public void registerPanel(DockPanelD dockPanel) {
 		dockPanels.add(dockPanel);
 		dockPanel.register(this);
 	}
@@ -139,7 +139,7 @@ public class DockManagerD extends DockManager
 			DockPanelData[] dpData) {
 		if (dockPanels != null) {
 			// hide existing external windows
-			for (DockPanel panel : dockPanels) {
+			for (DockPanelD panel : dockPanels) {
 				if (panel.isOpenInFrame() && panel.isVisible()) {
 					hide(panel);
 				}
@@ -149,7 +149,7 @@ public class DockManagerD extends DockManager
 			TreeSet<Integer> updated = new TreeSet<Integer>();
 			// copy dock panel info settings
 			for (int i = 0; i < dpData.length; ++i) {
-				DockPanel panel = getPanel(dpData[i]);
+				DockPanelD panel = getPanel(dpData[i]);
 				updated.add(dpData[i].getViewId());
 				if (panel == null) {
 					Log.error("Adding null panel");
@@ -172,7 +172,7 @@ public class DockManagerD extends DockManager
 					panel.setVisible(dpData[i].isVisible());
 				}
 			}
-			for (DockPanel dockPanel : dockPanels) {
+			for (DockPanelD dockPanel : dockPanels) {
 				if (!dockPanel.hasPlane()
 						&& !updated.contains(dockPanel.getViewId())) {
 					dockPanel.setVisible(false);
@@ -223,7 +223,7 @@ public class DockManagerD extends DockManager
 
 			// now insert the dock panels
 			for (int i = 0; i < dpData.length; ++i) {
-				DockPanel panel = getPanel(dpData[i].getViewId());
+				DockPanelD panel = getPanel(dpData[i].getViewId());
 
 				// skip panels which will not be drawn in the main window
 				if (!dpData[i].isVisible()
@@ -311,7 +311,7 @@ public class DockManagerD extends DockManager
 														// view for plane
 														// otherwise we will
 														// recreate it
-						DockPanel panel = getPanel(dpData[i]);
+						DockPanelD panel = getPanel(dpData[i]);
 						if (panel != null && panel.isVisible()
 								&& !panel.isInFrame()) {
 							setFocusedPanel(panel);
@@ -342,7 +342,7 @@ public class DockManagerD extends DockManager
 	 * 
 	 * @param panel
 	 */
-	public void drag(DockPanel panel) {
+	public void drag(DockPanelD panel) {
 		// Do not allow docking in case this is the last view
 		if (panel.getParentSplitPane() == rootPane) {
 			if (rootPane.getOpposite(panel) == null) {
@@ -360,9 +360,9 @@ public class DockManagerD extends DockManager
 	 * @param dndState
 	 */
 	public void drop(DnDState dndState) {
-		DockPanel source = dndState.getSource();
+		DockPanelD source = dndState.getSource();
 		DockSplitPane sourceParent = source.getParentSplitPane();
-		DockPanel target = dndState.getTarget();
+		DockPanelD target = dndState.getTarget();
 		Component opposite = sourceParent.getOpposite(source);
 
 		// No action required
@@ -415,12 +415,12 @@ public class DockManagerD extends DockManager
 			}
 		} else {
 			if (source == target) {
-				if (opposite instanceof DockPanel) {
-					if (((DockPanel) opposite).getParentSplitPane()
+				if (opposite instanceof DockPanelD) {
+					if (((DockPanelD) opposite).getParentSplitPane()
 							.getOpposite(opposite) == null)
 						rootPane = newSplitPane;
 					else
-						((DockPanel) opposite).getParentSplitPane()
+						((DockPanelD) opposite).getParentSplitPane()
 								.replaceComponent(opposite, newSplitPane);
 				} else {
 					if (opposite == rootPane)
@@ -545,7 +545,7 @@ public class DockManagerD extends DockManager
 	 * 
 	 * @param panel
 	 */
-	public void show(DockPanel panel) {
+	public void show(DockPanelD panel) {
 
 		panel.setVisible(true);
 		panel.setHidden(false);
@@ -750,7 +750,7 @@ public class DockManagerD extends DockManager
 	 * @param panela
 	 * @return true if succeeded to hide the panel
 	 */
-	public boolean hide(DockPanel panel) {
+	public boolean hide(DockPanelD panel) {
 		return hide(panel, true);
 	}
 
@@ -774,7 +774,7 @@ public class DockManagerD extends DockManager
 	 * @param isPermanent
 	 *            says if the close is permanent
 	 */
-	public void closePanel(DockPanel panel, boolean isPermanent) {
+	public void closePanel(DockPanelD panel, boolean isPermanent) {
 		if (hide(panel, isPermanent)) {
 			getLayout().getApplication().updateMenubar();
 
@@ -801,7 +801,7 @@ public class DockManagerD extends DockManager
 	 *            If this change is permanent.
 	 * @return true if it succeeded to hide the panel
 	 */
-	public boolean hide(DockPanel panel, boolean isPermanent) {
+	public boolean hide(DockPanelD panel, boolean isPermanent) {
 		if (!panel.isVisible()) {
 			// some views (especially CAS) will close so slowly that the user is
 			// able
@@ -914,8 +914,8 @@ public class DockManagerD extends DockManager
 		// dock panel
 		Component source = (Component) event.getSource();
 		// System.out.println("    source: " + source);
-		DockPanel dp = (DockPanel) SwingUtilities.getAncestorOfClass(
-				DockPanel.class, source);
+		DockPanelD dp = (DockPanelD) SwingUtilities.getAncestorOfClass(
+				DockPanelD.class, source);
 
 		// ignore this if we didn't hit a dock panel at all or if we hit the
 		// euclidian
@@ -940,7 +940,7 @@ public class DockManagerD extends DockManager
 	 * @param panel
 	 *            panel
 	 */
-	public void setFocusedPanel(DockPanel panel) {
+	public void setFocusedPanel(DockPanelD panel) {
 		setFocusedPanel(panel, true);
 	}
 
@@ -952,7 +952,7 @@ public class DockManagerD extends DockManager
 	 * @param updatePropertiesView
 	 *            update the properties view
 	 */
-	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView) {
+	public void setFocusedPanel(DockPanelD panel, boolean updatePropertiesView) {
 		if (focusedDockPanel == panel) {
 			return;
 		}
@@ -1010,7 +1010,7 @@ public class DockManagerD extends DockManager
 
 	/**
 	 * Changes the focused panel to the dock panel with ID viewId. Uses
-	 * {@link DockManagerD#setFocusedPanel(DockPanel)} internally but adds some
+	 * {@link DockManagerD#setFocusedPanel(DockPanelD)} internally but adds some
 	 * validation checks.
 	 * 
 	 * @param viewId
@@ -1018,7 +1018,7 @@ public class DockManagerD extends DockManager
 	 *         not exist or is invisible at the moment
 	 */
 	public boolean setFocusedPanel(int viewId) {
-		DockPanel dockPanel = getPanel(viewId);
+		DockPanelD dockPanel = getPanel(viewId);
 
 		if (dockPanel != null && dockPanel.isVisible()) {
 			setFocusedPanel(dockPanel);
@@ -1031,7 +1031,7 @@ public class DockManagerD extends DockManager
 	/**
 	 * @return The dock panel which has focus at the moment.
 	 */
-	public DockPanel getFocusedPanel() {
+	public DockPanelD getFocusedPanel() {
 		return focusedDockPanel;
 	}
 
@@ -1069,14 +1069,14 @@ public class DockManagerD extends DockManager
 
 		// to follow the DRY principle we'll use a single iterator for both
 		// forward and backward iteration
-		Iterator<DockPanel> it = getForwardBackwardIterator(forward);
+		Iterator<DockPanelD> it = getForwardBackwardIterator(forward);
 
 		// if the focused dock panel was found already
 		boolean foundFocused = false;
 		boolean changedFocus = false;
 
 		while (it.hasNext()) {
-			DockPanel panel = it.next();
+			DockPanelD panel = it.next();
 
 			// all we do for now on just takes visible dock panels
 			// into consideration
@@ -1110,7 +1110,7 @@ public class DockManagerD extends DockManager
 			it = getForwardBackwardIterator(forward);
 
 			while (it.hasNext()) {
-				DockPanel panel = it.next();
+				DockPanelD panel = it.next();
 
 				if (panel.isVisible()) {
 					// quit if we reached the focused panel until we found
@@ -1136,21 +1136,21 @@ public class DockManagerD extends DockManager
 	 */
 	private void markAlonePanel() {
 		// determine if such a panel exists
-		DockPanel singlePanel = null;
+		DockPanelD singlePanel = null;
 
 		if (rootPane.getRightComponent() == null) {
 			Component leftComponent = rootPane.getLeftComponent();
 
-			if (leftComponent != null && leftComponent instanceof DockPanel) {
-				singlePanel = (DockPanel) leftComponent;
+			if (leftComponent != null && leftComponent instanceof DockPanelD) {
+				singlePanel = (DockPanelD) leftComponent;
 			}
 		}
 
 		if (rootPane.getLeftComponent() == null) {
 			Component rightComponent = rootPane.getRightComponent();
 
-			if (rightComponent != null && rightComponent instanceof DockPanel) {
-				singlePanel = (DockPanel) rightComponent;
+			if (rightComponent != null && rightComponent instanceof DockPanelD) {
+				singlePanel = (DockPanelD) rightComponent;
 			}
 		}
 
@@ -1164,7 +1164,7 @@ public class DockManagerD extends DockManager
 	 * Remove marks from any panel, that it might be alone.
 	 */
 	private void unmarkAlonePanels() {
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			if (panel.isAlone()) {
 				panel.setAlone(false);
 			}
@@ -1179,21 +1179,21 @@ public class DockManagerD extends DockManager
 	 *            If the returned iterator should return forward or backward
 	 * @return The iterator
 	 */
-	private Iterator<DockPanel> getForwardBackwardIterator(boolean forward) {
+	private Iterator<DockPanelD> getForwardBackwardIterator(boolean forward) {
 		if (forward) {
 			return dockPanels.iterator();
 		} else {
-			final ListIterator<DockPanel> original = dockPanels
+			final ListIterator<DockPanelD> original = dockPanels
 					.listIterator(dockPanels.size());
 
 			// we create our own iterator which iterates through our list in
 			// reversed order
-			return new Iterator<DockPanel>() {
+			return new Iterator<DockPanelD>() {
 				public void remove() {
 					original.remove();
 				}
 
-				public DockPanel next() {
+				public DockPanelD next() {
 					return original.previous();
 				}
 
@@ -1208,11 +1208,11 @@ public class DockManagerD extends DockManager
 	 * Update the labels of all DockPanels.
 	 */
 	public void setLabels() {
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			panel.updateLabels();
 		}
 
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			panel.buildToolbarGui();
 		}
 	}
@@ -1231,7 +1231,7 @@ public class DockManagerD extends DockManager
 	 * current document.
 	 */
 	public void updateTitles() {
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			panel.updateTitle();
 		}
 	}
@@ -1245,7 +1245,7 @@ public class DockManagerD extends DockManager
 	 * @see #setLabels()
 	 */
 	public void updatePanels() {
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			panel.updatePanel();
 		}
 	}
@@ -1254,7 +1254,7 @@ public class DockManagerD extends DockManager
 	 * Update the toolbars of all dock panels.
 	 */
 	public void updateToolbars() {
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			panel.updateToolbar();
 		}
 	}
@@ -1265,7 +1265,7 @@ public class DockManagerD extends DockManager
 	 * @param mode
 	 */
 	public void setToolbarMode(int mode) {
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			panel.setToolbarMode(mode);
 		}
 	}
@@ -1274,11 +1274,11 @@ public class DockManagerD extends DockManager
 	 * Update the fonts in all dock panels.
 	 */
 	public void updateFonts() {
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			panel.updateFonts();
 		}
 
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			panel.buildToolbarGui();
 		}
 	}
@@ -1333,12 +1333,12 @@ public class DockManagerD extends DockManager
 	 *            dock panel data
 	 * @return a DockPanel
 	 */
-	public DockPanel getPanel(DockPanelData dpData) {
+	public DockPanelD getPanel(DockPanelData dpData) {
 		if (dpData.getPlane() == null) // standard case
 			return getPanel(dpData.getViewId());
 
 		// euclidian view for plane case
-		DockPanel panel = (DockPanel) app.getCompanion()
+		DockPanelD panel = (DockPanelD) app.getCompanion()
 				.createEuclidianDockPanelForPlane(dpData.getViewId(),
 						dpData.getPlane());
 		if (panel == null) {
@@ -1360,9 +1360,9 @@ public class DockManagerD extends DockManager
 	 * @param viewId
 	 * @return The panel associated to the viewId
 	 */
-	public DockPanel getPanel(int viewId) {
-		DockPanel panel = null;
-		for (DockPanel dockPanel : dockPanels) {
+	public DockPanelD getPanel(int viewId) {
+		DockPanelD panel = null;
+		for (DockPanelD dockPanel : dockPanels) {
 			if (dockPanel.getViewId() == viewId) {
 				panel = dockPanel;
 				break;
@@ -1376,8 +1376,8 @@ public class DockManagerD extends DockManager
 	/**
 	 * @return All dock panels
 	 */
-	public DockPanel[] getPanels() {
-		return dockPanels.toArray(new DockPanel[0]);
+	public DockPanelD[] getPanels() {
+		return dockPanels.toArray(new DockPanelD[0]);
 	}
 
 	/**
@@ -1491,7 +1491,7 @@ public class DockManagerD extends DockManager
 	 * @param dp
 	 *            the dock panel to maximize
 	 */
-	public void maximize(DockPanel dp) {
+	public void maximize(DockPanelD dp) {
 		restorePerspective = layout.createPerspective("tmp");
 		for (int i = 0; i < getPanels().length; i++) {
 			if (getPanels()[i] != dp) {
@@ -1510,7 +1510,7 @@ public class DockManagerD extends DockManager
 	@Override
 	public int getNumberOfOpenViews() {
 		int num = 0;
-		for (DockPanel d : this.dockPanels) {
+		for (DockPanelD d : this.dockPanels) {
 			if (d.isShowing()) {
 				num++;
 			}
@@ -1520,7 +1520,7 @@ public class DockManagerD extends DockManager
 
 	public void exitAllCurrent() {
 		App.debug("closing panels");
-		for (DockPanel d : this.dockPanels) {
+		for (DockPanelD d : this.dockPanels) {
 			if (d.getFrame() != null) {
 				d.getFrame().setVisible(false);
 			}

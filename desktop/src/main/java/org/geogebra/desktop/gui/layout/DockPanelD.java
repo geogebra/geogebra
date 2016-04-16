@@ -35,6 +35,7 @@ import javax.swing.JSplitPane;
 import javax.swing.border.Border;
 
 import org.geogebra.common.gui.layout.DockComponent;
+import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
@@ -67,8 +68,8 @@ import org.geogebra.desktop.main.LocalizationD;
  * 
  * @author Florian Sonner
  */
-public abstract class DockPanel extends JPanel implements ActionListener,
-		WindowListener, MouseListener, org.geogebra.common.gui.layout.DockPanel,
+public abstract class DockPanelD extends JPanel implements ActionListener,
+		WindowListener, MouseListener, DockPanel,
 		DockComponent {
 	private static final long serialVersionUID = 1L;
 
@@ -307,7 +308,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 *            The location of this view in the view menu, -1 if the view
 	 *            should not appear at all
 	 */
-	public DockPanel(int id, String title, String toolbar, boolean hasStyleBar,
+	public DockPanelD(int id, String title, String toolbar, boolean hasStyleBar,
 			int menuOrder) {
 		this(id, title, toolbar, hasStyleBar, menuOrder, '\u0000');
 	}
@@ -331,7 +332,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 *            The shortcut character which can be used to make this view
 	 *            visible
 	 */
-	public DockPanel(int id, String title, String toolbar, boolean hasStyleBar,
+	public DockPanelD(int id, String title, String toolbar, boolean hasStyleBar,
 			int menuOrder, char menuShortcut) {
 		this.id = id;
 		this.title = title;
@@ -1526,8 +1527,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * 
 	 * @author Florian Sonner
 	 */
-	public static class MenuOrderComparator implements Comparator<DockPanel> {
-		public int compare(DockPanel a, DockPanel b) {
+	public static class MenuOrderComparator implements Comparator<DockPanelD> {
+		public int compare(DockPanelD a, DockPanelD b) {
 			return a.getMenuOrder() - b.getMenuOrder();
 		}
 	}

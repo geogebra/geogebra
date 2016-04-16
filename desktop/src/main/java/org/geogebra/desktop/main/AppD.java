@@ -194,7 +194,7 @@ import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.DockBar;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.util.ImageSelection;
@@ -1474,8 +1474,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		GuiManagerD gm = (GuiManagerD) getGuiManager();
 
-		DockPanel[] panels = gm.getLayout().getDockManager().getPanels();
-		for (DockPanel panel : panels) {
+		DockPanelD[] panels = gm.getLayout().getDockManager().getPanels();
+		for (DockPanelD panel : panels) {
 			if (panel.canCustomizeToolbar()) {
 				panel.setToolbarString(panel.getDefaultToolbarString());
 			}

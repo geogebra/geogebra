@@ -86,7 +86,7 @@ public class LayoutD extends Layout implements SettingListener {
 	 * 
 	 * @param dockPanel
 	 */
-	public void registerPanel(DockPanel dockPanel) {
+	public void registerPanel(DockPanelD dockPanel) {
 		dockManager.registerPanel(dockPanel);
 	}
 
@@ -178,7 +178,7 @@ public class LayoutD extends Layout implements SettingListener {
 				.setSplitPaneData(spTreeReader.getInfo(dockManager.getRoot()));
 
 		// get the information about the dock panels
-		DockPanel[] panels = dockManager.getPanels();
+		DockPanelD[] panels = dockManager.getPanels();
 		DockPanelData[] dockPanelInfo = new DockPanelData[panels.length];
 
 		for (int i = 0; i < panels.length; ++i) {
@@ -314,7 +314,7 @@ public class LayoutD extends Layout implements SettingListener {
 	 *         key dispatching.
 	 */
 	public boolean inExternalWindow(Component component) {
-		DockPanel[] panels = dockManager.getPanels();
+		DockPanelD[] panels = dockManager.getPanels();
 
 		for (int i = 0; i < panels.length; ++i) {
 			if (panels[i].isOpenInFrame()) {
@@ -332,7 +332,7 @@ public class LayoutD extends Layout implements SettingListener {
 	 * @return If just the view associated to viewId is visible
 	 */
 	public boolean isOnlyVisible(int viewId) {
-		DockPanel[] panels = dockManager.getPanels();
+		DockPanelD[] panels = dockManager.getPanels();
 		boolean foundView = false;
 
 		for (int i = 0; i < panels.length; ++i) {

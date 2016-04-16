@@ -40,7 +40,7 @@ import javax.swing.tree.TreeSelectionModel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -58,7 +58,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements
 	private static final int SCROLL_PANEL_WIDTH = 300;
 	private static final int SCROLL_PANEL_HEIGHT = 400;
 
-	private DockPanel dockPanel;
+	private DockPanelD dockPanel;
 
 	private JButton insertButton;
 	private JButton moveUpButton;
@@ -363,7 +363,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements
 	 * @param toolbarDefinition
 	 *            toolbar as string (sequence of numbers and delimiters)
 	 */
-	public void setToolbar(DockPanel dockPanel, String toolbarDefinition) {
+	public void setToolbar(DockPanelD dockPanel, String toolbarDefinition) {
 		this.dockPanel = dockPanel;
 
 		// create new tree model

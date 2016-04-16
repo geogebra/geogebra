@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.util;
 
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.Slider;
@@ -61,7 +62,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 *            {@link SelectionTableW}
 	 */
 	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
-	        Integer columns, org.geogebra.common.gui.util.SelectionTable mode) {
+			Integer columns, SelectionTable mode) {
 		this(app, data, rows, columns, mode, true, false);
 	}
 
@@ -82,8 +83,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 *            {@code boolean}
 	 */
 	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
-	        Integer columns, org.geogebra.common.gui.util.SelectionTable mode,
-	        final boolean hasTable, boolean hasSlider) {
+			Integer columns, SelectionTable mode, final boolean hasTable,
+			boolean hasSlider) {
 		this(app, data, rows, columns, mode, hasTable, hasSlider, null);
 	}
 
@@ -107,8 +108,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 *            which items are selected
 	 */
 	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
-	        Integer columns, org.geogebra.common.gui.util.SelectionTable mode,
-	        final boolean hasTable, boolean hasSlider, boolean[] selected) {
+			Integer columns, SelectionTable mode, final boolean hasTable,
+			boolean hasSlider, boolean[] selected) {
 		super();
 		this.app = app;
 		this.hasTable = hasTable;
@@ -203,8 +204,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 */
 	private void createSelectionTable(ImageOrText[] newData,
  Integer rows,
-	        Integer columns, org.geogebra.common.gui.util.SelectionTable mode,
-	        boolean[] selected) {
+			Integer columns, SelectionTable mode, boolean[] selected) {
 		this.data = newData;
 
 		myTable = new SelectionTableW(newData, rows, columns, mode,

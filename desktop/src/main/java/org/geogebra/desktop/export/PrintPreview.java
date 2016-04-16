@@ -50,7 +50,7 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.layout.DockManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.view.Gridable;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
 import org.geogebra.desktop.main.AppD;
@@ -262,7 +262,7 @@ public class PrintPreview extends JDialog {
 		// VIEW combo box
 		m_cbView = new JComboBox(getAvailableViews());
 
-		DockPanel focusedPanel = ((GuiManagerD) app.getGuiManager())
+		DockPanelD focusedPanel = ((GuiManagerD) app.getGuiManager())
 				.getLayout().getDockManager().getFocusedPanel();
 		if (focusedPanel == null)
 			m_cbView.setSelectedItem(app.getPlain("AllViews"));
@@ -448,7 +448,7 @@ public class PrintPreview extends JDialog {
 		scalePanel.addActionListener(lst);
 
 		JPanel retPanel = new JPanel();
-		DockPanel dock;
+		DockPanelD dock;
 
 		dock = ((DockManagerD) app.getGuiManager().getLayout().getDockManager())
 				.getPanel(view.getViewID());

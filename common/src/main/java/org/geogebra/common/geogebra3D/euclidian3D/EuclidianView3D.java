@@ -3964,9 +3964,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	protected void doDrawPoints(GeoImage gi,
-								List<org.geogebra.common.awt.GPoint> penPoints2,
-								org.geogebra.common.awt.GColor penColor, int penLineStyle, int penSize) {
+	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
+			org.geogebra.common.awt.GColor penColor, int penLineStyle,
+			int penSize) {
 		// TODO Auto-generated method stub
 
 	}

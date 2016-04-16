@@ -18,7 +18,7 @@ public class ViewButton extends DockButton implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	private DockPanel panel;
+	private DockPanelD panel;
 	private int viewId;
 
 	private JToolTip tip;
@@ -29,7 +29,7 @@ public class ViewButton extends DockButton implements ActionListener {
 	 * @param app
 	 * @param panel
 	 */
-	public ViewButton(AppD app, DockPanel panel) {
+	public ViewButton(AppD app, DockPanelD panel) {
 		super(app);
 		this.app = app;
 		this.panel = panel;
@@ -62,7 +62,7 @@ public class ViewButton extends DockButton implements ActionListener {
 		}
 	}
 
-	public DockPanel getPanel() {
+	public DockPanelD getPanel() {
 		return panel;
 	}
 

@@ -8,6 +8,7 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
 
@@ -80,7 +81,7 @@ public class CASOutputPanel extends JPanel {
 	 *            color
 	 */
 	public void setOutput(String output, String latexOutput, String cmd,
-			boolean isError, org.geogebra.common.awt.GColor c, App app) {
+			boolean isError, GColor c, App app) {
 		boolean useLaTeXpanel = latexOutput != null && !isError;
 		outputArea.setVisible(!useLaTeXpanel);
 		latexPanel.setVisible(useLaTeXpanel);

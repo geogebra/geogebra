@@ -63,7 +63,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	 */
 	public ContextMenuChooseGeoD(AppD app, EuclidianView view,
 			ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
-			Point location, org.geogebra.common.awt.GPoint invokerLocation) {
+			Point location, GPoint invokerLocation) {
 
 		super(app, selectedGeos, location);
 

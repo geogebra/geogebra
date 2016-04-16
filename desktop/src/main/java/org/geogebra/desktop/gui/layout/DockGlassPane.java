@@ -32,7 +32,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	private BasicStroke stroke;
 	private DockManagerD dockManager;
 
-	private DockPanel[] dockPanels;
+	private DockPanelD[] dockPanels;
 	private Rectangle[] dockPanelsBounds;
 
 	private DnDState dndState;
@@ -76,7 +76,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 
 		// cache the absolute bounds of all DockPanels
 		dockPanels = dockManager.getPanels();
-		ArrayList<DockPanel> dockPanelsList = new ArrayList<DockPanel>();
+		ArrayList<DockPanelD> dockPanelsList = new ArrayList<DockPanelD>();
 		ArrayList<Rectangle> bounds = new ArrayList<Rectangle>();
 		Rectangle tmpRect;
 
@@ -99,7 +99,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 		dockPanelsBounds = new Rectangle[bounds.size()];
 		dockPanelsBounds = (bounds.toArray(dockPanelsBounds));
 
-		dockPanels = new DockPanel[dockPanelsList.size()];
+		dockPanels = new DockPanelD[dockPanelsList.size()];
 		dockPanels = (dockPanelsList.toArray(dockPanels));
 
 		previewRect = new Rectangle();
@@ -140,12 +140,12 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 				previewRect.height);
 	}
 
-	private void setColorEnoughHeight(DockPanel target) {
+	private void setColorEnoughHeight(DockPanelD target) {
 		if (target.getHeight() < DockComponent.MIN_SIZE * 2)
 			color = COLOR_NOT_ENOUGH_SPACE;
 	}
 
-	private void setColorEnoughWidth(DockPanel target) {
+	private void setColorEnoughWidth(DockPanelD target) {
 		if (target.getWidth() < DockComponent.MIN_SIZE * 2)
 			color = COLOR_NOT_ENOUGH_SPACE;
 	}
@@ -176,7 +176,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 		}
 
 		if (update) {
-			DockPanel target = dndState.getTarget();
+			DockPanelD target = dndState.getTarget();
 
 			Point targetAbsPosition = SwingUtilities.convertPoint(
 					target.getParent(), target.getLocation(), this);

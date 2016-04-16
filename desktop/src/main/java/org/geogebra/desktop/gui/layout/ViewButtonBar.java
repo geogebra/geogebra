@@ -47,18 +47,18 @@ public class ViewButtonBar extends JToolBar {
 			viewButtons = new ArrayList<ViewButton>();
 		viewButtons.clear();
 
-		DockPanel[] dockPanels = layout.getDockManager().getPanels();
-		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
+		DockPanelD[] dockPanels = layout.getDockManager().getPanels();
+		Arrays.sort(dockPanels, new DockPanelD.MenuOrderComparator());
 
 		// get the PropertiesView dock panel first
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			if (panel.getViewId() == AppD.VIEW_PROPERTIES) {
 				// viewButtons.add(new ViewButton(app, panel));
 			}
 		}
 
 		// iterate through the dock panels
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 
 			// skip panels with negative order and the PropertiesView panel
 			if (panel.getMenuOrder() < 0
@@ -80,7 +80,7 @@ public class ViewButtonBar extends JToolBar {
 		removeAll();
 
 		for (ViewButton btn : viewButtons) {
-			DockPanel panel = btn.getPanel();
+			DockPanelD panel = btn.getPanel();
 
 			btn.setSelected(app.getGuiManager().showView(btn.getViewId()));
 

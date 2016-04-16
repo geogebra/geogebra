@@ -8,7 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.view.properties.PropertiesStyleBarD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
@@ -16,7 +16,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Dock panel for the algebra view.
  */
-public class PropertiesDockPanel extends DockPanel implements
+public class PropertiesDockPanel extends DockPanelD implements
 		WindowFocusListener {
 	private static final long serialVersionUID = 1L;
 	private AppD app;

@@ -9,7 +9,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.gui.layout.DockManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.panels.EuclidianDockPanelAbstract;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import org.geogebra.desktop.main.AppD;
@@ -90,7 +90,7 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 			// if 3D view is alone, we put algebra view in main window to avoid
 			// gray panel
 			boolean isAlone = manager.containsLessThanTwoPanels();
-			DockPanel algebraPanel = null;
+			DockPanelD algebraPanel = null;
 			if (isAlone) {
 				algebraPanel = manager.getPanel(App.VIEW_ALGEBRA);
 				if (algebraPanel.isVisible()) {

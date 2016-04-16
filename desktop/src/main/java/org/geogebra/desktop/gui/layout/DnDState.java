@@ -54,12 +54,12 @@ public class DnDState {
 	 * The panel which was dragged by the user. Can't be changed from the
 	 * outside as a new source should create a new DockState.
 	 */
-	private DockPanel source;
+	private DockPanelD source;
 
 	/**
 	 * The panel the mouse is above at the moment.
 	 */
-	private DockPanel target;
+	private DockPanelD target;
 
 	/**
 	 * The exact region the mouse is above at the moment, see the constants of
@@ -67,19 +67,19 @@ public class DnDState {
 	 */
 	private int region = TOP;
 
-	public DnDState(DockPanel source) {
+	public DnDState(DockPanelD source) {
 		this.source = source;
 	}
 
-	public DockPanel getSource() {
+	public DockPanelD getSource() {
 		return source;
 	}
 
-	public void setTarget(DockPanel target) {
+	public void setTarget(DockPanelD target) {
 		this.target = target;
 	}
 
-	public DockPanel getTarget() {
+	public DockPanelD getTarget() {
 		return target;
 	}
 

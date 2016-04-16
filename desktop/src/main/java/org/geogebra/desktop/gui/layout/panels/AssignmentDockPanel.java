@@ -4,14 +4,14 @@ import javax.swing.JComponent;
 
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.main.AppD;
 
 /**
  * @author Christoph Reinisch
  *
  */
-public class AssignmentDockPanel extends DockPanel {
+public class AssignmentDockPanel extends DockPanelD {
 	private static final long serialVersionUID = 1L;
 	public AssignmentDockPanel(AppD app) {
 		super(

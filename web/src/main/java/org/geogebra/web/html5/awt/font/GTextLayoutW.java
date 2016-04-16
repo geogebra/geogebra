@@ -3,11 +3,12 @@ package org.geogebra.web.html5.awt.font;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GFontRenderContextW;
 
-public class GTextLayoutW implements org.geogebra.common.awt.font.GTextLayout {
+public class GTextLayoutW implements GTextLayout {
 
 	GFont font;
 	String str;
@@ -15,8 +16,7 @@ public class GTextLayoutW implements org.geogebra.common.awt.font.GTextLayout {
 	boolean containsLowerCase = false;
 	int advance = -1;
 
-	public GTextLayoutW(String str, org.geogebra.common.awt.GFont font,
-	        GFontRenderContextW frc) {
+	public GTextLayoutW(String str, GFont font, GFontRenderContextW frc) {
 		this.font = font;
 		this.str = str;
 		this.frc = frc;

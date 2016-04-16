@@ -39,7 +39,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
@@ -207,7 +207,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	}
 
-	private class MyDockPanel extends DockPanel {
+	private class MyDockPanel extends DockPanelD {
 
 		private static final long serialVersionUID = 1L;
 

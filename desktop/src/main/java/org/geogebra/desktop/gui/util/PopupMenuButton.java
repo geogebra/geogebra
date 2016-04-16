@@ -120,7 +120,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param mode
 	 */
 	public PopupMenuButton(AppD app, Object[] data, int rows, int columns,
-			Dimension iconSize, org.geogebra.common.gui.util.SelectionTable mode) {
+			Dimension iconSize, SelectionTable mode) {
 		this(app, data, rows, columns, iconSize, mode, true, false);
 	}
 
@@ -135,7 +135,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param hasSlider
 	 */
 	public PopupMenuButton(final AppD app, Object[] data, int rows, int columns,
-			Dimension iconSize, org.geogebra.common.gui.util.SelectionTable mode,
+			Dimension iconSize, SelectionTable mode,
 			final boolean hasTable, boolean hasSlider) {
 		super();
 		this.app = app;

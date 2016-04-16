@@ -133,6 +133,7 @@ import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesMode
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
@@ -151,6 +152,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -3548,14 +3550,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			public LatexTableFill(AppD app, FillingPanel panel,
 					PopupMenuButton popupButton, Object[] data, int rows,
-					int columns, org.geogebra.common.gui.util.SelectionTable mode) {
+					int columns, SelectionTable mode) {
 				super(app, data, rows, columns, new Dimension(24, 24), mode);
 				this.latexArray = data;
 				this.popupButton = popupButton;
 				setHorizontalAlignment(SwingConstants.CENTER);
 				setSelectedIndex(0);
 				this.setShowGrid(true);
-				this.setGridColor(org.geogebra.desktop.awt.GColorD
+				this.setGridColor(GColorD
 						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 				this.setBorder(BorderFactory
 						.createLineBorder(MyTableD.TABLE_GRID_COLOR));

@@ -27,7 +27,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 
@@ -60,10 +60,10 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		JComboBox switcher = new JComboBox();
 		switcher.addItem(new KeyValue(-1, app.getPlain("General")));
 
-		DockPanel[] panels = ((LayoutD) ((GuiManagerD) app.getGuiManager())
+		DockPanelD[] panels = ((LayoutD) ((GuiManagerD) app.getGuiManager())
 				.getLayout()).getDockManager().getPanels();
 
-		for (DockPanel panel : panels) {
+		for (DockPanelD panel : panels) {
 			if (panel.canCustomizeToolbar()) {
 				switcher.addItem(new KeyValue(panel.getViewId(), app
 						.getPlain(panel.getViewTitle())));
@@ -190,7 +190,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 			confPanel.setToolbar(null,
 					((GuiManagerD) app.getGuiManager()).getToolbarDefinition());
 		} else {
-			DockPanel panel = ((GuiManagerD) app.getGuiManager()).getLayout()
+			DockPanelD panel = ((GuiManagerD) app.getGuiManager()).getLayout()
 					.getDockManager().getPanel(id);
 			confPanel.setToolbar(panel, panel.getToolbarString());
 		}

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -78,13 +79,11 @@ public abstract class DrawEquation {
 	 *            true to cache
 	 * @return dimensions of result
 	 */
-	public abstract org.geogebra.common.awt.GDimension drawEquation(App app,
-			GeoElementND geo, org.geogebra.common.awt.GGraphics2D g2, int x,
-			int y,
-			String text, org.geogebra.common.awt.GFont font, boolean serif,
-			org.geogebra.common.awt.GColor fgColor,
-			org.geogebra.common.awt.GColor bgColor, boolean useCache,
-			boolean updateAgain, Runnable callback);
+	public abstract GDimension drawEquation(App app, GeoElementND geo,
+			GGraphics2D g2, int x, int y, String text,
+			org.geogebra.common.awt.GFont font, boolean serif, GColor fgColor,
+			GColor bgColor, boolean useCache, boolean updateAgain,
+			Runnable callback);
 
 	public static StringBuilder getJLMCommands() {
 		StringBuilder initJLM = new StringBuilder();
@@ -112,7 +111,7 @@ public abstract class DrawEquation {
 		// #4068 so that we can use \questeq in Java and HTML5
 		initJLM.append("\\newcommand{\\questeq}[0]{ \\stackrel{ \\small ?}{=} } ");
 
-		HashMap<String, org.geogebra.common.awt.GColor> ggbCols = GeoGebraColorConstants
+		HashMap<String, GColor> ggbCols = GeoGebraColorConstants
 				.getGeoGebraColors();
 
 		Iterator<String> it = ggbCols.keySet().iterator();

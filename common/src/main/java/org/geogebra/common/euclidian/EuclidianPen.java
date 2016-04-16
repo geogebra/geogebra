@@ -764,7 +764,7 @@ public class EuclidianPen {
 
 		}
 
-		Iterator<org.geogebra.common.awt.GPoint> it = penPoints2.iterator();
+		Iterator<GPoint> it = penPoints2.iterator();
 		while (it.hasNext()) {
 			GPoint p = it.next();
 			// newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()),

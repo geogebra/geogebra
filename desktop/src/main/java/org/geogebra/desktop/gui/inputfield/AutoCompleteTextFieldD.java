@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoComplete;
+import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.kernel.Macro;
@@ -40,8 +41,8 @@ import org.geogebra.desktop.gui.autocompletion.CompletionsPopup;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.main.AppD;
 
-public class AutoCompleteTextFieldD extends MathTextField implements
-		AutoComplete, org.geogebra.common.gui.inputfield.AutoCompleteTextField {
+public class AutoCompleteTextFieldD extends MathTextField
+		implements AutoComplete, AutoCompleteTextField {
 
 	private static final long serialVersionUID = 1L;
 

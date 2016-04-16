@@ -152,7 +152,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		implicitPolyTable = new HashMap<String, Integer>(); // function(x,y)
 															// return value to
 															// function #
-		CustomColor = new HashMap<org.geogebra.common.awt.GColor, String>(); // map
+		CustomColor = new HashMap<GColor, String>(); // map
 																			// of
 																			// rgb
 																			// ->

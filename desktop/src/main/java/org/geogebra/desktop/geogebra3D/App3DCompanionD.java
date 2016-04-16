@@ -12,7 +12,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.geogebra3D.euclidianForPlane.EuclidianControllerForPlaneD;
 import org.geogebra.desktop.geogebra3D.euclidianForPlane.EuclidianViewForPlaneD;
 import org.geogebra.desktop.geogebra3D.gui.layout.panels.EuclidianDockPanelForPlaneD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 
@@ -65,7 +65,7 @@ public class App3DCompanionD extends App3DCompanion {
 	private EuclidianDockPanelForPlaneD panel;
 
 	@Override
-	public DockPanel getPanelForPlane() {
+	public DockPanelD getPanelForPlane() {
 		return panel;
 	}
 
@@ -79,7 +79,7 @@ public class App3DCompanionD extends App3DCompanion {
 		else
 			panelForPlaneList.clear();
 
-		DockPanel[] panels = ((LayoutD) app.getGuiManager().getLayout())
+		DockPanelD[] panels = ((LayoutD) app.getGuiManager().getLayout())
 				.getDockManager().getPanels();
 		for (int i = 0; i < panels.length; i++) {
 			if (panels[i] instanceof EuclidianDockPanelForPlaneD) {

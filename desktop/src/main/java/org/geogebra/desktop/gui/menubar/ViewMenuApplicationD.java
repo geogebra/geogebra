@@ -11,7 +11,7 @@ import javax.swing.JMenuItem;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.layout.panels.ConstructionProtocolDockPanel;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
@@ -142,12 +142,12 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		if (!initialized) {
 			return;
 		}
-		DockPanel[] dockPanels = layout.getDockManager().getPanels();
-		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
+		DockPanelD[] dockPanels = layout.getDockManager().getPanels();
+		Arrays.sort(dockPanels, new DockPanelD.MenuOrderComparator());
 		int viewsInMenu = 0;
 
 		// count visible views first..
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			// skip panels with negative order by design
 			if (panel.getMenuOrder() < 0) {
 				continue;
@@ -161,7 +161,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 			int i = 0;
 			ShowViewAction action;
 
-			for (DockPanel panel : dockPanels) {
+			for (DockPanelD panel : dockPanels) {
 				// skip panels with negative order by design
 				if (panel.getMenuOrder() < 0) {
 					continue;
@@ -177,11 +177,11 @@ public class ViewMenuApplicationD extends ViewMenuD {
 
 	private class ShowViewAction extends AbstractAction {
 
-		private DockPanel panel;
+		private DockPanelD panel;
 		private int viewId;
 		private JCheckBoxMenuItem cb;
 
-		public ShowViewAction(DockPanel panel) {
+		public ShowViewAction(DockPanelD panel) {
 			super(app.getPlain(panel.getViewTitle()));
 			this.panel = panel;
 			viewId = panel.getViewId();
@@ -236,14 +236,14 @@ public class ViewMenuApplicationD extends ViewMenuD {
 			return;
 		}
 
-		DockPanel[] dockPanels = layout.getDockManager().getPanels();
-		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
+		DockPanelD[] dockPanels = layout.getDockManager().getPanels();
+		Arrays.sort(dockPanels, new DockPanelD.MenuOrderComparator());
 
 		// update views
 		{
 			int i = 0;
 
-			for (DockPanel panel : dockPanels) {
+			for (DockPanelD panel : dockPanels) {
 				// skip panels with negative order by design
 				if (panel.getMenuOrder() < 0) {
 					continue;
@@ -264,12 +264,12 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		if (!initialized) {
 			return;
 		}
-		DockPanel[] dockPanels = layout.getDockManager().getPanels();
-		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
+		DockPanelD[] dockPanels = layout.getDockManager().getPanels();
+		Arrays.sort(dockPanels, new DockPanelD.MenuOrderComparator());
 		int viewsInMenu = 0;
 
 		// count visible views first..
-		for (DockPanel panel : dockPanels) {
+		for (DockPanelD panel : dockPanels) {
 			// skip panels with negative order by design
 			if (panel.getMenuOrder() < 0) {
 				continue;
@@ -283,7 +283,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 			int i = 0;
 			JCheckBoxMenuItem cb;
 
-			for (DockPanel panel : dockPanels) {
+			for (DockPanelD panel : dockPanels) {
 				// skip panels with negative order by design
 				if (panel.getMenuOrder() < 0) {
 					continue;

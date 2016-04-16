@@ -42,7 +42,7 @@ import org.geogebra.desktop.gui.dialog.options.OptionsLayoutD;
 import org.geogebra.desktop.gui.dialog.options.OptionsObjectD;
 import org.geogebra.desktop.gui.dialog.options.OptionsSpreadsheetD;
 import org.geogebra.desktop.gui.layout.DockManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.layout.panels.PropertiesDockPanel;
 import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
@@ -668,7 +668,7 @@ public class PropertiesViewD extends
 		// if propreties view covers a part of the main window
 		DockManagerD manager = ((LayoutD) app.getGuiManager().getLayout())
 				.getDockManager();
-		DockPanel panel = manager.getPanel(getViewID());
+		DockPanelD panel = manager.getPanel(getViewID());
 		if (panel.isInFrame()) {
 			Rectangle panelRectangle = panel.getFrameBounds();
 			Rectangle mainWindowRectangle = ((AppD) app).getMainComponent()

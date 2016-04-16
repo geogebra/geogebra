@@ -6,7 +6,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 
@@ -94,8 +94,8 @@ public class ViewMenuD extends BaseMenu {
 	 * @return whether 3D View is switched on
 	 */
 	public boolean is3DViewShown() {
-		DockPanel[] dockPanels = layout.getDockManager().getPanels();
-		for (DockPanel panel : dockPanels) {
+		DockPanelD[] dockPanels = layout.getDockManager().getPanels();
+		for (DockPanelD panel : dockPanels) {
 			if (panel.isVisible() && panel.isEuclidianDockPanel3D())
 				return true;
 		}

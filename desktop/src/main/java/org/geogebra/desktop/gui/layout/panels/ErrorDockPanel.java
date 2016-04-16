@@ -6,13 +6,13 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.main.AppD;
 
 /**
  * Dock panel for error of loading (used for 3D panel not supported by ggb version < 5.0)
  */
-public class ErrorDockPanel extends DockPanel {
+public class ErrorDockPanel extends DockPanelD {
 	private static final long serialVersionUID = 1L;
 	
 	/**

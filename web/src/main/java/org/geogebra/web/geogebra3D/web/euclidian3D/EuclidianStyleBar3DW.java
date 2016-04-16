@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianStyleBarStatic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -277,7 +278,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 						StyleBar3DResources.INSTANCE.axes_plane() }, 24);
 
 		btnShowAxesAndPlane = new AxesAndPlanePopup(app, axesAndPlaneIcons, -1,
-		        4, org.geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
+				4, SelectionTable.MODE_ICON, getView());
 		btnShowAxesAndPlane.addPopupHandler(this);
 
 		// ========================================

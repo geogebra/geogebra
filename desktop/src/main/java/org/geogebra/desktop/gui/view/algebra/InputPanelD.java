@@ -23,6 +23,7 @@ import javax.swing.text.JTextComponent;
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.DynamicTextInputPane;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.editor.GeoGebraEditorPane;
@@ -235,7 +236,9 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 		private Color listBackground = Color.white;
 		private Color rolloverBackground = Color.lightGray;
 		private Border gridBorder = BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0, org.geogebra.desktop.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)),
+				BorderFactory.createMatteBorder(0, 0, 1, 0,
+						GColorD.getAwtColor(
+								GeoGebraColorConstants.TABLE_GRID_COLOR)),
 				BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
 				@Override

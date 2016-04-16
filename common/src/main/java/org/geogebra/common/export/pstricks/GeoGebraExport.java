@@ -78,7 +78,7 @@ public abstract class GeoGebraExport {
 	protected Construction construction;
 	protected EuclidianView euclidianView;
 	protected ExportSettings frame;
-	protected HashMap<org.geogebra.common.awt.GColor, String> CustomColor;
+	protected HashMap<GColor, String> CustomColor;
 	protected double xunit, yunit, xmin, xmax, ymin, ymax;
 	// The exported format: Latex, tex, ConTexT, Beamer
 	protected int format = 0;

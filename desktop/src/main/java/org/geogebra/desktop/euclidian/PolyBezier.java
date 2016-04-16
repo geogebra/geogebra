@@ -22,6 +22,7 @@ import java.awt.geom.GeneralPath;
 import java.util.Iterator;
 import java.util.List;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.draw.DrawConic;
 
 /**
@@ -44,11 +45,11 @@ public class PolyBezier {
 		setNumberOfPoints(n);
 	}
 
-	public PolyBezier(List<org.geogebra.common.awt.GPoint> al) {
+	public PolyBezier(List<GPoint> al) {
 		setNumberOfPoints(al.size());
 
 		int i = 0;
-		Iterator<org.geogebra.common.awt.GPoint> it = al.iterator();
+		Iterator<GPoint> it = al.iterator();
 		while (it.hasNext()) {
 			org.geogebra.common.awt.GPoint p = it.next();
 			x[i] = p.getX();

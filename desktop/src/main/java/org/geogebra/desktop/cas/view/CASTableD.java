@@ -39,7 +39,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.DockManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -204,7 +204,7 @@ public class CASTableD extends JTable implements CASTable {
 			GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 			DockManagerD dockManager = gui.getLayout().getDockManager();
 
-			DockPanel panel = dockManager.getFocusedPanel();
+			DockPanelD panel = dockManager.getFocusedPanel();
 			if (panel == null || panel.getViewId() != App.VIEW_CAS) {
 				dockManager.setFocusedPanel(App.VIEW_CAS);
 			}
