@@ -38,7 +38,7 @@ public class GeoTurtle extends GeoPoint{
 
 	// List to store sequential turtle drawing commands.
 	// TODO: use a better data structure?
-	private ArrayList<Command> cmdList;
+	private ArrayList<TurtleCommand> cmdList;
 
 	// turtle status fields
 	private GeoPointND startPoint = new GeoPoint(cons, 0d, 0d, 1d);
@@ -86,7 +86,7 @@ public class GeoTurtle extends GeoPoint{
 	 */
 	public GeoTurtle(Construction c) {
 		super(c);
-		cmdList = new ArrayList<Command>();
+		cmdList = new ArrayList<TurtleCommand>();
 		
 		// TODO: put this in default construction?
 		this.setObjColor(GColor.GRAY);
@@ -138,7 +138,7 @@ public class GeoTurtle extends GeoPoint{
 	/**
 	 * @return list of turtle commands that define the current turtle drawing
 	 */
-	public ArrayList<Command> getTurtleCommandList() {
+	public ArrayList<TurtleCommand> getTurtleCommandList() {
 		return cmdList;
 	}
 
@@ -473,7 +473,7 @@ public class GeoTurtle extends GeoPoint{
 	 * Add command to the turtle's command list and perform the command
 	 * @param cmd the command to add to the command list
 	 */
-	public void addCommand(Command cmd) {
+	public void addCommand(TurtleCommand cmd) {
 		cmdList.add(cmd);
 		cmd.perform();
 		doUpdate();
@@ -498,7 +498,7 @@ public class GeoTurtle extends GeoPoint{
 	 * @author arno
 	 * Interface for turtle commands
 	 */
-	public interface Command {
+	public interface TurtleCommand {
 		/**
 		 * @return the type of the command
 		 */
@@ -572,7 +572,7 @@ public class GeoTurtle extends GeoPoint{
 	 * @author arno
 	 * Command: Move turtle forward
 	 */
-	public class CmdForward implements Command {
+	public class CmdForward implements TurtleCommand {
 		private double length;
 		private double time;
 		private GeoPoint destination;
@@ -624,7 +624,7 @@ public class GeoTurtle extends GeoPoint{
 	 * @author arno + judit
 	 * Set turtle position immediately
 	 */
-	public class CmdSetCoords implements Command {
+	public class CmdSetCoords implements TurtleCommand {
 		/** x-coord */
 		protected double destX;
 		/** y-coord */
@@ -709,7 +709,7 @@ public class GeoTurtle extends GeoPoint{
 	 * @author arno
 	 * Command: turn turtle
 	 */
-	public class CmdTurn implements Command {
+	public class CmdTurn implements TurtleCommand {
 		private double degAngle;
 		private double angle;
 		private double time;
@@ -763,7 +763,7 @@ public class GeoTurtle extends GeoPoint{
 	 * @author arno
 	 * Command: set pen color
 	 */
-	public class CmdSetColor implements Command {
+	public class CmdSetColor implements TurtleCommand {
 		private GColor color;
 		
 		/**
@@ -808,7 +808,7 @@ public class GeoTurtle extends GeoPoint{
 	 * @author arno
 	 * Command: set pen state (up or down)
 	 */
-	public class CmdSetPen implements Command {
+	public class CmdSetPen implements TurtleCommand {
 		private boolean down;
 		
 		/**
@@ -853,7 +853,7 @@ public class GeoTurtle extends GeoPoint{
 	 * @author arno
 	 * Command: set pen thickness
 	 */
-	public class CmdSetThickness implements Command {
+	public class CmdSetThickness implements TurtleCommand {
 		private int thickness;
 		
 		/**

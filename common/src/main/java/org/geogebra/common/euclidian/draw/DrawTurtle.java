@@ -191,7 +191,7 @@ public class DrawTurtle extends Drawable {
 			// Iteration stops when ncommands is reached, the current
 			// in-progress limit.
 
-			for (GeoTurtle.Command cmd : turtle.getTurtleCommandList()) {
+			for (GeoTurtle.TurtleCommand cmd : turtle.getTurtleCommandList()) {
 				if (ncommands-- > 0) {
 					cmd.draw(ds);
 				} else {
