@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
@@ -89,7 +90,7 @@ public class AlgoMatrixPlot extends AlgoElement {
 		int width = outputImage.getWidth();
 		int height = outputImage.getHeight();
 
-		g.setPaint(org.geogebra.common.awt.GColor.WHITE);
+		g.setPaint(GColor.WHITE);
 		g.fillRect(0, 0, width, height);
 
 		int rowStep = height / data.length;
@@ -106,7 +107,7 @@ public class AlgoMatrixPlot extends AlgoElement {
 		}
 
 		// draw grid
-		g.setPaint(org.geogebra.common.awt.GColor.BLACK);
+		g.setPaint(GColor.BLACK);
 
 		for (int row = 0; row <= height; row += rowStep) {
 			g.drawLine(0, row, width, row);

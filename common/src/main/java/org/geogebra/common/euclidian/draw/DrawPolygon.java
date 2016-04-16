@@ -15,8 +15,10 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -158,7 +160,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// draw trace
 			if (poly.getTrace()) {
 				isTracing = true;
-				org.geogebra.common.awt.GGraphics2D g2 = view
+				GGraphics2D g2 = view
 						.getBackgroundGraphics();
 				if (g2 != null) {
 					fill(g2, gp, false);
@@ -479,7 +481,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private boolean fillShape = false;
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 
 		if (isVisible) {
 			fill(g2, (fillShape ? getShape() : gp), false); // fill
@@ -618,7 +620,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 
 			fill(g2, (geo.isInverseFill() ? getShape() : gp), false);
@@ -637,7 +639,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		org.geogebra.common.awt.GShape t = geo.isInverseFill() ? getShape()
+		GShape t = geo.isInverseFill() ? getShape()
 				: gp;
 		return t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold, y
@@ -645,7 +647,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return gp != null && gp.getBounds() != null
 				&& rect.contains(gp.getBounds());
 	}

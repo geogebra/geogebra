@@ -55,6 +55,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -873,7 +874,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		((org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD) getConstructionProtocolNavigation())
+		((ConstructionProtocolNavigationD) getConstructionProtocolNavigation())
 				.initGUI();
 
 		if (casView != null)
@@ -1027,7 +1028,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * of euclidianView
 	 */
 	public void showDrawingPadPopup(Component invoker,
-			org.geogebra.common.awt.GPoint p) {
+ GPoint p) {
 		// clear highlighting and selections in views
 		app.getActiveEuclidianView().resetMode();
 
@@ -1059,7 +1060,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * of the component invoker
 	 */
 	public void showPopupMenu(ArrayList<GeoElement> geos, Component invoker,
-			org.geogebra.common.awt.GPoint p) {
+			GPoint p) {
 
 		if (geos == null || geos.size() == 0 || !app.letShowPopupMenu())
 			return;
@@ -1085,7 +1086,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 */
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianView view,
-			org.geogebra.common.awt.GPoint p) {
+ GPoint p) {
 
 		if (geos == null || !app.letShowPopupMenu())
 			return;
@@ -1204,7 +1205,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return ret;
 	}
 
-	public Color showColorChooser(org.geogebra.common.awt.GColor currentColor) {
+	public Color showColorChooser(GColor currentColor) {
 
 		try {
 			GeoGebraColorChooser chooser = new GeoGebraColorChooser((AppD) app);
@@ -3026,7 +3027,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
 			EuclidianViewInterfaceCommon view,
-			org.geogebra.common.awt.GPoint mouseLoc) {
+ GPoint mouseLoc) {
 		showPopupMenu(selectedGeos,
 				((EuclidianViewInterfaceD) view).getJPanel(), mouseLoc);
 
@@ -3034,7 +3035,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
-			org.geogebra.common.awt.GPoint p) {
+			GPoint p) {
 
 		showPopupChooseGeo(selectedGeos, geos, (EuclidianView) view, p);
 
@@ -3134,12 +3135,12 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	}
 
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
-			org.geogebra.common.awt.GPoint mouseLoc) {
+			GPoint mouseLoc) {
 		showDrawingPadPopup(((EuclidianViewD) view).getJPanel(), mouseLoc);
 	}
 
 	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
-			org.geogebra.common.awt.GPoint mouseLoc) {
+			GPoint mouseLoc) {
 		// 3D stuff
 	}
 

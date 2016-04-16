@@ -14,6 +14,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
@@ -92,7 +93,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			// draw trace
 			if (poly.getTrace()) {
 				isTracing = true;
-				org.geogebra.common.awt.GGraphics2D g2 = view
+				GGraphics2D g2 = view
 						.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
@@ -106,7 +107,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	}
 
 	@Override
-	protected final void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
@@ -164,7 +165,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 
 			g2.setPaint(getObjectColor());
@@ -238,7 +239,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
@@ -275,7 +276,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return gp != null && rect.contains(gp.getBounds());
 	}
 

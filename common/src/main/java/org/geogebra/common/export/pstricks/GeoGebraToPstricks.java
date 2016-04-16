@@ -1795,7 +1795,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 	private void drawGrid() {
 
-		org.geogebra.common.awt.GColor GridCol = euclidianView.getGridColor();
+		GColor GridCol = euclidianView.getGridColor();
 		double[] GridDist = euclidianView.getGridDistances();
 		double myx = xmin;
 		long truncx = (long) myx;
@@ -2165,7 +2165,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 	// Append the name color to StringBuilder sb
 	@Override
-	protected void ColorCode(org.geogebra.common.awt.GColor c, StringBuilder sb) {
+	protected void ColorCode(GColor c, StringBuilder sb) {
 		if (frame.isGrayscale()) {
 			String colorname = "";
 			int red = c.getRed();

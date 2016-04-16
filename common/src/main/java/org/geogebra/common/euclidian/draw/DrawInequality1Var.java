@@ -2,7 +2,9 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GEllipse2DDouble;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -51,7 +53,7 @@ public class DrawInequality1Var extends Drawable {
 	}
 
 	@Override
-	public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	public void draw(GGraphics2D g2) {
 		if (lines == null)
 			return;
 		int i = 0;
@@ -113,7 +115,7 @@ public class DrawInequality1Var extends Drawable {
 	}
 
 	@Override
-	public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	public boolean isInside(GRectangle rect) {
 		// TODO Auto-generated method stub
 		return false;
 	}

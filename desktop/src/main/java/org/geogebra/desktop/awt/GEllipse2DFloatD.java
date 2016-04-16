@@ -38,8 +38,7 @@ public class GEllipse2DFloatD implements org.geogebra.desktop.awt.GRectangularSh
 	}
 
 	public boolean contains(GRectangle2D rectangle) {
-		return impl.contains(org.geogebra.desktop.awt.GRectangleD
-				.getAWTRectangle2D(rectangle));
+		return impl.contains(GRectangleD.getAWTRectangle2D(rectangle));
 	}
 
 	public boolean contains(double xTry, double yTry) {

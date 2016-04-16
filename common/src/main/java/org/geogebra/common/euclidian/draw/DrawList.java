@@ -961,7 +961,7 @@ public final class DrawList extends CanvasDrawable
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
-		org.geogebra.common.awt.GDimension prefSize = box.getPreferredSize();
+		GDimension prefSize = box.getPreferredSize();
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
 				prefSize.getHeight());
 		box.setBounds(labelRectangle);
@@ -1023,7 +1023,7 @@ public final class DrawList extends CanvasDrawable
 			// draw trace
 			if (geoList.getTrace()) {
 				isTracing = true;
-				org.geogebra.common.awt.GGraphics2D g2 = view
+				GGraphics2D g2 = view
 						.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
@@ -1056,7 +1056,7 @@ public final class DrawList extends CanvasDrawable
 	}
 
 	@Override
-	protected final void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(GGraphics2D g2) {
 		if (!geoList.drawAsComboBox()) {
 
 			g2.setPaint(geo.getObjectColor());
@@ -1080,7 +1080,7 @@ public final class DrawList extends CanvasDrawable
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		if (isVisible && geoList.drawAsComboBox()) {
 			drawOnCanvas(g2, "");
 			return;
@@ -1179,12 +1179,12 @@ public final class DrawList extends CanvasDrawable
 		if (!geo.isEuclidianVisible())
 			return null;
 
-		org.geogebra.common.awt.GRectangle result = null;
+		GRectangle result = null;
 
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable d = (Drawable) drawables.get(i);
-			org.geogebra.common.awt.GRectangle bb = d.getBounds();
+			GRectangle bb = d.getBounds();
 			if (bb != null) {
 				if (result == null) {
 					result = AwtFactory.prototype.newRectangle(bb);

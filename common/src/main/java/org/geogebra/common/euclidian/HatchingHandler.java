@@ -61,7 +61,7 @@ public class HatchingHandler {
 	 * @param app
 	 *            needed to determine right font
 	 */
-	final protected GPaint setHatching(org.geogebra.common.awt.GGraphics2D g3,
+	final protected GPaint setHatching(GGraphics2D g3,
 			GBasicStroke defObjStroke, GColor color, GColor bgColor,
 			float backgroundTransparency, double hatchDist,
 			double angleDegrees, FillType fillType, String symbol, App app) {
@@ -233,7 +233,7 @@ public class HatchingHandler {
 	 * @param alpha
 	 *            alpha value
 	 */
-	protected void setTexture(org.geogebra.common.awt.GGraphics2D g3,
+	protected void setTexture(GGraphics2D g3,
 			GeoElementND geo, float alpha) {
 		// Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		if (geo.getFillImage() == null || geo.getFillImage().isSVG()) {

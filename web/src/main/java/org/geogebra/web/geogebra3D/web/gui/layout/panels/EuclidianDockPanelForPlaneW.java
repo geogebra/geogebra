@@ -2,6 +2,7 @@ package org.geogebra.web.geogebra3D.web.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.io.layout.DockPanelDataForPlane;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -156,7 +157,8 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 				.getEuclidianForPlane(
 						((GeoElement) view.getCompanion().getPlane())
 								.getLabelSimple());
-		settings.setPreferredSize(org.geogebra.common.factories.AwtFactory.prototype
+		settings.setPreferredSize(
+				AwtFactory.prototype
 				.newDimension(width, height));
 
 		view.synCanvasSize();

@@ -433,8 +433,7 @@ public class App3D extends AppD {
 	@Override
 	public boolean isRightClick(AbstractEvent e) {
 		if (e instanceof MouseEventD) {
-			return isRightClick(org.geogebra.desktop.euclidian.event.MouseEventD
-					.getEvent(e));
+			return isRightClick(MouseEventD.getEvent(e));
 		}
 
 		return e.isRightClick();

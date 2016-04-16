@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.geogebra3D.kernel3D;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -117,7 +118,7 @@ public class MyPoint3D extends MyPoint {
 	}
 
 	@Override
-	public double distance(org.geogebra.common.awt.GPoint2D q) {
+	public double distance(GPoint2D q) {
 		return distance(q.getX(), q.getY(), 0);
 	}
 

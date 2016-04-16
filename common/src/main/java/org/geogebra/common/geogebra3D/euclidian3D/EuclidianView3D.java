@@ -10,6 +10,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -1534,7 +1535,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	public GeoElement getLabelHit(org.geogebra.common.awt.GPoint p,
+	public GeoElement getLabelHit(GPoint p,
 								  PointerEventType type) {
 		if (type == PointerEventType.TOUCH) {
 			return null;
@@ -2029,7 +2030,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	public void setHits(org.geogebra.common.awt.GPoint p, PointerEventType type) {
+	public void setHits(GPoint p, PointerEventType type) {
 		// empty method : setHits3D() used instead
 		// OR comment setHits3D() for shaders
 
@@ -2112,7 +2113,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public void setSelectionRectangle(
-			org.geogebra.common.awt.GRectangle selectionRectangle) {
+GRectangle selectionRectangle) {
 		// TODO Auto-generated method stub
 
 	}
@@ -3965,7 +3966,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
-			org.geogebra.common.awt.GColor penColor, int penLineStyle,
+			GColor penColor, int penLineStyle,
 			int penSize) {
 		// TODO Auto-generated method stub
 
@@ -4339,7 +4340,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	final public void paintBackground(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void paintBackground(GGraphics2D g2) {
 		// not used in 3D
 	}
 

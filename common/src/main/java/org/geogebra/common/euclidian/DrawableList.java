@@ -15,6 +15,7 @@ package org.geogebra.common.euclidian;
 //import java.awt.Graphics2D;
 import java.util.Iterator;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
@@ -176,7 +177,7 @@ public class DrawableList {
 	 * @param g2
 	 *            Graphic to be used
 	 */
-	public final void drawAll(org.geogebra.common.awt.GGraphics2D g2) {
+	public final void drawAll(GGraphics2D g2) {
 		Link cur = head;
 		while (cur != null) {
 			// defined check needed in case the GeoList changed its size

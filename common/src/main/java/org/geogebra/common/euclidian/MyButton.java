@@ -3,6 +3,8 @@ package org.geogebra.common.euclidian;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
@@ -68,7 +70,7 @@ public class MyButton implements Observer {
 	 * @param g
 	 *            graphics
 	 */
-	public void paintComponent(org.geogebra.common.awt.GGraphics2D g,
+	public void paintComponent(GGraphics2D g,
 			double multiplier) {
 
 		boolean latex = CanvasDrawable.isLatexString(getCaption());
@@ -185,10 +187,10 @@ public class MyButton implements Observer {
 
 		// prepare colors and paint
 		g.setColor(view.getBackgroundCommon());
-		org.geogebra.common.awt.GPaint p;
-		org.geogebra.common.awt.GColor bg = geoButton.getBackgroundColor(), bg2;
+		GPaint p;
+		GColor bg = geoButton.getBackgroundColor(), bg2;
 		if (bg == null)
-			bg = org.geogebra.common.awt.GColor.LIGHT_GRAY;
+			bg = GColor.LIGHT_GRAY;
 		if (isSelected()) {
 			/*
 			 * bg2 = bg; bg = bg.darker();
@@ -216,14 +218,14 @@ public class MyButton implements Observer {
 				geoButton.getHeight(), arcSize, arcSize);
 
 		// draw border
-		g.setColor(org.geogebra.common.awt.GColor.DARK_GRAY);
+		g.setColor(GColor.DARK_GRAY);
 		g.setStroke(EuclidianStatic.getDefaultStroke());
 		g.drawRoundRect(x, y, getWidth() + (int) add - 1, getHeight() - 1,
 				arcSize, arcSize);
 
 		// prepare to draw text
 		g.setColor(geoButton.getObjectColor());
-		this.setForeground(org.geogebra.common.awt.GColor.WHITE);
+		this.setForeground(GColor.WHITE);
 
 		// draw image
 		if (geoButton.getFillImage() != null) {
@@ -281,7 +283,7 @@ public class MyButton implements Observer {
 		}
 	}
 
-	private void resize(org.geogebra.common.awt.GGraphics2D g, int imgGap) {
+	private void resize(GGraphics2D g, int imgGap) {
 		boolean latex = CanvasDrawable.isLatexString(getCaption());
 
 		// Reduces the font for attempts
@@ -340,7 +342,7 @@ public class MyButton implements Observer {
 	 * @param white
 	 *            color
 	 */
-	private void setForeground(org.geogebra.common.awt.GColor white) {
+	private void setForeground(GColor white) {
 		// TODO Auto-generated method stub
 
 	}

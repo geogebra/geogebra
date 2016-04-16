@@ -21,6 +21,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -211,7 +212,7 @@ public class DrawVector extends Drawable implements Previewable {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
 			// check if any of vector is on-screen
-			org.geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(
+			GPoint2D[] clippedPoints = ClipLine.getClipped(
 					coordsA[0], coordsA[1], coordsB[0], coordsB[1],
 					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianStatic.CLIP_DISTANCE,
@@ -264,11 +265,11 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			if (traceDrawingNeeded) {
 				traceDrawingNeeded = false;
-				org.geogebra.common.awt.GGraphics2D g2d = view
+				GGraphics2D g2d = view
 						.getBackgroundGraphics();
 				if (g2d != null)
 					drawTrace(g2d);
@@ -297,7 +298,7 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	@Override
-	protected final void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		if (lineVisible)
@@ -363,7 +364,7 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
@@ -386,7 +387,7 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return (lineVisible && rect.contains(line.getBounds()))
 				|| (arrowheadVisible && rect.contains(gp.getBounds()));
 	}
@@ -414,7 +415,7 @@ public class DrawVector extends Drawable implements Previewable {
 	final public GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible())
 			return null;
-		org.geogebra.common.awt.GRectangle ret = null;
+		GRectangle ret = null;
 		if (lineVisible)
 			ret = line.getBounds();
 

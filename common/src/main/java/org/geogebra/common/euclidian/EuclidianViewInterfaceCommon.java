@@ -653,7 +653,7 @@ public interface EuclidianViewInterfaceCommon extends
 	 *            mouse coords
 	 * @return hit button (or null)
 	 */
-	public MyButton getHitButton(org.geogebra.common.awt.GPoint p,
+	public MyButton getHitButton(GPoint p,
 			PointerEventType type);
 
 	/**
@@ -736,7 +736,7 @@ public interface EuclidianViewInterfaceCommon extends
 	 * @param rect
 	 *            rectangle
 	 */
-	public void setHits(org.geogebra.common.awt.GRectangle rect);
+	public void setHits(GRectangle rect);
 
 	/**
 	 * update the cursor as if mouse has moved over this point
@@ -938,19 +938,19 @@ public interface EuclidianViewInterfaceCommon extends
 	 * @param bgColor
 	 *            new background color
 	 */
-	public void setBackground(org.geogebra.common.awt.GColor bgColor);
+	public void setBackground(GColor bgColor);
 
 	/**
 	 * @param axesColor
 	 *            new axes color
 	 */
-	public void setAxesColor(org.geogebra.common.awt.GColor axesColor);
+	public void setAxesColor(GColor axesColor);
 
 	/**
 	 * @param gridColor
 	 *            new grid color
 	 */
-	public void setGridColor(org.geogebra.common.awt.GColor gridColor);
+	public void setGridColor(GColor gridColor);
 
 	/**
 	 * @return true if focused

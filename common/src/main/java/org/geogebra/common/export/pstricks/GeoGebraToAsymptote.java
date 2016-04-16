@@ -650,7 +650,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		float yLabelHor = y
 				- (float) ((euclidianView.getFont().getSize() + 2) / euclidianView
 						.getYscale());
-		org.geogebra.common.awt.GColor geocolor = geo.getObjectColor();
+		GColor geocolor = geo.getObjectColor();
 
 		if (!compact)
 			codePoint.append("\n");
@@ -993,7 +993,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			if (!eurosym)
 				codePreamble.append("usepackage(\"eurosym\"); ");
 		}
-		org.geogebra.common.awt.GColor geocolor = geo.getObjectColor();
+		GColor geocolor = geo.getObjectColor();
 		int style = geo.getFontStyle();
 		int size = (int) (geo.getFontSizeMultiplier() * getApp().getFontSize());
 		GeoPoint gp;
@@ -1768,7 +1768,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		double x = geo.getX(), y = geo.getY(), z = geo.getZ();
 		x = x / z;
 		y = y / z;
-		org.geogebra.common.awt.GColor dotcolor = geo.getObjectColor();
+		GColor dotcolor = geo.getObjectColor();
 
 		switch (dotstyle) {
 		case EuclidianStyleConstants.POINT_STYLE_CROSS:
@@ -2257,7 +2257,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
 				boolean isPointLabel = false;
 
-				org.geogebra.common.awt.GColor geocolor = geo.getObjectColor();
+				GColor geocolor = geo.getObjectColor();
 
 				if (!compact)
 					codePoint.append("\n");
@@ -2325,8 +2325,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 *            The second Color object to compare with.
 	 * @return Whether c1 and c2 are equivalent colors, to rounding.
 	 */
-	boolean ColorEquals(org.geogebra.common.awt.GColor c1,
-			org.geogebra.common.awt.GColor c2) {
+	boolean ColorEquals(GColor c1, GColor c2) {
 		return format(c1.getRed() / 255d).equals(format(c2.getRed() / 255d))
 				&& format(c1.getGreen() / 255d).equals(
 						format(c2.getGreen() / 255d))
@@ -2336,7 +2335,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	// Draw the grid
 	private void drawGrid() {
-		org.geogebra.common.awt.GColor GridCol = euclidianView.getGridColor();
+		GColor GridCol = euclidianView.getGridColor();
 		double[] GridDist = euclidianView.getGridDistances();
 		boolean GridBold = euclidianView.getGridIsBold();
 		int GridLine = euclidianView.getGridLineStyle();
@@ -2486,7 +2485,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		String[] units = euclidianView.getAxesUnitLabels();
 		int axisStyle = euclidianView.getAxesLineStyle();
 		int[] tickStyle = euclidianView.getAxesTickStyles();
-		org.geogebra.common.awt.GColor axisColor = euclidianView.getAxesColor();
+		GColor axisColor = euclidianView.getAxesColor();
 		boolean axisBold = (axisStyle & 2) == EuclidianStyleConstants.AXES_BOLD;
 
 		String lx = "", ly = ""; // axis labels
@@ -2774,7 +2773,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	// Returns point style code with size dotsize. Includes comma.
 	private void PointOptionCode(GeoPoint geo, StringBuilder sb, double dotsize) {
-		org.geogebra.common.awt.GColor dotcolor = geo.getObjectColor();
+		GColor dotcolor = geo.getObjectColor();
 		int dotstyle = geo.getPointStyle();
 		if (dotstyle == -1) { // default
 			dotstyle = EuclidianStyleConstants.POINT_STYLE_DOT;
@@ -2919,7 +2918,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	// Append the name color to StringBuilder sb
 	@Override
-	protected void ColorCode(org.geogebra.common.awt.GColor c, StringBuilder sb) {
+	protected void ColorCode(GColor c, StringBuilder sb) {
 		int red = c.getRed(), green = c.getGreen(), blue = c.getBlue();
 		if (grayscale) {
 			String colorname = "";
@@ -3009,10 +3008,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 * @param sb
 	 *            StringBuilder to attach code to.
 	 */
-	protected void ColorLightCode(org.geogebra.common.awt.GColor c, double opacity,
+	protected void ColorLightCode(GColor c, double opacity,
 			StringBuilder sb) {
 		// new Color object so that c is not overriden.
-		org.geogebra.common.awt.GColor tempc;
+		GColor tempc;
 		int red = c.getRed(), green = c.getGreen(), blue = c.getBlue();
 		red = (int) (255 * (1 - opacity) + red * opacity);
 		green = (int) (255 * (1 - opacity) + green * opacity);
@@ -3438,7 +3437,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 * 
 	 * @param c
 	 */
-	protected void endPoint(org.geogebra.common.awt.GColor c) {
+	protected void endPoint(GColor c) {
 		if (!c.equals(GColor.BLACK) && dotColors) {
 			code.append(",");
 			if (!compact)

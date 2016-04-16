@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.desktop.main.AppD;
 
 public class GAreaD implements GArea, GShapeD {
@@ -27,7 +28,7 @@ public class GAreaD implements GArea, GShapeD {
 		impl = new Area(shape);
 	}
 
-	public GAreaD(org.geogebra.common.awt.GShape shape) {
+	public GAreaD(GShape shape) {
 		impl = new Area(
 				org.geogebra.desktop.awt.GGenericShapeD.getAwtShape(shape));
 	}

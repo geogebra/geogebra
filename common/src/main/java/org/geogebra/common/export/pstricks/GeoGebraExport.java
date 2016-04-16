@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawAngle;
@@ -123,7 +124,7 @@ public abstract class GeoGebraExport {
 		int x2 = euclidianView.toScreenCoordX(xmax);
 		int y1 = euclidianView.toScreenCoordY(ymin);
 		int y2 = euclidianView.toScreenCoordY(ymax);
-		org.geogebra.common.awt.GRectangle rec = AwtFactory.prototype
+		GRectangle rec = AwtFactory.prototype
 				.newRectangle(x1, y2, x2 - x1, y1 - y2);
 		// Application.debug(x1+" "+x2+" "+y1+" "+y2);
 		euclidianView.setSelectionRectangle(rec);
@@ -175,7 +176,7 @@ public abstract class GeoGebraExport {
 		// Changes to make xmin,xmax,ymin,ymax be defined by the selection
 		// rectangle
 		// when this one is defined.
-		org.geogebra.common.awt.GRectangle rect = this.euclidianView
+		GRectangle rect = this.euclidianView
 				.getSelectionRectangle();
 		if (rect != null) {
 			xmin = euclidianView.toRealWorldCoordX(rect.getMinX());
@@ -736,7 +737,7 @@ public abstract class GeoGebraExport {
 	 *            The StringBuilder to complete
 	 */
 
-	abstract protected void ColorCode(org.geogebra.common.awt.GColor color,
+	abstract protected void ColorCode(GColor color,
 			StringBuilder sb);
 
 	/**

@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -87,7 +88,7 @@ public class DrawPointPlot extends Drawable {
 	}
 
 	@Override
-	public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	public void draw(GGraphics2D g2) {
 
 		if (isVisible) {
 

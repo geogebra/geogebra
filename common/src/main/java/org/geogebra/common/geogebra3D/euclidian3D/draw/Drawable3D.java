@@ -6,6 +6,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -1205,7 +1206,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @param g2
 	 */
-	public void drawPreview(org.geogebra.common.awt.GGraphics2D g2) {
+	public void drawPreview(GGraphics2D g2) {
 
 	}
 

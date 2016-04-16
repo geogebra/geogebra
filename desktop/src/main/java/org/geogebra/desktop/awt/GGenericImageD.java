@@ -12,7 +12,7 @@ public class GGenericImageD implements GImage {
 		this.impl = im;
 	}
 
-	public static java.awt.Image getAwtImage(org.geogebra.common.awt.GImage img) {
+	public static java.awt.Image getAwtImage(GImage img) {
 		if (img instanceof GGenericImageD)
 			return ((GGenericImageD) img).impl;
 		if (img instanceof GBufferedImageD)

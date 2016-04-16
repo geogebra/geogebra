@@ -22,12 +22,14 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -45,6 +47,7 @@ import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersion
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererGLPickingGL2;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererShadersElements;
 import org.geogebra.desktop.io.MyImageIO;
+import org.geogebra.desktop.javax.swing.GBoxD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -169,13 +172,13 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 
 	@Override
-	public void add(org.geogebra.common.javax.swing.GBox box) {
-		evjpanel.add(((org.geogebra.desktop.javax.swing.GBoxD) box).getImpl());
+	public void add(GBox box) {
+		evjpanel.add(((GBoxD) box).getImpl());
 	}
 
 	@Override
-	public void remove(org.geogebra.common.javax.swing.GBox box) {
-		evjpanel.remove(((org.geogebra.desktop.javax.swing.GBoxD) box).getImpl());
+	public void remove(GBox box) {
+		evjpanel.remove(((GBoxD) box).getImpl());
 	}
 
 	/**
@@ -236,7 +239,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	}
 
 	@Override
-	public void setPreferredSize(org.geogebra.common.awt.GDimension preferredSize) {
+	public void setPreferredSize(GDimension preferredSize) {
 		evjpanel.setPreferredSize(org.geogebra.desktop.awt.GDimensionD
 				.getAWTDimension(preferredSize));
 	}
@@ -428,7 +431,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	}
 
 	@Override
-	public void drawActionObjects(org.geogebra.common.awt.GGraphics2D g2) {
+	public void drawActionObjects(GGraphics2D g2) {
 		// TODO layers for Buttons and Textfields
 		// for cross-platform UI the stroke must be reset to show buttons
 		// properly, see #442

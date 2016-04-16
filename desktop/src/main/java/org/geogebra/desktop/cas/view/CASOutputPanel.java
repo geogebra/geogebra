@@ -63,7 +63,7 @@ public class CASOutputPanel extends JPanel {
 	 * @param c
 	 *            foreground color
 	 */
-	public void setForeground(org.geogebra.common.awt.GColor c) {
+	public void setForeground(GColor c) {
 		outputArea.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(c));
 		latexPanel.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(c));
 	}

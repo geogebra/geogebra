@@ -659,7 +659,7 @@ public class ToolBar {
 	public static String getAllTools(App app) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(org.geogebra.common.gui.toolbar.ToolBar.getAllToolsNoMacros(
+		sb.append(ToolBar.getAllToolsNoMacros(
 				true, app.isExam()));
 
 		// macros

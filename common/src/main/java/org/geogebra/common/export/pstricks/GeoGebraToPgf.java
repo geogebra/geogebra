@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.commons.math.fraction.Fraction;
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.DrawPoint;
@@ -1179,7 +1181,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		double startAngle = geo.getParameterStart();
 		double endAngle = geo.getParameterEnd();
 		// Get all coefficients form the transform matrix
-		org.geogebra.common.awt.GAffineTransform af = geo.getAffineTransform();
+		GAffineTransform af = geo.getAffineTransform();
 		double m11 = af.getScaleX();
 		double m22 = af.getScaleY();
 		double m12 = af.getShearX();
@@ -1760,7 +1762,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			// command: \draw[rotate
 			// around={angle:center},lineOptions](x_center,y_center) ellipse (R1
 			// and R2)
-			org.geogebra.common.awt.GAffineTransform at = geo.getAffineTransform();
+			GAffineTransform at = geo.getAffineTransform();
 			double eigenvecX = at.getScaleX();
 			double eigenvecY = at.getShearY();
 			double x1 = geo.getTranslationVector().getX();
@@ -2474,7 +2476,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 	private void drawGrid() {
 		// resizeFont(codeBeginDoc);
-		org.geogebra.common.awt.GColor gridCol = euclidianView.getGridColor();
+		GColor gridCol = euclidianView.getGridColor();
 		double[] GridDist = euclidianView.getGridDistances();
 		int gridLine = euclidianView.getGridLineStyle();
 		codeBeginDoc.append("\\draw [color=");
@@ -2497,7 +2499,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	 */
 
 	private void drawAxis() {
-		org.geogebra.common.awt.GColor color = euclidianView.getAxesColor();
+		GColor color = euclidianView.getAxesColor();
 		// Drawing X Axis
 		boolean showAxis = euclidianView.getShowXaxis();
 		String[] label = euclidianView.getAxesLabels(false);
@@ -2650,7 +2652,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 				int width = (int) Math.ceil(StringUtil.prototype.estimateLength(label[0],
 						euclidianView.getFont()));
-				org.geogebra.common.awt.GRectangle rect = euclidianView
+				GRectangle rect = euclidianView
 						.getSelectionRectangle();
 				double x = euclidianView.toRealWorldCoordX(euclidianView
 						.getWidth() - 10 - width);
@@ -2814,7 +2816,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				codeBeginDoc.append("] ");
 				int height = (int) Math.ceil(StringUtil.prototype.estimateHeight(
 						label[1], euclidianView.getFont()));
-				org.geogebra.common.awt.GRectangle rect = euclidianView
+				GRectangle rect = euclidianView
 						.getSelectionRectangle();
 				double x = euclidianView.toRealWorldCoordX(euclidianView
 						.getXZero() + 5);
@@ -3040,7 +3042,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	 *            The StringBuilder where the color has to be added
 	 */
 	@Override
-	protected void ColorCode(org.geogebra.common.awt.GColor c, StringBuilder sb) {
+	protected void ColorCode(GColor c, StringBuilder sb) {
 		if (frame.isGrayscale()) {
 			if (c.equals(GColor.BLACK)) {
 				sb.append("black");

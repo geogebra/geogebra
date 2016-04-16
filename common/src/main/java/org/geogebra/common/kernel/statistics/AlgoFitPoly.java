@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoPolynomialFromCoordinates;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -144,9 +145,8 @@ public class AlgoFitPoly extends AlgoElement {
 			return;
 		}
 		// if error in regression
-		geofunction
-				.setFunction(org.geogebra.common.kernel.algos.AlgoPolynomialFromCoordinates
-						.buildPolyFunctionExpression(cons.getKernel(), cof));
+		geofunction.setFunction(AlgoPolynomialFromCoordinates
+				.buildPolyFunctionExpression(cons.getKernel(), cof));
 		geofunction.setDefined(true);
 	}// compute()
 

@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockManager;
+import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
@@ -118,7 +119,7 @@ public class DockManagerD extends DockManager
 	 *            panel
 	 */
 	@Override
-	public void unRegisterPanel(org.geogebra.common.gui.layout.DockPanel dockPanel) {
+	public void unRegisterPanel(DockPanel dockPanel) {
 		dockPanels.remove(dockPanel);
 	}
 

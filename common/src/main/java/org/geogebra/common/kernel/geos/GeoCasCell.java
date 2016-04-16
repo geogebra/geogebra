@@ -438,7 +438,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * @param c
 	 *            font color
 	 */
-	public void setFontColor(org.geogebra.common.awt.GColor c) {
+	public void setFontColor(GColor c) {
 		this.setObjColor(c);
 	}
 

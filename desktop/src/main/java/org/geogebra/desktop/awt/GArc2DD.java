@@ -59,8 +59,7 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 	}
 
 	public boolean intersects(GRectangle2D r) {
-		return impl.intersects(org.geogebra.desktop.awt.GGenericRectangle2DD
-				.getAWTRectangle2D(r));
+		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));
 	}
 
 	public Shape getAwtShape() {

@@ -14,7 +14,9 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
@@ -87,7 +89,7 @@ public class DrawLocus extends Drawable {
 		if (geo.isTraceable() && (geo instanceof Traceable)
 				&& ((Traceable) geo).getTrace()) {
 			isTracing = true;
-			org.geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
+			GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -105,7 +107,7 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	protected final void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
@@ -123,7 +125,7 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				// draw locus
@@ -167,7 +169,7 @@ public class DrawLocus extends Drawable {
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		org.geogebra.common.awt.GShape t = geo.isInverseFill() ? getShape() : gp;
+		GShape t = geo.isInverseFill() ? getShape() : gp;
 		if (t == null) {
 			return false; // hasn't been drawn yet (hidden)
 		}
@@ -192,7 +194,7 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return rect.contains(gp.getBounds());
 	}
 

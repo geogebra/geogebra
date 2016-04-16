@@ -1,5 +1,6 @@
 package org.geogebra.common.javax.swing;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 
 public abstract class GComboBox {
@@ -10,9 +11,9 @@ public abstract class GComboBox {
 
 	public abstract void setFont(GFont font);
 
-	public abstract void setForeground(org.geogebra.common.awt.GColor objectColor);
+	public abstract void setForeground(GColor objectColor);
 
-	public abstract void setBackground(org.geogebra.common.awt.GColor color);
+	public abstract void setBackground(GColor color);
 
 	public abstract void setFocusable(boolean b);
 

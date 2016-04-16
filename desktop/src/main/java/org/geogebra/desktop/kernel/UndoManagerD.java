@@ -235,7 +235,7 @@ public class UndoManagerD extends UndoManager {
 
 			// load undo info
 			((AppD) app).getScriptManager().disableListeners();
-			((org.geogebra.desktop.io.MyXMLioD) construction.getXMLio())
+			((MyXMLioD) construction.getXMLio())
 					.readZipFromMemory(is);
 			if (changed) {
 				listSelModel.setAnchorSelectionIndex(anchorIndex);
@@ -261,7 +261,7 @@ public class UndoManagerD extends UndoManager {
 	@Override
 	public synchronized void processXML(String strXML) throws Exception {
 		construction.setFileLoading(true);
-		((org.geogebra.desktop.io.MyXMLioD) construction.getXMLio()).processXMLString(
+		((MyXMLioD) construction.getXMLio()).processXMLString(
 				strXML, true, false, true);
 		construction.setFileLoading(false);
 	}

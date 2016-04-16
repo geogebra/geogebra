@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
@@ -313,7 +314,7 @@ public class EuclidianViewCompanion {
 	 * @param g2
 	 *            graphics
 	 */
-	public void paint(org.geogebra.common.awt.GGraphics2D g2) {
+	public void paint(GGraphics2D g2) {
 
 		view.paintTheBackground(g2);
 

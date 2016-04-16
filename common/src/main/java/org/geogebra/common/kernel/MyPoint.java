@@ -121,7 +121,7 @@ public class MyPoint extends GPoint2D {
 
 	@Override
 	public double distance(double x1, double y1) {
-		return org.geogebra.common.awt.GPoint2D.distanceSq(getX(), getY(), x1, y1);
+		return GPoint2D.distanceSq(getX(), getY(), x1, y1);
 	}
 
 	@Override
@@ -135,7 +135,7 @@ public class MyPoint extends GPoint2D {
 	}
 
 	@Override
-	public double distance(org.geogebra.common.awt.GPoint2D q) {
+	public double distance(GPoint2D q) {
 		return distance(q.getX(), q.getY());
 	}
 

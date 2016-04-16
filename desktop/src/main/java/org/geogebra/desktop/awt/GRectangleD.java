@@ -12,7 +12,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.desktop.main.AppD;
 
 public class GRectangleD implements org.geogebra.desktop.awt.GRectangle2DD,
-		org.geogebra.common.awt.GRectangle {
+ GRectangle {
 
 	java.awt.Rectangle impl;
 
@@ -62,7 +62,7 @@ public class GRectangleD implements org.geogebra.desktop.awt.GRectangle2DD,
 
 	}
 
-	public void setBounds(org.geogebra.common.awt.GRectangle r) {
+	public void setBounds(GRectangle r) {
 		impl.setBounds((int) r.getX(), (int) r.getY(), (int) r.getWidth(),
 				(int) r.getHeight());
 

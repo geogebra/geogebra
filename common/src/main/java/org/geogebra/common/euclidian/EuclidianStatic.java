@@ -12,6 +12,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -66,12 +67,11 @@ public abstract class EuclidianStatic {
 	 *            rendering context
 	 * @return text width
 	 */
-	public final static float textWidth(String str,
-			org.geogebra.common.awt.GFont font,
-			org.geogebra.common.awt.GFontRenderContext frc) {
+	public final static float textWidth(String str, GFont font,
+			GFontRenderContext frc) {
 		if (str.equals(""))
 			return 0f;
-		org.geogebra.common.awt.font.GTextLayout layout = org.geogebra.common.factories.AwtFactory.prototype
+		GTextLayout layout = org.geogebra.common.factories.AwtFactory.prototype
 				.newTextLayout(str, font, frc);
 		return layout.getAdvance();
 
@@ -477,7 +477,8 @@ public abstract class EuclidianStatic {
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
 	public static GPoint drawIndexedString(App app,
-			org.geogebra.common.awt.GGraphics2D g3, String str, float xPos,
+ GGraphics2D g3, String str,
+			float xPos,
 			float yPos, boolean serif, boolean precise) {
 
 		return drawIndexedString(app, g3, str, xPos, yPos, serif, precise, true);
@@ -620,9 +621,8 @@ public abstract class EuclidianStatic {
 	/**
 	 * This hack was needed for ticket #3265
 	 */
-	protected void doFillAfterImageLoaded(org.geogebra.common.awt.GShape shape,
-			org.geogebra.common.awt.GGraphics2D g3,
-			org.geogebra.common.awt.GBufferedImage gi, App app) {
+	protected void doFillAfterImageLoaded(GShape shape, GGraphics2D g3,
+			GBufferedImage gi, App app) {
 	}
 
 	/**

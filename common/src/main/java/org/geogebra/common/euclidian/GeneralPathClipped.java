@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
@@ -20,7 +21,7 @@ import org.geogebra.common.kernel.MyPoint;
  * @author Markus Hohenwarter
  * @version October 2009
  */
-public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
+public class GeneralPathClipped implements GShape {
 
 	private static final float MAX_COORD_VALUE = 10000;
 	private static final double TOLERANCE = 0.01; // pixel distance for equal
@@ -112,7 +113,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 	 * coordinates. This is especially important for fill the GeneralPath.
 	 */
 	private void addClippedSegments() {
-		org.geogebra.common.awt.GRectangle viewRect = AwtFactory.prototype
+		GRectangle viewRect = AwtFactory.prototype
 				.newRectangle(0, 0, view.getWidth(), view.getHeight());
 		MyPoint curP = null, prevP;
 
@@ -122,7 +123,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 			curP = pathPoints.get(i);
 			if (!curP.getLineTo() || prevP == null) {
 				// moveTo point, make sure it is only slightly outside screen
-				org.geogebra.common.awt.GPoint2D p = getPointCloseToScreen(
+				GPoint2D p = getPointCloseToScreen(
 						curP.getX(), curP.getY());
 				addToGeneralPath(p, false);
 			} else {
@@ -139,7 +140,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 	}
 
 	private void addClippedLine(MyPoint prevP, MyPoint curP,
-			org.geogebra.common.awt.GRectangle viewRect) {
+			GRectangle viewRect) {
 		// check if both points on screen
 		if (viewRect.contains(prevP) && viewRect.contains(curP)) {
 			// draw line to point
@@ -148,7 +149,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 		}
 
 		// at least one point is not on screen: clip line at screen
-		org.geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(
+		GPoint2D[] clippedPoints = ClipLine.getClipped(
 				prevP.getX(), prevP.getY(), curP.getX(), curP.getY(), -10,
 				view.getWidth() + 10, -10, view.getHeight() + 10);
 
@@ -202,8 +203,8 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 		return AwtFactory.prototype.newPoint2D(x, y);
 	}
 
-	private void addToGeneralPath(org.geogebra.common.awt.GPoint2D q, boolean lineTo) {
-		org.geogebra.common.awt.GPoint2D p = gp.getCurrentPoint();
+	private void addToGeneralPath(GPoint2D q, boolean lineTo) {
+		GPoint2D p = gp.getCurrentPoint();
 		if (p != null && p.distance(q) < TOLERANCE) {
 			return;
 		}
@@ -311,7 +312,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 	 * @param af
 	 *            transformation
 	 */
-	public void transform(org.geogebra.common.awt.GAffineTransform af) {
+	public void transform(GAffineTransform af) {
 		int size = pathPoints.size();
 		for (int i = 0; i < size; i++) {
 			MyPoint p = pathPoints.get(i);
@@ -324,7 +325,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 	 *            point
 	 * @return true if contains given point
 	 */
-	public boolean contains(org.geogebra.common.awt.GPoint2D p) {
+	public boolean contains(GPoint2D p) {
 		return getGeneralPath().contains(p);
 	}
 
@@ -333,7 +334,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 	 *            rectangle
 	 * @return true if contains given rectangle
 	 */
-	public boolean contains(org.geogebra.common.awt.GRectangle2D rect) {
+	public boolean contains(GRectangle2D rect) {
 		return getGeneralPath().contains(rect);
 	}
 
@@ -385,7 +386,7 @@ public class GeneralPathClipped implements org.geogebra.common.awt.GShape {
 		return getGeneralPath().getPathIterator(arg0);
 	}
 
-	public boolean intersects(org.geogebra.common.awt.GRectangle2D arg0) {
+	public boolean intersects(GRectangle2D arg0) {
 		return getGeneralPath().intersects(arg0);
 	}
 

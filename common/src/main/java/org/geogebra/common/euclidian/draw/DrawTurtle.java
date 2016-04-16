@@ -223,7 +223,7 @@ public class DrawTurtle extends Drawable {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 
 		if (isVisible) {
 
@@ -284,7 +284,7 @@ public class DrawTurtle extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return pathList != null && rect.contains(getBounds());
 	}
 

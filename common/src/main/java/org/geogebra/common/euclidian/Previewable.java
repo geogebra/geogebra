@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -25,7 +26,7 @@ public interface Previewable {
 	 * @param g2
 	 *            graphics
 	 */
-	public void drawPreview(org.geogebra.common.awt.GGraphics2D g2);
+	public void drawPreview(GGraphics2D g2);
 
 	/**
 	 * Called when preview is not needed anymore

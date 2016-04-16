@@ -165,7 +165,7 @@ public class DrawParametricCurve extends Drawable {
 		// draw trace
 		if (curve.getTrace()) {
 			isTracing = true;
-			org.geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
+			GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -324,7 +324,7 @@ public class DrawParametricCurve extends Drawable {
 	}
 
 	@Override
-	protected final void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		g2.drawWithValueStrokePure(gp);
@@ -417,7 +417,7 @@ public class DrawParametricCurve extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return gp != null && rect.contains(gp.getBounds());
 	}
 

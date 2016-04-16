@@ -48,7 +48,7 @@ public class GPoint2DD extends GPoint2D {
 	}
 
 	@Override
-	public double distance(org.geogebra.common.awt.GPoint2D q) {
+	public double distance(GPoint2D q) {
 		return impl.distance(q.getX(), q.getY());
 	}
 

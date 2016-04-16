@@ -193,7 +193,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public static java.awt.Graphics2D getAwtGraphics(
-			org.geogebra.common.awt.GGraphics2D g2) {
+GGraphics2D g2) {
 		return ((GGraphics2DD) g2).impl;
 	}
 
@@ -216,7 +216,7 @@ public class GGraphics2DD implements GGraphics2D {
 		return (org.geogebra.desktop.awt.GBasicStrokeD) impl.getStroke();
 	}
 
-	public void clip(org.geogebra.common.awt.GShape shape) {
+	public void clip(GShape shape) {
 		impl.clip(((org.geogebra.desktop.awt.GShapeD) shape).getAwtShape());
 	}
 
@@ -268,7 +268,7 @@ public class GGraphics2DD implements GGraphics2D {
 		impl.drawLine(x1, y1, x2, y2);
 	}
 
-	public void setClip(org.geogebra.common.awt.GShape shape) {
+	public void setClip(GShape shape) {
 		if (shape == null) {
 			impl.setClip(null);
 		} else if (shape instanceof org.geogebra.desktop.awt.GShapeD) {
@@ -276,7 +276,7 @@ public class GGraphics2DD implements GGraphics2D {
 		}
 	}
 
-	public void draw(org.geogebra.common.awt.GShape s) {
+	public void draw(GShape s) {
 		if (s instanceof org.geogebra.desktop.awt.GShapeD)
 			impl.draw(((org.geogebra.desktop.awt.GShapeD) s).getAwtShape());
 		if (s instanceof GeneralPathClipped)
@@ -286,7 +286,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	public void fill(org.geogebra.common.awt.GShape s) {
+	public void fill(GShape s) {
 		if (s instanceof org.geogebra.desktop.awt.GShapeD)
 			impl.fill(((org.geogebra.desktop.awt.GShapeD) s).getAwtShape());
 		if (s instanceof GeneralPathClipped)

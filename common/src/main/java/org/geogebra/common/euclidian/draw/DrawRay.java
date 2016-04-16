@@ -20,6 +20,8 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -155,7 +157,7 @@ public class DrawRay extends Drawable implements Previewable {
 		// draw trace
 		if (ray.getTrace()) {
 			isTracing = true;
-			org.geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
+			GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -217,7 +219,7 @@ public class DrawRay extends Drawable implements Previewable {
 		} else {
 			// A off screen
 			// clip ray at screen, that's important for huge coordinates of A
-			org.geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(
+			GPoint2D[] clippedPoints = ClipLine.getClipped(
 					a[0], a[1], a[0] + lambda * v[0], a[1] + lambda * v[1],
 					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianStatic.CLIP_DISTANCE,
@@ -233,7 +235,7 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
@@ -257,12 +259,12 @@ public class DrawRay extends Drawable implements Previewable {
 	 * @param objStroke
 	 *            stroke
 	 */
-	final public void setStroke(org.geogebra.common.awt.GBasicStroke objStroke) {
+	final public void setStroke(GBasicStroke objStroke) {
 		this.objStroke = objStroke;
 	}
 
 	@Override
-	final public void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		g2.draw(line);
@@ -330,7 +332,7 @@ public class DrawRay extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
@@ -350,7 +352,7 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return false;
 	}
 

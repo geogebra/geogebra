@@ -72,10 +72,10 @@ public class GColorD extends GColor {
 	 * @param color
 	 * @return
 	 */
-	public static java.awt.Color getAwtColor(org.geogebra.common.awt.GColor color) {
+	public static java.awt.Color getAwtColor(GColor color) {
 		if (color == null)
 			return null;
-		return ((org.geogebra.desktop.awt.GColorD) color).adaptedColor;
+		return ((GColorD) color).adaptedColor;
 	}
 
 	public static float[] RGBtoHSB(int r, int g, int b, float[] hsb) {

@@ -46,12 +46,14 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
@@ -432,7 +434,7 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	@Override
-	public void exportPaintPre(org.geogebra.common.awt.GGraphics2D g2d,
+	public void exportPaintPre(GGraphics2D g2d,
 			double scale, boolean transparency) {
 		g2d.scale(scale, scale);
 
@@ -589,7 +591,7 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	@Override
-	protected void drawResetIcon(org.geogebra.common.awt.GGraphics2D g) {
+	protected void drawResetIcon(GGraphics2D g) {
 		// need to use getApplet().width rather than width so that
 		// it works with applet rescaling
 		int w = getApplication().onlyGraphicsViewShowing() ? getApplication()
@@ -622,7 +624,7 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	@Override
-	final protected void drawAnimationButtons(org.geogebra.common.awt.GGraphics2D g2) {
+	final protected void drawAnimationButtons(GGraphics2D g2) {
 
 		// draw button in focused EV only
 		if (!drawPlayButtonInThisView()) {
@@ -634,8 +636,8 @@ public class EuclidianViewD extends EuclidianView implements
 
 		/*
 		 * if (highlightAnimationButtons) { // draw filled circle to highlight
-		 * button g2.setColor(org.geogebra.common.awt.GColor.DARK_GRAY); } else
-		 * { g2.setColor(org.geogebra.common.awt.GColor.LIGHT_GRAY); }
+		 * button g2.setColor(GColor.DARK_GRAY); } else {
+		 * g2.setColor(GColor.LIGHT_GRAY); }
 		 * 
 		 * g2.setStroke(org.geogebra.common.euclidian.EuclidianStatic
 		 * .getDefaultStroke());
@@ -694,8 +696,8 @@ public class EuclidianViewD extends EuclidianView implements
 		g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
 
-		g2d.setStroke(GBasicStrokeD.getAwtStroke(org.geogebra.common.euclidian.EuclidianStatic.getStroke(
-				2 * penSize,
+		g2d.setStroke(GBasicStrokeD
+				.getAwtStroke(EuclidianStatic.getStroke(2 * penSize,
 				(penPoints2.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL
 						: penLineStyle)));
 		g2d.setColor(GColorD.getAwtColor(penColor));
@@ -788,7 +790,7 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	@Override
-	public void paintBackground(org.geogebra.common.awt.GGraphics2D g2) {
+	public void paintBackground(GGraphics2D g2) {
 		g2.drawImage(bgImage, null, 0, 0);
 	}
 
@@ -861,7 +863,7 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	@Override
-	public void setPreferredSize(org.geogebra.common.awt.GDimension preferredSize) {
+	public void setPreferredSize(GDimension preferredSize) {
 		evjpanel.setPreferredSize(org.geogebra.desktop.awt.GDimensionD
 				.getAWTDimension(preferredSize));
 	}
@@ -1066,7 +1068,7 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	@Override
-	public void setBackground(org.geogebra.common.awt.GColor bgColor) {
+	public void setBackground(GColor bgColor) {
 		evjpanel.setBackground(org.geogebra.desktop.awt.GColorD.getAwtColor(bgColor));
 	}
 

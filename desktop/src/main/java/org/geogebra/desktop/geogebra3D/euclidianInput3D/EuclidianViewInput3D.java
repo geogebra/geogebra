@@ -395,7 +395,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	}
 
 	@Override
-	public GeoElement getLabelHit(org.geogebra.common.awt.GPoint p,
+	public GeoElement getLabelHit(GPoint p,
 			PointerEventType type) {
 		if (input3D.currentlyUseMouse2D()) {
 			return super.getLabelHit(p, type);

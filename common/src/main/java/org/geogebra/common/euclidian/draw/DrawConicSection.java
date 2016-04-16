@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
@@ -385,7 +386,7 @@ public class DrawConicSection extends DrawConic {
 	}
 
 	@Override
-	protected void drawLines(org.geogebra.common.awt.GGraphics2D g2) {
+	protected void drawLines(GGraphics2D g2) {
 
 		fill(g2, shape, false);
 		if (geo.doHighlighting()) {
@@ -575,7 +576,7 @@ public class DrawConicSection extends DrawConic {
 	}
 
 	@Override
-	protected void drawHyperbola(org.geogebra.common.awt.GGraphics2D g2) {
+	protected void drawHyperbola(GGraphics2D g2) {
 
 		fill(g2, shape, true);
 

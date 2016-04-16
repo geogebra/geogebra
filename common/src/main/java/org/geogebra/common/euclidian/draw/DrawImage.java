@@ -20,9 +20,13 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GAlphaComposite;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -85,7 +89,7 @@ public final class DrawImage extends Drawable {
 		if (geo.getAlphaValue() != alpha) {
 			alpha = geo.getAlphaValue();
 			alphaComp = AwtFactory.prototype.newAlphaComposite(
-					org.geogebra.common.awt.GAlphaComposite.SRC_OVER, alpha);
+GAlphaComposite.SRC_OVER, alpha);
 		}
 
 		image = geoImage.getFillImage();
@@ -186,7 +190,7 @@ public final class DrawImage extends Drawable {
 
 			// calculate bounding box for isInside
 			boundingBox.setBounds(0, 0, width, height);
-			org.geogebra.common.awt.GShape shape = at
+			GShape shape = at
 					.createTransformedShape(boundingBox);
 			boundingBox = shape.getBounds();
 
@@ -241,14 +245,14 @@ public final class DrawImage extends Drawable {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g3) {
+	final public void draw(GGraphics2D g3) {
 		if (isVisible) {
-			org.geogebra.common.awt.GComposite oldComp = g3.getComposite();
+			GComposite oldComp = g3.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
 				if (alphaComp == null)
 					alphaComp = AwtFactory.prototype
 							.newAlphaComposite(
-									org.geogebra.common.awt.GAlphaComposite.SRC_OVER,
+GAlphaComposite.SRC_OVER,
 									alpha);
 				g3.setComposite(alphaComp);
 			}
@@ -258,7 +262,7 @@ public final class DrawImage extends Drawable {
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
-					g3.setPaint(org.geogebra.common.awt.GColor.LIGHT_GRAY);
+					g3.setPaint(GColor.LIGHT_GRAY);
 					g3.draw(labelRectangle);
 				}
 			} else {
@@ -276,7 +280,7 @@ public final class DrawImage extends Drawable {
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
-					g3.setPaint(org.geogebra.common.awt.GColor.LIGHT_GRAY);
+					g3.setPaint(GColor.LIGHT_GRAY);
 
 					// changed to code below so that the line thicknesses aren't
 					// transformed
@@ -330,8 +334,7 @@ public final class DrawImage extends Drawable {
 	 * @param g2
 	 *            graphics
 	 */
-	private void drawHighlighting(org.geogebra.common.awt.GAffineTransform at2,
-			org.geogebra.common.awt.GGraphics2D g2) {
+	private void drawHighlighting(GAffineTransform at2, GGraphics2D g2) {
 		// TODO Auto-generated method stub
 
 	}
@@ -375,7 +378,7 @@ public final class DrawImage extends Drawable {
 	private double[] hitCoords = new double[2];
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		if (!isVisible || geoImage.isInBackground())
 			return false;
 		return rect.contains(boundingBox);

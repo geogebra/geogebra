@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArc2D;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
@@ -169,7 +170,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			// draw trace
 			if (((Traceable) conicPart).getTrace()) {
 				isTracing = true;
-				org.geogebra.common.awt.GGraphics2D g2 = view
+				GGraphics2D g2 = view
 						.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
@@ -303,7 +304,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			switch (draw_type) {
 			case DRAW_TYPE_ELLIPSE:
@@ -362,7 +363,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	@Override
-	protected final void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(GGraphics2D g2) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
 			fill(g2, shape, false); // fill using default/hatching/image as
@@ -473,7 +474,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void drawPreview(GGraphics2D g2) {
 		draw(g2);
 	}
 
@@ -576,7 +577,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
 			return rect.contains(shape.getBounds());

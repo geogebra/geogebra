@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoProduct;
 import org.geogebra.common.kernel.algos.AlgoProductMatrices;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -28,7 +29,7 @@ public class CmdProduct extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(org.geogebra.common.kernel.arithmetic.Command c)
+	public GeoElement[] process(Command c)
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;

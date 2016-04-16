@@ -866,7 +866,7 @@ public class ProverBotanasMethod {
 	 *            the prover input object
 	 * @return if the statement is true
 	 */
-	public ProofResult prove(org.geogebra.common.util.Prover prover) {
+	public ProofResult prove(Prover prover) {
 
 		GeoElement statement = prover.getStatement();
 		/*

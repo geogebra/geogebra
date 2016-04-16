@@ -9965,7 +9965,7 @@ public abstract class EuclidianController {
 		app.setUnsaved();
 	}
 
-	public void setLineEndPoint(org.geogebra.common.awt.GPoint2D p) {
+	public void setLineEndPoint(GPoint2D p) {
 		if (p == null)
 			lineEndPoint = null;
 		else

@@ -17,7 +17,9 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
@@ -162,7 +164,7 @@ public class DrawSlider extends Drawable {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			// horizontal line
 			g2.setPaint(geo.getSelColor());
@@ -184,7 +186,7 @@ public class DrawSlider extends Drawable {
 			g2.fill(circle);
 
 			// black stroke
-			g2.setPaint(org.geogebra.common.awt.GColor.BLACK);
+			g2.setPaint(GColor.BLACK);
 			g2.setStroke(borderStroke);
 			g2.draw(circle);
 
@@ -203,7 +205,7 @@ public class DrawSlider extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return rect.contains(circle.getBounds());
 	}
 

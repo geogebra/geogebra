@@ -386,7 +386,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	}
 
-	public void setAxesColor(org.geogebra.common.awt.GColor axesColor) {
+	public void setAxesColor(GColor axesColor) {
 		if (axesColor != null) {
 			this.axesColor = axesColor;
 		}
@@ -1841,7 +1841,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	}
 
-	public MyButton getHitButton(org.geogebra.common.awt.GPoint p,
+	public MyButton getHitButton(GPoint p,
 			PointerEventType type) {
 
 		DrawableIterator it = allDrawableList.getIterator();
@@ -1867,7 +1867,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * returns GeoElement whose label is at screen coords (x,y).
 	 */
-	public GeoElement getLabelHit(org.geogebra.common.awt.GPoint p,
+	public GeoElement getLabelHit(GPoint p,
 			PointerEventType type) {
 		if (!getApplication().isLabelDragsEnabled()) {
 			return null;
@@ -2306,7 +2306,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            RW => EV transform
 	 */
 	protected void setCoordTransform(
-			org.geogebra.common.awt.GAffineTransform coordTransform) {
+GAffineTransform coordTransform) {
 		this.coordTransform = coordTransform;
 	}
 
@@ -2326,12 +2326,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return graphics correnspondin to given font
 	 */
 	public abstract GGraphics2D getTempGraphics2D(
-			org.geogebra.common.awt.GFont fontForGraphics);
+GFont fontForGraphics);
 
 	/**
 	 * @return font
 	 */
-	public abstract org.geogebra.common.awt.GFont getFont();
+	public abstract GFont getFont();
 
 	/**
 	 * @param h
@@ -2407,7 +2407,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	// getters and Setters for axis control vars
 
 	public void setSelectionRectangle(
-			org.geogebra.common.awt.GRectangle selectionRectangle) {
+GRectangle selectionRectangle) {
 		// Application.printStacktrace("");
 		this.selectionRectangle = selectionRectangle;
 	}
@@ -2856,7 +2856,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            graphics
 	 */
-	protected void drawGeometricObjects(org.geogebra.common.awt.GGraphics2D g2) {
+	protected void drawGeometricObjects(GGraphics2D g2) {
 		// boolean
 		// isSVGExtensions=g2.getClass().getName().endsWith("SVGExtensions");
 		int layer;
@@ -2897,7 +2897,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g
 	 *            graphics
 	 */
-	final protected void clearBackground(org.geogebra.common.awt.GGraphics2D g) {
+	final protected void clearBackground(GGraphics2D g) {
 		g.setColor(getBackgroundCommon());
 		g.updateCanvasColor();
 		g.fillRect(0, 0, getWidth(), getHeight());
@@ -2909,7 +2909,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param transparency
 	 *            alpha value
 	 */
-	protected void drawBackgroundWithImages(org.geogebra.common.awt.GGraphics2D g,
+	protected void drawBackgroundWithImages(GGraphics2D g,
 			boolean transparency) {
 		if (!transparency) {
 			clearBackground(g);
@@ -2925,13 +2925,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            graphics
 	 */
-	final protected void drawAxesRatio(org.geogebra.common.awt.GGraphics2D g2) {
+	final protected void drawAxesRatio(GGraphics2D g2) {
 		GPoint pos = euclidianController.mouseLoc;
 		if (pos == null) {
 			return;
 		}
 
-		g2.setColor(org.geogebra.common.awt.GColor.DARK_GRAY);
+		g2.setColor(GColor.DARK_GRAY);
 		g2.setFont(getFontLine());
 		g2.drawString(getXYscaleRatioString(), pos.x + 15, pos.y + 30);
 	}
@@ -2940,7 +2940,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            background graphics
 	 */
-	public abstract void paintBackground(org.geogebra.common.awt.GGraphics2D g2);
+	public abstract void paintBackground(GGraphics2D g2);
 
 	/** reIniting is used by GeoGebraWeb */
 	protected boolean reIniting = false;
@@ -2967,7 +2967,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            graphics
 	 */
-	public void paint(org.geogebra.common.awt.GGraphics2D g2) {
+	public void paint(GGraphics2D g2) {
 		synchronized (kernel.getConcurrentModificationLock()) {
 			// synchronized means that no two Threads can simultaneously
 			// enter any blocks locked by the same lock object,
@@ -3020,7 +3020,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            graphics
 	 */
-	protected void drawZoomRectangle(org.geogebra.common.awt.GGraphics2D g2) {
+	protected void drawZoomRectangle(GGraphics2D g2) {
 		g2.setColor(colZoomRectangleFill);
 		g2.setStroke(boldAxesStroke);
 		g2.fill(selectionRectangle);
@@ -3053,7 +3053,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            graphics
 	 */
-	final protected void drawMouseCoords(org.geogebra.common.awt.GGraphics2D g2) {
+	final protected void drawMouseCoords(GGraphics2D g2) {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		if (euclidianController.mouseLoc == null) {
 			return;
@@ -5212,7 +5212,7 @@ sb.toString(), getFontAxes(),
 	 * @param scale
 	 *            ratio of desired size and current size of the graphics
 	 */
-	public void exportPaintPre(org.geogebra.common.awt.GGraphics2D g2d, double scale) {
+	public void exportPaintPre(GGraphics2D g2d, double scale) {
 		exportPaintPre(g2d, scale, false);
 	}
 

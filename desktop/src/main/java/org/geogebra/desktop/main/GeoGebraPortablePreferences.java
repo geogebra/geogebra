@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Base64;
 
 /**
  * Class GeoGebraPortablePreferences
@@ -345,7 +346,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			b64 = new StringBuffer();
 			java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
 			app.getXMLio().writeGeoGebraFile(baos, false);
-			b64.append(org.geogebra.common.util.Base64.encode(baos.toByteArray(), 0));
+			b64.append(Base64.encode(baos.toByteArray(), 0));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

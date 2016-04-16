@@ -20,8 +20,11 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
+import org.geogebra.common.awt.GEllipse2DFloat;
 import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
@@ -323,7 +326,7 @@ public final class DrawPoint extends Drawable {
 		// draw trace
 		if (P.getTrace()) {
 			isTracing = true;
-			org.geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
+			GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -352,7 +355,7 @@ public final class DrawPoint extends Drawable {
 	private Drawable drawable;
 
 	private void drawClippedSection(GeoElement geo2,
-			org.geogebra.common.awt.GGraphics2D g2) {
+ GGraphics2D g2) {
 
 		switch (geo2.getGeoClassType()) {
 		case LINE:
@@ -388,7 +391,7 @@ public final class DrawPoint extends Drawable {
 
 			view.toScreenCoords(coords1);
 
-			org.geogebra.common.awt.GEllipse2DFloat circleClip = org.geogebra.common.factories.AwtFactory.prototype
+			GEllipse2DFloat circleClip = org.geogebra.common.factories.AwtFactory.prototype
 					.newEllipse2DFloat((int) coords1[0] - 30,
 							(int) coords1[1] - 30, 60, 60);
 			g2.clip(circleClip);
@@ -401,7 +404,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
@@ -474,7 +477,7 @@ public final class DrawPoint extends Drawable {
 				g2.fill(circle);
 
 				// black stroke
-				g2.setPaint(org.geogebra.common.awt.GColor.BLACK);
+				g2.setPaint(GColor.BLACK);
 				g2.setStroke(borderStroke);
 				g2.draw(circle);
 			}
@@ -489,7 +492,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	protected final void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 
 		// Florian Sonner 2008-07-17
@@ -520,7 +523,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return rect.contains(circle.getBounds());
 	}
 

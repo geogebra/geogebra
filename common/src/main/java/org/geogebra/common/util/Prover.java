@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod;
+import org.geogebra.common.kernel.prover.ProverPureSymbolicMethod;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
@@ -553,8 +554,7 @@ public abstract class Prover {
 			result = override(reciosProver.prove(this));
 			return;
 		} else if (currentEngine == ProverEngine.PURE_SYMBOLIC_PROVER) {
-			result = override(org.geogebra.common.kernel.prover.ProverPureSymbolicMethod
-					.prove(this));
+			result = override(ProverPureSymbolicMethod.prove(this));
 			return;
 		} else if (currentEngine == ProverEngine.OPENGEOPROVER_WU
 				|| currentEngine == ProverEngine.OPENGEOPROVER_AREA) {

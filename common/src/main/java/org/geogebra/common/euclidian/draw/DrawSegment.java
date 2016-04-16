@@ -20,6 +20,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -142,7 +143,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		} else {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
-			org.geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(
+			GPoint2D[] clippedPoints = ClipLine.getClipped(
 					coordsA[0], coordsA[1], coordsB[0], coordsB[1],
 					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianStatic.CLIP_DISTANCE,
@@ -159,7 +160,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		// draw trace
 		if (s.getTrace()) {
 			isTracing = true;
-			org.geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
+			GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -347,7 +348,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		// segments of polygons can have zero thickness
 		if (geo.getLineThickness() == 0)
 			return;
@@ -418,7 +419,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	@Override
-	protected final void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		g2.draw(line);
@@ -477,7 +478,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
@@ -499,7 +500,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return line != null && rect.contains(line.getP1())
 				&& rect.contains(line.getP2());
 	}

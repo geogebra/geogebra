@@ -359,7 +359,7 @@ final public class Geo3DVec extends ValidExpression
 		return toValueString(tpl);
 	}
 
-	public boolean isEqual(org.geogebra.common.kernel.kernelND.Geo3DVecInterface vec) {
+	public boolean isEqual(Geo3DVecInterface vec) {
 		Geo3DVec v = (Geo3DVec) vec;
 		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y)
 				&& Kernel.isEqual(z, v.z);

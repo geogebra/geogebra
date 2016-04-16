@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -157,7 +158,7 @@ public class DrawIntegral extends Drawable {
 	}
 
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(n.getSelColor());
@@ -194,7 +195,7 @@ public class DrawIntegral extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return false;
 	}
 

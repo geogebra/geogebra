@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 
+import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
@@ -113,7 +114,7 @@ class PerspectivesMenuD extends BaseMenu {
 				if (e.getActionCommand().startsWith("d")) {
 					int index = Integer.parseInt(e.getActionCommand()
 							.substring(1));
-					layout.applyPerspective(org.geogebra.common.gui.Layout.defaultPerspectives[index]);
+					layout.applyPerspective(Layout.defaultPerspectives[index]);
 				} else {
 					int index = Integer.parseInt(e.getActionCommand());
 					layout.applyPerspective(layout.getPerspective(index));

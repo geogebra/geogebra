@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 
+import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.desktop.gui.dialog.LanguageDialog;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
@@ -202,8 +203,8 @@ public class PerspectivePanel extends JPopupMenu {
 				if (e.getActionCommand().startsWith("d")) {
 					int index = Integer.parseInt(e.getActionCommand()
 							.substring(1));
-					changed = layout
-							.applyPerspective(org.geogebra.common.gui.Layout.defaultPerspectives[index]);
+					changed = layout.applyPerspective(
+							Layout.defaultPerspectives[index]);
 				} else {
 					int index = Integer.parseInt(e.getActionCommand());
 					changed = layout.applyPerspective(layout

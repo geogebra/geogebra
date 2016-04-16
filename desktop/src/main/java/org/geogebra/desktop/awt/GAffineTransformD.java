@@ -32,7 +32,7 @@ public class GAffineTransformD implements GAffineTransform {
 		at.setTransform(m00, m10, m01, m11, m02, m12);
 	}
 
-	public void concatenate(org.geogebra.common.awt.GAffineTransform a) {
+	public void concatenate(GAffineTransform a) {
 		at.concatenate(((GAffineTransformD) a).getImpl());
 	}
 
@@ -61,21 +61,20 @@ public class GAffineTransformD implements GAffineTransform {
 	}
 
 	public static java.awt.geom.AffineTransform getAwtAffineTransform(
-			org.geogebra.common.awt.GAffineTransform a) {
+			GAffineTransform a) {
 		if (!(a instanceof GAffineTransformD))
 			return null;
 		return ((GAffineTransformD) a).getImpl();
 	}
 
-	public GShape createTransformedShape(org.geogebra.common.awt.GShape shape) {
+	public GShape createTransformedShape(GShape shape) {
 		java.awt.Shape ret = null;
-		ret = at.createTransformedShape(org.geogebra.desktop.awt.GGenericShapeD
+		ret = at.createTransformedShape(GGenericShapeD
 				.getAwtShape(shape));
 		return new GGenericShapeD(ret);
 	}
 
-	public GPoint2D transform(org.geogebra.common.awt.GPoint2D p,
-			org.geogebra.common.awt.GPoint2D p2) {
+	public GPoint2D transform(GPoint2D p, GPoint2D p2) {
 		Point2D point = GPoint2DD.getAwtPoint2D(p);
 		Point2D point2 = GPoint2DD.getAwtPoint2D(p2);
 		at.transform(point, point2);

@@ -191,7 +191,7 @@ public class DrawSlope extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return false;
 	}
 

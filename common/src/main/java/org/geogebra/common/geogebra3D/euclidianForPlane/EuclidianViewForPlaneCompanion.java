@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidianForPlane;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawAngle;
@@ -512,7 +513,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 	}
 
 	@Override
-	public void paint(org.geogebra.common.awt.GGraphics2D g2) {
+	public void paint(GGraphics2D g2) {
 		if (!plane.isDefined()) {
 			// draws the view in gray
 			g2.setColor(GColor.LIGHT_GRAY);

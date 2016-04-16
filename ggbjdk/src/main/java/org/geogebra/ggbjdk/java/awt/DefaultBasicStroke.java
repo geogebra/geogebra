@@ -1,10 +1,12 @@
 package org.geogebra.ggbjdk.java.awt;
 
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 
-public class DefaultBasicStroke implements org.geogebra.common.awt.GBasicStroke {
+public class DefaultBasicStroke implements GBasicStroke {
 
 	public static final int CAP_BUTT = 0;
 	public static final int CAP_ROUND = 1;
@@ -238,7 +240,7 @@ public class DefaultBasicStroke implements org.geogebra.common.awt.GBasicStroke 
 	 * @param pathIterator
 	 *            - the PathIterator of source shape
 	 */
-	void createSolidShape(org.geogebra.common.awt.GPathIterator pathIterator) {
+	void createSolidShape(GPathIterator pathIterator) {
 		double coords[] = new double[6];
 		mx = my = cx = cy = 0.0;
 		isMove = false;
@@ -304,7 +306,7 @@ public class DefaultBasicStroke implements org.geogebra.common.awt.GBasicStroke 
 	 * @param pathIterator
 	 *            - the PathIterator of source shape
 	 */
-	void createDashedShape(org.geogebra.common.awt.GPathIterator pathIterator) {
+	void createDashedShape(GPathIterator pathIterator) {
 		double coords[] = new double[6];
 		mx = my = cx = cy = 0.0;
 		smx = smy = scx = scy = 0.0;
@@ -1848,7 +1850,7 @@ public class DefaultBasicStroke implements org.geogebra.common.awt.GBasicStroke 
 			yLast = points[pointSize - 1];
 		}
 
-		org.geogebra.common.awt.GGeneralPath createGeneralPath() {
+		GGeneralPath createGeneralPath() {
 			GeneralPath p = new GeneralPath();
 			int j = 0;
 			for (int i = 0; i < typeSize; i++) {
