@@ -439,7 +439,7 @@ __GGB__keysVar.nl.command = {
     "Intersect.SyntaxCAS": "[ <Functie>, <Functie> ]",
     "IntersectConic": "Kwadriekdoorsnede",
     "IntersectConic.Syntax": "[ <Vlak>, <Kwadriek> ]\n[ <Kwadriek>, <Kwadriek> ]",
-    "IntersectPath": "IntersectiePaden",
+    "IntersectPath": "SnijpuntenPaden",
     "IntersectPath.Syntax": "[ <Rechte>, <Veelhoek> ]\n[ <Veelhoek>, <Veelhoek> ]",
     "IntersectPath.Syntax3D": "[ <Lijn>, <Veelhoek> ]\n[ <Lijn>, <Kegelsnede> ]\n[ <Vlak>, <Veelhoek> ]\n[ <Vlak>, <Kwadriek> ]",
     "Intersection": "Doorsnede",
