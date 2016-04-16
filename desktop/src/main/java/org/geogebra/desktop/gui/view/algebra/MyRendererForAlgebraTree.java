@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -81,7 +82,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 		if (ob instanceof GeoElement) {
 			GeoElement geo = (GeoElement) ob;
-			setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(geo
+			setForeground(GColorD.getAwtColor(geo
 					.getAlgebraColor()));
 
 			String text = getDescription(geo);

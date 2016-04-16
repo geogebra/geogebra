@@ -91,6 +91,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
@@ -1209,7 +1210,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		try {
 			GeoGebraColorChooser chooser = new GeoGebraColorChooser((AppD) app);
-			chooser.setColor(org.geogebra.desktop.awt.GColorD.getAwtColor(currentColor));
+			chooser.setColor(GColorD.getAwtColor(currentColor));
 			JDialog dialog = JColorChooser.createDialog(
 					((AppD) app).getMainComponent(),
 					app.getPlain("ChooseColor"), true, chooser, null, null);

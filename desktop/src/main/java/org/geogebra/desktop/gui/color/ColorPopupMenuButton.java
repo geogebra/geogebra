@@ -57,7 +57,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 
 		lookupMap = new HashMap<Color, Integer>();
 		for (int i = 0; i < colorSet.length; i++) {
-			lookupMap.put(org.geogebra.desktop.awt.GColorD.getAwtColor(colorSet[i]), i);
+			lookupMap.put(GColorD.getAwtColor(colorSet[i]), i);
 		}
 
 		setToolTipArray(getToolTipArray());
@@ -160,7 +160,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 		for (int i = 0; i < colorArray.length; i++)
 			if (colorArray[i] != null) {
 				a[i] = GeoGebraIcon.createColorSwatchIcon(alpha, iconSize,
-						org.geogebra.desktop.awt.GColorD.getAwtColor(colorArray[i]), null);
+						GColorD.getAwtColor(colorArray[i]), null);
 			} else {
 				a[i] = GeoGebraIcon.createNullSymbolIcon(iconSize.width,
 						iconSize.height);

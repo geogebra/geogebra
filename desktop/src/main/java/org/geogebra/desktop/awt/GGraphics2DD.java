@@ -62,7 +62,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public void setComposite(GComposite comp) {
-		impl.setComposite(org.geogebra.desktop.awt.GCompositeD.getAwtComposite(comp));
+		impl.setComposite(GCompositeD.getAwtComposite(comp));
 	}
 
 	public void setPaint(GPaint paint) {
@@ -152,7 +152,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public void transform(GAffineTransform Tx) {
-		impl.transform(org.geogebra.desktop.awt.GAffineTransformD.getAwtAffineTransform(Tx));
+		impl.transform(GAffineTransformD.getAwtAffineTransform(Tx));
 
 	}
 
@@ -173,7 +173,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public void setBackground(GColor color) {
-		impl.setBackground(org.geogebra.desktop.awt.GColorD.getAwtColor(color));
+		impl.setBackground(GColorD.getAwtColor(color));
 	}
 
 	public GColor getBackground() {
@@ -198,36 +198,36 @@ GGraphics2D g2) {
 	}
 
 	public void setFont(GFont font) {
-		impl.setFont(org.geogebra.desktop.awt.GFontD.getAwtFont(font));
+		impl.setFont(GFontD.getAwtFont(font));
 
 	}
 
 	public void setStroke(GBasicStroke s) {
-		impl.setStroke(org.geogebra.desktop.awt.GBasicStrokeD.getAwtStroke(s));
+		impl.setStroke(GBasicStrokeD.getAwtStroke(s));
 
 	}
 
 	public void setColor(GColor selColor) {
-		impl.setColor(org.geogebra.desktop.awt.GColorD.getAwtColor(selColor));
+		impl.setColor(GColorD.getAwtColor(selColor));
 
 	}
 
 	public GBasicStroke getStroke() {
-		return (org.geogebra.desktop.awt.GBasicStrokeD) impl.getStroke();
+		return (GBasicStrokeD) impl.getStroke();
 	}
 
 	public void clip(GShape shape) {
-		impl.clip(((org.geogebra.desktop.awt.GShapeD) shape).getAwtShape());
+		impl.clip(((GShapeD) shape).getAwtShape());
 	}
 
 	public void drawImage(GBufferedImage img, GBufferedImageOp op, int x, int y) {
-		impl.drawImage(org.geogebra.desktop.awt.GBufferedImageD.getAwtBufferedImage(img),
-				(org.geogebra.desktop.awt.GBufferedImageOpD) op, x, y);
+		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img),
+				(GBufferedImageOpD) op, x, y);
 	}
 
 	public void drawImage(MyImage img, GBufferedImageOp op, int x, int y) {
 		impl.drawImage((BufferedImage) ((MyImageD) img).getImage(),
-				(org.geogebra.desktop.awt.GBufferedImageOpD) op, x, y);
+				(GBufferedImageOpD) op, x, y);
 	}
 
 	public void drawImage(GBufferedImage img, int x, int y) {
@@ -271,26 +271,26 @@ GGraphics2D g2) {
 	public void setClip(GShape shape) {
 		if (shape == null) {
 			impl.setClip(null);
-		} else if (shape instanceof org.geogebra.desktop.awt.GShapeD) {
-			impl.setClip(org.geogebra.desktop.awt.GGenericShapeD.getAwtShape(shape));
+		} else if (shape instanceof GShapeD) {
+			impl.setClip(GGenericShapeD.getAwtShape(shape));
 		}
 	}
 
 	public void draw(GShape s) {
-		if (s instanceof org.geogebra.desktop.awt.GShapeD)
-			impl.draw(((org.geogebra.desktop.awt.GShapeD) s).getAwtShape());
+		if (s instanceof GShapeD)
+			impl.draw(((GShapeD) s).getAwtShape());
 		if (s instanceof GeneralPathClipped)
-			impl.draw(org.geogebra.desktop.awt.GGeneralPathD
+			impl.draw(GGeneralPathD
 					.getAwtGeneralPath(((GeneralPathClipped) s)
 							.getGeneralPath()));
 
 	}
 
 	public void fill(GShape s) {
-		if (s instanceof org.geogebra.desktop.awt.GShapeD)
-			impl.fill(((org.geogebra.desktop.awt.GShapeD) s).getAwtShape());
+		if (s instanceof GShapeD)
+			impl.fill(((GShapeD) s).getAwtShape());
 		if (s instanceof GeneralPathClipped)
-			impl.fill(org.geogebra.desktop.awt.GGeneralPathD
+			impl.fill(GGeneralPathD
 					.getAwtGeneralPath(((GeneralPathClipped) s)
 							.getGeneralPath()));
 		if (s instanceof GPolygonD) {
@@ -349,7 +349,7 @@ GGraphics2D g2) {
 				.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
-		impl.draw(org.geogebra.desktop.awt.GGenericShapeD.getAwtShape(shape));
+		impl.draw(GGenericShapeD.getAwtShape(shape));
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 
 	}
@@ -359,7 +359,7 @@ GGraphics2D g2) {
 				.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
-		impl.fill(org.geogebra.desktop.awt.GGenericShapeD.getAwtShape(shape));
+		impl.fill(GGenericShapeD.getAwtShape(shape));
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 
 	}

@@ -23,9 +23,11 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.euclidian.EuclidianStaticD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageManagerD;
@@ -468,7 +470,8 @@ public class GeoGebraIcon {
 
 		// draw dashed line
 		g2.setPaint(fgColor);
-		g2.setStroke(org.geogebra.desktop.awt.GBasicStrokeD.getAwtStroke(EuclidianStatic
+		g2.setStroke(GBasicStrokeD
+				.getAwtStroke(EuclidianStatic
 				.getStroke(thickness, dashStyle)));
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
@@ -936,7 +939,7 @@ public class GeoGebraIcon {
 new GFontD(font)),
 				new GFontD(font), new GColorD(fgColor), new GColorD(
 						bgColor));
-		Rectangle d = org.geogebra.desktop.awt.GRectangleD
+		Rectangle d = GRectangleD
 				.getAWTRectangle(draw.getBounds());
 
 		// Now use this size and draw again to get the final image

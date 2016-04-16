@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.MyToggleButton;
@@ -684,7 +685,7 @@ axesIcon, iconHeight);
 
 				if (EuclidianView.isPenMode(mode)) {
 					this.setVisible(true);
-					setFgColor(org.geogebra.desktop.awt.GColorD.getAwtColor(ec.getPen()
+					setFgColor(GColorD.getAwtColor(ec.getPen()
 							.getPenColor()));
 					setSliderValue(ec.getPen().getPenSize());
 					setSelectedIndex(lineStyleMap.get(ec.getPen()
@@ -1056,7 +1057,8 @@ axesIcon, iconHeight);
 				if (EuclidianView.isPenMode(mode)) {
 					this.setVisible(true);
 
-					setSelectedIndex(getColorIndex(org.geogebra.desktop.awt.GColorD
+					setSelectedIndex(getColorIndex(
+							GColorD
 							.getAwtColor(ec.getPen().getPenColor())));
 
 					setSliderValue(100);
@@ -1107,7 +1109,8 @@ axesIcon, iconHeight);
 						updateColorTable();
 
 						// find the geoColor in the table and select it
-						int index = this.getColorIndex(org.geogebra.desktop.awt.GColorD
+						int index = this
+								.getColorIndex(GColorD
 								.getAwtColor(geoColor));
 						setSelectedIndex(index);
 						setDefaultColor(alpha < 0 ? 0 : alpha, geoColor);
@@ -1173,7 +1176,7 @@ axesIcon, iconHeight);
 					updateColorTable();
 
 					// find the geoColor in the table and select it
-					int index = getColorIndex(org.geogebra.desktop.awt.GColorD
+					int index = getColorIndex(GColorD
 							.getAwtColor(geoColor));
 					setSelectedIndex(index);
 					setDefaultColor(alpha, geoColor);
@@ -1183,7 +1186,7 @@ axesIcon, iconHeight);
 					if (index == -1) {
 						this.setIcon(GeoGebraIcon.createColorSwatchIcon(alpha,
 								bgColorIconSize,
-								org.geogebra.desktop.awt.GColorD.getAwtColor(geoColor),
+ GColorD.getAwtColor(geoColor),
 								null));
 					}
 				}
@@ -1238,7 +1241,7 @@ axesIcon, iconHeight);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
-					geoColor = org.geogebra.desktop.awt.GColorD.getAwtColor(geo
+					geoColor = GColorD.getAwtColor(geo
 							.getObjectColor());
 					updateColorTable();
 
@@ -1261,7 +1264,7 @@ axesIcon, iconHeight);
 			public ImageIcon getButtonIcon() {
 				return GeoGebraIcon.createTextSymbolIcon("A",
 						app.getPlainFont(), textColorIconSize,
-						org.geogebra.desktop.awt.GColorD.getAwtColor(getSelectedColor()),
+						GColorD.getAwtColor(getSelectedColor()),
 						null);
 			}
 

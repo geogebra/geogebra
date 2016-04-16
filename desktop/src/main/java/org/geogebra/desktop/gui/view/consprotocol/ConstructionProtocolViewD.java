@@ -757,7 +757,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			RowData rd = data.getRow(row);
 			int index = rd.getGeo().getConstructionIndex();
 			if (useColors)
-				comp.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(rd.getGeo()
+				comp.setForeground(
+						GColorD.getAwtColor(rd.getGeo()
 						.getAlgebraColor()));
 			else
 				comp.setForeground(Color.black);
@@ -819,7 +820,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// setBorder(UIManager.getBorder("TableHeader.cellBorder"));
 			// better for Macs?
 			setForeground(Color.black);
-			setBackground(org.geogebra.desktop.awt.GColorD
+			setBackground(GColorD
 					.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 			// setBorder(BorderFactory.createBevelBorder(0));
 			setBorder(BorderFactory
@@ -828,7 +829,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 							0,
 							1,
 							1,
-							org.geogebra.desktop.awt.GColorD
+ GColorD
 									.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 
 		}
@@ -928,7 +929,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		private Color getColorAt(int nRow, int nCol) {
 			try {
 				if (useColors)
-					return org.geogebra.desktop.awt.GColorD.getAwtColor(rowList.get(nRow)
+					return GColorD.getAwtColor(
+							rowList.get(nRow)
 							.getGeo().getAlgebraColor());
 				return Color.black;
 			} catch (Exception e) {

@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
 
@@ -125,8 +126,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// ==================================================
 		// set default background color (adjust later if geo exists)
 
-		bgColor = org.geogebra.desktop.awt.GColorD
-				.getAwtColor((org.geogebra.desktop.awt.GColorD) formatHandler
+		bgColor = GColorD.getAwtColor((GColorD) formatHandler
 						.getCellFormat(column, row, CellFormat.FORMAT_BGCOLOR));
 		if (bgColor == null) {
 			isCustomBGColor = false;
@@ -168,7 +168,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 				// button.setBackground(table.getBackground());
 				button.setHorizontalAlignment(CENTER);
 				button.setText(geo.getCaption(StringTemplate.defaultTemplate));
-				button.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(geo
+				button.setForeground(GColorD.getAwtColor(geo
 						.getObjectColor()));
 				return button;
 			}
@@ -239,7 +239,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 		// use geo bgColor if there is no format bgColor
 		if (geo.getBackgroundColor() != null && !isCustomBGColor) {
-			bgColor = org.geogebra.desktop.awt.GColorD
+			bgColor = GColorD
 					.getAwtColor(geo.getBackgroundColor());
 			isCustomBGColor = true;
 		}
@@ -259,7 +259,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// }
 
 		setBackground(bgColor);
-		setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(geo.getLabelColor()));
+		setForeground(GColorD.getAwtColor(geo.getLabelColor()));
 
 		// Set horizontal alignment
 		// ===============================================
@@ -310,7 +310,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 								latexStr,
 								getFont(),
 								isSerif,
-								org.geogebra.desktop.awt.GColorD.getAwtColor(geo
+								GColorD.getAwtColor(geo
 										.getAlgebraColor()), bgColor);
 						setIcon(latexIcon);
 						setText("");

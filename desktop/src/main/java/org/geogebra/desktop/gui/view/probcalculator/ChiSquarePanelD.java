@@ -24,6 +24,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
@@ -479,13 +480,13 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			} else if (isHeaderCell) {
 				wrappedPanel.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 				fldInput.setVisible(true);
-				fldInput.setBackground(org.geogebra.desktop.awt.GColorD
+				fldInput.setBackground(GColorD
 						.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 
 			} else {
 				fldInput.setVisible(true);
 				wrappedPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-				fldInput.setBackground(org.geogebra.desktop.awt.GColorD
+				fldInput.setBackground(GColorD
 						.getAwtColor(GColor.WHITE));
 			}
 

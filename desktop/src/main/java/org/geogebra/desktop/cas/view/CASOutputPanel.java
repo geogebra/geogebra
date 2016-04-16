@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.App;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -64,8 +65,8 @@ public class CASOutputPanel extends JPanel {
 	 *            foreground color
 	 */
 	public void setForeground(GColor c) {
-		outputArea.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(c));
-		latexPanel.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(c));
+		outputArea.setForeground(GColorD.getAwtColor(c));
+		latexPanel.setForeground(GColorD.getAwtColor(c));
 	}
 
 	/**

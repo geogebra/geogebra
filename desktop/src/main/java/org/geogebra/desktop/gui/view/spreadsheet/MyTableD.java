@@ -51,6 +51,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
 import org.geogebra.desktop.main.AppD;
@@ -65,15 +66,15 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public static final int DOT_SIZE = 7;
 	public static final int LINE_THICKNESS1 = 3;
 	public static final int LINE_THICKNESS2 = 2;
-	public static final Color SELECTED_BACKGROUND_COLOR = org.geogebra.desktop.awt.GColorD
+	public static final Color SELECTED_BACKGROUND_COLOR = GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
-	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = org.geogebra.desktop.awt.GColorD
+	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
-	public static final Color BACKGROUND_COLOR_HEADER = org.geogebra.desktop.awt.GColorD
+	public static final Color BACKGROUND_COLOR_HEADER = GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
-	public static final Color TABLE_GRID_COLOR = org.geogebra.desktop.awt.GColorD
+	public static final Color TABLE_GRID_COLOR = GColorD
 			.getAwtColor(GeoGebraColorConstants.GRAY2);
-	public static final Color HEADER_GRID_COLOR = org.geogebra.desktop.awt.GColorD
+	public static final Color HEADER_GRID_COLOR = GColorD
 			.getAwtColor(GeoGebraColorConstants.GRAY4);
 	public static final Color SELECTED_RECTANGLE_COLOR = Color.BLUE;
 
@@ -1116,7 +1117,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// draw special target cell frame
 		if (targetcellFrame != null) {
-			g2.setColor(org.geogebra.desktop.awt.GColorD
+			g2.setColor(GColorD
 					.getAwtColor(GeoGebraColorConstants.DARKBLUE));
 			g2.setStroke(dashed);
 			g2.draw(targetcellFrame);

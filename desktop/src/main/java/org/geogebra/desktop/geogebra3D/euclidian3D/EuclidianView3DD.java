@@ -35,6 +35,8 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
+import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
@@ -138,7 +140,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	protected void setBackground(GColor updatedColor, GColor applyedColor) {
 		super.setBackground(updatedColor, applyedColor);
-		evjpanel.setBackground(org.geogebra.desktop.awt.GColorD
+		evjpanel.setBackground(GColorD
 				.getAwtColor(bgApplyedColor));
 	}
 
@@ -240,7 +242,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
-		evjpanel.setPreferredSize(org.geogebra.desktop.awt.GDimensionD
+		evjpanel.setPreferredSize(GDimensionD
 				.getAWTDimension(preferredSize));
 	}
 
@@ -437,7 +439,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		// properly, see #442
 		g2.setStroke(org.geogebra.common.euclidian.EuclidianStatic
 				.getDefaultStroke());
-		evjpanel.paintChildren(org.geogebra.desktop.awt.GGraphics2DD.getAwtGraphics(g2)); // draws
+		evjpanel.paintChildren(GGraphics2DD.getAwtGraphics(g2)); // draws
 																				// Buttons
 																				// and
 																				// Textfields
@@ -457,7 +459,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	@Override
 	final public GGraphics2D getTempGraphics2D(GFont font) {
-		g2Dtemp.setFont(org.geogebra.desktop.awt.GFontD.getAwtFont(font));
+		g2Dtemp.setFont(GFontD.getAwtFont(font));
 
 		return new GGraphics2DD(g2Dtemp);
 	}

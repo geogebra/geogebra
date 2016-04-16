@@ -20,6 +20,7 @@ import javax.swing.table.JTableHeader;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 
 public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
@@ -57,7 +58,8 @@ public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
 		headerModel = new DefaultListModel();	
 		JTable table = new JTable(model);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.setGridColor(org.geogebra.desktop.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+		table.setGridColor(
+				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		table.setShowGrid(true);
 
 		// table row header

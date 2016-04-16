@@ -12,7 +12,7 @@ import javax.swing.JTable;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.main.AppD;
@@ -140,10 +140,11 @@ public abstract class CASTableCell extends JPanel {
 		String input = cellValue.getInput(StringTemplate.numericDefault);
 		inputPanel.setInput(input);
 		if (cellValue.isUseAsText()) {
-			inputPanel.setCommentColor(org.geogebra.desktop.awt.GColorD
+			inputPanel.setCommentColor(
+					GColorD
 					.getAwtColor(cellValue.getObjectColor()));
 		} else {
-			inputPanel.setCommentColor(org.geogebra.desktop.awt.GColorD
+			inputPanel.setCommentColor(GColorD
 					.getAwtColor(GColor.BLACK));
 		}
 		outputPanel.setForeground(cellValue.getAlgebraColor());

@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.main.AppD;
 
@@ -43,10 +44,12 @@ public class InspectorTable extends JTable {
 
 		// set visual appearance
 		setShowGrid(true);
-		setGridColor(org.geogebra.desktop.awt.GColorD
+		setGridColor(
+				GColorD
 				.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		// setSelectionBackground(new Color(255, 130, 171));
-		setSelectionBackground(org.geogebra.desktop.awt.GColorD
+		setSelectionBackground(
+				GColorD
 				.getAwtColor(GeoGebraColorConstants.PINK));
 		setBorder(BorderFactory.createEmptyBorder());
 

@@ -32,6 +32,7 @@ import javax.swing.text.Utilities;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 
 /**
  * This class will display line numbers for a related text component. The text
@@ -106,12 +107,9 @@ public class TextLineNumber extends JPanel implements CaretListener,
 		setDigitAlignment(RIGHT);
 		setMinimumDisplayDigits(minimumDisplayDigits);
 
-		setCurrentLineForeground(org.geogebra.desktop.awt.GColorD
-				.getAwtColor(GColor.BLACK));
-		this.setForeground(org.geogebra.desktop.awt.GColorD
-				.getAwtColor(GeoGebraColorConstants.GRAY6));
-		this.setBackground(org.geogebra.desktop.awt.GColorD
-				.getAwtColor(GeoGebraColorConstants.GRAY1));
+		setCurrentLineForeground(GColorD.getAwtColor(GColor.BLACK));
+		this.setForeground(GColorD.getAwtColor(GeoGebraColorConstants.GRAY6));
+		this.setBackground(GColorD.getAwtColor(GeoGebraColorConstants.GRAY1));
 
 		component.getDocument().addDocumentListener(this);
 		component.addCaretListener(this);

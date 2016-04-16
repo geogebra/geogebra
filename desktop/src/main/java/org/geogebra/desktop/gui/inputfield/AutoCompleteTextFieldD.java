@@ -35,6 +35,8 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.event.KeyListenerD;
 import org.geogebra.desktop.gui.autocompletion.CommandCompletionListCellRenderer;
 import org.geogebra.desktop.gui.autocompletion.CompletionsPopup;
@@ -973,7 +975,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	public void setFont(GFont font) {
-		super.setFont(org.geogebra.desktop.awt.GFontD.getAwtFont(font));
+		super.setFont(GFontD.getAwtFont(font));
 	}
 
 	/**
@@ -992,12 +994,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	public void setForeground(GColor color) {
-		super.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(color));
+		super.setForeground(GColorD.getAwtColor(color));
 
 	}
 
 	public void setBackground(GColor color) {
-		super.setBackground(org.geogebra.desktop.awt.GColorD.getAwtColor(color));
+		super.setBackground(GColorD.getAwtColor(color));
 
 	}
 

@@ -24,6 +24,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.euclidian.EuclidianViewJPanelD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.panels.EuclidianDockPanelAbstract;
@@ -157,7 +158,7 @@ public class DockManagerD extends DockManager
 					// TODO insert error panel
 				} else {
 					panel.setToolbarString(dpData[i].getToolbarString());
-					panel.setFrameBounds(org.geogebra.desktop.awt.GRectangleD
+					panel.setFrameBounds(GRectangleD
 							.getAWTRectangle(dpData[i].getFrameBounds()));
 					panel.setEmbeddedDef(dpData[i].getEmbeddedDef());
 					panel.setEmbeddedSize(dpData[i].getEmbeddedSize());

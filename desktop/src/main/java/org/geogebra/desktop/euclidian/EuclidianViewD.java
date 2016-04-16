@@ -69,6 +69,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
@@ -344,7 +345,7 @@ public class EuclidianViewD extends EuclidianView implements
 		if (!title.equals("")) {
 			GFont titleFont = app.getBoldFontCommon().deriveFont(GFont.BOLD,
 					app.getBoldFont().getSize() + 2);
-			g2d.setFont(org.geogebra.desktop.awt.GFontD.getAwtFont(titleFont));
+			g2d.setFont(GFontD.getAwtFont(titleFont));
 			g2d.setColor(Color.black);
 			// Font fn = g2d.getFont();
 			FontMetrics fm = g2d.getFontMetrics();
@@ -864,7 +865,7 @@ public class EuclidianViewD extends EuclidianView implements
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
-		evjpanel.setPreferredSize(org.geogebra.desktop.awt.GDimensionD
+		evjpanel.setPreferredSize(GDimensionD
 				.getAWTDimension(preferredSize));
 	}
 
@@ -1069,7 +1070,7 @@ public class EuclidianViewD extends EuclidianView implements
 
 	@Override
 	public void setBackground(GColor bgColor) {
-		evjpanel.setBackground(org.geogebra.desktop.awt.GColorD.getAwtColor(bgColor));
+		evjpanel.setBackground(GColorD.getAwtColor(bgColor));
 	}
 
 	// temp image

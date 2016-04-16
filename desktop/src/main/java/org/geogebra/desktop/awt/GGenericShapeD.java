@@ -23,7 +23,7 @@ public class GGenericShapeD implements GShapeD {
 		if (s instanceof GShapeD)
 			return ((GShapeD) s).getAwtShape();
 		if (s instanceof GeneralPathClipped)
-			return org.geogebra.desktop.awt.GGeneralPathD
+			return GGeneralPathD
 					.getAwtGeneralPath(((GeneralPathClipped) s)
 							.getGeneralPath());
 		if (s != null) {
@@ -50,7 +50,7 @@ public class GGenericShapeD implements GShapeD {
 	}
 
 	public boolean contains(GRectangle2D rectangle) {
-		return impl.contains(org.geogebra.desktop.awt.GRectangleD
+		return impl.contains(GRectangleD
 				.getAWTRectangle2D(rectangle));
 	}
 
@@ -68,14 +68,15 @@ public class GGenericShapeD implements GShapeD {
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(
-				impl.getPathIterator(org.geogebra.desktop.awt.GAffineTransformD
+impl.getPathIterator(
+				GAffineTransformD
 						.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
 		return new GPathIteratorD(
 				impl.getPathIterator(
-				org.geogebra.desktop.awt.GAffineTransformD.getAwtAffineTransform(at),
+				GAffineTransformD.getAwtAffineTransform(at),
 				flatness));
 	}
 
@@ -84,7 +85,6 @@ public class GGenericShapeD implements GShapeD {
 	}
 
 	public boolean intersects(GRectangle2D r) {
-		return impl.intersects(org.geogebra.desktop.awt.GGenericRectangle2DD
-				.getAWTRectangle2D(r));
+		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));
 	}
 }

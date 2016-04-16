@@ -42,6 +42,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.view.Gridable;
@@ -953,7 +954,8 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 				settings().cellFormat());
 
 		// preferredSize
-		spreadsheetWrapper.setPreferredSize(org.geogebra.desktop.awt.GDimensionD
+		spreadsheetWrapper.setPreferredSize(
+				GDimensionD
 				.getAWTDimension(settings().preferredSize()));
 
 		// initial position

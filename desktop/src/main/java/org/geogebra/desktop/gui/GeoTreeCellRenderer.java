@@ -23,6 +23,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeNode;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -68,7 +69,7 @@ public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
 				setIcon(iconHidden);
 			}
 
-			setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(geo.getLabelColor()));
+			setForeground(GColorD.getAwtColor(geo.getLabelColor()));
 			setText(geo.getLabelTextOrHTML());
 			setFont(app.getFontCanDisplayAwt(getText(), Font.BOLD));
 

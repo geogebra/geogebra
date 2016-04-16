@@ -14,6 +14,7 @@ import javax.swing.table.TableCellEditor;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.desktop.awt.GColorD;
 
 public class MyCellEditorButton extends AbstractCellEditor implements TableCellEditor {
 	private static final long serialVersionUID = 1L;
@@ -55,7 +56,7 @@ public class MyCellEditorButton extends AbstractCellEditor implements TableCellE
 			delegate.setOpaque(true);
 			delegate.setHorizontalAlignment(SwingConstants.CENTER);
 		//	delegate.setFont(view.fontPoint);
-			delegate.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(editGeo.getObjectColor()));
+		delegate.setForeground(GColorD.getAwtColor(editGeo.getObjectColor()));
 		  
 	    return delegate;
 	  }

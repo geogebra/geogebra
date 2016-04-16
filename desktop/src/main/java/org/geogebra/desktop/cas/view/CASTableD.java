@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
@@ -86,7 +87,8 @@ public class CASTableD extends JTable implements CASTable {
 		kernel = app.getKernel();
 
 		setShowGrid(true);
-		setGridColor(org.geogebra.desktop.awt.GColorD
+		setGridColor(
+				GColorD
 				.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		setBackground(Color.white);
 

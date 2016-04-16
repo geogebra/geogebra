@@ -580,7 +580,7 @@ public class OptionsEuclidianD extends
 	}
 
 	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
-		btAxesColor.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(color));
+		btAxesColor.setForeground(GColorD.getAwtColor(color));
 		cbShowAxes.removeActionListener(this);
 		cbShowAxes.setSelected(isShown);
 		cbShowAxes.addActionListener(this);
@@ -593,7 +593,7 @@ public class OptionsEuclidianD extends
 
 	public void updateGrid(GColor color, boolean isShown, boolean isBold,
 			int gridType) {
-		btGridColor.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(color));
+		btGridColor.setForeground(GColorD.getAwtColor(color));
 
 		cbShowGrid.removeActionListener(this);
 		cbShowGrid.setSelected(isShown);
@@ -610,7 +610,8 @@ public class OptionsEuclidianD extends
 	}
 
 	public void updateGUI() {
-		btBackgroundColor.setForeground(org.geogebra.desktop.awt.GColorD.getAwtColor(view
+		btBackgroundColor
+				.setForeground(GColorD.getAwtColor(view
 				.getBackgroundCommon()));
 		cbTooltips.removeActionListener(this);
 		cbAxesStyle.removeActionListener(this);

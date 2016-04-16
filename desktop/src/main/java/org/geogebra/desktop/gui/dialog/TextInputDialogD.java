@@ -74,6 +74,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.DynamicTextInputPane;
 import org.geogebra.desktop.gui.DynamicTextInputPane.DynamicTextField;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -583,7 +584,8 @@ public class TextInputDialogD extends InputDialogD
 		recentSymbolTable.setSelectedIndex(0);
 		// this.setUseColorSwatchBorder(true);
 		recentSymbolTable.setShowGrid(true);
-		recentSymbolTable.setGridColor(org.geogebra.desktop.awt.GColorD
+		recentSymbolTable.setGridColor(
+				GColorD
 				.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		recentSymbolTable.setBorder(BorderFactory.createLoweredBevelBorder());
 		recentSymbolTable.setShowSelection(false);

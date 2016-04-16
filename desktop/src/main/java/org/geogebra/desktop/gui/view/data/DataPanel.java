@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -65,7 +66,7 @@ public class DataPanel extends JPanel implements ActionListener,
 	private LocalizationD loc;
 
 	private static final Color DISABLED_BACKGROUND_COLOR = Color.LIGHT_GRAY;
-	private static final Color SELECTED_BACKGROUND_COLOR_HEADER = org.geogebra.desktop.awt.GColorD
+	private static final Color SELECTED_BACKGROUND_COLOR_HEADER = GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
 	private static final Color TABLE_GRID_COLOR = DataAnalysisViewD.TABLE_GRID_COLOR;
 	private static final Color TABLE_HEADER_COLOR = DataAnalysisViewD.TABLE_HEADER_COLOR;
@@ -149,7 +150,7 @@ public class DataPanel extends JPanel implements ActionListener,
 		btnEnableAll.setEnabled(false);
 		btnEnableAll.setBorderPainted(false);
 		btnEnableAll
-				.setBackground(org.geogebra.desktop.awt.GColorD
+.setBackground(GColorD
 						.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 		btnEnableAll.setContentAreaFilled(false);
 		btnEnableAll.setHorizontalAlignment(SwingConstants.LEFT);
@@ -494,16 +495,10 @@ public class DataPanel extends JPanel implements ActionListener,
 
 				setOpaque(true);
 
-				setBorder(BorderFactory
-						.createCompoundBorder(
-								BorderFactory
-										.createMatteBorder(
-												0,
-												0,
-												1,
-												1,
-												org.geogebra.desktop.awt.GColorD
-														.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)),
+				setBorder(BorderFactory.createCompoundBorder(
+						BorderFactory.createMatteBorder(0, 0, 1, 1,
+								GColorD.getAwtColor(
+										GeoGebraColorConstants.TABLE_GRID_COLOR)),
 								BorderFactory.createEmptyBorder(0, 5, 0, 2)));
 
 				setHorizontalAlignment(LEFT);

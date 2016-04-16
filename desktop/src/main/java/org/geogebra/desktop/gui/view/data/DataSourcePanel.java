@@ -52,6 +52,7 @@ import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.Validation;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.inputfield.MathTextField;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -788,11 +789,11 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			add(headerPanel, BorderLayout.CENTER);
 
 			if (vColIndex == table.getSelectedColumn()) {
-				setBackground(org.geogebra.desktop.awt.GColorD
-						.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
+				setBackground(GColorD.getAwtColor(
+						GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
 			} else {
-				setBackground(org.geogebra.desktop.awt.GColorD
-						.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
+				setBackground(GColorD.getAwtColor(
+						GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 			}
 
 			return this;
