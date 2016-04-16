@@ -665,9 +665,26 @@ public abstract class Prover {
 		this.returnExtraNDGs = returnExtraNDGs;
 	}
 
+
 	private static class StatementFeatures {
 		double mean, variation_coefficient, minimum, maximum, entropy;
 		int NO_ALGOS = 23; // TODO: get this number automatically
+
+		private static HashMap<GeoElement, Integer> nodeLongestPath = new HashMap<GeoElement, Integer>();
+		private static int longestPath = 0;
+
+		private static void computeNodeLongestPath(GeoElement node, int set) {
+			nodeLongestPath.put(node, set);
+			if (set > longestPath) {
+				longestPath = set;
+			}
+			AlgoElement ae = node.getParentAlgorithm();
+			if (ae != null) {
+				for (GeoElement dependency : ae.getInput()) {
+					computeNodeLongestPath(dependency, set + 1);
+				}
+			}
+		}
 
 		StatementFeatures(GeoElement statement) {
 			/*
@@ -675,17 +692,22 @@ public abstract class Prover {
 			 * statistics
 			 */
 			HashMap<String, Integer> population = new HashMap<String, Integer>();
-			Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
-			int size = 0;
+			TreeSet<GeoElement> nodes = statement.getAllPredecessors();
+			Iterator<GeoElement> it = nodes.iterator();
+
+			int number_of_nodes = 1, free = 0, edges = 0;
 			maximum = 1;
 			while (it.hasNext()) {
-				size++;
+				number_of_nodes++;
 				int freq = 1;
 				GeoElement geo = it.next();
 				AlgoElement ae = geo.getParentAlgorithm();
 				String algo = "null";
 				if (ae != null) {
 					algo = ae.getClassName().getCommand();
+					edges += ae.getInput().length;
+				} else {
+					free++;
 				}
 				if (population.containsKey(algo)) {
 					freq = population.get(algo) + 1;
@@ -696,8 +718,8 @@ public abstract class Prover {
 
 			/* computing rest of statistics */
 			minimum = maximum;
-			maximum /= size;
-			mean = (double) size / NO_ALGOS;
+			maximum /= number_of_nodes;
+			mean = (double) number_of_nodes / NO_ALGOS;
 			int zeros = NO_ALGOS - population.size();
 			/* ((3/7-1/23)^2+(1/7-1/23)^2*4+18*(1/23)^2)/23 == .00925 */
 			variation_coefficient = 0;
@@ -713,12 +735,12 @@ public abstract class Prover {
 				if (freq < minimum) {
 					minimum = freq;
 				}
-				double rel_freq = freq / (double) size;
+				double rel_freq = freq / (double) number_of_nodes;
 				double value = rel_freq - 1.0 / NO_ALGOS;
 				variation_coefficient += value * value;
 				entropy -= rel_freq * Math.log(rel_freq) / Math.log(2);
 			}
-			minimum /= size;
+			minimum /= number_of_nodes;
 
 			double value = 1.0 / NO_ALGOS;
 			variation_coefficient += zeros * value * value;
@@ -727,6 +749,31 @@ public abstract class Prover {
 			Log.debug("minimum=" + minimum + " maximum=" + maximum + " mean="
 					+ mean + " variation_coefficient=" + variation_coefficient
 					+ " entropy=" + entropy);
+
+			computeNodeLongestPath(statement, 0);
+
+			// CSV output
+			String csv = "";
+			// number of nodes
+			csv += number_of_nodes + ";";
+			// number of nodes with in-degree 0
+			csv += free + ";";
+			// number of edges
+			csv += edges + ";";
+			// num of nodes/num of edges
+			csv += ((double) number_of_nodes / edges) + ";";
+			// num of edges/num of nodes
+			csv += ((double) edges / number_of_nodes) + ";";
+			// max path length/num of nodes
+			csv += ((double) longestPath / number_of_nodes) + ";";
+			// num of nodes/max path length
+			csv += ((double) number_of_nodes / longestPath) + ";";
+			// max path length/num of edges
+			csv += ((double) longestPath / edges) + ";";
+			// num of edges/max path length
+			csv += ((double) edges / longestPath) + ";";
+
+			Log.debug("portfolio csv:" + csv);
 		}
 	}
 }
