@@ -61,6 +61,7 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Web implementation of ConstructionProtocol
@@ -70,7 +71,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		implements SetLabels, SettingListener, PrintableW {
 
 	/** contains a scrollPanel with the {@link #table constructionstep-table} **/
-	public MyPanel cpPanel;
+	public FlowPanel cpPanel;
 	/** table with constructionsteps **/
 	protected CellTable<RowData> table;
 	private StyleBarW styleBar;
@@ -86,7 +87,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	GCheckBoxMenuItem miShowOnlyBreakpoints = null;
 
 	CellTable<RowData> headerTable;
-	private ScrollPanel outerScrollPanel;
+	MyPanel outerScrollPanel;
 
 
 	/**
@@ -94,7 +95,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * @param app {@link AppW}
 	 */
 	public ConstructionProtocolViewW(final AppW app) {
-		cpPanel = new MyPanel();
+		cpPanel = new FlowPanel();
 		this.app = app;
 		kernel = app.getKernel();
 		data = new ConstructionTableDataW(this);
@@ -127,9 +128,12 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			headerTable = new CellTable<RowData>();
 			headerTable.addStyleName("headerTable");
 			headerTable.addStyleName("cpTable");
-			cpPanel.add(headerTable);
-			outerScrollPanel = new ScrollPanel(cpPanel); // used for horizontal
+			SimplePanel headerTablePanel = new SimplePanel();
+			headerTablePanel.add(headerTable);
+			cpPanel.add(headerTablePanel);
+			outerScrollPanel = new MyPanel(); // used for horizontal
 														// scrolling
+			outerScrollPanel.add(cpPanel);
 			table.addStyleName("hiddenheader");
 		}
 		cpPanel.add(scrollPane);
@@ -178,57 +182,60 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		rowCountChanged();
 
 		if (app.has(Feature.FIX_CP_HEADER)) {
-			cpPanel.setHeaderSizes();
+			setHeaderSizes();
 		}
 	}
 
-	public class MyPanel extends FlowPanel {
-
-		public void setHeaderSizes() {
-
-			if (!app.has(Feature.FIX_CP_HEADER)) {
-				return;
-			}
-
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-
-				public void execute() {
-					// TODO Auto-generated method stub
-					NodeList<Element> tableRows = table.getElement()
-							.getElementsByTagName("tbody").getItem(0)
-							.getElementsByTagName("tr");
-					if (tableRows.getLength() == 0) {
-						return;
-					}
 
 
-					if (MyPanel.this.getElement().getClientWidth() > table
-							.getElement()
-							.getClientWidth()) {
-						headerTable.getParent()
-								.addStyleName("overflowYScroll");
-					} else {
-						headerTable.getParent().removeStyleName(
-								"overflowYScroll");
-					}
+	public void setHeaderSizes() {
 
-					NodeList<Element> firstRow = tableRows.getItem(0)
-							.getElementsByTagName("td");
+		if (!app.has(Feature.FIX_CP_HEADER)) {
+			return;
+		}
 
-					int sum = 0;
-					for (int i = 0; i < table.getColumnCount(); i++) {
-						int w = firstRow.getItem(i).getOffsetWidth();
-						headerTable.setColumnWidth(i, w + "px");
-						sum += w;
-					}
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
-					int tableWidth = table.getOffsetWidth();
-						headerTable.getElement().getStyle()
-								.setWidth(tableWidth, Unit.PX);
+			public void execute() {
+				// TODO Auto-generated method stub
+				NodeList<Element> tableRows = table.getElement()
+						.getElementsByTagName("tbody").getItem(0)
+						.getElementsByTagName("tr");
+				if (tableRows.getLength() == 0) {
+					return;
 				}
 
-			});
 
+				if (outerScrollPanel.getElement().getClientWidth() > table
+						.getElement().getClientWidth()) {
+					headerTable.getParent().addStyleName("overflowYScroll");
+				} else {
+					headerTable.getParent().removeStyleName("overflowYScroll");
+				}
+
+				NodeList<Element> firstRow = tableRows.getItem(0)
+						.getElementsByTagName("td");
+
+				int sum = 0;
+				for (int i = 0; i < table.getColumnCount(); i++) {
+					int w = firstRow.getItem(i).getOffsetWidth();
+					headerTable.setColumnWidth(i, w + "px");
+					sum += w;
+				}
+
+				int tableWidth = table.getOffsetWidth();
+				headerTable.getElement().getStyle()
+						.setWidth(tableWidth, Unit.PX);
+			}
+
+		});
+
+	}
+
+	public class MyPanel extends ScrollPanel {
+
+		public void onResize() {
+			setHeaderSizes();
 		}
 
 	}
@@ -1023,7 +1030,7 @@ myCell) {
 				needsUpdate = false;
 				tableInit();
 			}
-			cpPanel.setHeaderSizes();
+			setHeaderSizes();
 
 		}
 

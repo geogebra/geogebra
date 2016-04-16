@@ -26,7 +26,7 @@ public class InnerPanel extends FlowPanel implements RequiresResize {
 		}
 
 		if (content instanceof MyPanel) {
-			((MyPanel) content).setHeaderSizes();
+			((MyPanel) content).onResize();
 		}
 	}
 
