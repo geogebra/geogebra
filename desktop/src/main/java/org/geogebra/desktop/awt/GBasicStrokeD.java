@@ -15,7 +15,7 @@ import org.geogebra.common.main.App;
 public class GBasicStrokeD implements org.geogebra.common.awt.GBasicStroke {
 	private BasicStroke impl;
 
-	public GBasicStrokeD(java.awt.BasicStroke basicStroke) {
+	public GBasicStrokeD(BasicStroke basicStroke) {
 		impl = basicStroke;
 	}
 

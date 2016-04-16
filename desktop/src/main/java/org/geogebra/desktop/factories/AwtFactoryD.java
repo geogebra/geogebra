@@ -1,5 +1,6 @@
 package org.geogebra.desktop.factories;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.TexturePaint;
@@ -252,8 +253,7 @@ public class AwtFactoryD extends AwtFactory {
 
 	@Override
 	public GAlphaComposite newAlphaComposite(int rule, float alpha) {
-		return new GAlphaCompositeD(
-				java.awt.AlphaComposite.getInstance(rule, alpha));
+		return new GAlphaCompositeD(AlphaComposite.getInstance(rule, alpha));
 	}
 
 	@Override

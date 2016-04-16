@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPenStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 
 public class ModeDelete {
@@ -71,7 +72,7 @@ public class ModeDelete {
 				// hit detection).
 
 				GeoPoint[] realPoints = (GeoPoint[]) gps.getPoints();
-				GeoPoint[] dataPoints;
+				GeoPointND[] dataPoints;
 
 				if (geo.getParentAlgorithm() != null
 						&& (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
@@ -87,7 +88,7 @@ public class ModeDelete {
 					dataPoints = ((AlgoPolyLine) gps.getParentAlgorithm())
 							.getPoints();
 				} else {
-					dataPoints = (GeoPoint[]) gps.getPoints();
+					dataPoints = gps.getPoints();
 				}
 
 				// find out if this stroke is still visible

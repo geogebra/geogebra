@@ -76,7 +76,7 @@ abstract public class ShapeElement extends RenderableElement
     public ShapeElement() {
     }
 
-    abstract public void render(java.awt.Graphics2D g) throws SVGException;
+	abstract public void render(Graphics2D g) throws SVGException;
 
     /*
     protected void setStrokeWidthScalar(float strokeWidthScalar)

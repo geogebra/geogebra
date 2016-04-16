@@ -266,11 +266,11 @@ public class CopyPaste {
 					}
 				} else if (geo instanceof GeoPolyLine) {
 					if (geo.getParentAlgorithm() instanceof AlgoPolyLine) {
-						GeoElement[] pgeos = ((GetPointsAlgo) (geo
+						GeoPointND[] pgeos = ((GetPointsAlgo) (geo
 								.getParentAlgorithm())).getPoints();
 						for (int j = 0; j < pgeos.length; j++) {
 							if (!geos.contains(pgeos[j])) {
-								geos.add(pgeos[j]);
+								geos.add((GeoElement) pgeos[j]);
 							}
 						}
 					}

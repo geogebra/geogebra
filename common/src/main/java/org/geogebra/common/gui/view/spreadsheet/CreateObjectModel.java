@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.IndexHTMLBuilder;
 
@@ -157,7 +157,7 @@ public class CreateObjectModel {
 		}
 
 		if (getObjectType() == TYPE_POLYLINE) {
-			GeoPoint[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
+			GeoPointND[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
 					.getPoints();
 			for (int i = 0; i < pts.length; i++) {
 				pts[i].setEuclidianVisible(true);
@@ -182,7 +182,7 @@ public class CreateObjectModel {
 			}
 
 			if (getObjectType() == TYPE_POLYLINE) {
-				GeoPoint[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
+				GeoPointND[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
 						.getPoints();
 				for (int i = 0; i < pts.length; i++)
 					pts[i].remove();
@@ -238,7 +238,7 @@ public class CreateObjectModel {
 				newGeo = cp.createPolyLine(getSelectedCellRanges(), copyByValue,
 						leftToRight);
 				newGeo.setLabel(null);
-				GeoPoint[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
+				GeoPointND[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
 						.getPoints();
 				for (int i = 0; i < pts.length; i++) {
 					pts[i].setAuxiliaryObject(true);

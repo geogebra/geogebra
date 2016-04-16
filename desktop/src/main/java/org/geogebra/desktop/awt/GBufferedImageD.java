@@ -1,5 +1,6 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
@@ -14,7 +15,7 @@ public class GBufferedImageD implements org.geogebra.common.awt.GBufferedImage {
 		impl = new BufferedImage(width, height, imageType);
 	}
 
-	public GBufferedImageD(java.awt.image.BufferedImage image) {
+	public GBufferedImageD(BufferedImage image) {
 		impl = image;
 	}
 
@@ -26,7 +27,7 @@ public class GBufferedImageD implements org.geogebra.common.awt.GBufferedImage {
 		return impl.getHeight();
 	}
 
-	public static java.awt.image.BufferedImage getAwtBufferedImage(
+	public static BufferedImage getAwtBufferedImage(
 			GBufferedImage im) {
 		if (im == null)
 			return null;
@@ -35,7 +36,7 @@ public class GBufferedImageD implements org.geogebra.common.awt.GBufferedImage {
 
 	public GGraphics2D createGraphics() {
 		return new GGraphics2DD(
-				(java.awt.Graphics2D) impl.getGraphics());
+(Graphics2D) impl.getGraphics());
 	}
 
 	public GBufferedImage getSubimage(int i, int j, int size, int size2) {

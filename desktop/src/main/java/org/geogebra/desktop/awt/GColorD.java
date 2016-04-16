@@ -30,7 +30,7 @@ public class GColorD extends GColor {
 		adaptedColor = new Color(rgb);
 	}
 
-	public GColorD(java.awt.Color hsbColor) {
+	public GColorD(Color hsbColor) {
 		adaptedColor = hsbColor;
 		// TODO Auto-generated constructor stub
 	}

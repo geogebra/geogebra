@@ -209,8 +209,8 @@ public class AlgoPolyLine extends AlgoElement implements GetPointsAlgo {
 		return poly;
 	}
 
-	public GeoPoint[] getPoints() {
-		return (GeoPoint[]) points;
+	public GeoPointND[] getPoints() {
+		return points;
 	}
 
 	public GeoList getPointsList() {

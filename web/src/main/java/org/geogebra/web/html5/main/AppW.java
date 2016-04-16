@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.UndoManager;
+import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.barycentric.AlgoCubicSwitch;
 import org.geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -1856,7 +1857,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	public void setPreferredSize(org.geogebra.common.awt.GDimension size) {
+	public void setPreferredSize(GDimension size) {
 		preferredSize = size;
 	}
 
@@ -1989,7 +1990,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	// methods used just from AppWapplet (and AppWsimple)
-	public void focusLost(org.geogebra.common.kernel.View w, Element el) {
+	public void focusLost(View w, Element el) {
 		// other things are handled in subclasses of AppW
 		// anyAppHasFocus = false;
 		if (el != null) {
@@ -1997,7 +1998,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
-	public void focusGained(org.geogebra.common.kernel.View w, Element el) {
+	public void focusGained(View w, Element el) {
 		// this is used through the super keyword
 		// anyAppHasFocus = true;
 		if (el != null) {
