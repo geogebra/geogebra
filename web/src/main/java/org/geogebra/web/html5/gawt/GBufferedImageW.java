@@ -12,7 +12,7 @@ import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.DOM;
 
-public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
+public class GBufferedImageW implements GBufferedImage {
 
 	ImageElement img = null; // necessary
 

@@ -4,7 +4,7 @@ import java.awt.Composite;
 
 import org.geogebra.common.awt.GComposite;
 
-public class GCompositeD implements org.geogebra.common.awt.GComposite {
+public class GCompositeD implements GComposite {
 	private Composite impl;
 
 	public GCompositeD(Composite composite) {

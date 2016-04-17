@@ -12,7 +12,7 @@ import org.geogebra.common.main.App;
  * @author kondr
  * 
  */
-public class GBasicStrokeD implements org.geogebra.common.awt.GBasicStroke {
+public class GBasicStrokeD implements GBasicStroke {
 	private BasicStroke impl;
 
 	public GBasicStrokeD(BasicStroke basicStroke) {

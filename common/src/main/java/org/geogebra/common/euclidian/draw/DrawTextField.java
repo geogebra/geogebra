@@ -189,8 +189,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	 * 
 	 * @author Michael + Judit
 	 */
-	public class InputFieldKeyListener
-			implements org.geogebra.common.euclidian.event.KeyHandler {
+	public class InputFieldKeyListener implements KeyHandler {
 
 		/**
 		 * Creates new listener

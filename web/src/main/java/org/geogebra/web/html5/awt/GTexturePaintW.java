@@ -1,8 +1,9 @@
 package org.geogebra.web.html5.awt;
 
+import org.geogebra.common.awt.GPaint;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 
-public class GTexturePaintW implements org.geogebra.common.awt.GPaint {
+public class GTexturePaintW implements GPaint {
 
 	// GRectangleW anchor = null;
 	GBufferedImageW bi;

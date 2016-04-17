@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
@@ -18,7 +19,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @remark {@link #getEuclidianView()} has to be overridden if {@link #getComponent()}
  * 			does not return the euclidian view directly
  */
-public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements org.geogebra.common.euclidian.GetViewId {
+public abstract class EuclidianDockPanelWAbstract extends DockPanelW
+		implements GetViewId {
 	/** */
 	private static final long serialVersionUID = 1L;
 	private ConstructionProtocolNavigationW consProtNav;

@@ -2,7 +2,9 @@ package org.geogebra.desktop.awt;
 
 import java.awt.geom.CubicCurve2D;
 
-public class GCubicCurve2DD implements org.geogebra.common.awt.GCubicCurve2D {
+import org.geogebra.common.awt.GCubicCurve2D;
+
+public class GCubicCurve2DD implements GCubicCurve2D {
 
 	CubicCurve2D impl;
 

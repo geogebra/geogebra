@@ -4,8 +4,9 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GGradientPaint;
 
-public class GGradientPaintD implements org.geogebra.common.awt.GGradientPaint {
+public class GGradientPaintD implements GGradientPaint {
 	private GradientPaint impl;
 
 	public GGradientPaintD(GradientPaint copyg) {

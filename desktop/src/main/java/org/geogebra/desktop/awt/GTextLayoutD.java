@@ -5,8 +5,9 @@ import java.awt.font.TextLayout;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.font.GTextLayout;
 
-public class GTextLayoutD implements org.geogebra.common.awt.font.GTextLayout {
+public class GTextLayoutD implements GTextLayout {
 	private TextLayout impl;
 	private String str;
 	private GFont font;

@@ -1,6 +1,8 @@
 package org.geogebra.web.html5.awt;
 
-public class GAlphaCompositeW implements org.geogebra.common.awt.GAlphaComposite {
+import org.geogebra.common.awt.GAlphaComposite;
+
+public class GAlphaCompositeW implements GAlphaComposite {
 
 	public static GAlphaCompositeW Src = new GAlphaCompositeW(SRC, 1.0f);
 	private int srcOver;

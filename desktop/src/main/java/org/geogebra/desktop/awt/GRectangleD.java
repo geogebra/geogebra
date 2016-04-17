@@ -11,7 +11,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.desktop.main.AppD;
 
-public class GRectangleD implements org.geogebra.desktop.awt.GRectangle2DD,
+public class GRectangleD implements GRectangle2DD,
  GRectangle {
 
 	Rectangle impl;

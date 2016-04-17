@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
@@ -22,7 +23,8 @@ import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigation
  * @remark {@link #getEuclidianView()} has to be overridden if {@link #getComponent()}
  * 			does not return the euclidian view directly
  */
-public abstract class EuclidianDockPanelAbstract extends DockPanelD implements org.geogebra.common.euclidian.GetViewId {
+public abstract class EuclidianDockPanelAbstract extends DockPanelD
+		implements GetViewId {
 	/** */
 	private static final long serialVersionUID = 1L;
 	

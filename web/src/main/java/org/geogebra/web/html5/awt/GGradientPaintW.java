@@ -1,11 +1,12 @@
 package org.geogebra.web.html5.awt;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GGradientPaint;
 
 import com.google.gwt.canvas.dom.client.CanvasGradient;
 import com.google.gwt.canvas.dom.client.Context2d;
 
-public class GGradientPaintW implements org.geogebra.common.awt.GGradientPaint {
+public class GGradientPaintW implements GGradientPaint {
 	private GColor color1, color2;
 	private float x1, x2, y1, y2;
 

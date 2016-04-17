@@ -22,7 +22,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
  * @author Michael Borcherds, based on Reduce version
  *
  */
-public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluate {
+public class CASgiacW extends CASgiac implements Evaluate {
 
 	/** kernel */
 	Kernel kernel;

@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
+import org.geogebra.common.sound.SoundManager;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.sound.mp3transform.Decoder;
 
@@ -29,7 +30,7 @@ import javafx.scene.media.MediaPlayer;
  * @author G. Sturr
  * 
  */
-public class SoundManagerD implements org.geogebra.common.sound.SoundManager {
+public class SoundManagerD implements SoundManager {
 
 	private AppD app;
 	private MidiSoundD midiSound;
