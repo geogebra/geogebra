@@ -48,4 +48,8 @@ public interface GAffineTransform {
 	public void setToScale(double sx, double sy);
 
 	public void getMatrix(double[] m);
+
+	public void setToRotation(double theta);
+
+	public void setToRotation(double theta, double x, double y);
 }

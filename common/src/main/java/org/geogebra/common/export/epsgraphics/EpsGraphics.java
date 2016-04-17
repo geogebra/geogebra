@@ -557,18 +557,18 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * transform.
 	 */
 	// @Override
-	// public void rotate(double theta) {
-	// rotate(theta, 0, 0);
-	// }
+	public void rotate(double theta) {
+		rotate(theta, 0, 0);
+	}
 
 	/**
 	 * Concatenates the current EpsGraphics2D Transform with a translated
 	 * rotation transform.
 	 */
 	// @Override
-	// public void rotate(double theta, double x, double y) {
-	// transform(AffineTransform.getRotateInstance(theta, x, y));
-	// }
+	public void rotate(double theta, double x, double y) {
+		transform(AwtFactory.getRotateInstance(theta, x, y));
+	}
 
 	/**
 	 * Concatenates the current EpsGraphics2D Transform with a scaling

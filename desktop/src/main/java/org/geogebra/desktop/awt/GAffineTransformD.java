@@ -138,4 +138,12 @@ public class GAffineTransformD implements GAffineTransform {
 	public void getMatrix(double[] flatmatrix) {
 		at.getMatrix(flatmatrix);
 	}
+
+	public void setToRotation(double theta) {
+		at.setToRotation(theta);
+	}
+
+	public void setToRotation(double theta, double x, double y) {
+		at.setToRotation(theta, x, y);
+	}
 }

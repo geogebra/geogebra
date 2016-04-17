@@ -135,4 +135,17 @@ public abstract class AwtFactory {
 		Tx.setToScale(sx, sy);
 		return Tx;
 	}
+
+	public static GAffineTransform getRotateInstance(double theta) {
+		GAffineTransform Tx = prototype.newAffineTransform();
+		Tx.setToRotation(theta);
+		return Tx;
+	}
+
+	public static GAffineTransform getRotateInstance(double theta, double x,
+			double y) {
+		GAffineTransform Tx = prototype.newAffineTransform();
+		Tx.setToRotation(theta, x, y);
+		return Tx;
+	}
 }

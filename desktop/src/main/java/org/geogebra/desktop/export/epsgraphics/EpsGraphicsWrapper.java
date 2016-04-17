@@ -128,13 +128,11 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	}
 
 	public void rotate(double theta, double x, double y) {
-		// impl.rotate(theta, x, y);
-		Log.debug("unimplemented - not needed?");
+		impl.rotate(theta, x, y);
 	}
 
 	public void rotate(double theta) {
-		// impl.rotate(theta);
-		Log.debug("unimplemented - not needed?");
+		impl.rotate(theta);
 	}
 
 	public void drawImage(Image image, int x, int y) {
