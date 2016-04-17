@@ -1320,7 +1320,7 @@ public class RadioTreeItem extends AVTreeItem
 		} else if (isItemNumeric()) {
 			updateNumerics();
 		} else {
-			if (isDefinitionAndValue()) {
+			if (!isInputTreeItem() && isDefinitionAndValue()) {
 				buildDefinitionAndValue();
 			} else {
 				updateTextItems();
