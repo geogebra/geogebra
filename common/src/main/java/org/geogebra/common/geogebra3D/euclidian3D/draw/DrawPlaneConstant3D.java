@@ -72,6 +72,11 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	}
 
 	@Override
+	protected int getGridThickness() {
+		return 1;
+	}
+
+	@Override
 	public void drawGeometry(Renderer renderer) {
 
 		drawPlate(renderer);

@@ -199,7 +199,13 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		return ret;
 	}
 
-	// private int hidingIndex = -1;
+	/**
+	 * 
+	 * @return grid thickness
+	 */
+	protected int getGridThickness() {
+		return getGeoElement().getLineThickness();
+	}
 
 	/**
 	 * update the geometry
@@ -248,8 +254,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 				brush.start(gridIndex);
 			}
 			removeGeometryIndex(gridIndex);
-			float thickness = brush.setThickness(getGeoElement()
-					.getLineThickness(), (float) getView3D().getScale());
+			float thickness = brush.setThickness(getGridThickness(),
+					(float) getView3D().getScale());
 
 			brush.setColor(getGeoElement().getObjectColor());
 
