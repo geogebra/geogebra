@@ -3873,7 +3873,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case SHINY_3D:
-			return prerelease;
+			return true;
 
 		case WEB_PRINT_ALGEBRA_VIEW:
 			return prerelease;
