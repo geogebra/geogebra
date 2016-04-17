@@ -688,7 +688,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 				// force the null hypothesis to zero
 				// TODO: allow non-zero values
-				sc.nullHyp = 0;
+				// sc.nullHyp = 0;
 				break;
 
 			case ZPROP_TEST:
@@ -706,7 +706,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 
 				// force the null hypothesis to zero
 				// TODO: allow non-zero values
-				sc.nullHyp = 0;
+				// sc.nullHyp = 0;
 				break;
 			}
 
