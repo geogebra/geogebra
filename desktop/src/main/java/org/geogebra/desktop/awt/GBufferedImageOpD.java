@@ -4,12 +4,12 @@ import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 
 import org.geogebra.common.awt.GBufferedImageOp;
 
-public class GBufferedImageOpD
-		implements java.awt.image.BufferedImageOp, GBufferedImageOp {
+public class GBufferedImageOpD implements BufferedImageOp, GBufferedImageOp {
 
 	public BufferedImage createCompatibleDestImage(BufferedImage src,
 			ColorModel destCM) {

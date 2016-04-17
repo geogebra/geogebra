@@ -1,10 +1,11 @@
 package org.geogebra.desktop.euclidian.event;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import org.geogebra.common.euclidian.event.KeyHandler;
 
-public class KeyListenerD implements java.awt.event.KeyListener {
+public class KeyListenerD implements KeyListener {
 
 	private KeyHandler handler;
 

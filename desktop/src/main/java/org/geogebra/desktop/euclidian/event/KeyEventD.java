@@ -3,7 +3,6 @@ package org.geogebra.desktop.euclidian.event;
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
-import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
 
 public class KeyEventD extends org.geogebra.common.euclidian.event.KeyEvent {
@@ -12,7 +11,6 @@ public class KeyEventD extends org.geogebra.common.euclidian.event.KeyEvent {
 	private KeyEvent event;
 
 	public KeyEventD(KeyEvent e) {
-		App.debug("possible missing release()");
 		this.event = e;
 	}
 
