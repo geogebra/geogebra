@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.TransformRotate;
+import org.geogebra.common.kernel.advanced.AlgoRotateText;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -69,9 +70,14 @@ public class CmdRotate extends CommandProcessor {
 
 		if (arg[1] instanceof GeoNumberValue) {
 			if (arg[0] instanceof GeoText) {
-				c.setName("RotateText");
-				return kernelA.getAlgebraProcessor().processCommand(c,
-						new EvalInfo(false));
+				// c.setName("RotateText");
+				// return kernelA.getAlgebraProcessor().processCommand(c,
+				// new EvalInfo(false));
+				AlgoRotateText algo = new AlgoRotateText(cons, c.getLabel(),
+						(GeoText) arg[0], (GeoNumberValue) arg[1]);
+
+				return new GeoElement[] { algo.getResult() };
+
 			}
 			GeoNumberValue phi = (GeoNumberValue) arg[1];
 
