@@ -80,8 +80,8 @@ public class EquationEditor {
 		String currentWord = curWord.toString();
 
 		// So we also provide currentWord as a heuristic or helper:
-		org.geogebra.web.html5.main.DrawEquationW
-				.writeLatexInPlaceOfCurrentWord(null, component.getLaTeXElement(),
+		DrawEquationW.writeLatexInPlaceOfCurrentWord(null,
+				component.getLaTeXElement(),
 						sugg, replace ? currentWord : "", true);
 
 		// not to forget making the popup disappear after success!
@@ -318,13 +318,13 @@ public class EquationEditor {
 			slatex = s;
 		}
 		if (slatex != null) {
-			slatex = slatex.replace("\\$", "\\dollar ").replace("$",
- "\\dollar ").replace("(", "\\left(")
+			slatex = slatex.replace("\\$", "\\dollar ")
+					.replace("$", "\\dollar ").replace("(", "\\left(")
 					.replace(")", "\\right)")
 					.replace("\\left\\left(", "\\left(")
 					.replace("\\right\\right)", "\\right)");
 		}
-		org.geogebra.web.html5.main.DrawEquationW.updateEditingMathQuillGGB(
+		DrawEquationW.updateEditingMathQuillGGB(
 				component.getLaTeXElement(), slatex, shallfocus);
 	}
 
@@ -385,7 +385,7 @@ public class EquationEditor {
 	 *            focus (false: blur)
 	 */
 	public void setFocus(boolean b) {
-		org.geogebra.web.html5.main.DrawEquationW.focusEquationMathQuillGGB(
+		DrawEquationW.focusEquationMathQuillGGB(
 		        component.getLaTeXElement(), b);
 
 		// as the focus operation sometimes also scrolls

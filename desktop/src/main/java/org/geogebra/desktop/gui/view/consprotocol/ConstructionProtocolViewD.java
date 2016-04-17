@@ -869,9 +869,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 	}
 
-	public class ConstructionTableDataD
-			extends
-			org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData {
+	public class ConstructionTableDataD extends ConstructionTableData {
 
 		protected MyGAbstractTableModel ctDataImpl;
 

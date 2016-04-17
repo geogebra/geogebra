@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 //import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -401,7 +402,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		// // panel for button to open external file
 		//
 		btnImage = new PopupMenuButton(app, iconArray, -1, 4,
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+				SelectionTable.MODE_ICON) {
 			@Override
 			public void handlePopupActionEvent() {
 				super.handlePopupActionEvent();

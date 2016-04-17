@@ -41,6 +41,7 @@ import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -470,7 +471,7 @@ class OptionsTab extends FlowPanel {
 				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i);
 			}
 			decoPopup = new PopupMenuButton(app, iconArray, -1, 1,
-					org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+					SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();
@@ -542,7 +543,7 @@ class OptionsTab extends FlowPanel {
 				iconArray[i] = GeoGebraIcon.createDecorSegmentIcon(i);
 			}
 			decoPopup = new PopupMenuButton(app, iconArray, -1, 1,
-					org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+					SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();

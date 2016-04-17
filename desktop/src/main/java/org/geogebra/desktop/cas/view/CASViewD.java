@@ -247,7 +247,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	private void createCASTable() {
 		consoleTable = new CASTableD(this);
 
-		CASTableCellController inputListener = new CASTableCellController(this);
+		CASTableCellControllerD inputListener = new CASTableCellControllerD(this);
 		getConsoleTable().getEditor().getInputArea()
 				.addKeyListener(inputListener);
 		getConsoleTable().getEditor().getInputArea()

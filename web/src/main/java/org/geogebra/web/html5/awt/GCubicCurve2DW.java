@@ -1,10 +1,11 @@
 package org.geogebra.web.html5.awt;
 
+import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.ggbjdk.java.awt.geom.CubicCurve2D;
 
-public class GCubicCurve2DW implements org.geogebra.common.awt.GCubicCurve2D {
+public class GCubicCurve2DW implements GCubicCurve2D {
 
-	org.geogebra.ggbjdk.java.awt.geom.CubicCurve2D.Double impl;
+	CubicCurve2D.Double impl;
 
 	public GCubicCurve2DW() {
 		impl = new CubicCurve2D.Double();

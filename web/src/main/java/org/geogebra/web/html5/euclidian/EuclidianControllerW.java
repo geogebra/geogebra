@@ -265,7 +265,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 
 		if (isComboboxFocused()) {
-			org.geogebra.common.util.debug.Log.info("isComboboxFocused!");
+			// Log.info("isComboboxFocused!");
 			this.draggingOccured = false;
 			view.setHits(mouseLoc, type);
 			Hits hits = view.getHits().getTopHits();

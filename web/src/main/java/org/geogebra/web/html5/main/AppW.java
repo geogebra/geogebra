@@ -327,7 +327,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		StringUtil.prototype = new StringUtil();
 		CASFactory.setPrototype(new CASFactoryW());
 		if (!is3D()) {
-			org.geogebra.common.util.CopyPaste.INSTANCE = new CopyPaste();
+			CopyPaste.INSTANCE = new CopyPaste();
 		}
 	}
 

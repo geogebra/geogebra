@@ -1,11 +1,14 @@
 package org.geogebra.web.html5.awt;
 
-public class GPathIteratorW implements org.geogebra.common.awt.GPathIterator {
+import java.awt.geom.PathIterator;
 
-	org.geogebra.ggbjdk.java.awt.geom.PathIterator impl;
+import org.geogebra.common.awt.GPathIterator;
 
-	public GPathIteratorW(
-	        org.geogebra.ggbjdk.java.awt.geom.PathIterator pathIterator) {
+public class GPathIteratorW implements GPathIterator {
+
+	PathIterator impl;
+
+	public GPathIteratorW(PathIterator pathIterator) {
 		impl = pathIterator;
 	}
 

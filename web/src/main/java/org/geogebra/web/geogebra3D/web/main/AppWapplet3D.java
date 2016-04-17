@@ -3,6 +3,7 @@ package org.geogebra.web.geogebra3D.web.main;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.kernel.Kernel;
@@ -10,6 +11,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.CopyPaste;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
@@ -88,8 +90,8 @@ public class AppWapplet3D extends AppWapplet {
 	protected void initFactories() {
 
 		super.initFactories();
-		org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory.prototype = new GLFactoryW();
-		org.geogebra.common.util.CopyPaste.INSTANCE = new CopyPaste3D();
+		GLFactory.prototype = new GLFactoryW();
+		CopyPaste.INSTANCE = new CopyPaste3D();
 	}
 
 	@Override

@@ -222,7 +222,7 @@ public class PerformanceTest implements EntryPoint {
 
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 
-		org.geogebra.web.html5.gui.GeoGebraFrameSimple.main(geoGebraMobileTags);
+		GeoGebraFrameSimple.main(geoGebraMobileTags);
 
 	}
 

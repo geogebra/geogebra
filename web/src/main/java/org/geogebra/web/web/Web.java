@@ -266,8 +266,7 @@ public class Web implements EntryPoint {
 
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 
-		org.geogebra.web.web.gui.applet.GeoGebraFrameBoth.main(
-				geoGebraMobileTags,
+		GeoGebraFrameBoth.main(geoGebraMobileTags,
 				(AppletFactory) GWT.create(AppletFactory.class),
 				getLAF(geoGebraMobileTags));
 

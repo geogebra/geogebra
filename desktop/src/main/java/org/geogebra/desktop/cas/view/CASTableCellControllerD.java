@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import org.geogebra.common.cas.view.CASTableCellController;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.desktop.main.AppD;
 
@@ -12,8 +13,8 @@ import org.geogebra.desktop.main.AppD;
  * Controller for CAS cell
  *
  */
-public class CASTableCellController extends
-		org.geogebra.common.cas.view.CASTableCellController implements KeyListener,
+public class CASTableCellControllerD extends CASTableCellController
+		implements KeyListener,
 		MouseListener {
 
 	private CASViewD view;
@@ -26,7 +27,7 @@ public class CASTableCellController extends
 	 * @param view
 	 *            CAS view
 	 */
-	public CASTableCellController(CASViewD view) {
+	public CASTableCellControllerD(CASViewD view) {
 		this.view = view;
 		this.app = view.getApplication();
 		table = view.getConsoleTable();

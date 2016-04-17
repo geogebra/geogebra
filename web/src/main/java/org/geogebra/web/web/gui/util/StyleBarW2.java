@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
@@ -33,7 +34,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		LineStylePopup.fillData(ICON_HEIGHT);
 		btnLineStyle = new EuclidianLineStylePopup(app,
 				LineStylePopup.getLineStyleIcons(), -1, 6,
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON, true, true);
+				SelectionTable.MODE_ICON, true, true);
 		btnLineStyle.setMode(mode);
 		btnLineStyle.getMySlider().setMinimum(1);
 		btnLineStyle.getMySlider().setMaximum(13);

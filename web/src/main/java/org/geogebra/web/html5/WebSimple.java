@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
+import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -92,7 +93,7 @@ public class WebSimple implements EntryPoint {
 	}
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 
-		org.geogebra.web.html5.gui.GeoGebraFrameSimple.main(geoGebraMobileTags);
+		GeoGebraFrameSimple.main(geoGebraMobileTags);
 
 	}
 

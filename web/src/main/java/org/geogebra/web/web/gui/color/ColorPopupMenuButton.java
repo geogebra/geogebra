@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.color;
 import java.util.HashMap;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
@@ -42,8 +43,7 @@ public class ColorPopupMenuButton extends PopupMenuButton
 	public ColorPopupMenuButton(AppW app, GDimensionW iconSize,
 			int colorSetType, boolean hasSlider) {
 
-		super(app, createDummyIcons(10), -1, 5,
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON);
+		super(app, createDummyIcons(10), -1, 5, SelectionTable.MODE_ICON);
 		this.app = app;
 		this.iconSize = iconSize;
 		this.colorSetType = colorSetType;
@@ -158,7 +158,8 @@ public class ColorPopupMenuButton extends PopupMenuButton
 	}
 
 	private static ImageOrText[] getColorSwatchIcons(
-			org.geogebra.common.awt.GColor[] colorArray, float alpha,
+GColor[] colorArray,
+			float alpha,
 			GDimensionW iconSize) {
 		ImageOrText[] a = new ImageOrText[colorArray.length];
 		for (int i = 0; i < colorArray.length; i++)

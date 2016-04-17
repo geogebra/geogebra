@@ -2,7 +2,9 @@ package org.geogebra.web.web.gui.layout.panels;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -100,7 +102,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 
 				if (geosOK) {
 					// get color from first geo
-					org.geogebra.common.awt.GColor geoColor;
+					GColor geoColor;
 					geoColor = ((GeoElement) geos[0]).getObjectColor();
 
 					// check if selection contains a fillable geo
@@ -216,8 +218,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		ImageOrText[] strTreeMode = getDescriptionModes();
 		if (descriptionButton == null) {
 			descriptionButton = new PopupMenuButton(app, strTreeMode,
-					strTreeMode.length, 1,
-					org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+					strTreeMode.length, 1, SelectionTable.MODE_TEXT);
 
 			ImageOrText icon = new ImageOrText(
 					StyleBarResources.INSTANCE.description());

@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.AngleProperties;
@@ -571,8 +572,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
-					org.geogebra.common.gui.util.SelectionTable.MODE_ICON,
-					true, false);
+					SelectionTable.MODE_ICON, true, false);
 		}
 
 		@Override
@@ -793,7 +793,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 					if (geosOK) {
 						// get color from first geo
-						org.geogebra.common.awt.GColor geoColor;
+						GColor geoColor;
 						geoColor = ((GeoElement) geos[0]).getObjectColor();
 
 						// check if selection contains a fillable geo
@@ -859,7 +859,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 				if (geosOK) {
 					// get color from first geo
-					org.geogebra.common.awt.GColor geoColor;
+					GColor geoColor;
 					geoColor = ((GeoElement) geos[0]).getBackgroundColor();
 
 					/*
