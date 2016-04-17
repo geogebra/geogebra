@@ -1,5 +1,22 @@
 package com.himamis.retex.editor.android;
 
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.InputType;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.BaseInputConnection;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
+
 import com.himamis.retex.editor.android.event.ClickListenerAdapter;
 import com.himamis.retex.editor.android.event.FocusListenerAdapter;
 import com.himamis.retex.editor.android.event.KeyListenerAdapter;
@@ -24,22 +41,6 @@ import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.Resource;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
-
-import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.text.InputType;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.inputmethod.BaseInputConnection;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
 
 public class FormulaEditor extends View implements MathField {
 
@@ -185,6 +186,13 @@ public class FormulaEditor extends View implements MathField {
     public void setTeXIcon(TeXIcon icon) {
         mTeXIcon = icon;
         mTeXIcon.setInsets(createInsetsFromPadding());
+        if (hasFeature_MOBILE_EDITOR_CARET_ALWAYS_ON_SCREEN()) {
+            updateShiftX();
+        }
+    }
+
+    protected boolean hasFeature_MOBILE_EDITOR_CARET_ALWAYS_ON_SCREEN() {
+        return false;
     }
 
     @Override
@@ -260,6 +268,10 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        drawShifted(canvas, getShiftX());
+    }
+
+    protected void drawShifted(Canvas canvas, int shiftX) {
         if (mTeXIcon == null) {
             return;
         }
@@ -271,12 +283,100 @@ public class FormulaEditor extends View implements MathField {
         // draw background
         canvas.drawColor(mBackgroundColor);
 
-        int x = Math.round((getMeasuredHeight() - mTeXIcon.getIconHeight()) / 2.0f);
+        int y = Math.round((getMeasuredHeight() - mTeXIcon.getIconHeight()) / 2.0f);
         // draw latex
         mGraphics.setCanvas(canvas);
         mTeXIcon.setForeground(mForegroundColor);
-        mTeXIcon.paintIcon(null, mGraphics, 0, x);
+        mTeXIcon.paintIcon(null, mGraphics, shiftX, y);
     }
+
+
+    private void updateShiftX() {
+
+        System.out.println("mShiftX: " + mShiftX + ", getWidth():" + getWidth());
+
+        int iconWidth = mTeXIcon.getIconWidth();
+        int iconHeight = mTeXIcon.getIconHeight();
+
+        // check if last shift is not too long
+        // (e.g. if new formula is shorter)
+        if (iconWidth + mShiftX < getWidth()) {
+            mShiftX = getWidth() - iconWidth;
+            if (mShiftX > 0) {
+                mShiftX = 0;
+            }
+            System.out.println("shorter formula: mShiftX = " + mShiftX);
+        }
+
+        // find cursor (red pixels) and ensure is visible in view
+        if (iconWidth > mHiddenBitmapW || iconHeight > mHiddenBitmapH) {
+            mHiddenBitmap = Bitmap.createBitmap(iconWidth, iconHeight,
+                    Bitmap.Config.ARGB_8888);
+            mHiddenCanvas = new Canvas(mHiddenBitmap);
+            mHiddenBitmapW = iconWidth;
+            mHiddenBitmapH = iconHeight;
+            System.out.println("==== new Bitmap");
+        }
+        drawShifted(mHiddenCanvas, 0);
+        int[] pix = new int[iconWidth * iconHeight];
+        mHiddenBitmap.getPixels(pix, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+        int pixRed = 0;
+        int cursorRed = 0;
+        int index = 0;
+        for (int y = 0; y < iconHeight; y++) {
+            for (int x = 0; x < iconWidth; x++) {
+                int color = pix[index];
+                int red = Color.red(color);
+                if (red > CURSOR_MIN_RED) {
+                    int green = Color.green(color);
+                    if (green < CURSOR_MAX_GREEN_BLUE) {
+                        int blue = Color.blue(color);
+                        if (green == blue) { // red or light red
+                            pixRed++;
+                            cursorRed += x;
+                        }
+                    }
+                }
+                index++;
+            }
+        }
+
+        int cursorX = 0;
+        if (pixRed != 0) {
+            cursorX = cursorRed / pixRed;
+        }
+
+        System.out.println("cursorX: " + cursorX);
+        int margin = (int) (CURSOR_MARGIN * mScale);
+        if (cursorX - margin + mShiftX < 0) {
+            mShiftX = -cursorX + margin;
+        } else if (cursorX + margin + mShiftX > getWidth()) {
+            mShiftX = getWidth() - cursorX - margin;
+        }
+        System.out.println("mShiftX: " + mShiftX);
+
+    }
+
+    static private final int CURSOR_MARGIN = 5;
+
+    // min-max values for cursor color
+    static private final int CURSOR_MIN_RED = 222;
+    static private final int CURSOR_MAX_GREEN_BLUE = 128;
+
+    /**
+     * @return current shift in x for drawing the formula
+     */
+    protected int getShiftX() {
+        return mShiftX;
+    }
+
+    private Canvas mHiddenCanvas;
+    private Bitmap mHiddenBitmap;
+    private int mHiddenBitmapW = -1;
+    private int mHiddenBitmapH = -1;
+
+
+    private int mShiftX = 0;
 
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {

@@ -1,12 +1,5 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.Vector;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -82,6 +75,13 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -3812,7 +3812,7 @@ public abstract class App implements UpdateSelection {
 	public abstract boolean isSelectionRectangleAllowed();
 
 	public abstract String getEnglishCommand(String command);
-	
+
 	public final boolean has(Feature f) {
 		switch (f) {
 
@@ -3954,6 +3954,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_LANDSCAPE_FULLSCREEN_INPUT:
 			return false;
 
+		// MOB-241
+		case MOBILE_EDITOR_CARET_ALWAYS_ON_SCREEN:
+			return prerelease;
+
 		case FRACTIONS:
 			return prerelease;
 		case AV_EXTENSIONS:
@@ -4040,7 +4044,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if we want to use shaders
 	 */
 	public boolean useShaders() {
@@ -4050,7 +4054,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Method is used to determine whether we CAN && SHOULD display LaTeX by
 	 * MathQuillGGB, should not be changed or used for a different reason.
-	 * 
+	 *
 	 * @param tpl
 	 *            can be null or StringTemplate.latexTemplateMQ, or something
 	 *            that might be StringTemplate.latexTemplateMQ, but maybe not
