@@ -1,5 +1,8 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
@@ -28,10 +31,8 @@ public class EuclidianStaticW extends EuclidianStatic {
 	private int repaintsFromHereInProgress = 0;
 
 	@Override
-	protected void doFillAfterImageLoaded(
-	        final org.geogebra.common.awt.GShape shape,
-	        final org.geogebra.common.awt.GGraphics2D g3,
-	        org.geogebra.common.awt.GBufferedImage gi, final App app) {
+	protected void doFillAfterImageLoaded(final GShape shape,
+			final GGraphics2D g3, GBufferedImage gi, final App app) {
 		if (((GBufferedImageW) gi).isLoaded()) {
 			// when the image is already loaded, no new repaint is necessary
 			// in theory, the image will be loaded after some repaints so

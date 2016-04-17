@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.gui.toolbar;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -255,13 +256,13 @@ public class ToolbarD extends JToolBar {
 	private void beginAdd() {
 		if (app.useHugeGuiForInput3D()) {
 			if (componentsToAdd == null) {
-				componentsToAdd = new ArrayList<java.awt.Component>();
+				componentsToAdd = new ArrayList<Component>();
 			}
 		}
 	}
 
 	@Override
-	public java.awt.Component add(java.awt.Component c) {
+	public Component add(Component c) {
 		if (app.useHugeGuiForInput3D()) {
 			componentsToAdd.add(c);
 			return c;

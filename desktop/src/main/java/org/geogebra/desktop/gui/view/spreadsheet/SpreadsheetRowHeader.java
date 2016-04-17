@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -167,7 +168,7 @@ public class SpreadsheetRowHeader extends JList implements MouseListener,
 
 	// Returns index of row to be resized if mouse point P is
 	// near a row boundary (within 3 pixels)
-	private int getResizingRow(java.awt.Point p) {
+	private int getResizingRow(Point p) {
 		int resizeRow = -1;
 		GPoint point = table.getIndexFromPixel(p.x, p.y);
 		if (point != null) {

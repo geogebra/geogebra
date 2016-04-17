@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
@@ -211,12 +212,12 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	}
 
 	/**
-	 * @see JPanel#getFontMetrics(java.awt.Font)
+	 * @see JPanel#getFontMetrics(Font)
 	 * @param font
 	 *            font
 	 * @return font metrics
 	 */
-	public FontMetrics getFontMetrics(java.awt.Font font) {
+	public FontMetrics getFontMetrics(Font font) {
 		return evjpanel.getFontMetrics(font);
 	}
 

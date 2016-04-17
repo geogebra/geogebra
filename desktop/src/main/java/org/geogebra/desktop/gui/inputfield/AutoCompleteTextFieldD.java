@@ -1,6 +1,7 @@
 package org.geogebra.desktop.gui.inputfield;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -986,7 +987,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @param font
 	 *            the new font
 	 */
-	public void setPopupsFont(java.awt.Font font) {
+	public void setPopupsFont(Font font) {
 		if (this.completionsPopup != null) {
 			this.completionsPopup.setFont(font);
 		}

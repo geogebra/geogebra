@@ -1,6 +1,8 @@
 package org.geogebra.desktop.awt;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.RenderingHints.Key;
@@ -158,11 +160,11 @@ public class GGraphics2DD implements GGraphics2D {
 
 	public GPaint getPaint() {
 		java.awt.Paint paint = impl.getPaint();
-		if (paint instanceof java.awt.Color)
-			return new GColorD((java.awt.Color) paint);
-		else if (paint instanceof java.awt.GradientPaint)
+		if (paint instanceof Color)
+			return new GColorD((Color) paint);
+		else if (paint instanceof GradientPaint)
 			return new GGradientPaintD(
-					(java.awt.GradientPaint) paint);
+(GradientPaint) paint);
 
 		// other types of paint are currently not used in setPaint
 		return null;
@@ -312,7 +314,7 @@ GGraphics2D g2) {
 
 	}
 
-	public void setImpl(java.awt.Graphics2D g) {
+	public void setImpl(Graphics2D g) {
 		impl = g;
 	}
 

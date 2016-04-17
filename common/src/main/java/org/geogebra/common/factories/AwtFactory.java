@@ -1,11 +1,13 @@
 package org.geogebra.common.factories;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GAlphaComposite;
 import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GComponent;
 import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
@@ -99,20 +101,19 @@ public abstract class AwtFactory {
 	public abstract GTextLayout newTextLayout(String string, GFont fontLine,
 			GFontRenderContext frc);
 
-	public abstract org.geogebra.common.awt.GAlphaComposite newAlphaComposite(
+	public abstract GAlphaComposite newAlphaComposite(
 			int srcOver, float alpha);
 
 	public abstract GBasicStroke newBasicStrokeJoinMitre(float f);
 
-	public abstract GGradientPaint newGradientPaint(int x, int y,
-			org.geogebra.common.awt.GColor bg2, int x2, int i,
-			org.geogebra.common.awt.GColor bg);
+	public abstract GGradientPaint newGradientPaint(int x, int y, GColor bg2,
+			int x2, int i, GColor bg);
 
 	public abstract FocusListener newFocusListener(Object listener);
 
 	public abstract ActionListener newActionListener(ActionListenerI listener);
 
-	public abstract org.geogebra.common.awt.GComponent newComponent(Object component);
+	public abstract GComponent newComponent(Object component);
 
 	public abstract GPaint newTexturePaint(GBufferedImage subimage,
 			GRectangle rect);

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -531,7 +532,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 		 * @param value
 		 * @return
 		 */
-		public boolean isOverTraceButton(int colIndex, java.awt.Point loc,
+		public boolean isOverTraceButton(int colIndex, Point loc,
 				Object value) {
 
 			if (!app.getTraceManager().isTraceColumn(colIndex)) {

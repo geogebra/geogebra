@@ -2,8 +2,6 @@ package org.geogebra.common.awt;
 
 import org.geogebra.common.factories.AwtFactory;
 
-import java.util.Comparator;
-
 public abstract class GColor implements GPaint, Comparable<GColor> {
 
 	public static GColor WHITE;
@@ -96,9 +94,9 @@ public abstract class GColor implements GPaint, Comparable<GColor> {
 		return 0xff000000 | (r << 16) | (g << 8) | (b << 0);
 	}
 
-	public abstract org.geogebra.common.awt.GColor darker();
+	public abstract GColor darker();
 
-	public abstract org.geogebra.common.awt.GColor brighter();
+	public abstract GColor brighter();
 
 	public static String getColorString(GColor fillColor) {
 		return "rgba(" + fillColor.getRed() + "," + fillColor.getGreen() + ","

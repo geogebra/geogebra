@@ -16,6 +16,7 @@ import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -839,7 +840,7 @@ public class EuclidianViewD extends EuclidianView implements
 	 *            font
 	 * @return font metrics
 	 */
-	public FontMetrics getFontMetrics(java.awt.Font font) {
+	public FontMetrics getFontMetrics(Font font) {
 		return evjpanel.getFontMetrics(font);
 	}
 

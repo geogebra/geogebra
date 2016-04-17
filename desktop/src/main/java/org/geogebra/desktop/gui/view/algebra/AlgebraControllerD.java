@@ -80,7 +80,7 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 	}
 
 	@Override
-	public void mousePressed(java.awt.event.MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
 		view.cancelEditing();
 		boolean rightClick = app.isRightClickEnabled() && AppD.isRightClick(e);
 		if (rightClick) {// RIGHT CLICK
@@ -214,7 +214,7 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 	}
 
 	@Override
-	protected boolean leftPressCanSelectGeo(java.awt.event.MouseEvent e,
+	protected boolean leftPressCanSelectGeo(MouseEvent e,
 			GeoElement geo) {
 
 		int mode = app.getActiveEuclidianView().getMode();

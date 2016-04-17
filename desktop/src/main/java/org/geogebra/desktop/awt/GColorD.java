@@ -79,13 +79,13 @@ public class GColorD extends GColor {
 	}
 
 	public static float[] RGBtoHSB(int r, int g, int b, float[] hsb) {
-		return java.awt.Color.RGBtoHSB(r, g, b, hsb);
+		return Color.RGBtoHSB(r, g, b, hsb);
 
 	}
 
 	public static GColorD getHSBColor(float h, float s, float b) {
 		// TODO Auto-generated method stub
-		return new GColorD(java.awt.Color.getHSBColor(h, s, b));
+		return new GColorD(Color.getHSBColor(h, s, b));
 	}
 
 	@Override

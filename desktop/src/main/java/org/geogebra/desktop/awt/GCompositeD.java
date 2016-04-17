@@ -7,7 +7,7 @@ import org.geogebra.common.awt.GComposite;
 public class GCompositeD implements org.geogebra.common.awt.GComposite {
 	private Composite impl;
 
-	public GCompositeD(java.awt.Composite composite) {
+	public GCompositeD(Composite composite) {
 		impl = composite;
 	}
 

@@ -7,11 +7,11 @@ import org.geogebra.common.awt.GFontRenderContext;
 public class GFontRenderContextD extends GFontRenderContext {
 	private FontRenderContext impl;
 
-	public GFontRenderContextD(java.awt.font.FontRenderContext frc) {
+	public GFontRenderContextD(FontRenderContext frc) {
 		impl = frc;
 	}
 
-	public static java.awt.font.FontRenderContext getAwtFrc(
+	public static FontRenderContext getAwtFrc(
 			GFontRenderContext frc) {
 		if (!(frc instanceof GFontRenderContextD)) {
 			return null;

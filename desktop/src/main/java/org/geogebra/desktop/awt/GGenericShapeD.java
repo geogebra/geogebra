@@ -32,7 +32,7 @@ public class GGenericShapeD implements GShapeD {
 		return null;
 	}
 
-	public GGenericShapeD(java.awt.Shape s) {
+	public GGenericShapeD(Shape s) {
 		this();
 		impl = s;
 	}

@@ -641,7 +641,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 	public class ColumnHeaderMouseListener extends MouseAdapter {
 
-		public void mouseClicked(java.awt.event.MouseEvent evt) {
+		public void mouseClicked(MouseEvent evt) {
 
 			JTable table = sourceTable.getTable();
 			TableColumnModel colModel = table.getColumnModel();
@@ -678,7 +678,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 		}
 
-		public void mouseExited(java.awt.event.MouseEvent evt) {
+		public void mouseExited(MouseEvent evt) {
 
 			if (btnHoverColumn > -1) {
 				btnHoverColumn = -1;

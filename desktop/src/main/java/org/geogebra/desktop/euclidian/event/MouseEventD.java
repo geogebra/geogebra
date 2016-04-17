@@ -15,12 +15,12 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 	private MouseEvent event;
 	private int id;
 
-	private MouseEventD(java.awt.event.MouseEvent e) {
+	private MouseEventD(MouseEvent e) {
 		App.debug("possible missing release()");
 		this.event = e;
 	}
 
-	public static AbstractEvent wrapEvent(java.awt.event.MouseEvent e) {
+	public static AbstractEvent wrapEvent(MouseEvent e) {
 		if (!pool.isEmpty()) {
 			MouseEventD wrap = pool.getLast();
 			wrap.event = e;

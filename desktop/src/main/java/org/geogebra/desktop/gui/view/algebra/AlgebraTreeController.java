@@ -74,11 +74,11 @@ public class AlgebraTreeController extends AlgebraController
 	/*
 	 * MouseListener implementation for popup menus
 	 */
-	public void mouseClicked(java.awt.event.MouseEvent e) {	
+	public void mouseClicked(MouseEvent e) {
 		// use mouse released instead
 	}
 	
-	public void mouseReleased(java.awt.event.MouseEvent e) {
+	public void mouseReleased(MouseEvent e) {
 		
 		// process click if no dragging
 		if (draggingOccured){
@@ -184,7 +184,7 @@ public class AlgebraTreeController extends AlgebraController
 	
 
 
-	public void mousePressed(java.awt.event.MouseEvent e) {	
+	public void mousePressed(MouseEvent e) {
 		leftPress(e);
 		setMousePressed();
 	}
@@ -257,7 +257,7 @@ public class AlgebraTreeController extends AlgebraController
 	 * left press
 	 * @param e event
 	 */
-	final protected void leftPress(java.awt.event.MouseEvent e){
+	final protected void leftPress(MouseEvent e) {
 
 		// When a single, new selection is made with no key modifiers
 		// we need to handle selection in mousePressed, not mouseClicked.
@@ -288,7 +288,7 @@ public class AlgebraTreeController extends AlgebraController
 	 * @param geo geo
 	 * @return true if left press can select the geo
 	 */
-	protected boolean leftPressCanSelectGeo(java.awt.event.MouseEvent e, GeoElement geo){
+	protected boolean leftPressCanSelectGeo(MouseEvent e, GeoElement geo) {
 
 		if (!AppD.isControlDown(e) && !e.isShiftDown())
 		{
@@ -347,12 +347,12 @@ public class AlgebraTreeController extends AlgebraController
 		
 	}
 	
-	public void mouseEntered(java.awt.event.MouseEvent p1) {
+	public void mouseEntered(MouseEvent p1) {
 		//
 	}
 	
 
-	public void mouseExited(java.awt.event.MouseEvent p1) {		
+	public void mouseExited(MouseEvent p1) {
 		highlight(app.getActiveEuclidianView(), (GeoElement) null);
 	}
 

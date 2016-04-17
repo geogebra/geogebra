@@ -1,6 +1,7 @@
 package org.geogebra.desktop.gui.toolbar;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.FontMetrics;
@@ -884,7 +885,7 @@ app.getScaledIcon(
 		 * @param name
 		 *            name for the component
 		 */
-		public void add(java.awt.Component comp, String name) {
+		public void add(Component comp, String name) {
 			super.add(comp);
 			comp.setName(name);
 			comp.setVisible(false);

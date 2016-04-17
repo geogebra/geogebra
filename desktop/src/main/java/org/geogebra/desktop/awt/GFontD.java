@@ -8,7 +8,7 @@ public class GFontD extends GFont {
 
 	private Font impl = new Font("Default", GFont.PLAIN, 12);
 
-	public GFontD(java.awt.Font font) {
+	public GFontD(Font font) {
 		impl = font;
 	}
 

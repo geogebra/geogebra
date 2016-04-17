@@ -3,6 +3,7 @@ package org.geogebra.desktop.euclidian;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
@@ -91,7 +92,7 @@ public class EuclidianViewJPanelD extends JPanel
 
 	@Override
 	final public void paint(Graphics g) {
-		g2.setImpl((java.awt.Graphics2D) g);
+		g2.setImpl((Graphics2D) g);
 		view.paint(g2);
 	}
 

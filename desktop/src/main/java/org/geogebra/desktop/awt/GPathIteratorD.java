@@ -1,10 +1,12 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.geom.PathIterator;
+
 public class GPathIteratorD implements org.geogebra.common.awt.GPathIterator {
 
-	java.awt.geom.PathIterator impl;
+	PathIterator impl;
 
-	public GPathIteratorD(java.awt.geom.PathIterator pathIterator) {
+	public GPathIteratorD(PathIterator pathIterator) {
 		impl = pathIterator;
 	}
 

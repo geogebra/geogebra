@@ -254,9 +254,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void showPopupChooseGeo(final ArrayList<GeoElement> selectedGeos,
-	        final ArrayList<GeoElement> geos,
-	        final EuclidianViewInterfaceCommon view,
-	        final org.geogebra.common.awt.GPoint p) {
+			final ArrayList<GeoElement> geos,
+			final EuclidianViewInterfaceCommon view, final GPoint p) {
 		showPopupChooseGeo(selectedGeos, geos, (EuclidianView) view, p);
 	}
 
@@ -479,7 +478,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void showDrawingPadPopup3D(final EuclidianViewInterfaceCommon view,
-	        final org.geogebra.common.awt.GPoint mouseLoc) {
+			GPoint mouseLoc) {
 		// 3D stuff
 	}
 
@@ -592,7 +591,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	/**
-	 * @return wheter it has probablity calculator or not
+	 * @return whether it has probability calculator or not
 	 */
 	@Override
 	public boolean hasProbabilityCalculator() {
