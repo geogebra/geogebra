@@ -201,6 +201,7 @@ import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
+import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
@@ -564,7 +565,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		if (isUsingFullGui() && ggtloading) {
 			getGuiManager().setToolBarDefinition(
-					org.geogebra.desktop.gui.toolbar.ToolbarD.getAllTools(this));
+ToolbarD.getAllTools(this));
 		}
 
 		setUndoActive(undoActive);
@@ -1546,7 +1547,7 @@ public class AppD extends App implements KeyEventDispatcher {
 					@Override
 					public void run() {
 
-						org.geogebra.desktop.gui.app.GeoGebraFrame.createNewWindow(args
+						GeoGebraFrame.createNewWindow(args
 								.getGlobalArguments().add(key, fileArgument));
 					}
 				});

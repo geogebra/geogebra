@@ -19,6 +19,7 @@
 package org.geogebra.desktop;
 
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
+import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
 
 public class GeoGebra3D extends GeoGebra {
 
@@ -35,7 +36,7 @@ public class GeoGebra3D extends GeoGebra {
 
 	protected void startGeoGebra(CommandLineArguments args) {
 		// create and open first GeoGebra window
-		org.geogebra.desktop.gui.app.GeoGebraFrame3D.main(args);
+		GeoGebraFrame3D.main(args);
 	}
 
 }

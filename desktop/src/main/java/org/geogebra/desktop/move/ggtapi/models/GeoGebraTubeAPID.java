@@ -1,6 +1,7 @@
 package org.geogebra.desktop.move.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
+import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -14,8 +15,7 @@ import org.geogebra.desktop.util.HttpRequestD;
  * @author stefan
  * 
  */
-public class GeoGebraTubeAPID extends
-		org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI {
+public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 
 
 	@Override

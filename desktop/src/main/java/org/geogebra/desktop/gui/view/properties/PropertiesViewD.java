@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.properties.PropertiesStyleBar;
+import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -54,8 +55,7 @@ import org.geogebra.desktop.main.AppD;
  * @author mathieu
  * @version
  */
-public class PropertiesViewD extends
-		org.geogebra.common.gui.view.properties.PropertiesView {
+public class PropertiesViewD extends PropertiesView {
 
 	// private GeoTree geoTree;
 

@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.dialog.options.OptionsAlgebra;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.desktop.main.AppD;
@@ -24,8 +25,8 @@ import org.geogebra.desktop.main.LocalizationD;
 /**
  * Advanced options for the options dialog.
  */
-public class OptionsAlgebraD extends
-		org.geogebra.common.gui.dialog.options.OptionsAlgebra implements
+public class OptionsAlgebraD extends OptionsAlgebra
+		implements
 		SetLabels, OptionPanelD {
 
 	/**

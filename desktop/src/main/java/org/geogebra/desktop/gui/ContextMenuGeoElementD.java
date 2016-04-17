@@ -30,6 +30,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
+import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.Animatable;
@@ -55,8 +56,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Markus Hohenwarter
  */
-public class ContextMenuGeoElementD extends
-		org.geogebra.common.gui.ContextMenuGeoElement {
+public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 	private static final long serialVersionUID = 1L;
 	/** background color */

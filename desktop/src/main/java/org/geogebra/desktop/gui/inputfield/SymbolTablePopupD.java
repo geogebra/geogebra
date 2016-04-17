@@ -21,6 +21,7 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.text.BadLocationException;
 
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.main.AppD;
@@ -70,8 +71,8 @@ public class SymbolTablePopupD {
 	private void createSymbolTable() {
 
 		symbolTable = new SelectionTableD(app, TableSymbols.basicSymbols(app
-				.getLocalization()), -1, 10, new Dimension(24, 24),
-				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+.getLocalization()), -1, 10,
+				new Dimension(24, 24), SelectionTable.MODE_TEXT);
 
 		symbolTable.setShowGrid(true);
 		symbolTable.setHorizontalAlignment(SwingConstants.CENTER);

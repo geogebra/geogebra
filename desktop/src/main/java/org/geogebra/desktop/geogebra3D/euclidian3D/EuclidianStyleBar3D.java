@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianStyleBarStatic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.euclidian.EuclidianStyleBarD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
@@ -144,9 +145,8 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 		public PopupMenuButtonForView3D() {
 			super(app, null, -1, -1, new Dimension(app.getScaledIconSize(),
-					app.getScaledIconSize()),
-					org.geogebra.common.gui.util.SelectionTable.MODE_ICON, false,
-					true);
+							app.getScaledIconSize()),
+					SelectionTable.MODE_ICON, false, true);
 
 		}
 
@@ -245,8 +245,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			super(app, projectionIcons, 1, projectionIcons.length,
 					new Dimension(app.getScaledIconSize(),
 							app.getScaledIconSize()),
-					org.geogebra.common.gui.util.SelectionTable.MODE_ICON, true,
-					false);
+					SelectionTable.MODE_ICON, true, false);
 			setIcon(projectionIcons[getView().getProjection()]);
 		}
 

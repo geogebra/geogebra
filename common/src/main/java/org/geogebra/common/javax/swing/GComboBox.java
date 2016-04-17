@@ -2,6 +2,7 @@ package org.geogebra.common.javax.swing;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.euclidian.event.ActionListener;
 
 public abstract class GComboBox {
 
@@ -25,8 +26,7 @@ public abstract class GComboBox {
 
 	public abstract int getSelectedIndex();
 
-	public abstract void addActionListener(
-			org.geogebra.common.euclidian.event.ActionListener newActionListener);
+	public abstract void addActionListener(ActionListener newActionListener);
 
 	public abstract void removeAllItems();
 

@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -287,7 +288,7 @@ public class DialogManagerD extends DialogManager {
 	 */
 	@Override
 	public void showBooleanCheckboxCreationDialog(
-			org.geogebra.common.awt.GPoint loc, GeoBoolean bool) {
+GPoint loc, GeoBoolean bool) {
 		Point location = new Point(loc.x, loc.y);
 		CheckboxCreationDialog d = new CheckboxCreationDialog(((AppD) app),
 				location, bool);

@@ -41,6 +41,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.LayerView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
@@ -58,8 +60,8 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Markus
  */
-public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
-		org.geogebra.common.gui.view.algebra.AlgebraView, SettingListener {
+public class AlgebraViewD extends AlgebraTree
+		implements LayerView, Gridable, AlgebraView, SettingListener {
 
 	private static final long serialVersionUID = 1L;
 

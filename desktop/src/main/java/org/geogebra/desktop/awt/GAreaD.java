@@ -29,8 +29,7 @@ public class GAreaD implements GArea, GShapeD {
 	}
 
 	public GAreaD(GShape shape) {
-		impl = new Area(
-				org.geogebra.desktop.awt.GGenericShapeD.getAwtShape(shape));
+		impl = new Area(GGenericShapeD.getAwtShape(shape));
 	}
 
 	public static Area getAWTArea(GArea a) {

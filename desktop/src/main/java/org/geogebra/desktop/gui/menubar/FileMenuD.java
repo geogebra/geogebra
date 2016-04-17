@@ -11,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.views.EventRenderable;
@@ -461,7 +462,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					org.geogebra.common.export.pstricks.GeoGebraToAsymptote export = new GeoGebraToAsymptoteD(
+					GeoGebraToAsymptote export = new GeoGebraToAsymptoteD(
 							app);
 					new AsymptoteFrame(export);
 				} catch (Exception ex) {

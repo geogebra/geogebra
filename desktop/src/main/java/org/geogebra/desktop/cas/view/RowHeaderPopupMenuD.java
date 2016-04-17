@@ -12,6 +12,7 @@ import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import org.geogebra.common.cas.view.RowHeaderPopupMenu;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.desktop.main.AppD;
 
@@ -19,8 +20,8 @@ import org.geogebra.desktop.main.AppD;
  * Popup menu for row headers
  * 
  */
-public class RowHeaderPopupMenuD extends
-		org.geogebra.common.cas.view.RowHeaderPopupMenu implements ActionListener {
+public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
+		implements ActionListener {
 
 	private static final long serialVersionUID = -592258674730774706L;
 

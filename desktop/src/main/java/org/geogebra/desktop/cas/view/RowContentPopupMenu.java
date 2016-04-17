@@ -16,6 +16,7 @@ import javax.swing.JPopupMenu;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.main.AppD;
 
@@ -147,7 +148,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 
 			app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
 					value.getLaTeXOutput(), latexFont, false,
-					org.geogebra.desktop.awt.GColorD.getAwtColor(value.getAlgebraColor()),
+					GColorD.getAwtColor(value.getAlgebraColor()),
 					table.getBackground());
 
 			data = new ImageSelection(latexIcon.getImage());

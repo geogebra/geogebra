@@ -84,7 +84,7 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 		view.cancelEditing();
 		boolean rightClick = app.isRightClickEnabled() && AppD.isRightClick(e);
 		if (rightClick) {// RIGHT CLICK
-			org.geogebra.common.awt.GPoint mouseCoords = new GPoint(
+			GPoint mouseCoords = new GPoint(
 					e.getPoint().x, e.getPoint().y);
 			rightPress(e, mouseCoords);
 		} else {// LEFT CLICK

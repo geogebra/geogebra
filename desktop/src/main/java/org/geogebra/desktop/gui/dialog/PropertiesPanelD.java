@@ -3181,8 +3181,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// panel for button to open external file
 
 			btnImage = new PopupMenuButton(app, iconArray, -1, 4,
-					new Dimension(32, 32),
-					org.geogebra.common.gui.util.SelectionTable.MODE_ICON);
+					new Dimension(32, 32), SelectionTable.MODE_ICON);
 			btnImage.setSelectedIndex(1);
 			btnImage.setStandardButton(true);
 			btnImage.setKeepVisible(false);
@@ -3531,8 +3530,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			JMenu menu = new JMenu(sb.toString());
 			menu.add(new LatexTableFill(app, this, btInsertUnicode, table,
-					rows, columns,
-					org.geogebra.common.gui.util.SelectionTable.MODE_TEXT));
+ rows,
+					columns, SelectionTable.MODE_TEXT));
 
 			menu.setFont(GFontD.getAwtFont(app.getFontCanDisplay(sb.toString())));
 

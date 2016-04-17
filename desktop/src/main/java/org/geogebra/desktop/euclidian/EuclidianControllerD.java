@@ -19,6 +19,7 @@ import java.awt.event.MouseWheelEvent;
 
 import javax.swing.ToolTipManager;
 
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
@@ -31,8 +32,8 @@ import org.geogebra.desktop.main.AppD;
  * 
  * Created on 16. October 2001, 15:41
  */
-public class EuclidianControllerD extends
-		org.geogebra.common.euclidian.EuclidianController implements
+public class EuclidianControllerD extends EuclidianController
+		implements
 		EuclidianControllerListeners {
 
 	// protected GeoVec2D b;

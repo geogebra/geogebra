@@ -81,7 +81,8 @@ public abstract class DrawEquation {
 	 */
 	public abstract GDimension drawEquation(App app, GeoElementND geo,
 			GGraphics2D g2, int x, int y, String text,
-			org.geogebra.common.awt.GFont font, boolean serif, GColor fgColor,
+ GFont font,
+			boolean serif, GColor fgColor,
 			GColor bgColor, boolean useCache, boolean updateAgain,
 			Runnable callback);
 
@@ -123,7 +124,7 @@ public abstract class DrawEquation {
 
 			// can't have command eg \grey2
 			if (!Character.isDigit(colStr.charAt(colStr.length() - 1))) {
-				org.geogebra.common.awt.GColor col = ggbCols.get(colStr);
+				GColor col = ggbCols.get(colStr);
 
 				// eg
 				// initJLM.append("\\newcommand{\\red}[1]{\\textcolor{255,0,0}{#1}} ");

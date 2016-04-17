@@ -8,7 +8,7 @@ public interface GBufferedImage {
 
 	int getHeight();
 
-	org.geogebra.common.awt.GGraphics2D createGraphics();
+	GGraphics2D createGraphics();
 
 	GBufferedImage getSubimage(int i, int j, int size, int size2);
 

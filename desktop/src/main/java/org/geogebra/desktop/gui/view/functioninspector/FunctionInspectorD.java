@@ -47,6 +47,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspector;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -313,8 +314,8 @@ public class FunctionInspectorD extends FunctionInspector implements
 	private void createBtnAddColumn() {
 
 		btnAddColumn = new PopupMenuButton(getAppD(), getModel()
-				.getColumnNames(), -1, 1, new Dimension(0, 18),
-				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+.getColumnNames(), -1, 1, new Dimension(0, 18),
+				SelectionTable.MODE_TEXT);
 		btnAddColumn.setKeepVisible(false);
 		btnAddColumn.setStandardButton(true);
 		btnAddColumn.setFixedIcon(GeoGebraIcon.createEmptyIcon(1, 1));

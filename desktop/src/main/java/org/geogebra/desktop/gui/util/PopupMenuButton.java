@@ -107,8 +107,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param app
 	 */
 	public PopupMenuButton(AppD app) {
-		this(app, null, -1, -1, null,
-				org.geogebra.common.gui.util.SelectionTable.UNKNOWN, false, false);
+		this(app, null, -1, -1, null, SelectionTable.UNKNOWN, false, false);
 	}
 
 	/**

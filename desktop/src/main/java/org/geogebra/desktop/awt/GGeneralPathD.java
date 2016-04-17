@@ -12,8 +12,8 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.desktop.main.AppD;
 
-public class GGeneralPathD implements org.geogebra.common.awt.GGeneralPath,
-		org.geogebra.desktop.awt.GShapeD {
+public class GGeneralPathD
+		implements org.geogebra.common.awt.GGeneralPath, GShapeD {
 
 	private GeneralPath impl = new GeneralPath();
 

@@ -24,14 +24,14 @@ import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
 
+import org.geogebra.common.gui.view.properties.PropertiesStyleBar;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
 
-public class PropertiesStyleBarD extends
-		org.geogebra.common.gui.view.properties.PropertiesStyleBar {
+public class PropertiesStyleBarD extends PropertiesStyleBar {
 
 	private static final int MARGIN_Y = 5;
 	PropertiesView propertiesView;

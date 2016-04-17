@@ -484,8 +484,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			Object ob = e.getSource();
 			if (ob == table) {
 				Point origin = e.getPoint();
-				org.geogebra.common.awt.GPoint mouseCoords = new GPoint(
-						e.getPoint().x, e.getPoint().y);
+				GPoint mouseCoords = new GPoint(e.getPoint().x, e.getPoint().y);
 				int row = table.rowAtPoint(origin);
 				if (row < 0)
 					return;

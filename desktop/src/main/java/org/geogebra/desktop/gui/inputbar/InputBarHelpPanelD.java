@@ -49,6 +49,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.main.App;
@@ -249,8 +250,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		functionTable = new SelectionTableD(app,
 				TableSymbols.getTranslatedFunctions(app), -1, 2, new Dimension(
-						20, 16),
-				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+20, 16), SelectionTable.MODE_TEXT);
 		functionTable.setShowGrid(true);
 		functionTable.setHorizontalAlignment(SwingConstants.LEFT);
 		functionTable.setBorder(BorderFactory.createLineBorder(functionTable

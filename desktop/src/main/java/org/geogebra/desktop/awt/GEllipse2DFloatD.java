@@ -4,12 +4,12 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GEllipse2DFloat;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 
-public class GEllipse2DFloatD implements org.geogebra.desktop.awt.GRectangularShapeD,
-		org.geogebra.common.awt.GEllipse2DFloat {
+public class GEllipse2DFloatD implements GRectangularShapeD, GEllipse2DFloat {
 
 	private Ellipse2D.Float impl;
 

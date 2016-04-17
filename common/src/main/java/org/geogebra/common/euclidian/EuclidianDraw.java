@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawBarGraph;
 import org.geogebra.common.euclidian.draw.DrawBoolean;
 import org.geogebra.common.euclidian.draw.DrawBoxPlot;
@@ -170,7 +171,7 @@ public class EuclidianDraw {
 				d = ev.getCompanion().newDrawAngle((GeoAngle) geo);
 				if (geo.isDrawable()) {
 					if (!geo.isColorSet()) {
-						org.geogebra.common.awt.GColor col = geo
+						GColor col = geo
 								.getConstruction()
 								.getConstructionDefaults()
 								.getDefaultGeo(
@@ -229,14 +230,16 @@ public class EuclidianDraw {
 					ConstructionDefaults consDef = geo.getConstruction()
 							.getConstructionDefaults();
 					if (geo.isIndependent()) {
-						org.geogebra.common.awt.GColor col = consDef.getDefaultGeo(
+						GColor col = consDef
+								.getDefaultGeo(
 								ConstructionDefaults.DEFAULT_NUMBER)
 								.getObjectColor();
 						geo.setObjColor(col);
 						geo.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
 						geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 					} else {
-						org.geogebra.common.awt.GColor col = consDef.getDefaultGeo(
+						GColor col = consDef
+								.getDefaultGeo(
 								ConstructionDefaults.DEFAULT_POLYGON)
 								.getObjectColor();
 						geo.setObjColor(col);

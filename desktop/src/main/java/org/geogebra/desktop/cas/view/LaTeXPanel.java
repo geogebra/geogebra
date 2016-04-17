@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
@@ -83,8 +84,8 @@ public class LaTeXPanel extends JPanel {
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		org.geogebra.common.awt.GDimension fd = app.getDrawEquation().drawEquation(
-app, null, new GGraphics2DD(g2image), 0, 0, latex,
+		GDimension fd = app.getDrawEquation().drawEquation(app, null,
+				new GGraphics2DD(g2image), 0, 0, latex,
 				app.getPlainFontCommon(), false,
 						new GColorD(getForeground()),
 						new GColorD(getBackground()),

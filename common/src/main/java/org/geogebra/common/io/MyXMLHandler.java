@@ -31,6 +31,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
@@ -1607,7 +1608,7 @@ new GPoint(row, column));
 	 */
 	protected static boolean handleBgColor(EuclidianSettings evSet,
 			LinkedHashMap<String, String> attrs) {
-		org.geogebra.common.awt.GColor col = handleColorAttrs(attrs);
+		GColor col = handleColorAttrs(attrs);
 		if (col == null)
 			return false;
 		evSet.setBackground(col);
@@ -1616,7 +1617,7 @@ new GPoint(row, column));
 
 	private static boolean handleAxesColor(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
-		org.geogebra.common.awt.GColor col = handleColorAttrs(attrs);
+		GColor col = handleColorAttrs(attrs);
 		if (col == null)
 			return false;
 		ev.setAxesColor(col);
@@ -1625,7 +1626,7 @@ new GPoint(row, column));
 
 	private static boolean handleGridColor(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
-		org.geogebra.common.awt.GColor col = handleColorAttrs(attrs);
+		GColor col = handleColorAttrs(attrs);
 		if (col == null)
 			return false;
 		ev.setGridColor(col);
@@ -2077,7 +2078,7 @@ new GPoint(row, column));
 			}
 		}
 
-		org.geogebra.common.awt.GDimension evSize = app.getSettings()
+		GDimension evSize = app.getSettings()
 				.getEuclidian(1).getPreferredSize();
 
 		// calculate window dimensions
@@ -2487,7 +2488,7 @@ new GPoint(row, column));
 	private static boolean handleWindowSize(App app,
 			LinkedHashMap<String, String> attrs) {
 		try {
-			org.geogebra.common.awt.GDimension size = AwtFactory.prototype
+			GDimension size = AwtFactory.prototype
 					.newDimension(Integer.parseInt(attrs.get("width")),
 							Integer.parseInt(attrs.get("height")));
 			app.setPreferredSize(size);
@@ -2764,7 +2765,7 @@ new GPoint(row, column));
 
 			// the window rectangle is given in the format "x,y,width,height"
 			String[] window = attrs.get("window").split(",");
-			org.geogebra.common.awt.GRectangle windowRect = AwtFactory.prototype
+			GRectangle windowRect = AwtFactory.prototype
 					.newRectangle(Integer.parseInt(window[0]),
 							Integer.parseInt(window[1]),
 							Integer.parseInt(window[2]),
@@ -3855,7 +3856,7 @@ new GPoint(row, column));
 	}
 
 	private boolean handleObjColor(LinkedHashMap<String, String> attrs) {
-		org.geogebra.common.awt.GColor col = handleColorAttrs(attrs);
+		GColor col = handleColorAttrs(attrs);
 		if (col == null)
 			return false;
 		geo.setObjColor(col);
@@ -3943,7 +3944,7 @@ new GPoint(row, column));
 	}
 
 	private boolean handleBgColor(LinkedHashMap<String, String> attrs) {
-		org.geogebra.common.awt.GColor col = handleColorAlphaAttrs(attrs);
+		GColor col = handleColorAlphaAttrs(attrs);
 		if (col == null)
 			return false;
 		geo.setBackgroundColor(col);

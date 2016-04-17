@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.Previewable;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.algos.AlgoTableText;
@@ -676,7 +677,7 @@ axesIcon, iconHeight);
 		// create button
 		btnLineStyle = new PopupMenuButton(app, lineStyleIcons, -1, 1,
 				lineStyleIconSize,
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+ SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -768,7 +769,7 @@ axesIcon, iconHeight);
 		// create button
 		btnPointStyle = new PopupMenuButton(app, pointStyleIcons, 2, -1,
 				pointStyleIconSize,
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+ SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -849,7 +850,7 @@ axesIcon, iconHeight);
 
 		btnAngleInterval = new PopupMenuButton(app, angleIntervalArray, -1, 1,
 				new Dimension(0, iconHeight),
-				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+ SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -890,7 +891,7 @@ axesIcon, iconHeight);
 
 		btnLabelStyle = new PopupMenuButton(app, captionArray, -1, 1,
 				new Dimension(0, iconHeight),
-				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+ SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -932,7 +933,7 @@ axesIcon, iconHeight);
 
 		btnPointCapture = new PopupMenuButton(app, strPointCapturing, -1, 1,
 				new Dimension(0, iconHeight),
-				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+ SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1081,7 +1082,7 @@ axesIcon, iconHeight);
 
 					if (geosOK) {
 						// get color from first geo
-						org.geogebra.common.awt.GColor geoColor;
+						GColor geoColor;
 						geoColor = ((GeoElement) geos[0]).getObjectColor();
 
 						// check if selection contains a fillable geo
@@ -1159,7 +1160,7 @@ axesIcon, iconHeight);
 
 				if (geosOK) {
 					// get color from first geo
-					org.geogebra.common.awt.GColor geoColor;
+					GColor geoColor;
 					geoColor = ((GeoElement) geos[0]).getBackgroundColor();
 
 					/*
@@ -1349,7 +1350,7 @@ axesIcon, iconHeight);
 
 		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
 				new Dimension(-1, iconHeight),
-				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+ SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1403,7 +1404,7 @@ axesIcon, iconHeight);
 				app.getScaledIcon("format-justify-right.png") };
 		btnTableTextJustify = new PopupMenuButton((AppD) ev.getApplication(),
 				justifyIcons, 1, -1, new Dimension(getIconWidth(), iconHeight),
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+				SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1450,7 +1451,7 @@ axesIcon, iconHeight);
 				bracketIcons, 2, -1,
  new Dimension(getIconWidth(30) + 4,
 						iconHeight + 4),
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+				SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 

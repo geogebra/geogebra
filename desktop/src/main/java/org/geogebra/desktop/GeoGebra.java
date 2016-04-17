@@ -19,6 +19,7 @@ import java.net.URL;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.Util;
+import org.geogebra.desktop.gui.app.GeoGebraFrame;
 
 public class GeoGebra {
 
@@ -108,7 +109,7 @@ public class GeoGebra {
 
 	protected void startGeoGebra(CommandLineArguments args) {
 		// create and open first GeoGebra window
-		org.geogebra.desktop.gui.app.GeoGebraFrame.main(args);
+		GeoGebraFrame.main(args);
 	}
 
 }

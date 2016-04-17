@@ -31,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.dialog.options.OptionsSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
@@ -40,8 +41,8 @@ import org.geogebra.desktop.main.AppD;
  * Panel with options for the spreadsheet view. G.Sturr 2010-3-5
  * 
  */
-public class OptionsSpreadsheetD extends
-		org.geogebra.common.gui.dialog.options.OptionsSpreadsheet implements
+public class OptionsSpreadsheetD extends OptionsSpreadsheet
+		implements
 		OptionPanelD, ActionListener, FocusListener, SetLabels {
 
 	private AppD app;

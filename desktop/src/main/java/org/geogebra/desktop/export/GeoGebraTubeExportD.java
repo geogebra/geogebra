@@ -22,6 +22,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import org.geogebra.common.export.GeoGebraTubeExport;
+import org.geogebra.common.export.GeoGebraTubeExport.UploadResults;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Base64;
@@ -33,8 +35,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Florian Sonner
  */
-public class GeoGebraTubeExportD extends
-		org.geogebra.common.export.GeoGebraTubeExport {
+public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 
 	public GeoGebraTubeExportD(App app) {
 		super(app);

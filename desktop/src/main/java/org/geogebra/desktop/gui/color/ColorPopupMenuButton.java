@@ -20,6 +20,7 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
@@ -47,7 +48,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 			boolean hasSlider) {
 
 		super(app, createDummyIcons(iconSize), -1, 9, iconSize,
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON);
+				SelectionTable.MODE_ICON);
 		this.app = app;
 		this.iconSize = iconSize;
 		this.colorSetType = colorSetType;
@@ -153,8 +154,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 		return toolTipArray;
 	}
 
-	private static ImageIcon[] getColorSwatchIcons(
-			org.geogebra.common.awt.GColor[] colorArray, float alpha,
+	private static ImageIcon[] getColorSwatchIcons(GColor[] colorArray,
+			float alpha,
 			Dimension iconSize, int colorSetType) {
 		ImageIcon[] a = new ImageIcon[colorArray.length];
 		for (int i = 0; i < colorArray.length; i++)

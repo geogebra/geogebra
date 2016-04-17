@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.factories.AwtFactory;
@@ -221,7 +222,7 @@ public class DrawLabel3D {
 				view.getApplication(), text, 0, 0, tempGraphics, false, font);
 		if (text.contains("_")) { // text contains subscript
 			hasIndex = true;
-			org.geogebra.common.awt.GPoint p = EuclidianStatic.drawIndexedString(
+			GPoint p = EuclidianStatic.drawIndexedString(
 					view.getApplication(), tempGraphics, text, 0, 0, false,
 					false);
 			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(),

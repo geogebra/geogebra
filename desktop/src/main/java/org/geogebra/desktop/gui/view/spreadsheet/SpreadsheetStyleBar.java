@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JToolBar;
 
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -154,8 +155,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 				app.getScaledIcon("border_right.png") };
 
 		btnBorderStyle = new PopupMenuButton(app, borderStyleIcon, 2, -1,
-				iconDimension,
-				org.geogebra.common.gui.util.SelectionTable.MODE_ICON);
+				iconDimension, SelectionTable.MODE_ICON);
 		btnBorderStyle.setKeepVisible(false);
 		btnBorderStyle.setSelectedIndex(1);
 		btnBorderStyle.addActionListener(this);

@@ -6,6 +6,7 @@ import javax.swing.ListSelectionModel;
 
 import org.geogebra.common.cas.view.RowHeader;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -42,8 +43,7 @@ public class RowHeaderD extends JList implements RowHeader {
 		setFixedCellWidth(ROW_HEADER_WIDTH);
 		setFocusable(true);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1,
-				org.geogebra.desktop.awt.GColorD
-						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 		// renderer
 		renderer = new RowHeaderRenderer(table);
 		setCellRenderer(renderer);

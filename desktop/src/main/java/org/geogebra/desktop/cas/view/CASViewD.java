@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.view.Gridable;
 import org.geogebra.desktop.main.AppD;
@@ -91,8 +92,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		// set the lower left corner so that the horizontal scroller looks good
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1,
-				org.geogebra.desktop.awt.GColorD
-						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 		p.setBackground(Color.white);
 		scrollPane.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER, p);
 

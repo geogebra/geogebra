@@ -24,6 +24,7 @@ import javax.swing.JSplitPane;
 import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.dialog.options.OptionsObject;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD;
@@ -34,8 +35,8 @@ import org.geogebra.desktop.main.AppD;
 /**
  * @author Markus Hohenwarter
  */
-public class OptionsObjectD extends
-		org.geogebra.common.gui.dialog.options.OptionsObject implements
+public class OptionsObjectD extends OptionsObject
+		implements
 		OptionPanelD, SetLabels {
 
 	private PropertiesPanelD propPanel;

@@ -16,6 +16,7 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.KeyCodes;
 import org.geogebra.common.util.FileExtensions;
@@ -33,8 +34,8 @@ import org.geogebra.desktop.util.UtilD;
  * 
  * @author Markus Hohenwarter
  */
-public class GlobalKeyDispatcherD extends
-		org.geogebra.common.main.GlobalKeyDispatcher implements KeyEventDispatcher {
+public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
+		implements KeyEventDispatcher {
 
 	/**
 	 * @param app

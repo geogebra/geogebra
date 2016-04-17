@@ -54,7 +54,7 @@ public class RepresentationFactory {
     }
     
     public static ArrayList<VPoint> convertPointsToTriangulationPoints(ArrayList<VPoint> points) {
-    	org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.triangulation.VVertex2.uniqueid = 1;
+		VVertex2.uniqueid = 1;
         ArrayList<VPoint> newarraylist = new ArrayList<VPoint>();
         for ( VPoint point : points ) {
 			newarraylist.add(new VVertex2(point));

@@ -6,8 +6,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 
-public class GBufferedImageOpD implements java.awt.image.BufferedImageOp,
-		org.geogebra.common.awt.GBufferedImageOp {
+import org.geogebra.common.awt.GBufferedImageOp;
+
+public class GBufferedImageOpD
+		implements java.awt.image.BufferedImageOp, GBufferedImageOp {
 
 	public BufferedImage createCompatibleDestImage(BufferedImage src,
 			ColorModel destCM) {

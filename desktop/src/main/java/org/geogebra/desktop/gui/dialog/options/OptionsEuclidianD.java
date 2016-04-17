@@ -44,6 +44,7 @@ import javax.swing.border.Border;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
@@ -70,8 +71,8 @@ import org.geogebra.desktop.main.AppD;
  * revised by G.Sturr 2010-8-15
  * 
  */
-public class OptionsEuclidianD extends
-		org.geogebra.common.gui.dialog.options.OptionsEuclidian implements
+public class OptionsEuclidianD extends OptionsEuclidian
+		implements
 		OptionPanelD, ActionListener, FocusListener, ItemListener, SetLabels,
 		IEuclidianOptionsListener {
 

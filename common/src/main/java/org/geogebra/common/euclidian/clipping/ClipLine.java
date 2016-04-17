@@ -120,7 +120,7 @@ public class ClipLine {
 
 		if ((mask & OUTSIDE) == 0) {
 			// fine. everything's internal
-			org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
+			GPoint2D[] ret = new GPoint2D[2];
 			ret[0] = AwtFactory.prototype.newPoint2D(x1, y1);
 			ret[1] = AwtFactory.prototype.newPoint2D(x2, y2);
 			return ret;
@@ -166,7 +166,7 @@ public class ClipLine {
 			double x2, double y2, int mask2, double xmin, double xmax,
 			double ymin, double ymax) {
 		int mask = mask1 ^ mask2;
-		org.geogebra.common.awt.GPoint2D p1 = null;
+		GPoint2D p1 = null;
 
 		/*
 		 * System.out.println("mask1 = "+mask1);
@@ -179,7 +179,7 @@ public class ClipLine {
 			p1 = AwtFactory.prototype.newPoint2D((x1 + 0.5), (y1 + 0.5));
 			if (mask == 0) {
 				// both masks are the same, so the second point is inside, too
-				org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
+				GPoint2D[] ret = new GPoint2D[2];
 				ret[0] = p1;
 				ret[1] = AwtFactory.prototype
 						.newPoint2D((x2 + 0.5), (y2 + 0.5));
@@ -197,13 +197,13 @@ public class ClipLine {
 		if ((mask & LEFT) != 0) {
 			// System.out.println("Trying left");
 			// try to calculate intersection with left line
-			org.geogebra.common.awt.GPoint2D p = intersect(x1, y1, x2, y2, xmin,
+			GPoint2D p = intersect(x1, y1, x2, y2, xmin,
 					ymin, xmin, ymax);
 			if (p != null) {
 				if (p1 == null) {
 					p1 = p;
 				} else {
-					org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
+					GPoint2D[] ret = new GPoint2D[2];
 					ret[0] = p1;
 					ret[1] = p;
 					return ret;
@@ -213,13 +213,13 @@ public class ClipLine {
 		if ((mask & RIGHT) != 0) {
 			// System.out.println("Trying right");
 			// try to calculate intersection with right line
-			org.geogebra.common.awt.GPoint2D p = intersect(x1, y1, x2, y2, xmax,
+			GPoint2D p = intersect(x1, y1, x2, y2, xmax,
 					ymin, xmax, ymax);
 			if (p != null) {
 				if (p1 == null) {
 					p1 = p;
 				} else {
-					org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
+					GPoint2D[] ret = new GPoint2D[2];
 					ret[0] = p1;
 					ret[1] = p;
 					return ret;
@@ -233,10 +233,10 @@ public class ClipLine {
 			if ((mask & ABOVE) != 0) {
 				// System.out.println("Trying top");
 				// try to calculate intersection with upper line
-				org.geogebra.common.awt.GPoint2D p = intersect(x1, y1, x2, y2,
+				GPoint2D p = intersect(x1, y1, x2, y2,
 						xmin, ymax, xmax, ymax);
 				if (p != null) {
-					org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
+					GPoint2D[] ret = new GPoint2D[2];
 					ret[0] = p1;
 					ret[1] = p;
 					return ret;
@@ -245,10 +245,10 @@ public class ClipLine {
 			if ((mask & BELOW) != 0) {
 				// System.out.println("Trying bottom");
 				// try to calculate intersection with lower line
-				org.geogebra.common.awt.GPoint2D p = intersect(x1, y1, x2, y2,
+				GPoint2D p = intersect(x1, y1, x2, y2,
 						xmin, ymin, xmax, ymin);
 				if (p != null) {
-					org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
+					GPoint2D[] ret = new GPoint2D[2];
 					ret[0] = p1;
 					ret[1] = p;
 					return ret;
@@ -258,13 +258,13 @@ public class ClipLine {
 			if ((mask & BELOW) != 0) {
 				// System.out.println("Trying bottom");
 				// try to calculate intersection with lower line
-				org.geogebra.common.awt.GPoint2D p = intersect(x1, y1, x2, y2,
+				GPoint2D p = intersect(x1, y1, x2, y2,
 						xmin, ymin, xmax, ymin);
 				if (p != null) {
 					if (p1 == null) {
 						p1 = p;
 					} else {
-						org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
+						GPoint2D[] ret = new GPoint2D[2];
 						ret[0] = p1;
 						ret[1] = p;
 						return ret;
@@ -274,13 +274,13 @@ public class ClipLine {
 			if ((mask & ABOVE) != 0) {
 				// System.out.println("Trying top");
 				// try to calculate intersection with upper line
-				org.geogebra.common.awt.GPoint2D p = intersect(x1, y1, x2, y2,
+				GPoint2D p = intersect(x1, y1, x2, y2,
 						xmin, ymax, xmax, ymax);
 				if (p != null) {
 					if (p1 == null) {
 						p1 = p;
 					} else {
-						org.geogebra.common.awt.GPoint2D[] ret = new GPoint2D[2];
+						GPoint2D[] ret = new GPoint2D[2];
 						ret[0] = p1;
 						ret[1] = p;
 						return ret;
@@ -334,7 +334,7 @@ public class ClipLine {
 			double mu = ((x11 - x21) * dy1 - (y11 - y21) * dx1) / det;
 			// System.out.println("mu = "+mu);
 			if (mu >= 0.0 && mu <= 1.0) {
-				org.geogebra.common.awt.GPoint2D p = AwtFactory.prototype
+				GPoint2D p = AwtFactory.prototype
 						.newPoint2D((x21 + mu * dx2 + 0.5),
 								(y21 + mu * dy2 + 0.5));
 				// System.out.println("p = "+p);

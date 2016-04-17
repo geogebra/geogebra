@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JToolBar;
 
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -366,7 +367,7 @@ kbdIcon, iconHeight);
 			public ImageIcon getButtonIcon() {
 				return GeoGebraIcon.createTextSymbolIcon("A",
 						app.getPlainFont(), textColoriconHeight,
-						org.geogebra.desktop.awt.GColorD.getAwtColor(getSelectedColor()),
+						GColorD.getAwtColor(getSelectedColor()),
 						null);
 			}
 
@@ -451,8 +452,7 @@ kbdIcon, iconHeight);
 		String[] textSizeArray = app.getLocalization().getFontSizeStrings();
 
 		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
-				new Dimension(-1, iconHeight),
-				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+				new Dimension(-1, iconHeight), SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 

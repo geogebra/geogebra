@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.dialog.options.OptionsLayout;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -30,8 +31,8 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Layout options for the options dialog.
  */
-public class OptionsLayoutD extends
-		org.geogebra.common.gui.dialog.options.OptionsLayout implements
+public class OptionsLayoutD extends OptionsLayout
+		implements
 		OptionPanelD, ActionListener, FocusListener, SetLabels {
 
 	private AppD app;

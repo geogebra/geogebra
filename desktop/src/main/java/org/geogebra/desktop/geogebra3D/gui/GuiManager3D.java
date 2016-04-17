@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -175,7 +176,7 @@ public class GuiManager3D extends GuiManagerD {
 	 */
 	@Override
 	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
-			org.geogebra.common.awt.GPoint p) {
+			GPoint p) {
 		// clear highlighting and selections in views
 		((App3D) getApp()).getEuclidianView3D().resetMode();
 
@@ -201,8 +202,7 @@ public class GuiManager3D extends GuiManagerD {
 	 */
 	@Override
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
-			ArrayList<GeoElement> geos, EuclidianView view,
-			org.geogebra.common.awt.GPoint p) {
+			ArrayList<GeoElement> geos, EuclidianView view, GPoint p) {
 
 		if (selectedGeos == null || selectedGeos.get(0) == null)
 			return;

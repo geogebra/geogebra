@@ -4,12 +4,12 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 
-public class GEllipse2DDoubleD implements GRectangularShapeD,
-		org.geogebra.common.awt.GEllipse2DDouble {
+public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 
 	private Ellipse2D.Double impl;
 

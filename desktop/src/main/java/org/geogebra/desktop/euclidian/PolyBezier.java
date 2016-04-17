@@ -51,7 +51,7 @@ public class PolyBezier {
 		int i = 0;
 		Iterator<GPoint> it = al.iterator();
 		while (it.hasNext()) {
-			org.geogebra.common.awt.GPoint p = it.next();
+			GPoint p = it.next();
 			x[i] = p.getX();
 			y[i] = p.getY();
 			i++;
