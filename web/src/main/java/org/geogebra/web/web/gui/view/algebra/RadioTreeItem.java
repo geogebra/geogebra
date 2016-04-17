@@ -861,7 +861,7 @@ public class RadioTreeItem extends AVTreeItem
 			c = latexToCanvas(text);
 			definitionPanel.add(c);
 			lastDefinition = text;
-		} else {
+		} else if (geo != null) {
 
 			IndexHTMLBuilder sb = getBuilder(definitionPanel);
 			geo.addLabelTextOrHTML(
@@ -888,7 +888,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 
-		if (geo.needToShowBothRowsInAV()) {
+		if (geo != null && geo.needToShowBothRowsInAV()) {
 			final Label lblDefinition = new Label(getOutputPrefix());
 			if (app.has(Feature.FRACTIONS)) {
 				ClickStartHandler.init(lblDefinition, new ClickStartHandler() {
