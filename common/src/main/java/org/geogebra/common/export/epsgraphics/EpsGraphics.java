@@ -1271,4 +1271,8 @@ abstract public class EpsGraphics implements GGraphics2D {
 		_transform = transformationStack.removeLast();
 	}
 
+	public void drawChars(char[] data, int offset, int length, int x, int y) {
+		drawString(new String(data).substring(offset, offset + length), x, y);
+	}
+
 }

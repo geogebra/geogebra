@@ -18,6 +18,10 @@ public class GLine2DD implements GLine2D, GShapeD {
 		impl = new Line2D.Double();
 	}
 
+	public GLine2DD(Line2D line) {
+		impl = line;
+	}
+
 	public boolean intersects(int i, int j, int k, int l) {
 		return impl.intersects(i, j, k, l);
 	}

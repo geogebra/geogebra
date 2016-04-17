@@ -20,6 +20,8 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.export.epsgraphics.EpsGraphicsWrapper;
+import org.geogebra.desktop.export.epsgraphics.EpsGraphicsD;
 import org.geogebra.desktop.main.AppD;
 
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
@@ -29,6 +31,7 @@ import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 public class DrawEquationD extends DrawEquation {
@@ -71,9 +74,17 @@ public class DrawEquationD extends DrawEquation {
 			final boolean serif, final GColor fgColor, final GColor bgColor,
 			final boolean useCache, boolean updateAgain, Runnable callback) {
 
+		// EpsGraphicsD eps = null;
+		//
+		// new Graphics2DD(eps);
 
-		GDimension d = drawEquation(app, geo,
-				new Graphics2DD(GGraphics2DD.getAwtGraphics(g2)), x, y, text,
+		Graphics2DInterface g;
+		if (g2 instanceof EpsGraphicsD) {
+			g = new EpsGraphicsWrapper((EpsGraphicsD) g2);
+		} else {
+			g = new Graphics2DD(GGraphics2DD.getAwtGraphics(g2));
+		}
+		GDimension d = drawEquation(app, geo, g, x, y, text,
 				font, serif, ColorD.get(GColorD.getAwtColor(fgColor)),
 				ColorD.get(GColorD.getAwtColor(bgColor)), useCache, null, null);
 		if (callback != null) {
