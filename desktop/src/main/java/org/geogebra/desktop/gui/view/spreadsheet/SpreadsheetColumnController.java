@@ -284,7 +284,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 
 		int column = -1;
 		boolean isOver = false;
-		java.awt.Point mouseLoc = e.getPoint();
+		Point mouseLoc = e.getPoint();
 		GPoint cellLoc = table.getIndexFromPixel(mouseLoc.x, mouseLoc.y);
 		if (cellLoc != null) {
 			column = cellLoc.x;

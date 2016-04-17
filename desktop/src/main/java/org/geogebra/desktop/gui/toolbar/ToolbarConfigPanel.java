@@ -16,6 +16,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Vector;
@@ -32,6 +33,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -50,8 +52,8 @@ import org.geogebra.desktop.main.LocalizationD;
  * @author Markus Hohenwarter, based on a dialog from geonext.de
  * 
  */
-public class ToolbarConfigPanel extends javax.swing.JPanel implements
-		java.awt.event.ActionListener, javax.swing.event.TreeExpansionListener {
+public class ToolbarConfigPanel extends JPanel
+		implements ActionListener, TreeExpansionListener {
 
 	private static final long serialVersionUID = 1L;
 

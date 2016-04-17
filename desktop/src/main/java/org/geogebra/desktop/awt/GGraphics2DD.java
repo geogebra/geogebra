@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.RenderingHints.Key;
 import java.awt.geom.AffineTransform;
@@ -159,13 +160,12 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public GPaint getPaint() {
-		java.awt.Paint paint = impl.getPaint();
-		if (paint instanceof Color)
+		Paint paint = impl.getPaint();
+		if (paint instanceof Color) {
 			return new GColorD((Color) paint);
-		else if (paint instanceof GradientPaint)
-			return new GGradientPaintD(
-(GradientPaint) paint);
-
+		} else if (paint instanceof GradientPaint) {
+			return new GGradientPaintD((GradientPaint) paint);
+		}
 		// other types of paint are currently not used in setPaint
 		return null;
 	}
@@ -194,8 +194,7 @@ public class GGraphics2DD implements GGraphics2D {
 		return new GFontD(impl.getFont());
 	}
 
-	public static java.awt.Graphics2D getAwtGraphics(
-GGraphics2D g2) {
+	public static Graphics2D getAwtGraphics(GGraphics2D g2) {
 		return ((GGraphics2DD) g2).impl;
 	}
 
@@ -367,7 +366,7 @@ GGraphics2D g2) {
 	}
 
 	public Object setInterpolationHint(boolean needsInterpolationRenderingHint) {
-		java.awt.Graphics2D g2 = impl;
+		Graphics2D g2 = impl;
 		Object oldInterpolationHint = g2
 				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
 

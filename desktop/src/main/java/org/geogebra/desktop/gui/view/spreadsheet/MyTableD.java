@@ -1327,7 +1327,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	//
 	protected void handleControlDragSelect(MouseEvent e) {
 
-		java.awt.Point p = e.getPoint();
+		Point p = e.getPoint();
 		int row = this.rowAtPoint(p);
 		int column = this.columnAtPoint(p);
 		ListSelectionModel cm = getColumnModel().getSelectionModel();
@@ -1800,7 +1800,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	private static Cursor createCursor(Image cursorImage, boolean center) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		java.awt.Point cursorHotSpot;
+		Point cursorHotSpot;
 		if (center) {
 			cursorHotSpot = new Point(cursorImage.getWidth(null) / 2,
 					cursorImage.getHeight(null) / 2);

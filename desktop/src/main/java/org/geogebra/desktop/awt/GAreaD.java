@@ -33,7 +33,7 @@ public class GAreaD implements GArea, GShapeD {
 				org.geogebra.desktop.awt.GGenericShapeD.getAwtShape(shape));
 	}
 
-	public static java.awt.geom.Area getAWTArea(GArea a) {
+	public static Area getAWTArea(GArea a) {
 		if (!(a instanceof GAreaD)) {
 			if (a != null)
 				AppD.debug("other type");

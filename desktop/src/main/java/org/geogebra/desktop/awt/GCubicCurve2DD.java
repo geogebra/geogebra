@@ -4,7 +4,7 @@ import java.awt.geom.CubicCurve2D;
 
 public class GCubicCurve2DD implements org.geogebra.common.awt.GCubicCurve2D {
 
-	java.awt.geom.CubicCurve2D impl;
+	CubicCurve2D impl;
 
 	public GCubicCurve2DD() {
 		impl = new CubicCurve2D.Double();

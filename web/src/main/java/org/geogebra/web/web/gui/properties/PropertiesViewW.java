@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.properties;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -30,8 +31,8 @@ import com.google.gwt.user.client.ui.Widget;
  * PropertiesView for Web
  *
  */
-public class PropertiesViewW extends
-org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize, SetLabels {
+public class PropertiesViewW extends PropertiesView
+		implements RequiresResize, SetLabels {
 
 
 	private FlowPanel wrappedPanel;

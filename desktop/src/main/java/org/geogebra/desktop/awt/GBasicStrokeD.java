@@ -27,7 +27,7 @@ public class GBasicStrokeD implements org.geogebra.common.awt.GBasicStroke {
 		impl = new BasicStroke(f);
 	}
 
-	public static java.awt.BasicStroke getAwtStroke(GBasicStroke s) {
+	public static BasicStroke getAwtStroke(GBasicStroke s) {
 		if (!(s instanceof GBasicStrokeD)) {
 			if (s != null)
 				App.debug("other type");

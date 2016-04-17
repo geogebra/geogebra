@@ -3,6 +3,7 @@ package org.geogebra.desktop.gui.dialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -203,7 +204,7 @@ public class LanguageDialog extends JDialog {
 
 			public void actionPerformed(ActionEvent e) {
 
-				java.awt.EventQueue.invokeLater(new Runnable() {
+				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						setFlag();
 						setLabels();

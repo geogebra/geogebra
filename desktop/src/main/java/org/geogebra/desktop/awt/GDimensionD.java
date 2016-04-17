@@ -34,7 +34,7 @@ public class GDimensionD extends GDimension {
 	 *            dimension, must be of the type geogebra.awt.Dimension
 	 * @return AWT implementation wrapped in d
 	 */
-	public static java.awt.Dimension getAWTDimension(GDimension d) {
+	public static Dimension getAWTDimension(GDimension d) {
 
 		if (!(d instanceof GDimensionD)) {
 			return null;

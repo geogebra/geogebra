@@ -251,7 +251,7 @@ public class ToolbarD extends JToolBar {
 
 	}
 
-	private ArrayList<java.awt.Component> componentsToAdd;
+	private ArrayList<Component> componentsToAdd;
 
 	private void beginAdd() {
 		if (app.useHugeGuiForInput3D()) {

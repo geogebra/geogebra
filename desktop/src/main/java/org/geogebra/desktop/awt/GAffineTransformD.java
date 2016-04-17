@@ -1,5 +1,6 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -19,7 +20,7 @@ public class GAffineTransformD implements GAffineTransform {
 		at = a;
 	}
 
-	java.awt.geom.AffineTransform getImpl() {
+	AffineTransform getImpl() {
 		return at;
 	}
 
@@ -60,15 +61,14 @@ public class GAffineTransformD implements GAffineTransform {
 		return at.getTranslateY();
 	}
 
-	public static java.awt.geom.AffineTransform getAwtAffineTransform(
-			GAffineTransform a) {
+	public static AffineTransform getAwtAffineTransform(GAffineTransform a) {
 		if (!(a instanceof GAffineTransformD))
 			return null;
 		return ((GAffineTransformD) a).getImpl();
 	}
 
 	public GShape createTransformedShape(GShape shape) {
-		java.awt.Shape ret = null;
+		Shape ret = null;
 		ret = at.createTransformedShape(GGenericShapeD
 				.getAwtShape(shape));
 		return new GGenericShapeD(ret);

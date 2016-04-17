@@ -231,7 +231,7 @@ public class SpreadsheetRowHeader extends JList implements MouseListener,
 		// Update resizingRow. If nonnegative, then mouse is over a boundary
 		// and it gives the row to be resized (resizing is done in
 		// mouseDragged).
-		java.awt.Point p = e.getPoint();
+		Point p = e.getPoint();
 		resizingRow = getResizingRow(p);
 		mouseYOffset = p.y - table.getRowHeight(resizingRow);
 		//

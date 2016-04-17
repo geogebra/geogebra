@@ -863,7 +863,7 @@ app.getScaledIcon(
 		 */
 		public void show(String name) {
 			for (int i = 0; i < getComponentCount(); ++i) {
-				java.awt.Component comp = getComponent(i);
+				Component comp = getComponent(i);
 
 				if (comp != null) {
 					if (comp.getName() != null) {

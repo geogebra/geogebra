@@ -14,7 +14,7 @@ import org.geogebra.desktop.main.AppD;
 public class GRectangleD implements org.geogebra.desktop.awt.GRectangle2DD,
  GRectangle {
 
-	java.awt.Rectangle impl;
+	Rectangle impl;
 
 	public GRectangleD() {
 		impl = new Rectangle();

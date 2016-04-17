@@ -26,6 +26,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -5365,7 +5366,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			if (!popupsDone) {
 				popupsDone = true;
 
-				java.awt.EventQueue.invokeLater(new Runnable() {
+				EventQueue.invokeLater(new Runnable() {
 					@Override
 					@SuppressWarnings("synthetic-access")
 					public void run() {

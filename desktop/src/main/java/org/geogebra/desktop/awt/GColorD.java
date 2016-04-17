@@ -65,14 +65,14 @@ public class GColorD extends GColor {
 	}
 
 	public static int HSBtoRGB(float redD, float greenD, float blueD) {
-		return java.awt.Color.HSBtoRGB(redD, greenD, blueD);
+		return Color.HSBtoRGB(redD, greenD, blueD);
 	}
 
 	/**
 	 * @param color
 	 * @return
 	 */
-	public static java.awt.Color getAwtColor(GColor color) {
+	public static Color getAwtColor(GColor color) {
 		if (color == null)
 			return null;
 		return ((GColorD) color).adaptedColor;
@@ -84,7 +84,6 @@ public class GColorD extends GColor {
 	}
 
 	public static GColorD getHSBColor(float h, float s, float b) {
-		// TODO Auto-generated method stub
 		return new GColorD(Color.getHSBColor(h, s, b));
 	}
 

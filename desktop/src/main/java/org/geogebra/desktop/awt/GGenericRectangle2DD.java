@@ -56,8 +56,7 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 		return impl.intersects(GRectangleD.getAWTRectangle(viewRect));
 	}
 
-	public static java.awt.geom.Rectangle2D getAWTRectangle2D(
-			org.geogebra.common.awt.GRectangle2D r2d) {
+	public static Rectangle2D getAWTRectangle2D(GRectangle2D r2d) {
 		if (r2d instanceof GGenericRectangle2DD) {
 			return ((GGenericRectangle2DD) r2d).impl;
 		} else if (r2d instanceof GRectangleD) {
@@ -94,14 +93,12 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new GPathIteratorD(
-impl.getPathIterator(
+		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new GPathIteratorD(
-impl.getPathIterator(
+		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(at),
 				flatness));
 	}
