@@ -1,11 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -111,6 +105,12 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -1264,7 +1264,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public void update() {
 
 		updateAnimation();
-		doScale();
 
 		if (waitForUpdate || !drawable3DListToBeRemoved.isEmpty()
 				|| !drawable3DListToBeAdded.isEmpty()) {
@@ -1645,7 +1644,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	/** tells if the view is under animation */
 	public boolean isAnimated() {
-		return animatedScale || isRotAnimated();
+		return animatedScale || isRotAnimated() || waitForScale;
 	}
 
 	/**
@@ -2025,6 +2024,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 			updateMatrix();
 			setViewChangedByRotate();
+		}
+
+		if (waitForScale) {
+			setScale(newScale);
+			updateMatrix();
+			setViewChangedByZoom();
+			setWaitForUpdate();
+
+			waitForScale = false;
 		}
 
 	}
@@ -4350,19 +4358,6 @@ GRectangle selectionRectangle) {
 	public void scale(double newScale) {
 		this.newScale = newScale;
 		waitForScale = true;
-	}
-
-	private void doScale(){
-		if (waitForScale) {
-
-			setScale(newScale);
-			updateMatrix();
-			setViewChangedByZoom();
-			setWaitForUpdate();
-
-			waitForScale = false;
-		}
-
 	}
 
 	@Override
