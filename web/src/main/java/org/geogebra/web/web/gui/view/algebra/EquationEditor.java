@@ -328,6 +328,10 @@ public class EquationEditor {
 				component.getLaTeXElement(), slatex, shallfocus);
 	}
 
+	public String getText() {
+		return component.getText();
+	}
+
 	/**
 	 * @return next input from input textfield's history
 	 */

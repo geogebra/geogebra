@@ -941,6 +941,19 @@ public class InputTreeItem extends RadioTreeItem implements
 				}
 			}
 		}
+
+		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
+			app.getKernel()
+					.getInputPreviewHelper()
+					.updatePreviewFromInputBar(editor.getText(),
+							new AsyncOperation<Boolean>() {
+
+								@Override
+								public void callback(Boolean obj) {
+									// do warning here
+								}
+							});
+		}
 	}
 
 	protected boolean isEmpty() {
