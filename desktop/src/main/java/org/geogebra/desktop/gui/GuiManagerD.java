@@ -3211,7 +3211,8 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 	}
 
-	public boolean checkAutoCreateSliders(String s, AsyncOperation callback) {
+	public boolean checkAutoCreateSliders(String s,
+			AsyncOperation<String[]> callback) {
 		Component comp = ((AppD) app).getMainComponent();
 		if (((AppD) app).getFrame() instanceof GeoGebraFrame) {
 			GeoGebraFrame frame = (GeoGebraFrame) ((AppD) app).getFrame();

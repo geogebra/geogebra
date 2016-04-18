@@ -345,7 +345,8 @@ public interface GuiManagerInterface {
 	 *            eg "a, b"
 	 * @return true/false
 	 */
-	public boolean checkAutoCreateSliders(String string, AsyncOperation callback);
+	public boolean checkAutoCreateSliders(String string,
+			AsyncOperation<String[]> callback);
 
 	public void applyCPsettings(ConstructionProtocolSettings cpSettings);
 

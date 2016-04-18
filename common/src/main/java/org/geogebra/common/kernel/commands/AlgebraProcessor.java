@@ -177,8 +177,8 @@ public class AlgebraProcessor {
 	/**
 	 * @param c
 	 *            command
-	 * @param labelOutput
-	 *            true to label output
+	 * @param info
+	 *            flag for output label
 	 * @return resulting geos
 	 * @throws MyError
 	 *             e.g. on syntax error
@@ -192,8 +192,8 @@ public class AlgebraProcessor {
 	/**
 	 * @param c
 	 *            command
-	 * @param labelOutput
-	 *            whether output should get a label
+	 * @param info
+	 *            flag for output label
 	 * @return simplified expression
 	 * @throws MyError
 	 *             error
@@ -593,7 +593,8 @@ public class AlgebraProcessor {
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(
 			final String cmd, final boolean storeUndo,
 			final boolean allowErrorDialog, final boolean throwMyError,
-			boolean autoCreateSliders, final AsyncOperation callback0)
+			boolean autoCreateSliders,
+			final AsyncOperation<GeoElement[]> callback0)
 			throws Exception {
 
 		// both return this and call callback0 in case of success!
@@ -613,7 +614,7 @@ public class AlgebraProcessor {
 			GeoCasCell casEval = checkCasEval(ve.getLabel(), cmd, null);
 			if (casEval != null) {
 				if (callback0 != null) {
-					callback0.callback(casEval);
+					callback0.callback(new GeoElement[] { casEval });
 				}
 				return new GeoElement[0];
 			}
@@ -658,8 +659,6 @@ public class AlgebraProcessor {
 	 *            true to allow dialogs
 	 * @param throwMyError
 	 *            true to throw MyErrors (if dialogs are not allowed)
-	 * @param printStackTrace
-	 *            true to print stack trace in console
 	 * @param autoCreateSliders
 	 *            whether to show a popup for undefined variables
 	 * @param callback0
@@ -672,7 +671,7 @@ public class AlgebraProcessor {
 			ValidExpression ve, final boolean storeUndo,
 			final boolean allowErrorDialog, final boolean throwMyError,
 			boolean autoCreateSliders,
-			final AsyncOperation callback0) throws Exception {
+			final AsyncOperation<GeoElement[]> callback0) throws Exception {
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		ve.traverse(collecter);
@@ -780,17 +779,16 @@ public class AlgebraProcessor {
 				// Yes: create sliders and draw line
 				// No: go back into input bar and allow user to change input
 				if (app.getGuiManager() != null) {
-					AsyncOperation callback = null;
+					AsyncOperation<String[]> callback = null;
 					if (callback0 != null) {
 
 						// final FunctionVariable fvX2 = fvX;
 						final ValidExpression ve2 = ve;
 
-						callback = new AsyncOperation() {
+						callback = new AsyncOperation<String[]>() {
 
 							@Override
-							public void callback(Object obj) {
-								String[] dialogResult = (String[]) obj;
+							public void callback(String[] dialogResult) {
 								GeoElement[] geos = null;
 
 								// TODO: need we to catch the Exception
@@ -952,7 +950,8 @@ public class AlgebraProcessor {
 	 */
 	private GeoElement[] parseMathml(String cmd, final boolean storeUndo,
 			final boolean throwMyError,
-			boolean autoCreateSliders, final AsyncOperation callback0) {
+			boolean autoCreateSliders,
+			final AsyncOperation<GeoElement[]> callback0) {
 		if (mathmlParserGGB == null) {
 			mathmlParserGGB = new MathMLParser(true);
 		}

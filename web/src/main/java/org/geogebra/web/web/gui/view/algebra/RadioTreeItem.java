@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -46,7 +45,6 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
@@ -1745,33 +1743,7 @@ public class RadioTreeItem extends AVTreeItem
 				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
 	}
 
-	private static String stopCommon(String newValue0) {
-		String newValue = newValue0;
-		// newValue = newValue0.replace("space *", " ");
-		// newValue = newValue.replace("* space", " ");
 
-		// newValue = newValue.replace("space*", " ");
-		// newValue = newValue.replace("*space", " ");
-
-		newValue = newValue.replace("space ", " ");
-		newValue = newValue.replace(" space", " ");
-		newValue = newValue.replace("space", " ");
-
-		// \" is the " Quotation delimiter returned by MathQuillGGB
-		// now it's handy that "space" is not in newValue
-		newValue = newValue.replace("\\\"", "space");
-
-		// change \" to corresponding unicode characters
-		StringBuilder sb = new StringBuilder();
-		StringUtil.processQuotes(sb, newValue, Unicode.OPEN_DOUBLE_QUOTE);
-		newValue = sb.toString();
-
-		newValue = newValue.replace("space", "\"");
-
-		// do not substitute for absolute value in these cases
-		newValue = newValue.replace("||", ExpressionNodeConstants.strOR);
-		return newValue;
-	}
 
 	@Override
 	public boolean stopEditing(String newValue0) {
@@ -1792,7 +1764,7 @@ public class RadioTreeItem extends AVTreeItem
 		av.cancelEditing();
 
 		if (newValue0 != null) {
-			String newValue = stopCommon(newValue0);
+			String newValue = EquationEditor.stopCommon(newValue0);
 			// // not sure why it is needed... TODO: is this needed?
 			newValue.replace(" ", "");
 
@@ -1849,7 +1821,7 @@ public class RadioTreeItem extends AVTreeItem
 		String newValue = newValue0;
 
 		if (newValue0 != null) {
-			newValue = stopCommon(newValue);
+			newValue = EquationEditor.stopCommon(newValue);
 		}
 
 		app.getKernel().clearJustCreatedGeosInViews();
@@ -1865,17 +1837,16 @@ public class RadioTreeItem extends AVTreeItem
 		app.setScrollToShow(true);
 
 		try {
-			AsyncOperation callback = new AsyncOperation() {
+			AsyncOperation<GeoElement[]> callback = new AsyncOperation<GeoElement[]>() {
 
 				@Override
-				public void callback(Object obj) {
+				public void callback(GeoElement[] geos) {
 
-					if (!(obj instanceof GeoElement[])) {
+					if (geos == null) {
 						// inputField.getTextBox().setFocus(true);
 						setFocus(true);
 						return;
 					}
-					GeoElement[] geos = (GeoElement[]) obj;
 
 					// need label if we type just eg
 					// lnx

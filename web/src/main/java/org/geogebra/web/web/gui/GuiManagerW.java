@@ -1619,7 +1619,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public boolean checkAutoCreateSliders(final String s,
-	        final AsyncOperation callback) {
+			final AsyncOperation<String[]> callback) {
 		final Localization loc = ((AppW) app).getLocalization();
 
 		final String[] options = { app.getMenu("Cancel"),

@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -444,6 +446,34 @@ public class EquationEditor {
 		}
 		historyMap.put(plain, latex);
 
+	}
+
+	public static String stopCommon(String newValue0) {
+		String newValue = newValue0;
+		// newValue = newValue0.replace("space *", " ");
+		// newValue = newValue.replace("* space", " ");
+
+		// newValue = newValue.replace("space*", " ");
+		// newValue = newValue.replace("*space", " ");
+
+		newValue = newValue.replace("space ", " ");
+		newValue = newValue.replace(" space", " ");
+		newValue = newValue.replace("space", " ");
+
+		// \" is the " Quotation delimiter returned by MathQuillGGB
+		// now it's handy that "space" is not in newValue
+		newValue = newValue.replace("\\\"", "space");
+
+		// change \" to corresponding unicode characters
+		StringBuilder sb = new StringBuilder();
+		StringUtil.processQuotes(sb, newValue, Unicode.OPEN_DOUBLE_QUOTE);
+		newValue = sb.toString();
+
+		newValue = newValue.replace("space", "\"");
+
+		// do not substitute for absolute value in these cases
+		newValue = newValue.replace("||", ExpressionNodeConstants.strOR);
+		return newValue;
 	}
 
 }

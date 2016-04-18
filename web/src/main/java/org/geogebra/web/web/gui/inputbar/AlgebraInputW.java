@@ -286,16 +286,15 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 			app.setScrollToShow(true);
 
 			try {
-				AsyncOperation callback = new AsyncOperation(){
+				AsyncOperation<GeoElement[]> callback = new AsyncOperation<GeoElement[]>() {
 
 					@Override
-					public void callback(Object obj) {
+					public void callback(GeoElement[] geos) {
 
-						if (!(obj instanceof GeoElement[])){
+						if (geos == null) {
 							inputField.getTextBox().setFocus(true);
 							return;
 						}
-						GeoElement[] geos = (GeoElement[]) obj;
 
 						// need label if we type just eg
 						// lnx

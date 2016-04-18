@@ -249,8 +249,9 @@ public class NewCASTableCellEditorW extends Label implements
 		}
 		this.thisIsEdited = false;
 		// TODO Auto-generated method stub
-		App.debug("STOPPED" + input2 + "," + latex);
-		this.editor.addToHistory(input2, dollarFix(latex));
+		String input1 = EquationEditor.stopCommon(input2);
+		App.debug("STOPPED" + input1 + "," + latex);
+		this.editor.addToHistory(input1, dollarFix(latex));
 		this.ml.handleEnterKey(false, false, app);
 		return false;
 	}
