@@ -794,8 +794,8 @@ public abstract class Prover {
 		}
 
 		void csvAdd(String header, double data) {
-			csv_header += header + ";";
-			csv_data += data + ";";
+			csv_header += header + ",";
+			csv_data += data + ",";
 		}
 
 		StatementFeatures(GeoElement statement) {
