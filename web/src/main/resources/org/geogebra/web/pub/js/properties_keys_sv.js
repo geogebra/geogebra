@@ -442,7 +442,7 @@ __GGB__keysVar.sv.command = {
     "IntersectPath": "Sk\xe4rningsKurvor",
     "IntersectPath.Syntax": "[ <Linje>, <Polygon> ]\n[ <Polygon>, <Polygon> ]",
     "IntersectPath.Syntax3D": "[ <Linje>, <Polygon> ]\n[ <Polygon>, <Polygon> ]\n[ <Plan>, <Polygon> ]\n[ <Plan>, <Kvadratisk yta> ]",
-    "Intersection": "Sk\xe4rningspunkt",
+    "Intersection": "Snitt",
     "Intersection.Syntax": "[ <Lista>, <Lista> ]",
     "InverseBinomial": "InversBinomialF\xf6rdelning",
     "InverseBinomial.Syntax": "[ <Antal f\xf6rs\xf6k>, <Sannolikhet att lyckas>, <Sannolikhet> ]",

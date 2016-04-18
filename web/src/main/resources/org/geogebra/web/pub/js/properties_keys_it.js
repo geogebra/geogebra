@@ -840,7 +840,7 @@ __GGB__keysVar.it.command = {
     "SetFilling": "ImpRiempimento",
     "SetFilling.Syntax": "[ <Oggetto>, <Numero> ]",
     "SetFixed": "ImpFisso",
-    "SetFixed.Syntax": "[ <Oggetto, <true | false> ]",
+    "SetFixed.Syntax": "[ <Oggetto>, <true | false> ]\n[ <Oggetto>, <true | false>, <true | false> ]",
     "SetLabelMode": "ImpModoEtichetta",
     "SetLabelMode.Syntax": "[ <Oggetto>, <Numero> ]",
     "SetLayer": "ImpLivello",
