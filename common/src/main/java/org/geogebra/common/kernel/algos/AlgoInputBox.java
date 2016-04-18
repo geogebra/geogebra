@@ -16,7 +16,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 
 /**
  * Creates textfield linked with geo
@@ -24,25 +24,25 @@ import org.geogebra.common.kernel.geos.GeoTextField;
  * @author Zbynek Konecny
  */
 
-public class AlgoTextfield extends AlgoElement {
+public class AlgoInputBox extends AlgoElement {
 
-	private GeoElement inputGeo; // input
-	private GeoTextField textfield; // output
+	private GeoElement linkedGeo; // input
+	private GeoInputBox inputBox; // output
 
-	public AlgoTextfield(Construction cons, String label, GeoElement inputGeo) {
+	public AlgoInputBox(Construction cons, String label, GeoElement linkedGeo) {
 		super(cons);
-		this.inputGeo = inputGeo;
+		this.linkedGeo = linkedGeo;
 
-		textfield = new GeoTextField(cons);
-		if (inputGeo != null)
-			textfield.setLinkedGeo(inputGeo);
-		textfield.setAbsoluteScreenLoc(30, 30);
+		inputBox = new GeoInputBox(cons);
+		if (linkedGeo != null)
+			inputBox.setLinkedGeo(linkedGeo);
+		inputBox.setAbsoluteScreenLoc(30, 30);
 		setInputOutput();
 		compute();
-		textfield.setLabel(label);
-		textfield.setLabelVisible(true);
-		textfield.setEuclidianVisible(true);
-		textfield.update();
+		inputBox.setLabel(label);
+		inputBox.setLabelVisible(true);
+		inputBox.setEuclidianVisible(true);
+		inputBox.update();
 	}
 
 	@Override
@@ -52,20 +52,20 @@ public class AlgoTextfield extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		if (inputGeo == null)
+		if (linkedGeo == null)
 			input = new GeoElement[0];
 		else {
 			input = new GeoElement[1];
-			input[0] = inputGeo;
+			input[0] = linkedGeo;
 		}
 
 		super.setOutputLength(1);
-		super.setOutput(0, textfield);
+		super.setOutput(0, inputBox);
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoTextField getResult() {
-		return textfield;
+	public GeoInputBox getResult() {
+		return inputBox;
 	}
 
 	@Override

@@ -149,7 +149,7 @@ Test {
 	GEOTEXTFIELD {
 		@Override
 		public boolean check(Object ob) {
-			return ob instanceof GeoTextField;
+			return ob instanceof GeoInputBox;
 		}
 	},
 

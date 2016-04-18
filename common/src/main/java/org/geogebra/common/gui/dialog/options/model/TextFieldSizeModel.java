@@ -2,7 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 
 public class TextFieldSizeModel extends OptionsModel {
@@ -18,12 +18,12 @@ public class TextFieldSizeModel extends OptionsModel {
 		kernel = app.getKernel();
 	}
 
-	private GeoTextField getTextFieldAt(int index) {
-		return (GeoTextField)getObjectAt(index);
+	private GeoInputBox getTextFieldAt(int index) {
+		return (GeoInputBox)getObjectAt(index);
 	}
 	@Override
 	public void updateProperties() {
-		GeoTextField temp, geo0 = getTextFieldAt(0);
+		GeoInputBox temp, geo0 = getTextFieldAt(0);
 		boolean equalSize = true;
 
 		for (int i = 0; i < getGeosLength(); i++) {
@@ -50,7 +50,7 @@ public class TextFieldSizeModel extends OptionsModel {
 	public void applyChanges(NumberValue value) {
 		if (value != null && !Double.isNaN(value.getDouble())) {
 			for (int i = 0; i < getGeosLength(); i++) {
-				GeoTextField geo = getTextFieldAt(i);
+				GeoInputBox geo = getTextFieldAt(i);
 				geo.setLength((int) value.getDouble());
 				geo.updateRepaint();
 			}
@@ -59,7 +59,7 @@ public class TextFieldSizeModel extends OptionsModel {
 	
 	@Override
 	public boolean isValidAt(int index) {
-		return (getGeoAt(index) instanceof GeoTextField);
+		return (getGeoAt(index) instanceof GeoInputBox);
 	}
 
 	@Override

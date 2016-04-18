@@ -7,7 +7,7 @@ import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.CommandInputField;
@@ -65,7 +65,7 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener,
 
 	void setFocusTraversalKeysEnabled(boolean b);
 
-	void setUsedForInputBox(GeoTextField geoTextField);
+	void setUsedForInputBox(GeoInputBox geoTextField);
 
 	boolean hasFocus();
 

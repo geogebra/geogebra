@@ -100,7 +100,7 @@ public class TextOptionsModel extends OptionsModel {
 	@Override
 	public void updateProperties() {
 		GeoElement geo = getGeoAt(0);
-		if (geo.isGeoTextField()) {
+		if (geo.isGeoInputBox()) {
 			listener.setFontSizeVisibleOnly();
 		} else {
 			listener.setWidgetsVisible(!justDisplayFontSize, geo.isGeoButton());
@@ -138,7 +138,7 @@ public class TextOptionsModel extends OptionsModel {
 		listener.selectDecimalPlaces(selItem);
 		listener.setSecondLineVisible((getGeoAt(0).isIndependent() || (geo0 instanceof GeoList)));
 
-		if (geo.isGeoTextField()) {
+		if (geo.isGeoInputBox()) {
 			listener.setFontSizeVisibleOnly();
 		}
 		App.debug("UpdateText Properties Text");

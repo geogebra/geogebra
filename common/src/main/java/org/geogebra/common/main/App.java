@@ -20,7 +20,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawList;
-import org.geogebra.common.euclidian.draw.DrawTextField;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -4133,10 +4133,10 @@ public abstract class App implements UpdateSelection {
 				GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
 				geoBool.setValue(!geoBool.getBoolean());
 				geoBool.updateRepaint();
-			} else if (geo.isGeoTextField()) {
+			} else if (geo.isGeoInputBox()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
-				((DrawTextField) d).setWidgetVisible(true);
+				((DrawInputBox) d).setWidgetVisible(true);
 			} else if (geo.isGeoList()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);

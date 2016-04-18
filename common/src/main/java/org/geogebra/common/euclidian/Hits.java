@@ -879,7 +879,7 @@ public class Hits extends ArrayList<GeoElement> {
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
-			if (geo.isGeoTextField()) {
+			if (geo.isGeoInputBox()) {
 				ret.add(geo);
 				return true;
 			}

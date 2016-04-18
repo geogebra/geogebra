@@ -271,7 +271,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			Hits hits = view.getHits().getTopHits();
 			if (!hits.isEmpty()) {
 				GeoElement hit = hits.get(0);
-				if (hit != null && !hit.isGeoButton() && !hit.isGeoTextField()
+				if (hit != null && !hit.isGeoButton() && !hit.isGeoInputBox()
 				        && !hit.isGeoBoolean()) {
 					GeoElement geo = chooseGeo(hits, true);
 					if (geo != null) {

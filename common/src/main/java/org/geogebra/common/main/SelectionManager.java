@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -668,7 +668,7 @@ public class SelectionManager {
 				addSelectedGeo(next);
 
 				// make sure Input Boxes lose focus on <TAB>
-				if (!(next instanceof GeoTextField)) {
+				if (!(next instanceof GeoInputBox)) {
 					ev.requestFocus();
 				}
 				break;
@@ -720,7 +720,7 @@ public class SelectionManager {
 				addSelectedGeo(lastGeo);
 
 				// make sure Input Boxes lose focus on <SHIFT><TAB>
-				if (!(lastGeo instanceof GeoTextField)) {
+				if (!(lastGeo instanceof GeoInputBox)) {
 					ev.requestFocus();
 				}
 

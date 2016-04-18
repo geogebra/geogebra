@@ -8,7 +8,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.draw.DrawTextField;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -20,7 +20,7 @@ import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.Localization;
@@ -105,7 +105,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	HistoryPopupW historyPopup;
 	protected ScrollableSuggestBox textField = null;
 
-	private DrawTextField drawTextField = null;
+	private DrawInputBox drawTextField = null;
 
 	// symbol table popup fields
 	ToggleButton showSymbolButton = null;
@@ -153,7 +153,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	public AutoCompleteTextFieldW(int columns, App app, Drawable drawTextField) {
 		this(columns, app);
-		this.drawTextField = (DrawTextField) drawTextField;
+		this.drawTextField = (DrawInputBox) drawTextField;
 		addStyleName("FromDrawTextFieldNew");
 	}
 
@@ -350,7 +350,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		});
 	}
 
-	public DrawTextField getDrawTextField() {
+	public DrawInputBox getDrawTextField() {
 		return drawTextField;
 	}
 
@@ -1263,7 +1263,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	private boolean isSuggestionJustHappened = false;
 	private boolean isSuggestionClickJustHappened = false;
-	private GeoTextField geoUsedForInputBox;
+	private GeoInputBox geoUsedForInputBox;
 
 	/**
 	 * @return that suggestion is just happened (click or enter, so we don't
@@ -1469,7 +1469,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	}
 
 	@Override
-	public void setUsedForInputBox(GeoTextField geo) {
+	public void setUsedForInputBox(GeoInputBox geo) {
 		geoUsedForInputBox = geo;
 	}
 

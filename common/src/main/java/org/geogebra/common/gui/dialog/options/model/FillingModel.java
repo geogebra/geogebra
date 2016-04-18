@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -464,7 +464,7 @@ public class FillingModel extends MultipleOptionsModel {
 				}
 			}
 			if (!geo.isFillable() || geo instanceof GeoImage
-					|| geo instanceof GeoTextField || geo.isGeoQuadric()) {
+					|| geo instanceof GeoInputBox || geo.isGeoQuadric()) {
 				geosOK = false;
 				break;
 			}

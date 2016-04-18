@@ -89,7 +89,7 @@ import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
@@ -3945,7 +3945,7 @@ GRectangle selectionRectangle) {
 		return null;
 	}
 
-	public Drawable newDrawTextField(GeoTextField geo) {
+	public Drawable newDrawTextField(GeoInputBox geo) {
 		return null;
 	}
 

@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.draw.DrawTextField;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Construction;
@@ -26,14 +26,14 @@ import org.geogebra.common.util.debug.Log;
  * @author Michael
  *
  */
-public class GeoTextField extends GeoButton {
+public class GeoInputBox extends GeoButton {
 	private static int defaultLength = 20;
 	private int length;
 	/**
 	 * Creates new text field
 	 * @param c construction
 	 */
-	public GeoTextField(Construction c) {
+	public GeoInputBox(Construction c) {
 		super(c);
 		length = defaultLength;
 	}
@@ -42,7 +42,7 @@ public class GeoTextField extends GeoButton {
 	 * @param labelOffsetX x offset
 	 * @param labelOffsetY y offset
 	 */
-	public GeoTextField(Construction cons, int labelOffsetX, int labelOffsetY) {
+	public GeoInputBox(Construction cons, int labelOffsetX, int labelOffsetY) {
 		this(cons);
 		this.labelOffsetX = labelOffsetX;
 		this.labelOffsetY = labelOffsetY;
@@ -115,7 +115,7 @@ public class GeoTextField extends GeoButton {
 	}
 	
 	@Override
-	public boolean isGeoTextField(){
+	public boolean isGeoInputBox(){
 		return true;
 	}
 
@@ -173,7 +173,7 @@ public class GeoTextField extends GeoButton {
 	}
 	@Override
 	public GeoElement copy() {
-		return new GeoTextField(cons, labelOffsetX, labelOffsetY);
+		return new GeoInputBox(cons, labelOffsetX, labelOffsetY);
 	}
 	/**
 	 * @param inputText new value for linkedGeo
@@ -348,7 +348,7 @@ public class GeoTextField extends GeoButton {
 	 * @param drawTextField drawable
 	 * @return autocomplete textfield
 	 */
-	public AutoCompleteTextField getTextField(int viewID, DrawTextField drawTextField) {
+	public AutoCompleteTextField getTextField(int viewID, DrawInputBox drawTextField) {
 		
 		if (textField == null) {
 			textField = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(getLength(), kernel.getApplication(), drawTextField);

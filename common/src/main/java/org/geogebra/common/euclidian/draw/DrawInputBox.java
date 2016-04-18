@@ -30,7 +30,7 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -42,7 +42,7 @@ import org.geogebra.common.util.Unicode;
  * 
  * @author Michael
  */
-public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
+public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	// TODO: examine these two, why are they needed and why these values.
 	private static final double TF_HEIGHT_FACTOR = 1.22;
 	private static final double TF_WIDTH_FACTOR = 0.81;
@@ -52,7 +52,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	private static final int TF_MARGIN = 10;
 
 	/** textfield */
-	final GeoTextField geoTextField;
+	final GeoInputBox geoInputBox;
 
 	private boolean isVisible;
 
@@ -70,9 +70,9 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	 * @param geo
 	 *            textfield
 	 */
-	public DrawTextField(EuclidianView view, GeoTextField geo) {
+	public DrawInputBox(EuclidianView view, GeoInputBox geo) {
 		this.view = view;
-		this.geoTextField = geo;
+		this.geoInputBox = geo;
 		this.geo = geo;
 		box = geo.getKernel().getApplication().getSwingFactory()
 				.createHorizontalBox(view.getEuclidianController());
@@ -80,7 +80,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		// bl = new ButtonListener();
 		ifListener = new InputFieldListener();
 		ifKeyListener = new InputFieldKeyListener();
-		textField = geoTextField.getTextField(view.getViewID(), this);// SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(),
+		textField = geoInputBox.getTextField(view.getViewID(), this);// SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(),
 		textField.setDeferredFocus(true);
 
 		// view.getApplication(),
@@ -154,7 +154,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		 */
 		public void focusGained(GFocusEvent e) {
 			getView().getEuclidianController().textfieldHasFocus(true);
-			geoTextField.updateText(textField);
+			geoInputBox.updateText(textField);
 
 			initialText = textField.getText();
 		}
@@ -173,8 +173,8 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 			// make sure (expensive) update doesn't happen unless needed
 			// also caused problems when Object Properties opened
 			if (!textField.getText().equals(initialText)) {
-				geoTextField.textObjectUpdated(textField);
-				geoTextField.textSubmitted();
+				geoInputBox.textObjectUpdated(textField);
+				geoInputBox.textSubmitted();
 				draw(view.getGraphicsForPen());
 			}
 		}
@@ -211,9 +211,9 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 				getView().requestFocusInWindow();
 				textField.setVisible(false);
 				draw(view.getGraphicsForPen());
-				geoTextField.setText(textField.getText());
+				geoInputBox.setText(textField.getText());
 			} else {
-				GeoElement linkedGeo = ((GeoTextField) getGeo()).getLinkedGeo();
+				GeoElement linkedGeo = ((GeoInputBox) getGeo()).getLinkedGeo();
 
 				if (linkedGeo instanceof GeoAngle) {
 
@@ -257,7 +257,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 			box.setVisible(false);
 		}
 
-		int length = geoTextField.getLength();
+		int length = geoInputBox.getLength();
 		if (length != oldLength) {
 			textField.setColumns(length);
 			textField.prepareShowSymbolButton(
@@ -281,7 +281,8 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		setLabelFontSize((int) (view.getFontSize()
-				* geoTextField.getFontSizeMultiplier()));
+ * geoInputBox
+				.getFontSizeMultiplier()));
 		App app = view.getApplication();
 
 		GFont vFont = view.getFont();
@@ -301,7 +302,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		textField.setFocusable(true);
 		textField.setEditable(true);
 
-		geoTextField.updateText(textField);
+		geoInputBox.updateText(textField);
 		box.revalidate();
 
 		xLabel = geo.labelOffsetX;
@@ -322,14 +323,16 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 			@Override
 			public int getWidth() {
 				return (int) Math.round(((view.getApplication().getFontSize()
-						* geoTextField.getFontSizeMultiplier()))
-						* geoTextField.getLength() * TF_WIDTH_FACTOR);
+ * geoInputBox
+								.getFontSizeMultiplier()))
+								* geoInputBox.getLength() * TF_WIDTH_FACTOR);
 			}
 
 			@Override
 			public int getHeight() {
 				return (int) Math.round(((view.getApplication().getFontSize()
-						* geoTextField.getFontSizeMultiplier()))
+ * geoInputBox
+								.getFontSizeMultiplier()))
 						* TF_HEIGHT_FACTOR) + TF_MARGIN;
 
 			}
@@ -339,7 +342,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	@Override
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			drawOnCanvas(g2, geoTextField.getText());
+			drawOnCanvas(g2, geoInputBox.getText());
 		}
 	}
 
@@ -349,7 +352,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		GFont font = g2.getFont();
 		g2.setFont(getLabelFont().deriveFont(GFont.PLAIN));
 
-		boolean latexLabel = measureLabel(g2, geoTextField, labelDesc);
+		boolean latexLabel = measureLabel(g2, geoInputBox, labelDesc);
 		int textLeft = boxLeft + 2;
 		int textBottom = boxTop + getTextBottom();
 
@@ -368,10 +371,10 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		g2.setPaint(geo.getObjectColor());
 
 		if (geo.isLabelVisible()) {
-			drawLabel(g2, geoTextField, labelDesc);
+			drawLabel(g2, geoInputBox, labelDesc);
 		}
 
-		String text = geoTextField.getText();
+		String text = geoInputBox.getText();
 
 		g2.setFont(textFont.deriveFont(GFont.PLAIN));
 

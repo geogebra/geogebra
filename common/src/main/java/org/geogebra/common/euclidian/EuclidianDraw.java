@@ -28,7 +28,7 @@ import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.draw.DrawSlope;
 import org.geogebra.common.euclidian.draw.DrawText;
-import org.geogebra.common.euclidian.draw.DrawTextField;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawTurtle;
 import org.geogebra.common.euclidian.draw.DrawUpperLowerSum;
 import org.geogebra.common.euclidian.draw.DrawVector;
@@ -60,7 +60,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.geos.ParametricCurve;
@@ -106,7 +106,7 @@ public class EuclidianDraw {
 
 		case TEXTFIELD:
 
-			d = new DrawTextField(ev, (GeoTextField) geo);
+			d = new DrawInputBox(ev, (GeoInputBox) geo);
 			break;
 
 		case POINT:

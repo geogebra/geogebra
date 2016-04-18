@@ -42,7 +42,7 @@ public class ButtonSizeModel extends OptionsModel {
    
 	@Override
 	public boolean isValidAt(int index) {
-		return getGeoAt(index).isGeoButton() && !getGeoAt(index).isGeoTextField();
+		return getGeoAt(index).isGeoButton() && !getGeoAt(index).isGeoInputBox();
 	}
 	
 	public void setSizesFromString(String strWidth, String strHeight, boolean isFixed) {

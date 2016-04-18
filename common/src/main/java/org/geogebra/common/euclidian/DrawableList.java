@@ -185,7 +185,7 @@ public class DrawableList {
 			GeoElement geo = cur.d.getGeoElement();
 			if (geo.isDefined()
 					&& !(geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
-					&& !(geo.isGeoTextField())) {
+					&& !(geo.isGeoInputBox())) {
 				if (cur.d.needsUpdate()) {
 					cur.d.setNeedsUpdate(false);
 					cur.d.update();

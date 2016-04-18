@@ -38,7 +38,7 @@ import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.algos.AlgoPolygonRegularND;
-import org.geogebra.common.kernel.algos.AlgoTextfield;
+import org.geogebra.common.kernel.algos.AlgoInputBox;
 import org.geogebra.common.kernel.algos.AlgoVector;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ConstructionElement;
@@ -397,7 +397,7 @@ public class CopyPaste {
 
 			// also doing this here, which is not about the name of the method,
 			// but making sure textfields (which require algos) are shown
-			if ((geo.getParentAlgorithm() instanceof AlgoTextfield)
+			if ((geo.getParentAlgorithm() instanceof AlgoInputBox)
 					&& (!ret.contains(geo.getParentAlgorithm()))
 					&& (!conels.contains(geo.getParentAlgorithm()))) {
 				// other algos will be added to this anyway,

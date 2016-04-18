@@ -37,7 +37,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.AlgoImplicitCurveFunction;
@@ -348,8 +348,8 @@ public class AlgoDispatcher {
 		return algo.getFunction();
 	}
 
-	public GeoTextField textfield(String label, GeoElement geoElement) {
-		AlgoTextfield at = new AlgoTextfield(cons, label, geoElement);
+	public GeoInputBox textfield(String label, GeoElement geoElement) {
+		AlgoInputBox at = new AlgoInputBox(cons, label, geoElement);
 		return at.getResult();
 	}
 

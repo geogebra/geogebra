@@ -9,7 +9,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawList;
-import org.geogebra.common.euclidian.draw.DrawTextField;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -99,13 +99,13 @@ public abstract class GlobalKeyDispatcher {
 		// show RENAME dialog when a letter is typed
 		// or edit Textfield for any keypress
 
-		if ((Character.isLetter(ch)) || geo instanceof GeoTextField) {
+		if ((Character.isLetter(ch)) || geo instanceof GeoInputBox) {
 
 			// open rename dialog
 			if (geo != null && geo.isRenameable()) {
 
-				if (geo instanceof GeoTextField) {
-					DrawTextField dt = (DrawTextField) app
+				if (geo instanceof GeoInputBox) {
+					DrawInputBox dt = (DrawInputBox) app
 							.getActiveEuclidianView().getDrawableFor(geo);
 					dt.setFocus(ch + "");
 				} else {

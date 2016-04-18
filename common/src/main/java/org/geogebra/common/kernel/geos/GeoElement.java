@@ -3396,7 +3396,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				}
 				
 				return defaultNumberedLabel("locus"); // Name.locus
-			} else if (isGeoTextField()) {
+			} else if (isGeoInputBox()) {
 				return defaultNumberedLabel("textfield"); // Name.textfield
 			} else if (isGeoButton()) {
 				return defaultNumberedLabel("button"); // Name.button
@@ -3481,7 +3481,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return true for textfields (=Input Boxes)
 	 */
-	public boolean isGeoTextField() {
+	public boolean isGeoInputBox() {
 		return false;
 	}
 

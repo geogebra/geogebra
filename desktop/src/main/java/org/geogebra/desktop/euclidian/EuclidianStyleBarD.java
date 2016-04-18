@@ -1292,7 +1292,7 @@ axesIcon, iconHeight);
 			public void update(Object[] geos) {
 
 				boolean geosOK = checkGeoText(geos)
-						&& !((GeoElement) geos[0]).isGeoTextField();
+						&& !((GeoElement) geos[0]).isGeoInputBox();
 				setVisible(geosOK);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
@@ -1323,7 +1323,7 @@ axesIcon, iconHeight);
 			public void update(Object[] geos) {
 
 				boolean geosOK = checkGeoText(geos)
-						&& !((GeoElement) geos[0]).isGeoTextField();
+						&& !((GeoElement) geos[0]).isGeoInputBox();
 				setVisible(geosOK);
 				this.setVisible(geosOK);
 				if (geosOK) {

@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
@@ -138,7 +138,7 @@ public class GeoFactory {
 			if (type.equals("text")) {
 				return new GeoText(cons1); // text
 			}
-			return new GeoTextField(cons1); // textfield
+			return new GeoInputBox(cons1); // textfield
 
 		case 'v': // vector
 			return new GeoVector(cons1);

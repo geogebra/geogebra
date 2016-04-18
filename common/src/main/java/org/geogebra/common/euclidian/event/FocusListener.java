@@ -1,6 +1,6 @@
 package org.geogebra.common.euclidian.event;
 
-import org.geogebra.common.euclidian.draw.DrawTextField;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.main.App;
 
 public class FocusListener {
@@ -8,8 +8,8 @@ public class FocusListener {
 	private Object listenerClass;
 
 	protected void wrapFocusGained(GFocusEvent event) {
-		if (listenerClass instanceof DrawTextField.InputFieldListener) {
-			((DrawTextField.InputFieldListener) listenerClass)
+		if (listenerClass instanceof DrawInputBox.InputFieldListener) {
+			((DrawInputBox.InputFieldListener) listenerClass)
 					.focusGained(event);
 		} else {
 			App.debug("other type");
@@ -21,8 +21,8 @@ public class FocusListener {
 	}
 
 	protected void wrapFocusLost(GFocusEvent event) {
-		if (listenerClass instanceof DrawTextField.InputFieldListener) {
-			((DrawTextField.InputFieldListener) listenerClass).focusLost(event);
+		if (listenerClass instanceof DrawInputBox.InputFieldListener) {
+			((DrawInputBox.InputFieldListener) listenerClass).focusLost(event);
 		} else {
 			App.debug("other type");
 		}

@@ -19,7 +19,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.draw.DrawTextField;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoComplete;
@@ -29,7 +29,7 @@ import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -70,7 +70,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	private HistoryPopupD historyPopup;
 
-	private DrawTextField drawTextField = null;
+	private DrawInputBox drawTextField = null;
 
 	/**
 	 * Flag to determine if text must start with "=" to activate autoComplete;
@@ -145,10 +145,10 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	public AutoCompleteTextFieldD(int columns, App app, Drawable drawTextField) {
 		this(columns, app);
-		this.drawTextField = (DrawTextField) drawTextField;
+		this.drawTextField = (DrawInputBox) drawTextField;
 	}
 
-	public DrawTextField getDrawTextField() {
+	public DrawInputBox getDrawTextField() {
 		return drawTextField;
 	}
 
@@ -286,7 +286,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	boolean ctrlC = false;
 
-	private GeoTextField geoUsedForInputBox;
+	private GeoInputBox geoUsedForInputBox;
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -1023,7 +1023,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	}
 
-	public void setUsedForInputBox(GeoTextField geo) {
+	public void setUsedForInputBox(GeoInputBox geo) {
 		geoUsedForInputBox = geo;
 	}
 

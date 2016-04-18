@@ -32,7 +32,7 @@ import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
-import org.geogebra.common.euclidian.draw.DrawTextField;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
@@ -1557,7 +1557,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// Keep update of input boxes synchronous #4416
 			if ((!geo.isGeoText() || !((GeoText) geo)
 					.isNeedsUpdatedBoundingBox())
-					&& !geo.isGeoTextField()
+					&& !geo.isGeoInputBox()
 					&& (!geo.getTrace() || d.isTracing())) {
 				d.setNeedsUpdate(true);
 				return;
@@ -3571,7 +3571,7 @@ sb.toString(), getFontAxes(),
 				}
 
 				dl.draw(g);
-			} else if (d instanceof DrawTextField) {
+			} else if (d instanceof DrawInputBox) {
 
 				if (d.needsUpdate()) {
 					d.setNeedsUpdate(false);

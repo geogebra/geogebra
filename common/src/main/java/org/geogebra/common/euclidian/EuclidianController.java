@@ -87,7 +87,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -6538,7 +6538,7 @@ public abstract class EuclidianController {
 				if (!hits.isEmpty()) {
 					GeoElement hit = hits.get(0);
 					if (hit != null) {
-						if (hit.isGeoButton() && !(hit.isGeoTextField())) {
+						if (hit.isGeoButton() && !(hit.isGeoInputBox())) {
 							checkBoxOrButtonJustHitted = true;
 							selection.removeSelectedGeo(hit, true, false); // make
 							// sure
@@ -7502,7 +7502,7 @@ public abstract class EuclidianController {
 			// for applets:
 			// allow buttons to be dragged only if the button tool is selected
 			// (important for tablets)
-			boolean textField = movedGeoElement instanceof GeoTextField;
+			boolean textField = movedGeoElement instanceof GeoInputBox;
 			boolean textFieldSelected = textField &&
 					oldMode == EuclidianConstants.MODE_TEXTFIELD_ACTION;
 			boolean buttonSelected = !textField &&
@@ -7537,7 +7537,7 @@ public abstract class EuclidianController {
 				// need to trigger scripts
 				// (on tablets only get drag events)
 				// we don't want to run InputBox's script if it was just clicked
-				if (!(movedGeoElement instanceof GeoTextField)) {
+				if (!(movedGeoElement instanceof GeoInputBox)) {
 					runScriptsIfNeeded(movedGeoElement);
 				}
 			}
@@ -7639,10 +7639,10 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean isMoveTextFieldExpected(GeoElement geo) {
-		if (!geo.isGeoTextField()) {
+		if (!geo.isGeoInputBox()) {
 			return false;
 		}
-		GeoButton textField = (GeoTextField) geo;
+		GeoButton textField = (GeoInputBox) geo;
 		return (textField.isTextField() && ((temporaryMode
 				&& app
 .isRightClickEnabled() || !textField.isFixed() || app
@@ -8261,7 +8261,7 @@ public abstract class EuclidianController {
 				}
 				if (!app.showToolBar()
 						&& geo0 != null
-						&& (geo0.isGeoTextField() || geo0.isGeoBoolean()
+						&& (geo0.isGeoInputBox() || geo0.isGeoBoolean()
 						|| geo0.isGeoButton() || (geo0.isGeoNumeric() && ((GeoNumeric) geo0)
 						.isSlider()))) {
 					draggingOccured = false;
@@ -9069,11 +9069,11 @@ public abstract class EuclidianController {
 		// make sure that Input Boxes lose focus (and so update) before running
 		// scripts
 		if (view.getHits().size() > 0
-				&& view.getHits().get(0) instanceof GeoTextField) {
+				&& view.getHits().get(0) instanceof GeoInputBox) {
 			view.requestFocusInWindow();
 		}
 		// GeoTextField: click scripts run when user presses <Enter>
-		if (!scriptsHaveRun && !geo1.isGeoTextField()) {
+		if (!scriptsHaveRun && !geo1.isGeoInputBox()) {
 			scriptsHaveRun = true;
 			app.runScripts(geo1, (String) null);
 		}
@@ -9712,7 +9712,7 @@ public abstract class EuclidianController {
 	private boolean hitComboBoxOrTextfield() {
 		return view.getHits() != null
 				&& view.getHits().size() > 0
-				&& (view.getHits().getTopHits().get(0) instanceof GeoTextField || view
+				&& (view.getHits().getTopHits().get(0) instanceof GeoInputBox || view
 				.getHits().getTopHits().get(0) instanceof GeoList);
 	}
 

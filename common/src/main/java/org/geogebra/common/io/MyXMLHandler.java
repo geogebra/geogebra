@@ -69,7 +69,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoTextField;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoUserInputElement;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
@@ -5027,8 +5027,8 @@ new GPoint(row, column));
 		// name of linked geo
 		String val = attrs.get("val");
 
-		if (geo instanceof GeoTextField) {
-			((GeoTextField) geo).setLength(Integer.parseInt(val));
+		if (geo instanceof GeoInputBox) {
+			((GeoInputBox) geo).setLength(Integer.parseInt(val));
 		} else {
 			Log.error("Length not supported for " + geo.getGeoClassType());
 		}
@@ -5082,7 +5082,7 @@ new GPoint(row, column));
 			while (it.hasNext()) {
 				GeoExpPair pair = it.next();
 
-				((GeoTextField) pair.getGeo())
+				((GeoInputBox) pair.getGeo())
 						.setLinkedGeo(kernel.lookupLabel(pair.exp));
 			}
 		} catch (Exception e) {
