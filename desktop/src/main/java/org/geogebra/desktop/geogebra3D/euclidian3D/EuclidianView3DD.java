@@ -26,7 +26,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -432,18 +431,6 @@ public class EuclidianView3DD extends EuclidianView3D implements
 				setAntialiasing(bgGraphics);
 			}
 		}
-	}
-
-	@Override
-	public void drawActionObjects(GGraphics2D g2) {
-		// TODO layers for Buttons and Textfields
-		// for cross-platform UI the stroke must be reset to show buttons
-		// properly, see #442
-		g2.setStroke(EuclidianStatic.getDefaultStroke());
-		evjpanel.paintChildren(GGraphics2DD.getAwtGraphics(g2)); // draws
-																				// Buttons
-																				// and
-																				// Textfields
 	}
 
 	// temp image

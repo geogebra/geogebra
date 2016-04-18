@@ -32,6 +32,7 @@ import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
+import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
@@ -3570,6 +3571,14 @@ sb.toString(), getFontAxes(),
 				}
 
 				dl.draw(g);
+			} else if (d instanceof DrawTextField) {
+
+				if (d.needsUpdate()) {
+					d.setNeedsUpdate(false);
+					d.update();
+				}
+
+				d.draw(g);
 			}
 		}
 

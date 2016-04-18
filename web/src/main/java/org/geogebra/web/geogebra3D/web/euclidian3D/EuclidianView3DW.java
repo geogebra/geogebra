@@ -466,11 +466,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 
-	@Override
-	public void drawActionObjects(GGraphics2D g) {
-		// TODO Auto-generated method stub
 
-	}
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
