@@ -846,7 +846,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private String lastDefinition = "";
 
-	private boolean buildDefinition() {
+	private boolean updateDefinitionPanel() {
 
 		if (latex) {
 			String text = getTextForEditing(false,
@@ -869,70 +869,21 @@ public class RadioTreeItem extends AVTreeItem
 
 		return true;
 	}
-	private void buildDefinitionAndValue() {
-		Log.debug("buildDefinitionAndValue");
-		createDVPanels();
-		String text = "";
-		if (geo != null) {
-			text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
-			latex = text != null;
-		}
 
-		if (buildDefinition()) {
-			plainTextItem.clear();
-			plainTextItem.add(definitionPanel);
-
-		}
-
-
-
-		if (geo != null && geo.needToShowBothRowsInAV()) {
-			final Label lblDefinition = new Label(getOutputPrefix());
-			if (app.has(Feature.FRACTIONS)) {
-				ClickStartHandler.init(lblDefinition, new ClickStartHandler() {
-
-					@Override
-					public void onClickStart(int x, int y,
-							PointerEventType type) {
-						toggleSymbolic(lblDefinition);
-
-					}
-				});
-			}
-
-			updateColor(lblDefinition);
-			outputPanel.clear();
-			outputPanel.add(lblDefinition);
-
-			valuePanel.clear();
-			String val = geo.getAlgebraDescriptionTextOrHTMLDefault(
-					getBuilder(valuePanel));
-
-			if (latex) {
-				valuePanel.clear();
-				buildLatexOutput(text);
-			}
-
-			outputPanel.add(valuePanel);
-			plainTextItem.add(outputPanel);
-		}
-			
-
+	private boolean updateValuePanel() {
+		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+		latex = text != null;
+		return updateValuePanel(text);
+		// getTextForEditing(false, StringTemplate.latexTemplate));
 	}
 
-
-	private void buildLatexOutput(String text) {
-		valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
-		if (valC != null) {
-			valuePanel.clear();
-			valuePanel.add(valC);
+	private boolean updateValuePanel(String text) {
+		if (geo == null || !geo.needToShowBothRowsInAV()) {
+			return false;
 		}
 
-	}
-
-
-	private Label getDefinitionPrefixLabel() {
 		final Label lblDefinition = new Label(getOutputPrefix());
+
 		if (app.has(Feature.FRACTIONS)) {
 			ClickStartHandler.init(lblDefinition, new ClickStartHandler() {
 
@@ -943,9 +894,69 @@ public class RadioTreeItem extends AVTreeItem
 				}
 			});
 		}
+
 		updateColor(lblDefinition);
-		return lblDefinition;
+		outputPanel.clear();
+		outputPanel.add(lblDefinition);
+		valuePanel.clear();
+		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
+		geo.getAlgebraDescriptionTextOrHTMLDefault(sb);
+		Log.debug("VALUE IS " + sb.toString());
+		valuePanel.add(new Label(sb.toString()));
+		if (latex) {
+			valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
+			if (valC != null) {
+				valuePanel.clear();
+				valuePanel.add(valC);
+			}
+		}
+
+		return true;
 	}
+
+	private void buildDefinitionAndValue() {
+		if (isEditing()) {
+			return;
+		}
+		// Log.debug("buildDefinitionAndValue");
+		createDVPanels();
+		String text = "";
+		if (geo != null) {
+			text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+			latex = text != null;
+		}
+
+		if (updateDefinitionPanel()) {
+			plainTextItem.clear();
+			plainTextItem.add(definitionPanel);
+			// Log.debug("[AVR] Definition panel is updated");
+		}
+
+		if (updateValuePanel(text)) {
+			outputPanel.add(valuePanel);
+			plainTextItem.add(outputPanel);
+
+			Log.debug("[AVR] Value panel is updated");
+		}
+
+	}
+
+	//
+	// private Label getDefinitionPrefixLabel() {
+	// final Label lblDefinition = new Label(getOutputPrefix());
+	// if (app.has(Feature.FRACTIONS)) {
+	// ClickStartHandler.init(lblDefinition, new ClickStartHandler() {
+	//
+	// @Override
+	// public void onClickStart(int x, int y, PointerEventType type) {
+	// toggleSymbolic(lblDefinition);
+	//
+	// }
+	// });
+	// }
+	// updateColor(lblDefinition);
+	// return lblDefinition;
+	// }
 
 	void toggleSymbolic(Label lbl) {
 		if (geo instanceof HasSymbolicMode) {
@@ -1385,7 +1396,7 @@ public class RadioTreeItem extends AVTreeItem
 				if (!isInputTreeItem() && c != null) {
 					ihtml.clear();
 					if (isDefinitionAndValue()) {
-						// Log.debug("[avout] hejehuja!");
+						// // Log.debug("[avout] hejehuja!");
 						buildDefinitionAndValue();
 						ihtml.add(valuePanel);
 					}
@@ -1479,7 +1490,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		} 
  else {
-			// // Log.debug(REFX + "renderLatex 2");
+			// // // Log.debug(REFX + "renderLatex 2");
 			if (latexItem == null) {
 				latexItem = new FlowPanel();
 			}
@@ -1523,7 +1534,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void renderLatexDV(String text0, Widget old, boolean forceMQ) {
 		if (forceMQ) {
-			renderLatexMQ(text0);
+			editLatexMQ(text0);
 		} else {
 			replaceToCanvas(text0, old);
 		}
@@ -1556,12 +1567,14 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void replaceToCanvas(String text, Widget old) {
+		// Log.debug(DV + "replace to canvas " + text);
+
 		updateLaTeX(text);
 
 		// if (true) {// {
 		// if (isDefinitionAndValue() && geo.needToShowBothRowsInAV()) {
 		// buildLatexOutput(text);
-		// // Log.debug("ihtml.add(outputPanel) in replaceCanvas");
+		// // // Log.debug("ihtml.add(outputPanel) in replaceCanvas");
 		// ihtml.add(outputPanel);
 		// } else {
 		// LayoutUtil.replace(ihtml, c, old);
@@ -1569,8 +1582,8 @@ public class RadioTreeItem extends AVTreeItem
 		// }
 	}
 
-	private void renderLatexMQ(String text0) {
-		// Log.debug(DV + "renderLatexMQ: " + text0);
+	private void editLatexMQ(String text0) {
+		// Log.debug(DV + "editLatexMQ: " + text0);
 		if (latexItem == null) {
 			latexItem = new FlowPanel();
 		}
@@ -1593,16 +1606,17 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (!isInputTreeItem() && geo.needToShowBothRowsInAV()) {
-			buildDefinitionAndValue();
+			createDVPanels();
+			updateValuePanel();
+			outputPanel.add(valuePanel);
 			ihtml.add(latexItem);
+			ihtml.add(outputPanel);
+
 			latexItem.addStyleName("avDefinition");
 
 			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
-			buildLatexOutput(text);
 
-			// Log.debug("ihtml.add(outputPanel) in renderLatexMQ");
-			ihtml.add(outputPanel);
 		} else {
 			latexItem.removeStyleName("avDefinition");
 			ihtml.add(latexItem);
@@ -1654,6 +1668,7 @@ public class RadioTreeItem extends AVTreeItem
 		// // latexItem.getElement());
 		// }
 		//
+		doUpdate();
 	}
 
 	/**
@@ -1793,7 +1808,7 @@ public class RadioTreeItem extends AVTreeItem
 					latexItem.getElement());
 		}
 		// maybe it's possible to enter something which is non-LaTeX
-		if (ret)
+		// if (ret)
 			doUpdate();
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {

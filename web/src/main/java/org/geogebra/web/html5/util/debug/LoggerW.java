@@ -6,7 +6,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.ArticleElement;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 
@@ -75,7 +74,7 @@ public class LoggerW extends Log {
 		if (getLogDestination() == LogDestination.CONSOLE
 		        || getLogDestination() == LogDestination.CONSOLES) {
 			// don't change this to Application.debug!!
-			GWT.log(logEntry);
+			// GWT.log(logEntry);
 			return;
 		}
 	}
