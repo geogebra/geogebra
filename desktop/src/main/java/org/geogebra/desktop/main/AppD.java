@@ -1076,46 +1076,6 @@ ToolbarD.getAllTools(this));
 
 		}
 
-		if (args.containsArg("forceFont")) {
-			String fontName = args.getStringValue("forceFont");
-
-			if (fontName.startsWith("\"") && fontName.endsWith("\"")) {
-				fontName = fontName.substring(1, fontName.length() - 1);
-			}
-
-			fontName = fontName.replaceAll(" ", "");
-
-			GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment
-					.getLocalGraphicsEnvironment();
-			String[] allFonts = graphicsEnvironment
-					.getAvailableFontFamilyNames();
-
-			boolean found = false;
-
-			for (String s : allFonts) {
-				App.debug(s);
-				if (s.replaceAll(" ", "").equals(fontName)) {
-					found = true;
-					fontName = s;
-					break;
-				}
-			}
-
-			if (found) {
-				App.debug("forcing font to be:" + fontName);
-				FontManagerD.forcedFontName = fontName;
-				resetFonts();
-
-				// resetFonts() doesn't seem to work
-				// hack
-				setFontSize(getFontSize() + 2, true);
-				setFontSize(getFontSize() - 2, true);
-
-			} else {
-				App.debug("can't force font to be " + fontName + " (not found)");
-			}
-		}
-
 		boolean antiAliasing = args.getBooleanValue("antiAliasing", true);
 		if (!antiAliasing) {
 			this.antialiasing = false;
@@ -3272,12 +3232,12 @@ ToolbarD.getAllTools(this));
 	}
 
 	final public Font getPlainFont() {
-		return fontManager.getPlainFont(false);
+		return fontManager.getPlainFont();
 	}
 
 	@Override
 	final public GFont getPlainFontCommon() {
-		return new GFontD(fontManager.getPlainFont(true));
+		return new GFontD(fontManager.getPlainFont());
 	}
 
 	final public Font getSerifFont() {

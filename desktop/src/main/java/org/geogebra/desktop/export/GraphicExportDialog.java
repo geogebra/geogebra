@@ -15,6 +15,8 @@ package org.geogebra.desktop.export;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
@@ -53,14 +55,18 @@ import org.geogebra.common.export.epsgraphics.EpsGraphics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.epsgraphics.EpsGraphicsD;
 import org.geogebra.desktop.gui.util.FileTransferable;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.FontManagerD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.util.UtilD;
 
@@ -98,6 +104,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	boolean textAsShapes = true;
 	/** true for transparent images (png) */
 	boolean transparent = true;
+	/** set true if Braille font installed */
+	boolean braille = false;
 	/** whether EMF+ is used or EMF */
 	boolean EMFPlus = true;
 
@@ -139,7 +147,46 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		sizeLabelFormat.setGroupingUsed(false);
 		sizeLabelFormat.setMaximumFractionDigits(2);
 
+		checkBrailleFont();
+
 		initGUI();
+	}
+
+	private Font brailleFont = null;
+
+	/**
+	 * check if a Braille font is installed
+	 */
+	private void checkBrailleFont() {
+		final String preferredBrailleFont = "IDV ComputerBraille (ANSI)";
+
+		GraphicsEnvironment e = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
+		Font[] fonts = e.getAllFonts(); // Get the fonts
+
+		// check preferred font first
+		for (Font f : fonts) {
+			if (f.getFontName().equals(preferredBrailleFont)) {
+				Log.debug("found Braille font: " + f.getFontName());
+				brailleFont = f;
+				braille = true;
+				return;
+			}
+		}
+
+		// preferred font not found, check for any that contain "braille"
+		for (Font f : fonts) {
+			if (StringUtil.toLowerCase(f.getFontName())
+					.indexOf("braille") > -1) {
+				Log.debug("found Braille font: " + f.getFontName());
+				brailleFont = f;
+				braille = true;
+				return;
+			}
+		}
+
+
+
 	}
 
 	private EuclidianViewInterfaceD getEuclidianView() {
@@ -216,6 +263,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 				app.getPlain("ResolutionInDPI") + ":");
 		final JCheckBox cbTransparent = new JCheckBox(
 				app.getMenu("Transparent"), transparent);
+		final JCheckBox cbBraille = new JCheckBox(app.getMenu("Braille"),
+				braille);
 		final JCheckBox cbEMFPlus = new JCheckBox(app.getMenu("EMFPlus"),
 				EMFPlus);
 
@@ -226,7 +275,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (selectedFormat() == Format.PNG) {
 			dpiPanel.add(resolutionInDPILabel);
 			dpiPanel.add(cbDPI);
+			if (app.has(Feature.DESKTOP_EXPORT_BRAILLE)
+					&& brailleFont != null) {
+				dpiPanel.add(cbBraille);
+			}
+
 			dpiPanel.add(cbTransparent);
+
 		} else if (selectedFormat() == Format.SVG) {
 			dpiPanel.add(cbTransparent);
 		} else if (selectedFormat() == Format.EMF) {
@@ -245,6 +300,12 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		cbTransparent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				transparent = cbTransparent.isSelected();
+			}
+		});
+
+		cbBraille.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				braille = cbBraille.isSelected();
 			}
 		});
 
@@ -280,6 +341,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					dpiPanel.remove(cbDPI);
 					dpiPanel.remove(cbEMFPlus);
 					dpiPanel.remove(cbTransparent);
+					dpiPanel.remove(cbBraille);
 					dpiPanel.add(textAsShapesCB);
 					textAsShapesCB.setSelected(true);
 					psp.enableAbsoluteSize(false);
@@ -290,6 +352,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					dpiPanel.remove(cbDPI);
 					dpiPanel.remove(cbTransparent);
 					dpiPanel.remove(textAsShapesCB);
+					dpiPanel.remove(cbBraille);
 					psp.enableAbsoluteSize(false);
 					break;
 				default: // PNG
@@ -297,6 +360,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					dpiPanel.add(cbDPI);
 					dpiPanel.remove(cbEMFPlus);
 					dpiPanel.add(cbTransparent);
+					if (app.has(Feature.DESKTOP_EXPORT_BRAILLE) && braille) {
+						dpiPanel.add(cbBraille);
+					}
 					dpiPanel.remove(textAsShapesCB);
 					cbDPI.setSelectedItem("300");
 					cbDPI.setEnabled(true);
@@ -391,9 +457,29 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	void doExport(boolean toClipboard) {
 		Format index = selectedFormat();
 		switch (index) {
-		case PNG: // PNG
+		case PNG:
+
+			FontManagerD fm = app.getFontManager();
+			int fontSize = fm.getFontSize();
+
+			if (app.has(Feature.DESKTOP_EXPORT_BRAILLE) && braille) {
+				fm.updateDefaultFonts(fontSize,
+						brailleFont.getFontName(), brailleFont.getFontName());
+
+				getEuclidianView().updateFonts();
+			}
+
 			exportPNG(toClipboard, transparent, getDPI(), exportScale, app,
 					getEuclidianView());
+
+			if (app.has(Feature.DESKTOP_EXPORT_BRAILLE) && braille) {
+				fm.updateDefaultFonts(fontSize,
+						"SansSerif",
+						"Serif");
+
+				getEuclidianView().updateFonts();
+			}
+
 			break;
 
 		case EPS: // EPS

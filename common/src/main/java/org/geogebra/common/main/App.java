@@ -4031,6 +4031,10 @@ public abstract class App implements UpdateSelection {
 		case WEB_SHARE_DIALOG:
 			return prerelease;
 
+		// GGB-766
+		case DESKTOP_EXPORT_BRAILLE:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

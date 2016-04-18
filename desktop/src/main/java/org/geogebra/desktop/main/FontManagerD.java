@@ -23,14 +23,9 @@ import org.geogebra.desktop.awt.GFontD;
 public class FontManagerD extends FontManager {
 
 	private Font boldFont, italicFont, plainFont, smallFont, serifFont,
-			serifFontBold, javaSans, javaSerif, forcedFont;
+			serifFontBold, javaSans, javaSerif;
 	private int fontSize;
 	private String sansName, serifName;
-
-	/**
-	 * support for eg --forceFont="Esprit LT Book"
-	 */
-	public static String forcedFontName = null;
 
 	private HashMap fontMap = new HashMap();
 	private StringBuilder key = new StringBuilder();
@@ -160,7 +155,7 @@ public class FontManagerD extends FontManager {
 		updateDefaultFonts(size, sans, serif);
 	}
 
-	private void updateDefaultFonts(final int size, final String sans,
+	public void updateDefaultFonts(final int size, final String sans,
 			final String serif) {
 		if ((size == fontSize) && sans.equals(sansName)
 				&& serif.equals(serifName)) {
@@ -179,9 +174,6 @@ public class FontManagerD extends FontManager {
 		boldFont = getFont(sans, Font.BOLD, size);
 		italicFont = getFont(sans, Font.ITALIC, size);
 		smallFont = getFont(sans, Font.PLAIN, size - 2);
-		if (forcedFontName != null) {
-			forcedFont = getFont(forcedFontName, Font.PLAIN, size);
-		}
 
 		// serif
 		serifFont = getFont(serif, Font.PLAIN, size);
@@ -203,7 +195,7 @@ public class FontManagerD extends FontManager {
 	 */
 	public Font getFont(final boolean serif, final int style, final int size) {
 		final String name = serif ? getSerifFont().getFontName()
-				: getPlainFont(false).getFontName();
+				: getPlainFont().getFontName();
 		return getFont(name, style, size);
 	}
 
@@ -237,13 +229,6 @@ public class FontManagerD extends FontManager {
 	 */
 	public Font getFontCanDisplayAwt(final String testString,
 			final boolean serif, final int fontStyle, final int fontSize) {
-
-		if (forcedFont != null) {
-			if (forcedFont.canDisplayUpTo(testString) == -1) {
-				return getFont(forcedFontName, fontStyle, fontSize);
-			}
-
-		}
 
 		final Font appFont = serif ? serifFont : plainFont;
 		if (appFont == null) {
@@ -357,10 +342,7 @@ public class FontManagerD extends FontManager {
 		return italicFont;
 	}
 
-	final public Font getPlainFont(boolean force) {
-		if (force && forcedFont != null) {
-			return forcedFont;
-		}
+	final public Font getPlainFont() {
 		return plainFont;
 	}
 
@@ -426,5 +408,13 @@ public class FontManagerD extends FontManager {
 		return new GFontD(
 				getFontCanDisplayAwt(testString, serif, fontStyle, fontSize));
 	}
+
+	/**
+	 * @return font size
+	 */
+	public int getFontSize() {
+		return fontSize;
+	}
+
 
 }

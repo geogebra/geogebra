@@ -75,4 +75,6 @@ public interface EuclidianViewInterfaceD {
 
 	public double getXscale();
 
+	public void updateFonts();
+
 }
