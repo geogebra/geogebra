@@ -1333,14 +1333,14 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		if (checkLastHitType){
 			if (this.getLastHitType() == HitType.ON_BOUNDARY && other.getLastHitType() != HitType.ON_BOUNDARY ){
-				return true;
+				return false;
 			}
 
 			if (this.getLastHitType() != HitType.ON_BOUNDARY && other.getLastHitType() == HitType.ON_BOUNDARY ){
-				return false;
+				return true;
 			}
 		}
-		
+
 		if (this.typePriority() < other.typePriority()){
 			return true;
 		}
