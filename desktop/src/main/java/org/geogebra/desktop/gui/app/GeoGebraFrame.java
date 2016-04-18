@@ -236,9 +236,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			return;
 		}
 
-		this.setTitle(getPreferredTitle() + " (" + (int) getSize().getWidth()
-				+ " " + Unicode.MULTIPLY + " " + (int) getSize().getHeight()
-				+ ")");
+		this.setTitle((int) getSize().getWidth() + "" + Unicode.MULTIPLY + ""
+				+ (int) getSize().getHeight());
 
 		if (timer == null) {
 			timer = new Timer(3000, new ActionListener() {
