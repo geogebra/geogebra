@@ -1,10 +1,11 @@
 package com.himamis.retex.editor.android.event;
 
 import android.view.View;
+import android.view.MotionEvent;
 
 import com.himamis.retex.editor.share.event.ClickListener;
 
-public class ClickListenerAdapter implements View.OnClickListener {
+public class ClickListenerAdapter implements View.OnTouchListener {
 
     private ClickListener mClickListener;
 
@@ -13,7 +14,11 @@ public class ClickListenerAdapter implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
-        mClickListener.onClick(0,0);
+    public void onTouch(View v, MotionEvent event) {
+    	if (event.getAction() == MotionEvent.ACTION_DOWN){
+    		mClickListener.onPointerDown(event.getX(),event.getY());
+    	}else if (event.getAction() == MotionEvent.ACTION_UP){{
+    		mClickListener.onPointerUp(event.getX(),event.getY());
+    	}
     }
 }

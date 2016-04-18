@@ -39,7 +39,12 @@ public class ClickListenerAdapter extends MouseAdapter {
 	}
 	
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		clickListener.onClick(e.getX(), e.getY());
+	public void mousePressed(MouseEvent e) {
+		clickListener.onPointerDown(e.getX(), e.getY());
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		clickListener.onPointerUp(e.getX(), e.getY());
 	}
 }

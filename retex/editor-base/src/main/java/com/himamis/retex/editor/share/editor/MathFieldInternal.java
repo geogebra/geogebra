@@ -173,7 +173,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
     }
 
     @Override
-	public void onClick(int x, int y) {
+	public void onPointerDown(int x, int y) {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		mathFieldController.getPath(mathFormula, x, y, list);
 		editorState.resetSelection();
@@ -197,6 +197,10 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		mathFieldController.update(mathFormula, editorState, false);
 		mathField.requestViewFocus();
     }
+
+	public void onPointerUp(int x, int y) {
+
+	}
 
 	private boolean compare(ArrayList<Integer> list, ArrayList<Integer> list2) {
 		for (int i = 0; i < list.size() && i < list2.size(); i++) {

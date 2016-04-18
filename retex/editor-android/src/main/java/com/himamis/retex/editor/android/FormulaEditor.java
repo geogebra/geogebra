@@ -202,7 +202,7 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     public void setClickListener(ClickListener clickListener) {
-        setOnClickListener(new ClickListenerAdapter(clickListener));
+        setOnTouchListener(new ClickListenerAdapter(clickListener));
     }
 
     @Override

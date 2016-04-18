@@ -29,14 +29,16 @@ package com.himamis.retex.editor.web;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -88,10 +90,17 @@ public class MathFieldW implements MathField {
 
 	@Override
 	public void setClickListener(ClickListener clickListener) {
-		html.addClickHandler(new ClickHandler() {
+		html.addMouseDownHandler(new MouseDownHandler() {
 
-			public void onClick(ClickEvent event) {
-				mathFieldInternal.onClick(event.getX(), event.getY());
+			public void onMouseDown(MouseDownEvent event) {
+				mathFieldInternal.onPointerDown(event.getX(), event.getY());
+
+			}
+		});
+		html.addMouseUpHandler(new MouseUpHandler() {
+
+			public void onMouseUp(MouseUpEvent event) {
+				mathFieldInternal.onPointerUp(event.getX(), event.getY());
 
 			}
 		});

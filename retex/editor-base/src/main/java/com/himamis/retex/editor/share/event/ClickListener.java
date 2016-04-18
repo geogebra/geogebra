@@ -27,6 +27,8 @@ package com.himamis.retex.editor.share.event;
 
 public interface ClickListener {
 	
-	void onClick(int i, int j);
+	void onPointerDown(int x, int y);
+
+	void onPointerUp(int x, int y);
 
 }
