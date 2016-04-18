@@ -667,8 +667,16 @@ public abstract class Prover {
 
 
 	private static class StatementFeatures {
-		double mean, variation_coefficient, minimum, maximum, entropy;
-		int NO_ALGOS = 23; // TODO: get this number automatically
+
+		String[] rules = { "Intersect", "Segment", "Midpoint",
+				"OrthogonalLine", "Circle", "Line", "Point", "Free Point",
+				"Ray", "Area", "Distance", "LineBisector", "Expression",
+				"Translate", "Vector", "Polygon", "Tangent", "Parabola",
+				"Mirror", "Ellipse", "AngularBisector", "Rotate", "Angle" };
+
+		String[] obj_types = { "Point", "Circle", "Line" };
+
+		private static String csv_header = "", csv_data = "";
 
 		private static HashMap<GeoElement, Integer> nodeLongestPath = new HashMap<GeoElement, Integer>();
 		private static int longestPath = 0;
@@ -686,41 +694,46 @@ public abstract class Prover {
 			}
 		}
 
-		StatementFeatures(GeoElement statement) {
+		void generateStatistics(String description, List<Object> nodes,
+				String[] categories) {
 			/*
 			 * collecting algos, generating population and computing basic
 			 * statistics
 			 */
-			HashMap<String, Integer> population = new HashMap<String, Integer>();
-			TreeSet<GeoElement> nodes = statement.getAllPredecessors();
-			Iterator<GeoElement> it = nodes.iterator();
+			int size;
 
-			int number_of_nodes = 1, free = 0, edges = 0;
+			double mean, variation_coefficient, minimum, maximum, entropy;
+			HashMap<Object, Integer> frequencies = new HashMap<Object, Integer>();
+			Iterator<Object> it = nodes.iterator();
+
+			int number_of_nodes = 1;
 			maximum = 1;
 			while (it.hasNext()) {
 				number_of_nodes++;
 				int freq = 1;
-				GeoElement geo = it.next();
-				AlgoElement ae = geo.getParentAlgorithm();
-				String algo = "null";
-				if (ae != null) {
-					algo = ae.getClassName().getCommand();
-					edges += ae.getInput().length;
-				} else {
-					free++;
+				Object node = it.next();
+				if (frequencies.containsKey(node)) {
+					freq = frequencies.get(node) + 1;
 				}
-				if (population.containsKey(algo)) {
-					freq = population.get(algo) + 1;
-				}
-				population.put(algo, freq);
+				frequencies.put(node, freq);
 				maximum = Math.max(maximum, freq);
+			}
+
+			if (categories != null) {
+				size = categories.length;
+			} else {
+				size = frequencies.size();
 			}
 
 			/* computing rest of statistics */
 			minimum = maximum;
-			maximum /= number_of_nodes;
-			mean = (double) number_of_nodes / NO_ALGOS;
-			int zeros = NO_ALGOS - population.size();
+			mean = 0;
+			if (categories != null) {
+				// normalize
+				maximum /= number_of_nodes;
+				mean = (double) number_of_nodes / size;
+			}
+			int zeros = size - frequencies.size();
 			/* ((3/7-1/23)^2+(1/7-1/23)^2*4+18*(1/23)^2)/23 == .00925 */
 			variation_coefficient = 0;
 			/*
@@ -728,52 +741,139 @@ public abstract class Prover {
 			 * ;A)+(1/7)*log(1/7;A))
 			 */
 			entropy = 0;
-			Iterator<String> it2 = population.keySet().iterator();
+			Iterator<Object> it2 = frequencies.keySet().iterator();
 			while (it2.hasNext()) {
-				String algo = it2.next();
-				int freq = population.get(algo);
+				Object algo = it2.next();
+				int freq = frequencies.get(algo);
 				if (freq < minimum) {
 					minimum = freq;
 				}
+				if (categories == null) {
+					mean += freq;
+				}
 				double rel_freq = freq / (double) number_of_nodes;
-				double value = rel_freq - 1.0 / NO_ALGOS;
+				double value = rel_freq - 1.0 / size;
 				variation_coefficient += value * value;
 				entropy -= rel_freq * Math.log(rel_freq) / Math.log(2);
 			}
-			minimum /= number_of_nodes;
+			if (categories != null) {
+				// normalize
+				minimum /= number_of_nodes;
+			} else {
+				mean /= size;
+			}
 
-			double value = 1.0 / NO_ALGOS;
+			double value = 1.0 / size;
 			variation_coefficient += zeros * value * value;
-			variation_coefficient /= NO_ALGOS;
-			Log.debug("population=" + population);
+			variation_coefficient /= size;
+			Log.debug("population=" + frequencies);
 			Log.debug("minimum=" + minimum + " maximum=" + maximum + " mean="
 					+ mean + " variation_coefficient=" + variation_coefficient
 					+ " entropy=" + entropy);
 
+			if (categories != null) {
+				description = "NF(" + description + ")";
+				double rel_freq;
+				for (String category : categories) {
+					if (frequencies.containsKey(category)) {
+						rel_freq = (double) frequencies.get(category)
+								/ number_of_nodes;
+					} else {
+						rel_freq = 0;
+					}
+					csvAdd("NF(" + category + ")", rel_freq);
+
+				}
+			}
+
+			csvAdd("max " + description, maximum);
+			csvAdd("min " + description, minimum);
+			csvAdd("mean " + description, mean);
+			csvAdd("variation " + description, variation_coefficient);
+			csvAdd("entropy " + description, entropy);
+		}
+
+		void csvAdd(String header, double data) {
+			csv_header += header + ";";
+			csv_data += data + ";";
+		}
+
+		StatementFeatures(GeoElement statement) {
+
+			TreeSet<GeoElement> geos = statement.getAllPredecessors();
+			geos.add(statement);
+			Iterator<GeoElement> it = geos.iterator();
+
+			List<Object> geo_nodes, nodes_in_deg, nodes_out_deg, nodes_deg, types, objs;
+			geo_nodes = new ArrayList<Object>();
+			nodes_in_deg = new ArrayList<Object>();
+			nodes_out_deg = new ArrayList<Object>();
+			nodes_deg = new ArrayList<Object>();
+			types = new ArrayList<Object>();
+			objs = new ArrayList<Object>();
+
+			int number_of_nodes = 0, free = 0, edges = 0;
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				TreeSet<GeoElement> children = geo.getAllChildren();
+				int out = 0;
+				for (GeoElement child : children) {
+					if (geos.contains(child)) {
+						out++;
+					}
+				}
+				int in = 0;
+				nodes_out_deg.add(out);
+				AlgoElement ae = geo.getParentAlgorithm();
+				String algo = "Free Point";
+				if (ae != null) {
+					algo = ae.getClassName().getCommand();
+					GeoElement[] inputs = ae.getInput();
+					edges += inputs.length;
+					in = inputs.length;
+					for (GeoElement ref : inputs) {
+						objs.add(ref);
+					}
+				} else {
+					free++;
+				}
+				if (!geo.equals(statement)) {
+					geo_nodes.add(algo);
+					types.add(geo.getTypeString());
+				}
+				nodes_in_deg.add(in);
+				nodes_deg.add(in + out);
+				number_of_nodes++;
+			}
+
 			computeNodeLongestPath(statement, 0);
 
 			// CSV output
-			String csv = "";
-			// number of nodes
-			csv += number_of_nodes + ";";
-			// number of nodes with in-degree 0
-			csv += free + ";";
-			// number of edges
-			csv += edges + ";";
-			// num of nodes/num of edges
-			csv += ((double) number_of_nodes / edges) + ";";
-			// num of edges/num of nodes
-			csv += ((double) edges / number_of_nodes) + ";";
-			// max path length/num of nodes
-			csv += ((double) longestPath / number_of_nodes) + ";";
-			// num of nodes/max path length
-			csv += ((double) number_of_nodes / longestPath) + ";";
-			// max path length/num of edges
-			csv += ((double) longestPath / edges) + ";";
-			// num of edges/max path length
-			csv += ((double) edges / longestPath) + ";";
+			csvAdd("number of nodes", number_of_nodes);
+			csvAdd("number of nodes with in-degree 0", free);
+			csvAdd("number of edges", edges);
+			csvAdd("num of nodes/num of edges", (double) number_of_nodes
+					/ edges);
+			csvAdd("num of edges/num of nodes", (double) edges
+					/ number_of_nodes);
+			csvAdd("max path length/num of nodes", (double) longestPath
+					/ number_of_nodes);
+			csvAdd("num of nodes/max path length", (double) number_of_nodes
+					/ longestPath);
+			csvAdd("max path length/num of edges", (double) longestPath / edges);
+			csvAdd("num of edges/max path length", (double) edges / longestPath);
+			generateStatistics("node in-degree", nodes_in_deg, null);
+			generateStatistics("node out-degree", nodes_out_deg, null);
+			generateStatistics("node degree", nodes_deg, null);
+			csvAdd("num of nodes not labeled by A or B or C with in-degree 0",
+					0);
+			generateStatistics("Wi", geo_nodes, rules);
+			generateStatistics("types", types, obj_types);
+			generateStatistics("objs", objs, null);
+			csvAdd("statement size", number_of_nodes - free);
 
-			Log.debug("portfolio csv:" + csv);
+			Log.debug("portfolio csv_header:" + csv_header);
+			Log.debug("portfolio csv_data:" + csv_data);
 		}
 	}
 }
