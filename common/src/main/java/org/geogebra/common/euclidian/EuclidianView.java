@@ -1644,13 +1644,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	private boolean drawableNeeded(GeoElement geo) {
-		return (isVisibleInThisView(geo)
-				&& (geo.isLabelSet() || this.isPlotPanel()) && (geo.isEuclidianVisible()
+		if(geo.isVisibleInView(App.VIEW_FUNCTION_INSPECTOR)){
+			return true;
+		}
+		if (isVisibleInThisView(geo)
+				&& (geo.isLabelSet() || this.isPlotPanel())) {
+			return geo.isEuclidianVisible()
+
 						|| (geo.isGeoText()
 								&& ((GeoText) geo).isNeedsUpdatedBoundingBox())
 						|| (geo.isGeoAngle()
-								&& geo.getParentAlgorithm() instanceof AlgoAngle)))
-				|| geo.isVisibleInView(App.VIEW_FUNCTION_INSPECTOR);
+							&& geo.getParentAlgorithm() instanceof AlgoAngle);
+		}
+		return false;
 	}
 
 	public boolean isPlotPanel() {
