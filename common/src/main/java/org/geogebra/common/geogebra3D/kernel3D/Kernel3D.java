@@ -15,7 +15,6 @@ package org.geogebra.common.geogebra3D.kernel3D;
 import java.util.LinkedHashMap;
 import java.util.TreeSet;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.geogebra3D.io.MyXMLHandler3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDispatcher3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoElement3D;
@@ -54,8 +53,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.kernel.kernelND.GeoDirectionND;
-import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -283,22 +280,6 @@ public class Kernel3D extends Kernel {
 		return getXOYPlane();
 	}
 
-	// ///////////////////////////////
-	// OVERRIDES KERNEL
-	// ///////////////////////////////
-
-	@Override
-	public GeoLineND OrthogonalLine(String label, GeoPointND P, GeoLineND l,
-			GeoDirectionND direction) {
-		return getManager3D().OrthogonalLine3D(label, P, l, direction);
-	}
-
-	@Override
-	public String getXMLFileFormat() {
-		return GeoGebraConstants.XML_FILE_FORMAT;
-	}
-
-
 
 	// //////////////////////////////////
 	// 2D FACTORY EXTENSION
@@ -471,6 +452,7 @@ public class Kernel3D extends Kernel {
 	 * @param vec
 	 * @return
 	 */
+	@Override
 	public GeoPointND wrapInPoint(GeoVectorND vec) {
 		if (vec instanceof GeoVector3D) {
 			AlgoPointVector3D algo = new AlgoPointVector3D(cons,

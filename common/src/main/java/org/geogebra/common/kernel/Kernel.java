@@ -62,7 +62,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
@@ -3950,7 +3949,7 @@ public class Kernel {
 		return insertLineBreaks;
 	}
 
-	public String getXMLFileFormat() {
+	final public String getXMLFileFormat() {
 		return GeoGebraConstants.XML_FILE_FORMAT;
 	}
 
@@ -4824,21 +4823,6 @@ public class Kernel {
 			GeoPointND geoPointND2) {
 		return getAlgoDispatcher().Ray(transformedLabel, (GeoPoint) geoPointND,
 				(GeoPoint) geoPointND2);
-	}
-
-	/**
-	 * over-ridden in Kernel3D
-	 * 
-	 * @param label
-	 * @param P
-	 * @param l
-	 * @param direction
-	 * @return
-	 */
-	public GeoLineND OrthogonalLine(String label, GeoPointND P, GeoLineND l,
-			GeoDirectionND direction) {
-		return getAlgoDispatcher().OrthogonalLine(label, (GeoPoint) P,
-				(GeoLine) l);
 	}
 
 	/**

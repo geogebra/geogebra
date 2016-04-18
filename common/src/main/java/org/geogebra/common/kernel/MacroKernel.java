@@ -18,6 +18,8 @@ import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.MaxSizeHashMap;
 
@@ -214,6 +216,21 @@ public class MacroKernel extends Kernel {
 	@Override
 	protected AlgoDispatcher newAlgoDispatcher(Construction cons1) {
 		return this.parentKernel.newAlgoDispatcher(cons1);
+	}
+
+	@Override
+	public boolean isZvarAllowed() {
+		return parentKernel.isZvarAllowed();
+	}
+
+	@Override
+	public GeoPlaneND getDefaultPlane() {
+		return parentKernel.getDefaultPlane();
+	}
+
+	@Override
+	public GeoDirectionND getSpace() {
+		return parentKernel.getSpace();
 	}
 
 }
