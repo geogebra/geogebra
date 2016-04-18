@@ -94,6 +94,20 @@ public class GgbAPIW extends GgbAPI {
 		setBase64(base64);
 	}
 
+	public void openFile(String filename, final JavaScriptObject callback) {
+		if (callback != null) {
+			OpenFileListener listener = new OpenFileListener() {
+
+				public void onOpenFile() {
+					ScriptManagerW.runCallback(callback);
+					app.unregisterOpenFileListener(this);
+				}
+			};
+			app.registerOpenFileListener(listener);
+		}
+		openFile(filename);
+	}
+
 	public void setErrorDialogsActive(boolean flag) {
 		app.setErrorDialogsActive(flag);
 	}
