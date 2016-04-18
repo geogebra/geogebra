@@ -451,6 +451,15 @@ public abstract class EuclidianController {
 	}
 
 	public EuclidianControllerCompanion getCompanion() {
+
+		// attempted fix for
+		// java.lang.NullPointerException
+		// at
+		// org.geogebra.common.euclidian.EuclidianController.getCompanion(EuclidianController.java:452)
+		// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.android.gui.dialogs.RegularPolygonDialog&tm=doneButtonClicked&nid&an&c&s=new_status_desc
+		if (companion == null) {
+			createCompanions();
+		}
 		return companion;
 	}
 
