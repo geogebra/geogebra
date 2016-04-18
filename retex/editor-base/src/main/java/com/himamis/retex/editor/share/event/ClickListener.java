@@ -31,4 +31,6 @@ public interface ClickListener {
 
 	void onPointerUp(int x, int y);
 
+	void onPointerMove(int x, int y);
+
 }

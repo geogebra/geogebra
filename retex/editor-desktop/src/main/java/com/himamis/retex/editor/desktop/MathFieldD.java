@@ -88,7 +88,9 @@ public class MathFieldD extends JLabel implements MathField {
 
 	@Override
 	public void setClickListener(ClickListener clickListener) {
-		addMouseListener(new ClickListenerAdapter(clickListener));
+		ClickListenerAdapter adapter = new ClickListenerAdapter(clickListener);
+		addMouseListener(adapter);
+		addMouseMotionListener(adapter);
 	}
 
 	@Override
@@ -113,5 +115,10 @@ public class MathFieldD extends JLabel implements MathField {
 
 	public MetaModel getMetaModel() {
 		return metaModel;
+	}
+
+	public void hideCopyPasteButtons() {
+		// TODO Auto-generated method stub
+
 	}
 }

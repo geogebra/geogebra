@@ -27,6 +27,8 @@
  */
 package com.himamis.retex.editor.share.editor;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
@@ -36,9 +38,9 @@ import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
+import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
-
-import java.util.ArrayList;
+import com.himamis.retex.editor.share.model.MathSequence;
 
 /**
  * This class is a Math Field. Displays and allows to edit single formula.
@@ -57,6 +59,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
     private EditorState editorState;
 
     private MathFormula mathFormula;
+
+	private int[] mouseDownPos;
 
 
     public MathFieldInternal(MathField mathField) {
@@ -178,6 +182,39 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		mathFieldController.getPath(mathFormula, x, y, list);
 		editorState.resetSelection();
 		cursorController.firstField(editorState);
+		this.mouseDownPos = new int[] { x, y };
+
+		moveToSelection(list);
+
+		mathFieldController.update(mathFormula, editorState, false);
+		mathField.requestViewFocus();
+    }
+
+	public void onPointerUp(int x, int y) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		mathFieldController.getPath(mathFormula, x, y, list);
+		MathComponent cursor = editorState.getCursorField(false);
+
+		cursorController.firstField(editorState);
+
+		moveToSelection(list);
+
+		editorState.resetSelection();
+		if (mousePositionChanged(x, y)) {
+			editorState.extendSelection(false);
+			editorState.extendSelection(cursor);
+		}
+		mouseDownPos = null;
+		mathFieldController.update(mathFormula, editorState, false);
+		mathField.requestViewFocus();
+	}
+
+	private boolean mousePositionChanged(int x, int y) {
+		return mouseDownPos != null && (Math.abs(x - mouseDownPos[0]) > 10
+				|| Math.abs(y - mouseDownPos[1]) > 10);
+	}
+
+	private void moveToSelection(ArrayList<Integer> list) {
 
 		while (cursorController.nextCharacter(editorState)) {
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
@@ -194,11 +231,28 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				break;
 			}
 		}
-		mathFieldController.update(mathFormula, editorState, false);
-		mathField.requestViewFocus();
-    }
 
-	public void onPointerUp(int x, int y) {
+	}
+
+	public void onPointerMove(int x, int y) {
+		if (!mousePositionChanged(x, y)) {
+			editorState.resetSelection();
+			mathFieldController.update(mathFormula, editorState, false);
+			return;
+		}
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		mathFieldController.getPath(mathFormula, x, y, list);
+		MathComponent cursor = editorState.getCursorField(false);
+		MathSequence current = editorState.getCurrentField();
+		int offset = editorState.getCurrentOffset();
+		cursorController.firstField(editorState);
+		moveToSelection(list);
+		editorState.resetSelection();
+		editorState.extendSelection(false);
+		editorState.setCurrentField(current);
+		editorState.setCurrentOffset(offset);
+		editorState.extendSelection(cursor);
+		mathFieldController.update(mathFormula, editorState, false);
 
 	}
 

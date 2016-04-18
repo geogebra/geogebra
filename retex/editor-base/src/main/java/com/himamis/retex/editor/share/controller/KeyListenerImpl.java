@@ -87,6 +87,7 @@ public class KeyListenerImpl implements KeyListener {
 		if (ch == 8 || ch == 127 || ch == 27) {
 			return true;
 		}
+		inputController.deleteSelection(editorState);
         if (isArrayCloseKey(ch) || ch == InputController.FUNCTION_CLOSE_KEY) {
             inputController.endField(editorState, ch);
             handled = true;

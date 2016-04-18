@@ -35,10 +35,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -90,20 +86,8 @@ public class MathFieldW implements MathField {
 
 	@Override
 	public void setClickListener(ClickListener clickListener) {
-		html.addMouseDownHandler(new MouseDownHandler() {
-
-			public void onMouseDown(MouseDownEvent event) {
-				mathFieldInternal.onPointerDown(event.getX(), event.getY());
-
-			}
-		});
-		html.addMouseUpHandler(new MouseUpHandler() {
-
-			public void onMouseUp(MouseUpEvent event) {
-				mathFieldInternal.onPointerUp(event.getX(), event.getY());
-
-			}
-		});
+		ClickAdapterW adapter = new ClickAdapterW(clickListener);
+		adapter.listenTo(html);
 	}
 
 	@Override
@@ -180,5 +164,10 @@ public class MathFieldW implements MathField {
 
 	public boolean hasFocus() {
 		return true;
+	}
+
+	public void hideCopyPasteButtons() {
+		// TODO Auto-generated method stub
+
 	}
 }

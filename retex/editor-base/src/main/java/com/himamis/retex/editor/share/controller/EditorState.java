@@ -89,10 +89,12 @@ public class EditorState {
 	 *            true to go to the left from cursor
 	 */
 	public void extendSelection(boolean left) {
-		MathComponent cursorField = getCurrentField()
-				.getArgument(Math.max(0,
-						Math.min(getCurrentOffset() + (left ? 0 : -1),
-								getCurrentField().size() - 1)));
+		MathComponent cursorField = getCursorField(left);
+		extendSelection(cursorField);
+	}
+
+	public void extendSelection(MathComponent cursorField) {
+
 		if (selectionAnchor == null) {
 			selectionAnchor = cursorField;
 			currentSelStart = cursorField;
@@ -136,6 +138,12 @@ public class EditorState {
 			currentSelEnd = swap;
 		}
 
+	}
+
+	public MathComponent getCursorField(boolean left) {
+		return getCurrentField().getArgument(
+				Math.max(0, Math.min(getCurrentOffset() + (left ? 0 : -1),
+						getCurrentField().size() - 1)));
 	}
 
 	private boolean contains(MathContainer commonParent,
