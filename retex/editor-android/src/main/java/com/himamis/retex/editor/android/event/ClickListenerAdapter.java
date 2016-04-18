@@ -17,7 +17,7 @@ public class ClickListenerAdapter implements View.OnTouchListener {
     public void onTouch(View v, MotionEvent event) {
     	if (event.getAction() == MotionEvent.ACTION_DOWN){
     		mClickListener.onPointerDown(event.getX(),event.getY());
-    	}else if (event.getAction() == MotionEvent.ACTION_UP){{
+    	}else if (event.getAction() == MotionEvent.ACTION_UP){
     		mClickListener.onPointerUp(event.getX(),event.getY());
     	}
     }
