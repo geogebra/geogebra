@@ -37,7 +37,7 @@ import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
-import org.geogebra.web.html5.gui.GeoGebraFrame;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -766,7 +766,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	static final public void updateFirstAndLast(EuclidianViewWInterface ev,
 			boolean anyway) {
-		ev.getCanvas().setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+		ev.getCanvas().setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
 		if (firstInstance == null) {
 			firstInstance = ev;
 		} else if (ev.getCanvas().isAttached()) {
@@ -814,7 +814,7 @@ public class EuclidianViewW extends EuclidianView implements
 			} else {
 				// is this the best?
 				getCanvas().setTabIndex(
-						GeoGebraFrame.GRAPHICS_VIEW_TABINDEX - 1);
+						GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX - 1);
 			}
 		} else {
 			// ?

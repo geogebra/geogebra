@@ -14,7 +14,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
-import org.geogebra.web.html5.gui.GeoGebraFrame;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
@@ -144,7 +144,7 @@ public class AppWapplet extends AppWFull {
 		// and for sync file loading this makes sure perspective setting is not
 		// blocked by initing flag
 		initing = false;
-		GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
+		GeoGebraFrameW.finishAsyncLoading(articleElement, frame, this);
 
 	}
 
@@ -367,7 +367,7 @@ public class AppWapplet extends AppWFull {
 		this.setPreferredSize(new GDimensionW((int) this.getWidth(), (int) this
 				.getHeight()));
 		setDefaultCursor();
-		GeoGebraFrame.useDataParamBorder(getArticleElement(), frame);
+		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
 		GeoGebraProfiler.getInstance().profileEnd();
 		onOpenFile();
 		showStartTooltip(0);
@@ -383,7 +383,7 @@ public class AppWapplet extends AppWFull {
 			return;
 		}
 		focusedView = null;
-		GeoGebraFrame.useDataParamBorder(getArticleElement(), frame);
+		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
 
 		// if it is there in focusGained, why not put it here?
 		this.getGlobalKeyDispatcher().InFocus = false;
@@ -393,7 +393,7 @@ public class AppWapplet extends AppWFull {
 	public void focusGained(View v, Element el) {
 		super.focusGained(v, el);
 		focusedView = v;
-		GeoGebraFrame.useFocusedBorder(getArticleElement(), frame);
+		GeoGebraFrameW.useFocusedBorder(getArticleElement(), frame);
 
 		// we really need to set it to true
 		switch (v.getViewID()) {

@@ -8,7 +8,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
-import org.geogebra.web.html5.gui.GeoGebraFrame;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.util.ArticleElement;
 
 import com.google.gwt.dom.client.Element;
@@ -16,14 +16,14 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AppWsimple extends AppW {
-	private GeoGebraFrame frame;
+	private GeoGebraFrameW frame;
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
 	 * 
 	 * @param ae
 	 * @param gf
 	 */
-	public AppWsimple(ArticleElement ae, GeoGebraFrame gf) {
+	public AppWsimple(ArticleElement ae, GeoGebraFrameW gf) {
 		this(ae, gf, true);
 	}
 
@@ -33,7 +33,7 @@ public class AppWsimple extends AppW {
 	 * @param undoActive
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public AppWsimple(ArticleElement ae, GeoGebraFrame gf,
+	public AppWsimple(ArticleElement ae, GeoGebraFrameW gf,
 	        final boolean undoActive) {
 		super(ae, 2, null);
 		this.frame = gf;
@@ -72,7 +72,7 @@ public class AppWsimple extends AppW {
 
 		// initGuiManager();// TODO: comment it out
 
-		GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
+		GeoGebraFrameW.finishAsyncLoading(articleElement, frame, this);
 		initing = false;
 	}
 
@@ -114,7 +114,7 @@ public class AppWsimple extends AppW {
 			requestFocusInWindow();
 		}
 		setDefaultCursor();
-		GeoGebraFrame.useDataParamBorder(getArticleElement(),
+		GeoGebraFrameW.useDataParamBorder(getArticleElement(),
  frame);
 		GeoGebraProfiler.getInstance().profileEnd();
 		setAltText();
@@ -125,7 +125,7 @@ public class AppWsimple extends AppW {
 	public void focusLost(View v, Element el) {
 		super.focusLost(v, el);
 		hasFocus = true;
-		GeoGebraFrame.useDataParamBorder(getArticleElement(), frame);
+		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
 		this.getGlobalKeyDispatcher().InFocus = false;
 	}
 
@@ -133,7 +133,7 @@ public class AppWsimple extends AppW {
 	public void focusGained(View v, Element el) {
 		super.focusGained(v, el);
 		hasFocus = true;
-		GeoGebraFrame.useFocusedBorder(getArticleElement(), frame);
+		GeoGebraFrameW.useFocusedBorder(getArticleElement(), frame);
 
 		// if focusLost sets this to false, it is probably
 		// right to set this to true again here! Otherwise

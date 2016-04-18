@@ -6,7 +6,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GDimensionW;
-import org.geogebra.web.html5.gui.GeoGebraFrame;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -34,7 +34,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class GeoGebraFrameBoth extends GeoGebraFrame implements
+public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		HeaderPanelDeck, UpdateKeyBoardListener {
 
 	private AppletFactory factory;
@@ -56,7 +56,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		return app;
 	}
 
-	protected AppW createApplicationSimple(ArticleElement ae, GeoGebraFrame gf) {
+	protected AppW createApplicationSimple(ArticleElement ae, GeoGebraFrameW gf) {
 		AppW app = new AppWsimple(ae, gf);
 		return app;
 	}
@@ -71,7 +71,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			AppletFactory factory, GLookAndFeel laf) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrame inst = new GeoGebraFrameBoth(factory, laf);
+			final GeoGebraFrameW inst = new GeoGebraFrameBoth(factory, laf);
 			inst.ae = articleElement;
 			LoggerW.startLogger(inst.ae);
 			inst.createSplash(articleElement);
@@ -98,10 +98,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	public static void renderArticleElement(Element el, AppletFactory factory,
 			GLookAndFeel laf, JavaScriptObject clb) {
 
-		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(
+		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(
 				factory, laf), clb);
 
-		GeoGebraFrame.reCheckForDummies(el);
+		GeoGebraFrameW.reCheckForDummies(el);
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	@Override
 	public void showBrowser(HeaderPanel bg) {
-		GeoGebraFrame frameLayout = this;
+		GeoGebraFrameW frameLayout = this;
 		final int count = frameLayout.getWidgetCount();
 		final int oldHeight = this.getOffsetHeight();
 		final int oldWidth = this.getOffsetWidth();
@@ -145,7 +145,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	@Override
 	public void hideBrowser(MyHeaderPanel bg) {
-		GeoGebraFrame frameLayout = this;
+		GeoGebraFrameW frameLayout = this;
 		frameLayout.remove(bg);
 		final int count = frameLayout.getWidgetCount();
 		for (int i = 0; i < count; i++) {

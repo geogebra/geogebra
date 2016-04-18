@@ -28,9 +28,9 @@ public class SplashDialog extends SimplePanel {
 		}
 	};
 
-	private final GeoGebraFrame geogebraFrame;
+	private final GeoGebraFrameW geogebraFrame;
 
-	public SplashDialog(boolean showLogo, String articleId, GeoGebraFrame frame) {
+	public SplashDialog(boolean showLogo, String articleId, GeoGebraFrameW frame) {
 		this.articleId = articleId;
 		this.geogebraFrame = frame;
 		isPreviewExists = checkIfPreviewExists();

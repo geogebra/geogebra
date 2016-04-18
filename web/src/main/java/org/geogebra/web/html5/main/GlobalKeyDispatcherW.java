@@ -8,7 +8,7 @@ import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.KeyCodes;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.GeoGebraFrame;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -259,8 +259,8 @@ public class GlobalKeyDispatcherW extends
 			app.setMoveMode();
 			// here we shall focus on a dummy element that is
 			// after all graphics views by one:
-			if (GeoGebraFrame.lastDummy != null) {
-				GeoGebraFrame.lastDummy.focus();
+			if (GeoGebraFrameW.lastDummy != null) {
+				GeoGebraFrameW.lastDummy.focus();
 			}
 		} else if (InFocus && preventBrowserCtrl(kc)
 				&& event.isControlKeyDown()) {

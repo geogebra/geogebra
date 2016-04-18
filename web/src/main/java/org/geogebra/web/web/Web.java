@@ -209,7 +209,7 @@ public class Web implements EntryPoint {
 
 	private native void exportGGBElementRenderer() /*-{
 		$wnd.renderGGBElement = $entry(@org.geogebra.web.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
-		@org.geogebra.web.html5.gui.GeoGebraFrame::renderGGBElementReady()();
+		@org.geogebra.web.html5.gui.GeoGebraFrameW::renderGGBElementReady()();
 		//CRITICAL: "window" below is intentional, the point is to redirect messages from window to $wnd
 		window.addEventListener("message",function(event){$wnd.postMessage(event.data,"*");});
 	}-*/;

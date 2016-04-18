@@ -14,7 +14,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class GeoGebraFrameSimple extends GeoGebraFrame {
+public class GeoGebraFrameSimple extends GeoGebraFrameW {
 
 	public GeoGebraFrameSimple() {
 		super(null);
@@ -35,7 +35,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrame inst = new GeoGebraFrameSimple();
+			final GeoGebraFrameW inst = new GeoGebraFrameSimple();
 			inst.ae = articleElement;
 			LoggerW.startLogger(inst.ae);
 			inst.createSplash(articleElement);
@@ -58,10 +58,10 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	 */
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
 
-		GeoGebraFrame.renderArticleElementWithFrame(el,
+		GeoGebraFrameW.renderArticleElementWithFrame(el,
 				new GeoGebraFrameSimple(), clb);
 
-		GeoGebraFrame.reCheckForDummies(el);
+		GeoGebraFrameW.reCheckForDummies(el);
 	}
 
 	@Override

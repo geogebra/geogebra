@@ -35,13 +35,13 @@ import com.google.gwt.user.client.ui.RootPanel;
  * The main frame containing every view / menu bar / .... This Panel (Frame is
  * resize able)
  */
-public abstract class GeoGebraFrame extends FlowPanel implements
+public abstract class GeoGebraFrameW extends FlowPanel implements
         HasAppletProperties {
 
 	public static final int BORDER_WIDTH = 2;
 	public static final int BORDER_HEIGHT = 2;
-	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
-	private static GeoGebraFrame activeInstance;
+	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<GeoGebraFrameW>();
+	private static GeoGebraFrameW activeInstance;
 
 	/** Loads file into active GeoGebraFrame */
 	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
@@ -63,7 +63,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
 
 	/** Creates new GeoGebraFrame */
-	public GeoGebraFrame(GLookAndFeelI laf) {
+	public GeoGebraFrameW(GLookAndFeelI laf) {
 		super();
 		this.frameID = counter++;
 		this.laf = laf;
@@ -84,14 +84,14 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	protected static void tackleFirstDummy(Element parentElement) {
 		firstDummy = DOM.createSpan().cast();
 		firstDummy.addClassName("geogebraweb-dummy-invisible");
-		firstDummy.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+		firstDummy.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
 		parentElement.insertFirst(firstDummy);
 	}
 
 	protected static void tackleLastDummy(Element parentElement) {
 		lastDummy = DOM.createSpan().cast();
 		lastDummy.addClassName("geogebraweb-dummy-invisible");
-		lastDummy.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+		lastDummy.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
 		parentElement.appendChild(lastDummy);
 	}
 
@@ -355,7 +355,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 		return computedHeight;
 	}
 
-	private static void setBorder(ArticleElement ae, GeoGebraFrame gf,
+	private static void setBorder(ArticleElement ae, GeoGebraFrameW gf,
 	        String dpBorder, int px) {
 		ae.getStyle().setBorderWidth(0, Style.Unit.PX);
 		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
@@ -374,7 +374,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	 * @param gf
 	 *            frame
 	 */
-	public static void useDataParamBorder(ArticleElement ae, GeoGebraFrame gf) {
+	public static void useDataParamBorder(ArticleElement ae, GeoGebraFrameW gf) {
 		String dpBorder = ae.getDataParamBorder();
 		if (dpBorder != null) {
 			if (dpBorder.equals("none")) {
@@ -398,7 +398,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	 * @param gf
 	 *            frame
 	 */
-	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrame gf) {
+	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrameW gf) {
 		String dpBorder = ae.getDataParamBorder();
 		gf.getElement().removeClassName(
 		        GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
@@ -411,7 +411,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	}
 
 	public void runAsyncAfterSplash() {
-		final GeoGebraFrame inst = this;
+		final GeoGebraFrameW inst = this;
 		final ArticleElement articleElement = this.ae;
 
 		// GWT.runAsync(new RunAsyncCallback() {
@@ -441,7 +441,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	}
 
 	public static void finishAsyncLoading(ArticleElement articleElement,
-	        GeoGebraFrame inst, AppW app) {
+	        GeoGebraFrameW inst, AppW app) {
 		handleLoadFile(articleElement, app);
 	}
 
@@ -480,7 +480,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	/**
 	 * @return list of instances of GeogebraFrame
 	 */
-	public static ArrayList<GeoGebraFrame> getInstances() {
+	public static ArrayList<GeoGebraFrameW> getInstances() {
 		return instances;
 	}
 
@@ -678,7 +678,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	 *
 	 */
 	public static void renderArticleElementWithFrame(final Element element,
-	        GeoGebraFrame frame, JavaScriptObject onLoadCallback) {
+	        GeoGebraFrameW frame, JavaScriptObject onLoadCallback) {
 
 		final ArticleElement article = ArticleElement.as(element);
 		if(Log.logger == null){
@@ -686,7 +686,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 		}
 		article.clear();
 		article.initID(0);
-		final GeoGebraFrame inst = frame;
+		final GeoGebraFrameW inst = frame;
 		inst.ae = article;
 		inst.onLoadCallback = onLoadCallback;
 		inst.createSplash(article);
@@ -715,14 +715,14 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	public void remove() {
 		this.removeFromParent();
 		// this does not do anything!
-		GeoGebraFrame remove = GeoGebraFrame.getInstances().remove(
-		        GeoGebraFrame.getInstances().indexOf(this));
+		GeoGebraFrameW remove = GeoGebraFrameW.getInstances().remove(
+		        GeoGebraFrameW.getInstances().indexOf(this));
 		this.ae.removeFromParent();
 		this.ae = null;
 		this.app = null;
 		fileLoader.setView(null);
 		remove = null;
-		if (GeoGebraFrame.getInstanceCount() == 0) {
+		if (GeoGebraFrameW.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();
 		}
 	}
