@@ -377,21 +377,24 @@ public class Ggb2giac {
 				"[[ggbinterans:=0/0],"
 						+ "[ggbinarg0:=%0],"
 						+ "[ggbinarg1:=%1],"
-						// first parameter is point
-						+ "[ggbinterans:=when( ggbinarg0[0] == 'pnt' , "
-						+ "same((subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[1],(subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[2]) ,"
-						// second parameter is point
-						+ "when (ggbinarg1[0] == 'pnt' , "
-						+ "same(subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[1],subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[2]),"
-						+ "normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1))) ))],"
-						+ "[ggbinterans:= when(ggbinarg0[0] == 'pnt' || ggbinarg1[0] == 'pnt', when(ggbinterans == true,"
-						+ "when(ggbinarg0[0]=='pnt',ggbinarg0,ggbinarg1),?) ,"
-						+ "when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans))) )],"
-						+ "[ggbinterans:= when (ggbinterans != '?', ggbinterans,"
-						// Intersect[plane, plane]
-						+ "when (ggbinarg0[0] == 'pnt' && (ggbinarg0)[1][0] == 'hyperplan' && ggbinarg1[0] == 'pnt' && (ggbinarg1)[1][0] == 'hyperplan',"
-						// the intersection is empty
-						+ "when (xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]) == '?', ?,"
+
+						// plane defined from CAS
+				// Intersect[Plane, Plane] -> point((ggbinarg0)[2][1][0][1],"
+				// + "(ggbinarg0)[2][1][1][1],"
+				// + "(ggbinarg0)[2][1][2][1]),"
+				// +
+				// "point(coeffs((ggbinarg0)[2][1][0], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][0][1],"
+				// +
+				// "coeffs((ggbinarg0)[2][1][1], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][1][1],"
+				// + "coeffs((ggbinarg0)[2][1][2], ggbtmpvar\u03BB,1) +
+				// (ggbinarg0)[2][1][2][1])
+
+						// Intersect[Plane, Plane]
+						+ "[ggbinterans:=when ( (ggbinarg0)[0] == 'pnt',"
+						+ "when ( (ggbinarg0)[1][0] == 'hyperplan',"
+						+ "when ( (ggbinarg1)[0] == 'pnt',"
+						// intersection is empty
+						+ "when (xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]) == '?', ? ,"
 						// create 3d line for intersection
 						+ "regroup(equation(cat(\"X=\","
 						+ "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]),"
@@ -400,8 +403,179 @@ public class Ggb2giac {
 						+ "\"+\u03BB*\","
 						+ "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
 						+ "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
-						+ "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]))))) ) , ? ) )],"
-						+ "ggbinterans][6]");
+						+ "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0])))))), "
+						// Intersect[Plane, Cmd3dLine]
+						+ "when (xcoord(ggbinarg1) == string(X) ,"
+						+ "line_inter(ggbinarg0 ,"
+						+ "line( point(expr(ggbinarg1)[0][2][1] , "
+						+ "expr(ggbinarg1)[1][2][1],"
+						+ "expr(ggbinarg1)[2][2][1] ),"
+						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
+						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
+						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) ) ), "
+						// Intersect[Plane, 3dLine]
+						+ "when ( (xcoord(ggbinarg1))[0] == '=' && string((xcoord(ggbinarg1))[1]) == string(X) ,"
+						+ "line_inter(ggbinarg0,"
+						+ "line( point( (ggbinarg1)[0][2] , (ggbinarg1)[1][2] , (ggbinarg1)[2][2][1] ) ,"
+						+ "point( (ggbinarg1[2][2][2])[2][0] + (ggbinarg1)[0][2], "
+						+ "(ggbinarg1[2][2][2])[2][1] +  (ggbinarg1)[1][2] ,"
+						+ "(ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) ), "
+						// Intersect[Plane, 2dLine]
+						// Intersect[Plane, Cmd2dLine]
+						+ "when ( type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT ,"
+						+ "line_inter(ggbinarg0,"
+						+ "line(point(re(subst(parameq(line(ggbinarg1),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg1),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=2)),0)) )  ,"
+						+ "? ) ) ) ) ,"
+						// Intersect[Point, 2dLine]
+						+ "when ( same((subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[1],"
+						+ "(subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[2]) == true ,"
+						+ "ggbinarg0, ?) ),"
+						// Intersect[Cmd3dLine, Plane]
+						+ "when (inString(string(ggbinarg0),\"X\") <> -1,"
+						+ "when ( xcoord(ggbinarg0) == string(X) ,"
+						+ "when ( (ggbinarg1)[0] == 'pnt' ,"
+						+ "line_inter(line( point(expr(ggbinarg0)[0][2][1] , "
+						+ "expr(ggbinarg0)[1][2][1],"
+						+ "expr(ggbinarg0)[2][2][1] ),"
+						+ "point(coeff(expr(ggbinarg0)[0][2],\u03BB,1) + expr(ggbinarg0)[0][2][1], "
+						+ "coeff(expr(ggbinarg0)[1][2],\u03BB,1) + expr(ggbinarg0)[1][2][1] , "
+						+ "coeff(expr(ggbinarg0)[2][2],\u03BB,1) + expr(ggbinarg0)[2][2][1]) ),"
+						+ "ggbinarg1),"
+						// Intersect[Cmd3dLine, Cmd3dLine]
+						+ "when (xcoord(ggbinarg1) == string(X) ,"
+						+ "line_inter(line( point(expr(ggbinarg0)[0][2][1] , "
+						+ "expr(ggbinarg0)[1][2][1],"
+						+ "expr(ggbinarg0)[2][2][1] ),"
+						+ "point(coeff(expr(ggbinarg0)[0][2],\u03BB,1) + expr(ggbinarg0)[0][2][1], "
+						+ "coeff(expr(ggbinarg0)[1][2],\u03BB,1) + expr(ggbinarg0)[1][2][1] , "
+						+ "coeff(expr(ggbinarg0)[2][2],\u03BB,1) + expr(ggbinarg0)[2][2][1]) ), "
+						+ "line( point(expr(ggbinarg1)[0][2][1] , "
+						+ "expr(ggbinarg1)[1][2][1],"
+						+ "expr(ggbinarg1)[2][2][1] ),"
+						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
+						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
+						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) )) ,"
+						// Intersect[Cmd3dLine, 3dLine]
+						+ "when ( (xcoord(ggbinarg1))[0] == '=' && string((xcoord(ggbinarg1))[1]) == string(X) , "
+						+ "line_inter(line( point(expr(ggbinarg0)[0][2][1] , "
+						+ "expr(ggbinarg0)[1][2][1],"
+						+ "expr(ggbinarg0)[2][2][1] ),"
+						+ "point(coeff(expr(ggbinarg0)[0][2],\u03BB,1) + expr(ggbinarg0)[0][2][1], "
+						+ "coeff(expr(ggbinarg0)[1][2],\u03BB,1) + expr(ggbinarg0)[1][2][1] , "
+						+ "coeff(expr(ggbinarg0)[2][2],\u03BB,1) + expr(ggbinarg0)[2][2][1]) ) ,"
+						+ "line( point( (ggbinarg1)[0][2] , (ggbinarg1)[1][2] , (ggbinarg1)[2][2][1] ) ,"
+						+ "point( (ggbinarg1[2][2][2])[2][0] + (ggbinarg1)[0][2], "
+						+ "(ggbinarg1[2][2][2])[2][1] +  (ggbinarg1)[1][2] ,"
+						+ "(ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) ),"
+						// Intersect[Cmd3dLine, 2dLine]
+						// Intersect[Cmd3dLine,Cmd2dLine]
+						+ "when (type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT,"
+						+ "line_inter(line( point(expr(ggbinarg0)[0][2][1] , "
+						+ "expr(ggbinarg0)[1][2][1],"
+						+ "expr(ggbinarg0)[2][2][1] ),"
+						+ "point(coeff(expr(ggbinarg0)[0][2],\u03BB,1) + expr(ggbinarg0)[0][2][1], "
+						+ "coeff(expr(ggbinarg0)[1][2],\u03BB,1) + expr(ggbinarg0)[1][2][1] , "
+						+ "coeff(expr(ggbinarg0)[2][2],\u03BB,1) + expr(ggbinarg0)[2][2][1]) ) ,"
+						+ "line(point(re(subst(parameq(line(ggbinarg1),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg1),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=2)),0)) ),"
+						+ " ? ) ) ) ),"
+						// Intersect[3dLine, Plane]
+						+ "when ( (xcoord(ggbinarg0))[0] == '=' && string((xcoord(ggbinarg0))[1]) == string(X),"
+						+ "when ( (ggbinarg1)[0] == 'pnt',"
+						+ "line_inter( line( point( (ggbinarg0)[0][2] , (ggbinarg0)[1][2] , (ggbinarg0)[2][2][1] ) ,"
+						+ "point( (ggbinarg0[2][2][2])[2][0] + (ggbinarg0)[0][2], "
+						+ "(ggbinarg0[2][2][2])[2][1] +  (ggbinarg0)[1][2] ,"
+						+ " (ggbinarg0[2][2][2])[2][2] + (ggbinarg0)[2][2][1] ) ) ,"
+						+ "ggbinarg1) ,"
+						// Intersect[3dLine, Cmd3dLine]
+						+ "when (xcoord(ggbinarg1) == string(X),"
+						+ "line_inter( line( point( (ggbinarg0)[0][2] , (ggbinarg0)[1][2] , (ggbinarg0)[2][2][1] ) ,"
+						+ "point( (ggbinarg0[2][2][2])[2][0] + (ggbinarg0)[0][2], "
+						+ "(ggbinarg0[2][2][2])[2][1] +  (ggbinarg0)[1][2] ,"
+						+ " (ggbinarg0[2][2][2])[2][2] + (ggbinarg0)[2][2][1] ) ) ,"
+						+ "line( point(expr(ggbinarg1)[0][2][1] , "
+						+ "expr(ggbinarg1)[1][2][1],"
+						+ "expr(ggbinarg1)[2][2][1] ),"
+						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
+						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
+						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) )),"
+						// Intersect[3dLine, 2dLine]
+						+ "when ( (type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT) "
+						// Intersect[3dLine, Cmd2dLine]
+						+ "|| ((ggbinarg1)[0] == '=' && (ggbinarg1)[1] == 'y'),"
+						+ "line_inter( line( point( (ggbinarg0)[0][2] , (ggbinarg0)[1][2] , (ggbinarg0)[2][2][1] ) ,"
+						+ "point( (ggbinarg0[2][2][2])[2][0] + (ggbinarg0)[0][2], "
+						+ "(ggbinarg0[2][2][2])[2][1] +  (ggbinarg0)[1][2] ,"
+						+ "(ggbinarg0[2][2][2])[2][2] + (ggbinarg0)[2][2][1] ) ) ,"
+						+ "line(point(re(subst(parameq(line(ggbinarg1),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg1),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=2)),0)) ) , "
+						// Intersect[3dLine, 3dLine]
+						+ "when ( (xcoord(ggbinarg1))[0] == '=' && string((xcoord(ggbinarg1))[1]) == string(X) ,"
+						+ " line_inter( line( point( (ggbinarg0)[0][2] , (ggbinarg0)[1][2] , (ggbinarg0)[2][2][1] ) ,"
+						+ "point( (ggbinarg0[2][2][2])[2][0] + (ggbinarg0)[0][2], "
+						+ "(ggbinarg0[2][2][2])[2][1] +  (ggbinarg0)[1][2] ,"
+						+ " (ggbinarg0[2][2][2])[2][2] + (ggbinarg0)[2][2][1] ) ) ,"
+						+ "line( point( (ggbinarg1)[0][2] , (ggbinarg1)[1][2] , (ggbinarg1)[2][2][1] ) ,"
+						+ "point( (ggbinarg1[2][2][2])[2][0] + (ggbinarg1)[0][2], "
+						+ "(ggbinarg1[2][2][2])[2][1] +  (ggbinarg1)[1][2] ,"
+						+ " (ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) )  , ? ) ) ) ) ,"
+						+ "? ) ) ,"
+						// Intersect[2dLine, Plane]
+						// Intersect[Cmd2dLine, Plane]
+						+ "when ( type(xcoord(ggbinarg0)) == DOM_INT && type(grad(ggbinarg0,x)[1]) == DOM_INT ,"
+						+ "when ( (ggbinarg1)[0] == 'pnt' ,"
+						+ "when ( (ggbinarg1)[1][0] == 'hyperplan', "
+						+ "line_inter(line(point(re(subst(parameq(line(ggbinarg0),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg0),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=2)),0)),"
+						+ "ggbinarg1) ,"
+						// Intersect[2dLine, Point]
+						+ "when ( same(subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[1],"
+						+ "subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[2]) == true,"
+						+ "ggbinarg1, ? ) ) , "
+						// Intersect[2dLine, Cmd3dLine]
+						// Intersect[Cmd2dLine, Cmd3dLine]
+						+ "when(xcoord(ggbinarg1) == string(X),"
+						+ "line_inter(line(point(re(subst(parameq(line(ggbinarg0),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg0),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=2)),0)),"
+						+ "line( point(expr(ggbinarg1)[0][2][1] , "
+						+ "expr(ggbinarg1)[1][2][1],"
+						+ "expr(ggbinarg1)[2][2][1] ),"
+						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
+						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
+						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) ) ) , "
+						// Intersect[2dLine, 2dLine]
+						+ "when ( (type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT)"
+						// Intersect[2dLine, Cmd2dLine]
+						// Intersect[Cmd2dLine,Cmd2dLine]
+						+ "|| ((ggbinarg1)[0] == '=' && (ggbinarg1)[1] == 'y') ,"
+						+ "inter(ggbinarg0,ggbinarg1) ,"
+						// Intersect[2dLine,3dLine]
+						// Intersect[Cmd2dLine, 3dLine]
+						+ "when ( (xcoord(ggbinarg1))[0] == '=' && string((xcoord(ggbinarg1))[1]) == string(X) ,"
+						+ "line_inter(line(point(re(subst(parameq(line(ggbinarg0),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=1)),0),"
+						+ "point(re(subst(parameq(line(ggbinarg0),u),u=2)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=2)),0)),"
+						+ "line( point( (ggbinarg1)[0][2] , (ggbinarg1)[1][2] , (ggbinarg1)[2][2][1] ) ,"
+						+ "point( (ggbinarg1[2][2][2])[2][0] + (ggbinarg1)[0][2], "
+						+ "(ggbinarg1[2][2][2])[2][1] +  (ggbinarg1)[1][2] ,"
+						+ " (ggbinarg1[2][2][2])[2][2] + (ggbinarg1)[2][2][1] ) ) ) , ? ) ) ) ),"
+						// Intersect[Cmd2dLine, 2dLine]
+						+ "normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),"
+						+ "when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1))) "
+						+ " ) ) ) ],"
+				+ "ggbinterans][4]");
 
 		// Giac currently uses approximation for this
 		// p("Conic.5", "equation(conic((%0),(%1),(%2),(%3),(%4)))");
