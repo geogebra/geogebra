@@ -3969,6 +3969,12 @@ kernel, left,
 	}
 
 	@Override
+	public boolean isTopLevelCommand(String checkName) {
+		return isLeaf() && (left instanceof ValidExpression)
+				&& (((ValidExpression) left).isTopLevelCommand(checkName));
+	}
+
+	@Override
 	public Command getTopLevelCommand() {
 		if (isTopLevelCommand()) {
 			return (Command) left;

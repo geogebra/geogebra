@@ -1452,7 +1452,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				CommandReplacer cr = CommandReplacer.getReplacer(kernel.getApplication());
 				outputVE.traverse(cr);
 				if (inputVE!=null) {
-					if (inputVE.isTopLevelCommand() && "Vector".equals(inputVE.getTopLevelCommand().getName())) {  
+					if (inputVE.isTopLevelCommand("Vector")) {
 						ExpressionNode wrapped = outputVE.wrap(); 
 						wrapped.setForceVector(); 
 						outputVE = wrapped; 
@@ -2008,7 +2008,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					}
 				}
 
-				if(!(expandedEvalVE.isTopLevelCommand()) || !expandedEvalVE.getTopLevelCommand().getName().equals("Delete")) {
+				if (expandedEvalVE.isTopLevelCommand("Delete")) {
 					FunctionExpander fex = FunctionExpander.getCollector();
 					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap().getCopy(kernel).traverse(fex);
 					expandedEvalVE = processSolveCommand(expandedEvalVE);
@@ -2719,6 +2719,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 		twinGeo.setCorrespondingCasCell(this);
 		twinGeo.setParentAlgorithm(getParentAlgorithm());
+		if (twinGeo.isGeoNumeric() && inputVE != null
+				&& (inputVE.isTopLevelCommand("Integral")
+						|| inputVE.isTopLevelCommand("IntegralBetween"))) {
+			((GeoNumeric) twinGeo).setDrawable(true, false);
+		}
 		if (dependsOnDummy(twinGeo)) {
 			twinGeo.setUndefined();
 			twinGeo.setAlgebraVisible(false);

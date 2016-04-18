@@ -540,4 +540,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	public abstract ValidExpression deepCopy(Kernel kernel);
+
+	public boolean isTopLevelCommand(String string) {
+		return false;
+	}
 }

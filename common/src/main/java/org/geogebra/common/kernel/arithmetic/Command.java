@@ -673,6 +673,11 @@ public class Command extends ValidExpression implements
 	}
 
 	@Override
+	public boolean isTopLevelCommand(String checkName) {
+		return name.equals(checkName);
+	}
+
+	@Override
 	public Command getTopLevelCommand() {
 		return this;
 	}
