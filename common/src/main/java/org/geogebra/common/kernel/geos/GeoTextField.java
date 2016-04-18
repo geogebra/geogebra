@@ -9,11 +9,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoPointInRegion;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.common.util.Unicode;
@@ -178,6 +180,7 @@ public class GeoTextField extends GeoButton {
 	 */
 	public void updateLinkedGeo(String inputText) {
 		String defineText = inputText;
+		boolean imaginaryAdded = false;
 		if (linkedGeo.isGeoLine()) {
 
 			// not y=
@@ -202,6 +205,7 @@ public class GeoTextField extends GeoButton {
 				// z=2 doesn't work for complex numbers (parses to
 				// GeoNumeric)
 				defineText = defineText + "+0" + Unicode.IMAGINARY;
+				imaginaryAdded = true;
 			}
 		} else if (linkedGeo instanceof FunctionalNVar) {
 			// string like f(x,y)=x^2
@@ -239,7 +243,7 @@ public class GeoTextField extends GeoButton {
 			if (linkedGeo instanceof GeoNumeric && linkedGeo.isIndependent()) {
 				// can be a calculation eg 1/2+3
 				// so use full GeoGebra parser
-				num = kernel.getAlgebraProcessor().evaluateToDouble(inputText,
+				num = kernel.getAlgebraProcessor().evaluateToDouble(defineText,
 						false);
 
 				// setValue -> avoid slider range changing
@@ -250,6 +254,17 @@ public class GeoTextField extends GeoButton {
 				linkedGeo = kernel.getAlgebraProcessor()
 						.changeGeoElementNoExceptionHandling(linkedGeo,
 								defineText, linkedGeo.isIndependent(), true);
+				if (imaginaryAdded) {
+					ExpressionNode def = linkedGeo.getDefinition();
+					if (def != null
+							&& def.getOperation() == Operation.PLUS
+							&& def.getRight()
+									.toString(StringTemplate.defaultTemplate)
+									.equals("0" + Unicode.IMAGINARY)) {
+						linkedGeo.setDefinition(def.getLeftTree());
+					}
+
+				}
 			}
 		} catch (MyError e1) {
 			kernel.getApplication().showError(e1);
