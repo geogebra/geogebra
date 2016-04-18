@@ -1,7 +1,5 @@
 package com.himamis.retex.editor.share.controller;
 
-import java.util.ArrayList;
-
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -10,6 +8,8 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
+
+import java.util.ArrayList;
 
 public class MathFieldController {
 
@@ -101,5 +101,9 @@ public class MathFieldController {
 				.setType(type).build();
 		renderer.getBox().getSelectedPath(list, 0);
 		mathField.setTeXIcon(renderer);
+	}
+
+	public void onKeyboardInput() {
+		mathField.hideCopyPasteButtons();
 	}
 }

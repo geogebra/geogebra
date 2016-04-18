@@ -52,4 +52,6 @@ public interface MathField {
     boolean hasFocus();
 
     MetaModel getMetaModel();
+
+    void hideCopyPasteButtons();
 }

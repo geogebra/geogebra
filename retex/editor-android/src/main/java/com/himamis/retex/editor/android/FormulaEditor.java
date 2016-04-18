@@ -499,4 +499,8 @@ public class FormulaEditor extends View implements MathField {
         }
 
     }
+
+    public void hideCopyPasteButtons() {
+        // implemented in ReTeXInput
+    }
 }

@@ -27,8 +27,6 @@
  */
 package com.himamis.retex.editor.share.editor;
 
-import java.util.ArrayList;
-
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
@@ -39,6 +37,8 @@ import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.model.MathFormula;
+
+import java.util.ArrayList;
 
 /**
  * This class is a Math Field. Displays and allows to edit single formula.
@@ -113,6 +113,10 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     public CursorController getCursorController() {
         return cursorController;
+    }
+
+    public MathFieldController getMathFieldController() {
+        return mathFieldController;
     }
 
     public EditorState getEditorState() {
