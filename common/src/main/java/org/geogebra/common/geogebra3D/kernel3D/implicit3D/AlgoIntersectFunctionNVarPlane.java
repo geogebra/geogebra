@@ -63,8 +63,9 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 		FunctionVariable y = surface.getFunctionVariables()[1];
 		ExpressionNode exp;
 		if (!Kernel.isZero(norm.getZ())) {
-			exp = x.wrap().multiply(-norm.getX() / norm.getZ())
-					.plus(y.wrap().multiply(-norm.getY() / norm.getZ())
+			exp = x.wrap()
+					.multiply(norm.getX() / norm.getZ())
+					.plus(y.wrap().multiply(norm.getY() / norm.getZ())
 							.plus(surface.getFunctionExpression())
 							.plus(norm.getW() / norm.getZ()));
 		} else {
