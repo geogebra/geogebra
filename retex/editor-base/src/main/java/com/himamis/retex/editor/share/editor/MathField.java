@@ -35,6 +35,15 @@ public interface MathField {
 
     void setTeXIcon(TeXIcon icon);
 
+    /**
+     * show keyboard
+     *
+     * @return true if keyboard was hidden previously
+     */
+    boolean showKeyboard();
+
+    void showCopyPasteButtons();
+
     void requestViewFocus();
 
     void setFocusListener(FocusListener focusListener);

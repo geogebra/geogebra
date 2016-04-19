@@ -27,8 +27,6 @@
  */
 package com.himamis.retex.editor.share.editor;
 
-import java.util.ArrayList;
-
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
@@ -41,6 +39,8 @@ import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
+
+import java.util.ArrayList;
 
 /**
  * This class is a Math Field. Displays and allows to edit single formula.
@@ -187,7 +187,11 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		moveToSelection(list);
 
 		mathFieldController.update(mathFormula, editorState, false);
-		mathField.requestViewFocus();
+
+        mathField.showKeyboard();
+        mathField.hideCopyPasteButtons();
+        mathField.requestViewFocus();
+
     }
 
 	public void onPointerUp(int x, int y) {
@@ -206,8 +210,14 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		}
 		mouseDownPos = null;
 		mathFieldController.update(mathFormula, editorState, false);
-		mathField.requestViewFocus();
-	}
+
+        mathField.requestViewFocus();
+
+    }
+
+    public void onLongPress(int action, int x, int y) {
+        mathField.showCopyPasteButtons();
+    }
 
 	private boolean mousePositionChanged(int x, int y) {
 		return mouseDownPos != null && (Math.abs(x - mouseDownPos[0]) > 10

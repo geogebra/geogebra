@@ -10,7 +10,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
@@ -202,7 +201,7 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     public void setClickListener(ClickListener clickListener) {
-        setOnTouchListener(new ClickListenerAdapter(clickListener, this));
+        setOnTouchListener(new ClickListenerAdapter(clickListener, getContext()));
     }
 
     @Override
@@ -387,14 +386,15 @@ public class FormulaEditor extends View implements MathField {
         return fic;
     }
 
-    public boolean onPointerDown(MotionEvent event){
-    	return true;
-    }
-    public boolean onPointerUp(MotionEvent event) {
+    public boolean showKeyboard() {
         InputMethodManager imm = (InputMethodManager) getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(this, InputMethodManager.SHOW_FORCED);
         return true;
+    }
+
+    public void showCopyPasteButtons() {
+        // not implemented here
     }
 
     @Override
