@@ -86,7 +86,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					previewGeos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(ve,
 									false, false, true,
-									false, null);
+									false, null, true);
 					if (previewGeos != null) {
 						for (GeoElement geo : previewGeos) {
 							geo.setSelectionAllowed(false);

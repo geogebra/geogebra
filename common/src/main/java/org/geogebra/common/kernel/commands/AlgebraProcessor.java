@@ -431,7 +431,8 @@ public class AlgebraProcessor {
 				// try to overwrite
 				boolean listeners = app.getScriptManager().hasListeners();
 				app.getScriptManager().disableListeners();
-				result = processValidExpression(newValue, redefineIndependent);
+				result = processAlgebraCommandNoExceptionHandling(newValue,
+						false, false, false, true, null, redefineIndependent);
 				app.getScriptManager().enableListeners();
 				if (listeners) {
 					geo.updateCascade();
@@ -446,7 +447,8 @@ public class AlgebraProcessor {
 			} else if (cons.isFreeLabel(newLabel)) {
 				newValue.setLabel(oldLabel);
 				// rename to oldLabel to enable overwriting
-				result = processValidExpression(newValue, redefineIndependent);
+				result = processAlgebraCommandNoExceptionHandling(newValue,
+						false, false, false, true, null, redefineIndependent);
 				result[0].setLabel(newLabel); // now we rename
 				app.getCompanion().recallViewCreators();
 				if (storeUndoInfo)
@@ -620,7 +622,7 @@ public class AlgebraProcessor {
 			}
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
 					allowErrorDialog, throwMyError,
-					autoCreateSliders, callback0);
+					autoCreateSliders, callback0, true);
 
 		} catch (Exception e) {
 
@@ -663,6 +665,8 @@ public class AlgebraProcessor {
 	 *            whether to show a popup for undefined variables
 	 * @param callback0
 	 *            callback after the geos are created
+	 * @param redefineIndependent
+	 *            whether independent may be redefined
 	 * @return resulting geos
 	 * @throws Exception
 	 *             e.g. circular definition or parse exception
@@ -671,7 +675,8 @@ public class AlgebraProcessor {
 			ValidExpression ve, final boolean storeUndo,
 			final boolean allowErrorDialog, final boolean throwMyError,
 			boolean autoCreateSliders,
-			final AsyncOperation<GeoElement[]> callback0) throws Exception {
+			final AsyncOperation<GeoElement[]> callback0,
+			boolean redefineIndependent) throws Exception {
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		ve.traverse(collecter);
@@ -717,7 +722,7 @@ public class AlgebraProcessor {
 			try {
 				ValidExpression cp = ve.deepCopy(kernel);
 				cp.setLabels(ve.getLabels());
-				geoElements = processValidExpression(cp);
+				geoElements = processValidExpression(cp, redefineIndependent);
 				if (storeUndo && geoElements != null)
 					app.storeUndoInfo();
 			} catch (Throwable ex) {

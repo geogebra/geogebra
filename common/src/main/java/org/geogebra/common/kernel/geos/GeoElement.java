@@ -18,6 +18,16 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
@@ -35,8 +45,8 @@ import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
@@ -89,16 +99,6 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.Stack;
-import java.util.TreeSet;
-
 /**
  * 
  * @author Markus
@@ -132,8 +132,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	private static final char[] functionLabels = { 'f', 'g', 'h', 'p', 'q',
 			'r', 's', 't' };
 
-	private static final char[] lineLabels = { 'a', 'b', 'c', 'd', 'e', 'f',
-			'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't' };
+	private static final char[] lineLabels = { 'f', 'g', 'h', 'i', 'j', 'k',
+			'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'a', 'b', 'c', 'd', 'e' };
 
 	private static final char[] vectorLabels = { 'u', 'v', 'w', 'a', 'b',
 			'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'p',
