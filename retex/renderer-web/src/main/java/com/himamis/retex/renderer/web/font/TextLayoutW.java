@@ -70,7 +70,9 @@ public class TextLayoutW implements TextLayout {
 		// improve this part with opentype.js
 		double width = fontRenderContext.measureTextWith(string, font);
 		double height = font.getSize();
-		return new Rectangle2DW(0, 0, width, height);
+		// y=-height is not exact, but for most characters is y in the range
+		// (-0.72*height,-1*height), so let's try
+		return new Rectangle2DW(0, -height, width, height);
 	}
 
 	@Override
