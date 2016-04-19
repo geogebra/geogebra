@@ -609,9 +609,6 @@ public class ConstructionDefaults {
 		case INTERVAL:
 			type = DEFAULT_INEQUALITY;
 			break;
-		case FUNCTIONCONDITIONAL:
-			type = DEFAULT_FUNCTION;
-			break;
 
 		case IMAGE:
 			type = DEFAULT_IMAGE;

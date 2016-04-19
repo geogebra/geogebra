@@ -1318,8 +1318,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return drawing priority (lower = drawn first)
 	 */
-	private int typePriority(){
-		return getGeoClassType().priority;
+	private int typePriority() {
+		return getGeoClassType().getPriority(isIndependent());
 	}
 	
 	/**
@@ -2312,8 +2312,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		case DEFAULT:
 			break;
 		case FUNCTION:
-			break;
-		case FUNCTIONCONDITIONAL:
 			break;
 		case FUNCTION_NVAR:
 			break;

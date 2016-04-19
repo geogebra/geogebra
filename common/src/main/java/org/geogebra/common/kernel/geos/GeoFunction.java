@@ -1394,12 +1394,6 @@ CasEvaluableFunction, ParametricCurve,
 				|| geo.getGeoClassType().equals(GeoClass.INTERVAL)) {
 			return false;
 		}
-
-		// return return geo.isEqual(this); rather than false
-		// in case we improve checking in GeoFunctionConditional in future
-		if (geo.getGeoClassType().equals(GeoClass.FUNCTIONCONDITIONAL)) {
-			return geo.isEqual(this);
-		}
 		
 		GeoFunction geoFun = (GeoFunction) geo;
 		

@@ -383,13 +383,6 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 			initFunction(((GeoFunction) algoGeo).getFunction());
 			break;
 
-		case FUNCTIONCONDITIONAL:
-			// done by set() in GeoFunctionConditional
-			// actually a GeoFunctionConditional consists of three GeoFunction
-			// objects,
-			// so initFunction() is eventually used for them
-			break;
-
 		case LIST:
 			initList((GeoList) macroGeo, (GeoList) algoGeo);
 			break;
