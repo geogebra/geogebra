@@ -283,7 +283,8 @@ public abstract class DrawEquation {
 				Log.debug("LaTeX parse exception: " + e.getMessage() + "\n"
 						+ text);
 				formula = TeXFormula
-						.getPartialTeXFormula("\text{"
+						.getPartialTeXFormula(
+								"\\text{"
 								+ app.getLocalization().getError(
 										"CAS.GeneralErrorMessage")
 								+ "}");

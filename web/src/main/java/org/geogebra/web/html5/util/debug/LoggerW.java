@@ -6,6 +6,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.ArticleElement;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 
@@ -72,9 +73,9 @@ public class LoggerW extends Log {
 			return;
 		}
 		if (getLogDestination() == LogDestination.CONSOLE
-		        || getLogDestination() == LogDestination.CONSOLES) {
+				|| getLogDestination() == LogDestination.CONSOLES) {
 			// don't change this to Application.debug!!
-			// GWT.log(logEntry);
+			GWT.log(logEntry);
 			return;
 		}
 	}
@@ -117,6 +118,13 @@ public class LoggerW extends Log {
 	public native void doPrintStacktrace(String message)/*-{
 		if ($wnd.console && $wnd.console.trace) {
 			$wnd.console.trace(message);
+		}
+	}-*/;
+
+	@Override
+	protected native void doPrintStacktrace(Throwable t)/*-{
+		if ($wnd.console && $wnd.console.trace) {
+			$wnd.console.trace(t);
 		}
 	}-*/;
 }

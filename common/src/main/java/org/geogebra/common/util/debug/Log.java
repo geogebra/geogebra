@@ -437,11 +437,20 @@ public abstract class Log {
 				}
 			}
 		}
+		if (s instanceof Throwable && logger != null) {
+			logger.doPrintStacktrace((Throwable) s);
+			return;
+		}
 		if (s == null) {
 			debug("<null>", 5);
 		} else {
 			debug(s.toString(), 5);
 		}
+	}
+
+	protected void doPrintStacktrace(Throwable s) {
+		s.printStackTrace();
+
 	}
 
 	private void log(Level level, String message) {
