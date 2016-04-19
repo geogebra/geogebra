@@ -19,6 +19,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
+import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -625,11 +626,12 @@ public abstract class AppWFull extends AppW {
 			doOpenMaterial(id, onError);
 		} else {
 			toOpen = id;
-		getLoginOperation().getView().add(new EventRenderable() {
+			getLoginOperation().getView().add(new EventRenderable() {
 
 			public void renderEvent(BaseEvent event) {
 				if (event instanceof LoginEvent
-						|| event instanceof StayLoggedOutEvent) {
+							|| event instanceof StayLoggedOutEvent
+							|| event instanceof TubeAvailabilityCheckEvent) {
 						if (toOpen != null && toOpen.length() > 0) {
 							doOpenMaterial(toOpen, onError);
 							toOpen = "";
