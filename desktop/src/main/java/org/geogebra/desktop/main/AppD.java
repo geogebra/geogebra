@@ -5448,13 +5448,17 @@ ToolbarD.getAllTools(this));
 
 	public void schedulePreview(Runnable scheduledPreview) {
 		
-		if (handler != null) {
-			handler.cancel(false);
-		}
+		cancelPreview();
 
 		handler = scheduler.schedule(scheduledPreview,
 				SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS,
 				TimeUnit.MILLISECONDS);
+	}
+
+	public void cancelPreview() {
+		if (handler != null) {
+			handler.cancel(false);
+		}
 	}
 
 	private static GuiManagerD getGuiManager(AppD app) {
