@@ -59,6 +59,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		return ret;
 	}
 
+	private GeoElement[] previewGeos;
+
 	public void run() {
 		// TODO Auto-generated method stub
 		if (input.length() == 0) {
@@ -70,7 +72,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 		Log.debug("preview for: " + input);
 		boolean silentModeOld = this.kernel.isSilentMode();
-		GeoElement[] geos = null;
+		previewGeos = null;
 		try {
 			this.kernel.setSilentMode(true);
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
@@ -81,20 +83,18 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				GeoElement existingGeo = this.kernel.lookupLabel(ve.getLabel());
 				if (existingGeo == null) {
 
-					geos = this.kernel.getAlgebraProcessor()
+					previewGeos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(ve,
 									false, false, true,
 									false, null);
-					if (geos != null) {
-						for (GeoElement geo : geos) {
+					if (previewGeos != null) {
+						for (GeoElement geo : previewGeos) {
 							geo.setSelectionAllowed(false);
 
 						}
 					}
 
-
-
-					this.kernel.notifyUpdatePreviewFromInputBar(geos);
+					this.kernel.notifyUpdatePreviewFromInputBar(previewGeos);
 				} else {
 					Log.debug("existing geo: " + existingGeo);
 					this.kernel.notifyUpdatePreviewFromInputBar(null);
@@ -103,8 +103,10 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				Log.debug("cas cell ");
 				this.kernel.notifyUpdatePreviewFromInputBar(null);
 			}
-			validation.callback(
-					new Boolean(input.equals(validInput) && geos != null));
+			if (validation != null) {
+				validation.callback(
+						new Boolean(input.equals(validInput) && previewGeos != null));
+			}
 			this.kernel.setSilentMode(silentModeOld);
 
 		} catch (Throwable ee) {
@@ -124,7 +126,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	 *            validation callback
 	 */
 	public void updatePreviewFromInputBar(String newInput,
-			AsyncOperation<Boolean> validate) {
+										  AsyncOperation<Boolean> validate) {
 
 		if (this.input.equals(newInput)) {
 			Log.debug("no update needed (same input)");
@@ -134,6 +136,28 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		setInput(newInput, validate);
 
 		kernel.getApplication().schedulePreview(this);
+
+	}
+
+	/**
+	 * preview is not recalculated if input has not changed
+	 * since last calculation
+	 *
+	 * @param newInput input
+	 * @return GeoElement[] preview for this input
+	 */
+	public GeoElement[] getPreview(String newInput) {
+
+		if (this.input.equals(newInput)) {
+			Log.debug("no update needed (same input)");
+			return previewGeos;
+		}
+
+		// create new preview immediately
+		kernel.getApplication().cancelPreview();
+		setInput(newInput, null);
+		run();
+		return previewGeos;
 
 	}
 
