@@ -148,5 +148,9 @@ class VerticalBox extends Box {
 			}
 			yPos += box.getHeight();
 		}
+		if (y > yPos) {
+			list.add(children.size() - 1);
+			children.get(children.size() - 1).getPath(x, y - yPos, list);
+		}
 	}
 }

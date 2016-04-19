@@ -200,5 +200,9 @@ public class HorizontalBox extends Box {
 			}
 			xPos += box.getWidth();
 		}
+		if (x > xPos) {
+			list.add(children.size() - 1);
+			children.get(children.size() - 1).getPath(x - xPos, y, list);
+		}
 	}
 }
