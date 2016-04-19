@@ -966,7 +966,17 @@ public class RadioTreeItem extends AVTreeItem
 				ihtml.clear();
 				ihtml.add(c);
 			}
+		} else {
+			latex = false;
+		}
 
+		if (!latex) {
+			geo.getAlgebraDescriptionTextOrHTMLDefault(
+						getBuilder(getPlainTextItem()));
+			updateItemColor();
+			updateFont(getPlainTextItem());
+			ihtml.clear();
+			ihtml.add(getPlainTextItem());
 		}
 	}
 
