@@ -840,7 +840,7 @@ __GGB__keysVar.fi.command = {
     "SetFilling": "AsetaPeitt\xe4vyys",
     "SetFilling.Syntax": "[ <Objekti>, <Luku> ]",
     "SetFixed": "Kiinnit\xe4Objekti",
-    "SetFixed.Syntax": "[ <Objekti>, <true | false> ]",
+    "SetFixed.Syntax": "[ <Objekti>, <totuusarvo> ]\n[ <Objekti>, <totuusarvo>, <totuusarvo> ]",
     "SetLabelMode": "AsetaNimenMuoto",
     "SetLabelMode.Syntax": "[ <Objekti>, <Luku> ]",
     "SetLayer": "AsetaPiirtotaso",

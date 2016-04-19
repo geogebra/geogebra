@@ -2899,7 +2899,7 @@ __GGB__keysVar.fr.plain = {
     "TextBeforeConstruction": "Texte avant la construction",
     "TextField": "ChampTexte",
     "TextfieldLength": "Longueur du ChampTexte",
-    "ThanksForSigningIn": "Merci de vous \xeatre connect\xe9 \xe0 GeoGebra!",
+    "ThanksForSigningIn": "Merci de vous \xeatre connect\xe9 \xe0 GeoGebra !",
     "Thickness": "\xc9paisseur du trait",
     "TickDistance": "Distance",
     "TimeBetweenFrames": "Temps entre les vues",
