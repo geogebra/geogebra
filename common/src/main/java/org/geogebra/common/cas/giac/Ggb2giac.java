@@ -1625,15 +1625,20 @@ public class Ggb2giac {
 		// p("PolyLine.N", "open_polygon(%)");
 
 		p("Tangent.2",
-				"[[[ggbtanarg0:=%0],[ggbtanarg1:=%1],[ggbtanvar:=when(size(lname(ggbtanarg1) intersect [x]) == 0,lname(ggbtanarg1)[0],x)]],when((%0)[0]=='pnt',"
+				"[[[ggbtanarg0:=%0],[ggbtanarg1:=%1],[ggbtanvar:=when(size(lname(ggbtanarg1) intersect [x]) == 0,lname(ggbtanarg1)[0],x)]],"
+						+ "when((%0)[0]=='pnt',"
 						+ "when((ggbtanarg1)[0]=='=',"
 						+
 						// Tangent[conic/implicit, point on curve]
-						"equation(tangent(ggbtanarg1,ggbtanarg0)),"
+						"when ( type(equation(tangent(ggbtanarg1,ggbtanarg0))) == DOM_LIST,"
+						+ "equation(tangent(ggbtanarg1,ggbtanarg0)),"
+						// needed for TRAC-2635
+						// convert to list the result
+						+ "{equation(tangent(ggbtanarg1,ggbtanarg0))} ),"
 						+
 						// Tangent[point, function]
 						// just use x-coordinate real(%0[1])
-		"y=normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,ggbtanvar=real(%0[1]))))"
+						"y=normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,ggbtanvar=real(%0[1])))) "
 						+ ","
 						+
 						// Tangent[x-value, function]
