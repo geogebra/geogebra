@@ -138,6 +138,6 @@ public enum GeoClass {
 	}
 
 	public int getPriority(boolean independent) {
-		return priority;
+		return independent ? independentPriority : priority;
 	}
 }
