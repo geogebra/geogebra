@@ -819,7 +819,7 @@ public class RadioTreeItem extends AVTreeItem
 						getBuilder(getPlainTextItem()));
 				break;
 			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-				buildDefinitionAndValue();
+				buildItemContent();
 				break;
 			}
 		}
@@ -914,17 +914,25 @@ public class RadioTreeItem extends AVTreeItem
 		return true;
 	}
 
-	private void buildDefinitionAndValue() {
-		if (isEditing()) {
+	private void buildItemContent() {
+		if (isDefinitionAndValue()) {
+			if (geo.needToShowBothRowsInAV()) {
+				buildItemWithTwoRows();
+			} else {
+				buildItemWithSingleRow();
+			}
+		} else {
+			buildPlainTextItem();
+		}
+	}
+
+	private void buildItemWithTwoRows() {
+		if (isEditing() || geo == null) {
 			return;
 		}
-		// Log.debug("buildDefinitionAndValue");
 		createDVPanels();
-		String text = "";
-		if (geo != null) {
-			text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
-			latex = text != null;
-		}
+		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+		latex = text != null;
 
 		if (updateDefinitionPanel()) {
 			plainTextItem.clear();
@@ -938,6 +946,9 @@ public class RadioTreeItem extends AVTreeItem
 
 			Log.debug("[AVR] Value panel is updated");
 		}
+	}
+
+	private void buildItemWithSingleRow() {
 
 	}
 
@@ -1330,7 +1341,7 @@ public class RadioTreeItem extends AVTreeItem
 			updateNumerics();
 		} else {
 			if (!isInputTreeItem() && isDefinitionAndValue()) {
-				buildDefinitionAndValue();
+				buildItemContent();
 			} else {
 				updateTextItems();
 			}
@@ -1395,11 +1406,6 @@ public class RadioTreeItem extends AVTreeItem
 				updateItemColor();
 				if (!isInputTreeItem() && c != null) {
 					ihtml.clear();
-					if (isDefinitionAndValue()) {
-						// // Log.debug("[avout] hejehuja!");
-						buildDefinitionAndValue();
-						ihtml.add(valuePanel);
-					}
 					ihtml.add(c);
 				} else {
 					ihtml.clear();
@@ -1516,12 +1522,6 @@ public class RadioTreeItem extends AVTreeItem
 						: " \\mathbf {" + text + "}";
 			}
 
-
-			if (!isInputTreeItem() && isDefinitionAndValue()) {
-				buildDefinitionAndValue();
-				ihtml.add(geo.isMatrix() ? valuePanel : definitionPanel);
-
-			}
 
 			ihtml.add(latexItem);
 			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
