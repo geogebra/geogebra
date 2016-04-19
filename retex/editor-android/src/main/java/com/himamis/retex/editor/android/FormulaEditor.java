@@ -290,17 +290,30 @@ public class FormulaEditor extends View implements MathField {
     }
 
 
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        if (w != oldw) {
+            updateShiftX();
+        }
+    }
+
     private void updateShiftX() {
 
-        System.out.println("mShiftX: " + mShiftX + ", getWidth():" + getWidth());
+        int inputBarWidth = getWidth();
+
+        if (inputBarWidth == 0) {
+            System.out.println("updateShiftX: inputBarWidth == 0");
+            return;
+        }
+
+        System.out.println("mShiftX: " + mShiftX + ", inputBarWidth:" + inputBarWidth);
 
         int iconWidth = mTeXIcon.getIconWidth();
         int iconHeight = mTeXIcon.getIconHeight();
 
         // check if last shift is not too long
         // (e.g. if new formula is shorter)
-        if (iconWidth + mShiftX < getWidth()) {
-            mShiftX = getWidth() - iconWidth;
+        if (iconWidth + mShiftX < inputBarWidth) {
+            mShiftX = inputBarWidth - iconWidth;
             if (mShiftX > 0) {
                 mShiftX = 0;
             }
@@ -340,17 +353,19 @@ public class FormulaEditor extends View implements MathField {
             }
         }
 
-        int cursorX = 0;
-        if (pixRed != 0) {
-            cursorX = cursorRed / pixRed;
+        // if no red pixel, no cursor: do nothing
+        if (pixRed == 0) {
+            return;
         }
+
+        int cursorX = cursorRed / pixRed;
 
         System.out.println("cursorX: " + cursorX);
         int margin = (int) (CURSOR_MARGIN * mScale);
         if (cursorX - margin + mShiftX < 0) {
             mShiftX = -cursorX + margin;
-        } else if (cursorX + margin + mShiftX > getWidth()) {
-            mShiftX = getWidth() - cursorX - margin;
+        } else if (cursorX + margin + mShiftX > inputBarWidth) {
+            mShiftX = inputBarWidth - cursorX - margin;
         }
         System.out.println("mShiftX: " + mShiftX);
 
