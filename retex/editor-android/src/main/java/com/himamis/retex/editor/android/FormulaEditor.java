@@ -202,7 +202,7 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     public void setClickListener(ClickListener clickListener) {
-        setOnTouchListener(new ClickListenerAdapter(clickListener));
+        setOnTouchListener(new ClickListenerAdapter(clickListener, this));
     }
 
     @Override
@@ -387,26 +387,14 @@ public class FormulaEditor extends View implements MathField {
         return fic;
     }
 
-    @Override
-    public boolean onCheckIsTextEditor() {
-        return true;
+    public boolean onPointerDown(MotionEvent event){
+    	return true;
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (onCheckIsTextEditor()) {
-            super.onTouchEvent(event);
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                // show the keyboard so we can enter text
-                InputMethodManager imm = (InputMethodManager) getContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(this, InputMethodManager.SHOW_FORCED);
-            }
-            return false;
-        } else {
-            // default behaviour
-            return super.onTouchEvent(event);
-        }
+    public boolean onPointerUp(MotionEvent event) {
+        InputMethodManager imm = (InputMethodManager) getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(this, InputMethodManager.SHOW_FORCED);
+        return true;
     }
 
     @Override
