@@ -1220,6 +1220,11 @@ public class CAStestJSON {
 		testCat("SolveIneq");
 	}
 
+	@Test
+	public void testZip() {
+		testCat("Zip");
+	}
+
 
 	
 }
