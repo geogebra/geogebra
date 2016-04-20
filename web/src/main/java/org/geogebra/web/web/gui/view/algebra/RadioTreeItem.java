@@ -1594,16 +1594,7 @@ public class RadioTreeItem extends AVTreeItem
 		// Log.debug(DV + "replace to canvas " + text);
 
 		updateLaTeX(text);
-
-		// if (true) {// {
-		// if (isDefinitionAndValue() && geo.needToShowBothRowsInAV()) {
-		// buildLatexOutput(text);
-		// // // Log.debug("ihtml.add(outputPanel) in replaceCanvas");
-		// ihtml.add(outputPanel);
-		// } else {
-		// LayoutUtil.replace(ihtml, c, old);
-		// }
-		// }
+		LayoutUtilW.replace(ihtml, c, old);
 	}
 
 	private void editLatexMQ(String text0) {
