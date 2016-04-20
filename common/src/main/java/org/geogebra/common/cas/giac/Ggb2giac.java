@@ -38,6 +38,16 @@ public class Ggb2giac {
 	 * @return map signature => syntax
 	 */
 	public static Map<String, String> getMap(App app) {
+
+		// these commands aren't supported in the CAS View
+		// not supported in CAS
+		p("CopyFreeObject.1", "?");
+		p("Object.1", "?");
+		p("CellRange.2", "?");
+		p("Column.1", "?");
+		p("Row.1", "?");
+		p("Cell.2", "?");
+
 		p("Append.2", "append(%0,%1)");
 		// simplify() to make sure Binomial[n,1] gives n
 		p("Binomial.2", "simplify(binomial(%0,%1))");
@@ -98,9 +108,6 @@ public class Ggb2giac {
 						+ " ? )][1] ");
 
 		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
-
-		// not supported in CAS
-		p("CopyFreeObject.1", "?");
 
 		p("Covariance.2", "covariance(%0,%1)");
 		p("Covariance.1", "normal(covariance(%0))");
