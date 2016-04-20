@@ -116,8 +116,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 //		
 
 		
-
-		FlowPanel holderPanel = new FlowPanel();
 		ScrollPanel scrollPane = new ScrollPanel(table);
 
 
@@ -126,7 +124,16 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			headerTable = new CellTable<RowData>();
 			headerTable.addStyleName("headerTable");
 			headerTable.addStyleName("cpTable");
-			cpPanel.add(headerTable);
+
+			// holder panel for table header,
+			// if there is a scrollbar of content-table, this panel will have a
+			// scrollbar too to fit the header for the content
+			FlowPanel holderPanel = new FlowPanel();
+			holderPanel.add(headerTable);
+			holderPanel.addStyleName("cpHeaderHolderPanel");
+
+			cpPanel.add(holderPanel);
+
 			outerScrollPanel = new MyPanel(); // used for horizontal
 														// scrolling
 			outerScrollPanel.addStyleName("outerScrollPanel");

@@ -3654,7 +3654,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	overflow-y: hidden !important;
 }
 
-.outerScrollPanel div{
+.outerScrollPanel > div{
 	height: 100%;
 }
 
