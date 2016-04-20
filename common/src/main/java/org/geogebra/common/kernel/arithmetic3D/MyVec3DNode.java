@@ -135,17 +135,17 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		ExpressionValue evx = x.evaluate(tpl);
 		if (!(evx instanceof NumberValue)) {
-			String[] str = { "NumberExpected", evx.toString(tpl) };
+			String[] str = { "NumberExpected", evx.wrap().toString(tpl) };
 			throw new MyParseError(kernel.getLocalization(), str);
 		}
 		ExpressionValue evy = y.evaluate(tpl);
 		if (!(evy instanceof NumberValue)) {
-			String[] str = { "NumberExpected", evy.toString(tpl) };
+			String[] str = { "NumberExpected", evy.wrap().toString(tpl) };
 			throw new MyParseError(kernel.getLocalization(), str);
 		}
 		ExpressionValue evz = z.evaluate(tpl);
 		if (!(evz instanceof NumberValue)) {
-			String[] str = { "NumberExpected", evz.toString(tpl) };
+			String[] str = { "NumberExpected", evz.wrap().toString(tpl) };
 			throw new MyParseError(kernel.getLocalization(), str);
 		}
 

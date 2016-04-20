@@ -99,6 +99,7 @@ import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
@@ -342,7 +343,8 @@ public class AlgebraProcessor {
 	 *            true to allow redefinition of free objects
 	 * @param storeUndoInfo
 	 *            true to make undo step
-	 * @return changed geo
+	 * @param callback
+	 *            what to do with the changed geo
 	 * @throws Exception
 	 *             e.g. parse exception or circular definition
 	 * @throws MyError
@@ -388,7 +390,8 @@ public class AlgebraProcessor {
 	 * @param storeUndoInfo
 	 *            true to makeundo step
 	 * 
-	 * @return changed geo
+	 * @param callback
+	 *            what to do with the changed geo
 	 * @throws Exception
 	 *             circular definition
 	 */
@@ -657,6 +660,14 @@ public class AlgebraProcessor {
 				return null;
 			}
 			throw new MyException(e, MyException.IMBALANCED_BRACKETS);
+		} catch (MyParseError e) {
+			// this is thrown from eg a=1; a(2,2)
+			e.printStackTrace();
+			if (allowErrorDialog) {
+				app.showError(e.getLocalizedMessage());
+				return null;
+			}
+			throw new MyException(e, MyException.INVALID_INPUT);
 		} catch (Error e) {
 			e.printStackTrace();
 			if (allowErrorDialog) {
@@ -1033,6 +1044,9 @@ public class AlgebraProcessor {
 				app.showError(e);
 				e.printStackTrace();
 			} else if (throwMyError) {
+				if (e instanceof MyParseError) {
+					throw e;
+				}
 				throw new MyError(loc, e.getLocalizedMessage(),
 						e.getcommandName(),e);
 			}

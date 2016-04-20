@@ -222,6 +222,17 @@ public class Parser implements ParserInterface{
        default:return null;
      }
    }
+
+   private ExpressionValue toFunctionArgument(MyList list, String funcName)   {
+     switch(list.size())     {       case 1: return list.getListElement(0);
+       case 2: return new MyVecNode(kernel,list.getListElement(0),list.getListElement(1));
+       case 3: return new MyVec3DNode(kernel,list.getListElement(0),list.getListElement(1),list.getListElement(2));
+		 
+	}
+	String [] str = { "FunctionExpected", funcName };
+	throw new MyParseError(loc, str);
+		
+   }
 }
 PARSER_END(Parser)
 
@@ -2048,7 +2059,7 @@ ExpressionNode numberFunction():
         }
         // a(b) becomes a*b because a is not a function, no list, and no curve
         // e.g. a(1+x) = a*(1+x) when a is a number             
-            ExpressionNode expr =  new ExpressionNode(kernel, geoExp, Operation.MULTIPLY_OR_FUNCTION, myList.getListElement(0));
+            ExpressionNode expr =  new ExpressionNode(kernel, geoExp, Operation.MULTIPLY_OR_FUNCTION, toFunctionArgument(myList, funcName));
             undecided.add(expr);
             return expr; 
 

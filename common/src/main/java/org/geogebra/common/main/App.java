@@ -1600,6 +1600,11 @@ public abstract class App implements UpdateSelection {
 									+ loc.getCommandSyntax(command));
 					return;
 				}
+				if (e.getCause() instanceof MyError) {
+					showError((MyError) e.getCause());
+					return;
+				}
+
 			} else if (err == MyException.IMBALANCED_BRACKETS) {
 				showError((MyError) e.getCause());
 				return;
