@@ -149,7 +149,7 @@ public abstract class Renderer {
 		view3D.updateOwnDrawablesNow();
 
 		// update 3D drawables
-		drawable3DLists.updateAll();
+		view3D.updateDrawables(drawable3DLists);
 
 		// say that 3D view changed has been performed
 		view3D.resetViewChanged();
