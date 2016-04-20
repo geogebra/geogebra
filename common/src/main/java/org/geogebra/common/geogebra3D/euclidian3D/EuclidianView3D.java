@@ -1644,7 +1644,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	/** tells if the view is under animation */
 	public boolean isAnimated() {
-		return animatedScale || isRotAnimated() || waitForScale;
+		return animatedScale || isRotAnimated() || waitForScreenTranslateAndScale;
 	}
 
 	/**
@@ -2026,13 +2026,19 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setViewChangedByRotate();
 		}
 
-		if (waitForScale) {
-			setScale(newScale);
+		if (waitForScreenTranslateAndScale) {
+			setXZero(XZeroOld + screenTranslateAndScaleDX);
+			setYZero(YZeroOld + screenTranslateAndScaleDY);
+			setZZero(ZZeroOld + screenTranslateAndScaleDZ);
+			getSettings().updateOriginFromView(getXZero(), getYZero(),
+					getZZero());
+			setScale(screenTranslateAndScaleNewScale);
 			updateMatrix();
 			setViewChangedByZoom();
+			setViewChangedByTranslate();
 			setWaitForUpdate();
 
-			waitForScale = false;
+			setWaitForScreenTranslateAndScale(false);
 		}
 
 	}
@@ -4356,12 +4362,40 @@ GRectangle selectionRectangle) {
 		// not used in 3D
 	}
 
-	private double newScale;
-	private boolean waitForScale = false;
+	private double screenTranslateAndScaleNewScale;
+	private double screenTranslateAndScaleDX;
+	private double screenTranslateAndScaleDY;
+	private double screenTranslateAndScaleDZ;
+	private boolean waitForScreenTranslateAndScale = false;
 
-	public void scale(double newScale) {
-		this.newScale = newScale;
-		waitForScale = true;
+	public void screenTranslateAndScale(double dx, double dy, double newScale) {
+
+		// dx and dy are translation in screen coords
+		// dx moves along "visible left-right" axis on xOy plane
+		// dy moves along "visible front-back" axis on xOy plane
+		//    or z-axis if this one "visibly" more than sqrt(2)*front-back axis
+		tmpCoords1.set(Coords.VX);
+		toSceneCoords3D(tmpCoords1);
+		screenTranslateAndScaleDX = tmpCoords1.getX() * dx;
+		screenTranslateAndScaleDY = tmpCoords1.getY() * dx;
+
+		tmpCoords1.set(Coords.VY);
+		toSceneCoords3D(tmpCoords1);
+		double z = tmpCoords1.getZ() * getScale();
+		if (z > 0.5) {
+			screenTranslateAndScaleDZ = tmpCoords1.getZ() * (-dy);
+		} else {
+			screenTranslateAndScaleDX += tmpCoords1.getX() * (-dy);
+			screenTranslateAndScaleDY += tmpCoords1.getY() * (-dy);
+			screenTranslateAndScaleDZ = 0;
+		}
+
+		this.screenTranslateAndScaleNewScale = newScale;
+		setWaitForScreenTranslateAndScale(true);
+	}
+
+	public void setWaitForScreenTranslateAndScale(boolean flag) {
+		waitForScreenTranslateAndScale = flag;
 	}
 
 	@Override

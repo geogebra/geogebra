@@ -1,9 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -45,10 +41,10 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Path;
-import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
@@ -81,6 +77,10 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Controller for the 3D view
@@ -1641,6 +1641,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void wrapMousePressed(AbstractEvent e) {
 		mouseMoved = false;
 		// mousePressed = true;
+
+		// maybe called by twoTouchEnd()
+		// we don't want a "screen translate and scale"
+		// refresh after that
+		view3D.setWaitForScreenTranslateAndScale(false);
+
 		super.wrapMousePressed(e);
 	}
 
@@ -4165,7 +4171,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	public void onPinchPhone(int x, int y, double scaleFactor) {
-		view3D.scale(twoTouchStartScaleX * scaleFactor);
+		view3D.screenTranslateAndScale(
+				x - twoTouchStartX,
+				y - twoTouchStartY,
+				twoTouchStartScaleX * scaleFactor);
 	}
 
 }
