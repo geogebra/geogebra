@@ -1985,7 +1985,11 @@ public class RadioTreeItem extends AVTreeItem
 			// GOptionPaneW.setCaller(inputField.getTextBox());// we have no
 			// good FocusWidget
 			// app.showError(ee, inputField);
-			app.showError(ee.getMessage());// we use what we have
+			if (ee.getCause() instanceof MyError) {
+				app.showError((MyError) ee.getCause());
+			} else {
+				app.showError(ee.getMessage());// we use what we have
+			}
 			return false;
 		} catch (MyError ee) {
 			// TODO: better error handling
