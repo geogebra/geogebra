@@ -844,22 +844,15 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
-	private String lastDefinition = "";
-
 	private boolean updateDefinitionPanel() {
 
 		if (latex) {
 			String text = getTextForEditing(false,
 					StringTemplate.latexTemplate);
-			if (lastDefinition.equals(text) || editCanceled
-					|| definitionPanel.getWidgetCount() != 0) {
-				return false;
-			}
 
 			definitionPanel.clear();
 			c = latexToCanvas(text);
 			definitionPanel.add(c);
-			lastDefinition = text;
 		} else if (geo != null) {
 
 			IndexHTMLBuilder sb = getBuilder(definitionPanel);
@@ -875,7 +868,6 @@ public class RadioTreeItem extends AVTreeItem
 		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
 		latex = text != null;
 		return updateValuePanel(text);
-		// getTextForEditing(false, StringTemplate.latexTemplate));
 	}
 
 	private boolean updateValuePanel(String text) {
@@ -935,31 +927,30 @@ public class RadioTreeItem extends AVTreeItem
 		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
 		latex = text != null;
 
+		ihtml.clear();
 		if (updateDefinitionPanel()) {
-		}
 			plainTextItem.clear();
 			plainTextItem.add(definitionPanel);
 			// Log.debug("[AVR] Definition panel is updated");
-		/// }
+		}
 
 		if (updateValuePanel(text)) {
 			outputPanel.add(valuePanel);
 			plainTextItem.add(outputPanel);
 
-			Log.debug("[AVR] Value panel is updated");
+			// Log.debug("[AVR] Value panel is updated");
 		}
 
-		ihtml.clear();
 		ihtml.add(plainTextItem);
 	}
 
 	private void buildItemWithSingleRow() {
 
 		// LaTeX
+		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+		latex = text != null;
+
 		if (av.isRenderLaTeX()) {
-			String text = getLatexString(isInputTreeItem(),
-					LATEX_MAX_EDIT_LENGHT);
-			latex = text != null;
 
 			if (latex) {
 				if (isInputTreeItem()) {
@@ -971,8 +962,6 @@ public class RadioTreeItem extends AVTreeItem
 				ihtml.clear();
 				ihtml.add(c);
 			}
-		} else {
-			latex = false;
 		}
 
 		if (!latex) {
@@ -1841,6 +1830,9 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		} else {
 			editCanceled = true;
+			if (isDefinitionAndValue()) {
+				cancelDV();
+			}
 		}
 		updateAfterRedefine(false);
 	}
@@ -1871,6 +1863,12 @@ public class RadioTreeItem extends AVTreeItem
 				scrollIntoView();
 			}
 		});
+
+	}
+
+	private void cancelDV() {
+		Log.debug("CANCEL DV");
+		LayoutUtilW.replace(ihtml, definitionPanel, latexItem);
 
 	}
 
