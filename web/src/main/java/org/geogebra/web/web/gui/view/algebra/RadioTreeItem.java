@@ -876,6 +876,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		final Label lblDefinition = new Label(getOutputPrefix());
+		lblDefinition.addStyleName("prefix");
 
 		if (app.has(Feature.FRACTIONS)) {
 			ClickStartHandler.init(lblDefinition, new ClickStartHandler() {
