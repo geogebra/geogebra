@@ -851,7 +851,8 @@ public class RadioTreeItem extends AVTreeItem
 		if (latex) {
 			String text = getTextForEditing(false,
 					StringTemplate.latexTemplate);
-			if (lastDefinition.equals(text)) {
+			if (lastDefinition.equals(text) || editCanceled
+					|| definitionPanel.getWidgetCount() != 0) {
 				return false;
 			}
 
@@ -866,7 +867,7 @@ public class RadioTreeItem extends AVTreeItem
 					geo.getDefinition(StringTemplate.defaultTemplate), sb);
 
 		}
-
+		editCanceled = false;
 		return true;
 	}
 
@@ -935,10 +936,11 @@ public class RadioTreeItem extends AVTreeItem
 		latex = text != null;
 
 		if (updateDefinitionPanel()) {
+		}
 			plainTextItem.clear();
 			plainTextItem.add(definitionPanel);
 			// Log.debug("[AVR] Definition panel is updated");
-		}
+		/// }
 
 		if (updateValuePanel(text)) {
 			outputPanel.add(valuePanel);
@@ -946,6 +948,9 @@ public class RadioTreeItem extends AVTreeItem
 
 			Log.debug("[AVR] Value panel is updated");
 		}
+
+		ihtml.clear();
+		ihtml.add(plainTextItem);
 	}
 
 	private void buildItemWithSingleRow() {
@@ -1506,6 +1511,8 @@ public class RadioTreeItem extends AVTreeItem
 	private Canvas c;
 	private Canvas valC;
 
+	private boolean editCanceled = false;
+
 	private void renderLatex(String text0, Widget w, boolean forceMQ) {
 		if (definitionAndValue) {
 			renderLatexDV(text0, w, forceMQ);
@@ -1800,7 +1807,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		boolean ret = false;
-
+		editCanceled = false;
 		removeCloseButton();
 
 		editing = false;
@@ -1824,6 +1831,8 @@ public class RadioTreeItem extends AVTreeItem
 				// TODO: create new GeoElement!
 
 			}
+		} else {
+			editCanceled = true;
 		}
 		if (!this.isInputTreeItem() && c != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
@@ -1836,8 +1845,9 @@ public class RadioTreeItem extends AVTreeItem
 					latexItem.getElement());
 		}
 		// maybe it's possible to enter something which is non-LaTeX
-		// if (ret)
+		if (ret) {
 			doUpdate();
+		}
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
