@@ -13,6 +13,8 @@ import org.geogebra.web.html5.util.ImageWrapper;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.googlecode.gwtgl.binding.WebGLRenderingContext;
@@ -43,6 +45,13 @@ public class RendererWithImplW extends RendererWithImpl implements
 		rendererImpl = new RendererImplShadersW(this, view3D);
 
 		createGLContext(false);
+
+		// when window is unload, dispose openGL stuff
+		Window.addCloseHandler(new CloseHandler<Window>() {
+			public void onClose(CloseEvent<Window> event) {
+				rendererImpl.dispose();
+			}
+		});
 
 	}
 
