@@ -30,6 +30,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.RendererType;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -47,7 +48,6 @@ import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersionD;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererGLPickingGL2;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererShadersElements;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.javax.swing.GBoxD;
@@ -132,7 +132,9 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		if (app.useShaders()) {
 			return new RendererShadersElements(this, !app.isApplet());
 		}
-		return new RendererGLPickingGL2(this, !app.isApplet());
+
+		return new RendererCheckGLVersionD(this, !app.isApplet(),
+				RendererType.GL2);
 
 	}
 
