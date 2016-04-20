@@ -10,11 +10,17 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inequality;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * @author kondr
@@ -29,6 +35,9 @@ public class DrawInequality1Var extends Drawable {
 	private GLine2D[] lines;
 	private GEllipse2DDouble[] circle;
 	private boolean varIsY;
+
+	private double maxBound = 1000000;
+	private double minBound = -1000000;
 
 	/**
 	 * Creates new drawable inequality
@@ -49,7 +58,91 @@ public class DrawInequality1Var extends Drawable {
 		this.geo = geo;
 		this.view = view;
 		this.varIsY = varIsY;
+		setBoundary(this.ineq);
+	}
 
+	// set min or max boundary for inequality
+	private void setBoundary(Inequality ineq2) {
+		if (ineq2.getOperation().equals(Operation.GREATER)
+				|| ineq2.getOperation().equals(Operation.GREATER_EQUAL)) {
+			ExpressionNode expr = ineq2.getNormalExpression();
+			if (expr.getOperation().equals(Operation.MINUS)) {
+				if(expr.getLeft() instanceof FunctionVariable 
+						&&  isNumber(expr.getRight())) {
+					double min = expr.getRight().evaluateDouble();
+					minBound = min;
+				}
+				if (expr.getLeft() instanceof ExpressionNode
+						&& isVariableNegated((ExpressionNode) expr.getLeft())
+						&& isNumber(expr.getRight())) {
+					double max = expr.getRight().evaluateDouble();
+					maxBound = -max;
+				}
+				if (isNumber(expr.getLeft())
+						&& expr.getRight() instanceof ExpressionNode
+						&& isVariableNegated((ExpressionNode) expr.getRight())) {
+					double min = expr.getLeft().evaluateDouble();
+					minBound = -min;
+				}
+				if (isNumber(expr.getLeft())
+						&& expr.getRight() instanceof FunctionVariable) {
+					double max = expr.getLeft().evaluateDouble();
+					maxBound = max;
+				}
+			}
+			if (expr.getOperation().equals(Operation.PLUS)) {
+				if (expr.getLeft() instanceof FunctionVariable
+						&& isNumber(expr.getRight())) {
+					double min = expr.getRight().evaluateDouble();
+					minBound = -min;
+				}
+				if (expr.getLeft() instanceof ExpressionNode
+						&& isVariableNegated((ExpressionNode) expr.getLeft())
+						&& isNumber(expr.getRight())) {
+					double max = expr.getRight().evaluateDouble();
+					maxBound = max;
+				}
+			}
+		}
+		if (ineq2.getOperation().equals(Operation.LESS)
+				|| ineq2.getOperation().equals(Operation.LESS_EQUAL)) {
+			ExpressionNode expr = ineq2.getNormalExpression();
+			if (expr.getOperation().equals(Operation.MINUS)) {
+				if (isNumber(expr.getLeft())
+						&& expr.getRight() instanceof FunctionVariable) {
+					double max = expr.getLeft().evaluateDouble();
+					maxBound = max;
+				}
+				if (expr.getLeft() instanceof FunctionVariable
+						&& isNumber(expr.getRight())) {
+					double min = expr.getRight().evaluateDouble();
+					minBound = min;
+				}
+			}
+			if (expr.getOperation().equals(Operation.PLUS)) {
+				if (isNumber(expr.getLeft())
+						&& expr.getRight() instanceof FunctionVariable) {
+					double min = expr.getLeft().evaluateDouble();
+					minBound = -min;
+				}
+			}
+		}
+
+	}
+
+	private static boolean isNumber(ExpressionValue expr) {
+		return expr instanceof NumberValue
+				&& !(expr instanceof FunctionVariable);
+	}
+
+	// e.g. -x
+	private static boolean isVariableNegated(ExpressionNode expr) {
+		if (expr.getOperation().equals(Operation.MULTIPLY)
+				&& Kernel.isEqual(expr.getLeft().evaluateDouble(), -1)
+				&& expr.getRight() instanceof FunctionVariable) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
