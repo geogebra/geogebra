@@ -762,13 +762,13 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-	public boolean isAutoSavedFileAvailable() {
+	public String getAutosaveJSON() {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
-	public void restoreAutoSavedFile() {
+	public void restoreAutoSavedFile(String json) {
 		// TODO Auto-generated method stub
 
 	}

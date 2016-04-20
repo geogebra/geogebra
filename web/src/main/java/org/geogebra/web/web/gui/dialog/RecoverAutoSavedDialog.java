@@ -22,6 +22,7 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	private VerticalPanel dialogPanel;
 	private FlowPanel buttonContainer;
 	private Label infoText;
+	private String materialJSON;
 	
 	/**
 	 * only used from {@link AppWapplication}
@@ -85,7 +86,7 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 * starts autoSaving again and closes the dialog.
 	 */
 	void doRecover() {
-		app.getFileManager().restoreAutoSavedFile();
+		app.getFileManager().restoreAutoSavedFile(materialJSON);
 		app.getFileManager().deleteAutoSavedFile();
 		app.startAutoSave();
 		this.hide();
@@ -125,5 +126,9 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	public void show() {
 		super.show();
 		super.center();
+	}
+
+	public void setJSON(String json) {
+		this.materialJSON = json;
 	}
 }

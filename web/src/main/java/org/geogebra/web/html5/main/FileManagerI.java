@@ -26,9 +26,9 @@ public interface FileManagerI {
 
 	void autoSave();
 
-	boolean isAutoSavedFileAvailable();
+	String getAutosaveJSON();
 
-	public void restoreAutoSavedFile();
+	public void restoreAutoSavedFile(String json);
 
 	public void deleteAutoSavedFile();
 

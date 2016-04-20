@@ -129,10 +129,11 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	 * shows the {@link RecoverAutoSavedDialog}
 	 * @param app2 {@link AppWapplication}
 	 */
-	public void showRecoverAutoSavedDialog(AppWapplication app2) {
+	public void showRecoverAutoSavedDialog(AppWapplication app2, String json) {
 		if (this.autoSavedDialog == null) {
 			this.autoSavedDialog = new RecoverAutoSavedDialog(app2);
 		}
+		this.autoSavedDialog.setJSON(json);
 		this.autoSavedDialog.show();
 	}
 	

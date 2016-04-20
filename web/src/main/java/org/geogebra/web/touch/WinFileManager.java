@@ -33,13 +33,12 @@ public class WinFileManager extends FileManager {
 	}
 
 	@Override
-	public boolean isAutoSavedFileAvailable() {
-		// not in touch either
-		return false;
+	public String getAutosaveJSON() {
+		return null;
 	}
 
 	@Override
-	public void restoreAutoSavedFile() {
+	public void restoreAutoSavedFile(String json) {
 		// not in touch either
 
 	}

@@ -195,21 +195,20 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public boolean isAutoSavedFileAvailable() {
-		if (stockStore != null && stockStore.getItem(AUTO_SAVE_KEY) != null) {
-			return true;
+	public String getAutosaveJSON() {
+		if (stockStore != null) {
+			return stockStore.getItem(AUTO_SAVE_KEY);
 		}
-		return false;
+		return null;
 	}
 
 	/**
 	 * opens the auto-saved file. call first {@code isAutoSavedFileAvailable}
 	 */
 	@Override
-	public void restoreAutoSavedFile() {
+	public void restoreAutoSavedFile(String materialJSON) {
 		Material autoSaved = JSONParserGGT
-				.parseMaterial(stockStore
-		        .getItem(AUTO_SAVE_KEY));
+				.parseMaterial(materialJSON);
 		// maybe another user restores the file, so reset
 		// sensitive data
 		autoSaved.setAuthor("");

@@ -125,15 +125,17 @@ public class AppWapplication extends AppWFull {
 		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()) {
 			return;
 		}
-
-		if (getFileManager().isAutoSavedFileAvailable()
+		final String materialJSON = getFileManager().getAutosaveJSON();
+		if (materialJSON != null
 				&& !this.isStartedWithFile()
 				&& this.getExam() == null) {
+
 			afterLocalizationLoaded(new Runnable() {
 
 				public void run() {
 					((DialogManagerW) getDialogManager())
-							.showRecoverAutoSavedDialog(AppWapplication.this);
+							.showRecoverAutoSavedDialog(AppWapplication.this,
+									materialJSON);
 				}
 			});
 		} else {
