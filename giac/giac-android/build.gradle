@@ -16,9 +16,6 @@ buildscript {
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.library'
 
-dependencies {
-    compile project(':giac-jni') 
-}
 
 android {
     compileSdkVersion 23
