@@ -6,6 +6,7 @@ import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.main.AppW;
@@ -236,10 +237,17 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		if (source == btOK
 		        || sourceShouldHandleOK(source)) {
 			inputText = inputPanel.getText();
-			setVisible(!processInputHandler());
+			processInputHandler(new AsyncOperation<Boolean>() {
+
+				@Override
+				public void callback(Boolean ok) {
+					setVisible(!ok);
+
+				}
+			});
 		} else if (source == btApply) {
 			inputText = inputPanel.getText();
-			processInputHandler();
+			processInputHandler(null);
 		} else if (source == btProperties && geo != null) {
 			setVisible(false);
 			tempArrayList.clear();

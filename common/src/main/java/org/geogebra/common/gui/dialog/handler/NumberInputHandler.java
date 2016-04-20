@@ -29,20 +29,37 @@ public class NumberInputHandler implements InputHandler {
 	
   }
   
-  public boolean processInput(String inputString) {
-    GeoElement[] result = algebraProcessor.processAlgebraCommand(inputString, false);
-    boolean success = result != null && result[0] instanceof GeoNumberValue;
-    if (success) {
-      setNum((GeoNumberValue) result[0]);
-      if (callback != null){
-    	  app.getKernel().getConstruction().setSuppressLabelCreation(oldVal);
-    	  callback.callback(num);
-      }
-    }
-    else{
-    	algebraProcessor.showError("NumberExpected");
-    }
-    return success;
+	public void processInput(String inputString,
+			final AsyncOperation<Boolean> callback0) {
+		try {
+			algebraProcessor.processAlgebraCommandNoExceptionHandling(
+					inputString, false, false, false, true,
+					new AsyncOperation<GeoElement[]>() {
+
+						@Override
+						public void callback(GeoElement[] result) {
+							boolean success = result != null
+									&& result[0] instanceof GeoNumberValue;
+							if (success) {
+								setNum((GeoNumberValue) result[0]);
+								if (callback != null) {
+									app.getKernel().getConstruction()
+											.setSuppressLabelCreation(oldVal);
+									callback.callback(num);
+								}
+							} else {
+								algebraProcessor.showError("NumberExpected");
+							}
+							callback0.callback(true);
+							return;
+
+						}
+					});
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
   }
 
   public void setNum(GeoNumberValue num) {

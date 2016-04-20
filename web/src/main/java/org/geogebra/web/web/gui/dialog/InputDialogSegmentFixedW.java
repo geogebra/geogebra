@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
@@ -30,7 +31,7 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 
 		try {
 			if (source == btOK || sourceShouldHandleOK(source)) {
-				setVisible(!processInput());
+				processInput();
 			} else if (source == btApply) {
 				processInput();
 			} else if (source == btCancel) {
@@ -42,23 +43,30 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 		}
 	}
 
-	private boolean processInput() {
+	private void processInput() {
 
 		// avoid labeling of num
 		Construction cons = kernel.getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		boolean ret = inputHandler.processInput(inputPanel.getText());
+		inputHandler.processInput(inputPanel.getText(),
+				new AsyncOperation<Boolean>() {
+
+					@Override
+					public void callback(Boolean ok) {
+						if (ok) {
+							DialogManager.doSegmentFixed(kernel, geoPoint1,
+									((NumberInputHandler) inputHandler)
+											.getNum());
+						}
+						setVisible(!ok);
+					}
+				});
 
 		cons.setSuppressLabelCreation(oldVal);
 
-		if (ret) {
-			DialogManager.doSegmentFixed(kernel, geoPoint1,
-					((NumberInputHandler) inputHandler).getNum());
-		}
 
-		return ret;
 	}
 
 }

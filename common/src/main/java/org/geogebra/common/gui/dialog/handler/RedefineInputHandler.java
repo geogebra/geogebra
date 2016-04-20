@@ -36,10 +36,17 @@ public class RedefineInputHandler implements InputHandler {
 		return geo;
 	}
 
-	public boolean processInput(String rawInput) {			
-		if (rawInput == null)
-			return false;
-		if (rawInput.equals(this.oldString)) return true; // Michael Borcherds 2007-12-31
+	public void processInput(String rawInput,
+			final AsyncOperation<Boolean> callback) {
+		if (rawInput == null) {
+			callback.callback(false);
+			return;
+		}
+		if (rawInput.equals(this.oldString)) {
+			callback.callback(true);
+			return; // Michael Borcherds 2007-12-31
+
+		}
 		try {
 			String inputValue = rawInput;
 			if (geo instanceof FunctionalNVar) {
@@ -67,18 +74,19 @@ public class RedefineInputHandler implements InputHandler {
 								oldString = input;
 								// -----------------------------------------------------------
 							}
-
+							callback.callback(newGeo != null);
 									}
 					});
 			
 
             
-			return true;
+
+			return;
 		} catch (Exception e) {
 			app.showError("ReplaceFailed");			
 		} catch (MyError err) {
 			app.showError(err);			
 		} 
-		return false;
+		callback.callback(false);
 	}
 }

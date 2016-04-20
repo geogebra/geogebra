@@ -4,6 +4,7 @@ import javax.swing.JCheckBox;
 
 import org.geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import org.geogebra.common.gui.view.algebra.DialogType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -38,9 +39,9 @@ public class NumberChangeSignInputDialog extends InputDialogD {
 	}
 
 	@Override
-	protected boolean processInputHandler() {
-		return ((NumberChangeSignInputHandler) inputHandler).processInput(
-				inputText, changingSign && checkBox.isSelected());
+	protected void processInputHandler(AsyncOperation<Boolean> callback) {
+		((NumberChangeSignInputHandler) inputHandler).processInput(
+				inputText, changingSign && checkBox.isSelected(), callback);
 	}
 
 	@Override

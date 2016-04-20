@@ -22,15 +22,17 @@ public class NumberChangeSignInputHandler extends NumberInputHandler {
    * @param changeSign
    * @return number handled
    */
-  public boolean processInput(String inputString, boolean changeSign) {
-    if (changeSign) {
-      StringBuilder sb = new StringBuilder();
-      sb.append("-(");
-      sb.append(inputString);
-      sb.append(")");
-      return processInput(sb.toString());
+	public void processInput(String inputString, boolean changeSign,
+			AsyncOperation<Boolean> callback) {
+		if (changeSign) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("-(");
+			sb.append(inputString);
+			sb.append(")");
+			processInput(sb.toString(), callback);
+		} else {
+
+			processInput(inputString, callback);
     }
-    
-		return processInput(inputString);
   }
 }

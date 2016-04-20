@@ -8,6 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.util.AsyncOperation;
 
 public class ScriptInputModel extends OptionsModel {
 	public interface IScriptInputListener extends PropertyListener {
@@ -86,8 +87,8 @@ public class ScriptInputModel extends OptionsModel {
 		handlingDocumentEventOff = currentHandlingDocumentEventOff;
 	}
 
-	public boolean processInput(String inputText) {
-		return inputHandler.processInput(inputText);
+	public void processInput(String inputText, AsyncOperation<Boolean> callback) {
+		inputHandler.processInput(inputText, callback);
 	}
 
 
@@ -131,13 +132,17 @@ public class ScriptInputModel extends OptionsModel {
 			kernel = app.getKernel();
 		}
 
-		public boolean processInput(String inputValue) {
-			if (inputValue == null)
-				return false;
+		public void processInput(String inputValue,
+				AsyncOperation<Boolean> callback) {
+			if (inputValue == null) {
+				callback.callback(false);
+				return;
+			}
 
 			if (global) {
 				app.getKernel().setLibraryJavaScript(inputValue);
-				return true;
+				callback.callback(true);
+				return;
 			}
 
 			if (getGeo() == null) {
@@ -155,7 +160,7 @@ public class ScriptInputModel extends OptionsModel {
 			} else {
 				getGeo().setClickScript(script);
 			}
-			return true;
+			callback.callback(true);
 		}
 	}
 

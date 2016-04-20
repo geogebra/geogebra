@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
@@ -41,8 +42,6 @@ public class InputDialogDilateW extends InputDialogW {
 
 		try {
 			if (source == btOK || sourceShouldHandleOK(source)) {
-				setVisible(!processInput());
-			} else if (source == btApply) {
 				processInput();
 			} else if (source == btCancel) {
 				setVisible(false);
@@ -53,24 +52,34 @@ public class InputDialogDilateW extends InputDialogW {
 		}
 	}
 
-	private boolean processInput() {
+	private void processInput() {
 
 		// avoid labeling of num
-		Construction cons = kernel.getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
+		final Construction cons = kernel.getConstruction();
+		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		boolean success = inputHandler.processInput(inputPanel.getText());
+		inputHandler.processInput(inputPanel.getText(),
+				new AsyncOperation<Boolean>() {
 
-		cons.setSuppressLabelCreation(oldVal);
+					@Override
+					public void callback(Boolean ok) {
+						cons.setSuppressLabelCreation(oldVal);
 
-		if (success) {
-			return DialogManager.doDilate(kernel,
-					((NumberInputHandler) inputHandler).getNum(), points,
-					selGeos, ec);
-		}
+						if (ok) {
+							DialogManager
+									.doDilate(kernel,
+											((NumberInputHandler) inputHandler)
+													.getNum(),
+											points, selGeos, ec);
+						}
+						setVisible(!ok);
+					}
+				});
 
-		return false;
+
+
+
 
 		/*
 		 * 

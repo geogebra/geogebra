@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import org.geogebra.common.gui.view.algebra.DialogType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.CheckBox;
@@ -33,7 +34,7 @@ public class NumberChangeSignInputDialogW extends InputDialogW{
 	}
 	
 	@Override
-	protected boolean processInputHandler(){
+	protected void processInputHandler(AsyncOperation<Boolean> callback) {
 //		Construction cons = app.getKernel().getConstruction();
 //		boolean oldVal = cons.isSuppressLabelsActive();
 //		cons.setSuppressLabelCreation(true);
@@ -44,6 +45,7 @@ public class NumberChangeSignInputDialogW extends InputDialogW{
 //		}
 //		return success;
 		
-		return ((NumberChangeSignInputHandler) inputHandler).processInput(inputText,changingSign && checkBox.getValue());
+		((NumberChangeSignInputHandler) inputHandler).processInput(inputText,
+				changingSign && checkBox.getValue(), callback);
 	}
 }

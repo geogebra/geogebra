@@ -13,6 +13,7 @@ package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.view.algebra.DialogType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -90,20 +91,35 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 					inputText = "-(" + inputText + ")";
 				}
 
-				finished = inputHandler.processInput(inputText);
+				inputHandler.processInput(inputText,
+						new AsyncOperation<Boolean>() {
+
+							@Override
+							public void callback(Boolean ok) {
+								afterActionPerformed(ok);
+
+							}
+						});
 			} else if (source == btCancel) {
-				finished = true;		
+				afterActionPerformed(true);
 				success=false;
 				inputPanel.getTextComponent().hideTablePopup();
 			}
 		} catch (Exception ex) {
+			afterActionPerformed(false);
 			// do nothing on uninitializedValue		
 			success=false;
 		}
+
+	}
+
+	private void afterActionPerformed(boolean finished) {
 		if (finished) {
 			wrappedPopup.hide();
 			app.getActiveEuclidianView().requestFocusInWindow();
-		} else
+		} else {
 			wrappedPopup.show();
+		}
+
 	}
 }

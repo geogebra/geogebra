@@ -11,9 +11,12 @@ the Free Software Foundation.
  */
 package org.geogebra.common.gui;
 
+import org.geogebra.common.util.AsyncOperation;
+
 public interface InputHandler {
 	/**
 	 * Processes inputString and returns success state.
 	 */
-	public boolean processInput(String inputString);
+	public void processInput(String inputString,
+			AsyncOperation<Boolean> callback);
 }

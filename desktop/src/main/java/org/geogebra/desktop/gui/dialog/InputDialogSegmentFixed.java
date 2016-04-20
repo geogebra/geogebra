@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
@@ -40,8 +41,6 @@ public class InputDialogSegmentFixed extends InputDialogD {
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				setVisibleForTools(!processInput());
-			} else if (source == btApply) {
 				processInput();
 			} else if (source == btCancel) {
 				setVisibleForTools(false);
@@ -52,23 +51,31 @@ public class InputDialogSegmentFixed extends InputDialogD {
 		}
 	}
 
-	private boolean processInput() {
+	private void processInput() {
 
 		// avoid labeling of num
 		Construction cons = kernel.getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		boolean ret = inputHandler.processInput(inputPanel.getText());
+		inputHandler.processInput(inputPanel.getText(),
+				new AsyncOperation<Boolean>() {
+
+					@Override
+					public void callback(Boolean ok) {
+						if (ok) {
+							DialogManager.doSegmentFixed(kernel, geoPoint1,
+									((NumberInputHandler) inputHandler)
+											.getNum());
+						}
+						setVisibleForTools(!ok);
+					}
+				});
 
 		cons.setSuppressLabelCreation(oldVal);
 
-		if (ret) {
-			DialogManager.doSegmentFixed(kernel, geoPoint1,
-					((NumberInputHandler) inputHandler).getNum());
-		}
 
-		return ret;
+
 	}
 
 	@Override

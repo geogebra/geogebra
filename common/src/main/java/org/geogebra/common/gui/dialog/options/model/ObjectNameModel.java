@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.AsyncOperation;
 
 public class ObjectNameModel extends OptionsModel {
 	public interface IObjectNameListener extends PropertyListener {
@@ -112,7 +113,14 @@ public class ObjectNameModel extends OptionsModel {
 	public void applyNameChange(final String name) {
 
 		nameInputHandler.setGeoElement(currentGeo);
-		nameInputHandler.processInput(name);
+		nameInputHandler.processInput(name, new AsyncOperation<Boolean>() {
+
+			@Override
+			public void callback(Boolean obj) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 		// reset label if not successful
 		final String strName = currentGeo.getLabel(StringTemplate.defaultTemplate);
@@ -125,15 +133,25 @@ public class ObjectNameModel extends OptionsModel {
 	
 	public void applyDefinitionChange(final String definition) {
 		if (!definition.equals(getDefText(currentGeo))) {
+			defInputHandler.processInput(definition,
+					new AsyncOperation<Boolean>() {
 
-			if (defInputHandler.processInput(definition)) {
-				// if succeeded, switch current geo
-				currentGeo = defInputHandler.getGeoElement();
-				app.getSelectionManager().clearSelectedGeos(false, false);
-				app.getSelectionManager().addSelectedGeo(currentGeo);
-			} else {
-				setRedefinitionFailed(true);
-			}
+						@Override
+						public void callback(Boolean ok) {
+							if (ok) {
+								// if succeeded, switch current geo
+								currentGeo = defInputHandler.getGeoElement();
+								app.getSelectionManager()
+										.clearSelectedGeos(false, false);
+								app.getSelectionManager()
+										.addSelectedGeo(currentGeo);
+							} else {
+								setRedefinitionFailed(true);
+							}
+
+						}
+					});
+
 		}
 
 	}
@@ -169,15 +187,33 @@ public class ObjectNameModel extends OptionsModel {
 				
 				listener.setDefinitionText(text);
 				defInputHandler.setGeoElement(geo);
-				if (defInputHandler.processInput(text))
-					// if succeeded, switch current geo
-					setCurrentGeo(defInputHandler.getGeoElement());
+				defInputHandler.processInput(text,
+						new AsyncOperation<Boolean>() {
+
+							@Override
+							public void callback(Boolean ok) {
+								if(ok){
+									setCurrentGeo(defInputHandler.getGeoElement());
+								}
+
+							}
+						}
+				);
+					
 			}
 		}else{
 			String strDefinition = redefinitionText;
 			if (!strDefinition.equals(getDefText(geo))) {
 				defInputHandler.setGeoElement(geo);
-				defInputHandler.processInput(strDefinition);
+				defInputHandler.processInput(strDefinition,
+						new AsyncOperation<Boolean>() {
+
+							@Override
+							public void callback(Boolean obj) {
+								// TODO Auto-generated method stub
+
+							}
+						});
 				defInputHandler.setGeoElement(currentGeo);
 			}
 		}

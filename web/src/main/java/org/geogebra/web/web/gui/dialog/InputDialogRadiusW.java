@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
@@ -37,8 +38,6 @@ public abstract class InputDialogRadiusW extends InputDialogW{
 
 		try {
 			if (source == btOK || sourceShouldHandleOK(source)) {
-				setVisible(!processInput());
-			} else if (source == btApply) {
 				processInput();
 			} else if (source == btCancel) {
 				setVisible(false);
@@ -49,27 +48,35 @@ public abstract class InputDialogRadiusW extends InputDialogW{
 		}
 	}
 
-	private boolean processInput() {
+	private void processInput() {
 
 		// avoid labeling of num
-		Construction cons = kernel.getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
+		final Construction cons = kernel.getConstruction();
+		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		boolean ret = inputHandler.processInput(inputPanel.getText());
+		inputHandler.processInput(inputPanel.getText(),
+				new AsyncOperation<Boolean>() {
 
-		cons.setSuppressLabelCreation(oldVal);
+					@Override
+					public void callback(Boolean ok) {
+						cons.setSuppressLabelCreation(oldVal);
+						if (ok) {
+							GeoElement circle = createOutput(((NumberInputHandler) inputHandler)
+									.getNum());
+							GeoElement[] geos = { circle };
+							app.storeUndoInfoAndStateForModeStarting();
+							kernel.getApplication().getActiveEuclidianView()
+									.getEuclidianController().memorizeJustCreatedGeos(geos);
+						}
+						setVisible(!ok);
+					}
+				});
 
-		if (ret) {
-			GeoElement circle = createOutput(((NumberInputHandler) inputHandler)
-					.getNum());
-			GeoElement[] geos = { circle };
-			app.storeUndoInfoAndStateForModeStarting();
-			kernel.getApplication().getActiveEuclidianView()
-					.getEuclidianController().memorizeJustCreatedGeos(geos);
-		}
+		
 
-		return ret;
+		
+
 	}
 
 	/**

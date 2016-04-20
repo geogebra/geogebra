@@ -15,6 +15,7 @@ import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ScriptArea;
 
@@ -146,13 +147,20 @@ public class ScriptInputPanelW extends FlowPanel implements
 	}
 
 
-	private boolean processInput() {
+	private void processInput() {
 		inputText = textArea.getText();
-		return model.processInput(inputText);
+		model.processInput(inputText, new AsyncOperation<Boolean>() {
+
+			@Override
+			public void callback(Boolean obj) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
-	
+
 	private void applyScript() {
-		boolean finished = processInput();
+		processInput();
 		model.setGeo(model.getGeo());
 		
 		

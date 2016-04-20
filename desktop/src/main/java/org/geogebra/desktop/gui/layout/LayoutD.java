@@ -33,6 +33,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.main.AppD;
@@ -406,22 +407,26 @@ public class LayoutD extends Layout implements SettingListener {
 			this.layout = layout;
 		}
 
-		public boolean processInput(String inputString) {
+		public void processInput(String inputString,
+				AsyncOperation<Boolean> callback) {
 			// tmp is reserved for the default perspective
 			if (inputString.equals("tmp")) {
-				return false;
+				callback.callback(false);
+				return;
 			}
 
 			// such a perspective already exists
 			if (layout.getPerspective(inputString) != null) {
-				return false;
+				callback.callback(false);
+				return;
 			}
 
 			layout.addPerspective(layout.createPerspective(inputString));
 			layout.getApplication().updateMenubar();
 			GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
 
-			return true;
+			callback.callback(true);
+			return;
 		}
 	}
 

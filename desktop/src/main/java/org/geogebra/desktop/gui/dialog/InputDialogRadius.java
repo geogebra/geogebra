@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
@@ -46,7 +47,7 @@ public abstract class InputDialogRadius extends InputDialogD {
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				setVisibleForTools(!processInput());
+				processInput();
 			} else if (source == btApply) {
 				processInput();
 			} else if (source == btCancel) {
@@ -58,27 +59,36 @@ public abstract class InputDialogRadius extends InputDialogD {
 		}
 	}
 
-	private boolean processInput() {
+	private void processInput() {
 
 		// avoid labeling of num
-		Construction cons = kernel.getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
+		final Construction cons = kernel.getConstruction();
+		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		boolean ret = inputHandler.processInput(inputPanel.getText());
+		inputHandler.processInput(inputPanel.getText(),
+				new AsyncOperation<Boolean>() {
 
-		cons.setSuppressLabelCreation(oldVal);
+					@Override
+					public void callback(Boolean ok) {
+						cons.setSuppressLabelCreation(oldVal);
 
-		if (ret) {
-			GeoElement circle = createOutput(((NumberInputHandler) inputHandler)
-					.getNum());
-			GeoElement[] geos = { circle };
-			app.storeUndoInfoAndStateForModeStarting();
-			kernel.getApplication().getActiveEuclidianView()
-					.getEuclidianController().memorizeJustCreatedGeos(geos);
-		}
+						if (ok) {
+							GeoElement circle = createOutput(
+									((NumberInputHandler) inputHandler)
+											.getNum());
+							GeoElement[] geos = { circle };
+							app.storeUndoInfoAndStateForModeStarting();
+							kernel.getApplication().getActiveEuclidianView()
+									.getEuclidianController()
+									.memorizeJustCreatedGeos(geos);
+						}
+						setVisibleForTools(!ok);
+					}
+				});
 
-		return ret;
+
+
 	}
 
 	/**

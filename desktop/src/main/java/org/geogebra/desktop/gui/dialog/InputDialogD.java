@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
@@ -413,10 +414,17 @@ public class InputDialogD extends InputDialog
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
 				inputText = inputPanel.getText();
-				setVisible(!processInputHandler());
+				processInputHandler(new AsyncOperation<Boolean>() {
+
+					@Override
+					public void callback(Boolean ok) {
+						setVisible(!ok);
+
+					}
+				});
 			} else if (source == btApply) {
 				inputText = inputPanel.getText();
-				processInputHandler();
+				processInputHandler(null);
 			} else if (source == btCancel) {
 				cancel();
 			} else if (source == btProperties && geo != null) {

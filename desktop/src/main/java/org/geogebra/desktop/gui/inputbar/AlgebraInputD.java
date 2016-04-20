@@ -46,6 +46,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.view.algebra.AlgebraInputDropTargetListener;
@@ -378,13 +379,13 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 					// need label if we type just eg
 					// lnx
-					if (geos.length == 1 && !geos[0].labelSet) {
+					if (geos != null && geos.length == 1 && !geos[0].labelSet) {
 						geos[0].setLabel(geos[0].getDefaultLabel());
 					}
 
 					// set first outputs (same geo class) as selected geos (for
 					// properties view)
-					if (geos.length > 0) {
+					if (geos != null && geos.length > 0) {
 						ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 						// add first output
 						GeoElement geo = geos[0];
@@ -406,6 +407,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 				}
 			} catch (Exception ee) {
+				Log.debug("EXCEPTION" + ee.getClass());
 				inputField.addToHistory(getTextField().getText());
 				app.showError(ee, inputField);
 				return;
@@ -417,7 +419,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 			// create texts in the middle of the visible view
 			// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
-			if (geos.length > 0 && geos[0] != null && geos[0].isGeoText()) {
+			if (geos != null && geos.length > 0 && geos[0] != null
+					&& geos[0].isGeoText()) {
 				GeoText text = (GeoText) geos[0];
 				if (!text.isTextCommand() && text.getStartPoint() == null) {
 

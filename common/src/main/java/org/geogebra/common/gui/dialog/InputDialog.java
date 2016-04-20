@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.AsyncOperation;
 
 /**
  * Abstract class for input dialogs
@@ -15,8 +16,9 @@ public abstract class InputDialog {
 	protected String inputText = null;
 	protected ArrayList<GeoElement> tempArrayList = new ArrayList<GeoElement>();
 
-	protected boolean processInputHandler() {
-		return inputHandler.processInput(inputText);
+	protected void processInputHandler(AsyncOperation<Boolean> callback) {
+		inputHandler.processInput(inputText, callback);
 	}
+
 
 }

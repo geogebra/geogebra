@@ -130,9 +130,11 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			kernel = app.getKernel();
 		}
 
-		public boolean processInput(String input) {
+		public void processInput(String input,
+				AsyncOperation<Boolean> callback) {
 			if (input == null) {
-				return false;
+				callback.callback(false);
+				return;
 			}
 			String inputValue = input;
 			// no quotes?
@@ -159,9 +161,10 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 				inputValue = inputValue.replaceAll("\n\"", "\"\n");
 			}
 
-			if (inputValue.equals("\"\""))
-				return false;
-
+			if (inputValue.equals("\"\"")) {
+				callback.callback(false);
+				return;
+			}
 			// create new GeoText
 			boolean createText = editGeo == null;
 			if (createText) {
@@ -238,9 +241,11 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 					t.updateRepaint();
 					app.storeUndoInfo();
-					return true;
+					callback.callback(true);
+					return;
 				}
-				return false;
+				callback.callback(false);
+				return;
 			}
 
 			// change existing text
@@ -272,10 +277,10 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 							}
 						});
 
-				return true;
+				callback.callback(true);
 			} catch (Exception e) {
 				app.showError(e.getMessage());
-				return false;
+				callback.callback(false);
 			}
 		}
 	}

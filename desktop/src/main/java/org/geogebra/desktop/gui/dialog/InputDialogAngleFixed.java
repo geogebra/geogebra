@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
@@ -59,7 +60,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				setVisibleForTools(!processInput());
+				processInput();
 			} else if (source == btApply) {
 				processInput();
 			} else if (source == btCancel) {
@@ -71,11 +72,11 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 		}
 	}
 
-	private boolean processInput() {
+	private void processInput() {
 
 		// avoid labeling of num
-		Construction cons = kernel.getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
+		final Construction cons = kernel.getConstruction();
+		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		inputText = inputPanel.getText();
@@ -85,26 +86,32 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 			inputText = "-(" + inputText + ")";
 		}
 
-		boolean success = inputHandler.processInput(inputText);
+		inputHandler.processInput(inputText, new AsyncOperation<Boolean>() {
 
-		cons.setSuppressLabelCreation(oldVal);
+			@Override
+			public void callback(Boolean ok) {
+				cons.setSuppressLabelCreation(oldVal);
 
-		if (success) {
-			String angleText = getText();
-			// keep angle entered if it ends with 'degrees'
-			if (angleText.endsWith(Unicode.DEGREE)) {
-				defaultRotateAngle = angleText;
-			} else {
-				defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+				if (ok) {
+					String angleText = getText();
+					// keep angle entered if it ends with 'degrees'
+					if (angleText.endsWith(Unicode.DEGREE)) {
+						defaultRotateAngle = angleText;
+					} else {
+						defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+					}
+					DialogManager.doAngleFixed(kernel, segments, points,
+							selGeos,
+							((NumberInputHandler) inputHandler).getNum(),
+							rbClockWise.isSelected(), ec);
+
+				}
+				setVisibleForTools(!ok);
 			}
-			DialogManager.doAngleFixed(kernel, segments, points, selGeos,
-					((NumberInputHandler) inputHandler).getNum(),
-					rbClockWise.isSelected(), ec);
+		});
 
-			return true;
-		}
 
-		return false;
+
 
 	}
 

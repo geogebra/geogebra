@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.editor.GeoGebraEditorPane;
 import org.geogebra.desktop.main.AppD;
 
@@ -123,9 +124,9 @@ public class ScriptInputDialog extends InputDialogD implements
 		return btApply;
 	}
 
-	private boolean processInput() {
+	private void processInput(AsyncOperation<Boolean> callback) {
 		inputText = inputPanel.getText();
-		return model.processInput(inputText);
+		model.processInput(inputText, callback);
 	}
 
 	@Override
@@ -135,14 +136,21 @@ public class ScriptInputDialog extends InputDialogD implements
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
 
-				boolean finished = processInput();
-				if (wrappedDialog.isShowing()) {
-					// text dialog window is used and open
-					setVisible(!finished);
-				} else {
-					// text input field embedded in properties window
-					model.setGeo(model.getGeo());
-				}
+				processInput(new AsyncOperation<Boolean>() {
+
+					@Override
+					public void callback(Boolean finished) {
+						if (wrappedDialog.isShowing()) {
+							// text dialog window is used and open
+							setVisible(!finished);
+						} else {
+							// text input field embedded in properties window
+							model.setGeo(model.getGeo());
+						}
+
+					}
+				});
+
 			} else if (source == btCancel) {
 				if (wrappedDialog.isShowing())
 					setVisible(false);
@@ -183,7 +191,14 @@ public class ScriptInputDialog extends InputDialogD implements
 	public void applyModifications() {
 		if (model.isEditOccurred()) {
 			model.setEditOccurred(false);
-			processInput();
+			processInput(new AsyncOperation<Boolean>() {
+
+				@Override
+				public void callback(Boolean obj) {
+					// TODO Auto-generated method stub
+
+				}
+			});
 		}
 	}
 

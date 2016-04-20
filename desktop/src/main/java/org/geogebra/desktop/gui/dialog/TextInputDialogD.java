@@ -753,25 +753,32 @@ public class TextInputDialogD extends InputDialogD
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
 				isLaTeX = cbLaTeX.isSelected();
-				boolean finished;
 				editOccurred = false;
-				finished = inputHandler.processInput(editor
-						.buildGeoGebraString(isLaTeX));
-				editOccurred = false;
+				inputHandler.processInput(editor.buildGeoGebraString(isLaTeX),
+						new AsyncOperation<Boolean>() {
 
-				if (wrappedDialog.isShowing()) {
-					// text dialog window is used and open
+							@Override
+							public void callback(Boolean finished) {
+								editOccurred = false;
 
-					if (isTextMode)// don't clear selected geos don't set mode
-						setVisibleForTools(!finished);
-					else
-						setVisible(!finished);
+								if (wrappedDialog.isShowing()) {
+									// text dialog window is used and open
 
-					// if(isTextMode)
-					// app.setMode(EuclidianConstants.MODE_TEXT);
-				}
-				if (finished)
-					app.setMode(EuclidianConstants.MODE_MOVE);
+									if (isTextMode)// don't clear selected geos
+													// don't set mode
+										setVisibleForTools(!finished);
+									else
+										setVisible(!finished);
+
+									// if(isTextMode)
+									// app.setMode(EuclidianConstants.MODE_TEXT);
+								}
+								if (finished)
+									app.setMode(EuclidianConstants.MODE_MOVE);
+
+							}
+						});
+
 			}
 
 			else if (source == btCancel) {
@@ -971,8 +978,15 @@ public class TextInputDialogD extends InputDialogD
 	public void applyModifications() {
 		if (editOccurred) {
 			editOccurred = false;// do this first to ensure no circular call
-			inputHandler.processInput(editor.buildGeoGebraString(isLaTeX));
-			editOccurred = false;
+			inputHandler.processInput(editor.buildGeoGebraString(isLaTeX),
+					new AsyncOperation<Boolean>() {
+
+						@Override
+						public void callback(Boolean obj) {
+							editOccurred = false;
+
+						}
+					});
 		}
 	}
 
@@ -1039,10 +1053,13 @@ public class TextInputDialogD extends InputDialogD
 			kernel = app.getKernel();
 		}
 
-		public boolean processInput(String inputValue) {
+		public void processInput(String inputValue,
+				final AsyncOperation<Boolean> callback) {
 			if (inputValue == null || (editGeo != null && editGeo.isFixed())
-					|| (editGeo != null && !editGeo.isLabelSet()))
-				return false;
+					|| (editGeo != null && !editGeo.isLabelSet())){
+				callback.callback(false);
+				return;
+			}
 
 			// no quotes?
 			if (inputValue.indexOf('"') < 0) {
@@ -1068,8 +1085,10 @@ public class TextInputDialogD extends InputDialogD
 				inputValue = inputValue.replaceAll("\n\"", "\"\n");
 			}
 
-			if (inputValue.equals("\"\""))
-				return false;
+			if (inputValue.equals("\"\"")) {
+				callback.callback(false);
+				return;
+			}
 
 			// create new text
 			boolean createText = editGeo == null;
@@ -1151,9 +1170,11 @@ public class TextInputDialogD extends InputDialogD
 
 					t.updateRepaint();
 					app.storeUndoInfo();
-					return true;
+					callback.callback(true);
+					return;
 				}
-				return false;
+				callback.callback(false);
+				return;
 			}
 
 			// change existing text
@@ -1178,7 +1199,7 @@ public class TextInputDialogD extends InputDialogD
 									newText.updateRepaint();
 
 								app.doAfterRedefine(newText);
-
+								callback.callback(obj != null);
 							}
 						});
 
@@ -1186,13 +1207,13 @@ public class TextInputDialogD extends InputDialogD
 
 				// make redefined text selected
 				// app.addSelectedGeo(newText);
-				return true;
+				callback.callback(false);
 			} catch (Exception e) {
 				app.showError("ReplaceFailed");
-				return false;
+				callback.callback(false);
 			} catch (MyError err) {
 				app.showError(err);
-				return false;
+				callback.callback(false);
 			}
 		}
 	}
