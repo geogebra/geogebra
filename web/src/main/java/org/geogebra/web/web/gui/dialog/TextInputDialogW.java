@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -244,25 +245,34 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 			// change existing text
 			try {
-				GeoElement newText = kernel.getAlgebraProcessor()
-						.changeGeoElement(editGeo, inputValue, true, true);
+				kernel.getAlgebraProcessor().changeGeoElement(editGeo,
+						inputValue, true, true,
+						new AsyncOperation<GeoElement>() {
 
-				if (newText instanceof GeoText) {
-					// make sure newText is using correct LaTeX setting
-					((GeoText) newText).setLaTeX(isLatex(), true);
+							@Override
+							public void callback(GeoElement newText) {
+								if (newText instanceof GeoText) {
+									// make sure newText is using correct LaTeX
+									// setting
+									((GeoText) newText).setLaTeX(isLatex(),
+											true);
 
-					if (newText.getParentAlgorithm() != null)
-						newText.getParentAlgorithm().update();
-					else
-						newText.updateRepaint();
+									if (newText.getParentAlgorithm() != null)
+										newText.getParentAlgorithm().update();
+									else
+										newText.updateRepaint();
 
-					app.doAfterRedefine(newText);
+									app.doAfterRedefine(newText);
 
-					// make redefined text selected
-					app.getSelectionManager().addSelectedGeo(newText);
-					return true;
-				}
-				return false;
+									// make redefined text selected
+									app.getSelectionManager()
+											.addSelectedGeo(newText);
+								}
+
+							}
+						});
+
+				return true;
 			} catch (Exception e) {
 				app.showError(e.getMessage());
 				return false;

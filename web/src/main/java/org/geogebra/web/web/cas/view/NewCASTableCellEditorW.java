@@ -263,11 +263,11 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	@Override
-	public boolean stopEditing(String latex) {
+	public void stopEditing(String latex,
+			AsyncOperation<GeoElement> callback) {
 		thisIsEdited = false;
 		// TODO Auto-generated method stub
 		App.debug("STOPPED" + latex);
-		return false;
 	}
 
 	@Override

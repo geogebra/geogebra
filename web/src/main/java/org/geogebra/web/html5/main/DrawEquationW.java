@@ -1190,7 +1190,7 @@ public class DrawEquationW extends DrawEquation {
 
 		var latexq = null;
 		elSecond.previousSibling.style.display = "block";
-		@org.geogebra.web.html5.main.DrawEquationW::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
+		@org.geogebra.web.html5.main.DrawEquationW::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rbti,latexq,function(){});
 		thisjq.mathquillggb('revert').mathquillggb();
 	}-*/;
 
@@ -1207,18 +1207,27 @@ public class DrawEquationW extends DrawEquation {
 		var thisjq = $wnd.$ggbQuery(elSecondInside);
 		var latexq = thisjq.mathquillggb('text');
 		elSecond.previousSibling.style.display = "block";
-		var rett = @org.geogebra.web.html5.main.DrawEquationW::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
-		if (!rett) {
-			// redefinition did not succeed
+		var onError = function() {
 			thisjq.mathquillggb('revert').mathquillggb();
-		}
+		};
+		var rett = @org.geogebra.web.html5.main.DrawEquationW::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rbti,latexq,onError);
+
 	}-*/;
 
-	public static boolean endEditingEquationMathQuillGGB(GeoContainer rbti,
-			String latex) {
+	public static void endEditingEquationMathQuillGGB(GeoContainer rbti,
+			String latex, final JavaScriptObject onError) {
 		currentWidget = null;
 		currentElement = null;
-		return rbti.stopEditing(latex);
+		rbti.stopEditing(latex, new AsyncOperation<GeoElement>() {
+
+			@Override
+			public void callback(GeoElement obj) {
+				if (obj == null) {
+					ScriptManagerW.runCallback(onError);
+				}
+
+			}
+		});
 	}
 
 

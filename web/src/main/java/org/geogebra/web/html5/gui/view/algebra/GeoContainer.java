@@ -26,7 +26,8 @@ public interface GeoContainer {
 
 	public void showOrHideSuggestions();
 
-	public boolean stopEditing(String latex);
+	public void stopEditing(String latex,
+			AsyncOperation<GeoElement> callback);
 
 	public Element getElement();
 

@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.AsyncOperation;
 
 public class RedefineInputHandler implements InputHandler {
 
@@ -48,22 +49,31 @@ public class RedefineInputHandler implements InputHandler {
 						+ ((FunctionalNVar) geo).getVarString(StringTemplate.defaultTemplate)
 						+ ")=" + inputValue;
 			}
-			GeoElement newGeo = app.getKernel().getAlgebraProcessor().changeGeoElement(
-					geo, inputValue, true, true);
-			app.getKernel().clearJustCreatedGeosInViews();
+			final String input = inputValue;
+			app.getKernel().getAlgebraProcessor().changeGeoElement(
+					geo, inputValue, true, true,
+					new AsyncOperation<GeoElement>() {
+
+						@Override
+						public void callback(GeoElement newGeo) {
+							app.getKernel().clearJustCreatedGeosInViews();
+
+							if (newGeo != null) {
+								app.doAfterRedefine(newGeo);
+
+								// update after redefine
+								// http://code.google.com/p/geogebra/issues/detail?id=147
+								setGeoElement(newGeo);
+								oldString = input;
+								// -----------------------------------------------------------
+							}
+
+									}
+					});
 			
-            if (newGeo != null) {
-            	app.doAfterRedefine(newGeo);
-            
-            	// update after redefine
-            	// http://code.google.com/p/geogebra/issues/detail?id=147
-            	setGeoElement(newGeo);
-                oldString = inputValue;
-                // -----------------------------------------------------------
-            }
 
             
-			return newGeo != null;
+			return true;
 		} catch (Exception e) {
 			app.showError("ReplaceFailed");			
 		} catch (MyError err) {

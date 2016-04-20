@@ -315,18 +315,17 @@ public class AlgebraProcessor {
 	 * 
 	 * @return changed geo
 	 */
-	public GeoElement changeGeoElement(GeoElement geo, String newValue,
-			boolean redefineIndependent, boolean storeUndoInfo) {
+	public void changeGeoElement(GeoElement geo, String newValue,
+			boolean redefineIndependent, boolean storeUndoInfo,
+			AsyncOperation<GeoElement> callback) {
 
 		try {
-			return changeGeoElementNoExceptionHandling(geo, newValue,
-					redefineIndependent, storeUndoInfo);
+			changeGeoElementNoExceptionHandling(geo, newValue,
+					redefineIndependent, storeUndoInfo, callback);
 		} catch (MyError e) {
 			app.showError(e);
-			return null;
 		} catch (Exception e) {
 			app.showError(e.getMessage());
-			return null;
 		}
 	}
 
@@ -350,8 +349,9 @@ public class AlgebraProcessor {
 	 *             eg assignment to fixed object
 	 *
 	 */
-	public GeoElement changeGeoElementNoExceptionHandling(GeoElement geo,
-			String newValue, boolean redefineIndependent, boolean storeUndoInfo)
+	public void changeGeoElementNoExceptionHandling(GeoElement geo,
+			String newValue, boolean redefineIndependent, boolean storeUndoInfo,
+			AsyncOperation<GeoElement> callback)
 			throws Exception, MyError {
 
 		try {
@@ -359,8 +359,8 @@ public class AlgebraProcessor {
 			if ("X".equals(ve.getLabel())) {
 				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons);
 			}
-			return changeGeoElementNoExceptionHandling(geo, ve,
-					redefineIndependent, storeUndoInfo);
+			changeGeoElementNoExceptionHandling(geo, ve,
+					redefineIndependent, storeUndoInfo, callback);
 		} catch (CircularDefinitionException e) {
 			throw e;
 		} catch (Exception e) {
@@ -392,9 +392,10 @@ public class AlgebraProcessor {
 	 * @throws Exception
 	 *             circular definition
 	 */
-	public GeoElement changeGeoElementNoExceptionHandling(GeoElement geo,
+	public void changeGeoElementNoExceptionHandling(final GeoElement geo,
 			ValidExpression newValue, boolean redefineIndependent,
-			boolean storeUndoInfo) throws Exception {
+			final boolean storeUndoInfo, AsyncOperation<GeoElement> callback)
+			throws Exception {
 		String oldLabel, newLabel;
 		GeoElement[] result;
 
@@ -429,21 +430,30 @@ public class AlgebraProcessor {
 
 			if (newLabel.equals(oldLabel)) {
 				// try to overwrite
-				boolean listeners = app.getScriptManager().hasListeners();
+				final boolean listeners = app.getScriptManager().hasListeners();
 				app.getScriptManager().disableListeners();
+				AsyncOperation<GeoElement[]> changeCallback = new AsyncOperation<GeoElement[]>() {
+
+					@Override
+					public void callback(GeoElement[] obj) {
+						if (listeners) {
+							geo.updateCascade();
+						}
+						if (obj != null) {
+							app.getCompanion().recallViewCreators();
+							if (storeUndoInfo)
+								app.storeUndoInfo();
+						}
+
+					}
+				};
+				app.getScriptManager().enableListeners();
+
 				result = processAlgebraCommandNoExceptionHandling(newValue,
 						false, false, false, true, null, redefineIndependent);
-				app.getScriptManager().enableListeners();
-				if (listeners) {
-					geo.updateCascade();
-				}
-				if (result != null) {
-					app.getCompanion().recallViewCreators();
-					if (storeUndoInfo)
-						app.storeUndoInfo();
-				}
 
-				return result[0];
+
+				return;
 			} else if (cons.isFreeLabel(newLabel)) {
 				newValue.setLabel(oldLabel);
 				// rename to oldLabel to enable overwriting
@@ -453,7 +463,7 @@ public class AlgebraProcessor {
 				app.getCompanion().recallViewCreators();
 				if (storeUndoInfo)
 					app.storeUndoInfo();
-				return result[0];
+				return;
 			} else {
 				String str[] = { "NameUsed", newLabel };
 				throw new MyError(loc, str);
@@ -665,8 +675,7 @@ public class AlgebraProcessor {
 	 *            whether to show a popup for undefined variables
 	 * @param callback0
 	 *            callback after the geos are created
-	 * @param redefineIndependent
-	 *            whether independent may be redefined
+	 * @param redefineIndependent whether independent may be redefined
 	 * @return resulting geos
 	 * @throws Exception
 	 *             e.g. circular definition or parse exception

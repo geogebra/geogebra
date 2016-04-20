@@ -1796,7 +1796,8 @@ public class RadioTreeItem extends AVTreeItem
 
 
 	@Override
-	public boolean stopEditing(String newValue0) {
+	public void stopEditing(String newValue0,
+			final AsyncOperation<GeoElement> callback) {
 
 		if (app.has(Feature.EXPAND_AV_FOR_LONG_EQUATIONS)) {
 			restoreSize();
@@ -1821,12 +1822,20 @@ public class RadioTreeItem extends AVTreeItem
 			// Formula Hacks ended.
 			if (geo != null) {
 				boolean redefine = !geo.isPointOnPath();
-				GeoElement geo2 = kernel.getAlgebraProcessor()
-						.changeGeoElement(geo, newValue, redefine, true);
-				if (geo2 != null) {
-					ret = true;
-					geo = geo2;
-				}
+				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
+						redefine, true, new AsyncOperation<GeoElement>() {
+
+							@Override
+							public void callback(GeoElement geo2) {
+								if (geo2 != null) {
+									geo = geo2;
+								}
+								if (callback != null) {
+									callback.callback(geo2);
+								}
+							}
+						});
+
 			} else {
 				// TODO: create new GeoElement!
 
@@ -1855,7 +1864,6 @@ public class RadioTreeItem extends AVTreeItem
 				scrollIntoView();
 			}
 		});
-		return ret;
 	}
 
 	/**

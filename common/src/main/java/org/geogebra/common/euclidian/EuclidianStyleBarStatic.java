@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
 public class EuclidianStyleBarStatic {
@@ -225,7 +226,7 @@ public class EuclidianStyleBarStatic {
 	public static GeoElement redefineGeo(GeoElement geo, String cmdtext) {
 		GeoElement newGeo = null;
 
-		App app = geo.getKernel().getApplication();
+		final App app = geo.getKernel().getApplication();
 
 		if (cmdtext == null)
 			return newGeo;
@@ -233,11 +234,16 @@ public class EuclidianStyleBarStatic {
 		App.debug("redefining " + geo + " as " + cmdtext);
 
 		try {
-			newGeo = app.getKernel().getAlgebraProcessor()
-					.changeGeoElement(geo, cmdtext, true, true);
-			app.doAfterRedefine(newGeo);
-			newGeo.updateRepaint();
-			return newGeo;
+			app.getKernel().getAlgebraProcessor().changeGeoElement(geo, cmdtext,
+					true, true, new AsyncOperation<GeoElement>() {
+
+						@Override
+						public void callback(GeoElement newGeo) {
+							app.doAfterRedefine(newGeo);
+							newGeo.updateRepaint();
+
+						}
+					});
 
 		} catch (Exception e) {
 			app.showError("ReplaceFailed");

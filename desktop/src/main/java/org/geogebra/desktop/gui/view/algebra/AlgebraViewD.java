@@ -42,7 +42,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.LayerView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
@@ -51,6 +50,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.inputfield.MathTextField;
 import org.geogebra.desktop.gui.view.Gridable;
 import org.geogebra.desktop.main.AppD;
@@ -748,16 +748,22 @@ public class AlgebraViewD extends AlgebraTree
 			// allow shift-double-click on a PointonPath in Algebra View to
 			// change without redefine
 			boolean redefine = !selectedGeoElement.isPointOnPath();
+			AsyncOperation<GeoElement> callback = new AsyncOperation<GeoElement>() {
 
-			GeoElement geo = kernel.getAlgebraProcessor().changeGeoElement(
-					selectedGeoElement, newValue, redefine, true);
-			if (geo != null) {
-				selectedGeoElement = geo;
-				selectedNode.setUserObject(selectedGeoElement);
-			}
+				@Override
+				public void callback(GeoElement geo) {
+					if (geo != null) {
+						selectedGeoElement = geo;
+						selectedNode.setUserObject(selectedGeoElement);
+					}
 
-			((DefaultTreeModel) getModel()).nodeChanged(selectedNode); // refresh
-			// display
+					((DefaultTreeModel) getModel()).nodeChanged(selectedNode);
+
+				}
+			};
+			kernel.getAlgebraProcessor().changeGeoElement(selectedGeoElement,
+					newValue, redefine, true, callback);
+
 		}
 
 		/*

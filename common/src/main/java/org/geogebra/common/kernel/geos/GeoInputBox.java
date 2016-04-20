@@ -16,6 +16,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.common.util.Unicode;
@@ -251,20 +252,34 @@ public class GeoInputBox extends GeoButton {
 				linkedGeo.updateRepaint();
 
 			} else {
-				linkedGeo = kernel.getAlgebraProcessor()
+				final boolean imaginary = imaginaryAdded;
+				kernel.getAlgebraProcessor()
 						.changeGeoElementNoExceptionHandling(linkedGeo,
-								defineText, linkedGeo.isIndependent(), true);
-				if (imaginaryAdded) {
-					ExpressionNode def = linkedGeo.getDefinition();
-					if (def != null
-							&& def.getOperation() == Operation.PLUS
-							&& def.getRight()
-									.toString(StringTemplate.defaultTemplate)
-									.equals("0" + Unicode.IMAGINARY)) {
-						linkedGeo.setDefinition(def.getLeftTree());
-					}
+								defineText, linkedGeo.isIndependent(), true,
+								new AsyncOperation<GeoElement>() {
 
-				}
+									@Override
+									public void callback(GeoElement obj) {
+										linkedGeo = obj;
+										if (imaginary) {
+											ExpressionNode def = linkedGeo
+													.getDefinition();
+											if (def != null
+													&& def.getOperation() == Operation.PLUS
+													&& def.getRight()
+															.toString(
+																	StringTemplate.defaultTemplate)
+															.equals("0"
+																	+ Unicode.IMAGINARY)) {
+												linkedGeo.setDefinition(
+														def.getLeftTree());
+											}
+
+										}
+										setLinkedGeo(linkedGeo);
+									}
+								});
+				return;
 			}
 		} catch (MyError e1) {
 			kernel.getApplication().showError(e1);

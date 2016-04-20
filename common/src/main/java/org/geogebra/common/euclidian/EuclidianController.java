@@ -77,6 +77,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -87,7 +88,6 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -683,7 +683,7 @@ public abstract class EuclidianController {
 						try {
 							kernel.getAlgebraProcessor()
 									.changeGeoElementNoExceptionHandling(geo,
-											geo2.wrap(), true, false);
+											geo2.wrap(), true, false, null);
 							kernel.lookupLabel(geolabel).setEuclidianVisible(
 									false);
 							kernel.lookupLabel(geolabel).updateRepaint();

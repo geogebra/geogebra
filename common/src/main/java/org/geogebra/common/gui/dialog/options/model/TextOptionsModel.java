@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 
 public class TextOptionsModel extends OptionsModel {
@@ -290,19 +291,25 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	public void applyEditedGeo(ArrayList<DynamicTextElement> text,
-			boolean isLatex, boolean isSerif) {
+			final boolean isLatex, final boolean isSerif) {
 		GeoText geo0 = getGeoTextAt(0);
-		GeoElement geo1 = app
+		app
 				.getKernel()
 				.getAlgebraProcessor()
 				.changeGeoElement(geo0,
 						dTProcessor.buildGeoGebraString(text, isLatex), true,
-						true);
-		((GeoText) geo1).setSerifFont(isSerif);
-		((GeoText) geo1).setLaTeX(isLatex, true);
-		((GeoText) geo1).updateRepaint();
-		app.getSelectionManager().addSelectedGeo(geo1);
-		editGeo = null;
+						true, new AsyncOperation<GeoElement>() {
+
+							@Override
+							public void callback(GeoElement geo1) {
+								((GeoText) geo1).setSerifFont(isSerif);
+								((GeoText) geo1).setLaTeX(isLatex, true);
+								((GeoText) geo1).updateRepaint();
+								app.getSelectionManager().addSelectedGeo(geo1);
+								editGeo = null;
+							}
+						});
+
 	}
 
 	public void cancelEditGeo() {

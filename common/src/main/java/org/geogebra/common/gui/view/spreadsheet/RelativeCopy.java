@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 
@@ -935,36 +936,48 @@ public class RelativeCopy {
 		return newValues[0];
 	}
 
-	private static GeoElement updateOldValue(Kernel kernel,
-			GeoElement oldValue, String name, String text) throws Exception {
+	private static void updateOldValue(final Kernel kernel,
+			final GeoElement oldValue, String name, String text,
+			final AsyncOperation<GeoElement> callback)
+			throws Exception {
 		String text0 = text;
 		if (text.charAt(0)== '=') {
 			text = text.substring(1);
 		}
-		GeoElement newValue = null;
+
 		try {
 			// always redefine objects in spreadsheet, don't store undo info
 			// here
-			newValue = kernel.getAlgebraProcessor()
+			kernel.getAlgebraProcessor()
 					.changeGeoElementNoExceptionHandling(oldValue, text, true,
-							false);
+							false, new AsyncOperation<GeoElement>() {
 
-			// newValue.setConstructionDefaults();
-			newValue.setAllVisualProperties(oldValue, true);
-			if (oldValue.isAuxiliaryObject()) {
-				newValue.setAuxiliaryObject(true);
-			}
+								@Override
+								public void callback(GeoElement newValue) {
+									// newValue.setConstructionDefaults();
+									newValue.setAllVisualProperties(oldValue,
+											true);
+									if (oldValue.isAuxiliaryObject()) {
+										newValue.setAuxiliaryObject(true);
+									}
 
-			// Application.debug("GeoClassType = " +
-			// newValue.getGeoClassType()+" " + newValue.getGeoClassType());
-			if (newValue.getGeoClassType() == oldValue.getGeoClassType()) {
-				// newValue.setVisualStyle(oldValue);
-			} else {
-				kernel.getApplication().refreshViews();
-			}
+									// Application.debug("GeoClassType = " +
+									// newValue.getGeoClassType()+" " +
+									// newValue.getGeoClassType());
+									if (newValue.getGeoClassType() == oldValue
+											.getGeoClassType()) {
+										// newValue.setVisualStyle(oldValue);
+									} else {
+										kernel.getApplication().refreshViews();
+									}
+									callback.callback(newValue);
+								}
+							});
+
+
 		} catch (CircularDefinitionException cde) {
 			kernel.getApplication().showError("CircularDefinition");
-			return null;
+			return;
 		} catch (Throwable e) {
 			// if exception is thrown treat the input as text and try to update
 			// the cell as a GeoText
@@ -979,7 +992,7 @@ public class RelativeCopy {
 				// as new GeoText
 				else if (!oldValue.hasChildren()) {
 					oldValue.remove();
-
+					GeoElement newValue;
 					// add input as text
 					try {
 						newValue = prepareNewValue(kernel, name, "\"" + text0
@@ -998,7 +1011,6 @@ public class RelativeCopy {
 				}
 			}
 		}
-		return newValue;
 	}
 
 	/**
@@ -1076,9 +1088,19 @@ public class RelativeCopy {
 
 			// else the target cell is an existing GeoElement, so redefine it
 		} else {
-			return updateOldValue(kernel, oldValue, name, text);
+			updateOldValue(kernel, oldValue, name, text,
+					new AsyncOperation<GeoElement>() {
+
+						@Override
+						public void callback(GeoElement obj) {
+							redefinedElement = obj;
+						}
+					});
+			return redefinedElement;
 		}
 	}
+
+	private static GeoElement redefinedElement;
 
 	/**
 	 * Tests if a string represents a number. 
