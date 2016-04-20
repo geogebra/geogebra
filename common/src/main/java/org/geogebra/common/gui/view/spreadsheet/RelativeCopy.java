@@ -26,6 +26,7 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -954,6 +955,7 @@ public class RelativeCopy {
 
 								@Override
 								public void callback(GeoElement newValue) {
+									Log.debug("REDEFINED" + newValue);
 									// newValue.setConstructionDefaults();
 									newValue.setAllVisualProperties(oldValue,
 											true);
@@ -1002,6 +1004,7 @@ public class RelativeCopy {
 					}
 					newValue.setEuclidianVisible(false);
 					newValue.update();
+					callback.callback(newValue);
 				}
 
 				// otherwise throw an exception and let the cell revert to the

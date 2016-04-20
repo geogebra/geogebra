@@ -394,7 +394,8 @@ public class AlgebraProcessor {
 	 */
 	public void changeGeoElementNoExceptionHandling(final GeoElement geo,
 			ValidExpression newValue, boolean redefineIndependent,
-			final boolean storeUndoInfo, AsyncOperation<GeoElement> callback)
+			final boolean storeUndoInfo,
+			final AsyncOperation<GeoElement> callback)
 			throws Exception {
 		String oldLabel, newLabel;
 		GeoElement[] result;
@@ -443,6 +444,9 @@ public class AlgebraProcessor {
 							app.getCompanion().recallViewCreators();
 							if (storeUndoInfo)
 								app.storeUndoInfo();
+							if (obj.length > 0) {
+								callback.callback(obj[0]);
+							}
 						}
 
 					}
@@ -450,9 +454,10 @@ public class AlgebraProcessor {
 				app.getScriptManager().enableListeners();
 
 				result = processAlgebraCommandNoExceptionHandling(newValue,
-						false, false, false, true, null, redefineIndependent);
+						false, false, false, true, changeCallback,
+						redefineIndependent);
 
-
+				cons.registerFunctionVariable(null);
 				return;
 			} else if (cons.isFreeLabel(newLabel)) {
 				newValue.setLabel(oldLabel);
@@ -463,7 +468,9 @@ public class AlgebraProcessor {
 				app.getCompanion().recallViewCreators();
 				if (storeUndoInfo)
 					app.storeUndoInfo();
-				return;
+				if (result.length > 0) {
+					callback.callback(result[0]);
+				}
 			} else {
 				String str[] = { "NameUsed", newLabel };
 				throw new MyError(loc, str);

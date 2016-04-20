@@ -1830,19 +1830,26 @@ public class RadioTreeItem extends AVTreeItem
 								if (geo2 != null) {
 									geo = geo2;
 								}
+								updateAfterRedefine(geo != null);
 								if (callback != null) {
 									callback.callback(geo2);
 								}
+
 							}
 						});
-
-			} else {
-				// TODO: create new GeoElement!
-
+				return;
 			}
 		} else {
 			editCanceled = true;
 		}
+		updateAfterRedefine(false);
+	}
+
+	/**
+	 * @param success
+	 *            whether redefinition was successful
+	 */
+	protected void updateAfterRedefine(boolean success) {
 		if (!this.isInputTreeItem() && c != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
 			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
@@ -1854,7 +1861,7 @@ public class RadioTreeItem extends AVTreeItem
 					latexItem.getElement());
 		}
 		// maybe it's possible to enter something which is non-LaTeX
-		if (ret) {
+		if (success) {
 			doUpdate();
 		}
 
@@ -1864,6 +1871,7 @@ public class RadioTreeItem extends AVTreeItem
 				scrollIntoView();
 			}
 		});
+
 	}
 
 	/**
