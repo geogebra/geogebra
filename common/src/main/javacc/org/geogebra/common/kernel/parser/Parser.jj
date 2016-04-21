@@ -389,9 +389,9 @@ TOKEN : {
 
 // labels for function names
 TOKEN: {
-    < X_FUNC:  ("x" | "xcoord") + ("("|"[")>
-|  < Y_FUNC:  ("y" | "ycoord")  + ("("|"[")> 
-|  < Z_FUNC:  ("z" | "zcoord")  + ("("|"[")>
+    < X_FUNC:  ("x" | "xcoord")  ("("|"[")>
+|  < Y_FUNC:  ("y" | "ycoord")   ("("|"[")> 
+|  < Z_FUNC:  ("z" | "zcoord")   ("("|"[")>
 |  < RANDOM_FUNC:  "random()"  >
 |   < POLAR_SEPARATOR: ( "\u2221" | ";" ) > // separator used by Giac instead of ;
 |    < SQRT_SHORT: "\u221a" > 
