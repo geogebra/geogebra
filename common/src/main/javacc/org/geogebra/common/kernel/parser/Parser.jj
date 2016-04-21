@@ -1555,22 +1555,13 @@ ExpressionValue enelement():
     LOOKAHEAD(2147483647)
     ev = cartesianvector()
         { return ev; } 
-|    
-    // cartesian vector  (x, y, z) or (x|y|z)
-    LOOKAHEAD(2147483647)
-    ev = cartesianvector3D()
-        { return ev; } 
-|    
+|
     // polar vector   
     LOOKAHEAD(2147483647)
     ev = polarvector()
         { return ev; } 
  |
-    // spherical polar vector   
-    LOOKAHEAD(2147483647)
-    ev = sphericalvector()
-        { return ev; } 
- |
+
   // text (between " ... ")
   c = <TEXT>
     { 
@@ -2072,76 +2063,47 @@ ExpressionNode numberFunction():
 }
 
 
-/**
- * cartesianvector =  ( expression, expression ) 
- */
-VectorValue cartesianvector():
-{     
-    ExpressionValue x, y;                
-}
-{   
-    // cartesian coordinates
-  
-    (  LOOKAHEAD(2147483647)
-   ( "(" x = expressionnode() <COMMA> y = expressionnode() ")"  )   
-    | 
-    (  "(" x = expressionnode() <VERTICAL_BAR> y = expressionnode() ")" )
-    )
-        {  return new MyVecNode(kernel, x, y); }           
-}
+
 
 /**
+   cartesianvector =  ( expression, expression )
  * cartesianvector3D =  ( expression, expression ) 
  */
-Vector3DValue cartesianvector3D():
+VectorNDValue cartesianvector():
 {     
-    ExpressionValue x, y, z;                
+    ExpressionValue x, y, z = null;                
 }
 {   
     // cartesian coordinates
   
     (  LOOKAHEAD(2147483647)
-   ( "(" x = expressionnode() <COMMA> y = expressionnode() <COMMA> z = expressionnode() ")"  )   
+   ( "(" x = expressionnode() <COMMA> y = expressionnode() (<COMMA> z = expressionnode())? ")"  )   
     | 
-    (  "(" x = expressionnode() <VERTICAL_BAR> y = expressionnode() <VERTICAL_BAR> z = expressionnode() ")" )
+    (  "(" x = expressionnode() <VERTICAL_BAR> y = expressionnode() (<VERTICAL_BAR> z = expressionnode())? ")" )
     )
-        {  return new MyVec3DNode(kernel, x, y, z); }           
+        {  return z== null ? new MyVecNode(kernel, x, y) : new MyVec3DNode(kernel, x, y, z); }           
 }
 
 /**
- * polarvector = ( expression ; expression )             
+ * polarvector = ( expression ; expression )
+ * sphericalvector = ( expression ; expression ; expression )            
  */
-VectorValue polarvector():
+VectorNDValue polarvector():
 {     
-    ExpressionValue r, phi;                  
-    MyVecNode v;
+    ExpressionValue r, theta, phi = null;                  
+    VectorNDValue v;
 }
-{   
+{   
     (  
-     ( "(" r = expressionnode() <POLAR_SEPARATOR> phi = expressionnode() ")" )
+     ( "(" r = expressionnode() <POLAR_SEPARATOR> theta = expressionnode() (<POLAR_SEPARATOR> phi = expressionnode())? ")" )
     )   
-        {                            
+        {
+          	if(phi==null)          	{          	
              v = new MyVecNode(kernel);                         
-             v.setPolarCoords(r, phi);     
-             return v;
-        }          
-}
-
-/**
- * sphericalvector = ( expression ; expression ; expression )             
- */
-Vector3DValue sphericalvector():
-{     
-    ExpressionValue r, phi, theta;                  
-    MyVec3DNode v;
-}
-{   
-    (  
-     ( "(" r = expressionnode() <POLAR_SEPARATOR> theta = expressionnode() <POLAR_SEPARATOR> phi = expressionnode() ")" )
-    )   
-        {                            
-             v = new MyVec3DNode(kernel);                         
-             v.setSphericalPolarCoords(r, theta, phi);     
+             ((MyVecNode)v).setPolarCoords(r, theta);
+           } else           { 				v = new MyVec3DNode(kernel);                         
+             ((MyVec3DNode)v).setSphericalPolarCoords(r, theta, phi);
+           }    
              return v;
         }          
 }
