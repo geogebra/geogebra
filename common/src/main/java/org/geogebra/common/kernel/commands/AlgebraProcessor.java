@@ -812,7 +812,7 @@ public class AlgebraProcessor {
 				// No: go back into input bar and allow user to change input
 				if (app.getGuiManager() != null) {
 					AsyncOperation<String[]> callback = null;
-					if (callback0 != null) {
+
 
 						// final FunctionVariable fvX2 = fvX;
 						final ValidExpression ve2 = ve;
@@ -843,11 +843,13 @@ public class AlgebraProcessor {
 										return;
 									}
 								}
+							if (callback0 != null) {
 								callback0.callback(geos);
+							}
 							}
 
 						};
-					}
+
 					boolean autoCreateSlidersAnswer = this.app.getGuiManager()
 							.checkAutoCreateSliders(sb.toString(), callback);
 					if (!autoCreateSlidersAnswer) {
