@@ -118,6 +118,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
@@ -895,7 +896,7 @@ public class RadioTreeItem extends AVTreeItem
 		valuePanel.clear();
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 		geo.getAlgebraDescriptionTextOrHTMLDefault(sb);
-		valuePanel.add(new Label(sb.toString()));
+		valuePanel.add(new HTML(sb.toString()));
 		if (latex) {
 			valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
 			if (valC != null) {
