@@ -238,14 +238,10 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
-		// DO NOT REMOVE -- NEEDED TO AVOID ERRORS IN INSTALLED/PORTABLE
-		// VERSIONS
-		System.out.println("cleanup, remember to release shaders");
-
+		// DO NOT REMOVE THE METHOD HERE -- NEEDED TO AVOID ERRORS IN
+		// INSTALLED/PORTABLE VERSIONS
 		setGL(drawable);
-
 		rendererImpl.dispose();
-
 	}
 
 
