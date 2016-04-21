@@ -131,10 +131,5 @@ public class PatternPaintContext implements PaintContext
         return buf.getData();
     }
 
-    public static void main(String[] argv)
-    {
-        int i = -4;
-        System.err.println("Hello " + (i % 4));
-    }
 
 }

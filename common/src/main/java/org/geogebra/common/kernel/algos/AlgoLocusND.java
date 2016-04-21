@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * locus line for Q dependent on P
@@ -572,7 +573,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 			// calculating the steps took too long, so we stopped somewhere
 			if (maxTimeExceeded) {
-				System.err.println("AlgoLocus: max time exceeded");
+				Log.error("AlgoLocus: max time exceeded");
 				return;
 			}
 			// make sure that Pcopy is back at startPos now

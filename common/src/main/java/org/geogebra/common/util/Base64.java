@@ -87,6 +87,8 @@ package org.geogebra.common.util;
 
 import java.io.IOException;
 
+import org.geogebra.common.util.debug.Log;
+
 /**
  * Encodes / decodes binary file (as array of bytes) to / from Base64 string
  *
@@ -273,7 +275,7 @@ public final class Base64 {
 				for (; i < b64.length(); i++) {
 					// We should only see whitespace after this.
 					if (!StringUtil.isWhitespace(b64.charAt(i))) {
-						System.err.println(b64.charAt(i));
+						Log.error("" + b64.charAt(i));
 						throw new IOException("malformed Base64 sequence");
 					}
 				}

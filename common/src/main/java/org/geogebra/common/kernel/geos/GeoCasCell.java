@@ -1905,7 +1905,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return null;
 
 		} catch (Throwable e) {
-			System.err.println("GeoCasCell.silentEvalInGeoGebra: " + ve
+			Log.error("GeoCasCell.silentEvalInGeoGebra: " + ve
 					+ "\n\terror: " + e.getMessage());
 			return null;
 		} finally {

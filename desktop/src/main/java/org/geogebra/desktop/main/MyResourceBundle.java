@@ -19,6 +19,7 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import org.geogebra.common.util.ResourceBundleAdapter;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * MyResourceBundle.createBundle() should be used in stead of
@@ -129,7 +130,7 @@ public class MyResourceBundle extends PropertyResourceBundle implements
 			MyResourceBundle ret = new MyResourceBundle(in);
 			return ret;
 		} catch (Exception e) {
-			System.err.println("Warning: could not load bundle: " + fileName);
+			Log.error("Warning: could not load bundle: " + fileName);
 			// e.printStackTrace();
 			return null;
 		}

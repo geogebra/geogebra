@@ -27,6 +27,8 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.Position;
 import javax.swing.text.View;
 
+import org.geogebra.common.util.debug.Log;
+
 /**
  * Useful to match opening and closing keywords from left to right or from right
  * to left
@@ -241,7 +243,7 @@ public class MatchingBlockManager {
 				}
 			}
 		} catch (BadLocationException e) {
-			System.err.println(e);
+			Log.error(e.getMessage());
 		}
 	}
 

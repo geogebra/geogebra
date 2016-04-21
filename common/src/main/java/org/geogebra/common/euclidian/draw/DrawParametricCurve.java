@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Draws graphs of parametric curves and functions
@@ -300,7 +301,7 @@ public class DrawParametricCurve extends Drawable {
 					fill(g2, (geo.isInverseFill() ? getShape() : gp), false);
 
 				} catch (Exception e) {
-					System.err.println(e.getMessage());
+					Log.error(e.getMessage());
 				}
 			}
 

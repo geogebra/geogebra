@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * locus line for Q dependent on P where P is a slider
@@ -525,7 +526,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 			// calculating the steps took too long, so we stopped somewhere
 			if (maxTimeExceeded) {
-				System.err.println("AlgoLocusSlider: max time exceeded");
+				Log.error("AlgoLocusSlider: max time exceeded");
 				return;
 			}
 

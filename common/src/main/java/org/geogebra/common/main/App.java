@@ -3896,6 +3896,7 @@ public abstract class App implements UpdateSelection {
 		case HANDWRITING:
 			return prerelease;
 
+		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
 			return prerelease;
 

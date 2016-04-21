@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import org.geogebra.common.util.debug.Log;
+
 /**
  *
  * This class represents a Delaunay Triangulation. The class was written for a
@@ -1136,14 +1138,16 @@ public class Delaunay_Triangulation {
 		
 		// Validating find result.
 		if (!triangle.isCorner(point)) {
-			System.err.println("findConnectedVertices: Could not find connected vertices since the first found triangle doesn't" +
+			Log.error(
+					"findConnectedVertices: Could not find connected vertices since the first found triangle doesn't"
+							+
 					" share the given point.");
 			return null;
 		}
 		
 		triangles = findTriangleNeighborhood(triangle, point);
                 if(triangles == null) {
-                    System.err.println("Error: can't delete a point on the perimeter");
+			Log.error("Error: can't delete a point on the perimeter");
                     return null;
                 }
 		if (saveTriangles) {

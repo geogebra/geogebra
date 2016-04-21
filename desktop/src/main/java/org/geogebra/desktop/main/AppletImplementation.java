@@ -42,6 +42,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.AppletImplementationInterface;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
@@ -1275,7 +1276,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 			App.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet when calling "
 					+ jsFunction);
 		} catch (Exception e) {
-			System.err.println("Warning: Error calling JavaScript function '"
+			Log.error("Warning: Error calling JavaScript function '"
 					+ jsFunction + "' (" + e.getLocalizedMessage() + ")");
 			// e.printStackTrace();
 		}

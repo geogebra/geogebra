@@ -28,6 +28,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.main.AppD;
@@ -246,11 +247,11 @@ public class UndoManagerD extends UndoManager {
 
 			is.close();
 		} catch (Exception e) {
-			System.err.println("setUndoInfo: " + e.toString());
+			Log.error("setUndoInfo: " + e.toString());
 			e.printStackTrace();
 			restoreCurrentUndoInfo();
 		} catch (java.lang.OutOfMemoryError err) {
-			System.err.println("UndoManager.loadUndoInfo: " + err.toString());
+			Log.error("UndoManager.loadUndoInfo: " + err.toString());
 		}
 
 	}

@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable representation oflocus
@@ -150,7 +151,7 @@ public class DrawLocus extends Drawable {
 																				// appropriate
 
 				} catch (Exception e) {
-					System.err.println(e.getMessage());
+					Log.error(e.getMessage());
 				}
 			}
 

@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootDerivAdapter;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for solving polynomial equations
@@ -548,7 +549,7 @@ public class EquationSolver implements EquationSolverInterface {
 			}
 			complexRoots = laguerreSolver.solveAll(eqn, LAGUERRE_START);
 		} catch (Exception e) {
-			System.err.println("EquationSolver.LaguerreSolver: "
+			Log.error("EquationSolver.LaguerreSolver: "
 					+ e.getLocalizedMessage());
 		}
 

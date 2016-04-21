@@ -41,7 +41,7 @@ public class HttpRequestD extends HttpRequest {
 		} catch (Exception ex) {
 			success = false;
 			processed = true;
-			System.err.println(ex);
+			Log.error(ex.getMessage());
 		}
 		responseText = answer;
 		success = true;
