@@ -86,8 +86,6 @@ public class ScriptManagerD extends ScriptManager {
 			}
 			sb.append(");");
 
-			App.debug(sb.toString());
-
 			evalJavaScript(app, sb.toString(), null);
 
 		}
