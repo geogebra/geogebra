@@ -104,6 +104,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 					}
 
 					public void preview() {
+						inputField.setBackground(Color.WHITE);
 						app.getKernel().getInputPreviewHelper()
 								.updatePreviewFromInputBar(
 										inputField.getText(),
