@@ -65,11 +65,11 @@ import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoUserInputElement;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
@@ -82,6 +82,7 @@ import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
@@ -345,7 +346,7 @@ public class MyXMLHandler implements DocHandler {
 	public MyXMLHandler(Kernel kernel, Construction cons) {
 		origKernel = kernel;
 		origCons = cons;
-		origParser = new Parser(origKernel, origCons);
+		origParser = new GParser(origKernel, origCons);
 		app = origKernel.getApplication();
 		loc = app.getLocalization();
 		initKernelVars();
@@ -2884,7 +2885,7 @@ new GPoint(row, column));
 			// is done in the macro construction from now on
 			kernel = macroKernel;
 			cons = macroKernel.getConstruction();
-			parser = new Parser(macroKernel, cons);
+			parser = new GParser(macroKernel, cons);
 
 		} catch (Exception e) {
 			Log.error("error in <macro>");

@@ -68,6 +68,7 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
+import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -451,7 +452,7 @@ public class Kernel {
 
 	final public Parser getParser() {
 		if (parser == null)
-			parser = new Parser(this, cons);
+			parser = new GParser(this, cons);
 		return parser;
 	}
 
