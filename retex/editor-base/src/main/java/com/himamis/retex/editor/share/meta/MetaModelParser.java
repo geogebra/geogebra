@@ -33,7 +33,6 @@ public class MetaModelParser {
     private static final String UP = "up";
     private static final String DOWN = "down";
     private static final String CODE = "code";
-    private static final String FONTID = "fontId";
     private static final String INITIAL = "initial";
     private static final String INSERT = "insert";
     private ParserAdapter parserAdapter = new ParserAdapter();
@@ -185,17 +184,12 @@ public class MetaModelParser {
         } catch (Exception e) {
         }
 
-        int fontId = 0;
-        try {
-            fontId = getIntAttribute(FONTID, element);
-        } catch (Exception e) {
-        }
         try {
             unicode = getCharAttribute(UNICODE, element);
         } catch (Exception e) {
         }
 
-        MetaSymbol metaSymbol = new MetaSymbol(name, cas, tex, key, (char) code, unicode, fontId, type);
+        MetaSymbol metaSymbol = new MetaSymbol(name, cas, tex, key, (char) code, unicode, type);
 
         return metaSymbol;
     }
