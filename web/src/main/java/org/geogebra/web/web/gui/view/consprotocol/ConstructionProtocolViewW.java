@@ -125,9 +125,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			headerTable.addStyleName("headerTable");
 			headerTable.addStyleName("cpTable");
 
-			// holder panel for table header,
-			// if there is a scrollbar of content-table, this panel will have a
-			// scrollbar too to fit the header for the content
 			FlowPanel holderPanel = new FlowPanel();
 			holderPanel.add(headerTable);
 			holderPanel.addStyleName("cpHeaderHolderPanel");
@@ -209,13 +206,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					return;
 				}
 
-
-				if (outerScrollPanel.getElement().getClientWidth() > table
-						.getElement().getClientWidth()) {
-					headerTable.getParent().addStyleName("overflowYScroll");
-				} else {
-					headerTable.getParent().removeStyleName("overflowYScroll");
-				}
 
 				NodeList<Element> firstRow = tableRows.getItem(0)
 						.getElementsByTagName("td");

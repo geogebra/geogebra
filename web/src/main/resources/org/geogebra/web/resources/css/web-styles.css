@@ -3663,6 +3663,10 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	height: 100%;
 }
 
+.cpHeaderHolderPanel{
+	background-color: #F8F8F8;
+}
+
 /*
 .CpHeaderContainer >*{
 	display: inline-block;
