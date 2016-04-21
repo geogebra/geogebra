@@ -27,9 +27,6 @@
  */
 package com.himamis.retex.editor.share.meta;
 
-import com.himamis.retex.renderer.share.DefaultTeXFont;
-import com.himamis.retex.renderer.share.platform.font.Font;
-
 /**
  * Meta Model for Greek Symbol.
  *
@@ -39,24 +36,11 @@ public class MetaSymbol extends MetaCharacter {
 
     private String description;
     private char code;
-    private Font font;
 
-    MetaSymbol(String name, String casName, String texName, char key, char code, char unicode, int fontId, int type) {
-        this(name, casName, texName, key, code, unicode, DefaultTeXFont.getFont(fontId), type);
-    }
-
-    MetaSymbol(String name, String casName, String texName, char key, char code, char unicode, Font font, int type) {
+    MetaSymbol(String name, String casName, String texName, char key, char code, char unicode, int type) {
         super(name, casName, texName, key, unicode, type);
         this.code = code;
-        this.font = font;
         this.description = casName;
-    }
-
-    /**
-     * Abstract font.
-     */
-    public Font getFont() {
-        return font;
     }
 
     /**
