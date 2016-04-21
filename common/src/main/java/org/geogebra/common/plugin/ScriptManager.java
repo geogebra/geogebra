@@ -108,9 +108,6 @@ public abstract class ScriptManager implements EventListener {
 		}
 		Object[] args = getArguments(evt);
 		for (JsScript listener : listeners) {
-			for (Object obj : args) {
-				System.out.println("Arg: " + obj.toString());
-			}
 			callJavaScript(listener.getText(), args);
 		}
 	}
