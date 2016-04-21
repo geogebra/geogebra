@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.handler;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -11,7 +12,8 @@ import org.geogebra.common.util.AsyncOperation;
  * 
  */
 public class NumberChangeSignInputHandler extends NumberInputHandler {
-	public NumberChangeSignInputHandler(AlgebraProcessor algebraProcessor, AsyncOperation callback, App app, boolean oldVal) {
+	public NumberChangeSignInputHandler(AlgebraProcessor algebraProcessor,
+			AsyncOperation<GeoNumberValue> callback, App app, boolean oldVal) {
 		super(algebraProcessor, callback, app, oldVal);
 	}
 	

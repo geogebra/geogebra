@@ -648,9 +648,12 @@ public interface Traversing {
 						&& !isException(name)) {
 					name = ((Variable) replace)
 							.getName(StringTemplate.defaultTemplate);
-
+					boolean old = kernel.getConstruction()
+							.isSuppressLabelsActive();
+					kernel.getConstruction().setSuppressLabelCreation(false);
 					GeoNumeric slider = new GeoNumeric(
 							kernel.getConstruction(), name, 1);
+					kernel.getConstruction().setSuppressLabelCreation(old);
 					undefined.add(slider);
 					boolean visible = !kernel.getApplication().has(
 							Feature.AV_EXTENSIONS)

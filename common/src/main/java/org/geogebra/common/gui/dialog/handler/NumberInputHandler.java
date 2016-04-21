@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.handler;
 
 import org.geogebra.common.gui.InputHandler;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -20,13 +21,11 @@ public class NumberInputHandler implements InputHandler {
   }
 
 	public NumberInputHandler(AlgebraProcessor algebraProcessor,
-			AsyncOperation<GeoNumberValue> cb,
-		  App appl, boolean oldValue) {
-	this(algebraProcessor);
-	callback = cb;
-	oldVal = oldValue;
-	app = appl;
-	
+			AsyncOperation<GeoNumberValue> cb, App appl, boolean oldValue) {
+		this(algebraProcessor);
+		callback = cb;
+		oldVal = oldValue;
+		app = appl;
   }
   
 	public void processInput(String inputString,
@@ -40,17 +39,24 @@ public class NumberInputHandler implements InputHandler {
 						public void callback(GeoElement[] result) {
 							boolean success = result != null
 									&& result[0] instanceof GeoNumberValue;
+							Construction cons = algebraProcessor.getKernel()
+									.getConstruction();
 							if (success) {
 								setNum((GeoNumberValue) result[0]);
 								if (callback != null) {
-									app.getKernel().getConstruction()
-											.setSuppressLabelCreation(oldVal);
+									cons.setSuppressLabelCreation(oldVal);
 									callback.callback(num);
 								}
 							} else {
 								algebraProcessor.showError("NumberExpected");
 							}
-							callback0.callback(true);
+							if (callback0 != null) {
+								boolean currentVal = cons
+										.isSuppressLabelsActive();
+								cons.setSuppressLabelCreation(false);
+								callback0.callback(success);
+								cons.setSuppressLabelCreation(currentVal);
+							}
 							return;
 
 						}

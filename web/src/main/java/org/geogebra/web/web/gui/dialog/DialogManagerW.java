@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -106,7 +107,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 	@Override
 	public void showNumberInputDialog(String title, String message,
-			String initText, AsyncOperation callback) {
+			String initText, AsyncOperation<GeoNumberValue> callback) {
 		// avoid labeling of num
 		final Construction cons = app.getKernel().getConstruction();
 		oldVal = cons.isSuppressLabelsActive();
@@ -242,11 +243,10 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 	@Override
 	public void showNumberInputDialog(String title, String message,
-			String initText, boolean changingSign, String checkBoxText, AsyncOperation callback) {
+			String initText, boolean changingSign, String checkBoxText,
+			AsyncOperation<GeoNumberValue> callback) {
 
 		// avoid labeling of num
-		Construction cons = app.getKernel().getConstruction();
-
 		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
 				app.getKernel().getAlgebraProcessor(),
 				callback, app, oldVal);

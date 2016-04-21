@@ -3053,4 +3053,7 @@ public class AlgebraProcessor {
 
 	}
 
+	public Kernel getKernel() {
+		return kernel;
+	}
 }

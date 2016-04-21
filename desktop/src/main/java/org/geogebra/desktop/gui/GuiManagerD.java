@@ -75,6 +75,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -3231,8 +3232,12 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 				((AppD) app).getModeIcon(EuclidianConstants.MODE_SLIDER),
 				options, options[0]);
-
-		return returnVal == 0;
+		if (callback != null) {
+			Log.debug("callback" + returnVal);
+			callback.callback(new String[] {
+					returnVal == 0 ? AlgebraProcessor.CREATE_SLIDER : "0" });
+		}
+		return false;
 
 	}
 
