@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -43,8 +42,6 @@ public class AlgoFractionTextPoint extends AlgoElement {
 		this.p = p;
 
 		text = new GeoText(cons);
-
-		text.setFormulaType(StringType.LATEX);
 
 		text.setLaTeX(true, false);
 
@@ -87,38 +84,19 @@ public class AlgoFractionTextPoint extends AlgoElement {
 			zCoord = AlgoFractionText.DecimalToFraction(coords.getZ(),
 					Kernel.STANDARD_PRECISION);
 
-			switch (tpl.getStringType()) {
-			case CONTENT_MATHML:
-				sb.setLength(0);
-				sb.append("<matrix>");
-				sb.append("<matrixrow>");
-				sb.append("<cn>");
 
-				sb.append("</cn><cn>");
-
-				sb.append("</cn>");
-				sb.append("</matrixrow>");
-				sb.append("</matrix>");
-				break;
-			case LATEX:
-
-				sb.setLength(0);
-				sb.append("{ \\left( ");
-				AlgoFractionText.appendFormula(sb, xCoord, tpl, kernel);
+			sb.setLength(0);
+			sb.append("{ \\left( ");
+			AlgoFractionText.appendFormula(sb, xCoord, tpl, kernel);
+			sb.append(',');
+			AlgoFractionText.appendFormula(sb, yCoord, tpl, kernel);
+			if (p.getDimension() == 3) {
 				sb.append(',');
-				AlgoFractionText.appendFormula(sb, yCoord, tpl, kernel);
-				if (p.getDimension() == 3) {
-					sb.append(',');
-					AlgoFractionText.appendFormula(sb, zCoord, tpl, kernel);
-				}
-				sb.append(" \\right) }");
-
-				text.setTextString(sb.toString());
-				break;
-			default:
-				break;
-
+				AlgoFractionText.appendFormula(sb, zCoord, tpl, kernel);
 			}
+			sb.append(" \\right) }");
+
+			text.setTextString(sb.toString());
 
 		} else
 			text.setTextString("?");

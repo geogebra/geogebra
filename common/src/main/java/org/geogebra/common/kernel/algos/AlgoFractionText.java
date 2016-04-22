@@ -16,7 +16,6 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -43,7 +42,6 @@ public class AlgoFractionText extends AlgoElement {
 		text = new GeoText(cons);
 		text.setIsTextCommand(true); // stop editing as text
 
-		text.setFormulaType(StringType.LATEX);
 		text.setLaTeX(true, false);
 
 		setInputOutput();

@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -56,8 +55,6 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		this.p = p;
 		sbp = new StringBuilder(50);
 		text = new GeoText(cons);
-
-		text.setFormulaType(StringType.LATEX);
 
 		text.setLaTeX(true, false);
 

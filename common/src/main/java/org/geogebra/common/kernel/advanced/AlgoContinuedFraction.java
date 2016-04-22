@@ -16,14 +16,11 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
-import org.geogebra.common.util.Unicode;
 
 public class AlgoContinuedFraction extends AlgoElement {
 
@@ -51,7 +48,6 @@ public class AlgoContinuedFraction extends AlgoElement {
 		this.shorthand = shorthand;
 		text = new GeoText(cons);
 
-		text.setFormulaType(StringType.LATEX);
 		text.setLaTeX(true, false);
 
 		text.setIsTextCommand(true); // stop editing as text
@@ -101,75 +97,34 @@ public class AlgoContinuedFraction extends AlgoElement {
 				return;
 			}
 
-			switch (tpl.getStringType()) {
-			case CONTENT_MATHML:
-				if (steps == 1) { // integer
+			if (steps == 1) { // integer
+				text.setTextString(
+						kernel.format(Math.round(num.getDouble()), tpl));
+			} else {
+				if (shorthand == null || !shorthand.getBoolean()) {
+					appendLongLatex(steps, tpl);
+				} else {
 					sb.setLength(0);
-					sb.append("<cn>");
+					if (num.getDouble() < 0) {
+						sb.append('-');
+					}
+					sb.append('[');
 					sb.append(kernel.format(denominators[0], tpl));
-					sb.append("</cn>");
-					text.setTextString(sb.toString());
-				} else {
-					sb.setLength(0);
+					sb.append(';');
+					for (int i = 1; i < steps - 1; i++) {
 
-					sb.append("<apply><plus/>");
-
-					for (int i = 0; i < steps - 1; i++) {
-						sb.append("<cn>");
-						sb.append(denominators[i]);
-						sb.append("</cn><apply><divide/><cn>1</cn><apply><plus/>");
+						sb.append(kernel.format(denominators[i], tpl));
+						sb.append(",");
 					}
-					// checkDecimalFraction() needed for eg
-					// FractionText[20.0764]
-
-					sb.append("<cn>");
-					sb.append(kernel.format(Kernel
-							.checkDecimalFraction(denominators[steps - 1]), tpl));
-					sb.append("</cn><ci>");
-					sb.append(Unicode.ellipsis);
-					sb.append("</ci>");
-					for (int i = 0; i < steps - 1; i++) {
-						sb.append("</apply></apply>");
+					sb.append(kernel.format(denominators[steps - 1], tpl));
+					if (dotsNeeded) {
+						sb.append(",\\ldots");
 					}
-					sb.append("</apply>");
-
-					App.debug(sb.toString());
+					sb.append(']');
 					text.setTextString(sb.toString());
 				}
-				break;
-			case LATEX:
-				if (steps == 1) { // integer
-					text.setTextString(kernel.format(
-							Math.round(num.getDouble()), tpl));
-				} else {
-					if (shorthand == null || !shorthand.getBoolean()) {
-						appendLongLatex(steps, tpl);
-					} else {
-						sb.setLength(0);
-						if (num.getDouble() < 0) {
-							sb.append('-');
-						}
-						sb.append('[');
-						sb.append(kernel.format(denominators[0], tpl));
-						sb.append(';');
-						for (int i = 1; i < steps - 1; i++) {
-
-							sb.append(kernel.format(denominators[i], tpl));
-							sb.append(",");
-						}
-						sb.append(kernel.format(denominators[steps - 1], tpl));
-						if (dotsNeeded) {
-							sb.append(",\\ldots");
-						}
-						sb.append(']');
-						text.setTextString(sb.toString());
-					}
-				}
-				break;
-			default:
-				break;
-
 			}
+
 			text.setLaTeX(true, false);
 
 		} else {

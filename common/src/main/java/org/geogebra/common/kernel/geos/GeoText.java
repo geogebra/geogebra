@@ -53,8 +53,7 @@ public class GeoText extends GeoElement implements Locateable,
 	private String str;
 	private GeoPointND startPoint; // location of Text on screen
 
-	private boolean isLaTeXorMathML; // text is either a LaTeX or MathML formula
-	private boolean isMathML = false; // text is a MathML formula (provided it's not text)
+	private boolean isLaTeX; // text is either a LaTeX or MathML formula
 
 	// corners of the text Michael Borcherds 2007-11-26, see AlgoTextCorner
 	private GRectangle2D boundingBox;
@@ -164,15 +163,13 @@ public class GeoText extends GeoElement implements Locateable,
 						printFigures > -1 ? printFigures : kernel
 								.getPrintFigures(), true);
 			str = gt.str;
-			isLaTeXorMathML = gt.isLaTeXorMathML;
-			isMathML = gt.isMathML;
+			isLaTeX = gt.isLaTeX;
 			updateTemplate();
 			return;
 		}
 
 		str = gt.str;
-		isLaTeXorMathML = gt.isLaTeXorMathML;
-		isMathML = gt.isMathML;
+		isLaTeX = gt.isLaTeX;
 
 		// needed for Corner[Element[text
 		boundingBox = gt.getBoundingBox();
@@ -226,7 +223,7 @@ public class GeoText extends GeoElement implements Locateable,
 			text = text.substring(0, text.length() - 1);
 		}
 
-		if (isLaTeXorMathML) {
+		if (isLaTeX) {
 			// TODO: check greek letters of latex string
 			str = StringUtil.toLaTeXString(text, false);
 		} else {
@@ -402,7 +399,7 @@ public class GeoText extends GeoElement implements Locateable,
 			sbToString.append(" = ");
 		}
 		if (tpl1.isMathQuill()) {
-			if (isLaTeXorMathML) {
+			if (isLaTeX) {
 				sbToString.append("FormulaText[");
 			}
 			sbToString.append(" \\quotation{");
@@ -416,7 +413,7 @@ public class GeoText extends GeoElement implements Locateable,
 				sbToString.append(str2);
 			}
 			sbToString.append("} ");
-			if (isLaTeXorMathML) {
+			if (isLaTeX) {
 				sbToString.append("]");
 			}
 		} else {
@@ -602,11 +599,12 @@ public class GeoText extends GeoElement implements Locateable,
 
 		getXMLfixedTag(sb);
 
-		if (isLaTeXorMathML) {
+		if (isLaTeX) {
 			sb.append("\t<isLaTeX val=\"true\"/>\n");
 		}
 
-		appendFontTag(sb, serifFont, fontSizeD, fontStyle, isLaTeXorMathML, kernel.getApplication());
+		appendFontTag(sb, serifFont, fontSizeD, fontStyle, isLaTeX,
+				kernel.getApplication());
 
 		// print decimals
 		if (printDecimals >= 0 && !useSignificantFigures) {
@@ -675,7 +673,7 @@ public class GeoText extends GeoElement implements Locateable,
 		if (geo instanceof GeoText) {
 			GeoText text = (GeoText) geo;
 			setSameLocation(text);
-			setLaTeX(text.isLaTeXorMathML, true);
+			setLaTeX(text.isLaTeX, true);
 		}
 	}
 
@@ -700,7 +698,7 @@ public class GeoText extends GeoElement implements Locateable,
 	 * @return true for LaTeX texts (and also for MathML's for now)
 	 */
 	public boolean isLaTeX() {
-		return isLaTeXorMathML;
+		return isLaTeX;
 	}
 
 	/**
@@ -711,10 +709,10 @@ public class GeoText extends GeoElement implements Locateable,
 	 * @param updateParentAlgo when true, parent is recomputed
 	 */
 	public void setLaTeX(boolean b, boolean updateParentAlgo) {
-		if (b == isLaTeXorMathML)
+		if (b == isLaTeX)
 			return;
 
-		isLaTeXorMathML = b;
+		isLaTeX = b;
 
 		updateTemplate();
 		// update parent algorithm if it's not a sequence
@@ -725,34 +723,6 @@ public class GeoText extends GeoElement implements Locateable,
 			}
 		}
 	}
-
-	/**
-	 * Whether the LaTeX or MathML formula is truly MathML
-	 * @return true for MathML
-	 */
-	public boolean isMathML() {
-		return isMathML;
-	}
-
-	/**
-	 * Changes type of this object to MathML rendering type
-	 * in case it will be of math rendering type (LaTeX or MathML).
-	 * To make this change applied immediately, setMathML should be
-	 * called just before setLaTeX
-	 * 
-	 * @param b true for MathML rendering
-	 */
-	public void setMathML(boolean b) {
-		isMathML = b;
-	}
-	
-	/**
-	 * @param st currently just LaTeX supported in desktop, LaTeX and MathML in web project
-	 */
-	public void setFormulaType(StringType st) {
-		isMathML = st.equals(StringType.CONTENT_MATHML);		
-	}
-
 
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;
@@ -1085,11 +1055,7 @@ public class GeoText extends GeoElement implements Locateable,
 	private static Comparator<GeoText> comparator;
 
 	private void updateTemplate() {
-		StringType type = 
-			isLaTeXorMathML ?
-			/*app.getFormulaRenderingType()*/
-			(isMathML ? StringType.CONTENT_MATHML : StringType.LATEX)
-				: StringType.GEOGEBRA;
+		StringType type = isLaTeX ? StringType.LATEX : StringType.GEOGEBRA;
 
 		if (useSignificantFigures() && printFigures > -1) {
 			tpl = StringTemplate.printFigures(type, printFigures, false);
@@ -1212,7 +1178,7 @@ public class GeoText extends GeoElement implements Locateable,
 		resetSpreadsheetColumnHeadings();
 		
 		GeoText text = getColumnHeadingText(spreadsheetTraceableLeftTree);
-		text.setLaTeX(this.isLaTeXorMathML, false);
+		text.setLaTeX(this.isLaTeX, false);
 		spreadsheetColumnHeadings.add(text);
 		
 	}

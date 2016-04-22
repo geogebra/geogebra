@@ -2346,8 +2346,6 @@ CasEvaluableFunction, ParametricCurve,
 		if (getFunctionExpression().isConditional()) {
 			if (tpl.hasType(StringType.LATEX)) {
 				ret = conditionalLaTeX(substituteNumbers, tpl);
-			} else if (tpl.hasType(StringType.CONTENT_MATHML)) {
-				ret = conditionalMathML(substituteNumbers, tpl);
 			}
 
 		} else if (this.isGeoFunction()) {
@@ -2493,62 +2491,6 @@ CasEvaluableFunction, ParametricCurve,
 		}
 
 		return sbLaTeX.toString();
-	}
-
-	/**
-	 * eg <piecewise><piece><cn> 0 </cn><apply> <lt/> <ci> x </ci> <cn> 0 </cn>
-	 * </apply> </piece> <otherwise> <ci> x </ci> </otherwise> </piecewise>
-	 * 
-	 * @param substituteNumbers
-	 *            true to replace names by values
-	 * @param tpl
-	 *            string template
-	 * @return MathML description of this function, eg
-	 */
-	public String conditionalMathML(boolean substituteNumbers,
-			StringTemplate tpl) {
-		StringBuilder sbMathml = new StringBuilder();
-		ExpressionNode expr = getFunctionExpression();
-		if (expr.getOperation()==Operation.IF && 
-				!expr.getRight().wrap().isConditional()) {
-			sbMathml.append("<piecewise><piece>");
-			if(substituteNumbers){
-				sbMathml.append(expr.getRight().toValueString(
-						StringTemplate.latexTemplate));
-				sbMathml.append(expr.getLeft().toValueString(
-						StringTemplate.latexTemplate));
-			}else{
-				sbMathml.append(expr.getRight().toString(
-						StringTemplate.latexTemplate));
-				sbMathml.append(expr.getLeft().toString(
-						StringTemplate.latexTemplate));
-			}
-			sbMathml.append("</piece></piecewise>");
-
-		} else {
-			sbMathml.append("<piecewise>");
-			ArrayList<ExpressionNode> cases = new ArrayList<ExpressionNode>();
-			ArrayList<Bounds> conditions = new ArrayList<Bounds>();
-			boolean complete = collectCases(expr,cases, conditions, new Bounds());
-			for (int i = 0; i < cases.size(); i++) {
-				if (i == cases.size() - 1 && complete) {
-					sbMathml.append("<otherwise>");
-					sbMathml.append(cases.get(i).toLaTeXString(!substituteNumbers,
-							tpl));
-					sbMathml.append("</otherwise>");
-				} else {
-					sbMathml.append("<piece>");
-					sbMathml.append(cases.get(i).toLaTeXString(!substituteNumbers,
-							tpl));
-					sbMathml.append(conditions.get(i).toLaTeXString(
-							!substituteNumbers, getVarString(tpl), tpl));
-					sbMathml.append("</piece>");
-				}
-			}
-			sbMathml.append("</piecewise>");
-		}
-
-		return sbMathml.toString();
 	}
 
 	private boolean collectCases(ExpressionNode condRoot,ArrayList<ExpressionNode> cases,

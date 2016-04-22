@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -50,7 +49,6 @@ public class AlgoLaTeX extends AlgoElement {
 		this.showName = showName;
 		text = new GeoText(cons);
 
-		text.setFormulaType(StringType.LATEX);
 		text.setLaTeX(true, false);
 
 		setInputOutput(); // for AlgoElement
@@ -70,7 +68,6 @@ public class AlgoLaTeX extends AlgoElement {
 		this.showName = null;
 		text = new GeoText(cons);
 
-		text.setFormulaType(StringType.LATEX);
 		text.setLaTeX(true, false);
 
 		text.setIsTextCommand(true); // stop editing as text
@@ -170,8 +167,6 @@ public class AlgoLaTeX extends AlgoElement {
 			}
 
 		}
-
-		text.setFormulaType(StringType.LATEX);
 
 		text.setLaTeX(useLaTeX, false);
 

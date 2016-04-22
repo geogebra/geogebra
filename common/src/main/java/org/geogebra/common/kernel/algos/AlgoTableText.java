@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -118,7 +117,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		text.setAbsoluteScreenLoc(0, 0);
 		text.setAbsoluteScreenLocActive(true);
 
-		text.setFormulaType(StringType.LATEX);
 		text.setLaTeX(true, false);
 
 		text.setIsTextCommand(true); // stop editing as text
@@ -359,48 +357,14 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 		StringTemplate tpl = text.getStringTemplate();
 
-		if (tpl.getStringType().equals(StringType.CONTENT_MATHML)) {
-			mathml(tpl);
+		if (kernel.getApplication().isLatexMathQuillStyle(tpl)) {
+			latexMQ(tpl);
 		} else {
-			if (kernel.getApplication().isLatexMathQuillStyle(tpl)) {
-				latexMQ(tpl);
-			} else {
-				latex(tpl);
-			}
+			latex(tpl);
 		}
+
 		// Application.debug(sb.toString());
 		text.setTextString(sb.toString());
-	}
-
-	private void mathml(StringTemplate tpl) {
-
-		if (alignment == Alignment.VERTICAL) {
-
-			sb.append("<matrix>");
-			for (int r = 0; r < rows; r++) {
-				sb.append("<matrixrow>");
-				for (int c = 0; c < columns; c++) {
-					addCellMathML(c, r, tpl);
-				}
-				sb.append("</matrixrow>");
-			}
-			sb.append("</matrix>");
-
-		} else { // alignment == HORIZONTAL
-
-			// TableText[{11.1,322,3.11},{4,55,666,7777,88888},{6.11,7.99,8.01,9.81},{(1,2)},"c()"]
-
-			sb.append("<matrix>");
-			for (int c = 0; c < columns; c++) {
-				sb.append("<matrixrow>");
-				for (int r = 0; r < rows; r++) {
-					addCellMathML(c, r, tpl);
-				}
-				sb.append("</matrixrow>");
-			}
-			sb.append("</matrix>");
-		}
-
 	}
 
 	private void latex(StringTemplate tpl) {
