@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMathExact.MyDecimal;
 import org.geogebra.common.util.MyMathExact.MyDecimalMatrix;
 import org.geogebra.common.util.Unicode;
@@ -643,8 +642,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			sb.append("x + ");
 			sb.append(kernel.format(coeffs[4], tpl));
 
-			// TODO: what to do in MathML?
-			App.debug(sb.toString());
 		} else {
 			sb.append("Root of a quartic equation: ");
 			sb.append(kernel.format(coeffs[0], tpl));
@@ -657,8 +654,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			sb.append("x + ");
 			sb.append(kernel.format(coeffs[4], tpl));
 
-			// TODO: what to do in MathML?
-			App.debug(sb.toString());
 		}
 
 	}

@@ -53,7 +53,7 @@ public class GeoText extends GeoElement implements Locateable,
 	private String str;
 	private GeoPointND startPoint; // location of Text on screen
 
-	private boolean isLaTeX; // text is either a LaTeX or MathML formula
+	private boolean isLaTeX;
 
 	// corners of the text Michael Borcherds 2007-11-26, see AlgoTextCorner
 	private GRectangle2D boundingBox;
@@ -694,19 +694,21 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	/**
-	 * Returns true for LaTeX texts (and also for MathML's for now)
-	 * @return true for LaTeX texts (and also for MathML's for now)
+	 * Returns true for LaTeX texts
+	 * 
+	 * @return true for LaTeX texts
 	 */
 	public boolean isLaTeX() {
 		return isLaTeX;
 	}
 
 	/**
-	 * Changes type of this object to math rendering type (LaTeX or MATHML)
-	 * by default, this resets isMathML to false
+	 * Changes type of this object to math rendering type (LaTeX)
 	 * 
-	 * @param b true for math rendering
-	 * @param updateParentAlgo when true, parent is recomputed
+	 * @param b
+	 *            true for math rendering
+	 * @param updateParentAlgo
+	 *            when true, parent is recomputed
 	 */
 	public void setLaTeX(boolean b, boolean updateParentAlgo) {
 		if (b == isLaTeX)

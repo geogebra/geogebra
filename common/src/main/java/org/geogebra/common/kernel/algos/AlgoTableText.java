@@ -817,27 +817,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			sb.append("&"); // separate columns
 	}
 
-	private void addCellMathML(int c, int r, StringTemplate tpl) {
-		if (geoLists[c].size() > r) { // check list has an element at this
-										// position
-			GeoElement geo1 = geoLists[c].get(r);
-
-			// replace " " and "" with a hard space (allow blank columns/rows)
-			String textGeo = geo1.toLaTeXString(false, tpl);
-			if (textGeo.startsWith("<apply>")) {
-				sb.append(textGeo);
-			} else if (StringUtil.isNumber(textGeo)) {
-				sb.append("<cn>");
-				sb.append(textGeo);
-				sb.append("</cn>");
-			} else {
-				sb.append("<ci>");
-				sb.append(textGeo);
-				sb.append("</ci>");
-			}
-		}
-	}
-
 	@Override
 	public boolean isLaTeXTextCommand() {
 		return true;
