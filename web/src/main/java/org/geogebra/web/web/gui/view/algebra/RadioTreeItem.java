@@ -20,17 +20,13 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -53,7 +49,6 @@ import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -83,7 +78,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -91,7 +85,6 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -127,6 +120,19 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * main -> marblePanel (ihtml | contentPanel | checkBox ) buttonPanel?
+ * 
+ * ihtml -> plainTextitem | latexItem | c | (definitionPanel outputPanel)
+ * 
+ * contentPanel -> [sliderPanel minmaxPanel]
+ * 
+ * plaintextitem -> STRING | (definitionPanel, outputPanel)
+ * 
+ * outputPanel -> valuePanel
+ * 
+ * definitionPanel -> c | STRING
+ */
 public class RadioTreeItem extends AVTreeItem
  implements DoubleClickHandler,
 		ClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
@@ -207,229 +213,6 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	private class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
-			KeyHandler, MouseDownHandler, MouseUpHandler, CancelListener {
-		private static final int MINMAX_MIN_WIDHT = 326;
-		private AVField tfMin;
-		private AVField tfMax;
-		private AVField tfStep;
-		private Label lblValue;
-		private Label lblStep;
-		private GeoNumeric num;
-		private boolean keepOpen = false;
-		private boolean focusRequested = false;
-		public MinMaxPanel() {
-			if (geo instanceof GeoNumeric) {
-				num = (GeoNumeric) geo;
-			}
-			tfMin = new AVField(4, app, this);
-			tfMax = new AVField(4, app, this);
-			tfStep = new AVField(4, app, this);
-			lblValue = new Label(GTE_SIGN + " "
-					+ geo.getCaption(StringTemplate.defaultTemplate) + " "
-					+ GTE_SIGN);
-			lblStep = new Label(app.getPlain("Step"));
-			addStyleName("minMaxPanel");
-			add(tfMin);
-			add(lblValue);
-			add(tfMax);
-			add(lblStep);
-			add(tfStep);
-
-			tfMin.setDeferredFocus(true);
-			tfMax.setDeferredFocus(true);
-			tfStep.setDeferredFocus(true);
-
-			tfMin.addKeyHandler(this);
-			tfMax.addKeyHandler(this);
-			tfStep.addKeyHandler(this);
-
-			tfMin.addFocusHandler(new FocusHandler() {
-
-				public void onFocus(FocusEvent event) {
-					tfMin.selectAll();
-				}
-			});
-			tfMax.addFocusHandler(new FocusHandler() {
-
-				public void onFocus(FocusEvent event) {
-					tfMax.selectAll();
-				}
-			});
-			tfStep.addFocusHandler(new FocusHandler() {
-
-				public void onFocus(FocusEvent event) {
-					if (focusRequested) {
-						event.preventDefault();
-						event.stopPropagation();
-						return;
-					}
-					tfStep.selectAll();
-				}
-			});
-
-			addMouseDownHandler(this);
-			addMouseUpHandler(this);
-			addBlurHandler(new BlurHandler() {
-
-				public void onBlur(BlurEvent event) {
-
-					hide();
-				}
-			});
-
-			update();
-
-		}
-
-		public void update() {
-			tfMin.setText(kernel.format(num.getIntervalMin(),
-					StringTemplate.editTemplate));
-			tfMax.setText(kernel.format(num.getIntervalMax(),
-					StringTemplate.editTemplate));
-			tfStep.setText(num.isAutoStep() ? "" : kernel.format(
-					num.getAnimationStep(), StringTemplate.editTemplate));
-			setLabels();
-		}
-
-		public void setLabels() {
-			lblStep.setText(app.getPlain("Step"));
-		}
-
-
-
-		public void show() {
-			geo.setAnimating(false);
-			expandSize(MINMAX_MIN_WIDHT);
-			sliderPanel.setVisible(false);
-			setVisible(true);
-			setKeepOpen(true);
-			setOpenedMinMaxPanel(this);
-			animPanel.setVisible(false);
-		}
-
-		public void hide(boolean restore) {
-			if (restore) {
-				restoreSize();
-			}
-			hide();
-		}
-
-		public void hide() {
-			sliderPanel.setVisible(true);
-			deferredResizeSlider();
-			setVisible(false);
-			if (animPanel != null) {
-				animPanel.setVisible(true);
-			}
-		}
-
-
-		public void keyReleased(KeyEvent e) {
-			if (e.isEnterKey()) {
-				apply();
-			}
-		}
-
-		private void apply() {
-			NumberValue min = getNumberFromInput(tfMin.getText().trim());
-			NumberValue max = getNumberFromInput(tfMax.getText().trim());
-			String stepText = tfStep.getText().trim();
-
-			if (min != null && max != null
-					&& min.getDouble() <= max.getDouble()) {
-				num.setIntervalMin(min);
-				num.setIntervalMax(max);
-				if (stepText.isEmpty()) {
-					num.setAutoStep(true);
-				} else {
-					num.setAutoStep(false);
-					num.setAnimationStep(getNumberFromInput(stepText));
-				}
-				num.update();
-				hide(true);
-			}
-		}
-
-		// TODO: refactor needed: copied from SliderPanelW;
-		private NumberValue getNumberFromInput(final String inputText) {
-			boolean emptyString = inputText.equals("");
-			NumberValue value = null;// new MyDouble(kernel, Double.NaN);
-			if (!emptyString) {
-				value = kernel.getAlgebraProcessor().evaluateToNumeric(
-						inputText, false);
-			}
-
-			return value;
-		}
-
-		public void cancel() {
-			hide();
-		}
-
-		public void onMouseUp(MouseUpEvent event) {
-			if (isKeepOpen()) {
-				setKeepOpen(false);
-				return;
-			}
-
-			if (focusRequested) {
-				focusRequested = false;
-				return;
-			}
-
-			event.preventDefault();
-			event.stopPropagation();
-
-			if (!(selectAllOnFocus(tfMin, event)
-					|| selectAllOnFocus(tfMax, event)
-					|| selectAllOnFocus(tfStep, event))) {
-				apply();
-			}
-
-		}
-
-		public void onMouseDown(MouseDownEvent event) {
-			if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
-				return;
-			}
-
-			event.preventDefault();
-			event.stopPropagation();
-
-			selectAllOnFocus(tfMin, event);
-			selectAllOnFocus(tfMax, event);
-			selectAllOnFocus(tfStep, event);
-
-		}
-
-		private boolean selectAllOnFocus(AVField avField, MouseEvent event) {
-			if (isWidgetHit(avField, event)) {
-				avField.selectAll();
-				return true;
-			}
-			return false;
-		}
-
-		public boolean isKeepOpen() {
-			return keepOpen;
-		}
-
-		public void setKeepOpen(boolean keepOpen) {
-			this.keepOpen = keepOpen;
-		}
-
-		public void setMinFocus() {
-			tfMin.requestFocus();
-			focusRequested = true;
-		}
-
-		public void setMaxFocus() {
-			tfMax.requestFocus();
-			focusRequested = true;
-		}
-	}
-
 	private class MarblePanel extends FlowPanel {
 		private static final int BACKGROUND_ALPHA = 60;
 		private Marble marble;
@@ -503,7 +286,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 
-	private static final String GTE_SIGN = "\u2264";
+	static final String GTE_SIGN = "\u2264";
 
 	private static final String DV = "[DV]";
 	private LongTouchManager longTouchManager;
@@ -516,7 +299,7 @@ public class RadioTreeItem extends AVTreeItem
 	/**
 	 * panel to correctly display an extended slider entry
 	 */
-	private FlowPanel sliderPanel;
+	FlowPanel sliderPanel;
 
 	/**
 	 * this panel contains the marble (radio) button
@@ -1098,7 +881,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
-	private void deferredResizeSlider() {
+	void deferredResizeSlider() {
 		if (slider == null) {
 			return;
 		}
@@ -1153,7 +936,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void createMinMaxPanel() {
-		minMaxPanel = new MinMaxPanel();
+		minMaxPanel = new MinMaxPanel(this);
 		minMaxPanel.setVisible(false);
 	}
 
@@ -2086,7 +1869,7 @@ marblePanel, evt))) {
 		}
 	}
 
-	private static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
+	static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
 		return isWidgetHit(w, evt.getClientX(), evt.getClientY());
 
 	}
