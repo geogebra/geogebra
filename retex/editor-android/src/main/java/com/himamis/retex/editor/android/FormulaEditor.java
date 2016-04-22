@@ -62,6 +62,10 @@ public class FormulaEditor extends View implements MathField {
 
     private Parser mParser;
 
+    static final private void debug(String message) {
+        //System.out.println(message);
+    }
+
     public FormulaEditor(Context context) {
         super(context);
         init();
@@ -296,16 +300,17 @@ public class FormulaEditor extends View implements MathField {
         }
     }
 
+
     private void updateShiftX() {
 
         int inputBarWidth = getWidth();
 
         if (inputBarWidth == 0) {
-            System.out.println("updateShiftX: inputBarWidth == 0");
+            debug("updateShiftX: inputBarWidth == 0");
             return;
         }
 
-        System.out.println("mShiftX: " + mShiftX + ", inputBarWidth:" + inputBarWidth);
+        debug("mShiftX: " + mShiftX + ", inputBarWidth:" + inputBarWidth);
 
         int iconWidth = mTeXIcon.getIconWidth();
         int iconHeight = mTeXIcon.getIconHeight();
@@ -317,7 +322,7 @@ public class FormulaEditor extends View implements MathField {
             if (mShiftX > 0) {
                 mShiftX = 0;
             }
-            System.out.println("shorter formula: mShiftX = " + mShiftX);
+            debug("shorter formula: mShiftX = " + mShiftX);
         }
 
         // find cursor (red pixels) and ensure is visible in view
@@ -327,7 +332,7 @@ public class FormulaEditor extends View implements MathField {
             mHiddenCanvas = new Canvas(mHiddenBitmap);
             mHiddenBitmapW = iconWidth;
             mHiddenBitmapH = iconHeight;
-            System.out.println("==== new Bitmap");
+            debug("==== new Bitmap");
         }
         drawShifted(mHiddenCanvas, 0);
         int[] pix = new int[iconWidth * iconHeight];
@@ -360,14 +365,14 @@ public class FormulaEditor extends View implements MathField {
 
         int cursorX = cursorRed / pixRed;
 
-        System.out.println("cursorX: " + cursorX);
+        debug("cursorX: " + cursorX);
         int margin = (int) (CURSOR_MARGIN * mScale);
         if (cursorX - margin + mShiftX < 0) {
             mShiftX = -cursorX + margin;
         } else if (cursorX + margin + mShiftX > inputBarWidth) {
             mShiftX = inputBarWidth - cursorX - margin;
         }
-        System.out.println("mShiftX: " + mShiftX);
+        debug("mShiftX: " + mShiftX);
 
     }
 
