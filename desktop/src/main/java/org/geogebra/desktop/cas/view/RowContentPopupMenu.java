@@ -16,6 +16,7 @@ import javax.swing.JPopupMenu;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.main.AppD;
@@ -173,7 +174,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 					data = (String) contents
 							.getTransferData(DataFlavor.stringFlavor);
 				} catch (Exception ex) {
-					System.out.println(ex);
+					Log.error(ex.getMessage());
 					ex.printStackTrace();
 				}
 			}

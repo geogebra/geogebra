@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.images;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.util.HasSetIcon;
 import org.geogebra.web.web.gui.util.ImageOrText;
@@ -60,7 +61,7 @@ public class AppResourcesConverter {
 				waitingForConvert--;
 				checkIfCanCallCallback();
 			}else{
-				System.out.println(i.getUrl());
+					Log.debug(i.getUrl());
 			
 			}
 		}

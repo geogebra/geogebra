@@ -965,7 +965,7 @@ ToolbarD.getAllTools(this));
 					if (strLine.endsWith(",")) {
 						strLine = strLine.substring(0, strLine.length() - 1);
 					}
-					System.out.println(strLine);
+					// System.out.println(strLine);
 
 					if (strLine.startsWith("{")) {
 						
