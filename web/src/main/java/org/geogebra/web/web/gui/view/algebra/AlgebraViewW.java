@@ -1021,8 +1021,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			// item is already added
 			if (node instanceof RadioTreeItem
 					&& !(node instanceof InputTreeItem)) {
-				RadioTreeItem.as(node)
-				.addDeleteButton(node);
+				// RadioTreeItem.as(node)
+				// .addDeleteButton(node);
 			}
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);

@@ -501,17 +501,22 @@ public class RadioTreeItem extends AVTreeItem
 
 		}
 
-		buttonPanel = new FlowPanel();
-		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
-
-		buttonPanel.addStyleName("smallStylebar");
-
-		buttonPanel.setVisible(false);
-
-		main.add(buttonPanel);
-
 		deferredResizeSlider();
 
+	}
+
+	private FlowPanel getButtonPanel() {
+		if (buttonPanel == null) {
+			buttonPanel = new FlowPanel();
+			buttonPanel.addStyleName("AlgebraViewObjectStylebar");
+
+			buttonPanel.addStyleName("smallStylebar");
+
+			buttonPanel.setVisible(false);
+
+			main.add(buttonPanel);
+		}
+		return buttonPanel;
 	}
 
 	private void createCheckbox() {
@@ -1490,7 +1495,7 @@ public class RadioTreeItem extends AVTreeItem
 			return false;
 		}
 
-		buttonPanel.setVisible(true);
+		getButtonPanel().setVisible(true);
 		maybeSetPButtonVisibility(true);
 		return true;
 	}
@@ -2206,7 +2211,7 @@ marblePanel, evt))) {
 
 		if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
 			setFirst(first);
-			buttonPanel.clear();
+			getButtonPanel().clear();
 			if (animPanel != null && geo.isAnimatable()) {
 				buttonPanel.add(animPanel);
 			}
