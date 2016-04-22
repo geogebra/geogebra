@@ -362,15 +362,13 @@ public class DrawInequality extends Drawable {
 					.iterator().next();
 			if (Kernel.isGreater(right2.minBound, minCurrOrBound)
 					&& Kernel.isGreater(maxCurrOrBound, right2.minBound)
-					&& orBounds2.get(i).getFirst().get(minCurrOrBound) != null) {
-				((DrawInequality1Var) orBounds2.get(i).getFirst()
-						.get(minCurrOrBound)).ignoreLines();
+					&& right2.min != null) {
+				((DrawInequality1Var) right2.min).ignoreLines();
 			}
 			if (Kernel.isGreater(right2.maxBound, minCurrOrBound)
 					&& Kernel.isGreater(maxCurrOrBound, right2.maxBound)
-					&& orBounds2.get(i).getSecond().get(maxCurrOrBound) != null) {
-				((DrawInequality1Var) orBounds2.get(i).getSecond()
-						.get(maxCurrOrBound)).ignoreLines();
+					&& right2.max != null) {
+				((DrawInequality1Var) right2.max).ignoreLines();
 			}
 		}
 
