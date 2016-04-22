@@ -450,9 +450,6 @@ ValidExpression buildValidExpression() :
         })?
                        
      |       
-        LOOKAHEAD(2147483647)
-        labels = labellist() (< EQUAL > | <ASSIGNMENT>) ve = command()                                                                                
-      |
         LOOKAHEAD(2147483647)                               
       ve = cartesianvector_special()
   |
@@ -659,65 +656,6 @@ ValidExpression command():
   )
 }
 
-/**
- * labellist =    { <LABEL> (, <LABEL>)* }  
- */
-Vector labellist():
-{         
-    Token t;    
-    Vector labels;
-}
-{
-(( 
-    "{" (t=label()) 
-        {   
-            labels = new Vector(); labels.add(t.image);  
-        }
-     ( <COMMA> (t=label())   { labels.add(t.image); } )*
-    "}" 
-)
-    |    
-( 
-    (t=label())   
-        {   
-            labels = new Vector(); labels.add(t.image);  
-        }
-     ( <COMMA> (t=label())   { labels.add(t.image); } )*
-))
-     { return labels; }
-}
-
-
-
-
-/** NOT USED BY NOW
- * normalvectorform =   <PARAMETRICVAR> vector  = vector 
- 
-NormalVectorForm normalvectorform():
-{         
-    ExpressionNode left, right;
-    ExpressionValue temp;
-}
-{    
-    <PARAMETRICVAR> (<MULTIPLY>)? left = enterm()  <EQUAL> right = expressionnode()           
-         {                        
-            // check if left is VectorValue and right is NumberValue
-            temp = left.evaluate();
-            if (!(temp instanceof VectorValue)) {
-                String [] str = { "VectorExpected", temp.toString() };
-                throw new MyParseError(loc, str);
-            }
-
-            temp = right.evaluate();
-            if (!(temp instanceof NumberValue)) {
-                String [] str = { "NumberExpected", temp.toString() };
-                throw new MyParseError(loc, str);
-            }        
-            
-            return new NormalVectorForm( left, right );                
-         }   
-}
-*/
 
 /******************************************************************
  * ARTIHMETIC FOR NUMBERS AND 2D VECTORS WITH VARIABLES
