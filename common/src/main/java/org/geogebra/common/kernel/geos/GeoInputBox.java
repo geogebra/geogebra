@@ -260,9 +260,8 @@ public class GeoInputBox extends GeoButton {
 
 									@Override
 									public void callback(GeoElement obj) {
-										linkedGeo = obj;
 										if (imaginary) {
-											ExpressionNode def = linkedGeo
+											ExpressionNode def = obj
 													.getDefinition();
 											if (def != null
 													&& def.getOperation() == Operation.PLUS
@@ -271,12 +270,15 @@ public class GeoInputBox extends GeoButton {
 																	StringTemplate.defaultTemplate)
 															.equals("0"
 																	+ Unicode.IMAGINARY)) {
-												linkedGeo.setDefinition(
+												obj.setDefinition(
 														def.getLeftTree());
+												setLinkedGeo(obj);
+												obj.updateRepaint();
+												return;
 											}
 
 										}
-										setLinkedGeo(linkedGeo);
+										setLinkedGeo(obj);
 									}
 								});
 				return;
