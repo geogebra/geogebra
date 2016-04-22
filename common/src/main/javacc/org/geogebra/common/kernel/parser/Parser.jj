@@ -427,7 +427,7 @@ ValidExpression buildValidExpression() :
 {         
      (       
         // f(x) =  x^2 + 3  
-        LOOKAHEAD(2147483647)
+        LOOKAHEAD(3)
         ve = functionExpressionnode()          
      |             
        // spreadsheet range like A1:B2
@@ -437,10 +437,10 @@ ValidExpression buildValidExpression() :
         // special case "A: (3,2)" should become a point  
         // CAS assignment "a := 5" should be supported too
         // inequalities "a: 3x + 4y < 7" and intervalls "b: 3 < x < 7" can be named too                                  
-      LOOKAHEAD(2147483647)  
+      LOOKAHEAD(3)  
       l = label() (":" | <ASSIGNMENT> )  ve = expressionOrEquation()
    |
-        LOOKAHEAD(2147483647)
+        LOOKAHEAD(3)
         (          (ve = expressionOrEquation())        {
           if(ve instanceof Equation)          {			ve = ((Equation)ve).equationOrAssignment();
           }        })
@@ -450,13 +450,13 @@ ValidExpression buildValidExpression() :
         })?
                        
      |       
-        LOOKAHEAD(2147483647)                               
+        LOOKAHEAD(3)                               
       ve = cartesianvector_special()
   |
-  LOOKAHEAD(2147483647)
+  LOOKAHEAD(3)
   ve = cartesianvector3D_special()
   |
-      LOOKAHEAD(2147483647)    
+      LOOKAHEAD(3)    
         ve = polarvector_special()  
     )                     
     ( <POLAR_SEPARATOR> | <EOF> )     
@@ -487,31 +487,31 @@ ValidExpression buildCASExpression(GeoCasCell cell) :
         // CAS function
        // f(a) := a^2 + 3a
      (
-        LOOKAHEAD(2147483647)   
+        LOOKAHEAD(3)   
         ve = casFunction(cell)
     |     
 /*       // h: X = (3,2) + t (5,a)
- *      LOOKAHEAD(2147483647) 
+ *      LOOKAHEAD(3) 
  *      l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric() 
  *  |
  *       // h: X = (3,2,a) + t (5,b,c)
- *       LOOKAHEAD(2147483647) 
+ *       LOOKAHEAD(3) 
  *       l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric3D() 
     |     */
          // labeled equation, e.g. g: 3x + y = 7
          // assignment         
         // b := 27 + c, also allow x := 5, see http://www.geogebra.org/trac/ticket/946
-        LOOKAHEAD(2147483647)    
+        LOOKAHEAD(3)    
     l = casVar() (assign= ":" |assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = expressionOrEquation()
 /*   |
- *    LOOKAHEAD(2147483647)   
+ *    LOOKAHEAD(3)   
  *       ve = parametric()
  *  |
- *     LOOKAHEAD(2147483647)   
+ *     LOOKAHEAD(3)   
  *       ve = parametric3D()*/
    |      
          // equation, e.g. 3x + y = 7
-         LOOKAHEAD(2147483647)   
+         LOOKAHEAD(3)   
          ve = expressionOrEquation()         
   )                     
     ( <POLAR_SEPARATOR> | <EOF> )     
@@ -1451,27 +1451,27 @@ ExpressionValue enelement():
         { return ev; }      
 |
     // cos, sin, tan, ...
-    LOOKAHEAD(2147483647)
+    LOOKAHEAD(3)
     ev = numberFunction()
          { return ev; }
 |
   // command
-  LOOKAHEAD(2147483647)
+  LOOKAHEAD(3)
     ev = command()
         { return ev; } 
 |
     // number or vector variable
-     LOOKAHEAD(2147483647)
+     LOOKAHEAD(3)
     ev = numVecVariable()
         { return ev; }
 |        
     //list
-    LOOKAHEAD(2147483647)
+    LOOKAHEAD(3)
   ev = list()
       { return ev; }      
 | 
     // parenthesis
-    LOOKAHEAD(2147483647)
+    LOOKAHEAD(3)
     "("  ev = expressionOrEquation()  ")" 
         {
           if(GiacParsing)        {          ev = ev.unwrap();
@@ -1483,14 +1483,14 @@ ExpressionValue enelement():
         return ev; }                    
 | 
     // absolute value
-    LOOKAHEAD(2147483647)
+    LOOKAHEAD(3)
     <VERTICAL_BAR> ev = expressionnode() <VERTICAL_BAR> 
         { 
 			return new ExpressionNode(kernel, ev, Operation.ABS, null);
 		}
 |
     // cartesian vector  (x, y) or (x|y)
-    LOOKAHEAD(2147483647)
+    LOOKAHEAD(3)
     ev = cartesianvector()
         { return ev; } 
  |
