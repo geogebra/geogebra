@@ -1157,6 +1157,7 @@ public class RadioTreeItem extends AVTreeItem
 			updateCheckBox();
 		} else if (isItemNumeric()) {
 			updateNumerics();
+			updateTextItems();
 		} else {
 			if (!isInputTreeItem() && isDefinitionAndValue()) {
 				buildItemContent();
