@@ -107,7 +107,6 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -335,7 +334,6 @@ public class RadioTreeItem extends AVTreeItem
 
 	private FlowPanel outputPanel;
 
-	private HandlerRegistration checkboxListener;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -520,16 +518,7 @@ public class RadioTreeItem extends AVTreeItem
 		checkBox = new CheckBox();
 		checkBox.setValue(((GeoBoolean) geo).getBoolean());
 		main.add(checkBox);
-		createCheckboxListener();
-
-	}
-
-	private void createCheckboxListener() {
-		if (checkboxListener != null) {
-			checkboxListener.removeHandler();
-		}
-		checkboxListener = checkBox
-				.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				((GeoBoolean) geo).setValue(event.getValue());
@@ -540,6 +529,8 @@ public class RadioTreeItem extends AVTreeItem
 		});
 
 	}
+
+
 
 	private String getLatexString(boolean mathquill, Integer limit) {
 		if (!av.isRenderLaTeX()
@@ -1155,6 +1146,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		if (isItemChecBox()) {
 			updateCheckBox();
+			updateTextItems();
 		} else if (isItemNumeric()) {
 			updateNumerics();
 			updateTextItems();
@@ -2368,7 +2360,6 @@ marblePanel, evt))) {
 
 			if (hasGeoExtendedAV()) {
 				main.insert(checkBox, 1);
-				createCheckboxListener();
 				main.insert(w, 2);
 			} else {
 				main.remove(checkBox);
