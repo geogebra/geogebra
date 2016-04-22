@@ -2052,10 +2052,8 @@ marblePanel, evt))) {
 							new Scheduler.ScheduledCommand() {
 
 								public void execute() {
-									// TODO: change 40 for left padding of
-									// contentPanel
 									expandSize(Math.max(EDIT_WIDTH,
-											ihtml.getOffsetWidth()) + 40);
+											ihtml.getOffsetWidth()) + 70);
 									if ((RadioTreeItem.this.first)
 											&& (!getAlgebraDockPanel()
 													.isStyleBarVisible())) {
