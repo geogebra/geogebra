@@ -145,6 +145,23 @@ public class DrawInequality1Var extends Drawable {
 		return false;
 	}
 
+	public boolean isGrtLessEqual() {
+		return this.ineq.getOperation().equals(Operation.GREATER_EQUAL)
+				|| this.ineq.getOperation().equals(Operation.LESS_EQUAL);
+	}
+
+	public boolean isMinBoundSet() {
+		return !Kernel.isEqual(minBound, -1000000);
+	}
+
+	public double getMaxBound() {
+		return maxBound;
+	}
+
+	public double getMinBound() {
+		return minBound;
+	}
+
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (lines == null)
