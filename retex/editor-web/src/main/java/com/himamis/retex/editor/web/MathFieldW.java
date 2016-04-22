@@ -170,4 +170,14 @@ public class MathFieldW implements MathField {
 		// TODO Auto-generated method stub
 
 	}
+
+	public boolean showKeyboard() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void showCopyPasteButtons() {
+		// TODO Auto-generated method stub
+
+	}
 }
