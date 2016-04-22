@@ -59,7 +59,7 @@ parseGeoGebraExpression(
 
 
 			app.getKernel().getParser().parseGeoGebraExpression(
-					"x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/())))))))))))))))))))))))))))))))))))))))");
+					"x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/()))))))))))))))))))))");
 
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

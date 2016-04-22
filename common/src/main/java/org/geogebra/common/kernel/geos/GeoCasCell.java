@@ -2008,7 +2008,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					}
 				}
 
-				if (expandedEvalVE.isTopLevelCommand("Delete")) {
+				if (!expandedEvalVE.isTopLevelCommand("Delete")) {
 					FunctionExpander fex = FunctionExpander.getCollector();
 					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap().getCopy(kernel).traverse(fex);
 					expandedEvalVE = processSolveCommand(expandedEvalVE);
