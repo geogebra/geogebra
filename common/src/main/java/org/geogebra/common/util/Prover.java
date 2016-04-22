@@ -672,14 +672,20 @@ public abstract class Prover {
 				"OrthogonalLine", "Circle", "Line", "Point", "Free Point",
 				"Ray", "Area", "Distance", "LineBisector", "Expression",
 				"Translate", "Vector", "Polygon", "Tangent", "Parabola",
-				"Mirror", "Ellipse", "AngularBisector", "Rotate", "Angle" };
+				"Mirror", "Ellipse", "AngularBisector", "Rotate", "Angle",
+				"Hyperbola" };
 
-		String[] obj_types = { "Point", "Circle", "Line" };
+		String[] obj_types = { "Point", "Circle", "Line", "Segment",
+				"Triangle", "Numeric", "Pentagon", "Angle", "Triangle",
+				"Parabola", "Ray", "Ellipse", "Hyperbola", "Quadrilateral",
+				"Vector" };
 
 		private static String csv_header = "", csv_data = "";
 
 		private static HashMap<GeoElement, Integer> nodeLongestPath = new HashMap<GeoElement, Integer>();
 		private static int longestPath = 0;
+
+		private static HashSet<ArrayList<GeoElement>> deps = new HashSet<ArrayList<GeoElement>>();
 
 		private static void computeNodeLongestPath(GeoElement node, int set) {
 			nodeLongestPath.put(node, set);
@@ -689,6 +695,10 @@ public abstract class Prover {
 			AlgoElement ae = node.getParentAlgorithm();
 			if (ae != null) {
 				for (GeoElement dependency : ae.getInput()) {
+					ArrayList<GeoElement> item = new ArrayList<GeoElement>();
+					item.add(dependency);
+					item.add(node);
+					deps.add(item);
 					computeNodeLongestPath(dependency, set + 1);
 				}
 			}
@@ -819,7 +829,16 @@ public abstract class Prover {
 				int out = 0;
 				for (GeoElement child : children) {
 					if (geos.contains(child)) {
-						out++;
+						boolean directChild = false;
+						for (GeoElement father : child.getParentAlgorithm()
+								.getInput()) {
+							if (father.equals(geo)) {
+								directChild = true;
+							}
+						}
+						if (directChild) {
+							out++;
+						}
 					}
 				}
 				int in = 0;
@@ -874,6 +893,16 @@ public abstract class Prover {
 
 			Log.debug("portfolio csv_header:" + csv_header);
 			Log.debug("portfolio csv_data:" + csv_data);
+			
+			String digraph = "digraph dependencies { ";
+			Iterator<ArrayList<GeoElement>> it2 = deps.iterator();
+			while (it2.hasNext()) {
+				ArrayList<GeoElement> al = it2.next();
+				digraph += al.get(0).getLabelSimple() + " -> "
+						+ al.get(1).getLabelSimple() + "; ";
+			}
+			digraph += "}";
+			Log.debug(digraph);
 		}
 	}
 }
