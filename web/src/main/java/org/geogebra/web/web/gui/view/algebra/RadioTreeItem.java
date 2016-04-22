@@ -107,6 +107,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -334,6 +335,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private FlowPanel outputPanel;
 
+	private HandlerRegistration checkboxListener;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -518,7 +520,16 @@ public class RadioTreeItem extends AVTreeItem
 		checkBox = new CheckBox();
 		checkBox.setValue(((GeoBoolean) geo).getBoolean());
 		main.add(checkBox);
-		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+		createCheckboxListener();
+
+	}
+
+	private void createCheckboxListener() {
+		if (checkboxListener != null) {
+			checkboxListener.removeHandler();
+		}
+		checkboxListener = checkBox
+				.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				((GeoBoolean) geo).setValue(event.getValue());
@@ -2352,11 +2363,17 @@ marblePanel, evt))) {
 				sliderPanel.add(slider);
 			}
 		} else if (checkBox != null) {
-			main.remove(checkBox);
+
+
 			if (hasGeoExtendedAV()) {
-				main.add(checkBox);
+				main.insert(checkBox, 1);
+				createCheckboxListener();
+				main.insert(w, 2);
+			} else {
+				main.remove(checkBox);
+				main.insert(w, 1);
 			}
-			main.add(w);
+
 		} else {
 			main.add(w);
 		}
