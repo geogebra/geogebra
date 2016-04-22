@@ -29,21 +29,6 @@ package com.himamis.retex.editor.share.model;
 
 public class MathSequence extends MathContainer {
 
-    MathSequence(int i) {
-        super(i);
-        ensureArguments(i);
-    }
-
-    /**
-     * Use MathFormula.newSequence(...)
-     */
-    /*public MathSequence(MathFormula formula, String text) {
-        this(text.length());
-        for (int i = 0; i < text.length(); i++) {
-            setArgument(i, new MathCharacter(formula, formula.getMetaModel().getCharacter("" + text.charAt(i))));
-        }
-    }*/
-
     /**
      * Use MathFormula.newSequence(...)
      */
