@@ -511,4 +511,8 @@ public class FormulaEditor extends View implements MathField {
     public void hideCopyPasteButtons() {
         // implemented in ReTeXInput
     }
+
+    public boolean isEmpty() {
+        return mMathFieldInternal.isEmpty();
+    }
 }

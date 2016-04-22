@@ -68,4 +68,8 @@ public class MathFormula {
         rootContainer.setParent(null);
     }
 
+    public boolean isEmpty() {
+        return rootContainer.size() == 0;
+    }
+
 }

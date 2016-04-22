@@ -278,4 +278,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		return list2.size() > list.size();
 	}
 
+    public boolean isEmpty() {
+        return mathFormula.isEmpty();
+    }
+
 }
