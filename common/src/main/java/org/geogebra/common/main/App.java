@@ -3909,7 +3909,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-369
 		case MOBILE_WEB_VIEW:
-			return prerelease;
+			return true;
 
 		// MOB-331
 		case MOBILE_INPUT_BAR_HELP_PANEL:
@@ -3925,7 +3925,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-427
 		case MOBILE_SMOOTH_PINCH:
-			return prerelease;
+			return true;
 
 		// MOB-520
 		case MOBILE_COPY_PASTE:
@@ -4036,7 +4036,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-766
 		case DESKTOP_EXPORT_BRAILLE:
-			return prerelease;
+			return true;
 
 		// GGB-737
 		case CAS_INTERSECT_3D:
