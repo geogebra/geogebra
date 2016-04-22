@@ -177,6 +177,15 @@ public class CmdDerivative extends CommandProcessor {
 
 	}
 
+	/**
+	 * Returns eg f''_1' for third derivative of f when f''' is already used
+	 * 
+	 * @param geo
+	 *            function
+	 * @param order
+	 *            derivative order
+	 * @return next free label for derivative
+	 */
 	static String getDerivLabel(GeoElement geo, int order) {
 		String label = null;
 
@@ -200,6 +209,8 @@ public class CmdDerivative extends CommandProcessor {
 	 *            variable
 	 * @param n
 	 *            derivative degree
+	 * @param info
+	 *            evaluation flags
 	 * @return derivaive
 	 */
 	public GeoElement Derivative(String label, CasEvaluableFunction f,

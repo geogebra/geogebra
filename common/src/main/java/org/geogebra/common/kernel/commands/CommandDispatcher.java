@@ -136,7 +136,7 @@ public abstract class CommandDispatcher {
 	/**
 	 * @param c
 	 *            Command to be executed
-	 * @param labelOutput
+	 * @param info
 	 *            specifies if output GeoElements of this command should get
 	 *            labels
 	 * @throws MyError
@@ -859,8 +859,8 @@ public abstract class CommandDispatcher {
 	 * 
 	 * @param c
 	 *            command
-	 * @param labelOutput
-	 *            whether output needs label
+	 * @param info
+	 *            flags eg whether output needs label
 	 * @return command result
 	 */
 	public ExpressionValue simplifyCommand(Command c, EvalInfo info) {

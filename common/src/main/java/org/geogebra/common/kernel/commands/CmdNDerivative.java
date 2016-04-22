@@ -29,7 +29,7 @@ public class CmdNDerivative extends CommandProcessor {
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		String label = c.getLabel();
-		GeoElement[] arg, arg2;
+		GeoElement[] arg;
 
 		switch (n) {
 		case 1:

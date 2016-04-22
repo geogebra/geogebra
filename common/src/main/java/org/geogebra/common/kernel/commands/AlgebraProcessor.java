@@ -314,7 +314,8 @@ public class AlgebraProcessor {
 	 * @param storeUndoInfo
 	 *            true to make undo step
 	 * 
-	 * @return changed geo
+	 * @param callback
+	 *            receives changed geo
 	 */
 	public void changeGeoElement(GeoElement geo, String newValue,
 			boolean redefineIndependent, boolean storeUndoInfo,
@@ -813,45 +814,44 @@ public class AlgebraProcessor {
 				if (app.getGuiManager() != null) {
 					AsyncOperation<String[]> callback = null;
 
+					// final FunctionVariable fvX2 = fvX;
+					final ValidExpression ve2 = ve;
 
-						// final FunctionVariable fvX2 = fvX;
-						final ValidExpression ve2 = ve;
+					callback = new AsyncOperation<String[]>() {
 
-						callback = new AsyncOperation<String[]>() {
+						@Override
+						public void callback(String[] dialogResult) {
+							GeoElement[] geos = null;
 
-							@Override
-							public void callback(String[] dialogResult) {
-								GeoElement[] geos = null;
-
-								// TODO: need we to catch the Exception
-								// here,
-								// which can throw the
-								// processAlgebraInputCommandNoExceptionHandling
-								// function?
-								if (CREATE_SLIDER.equals(dialogResult[0])) {
-									// insertStarIfNeeded(undefinedVariables,
-									// ve2, fvX2);
-									replaceUndefinedVariables(ve2,
-											new TreeSet<GeoNumeric>(), null);
-									try {
-										geos = processValidExpression(
-												storeUndo, allowErrorDialog,
-												throwMyError, ve2);
+							// TODO: need we to catch the Exception
+							// here,
+							// which can throw the
+							// processAlgebraInputCommandNoExceptionHandling
+							// function?
+							if (CREATE_SLIDER.equals(dialogResult[0])) {
+								// insertStarIfNeeded(undefinedVariables,
+								// ve2, fvX2);
+								replaceUndefinedVariables(ve2,
+										new TreeSet<GeoNumeric>(), null);
+								try {
+									geos = processValidExpression(storeUndo,
+											allowErrorDialog, throwMyError,
+											ve2);
 								} catch (MyError ee) {
 									AlgebraProcessor.this.app.showError(ee);
 									return;
-									} catch (Exception ee) {
-										AlgebraProcessor.this.app.showError(ee
-												.getMessage());
-										return;
-									}
+								} catch (Exception ee) {
+									AlgebraProcessor.this.app
+											.showError(ee.getMessage());
+									return;
 								}
+									}
 							if (callback0 != null) {
 								callback0.callback(geos);
-							}
-							}
+								}
+						}
 
-						};
+					};
 
 					boolean autoCreateSlidersAnswer = this.app.getGuiManager()
 							.checkAutoCreateSliders(sb.toString(), callback);
@@ -2337,6 +2337,7 @@ public class AlgebraProcessor {
 
 		// check no terms in z
 		checkNoTermsInZ(equ);
+		checkNoTheta(equ);
 
 		if (equ.isFunctionDependent()) {
 			return processImplicitPoly(equ);
@@ -2377,6 +2378,15 @@ public class AlgebraProcessor {
 				return processImplicitPoly(equ);
 			}
 
+			String[] errors = { "InvalidEquation" };
+			throw new MyError(loc, errors);
+		}
+
+	}
+
+	private void checkNoTheta(Equation equ) {
+		if (equ.getRHS().containsFreeFunctionVariable(Unicode.thetaStr) || equ
+				.getRHS().containsFreeFunctionVariable(Unicode.thetaStr)) {
 			String[] errors = { "InvalidEquation" };
 			throw new MyError(loc, errors);
 		}
@@ -3058,6 +3068,9 @@ public class AlgebraProcessor {
 
 	}
 
+	/**
+	 * @return reference to kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}

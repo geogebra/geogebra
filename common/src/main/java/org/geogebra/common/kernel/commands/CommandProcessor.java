@@ -92,6 +92,8 @@ public abstract class CommandProcessor {
 	 * 
 	 * @param c
 	 *            command
+	 * @param info
+	 *            flags for geo labeling
 	 * @return list of resulting geos
 	 * @throws MyError
 	 *             for wrong number / type of parameters

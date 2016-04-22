@@ -74,7 +74,7 @@ public class ParametricProcessor {
 	 */
 	GeoElement[] checkParametricEquation(ValidExpression ve0,
 			TreeSet<String> undefinedVariables, boolean autocreateSliders,
-			AsyncOperation callback) {
+			AsyncOperation<GeoElement[]> callback) {
 		if (undefinedVariables.isEmpty()) {
 			return null;
 		}
