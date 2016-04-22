@@ -300,6 +300,7 @@ public class FormulaEditor extends View implements MathField {
         }
     }
 
+    private int iconWidth;
 
     private void updateShiftX() {
 
@@ -312,7 +313,7 @@ public class FormulaEditor extends View implements MathField {
 
         debug("mShiftX: " + mShiftX + ", inputBarWidth:" + inputBarWidth);
 
-        int iconWidth = mTeXIcon.getIconWidth();
+        iconWidth = mTeXIcon.getIconWidth();
         int iconHeight = mTeXIcon.getIconHeight();
 
         // check if last shift is not too long
@@ -374,6 +375,24 @@ public class FormulaEditor extends View implements MathField {
         }
         debug("mShiftX: " + mShiftX);
 
+    }
+
+
+    public void scroll(int dx, int dy) {
+        if (isEmpty()) {
+            return;
+        }
+
+        mShiftX -= dx;
+        int inputBarWidth = getWidth();
+        if (iconWidth + mShiftX < inputBarWidth) {
+            mShiftX = inputBarWidth - iconWidth;
+        }
+        if (mShiftX > 0) {
+            mShiftX = 0;
+        }
+
+        repaint();
     }
 
     static private final int CURSOR_MARGIN = 5;

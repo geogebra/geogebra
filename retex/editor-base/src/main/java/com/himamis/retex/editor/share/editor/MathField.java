@@ -63,4 +63,12 @@ public interface MathField {
     MetaModel getMetaModel();
 
     void hideCopyPasteButtons();
+
+    /**
+     * scroll the view
+     *
+     * @param dx x distance from current call to last call
+     * @param dy y distance from current call to last call
+     */
+    void scroll(int dx, int dy);
 }

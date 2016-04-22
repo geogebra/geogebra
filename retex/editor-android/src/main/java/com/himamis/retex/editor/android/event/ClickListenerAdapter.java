@@ -53,6 +53,7 @@ public class ClickListenerAdapter implements View.OnTouchListener, GestureDetect
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        mClickListener.onScroll((int) distanceX, (int) distanceY);
         return false;
     }
 

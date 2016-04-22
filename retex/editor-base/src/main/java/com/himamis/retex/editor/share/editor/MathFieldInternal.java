@@ -195,19 +195,26 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
     }
 
 	public void onPointerUp(int x, int y) {
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		mathFieldController.getPath(mathFormula, x, y, list);
-		MathComponent cursor = editorState.getCursorField(false);
 
-		cursorController.firstField(editorState);
+        if (scrollOccured) {
+            scrollOccured = false;
+        } else {
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            mathFieldController.getPath(mathFormula, x, y, list);
+            MathComponent cursor = editorState.getCursorField(false);
 
-		moveToSelection(list);
+            cursorController.firstField(editorState);
 
-		editorState.resetSelection();
-		if (mousePositionChanged(x, y)) {
-			editorState.extendSelection(false);
-			editorState.extendSelection(cursor);
-		}
+            moveToSelection(list);
+
+            editorState.resetSelection();
+
+            if (selectionMode && mousePositionChanged(x, y)) {
+                editorState.extendSelection(false);
+                editorState.extendSelection(cursor);
+            }
+        }
+
 		mouseDownPos = null;
 		mathFieldController.update(mathFormula, editorState, false);
 
@@ -217,6 +224,21 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     public void onLongPress(int action, int x, int y) {
         mathField.showCopyPasteButtons();
+    }
+
+    public void onScroll(int dx, int dy) {
+        if (!selectionMode) {
+            mathField.scroll(dx, dy);
+            scrollOccured = true;
+        }
+    }
+
+    private boolean scrollOccured = false;
+
+    private boolean selectionMode = false;
+
+    public void setSelectionMode(boolean flag) {
+        selectionMode = flag;
     }
 
 	private boolean mousePositionChanged(int x, int y) {

@@ -35,4 +35,13 @@ public interface ClickListener {
 
 	void onLongPress(int action, int x, int y);
 
+	/**
+	 * handle scroll
+	 * @param dx x distance from current call to last call
+	 * @param dy y distance from current call to last call
+	 */
+	void onScroll(int dx, int dy);
+
+	void setSelectionMode(boolean flag);
+
 }
