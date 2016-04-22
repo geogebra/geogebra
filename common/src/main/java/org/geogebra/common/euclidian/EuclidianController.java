@@ -11,6 +11,13 @@ the Free Software Foundation.
  */
 package org.geogebra.common.euclidian;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -30,21 +37,23 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
+import org.geogebra.common.kernel.algos.AlgoExtremumPolynomialInterval;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoRadius;
 import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
+import org.geogebra.common.kernel.algos.AlgoRootsPolynomialInterval;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.algos.AlgoVector;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
@@ -117,13 +126,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.TreeSet;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -11003,20 +11005,36 @@ public abstract class EuclidianController {
 		addSelectedFunction(hits, 1, false);
 
 		if (selFunctions() > 0) {
+
+			Construction cons = kernel.getConstruction();
+
 			// get the function and clear the selection
 			GeoFunction function = getSelectedFunctions()[0];
 			// not for rootfinding: x*sqrt(1-x^2) does not have polynomial
 			// derivative
 			if (function.isPolynomialFunction(false)) {
 				// calculates all extremum points (e.g. x^2)
-				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(
-						this.kernel.getConstruction(), null, function);
+				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons,
+						null, function);
 				return algo.getExtremumPoints();
 			}
+
+			// special case for If
+			// non-polynomial -> undefined
+			// eg f(x) = x^2 , (-2<x<2)
+			ExpressionNode exp = function.getFunctionExpression();
+			if (exp.getOperation().equals(Operation.IF)) {
+
+				AlgoExtremumPolynomialInterval algo = new AlgoExtremumPolynomialInterval(
+						cons, null, function);
+				return algo.getRootPoints();
+
+			}
+
 			// calculates only the extremum points that are visible at the
 			// moment (e.g. for sin(x))
-			AlgoExtremumMulti algo = new AlgoExtremumMulti(
-					this.kernel.getConstruction(), null, function, this.view);
+			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, null, function,
+					this.view);
 			return algo.getExtremumPoints();
 		}
 		return null;
@@ -11040,12 +11058,28 @@ public abstract class EuclidianController {
 		}
 
 		if (function != null) {
+
+			Construction cons = kernel.getConstruction();
+
 			if (function.isPolynomialFunction(true)) {
 				// calculates all root points (e.g. x^2 - 1)
-				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(
-						this.kernel.getConstruction(), null, function);
+				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, null,
+						function);
 				return algo.getRootPoints();
 			}
+
+			// special case for If
+			// non-polynomial -> undefined
+			// eg f(x) = x^2 , (-2<x<2)
+			ExpressionNode exp = function.getFunctionExpression();
+			if (exp.getOperation().equals(Operation.IF)) {
+
+				AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
+						cons, null, function);
+				return algo.getRootPoints();
+
+			}
+
 			// calculates only the root points that are visible at the moment
 			// (e.g. for sin(x))
 			AlgoRoots algo = new AlgoRoots(this.kernel.getConstruction(), null,
