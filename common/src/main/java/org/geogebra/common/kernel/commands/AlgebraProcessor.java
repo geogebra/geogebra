@@ -837,6 +837,9 @@ public class AlgebraProcessor {
 										geos = processValidExpression(
 												storeUndo, allowErrorDialog,
 												throwMyError, ve2);
+								} catch (MyError ee) {
+									AlgebraProcessor.this.app.showError(ee);
+									return;
 									} catch (Exception ee) {
 										AlgebraProcessor.this.app.showError(ee
 												.getMessage());
