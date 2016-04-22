@@ -113,10 +113,10 @@ public class AlgoIntersectPlaneCurve extends AlgoIntersectCoordSysCurve {
 		ExpressionNode xFun = curve.getFun(0).getExpression();
 		ExpressionNode yFun = curve.getFun(1).getExpression();
 		double z = 0;
+		fv.set(param);
 		if (curve.getDimension() > 2) {
 			z = curve.getFun(2).getExpression().evaluateDouble();
 		}
-		fv.set(param);
 		point.setCoords(xFun.evaluateDouble(), yFun.evaluateDouble(), z, 1.0);
 
 	}
