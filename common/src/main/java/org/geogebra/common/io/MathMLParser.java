@@ -12,6 +12,8 @@ import org.geogebra.common.util.Unicode;
  * 
  * Original from http://www.tilman.de/programme/mathparser/download_en.html
  * 
+ * Parses Presentation MathML
+ * 
  * Alterations by GeoGebra
  * 
  * @author (c) Tilman Walther
