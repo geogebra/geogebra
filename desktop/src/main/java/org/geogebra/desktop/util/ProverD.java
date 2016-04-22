@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
@@ -37,7 +36,7 @@ public class ProverD extends Prover {
 
 		public void run() {
 			// Display info about this particular thread
-			App.debug(Thread.currentThread() + " running");
+			Log.debug(Thread.currentThread() + " running");
 			decideStatement();
 		}
 	}
@@ -56,7 +55,7 @@ public class ProverD extends Prover {
 		t.start();
 		int i = 0;
 		while (t.isAlive()) {
-			App.debug("Waiting for the prover: " + i++);
+			Log.debug("Waiting for the prover: " + i++);
 			try {
 				t.join(50);
 			} catch (InterruptedException e) {
@@ -64,7 +63,7 @@ public class ProverD extends Prover {
 			}
 			if (((System.currentTimeMillis() - startTime) > timeout * 1000L)
 					&& t.isAlive()) {
-				App.debug("Prover timeout");
+				Log.debug("Prover timeout");
 				t.interrupt();
 				// t.join(); //
 				// http://docs.oracle.com/javase/tutorial/essential/concurrency/simple.html
@@ -119,28 +118,28 @@ public class ProverD extends Prover {
 		GeoGebraOGPOutputProverProtocol outputObject = (GeoGebraOGPOutputProverProtocol) ogpInterface
 				.prove(inputObject); // safe cast
 
-		App.debug("Prover results");
-		App.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS
+		Log.debug("Prover results");
+		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS
 				+ ": "
 				+ outputObject
 						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS));
-		App.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_FAILURE_MSG
+		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_FAILURE_MSG
 				+ ": "
 				+ outputObject
 						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_FAILURE_MSG));
-		App.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER
+		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER
 				+ ": "
 				+ outputObject
 						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER));
-		App.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG
+		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG
 				+ ": "
 				+ outputObject
 						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG));
-		App.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME
+		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME
 				+ ": "
 				+ outputObject
 						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME));
-		App.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS
+		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS
 				+ ": "
 				+ outputObject
 						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS));
@@ -151,7 +150,7 @@ public class ProverD extends Prover {
 			for (String ndgString : ndgList) {
 				int i = ndgString.indexOf("[");
 				NDGCondition ndg = new NDGCondition();
-				ndg.setCondition(ndgString.substring(0, i));
+				String ndgCommand = ndgString.substring(0, i);
 				String params = ndgString.substring(i + 1,
 						ndgString.length() - 1);
 				String[] paramsArray = params.split(",");
@@ -167,6 +166,15 @@ public class ProverD extends Prover {
 					}
 					j++;
 				}
+				if (ndgCommand.equals("IsOnCircle")) {
+					ndgCommand = "IsIsoscelesTriangle";
+					// IsOnCircle[A,B,C]: AB==AC
+					// IsIsoscelesTriangle[A,B,C]: AB==BC
+					GeoElement swap = geos[1];
+					geos[1] = geos[0];
+					geos[0] = swap;
+				}
+				ndg.setCondition(ndgCommand);
 				ndg.setGeos(geos);
 				addNDGcondition(ndg);
 			}
