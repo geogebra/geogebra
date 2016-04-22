@@ -2343,8 +2343,10 @@ marblePanel, evt))) {
 	}
 
 	public void removeCloseButton() {
-		this.maybeSetPButtonVisibility(true);
-		buttonPanel.setVisible(false);
+		if (buttonPanel != null) {
+			this.maybeSetPButtonVisibility(true);
+			buttonPanel.setVisible(false);
+		}
 	}
 
 
@@ -2358,12 +2360,21 @@ marblePanel, evt))) {
 			}
 		} else if (checkBox != null) {
 			main.remove(checkBox);
+			unloadButtonPanel();
 			if (hasGeoExtendedAV()) {
 				main.add(checkBox);
 			}
 			main.add(w);
 		} else {
+			unloadButtonPanel();
 			main.add(w);
+		}
+	}
+
+	private void unloadButtonPanel() {
+		if (buttonPanel != null) {
+			main.remove(buttonPanel);
+			buttonPanel = null;
 		}
 	}
 
