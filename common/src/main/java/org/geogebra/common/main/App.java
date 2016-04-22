@@ -4042,6 +4042,10 @@ public abstract class App implements UpdateSelection {
 		case CAS_INTERSECT_3D:
 			return prerelease;
 
+		// MOB-413
+		case MOBILE_ANGLE_FIXED_SIZE:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
