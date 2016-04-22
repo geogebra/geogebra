@@ -4382,11 +4382,14 @@ GRectangle selectionRectangle) {
 		tmpCoords1.set(Coords.VY);
 		toSceneCoords3D(tmpCoords1);
 		double z = tmpCoords1.getZ() * getScale();
-		if (z > 0.5) {
+		Log.debug("\nz = " + z);
+		if (z > 0.6) {
 			screenTranslateAndScaleDZ = tmpCoords1.getZ() * (-dy);
-		} else {
+		} else if (z < 0.5) {
 			screenTranslateAndScaleDX += tmpCoords1.getX() * (-dy);
 			screenTranslateAndScaleDY += tmpCoords1.getY() * (-dy);
+			screenTranslateAndScaleDZ = 0;
+		} else {
 			screenTranslateAndScaleDZ = 0;
 		}
 
