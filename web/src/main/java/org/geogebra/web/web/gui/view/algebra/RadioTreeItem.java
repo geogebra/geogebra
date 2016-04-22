@@ -501,22 +501,17 @@ public class RadioTreeItem extends AVTreeItem
 
 		}
 
+		buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
+
+		buttonPanel.addStyleName("smallStylebar");
+
+		buttonPanel.setVisible(false);
+
+		main.add(buttonPanel);
+
 		deferredResizeSlider();
 
-	}
-
-	private FlowPanel getButtonPanel() {
-		if (buttonPanel == null) {
-			buttonPanel = new FlowPanel();
-			buttonPanel.addStyleName("AlgebraViewObjectStylebar");
-
-			buttonPanel.addStyleName("smallStylebar");
-
-			buttonPanel.setVisible(false);
-
-			main.add(buttonPanel);
-		}
-		return buttonPanel;
 	}
 
 	private void createCheckbox() {
@@ -1495,7 +1490,7 @@ public class RadioTreeItem extends AVTreeItem
 			return false;
 		}
 
-		getButtonPanel().setVisible(true);
+		buttonPanel.setVisible(true);
 		maybeSetPButtonVisibility(true);
 		return true;
 	}
@@ -2211,7 +2206,7 @@ marblePanel, evt))) {
 
 		if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
 			setFirst(first);
-			getButtonPanel().clear();
+			buttonPanel.clear();
 			if (animPanel != null && geo.isAnimatable()) {
 				buttonPanel.add(animPanel);
 			}
@@ -2343,10 +2338,8 @@ marblePanel, evt))) {
 	}
 
 	public void removeCloseButton() {
-		if (buttonPanel != null) {
-			this.maybeSetPButtonVisibility(true);
-			buttonPanel.setVisible(false);
-		}
+		this.maybeSetPButtonVisibility(true);
+		buttonPanel.setVisible(false);
 	}
 
 
@@ -2360,21 +2353,12 @@ marblePanel, evt))) {
 			}
 		} else if (checkBox != null) {
 			main.remove(checkBox);
-			unloadButtonPanel();
 			if (hasGeoExtendedAV()) {
 				main.add(checkBox);
 			}
 			main.add(w);
 		} else {
-			unloadButtonPanel();
 			main.add(w);
-		}
-	}
-
-	private void unloadButtonPanel() {
-		if (buttonPanel != null) {
-			main.remove(buttonPanel);
-			buttonPanel = null;
 		}
 	}
 
