@@ -178,15 +178,17 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     @Override
 	public void onPointerDown(int x, int y) {
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		mathFieldController.getPath(mathFormula, x, y, list);
-		editorState.resetSelection();
-		cursorController.firstField(editorState);
-		this.mouseDownPos = new int[] { x, y };
+        if (selectionMode) {
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            mathFieldController.getPath(mathFormula, x, y, list);
+            editorState.resetSelection();
+            cursorController.firstField(editorState);
+            this.mouseDownPos = new int[]{x, y};
 
-		moveToSelection(list);
+            moveToSelection(list);
 
-		mathFieldController.update(mathFormula, editorState, false);
+            mathFieldController.update(mathFormula, editorState, false);
+        }
 
         mathField.showKeyboard();
         mathField.hideCopyPasteButtons();
