@@ -204,7 +204,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public static final StringTemplate mathmlTemplate = new StringTemplate(
 			"mathmlTemplate");
 	static {
-		mathmlTemplate.setType(StringType.MATHML);
+		mathmlTemplate.setType(StringType.CONTENT_MATHML);
 	}
 
 	/**
@@ -447,7 +447,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		Operation operation = Operation.MULTIPLY;
 		switch (getStringType()) {
 
-		case MATHML:
+		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<times/>", leftStr, rightStr);
 			break;
 		default:
@@ -1055,13 +1055,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public StringTemplate deriveMathMLTemplate() {
 
-		if (stringType.equals(StringType.MATHML)) {
+		if (stringType.equals(StringType.CONTENT_MATHML)) {
 			return this;
 		}
 
 		StringTemplate ret = this.copy();
 
-		ret.setType(StringType.MATHML);
+		ret.setType(StringType.CONTENT_MATHML);
 
 		return ret;
 	}
@@ -1120,7 +1120,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		final Operation operation = Operation.PLUS;
 		switch (stringType) {
-		case MATHML:
+		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<plus/>", leftStr, rightStr);
 			break;
 		case GIAC:
@@ -1467,7 +1467,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		StringBuilder sb = new StringBuilder();
 		switch (stringType) {
-		case MATHML:
+		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<minus/>", leftStr, rightStr);
 			break;
 		case GIAC:
@@ -1746,7 +1746,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		Operation operation = Operation.MULTIPLY;
 		switch (stringType) {
 
-		case MATHML:
+		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<times/>", leftStr, rightStr);
 			break;
 		default:
@@ -2095,7 +2095,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			String leftStr, String rightStr, boolean valueForm) {
 		StringBuilder sb = new StringBuilder();
 		switch (stringType) {
-		case MATHML:
+		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<divide/>", leftStr, rightStr);
 			break;
 		case LATEX:
@@ -2166,12 +2166,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public String notString(ExpressionValue left, String leftStr) {
 		StringBuilder sb = new StringBuilder();
 
-		if (stringType.equals(StringType.MATHML)) {
+		if (stringType.equals(StringType.CONTENT_MATHML)) {
 			MathmlTemplate.mathml(sb, "<not/>", leftStr, null);
 		} else {
 
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 
 				break;
 			case LATEX:
@@ -2211,7 +2211,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			String leftStr, String rightStr) {
 		StringBuilder sb = new StringBuilder();
 
-		if (stringType.equals(StringType.MATHML)) {
+		if (stringType.equals(StringType.CONTENT_MATHML)) {
 			MathmlTemplate.mathml(sb, "<or/>", leftStr, rightStr);
 		} else {
 			append(sb, leftStr, left, Operation.OR);
@@ -2395,7 +2395,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			ExpressionValue right, String leftStr, String rightStr,
 			boolean valueForm) {
 		StringBuilder sb = new StringBuilder();
-		if (stringType.equals(StringType.MATHML)
+		if (stringType.equals(StringType.CONTENT_MATHML)
  || stringType.isGiac()) {
 			return andString(left, right, leftStr, rightStr);
 		}
@@ -2448,7 +2448,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public String andString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr) {
 		StringBuilder sb = new StringBuilder();
-		if (stringType.equals(StringType.MATHML)) {
+		if (stringType.equals(StringType.CONTENT_MATHML)) {
 			MathmlTemplate.mathml(sb, "<and/>", leftStr, rightStr);
 		} else if (stringType.isGiac()) {
 			sb.append('(');
@@ -2505,7 +2505,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		 * }//
 		 */
 
-		if (stringType.equals(StringType.MATHML)) {
+		if (stringType.equals(StringType.CONTENT_MATHML)) {
 			MathmlTemplate.mathml(sb, "<power/>", leftStr, rightStr);
 		} else {
 

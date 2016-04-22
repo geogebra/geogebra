@@ -359,7 +359,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 		StringTemplate tpl = text.getStringTemplate();
 
-		if (tpl.getStringType().equals(StringType.MATHML)) {
+		if (tpl.getStringType().equals(StringType.CONTENT_MATHML)) {
 			mathml(tpl);
 		} else {
 			if (kernel.getApplication().isLatexMathQuillStyle(tpl)) {

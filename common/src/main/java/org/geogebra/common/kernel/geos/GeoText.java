@@ -750,7 +750,7 @@ public class GeoText extends GeoElement implements Locateable,
 	 * @param st currently just LaTeX supported in desktop, LaTeX and MathML in web project
 	 */
 	public void setFormulaType(StringType st) {
-		isMathML = st.equals(StringType.MATHML);		
+		isMathML = st.equals(StringType.CONTENT_MATHML);		
 	}
 
 
@@ -1088,7 +1088,7 @@ public class GeoText extends GeoElement implements Locateable,
 		StringType type = 
 			isLaTeXorMathML ?
 			/*app.getFormulaRenderingType()*/
-			(isMathML ? StringType.MATHML : StringType.LATEX)
+			(isMathML ? StringType.CONTENT_MATHML : StringType.LATEX)
 				: StringType.GEOGEBRA;
 
 		if (useSignificantFigures() && printFigures > -1) {

@@ -2346,7 +2346,7 @@ CasEvaluableFunction, ParametricCurve,
 		if (getFunctionExpression().isConditional()) {
 			if (tpl.hasType(StringType.LATEX)) {
 				ret = conditionalLaTeX(substituteNumbers, tpl);
-			} else if (tpl.hasType(StringType.MATHML)) {
+			} else if (tpl.hasType(StringType.CONTENT_MATHML)) {
 				ret = conditionalMathML(substituteNumbers, tpl);
 			}
 

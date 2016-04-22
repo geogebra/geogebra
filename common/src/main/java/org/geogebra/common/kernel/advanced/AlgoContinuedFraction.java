@@ -102,7 +102,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 			}
 
 			switch (tpl.getStringType()) {
-			case MATHML:
+			case CONTENT_MATHML:
 				if (steps == 1) { // integer
 					sb.setLength(0);
 					sb.append("<cn>");

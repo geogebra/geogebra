@@ -1721,7 +1721,7 @@ kernel, left,
 	 * make sure string wrapped in MathML if necessary eg <ci>x</ci>
 	 */
 	private static String checkMathml(String str, StringTemplate tpl) {
-		if (tpl.hasType(StringType.MATHML) && str.charAt(0) != '<') {
+		if (tpl.hasType(StringType.CONTENT_MATHML) && str.charAt(0) != '<') {
 			return "<ci>" + str + "</ci>";
 		}
 
@@ -1774,7 +1774,7 @@ kernel, left,
 			return tpl.andString(left, right, leftStr, rightStr);
 
 		case IMPLICATION:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<implies/>", leftStr, rightStr);
 			} else {
 
@@ -1804,7 +1804,7 @@ kernel, left,
 			break;
 
 		case EQUAL_BOOLEAN:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<eq/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.OGP)) {
 				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
@@ -1825,7 +1825,7 @@ kernel, left,
 			break;
 
 		case NOT_EQUAL:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<neq/>", leftStr, rightStr);
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
@@ -1834,7 +1834,7 @@ kernel, left,
 			break;
 
 		case IS_ELEMENT_OF:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<in/>", leftStr, rightStr);
 			} else if (stringType.isGiac()) {
 				sb.append("when(count\\_eq(");
@@ -1866,7 +1866,7 @@ kernel, left,
 			break;
 
 		case IS_SUBSET_OF:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<subset/>", leftStr, rightStr);
 			} else if (stringType.isGiac()) {
 				sb.append("when((");
@@ -1884,7 +1884,7 @@ kernel, left,
 			break;
 
 		case IS_SUBSET_OF_STRICT:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<prsubset/>", leftStr, rightStr);
 			} else if (stringType.isGiac()) {
 				sb.append("when((");
@@ -1906,7 +1906,7 @@ kernel, left,
 			break;
 
 		case SET_DIFFERENCE:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<setdiff/>", leftStr, rightStr);
 			} else if (stringType.isGiac()) {
 				sb.append('(');
@@ -1945,7 +1945,7 @@ kernel, left,
 			break;
 
 		case LESS:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<lt/>", leftStr, rightStr);
 			} else {
 
@@ -1955,7 +1955,7 @@ kernel, left,
 			break;
 
 		case GREATER:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<gt/>", leftStr, rightStr);
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
@@ -1964,7 +1964,7 @@ kernel, left,
 			break;
 
 		case LESS_EQUAL:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<leq/>", leftStr, rightStr);
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
@@ -1973,7 +1973,7 @@ kernel, left,
 			break;
 
 		case GREATER_EQUAL:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<qeq/>", leftStr, rightStr);
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
@@ -2000,7 +2000,7 @@ kernel, left,
 			break;
 
 		case VECTORPRODUCT:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate
 						.mathml(sb, "<vectorproduct/>", leftStr, rightStr);
 			} else if (stringType.isGiac()) {
@@ -2060,7 +2060,7 @@ kernel, left,
 
 		case FACTORIAL:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<factorial/>", leftStr, null);
 				break;
 			case LIBRE_OFFICE:
@@ -2157,7 +2157,7 @@ kernel, left,
 			break;
 
 		case ARCTAN2:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<atan/>", leftStr, rightStr);
 			} else {
 				switch (stringType) {
@@ -2325,7 +2325,7 @@ kernel, left,
 			break;
 		case EXP:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<exp/>", leftStr, null);
 				break;
 			case LIBRE_OFFICE:
@@ -2375,7 +2375,7 @@ kernel, left,
 			break;
 
 		case LOG:
-			if (stringType.equals(StringType.MATHML)) {
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<ln/>", leftStr, null);
 			} else {
 				switch (stringType) {
@@ -2403,7 +2403,7 @@ kernel, left,
 
 		case LOGB:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<log/>", "<logbase>", leftStr,
 						"</logbase>", "", rightStr, "");
 				break;
@@ -2529,7 +2529,7 @@ kernel, left,
 
 		case LOG10:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<log/>", leftStr, null);
 				break;
 			case LATEX:
@@ -2590,7 +2590,7 @@ kernel, left,
 			break;
 		case NROOT:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<root/>", leftStr, null);
 				break;
 			case LATEX:
@@ -2651,7 +2651,7 @@ kernel, left,
 		case SQRT_SHORT:
 		case SQRT:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<root/>", leftStr, null);
 				break;
 			case LATEX:
@@ -2674,7 +2674,7 @@ kernel, left,
 
 		case CBRT:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<root/>", "<degree>", "3",
 						"</degree>", "", leftStr, "");
 				break;
@@ -2705,7 +2705,7 @@ kernel, left,
 
 		case ABS:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<abs/>", leftStr, null);
 				break;
 			case LATEX:
@@ -2755,7 +2755,7 @@ kernel, left,
 
 		case CONJUGATE:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<conjugate/>", leftStr, null);
 				break;
 			case LATEX:
@@ -2789,7 +2789,7 @@ kernel, left,
 
 		case ARG:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<arg/>", leftStr, null);
 				break;
 			case LATEX:
@@ -2814,7 +2814,7 @@ kernel, left,
 
 		case ALT:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<alt/>", leftStr, null);
 				break;
 			case LATEX:
@@ -2839,7 +2839,7 @@ kernel, left,
 
 		case FLOOR:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<floor/>", leftStr, null);
 				break;
 			case LATEX:
@@ -2870,7 +2870,7 @@ kernel, left,
 
 		case CEIL:
 			switch (stringType) {
-			case MATHML:
+			case CONTENT_MATHML:
 				MathmlTemplate.mathml(sb, "<ceiling/>", leftStr, null);
 				break;
 			case LATEX:
@@ -3726,7 +3726,7 @@ kernel, left,
 			StringTemplate tpl, Localization loc, boolean needDegrees,
 			boolean inverseNeedsDegrees) {
 		
-		if (tpl.hasType(StringType.MATHML)) {
+		if (tpl.hasType(StringType.CONTENT_MATHML)) {
 			MathmlTemplate.mathml(sb, mathml, leftStr, null);
 		} else {
 			switch (tpl.getStringType()) {

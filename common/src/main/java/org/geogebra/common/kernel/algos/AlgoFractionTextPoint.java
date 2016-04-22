@@ -88,7 +88,7 @@ public class AlgoFractionTextPoint extends AlgoElement {
 					Kernel.STANDARD_PRECISION);
 
 			switch (tpl.getStringType()) {
-			case MATHML:
+			case CONTENT_MATHML:
 				sb.setLength(0);
 				sb.append("<matrix>");
 				sb.append("<matrixrow>");

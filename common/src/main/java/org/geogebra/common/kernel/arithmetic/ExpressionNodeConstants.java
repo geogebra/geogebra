@@ -23,8 +23,8 @@ public interface ExpressionNodeConstants {
 		PSTRICKS,
 		/** PGF */
 		PGF,
-		/** MathML */
-		MATHML,
+		/** Content MathML */
+		CONTENT_MATHML,
 		/** OGP */
 		OGP;
 
