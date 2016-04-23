@@ -43,7 +43,7 @@
  * 
  */
 
-package com.himamis.retex.renderer.share.jlatexmath.cache;
+package com.himamis.retex.renderer.share.cache;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.Reference;
