@@ -76,8 +76,8 @@ public class InputDialogDilate extends InputDialogD {
 	private void processInput() {
 
 		// avoid labeling of num
-		Construction cons = kernel.getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
+		final Construction cons = kernel.getConstruction();
+		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		inputHandler.processInput(inputPanel.getText(),
@@ -85,6 +85,7 @@ public class InputDialogDilate extends InputDialogD {
 
 					@Override
 					public void callback(Boolean ok) {
+						cons.setSuppressLabelCreation(oldVal);
 						if (ok) {
 							DialogManager
 									.doDilate(kernel,
@@ -97,7 +98,7 @@ public class InputDialogDilate extends InputDialogD {
 					}
 				});
 
-		cons.setSuppressLabelCreation(oldVal);
+
 
 
 

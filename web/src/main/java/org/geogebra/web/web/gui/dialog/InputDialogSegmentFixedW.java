@@ -46,8 +46,8 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 	private void processInput() {
 
 		// avoid labeling of num
-		Construction cons = kernel.getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
+		final Construction cons = kernel.getConstruction();
+		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		inputHandler.processInput(inputPanel.getText(),
@@ -55,6 +55,7 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 
 					@Override
 					public void callback(Boolean ok) {
+						cons.setSuppressLabelCreation(oldVal);
 						if (ok) {
 							DialogManager.doSegmentFixed(kernel, geoPoint1,
 									((NumberInputHandler) inputHandler)
@@ -64,7 +65,7 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 					}
 				});
 
-		cons.setSuppressLabelCreation(oldVal);
+
 
 
 	}

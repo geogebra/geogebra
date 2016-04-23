@@ -51,11 +51,7 @@ public class NumberInputHandler implements InputHandler {
 								algebraProcessor.showError("NumberExpected");
 							}
 							if (callback0 != null) {
-								boolean currentVal = cons
-										.isSuppressLabelsActive();
-								cons.setSuppressLabelCreation(false);
 								callback0.callback(success);
-								cons.setSuppressLabelCreation(currentVal);
 							}
 							return;
 
