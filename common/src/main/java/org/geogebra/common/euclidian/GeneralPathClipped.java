@@ -12,6 +12,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * A GeneralPath implementation that does clipping of line segments at the
@@ -102,10 +103,16 @@ public class GeneralPathClipped implements GShape {
 		int size = pathPoints.size();
 		for (int i = 0; i < size; i++) {
 			MyPoint curP = pathPoints.get(i);
-			addToGeneralPath(curP, curP.getLineTo());
+			// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.euclidian.GeneralPathClipped&tm=addSimpleSegments&nid&an&c&s=new_status_desc
+			if (curP != null) {
+				addToGeneralPath(curP, curP.getLineTo());
+			} else {
+				Log.error("curP shouldn't be null here");
+			}
 		}
-		if (needClosePath)
+		if (needClosePath) {
 			gp.closePath();
+		}
 	}
 
 	/**
