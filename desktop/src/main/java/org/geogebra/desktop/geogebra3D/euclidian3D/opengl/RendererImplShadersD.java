@@ -18,6 +18,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
 import org.geogebra.common.geogebra3D.main.FragmentShader;
 import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.main.App;
@@ -347,12 +348,15 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 
 
-	private boolean objDone = false;
+	/**
+	 * export scene in OBJ format
+	 */
+	public void doObj() {
 
-	private void doObj() {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(
-					"geogebra3D/test.obj"));
+					"test.obj"));
+
 			writer.write("######## CREATED WITH GEOGEBRA ########");
 
 			((ManagerShadersObj) renderer.getGeometryManager())
@@ -458,6 +462,9 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	@Override
 	public Manager createManager() {
+		if (((RendererWithImpl) renderer).hasExport3DPrinter()) {
+			return new ManagerShadersObj(renderer, view3D);
+		}
 		return new ManagerShadersElementsGlobalBuffer(renderer, view3D);
 	}
 

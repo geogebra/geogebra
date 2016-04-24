@@ -771,4 +771,12 @@ public abstract class RendererWithImpl extends Renderer implements
 	protected void exportImage() {
 
 	}
+
+	/**
+	 * 
+	 * @return true if it has export for 3D printers
+	 */
+	public boolean hasExport3DPrinter() {
+		return false;
+	}
 }

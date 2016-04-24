@@ -88,6 +88,14 @@ public class DrawCurve3D extends Drawable3DCurves {
 	}
 
 	@Override
+	public void drawInObjFormat(Renderer renderer) {
+		if (isVisible()) {
+			renderer.getGeometryManager().drawInObjFormat(getGeoElement(),
+					getGeometryIndex());
+		}
+	}
+
+	@Override
 	protected void updateForView() {
 		if (getView3D().viewChangedByZoom()
 				|| getView3D().viewChangedByTranslate()) {

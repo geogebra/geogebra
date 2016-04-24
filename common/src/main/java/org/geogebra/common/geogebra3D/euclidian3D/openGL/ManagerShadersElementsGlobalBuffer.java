@@ -351,6 +351,22 @@ public class ManagerShadersElementsGlobalBuffer extends
 			return arrayI;
 		}
 
+		/**
+		 * 
+		 * @return current indices buffer
+		 */
+		public GLBufferIndices getCurrentBufferI() {
+			return arrayI;
+		}
+
+		/**
+		 * 
+		 * @return indices length
+		 */
+		public int getIndicesLength() {
+			return indicesLength;
+		}
+
 	}
 
 	/**

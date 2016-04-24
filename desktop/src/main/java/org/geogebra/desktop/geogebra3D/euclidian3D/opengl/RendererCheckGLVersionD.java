@@ -287,7 +287,24 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		setGL(gLDrawable);
 	
 		drawScene();
+
+		if (EXPORT_3D_PRINTER) {
+			if (doObj && type == RendererType.SHADER) {
+				((RendererImplShadersD) rendererImpl).doObj();
+				doObj = false;
+			}
+		}
 	}
+
+	private boolean doObj = true;
+
+	static final private boolean EXPORT_3D_PRINTER = false;
+
+	@Override
+	public boolean hasExport3DPrinter() {
+		return EXPORT_3D_PRINTER;
+	}
+
 
 	@Override
 	protected final void exportImage() {
