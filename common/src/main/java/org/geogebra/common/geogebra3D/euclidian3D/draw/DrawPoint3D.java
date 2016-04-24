@@ -46,10 +46,10 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 
 	@Override
 	public void drawInObjFormat(Renderer renderer) {
-		if (isVisible()) {
-			renderer.getGeometryManager().drawInObjFormat(getGeoElement(),
-					getGeometryIndex());
-		}
+		// if (isVisible()) {
+		// renderer.getGeometryManager().drawInObjFormat(getGeoElement(),
+		// getGeometryIndex());
+		// }
 	}
 
 	@Override
