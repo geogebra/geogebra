@@ -113,8 +113,8 @@ public class GeneralPathClipped implements GShape {
 	 * coordinates. This is especially important for fill the GeneralPath.
 	 */
 	private void addClippedSegments() {
-		GRectangle viewRect = AwtFactory.prototype
-				.newRectangle(0, 0, view.getWidth(), view.getHeight());
+		GRectangle viewRect = AwtFactory.prototype.newRectangle(0, 0,
+				view.getWidth(), view.getHeight());
 		MyPoint curP = null, prevP;
 
 		int size = pathPoints.size();
@@ -123,8 +123,7 @@ public class GeneralPathClipped implements GShape {
 			curP = pathPoints.get(i);
 			if (!curP.getLineTo() || prevP == null) {
 				// moveTo point, make sure it is only slightly outside screen
-				GPoint2D p = getPointCloseToScreen(
-						curP.getX(), curP.getY());
+				GPoint2D p = getPointCloseToScreen(curP.getX(), curP.getY());
 				addToGeneralPath(p, false);
 			} else {
 				// clip line at screen
@@ -149,8 +148,8 @@ public class GeneralPathClipped implements GShape {
 		}
 
 		// at least one point is not on screen: clip line at screen
-		GPoint2D[] clippedPoints = ClipLine.getClipped(
-				prevP.getX(), prevP.getY(), curP.getX(), curP.getY(), -10,
+		GPoint2D[] clippedPoints = ClipLine.getClipped(prevP.getX(),
+				prevP.getY(), curP.getX(), curP.getY(), -10,
 				view.getWidth() + 10, -10, view.getHeight() + 10);
 
 		if (clippedPoints != null) {
@@ -158,8 +157,9 @@ public class GeneralPathClipped implements GShape {
 			// get closest clip point to prevP
 			int first = 0;
 			int second = 1;
-			if (clippedPoints[first].distance(prevP.getX(), prevP.getY()) > clippedPoints[second]
-					.distance(prevP.getX(), prevP.getY())) {
+			if (clippedPoints[first].distance(prevP.getX(),
+					prevP.getY()) > clippedPoints[second].distance(prevP.getX(),
+							prevP.getY())) {
 				first = 1;
 				second = 0;
 			}
@@ -183,8 +183,7 @@ public class GeneralPathClipped implements GShape {
 		}
 	}
 
-	private GPoint2D getPointCloseToScreen(double ptx,
-			double pty) {
+	private GPoint2D getPointCloseToScreen(double ptx, double pty) {
 		double x = ptx;
 		double y = pty;
 		double border = 10;
@@ -255,7 +254,7 @@ public class GeneralPathClipped implements GShape {
 	 *            y-coord
 	 */
 	final public void addPoint(int pos, double x, double y) {
-		if(Double.isNaN(y)){
+		if (Double.isNaN(y)) {
 			return;
 		}
 
@@ -272,7 +271,7 @@ public class GeneralPathClipped implements GShape {
 	 * Adds point to point list and keeps track of largest coordinate.
 	 */
 	private void addPoint(double x, double y, boolean lineTo) {
-		if(Double.isNaN(y)){
+		if (Double.isNaN(y)) {
 			return;
 		}
 
@@ -353,7 +352,8 @@ public class GeneralPathClipped implements GShape {
 	 *            height
 	 * @return true if contains rectangle given by args
 	 */
-	public boolean contains(double arg0, double arg1, double arg2, double arg3) {
+	public boolean contains(double arg0, double arg1, double arg2,
+			double arg3) {
 		return getGeneralPath().contains(arg0, arg1, arg2, arg3);
 	}
 
@@ -390,7 +390,8 @@ public class GeneralPathClipped implements GShape {
 		return getGeneralPath().intersects(arg0);
 	}
 
-	public boolean intersects(double arg0, double arg1, double arg2, double arg3) {
+	public boolean intersects(double arg0, double arg1, double arg2,
+			double arg3) {
 		return getGeneralPath().intersects(arg0, arg1, arg2, arg3);
 	}
 
