@@ -2899,7 +2899,7 @@ __GGB__keysVar.fi.plain = {
     "TextBeforeConstruction": "Piirroksen yl\xe4puolinen teksti",
     "TextField": "Tekstikentt\xe4",
     "TextfieldLength": "Tekstikent\xe4n pituus",
-    "ThanksForSigningIn": "Kiitos GeoGebraen kirjautumisesta!",
+    "ThanksForSigningIn": "Kiitos, ett\xe4 kirjauduit GeoGebraan!",
     "Thickness": "Viivan paksuus",
     "TickDistance": "Et\xe4isyys",
     "TimeBetweenFrames": "Kuvien v\xe4linen aika",
