@@ -630,9 +630,13 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
+	private boolean isGeoFraction() {
+		return geo instanceof GeoNumeric;
+	}
+
 	private boolean updateDefinitionPanel() {
 
-		if (latex) {
+		if (latex || isGeoFraction()) {
 			String text = getTextForEditing(false,
 					StringTemplate.latexTemplate);
 
@@ -652,8 +656,9 @@ public class RadioTreeItem extends AVTreeItem
 
 	private boolean updateValuePanel() {
 		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
-		latex = text != null;
-		return updateValuePanel(text);
+		latex = text != null || isGeoFraction();
+		return updateValuePanel(isGeoFraction()
+				? getTextForEditing(true, StringTemplate.latexTemplate) : text);
 	}
 
 	private boolean updateValuePanel(String text) {
@@ -682,8 +687,10 @@ public class RadioTreeItem extends AVTreeItem
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 		geo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 		valuePanel.add(new HTML(sb.toString()));
-		if (latex) {
-			valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
+		if (latex || isGeoFraction()) {
+			valC = DrawEquationW.paintOnCanvas(geo,
+ text, valC,
+					getFontSize());
 			if (valC != null) {
 				valuePanel.clear();
 				valuePanel.add(valC);
@@ -711,7 +718,9 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void buildItemWithTwoRows() {
 		createDVPanels();
-		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+		String text = isGeoFraction()
+				? getTextForEditing(false, StringTemplate.latexTemplate)
+				: getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
 		latex = text != null;
 
 		ihtml.clear();
