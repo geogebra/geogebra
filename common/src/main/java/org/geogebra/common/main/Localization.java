@@ -1071,6 +1071,9 @@ public abstract class Localization {
 
 	private HashMap<String, String> translateCommandTable;
 	public String getReverseCommand(String command) {
+		if (command == null) {
+			return null;
+		}
 		String key = StringUtil.toLowerCase(command);
 
 		String ret = translateCommandTable == null ? key

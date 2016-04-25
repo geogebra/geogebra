@@ -15,7 +15,7 @@ public class ErrorHelper {
 		} else if (e instanceof MyException) {
 			handler.showError(loc.getError("InvalidInput") + ":\n"
 					+ ((MyException) e).getInput());
-		} else if (handler.getCurrentCommand() != null) {
+		} else if (loc.getReverseCommand(handler.getCurrentCommand()) != null) {
 
 			handleCommandError(handler.getCurrentCommand(), handler, loc);
 		} else {
