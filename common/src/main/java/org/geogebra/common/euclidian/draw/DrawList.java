@@ -151,8 +151,6 @@ public final class DrawList extends CanvasDrawable
 
 		private static final int MIN_FONT_SIZE = 12;
 
-		private static final String SCROLL_PFX = "[COMBOSCROLLING]";
-
 		private int colCount=1;
 		private int rowCount=1;
 		private GRectangle rectTable;
@@ -414,10 +412,8 @@ public final class DrawList extends CanvasDrawable
 			}
 
 			if (isScrollNeeded() && !isDragging()) {
-				Log.debug(SCROLL_PFX + " ClickTimer: start");
 				dropDown.startClickTimer(x, y);
 			} else {
-				Log.debug(SCROLL_PFX + " plain click - no scroll");
 				return onClick(x, y);
 			}
 			return true;
@@ -488,10 +484,8 @@ public final class DrawList extends CanvasDrawable
 			}
 			dragging = value;
 			if (dragging) {
-				Log.debug(SCROLL_PFX + " ClickTimer: stop -> drag");
 				dropDown.stopClickTimer();
 			} else {
-				Log.debug(SCROLL_PFX + " drag = false");
 				dragged = null;
 
 			}
