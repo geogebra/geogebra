@@ -283,6 +283,17 @@ Test {
 		}
 	},
 
+	/** Test for GEOFUNCTION2VAR */
+	GEOFUNCTION2VAR {
+		@Override
+		public boolean check(Object ob) {
+			if (ob instanceof GeoFunctionNVar) {
+				return ((GeoFunctionNVar) ob).isFun2Var();
+			}
+			return false;
+		}
+	},
+
 	/** Test for GEOIMAGE */
 	GEOIMAGE {
 		@Override

@@ -2539,7 +2539,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			addSelectedQuadric(firstSurface, 2, false);
 			addSelectedPolyhedron(firstSurface, 1, false);
 			addSelectedQuadricLimited(firstSurface, 1, false);
-			addSelectedFunctionNVar(firstSurface, 1, false);
+			addSelectedFunction2Var(firstSurface, 1, false);
 		}
 
 		if (selPlanes() == 1) {
