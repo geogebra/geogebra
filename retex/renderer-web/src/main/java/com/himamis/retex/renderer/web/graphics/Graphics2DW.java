@@ -152,20 +152,26 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public void saveTransformation() {
-		context.save();
+		// // TRAC-5353
+		//context.save();
 		transformationStack.add(transform.createClone());
 	}
 
 	@Override
 	public void restoreTransformation() {
-		context.restore();
+//		context.restore();
+//		transform = transformationStack.pollLast();
+//
+//		// these values are also restored on context.restore()
+//		// so we have to re-set them
+//		setFont(font);
+//		setColor(color);
+//		setStroke(basicStroke);
+		
+		// TRAC-5353
 		transform = transformationStack.pollLast();
-
-		// these values are also restored on context.restore()
-		// so we have to re-set them
-		setFont(font);
-		setColor(color);
-		setStroke(basicStroke);
+		context.setTransform(transform.m00, transform.m01, transform.m10, transform.m11, transform.m02, transform.m12);
+		
 	}
 
 	@Override
@@ -280,8 +286,8 @@ public class Graphics2DW implements Graphics2DInterface {
 			graphics.saveTransformation();
 			graphics.setFont(font);
 			graphics.setColor(color);
-			graphics.transform(transform);
-			//graphics.setTransform(transform);
+			//graphics.transform(transform);
+			graphics.setTransform(transform);
 			graphics.fillTextInternal(text, x, y);
 			graphics.restoreTransformation();
 
