@@ -710,7 +710,7 @@ public abstract class Prover {
 			 * collecting algos, generating population and computing basic
 			 * statistics
 			 */
-			int size;
+			int size = 0;
 
 			double mean, variation_coefficient, minimum, maximum, entropy;
 			HashMap<Object, Integer> frequencies = new HashMap<Object, Integer>();
@@ -718,6 +718,8 @@ public abstract class Prover {
 
 			int number_of_nodes = 1;
 			maximum = 1;
+			minimum = -1; // assuming non-negative values
+			mean = 0;
 			while (it.hasNext()) {
 				number_of_nodes++;
 				int freq = 1;
@@ -726,23 +728,39 @@ public abstract class Prover {
 					freq = frequencies.get(node) + 1;
 				}
 				frequencies.put(node, freq);
-				maximum = Math.max(maximum, freq);
+				if (node instanceof Integer) {
+					maximum = Math.max(maximum, (Integer) node);
+					if (minimum == -1) {
+						minimum = (Integer) node;
+					} else {
+						minimum = Math.min(minimum, (Integer) node);
+					}
+					mean += (Integer) node;
+				} else {
+					maximum = Math.max(maximum, freq);
+					if (categories == null) {
+						if (minimum == -1) {
+							minimum = freq;
+						} else {
+							minimum = Math.min(minimum, freq);
+						}
+						mean += freq;
+					}
+				}
 			}
 
 			if (categories != null) {
 				size = categories.length;
-			} else {
-				size = frequencies.size();
-			}
-
-			/* computing rest of statistics */
-			minimum = maximum;
-			mean = 0;
-			if (categories != null) {
+				minimum = maximum;
 				// normalize
 				maximum /= number_of_nodes;
 				mean = (double) number_of_nodes / size;
+			} else {
+				size = number_of_nodes - 1;
+				mean /= size;
 			}
+
+			/* computing rest of statistics */
 			int zeros = size - frequencies.size();
 			/* ((3/7-1/23)^2+(1/7-1/23)^2*4+18*(1/23)^2)/23 == .00925 */
 			variation_coefficient = 0;
@@ -758,9 +776,6 @@ public abstract class Prover {
 				if (freq < minimum) {
 					minimum = freq;
 				}
-				if (categories == null) {
-					mean += freq;
-				}
 				double rel_freq = freq / (double) number_of_nodes;
 				double value = rel_freq - 1.0 / size;
 				variation_coefficient += value * value;
@@ -769,8 +784,6 @@ public abstract class Prover {
 			if (categories != null) {
 				// normalize
 				minimum /= number_of_nodes;
-			} else {
-				mean /= size;
 			}
 
 			double value = 1.0 / size;
@@ -836,19 +849,20 @@ public abstract class Prover {
 								directChild = true;
 							}
 						}
-						if (directChild) {
+						if (directChild && !child.equals(statement)) {
 							out++;
 						}
 					}
 				}
 				int in = 0;
-				nodes_out_deg.add(out);
 				AlgoElement ae = geo.getParentAlgorithm();
 				String algo = "Free Point";
 				if (ae != null) {
 					algo = ae.getClassName().getCommand();
 					GeoElement[] inputs = ae.getInput();
-					edges += inputs.length;
+					if (!geo.equals(statement)) {
+						edges += inputs.length;
+					}
 					in = inputs.length;
 					for (GeoElement ref : inputs) {
 						objs.add(ref);
@@ -859,13 +873,15 @@ public abstract class Prover {
 				if (!geo.equals(statement)) {
 					geo_nodes.add(algo);
 					types.add(geo.getTypeString());
+					nodes_in_deg.add(in);
+					nodes_out_deg.add(out);
+					nodes_deg.add(in + out);
+					number_of_nodes++;
 				}
-				nodes_in_deg.add(in);
-				nodes_deg.add(in + out);
-				number_of_nodes++;
 			}
 
 			computeNodeLongestPath(statement, 0);
+			longestPath--;
 
 			// CSV output
 			csvAdd("number of nodes", number_of_nodes);
@@ -884,8 +900,10 @@ public abstract class Prover {
 			generateStatistics("node in-degree", nodes_in_deg, null);
 			generateStatistics("node out-degree", nodes_out_deg, null);
 			generateStatistics("node degree", nodes_deg, null);
-			csvAdd("num of nodes not labeled by A or B or C with in-degree 0",
-					0);
+			/*
+			 * csvAdd("num of nodes not labeled by A or B or C with in-degree 0",
+			 * 0);
+			 */
 			generateStatistics("Wi", geo_nodes, rules);
 			generateStatistics("types", types, obj_types);
 			generateStatistics("objs", objs, null);
@@ -898,8 +916,11 @@ public abstract class Prover {
 			Iterator<ArrayList<GeoElement>> it2 = deps.iterator();
 			while (it2.hasNext()) {
 				ArrayList<GeoElement> al = it2.next();
-				digraph += al.get(0).getLabelSimple() + " -> "
+				/* remove this if you need the statement also */
+				if (!al.get(1).equals(statement)) {
+					digraph += al.get(0).getLabelSimple() + " -> "
 						+ al.get(1).getLabelSimple() + "; ";
+				}
 			}
 			digraph += "}";
 			Log.debug(digraph);
