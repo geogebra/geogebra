@@ -577,4 +577,10 @@ public class InputDialogD extends InputDialog
 
 	}
 
+	public void showCommandError(String command, String message) {
+		app.getDefaultErrorHandler().showCommandError(command, message);
+
+	}
+
+
 }

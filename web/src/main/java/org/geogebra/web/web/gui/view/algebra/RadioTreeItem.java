@@ -1778,7 +1778,7 @@ public class RadioTreeItem extends AVTreeItem
 					.getKernel()
 					.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
-							false, true, true, callback);
+							app.getDefaultErrorHandler(), true, callback);
 
 			if (newGeo != null && newGeo.length == 1
 					&& newGeo[0] instanceof GeoText) {

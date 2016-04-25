@@ -294,41 +294,55 @@ public abstract class DialogManager {
 		return success ? defaultRotateAngle : null;
 	}
 
-	public static boolean makeRegularPolygon(App app, EuclidianController ec,
-			String inputString, GeoPointND geoPoint1, GeoPointND geoPoint2) {
+	public static void makeRegularPolygon(final App app,
+			final EuclidianController ec, String inputString,
+			final GeoPointND geoPoint1, final GeoPointND geoPoint2,
+			final AsyncOperation<Boolean> cb) {
 		if (inputString == null || "".equals(inputString)) {
-			return false;
+			if (cb != null) {
+				cb.callback(false);
+			}
+			return;
 		}
 
-		Kernel kernel = app.getKernel();
-		Construction cons = kernel.getConstruction();
+		final Kernel kernel = app.getKernel();
+		final Construction cons = kernel.getConstruction();
 
 		// avoid labeling of num
-		boolean oldVal = cons.isSuppressLabelsActive();
+		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		GeoElement[] result = kernel.getAlgebraProcessor()
-				.processAlgebraCommand(inputString, false);
+		AsyncOperation<GeoElement[]> checkNumber = new AsyncOperation<GeoElement[]>() {
+			@Override
+			public void callback(GeoElement[] result) {
+				
 
-		cons.setSuppressLabelCreation(oldVal);
+				cons.setSuppressLabelCreation(oldVal);
 
-		boolean success = result != null && result[0] instanceof GeoNumberValue;
+				boolean success = result != null && result[0] instanceof GeoNumberValue;
 
-		if (!success) {
-			kernel.getAlgebraProcessor().showError("NumberExpected");
-			return false;
-		}
+				if (!success) {
+					kernel.getAlgebraProcessor().showError("NumberExpected");
+					return;
+				}
 
-		GeoElement[] geos = ec.getCompanion().regularPolygon(geoPoint1,
-				geoPoint2, (GeoNumberValue) result[0]);
-		GeoElement[] onlypoly = { null };
-		if (geos != null) {
-			onlypoly[0] = geos[0];
-			app.storeUndoInfoAndStateForModeStarting();
-			ec.memorizeJustCreatedGeos(onlypoly);
-		}
-
-		return true;
+				GeoElement[] geos = ec.getCompanion().regularPolygon(geoPoint1,
+						geoPoint2, (GeoNumberValue) result[0]);
+				GeoElement[] onlypoly = { null };
+				if (geos != null) {
+					onlypoly[0] = geos[0];
+					app.storeUndoInfoAndStateForModeStarting();
+					ec.memorizeJustCreatedGeos(onlypoly);
+				}
+				if (cb != null) {
+					cb.callback(success);
+				}
+			}
+		};
+		
+		kernel.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(inputString, false,
+						app.getErrorHandler(), true, checkNumber);
 
 	}
 

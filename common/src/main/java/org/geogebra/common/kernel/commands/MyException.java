@@ -16,6 +16,7 @@ public class MyException extends Exception {
 	 */
 	public static final int IMBALANCED_BRACKETS = 2;
 	private int errorType = INVALID_INPUT;
+	private String input;
 
 	/**
 	 * 
@@ -35,9 +36,10 @@ public class MyException extends Exception {
 	 * @param errorType
 	 *            error type
 	 */
-	public MyException(MyError e, int errorType) {
+	public MyException(MyError e, int errorType, String input) {
 		super(e);
 		this.errorType = errorType;
+		this.input = input;
 	}
 
 	/**
@@ -45,6 +47,10 @@ public class MyException extends Exception {
 	 */
 	public int getErrorType() {
 		return errorType;
+	}
+
+	public String getInput() {
+		return input;
 	}
 
 }

@@ -95,11 +95,11 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.MyParseError;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
@@ -323,7 +323,8 @@ public class AlgebraProcessor {
 
 		try {
 			changeGeoElementNoExceptionHandling(geo, newValue,
-					redefineIndependent, storeUndoInfo, callback);
+					redefineIndependent, storeUndoInfo, callback,
+					app.getErrorHandler());
 		} catch (MyError e) {
 			app.showError(e);
 		} catch (Exception e) {
@@ -354,7 +355,7 @@ public class AlgebraProcessor {
 	 */
 	public void changeGeoElementNoExceptionHandling(GeoElement geo,
 			String newValue, boolean redefineIndependent, boolean storeUndoInfo,
-			AsyncOperation<GeoElement> callback)
+			AsyncOperation<GeoElement> callback, ErrorHandler handler)
 			throws Exception, MyError {
 
 		try {
@@ -363,9 +364,7 @@ public class AlgebraProcessor {
 				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons);
 			}
 			changeGeoElementNoExceptionHandling(geo, ve,
-					redefineIndependent, storeUndoInfo, callback);
-		} catch (CircularDefinitionException e) {
-			throw e;
+					redefineIndependent, storeUndoInfo, callback, handler);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(loc.getError("InvalidInput") + ":\n" + newValue);
@@ -399,12 +398,11 @@ public class AlgebraProcessor {
 	public void changeGeoElementNoExceptionHandling(final GeoElement geo,
 			ValidExpression newValue, boolean redefineIndependent,
 			final boolean storeUndoInfo,
-			final AsyncOperation<GeoElement> callback)
-			throws Exception {
+			final AsyncOperation<GeoElement> callback, ErrorHandler handler) {
 		String oldLabel, newLabel;
 		GeoElement[] result;
 
-		try {
+
 			app.getCompanion().storeViewCreators();
 			oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
 			// need to check isDefined() eg redefine FitPoly[{A, B, C, D, E, F,
@@ -458,7 +456,7 @@ public class AlgebraProcessor {
 				app.getScriptManager().enableListeners();
 
 				result = processAlgebraCommandNoExceptionHandling(newValue,
-						false, false, false, true, changeCallback,
+						false, handler, true, changeCallback,
 						redefineIndependent);
 
 				cons.registerFunctionVariable(null);
@@ -467,7 +465,7 @@ public class AlgebraProcessor {
 				newValue.setLabel(oldLabel);
 				// rename to oldLabel to enable overwriting
 				result = processAlgebraCommandNoExceptionHandling(newValue,
-						false, false, false, true, null, redefineIndependent);
+						false, handler, true, null, redefineIndependent);
 				result[0].setLabel(newLabel); // now we rename
 				app.getCompanion().recallViewCreators();
 				if (storeUndoInfo)
@@ -479,20 +477,9 @@ public class AlgebraProcessor {
 				String str[] = { "NameUsed", newLabel };
 				throw new MyError(loc, str);
 			}
-		} catch (CircularDefinitionException e) {
-			Log.debug("CircularDefinition");
-			throw e;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception(loc.getError("InvalidInput") + ":\n" + newValue);
-		} catch (MyError e) {
-			throw e;
-		} catch (Error e) {
-			e.printStackTrace();
-			throw new Exception(loc.getError("InvalidInput") + ":\n" + newValue);
-		} finally {
-			cons.registerFunctionVariable(null);
-		}
+
+		cons.registerFunctionVariable(null);
+
 	}
 
 	/*
@@ -579,10 +566,11 @@ public class AlgebraProcessor {
 	 */
 	public final GeoElement[] processAlgebraCommandNoExceptionHandling(
 			String cmd,
-			boolean storeUndo, boolean allowErrorDialog, boolean throwMyError,
+			boolean storeUndo, final boolean allowErrorDialog,
+			final boolean throwMyError,
 			boolean autoCreateSliders) throws Exception {
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
-				allowErrorDialog, throwMyError, autoCreateSliders, null);
+				app.getErrorHandler(), autoCreateSliders, null);
 	}
 
 	private MathMLParser mathmlParserGGB;
@@ -615,16 +603,16 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(
 			final String cmd, final boolean storeUndo,
-			final boolean allowErrorDialog, final boolean throwMyError,
+			final ErrorHandler handler,
 			boolean autoCreateSliders,
 			final AsyncOperation<GeoElement[]> callback0)
-			throws Exception {
+	{
 
 		// both return this and call callback0 in case of success!
 		GeoElement[] rett;
 
 		if (cmd.length() > 0 && cmd.charAt(0) == '<' && cmd.startsWith("<math")) {
-			rett = parseMathml(cmd, storeUndo, throwMyError,
+			rett = parseMathml(cmd, storeUndo, handler,
 					autoCreateSliders, callback0);
 			if (rett != null && callback0 != null) {
 				callback0.callback(rett);
@@ -642,42 +630,19 @@ public class AlgebraProcessor {
 				return new GeoElement[0];
 			}
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
-					allowErrorDialog, throwMyError,
+					handler,
 					autoCreateSliders, callback0, true);
 
 		} catch (Exception e) {
 
-			e.printStackTrace();
-			if (allowErrorDialog) {
-				app.showError(loc.getError("InvalidInput") + ":\n" + cmd);
-				return null;
-			}
-			throw new MyException(loc.getError("InvalidInput") + ":\n" + cmd,
-					MyException.INVALID_INPUT);
-		} catch (BracketsError e) {
-			e.printStackTrace();
-			if (allowErrorDialog) {
-				app.showError(e.getLocalizedMessage());
-				return null;
-			}
-			throw new MyException(e, MyException.IMBALANCED_BRACKETS);
-		} catch (MyParseError e) {
-			// this is thrown from eg a=1; a(2,2)
-			e.printStackTrace();
-			if (allowErrorDialog) {
-				app.showError(e.getLocalizedMessage());
-				return null;
-			}
-			throw new MyException(e, MyException.INVALID_INPUT);
-		} catch (Error e) {
-			e.printStackTrace();
-			if (allowErrorDialog) {
-				app.showError(loc.getError("InvalidInput") + ":\n" + cmd);
-				return null;
-			}
-			throw new Exception(loc.getError("InvalidInput") + ":\n" + cmd);
+			ErrorHelper.handleException(e, loc, handler);
+		} catch (MyError e) {
+			ErrorHelper.handleError(e, cmd, loc, handler);
 		}
-
+		if (callback0 != null) {
+			callback0.callback(null);
+		}
+		return null;
 
 	}
 
@@ -701,10 +666,10 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(
 			ValidExpression ve, final boolean storeUndo,
-			final boolean allowErrorDialog, final boolean throwMyError,
+			final ErrorHandler handler,
 			boolean autoCreateSliders,
 			final AsyncOperation<GeoElement[]> callback0,
-			boolean redefineIndependent) throws Exception {
+			boolean redefineIndependent) {
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		ve.traverse(collecter);
@@ -835,14 +800,17 @@ public class AlgebraProcessor {
 										new TreeSet<GeoNumeric>(), null);
 								try {
 									geos = processValidExpression(storeUndo,
-											allowErrorDialog, throwMyError,
+											handler,
 											ve2);
 								} catch (MyError ee) {
-									AlgebraProcessor.this.app.showError(ee);
+									ErrorHelper.handleError(ee,
+											ve2.toString(
+											StringTemplate.defaultTemplate),
+											loc, handler);
 									return;
 								} catch (Exception ee) {
-									AlgebraProcessor.this.app
-											.showError(ee.getMessage());
+									ErrorHelper.handleException(ee, loc,
+											handler);
 									return;
 								}
 									}
@@ -870,8 +838,7 @@ public class AlgebraProcessor {
 		}
 
 		// process ValidExpression (built by parser)
-		GeoElement[] geos = processValidExpression(storeUndo, allowErrorDialog,
-				throwMyError, ve);
+		GeoElement[] geos = processValidExpression(storeUndo, handler, ve);
 		if (callback0 != null)
 			callback0.callback(geos);
 		return geos;
@@ -986,7 +953,7 @@ public class AlgebraProcessor {
 	 *            whether sliders should be autocreated
 	 */
 	private GeoElement[] parseMathml(String cmd, final boolean storeUndo,
-			final boolean throwMyError,
+			ErrorHandler handler,
 			boolean autoCreateSliders,
 			final AsyncOperation<GeoElement[]> callback0) {
 		if (mathmlParserGGB == null) {
@@ -1002,7 +969,7 @@ public class AlgebraProcessor {
 			}
 			Log.debug(ggb);
 			ret = this.processAlgebraCommandNoExceptionHandling(ggb, storeUndo,
-					false, throwMyError, false, callback0);
+					handler, false, callback0);
 		} catch (Throwable t) {
 			Log.warn(t.getMessage());
 		}
@@ -1032,8 +999,8 @@ public class AlgebraProcessor {
 	 *             when circular definition or eg. parse exception happens
 	 */
 	public GeoElement[] processValidExpression(boolean storeUndo,
-			boolean allowErrorDialog, boolean throwMyError, ValidExpression ve)
-			throws Exception {
+			ErrorHandler handler, ValidExpression ve)
+	{
 		GeoElement[] geoElements = null;
 		try {
 
@@ -1041,29 +1008,13 @@ public class AlgebraProcessor {
 			if (storeUndo && geoElements != null)
 				app.storeUndoInfo();
 		} catch (MyError e) {
-			e.printStackTrace();
-			// throw new Exception(e.getLocalizedMessage());
-
-			// show error with nice "Show Online Help" box
-			if (allowErrorDialog) {// G.Sturr 2010-7-5
-				app.showError(e);
-				e.printStackTrace();
-			} else if (throwMyError) {
-				if (e instanceof MyParseError) {
-					throw e;
-				}
-				throw new MyError(loc, e.getLocalizedMessage(),
-						e.getcommandName(),e);
-			}
-			return null;
-		} catch (CircularDefinitionException e) {
-			Log.debug("CircularDefinition");
-			throw e;
+			ErrorHelper.handleError(e,
+					ve == null ? null
+							: ve.toString(StringTemplate.defaultTemplate),
+					loc, handler);
 		} catch (Exception ex) {
 			Log.debug("Exception" + ex.getLocalizedMessage());
-			ex.printStackTrace();
-			throw new Exception(loc.getError("Error") + ":\n"
-					+ ex.getLocalizedMessage());
+			ErrorHelper.handleException(ex, loc, handler);
 		} finally {
 			kernel.getConstruction().registerFunctionVariable(null);
 		}

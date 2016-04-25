@@ -59,6 +59,7 @@ import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -1579,7 +1580,7 @@ public abstract class App implements UpdateSelection {
 			showErrorDialog(message);
 			return;
 		}
-		showCommandError(command, message);
+		getErrorHandler().showCommandError(command, message);
 	}
 
 	public final void showError(Exception e, CommandInputField f) {
@@ -1594,7 +1595,7 @@ public abstract class App implements UpdateSelection {
 						.getCommand());
 				if (command != null) {
 
-					showCommandError(
+					getErrorHandler().showCommandError(
 							command,
 							loc.getError("InvalidInput") + "\n\n"
 									+ loc.getPlain("Syntax") + ":\n"
@@ -1619,8 +1620,6 @@ public abstract class App implements UpdateSelection {
 		e.printStackTrace();
 		showError(loc.getError("InvalidInput"));
 	}
-
-	protected abstract void showCommandError(String command, String message);
 
 	/**
 	 * FKH
@@ -4362,8 +4361,14 @@ public abstract class App implements UpdateSelection {
 	}
 
 	private ErrorHandler errorHandler;
-	protected ErrorHandler getErrorHandler() {
-		return this.errorHandler;
+
+	public ErrorHandler getErrorHandler() {
+		return this.errorHandler == null ? getDefaultErrorHandler()
+				: this.errorHandler;
+	}
+
+	public ErrorHandler getDefaultErrorHandler() {
+		return ErrorHelper.silent();
 	}
 
 	public void setErrorHandler(ErrorHandler errorHandler) {

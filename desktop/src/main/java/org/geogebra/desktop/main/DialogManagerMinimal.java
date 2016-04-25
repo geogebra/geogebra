@@ -182,7 +182,15 @@ public class DialogManagerMinimal extends DialogManager {
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2) {
 		String inputString = prompt(menu + " " + app.getPlain("Points"), "4");
 
-		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2);
+		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2,
+				new AsyncOperation<Boolean>() {
+
+					@Override
+					public void callback(Boolean obj) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 
 	}
 

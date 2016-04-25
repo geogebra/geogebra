@@ -280,7 +280,7 @@ public class GeoInputBox extends GeoButton {
 										}
 										setLinkedGeo(obj);
 									}
-								});
+								}, kernel.getApplication().getErrorHandler());
 				return;
 			}
 		} catch (MyError e1) {

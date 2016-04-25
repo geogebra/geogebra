@@ -348,7 +348,7 @@ GPoint loc, GeoBoolean bool) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialogD id = new InputDialogRegularPolygon(((AppD) app), ec,
+		InputDialogD id = new InputDialogRegularPolygonD(((AppD) app), ec,
 				title, handler, geoPoint1, geoPoint2);
 		id.setVisible(true);
 
@@ -372,7 +372,7 @@ GPoint loc, GeoBoolean bool) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialogD id = new InputDialogRotatePoint(((AppD) app), title,
+		InputDialogD id = new InputDialogRotatePointD(((AppD) app), title,
 				handler, polys, points, selGeos, ec);
 		id.setVisible(true);
 
@@ -397,7 +397,7 @@ GPoint loc, GeoBoolean bool) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialogD id = new InputDialogDilate(((AppD) app), title, handler,
+		InputDialogD id = new InputDialogDilateD(((AppD) app), title, handler,
 				points, selGeos, app.getKernel(), ec);
 		id.setVisible(true);
 
@@ -409,7 +409,7 @@ GPoint loc, GeoBoolean bool) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialogD id = new InputDialogSegmentFixed(((AppD) app), title,
+		InputDialogD id = new InputDialogSegmentFixedD(((AppD) app), title,
 				handler, geoPoint1, app.getKernel());
 		id.setVisible(true);
 

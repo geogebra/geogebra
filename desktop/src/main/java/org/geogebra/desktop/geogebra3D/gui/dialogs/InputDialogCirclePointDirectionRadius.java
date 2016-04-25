@@ -6,14 +6,14 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.desktop.gui.dialog.InputDialogRadius;
+import org.geogebra.desktop.gui.dialog.InputDialogRadiusD;
 import org.geogebra.desktop.main.AppD;
 
 /**
  * 
  *
  */
-public class InputDialogCirclePointDirectionRadius extends InputDialogRadius {
+public class InputDialogCirclePointDirectionRadius extends InputDialogRadiusD {
 
 	/**
 	 * 

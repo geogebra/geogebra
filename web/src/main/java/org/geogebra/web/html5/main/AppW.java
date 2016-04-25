@@ -55,6 +55,7 @@ import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
@@ -2877,30 +2878,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	// ERROR HANDLING
 	// ================================================
 
-	@Override
-	public void showCommandError(final String command, final String message) {
-		// TODO
-		App.debug("TODO later: make sure splash screen not showing");
 
-		String title = GeoGebraConstants.APPLICATION_NAME + " - "
-		        + getLocalization().getError("Error");
-
-		String[] optionNames = { getLocalization().getPlain("OK"),
-		        getLocalization().getPlain("ShowOnlineHelp") };
-		getOptionPane().showOptionDialog(this, message, title,
-		        GOptionPane.CUSTOM_OPTION, GOptionPane.ERROR_MESSAGE, null,
-				optionNames, new AsyncOperation<String[]>() {
-			        @Override
-					public void callback(String[] dialogResult) {
-				        if ("1".equals(dialogResult[0])) {
-					        if (getGuiManager() != null) {
-						        getGuiManager().openCommandHelp(command);
-					        }
-				        }
-			        }
-		        });
-
-	}
 
 	@Override
 	public void showError(String key, String error) {
@@ -2939,11 +2917,49 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			this.getErrorHandler().showError(msg);
 			return;
 		}
-		String title = GeoGebraConstants.APPLICATION_NAME + " - "
-		        + getLocalization().getError("Error");
 
-		getOptionPane().showConfirmDialog(this, msg, title,
-		        GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE, null);
+	}
+
+	public ErrorHandler getDefaultErrorHandler() {
+		return new ErrorHandler() {
+
+			public void showError(String msg) {
+				String title = GeoGebraConstants.APPLICATION_NAME + " - "
+						+ getLocalization().getError("Error");
+
+				getOptionPane().showConfirmDialog(AppW.this, msg, title,
+						GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE,
+						null);
+
+			}
+
+			public void setActive(boolean b) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void showCommandError(final String command, String message) {
+				String title = GeoGebraConstants.APPLICATION_NAME + " - "
+						+ getLocalization().getError("Error");
+
+				String[] optionNames = { getLocalization().getPlain("OK"),
+						getLocalization().getPlain("ShowOnlineHelp") };
+				getOptionPane().showOptionDialog(AppW.this, message, title,
+						GOptionPane.CUSTOM_OPTION, GOptionPane.ERROR_MESSAGE,
+						null, optionNames, new AsyncOperation<String[]>() {
+							@Override
+							public void callback(String[] dialogResult) {
+								if ("1".equals(dialogResult[0])) {
+									if (getGuiManager() != null) {
+										getGuiManager()
+												.openCommandHelp(command);
+									}
+								}
+							}
+						});
+
+			}
+		};
 	}
 
 

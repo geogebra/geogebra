@@ -155,6 +155,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
@@ -4000,6 +4001,8 @@ ToolbarD.getAllTools(this));
 
 	private GlassPaneListener glassPaneListener;
 
+	private ErrorHandler defaultErrorHandler;
+
 	public void startDispatchingEventsTo(JComponent comp) {
 		if (guiManager != null) {
 			getDialogManager().closeAll();
@@ -4279,33 +4282,6 @@ ToolbarD.getAllTools(this));
 		showErrorDialog(getLocalization().getError(key) + ":\n" + error);
 	}
 
-	@Override
-	public void showCommandError(String command, String message) {
-
-		// make sure splash screen not showing (will be in front)
-		if (GeoGebra.splashFrame != null) {
-			GeoGebra.splashFrame.setVisible(false);
-		}
-
-		Object[] options = { getPlain("OK"), getPlain("ShowOnlineHelp") };
-		int n = JOptionPane.showOptionDialog(mainComp, message,
-				GeoGebraConstants.APPLICATION_NAME + " - "
-						+ getLocalization().getError("Error"),
-				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, // do
-																				// not
-																				// use
-																				// a
-																				// custom
-																				// Icon
-				options, // the titles of buttons
-				options[0]); // default button title
-
-		if (n == 1) {
-			getGuiManager().openCommandHelp(command);
-		}
-
-	}
-
 	/**
 	 * Show error dialog with given message
 	 * 
@@ -4321,31 +4297,83 @@ ToolbarD.getAllTools(this));
 			this.getErrorHandler().showError(msg);
 			return;
 		}
-		// don't remove, useful
-		Log.printStacktrace("");
 
-		// make sure splash screen not showing (will be in front)
-		if (GeoGebra.splashFrame != null) {
-			GeoGebra.splashFrame.setVisible(false);
-		}
+	}
 
-		isErrorDialogShowing = true;
+	@Override
+	public ErrorHandler getDefaultErrorHandler() {
+		if (defaultErrorHandler == null) {
+			defaultErrorHandler = new ErrorHandler() {
 
-		// use SwingUtilities to make sure this gets executed in the correct
-		// (=GUI) thread.
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				// TODO investigate why this freezes Firefox sometimes
-				JOptionPane
-						.showConfirmDialog(mainComp, msg,
+				public void showError(final String msg) {
+					// don't remove, useful
+					Log.printStacktrace("" + msg);
+
+					// make sure splash screen not showing (will be in front)
+					if (GeoGebra.splashFrame != null) {
+						GeoGebra.splashFrame.setVisible(false);
+					}
+
+					isErrorDialogShowing = true;
+
+					// use SwingUtilities to make sure this gets executed in the
+					// correct
+					// (=GUI) thread.
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							// TODO investigate why this freezes Firefox
+							// sometimes
+							JOptionPane.showConfirmDialog(mainComp, msg,
+									GeoGebraConstants.APPLICATION_NAME + " - "
+											+ getLocalization()
+													.getError("Error"),
+									JOptionPane.DEFAULT_OPTION,
+									JOptionPane.WARNING_MESSAGE);
+							isErrorDialogShowing = false;
+						}
+					});
+
+				}
+
+				public void setActive(boolean b) {
+					// TODO Auto-generated method stub
+
+				}
+
+				
+				public void showCommandError(String command, String message) {
+
+						// make sure splash screen not showing (will be in front)
+						if (GeoGebra.splashFrame != null) {
+							GeoGebra.splashFrame.setVisible(false);
+						}
+
+						Object[] options = { getPlain("OK"), getPlain("ShowOnlineHelp") };
+						int n = JOptionPane.showOptionDialog(mainComp, message,
 								GeoGebraConstants.APPLICATION_NAME + " - "
 										+ getLocalization().getError("Error"),
-								JOptionPane.DEFAULT_OPTION,
-								JOptionPane.WARNING_MESSAGE);
-				isErrorDialogShowing = false;
-			}
-		});
+								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, // do
+																								// not
+																								// use
+																								// a
+																								// custom
+																								// Icon
+								options, // the titles of buttons
+								options[0]); // default button title
+
+						if (n == 1) {
+							getGuiManager().openCommandHelp(command);
+						}
+
+					}
+					
+
+
+
+			};
+		}
+		return defaultErrorHandler;
 	}
 
 	/**

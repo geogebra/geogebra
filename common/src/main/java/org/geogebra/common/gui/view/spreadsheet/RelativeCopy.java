@@ -19,10 +19,12 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -946,7 +948,7 @@ public class RelativeCopy {
 			text = text.substring(1);
 		}
 
-		try {
+
 			// always redefine objects in spreadsheet, don't store undo info
 			// here
 			kernel.getAlgebraProcessor()
@@ -974,46 +976,79 @@ public class RelativeCopy {
 									}
 									callback.callback(newValue);
 								}
-							});
+						}, getErrorHandler(kernel, oldValue, name, text0,
+								callback));
 
+	}
 
-		} catch (CircularDefinitionException cde) {
-			kernel.getApplication().showError("CircularDefinition");
-			return;
-		} catch (Throwable e) {
-			// if exception is thrown treat the input as text and try to update
-			// the cell as a GeoText
-			{
-				// reset the text string if old value is GeoText
-				if (oldValue.isGeoText()) {
-					((GeoText) oldValue).setTextString(text0);
-					oldValue.updateCascade();
+	private static ErrorHandler getErrorHandler(final Kernel kernel, final GeoElement oldValue, final String name, final String text0, final AsyncOperation<GeoElement> callback) {
+		return new ErrorHandler() {
+
+			public void showError(String msg) {
+				if ("CircularDefinition".equals(msg)) {
+					kernel.getApplication().getDefaultErrorHandler()
+							.showError(msg);
+				} else {
+					handleThrowable();
 				}
 
-				// if not currently a GeoText and no children, redefine the cell
-				// as new GeoText
-				else if (!oldValue.hasChildren()) {
-					oldValue.remove();
-					GeoElement newValue;
-					// add input as text
-					try {
-						newValue = prepareNewValue(kernel, name, "\"" + text0
-								+ "\"");
-					} catch (Throwable t) {
-						newValue = prepareNewValue(kernel, name, "");
-					}
-					newValue.setEuclidianVisible(false);
-					newValue.update();
-					callback.callback(newValue);
-				}
-
-				// otherwise throw an exception and let the cell revert to the
-				// old value
-				else {
-					throw new Exception(e);
-				}
 			}
-		}
+
+			public void setActive(boolean b) {
+				kernel.getApplication().setErrorHandler(b ? this:null);
+
+			}
+
+			
+
+			public void handleThrowable() {
+				 
+					// if exception is thrown treat the input as text and try to update
+					// the cell as a GeoText
+				
+						// reset the text string if old value is GeoText
+						if (oldValue.isGeoText()) {
+							((GeoText) oldValue).setTextString(text0);
+							oldValue.updateCascade();
+						}
+
+						// if not currently a GeoText and no children, redefine the cell
+						// as new GeoText
+						else if (!oldValue.hasChildren()) {
+							oldValue.remove();
+							GeoElement newValue;
+							// add input as text
+							try {
+								newValue = prepareNewValue(kernel, name, "\"" + text0
+										+ "\"");
+							} catch (Throwable t) {
+						try {
+								newValue = prepareNewValue(kernel, name, "");
+						} catch (Throwable tt) {
+							newValue = new GeoNumeric(kernel.getConstruction(),
+									Double.NaN);
+						}
+							}
+							newValue.setEuclidianVisible(false);
+							newValue.update();
+							callback.callback(newValue);
+						}
+
+						// otherwise throw an exception and let the cell revert to the
+						// old value
+						else {
+					// throw new Exception(e);
+						}
+					}
+
+			public void showCommandError(String command, String message) {
+				handleThrowable();
+
+			}
+		};
+				
+			
+		
 	}
 
 	/**

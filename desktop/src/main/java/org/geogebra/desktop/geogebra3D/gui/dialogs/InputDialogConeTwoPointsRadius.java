@@ -5,14 +5,14 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.desktop.gui.dialog.InputDialogRadius;
+import org.geogebra.desktop.gui.dialog.InputDialogRadiusD;
 import org.geogebra.desktop.main.AppD;
 
 /**
  * 
  *
  */
-public class InputDialogConeTwoPointsRadius extends InputDialogRadius {
+public class InputDialogConeTwoPointsRadius extends InputDialogRadiusD {
 
 	/**
 	 * 

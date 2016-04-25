@@ -6,10 +6,10 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
-import org.geogebra.desktop.gui.dialog.InputDialogRotate;
+import org.geogebra.desktop.gui.dialog.InputDialogRotateD;
 import org.geogebra.desktop.main.AppD;
 
-public class InputDialogRotateAxis extends InputDialogRotate {
+public class InputDialogRotateAxis extends InputDialogRotateD {
 
 	GeoLineND[] lines;
 

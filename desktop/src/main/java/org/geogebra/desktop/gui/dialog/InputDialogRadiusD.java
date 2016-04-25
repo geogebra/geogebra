@@ -7,27 +7,34 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
 /**
- * Dialog for "Segment with given length" tool
+ * abstract class for input radius for any circle
+ * 
+ * @author mathieu
+ * 
  */
-public class InputDialogSegmentFixed extends InputDialogD {
+public abstract class InputDialogRadiusD extends InputDialogD {
 
-	private GeoPointND geoPoint1;
+	/** current kernel */
+	protected Kernel kernel;
 
-	private Kernel kernel;
+	/**
+	 * 
+	 * @param app
+	 * @param title
+	 * @param handler
+	 * @param kernel
+	 */
+	public InputDialogRadiusD(AppD app, String title, InputHandler handler,
+			Kernel kernel) {
+		super(app, app.getPlain("Radius"), title, "", false, handler);
 
-	public InputDialogSegmentFixed(AppD app, String title,
-			InputHandler handler, GeoPointND point1, Kernel kernel) {
-		super(app, app.getPlain("Length"), title, "", false, handler);
-
-		geoPoint1 = point1;
 		this.kernel = kernel;
 	}
 
@@ -36,11 +43,12 @@ public class InputDialogSegmentFixed extends InputDialogD {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		App.debug("inputdialogsegmentfixed actionperformed");
 		Object source = e.getSource();
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
+				processInput();
+			} else if (source == btApply) {
 				processInput();
 			} else if (source == btCancel) {
 				setVisibleForTools(false);
@@ -64,10 +72,16 @@ public class InputDialogSegmentFixed extends InputDialogD {
 					@Override
 					public void callback(Boolean ok) {
 						cons.setSuppressLabelCreation(oldVal);
+
 						if (ok) {
-							DialogManager.doSegmentFixed(kernel, geoPoint1,
+							GeoElement circle = createOutput(
 									((NumberInputHandler) inputHandler)
 											.getNum());
+							GeoElement[] geos = { circle };
+							app.storeUndoInfoAndStateForModeStarting();
+							kernel.getApplication().getActiveEuclidianView()
+									.getEuclidianController()
+									.memorizeJustCreatedGeos(geos);
 						}
 						setVisibleForTools(!ok);
 					}
@@ -75,9 +89,14 @@ public class InputDialogSegmentFixed extends InputDialogD {
 
 
 
-
-
 	}
+
+	/**
+	 * 
+	 * @param num
+	 * @return the circle
+	 */
+	abstract protected GeoElement createOutput(NumberValue num);
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {

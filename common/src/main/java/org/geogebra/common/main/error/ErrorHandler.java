@@ -6,4 +6,6 @@ public interface ErrorHandler {
 
 	void setActive(boolean b);
 
+	void showCommandError(String command, String message);
+
 }

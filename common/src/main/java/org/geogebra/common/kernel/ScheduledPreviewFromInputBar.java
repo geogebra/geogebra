@@ -3,6 +3,7 @@ package org.geogebra.common.kernel;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
@@ -85,7 +86,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 					previewGeos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(ve,
-									false, false, true,
+									false, ErrorHelper.silent(),
 									false, null, true);
 					if (previewGeos != null) {
 						for (GeoElement geo : previewGeos) {

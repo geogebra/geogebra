@@ -339,7 +339,9 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 				};
 
-				app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true, true, callback);
+				app.getKernel().getAlgebraProcessor()
+						.processAlgebraCommandNoExceptionHandling(input, true,
+								app.getDefaultErrorHandler(), true, callback);
 
 
 			} catch (Exception ee) {

@@ -1,55 +1,34 @@
 package org.geogebra.desktop.gui.dialog;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JPanel;
-
-import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
-import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
+/**
+ * Dialog for "Segment with given length" tool
+ */
+public class InputDialogSegmentFixedD extends InputDialogD {
 
-public class InputDialogDilate extends InputDialogD {
-
-	GeoPointND[] points;
-	GeoElement[] selGeos;
+	private GeoPointND geoPoint1;
 
 	private Kernel kernel;
 
-	private EuclidianController ec;
+	public InputDialogSegmentFixedD(AppD app, String title,
+			InputHandler handler, GeoPointND point1, Kernel kernel) {
+		super(app, app.getPlain("Length"), title, "", false, handler);
 
-	public InputDialogDilate(AppD app, String title, InputHandler handler,
-			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel,
-			EuclidianController ec) {
-		super(app.getFrame(), false, app.getLocalization());
-
-		this.app = app;
-		inputHandler = handler;
-
-		this.points = points;
-		this.selGeos = selGeos;
+		geoPoint1 = point1;
 		this.kernel = kernel;
-
-		this.ec = ec;
-
-		createGUI(title, loc.getMenu("Dilate.Factor"), false, DEFAULT_COLUMNS,
-				1, true, false, false, false, DialogType.GeoGebraEditor);
-		JPanel centerPanel = new JPanel(new BorderLayout());
-		centerPanel.add(inputPanel, BorderLayout.CENTER);
-		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);
-		centerOnScreen();
 	}
 
 	/**
@@ -57,12 +36,11 @@ public class InputDialogDilate extends InputDialogD {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		App.debug("inputdialogsegmentfixed actionperformed");
 		Object source = e.getSource();
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				processInput();
-			} else if (source == btApply) {
 				processInput();
 			} else if (source == btCancel) {
 				setVisibleForTools(false);
@@ -87,18 +65,13 @@ public class InputDialogDilate extends InputDialogD {
 					public void callback(Boolean ok) {
 						cons.setSuppressLabelCreation(oldVal);
 						if (ok) {
-							DialogManager
-									.doDilate(kernel,
-											((NumberInputHandler) inputHandler)
-													.getNum(),
-											points, selGeos, ec);
+							DialogManager.doSegmentFixed(kernel, geoPoint1,
+									((NumberInputHandler) inputHandler)
+											.getNum());
 						}
 						setVisibleForTools(!ok);
-
 					}
 				});
-
-
 
 
 
@@ -114,16 +87,7 @@ public class InputDialogDilate extends InputDialogD {
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
-	public void keyTyped(KeyEvent e) {
-	}
-
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void handleDialogVisibilityChange(boolean isVisible) {
 
 	}
-
 }

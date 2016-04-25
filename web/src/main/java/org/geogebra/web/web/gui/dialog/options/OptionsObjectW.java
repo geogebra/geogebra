@@ -632,8 +632,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		}
 
+
+
 		public void setActive(boolean b) {
 			getAppW().setErrorHandler(b ? this : null);
+		}
+
+		public void showCommandError(String command, String message) {
+			app.getDefaultErrorHandler().showCommandError(command, message);
+
 		}
 	}
 
@@ -1561,4 +1568,5 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	}
 	
+
 }

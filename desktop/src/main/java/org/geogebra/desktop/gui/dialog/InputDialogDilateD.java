@@ -1,41 +1,55 @@
 package org.geogebra.desktop.gui.dialog;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JPanel;
+
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
+import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
-/**
- * abstract class for input radius for any circle
- * 
- * @author mathieu
- * 
- */
-public abstract class InputDialogRadius extends InputDialogD {
 
-	/** current kernel */
-	protected Kernel kernel;
+public class InputDialogDilateD extends InputDialogD {
 
-	/**
-	 * 
-	 * @param app
-	 * @param title
-	 * @param handler
-	 * @param kernel
-	 */
-	public InputDialogRadius(AppD app, String title, InputHandler handler,
-			Kernel kernel) {
-		super(app, app.getPlain("Radius"), title, "", false, handler);
+	GeoPointND[] points;
+	GeoElement[] selGeos;
 
+	private Kernel kernel;
+
+	private EuclidianController ec;
+
+	public InputDialogDilateD(AppD app, String title, InputHandler handler,
+			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel,
+			EuclidianController ec) {
+		super(app.getFrame(), false, app.getLocalization());
+
+		this.app = app;
+		inputHandler = handler;
+
+		this.points = points;
+		this.selGeos = selGeos;
 		this.kernel = kernel;
+
+		this.ec = ec;
+
+		createGUI(title, loc.getMenu("Dilate.Factor"), false, DEFAULT_COLUMNS,
+				1, true, false, false, false, DialogType.GeoGebraEditor);
+		JPanel centerPanel = new JPanel(new BorderLayout());
+		centerPanel.add(inputPanel, BorderLayout.CENTER);
+		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);
+		centerOnScreen();
 	}
 
 	/**
@@ -72,31 +86,25 @@ public abstract class InputDialogRadius extends InputDialogD {
 					@Override
 					public void callback(Boolean ok) {
 						cons.setSuppressLabelCreation(oldVal);
-
 						if (ok) {
-							GeoElement circle = createOutput(
-									((NumberInputHandler) inputHandler)
-											.getNum());
-							GeoElement[] geos = { circle };
-							app.storeUndoInfoAndStateForModeStarting();
-							kernel.getApplication().getActiveEuclidianView()
-									.getEuclidianController()
-									.memorizeJustCreatedGeos(geos);
+							DialogManager
+									.doDilate(kernel,
+											((NumberInputHandler) inputHandler)
+													.getNum(),
+											points, selGeos, ec);
 						}
 						setVisibleForTools(!ok);
+
 					}
 				});
 
 
 
-	}
 
-	/**
-	 * 
-	 * @param num
-	 * @return the circle
-	 */
-	abstract protected GeoElement createOutput(NumberValue num);
+
+
+
+	}
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
@@ -106,7 +114,16 @@ public abstract class InputDialogRadius extends InputDialogD {
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
+	public void keyTyped(KeyEvent e) {
+	}
+
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public void handleDialogVisibilityChange(boolean isVisible) {
 
 	}
+
 }

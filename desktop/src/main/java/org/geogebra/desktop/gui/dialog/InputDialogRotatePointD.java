@@ -8,11 +8,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.desktop.main.AppD;
 
-public class InputDialogRotatePoint extends InputDialogRotate {
+public class InputDialogRotatePointD extends InputDialogRotateD {
 
 	GeoPointND[] points;
 
-	public InputDialogRotatePoint(AppD app, String title, InputHandler handler,
+	public InputDialogRotatePointD(AppD app, String title, InputHandler handler,
 			GeoPolygon[] polys, GeoPointND[] points, GeoElement[] selGeos,
 			EuclidianController ec) {
 

@@ -7,14 +7,15 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
-public class InputDialogRegularPolygon extends InputDialogD {
+public class InputDialogRegularPolygonD extends InputDialogD {
 	private GeoPointND geoPoint1, geoPoint2;
 	private EuclidianController ec;
 
-	public InputDialogRegularPolygon(AppD app, EuclidianController ec,
+	public InputDialogRegularPolygonD(AppD app, EuclidianController ec,
 			String title, InputHandler handler, GeoPointND point1,
 			GeoPointND point2) {
 		super(app, app.getPlain("Points"), title, "4", false, handler, true);
@@ -34,8 +35,6 @@ public class InputDialogRegularPolygon extends InputDialogD {
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				setVisibleForTools(!processInput());
-			} else if (source == btApply) {
 				processInput();
 			} else if (source == btCancel) {
 				setVisibleForTools(false);
@@ -46,10 +45,17 @@ public class InputDialogRegularPolygon extends InputDialogD {
 		}
 	}
 
-	private boolean processInput() {
+	private void processInput() {
 
-		return DialogManager.makeRegularPolygon(app, ec, inputPanel.getText(),
-				geoPoint1, geoPoint2);
+		DialogManager.makeRegularPolygon(app, ec, inputPanel.getText(),
+				geoPoint1, geoPoint2, new AsyncOperation<Boolean>() {
+
+					@Override
+					public void callback(Boolean ok) {
+						setVisibleForTools(!ok);
+
+					}
+				});
 
 		/*
 		 * // avoid labeling of num Construction cons =

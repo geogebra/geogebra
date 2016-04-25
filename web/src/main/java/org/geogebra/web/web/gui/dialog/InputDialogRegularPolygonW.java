@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
@@ -28,9 +29,7 @@ public class InputDialogRegularPolygonW extends InputDialogW{
 		Object source = e.getSource();
 		try {
 			if (source == btOK || sourceShouldHandleOK(source)) {
-				if(processInput()){
-					wrappedPopup.hide();
-				}
+				processInput();
 //				setVisibleForTools(!processInput());
 //			} else if (source == btApply) {  //There is no apply button.
 //				processInput();
@@ -44,9 +43,17 @@ public class InputDialogRegularPolygonW extends InputDialogW{
 		}
 	}
 
-	private boolean processInput() {
+	private void processInput() {
 
-		return DialogManager.makeRegularPolygon(app, ec, inputPanel.getText(),
-				geoPoint1, geoPoint2);
+		DialogManager.makeRegularPolygon(app, ec, inputPanel.getText(),
+				geoPoint1, geoPoint2, new AsyncOperation<Boolean>() {
+
+					@Override
+					public void callback(Boolean ok) {
+						if (ok) {
+							wrappedPopup.hide();
+						}
+					}
+				});
 	}
 }

@@ -11,7 +11,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  *
  */
-public class InputDialogCirclePointRadius extends InputDialogRadius {
+public class InputDialogCirclePointRadius extends InputDialogRadiusD {
 
 	private GeoPoint geoPoint1;
 

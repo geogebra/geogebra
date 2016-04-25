@@ -16,8 +16,9 @@ public class NumberInputHandler implements InputHandler {
   private App app;
   
   public NumberInputHandler(AlgebraProcessor algebraProcessor) {
-  	super();
-  	this.algebraProcessor = algebraProcessor;
+		super();
+		this.algebraProcessor = algebraProcessor;
+		this.app = algebraProcessor.getKernel().getApplication();
   }
 
 	public NumberInputHandler(AlgebraProcessor algebraProcessor,
@@ -32,7 +33,7 @@ public class NumberInputHandler implements InputHandler {
 			final AsyncOperation<Boolean> callback0) {
 		try {
 			algebraProcessor.processAlgebraCommandNoExceptionHandling(
-					inputString, false, false, false, true,
+					inputString, false, app.getErrorHandler(), true,
 					new AsyncOperation<GeoElement[]>() {
 
 						@Override
