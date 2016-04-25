@@ -276,13 +276,14 @@ public class Graphics2DW implements Graphics2DInterface {
 			FontW oldFont = graphics.getFont();
 			ColorW oldColor = graphics.getColor();
 			
-			graphics.save();
+			// https://jira.geogebra.org/browse/TRAC-5353
+			graphics.saveTransformation();
 			graphics.setFont(font);
 			graphics.setColor(color);
 			graphics.transform(transform);
-			// graphics.setTransform(transform);
+			//graphics.setTransform(transform);
 			graphics.fillTextInternal(text, x, y);
-			graphics.restore();
+			graphics.restoreTransformation();
 
 			graphics.setFont(oldFont);
 			graphics.setColor(oldColor);
