@@ -582,5 +582,9 @@ public class InputDialogD extends InputDialog
 
 	}
 
+	public String getCurrentCommand() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

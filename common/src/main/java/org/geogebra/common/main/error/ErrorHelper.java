@@ -2,10 +2,8 @@ package org.geogebra.common.main.error;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.commands.MyException;
-import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.util.debug.Log;
 
 public class ErrorHelper {
@@ -17,22 +15,27 @@ public class ErrorHelper {
 		} else if (e instanceof MyException) {
 			handler.showError(loc.getError("InvalidInput") + ":\n"
 					+ ((MyException) e).getInput());
+		} else if (handler.getCurrentCommand() != null) {
+
+			handleCommandError(handler.getCurrentCommand(), handler, loc);
 		} else {
 			handler.showError(loc.getError("InvalidInput"));
 		}
 
 	}
 
+	private static void handleCommandError(String currentCommand,
+			ErrorHandler handler, Localization loc) {
+		handler.showCommandError(currentCommand,
+				loc.getError("InvalidInput") + "\n\n" + loc.getPlain("Syntax")
+						+ ":\n" + loc.getCommandSyntax(currentCommand));
+
+	}
+
 	public static void handleError(MyError e, String cmd, Localization loc,
 			ErrorHandler handler) {
-		if(e instanceof BracketsError) {
-			handleException(
-					new MyException(e, MyException.IMBALANCED_BRACKETS, cmd),
-					loc, handler);
-		} else if  (e instanceof MyParseError) {
-			// this is thrown from eg a=1; a(2,2)
-			handleException(new MyException(e, MyException.INVALID_INPUT, cmd),
-					loc, handler);
+		if (e.getcommandName() != null) {
+			handleCommandError(e.getcommandName(), handler, loc);
 		} else {
 			handler.showError(e.getLocalizedMessage());
 		}
@@ -55,6 +58,11 @@ public class ErrorHelper {
 			public void showCommandError(String command, String message) {
 				// TODO Auto-generated method stub
 
+			}
+
+			public String getCurrentCommand() {
+				// TODO Auto-generated method stub
+				return null;
 			}
 
 		};

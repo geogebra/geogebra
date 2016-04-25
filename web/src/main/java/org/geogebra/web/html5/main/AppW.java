@@ -2959,6 +2959,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 						});
 
 			}
+
+			public String getCurrentCommand() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 	}
 

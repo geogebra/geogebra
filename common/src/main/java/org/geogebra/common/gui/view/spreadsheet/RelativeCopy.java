@@ -1045,6 +1045,11 @@ public class RelativeCopy {
 				handleThrowable();
 
 			}
+
+			public String getCurrentCommand() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 				
 			

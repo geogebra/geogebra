@@ -351,4 +351,9 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	public void showCommandError(String command, String message) {
 		app.getDefaultErrorHandler().showCommandError(command, message);
 	}
+
+	public String getCurrentCommand() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

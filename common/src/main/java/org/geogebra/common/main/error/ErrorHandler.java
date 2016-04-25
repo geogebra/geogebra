@@ -8,4 +8,6 @@ public interface ErrorHandler {
 
 	void showCommandError(String command, String message);
 
+	String getCurrentCommand();
+
 }

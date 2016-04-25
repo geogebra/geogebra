@@ -4367,6 +4367,10 @@ ToolbarD.getAllTools(this));
 						}
 
 					}
+
+				public String getCurrentCommand() {
+					return null;
+				}
 					
 
 

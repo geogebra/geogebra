@@ -642,6 +642,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			app.getDefaultErrorHandler().showCommandError(command, message);
 
 		}
+
+		public String getCurrentCommand() {
+			return tfDefinition.getCommand();
+		}
 	}
 
 	private class BackgroundImagePanel extends CheckboxPanel {
