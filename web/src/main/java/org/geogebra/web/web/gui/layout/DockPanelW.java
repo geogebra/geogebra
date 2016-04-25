@@ -1385,7 +1385,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 	
 	public boolean isStyleBarPanelShown() {
-		return this.titleBarPanel.isVisible();
+		if (titleBarPanel != null) {
+			return this.titleBarPanel.isVisible();
+		}
+		return false;
 	}
 
 	protected PerspectiveResources getResources(){

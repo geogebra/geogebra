@@ -929,6 +929,7 @@ public class RadioTreeItem extends AVTreeItem
 		super.setFirst(first);
 		if (buttonPanel != null) {
 			if (first && app.allowStylebar()
+					&& getAlgebraDockPanel().isStyleBarPanelShown()
 					&& !getAlgebraDockPanel().hasLongStyleBar()) {
 				buttonPanel.addStyleName("positionedObjectStyleBar");
 			} else {
