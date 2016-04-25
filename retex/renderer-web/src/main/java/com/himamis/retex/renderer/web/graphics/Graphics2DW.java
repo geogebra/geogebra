@@ -152,26 +152,20 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public void saveTransformation() {
-		// // TRAC-5353
-		//context.save();
+		context.save();
 		transformationStack.add(transform.createClone());
 	}
 
 	@Override
 	public void restoreTransformation() {
-//		context.restore();
-//		transform = transformationStack.pollLast();
-//
-//		// these values are also restored on context.restore()
-//		// so we have to re-set them
-//		setFont(font);
-//		setColor(color);
-//		setStroke(basicStroke);
-		
-		// TRAC-5353
+		context.restore();
 		transform = transformationStack.pollLast();
-		context.setTransform(transform.m00, transform.m01, transform.m10, transform.m11, transform.m02, transform.m12);
-		
+
+		// these values are also restored on context.restore()
+		// so we have to re-set them
+		setFont(font);
+		setColor(color);
+		setStroke(basicStroke);
 	}
 
 	@Override
@@ -282,14 +276,13 @@ public class Graphics2DW implements Graphics2DInterface {
 			FontW oldFont = graphics.getFont();
 			ColorW oldColor = graphics.getColor();
 			
-			// https://jira.geogebra.org/browse/TRAC-5353
-			graphics.saveTransformation();
+			graphics.save();
 			graphics.setFont(font);
 			graphics.setColor(color);
-			//graphics.transform(transform);
-			graphics.setTransform(transform);
+			graphics.transform(transform);
+			// graphics.setTransform(transform);
 			graphics.fillTextInternal(text, x, y);
-			graphics.restoreTransformation();
+			graphics.restore();
 
 			graphics.setFont(oldFont);
 			graphics.setColor(oldColor);
