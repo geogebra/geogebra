@@ -225,12 +225,13 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
                 mathField.hideCopyButton();
             }
             */
+
+            mathFieldController.update(mathFormula, editorState, false);
+
+            mathField.requestViewFocus();
         }
 
 		mouseDownPos = null;
-		mathFieldController.update(mathFormula, editorState, false);
-
-        mathField.requestViewFocus();
 
     }
 
