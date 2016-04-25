@@ -1,7 +1,9 @@
-package org.geogebra.common.geogebra3D.euclidian3D.openGL;
+package org.geogebra.common.jre.openGL;
 
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
+
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 
 /**
  * buffers for openGL
