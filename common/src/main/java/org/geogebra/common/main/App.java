@@ -361,7 +361,7 @@ public abstract class App implements UpdateSelection {
 	private int booleanSize = EuclidianConstants.DEFAULT_CHECKBOX_SIZE;
 	private boolean labelDragsEnabled = true;
 	private boolean undoRedoEnabled = true;
-	private HashMap<String, String> translateCommandTable;
+
 	// command dictionary
 	private LowerCaseDictionary commandDict;
 	private LowerCaseDictionary commandDictCAS;
@@ -674,10 +674,7 @@ public abstract class App implements UpdateSelection {
 			return;
 		}
 		// translation table for all command names in command.properties
-		if (translateCommandTable == null) {
-			translateCommandTable = new HashMap<String, String>();
-		}
-
+		getLocalization().initTranslateCommand();
 		// command dictionary for all public command names available in
 		// GeoGebra's input field
 		// removed check for null: commandDict.clear() removes keys, but they
@@ -688,7 +685,7 @@ public abstract class App implements UpdateSelection {
 		commandDict = newLowerCaseDictionary();
 		// else commandDict.clear();
 
-		translateCommandTable.clear();
+
 
 		// =====================================
 		// init sub command dictionaries
@@ -703,7 +700,8 @@ public abstract class App implements UpdateSelection {
 			subCommandDict[i].clear();
 			// =====================================
 		}
-
+		HashMap<String, String> translateCommandTable = getLocalization()
+				.getTranslateCommandTable();
 		for (Commands comm : Commands.values()) {
 			String internal = comm.name();
 			if (!companion.tableVisible(comm.getTable())) {
@@ -743,6 +741,8 @@ public abstract class App implements UpdateSelection {
 	private void putInTranslateCommandTable(Commands comm, String local) {
 		String internal = comm.name();
 		// Check that we don't overwrite local with English
+		HashMap<String, String> translateCommandTable = getLocalization()
+				.getTranslateCommandTable();
 		if (!translateCommandTable
 				.containsKey(StringUtil.toLowerCase(internal))) {
 			translateCommandTable.put(StringUtil.toLowerCase(internal),
@@ -778,19 +778,7 @@ public abstract class App implements UpdateSelection {
 		}
 		initTranslatedCommands();
 
-		String key = StringUtil.toLowerCase(command);
-
-		String ret = translateCommandTable == null ? key
-				: translateCommandTable.get(key);
-		if (ret != null)
-			return ret;
-		// if that fails check internal commands
-		for (Commands c : Commands.values()) {
-			if (StringUtil.toLowerCase(c.name()).equals(key)) {
-				return Commands.englishToInternal(c).name();
-			}
-		}
-		return null;
+		return getLocalization().getReverseCommand(command);
 
 	}
 

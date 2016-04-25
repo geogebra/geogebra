@@ -10,6 +10,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.AlgebraInput;
@@ -341,7 +342,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 				app.getKernel().getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(input, true,
-								app.getDefaultErrorHandler(), true, callback);
+								getErrorHandler(), true, callback);
 
 
 			} catch (Exception ee) {
@@ -361,6 +362,30 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 			if (keyCode == GWTKeycodes.KEY_ESCAPE) inputField.setText(null);
 		}
 		inputField.setIsSuggestionJustHappened(false);
+	}
+
+	private ErrorHandler getErrorHandler() {
+		return new ErrorHandler() {
+
+			public void showError(String msg) {
+				app.getDefaultErrorHandler().showError(msg);
+
+			}
+
+			public void setActive(boolean b) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void showCommandError(String command, String message) {
+				app.getDefaultErrorHandler().showCommandError(command, message);
+
+			}
+
+			public String getCurrentCommand() {
+				return inputField.getCommand();
+			}
+		};
 	}
 
 	public void requestFocus(){

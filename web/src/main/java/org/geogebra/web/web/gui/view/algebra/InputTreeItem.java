@@ -1036,4 +1036,8 @@ public class InputTreeItem extends RadioTreeItem implements
 		return true;
 	}
 
+	public EquationEditor getEquationEditor() {
+		return editor;
+	}
+
 }

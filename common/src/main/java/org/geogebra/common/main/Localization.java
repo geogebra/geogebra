@@ -1,6 +1,9 @@
 package org.geogebra.common.main;
 
+import java.util.HashMap;
+
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -1064,6 +1067,35 @@ public abstract class Localization {
 
 	public int getRightAngleStyle() {
 		return Language.getRightAngleStyle(getLanguage());
+	}
+
+	private HashMap<String, String> translateCommandTable;
+	public String getReverseCommand(String command) {
+		String key = StringUtil.toLowerCase(command);
+
+		String ret = translateCommandTable == null ? key
+				: translateCommandTable.get(key);
+		if (ret != null)
+			return ret;
+		// if that fails check internal commands
+		for (Commands c : Commands.values()) {
+			if (StringUtil.toLowerCase(c.name()).equals(key)) {
+				return Commands.englishToInternal(c).name();
+			}
+		}
+		return null;
+	}
+
+	public void initTranslateCommand() {
+		if (translateCommandTable == null) {
+			translateCommandTable = new HashMap<String, String>();
+		}
+		translateCommandTable.clear();
+
+	}
+
+	public HashMap<String, String> getTranslateCommandTable() {
+		return translateCommandTable;
 	}
 
 }

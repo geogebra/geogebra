@@ -476,4 +476,9 @@ public class EquationEditor {
 		return newValue;
 	}
 
+	public String getCureentCommand() {
+		this.updateCurrentWord(true);
+		return curWord.toString();
+	}
+
 }

@@ -39,6 +39,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
@@ -1778,7 +1779,7 @@ public class RadioTreeItem extends AVTreeItem
 					.getKernel()
 					.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
-							app.getDefaultErrorHandler(), true, callback);
+							getErrorHandler(), true, callback);
 
 			if (newGeo != null && newGeo.length == 1
 					&& newGeo[0] instanceof GeoText) {
@@ -1818,6 +1819,38 @@ public class RadioTreeItem extends AVTreeItem
 		};
 		tim.schedule(500);
 		return true;
+	}
+
+	protected ErrorHandler getErrorHandler() {
+		// TODO Auto-generated method stub
+		return new ErrorHandler(){
+
+			public void showError(String msg) {
+				app.getDefaultErrorHandler().showError(msg);
+				
+			}
+
+			public void setActive(boolean b) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void showCommandError(String command, String message) {
+				app.getDefaultErrorHandler().showCommandError(command, message);
+				
+			}
+
+			public String getCurrentCommand() {
+				return getEquationEditor() == null ? null
+						: getEquationEditor().getCureentCommand();
+			}
+			
+		};
+	}
+
+	protected EquationEditor getEquationEditor() {
+		return null;
+
 	}
 
 	@Override
