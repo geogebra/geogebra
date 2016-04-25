@@ -16,6 +16,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawIntersectionCurve3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLine3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPolyLine3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPolygon3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPolyhedron3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
@@ -4175,6 +4176,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 				x - twoTouchStartX,
 				y - twoTouchStartY,
 				twoTouchStartScaleX * scaleFactor);
+	}
+
+	@Override
+	protected void hidePreviewForPhone() {
+		if (!(view.getPreviewDrawable() instanceof DrawPolyLine3D)
+				&& !(view.getPreviewDrawable() instanceof DrawPolygon3D)
+				&& !(view.getPreviewDrawable() instanceof DrawPolyhedron3D)) {
+			view.setPreview(null);
+		}
 	}
 
 }
