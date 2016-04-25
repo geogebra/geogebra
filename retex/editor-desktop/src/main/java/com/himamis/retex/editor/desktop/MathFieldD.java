@@ -131,4 +131,14 @@ public class MathFieldD extends JLabel implements MathField {
 		// TODO Auto-generated method stub
 
 	}
+
+	public void scroll(int dx, int dy) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void hideCopyButton() {
+		// TODO Auto-generated method stub
+
+	}
 }
