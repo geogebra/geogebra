@@ -43,11 +43,21 @@
  */
 package com.himamis.retex.renderer.share.regex;
 
+import com.himamis.retex.renderer.share.exception.ParseException;
+
 public class RegexUtil {
 
 	public static String quoteReplacement(String s) {
-		if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1))
+		
+		// eg \textit
+		// https://www.geogebra.org/help/topic/textit-en-textbf-behaviour
+		if (s == null) {
+			throw new ParseException("null argument");
+		}
+		
+		if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1)) {
 			return s;
+		}
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
