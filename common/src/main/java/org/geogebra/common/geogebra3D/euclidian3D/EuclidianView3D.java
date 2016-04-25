@@ -4383,9 +4383,9 @@ GRectangle selectionRectangle) {
 		toSceneCoords3D(tmpCoords1);
 		double z = tmpCoords1.getZ() * getScale();
 		Log.debug("\nz = " + z);
-		if (z > 0.6) {
+		if (z > 0.85) {
 			screenTranslateAndScaleDZ = tmpCoords1.getZ() * (-dy);
-		} else if (z < 0.5) {
+		} else if (z < 0.45) {
 			screenTranslateAndScaleDX += tmpCoords1.getX() * (-dy);
 			screenTranslateAndScaleDY += tmpCoords1.getY() * (-dy);
 			screenTranslateAndScaleDZ = 0;
