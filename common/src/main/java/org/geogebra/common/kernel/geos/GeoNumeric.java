@@ -1782,4 +1782,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return symbolicMode;
 	}
 
+	@Override
+	public boolean needToShowBothRowsInAV() {
+		return value != Math.round(value);
+	}
 }

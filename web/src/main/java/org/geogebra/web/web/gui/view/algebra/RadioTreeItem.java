@@ -754,19 +754,19 @@ public class RadioTreeItem extends AVTreeItem
 		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
 		latex = text != null;
 
-		if (av.isRenderLaTeX()) {
+		// if (av.isRenderLaTeX()) {
 
 			if (latex) {
 				if (isInputTreeItem()) {
-					text = geo.getLaTeXAlgebraDescription(true,
-							StringTemplate.latexTemplateMQ);
+				text = geo.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplateMQ);
 				}
 
 				c = DrawEquationW.paintOnCanvas(geo, text, c, getFontSize());
 				ihtml.clear();
 				ihtml.add(c);
 			}
-		}
+		// }
 
 		if (!latex) {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
