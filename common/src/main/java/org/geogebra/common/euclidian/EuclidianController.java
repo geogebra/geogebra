@@ -71,6 +71,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -1136,6 +1137,19 @@ public abstract class EuclidianController {
 		return functions;
 	}
 
+	protected final GeoFunctionNVar[] getSelectedFunctionsNVar() {
+		GeoFunctionNVar[] functions = new GeoFunctionNVar[getSelectedFunctionNVarList()
+				.size()];
+		int i = 0;
+		Iterator<GeoFunctionNVar> it = getSelectedFunctionNVarList().iterator();
+		while (it.hasNext()) {
+			functions[i] = it.next();
+			i++;
+		}
+		clearSelection(getSelectedFunctionNVarList());
+		return functions;
+	}
+
 	protected final GeoCurveCartesian[] getSelectedCurves() {
 		GeoCurveCartesian[] curves = new GeoCurveCartesian[getSelectedCurveList()
 				.size()];
@@ -1760,6 +1774,10 @@ public abstract class EuclidianController {
 		return getSelectedFunctionList().size();
 	}
 
+	protected final int selFunctionsNVar() {
+		return getSelectedFunctionNVarList().size();
+	}
+
 	protected final int selCurves() {
 		return getSelectedCurveList().size();
 	}
@@ -1905,6 +1923,12 @@ public abstract class EuclidianController {
 											boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				getSelectedFunctionList(), Test.GEOFUNCTION);
+	}
+
+	protected final int addSelectedFunctionNVar(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+		return handleAddSelected(hits, max, addMoreThanOneAllowed,
+				getSelectedFunctionNVarList(), Test.GEOFUNCTIONNVAR);
 	}
 
 	protected final int addSelectedCurve(Hits hits, int max,
@@ -11147,6 +11171,10 @@ public abstract class EuclidianController {
 
 	protected ArrayList<GeoFunction> getSelectedFunctionList() {
 		return selection.getSelectedFunctionList();
+	}
+
+	protected ArrayList<GeoFunctionNVar> getSelectedFunctionNVarList() {
+		return selection.getSelectedFunctionNVarList();
 	}
 
 	protected ArrayList<GeoCurveCartesian> getSelectedCurveList() {

@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -997,7 +998,8 @@ public class Hits extends ArrayList<GeoElement> {
 			if (geo instanceof GeoCoordSys2D
 					|| geo instanceof GeoQuadric3DInterface
 					|| geo instanceof GeoQuadric3DLimitedInterface
-					|| geo instanceof GeoPolyhedronInterface) {
+					|| geo instanceof GeoPolyhedronInterface
+					|| geo instanceof GeoFunctionNVar) {
 				if (!ignoredGeos.contains(geo)) {
 					if (geo instanceof GeoQuadric3DPartInterface) { // temporary
 																	// fix (TODO

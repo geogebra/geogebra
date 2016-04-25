@@ -6,10 +6,12 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectFunctionNVarPlane;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdIntersect;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -181,6 +183,7 @@ public class CmdIntersect3D extends CmdIntersect {
 				}
 
 				// TODO remove this if conflicting another case
+				// intersection plane/plane
 				if ((arg[0] instanceof GeoPlaneND)
 						&& (arg[1] instanceof GeoPlaneND)) {
 					GeoElement[] ret = { kernelA.getManager3D()
@@ -243,6 +246,25 @@ public class CmdIntersect3D extends CmdIntersect {
 					return kernelA.getManager3D().IntersectRegion(
 							c.getLabels(), (GeoPlane3D) arg[1],
 							(GeoPolyhedron) arg[0], c.getOutputSizes());
+
+				// intersection plane/function n var
+				if ((ok[0] = (arg[0].isGeoPlane()))
+						&& (ok[1] = (arg[1].isGeoFunctionNVar()))) {
+					GeoElement[] result = new GeoElement[] { new AlgoIntersectFunctionNVarPlane(
+							cons, (GeoFunctionNVar) arg[1], (GeoPlaneND) arg[0])
+							.getOutput()[0] };
+					result[0].setLabel(c.getLabel());
+					return result;
+				}
+				if ((ok[1] = (arg[1].isGeoPlane()))
+						&& (ok[0] = (arg[0].isGeoFunctionNVar()))) {
+					GeoElement[] result = new GeoElement[] { new AlgoIntersectFunctionNVarPlane(
+							cons, (GeoFunctionNVar) arg[0], (GeoPlaneND) arg[1])
+							.getOutput()[0] };
+					result[0].setLabel(c.getLabel());
+					return result;
+				}
+
 
 			}
 

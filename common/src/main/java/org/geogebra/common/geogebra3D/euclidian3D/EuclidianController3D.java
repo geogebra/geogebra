@@ -1,5 +1,9 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -13,6 +17,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConicSection3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawImplicitCurve3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawIntersectionCurve3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLine3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
@@ -40,12 +45,13 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitCurve3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
@@ -58,6 +64,7 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -78,10 +85,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 
 /**
  * Controller for the 3D view
@@ -2536,6 +2539,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			addSelectedQuadric(firstSurface, 2, false);
 			addSelectedPolyhedron(firstSurface, 1, false);
 			addSelectedQuadricLimited(firstSurface, 1, false);
+			addSelectedFunctionNVar(firstSurface, 1, false);
 		}
 
 		if (selPlanes() == 1) {
@@ -2584,6 +2588,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 				}
 				return null;
 
+			} else if (selFunctionsNVar() == 1) { // plane-function NVar
+				GeoPlaneND plane = getSelectedPlanes()[0];
+				GeoFunctionNVar funNVar = getSelectedFunctionsNVar()[0];
+				return getKernel().getManager3D().IntersectPlaneFunctionNVar(
+						null, plane, funNVar);
 			}
 
 		} else if (selQuadric() >= 2) { // quadric-quadric : intersection
@@ -2672,10 +2681,39 @@ public abstract class EuclidianController3D extends EuclidianController {
 			getKernel().setSilentMode(oldSilentMode);
 			processIntersectionCurve(A, B, ret, d);
 			intersectable = true;
+		
+		
+			// // plane-quadric
+			// } else if (A.isGeoPlane() && B instanceof GeoFunctionNVar) {
+			// intersectable = createIntersectionCurvePlaneFunctionNVar(
+			// (GeoPlane3D) A, (GeoFunctionNVar) B);
+			// } else if (B.isGeoPlane() && A instanceof GeoFunctionNVar) {
+			// intersectable = createIntersectionCurvePlaneFunctionNVar(
+			// (GeoPlane3D) B, (GeoFunctionNVar) A);
+
 		}
 
 		return intersectable;
 
+	}
+
+	private boolean createIntersectionCurvePlaneFunctionNVar(GeoPlane3D A,
+			GeoFunctionNVar B) {
+
+		if (!B.isFun2Var()) {
+			return false;
+		}
+
+		// add intersection to tempArrayList
+		boolean oldSilentMode = getKernel().isSilentMode();
+		getKernel().setSilentMode(true);// tells the kernel not to record
+										// the algo
+		GeoElement ret = kernel.getManager3D().IntersectPlaneFunctionNVar(A, B)[0];
+		// ret.setLabel(null);
+		Drawable3D d = new DrawImplicitCurve3D(view3D, (GeoImplicitCurve3D) ret);
+		getKernel().setSilentMode(oldSilentMode);
+		processIntersectionCurve(A, B, ret, d);
+		return true;
 	}
 
 	private boolean createIntersectionCurvePlanePolygon(GeoElement A,

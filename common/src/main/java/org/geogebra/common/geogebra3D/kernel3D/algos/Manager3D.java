@@ -18,6 +18,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoRay3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectFunctionNVarPlane;
 import org.geogebra.common.geogebra3D.kernel3D.transform.Transform3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.TransformDilate3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.TransformMirror3D;
@@ -897,6 +898,21 @@ public class Manager3D implements Manager3DInterface {
 
 		return null;
 
+	}
+
+	public GeoElement[] IntersectPlaneFunctionNVar(String label,
+			GeoPlaneND plane,
+			GeoFunctionNVar fun) {
+		GeoElement[] ret = IntersectPlaneFunctionNVar(plane, fun);
+		ret[0].setLabel(label);
+		return ret;
+	}
+
+	public GeoElement[] IntersectPlaneFunctionNVar(GeoPlaneND plane,
+			GeoFunctionNVar fun) {
+		AlgoIntersectFunctionNVarPlane algo = new AlgoIntersectFunctionNVarPlane(
+				cons, fun, plane);
+		return algo.getOutput();
 	}
 
 	public GeoElement[] IntersectPath(GeoPlaneND plane, GeoPolygon p) {

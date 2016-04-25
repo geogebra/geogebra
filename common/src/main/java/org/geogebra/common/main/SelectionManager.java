@@ -12,12 +12,13 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -50,6 +51,7 @@ public class SelectionManager {
 	private final ArrayList<GeoImplicit> selectedImplicitpoly = new ArrayList<GeoImplicit>();
 	private final ArrayList<GeoImplicitSurfaceND> selectedImplicitSurface = new ArrayList<GeoImplicitSurfaceND>();
 	private final ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
+	private final ArrayList<GeoFunctionNVar> selectedFunctionsNVar = new ArrayList<GeoFunctionNVar>();
 	private final ArrayList<GeoCurveCartesian> selectedCurves = new ArrayList<GeoCurveCartesian>();
 	private final ArrayList<GeoVectorND> selectedVectors = new ArrayList<GeoVectorND>();
 	private final ArrayList<GeoPolygon> selectedPolygons = new ArrayList<GeoPolygon>();
@@ -821,6 +823,10 @@ public class SelectionManager {
 
 	public ArrayList<GeoFunction> getSelectedFunctionList() {
 		return selectedFunctions;
+	}
+
+	public ArrayList<GeoFunctionNVar> getSelectedFunctionNVarList() {
+		return selectedFunctionsNVar;
 	}
 
 	public ArrayList<GeoCurveCartesian> getSelectedCurveList() {
