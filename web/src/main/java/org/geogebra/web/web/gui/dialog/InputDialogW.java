@@ -6,11 +6,11 @@ import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.ErrorHandler;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.core.client.Scheduler;

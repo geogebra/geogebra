@@ -4317,7 +4317,10 @@ ToolbarD.getAllTools(this));
 		if (!isErrorDialogsActive()) {
 			return;
 		}
-
+		if (this.getErrorHandler() != null) {
+			this.getErrorHandler().showError(msg);
+			return;
+		}
 		// don't remove, useful
 		Log.printStacktrace("");
 

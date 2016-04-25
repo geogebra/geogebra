@@ -192,7 +192,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	private ArrayList<Widget> popups = new ArrayList<Widget>();
 	private static boolean justClosedPopup = false;
 	// protected GeoGebraFrame frame = null;
-	private ErrorHandler errorHandler;
+
 	private GlobalKeyDispatcherW globalKeyDispatcher;
 
 	// when losing focus, remembering it so that ENTER can give focus back
@@ -2946,13 +2946,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		        GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE, null);
 	}
 
-	private ErrorHandler getErrorHandler() {
-		return this.errorHandler;
-	}
 
-	public void setErrorHandler(ErrorHandler errorHandler) {
-		this.errorHandler = errorHandler;
-	}
 
 	@Override
 	public void showError(String s) {

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -28,6 +29,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
 import org.geogebra.common.gui.InputHandler;
@@ -39,8 +41,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.util.HelpAction;
@@ -51,7 +55,7 @@ import org.geogebra.desktop.main.LocalizationD;
 
 public class InputDialogD extends InputDialog
 		implements ActionListener, WindowFocusListener, VirtualKeyboardListener,
-		UpdateFonts, WindowListener {
+		UpdateFonts, WindowListener, ErrorHandler {
 
 	protected AppD app;
 	protected final LocalizationD loc;
@@ -72,6 +76,7 @@ public class InputDialogD extends InputDialog
 	protected JCheckBox checkBox;
 
 	protected JDialog wrappedDialog;
+	private JPanel errorPanel;
 
 	/**
 	 * @param app
@@ -204,6 +209,10 @@ public class InputDialogD extends InputDialog
 			@Override
 			public void setVisible(boolean b) {
 				super.setVisible(b);
+				setActive(b);
+				if (!b) {
+					showError(null);
+				}
 				handleDialogVisibilityChange(b);
 			}
 		};
@@ -270,6 +279,7 @@ public class InputDialogD extends InputDialog
 		// create button panels
 		btPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		btPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		errorPanel = new JPanel(new BorderLayout(5, 5));
 		buttonsPanel = new JPanel(new BorderLayout(5, 5));
 		buttonsPanel.add(btPanel2, loc.borderWest()); // used for Help or
 		buttonsPanel.add(btPanel, loc.borderEast());
@@ -286,7 +296,8 @@ public class InputDialogD extends InputDialog
 		// =====================================================================
 		optionPane = new JPanel(new BorderLayout(5, 5));
 		msgLabel = new JLabel(message);
-		optionPane.add(msgLabel, BorderLayout.NORTH);
+		errorPanel.add(msgLabel, BorderLayout.NORTH);
+		optionPane.add(errorPanel, BorderLayout.NORTH);
 		optionPane.add(buttonsPanel, BorderLayout.SOUTH);
 		optionPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -543,6 +554,27 @@ public class InputDialogD extends InputDialog
 		if (!wrappedDialog.isModal() && !isVisible) {
 			app.setSelectionListenerMode(null);
 		}
+	}
+
+	public void showError(String msg) {
+		Log.printStacktrace(msg);
+		errorPanel.removeAll();
+		if (msg == null) {
+			errorPanel.add(msgLabel);
+		} else {
+			JLabel errorLabel = new JLabel(msg);
+			errorLabel.setForeground(Color.RED);
+			errorPanel.add(errorLabel);
+		}
+		SwingUtilities.updateComponentTreeUI(wrappedDialog);
+
+	}
+
+	public void setActive(boolean b) {
+		if (app != null) {
+			app.setErrorHandler(b ? this : null);
+		}
+
 	}
 
 }

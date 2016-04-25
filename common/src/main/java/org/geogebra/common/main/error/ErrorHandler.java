@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.main;
+package org.geogebra.common.main.error;
 
 public interface ErrorHandler {
 

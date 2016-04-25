@@ -1,9 +1,9 @@
 package org.geogebra.web.web.gui.dialog;
 
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GDialogBox;
-import org.geogebra.web.html5.main.ErrorHandler;
 import org.geogebra.web.web.gui.browser.BrowseResources;
 import org.geogebra.web.web.gui.util.StandardButton;
 

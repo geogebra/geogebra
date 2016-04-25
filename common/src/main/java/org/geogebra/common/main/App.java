@@ -58,6 +58,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -4358,5 +4359,14 @@ public abstract class App implements UpdateSelection {
 		// http://tube.geogebra.org/files/material-1264825.mp3
 		url = url + "material/download/format/file/id/" + id;
 		return url;
+	}
+
+	private ErrorHandler errorHandler;
+	protected ErrorHandler getErrorHandler() {
+		return this.errorHandler;
+	}
+
+	public void setErrorHandler(ErrorHandler errorHandler) {
+		this.errorHandler = errorHandler;
 	}
 }

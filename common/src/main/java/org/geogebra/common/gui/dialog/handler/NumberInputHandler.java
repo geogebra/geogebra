@@ -58,6 +58,9 @@ public class NumberInputHandler implements InputHandler {
 						}
 					});
 		} catch (Throwable e) {
+			if (callback0 != null) {
+				callback0.callback(false);
+			}
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
