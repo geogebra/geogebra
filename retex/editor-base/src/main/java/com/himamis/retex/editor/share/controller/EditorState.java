@@ -140,6 +140,12 @@ public class EditorState {
 
 	}
 
+	public void selectAll() {
+		currentSelStart = getRootComponent();
+		currentSelEnd = currentSelStart;
+		selectionAnchor = currentSelStart;
+	}
+
 	public MathComponent getCursorField(boolean left) {
 		return getCurrentField().getArgument(
 				Math.max(0, Math.min(getCurrentOffset() + (left ? 0 : -1),
@@ -162,5 +168,12 @@ public class EditorState {
 		currentSelEnd = null;
 		currentSelStart = null;
 
+	}
+
+	/**
+	 * @return true if has selection
+	 */
+	public boolean hasSelection() {
+		return currentSelStart != null;
 	}
 }

@@ -191,7 +191,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         }
 
         mathField.showKeyboard();
-        mathField.hideCopyPasteButtons();
         mathField.requestViewFocus();
 
     }
@@ -200,6 +199,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
         if (scrollOccured) {
             scrollOccured = false;
+        } else if (longPressOccured) {
+            longPressOccured = false;
         } else {
             ArrayList<Integer> list = new ArrayList<Integer>();
             mathFieldController.getPath(mathFormula, x, y, list);
@@ -215,6 +216,15 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
                 editorState.extendSelection(false);
                 editorState.extendSelection(cursor);
             }
+
+            // TODO only hide copy button only when no selection
+            // (see commented below, MOB-567 and MOB-568)
+            mathField.hideCopyPasteButtons();
+            /*
+            if (!editorState.hasSelection()){
+                mathField.hideCopyButton();
+            }
+            */
         }
 
 		mouseDownPos = null;
@@ -225,6 +235,11 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
     }
 
     public void onLongPress(int action, int x, int y) {
+        longPressOccured = true;
+        if (!mathFormula.isEmpty()) {
+            editorState.selectAll();
+        }
+        mathFieldController.update(mathFormula, editorState, false);
         mathField.showCopyPasteButtons();
     }
 
@@ -236,6 +251,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
     }
 
     private boolean scrollOccured = false;
+
+    private boolean longPressOccured = false;
 
     private boolean selectionMode = false;
 

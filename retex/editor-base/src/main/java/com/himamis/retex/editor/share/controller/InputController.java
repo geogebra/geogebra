@@ -621,9 +621,17 @@ public class InputController {
 		boolean nonempty = false;
 		if (editorState.getSelectionStart() != null) {
 			MathContainer parent = editorState.getSelectionStart().getParent();
-			int end = parent.indexOf(editorState.getSelectionEnd());
-			int start = parent.indexOf(editorState.getSelectionStart());
-			if (end >= 0 && start >= 0) {
+            int end, start;
+            if (parent == null) {
+                // all the formula is selected
+                parent = editorState.getRootComponent();
+                start = 0;
+                end = parent.size() - 1;
+            } else {
+                end = parent.indexOf(editorState.getSelectionEnd());
+                start = parent.indexOf(editorState.getSelectionStart());
+            }
+            if (end >= 0 && start >= 0) {
 				for (int i = end; i >= start; i--) {
 					parent.delArgument(i);
 					nonempty = true;

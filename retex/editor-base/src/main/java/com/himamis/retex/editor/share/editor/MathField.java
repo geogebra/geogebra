@@ -64,6 +64,8 @@ public interface MathField {
 
     void hideCopyPasteButtons();
 
+    void hideCopyButton();
+
     /**
      * scroll the view
      *
