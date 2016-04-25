@@ -128,7 +128,7 @@ public enum GeoClass {
 		this.name = name;
 		this.priority = priority;
 		this.independentPriority = independentPriority;
-		this.xmlName = name;
+		this.xmlName = xmlName;
 		this.is3D = is3D;
 	}
 
