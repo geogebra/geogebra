@@ -656,9 +656,11 @@ public class RadioTreeItem extends AVTreeItem
 
 	private boolean updateValuePanel() {
 		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
-		latex = text != null || isGeoFraction();
-		return updateValuePanel(isGeoFraction()
-				? getTextForEditing(true, StringTemplate.latexTemplate) : text);
+		boolean fraction = isGeoFraction() && isSymbolicGeo();
+		latex = text != null || fraction;
+		return updateValuePanel(fraction
+ ? geo.getLaTeXAlgebraDescription(true,
+				StringTemplate.latexTemplateMQ) : text);
 	}
 
 	private boolean updateValuePanel(String text) {
@@ -687,7 +689,7 @@ public class RadioTreeItem extends AVTreeItem
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 		geo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 		valuePanel.add(new HTML(sb.toString()));
-		if (latex || isGeoFraction()) {
+		if (latex) {
 			valC = DrawEquationW.paintOnCanvas(geo,
  text, valC,
 					getFontSize());
@@ -698,6 +700,11 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		return true;
+	}
+
+	private boolean isSymbolicGeo() {
+		return (geo instanceof HasSymbolicMode
+				&& ((HasSymbolicMode) geo).isSymboicMode());
 	}
 
 	private void buildItemContent() {
@@ -730,7 +737,8 @@ public class RadioTreeItem extends AVTreeItem
 			// Log.debug("[AVR] Definition panel is updated");
 		}
 
-		if (updateValuePanel(text)) {
+		if (updateValuePanel(geo.getLaTeXAlgebraDescription(true,
+				StringTemplate.latexTemplateMQ))) {
 			outputPanel.add(valuePanel);
 			plainTextItem.add(outputPanel);
 
