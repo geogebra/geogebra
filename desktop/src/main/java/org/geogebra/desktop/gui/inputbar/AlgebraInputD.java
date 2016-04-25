@@ -25,7 +25,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -35,17 +34,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.kernel.CircularDefinitionException;
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -370,44 +362,17 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			}
 
 			app.setScrollToShow(true);
-			GeoElement[] geos;
 			try {
-				{
-					geos = app
-							.getKernel()
-							.getAlgebraProcessor()
+
+				app.getKernel()
+						.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(input,
-									true, getErrorHandler(), true, null);
+									true, getErrorHandler(), true,
+									new InputBarCallback(app, inputField, input));
 
-					// need label if we type just eg
-					// lnx
-					if (geos != null && geos.length == 1 && !geos[0].labelSet) {
-						geos[0].setLabel(geos[0].getDefaultLabel());
-					}
 
-					// set first outputs (same geo class) as selected geos (for
-					// properties view)
-					if (geos != null && geos.length > 0) {
-						ArrayList<GeoElement> list = new ArrayList<GeoElement>();
-						// add first output
-						GeoElement geo = geos[0];
-						list.add(geo);
-						GeoClass c = geo.getGeoClassType();
-						int i = 1;
-						// add following outputs until geo class changes
-						while (i < geos.length) {
-							geo = geos[i];
-							if (geo.getGeoClassType() == c) {
-								list.add(geo);
-								i++;
-							} else {
-								i = geos.length;
-							}
-						}
-						app.getSelectionManager().setSelectedGeos(list);
-					}
 
-				}
+
 			} catch (Exception ee) {
 				Log.debug("EXCEPTION" + ee.getClass());
 				inputField.addToHistory(getTextField().getText());
@@ -419,40 +384,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 				return;
 			}
 
-			// create texts in the middle of the visible view
-			// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
-			if (geos != null && geos.length > 0 && geos[0] != null
-					&& geos[0].isGeoText()) {
-				GeoText text = (GeoText) geos[0];
-				if (!text.isTextCommand() && text.getStartPoint() == null) {
 
-					Construction cons = text.getConstruction();
-					EuclidianView ev = app.getActiveEuclidianView();
-
-					boolean oldSuppressLabelsStatus = cons
-							.isSuppressLabelsActive();
-					cons.setSuppressLabelCreation(true);
-					GeoPoint p = new GeoPoint(text.getConstruction(), null,
-							(ev.getXmin() + ev.getXmax()) / 2,
-							(ev.getYmin() + ev.getYmax()) / 2, 1.0);
-					cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
-
-					try {
-						text.setStartPoint(p);
-						text.update();
-					} catch (CircularDefinitionException e1) {
-						e1.printStackTrace();
-					}
-				}
-			}
-
-			app.setScrollToShow(false);
-
-			inputField.addToHistory(input);
-			if (!getTextField().getText().equals(input)) {
-				inputField.addToHistory(getTextField().getText());
-			}
-			inputField.setText(null);
 
 			break;
 		default:
