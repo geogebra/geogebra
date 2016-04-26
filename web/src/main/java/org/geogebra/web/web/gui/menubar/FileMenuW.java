@@ -105,7 +105,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							.showOptionDialog(app,
 									app.getMenu("exam_exit_confirmation"), //ExitExamConfirm
 									app.getMenu("exam_exit_header"), //ExitExamConfirmTitle
-					        GOptionPane.CUSTOM_OPTION, GOptionPane.WARNING_MESSAGE, null,
+											1, GOptionPane.WARNING_MESSAGE,
+											null,
 											optionNames,
 											new AsyncOperation<String[]>() {
 										@Override

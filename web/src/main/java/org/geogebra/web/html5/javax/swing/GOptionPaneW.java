@@ -54,6 +54,7 @@ public class GOptionPaneW extends GDialogBox implements
 	private Image icon;
 	private HorizontalPanel messagePanel;
 	private String okLabel = null;
+	private int enterOption;
 
 	private static FocusWidget caller;
 
@@ -324,7 +325,8 @@ public class GOptionPaneW extends GDialogBox implements
 				close();
 
 			} else if (keyCode == KeyCodes.KEY_ENTER) {
-				returnOption = GOptionPane.OK_OPTION;
+				returnOption = optionType == GOptionPane.CUSTOM_OPTION ? enterOption
+						: GOptionPane.OK_OPTION;
 				close();
 			}
 		}
@@ -345,7 +347,7 @@ public class GOptionPaneW extends GDialogBox implements
 		this.title = title;
 		this.optionType = optionType;
 		this.messageType = messageType;
-		this.icon = (Image) icon;
+		this.icon = icon;
 
 		this.okLabel = null;
 
@@ -367,7 +369,7 @@ public class GOptionPaneW extends GDialogBox implements
 		this.title = title;
 		this.optionType = optionType;
 		this.messageType = messageType;
-		this.icon = (Image) icon;
+		this.icon = icon;
 
 		this.okLabel = null;
 
@@ -393,13 +395,15 @@ public class GOptionPaneW extends GDialogBox implements
 	 * (Note that returnValue is meaningless here.)
 	 */
 	public void showOptionDialog(App app, String message, String title,
-			int optionType, int messageType, Object icon, String[] optionNames,
+			int enterOption, int messageType, Object icon,
+			String[] optionNames,
 			AsyncOperation<String[]> handler) {
 
 		this.app = app;
 		this.message = message;
 		this.title = title;
-		this.optionType = optionType;
+		this.optionType = GOptionPane.CUSTOM_OPTION;
+		this.enterOption = enterOption;
 		this.messageType = messageType;
 		this.icon = (Image) icon;
 

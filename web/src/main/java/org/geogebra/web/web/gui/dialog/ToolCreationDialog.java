@@ -366,7 +366,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 							app.getLocalization().getPlain(
 									"Tool.ReplaceQuestion", commandName),
 							app.getPlain("Question"),
-							GOptionPane.CUSTOM_OPTION,
+ 0,
 							GOptionPane.QUESTION_MESSAGE, null, options,
 							new AsyncOperation<String[]>() {
 

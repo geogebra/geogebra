@@ -2945,7 +2945,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 				String[] optionNames = { getLocalization().getPlain("OK"),
 						getLocalization().getPlain("ShowOnlineHelp") };
 				getOptionPane().showOptionDialog(AppW.this, message, title,
-						GOptionPane.CUSTOM_OPTION, GOptionPane.ERROR_MESSAGE,
+ 0,
+						GOptionPane.ERROR_MESSAGE,
 						null, optionNames, new AsyncOperation<String[]>() {
 							@Override
 							public void callback(String[] dialogResult) {

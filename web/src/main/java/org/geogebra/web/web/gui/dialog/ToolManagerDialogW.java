@@ -232,7 +232,8 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			app.getGuiManager()
 					.getOptionPane()
 					.showOptionDialog(app, message, question,
-					GOptionPane.CUSTOM_OPTION, GOptionPane.QUESTION_MESSAGE,
+ 0,
+							GOptionPane.QUESTION_MESSAGE,
 							null, options, new AsyncOperation<String[]>() {
 
 						@Override

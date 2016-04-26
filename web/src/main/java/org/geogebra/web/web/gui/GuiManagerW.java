@@ -21,6 +21,7 @@ import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -1633,7 +1634,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		getOptionPane().showOptionDialog(app,
 		        loc.getPlain("CreateSlidersForA", s),
-		        loc.getPlain("CreateSliders"), GOptionPane.CUSTOM_OPTION,
+				loc.getPlain("CreateSliders"),
+				Integer.parseInt(AlgebraProcessor.CREATE_SLIDER),
 		        GOptionPane.INFORMATION_MESSAGE, icon, options, callback);
 
 		return false;
