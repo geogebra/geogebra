@@ -1019,20 +1019,29 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				EuclidianController.MOVE_VIEW);
 	}
 
+	private int mouseMoveDX, mouseMoveDY, mouseMoveMode;
+
 	/**
 	 * Sets coord system from mouse move
 	 */
 	@Override
 	final public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
-		switch (mode) {
+		mouseMoveDX = dx;
+		mouseMoveDY = dy;
+		mouseMoveMode = mode;
+		animationType = AnimationType.MOUSE_MOVE;
+	}
+
+	final private void processSetCoordSystemFromMouseMove() {
+		switch (mouseMoveMode) {
 			case EuclidianController.MOVE_ROTATE_VIEW:
-				setRotXYinDegrees(aOld - dx, bOld + dy);
+				setRotXYinDegrees(aOld - mouseMoveDX, bOld + mouseMoveDY);
 				updateMatrix();
 				setViewChangedByRotate();
 				setWaitForUpdate();
 				break;
 			case EuclidianController.MOVE_VIEW:
-				Coords v = new Coords(dx, -dy, 0, 0);
+				Coords v = new Coords(mouseMoveDX, -mouseMoveDY, 0, 0);
 				toSceneCoords3D(v);
 
 				if (cursorOnXOYPlane.getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
@@ -1963,7 +1972,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	private enum AnimationType {
-		OFF, SCALE, CONTINUE_ROTATION, ROTATION, SCREEN_TRANSLATE_AND_SCALE
+		OFF, SCALE, CONTINUE_ROTATION, ROTATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE
 	}
 
 	private AnimationType animationType = AnimationType.OFF;
@@ -2036,6 +2045,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setViewChangedByTranslate();
 			setWaitForUpdate();
 
+			stopAnimation();
+			break;
+
+		case MOUSE_MOVE:
+			processSetCoordSystemFromMouseMove();
 			stopAnimation();
 			break;
 		}
