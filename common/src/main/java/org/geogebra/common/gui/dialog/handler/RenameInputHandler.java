@@ -70,7 +70,7 @@ public class RenameInputHandler implements InputHandler {
 			}
 
 			callback.callback(true);
-
+			return;
 		} catch (Exception e) {
 			app.showError("InvalidInput", inputValue);
 		} catch (MyError err) {
