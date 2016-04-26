@@ -3965,8 +3965,9 @@ public abstract class App implements UpdateSelection {
 		case CP_NEW_COLUMNS:
 			return true;
 
+			// GGB-503
 		case ZOOM_MENU_3D:
-			return prerelease;
+			return true;
 
 			// GGB-501
 		case EXPAND_AV_FOR_LONG_EQUATIONS:
