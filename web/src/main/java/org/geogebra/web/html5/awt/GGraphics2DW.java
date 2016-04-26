@@ -995,10 +995,11 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	public void forceResize() {
-		int width = canvas.getCoordinateSpaceWidth();
+		int width = canvas.getOffsetWidth();
+		int height = canvas.getOffsetHeight();
 		if (width > 0) {
-			canvas.setCoordinateSpaceWidth(width - 1);
-			canvas.setCoordinateSpaceWidth(width);
+			setCoordinateSpaceSize(width - 1, height);
+			setCoordinateSpaceSize(width, height);
 		}
 	}
 
