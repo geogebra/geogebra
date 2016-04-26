@@ -146,7 +146,7 @@ public class NoExceptionsTest {
 		}
 		try {
 			Assert.assertNotNull(ap.processAlgebraCommandNoExceptionHandling(s,
-					false, false, true, false));
+					false, TestErrorHandler.INSTANCE, false, null));
 			syntaxes--;
 			System.out.print("+");
 		} catch (final Throwable e) {

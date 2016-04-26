@@ -622,11 +622,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 									StringTemplate.defaultTemplate));
 						}
 						sb.append(']');
-						App.debug(sb.toString());
 						GeoElement[] ggbResult = kern.getAlgebraProcessor()
-								.processAlgebraCommandNoExceptionHandling(
-										sb.toString(), false, false, false,
-										false);
+								.processAlgebraCommandNoExceptions(
+										sb.toString(), false);
 						kern.setSilentMode(silent);
 						if (ggbResult != null && ggbResult.length > 0
 								&& ggbResult[0] != null)

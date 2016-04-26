@@ -347,6 +347,8 @@ public class AlgebraProcessor {
 	 *            true to make undo step
 	 * @param callback
 	 *            what to do with the changed geo
+	 * @param handler
+	 *            decides how to handle exceptions
 	 * @throws Exception
 	 *             e.g. parse exception or circular definition
 	 * @throws MyError
@@ -392,8 +394,8 @@ public class AlgebraProcessor {
 	 * 
 	 * @param callback
 	 *            what to do with the changed geo
-	 * @throws Exception
-	 *             circular definition
+	 * @param handler
+	 *            decides how to handle exceptions
 	 */
 	public void changeGeoElementNoExceptionHandling(final GeoElement geo,
 			ValidExpression newValue, boolean redefineIndependent,
@@ -497,7 +499,7 @@ public class AlgebraProcessor {
 
 		try {
 			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
-					true, false, false);
+					app.getErrorHandler(), false, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			app.showError(e.getMessage());
@@ -521,7 +523,7 @@ public class AlgebraProcessor {
 
 		try {
 			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
-					true, false, false);
+					ErrorHelper.silent(), false, null);
 		} catch (Exception e) {
 			return null;
 		}
@@ -541,36 +543,12 @@ public class AlgebraProcessor {
 
 		try {
 			return processAlgebraCommandNoExceptionHandling(str, storeUndo,
-					false, false, false);
+					ErrorHelper.silent(), false, null);
 		} catch (Exception e) {
 			return null;
 		} catch (MyError e) {
 			return null;
 		}
-	}
-
-	/**
-	 * @param cmd
-	 *            command
-	 * @param storeUndo
-	 *            whether to make undo point
-	 * @param allowErrorDialog
-	 *            whether error dialog might pop up
-	 * @param throwMyError
-	 *            whether myError may be thrown
-	 * @param autoCreateSliders
-	 *            whether sliders may be created
-	 * @return resulting elements
-	 * @throws Exception
-	 *             exception
-	 */
-	public final GeoElement[] processAlgebraCommandNoExceptionHandling(
-			String cmd,
-			boolean storeUndo, final boolean allowErrorDialog,
-			final boolean throwMyError,
-			boolean autoCreateSliders) throws Exception {
-		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
-				app.getErrorHandler(), autoCreateSliders, null);
 	}
 
 	private MathMLParser mathmlParserGGB;
@@ -589,17 +567,13 @@ public class AlgebraProcessor {
 	 *            string to process
 	 * @param storeUndo
 	 *            true to make undo step
-	 * @param allowErrorDialog
-	 *            true to allow dialogs
-	 * @param throwMyError
-	 *            true to throw MyErrors (if dialogs are not allowed)
+	 * @param handler
+	 *            decides how to handle exceptions
 	 * @param autoCreateSliders
 	 *            whether to show a popup for undefined variables
 	 * @param callback0
 	 *            callback after the geos are created
 	 * @return resulting geos
-	 * @throws Exception
-	 *             e.g. circular definition or parse exception
 	 */
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(
 			final String cmd, final boolean storeUndo,
@@ -651,18 +625,15 @@ public class AlgebraProcessor {
 	 *            valid expression (already pasted)
 	 * @param storeUndo
 	 *            true to make undo step
-	 * @param allowErrorDialog
-	 *            true to allow dialogs
-	 * @param throwMyError
-	 *            true to throw MyErrors (if dialogs are not allowed)
+	 * @param handler
+	 *            defines how to deal with exceptions
 	 * @param autoCreateSliders
 	 *            whether to show a popup for undefined variables
 	 * @param callback0
 	 *            callback after the geos are created
-	 * @param redefineIndependent whether independent may be redefined
+	 * @param redefineIndependent
+	 *            whether independent may be redefined
 	 * @return resulting geos
-	 * @throws Exception
-	 *             e.g. circular definition or parse exception
 	 */
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(
 			ValidExpression ve, final boolean storeUndo,
@@ -776,6 +747,7 @@ public class AlgebraProcessor {
 				// "Create sliders for a, b?" Create Sliders / Cancel
 				// Yes: create sliders and draw line
 				// No: go back into input bar and allow user to change input
+				final Localization loc2 = loc;
 				if (app.getGuiManager() != null) {
 					AsyncOperation<String[]> callback = null;
 
@@ -806,10 +778,10 @@ public class AlgebraProcessor {
 									ErrorHelper.handleError(ee,
 											ve2.toString(
 											StringTemplate.defaultTemplate),
-											loc, handler);
+											loc2, handler);
 									return;
 								} catch (Exception ee) {
-									ErrorHelper.handleException(ee, loc,
+									ErrorHelper.handleException(ee, loc2,
 											handler);
 									return;
 								}
@@ -988,15 +960,11 @@ public class AlgebraProcessor {
 	/**
 	 * @param storeUndo
 	 *            whether to create an undo point
-	 * @param allowErrorDialog
-	 *            whether to allow error dialogs
-	 * @param throwMyError
-	 *            whethe my error may be thrown
+	 * @param handler
+	 *            handles exceptions
 	 * @param ve
 	 *            input expression
 	 * @return processed expression
-	 * @throws Exception
-	 *             when circular definition or eg. parse exception happens
 	 */
 	public GeoElement[] processValidExpression(boolean storeUndo,
 			ErrorHandler handler, ValidExpression ve)

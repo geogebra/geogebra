@@ -189,8 +189,8 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 						.getApplication()
 						.getKernel()
 						.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(
-								sb.toString(), false, false, false, false);
+						.processAlgebraCommandNoExceptionsOrErrors(
+								sb.toString(), false);
 
 				if (ret != null && ret[0] instanceof TextValue) {
 					GeoText geo = (GeoText) ret[0];

@@ -141,8 +141,8 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo implements UsesCAS {
 			boolean flag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			GeoElement[] res = kernel.getAlgebraProcessor()
-					.processAlgebraCommandNoExceptionHandling(functionOut,
-							false, false, false, false);
+					.processAlgebraCommandNoExceptionsOrErrors(functionOut,
+							false);
 			cons.setSuppressLabelCreation(flag);
 			if (res != null && res.length > 0) {
 

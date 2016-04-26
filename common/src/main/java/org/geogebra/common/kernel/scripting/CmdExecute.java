@@ -54,7 +54,7 @@ public class CmdExecute extends CmdScripting {
 							arg[k].getLabel(StringTemplate.maxPrecision));
 				kernelA.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(cmdText,
-								false, false, true, false);
+								false, app.getErrorHandler(), false, null);
 			} catch (MyError e) {
 				app.showError(e);
 				break;

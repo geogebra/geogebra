@@ -69,7 +69,7 @@ public class CommandsTest extends Assert{
 		GeoElement[] result = null;
 		try {
 			result = ap.processAlgebraCommandNoExceptionHandling(s,
-					false, false, true, false);
+					false, TestErrorHandler.INSTANCE, false, null);
 		}catch (Throwable e) {
 			t = e;
 		}

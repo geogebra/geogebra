@@ -44,7 +44,6 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.util.HelpAction;
@@ -557,7 +556,6 @@ public class InputDialogD extends InputDialog
 	}
 
 	public void showError(String msg) {
-		Log.printStacktrace(msg);
 		errorPanel.removeAll();
 		if (msg == null) {
 			errorPanel.add(msgLabel);

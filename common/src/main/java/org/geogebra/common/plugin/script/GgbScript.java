@@ -2,7 +2,6 @@ package org.geogebra.common.plugin.script;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
@@ -52,12 +51,9 @@ public class GgbScript extends Script {
 			}
 			try {
 				proc.processAlgebraCommandNoExceptionHandling(line, false,
-						false, true, false);
+						new ScriptErrorHandler(app, evt, i), false, null);
 			} catch (Throwable e) {
-				throw new ScriptError(app.getLocalization().getPlain(
-						"ErrorInScriptAtLineAFromObjectB", (i + 1) + "",
-						evt.target.getLabel(StringTemplate.defaultTemplate))
-						+ "\n" + e.getLocalizedMessage());
+
 			}
 		}
 	}

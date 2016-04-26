@@ -25,6 +25,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -595,7 +596,8 @@ public class CellRangeProcessor {
 		}
 
 		catch (Exception ex) {
-			App.debug("Creating list of points expression failed with exception "
+			Log.debug(
+					"Creating list of points expression failed with exception "
 					+ ex);
 		}
 
@@ -792,7 +794,7 @@ public class CellRangeProcessor {
 			}
 
 		} catch (Exception ex) {
-			App.debug("Creating list failed with exception " + ex);
+			Log.debug("Creating list failed with exception " + ex);
 		}
 
 		if (doStoreUndo) {
@@ -971,7 +973,7 @@ public class CellRangeProcessor {
 			geos = app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptions(expr, false);
 		} catch (Exception ex) {
-			App.debug("creating matrix failed " + expr);
+			Log.debug("creating matrix failed " + expr);
 			ex.printStackTrace();
 		}
 
@@ -1011,7 +1013,7 @@ public class CellRangeProcessor {
 					.processAlgebraCommandNoExceptions(text.toString(), false);
 
 		} catch (Exception ex) {
-			App.debug("creating TableText failed " + text);
+			Log.debug("creating TableText failed " + text);
 			ex.printStackTrace();
 		}
 
