@@ -33,6 +33,7 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 
 import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
@@ -147,7 +148,13 @@ public class InputTreeItem extends RadioTreeItem implements
 
 				public void onClick(ClickEvent event) {
 					if (btnHelpToggle.isDown()) {
-						setShowInputHelpPanel(true);
+						app.hideKeyboard();
+						Scheduler.get().scheduleDeferred(
+								new Scheduler.ScheduledCommand() {
+									public void execute() {
+										setShowInputHelpPanel(true);
+									}
+								});
 					} else {
 						setShowInputHelpPanel(false);
 					}
