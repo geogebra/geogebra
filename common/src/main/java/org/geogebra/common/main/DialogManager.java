@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.Transformable;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -529,6 +530,42 @@ public abstract class DialogManager {
 	public boolean hasFunctionInspector() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public static boolean makeCircleRadius(App app, EuclidianController ec,
+										   String inputString, GeoPointND geoPoint) {
+		if (inputString == null || "".equals(inputString)) {
+			return false;
+		}
+
+		Kernel kernel = app.getKernel();
+		Construction cons = kernel.getConstruction();
+
+		// avoid labeling of num
+		boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		GeoElement[] result = kernel.getAlgebraProcessor()
+				.processAlgebraCommand(inputString, false);
+
+		cons.setSuppressLabelCreation(oldVal);
+
+		boolean success = result != null && result[0] instanceof GeoNumberValue;
+		if (!success) {
+			kernel.getAlgebraProcessor().showError("NumberExpected");
+			return false;
+		}
+
+		GeoConicND circle = kernel.getAlgoDispatcher().Circle(null, geoPoint, (GeoNumberValue) result[0]);
+
+		GeoElement[] onlypoly = { null };
+		if (circle != null) {
+			onlypoly[0] = circle;
+			app.storeUndoInfoAndStateForModeStarting();
+			ec.memorizeJustCreatedGeos(onlypoly);
+		}
+
+		return true;
 	}
 
 }
