@@ -3966,8 +3966,11 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case ZOOM_MENU_3D:
-		case EXPAND_AV_FOR_LONG_EQUATIONS:
 			return prerelease;
+
+			// GGB-501
+		case EXPAND_AV_FOR_LONG_EQUATIONS:
+			return true;
 
 			// in web (not tablet apps yet)
 			// File -> Enter Exam Mode
