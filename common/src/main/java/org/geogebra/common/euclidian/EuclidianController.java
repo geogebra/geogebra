@@ -50,6 +50,7 @@ import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomialInterval;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
+import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import org.geogebra.common.kernel.algos.AlgoRadius;
 import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
@@ -57,6 +58,7 @@ import org.geogebra.common.kernel.algos.AlgoRootsPolynomialInterval;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.algos.AlgoVector;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
+import org.geogebra.common.kernel.algos.AlgoVertexConic;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -118,7 +120,6 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -11065,11 +11066,32 @@ public abstract class EuclidianController {
 
 			}
 
+
+
 			// calculates only the extremum points that are visible at the
 			// moment (e.g. for sin(x))
 			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, null, function,
 					this.view);
 			return algo.getExtremumPoints();
+		}
+
+		// else (no functions selected)
+		addSelectedConic(hits, 1, false);
+
+		if (selConics() > 0) {
+
+			GeoConic conic = getSelectedConics()[0];
+
+			AlgoVertexConic algo = new AlgoVertexConic(kernel.getConstruction(),
+					null, conic);
+
+			kernel.getConstruction().addToConstructionList(algo,
+					kernel.getConstruction().steps());
+
+			GeoElement[] ret = algo.getOutput();
+
+			return ret;
+
 		}
 		return null;
 	}
@@ -11083,6 +11105,31 @@ public abstract class EuclidianController {
 			// get the function and clear the selection
 			function = getSelectedFunctions()[0];
 		} else {
+
+			addSelectedConic(hits, 1, false);
+
+			if (selConics() > 0) {
+
+				GeoConic conic = getSelectedConics()[0];
+
+				GeoLine line = kernel.getXAxis();
+
+				AlgoIntersectLineConic algo = new AlgoIntersectLineConic(
+						kernel.getConstruction(), line, conic);
+
+				kernel.getConstruction().addToConstructionList(algo,
+						kernel.getConstruction().steps());
+
+				GeoElement[] ret = algo.getOutput();
+
+				// make sure they get in the construction properly
+				for (int i = 0; i < ret.length; i++) {
+					ret[i].setLabel(null);
+				}
+
+				return ret;
+
+			}
 			// if no function was found, test for lines
 			addSelectedLine(hits, 1, false);
 			if (selLines() > 0) {
