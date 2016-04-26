@@ -127,6 +127,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 		public EuclidianPanel(EuclidianDockPanelWAbstract dockPanel) {
 			this(dockPanel, new AbsolutePanel());
+
 		}
 
 		public EuclidianPanel(EuclidianDockPanelWAbstract dockPanel,
@@ -137,6 +138,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
 			absoluteEuclidianPanel.getElement().getStyle()
 					.setOverflow(Overflow.VISIBLE);
+			checkFocus();
 		}
 
 		public void onResize() {
@@ -164,6 +166,38 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 				}
 			}
 		}
+
+		// hack to fix GGB-697
+		private native void checkFocus() /*-{
+			var that = this;
+			var forceResize = function() {
+				that.@org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract.EuclidianPanel::forceResize()()
+			};
+			$wnd.onfocus = function(event) {
+				//console.log("force resize");
+				forceResize();
+			}
+		}-*/ ;
+
+		private void forceResize() {
+
+			if (app != null) {
+
+				int h = dockPanel.getComponentInteriorHeight() - dockPanel.navHeightIfShown();
+				int w = dockPanel.getComponentInteriorWidth();
+
+				if (h <= 0 || w <= 0) {
+					return;
+				}
+				if (h == oldHeight && w == oldWidth) {
+					dockPanel.resizeView(w - 1, h);
+					oldHeight = h;
+					oldWidth = w - 1;
+				}
+			}
+		}
+
+
 
 		public void add(Widget w, int x, int y) {
 			absoluteEuclidianPanel.add(w, x, y);
