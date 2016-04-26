@@ -14,6 +14,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -152,6 +153,7 @@ public class InputTreeItem extends RadioTreeItem implements
 						Scheduler.get().scheduleDeferred(
 								new Scheduler.ScheduledCommand() {
 									public void execute() {
+										Log.debug("+++++++++++++++ showInputHelpPanel comes");
 										setShowInputHelpPanel(true);
 									}
 								});
