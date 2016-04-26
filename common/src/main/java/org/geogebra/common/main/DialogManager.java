@@ -532,40 +532,64 @@ public abstract class DialogManager {
 		return false;
 	}
 
-	public static boolean makeCircleRadius(App app, EuclidianController ec,
-										   String inputString, GeoPointND geoPoint) {
+	public static void makeCircleRadius(final App app,
+			final EuclidianController ec,
+			String inputString, final GeoPointND geoPoint,
+			final AsyncOperation<Boolean> callback) {
 		if (inputString == null || "".equals(inputString)) {
-			return false;
+			if (callback != null) {
+				callback.callback(false);
+			}
+			return;
 		}
 
-		Kernel kernel = app.getKernel();
-		Construction cons = kernel.getConstruction();
+		final Kernel kernel = app.getKernel();
+		final Construction cons = kernel.getConstruction();
 
 		// avoid labeling of num
-		boolean oldVal = cons.isSuppressLabelsActive();
+		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		GeoElement[] result = kernel.getAlgebraProcessor()
-				.processAlgebraCommand(inputString, false);
+		kernel.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(inputString, false,
+						app.getErrorHandler(), true,
+						new AsyncOperation<GeoElement[]>() {
 
-		cons.setSuppressLabelCreation(oldVal);
+							@Override
+							public void callback(GeoElement[] result) {
+								cons.setSuppressLabelCreation(oldVal);
 
-		boolean success = result != null && result[0] instanceof GeoNumberValue;
-		if (!success) {
-			kernel.getAlgebraProcessor().showError("NumberExpected");
-			return false;
-		}
+								boolean success = result != null
+										&& result[0] instanceof GeoNumberValue;
+								if (!success) {
+									kernel.getAlgebraProcessor()
+											.showError("NumberExpected");
+									if (callback != null) {
+										callback.callback(false);
+									}
+									return;
+								}
 
-		GeoConicND circle = kernel.getAlgoDispatcher().Circle(null, geoPoint, (GeoNumberValue) result[0]);
+								GeoConicND circle = kernel.getAlgoDispatcher()
+										.Circle(null, geoPoint,
+												(GeoNumberValue) result[0]);
 
-		GeoElement[] onlypoly = { null };
-		if (circle != null) {
-			onlypoly[0] = circle;
-			app.storeUndoInfoAndStateForModeStarting();
-			ec.memorizeJustCreatedGeos(onlypoly);
-		}
+								GeoElement[] onlypoly = { null };
+								if (circle != null) {
+									onlypoly[0] = circle;
+									app.storeUndoInfoAndStateForModeStarting();
+									ec.memorizeJustCreatedGeos(onlypoly);
+								}
+								if (callback != null) {
+									callback.callback(circle != null);
+								}
 
-		return true;
+							}
+						});
+
+
+
+
 	}
 
 }
